@@ -35,16 +35,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebPush\WebPush.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="AventusSharp">
-      <HintPath>D:\Rayuki\Libs\AventusSharp\AventusSharp.dll</HintPath>
+      <HintPath>.dll\AventusSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="WebPush">
+      <HintPath>.dll\WebPush.dll</HintPath>
     </Reference>
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition=" '$(OS)' == 'Windows_NT' ">
     <Exec Command="xcopy /F /R /Y /I &quot;$(ProjectDir)$(OutDir)$(AssemblyName).dll&quot; &quot;D:\Rayuki\Libs\RayukiCore\ &quot;" />
   </Target>
 
