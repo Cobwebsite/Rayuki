@@ -34,7 +34,6 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: ${{ github.event.repository.name }}.zip
           tag_name: ${{ github.event.head_commit.message }}
