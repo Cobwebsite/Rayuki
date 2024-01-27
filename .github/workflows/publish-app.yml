@@ -28,12 +28,15 @@ jobs:
           dotnet build --configuration Release --no-restore
           dotnet publish -c Release -o ./dist -r linux-x64 --self-contained true /p:UseAppHost=true
       
+
+      - name: Create Archive
+        run: zip -r ${{ github.event.repository.name }}.zip ./dist
+
       - name: Release
-        uses: ncipollo/release-action@v1.13.0
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ${{ github.event.repository.name }}.zip
+          tag_name: ${{ github.event.head_commit.message }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag: test
-          artifacts: "dist"
-          draft: false
-          prerelease: false
