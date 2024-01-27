@@ -10,35 +10,35 @@ env:
     DOTNET_VERSION: '8.0.100' # The .NET SDK version to use
 
 jobs:
-  publish:
-    runs-on: ubuntu-latest
+    publish:
+        runs-on: ubuntu-latest
     
-    steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET Core
-    uses: actions/setup-dotnet@v3
-    with:
-      dotnet-version: ${{DOTNET_VERSION}}
+        steps:
+        - uses: actions/checkout@v3
+        - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+        dotnet-version: ${{DOTNET_VERSION}}
 
-    - name: Install dependencies
-    run: dotnet restore   
+        - name: Install dependencies
+        run: dotnet restore   
 
 
-    - name: Build
-    run: |
-      cd DotNet.WebApp
-      dotnet build --configuration Release --no-restore
-      dotnet publish -c Release -o ../dist -r linux-x64 --self-contained true /p:UseAppHost=true
+        - name: Build
+        run: |
+            cd DotNet.WebApp
+            dotnet build --configuration Release --no-restore
+            dotnet publish -c Release -o ../dist -r linux-x64 --self-contained true /p:UseAppHost=true
     
-    uses: actions/create-release@v1
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        body: |
-          Changes in this Release
-          - First Change
-          - Second Change
-        draft: false
-        prerelease: false
+        uses: actions/create-release@v1
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+            tag_name: ${{ github.ref }}
+            release_name: Release ${{ github.ref }}
+            body: |
+                Changes in this Release
+                - First Change
+                - Second Change
+            draft: false
+            prerelease: false
