@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -20,9 +20,6 @@
     <None Update="apps\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="loading.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Views\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -30,18 +27,39 @@
 
   <ItemGroup>
     <Folder Include="apps\" />
-    <Folder Include="Front\" />
     <Folder Include="wwwroot\autoload\" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="AventusSharp">
-      <HintPath>.dll\AventusSharp.dll</HintPath>
+      <HintPath>lib\AventusSharp.dll</HintPath>
     </Reference>
     <Reference Include="WebPush">
-      <HintPath>.dll\WebPush.dll</HintPath>
+      <HintPath>lib\WebPush.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+
+  <ItemGroup>
+    <Content Remove="_tools\**" />
+    <Compile Remove="_tools\**" />
+    <EmbeddedResource Remove="_tools\**" />
+    <None Remove="_tools\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Front\**" />
+    <Compile Remove="Front\**" />
+    <EmbeddedResource Remove="Front\**" />
+    <None Remove="Front\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\apps\**" />
+    <Compile Remove="wwwroot\apps\**" />
+    <EmbeddedResource Remove="wwwroot\apps\**" />
+    <None Remove="wwwroot\apps\**" />
+  </ItemGroup>
+
+
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition=" '$(OS)' == 'Windows_NT' ">
     <Exec Command="xcopy /F /R /Y /I &quot;$(ProjectDir)$(OutDir)$(AssemblyName).dll&quot; &quot;D:\Rayuki\Libs\RayukiCore\ &quot;" />

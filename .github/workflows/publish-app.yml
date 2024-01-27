@@ -30,7 +30,9 @@ jobs:
       
 
       - name: Create Archive
-        run: zip -r ${{ github.event.repository.name }}.zip ./dist/*
+        run: |
+          cd dist
+          zip -r ../${{ github.event.repository.name }}.zip ./*
 
       - name: Release
         uses: softprops/action-gh-release@v1

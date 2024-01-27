@@ -1,4 +1,5 @@
-﻿using AventusSharp.Tools;
+﻿using AventusSharp.Routes.Response;
+using AventusSharp.Tools;
 using AventusSharp.WebSocket;
 using Core.App;
 using Core.Data;
@@ -213,26 +214,18 @@ namespace Core
                 {
                     { "ready", ServerReady }
                 };
-                string txt = JsonConvert.SerializeObject(o);
-                byte[] bytes = Encoding.UTF8.GetBytes(txt);
-                context.Response.ContentType = "application/json";
-                context.Response.StatusCode = 200;
-                await context.Response.Body.WriteAsync(bytes, 0, bytes.Length);
+                Json json = new Json(o);
+                await json.send(context);
                 return;
             }
             if (!ServerReady)
             {
-                string path = Path.Combine(app.Environment.ContentRootPath, "loading.html");
-                byte[] bytes = File.ReadAllBytes(path) ?? Array.Empty<byte>();
-                context.Response.StatusCode = 200;
-                context.Response.ContentType = "text/html; charset=UTF-8";
-                context.Response.Headers.Append("content-length", bytes.Length + "");
-                await context.Response.Body.WriteAsync(bytes, 0, bytes.Length);
+                View view = new View("loading");
+                await view.send(context);
+                return;
             }
-            else
-            {
-                await next();
-            }
+            
+            await next();
 
         }
         private static async Task LoginMiddleware(HttpContext context, Func<Task> next)
