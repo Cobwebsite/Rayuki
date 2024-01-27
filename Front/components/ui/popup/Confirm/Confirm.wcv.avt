@@ -1,0 +1,6 @@
+<div class="title">{{this.subject}}</div>
+<rk-scrollable class="body">{{this.body}}</rk-scrollable>
+<div class="action">
+    <rk-button color="red" @press="cancel">{{this.btn_no_txt}}</rk-button>
+    <rk-button color="green" @press="validate">{{this.btn_yes_txt}}</rk-button>
+</div>

@@ -1,0 +1,53 @@
+{
+    "name": "Rayuki",
+    "short_name": "Rayuki",
+    "icons": [
+        {
+            "src": "/pwa/icons/logo-48.png",
+            "type": "image/png",
+            "sizes": "48x48"
+        },
+        {
+            "src": "/pwa/icons/logo-72.png",
+            "type": "image/png",
+            "sizes": "72x72"
+        },
+        {
+            "src": "/pwa/icons/logo-96.png",
+            "type": "image/png",
+            "sizes": "96x96"
+        },
+        {
+            "src": "/pwa/icons/logo-128.png",
+            "type": "image/png",
+            "sizes": "128x128"
+        },
+        {
+            "src": "/pwa/icons/logo-144.png",
+            "type": "image/png",
+            "sizes": "144x144"
+        },
+        {
+            "src": "/pwa/icons/logo-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/pwa/icons/logo-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        },
+        {
+            "src": "/pwa/icons/logo-512.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "any maskable"
+        }
+    ],
+    "theme_color": "#dcdcdc",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "orientation": "portrait",
+    "scope": "/",
+    "start_url": "/pwa/loading.html"
+}

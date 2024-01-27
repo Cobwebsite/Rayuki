@@ -1,0 +1,140 @@
+import { MainSocket } from "./MainSocket.lib.avt";
+import type { ApplicationOpenInfo } from "../generated/Data/ApplicationOpen.lib.avt";
+import { Os } from "../components/system/Os/Os.wcl.avt";
+import { ApplicationHistory } from "../components/system/Application/ApplicationHistory.lib.avt";
+
+namespace Lib {
+    export class ApplicationManager {
+        private static waitingDelay: number = 1000;
+        private static waitings: { [key: string]: { data: ApplicationOpenInfo, timeout: number; }; } = {};
+        private static processing: { [key: string]: boolean; } = {};
+        private static mutex: Aventus.Mutex = new Aventus.Mutex();
+
+        public static async save(appInfo: ApplicationOpenInfo) {
+            await this.uniqueAction(appInfo, async (appInfo) => {
+                await MainSocket.instance.routes.desktop.RegisterOpenApp({
+                    appInfo
+                });
+            });
+        }
+
+        public static async remove(appInfo: ApplicationOpenInfo) {
+            await this.uniqueAction(appInfo, async (appInfo) => {
+                await MainSocket.instance.routes.desktop.RemoveApp({
+                    appInfo
+                });
+            });
+        }
+
+        private static uniqueAction(appInfo: ApplicationOpenInfo, action: (appInfo: ApplicationOpenInfo) => Promise<void>) {
+            this.mutex.safeRun(() => {
+                let key = this.getKey(appInfo);
+                if(this.waitings[key]) {
+                    clearTimeout(this.waitings[key].timeout);
+                }
+
+                if(this.processing[key]) {
+                    // si on est en train de save, on prepare les prochaines info a save sans mettre de timer
+                    this.waitings[key] = {
+                        data: appInfo,
+                        timeout: 0
+                    };
+                    return;
+                }
+
+                this.waitings[key] = {
+                    data: appInfo,
+                    timeout: setTimeout(async () => {
+                        let appInfo!: ApplicationOpenInfo;
+                        await this.mutex.safeRun(() => {
+                            appInfo = this.waitings[key].data;
+                            this.processing[key] = true;
+                            delete this.waitings[key];
+                        });
+                        await action(appInfo);
+                        await this.mutex.safeRun(() => {
+                            delete this.processing[key];
+                        });
+                        if(this.waitings[key]) {
+                            this.save(this.waitings[key].data);
+                        }
+                    }, ApplicationManager.waitingDelay)
+                };
+            });
+        }
+
+        public static init() {
+			this.onRegisterInfo = this.onRegisterInfo.bind(this);
+			this.onRemoveApp = this.onRemoveApp.bind(this);
+            MainSocket.instance.routes.desktop.events.RegisterOpenApp.onTrigger.add(this.onRegisterInfo);
+            MainSocket.instance.routes.desktop.events.RemoveApp.onTrigger.add(this.onRemoveApp);
+        }
+
+        private static async onRegisterInfo(item: ApplicationOpenInfo, params: Aventus.UriParamsValue) {
+            let key = this.getKey(item);
+            if(this.processing[key]) {
+                return;
+            }
+            if(!item.Info) {
+                return;
+            }
+            let info = item.Info;
+            if(info.number === undefined || info.history === undefined) {
+                return;
+            }
+
+            for(let desktopEl of Os.instance.desktopsEl) {
+                if(desktopEl.desktop_id == item.DesktopId) {
+                    let found = false;
+                    for(let appName in desktopEl.applications) {
+                        if(appName == info.applicationName) {
+                            let app = desktopEl.applications[appName][info.number];
+                            if(app) {
+                                found = true;
+                                app.setHistory(ApplicationHistory.fromText(app.navigator, info.history));
+                                app.is_hidden = info.isHidden ?? false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if(!found) {
+                        this.processing[key] = true;
+                        await desktopEl.recreateApplication(info);
+                        delete this.processing[key];
+                    }
+                }
+            }
+        }
+
+        private static async onRemoveApp(item: ApplicationOpenInfo, params: Aventus.UriParamsValue) {
+            if(!item.Info) {
+                return;
+            }
+            let info = item.Info;
+            if(info.number === undefined || info.history === undefined) {
+                return;
+            }
+
+            for(let desktopEl of Os.instance.desktopsEl) {
+                if(desktopEl.desktop_id == item.DesktopId) {
+                    for(let appName in desktopEl.applications) {
+                        if(appName == info.applicationName) {
+                            let app = desktopEl.applications[appName][info.number];
+                            app.mustRemoveApplicationHistory = false;
+							app.kill();
+                            if(app) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        private static getKey(appInfo: ApplicationOpenInfo): string {
+            return appInfo.DesktopId + ":" + appInfo.Info?.applicationName + "$" + appInfo.Info?.number;
+        }
+    }
+}

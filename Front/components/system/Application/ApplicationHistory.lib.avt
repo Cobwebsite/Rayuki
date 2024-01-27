@@ -1,0 +1,122 @@
+import { ApplicationState, ApplicationStateManager } from "../../../libs/ApplicationStateManager.state.avt";
+
+namespace System {
+    export type History = {
+        state: Aventus.State;
+    };
+
+    @Convertible()
+    export class ApplicationHistory {
+        public static Fullname: string = "Core.System.ApplicationHistory";
+
+        public $type: string = ApplicationHistory.Fullname;
+        private memory: History[] = [];
+        private currentPosition: number = -1;
+
+        public push(history: History) {
+            if(this.currentPosition != this.memory.length - 1) {
+                let nb = this.currentPosition + 1 - this.memory.length;
+                this.memory.splice(this.currentPosition + 1, nb);
+            }
+            this.memory.push(history);
+            this.currentPosition = this.memory.length - 1;
+        }
+
+        public replace(history: History) {
+            if(this.memory.length == 0) {
+                this.memory.push(history);
+                return;
+            }
+            const last = this.memory.length - 1;
+            this.memory.splice(last, 1, history);
+        }
+
+        public replaceAt(history: History, index: number) {
+            if(this.memory.length <= index) {
+                throw "index is too short";
+            }
+
+            this.memory.splice(index - 1, 1, history);
+        }
+
+        public clear() {
+            if(this.memory.length == 0) {
+                return;
+            }
+
+            const last = this.memory.length - 1;
+            const lastHistory = this.memory[last];
+            this.memory = [lastHistory];
+        }
+
+        public next(): History | null {
+            if(this.nextAvailable) {
+                this.currentPosition++;
+                return this.memory[this.currentPosition];
+            }
+            return null;
+        }
+
+        public current(): History | undefined {
+            return this.memory[this.currentPosition];
+        }
+
+        public get nextAvailable(): boolean {
+            return this.currentPosition < this.memory.length - 1;
+        }
+
+        public previous(): History | null {
+            if(this.previousAvailable) {
+                this.currentPosition--;
+                return this.memory[this.currentPosition];
+            }
+            return null;
+        }
+
+        public get previousAvailable(): boolean {
+            return this.currentPosition > 0;
+        }
+
+        public toText() {
+            let txt = JSON.stringify(this);
+            return txt;
+        }
+
+        public static fromText(manager: ApplicationStateManager, txt?: string): ApplicationHistory {
+            if(!txt) {
+                return new ApplicationHistory();
+            }
+            try {
+                const converter = new ApplicationHistoryConvert(manager);
+                return Aventus.Converter.transform<ApplicationHistory>(JSON.parse(txt), converter);
+            } catch(e) {
+
+            }
+            return new ApplicationHistory();
+        }
+
+    }
+}
+
+export class ApplicationHistoryConvert extends Aventus.ConverterTransform {
+
+    private manager: ApplicationStateManager;
+
+    public constructor(manager: ApplicationStateManager) {
+        super();
+        this.manager = manager;
+    }
+
+    protected override beforeTransformObject(obj: Object): void {
+        if(obj instanceof ApplicationState) {
+            obj.setManager(this.manager);
+            obj.disableSaveState();
+        }
+    }
+
+    protected override afterTransformObject(obj: Object): void {
+        if(obj instanceof ApplicationState) {
+            obj.enableSaveState();
+        }
+    }
+}

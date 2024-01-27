@@ -1,0 +1,157 @@
+namespace Lib {
+
+    @Convertible()
+    export abstract class ApplicationState extends Aventus.State implements Aventus.IState {
+        /**
+         * The current namespace
+         */
+        public static readonly Namespace: string = "";
+        /**
+         * Get the unique type for the data. Define it as the namespace + class name
+         */
+        public static get Fullname(): string { return this.Namespace + "." + this.name; }
+
+
+        public readonly $type: string;
+        private __manager!: ApplicationStateManager;
+
+        private __canSaveState: boolean = true;
+
+        public enableSaveState() {
+            this.__canSaveState = true;
+        }
+        public disableSaveState() {
+            this.__canSaveState = false;
+        }
+
+        public constructor() {
+            super();
+            this.$type = this.constructor['Fullname'];
+        }
+
+        public setManager(manager: ApplicationStateManager) {
+            this.__manager = manager;
+        }
+
+
+        public saveState() {
+            if(!this.__canSaveState) return;
+            this.__manager.save();
+        }
+
+        public override async activate(): Promise<boolean> {
+            return super.activate(this.__manager);
+        }
+
+        /**
+         * Override this method to remove keys when converting to json
+         */
+        protected avoidJSONKeys(): string[] {
+            return ['name'];
+        }
+
+        public toJSON() {
+            let avoidKeys = this.avoidJSONKeys();
+            return Aventus.Json.classToJson(this, {
+                isValidKey: (key) => {
+                    if(key.startsWith("__")) return false;
+                    if(avoidKeys.includes(key)) return false;
+                    return true;
+                }
+            });
+        }
+
+         /**
+         * Override this method to remove keys when converting to json
+         */
+         protected avoidCopyValuesKeys(): string[] {
+            return ['name'];
+        }
+
+        public copyValues<T extends ApplicationState>(src: T) {
+            let avoidKeys = this.avoidCopyValuesKeys();
+            Aventus.Converter.copyValuesClass<ApplicationState>(this, src, {
+                isValidKey: (key) => {
+                    if(key.startsWith("__")) return false;
+                    if(avoidKeys.includes(key)) return false;
+                    return true;
+                }
+            })
+        }
+    }
+
+    export class ApplicationEmptyState extends ApplicationState implements Aventus.IState {
+
+        private localName: string;
+
+        public constructor(stateName: string) {
+            super();
+            this.localName = stateName;
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public override get name(): string {
+            return this.localName;
+        }
+    }
+
+    export abstract class ApplicationStorableState<T> extends ApplicationState implements Aventus.IState {
+        private __item!: T;
+        public get item(): T {
+            return this.__item;
+        }
+        private set item(value: T) {
+
+            if(!this.__item) {
+                this.__item = Aventus.Watcher.get(value as object, () => {
+                    this.saveState();
+                });
+            }
+            try {
+                for(let key in value) {
+                    this.__item[key] = value[key];
+                }
+            } catch(e) {
+                console.log(e);
+            }
+        }
+
+        public constructor(item?: T) {
+            super();
+            if(item) {
+                this.item = item;
+            }
+            else {
+                this.item = this.newElement();
+            }
+        }
+
+        public abstract newElement(): T;
+    }
+
+    export class ApplicationStateManager extends Aventus.StateManager implements Aventus.IStateManager {
+
+        public readonly save: () => void;
+        public constructor(save: () => void) {
+            super();
+            this.save = save;
+        }
+
+        protected override assignDefaultState(stateName: string): Aventus.State {
+            let el = new ApplicationEmptyState(stateName);
+            el.setManager(this);
+            return el;
+        }
+
+
+        public override setState(state: string | Aventus.State): Promise<boolean> {
+            if(state instanceof ApplicationState) {
+                state.setManager(this);
+            }
+            return super.setState(state);
+        }
+
+    }
+}

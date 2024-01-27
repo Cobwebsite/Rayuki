@@ -1,0 +1,68 @@
+import { UserRouter } from "../generated/Routes/UserRouter.lib.avt";
+import { User } from "../generated/Data/User.data.avt";
+import { HttpRouter } from "../libs/HttpRouter.lib.avt";
+
+namespace RAM {
+    interface UserMethod {
+        // define your methods here
+        helloWorld(): void;
+    }
+
+    export type UserExtended = User & UserMethod;
+
+    export class UserRAM extends AventusSharp.RAM.RamHttp<UserExtended> implements Aventus.IRam {
+
+
+        /**
+         * Create a singleton to store data
+         */
+        public static getInstance(): UserRAM {
+            return Aventus.Instance.get(UserRAM);
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public override defineIndexKey(): keyof UserExtended {
+            return 'id';
+        }
+        /**
+         * @inheritdoc
+         */
+        protected override getTypeForData(objJson: Aventus.KeysObject<UserExtended> | UserExtended): new () => UserExtended {
+            return this.addUserMethod(User);
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public override defineRoutes() {
+            return new UserRouter(new HttpRouter());
+        }
+
+        /**
+         * Mixin pattern to add methods
+         */
+        private addUserMethod<B extends (new (...args: any[]) => User) & { className?: string; }>(Base: B) {
+            return class Extension extends Base implements UserExtended {
+
+                public static override get className(): string {
+                    return Base.className || Base.name;
+                }
+                public override get className(): string {
+                    return Base.className || Base.name;
+                }
+
+                // code your methods here
+
+                /**
+                 * @inheritdoc
+                 */
+                public helloWorld(): void {
+                    throw new Error("Method not implemented.");
+                }
+            };
+        }
+
+    }
+}

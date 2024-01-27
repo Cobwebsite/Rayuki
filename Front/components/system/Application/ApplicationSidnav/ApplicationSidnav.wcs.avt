@@ -1,0 +1,96 @@
+@import '@root/_variables.gs.avt';
+
+:host {
+	.content {
+		display: flex;
+		height: calc(100% - 30px);
+		margin: 0;
+		position: relative;
+		width: 100%;
+
+		.sidenav {
+			background-color: var(--secondary-color);
+			box-shadow: var(--elevation-4);
+			height: 100%;
+			width: 200px;
+
+			.sidenav-item {
+				align-items: center;
+				border-bottom: 1px solid var(--lighter-active);
+				cursor: pointer;
+				display: flex;
+				flex-wrap: nowrap;
+				height: 51px;
+				padding: 10px;
+				transition: linear background-color 0.3s;
+
+				rk-img {
+					--img-fill-color: var(--text-color);
+					flex-grow: 0;
+					flex-shrink: 0;
+					height: 30px;
+					width: 30px;
+				}
+
+				rk-img[src=""] {
+					display: none;
+				}
+
+				span {
+					color: var(--text-color);
+					flex-grow: 1;
+					flex-shrink: 0;
+					margin-left: 15px;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					width: calc(100% - 45px);
+				}
+
+				rk-img[src=""] ~ span {
+					margin-left: 0;
+				}
+			}
+
+			.sidenav-item[active] {
+				background-color: var(--lighter-active);
+			}
+		}
+
+		.container {
+			height: 100%;
+			width: calc(100% - 200px);
+		}
+	}
+}
+
+@include desktop {
+	:host {
+		.content {
+			.sidenav {
+				.sidenav-item:hover {
+					background-color: var(--lighter-active);
+				}
+			}
+		}
+	}
+}
+
+
+@each $name, $size in $size-breakpoints {
+	:host([hide_menu_size="#{$name}"]) {
+		@container application (max-width: #{$size+'px'}) {
+			.content {
+				.sidenav {
+					position: absolute;
+					transform: translateX(-100%);
+				}
+
+				.container {
+					width: 100%;
+				}
+			}
+		}
+	}
+
+}

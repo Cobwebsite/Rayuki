@@ -1,0 +1,111 @@
+namespace System {
+    export class AddOnTime extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected date!: HTMLDivElement;
+        @ViewElement()
+        protected hour!: HTMLDivElement;
+
+
+        private days: string[] = [
+            'Dim.',
+            'Lun.',
+            'Mar.',
+            'Mer.',
+            'Jeu.',
+            'Ven.',
+            'Sam.'
+        ];
+        private months: string[] = [
+            'Janvier',
+            'Février',
+            'Mars',
+            'Avril',
+            'Mai',
+            'Juin',
+            'Juillet',
+            'Août',
+            'Septembre',
+            'Octobre',
+            'Novembre',
+            'Décembre'
+        ];
+        //#endregion
+
+
+        //#region constructor
+        constructor() {
+            super();
+            this.classList.add("touch");
+        }
+        //#endregion
+
+
+        //#region methods
+        private firstLoading() {
+            let missingSec = 60 - new Date().getSeconds();
+            if(missingSec == 0) {
+                this.displayDate(true);
+                this.normalLoading();
+            }
+            else {
+                this.displayDate(true);
+                setTimeout(() => {
+                    this.normalLoading();
+                }, missingSec * 1000);
+            }
+        }
+
+        private displayDate(force: boolean = false) {
+            if(!this.hour || !this.date) {
+                return;
+            }
+            let date = new Date();
+            let minutes = date.getMinutes();
+            let hours = date.getHours();
+
+            this.hour.innerHTML = this.prettyNumber(hours) + ":" + this.prettyNumber(minutes);
+
+            if(force || (minutes == 0 && hours == 0)) {
+                let day = this.days[date.getDay()];
+                let month = this.months[date.getMonth()];
+                let nb = date.getDate();
+                let txt = day + ' ' + this.prettyNumber(nb) + ' ' + month;
+                this.date.innerHTML = txt;
+            }
+
+        }
+
+        private prettyNumber(nb: number) {
+            if(nb < 10) {
+                return '0' + nb;
+            }
+            return nb + '';
+        }
+
+        private normalLoading() {
+            setInterval(() => {
+                this.displayDate();
+
+            }, 1000 * 60);
+        }
+
+        protected override postCreation(): void {
+            this.firstLoading();
+
+        }
+        //#endregion
+
+    }
+}

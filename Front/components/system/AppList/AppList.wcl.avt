@@ -1,0 +1,105 @@
+import { ApplicationRAM } from "../../../ram/Application.ram.avt";
+import { ShortcutManager, SpecialTouch } from "../../../libs/ShortcutManager.lib.avt";
+import { PageCase } from "../../ui/layout/PageCase/PageCase.wcl.avt";
+import { AppIcon } from "../AppIcon/AppIcon.wcl.avt";
+import { Os } from "../Os/Os.wcl.avt";
+
+namespace System {
+    export class AppList extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property((target: AppList) => {
+            target.onShowChange();
+        })
+        public show!: boolean;
+
+        @Attribute()
+        private no_transition!: boolean;
+        //#endregion
+
+
+        //#region variables
+
+        @ViewElement()
+        protected pageCaseEl!: PageCase;
+
+
+        @ViewElement()
+        protected searchContainer!: HTMLDivElement;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        @BindThis()
+        private closeAppList() {
+            Os.instance.show_application_list = false;
+        }
+        private onShowChange() {
+            if(this.show) {
+                ShortcutManager.subscribe([SpecialTouch.Escape], this.closeAppList);
+            }
+            else {
+                ShortcutManager.unsubscribe([SpecialTouch.Escape], this.closeAppList);
+            }
+        }
+        private async loadApps() {
+            let apps = await ApplicationRAM.getInstance().getList();
+            apps.sort((a, b) => a.Name < b.Name ? -1 : 1);
+
+            for(let app of apps) {
+                let icon = Aventus.WebComponentInstance.create<AppIcon>(app.LogoTagName);
+                if(icon) {
+                    this.pageCaseEl?.appendChild(icon);
+                }
+            }
+
+            this.pageCaseEl?.reset();
+        }
+
+        private addClose() {
+            let apply = true;
+            new Aventus.DragAndDrop({
+                element: this,
+                offsetDrag: 20,
+                isDragEnable: () => apply,
+                correctPosition: (position) => {
+                    position.x = 0;
+                    return position;
+                },
+                onStart: () => {
+                    this.no_transition = true;
+                },
+                onMove: (e, position) => {
+                    if(position.y > 200) {
+                        this.no_transition = false;
+                        Os.instance.show_application_list = false;
+                        this.style.top = "";
+                        this.style.left = "";
+                        apply = false;
+                    }
+                },
+                onStop: () => {
+                    apply = true;
+                    this.no_transition = false;
+                    this.removeAttribute("style");
+                }
+            });
+        }
+        protected override postCreation(): void {
+            this.loadApps();
+            this.addClose();
+        }
+        //#endregion
+
+    }
+}

@@ -1,0 +1,17 @@
+import { ApplicationRouter } from "./Routes/ApplicationRouter.lib.avt";
+import { DesktopRouter } from "./Routes/DesktopRouter.lib.avt";
+import { MainRouter } from "./Routes/MainRouter.lib.avt";
+import { PermissionRouter } from "./Routes/PermissionRouter.lib.avt";
+import { UserRouter } from "./Routes/UserRouter.lib.avt";
+
+export const generatedHttpRoutes = [
+	{ type: ApplicationRouter, path: "Application"},
+	{ type: DesktopRouter, path: ""},
+	{ type: MainRouter, path: ""},
+	{ type: PermissionRouter, path: ""},
+	{ type: UserRouter, path: ""},
+] as const;
+
+export class GeneratedRouter extends Aventus.HttpRouter.WithRoute(generatedHttpRoutes) {
+
+}

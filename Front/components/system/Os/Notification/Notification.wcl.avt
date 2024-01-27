@@ -1,0 +1,79 @@
+
+namespace System {
+    export type NotificationPosition = 'bottom' | 'top' | 'left' | 'right';
+
+    export class Notification extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public position: NotificationPosition = 'right';
+        @Property()
+        public icon?: string;
+        @Property()
+        public subject: string = "";
+
+        @Attribute()
+        private is_active!: boolean;
+        //#endregion
+
+
+        //#region variables
+        public showAsked: boolean = false;
+        private onHide: (result: boolean) => void = () => { };
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        public show(onHide: (result: boolean) => void) {
+            this.onHide = onHide;
+            if(this.isReady) {
+                this.is_active = true;
+            }
+            else {
+                this.showAsked = true;
+            }
+        }
+        /**
+         * When the user click on the notif, run the callback if exist and close
+         */
+        protected async clicked() {
+            if(this.onHide) {
+                this.is_active = false;
+                this.onHide(true);
+                await Aventus.sleep(420);
+                this.remove();
+            }
+        }
+        /**
+         * When the user click on the cross, close the notification
+         */
+        protected async close() {
+            if(this.onHide) {
+                this.is_active = false;
+                this.onHide(false);
+                await Aventus.sleep(420);
+                this.remove();
+            }
+        }
+
+        protected override postCreation(): void {
+            if(this.showAsked) {
+                this.is_active = true;
+            }
+        }
+
+
+        //#endregion
+
+    }
+}

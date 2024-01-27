@@ -1,0 +1,8 @@
+:host{
+    // Your style here
+    display: block;
+    float: left;
+    height: 100%;
+    box-sizing: border-box;
+    border-right: 5px black;
+}

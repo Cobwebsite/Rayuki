@@ -1,0 +1,38 @@
+:host {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	flex-shrink: 0;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+
+	.icons {
+		/* --page-case-background: var(--primary-color);*/
+		--page-case-border-radius: 5px;
+		--page-case-border-active: 1px solid var(--darker-active);
+		--page-case-background-active: var(--lighter-active);
+		/* background-color: var(--lighter-active);*/
+		height: calc(100% - 70px);
+		width: 100%;
+		z-index: 2;
+		transition:
+			opacity var(--bezier-curve) .5s,
+			visibility var(--bezier-curve) .5s;
+	}
+
+	.app-container {
+		transition:
+			opacity var(--bezier-curve) .5s,
+			visibility var(--bezier-curve) .5s;
+	}
+}
+
+
+:host([show_application_list]) {
+	& > * {
+		opacity: 0 !important;
+		visibility: hidden !important;
+	}
+}

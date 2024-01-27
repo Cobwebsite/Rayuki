@@ -1,0 +1,35 @@
+
+<script>
+import { TableCell } from "./TableCell/TableCell.wcl.avt";
+
+namespace Components {
+	export class TableCellPicture<U = any> extends TableCell<string, U> implements Aventus.DefaultComponent {
+	
+	    @Property()
+	    public src?: string;
+	
+	    /**
+	     * @inheritdoc
+	     */
+	    public override setContent(data: string | undefined, rowData: U) {
+	        this.src = data + "";
+	    }
+	}
+}
+</script>
+
+<template>	
+	<div class="img" style="background-image:url('{{this.src}}')"></div>
+</template>
+
+<style>	
+	.img {
+		background-position: center;
+		background-size: cover;
+		border-radius: 25px;
+		height: 50px;
+		margin: auto;
+		width: 50px;
+	}
+	
+</style>

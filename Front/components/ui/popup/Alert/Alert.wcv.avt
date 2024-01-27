@@ -1,0 +1,7 @@
+<div class="title">{{this.subject}}</div>
+<rk-scrollable class="body">
+    {{this.body}}
+</rk-scrollable>
+<div class="action">
+    <rk-button color="blue" @click="close">{{this.btn_txt}}</rk-button>
+</div>

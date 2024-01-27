@@ -1,0 +1,27 @@
+:host {
+    .title {
+        cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+    }
+	.collapse {
+		display: grid;
+		grid-template-rows: 0fr;
+        transition: 0.5s var( --bezier-curve) grid-template-rows;
+
+		.content {
+			overflow: hidden;
+		}
+	}
+}
+
+:host([open]) {
+	.collapse {
+		grid-template-rows: 1fr;
+	}
+}
+
+:host([no_animation]) {
+	.collapse {
+        transition: none;
+	}
+}

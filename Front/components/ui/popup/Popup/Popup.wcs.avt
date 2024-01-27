@@ -1,0 +1,20 @@
+:host {
+	background-color: rgba(0, 0, 0, 0.2);
+	inset: 0;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 999;
+
+	.popup {
+		padding: 20px;
+		border-radius: 20px;
+		background-color: white;
+		box-shadow: var(--elevation-5);
+		max-width: calc(100% - 50px);
+		max-height: calc(100% - 50px);
+		display: flex;
+		flex-direction: column;
+	}
+}

@@ -1,0 +1,10 @@
+<div class="input">
+    <rk-img src="{{this.icon}}" class="icon"></rk-img>
+    <input @element="inputEl" placeholder="{{this.placeholder}}" @focus="removeErrors" @input="onValueChange" />
+    <div class="error-logo">!</div>
+</div>
+<div class="errors">
+    for(let error of this.errors) { 
+        <div>{{error}}</div>
+    }
+</div>

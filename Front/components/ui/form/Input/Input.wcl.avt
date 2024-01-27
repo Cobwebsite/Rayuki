@@ -1,0 +1,65 @@
+import { RayukiComponent } from "../../../system/RayukiComponent/RayukiComponent.wcl.avt";
+
+namespace Components {
+    export class Input extends RayukiComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property()
+        public placeholder: string = "";
+        @Attribute()
+        public has_errors!: boolean;
+        @Property()
+        public icon: string = "";
+
+        @Watch((target: Input) => {
+            target.has_errors = target.errors.length > 0;
+        })
+        public errors: string[] = [];
+
+        @Property((target: Input) => {
+            target.inputEl.value = target.value;
+        })
+        public value: string = "";
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected inputEl!: HTMLInputElement;
+
+
+        public change: Aventus.Callback<(value: string) => void> = new Aventus.Callback();
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+
+        /**
+         * 
+         */
+        protected removeErrors() {
+            this.errors = [];
+        }
+
+
+        /**
+         * 
+         */
+        protected onValueChange() {
+            this.value = this.inputEl.value;
+            this.change.trigger([this.value]);
+        }
+        //#endregion
+
+    }
+}

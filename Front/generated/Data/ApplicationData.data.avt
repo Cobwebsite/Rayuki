@@ -1,0 +1,14 @@
+namespace Data {
+
+	@Convertible()
+	export class ApplicationData extends AventusSharp.Data.Storable implements Aventus.IData {
+		public static override get Fullname(): string { return "Core.Data.ApplicationData, Core"; }
+		public Name: string = "";
+		public DisplayName: string = "";
+		public Version: number = 0;
+		public LogoClassName: string = "";
+		public LogoTagName: string = "";
+		public Extension!: string;
+	}
+
+}

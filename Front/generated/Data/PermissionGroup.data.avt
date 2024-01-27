@@ -1,0 +1,13 @@
+import { Permission } from './Permission.data.avt';
+import { Group } from './Group.data.avt';
+
+namespace Data {
+
+	@Convertible()
+	export class PermissionGroup extends AventusSharp.Data.Storable implements Aventus.IData {
+		public static override get Fullname(): string { return "Core.Data.PermissionGroup, Core"; }
+		public Permission!: Permission;
+		public Group!: Group;
+	}
+
+}

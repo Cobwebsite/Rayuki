@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#dcdcdc" />
+    <link rel="icon" href="/img/logo.svg" />
+    <title>Rayuki</title>
+    <link rel="stylesheet" type="text/css" href="/pwa/loader.css" />
+    <link rel="manifest" href="/pwa/manifest.json" />
+    <script>
+        function sleep(x) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve();
+                }, x)
+            });
+        }
+        async function loaded() {
+            await sleep(1000);
+            try {
+                let temp = await (await fetch("/pwa/notInCache.html")).text();
+                if (temp != "") {
+                    window.location = "/";
+                    return;
+                }
+            }
+            catch (e) {
+
+            }
+
+            // display offline
+            document.querySelector(".loading").style.display = "none";
+            document.querySelector(".offline").style.display = "block";
+            await sleep(3000);
+            loaded();
+        }
+    </script>
+</head>
+
+<body onload="loaded()">
+    <div id="loading-bg">
+        <div class="logo"></div>
+        <div class="loading">
+            <div class="effect-1 effects"></div>
+            <div class="effect-2 effects"></div>
+            <div class="effect-3 effects"></div>
+        </div>
+        <div class="offline">Vous êtes hors ligne</div>
+    </div>
+</body>
+
+</html>

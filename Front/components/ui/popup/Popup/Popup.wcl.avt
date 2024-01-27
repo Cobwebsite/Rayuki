@@ -1,0 +1,32 @@
+export class Popup<T> extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+
+    //#endregion
+
+
+    //#region variables
+    protected cb?: (response: T) => void;
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+    /**
+	 * Define the callback
+	 */
+    public init(cb: (response: T) => void) {
+        this.cb = cb;
+    }
+    //#endregion
+
+}

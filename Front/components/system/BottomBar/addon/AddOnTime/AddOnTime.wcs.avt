@@ -1,0 +1,26 @@
+@import '@root/_variables.gs.avt';
+
+:host {
+	align-items: center;
+	border-radius: 5px;
+	cursor: pointer;
+	display: flex;
+	margin-right: 10px;
+	padding: 10px;
+	transition: background-color linear 0.2s;
+
+	.date {
+		font-size: var(--font-size-sm);
+	}
+
+	.hour {
+		font-size: var(--font-size-sm);
+		margin-left: 5px;
+	}
+}
+
+@include desktop {
+	:host(:hover) {
+		background-color: var(--lighter-active);
+	}
+}

@@ -1,0 +1,96 @@
+@import '@root/_variables.gs.avt';
+
+:host {
+	display: flex;
+	flex-direction: column;
+	left: -9px;
+	position: absolute;
+	width: 500px;
+
+
+	.content {
+		flex-grow: 1;
+		max-height: calc(100% - 57px);
+
+
+		rk-row {
+			height: 100%;
+
+			rk-col {
+				height: 100%;
+
+				.title {
+					font-weight: 700;
+					height: 30px;
+					padding: 5px;
+				}
+
+				.scrollable {
+					--scroller-right: 0;
+					height: calc(100% - 30px);
+					width: 100%;
+				}
+
+				.recent {
+					width: 100%;
+
+					.recent-container * {
+						background-color: var(--primary-color);
+						border-radius: 5px;
+						margin: 10px;
+						overflow: hidden;
+					}
+				}
+
+				.favoris {
+					width: 100%;
+
+					.favoris-container {
+						.grid {
+							display: flex;
+							flex-wrap: wrap;
+							gap: 10px;
+							padding: 10px;
+
+							* {
+								width: calc((100% / 3) - (20px / 3));
+								flex-shrink: 0;
+								aspect-ratio: 1 / 1;
+								height: auto;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.footer {
+		align-items: center;
+		border-top: 1px solid var(--lighter-active);
+		display: flex;
+		gap: 10px;
+		height: 57px;
+		padding: 10px 10px;
+		width: 100%;
+
+		rk-img {
+			height: 25px;
+		}
+
+		.nom {
+			flex-grow: 1;
+		}
+
+		rk-button {
+			--button-padding: 0px 8px;
+			--button-icon-stroke-color: red;
+			--button-icon-fill-color: transparent;
+			--button-background-color: var(--darker-active);
+			box-shadow: none;
+			min-width: auto;
+		}
+
+
+	}
+}

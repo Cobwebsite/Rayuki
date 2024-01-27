@@ -1,0 +1,136 @@
+namespace Lib {
+    export enum SpecialTouch {
+        Backspace,
+        Insert,
+        End,
+        PageDown,
+        PageUp,
+        Escape,
+        AltGraph,
+        Control,
+        Alt,
+        Shift,
+        CapsLock,
+        Tab,
+        Delete,
+        ArrowRight,
+        ArrowLeft,
+        ArrowUp,
+        ArrowDown,
+        Enter
+    }
+
+    export class ShortcutManager {
+        private static memory: { [key: string]: (() => void)[]; } = {};
+        private static isInit: boolean = false;
+        private static arrayKeys: string[] = [];
+
+        private static getText(combinaison: (SpecialTouch | string)[]) {
+            let allTouches: string[] = [];
+            for(let touch of combinaison) {
+                let realTouch = "";
+                if(typeof touch == "number" && SpecialTouch[touch] !== undefined) {
+                    realTouch = SpecialTouch[touch];
+                }
+                else if((touch as string).match(/[a-zA-Z0-9]/g)) {
+                    realTouch = touch as string;
+                }
+                else {
+                    throw "I can't use " + touch + " to add a shortcut";
+                }
+                allTouches.push(realTouch);
+            }
+            allTouches.sort();
+            return allTouches.join("+");
+        }
+        public static subscribe(combinaison: (SpecialTouch | string)[], cb: () => void) {
+            let key: string = this.getText(combinaison);
+            if(!ShortcutManager.memory[key]) {
+                ShortcutManager.memory[key] = [];
+            }
+            if(!ShortcutManager.memory[key].includes(cb)) {
+                ShortcutManager.memory[key].push(cb);
+            }
+            if(!ShortcutManager.isInit) {
+                ShortcutManager.init();
+            }
+        }
+        public static unsubscribe(combinaison: (SpecialTouch | string)[], cb: () => void) {
+            let key: string = this.getText(combinaison);
+            if(ShortcutManager.memory[key]) {
+                let index = ShortcutManager.memory[key].indexOf(cb);
+                if(index != -1) {
+                    ShortcutManager.memory[key].splice(index, 1);
+                    if(ShortcutManager.memory[key].length == 0) {
+                        delete ShortcutManager.memory[key];
+                    }
+                    if(Object.keys(ShortcutManager.memory).length == 0 && ShortcutManager.isInit) {
+                        ShortcutManager.uninit();
+                    }
+                }
+            }
+        }
+        private static onKeyDown(e: KeyboardEvent) {
+            if(e.ctrlKey) {
+                let txt = SpecialTouch[SpecialTouch.Control];
+                if(!this.arrayKeys.includes(txt)) {
+                    this.arrayKeys.push(txt);
+                }
+            }
+            if(e.altKey) {
+                let txt = SpecialTouch[SpecialTouch.Alt];
+                if(!this.arrayKeys.includes(txt)) {
+                    this.arrayKeys.push(txt);
+                }
+            }
+            if(e.shiftKey) {
+                let txt = SpecialTouch[SpecialTouch.Shift];
+                if(!this.arrayKeys.includes(txt)) {
+                    this.arrayKeys.push(txt);
+                }
+            }
+
+            if(e.key.match(/[a-zA-Z0-9]/g) && !this.arrayKeys.includes(e.key)) {
+                this.arrayKeys.push(e.key);
+            }
+            else if(SpecialTouch[e.key] !== undefined && !this.arrayKeys.includes(e.key)) {
+                this.arrayKeys.push(e.key);
+            }
+
+            this.arrayKeys.sort();
+            let key: string = this.arrayKeys.join("+");
+            if(ShortcutManager.memory[key]) {
+                e.preventDefault();
+                this.arrayKeys = [];
+                for(let cb of ShortcutManager.memory[key]) {
+                    cb();
+                }
+            }
+        }
+        private static onKeyUp(e: KeyboardEvent) {
+            let index = this.arrayKeys.indexOf(e.key);
+            if(index != -1) {
+                this.arrayKeys.splice(index, 1);
+            }
+        }
+
+        private static init() {
+            ShortcutManager.isInit = true;
+            this.onKeyDown = this.onKeyDown.bind(this);
+            this.onKeyUp = this.onKeyUp.bind(this);
+            window.addEventListener("blur", () => {
+                this.arrayKeys = [];
+            });
+            document.body.addEventListener("keydown", this.onKeyDown);
+            document.body.addEventListener("keyup", this.onKeyUp);
+        }
+        private static uninit() {
+            document.body.removeEventListener("keydown", this.onKeyDown);
+            document.body.removeEventListener("keyup", this.onKeyUp);
+            this.arrayKeys = [];
+            ShortcutManager.isInit = false;
+        }
+
+
+    }
+}

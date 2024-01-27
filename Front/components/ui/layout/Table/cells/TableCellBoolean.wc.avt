@@ -1,0 +1,24 @@
+<script>
+import { TableCell } from "./TableCell/TableCell.wcl.avt";
+namespace Components {
+	    type TableCellBooleanType = boolean | (1 | 0) | ('true' | 'false');
+	    export class TableCellBoolean<U = any> extends TableCell<TableCellBooleanType, U> implements Aventus.DefaultComponent {
+	        /**
+	         * @inheritdoc
+	         */
+	        public override setContent(data: TableCellBooleanType | undefined, rowData: U) {
+	            if(!this.contentEl) return;
+	
+	            if(data === true || data === 1 || data === 'true') {
+	                this.contentEl.innerHTML = 'true';
+	            }
+	            else {
+	                this.contentEl.innerHTML = 'false';
+	            }
+	        }
+
+	    }
+}
+	
+</script>
+

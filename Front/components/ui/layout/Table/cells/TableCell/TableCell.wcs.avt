@@ -1,0 +1,28 @@
+:host {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	padding: var(--internal-table-cell-padding);
+	position: relative;
+	text-align: center;
+	flex-shrink: 0;
+	border-right: var(--internal-table-cell-vertical-border);
+
+	.resize {
+		background-color: transparent;
+		bottom: 0;
+		cursor: col-resize;
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: 5px;
+		display: var(--local-table-cell-resize-display);
+	}
+}
+
+@for $i from 1 through 20 {
+	:host(:nth-child(#{$i})) {
+		flex-grow: var(--internal-table-cell-weight-#{$i}, 1);
+		width: var(--internal-table-cell-width-#{$i}, calc(100% / var(--internal-table-nb-column)));
+	}
+}

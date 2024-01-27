@@ -1,0 +1,41 @@
+@import '@root/_variables.gs.avt';
+
+:host {
+	align-items: center;
+	border-radius: 5px;
+	cursor: pointer;
+	display: flex;
+	font-size: var(--font-size-sm);
+	margin: 0 5px;
+	padding: 5px 10px;
+
+	.title {
+		margin-left: 30px;
+	}
+
+	.icon {
+		display: none;
+	}
+}
+
+:host([icon]) {
+	.title {
+		margin-left: 0px;
+	}
+
+	.icon {
+		display: inline-block;
+		margin-right: 10px;
+		width: 20px;
+	}
+}
+
+@include desktop {
+	:host {
+		font-size: var(--font-size);
+	}
+
+	:host(:hover) {
+		background-color: var(--darker);
+	}
+}

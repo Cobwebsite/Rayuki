@@ -1,0 +1,62 @@
+:host {
+	--internal-app-list-case-border-radius: var(--app-list-case-border-radius,
+			var(--app-icon-border-radius, 10px));
+	--internal-app-list-case-border: var(--app-list-case-border, none);
+	--internal-app-list-case-background-color: var(--app-list-case-background-color, transparent);
+	--internal-app-list-case-border-selected: var(--app-list-case-border-selected, 2px solid red);
+	--internal-app-list-case-background-color-selected: var(--app-list-case-background-color-selected,
+			transparent);
+
+
+}
+
+:host {
+	align-items: center;
+	background-color: var(--lighter-active);
+	display: flex;
+	flex-direction: column;
+	inset: 0;
+	position: absolute;
+	top: 100%;
+	transition: top 0.5s var(--bezier-curve);
+	z-index: 5;
+
+	.search {
+		align-items: center;
+		display: flex;
+		height: 100px;
+		justify-content: center;
+		width: 100%;
+
+		input {
+			background-color: var(--input-background-color);
+			border: none;
+			border-radius: 100px;
+			box-shadow: none;
+			font-size: var(--font-size-input);
+			line-height: var(--font-size-input);
+			max-width: 400px;
+			outline: none;
+			padding: 10px 20px;
+			width: calc(100% - 20px);
+		}
+	}
+
+	.app-list {
+		--page-case-background: var(--internal-app-list-case-background-color);
+		--page-case-background-active: var(--internal-app-list-case-background-color-selected);
+		--page-case-border-active: var(--internal-app-list-case-border-selected);
+		--page-case-border-radius: var(--internal-app-list-case-border-radius);
+		flex-grow: 1;
+		max-width: 1000px;
+		width: 100%;
+	}
+}
+
+:host([show]) {
+	top: 0;
+}
+
+:host([no_transition]) {
+	transition: none;
+}

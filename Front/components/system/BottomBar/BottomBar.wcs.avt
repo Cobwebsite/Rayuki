@@ -1,0 +1,128 @@
+@import '@root/_variables.gs.avt';
+
+:host {
+	align-items: center;
+	background-color: var(--primary-color-opacity);
+	border-radius: 10px;
+	bottom: 10px;
+	color: var(--text-color);
+	display: flex;
+	font-size: var(--font-size);
+	height: 50px;
+	left: 100px;
+	outline: none;
+	padding: 0 10px;
+	position: absolute;
+	transition:
+		opacity var(--bezier-curve) 0.5s,
+		visibility var(--bezier-curve) 0.5s,
+		transform 1s var(--bezier-curve);
+	width: calc(100% - 200px);
+	z-index: 100;
+
+
+	.section {
+		align-items: center;
+		display: flex;
+		height: 100%;
+
+		.icon {
+			--img-stroke-color: transparent;
+			--img-fill-color: var(--text-color);
+			border-radius: 5px;
+			cursor: pointer;
+			margin: 0 3px;
+			max-height: calc(100% - 16px);
+			max-width: 34px;
+			padding: 7px;
+			transition: background-color 0.2s var(--bezier-curve);
+		}
+
+		rk-app-icon {
+			margin: 0 5px;
+		}
+	}
+
+	.separator {
+		background-color: var(--text-color);
+		display: inline-block;
+		height: 50%;
+		margin: 0 13px;
+		width: 1px;
+	}
+
+	.applications {
+		flex-grow: 1;
+		gap: 10px;
+		position: relative;
+
+		.empty-icon {
+			background-color: var(--darker-active);
+			border-radius: 5px;
+			height: 30px;
+			width: 30px;
+		}
+	}
+
+	.nb-notifications {
+		align-items: center;
+		background-color: var(--text-color);
+		border-radius: 50%;
+		color: var(--primary-color-opacity);
+		display: flex;
+		font-size: 14px;
+		font-weight: bold;
+		height: 25px;
+		justify-content: center;
+		letter-spacing: -1px;
+		padding-right: 1px;
+		width: 25px;
+	}
+}
+
+@include desktop {
+	:host {
+		.section {
+			.icon:hover {
+				background-color: var(--lighter-active);
+			}
+		}
+	}
+}
+
+
+@include tablet {
+	:host {
+		border-radius: 0;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+		bottom: 0px;
+		left: 0px;
+		padding: 0 10px;
+		width: 100%;
+	}
+}
+
+@include mobile {
+	:host {
+		height: 70px;
+
+		.basic-action {
+			display: none;
+		}
+
+		.addons {
+			display: none;
+		}
+
+		.separator {
+			display: none;
+		}
+		.applications {
+			.empty-icon {
+				height: 50px;
+				width: 50px;
+			}
+		}
+	}
+}

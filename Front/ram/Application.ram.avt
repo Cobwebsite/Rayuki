@@ -1,0 +1,78 @@
+import { CoreRouter } from "../generated/CoreRouter.lib.avt";
+import { ApplicationData } from "../generated/Data/ApplicationData.data.avt";
+
+namespace RAM {
+    export class ApplicationRAM extends Aventus.Ram<ApplicationData> implements Aventus.IRam {
+
+        private getAllDone: boolean = false;
+        /**
+         * Create a singleton to store data
+         */
+        public static getInstance() {
+            return Aventus.Instance.get(ApplicationRAM);
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public override defineIndexKey(): keyof ApplicationData {
+            return 'id';
+        }
+        /**
+         * @inheritdoc
+         */
+        protected override getTypeForData(objJson: Aventus.KeysObject<ApplicationData> | ApplicationData): new () => ApplicationData {
+            return ApplicationData;
+        }
+
+        private getAllProms: (() => void)[] = [];
+        private async wait() {
+            return new Promise<void>((resolve) => {
+                this.getAllProms.push(() => {
+                    resolve();
+                })
+            })
+        }
+        private isLoading: boolean = false;
+        protected override async beforeGetAll(result: Aventus.ResultRamWithError<Map<number, Aventus.RamItem<ApplicationData>>>): Promise<void> {
+            if(!this.getAllDone) {
+                if(this.isLoading) {
+                    await this.wait();
+                }
+                else {
+                    this.isLoading = true;
+                    let apps = await new CoreRouter().routes.Application.GetAll();
+                    if(apps.success && apps.result) {
+                        for(let app of apps.result) {
+                            let resultTemp: Aventus.ResultRamWithError<Aventus.RamItem<ApplicationData>> = new Aventus.ResultRamWithError();
+                            this.addOrUpdateData(app, resultTemp);
+                            if(!resultTemp.success) {
+                                result.errors = [...result.errors, ...resultTemp.errors];
+                            }
+                        }
+                        this.getAllDone = true;
+                    }
+                    else {
+                        result.errors = [...result.errors, ...apps.errors];
+                    }
+                    this.isLoading = false;
+                    for(let cb of this.getAllProms) {
+                        cb();
+                    }
+                }
+            }
+
+        }
+
+
+        public async getApplicationByName(name: string): Promise<Aventus.RamItem<ApplicationData> | null> {
+            let items = await this.getList();
+            for(let item of items) {
+                if(item.Name == name) {
+                    return item;
+                }
+            }
+            return null;
+        }
+    }
+}

@@ -1,0 +1,22 @@
+<script>
+import { TableCell } from "./TableCell/TableCell.wcl.avt";
+namespace Components {
+	export class TableCellDate<U = any> extends TableCell<Date, U> implements Aventus.DefaultComponent {
+	    /**
+	     * @inheritdoc
+	     */
+	    public override setContent(data: Date | undefined, rowData: U) {
+			if(!this.contentEl) return;
+
+	        if(data instanceof Date) {
+	            this.contentEl.innerHTML = data.toISOString();
+	        }
+	        else {
+	            this.contentEl.innerHTML = '';
+	        }
+	    }
+
+	}
+}
+</script>
+

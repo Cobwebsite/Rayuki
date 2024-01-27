@@ -1,0 +1,31 @@
+:host {
+    --internal-page-case-background: var(--page-case-background, transparent);
+    --internal-page-case-background-active: var(--page-case-background-active, transparent);
+    --internal-page-case-border-active: var(--page-case-border-active, none);
+    --internal-page-case-border-radius:var(--page-case-border-radius, 0);
+}
+
+:host {
+    // Your style here
+    display: block;
+    width: var(--local-page-case-width);
+    height: var(--local-page-case-height);
+    background-color: var(--internal-page-case-background);
+    border-radius : var(--internal-page-case-border-radius);
+    margin: calc(var(--local-page-case-margin-top) / 2) calc(var(--local-page-case-margin-left) / 2);
+    float: left;
+    position: relative;
+    box-sizing: border-box;
+    ::slotted(*) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: var(--local-page-case-width);
+        height: var(--local-page-case-height);
+    }
+}
+
+:host(.active) {
+    background-color: var(--internal-page-case-background-active);
+    border: var(--internal-page-case-border-active);
+}

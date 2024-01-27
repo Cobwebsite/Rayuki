@@ -1,0 +1,32 @@
+import type { ContextMenuItem } from "../ContextMenuItem/ContextMenuItem.wcl.avt";
+import type { ContextMenu } from "../ContextMenu.wcl.avt";
+
+export class ContextMenuSeparator extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+
+    //#endregion
+
+
+    //#region variables
+    public priority: number = 0;
+    public menu!: ContextMenu;
+    public canBeRendered: (items: (ContextMenuItem | ContextMenuSeparator)[], item: ContextMenuItem | ContextMenuSeparator) => boolean = () => true;
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+
+    //#endregion
+
+}

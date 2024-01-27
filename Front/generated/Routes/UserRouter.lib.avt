@@ -1,0 +1,11 @@
+import { User } from '../Data/User.data.avt';
+
+namespace Routes {
+
+	export class UserRouter extends AventusSharp.Routes.StorableRoute<User> {
+		public StorableName() {
+			return "User";
+		}
+	}
+
+}

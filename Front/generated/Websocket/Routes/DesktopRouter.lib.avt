@@ -1,0 +1,130 @@
+import { ApplicationOpenInfo } from '../../Data/ApplicationOpen.lib.avt';
+import { DesktopAppIcon } from '../../Data/Desktop.data.avt';
+
+namespace Websocket.Routes {
+
+	export class DesktopRouter extends AventusSharp.WebSocket.Route {
+		
+		public events: {
+			RegisterOpenApp: DesktopRouter_RegisterOpenApp,
+			RemoveApp: DesktopRouter_RemoveApp,
+			SetDesktopIcon: DesktopRouter_SetDesktopIcon,
+			RemoveDesktopIcon: DesktopRouter_RemoveDesktopIcon,
+		}
+		
+		public constructor(endpoint: AventusSharp.WebSocket.EndPoint) {
+			super(endpoint);
+			this.events = {
+				RegisterOpenApp: new DesktopRouter_RegisterOpenApp(endpoint),
+				RemoveApp: new DesktopRouter_RemoveApp(endpoint),
+				SetDesktopIcon: new DesktopRouter_SetDesktopIcon(endpoint),
+				RemoveDesktopIcon: new DesktopRouter_RemoveDesktopIcon(endpoint),
+			};
+		}
+
+		public async RegisterOpenApp(body: { appInfo: ApplicationOpenInfo } | FormData, options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Promise<Aventus.ResultWithError<ApplicationOpenInfo, Aventus.GenericError<number>>> {
+			const info: AventusSharp.WebSocket.SocketSendMessageOptions = {
+				channel: `/desktop/RegisterOpenApp`,
+				body: body,
+				...options,
+			};
+			return await this.endpoint.sendMessageAndWait<ApplicationOpenInfo>(info);
+		}
+
+		public async RemoveApp(body: { appInfo: ApplicationOpenInfo } | FormData, options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Promise<Aventus.ResultWithError<ApplicationOpenInfo, Aventus.GenericError<number>>> {
+			const info: AventusSharp.WebSocket.SocketSendMessageOptions = {
+				channel: `/desktop/RemoveApp`,
+				body: body,
+				...options,
+			};
+			return await this.endpoint.sendMessageAndWait<ApplicationOpenInfo>(info);
+		}
+
+		public async SetDesktopIcon(body: { icon: DesktopAppIcon } | FormData, options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Promise<Aventus.ResultWithError<DesktopAppIcon, Aventus.GenericError<number>>> {
+			const info: AventusSharp.WebSocket.SocketSendMessageOptions = {
+				channel: `/desktop/SetDesktopIcon`,
+				body: body,
+				...options,
+			};
+			return await this.endpoint.sendMessageAndWait<DesktopAppIcon>(info);
+		}
+
+		public async RemoveDesktopIcon(body: { icon: DesktopAppIcon } | FormData, options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Promise<Aventus.ResultWithError<boolean, Aventus.GenericError<number>>> {
+			const info: AventusSharp.WebSocket.SocketSendMessageOptions = {
+				channel: `/desktop/RemoveDesktopIcon`,
+				body: body,
+				...options,
+			};
+			return await this.endpoint.sendMessageAndWait<boolean>(info);
+		}
+	}
+	 
+	export class DesktopRouter_RegisterOpenApp extends AventusSharp.WebSocket.Event<ApplicationOpenInfo> {
+		
+		/**
+		 * @inheritdoc
+		 */
+		protected override path(): string {
+			return `/desktop/RegisterOpenApp`;
+		}
+		
+		/**
+		 * @inheritdoc
+		 */
+		protected override listenOnBoot(): boolean {
+			return true;
+		}
+	}
+	 
+	export class DesktopRouter_RemoveApp extends AventusSharp.WebSocket.Event<ApplicationOpenInfo> {
+		
+		/**
+		 * @inheritdoc
+		 */
+		protected override path(): string {
+			return `/desktop/RemoveApp`;
+		}
+		
+		/**
+		 * @inheritdoc
+		 */
+		protected override listenOnBoot(): boolean {
+			return true;
+		}
+	}
+	 
+	export class DesktopRouter_SetDesktopIcon extends AventusSharp.WebSocket.Event<DesktopAppIcon> {
+		
+		/**
+		 * @inheritdoc
+		 */
+		protected override path(): string {
+			return `/desktop/SetDesktopIcon`;
+		}
+		
+		/**
+		 * @inheritdoc
+		 */
+		protected override listenOnBoot(): boolean {
+			return true;
+		}
+	}
+	 
+	export class DesktopRouter_RemoveDesktopIcon extends AventusSharp.WebSocket.Event<boolean> {
+		
+		/**
+		 * @inheritdoc
+		 */
+		protected override path(): string {
+			return `/desktop/RemoveDesktopIcon`;
+		}
+		
+		/**
+		 * @inheritdoc
+		 */
+		protected override listenOnBoot(): boolean {
+			return true;
+		}
+	}
+
+}

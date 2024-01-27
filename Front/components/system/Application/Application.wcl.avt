@@ -1,0 +1,614 @@
+import { RayukiComponent } from "../RayukiComponent/RayukiComponent.wcl.avt";
+import { Frame } from "../Frame/Frame.wcl.avt";
+import { ApplicationHistory } from "./ApplicationHistory.lib.avt";
+import { Resize, ResizeDirection } from "../../ui/Resize/Resize.wcl.avt";
+import { ApplicationState, ApplicationStateManager } from "../../../libs/ApplicationStateManager.state.avt";
+import { Popup } from "../../ui/popup/Popup/Popup.wcl.avt";
+import { Alert } from "../../ui/popup/Alert/Alert.wcl.avt";
+import { Confirm } from "../../ui/popup/Confirm/Confirm.wcl.avt";
+import { ApplicationOpen, ApplicationOpenInfo } from "../../../generated/Data/ApplicationOpen.lib.avt";
+import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
+import { Frame404 } from "../Frame/Frame404/Frame404.wcl.avt";
+import { ApplicationSize, type ApplicationPositionSize } from "./ApplicationSize.lib.avt";
+import type { Desktop } from "../Desktop/Desktop.wcl.avt";
+import type { ContextMenu, IContextMenu } from "../../ui/ContextMenu/ContextMenu.wcl.avt";
+import { Geometry, type Rectangle } from "../../../libs/Geometry.lib.avt";
+
+namespace System {
+
+    export type ApplicationRoute = {
+        route: string,
+        scriptUrl: string,
+        render: () => new () => Frame;
+    };
+
+    export type ApplicationInitOptions = {
+        applicationNumber: number,
+        desktopId: number;
+        desktop: Desktop;
+    };
+
+
+
+    export abstract class Application extends RayukiComponent implements Aventus.DefaultComponent, IContextMenu {
+
+        //#region static
+        private static activeApplication: Application | null = null;
+        public static setActive(app: Application | null) {
+            if(this.activeApplication == app) {
+                return;
+            }
+            if(this.activeApplication) {
+                this.activeApplication.is_active = false;
+            }
+            if(app) {
+                app.is_active = true;
+            }
+            this.activeApplication = app;
+        }
+        //#endregion
+
+
+        //#region props
+        @Property()
+        public app_title: string = "Page title";
+        @Attribute()
+        public moving: boolean = false;
+        /**
+         * Determine if the app is in fullscreen when screen is >= tablette
+         */
+        @Property((target: Application) => {
+            target.saveSize();
+        })
+        public full: boolean = false;
+        @Property((target: Application) => {
+            target.onIsHiddenChange();
+        })
+        public is_hidden: boolean = false;
+        @Attribute()
+        public is_active: boolean = false;
+        @Attribute()
+        public loading: boolean = false;
+
+
+
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected header!: HTMLDivElement;
+        @ViewElement()
+        protected resizeEl!: Resize;
+        @ViewElement()
+        protected contentEl!: HTMLDivElement;
+        @ViewElement()
+        protected navigatePreviousEl!: HTMLDivElement;
+        @ViewElement()
+        protected navigateNextEl!: HTMLDivElement;
+
+
+        private oldFrame: Frame | undefined;
+        protected allRoutes: { [key: string]: ApplicationRoute; } = {};
+        private activePath: string = "";
+        private showPageMutex: Aventus.Mutex = new Aventus.Mutex();
+        private router?: ApplicationStateManager;
+        @Internal()
+        public options?: ApplicationInitOptions;
+        private history: ApplicationHistory;
+        @Internal()
+        public mustRemoveApplicationHistory: boolean = true;
+        private oneStateActive: boolean = false;
+        protected page404?: Frame;
+
+        protected sizeManager: ApplicationSize;
+        protected isAnimating: boolean = false;
+        private afterTransitionCb: (() => void)[] = [];
+        //#endregion
+
+
+        //#region constructor
+        constructor() {
+            super();
+            this.history = new ApplicationHistory();
+            this.sizeManager = new ApplicationSize(this);
+
+        }
+        //#endregion
+
+
+        //#region methods        
+        /**
+         * @inheritdoc
+         */
+        public onContextMenu(contextMenu: ContextMenu, stop: () => void): void {
+            stop();
+        }
+
+
+        //#region routing
+        /**
+         * Add all your routes inside this function (addRoute or addRouteAsync)
+         */
+        protected abstract defineRoutes(): void;
+        public get navigator(): ApplicationStateManager {
+            if(!this.router) {
+                this.router = new ApplicationStateManager(this.saveApplicationHistory);
+            }
+            return this.router;
+        }
+
+        /**
+         * Allow you to navigate between frames
+         */
+        public async navigate(to: string | Aventus.State) {
+            let hasChanged = await this.navigator.setState(to);
+            let state = this.navigator.getState();
+            if(state) {
+                this.history.push({
+                    state: state
+                });
+                this.checkNavigationState();
+                this.saveApplicationHistory();
+            }
+            return hasChanged;
+        }
+
+        protected addRouteAsync<T extends Frame>(options: ApplicationRoute) {
+            this.allRoutes[options.route] = options;
+        }
+        protected addRoute(route: string, elementCtr: new () => Frame) {
+            this.allRoutes[route] = {
+                route: route,
+                scriptUrl: '',
+                render: () => elementCtr
+            };
+        }
+        private register(): void {
+            try {
+                this.defineRoutes();
+                this.navigator.onAfterStateChanged(this.validError404);
+                for(let key in this.allRoutes) {
+                    this.initRoute(key);
+                }
+            } catch(e) {
+                console.log(e);
+            }
+        }
+        private initRoute(path: string) {
+            let element: Frame;
+            let allRoutes = this.allRoutes;
+            this.navigator.subscribe(path, {
+                active: (currentState) => {
+                    this.oneStateActive = true;
+                    this.showPageMutex.safeRunLastAsync(async () => {
+                        try {
+                            if(!element) {
+                                let options = allRoutes[path];
+                                if(options.scriptUrl != "") {
+                                    await Aventus.ResourceLoader.loadInHead(options.scriptUrl);
+                                }
+
+                                let cst = options.render();
+                                element = new cst;
+                                element.application = this;
+                                this.contentEl?.appendChild(element);
+                            }
+                            if(this.oldFrame && this.oldFrame != element) {
+                                await this.oldFrame.hide();
+                            }
+
+                            let oldPage = this.oldFrame;
+                            let oldUrl = this.activePath;
+                            await element.show();
+                            this.oldFrame = element;
+                            this.activePath = path;
+                            this.app_title = element.pageTitle();
+
+                            this.onNewPage(oldUrl, oldPage, path, element);
+                        } catch(e) {
+                            console.error(e);
+                        }
+                    });
+                },
+                inactive: () => {
+                    this.oneStateActive = false;
+                }
+            });
+        }
+
+
+        @BindThis()
+        protected async validError404() {
+            if(!this.oneStateActive) {
+                let frameError = this.error404(this.navigator.getState());
+                if(!this.page404) {
+                    this.page404 = new frameError();
+                    this.page404.application = this;
+                    this.contentEl.appendChild(this.page404);
+                }
+                if(this.oldFrame && this.oldFrame != this.page404) {
+                    await this.oldFrame.hide();
+                }
+                await this.page404.show();
+                this.oldFrame = this.page404;
+                this.activePath = '';
+            }
+        }
+        protected error404(state?: Aventus.State): (new () => Frame) {
+            return Frame404;
+        }
+        protected onNewPage(oldUrl: string, oldFrame: Frame | undefined, newUrl: string, newFrame: Frame) { }
+        public getSlugs() {
+            return this.navigator.getStateSlugs(this.activePath);
+        }
+
+        protected checkNavigationState() {
+            if(this.history.previousAvailable) {
+                this.navigatePreviousEl.classList.remove("disable");
+            }
+            else {
+                this.navigatePreviousEl.classList.add("disable");
+            }
+            if(this.history.nextAvailable) {
+                this.navigateNextEl.classList.remove("disable");
+            }
+            else {
+                this.navigateNextEl.classList.add("disable");
+            }
+        }
+        protected async navigatePrevious() {
+            let history = this.history.previous();
+            if(history) {
+                await this.navigator.setState(history.state);
+                this.checkNavigationState();
+                this.saveApplicationHistory();
+            }
+        }
+
+        protected async navigateNext() {
+            let history = this.history.next();
+            if(history) {
+                await this.navigator.setState(history.state);
+                this.checkNavigationState();
+                this.saveApplicationHistory();
+            }
+        }
+
+        public subscribeNavigationChange(statePatterns: string | string[], callbacks: Aventus.StateAction): void {
+            this.navigator.subscribe(statePatterns, callbacks);
+        }
+        public unsubscribeNavigationChange(statePatterns: string | string[], callbacks: Aventus.StateAction): void {
+            this.navigator.unsubscribe(statePatterns, callbacks);
+        }
+
+        public async setHistory(history: ApplicationHistory) {
+            this.history = history;
+            let current = this.history.current();
+            if(current) {
+                if(this.navigator.isStateActive(current.state.name)) {
+                    let state = this.navigator.getState();
+                    if(state?.constructor == current.state.constructor && state instanceof ApplicationState && current.state instanceof ApplicationState) {
+                        state.disableSaveState();
+                        state.copyValues(current.state);
+                        this.history.replace({ state });
+                        state.enableSaveState();
+                    }
+                    else {
+                        await this.navigator.setState("");
+                        await this.navigator.setState(current.state);
+                    }
+                }
+                else {
+                    await this.navigator.setState(current.state);
+                }
+                this.checkNavigationState();
+            }
+        }
+
+        @BindThis()
+        public async saveApplicationHistory() {
+            if(!this.options) {
+                return;
+            }
+
+            let app = new ApplicationOpen();
+            app.applicationName = this.$type;
+            app.number = Number(this.options.applicationNumber);
+            app.history = this.history.toText();
+            app.isHidden = this.is_hidden;
+
+            let appInfo = new ApplicationOpenInfo();
+            appInfo.DesktopId = this.options.desktopId;
+            appInfo.Info = app;
+            await ApplicationManager.save(appInfo);
+        }
+
+
+        protected async removeApplicationHistory() {
+            if(!this.options) {
+                return;
+            }
+            if(!this.mustRemoveApplicationHistory) {
+                return;
+            }
+
+            let app = new ApplicationOpen();
+            app.applicationName = this.$type;
+            app.number = Number(this.options.applicationNumber);
+            app.isHidden = this.is_hidden;
+            app.history = '{}';
+
+            let appInfo = new ApplicationOpenInfo();
+            appInfo.DesktopId = this.options.desktopId;
+            appInfo.Info = app;
+
+            await ApplicationManager.remove(appInfo);
+        }
+
+
+        //#endregion
+
+        //#region position + size
+        @BindThis()
+        private onResizeStart(direction: ResizeDirection) {
+            this.moving = true;
+        }
+        @BindThis()
+        private onResizeStop(direction: ResizeDirection) {
+            this.moving = false;
+            this.saveSize();
+        }
+
+        /**
+         * Trigger when the property is_hidden changed
+         */
+        protected onIsHiddenChange() {
+            if(!this.checkIfSizeCorrect()) {
+                this.resetSize();
+            }
+        }
+
+        /**
+         * Save the size for the current application inside local storage
+         * It will wait the end of the transition
+         */
+        public saveSize() {
+            this.afterTransition(() => {
+                this.sizeManager.save();
+            });
+        }
+        /**
+         * Reset the size to the basic information
+         */
+        public resetSize() {
+            this.setSizeInfo(ApplicationSize.getBasicSize());
+            this.saveSize();
+        }
+        /**
+         * Check if the application size is wide enough
+         */
+        private checkIfSizeCorrect(): boolean {
+            if(this.is_hidden) {
+                return true;
+            }
+            let stylePart: { [prop: string]: string; } = {};
+            let style = this.getAttribute("style")?.split(";");
+            if(style) {
+                for(let part of style) {
+                    part = part.trim();
+                    if(part != "") {
+                        let splitted = part.split(":");
+                        stylePart[splitted[0]] = splitted[1].trim();
+                    }
+                }
+            }
+
+            let left = Number(stylePart.left?.replace("px", ""));
+            let width = Number(stylePart.width?.replace("px", ""));
+            let top = Number(stylePart.top?.replace("px", ""));
+            let height = Number(stylePart.height?.replace("px", ""));
+            let frameRect: Rectangle = {
+                x1: left,
+                x2: left + width,
+                y1: top,
+                y2: top + height
+            };
+
+            let bodyRect: Rectangle = {
+                x1: 0,
+                x2: document.body.offsetWidth,
+                y1: 0,
+                y2: document.body.offsetHeight
+            };
+            let intersection = Geometry.getIntersectingRectangle(frameRect, bodyRect);
+            if(intersection) {
+                if(Math.abs(intersection.x2 - intersection.x1) < 100) {
+                    return false;
+                }
+                if(Math.abs(intersection.y2 - intersection.y1) < 100) {
+                    return false;
+                }
+                let areaIntersection = Geometry.getRectangleArea(intersection);
+                if(areaIntersection < 10000) {
+                    return false;
+                }
+                return true;
+            }
+            return false;
+        }
+        /**
+         * Define the size wanted for the current 
+         */
+        private setSizeInfo(info: ApplicationPositionSize) {
+            this.style.left = info.left + 'px';
+            this.style.top = info.top + 'px';
+            this.style.width = info.width + 'px';
+            this.style.height = info.height + 'px';
+            this.full = info.isFullScreen;
+        }
+
+        /**
+         * Add the drag and drop action to move the application with the navbar
+         */
+        protected addMoveDragAndDrop() {
+            let hasMove = false;
+            new Aventus.DragAndDrop({
+                element: this,
+                elementTrigger: this.header,
+                offsetDrag: 5,
+                isDragEnable: () => {
+                    return !this.full;
+                },
+                onPointerDown: () => {
+                    hasMove = false;
+                },
+                onStart: (e) => {
+                    this.moving = true;
+                },
+                onMove: () => {
+                    hasMove = true;
+                },
+                onPointerUp: () => {
+                    this.moving = false;
+                    if(hasMove)
+                        this.saveSize();
+                }
+            });
+
+            this.header.addEventListener("dblclick", () => {
+                this.toggleFull();
+            });
+        }
+
+        /**
+         * Add the bind to the resize function
+         */
+        protected addResize() {
+            this.resizeEl.init(this);
+            this.resizeEl.onPointerDown.add(this.onResizeStart);
+            this.resizeEl.onPointerUp.add(this.onResizeStop);
+        }
+
+
+        public afterTransition(cb: () => void) {
+            setTimeout(() => {
+                if(this.isAnimating) {
+                    this.afterTransitionCb.push(cb);
+                    return;
+                }
+                cb();
+            }, 100);
+        }
+        protected watchTransition() {
+            this.addEventListener("transitionstart", () => {
+                this.isAnimating = true;
+            });
+            this.addEventListener("transitionend", () => {
+                this.isAnimating = false;
+                let cbs = [...this.afterTransitionCb];
+                for(let cb of cbs) {
+                    cb();
+                }
+                this.afterTransitionCb = [];
+            });
+        }
+        //#endregion
+
+        //#region navbar
+        /**
+         * 
+         */
+        public toggleFull() {
+            this.full = !this.full;
+        }
+
+        public hide() {
+            this.is_hidden = true;
+            this.saveApplicationHistory();
+        }
+        public show() {
+            this.is_hidden = false;
+            this.saveApplicationHistory();
+        }
+
+        public kill() {
+            this.remove();
+        }
+        //#endregion
+
+        //#region popup
+        public popup<T extends Popup<any>>(p: T) {
+            return new Promise<T>((resolve) => {
+                p.init((response) => {
+                    resolve(response);
+                });
+                this.shadowRoot.appendChild(p);
+            });
+        }
+
+        public async alert(title: string, message: string, okBtnTxt?: string) {
+            const a = new Alert();
+            a.subject = title;
+            a.body = message;
+            if(okBtnTxt) {
+                a.btn_txt = okBtnTxt;
+            }
+            await this.popup(a);
+        }
+        public async confirm(title: string, message: string, yesBtnTxt?: string, noBtnTxt?: string) {
+            const c = new Confirm();
+            c.subject = title;
+            c.body = message;
+            if(yesBtnTxt) {
+                c.btn_yes_txt = yesBtnTxt;
+            }
+            if(noBtnTxt) {
+                c.btn_no_txt = noBtnTxt;
+            }
+            return await this.popup(c);
+        }
+        //#endregion
+
+        private addFocus() {
+            this.setAttribute("tabindex", "-1");
+            this.addEventListener("focus", (e) => {
+                e.stopPropagation();
+                Application.setActive(this);
+            });
+            Application.setActive(this);
+        }
+        private rightClick() {
+            this.addEventListener("contextmenu", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+        }
+
+        public init(options: ApplicationInitOptions) {
+            this.options = options;
+            this.setSizeInfo(this.sizeManager.load());
+        }
+
+        protected override postCreation(): void {
+            this.register();
+            this.rightClick();
+            this.addResize();
+            this.addFocus();
+            this.addMoveDragAndDrop();
+            this.watchTransition();
+
+
+        }
+
+        protected override postDestruction(): void {
+            this.options?.desktop.removeApp(this);
+            this.removeApplicationHistory();
+            this.sizeManager.remove();
+        }
+        //#endregion
+
+
+}
+
+}                        

@@ -1,0 +1,52 @@
+:host {
+
+	--internal-table-header-height: var(--table-header-height, 50px);
+	--internal-table-header-backgroud-color: var(--table-header-backgroud-color, #1d4893);
+	--internal-table-header-color: var(--table-header-color, white);
+	--internal-table-header-vertical-border: var(--table-header-vertical-border, 1px solid var(--darker-active));
+	--internal-table-header-horizontal-border: var(--table-header-vertical-border, 1px solid var(--darker-active));
+
+	--internal-table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--darker-active));
+	--internal-table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--darker-active));
+	--internal-table-cell-padding: var(--table-cell-padding, 10px);
+	--local-table-cell-resize-display: none;
+}
+
+:host {
+	background-color: white;
+	border-radius: 5px;
+	box-shadow: var(--elevation-2);
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	overflow: hidden;
+	width: 100%;
+
+	.style-wrapper {
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+
+		.header {
+			--scrollbar-color: transparent;
+			--scrollbar-active-color: transparent;
+			--scroller-width: 0;
+			height: var(--internal-table-header-height);
+			width: 100%;
+		}
+
+		.body {
+			display: flex;
+			flex-direction: column;
+			height: calc(100% - var(--internal-table-header-height));
+			width: 100%;
+		}
+	}
+}
+
+
+:host([col_resize]) {
+	--local-table-cell-resize-display: block;
+}

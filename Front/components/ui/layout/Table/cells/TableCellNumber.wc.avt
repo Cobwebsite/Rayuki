@@ -1,0 +1,18 @@
+<script>
+	import { TableCell } from "./TableCell/TableCell.wcl.avt";
+
+	namespace Components {
+	    export class TableCellNumber<U = any> extends TableCell<number, U> implements Aventus.DefaultComponent {
+	        /**
+	        * @inheritdoc
+	        */
+	        public override setContent(data: number | undefined, rowData: U) {
+	            if(!this.contentEl) return;
+
+	            this.contentEl.innerHTML = Number(data) + "";
+	        }
+
+	    }
+	}
+	
+</script>

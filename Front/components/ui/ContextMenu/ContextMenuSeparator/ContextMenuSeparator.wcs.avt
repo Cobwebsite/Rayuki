@@ -1,0 +1,5 @@
+:host {
+	margin: 5px 0px;
+    background-color: var(--text-color);
+    height: 1px;
+}

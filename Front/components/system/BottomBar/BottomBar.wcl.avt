@@ -1,0 +1,231 @@
+import { RayukiComponent } from "../RayukiComponent/RayukiComponent.wcl.avt";
+import { Os } from "../Os/Os.wcl.avt";
+import { Application } from "../Application/Application.wcl.avt";
+import { MoveApplication, type MoveApplicationProvider } from "../../../states/desktop/MoveApplication.state.avt";
+import { DesktopStateManager } from "../../../states/desktop/Desktop.state.avt";
+import { Desktop } from "../Desktop/Desktop.wcl.avt";
+import { AppIcon } from "../AppIcon/AppIcon.wcl.avt";
+import { HomeBtn } from "../HomeBtn/HomeBtn.wcl.avt";
+import { MainSocket } from "../../../libs/MainSocket.lib.avt";
+import { DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.data.avt";
+
+namespace System {
+    export class BottomBar extends RayukiComponent implements Aventus.DefaultComponent, MoveApplicationProvider {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+
+        @ViewElement()
+        public applicationsContainer!: HTMLDivElement;
+
+        public get desktop(): Desktop {
+            if(this.parentNode instanceof ShadowRoot) {
+                if(this.parentNode.host instanceof Desktop) {
+                    return this.parentNode.host;
+                }
+            }
+            throw "impossible";
+        }
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+
+        protected addSwipe() {
+            let enable = true;
+            let startY = 0;
+            new Aventus.DragAndDrop({
+                element: this,
+                applyDrag: false,
+                offsetDrag: 50,
+                isDragEnable: () => enable,
+                onStart: (e) => {
+                    startY = e.pageY;
+                },
+                onMove: (e) => {
+                    let positionY = startY - e.pageY;
+                    if(positionY > 50) {
+                        enable = false;
+                        this.showAppList();
+                    }
+                },
+                onStop: () => {
+                    enable = true;
+                }
+            });
+        }
+        /**
+         * 
+         */
+        protected showAppList() {
+            Os.instance.show_application_list = true;
+        }
+
+        /**
+         * 
+         */
+        protected showDesktops() {
+            Os.instance.desktop_list = true;
+        }
+
+        private addFocus() {
+            this.setAttribute("tabindex", "-1");
+            this.addEventListener("focus", (e) => {
+                e.stopPropagation();
+                Application.setActive(null);
+            });
+
+        }
+
+        //#region application
+        private timeoutOverHome: number = 0;
+        private emptyIcon?: HTMLElement;
+        @BindThis()
+        public setAppPositionTemp(shadow: AppIcon, x: number, y: number, state: MoveApplication): boolean {
+            let caseEl = this.shadowRoot.elementFromPoint(x, y);
+            if(caseEl && this.shadowRoot.contains(caseEl)) {
+                shadow.style.width = "";
+                shadow.style.height = "";
+
+
+                if(caseEl instanceof HomeBtn) {
+                    if(!this.timeoutOverHome && !caseEl.active) {
+                        this.timeoutOverHome = setTimeout(() => {
+                            let caseEl = this.shadowRoot.elementFromPoint(state.lastX, state.lastY);
+                            if(caseEl instanceof HomeBtn) {
+                                caseEl.active = true;
+                            }
+                        }, 2000);
+                    }
+                    return false;
+                }
+                if(this.timeoutOverHome) {
+                    clearTimeout(this.timeoutOverHome);
+                    this.timeoutOverHome = 0;
+                }
+
+                let rect = this.applicationsContainer.getBoundingClientRect();
+                if(x >= rect.x && x <= rect.x + rect.width) {
+                    if(!this.emptyIcon) {
+                        this.emptyIcon = document.createElement("DIV");
+                        this.emptyIcon.classList.add("empty-icon");
+                    }
+                    let children = Array.from(this.applicationsContainer.children);
+                    let found = false;
+                    for(let i = 0; i < children.length; i++) {
+                        let child = children[i];
+                        if(child instanceof AppIcon) {
+                            if(x < rect.x + child.offsetLeft + (child.offsetWidth / 2)) {
+                                this.applicationsContainer.insertBefore(this.emptyIcon, child);
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(!found) {
+                        this.applicationsContainer.appendChild(this.emptyIcon);
+                    }
+                    return true;
+                }
+
+            }
+            return false;
+        }
+        @BindThis()
+        public clearAppPositionTemp(state: MoveApplication): void {
+            if(this.timeoutOverHome) {
+                let caseEl = this.shadowRoot.elementFromPoint(state.lastX, state.lastY);
+                if(!(caseEl instanceof HomeBtn)) {
+                    clearTimeout(this.timeoutOverHome);
+                    this.timeoutOverHome = 0;
+                }
+            }
+            if(this.emptyIcon?.parentNode) {
+                this.emptyIcon.remove();
+            }
+        }
+
+        @BindThis()
+        public async setAppPosition(icon: AppIcon, x: number, y: number): Promise<void> {
+            if(this.emptyIcon?.parentNode) {
+                let children = this.emptyIcon.parentNode?.children ?? [];
+                let no = Array.from(children).indexOf(this.emptyIcon);
+                if(no == -1) return;
+
+                this.applicationsContainer.insertBefore(icon, this.emptyIcon);
+                this.emptyIcon.remove();
+                let desktopIcon = new DesktopAppIcon();
+                desktopIcon.DesktopId = this.desktop.desktop_id;
+                desktopIcon.Position = no;
+                desktopIcon.IconTag = icon.tag;
+                desktopIcon.Location = DesktopLocation.BottomBar;
+                desktopIcon.id = icon.iconId;
+                let result = await MainSocket.instance.routes.desktop.SetDesktopIcon({
+                    icon: desktopIcon
+                });
+                if(result.success && result.result) {
+                    icon.iconId = result.result.id;
+                    icon.position = result.result.Position;
+                }
+                no++;
+                for(; no < children.length; no++) {
+                    let child = children[no];
+                    if(child instanceof AppIcon) {
+                        let desktopIcon = new DesktopAppIcon();
+                        desktopIcon.DesktopId = this.desktop.desktop_id;
+                        desktopIcon.Position = no;
+                        desktopIcon.IconTag = child.tag;
+                        desktopIcon.Location = DesktopLocation.BottomBar;
+                        desktopIcon.id = child.iconId;
+                        let result = await MainSocket.instance.routes.desktop.SetDesktopIcon({
+                            icon: desktopIcon
+                        });
+                    }
+
+                }
+            }
+        }
+        @StateActive(MoveApplication.state, DesktopStateManager)
+        protected onMoveApplication(state: Aventus.State, slugs: Aventus.StateSlug) {
+            if(!this.desktop?.is_active) {
+                return;
+            }
+            if(state instanceof MoveApplication) {
+                state.registerProvider(this);
+            }
+        }
+
+        @StateInactive(MoveApplication.state, DesktopStateManager)
+        protected onStopMovingApplication(state: Aventus.State, nextState: Aventus.State, slugs: Aventus.StateSlug) {
+            if(!this.desktop?.is_active) {
+                return;
+            }
+        }
+
+        public setApplication(el: AppIcon) {
+            this.applicationsContainer.appendChild(el);
+        }
+        //#endregion    
+
+        protected override postCreation(): void {
+            this.addSwipe();
+            this.addFocus();
+        }
+        //#endregion
+
+}
+            }

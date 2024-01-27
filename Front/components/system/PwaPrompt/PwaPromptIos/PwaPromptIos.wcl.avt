@@ -1,0 +1,49 @@
+import { Platform } from "../../../../libs/Platform.lib.avt";
+
+namespace System {
+    export class PwaPromptIos extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+        public static get isAvailable(): boolean {
+            return Platform.isiOS && !Platform.isStandalone;
+        }
+        //#endregion
+ 
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected overlay!: HTMLDivElement;
+        @ViewElement()
+        protected prompt!: HTMLDivElement;
+        @Attribute()
+        public ready!: boolean;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        public show() {
+            this.overlay?.classList.add("visible");
+            this.prompt?.classList.add("visible");
+        }
+        public close() {
+            this.overlay?.classList.remove("visible");
+            this.prompt?.classList.remove("visible");
+        }
+
+        protected override postCreation(): void {
+            this.ready = true;
+        }
+        //#endregion
+
+    }
+}

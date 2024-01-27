@@ -1,0 +1,22 @@
+:host {
+	--internal-card-background-color: var(--card-background-color, white);
+}
+
+:host {
+	border-color: rgba(47, 43, 61, 0.16);
+	background-color: var(--internal-card-background-color);
+	border-radius: 6px;
+	border-style: solid;
+	border-width: 0;
+	box-shadow: var(--elevation-2);
+	display: block;
+	overflow: hidden;
+	overflow-wrap: break-word;
+	padding: 24px;
+	position: relative;
+	text-decoration: none;
+	transition-duration: .28s;
+	transition-property: box-shadow, opacity;
+	transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+	z-index: 0;
+}

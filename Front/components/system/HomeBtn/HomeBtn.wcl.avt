@@ -1,0 +1,42 @@
+import { RayukiComponent } from "../RayukiComponent/RayukiComponent.wcl.avt";
+
+namespace System {
+    export class HomeBtn extends RayukiComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public active!: boolean;
+        //#endregion
+
+
+        //#region variables
+
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+
+        /**
+         * 
+         */
+        protected toggleActive() {
+            this.active = !this.active;
+        }
+
+        protected override postCreation(): void {
+
+        }
+        //#endregion
+
+    }
+}

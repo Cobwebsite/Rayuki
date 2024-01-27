@@ -1,0 +1,28 @@
+namespace Websocket.Events {
+
+	@Convertible()
+	export class Body {
+		public static get Fullname(): string { return "Core.Websocket.Events.ApplicationTestEvent+Body, Core"; }
+		public id!: number;
+		public name!: string;
+	}
+
+	export class ApplicationTestEvent extends AventusSharp.WebSocket.Event<Body> {
+		/**
+		 * @inheritdoc
+		 */
+		protected override path(): string {
+			return `Core.Websocket.Events.ApplicationTestEvent`;
+		}
+	}
+
+	export class ApplicationTestEvent2 extends AventusSharp.WebSocket.Event<string> {
+		/**
+		 * @inheritdoc
+		 */
+		protected override path(): string {
+			return `/application/test/2`;
+		}
+	}
+
+}

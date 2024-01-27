@@ -1,0 +1,13 @@
+namespace Lib {
+    export class Pointer {
+        public static isTouch(e: Event): boolean {
+            if(e instanceof TouchEvent) {
+                return true;
+            }
+            if(e instanceof PointerEvent && (e.pointerType == "touch" || e.pointerType == "pen")) {
+                return true;
+            }
+            return false;
+        }
+    }
+}

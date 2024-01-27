@@ -1,0 +1,32 @@
+export class Blur extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+    @Property((target: Blur) => {
+        target.effectEl.style.backgroundImage = "url('" + target.src + "')";
+    })
+    public src?: string;
+    //#endregion
+
+
+    //#region variables
+
+    @ViewElement()
+    private effectEl!: HTMLDivElement;
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+
+    //#endregion
+
+}

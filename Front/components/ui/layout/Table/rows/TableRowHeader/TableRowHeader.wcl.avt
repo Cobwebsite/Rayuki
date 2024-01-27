@@ -1,0 +1,43 @@
+import { TableCellString } from "../../cells/TableCellString.wc.avt";
+import type { TableOptions } from "../../Table.wcl.avt";
+import { TableRow } from "../TableRow/TableRow.wcl.avt";
+
+namespace Components {
+    export class TableRowHeader<T> extends TableRow<T> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        public override init(options: TableOptions<T>, data: T | null = null): void {
+            let i = 0;
+            for(let cellConfig of options.schema) {
+                let cell = new TableCellString<T>();
+                cell.row = this;
+                cell.index = i;
+                cell.setContent(cellConfig.displayName, data as T);
+                this.shadowRoot?.appendChild(cell);
+                i++;
+            }
+        }
+        //#endregion
+
+    }
+}

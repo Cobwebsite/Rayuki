@@ -1,0 +1,18 @@
+namespace App {
+
+	export enum AppErrorCode {
+		AppFileNotFound,
+		MoreThanOneAppFileFound,
+		NoAppFileFound,
+		NoIconFileFound,
+		WrongVersionFormat,
+		NoName,
+		UnknowError
+	}
+
+	@Convertible()
+	export class AppError extends Aventus.GenericError<typeof AppErrorCode>  {
+		public static get Fullname(): string { return "Core.App.AppError, Core"; }
+	}
+
+}

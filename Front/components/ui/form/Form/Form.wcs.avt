@@ -1,0 +1,5 @@
+:host {
+	// background-color: var(--primary-color);
+    padding: 15px;
+    width: 100%;
+}

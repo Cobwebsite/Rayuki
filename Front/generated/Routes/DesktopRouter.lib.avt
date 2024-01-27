@@ -1,0 +1,11 @@
+import { Desktop } from '../Data/Desktop.data.avt';
+
+namespace Routes {
+
+	export class DesktopRouter extends AventusSharp.Routes.StorableRoute<Desktop> {
+		public StorableName() {
+			return "Desktop";
+		}
+	}
+
+}

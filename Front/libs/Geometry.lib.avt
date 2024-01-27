@@ -1,0 +1,28 @@
+namespace Lib {
+    export type Rectangle = { x1: number, y1: number, x2: number, y2: number; };
+    export class Geometry {
+        public static getIntersectingRectangle(rect1: Rectangle, rect2: Rectangle): Rectangle | false {
+            const [r1, r2] = [rect1, rect2].map(r => {
+                return {
+                    x: [r.x1, r.x2].sort((a, b) => a - b),
+                    y: [r.y1, r.y2].sort((a, b) => a - b)
+                };
+            });
+
+            const noIntersect = r2.x[0] > r1.x[1] || r2.x[1] < r1.x[0] ||
+                r2.y[0] > r1.y[1] || r2.y[1] < r1.y[0];
+
+            return noIntersect ? false : {
+                x1: Math.max(r1.x[0], r2.x[0]), // _[0] is the lesser,
+                y1: Math.max(r1.y[0], r2.y[0]), // _[1] is the greater
+                x2: Math.min(r1.x[1], r2.x[1]),
+                y2: Math.min(r1.y[1], r2.y[1])
+            };
+        }
+        public static getRectangleArea(rect1: Rectangle) {
+			const w = Math.abs(rect1.x1 - rect1.x2);
+			const h = Math.abs(rect1.y1 - rect1.y2);
+			return w * h;
+        }
+    }
+}

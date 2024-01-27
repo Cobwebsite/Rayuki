@@ -1,0 +1,46 @@
+import { ConfigureAppType } from "../ConfigureApp.wcl.avt";
+import { ConfigureAppTableInstalledAction } from "./ConfigureAppTableInstalledAction/ConfigureAppTableInstalledAction.wc.avt";
+
+export class ConfigureAppTableInstalled extends Core.Components.Table<ConfigureAppType> implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+
+    //#endregion
+
+
+    //#region variables
+
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+    /**
+     * @inheritdoc
+     */
+    protected override configure(options: Core.Components.TableOptions<ConfigureAppType>) {
+        options.schema = [{
+            displayName: "Nom",
+            name: "name",
+            type: "string",
+        }, {
+            displayName: "Action",
+            name: "",
+            type: "custom",
+            cell: ConfigureAppTableInstalledAction
+		}];
+        return options;
+    }
+
+    //#endregion
+
+}

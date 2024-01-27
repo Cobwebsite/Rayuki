@@ -1,0 +1,30 @@
+namespace Components {
+    export class PageCaseSlot extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public no!: number;
+        //#endregion
+
+
+        //#region variables
+        public item?: HTMLElement;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+
+        //#endregion
+
+    }
+}

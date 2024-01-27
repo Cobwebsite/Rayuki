@@ -1,0 +1,55 @@
+namespace Components {
+    export class Switch extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public label_end!: boolean;
+        @Property()
+        public label?: string;
+
+        @Property((target: Switch) => {
+            if(target.checkboxEl) {
+                if(target.disabled === undefined) {
+                    target.checkboxEl.disabled = false;
+                }
+                else {
+                    target.checkboxEl.disabled = target.disabled;
+                }
+            }
+        })
+        public disabled!: boolean;
+        //#endregion
+
+
+        //#region variables
+
+        @ViewElement()
+        protected checkboxEl!: HTMLInputElement;
+
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+
+        /**
+         * 
+         */
+        protected toggleActive() {
+            if(this.disabled) return;
+            if(this.checkboxEl)
+                this.checkboxEl.checked = !this.checkboxEl.checked;
+        }
+        //#endregion
+
+    }
+}

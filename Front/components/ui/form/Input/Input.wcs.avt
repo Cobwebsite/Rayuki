@@ -1,0 +1,91 @@
+:host {
+	--internal-input-height: var(--input-height, 30px);
+	--internal-input-background-color: var(--input-background-color, var(--primary-color, white));
+	--internal-input-icon-height: var(--input-icon-height, calc(var(--internal-input-height) / 2));
+	--internal-input-error-logo-size: var(--input-error-logo-size, calc(var(--internal-input-height) / 2));
+
+}
+
+:host {
+	width: 100%;
+	min-width: 100px;
+
+	.input {
+		align-items: center;
+		background-color: var(--internal-input-background-color);
+		border: 1px solid var(--lighter-active);
+		border-radius: 5px;
+		display: flex;
+		height: var(--internal-input-height);
+		padding: 0 10px;
+		width: 100%;
+
+		.icon {
+			display: none;
+			height: var(--internal-input-icon-height);
+			margin-right: 10px;
+		}
+
+		input {
+			background-color: transparent;
+			border: none;
+			color: var(--text-color);
+			display: block;
+			flex-grow: 1;
+			height: 100%;
+			margin: 0;
+			outline: none;
+			padding: 5px 0;
+			padding-right: 10px;
+			font-size: var(--font-size-input);
+		}
+
+		.error-logo {
+			align-items: center;
+			background-color: var(--red);
+			border-radius: 50%;
+			color: white;
+			display: none;
+			font-size: calc(var(--internal-input-error-logo-size) - 5px);
+			height: var(--internal-input-error-logo-size);
+			justify-content: center;
+			width: var(--internal-input-error-logo-size);
+		}
+	}
+
+	.errors {
+		color: var(--red);
+		display: none;
+		font-size: var(--font-size-sm);
+		line-height: 1.1;
+		margin: 10px;
+		margin-bottom: 0px;
+
+		div {
+			margin: 5px 0;
+			text-align: justify;
+		}
+	}
+}
+
+:host([has_errors]) {
+	.input {
+		border: 1px solid var(--red);
+
+		.error-logo {
+			display: flex;
+		}
+	}
+
+	.errors {
+		display: block;
+	}
+}
+
+:host([icon]:not([icon=""])) {
+	.input {
+		.icon {
+			display: block;
+		}
+	}
+}

@@ -1,0 +1,60 @@
+:host {
+    --internal-col-padding:var(--col-padding, 8px);
+}
+
+:host {
+    padding: var(--internal-col-padding);
+}
+
+$sizes: 300, 540, 720, 960, 1140;
+$labels: xs, sm, md, lg, xl;
+
+
+@for $i from 0 through 12 {
+	$size: 0;
+
+	@if $i !=0 {
+		$size: calc(100 / 12) * $i;
+	}
+
+	:host([size="#{$i}"]) {
+		display: flex;
+		width: #{$size + "%"};
+	}
+
+	:host([offset="#{$i}"]) {
+		margin-left: #{$size + "%"};
+	}
+
+	:host([offset_right="#{$i}"]) {
+		margin-right: #{$size + "%"};
+	}
+}
+
+@for $i from 1 through length($sizes) {
+	$sizeMax: nth($sizes, $i);
+	$label: nth($labels, $i);
+
+	@container (min-width: #{$sizeMax+'px'}) {
+        @for $i from 0 through 12 {
+            $size: 0;
+        
+            @if $i !=0 {
+                $size: calc(100 / 12) * $i;
+            }
+        
+            :host([size_#{$label}="#{$i}"]) {
+                display: flex;
+                width: #{$size + "%"};
+            }
+        
+            :host([offset_#{$label}="#{$i}"]) {
+                margin-left: #{$size + "%"};
+            }
+        
+            :host([offset_right_#{$label}="#{$i}"]) {
+                margin-right: #{$size + "%"};
+            }
+        }
+    }
+}

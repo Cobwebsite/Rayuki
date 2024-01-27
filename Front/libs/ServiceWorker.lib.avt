@@ -1,0 +1,79 @@
+import { CoreRouter } from "../generated/CoreRouter.lib.avt";
+
+namespace Lib {
+    export class ServiceWorker {
+
+        public static getInstance(): ServiceWorker {
+            return AvInstance.get(ServiceWorker);
+        }
+
+        private subscription?: PushSubscription;
+
+        public async init(registration: ServiceWorkerRegistration) {
+            if(await this.getSubscription(registration)) {
+                this.subscribe();
+            }
+        }
+
+        private async getSubscription(registration: ServiceWorkerRegistration): Promise<boolean> {
+            try {
+                let subscription = await registration.pushManager.getSubscription();
+                if(subscription) {
+                    this.subscription = subscription;
+                    return false;
+                }
+                // Get the server's public key
+                let response = await new CoreRouter().routes.VapidPublicKey();
+                if(response.success && response.result) {
+                    const vapidPublicKey = response.result;
+                    // Chrome doesn't accept the base64-encoded (string) vapidPublicKey yet
+                    // urlBase64ToUint8Array() is defined in /tools.js
+                    const convertedVapidKey = this.urlBase64ToUint8Array(vapidPublicKey);
+
+                    // Otherwise, subscribe the user (userVisibleOnly allows to specify that we don't plan to
+                    // send notifications that don't have a visible effect for the user).
+                    this.subscription = await registration.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: convertedVapidKey
+                    });
+                    return true;
+                }
+            } catch(e) {
+                alert(e);
+            }
+            return false;
+        }
+
+        private async subscribe() {
+            if(!this.subscription) {
+                return;
+            }
+            await new CoreRouter().routes.Register({
+                subscription: this.subscription
+            });
+        }
+
+        private async unsubscribe() {
+            if(!this.subscription) {
+                return;
+            }
+            await this.subscription.unsubscribe();
+        }
+
+
+        private urlBase64ToUint8Array(base64String: string): Uint8Array {
+            var padding = '='.repeat((4 - base64String.length % 4) % 4);
+            var base64 = (base64String + padding)
+                .replace(/\-/g, '+')
+                .replace(/_/g, '/');
+
+            var rawData = window.atob(base64);
+            var outputArray = new Uint8Array(rawData.length);
+
+            for(var i = 0; i < rawData.length; ++i) {
+                outputArray[i] = rawData.charCodeAt(i);
+            }
+            return outputArray;
+        }
+    }
+}

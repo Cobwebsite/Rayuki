@@ -1,0 +1,8 @@
+<div class="top" @element="top"></div>
+<div class="top-left" @element="top_left"></div>
+<div class="left" @element="left"></div>
+<div class="bottom-left" @element="bottom_left"></div>
+<div class="bottom" @element="bottom"></div>
+<div class="bottom-right" @element="bottom_right"></div>
+<div class="right" @element="right"></div>
+<div class="top-right" @element="top_right"></div>

@@ -1,0 +1,53 @@
+import { Popup } from "../Popup/Popup.wcl.avt";
+
+export class Confirm extends Popup<boolean> implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+    @Property()
+    public subject?: string;
+    @Property()
+    public body?: string;
+    @Property()
+    public btn_yes_txt?: string = "yes";
+    @Property()
+    public btn_no_txt?: string = "no";
+    //#endregion
+
+
+    //#region variables
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+
+    /**
+     * 
+     */
+    protected cancel() {
+        if(this.cb) {
+            this.cb(false);
+        }
+        this.remove();
+    }
+    /**
+     * 
+     */
+    protected validate() {
+        if(this.cb) {
+            this.cb(true);
+        }
+        this.remove();
+    }
+    //#endregion
+
+}

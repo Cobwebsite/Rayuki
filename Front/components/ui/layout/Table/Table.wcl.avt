@@ -1,0 +1,143 @@
+import { TableRowHeader } from "./rows/TableRowHeader/TableRowHeader.wcl.avt";
+import { TableCell } from "./cells/TableCell/TableCell.wcl.avt";
+import { TableRow } from "./rows/TableRow/TableRow.wcl.avt";
+import { TableCellBoolean } from "./cells/TableCellBoolean.wc.avt";
+import { TableCellString } from "./cells/TableCellString.wc.avt";
+import { TableCellPicture } from "./cells/TableCellPicture.wc.avt";
+import { TableCellNumber } from "./cells/TableCellNumber.wc.avt";
+import { TableCellDate } from "./cells/TableCellDate.wc.avt";
+import { Scrollable } from "../Scrollable/Scrollable.wcl.avt";
+
+namespace Components {
+    export type TableCellType = 'number' | 'string' | 'date' | 'boolean' | 'custom' | 'picture';
+    export type TableSchema = {
+        displayName: string,
+        name: string,
+        type: TableCellType,
+        cell?: new () => TableCell<any, any>;
+        width?: number;
+    };
+    export type TableOptions<T> = {
+        schema: TableSchema[];
+        row: new () => TableRow<T>;
+        header: new () => TableRowHeader<T>;
+    };
+
+    export abstract class Table<T> extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public col_resize!: boolean;
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected headerContainer!: Scrollable;
+        @ViewElement()
+        protected bodyContainer!: Scrollable;
+        @ViewElement()
+        protected styleWrapper!: HTMLDivElement;
+
+
+        @Watch((target: Table<T>, action: Aventus.WatchAction, path: string, value: any) => {
+            target.render();
+        })
+        public data: T[] = [];
+        private options: TableOptions<T>;
+        //#endregion
+
+
+        //#region constructor
+        constructor() {
+            super();
+            this.options = this.configure(this.defaultOptions());
+            this.normalizeSchema();
+        }
+        //#endregion
+
+
+        //#region methods 
+        private syncScroll() {
+            this.headerContainer?.onScrollChange.add((x, y) => {
+                if(this.bodyContainer?.x != x) {
+                    this.bodyContainer?.scrollX(x);
+                }
+            });
+            this.bodyContainer?.onScrollChange.add((x, y) => {
+                if(this.headerContainer?.x != x) {
+                    this.headerContainer?.scrollX(x);
+                }
+            });
+        }
+
+        private normalizeSchema() {
+            for(let cellConfig of this.options.schema) {
+                if(!cellConfig.cell) {
+                    if(cellConfig.type == "boolean") cellConfig.cell = TableCellBoolean;
+                    else if(cellConfig.type == "date") cellConfig.cell = TableCellDate;
+                    else if(cellConfig.type == "number") cellConfig.cell = TableCellNumber;
+                    else if(cellConfig.type == "picture") cellConfig.cell = TableCellPicture;
+                    else if(cellConfig.type == "string") cellConfig.cell = TableCellString;
+                    else if(cellConfig.type == "custom") cellConfig.cell = TableCellString;
+                }
+            }
+        }
+        protected defaultOptions(): TableOptions<T> {
+            return {
+                schema: [],
+                header: TableRowHeader,
+                row: TableRow
+            };
+        }
+        /**
+         * Define the schema needed for the table
+         */
+        protected abstract configure(options: TableOptions<T>): TableOptions<T>;
+
+        public setColWidth(width: number, i: number) {
+            this.styleWrapper?.style.setProperty("--internal-table-cell-width-" + (i + 1), width + "px");
+            this.styleWrapper?.style.setProperty("--internal-table-cell-weight-" + (i + 1), "0");
+        }
+
+        private render() {
+            if(!this.headerContainer || !this.bodyContainer) {
+                return;
+            }
+            for(let i = 0; i < this.options.schema.length; i++) {
+                let width = this.options.schema[i].width;
+                if(width) {
+                    this.setColWidth(width, i);
+                }
+            }
+            let nbCol = this.options.schema.length ? this.options.schema.length : 1;
+            this.styleWrapper?.style.setProperty("--internal-table-nb-column", nbCol + "");
+
+            let header = new this.options.header();
+            header.table = this;
+            header.init(this.options);
+            this.headerContainer.innerHTML = "";
+            this.headerContainer.appendChild(header);
+
+            this.bodyContainer.innerHTML = " ";
+            for(let item of this.data) {
+                let row = new this.options.row();
+                row.table = this;
+                row.init(this.options, item);
+                this.bodyContainer.appendChild(row);
+            }
+        }
+
+        protected override postCreation(): void {
+            this.syncScroll();
+            this.render();
+        }
+        //#endregion
+
+    }
+}

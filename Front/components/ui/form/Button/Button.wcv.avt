@@ -1,0 +1,6 @@
+<div class="hider"></div>
+<div class="content">
+    <rk-img src="{{this.icon_before}}" class="icon-before"></rk-img>
+    <slot></slot>
+    <rk-img src="{{this.icon_after}}" class="icon-after"></rk-img>
+</div>

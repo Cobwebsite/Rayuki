@@ -1,0 +1,58 @@
+import { GeneratedRouter } from "../../../generated/GeneratedRouter.lib.avt";
+import { ConfigureAppType } from "../ConfigureApp.wcl.avt";
+import { ConfigureAppTableAllAppsAction } from "./ConfigureAppTableAllAppsAction/ConfigureAppTableAllAppsAction.wc.avt";
+
+export class ConfigureAppTableAllApps extends Core.Components.Table<ConfigureAppType> implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+
+    //#endregion
+
+
+    //#region variables
+    public container: string = "";
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+    public async install(appName: string) {
+        let query = await new GeneratedRouter().routes.Application.InstallDevApp({
+            container: this.container,
+            app: appName
+        });
+        if(query.success && query.result) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected override configure(options: Core.Components.TableOptions<{ name: string; }>) {
+        options.schema = [{
+            displayName: "Nom",
+            name: "name",
+            type: "string",
+        }, {
+            displayName: "Action",
+            name: "",
+            type: "custom",
+            cell: ConfigureAppTableAllAppsAction
+        }];
+        return options;
+    }
+
+    //#endregion
+
+}

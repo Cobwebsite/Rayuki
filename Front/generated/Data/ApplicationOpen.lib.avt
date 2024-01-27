@@ -1,0 +1,20 @@
+namespace Data {
+
+	@Convertible()
+	export class ApplicationOpen {
+		public static get Fullname(): string { return "Core.Data.ApplicationOpen, Core"; }
+		public id!: string;
+		public applicationName!: string;
+		public number!: number;
+		public history!: string;
+		public isHidden!: boolean;
+	}
+
+	@Convertible()
+	export class ApplicationOpenInfo {
+		public static get Fullname(): string { return "Core.Data.ApplicationOpenInfo, Core"; }
+		public DesktopId!: number;
+		public Info!: ApplicationOpen;
+	}
+
+}

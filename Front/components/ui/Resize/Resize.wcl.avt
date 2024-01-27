@@ -1,0 +1,465 @@
+namespace Components {
+    export enum ResizeDirection {
+        Top,
+        TopLeft,
+        Left,
+        BottomLeft,
+        Bottom,
+        BottomRight,
+        Right,
+        TopRight
+    }
+
+    export class Resize extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public min_width!: number;
+
+        @Attribute()
+        public min_height!: number;
+
+        @Attribute()
+        public max_width!: number;
+
+        @Attribute()
+        public max_height!: number;
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected top!: HTMLDivElement;
+        @ViewElement()
+        protected top_left!: HTMLDivElement;
+        @ViewElement()
+        protected left!: HTMLDivElement;
+        @ViewElement()
+        protected bottom_left!: HTMLDivElement;
+        @ViewElement()
+        protected bottom!: HTMLDivElement;
+        @ViewElement()
+        protected bottom_right!: HTMLDivElement;
+        @ViewElement()
+        protected right!: HTMLDivElement;
+        @ViewElement()
+        protected top_right!: HTMLDivElement;
+
+
+        private _target?: HTMLElement;
+        private get target(): HTMLElement {
+            if(this._target)
+                return this._target;
+            throw 'no target defined';
+        }
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        protected override styleBefore(addStyle: (name: string) => void): void {
+        }
+
+        public readonly onPointerDown: Aventus.Callback<(direction: ResizeDirection) => void> = new Aventus.Callback();
+        public readonly onStart: Aventus.Callback<(direction: ResizeDirection) => void> = new Aventus.Callback();
+        public readonly onMove: Aventus.Callback<(direction: ResizeDirection) => void> = new Aventus.Callback();
+        public readonly onStop: Aventus.Callback<(direction: ResizeDirection) => void> = new Aventus.Callback();
+        public readonly onPointerUp: Aventus.Callback<(direction: ResizeDirection) => void> = new Aventus.Callback();
+
+        private transformWidth(w: number) {
+            let outbound = false;
+            if(this.max_width && this.max_width > 0) {
+                if(w > this.max_width) {
+                    w = this.max_width;
+                    outbound = true;
+                }
+            }
+            let min_width = this.min_width ?? 0;
+            if(w < min_width) {
+                w = min_width;
+                outbound = true;
+            }
+            return {
+                w,
+                outbound
+            };
+        }
+        private transformHeight(h: number) {
+            let outbound = false;
+            if(this.max_height && this.max_height > 0) {
+                if(h > this.max_height) {
+                    h = this.max_height;
+                    outbound = true;
+                }
+            }
+            let min_height = this.min_height ?? 0;
+            if(h < min_height) {
+                h = min_height;
+                outbound = true;
+            }
+            return {
+                h,
+                outbound
+            };
+        }
+
+        private resizeRight() {
+            if(!this.right) {
+                return;
+            }
+            let width;
+            let startX;
+            let direction = ResizeDirection.Right;
+            new Aventus.DragAndDrop({
+                element: this.right,
+                applyDrag: false,
+                offsetDrag: 0,
+                onPointerDown: () => {
+                    this.onPointerDown.trigger([direction]);
+                },
+                onStart: (e) => {
+                    width = this.target.offsetWidth;
+                    startX = e.pageX;
+                    this.onStart.trigger([direction]);
+                },
+                onMove: (e) => {
+                    let transform = this.transformWidth(width + (e.pageX - startX));
+                    if(!transform.outbound) {
+                        this.target.style.width = transform.w + "px";
+                        this.onMove.trigger([direction]);
+                    }
+                },
+                onStop: () => {
+                    this.onStop.trigger([direction]);
+                },
+                onPointerUp: () => {
+                    this.onPointerUp.trigger([direction]);
+                }
+            });
+        }
+
+        private resizeLeft() {
+            if(!this.left) {
+                return;
+            }
+            let width;
+            let left;
+            let startX;
+            let direction = ResizeDirection.Left;
+            new Aventus.DragAndDrop({
+                element: this.left,
+                applyDrag: false,
+                offsetDrag: 0,
+                onPointerDown: () => {
+                    this.onPointerDown.trigger([direction]);
+                },
+                onStart: (e) => {
+                    width = this.target.offsetWidth;
+                    left = this.target.offsetLeft;
+                    startX = e.pageX;
+                    this.onStart.trigger([direction]);
+                },
+                onMove: (e) => {
+                    let transform = this.transformWidth(width - (e.pageX - startX));
+                    if(!transform.outbound) {
+                        this.target.style.width = transform.w + "px";
+                        this.target.style.left = left + (e.pageX - startX) + "px";
+                        this.onMove.trigger([direction]);
+                    }
+                },
+                onStop: () => {
+                    this.onStop.trigger([direction]);
+                },
+                onPointerUp: () => {
+                    this.onPointerUp.trigger([direction]);
+                }
+            });
+        }
+
+        private resizeBottom() {
+            if(!this.bottom) {
+                return;
+            }
+            let height;
+            let startY;
+            let direction = ResizeDirection.Bottom;
+            new Aventus.DragAndDrop({
+                element: this.bottom,
+                applyDrag: false,
+                offsetDrag: 0,
+                onPointerDown: () => {
+                    this.onPointerDown.trigger([direction]);
+                },
+                onStart: (e) => {
+                    height = this.target.offsetHeight;
+                    startY = e.pageY;
+                    this.onStart.trigger([direction]);
+                },
+                onMove: (e) => {
+                    let transform = this.transformHeight(height + (e.pageY - startY));
+                    if(!transform.outbound) {
+                        this.target.style.height = transform.h + "px";
+                        this.onMove.trigger([direction]);
+                    }
+                },
+                onStop: () => {
+                    this.onStop.trigger([direction]);
+                },
+                onPointerUp: () => {
+                    this.onPointerUp.trigger([direction]);
+                }
+            });
+        }
+        private resizeBottomLeft() {
+            if(!this.bottom_left) {
+                return;
+            }
+            let height;
+            let width;
+            let left;
+            let startX;
+            let startY;
+            let direction = ResizeDirection.BottomLeft;
+            new Aventus.DragAndDrop({
+                element: this.bottom_left,
+                applyDrag: false,
+                offsetDrag: 0,
+                onPointerDown: () => {
+                    this.onPointerDown.trigger([direction]);
+                },
+                onStart: (e) => {
+                    height = this.target.offsetHeight;
+                    startY = e.pageY;
+                    width = this.target.offsetWidth;
+                    left = this.target.offsetLeft;
+                    startX = e.pageX;
+                    this.onStart.trigger([direction]);
+                },
+                onMove: (e) => {
+                    let transformH = this.transformHeight(height + (e.pageY - startY));
+                    if(!transformH.outbound) {
+                        this.target.style.height = transformH.h + "px";
+                    }
+                    let transformW = this.transformWidth(width - (e.pageX - startX));
+                    if(!transformW.outbound) {
+                        this.target.style.width = transformW.w + "px";
+                        this.target.style.left = left + (e.pageX - startX) + "px";
+                    }
+                    if(!transformH.outbound || !transformW.outbound) {
+                        this.onMove.trigger([direction]);
+                    }
+                },
+                onStop: () => {
+                    this.onStop.trigger([direction]);
+                },
+                onPointerUp: () => {
+                    this.onPointerUp.trigger([direction]);
+                }
+            });
+        }
+        private resizeBottomRight() {
+            if(!this.bottom_right) {
+                return;
+            }
+            let height;
+            let width;
+            let startX;
+            let startY;
+            let direction = ResizeDirection.BottomRight;
+            new Aventus.DragAndDrop({
+                element: this.bottom_right,
+                applyDrag: false,
+                offsetDrag: 0,
+                onPointerDown: () => {
+                    this.onPointerDown.trigger([direction]);
+                },
+                onStart: (e) => {
+                    height = this.target.offsetHeight;
+                    startY = e.pageY;
+                    width = this.target.offsetWidth;
+                    startX = e.pageX;
+                    this.onStart.trigger([direction]);
+                },
+                onMove: (e) => {
+                    let transformH = this.transformHeight(height + (e.pageY - startY));
+                    if(!transformH.outbound) {
+                        this.target.style.height = transformH.h + "px";
+                    }
+                    let transformW = this.transformWidth(width + (e.pageX - startX));
+                    if(!transformW.outbound) {
+                        this.target.style.width = transformW.w + "px";
+                    }
+                    if(!transformW.outbound || !transformH.outbound) {
+                        this.onMove.trigger([direction]);
+                    }
+                },
+                onStop: () => {
+                    this.onStop.trigger([direction]);
+                },
+                onPointerUp: () => {
+                    this.onPointerUp.trigger([direction]);
+                }
+            });
+        }
+
+        private resizeTop() {
+            if(!this.top) {
+                return;
+            }
+            let height;
+            let top;
+            let startY;
+            let direction = ResizeDirection.Top;
+            new Aventus.DragAndDrop({
+                element: this.top,
+                applyDrag: false,
+                offsetDrag: 0,
+                onPointerDown: () => {
+                    this.onPointerDown.trigger([direction]);
+                },
+                onStart: (e) => {
+                    height = this.target.offsetHeight;
+                    top = this.target.offsetTop;
+                    startY = e.pageY;
+                    this.onStart.trigger([direction]);
+                },
+                onMove: (e) => {
+                    let transformH = this.transformHeight(height - (e.pageY - startY));
+                    if(!transformH.outbound) {
+                        this.target.style.height = transformH.h + "px";
+                        this.target.style.top = top + (e.pageY - startY) + "px";
+                        this.onMove.trigger([direction]);
+                    }
+                },
+                onStop: () => {
+                    this.onStop.trigger([direction]);
+                },
+                onPointerUp: () => {
+                    this.onPointerUp.trigger([direction]);
+                }
+            });
+        }
+
+        private resizeTopLeft() {
+            if(!this.top_left) {
+                return;
+            }
+            let height;
+            let top;
+            let width;
+            let left;
+            let startX;
+            let startY;
+            let direction = ResizeDirection.TopLeft;
+            new Aventus.DragAndDrop({
+                element: this.top_left,
+                applyDrag: false,
+                offsetDrag: 0,
+                onPointerDown: () => {
+                    this.onPointerDown.trigger([direction]);
+                },
+                onStart: (e) => {
+                    height = this.target.offsetHeight;
+                    top = this.target.offsetTop;
+                    startY = e.pageY;
+                    width = this.target.offsetWidth;
+                    left = this.target.offsetLeft;
+                    startX = e.pageX;
+                    this.onStart.trigger([direction]);
+                },
+                onMove: (e) => {
+                    let transformH = this.transformHeight(height - (e.pageY - startY));
+                    if(!transformH.outbound) {
+                        this.target.style.height = transformH.h + "px";
+                        this.target.style.top = top + (e.pageY - startY) + "px";
+                    }
+                    let transformW = this.transformWidth(width - (e.pageX - startX));
+                    if(!transformW.outbound) {
+                        this.target.style.width = transformW.w + "px";
+                        this.target.style.left = left + (e.pageX - startX) + "px";
+                    }
+                    if(!transformH.outbound || !transformW.outbound) {
+                        this.onMove.trigger([direction]);
+                    }
+                },
+                onStop: () => {
+                    this.onStop.trigger([direction]);
+                },
+                onPointerUp: () => {
+                    this.onPointerUp.trigger([direction]);
+                }
+            });
+        }
+
+        private resizeTopRight() {
+            if(!this.top_right) {
+                return;
+            }
+            let height;
+            let top;
+            let width;
+            let startX;
+            let startY;
+            let direction = ResizeDirection.TopRight;
+            new Aventus.DragAndDrop({
+                element: this.top_right,
+                applyDrag: false,
+                offsetDrag: 0,
+                onPointerDown: () => {
+                    this.onPointerDown.trigger([direction]);
+                },
+                onStart: (e) => {
+                    height = this.target.offsetHeight;
+                    top = this.target.offsetTop;
+                    startY = e.pageY;
+                    width = this.target.offsetWidth;
+                    startX = e.pageX;
+                    this.onStart.trigger([direction]);
+                },
+                onMove: (e) => {
+                    let transformH = this.transformHeight(height - (e.pageY - startY));
+                    if(!transformH.outbound) {
+                        this.target.style.height = transformH.h + "px";
+                        this.target.style.top = top + (e.pageY - startY) + "px";
+                    }
+                    let transformW = this.transformWidth(width + (e.pageX - startX));
+                    if(!transformW.outbound) {
+                        this.target.style.width = transformW.w + "px";
+                    }
+                    if(!transformH.outbound || !transformW.outbound) {
+                        this.onMove.trigger([direction]);
+                    }
+                },
+                onStop: () => {
+                    this.onStop.trigger([direction]);
+                },
+                onPointerUp: () => {
+                    this.onPointerUp.trigger([direction]);
+                }
+            });
+        }
+
+        public init(target: HTMLElement) {
+            this._target = target;
+            this.resizeRight();
+            this.resizeLeft();
+            this.resizeBottom();
+            this.resizeTop();
+            this.resizeTopLeft();
+            this.resizeTopRight();
+            this.resizeBottomLeft();
+            this.resizeBottomRight();
+        }
+        //#endregion
+
+    }
+}

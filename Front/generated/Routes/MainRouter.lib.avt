@@ -1,0 +1,38 @@
+namespace Routes {
+
+	export class MainRouter extends Aventus.HttpRoute {
+		public async LoginAction(body: { username: string, password: string } | FormData): Promise<Aventus.VoidWithError<Aventus.GenericError<number>>> {
+			const request = new Aventus.HttpRequest(`/login`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			return await request.queryVoid(this.router);
+		}
+
+		public async Logout(): Promise<Aventus.VoidWithError<Aventus.GenericError<number>>> {
+			const request = new Aventus.HttpRequest(`/logout`, Aventus.HttpMethod.POST);
+			return await request.queryVoid(this.router);
+		}
+
+		public async VapidPublicKey(): Promise<Aventus.ResultWithError<string, Aventus.GenericError<number>>> {
+			const request = new Aventus.HttpRequest(`/vapidPublicKey`, Aventus.HttpMethod.GET);
+			type TypeResult = string;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		public async Register(body: { subscription: PushSubscription } | FormData): Promise<Aventus.VoidWithError<Aventus.GenericError<number>>> {
+			const request = new Aventus.HttpRequest(`/register`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			return await request.queryVoid(this.router);
+		}
+
+		public async SendNotification(): Promise<Aventus.VoidWithError<Aventus.GenericError<number>>> {
+			const request = new Aventus.HttpRequest(`/sendNotification`, Aventus.HttpMethod.GET);
+			return await request.queryVoid(this.router);
+		}
+
+		public async Restart(): Promise<Aventus.VoidWithError<Aventus.GenericError<number>>> {
+			const request = new Aventus.HttpRequest(`/restart`, Aventus.HttpMethod.GET);
+			return await request.queryVoid(this.router);
+		}
+	}
+
+}

@@ -1,0 +1,14 @@
+import { User } from './User.data.avt';
+
+namespace Data {
+
+	@Convertible()
+	export class Group extends AventusSharp.Data.Storable implements Aventus.IData {
+		public static override get Fullname(): string { return "Core.Data.Group, Core"; }
+		public Name: string = "";
+		public Description: string = "";
+		public Users: User[] = [];
+		public parentGroup?: Group = undefined;
+	}
+
+}

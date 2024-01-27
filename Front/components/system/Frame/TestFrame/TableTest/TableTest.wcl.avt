@@ -1,0 +1,417 @@
+import { Table, type TableOptions } from "../../../../ui/layout/Table/Table.wcl.avt";
+
+type DataType = {
+    "_id": string,
+    "index": number,
+    "guid": string,
+    "isActive": boolean,
+    "balance": string,
+    "picture": string,
+    "age": number,
+    "eyeColor": string,
+    "name": string,
+    "registered": Date,
+    "gender": "male" | "female",
+    "company": string,
+    "email": string,
+    "phone": string,
+    "address": string;
+    "about": string,
+    "latitude": number,
+    "longitude": number,
+    "tags": string[],
+    "friends": {
+        id: number,
+        name: string;
+    }[],
+    "greeting": string,
+    "favoriteFruit": string;
+};
+
+export class TableTest extends Table<DataType> implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+
+    //#endregion
+
+
+    //#region variables
+
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+    /**
+     * @inheritdoc
+     */
+    public override configure(options: TableOptions<DataType>): TableOptions<DataType> {
+        options.schema = [
+            {
+                displayName: "Index",
+                name: "index",
+                type: 'number',
+                width: 50
+            }, {
+                displayName: "Name",
+                name: "name",
+                type: 'string'
+            }, {
+                displayName: "Picture",
+                name: "picture",
+                type: 'picture'
+            }, {
+                displayName: "Is Active",
+                name: "isActive",
+                type: 'boolean'
+            }, {
+                displayName: "Registered",
+                name: "registered",
+                type: 'date'
+            }, {
+                displayName: "Action",
+                name: "",
+                type: 'custom'
+            }
+        ];
+
+        return options;
+    }
+
+    public defineData(): DataType[] {
+        return [
+            {
+                "_id": "650db05296bc38fdc8ab4fe3",
+                "index": 0,
+                "guid": "6d9fd541-9d11-4daf-8562-1ebe46203591",
+                "isActive": false,
+                "balance": "$3,058.33",
+                "picture": "http://placehold.it/32x32",
+                "age": 36,
+                "eyeColor": "brown",
+                "name": "Morris Nunez",
+                "gender": "male",
+                "company": "OTHERSIDE",
+                "email": "morrisnunez@otherside.com",
+                "phone": "+1 (957) 466-3551",
+                "address": "355 Fleet Walk, Snyderville, New Hampshire, 253",
+                "about": "Minim sit laboris in enim tempor. Consequat occaecat mollit laboris adipisicing officia ullamco ex. Et sint velit id tempor fugiat cillum nisi ex adipisicing magna duis anim. Dolor proident amet est laboris elit.\r\n",
+                "registered": new Date(),
+                "latitude": -13.360544,
+                "longitude": 10.748247,
+                "tags": [
+                    "qui",
+                    "adipisicing",
+                    "dolore",
+                    "dolore",
+                    "mollit",
+                    "ea",
+                    "anim"
+                ],
+                "friends": [
+                    {
+                        "id": 0,
+                        "name": "Yolanda Valencia"
+                    },
+                    {
+                        "id": 1,
+                        "name": "Bishop Vang"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Shirley Myers"
+                    }
+                ],
+                "greeting": "Hello, Morris Nunez! You have 2 unread messages.",
+                "favoriteFruit": "apple"
+            },
+            {
+                "_id": "650db052fe139434ccec5082",
+                "index": 1,
+                "guid": "749d8f9f-c4a5-4cee-b45b-21e0f83935dc",
+                "isActive": true,
+                "balance": "$3,271.65",
+                "picture": "http://placehold.it/32x32",
+                "age": 21,
+                "eyeColor": "brown",
+                "name": "Barry Aguilar",
+                "gender": "male",
+                "company": "PLASMOS",
+                "email": "barryaguilar@plasmos.com",
+                "phone": "+1 (835) 474-3563",
+                "address": "954 Bayview Place, Deseret, Arkansas, 1330",
+                "about": "Ex sit consequat aute sunt aute cillum non irure pariatur cillum. Minim anim nulla ea amet eiusmod sit elit reprehenderit laborum do aute laboris culpa sint. Est Lorem ex dolore excepteur reprehenderit officia. Fugiat nostrud ut veniam aliquip labore laboris dolore consequat irure duis incididunt proident. Anim aliqua magna aliquip minim laboris minim esse qui mollit. Laborum quis dolore mollit culpa culpa eu Lorem. Aliqua excepteur commodo eiusmod ut anim do culpa irure sunt ullamco id.\r\n",
+                "registered": new Date(),
+                "latitude": 76.664436,
+                "longitude": -28.970058,
+                "tags": [
+                    "eu",
+                    "nisi",
+                    "do",
+                    "consequat",
+                    "ut",
+                    "in",
+                    "do"
+                ],
+                "friends": [
+                    {
+                        "id": 0,
+                        "name": "Vera Robles"
+                    },
+                    {
+                        "id": 1,
+                        "name": "Joyner Duncan"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Rosalinda Goff"
+                    }
+                ],
+                "greeting": "Hello, Barry Aguilar! You have 8 unread messages.",
+                "favoriteFruit": "banana"
+            },
+            {
+                "_id": "650db05285511cc7150d76cc",
+                "index": 2,
+                "guid": "6c667c2e-bb9e-490a-a7be-3c04f647052b",
+                "isActive": false,
+                "balance": "$2,362.86",
+                "picture": "http://placehold.it/32x32",
+                "age": 39,
+                "eyeColor": "green",
+                "name": "Nieves Phillips",
+                "gender": "male",
+                "company": "RECOGNIA",
+                "email": "nievesphillips@recognia.com",
+                "phone": "+1 (974) 483-2812",
+                "address": "845 Ellery Street, Denio, Alabama, 7847",
+                "about": "Labore sit proident aute Lorem est qui non sint. Duis adipisicing cillum et quis nulla commodo ea eiusmod minim culpa qui et mollit Lorem. Enim consectetur aliqua deserunt aliqua ex incididunt laborum excepteur cupidatat laborum deserunt. Sunt sit fugiat nisi minim anim sit nisi officia dolor anim exercitation ut do ex. Eu enim minim eu deserunt exercitation ullamco pariatur eiusmod officia adipisicing id irure. Ut aute aliqua officia et excepteur laboris aliquip adipisicing non.\r\n",
+                "registered": new Date(),
+                "latitude": -38.197613,
+                "longitude": -72.802631,
+                "tags": [
+                    "quis",
+                    "sint",
+                    "adipisicing",
+                    "laborum",
+                    "officia",
+                    "do",
+                    "ex"
+                ],
+                "friends": [
+                    {
+                        "id": 0,
+                        "name": "Adeline Newton"
+                    },
+                    {
+                        "id": 1,
+                        "name": "Fuller Hayes"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Charity Keith"
+                    }
+                ],
+                "greeting": "Hello, Nieves Phillips! You have 2 unread messages.",
+                "favoriteFruit": "banana"
+            },
+            {
+                "_id": "650db052906f901088039225",
+                "index": 3,
+                "guid": "8db10839-8bed-4d65-8077-6aeee736433e",
+                "isActive": false,
+                "balance": "$2,921.22",
+                "picture": "http://placehold.it/32x32",
+                "age": 40,
+                "eyeColor": "blue",
+                "name": "Maxine Juarez",
+                "gender": "female",
+                "company": "ZAYA",
+                "email": "maxinejuarez@zaya.com",
+                "phone": "+1 (905) 512-3796",
+                "address": "475 Cooke Court, Tyhee, Palau, 116",
+                "about": "Mollit velit occaecat amet non enim laboris eu ut laborum incididunt pariatur occaecat amet. Laborum fugiat enim anim irure nulla eu magna ullamco proident consectetur est. Consectetur labore reprehenderit proident dolor. Commodo amet officia eiusmod eu officia id dolore. Eiusmod laborum consequat proident reprehenderit. Enim sint pariatur ex sit Lorem velit ad occaecat sit ipsum velit sint veniam elit.\r\n",
+                "registered": new Date(),
+                "latitude": 4.008962,
+                "longitude": 42.431598,
+                "tags": [
+                    "mollit",
+                    "aliquip",
+                    "nostrud",
+                    "reprehenderit",
+                    "dolore",
+                    "proident",
+                    "irure"
+                ],
+                "friends": [
+                    {
+                        "id": 0,
+                        "name": "Marlene Bray"
+                    },
+                    {
+                        "id": 1,
+                        "name": "Margie Mckenzie"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Terry Harrell"
+                    }
+                ],
+                "greeting": "Hello, Maxine Juarez! You have 8 unread messages.",
+                "favoriteFruit": "apple"
+            },
+            {
+                "_id": "650db052ce0cf311a4d3144a",
+                "index": 4,
+                "guid": "9cb506f0-127e-4b7e-bb16-395afd8fa4e3",
+                "isActive": false,
+                "balance": "$1,301.55",
+                "picture": "http://placehold.it/32x32",
+                "age": 29,
+                "eyeColor": "green",
+                "name": "Enid Snyder",
+                "gender": "female",
+                "company": "WAZZU",
+                "email": "enidsnyder@wazzu.com",
+                "phone": "+1 (979) 597-3656",
+                "address": "414 Herbert Street, Sims, Colorado, 6267",
+                "about": "Ex nostrud amet dolor laborum reprehenderit consectetur. Officia esse magna ex adipisicing velit nulla excepteur adipisicing. Tempor laboris sint irure esse. Ad nostrud dolor dolor occaecat id fugiat ut et sint anim enim. Reprehenderit non cupidatat deserunt magna magna. Qui amet nulla consectetur id ullamco ullamco mollit nisi tempor.\r\n",
+                "registered": new Date(),
+                "latitude": -7.323044,
+                "longitude": -153.125787,
+                "tags": [
+                    "consectetur",
+                    "eu",
+                    "id",
+                    "eu",
+                    "aute",
+                    "nostrud",
+                    "cillum"
+                ],
+                "friends": [
+                    {
+                        "id": 0,
+                        "name": "Melba Maxwell"
+                    },
+                    {
+                        "id": 1,
+                        "name": "Reyes Buck"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Black Callahan"
+                    }
+                ],
+                "greeting": "Hello, Enid Snyder! You have 4 unread messages.",
+                "favoriteFruit": "strawberry"
+            },
+            {
+                "_id": "650db0526bfda50ddc0eadf4",
+                "index": 5,
+                "guid": "98c541a5-4f89-4ebd-bd6c-31bd3c3e3841",
+                "isActive": false,
+                "balance": "$1,256.14",
+                "picture": "http://placehold.it/32x32",
+                "age": 22,
+                "eyeColor": "blue",
+                "name": "Alisha Hobbs",
+                "gender": "female",
+                "company": "ZILLACOM",
+                "email": "alishahobbs@zillacom.com",
+                "phone": "+1 (911) 532-2429",
+                "address": "101 Pleasant Place, Kula, Vermont, 9522",
+                "about": "Enim nulla occaecat irure sit aliquip occaecat et qui consectetur. Ad non consequat cupidatat dolore ut consequat aute eu irure elit. Eiusmod exercitation anim fugiat do veniam sit excepteur. Quis dolor duis fugiat est aliqua velit proident reprehenderit.\r\n",
+                "registered": new Date(),
+                "latitude": -55.079099,
+                "longitude": -103.963372,
+                "tags": [
+                    "id",
+                    "fugiat",
+                    "cupidatat",
+                    "excepteur",
+                    "labore",
+                    "veniam",
+                    "eu"
+                ],
+                "friends": [
+                    {
+                        "id": 0,
+                        "name": "Cynthia Albert"
+                    },
+                    {
+                        "id": 1,
+                        "name": "Cox Beard"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Cornelia Bird"
+                    }
+                ],
+                "greeting": "Hello, Alisha Hobbs! You have 3 unread messages.",
+                "favoriteFruit": "banana"
+            },
+            {
+                "_id": "650db0529f86e7ce1495c4cf",
+                "index": 6,
+                "guid": "1ae30451-c753-477c-9e2e-743c1b2617a1",
+                "isActive": false,
+                "balance": "$1,042.38",
+                "picture": "http://placehold.it/32x32",
+                "age": 35,
+                "eyeColor": "green",
+                "name": "Christie Harrison",
+                "gender": "female",
+                "company": "BIOHAB",
+                "email": "christieharrison@biohab.com",
+                "phone": "+1 (886) 573-3939",
+                "address": "666 Beverly Road, Concho, Utah, 9759",
+                "about": "Nisi commodo nulla irure consectetur ullamco ullamco occaecat. Lorem velit esse dolor amet pariatur sint in incididunt anim nulla et cupidatat aliquip. Veniam culpa velit ullamco est do ex reprehenderit sunt pariatur velit. Eiusmod enim pariatur magna fugiat culpa sit nostrud mollit enim dolor amet amet. Irure sint dolore elit et cupidatat magna ullamco et incididunt cillum.\r\n",
+                "registered": new Date(),
+                "latitude": -84.293057,
+                "longitude": 116.9399,
+                "tags": [
+                    "sit",
+                    "Lorem",
+                    "Lorem",
+                    "in",
+                    "quis",
+                    "cillum",
+                    "sit"
+                ],
+                "friends": [
+                    {
+                        "id": 0,
+                        "name": "Bryant Steele"
+                    },
+                    {
+                        "id": 1,
+                        "name": "Deirdre Sutton"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Jeanette Mcpherson"
+                    }
+                ],
+                "greeting": "Hello, Christie Harrison! You have 6 unread messages.",
+                "favoriteFruit": "apple"
+            }
+        ];
+    }
+
+    protected override postCreation(): void {
+        super.postCreation();
+        this.data = this.defineData();
+    }
+
+    //#endregion
+
+}

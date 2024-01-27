@@ -1,0 +1,21 @@
+<div class="header" @element="header">
+    <div class="background"></div>
+    <div class="navigation-actions">
+        <div class="previous action touch disable" @element="navigatePreviousEl" @press="navigatePrevious">
+            <rk-img src="/img/icons/angle-left.svg"></rk-img>
+        </div>
+        <div class="next action touch disable" @element="navigateNextEl" @press="navigateNext">
+            <rk-img src="/img/icons/angle-right.svg"></rk-img>
+        </div>
+    </div>
+    <div class="title">{{this.app_title}}</div>
+    <div class="application-actions">
+        <div class="btn green touch" @press="hide"></div>
+        <div class="btn orange touch" @press="toggleFull"></div>
+        <div class="btn red touch"  @press="kill"></div>
+    </div>
+</div>
+<div class="content" @element="contentEl"></div>
+<rk-resize @element="resizeEl" min_width="200" min_height="200"></rk-resize>
+<rk-loading class="loading"></rk-loading>
+<slot></slot>

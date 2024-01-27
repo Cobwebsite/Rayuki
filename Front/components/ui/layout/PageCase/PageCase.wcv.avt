@@ -1,0 +1,6 @@
+<div class="page-hider" @element="pageHider">
+
+</div>
+<div class="slot-hider">
+    <slot></slot>
+</div>

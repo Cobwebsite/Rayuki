@@ -1,0 +1,15 @@
+namespace Data {
+
+	@Convertible()
+	export class User extends AventusSharp.Data.Storable implements Aventus.IData {
+		public static override get Fullname(): string { return "Core.Data.User, Core"; }
+		public Firstname: string = "";
+		public Lastname: string = "";
+		public Username: string = "";
+		public Password: string = "";
+		public Token: string = "";
+		public Picture: string = "";
+		public IsSuperAdmin: boolean = false;
+	}
+
+}

@@ -1,0 +1,44 @@
+:host {
+	background-color: white;
+	background-image: url(/img/wp.png);
+	color: var(--text-color);
+	height: 100%;
+	width: 100%;
+
+	rk-scrollable {
+		background-color: rgba(255, 255, 255, 0.3);
+
+		.container {
+			padding: 30px;
+			position: relative;
+			width: 100%;
+
+			.reboot-btn {
+				position: absolute;
+				right: 20px;
+				top: 20px;
+			}
+
+			h1 {
+				text-align: center;
+			}
+
+			.table {
+				height: auto;
+			}
+
+			h3 {
+				margin-top: 40px;
+			}
+
+			h5 {
+				font-size: 14px;
+				font-weight: bold;
+				letter-spacing: 1px;
+				text-transform: uppercase;
+			}
+		}
+	}
+
+
+}

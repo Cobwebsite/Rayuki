@@ -1,0 +1,43 @@
+import { TableCellString } from "../../cells/TableCellString.wc.avt";
+import type { Table, TableOptions, TableSchema } from "../../Table.wcl.avt";
+
+namespace Components {
+    export class TableRow<T> extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+        public table?: Table<T>;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        public init(options: TableOptions<T>, data: T) {
+            let i = 0;
+            for(let cellConfig of options.schema) {
+                let cst = cellConfig.cell ?? TableCellString;
+                let cell = new cst();
+                cell.index = i;
+                cell.row = this;
+                cell.setContent(data[cellConfig.name], data);
+                this.shadowRoot?.appendChild(cell);
+                i++;
+            }
+        }
+        //#endregion
+
+    }
+}

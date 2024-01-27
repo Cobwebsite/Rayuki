@@ -1,0 +1,4 @@
+<span @element="contentEl">
+    <slot></slot>
+</span>
+<div class="resize" @element="resizeEl"></div>

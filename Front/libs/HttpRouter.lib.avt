@@ -1,0 +1,5 @@
+namespace Lib {
+    export class HttpRouter extends Aventus.HttpRouter {
+
+    }
+}

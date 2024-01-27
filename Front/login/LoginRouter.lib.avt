@@ -1,0 +1,4 @@
+
+export class LoginRouter extends Aventus.HttpRouter.WithRoute([Core.Routes.MainRouter]) {
+	
+}

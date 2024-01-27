@@ -1,0 +1,30 @@
+:host {
+    // Your style here
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    .page-hider {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .slot-hider {
+        ::slotted(*) {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: var(--local-page-case-width);
+            height: var(--local-page-case-height);
+        }
+    }
+}
+
+:host([move_content]) {
+    .slot-hider {
+        display: none;
+    }
+}

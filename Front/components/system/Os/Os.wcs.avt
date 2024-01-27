@@ -1,0 +1,125 @@
+:host {
+	--_active-desktop: var(_active-desktop, 0);
+}
+
+:host {
+	height: 100%;
+	position: relative;
+	width: 100%;
+	z-index: 1;
+
+	.desktop-container {
+		display: flex;
+		height: 100%;
+		position: relative;
+		width: 100%;
+		z-index: 1;
+
+		.desktop-case {
+			flex-shrink: 0;
+			height: 100%;
+			position: relative;
+			width: 100%;
+
+			.delete-desktop {
+				--img-stroke-color: var(--red);
+				background-color: var(--lighter-active);
+				border-radius: 50px;
+				cursor: pointer;
+				display: none;
+				height: 40px;
+				position: absolute;
+				right: 5px;
+				top: 5px;
+				z-index: 5556;
+			}
+
+			.desktop-hider {
+				display: none;
+				inset: 0;
+				position: absolute;
+				/* background-color: black;*/
+				z-index: 5555;
+			}
+
+		}
+
+		.desktop-case:first-child {
+			margin-left: calc(var(--_active-desktop) * -100%);
+		}
+	}
+
+	.add-desktop {
+		--img-stroke-color: white;
+		bottom: 30px;
+		height: 50px;
+		min-width: auto;
+		position: absolute;
+		right: 10px;
+		z-index: 6;
+		display: none;
+	}
+
+	rk-loading {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
+:host(:not([ready])) {
+	* {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
+:host(:not([loading])) {
+	rk-loading {
+		transition: opacity 1s var(--bezier-curve), visibility 1s var(--bezier-curve);
+	}
+}
+:host([loading]) {
+	rk-loading {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+:host([desktop_list]) {
+	.desktop-container {
+		flex-wrap: wrap;
+		height: auto;
+		justify-content: center;
+
+		.desktop-case {
+			--nb: 3;
+			aspect-ratio: var(--ration);
+			box-shadow: var(--elevation-10);
+			height: auto;
+			margin: 15px !important;
+			overflow: hidden;
+			width: calc((100% / var(--nb)) - 30px);
+
+			.desktop-hider, .delete-desktop {
+				display: block;
+			}
+
+			rk-desktop {
+				height: calc(100% * var(--nb));
+				margin-left: calc(-50% * (var(--nb) - 1));
+				top: calc(-50% * (var(--nb) - 1));
+				transform: scale(calc(1 / var(--nb)));
+				width: calc(100% * var(--nb));
+			}
+		}
+
+		.desktop-case.active {
+			border: solid 5px var(--blue);
+			border-radius: 5px;
+		}
+	}
+	.add-desktop {
+		display: block;
+	}
+}
+

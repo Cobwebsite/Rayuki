@@ -1,0 +1,31 @@
+<div class="content">
+    <rk-row>
+        <rk-col size="6">
+            <div class="recent">
+                <div class="title">
+                    Récents
+                </div>
+                <rk-scrollable class="scrollable recent-container" @element="recentContainer" floating_scroll>
+
+                </rk-scrollable>
+            </div>
+        </rk-col>
+        <rk-col size="6">
+            <div class="favoris">
+                <div class="title">
+                    Mes favoris
+                </div>
+                <rk-scrollable class="scrollable favoris-container" floating_scroll>
+                    <div class="grid" @element="favorisContainer"></div>
+                </rk-scrollable>
+            </div>
+        </rk-col>
+    </rk-row>
+</div>
+<div class="footer">
+    <div class="icon">
+        <rk-img src="/img/avatar.png"></rk-img>
+    </div>
+    <div class="nom">Maxime Bétrisey</div>
+    <rk-button outline icon="/img/icons/power-off.svg" @press="logout"></rk-button>
+</div>

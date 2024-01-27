@@ -1,0 +1,10 @@
+namespace App {
+
+	@Convertible()
+	export class AppConfiguration {
+		public static get Fullname(): string { return "Core.App.AppConfiguration, Core"; }
+		public appsInstalled: string[] = [];
+		public allApps: Map<string, string[]> = new Map<string, string[]>();
+	}
+
+}

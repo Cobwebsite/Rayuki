@@ -1,0 +1,82 @@
+import { ApplicationData } from '../../Data/ApplicationData.data.avt';
+import { Body } from '../Events/ApplicationTestEvent.lib.avt';
+
+namespace Websocket.Routes {
+
+	export class ApplicationRouter extends AventusSharp.WebSocket.Route {
+		
+		public events: {
+			GetAll2: ApplicationRouter_GetAll2,
+			GetAll3: ApplicationRouter_GetAll3,
+		}
+		
+		public constructor(endpoint: AventusSharp.WebSocket.EndPoint) {
+			super(endpoint);
+			this.events = {
+				GetAll2: new ApplicationRouter_GetAll2(endpoint),
+				GetAll3: new ApplicationRouter_GetAll3(endpoint),
+			};
+		}
+
+		public async GetAll2(options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Promise<Aventus.ResultWithError<ApplicationData[], Aventus.GenericError<number>>> {
+			const info: AventusSharp.WebSocket.SocketSendMessageOptions = {
+				channel: `/application2`,
+				...options,
+			};
+			return await this.endpoint.sendMessageAndWait<ApplicationData[]>(info);
+		}
+
+		public async GetAll3(body: { userId: number } | FormData, options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Promise<Aventus.ResultWithError<ApplicationData[], Aventus.GenericError<number>>> {
+			const info: AventusSharp.WebSocket.SocketSendMessageOptions = {
+				channel: `/application3`,
+				body: body,
+				...options,
+			};
+			return await this.endpoint.sendMessageAndWait<ApplicationData[]>(info);
+		}
+
+		public GetAll4(options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Aventus.VoidWithError<Aventus.GenericError<number>> {
+			const info: AventusSharp.WebSocket.SocketSendMessageOptions = {
+				channel: `/application4`,
+				...options,
+			};
+			return this.endpoint.sendMessage(info);
+		}
+
+		public async GetAll5(options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Promise<Aventus.ResultWithError<Body, Aventus.GenericError<number>>> {
+			const info: AventusSharp.WebSocket.SocketSendMessageOptions = {
+				channel: `/getall5`,
+				...options,
+			};
+			return await this.endpoint.sendMessageAndWait<Body>(info);
+		}
+	}
+	 
+	export class ApplicationRouter_GetAll2 extends AventusSharp.WebSocket.Event<ApplicationData[]> {
+		
+		/**
+		 * @inheritdoc
+		 */
+		protected override path(): string {
+			return `/application2`;
+		}
+		
+		/**
+		 * @inheritdoc
+		 */
+		protected override listenOnBoot(): boolean {
+			return true;
+		}
+	}
+	 
+	export class ApplicationRouter_GetAll3 extends AventusSharp.WebSocket.Event<ApplicationData[]> {
+		
+		/**
+		 * @inheritdoc
+		 */
+		protected override path(): string {
+			return `/application3`;
+		}
+	}
+
+}

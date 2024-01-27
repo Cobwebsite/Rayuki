@@ -1,0 +1,44 @@
+@import '@root/_variables.gs.avt';
+
+:host {
+	position: relative;
+
+	.icon {
+		border-radius: 5px;
+		cursor: pointer;
+		margin: 0 3px;
+		max-height: calc(100% - 16px);
+		max-width: 34px;
+		padding: 7px;
+		transition: background-color 0.2s var(--bezier-curve);
+	}
+
+	rk-home-panel {
+		bottom: calc(100% + 5px);
+		height: 0;
+		overflow: hidden;
+		transition: bottom var(--bezier-curve) 0.7s, height var(--bezier-curve) 0.7s;
+	}
+}
+
+:host([active]) {
+	.icon {
+		background-color: var(--text-color);
+		rk-img {
+			--img-fill-color: var(--primary-color-opacity);
+		}
+	}
+
+	rk-home-panel {
+		bottom: calc(100% + 10px);
+		height: 400px;
+	}
+}
+
+@include desktop {
+	:host(:not([active])) {
+		.icon:hover {
+			background-color: var(--lighter-active);
+		}
+	}
+}

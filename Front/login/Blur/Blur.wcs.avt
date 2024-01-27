@@ -1,0 +1,25 @@
+:host {
+	--internal-blur-size: var(--blur-size, 4px);
+}
+
+:host {
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	/* Your style here*/
+	width: 100%;
+
+	.effect {
+		background-color: rgba(255, 255, 255, 0.3);
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		filter: blur(var(--internal-blur-size));
+		height: calc(100% + var(--internal-blur-size) * 4);
+		left: calc(var(--internal-blur-size) * -2);
+		position: absolute;
+		top: calc(var(--internal-blur-size) * -2);
+		width: calc(100% + var(--internal-blur-size) * 4);
+	}
+}

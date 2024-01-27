@@ -1,0 +1,119 @@
+{
+    "module": "Core",
+    "componentPrefix": "rk",
+    "build": [
+        {
+            "name": "Main",
+            "hideWarnings": true,
+            "disabled": false,
+            "inputPath": [
+                "./components/*",
+                "./ram/*",
+                "./libs/*",
+                "./states/*",
+                "./generated/*"
+            ],
+            "namespaceStrategy": "rules",
+            "namespaceRules": {
+                "System": [
+                    "./components/system/*"
+                ],
+                "Components": [
+                    "./components/components/*"
+                ],
+                "Lib" : [
+                    "./libs/*"
+                ],
+                "RAM" : [
+                    "./ram/*"
+                ],
+                "State" : [
+                    "./states/*"
+                ]
+            },
+            "dependances": [
+                {
+                    "uri": "@Aventus",
+                    "include": "none"
+                },
+                {
+                    "uri": "@AventusSharp",
+                    "include": "none"
+                }
+            ],
+            "componentStyle": [
+                {
+                    "name": "@Rayuki",
+                    "path": "./rayuki.gwcs.avt"
+                }
+            ],
+            "outputFile": "../wwwroot/autoload/core.js",
+            "outputPackage": "../../../Libs/RayukiCore/Core.package.avt"
+        },
+        {
+            "name": "Login",
+            "disabled": true,
+            "inputPath": [
+                "./login/*"
+            ],
+            "dependances": [
+                {
+                    "uri": "@Aventus"
+                },
+                {
+                    "uri": "@AventusSharp"
+                },
+                {
+                    "uri": "&:Main"
+                }
+            ],
+            "outputFile": "../wwwroot/login.js"
+        },
+        {
+            "name": "ConfigureApp",
+            "disabled": true,
+            "inputPath": [
+                "./configureApp/*",
+                "./generated/*"
+            ],
+            "dependances": [
+                {
+                    "uri": "@Aventus"
+                },
+                {
+                    "uri": "@AventusSharp"
+                },
+                {
+                    "uri": "&:Main"
+                }
+            ],
+            "outputFile": "../wwwroot/configureApp.js"
+        },
+        {
+            "name": "Aventus",
+            "inputPath": [],
+            "outputFile": "../wwwroot/autoload/aventus.js",
+            "compressed": false,
+            "dependances": [
+                {
+                    "uri": "@Aventus",
+                    "include": "full"
+                },
+                {
+                    "uri": "@AventusSharp",
+                    "include": "full"
+                }
+            ]
+        }
+    ],
+    "static": [
+        {
+            "name": "Main",
+            "inputPath": "./static/",
+            "outputPath": "../wwwroot/"
+        }
+    ],
+    "aliases": {
+        "@root": "./"
+    }
+}

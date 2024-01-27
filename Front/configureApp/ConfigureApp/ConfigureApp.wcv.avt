@@ -1,0 +1,13 @@
+<rk-scrollable>
+    <div class="container">
+        <rk-button @press="reboot" class="reboot-btn">Redémarrer</rk-button>
+        <h1>Configuration des applications</h1>
+
+        <h3>Applications installées</h3>
+        <rk-configure-app-table-installed @element="tableInstalled" class="table"></rk-configure-app-table-installed>
+
+
+        <h3>Toutes les applications</h3>
+        <div @element="allAppEl"></div>
+    </div>
+</rk-scrollable>

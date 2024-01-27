@@ -1,0 +1,37 @@
+:host {
+	align-items: center;
+	display: flex;
+	gap: 10px;
+    box-shadow: var(--elevation-3);
+    cursor: pointer;
+
+	.icon-container {
+		height: 30px;
+		position: relative;
+		width: 30px;
+
+		.hider {
+			inset: 0;
+			position: absolute;
+		}
+
+		.icon {
+			height: 100%;
+			width: 100%;
+
+			* {
+				box-shadow: none !important;
+				animation: none !important;
+				pointer-events: none;
+			}
+		}
+	}
+
+	.text {
+		flex-grow: 1;
+		flex-wrap: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}

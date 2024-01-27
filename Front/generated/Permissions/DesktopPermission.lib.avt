@@ -1,0 +1,17 @@
+import { PermissionQuery } from '../../libs/Permission.lib.avt';
+
+namespace Permissions {
+
+	export enum DesktopPermission {
+		CanEdit,
+		CanDelete,
+		CanCreate,
+		CanTemplate
+	}
+
+	@Convertible()
+	export class DesktopPermissionQuery extends PermissionQuery<typeof DesktopPermission>  {
+		public static get Fullname(): string { return "Core.Permissions.DesktopPermissionQuery, Core"; }
+	}
+
+}

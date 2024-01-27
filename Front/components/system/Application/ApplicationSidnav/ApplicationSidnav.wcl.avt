@@ -1,0 +1,67 @@
+import type { SizeList } from "../ApplicationSize.lib.avt";
+import { Scrollable } from "../../../ui/layout/Scrollable/Scrollable.wcl.avt";
+import { Frame } from "../../Frame/Frame.wcl.avt";
+import { Application } from "../Application.wcl.avt";
+
+namespace System {
+    type ApplicationSidnavRouteOptions = {
+        route: string,
+        elementCtr: new () => Frame,
+        name: string,
+        icon?: string,
+        activeRoute?: string;
+    };
+
+    @OverrideView()
+    export abstract class ApplicationSidnav extends Application implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public hide_menu_size?: SizeList = "sm";
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected navEl!: Scrollable;
+
+        @Watch()
+        protected sidnavItems: { name: string, icon: string, route: string; active: string; }[] = [];
+
+
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        protected addRouteSidenav(options: ApplicationSidnavRouteOptions) {
+            let route = options.route;
+            this.allRoutes[route] = {
+                route: route,
+                scriptUrl: '',
+                render: () => options.elementCtr
+            };
+
+            this.sidnavItems.push({
+                name: options.name,
+                icon: options.icon ?? "",
+                route: route,
+                active: options.activeRoute ?? route
+            });
+
+
+        }
+
+        //#endregion
+
+    }
+}

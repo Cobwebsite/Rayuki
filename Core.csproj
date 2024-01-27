@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <CodeAnalysisRuleSet>Analyzers.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EnvDTE" Version="17.8.37221" />
+    <PackageReference Include="HttpMultipartParser" Version="8.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.20" />
+    <PackageReference Include="MySql.Data" Version="8.1.0" />
+    <PackageReference Include="Scriban" Version="5.7.0" />
+    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="apps\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="loading.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Views\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="apps\" />
+    <Folder Include="Front\" />
+    <Folder Include="wwwroot\autoload\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebPush\WebPush.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="AventusSharp">
+      <HintPath>D:\Rayuki\Libs\AventusSharp\AventusSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /F /R /Y /I &quot;$(ProjectDir)$(OutDir)$(AssemblyName).dll&quot; &quot;D:\Rayuki\Libs\RayukiCore\ &quot;" />
+  </Target>
+
+</Project>

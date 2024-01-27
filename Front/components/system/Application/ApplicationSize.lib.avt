@@ -1,0 +1,159 @@
+import type { Application } from "./Application.wcl.avt";
+
+namespace System {
+
+    export type SizeList = "xs" |"sm" | "md" | "lg" | "xl";
+    
+    export type ApplicationPositionSize = {
+        top: number;
+        left: number;
+        height: number;
+        width: number;
+        isFullScreen: boolean;
+    };
+
+    export class ApplicationSize {
+        private application: Application;
+        private storage: ApplicationSizeStorage;
+
+        public constructor(application: Application) {
+            this.application = application;
+            this.storage = Aventus.Instance.get(ApplicationSizeStorage);
+        }
+
+        public load(): ApplicationPositionSize {
+            const cst = this.application.constructor as typeof Application;
+            let desktopId = this.application.options?.desktopId ?? 0;
+            let applicationNumber = this.application.options?.applicationNumber ?? 0;
+            let info = this.storage.getInfo(desktopId, cst.Fullname, applicationNumber);
+            if(!info) {
+                return this.getPrefered();
+            }
+            return info;
+        }
+
+        public save() {
+            if(!this.application.isReady) return;
+
+            const cst = this.application.constructor as typeof Application;
+            let desktopId = this.application.options?.desktopId ?? 0;
+            let applicationNumber = this.application.options?.applicationNumber ?? 0;
+            let info: ApplicationPositionSize;
+
+            if(this.application.full) {
+                let oldValues = this.load();
+                info = {
+                    isFullScreen: true,
+                    height: oldValues.height,
+                    width: oldValues.width,
+                    left: oldValues.left,
+                    top: oldValues.top
+                };
+            }
+            else {
+                if(this.application.offsetHeight == 0 || this.application.offsetWidth == 0) {
+                    return;
+                }
+                info = {
+                    isFullScreen: false,
+                    height: this.application.offsetHeight,
+                    width: this.application.offsetWidth,
+                    left: this.application.offsetLeft,
+                    top: this.application.offsetTop
+                };
+            }
+            this.storage.setInfo(desktopId, cst.Fullname, applicationNumber, info);
+            this.storage.setInfoPrefered(cst.Fullname, info);
+        }
+
+        public remove() {
+            const cst = this.application.constructor as typeof Application;
+            let desktopId = this.application.options?.desktopId ?? 0;
+            let applicationNumber = this.application.options?.applicationNumber ?? 0;
+            this.storage.removeInfo(desktopId, cst.Fullname, applicationNumber);
+        }
+
+        private getPrefered(): ApplicationPositionSize {
+            const cst = this.application.constructor as typeof Application;
+            const info = this.storage.getInfoPrefered(cst.Fullname);
+            if(!info) {
+                return ApplicationSize.getBasicSize();
+            }
+            return info;
+        }
+
+        public static getBasicSize(): ApplicationPositionSize {
+            let height = document.body.offsetHeight * 0.8;
+            if(height < 500) {
+                height = document.body.offsetHeight;
+            }
+            let width = height / 5 * 8;
+            if(width > document.body.offsetWidth) {
+                width = document.body.offsetWidth;
+            }
+            let top = (document.body.offsetHeight - height) / 2 - 40;
+            if(top < 0) {
+                top = 0;
+            }
+            let left = (document.body.offsetWidth - width) / 2;
+            if(left < 0) {
+                left = 0;
+            }
+
+            return {
+                isFullScreen: false,
+                height,
+                width,
+                top, left
+            };
+        }
+
+    }
+
+    class ApplicationSizeStorage {
+        private memoryPrefered: { [appName: string]: ApplicationPositionSize; } = {};
+        private memory: { [key: string]: ApplicationPositionSize; } = {};
+
+        private keyPrefered: string = "ApplicationSizeStoragePrefered";
+        private keySave: string = "ApplicationSizeStorage";
+
+        constructor() {
+            this.memoryPrefered = JSON.parse(localStorage.getItem(this.keyPrefered) ?? "{}");
+            this.memory = JSON.parse(localStorage.getItem(this.keySave) ?? "{}");
+        }
+
+        public getInfoPrefered(appName: string): ApplicationPositionSize | undefined {
+            return this.memoryPrefered[appName];
+        }
+
+        public setInfoPrefered(appName: string, value: ApplicationPositionSize): void {
+            this.memoryPrefered[appName] = value;
+            localStorage.setItem(this.keyPrefered, JSON.stringify(this.memoryPrefered));
+        }
+
+        public getInfo(desktopId: number, appName: string, appNumber: number): ApplicationPositionSize | undefined {
+            const key = this.getKey(desktopId, appName, appNumber);
+            return this.memory[key];
+        }
+
+        public setInfo(desktopId: number, appName: string, appNumber: number, value: ApplicationPositionSize): void {
+            const key = this.getKey(desktopId, appName, appNumber);
+            this.memory[key] = value;
+            localStorage.setItem(this.keySave, JSON.stringify(this.memory));
+        }
+
+        public removeInfo(desktopId: number, appName: string, appNumber: number) {
+            const key = this.getKey(desktopId, appName, appNumber);
+            delete this.memory[key];
+        }
+
+        public clearAll() {
+            this.memory = {};
+            localStorage.setItem(this.keySave, JSON.stringify(this.memory));
+        }
+
+        private getKey(desktopId: number, appName: string, appNumber: number): string {
+            return desktopId + ":" + appName + "$" + appNumber;
+        }
+    }
+}

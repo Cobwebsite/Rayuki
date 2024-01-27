@@ -1,0 +1,84 @@
+import { AppIconInline } from "../../AppIcon/AppIconInline/AppIconInline.wcl.avt";
+import { GeneratedRouter } from "../../../../generated/GeneratedRouter.lib.avt";
+import { Panel } from "../../Panel/Panel.wcl.avt";
+import type { Scrollable } from "../../../ui/layout/Scrollable/Scrollable.wcl.avt";
+import type { AppIcon } from "../../AppIcon/AppIcon.wcl.avt";
+import { ApplicationRAM } from "../../../../ram/Application.ram.avt";
+
+namespace System {
+    export class HomePanel extends Panel implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected recentContainer!: Scrollable;
+
+        @ViewElement()
+        protected favorisContainer!: HTMLDivElement;
+
+
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+
+        /**
+         * 
+         */
+        protected async logout() {
+            await new GeneratedRouter().routes.Logout();
+            window.location.reload();
+        }
+
+
+        private async displayRecent() {
+            for(let i = 0; i < 20; i++) {
+                let test = new AppIconInline();
+                let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
+                let app = await ApplicationRAM.getInstance().getApplicationByName("Cave");
+                if(icon && app) {
+                    test.setIcon(icon);
+                    test.text = app.DisplayName;
+                }
+
+                this.recentContainer.appendChild(test);
+            }
+        }
+
+        private async displayFavoris() {
+            for(let i = 0; i < 20; i++) {
+                let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
+                if(icon) {
+                    this.favorisContainer.appendChild(icon);
+                }
+            }
+        }
+
+
+        protected override postCreation(): void {
+            this.displayRecent();
+            this.displayFavoris();
+            new Aventus.PressManager({
+                element: this,
+                onPress: () => { },
+                onDrag: () => { },
+            });
+        }
+        //#endregion
+
+    }
+}

@@ -1,0 +1,7 @@
+:host {
+	align-items: stretch;
+	border-bottom: 1px solid var(--darker-active);
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+}

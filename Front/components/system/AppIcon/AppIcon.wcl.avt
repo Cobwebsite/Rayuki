@@ -1,0 +1,214 @@
+import { RayukiComponent } from "../RayukiComponent/RayukiComponent.wcl.avt";
+import { Os } from "../Os/Os.wcl.avt";
+import { MoveApplication } from "../../../states/desktop/MoveApplication.state.avt";
+import { DesktopStateManager } from "../../../states/desktop/Desktop.state.avt";
+import { AppIconManager } from "../../../libs/AppIconManager.lib.avt";
+import type { ContextMenu, IContextMenu } from "../../ui/ContextMenu/ContextMenu.wcl.avt";
+import type { IPositionable } from "../../ui/layout/PageCase/PageCase.wcl.avt";
+import { AppList } from "../AppList/AppList.wcl.avt";
+
+namespace System {
+    export abstract class AppIcon extends RayukiComponent implements Aventus.DefaultComponent, IContextMenu, IPositionable {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public shaking!: boolean;
+
+        @Attribute()
+        public can_remove!: boolean;
+
+        @Attribute()
+        public is_open!: boolean;
+
+        @Attribute()
+        public position!: number;
+        //#endregion
+
+
+        //#region variables
+        private pressManager?: Aventus.PressManager;
+        private dragAndDrop?: Aventus.DragAndDrop;
+
+        public iconId: number = 0;
+        //#endregion
+
+
+        //#region constructor
+        public constructor() {
+            super();
+            this.classList.add("touch");
+        }
+        //#endregion
+
+
+        //#region methods
+        /**
+         * @inheritdoc
+         */
+        public onContextMenu(contextMenu: ContextMenu, stop: () => void): void {
+            if(contextMenu.isTouch) {
+                contextMenu.addItem({
+                    text: "Organiser les applications",
+                    icon: "/img/icons/organize-app.svg",
+                    priority: 1,
+                    action: () => {
+                        new MoveApplication().activate(DesktopStateManager.getInstance());
+                    }
+                });
+            }
+            contextMenu.addSeparator({
+                priority: 1
+            });
+            contextMenu.addItem({
+                text: "test",
+                priority: 1,
+                action: () => {
+
+                }
+            });
+        }
+
+
+
+        /**
+         * Define the path where to load the component : Define by a route http inside c# that return a Component
+         */
+        protected componentUrl(): string {
+            return "/";
+        }
+        /**
+         * Define the starting endpoint for the application
+         */
+        protected url(): string {
+            return "/";
+        }
+        public openApp() {
+            if(this.shaking) {
+                return;
+            }
+
+            let cst = this.constructor as typeof AppIcon;
+            let application = cst.Fullname.split(".")[0];
+            if(this.is_open) {
+                Os.instance.unHideApplication(application, this.componentUrl());
+            }
+            else {
+                Os.instance.openUrl(application, this.componentUrl(), this.url());
+            }
+        }
+
+        @StateActive(MoveApplication.state, DesktopStateManager)
+        protected onMoveApplication() {
+            this.shaking = true;
+            this.destroyPressManager();
+            this.createDragAndDrop();
+        }
+
+        @StateInactive(MoveApplication.state, DesktopStateManager)
+        protected onStopMovingApplication() {
+            this.shaking = false;
+            this.destroyDragAndDrop();
+            this.createPressManager();
+        }
+
+        //#region mouse/touch action
+        protected createPressManager() {
+            this.destroyPressManager();
+            this.pressManager = new Aventus.PressManager({
+                element: this,
+                onPress: () => {
+                    this.openApp();
+                },
+                onLongPress: (e) => {
+                    if(e.pointerType == "mouse") {
+                        new MoveApplication().activate(DesktopStateManager.getInstance());
+                    }
+                    else {
+                        // e.pointerType == touch | pen
+
+                    }
+                }
+            });
+        }
+        protected destroyPressManager() {
+            this.pressManager?.destroy();
+            this.pressManager = undefined;
+        }
+        protected createDragAndDrop() {
+            let state = DesktopStateManager.getInstance().getState();
+            if(!(state instanceof MoveApplication)) {
+                return;
+            }
+            let moveApplication = state;
+            let shadow: AppIcon = this;
+            let startW = 0;
+            let startH = 0;
+            let baseOffsetX = 0;
+            let baseOffsetY = 0;
+            let createShadow = false;
+            let parent = this.parentNode;
+            let reset = () => {
+                parent?.appendChild(this);
+            };
+            if(this.findParentByType(AppList)) {
+                createShadow = true;
+            }
+            this.dragAndDrop = new Aventus.DragAndDrop({
+                element: this,
+                onMove: (e, position) => {
+                    moveApplication.onMove(shadow, e.pageX, e.pageY);
+                },
+                getOffsetY: () => {
+                    return baseOffsetY + (startH - shadow.offsetHeight) / 2;
+                },
+                getOffsetX: () => {
+                    return baseOffsetX + (startW - shadow.offsetWidth) / 2;
+                },
+                onStart: (e) => {
+                    startW = this.offsetWidth;
+                    startH = this.offsetHeight;
+                    if(shadow == this) {
+                        let elBox = this.getBoundingClientRect();
+                        // add offset to counter the default drag&drop behaviour
+                        baseOffsetX = elBox.x - this.offsetLeft;
+                        baseOffsetY = elBox.y - this.offsetTop;
+                        document.body.appendChild(this);
+                    }
+                    shadow.style.zIndex = '505';
+                    shadow.style.opacity = '0.6';
+                    shadow.style.pointerEvents = 'none';
+                    shadow.style.position = 'absolute';
+                    shadow.style.width = startW + 'px';
+                    shadow.style.height = startH + 'px';
+                },
+                shadow: {
+                    enable: createShadow,
+                    transform: (el) => {
+                        shadow = el as AppIcon;
+                        Os.instance.show_application_list = false;
+                    }
+                },
+                onStop: (e) => {
+                    moveApplication.onDrop(shadow, e.pageX, e.pageY, reset);
+                }
+            });
+        }
+        protected destroyDragAndDrop() {
+            this.dragAndDrop?.destroy();
+            this.dragAndDrop = undefined;
+        }
+        //#endregion
+
+        protected override postCreation(): void {
+            AppIconManager.register(this, this.componentUrl());
+            this.createPressManager();
+        }
+        //#endregion
+
+}
+        }

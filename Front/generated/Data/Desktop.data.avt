@@ -1,0 +1,30 @@
+import { ApplicationOpen } from './ApplicationOpen.lib.avt';
+
+namespace Data {
+
+	@Convertible()
+	export class Desktop extends AventusSharp.Data.Storable implements Aventus.IData {
+		public static override get Fullname(): string { return "Core.Data.Desktop, Core"; }
+		public Name!: string;
+		public Background!: string;
+		public UserId?: number = undefined;
+		public Icons: DesktopAppIcon[] = [];
+		public Applications: ApplicationOpen[] = [];
+	}
+
+	export enum DesktopLocation {
+		Desktop,
+		BottomBar,
+		HomeFav
+	}
+
+	@Convertible()
+	export class DesktopAppIcon extends AventusSharp.Data.Storable implements Aventus.IData {
+		public static override get Fullname(): string { return "Core.Data.DesktopAppIcon, Core"; }
+		public Position!: number;
+		public DesktopId!: number;
+		public IconTag!: string;
+		public Location!: DesktopLocation;
+	}
+
+}

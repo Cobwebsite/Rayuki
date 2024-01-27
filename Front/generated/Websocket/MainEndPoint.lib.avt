@@ -1,0 +1,28 @@
+import { ApplicationRouter } from './Routes/ApplicationRouter.lib.avt';
+import { DesktopRouter } from './Routes/DesktopRouter.lib.avt';
+import { ApplicationTestEvent, ApplicationTestEvent2 } from './Events/ApplicationTestEvent.lib.avt';
+
+namespace Websocket {
+
+	export const MainEndPointRoutes = [
+		{ type: ApplicationRouter, path: "application" },
+		{ type: DesktopRouter, path: "desktop" },
+	] as const;
+	
+	export const MainEndPointEvents = [
+		{ type: ApplicationTestEvent, path: "application.ApplicationTestEvent" },
+		{ type: ApplicationTestEvent2, path: "ApplicationTestEvent2" },
+	] as const;
+	
+	const endPointInfo = {
+		routes: MainEndPointRoutes,
+		events: MainEndPointEvents
+	};
+	
+	export class MainEndPoint extends AventusSharp.WebSocket.EndPoint.With(endPointInfo) {
+		protected get path(): string {
+			return "/ws";
+		}
+	}
+
+}

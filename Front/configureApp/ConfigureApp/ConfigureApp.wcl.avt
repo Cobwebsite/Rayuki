@@ -1,0 +1,82 @@
+import { ConfigureAppTableInstalled } from "./ConfigureAppTableInstalled/ConfigureAppTableInstalled.wcl.avt";
+import { GeneratedRouter } from "../../generated/GeneratedRouter.lib.avt";
+import { ConfigureAppTableAllApps } from "./ConfigureAppTableAllApps/ConfigureAppTableAllApps.wcl.avt";
+
+export type ConfigureAppType = {
+    name: string;
+};
+
+export class ConfigureApp extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+
+    //#endregion
+
+
+    //#region variables
+    @ViewElement()
+    protected tableInstalled!: ConfigureAppTableInstalled;
+
+    @ViewElement()
+    protected allAppEl!: HTMLDivElement;
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+    public async load() {
+        let query = await new GeneratedRouter().routes.Application.ConfigureAppData();
+        if(query.result) {
+            let appInstalled: ConfigureAppType[] = [];
+            for(const app of query.result.appsInstalled) {
+                appInstalled.push({
+                    name: app
+                });
+            }
+            this.tableInstalled.data = appInstalled;
+
+            for(const [key, value] of query.result.allApps) {
+                let allApps: ConfigureAppType[] = [];
+                for(let appName of value) {
+                    allApps.push({
+                        name: appName
+                    });
+                }
+                if(allApps.length > 0) {
+                    let title = document.createElement("H5");
+                    title.innerHTML = key;
+                    this.allAppEl.appendChild(title);
+
+                    let table = new ConfigureAppTableAllApps();
+                    table.data = allApps;
+                    table.container = key;
+                    this.allAppEl.appendChild(table);
+                }
+            }
+
+        }
+    }
+
+    /**
+     * 
+     */
+    protected async reboot() {
+        await new GeneratedRouter().routes.Restart();
+        await Aventus.sleep(2000);
+        location.reload();
+    }
+    protected override postCreation(): void {
+        this.load();
+    }
+    //#endregion
+
+}

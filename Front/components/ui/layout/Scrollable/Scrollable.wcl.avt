@@ -1,0 +1,543 @@
+import { TouchRecord } from "./Touch.lib.avt";
+
+namespace Components {
+    export class Scrollable extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        /**
+         * Set the zoom to apply for the container
+         */
+        @Property((target: Scrollable) => {
+            target.changeZoom();
+        })
+        public zoom: number = 1;
+
+        @Attribute()
+        private y_scroll_visible!: boolean;
+
+        @Attribute()
+        private x_scroll_visible!: boolean;
+
+        /**
+         * Determine if scrollbar will be floating or not
+         */
+        @Attribute()
+        public floating_scroll!: boolean;
+
+        /**
+         * Determine if x scroll is allowed
+         */
+        @Attribute()
+        public x_scroll!: boolean;
+
+        /**
+         * Determine if x scroll is allowed
+         */
+        @Attribute()
+        public y_scroll: boolean = true;
+
+        /**
+         * If true, the scrollers will hide if they're not in use
+         */
+        @Attribute()
+        public auto_hide!: boolean;
+
+        @Attribute()
+        public break: number = 0.1;
+
+        /**
+         * Disable user action
+         */
+        @Attribute()
+        public disable!: boolean;
+
+        @Attribute()
+        private no_user_select!: boolean;
+
+        //#endregion
+
+
+        //#region variables
+
+        @ViewElement()
+        private contentWrapper!: HTMLDivElement;
+
+        @ViewElement()
+        private contentZoom!: HTMLDivElement;
+
+        @ViewElement()
+        private mainContainer!: HTMLDivElement;
+
+        @ViewElement()
+        private contentHidder!: HTMLDivElement;
+
+        @ViewElement()
+        private verticalScrollerContainer!: HTMLDivElement;
+
+        @ViewElement()
+        private verticalScroller!: HTMLDivElement;
+
+        @ViewElement()
+        private horizontalScrollerContainer!: HTMLDivElement;
+
+        @ViewElement()
+        private horizontalScroller!: HTMLDivElement;
+
+
+
+        private observer?: Aventus.ResizeObserver;
+
+        private display: { x: number, y: number; } = { x: 0, y: 0 };
+        private max: { x: number, y: number; } = {
+            x: 0,
+            y: 0
+        };
+        private margin: { x: number, y: number; } = {
+            x: 0,
+            y: 0
+        };
+        private position: { x: number, y: number; } = {
+            x: 0,
+            y: 0
+        };
+        private momentum: { x: number, y: number; } = { x: 0, y: 0 };
+
+        private contentWrapperSize: { x: number, y: number; } = { x: 0, y: 0 };
+
+        private scroller: {
+            x: () => HTMLDivElement,
+            y: () => HTMLDivElement,
+        } = {
+                x: () => {
+                    if(!this.horizontalScroller) {
+                        throw 'can\'t find the horizontalScroller';
+                    }
+                    return this.horizontalScroller;
+                },
+                y: () => {
+                    if(!this.verticalScroller) {
+                        throw 'can\'t find the verticalScroller';
+                    }
+                    return this.verticalScroller;
+                }
+            };
+
+        private scrollerContainer: {
+            x: () => HTMLDivElement,
+            y: () => HTMLDivElement,
+        } = {
+                x: () => {
+                    if(!this.horizontalScrollerContainer) {
+                        throw 'can\'t find the horizontalScrollerContainer';
+                    }
+                    return this.horizontalScrollerContainer;
+                },
+                y: () => {
+                    if(!this.verticalScrollerContainer) {
+                        throw 'can\'t find the verticalScrollerContainer';
+                    }
+                    return this.verticalScrollerContainer;
+                }
+            };
+
+        private hideDelay: { x: number, y: number; } = { x: 0, y: 0 };
+
+        private touchRecord: TouchRecord;
+        private pointerCount: number = 0;
+        private savedBreak: number = 1;
+
+
+        public get x(): number {
+            return this.position.x;
+        }
+        public get y(): number {
+            return this.position.y;
+        }
+        //#endregion
+
+
+        //#region constructor
+        constructor() {
+            super();
+            this.renderAnimation = this.createAnimation();
+            this.onWheel = this.onWheel.bind(this);
+            this.onTouchStart = this.onTouchStart.bind(this);
+            this.onTouchMove = this.onTouchMove.bind(this);
+            this.onTouchEnd = this.onTouchEnd.bind(this);
+            this.touchRecord = new TouchRecord();
+        }
+        //#endregion
+
+
+        //#region methods
+
+        /**
+         * Callback trigger when the scroll change
+         */
+        public onScrollChange: Aventus.Callback<(x: number, y: number) => void> = new Aventus.Callback();
+
+        //#region render
+        private renderAnimation: Aventus.Animation;
+        private createAnimation(): Aventus.Animation {
+            return new Aventus.Animation({
+                fps: 60,
+                animate: () => {
+                    const nextX = this.nextPosition('x');
+                    const nextY = this.nextPosition('y');
+
+                    this.momentum.x = nextX.momentum;
+                    this.momentum.y = nextY.momentum;
+
+                    this.scrollDirection('x', nextX.position);
+                    this.scrollDirection('y', nextY.position);
+
+                    if(!this.momentum.x && !this.momentum.y) {
+                        this.renderAnimation.stop();
+                    }
+                },
+                stopped: () => {
+                    if(this.momentum.x || this.momentum.y) {
+                        this.renderAnimation.start();
+                    }
+                }
+            });
+        }
+
+        private nextPosition(direction: 'x' | 'y'): { momentum: number, position: number; } {
+            const current = this.position[direction];
+            const remain = this.momentum[direction];
+            let result = {
+                momentum: 0,
+                position: 0,
+            };
+            if(Math.abs(remain) <= 0.1) {
+                result.position = current + remain;
+            }
+            else {
+                let nextMomentum = remain * (1 - this.break);
+                nextMomentum |= 0;
+                result.momentum = nextMomentum;
+                result.position = current + remain - nextMomentum;
+            }
+
+            let correctPosition = this.correctScrollValue(result.position, direction);
+
+            if(correctPosition != result.position) {
+                result.position = correctPosition;
+                result.momentum = 0;
+            }
+
+
+            return result;
+        }
+        //#endregion
+
+        //#region scroll action
+        private scrollDirection(direction: 'x' | 'y', value: number) {
+            const max = this.max[direction];
+
+            if(max != 0) {
+                this.position[direction] = this.correctScrollValue(value, direction);
+            }
+            else {
+                this.position[direction] = 0;
+            }
+            let container = this.scrollerContainer[direction]();
+            let scroller = this.scroller[direction]();
+            if(this.auto_hide) {
+                container.classList.remove("hide");
+                clearTimeout(this.hideDelay[direction]);
+                this.hideDelay[direction] = setTimeout(() => {
+                    container.classList.add("hide");
+                }, 1000);
+            }
+            let containerSize = direction == 'y' ? container.offsetHeight : container.offsetWidth;
+            if(this.contentWrapperSize[direction] != 0) {
+                let scrollPosition = this.position[direction] / this.contentWrapperSize[direction] * containerSize;
+                scroller.style.transform = `translate${direction.toUpperCase()}(${scrollPosition}px)`;
+                this.contentWrapper!.style.transform = `translate3d(${-1 * this.x}px, ${-1 * this.y}px, 0)`;
+            }
+            this.triggerScrollChange();
+        }
+
+        private correctScrollValue(value: number, direction: 'x' | 'y'): number {
+            if(value < 0) {
+                value = 0;
+            }
+            else if(value > this.max[direction]) {
+                value = this.max[direction];
+            }
+            return value;
+        }
+
+        private triggerScrollChange() {
+            this.onScrollChange.trigger([this.x, this.y]);
+        }
+
+
+        /**
+         * Shortcut for functions scrollX and scrollY
+         */
+        public scrollToPosition(x: number, y: number) {
+            this.scrollDirection('x', x);
+            this.scrollDirection('y', y);
+        }
+        /**
+         * Scroll left - right
+         */
+        public scrollX(x: number) {
+            this.scrollDirection('x', x);
+        }
+        /**
+         * Scroll bottom - top
+         */
+        public scrollY(y: number) {
+            this.scrollDirection('y', y);
+        }
+
+        //#endregion
+
+        //#region events
+        private addAction() {
+            this.addEventListener("wheel", this.onWheel);
+            this.addEventListener("touchstart", this.onTouchStart);
+            this.addEventListener("touchmove", this.onTouchMove);
+            this.addEventListener("touchcancel", this.onTouchEnd);
+            this.addEventListener("touchend", this.onTouchEnd);
+            this.addScrollDrag('x');
+            this.addScrollDrag('y');
+        }
+
+        private addScrollDrag(direction: 'x' | 'y') {
+            let scroller = this.scroller[direction]();
+            scroller.addEventListener("touchstart", (e) => {
+                e.stopPropagation();
+            });
+            let startPosition = 0;
+            new Aventus.DragAndDrop({
+                element: scroller,
+                applyDrag: false,
+                usePercent: true,
+                offsetDrag: 0,
+                isDragEnable: () => !this.disable,
+                onStart: (e) => {
+                    this.no_user_select = true;
+                    scroller.classList.add("active");
+                    startPosition = this.position[direction];
+                },
+                onMove: (e, position) => {
+                    let delta = position[direction] / 100 * this.contentWrapperSize[direction];
+                    let value = startPosition + delta;
+                    this.scrollDirection(direction, value);
+                },
+                onStop: () => {
+                    this.no_user_select = false;
+                    scroller.classList.remove("active");
+                }
+            });
+        }
+
+
+        private addDelta(delta: { x: number, y: number; }) {
+            if(this.disable) {
+                return;
+            }
+            this.momentum.x += delta.x;
+            this.momentum.y += delta.y;
+            this.renderAnimation?.start();
+        }
+        private onWheel(e: WheelEvent) {
+            const DELTA_MODE = [1.0, 28.0, 500.0];
+            const mode = DELTA_MODE[e.deltaMode] || DELTA_MODE[0];
+            this.addDelta({
+                x: e.deltaX * mode,
+                y: e.deltaY * mode,
+            });
+        }
+
+
+        private onTouchStart(e: TouchEvent) {
+            this.touchRecord.track(e);
+
+            this.momentum = {
+                x: 0,
+                y: 0
+            };
+
+            if(this.pointerCount === 0) {
+                this.savedBreak = this.break;
+                this.break = Math.max(this.break, 0.5); // less frames on touchmove
+            }
+            this.pointerCount++;
+        }
+        private onTouchMove(e: TouchEvent) {
+            this.touchRecord.update(e);
+            const delta = this.touchRecord.getDelta();
+            this.addDelta(delta);
+        }
+        private onTouchEnd(e: TouchEvent) {
+            const delta = this.touchRecord.getEasingDistance(this.savedBreak);
+            this.addDelta(delta);
+            this.pointerCount--;
+
+            if(this.pointerCount === 0) {
+                this.break = this.savedBreak;
+            }
+
+            this.touchRecord.release(e);
+        }
+
+        //#endregion
+
+        //#region position
+        private calculateRealSize() {
+            if(!this.contentZoom || !this.mainContainer || !this.contentWrapper) {
+                return;
+            }
+            const currentOffsetWidth = this.contentZoom.offsetWidth;
+            const currentOffsetHeight = this.contentZoom.offsetHeight;
+
+            this.contentWrapperSize.x = this.contentWrapper.offsetWidth;
+            this.contentWrapperSize.y = this.contentWrapper.offsetHeight;
+
+            if(this.zoom < 1) {
+                // scale the container for zoom
+                this.contentZoom.style.width = this.mainContainer.offsetWidth / this.zoom + 'px';
+                this.contentZoom.style.height = this.mainContainer.offsetHeight / this.zoom + 'px';
+                this.display.y = currentOffsetHeight;
+                this.display.x = currentOffsetWidth;
+            }
+            else {
+                this.display.y = currentOffsetHeight / this.zoom;
+                this.display.x = currentOffsetWidth / this.zoom;
+            }
+        }
+
+        private calculatePositionScrollerContainer(direction: 'x' | 'y') {
+            if(direction == 'y') {
+                this.calculatePositionScrollerContainerY();
+            }
+            else {
+                this.calculatePositionScrollerContainerX();
+            }
+        }
+        private calculatePositionScrollerContainerY() {
+            const leftMissing = this.mainContainer.offsetWidth - this.verticalScrollerContainer.offsetLeft;
+            if(leftMissing > 0 && this.y_scroll_visible && !this.floating_scroll) {
+                this.contentHidder.style.width = 'calc(100% - ' + leftMissing + 'px)';
+                this.contentHidder.style.marginRight = leftMissing + 'px';
+                this.margin.x = leftMissing;
+
+            }
+            else {
+                this.contentHidder.style.width = '';
+                this.contentHidder.style.marginRight = '';
+                this.margin.x = 0;
+            }
+        }
+
+        private calculatePositionScrollerContainerX() {
+            const topMissing = this.mainContainer.offsetHeight - this.horizontalScrollerContainer.offsetTop;
+            if(topMissing > 0 && this.x_scroll_visible && !this.floating_scroll) {
+                this.contentHidder.style.height = 'calc(100% - ' + topMissing + 'px)';
+                this.contentHidder.style.marginBottom = topMissing + 'px';
+                this.margin.y = topMissing;
+            }
+            else {
+                this.contentHidder.style.height = '';
+                this.contentHidder.style.marginBottom = '';
+                this.margin.y = 0;
+            }
+        }
+
+        private calculateSizeScroller(direction: 'x' | 'y') {
+            const scrollerSize = ((this.display[direction] - this.margin[direction]) / this.contentWrapperSize[direction] * 100);
+            if(direction == "y") {
+                this.scroller[direction]().style.height = scrollerSize + '%';
+            }
+            else {
+                this.scroller[direction]().style.width = scrollerSize + '%';
+            }
+            let maxScrollContent = this.contentWrapperSize[direction] - this.display[direction];
+            if(maxScrollContent < 0) {
+                maxScrollContent = 0;
+            }
+            this.max[direction] = maxScrollContent + this.margin[direction];
+        }
+
+        //#endregion
+
+        private changeZoom() {
+            this.contentZoom.style.transform = 'scale(' + this.zoom + ')';
+            this.dimensionRefreshed();
+        }
+
+        private dimensionRefreshed() {
+            this.calculateRealSize();
+
+            if(this.contentWrapperSize.y - this.display.y > 0) {
+                if(!this.y_scroll_visible) {
+                    this.y_scroll_visible = true;
+                    this.calculatePositionScrollerContainer('y');
+                }
+                this.calculateSizeScroller('y');
+                this.scrollDirection('y', this.y);
+            }
+            else if(this.y_scroll_visible) {
+                this.y_scroll_visible = false;
+                this.calculatePositionScrollerContainer('y');
+                this.calculateSizeScroller('y');
+                this.scrollDirection('y', 0);
+            }
+
+            if(this.contentWrapperSize.x - this.display.x > 0) {
+                if(!this.x_scroll_visible) {
+                    this.x_scroll_visible = true;
+                    this.calculatePositionScrollerContainer('x');
+                }
+                this.calculateSizeScroller('x');
+                this.scrollDirection('x', this.x);
+            }
+            else if(this.x_scroll_visible) {
+                this.x_scroll_visible = false;
+                this.calculatePositionScrollerContainer('x');
+                this.calculateSizeScroller('x');
+                this.scrollDirection('x', 0);
+            }
+
+        }
+        private createResizeObserver() {
+            let inProgress = false;
+            return new Aventus.ResizeObserver({
+                callback: entries => {
+                    if(inProgress) {
+                        return;
+                    }
+                    inProgress = true;
+                    this.dimensionRefreshed();
+                    inProgress = false;
+                },
+                fps: 30
+            });
+
+        }
+        private addResizeObserver() {
+            if(this.observer == undefined) {
+                this.observer = this.createResizeObserver();
+            }
+            this.observer.observe(this.contentWrapper);
+            this.observer.observe(this);
+        }
+        protected override postCreation(): void {
+            this.addResizeObserver();
+            this.addAction();
+        }
+        //#endregion
+
+    }
+}

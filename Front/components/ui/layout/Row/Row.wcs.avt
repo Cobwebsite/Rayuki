@@ -1,0 +1,6 @@
+:host {
+	display: flex;
+	width: 100%;
+	flex-wrap: wrap;
+	container-type: inline-size;
+}

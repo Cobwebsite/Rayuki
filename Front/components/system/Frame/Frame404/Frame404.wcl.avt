@@ -1,0 +1,49 @@
+import { Frame } from "../Frame.wcl.avt";
+
+namespace System {
+	export class Frame404 extends Frame implements Aventus.DefaultComponent {
+	
+		//#region static
+		
+		//#endregion
+		
+		
+		//#region props
+		
+		//#endregion
+		
+		
+		//#region variables
+		
+		//#endregion
+		
+		
+		//#region constructor
+		
+		//#endregion
+		
+		
+		//#region methods
+        /**
+         * @inheritdoc
+         */
+        public override pageTitle(): string {
+            return "Page not found";
+        }
+        /**
+         * @inheritdoc
+         */
+        public override onShow() {
+           
+        }
+        /**
+         * @inheritdoc
+         */
+        public override onHide() {
+            
+        }
+		
+		//#endregion
+		
+	}
+}

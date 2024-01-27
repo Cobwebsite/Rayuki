@@ -1,0 +1,319 @@
+import { AppList } from "../AppList/AppList.wcl.avt";
+import { Notification } from "./Notification/Notification.wcl.avt";
+import { NotificationManager } from "./Notification/NotificationManager.lib.avt";
+import { RayukiComponent } from "../RayukiComponent/RayukiComponent.wcl.avt";
+import { ApplicationRAM } from "../../../ram/Application.ram.avt";
+import { ContextMenu } from "../../ui/ContextMenu/ContextMenu.wcl.avt";
+import { ShortcutManager, SpecialTouch } from "../../../libs/ShortcutManager.lib.avt";
+import { DesktopRAM } from "../../../ram/Desktop.ram.avt";
+import type { DesktopData } from "../../../libs/TypeMapper.lib.avt";
+import type { Desktop } from "../Desktop/Desktop.wcl.avt";
+import type { Scrollable } from "../../ui/layout/Scrollable/Scrollable.wcl.avt";
+import { Confirm } from "../../ui/popup/Confirm/Confirm.wcl.avt";
+import type { Popup } from "../../ui/popup/Popup/Popup.wcl.avt";
+import { Alert } from "../../ui/popup/Alert/Alert.wcl.avt";
+import { DesktopPermission, DesktopPermissionQuery } from "../../../generated/Permissions/DesktopPermission.lib.avt";
+import { MainSocket } from "../../../libs/MainSocket.lib.avt";
+import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
+import { DesktopStateManager } from "../../../states/desktop/Desktop.state.avt";
+import { Pointer } from "../../../libs/Pointer.lib.avt";
+
+namespace System {
+    @Debugger({
+        writeCompiled: true
+    })
+    export class Os extends RayukiComponent implements Aventus.DefaultComponent {
+
+        //#region static
+        public static instance: Os;
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public loading: boolean = false;
+
+        @Property((target: Os) => {
+            target.onShowDesktopList();
+        })
+        public desktop_list: boolean = false;
+
+        @Property((target: Os) => {
+            if(target.appList)
+                target.appList.show = target.show_application_list;
+            for(let desktop of target.desktopsEl) {
+                desktop.show_application_list = target.show_application_list;
+            }
+        })
+        public show_application_list: boolean = false;
+
+        @Attribute()
+        public ready: boolean = false;
+
+        @Property((target: Os) => {
+            target.onActiveDesktop();
+        })
+        public active_desktop: number = 0;
+        //#endregion
+
+
+        //#region variables
+        @Watch()
+        public desktops: DesktopData[] = [];
+
+        @ViewElement()
+        protected appList!: AppList;
+
+        @ViewElement()
+        public readonly desktopsEl!: Desktop[];
+
+        @ViewElement()
+        protected desktopContainerScroll!: Scrollable;
+
+        private notificationManager: NotificationManager;
+
+        protected activeDesktopEl!: Desktop;
+        public get activeDesktop(): Desktop {
+            return this.activeDesktopEl;
+        }
+
+        private contextMenuCst: new (...args) => ContextMenu = ContextMenu;
+        //#endregion
+
+
+        //#region constructor
+        public constructor() {
+            super();
+            Os.instance = this;
+            this.notificationManager = new NotificationManager(this);
+        }
+        //#endregion
+
+
+        //#region methods
+
+        //#region desktop
+        private onActiveDesktop() {
+            this.style.setProperty("--_active-desktop", this.active_desktop + "");
+            if(this.activeDesktopEl) {
+                this.activeDesktopEl.is_active = false;
+                this.activeDesktopEl.parentElement?.classList.remove("active");
+            }
+            this.activeDesktopEl = this.desktopsEl[this.active_desktop];
+            if(this.activeDesktopEl) {
+                this.activeDesktopEl.is_active = true;
+                this.activeDesktopEl.parentElement?.classList.add("active");
+            }
+        }
+
+        @BindThis()
+        private desktopMoveLeft() {
+            if(this.active_desktop - 1 < 0) {
+                this.active_desktop = this.desktops.length - 1;
+            }
+            else {
+                this.active_desktop--;
+            }
+        }
+        @BindThis()
+        private desktopMoveRight() {
+            if(this.active_desktop + 1 == this.desktops.length) {
+                this.active_desktop = 0;
+            }
+            else {
+                this.active_desktop++;
+            }
+        }
+        @BindThis()
+        private desktopMoveValidate() {
+            this.desktop_list = false;
+        }
+
+        private onShowDesktopList() {
+            if(this.isReady) {
+                this.desktopContainerScroll.y_scroll = this.desktop_list;
+                this.desktopContainerScroll.disable = !this.desktop_list;
+            }
+            DesktopStateManager.getInstance().setState("/");
+            if(this.desktop_list) {
+                ShortcutManager.subscribe([SpecialTouch.ArrowRight], this.desktopMoveRight);
+                ShortcutManager.subscribe([SpecialTouch.ArrowLeft], this.desktopMoveLeft);
+                ShortcutManager.subscribe([SpecialTouch.Enter], this.desktopMoveValidate);
+                ShortcutManager.subscribe([SpecialTouch.Escape], this.desktopMoveValidate);
+            }
+            else {
+                ShortcutManager.unsubscribe([SpecialTouch.ArrowRight], this.desktopMoveRight);
+                ShortcutManager.unsubscribe([SpecialTouch.ArrowLeft], this.desktopMoveLeft);
+                ShortcutManager.unsubscribe([SpecialTouch.Enter], this.desktopMoveValidate);
+                ShortcutManager.unsubscribe([SpecialTouch.Escape], this.desktopMoveValidate);
+            }
+        }
+        private addSwitchDesktop() {
+            ShortcutManager.subscribe([SpecialTouch.Shift, SpecialTouch.Tab], () => {
+                this.desktop_list = true;
+            });
+        }
+
+        /**
+         * 
+         */
+        protected async deleteDesktop(e: Event, instance: Aventus.PressManager) {
+            if(this.desktops.length <= 1) {
+                await this.alert("Impossible de supprimer le bureau", "Il vous faut au minimum un bureau actif");
+            }
+            else if(await this.confirm("Suppression d'un bureau", "Etes-vous sûr de vouloir supprimer ce bureau?", "Oui", "Non")) {
+                let id = Number((instance.getElement() as HTMLElement).dataset.id);
+                await DesktopRAM.getInstance().deleteById(id);
+            }
+        }
+
+        protected async syncDesktopData() {
+            this.desktops = await DesktopRAM.getInstance().getList();
+            this.onActiveDesktop();
+            DesktopRAM.getInstance().onDeleted((el) => {
+                for(let i = 0; i < this.desktops.length; i++) {
+                    if(this.desktops[i].id == el.id) {
+                        this.desktops.splice(i, 1);
+                        if(this.active_desktop == i) {
+                            this.active_desktop = 0;
+                            if(i == 0) {
+                                this.onActiveDesktop();
+                            }
+                        }
+                        else if(this.active_desktop > i) {
+                            this.active_desktop--;
+                        }
+                        return;
+                    }
+                }
+
+
+            });
+            DesktopRAM.getInstance().onCreated((el) => {
+                this.desktops.push(el);
+            });
+        }
+
+        //#endregion
+
+        private async systemLoading() {
+            const minDelay = 3000;
+            let start: Date | undefined;
+            let timeout = setTimeout(() => {
+                start = new Date();
+                this.loading = true;
+            }, 200);
+            await ApplicationRAM.getInstance().getAll();
+            await this.syncDesktopData();
+            clearTimeout(timeout);
+            if(start) {
+                let now = new Date();
+                let diffMs = now.getTime() - start.getTime();
+                if(diffMs < minDelay) {
+                    await Aventus.sleep(minDelay - diffMs);
+                }
+            }
+            this.loading = false;
+            this.ready = true;
+        }
+
+        public async openUrl(application: string, componentUrl: string = "/", url: string = "/") {
+            this.activeDesktopEl.openUrl(application, componentUrl, url);
+        }
+        public async unHideApplication(application: string, componentUrl: string = "/") {
+            await this.activeDesktopEl.unHideApplication(application, componentUrl);
+        }
+
+        public notify(notification: Notification) {
+            return this.notificationManager.notify(notification);
+        }
+
+        private rightClick() {
+            this.addEventListener("contextmenu", (e) => {
+                e.preventDefault();
+                const isTouch = Pointer.isTouch(e);
+                const menu = new this.contextMenuCst();
+                menu.init(e.pageX, e.pageY, isTouch, this);
+            });
+        }
+        private preventScroll() {
+            document.body.addEventListener("scroll", (e) => {
+                document.body.scrollTop = 0;
+                document.body.scrollLeft = 0;
+            });
+        }
+        public setContextMenu(contextMenuCst: new (...args) => ContextMenu) {
+            this.contextMenuCst = contextMenuCst;
+        }
+        public setDefaultContextMenu() {
+            this.contextMenuCst = ContextMenu;
+        }
+
+
+        //#region popup
+        public popup<T extends Popup<any>>(p: T) {
+            return new Promise<T>((resolve) => {
+                p.init((response) => {
+                    resolve(response);
+                });
+                this.shadowRoot.appendChild(p);
+            });
+        }
+        public async alert(title: string, message: string, okBtnTxt?: string) {
+            const a = new Alert();
+            a.subject = title;
+            a.body = message;
+            if(okBtnTxt) {
+                a.btn_txt = okBtnTxt;
+            }
+            await this.popup(a);
+        }
+        public async confirm(title: string, message: string, yesBtnTxt?: string, noBtnTxt?: string) {
+            const c = new Confirm();
+            c.subject = title;
+            c.body = message;
+            if(yesBtnTxt) {
+                c.btn_yes_txt = yesBtnTxt;
+            }
+            if(noBtnTxt) {
+                c.btn_no_txt = noBtnTxt;
+            }
+            return await this.popup(c);
+        }
+        //#endregion
+
+        /**
+         * 
+         */
+        protected selectDesktop(e: Event, pressInstance: Aventus.PressManager) {
+            let el = pressInstance.getElement();
+            let index = Number(el.getAttribute("index"));
+            this.active_desktop = index;
+            setTimeout(() => {
+                this.desktop_list = false;
+            }, 100);
+        }
+
+        protected addResizeObserver() {
+            new Aventus.ResizeObserver(() => {
+                this.style.setProperty("--ration", this.offsetWidth + " / " + this.offsetHeight);
+            }).observe(this);
+        }
+
+        private async startSocket() {
+            await MainSocket.open();
+            ApplicationManager.init();
+        }
+
+        protected override postCreation(): void {
+            this.addResizeObserver();
+            this.systemLoading();
+            this.rightClick();
+            this.preventScroll();
+            this.addSwitchDesktop();
+            this.startSocket();
+        }
+        //#endregion
+
+}
+}

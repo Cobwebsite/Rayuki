@@ -1,0 +1,47 @@
+import { Frame } from "../Frame.wcl.avt";
+
+export class TestFrame extends Frame implements Aventus.DefaultComponent {
+
+	//#region static
+	
+	//#endregion
+	
+	
+	//#region props
+	
+	//#endregion
+	
+	
+	//#region variables
+	
+	//#endregion
+	
+	
+	//#region constructor
+	
+	//#endregion
+	
+	
+	//#region methods
+    /**
+     * @inheritdoc
+     */
+    public override pageTitle(): string {
+        return "Page - test"
+    }
+    /**
+     * @inheritdoc
+     */
+    public override onShow() {
+        
+    }
+    /**
+     * @inheritdoc
+     */
+    public override onHide() {
+        
+    }
+	
+	//#endregion
+	
+}

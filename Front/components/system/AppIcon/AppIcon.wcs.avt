@@ -1,0 +1,107 @@
+@import '@root/_variables.gs.avt';
+
+:host {
+	align-items: center;
+	background-color: #0c2247;
+	border-radius: 5px;
+	box-shadow: var(--elevation-5);
+	cursor: pointer;
+	display: flex;
+	height: 30px;
+	justify-content: center;
+	position: relative;
+	transition:
+		box-shadow var(--bezier-curve) 0.3s,
+		transform var(--bezier-curve) 0.3s;
+	width: 30px;
+	-webkit-tap-highlight-color: transparent;
+
+	&::after {
+		background-color: var(--text-color);
+		border-radius: 5px;
+		bottom: -7px;
+		content: "";
+		height: 4px;
+		opacity: 0;
+		position: absolute;
+		transition:
+			visibility var(--bezier-curve) 0.3s,
+			opacity var(--bezier-curve) 0.3s;
+		visibility: hidden;
+		width: 4px;
+	}
+
+	.remove {
+		background-color: var(--primary-color);
+		border-radius: 10px;
+		display: none;
+		height: 20px;
+		position: absolute;
+		right: -10px;
+		top: -10px;
+		width: 20px;
+
+		rk-img {
+			--img-stroke-color: var(--text-color);
+			height: 100%;
+			padding: 0;
+			width: 100%;
+		}
+	}
+}
+
+:host([shaking]) {
+	animation: shake linear 0.4s infinite;
+}
+
+:host([can_remove]) {
+	.remove {
+		display: block;
+	}
+}
+
+:host([is_open]) {
+	transform: translateY(-3px);
+
+	&::after {
+		visibility: visible;
+		opacity: 1;
+	}
+}
+
+@include desktop {
+	:host(:hover) {
+		box-shadow: var(--elevation-1);
+	}
+}
+
+
+@include mobile {
+	:host {
+		height: 50px;
+		width: 50px;
+	}
+}
+
+
+@keyframes shake {
+	0% {
+		transform: rotateZ(0) rotateX(-13deg);
+	}
+
+	25% {
+		transform: rotateZ(2deg) rotateX(-13deg);
+	}
+
+	50% {
+		transform: rotateZ(0) rotateX(-13deg);
+	}
+
+	75% {
+		transform: rotateZ(-2deg) rotateX(-13deg);
+	}
+
+	100% {
+		transform: rotateZ(0) rotateX(-13deg);
+	}
+}

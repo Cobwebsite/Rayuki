@@ -1,0 +1,11 @@
+<div class="style-wrapper" @element="styleWrapper">
+    <div class="header">
+        <rk-scrollable y_scroll="false" x_scroll @element="headerContainer" floating_scroll>
+
+        </rk-scrollable>
+    </div>
+    <div class="body">
+        <rk-scrollable x_scroll @element="bodyContainer" floating_scroll auto_hide>
+        </rk-scrollable>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+import { CoreRouter } from "../generated/CoreRouter.lib.avt";
+
+namespace Permissions {
+    export interface IPermissionQuery {
+        enumName?: string,
+        value?: number | string,
+        additionalInfo?: string;
+    }
+    export class Permission {
+
+        private static saved: { [key: string]: boolean; } = {};
+
+        public static async can(query: IPermissionQuery): Promise<boolean> {
+            if(!query.additionalInfo) {
+                query.additionalInfo = "";
+            }
+
+            let key = query.enumName + "$" + query.value + "$" + query.additionalInfo;
+            if(Object.keys(this.saved).includes(key)) {
+                return this.saved[key];
+            }
+
+            let response = await new CoreRouter().routes.Permission.Can({ permissionQuery: query });
+            if(response.success && response.result !== undefined) {
+                this.saved[key] = response.result;
+                return this.saved[key];
+            }
+            else {
+                console.log(response.errors);
+            }
+
+            return false;
+        }
+    }
+
+    export abstract class PermissionQuery<T extends Aventus.Enum> implements IPermissionQuery {
+        public $type?: string;
+        public value?: string | number;
+        public additionalInfo?: string;
+
+        public can(value: Aventus.EnumValue<T>, additionalInfo?: string): Promise<boolean> {
+            this.$type = this.constructor['Fullname'];
+            this.value = value;
+            this.additionalInfo = additionalInfo;
+            return Permission.can(this);
+        }
+    }
+}
+

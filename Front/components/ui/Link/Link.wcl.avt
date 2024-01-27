@@ -1,0 +1,94 @@
+import { Application } from "../../system/Application/Application.wcl.avt";
+
+namespace Components {
+    export class Link extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property((target: Link) => {
+            target.changeActiveSub();
+        })
+        public to?: string;
+
+        @Property((target: Link) => {
+            target.changeActiveSub();
+        })
+        public active_pattern?: string;
+
+        @Property((target: Link) => {
+            target.onActiveChange();
+        })
+        public active!: boolean;
+        //#endregion
+
+
+        //#region variables
+        protected pressManager?: Aventus.PressManager;
+        protected oldTo?: string;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        protected changeActiveSub() {
+            let app = this.findParentByType(Application);
+            if(this.oldTo) {
+                app?.unsubscribeNavigationChange(this.oldTo, {
+                    active: this.setActive,
+                    inactive: this.setInactive
+                });
+            }
+            this.oldTo = this.active_pattern ?? this.to;
+            if(this.oldTo) {
+                app?.subscribeNavigationChange(this.oldTo, {
+                    active: this.setActive,
+                    inactive: this.setInactive
+                });
+            }
+        }
+
+        @BindThis()
+        protected setActive() {
+            this.active = true;
+        }
+
+        @BindThis()
+        protected setInactive() {
+            this.active = false;
+        }
+
+        protected onActiveChange() {
+
+        }
+
+        protected setOnPress() {
+            this.pressManager = new Aventus.PressManager({
+                element: this,
+                onPress: (e) => {
+                    let app = this.findParentByType(Application);
+                    if(app && this.to) {
+                        app.navigate(this.to);
+                    }
+                }
+            });
+        }
+
+        protected override postDestruction(): void {
+            this.pressManager?.destroy();
+            this.pressManager = undefined;
+        }
+        protected override postCreation(): void {
+            this.setOnPress();
+        }
+        //#endregion
+
+    }
+}

@@ -1,0 +1,43 @@
+<script>
+	import { ConfigureAppTableAllApps } from "../ConfigureAppTableAllApps.wcl.avt";
+import { ConfigureAppType } from "../../ConfigureApp.wcl.avt";
+
+	export class ConfigureAppTableAllAppsAction extends Core.Components.TableCell<never, ConfigureAppType> implements Aventus.DefaultComponent {
+	
+	    private name: string = "";
+	
+	    /**
+	     * @inheritdoc
+	     */
+	    public override setContent(data: any, rowData: ConfigureAppType) {
+	        this.name = rowData.name;
+	    }
+
+	    private async install() {
+	        if(this.table instanceof ConfigureAppTableAllApps) {
+	            let isInstalled = await this.table.install(this.name);
+	            if(isInstalled) {
+	                this.row?.remove();
+	            }
+				else {
+					alert("Quelque chose ne s'est pas bien passée, vérifier que l'application choisie a déjà été compilée");
+				}
+	        }
+	    }
+	}
+	
+	
+</script>
+
+<template>	
+	<rk-button @press="install">Installer</rk-button>
+</template>
+
+<style>	
+		:host {
+			rk-button {
+				background-color: var(--green);
+			}
+		}
+	
+</style>

@@ -1,0 +1,50 @@
+import type { ContextMenuSeparator } from "../ContextMenuSeparator/ContextMenuSeparator.wcl.avt";
+import type { ContextMenu } from "../ContextMenu.wcl.avt";
+
+export class ContextMenuItem extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+    @Property()
+    public text: string = "";
+
+    @Property()
+    public icon?: string;
+    //#endregion
+
+
+    //#region variables
+    public priority: number = 0;
+    public action: () => void = () => { };
+    public menu!: ContextMenu;
+    public canBeRendered: (items: (ContextMenuItem | ContextMenuSeparator)[], item: ContextMenuItem | ContextMenuSeparator) => boolean = () => true;
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+    @BindThis()
+    protected onPress() {
+        this.action();
+        this.menu.close();
+    }
+
+    protected override postCreation(): void {
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => {
+                this.onPress();
+            }
+        });
+    }
+    //#endregion
+
+}

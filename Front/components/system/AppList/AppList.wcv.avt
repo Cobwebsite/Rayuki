@@ -1,0 +1,9 @@
+<div class="search" @element="searchContainer">
+    <input type="text" placeholder="search">
+</div>
+<div class="app-list">
+    <rk-page-case @element="pageCaseEl" case_width="100" case_height="100" min_case_margin_left="20"
+        min_case_margin_top="20" min_page_number="1">
+        
+    </rk-page-case>
+</div>

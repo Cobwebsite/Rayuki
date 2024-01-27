@@ -1,0 +1,106 @@
+@import "@root/_variables.gs.avt";
+
+:host {
+	--internal-button-background-color: var(--button-background-color);
+	--internal-button-color: var(--button-color);
+	--internal-button-box-shadow: var(--button-box-shadow);
+	--internal-button-box-shadow-hover: var(--button-box-shadow-hover);
+}
+
+:host {
+	aspect-ratio: 1 / 1;
+	background-color: var(--internal-button-background-color);
+	border-radius: 50000px;
+	box-shadow: var(--internal-button-box-shadow);
+	color: var(--internal-button-color);
+	cursor: pointer;
+	height: 36px;
+	overflow: hidden;
+	position: relative;
+
+	.hider {
+		background-color: var(--darker);
+		inset: 0;
+		opacity: 0;
+		position: absolute;
+		transform: opacity 0.3 var(--bezier-curve);
+		z-index: 1;
+	}
+
+	.content {
+		align-items: center;
+		display: flex;
+		height: 100%;
+		justify-content: center;
+		position: relative;
+		z-index: 2;
+
+
+		.icon {
+			--img-fill-color: var(--internal-button-color);
+			height: 100%;
+			padding: 10px 0;
+		}
+	}
+}
+
+:host([outline]) {
+	background-color: transparent;
+	border: 1px solid var(--button-background-color);
+	color: var(--text-color);
+}
+
+:host([color="green"]) {
+	background-color: var(--green);
+	color: var(--text-color-green);
+}
+
+:host([outline][color="green"]) {
+	background-color: transparent;
+	border: 1px solid var(--green);
+	color: var(--text-color);
+}
+
+
+:host([color="red"]) {
+	background-color: var(--red);
+	color: var(--text-color-red);
+}
+
+:host([outline][color="red"]) {
+	background-color: transparent;
+	border: 1px solid var(--red);
+	color: var(--text-color);
+}
+
+:host([color="orange"]) {
+	background-color: var(--orange);
+	color: var(--text-color-orange);
+}
+
+:host([outline][color="orange"]) {
+	background-color: transparent;
+	border: 1px solid var(--orange);
+	color: var(--text-color);
+}
+
+:host([color="blue"]) {
+	background-color: var(--blue);
+	color: var(--text-color-blue);
+}
+
+:host([outline][color="blue"]) {
+	background-color: transparent;
+	border: 1px solid var(--blue);
+	color: var(--text-color);
+}
+
+@include desktop {
+	:host(:hover) {
+		box-shadow: var(--internal-button-box-shadow-hover);
+
+		.hider {
+			opacity: 1;
+		}
+	}
+}

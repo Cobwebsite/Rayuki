@@ -1,0 +1,244 @@
+@import '@root/_variables.gs.avt';
+
+:host {
+	--internal-application-box-shadow: var(--application-box-shadow);
+	--internal-application-header-background-color: var(--application-header-background-color, var(--darker-active));
+}
+
+:host {
+	background-color: var(--primary-color-opacity);
+	border-radius: 10px;
+	box-shadow: var(--internal-application-box-shadow);
+	container-name: application;
+	container-type: inline-size;
+	outline: none;
+	position: absolute;
+	z-index: 50;
+
+	.header {
+		align-items: center;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		cursor: grab;
+		display: flex;
+		height: 30px;
+		overflow: hidden;
+		position: relative;
+		width: 100%;
+		z-index: 3;
+
+		.background {
+			background-color: var(--internal-application-header-background-color);
+			inset: 0;
+			position: absolute;
+			z-index: 1;
+		}
+
+		.navigation-actions {
+			align-items: center;
+			display: flex;
+			height: 100%;
+			margin-left: 15px;
+			margin-right: 15px;
+			z-index: 2;
+
+			.action {
+				border-radius: 2px;
+				/* border: 1px solid var(--lighter);*/
+				height: calc(100% - 6px);
+				padding: 0px;
+				padding: 1px 5px;
+				transition: background-color var(--bezier-curve) 0.2s;
+				width: 22px;
+
+				rk-img {
+					height: 100%;
+					width: 100%;
+				}
+			}
+
+			.action.disable {
+				--img-fill-color: var(--text-disable);
+			}
+		}
+
+		.title {
+			flex-grow: 1;
+			margin-right: 15px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			z-index: 2;
+		}
+
+		.application-actions {
+			align-items: center;
+			display: flex;
+			gap: 5px;
+			justify-content: end;
+			margin-right: 15px;
+			z-index: 2;
+
+			.btn {
+				border-radius: 10px;
+				height: 15px;
+				width: 15px;
+			}
+		}
+	}
+
+	.content {
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
+		height: calc(100% - 35px);
+		margin: 5px;
+		margin-top: 0;
+		overflow: hidden;
+		width: calc(100% - 10px);
+		z-index: 1;
+	}
+
+
+	.loading {
+		display: none;
+		z-index: 10;
+	}
+
+	rk-resize {
+		--resize-z-index: 4;
+	}
+}
+
+:host(:not([moving])) {
+	transition:
+		height 0.5s var(--bezier-curve),
+		width 0.5s var(--bezier-curve),
+		top 0.5s var(--bezier-curve),
+		left 0.5s var(--bezier-curve),
+		border-radius 0.5s var(--bezier-curve),
+		opacity var(--bezier-curve) .5s,
+		visibility var(--bezier-curve) .5s;
+
+	.header {
+		transition:
+			border-radius 0.5s var(--bezier-curve);
+	}
+}
+
+:host([moving]) {
+	.header {
+		cursor: grabbing;
+	}
+}
+
+:host([full]) {
+	border-radius: 0;
+	height: 100% !important;
+	left: 0 !important;
+	top: 0 !important;
+	width: 100% !important;
+	z-index: 500;
+
+	.header {
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+		cursor: default;
+	}
+
+	.content {
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+}
+
+:host([is_active]) {
+	z-index: 501;
+}
+
+:host([is_hidden]) {
+	height: 0 !important;
+	left: calc(50% - 100px) !important;
+	overflow: hidden;
+	top: calc(100% - 50px) !important;
+	width: 200px !important;
+}
+
+:host([loading]) {
+	.loading {
+		display: flex;
+	}
+}
+
+@include desktop {
+	:host {
+		.header {
+			.navigation-actions {
+				.action:not(.disable):hover {
+					background-color: var(--lighter);
+				}
+			}
+
+			.application-actions {
+				.btn:hover {
+					box-shadow: 0 0 4px var(--darker-active) inset;
+				}
+			}
+		}
+	}
+}
+
+
+@include mobile {
+	:host {
+		border-radius: 0;
+		height: 100% !important;
+		left: 0 !important;
+		top: 0 !important;
+		width: 100% !important;
+		z-index: 502;
+
+		.header {
+			height: 40px;
+
+			.application-actions {
+				gap: 10px;
+
+				.btn {
+					height: 20px;
+					width: 20px;
+				}
+
+				.orange {
+					display: none;
+				}
+			}
+		}
+
+		.content {
+			height: calc(100% - 45px);
+		}
+
+		rk-resize {
+			display: none;
+		}
+	}
+
+	:host([is_hidden]) {
+		left: 0 !important;
+		width: 100% !important;
+	}
+}
+
+
+/* :host {*/
+
+/* 	@each $name,*/
+/* 	$size in $size-breakpoints {*/
+/* 		@container application (max-width: #{$size+'px'}) {*/
+/* 			.d-none-#{$name} {*/
+/* 				display: none;*/
+/* 			}*/
+/* 		}*/
+/* 	}*/
+
+/* }*/

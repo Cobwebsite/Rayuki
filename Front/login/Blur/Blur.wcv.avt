@@ -1,0 +1,1 @@
+<div class="effect" @element="effectEl"></div>

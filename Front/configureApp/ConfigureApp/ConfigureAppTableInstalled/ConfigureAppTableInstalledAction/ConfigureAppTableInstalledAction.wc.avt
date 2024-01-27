@@ -1,0 +1,39 @@
+<script>
+	import { ConfigureAppType } from "../../ConfigureApp.wcl.avt";
+	import { GeneratedRouter } from "../../../../generated/GeneratedRouter.lib.avt";
+
+	export class ConfigureAppTableInstalledAction extends Core.Components.TableCell<never, ConfigureAppType> implements Aventus.DefaultComponent {
+	
+	    private appName: string = "";
+
+	    /**
+	     * @inheritdoc
+	     */
+	    public override setContent(data: any, rowData: ConfigureAppType) {
+	        this.appName = rowData.name;
+	    }
+
+	    private async uninstall() {
+	        let query = await new GeneratedRouter().routes.Application.UninstallDevApp({
+	            app: this.appName
+	        });
+	        this.row?.remove();
+	    }
+	}
+	
+	
+	
+</script>
+
+<template>	
+	<rk-button @press="uninstall">Désinstaller</rk-button>
+</template>
+
+<style>	
+		:host {
+			rk-button {
+				background-color: var(--red);
+			}
+		}
+	
+</style>

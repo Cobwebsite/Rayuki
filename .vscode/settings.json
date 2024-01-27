@@ -1,0 +1,7 @@
+{
+    "dotnet.defaultSolution": "Core.sln",
+    "aventus.liveserver": {
+        "launch_browser": false
+    },
+    "svg.preview.background": "custom"
+}

@@ -1,0 +1,29 @@
+{
+  "outputPath": "./Front/generated",
+  "csProj": "./Core.csproj",
+  "httpRouter": {
+    "routerName": "CoreRouter",
+    "variableRoutesName": "CoreHttpRoutes"
+  },
+  "exportEnumByDefault": true,
+  "replacer": {
+    "all": {
+      "type": {},
+      "result": {
+        "WebPush.PushSubscription": {
+          "result": "PushSubscription",
+          "file": ""
+        },
+        "PermissionQuery": {
+          "result": "PermissionQuery",
+          "file": ".\\Front\\libs\\Permission.lib.avt"
+        },
+        "IPermissionQuery": {
+          "result": "IPermissionQuery",
+          "file": ".\\Front\\libs\\Permission.lib.avt",
+          "useTypeImport": true
+        }
+      }
+    }
+  }
+}

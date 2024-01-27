@@ -1,0 +1,366 @@
+import { Os } from "../Os/Os.wcl.avt";
+import { DesktopRAM } from "../../../ram/Desktop.ram.avt";
+import type { BottomBar } from "../BottomBar/BottomBar.wcl.avt";
+import type { PageCase } from "../../ui/layout/PageCase/PageCase.wcl.avt";
+import { PageCaseSlot } from "../../ui/layout/PageCase/PageCaseSlot/PageCaseSlot.wcl.avt";
+import type { Application } from "../Application/Application.wcl.avt";
+import { ApplicationOpen } from "../../../generated/Data/ApplicationOpen.lib.avt";
+import { ApplicationHistory } from "../Application/ApplicationHistory.lib.avt";
+import { AppIconManager } from "../../../libs/AppIconManager.lib.avt";
+import type { ContextMenu, IContextMenu } from "../../ui/ContextMenu/ContextMenu.wcl.avt";
+import { MoveApplication, type MoveApplicationProvider } from "../../../states/desktop/MoveApplication.state.avt";
+import { DesktopStateManager } from "../../../states/desktop/Desktop.state.avt";
+import type { AppIcon } from "../AppIcon/AppIcon.wcl.avt";
+import { MainSocket } from "../../../libs/MainSocket.lib.avt";
+import { DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.data.avt";
+import { ApplicationRAM } from "../../../ram/Application.ram.avt";
+import type { DesktopData } from "../../../libs/TypeMapper.lib.avt";
+
+namespace System {
+    export class Desktop extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, MoveApplicationProvider {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property()
+        public desktop_id!: number;
+
+        @Attribute()
+        public show_application_list!: boolean;
+
+        /**
+         * Determine if the desktop is the one visible on screen
+         */
+        @Attribute()
+        public is_active!: boolean;
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected bottomBar!: BottomBar;
+
+        @ViewElement()
+        protected pageCaseEl!: PageCase;
+
+        @ViewElement()
+        protected appContainer!: HTMLDivElement;
+
+        public applications: { [name: string]: { [id: number]: Application; }; } = {};
+        public data!: Aventus.RamItem<DesktopData>;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        /**
+         * @inheritdoc
+         */
+        public onContextMenu(contextMenu: ContextMenu, stop: () => void): void {
+            if(Object.keys(this.applications).length > 0) {
+                contextMenu.addItem({
+                    text: "Recentrer les fenetres",
+                    icon: "/img/icons/window-restore.svg",
+                    priority: 2,
+                    action: () => {
+                        for(let name in this.applications) {
+                            for(let id in this.applications[name]) {
+                                this.applications[name][id].resetSize();
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        //#region application
+        public async loadApp(application: string) {
+            await Aventus.ResourceLoader.loadInHead({
+                type: "js",
+                url: "/apps/" + application + "/index.js"
+            });
+            await Aventus.ResourceLoader.loadInHead({
+                type: "css",
+                url: "/apps/" + application + "/default.css"
+            });
+        }
+        public async openUrl(application: string, componentUrl: string = "/", url: string = "/") {
+            Os.instance.show_application_list = false;
+            await this.loadApp(application);
+
+            let tagName = await AppIconManager.getTagName(application, componentUrl);
+            let comp = Aventus.WebComponentInstance.create<Application>(tagName);
+            if(comp) {
+                if(!this.applications[comp.$type]) {
+                    this.applications[comp.$type] = {};
+                }
+                let i = 0;
+                while(this.applications[comp.$type][i]) {
+                    i++;
+                }
+                comp.init({
+                    applicationNumber: i,
+                    desktopId: this.desktop_id,
+                    desktop: this,
+                });
+                ;
+                this.appContainer.appendChild(comp);
+                comp.focus();
+                await comp.navigate(url);
+
+                this.applications[comp.$type][i] = comp;
+
+                this.manageAppBottomBar(comp.$type);
+            }
+        }
+        public async unHideApplication(application: string, componentUrl: string = "/") {
+            let tagName = await AppIconManager.getTagName(application, componentUrl);
+            let comp = Aventus.WebComponentInstance.create<Application>(tagName);
+            if(!comp || !this.applications[comp.$type]) {
+                return;
+            }
+
+            let allHidden = true;
+            for(let nb in this.applications[comp.$type]) {
+                if(!this.applications[comp.$type][nb].is_hidden) {
+                    allHidden = false;
+                    break;
+                }
+            }
+            if(allHidden) {
+                for(let nb in this.applications[comp.$type]) {
+                    this.applications[comp.$type][nb].show();
+                }
+            }
+            else {
+                for(let nb in this.applications[comp.$type]) {
+                    this.applications[comp.$type][nb].hide();
+                }
+            }
+        }
+
+        private async recreateApplications(applications?: ApplicationOpen[]) {
+            if(!applications) {
+                return;
+            }
+
+            for(let application of applications) {
+                this.recreateApplication(application);
+            }
+        }
+        public async recreateApplication(application: ApplicationOpen) {
+            let applicationName = application.applicationName;
+            if(!applicationName) {
+                return;
+            }
+            let appName = applicationName?.split(".")[0];
+            await this.loadApp(appName);
+
+
+            let comp = Aventus.WebComponentInstance.create<Application>(applicationName);
+            if(comp) {
+                if(!this.applications[applicationName]) {
+                    this.applications[applicationName] = {};
+                }
+                let i = application.number;
+                comp.init({
+                    applicationNumber: i,
+                    desktopId: this.desktop_id,
+                    desktop: this
+                });
+                comp.focus();
+                comp.is_hidden = application.isHidden;
+                this.appContainer.appendChild(comp);
+
+                await comp.setHistory(ApplicationHistory.fromText(comp.navigator, application.history));
+
+                this.applications[comp.$type][i] = comp;
+                this.manageAppBottomBar(comp.$type);
+            }
+        }
+        public removeApp(application: Application) {
+            const appNumber = application.options?.applicationNumber ?? -1;
+            const type = application.$type;
+            delete this.applications[type][appNumber];
+
+            if(Object.keys(this.applications[type]).length == 0) {
+                delete this.applications[type];
+            }
+
+            this.manageAppBottomBar(type);
+        }
+        private manageAppBottomBar(type: string) {
+            let splitted = type.split(".");
+            let current: any = window;
+            for(let part of splitted) {
+                current = current[part];
+            }
+            if(current && current.prototype instanceof Aventus.WebComponent) {
+                let icon = AppIconManager.getIcon(current.Tag);
+                if(!icon) {
+                    return;
+                }
+                const appContainer = this.bottomBar.applicationsContainer;
+                if(!this.applications[type] || Object.keys(this.applications[type]).length == 0) {
+                    let children = Array.from(appContainer.children);
+                    for(let child of children) {
+                        if(child instanceof icon) {
+                            child.is_open = false;
+                            if(child.classList.contains("remove-close")) {
+                                child.remove();
+                            }
+                        }
+                    }
+                }
+                else {
+                    let children = Array.from(appContainer.children);
+                    let found = false;
+                    for(let child of children) {
+                        if(child instanceof icon) {
+                            child.is_open = true;
+                            found = true;
+                        }
+                    }
+                    if(found) {
+                        return;
+                    }
+                    let iconTemp = new icon();
+                    iconTemp.is_open = true;
+                    iconTemp.classList.add("remove-close");
+                    appContainer.append(iconTemp);
+                }
+            }
+
+
+        }
+        //#endregion
+
+        //#region desktop icons
+        private oldActiveCase?: PageCaseSlot;
+        private pressManagerStopMoveApp?: Aventus.PressManager;
+
+        @BindThis()
+        public setAppPositionTemp(shadow: AppIcon, x: number, y: number) {
+            let caseEl = this.pageCaseEl.shadowRoot.elementFromPoint(x, y);
+            if(caseEl && this.pageCaseEl.shadowRoot.contains(caseEl)) {
+                let pageCase = caseEl instanceof PageCaseSlot ? caseEl : Aventus.ElementExtension.findParentByType(caseEl, PageCaseSlot);
+
+                if(this.oldActiveCase != caseEl) {
+                    this.oldActiveCase?.classList.remove("active");
+
+                    if(pageCase) {
+                        if(this.pageCaseEl.getElementAt(pageCase.no) == null) {
+                            this.oldActiveCase = pageCase;
+                            pageCase.classList.add("active");
+                            shadow.style.width = '75px';
+                            shadow.style.height = '75px';
+                        }
+                    }
+                    else {
+                        this.oldActiveCase = undefined;
+                    }
+                }
+            }
+
+            return this.oldActiveCase ? true : false;
+        }
+
+        @BindThis()
+        public clearAppPositionTemp(): void {
+            this.oldActiveCase?.classList.remove("active");
+        }
+
+        @BindThis()
+        public async setAppPosition(icon: AppIcon, x: number, y: number) {
+            this.setAppPositionTemp(icon, x, y);
+            if(this.oldActiveCase) {
+                let no = this.oldActiveCase.no;
+                icon.position = no;
+                this.pageCaseEl.appendChild(icon);
+                this.pageCaseEl.calculateGrid();
+                let desktopIcon = new DesktopAppIcon();
+                desktopIcon.DesktopId = this.desktop_id;
+                desktopIcon.Position = no;
+                desktopIcon.IconTag = icon.tag;
+                desktopIcon.Location = DesktopLocation.Desktop;
+                desktopIcon.id = icon.iconId;
+                let result = await MainSocket.instance.routes.desktop.SetDesktopIcon({
+                    icon: desktopIcon
+                });
+                if(result.success && result.result) {
+                    icon.iconId = result.result.id;
+                }
+            }
+        }
+
+        @StateActive(MoveApplication.state, DesktopStateManager)
+        protected onMoveApplication(state: Aventus.State, slugs: Aventus.StateSlug) {
+            if(!this.is_active) {
+                return;
+            }
+            if(state instanceof MoveApplication) {
+                state.registerProvider(this);
+                this.pressManagerStopMoveApp?.destroy();
+                this.pressManagerStopMoveApp = new Aventus.PressManager({
+                    element: this,
+                    onPress: () => {
+                        state.resetState();
+                    }
+                });
+            }
+
+
+        }
+
+        @StateInactive(MoveApplication.state, DesktopStateManager)
+        protected onStopMovingApplication(state: Aventus.State, nextState: Aventus.State, slugs: Aventus.StateSlug) {
+            if(!this.is_active) {
+                return;
+            }
+            this.oldActiveCase?.classList.remove("active");
+            this.oldActiveCase = undefined;
+
+            this.pressManagerStopMoveApp?.destroy();
+        }
+        //#endregion
+
+
+        private async loadData() {
+            let data = await DesktopRAM.getInstance().getById(this.desktop_id);
+            if(data) {
+                this.data = data;
+                this.style.backgroundImage = 'url("' + data.Background + '")';
+                this.recreateApplications(data.Applications);
+                for(let icon of data.Icons) {
+                    let el = Aventus.WebComponentInstance.create<AppIcon>(icon.IconTag);
+                    if(el) {
+                        el.iconId = icon.id;
+                        el.position = icon.Position;
+
+                        if(icon.Location == DesktopLocation.Desktop) {
+                            this.pageCaseEl.appendChild(el);
+                        }
+                        else if(icon.Location == DesktopLocation.BottomBar) {
+                            this.bottomBar.setApplication(el);
+                        }
+                    }
+
+                }
+                this.pageCaseEl.calculateGrid();
+
+            }
+
+        }
+        protected override postCreation(): void {
+            this.loadData();
+        }
+        //#endregion
+}
+            }

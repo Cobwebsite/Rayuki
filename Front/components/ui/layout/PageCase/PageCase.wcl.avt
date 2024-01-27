@@ -1,0 +1,344 @@
+import { PageCaseContainer } from "./PageCaseContainer/PageCaseContainer.wcl.avt";
+import { PageCaseSlot } from "./PageCaseSlot/PageCaseSlot.wcl.avt";
+
+namespace Components {
+    export interface IPositionable {
+        position: number;
+    }
+    export class PageCase extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property((target: PageCase) => {
+            target.style.setProperty("--local-page-case-width", target.case_width + 'px');
+        })
+        public case_width: number = 50;
+
+        @Property((target: PageCase) => {
+            target.style.setProperty("--local-page-case-height", target.case_height + 'px');
+        })
+        public case_height: number = 50;
+
+        @Attribute()
+        public min_case_margin_left: number = 30;
+        @Attribute()
+        public min_case_margin_top: number = 30;
+
+        /**
+         * Move the children from the slot to the case
+         */
+        @Attribute()
+        public move_content: boolean = true;
+        @Attribute()
+        public order_position!: boolean;
+        @Attribute()
+        public inverse!: boolean;
+        @Attribute()
+        public allow_scroll_outside!: boolean;
+
+        @Attribute()
+        public lock!: boolean;
+
+        @Attribute()
+        public min_page_number!: number;
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected pageHider!: HTMLDivElement;
+
+
+        private casesEl: PageCaseSlot[] = [];
+        private pagesEl: PageCaseContainer[] = [];
+        private contentsEl: { [place: string]: (HTMLElement & Partial<IPositionable>); } = {};
+        private nbCasePerPage: number = 0;
+        private currentPageNumber: number = 0;
+        private resizeObserver!: Aventus.ResizeObserver;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        private addResizeObserver() {
+            this.resizeObserver = new Aventus.ResizeObserver(() => {
+                this.calculateGrid();
+            });
+            this.resizeObserver.observe(this);
+        }
+
+        public calculateGrid() {
+            let width = (this.offsetWidth - 1);
+            let height = this.offsetHeight;
+            if(width < 0) { width = 0; }
+
+
+            let columns = Math.floor(width / this.case_width);
+            let marginLeft = width - (this.case_width * columns);
+            marginLeft = Math.floor(marginLeft / columns);
+            while(marginLeft < this.min_case_margin_left) {
+                columns--;
+                marginLeft = width - (this.case_width * columns);
+                marginLeft = Math.floor(marginLeft / columns);
+                // if(marginLeft % 2 == 1) {
+                //     marginLeft--;
+                // }
+            }
+
+            let rows = Math.floor(height / this.case_height);
+            let marginTop = height - (this.case_height * rows);
+            marginTop = Math.floor(marginTop / rows);
+            while(marginTop < this.min_case_margin_top) {
+                rows--;
+                marginTop = height - (this.case_height * rows);
+                marginTop = Math.floor(marginTop / rows);
+                // if(marginTop % 2 == 1) {
+                //     marginTop--;
+                // }
+            }
+            this.style.setProperty("--local-page-case-margin-top", marginTop + 'px');
+            this.style.setProperty("--local-page-case-margin-left", marginLeft + 'px');
+
+
+            let nbCasePerPage = columns * rows;
+            this.nbCasePerPage = nbCasePerPage;
+            if(nbCasePerPage == 0) { return; }
+            let listInSlot = this.getElements();
+            let listInSlotLength = Object.keys(listInSlot).length;
+            let nbPage = Math.ceil(listInSlotLength / nbCasePerPage);
+            let min_page_number = this.min_page_number ?? 0;
+            if(nbPage < min_page_number) {
+                nbPage = min_page_number;
+            }
+            if(this.pageHider) {
+                this.pageHider.style.width = nbPage * 100 + '%';
+            }
+            let k = 0;
+            let maxRealCaseNumber = 0;
+            for(; k < nbPage; k++) {
+                var pageContainer;
+                if(k < this.pagesEl.length) {
+                    pageContainer = this.pagesEl[k];
+                    pageContainer.style.display = "";
+                } else {
+                    pageContainer = new PageCaseContainer();
+                    this.pageHider?.appendChild(pageContainer);
+                    this.pagesEl.push(pageContainer);
+                }
+                pageContainer.style.width = (100 / nbPage) + '%';
+                for(var i = 0; i < nbCasePerPage; i++) {
+                    var realCaseNumber = k * nbCasePerPage + i;
+                    var realPosition = realCaseNumber;
+                    if(this.inverse) {
+                        var tempRow = Math.floor(i / columns);
+                        var tempCol = i % columns;
+                        realPosition = tempCol * rows + tempRow;
+                        realPosition += k * nbCasePerPage;
+                    }
+                    if(realCaseNumber > maxRealCaseNumber) {
+                        maxRealCaseNumber = realCaseNumber;
+                    }
+                    var el: PageCaseSlot;
+                    if(realCaseNumber < this.casesEl.length) {
+                        el = this.casesEl[realCaseNumber];
+                    }
+                    else {
+                        el = new PageCaseSlot();
+                        this.casesEl.push(el);
+                    }
+                    el.no = realPosition;
+                    el.setAttribute("row", Math.floor(i / columns) + "");
+                    el.setAttribute("col", i % columns + "");
+                    pageContainer.appendChild(el);
+                    if(listInSlot.hasOwnProperty(realPosition)) {
+                        el.item = listInSlot[realPosition];
+                        if(this.move_content) {
+                            el.appendChild(listInSlot[realPosition]);
+                        } else {
+                            el.item.style.transform = 'translateX(var(--page-container-scroll, 0))';
+                        }
+                    }
+                }
+
+            }
+            for(; k < this.pagesEl.length; k++) {
+                this.pagesEl[k].style.display = 'none';
+            }
+            for(; maxRealCaseNumber + 1 < this.casesEl.length; maxRealCaseNumber++) {
+                this.casesEl[maxRealCaseNumber + 1].remove();
+            }
+
+            if(!this.move_content) {
+                this.recalculatePosition();
+            }
+        }
+        private getElements(): { [place: string]: (HTMLElement & Partial<IPositionable>); } {
+            let listChild = this.getElementsInSlot() as (HTMLElement & Partial<IPositionable>)[];
+            listChild = [...Object.values(this.contentsEl), ...listChild];
+            const result: { [place: string]: (HTMLElement & Partial<IPositionable>); } = {};
+            if(this.order_position) {
+                for(var i = 0; i < listChild.length; i++) {
+                    var position = Number(listChild[i].position ?? listChild[i].getAttribute("position"));
+                    if(isNaN(position)) {
+                        console.error("error position attribute isn't a number");
+                    }
+                    else if(listChild[i].parentNode != null) {
+                        result[position] = listChild[i];
+                    }
+                }
+            }
+            else {
+                for(var i = 0; i < listChild.length; i++) {
+                    if(listChild[i].parentNode != null) {
+                        result[i] = listChild[i];
+                    }
+                }
+            }
+            this.contentsEl = result;
+            return result;
+        }
+        private recalculatePosition() {
+            for(var i = 0; i < this.casesEl.length; i++) {
+                var el = this.casesEl[i].item;
+                if(el) {
+                    el.style.top = this.casesEl[i].offsetTop + 'px';
+                    el.style.left = this.casesEl[i].offsetLeft + 'px';
+                }
+
+            }
+        }
+        private addMoveAction() {
+            let max: number = 0;
+            let lastPosition: number = 0;
+            let firstPosition: number = 0;
+            if(!this.pageHider) {
+                return;
+            }
+            let pageHider = this.pageHider;
+            let stopProp = false;
+            let canApply = false;
+            new Aventus.DragAndDrop({
+                element: this.pageHider,
+                applyDrag: false,
+                stopPropagation: false,
+                isDragEnable: () => !this.lock,
+                onStart: () => {
+                    max = (this.pagesEl.length - 1) * this.offsetWidth * -1;
+                    firstPosition = pageHider.offsetLeft;
+                    canApply = false;
+                },
+                onMove: (e, position) => {
+                    if(!stopProp && (position.y > 20 || position.y < -20)) {
+                        canApply = true;
+                    }
+                    if(!canApply && (position.x > 20 || position.x < -20)) {
+                        stopProp = true;
+                    }
+
+                    if(canApply) {
+                        if(!this.allow_scroll_outside) {
+                            if(position.x > 0) { position.x = 0; }
+                            else if(position.x < max) { position.x = max; }
+                        }
+
+                        lastPosition = position.x;
+                        pageHider.style.left = position.x + 'px';
+                        this.style.setProperty("--page-container-scroll", position.x + 'px');
+                    }
+
+                    if(stopProp) {
+                        e.stopImmediatePropagation();
+                    }
+
+                },
+                onStop: () => {
+                    stopProp = false;
+                    var width = this.offsetWidth;
+                    let diff = lastPosition - firstPosition;
+                    if(diff < -300 || diff < (width / -4)) {
+                        //next page
+                        this.currentPageNumber += 1;
+                    }
+                    else if(diff > 300 || diff > (width / 4)) {
+                        this.currentPageNumber -= 1;
+                    }
+
+                    if(this.currentPageNumber < 0) {
+                        this.currentPageNumber = 0;
+                    }
+                    else if(this.currentPageNumber > this.pagesEl.length - 1) {
+                        this.currentPageNumber = this.pagesEl.length - 1;
+                    }
+                    this.displayCurrentPage();
+                }
+            });
+        }
+
+        private displayCurrentPage() {
+            if(!this.pageHider) {
+                return;
+            }
+            let pageHider = this.pageHider;
+            var leftToGo = this.offsetWidth * this.currentPageNumber * -1;
+            var currentLeft = this.pageHider.offsetLeft;
+            var diff = leftToGo - currentLeft;
+            var step = diff / 50;
+            var i = 0;
+            if(!this.move_content) {
+                var interval = setInterval(() => {
+                    currentLeft += step;
+                    i++;
+                    if(i == 50) {
+                        clearInterval(interval);
+                        pageHider.style.left = leftToGo + 'px';
+                        this.style.setProperty("--page-container-scroll", leftToGo + 'px');
+                    } else {
+                        pageHider.style.left = currentLeft + 'px';
+                        this.style.setProperty("--page-container-scroll", currentLeft + 'px');
+                    }
+                }, 10);
+            }
+            else {
+                this.pageHider.style.transition = "left 0.5s linear";
+                setTimeout(() => {
+                    pageHider.style.left = leftToGo + 'px';
+                    setTimeout(() => {
+                        pageHider.style.transition = "";
+                    }, 550);
+                });
+            }
+        }
+
+        public reset() {
+            this.casesEl = [];
+            this.pagesEl = [];
+            this.contentsEl = {};
+            this.currentPageNumber = 0;
+            if(this.pageHider) {
+                this.pageHider.innerHTML = '';
+                this.pageHider.style.left = '';
+            }
+            this.style.removeProperty("--page-container-scroll");
+            this.calculateGrid();
+        }
+
+        public getElementAt(no: number): (HTMLElement & Partial<IPositionable>) | undefined {
+            return this.contentsEl[no];
+        }
+
+        protected override postCreation(): void {
+            this.addResizeObserver();
+            this.addMoveAction();
+        }
+        //#endregion
+
+}
+    }

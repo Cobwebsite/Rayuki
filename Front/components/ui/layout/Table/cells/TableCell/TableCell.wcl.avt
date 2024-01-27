@@ -1,0 +1,65 @@
+import { Table } from "../../Table.wcl.avt";
+import { TableRow } from "../../rows/TableRow/TableRow.wcl.avt";
+
+namespace Components {
+    export abstract class TableCell<T, U = any> extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+        //#region variables
+        @ViewElement()
+        protected contentEl!: HTMLSpanElement;
+
+        @ViewElement()
+        protected resizeEl!: HTMLDivElement;
+
+        public row?: TableRow<U>;
+        public index: number = 0;
+        public get table(): Table<U> {
+            if(this.row && this.row.table) {
+                return this.row.table;
+            }
+            throw 'Table can\'t be found for the cell';
+        }
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        public abstract setContent(data: T | undefined, rowData: U);
+
+        protected addResize() {
+            if(!this.resizeEl) {
+                return;
+            }
+            let resizeEl = this.resizeEl;
+            new Aventus.DragAndDrop({
+                element: this.resizeEl,
+                applyDrag: false,
+                isDragEnable: () => this.table.col_resize ?? false,
+                offsetDrag: 0,
+                onMove: (e, position) => {
+                    let newSize = position.x + resizeEl.offsetWidth;
+                    this.table.setColWidth(newSize, this.index);
+                }
+            });
+        }
+
+        protected override postCreation(): void {
+            this.addResize();
+        }
+        //#endregion
+
+    }
+}

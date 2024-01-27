@@ -1,0 +1,14 @@
+import { PermissionQuery } from '../../libs/Permission.lib.avt';
+
+namespace Permissions {
+
+	export enum ApplicationPermission {
+		DenyAccess
+	}
+
+	@Convertible()
+	export class ApplicationPermissionQuery extends PermissionQuery<typeof ApplicationPermission>  {
+		public static get Fullname(): string { return "Core.Permissions.ApplicationPermissionQuery, Core"; }
+	}
+
+}

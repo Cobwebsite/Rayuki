@@ -1,0 +1,5 @@
+<div class="icon-container">
+    <div class="hider"></div>
+    <div class="icon" @element="iconEl"></div>
+</div>
+<div class="text">{{this.text}}</div>

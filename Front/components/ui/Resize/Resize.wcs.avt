@@ -1,0 +1,76 @@
+:host {
+    --_resize-z-index:var(--resize-z-index, 1);
+}
+
+:host {
+	--width: 10px;
+    --space: 10px;
+	div {
+		position: absolute;
+        z-index: var(--_resize-z-index);
+	}
+
+	.top {
+		height: var(--width);
+		left: var(--space);
+		right: var(--space);
+		top: calc(var(--width) / -2);
+        cursor: ns-resize;
+	}
+
+    .top-left {
+        top: calc(var(--width) / -2);
+        left: calc(var(--width) / -2);
+        width: calc(var(--width) / 2 + var(--space));
+        height: calc(var(--width) / 2 + var(--space));
+        cursor: se-resize;
+    }
+
+	.left {
+		bottom: var(--space);
+		top: var(--space);
+        width: var(--width);
+        left: calc(var(--width) / -2);
+        cursor: ew-resize;
+	}
+
+    .bottom-left {
+        bottom:calc(var(--width) / -2);
+        left: calc(var(--width) / -2);
+        width: calc(var(--width) / 2 + var(--space));
+        height: calc(var(--width) / 2 + var(--space));
+        cursor: ne-resize;
+    }
+
+    .bottom {
+        height: var(--width);
+		left: var(--space);
+		right: var(--space);
+		bottom: calc(var(--width) / -2);
+        cursor: ns-resize;
+    }
+
+    .bottom-right {
+        bottom: calc(var(--width) / -2);
+        right: calc(var(--width) / -2);
+        width: calc(var(--width) / 2 + var(--space));
+        height: calc(var(--width) / 2 + var(--space));
+        cursor: se-resize;
+    }
+
+    .right {
+		bottom: var(--space);
+		top: var(--space);
+        width: var(--width);
+        right:calc(var(--width) / -2);
+        cursor: ew-resize;
+	}
+
+    .top-right {
+        top: calc(var(--width) / -2);
+        right: calc(var(--width) / -2);
+        width: calc(var(--width) / 2 + var(--space));
+        height: calc(var(--width) / 2 + var(--space));
+        cursor: ne-resize;
+    }
+}

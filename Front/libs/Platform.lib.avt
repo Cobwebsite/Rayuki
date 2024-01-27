@@ -1,0 +1,31 @@
+
+namespace Lib {
+    export type DeviceType = "pc" | "tablet" | "mobile";
+
+    export class Platform {
+        public static get device(): DeviceType {
+            if(document.body.offsetWidth > 1224) {
+                return "pc";
+            }
+            else if(document.body.offsetWidth > 768) {
+                return "tablet";
+            }
+            return "mobile";
+        }
+
+        public static get isStandalone(): boolean {
+            if("standalone" in window.navigator && window.navigator.standalone) {
+                return true;
+            }
+            return false;
+        }
+
+        public static get isiOS(): boolean {
+            let test1 = /iphone|ipad|ipod/.test(
+                window.navigator.userAgent.toLowerCase()
+            );
+            let test2 = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+            return test1 || test2;
+        }
+    }
+}

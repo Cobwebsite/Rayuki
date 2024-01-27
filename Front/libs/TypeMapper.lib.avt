@@ -1,0 +1,3 @@
+import type { Desktop } from "../generated/Data/Desktop.data.avt";
+
+export type DesktopData = Desktop;

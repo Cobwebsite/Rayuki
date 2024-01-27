@@ -1,0 +1,7 @@
+<div class="icons">
+    <rk-page-case @element="pageCaseEl" case_width="75" case_height="75" min_case_margin_left="20"
+        min_case_margin_top="20" min_page_number="1" order_position inverse>
+    </rk-page-case>
+</div>
+<rk-bottom-bar @element="bottomBar"></rk-bottom-bar>
+<div class="app-container" @element="appContainer"></div>

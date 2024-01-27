@@ -1,0 +1,8 @@
+<label for="element" class="label">{{this.label}}</label>
+<div class="bar">
+    <input id="element" type="checkbox" @element="checkboxEl" />
+    <div class="bar-content">
+        <div class="bar-fill"></div>
+        <div class="dot" @press="toggleActive"></div>
+    </div>
+</div>

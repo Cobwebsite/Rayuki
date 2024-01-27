@@ -1,0 +1,82 @@
+import { LoginRouter } from "../LoginRouter.lib.avt";
+
+export class Login extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+
+    //#endregion
+
+
+    //#region variables
+
+    @ViewElement()
+    private usernameEl!: HTMLInputElement;
+    @ViewElement()
+    private passwordEl!: HTMLInputElement;
+    @ViewElement()
+    private formEl!: HTMLFormElement;
+    @ViewElement()
+    private submitBtn!: HTMLInputElement;
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+
+    protected loginAction(e: Event) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.login(e);
+        return false;
+    }
+    /**
+     * 
+     */
+    protected async login(e: Event) {
+        let body = {
+            username: this.usernameEl.value,
+            password: this.passwordEl.value
+        };
+        let formData = new FormData();
+        formData.append("username", this.usernameEl.value);
+        formData.append("password", this.passwordEl.value);
+        let result = await new LoginRouter().routes.LoginAction(body);
+        if(result.success) {
+            window.location.pathname = "/";
+        }
+        else {
+            for(let error of result.errors) {
+                if(error instanceof Core.Logic.LoginError) {
+                    if(error.code == Core.Logic.LoginCode.WrongCredentials) {
+                        console.log("Wrong credentials");
+                    }
+                    else {
+                        console.log(error);
+                    }
+                }
+                else {
+                    console.log(error);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * 
+     */
+    protected validateForm() {
+        this.submitBtn.click();
+    }
+    //#endregion
+
+}

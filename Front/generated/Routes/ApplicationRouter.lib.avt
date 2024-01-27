@@ -1,0 +1,33 @@
+import { ApplicationData } from '../Data/ApplicationData.data.avt';
+import { AppConfiguration } from '../App/AppConfiguration.lib.avt';
+
+namespace Routes {
+
+	export class ApplicationRouter extends Aventus.HttpRoute {
+		public async GetAll(): Promise<Aventus.ResultWithError<ApplicationData[], Aventus.GenericError<number>>> {
+			const request = new Aventus.HttpRequest(`/application`, Aventus.HttpMethod.GET);
+			type TypeResult = ApplicationData[];
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		public async ConfigureAppData(): Promise<Aventus.ResultWithError<AppConfiguration, Aventus.GenericError<number>>> {
+			const request = new Aventus.HttpRequest(`/configureApp/data`, Aventus.HttpMethod.GET);
+			type TypeResult = AppConfiguration;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		public async InstallDevApp(body: { container: string, app: string } | FormData): Promise<Aventus.ResultWithError<boolean, Aventus.GenericError<number>>> {
+			const request = new Aventus.HttpRequest(`/configureApp/install`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = boolean;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		public async UninstallDevApp(body: { app: string } | FormData): Promise<Aventus.VoidWithError<Aventus.GenericError<number>>> {
+			const request = new Aventus.HttpRequest(`/configureApp/uninstall`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			return await request.queryVoid(this.router);
+		}
+	}
+
+}

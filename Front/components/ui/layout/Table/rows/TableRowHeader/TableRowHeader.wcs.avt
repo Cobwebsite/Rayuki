@@ -1,0 +1,11 @@
+:host {
+	--table-cell-padding: 0;
+	--table-cell-vertical-border: var(--internal-table-header-vertical-border);
+	background-color: var(--internal-table-header-backgroud-color);
+	border-bottom: var(--internal-table-header-horizontal-border);
+	color: var(--internal-table-header-color);
+	display: flex;
+	flex-direction: row;
+	height: var(--internal-table-header-height);
+	width: 100%;
+}

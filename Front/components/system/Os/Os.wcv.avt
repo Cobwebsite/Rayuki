@@ -1,0 +1,17 @@
+<rk-app-list @element="appList"></rk-app-list>
+<rk-loading text="Chargement du système" background></rk-loading>
+<rk-scrollable y_scroll="false" disable @element="desktopContainerScroll">
+    <div class="desktop-container">
+        for(let index = 0; index < this.desktops.length; index++) { 
+            @Context('desktop', this.desktops[index])
+            <div class="desktop-case">
+                <rk-img class="delete-desktop" src="/img/icons/close.svg" @press="deleteDesktop"
+                    data-id="{{ desktop.id }}"></rk-img>
+                <div class="desktop-hider" index="{{ index }}" @press="selectDesktop"></div>
+                <rk-desktop @element="desktopsEl" desktop_id="{{ desktop.id }}"></rk-desktop>
+            </div>
+        }
+    </div>
+</rk-scrollable>
+<rk-button-icon class="add-desktop" icon="/img/icons/add.svg" color="blue"></rk-button-icon>
+<rk-pwa-prompt></rk-pwa-prompt>

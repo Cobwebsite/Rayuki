@@ -1,0 +1,94 @@
+import { DesktopStateManager } from "./Desktop.state.avt";
+import { ShortcutManager, SpecialTouch } from "../../libs/ShortcutManager.lib.avt";
+import type { AppIcon } from "../../components/system/AppIcon/AppIcon.wcl.avt";
+
+namespace State {
+    export type MoveApplicationProvider = {
+        setAppPositionTemp(shadow: AppIcon, x: number, y: number, instance: MoveApplication): boolean;
+        clearAppPositionTemp(instance: MoveApplication): void;
+        setAppPosition(icon: AppIcon, x: number, y: number, instance: MoveApplication): Promise<void>;
+    };
+    export class MoveApplication extends Aventus.State implements Aventus.IState {
+        public static state: string = "/application/move";
+
+        private providers: MoveApplicationProvider[] = [];
+        private selectedProvider?: MoveApplicationProvider;
+
+        private _lastX: number = 0;
+        private _lastY: number = 0;
+        public get lastX(): number {
+            return this._lastX;
+        }
+        public get lastY(): number {
+            return this._lastY;
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public override get name(): string {
+            return MoveApplication.state;
+        }
+
+        // TODO correct if remove constructor bindthis failing
+        constructor() {
+            super();
+        }
+
+        @BindThis()
+        public resetState() {
+            ShortcutManager.unsubscribe([SpecialTouch.Escape], this.resetState);
+            DesktopStateManager.getInstance().setState("/");
+        }
+
+        public override async activate(manager: Aventus.StateManager): Promise<boolean> {
+            let result = await super.activate(manager);
+            if(result) {
+                ShortcutManager.subscribe([SpecialTouch.Escape], this.resetState);
+            }
+            return result;
+        }
+
+
+
+        public registerProvider(provider: MoveApplicationProvider) {
+            this.providers.push(provider);
+        }
+
+
+        public onMove(icon: AppIcon, x: number, y: number) {
+            this._lastX = x;
+            this._lastY = y;
+            this.selectedProvider = undefined;
+            for(let provider of this.providers) {
+                if(provider.setAppPositionTemp(icon, x, y, this)) {
+                    this.selectedProvider = provider;
+                    break;
+                }
+            }
+
+            for(let provider of this.providers) {
+                if(provider != this.selectedProvider) {
+                    provider.clearAppPositionTemp(this);
+                }
+            }
+        }
+
+        public async onDrop(icon: AppIcon, x: number, y: number, reset: () => void) {
+            icon.style.width = '';
+            icon.style.height = '';
+            icon.style.top = '';
+            icon.style.left = '';
+            icon.style.zIndex = '';
+            icon.style.opacity = '';
+            icon.style.pointerEvents = '';
+            icon.style.position = '';
+            if(this.selectedProvider) {
+                await this.selectedProvider.setAppPosition(icon, x, y, this);
+            }
+            else {
+                reset();
+            }
+        }
+    }
+}

@@ -1,0 +1,11 @@
+namespace Data {
+
+	@Convertible()
+	export class Permission extends AventusSharp.Data.Storable implements Aventus.IData {
+		public static override get Fullname(): string { return "Core.Data.Permission, Core"; }
+		public EnumName!: string;
+		public AdditionalInfo: string = "";
+		public EnumValue!: Aventus.Enum;
+	}
+
+}
