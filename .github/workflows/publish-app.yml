@@ -25,7 +25,6 @@ jobs:
 
       - name: Build
         run: |
-          cd DotNet.WebApp
           dotnet build --configuration Release --no-restore
           dotnet publish -c Release -o ../dist -r linux-x64 --self-contained true /p:UseAppHost=true
       
