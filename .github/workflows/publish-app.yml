@@ -26,18 +26,13 @@ jobs:
       - name: Build
         run: |
           dotnet build --configuration Release --no-restore
-          dotnet publish -c Release -o ../dist -r linux-x64 --self-contained true /p:UseAppHost=true
+          dotnet publish -c Release -o ./dist -r linux-x64 --self-contained true /p:UseAppHost=true
       
       - name: Release
-        uses: actions/create-release@v1
+        uses: ncipollo/release-action@v1.12.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
+          artifacts: "dist"
           draft: false
           prerelease: false
