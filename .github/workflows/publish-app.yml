@@ -26,11 +26,11 @@ jobs:
       - name: Build
         run: |
           dotnet build --configuration Release --no-restore
-          dotnet publish -c Release -o ./dist -r linux-x64 --self-contained true /p:UseAppHost=true
+          dotnet publish -c Release -o ./dist -r linux-x64 --self-contained false /p:UseAppHost=true
       
 
       - name: Create Archive
-        run: zip -r ${{ github.event.repository.name }}.zip ./dist
+        run: zip -r ${{ github.event.repository.name }}.zip ./dist/*
 
       - name: Release
         uses: softprops/action-gh-release@v1
