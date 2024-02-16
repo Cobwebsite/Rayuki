@@ -1,0 +1,30 @@
+:host {
+	--_options-container-background: var(--options-container-background, var(--form-element-background, white));
+	--_options-container-border-radius: var(--options-container-border-radius, var(--form-element-border-radius, 0));
+	--_options-container-box-shadow: var(--options-container-box-shadow, var(--elevation-2));
+}
+
+:host {
+	background-color: var(--_options-container-background);
+	border-radius: var(--_options-container-border-radius);
+	box-shadow: var(--_options-container-box-shadow);
+	display: grid;
+	grid-template-rows: 0fr;
+	left: 0;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	transition: 0.3s var(--bezier-curve) grid-template-rows;
+	z-index: 800;
+
+	rk-scrollable {
+		.container {
+			display: flex;
+			flex-direction: column;
+		}
+	}
+}
+
+:host([open]) {
+	grid-template-rows: 1fr;
+}

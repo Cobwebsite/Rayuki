@@ -1,53 +1,62 @@
 :host {
-    --internal-img-color: var(--img-color);
-    --internal-img-stroke-color: var(--img-stroke-color, var(--internal-img-color));
-    --internal-img-fill-color: var(--img-fill-color, var(--internal-img-color));
-
-    --internal-img-color-transition: var(--img-color-transition, none);
+	--_img-color: var(--img-color);
+	--_img-stroke-color: var(--img-stroke-color, var(--_img-color));
+	--_img-fill-color: var(--img-fill-color, var(--_img-color));
+	--_img-color-transition: var(--img-color-transition, none);
+	--_img-stroke-width: var(--img-stroke-width, 1px);
 }
 
 
 :host {
-    // Your style here
-    display: inline-block;
-    overflow: hidden;
-    font-size: 0;
-    * {
-        box-sizing: border-box;
-    }
-    img {
-        opacity: 0;
-        transition: filter 0.3s linear;
-    }
+	/* Your style here*/
+	display: inline-block;
+	font-size: 0;
+	overflow: hidden;
 
-    .svg {
-        display: none;
-        height: 100%;
-        width: 100%;
-        svg {
-            height: 100%;
-            width: 100%;
-        }
-    }
+	* {
+		box-sizing: border-box;
+	}
+
+	img {
+		opacity: 0;
+		transition: filter 0.3s linear;
+	}
+
+	.svg {
+		display: none;
+		height: 100%;
+		width: 100%;
+
+		svg {
+			height: 100%;
+			width: 100%;
+		}
+	}
 }
+
 :host([src$=".svg"]) {
-    img {
-        display: none;
-    }
-    .svg {
-        display: flex;
-        svg {
-            transition: var(--internal-img-color-transition);
-            stroke: var(--internal-img-stroke-color);
-            fill: var(--internal-img-fill-color);
-        }
-    }
+	img {
+		display: none;
+	}
+
+	.svg {
+		display: flex;
+
+		svg {
+			fill: var(--_img-fill-color);
+			stroke: var(--_img-stroke-color);
+			stroke-width: var(--_img-stroke-width);
+			transition: var(--_img-color-transition);
+		}
+	}
 }
+
 :host([display_bigger]) {
-    img {
-        cursor: pointer;
-    }
-    img:hover {
-        filter: brightness(50%);
-    }
+	img {
+		cursor: pointer;
+	}
+
+	img:hover {
+		filter: brightness(50%);
+	}
 }

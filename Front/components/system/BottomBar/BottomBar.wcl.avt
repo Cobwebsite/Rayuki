@@ -1,4 +1,3 @@
-import { RayukiComponent } from "../RayukiComponent/RayukiComponent.wcl.avt";
 import { Os } from "../Os/Os.wcl.avt";
 import { Application } from "../Application/Application.wcl.avt";
 import { MoveApplication, type MoveApplicationProvider } from "../../../states/desktop/MoveApplication.state.avt";
@@ -10,7 +9,7 @@ import { MainSocket } from "../../../libs/MainSocket.lib.avt";
 import { DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.data.avt";
 
 namespace System {
-    export class BottomBar extends RayukiComponent implements Aventus.DefaultComponent, MoveApplicationProvider {
+    export class BottomBar extends Aventus.WebComponent implements Aventus.DefaultComponent, MoveApplicationProvider {
 
         //#region static
 
@@ -173,12 +172,12 @@ namespace System {
                 desktopIcon.Position = no;
                 desktopIcon.IconTag = icon.tag;
                 desktopIcon.Location = DesktopLocation.BottomBar;
-                desktopIcon.id = icon.iconId;
+                desktopIcon.Id = icon.iconId;
                 let result = await MainSocket.instance.routes.desktop.SetDesktopIcon({
                     icon: desktopIcon
                 });
                 if(result.success && result.result) {
-                    icon.iconId = result.result.id;
+                    icon.iconId = result.result.Id;
                     icon.position = result.result.Position;
                 }
                 no++;
@@ -190,7 +189,7 @@ namespace System {
                         desktopIcon.Position = no;
                         desktopIcon.IconTag = child.tag;
                         desktopIcon.Location = DesktopLocation.BottomBar;
-                        desktopIcon.id = child.iconId;
+                        desktopIcon.Id = child.iconId;
                         let result = await MainSocket.instance.routes.desktop.SetDesktopIcon({
                             icon: desktopIcon
                         });

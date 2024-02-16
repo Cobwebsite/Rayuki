@@ -16,7 +16,7 @@ namespace RAM {
          * @inheritdoc
          */
         public override defineIndexKey(): keyof ApplicationData {
-            return 'id';
+            return 'Id';
         }
         /**
          * @inheritdoc

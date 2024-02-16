@@ -1,5 +1,4 @@
-﻿using MySqlX.XDevAPI.Common;
-
+﻿
 namespace Core.Tools
 {
     public static class HttpContextExtension

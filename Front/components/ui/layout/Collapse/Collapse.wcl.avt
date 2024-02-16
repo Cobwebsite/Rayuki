@@ -1,44 +1,46 @@
-export class Collapse extends Aventus.WebComponent implements Aventus.DefaultComponent {
+namespace Components {
+    export class Collapse extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
-    //#region static
+        //#region static
 
-    //#endregion
-
-
-    //#region props
-    @Attribute()
-    public open!: boolean;
-    @Attribute()
-    public no_animation!: boolean;
-    //#endregion
+        //#endregion
 
 
-    //#region variables
-
-    //#endregion
-
-
-    //#region constructor
-
-    //#endregion
+        //#region props
+        @Attribute()
+        public open!: boolean;
+        @Attribute()
+        public no_animation!: boolean;
+        //#endregion
 
 
-    //#region methods
+        //#region variables
 
-    /**
-     * 
-     */
-    protected transitionEnd(e: Event) {
-        let cst = e.constructor as new (name: string, e: Event) => Event;
-        const new_e = new cst(e.type, e);
-        this.dispatchEvent(new_e);
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+
+        /**
+         * 
+         */
+        protected transitionEnd(e: Event) {
+            let cst = e.constructor as new (name: string, e: Event) => Event;
+            const new_e = new cst(e.type, e);
+            this.dispatchEvent(new_e);
+        }
+        /**
+         * 
+         */
+        protected toggleOpen() {
+            this.open = !this.open;
+        }
+        //#endregion
+
     }
-    /**
-     * 
-     */
-    protected toggleOpen() {
-        this.open = !this.open;
-    }
-    //#endregion
-
 }

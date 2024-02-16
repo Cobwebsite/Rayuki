@@ -6,9 +6,9 @@
             @Context('desktop', this.desktops[index])
             <div class="desktop-case">
                 <rk-img class="delete-desktop" src="/img/icons/close.svg" @press="deleteDesktop"
-                    data-id="{{ desktop.id }}"></rk-img>
+                    data-id="{{ desktop.Id }}"></rk-img>
                 <div class="desktop-hider" index="{{ index }}" @press="selectDesktop"></div>
-                <rk-desktop @element="desktopsEl" desktop_id="{{ desktop.id }}"></rk-desktop>
+                <rk-desktop @element="desktopsEl" desktop_id="{{ desktop.Id }}"></rk-desktop>
             </div>
         }
     </div>

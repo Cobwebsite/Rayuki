@@ -1,7 +1,6 @@
-import { RayukiComponent } from "../../../system/RayukiComponent/RayukiComponent.wcl.avt";
 
 namespace Components {
-    export class Input extends RayukiComponent implements Aventus.DefaultComponent {
+    export class Input extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static
 
@@ -10,11 +9,13 @@ namespace Components {
 
         //#region props
         @Property()
-        public placeholder: string = "";
-        @Attribute()
-        public has_errors!: boolean;
+        public label?: string;
         @Property()
-        public icon: string = "";
+        public placeholder?: string;
+        @Attribute()
+        private has_errors!: boolean;
+        @Property()
+        public icon?: string;
 
         @Watch((target: Input) => {
             target.has_errors = target.errors.length > 0;

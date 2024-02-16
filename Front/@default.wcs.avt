@@ -1,3 +1,13 @@
+:host {
+	box-sizing: border-box;
+	display: inline-block;
+	--img-fill-color: var(--text-color);
+}
+
+:host * {
+	box-sizing: border-box;
+}
+
 .touch {
 	cursor: pointer;
 	-webkit-tap-highlight-color: transparent;

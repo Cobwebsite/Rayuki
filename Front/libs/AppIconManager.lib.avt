@@ -1,58 +1,60 @@
 import type { AppIcon } from "../components/system/AppIcon/AppIcon.wcl.avt";
 
-type AppIconCst = (new (...args) => AppIcon);
-export class AppIconManager {
+namespace Lib {
+    type AppIconCst = (new (...args) => AppIcon);
+    export class AppIconManager {
 
-    private static loaded: string[] = [];
-    private static dico: { [tagname: string]: AppIconCst; } = {};
-    private static tags: { [key: string]: string; } = {};
-    private static waiting: (() => void)[] = [];
+        private static loaded: string[] = [];
+        private static dico: { [tagname: string]: AppIconCst; } = {};
+        private static tags: { [key: string]: string; } = {};
+        private static waiting: (() => void)[] = [];
 
-    public static async register(appIcon: AppIcon, componentUrl: string = "/") {
-        let cst = appIcon.constructor as AppIconCst & typeof AppIcon;
-        let key = cst.Fullname + "$" + componentUrl;
-        if(this.loaded.includes(key)) {
-            return;
-        }
-
-        this.loaded.push(key);
-        let application = cst.Fullname.split(".")[0];
-
-        let code = await (await fetch("/" + application + componentUrl)).text();
-        let match = code.match("<(.*?)>");
-        if(!match) {
-            return;
-        }
-        let tagName = match[0].replace("<", "").replace(">", "");
-        this.dico[tagName] = cst;
-        this.tags[application + "$" + componentUrl] = tagName;
-        let cbs = [...this.waiting];
-        for(let cb of cbs) {
-            cb();
-        }
-    }
-
-    public static getIcon(tagName: string): AppIconCst | undefined {
-        return this.dico[tagName];
-    }
-    public static getTagName(application: string, componentUrl: string): Promise<string> {
-        return new Promise<string>((resolve) => {
-            let key = application + "$" + componentUrl;
-            if(this.tags[key]) {
-                resolve(this.tags[key]);
+        public static async register(appIcon: AppIcon, componentUrl: string = "/") {
+            let cst = appIcon.constructor as AppIconCst & typeof AppIcon;
+            let key = cst.Fullname + "$" + componentUrl;
+            if(this.loaded.includes(key)) {
+                return;
             }
-            else {
-                let cb = () => {
-                    if(this.tags[key]) {
-                        let index = this.waiting.indexOf(cb);
-                        this.waiting.splice(index, 1);
-                        resolve(this.tags[key]);
-                    }
-                };
-                this.waiting.push(cb);
+
+            this.loaded.push(key);
+            let application = cst.Fullname.split(".")[0];
+
+            let code = await (await fetch("/" + application + componentUrl)).text();
+            let match = code.match("<(.*?)>");
+            if(!match) {
+                return;
             }
-        });
+            let tagName = match[0].replace("<", "").replace(">", "");
+            this.dico[tagName] = cst;
+            this.tags[application + "$" + componentUrl] = tagName;
+            let cbs = [...this.waiting];
+            for(let cb of cbs) {
+                cb();
+            }
+        }
+
+        public static getIcon(tagName: string): AppIconCst | undefined {
+            return this.dico[tagName];
+        }
+        public static getTagName(application: string, componentUrl: string): Promise<string> {
+            return new Promise<string>((resolve) => {
+                let key = application + "$" + componentUrl;
+                if(this.tags[key]) {
+                    resolve(this.tags[key]);
+                }
+                else {
+                    let cb = () => {
+                        if(this.tags[key]) {
+                            let index = this.waiting.indexOf(cb);
+                            this.waiting.splice(index, 1);
+                            resolve(this.tags[key]);
+                        }
+                    };
+                    this.waiting.push(cb);
+                }
+            });
+        }
+
+
     }
-
-
 }

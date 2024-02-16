@@ -118,8 +118,8 @@ namespace System {
         private keySave: string = "ApplicationSizeStorage";
 
         constructor() {
-            this.memoryPrefered = JSON.parse(localStorage.getItem(this.keyPrefered) ?? "{}");
-            this.memory = JSON.parse(localStorage.getItem(this.keySave) ?? "{}");
+            this.memoryPrefered = JSON.parse(sessionStorage.getItem(this.keyPrefered) ?? "{}");
+            this.memory = JSON.parse(sessionStorage.getItem(this.keySave) ?? "{}");
         }
 
         public getInfoPrefered(appName: string): ApplicationPositionSize | undefined {
@@ -128,7 +128,7 @@ namespace System {
 
         public setInfoPrefered(appName: string, value: ApplicationPositionSize): void {
             this.memoryPrefered[appName] = value;
-            localStorage.setItem(this.keyPrefered, JSON.stringify(this.memoryPrefered));
+            sessionStorage.setItem(this.keyPrefered, JSON.stringify(this.memoryPrefered));
         }
 
         public getInfo(desktopId: number, appName: string, appNumber: number): ApplicationPositionSize | undefined {
@@ -139,7 +139,7 @@ namespace System {
         public setInfo(desktopId: number, appName: string, appNumber: number, value: ApplicationPositionSize): void {
             const key = this.getKey(desktopId, appName, appNumber);
             this.memory[key] = value;
-            localStorage.setItem(this.keySave, JSON.stringify(this.memory));
+            sessionStorage.setItem(this.keySave, JSON.stringify(this.memory));
         }
 
         public removeInfo(desktopId: number, appName: string, appNumber: number) {
@@ -149,7 +149,7 @@ namespace System {
 
         public clearAll() {
             this.memory = {};
-            localStorage.setItem(this.keySave, JSON.stringify(this.memory));
+            sessionStorage.setItem(this.keySave, JSON.stringify(this.memory));
         }
 
         private getKey(desktopId: number, appName: string, appNumber: number): string {

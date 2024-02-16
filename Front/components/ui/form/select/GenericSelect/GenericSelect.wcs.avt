@@ -1,0 +1,130 @@
+:host {
+	--_select-height: var(--select-height, 30px);
+	--_select-background-color: var(--select-background-color, var(--form-element-background, white));
+	--_select-icon-height: var(--select-icon-height, calc(var(--_select-height) / 2));
+	--_select-error-logo-size: var(--select-error-logo-size, calc(var(--_select-height) / 2));
+	--_select-font-size: var(--select-font-size, var(--form-element-font-size, 16px));
+	--_select-font-size-label: var(--select-font-size-label, var(--form-element-font-size-label, calc(var(--_select-font-size) * 0.95)));
+	--_select-select-border: var(--select-select-border, var(--form-element-border, 1px solid var(--lighter-active)));
+	--_generic-select-border-radius: var(--generic-select-border-radius, var(--form-element-border-radius, 0));
+	--_select-caret-height: var(--select-caret-height, calc(var(--_select-height) / 2));
+	--_select-caret-color: var(--select-caret-color, var(--form-element-color));
+}
+
+:host {
+	min-width: 100px;
+	width: 100%;
+
+	label {
+		display: none;
+		font-size: var(--_select-font-size-label);
+		margin-bottom: 5px;
+		margin-left: 3px;
+	}
+
+	.input {
+		align-items: center;
+		background-color: var(--_select-background-color);
+		border: var(--_select-select-border);
+		border-radius: var(--_generic-select-border-radius);
+		display: flex;
+		height: var(--_select-height);
+		padding: 0 10px;
+		width: 100%;
+		cursor: pointer;
+
+		.icon {
+			display: none;
+			height: var(--_select-icon-height);
+			margin-right: 10px;
+		}
+
+		rk-img.caret {
+			--img-fill-color: var(--_select-caret-color);
+			--img-stroke-width: 0;
+			height: var(--_select-caret-height);
+			transform: rotate(-90deg);
+			transition: transform 0.5s var(--bezier-curve);
+		}
+
+		input {
+			background-color: transparent;
+			border: none;
+			color: var(--text-color);
+			display: block;
+			flex-grow: 1;
+			font-size: var(--_select-font-size);
+			height: 100%;
+			margin: 0;
+			outline: none;
+			padding: 5px 0;
+			padding-right: 10px;
+		}
+
+		.error-logo {
+			align-items: center;
+			background-color: var(--red);
+			border-radius: 50%;
+			color: white;
+			display: none;
+			font-size: calc(var(--_select-error-logo-size) - 5px);
+			height: var(--_select-error-logo-size);
+			justify-content: center;
+			width: var(--_select-error-logo-size);
+		}
+	}
+
+	.errors {
+		color: var(--red);
+		display: none;
+		font-size: var(--font-size-sm);
+		line-height: 1.1;
+		margin: 10px;
+		margin-bottom: 0px;
+
+		div {
+			margin: 5px 0;
+			text-align: justify;
+		}
+	}
+
+	.hidden {
+		display: none;
+	}
+}
+
+:host([has_errors]) {
+	.input {
+		border: 1px solid var(--red);
+
+		.error-logo {
+			display: flex;
+		}
+	}
+
+	.errors {
+		display: block;
+	}
+}
+
+:host([icon]:not([icon=""])) {
+	.input {
+		.icon {
+			display: block;
+		}
+	}
+}
+
+:host([label]:not([label=""])) {
+	label {
+		display: flex;
+	}
+}
+
+:host([open]) {
+	.input {
+		.caret {
+			transform: rotate(-270deg);
+		}
+	}
+}

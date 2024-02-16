@@ -48,7 +48,7 @@ namespace Core.Logic
             }
         }
 
-            public ResultWithError<User> UpdateBasicInfo(User user)
+        public ResultWithError<User> UpdateBasicInfo(User user)
         {
             var t = CreateUpdate<User>()
                 .Field(u => u.Username)
@@ -56,7 +56,7 @@ namespace Core.Logic
                 .Field(u => u.Picture)
                 .Field(u => u.Lastname);
 
-            if(user.Password != "")
+            if (user.Password != "")
             {
                 PasswordManager.HashPassword(user);
                 t.Field(u => u.Password);
@@ -67,5 +67,16 @@ namespace Core.Logic
             return t.RunWithErrorSingle(user).ToGeneric();
         }
 
+
+        public ResultWithError<User> GetConnected(int? id)
+        {
+            if (id == null)
+            {
+                ResultWithError<User> result = new();
+                result.Errors.Add(new LoginError(LoginCode.NotConnected, "You aren't connected"));
+                return result;
+            }
+            return GetByIdWithError((int)id).ToGeneric();
+        }
     }
 }

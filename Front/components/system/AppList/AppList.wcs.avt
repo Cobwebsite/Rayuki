@@ -29,12 +29,12 @@
 		width: 100%;
 
 		input {
-			background-color: var(--input-background-color);
+			background-color: var(--form-element-background);
 			border: none;
 			border-radius: 100px;
 			box-shadow: none;
-			font-size: var(--font-size-input);
-			line-height: var(--font-size-input);
+			font-size: var(--form-element-font-size);
+			line-height: var(--form-element-font-size);
 			max-width: 400px;
 			outline: none;
 			padding: 10px 20px;

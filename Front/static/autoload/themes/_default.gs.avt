@@ -5,6 +5,7 @@
 	--secondary-color-active: #7a7a7a;
 
 	--text-color: rgb(30, 30, 30);
+	--text-color-light: rgb(72, 72, 72);
 	--text-color-reverse: rgb(235, 235, 235);
 	--text-disable: rgb(180, 180, 180);
 	--primary-font-family: "Roboto", sans-serif;
@@ -29,7 +30,6 @@
 	--font-size-sm: calc(var(--font-size) * 0.75);
 	--font-size-md: calc(var(--font-size) * 1.25);
 	--font-size-lg: calc(var(--font-size) * 1.5);
-	--font-size-input: calc(var(--font-size) * 0.9);
 
 
 	--bezier-curve: cubic-bezier(0.65, 0, 0.15, 1);
@@ -37,13 +37,42 @@
 
 	--application-box-shadow: var(--elevation-5);
 	--notification-box-shadow: var(--elevation-5);
-	--input-background-color: white;
 	--card-background-color: #ffffff;
 
 	--button-background-color: #0c2247;
 	--button-color: var(--text-color-reverse);
 	--button-box-shadow: var(--elevation-2);
 	--button-box-shadow-hover: var(--elevation-0);
+
+	/*#region form element*/
+	--form-element-background: white;
+	--form-element-background-active: var(--secondary-color);
+	--form-element-color: var(--text-color);
+	--form-element-font-size: calc(var(--font-size) * 0.9);
+	--form-element-font-size-label: calc(var(--font-size) * 0.85);
+	--form-element-border-color: var(--lighter-active);
+	--form-element-border-color-active: var(--secondary-color);
+	--form-element-border: 1px solid var(--form-element-border-color);
+	--form-element-border-active: 1px solid var(--form-element-border-color-active);
+	--form-element-border-radius: 5px;
+
+
+	/*#region button*/
+	--button-background-color: #0c2247;
+	--button-color: var(--text-color-reverse);
+	--button-box-shadow: var(--elevation-2);
+	--button-box-shadow-hover: var(--elevation-0);
+	/*#endregion*/
+
+	/*#region input*/
+	/*#endregion*/
+
+	/*#region checkbox*/
+	--checkbox-border: 2px solid var(--form-element-border-color);
+	--checkbox-border-active: 2px solid var(--form-element-border-color-active);
+	/*#endregion*/
+
+	/*#endregion*/
 
 	--elevation-umbra: rgba(0, 0, 0, 0.2);
 	--elevation-penumbra: rgba(0, 0, 0, 0.14);
@@ -92,5 +121,5 @@
 	--orange: #e4b349;
 	--blue: #2835c2;
 
-	--input-background-color: rgb(65, 65, 65);
+	--form-element-background: rgb(65, 65, 65);
 }

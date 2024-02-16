@@ -1,34 +1,36 @@
-export class ButtonIcon extends Aventus.WebComponent implements Aventus.DefaultComponent {
+namespace Components {
+    export class ButtonIcon extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
-    //#region static
+        //#region static
 
-    //#endregion
-
-
-    //#region props
-    @Property()
-    public icon?: string;
-
-    @Attribute()
-    public color?: "green" | "red" | "blue" | "orange";
-
-    @Attribute()
-    public outline!: boolean;
-    //#endregion
+        //#endregion
 
 
-    //#region variables
+        //#region props
+        @Property()
+        public icon?: string;
 
-    //#endregion
+        @Attribute()
+        public color?: "green" | "red" | "blue" | "orange";
+
+        @Attribute()
+        public outline!: boolean;
+        //#endregion
 
 
-    //#region constructor
+        //#region variables
 
-    //#endregion
+        //#endregion
 
 
-    //#region methods
+        //#region constructor
 
-    //#endregion
+        //#endregion
 
+
+        //#region methods
+
+        //#endregion
+
+    }
 }

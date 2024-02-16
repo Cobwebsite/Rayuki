@@ -3,6 +3,7 @@
 :host {
 	align-items: center;
 	background-color: var(--primary-color-opacity);
+	box-shadow: var(--elevation-3);
 	border-radius: 10px;
 	bottom: 10px;
 	color: var(--text-color);

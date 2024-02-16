@@ -1,7 +1,6 @@
 import { AppList } from "../AppList/AppList.wcl.avt";
 import { Notification } from "./Notification/Notification.wcl.avt";
 import { NotificationManager } from "./Notification/NotificationManager.lib.avt";
-import { RayukiComponent } from "../RayukiComponent/RayukiComponent.wcl.avt";
 import { ApplicationRAM } from "../../../ram/Application.ram.avt";
 import { ContextMenu } from "../../ui/ContextMenu/ContextMenu.wcl.avt";
 import { ShortcutManager, SpecialTouch } from "../../../libs/ShortcutManager.lib.avt";
@@ -12,17 +11,13 @@ import type { Scrollable } from "../../ui/layout/Scrollable/Scrollable.wcl.avt";
 import { Confirm } from "../../ui/popup/Confirm/Confirm.wcl.avt";
 import type { Popup } from "../../ui/popup/Popup/Popup.wcl.avt";
 import { Alert } from "../../ui/popup/Alert/Alert.wcl.avt";
-import { DesktopPermission, DesktopPermissionQuery } from "../../../generated/Permissions/DesktopPermission.lib.avt";
 import { MainSocket } from "../../../libs/MainSocket.lib.avt";
 import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
 import { DesktopStateManager } from "../../../states/desktop/Desktop.state.avt";
 import { Pointer } from "../../../libs/Pointer.lib.avt";
 
 namespace System {
-    @Debugger({
-        writeCompiled: true
-    })
-    export class Os extends RayukiComponent implements Aventus.DefaultComponent {
+    export class Os extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static
         public static instance: Os;
@@ -86,6 +81,7 @@ namespace System {
             super();
             Os.instance = this;
             this.notificationManager = new NotificationManager(this);
+            ApplicationManager.reloadData();
         }
         //#endregion
 
@@ -172,7 +168,7 @@ namespace System {
             this.onActiveDesktop();
             DesktopRAM.getInstance().onDeleted((el) => {
                 for(let i = 0; i < this.desktops.length; i++) {
-                    if(this.desktops[i].id == el.id) {
+                    if(this.desktops[i].Id == el.Id) {
                         this.desktops.splice(i, 1);
                         if(this.active_desktop == i) {
                             this.active_desktop = 0;

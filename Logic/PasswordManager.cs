@@ -9,12 +9,16 @@ using System.Security.Cryptography;
 
 namespace Core.Logic
 {
+    [Typescript("Errors")]
     public enum LoginCode
     {
         OK,
         WrongCredentials,
-        Unknown
+        Unknown,
+        NotConnected
     }
+    
+    [Typescript("Errors")]
     public class LoginError : GenericError<LoginCode>
     {
         public LoginError(LoginCode code, string message, [CallerFilePath] string callerPath = "", [CallerLineNumber] int callerNo = 0) : base(code, message, callerPath, callerNo)

@@ -1,53 +1,55 @@
 import { Popup } from "../Popup/Popup.wcl.avt";
 
-export class Confirm extends Popup<boolean> implements Aventus.DefaultComponent {
+namespace Components {
+    export class Confirm extends Popup<boolean> implements Aventus.DefaultComponent {
 
-    //#region static
+        //#region static
 
-    //#endregion
-
-
-    //#region props
-    @Property()
-    public subject?: string;
-    @Property()
-    public body?: string;
-    @Property()
-    public btn_yes_txt?: string = "yes";
-    @Property()
-    public btn_no_txt?: string = "no";
-    //#endregion
+        //#endregion
 
 
-    //#region variables
-    //#endregion
+        //#region props
+        @Property()
+        public subject?: string;
+        @Property()
+        public body?: string;
+        @Property()
+        public btn_yes_txt?: string = "yes";
+        @Property()
+        public btn_no_txt?: string = "no";
+        //#endregion
 
 
-    //#region constructor
+        //#region variables
+        //#endregion
 
-    //#endregion
+
+        //#region constructor
+
+        //#endregion
 
 
-    //#region methods
+        //#region methods
 
-    /**
-     * 
-     */
-    protected cancel() {
-        if(this.cb) {
-            this.cb(false);
+        /**
+         * 
+         */
+        protected cancel() {
+            if(this.cb) {
+                this.cb(false);
+            }
+            this.remove();
         }
-        this.remove();
-    }
-    /**
-     * 
-     */
-    protected validate() {
-        if(this.cb) {
-            this.cb(true);
+        /**
+         * 
+         */
+        protected validate() {
+            if(this.cb) {
+                this.cb(true);
+            }
+            this.remove();
         }
-        this.remove();
-    }
-    //#endregion
+        //#endregion
 
+    }
 }

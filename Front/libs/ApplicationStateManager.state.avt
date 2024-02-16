@@ -1,3 +1,5 @@
+import { Os } from "../components/system/Os/Os.wcl.avt";
+
 namespace Lib {
 
     @Convertible()
@@ -24,6 +26,13 @@ namespace Lib {
             this.__canSaveState = false;
         }
 
+        private canSync(): boolean {
+            if(!this.__canSaveState) return false;
+
+            if(!Os.instance.activeDesktop.data.SyncDesktop) return false;
+            return true;
+        }
+
         public constructor() {
             super();
             this.$type = this.constructor['Fullname'];
@@ -35,7 +44,7 @@ namespace Lib {
 
 
         public saveState() {
-            if(!this.__canSaveState) return;
+            if(!this.canSync()) return;
             this.__manager.save();
         }
 
@@ -61,10 +70,10 @@ namespace Lib {
             });
         }
 
-         /**
-         * Override this method to remove keys when converting to json
-         */
-         protected avoidCopyValuesKeys(): string[] {
+        /**
+        * Override this method to remove keys when converting to json
+        */
+        protected avoidCopyValuesKeys(): string[] {
             return ['name'];
         }
 
@@ -76,7 +85,7 @@ namespace Lib {
                     if(avoidKeys.includes(key)) return false;
                     return true;
                 }
-            })
+            });
         }
     }
 

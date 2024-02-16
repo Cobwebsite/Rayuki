@@ -15,6 +15,7 @@ import { MainSocket } from "../../../libs/MainSocket.lib.avt";
 import { DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.data.avt";
 import { ApplicationRAM } from "../../../ram/Application.ram.avt";
 import type { DesktopData } from "../../../libs/TypeMapper.lib.avt";
+import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
 
 namespace System {
     export class Desktop extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, MoveApplicationProvider {
@@ -78,6 +79,24 @@ namespace System {
                     }
                 });
             }
+            if(this.data.SyncDesktop) {
+                contextMenu.addItem({
+                    text: "Bureau non partagé",
+                    materialIcon: "sync_disabled",
+                    action: () => {
+                        this.data.update({ SyncDesktop: false });
+                    }
+                });
+            }
+            else {
+                contextMenu.addItem({
+                    text: "Bureau partagé",
+                    materialIcon: "sync",
+                    action: () => {
+                        this.data.update({ SyncDesktop: true });
+                    }
+                });
+            }
         }
 
         //#region application
@@ -110,7 +129,6 @@ namespace System {
                     desktopId: this.desktop_id,
                     desktop: this,
                 });
-                ;
                 this.appContainer.appendChild(comp);
                 comp.focus();
                 await comp.navigate(url);
@@ -180,6 +198,7 @@ namespace System {
                 this.appContainer.appendChild(comp);
 
                 await comp.setHistory(ApplicationHistory.fromText(comp.navigator, application.history));
+
 
                 this.applications[comp.$type][i] = comp;
                 this.manageAppBottomBar(comp.$type);
@@ -290,12 +309,12 @@ namespace System {
                 desktopIcon.Position = no;
                 desktopIcon.IconTag = icon.tag;
                 desktopIcon.Location = DesktopLocation.Desktop;
-                desktopIcon.id = icon.iconId;
+                desktopIcon.Id = icon.iconId;
                 let result = await MainSocket.instance.routes.desktop.SetDesktopIcon({
                     icon: desktopIcon
                 });
                 if(result.success && result.result) {
-                    icon.iconId = result.result.id;
+                    icon.iconId = result.result.Id;
                 }
             }
         }
@@ -337,11 +356,16 @@ namespace System {
             if(data) {
                 this.data = data;
                 this.style.backgroundImage = 'url("' + data.Background + '")';
-                this.recreateApplications(data.Applications);
+                if(data.SyncDesktop) {
+                    this.recreateApplications(data.Applications);
+                }
+                else {
+                    this.recreateApplications(ApplicationManager.getOpenApps(data.Id));
+                }
                 for(let icon of data.Icons) {
                     let el = Aventus.WebComponentInstance.create<AppIcon>(icon.IconTag);
                     if(el) {
-                        el.iconId = icon.id;
+                        el.iconId = icon.Id;
                         el.position = icon.Position;
 
                         if(icon.Location == DesktopLocation.Desktop) {
@@ -362,5 +386,5 @@ namespace System {
             this.loadData();
         }
         //#endregion
+    }
 }
-            }

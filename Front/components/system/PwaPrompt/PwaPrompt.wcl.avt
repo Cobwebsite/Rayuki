@@ -2,12 +2,13 @@ import { Os } from "../Os/Os.wcl.avt";
 import { Notification } from "../Os/Notification/Notification.wcl.avt";
 import { PwaPromptIos } from "./PwaPromptIos/PwaPromptIos.wcl.avt";
 
-type BeforeInstallPromptEvent = {
-    prompt: () => void;
-    userChoice: () => Promise<"accepted" | "dismissed">;
-};
 
 namespace System {
+    type BeforeInstallPromptEvent = {
+        prompt: () => void;
+        userChoice: () => Promise<"accepted" | "dismissed">;
+    };
+    
     export class PwaPrompt extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

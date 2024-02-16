@@ -2,237 +2,246 @@ import { ContextMenuItem } from "./ContextMenuItem/ContextMenuItem.wcl.avt";
 import { Collapse } from "../layout/Collapse/Collapse.wcl.avt";
 import { ContextMenuSeparator } from "./ContextMenuSeparator/ContextMenuSeparator.wcl.avt";
 
-export interface IContextMenu {
-    /**
-     * Use this function to add anything you want to display when user trigger the context menu
-     * @param contextMenu - The current contextmenu that will be displayed
-     * @param stop - Stop the process to add context menu parts and display the menu if has part
-     */
-    onContextMenu(contextMenu: ContextMenu, stop: () => void): void;
-}
-export type ContextMenuItemOption = {
-    icon?: string,
-    text: string,
-    /** The higher priority is on the top */
-    priority?: number,
-    action: () => void;
-    canBeRendered?: (items: (ContextMenuItem | ContextMenuSeparator)[], current: ContextMenuItem | ContextMenuSeparator) => boolean;
-};
-export type ContextMenuSeparatorOption = {
-    /** The higher priority is on the top */
-    priority?: number,
-    canBeRendered?: (items: (ContextMenuItem | ContextMenuSeparator)[], current: ContextMenuItem | ContextMenuSeparator) => boolean;
-};
 
-export class ContextMenu extends Aventus.WebComponent implements Aventus.DefaultComponent {
+namespace Components {
+    export interface IContextMenu {
+        /**
+         * Use this function to add anything you want to display when user trigger the context menu
+         * @param contextMenu - The current contextmenu that will be displayed
+         * @param stop - Stop the process to add context menu parts and display the menu if has part
+         */
+        onContextMenu(contextMenu: ContextMenu, stop: () => void): void;
+    }
+    export type ContextMenuItemOption = {
+        icon?: string,
+        materialIcon?: MaterialIcon.IconType,
+        text: string,
+        /** The higher priority is on the top */
+        priority?: number,
+        action: () => void;
+        canBeRendered?: (items: (ContextMenuItem | ContextMenuSeparator)[], current: ContextMenuItem | ContextMenuSeparator) => boolean;
+    };
+    export type ContextMenuSeparatorOption = {
+        /** The higher priority is on the top */
+        priority?: number,
+        canBeRendered?: (items: (ContextMenuItem | ContextMenuSeparator)[], current: ContextMenuItem | ContextMenuSeparator) => boolean;
+    };
 
-    //#region static
-    private static instance: ContextMenu | undefined;
-    //#endregion
+    export class ContextMenu extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
-
-    //#region props
-
-    //#endregion
+        //#region static
+        private static instance: ContextMenu | undefined;
+        //#endregion
 
 
-    //#region variables
-    @ViewElement()
-    protected collapseEl!: Collapse;
+        //#region props
 
-    @ViewElement()
-    protected containerEl!: HTMLDivElement;
-
-    private _items: (ContextMenuItem | ContextMenuSeparator)[] = [];
-
-    public isTouch: boolean = false;
-    //#endregion
+        //#endregion
 
 
-    //#region constructor
+        //#region variables
+        @ViewElement()
+        protected collapseEl!: Collapse;
 
-    //#endregion
+        @ViewElement()
+        protected containerEl!: HTMLDivElement;
+
+        private _items: (ContextMenuItem | ContextMenuSeparator)[] = [];
+
+        public isTouch: boolean = false;
+        //#endregion
 
 
-    //#region methods
-    public init(pageX: number, pageY: number, isTouch: boolean, element: HTMLElement & { shadowRoot: ShadowRoot; }) {
-        let el: Node | ShadowRoot | null = Aventus.ElementExtension.getElementAtPosition(pageX, pageY, element);
-        this.isTouch = isTouch;
-        while(el) {
-            let temp = el as Partial<IContextMenu>;
-            if(temp.onContextMenu) {
-                let stop = false;
-                temp.onContextMenu(this, () => {
-                    stop = true;
-                });
-                if(stop) {
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        public init(pageX: number, pageY: number, isTouch: boolean, element: HTMLElement & { shadowRoot: ShadowRoot; }) {
+            let el: Node | ShadowRoot | null = Aventus.ElementExtension.getElementAtPosition(pageX, pageY, element);
+            this.isTouch = isTouch;
+            while(el) {
+                let temp = el as Partial<IContextMenu>;
+                if(temp.onContextMenu) {
+                    let stop = false;
+                    temp.onContextMenu(this, () => {
+                        stop = true;
+                    });
+                    if(stop) {
+                        break;
+                    }
+                }
+
+                if(el == element) {
                     break;
+                }
+
+                if(el instanceof ShadowRoot) {
+                    el = el.host;
+                } else {
+                    el = el.parentNode;
                 }
             }
 
-            if(el == element) {
-                break;
-            }
-
-            if(el instanceof ShadowRoot) {
-                el = el.host;
-            } else {
-                el = el.parentNode;
-            }
-        }
-
-        if(this._items.length == 0) {
-            return;
-        }
-
-        this._items.sort((a, b) => b.priority - a.priority);
-
-        for(let i = 0; i < this._items.length; i++) {
-            if(!this._items[i].canBeRendered(this._items, this._items[i])) {
-                this._items.splice(i, 1);
-                i--;
-            }
-        }
-        // remove first separator
-        if(this._items[0] instanceof ContextMenuSeparator) {
-            this._items.splice(0, 1);
             if(this._items.length == 0) {
                 return;
             }
-        }
-        // remove last separator
-        let lastIndex = this._items.length - 1;
-        if(this._items[lastIndex] instanceof ContextMenuSeparator) {
-            this._items.splice(lastIndex, 1);
-            if(this._items.length == 0) {
-                return;
+
+            this._items.sort((a, b) => b.priority - a.priority);
+
+            for(let i = 0; i < this._items.length; i++) {
+                if(!this._items[i].canBeRendered(this._items, this._items[i])) {
+                    this._items.splice(i, 1);
+                    i--;
+                }
             }
-        }
-
-        for(let item of this._items) {
-            item.menu = this;
-            this.containerEl.appendChild(item);
-        }
-
-
-        this.caluclatePosition(pageX, pageY, element);
-        element.shadowRoot.appendChild(this);
-    }
-
-    protected caluclatePosition(pageX: number, pageY: number, element: HTMLElement) {
-        this.style.left = -1000 + 'px';
-        this.style.top = '0';
-        this.collapseEl.no_animation = true;
-        this.collapseEl.open = true;
-        document.body.appendChild(this);
-        let height = this.offsetHeight;
-        let width = this.offsetWidth;
-        this.collapseEl.open = false;
-        this.collapseEl.no_animation = false;
-        document.body.removeChild(this);
-        let top: string = '';
-        let left: string = '';
-        let bottom: string = '';
-        let right: string = '';
-        let maxHeight = element.offsetHeight;
-
-        if(height > element.offsetHeight) {
-            if(pageY > element.offsetHeight / 2) {
-                let bottomNb = element.offsetHeight - pageY;
-                bottom = bottomNb + 'px';
-                maxHeight = element.offsetHeight - bottomNb;
+            // remove first separator
+            if(this._items[0] instanceof ContextMenuSeparator) {
+                this._items.splice(0, 1);
+                if(this._items.length == 0) {
+                    return;
+                }
             }
-            else {
-                top = pageY + 'px';
-                maxHeight = element.offsetHeight - pageY;
+            // remove last separator
+            let lastIndex = this._items.length - 1;
+            if(this._items[lastIndex] instanceof ContextMenuSeparator) {
+                this._items.splice(lastIndex, 1);
+                if(this._items.length == 0) {
+                    return;
+                }
             }
-        }
-        else {
-            if(pageY + height > element.offsetHeight) {
-                let bottomNb = element.offsetHeight - pageY;
-                bottom = bottomNb + 'px';
-                maxHeight = element.offsetHeight - bottomNb;
+
+            for(let item of this._items) {
+                item.menu = this;
+                this.containerEl.appendChild(item);
             }
-            else {
-                top = pageY + 'px';
-                // maxHeight = element.offsetHeight - pageY;
-            }
-        }
-        if(pageX + width > element.offsetWidth) {
-            right = element.offsetWidth - pageX + 'px';
-        }
-        else {
-            left = pageX + 'px';
+
+
+            this.calculatePosition(pageX, pageY, element);
+            element.shadowRoot.appendChild(this);
         }
 
-        this.style.top = top;
-        this.style.left = left;
-        this.style.bottom = bottom;
-        this.style.right = right;
-        this.style.maxHeight = (maxHeight - 20) + 'px';
-    }
+        protected calculatePosition(pageX: number, pageY: number, element: HTMLElement) {
+            this.style.left = -1000 + 'px';
+            this.style.top = '0';
+            this.collapseEl.no_animation = true;
+            this.collapseEl.open = true;
+            document.body.appendChild(this);
+            let height = this.offsetHeight;
+            let width = this.offsetWidth;
+            this.collapseEl.open = false;
+            this.collapseEl.no_animation = false;
+            document.body.removeChild(this);
+            let top: string = '';
+            let left: string = '';
+            let bottom: string = '';
+            let right: string = '';
+            let maxHeight = element.offsetHeight;
 
-    public addItem(item: ContextMenuItemOption | ContextMenuItem) {
-        let converted: ContextMenuItem;
-        if(!(item instanceof ContextMenuItem)) {
-            let temp = new ContextMenuItem();
-            temp.priority = item.priority ?? 0;
-            temp.icon = item.icon;
-            temp.text = item.text;
-            temp.action = item.action;
-            if(item.canBeRendered)
-                temp.canBeRendered = item.canBeRendered;
-            converted = temp;
-        }
-        else {
-            converted = item;
-        }
-        this._items.push(converted);
-    }
-    public addSeparator(item?: ContextMenuSeparatorOption | ContextMenuSeparator) {
-        let converted: ContextMenuSeparator;
-        if(!(item instanceof ContextMenuSeparator)) {
-            let temp = new ContextMenuSeparator();
-            temp.priority = item?.priority ?? 0;
-            if(item?.canBeRendered)
-                temp.canBeRendered = item.canBeRendered;
-            converted = temp;
-        }
-        else {
-            converted = item;
-        }
-        this._items.push(converted);
-    }
-    private addFocus() {
-        this.setAttribute("tabindex", "-1");
-        this.collapseEl.addEventListener("transitionend", (event) => {
-            if(this.collapseEl.open) {
-                this.focus({ preventScroll: true });
+            if(height > element.offsetHeight) {
+                if(pageY > element.offsetHeight / 2) {
+                    let bottomNb = element.offsetHeight - pageY;
+                    bottom = bottomNb + 'px';
+                    maxHeight = element.offsetHeight - bottomNb;
+                }
+                else {
+                    top = pageY + 'px';
+                    maxHeight = element.offsetHeight - pageY;
+                }
             }
             else {
-                this.remove();
+                if(pageY + height > element.offsetHeight) {
+                    let bottomNb = element.offsetHeight - pageY;
+                    bottom = bottomNb + 'px';
+                    maxHeight = element.offsetHeight - bottomNb;
+                }
+                else {
+                    top = pageY + 'px';
+                    // maxHeight = element.offsetHeight - pageY;
+                }
             }
-        });
-        this.addEventListener("blur", (e) => {
-            e.stopPropagation();
+            if(pageX + width > element.offsetWidth) {
+                right = element.offsetWidth - pageX + 'px';
+            }
+            else {
+                left = pageX + 'px';
+            }
+
+            this.style.top = top;
+            this.style.left = left;
+            this.style.bottom = bottom;
+            this.style.right = right;
+            this.style.maxHeight = (maxHeight - 20) + 'px';
+        }
+
+        public addItem(item: ContextMenuItemOption | ContextMenuItem) {
+            let converted: ContextMenuItem;
+            if(!(item instanceof ContextMenuItem)) {
+                let temp = new ContextMenuItem();
+                temp.priority = item.priority ?? 0;
+                if(item.icon) {
+                    temp.icon = item.icon;
+                }
+                else if(item.materialIcon) {
+                    temp.icon = "@mi:" + item.materialIcon;
+                }
+                temp.text = item.text;
+                temp.action = item.action;
+                if(item.canBeRendered)
+                    temp.canBeRendered = item.canBeRendered;
+                converted = temp;
+            }
+            else {
+                converted = item;
+            }
+            this._items.push(converted);
+        }
+        public addSeparator(item?: ContextMenuSeparatorOption | ContextMenuSeparator) {
+            let converted: ContextMenuSeparator;
+            if(!(item instanceof ContextMenuSeparator)) {
+                let temp = new ContextMenuSeparator();
+                temp.priority = item?.priority ?? 0;
+                if(item?.canBeRendered)
+                    temp.canBeRendered = item.canBeRendered;
+                converted = temp;
+            }
+            else {
+                converted = item;
+            }
+            this._items.push(converted);
+        }
+        private addFocus() {
+            this.setAttribute("tabindex", "-1");
+            this.collapseEl.addEventListener("transitionend", (event) => {
+                if(this.collapseEl.open) {
+                    this.focus({ preventScroll: true });
+                }
+                else {
+                    this.remove();
+                }
+            });
+            this.addEventListener("blur", (e) => {
+                e.stopPropagation();
+                this.collapseEl.open = false;
+                ContextMenu.instance = undefined;
+            });
+        }
+
+        public close() {
             this.collapseEl.open = false;
             ContextMenu.instance = undefined;
-        });
-    }
-
-    public close() {
-        this.collapseEl.open = false;
-        ContextMenu.instance = undefined;
-    }
-
-    protected override postCreation(): void {
-        if(ContextMenu.instance) {
-            ContextMenu.instance.collapseEl.open = false;
         }
-        ContextMenu.instance = this;
-        this.collapseEl.open = true;
-        this.addFocus();
-    }
-    //#endregion
 
+        protected override postCreation(): void {
+            if(ContextMenu.instance) {
+                ContextMenu.instance.collapseEl.open = false;
+            }
+            ContextMenu.instance = this;
+            this.collapseEl.open = true;
+            this.addFocus();
+        }
+        //#endregion
+
+    }
 }

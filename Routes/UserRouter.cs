@@ -3,6 +3,7 @@ using AventusSharp.Routes;
 using AventusSharp.Tools;
 using Core.Data;
 using Core.Logic;
+using Core.Tools;
 using Newtonsoft.Json;
 using System;
 
@@ -21,6 +22,11 @@ namespace Core.Routes
             item = JsonConvert.DeserializeObject<User>(JsonConvert.SerializeObject(item)) ?? item;
             item.Password = "";
             return base.OnSend(context, item);
+        }
+
+
+        public ResultWithError<User> GetConnected(HttpContext context) {
+           return  UserDM.GetInstance().GetConnected(context.GetUserId());
         }
     }
 }

@@ -15,6 +15,9 @@
 
 	.icon {
 		display: none;
+		font-size: var(--font-size-sm);
+		margin-right: 10px;
+		width: 20px;
 	}
 }
 
@@ -25,14 +28,15 @@
 
 	.icon {
 		display: inline-block;
-		margin-right: 10px;
-		width: 20px;
 	}
 }
 
 @include desktop {
 	:host {
 		font-size: var(--font-size);
+		.icon {
+			font-size: var(--font-size);
+		}
 	}
 
 	:host(:hover) {

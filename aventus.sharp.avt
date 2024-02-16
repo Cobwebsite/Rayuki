@@ -3,7 +3,8 @@
   "csProj": "./Core.csproj",
   "httpRouter": {
     "routerName": "CoreRouter",
-    "variableRoutesName": "CoreHttpRoutes"
+    "variableRoutesName": "CoreHttpRoutes",
+    "namespace": "Routes"
   },
   "exportEnumByDefault": true,
   "replacer": {

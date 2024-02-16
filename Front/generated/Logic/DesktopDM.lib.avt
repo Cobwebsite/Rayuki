@@ -1,0 +1,12 @@
+namespace Errors {
+
+	export enum DesktopErrorCode {
+		NoDefaultDesktop
+	}
+
+	@Convertible()
+	export class DesktopError extends Aventus.GenericError<typeof DesktopErrorCode>  {
+		public static get Fullname(): string { return "Core.Logic.DesktopError, Core"; }
+	}
+
+}

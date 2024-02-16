@@ -1,7 +1,6 @@
-import { RayukiComponent } from "../RayukiComponent/RayukiComponent.wcl.avt";
 
 namespace System {
-    export class Panel extends RayukiComponent implements Aventus.DefaultComponent {
+    export class Panel extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static
 

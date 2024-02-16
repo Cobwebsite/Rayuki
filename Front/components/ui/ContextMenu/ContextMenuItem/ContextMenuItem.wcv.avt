@@ -1,2 +1,7 @@
-<rk-img class="icon" src="{{this.icon}}"></rk-img>
-<div class="title">{{this.text}}</div>
+if(this.icon?.startsWith("@mi:")) {
+    <mi-icon class="icon" icon="{{ this.icon?.replace('@mi:', '' ) }}"></mi-icon>
+}
+else {
+    <rk-img class="icon" src="{{ this.icon }}"></rk-img>
+}
+<div class="title">{{ this.text }}</div>

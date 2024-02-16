@@ -1,5 +1,5 @@
 import { MainSocket } from "./MainSocket.lib.avt";
-import type { ApplicationOpenInfo } from "../generated/Data/ApplicationOpen.lib.avt";
+import type { ApplicationOpen, ApplicationOpenInfo } from "../generated/Data/ApplicationOpen.lib.avt";
 import { Os } from "../components/system/Os/Os.wcl.avt";
 import { ApplicationHistory } from "../components/system/Application/ApplicationHistory.lib.avt";
 
@@ -10,20 +10,67 @@ namespace Lib {
         private static processing: { [key: string]: boolean; } = {};
         private static mutex: Aventus.Mutex = new Aventus.Mutex();
 
+        private static openApplications: { [id: number]: ApplicationOpen[]; } = {};
+        private static openApplicationsKey: string = "openApplications";
+
         public static async save(appInfo: ApplicationOpenInfo) {
-            await this.uniqueAction(appInfo, async (appInfo) => {
-                await MainSocket.instance.routes.desktop.RegisterOpenApp({
-                    appInfo
+            if(Os.instance.activeDesktop.data.SyncDesktop) {
+                await this.uniqueAction(appInfo, async (appInfo) => {
+                    await MainSocket.instance.routes.desktop.RegisterOpenApp({
+                        appInfo
+                    });
                 });
-            });
+            }
+            else {
+                const { DesktopId, Info } = appInfo;
+                if(!this.openApplications[DesktopId]) {
+                    this.openApplications[DesktopId] = [];
+                }
+                let mustAdd = true;
+                for(let i = 0; i < this.openApplications[DesktopId].length; i++) {
+                    let current = this.openApplications[DesktopId][i];
+                    if(current.id == Info.id) {
+                        this.openApplications[DesktopId][i] = Info;
+                        mustAdd = false;
+                        break;
+                    }
+                }
+                if(mustAdd) {
+                    this.openApplications[DesktopId].push(Info);
+                }
+                sessionStorage.setItem(this.openApplicationsKey, JSON.stringify(this.openApplications));
+            }
         }
 
         public static async remove(appInfo: ApplicationOpenInfo) {
-            await this.uniqueAction(appInfo, async (appInfo) => {
-                await MainSocket.instance.routes.desktop.RemoveApp({
-                    appInfo
+            if(Os.instance.activeDesktop.data.SyncDesktop) {
+                await this.uniqueAction(appInfo, async (appInfo) => {
+                    await MainSocket.instance.routes.desktop.RemoveApp({
+                        appInfo
+                    });
                 });
-            });
+            }
+            else {
+                const { DesktopId, Info } = appInfo;
+                if(!this.openApplications[DesktopId]) {
+                    return;
+                }
+                for(let i = 0; i < this.openApplications[DesktopId].length; i++) {
+                    let current = this.openApplications[DesktopId][i];
+                    if(current.id == Info.id) {
+                        this.openApplications[DesktopId].splice(i, 1);
+                        if(this.openApplications[DesktopId].length == 0) {
+                            delete this.openApplications[DesktopId];
+                        }
+                        sessionStorage.setItem(this.openApplicationsKey, JSON.stringify(this.openApplications));
+                        return;
+                    }
+                }
+            }
+        }
+
+        public static getOpenApps(desktopId: number): ApplicationOpen[] {
+            return this.openApplications[desktopId] ?? [];
         }
 
         private static uniqueAction(appInfo: ApplicationOpenInfo, action: (appInfo: ApplicationOpenInfo) => Promise<void>) {
@@ -63,11 +110,16 @@ namespace Lib {
             });
         }
 
+        public static reloadData() {
+            let savedValues = sessionStorage.getItem(this.openApplicationsKey) ?? '[]';
+            this.openApplications = Aventus.Converter.transform(JSON.parse(savedValues));
+        }
         public static init() {
-			this.onRegisterInfo = this.onRegisterInfo.bind(this);
-			this.onRemoveApp = this.onRemoveApp.bind(this);
+            this.onRegisterInfo = this.onRegisterInfo.bind(this);
+            this.onRemoveApp = this.onRemoveApp.bind(this);
             MainSocket.instance.routes.desktop.events.RegisterOpenApp.onTrigger.add(this.onRegisterInfo);
             MainSocket.instance.routes.desktop.events.RemoveApp.onTrigger.add(this.onRemoveApp);
+
         }
 
         private static async onRegisterInfo(item: ApplicationOpenInfo, params: Aventus.UriParamsValue) {
@@ -122,7 +174,7 @@ namespace Lib {
                         if(appName == info.applicationName) {
                             let app = desktopEl.applications[appName][info.number];
                             app.mustRemoveApplicationHistory = false;
-							app.kill();
+                            app.kill();
                             if(app) {
                                 break;
                             }

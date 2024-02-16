@@ -1,9 +1,11 @@
 import { AppIconInline } from "../../AppIcon/AppIconInline/AppIconInline.wcl.avt";
-import { GeneratedRouter } from "../../../../generated/GeneratedRouter.lib.avt";
 import { Panel } from "../../Panel/Panel.wcl.avt";
 import type { Scrollable } from "../../../ui/layout/Scrollable/Scrollable.wcl.avt";
 import type { AppIcon } from "../../AppIcon/AppIcon.wcl.avt";
 import { ApplicationRAM } from "../../../../ram/Application.ram.avt";
+import { CoreRouter } from "../../../../generated/CoreRouter.lib.avt";
+import { SessionManager } from "../../../../libs/SessionManager.lib.avt";
+import type { User } from "../../../../generated/Data/User.data.avt";
 
 namespace System {
     export class HomePanel extends Panel implements Aventus.DefaultComponent {
@@ -25,6 +27,8 @@ namespace System {
         @ViewElement()
         protected favorisContainer!: HTMLDivElement;
 
+        @Watch()
+        public currentUser?: User;
 
         //#endregion
 
@@ -40,8 +44,7 @@ namespace System {
          * 
          */
         protected async logout() {
-            await new GeneratedRouter().routes.Logout();
-            window.location.reload();
+            SessionManager.logout();
         }
 
 
@@ -68,8 +71,13 @@ namespace System {
             }
         }
 
+        private async getUser() {
+            this.currentUser = await SessionManager.getUser();
+        }
+
 
         protected override postCreation(): void {
+            this.getUser();
             this.displayRecent();
             this.displayFavoris();
             new Aventus.PressManager({

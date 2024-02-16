@@ -10,8 +10,8 @@
 	--internal-scroller-right: var(--scroller-right, 3px);
 	--internal-scroller-left: var(--scroller-left, 3px);
 
-	--internal-scrollbar-container-display: var(--scrollbar-container-display, inline-block)
-;}
+	--internal-scrollbar-container-display: var(--scrollbar-container-display, inline-block);
+}
 
 :host {
 	display: flex;

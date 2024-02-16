@@ -1,0 +1,4 @@
+<div class="square">
+    <rk-img src="/img/icons/tick.svg"></rk-img>
+</div>
+<div class="label">{{ this.label }}</div>

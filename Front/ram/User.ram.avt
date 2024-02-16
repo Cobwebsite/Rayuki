@@ -1,17 +1,19 @@
 import { UserRouter } from "../generated/Routes/UserRouter.lib.avt";
 import { User } from "../generated/Data/User.data.avt";
 import { HttpRouter } from "../libs/HttpRouter.lib.avt";
+import { CoreRouter } from "../generated/CoreRouter.lib.avt";
+import { LoginCode, LoginError } from "../generated/Logic/PasswordManager.lib.avt";
 
 namespace RAM {
     interface UserMethod {
         // define your methods here
-        helloWorld(): void;
     }
 
     export type UserExtended = User & UserMethod;
 
     export class UserRAM extends AventusSharp.RAM.RamHttp<UserExtended> implements Aventus.IRam {
 
+        private connectedUserId?: number;
 
         /**
          * Create a singleton to store data
@@ -24,7 +26,7 @@ namespace RAM {
          * @inheritdoc
          */
         public override defineIndexKey(): keyof UserExtended {
-            return 'id';
+            return 'Id';
         }
         /**
          * @inheritdoc
@@ -38,6 +40,25 @@ namespace RAM {
          */
         public override defineRoutes() {
             return new UserRouter(new HttpRouter());
+        }
+
+        public async getConnected(): Promise<Aventus.ResultWithError<Aventus.RamItem<UserExtended>>> {
+            return this.actionGuard.run(["getConnected"], async () => {
+                let result: Aventus.ResultWithError<Aventus.RamItem<UserExtended>> = new Aventus.ResultWithError();
+                if(!this.connectedUserId) {
+                    let query = await new CoreRouter().routes.User.GetConnected();
+                    if(!query.success || !query.result) {
+                        result.errors = query.errors;
+                        return result;
+                    }
+                    this.connectedUserId = query.result.Id;
+                    this.addOrUpdateData(query.result, result);
+                    if(!result.success) {
+                        return result;
+                    }
+                }
+                return this.getByIdWithError(this.connectedUserId);
+            })
         }
 
         /**
@@ -54,13 +75,6 @@ namespace RAM {
                 }
 
                 // code your methods here
-
-                /**
-                 * @inheritdoc
-                 */
-                public helloWorld(): void {
-                    throw new Error("Method not implemented.");
-                }
             };
         }
 

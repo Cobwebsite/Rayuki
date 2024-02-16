@@ -1,0 +1,73 @@
+import type { GenericSelect } from "../GenericSelect.wcl.avt";
+
+export class OptionsContainer extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+    @Attribute()
+    private open!: boolean;
+    //#endregion
+
+
+    //#region variables
+    private select!: GenericSelect<any>;
+
+    public onOpen: Aventus.Callback<(open: boolean) => void> = new Aventus.Callback();
+    public isAnimating: boolean = false;
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+    public init(select: GenericSelect<any>) {
+        this.select = select;
+    }
+    public async show(container?: HTMLElement) {
+        if(!container) {
+            container = document.body;
+        }
+
+        let box = this.select.getBoundingClientRect();
+        let contBox = container.getBoundingClientRect();
+
+        let newTop = box.top + box.height + 2;
+        let maxHeight = contBox.height - newTop - 10;
+
+        this.style.width = box.width + 'px';
+        this.style.top = newTop + 'px';
+        this.style.left = box.left + 'px';
+        this.style.maxHeight = maxHeight + 'px';
+        container.appendChild(this);
+        await Aventus.sleep(10);
+        this.open = true;
+        this.onOpen.trigger([true]);
+    }
+    public hide() {
+        this.open = false;
+        this.onOpen.trigger([false]);
+    }
+
+    protected addAnimationEnd() {
+        this.addEventListener("transitionstart", (event) => {
+            this.isAnimating = true;
+        });
+        this.addEventListener("transitionend", (event) => {
+            this.isAnimating = false;
+        });
+    }
+
+    protected override postCreation(): void {
+        this.addAnimationEnd();
+        this.setAttribute("tabindex", "-1");
+    }
+    //#endregion
+
+}

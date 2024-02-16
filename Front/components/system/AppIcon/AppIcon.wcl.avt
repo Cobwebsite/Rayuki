@@ -1,4 +1,3 @@
-import { RayukiComponent } from "../RayukiComponent/RayukiComponent.wcl.avt";
 import { Os } from "../Os/Os.wcl.avt";
 import { MoveApplication } from "../../../states/desktop/MoveApplication.state.avt";
 import { DesktopStateManager } from "../../../states/desktop/Desktop.state.avt";
@@ -8,7 +7,7 @@ import type { IPositionable } from "../../ui/layout/PageCase/PageCase.wcl.avt";
 import { AppList } from "../AppList/AppList.wcl.avt";
 
 namespace System {
-    export abstract class AppIcon extends RayukiComponent implements Aventus.DefaultComponent, IContextMenu, IPositionable {
+    export abstract class AppIcon extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, IPositionable {
 
         //#region static
 
@@ -210,5 +209,5 @@ namespace System {
         }
         //#endregion
 
+    }
 }
-        }

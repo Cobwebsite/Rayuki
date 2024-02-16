@@ -6,12 +6,19 @@
             "name": "Main",
             "hideWarnings": true,
             "disabled": false,
-            "inputPath": [
+            "src": [
                 "./components/*",
                 "./ram/*",
                 "./libs/*",
                 "./states/*",
-                "./generated/*"
+                "./generated/*",
+                "./@default.wcs.avt"
+            ],
+            "compile": [
+                {
+                    "output": "../wwwroot/autoload/core.js",
+                    "package": "../../../Libs/RayukiCore/Core.package.avt"
+                }
             ],
             "namespaceStrategy": "rules",
             "namespaceRules": {
@@ -21,13 +28,13 @@
                 "Components": [
                     "./components/components/*"
                 ],
-                "Lib" : [
+                "Lib": [
                     "./libs/*"
                 ],
-                "RAM" : [
+                "RAM": [
                     "./ram/*"
                 ],
-                "State" : [
+                "State": [
                     "./states/*"
                 ]
             },
@@ -39,22 +46,23 @@
                 {
                     "uri": "@AventusSharp",
                     "include": "none"
-                }
-            ],
-            "componentStyle": [
+                },
                 {
-                    "name": "@Rayuki",
-                    "path": "./rayuki.gwcs.avt"
+                    "uri": "@local:MaterialIcon@Main",
+                    "include": "none"
                 }
-            ],
-            "outputFile": "../wwwroot/autoload/core.js",
-            "outputPackage": "../../../Libs/RayukiCore/Core.package.avt"
+            ]
         },
         {
             "name": "Login",
             "disabled": true,
-            "inputPath": [
-                "./login/*"
+            "src": [
+                "./apps/login/*"
+            ],
+            "compile": [
+                {
+                    "output": "../wwwroot/login.js"
+                }
             ],
             "dependances": [
                 {
@@ -66,15 +74,19 @@
                 {
                     "uri": "&:Main"
                 }
-            ],
-            "outputFile": "../wwwroot/login.js"
+            ]
         },
         {
             "name": "ConfigureApp",
             "disabled": true,
-            "inputPath": [
-                "./configureApp/*",
+            "src": [
+                "./apps/configureApp/*",
                 "./generated/*"
+            ],
+            "compile": [
+                {
+                    "output": "../wwwroot/configureApp.js"
+                }
             ],
             "dependances": [
                 {
@@ -86,14 +98,17 @@
                 {
                     "uri": "&:Main"
                 }
-            ],
-            "outputFile": "../wwwroot/configureApp.js"
+            ]
         },
         {
             "name": "Aventus",
-            "inputPath": [],
-            "outputFile": "../wwwroot/autoload/aventus.js",
-            "compressed": false,
+            "src": [],
+            "compile": [
+                {
+                    "output": "../wwwroot/autoload/aventus.js",
+                    "compressed": false
+                }
+            ],
             "dependances": [
                 {
                     "uri": "@Aventus",
@@ -102,6 +117,10 @@
                 {
                     "uri": "@AventusSharp",
                     "include": "full"
+                },
+                {
+                    "uri": "@local:MaterialIcon@Main",
+                    "include": "full"
                 }
             ]
         }
@@ -109,8 +128,8 @@
     "static": [
         {
             "name": "Main",
-            "inputPath": "./static/",
-            "outputPath": "../wwwroot/"
+            "input": "./static/",
+            "output": "../wwwroot/"
         }
     ],
     "aliases": {

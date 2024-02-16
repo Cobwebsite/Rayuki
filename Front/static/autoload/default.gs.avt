@@ -32,6 +32,13 @@
 		U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+@font-face {
+	font-family: 'Material Icons';
+	font-style: normal;
+	font-weight: 400;
+	src: url('/css/font/material-icon.woff2') format('woff2');
+  }
+
 @import "./themes/_default.gs.avt";
 
 html,

@@ -46,13 +46,13 @@ namespace Core.App
                     File.Delete(toDel);
                 }
 
-
                 MySQLStorage storage = new(new StorageCredentials(
-                    host: "localhost",
-                    database: "rayuki",
-                    username: "root",
-                    password: ""
-                )
+                   host: HttpServer.Config.Host,
+                   database: HttpServer.Config.Name,
+                   username: HttpServer.Config.Username,
+                   password: HttpServer.Config.Password
+
+               )
                 {
                     keepConnectionOpen = true,
                 });

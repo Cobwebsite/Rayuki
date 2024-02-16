@@ -1,6 +1,7 @@
 namespace App {
 
 	@Convertible()
+	@Internal()
 	export class AppConfiguration {
 		public static get Fullname(): string { return "Core.App.AppConfiguration, Core"; }
 		public appsInstalled: string[] = [];

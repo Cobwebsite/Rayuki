@@ -313,6 +313,63 @@ var RamErrorCode;
 })(RamErrorCode || (RamErrorCode = {}));
 
 _.RamErrorCode=RamErrorCode;
+const ActionGuard=class ActionGuard {
+    /**
+     * Map to store actions that are currently running.
+     * @type {Map<any[], ((res: any) => void)[]>}
+     * @private
+     */
+    runningAction = new Map();
+    /**
+     * Executes an action uniquely based on the specified keys.
+     * @template T
+     * @param {any[]} keys - The keys associated with the action.
+     * @param {() => Promise<T>} action - The action to execute.
+     * @returns {Promise<T>} A promise that resolves with the result of the action.
+     * @example
+     *
+     *
+     * const actionGuard = new Aventus.ActionGuard();
+     *
+     *
+     * const keys = ["key1", "key2"];
+     *
+     *
+     * const action = async () => {
+     *
+     *     await new Promise(resolve => setTimeout(resolve, 1000));
+     *     return "Action executed";
+     * };
+     *
+     *
+     * await actionGuard.run(keys, action)
+     *
+     */
+    run(keys, action) {
+        return new Promise(async (resolve) => {
+            let actions = this.runningAction.get(keys);
+            if (actions) {
+                actions.push((res) => {
+                    resolve(res);
+                });
+            }
+            else {
+                this.runningAction.set(keys, []);
+                let res = await action();
+                let actions = this.runningAction.get(keys);
+                if (actions) {
+                    for (let action of actions) {
+                        action(res);
+                    }
+                }
+                this.runningAction.delete(keys);
+                resolve(res);
+            }
+        });
+    }
+}
+ActionGuard.Namespace=`${moduleName}`;
+_.ActionGuard=ActionGuard;
 const Mutex=class Mutex {
     waitingList = [];
     isLocked = false;
@@ -619,36 +676,43 @@ const ElementExtension=class ElementExtension {
      * Get element inside slot
      */
     static getElementsInSlot(element, slotName) {
+        let result = [];
         if (element.shadowRoot) {
             let slotEl;
             if (slotName) {
                 slotEl = element.shadowRoot.querySelector('slot[name="' + slotName + '"]');
             }
             else {
-                slotEl = element.shadowRoot.querySelector("slot");
+                slotEl = element.shadowRoot.querySelector("slot:not([name])");
+                if (!slotEl) {
+                    slotEl = element.shadowRoot.querySelector("slot");
+                }
             }
             while (true) {
                 if (!slotEl) {
-                    return [];
+                    return result;
                 }
                 var listChild = Array.from(slotEl.assignedElements());
                 if (!listChild) {
-                    return [];
+                    return result;
                 }
                 let slotFound = false;
                 for (let i = 0; i < listChild.length; i++) {
+                    let child = listChild[i];
                     if (listChild[i].nodeName == "SLOT") {
                         slotEl = listChild[i];
                         slotFound = true;
-                        break;
+                    }
+                    else if (child instanceof HTMLElement) {
+                        result.push(child);
                     }
                 }
                 if (!slotFound) {
-                    return listChild;
+                    return result;
                 }
             }
         }
-        return [];
+        return result;
     }
     /**
      * Get deeper element inside dom at the position X and Y
@@ -678,7 +742,7 @@ const Style=class Style {
     static instance;
     static noAnimation;
     static defaultStyleSheets = {
-        "@general": `:host{display:inline-block;box-sizing:border-box}:host *{box-sizing:border-box}`,
+        "@default": `:host{display:inline-block;box-sizing:border-box}:host *{box-sizing:border-box}`,
     };
     static store(name, content) {
         this.getInstance().store(name, content);
@@ -1217,6 +1281,30 @@ const VoidWithError=class VoidWithError {
      * List of errors
      */
     errors = [];
+    toGeneric() {
+        const result = new VoidWithError();
+        result.errors = this.errors;
+        return result;
+    }
+    containsCode(code, type) {
+        if (type) {
+            for (let error of this.errors) {
+                if (error instanceof type) {
+                    if (error.code == code) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else {
+            for (let error of this.errors) {
+                if (error.code == code) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
 VoidWithError.Namespace=`${moduleName}`;
 _.VoidWithError=VoidWithError;
@@ -1225,6 +1313,12 @@ const ResultWithError=class ResultWithError extends VoidWithError {
      * Result
      */
     result;
+    toGeneric() {
+        const result = new ResultWithError();
+        result.errors = this.errors;
+        result.result = this.result;
+        return result;
+    }
 }
 ResultWithError.Namespace=`${moduleName}`;
 _.ResultWithError=ResultWithError;
@@ -1253,6 +1347,30 @@ const HttpRequest=class HttpRequest {
     setMethod(method) {
         this.request.method = method;
     }
+    objectToFormData(obj, formData, parentKey) {
+        formData = formData || new FormData();
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                const value = obj[key];
+                const newKey = parentKey ? `${parentKey}[${key}]` : key;
+                if (typeof value === 'object' && value !== null && !(value instanceof File)) {
+                    if (Array.isArray(value)) {
+                        value.forEach((arrayItem, index) => {
+                            const arrayKey = `${newKey}[${index}]`;
+                            this.objectToFormData({ [arrayKey]: arrayItem }, formData);
+                        });
+                    }
+                    else {
+                        this.objectToFormData(value, formData, newKey);
+                    }
+                }
+                else {
+                    formData.append(newKey, value);
+                }
+            }
+        }
+        return formData;
+    }
     prepareBody(data) {
         if (!data) {
             return;
@@ -1261,8 +1379,24 @@ const HttpRequest=class HttpRequest {
             this.request.body = data;
         }
         else {
-            this.request.body = JSON.stringify(data);
-            this.setHeader("Content-Type", "Application/json");
+            let useFormData = false;
+            for (let key in data) {
+                if (data[key] instanceof File) {
+                    useFormData = true;
+                    break;
+                }
+                else if (Array.isArray(data[key]) && data[key].length > 0 && data[key][0] instanceof File) {
+                    useFormData = true;
+                    break;
+                }
+            }
+            if (useFormData) {
+                this.request.body = this.objectToFormData(data);
+            }
+            else {
+                this.request.body = JSON.stringify(data);
+                this.setHeader("Content-Type", "Application/json");
+            }
         }
     }
     setHeader(name, value) {
@@ -1443,6 +1577,9 @@ const HttpRoute=class HttpRoute {
     router;
     constructor(router) {
         this.router = router;
+    }
+    getPrefix() {
+        return "";
     }
 }
 HttpRoute.Namespace=`${moduleName}`;
@@ -2499,6 +2636,9 @@ const Watcher=class Watcher {
                         if (element instanceof Computed) {
                             return element;
                         }
+                        if (element instanceof HTMLElement) {
+                            return element;
+                        }
                         if (element instanceof Object) {
                             newProxy = new Proxy(element, this);
                         }
@@ -2590,6 +2730,12 @@ const Watcher=class Watcher {
                 else if (prop == "disableHistory") {
                     return () => {
                         this.useHistory = false;
+                    };
+                }
+                else if (prop == "getTarget") {
+                    return () => {
+                        clearReservedNames(target);
+                        return target;
                     };
                 }
                 else if (prop == "toJSON") {
@@ -3170,6 +3316,24 @@ const Uri=class Uri {
         }
         return from.regex.test(current);
     }
+    static normalize(path) {
+        const isAbsolute = path.startsWith('/');
+        const parts = path.split('/');
+        const normalizedParts = [];
+        for (let i = 0; i < parts.length; i++) {
+            if (parts[i] === '..') {
+                normalizedParts.pop();
+            }
+            else if (parts[i] !== '.' && parts[i] !== '') {
+                normalizedParts.push(parts[i]);
+            }
+        }
+        let normalizedPath = normalizedParts.join('/');
+        if (isAbsolute) {
+            normalizedPath = '/' + normalizedPath;
+        }
+        return normalizedPath;
+    }
 }
 Uri.Namespace=`${moduleName}`;
 _.Uri=Uri;
@@ -3226,6 +3390,758 @@ const ComputedNoRecomputed=class ComputedNoRecomputed extends Computed {
 }
 ComputedNoRecomputed.Namespace=`${moduleName}`;
 _.ComputedNoRecomputed=ComputedNoRecomputed;
+const GenericRam=class GenericRam {
+    /**
+     * The current namespace
+     */
+    static get Namespace() { return ""; }
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    static get Fullname() { return this.Namespace + "." + this.name; }
+    subscribers = {
+        created: [],
+        updated: [],
+        deleted: [],
+    };
+    recordsSubscribers = new Map();
+    /**
+     * List of stored item by index key
+     */
+    records = new Map();
+    actionGuard = new ActionGuard();
+    constructor() {
+        if (this.constructor == GenericRam) {
+            throw "can't instanciate an abstract class";
+        }
+    }
+    /**
+     * Get item id
+     */
+    getIdWithError(item) {
+        let action = new ResultRamWithError();
+        let idTemp = item[this.defineIndexKey()];
+        if (idTemp !== undefined) {
+            action.result = idTemp;
+        }
+        else {
+            action.errors.push(new RamError(RamErrorCode.noId, "no key found for item"));
+        }
+        return action;
+    }
+    /**
+     * Get item id
+     */
+    getId(item) {
+        let result = this.getIdWithError(item);
+        if (result.success) {
+            return result.result;
+        }
+        throw 'no key found for item';
+    }
+    /**
+     * Prevent adding Watch element
+     */
+    removeWatch(element) {
+        let byPass = element;
+        if (byPass.__isProxy) {
+            return byPass.getTarget();
+        }
+        return element;
+    }
+    /**
+     * Add function update, onUpdate, offUpdate, delete, onDelete, offDelete
+     */
+    addRamAction(Base) {
+        let that = this;
+        return class ActionClass extends Base {
+            static get className() {
+                return Base.className || Base.name;
+            }
+            get className() {
+                return Base.className || Base.name;
+            }
+            async update(newData = {}) {
+                let id = that.getId(this);
+                let oldData = that.records.get(id);
+                if (oldData) {
+                    that.mergeObject(oldData, newData);
+                    let result = await that.update(oldData);
+                    return result;
+                }
+                return undefined;
+            }
+            onUpdate(callback) {
+                let id = that.getId(this);
+                if (!that.recordsSubscribers.has(id)) {
+                    that.recordsSubscribers.set(id, {
+                        created: [],
+                        updated: [],
+                        deleted: []
+                    });
+                }
+                let sub = that.recordsSubscribers.get(id);
+                if (sub && !sub.updated.includes(callback)) {
+                    sub.updated.push(callback);
+                }
+            }
+            offUpdate(callback) {
+                let id = that.getId(this);
+                let sub = that.recordsSubscribers.get(id);
+                if (sub) {
+                    let index = sub.updated.indexOf(callback);
+                    if (index != -1) {
+                        sub.updated.splice(index, 1);
+                    }
+                }
+            }
+            async delete() {
+                let id = that.getId(this);
+                await that.deleteById(id);
+            }
+            onDelete(callback) {
+                let id = that.getId(this);
+                if (!that.recordsSubscribers.has(id)) {
+                    that.recordsSubscribers.set(id, {
+                        created: [],
+                        updated: [],
+                        deleted: []
+                    });
+                }
+                let sub = that.recordsSubscribers.get(id);
+                if (sub && !sub.deleted.includes(callback)) {
+                    sub.deleted.push(callback);
+                }
+            }
+            offDelete(callback) {
+                let id = that.getId(this);
+                let sub = that.recordsSubscribers.get(id);
+                if (sub) {
+                    let index = sub.deleted.indexOf(callback);
+                    if (index != -1) {
+                        sub.deleted.splice(index, 1);
+                    }
+                }
+            }
+        };
+    }
+    /**
+     * Transform the object into the object stored inside Ram
+     */
+    getObjectForRam(objJson) {
+        let T = this.addRamAction(this.getTypeForData(objJson));
+        let item = new T();
+        this.mergeObject(item, objJson);
+        return item;
+    }
+    /**
+     * Add element inside Ram or update it. The instance inside the ram is unique and ll never be replaced
+     */
+    addOrUpdateData(item, result) {
+        try {
+            let idWithError = this.getIdWithError(item);
+            if (idWithError.success && idWithError.result !== undefined) {
+                let id = idWithError.result;
+                if (this.records.has(id)) {
+                    this.mergeObject(this.records.get(id), item);
+                }
+                else {
+                    let realObject = this.getObjectForRam(item);
+                    this.records.set(id, realObject);
+                }
+                result.result = this.records.get(id);
+            }
+            else {
+                result.errors = [...result.errors, ...idWithError.errors];
+            }
+        }
+        catch (e) {
+            result.errors.push(new RamError(RamErrorCode.unknow, e));
+        }
+    }
+    /**
+     * Merge object and create real instance of class
+     */
+    mergeObject(item, objJson) {
+        if (!item) {
+            return;
+        }
+        Json.classfromJson(item, objJson);
+    }
+    publish(type, data) {
+        [...this.subscribers[type]].forEach(callback => callback(data));
+        let sub = this.recordsSubscribers.get(this.getId(data));
+        if (sub) {
+            [...sub[type]].forEach(callback => callback(data));
+        }
+    }
+    subscribe(type, cb) {
+        if (!this.subscribers[type].includes(cb)) {
+            this.subscribers[type].push(cb);
+        }
+    }
+    unsubscribe(type, cb) {
+        let index = this.subscribers[type].indexOf(cb);
+        if (index != -1) {
+            this.subscribers[type].splice(index, 1);
+        }
+    }
+    /**
+    * Add a callback that ll be triggered when a new item is stored
+    */
+    onCreated(cb) {
+        this.subscribe('created', cb);
+    }
+    /**
+     * Remove a created callback
+     */
+    offCreated(cb) {
+        this.unsubscribe('created', cb);
+    }
+    /**
+     * Add a callback that ll be triggered when an item is updated
+     */
+    onUpdated(cb) {
+        this.subscribe('updated', cb);
+    }
+    /**
+     * Remove an updated callback
+     */
+    offUpdated(cb) {
+        this.unsubscribe('updated', cb);
+    }
+    /**
+     * Add a callback that ll be triggered when an item is deleted
+     */
+    onDeleted(cb) {
+        this.subscribe('deleted', cb);
+    }
+    /**
+     * Remove an deleted callback
+     */
+    offDeleted(cb) {
+        this.unsubscribe('deleted', cb);
+    }
+    /**
+     * Get an item by id if exist (alias for getById)
+     */
+    async get(id) {
+        return await this.getById(id);
+    }
+    ;
+    /**
+     * Get an item by id if exist (alias for getById)
+     */
+    async getWithError(id) {
+        return await this.getByIdWithError(id);
+    }
+    ;
+    /**
+     * Get an item by id if exist
+     */
+    async getById(id) {
+        let action = await this.getByIdWithError(id);
+        if (action.success) {
+            return action.result;
+        }
+        return undefined;
+    }
+    /**
+     * Get an item by id if exist
+     */
+    async getByIdWithError(id) {
+        return this.actionGuard.run(['getByIdWithError', id], async () => {
+            let action = new ResultRamWithError();
+            await this.beforeGetById(id, action);
+            if (action.success) {
+                if (this.records.has(id)) {
+                    action.result = this.records.get(id);
+                    await this.afterGetById(action);
+                }
+                else {
+                    action.errors.push(new RamError(RamErrorCode.noItemInsideRam, "can't find the item " + id + " inside ram"));
+                }
+            }
+            return action;
+        });
+    }
+    /**
+     * Trigger before getting an item by id
+     */
+    async beforeGetById(id, result) { }
+    ;
+    /**
+     * Trigger after getting an item by id
+     */
+    async afterGetById(result) { }
+    ;
+    /**
+     * Get multiple items by ids
+     */
+    async getByIds(ids) {
+        let result = await this.getByIdsWithError(ids);
+        if (result.success) {
+            return result.result ?? [];
+        }
+        return [];
+    }
+    ;
+    /**
+     * Get multiple items by ids
+     */
+    async getByIdsWithError(ids) {
+        return this.actionGuard.run(['getByIdsWithError', ids], async () => {
+            let action = new ResultRamWithError();
+            action.result = [];
+            await this.beforeGetByIds(ids, action);
+            if (action.success) {
+                for (let id of ids) {
+                    let rec = this.records.get(id);
+                    if (rec) {
+                        action.result.push(rec);
+                    }
+                    else {
+                        action.errors.push(new RamError(RamErrorCode.noItemInsideRam, "can't find the item " + id + " inside ram"));
+                    }
+                }
+                if (action.success) {
+                    await this.afterGetByIds(action);
+                }
+            }
+            return action;
+        });
+    }
+    ;
+    /**
+     * Trigger before getting a list of items by id
+     */
+    async beforeGetByIds(ids, result) { }
+    ;
+    /**
+     * Trigger after getting a list of items by id
+     */
+    async afterGetByIds(result) { }
+    ;
+    /**
+     * Get all elements inside the Ram
+     */
+    async getAll() {
+        let result = await this.getAllWithError();
+        if (result.success) {
+            return result.result ?? new Map();
+        }
+        return new Map();
+    }
+    ;
+    /**
+     * Get all elements inside the Ram
+     */
+    async getAllWithError() {
+        return this.actionGuard.run(['getAllWithError'], async () => {
+            let action = new ResultRamWithError();
+            action.result = new Map();
+            await this.beforeGetAll(action);
+            if (action.success) {
+                action.result = this.records;
+                await this.afterGetAll(action);
+            }
+            return action;
+        });
+    }
+    ;
+    /**
+     * Trigger before getting all items inside Ram
+     */
+    async beforeGetAll(result) { }
+    ;
+    /**
+     * Trigger after getting all items inside Ram
+     */
+    async afterGetAll(result) { }
+    ;
+    /**
+     * Get all elements inside the Ram
+     */
+    async getList() {
+        let data = await this.getAll();
+        return Array.from(data.values());
+    }
+    ;
+    /**
+     * Get all elements inside the Ram
+     */
+    async getListWithError() {
+        let action = new ResultRamWithError();
+        action.result = [];
+        let result = await this.getAllWithError();
+        if (result.success) {
+            if (result.result) {
+                action.result = Array.from(result.result.values());
+            }
+            else {
+                action.result = [];
+            }
+        }
+        else {
+            action.errors = result.errors;
+        }
+        return action;
+    }
+    /**
+     * Create a list of items inside ram
+     */
+    async createList(list) {
+        let result = await this.createListWithError(list);
+        return result.result ?? [];
+    }
+    /**
+     * Create a list of items inside ram
+     */
+    async createListWithError(list) {
+        list = this.removeWatch(list);
+        let action = new ResultRamWithError();
+        action.result = [];
+        await this.beforeCreateList(list, action);
+        if (action.success) {
+            if (action.result.length > 0) {
+                list = action.result;
+            }
+            for (let item of list) {
+                let resultItem = await this._create(item, true);
+                if (resultItem.success && resultItem.result) {
+                    action.result.push(resultItem.result);
+                }
+                else {
+                    action.errors = [...action.errors, ...resultItem.errors];
+                }
+            }
+            if (action.success) {
+                await this.afterCreateList(action);
+            }
+        }
+        return action;
+    }
+    /**
+     * Create an item inside ram
+     */
+    async create(item, ...args) {
+        let action = await this.createWithError(item, args);
+        if (action.success) {
+            return action.result;
+        }
+        return undefined;
+    }
+    /**
+     * Create an item inside ram
+     */
+    async createWithError(item, ...args) {
+        return await this._create(item, false);
+    }
+    async _create(item, fromList) {
+        item = this.removeWatch(item);
+        return this.actionGuard.run(['_create', item], async () => {
+            let action = new ResultRamWithError();
+            await this.beforeCreateItem(item, fromList, action);
+            if (action.success) {
+                if (action.result) {
+                    item = action.result;
+                }
+                let resultTemp = this.getIdWithError(item);
+                if (resultTemp.success) {
+                    this.addOrUpdateData(item, action);
+                    if (!action.success) {
+                        return action;
+                    }
+                    await this.afterCreateItem(action, fromList);
+                    if (!action.success) {
+                        action.result = undefined;
+                    }
+                    else if (action.result) {
+                        this.publish('created', action.result);
+                    }
+                }
+                else {
+                    action.errors = resultTemp.errors;
+                }
+            }
+            return action;
+        });
+    }
+    /**
+     * Trigger before creating a list of items
+     */
+    async beforeCreateList(list, result) {
+    }
+    ;
+    /**
+     * Trigger before creating an item
+     */
+    async beforeCreateItem(item, fromList, result) {
+    }
+    ;
+    /**
+     * Trigger after creating an item
+     */
+    async afterCreateItem(result, fromList) {
+    }
+    ;
+    /**
+     * Trigger after creating a list of items
+     */
+    async afterCreateList(result) {
+    }
+    ;
+    /**
+     * Update a list of items inside ram
+     */
+    async updateList(list) {
+        let result = await this.updateListWithError(list);
+        return result.result ?? [];
+    }
+    ;
+    /**
+     * Update a list of items inside ram
+     */
+    async updateListWithError(list) {
+        list = this.removeWatch(list);
+        let action = new ResultRamWithError();
+        action.result = [];
+        await this.beforeUpdateList(list, action);
+        if (action.success) {
+            if (action.result.length > 0) {
+                list = action.result;
+            }
+            for (let item of list) {
+                let resultItem = await this._update(item, true);
+                if (resultItem.success && resultItem.result) {
+                    action.result.push(resultItem.result);
+                }
+                else {
+                    action.errors = [...action.errors, ...resultItem.errors];
+                }
+            }
+            if (action.success) {
+                await this.afterUpdateList(action);
+            }
+        }
+        return action;
+    }
+    ;
+    /**
+     * Update an item inside ram
+     */
+    async update(item, ...args) {
+        let action = await this.updateWithError(item, args);
+        if (action.success) {
+            return action.result;
+        }
+        return undefined;
+    }
+    /**
+     * Update an item inside ram
+     */
+    async updateWithError(item, ...args) {
+        return await this._update(item, false);
+    }
+    async _update(item, fromList) {
+        item = this.removeWatch(item);
+        return this.actionGuard.run(['_update', item], async () => {
+            let action = new ResultRamWithError();
+            let resultTemp = await this.getIdWithError(item);
+            if (resultTemp.success && resultTemp.result !== undefined) {
+                let key = resultTemp.result;
+                if (this.records.has(key)) {
+                    await this.beforeUpdateItem(item, fromList, action);
+                    if (!action.success) {
+                        return action;
+                    }
+                    if (action.result) {
+                        item = action.result;
+                    }
+                    this.addOrUpdateData(item, action);
+                    if (!action.success) {
+                        return action;
+                    }
+                    await this.afterUpdateItem(action, fromList);
+                    if (!action.success) {
+                        action.result = undefined;
+                    }
+                    else if (action.result) {
+                        this.publish('updated', action.result);
+                    }
+                }
+                else {
+                    action.errors.push(new RamError(RamErrorCode.noItemInsideRam, "can't update the item " + key + " because it wasn't found inside ram"));
+                }
+            }
+            else {
+                action.errors = resultTemp.errors;
+            }
+            return action;
+        });
+    }
+    ;
+    /**
+     * Trigger before updating a list of items
+     */
+    async beforeUpdateList(list, result) {
+    }
+    ;
+    /**
+    * Trigger before updating an item
+    */
+    async beforeUpdateItem(item, fromList, result) {
+    }
+    ;
+    /**
+     * Trigger after updating an item
+     */
+    async afterUpdateItem(result, fromList) {
+    }
+    ;
+    /**
+     * Trigger after updating a list of items
+     */
+    async afterUpdateList(result) {
+    }
+    ;
+    /**
+     * Delete a list of items inside ram
+     */
+    async deleteList(list) {
+        let result = await this.deleteListWithError(list);
+        return result.result ?? [];
+    }
+    ;
+    /**
+     * Delete a list of items inside ram
+     */
+    async deleteListWithError(list) {
+        list = this.removeWatch(list);
+        let action = new ResultRamWithError();
+        action.result = [];
+        let deleteResult = new VoidWithError();
+        await this.beforeDeleteList(list, deleteResult);
+        if (!deleteResult.success) {
+            action.errors = deleteResult.errors;
+        }
+        for (let item of list) {
+            let resultItem = await this._delete(item, true);
+            if (resultItem.success && resultItem.result) {
+                action.result.push(resultItem.result);
+            }
+            else {
+                action.errors = [...action.errors, ...resultItem.errors];
+            }
+        }
+        if (action.success) {
+            await this.afterDeleteList(action);
+        }
+        return action;
+    }
+    ;
+    /**
+     * Delete an item inside ram
+     */
+    async delete(item, ...args) {
+        let action = await this.deleteWithError(item, args);
+        if (action.success) {
+            return action.result;
+        }
+        return undefined;
+    }
+    ;
+    /**
+    * Delete an item inside ram
+    */
+    async deleteWithError(item, ...args) {
+        return await this._delete(item, false);
+    }
+    ;
+    /**
+     * Delete an item by id inside ram
+     */
+    async deleteById(id) {
+        let action = await this.deleteByIdWithError(id);
+        if (action.success) {
+            return action.result;
+        }
+        return undefined;
+    }
+    /**
+    * Delete an item by id inside ram
+    */
+    async deleteByIdWithError(id) {
+        let item = this.records.get(id);
+        if (item) {
+            return await this._delete(item, false);
+        }
+        let result = new ResultRamWithError();
+        result.errors.push(new RamError(RamErrorCode.noItemInsideRam, "can't update the item " + id + " because it wasn't found inside ram"));
+        return result;
+    }
+    async _delete(item, fromList) {
+        item = this.removeWatch(item);
+        return this.actionGuard.run(['_delete', item], async () => {
+            let action = new ResultRamWithError();
+            let resultTemp = await this.getIdWithError(item);
+            if (resultTemp.success && resultTemp.result) {
+                let key = resultTemp.result;
+                let oldItem = this.records.get(key);
+                if (oldItem) {
+                    let deleteResult = new VoidWithError();
+                    await this.beforeDeleteItem(oldItem, fromList, deleteResult);
+                    if (!deleteResult.success) {
+                        action.errors = deleteResult.errors;
+                        return action;
+                    }
+                    this.records.delete(key);
+                    action.result = oldItem;
+                    await this.afterDeleteItem(action, fromList);
+                    if (!action.success) {
+                        action.result = undefined;
+                    }
+                    else {
+                        this.publish('deleted', action.result);
+                    }
+                    this.recordsSubscribers.delete(key);
+                }
+                else {
+                    action.errors.push(new RamError(RamErrorCode.noItemInsideRam, "can't delete the item " + key + " because it wasn't found inside ram"));
+                }
+            }
+            else {
+                action.errors = resultTemp.errors;
+            }
+            return action;
+        });
+    }
+    /**
+     * Trigger before deleting a list of items
+     */
+    async beforeDeleteList(list, result) { }
+    ;
+    /**
+     * Trigger before deleting an item
+     */
+    async beforeDeleteItem(item, fromList, result) { }
+    ;
+    /**
+     * Trigger after deleting an item
+     */
+    async afterDeleteItem(result, fromList) { }
+    ;
+    /**
+     * Trigger after deleting a list of items
+     */
+    async afterDeleteList(result) { }
+}
+GenericRam.Namespace=`${moduleName}`;
+_.GenericRam=GenericRam;
+const Ram=class Ram extends GenericRam {
+}
+Ram.Namespace=`${moduleName}`;
+_.Ram=Ram;
 const State=class State {
     /**
      * Activate a custom state inside a specific manager
@@ -3273,6 +4189,7 @@ const StateManager=class StateManager {
     }
     activeState;
     changeStateMutex = new Mutex();
+    canChangeStateCbs = [];
     afterStateChanged = new Callback();
     /**
      * Subscribe actions for a state or a state list
@@ -3395,6 +4312,9 @@ const StateManager=class StateManager {
     assignDefaultState(stateName) {
         return new EmptyState(stateName);
     }
+    canChangeState(cb) {
+        this.canChangeStateCbs.push(cb);
+    }
     /**
      * Activate a current state
      */
@@ -3411,6 +4331,11 @@ const StateManager=class StateManager {
                 this._log("state is undefined", "error");
                 this.changeStateMutex.release();
                 return false;
+            }
+            for (let cb of this.canChangeStateCbs) {
+                if (!(await cb(stateToUse))) {
+                    return false;
+                }
             }
             let canChange = true;
             if (this.activeState) {
@@ -3538,530 +4463,6 @@ const StateManager=class StateManager {
 }
 StateManager.Namespace=`${moduleName}`;
 _.StateManager=StateManager;
-const TemplateInstance=class TemplateInstance {
-    context;
-    content;
-    actions;
-    component;
-    _components = {};
-    firstRenderUniqueCb = {};
-    firstRenderCb = [];
-    firstChild;
-    lastChild;
-    computeds = [];
-    renderingComputeds = [];
-    loopRegisteries = {};
-    loops = [];
-    ifs = [];
-    constructor(component, content, actions, loops, ifs, context) {
-        this.component = component;
-        this.content = content;
-        this.actions = actions;
-        this.ifs = ifs;
-        this.loops = loops;
-        this.context = context ? context : new TemplateContext(component);
-        this.firstChild = content.firstElementChild;
-        this.lastChild = content.lastElementChild;
-        this.selectElements();
-        this.transformActionsListening();
-    }
-    render() {
-        this.updateContext();
-        this.bindEvents();
-        for (let cb of this.firstRenderCb) {
-            cb();
-        }
-        for (let key in this.firstRenderUniqueCb) {
-            this.firstRenderUniqueCb[key]();
-        }
-        this.renderSubTemplate();
-    }
-    destructor() {
-        for (let name in this.loopRegisteries) {
-            for (let item of this.loopRegisteries[name].templates) {
-                item.destructor();
-            }
-            for (let item of this.loopRegisteries[name].computeds) {
-                item.destroy();
-            }
-        }
-        this.loopRegisteries = {};
-        this.context.destructor();
-        for (let computed of this.computeds) {
-            computed.destroy();
-        }
-        for (let computed of this.renderingComputeds) {
-            computed.destroy();
-        }
-        this.computeds = [];
-        this.removeFromDOM();
-    }
-    removeFromDOM(avoidTrigger = false) {
-        if (avoidTrigger) {
-            let node = this.firstChild;
-            while (node && node != this.lastChild) {
-                let next = node.nextElementSibling;
-                node.parentNode?.removeChild(node);
-                node = next;
-            }
-            this.lastChild?.parentNode?.removeChild(this.lastChild);
-        }
-        else {
-            let node = this.firstChild;
-            while (node && node != this.lastChild) {
-                let next = node.nextElementSibling;
-                node.remove();
-                node = next;
-            }
-            this.lastChild?.remove();
-        }
-    }
-    selectElements() {
-        this._components = {};
-        let idEls = Array.from(this.content.querySelectorAll('[_id]'));
-        for (let idEl of idEls) {
-            let id = idEl.attributes['_id'].value;
-            if (!this._components[id]) {
-                this._components[id] = [];
-            }
-            this._components[id].push(idEl);
-        }
-        if (this.actions.elements) {
-            for (let element of this.actions.elements) {
-                let components = [];
-                for (let id of element.ids) {
-                    if (this._components[id]) {
-                        components = [...components, ...this._components[id]];
-                    }
-                }
-                if (element.isArray) {
-                    setValueToObject(element.name, this.component, components);
-                }
-                else if (components[0]) {
-                    setValueToObject(element.name, this.component, components[0]);
-                }
-            }
-        }
-    }
-    updateContext() {
-        if (this.actions.contextEdits) {
-            for (let contextEdit of this.actions.contextEdits) {
-                this.renderContextEdit(contextEdit);
-            }
-        }
-    }
-    renderContextEdit(edit) {
-        let _class = edit.once ? ComputedNoRecomputed : Computed;
-        let computed = new _class(() => {
-            return edit.fct(this.context);
-        });
-        computed.subscribe((action, path, value) => {
-            for (let key in computed.value) {
-                let newValue = computed.value[key];
-                this.context.updateWatch(key, newValue);
-            }
-        });
-        this.computeds.push(computed);
-        for (let key in computed.value) {
-            this.context.registerWatch(key, computed.value[key]);
-        }
-    }
-    bindEvents() {
-        if (this.actions.events) {
-            for (let event of this.actions.events) {
-                this.bindEvent(event);
-            }
-        }
-        if (this.actions.pressEvents) {
-            for (let event of this.actions.pressEvents) {
-                this.bindPressEvent(event);
-            }
-        }
-    }
-    bindEvent(event) {
-        if (!this._components[event.id]) {
-            return;
-        }
-        if (event.isCallback) {
-            for (let el of this._components[event.id]) {
-                let cb = getValueFromObject(event.eventName, el);
-                cb?.add((...args) => {
-                    event.fct(this.context, args);
-                });
-            }
-        }
-        else {
-            for (let el of this._components[event.id]) {
-                el.addEventListener(event.eventName, (e) => { event.fct(e, this.context); });
-            }
-        }
-    }
-    bindPressEvent(event) {
-        let id = event['id'];
-        if (id && this._components[id]) {
-            let clone = {};
-            for (let temp in event) {
-                if (temp != 'id') {
-                    if (event[temp] instanceof Function) {
-                        clone[temp] = (e, pressInstance) => { event[temp](e, pressInstance, this.context); };
-                    }
-                    else {
-                        clone[temp] = event[temp];
-                    }
-                }
-            }
-            clone.element = this._components[id];
-            PressManager.create(clone);
-        }
-    }
-    transformActionsListening() {
-        if (this.actions.content) {
-            for (let name in this.actions.content) {
-                this.transformChangeAction(name, this.actions.content[name]);
-            }
-        }
-        if (this.actions.injection) {
-            for (let injection of this.actions.injection) {
-                this.transformInjectionAction(injection);
-            }
-        }
-        if (this.actions.bindings) {
-            for (let binding of this.actions.bindings) {
-                this.transformBindigAction(binding);
-            }
-        }
-    }
-    transformChangeAction(name, change) {
-        const [id, attr] = name.split("°");
-        if (!this._components[id])
-            return;
-        let apply = () => { };
-        if (attr == "@HTML") {
-            apply = () => {
-                let value = this.context.print(computed.value);
-                for (const el of this._components[id])
-                    el.innerHTML = value;
-            };
-        }
-        else {
-            apply = () => {
-                let value = this.context.print(computed.value);
-                if (value === "false") {
-                    for (const el of this._components[id]) {
-                        el.removeAttribute(attr);
-                    }
-                }
-                else {
-                    for (const el of this._components[id]) {
-                        el.setAttribute(attr, value);
-                    }
-                }
-            };
-        }
-        let _class = change.once ? ComputedNoRecomputed : Computed;
-        let computed = new _class(() => {
-            return change.fct(this.context);
-        });
-        let timeout;
-        computed.subscribe((action, path, value) => {
-            clearTimeout(timeout);
-            // add timeout to group change that append on the same frame (for example index update)
-            timeout = setTimeout(() => {
-                apply();
-            });
-        });
-        this.renderingComputeds.push(computed);
-        this.firstRenderUniqueCb[name] = () => {
-            apply();
-        };
-    }
-    transformInjectionAction(injection) {
-        if (!this._components[injection.id])
-            return;
-        let _class = injection.once ? ComputedNoRecomputed : Computed;
-        let computed = new _class(() => {
-            return injection.inject(this.context);
-        });
-        this.computeds.push(computed);
-        computed.subscribe(() => {
-            for (const el of this._components[injection.id]) {
-                el[injection.injectionName] = computed.value;
-            }
-        });
-        this.firstRenderCb.push(() => {
-            for (const el of this._components[injection.id]) {
-                el[injection.injectionName] = computed.value;
-            }
-        });
-    }
-    transformBindigAction(binding) {
-        let isLocalChange = false;
-        let _class = binding.once ? ComputedNoRecomputed : Computed;
-        let computed = new _class(() => {
-            return binding.inject(this.context);
-        });
-        this.computeds.push(computed);
-        computed.subscribe(() => {
-            if (isLocalChange)
-                return;
-            for (const el of this._components[binding.id]) {
-                el[binding.injectionName] = computed.value;
-            }
-        });
-        this.firstRenderCb.push(() => {
-            for (const el of this._components[binding.id]) {
-                el[binding.injectionName] = computed.value;
-            }
-        });
-        if (binding.isCallback) {
-            this.firstRenderCb.push(() => {
-                for (var el of this._components[binding.id]) {
-                    for (let fct of binding.eventNames) {
-                        let cb = getValueFromObject(fct, el);
-                        cb?.add((value) => {
-                            let valueToSet = getValueFromObject(binding.injectionName, el);
-                            isLocalChange = true;
-                            binding.extract(this.context, valueToSet);
-                            isLocalChange = false;
-                        });
-                    }
-                }
-            });
-        }
-        else {
-            this.firstRenderCb.push(() => {
-                for (var el of this._components[binding.id]) {
-                    for (let fct of binding.eventNames) {
-                        el.addEventListener(fct, (e) => {
-                            let valueToSet = getValueFromObject(binding.injectionName, e.target);
-                            isLocalChange = true;
-                            binding.extract(this.context, valueToSet);
-                            isLocalChange = false;
-                        });
-                    }
-                }
-            });
-        }
-    }
-    renderSubTemplate() {
-        for (let loop of this.loops) {
-            this.renderLoop(loop);
-        }
-        for (let _if of this.ifs) {
-            this.renderIf(_if);
-        }
-    }
-    renderLoop(loop) {
-        if (loop.func) {
-            this.renderLoopComplex(loop);
-        }
-        else if (loop.simple) {
-            this.renderLoopSimple(loop, loop.simple);
-        }
-    }
-    resetLoop(loop) {
-        if (this.loopRegisteries[loop.anchorId]) {
-            for (let item of this.loopRegisteries[loop.anchorId].templates) {
-                item.destructor();
-            }
-            for (let item of this.loopRegisteries[loop.anchorId].computeds) {
-                item.destroy();
-            }
-            if (loop.simple && this.loopRegisteries[loop.anchorId].sub) {
-                let elements = this.context.getValueFromItem(loop.simple.data.replace(/^this\./, ''));
-                if (elements) {
-                    elements.unsubscribe(this.loopRegisteries[loop.anchorId].sub);
-                }
-            }
-        }
-        this.loopRegisteries[loop.anchorId] = {
-            templates: [],
-            computeds: [],
-        };
-    }
-    renderLoopComplex(loop) {
-        if (!loop.func)
-            return;
-        let fctsTemp = loop.func.bind(this.component)(this.context);
-        let fcts = {
-            apply: fctsTemp.apply,
-            condition: fctsTemp.condition,
-            transform: fctsTemp.transform ?? (() => { })
-        };
-        this.resetLoop(loop);
-        let computedsCondition = [];
-        let alreadyRecreated = false;
-        const createComputedCondition = () => {
-            let compCondition = new Computed(() => {
-                return fcts.condition();
-            });
-            compCondition.value;
-            compCondition.subscribe((action, path, value) => {
-                if (!alreadyRecreated) {
-                    alreadyRecreated = true;
-                    this.renderLoopComplex(loop);
-                }
-            });
-            computedsCondition.push(compCondition);
-            this.loopRegisteries[loop.anchorId].computeds.push(compCondition);
-            return compCondition;
-        };
-        let result = [];
-        let compCondition = createComputedCondition();
-        while (compCondition.value) {
-            result.push(fcts.apply());
-            fcts.transform();
-            compCondition = createComputedCondition();
-        }
-        let anchor = this._components[loop.anchorId][0];
-        for (let i = 0; i < result.length; i++) {
-            let context = new TemplateContext(this.component, result[i], this.context);
-            let content = loop.template.template?.content.cloneNode(true);
-            let actions = loop.template.actions;
-            let instance = new TemplateInstance(this.component, content, actions, loop.template.loops, loop.template.ifs, context);
-            instance.render();
-            anchor.parentNode?.insertBefore(instance.content, anchor);
-            this.loopRegisteries[loop.anchorId].templates.push(instance);
-        }
-    }
-    renderLoopSimple(loop, simple) {
-        this.resetLoop(loop);
-        let basePath = simple.data.replace(/^this\./, '');
-        let getElements = () => this.context.getValueFromItem(basePath);
-        let elements = getElements();
-        let indexName = this.context.registerIndex();
-        let keys = Object.keys(elements);
-        if (elements.__isProxy) {
-            let regexArray = new RegExp("^\\[(\\d+?)\\]$");
-            let regexObject = new RegExp("^([^\\.]*)$");
-            let sub = (action, path, value) => {
-                if (path == "") {
-                    this.renderLoopSimple(loop, simple);
-                    return;
-                }
-                if (action == WatchAction.UPDATED) {
-                    return;
-                }
-                let index = undefined;
-                regexArray.lastIndex = 0;
-                regexObject.lastIndex = 0;
-                let resultArray = regexArray.exec(path);
-                if (resultArray) {
-                    index = Number(resultArray[1]);
-                }
-                else {
-                    let resultObject = regexObject.exec(path);
-                    if (resultObject) {
-                        let oldKey = resultObject[1];
-                        if (action == WatchAction.CREATED) {
-                            keys = Object.keys(getElements());
-                            index = keys.indexOf(oldKey);
-                        }
-                        else if (action == WatchAction.DELETED) {
-                            index = keys.indexOf(oldKey);
-                            keys = Object.keys(getElements());
-                        }
-                    }
-                }
-                if (index !== undefined) {
-                    let registry = this.loopRegisteries[loop.anchorId];
-                    if (action == WatchAction.CREATED) {
-                        let context = new TemplateContext(this.component, {}, this.context);
-                        context.registerLoop(simple.data, index, indexName, simple.index, simple.item);
-                        let content = loop.template.template?.content.cloneNode(true);
-                        let actions = loop.template.actions;
-                        let instance = new TemplateInstance(this.component, content, actions, loop.template.loops, loop.template.ifs, context);
-                        instance.render();
-                        let anchor;
-                        if (index < registry.templates.length) {
-                            anchor = registry.templates[index].firstChild;
-                        }
-                        else {
-                            anchor = this._components[loop.anchorId][0];
-                        }
-                        anchor?.parentNode?.insertBefore(instance.content, anchor);
-                        registry.templates.splice(index, 0, instance);
-                        for (let i = index + 1; i < registry.templates.length; i++) {
-                            registry.templates[i].context.increaseIndex(indexName);
-                        }
-                    }
-                    else if (action == WatchAction.DELETED) {
-                        registry.templates[index].destructor();
-                        registry.templates.splice(index, 1);
-                        for (let i = index; i < registry.templates.length; i++) {
-                            registry.templates[i].context.decreaseIndex(indexName);
-                        }
-                    }
-                }
-            };
-            elements.subscribe(sub);
-        }
-        let anchor = this._components[loop.anchorId][0];
-        for (let i = 0; i < keys.length; i++) {
-            let context = new TemplateContext(this.component, {}, this.context);
-            context.registerLoop(simple.data, i, indexName, simple.index, simple.item);
-            let content = loop.template.template?.content.cloneNode(true);
-            let actions = loop.template.actions;
-            let instance = new TemplateInstance(this.component, content, actions, loop.template.loops, loop.template.ifs, context);
-            instance.render();
-            anchor.parentNode?.insertBefore(instance.content, anchor);
-            this.loopRegisteries[loop.anchorId].templates.push(instance);
-        }
-    }
-    renderIf(_if) {
-        let computeds = [];
-        let instances = [];
-        let anchor = this._components[_if.anchorId][0];
-        let currentActive = -1;
-        const calculateActive = () => {
-            let newActive = -1;
-            for (let i = 0; i < _if.parts.length; i++) {
-                if (computeds[i].value) {
-                    newActive = i;
-                    break;
-                }
-            }
-            if (newActive == currentActive) {
-                return;
-            }
-            if (currentActive != -1) {
-                let instance = instances[currentActive];
-                let node = instance.firstChild;
-                while (node && node != instance.lastChild) {
-                    let next = node.nextElementSibling;
-                    instance.content.appendChild(node);
-                    node = next;
-                }
-                if (instance.lastChild)
-                    instance.content.appendChild(instance.lastChild);
-            }
-            currentActive = newActive;
-            if (instances[currentActive])
-                anchor.parentNode?.insertBefore(instances[currentActive].content, anchor);
-        };
-        for (let i = 0; i < _if.parts.length; i++) {
-            const part = _if.parts[i];
-            let _class = part.once ? ComputedNoRecomputed : Computed;
-            let computed = new _class(() => {
-                return part.condition(this.context);
-            });
-            computeds.push(computed);
-            computed.subscribe(() => {
-                calculateActive();
-            });
-            this.computeds.push(computed);
-            let context = new TemplateContext(this.component, {}, this.context);
-            let content = part.template.template?.content.cloneNode(true);
-            let actions = part.template.actions;
-            let instance = new TemplateInstance(this.component, content, actions, part.template.loops, part.template.ifs, context);
-            instances.push(instance);
-            instance.render();
-        }
-        calculateActive();
-    }
-}
-TemplateInstance.Namespace=`${moduleName}`;
-_.TemplateInstance=TemplateInstance;
 const Template=class Template {
     static validatePath(path, pathToCheck) {
         if (pathToCheck.startsWith(path)) {
@@ -4359,7 +4760,7 @@ const WebComponent=class WebComponent extends HTMLElement {
     static __template;
     __templateInstance;
     styleBefore(addStyle) {
-        addStyle("@general");
+        addStyle("@default");
     }
     styleAfter(addStyle) {
     }
@@ -4858,8 +5259,10 @@ const TemplateContext=class TemplateContext {
     comp;
     computeds = [];
     watch;
-    constructor(component, data = {}, parentContext) {
+    registry;
+    constructor(component, data = {}, parentContext, registry) {
         this.comp = component;
+        this.registry = registry;
         this.watch = Watcher.get({});
         let that = this;
         for (let key in data) {
@@ -4935,7 +5338,21 @@ const TemplateContext=class TemplateContext {
                 throw 'impossible';
             let keys = Object.keys(items);
             let index = keys[_getIndex.value];
-            return items[index];
+            let element = items[index];
+            if (element === undefined && (Array.isArray(items) || !items)) {
+                debugger;
+                if (this.registry) {
+                    let indexNb = Number(_getIndex.value);
+                    if (!isNaN(indexNb)) {
+                        this.registry.templates[indexNb].destructor();
+                        this.registry.templates.splice(indexNb, 1);
+                        for (let i = indexNb; i < this.registry.templates.length; i++) {
+                            this.registry.templates[i].context.decreaseIndex(_indexName);
+                        }
+                    }
+                }
+            }
+            return element;
         });
         let _getIndex = new ComputedNoRecomputed(() => {
             return this.watch[_indexName];
@@ -5020,755 +5437,602 @@ const TemplateContext=class TemplateContext {
 }
 TemplateContext.Namespace=`${moduleName}`;
 _.TemplateContext=TemplateContext;
-const GenericRam=class GenericRam {
-    /**
-     * The current namespace
-     */
-    static get Namespace() { return ""; }
-    /**
-     * Get the unique type for the data. Define it as the namespace + class name
-     */
-    static get Fullname() { return this.Namespace + "." + this.name; }
-    subscribers = {
-        created: [],
-        updated: [],
-        deleted: [],
-    };
-    recordsSubscribers = new Map();
-    /**
-     * List of stored item by index key
-     */
-    records = new Map();
-    getAllInPorgress;
-    constructor() {
-        if (this.constructor == GenericRam) {
-            throw "can't instanciate an abstract class";
-        }
+const TemplateInstance=class TemplateInstance {
+    context;
+    content;
+    actions;
+    component;
+    _components = {};
+    firstRenderUniqueCb = {};
+    firstRenderCb = [];
+    firstChild;
+    lastChild;
+    computeds = [];
+    renderingComputeds = [];
+    loopRegisteries = {};
+    loops = [];
+    ifs = [];
+    constructor(component, content, actions, loops, ifs, context) {
+        this.component = component;
+        this.content = content;
+        this.actions = actions;
+        this.ifs = ifs;
+        this.loops = loops;
+        this.context = context ? context : new TemplateContext(component);
+        this.firstChild = content.firstElementChild;
+        this.lastChild = content.lastElementChild;
+        this.selectElements();
+        this.transformActionsListening();
     }
-    /**
-     * Get item id
-     */
-    getIdWithError(item) {
-        let action = new ResultRamWithError();
-        let idTemp = item[this.defineIndexKey()];
-        if (idTemp !== undefined) {
-            action.result = idTemp;
+    render() {
+        this.updateContext();
+        this.bindEvents();
+        for (let cb of this.firstRenderCb) {
+            cb();
+        }
+        for (let key in this.firstRenderUniqueCb) {
+            this.firstRenderUniqueCb[key]();
+        }
+        this.renderSubTemplate();
+    }
+    destructor() {
+        for (let name in this.loopRegisteries) {
+            for (let item of this.loopRegisteries[name].templates) {
+                item.destructor();
+            }
+            for (let item of this.loopRegisteries[name].computeds) {
+                item.destroy();
+            }
+        }
+        this.loopRegisteries = {};
+        this.context.destructor();
+        for (let computed of this.computeds) {
+            computed.destroy();
+        }
+        for (let computed of this.renderingComputeds) {
+            computed.destroy();
+        }
+        this.computeds = [];
+        this.removeFromDOM();
+    }
+    removeFromDOM(avoidTrigger = false) {
+        if (avoidTrigger) {
+            let node = this.firstChild;
+            while (node && node != this.lastChild) {
+                let next = node.nextElementSibling;
+                node.parentNode?.removeChild(node);
+                node = next;
+            }
+            this.lastChild?.parentNode?.removeChild(this.lastChild);
         }
         else {
-            action.errors.push(new RamError(RamErrorCode.noId, "no key found for item"));
+            let node = this.firstChild;
+            while (node && node != this.lastChild) {
+                let next = node.nextElementSibling;
+                node.remove();
+                node = next;
+            }
+            this.lastChild?.remove();
         }
-        return action;
     }
-    /**
-     * Get item id
-     */
-    getId(item) {
-        let result = this.getIdWithError(item);
-        if (result.success) {
-            return result.result;
+    selectElements() {
+        this._components = {};
+        let idEls = Array.from(this.content.querySelectorAll('[_id]'));
+        for (let idEl of idEls) {
+            let id = idEl.attributes['_id'].value;
+            if (!this._components[id]) {
+                this._components[id] = [];
+            }
+            this._components[id].push(idEl);
         }
-        throw 'no key found for item';
-    }
-    /**
-     * Add function update, onUpdate, offUpdate, delete, onDelete, offDelete
-     */
-    addRamAction(Base) {
-        let that = this;
-        return class ActionClass extends Base {
-            static get className() {
-                return Base.className || Base.name;
-            }
-            get className() {
-                return Base.className || Base.name;
-            }
-            async update(newData = {}) {
-                let id = that.getId(this);
-                let oldData = that.records.get(id);
-                if (oldData) {
-                    that.mergeObject(oldData, newData);
-                    let result = await that.update(oldData);
-                    return result;
-                }
-                return undefined;
-            }
-            onUpdate(callback) {
-                let id = that.getId(this);
-                if (!that.recordsSubscribers.has(id)) {
-                    that.recordsSubscribers.set(id, {
-                        created: [],
-                        updated: [],
-                        deleted: []
-                    });
-                }
-                let sub = that.recordsSubscribers.get(id);
-                if (sub && !sub.updated.includes(callback)) {
-                    sub.updated.push(callback);
-                }
-            }
-            offUpdate(callback) {
-                let id = that.getId(this);
-                let sub = that.recordsSubscribers.get(id);
-                if (sub) {
-                    let index = sub.updated.indexOf(callback);
-                    if (index != -1) {
-                        sub.updated.splice(index, 1);
+        if (this.actions.elements) {
+            for (let element of this.actions.elements) {
+                let components = [];
+                for (let id of element.ids) {
+                    if (this._components[id]) {
+                        components = [...components, ...this._components[id]];
                     }
                 }
-            }
-            async delete() {
-                let id = that.getId(this);
-                await that.deleteById(id);
-            }
-            onDelete(callback) {
-                let id = that.getId(this);
-                if (!that.recordsSubscribers.has(id)) {
-                    that.recordsSubscribers.set(id, {
-                        created: [],
-                        updated: [],
-                        deleted: []
-                    });
+                if (element.isArray) {
+                    setValueToObject(element.name, this.component, components);
                 }
-                let sub = that.recordsSubscribers.get(id);
-                if (sub && !sub.deleted.includes(callback)) {
-                    sub.deleted.push(callback);
+                else if (components[0]) {
+                    setValueToObject(element.name, this.component, components[0]);
                 }
-            }
-            offDelete(callback) {
-                let id = that.getId(this);
-                let sub = that.recordsSubscribers.get(id);
-                if (sub) {
-                    let index = sub.deleted.indexOf(callback);
-                    if (index != -1) {
-                        sub.deleted.splice(index, 1);
-                    }
-                }
-            }
-        };
-    }
-    /**
-     * Transform the object into the object stored inside Ram
-     */
-    getObjectForRam(objJson) {
-        let T = this.addRamAction(this.getTypeForData(objJson));
-        let item = new T();
-        this.mergeObject(item, objJson);
-        return item;
-    }
-    /**
-     * Add element inside Ram or update it. The instance inside the ram is unique and ll never be replaced
-     */
-    addOrUpdateData(item, result) {
-        try {
-            let idWithError = this.getIdWithError(item);
-            if (idWithError.success && idWithError.result !== undefined) {
-                let id = idWithError.result;
-                if (this.records.has(id)) {
-                    this.mergeObject(this.records.get(id), item);
-                }
-                else {
-                    let realObject = this.getObjectForRam(item);
-                    this.records.set(id, realObject);
-                }
-                result.result = this.records.get(id);
-            }
-            else {
-                result.errors = [...result.errors, ...idWithError.errors];
             }
         }
-        catch (e) {
-            result.errors.push(new RamError(RamErrorCode.unknow, e));
+    }
+    updateContext() {
+        if (this.actions.contextEdits) {
+            for (let contextEdit of this.actions.contextEdits) {
+                this.renderContextEdit(contextEdit);
+            }
         }
     }
-    /**
-     * Merge object and create real instance of class
-     */
-    mergeObject(item, objJson) {
-        if (!item) {
+    renderContextEdit(edit) {
+        let _class = edit.once ? ComputedNoRecomputed : Computed;
+        let computed = new _class(() => {
+            try {
+                return edit.fct(this.context);
+            }
+            catch (e) {
+            }
+            return {};
+        });
+        computed.subscribe((action, path, value) => {
+            for (let key in computed.value) {
+                let newValue = computed.value[key];
+                this.context.updateWatch(key, newValue);
+            }
+        });
+        this.computeds.push(computed);
+        for (let key in computed.value) {
+            this.context.registerWatch(key, computed.value[key]);
+        }
+    }
+    bindEvents() {
+        if (this.actions.events) {
+            for (let event of this.actions.events) {
+                this.bindEvent(event);
+            }
+        }
+        if (this.actions.pressEvents) {
+            for (let event of this.actions.pressEvents) {
+                this.bindPressEvent(event);
+            }
+        }
+    }
+    bindEvent(event) {
+        if (!this._components[event.id]) {
             return;
         }
-        Json.classfromJson(item, objJson);
-    }
-    publish(type, data) {
-        [...this.subscribers[type]].forEach(callback => callback(data));
-        let sub = this.recordsSubscribers.get(this.getId(data));
-        if (sub) {
-            [...sub[type]].forEach(callback => callback(data));
-        }
-    }
-    subscribe(type, cb) {
-        if (!this.subscribers[type].includes(cb)) {
-            this.subscribers[type].push(cb);
-        }
-    }
-    unsubscribe(type, cb) {
-        let index = this.subscribers[type].indexOf(cb);
-        if (index != -1) {
-            this.subscribers[type].splice(index, 1);
-        }
-    }
-    /**
-    * Add a callback that ll be triggered when a new item is stored
-    */
-    onCreated(cb) {
-        this.subscribe('created', cb);
-    }
-    /**
-     * Remove a created callback
-     */
-    offCreated(cb) {
-        this.unsubscribe('created', cb);
-    }
-    /**
-     * Add a callback that ll be triggered when an item is updated
-     */
-    onUpdated(cb) {
-        this.subscribe('updated', cb);
-    }
-    /**
-     * Remove an updated callback
-     */
-    offUpdated(cb) {
-        this.unsubscribe('updated', cb);
-    }
-    /**
-     * Add a callback that ll be triggered when an item is deleted
-     */
-    onDeleted(cb) {
-        this.subscribe('deleted', cb);
-    }
-    /**
-     * Remove an deleted callback
-     */
-    offDeleted(cb) {
-        this.unsubscribe('deleted', cb);
-    }
-    /**
-     * Get an item by id if exist (alias for getById)
-     */
-    async get(id) {
-        return await this.getById(id);
-    }
-    ;
-    /**
-     * Get an item by id if exist (alias for getById)
-     */
-    async getWithError(id) {
-        return await this.getByIdWithError(id);
-    }
-    ;
-    /**
-     * Get an item by id if exist
-     */
-    async getById(id) {
-        let action = await this.getByIdWithError(id);
-        if (action.success) {
-            return action.result;
-        }
-        return undefined;
-    }
-    /**
-     * Get an item by id if exist
-     */
-    async getByIdWithError(id) {
-        let action = new ResultRamWithError();
-        await this.beforeGetById(id, action);
-        if (action.success) {
-            if (this.records.has(id)) {
-                action.result = this.records.get(id);
-                await this.afterGetById(action);
+        if (event.isCallback) {
+            for (let el of this._components[event.id]) {
+                let cb = getValueFromObject(event.eventName, el);
+                cb?.add((...args) => {
+                    try {
+                        event.fct(this.context, args);
+                    }
+                    catch (e) {
+                        console.error(e);
+                    }
+                });
             }
-            else {
-                action.errors.push(new RamError(RamErrorCode.noItemInsideRam, "can't find the item " + id + " inside ram"));
-            }
-        }
-        return action;
-    }
-    /**
-     * Trigger before getting an item by id
-     */
-    async beforeGetById(id, result) { }
-    ;
-    /**
-     * Trigger after getting an item by id
-     */
-    async afterGetById(result) { }
-    ;
-    /**
-     * Get multiple items by ids
-     */
-    async getByIds(ids) {
-        let result = await this.getByIdsWithError(ids);
-        if (result.success) {
-            return result.result ?? [];
-        }
-        return [];
-    }
-    ;
-    /**
-     * Get multiple items by ids
-     */
-    async getByIdsWithError(ids) {
-        let action = new ResultRamWithError();
-        action.result = [];
-        await this.beforeGetByIds(ids, action);
-        if (action.success) {
-            for (let id of ids) {
-                let rec = this.records.get(id);
-                if (rec) {
-                    action.result.push(rec);
-                }
-                else {
-                    action.errors.push(new RamError(RamErrorCode.noItemInsideRam, "can't find the item " + id + " inside ram"));
-                }
-            }
-            if (action.success) {
-                await this.afterGetByIds(action);
-            }
-        }
-        return action;
-    }
-    ;
-    /**
-     * Trigger before getting a list of items by id
-     */
-    async beforeGetByIds(ids, result) { }
-    ;
-    /**
-     * Trigger after getting a list of items by id
-     */
-    async afterGetByIds(result) { }
-    ;
-    /**
-     * Get all elements inside the Ram
-     */
-    async getAll() {
-        let result = await this.getAllWithError();
-        if (result.success) {
-            return result.result ?? new Map();
-        }
-        return new Map();
-    }
-    ;
-    /**
-     * Get all elements inside the Ram
-     */
-    async getAllWithError() {
-        let action = new ResultRamWithError();
-        if (!this.getAllInPorgress) {
-            this.getAllInPorgress = [];
-            action.result = new Map();
-            await this.beforeGetAll(action);
-            if (action.success) {
-                action.result = this.records;
-                await this.afterGetAll(action);
-            }
-            for (let cb of this.getAllInPorgress) {
-                cb(action);
-            }
-            this.getAllInPorgress = undefined;
         }
         else {
-            action = await this.getAllWaiting();
-        }
-        return action;
-    }
-    ;
-    getAllWaiting() {
-        return new Promise((resolve, reject) => {
-            if (this.getAllInPorgress) {
-                this.getAllInPorgress.push((action) => {
-                    let actionTemp = new ResultRamWithError();
-                    actionTemp.result = action.result;
-                    actionTemp.errors = action.errors;
-                    resolve(action);
+            for (let el of this._components[event.id]) {
+                el.addEventListener(event.eventName, (e) => {
+                    try {
+                        event.fct(e, this.context);
+                    }
+                    catch (e) {
+                        console.error(e);
+                    }
                 });
+            }
+        }
+    }
+    bindPressEvent(event) {
+        let id = event['id'];
+        if (id && this._components[id]) {
+            let clone = {};
+            for (let temp in event) {
+                if (temp != 'id') {
+                    if (event[temp] instanceof Function) {
+                        clone[temp] = (e, pressInstance) => { event[temp](e, pressInstance, this.context); };
+                    }
+                    else {
+                        clone[temp] = event[temp];
+                    }
+                }
+            }
+            clone.element = this._components[id];
+            PressManager.create(clone);
+        }
+    }
+    transformActionsListening() {
+        if (this.actions.content) {
+            for (let name in this.actions.content) {
+                this.transformChangeAction(name, this.actions.content[name]);
+            }
+        }
+        if (this.actions.injection) {
+            for (let injection of this.actions.injection) {
+                this.transformInjectionAction(injection);
+            }
+        }
+        if (this.actions.bindings) {
+            for (let binding of this.actions.bindings) {
+                this.transformBindigAction(binding);
+            }
+        }
+    }
+    transformChangeAction(name, change) {
+        const [id, attr] = name.split("°");
+        if (!this._components[id])
+            return;
+        let apply = () => { };
+        if (attr == "@HTML") {
+            apply = () => {
+                let value = this.context.print(computed.value);
+                for (const el of this._components[id])
+                    el.innerHTML = value;
+            };
+        }
+        else {
+            apply = () => {
+                let value = this.context.print(computed.value);
+                if (value === "false") {
+                    for (const el of this._components[id]) {
+                        el.removeAttribute(attr);
+                    }
+                }
+                else {
+                    for (const el of this._components[id]) {
+                        el.setAttribute(attr, value);
+                    }
+                }
+            };
+        }
+        let _class = change.once ? ComputedNoRecomputed : Computed;
+        let computed = new _class(() => {
+            try {
+                return change.fct(this.context);
+            }
+            catch (e) {
+                debugger;
+            }
+            return "";
+        });
+        let timeout;
+        computed.subscribe((action, path, value) => {
+            clearTimeout(timeout);
+            // add timeout to group change that append on the same frame (for example index update)
+            timeout = setTimeout(() => {
+                apply();
+            });
+        });
+        this.renderingComputeds.push(computed);
+        this.firstRenderUniqueCb[name] = () => {
+            apply();
+        };
+    }
+    transformInjectionAction(injection) {
+        if (!this._components[injection.id])
+            return;
+        let _class = injection.once ? ComputedNoRecomputed : Computed;
+        let computed = new _class(() => {
+            return injection.inject(this.context);
+        });
+        this.computeds.push(computed);
+        computed.subscribe(() => {
+            for (const el of this._components[injection.id]) {
+                el[injection.injectionName] = computed.value;
+            }
+        });
+        this.firstRenderCb.push(() => {
+            for (const el of this._components[injection.id]) {
+                el[injection.injectionName] = computed.value;
             }
         });
     }
-    /**
-     * Trigger before getting all items inside Ram
-     */
-    async beforeGetAll(result) { }
-    ;
-    /**
-     * Trigger after getting all items inside Ram
-     */
-    async afterGetAll(result) { }
-    ;
-    /**
-     * Get all elements inside the Ram
-     */
-    async getList() {
-        let data = await this.getAll();
-        return Array.from(data.values());
-    }
-    ;
-    /**
-     * Get all elements inside the Ram
-     */
-    async getListWithError() {
-        let action = new ResultRamWithError();
-        action.result = [];
-        let result = await this.getAllWithError();
-        if (result.success) {
-            if (result.result) {
-                action.result = Object.values(result.result);
+    transformBindigAction(binding) {
+        let isLocalChange = false;
+        let _class = binding.once ? ComputedNoRecomputed : Computed;
+        let computed = new _class(() => {
+            return binding.inject(this.context);
+        });
+        this.computeds.push(computed);
+        computed.subscribe(() => {
+            if (isLocalChange)
+                return;
+            for (const el of this._components[binding.id]) {
+                el[binding.injectionName] = computed.value;
             }
-            else {
-                action.result = [];
+        });
+        this.firstRenderCb.push(() => {
+            for (const el of this._components[binding.id]) {
+                el[binding.injectionName] = computed.value;
             }
+        });
+        if (binding.isCallback) {
+            this.firstRenderCb.push(() => {
+                for (var el of this._components[binding.id]) {
+                    for (let fct of binding.eventNames) {
+                        let cb = getValueFromObject(fct, el);
+                        cb?.add((value) => {
+                            let valueToSet = getValueFromObject(binding.injectionName, el);
+                            isLocalChange = true;
+                            binding.extract(this.context, valueToSet);
+                            isLocalChange = false;
+                        });
+                    }
+                }
+            });
         }
         else {
-            action.errors = result.errors;
+            this.firstRenderCb.push(() => {
+                for (var el of this._components[binding.id]) {
+                    for (let fct of binding.eventNames) {
+                        el.addEventListener(fct, (e) => {
+                            let valueToSet = getValueFromObject(binding.injectionName, e.target);
+                            isLocalChange = true;
+                            binding.extract(this.context, valueToSet);
+                            isLocalChange = false;
+                        });
+                    }
+                }
+            });
         }
-        return action;
     }
-    /**
-     * Create a list of items inside ram
-     */
-    async createList(list) {
-        let result = await this.createListWithError(list);
-        return result.result ?? [];
+    renderSubTemplate() {
+        for (let loop of this.loops) {
+            this.renderLoop(loop);
+        }
+        for (let _if of this.ifs) {
+            this.renderIf(_if);
+        }
     }
-    /**
-     * Create a list of items inside ram
-     */
-    async createListWithError(list) {
-        let action = new ResultRamWithError();
-        action.result = [];
-        await this.beforeCreateList(list, action);
-        if (action.success) {
-            if (action.result.length > 0) {
-                list = action.result;
+    renderLoop(loop) {
+        if (loop.func) {
+            this.renderLoopComplex(loop);
+        }
+        else if (loop.simple) {
+            this.renderLoopSimple(loop, loop.simple);
+        }
+    }
+    resetLoop(loop) {
+        if (this.loopRegisteries[loop.anchorId]) {
+            for (let item of this.loopRegisteries[loop.anchorId].templates) {
+                item.destructor();
             }
-            for (let item of list) {
-                let resultItem = await this._create(item, true);
-                if (resultItem.success && resultItem.result) {
-                    action.result.push(resultItem.result);
+            for (let item of this.loopRegisteries[loop.anchorId].computeds) {
+                item.destroy();
+            }
+            if (loop.simple && this.loopRegisteries[loop.anchorId].sub) {
+                let elements = this.context.getValueFromItem(loop.simple.data.replace(/^this\./, ''));
+                if (elements) {
+                    elements.unsubscribe(this.loopRegisteries[loop.anchorId].sub);
+                }
+            }
+        }
+        this.loopRegisteries[loop.anchorId] = {
+            templates: [],
+            computeds: [],
+        };
+    }
+    renderLoopComplex(loop) {
+        if (!loop.func)
+            return;
+        let fctsTemp = loop.func.bind(this.component)(this.context);
+        let fcts = {
+            apply: fctsTemp.apply,
+            condition: fctsTemp.condition,
+            transform: fctsTemp.transform ?? (() => { })
+        };
+        this.resetLoop(loop);
+        let computedsCondition = [];
+        let alreadyRecreated = false;
+        const createComputedCondition = () => {
+            let compCondition = new Computed(() => {
+                return fcts.condition();
+            });
+            compCondition.value;
+            compCondition.subscribe((action, path, value) => {
+                if (!alreadyRecreated) {
+                    alreadyRecreated = true;
+                    this.renderLoopComplex(loop);
+                }
+            });
+            computedsCondition.push(compCondition);
+            this.loopRegisteries[loop.anchorId].computeds.push(compCondition);
+            return compCondition;
+        };
+        let result = [];
+        let compCondition = createComputedCondition();
+        while (compCondition.value) {
+            result.push(fcts.apply());
+            fcts.transform();
+            compCondition = createComputedCondition();
+        }
+        let anchor = this._components[loop.anchorId][0];
+        for (let i = 0; i < result.length; i++) {
+            let context = new TemplateContext(this.component, result[i], this.context, this.loopRegisteries[loop.anchorId]);
+            let content = loop.template.template?.content.cloneNode(true);
+            let actions = loop.template.actions;
+            let instance = new TemplateInstance(this.component, content, actions, loop.template.loops, loop.template.ifs, context);
+            instance.render();
+            anchor.parentNode?.insertBefore(instance.content, anchor);
+            this.loopRegisteries[loop.anchorId].templates.push(instance);
+        }
+    }
+    renderLoopSimple(loop, simple) {
+        this.resetLoop(loop);
+        let basePath = simple.data.replace(/^this\./, '');
+        let getElements = () => this.context.getValueFromItem(basePath);
+        let elements = getElements();
+        let indexName = this.context.registerIndex();
+        let keys = Object.keys(elements);
+        if (elements.__isProxy) {
+            let regexArray = new RegExp("^\\[(\\d+?)\\]$");
+            let regexObject = new RegExp("^([^\\.]*)$");
+            let sub = (action, path, value) => {
+                if (path == "") {
+                    this.renderLoopSimple(loop, simple);
+                    return;
+                }
+                if (action == WatchAction.UPDATED) {
+                    return;
+                }
+                let index = undefined;
+                regexArray.lastIndex = 0;
+                regexObject.lastIndex = 0;
+                let resultArray = regexArray.exec(path);
+                if (resultArray) {
+                    index = Number(resultArray[1]);
                 }
                 else {
-                    action.errors = [...action.errors, ...resultItem.errors];
+                    let resultObject = regexObject.exec(path);
+                    if (resultObject) {
+                        let oldKey = resultObject[1];
+                        if (action == WatchAction.CREATED) {
+                            keys = Object.keys(getElements());
+                            index = keys.indexOf(oldKey);
+                        }
+                        else if (action == WatchAction.DELETED) {
+                            index = keys.indexOf(oldKey);
+                            keys = Object.keys(getElements());
+                        }
+                    }
+                }
+                if (index !== undefined) {
+                    let registry = this.loopRegisteries[loop.anchorId];
+                    if (action == WatchAction.CREATED) {
+                        let context = new TemplateContext(this.component, {}, this.context, registry);
+                        context.registerLoop(simple.data, index, indexName, simple.index, simple.item);
+                        let content = loop.template.template?.content.cloneNode(true);
+                        let actions = loop.template.actions;
+                        let instance = new TemplateInstance(this.component, content, actions, loop.template.loops, loop.template.ifs, context);
+                        instance.render();
+                        let anchor;
+                        if (index < registry.templates.length) {
+                            anchor = registry.templates[index].firstChild;
+                        }
+                        else {
+                            anchor = this._components[loop.anchorId][0];
+                        }
+                        anchor?.parentNode?.insertBefore(instance.content, anchor);
+                        registry.templates.splice(index, 0, instance);
+                        for (let i = index + 1; i < registry.templates.length; i++) {
+                            registry.templates[i].context.increaseIndex(indexName);
+                        }
+                    }
+                    else if (action == WatchAction.DELETED) {
+                        registry.templates[index].destructor();
+                        registry.templates.splice(index, 1);
+                        for (let i = index; i < registry.templates.length; i++) {
+                            registry.templates[i].context.decreaseIndex(indexName);
+                        }
+                    }
+                }
+            };
+            elements.subscribe(sub);
+        }
+        let anchor = this._components[loop.anchorId][0];
+        for (let i = 0; i < keys.length; i++) {
+            let context = new TemplateContext(this.component, {}, this.context, this.loopRegisteries[loop.anchorId]);
+            context.registerLoop(simple.data, i, indexName, simple.index, simple.item);
+            let content = loop.template.template?.content.cloneNode(true);
+            let actions = loop.template.actions;
+            let instance = new TemplateInstance(this.component, content, actions, loop.template.loops, loop.template.ifs, context);
+            instance.render();
+            anchor.parentNode?.insertBefore(instance.content, anchor);
+            this.loopRegisteries[loop.anchorId].templates.push(instance);
+        }
+    }
+    renderIf(_if) {
+        let computeds = [];
+        let instances = [];
+        let anchor = this._components[_if.anchorId][0];
+        let currentActive = -1;
+        const calculateActive = () => {
+            let newActive = -1;
+            for (let i = 0; i < _if.parts.length; i++) {
+                if (computeds[i].value) {
+                    newActive = i;
+                    break;
                 }
             }
-            if (action.success) {
-                await this.afterCreateList(action);
+            if (newActive == currentActive) {
+                return;
             }
-        }
-        return action;
-    }
-    /**
-     * Create an item inside ram
-     */
-    async create(item, ...args) {
-        let action = await this.createWithError(item, args);
-        if (action.success) {
-            return action.result;
-        }
-        return undefined;
-    }
-    /**
-     * Create an item inside ram
-     */
-    async createWithError(item, ...args) {
-        return await this._create(item, false);
-    }
-    async _create(item, fromList) {
-        let action = new ResultRamWithError();
-        await this.beforeCreateItem(item, fromList, action);
-        if (action.success) {
-            if (action.result) {
-                item = action.result;
+            if (currentActive != -1) {
+                let instance = instances[currentActive];
+                let node = instance.firstChild;
+                while (node && node != instance.lastChild) {
+                    let next = node.nextElementSibling;
+                    instance.content.appendChild(node);
+                    node = next;
+                }
+                if (instance.lastChild)
+                    instance.content.appendChild(instance.lastChild);
             }
-            let resultTemp = this.getIdWithError(item);
-            if (resultTemp.success) {
-                this.addOrUpdateData(item, action);
-                if (!action.success) {
-                    return action;
-                }
-                await this.afterCreateItem(action, fromList);
-                if (!action.success) {
-                    action.result = undefined;
-                }
-                else if (action.result) {
-                    this.publish('created', action.result);
-                }
-            }
-            else {
-                action.errors = resultTemp.errors;
-            }
+            currentActive = newActive;
+            if (instances[currentActive])
+                anchor.parentNode?.insertBefore(instances[currentActive].content, anchor);
+        };
+        for (let i = 0; i < _if.parts.length; i++) {
+            const part = _if.parts[i];
+            let _class = part.once ? ComputedNoRecomputed : Computed;
+            let computed = new _class(() => {
+                return part.condition(this.context);
+            });
+            computeds.push(computed);
+            computed.subscribe(() => {
+                calculateActive();
+            });
+            this.computeds.push(computed);
+            let context = new TemplateContext(this.component, {}, this.context);
+            let content = part.template.template?.content.cloneNode(true);
+            let actions = part.template.actions;
+            let instance = new TemplateInstance(this.component, content, actions, part.template.loops, part.template.ifs, context);
+            instances.push(instance);
+            instance.render();
         }
-        return action;
+        calculateActive();
     }
-    /**
-     * Trigger before creating a list of items
-     */
-    async beforeCreateList(list, result) {
-    }
-    ;
-    /**
-     * Trigger before creating an item
-     */
-    async beforeCreateItem(item, fromList, result) {
-    }
-    ;
-    /**
-     * Trigger after creating an item
-     */
-    async afterCreateItem(result, fromList) {
-    }
-    ;
-    /**
-     * Trigger after creating a list of items
-     */
-    async afterCreateList(result) {
-    }
-    ;
-    /**
-     * Update a list of items inside ram
-     */
-    async updateList(list) {
-        let result = await this.updateListWithError(list);
-        return result.result ?? [];
-    }
-    ;
-    /**
-     * Update a list of items inside ram
-     */
-    async updateListWithError(list) {
-        let action = new ResultRamWithError();
-        action.result = [];
-        await this.beforeUpdateList(list, action);
-        if (action.success) {
-            if (action.result.length > 0) {
-                list = action.result;
-            }
-            for (let item of list) {
-                let resultItem = await this._update(item, true);
-                if (resultItem.success && resultItem.result) {
-                    action.result.push(resultItem.result);
-                }
-                else {
-                    action.errors = [...action.errors, ...resultItem.errors];
-                }
-            }
-            if (action.success) {
-                await this.afterUpdateList(action);
-            }
-        }
-        return action;
-    }
-    ;
-    /**
-     * Update an item inside ram
-     */
-    async update(item, ...args) {
-        let action = await this.updateWithError(item, args);
-        if (action.success) {
-            return action.result;
-        }
-        return undefined;
-    }
-    /**
-     * Update an item inside ram
-     */
-    async updateWithError(item, ...args) {
-        return await this._update(item, false);
-    }
-    async _update(item, fromList) {
-        let action = new ResultRamWithError();
-        let resultTemp = await this.getIdWithError(item);
-        if (resultTemp.success && resultTemp.result !== undefined) {
-            let key = resultTemp.result;
-            if (this.records.has(key)) {
-                await this.beforeUpdateItem(item, fromList, action);
-                if (!action.success) {
-                    return action;
-                }
-                if (action.result) {
-                    item = action.result;
-                }
-                this.addOrUpdateData(item, action);
-                if (!action.success) {
-                    return action;
-                }
-                await this.afterUpdateItem(action, fromList);
-                if (!action.success) {
-                    action.result = undefined;
-                }
-                else if (action.result) {
-                    this.publish('updated', action.result);
-                }
-            }
-            else {
-                action.errors.push(new RamError(RamErrorCode.noItemInsideRam, "can't update the item " + key + " because it wasn't found inside ram"));
-            }
-        }
-        else {
-            action.errors = resultTemp.errors;
-        }
-        return action;
-    }
-    ;
-    /**
-     * Trigger before updating a list of items
-     */
-    async beforeUpdateList(list, result) {
-    }
-    ;
-    /**
-    * Trigger before updating an item
-    */
-    async beforeUpdateItem(item, fromList, result) {
-    }
-    ;
-    /**
-     * Trigger after updating an item
-     */
-    async afterUpdateItem(result, fromList) {
-    }
-    ;
-    /**
-     * Trigger after updating a list of items
-     */
-    async afterUpdateList(result) {
-    }
-    ;
-    /**
-     * Delete a list of items inside ram
-     */
-    async deleteList(list) {
-        let result = await this.deleteListWithError(list);
-        return result.result ?? [];
-    }
-    ;
-    /**
-     * Delete a list of items inside ram
-     */
-    async deleteListWithError(list) {
-        let action = new ResultRamWithError();
-        action.result = [];
-        let deleteResult = new VoidWithError();
-        await this.beforeDeleteList(list, deleteResult);
-        if (!deleteResult.success) {
-            action.errors = deleteResult.errors;
-        }
-        for (let item of list) {
-            let resultItem = await this._delete(item, true);
-            if (resultItem.success && resultItem.result) {
-                action.result.push(resultItem.result);
-            }
-            else {
-                action.errors = [...action.errors, ...resultItem.errors];
-            }
-        }
-        if (action.success) {
-            await this.afterDeleteList(action);
-        }
-        return action;
-    }
-    ;
-    /**
-     * Delete an item inside ram
-     */
-    async delete(item, ...args) {
-        let action = await this.deleteWithError(item, args);
-        if (action.success) {
-            return action.result;
-        }
-        return undefined;
-    }
-    ;
-    /**
-    * Delete an item inside ram
-    */
-    async deleteWithError(item, ...args) {
-        return await this._delete(item, false);
-    }
-    ;
-    /**
-     * Delete an item by id inside ram
-     */
-    async deleteById(id) {
-        let action = await this.deleteByIdWithError(id);
-        if (action.success) {
-            return action.result;
-        }
-        return undefined;
-    }
-    /**
-    * Delete an item by id inside ram
-    */
-    async deleteByIdWithError(id) {
-        let item = this.records.get(id);
-        if (item) {
-            return await this._delete(item, false);
-        }
-        let result = new ResultRamWithError();
-        result.errors.push(new RamError(RamErrorCode.noItemInsideRam, "can't update the item " + id + " because it wasn't found inside ram"));
-        return result;
-    }
-    async _delete(item, fromList) {
-        let action = new ResultRamWithError();
-        let resultTemp = await this.getIdWithError(item);
-        if (resultTemp.success && resultTemp.result) {
-            let key = resultTemp.result;
-            let oldItem = this.records.get(key);
-            if (oldItem) {
-                let deleteResult = new VoidWithError();
-                await this.beforeDeleteItem(oldItem, fromList, deleteResult);
-                if (!deleteResult.success) {
-                    action.errors = deleteResult.errors;
-                    return action;
-                }
-                this.records.delete(key);
-                action.result = oldItem;
-                await this.afterDeleteItem(action, fromList);
-                if (!action.success) {
-                    action.result = undefined;
-                }
-                else {
-                    this.publish('deleted', action.result);
-                }
-                this.recordsSubscribers.delete(key);
-            }
-            else {
-                action.errors.push(new RamError(RamErrorCode.noItemInsideRam, "can't delete the item " + key + " because it wasn't found inside ram"));
-            }
-        }
-        else {
-            action.errors = resultTemp.errors;
-        }
-        return action;
-    }
-    /**
-     * Trigger before deleting a list of items
-     */
-    async beforeDeleteList(list, result) { }
-    ;
-    /**
-     * Trigger before deleting an item
-     */
-    async beforeDeleteItem(item, fromList, result) { }
-    ;
-    /**
-     * Trigger after deleting an item
-     */
-    async afterDeleteItem(result, fromList) { }
-    ;
-    /**
-     * Trigger after deleting a list of items
-     */
-    async afterDeleteList(result) { }
 }
-GenericRam.Namespace=`${moduleName}`;
-_.GenericRam=GenericRam;
-const Ram=class Ram extends GenericRam {
-}
-Ram.Namespace=`${moduleName}`;
-_.Ram=Ram;
+TemplateInstance.Namespace=`${moduleName}`;
+_.TemplateInstance=TemplateInstance;
 
 for(let key in _) { Aventus[key] = _[key] }
 })(Aventus);
+
+var MaterialIcon;
+(MaterialIcon||(MaterialIcon = {}));
+(function (MaterialIcon) {
+const moduleName = `MaterialIcon`;
+const _ = {};
+
+
+let _n;
+const Icon = class Icon extends Aventus.WebComponent {
+    static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
+    target.shadowRoot.innerHTML = target.icon;
+})); }
+    static __style = `:host{--_material-icon-animation-duration: var(--material-icon-animation-duration, 1.75s)}:host{direction:ltr;display:inline-block;font-family:"Material Icons";-moz-font-feature-settings:"liga";font-size:24px;-moz-osx-font-smoothing:grayscale;font-style:normal;font-weight:normal;letter-spacing:normal;line-height:1;text-transform:none;white-space:nowrap;word-wrap:normal}:host([spin]){animation:spin var(--_material-icon-animation-duration) linear infinite}:host([reverse_spin]){animation:reverse-spin var(--_material-icon-animation-duration) linear infinite}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes reverse-spin{0%{transform:rotate(360deg)}100%{transform:rotate(0deg)}}`;
+    __getStatic() {
+        return Icon;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Icon.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`` }
+    });
+}
+    getClassName() {
+        return "Icon";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = "check_box_outline_blank"; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon'); }
+    postCreation() {
+        this.shadowRoot.innerHTML = this.icon;
+    }
+}
+Icon.Namespace=`${moduleName}`;
+Icon.Tag=`mi-icon`;
+_.Icon=Icon;
+if(!window.customElements.get('mi-icon')){window.customElements.define('mi-icon', Icon);Aventus.WebComponentInstance.registerDefinition(Icon);}
+
+
+for(let key in _) { MaterialIcon[key] = _[key] }
+})(MaterialIcon);
 
 var AventusSharp;
 (AventusSharp||(AventusSharp = {}));
@@ -5826,6 +6090,7 @@ let _n;
     DataErrorCode[DataErrorCode["TypeNotFound"] = 35] = "TypeNotFound";
     DataErrorCode[DataErrorCode["ReverseLinkNotExist"] = 36] = "ReverseLinkNotExist";
     DataErrorCode[DataErrorCode["ErrorCreatingReverseQuery"] = 37] = "ErrorCreatingReverseQuery";
+    DataErrorCode[DataErrorCode["LinkNotSet"] = 38] = "LinkNotSet";
 })(Data.DataErrorCode || (Data.DataErrorCode = {}));
 
 _.Data.DataErrorCode=Data.DataErrorCode;
@@ -5848,39 +6113,39 @@ Routes.RouteError.Namespace=`${moduleName}.Routes`;Aventus.Converter.register(Ro
 _.Routes.RouteError=Routes.RouteError;
 Routes.StorableRoute=class StorableRoute extends Aventus.HttpRoute {
     async GetAll() {
-        const request = new Aventus.HttpRequest(`/${this.StorableName()}`, Aventus.HttpMethod.GET);
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}`, Aventus.HttpMethod.GET);
         return await request.queryJSON(this.router);
     }
     async Create(body) {
-        const request = new Aventus.HttpRequest(`/${this.StorableName()}`, Aventus.HttpMethod.POST);
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}`, Aventus.HttpMethod.POST);
         request.setBody(body);
         return await request.queryJSON(this.router);
     }
     async CreateMany(body) {
-        const request = new Aventus.HttpRequest(`/${this.StorableName()}s`, Aventus.HttpMethod.POST);
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}s`, Aventus.HttpMethod.POST);
         request.setBody(body);
         return await request.queryJSON(this.router);
     }
     async GetById(id) {
-        const request = new Aventus.HttpRequest(`/${this.StorableName()}/${id}`, Aventus.HttpMethod.GET);
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}/${id}`, Aventus.HttpMethod.GET);
         return await request.queryJSON(this.router);
     }
     async Update(id, body) {
-        const request = new Aventus.HttpRequest(`/${this.StorableName()}/${id}`, Aventus.HttpMethod.PUT);
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}/${id}`, Aventus.HttpMethod.PUT);
         request.setBody(body);
         return await request.queryJSON(this.router);
     }
     async UpdateMany(body) {
-        const request = new Aventus.HttpRequest(`/${this.StorableName()}s`, Aventus.HttpMethod.PUT);
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}s`, Aventus.HttpMethod.PUT);
         request.setBody(body);
         return await request.queryJSON(this.router);
     }
     async Delete(id) {
-        const request = new Aventus.HttpRequest(`/${this.StorableName()}/${id}`, Aventus.HttpMethod.DELETE);
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}/${id}`, Aventus.HttpMethod.DELETE);
         return await request.queryJSON(this.router);
     }
     async DeleteMany(body) {
-        const request = new Aventus.HttpRequest(`/${this.StorableName()}s`, Aventus.HttpMethod.DELETE);
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}s`, Aventus.HttpMethod.DELETE);
         request.setBody(body);
         return await request.queryJSON(this.router);
     }
@@ -5923,9 +6188,9 @@ WebSocket.WsError=class WsError extends Aventus.GenericError {
 WebSocket.WsError.Namespace=`${moduleName}.WebSocket`;Aventus.Converter.register(WebSocket.WsError.Fullname, WebSocket.WsError);
 _.WebSocket.WsError=WebSocket.WsError;
 Data.Storable=class Storable extends Aventus.Data {
-    id = 0;
-    createdDate = new Date();
-    updatedDate = new Date();
+    Id = 0;
+    CreatedDate = new Date();
+    UpdatedDate = new Date();
     /**
      * @inerhit
      */
@@ -5949,49 +6214,30 @@ Data.Storable=class Storable extends Aventus.Data {
         });
     }
 }
-Data.Storable.$schema={"id":"number","createdDate":"Date","updatedDate":"Date"};Aventus.DataManager.register(Data.Storable.Fullname, Data.Storable);Data.Storable.Namespace=`${moduleName}.Data`;
+Data.Storable.$schema={"Id":"number","CreatedDate":"Date","UpdatedDate":"Date"};Aventus.DataManager.register(Data.Storable.Fullname, Data.Storable);Data.Storable.Namespace=`${moduleName}.Data`;
 _.Data.Storable=Data.Storable;
 RAM.RamHttp=class RamHttp extends Aventus.Ram {
     getAllDone = false;
     routes;
-    getAllProms = [];
-    isLoading = false;
-    async wait() {
-        return new Promise((resolve) => {
-            this.getAllProms.push(() => {
-                resolve();
-            });
-        });
-    }
     constructor() {
         super();
         this.routes = this.defineRoutes();
     }
     async beforeGetAll(result) {
         if (!this.getAllDone) {
-            if (this.isLoading) {
-                await this.wait();
+            let response = await this.routes.GetAll();
+            if (response.success && response.result) {
+                for (let item of response.result) {
+                    let resultTemp = new Aventus.ResultRamWithError();
+                    this.addOrUpdateData(item, resultTemp);
+                    if (!resultTemp.success) {
+                        result.errors = [...result.errors, ...resultTemp.errors];
+                    }
+                }
+                this.getAllDone = true;
             }
             else {
-                this.isLoading = true;
-                let response = await this.routes.GetAll();
-                if (response.success && response.result) {
-                    for (let item of response.result) {
-                        let resultTemp = new Aventus.ResultRamWithError();
-                        this.addOrUpdateData(item, resultTemp);
-                        if (!resultTemp.success) {
-                            result.errors = [...result.errors, ...resultTemp.errors];
-                        }
-                    }
-                    this.getAllDone = true;
-                }
-                else {
-                    result.errors = [...result.errors, ...response.errors];
-                }
-                this.isLoading = false;
-                for (let cb of this.getAllProms) {
-                    cb();
-                }
+                result.errors = [...result.errors, ...response.errors];
             }
         }
     }
@@ -6058,7 +6304,7 @@ RAM.RamHttp=class RamHttp extends Aventus.Ram {
         if (fromList) {
             return;
         }
-        let response = await this.routes.Update(item.id, { item });
+        let response = await this.routes.Update(item.Id, { item });
         if (response.success && response.result) {
             result.result = this.getObjectForRam(response.result);
         }
@@ -6082,13 +6328,13 @@ RAM.RamHttp=class RamHttp extends Aventus.Ram {
         if (fromList) {
             return;
         }
-        let response = await this.routes.Delete(item.id);
+        let response = await this.routes.Delete(item.Id);
         if (!response.success) {
             result.errors = [...result.errors, ...response.errors];
         }
     }
     async beforeDeleteList(list, result) {
-        let response = await this.routes.DeleteMany({ ids: list.map(t => t.id) });
+        let response = await this.routes.DeleteMany({ ids: list.map(t => t.Id) });
         if (!response.success) {
             result.errors = [...result.errors, ...response.errors];
         }
@@ -7015,7 +7261,7 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
         }
         let uid = Aventus.uuidv4();
         this.otherUpdateItemLocked[uid] = true;
-        let response = await this.routes.Update(item.id, { item }, { uid });
+        let response = await this.routes.Update(item.Id, { item }, { uid });
         delete this.otherUpdateItemLocked[uid];
         if (response.success && response.result) {
             result.result = this.getObjectForRam(response.result);
@@ -7057,7 +7303,7 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
         this.deleteData(item, resultTemp);
         if (resultTemp.success && resultTemp.result) {
             this.publish('deleted', resultTemp.result);
-            this.recordsSubscribers.delete(resultTemp.result.id);
+            this.recordsSubscribers.delete(resultTemp.result.Id);
         }
     }
     async beforeDeleteItem(item, fromList, result) {
@@ -7066,7 +7312,7 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
         }
         let uid = Aventus.uuidv4();
         this.otherDeleteItemLocked[uid] = true;
-        let response = await this.routes.Delete(item.id, { uid });
+        let response = await this.routes.Delete(item.Id, { uid });
         delete this.otherDeleteItemLocked[uid];
         if (!response.success) {
             result.errors = [...result.errors, ...response.errors];
@@ -7080,14 +7326,14 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
             this.deleteData(item, resultTemp);
             if (resultTemp.success && resultTemp.result) {
                 this.publish('deleted', resultTemp.result);
-                this.recordsSubscribers.delete(resultTemp.result.id);
+                this.recordsSubscribers.delete(resultTemp.result.Id);
             }
         }
     }
     async beforeDeleteList(list, result) {
         let uid = Aventus.uuidv4();
         this.otherDeleteListLocked[uid] = true;
-        let response = await this.routes.DeleteMany({ ids: list.map(t => t.id) }, { uid });
+        let response = await this.routes.DeleteMany({ ids: list.map(t => t.Id) }, { uid });
         delete this.otherDeleteListLocked[uid];
         if (!response.success) {
             result.errors = [...result.errors, ...response.errors];

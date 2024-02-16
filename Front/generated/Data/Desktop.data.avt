@@ -8,6 +8,7 @@ namespace Data {
 		public Name!: string;
 		public Background!: string;
 		public UserId?: number = undefined;
+		public SyncDesktop: boolean = false;
 		public Icons: DesktopAppIcon[] = [];
 		public Applications: ApplicationOpen[] = [];
 	}

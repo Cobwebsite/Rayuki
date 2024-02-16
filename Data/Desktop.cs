@@ -15,7 +15,7 @@ namespace Core.Data
         [ForeignKey<User>, Nullable]
         public int? UserId { get; set; }
 
-        public bool SyncDesktop { get; set; } = true;
+        public bool SyncDesktop { get; set; } = false;
 
         [NotInDB]
         public List<DesktopAppIcon> Icons { get => DesktopDM.GetInstance().GetDesktopIcons(Id); }

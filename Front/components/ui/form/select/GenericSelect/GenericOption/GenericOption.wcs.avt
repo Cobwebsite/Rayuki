@@ -1,0 +1,14 @@
+:host {
+	--_option-font-size: var(--option-font-size, var(--form-element-font-size, 16px));
+}
+
+:host {
+	padding: 5px 10px;
+    font-size: var(--_option-font-size);
+    cursor: pointer;
+    transition: background-color 0.2s linear;
+}
+
+:host(:hover) {
+    background-color: var(--form-element-background-active);
+}

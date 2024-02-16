@@ -1,42 +1,44 @@
 import { Popup } from "../Popup/Popup.wcl.avt";
 
-export class Alert extends Popup<void> implements Aventus.DefaultComponent {
+namespace Components {
+    export class Alert extends Popup<void> implements Aventus.DefaultComponent {
 
-    //#region static
+        //#region static
 
-    //#endregion
-
-
-    //#region props
-    @Property()
-    public subject?: string;
-    @Property()
-    public body?: string;
-    @Property()
-    public btn_txt: string = "Ok";
-    //#endregion
+        //#endregion
 
 
-    //#region variables
+        //#region props
+        @Property()
+        public subject?: string;
+        @Property()
+        public body?: string;
+        @Property()
+        public btn_txt: string = "Ok";
+        //#endregion
 
-    //#endregion
+
+        //#region variables
+
+        //#endregion
 
 
-    //#region constructor
+        //#region constructor
 
-    //#endregion
+        //#endregion
 
 
-    //#region methods
-    /**
-     * 
-     */
-    protected close() {
-        if(this.cb) {
-            this.cb();
+        //#region methods
+        /**
+         * 
+         */
+        protected close() {
+            if(this.cb) {
+                this.cb();
+            }
+            this.remove();
         }
-        this.remove();
-    }
-    //#endregion
+        //#endregion
 
+}
 }

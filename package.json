@@ -1,0 +1,14 @@
+{
+  "name": "core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "dev": "dotnet run --nologo -v q --property WarningLevel=0 /clp:ErrorsOnly"
+  },
+  "author": "",
+  "license": "ISC"
+}

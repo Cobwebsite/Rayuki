@@ -15,7 +15,7 @@ namespace System {
 
         public push(history: History) {
             if(this.currentPosition != this.memory.length - 1) {
-                let nb = this.currentPosition + 1 - this.memory.length;
+                let nb = this.memory.length - (this.currentPosition + 1);
                 this.memory.splice(this.currentPosition + 1, nb);
             }
             this.memory.push(history);
@@ -96,27 +96,28 @@ namespace System {
         }
 
     }
-}
 
-export class ApplicationHistoryConvert extends Aventus.ConverterTransform {
+    export class ApplicationHistoryConvert extends Aventus.ConverterTransform {
 
-    private manager: ApplicationStateManager;
-
-    public constructor(manager: ApplicationStateManager) {
-        super();
-        this.manager = manager;
-    }
-
-    protected override beforeTransformObject(obj: Object): void {
-        if(obj instanceof ApplicationState) {
-            obj.setManager(this.manager);
-            obj.disableSaveState();
+        private manager: ApplicationStateManager;
+    
+        public constructor(manager: ApplicationStateManager) {
+            super();
+            this.manager = manager;
+        }
+    
+        protected override beforeTransformObject(obj: Object): void {
+            if(obj instanceof ApplicationState) {
+                obj.setManager(this.manager);
+                obj.disableSaveState();
+            }
+        }
+    
+        protected override afterTransformObject(obj: Object): void {
+            if(obj instanceof ApplicationState) {
+                obj.enableSaveState();
+            }
         }
     }
-
-    protected override afterTransformObject(obj: Object): void {
-        if(obj instanceof ApplicationState) {
-            obj.enableSaveState();
-        }
-    }
 }
+

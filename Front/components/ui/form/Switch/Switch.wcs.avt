@@ -1,26 +1,30 @@
 :host {
-	--internal-switch-background-color: var(--switch-background-color, var(--input-background-color, var(--primary-color, white)));
-	--internal-switch-dot-size: var(--switch-dot-size, 20px);
-	--internal-switch-dot-color: var(--switch-dot-color, var(--secondary-color));
-	--internal-switch-active-dot-color: var(--switch-active-dot-color, var(--secondary-color-active));
-	--internal-switch-active-background-color: var(--switch-active-background-color, var(--secondary-color));
+	--_switch-background-color: var(--switch-background-color, var(--form-element-background, white));
+	--_switch-dot-size: var(--switch-dot-size, 20px);
+	--_switch-dot-color: var(--switch-dot-color, var(--secondary-color));
+	--_switch-active-dot-color: var(--switch-active-dot-color, var(--secondary-color-active));
+	--_switch-active-background-color: var(--switch-active-background-color, var(--secondary-color));
+	--_switch-font-size: var(--switch-font-size, var(--form-element-font-size, 16px));
+	--_switch-font-size-label: var(--switch-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));
 }
 
 :host {
 	align-items: center;
 	display: flex;
-	font-size: var(--font-size-input);
+	font-size: var(--_switch-font-size);
 	width: 100%;
+	min-height: var(--_switch-dot-size);
 
 	.label:not(:empty) {
 		cursor: pointer;
 		margin-right: 30px;
 		transition: filter 0.3s var(--bezier-curve);
+		font-size: var(--_switch-font-size-label);
 	}
 
 	.bar {
 		align-items: center;
-		background-color: var(--internal-switch-background-color);
+		background-color: var(--_switch-background-color);
 		border-radius: 10px;
 		cursor: pointer;
 		display: flex;
@@ -54,21 +58,21 @@
 			width: 100%;
 
 			.dot {
-				background-color: var(--internal-switch-dot-color);
+				background-color: var(--_switch-dot-color);
 				border-radius: 50%;
 				box-shadow: none;
 				cursor: pointer;
-				height: var(--internal-switch-dot-size);
+				height: var(--_switch-dot-size);
 				left: 0%;
 				pointer-events: all;
 				position: absolute;
 				transform: translateX(-50%);
 				transition: left var(--bezier-curve) 0.3s, box-shadow var(--bezier-curve) 0.3s, background-color var(--bezier-curve) 0.3s;
-				width: var(--internal-switch-dot-size);
+				width: var(--_switch-dot-size);
 			}
 
 			.bar-fill {
-				background-color: var(--internal-switch-active-background-color);
+				background-color: var(--_switch-active-background-color);
 				border-radius: 100px;
 				height: 100%;
 				left: 0;
@@ -82,7 +86,7 @@
 
 		input:checked + .bar-content {
 			.dot {
-				background-color: var(--internal-switch-active-dot-color);
+				background-color: var(--_switch-active-dot-color);
 				box-shadow: 0 0 5px var(--emphasize);
 				/* border: 1px solid var(--emphasize);*/
 				left: 100%;

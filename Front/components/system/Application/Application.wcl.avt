@@ -1,4 +1,3 @@
-import { RayukiComponent } from "../RayukiComponent/RayukiComponent.wcl.avt";
 import { Frame } from "../Frame/Frame.wcl.avt";
 import { ApplicationHistory } from "./ApplicationHistory.lib.avt";
 import { Resize, ResizeDirection } from "../../ui/Resize/Resize.wcl.avt";
@@ -30,7 +29,7 @@ namespace System {
 
 
 
-    export abstract class Application extends RayukiComponent implements Aventus.DefaultComponent, IContextMenu {
+    export abstract class Application extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu {
 
         //#region static
         private static activeApplication: Application | null = null;
@@ -117,7 +116,8 @@ namespace System {
         //#endregion
 
 
-        //#region methods        
+        //#region methods
+
         /**
          * @inheritdoc
          */
@@ -607,8 +607,6 @@ namespace System {
             this.sizeManager.remove();
         }
         //#endregion
-
-
-}
-
-}                        
+        
+    }
+}                 

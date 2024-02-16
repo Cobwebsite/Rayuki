@@ -58,7 +58,9 @@
 			}
 
 			.action.disable {
-				--img-fill-color: var(--text-disable);
+				rk-img {
+					--img-fill-color: var(--text-disable);
+				}
 			}
 		}
 

@@ -1,0 +1,26 @@
+import { UserRAM, type UserExtended } from "../ram/User.ram.avt";
+import { CoreRouter } from "../generated/CoreRouter.lib.avt";
+import { LoginCode, LoginError } from "../generated/Logic/PasswordManager.lib.avt";
+
+namespace Lib {
+    export class SessionManager {
+
+        public static async logout() {
+            try {
+                await new CoreRouter().routes.Logout();
+            } catch { }
+            window.location.reload();
+        }
+
+        public static async getUser(): Promise<Aventus.RamItem<UserExtended> | undefined> {
+            let result = await UserRAM.getInstance().getConnected();
+            if(result.containsCode(LoginCode.NotConnected, LoginError)) {
+                this.logout();
+            }
+            else if(!result.success) {
+
+            }
+            return result.result;
+        }
+    }
+}

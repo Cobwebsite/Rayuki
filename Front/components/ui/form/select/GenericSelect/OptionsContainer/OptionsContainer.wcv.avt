@@ -1,0 +1,5 @@
+<rk-scrollable floating_scroll>
+    <div class="container">
+        <slot></slot>
+    </div>
+</rk-scrollable>

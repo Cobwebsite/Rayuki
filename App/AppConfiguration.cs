@@ -2,7 +2,7 @@
 
 namespace Core.App
 {
-    [Typescript]
+    [Typescript(_internal:true)]
     public class AppConfiguration
     {
         public List<string> appsInstalled;

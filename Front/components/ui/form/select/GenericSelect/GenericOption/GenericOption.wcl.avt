@@ -1,0 +1,48 @@
+import type { GenericSelect } from "../GenericSelect.wcl.avt";
+
+export class GenericOption<T> extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+
+    //#endregion
+
+
+    //#region variables
+    public value?: T;
+    protected select!: GenericSelect<GenericOption<T>>;
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+    public init(select: GenericSelect<GenericOption<T>>) {
+        this.select = select;
+    }
+    public filter(text: string) {
+        if(this.innerText.toLowerCase().includes(text)) {
+            this.style.display = "";
+        }
+        else {
+            this.style.display = "none";
+        }
+    }
+    protected override postCreation(): void {
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => {
+                this.select.setValueFromOption(this);
+            }
+        });
+    }
+    //#endregion
+
+}

@@ -3,6 +3,12 @@ import { User } from '../Data/User.data.avt';
 namespace Routes {
 
 	export class UserRouter extends AventusSharp.Routes.StorableRoute<User> {
+		public async GetConnected(): Promise<Aventus.ResultWithError<User, Aventus.GenericError<number>>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/getconnected`, Aventus.HttpMethod.GET);
+			type TypeResult = User;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
 		public StorableName() {
 			return "User";
 		}

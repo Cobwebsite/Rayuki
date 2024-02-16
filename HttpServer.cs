@@ -9,8 +9,10 @@ using Microsoft.AspNetCore.Http;
 using MySqlX.XDevAPI.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Configuration;
 using System.Text;
 using WebPush;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 using RouterMiddleware = AventusSharp.Routes.RouterMiddleware;
 
 namespace Core
@@ -46,6 +48,14 @@ namespace Core
             }
         }
 
+        public static DatabaseConfig? Config
+        {
+            get
+            {
+                return app.Configuration.GetSection("Database").Get<DatabaseConfig>();
+            }
+        }
+
         public static void Init(string[] args)
         {
             webPush.SetVapidDetails("http://localhost:5000", PublicKey, PrivateKey);
@@ -66,6 +76,7 @@ namespace Core
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             })
+            .Configure<DatabaseConfig>(builder.Configuration.GetSection("Database"))
             .AddCors(o => o.AddPolicy("corsPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -174,6 +185,7 @@ namespace Core
         public static async Task Stop()
         {
             await app.StopAsync();
+            await WebSocketMiddleware.Stop();
         }
 
 
