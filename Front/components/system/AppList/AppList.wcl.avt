@@ -66,6 +66,11 @@ namespace System {
             this.pageCaseEl?.reset();
         }
 
+        public setIconSize(size: number) {
+            this.pageCaseEl.case_height = size;
+            this.pageCaseEl.case_width = size;
+        }
+
         private addClose() {
             let apply = true;
             new Aventus.DragAndDrop({

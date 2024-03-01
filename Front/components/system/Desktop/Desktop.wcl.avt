@@ -12,10 +12,11 @@ import { MoveApplication, type MoveApplicationProvider } from "../../../states/d
 import { DesktopStateManager } from "../../../states/desktop/Desktop.state.avt";
 import type { AppIcon } from "../AppIcon/AppIcon.wcl.avt";
 import { MainSocket } from "../../../libs/MainSocket.lib.avt";
-import { DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.data.avt";
+import { BackgroundSize, DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.data.avt";
 import { ApplicationRAM } from "../../../ram/Application.ram.avt";
 import type { DesktopData } from "../../../libs/TypeMapper.lib.avt";
 import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
+import { Platform } from "../../../libs/Platform.lib.avt";
 
 namespace System {
     export class Desktop extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, MoveApplicationProvider {
@@ -37,6 +38,9 @@ namespace System {
          */
         @Attribute()
         public is_active!: boolean;
+
+        @Attribute()
+        public background_size: string = BackgroundSize[BackgroundSize.Cover];
         //#endregion
 
 
@@ -52,6 +56,11 @@ namespace System {
 
         public applications: { [name: string]: { [id: number]: Application; }; } = {};
         public data!: Aventus.RamItem<DesktopData>;
+
+        private _iconSize: number = 0;
+        public get iconSize(): number {
+            return this._iconSize;
+        }
         //#endregion
 
 
@@ -79,12 +88,13 @@ namespace System {
                     }
                 });
             }
-            if(this.data.SyncDesktop) {
+            if(this.data.Configuration.SyncDesktop) {
                 contextMenu.addItem({
                     text: "Bureau non partagé",
                     materialIcon: "sync_disabled",
                     action: () => {
-                        this.data.update({ SyncDesktop: false });
+                        this.data.Configuration.SyncDesktop = false;
+                        this.data.update({});
                     }
                 });
             }
@@ -93,7 +103,9 @@ namespace System {
                     text: "Bureau partagé",
                     materialIcon: "sync",
                     action: () => {
-                        this.data.update({ SyncDesktop: true });
+                        this.data.Configuration.SyncDesktop = true;
+                        this.data.update({});
+                        // this.data.update({ SyncDesktop: true });
                     }
                 });
             }
@@ -265,6 +277,12 @@ namespace System {
         private oldActiveCase?: PageCaseSlot;
         private pressManagerStopMoveApp?: Aventus.PressManager;
 
+        public setIconSize(size: number) {
+            this._iconSize = size;
+            this.pageCaseEl.case_height = size;
+            this.pageCaseEl.case_width = size;
+        }
+
         @BindThis()
         public setAppPositionTemp(shadow: AppIcon, x: number, y: number) {
             let caseEl = this.pageCaseEl.shadowRoot.elementFromPoint(x, y);
@@ -350,13 +368,31 @@ namespace System {
         }
         //#endregion
 
+        //#region device watcher
+        protected watchDevice() {
+            Platform.onScreenChangeAndRun((type) => {
+                let iconSize: number = 75;
+                if(type == "pc") {
+                    iconSize = this.data.Configuration.SizeDesktop;
+                }
+                else if(type == "tablet") {
+                    iconSize = this.data.Configuration.SizeTablet;
+                }
+                else if(type == "mobile") {
+                    iconSize = this.data.Configuration.SizeMobile;
+                }
+                this.setIconSize(iconSize);
+            });
+        }
+        //#endregion
 
         private async loadData() {
             let data = await DesktopRAM.getInstance().getById(this.desktop_id);
             if(data) {
                 this.data = data;
-                this.style.backgroundImage = 'url("' + data.Background + '")';
-                if(data.SyncDesktop) {
+                this.style.backgroundImage = 'url("' + data.Configuration.Background + '")';
+                this.background_size = BackgroundSize[data.Configuration.BackgroundSize];
+                if(data.Configuration.SyncDesktop) {
                     this.recreateApplications(data.Applications);
                 }
                 else {
@@ -378,7 +414,7 @@ namespace System {
 
                 }
                 this.pageCaseEl.calculateGrid();
-
+                this.watchDevice();
             }
 
         }

@@ -1,0 +1,32 @@
+namespace Components {
+    export class BoxContainer extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property((target: BoxContainer) => {
+            target.style.setProperty("--item-box-margin", target.space + 'px');
+        })
+        public space: number = 0;
+        //#endregion
+
+
+        //#region variables
+
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+
+        //#endregion
+
+    }
+}

@@ -14,7 +14,7 @@
 	overflow: hidden;
 	position: absolute;
 	top: 0;
-	transition: 0.3s var(--bezier-curve) grid-template-rows;
+	transition: 0.2s var(--bezier-curve) grid-template-rows;
 	z-index: 800;
 
 	rk-scrollable {

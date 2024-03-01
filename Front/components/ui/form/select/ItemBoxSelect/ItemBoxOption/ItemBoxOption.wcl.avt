@@ -1,0 +1,59 @@
+import { ItemBoxSelect } from "../ItemBoxSelect.wcl.avt";
+import { ItemBox } from "../../../../layout/BoxContainer/ItemBox/ItemBox.wcl.avt";
+
+namespace Components {
+    export class ItemBoxOption extends ItemBox implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public selected!: boolean;
+
+        @Attribute()
+        public value?: string;
+        //#endregion
+
+
+        //#region variables
+        protected select?: ItemBoxSelect | null;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        protected register() {
+            this.select = this.findParentByType(ItemBoxSelect);
+            if(this.select) {
+                this.select.register(this);
+            }
+            new Aventus.PressManager({
+                element: this,
+                onPress: () => {
+                    if(this.select) {
+                        this.select.selectOption(this);
+                    }
+                }
+            });
+        }
+        protected override postCreation(): void {
+            this.register();
+        }
+
+        public override destructor(): void {
+            super.destructor();
+            if(this.select) {
+                this.select.unregister(this);
+            }
+        }
+        //#endregion
+
+    }
+}

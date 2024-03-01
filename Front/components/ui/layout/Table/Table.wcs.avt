@@ -43,6 +43,10 @@
 			height: calc(100% - var(--internal-table-header-height));
 			width: 100%;
 		}
+
+		rk-scrollable::part(content-wrapper) {
+			min-width: 100%;
+		}
 	}
 }
 

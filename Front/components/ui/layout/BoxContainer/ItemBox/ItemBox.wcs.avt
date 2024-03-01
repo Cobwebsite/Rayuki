@@ -1,0 +1,21 @@
+:host {
+    --_item-box-margin: var(--item-box-margin, 0);
+}
+
+
+:host {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin-left: var(--_item-box-margin);
+    margin-right: var(--_item-box-margin);
+
+    ::slotted(*) {
+        max-height: var(--_item-box-box-size);
+        max-width: var(--_item-box-box-size);
+    }
+}

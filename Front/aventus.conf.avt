@@ -128,7 +128,7 @@
     "static": [
         {
             "name": "Main",
-            "input": "./static/",
+            "input": "./static/*",
             "output": "../wwwroot/"
         }
     ],

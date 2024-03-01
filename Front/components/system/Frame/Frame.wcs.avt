@@ -1,11 +1,6 @@
-@import '@root/_variables.gs.avt';
 
 :host {
-	width: 100%;
-    height: 100%;
-	display: none;
-}
-
-:host([visible]) {
-	display: block;
+	rk-scrollable {
+		--scrollbar-content-padding: 0 15px;
+	}
 }

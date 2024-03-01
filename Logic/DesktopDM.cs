@@ -47,7 +47,6 @@ namespace Core.Logic
                 new Desktop()
                 {
                     Name = "Bureau par défault",
-                    Background = "/img/default_wp.png",
                     UserId = null,
                 }.Create();
             }
@@ -64,8 +63,7 @@ namespace Core.Logic
                 {
                     UserId = u.Id,
                     Name = "Bureau " + u.Firstname + " " + u.Lastname,
-                    Background = desktops[0].Background,
-                    SyncDesktop = desktops[0].SyncDesktop
+                    Configuration = new DekstopConfiguration()
                 };
                 List<DataError> errors = d.CreateWithError();
                 if (errors.Count > 0)

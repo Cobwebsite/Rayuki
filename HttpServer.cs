@@ -30,7 +30,7 @@ namespace Core
         public static WebPushClient webPush = new();
 
         public static readonly int nbAppInDev = 2;
-        public static readonly bool resetStorage = false;
+        public static readonly bool resetStorage = true;
 
         public static string wwwroot
         {

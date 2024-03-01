@@ -1,0 +1,38 @@
+:host {
+	// Your style here
+    position: relative;
+    .select-notify {
+        position: absolute;
+        width: var(--internal-item-box-size);
+        height: 100%;
+        left: 0;
+        top: 0;
+        background-color: var(--internal-item-box-select-select-background-color);
+        transition: all 0.3s var(--bezier-curve);
+        border-radius: var(--internal-item-border-radius);
+        z-index: 1;
+    }
+    .container-option {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        z-index: 2;
+    }
+}
+
+:host([space="0"]) {
+    .select-notify {
+        border-radius: 0;
+    }
+    .select-notify.first {
+        border-top-left-radius: var(--internal-item-border-radius);
+        border-bottom-left-radius: var(--internal-item-border-radius);
+    }
+    .select-notify.last {
+        border-top-right-radius: var(--internal-item-border-radius);
+        border-bottom-right-radius: var(--internal-item-border-radius);
+    }
+}
+

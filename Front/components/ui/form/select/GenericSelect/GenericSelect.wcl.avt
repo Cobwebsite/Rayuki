@@ -3,157 +3,179 @@ import { GenericOption } from "./GenericOption/GenericOption.wcl.avt";
 
 type ExtractType<X extends GenericOption<U>, U> = X extends GenericOption<infer U> ? U : never;
 
-export abstract class GenericSelect<T extends GenericOption<U>, U = ExtractType<T, any>> extends Aventus.WebComponent implements Aventus.DefaultComponent {
+namespace Components {
+    export abstract class GenericSelect<T extends GenericOption<U>, U = ExtractType<T, any>> extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
-    //#region static
+        //#region static
 
-    //#endregion
-
-
-    //#region props
-    @Property()
-    public label?: string;
-    @Property()
-    public placeholder?: string;
-    @Attribute()
-    private has_errors!: boolean;
-    @Property()
-    public icon?: string;
-
-    @Watch((target: GenericSelect<T, U>) => {
-        target.has_errors = target.errors.length > 0;
-    })
-    public errors: string[] = [];
-
-    @Attribute()
-    public open!: boolean;
-    @Property((target: GenericSelect<T, U>) => {
-        if(target.searchable) {
-            target.inputEl.removeAttribute("disabled");
-        }
-        else {
-            target.inputEl.setAttribute("disabled", "disabled");
-        }
-    })
-    public searchable: boolean = false;
-    //#endregion
+        //#endregion
 
 
-    //#region variables
-    @Watch((target: GenericSelect<T, U>, action: Aventus.WatchAction, path: string, value: any) => {
-        target.inputEl.value = target.displayValue;
-    })
-    public displayValue: string = "";
+        //#region props
+        @Property()
+        public label?: string;
+        @Property()
+        public placeholder?: string;
+        @Attribute()
+        private has_errors!: boolean;
+        @Property()
+        public icon?: string;
 
-    @ViewElement()
-    protected inputEl!: HTMLInputElement;
-    @ViewElement()
-    protected optionsContainer!: OptionsContainer;
+        @Watch((target: GenericSelect<T, U>) => {
+            target.has_errors = target.errors.length > 0;
+        })
+        public errors: string[] = [];
 
-    public change: Aventus.Callback<(value: U | undefined) => void> = new Aventus.Callback();
-    public selectedOption?: T;
-    public value?: U;
+        @Attribute()
+        public open!: boolean;
 
-    protected options: T[] = [];
-    //#endregion
-
-
-    //#region constructor
-
-    //#endregion
-
-
-    //#region methods
-    protected abstract itemToText(option: T): string;
-
-    @InternalProtected()
-    public setValueFromOption(option: T) {
-        this.selectedOption = option;
-        this.value = option.value;
-        this.displayValue = this.itemToText(option);
-        this.hideOptions();
-        this.change.trigger([this.value]);
-        this.filter();
-    }
-
-    /**
-     * 
-     */
-    protected removeErrors() {
-        this.errors = [];
-    }
-
-    protected loadElementsFromSlot() {
-        let elements = this.getElementsInSlot();
-        for(let element of elements) {
-            if(element instanceof GenericOption) {
-                this.options.push(element as T);
-                element.init(this);
-                this.optionsContainer.appendChild(element);
+        @Property((target: GenericSelect<T, U>) => {
+            if(target.searchable) {
+                target.inputEl.removeAttribute("disabled");
             }
-        }
-    }
+            else {
+                target.inputEl.setAttribute("disabled", "disabled");
+            }
+        })
+        public searchable: boolean = false;
+        //#endregion
 
-    /**
-     * 
-     */
-    protected showOptions() {
-        if(!this.open) {
-            this.removeErrors();
-            this.optionsContainer.show();
-            //this.optionsContainer.focus({ preventScroll: true });
-        }
-    }
 
-    protected hideOptions() {
-        this.optionsContainer.blur();
-    }
+        //#region variables
+        @Watch((target: GenericSelect<T, U>, action: Aventus.WatchAction, path: string, value: any) => {
+            target.inputEl.value = target.displayValue;
+        })
+        public displayValue: string = "";
 
-    /**
-     * 
-     */
-    protected syncCaret(open: boolean) {
-        this.open = open;
-    }
+        @ViewElement()
+        public inputEl!: HTMLInputElement;
+        @ViewElement()
+        protected optionsContainer!: OptionsContainer;
 
-    /**
-     * 
-     */
-    protected filter() {
-        if(this.searchable) {
-            let value = this.inputEl.value.toLowerCase();
+        public onChange: Aventus.Callback<(value: U | undefined) => void> = new Aventus.Callback();
+        public selectedOption?: T;
+        @Watch((target: GenericSelect<T, U>) => {
+            target.onInternalValueChanged();
+        })
+        public value?: U;
+
+        protected options: T[] = [];
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        protected abstract itemToText(option: T): string;
+
+        protected onInternalValueChanged() {
+            if(!this.isConnected) return;
+
             for(let option of this.options) {
-                option.filter(value);
+                if(option.value == this.value) {
+                    this.selectedOption = option;
+                    this.displayValue = this.itemToText(option);
+                    this.filter();
+                    break;
+                }
             }
         }
-    }
 
-    protected manageFocus() {
-        let blurTimeout: number = 0;;
-        let blur = () => {
-            blurTimeout = setTimeout(() => {
-                this.optionsContainer.hide();
-            }, 40);
-        };
-        this.inputEl.addEventListener("blur", () => {
-            blur();
-        });
-        this.optionsContainer.addEventListener("blur", () => {
-            blur();
-        });
-        this.inputEl.addEventListener("focus", () => {
-            clearTimeout(blurTimeout);
-        });
-        this.optionsContainer.addEventListener("focus", () => {
-            clearTimeout(blurTimeout);
-        });
-    }
+        @InternalProtected()
+        public setValueFromOption(option: T) {
+            this.selectedOption = option;
+            this.value = option.value;
+            this.displayValue = this.itemToText(option);
+            this.hideOptions();
+            this.onChange.trigger([this.value]);
+            this.filter();
+        }
 
-    protected override postCreation(): void {
-        this.manageFocus();
-        this.optionsContainer.init(this);
-        this.loadElementsFromSlot();
-    }
-    //#endregion
+        /**
+         * 
+         */
+        protected removeErrors() {
+            this.errors = [];
+        }
 
+        protected loadElementsFromSlot() {
+            let elements = this.getElementsInSlot();
+            for(let element of elements) {
+                if(element instanceof GenericOption) {
+                    this.options.push(element as T);
+                    element.init(this);
+                    this.optionsContainer.appendChild(element);
+                }
+            }
+        }
+
+        /**
+         * 
+         */
+        protected showOptions() {
+            if(!this.open) {
+                this.removeErrors();
+                this.optionsContainer.show();
+            }
+            if(!this.searchable) {
+                this.optionsContainer.focus({ preventScroll: true });
+            }
+        }
+
+        protected hideOptions() {
+            this.optionsContainer.blur();
+        }
+
+        /**
+         * 
+         */
+        protected syncCaret(open: boolean) {
+            this.open = open;
+        }
+
+        /**
+         * 
+         */
+        protected filter() {
+            if(this.searchable) {
+                let value = this.inputEl.value.toLowerCase();
+                for(let option of this.options) {
+                    option.filter(value);
+                }
+            }
+        }
+
+        protected manageFocus() {
+            let blurTimeout: number = 0;;
+            let blur = () => {
+                blurTimeout = setTimeout(() => {
+                    this.optionsContainer.hide();
+                }, 100);
+            };
+            this.inputEl.addEventListener("blur", () => {
+                blur();
+            });
+            this.optionsContainer.addEventListener("blur", () => {
+                blur();
+            });
+            this.inputEl.addEventListener("focus", () => {
+                clearTimeout(blurTimeout);
+            });
+            this.optionsContainer.addEventListener("focus", () => {
+                clearTimeout(blurTimeout);
+            });
+        }
+
+        protected override postCreation(): void {
+            this.manageFocus();
+            this.optionsContainer.init(this);
+            this.loadElementsFromSlot();
+            this.onInternalValueChanged();
+        }
+        //#endregion
+
+    }
 }

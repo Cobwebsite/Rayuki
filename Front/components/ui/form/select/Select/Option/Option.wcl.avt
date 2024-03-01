@@ -1,30 +1,32 @@
 import { GenericOption } from "../../GenericSelect/GenericOption/GenericOption.wcl.avt";
 
-export class Option extends GenericOption<string> implements Aventus.DefaultComponent {
+namespace Components {
+    export class Option extends GenericOption<string> implements Aventus.DefaultComponent {
 
-    //#region static
+        //#region static
 
-    //#endregion
-
-
-    //#region props
-    @Attribute()
-    public override value: string | undefined = undefined;
-    //#endregion
+        //#endregion
 
 
-    //#region variables
-
-    //#endregion
-
-
-    //#region constructor
-
-    //#endregion
+        //#region props
+        @Property()
+        public override value: string | undefined = undefined;
+        //#endregion
 
 
-    //#region methods
+        //#region variables
 
-    //#endregion
+        //#endregion
 
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+
+        //#endregion
+
+    }
 }

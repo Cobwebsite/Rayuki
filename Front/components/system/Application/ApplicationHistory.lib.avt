@@ -56,6 +56,9 @@ namespace System {
             }
             return null;
         }
+        public cancelNext(): void {
+            this.currentPosition--;
+        }
 
         public current(): History | undefined {
             return this.memory[this.currentPosition];
@@ -71,6 +74,9 @@ namespace System {
                 return this.memory[this.currentPosition];
             }
             return null;
+        }
+        public cancelPrevious(): void {
+            this.currentPosition++;
         }
 
         public get previousAvailable(): boolean {

@@ -1,0 +1,92 @@
+import type { ItemBoxOption } from "./ItemBoxOption/ItemBoxOption.wcl.avt";
+import { BoxContainer } from "../../../layout/BoxContainer/BoxContainer.wcl.avt";
+
+namespace Components {
+    export class ItemBoxSelect extends BoxContainer implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property((target: ItemBoxSelect) => {
+            target.selectInternalOption();
+        })
+        public value?: string;
+        //#endregion
+
+
+        //#region variables
+        protected options: ItemBoxOption[] = [];
+        protected optionSelected?: ItemBoxOption;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region events
+        public onChange: Aventus.Callback<(value: string | undefined) => void> = new Aventus.Callback();
+        //#endregion
+
+        //#region methods
+        protected selectInternalOption() {
+            if(!this.isConnected) return;
+
+            let oneFound = false;
+            for(let option of this.options) {
+                if(option.value == this.value) {
+                    if(this.optionSelected)
+                        this.optionSelected.selected = false;
+                    option.selected = true;
+                    this.optionSelected = option;
+                    oneFound = true;
+                }
+                else {
+                    option.selected = false;
+                }
+            }
+            if(!oneFound) {
+                this.optionSelected = undefined;
+            }
+        }
+
+        @Internal()
+        public selectOption(option: ItemBoxOption) {
+            this.value = option.value;
+            this.onChange.trigger([this.value]);
+        }
+
+        @Internal()
+        public register(option: ItemBoxOption) {
+            if(!this.options.includes(option)) {
+                this.options.push(option);
+                if(option.value == this.value) {
+                    if(this.optionSelected) {
+                        this.optionSelected.selected = false;
+                    }
+                    option.selected = true;
+                    this.optionSelected = option;
+                }
+            }
+        }
+
+        @Internal()
+        public unregister(option: ItemBoxOption) {
+            const index = this.options.indexOf(option);
+            if(index != -1) {
+                this.options.splice(index, 1);
+            }
+        }
+
+
+        protected override postCreation(): void {
+            this.selectInternalOption();
+        }
+        //#endregion
+
+    }
+}

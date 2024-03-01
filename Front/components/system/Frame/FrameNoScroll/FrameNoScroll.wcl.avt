@@ -1,0 +1,52 @@
+import type { Application } from "../../Application/Application.wcl.avt";
+
+namespace System {
+    export abstract class FrameNoScroll extends Aventus.WebComponent implements Aventus.DefaultComponent {
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property((target: FrameNoScroll) => {
+            if(target.visible) {
+                target.onShow();
+            }
+            else {
+                target.onHide();
+            }
+        })
+        public visible!: boolean;
+        //#endregion
+
+
+        //#region variables
+
+        public application!: Application;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        public abstract pageTitle(): string;
+
+        public async show(): Promise<void> {
+            this.visible = true;
+        }
+        public async hide(): Promise<void> {
+            this.visible = false;
+        }
+        public abstract onShow();
+        public abstract onHide();
+
+
+        public async askChange(newState: Aventus.State): Promise<boolean> {
+            return true;
+        }
+        //#endregion
+    }
+}

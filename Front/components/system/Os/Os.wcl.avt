@@ -15,6 +15,7 @@ import { MainSocket } from "../../../libs/MainSocket.lib.avt";
 import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
 import { DesktopStateManager } from "../../../states/desktop/Desktop.state.avt";
 import { Pointer } from "../../../libs/Pointer.lib.avt";
+import { Platform } from "../../../libs/Platform.lib.avt";
 
 namespace System {
     export class Os extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -57,7 +58,7 @@ namespace System {
         public desktops: DesktopData[] = [];
 
         @ViewElement()
-        protected appList!: AppList;
+        public appList!: AppList;
 
         @ViewElement()
         public readonly desktopsEl!: Desktop[];
@@ -80,6 +81,7 @@ namespace System {
         public constructor() {
             super();
             Os.instance = this;
+            Platform.init();
             this.notificationManager = new NotificationManager(this);
             ApplicationManager.reloadData();
         }

@@ -35,7 +35,7 @@ $labels: xs, sm, md, lg, xl;
 	$sizeMax: nth($sizes, $i);
 	$label: nth($labels, $i);
 
-	@container (min-width: #{$sizeMax+'px'}) {
+	@container application (min-width: #{$sizeMax+'px'}) {
         @for $i from 0 through 12 {
             $size: 0;
         

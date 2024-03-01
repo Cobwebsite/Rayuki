@@ -25,7 +25,7 @@
     {{end}}
     {{ if is_dev }}
         {{ for nb in 1..nb_apps }}
-            <script src="http://10.0.0.115:{{ 8079 + nb }}/?get_injected_code" async></script>
+            <script src="http://127.0.0.1:{{ 8079 + nb }}/?get_injected_code" async></script>
         {{end}}
     {{ end }}
     <script src="/pwa/pwa.js"></script>

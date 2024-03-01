@@ -1,73 +1,76 @@
 import type { GenericSelect } from "../GenericSelect.wcl.avt";
 
-export class OptionsContainer extends Aventus.WebComponent implements Aventus.DefaultComponent {
+namespace Components {
+    export class OptionsContainer extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
-    //#region static
+        //#region static
 
-    //#endregion
-
-
-    //#region props
-    @Attribute()
-    private open!: boolean;
-    //#endregion
+        //#endregion
 
 
-    //#region variables
-    private select!: GenericSelect<any>;
-
-    public onOpen: Aventus.Callback<(open: boolean) => void> = new Aventus.Callback();
-    public isAnimating: boolean = false;
-    //#endregion
+        //#region props
+        @Attribute()
+        private open!: boolean;
+        //#endregion
 
 
-    //#region constructor
+        //#region variables
+        private select!: GenericSelect<any>;
 
-    //#endregion
+        public onOpen: Aventus.Callback<(open: boolean) => void> = new Aventus.Callback();
+        public isAnimating: boolean = false;
+        //#endregion
 
 
-    //#region methods
-    public init(select: GenericSelect<any>) {
-        this.select = select;
-    }
-    public async show(container?: HTMLElement) {
-        if(!container) {
-            container = document.body;
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        public init(select: GenericSelect<any>) {
+            this.select = select;
+        }
+        public async show(container?: HTMLElement) {
+            if(!container) {
+                container = document.body;
+            }
+
+            let box = this.select.getBoundingClientRect();
+            let boxInput = this.select.inputEl.getBoundingClientRect();
+            let contBox = container.getBoundingClientRect();
+
+            let newTop = boxInput.top + boxInput.height + 2;
+            let maxHeight = contBox.height - newTop - 10;
+
+            this.style.width = box.width + 'px';
+            this.style.top = newTop + 'px';
+            this.style.left = box.left + 'px';
+            this.style.maxHeight = maxHeight + 'px';
+            container.appendChild(this);
+            await Aventus.sleep(10);
+            this.open = true;
+            this.onOpen.trigger([true]);
+        }
+        public hide() {
+            this.open = false;
+            this.onOpen.trigger([false]);
         }
 
-        let box = this.select.getBoundingClientRect();
-        let contBox = container.getBoundingClientRect();
+        protected addAnimationEnd() {
+            this.addEventListener("transitionstart", (event) => {
+                this.isAnimating = true;
+            });
+            this.addEventListener("transitionend", (event) => {
+                this.isAnimating = false;
+            });
+        }
 
-        let newTop = box.top + box.height + 2;
-        let maxHeight = contBox.height - newTop - 10;
+        protected override postCreation(): void {
+            this.addAnimationEnd();
+            this.setAttribute("tabindex", "-1");
+        }
+        //#endregion
 
-        this.style.width = box.width + 'px';
-        this.style.top = newTop + 'px';
-        this.style.left = box.left + 'px';
-        this.style.maxHeight = maxHeight + 'px';
-        container.appendChild(this);
-        await Aventus.sleep(10);
-        this.open = true;
-        this.onOpen.trigger([true]);
     }
-    public hide() {
-        this.open = false;
-        this.onOpen.trigger([false]);
-    }
-
-    protected addAnimationEnd() {
-        this.addEventListener("transitionstart", (event) => {
-            this.isAnimating = true;
-        });
-        this.addEventListener("transitionend", (event) => {
-            this.isAnimating = false;
-        });
-    }
-
-    protected override postCreation(): void {
-        this.addAnimationEnd();
-        this.setAttribute("tabindex", "-1");
-    }
-    //#endregion
-
 }

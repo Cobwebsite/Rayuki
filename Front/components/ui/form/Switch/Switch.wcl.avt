@@ -23,6 +23,12 @@ namespace Components {
             }
         })
         public disabled!: boolean;
+
+        @Property((target: Switch) => {
+            target.value = target.checked;
+            target.checkboxEl.checked = target.checked;
+        })
+        public checked: boolean = false;
         //#endregion
 
 
@@ -33,6 +39,12 @@ namespace Components {
 
         //#endregion
 
+        //#region events
+        public onChange: Aventus.Callback<(value: boolean) => void> = new Aventus.Callback();
+
+        /** Add value to use bind */
+        public value: boolean = false;
+        //#endregion
 
         //#region constructor
 
@@ -46,8 +58,8 @@ namespace Components {
          */
         protected toggleActive() {
             if(this.disabled) return;
-            if(this.checkboxEl)
-                this.checkboxEl.checked = !this.checkboxEl.checked;
+            this.checked = !this.checked;
+            this.onChange.trigger([this.checked])
         }
         //#endregion
 

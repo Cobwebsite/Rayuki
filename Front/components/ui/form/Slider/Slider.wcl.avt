@@ -1,27 +1,181 @@
-export class Slider extends Aventus.WebComponent implements Aventus.DefaultComponent {
+namespace Components {
+    export class Slider extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
-	//#region static
-	
-	//#endregion
-	
-	
-	//#region props
-	
-	//#endregion
-	
-	
-	//#region variables
-	
-	//#endregion
-	
-	
-	//#region constructor
-	
-	//#endregion
-	
-	
-	//#region methods
-	
-	//#endregion
-	
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property()
+        public label?: string;
+        @Property((target: Slider) => {
+            target.calculatePercent();
+        })
+        public min: number = 0;
+        @Property((target: Slider) => {
+            target.calculatePercent();
+        })
+        public max: number = 100;
+        @Property((target: Slider) => {
+            target.calculatePercent();
+        })
+        public value: number = 0;
+        @Property()
+        public step: number = 1;
+        @Attribute()
+        public popup: 'never' | 'always' | 'onMove' = 'never';
+
+
+        //internaé
+        @Attribute()
+        private no_transition!: boolean;
+        @Attribute()
+        private popup_visible!: boolean;
+
+
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected dotEl!: HTMLDivElement;
+
+        @ViewElement()
+        protected barEl!: HTMLDivElement;
+
+        protected currentPercent: number = 0;
+        protected timerPopup: number = 0;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region events
+        public readonly onChange: Aventus.Callback<(value: number) => void> = new Aventus.Callback();
+        //#endregion
+
+
+        //#region methods
+        protected addMoveDot() {
+            let startX: number = 0;
+            let currentPosition: number = 0;
+            new Aventus.DragAndDrop({
+                element: this.dotEl,
+                applyDrag: false,
+                offsetDrag: 0,
+                onPointerDown: () => {
+                    this.no_transition = true;
+                    if(this.popup == "onMove") {
+                        clearTimeout(this.timerPopup);
+                        this.popup_visible = true;
+                    }
+                },
+                onStart: (e) => {
+                    startX = e.pageX;
+                    currentPosition = this.dotEl.offsetLeft;
+                },
+                onMove: (e) => {
+                    let diff = startX - e.pageX;
+                    let newPosition = currentPosition - diff;
+                    let percent = newPosition / this.offsetWidth * 100;
+                    this.setPercent(percent);
+                    this.calculateValue();
+                },
+                onPointerUp: () => {
+                    this.no_transition = false;
+                    if(this.popup == "onMove") {
+                        this.timerPopup = setTimeout(() => {
+                            this.popup_visible = false;
+                        }, 1000);
+                    }
+                }
+            });
+        }
+        protected addClickBar() {
+            new Aventus.PressManager({
+                element: this.barEl,
+                onPress: (e) => {
+                    let left = this.getBoundingClientRect().left;
+                    let newPosition = e.pageX - left;
+                    let percent = newPosition / this.offsetWidth * 100;
+                    this.setPercent(percent);
+                    this.calculateValue();
+                    if(this.popup == "onMove") {
+                        clearTimeout(this.timerPopup);
+                        this.timerPopup = setTimeout(() => {
+                            this.popup_visible = false;
+                        }, 1000);
+                        this.popup_visible = true;
+                    }
+                }
+            });
+        }
+
+        protected calculatePercent() {
+            if(!this.isConnected) return;
+
+            let range = this.max - this.min;
+            let percent = (this.value - this.min) / range * 100;
+            this.setPercent(percent);
+        }
+
+        protected calculateValue(emit: boolean = true) {
+            let range = this.max - this.min;
+            let value = (range * this.currentPercent / 100) + this.min;
+            let diff = value % this.step;
+            if(diff > this.step / 2) {
+                value += (this.step - diff);
+            }
+            else {
+                value -= diff;
+            }
+            if(value != this.value) {
+                this.value = value;
+                if(emit) {
+                    this.onChange.trigger([value]);
+                }
+            }
+        }
+
+        protected setPercent(percent: number) {
+            if(percent < 0) {
+                percent = 0;
+            }
+            else if(percent > 100) {
+                percent = 100;
+            }
+
+            // correct step
+            let range = this.max - this.min;
+            let value = (range * percent / 100) + this.min;
+            let diff = value % this.step;
+            if(diff > this.step / 2) {
+                value += (this.step - diff);
+            }
+            else {
+                value -= diff;
+            }
+            percent = (value - this.min) / range * 100;
+
+            this.currentPercent = percent;
+            this.style.setProperty("--local-slider-dot-percent", percent + "%");
+        }
+
+        protected override postCreation(): void {
+            super.postCreation();
+            this.addMoveDot();
+            this.addClickBar();
+            this.calculatePercent();
+            this.calculateValue(false);
+            if(this.popup == 'always') {
+                this.popup_visible = true;
+            }
+        }
+        //#endregion
+
+    }
 }

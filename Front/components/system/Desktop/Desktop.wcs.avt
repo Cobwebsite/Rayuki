@@ -36,3 +36,11 @@
 		visibility: hidden !important;
 	}
 }
+
+:host([background_size="Cover"]) {
+	background-size: cover;
+}
+
+:host([background_size="Contain"]) {
+	background-size: contain;
+}

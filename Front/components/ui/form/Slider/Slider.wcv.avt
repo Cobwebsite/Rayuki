@@ -1,1 +1,6 @@
-<slot></slot>
+<label for="element" class="label">{{ this.label }}</label>
+<div class="bar" @element="barEl">
+    <div class="value" part="popup">{{ this.value }}</div>
+    <div class="bar-fill"></div>
+    <div class="dot" @element="dotEl"></div>
+</div>

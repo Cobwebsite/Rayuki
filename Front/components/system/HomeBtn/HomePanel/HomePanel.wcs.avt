@@ -53,10 +53,10 @@
 							padding: 10px;
 
 							* {
-								width: calc((100% / 3) - (20px / 3));
-								flex-shrink: 0;
 								aspect-ratio: 1 / 1;
+								flex-shrink: 0;
 								height: auto;
+								width: calc((100% / 3) - (20px / 3));
 							}
 						}
 					}
@@ -84,10 +84,12 @@
 
 		rk-button {
 			--button-padding: 0px 8px;
-			--button-icon-stroke-color: red;
+			--button-icon-stroke-color: var(--text-color-red);
 			--button-icon-fill-color: transparent;
-			--button-background-color: var(--darker-active);
-			box-shadow: none;
+			--button-background-color: var(--red);
+			--button-background-color-hover: transparent;
+			border: none;
+			box-shadow: var(--elevation-2);
 			min-width: auto;
 		}
 

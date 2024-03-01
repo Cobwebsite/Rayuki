@@ -1,67 +1,69 @@
-export class Checkbox extends Aventus.WebComponent implements Aventus.DefaultComponent {
+namespace Components {
+    export class Checkbox extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
-    //#region static
+        //#region static
 
-    //#endregion
-
-
-    //#region props
-    @Property()
-    public label?: string;
-    @Property()
-    public placeholder?: string;
-    @Attribute()
-    private has_errors!: boolean;
-    @Property()
-    public icon?: string;
-
-    @Watch((target: Checkbox) => {
-        target.has_errors = target.errors.length > 0;
-    })
-    public errors: string[] = [];
-
-    @Property((target: Checkbox) => {
-        target.value = target.checked;
-    })
-    public checked: boolean = false;
-    
-    @Attribute()
-    public left_label!: boolean;
-    //#endregion
+        //#endregion
 
 
-    //#region variables
+        //#region props
+        @Property()
+        public label?: string;
+        @Property()
+        public placeholder?: string;
+        @Attribute()
+        private has_errors!: boolean;
+        @Property()
+        public icon?: string;
 
-    public change: Aventus.Callback<(value: boolean) => void> = new Aventus.Callback();
+        @Watch((target: Checkbox) => {
+            target.has_errors = target.errors.length > 0;
+        })
+        public errors: string[] = [];
 
-    /** Add value to use bind */
-    public value: boolean = false;
-    //#endregion
+        @Property((target: Checkbox) => {
+            target.value = target.checked;
+        })
+        public checked: boolean = false;
+
+        @Attribute()
+        public left_label!: boolean;
+        //#endregion
 
 
-    //#region constructor
+        //#region variables
 
-    //#endregion
+        public onChange: Aventus.Callback<(value: boolean) => void> = new Aventus.Callback();
+
+        /** Add value to use bind */
+        public value: boolean = false;
+        //#endregion
 
 
-    //#region methods
-    /**
-     * 
-     */
-    protected removeErrors() {
-        this.errors = [];
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        /**
+         * 
+         */
+        protected removeErrors() {
+            this.errors = [];
+        }
+
+        protected override postCreation(): void {
+            new Aventus.PressManager({
+                element: this,
+                onPress: () => {
+                    this.removeErrors();
+                    this.checked = !this.checked;
+                    this.onChange.trigger([this.checked]);
+                }
+            });
+        }
+        //#endregion
+
     }
-
-    protected override postCreation(): void {
-        new Aventus.PressManager({
-            element: this,
-            onPress: () => {
-                this.removeErrors();
-                this.checked = !this.checked;
-                this.change.trigger([this.checked]);
-            }
-        });
-    }
-    //#endregion
-
 }

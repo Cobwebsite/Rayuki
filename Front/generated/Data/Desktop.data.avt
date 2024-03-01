@@ -2,15 +2,31 @@ import { ApplicationOpen } from './ApplicationOpen.lib.avt';
 
 namespace Data {
 
+	export enum BackgroundSize {
+		Cover,
+		Contain,
+		ContainNoRepeat
+	}
+
 	@Convertible()
 	export class Desktop extends AventusSharp.Data.Storable implements Aventus.IData {
 		public static override get Fullname(): string { return "Core.Data.Desktop, Core"; }
 		public Name!: string;
-		public Background!: string;
 		public UserId?: number = undefined;
-		public SyncDesktop: boolean = false;
+		public Configuration: DekstopConfiguration = new DekstopConfiguration();
 		public Icons: DesktopAppIcon[] = [];
 		public Applications: ApplicationOpen[] = [];
+	}
+
+	@Convertible()
+	export class DekstopConfiguration extends AventusSharp.Data.Storable implements Aventus.IData {
+		public static override get Fullname(): string { return "Core.Data.DekstopConfiguration, Core"; }
+		public Background: string = "/img/default_wp.png";
+		public BackgroundSize: BackgroundSize = BackgroundSize.Cover;
+		public SyncDesktop: boolean = false;
+		public SizeMobile: number = 75;
+		public SizeTablet: number = 75;
+		public SizeDesktop: number = 75;
 	}
 
 	export enum DesktopLocation {

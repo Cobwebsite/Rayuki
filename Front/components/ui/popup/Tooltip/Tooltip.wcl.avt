@@ -1,0 +1,93 @@
+export class Tooltip extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+    @Attribute()
+    public visible: boolean = false;
+    @Attribute()
+    public position: 'top' | 'left' | 'bottom' | 'right' = 'left';
+    //#endregion
+
+
+    //#region variables
+    protected parent: HTMLElement | null = null;
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+    protected calculatePosition() {
+        if(!this.parent) return;
+        let rect = this.parent.getBoundingClientRect();
+        let center = {
+            x: rect.left + rect.width / 2,
+            y: rect.y + rect.height / 2
+        };
+
+
+        if(this.position == 'bottom') {
+            let bottom = rect.y + rect.height;
+            this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
+            this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
+        }
+        else if(this.position == 'top') {
+            let bottom = document.body.offsetHeight - rect.top;
+            this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
+            this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
+        }
+        else if(this.position == 'right') {
+            let left = rect.x + rect.width;
+            this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
+            this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-y", center.y + 10 + 'px');
+        }
+        else if(this.position == 'left') {
+            let left = document.body.offsetWidth - rect.left;
+            this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
+            this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-y", center.y + 'px');
+        }
+    }
+
+    protected registerAction() {
+        if(!this.parent) return;
+
+        this.parent.addEventListener("mouseenter", () => {
+            this.calculatePosition();
+            document.body.appendChild(this);
+            requestAnimationFrame(() => {
+                this.visible = true;
+            });
+        });
+
+        this.parent.addEventListener("mouseleave", () => {
+            this.visible = false;
+        });
+
+        this.addEventListener("transitionend", () => {
+            if(!this.visible) {
+                this.parentNode?.removeChild(this);
+            }
+        });
+    }
+    protected override postCreation(): void {
+        this.parent = this.parentElement;
+        this.registerAction();
+    }
+    //#endregion
+
+}

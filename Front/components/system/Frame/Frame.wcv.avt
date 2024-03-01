@@ -1,1 +1,3 @@
-<slot></slot>
+<rk-scrollable floating_scroll class="main-scroll">
+    <slot></slot>
+</rk-scrollable>

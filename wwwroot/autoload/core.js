@@ -56,14 +56,14 @@ Data.Permission=class Permission extends AventusSharp.Data.Storable {
     AdditionalInfo = "";
     EnumValue;
 }
-Data.Permission.$schema={"EnumName":"string","AdditionalInfo":"string","EnumValue":"Aventus.Enum"};Aventus.DataManager.register(Data.Permission.Fullname, Data.Permission);Data.Permission.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.Permission.Fullname, Data.Permission);
+Data.Permission.Namespace=`${moduleName}.Data`;Data.Permission.$schema={"EnumName":"string","AdditionalInfo":"string","EnumValue":"Aventus.Enum"};Aventus.DataManager.register(Data.Permission.Fullname, Data.Permission);Aventus.Converter.register(Data.Permission.Fullname, Data.Permission);
 _.Data.Permission=Data.Permission;
 Data.Company=class Company extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Company, Core"; }
     Name = "";
     Logo = "";
 }
-Data.Company.$schema={"Name":"string","Logo":"string"};Aventus.DataManager.register(Data.Company.Fullname, Data.Company);Data.Company.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.Company.Fullname, Data.Company);
+Data.Company.Namespace=`${moduleName}.Data`;Data.Company.$schema={"Name":"string","Logo":"string"};Aventus.DataManager.register(Data.Company.Fullname, Data.Company);Aventus.Converter.register(Data.Company.Fullname, Data.Company);
 _.Data.Company=Data.Company;
 (function (AppErrorCode) {
     AppErrorCode[AppErrorCode["AppFileNotFound"] = 0] = "AppFileNotFound";
@@ -76,6 +76,97 @@ _.Data.Company=Data.Company;
 })(App.AppErrorCode || (App.AppErrorCode = {}));
 
 _.App.AppErrorCode=App.AppErrorCode;
+const Tooltip = class Tooltip extends Aventus.WebComponent {
+    get 'visible'() { return this.getBoolAttr('visible') }
+    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'position'() { return this.getStringAttr('position') }
+    set 'position'(val) { this.setStringAttr('position', val) }    parent = null;
+    static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:5px;box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;z-index:1}:host::after{content:"";position:absolute}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--primary-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:50%;top:-8px;transform:translateX(-50%)}:host([visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x);transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--primary-color);bottom:-8px;left:50%;transform:translateX(-50%)}:host([visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=right]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--primary-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:50%;transform:translateY(-50%)}:host([visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--primary-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:50%;transform:translateY(-50%)}:host([visible][position=left]){right:var(--local-tooltip-to-x)}`;
+    __getStatic() {
+        return Tooltip;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Tooltip.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "Tooltip";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('position')){ this['position'] = 'left'; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('position'); }
+    __listBoolProps() { return ["visible"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    calculatePosition() {
+        if (!this.parent)
+            return;
+        let rect = this.parent.getBoundingClientRect();
+        let center = {
+            x: rect.left + rect.width / 2,
+            y: rect.y + rect.height / 2
+        };
+        if (this.position == 'bottom') {
+            let bottom = rect.y + rect.height;
+            this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
+            this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
+        }
+        else if (this.position == 'top') {
+            let bottom = document.body.offsetHeight - rect.top;
+            this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
+            this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
+        }
+        else if (this.position == 'right') {
+            let left = rect.x + rect.width;
+            this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
+            this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-y", center.y + 10 + 'px');
+        }
+        else if (this.position == 'left') {
+            let left = document.body.offsetWidth - rect.left;
+            this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
+            this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-y", center.y + 'px');
+        }
+    }
+    registerAction() {
+        if (!this.parent)
+            return;
+        this.parent.addEventListener("mouseenter", () => {
+            this.calculatePosition();
+            document.body.appendChild(this);
+            requestAnimationFrame(() => {
+                this.visible = true;
+            });
+        });
+        this.parent.addEventListener("mouseleave", () => {
+            this.visible = false;
+        });
+        this.addEventListener("transitionend", () => {
+            if (!this.visible) {
+                this.parentNode?.removeChild(this);
+            }
+        });
+    }
+    postCreation() {
+        this.parent = this.parentElement;
+        this.registerAction();
+    }
+}
+Tooltip.Namespace=`${moduleName}`;
+Tooltip.Tag=`rk-tooltip`;
+_.Tooltip=Tooltip;
+if(!window.customElements.get('rk-tooltip')){window.customElements.define('rk-tooltip', Tooltip);Aventus.WebComponentInstance.registerDefinition(Tooltip);}
+
 Components.Row = class Row extends Aventus.WebComponent {
     static __style = `:host{display:flex;width:100%;flex-wrap:wrap;container-type:inline-size}`;
     __getStatic() {
@@ -120,7 +211,7 @@ Components.Col = class Col extends Aventus.WebComponent {
     set 'offset_right_sm'(val) { this.setNumberAttr('offset_right_sm', val) }get 'offset_right_md'() { return this.getNumberAttr('offset_right_md') }
     set 'offset_right_md'(val) { this.setNumberAttr('offset_right_md', val) }get 'offset_right_lg'() { return this.getNumberAttr('offset_right_lg') }
     set 'offset_right_lg'(val) { this.setNumberAttr('offset_right_lg', val) }get 'offset_right_xl'() { return this.getNumberAttr('offset_right_xl') }
-    set 'offset_right_xl'(val) { this.setNumberAttr('offset_right_xl', val) }    static __style = `:host{--internal-col-padding:var(--col-padding, 8px)}:host{padding:var(--internal-col-padding)}:host([size="0"]){display:flex;width:0%}:host([offset="0"]){margin-left:0%}:host([offset_right="0"]){margin-right:0%}:host([size="1"]){display:flex;width:8.3333333333%}:host([offset="1"]){margin-left:8.3333333333%}:host([offset_right="1"]){margin-right:8.3333333333%}:host([size="2"]){display:flex;width:16.6666666667%}:host([offset="2"]){margin-left:16.6666666667%}:host([offset_right="2"]){margin-right:16.6666666667%}:host([size="3"]){display:flex;width:25%}:host([offset="3"]){margin-left:25%}:host([offset_right="3"]){margin-right:25%}:host([size="4"]){display:flex;width:33.3333333333%}:host([offset="4"]){margin-left:33.3333333333%}:host([offset_right="4"]){margin-right:33.3333333333%}:host([size="5"]){display:flex;width:41.6666666667%}:host([offset="5"]){margin-left:41.6666666667%}:host([offset_right="5"]){margin-right:41.6666666667%}:host([size="6"]){display:flex;width:50%}:host([offset="6"]){margin-left:50%}:host([offset_right="6"]){margin-right:50%}:host([size="7"]){display:flex;width:58.3333333333%}:host([offset="7"]){margin-left:58.3333333333%}:host([offset_right="7"]){margin-right:58.3333333333%}:host([size="8"]){display:flex;width:66.6666666667%}:host([offset="8"]){margin-left:66.6666666667%}:host([offset_right="8"]){margin-right:66.6666666667%}:host([size="9"]){display:flex;width:75%}:host([offset="9"]){margin-left:75%}:host([offset_right="9"]){margin-right:75%}:host([size="10"]){display:flex;width:83.3333333333%}:host([offset="10"]){margin-left:83.3333333333%}:host([offset_right="10"]){margin-right:83.3333333333%}:host([size="11"]){display:flex;width:91.6666666667%}:host([offset="11"]){margin-left:91.6666666667%}:host([offset_right="11"]){margin-right:91.6666666667%}:host([size="12"]){display:flex;width:100%}:host([offset="12"]){margin-left:100%}:host([offset_right="12"]){margin-right:100%}@container (min-width: 300px){:host([size_xs="0"]){display:flex;width:0%}:host([offset_xs="0"]){margin-left:0%}:host([offset_right_xs="0"]){margin-right:0%}:host([size_xs="1"]){display:flex;width:8.3333333333%}:host([offset_xs="1"]){margin-left:8.3333333333%}:host([offset_right_xs="1"]){margin-right:8.3333333333%}:host([size_xs="2"]){display:flex;width:16.6666666667%}:host([offset_xs="2"]){margin-left:16.6666666667%}:host([offset_right_xs="2"]){margin-right:16.6666666667%}:host([size_xs="3"]){display:flex;width:25%}:host([offset_xs="3"]){margin-left:25%}:host([offset_right_xs="3"]){margin-right:25%}:host([size_xs="4"]){display:flex;width:33.3333333333%}:host([offset_xs="4"]){margin-left:33.3333333333%}:host([offset_right_xs="4"]){margin-right:33.3333333333%}:host([size_xs="5"]){display:flex;width:41.6666666667%}:host([offset_xs="5"]){margin-left:41.6666666667%}:host([offset_right_xs="5"]){margin-right:41.6666666667%}:host([size_xs="6"]){display:flex;width:50%}:host([offset_xs="6"]){margin-left:50%}:host([offset_right_xs="6"]){margin-right:50%}:host([size_xs="7"]){display:flex;width:58.3333333333%}:host([offset_xs="7"]){margin-left:58.3333333333%}:host([offset_right_xs="7"]){margin-right:58.3333333333%}:host([size_xs="8"]){display:flex;width:66.6666666667%}:host([offset_xs="8"]){margin-left:66.6666666667%}:host([offset_right_xs="8"]){margin-right:66.6666666667%}:host([size_xs="9"]){display:flex;width:75%}:host([offset_xs="9"]){margin-left:75%}:host([offset_right_xs="9"]){margin-right:75%}:host([size_xs="10"]){display:flex;width:83.3333333333%}:host([offset_xs="10"]){margin-left:83.3333333333%}:host([offset_right_xs="10"]){margin-right:83.3333333333%}:host([size_xs="11"]){display:flex;width:91.6666666667%}:host([offset_xs="11"]){margin-left:91.6666666667%}:host([offset_right_xs="11"]){margin-right:91.6666666667%}:host([size_xs="12"]){display:flex;width:100%}:host([offset_xs="12"]){margin-left:100%}:host([offset_right_xs="12"]){margin-right:100%}}@container (min-width: 540px){:host([size_sm="0"]){display:flex;width:0%}:host([offset_sm="0"]){margin-left:0%}:host([offset_right_sm="0"]){margin-right:0%}:host([size_sm="1"]){display:flex;width:8.3333333333%}:host([offset_sm="1"]){margin-left:8.3333333333%}:host([offset_right_sm="1"]){margin-right:8.3333333333%}:host([size_sm="2"]){display:flex;width:16.6666666667%}:host([offset_sm="2"]){margin-left:16.6666666667%}:host([offset_right_sm="2"]){margin-right:16.6666666667%}:host([size_sm="3"]){display:flex;width:25%}:host([offset_sm="3"]){margin-left:25%}:host([offset_right_sm="3"]){margin-right:25%}:host([size_sm="4"]){display:flex;width:33.3333333333%}:host([offset_sm="4"]){margin-left:33.3333333333%}:host([offset_right_sm="4"]){margin-right:33.3333333333%}:host([size_sm="5"]){display:flex;width:41.6666666667%}:host([offset_sm="5"]){margin-left:41.6666666667%}:host([offset_right_sm="5"]){margin-right:41.6666666667%}:host([size_sm="6"]){display:flex;width:50%}:host([offset_sm="6"]){margin-left:50%}:host([offset_right_sm="6"]){margin-right:50%}:host([size_sm="7"]){display:flex;width:58.3333333333%}:host([offset_sm="7"]){margin-left:58.3333333333%}:host([offset_right_sm="7"]){margin-right:58.3333333333%}:host([size_sm="8"]){display:flex;width:66.6666666667%}:host([offset_sm="8"]){margin-left:66.6666666667%}:host([offset_right_sm="8"]){margin-right:66.6666666667%}:host([size_sm="9"]){display:flex;width:75%}:host([offset_sm="9"]){margin-left:75%}:host([offset_right_sm="9"]){margin-right:75%}:host([size_sm="10"]){display:flex;width:83.3333333333%}:host([offset_sm="10"]){margin-left:83.3333333333%}:host([offset_right_sm="10"]){margin-right:83.3333333333%}:host([size_sm="11"]){display:flex;width:91.6666666667%}:host([offset_sm="11"]){margin-left:91.6666666667%}:host([offset_right_sm="11"]){margin-right:91.6666666667%}:host([size_sm="12"]){display:flex;width:100%}:host([offset_sm="12"]){margin-left:100%}:host([offset_right_sm="12"]){margin-right:100%}}@container (min-width: 720px){:host([size_md="0"]){display:flex;width:0%}:host([offset_md="0"]){margin-left:0%}:host([offset_right_md="0"]){margin-right:0%}:host([size_md="1"]){display:flex;width:8.3333333333%}:host([offset_md="1"]){margin-left:8.3333333333%}:host([offset_right_md="1"]){margin-right:8.3333333333%}:host([size_md="2"]){display:flex;width:16.6666666667%}:host([offset_md="2"]){margin-left:16.6666666667%}:host([offset_right_md="2"]){margin-right:16.6666666667%}:host([size_md="3"]){display:flex;width:25%}:host([offset_md="3"]){margin-left:25%}:host([offset_right_md="3"]){margin-right:25%}:host([size_md="4"]){display:flex;width:33.3333333333%}:host([offset_md="4"]){margin-left:33.3333333333%}:host([offset_right_md="4"]){margin-right:33.3333333333%}:host([size_md="5"]){display:flex;width:41.6666666667%}:host([offset_md="5"]){margin-left:41.6666666667%}:host([offset_right_md="5"]){margin-right:41.6666666667%}:host([size_md="6"]){display:flex;width:50%}:host([offset_md="6"]){margin-left:50%}:host([offset_right_md="6"]){margin-right:50%}:host([size_md="7"]){display:flex;width:58.3333333333%}:host([offset_md="7"]){margin-left:58.3333333333%}:host([offset_right_md="7"]){margin-right:58.3333333333%}:host([size_md="8"]){display:flex;width:66.6666666667%}:host([offset_md="8"]){margin-left:66.6666666667%}:host([offset_right_md="8"]){margin-right:66.6666666667%}:host([size_md="9"]){display:flex;width:75%}:host([offset_md="9"]){margin-left:75%}:host([offset_right_md="9"]){margin-right:75%}:host([size_md="10"]){display:flex;width:83.3333333333%}:host([offset_md="10"]){margin-left:83.3333333333%}:host([offset_right_md="10"]){margin-right:83.3333333333%}:host([size_md="11"]){display:flex;width:91.6666666667%}:host([offset_md="11"]){margin-left:91.6666666667%}:host([offset_right_md="11"]){margin-right:91.6666666667%}:host([size_md="12"]){display:flex;width:100%}:host([offset_md="12"]){margin-left:100%}:host([offset_right_md="12"]){margin-right:100%}}@container (min-width: 960px){:host([size_lg="0"]){display:flex;width:0%}:host([offset_lg="0"]){margin-left:0%}:host([offset_right_lg="0"]){margin-right:0%}:host([size_lg="1"]){display:flex;width:8.3333333333%}:host([offset_lg="1"]){margin-left:8.3333333333%}:host([offset_right_lg="1"]){margin-right:8.3333333333%}:host([size_lg="2"]){display:flex;width:16.6666666667%}:host([offset_lg="2"]){margin-left:16.6666666667%}:host([offset_right_lg="2"]){margin-right:16.6666666667%}:host([size_lg="3"]){display:flex;width:25%}:host([offset_lg="3"]){margin-left:25%}:host([offset_right_lg="3"]){margin-right:25%}:host([size_lg="4"]){display:flex;width:33.3333333333%}:host([offset_lg="4"]){margin-left:33.3333333333%}:host([offset_right_lg="4"]){margin-right:33.3333333333%}:host([size_lg="5"]){display:flex;width:41.6666666667%}:host([offset_lg="5"]){margin-left:41.6666666667%}:host([offset_right_lg="5"]){margin-right:41.6666666667%}:host([size_lg="6"]){display:flex;width:50%}:host([offset_lg="6"]){margin-left:50%}:host([offset_right_lg="6"]){margin-right:50%}:host([size_lg="7"]){display:flex;width:58.3333333333%}:host([offset_lg="7"]){margin-left:58.3333333333%}:host([offset_right_lg="7"]){margin-right:58.3333333333%}:host([size_lg="8"]){display:flex;width:66.6666666667%}:host([offset_lg="8"]){margin-left:66.6666666667%}:host([offset_right_lg="8"]){margin-right:66.6666666667%}:host([size_lg="9"]){display:flex;width:75%}:host([offset_lg="9"]){margin-left:75%}:host([offset_right_lg="9"]){margin-right:75%}:host([size_lg="10"]){display:flex;width:83.3333333333%}:host([offset_lg="10"]){margin-left:83.3333333333%}:host([offset_right_lg="10"]){margin-right:83.3333333333%}:host([size_lg="11"]){display:flex;width:91.6666666667%}:host([offset_lg="11"]){margin-left:91.6666666667%}:host([offset_right_lg="11"]){margin-right:91.6666666667%}:host([size_lg="12"]){display:flex;width:100%}:host([offset_lg="12"]){margin-left:100%}:host([offset_right_lg="12"]){margin-right:100%}}@container (min-width: 1140px){:host([size_xl="0"]){display:flex;width:0%}:host([offset_xl="0"]){margin-left:0%}:host([offset_right_xl="0"]){margin-right:0%}:host([size_xl="1"]){display:flex;width:8.3333333333%}:host([offset_xl="1"]){margin-left:8.3333333333%}:host([offset_right_xl="1"]){margin-right:8.3333333333%}:host([size_xl="2"]){display:flex;width:16.6666666667%}:host([offset_xl="2"]){margin-left:16.6666666667%}:host([offset_right_xl="2"]){margin-right:16.6666666667%}:host([size_xl="3"]){display:flex;width:25%}:host([offset_xl="3"]){margin-left:25%}:host([offset_right_xl="3"]){margin-right:25%}:host([size_xl="4"]){display:flex;width:33.3333333333%}:host([offset_xl="4"]){margin-left:33.3333333333%}:host([offset_right_xl="4"]){margin-right:33.3333333333%}:host([size_xl="5"]){display:flex;width:41.6666666667%}:host([offset_xl="5"]){margin-left:41.6666666667%}:host([offset_right_xl="5"]){margin-right:41.6666666667%}:host([size_xl="6"]){display:flex;width:50%}:host([offset_xl="6"]){margin-left:50%}:host([offset_right_xl="6"]){margin-right:50%}:host([size_xl="7"]){display:flex;width:58.3333333333%}:host([offset_xl="7"]){margin-left:58.3333333333%}:host([offset_right_xl="7"]){margin-right:58.3333333333%}:host([size_xl="8"]){display:flex;width:66.6666666667%}:host([offset_xl="8"]){margin-left:66.6666666667%}:host([offset_right_xl="8"]){margin-right:66.6666666667%}:host([size_xl="9"]){display:flex;width:75%}:host([offset_xl="9"]){margin-left:75%}:host([offset_right_xl="9"]){margin-right:75%}:host([size_xl="10"]){display:flex;width:83.3333333333%}:host([offset_xl="10"]){margin-left:83.3333333333%}:host([offset_right_xl="10"]){margin-right:83.3333333333%}:host([size_xl="11"]){display:flex;width:91.6666666667%}:host([offset_xl="11"]){margin-left:91.6666666667%}:host([offset_right_xl="11"]){margin-right:91.6666666667%}:host([size_xl="12"]){display:flex;width:100%}:host([offset_xl="12"]){margin-left:100%}:host([offset_right_xl="12"]){margin-right:100%}}`;
+    set 'offset_right_xl'(val) { this.setNumberAttr('offset_right_xl', val) }    static __style = `:host{--internal-col-padding:var(--col-padding, 8px)}:host{padding:var(--internal-col-padding)}:host([size="0"]){display:flex;width:0%}:host([offset="0"]){margin-left:0%}:host([offset_right="0"]){margin-right:0%}:host([size="1"]){display:flex;width:8.3333333333%}:host([offset="1"]){margin-left:8.3333333333%}:host([offset_right="1"]){margin-right:8.3333333333%}:host([size="2"]){display:flex;width:16.6666666667%}:host([offset="2"]){margin-left:16.6666666667%}:host([offset_right="2"]){margin-right:16.6666666667%}:host([size="3"]){display:flex;width:25%}:host([offset="3"]){margin-left:25%}:host([offset_right="3"]){margin-right:25%}:host([size="4"]){display:flex;width:33.3333333333%}:host([offset="4"]){margin-left:33.3333333333%}:host([offset_right="4"]){margin-right:33.3333333333%}:host([size="5"]){display:flex;width:41.6666666667%}:host([offset="5"]){margin-left:41.6666666667%}:host([offset_right="5"]){margin-right:41.6666666667%}:host([size="6"]){display:flex;width:50%}:host([offset="6"]){margin-left:50%}:host([offset_right="6"]){margin-right:50%}:host([size="7"]){display:flex;width:58.3333333333%}:host([offset="7"]){margin-left:58.3333333333%}:host([offset_right="7"]){margin-right:58.3333333333%}:host([size="8"]){display:flex;width:66.6666666667%}:host([offset="8"]){margin-left:66.6666666667%}:host([offset_right="8"]){margin-right:66.6666666667%}:host([size="9"]){display:flex;width:75%}:host([offset="9"]){margin-left:75%}:host([offset_right="9"]){margin-right:75%}:host([size="10"]){display:flex;width:83.3333333333%}:host([offset="10"]){margin-left:83.3333333333%}:host([offset_right="10"]){margin-right:83.3333333333%}:host([size="11"]){display:flex;width:91.6666666667%}:host([offset="11"]){margin-left:91.6666666667%}:host([offset_right="11"]){margin-right:91.6666666667%}:host([size="12"]){display:flex;width:100%}:host([offset="12"]){margin-left:100%}:host([offset_right="12"]){margin-right:100%}@container application (min-width: 300px){:host([size_xs="0"]){display:flex;width:0%}:host([offset_xs="0"]){margin-left:0%}:host([offset_right_xs="0"]){margin-right:0%}:host([size_xs="1"]){display:flex;width:8.3333333333%}:host([offset_xs="1"]){margin-left:8.3333333333%}:host([offset_right_xs="1"]){margin-right:8.3333333333%}:host([size_xs="2"]){display:flex;width:16.6666666667%}:host([offset_xs="2"]){margin-left:16.6666666667%}:host([offset_right_xs="2"]){margin-right:16.6666666667%}:host([size_xs="3"]){display:flex;width:25%}:host([offset_xs="3"]){margin-left:25%}:host([offset_right_xs="3"]){margin-right:25%}:host([size_xs="4"]){display:flex;width:33.3333333333%}:host([offset_xs="4"]){margin-left:33.3333333333%}:host([offset_right_xs="4"]){margin-right:33.3333333333%}:host([size_xs="5"]){display:flex;width:41.6666666667%}:host([offset_xs="5"]){margin-left:41.6666666667%}:host([offset_right_xs="5"]){margin-right:41.6666666667%}:host([size_xs="6"]){display:flex;width:50%}:host([offset_xs="6"]){margin-left:50%}:host([offset_right_xs="6"]){margin-right:50%}:host([size_xs="7"]){display:flex;width:58.3333333333%}:host([offset_xs="7"]){margin-left:58.3333333333%}:host([offset_right_xs="7"]){margin-right:58.3333333333%}:host([size_xs="8"]){display:flex;width:66.6666666667%}:host([offset_xs="8"]){margin-left:66.6666666667%}:host([offset_right_xs="8"]){margin-right:66.6666666667%}:host([size_xs="9"]){display:flex;width:75%}:host([offset_xs="9"]){margin-left:75%}:host([offset_right_xs="9"]){margin-right:75%}:host([size_xs="10"]){display:flex;width:83.3333333333%}:host([offset_xs="10"]){margin-left:83.3333333333%}:host([offset_right_xs="10"]){margin-right:83.3333333333%}:host([size_xs="11"]){display:flex;width:91.6666666667%}:host([offset_xs="11"]){margin-left:91.6666666667%}:host([offset_right_xs="11"]){margin-right:91.6666666667%}:host([size_xs="12"]){display:flex;width:100%}:host([offset_xs="12"]){margin-left:100%}:host([offset_right_xs="12"]){margin-right:100%}}@container application (min-width: 540px){:host([size_sm="0"]){display:flex;width:0%}:host([offset_sm="0"]){margin-left:0%}:host([offset_right_sm="0"]){margin-right:0%}:host([size_sm="1"]){display:flex;width:8.3333333333%}:host([offset_sm="1"]){margin-left:8.3333333333%}:host([offset_right_sm="1"]){margin-right:8.3333333333%}:host([size_sm="2"]){display:flex;width:16.6666666667%}:host([offset_sm="2"]){margin-left:16.6666666667%}:host([offset_right_sm="2"]){margin-right:16.6666666667%}:host([size_sm="3"]){display:flex;width:25%}:host([offset_sm="3"]){margin-left:25%}:host([offset_right_sm="3"]){margin-right:25%}:host([size_sm="4"]){display:flex;width:33.3333333333%}:host([offset_sm="4"]){margin-left:33.3333333333%}:host([offset_right_sm="4"]){margin-right:33.3333333333%}:host([size_sm="5"]){display:flex;width:41.6666666667%}:host([offset_sm="5"]){margin-left:41.6666666667%}:host([offset_right_sm="5"]){margin-right:41.6666666667%}:host([size_sm="6"]){display:flex;width:50%}:host([offset_sm="6"]){margin-left:50%}:host([offset_right_sm="6"]){margin-right:50%}:host([size_sm="7"]){display:flex;width:58.3333333333%}:host([offset_sm="7"]){margin-left:58.3333333333%}:host([offset_right_sm="7"]){margin-right:58.3333333333%}:host([size_sm="8"]){display:flex;width:66.6666666667%}:host([offset_sm="8"]){margin-left:66.6666666667%}:host([offset_right_sm="8"]){margin-right:66.6666666667%}:host([size_sm="9"]){display:flex;width:75%}:host([offset_sm="9"]){margin-left:75%}:host([offset_right_sm="9"]){margin-right:75%}:host([size_sm="10"]){display:flex;width:83.3333333333%}:host([offset_sm="10"]){margin-left:83.3333333333%}:host([offset_right_sm="10"]){margin-right:83.3333333333%}:host([size_sm="11"]){display:flex;width:91.6666666667%}:host([offset_sm="11"]){margin-left:91.6666666667%}:host([offset_right_sm="11"]){margin-right:91.6666666667%}:host([size_sm="12"]){display:flex;width:100%}:host([offset_sm="12"]){margin-left:100%}:host([offset_right_sm="12"]){margin-right:100%}}@container application (min-width: 720px){:host([size_md="0"]){display:flex;width:0%}:host([offset_md="0"]){margin-left:0%}:host([offset_right_md="0"]){margin-right:0%}:host([size_md="1"]){display:flex;width:8.3333333333%}:host([offset_md="1"]){margin-left:8.3333333333%}:host([offset_right_md="1"]){margin-right:8.3333333333%}:host([size_md="2"]){display:flex;width:16.6666666667%}:host([offset_md="2"]){margin-left:16.6666666667%}:host([offset_right_md="2"]){margin-right:16.6666666667%}:host([size_md="3"]){display:flex;width:25%}:host([offset_md="3"]){margin-left:25%}:host([offset_right_md="3"]){margin-right:25%}:host([size_md="4"]){display:flex;width:33.3333333333%}:host([offset_md="4"]){margin-left:33.3333333333%}:host([offset_right_md="4"]){margin-right:33.3333333333%}:host([size_md="5"]){display:flex;width:41.6666666667%}:host([offset_md="5"]){margin-left:41.6666666667%}:host([offset_right_md="5"]){margin-right:41.6666666667%}:host([size_md="6"]){display:flex;width:50%}:host([offset_md="6"]){margin-left:50%}:host([offset_right_md="6"]){margin-right:50%}:host([size_md="7"]){display:flex;width:58.3333333333%}:host([offset_md="7"]){margin-left:58.3333333333%}:host([offset_right_md="7"]){margin-right:58.3333333333%}:host([size_md="8"]){display:flex;width:66.6666666667%}:host([offset_md="8"]){margin-left:66.6666666667%}:host([offset_right_md="8"]){margin-right:66.6666666667%}:host([size_md="9"]){display:flex;width:75%}:host([offset_md="9"]){margin-left:75%}:host([offset_right_md="9"]){margin-right:75%}:host([size_md="10"]){display:flex;width:83.3333333333%}:host([offset_md="10"]){margin-left:83.3333333333%}:host([offset_right_md="10"]){margin-right:83.3333333333%}:host([size_md="11"]){display:flex;width:91.6666666667%}:host([offset_md="11"]){margin-left:91.6666666667%}:host([offset_right_md="11"]){margin-right:91.6666666667%}:host([size_md="12"]){display:flex;width:100%}:host([offset_md="12"]){margin-left:100%}:host([offset_right_md="12"]){margin-right:100%}}@container application (min-width: 960px){:host([size_lg="0"]){display:flex;width:0%}:host([offset_lg="0"]){margin-left:0%}:host([offset_right_lg="0"]){margin-right:0%}:host([size_lg="1"]){display:flex;width:8.3333333333%}:host([offset_lg="1"]){margin-left:8.3333333333%}:host([offset_right_lg="1"]){margin-right:8.3333333333%}:host([size_lg="2"]){display:flex;width:16.6666666667%}:host([offset_lg="2"]){margin-left:16.6666666667%}:host([offset_right_lg="2"]){margin-right:16.6666666667%}:host([size_lg="3"]){display:flex;width:25%}:host([offset_lg="3"]){margin-left:25%}:host([offset_right_lg="3"]){margin-right:25%}:host([size_lg="4"]){display:flex;width:33.3333333333%}:host([offset_lg="4"]){margin-left:33.3333333333%}:host([offset_right_lg="4"]){margin-right:33.3333333333%}:host([size_lg="5"]){display:flex;width:41.6666666667%}:host([offset_lg="5"]){margin-left:41.6666666667%}:host([offset_right_lg="5"]){margin-right:41.6666666667%}:host([size_lg="6"]){display:flex;width:50%}:host([offset_lg="6"]){margin-left:50%}:host([offset_right_lg="6"]){margin-right:50%}:host([size_lg="7"]){display:flex;width:58.3333333333%}:host([offset_lg="7"]){margin-left:58.3333333333%}:host([offset_right_lg="7"]){margin-right:58.3333333333%}:host([size_lg="8"]){display:flex;width:66.6666666667%}:host([offset_lg="8"]){margin-left:66.6666666667%}:host([offset_right_lg="8"]){margin-right:66.6666666667%}:host([size_lg="9"]){display:flex;width:75%}:host([offset_lg="9"]){margin-left:75%}:host([offset_right_lg="9"]){margin-right:75%}:host([size_lg="10"]){display:flex;width:83.3333333333%}:host([offset_lg="10"]){margin-left:83.3333333333%}:host([offset_right_lg="10"]){margin-right:83.3333333333%}:host([size_lg="11"]){display:flex;width:91.6666666667%}:host([offset_lg="11"]){margin-left:91.6666666667%}:host([offset_right_lg="11"]){margin-right:91.6666666667%}:host([size_lg="12"]){display:flex;width:100%}:host([offset_lg="12"]){margin-left:100%}:host([offset_right_lg="12"]){margin-right:100%}}@container application (min-width: 1140px){:host([size_xl="0"]){display:flex;width:0%}:host([offset_xl="0"]){margin-left:0%}:host([offset_right_xl="0"]){margin-right:0%}:host([size_xl="1"]){display:flex;width:8.3333333333%}:host([offset_xl="1"]){margin-left:8.3333333333%}:host([offset_right_xl="1"]){margin-right:8.3333333333%}:host([size_xl="2"]){display:flex;width:16.6666666667%}:host([offset_xl="2"]){margin-left:16.6666666667%}:host([offset_right_xl="2"]){margin-right:16.6666666667%}:host([size_xl="3"]){display:flex;width:25%}:host([offset_xl="3"]){margin-left:25%}:host([offset_right_xl="3"]){margin-right:25%}:host([size_xl="4"]){display:flex;width:33.3333333333%}:host([offset_xl="4"]){margin-left:33.3333333333%}:host([offset_right_xl="4"]){margin-right:33.3333333333%}:host([size_xl="5"]){display:flex;width:41.6666666667%}:host([offset_xl="5"]){margin-left:41.6666666667%}:host([offset_right_xl="5"]){margin-right:41.6666666667%}:host([size_xl="6"]){display:flex;width:50%}:host([offset_xl="6"]){margin-left:50%}:host([offset_right_xl="6"]){margin-right:50%}:host([size_xl="7"]){display:flex;width:58.3333333333%}:host([offset_xl="7"]){margin-left:58.3333333333%}:host([offset_right_xl="7"]){margin-right:58.3333333333%}:host([size_xl="8"]){display:flex;width:66.6666666667%}:host([offset_xl="8"]){margin-left:66.6666666667%}:host([offset_right_xl="8"]){margin-right:66.6666666667%}:host([size_xl="9"]){display:flex;width:75%}:host([offset_xl="9"]){margin-left:75%}:host([offset_right_xl="9"]){margin-right:75%}:host([size_xl="10"]){display:flex;width:83.3333333333%}:host([offset_xl="10"]){margin-left:83.3333333333%}:host([offset_right_xl="10"]){margin-right:83.3333333333%}:host([size_xl="11"]){display:flex;width:91.6666666667%}:host([offset_xl="11"]){margin-left:91.6666666667%}:host([offset_right_xl="11"]){margin-right:91.6666666667%}:host([size_xl="12"]){display:flex;width:100%}:host([offset_xl="12"]){margin-left:100%}:host([offset_right_xl="12"]){margin-right:100%}}`;
     __getStatic() {
         return Col;
     }
@@ -352,11 +443,14 @@ _.Components.Img=Components.Img;
 if(!window.customElements.get('rk-img')){window.customElements.define('rk-img', Components.Img);Aventus.WebComponentInstance.registerDefinition(Components.Img);}
 
 Components.Switch = class Switch extends Aventus.WebComponent {
-    static get observedAttributes() {return ["label", "disabled"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    static get observedAttributes() {return ["label", "disabled", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'label_end'() { return this.getBoolAttr('label_end') }
     set 'label_end'(val) { this.setBoolAttr('label_end', val) }    get 'label'() { return this.getStringProp('label') }
     set 'label'(val) { this.setStringAttr('label', val) }get 'disabled'() { return this.getBoolProp('disabled') }
-    set 'disabled'(val) { this.setBoolAttr('disabled', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("disabled", ((target) => {
+    set 'disabled'(val) { this.setBoolAttr('disabled', val) }get 'checked'() { return this.getBoolProp('checked') }
+    set 'checked'(val) { this.setBoolAttr('checked', val) }    onChange = new Aventus.Callback();
+    value = false;
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("disabled", ((target) => {
     if (target.checkboxEl) {
         if (target.disabled === undefined) {
             target.checkboxEl.disabled = false;
@@ -365,6 +459,9 @@ Components.Switch = class Switch extends Aventus.WebComponent {
             target.checkboxEl.disabled = target.disabled;
         }
     }
+}));this.__addPropertyActions("checked", ((target) => {
+    target.value = target.checked;
+    target.checkboxEl.checked = target.checked;
 })); }
     static __style = `:host{--_switch-background-color: var(--switch-background-color, var(--form-element-background, white));--_switch-dot-size: var(--switch-dot-size, 20px);--_switch-dot-color: var(--switch-dot-color, var(--secondary-color));--_switch-active-dot-color: var(--switch-active-dot-color, var(--secondary-color-active));--_switch-active-background-color: var(--switch-active-background-color, var(--secondary-color));--_switch-font-size: var(--switch-font-size, var(--form-element-font-size, 16px));--_switch-font-size-label: var(--switch-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)))}:host{align-items:center;display:flex;font-size:var(--_switch-font-size);width:100%;min-height:var(--_switch-dot-size)}:host .label:not(:empty){cursor:pointer;margin-right:30px;transition:filter .3s var(--bezier-curve);font-size:var(--_switch-font-size-label)}:host .bar{align-items:center;background-color:var(--_switch-background-color);border-radius:10px;cursor:pointer;display:flex;height:10px;position:relative;transition:filter .3s var(--bezier-curve);width:30px}:host .bar input{appearance:none;background-color:rgba(0,0,0,0);border:0;cursor:pointer;height:100%;left:0;margin:0;outline:none;padding:0;position:absolute;top:0;width:100%}:host .bar .bar-content{align-items:center;background-color:rgba(0,0,0,0);display:flex;height:100%;pointer-events:none;position:relative;width:100%}:host .bar .bar-content .dot{background-color:var(--_switch-dot-color);border-radius:50%;box-shadow:none;cursor:pointer;height:var(--_switch-dot-size);left:0%;pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_switch-dot-size)}:host .bar .bar-content .bar-fill{background-color:var(--_switch-active-background-color);border-radius:100px;height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:0%}:host .bar input:checked+.bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host .bar input:checked+.bar-content .bar-fill{width:100%}:host([label_end]) .label:not(:empty){margin-left:30px;margin-right:0px;order:2}:host([disabled]) .bar{cursor:not-allowed;filter:brightness(0.75)}:host([disabled]) .bar input{cursor:not-allowed}:host([disabled]) .bar .bar-content .dot{cursor:not-allowed}:host([disabled]) .label{cursor:default;filter:brightness(0.75)}`;
     __getStatic() {
@@ -405,14 +502,14 @@ Components.Switch = class Switch extends Aventus.WebComponent {
     getClassName() {
         return "Switch";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label_end')) { this.attributeChangedCallback('label_end', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label_end');this.__upgradeProperty('label');this.__upgradeProperty('disabled'); }
-    __listBoolProps() { return ["label_end","disabled"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label_end')) { this.attributeChangedCallback('label_end', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('checked')) { this.attributeChangedCallback('checked', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label_end');this.__upgradeProperty('label');this.__upgradeProperty('disabled');this.__upgradeProperty('checked'); }
+    __listBoolProps() { return ["label_end","disabled","checked"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     toggleActive() {
         if (this.disabled)
             return;
-        if (this.checkboxEl)
-            this.checkboxEl.checked = !this.checkboxEl.checked;
+        this.checked = !this.checked;
+        this.onChange.trigger([this.checked]);
     }
     __0c8ab707a91de23d54bc9c39ebe1aeafmethod0() {
         return this.label;
@@ -423,8 +520,27 @@ Components.Switch.Tag=`rk-switch`;
 _.Components.Switch=Components.Switch;
 if(!window.customElements.get('rk-switch')){window.customElements.define('rk-switch', Components.Switch);Aventus.WebComponentInstance.registerDefinition(Components.Switch);}
 
-const Slider = class Slider extends Aventus.WebComponent {
-    static __style = ``;
+Components.Slider = class Slider extends Aventus.WebComponent {
+    static get observedAttributes() {return ["label", "min", "max", "value", "step"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'popup'() { return this.getStringAttr('popup') }
+    set 'popup'(val) { this.setStringAttr('popup', val) }get 'no_transition'() { return this.getBoolAttr('no_transition') }
+    set 'no_transition'(val) { this.setBoolAttr('no_transition', val) }get 'popup_visible'() { return this.getBoolAttr('popup_visible') }
+    set 'popup_visible'(val) { this.setBoolAttr('popup_visible', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'min'() { return this.getNumberProp('min') }
+    set 'min'(val) { this.setNumberAttr('min', val) }get 'max'() { return this.getNumberProp('max') }
+    set 'max'(val) { this.setNumberAttr('max', val) }get 'value'() { return this.getNumberProp('value') }
+    set 'value'(val) { this.setNumberAttr('value', val) }get 'step'() { return this.getNumberProp('step') }
+    set 'step'(val) { this.setNumberAttr('step', val) }    currentPercent = 0;
+    timerPopup = 0;
+    onChange = new Aventus.Callback();
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("min", ((target) => {
+    target.calculatePercent();
+}));this.__addPropertyActions("max", ((target) => {
+    target.calculatePercent();
+}));this.__addPropertyActions("value", ((target) => {
+    target.calculatePercent();
+})); }
+    static __style = `:host{--_slider-background-color: var(--slider-background-color, var(--form-element-background, white));--_slider-active-background-color: var(--slider-active-background-color, var(--secondary-color-active));--_slider-dot-color: var(--slider-dot-color, var(--secondary-color));--_slider-dot-size: var(--slider-dot-size, var(--form-element-font-size, 16px));--_slider-popup-font-size: var(--slider-popup-font-size, var(--font-size-sm));--_slider-font-size-label: var(--slider-font-size-label, var(--form-element-font-size-label));--local-slider-dot-percent: 0%}:host{align-items:center;display:flex;height:var(--_slider-dot-size);min-width:100px;width:100%;flex-direction:column}:host label{display:none;font-size:var(--_slider-font-size-label);margin-bottom:5px;margin-left:3px;width:100%;flex-shrink:0}:host .bar{align-items:center;background-color:var(--_slider-background-color);border-radius:10px;cursor:pointer;display:flex;flex-direction:row;height:5px;position:relative;width:100%;flex-shrink:0}:host .bar .bar-fill{background-color:var(--_slider-active-background-color);border-radius:100px;height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:var(--local-slider-dot-percent)}:host .bar .dot{background-color:var(--_slider-dot-color);border-radius:50%;box-shadow:var(--elevation-2);cursor:pointer;height:var(--_slider-dot-size);left:var(--local-slider-dot-percent);pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_slider-dot-size)}:host .bar .value{background-color:var(--_slider-dot-color);border-radius:5px;box-shadow:var(--elevation-2);font-size:var(--_slider-popup-font-size);left:var(--local-slider-dot-percent);opacity:0;padding:5px 10px;padding-bottom:2px;position:absolute;top:0;transform:translateY(calc(-100% - 12px)) translateX(-50%);transform-origin:center center;transition:left var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s;visibility:hidden}:host .bar .value::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:8px solid var(--_slider-dot-color);bottom:-7px;content:"";left:50%;position:absolute;transform:translateX(-50%)}:host([no_transition]) .bar .bar-fill{transition:none}:host([no_transition]) .bar .dot{transition:none}:host([no_transition]) .bar .value{transition:opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s}:host([popup_visible]) .bar .value{opacity:1;visibility:visible}:host([label]:not([label=""])) label{display:flex}`;
     __getStatic() {
         return Slider;
     }
@@ -435,25 +551,225 @@ const Slider = class Slider extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<label for="element" class="label" _id="slider_0"></label><div class="bar" _id="slider_1">    <div class="value" part="popup" _id="slider_2"></div>    <div class="bar-fill"></div>    <div class="dot" _id="slider_3"></div></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "barEl",
+      "ids": [
+        "slider_1"
+      ]
+    },
+    {
+      "name": "dotEl",
+      "ids": [
+        "slider_3"
+      ]
+    }
+  ],
+  "content": {
+    "slider_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__2a6eb0eb8efd251816e4040a1af5645dmethod0())}`,
+      "once": true
+    },
+    "slider_2°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__2a6eb0eb8efd251816e4040a1af5645dmethod1())}`,
+      "once": true
+    }
+  }
+}); }
+    getClassName() {
+        return "Slider";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('popup')){ this['popup'] = 'never'; }if(!this.hasAttribute('no_transition')) { this.attributeChangedCallback('no_transition', false, false); }if(!this.hasAttribute('popup_visible')) { this.attributeChangedCallback('popup_visible', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('min')){ this['min'] = 0; }if(!this.hasAttribute('max')){ this['max'] = 100; }if(!this.hasAttribute('value')){ this['value'] = 0; }if(!this.hasAttribute('step')){ this['step'] = 1; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('popup');this.__upgradeProperty('no_transition');this.__upgradeProperty('popup_visible');this.__upgradeProperty('label');this.__upgradeProperty('min');this.__upgradeProperty('max');this.__upgradeProperty('value');this.__upgradeProperty('step'); }
+    __listBoolProps() { return ["no_transition","popup_visible"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    addMoveDot() {
+        let startX = 0;
+        let currentPosition = 0;
+        new Aventus.DragAndDrop({
+            element: this.dotEl,
+            applyDrag: false,
+            offsetDrag: 0,
+            onPointerDown: () => {
+                this.no_transition = true;
+                if (this.popup == "onMove") {
+                    clearTimeout(this.timerPopup);
+                    this.popup_visible = true;
+                }
+            },
+            onStart: (e) => {
+                startX = e.pageX;
+                currentPosition = this.dotEl.offsetLeft;
+            },
+            onMove: (e) => {
+                let diff = startX - e.pageX;
+                let newPosition = currentPosition - diff;
+                let percent = newPosition / this.offsetWidth * 100;
+                this.setPercent(percent);
+                this.calculateValue();
+            },
+            onPointerUp: () => {
+                this.no_transition = false;
+                if (this.popup == "onMove") {
+                    this.timerPopup = setTimeout(() => {
+                        this.popup_visible = false;
+                    }, 1000);
+                }
+            }
+        });
+    }
+    addClickBar() {
+        new Aventus.PressManager({
+            element: this.barEl,
+            onPress: (e) => {
+                let left = this.getBoundingClientRect().left;
+                let newPosition = e.pageX - left;
+                let percent = newPosition / this.offsetWidth * 100;
+                this.setPercent(percent);
+                this.calculateValue();
+                if (this.popup == "onMove") {
+                    clearTimeout(this.timerPopup);
+                    this.timerPopup = setTimeout(() => {
+                        this.popup_visible = false;
+                    }, 1000);
+                    this.popup_visible = true;
+                }
+            }
+        });
+    }
+    calculatePercent() {
+        if (!this.isConnected)
+            return;
+        let range = this.max - this.min;
+        let percent = (this.value - this.min) / range * 100;
+        this.setPercent(percent);
+    }
+    calculateValue(emit = true) {
+        let range = this.max - this.min;
+        let value = (range * this.currentPercent / 100) + this.min;
+        let diff = value % this.step;
+        if (diff > this.step / 2) {
+            value += (this.step - diff);
+        }
+        else {
+            value -= diff;
+        }
+        if (value != this.value) {
+            this.value = value;
+            if (emit) {
+                this.onChange.trigger([value]);
+            }
+        }
+    }
+    setPercent(percent) {
+        if (percent < 0) {
+            percent = 0;
+        }
+        else if (percent > 100) {
+            percent = 100;
+        }
+        // correct step
+        let range = this.max - this.min;
+        let value = (range * percent / 100) + this.min;
+        let diff = value % this.step;
+        if (diff > this.step / 2) {
+            value += (this.step - diff);
+        }
+        else {
+            value -= diff;
+        }
+        percent = (value - this.min) / range * 100;
+        this.currentPercent = percent;
+        this.style.setProperty("--local-slider-dot-percent", percent + "%");
+    }
+    postCreation() {
+        super.postCreation();
+        this.addMoveDot();
+        this.addClickBar();
+        this.calculatePercent();
+        this.calculateValue(false);
+        if (this.popup == 'always') {
+            this.popup_visible = true;
+        }
+    }
+    __2a6eb0eb8efd251816e4040a1af5645dmethod0() {
+        return this.label;
+    }
+    __2a6eb0eb8efd251816e4040a1af5645dmethod1() {
+        return this.value;
+    }
+}
+Components.Slider.Namespace=`${moduleName}.Components`;
+Components.Slider.Tag=`rk-slider`;
+_.Components.Slider=Components.Slider;
+if(!window.customElements.get('rk-slider')){window.customElements.define('rk-slider', Components.Slider);Aventus.WebComponentInstance.registerDefinition(Components.Slider);}
+
+Components.BoxContainer = class BoxContainer extends Aventus.WebComponent {
+    static get observedAttributes() {return ["space"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'space'() { return this.getNumberProp('space') }
+    set 'space'(val) { this.setNumberAttr('space', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("space", ((target) => {
+    target.style.setProperty("--item-box-margin", target.space + 'px');
+})); }
+    static __style = `:host{--_item-box-box-size: var(--item-box-box-size, 16px);--_item-box-border-radius: var(--item-box-border-radius, 4px);--_item-box-border-color: var(--item-box-border-color, var(--secondary-color, #afafaf))}:host{align-items:center;box-sizing:border-box;display:flex;flex-direction:row;height:var(--_item-box-box-size);justify-content:center}:host ::slotted(*){border:1px solid var(--_item-box-border-color);border-radius:4px;width:var(--_item-box-box-size);max-height:var(--_item-box-box-size);max-width:var(--_item-box-box-size)}:host ::slotted(*:first-child){margin-left:0}:host ::slotted(*:last-child){margin-right:0}:host([space="0"]){border:1px solid var(--_item-box-border-color);border-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*){border:none;border-radius:0px;border-right:1px solid var(--_item-box-border-color);width:var(--_item-box-box-size)}:host([space="0"]) ::slotted(*:first-child){border-bottom-left-radius:var(--_item-box-border-radius);border-top-left-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*:last-child){border-bottom-right-radius:var(--_item-box-border-radius);border-right:none;border-top-right-radius:var(--_item-box-border-radius)}`;
+    __getStatic() {
+        return BoxContainer;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(BoxContainer.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
     });
 }
     getClassName() {
-        return "Slider";
+        return "BoxContainer";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('space')){ this['space'] = 0; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('space'); }
+}
+Components.BoxContainer.Namespace=`${moduleName}.Components`;
+Components.BoxContainer.Tag=`rk-box-container`;
+_.Components.BoxContainer=Components.BoxContainer;
+if(!window.customElements.get('rk-box-container')){window.customElements.define('rk-box-container', Components.BoxContainer);Aventus.WebComponentInstance.registerDefinition(Components.BoxContainer);}
+
+Components.ItemBox = class ItemBox extends Aventus.WebComponent {
+    static __style = `:host{--_item-box-margin: var(--item-box-margin, 0)}:host{display:flex;height:100%;align-items:center;justify-content:center;flex-direction:row;box-sizing:border-box;overflow:hidden;margin-left:var(--_item-box-margin);margin-right:var(--_item-box-margin)}:host ::slotted(*){max-height:var(--_item-box-box-size);max-width:var(--_item-box-box-size)}`;
+    __getStatic() {
+        return ItemBox;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(ItemBox.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "ItemBox";
     }
 }
-Slider.Namespace=`${moduleName}`;
-Slider.Tag=`rk-slider`;
-_.Slider=Slider;
-if(!window.customElements.get('rk-slider')){window.customElements.define('rk-slider', Slider);Aventus.WebComponentInstance.registerDefinition(Slider);}
+Components.ItemBox.Namespace=`${moduleName}.Components`;
+Components.ItemBox.Tag=`rk-item-box`;
+_.Components.ItemBox=Components.ItemBox;
+if(!window.customElements.get('rk-item-box')){window.customElements.define('rk-item-box', Components.ItemBox);Aventus.WebComponentInstance.registerDefinition(Components.ItemBox);}
 
-const OptionsContainer = class OptionsContainer extends Aventus.WebComponent {
+Components.OptionsContainer = class OptionsContainer extends Aventus.WebComponent {
     get 'open'() { return this.getBoolAttr('open') }
     set 'open'(val) { this.setBoolAttr('open', val) }    select;
     onOpen = new Aventus.Callback();
     isAnimating = false;
-    static __style = `:host{--_options-container-background: var(--options-container-background, var(--form-element-background, white));--_options-container-border-radius: var(--options-container-border-radius, var(--form-element-border-radius, 0));--_options-container-box-shadow: var(--options-container-box-shadow, var(--elevation-2))}:host{background-color:var(--_options-container-background);border-radius:var(--_options-container-border-radius);box-shadow:var(--_options-container-box-shadow);display:grid;grid-template-rows:0fr;left:0;overflow:hidden;position:absolute;top:0;transition:.3s var(--bezier-curve) grid-template-rows;z-index:800}:host rk-scrollable .container{display:flex;flex-direction:column}:host([open]){grid-template-rows:1fr}`;
+    static __style = `:host{--_options-container-background: var(--options-container-background, var(--form-element-background, white));--_options-container-border-radius: var(--options-container-border-radius, var(--form-element-border-radius, 0));--_options-container-box-shadow: var(--options-container-box-shadow, var(--elevation-2))}:host{background-color:var(--_options-container-background);border-radius:var(--_options-container-border-radius);box-shadow:var(--_options-container-box-shadow);display:grid;grid-template-rows:0fr;left:0;overflow:hidden;position:absolute;top:0;transition:.2s var(--bezier-curve) grid-template-rows;z-index:800}:host rk-scrollable .container{display:flex;flex-direction:column}:host([open]){grid-template-rows:1fr}`;
     __getStatic() {
         return OptionsContainer;
     }
@@ -482,8 +798,9 @@ const OptionsContainer = class OptionsContainer extends Aventus.WebComponent {
             container = document.body;
         }
         let box = this.select.getBoundingClientRect();
+        let boxInput = this.select.inputEl.getBoundingClientRect();
         let contBox = container.getBoundingClientRect();
-        let newTop = box.top + box.height + 2;
+        let newTop = boxInput.top + boxInput.height + 2;
         let maxHeight = contBox.height - newTop - 10;
         this.style.width = box.width + 'px';
         this.style.top = newTop + 'px';
@@ -511,12 +828,12 @@ const OptionsContainer = class OptionsContainer extends Aventus.WebComponent {
         this.setAttribute("tabindex", "-1");
     }
 }
-OptionsContainer.Namespace=`${moduleName}`;
-OptionsContainer.Tag=`rk-options-container`;
-_.OptionsContainer=OptionsContainer;
-if(!window.customElements.get('rk-options-container')){window.customElements.define('rk-options-container', OptionsContainer);Aventus.WebComponentInstance.registerDefinition(OptionsContainer);}
+Components.OptionsContainer.Namespace=`${moduleName}.Components`;
+Components.OptionsContainer.Tag=`rk-options-container`;
+_.Components.OptionsContainer=Components.OptionsContainer;
+if(!window.customElements.get('rk-options-container')){window.customElements.define('rk-options-container', Components.OptionsContainer);Aventus.WebComponentInstance.registerDefinition(Components.OptionsContainer);}
 
-const InputFile = class InputFile extends Aventus.WebComponent {
+Components.InputFile = class InputFile extends Aventus.WebComponent {
     static __style = ``;
     __getStatic() {
         return InputFile;
@@ -536,10 +853,10 @@ const InputFile = class InputFile extends Aventus.WebComponent {
         return "InputFile";
     }
 }
-InputFile.Namespace=`${moduleName}`;
-InputFile.Tag=`rk-input-file`;
-_.InputFile=InputFile;
-if(!window.customElements.get('rk-input-file')){window.customElements.define('rk-input-file', InputFile);Aventus.WebComponentInstance.registerDefinition(InputFile);}
+Components.InputFile.Namespace=`${moduleName}.Components`;
+Components.InputFile.Tag=`rk-input-file`;
+_.Components.InputFile=Components.InputFile;
+if(!window.customElements.get('rk-input-file')){window.customElements.define('rk-input-file', Components.InputFile);Aventus.WebComponentInstance.registerDefinition(Components.InputFile);}
 
 Components.Input = class Input extends Aventus.WebComponent {
     static get observedAttributes() {return ["label", "placeholder", "icon", "value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -553,7 +870,7 @@ Components.Input = class Input extends Aventus.WebComponent {
 					}
 					set 'errors'(val) {
 						this.__watch["errors"] = val;
-					}    change = new Aventus.Callback();
+					}    onChange = new Aventus.Callback();
     __registerWatchesActions() {
     this.__addWatchesActions("errors", ((target) => {
     target.has_errors = target.errors.length > 0;
@@ -634,7 +951,7 @@ Components.Input = class Input extends Aventus.WebComponent {
     }
     onValueChange() {
         this.value = this.inputEl.value;
-        this.change.trigger([this.value]);
+        this.onChange.trigger([this.value]);
     }
     __7b4688f1d13a935f88db2286094e0088method1() {
         return this.label;
@@ -679,7 +996,7 @@ Components.Form.Tag=`rk-form`;
 _.Components.Form=Components.Form;
 if(!window.customElements.get('rk-form')){window.customElements.define('rk-form', Components.Form);Aventus.WebComponentInstance.registerDefinition(Components.Form);}
 
-const Checkbox = class Checkbox extends Aventus.WebComponent {
+Components.Checkbox = class Checkbox extends Aventus.WebComponent {
     static get observedAttributes() {return ["label", "placeholder", "icon", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'has_errors'() { return this.getBoolAttr('has_errors') }
     set 'has_errors'(val) { this.setBoolAttr('has_errors', val) }get 'left_label'() { return this.getBoolAttr('left_label') }
@@ -692,7 +1009,7 @@ const Checkbox = class Checkbox extends Aventus.WebComponent {
 					}
 					set 'errors'(val) {
 						this.__watch["errors"] = val;
-					}    change = new Aventus.Callback();
+					}    onChange = new Aventus.Callback();
     value = false;
     __registerWatchesActions() {
     this.__addWatchesActions("errors", ((target) => {
@@ -719,7 +1036,7 @@ const Checkbox = class Checkbox extends Aventus.WebComponent {
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "content": {
     "checkbox_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__2cfdf8fd10120aa1e4ec39d8ec2b0151method0())}`,
+      "fct": (c) => `${c.print(c.comp.__ab411575f51bcaf15868d94c774ac9c3method0())}`,
       "once": true
     }
   }
@@ -740,18 +1057,18 @@ const Checkbox = class Checkbox extends Aventus.WebComponent {
             onPress: () => {
                 this.removeErrors();
                 this.checked = !this.checked;
-                this.change.trigger([this.checked]);
+                this.onChange.trigger([this.checked]);
             }
         });
     }
-    __2cfdf8fd10120aa1e4ec39d8ec2b0151method0() {
+    __ab411575f51bcaf15868d94c774ac9c3method0() {
         return this.label;
     }
 }
-Checkbox.Namespace=`${moduleName}`;
-Checkbox.Tag=`rk-checkbox`;
-_.Checkbox=Checkbox;
-if(!window.customElements.get('rk-checkbox')){window.customElements.define('rk-checkbox', Checkbox);Aventus.WebComponentInstance.registerDefinition(Checkbox);}
+Components.Checkbox.Namespace=`${moduleName}.Components`;
+Components.Checkbox.Tag=`rk-checkbox`;
+_.Components.Checkbox=Components.Checkbox;
+if(!window.customElements.get('rk-checkbox')){window.customElements.define('rk-checkbox', Components.Checkbox);Aventus.WebComponentInstance.registerDefinition(Components.Checkbox);}
 
 Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -805,7 +1122,7 @@ Components.Button = class Button extends Aventus.WebComponent {
     set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
     target.icon_before = target.icon;
 })); }
-    static __style = `:host{--internal-button-background-color: var(--button-background-color);--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent)}:host{background-color:var(--internal-button-background-color);border-radius:5px;box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;overflow:hidden;position:relative}:host .hider{background-color:var(--darker);inset:0;opacity:0;position:absolute;transform:opacity .3 var(--bezier-curve);z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:hover) .hider{opacity:1}}`;
+    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent)}:host{background-color:var(--internal-button-background-color);border-radius:5px;box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;overflow:hidden;position:relative}:host .hider{background-color:var(--_button-background-color-hover);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:hover) .hider{opacity:1;visibility:visible}}`;
     __getStatic() {
         return Button;
     }
@@ -1497,7 +1814,7 @@ Lib.ApplicationStorableState=class ApplicationStorableState extends Lib.Applicat
 }
 Lib.ApplicationStorableState.Namespace=`${moduleName}.Lib`;Aventus.Converter.register(Lib.ApplicationStorableState.Fullname, Lib.ApplicationStorableState);
 _.Lib.ApplicationStorableState=Lib.ApplicationStorableState;
-System.Frame = class Frame extends Aventus.WebComponent {
+System.FrameNoScroll = class FrameNoScroll extends Aventus.WebComponent {
     static get observedAttributes() {return ["visible"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'visible'() { return this.getBoolProp('visible') }
     set 'visible'(val) { this.setBoolAttr('visible', val) }    application;
@@ -1510,13 +1827,13 @@ System.Frame = class Frame extends Aventus.WebComponent {
     }
 })); }
     static __style = `:host{width:100%;height:100%;display:none}:host([visible]){display:block}`;
-    constructor() { super(); if (this.constructor == Frame) { throw "can't instanciate an abstract class"; } }
+    constructor() { super(); if (this.constructor == FrameNoScroll) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
-        return Frame;
+        return FrameNoScroll;
     }
     __getStyle() {
         let arrStyle = super.__getStyle();
-        arrStyle.push(Frame.__style);
+        arrStyle.push(FrameNoScroll.__style);
         return arrStyle;
     }
     __getHtml() {
@@ -1526,7 +1843,7 @@ System.Frame = class Frame extends Aventus.WebComponent {
     });
 }
     getClassName() {
-        return "Frame";
+        return "FrameNoScroll";
     }
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); } }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible'); }
@@ -1537,40 +1854,36 @@ System.Frame = class Frame extends Aventus.WebComponent {
     async hide() {
         this.visible = false;
     }
+    async askChange(newState) {
+        return true;
+    }
 }
-System.Frame.Namespace=`${moduleName}.System`;
-_.System.Frame=System.Frame;
+System.FrameNoScroll.Namespace=`${moduleName}.System`;
+_.System.FrameNoScroll=System.FrameNoScroll;
 
-System.Frame404 = class Frame404 extends System.Frame {
-    static __style = ``;
+System.Frame = class Frame extends System.FrameNoScroll {
+    static __style = `:host rk-scrollable{--scrollbar-content-padding: 0 15px}`;
+    constructor() { super(); if (this.constructor == Frame) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
-        return Frame404;
+        return Frame;
     }
     __getStyle() {
         let arrStyle = super.__getStyle();
-        arrStyle.push(Frame404.__style);
+        arrStyle.push(Frame.__style);
         return arrStyle;
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<p>Erreur 404</p>` }
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<rk-scrollable floating_scroll class="main-scroll">    <slot></slot></rk-scrollable>` }
     });
 }
     getClassName() {
-        return "Frame404";
-    }
-    pageTitle() {
-        return "Page not found";
-    }
-    onShow() {
-    }
-    onHide() {
+        return "Frame";
     }
 }
-System.Frame404.Namespace=`${moduleName}.System`;
-System.Frame404.Tag=`rk-frame-404`;
-_.System.Frame404=System.Frame404;
-if(!window.customElements.get('rk-frame-404')){window.customElements.define('rk-frame-404', System.Frame404);Aventus.WebComponentInstance.registerDefinition(System.Frame404);}
+System.Frame.Namespace=`${moduleName}.System`;
+_.System.Frame=System.Frame;
 
 (function (ResizeDirection) {
     ResizeDirection[ResizeDirection["Top"] = 0] = "Top";
@@ -1594,7 +1907,7 @@ Data.User=class User extends AventusSharp.Data.Storable {
     Picture = "";
     IsSuperAdmin = false;
 }
-Data.User.$schema={"Firstname":"string","Lastname":"string","Username":"string","Password":"string","Token":"string","Picture":"string","IsSuperAdmin":"boolean"};Aventus.DataManager.register(Data.User.Fullname, Data.User);Data.User.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.User.Fullname, Data.User);
+Data.User.Namespace=`${moduleName}.Data`;Data.User.$schema={"Firstname":"string","Lastname":"string","Username":"string","Password":"string","Token":"string","Picture":"string","IsSuperAdmin":"boolean"};Aventus.DataManager.register(Data.User.Fullname, Data.User);Aventus.Converter.register(Data.User.Fullname, Data.User);
 _.Data.User=Data.User;
 Data.PermissionUser=class PermissionUser extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.PermissionUser, Core"; }
@@ -1603,7 +1916,7 @@ Data.PermissionUser=class PermissionUser extends AventusSharp.Data.Storable {
     Data;
     User;
 }
-Data.PermissionUser.$schema={"Permission":""+moduleName+".Data.Permission","User":""+moduleName+".Data.User"};Aventus.DataManager.register(Data.PermissionUser.Fullname, Data.PermissionUser);Data.PermissionUser.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.PermissionUser.Fullname, Data.PermissionUser);
+Data.PermissionUser.Namespace=`${moduleName}.Data`;Data.PermissionUser.$schema={"Permission":""+moduleName+".Data.Permission","User":""+moduleName+".Data.User"};Aventus.DataManager.register(Data.PermissionUser.Fullname, Data.PermissionUser);Aventus.Converter.register(Data.PermissionUser.Fullname, Data.PermissionUser);
 _.Data.PermissionUser=Data.PermissionUser;
 Data.Group=class Group extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Group, Core"; }
@@ -1612,7 +1925,7 @@ Data.Group=class Group extends AventusSharp.Data.Storable {
     Users = [];
     parentGroup = undefined;
 }
-Data.Group.$schema={"Name":"string","Description":"string","Users":""+moduleName+".Data.User","parentGroup":"Group"};Aventus.DataManager.register(Data.Group.Fullname, Data.Group);Data.Group.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.Group.Fullname, Data.Group);
+Data.Group.Namespace=`${moduleName}.Data`;Data.Group.$schema={"Name":"string","Description":"string","Users":""+moduleName+".Data.User","parentGroup":"Group"};Aventus.DataManager.register(Data.Group.Fullname, Data.Group);Aventus.Converter.register(Data.Group.Fullname, Data.Group);
 _.Data.Group=Data.Group;
 Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.PermissionGroup, Core"; }
@@ -1621,7 +1934,7 @@ Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
     Data;
     Group;
 }
-Data.PermissionGroup.$schema={"Permission":""+moduleName+".Data.Permission","Group":""+moduleName+".Data.Group"};Aventus.DataManager.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);Data.PermissionGroup.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
+Data.PermissionGroup.Namespace=`${moduleName}.Data`;Data.PermissionGroup.$schema={"Permission":""+moduleName+".Data.Permission","Group":""+moduleName+".Data.Group"};Aventus.DataManager.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
 _.Data.PermissionGroup=Data.PermissionGroup;
 Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
     async LoginAction(body) {
@@ -1668,7 +1981,7 @@ Data.ApplicationData=class ApplicationData extends AventusSharp.Data.Storable {
     LogoTagName = "";
     Extension;
 }
-Data.ApplicationData.$schema={"Name":"string","DisplayName":"string","Version":"number","LogoClassName":"string","LogoTagName":"string","Extension":"string"};Aventus.DataManager.register(Data.ApplicationData.Fullname, Data.ApplicationData);Data.ApplicationData.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.ApplicationData.Fullname, Data.ApplicationData);
+Data.ApplicationData.Namespace=`${moduleName}.Data`;Data.ApplicationData.$schema={"Name":"string","DisplayName":"string","Version":"number","LogoClassName":"string","LogoTagName":"string","Extension":"string"};Aventus.DataManager.register(Data.ApplicationData.Fullname, Data.ApplicationData);Aventus.Converter.register(Data.ApplicationData.Fullname, Data.ApplicationData);
 _.Data.ApplicationData=Data.ApplicationData;
 Websocket.Routes.ApplicationRouter_GetAll3=class ApplicationRouter_GetAll3 extends AventusSharp.WebSocket.Event {
     /**
@@ -1806,6 +2119,13 @@ _.Websocket.Routes.DesktopRouter_RegisterOpenApp=Websocket.Routes.DesktopRouter_
 })(Data.DesktopLocation || (Data.DesktopLocation = {}));
 
 _.Data.DesktopLocation=Data.DesktopLocation;
+(function (BackgroundSize) {
+    BackgroundSize[BackgroundSize["Cover"] = 0] = "Cover";
+    BackgroundSize[BackgroundSize["Contain"] = 1] = "Contain";
+    BackgroundSize[BackgroundSize["ContainNoRepeat"] = 2] = "ContainNoRepeat";
+})(Data.BackgroundSize || (Data.BackgroundSize = {}));
+
+_.Data.BackgroundSize=Data.BackgroundSize;
 State.DesktopStateManager=class DesktopStateManager extends Aventus.StateManager {
     /**
      * Get the instance of the StateManager
@@ -2400,6 +2720,18 @@ State.MoveApplication=class MoveApplication extends Aventus.State {
 }
 State.MoveApplication.Namespace=`${moduleName}.State`;
 _.State.MoveApplication=State.MoveApplication;
+Data.DekstopConfiguration=class DekstopConfiguration extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.DekstopConfiguration, Core"; }
+    Background = "/img/default_wp.png";
+    Data;
+    BackgroundSize = Data.BackgroundSize.Cover;
+    SyncDesktop = false;
+    SizeMobile = 75;
+    SizeTablet = 75;
+    SizeDesktop = 75;
+}
+Data.DekstopConfiguration.Namespace=`${moduleName}.Data`;Data.DekstopConfiguration.$schema={"Background":"string","BackgroundSize":"BackgroundSize","SyncDesktop":"boolean","SizeMobile":"number","SizeTablet":"number","SizeDesktop":"number"};Aventus.DataManager.register(Data.DekstopConfiguration.Fullname, Data.DekstopConfiguration);Aventus.Converter.register(Data.DekstopConfiguration.Fullname, Data.DekstopConfiguration);
+_.Data.DekstopConfiguration=Data.DekstopConfiguration;
 Data.DesktopAppIcon=class DesktopAppIcon extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.DesktopAppIcon, Core"; }
     Position;
@@ -2407,7 +2739,7 @@ Data.DesktopAppIcon=class DesktopAppIcon extends AventusSharp.Data.Storable {
     IconTag;
     Location;
 }
-Data.DesktopAppIcon.$schema={"Position":"number","DesktopId":"number","IconTag":"string","Location":"DesktopLocation"};Aventus.DataManager.register(Data.DesktopAppIcon.Fullname, Data.DesktopAppIcon);Data.DesktopAppIcon.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.DesktopAppIcon.Fullname, Data.DesktopAppIcon);
+Data.DesktopAppIcon.Namespace=`${moduleName}.Data`;Data.DesktopAppIcon.$schema={"Position":"number","DesktopId":"number","IconTag":"string","Location":"DesktopLocation"};Aventus.DataManager.register(Data.DesktopAppIcon.Fullname, Data.DesktopAppIcon);Aventus.Converter.register(Data.DesktopAppIcon.Fullname, Data.DesktopAppIcon);
 _.Data.DesktopAppIcon=Data.DesktopAppIcon;
 Websocket.Routes.DesktopRouter_SetDesktopIcon=class DesktopRouter_SetDesktopIcon extends AventusSharp.WebSocket.Event {
     /**
@@ -2428,13 +2760,12 @@ _.Websocket.Routes.DesktopRouter_SetDesktopIcon=Websocket.Routes.DesktopRouter_S
 Data.Desktop=class Desktop extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Desktop, Core"; }
     Name;
-    Background;
     UserId = undefined;
-    SyncDesktop = false;
+    Configuration = new Data.DekstopConfiguration();
     Icons = [];
     Applications = [];
 }
-Data.Desktop.$schema={"Name":"string","Background":"string","UserId":"number","SyncDesktop":"boolean","Icons":"DesktopAppIcon","Applications":""+moduleName+".Data.ApplicationOpen"};Aventus.DataManager.register(Data.Desktop.Fullname, Data.Desktop);Data.Desktop.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.Desktop.Fullname, Data.Desktop);
+Data.Desktop.Namespace=`${moduleName}.Data`;Data.Desktop.$schema={"Name":"string","UserId":"number","Configuration":"DekstopConfiguration","Icons":"DesktopAppIcon","Applications":""+moduleName+".Data.ApplicationOpen"};Aventus.DataManager.register(Data.Desktop.Fullname, Data.Desktop);Aventus.Converter.register(Data.Desktop.Fullname, Data.Desktop);
 _.Data.Desktop=Data.Desktop;
 Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRoute {
     StorableName() {
@@ -2466,7 +2797,7 @@ Components.PageCase = class PageCase extends Aventus.WebComponent {
 }));this.__addPropertyActions("case_height", ((target) => {
     target.style.setProperty("--local-page-case-height", target.case_height + 'px');
 })); }
-    static __style = `:host{display:block;width:100%;height:100%;position:relative;overflow:hidden}:host .page-hider{width:100%;height:100%;position:absolute;top:0;left:0}:host .slot-hider ::slotted(*){position:absolute;top:0;left:0;width:var(--local-page-case-width);height:var(--local-page-case-height)}:host([move_content]) .slot-hider{display:none}`;
+    static __style = `:host{--internal-page-case-background: var(--page-case-background, transparent);--internal-page-case-background-active: var(--page-case-background-active, transparent);--internal-page-case-border-active: var(--page-case-border-active, none);--internal-page-case-border-radius:var(--page-case-border-radius, 0)}:host{display:block;width:100%;height:100%;position:relative;overflow:hidden}:host .page-hider{width:100%;height:100%;position:absolute;top:0;left:0}:host .slot-hider ::slotted(*){position:absolute;top:0;left:0;width:var(--local-page-case-width);height:var(--local-page-case-height)}:host([move_content]) .slot-hider{display:none}`;
     __getStatic() {
         return PageCase;
     }
@@ -3048,6 +3379,10 @@ System.AppList = class AppList extends Aventus.WebComponent {
             }
         }
         this.pageCaseEl?.reset();
+    }
+    setIconSize(size) {
+        this.pageCaseEl.case_height = size;
+        this.pageCaseEl.case_width = size;
     }
     addClose() {
         let apply = true;
@@ -3657,6 +3992,9 @@ System.ApplicationHistory=class ApplicationHistory {
         }
         return null;
     }
+    cancelNext() {
+        this.currentPosition--;
+    }
     current() {
         return this.memory[this.currentPosition];
     }
@@ -3669,6 +4007,9 @@ System.ApplicationHistory=class ApplicationHistory {
             return this.memory[this.currentPosition];
         }
         return null;
+    }
+    cancelPrevious() {
+        this.currentPosition++;
     }
     get previousAvailable() {
         return this.currentPosition > 0;
@@ -3820,6 +4161,37 @@ System.ApplicationSize=class ApplicationSize {
 }
 System.ApplicationSize.Namespace=`${moduleName}.System`;
 _.System.ApplicationSize=System.ApplicationSize;
+System.Frame404 = class Frame404 extends System.Frame {
+    static __style = ``;
+    __getStatic() {
+        return Frame404;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Frame404.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<p>Erreur 404</p>` }
+    });
+}
+    getClassName() {
+        return "Frame404";
+    }
+    pageTitle() {
+        return "Page not found";
+    }
+    onShow() {
+    }
+    onHide() {
+    }
+}
+System.Frame404.Namespace=`${moduleName}.System`;
+System.Frame404.Tag=`rk-frame-404`;
+_.System.Frame404=System.Frame404;
+if(!window.customElements.get('rk-frame-404')){window.customElements.define('rk-frame-404', System.Frame404);Aventus.WebComponentInstance.registerDefinition(System.Frame404);}
+
 Websocket.Routes.ApplicationRouter=class ApplicationRouter extends AventusSharp.WebSocket.Route {
     events;
     constructor(endpoint) {
@@ -4132,6 +4504,7 @@ System.Application = class Application extends Aventus.WebComponent {
     oldFrame;
     allRoutes = {};
     activePath = "";
+    activeState;
     showPageMutex = new Aventus.Mutex();
     router;
     options;
@@ -4154,11 +4527,7 @@ System.Application = class Application extends Aventus.WebComponent {
     target.onIsHiddenChange();
 })); }
     static __style = `:host{--internal-application-box-shadow: var(--application-box-shadow);--internal-application-header-background-color: var(--application-header-background-color, var(--darker-active))}:host{background-color:var(--primary-color-opacity);border-radius:10px;box-shadow:var(--internal-application-box-shadow);container-name:application;container-type:inline-size;outline:none;position:absolute;z-index:50}:host .header{align-items:center;border-top-left-radius:10px;border-top-right-radius:10px;cursor:grab;display:flex;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--internal-application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{border-radius:2px;height:calc(100% - 6px);padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .content{border-bottom-left-radius:10px;border-bottom-right-radius:10px;height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{display:none;z-index:10}:host rk-resize{--resize-z-index: 4}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_active]){z-index:501}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{height:calc(100% - 45px)}:host rk-resize{display:none}:host([is_hidden]){left:0 !important;width:100% !important}}`;
-    constructor() {
-            super();
-            this.history = new System.ApplicationHistory();
-            this.sizeManager = new System.ApplicationSize(this);
-if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.validError404=this.validError404.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this) }
+    constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.validError404=this.validError404.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this) }
     __getStatic() {
         return Application;
     }
@@ -4259,7 +4628,7 @@ if (this.constructor == Application) { throw "can't instanciate an abstract clas
     async navigate(to) {
         let hasChanged = await this.navigator.setState(to);
         let state = this.navigator.getState();
-        if (state) {
+        if (state && hasChanged) {
             this.history.push({
                 state: state
             });
@@ -4313,9 +4682,10 @@ if (this.constructor == Application) { throw "can't instanciate an abstract clas
                         }
                         let oldPage = this.oldFrame;
                         let oldUrl = this.activePath;
-                        await element.show();
                         this.oldFrame = element;
                         this.activePath = path;
+                        this.activeState = currentState;
+                        await element.show();
                         this.app_title = element.pageTitle();
                         this.onNewPage(oldUrl, oldPage, path, element);
                     }
@@ -4352,6 +4722,11 @@ if (this.constructor == Application) { throw "can't instanciate an abstract clas
     getSlugs() {
         return this.navigator.getStateSlugs(this.activePath);
     }
+    async canChangeState(newState) {
+        if (!this.oldFrame)
+            return true;
+        return await this.oldFrame.askChange(newState);
+    }
     checkNavigationState() {
         if (this.history.previousAvailable) {
             this.navigatePreviousEl.classList.remove("disable");
@@ -4369,17 +4744,25 @@ if (this.constructor == Application) { throw "can't instanciate an abstract clas
     async navigatePrevious() {
         let history = this.history.previous();
         if (history) {
-            await this.navigator.setState(history.state);
-            this.checkNavigationState();
-            this.saveApplicationHistory();
+            if (await this.navigator.setState(history.state)) {
+                this.checkNavigationState();
+                this.saveApplicationHistory();
+            }
+            else {
+                this.history.cancelPrevious();
+            }
         }
     }
     async navigateNext() {
         let history = this.history.next();
         if (history) {
-            await this.navigator.setState(history.state);
-            this.checkNavigationState();
-            this.saveApplicationHistory();
+            if (await this.navigator.setState(history.state)) {
+                this.checkNavigationState();
+                this.saveApplicationHistory();
+            }
+            else {
+                this.history.cancelNext();
+            }
         }
     }
     subscribeNavigationChange(statePatterns, callbacks) {
@@ -4995,6 +5378,110 @@ Lib.AppIconManager=class AppIconManager {
 }
 Lib.AppIconManager.Namespace=`${moduleName}.Lib`;
 _.Lib.AppIconManager=Lib.AppIconManager;
+Lib.Platform=class Platform {
+    static onScreenChange = new Aventus.Callback();
+    static init() {
+        let currentDevice = this.device;
+        let screenObserver = new Aventus.ResizeObserver(() => {
+            let newDevice = this.device;
+            if (currentDevice != newDevice) {
+                currentDevice = newDevice;
+                this.onScreenChange.trigger([newDevice]);
+            }
+        });
+        screenObserver.observe(document.body);
+    }
+    static onScreenChangeAndRun(cb) {
+        this.onScreenChange.add(cb);
+        cb(this.device);
+    }
+    static get device() {
+        if (document.body.offsetWidth > 1224) {
+            return "pc";
+        }
+        else if (document.body.offsetWidth > 768) {
+            return "tablet";
+        }
+        return "mobile";
+    }
+    static get isStandalone() {
+        if ("standalone" in window.navigator && window.navigator.standalone) {
+            return true;
+        }
+        return false;
+    }
+    static get isiOS() {
+        let test1 = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+        let test2 = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+        return test1 || test2;
+    }
+}
+Lib.Platform.Namespace=`${moduleName}.Lib`;
+_.Lib.Platform=Lib.Platform;
+System.PwaPromptIos = class PwaPromptIos extends Aventus.WebComponent {
+    get 'ready'() { return this.getBoolAttr('ready') }
+    set 'ready'(val) { this.setBoolAttr('ready', val) }    static get isAvailable() {
+        return Lib.Platform.isiOS && !Lib.Platform.isStandalone;
+    }
+    static __style = `:host .noScroll{overflow:hidden}:host .pwaPromptOverlay{background-color:rgba(0,0,0,.8);left:0;min-height:100vh;min-height:-webkit-fill-available;opacity:0;pointer-events:none;position:fixed;top:0;touch-action:none;visibility:hidden;width:100vw;z-index:999999}:host .pwaPromptOverlay.visible{display:block;opacity:1;pointer-events:initial;touch-action:initial;visibility:visible}:host .pwaPromptOverlay.modern{background:rgba(10,10,10,.5);color:rgba(235,235,245,.6)}:host .pwaPrompt{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);background-color:rgba(250,250,250,.8);border-radius:10px;bottom:0;color:#000;filter:brightness(1.1);left:0;margin:0 8px 10px;overflow:hidden;pointer-events:none;position:fixed;touch-action:none;transform:translateY(calc(100% + 10px));width:calc(100vw - 16px);z-index:999999}:host .pwaPrompt.visible{display:block;pointer-events:initial;touch-action:initial;transform:translateY(0)}:host .pwaPrompt.modern{background:rgba(65,65,65,.7);filter:brightness(1.1)}:host .pwaPromptHeader{align-items:center;border-bottom:1px solid rgba(0,0,0,.1);border-left:0px;border-right:0px;border-top:0px;border-width:.5px;display:flex;flex-flow:row nowrap;justify-content:space-between;padding:13px 16px}:host .modern .pwaPromptHeader{border-color:rgba(140,140,140,.7)}:host .pwaPromptHeader .pwaPromptTitle{color:#333;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:18px;font-weight:500;line-height:1.125;margin:0;padding:0}:host .modern .pwaPromptHeader .pwaPromptTitle{color:#fff}:host .pwaPromptHeader .pwaPromptCancel{background:rgba(0,0,0,0);border:0;color:#2d7cf6;font-size:16px;margin:0;padding:0}:host .modern .pwaPromptHeader .pwaPromptCancel{color:#0984ff}:host .pwaPromptBody{display:flex;width:100%}:host .pwaPromptBody .pwaPromptDescription{border-bottom:1px solid rgba(0,0,0,.1);border-left:0px;border-right:0px;border-top:0px;border-width:.5px;color:inherit;margin:0 16px;padding:16px;width:100%}:host .modern .pwaPromptBody .pwaPromptDescription{border-color:rgba(140,140,140,.7)}:host .pwaPromptCopy{color:#7b7b7a;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:13px;line-height:17px;margin:0;padding:0}:host .pwaPromptCopy.bold{font-weight:600}:host .modern .pwaPromptCopy{border-color:rgba(235,235,245,.6);color:rgba(235,235,245,.6)}:host .pwaPromptInstruction{color:inherit;margin:0 16px;padding:16px}:host .pwaPromptInstruction .pwaPromptInstructionStep{align-items:center;display:flex;flex-flow:row nowrap;justify-content:flex-start;margin-bottom:16px;text-align:left}:host .pwaPromptInstruction .pwaPromptInstructionStep:last-of-type{margin-bottom:0}:host .pwaPromptInstruction .pwaPromptShareIcon,:host .pwaPromptInstruction .pwaPromptHomeIcon{flex:0 0 auto;height:30px;margin-right:32px;width:25px}:host .pwaPromptInstruction .pwaPromptHomeIcon{color:#2d7cf6}:host .modern .pwaPromptInstruction .pwaPromptHomeIcon{color:#fff;fill:#fff}:host .pwaPromptInstruction .pwaPromptShareIcon{color:#2d7cf6;fill:#2d7cf6}:host .modern .pwaPromptInstruction .pwaPromptShareIcon{color:#0984ff;fill:#0984ff}:host([ready]) .pwaPromptOverlay{transition:opacity .2s ease-in}:host([ready]) .pwaPrompt{transition:transform .4s cubic-bezier(0.4, 0.24, 0.3, 1)}`;
+    __getStatic() {
+        return PwaPromptIos;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(PwaPromptIos.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div aria-label="Close" role="button" class="pwaPromptOverlay modern iOSPWA-overlay" _id="pwapromptios_0"></div><div class="pwaPrompt iOSPWA-container modern" aria-describedby="description" aria-labelledby="homescreen" role="dialog" _id="pwapromptios_1">    <div class="pwaPromptHeader iOSPWA-header">        <p class="pwaPromptTitle iOSPWA-title">            Ajouter à la page d'accueil        </p>        <button class="pwaPromptCancel iOSPWA-cancel" _id="pwapromptios_2">            Annuler        </button>    </div>    <div class="pwaPromptBody iOSPWA-body">        <div class="pwaPromptDescription iOSPWA-description">            <p class="pwaPromptCopy iOSPWA-description-copy">                Ce site web est doté d'une fonctionnalité d'application. Ajoutez-le à votre écran d'accueil pour l'utiliser en plein écran            </p>        </div>    </div>    <div class="pwaPromptInstruction iOSPWA-steps">        <div class="pwaPromptInstructionStep iOSPWA-step1">            <svg class="pwaPromptShareIcon iOSPWA-step1-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 566 670">                <path d="M255 12c4-4 10-8 16-8s12 3 16 8l94 89c3 4 6 7 8 12 2 6 0 14-5 19-7 8-20 9-28 2l-7-7-57-60 2 54v276c0 12-10 22-22 22-12 1-24-10-23-22V110l1-43-60 65c-5 5-13 8-21 6a19 19 0 0 1-16-17c-1-7 2-13 7-18l95-91z"></path>                <path d="M43 207c16-17 40-23 63-23h83v46h-79c-12 0-25 3-33 13-8 9-10 21-10 33v260c0 13 0 27 6 38 5 12 18 18 30 19l14 1h302c14 0 28 0 40-8 11-7 16-21 16-34V276c0-11-2-24-9-33-8-10-22-13-34-13h-78v-46h75c13 0 25 1 37 4 16 4 31 13 41 27 11 17 14 37 14 57v280c0 20-3 41-15 58a71 71 0 0 1-45 27c-11 2-23 3-34 3H109c-19-1-40-4-56-15-14-9-23-23-27-38-4-12-5-25-5-38V270c1-22 6-47 22-63z"></path>            </svg>            <p class="pwaPromptCopy bold iOSPWA-step1-copy">                1) Appuyez sur le bouton "Partager" dans la barre de menu.            </p>        </div>        <div class="pwaPromptInstructionStep iOSPWA-step2">            <svg class="pwaPromptHomeIcon iOSPWA-step2-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 578 584">                <path d="M101 35l19-1h333c12 0 23 0 35 3 17 3 34 12 44 27 13 16 16 38 16 58v329c0 19 0 39-8 57a65 65 0 0 1-37 37c-18 7-38 7-57 7H130c-21 1-44 0-63-10-14-7-25-20-30-34-6-15-8-30-8-45V121c1-21 5-44 19-61 13-16 33-23 53-25m7 46c-10 1-19 6-24 14-7 8-9 20-9 31v334c0 12 2 25 10 34 9 10 23 12 35 12h336c14 1 30-3 38-15 6-9 8-20 8-31V125c0-12-2-24-10-33-9-9-22-12-35-12H121l-13 1z"></path>                <path d="M271 161c9-11 31-10 38 4 3 5 3 11 3 17v87h88c7 0 16 1 21 7 6 6 7 14 6 22a21 21 0 0 1-10 14c-5 4-11 5-17 5h-88v82c0 7-1 15-6 20-10 10-29 10-37-2-3-6-4-13-4-19v-81h-87c-8-1-17-3-23-9-5-6-6-15-4-22a21 21 0 0 1 11-14c6-3 13-3 19-3h84v-88c0-7 1-14 6-20z"></path>            </svg>            <p class="pwaPromptCopy bold iOSPWA-step2-copy">                2) Appuyez sur "Ajouter à l'écran d'accueil".            </p>        </div>    </div></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "overlay",
+      "ids": [
+        "pwapromptios_0"
+      ]
+    },
+    {
+      "name": "prompt",
+      "ids": [
+        "pwapromptios_1"
+      ]
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "pwapromptios_2",
+      "onPress": (e, pressInstance, c) => { c.comp.close(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "PwaPromptIos";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('ready')) { this.attributeChangedCallback('ready', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('ready'); }
+    __listBoolProps() { return ["ready"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    show() {
+        this.overlay?.classList.add("visible");
+        this.prompt?.classList.add("visible");
+    }
+    close() {
+        this.overlay?.classList.remove("visible");
+        this.prompt?.classList.remove("visible");
+    }
+    postCreation() {
+        this.ready = true;
+    }
+}
+System.PwaPromptIos.Namespace=`${moduleName}.System`;
+System.PwaPromptIos.Tag=`rk-pwa-prompt-ios`;
+_.System.PwaPromptIos=System.PwaPromptIos;
+if(!window.customElements.get('rk-pwa-prompt-ios')){window.customElements.define('rk-pwa-prompt-ios', System.PwaPromptIos);Aventus.WebComponentInstance.registerDefinition(System.PwaPromptIos);}
+
 RAM.DesktopRAM=class DesktopRAM extends AventusSharp.RAM.RamHttp {
     /**
      * @inheritdoc
@@ -5027,12 +5514,17 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
     static get observedAttributes() {return ["desktop_id"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'show_application_list'() { return this.getBoolAttr('show_application_list') }
     set 'show_application_list'(val) { this.setBoolAttr('show_application_list', val) }get 'is_active'() { return this.getBoolAttr('is_active') }
-    set 'is_active'(val) { this.setBoolAttr('is_active', val) }    get 'desktop_id'() { return this.getNumberProp('desktop_id') }
+    set 'is_active'(val) { this.setBoolAttr('is_active', val) }get 'background_size'() { return this.getStringAttr('background_size') }
+    set 'background_size'(val) { this.setStringAttr('background_size', val) }    get 'desktop_id'() { return this.getNumberProp('desktop_id') }
     set 'desktop_id'(val) { this.setNumberAttr('desktop_id', val) }    applications = {};
     data;
+    _iconSize = 0;
+    get iconSize() {
+        return this._iconSize;
+    }
     oldActiveCase;
     pressManagerStopMoveApp;
-    static __style = `:host{background-position:center;background-repeat:no-repeat;background-size:cover;flex-shrink:0;height:100%;overflow:hidden;position:relative;width:100%}:host .icons{--page-case-border-radius: 5px;--page-case-border-active: 1px solid var(--darker-active);--page-case-background-active: var(--lighter-active);height:calc(100% - 70px);width:100%;z-index:2;transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host .app-container{transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host([show_application_list])>*{opacity:0 !important;visibility:hidden !important}`;
+    static __style = `:host{background-position:center;background-repeat:no-repeat;background-size:cover;flex-shrink:0;height:100%;overflow:hidden;position:relative;width:100%}:host .icons{--page-case-border-radius: 5px;--page-case-border-active: 1px solid var(--darker-active);--page-case-background-active: var(--lighter-active);height:calc(100% - 70px);width:100%;z-index:2;transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host .app-container{transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host([show_application_list])>*{opacity:0 !important;visibility:hidden !important}:host([background_size=Cover]){background-size:cover}:host([background_size=Contain]){background-size:contain}`;
     constructor() { super(); this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this) }
     __getStatic() {
         return Desktop;
@@ -5073,8 +5565,8 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
     getClassName() {
         return "Desktop";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('show_application_list')) { this.attributeChangedCallback('show_application_list', false, false); }if(!this.hasAttribute('is_active')) { this.attributeChangedCallback('is_active', false, false); }if(!this.hasAttribute('desktop_id')){ this['desktop_id'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('show_application_list');this.__upgradeProperty('is_active');this.__upgradeProperty('desktop_id'); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('show_application_list')) { this.attributeChangedCallback('show_application_list', false, false); }if(!this.hasAttribute('is_active')) { this.attributeChangedCallback('is_active', false, false); }if(!this.hasAttribute('background_size')){ this['background_size'] = Data.BackgroundSize[Data.BackgroundSize.Cover]; }if(!this.hasAttribute('desktop_id')){ this['desktop_id'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('show_application_list');this.__upgradeProperty('is_active');this.__upgradeProperty('background_size');this.__upgradeProperty('desktop_id'); }
     __listBoolProps() { return ["show_application_list","is_active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     onContextMenu(contextMenu, stop) {
         if (Object.keys(this.applications).length > 0) {
@@ -5091,12 +5583,13 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
                 }
             });
         }
-        if (this.data.SyncDesktop) {
+        if (this.data.Configuration.SyncDesktop) {
             contextMenu.addItem({
                 text: "Bureau non partagé",
                 materialIcon: "sync_disabled",
                 action: () => {
-                    this.data.update({ SyncDesktop: false });
+                    this.data.Configuration.SyncDesktop = false;
+                    this.data.update({});
                 }
             });
         }
@@ -5105,7 +5598,9 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
                 text: "Bureau partagé",
                 materialIcon: "sync",
                 action: () => {
-                    this.data.update({ SyncDesktop: true });
+                    this.data.Configuration.SyncDesktop = true;
+                    this.data.update({});
+                    // this.data.update({ SyncDesktop: true });
                 }
             });
         }
@@ -5254,6 +5749,11 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             }
         }
     }
+    setIconSize(size) {
+        this._iconSize = size;
+        this.pageCaseEl.case_height = size;
+        this.pageCaseEl.case_width = size;
+    }
     setAppPositionTemp(shadow, x, y) {
         let caseEl = this.pageCaseEl.shadowRoot.elementFromPoint(x, y);
         if (caseEl && this.pageCaseEl.shadowRoot.contains(caseEl)) {
@@ -5322,12 +5822,28 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
         this.oldActiveCase = undefined;
         this.pressManagerStopMoveApp?.destroy();
     }
+    watchDevice() {
+        Lib.Platform.onScreenChangeAndRun((type) => {
+            let iconSize = 75;
+            if (type == "pc") {
+                iconSize = this.data.Configuration.SizeDesktop;
+            }
+            else if (type == "tablet") {
+                iconSize = this.data.Configuration.SizeTablet;
+            }
+            else if (type == "mobile") {
+                iconSize = this.data.Configuration.SizeMobile;
+            }
+            this.setIconSize(iconSize);
+        });
+    }
     async loadData() {
         let data = await RAM.DesktopRAM.getInstance().getById(this.desktop_id);
         if (data) {
             this.data = data;
-            this.style.backgroundImage = 'url("' + data.Background + '")';
-            if (data.SyncDesktop) {
+            this.style.backgroundImage = 'url("' + data.Configuration.Background + '")';
+            this.background_size = Data.BackgroundSize[data.Configuration.BackgroundSize];
+            if (data.Configuration.SyncDesktop) {
                 this.recreateApplications(data.Applications);
             }
             else {
@@ -5347,6 +5863,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
                 }
             }
             this.pageCaseEl.calculateGrid();
+            this.watchDevice();
         }
     }
     postCreation() {
@@ -5522,7 +6039,7 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("zoom", ((target) => {
     target.changeZoom();
 })); }
-    static __style = `:host{--internal-scrollbar-container-color: var(--scrollbar-container-color, transparent);--internal-scrollbar-color: var(--scrollbar-color, #757575);--internal-scrollbar-active-color: var(--scrollbar-active-color, #858585);--internal-scroller-width: var(--scroller-width, 6px);--internal-scroller-top: var(--scroller-top, 3px);--internal-scroller-bottom: var(--scroller-bottom, 3px);--internal-scroller-right: var(--scroller-right, 3px);--internal-scroller-left: var(--scroller-left, 3px);--internal-scrollbar-container-display: var(--scrollbar-container-display, inline-block)}:host{display:flex;height:100%;overflow:hidden;position:relative;-webkit-user-drag:none;-khtml-user-drag:none;-moz-user-drag:none;-o-user-drag:none;width:100%}:host .scroll-main-container{display:flex;flex-grow:1;position:relative;width:100%}:host .scroll-main-container .content-zoom{display:flex;position:relative;transform-origin:0 0;width:100%;z-index:4}:host .scroll-main-container .content-zoom .content-hidder{display:block;height:100%;overflow:hidden;position:relative;width:100%}:host .scroll-main-container .content-zoom .content-hidder .content-wrapper{display:var(--internal-scrollbar-container-display);height:100%;min-height:100%;min-width:100%;position:relative;width:100%}:host .scroll-main-container .scroller-wrapper .container-scroller{display:none;overflow:hidden;position:absolute;transition:transform .2s linear;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller{background-color:var(--internal-scrollbar-container-color);border-radius:5px}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller .scroller{background-color:var(--internal-scrollbar-color);border-radius:5px;cursor:pointer;position:absolute;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .scroller.active{background-color:var(--internal-scrollbar-active-color)}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical{height:calc(100% - var(--internal-scroller-bottom)*2 - var(--internal-scroller-width));padding-left:var(--internal-scroller-left);right:var(--internal-scroller-right);top:var(--internal-scroller-bottom);transform:0;width:calc(var(--internal-scroller-width) + var(--internal-scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical.hide{transform:translateX(calc(var(--internal-scroller-width) + var(--internal-scroller-left)))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller .scroller{width:calc(100% - var(--internal-scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal{bottom:var(--internal-scroller-bottom);height:calc(var(--internal-scroller-width) + var(--internal-scroller-top));left:var(--internal-scroller-right);padding-top:var(--internal-scroller-top);transform:0;width:calc(100% - var(--internal-scroller-right)*2 - var(--internal-scroller-width))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal.hide{transform:translateY(calc(var(--internal-scroller-width) + var(--internal-scroller-top)))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller .scroller{height:calc(100% - var(--internal-scroller-top))}:host([y_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{height:auto}:host([x_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{width:auto}:host([y_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.vertical{display:block}:host([x_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.horizontal{display:block}:host([no_user_select]) .content-wrapper *{user-select:none}:host([no_user_select]) ::slotted{user-select:none}`;
+    static __style = `:host{--_scrollbar-container-color: var(--scrollbar-container-color, transparent);--_scrollbar-color: var(--scrollbar-color, #757575);--_scrollbar-active-color: var(--scrollbar-active-color, #858585);--_scroller-width: var(--scroller-width, 6px);--_scroller-top: var(--scroller-top, 3px);--_scroller-bottom: var(--scroller-bottom, 3px);--_scroller-right: var(--scroller-right, 3px);--_scroller-left: var(--scroller-left, 3px);--_scrollbar-content-padding: var(--scrollbar-content-padding, 0);--_scrollbar-container-display: var(--scrollbar-container-display, inline-block)}:host{display:block;height:100%;min-height:inherit;min-width:inherit;overflow:hidden;position:relative;-webkit-user-drag:none;-khtml-user-drag:none;-moz-user-drag:none;-o-user-drag:none;width:100%}:host .scroll-main-container{display:block;height:100%;min-height:inherit;min-width:inherit;position:relative;width:100%}:host .scroll-main-container .content-zoom{display:block;height:100%;min-height:inherit;min-width:inherit;position:relative;transform-origin:0 0;width:100%;z-index:4}:host .scroll-main-container .content-zoom .content-hidder{display:block;height:100%;min-height:inherit;min-width:inherit;overflow:hidden;position:relative;width:100%}:host .scroll-main-container .content-zoom .content-hidder .content-wrapper{display:var(--_scrollbar-container-display);height:100%;min-height:inherit;min-width:inherit;padding:var(--_scrollbar-content-padding);position:relative;width:100%}:host .scroll-main-container .scroller-wrapper .container-scroller{display:none;overflow:hidden;position:absolute;transition:transform .2s linear;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller{background-color:var(--_scrollbar-container-color);border-radius:5px}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller .scroller{background-color:var(--_scrollbar-color);border-radius:5px;cursor:pointer;position:absolute;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .scroller.active{background-color:var(--_scrollbar-active-color)}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical{height:calc(100% - var(--_scroller-bottom)*2 - var(--_scroller-width));padding-left:var(--_scroller-left);right:var(--_scroller-right);top:var(--_scroller-bottom);transform:0;width:calc(var(--_scroller-width) + var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical.hide{transform:translateX(calc(var(--_scroller-width) + var(--_scroller-left)))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller .scroller{width:calc(100% - var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal{bottom:var(--_scroller-bottom);height:calc(var(--_scroller-width) + var(--_scroller-top));left:var(--_scroller-right);padding-top:var(--_scroller-top);transform:0;width:calc(100% - var(--_scroller-right)*2 - var(--_scroller-width))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal.hide{transform:translateY(calc(var(--_scroller-width) + var(--_scroller-top)))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller .scroller{height:calc(100% - var(--_scroller-top))}:host([y_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{height:auto}:host([x_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{width:auto}:host([y_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.vertical{display:block}:host([x_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.horizontal{display:block}:host([no_user_select]) .content-wrapper *{user-select:none}:host([no_user_select]) ::slotted{user-select:none}`;
     constructor() {            super();            this.renderAnimation = this.createAnimation();            this.onWheel = this.onWheel.bind(this);            this.onTouchStart = this.onTouchStart.bind(this);            this.onTouchMove = this.onTouchMove.bind(this);            this.onTouchEnd = this.onTouchEnd.bind(this);            this.touchRecord = new Components.TouchRecord();        }
     __getStatic() {
         return Scrollable;
@@ -5535,7 +6052,7 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="scroll-main-container" _id="scrollable_0">    <div class="content-zoom" _id="scrollable_1">        <div class="content-hidder" _id="scrollable_2">            <div class="content-wrapper" _id="scrollable_3">                <slot></slot>            </div>        </div>    </div>    <div class="scroller-wrapper">        <div class="container-scroller vertical" _id="scrollable_4">            <div class="shadow-scroller">                <div class="scroller" _id="scrollable_5"></div>            </div>        </div>        <div class="container-scroller horizontal" _id="scrollable_6">            <div class="shadow-scroller">                <div class="scroller" _id="scrollable_7"></div>            </div>        </div>    </div></div>` }
+        blocks: { 'default':`<div class="scroll-main-container" _id="scrollable_0">    <div class="content-zoom" _id="scrollable_1">        <div class="content-hidder" _id="scrollable_2">            <div class="content-wrapper" part="content-wrapper" _id="scrollable_3">                <slot></slot>            </div>        </div>    </div>    <div class="scroller-wrapper">        <div class="container-scroller vertical" _id="scrollable_4">            <div class="shadow-scroller">                <div class="scroller" _id="scrollable_5"></div>            </div>        </div>        <div class="container-scroller horizontal" _id="scrollable_6">            <div class="shadow-scroller">                <div class="scroller" _id="scrollable_7"></div>            </div>        </div>    </div></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -5735,10 +6252,27 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
     onWheel(e) {
         const DELTA_MODE = [1.0, 28.0, 500.0];
         const mode = DELTA_MODE[e.deltaMode] || DELTA_MODE[0];
-        this.addDelta({
-            x: e.deltaX * mode,
+        let newValue = {
+            x: 0,
             y: e.deltaY * mode,
-        });
+        };
+        if (!this.y_scroll && this.x_scroll) {
+            newValue = {
+                x: e.deltaY * mode,
+                y: 0,
+            };
+            if ((newValue.x > 0 && this.x != this.max.x) ||
+                (newValue.x <= 0 && this.x != 0)) {
+                e.stopPropagation();
+            }
+        }
+        else {
+            if ((newValue.y > 0 && this.y != this.max.y) ||
+                (newValue.y <= 0 && this.y != 0)) {
+                e.stopPropagation();
+            }
+        }
+        this.addDelta(newValue);
     }
     onTouchStart(e) {
         this.touchRecord.track(e);
@@ -6262,12 +6796,7 @@ System.Os = class Os extends Aventus.WebComponent {
     target.onActiveDesktop();
 })); }
     static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;width:100%}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:50px;cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;height:50px;min-width:auto;position:absolute;right:10px;z-index:6;display:none}:host rk-loading{opacity:0;visibility:hidden}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:auto;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:5px}:host([desktop_list]) .add-desktop{display:block}`;
-    constructor() {
-            super();
-            System.Os.instance = this;
-            this.notificationManager = new System.NotificationManager(this);
-            Lib.ApplicationManager.reloadData();
-this.desktopMoveLeft=this.desktopMoveLeft.bind(this)this.desktopMoveRight=this.desktopMoveRight.bind(this)this.desktopMoveValidate=this.desktopMoveValidate.bind(this) }
+    constructor() {            super();            System.Os.instance = this;            Lib.Platform.init();            this.notificationManager = new System.NotificationManager(this);            Lib.ApplicationManager.reloadData();this.desktopMoveLeft=this.desktopMoveLeft.bind(this)this.desktopMoveRight=this.desktopMoveRight.bind(this)this.desktopMoveValidate=this.desktopMoveValidate.bind(this) }
     __getStatic() {
         return Os;
     }
@@ -6552,10 +7081,7 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
     dragAndDrop;
     iconId = 0;
     static __style = `:host{align-items:center;background-color:#0c2247;border-radius:5px;box-shadow:var(--elevation-5);cursor:pointer;display:flex;height:30px;justify-content:center;position:relative;transition:box-shadow var(--bezier-curve) .3s,transform var(--bezier-curve) .3s;width:30px;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host::after{background-color:var(--text-color);border-radius:5px;bottom:-7px;content:"";height:4px;opacity:0;position:absolute;transition:visibility var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s;visibility:hidden;width:4px}:host .remove{background-color:var(--primary-color);border-radius:10px;display:none;height:20px;position:absolute;right:-10px;top:-10px;width:20px}:host .remove rk-img{--img-stroke-color: var(--text-color);height:100%;padding:0;width:100%}:host([shaking]){animation:shake linear .4s infinite}:host([can_remove]) .remove{display:block}:host([is_open]){transform:translateY(-3px)}:host([is_open])::after{visibility:visible;opacity:1}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--elevation-1)}}@media screen and (max-width: 768px){:host{height:50px;width:50px}}@keyframes shake{0%{transform:rotateZ(0) rotateX(-13deg)}25%{transform:rotateZ(2deg) rotateX(-13deg)}50%{transform:rotateZ(0) rotateX(-13deg)}75%{transform:rotateZ(-2deg) rotateX(-13deg)}100%{transform:rotateZ(0) rotateX(-13deg)}}`;
-    constructor() {
-            super();
-            this.classList.add("touch");
-if (this.constructor == AppIcon) { throw "can't instanciate an abstract class"; } }
+    constructor() {            super();            this.classList.add("touch");if (this.constructor == AppIcon) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return AppIcon;
     }
@@ -7024,7 +7550,7 @@ System.HomePanel = class HomePanel extends System.Panel {
 					}    __registerWatchesActions() {
     this.__addWatchesActions("currentUser");    super.__registerWatchesActions();
 }
-    static __style = `:host{display:flex;flex-direction:column;left:-9px;position:absolute;width:500px}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:5px;margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .grid{display:flex;flex-wrap:wrap;gap:10px;padding:10px}:host .content rk-row rk-col .favoris .favoris-container .grid *{width:calc(33.3333333333% - 6.6666666667px);flex-shrink:0;aspect-ratio:1/1;height:auto}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;padding:10px 10px;width:100%}:host .footer rk-img{height:25px}:host .footer .nom{flex-grow:1}:host .footer rk-button{--button-padding: 0px 8px;--button-icon-stroke-color: red;--button-icon-fill-color: transparent;--button-background-color: var(--darker-active);box-shadow:none;min-width:auto}`;
+    static __style = `:host{display:flex;flex-direction:column;left:-9px;position:absolute;width:500px}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:5px;margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .grid{display:flex;flex-wrap:wrap;gap:10px;padding:10px}:host .content rk-row rk-col .favoris .favoris-container .grid *{aspect-ratio:1/1;flex-shrink:0;height:auto;width:calc(33.3333333333% - 6.6666666667px)}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;padding:10px 10px;width:100%}:host .footer rk-img{height:25px}:host .footer .nom{flex-grow:1}:host .footer rk-button{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;border:none;box-shadow:var(--elevation-2);min-width:auto}`;
     __getStatic() {
         return HomePanel;
     }
@@ -7035,7 +7561,7 @@ System.HomePanel = class HomePanel extends System.Panel {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="content">    <rk-row>        <rk-col size="6">            <div class="recent">                <div class="title">                    Récents                </div>                <rk-scrollable class="scrollable recent-container" floating_scroll _id="homepanel_0">                </rk-scrollable>            </div>        </rk-col>        <rk-col size="6">            <div class="favoris">                <div class="title">                    Mes favoris                </div>                <rk-scrollable class="scrollable favoris-container" floating_scroll>                    <div class="grid" _id="homepanel_1"></div>                </rk-scrollable>            </div>        </rk-col>    </rk-row></div><div class="footer">    <div class="icon">        <rk-img src="/img/avatar.png"></rk-img>    </div>    <div class="nom" _id="homepanel_2"></div>    <rk-button outline icon="/img/icons/power-off.svg" _id="homepanel_3"></rk-button></div>` }
+        blocks: { 'default':`<div class="content">    <rk-row>        <rk-col size="6">            <div class="recent">                <div class="title">                    Récents                </div>                <rk-scrollable class="scrollable recent-container" floating_scroll _id="homepanel_0">                </rk-scrollable>            </div>        </rk-col>        <rk-col size="6">            <div class="favoris">                <div class="title">                    Mes favoris                </div>                <rk-scrollable class="scrollable favoris-container" floating_scroll>                    <div class="grid" _id="homepanel_1"></div>                </rk-scrollable>            </div>        </rk-col>    </rk-row></div><div class="footer">    <div class="icon">        <rk-img src="/img/avatar.png"></rk-img>    </div>    <div class="nom" _id="homepanel_2"></div>    <rk-button icon="/img/icons/power-off.svg" _id="homepanel_3"></rk-button></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -7117,94 +7643,6 @@ System.HomePanel.Tag=`rk-home-panel`;
 _.System.HomePanel=System.HomePanel;
 if(!window.customElements.get('rk-home-panel')){window.customElements.define('rk-home-panel', System.HomePanel);Aventus.WebComponentInstance.registerDefinition(System.HomePanel);}
 
-Lib.Platform=class Platform {
-    static get device() {
-        if (document.body.offsetWidth > 1224) {
-            return "pc";
-        }
-        else if (document.body.offsetWidth > 768) {
-            return "tablet";
-        }
-        return "mobile";
-    }
-    static get isStandalone() {
-        if ("standalone" in window.navigator && window.navigator.standalone) {
-            return true;
-        }
-        return false;
-    }
-    static get isiOS() {
-        let test1 = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
-        let test2 = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
-        return test1 || test2;
-    }
-}
-Lib.Platform.Namespace=`${moduleName}.Lib`;
-_.Lib.Platform=Lib.Platform;
-System.PwaPromptIos = class PwaPromptIos extends Aventus.WebComponent {
-    get 'ready'() { return this.getBoolAttr('ready') }
-    set 'ready'(val) { this.setBoolAttr('ready', val) }    static get isAvailable() {
-        return Lib.Platform.isiOS && !Lib.Platform.isStandalone;
-    }
-    static __style = `:host .noScroll{overflow:hidden}:host .pwaPromptOverlay{background-color:rgba(0,0,0,.8);left:0;min-height:100vh;min-height:-webkit-fill-available;opacity:0;pointer-events:none;position:fixed;top:0;touch-action:none;visibility:hidden;width:100vw;z-index:999999}:host .pwaPromptOverlay.visible{display:block;opacity:1;pointer-events:initial;touch-action:initial;visibility:visible}:host .pwaPromptOverlay.modern{background:rgba(10,10,10,.5);color:rgba(235,235,245,.6)}:host .pwaPrompt{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);background-color:rgba(250,250,250,.8);border-radius:10px;bottom:0;color:#000;filter:brightness(1.1);left:0;margin:0 8px 10px;overflow:hidden;pointer-events:none;position:fixed;touch-action:none;transform:translateY(calc(100% + 10px));width:calc(100vw - 16px);z-index:999999}:host .pwaPrompt.visible{display:block;pointer-events:initial;touch-action:initial;transform:translateY(0)}:host .pwaPrompt.modern{background:rgba(65,65,65,.7);filter:brightness(1.1)}:host .pwaPromptHeader{align-items:center;border-bottom:1px solid rgba(0,0,0,.1);border-left:0px;border-right:0px;border-top:0px;border-width:.5px;display:flex;flex-flow:row nowrap;justify-content:space-between;padding:13px 16px}:host .modern .pwaPromptHeader{border-color:rgba(140,140,140,.7)}:host .pwaPromptHeader .pwaPromptTitle{color:#333;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:18px;font-weight:500;line-height:1.125;margin:0;padding:0}:host .modern .pwaPromptHeader .pwaPromptTitle{color:#fff}:host .pwaPromptHeader .pwaPromptCancel{background:rgba(0,0,0,0);border:0;color:#2d7cf6;font-size:16px;margin:0;padding:0}:host .modern .pwaPromptHeader .pwaPromptCancel{color:#0984ff}:host .pwaPromptBody{display:flex;width:100%}:host .pwaPromptBody .pwaPromptDescription{border-bottom:1px solid rgba(0,0,0,.1);border-left:0px;border-right:0px;border-top:0px;border-width:.5px;color:inherit;margin:0 16px;padding:16px;width:100%}:host .modern .pwaPromptBody .pwaPromptDescription{border-color:rgba(140,140,140,.7)}:host .pwaPromptCopy{color:#7b7b7a;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:13px;line-height:17px;margin:0;padding:0}:host .pwaPromptCopy.bold{font-weight:600}:host .modern .pwaPromptCopy{border-color:rgba(235,235,245,.6);color:rgba(235,235,245,.6)}:host .pwaPromptInstruction{color:inherit;margin:0 16px;padding:16px}:host .pwaPromptInstruction .pwaPromptInstructionStep{align-items:center;display:flex;flex-flow:row nowrap;justify-content:flex-start;margin-bottom:16px;text-align:left}:host .pwaPromptInstruction .pwaPromptInstructionStep:last-of-type{margin-bottom:0}:host .pwaPromptInstruction .pwaPromptShareIcon,:host .pwaPromptInstruction .pwaPromptHomeIcon{flex:0 0 auto;height:30px;margin-right:32px;width:25px}:host .pwaPromptInstruction .pwaPromptHomeIcon{color:#2d7cf6}:host .modern .pwaPromptInstruction .pwaPromptHomeIcon{color:#fff;fill:#fff}:host .pwaPromptInstruction .pwaPromptShareIcon{color:#2d7cf6;fill:#2d7cf6}:host .modern .pwaPromptInstruction .pwaPromptShareIcon{color:#0984ff;fill:#0984ff}:host([ready]) .pwaPromptOverlay{transition:opacity .2s ease-in}:host([ready]) .pwaPrompt{transition:transform .4s cubic-bezier(0.4, 0.24, 0.3, 1)}`;
-    __getStatic() {
-        return PwaPromptIos;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(PwaPromptIos.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div aria-label="Close" role="button" class="pwaPromptOverlay modern iOSPWA-overlay" _id="pwapromptios_0"></div><div class="pwaPrompt iOSPWA-container modern" aria-describedby="description" aria-labelledby="homescreen" role="dialog" _id="pwapromptios_1">    <div class="pwaPromptHeader iOSPWA-header">        <p class="pwaPromptTitle iOSPWA-title">            Ajouter à la page d'accueil        </p>        <button class="pwaPromptCancel iOSPWA-cancel" _id="pwapromptios_2">            Annuler        </button>    </div>    <div class="pwaPromptBody iOSPWA-body">        <div class="pwaPromptDescription iOSPWA-description">            <p class="pwaPromptCopy iOSPWA-description-copy">                Ce site web est doté d'une fonctionnalité d'application. Ajoutez-le à votre écran d'accueil pour l'utiliser en plein écran            </p>        </div>    </div>    <div class="pwaPromptInstruction iOSPWA-steps">        <div class="pwaPromptInstructionStep iOSPWA-step1">            <svg class="pwaPromptShareIcon iOSPWA-step1-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 566 670">                <path d="M255 12c4-4 10-8 16-8s12 3 16 8l94 89c3 4 6 7 8 12 2 6 0 14-5 19-7 8-20 9-28 2l-7-7-57-60 2 54v276c0 12-10 22-22 22-12 1-24-10-23-22V110l1-43-60 65c-5 5-13 8-21 6a19 19 0 0 1-16-17c-1-7 2-13 7-18l95-91z"></path>                <path d="M43 207c16-17 40-23 63-23h83v46h-79c-12 0-25 3-33 13-8 9-10 21-10 33v260c0 13 0 27 6 38 5 12 18 18 30 19l14 1h302c14 0 28 0 40-8 11-7 16-21 16-34V276c0-11-2-24-9-33-8-10-22-13-34-13h-78v-46h75c13 0 25 1 37 4 16 4 31 13 41 27 11 17 14 37 14 57v280c0 20-3 41-15 58a71 71 0 0 1-45 27c-11 2-23 3-34 3H109c-19-1-40-4-56-15-14-9-23-23-27-38-4-12-5-25-5-38V270c1-22 6-47 22-63z"></path>            </svg>            <p class="pwaPromptCopy bold iOSPWA-step1-copy">                1) Appuyez sur le bouton "Partager" dans la barre de menu.            </p>        </div>        <div class="pwaPromptInstructionStep iOSPWA-step2">            <svg class="pwaPromptHomeIcon iOSPWA-step2-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 578 584">                <path d="M101 35l19-1h333c12 0 23 0 35 3 17 3 34 12 44 27 13 16 16 38 16 58v329c0 19 0 39-8 57a65 65 0 0 1-37 37c-18 7-38 7-57 7H130c-21 1-44 0-63-10-14-7-25-20-30-34-6-15-8-30-8-45V121c1-21 5-44 19-61 13-16 33-23 53-25m7 46c-10 1-19 6-24 14-7 8-9 20-9 31v334c0 12 2 25 10 34 9 10 23 12 35 12h336c14 1 30-3 38-15 6-9 8-20 8-31V125c0-12-2-24-10-33-9-9-22-12-35-12H121l-13 1z"></path>                <path d="M271 161c9-11 31-10 38 4 3 5 3 11 3 17v87h88c7 0 16 1 21 7 6 6 7 14 6 22a21 21 0 0 1-10 14c-5 4-11 5-17 5h-88v82c0 7-1 15-6 20-10 10-29 10-37-2-3-6-4-13-4-19v-81h-87c-8-1-17-3-23-9-5-6-6-15-4-22a21 21 0 0 1 11-14c6-3 13-3 19-3h84v-88c0-7 1-14 6-20z"></path>            </svg>            <p class="pwaPromptCopy bold iOSPWA-step2-copy">                2) Appuyez sur "Ajouter à l'écran d'accueil".            </p>        </div>    </div></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "overlay",
-      "ids": [
-        "pwapromptios_0"
-      ]
-    },
-    {
-      "name": "prompt",
-      "ids": [
-        "pwapromptios_1"
-      ]
-    }
-  ],
-  "pressEvents": [
-    {
-      "id": "pwapromptios_2",
-      "onPress": (e, pressInstance, c) => { c.comp.close(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "PwaPromptIos";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('ready')) { this.attributeChangedCallback('ready', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('ready'); }
-    __listBoolProps() { return ["ready"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    show() {
-        this.overlay?.classList.add("visible");
-        this.prompt?.classList.add("visible");
-    }
-    close() {
-        this.overlay?.classList.remove("visible");
-        this.prompt?.classList.remove("visible");
-    }
-    postCreation() {
-        this.ready = true;
-    }
-}
-System.PwaPromptIos.Namespace=`${moduleName}.System`;
-System.PwaPromptIos.Tag=`rk-pwa-prompt-ios`;
-_.System.PwaPromptIos=System.PwaPromptIos;
-if(!window.customElements.get('rk-pwa-prompt-ios')){window.customElements.define('rk-pwa-prompt-ios', System.PwaPromptIos);Aventus.WebComponentInstance.registerDefinition(System.PwaPromptIos);}
-
 System.PwaPrompt = class PwaPrompt extends Aventus.WebComponent {
     static instance;
     static get isAvailable() {
@@ -7216,11 +7654,7 @@ System.PwaPrompt = class PwaPrompt extends Aventus.WebComponent {
     e;
     isInit = false;
     static __style = ``;
-    constructor() {
-            super();
-            System.PwaPrompt.instance = this;
-            this.init();
-        }
+    constructor() {            super();            System.PwaPrompt.instance = this;            this.init();        }
     __getStatic() {
         return PwaPrompt;
     }
@@ -7265,7 +7699,7 @@ System.PwaPrompt.Tag=`rk-pwa-prompt`;
 _.System.PwaPrompt=System.PwaPrompt;
 if(!window.customElements.get('rk-pwa-prompt')){window.customElements.define('rk-pwa-prompt', System.PwaPrompt);Aventus.WebComponentInstance.registerDefinition(System.PwaPrompt);}
 
-const GenericSelect = class GenericSelect extends Aventus.WebComponent {
+Components.GenericSelect = class GenericSelect extends Aventus.WebComponent {
     static get observedAttributes() {return ["label", "placeholder", "icon", "searchable"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'has_errors'() { return this.getBoolAttr('has_errors') }
     set 'has_errors'(val) { this.setBoolAttr('has_errors', val) }get 'open'() { return this.getBoolAttr('open') }
@@ -7283,15 +7717,21 @@ const GenericSelect = class GenericSelect extends Aventus.WebComponent {
 					}
 					set 'displayValue'(val) {
 						this.__watch["displayValue"] = val;
-					}    change = new Aventus.Callback();
+					}get 'value'() {
+						return this.__watch["value"];
+					}
+					set 'value'(val) {
+						this.__watch["value"] = val;
+					}    onChange = new Aventus.Callback();
     selectedOption;
-    value;
     options = [];
     __registerWatchesActions() {
     this.__addWatchesActions("errors", ((target) => {
     target.has_errors = target.errors.length > 0;
 }));this.__addWatchesActions("displayValue", ((target, action, path, value) => {
     target.inputEl.value = target.displayValue;
+}));this.__addWatchesActions("value", ((target) => {
+    target.onInternalValueChanged();
 }));    super.__registerWatchesActions();
 }
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("searchable", ((target) => {
@@ -7335,15 +7775,15 @@ const GenericSelect = class GenericSelect extends Aventus.WebComponent {
   ],
   "content": {
     "genericselect_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__1d7a7aed56d2c056ade214b2e2c331b0method1())}`,
+      "fct": (c) => `${c.print(c.comp.__efca6c2ed5bcc3ecd5150acdf7f96c13method1())}`,
       "once": true
     },
     "genericselect_2°src": {
-      "fct": (c) => `${c.print(c.comp.__1d7a7aed56d2c056ade214b2e2c331b0method2())}`,
+      "fct": (c) => `${c.print(c.comp.__efca6c2ed5bcc3ecd5150acdf7f96c13method2())}`,
       "once": true
     },
     "genericselect_3°placeholder": {
-      "fct": (c) => `${c.print(c.comp.__1d7a7aed56d2c056ade214b2e2c331b0method3())}`,
+      "fct": (c) => `${c.print(c.comp.__efca6c2ed5bcc3ecd5150acdf7f96c13method3())}`,
       "once": true
     }
   },
@@ -7373,7 +7813,7 @@ const GenericSelect = class GenericSelect extends Aventus.WebComponent {
 });const templ0 = new Aventus.Template(this);templ0.setTemplate(`         <div _id="genericselect_5"></div>    `);templ0.setActions({
   "content": {
     "genericselect_5°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__1d7a7aed56d2c056ade214b2e2c331b0method4(c.data.error))}`,
+      "fct": (c) => `${c.print(c.comp.__efca6c2ed5bcc3ecd5150acdf7f96c13method4(c.data.error))}`,
       "once": true
     }
   }
@@ -7385,15 +7825,27 @@ const GenericSelect = class GenericSelect extends Aventus.WebComponent {
         return "GenericSelect";
     }
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('has_errors')) { this.attributeChangedCallback('has_errors', false, false); }if(!this.hasAttribute('open')) { this.attributeChangedCallback('open', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('searchable')) { this.attributeChangedCallback('searchable', false, false); } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["errors"] = [];w["displayValue"] = ""; }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["errors"] = [];w["displayValue"] = "";w["value"] = undefined; }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('has_errors');this.__upgradeProperty('open');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('searchable'); }
     __listBoolProps() { return ["has_errors","open","searchable"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    onInternalValueChanged() {
+        if (!this.isConnected)
+            return;
+        for (let option of this.options) {
+            if (option.value == this.value) {
+                this.selectedOption = option;
+                this.displayValue = this.itemToText(option);
+                this.filter();
+                break;
+            }
+        }
+    }
     setValueFromOption(option) {
         this.selectedOption = option;
         this.value = option.value;
         this.displayValue = this.itemToText(option);
         this.hideOptions();
-        this.change.trigger([this.value]);
+        this.onChange.trigger([this.value]);
         this.filter();
     }
     removeErrors() {
@@ -7402,7 +7854,7 @@ const GenericSelect = class GenericSelect extends Aventus.WebComponent {
     loadElementsFromSlot() {
         let elements = this.getElementsInSlot();
         for (let element of elements) {
-            if (element instanceof GenericOption) {
+            if (element instanceof Components.GenericOption) {
                 this.options.push(element);
                 element.init(this);
                 this.optionsContainer.appendChild(element);
@@ -7413,7 +7865,9 @@ const GenericSelect = class GenericSelect extends Aventus.WebComponent {
         if (!this.open) {
             this.removeErrors();
             this.optionsContainer.show();
-            //this.optionsContainer.focus({ preventScroll: true });
+        }
+        if (!this.searchable) {
+            this.optionsContainer.focus({ preventScroll: true });
         }
     }
     hideOptions() {
@@ -7436,7 +7890,7 @@ const GenericSelect = class GenericSelect extends Aventus.WebComponent {
         let blur = () => {
             blurTimeout = setTimeout(() => {
                 this.optionsContainer.hide();
-            }, 40);
+            }, 100);
         };
         this.inputEl.addEventListener("blur", () => {
             blur();
@@ -7455,24 +7909,25 @@ const GenericSelect = class GenericSelect extends Aventus.WebComponent {
         this.manageFocus();
         this.optionsContainer.init(this);
         this.loadElementsFromSlot();
+        this.onInternalValueChanged();
     }
-    __1d7a7aed56d2c056ade214b2e2c331b0method1() {
+    __efca6c2ed5bcc3ecd5150acdf7f96c13method1() {
         return this.label;
     }
-    __1d7a7aed56d2c056ade214b2e2c331b0method2() {
+    __efca6c2ed5bcc3ecd5150acdf7f96c13method2() {
         return this.icon;
     }
-    __1d7a7aed56d2c056ade214b2e2c331b0method3() {
+    __efca6c2ed5bcc3ecd5150acdf7f96c13method3() {
         return this.placeholder;
     }
-    __1d7a7aed56d2c056ade214b2e2c331b0method4(error) {
+    __efca6c2ed5bcc3ecd5150acdf7f96c13method4(error) {
         return error;
     }
 }
-GenericSelect.Namespace=`${moduleName}`;
-_.GenericSelect=GenericSelect;
+Components.GenericSelect.Namespace=`${moduleName}.Components`;
+_.Components.GenericSelect=Components.GenericSelect;
 
-const GenericOption = class GenericOption extends Aventus.WebComponent {
+Components.GenericOption = class GenericOption extends Aventus.WebComponent {
     value;
     select;
     static __style = `:host{--_option-font-size: var(--option-font-size, var(--form-element-font-size, 16px))}:host{padding:5px 10px;font-size:var(--_option-font-size);cursor:pointer;transition:background-color .2s linear}:host(:hover){background-color:var(--form-element-background-active)}`;
@@ -7513,13 +7968,15 @@ const GenericOption = class GenericOption extends Aventus.WebComponent {
         });
     }
 }
-GenericOption.Namespace=`${moduleName}`;
-GenericOption.Tag=`rk-generic-option`;
-_.GenericOption=GenericOption;
-if(!window.customElements.get('rk-generic-option')){window.customElements.define('rk-generic-option', GenericOption);Aventus.WebComponentInstance.registerDefinition(GenericOption);}
+Components.GenericOption.Namespace=`${moduleName}.Components`;
+Components.GenericOption.Tag=`rk-generic-option`;
+_.Components.GenericOption=Components.GenericOption;
+if(!window.customElements.get('rk-generic-option')){window.customElements.define('rk-generic-option', Components.GenericOption);Aventus.WebComponentInstance.registerDefinition(Components.GenericOption);}
 
-const Option = class Option extends GenericOption {
-    static __style = ``;
+Components.Option = class Option extends Components.GenericOption {
+    static get observedAttributes() {return ["value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'value'() { return this.getStringProp('value') }
+    set 'value'(val) { this.setStringAttr('value', val) }    static __style = ``;
     __getStatic() {
         return Option;
     }
@@ -7537,14 +7994,18 @@ const Option = class Option extends GenericOption {
     getClassName() {
         return "Option";
     }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('value')){ this['value'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('value'); }
 }
-Option.Namespace=`${moduleName}`;
-Option.Tag=`rk-option`;
-_.Option=Option;
-if(!window.customElements.get('rk-option')){window.customElements.define('rk-option', Option);Aventus.WebComponentInstance.registerDefinition(Option);}
+Components.Option.Namespace=`${moduleName}.Components`;
+Components.Option.Tag=`rk-option`;
+_.Components.Option=Components.Option;
+if(!window.customElements.get('rk-option')){window.customElements.define('rk-option', Components.Option);Aventus.WebComponentInstance.registerDefinition(Components.Option);}
 
-const Select = class Select extends GenericSelect {
-    static __style = ``;
+Components.Select = class Select extends Components.GenericSelect {
+    static get observedAttributes() {return ["value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'value'() { return this.getStringProp('value') }
+    set 'value'(val) { this.setStringAttr('value', val) }    static __style = ``;
     __getStatic() {
         return Select;
     }
@@ -7562,17 +8023,153 @@ const Select = class Select extends GenericSelect {
     getClassName() {
         return "Select";
     }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('value')){ this['value'] = ""; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('value'); }
     itemToText(option) {
-        if (option.value !== undefined) {
-            return option.value;
-        }
+        // if(option.value !== undefined) {
+        //     return option.value
+        // }
         return option.innerHTML;
     }
 }
-Select.Namespace=`${moduleName}`;
-Select.Tag=`rk-select`;
-_.Select=Select;
-if(!window.customElements.get('rk-select')){window.customElements.define('rk-select', Select);Aventus.WebComponentInstance.registerDefinition(Select);}
+Components.Select.Namespace=`${moduleName}.Components`;
+Components.Select.Tag=`rk-select`;
+_.Components.Select=Components.Select;
+if(!window.customElements.get('rk-select')){window.customElements.define('rk-select', Components.Select);Aventus.WebComponentInstance.registerDefinition(Components.Select);}
+
+Components.ItemBoxSelect = class ItemBoxSelect extends Components.BoxContainer {
+    static get observedAttributes() {return ["value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'value'() { return this.getStringProp('value') }
+    set 'value'(val) { this.setStringAttr('value', val) }    options = [];
+    optionSelected;
+    onChange = new Aventus.Callback();
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
+    target.selectInternalOption();
+})); }
+    static __style = `:host{position:relative}:host .select-notify{position:absolute;width:var(--internal-item-box-size);height:100%;left:0;top:0;background-color:var(--internal-item-box-select-select-background-color);transition:all .3s var(--bezier-curve);border-radius:var(--internal-item-border-radius);z-index:1}:host .container-option{display:flex;flex-direction:row;justify-content:center;align-items:center;height:100%;z-index:2}:host([space="0"]) .select-notify{border-radius:0}:host([space="0"]) .select-notify.first{border-top-left-radius:var(--internal-item-border-radius);border-bottom-left-radius:var(--internal-item-border-radius)}:host([space="0"]) .select-notify.last{border-top-right-radius:var(--internal-item-border-radius);border-bottom-right-radius:var(--internal-item-border-radius)}`;
+    __getStatic() {
+        return ItemBoxSelect;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(ItemBoxSelect.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="select-notify" rk-element="selectNotify"></div><div class="container-option">    <slot></slot></div>` }
+    });
+}
+    getClassName() {
+        return "ItemBoxSelect";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('value')){ this['value'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('value'); }
+    selectInternalOption() {
+        if (!this.isConnected)
+            return;
+        let oneFound = false;
+        for (let option of this.options) {
+            if (option.value == this.value) {
+                if (this.optionSelected)
+                    this.optionSelected.selected = false;
+                option.selected = true;
+                this.optionSelected = option;
+                oneFound = true;
+            }
+            else {
+                option.selected = false;
+            }
+        }
+        if (!oneFound) {
+            this.optionSelected = undefined;
+        }
+    }
+    selectOption(option) {
+        this.value = option.value;
+        this.onChange.trigger([this.value]);
+    }
+    register(option) {
+        if (!this.options.includes(option)) {
+            this.options.push(option);
+            if (option.value == this.value) {
+                if (this.optionSelected) {
+                    this.optionSelected.selected = false;
+                }
+                option.selected = true;
+                this.optionSelected = option;
+            }
+        }
+    }
+    unregister(option) {
+        const index = this.options.indexOf(option);
+        if (index != -1) {
+            this.options.splice(index, 1);
+        }
+    }
+    postCreation() {
+        this.selectInternalOption();
+    }
+}
+Components.ItemBoxSelect.Namespace=`${moduleName}.Components`;
+Components.ItemBoxSelect.Tag=`rk-item-box-select`;
+_.Components.ItemBoxSelect=Components.ItemBoxSelect;
+if(!window.customElements.get('rk-item-box-select')){window.customElements.define('rk-item-box-select', Components.ItemBoxSelect);Aventus.WebComponentInstance.registerDefinition(Components.ItemBoxSelect);}
+
+Components.ItemBoxOption = class ItemBoxOption extends Components.ItemBox {
+    get 'selected'() { return this.getBoolAttr('selected') }
+    set 'selected'(val) { this.setBoolAttr('selected', val) }get 'value'() { return this.getStringAttr('value') }
+    set 'value'(val) { this.setStringAttr('value', val) }    select;
+    static __style = `:host{cursor:pointer}`;
+    __getStatic() {
+        return ItemBoxOption;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(ItemBoxOption.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "ItemBoxOption";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('selected')) { this.attributeChangedCallback('selected', false, false); }if(!this.hasAttribute('value')){ this['value'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('selected');this.__upgradeProperty('value'); }
+    __listBoolProps() { return ["selected"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    register() {
+        this.select = this.findParentByType(Components.ItemBoxSelect);
+        if (this.select) {
+            this.select.register(this);
+        }
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => {
+                if (this.select) {
+                    this.select.selectOption(this);
+                }
+            }
+        });
+    }
+    postCreation() {
+        this.register();
+    }
+    destructor() {
+        super.destructor();
+        if (this.select) {
+            this.select.unregister(this);
+        }
+    }
+}
+Components.ItemBoxOption.Namespace=`${moduleName}.Components`;
+Components.ItemBoxOption.Tag=`rk-item-box-option`;
+_.Components.ItemBoxOption=Components.ItemBoxOption;
+if(!window.customElements.get('rk-item-box-option')){window.customElements.define('rk-item-box-option', Components.ItemBoxOption);Aventus.WebComponentInstance.registerDefinition(Components.ItemBoxOption);}
 
 Components.Table = class Table extends Aventus.WebComponent {
     get 'col_resize'() { return this.getBoolAttr('col_resize') }
@@ -7587,7 +8184,7 @@ Components.Table = class Table extends Aventus.WebComponent {
     target.render();
 }));    super.__registerWatchesActions();
 }
-    static __style = `:host{--internal-table-header-height: var(--table-header-height, 50px);--internal-table-header-backgroud-color: var(--table-header-backgroud-color, #1d4893);--internal-table-header-color: var(--table-header-color, white);--internal-table-header-vertical-border: var(--table-header-vertical-border, 1px solid var(--darker-active));--internal-table-header-horizontal-border: var(--table-header-vertical-border, 1px solid var(--darker-active));--internal-table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--darker-active));--internal-table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--darker-active));--internal-table-cell-padding: var(--table-cell-padding, 10px);--local-table-cell-resize-display: none}:host{background-color:#fff;border-radius:5px;box-shadow:var(--elevation-2);display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper{width:100%;height:100%;overflow:hidden;display:flex;flex-direction:column}:host .style-wrapper .header{--scrollbar-color: transparent;--scrollbar-active-color: transparent;--scroller-width: 0;height:var(--internal-table-header-height);width:100%}:host .style-wrapper .body{display:flex;flex-direction:column;height:calc(100% - var(--internal-table-header-height));width:100%}:host([col_resize]){--local-table-cell-resize-display: block}`;
+    static __style = `:host{--internal-table-header-height: var(--table-header-height, 50px);--internal-table-header-backgroud-color: var(--table-header-backgroud-color, #1d4893);--internal-table-header-color: var(--table-header-color, white);--internal-table-header-vertical-border: var(--table-header-vertical-border, 1px solid var(--darker-active));--internal-table-header-horizontal-border: var(--table-header-vertical-border, 1px solid var(--darker-active));--internal-table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--darker-active));--internal-table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--darker-active));--internal-table-cell-padding: var(--table-cell-padding, 10px);--local-table-cell-resize-display: none}:host{background-color:#fff;border-radius:5px;box-shadow:var(--elevation-2);display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper{width:100%;height:100%;overflow:hidden;display:flex;flex-direction:column}:host .style-wrapper .header{--scrollbar-color: transparent;--scrollbar-active-color: transparent;--scroller-width: 0;height:var(--internal-table-header-height);width:100%}:host .style-wrapper .body{display:flex;flex-direction:column;height:calc(100% - var(--internal-table-header-height));width:100%}:host .style-wrapper rk-scrollable::part(content-wrapper){min-width:100%}:host([col_resize]){--local-table-cell-resize-display: block}`;
     constructor() {
             super();
             this.options = this.configure(this.defaultOptions());

@@ -1,4 +1,4 @@
-import { Frame } from "../Frame/Frame.wcl.avt";
+import { FrameNoScroll } from "../Frame/FrameNoScroll/FrameNoScroll.wcl.avt";
 import { ApplicationHistory } from "./ApplicationHistory.lib.avt";
 import { Resize, ResizeDirection } from "../../ui/Resize/Resize.wcl.avt";
 import { ApplicationState, ApplicationStateManager } from "../../../libs/ApplicationStateManager.state.avt";
@@ -18,7 +18,7 @@ namespace System {
     export type ApplicationRoute = {
         route: string,
         scriptUrl: string,
-        render: () => new () => Frame;
+        render: () => new () => FrameNoScroll;
     };
 
     export type ApplicationInitOptions = {
@@ -87,9 +87,10 @@ namespace System {
         protected navigateNextEl!: HTMLDivElement;
 
 
-        private oldFrame: Frame | undefined;
+        private oldFrame: FrameNoScroll | undefined;
         protected allRoutes: { [key: string]: ApplicationRoute; } = {};
         private activePath: string = "";
+        protected activeState?: Aventus.State;
         private showPageMutex: Aventus.Mutex = new Aventus.Mutex();
         private router?: ApplicationStateManager;
         @Internal()
@@ -98,7 +99,7 @@ namespace System {
         @Internal()
         public mustRemoveApplicationHistory: boolean = true;
         private oneStateActive: boolean = false;
-        protected page404?: Frame;
+        protected page404?: FrameNoScroll;
 
         protected sizeManager: ApplicationSize;
         protected isAnimating: boolean = false;
@@ -111,7 +112,8 @@ namespace System {
             super();
             this.history = new ApplicationHistory();
             this.sizeManager = new ApplicationSize(this);
-
+            this.canChangeState = this.canChangeState.bind(this);
+            this.navigator.canChangeState(this.canChangeState);
         }
         //#endregion
 
@@ -144,7 +146,7 @@ namespace System {
         public async navigate(to: string | Aventus.State) {
             let hasChanged = await this.navigator.setState(to);
             let state = this.navigator.getState();
-            if(state) {
+            if(state && hasChanged) {
                 this.history.push({
                     state: state
                 });
@@ -154,10 +156,10 @@ namespace System {
             return hasChanged;
         }
 
-        protected addRouteAsync<T extends Frame>(options: ApplicationRoute) {
+        protected addRouteAsync<T extends FrameNoScroll>(options: ApplicationRoute) {
             this.allRoutes[options.route] = options;
         }
-        protected addRoute(route: string, elementCtr: new () => Frame) {
+        protected addRoute(route: string, elementCtr: new () => FrameNoScroll) {
             this.allRoutes[route] = {
                 route: route,
                 scriptUrl: '',
@@ -176,7 +178,7 @@ namespace System {
             }
         }
         private initRoute(path: string) {
-            let element: Frame;
+            let element: FrameNoScroll;
             let allRoutes = this.allRoutes;
             this.navigator.subscribe(path, {
                 active: (currentState) => {
@@ -200,9 +202,11 @@ namespace System {
 
                             let oldPage = this.oldFrame;
                             let oldUrl = this.activePath;
-                            await element.show();
                             this.oldFrame = element;
                             this.activePath = path;
+                            this.activeState = currentState;
+                            await element.show();
+
                             this.app_title = element.pageTitle();
 
                             this.onNewPage(oldUrl, oldPage, path, element);
@@ -235,12 +239,18 @@ namespace System {
                 this.activePath = '';
             }
         }
-        protected error404(state?: Aventus.State): (new () => Frame) {
+        protected error404(state?: Aventus.State): (new () => FrameNoScroll) {
             return Frame404;
         }
-        protected onNewPage(oldUrl: string, oldFrame: Frame | undefined, newUrl: string, newFrame: Frame) { }
+        protected onNewPage(oldUrl: string, oldFrame: FrameNoScroll | undefined, newUrl: string, newFrame: FrameNoScroll) { }
         public getSlugs() {
             return this.navigator.getStateSlugs(this.activePath);
+        }
+
+        protected async canChangeState(newState: Aventus.State): Promise<boolean> {
+            if(!this.oldFrame) return true;
+
+            return await this.oldFrame.askChange(newState);
         }
 
         protected checkNavigationState() {
@@ -260,18 +270,26 @@ namespace System {
         protected async navigatePrevious() {
             let history = this.history.previous();
             if(history) {
-                await this.navigator.setState(history.state);
-                this.checkNavigationState();
-                this.saveApplicationHistory();
+                if(await this.navigator.setState(history.state)) {
+                    this.checkNavigationState();
+                    this.saveApplicationHistory();
+                }
+                else {
+                    this.history.cancelPrevious();
+                }
             }
         }
 
         protected async navigateNext() {
             let history = this.history.next();
             if(history) {
-                await this.navigator.setState(history.state);
-                this.checkNavigationState();
-                this.saveApplicationHistory();
+                if(await this.navigator.setState(history.state)) {
+                    this.checkNavigationState();
+                    this.saveApplicationHistory();
+                }
+                else {
+                    this.history.cancelNext();
+                }
             }
         }
 
@@ -538,8 +556,8 @@ namespace System {
         //#endregion
 
         //#region popup
-        public popup<T extends Popup<any>>(p: T) {
-            return new Promise<T>((resolve) => {
+        public popup<T extends Popup<U>, U = any>(p: T): Promise<U> {
+            return new Promise<U>((resolve) => {
                 p.init((response) => {
                     resolve(response);
                 });
@@ -547,7 +565,7 @@ namespace System {
             });
         }
 
-        public async alert(title: string, message: string, okBtnTxt?: string) {
+        public async alert(title: string, message: string, okBtnTxt?: string): Promise<void> {
             const a = new Alert();
             a.subject = title;
             a.body = message;
@@ -556,7 +574,7 @@ namespace System {
             }
             await this.popup(a);
         }
-        public async confirm(title: string, message: string, yesBtnTxt?: string, noBtnTxt?: string) {
+        public async confirm(title: string, message: string, yesBtnTxt?: string, noBtnTxt?: string): Promise<boolean> {
             const c = new Confirm();
             c.subject = title;
             c.body = message;
@@ -607,6 +625,6 @@ namespace System {
             this.sizeManager.remove();
         }
         //#endregion
-        
+
     }
 }                 

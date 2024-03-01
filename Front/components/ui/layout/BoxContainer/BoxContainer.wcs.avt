@@ -1,0 +1,56 @@
+
+
+:host {
+	--_item-box-box-size: var(--item-box-box-size, 16px);
+	--_item-box-border-radius: var(--item-box-border-radius, 4px);
+	--_item-box-border-color: var(--item-box-border-color, var(--secondary-color, #afafaf));
+}
+
+
+:host {
+	align-items: center;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: row;
+	height: var(--_item-box-box-size);
+	justify-content: center;
+
+	::slotted(*) {
+		border: 1px solid var(--_item-box-border-color);
+		border-radius: 4px;
+		width: var(--_item-box-box-size);
+        max-height: var(--_item-box-box-size);
+        max-width: var(--_item-box-box-size);
+	}
+
+	::slotted(*:first-child) {
+		margin-left: 0;
+	}
+
+	::slotted(*:last-child) {
+		margin-right: 0;
+	}
+}
+
+:host([space="0"]) {
+	border: 1px solid var(--_item-box-border-color);
+	border-radius: var(--_item-box-border-radius);
+
+	::slotted(*) {
+		border: none;
+		border-radius: 0px;
+		border-right: 1px solid var(--_item-box-border-color);
+		width: var(--_item-box-box-size);
+	}
+
+	::slotted(*:first-child) {
+		border-bottom-left-radius: var(--_item-box-border-radius);
+		border-top-left-radius: var(--_item-box-border-radius);
+	}
+
+	::slotted(*:last-child) {
+		border-bottom-right-radius: var(--_item-box-border-radius);
+		border-right: none;
+		border-top-right-radius: var(--_item-box-border-radius);
+	}
+}

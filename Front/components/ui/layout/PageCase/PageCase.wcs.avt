@@ -1,4 +1,12 @@
 :host {
+    --internal-page-case-background: var(--page-case-background, transparent);
+    --internal-page-case-background-active: var(--page-case-background-active, transparent);
+    --internal-page-case-border-active: var(--page-case-border-active, none);
+    --internal-page-case-border-radius:var(--page-case-border-radius, 0);
+}
+
+
+:host {
     // Your style here
     display: block;
     width: 100%;

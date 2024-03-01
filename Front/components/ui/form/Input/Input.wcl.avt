@@ -34,7 +34,7 @@ namespace Components {
         protected inputEl!: HTMLInputElement;
 
 
-        public change: Aventus.Callback<(value: string) => void> = new Aventus.Callback();
+        public onChange: Aventus.Callback<(value: string) => void> = new Aventus.Callback();
         //#endregion
 
 
@@ -58,7 +58,7 @@ namespace Components {
          */
         protected onValueChange() {
             this.value = this.inputEl.value;
-            this.change.trigger([this.value]);
+            this.onChange.trigger([this.value]);
         }
         //#endregion
 

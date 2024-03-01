@@ -27,5 +27,5 @@
         <rk-img src="/img/avatar.png"></rk-img>
     </div>
     <div class="nom">{{ this.currentUser?.Firstname }} {{this.currentUser?.Lastname }}</div>
-    <rk-button outline icon="/img/icons/power-off.svg" @press="logout"></rk-button>
+    <rk-button icon="/img/icons/power-off.svg" @press="logout"></rk-button>
 </div>

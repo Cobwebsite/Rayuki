@@ -26,6 +26,8 @@
 	--text-color-blue: var(--text-color-reverse);
 	--blue: #2835c2;
 
+	--rayuki-color: #0c2247;
+
 	--font-size: 16px;
 	--font-size-sm: calc(var(--font-size) * 0.75);
 	--font-size-md: calc(var(--font-size) * 1.25);

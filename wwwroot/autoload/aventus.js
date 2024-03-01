@@ -371,11 +371,20 @@ const ActionGuard=class ActionGuard {
 ActionGuard.Namespace=`${moduleName}`;
 _.ActionGuard=ActionGuard;
 const Mutex=class Mutex {
+    /**
+     * Array to store functions waiting for the mutex to become available.
+     * @type {((run: boolean) => void)[]}
+     */
     waitingList = [];
+    /**
+    * Indicates whether the mutex is currently locked or not.
+    * @type {boolean}
+    */
     isLocked = false;
     /**
-     * Wait the mutex to be free then get it
-     */
+    * Waits for the mutex to become available and then acquires it.
+    * @returns {Promise<boolean>} A Promise that resolves to true if the mutex was acquired successfully.
+    */
     waitOne() {
         return new Promise((resolve) => {
             if (this.isLocked) {
@@ -402,7 +411,7 @@ const Mutex=class Mutex {
         }
     }
     /**
-     * Release the mutex
+     * Releases the mutex, allowing only the last function in the waiting list to acquire it.
      */
     releaseOnlyLast() {
         if (this.waitingList.length > 0) {
@@ -420,12 +429,18 @@ const Mutex=class Mutex {
         }
     }
     /**
-     * Clear mutex
+     * Clears the mutex, removing all waiting functions and releasing the lock.
      */
     dispose() {
         this.waitingList = [];
         this.isLocked = false;
     }
+    /**
+     * Executes a callback function safely within the mutex lock and releases the lock afterward.
+     * @template T - The type of the return value of the callback function.
+     * @param {() => T} cb - The callback function to execute.
+     * @returns {Promise<T | null>} A Promise that resolves to the result of the callback function or null if an error occurs.
+     */
     async safeRun(cb) {
         let result = null;
         await this.waitOne();
@@ -437,6 +452,12 @@ const Mutex=class Mutex {
         await this.release();
         return result;
     }
+    /**
+     * Executes an asynchronous callback function safely within the mutex lock and releases the lock afterward.
+     * @template T - The type of the return value of the asynchronous callback function.
+     * @param {() => Promise<T>} cb - The asynchronous callback function to execute.
+     * @returns {Promise<T | null>} A Promise that resolves to the result of the asynchronous callback function or null if an error occurs.
+     */
     async safeRunAsync(cb) {
         let result = null;
         await this.waitOne();
@@ -448,6 +469,12 @@ const Mutex=class Mutex {
         await this.release();
         return result;
     }
+    /**
+     * Executes a callback function safely within the mutex lock, allowing only the last function in the waiting list to acquire the lock, and releases the lock afterward.
+     * @template T - The type of the return value of the callback function.
+     * @param {() => T} cb - The callback function to execute.
+     * @returns {Promise<T | null>} A Promise that resolves to the result of the callback function or null if an error occurs.
+     */
     async safeRunLast(cb) {
         let result = null;
         if (await this.waitOne()) {
@@ -460,6 +487,12 @@ const Mutex=class Mutex {
         }
         return result;
     }
+    /**
+     * Executes an asynchronous callback function safely within the mutex lock, allowing only the last function in the waiting list to acquire the lock, and releases the lock afterward.
+     * @template T - The type of the return value of the asynchronous callback function.
+     * @param {() => Promise<T>} cb - The asynchronous callback function to execute.
+     * @returns {Promise<T | undefined>} A Promise that resolves to the result of the asynchronous callback function or undefined if an error occurs.
+     */
     async safeRunLastAsync(cb) {
         let result;
         if (await this.waitOne()) {
@@ -971,6 +1004,13 @@ const ResourceLoader=class ResourceLoader {
 ResourceLoader.Namespace=`${moduleName}`;
 _.ResourceLoader=ResourceLoader;
 const Json=class Json {
+    /**
+     * Converts a JavaScript class instance to a JSON object.
+     * @template T - The type of the object to convert.
+     * @param {T} obj - The object to convert to JSON.
+     * @param {JsonToOptions} [options] - Options for JSON conversion.
+     * @returns {{ [key: string | number]: any; }} Returns the JSON representation of the object.
+     */
     static classToJson(obj, options) {
         const realOptions = {
             isValidKey: options?.isValidKey ?? (() => true),
@@ -1003,13 +1043,21 @@ const Json=class Json {
         result = options.beforeEnd(result);
         return result;
     }
-    static classfromJson(obj, data, options) {
+    /**
+    * Converts a JSON object to a JavaScript class instance.
+    * @template T - The type of the object to convert.
+    * @param {T} obj - The object to populate with JSON data.
+    * @param {*} data - The JSON data to populate the object with.
+    * @param {JsonFromOptions} [options] - Options for JSON deserialization.
+    * @returns {T} Returns the populated object.
+    */
+    static classFromJson(obj, data, options) {
         let realOptions = {
             transformValue: options?.transformValue ?? ((key, value) => value),
         };
-        return this.__classfromJson(obj, data, realOptions);
+        return this.__classFromJson(obj, data, realOptions);
     }
-    static __classfromJson(obj, data, options) {
+    static __classFromJson(obj, data, options) {
         let props = Object.getOwnPropertyNames(obj);
         for (let prop of props) {
             let propUpperFirst = prop[0].toUpperCase() + prop.slice(1);
@@ -1081,7 +1129,7 @@ const ConverterTransform=class ConverterTransform {
                     obj.fromJSON(data);
                 }
                 else {
-                    obj = Json.classfromJson(obj, data, {
+                    obj = Json.classFromJson(obj, data, {
                         transformValue: (key, value) => {
                             if (obj[key] instanceof Date) {
                                 return value ? new Date(value) : null;
@@ -1142,30 +1190,65 @@ const ConverterTransform=class ConverterTransform {
 ConverterTransform.Namespace=`${moduleName}`;
 _.ConverterTransform=ConverterTransform;
 const Converter=class Converter {
+    /**
+    * Map storing information about registered types.
+    */
     static info = new Map();
+    /**
+    * Map storing schemas for registered types.
+    */
     static schema = new Map();
+    /**
+     * Internal converter instance.
+     */
     static __converter = new ConverterTransform();
+    /**
+     * Getter for the internal converter instance.
+     */
     static get converterTransform() {
         return this.__converter;
     }
+    /**
+    * Sets the converter instance.
+    * @param converter The converter instance to set.
+    */
     static setConverter(converter) {
         this.__converter = converter;
     }
     /**
-     * Register a unique string type for any class
-     */
+    * Registers a unique string type for any class.
+    * @param $type The unique string type identifier.
+    * @param cst The constructor function for the class.
+    * @param schema Optional schema for the registered type.
+    */
     static register($type, cst, schema) {
         this.info.set($type, cst);
         if (schema) {
             this.schema.set($type, schema);
         }
     }
+    /**
+     * Transforms the provided data using the current converter instance.
+     * @template T
+     * @param {*} data The data to transform.
+     * @param {IConverterTransform} [converter] Optional converter instance to use for transformation.
+     * @returns {T} Returns the transformed data.
+     */
     static transform(data, converter) {
         if (!converter) {
             converter = this.converterTransform;
         }
         return converter.transform(data);
     }
+    /**
+     * Copies values from one class instance to another using the current converter instance.
+     * @template T
+     * @param {T} to The destination class instance to copy values into.
+     * @param {T} from The source class instance to copy values from.
+     * @param {ClassCopyOptions} [options] Optional options for the copy operation.
+     * @param {IConverterTransform} [converter] Optional converter instance to use for the copy operation.
+     * @returns {T} Returns the destination class instance with copied values.
+     */
     static copyValuesClass(to, from, options, converter) {
         if (!converter) {
             converter = this.converterTransform;
@@ -1176,18 +1259,17 @@ const Converter=class Converter {
 Converter.Namespace=`${moduleName}`;
 _.Converter=Converter;
 const DataManager=class DataManager {
-    static info = new Map();
     /**
      * Register a unique string type for a data
      */
     static register($type, cst) {
-        this.info.set($type, cst);
+        Converter.register($type, cst);
     }
     /**
      * Get the contructor for the unique string type
      */
     static getConstructor($type) {
-        let result = this.info.get($type);
+        let result = Converter.info.get($type);
         if (result) {
             return result;
         }
@@ -1254,7 +1336,16 @@ const GenericError=class GenericError {
      * Description of the error
      */
     message;
+    /**
+     * Additional details related to the error.
+     * @type {any[]}
+     */
     details = [];
+    /**
+     * Creates a new instance of GenericError.
+     * @param {EnumValue<T>} code - The error code.
+     * @param {string} message - The error message.
+     */
     constructor(code, message) {
         this.code = code;
         this.message = message;
@@ -1281,11 +1372,23 @@ const VoidWithError=class VoidWithError {
      * List of errors
      */
     errors = [];
+    /**
+     * Converts the current instance to a VoidWithError object.
+     * @returns {VoidWithError} A new instance of VoidWithError with the same error list.
+     */
     toGeneric() {
         const result = new VoidWithError();
         result.errors = this.errors;
         return result;
     }
+    /**
+    * Checks if the error list contains a specific error code.
+    * @template U - The type of error, extending GenericError.
+    * @template T - The type of the error code, which extends either number or Enum.
+    * @param {EnumValue<T>} code - The error code to check for.
+    * @param {new (...args: any[]) => U} [type] - Optional constructor function of the error type.
+    * @returns {boolean} True if the error list contains the specified error code, otherwise false.
+    */
     containsCode(code, type) {
         if (type) {
             for (let error of this.errors) {
@@ -1310,9 +1413,14 @@ VoidWithError.Namespace=`${moduleName}`;
 _.VoidWithError=VoidWithError;
 const ResultWithError=class ResultWithError extends VoidWithError {
     /**
-     * Result
-     */
+      * The result value of the action.
+      * @type {U | undefined}
+      */
     result;
+    /**
+     * Converts the current instance to a ResultWithError object.
+     * @returns {ResultWithError<U>} A new instance of ResultWithError with the same error list and result value.
+     */
     toGeneric() {
         const result = new ResultWithError();
         result.errors = this.errors;
@@ -2448,11 +2556,14 @@ const Effect=class Effect {
     }
     destroy() {
         this.isDestroy = true;
+        this.clearCallbacks();
+        this.isInit = false;
+    }
+    clearCallbacks() {
         for (let pair of this.callbacks) {
             pair.receiver.unsubscribe(pair.cb);
         }
         this.callbacks = [];
-        this.isInit = false;
     }
     subscribe(fct) {
         let index = this.__subscribes.indexOf(fct);
@@ -3055,9 +3166,17 @@ const Watcher=class Watcher {
                 if (name !== "") {
                     let regex = new RegExp("^" + name.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&') + "(\\.|(\\[)|$)");
                     if (!regex.test(rootPath)) {
-                        continue;
+                        let regex2 = new RegExp("^" + rootPath.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&') + "(\\.|(\\[)|$)");
+                        if (!regex2.test(name)) {
+                            continue;
+                        }
+                        else {
+                            pathToSend = "";
+                        }
                     }
-                    pathToSend = rootPath.replace(regex, "$2");
+                    else {
+                        pathToSend = rootPath.replace(regex, "$2");
+                    }
                 }
                 if (name === "" && proxyData.useHistory) {
                     proxyData.history.push({
@@ -3073,7 +3192,8 @@ const Watcher=class Watcher {
                         cb(WatchAction[type], pathToSend, value);
                     }
                     catch (e) {
-                        console.log(e);
+                        if (e != 'impossible')
+                            console.log(e);
                     }
                 }
                 for (let [key, infos] of aliases) {
@@ -3129,7 +3249,11 @@ const EffectNoRecomputed=class EffectNoRecomputed extends Effect {
         this.fct();
         Watcher._registering.splice(Watcher._registering.length - 1, 1);
     }
-    run() { }
+    run() {
+        if (!this.isInit) {
+            this.init();
+        }
+    }
 }
 EffectNoRecomputed.Namespace=`${moduleName}`;
 _.EffectNoRecomputed=EffectNoRecomputed;
@@ -3384,7 +3508,10 @@ const ComputedNoRecomputed=class ComputedNoRecomputed extends Computed {
         Watcher._registering.splice(Watcher._registering.length - 1, 1);
     }
     computedValue() {
-        this._value = this.fct();
+        if (this.isInit)
+            this._value = this.fct();
+        else
+            this.init();
     }
     run() { }
 }
@@ -3566,7 +3693,7 @@ const GenericRam=class GenericRam {
         if (!item) {
             return;
         }
-        Json.classfromJson(item, objJson);
+        Json.classFromJson(item, objJson);
     }
     publish(type, data) {
         [...this.subscribers[type]].forEach(callback => callback(data));
@@ -5260,6 +5387,7 @@ const TemplateContext=class TemplateContext {
     computeds = [];
     watch;
     registry;
+    isDestroyed = false;
     constructor(component, data = {}, parentContext, registry) {
         this.comp = component;
         this.registry = registry;
@@ -5306,12 +5434,12 @@ const TemplateContext=class TemplateContext {
         }
         return fullName;
     }
-    registerLoop(dataName, _indexValue, _indexName, indexName, itemName) {
+    registerLoop(dataName, _indexValue, _indexName, indexName, itemName, onThis) {
         this.watch[_indexName] = _indexValue;
         let getItems;
         let mustBeRecomputed = /if|switch|\?|\[.+?\]/g.test(dataName);
         let _class = mustBeRecomputed ? Computed : ComputedNoRecomputed;
-        if (!dataName.startsWith("this.")) {
+        if (!onThis) {
             getItems = new _class(() => {
                 return getValueFromObject(dataName, this.data);
             });
@@ -5403,6 +5531,7 @@ const TemplateContext=class TemplateContext {
         this.updateIndex(this.watch[_indexName] - 1, _indexName);
     }
     destructor() {
+        this.isDestroyed = true;
         for (let computed of this.computeds) {
             computed.destroy();
         }
@@ -5420,7 +5549,25 @@ const TemplateContext=class TemplateContext {
     updateWatch(name, value) {
         this.watch[name] = value;
     }
+    normalizePath(path) {
+        path = path.replace(/^this\./, '');
+        const regex = /\[(.*?)\]/g;
+        let m;
+        while ((m = regex.exec(path)) !== null) {
+            if (m.index === regex.lastIndex) {
+                regex.lastIndex++;
+            }
+            let name = m[1];
+            let result = getValueFromObject(name, this.data);
+            if (result !== undefined) {
+                path = path.replace(m[0], `[${result}]`);
+            }
+        }
+        return path;
+    }
     getValueFromItem(name) {
+        if (!name)
+            return undefined;
         let result = getValueFromObject(name, this.data);
         if (result !== undefined) {
             return result;
@@ -5452,6 +5599,7 @@ const TemplateInstance=class TemplateInstance {
     loopRegisteries = {};
     loops = [];
     ifs = [];
+    isDestroyed = false;
     constructor(component, content, actions, loops, ifs, context) {
         this.component = component;
         this.content = content;
@@ -5476,6 +5624,7 @@ const TemplateInstance=class TemplateInstance {
         this.renderSubTemplate();
     }
     destructor() {
+        this.isDestroyed = true;
         for (let name in this.loopRegisteries) {
             for (let item of this.loopRegisteries[name].templates) {
                 item.destructor();
@@ -5680,7 +5829,15 @@ const TemplateInstance=class TemplateInstance {
                 return change.fct(this.context);
             }
             catch (e) {
-                debugger;
+                if (e instanceof TypeError && e.message.startsWith("Cannot read properties of undefined")) {
+                    if (computed instanceof ComputedNoRecomputed) {
+                        computed.isInit = false;
+                    }
+                }
+                else {
+                    console.log(e);
+                    debugger;
+                }
             }
             return "";
         });
@@ -5689,6 +5846,8 @@ const TemplateInstance=class TemplateInstance {
             clearTimeout(timeout);
             // add timeout to group change that append on the same frame (for example index update)
             timeout = setTimeout(() => {
+                if (computed.isDestroy)
+                    return;
                 apply();
             });
         });
@@ -5702,7 +5861,20 @@ const TemplateInstance=class TemplateInstance {
             return;
         let _class = injection.once ? ComputedNoRecomputed : Computed;
         let computed = new _class(() => {
-            return injection.inject(this.context);
+            try {
+                return injection.inject(this.context);
+            }
+            catch (e) {
+                if (e instanceof TypeError && e.message.startsWith("Cannot read properties of undefined")) {
+                    if (computed instanceof ComputedNoRecomputed) {
+                        computed.isInit = false;
+                    }
+                }
+                else {
+                    console.log(e);
+                    debugger;
+                }
+            }
         });
         this.computeds.push(computed);
         computed.subscribe(() => {
@@ -5720,7 +5892,20 @@ const TemplateInstance=class TemplateInstance {
         let isLocalChange = false;
         let _class = binding.once ? ComputedNoRecomputed : Computed;
         let computed = new _class(() => {
-            return binding.inject(this.context);
+            try {
+                return binding.inject(this.context);
+            }
+            catch (e) {
+                if (e instanceof TypeError && e.message.startsWith("Cannot read properties of undefined")) {
+                    if (computed instanceof ComputedNoRecomputed) {
+                        computed.isInit = false;
+                    }
+                }
+                else {
+                    console.log(e);
+                    debugger;
+                }
+            }
         });
         this.computeds.push(computed);
         computed.subscribe(() => {
@@ -5781,22 +5966,16 @@ const TemplateInstance=class TemplateInstance {
             this.renderLoopSimple(loop, loop.simple);
         }
     }
-    resetLoop(loop) {
-        if (this.loopRegisteries[loop.anchorId]) {
-            for (let item of this.loopRegisteries[loop.anchorId].templates) {
+    resetLoopComplex(anchorId) {
+        if (this.loopRegisteries[anchorId]) {
+            for (let item of this.loopRegisteries[anchorId].templates) {
                 item.destructor();
             }
-            for (let item of this.loopRegisteries[loop.anchorId].computeds) {
+            for (let item of this.loopRegisteries[anchorId].computeds) {
                 item.destroy();
             }
-            if (loop.simple && this.loopRegisteries[loop.anchorId].sub) {
-                let elements = this.context.getValueFromItem(loop.simple.data.replace(/^this\./, ''));
-                if (elements) {
-                    elements.unsubscribe(this.loopRegisteries[loop.anchorId].sub);
-                }
-            }
         }
-        this.loopRegisteries[loop.anchorId] = {
+        this.loopRegisteries[anchorId] = {
             templates: [],
             computeds: [],
         };
@@ -5810,7 +5989,7 @@ const TemplateInstance=class TemplateInstance {
             condition: fctsTemp.condition,
             transform: fctsTemp.transform ?? (() => { })
         };
-        this.resetLoop(loop);
+        this.resetLoopComplex(loop.anchorId);
         let computedsCondition = [];
         let alreadyRecreated = false;
         const createComputedCondition = () => {
@@ -5846,11 +6025,43 @@ const TemplateInstance=class TemplateInstance {
             this.loopRegisteries[loop.anchorId].templates.push(instance);
         }
     }
+    resetLoopSimple(anchorId, basePath) {
+        let elements = this.context.getValueFromItem(basePath);
+        if (elements && this.loopRegisteries[anchorId]) {
+            elements.unsubscribe(this.loopRegisteries[anchorId].sub);
+        }
+        this.resetLoopComplex(anchorId);
+    }
     renderLoopSimple(loop, simple) {
-        this.resetLoop(loop);
-        let basePath = simple.data.replace(/^this\./, '');
+        let onThis = simple.data.startsWith("this.");
+        let basePath = this.context.normalizePath(simple.data);
+        this.resetLoopSimple(loop.anchorId, basePath);
         let getElements = () => this.context.getValueFromItem(basePath);
         let elements = getElements();
+        if (!elements) {
+            let currentPath = basePath;
+            while (currentPath != '' && !elements) {
+                let splittedPath = currentPath.split(".");
+                splittedPath.pop();
+                currentPath = splittedPath.join(".");
+                elements = this.context.getValueFromItem(currentPath);
+            }
+            if (!elements && onThis) {
+                elements = this.component.__watch;
+            }
+            if (!elements || !elements.__isProxy) {
+                debugger;
+            }
+            const subTemp = (action, path, value) => {
+                if (basePath.startsWith(path)) {
+                    elements.unsubscribe(subTemp);
+                    this.renderLoopSimple(loop, simple);
+                    return;
+                }
+            };
+            elements.subscribe(subTemp);
+            return;
+        }
         let indexName = this.context.registerIndex();
         let keys = Object.keys(elements);
         if (elements.__isProxy) {
@@ -5889,7 +6100,7 @@ const TemplateInstance=class TemplateInstance {
                     let registry = this.loopRegisteries[loop.anchorId];
                     if (action == WatchAction.CREATED) {
                         let context = new TemplateContext(this.component, {}, this.context, registry);
-                        context.registerLoop(simple.data, index, indexName, simple.index, simple.item);
+                        context.registerLoop(basePath, index, indexName, simple.index, simple.item, onThis);
                         let content = loop.template.template?.content.cloneNode(true);
                         let actions = loop.template.actions;
                         let instance = new TemplateInstance(this.component, content, actions, loop.template.loops, loop.template.ifs, context);
@@ -5916,12 +6127,13 @@ const TemplateInstance=class TemplateInstance {
                     }
                 }
             };
+            this.loopRegisteries[loop.anchorId].sub = sub;
             elements.subscribe(sub);
         }
         let anchor = this._components[loop.anchorId][0];
         for (let i = 0; i < keys.length; i++) {
             let context = new TemplateContext(this.component, {}, this.context, this.loopRegisteries[loop.anchorId]);
-            context.registerLoop(simple.data, i, indexName, simple.index, simple.item);
+            context.registerLoop(basePath, i, indexName, simple.index, simple.item, onThis);
             let content = loop.template.template?.content.cloneNode(true);
             let actions = loop.template.actions;
             let instance = new TemplateInstance(this.component, content, actions, loop.template.loops, loop.template.ifs, context);
@@ -5997,12 +6209,18 @@ const _ = {};
 
 let _n;
 const Icon = class Icon extends Aventus.WebComponent {
-    static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    static get observedAttributes() {return ["icon", "type"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
-    target.shadowRoot.innerHTML = target.icon;
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'type'() { return this.getStringProp('type') }
+    set 'type'(val) { this.setStringAttr('type', val) }    static defaultType = 'outlined';
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
+    if (target.isReady)
+        target.shadowRoot.innerHTML = target.icon;
+}));this.__addPropertyActions("type", ((target) => {
+    if (target.isReady)
+        target.loadFont();
 })); }
-    static __style = `:host{--_material-icon-animation-duration: var(--material-icon-animation-duration, 1.75s)}:host{direction:ltr;display:inline-block;font-family:"Material Icons";-moz-font-feature-settings:"liga";font-size:24px;-moz-osx-font-smoothing:grayscale;font-style:normal;font-weight:normal;letter-spacing:normal;line-height:1;text-transform:none;white-space:nowrap;word-wrap:normal}:host([spin]){animation:spin var(--_material-icon-animation-duration) linear infinite}:host([reverse_spin]){animation:reverse-spin var(--_material-icon-animation-duration) linear infinite}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes reverse-spin{0%{transform:rotate(360deg)}100%{transform:rotate(0deg)}}`;
+    static __style = `:host{--_material-icon-animation-duration: var(--material-icon-animation-duration, 1.75s)}:host{direction:ltr;display:inline-block;font-family:"Material Symbols Outlined";-moz-font-feature-settings:"liga";font-size:24px;-moz-osx-font-smoothing:grayscale;font-style:normal;font-weight:normal;letter-spacing:normal;line-height:1;text-transform:none;white-space:nowrap;word-wrap:normal}:host([type=sharp]){font-family:"Material Symbols Sharp"}:host([type=rounded]){font-family:"Material Symbols Rounded"}:host([type=outlined]){font-family:"Material Symbols Outlined"}:host([spin]){animation:spin var(--_material-icon-animation-duration) linear infinite}:host([reverse_spin]){animation:reverse-spin var(--_material-icon-animation-duration) linear infinite}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes reverse-spin{0%{transform:rotate(360deg)}100%{transform:rotate(0deg)}}`;
     __getStatic() {
         return Icon;
     }
@@ -6019,10 +6237,24 @@ const Icon = class Icon extends Aventus.WebComponent {
     getClassName() {
         return "Icon";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = "check_box_outline_blank"; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon'); }
-    postCreation() {
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = "check_box_outline_blank"; }if(!this.hasAttribute('type')){ this['type'] = Icon.defaultType; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon');this.__upgradeProperty('type'); }
+    async loadFont() {
+        if (!this.type)
+            return;
+        let url = 'https://fonts.googleapis.com/icon?family=Material+Symbols+';
+        url += this.type.charAt(0).toUpperCase() + this.type.slice(1);
+        await Aventus.ResourceLoader.loadInHead({
+            type: "css",
+            url: url
+        });
+    }
+    async init() {
+        await this.loadFont();
         this.shadowRoot.innerHTML = this.icon;
+    }
+    postCreation() {
+        this.init();
     }
 }
 Icon.Namespace=`${moduleName}`;
@@ -6214,7 +6446,7 @@ Data.Storable=class Storable extends Aventus.Data {
         });
     }
 }
-Data.Storable.$schema={"Id":"number","CreatedDate":"Date","UpdatedDate":"Date"};Aventus.DataManager.register(Data.Storable.Fullname, Data.Storable);Data.Storable.Namespace=`${moduleName}.Data`;
+Data.Storable.Namespace=`${moduleName}.Data`;Data.Storable.$schema={"Id":"number","CreatedDate":"Date","UpdatedDate":"Date"};Aventus.DataManager.register(Data.Storable.Fullname, Data.Storable);
 _.Data.Storable=Data.Storable;
 RAM.RamHttp=class RamHttp extends Aventus.Ram {
     getAllDone = false;
