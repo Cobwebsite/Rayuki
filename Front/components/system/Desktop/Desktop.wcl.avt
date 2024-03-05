@@ -296,8 +296,8 @@ namespace System {
                         if(this.pageCaseEl.getElementAt(pageCase.no) == null) {
                             this.oldActiveCase = pageCase;
                             pageCase.classList.add("active");
-                            shadow.style.width = '75px';
-                            shadow.style.height = '75px';
+                            shadow.style.width = this.iconSize + 'px';
+                            shadow.style.height = this.iconSize + 'px';
                         }
                     }
                     else {
@@ -328,6 +328,8 @@ namespace System {
                 desktopIcon.IconTag = icon.tag;
                 desktopIcon.Location = DesktopLocation.Desktop;
                 desktopIcon.Id = icon.iconId;
+                this.oldActiveCase?.classList.remove("active");
+                this.oldActiveCase = undefined;
                 let result = await MainSocket.instance.routes.desktop.SetDesktopIcon({
                     icon: desktopIcon
                 });
@@ -390,7 +392,7 @@ namespace System {
             let data = await DesktopRAM.getInstance().getById(this.desktop_id);
             if(data) {
                 this.data = data;
-                this.style.backgroundImage = 'url("' + data.Configuration.Background + '")';
+                this.style.backgroundImage = 'url("' + data.Configuration.Background.Uri + '")';
                 this.background_size = BackgroundSize[data.Configuration.BackgroundSize];
                 if(data.Configuration.SyncDesktop) {
                     this.recreateApplications(data.Applications);

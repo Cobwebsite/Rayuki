@@ -1,4 +1,5 @@
 import { ApplicationOpen } from './ApplicationOpen.lib.avt';
+import { ImageFile } from './DataTypes/ImageFile.lib.avt';
 
 namespace Data {
 
@@ -12,6 +13,7 @@ namespace Data {
 	export class Desktop extends AventusSharp.Data.Storable implements Aventus.IData {
 		public static override get Fullname(): string { return "Core.Data.Desktop, Core"; }
 		public Name!: string;
+		public Token!: string;
 		public UserId?: number = undefined;
 		public Configuration: DekstopConfiguration = new DekstopConfiguration();
 		public Icons: DesktopAppIcon[] = [];
@@ -21,12 +23,12 @@ namespace Data {
 	@Convertible()
 	export class DekstopConfiguration extends AventusSharp.Data.Storable implements Aventus.IData {
 		public static override get Fullname(): string { return "Core.Data.DekstopConfiguration, Core"; }
-		public Background: string = "/img/default_wp.png";
+		public Background!: ImageFile;
 		public BackgroundSize: BackgroundSize = BackgroundSize.Cover;
 		public SyncDesktop: boolean = false;
 		public SizeMobile: number = 75;
 		public SizeTablet: number = 75;
-		public SizeDesktop: number = 75;
+		public SizeDesktop: number = 40;
 	}
 
 	export enum DesktopLocation {

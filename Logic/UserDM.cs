@@ -3,15 +3,16 @@ using AventusSharp.Data.Manager.DB;
 using AventusSharp.Tools;
 using Core.App;
 using Core.Data;
+using Scriban.Parsing;
 
 namespace Core.Logic
 {
     public class UserDM : DatabaseDM<UserDM, User>
     {
 
-        protected async override Task<VoidWithDataError> Initialize()
+        protected async override Task<VoidWithError> Initialize()
         {
-            VoidWithDataError result = await base.Initialize();
+            VoidWithError result = await base.Initialize();
             CreateDefaultAdmin();
             //new User()
             //{
@@ -24,12 +25,29 @@ namespace Core.Logic
             return result;
         }
 
+        protected string GetPictureDirPath(User user)
+        {
+            return Path.Combine(HttpServer.wwwroot, "users", user.Token);
+        }
+
+        protected override List<GenericError> BeforeCreateWithError<X>(List<X> values)
+        {
+            List<GenericError> errors = base.BeforeCreateWithError(values);
+            foreach (X value in values)
+            {
+                value.Token = Guid.NewGuid().ToString().Replace("-", "");
+                errors.AddRange(value.Picture.ValidateAndSaveToDir(GetPictureDirPath(value), 1200).Errors);
+            }
+            return errors;
+        }
         protected override void BeforeCreate<X>(List<X> values)
         {
             base.BeforeCreate(values);
             foreach (X value in values)
             {
                 PasswordManager.HashPassword(value);
+
+                // value.Picture.
             }
         }
 
@@ -50,6 +68,13 @@ namespace Core.Logic
 
         public ResultWithError<User> UpdateBasicInfo(User user)
         {
+            ResultWithError<User> result = new ResultWithError<User>();
+            result.Errors = user.Picture.ValidateAndSaveToDir(GetPictureDirPath(user), 1200).Errors;
+            if (result.Errors.Count > 0)
+            {
+                return result;
+            }
+
             var t = CreateUpdate<User>()
                 .Field(u => u.Username)
                 .Field(u => u.Firstname)

@@ -69,7 +69,7 @@ namespace Core.Logic
             {
                 CreateIfNotExistQuery = CreateExist<ApplicationData>().WhereWithParameters(a => a.Name == application.Name);
             }
-            ResultWithDataError<bool> queryResult = CreateIfNotExistQuery.Prepare(application).RunWithError();
+            ResultWithError<bool> queryResult = CreateIfNotExistQuery.Prepare(application).RunWithError();
             if (!queryResult.Success && queryResult.Errors.Count > 0)
             {
                 result.Errors.AddRange(queryResult.Errors);
@@ -80,7 +80,7 @@ namespace Core.Logic
                 return result;
             }
 
-            ResultWithDataError<ApplicationData> createResult = CreateWithError(application);
+            ResultWithError<ApplicationData> createResult = CreateWithError(application);
             if (!createResult.Success)
             {
                 result.Errors.AddRange(createResult.Errors);
@@ -120,7 +120,7 @@ namespace Core.Logic
             {
                 deniedApps.Add(permission.Permission.AdditionalInfo);
             }
-            ResultWithDataError<List<ApplicationData>> apps = ApplicationData.WhereWithError(a => !deniedApps.Contains(a.Name));
+            ResultWithError<List<ApplicationData>> apps = ApplicationData.WhereWithError(a => !deniedApps.Contains(a.Name));
 
             return apps.Result ?? new List<ApplicationData>();
         }

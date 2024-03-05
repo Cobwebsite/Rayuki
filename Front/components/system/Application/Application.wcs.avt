@@ -1,14 +1,16 @@
 @import '@root/_variables.gs.avt';
 
 :host {
-	--internal-application-box-shadow: var(--application-box-shadow);
-	--internal-application-header-background-color: var(--application-header-background-color, var(--darker-active));
+	--_application-box-shadow: var(--application-box-shadow);
+	--_application-header-background-color: var(--application-header-background-color, var(--darker-active));
+	--_application-background-color: var(--application-background-color, var(--primary-color-opacity));
+	--_application-border-radius: var(--application-border-radius, 10px);
 }
 
 :host {
-	background-color: var(--primary-color-opacity);
-	border-radius: 10px;
-	box-shadow: var(--internal-application-box-shadow);
+	background-color: var(--_application-background-color);
+	border-radius: var(--_application-border-radius);
+	box-shadow: var(--_application-box-shadow);
 	container-name: application;
 	container-type: inline-size;
 	outline: none;
@@ -17,8 +19,8 @@
 
 	.header {
 		align-items: center;
-		border-top-left-radius: 10px;
-		border-top-right-radius: 10px;
+		border-top-left-radius: var(--_application-border-radius);
+		border-top-right-radius: var(--_application-border-radius);
 		cursor: grab;
 		display: flex;
 		height: 30px;
@@ -28,7 +30,7 @@
 		z-index: 3;
 
 		.background {
-			background-color: var(--internal-application-header-background-color);
+			background-color: var(--_application-header-background-color);
 			inset: 0;
 			position: absolute;
 			z-index: 1;
@@ -90,8 +92,8 @@
 	}
 
 	.content {
-		border-bottom-left-radius: 10px;
-		border-bottom-right-radius: 10px;
+		border-bottom-left-radius: var(--_application-border-radius);
+		border-bottom-right-radius: var(--_application-border-radius);
 		height: calc(100% - 35px);
 		margin: 5px;
 		margin-top: 0;

@@ -1,0 +1,4 @@
+<div class="hider"></div>
+<div class="content">
+    <mi-icon icon="{{ this.icon }}" class="icon"></mi-icon>
+</div>

@@ -1,0 +1,8 @@
+namespace Data.DataTypes {
+
+	@Convertible()
+	export class ImageFile extends AventusSharp.Data.AventusFile  {
+		public static override get Fullname(): string { return "Core.Data.DataTypes.ImageFile, Core"; }
+	}
+
+}

@@ -52,7 +52,6 @@ namespace Components {
         @ViewElement()
         protected optionsContainer!: OptionsContainer;
 
-        public onChange: Aventus.Callback<(value: U | undefined) => void> = new Aventus.Callback();
         public selectedOption?: T;
         @Watch((target: GenericSelect<T, U>) => {
             target.onInternalValueChanged();
@@ -67,6 +66,10 @@ namespace Components {
 
         //#endregion
 
+
+        //#region events
+        public onChange: Aventus.Callback<(value: U | undefined) => void> = new Aventus.Callback();
+        //#endregion
 
         //#region methods
         protected abstract itemToText(option: T): string;

@@ -5,10 +5,10 @@ var Core;
 const moduleName = `Core`;
 const _ = {};
 Aventus.Style.store("@default", `:host{box-sizing:border-box;display:inline-block;--img-fill-color: var(--text-color)}:host *{box-sizing:border-box}.touch{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}.touch.disable,.touch.disabled{cursor:default}.green{background-color:var(--green)}.red{background-color:var(--red)}.orange{background-color:var(--orange)}.blue{background-color:var(--blue)}`)
-const Permissions = {};
-_.Permissions = {};
 const Errors = {};
 _.Errors = {};
+const Permissions = {};
+_.Permissions = {};
 const Data = {};
 _.Data = {};
 const App = {};
@@ -27,11 +27,21 @@ Websocket.Routes = {};
 _.Websocket.Routes = {};
 const Routes = {};
 _.Routes = {};
+Data.DataTypes = {};
+_.Data.DataTypes = {};
 const State = {};
 _.State = {};
 const RAM = {};
 _.RAM = {};
+const Tools = {};
+_.Tools = {};
 let _n;
+(function (ImageFileErrorCode) {
+    ImageFileErrorCode[ImageFileErrorCode["UnknowError"] = 0] = "UnknowError";
+    ImageFileErrorCode[ImageFileErrorCode["NotValidImage"] = 1] = "NotValidImage";
+})(Errors.ImageFileErrorCode || (Errors.ImageFileErrorCode = {}));
+
+_.Errors.ImageFileErrorCode=Errors.ImageFileErrorCode;
 (function (DesktopPermission) {
     DesktopPermission[DesktopPermission["CanEdit"] = 0] = "CanEdit";
     DesktopPermission[DesktopPermission["CanDelete"] = 1] = "CanDelete";
@@ -166,6 +176,31 @@ Tooltip.Namespace=`${moduleName}`;
 Tooltip.Tag=`rk-tooltip`;
 _.Tooltip=Tooltip;
 if(!window.customElements.get('rk-tooltip')){window.customElements.define('rk-tooltip', Tooltip);Aventus.WebComponentInstance.registerDefinition(Tooltip);}
+
+Components.Separator = class Separator extends Aventus.WebComponent {
+    static __style = `:host{--_separator-color: var(--separator-color, var(--text-color))}:host{background:linear-gradient(90deg, transparent 0%, var(--_separator-color) 50%, transparent 100%);height:1px;margin:20px auto;width:100%;display:flex}`;
+    __getStatic() {
+        return Separator;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Separator.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "Separator";
+    }
+}
+Components.Separator.Namespace=`${moduleName}.Components`;
+Components.Separator.Tag=`rk-separator`;
+_.Components.Separator=Components.Separator;
+if(!window.customElements.get('rk-separator')){window.customElements.define('rk-separator', Components.Separator);Aventus.WebComponentInstance.registerDefinition(Components.Separator);}
 
 Components.Row = class Row extends Aventus.WebComponent {
     static __style = `:host{display:flex;width:100%;flex-wrap:wrap;container-type:inline-size}`;
@@ -1112,6 +1147,45 @@ Components.ButtonIcon.Tag=`rk-button-icon`;
 _.Components.ButtonIcon=Components.ButtonIcon;
 if(!window.customElements.get('rk-button-icon')){window.customElements.define('rk-button-icon', Components.ButtonIcon);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIcon);}
 
+Components.ButtonIconMi = class ButtonIconMi extends Components.ButtonIcon {
+    static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host .content .icon{height:auto;padding:0}`;
+    __getStatic() {
+        return ButtonIconMi;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(ButtonIconMi.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="hider"></div><div class="content">    <mi-icon class="icon" _id="buttoniconmi_0"></mi-icon></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "buttoniconmi_0°icon": {
+      "fct": (c) => `${c.print(c.comp.__6bf11e2b799d6cfde945f27815605c6bmethod0())}`,
+      "once": true
+    }
+  }
+}); }
+    getClassName() {
+        return "ButtonIconMi";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = "square"; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon'); }
+    __6bf11e2b799d6cfde945f27815605c6bmethod0() {
+        return this.icon;
+    }
+}
+Components.ButtonIconMi.Namespace=`${moduleName}.Components`;
+Components.ButtonIconMi.Tag=`rk-button-icon-mi`;
+_.Components.ButtonIconMi=Components.ButtonIconMi;
+if(!window.customElements.get('rk-button-icon-mi')){window.customElements.define('rk-button-icon-mi', Components.ButtonIconMi);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIconMi);}
+
 Components.Button = class Button extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon_before", "icon_after", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'color'() { return this.getStringAttr('color') }
@@ -1453,188 +1527,6 @@ System.HomeBtn.Tag=`rk-home-btn`;
 _.System.HomeBtn=System.HomeBtn;
 if(!window.customElements.get('rk-home-btn')){window.customElements.define('rk-home-btn', System.HomeBtn);Aventus.WebComponentInstance.registerDefinition(System.HomeBtn);}
 
-Components.Popup = class Popup extends Aventus.WebComponent {
-    cb;
-    static __style = `:host{background-color:rgba(0,0,0,.2);inset:0;position:absolute;display:flex;align-items:center;justify-content:center;z-index:999}:host .popup{padding:20px;border-radius:20px;background-color:#fff;box-shadow:var(--elevation-5);max-width:calc(100% - 50px);max-height:calc(100% - 50px);display:flex;flex-direction:column}`;
-    __getStatic() {
-        return Popup;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Popup.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="popup">    <slot></slot></div>` }
-    });
-}
-    getClassName() {
-        return "Popup";
-    }
-    init(cb) {
-        this.cb = cb;
-    }
-}
-Components.Popup.Namespace=`${moduleName}.Components`;
-Components.Popup.Tag=`rk-popup`;
-_.Components.Popup=Components.Popup;
-if(!window.customElements.get('rk-popup')){window.customElements.define('rk-popup', Components.Popup);Aventus.WebComponentInstance.registerDefinition(Components.Popup);}
-
-Components.Confirm = class Confirm extends Components.Popup {
-    static get observedAttributes() {return ["subject", "body", "btn_yes_txt", "btn_no_txt"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'subject'() { return this.getStringProp('subject') }
-    set 'subject'(val) { this.setStringAttr('subject', val) }get 'body'() { return this.getStringProp('body') }
-    set 'body'(val) { this.setStringAttr('body', val) }get 'btn_yes_txt'() { return this.getStringProp('btn_yes_txt') }
-    set 'btn_yes_txt'(val) { this.setStringAttr('btn_yes_txt', val) }get 'btn_no_txt'() { return this.getStringProp('btn_no_txt') }
-    set 'btn_no_txt'(val) { this.setStringAttr('btn_no_txt', val) }    static __style = `:host .popup .title{font-size:var(--font-size-lg);font-weight:bold;margin-bottom:15px}:host .popup .action{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:30px}`;
-    __getStatic() {
-        return Confirm;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Confirm.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="title" _id="confirm_0"></div><rk-scrollable class="body" _id="confirm_1"></rk-scrollable><div class="action">    <rk-button color="red" _id="confirm_2"></rk-button>    <rk-button color="green" _id="confirm_3"></rk-button></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "confirm_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method0())}`,
-      "once": true
-    },
-    "confirm_1°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method1())}`,
-      "once": true
-    },
-    "confirm_2°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method2())}`,
-      "once": true
-    },
-    "confirm_3°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method3())}`,
-      "once": true
-    }
-  },
-  "pressEvents": [
-    {
-      "id": "confirm_2",
-      "onPress": (e, pressInstance, c) => { c.comp.cancel(e, pressInstance); }
-    },
-    {
-      "id": "confirm_3",
-      "onPress": (e, pressInstance, c) => { c.comp.validate(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "Confirm";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('subject')){ this['subject'] = undefined; }if(!this.hasAttribute('body')){ this['body'] = undefined; }if(!this.hasAttribute('btn_yes_txt')){ this['btn_yes_txt'] = "yes"; }if(!this.hasAttribute('btn_no_txt')){ this['btn_no_txt'] = "no"; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('subject');this.__upgradeProperty('body');this.__upgradeProperty('btn_yes_txt');this.__upgradeProperty('btn_no_txt'); }
-    cancel() {
-        if (this.cb) {
-            this.cb(false);
-        }
-        this.remove();
-    }
-    validate() {
-        if (this.cb) {
-            this.cb(true);
-        }
-        this.remove();
-    }
-    __caa2fd56843944180566fbe49a4bb311method0() {
-        return this.subject;
-    }
-    __caa2fd56843944180566fbe49a4bb311method1() {
-        return this.body;
-    }
-    __caa2fd56843944180566fbe49a4bb311method2() {
-        return this.btn_no_txt;
-    }
-    __caa2fd56843944180566fbe49a4bb311method3() {
-        return this.btn_yes_txt;
-    }
-}
-Components.Confirm.Namespace=`${moduleName}.Components`;
-Components.Confirm.Tag=`rk-confirm`;
-_.Components.Confirm=Components.Confirm;
-if(!window.customElements.get('rk-confirm')){window.customElements.define('rk-confirm', Components.Confirm);Aventus.WebComponentInstance.registerDefinition(Components.Confirm);}
-
-Components.Alert = class Alert extends Components.Popup {
-    static get observedAttributes() {return ["subject", "body", "btn_txt"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'subject'() { return this.getStringProp('subject') }
-    set 'subject'(val) { this.setStringAttr('subject', val) }get 'body'() { return this.getStringProp('body') }
-    set 'body'(val) { this.setStringAttr('body', val) }get 'btn_txt'() { return this.getStringProp('btn_txt') }
-    set 'btn_txt'(val) { this.setStringAttr('btn_txt', val) }    static __style = `:host .popup .title{font-size:var(--font-size-lg);font-weight:bold;margin-bottom:15px}:host .popup .action{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:30px}`;
-    __getStatic() {
-        return Alert;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Alert.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="title" _id="alert_0"></div><rk-scrollable class="body" _id="alert_1"></rk-scrollable><div class="action">    <rk-button color="blue" _id="alert_2"></rk-button></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "alert_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__d0561a7aa91ff42b328166316d099970method0())}`,
-      "once": true
-    },
-    "alert_1°@HTML": {
-      "fct": (c) => `\r\n    ${c.print(c.comp.__d0561a7aa91ff42b328166316d099970method1())}\r\n`,
-      "once": true
-    },
-    "alert_2°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__d0561a7aa91ff42b328166316d099970method2())}`,
-      "once": true
-    }
-  },
-  "events": [
-    {
-      "eventName": "click",
-      "id": "alert_2",
-      "fct": (e, c) => c.comp.close(e)
-    }
-  ]
-}); }
-    getClassName() {
-        return "Alert";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('subject')){ this['subject'] = undefined; }if(!this.hasAttribute('body')){ this['body'] = undefined; }if(!this.hasAttribute('btn_txt')){ this['btn_txt'] = "Ok"; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('subject');this.__upgradeProperty('body');this.__upgradeProperty('btn_txt'); }
-    close() {
-        if (this.cb) {
-            this.cb();
-        }
-        this.remove();
-    }
-    __d0561a7aa91ff42b328166316d099970method0() {
-        return this.subject;
-    }
-    __d0561a7aa91ff42b328166316d099970method1() {
-        return this.body;
-    }
-    __d0561a7aa91ff42b328166316d099970method2() {
-        return this.btn_txt;
-    }
-}
-Components.Alert.Namespace=`${moduleName}.Components`;
-Components.Alert.Tag=`rk-alert`;
-_.Components.Alert=Components.Alert;
-if(!window.customElements.get('rk-alert')){window.customElements.define('rk-alert', Components.Alert);Aventus.WebComponentInstance.registerDefinition(Components.Alert);}
-
 Lib.Geometry=class Geometry {
     static getIntersectingRectangle(rect1, rect2) {
         const [r1, r2] = [rect1, rect2].map(r => {
@@ -1724,7 +1616,7 @@ Lib.ApplicationState=class ApplicationState extends Aventus.State {
     canSync() {
         if (!this.__canSaveState)
             return false;
-        if (!System.Os.instance.activeDesktop.data.SyncDesktop)
+        if (!System.Os.instance.activeDesktop.data.Configuration.SyncDesktop)
             return false;
         return true;
     }
@@ -1874,8 +1766,8 @@ System.Frame = class Frame extends System.FrameNoScroll {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<rk-scrollable floating_scroll class="main-scroll">    <slot></slot></rk-scrollable>` }
+        slots: { 'before-scroll':`<slot name="before-scroll"></slot>`,'default':`<slot></slot>`,'after-scroll':`<slot name="after-scroll"></slot>` }, 
+        blocks: { 'default':`<slot name="before-scroll"></slot><rk-scrollable floating_scroll class="main-scroll">    <slot></slot></rk-scrollable><slot name="after-scroll"></slot>` }
     });
 }
     getClassName() {
@@ -1897,45 +1789,6 @@ _.System.Frame=System.Frame;
 })(Components.ResizeDirection || (Components.ResizeDirection = {}));
 
 _.Components.ResizeDirection=Components.ResizeDirection;
-Data.User=class User extends AventusSharp.Data.Storable {
-    static get Fullname() { return "Core.Data.User, Core"; }
-    Firstname = "";
-    Lastname = "";
-    Username = "";
-    Password = "";
-    Token = "";
-    Picture = "";
-    IsSuperAdmin = false;
-}
-Data.User.Namespace=`${moduleName}.Data`;Data.User.$schema={"Firstname":"string","Lastname":"string","Username":"string","Password":"string","Token":"string","Picture":"string","IsSuperAdmin":"boolean"};Aventus.DataManager.register(Data.User.Fullname, Data.User);Aventus.Converter.register(Data.User.Fullname, Data.User);
-_.Data.User=Data.User;
-Data.PermissionUser=class PermissionUser extends AventusSharp.Data.Storable {
-    static get Fullname() { return "Core.Data.PermissionUser, Core"; }
-    Data;
-    Permission;
-    Data;
-    User;
-}
-Data.PermissionUser.Namespace=`${moduleName}.Data`;Data.PermissionUser.$schema={"Permission":""+moduleName+".Data.Permission","User":""+moduleName+".Data.User"};Aventus.DataManager.register(Data.PermissionUser.Fullname, Data.PermissionUser);Aventus.Converter.register(Data.PermissionUser.Fullname, Data.PermissionUser);
-_.Data.PermissionUser=Data.PermissionUser;
-Data.Group=class Group extends AventusSharp.Data.Storable {
-    static get Fullname() { return "Core.Data.Group, Core"; }
-    Name = "";
-    Description = "";
-    Users = [];
-    parentGroup = undefined;
-}
-Data.Group.Namespace=`${moduleName}.Data`;Data.Group.$schema={"Name":"string","Description":"string","Users":""+moduleName+".Data.User","parentGroup":"Group"};Aventus.DataManager.register(Data.Group.Fullname, Data.Group);Aventus.Converter.register(Data.Group.Fullname, Data.Group);
-_.Data.Group=Data.Group;
-Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
-    static get Fullname() { return "Core.Data.PermissionGroup, Core"; }
-    Data;
-    Permission;
-    Data;
-    Group;
-}
-Data.PermissionGroup.Namespace=`${moduleName}.Data`;Data.PermissionGroup.$schema={"Permission":""+moduleName+".Data.Permission","Group":""+moduleName+".Data.Group"};Aventus.DataManager.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
-_.Data.PermissionGroup=Data.PermissionGroup;
 Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
     async LoginAction(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/login`, Aventus.HttpMethod.POST);
@@ -2126,6 +1979,50 @@ _.Data.DesktopLocation=Data.DesktopLocation;
 })(Data.BackgroundSize || (Data.BackgroundSize = {}));
 
 _.Data.BackgroundSize=Data.BackgroundSize;
+Data.DataTypes.ImageFile=class ImageFile extends AventusSharp.Data.AventusFile {
+    static get Fullname() { return "Core.Data.DataTypes.ImageFile, Core"; }
+}
+Data.DataTypes.ImageFile.Namespace=`${moduleName}.Data.DataTypes`;Aventus.Converter.register(Data.DataTypes.ImageFile.Fullname, Data.DataTypes.ImageFile);
+_.Data.DataTypes.ImageFile=Data.DataTypes.ImageFile;
+Data.User=class User extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.User, Core"; }
+    Firstname = "";
+    Lastname = "";
+    Username = "";
+    Password = "";
+    Token = "";
+    Picture = new Data.DataTypes.ImageFile();
+    IsSuperAdmin = false;
+}
+Data.User.Namespace=`${moduleName}.Data`;Data.User.$schema={"Firstname":"string","Lastname":"string","Username":"string","Password":"string","Token":"string","Picture":""+moduleName+".Data.DataTypes.ImageFile","IsSuperAdmin":"boolean"};Aventus.DataManager.register(Data.User.Fullname, Data.User);Aventus.Converter.register(Data.User.Fullname, Data.User);
+_.Data.User=Data.User;
+Data.PermissionUser=class PermissionUser extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.PermissionUser, Core"; }
+    Data;
+    Permission;
+    Data;
+    User;
+}
+Data.PermissionUser.Namespace=`${moduleName}.Data`;Data.PermissionUser.$schema={"Permission":""+moduleName+".Data.Permission","User":""+moduleName+".Data.User"};Aventus.DataManager.register(Data.PermissionUser.Fullname, Data.PermissionUser);Aventus.Converter.register(Data.PermissionUser.Fullname, Data.PermissionUser);
+_.Data.PermissionUser=Data.PermissionUser;
+Data.Group=class Group extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.Group, Core"; }
+    Name = "";
+    Description = "";
+    Users = [];
+    parentGroup = undefined;
+}
+Data.Group.Namespace=`${moduleName}.Data`;Data.Group.$schema={"Name":"string","Description":"string","Users":""+moduleName+".Data.User","parentGroup":"Group"};Aventus.DataManager.register(Data.Group.Fullname, Data.Group);Aventus.Converter.register(Data.Group.Fullname, Data.Group);
+_.Data.Group=Data.Group;
+Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.PermissionGroup, Core"; }
+    Data;
+    Permission;
+    Data;
+    Group;
+}
+Data.PermissionGroup.Namespace=`${moduleName}.Data`;Data.PermissionGroup.$schema={"Permission":""+moduleName+".Data.Permission","Group":""+moduleName+".Data.Group"};Aventus.DataManager.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
+_.Data.PermissionGroup=Data.PermissionGroup;
 State.DesktopStateManager=class DesktopStateManager extends Aventus.StateManager {
     /**
      * Get the instance of the StateManager
@@ -2722,15 +2619,15 @@ State.MoveApplication.Namespace=`${moduleName}.State`;
 _.State.MoveApplication=State.MoveApplication;
 Data.DekstopConfiguration=class DekstopConfiguration extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.DekstopConfiguration, Core"; }
-    Background = "/img/default_wp.png";
+    Background;
     Data;
     BackgroundSize = Data.BackgroundSize.Cover;
     SyncDesktop = false;
     SizeMobile = 75;
     SizeTablet = 75;
-    SizeDesktop = 75;
+    SizeDesktop = 40;
 }
-Data.DekstopConfiguration.Namespace=`${moduleName}.Data`;Data.DekstopConfiguration.$schema={"Background":"string","BackgroundSize":"BackgroundSize","SyncDesktop":"boolean","SizeMobile":"number","SizeTablet":"number","SizeDesktop":"number"};Aventus.DataManager.register(Data.DekstopConfiguration.Fullname, Data.DekstopConfiguration);Aventus.Converter.register(Data.DekstopConfiguration.Fullname, Data.DekstopConfiguration);
+Data.DekstopConfiguration.Namespace=`${moduleName}.Data`;Data.DekstopConfiguration.$schema={"Background":""+moduleName+".Data.DataTypes.ImageFile","BackgroundSize":"BackgroundSize","SyncDesktop":"boolean","SizeMobile":"number","SizeTablet":"number","SizeDesktop":"number"};Aventus.DataManager.register(Data.DekstopConfiguration.Fullname, Data.DekstopConfiguration);Aventus.Converter.register(Data.DekstopConfiguration.Fullname, Data.DekstopConfiguration);
 _.Data.DekstopConfiguration=Data.DekstopConfiguration;
 Data.DesktopAppIcon=class DesktopAppIcon extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.DesktopAppIcon, Core"; }
@@ -2760,12 +2657,13 @@ _.Websocket.Routes.DesktopRouter_SetDesktopIcon=Websocket.Routes.DesktopRouter_S
 Data.Desktop=class Desktop extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Desktop, Core"; }
     Name;
+    Token;
     UserId = undefined;
     Configuration = new Data.DekstopConfiguration();
     Icons = [];
     Applications = [];
 }
-Data.Desktop.Namespace=`${moduleName}.Data`;Data.Desktop.$schema={"Name":"string","UserId":"number","Configuration":"DekstopConfiguration","Icons":"DesktopAppIcon","Applications":""+moduleName+".Data.ApplicationOpen"};Aventus.DataManager.register(Data.Desktop.Fullname, Data.Desktop);Aventus.Converter.register(Data.Desktop.Fullname, Data.Desktop);
+Data.Desktop.Namespace=`${moduleName}.Data`;Data.Desktop.$schema={"Name":"string","Token":"string","UserId":"number","Configuration":"DekstopConfiguration","Icons":"DesktopAppIcon","Applications":""+moduleName+".Data.ApplicationOpen"};Aventus.DataManager.register(Data.Desktop.Fullname, Data.Desktop);Aventus.Converter.register(Data.Desktop.Fullname, Data.Desktop);
 _.Data.Desktop=Data.Desktop;
 Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRoute {
     StorableName() {
@@ -2794,8 +2692,14 @@ Components.PageCase = class PageCase extends Aventus.WebComponent {
     resizeObserver;
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("case_width", ((target) => {
     target.style.setProperty("--local-page-case-width", target.case_width + 'px');
+    if (target.inverse) {
+        target.calculateGrid();
+    }
 }));this.__addPropertyActions("case_height", ((target) => {
     target.style.setProperty("--local-page-case-height", target.case_height + 'px');
+    if (target.inverse) {
+        target.calculateGrid();
+    }
 })); }
     static __style = `:host{--internal-page-case-background: var(--page-case-background, transparent);--internal-page-case-background-active: var(--page-case-background-active, transparent);--internal-page-case-border-active: var(--page-case-border-active, none);--internal-page-case-border-radius:var(--page-case-border-radius, 0)}:host{display:block;width:100%;height:100%;position:relative;overflow:hidden}:host .page-hider{width:100%;height:100%;position:absolute;top:0;left:0}:host .slot-hider ::slotted(*){position:absolute;top:0;left:0;width:var(--local-page-case-width);height:var(--local-page-case-height)}:host([move_content]) .slot-hider{display:none}`;
     __getStatic() {
@@ -3148,7 +3052,10 @@ Routes.CoreHttpRoutes= [
 ];
 
 _.Routes.CoreHttpRoutes=Routes.CoreHttpRoutes;
-Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter.WithRoute(Routes.CoreHttpRoutes) {
+Routes.CoreRouterType= Aventus.HttpRouter.WithRoute(Routes.CoreHttpRoutes);
+
+_.Routes.CoreRouterType=Routes.CoreRouterType;
+Routes.CoreRouter=class CoreRouter extends Routes.CoreRouterType {
     defineOptions(options) {
         options.url = location.protocol + "//" + location.host + "";
         return options;
@@ -4330,7 +4237,7 @@ Lib.ApplicationManager=class ApplicationManager {
     static openApplications = {};
     static openApplicationsKey = "openApplications";
     static async save(appInfo) {
-        if (System.Os.instance.activeDesktop.data.SyncDesktop) {
+        if (System.Os.instance.activeDesktop.data.Configuration.SyncDesktop) {
             await this.uniqueAction(appInfo, async (appInfo) => {
                 await Lib.MainSocket.instance.routes.desktop.RegisterOpenApp({
                     appInfo
@@ -4358,7 +4265,7 @@ Lib.ApplicationManager=class ApplicationManager {
         }
     }
     static async remove(appInfo) {
-        if (System.Os.instance.activeDesktop.data.SyncDesktop) {
+        if (System.Os.instance.activeDesktop.data.Configuration.SyncDesktop) {
             await this.uniqueAction(appInfo, async (appInfo) => {
                 await Lib.MainSocket.instance.routes.desktop.RemoveApp({
                     appInfo
@@ -4492,6 +4399,232 @@ Lib.ApplicationManager=class ApplicationManager {
 }
 Lib.ApplicationManager.Namespace=`${moduleName}.Lib`;
 _.Lib.ApplicationManager=Lib.ApplicationManager;
+Components.Popup = class Popup extends Aventus.WebComponent {
+    get 'no_red_btn'() { return this.getBoolAttr('no_red_btn') }
+    set 'no_red_btn'(val) { this.setBoolAttr('no_red_btn', val) }    get 'info'() {
+						return this.__watch["info"];
+					}
+					set 'info'(val) {
+						this.__watch["info"] = val;
+					}    cb;
+    __registerWatchesActions() {
+    this.__addWatchesActions("info", ((target, action, path, value) => {
+    target.onOptionsChanged();
+}));    super.__registerWatchesActions();
+}
+    static __style = `:host{--_popup-background-color: var(--popup-background-color, var(--application-background-color, var(--primary-color-opacity)));--_popup-border-radius: var(--popup-border-radius, var(--application-border-radius, 10px));--_popup-header-background-color: var(--popup-header-background-color, var(--application-header-background-color, var(--darker-active)))}:host{align-items:center;background-color:rgba(0,0,0,.2);border-radius:var(--application-border-radius);display:flex;inset:0;justify-content:center;position:absolute;z-index:999}:host .popup{background-color:var(--_popup-background-color);border-radius:var(--_popup-border-radius);box-shadow:var(--elevation-5);display:flex;flex-direction:column;max-height:calc(100% - 50px);max-width:calc(100% - 50px)}:host .popup .header{align-items:center;border-top-left-radius:var(--_popup-border-radius);border-top-right-radius:var(--_popup-border-radius);display:flex;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .popup .header .background{background-color:var(--_popup-header-background-color);inset:0;position:absolute;z-index:1}:host .popup .header .title{flex-grow:1;margin-left:15px;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .popup .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .popup .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .popup .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);overflow:hidden;padding:15px;padding-top:15px;width:100%;z-index:1}:host([no_red_btn]) .popup .header .application-actions .btn{display:none}@media screen and (min-width: 1225px){:host .popup .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}`;
+    constructor() { super(); if (this.constructor == Popup) { throw "can't instanciate an abstract class"; } }
+    __getStatic() {
+        return Popup;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Popup.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="popup" _id="popup_0">    <div class="header">        <div class="background"></div>        <div class="title" _id="popup_1"></div>        <div class="application-actions">            <div class="btn red touch" _id="popup_2"></div>        </div>    </div>    <div class="content">        <slot></slot>    </div></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "popupEl",
+      "ids": [
+        "popup_0"
+      ]
+    }
+  ],
+  "content": {
+    "popup_1°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__c6b222033048639bf6ac58d471520fbamethod0())}`,
+      "once": true
+    }
+  },
+  "pressEvents": [
+    {
+      "id": "popup_2",
+      "onPress": (e, pressInstance, c) => { c.comp.redPress(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "Popup";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('no_red_btn')) { this.attributeChangedCallback('no_red_btn', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["info"] = this.defaultOptions(); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('no_red_btn'); }
+    __listBoolProps() { return ["no_red_btn"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    mergeInfo(info) {
+        this.info = { ...this.info, ...info };
+    }
+    init(cb) {
+        this.cb = cb;
+    }
+    onOptionsChanged() {
+        this.no_red_btn = this.info.hide_red_btn == true;
+        this.popupEl.style.maxWidth = this.info.max_width ?? '';
+        this.popupEl.style.maxHeight = this.info.max_height ?? '';
+    }
+    redPress() {
+        this.remove();
+    }
+    __c6b222033048639bf6ac58d471520fbamethod0() {
+        return this.info.title;
+    }
+}
+Components.Popup.Namespace=`${moduleName}.Components`;
+_.Components.Popup=Components.Popup;
+
+Components.Confirm = class Confirm extends Components.Popup {
+    static __style = `:host .popup .body{align-items:center;display:flex;justify-content:center;line-height:1.5;padding:20px;padding-top:15px;text-align:center}:host .popup .action{align-items:center;display:flex;gap:20px;justify-content:center}`;
+    __getStatic() {
+        return Confirm;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Confirm.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-scrollable class="body" _id="confirm_0"></rk-scrollable><div class="action">    <rk-button color="red" _id="confirm_1"></rk-button>    <rk-button color="green" _id="confirm_2"></rk-button></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "confirm_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method0())}`,
+      "once": true
+    },
+    "confirm_1°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method1())}`,
+      "once": true
+    },
+    "confirm_2°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method2())}`,
+      "once": true
+    }
+  },
+  "pressEvents": [
+    {
+      "id": "confirm_1",
+      "onPress": (e, pressInstance, c) => { c.comp.cancel(e, pressInstance); }
+    },
+    {
+      "id": "confirm_2",
+      "onPress": (e, pressInstance, c) => { c.comp.validate(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "Confirm";
+    }
+    defaultOptions() {
+        return {
+            title: "",
+            description: "",
+            true_txt: "Oui",
+            false_txt: "Non",
+        };
+    }
+    cancel() {
+        if (this.cb) {
+            this.cb(false);
+        }
+        this.remove();
+    }
+    validate() {
+        if (this.cb) {
+            this.cb(true);
+        }
+        this.remove();
+    }
+    redPress() {
+        this.cancel();
+    }
+    __caa2fd56843944180566fbe49a4bb311method0() {
+        return this.info.description;
+    }
+    __caa2fd56843944180566fbe49a4bb311method1() {
+        return this.info.false_txt;
+    }
+    __caa2fd56843944180566fbe49a4bb311method2() {
+        return this.info.true_txt;
+    }
+}
+Components.Confirm.Namespace=`${moduleName}.Components`;
+Components.Confirm.Tag=`rk-confirm`;
+_.Components.Confirm=Components.Confirm;
+if(!window.customElements.get('rk-confirm')){window.customElements.define('rk-confirm', Components.Confirm);Aventus.WebComponentInstance.registerDefinition(Components.Confirm);}
+
+Components.Alert = class Alert extends Components.Popup {
+    static __style = `:host .popup .title{font-size:var(--font-size-lg);font-weight:bold;margin-bottom:15px}:host .popup .action{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:30px}`;
+    __getStatic() {
+        return Alert;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Alert.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-scrollable class="body" _id="alert_0"></rk-scrollable><div class="action">    <rk-button color="blue" _id="alert_1"></rk-button></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "alert_0°@HTML": {
+      "fct": (c) => `\r\n    ${c.print(c.comp.__d0561a7aa91ff42b328166316d099970method0())}\r\n`,
+      "once": true
+    },
+    "alert_1°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__d0561a7aa91ff42b328166316d099970method1())}`,
+      "once": true
+    }
+  },
+  "events": [
+    {
+      "eventName": "click",
+      "id": "alert_1",
+      "fct": (e, c) => c.comp.close(e)
+    }
+  ]
+}); }
+    getClassName() {
+        return "Alert";
+    }
+    defaultOptions() {
+        return {
+            title: "",
+            description: "",
+            btn_txt: "ok"
+        };
+    }
+    close() {
+        if (this.cb) {
+            this.cb();
+        }
+        this.remove();
+    }
+    redPress() {
+        this.close();
+    }
+    __d0561a7aa91ff42b328166316d099970method0() {
+        return this.info.description;
+    }
+    __d0561a7aa91ff42b328166316d099970method1() {
+        return this.info.btn_txt;
+    }
+}
+Components.Alert.Namespace=`${moduleName}.Components`;
+Components.Alert.Tag=`rk-alert`;
+_.Components.Alert=Components.Alert;
+if(!window.customElements.get('rk-alert')){window.customElements.define('rk-alert', Components.Alert);Aventus.WebComponentInstance.registerDefinition(Components.Alert);}
+
 System.Application = class Application extends Aventus.WebComponent {
     static get observedAttributes() {return ["app_title", "full", "is_hidden"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'moving'() { return this.getBoolAttr('moving') }
@@ -4526,7 +4659,7 @@ System.Application = class Application extends Aventus.WebComponent {
 }));this.__addPropertyActions("is_hidden", ((target) => {
     target.onIsHiddenChange();
 })); }
-    static __style = `:host{--internal-application-box-shadow: var(--application-box-shadow);--internal-application-header-background-color: var(--application-header-background-color, var(--darker-active))}:host{background-color:var(--primary-color-opacity);border-radius:10px;box-shadow:var(--internal-application-box-shadow);container-name:application;container-type:inline-size;outline:none;position:absolute;z-index:50}:host .header{align-items:center;border-top-left-radius:10px;border-top-right-radius:10px;cursor:grab;display:flex;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--internal-application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{border-radius:2px;height:calc(100% - 6px);padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .content{border-bottom-left-radius:10px;border-bottom-right-radius:10px;height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{display:none;z-index:10}:host rk-resize{--resize-z-index: 4}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_active]){z-index:501}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{height:calc(100% - 45px)}:host rk-resize{display:none}:host([is_hidden]){left:0 !important;width:100% !important}}`;
+    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;outline:none;position:absolute;z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{border-radius:2px;height:calc(100% - 6px);padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{display:none;z-index:10}:host rk-resize{--resize-z-index: 4}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_active]){z-index:501}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{height:calc(100% - 45px)}:host rk-resize{display:none}:host([is_hidden]){left:0 !important;width:100% !important}}`;
     constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.validError404=this.validError404.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this) }
     __getStatic() {
         return Application;
@@ -4977,25 +5110,14 @@ System.Application = class Application extends Aventus.WebComponent {
             this.shadowRoot.appendChild(p);
         });
     }
-    async alert(title, message, okBtnTxt) {
+    async alert(info) {
         const a = new Components.Alert();
-        a.subject = title;
-        a.body = message;
-        if (okBtnTxt) {
-            a.btn_txt = okBtnTxt;
-        }
+        a.mergeInfo(info);
         await this.popup(a);
     }
-    async confirm(title, message, yesBtnTxt, noBtnTxt) {
+    async confirm(info) {
         const c = new Components.Confirm();
-        c.subject = title;
-        c.body = message;
-        if (yesBtnTxt) {
-            c.btn_yes_txt = yesBtnTxt;
-        }
-        if (noBtnTxt) {
-            c.btn_no_txt = noBtnTxt;
-        }
+        c.mergeInfo(info);
         return await this.popup(c);
     }
     addFocus() {
@@ -5764,8 +5886,8 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
                     if (this.pageCaseEl.getElementAt(pageCase.no) == null) {
                         this.oldActiveCase = pageCase;
                         pageCase.classList.add("active");
-                        shadow.style.width = '75px';
-                        shadow.style.height = '75px';
+                        shadow.style.width = this.iconSize + 'px';
+                        shadow.style.height = this.iconSize + 'px';
                     }
                 }
                 else {
@@ -5791,6 +5913,8 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             desktopIcon.IconTag = icon.tag;
             desktopIcon.Location = Data.DesktopLocation.Desktop;
             desktopIcon.Id = icon.iconId;
+            this.oldActiveCase?.classList.remove("active");
+            this.oldActiveCase = undefined;
             let result = await Lib.MainSocket.instance.routes.desktop.SetDesktopIcon({
                 icon: desktopIcon
             });
@@ -5841,7 +5965,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
         let data = await RAM.DesktopRAM.getInstance().getById(this.desktop_id);
         if (data) {
             this.data = data;
-            this.style.backgroundImage = 'url("' + data.Configuration.Background + '")';
+            this.style.backgroundImage = 'url("' + data.Configuration.Background.Uri + '")';
             this.background_size = Data.BackgroundSize[data.Configuration.BackgroundSize];
             if (data.Configuration.SyncDesktop) {
                 this.recreateApplications(data.Applications);
@@ -6923,9 +7047,15 @@ System.Os = class Os extends Aventus.WebComponent {
     }
     async deleteDesktop(e, instance) {
         if (this.desktops.length <= 1) {
-            await this.alert("Impossible de supprimer le bureau", "Il vous faut au minimum un bureau actif");
+            await this.alert({
+                title: "Impossible de supprimer le bureau",
+                description: "Il vous faut au minimum un bureau actif"
+            });
         }
-        else if (await this.confirm("Suppression d'un bureau", "Etes-vous sûr de vouloir supprimer ce bureau?", "Oui", "Non")) {
+        else if (await this.confirm({
+            title: "Suppression d'un bureau",
+            description: "Etes-vous sûr de vouloir supprimer ce bureau?"
+        })) {
             let id = Number(instance.getElement().dataset.id);
             await RAM.DesktopRAM.getInstance().deleteById(id);
         }
@@ -7011,25 +7141,14 @@ System.Os = class Os extends Aventus.WebComponent {
             this.shadowRoot.appendChild(p);
         });
     }
-    async alert(title, message, okBtnTxt) {
+    async alert(info) {
         const a = new Components.Alert();
-        a.subject = title;
-        a.body = message;
-        if (okBtnTxt) {
-            a.btn_txt = okBtnTxt;
-        }
+        a.mergeInfo(info);
         await this.popup(a);
     }
-    async confirm(title, message, yesBtnTxt, noBtnTxt) {
+    async confirm(info) {
         const c = new Components.Confirm();
-        c.subject = title;
-        c.body = message;
-        if (yesBtnTxt) {
-            c.btn_yes_txt = yesBtnTxt;
-        }
-        if (noBtnTxt) {
-            c.btn_no_txt = noBtnTxt;
-        }
+        c.mergeInfo(info);
         return await this.popup(c);
     }
     selectDesktop(e, pressInstance) {
@@ -7722,9 +7841,9 @@ Components.GenericSelect = class GenericSelect extends Aventus.WebComponent {
 					}
 					set 'value'(val) {
 						this.__watch["value"] = val;
-					}    onChange = new Aventus.Callback();
-    selectedOption;
+					}    selectedOption;
     options = [];
+    onChange = new Aventus.Callback();
     __registerWatchesActions() {
     this.__addWatchesActions("errors", ((target) => {
     target.has_errors = target.errors.length > 0;
@@ -8647,6 +8766,21 @@ Permissions.DesktopPermissionQuery=class DesktopPermissionQuery extends Permissi
 }
 Permissions.DesktopPermissionQuery.Namespace=`${moduleName}.Permissions`;Aventus.Converter.register(Permissions.DesktopPermissionQuery.Fullname, Permissions.DesktopPermissionQuery);
 _.Permissions.DesktopPermissionQuery=Permissions.DesktopPermissionQuery;
+Errors.ImageFileError=class ImageFileError extends Aventus.GenericError {
+    static get Fullname() { return "Core.Tools.ImageFileError, Core"; }
+}
+Errors.ImageFileError.Namespace=`${moduleName}.Errors`;Aventus.Converter.register(Errors.ImageFileError.Fullname, Errors.ImageFileError);
+_.Errors.ImageFileError=Errors.ImageFileError;
+Tools.ResultWithImageFileError=class ResultWithImageFileError extends AventusSharp.Tools.ResultWithError {
+    static get Fullname() { return "Core.Tools.ResultWithImageFileError, Core"; }
+}
+Tools.ResultWithImageFileError.Namespace=`${moduleName}.Tools`;Aventus.Converter.register(Tools.ResultWithImageFileError.Fullname, Tools.ResultWithImageFileError);
+_.Tools.ResultWithImageFileError=Tools.ResultWithImageFileError;
+Tools.VoidWithImageFileError=class VoidWithImageFileError extends AventusSharp.Tools.VoidWithError {
+    static get Fullname() { return "Core.Tools.VoidWithImageFileError, Core"; }
+}
+Tools.VoidWithImageFileError.Namespace=`${moduleName}.Tools`;Aventus.Converter.register(Tools.VoidWithImageFileError.Fullname, Tools.VoidWithImageFileError);
+_.Tools.VoidWithImageFileError=Tools.VoidWithImageFileError;
 
 for(let key in _) { Core[key] = _[key] }
 })(Core);

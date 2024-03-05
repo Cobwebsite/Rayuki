@@ -14,7 +14,7 @@ namespace Lib {
         private static openApplicationsKey: string = "openApplications";
 
         public static async save(appInfo: ApplicationOpenInfo) {
-            if(Os.instance.activeDesktop.data.SyncDesktop) {
+            if(Os.instance.activeDesktop.data.Configuration.SyncDesktop) {
                 await this.uniqueAction(appInfo, async (appInfo) => {
                     await MainSocket.instance.routes.desktop.RegisterOpenApp({
                         appInfo
@@ -43,7 +43,7 @@ namespace Lib {
         }
 
         public static async remove(appInfo: ApplicationOpenInfo) {
-            if(Os.instance.activeDesktop.data.SyncDesktop) {
+            if(Os.instance.activeDesktop.data.Configuration.SyncDesktop) {
                 await this.uniqueAction(appInfo, async (appInfo) => {
                     await MainSocket.instance.routes.desktop.RemoveApp({
                         appInfo

@@ -1,7 +1,15 @@
-import { Popup } from "../Popup/Popup.wcl.avt";
+import { Popup, type PopupInfo } from "../Popup/Popup.wcl.avt";
 
 namespace Components {
-    export class Confirm extends Popup<boolean> implements Aventus.DefaultComponent {
+
+    export interface ConfirmInfo extends PopupInfo {
+        description: string,
+        true_txt: string,
+        false_txt: string,
+    };
+
+
+    export class Confirm extends Popup<boolean, ConfirmInfo> implements Aventus.DefaultComponent {
 
         //#region static
 
@@ -9,14 +17,7 @@ namespace Components {
 
 
         //#region props
-        @Property()
-        public subject?: string;
-        @Property()
-        public body?: string;
-        @Property()
-        public btn_yes_txt?: string = "yes";
-        @Property()
-        public btn_no_txt?: string = "no";
+
         //#endregion
 
 
@@ -30,6 +31,17 @@ namespace Components {
 
 
         //#region methods
+        /**
+         * @inheritdoc
+         */
+        public override defaultOptions(): ConfirmInfo {
+            return {
+                title: "",
+                description: "",
+                true_txt: "Oui",
+                false_txt: "Non",
+            };
+        }
 
         /**
          * 
@@ -48,6 +60,10 @@ namespace Components {
                 this.cb(true);
             }
             this.remove();
+        }
+
+        protected override redPress(): void {
+            this.cancel();
         }
         //#endregion
 

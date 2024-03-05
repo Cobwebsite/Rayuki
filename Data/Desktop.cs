@@ -1,6 +1,7 @@
 ﻿using AventusSharp.Data;
 using AventusSharp.Data.Attributes;
 using AventusSharp.Tools.Attributes;
+using Core.Data.DataTypes;
 using Core.Logic;
 using Nullable = AventusSharp.Data.Attributes.Nullable;
 
@@ -17,7 +18,7 @@ namespace Core.Data
     {
         public string Name { get; set; }
 
-
+        public string Token { get; set; }
         [ForeignKey<User>, Nullable]
         public int? UserId { get; set; }
 
@@ -33,13 +34,21 @@ namespace Core.Data
 
     public class DekstopConfiguration : Storable<DekstopConfiguration>
     {
-        public string Background { get; set; } = "/img/default_wp.png";
+        public ImageFile Background { get; set; }
         public BackgroundSize BackgroundSize { get; set; } = BackgroundSize.Cover;
         public bool SyncDesktop { get; set; } = false;
 
         public int SizeMobile { get; set; } = 75;
         public int SizeTablet { get; set; } = 75;
         public int SizeDesktop { get; set; } = 40;
+
+        public DekstopConfiguration()
+        {
+            Background = new ImageFile()
+            {
+                Uri = "/img/default_wp.png"
+            };
+        }
     }
 
     public enum DesktopLocation

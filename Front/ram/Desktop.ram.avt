@@ -3,34 +3,34 @@ import { Desktop } from "../generated/Data/Desktop.data.avt";
 import { HttpRouter } from "../libs/HttpRouter.lib.avt";
 
 namespace RAM {
-	
-	export class DesktopRAM extends AventusSharp.RAM.RamHttp<Desktop> implements Aventus.IRam {
-        
-		/**
+
+    export class DesktopRAM extends AventusSharp.RAM.RamHttp<Desktop> implements Aventus.IRam {
+
+        /**
          * @inheritdoc
          */
         public override defineRoutes(): AventusSharp.Routes.StorableRoute<Desktop> {
-            return new DesktopRouter(new HttpRouter())
+            return new DesktopRouter(new HttpRouter());
         }
-	
-		/**
-		 * Create a singleton to store data
-		 */
-		public static getInstance() {
-			return Aventus.Instance.get(DesktopRAM);
-		}
-	
-		/**
-		 * @inheritdoc
-		 */
-		public override defineIndexKey(): keyof Desktop {
-			return 'Id';
-		}
-		/**
-		 * @inheritdoc
-		 */
-		protected override getTypeForData(objJson: Aventus.KeysObject<Desktop> | Desktop): new () => Desktop {
-			return Desktop;
-		}
-	}
+
+        /**
+         * Create a singleton to store data
+         */
+        public static getInstance(): DesktopRAM {
+            return Aventus.Instance.get(DesktopRAM);
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public override defineIndexKey(): keyof Desktop {
+            return 'Id';
+        }
+        /**
+         * @inheritdoc
+         */
+        protected override getTypeForData(objJson: Aventus.KeysObject<Desktop> | Desktop): new () => Desktop {
+            return Desktop;
+        }
+    }
 }

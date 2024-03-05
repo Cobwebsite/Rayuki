@@ -15,11 +15,17 @@ namespace Components {
         //#region props
         @Property((target: PageCase) => {
             target.style.setProperty("--local-page-case-width", target.case_width + 'px');
+            if(target.inverse) {
+                target.calculateGrid();
+            }
         })
         public case_width: number = 50;
 
         @Property((target: PageCase) => {
             target.style.setProperty("--local-page-case-height", target.case_height + 'px');
+            if(target.inverse) {
+                target.calculateGrid();
+            }
         })
         public case_height: number = 50;
 

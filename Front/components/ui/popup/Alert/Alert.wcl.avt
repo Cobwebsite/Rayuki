@@ -1,7 +1,13 @@
-import { Popup } from "../Popup/Popup.wcl.avt";
+import { Popup, type PopupInfo } from "../Popup/Popup.wcl.avt";
 
 namespace Components {
-    export class Alert extends Popup<void> implements Aventus.DefaultComponent {
+
+    export interface AlertInfo extends PopupInfo {
+        description: string,
+        btn_txt: string;
+    }
+
+    export class Alert extends Popup<void, AlertInfo> implements Aventus.DefaultComponent {
 
         //#region static
 
@@ -9,12 +15,7 @@ namespace Components {
 
 
         //#region props
-        @Property()
-        public subject?: string;
-        @Property()
-        public body?: string;
-        @Property()
-        public btn_txt: string = "Ok";
+
         //#endregion
 
 
@@ -30,6 +31,16 @@ namespace Components {
 
         //#region methods
         /**
+         * @inheritdoc
+         */
+        public override defaultOptions(): AlertInfo {
+            return {
+                title: "",
+                description: "",
+                btn_txt: "ok"
+            };
+        }
+        /**
          * 
          */
         protected close() {
@@ -37,6 +48,10 @@ namespace Components {
                 this.cb();
             }
             this.remove();
+        }
+
+        protected override redPress(): void {
+            this.close();
         }
         //#endregion
 

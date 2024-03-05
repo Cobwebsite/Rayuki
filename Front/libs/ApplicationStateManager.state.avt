@@ -29,7 +29,7 @@ namespace Lib {
         private canSync(): boolean {
             if(!this.__canSaveState) return false;
 
-            if(!Os.instance.activeDesktop.data.SyncDesktop) return false;
+            if(!Os.instance.activeDesktop.data.Configuration.SyncDesktop) return false;
             return true;
         }
 

@@ -1,0 +1,36 @@
+import { ButtonIcon } from "../ButtonIcon/ButtonIcon.wcl.avt";
+
+namespace Components {
+
+	type IconType = MaterialIcon.IconType;
+
+	@OverrideView()
+    export class ButtonIconMi extends ButtonIcon implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property()
+        public override icon: IconType = "square";
+        //#endregion
+
+
+        //#region variables
+
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+
+        //#endregion
+
+    }
+}

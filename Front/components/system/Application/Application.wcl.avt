@@ -2,9 +2,9 @@ import { FrameNoScroll } from "../Frame/FrameNoScroll/FrameNoScroll.wcl.avt";
 import { ApplicationHistory } from "./ApplicationHistory.lib.avt";
 import { Resize, ResizeDirection } from "../../ui/Resize/Resize.wcl.avt";
 import { ApplicationState, ApplicationStateManager } from "../../../libs/ApplicationStateManager.state.avt";
-import { Popup } from "../../ui/popup/Popup/Popup.wcl.avt";
-import { Alert } from "../../ui/popup/Alert/Alert.wcl.avt";
-import { Confirm } from "../../ui/popup/Confirm/Confirm.wcl.avt";
+import { Popup, type PopupInfo } from "../../ui/popup/Popup/Popup.wcl.avt";
+import { Alert, type AlertInfo } from "../../ui/popup/Alert/Alert.wcl.avt";
+import { Confirm, type ConfirmInfo } from "../../ui/popup/Confirm/Confirm.wcl.avt";
 import { ApplicationOpen, ApplicationOpenInfo } from "../../../generated/Data/ApplicationOpen.lib.avt";
 import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
 import { Frame404 } from "../Frame/Frame404/Frame404.wcl.avt";
@@ -556,7 +556,7 @@ namespace System {
         //#endregion
 
         //#region popup
-        public popup<T extends Popup<U>, U = any>(p: T): Promise<U> {
+        public popup<T extends Popup<U, X>, U = any, X extends PopupInfo = PopupInfo>(p: T): Promise<U> {
             return new Promise<U>((resolve) => {
                 p.init((response) => {
                     resolve(response);
@@ -565,25 +565,14 @@ namespace System {
             });
         }
 
-        public async alert(title: string, message: string, okBtnTxt?: string): Promise<void> {
+        public async alert(info:Partial<AlertInfo>): Promise<void> {
             const a = new Alert();
-            a.subject = title;
-            a.body = message;
-            if(okBtnTxt) {
-                a.btn_txt = okBtnTxt;
-            }
+            a.mergeInfo(info);
             await this.popup(a);
         }
-        public async confirm(title: string, message: string, yesBtnTxt?: string, noBtnTxt?: string): Promise<boolean> {
+        public async confirm(info:Partial<ConfirmInfo>): Promise<boolean> {
             const c = new Confirm();
-            c.subject = title;
-            c.body = message;
-            if(yesBtnTxt) {
-                c.btn_yes_txt = yesBtnTxt;
-            }
-            if(noBtnTxt) {
-                c.btn_no_txt = noBtnTxt;
-            }
+            c.mergeInfo(info);
             return await this.popup(c);
         }
         //#endregion

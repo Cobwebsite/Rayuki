@@ -18,7 +18,7 @@
 	--emphasize: var(--darker-active);
 
 	--text-color-green: var(--text-color-reverse);
-	--green: #71e271;
+	--green: #34c834;
 	--text-color-red: var(--text-color-reverse);
 	--red: #d43434;
 	--text-color-orange: var(--text-color-reverse);
@@ -37,7 +37,7 @@
 	--bezier-curve: cubic-bezier(0.65, 0, 0.15, 1);
 
 
-	--application-box-shadow: var(--elevation-5);
+
 	--notification-box-shadow: var(--elevation-5);
 	--card-background-color: #ffffff;
 
@@ -45,6 +45,14 @@
 	--button-color: var(--text-color-reverse);
 	--button-box-shadow: var(--elevation-2);
 	--button-box-shadow-hover: var(--elevation-0);
+
+	/*#region application*/
+	--application-box-shadow: var(--elevation-5);
+	--application-header-background-color: var(--darker-active);
+	--application-background-color: var(--primary-color-opacity);
+	--popup-background-color: var(--primary-color);
+	--application-border-radius: 10px;
+	/*#endregion*/
 
 	/*#region form element*/
 	--form-element-background: white;

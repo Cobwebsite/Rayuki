@@ -1,0 +1,26 @@
+namespace Errors {
+
+	export enum ImageFileErrorCode {
+		UnknowError,
+		NotValidImage
+	}
+
+	@Convertible()
+	export class ImageFileError extends Aventus.GenericError<typeof ImageFileErrorCode>  {
+		public static get Fullname(): string { return "Core.Tools.ImageFileError, Core"; }
+	}
+
+}
+namespace Tools {
+
+	@Convertible()
+	export class VoidWithImageFileError extends AventusSharp.Tools.VoidWithError<ImageFileError>  {
+		public static override get Fullname(): string { return "Core.Tools.VoidWithImageFileError, Core"; }
+	}
+
+	@Convertible()
+	export class ResultWithImageFileError<T> extends AventusSharp.Tools.ResultWithError<T, ImageFileError>  {
+		public static override get Fullname(): string { return "Core.Tools.ResultWithImageFileError, Core"; }
+	}
+
+}

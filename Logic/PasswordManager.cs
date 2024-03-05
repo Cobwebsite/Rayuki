@@ -45,7 +45,7 @@ namespace Core.Logic
         public static ResultWithError<User> Login(string username, string password)
         {
             ResultWithError<User> result = new ();
-            ResultWithDataError<List<User>> users = User.WhereWithError(user => user.Username == username);
+            ResultWithError<List<User>> users = User.WhereWithError(user => user.Username == username);
             if (!users.Success)
             {
                 result.Errors.AddRange(users.Errors);

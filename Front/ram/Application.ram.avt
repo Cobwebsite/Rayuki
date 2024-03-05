@@ -8,7 +8,7 @@ namespace RAM {
         /**
          * Create a singleton to store data
          */
-        public static getInstance() {
+        public static getInstance(): ApplicationRAM {
             return Aventus.Instance.get(ApplicationRAM);
         }
 
@@ -30,8 +30,8 @@ namespace RAM {
             return new Promise<void>((resolve) => {
                 this.getAllProms.push(() => {
                     resolve();
-                })
-            })
+                });
+            });
         }
         private isLoading: boolean = false;
         protected override async beforeGetAll(result: Aventus.ResultRamWithError<Map<number, Aventus.RamItem<ApplicationData>>>): Promise<void> {

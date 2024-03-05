@@ -36,7 +36,7 @@ namespace Core.Logic
             {
                 CreateIfNotExistQuery = CreateExist<Permission>().WhereWithParameters(a => a.EnumName == permission.EnumName && a.AdditionalInfo == permission.AdditionalInfo);
             }
-            ResultWithDataError<bool> queryResult = CreateIfNotExistQuery.Prepare(permission).RunWithError();
+            ResultWithError<bool> queryResult = CreateIfNotExistQuery.Prepare(permission).RunWithError();
             if (!queryResult.Success && queryResult.Errors.Count > 0)
             {
                 result.Errors.AddRange(queryResult.Errors);
@@ -47,7 +47,7 @@ namespace Core.Logic
                 return result;
             }
 
-            ResultWithDataError<Permission> createResult = CreateWithError(permission);
+            ResultWithError<Permission> createResult = CreateWithError(permission);
             if (!createResult.Success)
             {
                 result.Errors.AddRange(createResult.Errors);
@@ -96,7 +96,7 @@ namespace Core.Logic
             }
             CanQueryUser.SetVariable("idUser", idUser);
             CanQueryUser.SetVariable("idPerm", idPerm);
-            ResultWithDataError<bool> canUser = CanQueryUser.RunWithError();
+            ResultWithError<bool> canUser = CanQueryUser.RunWithError();
 
             if (canUser.Result)
             {
@@ -109,7 +109,7 @@ namespace Core.Logic
             }
             CanQueryGroup.SetVariable("idUser", idUser);
             CanQueryGroup.SetVariable("idPerm", idPerm);
-            ResultWithDataError<bool> canGroup = CanQueryGroup.RunWithError();
+            ResultWithError<bool> canGroup = CanQueryGroup.RunWithError();
             if (canGroup.Result)
             {
                 return true;

@@ -198,7 +198,7 @@ namespace Core.App
                     config.log.printErrorInConsole = true;
                 });
 
-                VoidWithDataError resultTemp = await DataMainManager.Init(GetAppsDlls());
+                VoidWithError resultTemp = await DataMainManager.Init(GetAppsDlls());
                 if (!resultTemp.Success)
                 {
                     result.Errors.AddRange(resultTemp.Errors);
@@ -289,7 +289,7 @@ namespace Core.App
                             apps.Add(appFile, dll);
                             WebSocketMiddleware.Register(wsEndPoints, wsRoutes);
                             RouterMiddleware.Register(httpRouters);
-                            VoidWithDataError resultTemp = await DataMainManager.Init(GetAppsDlls());
+                            VoidWithError resultTemp = await DataMainManager.Init(GetAppsDlls());
                             result.Errors.AddRange(resultTemp.Errors);
                             foreach (RayukiApp newApp in newApps)
                             {

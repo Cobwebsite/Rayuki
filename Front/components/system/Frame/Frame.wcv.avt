@@ -1,3 +1,5 @@
+<slot name="before-scroll"></slot>
 <rk-scrollable floating_scroll class="main-scroll">
     <slot></slot>
 </rk-scrollable>
+<slot name="after-scroll"></slot>

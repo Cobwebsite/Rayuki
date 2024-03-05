@@ -1457,24 +1457,36 @@ const HttpRequest=class HttpRequest {
     }
     objectToFormData(obj, formData, parentKey) {
         formData = formData || new FormData();
-        for (const key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                const value = obj[key];
-                const newKey = parentKey ? `${parentKey}[${key}]` : key;
-                if (typeof value === 'object' && value !== null && !(value instanceof File)) {
-                    if (Array.isArray(value)) {
-                        value.forEach((arrayItem, index) => {
-                            const arrayKey = `${newKey}[${index}]`;
-                            this.objectToFormData({ [arrayKey]: arrayItem }, formData);
-                        });
-                    }
-                    else {
-                        this.objectToFormData(value, formData, newKey);
+        let byPass = obj;
+        if (byPass.__isProxy) {
+            obj = byPass.getTarget();
+        }
+        const keys = obj.toJSON ? Object.keys(obj.toJSON()) : Object.keys(obj);
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            let value = obj[key];
+            const newKey = parentKey ? `${parentKey}[${key}]` : key;
+            if (value instanceof Date) {
+                formData.append(newKey, value.toISOString());
+            }
+            else if (typeof value === 'object' &&
+                value !== null &&
+                !(value instanceof File)) {
+                if (Array.isArray(value)) {
+                    for (let j = 0; j < value.length; j++) {
+                        const arrayKey = `${newKey}[${j}]`;
+                        this.objectToFormData({ [arrayKey]: value[j] }, formData);
                     }
                 }
                 else {
-                    formData.append(newKey, value);
+                    this.objectToFormData(value, formData, newKey);
                 }
+            }
+            else {
+                if (value === undefined || value === null) {
+                    value = "";
+                }
+                formData.append(newKey, value);
             }
         }
         return formData;
@@ -1488,16 +1500,25 @@ const HttpRequest=class HttpRequest {
         }
         else {
             let useFormData = false;
-            for (let key in data) {
-                if (data[key] instanceof File) {
-                    useFormData = true;
-                    break;
+            const analyseFormData = (obj) => {
+                for (let key in obj) {
+                    if (obj[key] instanceof File) {
+                        useFormData = true;
+                        break;
+                    }
+                    else if (Array.isArray(obj[key]) && obj[key].length > 0 && obj[key][0] instanceof File) {
+                        useFormData = true;
+                        break;
+                    }
+                    else if (typeof obj[key] == 'object' && !Array.isArray(obj[key]) && !(obj[key] instanceof Date)) {
+                        analyseFormData(obj[key]);
+                        if (useFormData) {
+                            break;
+                        }
+                    }
                 }
-                else if (Array.isArray(data[key]) && data[key].length > 0 && data[key][0] instanceof File) {
-                    useFormData = true;
-                    break;
-                }
-            }
+            };
+            analyseFormData(data);
             if (useFormData) {
                 this.request.body = this.objectToFormData(data);
             }
@@ -3193,7 +3214,7 @@ const Watcher=class Watcher {
                     }
                     catch (e) {
                         if (e != 'impossible')
-                            console.log(e);
+                            console.error(e);
                     }
                 }
                 for (let [key, infos] of aliases) {
@@ -5835,8 +5856,7 @@ const TemplateInstance=class TemplateInstance {
                     }
                 }
                 else {
-                    console.log(e);
-                    debugger;
+                    console.error(e);
                 }
             }
             return "";
@@ -5871,8 +5891,7 @@ const TemplateInstance=class TemplateInstance {
                     }
                 }
                 else {
-                    console.log(e);
-                    debugger;
+                    console.error(e);
                 }
             }
         });
@@ -5902,8 +5921,7 @@ const TemplateInstance=class TemplateInstance {
                     }
                 }
                 else {
-                    console.log(e);
-                    debugger;
+                    console.error(e);
                 }
             }
         });
@@ -6283,6 +6301,41 @@ _.RAM = {};
 const Tools = {};
 _.Tools = {};
 let _n;
+Data.AventusFile=class AventusFile {
+    static get Fullname() { return "AventusSharp.Data.AventusFile, AventusSharp"; }
+    Uri;
+    Upload;
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    get $type() {
+        return this.constructor['Fullname'];
+    }
+    /**
+     * @inerhit
+     */
+    toJSON() {
+        let toAvoid = ['className', 'namespace'];
+        return Aventus.Json.classToJson(this, {
+            isValidKey: (key) => !toAvoid.includes(key),
+            beforeEnd: (result) => {
+                let resultTemp = {};
+                if (result.$type) {
+                    resultTemp.$type = result.$type;
+                    for (let key in result) {
+                        if (key != '$type') {
+                            resultTemp[key] = result[key];
+                        }
+                    }
+                    return resultTemp;
+                }
+                return result;
+            }
+        });
+    }
+}
+Data.AventusFile.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.AventusFile.Fullname, Data.AventusFile);
+_.Data.AventusFile=Data.AventusFile;
 (function (DataErrorCode) {
     DataErrorCode[DataErrorCode["DefaultDMGenericType"] = 0] = "DefaultDMGenericType";
     DataErrorCode[DataErrorCode["DMOnlyForceInherit"] = 1] = "DMOnlyForceInherit";

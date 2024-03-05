@@ -18,9 +18,9 @@ namespace Core.Logic
     {
         private Dictionary<int, List<ApplicationOpen>> openApplications = new Dictionary<int, List<ApplicationOpen>>();
 
-        protected async override Task<VoidWithDataError> Initialize()
+        protected async override Task<VoidWithError> Initialize()
         {
-            VoidWithDataError result = await base.Initialize();
+            VoidWithError result = await base.Initialize();
             CreateDefaultDesktop();
             //new Desktop()
             //{
@@ -42,7 +42,7 @@ namespace Core.Logic
         private void CreateDefaultDesktop()
         {
             List<Desktop> desktops = Desktop.Where(p => p.UserId == null);
-            if(desktops.Count == 0)
+            if (desktops.Count == 0)
             {
                 new Desktop()
                 {
@@ -50,6 +50,11 @@ namespace Core.Logic
                     UserId = null,
                 }.Create();
             }
+        }
+
+        protected string GetPictureDirPath(Desktop desktop)
+        {
+            return Path.Combine(HttpServer.wwwroot, "desktops", desktop.Token);
         }
 
         private ResultWithError<Desktop> CreateDesktopForUser(int userId)
@@ -65,10 +70,10 @@ namespace Core.Logic
                     Name = "Bureau " + u.Firstname + " " + u.Lastname,
                     Configuration = new DekstopConfiguration()
                 };
-                List<DataError> errors = d.CreateWithError();
+                List<GenericError> errors = d.CreateWithError();
                 if (errors.Count > 0)
                 {
-                    result.Errors = errors.Select(p => (GenericError)p).ToList();
+                    result.Errors = errors;
                     return result;
                 }
 
@@ -149,7 +154,7 @@ namespace Core.Logic
             {
                 return result;
             }
-            ResultWithDataError<List<Desktop>> resultWithData = Desktop.WhereWithError(p => p.UserId == id);
+            ResultWithError<List<Desktop>> resultWithData = Desktop.WhereWithError(p => p.UserId == id);
             if (!resultWithData.Success || resultWithData.Result?.Count > 0)
             {
                 result.Errors = resultWithData.Errors.Select(p => (GenericError)p).ToList();
@@ -164,6 +169,30 @@ namespace Core.Logic
                 result.Result = new List<Desktop>() { resultNewDesktop.Result };
             }
             return result;
+        }
+
+
+        protected override List<GenericError> BeforeCreateWithError<X>(List<X> values)
+        {
+            List<GenericError> result = base.BeforeCreateWithError(values);
+            foreach (X value in values)
+            {
+                value.Token = Guid.NewGuid().ToString().Replace("-", "");
+                value.Configuration.Background.ValidateAndSaveToDir(GetPictureDirPath(value), 1200);
+            }
+            return result;
+        }
+
+
+        protected override List<GenericError> BeforeUpdateWithError<X>(List<X> values)
+        {
+            List<GenericError> result = base.BeforeUpdateWithError(values);
+            foreach (X value in values)
+            {
+                result.AddRange(value.Configuration.Background.ValidateAndSaveToDir(GetPictureDirPath(value), 1200).Errors);
+            }
+            return result;
+
         }
     }
 

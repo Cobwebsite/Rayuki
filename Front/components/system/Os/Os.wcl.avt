@@ -8,9 +8,9 @@ import { DesktopRAM } from "../../../ram/Desktop.ram.avt";
 import type { DesktopData } from "../../../libs/TypeMapper.lib.avt";
 import type { Desktop } from "../Desktop/Desktop.wcl.avt";
 import type { Scrollable } from "../../ui/layout/Scrollable/Scrollable.wcl.avt";
-import { Confirm } from "../../ui/popup/Confirm/Confirm.wcl.avt";
-import type { Popup } from "../../ui/popup/Popup/Popup.wcl.avt";
-import { Alert } from "../../ui/popup/Alert/Alert.wcl.avt";
+import { Confirm, type ConfirmInfo } from "../../ui/popup/Confirm/Confirm.wcl.avt";
+import type { Popup, PopupInfo } from "../../ui/popup/Popup/Popup.wcl.avt";
+import { Alert, type AlertInfo } from "../../ui/popup/Alert/Alert.wcl.avt";
 import { MainSocket } from "../../../libs/MainSocket.lib.avt";
 import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
 import { DesktopStateManager } from "../../../states/desktop/Desktop.state.avt";
@@ -157,9 +157,15 @@ namespace System {
          */
         protected async deleteDesktop(e: Event, instance: Aventus.PressManager) {
             if(this.desktops.length <= 1) {
-                await this.alert("Impossible de supprimer le bureau", "Il vous faut au minimum un bureau actif");
+                await this.alert({
+                    title: "Impossible de supprimer le bureau",
+                    description: "Il vous faut au minimum un bureau actif"
+                });
             }
-            else if(await this.confirm("Suppression d'un bureau", "Etes-vous sûr de vouloir supprimer ce bureau?", "Oui", "Non")) {
+            else if(await this.confirm({
+                title: "Suppression d'un bureau",
+                description: "Etes-vous sûr de vouloir supprimer ce bureau?"
+            })) {
                 let id = Number((instance.getElement() as HTMLElement).dataset.id);
                 await DesktopRAM.getInstance().deleteById(id);
             }
@@ -249,33 +255,22 @@ namespace System {
 
 
         //#region popup
-        public popup<T extends Popup<any>>(p: T) {
-            return new Promise<T>((resolve) => {
+        public popup<T extends Popup<U, X>, U = any, X extends PopupInfo = PopupInfo>(p: T): Promise<U> {
+            return new Promise<U>((resolve) => {
                 p.init((response) => {
                     resolve(response);
                 });
                 this.shadowRoot.appendChild(p);
             });
         }
-        public async alert(title: string, message: string, okBtnTxt?: string) {
+        public async alert(info: Partial<AlertInfo>) {
             const a = new Alert();
-            a.subject = title;
-            a.body = message;
-            if(okBtnTxt) {
-                a.btn_txt = okBtnTxt;
-            }
+            a.mergeInfo(info);
             await this.popup(a);
         }
-        public async confirm(title: string, message: string, yesBtnTxt?: string, noBtnTxt?: string) {
+        public async confirm(info: Partial<ConfirmInfo>) {
             const c = new Confirm();
-            c.subject = title;
-            c.body = message;
-            if(yesBtnTxt) {
-                c.btn_yes_txt = yesBtnTxt;
-            }
-            if(noBtnTxt) {
-                c.btn_no_txt = noBtnTxt;
-            }
+            c.mergeInfo(info);
             return await this.popup(c);
         }
         //#endregion

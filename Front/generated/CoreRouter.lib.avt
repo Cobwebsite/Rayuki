@@ -5,18 +5,25 @@ import { PermissionRouter } from "./Routes/PermissionRouter.lib.avt";
 import { UserRouter } from "./Routes/UserRouter.lib.avt";
 
 namespace Routes {
-	export const CoreHttpRoutes = [
-		{ type: ApplicationRouter, path: "Application" },
-		{ type: DesktopRouter, path: "Desktop" },
-		{ type: MainRouter, path: "" },
-		{ type: PermissionRouter, path: "Permission" },
-		{ type: UserRouter, path: "User" },
-	] as const;
-	
-	export class CoreRouter extends Aventus.HttpRouter.WithRoute(CoreHttpRoutes) {
-		protected override defineOptions(options: Aventus.HttpRouterOptions): Aventus.HttpRouterOptions {
-			options.url = location.protocol + "//" + location.host + "";
-			return options;
-		}
-	}
+    export const CoreHttpRoutes: [
+        Aventus.HttpRouteType<typeof ApplicationRouter, "Application">,
+        Aventus.HttpRouteType<typeof DesktopRouter, "Desktop">,
+        Aventus.HttpRouteType<typeof MainRouter, "">,
+        Aventus.HttpRouteType<typeof PermissionRouter, "Permission">,
+        Aventus.HttpRouteType<typeof UserRouter, "User">,
+    ] = [
+        { type: ApplicationRouter, path: "Application" },
+        { type: DesktopRouter, path: "Desktop" },
+        { type: MainRouter, path: "" },
+        { type: PermissionRouter, path: "Permission" },
+        { type: UserRouter, path: "User" },
+    ] as const;
+
+    export const CoreRouterType: Aventus.HttpRouterType<typeof CoreHttpRoutes> = Aventus.HttpRouter.WithRoute(CoreHttpRoutes);
+    export class CoreRouter extends CoreRouterType {
+        protected override defineOptions(options: Aventus.HttpRouterOptions): Aventus.HttpRouterOptions {
+            options.url = location.protocol + "//" + location.host + "";
+            return options;
+        }
+    }
 }
