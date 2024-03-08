@@ -1,0 +1,52 @@
+import type { Checkbox } from "../../../../form/Checkbox/Checkbox.wcl.avt";
+import { TableCell } from "../TableCell/TableCell.wcl.avt";
+
+export class TableCellCheckbox<U = any> extends TableCell<TableCellCheckbox, U> implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+
+    //#endregion
+
+
+    //#region variables
+    @ViewElement()
+    protected checkboxEl!: Checkbox;
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+    /**
+     * @inheritdoc
+     */
+    public override setContent(data: TableCellCheckbox<any> | undefined, rowData: U) {
+
+    }
+
+
+    /**
+     * 
+     */
+    protected changed() {
+        if(this.checkboxEl.value) {
+            this.table.selectRow(this.row);
+        }
+        else {
+            this.table.unselectRow(this.row);
+        }
+    }
+
+
+
+    //#endregion
+
+}

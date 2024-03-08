@@ -14,7 +14,7 @@
 	inset: 0;
 	justify-content: center;
 	position: absolute;
-	z-index: 999;
+	z-index: 650;
 
 	.popup {
 		background-color: var(--_popup-background-color);
@@ -92,6 +92,10 @@
 			}
 		}
 	}
+}
+
+:host([behind]) {
+	z-index: 550;
 }
 
 @include desktop {

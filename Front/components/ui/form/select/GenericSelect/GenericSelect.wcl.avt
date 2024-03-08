@@ -1,10 +1,11 @@
 import type { OptionsContainer } from "./OptionsContainer/OptionsContainer.wcl.avt";
 import { GenericOption } from "./GenericOption/GenericOption.wcl.avt";
+import { FormElement, type FormPart, type IFormElement } from "../../IFormElement.lib.avt";
 
-type ExtractType<X extends GenericOption<U>, U> = X extends GenericOption<infer U> ? U : never;
+export type ExtractType<X extends GenericOption<U>, U> = X extends GenericOption<infer U> ? U : never;
 
 namespace Components {
-    export abstract class GenericSelect<T extends GenericOption<U>, U = ExtractType<T, any>> extends Aventus.WebComponent implements Aventus.DefaultComponent {
+    export abstract class GenericSelect<T extends GenericOption<U>, U = ExtractType<T, any>> extends Aventus.WebComponent implements Aventus.DefaultComponent, IFormElement<U> {
 
         //#region static
 
@@ -56,9 +57,11 @@ namespace Components {
         @Watch((target: GenericSelect<T, U>) => {
             target.onInternalValueChanged();
         })
-        public value?: U;
+        public value: U | undefined;
 
         protected options: T[] = [];
+
+        public formPart?: FormPart<U>;
         //#endregion
 
 
@@ -170,6 +173,10 @@ namespace Components {
             this.optionsContainer.addEventListener("focus", () => {
                 clearTimeout(blurTimeout);
             });
+        }
+
+        public validate(): Promise<boolean> {
+            return FormElement.validate(this);
         }
 
         protected override postCreation(): void {

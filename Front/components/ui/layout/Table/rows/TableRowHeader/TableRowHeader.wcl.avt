@@ -29,7 +29,8 @@ namespace Components {
         public override init(options: TableOptions<T>, data: T | null = null): void {
             let i = 0;
             for(let cellConfig of options.schema) {
-                let cell = new TableCellString<T>();
+                let cst = cellConfig.cellHeader ?? TableCellString;
+                let cell = new cst();
                 cell.row = this;
                 cell.index = i;
                 cell.setContent(cellConfig.displayName, data as T);

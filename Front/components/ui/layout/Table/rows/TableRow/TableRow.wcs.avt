@@ -1,7 +1,15 @@
 :host {
 	align-items: stretch;
-	border-bottom: 1px solid var(--darker-active);
+	border-bottom: var(--_table-cell-horizontal-border);
 	display: flex;
 	flex-direction: row;
 	width: 100%;
+
+	&>*:last-child {
+		border-right: none!important;
+	}
+}
+
+:host([hide]) {
+	display: none;
 }

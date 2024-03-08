@@ -1,0 +1,47 @@
+<script>
+import { TableData } from "./TableData.wcl.avt";
+import { TableCell } from "../cells/TableCell/TableCell.wcl.avt";
+
+namespace Components {
+	export class TableDataCellAction<U = any> extends TableCell<string, U> implements Aventus.DefaultComponent {
+	    /**
+	     * @inheritdoc
+	     */
+	    public override setContent(data: string | undefined, rowData: U) {
+
+	    }
+	
+	    public editData() {
+	        if(this.table instanceof TableData) {
+	            this.table.editData(this.data);
+	        }
+	    }
+	    public deleteData() {
+	        if(this.table instanceof TableData) {
+	            this.table.deleteData(this.data);
+	        }
+	    }
+	}
+}
+</script>
+
+<template>	
+	<i class="material-icon" @press="editData">create</i>
+	<i class="material-icon" @press="deleteData">remove_red_eye</i>
+</template>
+
+<style>	
+	:host {
+		i {
+			color: var(--text-color);
+			margin: 0 5px;
+			cursor: pointer;
+			transition: color 0.2s linear;
+		}
+
+		i:hover {
+			color: var(--text-color-active);
+		}
+	}
+	
+</style>

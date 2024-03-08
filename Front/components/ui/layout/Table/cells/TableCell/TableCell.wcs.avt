@@ -2,11 +2,11 @@
 	align-items: center;
 	display: flex;
 	justify-content: center;
-	padding: var(--internal-table-cell-padding);
+	padding: var(--_table-cell-padding);
 	position: relative;
 	text-align: center;
 	flex-shrink: 0;
-	border-right: var(--internal-table-cell-vertical-border);
+	border-right: var(--_table-cell-vertical-border);
 
 	.resize {
 		background-color: transparent;
@@ -22,7 +22,7 @@
 
 @for $i from 1 through 20 {
 	:host(:nth-child(#{$i})) {
-		flex-grow: var(--internal-table-cell-weight-#{$i}, 1);
-		width: var(--internal-table-cell-width-#{$i}, calc(100% / var(--internal-table-nb-column)));
+		flex-grow: var(--_table-cell-weight-#{$i}, 1);
+		width: var(--_table-cell-width-#{$i}, calc(100% / var(--_table-nb-column)));
 	}
 }

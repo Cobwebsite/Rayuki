@@ -1,0 +1,31 @@
+import { GenericOption } from "../../GenericSelect/GenericOption/GenericOption.wcl.avt";
+
+namespace Components {
+    export class OptionEnum<T extends Aventus.Enum> extends GenericOption<Aventus.EnumValue<T>> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+        public override value: Aventus.EnumValue<T> | undefined = undefined;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+
+        //#endregion
+
+    }
+}

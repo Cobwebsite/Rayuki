@@ -1,0 +1,68 @@
+import { OptionEnum } from "./OptionEnum/OptionEnum.wcl.avt";
+import type { GenericOption } from "../GenericSelect/GenericOption/GenericOption.wcl.avt";
+import { GenericSelect, type ExtractType } from "../GenericSelect/GenericSelect.wcl.avt";
+
+namespace Components {
+    export abstract class SelectEnum<U extends Aventus.Enum> extends GenericSelect<OptionEnum<U>, Aventus.EnumValue<U>> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+        protected enumEl: U;
+        //#endregion
+
+
+        //#region constructor
+        constructor() {
+            super();
+            this.enumEl = this.defineEnum();
+            this.createOptions();
+        }
+        //#endregion
+
+
+        //#region methods
+        /**
+         * @inheritdoc
+         */
+        protected override itemToText(option: OptionEnum<U>): string {
+            return option.innerHTML;
+        }
+
+        public abstract defineEnum(): U;
+
+        protected getEnumName(value: U[Extract<keyof U, string>]): string {
+            return this.enumEl[value] as string;
+        }
+
+        protected createOptions() {
+            let _enum = this.defineEnum();
+            for(let key in _enum) {
+                if(!key.match(/^\d*$/)) {
+                    let val = _enum[key];
+                    let option = new OptionEnum();
+                    option.value = val;
+                    option.innerHTML = this.getEnumName(val);
+                    this.appendChild(option);
+                }
+            }
+        }
+
+
+
+
+        protected override postCreation(): void {
+            super.postCreation();
+        }
+        //#endregion
+
+    }
+}

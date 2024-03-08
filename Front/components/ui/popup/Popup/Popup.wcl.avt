@@ -4,8 +4,11 @@ namespace Components {
     export interface PopupInfo {
         title: string,
         max_width?: string,
+        min_width?: string,
         max_height?: string,
-        hide_red_btn?: boolean;
+        min_height?: string,
+        hide_red_btn?: boolean,
+        behind?: boolean;
     };
 
     export abstract class Popup<T, U extends PopupInfo> extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -18,6 +21,8 @@ namespace Components {
         //#region props
         @Attribute()
         public no_red_btn!: boolean;
+        @Attribute()
+        public behind!: boolean;
         //#endregion
 
 
@@ -53,8 +58,11 @@ namespace Components {
 
         protected onOptionsChanged() {
             this.no_red_btn = this.info.hide_red_btn == true;
+            this.behind = this.info.behind == true;
             this.popupEl.style.maxWidth = this.info.max_width ?? '';
             this.popupEl.style.maxHeight = this.info.max_height ?? '';
+            this.popupEl.style.minWidth = this.info.min_width ?? '';
+            this.popupEl.style.minHeight = this.info.min_height ?? '';
         }
 
         public abstract defaultOptions(): U;

@@ -1,6 +1,7 @@
+import { FormElement, type FormPart, type IFormElement } from "../IFormElement.lib.avt";
 
 namespace Components {
-    export class Input extends Aventus.WebComponent implements Aventus.DefaultComponent {
+    export class Input extends Aventus.WebComponent implements Aventus.DefaultComponent, IFormElement<string> {
 
         //#region static
 
@@ -17,11 +18,6 @@ namespace Components {
         @Property()
         public icon?: string;
 
-        @Watch((target: Input) => {
-            target.has_errors = target.errors.length > 0;
-        })
-        public errors: string[] = [];
-
         @Property((target: Input) => {
             target.inputEl.value = target.value;
         })
@@ -33,8 +29,18 @@ namespace Components {
         @ViewElement()
         protected inputEl!: HTMLInputElement;
 
+        @Watch((target: Input) => {
+            target.has_errors = target.errors.length > 0;
+        })
+        public errors: string[] = [];
 
-        public onChange: Aventus.Callback<(value: string) => void> = new Aventus.Callback();
+
+        @Watch((target: Input, action: Aventus.WatchAction, path: string, value: any) => {
+            if(path == "formPart" || path == "formPart.value") {
+                target.value = target.formPart?.value ?? '';
+            }
+        })
+        public formPart?: FormPart<string>;
         //#endregion
 
 
@@ -42,6 +48,9 @@ namespace Components {
 
         //#endregion
 
+        //#region events
+        public onChange: Aventus.Callback<(value: string) => void> = new Aventus.Callback();
+        //#endregion
 
         //#region methods
 
@@ -59,6 +68,17 @@ namespace Components {
         protected onValueChange() {
             this.value = this.inputEl.value;
             this.onChange.trigger([this.value]);
+            if(this.formPart) {
+                this.formPart.value = this.value;
+                if(this.formPart.validateOnChange) {
+                    this.validate();
+                }
+            }
+        }
+
+
+        public validate(): Promise<boolean> {
+            return FormElement.validate(this);
         }
         //#endregion
 

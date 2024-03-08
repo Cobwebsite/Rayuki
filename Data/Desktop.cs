@@ -11,7 +11,7 @@ namespace Core.Data
     {
         Cover,
         Contain,
-        ContainNoRepeat
+        Stretch
 
     }
     public class Desktop : Storable<Desktop>
@@ -38,9 +38,11 @@ namespace Core.Data
         public BackgroundSize BackgroundSize { get; set; } = BackgroundSize.Cover;
         public bool SyncDesktop { get; set; } = false;
 
-        public int SizeMobile { get; set; } = 75;
+        public int SizeMobile { get; set; } = 85;
         public int SizeTablet { get; set; } = 75;
-        public int SizeDesktop { get; set; } = 40;
+        public int SizeDesktop { get; set; } = 65;
+
+        public string? BackgroundColor { get; set; }
 
         public DekstopConfiguration()
         {

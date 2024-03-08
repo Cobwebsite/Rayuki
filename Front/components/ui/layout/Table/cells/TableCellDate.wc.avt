@@ -9,11 +9,12 @@ namespace Components {
 			if(!this.contentEl) return;
 
 	        if(data instanceof Date) {
-	            this.contentEl.innerHTML = data.toISOString();
+				this.content = data.toISOString();
 	        }
 	        else {
-	            this.contentEl.innerHTML = '';
+				this.content = '';
 	        }
+			this.contentEl.innerHTML = this.content;
 	    }
 
 	}

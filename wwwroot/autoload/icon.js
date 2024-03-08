@@ -28,7 +28,7 @@ System.AppIcon = class AppIcon extends Core.System.AppIcon {
         return "AppIcon";
     }
     url() {
-        return "/gamme";
+        return "/cepage";
     }
 }
 System.AppIcon.Namespace=`${moduleName}.System`;

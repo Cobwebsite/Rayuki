@@ -1,3 +1,4 @@
+import type { ApplicationQueryFctResult } from "../../Application/ApplicationError.lib.avt";
 import type { Application } from "../../Application/Application.wcl.avt";
 
 namespace System {
@@ -16,25 +17,39 @@ namespace System {
                 target.onHide();
             }
         })
-        public visible!: boolean;
+        private visible!: boolean;
+
         //#endregion
 
 
         //#region variables
-
+        protected state?: Aventus.State;
         public application!: Application;
         //#endregion
 
 
         //#region constructor
-
+        constructor() {
+            super();
+            this.addFadeIn();
+        }
         //#endregion
 
 
         //#region methods
+        protected addFadeIn() {
+            this.style.setProperty("--local-frame-animation-delay", "300ms");
+            this.addEventListener("animationend", (e) => {
+                if(e.animationName == "fadeIn") {
+                    this.style.removeProperty("--local-frame-animation-delay");
+                }
+            });
+        }
+
         public abstract pageTitle(): string;
 
-        public async show(): Promise<void> {
+        public async show(state: Aventus.State | undefined): Promise<void> {
+            this.state = state;
             this.visible = true;
         }
         public async hide(): Promise<void> {
@@ -46,6 +61,13 @@ namespace System {
 
         public async askChange(newState: Aventus.State): Promise<boolean> {
             return true;
+        }
+
+        public async execute<X>(prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
+            return this.application.execute(prom);
+        }
+        public async executeWithLoading<X>(prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
+            return this.application.executeWithLoading(prom);
         }
         //#endregion
     }

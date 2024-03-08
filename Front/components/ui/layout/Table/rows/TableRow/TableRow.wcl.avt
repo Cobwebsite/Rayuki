@@ -1,3 +1,4 @@
+import type { TableCell } from "../../cells/TableCell/TableCell.wcl.avt";
 import { TableCellString } from "../../cells/TableCellString.wc.avt";
 import type { Table, TableOptions, TableSchema } from "../../Table.wcl.avt";
 
@@ -10,12 +11,21 @@ namespace Components {
 
 
         //#region props
-
+        @Attribute()
+        public hide!: boolean;
         //#endregion
 
 
         //#region variables
         public table?: Table<T>;
+
+        protected _data!: T;
+
+        public get data(): T {
+            return this._data;
+        }
+
+        protected cells: TableCell<any, T>[] = [];
         //#endregion
 
 
@@ -26,18 +36,37 @@ namespace Components {
 
         //#region methods
         public init(options: TableOptions<T>, data: T) {
+            this._data = data;
             let i = 0;
+            this.cells = [];
             for(let cellConfig of options.schema) {
                 let cst = cellConfig.cell ?? TableCellString;
                 let cell = new cst();
                 cell.index = i;
                 cell.row = this;
+                cell.data = data;
                 cell.setContent(data[cellConfig.name], data);
                 this.shadowRoot?.appendChild(cell);
+                this.cells.push(cell);
                 i++;
             }
         }
-        //#endregion
 
+        public globalSearch(search: string): boolean {
+            for(let cell of this.cells) {
+                if(cell.globalSearch(search)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        protected override postDestruction(): void {
+            super.postDestruction();
+            for(let cell of this.cells) {
+                cell.remove();
+            }
+        }
+        //#endregion
     }
 }

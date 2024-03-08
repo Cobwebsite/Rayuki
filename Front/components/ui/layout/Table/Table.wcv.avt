@@ -5,7 +5,7 @@
         </rk-scrollable>
     </div>
     <div class="body">
-        <rk-scrollable x_scroll @element="bodyContainer" floating_scroll auto_hide>
+        <rk-scrollable x_scroll @element="bodyContainer" floating_scroll auto_hide="{{this.auto_hide_scroll}}">
         </rk-scrollable>
     </div>
 </div>

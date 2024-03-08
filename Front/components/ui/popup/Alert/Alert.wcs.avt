@@ -1,17 +1,20 @@
 :host {
 	.popup {
-		.title {
-			font-size: var(--font-size-lg);
-			font-weight: bold;
-			margin-bottom: 15px;
+		.body {
+			align-items: center;
+			display: flex;
+			justify-content: center;
+			line-height: 1.5;
+			padding: 20px;
+			padding-top: 15px;
+			text-align: center;
 		}
 
 		.action {
-			display: flex;
 			align-items: center;
+			display: flex;
+			gap: 20px;
 			justify-content: center;
-			gap:20px;
-			margin-top: 30px;
 		}
 	}
 }

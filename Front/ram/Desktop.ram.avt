@@ -32,5 +32,14 @@ namespace RAM {
         protected override getTypeForData(objJson: Aventus.KeysObject<Desktop> | Desktop): new () => Desktop {
             return Desktop;
         }
+
+
+        protected override async beforeUpdateItem(item: Desktop, fromList: boolean, result: Aventus.ResultRamWithError<Aventus.RamItem<Desktop>>): Promise<void> {
+            debugger
+            const savedApps = item.Applications;
+            item.Applications = [];
+            await super.beforeUpdateItem(item, fromList, result);
+            item.Applications = savedApps;
+        }
     }
 }

@@ -9,7 +9,8 @@
 	        public override setContent(data: number | undefined, rowData: U) {
 	            if(!this.contentEl) return;
 
-	            this.contentEl.innerHTML = Number(data) + "";
+				this.content = Number(data) + "";
+	            this.contentEl.innerHTML = this.content;
 	        }
 
 	    }

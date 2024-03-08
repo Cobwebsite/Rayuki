@@ -1,0 +1,45 @@
+
+namespace Components {
+    export interface IFormElement<T> {
+        errors: string[];
+        value: T | undefined;
+        onChange: Aventus.Callback<(value: T) => void>;
+        formPart?: FormPart<T>;
+        validate: () => Promise<boolean>;
+    }
+
+    export type FormPart<T> = {
+        validateOnChange?: boolean,
+        value: T | undefined,
+        validate?: (value: T | undefined) => string | boolean | undefined | Promise<string> | Promise<boolean> | Promise<undefined>;
+    };
+
+
+    export class FormElement {
+        public static async validate(element: IFormElement<any>): Promise<boolean> {
+            if(element.formPart?.validate) {
+                let result = element.formPart.validate(element.value);
+                if(result instanceof Promise) {
+                    result = await result;
+                }
+                if(result === undefined || result === true || result === "") {
+                    element.errors = [];
+                    return true;
+
+                }
+
+                if(result === false) {
+                    element.errors.push("Le champs n'est pas valide");
+                    return false;
+                }
+
+                element.errors.push(result);
+                return false;
+            }
+
+            element.errors = [];
+            return true;
+        }
+    }
+
+}

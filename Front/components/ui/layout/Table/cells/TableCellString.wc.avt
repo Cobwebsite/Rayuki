@@ -8,8 +8,8 @@ namespace Components {
 	    public override setContent(data: string | undefined, rowData: U) {
 			if(!this.contentEl) return;
 			
-	        let txt = data ? data + "" : "";
-	        this.contentEl.innerHTML = txt;
+	        this.content = data ? data + "" : "";
+	        this.contentEl.innerHTML = this.content;
 	    }
 	}
 }

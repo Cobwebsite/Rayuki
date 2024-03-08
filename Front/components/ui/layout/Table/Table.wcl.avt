@@ -6,7 +6,8 @@ import { TableCellString } from "./cells/TableCellString.wc.avt";
 import { TableCellPicture } from "./cells/TableCellPicture.wc.avt";
 import { TableCellNumber } from "./cells/TableCellNumber.wc.avt";
 import { TableCellDate } from "./cells/TableCellDate.wc.avt";
-import { Scrollable } from "../Scrollable/Scrollable.wcl.avt";
+import { TableCellCheckbox } from "./cells/TableCellCheckbox/TableCellCheckbox.wcl.avt";
+import type { Scrollable } from "../Scrollable/Scrollable.wcl.avt";
 
 namespace Components {
     export type TableCellType = 'number' | 'string' | 'date' | 'boolean' | 'custom' | 'picture';
@@ -15,13 +16,19 @@ namespace Components {
         name: string,
         type: TableCellType,
         cell?: new () => TableCell<any, any>;
+        cellHeader?: new () => TableCell<any, any>;
         width?: number;
     };
     export type TableOptions<T> = {
         schema: TableSchema[];
+        selectable: boolean;
         row: new () => TableRow<T>;
         header: new () => TableRowHeader<T>;
     };
+
+    export type Key<T> = keyof T;
+
+    export type FilterAction<T> = (value: T[Key<T>]) => boolean;
 
     export abstract class Table<T> extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
@@ -33,6 +40,8 @@ namespace Components {
         //#region props
         @Attribute()
         public col_resize!: boolean;
+        @Property()
+        public auto_hide_scroll!: boolean;
         //#endregion
 
 
@@ -48,8 +57,27 @@ namespace Components {
         @Watch((target: Table<T>, action: Aventus.WatchAction, path: string, value: any) => {
             target.render();
         })
-        public data: T[] = [];
-        private options: TableOptions<T>;
+        public data?: T[];
+
+        @Watch((target: Table<T>, action: Aventus.WatchAction, path: string, value: any) => {
+            target.filterData();
+        })
+        public rawData?: T[];
+        protected options: TableOptions<T>;
+        protected filters: { [key: string]: FilterAction<T>[]; } = {};
+        protected globalSearchTxt?: string;
+        protected rows: TableRow<T>[] = [];
+        protected hadGlobalSearch: boolean = false;
+
+        protected rowsSelected: TableRow<T>[] = [];
+
+        protected getSelectedData(): T[] {
+            const result: T[] = [];
+            for(let row of this.rowsSelected) {
+                result.push(row.data);
+            }
+            return result;
+        }
         //#endregion
 
 
@@ -58,12 +86,47 @@ namespace Components {
             super();
             this.options = this.configure(this.defaultOptions());
             this.normalizeSchema();
+            this.auto_hide_scroll = this.autoHideScroll();
         }
         //#endregion
 
 
-        //#region methods 
-        private syncScroll() {
+        //#region methods
+        protected autoHideScroll() {
+            return true;
+        }
+        public selectRow(row?: TableRow<T>) {
+            if(!row) return;
+            if(!this.rowsSelected.includes(row)) {
+                this.rowsSelected.push(row);
+                this.onSelected();
+                this.select.trigger([this.getSelectedData()]);
+            }
+        }
+        public unselectRow(row?: TableRow<T>) {
+            if(!row) return;
+            let index = this.rowsSelected.indexOf(row);
+            if(index != -1) {
+                this.rowsSelected.splice(index, 1);
+                this.onSelected();
+                this.select.trigger([this.getSelectedData()]);
+            }
+        }
+        public unselectAllRows() {
+            this.rowsSelected = [];
+            this.onSelected();
+            this.select.trigger([[]]);
+        }
+
+        public select: Aventus.Callback<(data: T[]) => void> = new Aventus.Callback();
+        /**
+         * Trigger when a row is selected
+         */
+        protected onSelected() {
+
+        }
+
+        protected syncScroll() {
             this.headerContainer?.onScrollChange.add((x, y) => {
                 if(this.bodyContainer?.x != x) {
                     this.bodyContainer?.scrollX(x);
@@ -76,7 +139,7 @@ namespace Components {
             });
         }
 
-        private normalizeSchema() {
+        protected normalizeSchema() {
             for(let cellConfig of this.options.schema) {
                 if(!cellConfig.cell) {
                     if(cellConfig.type == "boolean") cellConfig.cell = TableCellBoolean;
@@ -87,10 +150,21 @@ namespace Components {
                     else if(cellConfig.type == "custom") cellConfig.cell = TableCellString;
                 }
             }
+
+            if(this.options.selectable) {
+                this.options.schema.splice(0, 0, {
+                    displayName: "",
+                    name: "",
+                    type: "custom",
+                    cell: TableCellCheckbox,
+                    width: 50
+                });
+            }
         }
         protected defaultOptions(): TableOptions<T> {
             return {
                 schema: [],
+                selectable: false,
                 header: TableRowHeader,
                 row: TableRow
             };
@@ -101,11 +175,36 @@ namespace Components {
         protected abstract configure(options: TableOptions<T>): TableOptions<T>;
 
         public setColWidth(width: number, i: number) {
-            this.styleWrapper?.style.setProperty("--internal-table-cell-width-" + (i + 1), width + "px");
-            this.styleWrapper?.style.setProperty("--internal-table-cell-weight-" + (i + 1), "0");
+            this.styleWrapper?.style.setProperty("--_table-cell-width-" + (i + 1), width + "px");
+            this.styleWrapper?.style.setProperty("--_table-cell-weight-" + (i + 1), "0");
         }
-
-        private render() {
+        protected sortData(data: T[]): T[] {
+            return data;
+        }
+        protected filterData() {
+            let result: T[] = [];
+            if(this.rawData) {
+                for(let item of this.rawData) {
+                    let isOk = true;
+                    for(let name in this.filters) {
+                        let value = item[name];
+                        let filters = this.filters[name];
+                        for(let filter of filters) {
+                            if(!filter(value)) {
+                                isOk = false;
+                                break;
+                            }
+                        }
+                    }
+                    if(isOk) {
+                        result.push(item);
+                    }
+                }
+            }
+            result = this.sortData(result);
+            this.data = result;
+        }
+        protected render() {
             if(!this.headerContainer || !this.bodyContainer) {
                 return;
             }
@@ -116,7 +215,7 @@ namespace Components {
                 }
             }
             let nbCol = this.options.schema.length ? this.options.schema.length : 1;
-            this.styleWrapper?.style.setProperty("--internal-table-nb-column", nbCol + "");
+            this.styleWrapper?.style.setProperty("--_table-nb-column", nbCol + "");
 
             let header = new this.options.header();
             header.table = this;
@@ -124,20 +223,78 @@ namespace Components {
             this.headerContainer.innerHTML = "";
             this.headerContainer.appendChild(header);
 
-            this.bodyContainer.innerHTML = " ";
-            for(let item of this.data) {
-                let row = new this.options.row();
-                row.table = this;
-                row.init(this.options, item);
-                this.bodyContainer.appendChild(row);
+            for(let row of this.rows) {
+                row.remove();
             }
+            this.bodyContainer.innerHTML = "";
+            this.rows = [];
+            this.hadGlobalSearch = false;
+            if(this.data) {
+                for(let item of this.data) {
+                    let row = new this.options.row();
+                    row.table = this;
+                    row.init(this.options, item);
+                    this.rows.push(row);
+                    this.bodyContainer.appendChild(row);
+                }
+            }
+            this.globalSearch();
+        }
+
+
+        protected globalSearch() {
+            let search = this.globalSearchTxt?.trim().toLowerCase();
+            if(search) {
+                this.hadGlobalSearch = true;
+                for(let row of this.rows) {
+                    row.hide = !row.globalSearch(search);
+                }
+            }
+            else if(this.hadGlobalSearch) {
+                this.hadGlobalSearch = false;
+                for(let row of this.rows) {
+                    row.hide = false;
+                }
+            }
+        }
+
+        public globalFilter(txt: string) {
+            this.globalSearchTxt = txt;
+            this.globalSearch();
+        }
+        public addFilter<U extends keyof T>(name: U, action: (value: T[U]) => boolean) {
+            let nameTxt = name as string;
+            if(!this.filters[nameTxt]) {
+                this.filters[nameTxt] = [];
+            }
+            else if(this.filters[nameTxt].includes(action)) {
+                return;
+            }
+            this.filters[nameTxt].push(action);
+            this.filterData();
+        }
+        public removeFilter<U extends keyof T>(name: U, action: (value: T[U]) => boolean) {
+            let nameTxt = name as string;
+            if(this.filters[nameTxt]) {
+                let index = this.filters[nameTxt].indexOf(action);
+                if(index != -1) {
+                    this.filters[nameTxt].splice(index, 1);
+                }
+            }
+            this.filterData();
         }
 
         protected override postCreation(): void {
             this.syncScroll();
             this.render();
         }
-        //#endregion
 
-    }
+        protected override postDestruction(): void {
+            super.postDestruction();
+            for(let row of this.rows) {
+                row.remove();
+            }
+        }
+        //#endregion
 }
+                                                        }

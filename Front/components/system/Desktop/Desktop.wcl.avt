@@ -17,6 +17,7 @@ import { ApplicationRAM } from "../../../ram/Application.ram.avt";
 import type { DesktopData } from "../../../libs/TypeMapper.lib.avt";
 import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
 import { Platform } from "../../../libs/Platform.lib.avt";
+import { Notification } from "../Os/Notification/Notification.wcl.avt";
 
 namespace System {
     export class Desktop extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, MoveApplicationProvider {
@@ -88,27 +89,14 @@ namespace System {
                     }
                 });
             }
-            if(this.data.Configuration.SyncDesktop) {
-                contextMenu.addItem({
-                    text: "Bureau non partagé",
-                    materialIcon: "sync_disabled",
-                    action: () => {
-                        this.data.Configuration.SyncDesktop = false;
-                        this.data.update({});
-                    }
-                });
-            }
-            else {
-                contextMenu.addItem({
-                    text: "Bureau partagé",
-                    materialIcon: "sync",
-                    action: () => {
-                        this.data.Configuration.SyncDesktop = true;
-                        this.data.update({});
-                        // this.data.update({ SyncDesktop: true });
-                    }
-                });
-            }
+            contextMenu.addItem({
+                text: "Paramètres",
+                materialIcon: "display_settings",
+                action: () => {
+                    this.openUrl("Settings", "/", "/display")
+                }
+            });
+
         }
 
         //#region application
@@ -148,6 +136,12 @@ namespace System {
                 this.applications[comp.$type][i] = comp;
 
                 this.manageAppBottomBar(comp.$type);
+            }
+            else {
+                let notif = new Notification();
+                notif.subject = "Erreur";
+                notif.innerHTML = "Impossible de trouver l'application "+application+" sur "+componentUrl;
+                Os.instance.notify(notif);
             }
         }
         public async unHideApplication(application: string, componentUrl: string = "/") {
@@ -277,6 +271,21 @@ namespace System {
         private oldActiveCase?: PageCaseSlot;
         private pressManagerStopMoveApp?: Aventus.PressManager;
 
+        protected calculateIconSize() {
+            let type = Platform.device;
+            let iconSize: number = 75;
+            if(type == "pc") {
+                iconSize = this.data.Configuration.SizeDesktop;
+            }
+            else if(type == "tablet") {
+                iconSize = this.data.Configuration.SizeTablet;
+            }
+            else if(type == "mobile") {
+                iconSize = this.data.Configuration.SizeMobile;
+            }
+            this.setIconSize(iconSize);
+
+        }
         public setIconSize(size: number) {
             this._iconSize = size;
             this.pageCaseEl.case_height = size;
@@ -372,30 +381,26 @@ namespace System {
 
         //#region device watcher
         protected watchDevice() {
-            Platform.onScreenChangeAndRun((type) => {
-                let iconSize: number = 75;
-                if(type == "pc") {
-                    iconSize = this.data.Configuration.SizeDesktop;
-                }
-                else if(type == "tablet") {
-                    iconSize = this.data.Configuration.SizeTablet;
-                }
-                else if(type == "mobile") {
-                    iconSize = this.data.Configuration.SizeMobile;
-                }
-                this.setIconSize(iconSize);
+            Platform.onScreenChange.add((type) => {
+                this.calculateIconSize();
             });
         }
         //#endregion
 
+        //#region data
+        private async applyDataChange() {
+            this.style.backgroundImage = 'url("' + this.data.Configuration.Background.Uri + '")';
+            this.style.backgroundColor = this.data.Configuration.BackgroundColor ?? '';
+            this.background_size = BackgroundSize[this.data.Configuration.BackgroundSize];
+            this.calculateIconSize();
+        }
         private async loadData() {
             let data = await DesktopRAM.getInstance().getById(this.desktop_id);
             if(data) {
                 this.data = data;
-                this.style.backgroundImage = 'url("' + data.Configuration.Background.Uri + '")';
-                this.background_size = BackgroundSize[data.Configuration.BackgroundSize];
-                if(data.Configuration.SyncDesktop) {
-                    this.recreateApplications(data.Applications);
+                this.applyDataChange();
+                if(this.data.Configuration.SyncDesktop) {
+                    this.recreateApplications(this.data.Applications);
                 }
                 else {
                     this.recreateApplications(ApplicationManager.getOpenApps(data.Id));
@@ -415,11 +420,16 @@ namespace System {
                     }
 
                 }
-                this.pageCaseEl.calculateGrid();
                 this.watchDevice();
+
+                data.onUpdate(() => {
+                    this.applyDataChange();
+                });
             }
 
         }
+        //#endregion
+
         protected override postCreation(): void {
             this.loadData();
         }

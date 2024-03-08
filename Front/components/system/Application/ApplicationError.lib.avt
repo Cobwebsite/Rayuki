@@ -1,0 +1,15 @@
+import { ApplicationState, ApplicationStateManager } from "../../../libs/ApplicationStateManager.state.avt";
+
+namespace System {
+     
+    export type ApplicationQueryFctResult<X> = Aventus.ResultWithError<X> | Aventus.VoidWithError;
+    export type ApplicationQueryFct<X> = (...args) => Promise<ApplicationQueryFctResult<X>>;
+
+    export type GetErrorValue<X> = X extends Aventus.ResultWithError<infer B> ? B : undefined;
+    export type GetPromiseResult<X extends (...args: any) => any> = ReturnType<X> extends Promise<infer Y> ? Y : never;
+
+    export type ApplicationQueryResult<X extends (...args) => any> = GetErrorValue<GetPromiseResult<X>>;
+
+    export type GetArgs<X> = X extends (...args: infer P) => infer R ? P : never;
+}
+

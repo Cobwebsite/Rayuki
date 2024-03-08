@@ -1,11 +1,31 @@
 @import '@root/_variables.gs.avt';
 
 :host {
-	width: 100%;
-    height: 100%;
+	animation-delay: var(--local-frame-animation-delay, 0ms);
+	animation-duration: 200ms;
+	animation-name: fadeIn;
+	animation-timing-function: var(--bezier-curve);
+	animation-fill-mode: forwards;
 	display: none;
+	height: 100%;
+	opacity: 0;
+	visibility: hidden;
+	width: 100%;
 }
+
 
 :host([visible]) {
 	display: block;
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	100% {
+		opacity: 1;
+		visibility: visible;
+	}
 }

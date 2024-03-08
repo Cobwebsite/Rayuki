@@ -105,7 +105,8 @@
 
 	.loading {
 		display: none;
-		z-index: 10;
+		z-index: 600;
+		border-radius: var(--_application-border-radius);
 	}
 
 	rk-resize {

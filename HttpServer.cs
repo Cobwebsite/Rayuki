@@ -6,6 +6,7 @@ using Core.Data;
 using Core.Logic;
 using Core.Tools;
 using Microsoft.AspNetCore.Http;
+using Microsoft.VisualStudio.Shell.Interop;
 using MySqlX.XDevAPI.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -179,13 +180,14 @@ namespace Core
         }
         private static void OnStopping()
         {
-            AppManager.OnStop();
+            Stop().Wait();
         }
 
         public static async Task Stop()
         {
-            await app.StopAsync();
+            AppManager.OnStop();
             await WebSocketMiddleware.Stop();
+            await app.StopAsync();
         }
 
 

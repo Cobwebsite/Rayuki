@@ -46,6 +46,10 @@
 	--button-box-shadow: var(--elevation-2);
 	--button-box-shadow-hover: var(--elevation-0);
 
+	/*#region desktop */
+	--desktop-background-color: var(--secondary-color);
+	/*#endregion */
+
 	/*#region application*/
 	--application-box-shadow: var(--elevation-5);
 	--application-header-background-color: var(--darker-active);
@@ -84,6 +88,11 @@
 
 	/*#endregion*/
 
+	/*#region table */
+	--table-background-color: white;
+	/*#endregion */
+	
+	/*#region shadow*/
 	--elevation-umbra: rgba(0, 0, 0, 0.2);
 	--elevation-penumbra: rgba(0, 0, 0, 0.14);
 	--elevation-penumbra-2: rgba(0, 0, 0, 0.12);
@@ -112,6 +121,7 @@
 	--elevation-22: 0px 10px 14px -6px var(--elevation-umbra), 0px 22px 35px 3px var(--elevation-penumbra), 0px 8px 42px 7px var(--elevation-penumbra-2);
 	--elevation-23: 0px 11px 14px -7px var(--elevation-umbra), 0px 23px 36px 3px var(--elevation-penumbra), 0px 9px 44px 8px var(--elevation-penumbra-2);
 	--elevation-24: 0px 11px 15px -7px var(--elevation-umbra), 0px 24px 38px 3px var(--elevation-penumbra), 0px 9px 46px 8px var(--elevation-penumbra-2);
+	/*#endregion*/
 }
 
 :root.dark {

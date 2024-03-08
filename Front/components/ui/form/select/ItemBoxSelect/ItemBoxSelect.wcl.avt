@@ -1,8 +1,9 @@
 import type { ItemBoxOption } from "./ItemBoxOption/ItemBoxOption.wcl.avt";
 import { BoxContainer } from "../../../layout/BoxContainer/BoxContainer.wcl.avt";
+import { FormElement, type FormPart, type IFormElement } from "../../IFormElement.lib.avt";
 
 namespace Components {
-    export class ItemBoxSelect extends BoxContainer implements Aventus.DefaultComponent {
+    export class ItemBoxSelect extends BoxContainer implements Aventus.DefaultComponent, IFormElement<string> {
 
         //#region static
 
@@ -13,13 +14,20 @@ namespace Components {
         @Property((target: ItemBoxSelect) => {
             target.selectInternalOption();
         })
-        public value?: string;
+        public value: string | undefined;
+        @Attribute()
+        private has_errors!: boolean;
         //#endregion
 
 
         //#region variables
+        @Watch((target: ItemBoxSelect) => {
+            target.has_errors = target.errors.length > 0;
+        })
+        public errors: string[] = [];
         protected options: ItemBoxOption[] = [];
         protected optionSelected?: ItemBoxOption;
+        public formPart?: FormPart<string>;
         //#endregion
 
 
@@ -82,6 +90,16 @@ namespace Components {
             }
         }
 
+        /**
+         * 
+         */
+        protected removeErrors() {
+            this.errors = [];
+        }
+
+        public validate(): Promise<boolean> {
+            return FormElement.validate(this);
+        }
 
         protected override postCreation(): void {
             this.selectInternalOption();

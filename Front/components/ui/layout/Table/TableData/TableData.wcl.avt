@@ -1,0 +1,68 @@
+// import { NotificationManager } from "../../Notification/NotificationManager.lib.avt";
+// import type { GenericDataModal } from "../../Modal/GenericDataModal/GenericDataModal.wcl.avt";
+import { ApplicationStorableState } from "../../../../../libs/ApplicationStateManager.state.avt";
+import { Application } from "../../../../system/Application/Application.wcl.avt";
+import { Table } from "../Table.wcl.avt";
+
+namespace Components {
+    export abstract class TableData<T extends Aventus.IData> extends Table<T> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+        private application?: Application;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        public abstract defineRAM(): Aventus.Ram<T>;
+        public abstract defineNewState(): Aventus.State;
+        public abstract defineEditState(): Aventus.State;
+        public async loadData() {
+            let ram = this.defineRAM();
+            this.rawData = await this.application?.executeWithLoading(ram.getListWithError());
+        }
+
+        public async newData() {
+            let state = this.defineNewState();
+            await this.application?.navigate(state);
+        }
+        public async editData(data: T) {
+            let state = this.defineEditState();
+            await this.application?.navigate(state);
+        }
+        public async deleteData(data: T) {
+            let confirm = await this.application?.confirm({
+                title: "Confirmation de suppression",
+                description: "Etes-vous sûr de bien vouloir supprimer?"
+            });
+            if(confirm) {
+                let ram = this.defineRAM();
+                await this.application?.executeWithLoading(ram.deleteWithError(data));
+                this.rawData = await this.application?.executeWithLoading(ram.getListWithError());
+            }
+        }
+
+
+        protected override postCreation(): void {
+            super.postCreation();
+            this.application = this.findParentByType(Application) ?? undefined;
+            this.loadData();
+        }
+        //#endregion
+
+    }
+}

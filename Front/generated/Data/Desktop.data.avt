@@ -6,7 +6,7 @@ namespace Data {
 	export enum BackgroundSize {
 		Cover,
 		Contain,
-		ContainNoRepeat
+		Stretch
 	}
 
 	@Convertible()
@@ -29,6 +29,7 @@ namespace Data {
 		public SizeMobile: number = 75;
 		public SizeTablet: number = 75;
 		public SizeDesktop: number = 40;
+		public BackgroundColor?: string = undefined;
 	}
 
 	export enum DesktopLocation {

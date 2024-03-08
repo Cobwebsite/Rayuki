@@ -1,5 +1,7 @@
+import { FormElement, type FormPart, type IFormElement } from "../IFormElement.lib.avt";
+
 namespace Components {
-    export class Slider extends Aventus.WebComponent implements Aventus.DefaultComponent {
+    export class Slider extends Aventus.WebComponent implements Aventus.DefaultComponent, IFormElement<number> {
 
         //#region static
 
@@ -27,12 +29,13 @@ namespace Components {
         public popup: 'never' | 'always' | 'onMove' = 'never';
 
 
-        //internaé
+        //internal
         @Attribute()
         private no_transition!: boolean;
         @Attribute()
         private popup_visible!: boolean;
-
+        @Attribute()
+        private has_errors!: boolean;
 
         //#endregion
 
@@ -44,8 +47,14 @@ namespace Components {
         @ViewElement()
         protected barEl!: HTMLDivElement;
 
+        @Watch((target: Slider) => {
+            target.has_errors = target.errors.length > 0;
+        })
+        public errors: string[] = [];
+
         protected currentPercent: number = 0;
         protected timerPopup: number = 0;
+        public formPart?: FormPart<number>;
         //#endregion
 
 
@@ -163,6 +172,17 @@ namespace Components {
 
             this.currentPercent = percent;
             this.style.setProperty("--local-slider-dot-percent", percent + "%");
+        }
+
+        /**
+         * 
+         */
+        protected removeErrors() {
+            this.errors = [];
+        }
+
+        public validate(): Promise<boolean> {
+            return FormElement.validate(this);
         }
 
         protected override postCreation(): void {

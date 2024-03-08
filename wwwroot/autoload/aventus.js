@@ -1411,6 +1411,10 @@ const VoidWithError=class VoidWithError {
 }
 VoidWithError.Namespace=`${moduleName}`;
 _.VoidWithError=VoidWithError;
+const VoidRamWithError=class VoidRamWithError extends VoidWithError {
+}
+VoidRamWithError.Namespace=`${moduleName}`;
+_.VoidRamWithError=VoidRamWithError;
 const ResultWithError=class ResultWithError extends VoidWithError {
     /**
       * The result value of the action.
@@ -2629,17 +2633,17 @@ const Watcher=class Watcher {
                 }
             }
         };
-        let setProxyPath = (newProxy, newPath) => {
+        const setProxyPath = (newProxy, newPath) => {
             if (newProxy instanceof Object && newProxy.__isProxy) {
                 newProxy.__path = newPath;
             }
         };
-        let jsonReplacer = (key, value) => {
+        const jsonReplacer = (key, value) => {
             if (reservedName[key])
                 return undefined;
             return value;
         };
-        let addAlias = (otherBaseData, name, cb) => {
+        const addAlias = (otherBaseData, name, cb) => {
             let cbs = aliases.get(otherBaseData);
             if (!cbs) {
                 cbs = [];
@@ -2650,7 +2654,7 @@ const Watcher=class Watcher {
                 fct: cb
             });
         };
-        let deleteAlias = (otherBaseData, name) => {
+        const deleteAlias = (otherBaseData, name) => {
             let cbs = aliases.get(otherBaseData);
             if (!cbs)
                 return;
@@ -2664,7 +2668,7 @@ const Watcher=class Watcher {
                 }
             }
         };
-        let replaceByAlias = (target, element, prop, receiver) => {
+        const replaceByAlias = (target, element, prop, receiver) => {
             let fullInternalPath = "";
             if (Array.isArray(target)) {
                 if (prop != "length") {
@@ -3021,6 +3025,7 @@ const Watcher=class Watcher {
                 return Reflect.get(target, prop, receiver);
             },
             set(target, prop, value, receiver) {
+                let oldValue = Reflect.get(target, prop, receiver);
                 value = replaceByAlias(target, value, prop, receiver);
                 let triggerChange = false;
                 if (!reservedName[prop]) {
@@ -3030,7 +3035,6 @@ const Watcher=class Watcher {
                         }
                     }
                     else {
-                        let oldValue = Reflect.get(target, prop, receiver);
                         if (!compareObject(value, oldValue)) {
                             triggerChange = true;
                         }
@@ -3619,6 +3623,22 @@ const GenericRam=class GenericRam {
                 }
                 return undefined;
             }
+            async updateWithError(newData = {}) {
+                const result = new ResultRamWithError();
+                let queryId = that.getIdWithError(this);
+                if (!queryId.success || !queryId.result) {
+                    result.errors = queryId.errors;
+                    return result;
+                }
+                let oldData = that.records.get(queryId.result);
+                if (oldData) {
+                    that.mergeObject(oldData, newData);
+                    let result = await that.updateWithError(oldData);
+                    return result;
+                }
+                result.errors.push(new RamError(RamErrorCode.noItemInsideRam, "Can't find this item inside the ram"));
+                return result;
+            }
             onUpdate(callback) {
                 let id = that.getId(this);
                 if (!that.recordsSubscribers.has(id)) {
@@ -3646,6 +3666,17 @@ const GenericRam=class GenericRam {
             async delete() {
                 let id = that.getId(this);
                 await that.deleteById(id);
+            }
+            async deleteWithError() {
+                const result = new VoidRamWithError();
+                let queryId = that.getIdWithError(this);
+                if (!queryId.success || !queryId.result) {
+                    result.errors = queryId.errors;
+                    return result;
+                }
+                const queryDelete = await that.deleteByIdWithError(queryId.result);
+                result.errors = queryDelete.errors;
+                return result;
             }
             onDelete(callback) {
                 let id = that.getId(this);

@@ -12,6 +12,7 @@ import { ApplicationSize, type ApplicationPositionSize } from "./ApplicationSize
 import type { Desktop } from "../Desktop/Desktop.wcl.avt";
 import type { ContextMenu, IContextMenu } from "../../ui/ContextMenu/ContextMenu.wcl.avt";
 import { Geometry, type Rectangle } from "../../../libs/Geometry.lib.avt";
+import type { ApplicationQueryFct, ApplicationQueryFctResult, ApplicationQueryResult, GetArgs } from "./ApplicationError.lib.avt";
 
 namespace System {
 
@@ -205,7 +206,7 @@ namespace System {
                             this.oldFrame = element;
                             this.activePath = path;
                             this.activeState = currentState;
-                            await element.show();
+                            await element.show(currentState);
 
                             this.app_title = element.pageTitle();
 
@@ -234,7 +235,7 @@ namespace System {
                 if(this.oldFrame && this.oldFrame != this.page404) {
                     await this.oldFrame.hide();
                 }
-                await this.page404.show();
+                await this.page404.show(undefined);
                 this.oldFrame = this.page404;
                 this.activePath = '';
             }
@@ -565,15 +566,67 @@ namespace System {
             });
         }
 
-        public async alert(info:Partial<AlertInfo>): Promise<void> {
+        public async alert(info: Partial<AlertInfo>): Promise<void> {
             const a = new Alert();
             a.mergeInfo(info);
             await this.popup(a);
         }
-        public async confirm(info:Partial<ConfirmInfo>): Promise<boolean> {
+        public async confirm(info: Partial<ConfirmInfo>): Promise<boolean> {
             const c = new Confirm();
             c.mergeInfo(info);
             return await this.popup(c);
+        }
+        //#endregion
+
+        //#region execution process
+        protected async parseErrors<X>(result: ApplicationQueryFctResult<X>): Promise<X | undefined> {
+            if(result.errors.length > 0) {
+                let msg = result.errors.map(p => p.message).join("<br/>");
+                await this.alert({
+                    title: "Error",
+                    description: msg,
+                    behind: false,
+                    min_width: '300px',
+                });
+                return undefined;
+            }
+            if(result instanceof Aventus.ResultWithError) return result.result;
+            return undefined;
+        }
+        public async execute<X>(prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
+            const queryResult = await prom;
+            return await this.parseErrors(queryResult);
+        }
+
+        public async executeWithLoading<X>(prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
+            const queryResult = await this.showLoading(prom);
+            return await this.parseErrors(queryResult);
+        }
+
+        public async showLoading<X>(fct: (() => Promise<X>) | Promise<X>) : Promise<X> {
+            const minDelay = 2000;
+            let start: Date | undefined;
+            let timeout = setTimeout(() => {
+                start = new Date();
+                this.loading = true;
+            }, 200);
+            let result:X;
+            if(fct instanceof Promise) {
+                result = await fct;
+            }
+            else {
+                result = await fct();
+            }
+            clearTimeout(timeout);
+            if(start) {
+                let now = new Date();
+                let diffMs = now.getTime() - start.getTime();
+                if(diffMs < minDelay) {
+                    await Aventus.sleep(minDelay - diffMs);
+                }
+            }
+            this.loading = false;
+            return result;
         }
         //#endregion
 

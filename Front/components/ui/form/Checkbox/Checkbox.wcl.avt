@@ -1,5 +1,7 @@
+import { FormElement, type FormPart, type IFormElement } from "../IFormElement.lib.avt";
+
 namespace Components {
-    export class Checkbox extends Aventus.WebComponent implements Aventus.DefaultComponent {
+    export class Checkbox extends Aventus.WebComponent implements Aventus.DefaultComponent, IFormElement<boolean> {
 
         //#region static
 
@@ -33,10 +35,14 @@ namespace Components {
 
         //#region variables
 
-        public onChange: Aventus.Callback<(value: boolean) => void> = new Aventus.Callback();
 
         /** Add value to use bind */
+        @Watch((target: Checkbox) => {
+            target.checked = target.value;
+        })
         public value: boolean = false;
+
+        public formPart?: FormPart<boolean>;
         //#endregion
 
 
@@ -44,6 +50,9 @@ namespace Components {
 
         //#endregion
 
+        //#region events
+        public onChange: Aventus.Callback<(value: boolean) => void> = new Aventus.Callback();
+        //#endregion
 
         //#region methods
         /**
@@ -51,6 +60,10 @@ namespace Components {
          */
         protected removeErrors() {
             this.errors = [];
+        }
+
+        public validate(): Promise<boolean> {
+            return FormElement.validate(this);
         }
 
         protected override postCreation(): void {

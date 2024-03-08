@@ -16,7 +16,7 @@
 	position: absolute;
 	top: 0;
 	width: 100%;
-	z-index: 999;
+	z-index: 600;
 
 	.dot-container {
 		--center: (var(--internal-radius) - (var(--internal-dot-size) / 2));

@@ -1,3 +1,8 @@
+	
+	
+	
+	
+	
 <script>
 import { TableCell } from "./TableCell/TableCell.wcl.avt";
 namespace Components {
@@ -8,17 +13,17 @@ namespace Components {
 	         */
 	        public override setContent(data: TableCellBooleanType | undefined, rowData: U) {
 	            if(!this.contentEl) return;
-	
+				
 	            if(data === true || data === 1 || data === 'true') {
-	                this.contentEl.innerHTML = 'true';
+					this.content = 'Oui';
 	            }
 	            else {
-	                this.contentEl.innerHTML = 'false';
+					this.content = 'Non';
 	            }
-	        }
+				this.contentEl.innerHTML = this.content;
 
-	    }
+	        }
+	}
 }
-	
 </script>
 

@@ -1,0 +1,53 @@
+
+<script>
+	import { TableData } from "./TableData.wcl.avt";
+	import { TableCell } from "../cells/TableCell/TableCell.wcl.avt";
+	namespace Components {
+		export class TableDataCellHeaderAction<U = any> extends TableCell<string, U> implements Aventus.DefaultComponent {
+			/**
+			* @inheritdoc
+			*/
+			public override setContent(data: string | undefined, rowData: U) {
+			}
+
+			protected override postCreation(): void {
+				super.postCreation();
+				new Aventus.PressManager({
+					element: this,
+					onPress: () => {
+						if(this.table instanceof TableData) {
+							this.table.newData();
+						}
+					}
+				});
+		
+			}
+		}
+	}
+</script>
+
+<template>
+	<mi-icon icon="add"></mi-icon>
+</template>
+
+<style>
+	:host {
+		align-items: center;
+		display: flex;
+		justify-content: end;
+
+		span {
+			align-items: center;
+			display: flex;
+			height: 100%;
+		}
+
+		mi-icon {
+			color: var(--green);
+			cursor: pointer;
+		}
+		mi-icon:hover {
+			color: var(--green);
+		}
+	}
+</style>

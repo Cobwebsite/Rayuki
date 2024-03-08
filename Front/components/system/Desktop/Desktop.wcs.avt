@@ -1,4 +1,9 @@
 :host {
+	--_desktop-background-color: var(--desktop-background-color, var(--primary-color));
+}
+
+:host {
+	background-color: var(--_desktop-background-color);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -15,11 +20,11 @@
 		--page-case-background-active: var(--lighter-active);
 		/* background-color: var(--lighter-active);*/
 		height: calc(100% - 70px);
-		width: 100%;
-		z-index: 2;
 		transition:
 			opacity var(--bezier-curve) .5s,
 			visibility var(--bezier-curve) .5s;
+		width: 100%;
+		z-index: 2;
 	}
 
 	.app-container {
@@ -43,4 +48,8 @@
 
 :host([background_size="Contain"]) {
 	background-size: contain;
+}
+
+:host([background_size="Stretch"]) {
+	background-size: 100% 100%;
 }

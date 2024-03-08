@@ -189,6 +189,10 @@ namespace Core.Logic
             List<GenericError> result = base.BeforeUpdateWithError(values);
             foreach (X value in values)
             {
+                if (!value.Configuration.SyncDesktop && openApplications.ContainsKey(value.Id))
+                {
+                    openApplications.Remove(value.Id);
+                }
                 result.AddRange(value.Configuration.Background.ValidateAndSaveToDir(GetPictureDirPath(value), 1200).Errors);
             }
             return result;
