@@ -1,0 +1,143 @@
+import { Form, type FormPart } from "../Form/Form.wcl.avt";
+
+namespace Components {
+
+    export class FormElement<T> extends Aventus.WebComponent implements Aventus.DefaultComponent, IFormElement<T> {
+
+        //#region static
+        public static async validate(element: IFormElement<any>): Promise<boolean> {
+            if(element.formPart?.validate) {
+                let result = element.formPart.validate(element.value);
+                if(result instanceof Promise) {
+                    result = await result;
+                }
+                if(result === undefined || result === true || result === "") {
+                    element.errors = [];
+                    return true;
+
+                }
+
+                if(result === false) {
+                    element.errors.push("Le champs n'est pas valide");
+                    return false;
+                }
+
+                element.errors.push(result);
+                return false;
+            }
+
+            element.errors = [];
+            return true;
+        }
+
+        public static async setValue<T>(part: FormPart<T>, value: T): Promise<void> {
+            if(part.value === undefined) part.value = value;
+            else if(typeof part.value === "object" && part.value && Object.hasOwn(part.value, 'get') && Object.hasOwn(part.value, 'set')) {
+                (part.value as { get: () => T; set: (value: T) => void; }).set(value);
+            }
+            else {
+                part.value = value;
+            }
+        }
+
+        public static getValue<T>(part: FormPart<T>): T | undefined {
+            if(typeof part.value === "object" && part.value && Object.hasOwn(part.value, 'get') && Object.hasOwn(part.value, 'set')) {
+                return (part.value as { get: () => T; set: (value: T) => void; }).get();
+            }
+            return part.value as T | undefined;
+        }
+
+        public static onFormPartChange<T>(element: IFormElement<any>, path: string, value: any): void {
+            if(path == "formPart" && value !== undefined) {
+                if(!element.form && element instanceof Aventus.WebComponent) {
+                    const form = element.findParentByType(Form);
+                    if(form) {
+                        element.form = form;
+                        form.registerFormElement(element);
+                    }
+                }
+            }
+            if(path == "formPart" || path == "formPart.value") {
+                element.value = element.formPart ? FormElement.getValue(element.formPart) ?? '' : '';
+            }
+        }
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        protected has_errors!: boolean;
+        //#endregion
+
+
+        //#region variables
+        /**
+         * @inheritdoc
+         */
+        @Watch((target: FormElement<T>) => {
+            target.has_errors = target.errors.length > 0;
+        })
+        public errors: string[] = [];
+
+        /**
+        * @inheritdoc
+        */
+        @Watch()
+        public value: T | undefined;
+
+        /**
+         * @inheritdoc
+         */
+        @Watch((target: FormElement<T>, action: Aventus.WatchAction, path: string, value: any) => {
+            target.onFormPartChange(action, path, value);
+        })
+        public formPart?: FormPart<T>;
+
+        /**
+         * @inheritdoc
+         */
+        public form?: Form<any> | undefined;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region events
+        public onChange: Aventus.Callback<(value: T | undefined) => void> = new Aventus.Callback();
+        //#endregion
+
+
+        //#region methods
+
+
+
+        /**
+         * @inheritdoc
+         */
+        public validate(): Promise<boolean> {
+            return FormElement.validate(this);
+        }
+        /**
+         * @inheritdoc
+         */
+        public onFormPartChange(action: Aventus.WatchAction, path: string, value: any) {
+            FormElement.onFormPartChange(this, path, value);
+        }
+
+        //#endregion
+
+    }
+
+    export interface IFormElement<T = any> {
+        errors: string[];
+        value: T | undefined;
+        onChange: Aventus.Callback<(value: T) => void>;
+        formPart?: FormPart<T>;
+        form?: Form<any>;
+        validate(): Promise<boolean>;
+        onFormPartChange(action: Aventus.WatchAction, path: string, value: any): void;
+    }
+}

@@ -1,7 +1,7 @@
-import { FormElement, type FormPart, type IFormElement } from "../IFormElement.lib.avt";
+import { FormElement } from "../FormElement/FormElement.wcl.avt";
 
 namespace Components {
-    export class Input extends Aventus.WebComponent implements Aventus.DefaultComponent, IFormElement<string> {
+    export class Input extends FormElement<string> implements Aventus.DefaultComponent {
 
         //#region static
 
@@ -13,15 +13,15 @@ namespace Components {
         public label?: string;
         @Property()
         public placeholder?: string;
-        @Attribute()
-        private has_errors!: boolean;
+
         @Property()
         public icon?: string;
 
         @Property((target: Input) => {
             target.inputEl.value = target.value;
         })
-        public value: string = "";
+        public override value: string = "";
+
         //#endregion
 
 
@@ -29,27 +29,12 @@ namespace Components {
         @ViewElement()
         protected inputEl!: HTMLInputElement;
 
-        @Watch((target: Input) => {
-            target.has_errors = target.errors.length > 0;
-        })
-        public errors: string[] = [];
 
-
-        @Watch((target: Input, action: Aventus.WatchAction, path: string, value: any) => {
-            if(path == "formPart" || path == "formPart.value") {
-                target.value = target.formPart?.value ?? '';
-            }
-        })
-        public formPart?: FormPart<string>;
         //#endregion
 
 
         //#region constructor
 
-        //#endregion
-
-        //#region events
-        public onChange: Aventus.Callback<(value: string) => void> = new Aventus.Callback();
         //#endregion
 
         //#region methods
@@ -69,17 +54,13 @@ namespace Components {
             this.value = this.inputEl.value;
             this.onChange.trigger([this.value]);
             if(this.formPart) {
-                this.formPart.value = this.value;
-                if(this.formPart.validateOnChange) {
+                FormElement.setValue(this.formPart, this.value);
+                if(this.formPart.validateOnChange !== false) {
                     this.validate();
                 }
             }
         }
 
-
-        public validate(): Promise<boolean> {
-            return FormElement.validate(this);
-        }
         //#endregion
 
     }

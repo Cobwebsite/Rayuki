@@ -1,6 +1,7 @@
 import type { ItemBoxOption } from "./ItemBoxOption/ItemBoxOption.wcl.avt";
 import { BoxContainer } from "../../../layout/BoxContainer/BoxContainer.wcl.avt";
-import { FormElement, type FormPart, type IFormElement } from "../../IFormElement.lib.avt";
+import { FormElement, type IFormElement } from "../../FormElement/FormElement.wcl.avt";
+import type { Form, FormPart } from "../../Form/Form.wcl.avt";
 
 namespace Components {
     export class ItemBoxSelect extends BoxContainer implements Aventus.DefaultComponent, IFormElement<string> {
@@ -27,7 +28,16 @@ namespace Components {
         public errors: string[] = [];
         protected options: ItemBoxOption[] = [];
         protected optionSelected?: ItemBoxOption;
+
+        @Watch((target: ItemBoxSelect, action: Aventus.WatchAction, path: string, value: any) => {
+            target.onFormPartChange(action, path);
+        })
         public formPart?: FormPart<string>;
+
+        /**
+         * @inheritdoc
+         */
+        public form?: Form<any> | undefined;
         //#endregion
 
 
@@ -99,6 +109,12 @@ namespace Components {
 
         public validate(): Promise<boolean> {
             return FormElement.validate(this);
+        }
+        /**
+         * @inheritdoc
+         */
+        public onFormPartChange(action: Aventus.WatchAction, path: string) {
+            FormElement.onFormPartChange(this, path);
         }
 
         protected override postCreation(): void {

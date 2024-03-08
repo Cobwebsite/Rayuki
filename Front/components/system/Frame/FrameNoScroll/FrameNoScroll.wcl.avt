@@ -38,7 +38,7 @@ namespace System {
 
         //#region methods
         protected addFadeIn() {
-            this.style.setProperty("--local-frame-animation-delay", "300ms");
+            this.style.setProperty("--local-frame-animation-delay", "200ms");
             this.addEventListener("animationend", (e) => {
                 if(e.animationName == "fadeIn") {
                     this.style.removeProperty("--local-frame-animation-delay");

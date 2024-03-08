@@ -1,7 +1,7 @@
-import { FormElement, type FormPart, type IFormElement } from "../IFormElement.lib.avt";
+import { FormElement } from "../FormElement/FormElement.wcl.avt";
 
 namespace Components {
-    export class Checkbox extends Aventus.WebComponent implements Aventus.DefaultComponent, IFormElement<boolean> {
+    export class Checkbox extends FormElement<boolean> implements Aventus.DefaultComponent {
 
         //#region static
 
@@ -13,15 +13,10 @@ namespace Components {
         public label?: string;
         @Property()
         public placeholder?: string;
-        @Attribute()
-        private has_errors!: boolean;
+       
         @Property()
         public icon?: string;
 
-        @Watch((target: Checkbox) => {
-            target.has_errors = target.errors.length > 0;
-        })
-        public errors: string[] = [];
 
         @Property((target: Checkbox) => {
             target.value = target.checked;
@@ -40,9 +35,9 @@ namespace Components {
         @Watch((target: Checkbox) => {
             target.checked = target.value;
         })
-        public value: boolean = false;
+        public override value: boolean = false;
 
-        public formPart?: FormPart<boolean>;
+       
         //#endregion
 
 
@@ -51,7 +46,7 @@ namespace Components {
         //#endregion
 
         //#region events
-        public onChange: Aventus.Callback<(value: boolean) => void> = new Aventus.Callback();
+        
         //#endregion
 
         //#region methods
@@ -62,11 +57,9 @@ namespace Components {
             this.errors = [];
         }
 
-        public validate(): Promise<boolean> {
-            return FormElement.validate(this);
-        }
 
         protected override postCreation(): void {
+            super.postCreation();
             new Aventus.PressManager({
                 element: this,
                 onPress: () => {

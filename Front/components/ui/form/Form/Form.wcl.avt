@@ -1,5 +1,19 @@
+import type { IFormElement } from "../FormElement/FormElement.wcl.avt";
+
 namespace Components {
-    export class Form extends Aventus.WebComponent implements Aventus.DefaultComponent {
+    export type FormType = {
+        [key: string]: FormPart<any>;
+    };
+   
+
+    export type FormPart<T = any> = {
+        name: string,
+        validateOnChange?: boolean,
+        value: T | undefined | { get: () => T; set: (value: T) => void; },
+        validate?(value: T | undefined): string | boolean | undefined | Promise<string> | Promise<boolean> | Promise<undefined>;
+    };
+
+    export class Form<T extends FormType> extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static
 
@@ -13,6 +27,7 @@ namespace Components {
 
         //#region variables
 
+        protected elements: IFormElement[] = [];
         //#endregion
 
 
@@ -20,9 +35,44 @@ namespace Components {
 
         //#endregion
 
+        //#region events
+        public onSubmit: Aventus.Callback<() => void> = new Aventus.Callback();
+        //#endregion
 
         //#region methods
+        public registerFormElement(element: IFormElement) {
+            if(!this.elements.includes(element)) {
+                this.elements.push(element);
+            }
+        }
 
+        public registerSubmit(element: HTMLElement) {
+            new Aventus.PressManager({
+                element,
+                onPress: () => {
+                    this.submit();
+                }
+            });
+        }
+
+        public async submit() {
+            if(await this.validate()) {
+                this.onSubmit.trigger([]);
+            }
+        }
+
+        public async validate(): Promise<boolean> {
+            let proms: Promise<boolean>[] = [];
+            for(let element of this.elements) {
+                proms.push(element.validate());
+            }
+
+            const result = await Promise.all(proms);
+            for(let resultTemp of result) {
+                if(!resultTemp) return false;
+            }
+            return true;
+        }
         //#endregion
 
     }

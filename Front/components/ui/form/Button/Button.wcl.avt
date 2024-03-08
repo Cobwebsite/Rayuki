@@ -1,3 +1,4 @@
+import { Form } from "../Form/Form.wcl.avt";
 
 namespace Components {
     export class Button extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -24,6 +25,9 @@ namespace Components {
             target.icon_before = target.icon;
         })
         public icon?: string;
+
+        @Attribute()
+        public submit!: boolean;
         //#endregion
 
 
@@ -38,7 +42,17 @@ namespace Components {
 
 
         //#region methods
+        protected registerToForm() {
+            if(!this.submit) return;
 
+            const parent = this.findParentByType(Form);
+            if(parent) {
+                parent.registerSubmit(this);
+            }
+        }
+        protected override postCreation(): void {
+            this.registerToForm();
+        }
         //#endregion
 
     }

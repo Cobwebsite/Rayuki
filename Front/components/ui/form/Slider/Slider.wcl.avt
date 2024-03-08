@@ -1,7 +1,7 @@
-import { FormElement, type FormPart, type IFormElement } from "../IFormElement.lib.avt";
+import { FormElement } from "../FormElement/FormElement.wcl.avt";
 
 namespace Components {
-    export class Slider extends Aventus.WebComponent implements Aventus.DefaultComponent, IFormElement<number> {
+    export class Slider extends FormElement<number> implements Aventus.DefaultComponent {
 
         //#region static
 
@@ -22,7 +22,7 @@ namespace Components {
         @Property((target: Slider) => {
             target.calculatePercent();
         })
-        public value: number = 0;
+        public override value: number = 0;
         @Property()
         public step: number = 1;
         @Attribute()
@@ -34,8 +34,6 @@ namespace Components {
         private no_transition!: boolean;
         @Attribute()
         private popup_visible!: boolean;
-        @Attribute()
-        private has_errors!: boolean;
 
         //#endregion
 
@@ -47,24 +45,13 @@ namespace Components {
         @ViewElement()
         protected barEl!: HTMLDivElement;
 
-        @Watch((target: Slider) => {
-            target.has_errors = target.errors.length > 0;
-        })
-        public errors: string[] = [];
-
         protected currentPercent: number = 0;
         protected timerPopup: number = 0;
-        public formPart?: FormPart<number>;
         //#endregion
 
 
         //#region constructor
 
-        //#endregion
-
-
-        //#region events
-        public readonly onChange: Aventus.Callback<(value: number) => void> = new Aventus.Callback();
         //#endregion
 
 
@@ -179,10 +166,6 @@ namespace Components {
          */
         protected removeErrors() {
             this.errors = [];
-        }
-
-        public validate(): Promise<boolean> {
-            return FormElement.validate(this);
         }
 
         protected override postCreation(): void {
