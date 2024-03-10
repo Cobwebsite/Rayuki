@@ -91,6 +91,7 @@
 			border: none;
 			box-shadow: var(--elevation-2);
 			min-width: auto;
+			aspect-ratio: 1;
 		}
 
 

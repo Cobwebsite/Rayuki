@@ -10,3 +10,9 @@
 		background-color: var(--primary-color);
 	}
 }
+
+@include tablet {
+	:host {
+		border-radius: 0px;
+	}
+}

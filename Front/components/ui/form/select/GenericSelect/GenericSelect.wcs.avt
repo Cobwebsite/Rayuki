@@ -27,11 +27,11 @@
 		background-color: var(--_select-background-color);
 		border: var(--_select-select-border);
 		border-radius: var(--_generic-select-border-radius);
+		cursor: pointer;
 		display: flex;
 		height: var(--_select-height);
 		padding: 0 10px;
 		width: 100%;
-		cursor: pointer;
 
 		.icon {
 			display: none;
@@ -42,6 +42,9 @@
 		rk-img.caret {
 			--img-fill-color: var(--_select-caret-color);
 			--img-stroke-width: 0;
+			aspect-ratio: 1;
+			flex-grow: 0;
+			flex-shrink: 0;
 			height: var(--_select-caret-height);
 			transform: rotate(-90deg);
 			transition: transform 0.5s var(--bezier-curve);
@@ -56,9 +59,12 @@
 			font-size: var(--_select-font-size);
 			height: 100%;
 			margin: 0;
+			opacity: 1;
 			outline: none;
 			padding: 5px 0;
 			padding-right: 10px;
+			-webkit-text-fill-color: var(--text-color);
+			width: 100%;
 		}
 
 		.error-logo {

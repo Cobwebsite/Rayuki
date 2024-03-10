@@ -1,6 +1,25 @@
 @import '@root/_variables.gs.avt';
 
 :host {
+	.header {
+		.navigation-actions {
+			.menu {
+				align-items: center;
+				border: 1px solid var(--darker);
+				border-radius: 200px;
+				display: flex;
+				height: 24px;
+				justify-content: center;
+				width: 24px;
+				transition: background-color var(--bezier-curve) 0.2s, border var(--bezier-curve) 0.2s;
+
+				mi-icon {
+					font-size: 18px;
+				}
+			}
+		}
+	}
+
 	.content {
 		display: flex;
 		height: calc(100% - 30px);
@@ -66,6 +85,15 @@
 
 @include desktop {
 	:host {
+		.header {
+			.navigation-actions {
+				.menu:hover {
+					background-color: var(--darker) !important;
+					border: 1px solid transparent;
+				}
+			}
+		}
+
 		.content {
 			.sidenav {
 				.sidenav-item:hover {
@@ -76,10 +104,40 @@
 	}
 }
 
+@include tablet {
+	:host {
+		.header {
+			.navigation-actions {
+				.menu {
+					height: 26px;
+					width: 26px;
+					mi-icon {
+						font-size: 20px;
+					}
+				}
+			}
+		}
+
+		.content {
+			height: calc(100% - 40px);
+		}
+	}
+}
+
 
 @each $name, $size in $size-breakpoints {
 	:host([hide_menu_size="#{$name}"]) {
 		@container application (max-width: #{$size+'px'}) {
+			.header {
+				.navigation-actions {
+
+					.previous,
+					.next {
+						display: none;
+					}
+				}
+			}
+
 			.content {
 				.sidenav {
 					position: absolute;

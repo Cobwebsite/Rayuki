@@ -17,7 +17,7 @@ namespace Components {
         public label?: string;
         @Property()
         public placeholder?: string;
-       
+
         @Property()
         public icon?: string;
 
@@ -56,7 +56,7 @@ namespace Components {
 
         protected options: T[] = [];
 
-       
+
         //#endregion
 
 
@@ -117,12 +117,16 @@ namespace Components {
                 this.optionsContainer.show();
             }
             if(!this.searchable) {
-                this.optionsContainer.focus({ preventScroll: true });
+                setTimeout(() => {
+                    this.optionsContainer.focus({ preventScroll: true });
+                }, 100);
             }
         }
 
         protected hideOptions() {
-            this.optionsContainer.blur();
+            setTimeout(() => {
+                this.optionsContainer.blur();
+            }, 50);
         }
 
         /**

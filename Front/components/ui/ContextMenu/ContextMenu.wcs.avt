@@ -3,11 +3,13 @@
 	background-color: white;
 	border-radius: 5px;
 	box-shadow: var(--elevation-3);
+	cursor: pointer;
 	display: flex;
 	flex-direction: column;
 	outline: none;
 	overflow: hidden;
 	position: absolute;
+	-webkit-tap-highlight-color: transparent;
 	z-index: 502;
 
 	.container {

@@ -19,6 +19,7 @@
 :host {
 	align-items: center;
 	display: flex;
+	width: min-content;
 
 	.label:not(:empty) {
 		cursor: pointer;
@@ -83,5 +84,11 @@
 
 	.square {
 		order: 2;
+	}
+}
+
+@keyframes dash {
+	to {
+		stroke-dashoffset: 70;
 	}
 }

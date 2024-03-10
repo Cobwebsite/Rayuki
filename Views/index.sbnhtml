@@ -11,12 +11,12 @@
     <link rel="manifest" href="/pwa/manifest.json" />
     <title>{{ title }}</title>
     <script src="/cssstylesheet.js"></script>
-    <!-- <script>
+    <script>
     window.onerror = function(msg, url, linenumber) {
         alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
         return true;
     }
-    </script> -->
+    </script>
     {{ for script in scripts }}
     <script src="{{ script }}"></script>
     {{ end }}

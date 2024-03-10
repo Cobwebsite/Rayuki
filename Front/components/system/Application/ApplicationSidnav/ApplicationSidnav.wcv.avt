@@ -1,6 +1,9 @@
 <div class="header" @element="header">
     <div class="background"></div>
     <div class="navigation-actions">
+        <div class="action menu touch" @press="toggleSidnav">
+            <mi-icon icon="menu"></mi-icon>
+        </div>
         <div class="previous action touch disable" @element="navigatePreviousEl" @press="navigatePrevious">
             <rk-img src="/img/icons/angle-left.svg"></rk-img>
         </div>

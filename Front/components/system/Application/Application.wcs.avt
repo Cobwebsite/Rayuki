@@ -43,6 +43,7 @@
 			margin-left: 15px;
 			margin-right: 15px;
 			z-index: 2;
+			flex-grow: 0;
 
 			.action {
 				border-radius: 2px;
@@ -52,6 +53,9 @@
 				padding: 1px 5px;
 				transition: background-color var(--bezier-curve) 0.2s;
 				width: 22px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
 
 				rk-img {
 					height: 100%;
@@ -193,6 +197,27 @@
 }
 
 
+@include tablet {
+	:host {
+		.header {
+			height: 40px;
+
+			.application-actions {
+				gap: 10px;
+
+				.btn {
+					height: 20px;
+					width: 20px;
+				}
+			}
+		}
+
+		.content {
+			height: calc(100% - 45px);
+		}
+	}
+}
+
 @include mobile {
 	:host {
 		border-radius: 0;
@@ -204,6 +229,8 @@
 
 		.header {
 			height: 40px;
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
 
 			.application-actions {
 				gap: 10px;
@@ -221,6 +248,8 @@
 
 		.content {
 			height: calc(100% - 45px);
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 0;
 		}
 
 		rk-resize {
@@ -235,15 +264,3 @@
 }
 
 
-/* :host {*/
-
-/* 	@each $name,*/
-/* 	$size in $size-breakpoints {*/
-/* 		@container application (max-width: #{$size+'px'}) {*/
-/* 			.d-none-#{$name} {*/
-/* 				display: none;*/
-/* 			}*/
-/* 		}*/
-/* 	}*/
-
-/* }*/

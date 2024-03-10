@@ -48,5 +48,9 @@ namespace Lib {
             let test2 = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
             return test1 || test2;
         }
+
+        public static getRatio(element: HTMLElement): string {
+            return element.offsetWidth + " / " + element.offsetHeight;
+        }
     }
 }

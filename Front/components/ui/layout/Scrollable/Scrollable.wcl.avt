@@ -4,7 +4,18 @@ namespace Components {
     export class Scrollable extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static
-
+        public static lock(element: Aventus.WebComponent) {
+            const container = element.findParentByType(Scrollable);
+            if(container) {
+                container.disable = true;
+            }
+        }
+        public static unlock(element: Aventus.WebComponent) {
+            const container = element.findParentByType(Scrollable);
+            if(container) {
+                container.disable = false;
+            }
+        }
         //#endregion
 
 
@@ -357,14 +368,14 @@ namespace Components {
             let newValue = {
                 x: 0,
                 y: e.deltaY * mode,
-            }
+            };
             if(!this.y_scroll && this.x_scroll) {
                 newValue = {
                     x: e.deltaY * mode,
                     y: 0,
-                }
+                };
                 if(
-                    (newValue.x > 0 && this.x != this.max.x) || 
+                    (newValue.x > 0 && this.x != this.max.x) ||
                     (newValue.x <= 0 && this.x != 0)
                 ) {
                     e.stopPropagation();
@@ -372,7 +383,7 @@ namespace Components {
             }
             else {
                 if(
-                    (newValue.y > 0 && this.y != this.max.y) || 
+                    (newValue.y > 0 && this.y != this.max.y) ||
                     (newValue.y <= 0 && this.y != 0)
                 ) {
                     e.stopPropagation();

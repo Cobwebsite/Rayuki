@@ -31,6 +31,7 @@
 				position: absolute;
 				right: 5px;
 				top: 5px;
+				width: 40px;
 				z-index: 5556;
 			}
 
@@ -52,12 +53,12 @@
 	.add-desktop {
 		--img-stroke-color: white;
 		bottom: 30px;
+		display: none;
 		height: 50px;
 		min-width: auto;
 		position: absolute;
 		right: 10px;
 		z-index: 6;
-		display: none;
 	}
 
 	rk-loading {
@@ -78,6 +79,7 @@
 		transition: opacity 1s var(--bezier-curve), visibility 1s var(--bezier-curve);
 	}
 }
+
 :host([loading]) {
 	rk-loading {
 		opacity: 1;
@@ -95,12 +97,13 @@
 			--nb: 3;
 			aspect-ratio: var(--ration);
 			box-shadow: var(--elevation-10);
-			height: auto;
+			height: max-content;
 			margin: 15px !important;
 			overflow: hidden;
 			width: calc((100% / var(--nb)) - 30px);
 
-			.desktop-hider, .delete-desktop {
+			.desktop-hider,
+			.delete-desktop {
 				display: block;
 			}
 
@@ -118,8 +121,8 @@
 			border-radius: 5px;
 		}
 	}
+
 	.add-desktop {
 		display: block;
 	}
 }
-

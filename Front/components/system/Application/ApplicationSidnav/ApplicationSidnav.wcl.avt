@@ -23,6 +23,8 @@ namespace System {
         //#region props
         @Attribute()
         public hide_menu_size?: SizeList = "sm";
+        @Attribute()
+        public open_sidenav!: boolean;
         //#endregion
 
 
@@ -61,6 +63,9 @@ namespace System {
 
         }
 
+        protected toggleSidnav() {
+            this.open_sidenav = !this.open_sidenav;
+        }
         //#endregion
 
     }

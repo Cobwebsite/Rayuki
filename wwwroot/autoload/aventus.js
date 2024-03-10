@@ -1831,6 +1831,14 @@ const Animation=class Animation {
 Animation.Namespace=`${moduleName}`;
 _.Animation=Animation;
 const PressManager=class PressManager {
+    static globalConfig = {
+        delayDblPress: 150,
+        delayLongPress: 700,
+        offsetDrag: 20
+    };
+    static setGlobalConfig(options) {
+        this.globalConfig = options;
+    }
     static create(options) {
         if (Array.isArray(options.element)) {
             let result = [];
@@ -1847,10 +1855,10 @@ const PressManager=class PressManager {
     }
     options;
     element;
-    delayDblPress = 150;
-    delayLongPress = 700;
+    delayDblPress = PressManager.globalConfig.delayDblPress ?? 150;
+    delayLongPress = PressManager.globalConfig.delayLongPress ?? 700;
     nbPress = 0;
-    offsetDrag = 20;
+    offsetDrag = PressManager.globalConfig.offsetDrag ?? 20;
     state = {
         oneActionTriggered: false,
         isMoving: false,
@@ -1926,11 +1934,20 @@ const PressManager=class PressManager {
         }
     }
     assignValueOption(options) {
+        if (PressManager.globalConfig.delayDblPress !== undefined) {
+            this.delayDblPress = PressManager.globalConfig.delayDblPress;
+        }
         if (options.delayDblPress !== undefined) {
             this.delayDblPress = options.delayDblPress;
         }
+        if (PressManager.globalConfig.delayLongPress !== undefined) {
+            this.delayLongPress = PressManager.globalConfig.delayLongPress;
+        }
         if (options.delayLongPress !== undefined) {
             this.delayLongPress = options.delayLongPress;
+        }
+        if (PressManager.globalConfig.offsetDrag !== undefined) {
+            this.offsetDrag = PressManager.globalConfig.offsetDrag;
         }
         if (options.offsetDrag !== undefined) {
             this.offsetDrag = options.offsetDrag;
@@ -1938,8 +1955,17 @@ const PressManager=class PressManager {
         if (options.onDblPress !== undefined) {
             this.useDblPress = true;
         }
-        if (options.forceDblPress) {
-            this.useDblPress = true;
+        if (PressManager.globalConfig.forceDblPress !== undefined) {
+            this.useDblPress = PressManager.globalConfig.forceDblPress;
+        }
+        if (options.forceDblPress !== undefined) {
+            this.useDblPress = options.forceDblPress;
+        }
+        if (typeof PressManager.globalConfig.stopPropagation == 'function') {
+            this.stopPropagation = PressManager.globalConfig.stopPropagation;
+        }
+        else if (options.stopPropagation === false) {
+            this.stopPropagation = () => false;
         }
         if (typeof options.stopPropagation == 'function') {
             this.stopPropagation = options.stopPropagation;
@@ -1948,7 +1974,11 @@ const PressManager=class PressManager {
             this.stopPropagation = () => false;
         }
         if (!options.buttonAllowed)
+            options.buttonAllowed = PressManager.globalConfig.buttonAllowed;
+        if (!options.buttonAllowed)
             options.buttonAllowed = [0];
+        if (!options.onEvent)
+            options.onEvent = PressManager.globalConfig.onEvent;
     }
     bindAllFunction() {
         this.functionsBinded.downAction = this.downAction.bind(this);
@@ -1972,6 +2002,9 @@ const PressManager=class PressManager {
         this.element.addEventListener("trigger_pointer_dragstart", this.functionsBinded.childDragStart);
     }
     downAction(e) {
+        if (this.options.onEvent) {
+            this.options.onEvent(e);
+        }
         if (!this.options.buttonAllowed?.includes(e.button)) {
             return;
         }
@@ -2008,6 +2041,9 @@ const PressManager=class PressManager {
         }
     }
     upAction(e) {
+        if (this.options.onEvent) {
+            this.options.onEvent(e);
+        }
         if (this.stopPropagation()) {
             e.stopImmediatePropagation();
         }
@@ -2077,6 +2113,9 @@ const PressManager=class PressManager {
         }
     }
     moveAction(e) {
+        if (this.options.onEvent) {
+            this.options.onEvent(e);
+        }
         if (!this.state.isMoving && !this.state.oneActionTriggered) {
             if (this.stopPropagation()) {
                 e.stopImmediatePropagation();
@@ -5520,7 +5559,6 @@ const TemplateContext=class TemplateContext {
             let index = keys[_getIndex.value];
             let element = items[index];
             if (element === undefined && (Array.isArray(items) || !items)) {
-                debugger;
                 if (this.registry) {
                     let indexNb = Number(_getIndex.value);
                     if (!isNaN(indexNb)) {

@@ -239,6 +239,46 @@ namespace System {
                 const menu = new this.contextMenuCst();
                 menu.init(e.pageX, e.pageY, isTouch, this);
             });
+
+            if(Platform.isiOS) {
+                let startX;
+                let startY;
+                let lastX;
+                let lastY;
+                let timeoutContext;
+                Aventus.PressManager.setGlobalConfig({
+                    onEvent: (e) => {
+                        if(e.type == "pointerdown") {
+                            lastX = startX = e.pageX;
+                            lastY = startY = e.pageY;
+                            timeoutContext = setTimeout(() => {
+                                let diffX = startX - lastX;
+                                let diffY = startY - lastY;
+                                if(diffX * diffX + diffY * diffY < 200) {
+                                    const menu = new this.contextMenuCst();
+                                    menu.init(e.pageX, e.pageY, true, this);
+                                }
+
+                            }, 700);
+                        }
+                        else if(e.type == "pointerup") {
+                            clearTimeout(timeoutContext);
+                        }
+                        else if(e.type == "pointermove") {
+                            lastX = e.pageX;
+                            lastY = e.pageY;
+                        }
+                    }
+                });
+                // new Aventus.PressManager({
+                //     element: this,
+                //     delayLongPress: 500,
+                //     onLongPress: (e) => {
+                //         const menu = new this.contextMenuCst();
+                //         menu.init(e.pageX, e.pageY, true, this);
+                //     }
+                // });
+            }
         }
         private preventScroll() {
             document.body.addEventListener("scroll", (e) => {
@@ -289,7 +329,7 @@ namespace System {
 
         protected addResizeObserver() {
             new Aventus.ResizeObserver(() => {
-                this.style.setProperty("--ration", this.offsetWidth + " / " + this.offsetHeight);
+                this.style.setProperty("--ration", Platform.getRatio(this));
             }).observe(this);
         }
 

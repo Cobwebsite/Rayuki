@@ -764,7 +764,7 @@ Errors.LoginError=class LoginError extends Aventus.GenericError {
 Errors.LoginError.Namespace=`${moduleName}.Errors`;Aventus.Converter.register(Errors.LoginError.Fullname, Errors.LoginError);
 _.Errors.LoginError=Errors.LoginError;
 System.Panel = class Panel extends Aventus.WebComponent {
-    static __style = `:host{background-color:var(--primary-color-opacity);border-radius:10px}@media screen and (max-width: 768px){:host{background-color:var(--primary-color)}}`;
+    static __style = `:host{background-color:var(--primary-color-opacity);border-radius:10px}@media screen and (max-width: 768px){:host{background-color:var(--primary-color)}}@media screen and (max-width: 1224px){:host{border-radius:0px}}`;
     __getStatic() {
         return Panel;
     }
@@ -1541,7 +1541,7 @@ Components.ContextMenuItem = class ContextMenuItem extends Aventus.WebComponent 
     action = () => { };
     menu;
     canBeRendered = () => true;
-    static __style = `:host{align-items:center;border-radius:5px;cursor:pointer;display:flex;font-size:var(--font-size-sm);margin:0 5px;padding:5px 10px}:host .title{margin-left:30px}:host .icon{display:none;font-size:var(--font-size-sm);margin-right:10px;width:20px}:host([icon]) .title{margin-left:0px}:host([icon]) .icon{display:inline-block}@media screen and (min-width: 1225px){:host{font-size:var(--font-size)}:host .icon{font-size:var(--font-size)}:host(:hover){background-color:var(--darker)}}`;
+    static __style = `:host{align-items:center;border-radius:5px;cursor:pointer;display:flex;font-size:var(--font-size);margin:0 5px;padding:5px 10px;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .title{margin-left:30px}:host .icon{display:none;font-size:var(--font-size-sm);margin-right:10px;width:20px}:host([icon]) .title{margin-left:0px}:host([icon]) .icon{display:inline-block}@media screen and (min-width: 1225px){:host{font-size:var(--font-size)}:host .icon{font-size:var(--font-size)}:host(:hover){background-color:var(--darker)}}`;
     constructor() { super(); this.onPress=this.onPress.bind(this) }
     __getStatic() {
         return ContextMenuItem;
@@ -1625,7 +1625,7 @@ Components.ContextMenu = class ContextMenu extends Aventus.WebComponent {
     static instance;
     _items = [];
     isTouch = false;
-    static __style = `:host{--scrollbar-container-display: flex;background-color:#fff;border-radius:5px;box-shadow:var(--elevation-3);display:flex;flex-direction:column;outline:none;overflow:hidden;position:absolute;z-index:502}:host .container{display:flex;flex-direction:column;padding:5px 0}`;
+    static __style = `:host{--scrollbar-container-display: flex;background-color:#fff;border-radius:5px;box-shadow:var(--elevation-3);cursor:pointer;display:flex;flex-direction:column;outline:none;overflow:hidden;position:absolute;-webkit-tap-highlight-color:rgba(0,0,0,0);z-index:502}:host .container{display:flex;flex-direction:column;padding:5px 0}`;
     __getStatic() {
         return ContextMenu;
     }
@@ -1825,7 +1825,9 @@ Components.ContextMenu = class ContextMenu extends Aventus.WebComponent {
             Components.ContextMenu.instance.collapseEl.open = false;
         }
         Components.ContextMenu.instance = this;
-        this.collapseEl.open = true;
+        setTimeout(() => {
+            this.collapseEl.open = true;
+        }, 100);
         this.addFocus();
     }
 }
@@ -4148,7 +4150,7 @@ System.Application = class Application extends Aventus.WebComponent {
 }));this.__addPropertyActions("is_hidden", ((target) => {
     target.onIsHiddenChange();
 })); }
-    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;outline:none;position:absolute;z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{border-radius:2px;height:calc(100% - 6px);padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{display:none;z-index:600;border-radius:var(--_application-border-radius)}:host rk-resize{--resize-z-index: 4}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_active]){z-index:501}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{height:calc(100% - 45px)}:host rk-resize{display:none}:host([is_hidden]){left:0 !important;width:100% !important}}`;
+    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;outline:none;position:absolute;z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;height:100%;margin-left:15px;margin-right:15px;z-index:2;flex-grow:0}:host .header .navigation-actions .action{border-radius:2px;height:calc(100% - 6px);padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px;display:flex;align-items:center;justify-content:center}:host .header .navigation-actions .action rk-img{height:100%;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{display:none;z-index:600;border-radius:var(--_application-border-radius)}:host rk-resize{--resize-z-index: 4}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_active]){z-index:501}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{height:40px;border-top-left-radius:0;border-top-right-radius:0}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{height:calc(100% - 45px);border-bottom-left-radius:0;border-bottom-right-radius:0}:host rk-resize{display:none}:host([is_hidden]){left:0 !important;width:100% !important}}`;
     constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.validError404=this.validError404.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this) }
     __getStatic() {
         return Application;
@@ -5409,6 +5411,9 @@ Lib.Platform=class Platform {
         let test2 = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
         return test1 || test2;
     }
+    static getRatio(element) {
+        return element.offsetWidth + " / " + element.offsetHeight;
+    }
 }
 Lib.Platform.Namespace=`${moduleName}.Lib`;
 _.Lib.Platform=Lib.Platform;
@@ -6433,6 +6438,18 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
         this.addResizeObserver();
         this.addAction();
     }
+    static lock(element) {
+        const container = element.findParentByType(Components.Scrollable);
+        if (container) {
+            container.disable = true;
+        }
+    }
+    static unlock(element) {
+        const container = element.findParentByType(Components.Scrollable);
+        if (container) {
+            container.disable = false;
+        }
+    }
 }
 Components.Scrollable.Namespace=`${moduleName}.Components`;
 Components.Scrollable.Tag=`rk-scrollable`;
@@ -6472,7 +6489,7 @@ System.Os = class Os extends Aventus.WebComponent {
 }));this.__addPropertyActions("active_desktop", ((target) => {
     target.onActiveDesktop();
 })); }
-    static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;width:100%}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:50px;cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;height:50px;min-width:auto;position:absolute;right:10px;z-index:6;display:none}:host rk-loading{opacity:0;visibility:hidden}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:auto;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:5px}:host([desktop_list]) .add-desktop{display:block}`;
+    static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;width:100%}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:50px;cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;width:40px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;display:none;height:50px;min-width:auto;position:absolute;right:10px;z-index:6}:host rk-loading{opacity:0;visibility:hidden}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:max-content;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:5px}:host([desktop_list]) .add-desktop{display:block}`;
     constructor() {            super();            System.Os.instance = this;            Lib.Platform.init();            this.notificationManager = new System.NotificationManager(this);            Lib.ApplicationManager.reloadData();this.desktopMoveLeft=this.desktopMoveLeft.bind(this)this.desktopMoveRight=this.desktopMoveRight.bind(this)this.desktopMoveValidate=this.desktopMoveValidate.bind(this) }
     __getStatic() {
         return Os;
@@ -6673,6 +6690,44 @@ System.Os = class Os extends Aventus.WebComponent {
             const menu = new this.contextMenuCst();
             menu.init(e.pageX, e.pageY, isTouch, this);
         });
+        if (Lib.Platform.isiOS) {
+            let startX;
+            let startY;
+            let lastX;
+            let lastY;
+            let timeoutContext;
+            Aventus.PressManager.setGlobalConfig({
+                onEvent: (e) => {
+                    if (e.type == "pointerdown") {
+                        lastX = startX = e.pageX;
+                        lastY = startY = e.pageY;
+                        timeoutContext = setTimeout(() => {
+                            let diffX = startX - lastX;
+                            let diffY = startY - lastY;
+                            if (diffX * diffX + diffY * diffY < 200) {
+                                const menu = new this.contextMenuCst();
+                                menu.init(e.pageX, e.pageY, true, this);
+                            }
+                        }, 700);
+                    }
+                    else if (e.type == "pointerup") {
+                        clearTimeout(timeoutContext);
+                    }
+                    else if (e.type == "pointermove") {
+                        lastX = e.pageX;
+                        lastY = e.pageY;
+                    }
+                }
+            });
+            // new Aventus.PressManager({
+            //     element: this,
+            //     delayLongPress: 500,
+            //     onLongPress: (e) => {
+            //         const menu = new this.contextMenuCst();
+            //         menu.init(e.pageX, e.pageY, true, this);
+            //     }
+            // });
+        }
     }
     preventScroll() {
         document.body.addEventListener("scroll", (e) => {
@@ -6714,7 +6769,7 @@ System.Os = class Os extends Aventus.WebComponent {
     }
     addResizeObserver() {
         new Aventus.ResizeObserver(() => {
-            this.style.setProperty("--ration", this.offsetWidth + " / " + this.offsetHeight);
+            this.style.setProperty("--ration", Lib.Platform.getRatio(this));
         }).observe(this);
     }
     async startSocket() {
@@ -6980,7 +7035,8 @@ if(!window.customElements.get('rk-app-icon-inline')){window.customElements.defin
 
 System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
     get 'hide_menu_size'() { return this.getStringAttr('hide_menu_size') }
-    set 'hide_menu_size'(val) { this.setStringAttr('hide_menu_size', val) }    get 'sidnavItems'() {
+    set 'hide_menu_size'(val) { this.setStringAttr('hide_menu_size', val) }get 'open_sidenav'() { return this.getBoolAttr('open_sidenav') }
+    set 'open_sidenav'(val) { this.setBoolAttr('open_sidenav', val) }    get 'sidnavItems'() {
 						return this.__watch["sidnavItems"];
 					}
 					set 'sidnavItems'(val) {
@@ -6988,7 +7044,7 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
 					}    __registerWatchesActions() {
     this.__addWatchesActions("sidnavItems");    super.__registerWatchesActions();
 }
-    static __style = `:host .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host .content .sidenav{background-color:var(--secondary-color);box-shadow:var(--elevation-4);height:100%;width:200px}:host .content .sidenav .sidenav-item{align-items:center;border-bottom:1px solid var(--lighter-active);cursor:pointer;display:flex;flex-wrap:nowrap;height:51px;padding:10px;transition:linear background-color .3s}:host .content .sidenav .sidenav-item rk-img{--img-fill-color: var(--text-color);flex-grow:0;flex-shrink:0;height:30px;width:30px}:host .content .sidenav .sidenav-item rk-img[src=""]{display:none}:host .content .sidenav .sidenav-item span{color:var(--text-color);flex-grow:1;flex-shrink:0;margin-left:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:calc(100% - 45px)}:host .content .sidenav .sidenav-item rk-img[src=""]~span{margin-left:0}:host .content .sidenav .sidenav-item[active]{background-color:var(--lighter-active)}:host .content .container{height:100%;width:calc(100% - 200px)}@media screen and (min-width: 1225px){:host .content .sidenav .sidenav-item:hover{background-color:var(--lighter-active)}}@container application (max-width: 300px){:host([hide_menu_size=xs]) .content .sidenav{position:absolute;transform:translateX(-100%)}:host([hide_menu_size=xs]) .content .container{width:100%}}@container application (max-width: 540px){:host([hide_menu_size=sm]) .content .sidenav{position:absolute;transform:translateX(-100%)}:host([hide_menu_size=sm]) .content .container{width:100%}}@container application (max-width: 720px){:host([hide_menu_size=md]) .content .sidenav{position:absolute;transform:translateX(-100%)}:host([hide_menu_size=md]) .content .container{width:100%}}@container application (max-width: 960px){:host([hide_menu_size=lg]) .content .sidenav{position:absolute;transform:translateX(-100%)}:host([hide_menu_size=lg]) .content .container{width:100%}}@container application (max-width: 1140px){:host([hide_menu_size=xl]) .content .sidenav{position:absolute;transform:translateX(-100%)}:host([hide_menu_size=xl]) .content .container{width:100%}}`;
+    static __style = `:host .header .navigation-actions .menu{align-items:center;border:1px solid var(--darker);border-radius:200px;display:flex;height:24px;justify-content:center;width:24px;transition:background-color var(--bezier-curve) .2s,border var(--bezier-curve) .2s}:host .header .navigation-actions .menu mi-icon{font-size:18px}:host .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host .content .sidenav{background-color:var(--secondary-color);box-shadow:var(--elevation-4);height:100%;width:200px}:host .content .sidenav .sidenav-item{align-items:center;border-bottom:1px solid var(--lighter-active);cursor:pointer;display:flex;flex-wrap:nowrap;height:51px;padding:10px;transition:linear background-color .3s}:host .content .sidenav .sidenav-item rk-img{--img-fill-color: var(--text-color);flex-grow:0;flex-shrink:0;height:30px;width:30px}:host .content .sidenav .sidenav-item rk-img[src=""]{display:none}:host .content .sidenav .sidenav-item span{color:var(--text-color);flex-grow:1;flex-shrink:0;margin-left:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:calc(100% - 45px)}:host .content .sidenav .sidenav-item rk-img[src=""]~span{margin-left:0}:host .content .sidenav .sidenav-item[active]{background-color:var(--lighter-active)}:host .content .container{height:100%;width:calc(100% - 200px)}@media screen and (min-width: 1225px){:host .header .navigation-actions .menu:hover{background-color:var(--darker) !important;border:1px solid rgba(0,0,0,0)}:host .content .sidenav .sidenav-item:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host .header .navigation-actions .menu{height:26px;width:26px}:host .header .navigation-actions .menu mi-icon{font-size:20px}:host .content{height:calc(100% - 40px)}}@container application (max-width: 300px){:host([hide_menu_size=xs]) .header .navigation-actions .previous,:host([hide_menu_size=xs]) .header .navigation-actions .next{display:none}:host([hide_menu_size=xs]) .content .sidenav{position:absolute;transform:translateX(-100%)}:host([hide_menu_size=xs]) .content .container{width:100%}}@container application (max-width: 540px){:host([hide_menu_size=sm]) .header .navigation-actions .previous,:host([hide_menu_size=sm]) .header .navigation-actions .next{display:none}:host([hide_menu_size=sm]) .content .sidenav{position:absolute;transform:translateX(-100%)}:host([hide_menu_size=sm]) .content .container{width:100%}}@container application (max-width: 720px){:host([hide_menu_size=md]) .header .navigation-actions .previous,:host([hide_menu_size=md]) .header .navigation-actions .next{display:none}:host([hide_menu_size=md]) .content .sidenav{position:absolute;transform:translateX(-100%)}:host([hide_menu_size=md]) .content .container{width:100%}}@container application (max-width: 960px){:host([hide_menu_size=lg]) .header .navigation-actions .previous,:host([hide_menu_size=lg]) .header .navigation-actions .next{display:none}:host([hide_menu_size=lg]) .content .sidenav{position:absolute;transform:translateX(-100%)}:host([hide_menu_size=lg]) .content .container{width:100%}}@container application (max-width: 1140px){:host([hide_menu_size=xl]) .header .navigation-actions .previous,:host([hide_menu_size=xl]) .header .navigation-actions .next{display:none}:host([hide_menu_size=xl]) .content .sidenav{position:absolute;transform:translateX(-100%)}:host([hide_menu_size=xl]) .content .container{width:100%}}`;
     constructor() { super(); if (this.constructor == ApplicationSidnav) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return ApplicationSidnav;
@@ -7001,7 +7057,7 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="header" _id="applicationsidnav_0">    <div class="background"></div>    <div class="navigation-actions">        <div class="previous action touch disable" _id="applicationsidnav_1">            <rk-img src="/img/icons/angle-left.svg"></rk-img>        </div>        <div class="next action touch disable" _id="applicationsidnav_2">            <rk-img src="/img/icons/angle-right.svg"></rk-img>        </div>    </div>    <div class="title" _id="applicationsidnav_3"></div>    <div class="application-actions">        <div class="btn green touch" _id="applicationsidnav_4"></div>        <div class="btn orange touch" _id="applicationsidnav_5"></div>        <div class="btn red touch" _id="applicationsidnav_6"></div>    </div></div><div class="content">    <div class="sidenav">        <rk-scrollable auto_hide _id="applicationsidnav_7">            <template _id="applicationsidnav_8"></template>        </rk-scrollable>    </div>    <div class="container" _id="applicationsidnav_12">    </div></div><rk-resize min_width="200" min_height="200" _id="applicationsidnav_13"></rk-resize><rk-loading class="loading"></rk-loading><slot></slot>` }
+        blocks: { 'default':`<div class="header" _id="applicationsidnav_0">    <div class="background"></div>    <div class="navigation-actions">        <div class="action menu touch">            <mi-icon icon="menu"></mi-icon>        </div>        <div class="previous action touch disable" _id="applicationsidnav_1">            <rk-img src="/img/icons/angle-left.svg"></rk-img>        </div>        <div class="next action touch disable" _id="applicationsidnav_2">            <rk-img src="/img/icons/angle-right.svg"></rk-img>        </div>    </div>    <div class="title" _id="applicationsidnav_3"></div>    <div class="application-actions">        <div class="btn green touch" _id="applicationsidnav_4"></div>        <div class="btn orange touch" _id="applicationsidnav_5"></div>        <div class="btn red touch" _id="applicationsidnav_6"></div>    </div></div><div class="content">    <div class="sidenav">        <rk-scrollable auto_hide _id="applicationsidnav_7">            <template _id="applicationsidnav_8"></template>        </rk-scrollable>    </div>    <div class="container" _id="applicationsidnav_12">    </div></div><rk-resize min_width="200" min_height="200" _id="applicationsidnav_13"></rk-resize><rk-loading class="loading"></rk-loading><slot></slot>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -7097,9 +7153,10 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
     getClassName() {
         return "ApplicationSidnav";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('hide_menu_size')){ this['hide_menu_size'] = "sm"; } }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('hide_menu_size')){ this['hide_menu_size'] = "sm"; }if(!this.hasAttribute('open_sidenav')) { this.attributeChangedCallback('open_sidenav', false, false); } }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["sidnavItems"] = []; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('hide_menu_size'); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('hide_menu_size');this.__upgradeProperty('open_sidenav'); }
+    __listBoolProps() { return ["open_sidenav"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     addRouteSidenav(options) {
         let route = options.route;
         this.allRoutes[route] = {
@@ -7113,6 +7170,9 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
             route: route,
             active: options.activeRoute ?? route
         });
+    }
+    toggleSidnav() {
+        this.open_sidenav = !this.open_sidenav;
     }
     __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod1() {
         return this.app_title;
@@ -7222,7 +7282,7 @@ System.HomePanel = class HomePanel extends System.Panel {
 					}    __registerWatchesActions() {
     this.__addWatchesActions("currentUser");    super.__registerWatchesActions();
 }
-    static __style = `:host{display:flex;flex-direction:column;left:-9px;position:absolute;width:500px}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:5px;margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .grid{display:flex;flex-wrap:wrap;gap:10px;padding:10px}:host .content rk-row rk-col .favoris .favoris-container .grid *{aspect-ratio:1/1;flex-shrink:0;height:auto;width:calc(33.3333333333% - 6.6666666667px)}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;padding:10px 10px;width:100%}:host .footer rk-img{height:25px}:host .footer .nom{flex-grow:1}:host .footer rk-button{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;border:none;box-shadow:var(--elevation-2);min-width:auto}`;
+    static __style = `:host{display:flex;flex-direction:column;left:-9px;position:absolute;width:500px}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:5px;margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .grid{display:flex;flex-wrap:wrap;gap:10px;padding:10px}:host .content rk-row rk-col .favoris .favoris-container .grid *{aspect-ratio:1/1;flex-shrink:0;height:auto;width:calc(33.3333333333% - 6.6666666667px)}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;padding:10px 10px;width:100%}:host .footer rk-img{height:25px}:host .footer .nom{flex-grow:1}:host .footer rk-button{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;border:none;box-shadow:var(--elevation-2);min-width:auto;aspect-ratio:1}`;
     __getStatic() {
         return HomePanel;
     }
@@ -7697,7 +7757,9 @@ Components.Slider = class Slider extends Components.FormElement {
             element: this.dotEl,
             applyDrag: false,
             offsetDrag: 0,
-            onPointerDown: () => {
+            stopPropagation: false,
+            onPointerDown: (e) => {
+                Components.Scrollable.lock(this);
                 this.no_transition = true;
                 if (this.popup == "onMove") {
                     clearTimeout(this.timerPopup);
@@ -7716,6 +7778,7 @@ Components.Slider = class Slider extends Components.FormElement {
                 this.calculateValue();
             },
             onPointerUp: () => {
+                Components.Scrollable.unlock(this);
                 this.no_transition = false;
                 if (this.popup == "onMove") {
                     this.timerPopup = setTimeout(() => {
@@ -8006,7 +8069,7 @@ Components.Checkbox = class Checkbox extends Components.FormElement {
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("checked", ((target) => {
     target.value = target.checked;
 })); }
-    static __style = `:host{--_checkbox-size: var(--checkbox-size, 18px);--_checkbox-height: var(--checkbox-height, var(--_checkbox-size));--_checkbox-width: var(--checkbox-width, var(--_checkbox-size));--_checkbox-size: 20px;--_checkbox-border-radius: var(--checkbox-border-radius, 2px);--_checkbox-border: var(--checkbox-border, var(--form-element-border));--_checkbox-border-active: var(--checkbox-border-active, var(--form-element-border-active, var(--_checkbox-border)));--_checkbox-background: var(--checkbox-background, var(--form-element-background, white));--_checkbox-background-active: var(--checkbox-background-active, var(--form-element-background-active, white));--_checkbox-tick-color: var(--checkbox-tick-color, var(--_checkbox-background));--_checkbox-tick-size: var(--checkbox-tick-size, 2px);--_checkbox-tick-padding: var(--checkbox-tick-padding, 10%);--_checkbox-font-size-label: var(--checkbox-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_checkbox-margin-label: var(--checkbox-margin-label, 5px)}:host{align-items:center;display:flex}:host .label:not(:empty){cursor:pointer;font-size:var(--_checkbox-font-size-label);margin-left:var(--_checkbox-margin-label)}:host .square{background-color:var(--_checkbox-background);border:var(--_checkbox-border);border-radius:var(--_checkbox-border-radius);cursor:pointer;flex-shrink:0;height:var(--_checkbox-height);position:relative;transition:border .4s var(--bezier-curve),background-color .4s var(--bezier-curve);width:var(--_checkbox-width);display:flex;align-items:center;justify-content:center}:host .square rk-img{--img-stroke-color: var(--_checkbox-tick-color);--img-stroke-width: var(--_checkbox-tick-size);height:calc(100% - var(--_checkbox-tick-padding));opacity:0;visibility:hidden;width:calc(100% - var(--_checkbox-tick-padding))}:host([checked]) .square{background-color:var(--_checkbox-background-active);border:var(--_checkbox-border-active)}:host([checked]) .square rk-img{opacity:1;visibility:visible}:host([checked]) .square rk-img::part(tick){animation:dash .3s linear forwards;animation-delay:.2s;stroke-dasharray:100;stroke-dashoffset:100}:host([left_label]) .label:not(:empty){margin-left:0;margin-right:var(--_checkbox-margin-label);order:1}:host([left_label]) .square{order:2}`;
+    static __style = `:host{--_checkbox-size: var(--checkbox-size, 18px);--_checkbox-height: var(--checkbox-height, var(--_checkbox-size));--_checkbox-width: var(--checkbox-width, var(--_checkbox-size));--_checkbox-size: 20px;--_checkbox-border-radius: var(--checkbox-border-radius, 2px);--_checkbox-border: var(--checkbox-border, var(--form-element-border));--_checkbox-border-active: var(--checkbox-border-active, var(--form-element-border-active, var(--_checkbox-border)));--_checkbox-background: var(--checkbox-background, var(--form-element-background, white));--_checkbox-background-active: var(--checkbox-background-active, var(--form-element-background-active, white));--_checkbox-tick-color: var(--checkbox-tick-color, var(--_checkbox-background));--_checkbox-tick-size: var(--checkbox-tick-size, 2px);--_checkbox-tick-padding: var(--checkbox-tick-padding, 10%);--_checkbox-font-size-label: var(--checkbox-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_checkbox-margin-label: var(--checkbox-margin-label, 5px)}:host{align-items:center;display:flex;width:min-content}:host .label:not(:empty){cursor:pointer;font-size:var(--_checkbox-font-size-label);margin-left:var(--_checkbox-margin-label)}:host .square{background-color:var(--_checkbox-background);border:var(--_checkbox-border);border-radius:var(--_checkbox-border-radius);cursor:pointer;flex-shrink:0;height:var(--_checkbox-height);position:relative;transition:border .4s var(--bezier-curve),background-color .4s var(--bezier-curve);width:var(--_checkbox-width);display:flex;align-items:center;justify-content:center}:host .square rk-img{--img-stroke-color: var(--_checkbox-tick-color);--img-stroke-width: var(--_checkbox-tick-size);height:calc(100% - var(--_checkbox-tick-padding));opacity:0;visibility:hidden;width:calc(100% - var(--_checkbox-tick-padding))}:host([checked]) .square{background-color:var(--_checkbox-background-active);border:var(--_checkbox-border-active)}:host([checked]) .square rk-img{opacity:1;visibility:visible}:host([checked]) .square rk-img::part(tick){animation:dash .3s linear forwards;animation-delay:.2s;stroke-dasharray:100;stroke-dashoffset:100}:host([left_label]) .label:not(:empty){margin-left:0;margin-right:var(--_checkbox-margin-label);order:1}:host([left_label]) .square{order:2}@keyframes dash{to{stroke-dashoffset:70}}`;
     __getStatic() {
         return Checkbox;
     }
@@ -8092,7 +8155,7 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
         target.inputEl.setAttribute("disabled", "disabled");
     }
 })); }
-    static __style = `:host{--_select-height: var(--select-height, 30px);--_select-background-color: var(--select-background-color, var(--form-element-background, white));--_select-icon-height: var(--select-icon-height, calc(var(--_select-height) / 2));--_select-error-logo-size: var(--select-error-logo-size, calc(var(--_select-height) / 2));--_select-font-size: var(--select-font-size, var(--form-element-font-size, 16px));--_select-font-size-label: var(--select-font-size-label, var(--form-element-font-size-label, calc(var(--_select-font-size) * 0.95)));--_select-select-border: var(--select-select-border, var(--form-element-border, 1px solid var(--lighter-active)));--_generic-select-border-radius: var(--generic-select-border-radius, var(--form-element-border-radius, 0));--_select-caret-height: var(--select-caret-height, calc(var(--_select-height) / 2));--_select-caret-color: var(--select-caret-color, var(--form-element-color))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_select-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_select-background-color);border:var(--_select-select-border);border-radius:var(--_generic-select-border-radius);display:flex;height:var(--_select-height);padding:0 10px;width:100%;cursor:pointer}:host .input .icon{display:none;height:var(--_select-icon-height);margin-right:10px}:host .input rk-img.caret{--img-fill-color: var(--_select-caret-color);--img-stroke-width: 0;height:var(--_select-caret-height);transform:rotate(-90deg);transition:transform .5s var(--bezier-curve)}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_select-font-size);height:100%;margin:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:50%;color:#fff;display:none;font-size:calc(var(--_select-error-logo-size) - 5px);height:var(--_select-error-logo-size);justify-content:center;width:var(--_select-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0;text-align:justify}:host .hidden{display:none}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([open]) .input .caret{transform:rotate(-270deg)}`;
+    static __style = `:host{--_select-height: var(--select-height, 30px);--_select-background-color: var(--select-background-color, var(--form-element-background, white));--_select-icon-height: var(--select-icon-height, calc(var(--_select-height) / 2));--_select-error-logo-size: var(--select-error-logo-size, calc(var(--_select-height) / 2));--_select-font-size: var(--select-font-size, var(--form-element-font-size, 16px));--_select-font-size-label: var(--select-font-size-label, var(--form-element-font-size-label, calc(var(--_select-font-size) * 0.95)));--_select-select-border: var(--select-select-border, var(--form-element-border, 1px solid var(--lighter-active)));--_generic-select-border-radius: var(--generic-select-border-radius, var(--form-element-border-radius, 0));--_select-caret-height: var(--select-caret-height, calc(var(--_select-height) / 2));--_select-caret-color: var(--select-caret-color, var(--form-element-color))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_select-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_select-background-color);border:var(--_select-select-border);border-radius:var(--_generic-select-border-radius);cursor:pointer;display:flex;height:var(--_select-height);padding:0 10px;width:100%}:host .input .icon{display:none;height:var(--_select-icon-height);margin-right:10px}:host .input rk-img.caret{--img-fill-color: var(--_select-caret-color);--img-stroke-width: 0;aspect-ratio:1;flex-grow:0;flex-shrink:0;height:var(--_select-caret-height);transform:rotate(-90deg);transition:transform .5s var(--bezier-curve)}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_select-font-size);height:100%;margin:0;opacity:1;outline:none;padding:5px 0;padding-right:10px;-webkit-text-fill-color:var(--text-color);width:100%}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:50%;color:#fff;display:none;font-size:calc(var(--_select-error-logo-size) - 5px);height:var(--_select-error-logo-size);justify-content:center;width:var(--_select-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0;text-align:justify}:host .hidden{display:none}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([open]) .input .caret{transform:rotate(-270deg)}`;
     constructor() { super(); if (this.constructor == GenericSelect) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return GenericSelect;
@@ -8217,11 +8280,15 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
             this.optionsContainer.show();
         }
         if (!this.searchable) {
-            this.optionsContainer.focus({ preventScroll: true });
+            setTimeout(() => {
+                this.optionsContainer.focus({ preventScroll: true });
+            }, 100);
         }
     }
     hideOptions() {
-        this.optionsContainer.blur();
+        setTimeout(() => {
+            this.optionsContainer.blur();
+        }, 50);
     }
     syncCaret(open) {
         this.open = open;
@@ -8485,7 +8552,7 @@ Components.ItemBoxSelect = class ItemBoxSelect extends Components.BoxContainer {
     this.__addWatchesActions("errors", ((target) => {
     target.has_errors = target.errors.length > 0;
 }));this.__addWatchesActions("formPart", ((target, action, path, value) => {
-    target.onFormPartChange(action, path);
+    target.onFormPartChange(action, path, value);
 }));    super.__registerWatchesActions();
 }
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
@@ -8561,8 +8628,8 @@ Components.ItemBoxSelect = class ItemBoxSelect extends Components.BoxContainer {
     validate() {
         return Components.FormElement.validate(this);
     }
-    onFormPartChange(action, path) {
-        Components.FormElement.onFormPartChange(this, path);
+    onFormPartChange(action, path, value) {
+        Components.FormElement.onFormPartChange(this, path, value);
     }
     postCreation() {
         this.selectInternalOption();
@@ -8577,7 +8644,7 @@ Components.ItemBoxOption = class ItemBoxOption extends Components.ItemBox {
     get 'selected'() { return this.getBoolAttr('selected') }
     set 'selected'(val) { this.setBoolAttr('selected', val) }get 'value'() { return this.getStringAttr('value') }
     set 'value'(val) { this.setStringAttr('value', val) }    select;
-    static __style = `:host{cursor:pointer}`;
+    static __style = `:host{cursor:pointer}:host::slotted(*){pointer-events:none}:host>*{pointer-events:none}`;
     __getStatic() {
         return ItemBoxOption;
     }

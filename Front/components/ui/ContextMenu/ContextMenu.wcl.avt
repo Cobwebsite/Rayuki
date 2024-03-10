@@ -238,7 +238,9 @@ namespace Components {
                 ContextMenu.instance.collapseEl.open = false;
             }
             ContextMenu.instance = this;
-            this.collapseEl.open = true;
+            setTimeout(() => {
+                this.collapseEl.open = true;
+            }, 100)
             this.addFocus();
         }
         //#endregion

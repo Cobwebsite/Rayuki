@@ -91,7 +91,7 @@
 	/*#region table */
 	--table-background-color: white;
 	/*#endregion */
-	
+
 	/*#region shadow*/
 	--elevation-umbra: rgba(0, 0, 0, 0.2);
 	--elevation-penumbra: rgba(0, 0, 0, 0.14);
@@ -122,6 +122,30 @@
 	--elevation-23: 0px 11px 14px -7px var(--elevation-umbra), 0px 23px 36px 3px var(--elevation-penumbra), 0px 9px 44px 8px var(--elevation-penumbra-2);
 	--elevation-24: 0px 11px 15px -7px var(--elevation-umbra), 0px 24px 38px 3px var(--elevation-penumbra), 0px 9px 46px 8px var(--elevation-penumbra-2);
 	/*#endregion*/
+}
+
+$tablet-breakpoint: 1224px;
+$mobile-breakpoint: 768px;
+
+// tablet
+@media screen and (max-width:$tablet-breakpoint) {
+	:root {
+
+	}
+}
+
+// mobile
+@media screen and (max-width:$mobile-breakpoint) {
+	:root {
+		--application-background-color: var(--primary-color);
+	}
+}
+
+// pc
+@media screen and (min-width:#{$tablet-breakpoint + 1}) {
+	:root {
+
+	}
 }
 
 :root.dark {

@@ -30,7 +30,7 @@ namespace Components {
         protected optionSelected?: ItemBoxOption;
 
         @Watch((target: ItemBoxSelect, action: Aventus.WatchAction, path: string, value: any) => {
-            target.onFormPartChange(action, path);
+            target.onFormPartChange(action, path, value);
         })
         public formPart?: FormPart<string>;
 
@@ -113,8 +113,8 @@ namespace Components {
         /**
          * @inheritdoc
          */
-        public onFormPartChange(action: Aventus.WatchAction, path: string) {
-            FormElement.onFormPartChange(this, path);
+        public onFormPartChange(action: Aventus.WatchAction, path: string, value: any) {
+            FormElement.onFormPartChange(this, path, value);
         }
 
         protected override postCreation(): void {

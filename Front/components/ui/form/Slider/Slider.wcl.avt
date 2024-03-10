@@ -1,3 +1,4 @@
+import { Scrollable } from "../../layout/Scrollable/Scrollable.wcl.avt";
 import { FormElement } from "../FormElement/FormElement.wcl.avt";
 
 namespace Components {
@@ -63,7 +64,9 @@ namespace Components {
                 element: this.dotEl,
                 applyDrag: false,
                 offsetDrag: 0,
-                onPointerDown: () => {
+                stopPropagation: false,
+                onPointerDown: (e) => {
+                    Scrollable.lock(this);
                     this.no_transition = true;
                     if(this.popup == "onMove") {
                         clearTimeout(this.timerPopup);
@@ -82,6 +85,7 @@ namespace Components {
                     this.calculateValue();
                 },
                 onPointerUp: () => {
+                    Scrollable.unlock(this);
                     this.no_transition = false;
                     if(this.popup == "onMove") {
                         this.timerPopup = setTimeout(() => {
