@@ -63,13 +63,6 @@ namespace System {
             contextMenu.addSeparator({
                 priority: 1
             });
-            contextMenu.addItem({
-                text: "test",
-                priority: 1,
-                action: () => {
-
-                }
-            });
         }
 
 

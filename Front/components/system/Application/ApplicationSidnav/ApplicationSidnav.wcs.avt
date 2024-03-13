@@ -7,11 +7,11 @@
 				align-items: center;
 				border: 1px solid var(--darker);
 				border-radius: 200px;
-				display: flex;
+				display: none;
 				height: 24px;
 				justify-content: center;
-				width: 24px;
 				transition: background-color var(--bezier-curve) 0.2s, border var(--bezier-curve) 0.2s;
+				width: 24px;
 
 				mi-icon {
 					font-size: 18px;
@@ -27,11 +27,25 @@
 		position: relative;
 		width: 100%;
 
+		.sidenav-hider {
+			background-color: rgba(0, 0, 0, 0.2);
+			display: none;
+			inset: 0;
+			position: absolute;
+			z-index: 50;
+			animation-name: fadeIn;
+			animation-duration: 300ms;
+			animation-timing-function: var(--bezier-curve);
+			animation-fill-mode: forwards;
+		}
+
 		.sidenav {
 			background-color: var(--secondary-color);
 			box-shadow: var(--elevation-4);
 			height: 100%;
+			transition: transform 0.3s var(--bezier-curve);
 			width: 200px;
+			z-index: 50;
 
 			.sidenav-item {
 				align-items: center;
@@ -83,6 +97,41 @@
 	}
 }
 
+:host([open_sidenav]) {
+	.navigation-actions {
+		.menu {
+			background-color: var(--darker) !important;
+		}
+	}
+}
+
+:host([no_sidenav]){
+	.header {
+		.navigation-actions {
+			.menu {
+				display: none!important;				
+			}
+		}
+	}
+
+	.content {
+		display: flex;
+		height: calc(100% - 30px);
+		margin: 0;
+		position: relative;
+		width: 100%;
+
+		.sidenav {
+			display: none;
+		}
+
+		.container {
+			height: 100%;
+			width: 100%;
+		}
+	}
+}
+
 @include desktop {
 	:host {
 		.header {
@@ -111,6 +160,7 @@
 				.menu {
 					height: 26px;
 					width: 26px;
+
 					mi-icon {
 						font-size: 20px;
 					}
@@ -126,10 +176,14 @@
 
 
 @each $name, $size in $size-breakpoints {
-	:host([hide_menu_size="#{$name}"]) {
+	:host([hide_menu_size="#{$name}"]:not([no_sidenav])) {
 		@container application (max-width: #{$size+'px'}) {
 			.header {
 				.navigation-actions {
+
+					.menu {
+						display: flex;
+					}
 
 					.previous,
 					.next {
@@ -141,7 +195,7 @@
 			.content {
 				.sidenav {
 					position: absolute;
-					transform: translateX(-100%);
+					transform: translateX(calc(-100% - 20px));
 				}
 
 				.container {
@@ -151,4 +205,31 @@
 		}
 	}
 
+	:host([hide_menu_size="#{$name}"][open_sidenav]) {
+		@container application (max-width: #{$size+'px'}) {
+			.content {
+				.sidenav-hider {
+					display: block;
+				}
+
+				.sidenav {
+					position: absolute;
+					transform: translateX(0%);
+				}
+			}
+		}
+	}
+}
+
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	100% {
+		visibility: 100%;
+		visibility: visible;
+	}
 }

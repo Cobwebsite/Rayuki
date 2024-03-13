@@ -3289,6 +3289,15 @@ const Watcher=class Watcher {
         setProxyPath(realProxy, '');
         return realProxy;
     }
+    static is(obj) {
+        return typeof obj == 'object' && obj.__isProxy;
+    }
+    static extract(obj) {
+        if (this.is(obj)) {
+            return obj.getTarget();
+        }
+        return obj;
+    }
     /**
      * Create a computed variable that will watch any changes
      */

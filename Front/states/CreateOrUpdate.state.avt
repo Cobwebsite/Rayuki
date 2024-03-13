@@ -1,0 +1,79 @@
+import type { Application } from "../components/system/Application/Application.wcl.avt";
+import { Form, type BodyJSON, type FormData, type VirtualForm } from "../components/ui/form/Form/Form.wcl.avt";
+import { ApplicationStorableState } from "../libs/ApplicationStateManager.state.avt";
+
+namespace State {
+    export abstract class CreateOrUpdate<T extends AventusSharp.Data.Storable, U extends BodyJSON> extends ApplicationStorableState<T> implements Aventus.IState {
+
+        private static _state: string = "";
+        public static get state(): string {
+            if(this._state == "") {
+                let cst = this as any;
+                // if the state is not defined we must create it
+                new cst();
+            }
+            return this._state;
+        }
+
+        protected __form: VirtualForm<U>;
+        public get form(): VirtualForm<U> {
+            return this.__form;
+        }
+
+        public constructor(item?: T) {
+            super(item);
+
+            this.constructor['_state'] = this.genericState();
+            this.__form = Aventus.Watcher.get(Form.create(this.defineFormSchema()));
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public override get name(): string {
+            return this.genericState().replace("{id:number}", this.item.Id + "");
+        }
+
+        private genericState() {
+            return `/${this.defineObjectName()}/{id:number}`;
+        }
+
+        protected abstract defineRAM(): Aventus.Ram<T>;
+
+        protected abstract defineObjectName(): string;
+
+        protected abstract defineFormSchema(): FormData<U>;
+
+        public async save(): Promise<T | undefined> {
+
+            let result: T | undefined;
+            const validationResult = await this.form.validate();
+            if(validationResult === true) {
+                if(this.item.Id == 0) {
+                    if(this.application) {
+                        result = await this.application.executeWithLoading(this.defineRAM().createWithError(this.item));
+                    }
+                    else {
+                        result = await this.defineRAM().create(this.item);
+                    }
+                }
+                else {
+                    if(this.application) {
+                        result = await this.application.executeWithLoading(this.defineRAM().updateWithError(this.item));
+                    }
+                    else {
+                        result = await this.defineRAM().update(this.item);
+                    }
+                }
+            }
+            else if(Array.isArray(validationResult)) {
+                await this.application.alert({
+                    title: "Erreur de validation",
+                    description: validationResult.join("<br>")
+                });
+            }
+
+            return result;
+        }
+    }
+}

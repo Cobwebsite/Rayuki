@@ -1063,117 +1063,6 @@ Websocket.Events.ApplicationTestEvent=class ApplicationTestEvent extends Aventus
 }
 Websocket.Events.ApplicationTestEvent.Namespace=`${moduleName}.Websocket.Events`;
 _.Websocket.Events.ApplicationTestEvent=Websocket.Events.ApplicationTestEvent;
-Lib.ApplicationState=class ApplicationState extends Aventus.State {
-    /**
-     * The current namespace
-     */
-    static Namespace = "";
-    /**
-     * Get the unique type for the data. Define it as the namespace + class name
-     */
-    static get Fullname() { return this.Namespace + "." + this.name; }
-    $type;
-    __manager;
-    __canSaveState = true;
-    enableSaveState() {
-        this.__canSaveState = true;
-    }
-    disableSaveState() {
-        this.__canSaveState = false;
-    }
-    canSync() {
-        if (!this.__canSaveState)
-            return false;
-        if (!System.Os.instance.activeDesktop.data.Configuration.SyncDesktop)
-            return false;
-        return true;
-    }
-    constructor() {
-        super();
-        this.$type = this.constructor['Fullname'];
-    }
-    setManager(manager) {
-        this.__manager = manager;
-    }
-    saveState() {
-        if (!this.canSync())
-            return;
-        this.__manager.save();
-    }
-    async activate() {
-        return super.activate(this.__manager);
-    }
-    /**
-     * Override this method to remove keys when converting to json
-     */
-    avoidJSONKeys() {
-        return ['name'];
-    }
-    toJSON() {
-        let avoidKeys = this.avoidJSONKeys();
-        return Aventus.Json.classToJson(this, {
-            isValidKey: (key) => {
-                if (key.startsWith("__"))
-                    return false;
-                if (avoidKeys.includes(key))
-                    return false;
-                return true;
-            }
-        });
-    }
-    /**
-    * Override this method to remove keys when converting to json
-    */
-    avoidCopyValuesKeys() {
-        return ['name'];
-    }
-    copyValues(src) {
-        let avoidKeys = this.avoidCopyValuesKeys();
-        Aventus.Converter.copyValuesClass(this, src, {
-            isValidKey: (key) => {
-                if (key.startsWith("__"))
-                    return false;
-                if (avoidKeys.includes(key))
-                    return false;
-                return true;
-            }
-        });
-    }
-}
-Lib.ApplicationState.Namespace=`${moduleName}.Lib`;Aventus.Converter.register(Lib.ApplicationState.Fullname, Lib.ApplicationState);
-_.Lib.ApplicationState=Lib.ApplicationState;
-Lib.ApplicationStorableState=class ApplicationStorableState extends Lib.ApplicationState {
-    __item;
-    get item() {
-        return this.__item;
-    }
-    set item(value) {
-        if (!this.__item) {
-            this.__item = Aventus.Watcher.get(value, () => {
-                this.saveState();
-            });
-        }
-        try {
-            for (let key in value) {
-                this.__item[key] = value[key];
-            }
-        }
-        catch (e) {
-            console.log(e);
-        }
-    }
-    constructor(item) {
-        super();
-        if (item) {
-            this.item = item;
-        }
-        else {
-            this.item = this.newElement();
-        }
-    }
-}
-Lib.ApplicationStorableState.Namespace=`${moduleName}.Lib`;Aventus.Converter.register(Lib.ApplicationStorableState.Fullname, Lib.ApplicationStorableState);
-_.Lib.ApplicationStorableState=Lib.ApplicationStorableState;
 (function (ResizeDirection) {
     ResizeDirection[ResizeDirection["Top"] = 0] = "Top";
     ResizeDirection[ResizeDirection["TopLeft"] = 1] = "TopLeft";
@@ -3289,11 +3178,130 @@ System.Frame = class Frame extends System.FrameNoScroll {
 System.Frame.Namespace=`${moduleName}.System`;
 _.System.Frame=System.Frame;
 
+Lib.ApplicationState=class ApplicationState extends Aventus.State {
+    /**
+     * The current namespace
+     */
+    static Namespace = "";
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    static get Fullname() { return this.Namespace + "." + this.name; }
+    $type;
+    __manager;
+    get application() {
+        return this.__manager.application;
+    }
+    ;
+    __canSaveState = true;
+    enableSaveState() {
+        this.__canSaveState = true;
+    }
+    disableSaveState() {
+        this.__canSaveState = false;
+    }
+    canSync() {
+        if (!this.__canSaveState)
+            return false;
+        return true;
+    }
+    constructor() {
+        super();
+        this.$type = this.constructor['Fullname'];
+    }
+    setManager(manager) {
+        this.__manager = manager;
+    }
+    saveState() {
+        if (!this.canSync())
+            return;
+        this.__manager.save();
+    }
+    async activate() {
+        return super.activate(this.__manager);
+    }
+    /**
+     * Override this tell which field must by sync
+     */
+    syncField(addField) {
+    }
+    /**
+     * Override this tell which field must by sync
+     */
+    syncFieldNoCheck(addField) {
+    }
+    runSyncField() {
+        const result = ["$type"];
+        const addField = (field) => {
+            result.push(field);
+        };
+        this.syncField(addField);
+        this.syncFieldNoCheck(addField);
+        return result;
+    }
+    toJSON() {
+        const fields = this.runSyncField();
+        return Aventus.Json.classToJson(this, {
+            isValidKey: (key) => {
+                return fields.includes(key);
+            }
+        });
+    }
+    copyValues(src) {
+        const fields = this.runSyncField();
+        Aventus.Converter.copyValuesClass(this, src, {
+            isValidKey: (key) => {
+                return fields.includes(key);
+            }
+        });
+    }
+}
+Lib.ApplicationState.Namespace=`${moduleName}.Lib`;Aventus.Converter.register(Lib.ApplicationState.Fullname, Lib.ApplicationState);
+_.Lib.ApplicationState=Lib.ApplicationState;
+Lib.ApplicationStorableState=class ApplicationStorableState extends Lib.ApplicationState {
+    __item;
+    get item() {
+        return this.__item;
+    }
+    set item(value) {
+        if (!this.__item) {
+            this.__item = Aventus.Watcher.get(value, () => {
+                this.saveState();
+            });
+        }
+        try {
+            for (let key in value) {
+                this.__item[key] = value[key];
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+    constructor(item) {
+        super();
+        if (item) {
+            this.item = item;
+        }
+        else {
+            this.item = this.newElement();
+        }
+    }
+    syncField(addField) {
+        super.syncField(addField);
+        addField("item");
+    }
+}
+Lib.ApplicationStorableState.Namespace=`${moduleName}.Lib`;Aventus.Converter.register(Lib.ApplicationStorableState.Fullname, Lib.ApplicationStorableState);
+_.Lib.ApplicationStorableState=Lib.ApplicationStorableState;
 Lib.ApplicationEmptyState=class ApplicationEmptyState extends Lib.ApplicationState {
     localName;
     constructor(stateName) {
         super();
         this.localName = stateName;
+    }
+    syncFieldNoCheck(addField) {
+        addField("localName");
     }
     /**
      * @inheritdoc
@@ -3305,10 +3313,13 @@ Lib.ApplicationEmptyState=class ApplicationEmptyState extends Lib.ApplicationSta
 Lib.ApplicationEmptyState.Namespace=`${moduleName}.Lib`;Aventus.Converter.register(Lib.ApplicationEmptyState.Fullname, Lib.ApplicationEmptyState);
 _.Lib.ApplicationEmptyState=Lib.ApplicationEmptyState;
 Lib.ApplicationStateManager=class ApplicationStateManager extends Aventus.StateManager {
-    save;
-    constructor(save) {
+    application;
+    constructor(application) {
         super();
-        this.save = save;
+        this.application = application;
+    }
+    save() {
+        return this.application.saveApplicationHistory();
     }
     assignDefaultState(stateName) {
         let el = new Lib.ApplicationEmptyState(stateName);
@@ -4141,7 +4152,7 @@ System.Application = class Application extends Aventus.WebComponent {
     afterTransitionCb = [];
     get navigator() {
         if (!this.router) {
-            this.router = new Lib.ApplicationStateManager(this.saveApplicationHistory);
+            this.router = new Lib.ApplicationStateManager(this);
         }
         return this.router;
     }
@@ -4252,11 +4263,11 @@ System.Application = class Application extends Aventus.WebComponent {
     addRouteAsync(options) {
         this.allRoutes[options.route] = options;
     }
-    addRoute(route, elementCtr) {
+    addRoute(route, frame) {
         this.allRoutes[route] = {
             route: route,
             scriptUrl: '',
-            render: () => elementCtr
+            render: () => frame
         };
     }
     register() {
@@ -6844,12 +6855,6 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
         contextMenu.addSeparator({
             priority: 1
         });
-        contextMenu.addItem({
-            text: "test",
-            priority: 1,
-            action: () => {
-            }
-        });
     }
     componentUrl() {
         return "/";
@@ -7036,7 +7041,8 @@ if(!window.customElements.get('rk-app-icon-inline')){window.customElements.defin
 System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
     get 'hide_menu_size'() { return this.getStringAttr('hide_menu_size') }
     set 'hide_menu_size'(val) { this.setStringAttr('hide_menu_size', val) }get 'open_sidenav'() { return this.getBoolAttr('open_sidenav') }
-    set 'open_sidenav'(val) { this.setBoolAttr('open_sidenav', val) }    get 'sidnavItems'() {
+    set 'open_sidenav'(val) { this.setBoolAttr('open_sidenav', val) }get 'no_sidenav'() { return this.getBoolAttr('no_sidenav') }
+    set 'no_sidenav'(val) { this.setBoolAttr('no_sidenav', val) }    get 'sidnavItems'() {
 						return this.__watch["sidnavItems"];
 					}
 					set 'sidnavItems'(val) {
@@ -7044,7 +7050,7 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
 					}    __registerWatchesActions() {
     this.__addWatchesActions("sidnavItems");    super.__registerWatchesActions();
 }
-    static __style = `:host .header .navigation-actions .menu{align-items:center;border:1px solid var(--darker);border-radius:200px;display:flex;height:24px;justify-content:center;width:24px;transition:background-color var(--bezier-curve) .2s,border var(--bezier-curve) .2s}:host .header .navigation-actions .menu mi-icon{font-size:18px}:host .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host .content .sidenav{background-color:var(--secondary-color);box-shadow:var(--elevation-4);height:100%;width:200px}:host .content .sidenav .sidenav-item{align-items:center;border-bottom:1px solid var(--lighter-active);cursor:pointer;display:flex;flex-wrap:nowrap;height:51px;padding:10px;transition:linear background-color .3s}:host .content .sidenav .sidenav-item rk-img{--img-fill-color: var(--text-color);flex-grow:0;flex-shrink:0;height:30px;width:30px}:host .content .sidenav .sidenav-item rk-img[src=""]{display:none}:host .content .sidenav .sidenav-item span{color:var(--text-color);flex-grow:1;flex-shrink:0;margin-left:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:calc(100% - 45px)}:host .content .sidenav .sidenav-item rk-img[src=""]~span{margin-left:0}:host .content .sidenav .sidenav-item[active]{background-color:var(--lighter-active)}:host .content .container{height:100%;width:calc(100% - 200px)}@media screen and (min-width: 1225px){:host .header .navigation-actions .menu:hover{background-color:var(--darker) !important;border:1px solid rgba(0,0,0,0)}:host .content .sidenav .sidenav-item:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host .header .navigation-actions .menu{height:26px;width:26px}:host .header .navigation-actions .menu mi-icon{font-size:20px}:host .content{height:calc(100% - 40px)}}@container application (max-width: 300px){:host([hide_menu_size=xs]) .header .navigation-actions .previous,:host([hide_menu_size=xs]) .header .navigation-actions .next{display:none}:host([hide_menu_size=xs]) .content .sidenav{position:absolute;transform:translateX(-100%)}:host([hide_menu_size=xs]) .content .container{width:100%}}@container application (max-width: 540px){:host([hide_menu_size=sm]) .header .navigation-actions .previous,:host([hide_menu_size=sm]) .header .navigation-actions .next{display:none}:host([hide_menu_size=sm]) .content .sidenav{position:absolute;transform:translateX(-100%)}:host([hide_menu_size=sm]) .content .container{width:100%}}@container application (max-width: 720px){:host([hide_menu_size=md]) .header .navigation-actions .previous,:host([hide_menu_size=md]) .header .navigation-actions .next{display:none}:host([hide_menu_size=md]) .content .sidenav{position:absolute;transform:translateX(-100%)}:host([hide_menu_size=md]) .content .container{width:100%}}@container application (max-width: 960px){:host([hide_menu_size=lg]) .header .navigation-actions .previous,:host([hide_menu_size=lg]) .header .navigation-actions .next{display:none}:host([hide_menu_size=lg]) .content .sidenav{position:absolute;transform:translateX(-100%)}:host([hide_menu_size=lg]) .content .container{width:100%}}@container application (max-width: 1140px){:host([hide_menu_size=xl]) .header .navigation-actions .previous,:host([hide_menu_size=xl]) .header .navigation-actions .next{display:none}:host([hide_menu_size=xl]) .content .sidenav{position:absolute;transform:translateX(-100%)}:host([hide_menu_size=xl]) .content .container{width:100%}}`;
+    static __style = `:host .header .navigation-actions .menu{align-items:center;border:1px solid var(--darker);border-radius:200px;display:none;height:24px;justify-content:center;transition:background-color var(--bezier-curve) .2s,border var(--bezier-curve) .2s;width:24px}:host .header .navigation-actions .menu mi-icon{font-size:18px}:host .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host .content .sidenav-hider{background-color:rgba(0,0,0,.2);display:none;inset:0;position:absolute;z-index:50;animation-name:fadeIn;animation-duration:300ms;animation-timing-function:var(--bezier-curve);animation-fill-mode:forwards}:host .content .sidenav{background-color:var(--secondary-color);box-shadow:var(--elevation-4);height:100%;transition:transform .3s var(--bezier-curve);width:200px;z-index:50}:host .content .sidenav .sidenav-item{align-items:center;border-bottom:1px solid var(--lighter-active);cursor:pointer;display:flex;flex-wrap:nowrap;height:51px;padding:10px;transition:linear background-color .3s}:host .content .sidenav .sidenav-item rk-img{--img-fill-color: var(--text-color);flex-grow:0;flex-shrink:0;height:30px;width:30px}:host .content .sidenav .sidenav-item rk-img[src=""]{display:none}:host .content .sidenav .sidenav-item span{color:var(--text-color);flex-grow:1;flex-shrink:0;margin-left:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:calc(100% - 45px)}:host .content .sidenav .sidenav-item rk-img[src=""]~span{margin-left:0}:host .content .sidenav .sidenav-item[active]{background-color:var(--lighter-active)}:host .content .container{height:100%;width:calc(100% - 200px)}:host([open_sidenav]) .navigation-actions .menu{background-color:var(--darker) !important}:host([no_sidenav]) .header .navigation-actions .menu{display:none !important}:host([no_sidenav]) .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host([no_sidenav]) .content .sidenav{display:none}:host([no_sidenav]) .content .container{height:100%;width:100%}@media screen and (min-width: 1225px){:host .header .navigation-actions .menu:hover{background-color:var(--darker) !important;border:1px solid rgba(0,0,0,0)}:host .content .sidenav .sidenav-item:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host .header .navigation-actions .menu{height:26px;width:26px}:host .header .navigation-actions .menu mi-icon{font-size:20px}:host .content{height:calc(100% - 40px)}}@container application (max-width: 300px){:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=xs]:not([no_sidenav])) .content .sidenav{position:absolute;transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=xs]:not([no_sidenav])) .content .container{width:100%}}@container application (max-width: 300px){:host([hide_menu_size=xs][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=xs][open_sidenav]) .content .sidenav{position:absolute;transform:translateX(0%)}}@container application (max-width: 540px){:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=sm]:not([no_sidenav])) .content .sidenav{position:absolute;transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=sm]:not([no_sidenav])) .content .container{width:100%}}@container application (max-width: 540px){:host([hide_menu_size=sm][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=sm][open_sidenav]) .content .sidenav{position:absolute;transform:translateX(0%)}}@container application (max-width: 720px){:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=md]:not([no_sidenav])) .content .sidenav{position:absolute;transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=md]:not([no_sidenav])) .content .container{width:100%}}@container application (max-width: 720px){:host([hide_menu_size=md][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=md][open_sidenav]) .content .sidenav{position:absolute;transform:translateX(0%)}}@container application (max-width: 960px){:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=lg]:not([no_sidenav])) .content .sidenav{position:absolute;transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=lg]:not([no_sidenav])) .content .container{width:100%}}@container application (max-width: 960px){:host([hide_menu_size=lg][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=lg][open_sidenav]) .content .sidenav{position:absolute;transform:translateX(0%)}}@container application (max-width: 1140px){:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=xl]:not([no_sidenav])) .content .sidenav{position:absolute;transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=xl]:not([no_sidenav])) .content .container{width:100%}}@container application (max-width: 1140px){:host([hide_menu_size=xl][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=xl][open_sidenav]) .content .sidenav{position:absolute;transform:translateX(0%)}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{visibility:100%;visibility:visible}}`;
     constructor() { super(); if (this.constructor == ApplicationSidnav) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return ApplicationSidnav;
@@ -7057,7 +7063,7 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="header" _id="applicationsidnav_0">    <div class="background"></div>    <div class="navigation-actions">        <div class="action menu touch">            <mi-icon icon="menu"></mi-icon>        </div>        <div class="previous action touch disable" _id="applicationsidnav_1">            <rk-img src="/img/icons/angle-left.svg"></rk-img>        </div>        <div class="next action touch disable" _id="applicationsidnav_2">            <rk-img src="/img/icons/angle-right.svg"></rk-img>        </div>    </div>    <div class="title" _id="applicationsidnav_3"></div>    <div class="application-actions">        <div class="btn green touch" _id="applicationsidnav_4"></div>        <div class="btn orange touch" _id="applicationsidnav_5"></div>        <div class="btn red touch" _id="applicationsidnav_6"></div>    </div></div><div class="content">    <div class="sidenav">        <rk-scrollable auto_hide _id="applicationsidnav_7">            <template _id="applicationsidnav_8"></template>        </rk-scrollable>    </div>    <div class="container" _id="applicationsidnav_12">    </div></div><rk-resize min_width="200" min_height="200" _id="applicationsidnav_13"></rk-resize><rk-loading class="loading"></rk-loading><slot></slot>` }
+        blocks: { 'default':`<div class="header" _id="applicationsidnav_0">    <div class="background"></div>    <div class="navigation-actions">        <div class="action menu touch" _id="applicationsidnav_1">            <mi-icon icon="menu"></mi-icon>        </div>        <div class="previous action touch disable" _id="applicationsidnav_2">            <rk-img src="/img/icons/angle-left.svg"></rk-img>        </div>        <div class="next action touch disable" _id="applicationsidnav_3">            <rk-img src="/img/icons/angle-right.svg"></rk-img>        </div>    </div>    <div class="title" _id="applicationsidnav_4"></div>    <div class="application-actions">        <div class="btn green touch" _id="applicationsidnav_5"></div>        <div class="btn orange touch" _id="applicationsidnav_6"></div>        <div class="btn red touch" _id="applicationsidnav_7"></div>    </div></div><div class="content">    <div class="sidenav-hider" _id="applicationsidnav_8"></div>    <div class="sidenav">        <rk-scrollable auto_hide _id="applicationsidnav_9">            <template _id="applicationsidnav_10"></template>        </rk-scrollable>    </div>    <div class="container" _id="applicationsidnav_16">    </div></div><rk-resize min_width="200" min_height="200" _id="applicationsidnav_17"></rk-resize><rk-loading class="loading"></rk-loading><slot></slot>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -7071,123 +7077,170 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
     {
       "name": "navigatePreviousEl",
       "ids": [
-        "applicationsidnav_1"
+        "applicationsidnav_2"
       ]
     },
     {
       "name": "navigateNextEl",
       "ids": [
-        "applicationsidnav_2"
+        "applicationsidnav_3"
       ]
     },
     {
       "name": "navEl",
       "ids": [
-        "applicationsidnav_7"
+        "applicationsidnav_9"
       ]
     },
     {
       "name": "contentEl",
       "ids": [
-        "applicationsidnav_12"
+        "applicationsidnav_16"
       ]
     },
     {
       "name": "resizeEl",
       "ids": [
-        "applicationsidnav_13"
+        "applicationsidnav_17"
       ]
     }
   ],
   "content": {
-    "applicationsidnav_3°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod1())}`,
+    "applicationsidnav_4°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod2())}`,
       "once": true
     }
   },
   "pressEvents": [
     {
       "id": "applicationsidnav_1",
-      "onPress": (e, pressInstance, c) => { c.comp.navigatePrevious(e, pressInstance); }
+      "onPress": (e, pressInstance, c) => { c.comp.toggleSidnav(e, pressInstance); }
     },
     {
       "id": "applicationsidnav_2",
+      "onPress": (e, pressInstance, c) => { c.comp.navigatePrevious(e, pressInstance); }
+    },
+    {
+      "id": "applicationsidnav_3",
       "onPress": (e, pressInstance, c) => { c.comp.navigateNext(e, pressInstance); }
     },
     {
-      "id": "applicationsidnav_4",
+      "id": "applicationsidnav_5",
       "onPress": (e, pressInstance, c) => { c.comp.hide(e, pressInstance); }
     },
     {
-      "id": "applicationsidnav_5",
+      "id": "applicationsidnav_6",
       "onPress": (e, pressInstance, c) => { c.comp.toggleFull(e, pressInstance); }
     },
     {
-      "id": "applicationsidnav_6",
+      "id": "applicationsidnav_7",
       "onPress": (e, pressInstance, c) => { c.comp.kill(e, pressInstance); }
+    },
+    {
+      "id": "applicationsidnav_8",
+      "onPress": (e, pressInstance, c) => { c.comp.closeSidenav(e, pressInstance); }
     }
   ]
-});const templ0 = new Aventus.Template(this);templ0.setTemplate(`                 <rk-link class="sidenav-item" _id="applicationsidnav_9">                    <rk-img _id="applicationsidnav_10"></rk-img>                    <span _id="applicationsidnav_11"></span>                </rk-link>            `);templ0.setActions({
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`                 <rk-link class="sidenav-item" _id="applicationsidnav_11">                    <template _id="applicationsidnav_12"></template>                    <span _id="applicationsidnav_15"></span>                </rk-link>            `);templ0.setActions({
   "content": {
-    "applicationsidnav_9°to": {
-      "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod2(c.data.item))}`,
-      "once": true
-    },
-    "applicationsidnav_9°active_pattern": {
+    "applicationsidnav_11°to": {
       "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod3(c.data.item))}`,
       "once": true
     },
-    "applicationsidnav_10°src": {
+    "applicationsidnav_11°active_pattern": {
       "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod4(c.data.item))}`,
       "once": true
     },
-    "applicationsidnav_11°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod5(c.data.item))}`,
+    "applicationsidnav_15°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod6(c.data.item))}`,
       "once": true
     }
   }
 });this.__getStatic().__template.addLoop({
-                    anchorId: 'applicationsidnav_8',
+                    anchorId: 'applicationsidnav_10',
                     template: templ0,
-                simple:{data: "this.sidnavItems",item:"item"}}); }
+                simple:{data: "this.sidnavItems",item:"item"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`                        <mi-icon _id="applicationsidnav_13"></mi-icon>                    `);templ1.setActions({
+  "content": {
+    "applicationsidnav_13°icon": {
+      "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod5(c.data.item))}`,
+      "once": true
+    }
+  }
+});const templ2 = new Aventus.Template(this);templ2.setTemplate(`                        <rk-img _id="applicationsidnav_14"></rk-img>                    `);templ2.setActions({
+  "content": {
+    "applicationsidnav_14°src": {
+      "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod5(c.data.item))}`,
+      "once": true
+    }
+  }
+});templ0.addIf({
+                    anchorId: 'applicationsidnav_12',
+                    parts: [{once: true,
+                    condition: (c) => c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod1(c.data.item),
+                    template: templ1
+                },{once: true,
+                    condition: (c) => true,
+                    template: templ2
+                }]
+            }); }
     getClassName() {
         return "ApplicationSidnav";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('hide_menu_size')){ this['hide_menu_size'] = "sm"; }if(!this.hasAttribute('open_sidenav')) { this.attributeChangedCallback('open_sidenav', false, false); } }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('hide_menu_size')){ this['hide_menu_size'] = "sm"; }if(!this.hasAttribute('open_sidenav')) { this.attributeChangedCallback('open_sidenav', false, false); }if(!this.hasAttribute('no_sidenav')) { this.attributeChangedCallback('no_sidenav', false, false); } }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["sidnavItems"] = []; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('hide_menu_size');this.__upgradeProperty('open_sidenav'); }
-    __listBoolProps() { return ["open_sidenav"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('hide_menu_size');this.__upgradeProperty('open_sidenav');this.__upgradeProperty('no_sidenav'); }
+    __listBoolProps() { return ["open_sidenav","no_sidenav"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     addRouteSidenav(options) {
         let route = options.route;
         this.allRoutes[route] = {
             route: route,
             scriptUrl: '',
-            render: () => options.elementCtr
+            render: () => options.frame
         };
+        let icon = "";
+        let useMi = false;
+        if (options.miIcon) {
+            useMi = true;
+            icon = options.miIcon;
+        }
+        else if (options.icon?.startsWith("mi-")) {
+            useMi = true;
+            icon = options.icon.replace("mi-", "");
+        }
+        else if (options.icon) {
+            icon = options.icon;
+        }
         this.sidnavItems.push({
             name: options.name,
-            icon: options.icon ?? "",
-            route: route,
+            icon,
+            useMi,
+            route,
             active: options.activeRoute ?? route
         });
     }
     toggleSidnav() {
         this.open_sidenav = !this.open_sidenav;
     }
-    __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod1() {
+    closeSidenav() {
+        this.open_sidenav = false;
+    }
+    __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod2() {
         return this.app_title;
     }
-    __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod2(item) {
+    __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod3(item) {
         return item.route;
     }
-    __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod3(item) {
+    __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod4(item) {
         return item.active;
     }
-    __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod4(item) {
+    __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod5(item) {
         return item.icon;
     }
-    __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod5(item) {
+    __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod6(item) {
         return item.name;
+    }
+    __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod1(item) {
+        return item.useMi;
     }
 }
 System.ApplicationSidnav.Namespace=`${moduleName}.System`;
@@ -7431,63 +7484,6 @@ System.PwaPrompt.Tag=`rk-pwa-prompt`;
 _.System.PwaPrompt=System.PwaPrompt;
 if(!window.customElements.get('rk-pwa-prompt')){window.customElements.define('rk-pwa-prompt', System.PwaPrompt);Aventus.WebComponentInstance.registerDefinition(System.PwaPrompt);}
 
-Components.Form = class Form extends Aventus.WebComponent {
-    elements = [];
-    onSubmit = new Aventus.Callback();
-    static __style = `:host{padding:15px;width:100%}`;
-    __getStatic() {
-        return Form;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Form.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "Form";
-    }
-    registerFormElement(element) {
-        if (!this.elements.includes(element)) {
-            this.elements.push(element);
-        }
-    }
-    registerSubmit(element) {
-        new Aventus.PressManager({
-            element,
-            onPress: () => {
-                this.submit();
-            }
-        });
-    }
-    async submit() {
-        if (await this.validate()) {
-            this.onSubmit.trigger([]);
-        }
-    }
-    async validate() {
-        let proms = [];
-        for (let element of this.elements) {
-            proms.push(element.validate());
-        }
-        const result = await Promise.all(proms);
-        for (let resultTemp of result) {
-            if (!resultTemp)
-                return false;
-        }
-        return true;
-    }
-}
-Components.Form.Namespace=`${moduleName}.Components`;
-Components.Form.Tag=`rk-form`;
-_.Components.Form=Components.Form;
-if(!window.customElements.get('rk-form')){window.customElements.define('rk-form', Components.Form);Aventus.WebComponentInstance.registerDefinition(Components.Form);}
-
 Components.FormElement = class FormElement extends Aventus.WebComponent {
     get 'has_errors'() { return this.getBoolAttr('has_errors') }
     set 'has_errors'(val) { this.setBoolAttr('has_errors', val) }    get 'errors'() {
@@ -7543,6 +7539,7 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
         Components.FormElement.onFormPartChange(this, path, value);
     }
     static async validate(element) {
+        element.errors = [];
         if (element.formPart?.validate) {
             let result = element.formPart.validate(element.value);
             if (result instanceof Promise) {
@@ -7559,7 +7556,6 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
             element.errors.push(result);
             return false;
         }
-        element.errors = [];
         return true;
     }
     static async setValue(part, value) {
@@ -7573,10 +7569,11 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
         }
     }
     static getValue(part) {
-        if (typeof part.value === "object" && part.value && Object.hasOwn(part.value, 'get') && Object.hasOwn(part.value, 'set')) {
-            return part.value.get();
+        const realPart = Aventus.Watcher.extract(part);
+        if (typeof realPart.value === "object" && realPart.value && Object.hasOwn(realPart.value, 'get') && Object.hasOwn(realPart.value, 'set')) {
+            return realPart.value.get();
         }
-        return part.value;
+        return realPart.value;
     }
     static onFormPartChange(element, path, value) {
         if (path == "formPart" && value !== undefined) {
@@ -7590,6 +7587,9 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
         }
         if (path == "formPart" || path == "formPart.value") {
             element.value = element.formPart ? Components.FormElement.getValue(element.formPart) ?? '' : '';
+            if (element.formPart && !element.formPart.elements?.includes(element)) {
+                //element.formPart.elements?.push(element);
+            }
         }
     }
 }
@@ -7982,73 +7982,6 @@ Components.Input.Tag=`rk-input`;
 _.Components.Input=Components.Input;
 if(!window.customElements.get('rk-input')){window.customElements.define('rk-input', Components.Input);Aventus.WebComponentInstance.registerDefinition(Components.Input);}
 
-Components.Button = class Button extends Aventus.WebComponent {
-    static get observedAttributes() {return ["icon_before", "icon_after", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'color'() { return this.getStringAttr('color') }
-    set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
-    set 'outline'(val) { this.setBoolAttr('outline', val) }get 'submit'() { return this.getBoolAttr('submit') }
-    set 'submit'(val) { this.setBoolAttr('submit', val) }    get 'icon_before'() { return this.getStringProp('icon_before') }
-    set 'icon_before'(val) { this.setStringAttr('icon_before', val) }get 'icon_after'() { return this.getStringProp('icon_after') }
-    set 'icon_after'(val) { this.setStringAttr('icon_after', val) }get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
-    target.icon_before = target.icon;
-})); }
-    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent)}:host{background-color:var(--internal-button-background-color);border-radius:5px;box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;overflow:hidden;position:relative}:host .hider{background-color:var(--_button-background-color-hover);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:hover) .hider{opacity:1;visibility:visible}}`;
-    __getStatic() {
-        return Button;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Button.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="hider"></div><div class="content">    <rk-img class="icon-before" _id="button_0"></rk-img>    <slot></slot>    <rk-img class="icon-after" _id="button_1"></rk-img></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "button_0°src": {
-      "fct": (c) => `${c.print(c.comp.__e17753be66eb8c36ad73f4b01845474bmethod0())}`,
-      "once": true
-    },
-    "button_1°src": {
-      "fct": (c) => `${c.print(c.comp.__e17753be66eb8c36ad73f4b01845474bmethod1())}`,
-      "once": true
-    }
-  }
-}); }
-    getClassName() {
-        return "Button";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('submit')) { this.attributeChangedCallback('submit', false, false); }if(!this.hasAttribute('icon_before')){ this['icon_before'] = undefined; }if(!this.hasAttribute('icon_after')){ this['icon_after'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('submit');this.__upgradeProperty('icon_before');this.__upgradeProperty('icon_after');this.__upgradeProperty('icon'); }
-    __listBoolProps() { return ["outline","submit"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    registerToForm() {
-        if (!this.submit)
-            return;
-        const parent = this.findParentByType(Components.Form);
-        if (parent) {
-            parent.registerSubmit(this);
-        }
-    }
-    postCreation() {
-        this.registerToForm();
-    }
-    __e17753be66eb8c36ad73f4b01845474bmethod0() {
-        return this.icon_before;
-    }
-    __e17753be66eb8c36ad73f4b01845474bmethod1() {
-        return this.icon_after;
-    }
-}
-Components.Button.Namespace=`${moduleName}.Components`;
-Components.Button.Tag=`rk-button`;
-_.Components.Button=Components.Button;
-if(!window.customElements.get('rk-button')){window.customElements.define('rk-button', Components.Button);Aventus.WebComponentInstance.registerDefinition(Components.Button);}
-
 Components.Checkbox = class Checkbox extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'left_label'() { return this.getBoolAttr('left_label') }
@@ -8120,6 +8053,273 @@ Components.Checkbox.Namespace=`${moduleName}.Components`;
 Components.Checkbox.Tag=`rk-checkbox`;
 _.Components.Checkbox=Components.Checkbox;
 if(!window.customElements.get('rk-checkbox')){window.customElements.define('rk-checkbox', Components.Checkbox);Aventus.WebComponentInstance.registerDefinition(Components.Checkbox);}
+
+Components.InternalVirtualForm=class InternalVirtualForm {
+    __config;
+    constructor(config) {
+        for (let name in config) {
+            if (!config[name].elements) {
+                config[name].elements = [];
+            }
+            if (!config[name].validate) {
+                config[name].validate = () => true;
+            }
+        }
+        this.__config = config;
+        for (let key in config) {
+            this.registerKey(key);
+        }
+    }
+    registerKey(key) {
+        Object.defineProperty(this, key, {
+            get: () => this.__config[key],
+            set: (value) => this.__config[key] = value,
+            enumerable: true
+        });
+    }
+    getData() {
+        let result = {};
+        for (let name in this.__config) {
+            result[name] = Components.FormElement.getValue(this.__config[name]);
+        }
+        return result;
+    }
+    /**
+     * Return an array of string for all message not displayed otherwhise return a bool
+     */
+    async validate() {
+        let proms = [];
+        let promsCustom = [];
+        const namesCustom = [];
+        const resultErrors = [];
+        for (let name in this.__config) {
+            const elements = this.__config[name].elements;
+            if (!elements || elements.length == 0) {
+                const result = this.__config[name].validate(Components.FormElement.getValue(this.__config[name]));
+                if (result instanceof Promise) {
+                    promsCustom.push(result);
+                    namesCustom.push(name);
+                }
+                else if (result !== undefined && result !== true && result !== "") {
+                    if (result === false) {
+                        resultErrors.push("Le champs " + name + " n'est pas valide");
+                    }
+                    resultErrors.push(result + "");
+                }
+            }
+            else {
+                for (let element of this.__config[name].elements) {
+                    proms.push(element.validate());
+                }
+            }
+        }
+        const result2 = await Promise.all(promsCustom);
+        for (let i = 0; i < result2.length; i++) {
+            const resultTemp = result2[i];
+            if (resultTemp !== undefined && resultTemp !== true && resultTemp !== "") {
+                if (resultTemp === false) {
+                    resultErrors.push("Le champs " + namesCustom[i] + " n'est pas valide");
+                }
+                resultErrors.push(resultTemp + "");
+            }
+        }
+        if (resultErrors.length > 0) {
+            return resultErrors;
+        }
+        const result = await Promise.all(proms);
+        for (let resultTemp of result) {
+            if (!resultTemp)
+                return false;
+        }
+        return true;
+    }
+}
+Components.InternalVirtualForm.Namespace=`${moduleName}.Components`;
+Components.Form = class Form extends Aventus.WebComponent {
+    elements = [];
+    onSubmit = new Aventus.Callback();
+    static __style = `:host{padding:15px;width:100%}`;
+    __getStatic() {
+        return Form;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Form.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "Form";
+    }
+    registerFormElement(element) {
+        if (!this.elements.includes(element)) {
+            this.elements.push(element);
+        }
+    }
+    registerSubmit(element) {
+        new Aventus.PressManager({
+            element,
+            onPress: () => {
+                this.submit();
+            }
+        });
+    }
+    async submit() {
+        if (await this.validate()) {
+            this.onSubmit.trigger([]);
+        }
+    }
+    async validate() {
+        let proms = [];
+        for (let element of this.elements) {
+            proms.push(element.validate());
+        }
+        const result = await Promise.all(proms);
+        for (let resultTemp of result) {
+            if (!resultTemp)
+                return false;
+        }
+        return true;
+    }
+    static create(config) {
+        return new Components.InternalVirtualForm(config);
+    }
+}
+Components.Form.Namespace=`${moduleName}.Components`;
+Components.Form.Tag=`rk-form`;
+_.Components.Form=Components.Form;
+if(!window.customElements.get('rk-form')){window.customElements.define('rk-form', Components.Form);Aventus.WebComponentInstance.registerDefinition(Components.Form);}
+
+State.CreateOrUpdate=class CreateOrUpdate extends Lib.ApplicationStorableState {
+    static _state = "";
+    static get state() {
+        if (this._state == "") {
+            let cst = this;
+            new cst();
+        }
+        return this._state;
+    }
+    __form;
+    get form() {
+        return this.__form;
+    }
+    constructor(item) {
+        super(item);
+        this.constructor['_state'] = this.genericState();
+        this.__form = Aventus.Watcher.get(Components.Form.create(this.defineFormSchema()));
+    }
+    /**
+     * @inheritdoc
+     */
+    get name() {
+        return this.genericState().replace("{id:number}", this.item.Id + "");
+    }
+    genericState() {
+        return `/${this.defineObjectName()}/{id:number}`;
+    }
+    async save() {
+        let result;
+        const validationResult = await this.form.validate();
+        if (validationResult === true) {
+            if (this.item.Id == 0) {
+                if (this.application) {
+                    result = await this.application.executeWithLoading(this.defineRAM().createWithError(this.item));
+                }
+                else {
+                    result = await this.defineRAM().create(this.item);
+                }
+            }
+            else {
+                if (this.application) {
+                    result = await this.application.executeWithLoading(this.defineRAM().updateWithError(this.item));
+                }
+                else {
+                    result = await this.defineRAM().update(this.item);
+                }
+            }
+        }
+        else if (Array.isArray(validationResult)) {
+            await this.application.alert({
+                title: "Erreur de validation",
+                description: validationResult.join("<br>")
+            });
+        }
+        return result;
+    }
+}
+State.CreateOrUpdate.Namespace=`${moduleName}.State`;Aventus.Converter.register(State.CreateOrUpdate.Fullname, State.CreateOrUpdate);
+_.State.CreateOrUpdate=State.CreateOrUpdate;
+Components.Button = class Button extends Aventus.WebComponent {
+    static get observedAttributes() {return ["icon_before", "icon_after", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'color'() { return this.getStringAttr('color') }
+    set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
+    set 'outline'(val) { this.setBoolAttr('outline', val) }get 'submit'() { return this.getBoolAttr('submit') }
+    set 'submit'(val) { this.setBoolAttr('submit', val) }    get 'icon_before'() { return this.getStringProp('icon_before') }
+    set 'icon_before'(val) { this.setStringAttr('icon_before', val) }get 'icon_after'() { return this.getStringProp('icon_after') }
+    set 'icon_after'(val) { this.setStringAttr('icon_after', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
+    target.icon_before = target.icon;
+})); }
+    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent)}:host{background-color:var(--internal-button-background-color);border-radius:5px;box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;overflow:hidden;position:relative}:host .hider{background-color:var(--_button-background-color-hover);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:hover) .hider{opacity:1;visibility:visible}}`;
+    __getStatic() {
+        return Button;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Button.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="hider"></div><div class="content">    <rk-img class="icon-before" _id="button_0"></rk-img>    <slot></slot>    <rk-img class="icon-after" _id="button_1"></rk-img></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "button_0°src": {
+      "fct": (c) => `${c.print(c.comp.__e17753be66eb8c36ad73f4b01845474bmethod0())}`,
+      "once": true
+    },
+    "button_1°src": {
+      "fct": (c) => `${c.print(c.comp.__e17753be66eb8c36ad73f4b01845474bmethod1())}`,
+      "once": true
+    }
+  }
+}); }
+    getClassName() {
+        return "Button";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('submit')) { this.attributeChangedCallback('submit', false, false); }if(!this.hasAttribute('icon_before')){ this['icon_before'] = undefined; }if(!this.hasAttribute('icon_after')){ this['icon_after'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('submit');this.__upgradeProperty('icon_before');this.__upgradeProperty('icon_after');this.__upgradeProperty('icon'); }
+    __listBoolProps() { return ["outline","submit"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    registerToForm() {
+        if (!this.submit)
+            return;
+        const parent = this.findParentByType(Components.Form);
+        if (parent) {
+            parent.registerSubmit(this);
+        }
+    }
+    postCreation() {
+        this.registerToForm();
+    }
+    __e17753be66eb8c36ad73f4b01845474bmethod0() {
+        return this.icon_before;
+    }
+    __e17753be66eb8c36ad73f4b01845474bmethod1() {
+        return this.icon_after;
+    }
+}
+Components.Button.Namespace=`${moduleName}.Components`;
+Components.Button.Tag=`rk-button`;
+_.Components.Button=Components.Button;
+if(!window.customElements.get('rk-button')){window.customElements.define('rk-button', Components.Button);Aventus.WebComponentInstance.registerDefinition(Components.Button);}
 
 Components.GenericSelect = class GenericSelect extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "searchable"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}

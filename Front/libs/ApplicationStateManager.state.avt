@@ -1,7 +1,9 @@
+import type { Application } from "../components/system/Application/Application.wcl.avt";
 import { Os } from "../components/system/Os/Os.wcl.avt";
 
 namespace Lib {
-
+    export type Field<T> = keyof T;
+    export type Fields<T> = (keyof T)[];
     @Convertible()
     export abstract class ApplicationState extends Aventus.State implements Aventus.IState {
         /**
@@ -16,6 +18,10 @@ namespace Lib {
 
         public readonly $type: string;
         private __manager!: ApplicationStateManager;
+        
+        protected get application(): Application {
+            return this.__manager.application;
+        };
 
         private __canSaveState: boolean = true;
 
@@ -29,7 +35,6 @@ namespace Lib {
         private canSync(): boolean {
             if(!this.__canSaveState) return false;
 
-            if(!Os.instance.activeDesktop.data.Configuration.SyncDesktop) return false;
             return true;
         }
 
@@ -53,37 +58,41 @@ namespace Lib {
         }
 
         /**
-         * Override this method to remove keys when converting to json
+         * Override this tell which field must by sync
          */
-        protected avoidJSONKeys(): string[] {
-            return ['name'];
+        protected syncField(addField: (field: Field<this>) => void): void {
+        }
+
+        /**
+         * Override this tell which field must by sync
+         */
+        protected syncFieldNoCheck(addField: (field: string) => void): void {
+        }
+
+        private runSyncField(): string[] {
+            const result: string[] = ["$type"];
+            const addField = (field: Field<this> | string) => {
+                result.push(field as string);
+            };
+            this.syncField(addField);
+            this.syncFieldNoCheck(addField);
+            return result;
         }
 
         public toJSON() {
-            let avoidKeys = this.avoidJSONKeys();
+            const fields = this.runSyncField();
             return Aventus.Json.classToJson(this, {
                 isValidKey: (key) => {
-                    if(key.startsWith("__")) return false;
-                    if(avoidKeys.includes(key)) return false;
-                    return true;
+                    return fields.includes(key);
                 }
             });
         }
 
-        /**
-        * Override this method to remove keys when converting to json
-        */
-        protected avoidCopyValuesKeys(): string[] {
-            return ['name'];
-        }
-
         public copyValues<T extends ApplicationState>(src: T) {
-            let avoidKeys = this.avoidCopyValuesKeys();
+            const fields = this.runSyncField();
             Aventus.Converter.copyValuesClass<ApplicationState>(this, src, {
                 isValidKey: (key) => {
-                    if(key.startsWith("__")) return false;
-                    if(avoidKeys.includes(key)) return false;
-                    return true;
+                    return fields.includes(key);
                 }
             });
         }
@@ -96,6 +105,10 @@ namespace Lib {
         public constructor(stateName: string) {
             super();
             this.localName = stateName;
+        }
+
+        protected override syncFieldNoCheck(addField: (field: string) => void): void {
+            addField("localName");
         }
 
         /**
@@ -137,15 +150,24 @@ namespace Lib {
             }
         }
 
+        protected override syncField(addField: (field: keyof this) => void): void {
+            super.syncField(addField);
+            addField("item");
+        }
+
         public abstract newElement(): T;
     }
 
     export class ApplicationStateManager extends Aventus.StateManager implements Aventus.IStateManager {
 
-        public readonly save: () => void;
-        public constructor(save: () => void) {
+        public readonly application: Application;
+        public constructor(application: Application) {
             super();
-            this.save = save;
+            this.application = application;
+        }
+
+        public save(): Promise<void> {
+            return this.application.saveApplicationHistory();
         }
 
         protected override assignDefaultState(stateName: string): Aventus.State {

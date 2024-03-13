@@ -136,7 +136,7 @@ namespace System {
         protected abstract defineRoutes(): void;
         public get navigator(): ApplicationStateManager {
             if(!this.router) {
-                this.router = new ApplicationStateManager(this.saveApplicationHistory);
+                this.router = new ApplicationStateManager(this);
             }
             return this.router;
         }
@@ -160,11 +160,11 @@ namespace System {
         protected addRouteAsync<T extends FrameNoScroll>(options: ApplicationRoute) {
             this.allRoutes[options.route] = options;
         }
-        protected addRoute(route: string, elementCtr: new () => FrameNoScroll) {
+        protected addRoute(route: string, frame: new () => FrameNoScroll) {
             this.allRoutes[route] = {
                 route: route,
                 scriptUrl: '',
-                render: () => elementCtr
+                render: () => frame
             };
         }
         private register(): void {

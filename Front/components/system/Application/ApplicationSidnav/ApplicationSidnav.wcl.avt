@@ -6,9 +6,10 @@ import { Application } from "../Application.wcl.avt";
 namespace System {
     type ApplicationSidnavRouteOptions = {
         route: string,
-        elementCtr: new () => Frame,
+        frame: new () => Frame,
         name: string,
         icon?: string,
+        miIcon?: MaterialIcon.IconType,
         activeRoute?: string;
     };
 
@@ -25,6 +26,8 @@ namespace System {
         public hide_menu_size?: SizeList = "sm";
         @Attribute()
         public open_sidenav!: boolean;
+        @Attribute()
+        public no_sidenav!: boolean;
         //#endregion
 
 
@@ -33,7 +36,7 @@ namespace System {
         protected navEl!: Scrollable;
 
         @Watch()
-        protected sidnavItems: { name: string, icon: string, route: string; active: string; }[] = [];
+        protected sidnavItems: { name: string, icon: string, useMi: boolean, route: string; active: string; }[] = [];
 
 
         //#endregion
@@ -50,13 +53,26 @@ namespace System {
             this.allRoutes[route] = {
                 route: route,
                 scriptUrl: '',
-                render: () => options.elementCtr
+                render: () => options.frame
             };
-
+            let icon = "";
+            let useMi = false;
+            if(options.miIcon) {
+                useMi = true;
+                icon = options.miIcon;
+            }
+            else if(options.icon?.startsWith("mi-")) {
+                useMi = true;
+                icon = options.icon.replace("mi-", "");
+            }
+            else if(options.icon) {
+                icon = options.icon;
+            }
             this.sidnavItems.push({
                 name: options.name,
-                icon: options.icon ?? "",
-                route: route,
+                icon,
+                useMi,
+                route,
                 active: options.activeRoute ?? route
             });
 
@@ -65,6 +81,9 @@ namespace System {
 
         protected toggleSidnav() {
             this.open_sidenav = !this.open_sidenav;
+        }
+        protected closeSidenav() {
+            this.open_sidenav = false;
         }
         //#endregion
 

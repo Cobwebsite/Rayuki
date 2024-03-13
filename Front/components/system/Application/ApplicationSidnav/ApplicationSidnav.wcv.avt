@@ -11,7 +11,7 @@
             <rk-img src="/img/icons/angle-right.svg"></rk-img>
         </div>
     </div>
-    <div class="title">{{this.app_title}}</div>
+    <div class="title">{{ this.app_title }}</div>
     <div class="application-actions">
         <div class="btn green touch" @press="hide"></div>
         <div class="btn orange touch" @press="toggleFull"></div>
@@ -19,12 +19,18 @@
     </div>
 </div>
 <div class="content">
+    <div class="sidenav-hider" @press="closeSidenav"></div>
     <div class="sidenav">
         <rk-scrollable auto_hide @element="navEl">
             for(let item of this.sidnavItems) { 
-                <rk-link to="{{item.route}}" active_pattern="{{item.active}}" class="sidenav-item">
-                    <rk-img src="{{item.icon}}"></rk-img>
-                    <span>{{item.name}}</span>
+                <rk-link to="{{ item.route }}" active_pattern="{{ item.active }}" class="sidenav-item">
+                    if(item.useMi) {
+                        <mi-icon icon="{{ item.icon }}"></mi-icon>
+                    }
+                    else {
+                        <rk-img src="{{ item.icon }}"></rk-img>
+                    }
+                    <span>{{ item.name }}</span>
                 </rk-link>
             }
         </rk-scrollable>

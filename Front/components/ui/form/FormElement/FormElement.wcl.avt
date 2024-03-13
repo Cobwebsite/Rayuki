@@ -6,6 +6,7 @@ namespace Components {
 
         //#region static
         public static async validate(element: IFormElement<any>): Promise<boolean> {
+            element.errors = [];
             if(element.formPart?.validate) {
                 let result = element.formPart.validate(element.value);
                 if(result instanceof Promise) {
@@ -25,8 +26,6 @@ namespace Components {
                 element.errors.push(result);
                 return false;
             }
-
-            element.errors = [];
             return true;
         }
 
@@ -41,10 +40,11 @@ namespace Components {
         }
 
         public static getValue<T>(part: FormPart<T>): T | undefined {
-            if(typeof part.value === "object" && part.value && Object.hasOwn(part.value, 'get') && Object.hasOwn(part.value, 'set')) {
-                return (part.value as { get: () => T; set: (value: T) => void; }).get();
+            const realPart = Aventus.Watcher.extract(part);
+            if(typeof realPart.value === "object" && realPart.value && Object.hasOwn(realPart.value, 'get') && Object.hasOwn(realPart.value, 'set')) {
+                return (realPart.value as { get: () => T; set: (value: T) => void; }).get();
             }
-            return part.value as T | undefined;
+            return realPart.value as T | undefined;
         }
 
         public static onFormPartChange<T>(element: IFormElement<any>, path: string, value: any): void {
@@ -59,6 +59,9 @@ namespace Components {
             }
             if(path == "formPart" || path == "formPart.value") {
                 element.value = element.formPart ? FormElement.getValue(element.formPart) ?? '' : '';
+                if(element.formPart && !element.formPart.elements?.includes(element)) {
+                    //element.formPart.elements?.push(element);
+                }
             }
         }
         //#endregion
