@@ -526,7 +526,6 @@
             <summary>
             Order data but type
             </summary>
-            <param name="table"></param>
             <param name="data"></param>
             <returns></returns>
         </member>

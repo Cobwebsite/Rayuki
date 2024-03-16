@@ -66,6 +66,12 @@ namespace Components {
                     this.removeErrors();
                     this.checked = !this.checked;
                     this.onChange.trigger([this.checked]);
+                    if(this.formPart) {
+                        FormElement.setValue(this.formPart, this.value);
+                        if(this.formPart.validateOnChange !== false) {
+                            this.validate();
+                        }
+                    }
                 }
             });
         }

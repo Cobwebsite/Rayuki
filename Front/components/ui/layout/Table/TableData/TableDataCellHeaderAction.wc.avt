@@ -45,9 +45,10 @@
 		mi-icon {
 			color: var(--green);
 			cursor: pointer;
+			border-radius:5px;
 		}
 		mi-icon:hover {
-			color: var(--green);
+			background-color:var(--lighter);
 		}
 	}
 </style>

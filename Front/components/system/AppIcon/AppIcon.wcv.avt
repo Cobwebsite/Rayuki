@@ -1,2 +1,2 @@
-<div class="remove"><rk-img src="/img/icons/close.svg"></rk-img></div>
+<div class="remove" @press="removeApp"><rk-img src="/img/icons/close.svg"></rk-img></div>
 <slot></slot>

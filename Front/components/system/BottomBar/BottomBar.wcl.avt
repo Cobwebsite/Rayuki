@@ -179,6 +179,7 @@ namespace System {
                 if(result.success && result.result) {
                     icon.iconId = result.result.Id;
                     icon.position = result.result.Position;
+                    icon.can_remove = true;
                 }
                 no++;
                 for(; no < children.length; no++) {
@@ -193,11 +194,51 @@ namespace System {
                         let result = await MainSocket.instance.routes.desktop.SetDesktopIcon({
                             icon: desktopIcon
                         });
+                        if(result.success) {
+                            child.position = no;
+                        }
                     }
 
                 }
             }
         }
+
+        @BindThis()
+        public async removeAppPosition(icon: AppIcon, x: number, y: number) {
+            let caseEl = this.shadowRoot.elementFromPoint(x, y);
+            if(caseEl && this.shadowRoot.contains(caseEl)) {
+                let children = icon.parentNode?.children ?? [];
+                let no = Array.from(children).indexOf(icon);
+
+                let desktopIcon = new DesktopAppIcon();
+                desktopIcon.Id = icon.iconId;
+                let result = await MainSocket.instance.routes.desktop.RemoveDesktopIcon({
+                    icon: desktopIcon
+                });
+                if(result.success) {
+                    icon.remove();
+                    for(; no < children.length; no++) {
+                        let child = children[no];
+                        if(child instanceof AppIcon) {
+                            let desktopIcon = new DesktopAppIcon();
+                            desktopIcon.DesktopId = this.desktop.desktop_id;
+                            desktopIcon.Position = no;
+                            desktopIcon.IconTag = child.tag;
+                            desktopIcon.Location = DesktopLocation.BottomBar;
+                            desktopIcon.Id = child.iconId;
+                            let result = await MainSocket.instance.routes.desktop.SetDesktopIcon({
+                                icon: desktopIcon
+                            });
+                            if(result.success) {
+                                child.position = no;
+                            }
+                        }
+    
+                    }
+                }
+            }
+        }
+
         @StateActive(MoveApplication.state, DesktopStateManager)
         protected onMoveApplication(state: Aventus.State, slugs: Aventus.StateSlug) {
             if(!this.desktop?.is_active) {

@@ -1,5 +1,5 @@
 <div class="search" @element="searchContainer">
-    <input type="text" placeholder="search">
+    <input type="text" placeholder="Rechercher">
 </div>
 <div class="app-list">
     <rk-page-case @element="pageCaseEl" case_width="100" case_height="100" min_case_margin_left="20"

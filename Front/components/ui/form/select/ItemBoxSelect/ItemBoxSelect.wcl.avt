@@ -76,6 +76,12 @@ namespace Components {
         public selectOption(option: ItemBoxOption) {
             this.value = option.value;
             this.onChange.trigger([this.value]);
+            if(this.formPart) {
+                FormElement.setValue(this.formPart, this.value);
+                if(this.formPart.validateOnChange !== false) {
+                    this.validate();
+                }
+            }
         }
 
         @Internal()

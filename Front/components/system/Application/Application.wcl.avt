@@ -579,7 +579,7 @@ namespace System {
         //#endregion
 
         //#region execution process
-        protected async parseErrors<X>(result: ApplicationQueryFctResult<X>): Promise<X | undefined> {
+        public async parseErrors<X>(result: ApplicationQueryFctResult<X>): Promise<X | undefined> {
             if(result.errors.length > 0) {
                 let msg = result.errors.map(p => p.message).join("<br/>");
                 await this.alert({

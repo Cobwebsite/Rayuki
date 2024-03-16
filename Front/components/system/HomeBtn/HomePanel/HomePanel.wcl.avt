@@ -49,26 +49,26 @@ namespace System {
 
 
         private async displayRecent() {
-            for(let i = 0; i < 20; i++) {
-                let test = new AppIconInline();
-                let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
-                let app = await ApplicationRAM.getInstance().getApplicationByName("Cave");
-                if(icon && app) {
-                    test.setIcon(icon);
-                    test.text = app.DisplayName;
-                }
+            // for(let i = 0; i < 20; i++) {
+            //     let test = new AppIconInline();
+            //     let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
+            //     let app = await ApplicationRAM.getInstance().getApplicationByName("Cave");
+            //     if(icon && app) {
+            //         test.setIcon(icon);
+            //         test.text = app.DisplayName;
+            //     }
 
-                this.recentContainer.appendChild(test);
-            }
+            //     this.recentContainer.appendChild(test);
+            // }
         }
 
         private async displayFavoris() {
-            for(let i = 0; i < 20; i++) {
-                let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
-                if(icon) {
-                    this.favorisContainer.appendChild(icon);
-                }
-            }
+            // for(let i = 0; i < 20; i++) {
+            //     let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
+            //     if(icon) {
+            //         this.favorisContainer.appendChild(icon);
+            //     }
+            // }
         }
 
         private async getUser() {

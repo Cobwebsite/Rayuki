@@ -137,6 +137,12 @@ namespace Components {
                 this.value = value;
                 if(emit) {
                     this.onChange.trigger([value]);
+                    if(this.formPart) {
+                        FormElement.setValue(this.formPart, this.value);
+                        if(this.formPart.validateOnChange !== false) {
+                            this.validate();
+                        }
+                    }
                 }
             }
         }

@@ -88,6 +88,13 @@ namespace Components {
             this.hideOptions();
             this.onChange.trigger([this.value]);
             this.filter();
+            if(this.formPart) {
+                debugger
+                FormElement.setValue(this.formPart, this.value);
+                if(this.formPart.validateOnChange !== false) {
+                    this.validate();
+                }
+            }
         }
 
         /**

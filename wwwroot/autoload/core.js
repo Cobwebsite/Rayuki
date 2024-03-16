@@ -1902,6 +1902,11 @@ State.MoveApplication=class MoveApplication extends Aventus.State {
             reset();
         }
     }
+    onRemove(icon, x, y) {
+        for (let provider of this.providers) {
+            provider.removeAppPosition(icon, x, y, this);
+        }
+    }
 }
 State.MoveApplication.Namespace=`${moduleName}.State`;
 _.State.MoveApplication=State.MoveApplication;
@@ -2280,6 +2285,15 @@ Components.PageCase = class PageCase extends Aventus.WebComponent {
     getElementAt(no) {
         return this.contentsEl[no];
     }
+    removeElementAt(no) {
+        const element = this.contentsEl[no];
+        if (element) {
+            delete this.contentsEl[no];
+            if (element.parentElement) {
+                element.remove();
+            }
+        }
+    }
     postCreation() {
         this.addResizeObserver();
         this.addMoveAction();
@@ -2514,7 +2528,7 @@ System.AppList = class AppList extends Aventus.WebComponent {
     set 'show'(val) { this.setBoolAttr('show', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("show", ((target) => {
     target.onShowChange();
 })); }
-    static __style = `:host{--internal-app-list-case-border-radius: var(--app-list-case-border-radius, var(--app-icon-border-radius, 10px));--internal-app-list-case-border: var(--app-list-case-border, none);--internal-app-list-case-background-color: var(--app-list-case-background-color, transparent);--internal-app-list-case-border-selected: var(--app-list-case-border-selected, 2px solid red);--internal-app-list-case-background-color-selected: var(--app-list-case-background-color-selected, transparent)}:host{align-items:center;background-color:var(--lighter-active);display:flex;flex-direction:column;inset:0;position:absolute;top:100%;transition:top .5s var(--bezier-curve);z-index:5}:host .search{align-items:center;display:flex;height:100px;justify-content:center;width:100%}:host .search input{background-color:var(--form-element-background);border:none;border-radius:100px;box-shadow:none;font-size:var(--form-element-font-size);line-height:var(--form-element-font-size);max-width:400px;outline:none;padding:10px 20px;width:calc(100% - 20px)}:host .app-list{--page-case-background: var(--internal-app-list-case-background-color);--page-case-background-active: var(--internal-app-list-case-background-color-selected);--page-case-border-active: var(--internal-app-list-case-border-selected);--page-case-border-radius: var(--internal-app-list-case-border-radius);flex-grow:1;max-width:1000px;width:100%}:host([show]){top:0}:host([no_transition]){transition:none}`;
+    static __style = `:host{--internal-app-list-case-border-radius: var(--app-list-case-border-radius, var(--app-icon-border-radius, 10px));--internal-app-list-case-border: var(--app-list-case-border, none);--internal-app-list-case-background-color: var(--app-list-case-background-color, transparent);--internal-app-list-case-border-selected: var(--app-list-case-border-selected, 2px solid red);--internal-app-list-case-background-color-selected: var(--app-list-case-background-color-selected, transparent)}:host{align-items:center;background-color:var(--lighter-active);display:flex;flex-direction:column;inset:0;position:absolute;top:100%;transition:top .5s var(--bezier-curve);z-index:5}:host .search{align-items:center;display:flex;height:100px;justify-content:center;width:100%}:host .search input{background-color:var(--form-element-background);border:none;border-radius:100px;box-shadow:var(--elevation-3);font-size:var(--form-element-font-size);line-height:var(--form-element-font-size);max-width:400px;outline:none;padding:10px 20px;width:calc(100% - 20px)}:host .app-list{--page-case-background: var(--internal-app-list-case-background-color);--page-case-background-active: var(--internal-app-list-case-background-color-selected);--page-case-border-active: var(--internal-app-list-case-border-selected);--page-case-border-radius: var(--internal-app-list-case-border-radius);flex-grow:1;max-width:1000px;width:100%}:host([show]){top:0}:host([no_transition]){transition:none}`;
     constructor() { super(); this.closeAppList=this.closeAppList.bind(this) }
     __getStatic() {
         return AppList;
@@ -2526,7 +2540,7 @@ System.AppList = class AppList extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="search" _id="applist_0">    <input type="text" placeholder="search" /></div><div class="app-list">    <rk-page-case case_width="100" case_height="100" min_case_margin_left="20" min_case_margin_top="20" min_page_number="1" _id="applist_1">    </rk-page-case></div>` }
+        blocks: { 'default':`<div class="search" _id="applist_0">    <input type="text" placeholder="Rechercher" /></div><div class="app-list">    <rk-page-case case_width="100" case_height="100" min_case_margin_left="20" min_case_margin_top="20" min_page_number="1" _id="applist_1">    </rk-page-case></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -3201,7 +3215,7 @@ Lib.ApplicationState=class ApplicationState extends Aventus.State {
         this.__canSaveState = false;
     }
     canSync() {
-        if (!this.__canSaveState)
+        if (!this.__canSaveState || !this.__manager)
             return false;
         return true;
     }
@@ -3911,7 +3925,7 @@ Components.Popup = class Popup extends Aventus.WebComponent {
     target.onOptionsChanged();
 }));    super.__registerWatchesActions();
 }
-    static __style = `:host{--_popup-background-color: var(--popup-background-color, var(--application-background-color, var(--primary-color-opacity)));--_popup-border-radius: var(--popup-border-radius, var(--application-border-radius, 10px));--_popup-header-background-color: var(--popup-header-background-color, var(--application-header-background-color, var(--darker-active)))}:host{align-items:center;background-color:rgba(0,0,0,.2);border-radius:var(--application-border-radius);display:flex;inset:0;justify-content:center;position:absolute;z-index:650}:host .popup{background-color:var(--_popup-background-color);border-radius:var(--_popup-border-radius);box-shadow:var(--elevation-5);display:flex;flex-direction:column;max-height:calc(100% - 50px);max-width:calc(100% - 50px)}:host .popup .header{align-items:center;border-top-left-radius:var(--_popup-border-radius);border-top-right-radius:var(--_popup-border-radius);display:flex;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .popup .header .background{background-color:var(--_popup-header-background-color);inset:0;position:absolute;z-index:1}:host .popup .header .title{flex-grow:1;margin-left:15px;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .popup .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .popup .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .popup .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);overflow:hidden;padding:15px;padding-top:15px;width:100%;z-index:1}:host([no_red_btn]) .popup .header .application-actions .btn{display:none}:host([behind]){z-index:550}@media screen and (min-width: 1225px){:host .popup .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}`;
+    static __style = `:host{--_popup-background-color: var(--popup-background-color, var(--application-background-color, var(--primary-color-opacity)));--_popup-border-radius: var(--popup-border-radius, var(--application-border-radius, 10px));--_popup-header-background-color: var(--popup-header-background-color, var(--application-header-background-color, var(--darker-active)))}:host{align-items:center;animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(48,48,48,.1);border-radius:var(--application-border-radius);display:flex;inset:0;justify-content:center;position:absolute;z-index:650}:host .popup{background-color:var(--_popup-background-color);border-radius:var(--_popup-border-radius);box-shadow:var(--elevation-5);display:flex;flex-direction:column;max-height:calc(100% - 50px);max-width:calc(100% - 50px)}:host .popup .header{align-items:center;border-top-left-radius:var(--_popup-border-radius);border-top-right-radius:var(--_popup-border-radius);display:flex;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .popup .header .background{background-color:var(--_popup-header-background-color);inset:0;position:absolute;z-index:1}:host .popup .header .title{flex-grow:1;margin-left:15px;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .popup .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .popup .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .popup .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);overflow:hidden;padding:15px;padding-top:15px;width:100%;z-index:1}:host([no_red_btn]) .popup .header .application-actions .btn{display:none}:host([behind]){z-index:550}@media screen and (min-width: 1225px){:host .popup .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}`;
     constructor() { super(); if (this.constructor == Popup) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return Popup;
@@ -4804,7 +4818,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
     timeoutOverHome = 0;
     emptyIcon;
     static __style = `:host{align-items:center;background-color:var(--primary-color-opacity);box-shadow:var(--elevation-3);border-radius:10px;bottom:10px;color:var(--text-color);display:flex;font-size:var(--font-size);height:50px;left:100px;outline:none;padding:0 10px;position:absolute;transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s,transform 1s var(--bezier-curve);width:calc(100% - 200px);z-index:100}:host .section{align-items:center;display:flex;height:100%}:host .section .icon{--img-stroke-color: transparent;--img-fill-color: var(--text-color);border-radius:5px;cursor:pointer;margin:0 3px;max-height:calc(100% - 16px);max-width:34px;padding:7px;transition:background-color .2s var(--bezier-curve)}:host .section rk-app-icon{margin:0 5px}:host .separator{background-color:var(--text-color);display:inline-block;height:50%;margin:0 13px;width:1px}:host .applications{flex-grow:1;gap:10px;position:relative}:host .applications .empty-icon{background-color:var(--darker-active);border-radius:5px;height:30px;width:30px}:host .nb-notifications{align-items:center;background-color:var(--text-color);border-radius:50%;color:var(--primary-color-opacity);display:flex;font-size:14px;font-weight:bold;height:25px;justify-content:center;letter-spacing:-1px;padding-right:1px;width:25px}@media screen and (min-width: 1225px){:host .section .icon:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host{border-radius:0;border-bottom-left-radius:0;border-bottom-right-radius:0;bottom:0px;left:0px;padding:0 10px;width:100%}}@media screen and (max-width: 768px){:host{height:70px}:host .basic-action{display:none}:host .addons{display:none}:host .separator{display:none}:host .applications .empty-icon{height:50px;width:50px}}`;
-    constructor() { super(); this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this) }
+    constructor() { super(); this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this) }
     __getStatic() {
         return BottomBar;
     }
@@ -4956,6 +4970,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
             if (result.success && result.result) {
                 icon.iconId = result.result.Id;
                 icon.position = result.result.Position;
+                icon.can_remove = true;
             }
             no++;
             for (; no < children.length; no++) {
@@ -4970,6 +4985,41 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
                     let result = await Lib.MainSocket.instance.routes.desktop.SetDesktopIcon({
                         icon: desktopIcon
                     });
+                    if (result.success) {
+                        child.position = no;
+                    }
+                }
+            }
+        }
+    }
+    async removeAppPosition(icon, x, y) {
+        let caseEl = this.shadowRoot.elementFromPoint(x, y);
+        if (caseEl && this.shadowRoot.contains(caseEl)) {
+            let children = icon.parentNode?.children ?? [];
+            let no = Array.from(children).indexOf(icon);
+            let desktopIcon = new Data.DesktopAppIcon();
+            desktopIcon.Id = icon.iconId;
+            let result = await Lib.MainSocket.instance.routes.desktop.RemoveDesktopIcon({
+                icon: desktopIcon
+            });
+            if (result.success) {
+                icon.remove();
+                for (; no < children.length; no++) {
+                    let child = children[no];
+                    if (child instanceof System.AppIcon) {
+                        let desktopIcon = new Data.DesktopAppIcon();
+                        desktopIcon.DesktopId = this.desktop.desktop_id;
+                        desktopIcon.Position = no;
+                        desktopIcon.IconTag = child.tag;
+                        desktopIcon.Location = Data.DesktopLocation.BottomBar;
+                        desktopIcon.Id = child.iconId;
+                        let result = await Lib.MainSocket.instance.routes.desktop.SetDesktopIcon({
+                            icon: desktopIcon
+                        });
+                        if (result.success) {
+                            child.position = no;
+                        }
+                    }
                 }
             }
         }
@@ -5541,7 +5591,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
     oldActiveCase;
     pressManagerStopMoveApp;
     static __style = `:host{--_desktop-background-color: var(--desktop-background-color, var(--primary-color))}:host{background-color:var(--_desktop-background-color);background-position:center;background-repeat:no-repeat;background-size:cover;flex-shrink:0;height:100%;overflow:hidden;position:relative;width:100%}:host .icons{--page-case-border-radius: 5px;--page-case-border-active: 1px solid var(--darker-active);--page-case-background-active: var(--lighter-active);height:calc(100% - 70px);transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s;width:100%;z-index:2}:host .app-container{transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host([show_application_list])>*{opacity:0 !important;visibility:hidden !important}:host([background_size=Cover]){background-size:cover}:host([background_size=Contain]){background-size:contain}:host([background_size=Stretch]){background-size:100% 100%}`;
-    constructor() { super(); this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this) }
+    constructor() { super(); this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this) }
     __getStatic() {
         return Desktop;
     }
@@ -5820,6 +5870,20 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             });
             if (result.success && result.result) {
                 icon.iconId = result.result.Id;
+                icon.can_remove = true;
+            }
+        }
+    }
+    async removeAppPosition(icon, x, y) {
+        let caseEl = this.pageCaseEl.shadowRoot.elementFromPoint(x, y);
+        if (caseEl && this.pageCaseEl.shadowRoot.contains(caseEl)) {
+            let desktopIcon = new Data.DesktopAppIcon();
+            desktopIcon.Id = icon.iconId;
+            let result = await Lib.MainSocket.instance.routes.desktop.RemoveDesktopIcon({
+                icon: desktopIcon
+            });
+            if (result.success) {
+                this.pageCaseEl.removeElementAt(icon.position);
             }
         }
     }
@@ -5873,6 +5937,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
                 if (el) {
                     el.iconId = icon.Id;
                     el.position = icon.Position;
+                    el.can_remove = true;
                     if (icon.Location == Data.DesktopLocation.Desktop) {
                         this.pageCaseEl.appendChild(el);
                     }
@@ -5881,6 +5946,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
                     }
                 }
             }
+            this.pageCaseEl.calculateGrid();
             this.watchDevice();
             data.onUpdate(() => {
                 this.applyDataChange();
@@ -6816,9 +6882,11 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
     set 'can_remove'(val) { this.setBoolAttr('can_remove', val) }get 'is_open'() { return this.getBoolAttr('is_open') }
     set 'is_open'(val) { this.setBoolAttr('is_open', val) }get 'position'() { return this.getNumberAttr('position') }
     set 'position'(val) { this.setNumberAttr('position', val) }    pressManager;
+    pressManagerMove;
     dragAndDrop;
+    moveApplicationState;
     iconId = 0;
-    static __style = `:host{align-items:center;background-color:#0c2247;border-radius:5px;box-shadow:var(--elevation-5);cursor:pointer;display:flex;height:30px;justify-content:center;position:relative;transition:box-shadow var(--bezier-curve) .3s,transform var(--bezier-curve) .3s;width:30px;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host::after{background-color:var(--text-color);border-radius:5px;bottom:-7px;content:"";height:4px;opacity:0;position:absolute;transition:visibility var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s;visibility:hidden;width:4px}:host .remove{background-color:var(--primary-color);border-radius:10px;display:none;height:20px;position:absolute;right:-10px;top:-10px;width:20px}:host .remove rk-img{--img-stroke-color: var(--text-color);height:100%;padding:0;width:100%}:host([shaking]){animation:shake linear .4s infinite}:host([can_remove]) .remove{display:block}:host([is_open]){transform:translateY(-3px)}:host([is_open])::after{visibility:visible;opacity:1}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--elevation-1)}}@media screen and (max-width: 768px){:host{height:50px;width:50px}}@keyframes shake{0%{transform:rotateZ(0) rotateX(-13deg)}25%{transform:rotateZ(2deg) rotateX(-13deg)}50%{transform:rotateZ(0) rotateX(-13deg)}75%{transform:rotateZ(-2deg) rotateX(-13deg)}100%{transform:rotateZ(0) rotateX(-13deg)}}`;
+    static __style = `:host{align-items:center;background-color:#0c2247;border-radius:5px;box-shadow:var(--elevation-5);cursor:pointer;display:flex;height:30px;justify-content:center;position:relative;transition:box-shadow var(--bezier-curve) .3s,transform var(--bezier-curve) .3s;width:30px;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host::after{background-color:var(--text-color);border-radius:5px;bottom:-7px;content:"";height:4px;opacity:0;position:absolute;transition:visibility var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s;visibility:hidden;width:4px}:host .remove{background-color:var(--primary-color);border-radius:10px;display:none;height:20px;position:absolute;right:-10px;top:-10px;width:20px}:host .remove rk-img{--img-stroke-color: var(--text-color);height:100%;padding:0;width:100%}:host([shaking]){animation:shake linear .4s infinite}:host([shaking][can_remove]) .remove{display:block}:host([is_open]){transform:translateY(-3px)}:host([is_open])::after{visibility:visible;opacity:1}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--elevation-1)}}@media screen and (max-width: 768px){:host{height:50px;width:50px}}@keyframes shake{0%{transform:rotateZ(0) rotateX(-13deg)}25%{transform:rotateZ(2deg) rotateX(-13deg)}50%{transform:rotateZ(0) rotateX(-13deg)}75%{transform:rotateZ(-2deg) rotateX(-13deg)}100%{transform:rotateZ(0) rotateX(-13deg)}}`;
     constructor() {            super();            this.classList.add("touch");if (this.constructor == AppIcon) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return AppIcon;
@@ -6831,16 +6899,29 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="remove"><rk-img src="/img/icons/close.svg"></rk-img></div><slot></slot>` }
+        blocks: { 'default':`<div class="remove" _id="appicon_0"><rk-img src="/img/icons/close.svg"></rk-img></div><slot></slot>` }
     });
 }
     __createStates() { super.__createStates(); let that = this;  this.__createStatesList(State.MoveApplication.state, State.DesktopStateManager);this.__addActiveState(State.MoveApplication.state, State.DesktopStateManager, (state, slugs) => { that.__inactiveDefaultState(State.DesktopStateManager); that.onMoveApplication(state, slugs);})this.__addInactiveState(State.MoveApplication.state, State.DesktopStateManager, (state, nextState, slugs) => { that.onStopMovingApplication(state, nextState, slugs);that.__activeDefaultState(nextState, State.DesktopStateManager);}) }
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "pressEvents": [
+    {
+      "id": "appicon_0",
+      "onPress": (e, pressInstance, c) => { c.comp.removeApp(e, pressInstance); }
+    }
+  ]
+}); }
     getClassName() {
         return "AppIcon";
     }
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('shaking')) { this.attributeChangedCallback('shaking', false, false); }if(!this.hasAttribute('can_remove')) { this.attributeChangedCallback('can_remove', false, false); }if(!this.hasAttribute('is_open')) { this.attributeChangedCallback('is_open', false, false); }if(!this.hasAttribute('position')){ this['position'] = undefined; } }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('shaking');this.__upgradeProperty('can_remove');this.__upgradeProperty('is_open');this.__upgradeProperty('position'); }
     __listBoolProps() { return ["shaking","can_remove","is_open"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    async removeApp(e, instance) {
+        if (this.moveApplicationState) {
+            this.moveApplicationState.onRemove(this, e.pageX, e.pageY);
+        }
+    }
     onContextMenu(contextMenu, stop) {
         if (contextMenu.isTouch) {
             contextMenu.addItem({
@@ -6875,12 +6956,16 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
             System.Os.instance.openUrl(application, this.componentUrl(), this.url());
         }
     }
-    onMoveApplication() {
-        this.shaking = true;
-        this.destroyPressManager();
-        this.createDragAndDrop();
+    onMoveApplication(state, slugs) {
+        if (state instanceof State.MoveApplication) {
+            this.moveApplicationState = state;
+            this.shaking = true;
+            this.destroyPressManager();
+            this.createDragAndDrop();
+        }
     }
     onStopMovingApplication() {
+        this.moveApplicationState = undefined;
         this.shaking = false;
         this.destroyDragAndDrop();
         this.createPressManager();
@@ -6925,6 +7010,12 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
         if (this.findParentByType(System.AppList)) {
             createShadow = true;
         }
+        this.pressManagerMove = new Aventus.PressManager({
+            element: this,
+            onPress: () => {
+                console.log("open menu");
+            }
+        });
         this.dragAndDrop = new Aventus.DragAndDrop({
             element: this,
             onMove: (e, position) => {
@@ -6968,6 +7059,8 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
     destroyDragAndDrop() {
         this.dragAndDrop?.destroy();
         this.dragAndDrop = undefined;
+        this.pressManagerMove?.destroy();
+        this.pressManagerMove = undefined;
     }
     postCreation() {
         Lib.AppIconManager.register(this, this.componentUrl());
@@ -7384,24 +7477,24 @@ System.HomePanel = class HomePanel extends System.Panel {
         Lib.SessionManager.logout();
     }
     async displayRecent() {
-        for (let i = 0; i < 20; i++) {
-            let test = new System.AppIconInline();
-            let icon = Aventus.WebComponentInstance.create("Cave.System.AppIcon");
-            let app = await RAM.ApplicationRAM.getInstance().getApplicationByName("Cave");
-            if (icon && app) {
-                test.setIcon(icon);
-                test.text = app.DisplayName;
-            }
-            this.recentContainer.appendChild(test);
-        }
+        // for(let i = 0; i < 20; i++) {
+        //     let test = new AppIconInline();
+        //     let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
+        //     let app = await ApplicationRAM.getInstance().getApplicationByName("Cave");
+        //     if(icon && app) {
+        //         test.setIcon(icon);
+        //         test.text = app.DisplayName;
+        //     }
+        //     this.recentContainer.appendChild(test);
+        // }
     }
     async displayFavoris() {
-        for (let i = 0; i < 20; i++) {
-            let icon = Aventus.WebComponentInstance.create("Cave.System.AppIcon");
-            if (icon) {
-                this.favorisContainer.appendChild(icon);
-            }
-        }
+        // for(let i = 0; i < 20; i++) {
+        //     let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
+        //     if(icon) {
+        //         this.favorisContainer.appendChild(icon);
+        //     }
+        // }
     }
     async getUser() {
         this.currentUser = await Lib.SessionManager.getUser();
@@ -7588,7 +7681,7 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
         if (path == "formPart" || path == "formPart.value") {
             element.value = element.formPart ? Components.FormElement.getValue(element.formPart) ?? '' : '';
             if (element.formPart && !element.formPart.elements?.includes(element)) {
-                //element.formPart.elements?.push(element);
+                element.formPart.elements?.push(element);
             }
         }
     }
@@ -7675,6 +7768,12 @@ Components.Switch = class Switch extends Components.FormElement {
             return;
         this.checked = !this.checked;
         this.onChange.trigger([this.checked]);
+        if (this.formPart) {
+            Components.FormElement.setValue(this.formPart, this.value);
+            if (this.formPart.validateOnChange !== false) {
+                this.validate();
+            }
+        }
     }
     __0c8ab707a91de23d54bc9c39ebe1aeafmethod0() {
         return this.label;
@@ -7828,6 +7927,12 @@ Components.Slider = class Slider extends Components.FormElement {
             this.value = value;
             if (emit) {
                 this.onChange.trigger([value]);
+                if (this.formPart) {
+                    Components.FormElement.setValue(this.formPart, this.value);
+                    if (this.formPart.validateOnChange !== false) {
+                        this.validate();
+                    }
+                }
             }
         }
     }
@@ -8042,6 +8147,12 @@ Components.Checkbox = class Checkbox extends Components.FormElement {
                 this.removeErrors();
                 this.checked = !this.checked;
                 this.onChange.trigger([this.checked]);
+                if (this.formPart) {
+                    Components.FormElement.setValue(this.formPart, this.value);
+                    if (this.formPart.validateOnChange !== false) {
+                        this.validate();
+                    }
+                }
             }
         });
     }
@@ -8132,6 +8243,15 @@ Components.InternalVirtualForm=class InternalVirtualForm {
                 return false;
         }
         return true;
+    }
+    addFieldError(name, error) {
+        if (this.__config[name]?.elements.length > 0) {
+            for (let el of this.__config[name].elements) {
+                el.errors.push(error);
+            }
+            return true;
+        }
+        return false;
     }
 }
 Components.InternalVirtualForm.Namespace=`${moduleName}.Components`;
@@ -8226,22 +8346,30 @@ State.CreateOrUpdate=class CreateOrUpdate extends Lib.ApplicationStorableState {
         let result;
         const validationResult = await this.form.validate();
         if (validationResult === true) {
+            let ramResult;
             if (this.item.Id == 0) {
-                if (this.application) {
-                    result = await this.application.executeWithLoading(this.defineRAM().createWithError(this.item));
-                }
-                else {
-                    result = await this.defineRAM().create(this.item);
-                }
+                ramResult = await this.application.showLoading(this.defineRAM().createWithError(this.item));
             }
             else {
-                if (this.application) {
-                    result = await this.application.executeWithLoading(this.defineRAM().updateWithError(this.item));
-                }
-                else {
-                    result = await this.defineRAM().update(this.item);
-                }
+                ramResult = await this.application.showLoading(this.defineRAM().updateWithError(this.item));
             }
+            if (ramResult.errors.length > 0) {
+                let noPrintErrors = [];
+                for (let error of ramResult.errors) {
+                    if (error instanceof AventusSharp.Data.DataError &&
+                        error.code == AventusSharp.Data.DataErrorCode.ValidationError &&
+                        error.details.length > 0 &&
+                        error.details[0] instanceof AventusSharp.Data.FieldErrorInfo) {
+                        let fieldInfo = error.details[0];
+                        if (this.form.addFieldError(fieldInfo.Name, error.message)) {
+                            continue;
+                        }
+                    }
+                    noPrintErrors.push(error);
+                }
+                ramResult.errors = noPrintErrors;
+            }
+            return await this.application.parseErrors(ramResult);
         }
         else if (Array.isArray(validationResult)) {
             await this.application.alert({
@@ -8250,6 +8378,14 @@ State.CreateOrUpdate=class CreateOrUpdate extends Lib.ApplicationStorableState {
             });
         }
         return result;
+    }
+    back() {
+        const splitted = this.name.split("/");
+        splitted.pop();
+        this.application.navigate(splitted.join("/"));
+    }
+    cancel() {
+        this.back();
     }
 }
 State.CreateOrUpdate.Namespace=`${moduleName}.State`;Aventus.Converter.register(State.CreateOrUpdate.Fullname, State.CreateOrUpdate);
@@ -8460,6 +8596,13 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
         this.hideOptions();
         this.onChange.trigger([this.value]);
         this.filter();
+        if (this.formPart) {
+            debugger;
+            Components.FormElement.setValue(this.formPart, this.value);
+            if (this.formPart.validateOnChange !== false) {
+                this.validate();
+            }
+        }
     }
     removeErrors() {
         this.errors = [];
@@ -8803,6 +8946,12 @@ Components.ItemBoxSelect = class ItemBoxSelect extends Components.BoxContainer {
     selectOption(option) {
         this.value = option.value;
         this.onChange.trigger([this.value]);
+        if (this.formPart) {
+            Components.FormElement.setValue(this.formPart, this.value);
+            if (this.formPart.validateOnChange !== false) {
+                this.validate();
+            }
+        }
     }
     register(option) {
         if (!this.options.includes(option)) {
@@ -9064,6 +9213,9 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
         this.styleWrapper?.style.setProperty("--_table-cell-width-" + (i + 1), width + "px");
         this.styleWrapper?.style.setProperty("--_table-cell-weight-" + (i + 1), "0");
     }
+    setColMinWidth(width, i) {
+        this.styleWrapper?.style.setProperty("--_table-cell-min-width-" + (i + 1), width + "px");
+    }
     sortData(data) {
         return data;
     }
@@ -9095,9 +9247,13 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
             return;
         }
         for (let i = 0; i < this.options.schema.length; i++) {
-            let width = this.options.schema[i].width;
+            const width = this.options.schema[i].width;
             if (width) {
                 this.setColWidth(width, i);
+            }
+            const minWidth = this.options.schema[i].minWidth;
+            if (minWidth) {
+                this.setColMinWidth(minWidth, i);
             }
         }
         let nbCol = this.options.schema.length ? this.options.schema.length : 1;
@@ -9205,19 +9361,48 @@ Components.TableData = class TableData extends Components.Table {
     async loadData() {
         let ram = this.defineRAM();
         this.rawData = await this.application?.executeWithLoading(ram.getListWithError());
+        ram.onCreated((data) => {
+            if (!this.rawData) {
+                this.rawData = [data];
+            }
+            else {
+                this.rawData.push(data);
+            }
+        });
+        ram.onDeleted((data) => {
+            if (!this.rawData)
+                return;
+            const index = this.rawData.findIndex(p => p.Id == data.Id);
+            if (index != -1) {
+                this.rawData.splice(index, 1);
+            }
+        });
+        ram.onUpdated((data) => {
+            if (!this.rawData) {
+                this.rawData = [data];
+            }
+            else {
+                const index = this.rawData.findIndex(p => p.Id == data.Id);
+                if (index != -1) {
+                    this.render();
+                }
+            }
+        });
     }
     async newData() {
         let state = this.defineNewState();
         await this.application?.navigate(state);
     }
     async editData(data) {
-        let state = this.defineEditState();
+        let cloneData = data.clone();
+        let state = this.defineEditState(cloneData);
         await this.application?.navigate(state);
     }
     async deleteData(data) {
+        const message = this.defineDeleteMessage(data);
         let confirm = await this.application?.confirm({
             title: "Confirmation de suppression",
-            description: "Etes-vous sûr de bien vouloir supprimer?"
+            description: message
         });
         if (confirm) {
             let ram = this.defineRAM();
@@ -9309,7 +9494,7 @@ Components.TableCell = class TableCell extends Aventus.WebComponent {
     }
     content = "";
     data;
-    static __style = `:host{align-items:center;display:flex;justify-content:center;padding:var(--_table-cell-padding);position:relative;text-align:center;flex-shrink:0;border-right:var(--_table-cell-vertical-border)}:host .resize{background-color:rgba(0,0,0,0);bottom:0;cursor:col-resize;position:absolute;right:0;top:0;width:5px;display:var(--local-table-cell-resize-display)}:host(:nth-child(1)){flex-grow:var(--_table-cell-weight-1, 1);width:var(--_table-cell-width-1, calc(100% / var(--_table-nb-column)))}:host(:nth-child(2)){flex-grow:var(--_table-cell-weight-2, 1);width:var(--_table-cell-width-2, calc(100% / var(--_table-nb-column)))}:host(:nth-child(3)){flex-grow:var(--_table-cell-weight-3, 1);width:var(--_table-cell-width-3, calc(100% / var(--_table-nb-column)))}:host(:nth-child(4)){flex-grow:var(--_table-cell-weight-4, 1);width:var(--_table-cell-width-4, calc(100% / var(--_table-nb-column)))}:host(:nth-child(5)){flex-grow:var(--_table-cell-weight-5, 1);width:var(--_table-cell-width-5, calc(100% / var(--_table-nb-column)))}:host(:nth-child(6)){flex-grow:var(--_table-cell-weight-6, 1);width:var(--_table-cell-width-6, calc(100% / var(--_table-nb-column)))}:host(:nth-child(7)){flex-grow:var(--_table-cell-weight-7, 1);width:var(--_table-cell-width-7, calc(100% / var(--_table-nb-column)))}:host(:nth-child(8)){flex-grow:var(--_table-cell-weight-8, 1);width:var(--_table-cell-width-8, calc(100% / var(--_table-nb-column)))}:host(:nth-child(9)){flex-grow:var(--_table-cell-weight-9, 1);width:var(--_table-cell-width-9, calc(100% / var(--_table-nb-column)))}:host(:nth-child(10)){flex-grow:var(--_table-cell-weight-10, 1);width:var(--_table-cell-width-10, calc(100% / var(--_table-nb-column)))}:host(:nth-child(11)){flex-grow:var(--_table-cell-weight-11, 1);width:var(--_table-cell-width-11, calc(100% / var(--_table-nb-column)))}:host(:nth-child(12)){flex-grow:var(--_table-cell-weight-12, 1);width:var(--_table-cell-width-12, calc(100% / var(--_table-nb-column)))}:host(:nth-child(13)){flex-grow:var(--_table-cell-weight-13, 1);width:var(--_table-cell-width-13, calc(100% / var(--_table-nb-column)))}:host(:nth-child(14)){flex-grow:var(--_table-cell-weight-14, 1);width:var(--_table-cell-width-14, calc(100% / var(--_table-nb-column)))}:host(:nth-child(15)){flex-grow:var(--_table-cell-weight-15, 1);width:var(--_table-cell-width-15, calc(100% / var(--_table-nb-column)))}:host(:nth-child(16)){flex-grow:var(--_table-cell-weight-16, 1);width:var(--_table-cell-width-16, calc(100% / var(--_table-nb-column)))}:host(:nth-child(17)){flex-grow:var(--_table-cell-weight-17, 1);width:var(--_table-cell-width-17, calc(100% / var(--_table-nb-column)))}:host(:nth-child(18)){flex-grow:var(--_table-cell-weight-18, 1);width:var(--_table-cell-width-18, calc(100% / var(--_table-nb-column)))}:host(:nth-child(19)){flex-grow:var(--_table-cell-weight-19, 1);width:var(--_table-cell-width-19, calc(100% / var(--_table-nb-column)))}:host(:nth-child(20)){flex-grow:var(--_table-cell-weight-20, 1);width:var(--_table-cell-width-20, calc(100% / var(--_table-nb-column)))}`;
+    static __style = `:host{align-items:center;display:flex;justify-content:center;padding:var(--_table-cell-padding);position:relative;text-align:center;flex-shrink:0;border-right:var(--_table-cell-vertical-border)}:host .resize{background-color:rgba(0,0,0,0);bottom:0;cursor:col-resize;position:absolute;right:0;top:0;width:5px;display:var(--local-table-cell-resize-display)}:host(:nth-child(1)){flex-grow:var(--_table-cell-weight-1, 1);width:var(--_table-cell-width-1, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-1, auto)}:host(:nth-child(2)){flex-grow:var(--_table-cell-weight-2, 1);width:var(--_table-cell-width-2, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-2, auto)}:host(:nth-child(3)){flex-grow:var(--_table-cell-weight-3, 1);width:var(--_table-cell-width-3, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-3, auto)}:host(:nth-child(4)){flex-grow:var(--_table-cell-weight-4, 1);width:var(--_table-cell-width-4, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-4, auto)}:host(:nth-child(5)){flex-grow:var(--_table-cell-weight-5, 1);width:var(--_table-cell-width-5, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-5, auto)}:host(:nth-child(6)){flex-grow:var(--_table-cell-weight-6, 1);width:var(--_table-cell-width-6, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-6, auto)}:host(:nth-child(7)){flex-grow:var(--_table-cell-weight-7, 1);width:var(--_table-cell-width-7, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-7, auto)}:host(:nth-child(8)){flex-grow:var(--_table-cell-weight-8, 1);width:var(--_table-cell-width-8, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-8, auto)}:host(:nth-child(9)){flex-grow:var(--_table-cell-weight-9, 1);width:var(--_table-cell-width-9, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-9, auto)}:host(:nth-child(10)){flex-grow:var(--_table-cell-weight-10, 1);width:var(--_table-cell-width-10, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-10, auto)}:host(:nth-child(11)){flex-grow:var(--_table-cell-weight-11, 1);width:var(--_table-cell-width-11, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-11, auto)}:host(:nth-child(12)){flex-grow:var(--_table-cell-weight-12, 1);width:var(--_table-cell-width-12, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-12, auto)}:host(:nth-child(13)){flex-grow:var(--_table-cell-weight-13, 1);width:var(--_table-cell-width-13, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-13, auto)}:host(:nth-child(14)){flex-grow:var(--_table-cell-weight-14, 1);width:var(--_table-cell-width-14, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-14, auto)}:host(:nth-child(15)){flex-grow:var(--_table-cell-weight-15, 1);width:var(--_table-cell-width-15, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-15, auto)}:host(:nth-child(16)){flex-grow:var(--_table-cell-weight-16, 1);width:var(--_table-cell-width-16, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-16, auto)}:host(:nth-child(17)){flex-grow:var(--_table-cell-weight-17, 1);width:var(--_table-cell-width-17, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-17, auto)}:host(:nth-child(18)){flex-grow:var(--_table-cell-weight-18, 1);width:var(--_table-cell-width-18, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-18, auto)}:host(:nth-child(19)){flex-grow:var(--_table-cell-weight-19, 1);width:var(--_table-cell-width-19, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-19, auto)}:host(:nth-child(20)){flex-grow:var(--_table-cell-weight-20, 1);width:var(--_table-cell-width-20, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-20, auto)}`;
     constructor() { super(); if (this.constructor == TableCell) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return TableCell;
@@ -9370,8 +9555,45 @@ Components.TableCell = class TableCell extends Aventus.WebComponent {
 Components.TableCell.Namespace=`${moduleName}.Components`;
 _.Components.TableCell=Components.TableCell;
 
+Components.TableCellEnum = class TableCellEnum extends Components.TableCell {
+    enumEl;
+    static __style = ``;
+    constructor() {
+            super();
+            this.enumEl = this.defineEnum();
+if (this.constructor == TableCellEnum) { throw "can't instanciate an abstract class"; } }
+    __getStatic() {
+        return TableCellEnum;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(TableCellEnum.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "TableCellEnum";
+    }
+    getEnumName(value) {
+        return this.enumEl[value];
+    }
+    setContent(data, rowData) {
+        if (!this.contentEl)
+            return;
+        this.content = data != undefined ? this.getEnumName(data) : "";
+        this.contentEl.innerHTML = this.content;
+    }
+}
+Components.TableCellEnum.Namespace=`${moduleName}.Components`;
+_.Components.TableCellEnum=Components.TableCellEnum;
+
 Components.TableDataCellHeaderAction = class TableDataCellHeaderAction extends Components.TableCell {
-    static __style = `:host{align-items:center;display:flex;justify-content:end}:host span{align-items:center;display:flex;height:100%}:host mi-icon{color:var(--green);cursor:pointer}:host mi-icon:hover{color:var(--green)}`;
+    static __style = `:host{align-items:center;display:flex;justify-content:end}:host span{align-items:center;display:flex;height:100%}:host mi-icon{color:var(--green);cursor:pointer;border-radius:5px}:host mi-icon:hover{background-color:var(--lighter)}`;
     __getStatic() {
         return TableDataCellHeaderAction;
     }
@@ -9408,7 +9630,7 @@ _.Components.TableDataCellHeaderAction=Components.TableDataCellHeaderAction;
 if(!window.customElements.get('rk-table-data-cell-header-action')){window.customElements.define('rk-table-data-cell-header-action', Components.TableDataCellHeaderAction);Aventus.WebComponentInstance.registerDefinition(Components.TableDataCellHeaderAction);}
 
 Components.TableDataCellAction = class TableDataCellAction extends Components.TableCell {
-    static __style = `:host i{color:var(--text-color);margin:0 5px;cursor:pointer;transition:color .2s linear}:host i:hover{color:var(--text-color-active)}`;
+    static __style = `:host{padding:0 7px;justify-content:flex-end}:host mi-icon{font-size:var(--font-size-md);color:var(--blue);margin:0 2px;padding:3px;cursor:pointer;transition:background-color .2s linear;border-radius:5px}:host mi-icon.delete{color:var(--red)}:host mi-icon:hover{background-color:var(--lighter)}`;
     __getStatic() {
         return TableDataCellAction;
     }
@@ -9419,7 +9641,7 @@ Components.TableDataCellAction = class TableDataCellAction extends Components.Ta
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<i class="material-icon" _id="tabledatacellaction_0">create</i><i class="material-icon" _id="tabledatacellaction_1">remove_red_eye</i>` }
+        blocks: { 'default':`<mi-icon icon="edit" _id="tabledatacellaction_0"></mi-icon><mi-icon class="delete" icon="delete" _id="tabledatacellaction_1"></mi-icon>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -9476,7 +9698,7 @@ Components.TableCellString = class TableCellString extends Components.TableCell 
     setContent(data, rowData) {
         if (!this.contentEl)
             return;
-        this.content = data ? data + "" : "";
+        this.content = data != undefined ? data + "" : "";
         this.contentEl.innerHTML = this.content;
     }
 }

@@ -340,6 +340,16 @@ namespace Components {
             return this.contentsEl[no];
         }
 
+        public removeElementAt(no: number): void {
+            const element = this.contentsEl[no];
+            if(element) {
+                delete this.contentsEl[no];
+                if(element.parentElement) {
+                    element.remove();
+                }
+            }
+        }
+
         protected override postCreation(): void {
             this.addResizeObserver();
             this.addMoveAction();

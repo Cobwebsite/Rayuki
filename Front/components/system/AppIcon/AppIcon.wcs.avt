@@ -54,7 +54,7 @@
 	animation: shake linear 0.4s infinite;
 }
 
-:host([can_remove]) {
+:host([shaking][can_remove]) {
 	.remove {
 		display: block;
 	}

@@ -18,6 +18,7 @@ namespace Components {
         cell?: new () => TableCell<any, any>;
         cellHeader?: new () => TableCell<any, any>;
         width?: number;
+        minWidth?: number;
     };
     export type TableOptions<T> = {
         schema: TableSchema[];
@@ -178,6 +179,9 @@ namespace Components {
             this.styleWrapper?.style.setProperty("--_table-cell-width-" + (i + 1), width + "px");
             this.styleWrapper?.style.setProperty("--_table-cell-weight-" + (i + 1), "0");
         }
+        public setColMinWidth(width: number, i: number) {
+            this.styleWrapper?.style.setProperty("--_table-cell-min-width-" + (i + 1), width + "px");
+        }
         protected sortData(data: T[]): T[] {
             return data;
         }
@@ -209,9 +213,14 @@ namespace Components {
                 return;
             }
             for(let i = 0; i < this.options.schema.length; i++) {
-                let width = this.options.schema[i].width;
+                const width = this.options.schema[i].width;
                 if(width) {
                     this.setColWidth(width, i);
+                }
+
+                const minWidth = this.options.schema[i].minWidth;
+                if(minWidth) {
+                    this.setColMinWidth(minWidth, i);
                 }
             }
             let nbCol = this.options.schema.length ? this.options.schema.length : 1;
@@ -296,5 +305,5 @@ namespace Components {
             }
         }
         //#endregion
+    }
 }
-                                                        }

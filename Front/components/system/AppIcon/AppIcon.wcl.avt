@@ -5,6 +5,7 @@ import { AppIconManager } from "../../../libs/AppIconManager.lib.avt";
 import type { ContextMenu, IContextMenu } from "../../ui/ContextMenu/ContextMenu.wcl.avt";
 import type { IPositionable } from "../../ui/layout/PageCase/PageCase.wcl.avt";
 import { AppList } from "../AppList/AppList.wcl.avt";
+import { MainSocket } from "../../../libs/MainSocket.lib.avt";
 
 namespace System {
     export abstract class AppIcon extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, IPositionable {
@@ -31,8 +32,9 @@ namespace System {
 
         //#region variables
         private pressManager?: Aventus.PressManager;
+        private pressManagerMove?: Aventus.PressManager;
         private dragAndDrop?: Aventus.DragAndDrop;
-
+        private moveApplicationState?: MoveApplication;
         public iconId: number = 0;
         //#endregion
 
@@ -46,6 +48,16 @@ namespace System {
 
 
         //#region methods
+
+        /**
+         * 
+         */
+        protected async removeApp(e: PointerEvent, instance: Aventus.PressManager) {
+            if(this.moveApplicationState) {
+                this.moveApplicationState.onRemove(this, e.pageX, e.pageY);
+            }
+        }
+
         /**
          * @inheritdoc
          */
@@ -95,14 +107,18 @@ namespace System {
         }
 
         @StateActive(MoveApplication.state, DesktopStateManager)
-        protected onMoveApplication() {
-            this.shaking = true;
-            this.destroyPressManager();
-            this.createDragAndDrop();
+        protected onMoveApplication(state: Aventus.State, slugs: Aventus.StateSlug) {
+            if(state instanceof MoveApplication) {
+                this.moveApplicationState = state;
+                this.shaking = true;
+                this.destroyPressManager();
+                this.createDragAndDrop();
+            }
         }
 
         @StateInactive(MoveApplication.state, DesktopStateManager)
         protected onStopMovingApplication() {
+            this.moveApplicationState = undefined;
             this.shaking = false;
             this.destroyDragAndDrop();
             this.createPressManager();
@@ -150,6 +166,12 @@ namespace System {
             if(this.findParentByType(AppList)) {
                 createShadow = true;
             }
+            this.pressManagerMove = new Aventus.PressManager({
+                element: this,
+                onPress: () => {
+                    console.log("open menu");
+                }
+            });
             this.dragAndDrop = new Aventus.DragAndDrop({
                 element: this,
                 onMove: (e, position) => {
@@ -193,6 +215,8 @@ namespace System {
         protected destroyDragAndDrop() {
             this.dragAndDrop?.destroy();
             this.dragAndDrop = undefined;
+            this.pressManagerMove?.destroy();
+            this.pressManagerMove = undefined;
         }
         //#endregion
 

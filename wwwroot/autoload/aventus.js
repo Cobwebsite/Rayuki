@@ -286,6 +286,9 @@ const compareObject=function compareObject(obj1, obj2) {
         if (typeof obj2 !== 'object' || obj2 === undefined || obj2 === null) {
             return false;
         }
+        if (obj1 instanceof HTMLElement || obj2 instanceof HTMLElement) {
+            return obj1 == obj2;
+        }
         if (Object.keys(obj1).length !== Object.keys(obj2).length) {
             return false;
         }
@@ -1324,6 +1327,9 @@ const Data=class Data {
             isValidKey: (key) => !toAvoid.includes(key)
         });
     }
+    clone() {
+        return DataManager.clone(this);
+    }
 }
 Data.Namespace=`${moduleName}`;
 _.Data=Data;
@@ -2254,6 +2260,8 @@ const PressManager=class PressManager {
             this.element.removeEventListener("trigger_pointer_dblpress", this.functionsBinded.childDblPress);
             this.element.removeEventListener("trigger_pointer_longpress", this.functionsBinded.childLongPress);
             this.element.removeEventListener("trigger_pointer_dragstart", this.functionsBinded.childDragStart);
+            document.removeEventListener("pointerup", this.functionsBinded.upAction);
+            document.removeEventListener("pointermove", this.functionsBinded.moveAction);
         }
     }
 }
@@ -2729,6 +2737,7 @@ const Watcher=class Watcher {
             if (element instanceof Object && element.__isProxy) {
                 let root = element.__root;
                 if (root != proxyData.baseData) {
+                    element.__validatePath();
                     let oldPath = element.__path;
                     let unbindElement = getValueFromObject(oldPath, root);
                     if (receiver == null) {
@@ -2861,6 +2870,13 @@ const Watcher=class Watcher {
                 else if (prop == "__root") {
                     return this.baseData;
                 }
+                else if (prop == "__validatePath") {
+                    return () => {
+                        if (this.baseData == target) {
+                            target.__path = "";
+                        }
+                    };
+                }
                 else if (prop == "__callbacks") {
                     return this.callbacks;
                 }
@@ -2942,6 +2958,11 @@ const Watcher=class Watcher {
                 }
                 else if (prop == "__trigger") {
                     return trigger;
+                }
+                else if (prop == "__static_trigger") {
+                    return (type) => {
+                        trigger(type, target, receiver, target, '');
+                    };
                 }
                 return undefined;
             },
@@ -3190,7 +3211,7 @@ const Watcher=class Watcher {
             }
             if (rootPath != "") {
                 if (Array.isArray(target)) {
-                    if (!prop.startsWith("[")) {
+                    if (prop && !prop.startsWith("[")) {
                         if (/^[0-9]*$/g.exec(prop)) {
                             rootPath += "[" + prop + "]";
                         }
@@ -3203,7 +3224,7 @@ const Watcher=class Watcher {
                     }
                 }
                 else {
-                    if (!prop.startsWith("[")) {
+                    if (prop && !prop.startsWith("[")) {
                         rootPath += ".";
                     }
                     rootPath += prop;
@@ -3265,7 +3286,14 @@ const Watcher=class Watcher {
                         for (let info of infos) {
                             if (info.name == name) {
                                 aliasesDone.push(key);
-                                info.fct(type, target, receiver, value, prop, dones);
+                                if (target.__path) {
+                                    let oldPath = target.__path;
+                                    info.fct(type, target, receiver, value, prop, dones);
+                                    target.__path = oldPath;
+                                }
+                                else {
+                                    info.fct(type, target, receiver, value, prop, dones);
+                                }
                             }
                         }
                     }
@@ -3279,7 +3307,14 @@ const Watcher=class Watcher {
                             continue;
                         }
                         let name = rootPath.replace(regex, "$2");
-                        info.fct(type, target, receiver, value, name, dones);
+                        if (target.__path) {
+                            let oldPath = target.__path;
+                            info.fct(type, target, receiver, value, prop, dones);
+                            target.__path = oldPath;
+                        }
+                        else {
+                            info.fct(type, target, receiver, value, prop, dones);
+                        }
                     }
                 }
             }
@@ -3297,6 +3332,11 @@ const Watcher=class Watcher {
             return obj.getTarget();
         }
         return obj;
+    }
+    static trigger(type, target) {
+        if (this.is(target)) {
+            target.__static_trigger(type);
+        }
     }
     /**
      * Create a computed variable that will watch any changes
@@ -4421,7 +4461,7 @@ const StateManager=class StateManager {
     /**
      * Subscribe actions for a state or a state list
      */
-    subscribe(statePatterns, callbacks) {
+    subscribe(statePatterns, callbacks, autoActiveState = true) {
         if (!callbacks.active && !callbacks.inactive && !callbacks.askChange) {
             this._log(`Trying to subscribe to state : ${statePatterns} with no callbacks !`, "warning");
             return;
@@ -4450,7 +4490,7 @@ const StateManager=class StateManager {
                 }
                 for (let activeFct of callbacks.active) {
                     this.subscribers[statePattern].callbacks.active.push(activeFct);
-                    if (this.subscribers[statePattern].isActive && this.activeState) {
+                    if (this.subscribers[statePattern].isActive && this.activeState && autoActiveState) {
                         let slugs = Uri.getParams(this.subscribers[statePattern], this.activeState.name);
                         if (slugs) {
                             activeFct(this.activeState, slugs);
@@ -4472,6 +4512,29 @@ const StateManager=class StateManager {
                 }
                 for (let askChangeFct of callbacks.askChange) {
                     this.subscribers[statePattern].callbacks.askChange.push(askChangeFct);
+                }
+            }
+        }
+    }
+    /**
+     *
+     */
+    activateAfterSubscribe(statePatterns, callbacks) {
+        if (!Array.isArray(statePatterns)) {
+            statePatterns = [statePatterns];
+        }
+        for (let statePattern of statePatterns) {
+            if (callbacks.active) {
+                if (!Array.isArray(callbacks.active)) {
+                    callbacks.active = [callbacks.active];
+                }
+                for (let activeFct of callbacks.active) {
+                    if (this.subscribers[statePattern].isActive && this.activeState) {
+                        let slugs = Uri.getParams(this.subscribers[statePattern], this.activeState.name);
+                        if (slugs) {
+                            activeFct(this.activeState, slugs);
+                        }
+                    }
                 }
             }
         }
@@ -4960,8 +5023,13 @@ const WebComponent=class WebComponent extends HTMLElement {
                 let defaultValue = {};
                 this.__defaultValuesWatch(defaultValue);
                 this.__watch = Watcher.get(defaultValue, (type, path, element) => {
-                    let action = this.__watchActionsCb[path.split(".")[0]] || this.__watchActionsCb[path.split("[")[0]];
-                    action(type, path, element);
+                    try {
+                        let action = this.__watchActionsCb[path.split(".")[0]] || this.__watchActionsCb[path.split("[")[0]];
+                        action(type, path, element);
+                    }
+                    catch (e) {
+                        console.error(e);
+                    }
                 });
             }
         }
@@ -5041,6 +5109,7 @@ const WebComponent=class WebComponent extends HTMLElement {
             this._first = false;
             this.__defaultValues();
             this.__upgradeAttributes();
+            this.__activateState();
             this.__templateInstance?.render();
             this.__removeNoAnimations();
         }
@@ -5174,7 +5243,17 @@ const WebComponent=class WebComponent extends HTMLElement {
             for (const managerClass of this.__statesList[route].keys()) {
                 let el = this.__statesList[route].get(managerClass);
                 if (el) {
-                    managerClass.subscribe(route, el);
+                    managerClass.subscribe(route, el, false);
+                }
+            }
+        }
+    }
+    __activateState() {
+        for (let route in this.__statesList) {
+            for (const managerClass of this.__statesList[route].keys()) {
+                let el = this.__statesList[route].get(managerClass);
+                if (el) {
+                    managerClass.activateAfterSubscribe(route, el);
                 }
             }
         }
@@ -6462,10 +6541,18 @@ Data.DataError=class DataError extends Aventus.GenericError {
 }
 Data.DataError.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.DataError.Fullname, Data.DataError);
 _.Data.DataError=Data.DataError;
+Data.FieldErrorInfo=class FieldErrorInfo {
+    static get Fullname() { return "AventusSharp.Data.FieldErrorInfo, AventusSharp"; }
+    Name;
+}
+Data.FieldErrorInfo.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.FieldErrorInfo.Fullname, Data.FieldErrorInfo);
+_.Data.FieldErrorInfo=Data.FieldErrorInfo;
 (function (RouteErrorCode) {
     RouteErrorCode[RouteErrorCode["UnknowError"] = 0] = "UnknowError";
     RouteErrorCode[RouteErrorCode["FormContentTypeUnknown"] = 1] = "FormContentTypeUnknown";
     RouteErrorCode[RouteErrorCode["CantGetValueFromBody"] = 2] = "CantGetValueFromBody";
+    RouteErrorCode[RouteErrorCode["CantMoveFile"] = 3] = "CantMoveFile";
+    RouteErrorCode[RouteErrorCode["CantCreateFolders"] = 4] = "CantCreateFolders";
 })(Routes.RouteErrorCode || (Routes.RouteErrorCode = {}));
 
 _.Routes.RouteErrorCode=Routes.RouteErrorCode;

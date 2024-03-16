@@ -33,7 +33,7 @@ namespace Lib {
         }
 
         private canSync(): boolean {
-            if(!this.__canSaveState) return false;
+            if(!this.__canSaveState || !this.__manager) return false;
 
             return true;
         }

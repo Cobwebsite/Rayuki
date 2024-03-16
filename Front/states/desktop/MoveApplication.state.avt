@@ -7,6 +7,7 @@ namespace State {
         setAppPositionTemp(shadow: AppIcon, x: number, y: number, instance: MoveApplication): boolean;
         clearAppPositionTemp(instance: MoveApplication): void;
         setAppPosition(icon: AppIcon, x: number, y: number, instance: MoveApplication): Promise<void>;
+        removeAppPosition(icon: AppIcon, x: number, y: number, instance: MoveApplication): Promise<void>;
     };
     export class MoveApplication extends Aventus.State implements Aventus.IState {
         public static state: string = "/application/move";
@@ -88,6 +89,12 @@ namespace State {
             }
             else {
                 reset();
+            }
+        }
+
+        public onRemove(icon: AppIcon, x: number, y: number) {
+            for(let provider of this.providers) {
+                provider.removeAppPosition(icon, x, y, this)
             }
         }
     }

@@ -1,0 +1,48 @@
+import { TableCell } from "../TableCell/TableCell.wcl.avt";
+
+namespace Components {
+    export abstract class TableCellEnum<T extends Aventus.Enum, U = any> extends TableCell<T[Extract<keyof T, string>], U> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+		protected enumEl: T;
+        //#endregion
+
+
+        //#region constructor
+		constructor() {
+            super();
+            this.enumEl = this.defineEnum();
+        }
+        //#endregion
+
+
+        //#region methods
+		public abstract defineEnum(): T;
+
+		protected getEnumName(value: T[Extract<keyof T, string>]): string {
+            return this.enumEl[value] as string;
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public override setContent(data: T[Extract<keyof T, string>] | undefined, rowData: U) {
+            if(!this.contentEl) return;
+	        this.content = data != undefined ? this.getEnumName(data) : "";
+	        this.contentEl.innerHTML = this.content;
+        }
+
+        //#endregion
+
+    }
+}

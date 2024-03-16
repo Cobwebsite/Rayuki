@@ -49,22 +49,34 @@ namespace State {
             let result: T | undefined;
             const validationResult = await this.form.validate();
             if(validationResult === true) {
+                let ramResult: Aventus.ResultRamWithError<Aventus.RamItem<T>>;
                 if(this.item.Id == 0) {
-                    if(this.application) {
-                        result = await this.application.executeWithLoading(this.defineRAM().createWithError(this.item));
-                    }
-                    else {
-                        result = await this.defineRAM().create(this.item);
-                    }
+                    ramResult = await this.application.showLoading(this.defineRAM().createWithError(this.item));
                 }
                 else {
-                    if(this.application) {
-                        result = await this.application.executeWithLoading(this.defineRAM().updateWithError(this.item));
-                    }
-                    else {
-                        result = await this.defineRAM().update(this.item);
-                    }
+                    ramResult = await this.application.showLoading(this.defineRAM().updateWithError(this.item));
                 }
+
+                if(ramResult.errors.length > 0) {
+                    let noPrintErrors: Aventus.GenericError[] = [];
+                    for(let error of ramResult.errors) {
+                        if(
+                            error instanceof AventusSharp.Data.DataError &&
+                            error.code == AventusSharp.Data.DataErrorCode.ValidationError &&
+                            error.details.length > 0 &&
+                            error.details[0] instanceof AventusSharp.Data.FieldErrorInfo
+                        ) {
+                            let fieldInfo = error.details[0];
+                            if(this.form.addFieldError(fieldInfo.Name, error.message)) {
+                                continue;
+                            }
+                        }
+
+                        noPrintErrors.push(error);
+                    }
+                    ramResult.errors = noPrintErrors;
+                }
+                return await this.application.parseErrors(ramResult);
             }
             else if(Array.isArray(validationResult)) {
                 await this.application.alert({
@@ -74,6 +86,14 @@ namespace State {
             }
 
             return result;
+        }
+        public back() {
+            const splitted = this.name.split("/");
+            splitted.pop();
+            this.application.navigate(splitted.join("/"));
+        }
+        public cancel() {
+            this.back();
         }
     }
 }

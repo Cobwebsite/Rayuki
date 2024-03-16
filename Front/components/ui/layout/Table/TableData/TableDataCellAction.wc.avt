@@ -26,21 +26,30 @@ namespace Components {
 </script>
 
 <template>	
-	<i class="material-icon" @press="editData">create</i>
-	<i class="material-icon" @press="deleteData">remove_red_eye</i>
+	<mi-icon icon="edit" @press="editData"></mi-icon>
+	<mi-icon class="delete" icon="delete" @press="deleteData"></mi-icon>
 </template>
 
 <style>	
 	:host {
-		i {
-			color: var(--text-color);
-			margin: 0 5px;
+		padding: 0 7px;
+		justify-content: flex-end;
+		mi-icon {
+			font-size: var(--font-size-md);
+			color: var(--blue);
+			margin: 0 2px;
+			padding: 3px;
 			cursor: pointer;
-			transition: color 0.2s linear;
+			transition: background-color 0.2s linear;
+			border-radius:5px;
 		}
 
-		i:hover {
-			color: var(--text-color-active);
+		mi-icon.delete {
+			color: var(--red);
+		}
+
+		mi-icon:hover {
+			background-color:var(--lighter)
 		}
 	}
 	

@@ -7,8 +7,7 @@ namespace Components {
 	     */
 	    public override setContent(data: string | undefined, rowData: U) {
 			if(!this.contentEl) return;
-			
-	        this.content = data ? data + "" : "";
+	        this.content = data != undefined ? data + "" : "";
 	        this.contentEl.innerHTML = this.content;
 	    }
 	}

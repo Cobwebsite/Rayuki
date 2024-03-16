@@ -60,7 +60,7 @@ namespace Components {
             if(path == "formPart" || path == "formPart.value") {
                 element.value = element.formPart ? FormElement.getValue(element.formPart) ?? '' : '';
                 if(element.formPart && !element.formPart.elements?.includes(element)) {
-                    //element.formPart.elements?.push(element);
+                    element.formPart.elements?.push(element);
                 }
             }
         }

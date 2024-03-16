@@ -5,7 +5,7 @@ import { Application } from "../../../../system/Application/Application.wcl.avt"
 import { Table } from "../Table.wcl.avt";
 
 namespace Components {
-    export abstract class TableData<T extends Aventus.IData> extends Table<T> implements Aventus.DefaultComponent {
+    export abstract class TableData<T extends AventusSharp.Data.Storable> extends Table<T> implements Aventus.DefaultComponent {
 
         //#region static
 
@@ -30,10 +30,39 @@ namespace Components {
         //#region methods
         public abstract defineRAM(): Aventus.Ram<T>;
         public abstract defineNewState(): Aventus.State;
-        public abstract defineEditState(): Aventus.State;
+        public abstract defineEditState(data: T): Aventus.State;
         public async loadData() {
             let ram = this.defineRAM();
             this.rawData = await this.application?.executeWithLoading(ram.getListWithError());
+
+            ram.onCreated((data) => {
+                if(!this.rawData) {
+                    this.rawData = [data];
+                }
+                else {
+                    this.rawData.push(data);
+                }
+            });
+
+            ram.onDeleted((data) => {
+                if(!this.rawData) return;
+                const index = this.rawData.findIndex(p => p.Id == data.Id);
+                if(index != -1) {
+                    this.rawData.splice(index, 1);
+                }
+            });
+
+            ram.onUpdated((data) => {
+                if(!this.rawData) {
+                    this.rawData = [data];
+                }
+                else {
+                    const index = this.rawData.findIndex(p => p.Id == data.Id);
+                    if(index != -1) {
+                        this.render();
+                    }
+                }
+            });
         }
 
         public async newData() {
@@ -41,13 +70,16 @@ namespace Components {
             await this.application?.navigate(state);
         }
         public async editData(data: T) {
-            let state = this.defineEditState();
+            let cloneData = data.clone();
+            let state = this.defineEditState(cloneData);
             await this.application?.navigate(state);
         }
+        public abstract defineDeleteMessage(data: T): string;
         public async deleteData(data: T) {
+            const message = this.defineDeleteMessage(data);
             let confirm = await this.application?.confirm({
                 title: "Confirmation de suppression",
-                description: "Etes-vous sûr de bien vouloir supprimer?"
+                description: message
             });
             if(confirm) {
                 let ram = this.defineRAM();

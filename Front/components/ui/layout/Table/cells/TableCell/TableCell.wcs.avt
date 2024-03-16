@@ -24,5 +24,6 @@
 	:host(:nth-child(#{$i})) {
 		flex-grow: var(--_table-cell-weight-#{$i}, 1);
 		width: var(--_table-cell-width-#{$i}, calc(100% / var(--_table-nb-column)));
+		min-width: var(--_table-cell-min-width-#{$i}, auto);
 	}
 }

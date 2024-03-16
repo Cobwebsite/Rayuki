@@ -29,6 +29,7 @@ namespace Components {
 
     export type VirtualForm<T extends BodyJSON> = FormDataInternal<T> & {
         validate(): Promise<boolean | string[]>;
+        addFieldError(name: keyof T, error: string): boolean;
     };
 
     class InternalVirtualForm<T extends BodyJSON> {
@@ -122,6 +123,16 @@ namespace Components {
 
 
             return true;
+        }
+
+        public addFieldError(name: keyof T, error: string): boolean {
+            if(this.__config[name]?.elements.length > 0) {
+                for(let el of this.__config[name].elements) {
+                    el.errors.push(error);
+                }
+                return true;
+            }
+            return false
         }
     }
 

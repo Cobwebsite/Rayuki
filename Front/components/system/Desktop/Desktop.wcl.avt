@@ -93,7 +93,7 @@ namespace System {
                 text: "Paramètres",
                 materialIcon: "display_settings",
                 action: () => {
-                    this.openUrl("Settings", "/", "/display")
+                    this.openUrl("Settings", "/", "/display");
                 }
             });
 
@@ -140,7 +140,7 @@ namespace System {
             else {
                 let notif = new Notification();
                 notif.subject = "Erreur";
-                notif.innerHTML = "Impossible de trouver l'application "+application+" sur "+componentUrl;
+                notif.innerHTML = "Impossible de trouver l'application " + application + " sur " + componentUrl;
                 Os.instance.notify(notif);
             }
         }
@@ -344,6 +344,22 @@ namespace System {
                 });
                 if(result.success && result.result) {
                     icon.iconId = result.result.Id;
+                    icon.can_remove = true;
+                }
+            }
+        }
+
+        @BindThis()
+        public async removeAppPosition(icon: AppIcon, x: number, y: number) {
+            let caseEl = this.pageCaseEl.shadowRoot.elementFromPoint(x, y);
+            if(caseEl && this.pageCaseEl.shadowRoot.contains(caseEl)) {
+                let desktopIcon = new DesktopAppIcon();
+                desktopIcon.Id = icon.iconId;
+                let result = await MainSocket.instance.routes.desktop.RemoveDesktopIcon({
+                    icon: desktopIcon
+                });
+                if(result.success) {
+                    this.pageCaseEl.removeElementAt(icon.position)
                 }
             }
         }
@@ -363,8 +379,6 @@ namespace System {
                     }
                 });
             }
-
-
         }
 
         @StateInactive(MoveApplication.state, DesktopStateManager)
@@ -410,6 +424,7 @@ namespace System {
                     if(el) {
                         el.iconId = icon.Id;
                         el.position = icon.Position;
+                        el.can_remove = true;
 
                         if(icon.Location == DesktopLocation.Desktop) {
                             this.pageCaseEl.appendChild(el);
@@ -420,6 +435,7 @@ namespace System {
                     }
 
                 }
+                this.pageCaseEl.calculateGrid();
                 this.watchDevice();
 
                 data.onUpdate(() => {
