@@ -4,7 +4,7 @@
 	--_table-header-height: var(--table-header-height, 50px);
 	--_table-header-backgroud-color: var(--table-header-backgroud-color, var(--primary-color));
 	--_table-header-color: var(--table-header-color, var(--text-color-reverse));
-	--_table-border-color: var(--table-border-color,  var(--secondary-color));
+	--_table-border-color: var(--table-border-color, var(--secondary-color));
 	--_table-header-vertical-border: var(--table-header-vertical-border, 1px solid var(--_table-border-color));
 	--_table-header-horizontal-border: var(--table-header-horizontal-border, 1px solid var(--_table-border-color));
 
@@ -56,4 +56,23 @@
 
 :host([col_resize]) {
 	--local-table-cell-resize-display: block;
+}
+
+:host([grid]) {
+	.style-wrapper {
+		.header {
+			display: none;
+		}
+
+		.body {
+			flex-direction: row;
+
+			rk-scrollable::part(content-wrapper) {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 15px;
+				padding: 15px;
+			}
+		}
+	}
 }

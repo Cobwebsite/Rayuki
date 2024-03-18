@@ -10,12 +10,18 @@ namespace Components {
 
 
         //#region props
-
+        @Property()
+        public grid!: boolean;
+        @Property()
+        public label?: string;
         //#endregion
 
         //#region variables
         @ViewElement()
         protected contentEl!: HTMLSpanElement;
+
+        @ViewElement()
+        protected labelEl!: HTMLDivElement;
 
         @ViewElement()
         protected resizeEl!: HTMLDivElement;
@@ -67,5 +73,5 @@ namespace Components {
         }
         //#endregion
 
-}
     }
+}

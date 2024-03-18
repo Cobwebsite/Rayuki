@@ -1,15 +1,49 @@
 :host {
-	align-items: stretch;
-	border-bottom: var(--_table-cell-horizontal-border);
-	display: flex;
-	flex-direction: row;
 	width: 100%;
 
-	&>*:last-child {
-		border-right: none!important;
+	.row-content {
+		align-items: stretch;
+		border-bottom: var(--_table-cell-horizontal-border);
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+	}
+
+	.row-content > *:last-child {
+		border-right: none !important;
+	}
+
+	.grid-content {
+		display: none;
 	}
 }
 
 :host([hide]) {
 	display: none;
+}
+
+
+
+
+:host([grid]) {
+	width: fit-content;
+
+	.row-content,
+	.grid-content {
+		border: var(--_table-cell-vertical-border);
+		border-radius: 5px;
+		flex-direction: column;
+		padding: 10px;
+		width: fit-content;
+	}
+}
+
+:host([grid][custom_grid]) {
+	.row-content {
+		display: none;
+	}
+
+	.grid-content {
+		display: flex;
+	}
 }

@@ -1,29 +1,56 @@
 :host {
 	align-items: center;
+	border-right: var(--_table-cell-vertical-border);
 	display: flex;
+	flex-shrink: 0;
 	justify-content: center;
 	padding: var(--_table-cell-padding);
 	position: relative;
 	text-align: center;
-	flex-shrink: 0;
-	border-right: var(--_table-cell-vertical-border);
 
 	.resize {
 		background-color: transparent;
 		bottom: 0;
 		cursor: col-resize;
+		display: var(--local-table-cell-resize-display);
 		position: absolute;
 		right: 0;
 		top: 0;
 		width: 5px;
-		display: var(--local-table-cell-resize-display);
 	}
 }
 
 @for $i from 1 through 20 {
 	:host(:nth-child(#{$i})) {
 		flex-grow: var(--_table-cell-weight-#{$i}, 1);
-		width: var(--_table-cell-width-#{$i}, calc(100% / var(--_table-nb-column)));
 		min-width: var(--_table-cell-min-width-#{$i}, auto);
+		width: var(--_table-cell-width-#{$i}, calc(100% / var(--_table-nb-column)));
 	}
+}
+
+:host([grid]) {
+	align-items: flex-start;
+	border-right: none;
+	flex-direction: column;
+	justify-content: flex-start;
+	margin-top: 10px;
+	padding: 0;
+
+	.label {
+		color: var(--text-color-light);
+		font-size: var(--font-size-sm);
+		margin-bottom: 4px;
+	}
+
+	.content {
+		margin-left: 5px;
+	}
+
+	.resize {
+		display: none;
+	}
+}
+
+:host([grid]:first-child) {
+	margin-top: 0;
 }

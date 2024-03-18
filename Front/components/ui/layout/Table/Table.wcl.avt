@@ -43,6 +43,16 @@ namespace Components {
         public col_resize!: boolean;
         @Property()
         public auto_hide_scroll!: boolean;
+        @Property((target: Table<T>) => {
+            target.updateGrid();
+        })
+        protected grid!: boolean;
+        /**
+         * Define the size when the table must switch to grid
+         */
+        @Attribute()
+        public grid_breakpoint!: number;
+
         //#endregion
 
 
@@ -71,6 +81,7 @@ namespace Components {
         protected hadGlobalSearch: boolean = false;
 
         protected rowsSelected: TableRow<T>[] = [];
+        protected resizeObserver!: Aventus.ResizeObserver;
 
         protected getSelectedData(): T[] {
             const result: T[] = [];
@@ -140,16 +151,19 @@ namespace Components {
             });
         }
 
-        protected normalizeSchema() {
+        protected normalizeSchemaCell(cellConfig: TableSchema): void {
+            if(!cellConfig.cell) {
+                if(cellConfig.type == "boolean") cellConfig.cell = TableCellBoolean;
+                else if(cellConfig.type == "date") cellConfig.cell = TableCellDate;
+                else if(cellConfig.type == "number") cellConfig.cell = TableCellNumber;
+                else if(cellConfig.type == "picture") cellConfig.cell = TableCellPicture;
+                else if(cellConfig.type == "string") cellConfig.cell = TableCellString;
+                else if(cellConfig.type == "custom") cellConfig.cell = TableCellString;
+            }
+        }
+        protected normalizeSchema(): void {
             for(let cellConfig of this.options.schema) {
-                if(!cellConfig.cell) {
-                    if(cellConfig.type == "boolean") cellConfig.cell = TableCellBoolean;
-                    else if(cellConfig.type == "date") cellConfig.cell = TableCellDate;
-                    else if(cellConfig.type == "number") cellConfig.cell = TableCellNumber;
-                    else if(cellConfig.type == "picture") cellConfig.cell = TableCellPicture;
-                    else if(cellConfig.type == "string") cellConfig.cell = TableCellString;
-                    else if(cellConfig.type == "custom") cellConfig.cell = TableCellString;
-                }
+                this.normalizeSchemaCell(cellConfig);
             }
 
             if(this.options.selectable) {
@@ -242,6 +256,7 @@ namespace Components {
                 for(let item of this.data) {
                     let row = new this.options.row();
                     row.table = this;
+                    row.grid = this.grid;
                     row.init(this.options, item);
                     this.rows.push(row);
                     this.bodyContainer.appendChild(row);
@@ -292,14 +307,28 @@ namespace Components {
             }
             this.filterData();
         }
+        protected registerObserver() {
+            this.resizeObserver = new Aventus.ResizeObserver(() => {
+                this.grid = (this.grid_breakpoint != undefined && this.offsetWidth <= this.grid_breakpoint);
+            });
+            this.resizeObserver.observe(this);
+        }
+
+        protected updateGrid() {
+            for(const row of this.rows) {
+                row.grid = this.grid;
+            }
+        }
 
         protected override postCreation(): void {
             this.syncScroll();
+            this.registerObserver();
             this.render();
         }
 
         protected override postDestruction(): void {
             super.postDestruction();
+            this.resizeObserver.disconnect();
             for(let row of this.rows) {
                 row.remove();
             }

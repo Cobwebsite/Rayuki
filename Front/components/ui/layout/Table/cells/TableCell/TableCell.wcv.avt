@@ -1,4 +1,7 @@
-<span @element="contentEl">
+if(this.grid) {
+    <div @element="labelEl" class="label">{{ this.label }}</div>
+}
+<span @element="contentEl" class="content">
     <slot></slot>
 </span>
 <div class="resize" @element="resizeEl"></div>

@@ -1,0 +1,4 @@
+<div class="row-content" @element="rowContentEl"></div>
+<div class="grid-content">
+    <slot></slot>
+</div>

@@ -1,8 +1,10 @@
 // import { NotificationManager } from "../../Notification/NotificationManager.lib.avt";
 // import type { GenericDataModal } from "../../Modal/GenericDataModal/GenericDataModal.wcl.avt";
+import { TableDataCellAction } from "./TableDataCellAction.wc.avt";
 import { ApplicationStorableState } from "../../../../../libs/ApplicationStateManager.state.avt";
 import { Application } from "../../../../system/Application/Application.wcl.avt";
-import { Table } from "../Table.wcl.avt";
+import { Table, type TableSchema } from "../Table.wcl.avt";
+import { TableDataCellHeaderAction } from "./TableDataCellHeaderAction.wc.avt";
 
 namespace Components {
     export abstract class TableData<T extends AventusSharp.Data.Storable> extends Table<T> implements Aventus.DefaultComponent {
@@ -13,7 +15,8 @@ namespace Components {
 
 
         //#region props
-
+        @Attribute()
+        public add_btn!: boolean;
         //#endregion
 
 
@@ -85,6 +88,14 @@ namespace Components {
                 let ram = this.defineRAM();
                 await this.application?.executeWithLoading(ram.deleteWithError(data));
                 this.rawData = await this.application?.executeWithLoading(ram.getListWithError());
+            }
+        }
+
+        protected override normalizeSchemaCell(cellConfig: TableSchema): void {
+            super.normalizeSchemaCell(cellConfig);
+
+            if(cellConfig.cellHeader == TableDataCellHeaderAction) {
+                this.add_btn = true;
             }
         }
 

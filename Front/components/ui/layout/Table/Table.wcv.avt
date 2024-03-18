@@ -1,4 +1,5 @@
 <div class="style-wrapper" @element="styleWrapper">
+    <slot name="before"></slot>
     <div class="header">
         <rk-scrollable y_scroll="false" x_scroll @element="headerContainer" floating_scroll>
 
@@ -8,4 +9,6 @@
         <rk-scrollable x_scroll @element="bodyContainer" floating_scroll auto_hide="{{this.auto_hide_scroll}}">
         </rk-scrollable>
     </div>
+    <slot name="after"></slot>
+    <slot></slot>
 </div>

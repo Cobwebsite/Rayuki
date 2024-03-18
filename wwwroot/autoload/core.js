@@ -7143,7 +7143,7 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
 					}    __registerWatchesActions() {
     this.__addWatchesActions("sidnavItems");    super.__registerWatchesActions();
 }
-    static __style = `:host .header .navigation-actions .menu{align-items:center;border:1px solid var(--darker);border-radius:200px;display:none;height:24px;justify-content:center;transition:background-color var(--bezier-curve) .2s,border var(--bezier-curve) .2s;width:24px}:host .header .navigation-actions .menu mi-icon{font-size:18px}:host .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host .content .sidenav-hider{background-color:rgba(0,0,0,.2);display:none;inset:0;position:absolute;z-index:50;animation-name:fadeIn;animation-duration:300ms;animation-timing-function:var(--bezier-curve);animation-fill-mode:forwards}:host .content .sidenav{background-color:var(--secondary-color);box-shadow:var(--elevation-4);height:100%;transition:transform .3s var(--bezier-curve);width:200px;z-index:50}:host .content .sidenav .sidenav-item{align-items:center;border-bottom:1px solid var(--lighter-active);cursor:pointer;display:flex;flex-wrap:nowrap;height:51px;padding:10px;transition:linear background-color .3s}:host .content .sidenav .sidenav-item rk-img{--img-fill-color: var(--text-color);flex-grow:0;flex-shrink:0;height:30px;width:30px}:host .content .sidenav .sidenav-item rk-img[src=""]{display:none}:host .content .sidenav .sidenav-item span{color:var(--text-color);flex-grow:1;flex-shrink:0;margin-left:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:calc(100% - 45px)}:host .content .sidenav .sidenav-item rk-img[src=""]~span{margin-left:0}:host .content .sidenav .sidenav-item[active]{background-color:var(--lighter-active)}:host .content .container{height:100%;width:calc(100% - 200px)}:host([open_sidenav]) .navigation-actions .menu{background-color:var(--darker) !important}:host([no_sidenav]) .header .navigation-actions .menu{display:none !important}:host([no_sidenav]) .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host([no_sidenav]) .content .sidenav{display:none}:host([no_sidenav]) .content .container{height:100%;width:100%}@media screen and (min-width: 1225px){:host .header .navigation-actions .menu:hover{background-color:var(--darker) !important;border:1px solid rgba(0,0,0,0)}:host .content .sidenav .sidenav-item:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host .header .navigation-actions .menu{height:26px;width:26px}:host .header .navigation-actions .menu mi-icon{font-size:20px}:host .content{height:calc(100% - 40px)}}@container application (max-width: 300px){:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=xs]:not([no_sidenav])) .content .sidenav{position:absolute;transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=xs]:not([no_sidenav])) .content .container{width:100%}}@container application (max-width: 300px){:host([hide_menu_size=xs][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=xs][open_sidenav]) .content .sidenav{position:absolute;transform:translateX(0%)}}@container application (max-width: 540px){:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=sm]:not([no_sidenav])) .content .sidenav{position:absolute;transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=sm]:not([no_sidenav])) .content .container{width:100%}}@container application (max-width: 540px){:host([hide_menu_size=sm][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=sm][open_sidenav]) .content .sidenav{position:absolute;transform:translateX(0%)}}@container application (max-width: 720px){:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=md]:not([no_sidenav])) .content .sidenav{position:absolute;transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=md]:not([no_sidenav])) .content .container{width:100%}}@container application (max-width: 720px){:host([hide_menu_size=md][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=md][open_sidenav]) .content .sidenav{position:absolute;transform:translateX(0%)}}@container application (max-width: 960px){:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=lg]:not([no_sidenav])) .content .sidenav{position:absolute;transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=lg]:not([no_sidenav])) .content .container{width:100%}}@container application (max-width: 960px){:host([hide_menu_size=lg][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=lg][open_sidenav]) .content .sidenav{position:absolute;transform:translateX(0%)}}@container application (max-width: 1140px){:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=xl]:not([no_sidenav])) .content .sidenav{position:absolute;transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=xl]:not([no_sidenav])) .content .container{width:100%}}@container application (max-width: 1140px){:host([hide_menu_size=xl][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=xl][open_sidenav]) .content .sidenav{position:absolute;transform:translateX(0%)}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{visibility:100%;visibility:visible}}`;
+    static __style = `:host{--_application-sidnav-sidenav-width: var(--application-sidnav-sidenav-width, 200px)}:host .header .navigation-actions .menu{align-items:center;border:1px solid var(--darker);border-radius:200px;display:none;height:24px;justify-content:center;transition:background-color var(--bezier-curve) .2s,border var(--bezier-curve) .2s;width:24px}:host .header .navigation-actions .menu mi-icon{font-size:18px}:host .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host .content .sidenav-hider{animation-duration:300ms;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(0,0,0,.2);display:none;inset:0;position:absolute;z-index:50}:host .content .sidenav{background-color:var(--secondary-color);box-shadow:var(--elevation-4);height:100%;transition:transform .3s var(--bezier-curve);width:var(--_application-sidnav-sidenav-width);z-index:50}:host .content .sidenav .sidenav-item{align-items:center;border-bottom:1px solid var(--lighter-active);cursor:pointer;display:flex;flex-wrap:nowrap;height:51px;padding:10px;transition:linear background-color .3s}:host .content .sidenav .sidenav-item rk-img{--img-fill-color: var(--text-color);flex-grow:0;flex-shrink:0;height:30px;width:30px}:host .content .sidenav .sidenav-item rk-img[src=""]{display:none}:host .content .sidenav .sidenav-item span{color:var(--text-color);flex-grow:1;flex-shrink:0;margin-left:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:calc(100% - 45px)}:host .content .sidenav .sidenav-item rk-img[src=""]~span{margin-left:0}:host .content .sidenav .sidenav-item[active]{background-color:var(--lighter-active)}:host .content .container{flex-shrink:0;height:100%;transition:width .3s var(--bezier-curve),margin-left .3s var(--bezier-curve);width:calc(100% - var(--_application-sidnav-sidenav-width))}:host([open_sidenav]) .navigation-actions .menu{background-color:var(--darker) !important}:host([no_sidenav]) .header .navigation-actions .menu{display:none !important}:host([no_sidenav]) .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host([no_sidenav]) .content .sidenav{display:none}:host([no_sidenav]) .content .container{height:100%;width:100%}@media screen and (min-width: 1225px){:host .header .navigation-actions .menu:hover{background-color:var(--darker) !important;border:1px solid rgba(0,0,0,0)}:host .content .sidenav .sidenav-item:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host .header .navigation-actions .menu{height:26px;width:26px}:host .header .navigation-actions .menu mi-icon{font-size:20px}:host .content{height:calc(100% - 40px)}}@container application (max-width: 300px){:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=xs]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=xs]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 300px){:host([hide_menu_size=xs][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=xs][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 540px){:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=sm]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=sm]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 540px){:host([hide_menu_size=sm][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=sm][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 720px){:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=md]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=md]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 720px){:host([hide_menu_size=md][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=md][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 960px){:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=lg]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=lg]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 960px){:host([hide_menu_size=lg][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=lg][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 1140px){:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=xl]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=xl]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 1140px){:host([hide_menu_size=xl][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=xl][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{visibility:100%;visibility:visible}}`;
     constructor() { super(); if (this.constructor == ApplicationSidnav) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return ApplicationSidnav;
@@ -9044,10 +9044,12 @@ _.Components.ItemBoxOption=Components.ItemBoxOption;
 if(!window.customElements.get('rk-item-box-option')){window.customElements.define('rk-item-box-option', Components.ItemBoxOption);Aventus.WebComponentInstance.registerDefinition(Components.ItemBoxOption);}
 
 Components.Table = class Table extends Aventus.WebComponent {
-    static get observedAttributes() {return ["auto_hide_scroll"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    static get observedAttributes() {return ["auto_hide_scroll", "grid"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'col_resize'() { return this.getBoolAttr('col_resize') }
-    set 'col_resize'(val) { this.setBoolAttr('col_resize', val) }    get 'auto_hide_scroll'() { return this.getBoolProp('auto_hide_scroll') }
-    set 'auto_hide_scroll'(val) { this.setBoolAttr('auto_hide_scroll', val) }    get 'data'() {
+    set 'col_resize'(val) { this.setBoolAttr('col_resize', val) }get 'grid_breakpoint'() { return this.getNumberAttr('grid_breakpoint') }
+    set 'grid_breakpoint'(val) { this.setNumberAttr('grid_breakpoint', val) }    get 'auto_hide_scroll'() { return this.getBoolProp('auto_hide_scroll') }
+    set 'auto_hide_scroll'(val) { this.setBoolAttr('auto_hide_scroll', val) }get 'grid'() { return this.getBoolProp('grid') }
+    set 'grid'(val) { this.setBoolAttr('grid', val) }    get 'data'() {
 						return this.__watch["data"];
 					}
 					set 'data'(val) {
@@ -9063,6 +9065,7 @@ Components.Table = class Table extends Aventus.WebComponent {
     rows = [];
     hadGlobalSearch = false;
     rowsSelected = [];
+    resizeObserver;
     select = new Aventus.Callback();
     __registerWatchesActions() {
     this.__addWatchesActions("data", ((target, action, path, value) => {
@@ -9071,7 +9074,10 @@ Components.Table = class Table extends Aventus.WebComponent {
     target.filterData();
 }));    super.__registerWatchesActions();
 }
-    static __style = `:host{--_table-background-color: var(--table-background-color, var(--secondary-color));--_table-elevation: var(--table-elevation, var(--elevation-2));--_table-header-height: var(--table-header-height, 50px);--_table-header-backgroud-color: var(--table-header-backgroud-color, var(--primary-color));--_table-header-color: var(--table-header-color, var(--text-color-reverse));--_table-border-color: var(--table-border-color, var(--secondary-color));--_table-header-vertical-border: var(--table-header-vertical-border, 1px solid var(--_table-border-color));--_table-header-horizontal-border: var(--table-header-horizontal-border, 1px solid var(--_table-border-color));--_table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-padding: var(--table-cell-padding, 10px);--local-table-cell-resize-display: none}:host{background-color:var(--_table-background-color);border:1px solid var(--_table-border-color);border-radius:5px;box-shadow:var(--_table-elevation);display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper{display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper .header{--scrollbar-color: transparent;--scrollbar-active-color: transparent;--scroller-width: 0;height:var(--_table-header-height);width:100%}:host .style-wrapper .body{display:flex;flex-direction:column;height:calc(100% - var(--_table-header-height));width:100%}:host .style-wrapper rk-scrollable::part(content-wrapper){min-width:100%}:host([col_resize]){--local-table-cell-resize-display: block}`;
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("grid", ((target) => {
+    target.updateGrid();
+})); }
+    static __style = `:host{--_table-background-color: var(--table-background-color, var(--secondary-color));--_table-elevation: var(--table-elevation, var(--elevation-2));--_table-header-height: var(--table-header-height, 50px);--_table-header-backgroud-color: var(--table-header-backgroud-color, var(--primary-color));--_table-header-color: var(--table-header-color, var(--text-color-reverse));--_table-border-color: var(--table-border-color, var(--secondary-color));--_table-header-vertical-border: var(--table-header-vertical-border, 1px solid var(--_table-border-color));--_table-header-horizontal-border: var(--table-header-horizontal-border, 1px solid var(--_table-border-color));--_table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-padding: var(--table-cell-padding, 10px);--local-table-cell-resize-display: none}:host{background-color:var(--_table-background-color);border:1px solid var(--_table-border-color);border-radius:5px;box-shadow:var(--_table-elevation);display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper{display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper .header{--scrollbar-color: transparent;--scrollbar-active-color: transparent;--scroller-width: 0;height:var(--_table-header-height);width:100%}:host .style-wrapper .body{display:flex;flex-direction:column;height:calc(100% - var(--_table-header-height));width:100%}:host .style-wrapper rk-scrollable::part(content-wrapper){min-width:100%}:host([col_resize]){--local-table-cell-resize-display: block}:host([grid]) .style-wrapper .header{display:none}:host([grid]) .style-wrapper .body{flex-direction:row}:host([grid]) .style-wrapper .body rk-scrollable::part(content-wrapper){display:flex;flex-wrap:wrap;gap:15px;padding:15px}`;
     constructor() {
             super();
             this.options = this.configure(this.defaultOptions());
@@ -9088,7 +9094,8 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="style-wrapper" _id="table_0">    <div class="header">        <rk-scrollable y_scroll="false" x_scroll floating_scroll _id="table_1">        </rk-scrollable>    </div>    <div class="body">        <rk-scrollable x_scroll floating_scroll _id="table_2">        </rk-scrollable>    </div></div>` }
+        slots: { 'before':`<slot name="before"></slot>`,'after':`<slot name="after"></slot>`,'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="style-wrapper" _id="table_0">    <slot name="before"></slot>    <div class="header">        <rk-scrollable y_scroll="false" x_scroll floating_scroll _id="table_1">        </rk-scrollable>    </div>    <div class="body">        <rk-scrollable x_scroll floating_scroll _id="table_2">        </rk-scrollable>    </div>    <slot name="after"></slot>    <slot></slot></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -9122,10 +9129,10 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
     getClassName() {
         return "Table";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('col_resize')) { this.attributeChangedCallback('col_resize', false, false); }if(!this.hasAttribute('auto_hide_scroll')) { this.attributeChangedCallback('auto_hide_scroll', false, false); } }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('col_resize')) { this.attributeChangedCallback('col_resize', false, false); }if(!this.hasAttribute('grid_breakpoint')){ this['grid_breakpoint'] = undefined; }if(!this.hasAttribute('auto_hide_scroll')) { this.attributeChangedCallback('auto_hide_scroll', false, false); }if(!this.hasAttribute('grid')) { this.attributeChangedCallback('grid', false, false); } }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["data"] = undefined;w["rawData"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('col_resize');this.__upgradeProperty('auto_hide_scroll'); }
-    __listBoolProps() { return ["col_resize","auto_hide_scroll"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('col_resize');this.__upgradeProperty('grid_breakpoint');this.__upgradeProperty('auto_hide_scroll');this.__upgradeProperty('grid'); }
+    __listBoolProps() { return ["col_resize","auto_hide_scroll","grid"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     getSelectedData() {
         const result = [];
         for (let row of this.rowsSelected) {
@@ -9174,22 +9181,25 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
             }
         });
     }
+    normalizeSchemaCell(cellConfig) {
+        if (!cellConfig.cell) {
+            if (cellConfig.type == "boolean")
+                cellConfig.cell = Components.TableCellBoolean;
+            else if (cellConfig.type == "date")
+                cellConfig.cell = Components.TableCellDate;
+            else if (cellConfig.type == "number")
+                cellConfig.cell = Components.TableCellNumber;
+            else if (cellConfig.type == "picture")
+                cellConfig.cell = Components.TableCellPicture;
+            else if (cellConfig.type == "string")
+                cellConfig.cell = Components.TableCellString;
+            else if (cellConfig.type == "custom")
+                cellConfig.cell = Components.TableCellString;
+        }
+    }
     normalizeSchema() {
         for (let cellConfig of this.options.schema) {
-            if (!cellConfig.cell) {
-                if (cellConfig.type == "boolean")
-                    cellConfig.cell = Components.TableCellBoolean;
-                else if (cellConfig.type == "date")
-                    cellConfig.cell = Components.TableCellDate;
-                else if (cellConfig.type == "number")
-                    cellConfig.cell = Components.TableCellNumber;
-                else if (cellConfig.type == "picture")
-                    cellConfig.cell = Components.TableCellPicture;
-                else if (cellConfig.type == "string")
-                    cellConfig.cell = Components.TableCellString;
-                else if (cellConfig.type == "custom")
-                    cellConfig.cell = Components.TableCellString;
-            }
+            this.normalizeSchemaCell(cellConfig);
         }
         if (this.options.selectable) {
             this.options.schema.splice(0, 0, {
@@ -9273,6 +9283,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
             for (let item of this.data) {
                 let row = new this.options.row();
                 row.table = this;
+                row.grid = this.grid;
                 row.init(this.options, item);
                 this.rows.push(row);
                 this.bodyContainer.appendChild(row);
@@ -9320,12 +9331,25 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
         }
         this.filterData();
     }
+    registerObserver() {
+        this.resizeObserver = new Aventus.ResizeObserver(() => {
+            this.grid = (this.grid_breakpoint != undefined && this.offsetWidth <= this.grid_breakpoint);
+        });
+        this.resizeObserver.observe(this);
+    }
+    updateGrid() {
+        for (const row of this.rows) {
+            row.grid = this.grid;
+        }
+    }
     postCreation() {
         this.syncScroll();
+        this.registerObserver();
         this.render();
     }
     postDestruction() {
         super.postDestruction();
+        this.resizeObserver.disconnect();
         for (let row of this.rows) {
             row.remove();
         }
@@ -9337,97 +9361,25 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
 Components.Table.Namespace=`${moduleName}.Components`;
 _.Components.Table=Components.Table;
 
-Components.TableData = class TableData extends Components.Table {
-    application;
-    static __style = ``;
-    constructor() { super(); if (this.constructor == TableData) { throw "can't instanciate an abstract class"; } }
-    __getStatic() {
-        return TableData;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(TableData.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "TableData";
-    }
-    async loadData() {
-        let ram = this.defineRAM();
-        this.rawData = await this.application?.executeWithLoading(ram.getListWithError());
-        ram.onCreated((data) => {
-            if (!this.rawData) {
-                this.rawData = [data];
-            }
-            else {
-                this.rawData.push(data);
-            }
-        });
-        ram.onDeleted((data) => {
-            if (!this.rawData)
-                return;
-            const index = this.rawData.findIndex(p => p.Id == data.Id);
-            if (index != -1) {
-                this.rawData.splice(index, 1);
-            }
-        });
-        ram.onUpdated((data) => {
-            if (!this.rawData) {
-                this.rawData = [data];
-            }
-            else {
-                const index = this.rawData.findIndex(p => p.Id == data.Id);
-                if (index != -1) {
-                    this.render();
-                }
-            }
-        });
-    }
-    async newData() {
-        let state = this.defineNewState();
-        await this.application?.navigate(state);
-    }
-    async editData(data) {
-        let cloneData = data.clone();
-        let state = this.defineEditState(cloneData);
-        await this.application?.navigate(state);
-    }
-    async deleteData(data) {
-        const message = this.defineDeleteMessage(data);
-        let confirm = await this.application?.confirm({
-            title: "Confirmation de suppression",
-            description: message
-        });
-        if (confirm) {
-            let ram = this.defineRAM();
-            await this.application?.executeWithLoading(ram.deleteWithError(data));
-            this.rawData = await this.application?.executeWithLoading(ram.getListWithError());
-        }
-    }
-    postCreation() {
-        super.postCreation();
-        this.application = this.findParentByType(System.Application) ?? undefined;
-        this.loadData();
-    }
-}
-Components.TableData.Namespace=`${moduleName}.Components`;
-_.Components.TableData=Components.TableData;
-
 Components.TableRow = class TableRow extends Aventus.WebComponent {
+    static get observedAttributes() {return ["grid"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'hide'() { return this.getBoolAttr('hide') }
-    set 'hide'(val) { this.setBoolAttr('hide', val) }    table;
+    set 'hide'(val) { this.setBoolAttr('hide', val) }get 'custom_grid'() { return this.getBoolAttr('custom_grid') }
+    set 'custom_grid'(val) { this.setBoolAttr('custom_grid', val) }    get 'grid'() { return this.getBoolProp('grid') }
+    set 'grid'(val) { this.setBoolAttr('grid', val) }    table;
     _data;
     get data() {
         return this._data;
     }
     cells = [];
-    static __style = `:host{align-items:stretch;border-bottom:var(--_table-cell-horizontal-border);display:flex;flex-direction:row;width:100%}:host>*:last-child{border-right:none !important}:host([hide]){display:none}`;
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("grid", ((target) => {
+    target.updateGrid();
+})); }
+    static __style = `:host{width:100%}:host .row-content{align-items:stretch;border-bottom:var(--_table-cell-horizontal-border);display:flex;flex-direction:row;width:100%}:host .row-content>*:last-child{border-right:none !important}:host .grid-content{display:none}:host([hide]){display:none}:host([grid]){width:fit-content}:host([grid]) .row-content,:host([grid]) .grid-content{border:var(--_table-cell-vertical-border);border-radius:5px;flex-direction:column;padding:10px;width:fit-content}:host([grid][custom_grid]) .row-content{display:none}:host([grid][custom_grid]) .grid-content{display:flex}`;
+    constructor() {
+            super();
+            this.custom_grid = this.customGridTemplate();
+        }
     __getStatic() {
         return TableRow;
     }
@@ -9438,15 +9390,29 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`` }
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="row-content" _id="tablerow_0"></div><div class="grid-content">    <slot></slot></div>` }
     });
 }
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "rowContentEl",
+      "ids": [
+        "tablerow_0"
+      ]
+    }
+  ]
+}); }
     getClassName() {
         return "TableRow";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('hide')) { this.attributeChangedCallback('hide', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('hide'); }
-    __listBoolProps() { return ["hide"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('hide')) { this.attributeChangedCallback('hide', false, false); }if(!this.hasAttribute('custom_grid')) { this.attributeChangedCallback('custom_grid', false, false); }if(!this.hasAttribute('grid')) { this.attributeChangedCallback('grid', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('hide');this.__upgradeProperty('custom_grid');this.__upgradeProperty('grid'); }
+    __listBoolProps() { return ["hide","custom_grid","grid"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    customGridTemplate() {
+        return false;
+    }
     init(options, data) {
         this._data = data;
         let i = 0;
@@ -9457,8 +9423,10 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
             cell.index = i;
             cell.row = this;
             cell.data = data;
+            cell.label = cellConfig.name;
+            cell.grid = this.grid;
             cell.setContent(data[cellConfig.name], data);
-            this.shadowRoot?.appendChild(cell);
+            this.rowContentEl.appendChild(cell);
             this.cells.push(cell);
             i++;
         }
@@ -9470,6 +9438,11 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
             }
         }
         return false;
+    }
+    updateGrid() {
+        for (const cell of this.cells) {
+            cell.grid = this.grid;
+        }
     }
     postDestruction() {
         super.postDestruction();
@@ -9484,7 +9457,10 @@ _.Components.TableRow=Components.TableRow;
 if(!window.customElements.get('rk-table-row')){window.customElements.define('rk-table-row', Components.TableRow);Aventus.WebComponentInstance.registerDefinition(Components.TableRow);}
 
 Components.TableCell = class TableCell extends Aventus.WebComponent {
-    row;
+    static get observedAttributes() {return ["grid", "label"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'grid'() { return this.getBoolProp('grid') }
+    set 'grid'(val) { this.setBoolAttr('grid', val) }get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }    row;
     index = 0;
     get table() {
         if (this.row && this.row.table) {
@@ -9494,7 +9470,7 @@ Components.TableCell = class TableCell extends Aventus.WebComponent {
     }
     content = "";
     data;
-    static __style = `:host{align-items:center;display:flex;justify-content:center;padding:var(--_table-cell-padding);position:relative;text-align:center;flex-shrink:0;border-right:var(--_table-cell-vertical-border)}:host .resize{background-color:rgba(0,0,0,0);bottom:0;cursor:col-resize;position:absolute;right:0;top:0;width:5px;display:var(--local-table-cell-resize-display)}:host(:nth-child(1)){flex-grow:var(--_table-cell-weight-1, 1);width:var(--_table-cell-width-1, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-1, auto)}:host(:nth-child(2)){flex-grow:var(--_table-cell-weight-2, 1);width:var(--_table-cell-width-2, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-2, auto)}:host(:nth-child(3)){flex-grow:var(--_table-cell-weight-3, 1);width:var(--_table-cell-width-3, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-3, auto)}:host(:nth-child(4)){flex-grow:var(--_table-cell-weight-4, 1);width:var(--_table-cell-width-4, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-4, auto)}:host(:nth-child(5)){flex-grow:var(--_table-cell-weight-5, 1);width:var(--_table-cell-width-5, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-5, auto)}:host(:nth-child(6)){flex-grow:var(--_table-cell-weight-6, 1);width:var(--_table-cell-width-6, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-6, auto)}:host(:nth-child(7)){flex-grow:var(--_table-cell-weight-7, 1);width:var(--_table-cell-width-7, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-7, auto)}:host(:nth-child(8)){flex-grow:var(--_table-cell-weight-8, 1);width:var(--_table-cell-width-8, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-8, auto)}:host(:nth-child(9)){flex-grow:var(--_table-cell-weight-9, 1);width:var(--_table-cell-width-9, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-9, auto)}:host(:nth-child(10)){flex-grow:var(--_table-cell-weight-10, 1);width:var(--_table-cell-width-10, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-10, auto)}:host(:nth-child(11)){flex-grow:var(--_table-cell-weight-11, 1);width:var(--_table-cell-width-11, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-11, auto)}:host(:nth-child(12)){flex-grow:var(--_table-cell-weight-12, 1);width:var(--_table-cell-width-12, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-12, auto)}:host(:nth-child(13)){flex-grow:var(--_table-cell-weight-13, 1);width:var(--_table-cell-width-13, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-13, auto)}:host(:nth-child(14)){flex-grow:var(--_table-cell-weight-14, 1);width:var(--_table-cell-width-14, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-14, auto)}:host(:nth-child(15)){flex-grow:var(--_table-cell-weight-15, 1);width:var(--_table-cell-width-15, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-15, auto)}:host(:nth-child(16)){flex-grow:var(--_table-cell-weight-16, 1);width:var(--_table-cell-width-16, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-16, auto)}:host(:nth-child(17)){flex-grow:var(--_table-cell-weight-17, 1);width:var(--_table-cell-width-17, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-17, auto)}:host(:nth-child(18)){flex-grow:var(--_table-cell-weight-18, 1);width:var(--_table-cell-width-18, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-18, auto)}:host(:nth-child(19)){flex-grow:var(--_table-cell-weight-19, 1);width:var(--_table-cell-width-19, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-19, auto)}:host(:nth-child(20)){flex-grow:var(--_table-cell-weight-20, 1);width:var(--_table-cell-width-20, calc(100% / var(--_table-nb-column)));min-width:var(--_table-cell-min-width-20, auto)}`;
+    static __style = `:host{align-items:center;border-right:var(--_table-cell-vertical-border);display:flex;flex-shrink:0;justify-content:center;padding:var(--_table-cell-padding);position:relative;text-align:center}:host .resize{background-color:rgba(0,0,0,0);bottom:0;cursor:col-resize;display:var(--local-table-cell-resize-display);position:absolute;right:0;top:0;width:5px}:host(:nth-child(1)){flex-grow:var(--_table-cell-weight-1, 1);min-width:var(--_table-cell-min-width-1, auto);width:var(--_table-cell-width-1, calc(100% / var(--_table-nb-column)))}:host(:nth-child(2)){flex-grow:var(--_table-cell-weight-2, 1);min-width:var(--_table-cell-min-width-2, auto);width:var(--_table-cell-width-2, calc(100% / var(--_table-nb-column)))}:host(:nth-child(3)){flex-grow:var(--_table-cell-weight-3, 1);min-width:var(--_table-cell-min-width-3, auto);width:var(--_table-cell-width-3, calc(100% / var(--_table-nb-column)))}:host(:nth-child(4)){flex-grow:var(--_table-cell-weight-4, 1);min-width:var(--_table-cell-min-width-4, auto);width:var(--_table-cell-width-4, calc(100% / var(--_table-nb-column)))}:host(:nth-child(5)){flex-grow:var(--_table-cell-weight-5, 1);min-width:var(--_table-cell-min-width-5, auto);width:var(--_table-cell-width-5, calc(100% / var(--_table-nb-column)))}:host(:nth-child(6)){flex-grow:var(--_table-cell-weight-6, 1);min-width:var(--_table-cell-min-width-6, auto);width:var(--_table-cell-width-6, calc(100% / var(--_table-nb-column)))}:host(:nth-child(7)){flex-grow:var(--_table-cell-weight-7, 1);min-width:var(--_table-cell-min-width-7, auto);width:var(--_table-cell-width-7, calc(100% / var(--_table-nb-column)))}:host(:nth-child(8)){flex-grow:var(--_table-cell-weight-8, 1);min-width:var(--_table-cell-min-width-8, auto);width:var(--_table-cell-width-8, calc(100% / var(--_table-nb-column)))}:host(:nth-child(9)){flex-grow:var(--_table-cell-weight-9, 1);min-width:var(--_table-cell-min-width-9, auto);width:var(--_table-cell-width-9, calc(100% / var(--_table-nb-column)))}:host(:nth-child(10)){flex-grow:var(--_table-cell-weight-10, 1);min-width:var(--_table-cell-min-width-10, auto);width:var(--_table-cell-width-10, calc(100% / var(--_table-nb-column)))}:host(:nth-child(11)){flex-grow:var(--_table-cell-weight-11, 1);min-width:var(--_table-cell-min-width-11, auto);width:var(--_table-cell-width-11, calc(100% / var(--_table-nb-column)))}:host(:nth-child(12)){flex-grow:var(--_table-cell-weight-12, 1);min-width:var(--_table-cell-min-width-12, auto);width:var(--_table-cell-width-12, calc(100% / var(--_table-nb-column)))}:host(:nth-child(13)){flex-grow:var(--_table-cell-weight-13, 1);min-width:var(--_table-cell-min-width-13, auto);width:var(--_table-cell-width-13, calc(100% / var(--_table-nb-column)))}:host(:nth-child(14)){flex-grow:var(--_table-cell-weight-14, 1);min-width:var(--_table-cell-min-width-14, auto);width:var(--_table-cell-width-14, calc(100% / var(--_table-nb-column)))}:host(:nth-child(15)){flex-grow:var(--_table-cell-weight-15, 1);min-width:var(--_table-cell-min-width-15, auto);width:var(--_table-cell-width-15, calc(100% / var(--_table-nb-column)))}:host(:nth-child(16)){flex-grow:var(--_table-cell-weight-16, 1);min-width:var(--_table-cell-min-width-16, auto);width:var(--_table-cell-width-16, calc(100% / var(--_table-nb-column)))}:host(:nth-child(17)){flex-grow:var(--_table-cell-weight-17, 1);min-width:var(--_table-cell-min-width-17, auto);width:var(--_table-cell-width-17, calc(100% / var(--_table-nb-column)))}:host(:nth-child(18)){flex-grow:var(--_table-cell-weight-18, 1);min-width:var(--_table-cell-min-width-18, auto);width:var(--_table-cell-width-18, calc(100% / var(--_table-nb-column)))}:host(:nth-child(19)){flex-grow:var(--_table-cell-weight-19, 1);min-width:var(--_table-cell-min-width-19, auto);width:var(--_table-cell-width-19, calc(100% / var(--_table-nb-column)))}:host(:nth-child(20)){flex-grow:var(--_table-cell-weight-20, 1);min-width:var(--_table-cell-min-width-20, auto);width:var(--_table-cell-width-20, calc(100% / var(--_table-nb-column)))}:host([grid]){align-items:flex-start;border-right:none;flex-direction:column;justify-content:flex-start;margin-top:10px;padding:0}:host([grid]) .label{color:var(--text-color-light);font-size:var(--font-size-sm);margin-bottom:4px}:host([grid]) .content{margin-left:5px}:host([grid]) .resize{display:none}:host([grid]:first-child){margin-top:0}`;
     constructor() { super(); if (this.constructor == TableCell) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return TableCell;
@@ -9507,28 +9483,44 @@ Components.TableCell = class TableCell extends Aventus.WebComponent {
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<span _id="tablecell_0">    <slot></slot></span><div class="resize" _id="tablecell_1"></div>` }
+        blocks: { 'default':`<template _id="tablecell_0"></template><span class="content" _id="tablecell_2">    <slot></slot></span><div class="resize" _id="tablecell_3"></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+    get labelEl () { return this.shadowRoot.querySelector('[_id="tablecell_1"]'); }    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "contentEl",
       "ids": [
-        "tablecell_0"
+        "tablecell_2"
       ]
     },
     {
       "name": "resizeEl",
       "ids": [
-        "tablecell_1"
+        "tablecell_3"
       ]
     }
   ]
-}); }
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`    <div class="label" _id="tablecell_1"></div>`);templ0.setActions({
+  "content": {
+    "tablecell_1°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__ac8f24890b42a6032ac364c65280b7a3method1())}`,
+      "once": true
+    }
+  }
+});this.__getStatic().__template.addIf({
+                    anchorId: 'tablecell_0',
+                    parts: [{once: true,
+                    condition: (c) => c.comp.__ac8f24890b42a6032ac364c65280b7a3method0(),
+                    template: templ0
+                }]
+            }); }
     getClassName() {
         return "TableCell";
     }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('grid')) { this.attributeChangedCallback('grid', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('grid');this.__upgradeProperty('label'); }
+    __listBoolProps() { return ["grid"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     addResize() {
         if (!this.resizeEl) {
             return;
@@ -9551,46 +9543,15 @@ Components.TableCell = class TableCell extends Aventus.WebComponent {
     postCreation() {
         this.addResize();
     }
+    __ac8f24890b42a6032ac364c65280b7a3method1() {
+        return this.label;
+    }
+    __ac8f24890b42a6032ac364c65280b7a3method0() {
+        return this.grid;
+    }
 }
 Components.TableCell.Namespace=`${moduleName}.Components`;
 _.Components.TableCell=Components.TableCell;
-
-Components.TableCellEnum = class TableCellEnum extends Components.TableCell {
-    enumEl;
-    static __style = ``;
-    constructor() {
-            super();
-            this.enumEl = this.defineEnum();
-if (this.constructor == TableCellEnum) { throw "can't instanciate an abstract class"; } }
-    __getStatic() {
-        return TableCellEnum;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(TableCellEnum.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "TableCellEnum";
-    }
-    getEnumName(value) {
-        return this.enumEl[value];
-    }
-    setContent(data, rowData) {
-        if (!this.contentEl)
-            return;
-        this.content = data != undefined ? this.getEnumName(data) : "";
-        this.contentEl.innerHTML = this.content;
-    }
-}
-Components.TableCellEnum.Namespace=`${moduleName}.Components`;
-_.Components.TableCellEnum=Components.TableCellEnum;
 
 Components.TableDataCellHeaderAction = class TableDataCellHeaderAction extends Components.TableCell {
     static __style = `:host{align-items:center;display:flex;justify-content:end}:host span{align-items:center;display:flex;height:100%}:host mi-icon{color:var(--green);cursor:pointer;border-radius:5px}:host mi-icon:hover{background-color:var(--lighter)}`;
@@ -9629,54 +9590,6 @@ Components.TableDataCellHeaderAction.Tag=`rk-table-data-cell-header-action`;
 _.Components.TableDataCellHeaderAction=Components.TableDataCellHeaderAction;
 if(!window.customElements.get('rk-table-data-cell-header-action')){window.customElements.define('rk-table-data-cell-header-action', Components.TableDataCellHeaderAction);Aventus.WebComponentInstance.registerDefinition(Components.TableDataCellHeaderAction);}
 
-Components.TableDataCellAction = class TableDataCellAction extends Components.TableCell {
-    static __style = `:host{padding:0 7px;justify-content:flex-end}:host mi-icon{font-size:var(--font-size-md);color:var(--blue);margin:0 2px;padding:3px;cursor:pointer;transition:background-color .2s linear;border-radius:5px}:host mi-icon.delete{color:var(--red)}:host mi-icon:hover{background-color:var(--lighter)}`;
-    __getStatic() {
-        return TableDataCellAction;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(TableDataCellAction.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<mi-icon icon="edit" _id="tabledatacellaction_0"></mi-icon><mi-icon class="delete" icon="delete" _id="tabledatacellaction_1"></mi-icon>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "pressEvents": [
-    {
-      "id": "tabledatacellaction_0",
-      "onPress": (e, pressInstance, c) => { c.comp.editData(e, pressInstance); }
-    },
-    {
-      "id": "tabledatacellaction_1",
-      "onPress": (e, pressInstance, c) => { c.comp.deleteData(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "TableDataCellAction";
-    }
-    setContent(data, rowData) {
-    }
-    editData() {
-        if (this.table instanceof Components.TableData) {
-            this.table.editData(this.data);
-        }
-    }
-    deleteData() {
-        if (this.table instanceof Components.TableData) {
-            this.table.deleteData(this.data);
-        }
-    }
-}
-Components.TableDataCellAction.Namespace=`${moduleName}.Components`;
-Components.TableDataCellAction.Tag=`rk-table-data-cell-action`;
-_.Components.TableDataCellAction=Components.TableDataCellAction;
-if(!window.customElements.get('rk-table-data-cell-action')){window.customElements.define('rk-table-data-cell-action', Components.TableDataCellAction);Aventus.WebComponentInstance.registerDefinition(Components.TableDataCellAction);}
-
 Components.TableCellString = class TableCellString extends Components.TableCell {
     static __style = ``;
     __getStatic() {
@@ -9708,7 +9621,7 @@ _.Components.TableCellString=Components.TableCellString;
 if(!window.customElements.get('rk-table-cell-string')){window.customElements.define('rk-table-cell-string', Components.TableCellString);Aventus.WebComponentInstance.registerDefinition(Components.TableCellString);}
 
 Components.TableRowHeader = class TableRowHeader extends Components.TableRow {
-    static __style = `:host{--table-cell-padding: 0;--table-cell-vertical-border: var(--_table-header-vertical-border);background-color:var(--_table-header-backgroud-color);border-bottom:var(--_table-header-horizontal-border);color:var(--_table-header-color);display:flex;flex-direction:row;height:var(--_table-header-height);width:100%}`;
+    static __style = `:host{--table-cell-padding: 0;--table-cell-vertical-border: var(--_table-header-vertical-border);width:100%}:host .row-content{background-color:var(--_table-header-backgroud-color);border-bottom:var(--_table-header-horizontal-border);color:var(--_table-header-color);display:flex;flex-direction:row;height:var(--_table-header-height);width:100%}`;
     __getStatic() {
         return TableRowHeader;
     }
@@ -9733,7 +9646,7 @@ Components.TableRowHeader = class TableRowHeader extends Components.TableRow {
             cell.row = this;
             cell.index = i;
             cell.setContent(cellConfig.displayName, data);
-            this.shadowRoot?.appendChild(cell);
+            this.rowContentEl.appendChild(cell);
             i++;
         }
     }
@@ -9846,6 +9759,43 @@ Components.TableCellNumber.Namespace=`${moduleName}.Components`;
 Components.TableCellNumber.Tag=`rk-table-cell-number`;
 _.Components.TableCellNumber=Components.TableCellNumber;
 if(!window.customElements.get('rk-table-cell-number')){window.customElements.define('rk-table-cell-number', Components.TableCellNumber);Aventus.WebComponentInstance.registerDefinition(Components.TableCellNumber);}
+
+Components.TableCellEnum = class TableCellEnum extends Components.TableCell {
+    enumEl;
+    static __style = ``;
+    constructor() {
+            super();
+            this.enumEl = this.defineEnum();
+if (this.constructor == TableCellEnum) { throw "can't instanciate an abstract class"; } }
+    __getStatic() {
+        return TableCellEnum;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(TableCellEnum.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "TableCellEnum";
+    }
+    getEnumName(value) {
+        return this.enumEl[value];
+    }
+    setContent(data, rowData) {
+        if (!this.contentEl)
+            return;
+        this.content = data != undefined ? this.getEnumName(data) : "";
+        this.contentEl.innerHTML = this.content;
+    }
+}
+Components.TableCellEnum.Namespace=`${moduleName}.Components`;
+_.Components.TableCellEnum=Components.TableCellEnum;
 
 Components.TableCellDate = class TableCellDate extends Components.TableCell {
     static __style = ``;
@@ -9967,6 +9917,154 @@ Components.TableCellBoolean.Namespace=`${moduleName}.Components`;
 Components.TableCellBoolean.Tag=`rk-table-cell-boolean`;
 _.Components.TableCellBoolean=Components.TableCellBoolean;
 if(!window.customElements.get('rk-table-cell-boolean')){window.customElements.define('rk-table-cell-boolean', Components.TableCellBoolean);Aventus.WebComponentInstance.registerDefinition(Components.TableCellBoolean);}
+
+Components.TableData = class TableData extends Components.Table {
+    get 'add_btn'() { return this.getBoolAttr('add_btn') }
+    set 'add_btn'(val) { this.setBoolAttr('add_btn', val) }    application;
+    static __style = `:host{position:relative}:host .add-btn{bottom:10px;display:none;position:absolute;right:10px;z-index:10;box-shadow:var(--elevation-4)}:host([grid][add_btn]) .add-btn{display:block}`;
+    constructor() { super(); if (this.constructor == TableData) { throw "can't instanciate an abstract class"; } }
+    __getStatic() {
+        return TableData;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(TableData.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot><rk-button-icon-mi icon="add" class="add-btn touch" _id="tabledata_0"></rk-button-icon-mi>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "pressEvents": [
+    {
+      "id": "tabledata_0",
+      "onPress": (e, pressInstance, c) => { c.comp.newData(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "TableData";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('add_btn')) { this.attributeChangedCallback('add_btn', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('add_btn'); }
+    __listBoolProps() { return ["add_btn"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    async loadData() {
+        let ram = this.defineRAM();
+        this.rawData = await this.application?.executeWithLoading(ram.getListWithError());
+        ram.onCreated((data) => {
+            if (!this.rawData) {
+                this.rawData = [data];
+            }
+            else {
+                this.rawData.push(data);
+            }
+        });
+        ram.onDeleted((data) => {
+            if (!this.rawData)
+                return;
+            const index = this.rawData.findIndex(p => p.Id == data.Id);
+            if (index != -1) {
+                this.rawData.splice(index, 1);
+            }
+        });
+        ram.onUpdated((data) => {
+            if (!this.rawData) {
+                this.rawData = [data];
+            }
+            else {
+                const index = this.rawData.findIndex(p => p.Id == data.Id);
+                if (index != -1) {
+                    this.render();
+                }
+            }
+        });
+    }
+    async newData() {
+        let state = this.defineNewState();
+        await this.application?.navigate(state);
+    }
+    async editData(data) {
+        let cloneData = data.clone();
+        let state = this.defineEditState(cloneData);
+        await this.application?.navigate(state);
+    }
+    async deleteData(data) {
+        const message = this.defineDeleteMessage(data);
+        let confirm = await this.application?.confirm({
+            title: "Confirmation de suppression",
+            description: message
+        });
+        if (confirm) {
+            let ram = this.defineRAM();
+            await this.application?.executeWithLoading(ram.deleteWithError(data));
+            this.rawData = await this.application?.executeWithLoading(ram.getListWithError());
+        }
+    }
+    normalizeSchemaCell(cellConfig) {
+        super.normalizeSchemaCell(cellConfig);
+        if (cellConfig.cellHeader == Components.TableDataCellHeaderAction) {
+            this.add_btn = true;
+        }
+    }
+    postCreation() {
+        super.postCreation();
+        this.application = this.findParentByType(System.Application) ?? undefined;
+        this.loadData();
+    }
+}
+Components.TableData.Namespace=`${moduleName}.Components`;
+_.Components.TableData=Components.TableData;
+
+Components.TableDataCellAction = class TableDataCellAction extends Components.TableCell {
+    static __style = `:host{padding:0 7px;justify-content:flex-end}:host mi-icon{font-size:var(--font-size-md);color:var(--blue);margin:0 2px;padding:3px;cursor:pointer;transition:background-color .2s linear;border-radius:5px}:host mi-icon.delete{color:var(--red)}:host mi-icon:hover{background-color:var(--lighter)}:host([grid]){margin-top:0;align-items:center;width:100%}`;
+    __getStatic() {
+        return TableDataCellAction;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(TableDataCellAction.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<mi-icon icon="edit" _id="tabledatacellaction_0"></mi-icon><mi-icon class="delete" icon="delete" _id="tabledatacellaction_1"></mi-icon>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "pressEvents": [
+    {
+      "id": "tabledatacellaction_0",
+      "onPress": (e, pressInstance, c) => { c.comp.editData(e, pressInstance); }
+    },
+    {
+      "id": "tabledatacellaction_1",
+      "onPress": (e, pressInstance, c) => { c.comp.deleteData(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "TableDataCellAction";
+    }
+    setContent(data, rowData) {
+    }
+    editData() {
+        if (this.table instanceof Components.TableData) {
+            this.table.editData(this.data);
+        }
+    }
+    deleteData() {
+        if (this.table instanceof Components.TableData) {
+            this.table.deleteData(this.data);
+        }
+    }
+}
+Components.TableDataCellAction.Namespace=`${moduleName}.Components`;
+Components.TableDataCellAction.Tag=`rk-table-data-cell-action`;
+_.Components.TableDataCellAction=Components.TableDataCellAction;
+if(!window.customElements.get('rk-table-data-cell-action')){window.customElements.define('rk-table-data-cell-action', Components.TableDataCellAction);Aventus.WebComponentInstance.registerDefinition(Components.TableDataCellAction);}
 
 App.AppError=class AppError extends Aventus.GenericError {
     static get Fullname() { return "Core.App.AppError, Core"; }

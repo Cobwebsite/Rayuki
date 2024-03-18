@@ -1,0 +1,18 @@
+:host {
+	position: relative;
+
+	.add-btn {
+		bottom: 10px;
+		display: none;
+		position: absolute;
+		right: 10px;
+		z-index: 10;
+        box-shadow: var(--elevation-4);
+	}
+}
+
+:host([grid][add_btn]) {
+	.add-btn {
+		display: block;
+	}
+}

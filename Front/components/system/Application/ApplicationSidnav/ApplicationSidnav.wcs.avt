@@ -1,6 +1,10 @@
 @import '@root/_variables.gs.avt';
 
 :host {
+	--_application-sidnav-sidenav-width: var(--application-sidnav-sidenav-width, 200px);
+}
+
+:host {
 	.header {
 		.navigation-actions {
 			.menu {
@@ -28,15 +32,15 @@
 		width: 100%;
 
 		.sidenav-hider {
+			animation-duration: 300ms;
+			animation-fill-mode: forwards;
+			animation-name: fadeIn;
+			animation-timing-function: var(--bezier-curve);
 			background-color: rgba(0, 0, 0, 0.2);
 			display: none;
 			inset: 0;
 			position: absolute;
 			z-index: 50;
-			animation-name: fadeIn;
-			animation-duration: 300ms;
-			animation-timing-function: var(--bezier-curve);
-			animation-fill-mode: forwards;
 		}
 
 		.sidenav {
@@ -44,7 +48,7 @@
 			box-shadow: var(--elevation-4);
 			height: 100%;
 			transition: transform 0.3s var(--bezier-curve);
-			width: 200px;
+			width: var(--_application-sidnav-sidenav-width);
 			z-index: 50;
 
 			.sidenav-item {
@@ -91,8 +95,10 @@
 		}
 
 		.container {
+			flex-shrink: 0;
 			height: 100%;
-			width: calc(100% - 200px);
+			transition: width 0.3s var(--bezier-curve), margin-left 0.3s var(--bezier-curve);
+			width: calc(100% - var(--_application-sidnav-sidenav-width));
 		}
 	}
 }
@@ -105,11 +111,11 @@
 	}
 }
 
-:host([no_sidenav]){
+:host([no_sidenav]) {
 	.header {
 		.navigation-actions {
 			.menu {
-				display: none!important;				
+				display: none !important;
 			}
 		}
 	}
@@ -194,11 +200,12 @@
 
 			.content {
 				.sidenav {
-					position: absolute;
+					/*position: absolute;*/
 					transform: translateX(calc(-100% - 20px));
 				}
 
 				.container {
+					margin-left: calc(var(--_application-sidnav-sidenav-width) * -1);
 					width: 100%;
 				}
 			}
@@ -213,7 +220,6 @@
 				}
 
 				.sidenav {
-					position: absolute;
 					transform: translateX(0%);
 				}
 			}

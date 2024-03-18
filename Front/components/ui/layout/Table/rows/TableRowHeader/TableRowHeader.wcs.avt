@@ -1,11 +1,15 @@
 :host {
 	--table-cell-padding: 0;
 	--table-cell-vertical-border: var(--_table-header-vertical-border);
-	background-color: var(--_table-header-backgroud-color);
-	border-bottom: var(--_table-header-horizontal-border);
-	color: var(--_table-header-color);
-	display: flex;
-	flex-direction: row;
-	height: var(--_table-header-height);
 	width: 100%;
+
+	.row-content {
+		background-color: var(--_table-header-backgroud-color);
+		border-bottom: var(--_table-header-horizontal-border);
+		color: var(--_table-header-color);
+		display: flex;
+		flex-direction: row;
+		height: var(--_table-header-height);
+		width: 100%;
+	}
 }

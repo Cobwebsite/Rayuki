@@ -1,1 +1,2 @@
 <slot></slot>
+<rk-button-icon-mi icon="add" class="add-btn touch" @press="newData"></rk-button-icon-mi>

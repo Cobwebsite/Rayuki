@@ -34,7 +34,7 @@ namespace Components {
                 cell.row = this;
                 cell.index = i;
                 cell.setContent(cellConfig.displayName, data as T);
-                this.shadowRoot?.appendChild(cell);
+                this.rowContentEl.appendChild(cell);
                 i++;
             }
         }

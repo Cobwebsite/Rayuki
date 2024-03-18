@@ -13,10 +13,20 @@ namespace Components {
         //#region props
         @Attribute()
         public hide!: boolean;
+        @Property((target: TableRow<T>) => {
+            target.updateGrid();
+        })
+        public grid!: boolean;
+
+        @Attribute()
+        private custom_grid!: boolean;
         //#endregion
 
 
         //#region variables
+        @ViewElement()
+        protected rowContentEl!: HTMLDivElement;
+
         public table?: Table<T>;
 
         protected _data!: T;
@@ -26,15 +36,22 @@ namespace Components {
         }
 
         protected cells: TableCell<any, T>[] = [];
+
         //#endregion
 
 
         //#region constructor
-
+        public constructor() {
+            super();
+            this.custom_grid = this.customGridTemplate();
+        }
         //#endregion
 
 
         //#region methods
+        protected customGridTemplate(): boolean {
+            return false;
+        }
         public init(options: TableOptions<T>, data: T) {
             this._data = data;
             let i = 0;
@@ -45,8 +62,10 @@ namespace Components {
                 cell.index = i;
                 cell.row = this;
                 cell.data = data;
+                cell.label = cellConfig.name;
+                cell.grid = this.grid;
                 cell.setContent(data[cellConfig.name], data);
-                this.shadowRoot?.appendChild(cell);
+                this.rowContentEl.appendChild(cell);
                 this.cells.push(cell);
                 i++;
             }
@@ -59,6 +78,12 @@ namespace Components {
                 }
             }
             return false;
+        }
+
+        protected updateGrid() {
+            for(const cell of this.cells) {
+                cell.grid = this.grid;
+            }
         }
 
         protected override postDestruction(): void {
