@@ -1,6 +1,6 @@
 
 :host {
-	rk-scrollable {
+	.main-scroll {
 		--scrollbar-content-padding: 0 15px;
 	}
 }

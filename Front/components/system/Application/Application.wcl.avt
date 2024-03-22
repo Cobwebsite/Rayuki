@@ -178,8 +178,14 @@ namespace System {
                 console.log(e);
             }
         }
+        /**
+         * Determine if the frame should be destroyed when hiding
+         */
+        protected shouldDestroyFrame(frame: FrameNoScroll): boolean {
+            return false;
+        }
         private initRoute(path: string) {
-            let element: FrameNoScroll;
+            let element: FrameNoScroll | undefined;
             let allRoutes = this.allRoutes;
             this.navigator.subscribe(path, {
                 active: (currentState) => {
@@ -195,10 +201,15 @@ namespace System {
                                 let cst = options.render();
                                 element = new cst;
                                 element.application = this;
+                                element.resetNavElement = () => element = undefined
                                 this.contentEl?.appendChild(element);
                             }
                             if(this.oldFrame && this.oldFrame != element) {
                                 await this.oldFrame.hide();
+                                if(this.shouldDestroyFrame(this.oldFrame)) {
+                                    this.oldFrame.remove();
+                                    this.oldFrame.resetNavElement();
+                                }
                             }
 
                             let oldPage = this.oldFrame;
@@ -603,14 +614,14 @@ namespace System {
             return await this.parseErrors(queryResult);
         }
 
-        public async showLoading<X>(fct: (() => Promise<X>) | Promise<X>) : Promise<X> {
+        public async showLoading<X>(fct: (() => Promise<X>) | Promise<X>): Promise<X> {
             const minDelay = 2000;
             let start: Date | undefined;
             let timeout = setTimeout(() => {
                 start = new Date();
                 this.loading = true;
             }, 200);
-            let result:X;
+            let result: X;
             if(fct instanceof Promise) {
                 result = await fct;
             }

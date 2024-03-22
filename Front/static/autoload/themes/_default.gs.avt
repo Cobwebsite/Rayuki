@@ -32,6 +32,8 @@
 	--font-size-sm: calc(var(--font-size) * 0.75);
 	--font-size-md: calc(var(--font-size) * 1.25);
 	--font-size-lg: calc(var(--font-size) * 1.5);
+	--font-size-xl: calc(var(--font-size) * 1.75);
+	--font-size-xxl: calc(var(--font-size) * 2);
 
 
 	--bezier-curve: cubic-bezier(0.65, 0, 0.15, 1);

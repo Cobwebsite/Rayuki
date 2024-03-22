@@ -6,6 +6,10 @@
     padding: var(--internal-col-padding);
 }
 
+:host([center]) {
+    justify-content: center;
+}
+
 $sizes: 300, 540, 720, 960, 1140;
 $labels: xs, sm, md, lg, xl;
 

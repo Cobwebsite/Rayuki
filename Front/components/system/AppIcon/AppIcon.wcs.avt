@@ -1,4 +1,4 @@
-@import '@root/_variables.gs.avt';
+@import '@root/_responsive.gs.avt';
 
 :host {
 	align-items: center;

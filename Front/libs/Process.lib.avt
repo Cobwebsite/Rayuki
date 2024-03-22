@@ -1,0 +1,41 @@
+import type { ApplicationQueryFctResult } from "../components/system/Application/ApplicationError.lib.avt";
+import { Application } from "../components/system/Application/Application.wcl.avt";
+import { Os } from "../components/system/Os/Os.wcl.avt";
+
+namespace Lib {
+    export class Process {
+        public static async execute<X>(component: Aventus.WebComponent, prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
+			const app = component.findParentByType(Application)
+            if(app) {
+                return app.execute(prom);
+            }
+            else {
+                const queryResult = await prom;
+                return await this.parseErrors(queryResult);
+            }
+        }
+
+        public static async executeWithLoading<X>(component: Aventus.WebComponent, prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
+            const app = component.findParentByType(Application)
+            if(app) {
+                return app.executeWithLoading(prom);
+            }
+            return this.execute(component, prom);
+        }
+
+        public static async parseErrors<X>(result: ApplicationQueryFctResult<X>): Promise<X | undefined> {
+            if(result.errors.length > 0) {
+                let msg = result.errors.map(p => p.message).join("<br/>");
+                await Os.instance.alert({
+                    title: "Error",
+                    description: msg,
+                    behind: false,
+                    min_width: '300px',
+                });
+                return undefined;
+            }
+            if(result instanceof Aventus.ResultWithError) return result.result;
+            return undefined;
+        }
+    }
+}

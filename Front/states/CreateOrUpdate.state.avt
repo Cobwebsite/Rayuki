@@ -35,7 +35,7 @@ namespace State {
         }
 
         private genericState() {
-            return `/${this.defineObjectName()}/{id:number}`;
+            return `/${this.defineObjectName().toLowerCase()}/{id:number}`;
         }
 
         protected abstract defineRAM(): Aventus.Ram<T>;

@@ -1,4 +1,4 @@
-@import '@root/_variables.gs.avt';
+@import '@root/_responsive.gs.avt';
 
 :host {
 	animation-delay: var(--local-frame-animation-delay, 0ms);

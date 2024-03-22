@@ -53,6 +53,9 @@ namespace Components {
         public offset_right_xl!: number;
         //#endregion
 
+        @Attribute()
+        public center!: boolean;
+
         //#endregion
 
 

@@ -1,4 +1,4 @@
-@import '@root/_variables.gs.avt';
+@import '@root/_responsive.gs.avt';
 
 :host {
 	--_application-sidnav-sidenav-width: var(--application-sidnav-sidenav-width, 200px);
@@ -71,6 +71,15 @@
 
 				rk-img[src=""] {
 					display: none;
+				}
+
+				mi-icon {
+					align-items: center;
+					color: var(--text-color);
+					display: flex;
+					height: 30px;
+					justify-content: center;
+					width: 30px;
 				}
 
 				span {

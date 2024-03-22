@@ -786,6 +786,12 @@ const Style=class Style {
     static get(name) {
         return this.getInstance().get(name);
     }
+    static getAsString(name) {
+        return this.getInstance().getAsString(name);
+    }
+    static sheetToString(stylesheet) {
+        return this.getInstance().sheetToString(stylesheet);
+    }
     static load(name, url) {
         return this.getInstance().load(name, url);
     }
@@ -833,6 +839,16 @@ const Style=class Style {
             style = this.store(name, "");
         }
         return style;
+    }
+    getAsString(name) {
+        return this.sheetToString(this.get(name));
+    }
+    sheetToString(stylesheet) {
+        return stylesheet.cssRules
+            ? Array.from(stylesheet.cssRules)
+                .map(rule => rule.cssText || '')
+                .join('\n')
+            : '';
     }
 }
 Style.Namespace=`${moduleName}`;
@@ -3306,7 +3322,6 @@ const Watcher=class Watcher {
                         if (!regex.test(rootPath)) {
                             continue;
                         }
-                        let name = rootPath.replace(regex, "$2");
                         if (target.__path) {
                             let oldPath = target.__path;
                             info.fct(type, target, receiver, value, prop, dones);
@@ -4981,6 +4996,31 @@ const WebComponent=class WebComponent extends HTMLElement {
             this.__watchFunctionsComputed[name].destroy();
         }
         // TODO add missing info for destructor();
+        this.postDestruction();
+        this.destructChildren();
+    }
+    destructChildren() {
+        const recu = (el) => {
+            for (let child of Array.from(el.children)) {
+                if (child instanceof WebComponent) {
+                    child.destructor();
+                }
+                else if (child instanceof HTMLElement) {
+                    recu(child);
+                }
+            }
+            if (el.shadowRoot) {
+                for (let child of Array.from(el.shadowRoot.children)) {
+                    if (child instanceof WebComponent) {
+                        child.destructor();
+                    }
+                    else if (child instanceof HTMLElement) {
+                        recu(child);
+                    }
+                }
+            }
+        };
+        recu(this);
     }
     __addWatchesActions(name, fct) {
         if (!this.__watchActions[name]) {
@@ -5113,16 +5153,26 @@ const WebComponent=class WebComponent extends HTMLElement {
             this.__templateInstance?.render();
             this.__removeNoAnimations();
         }
+        else {
+            setTimeout(() => {
+                this.postConnect();
+            });
+        }
+    }
+    disconnectedCallback() {
+        setTimeout(() => {
+            this.postDisonnect();
+        });
     }
     __removeNoAnimations() {
         if (document.readyState !== "loading") {
-            this.offsetWidth;
             setTimeout(() => {
                 this.postCreation();
                 this._isReady = true;
                 this.dispatchEvent(new CustomEvent('postCreationDone'));
                 this.shadowRoot.adoptedStyleSheets = Object.values(this.__getStatic().__styleSheets);
                 document.removeEventListener("DOMContentLoaded", this.__removeNoAnimations);
+                this.postConnect();
             }, 50);
         }
     }
@@ -5437,18 +5487,32 @@ const WebComponent=class WebComponent extends HTMLElement {
             }
         }
     }
-    remove() {
+    /**
+     * Remove a component from the dom
+     * If desctruct is set to true, the component will be fully destroyed
+     */
+    remove(destruct = true) {
         super.remove();
-        this.postDestruction();
+        if (destruct) {
+            this.destructor();
+        }
     }
     /**
-     * Function triggered when the component is removed from the DOM
+     * Function triggered when the component is destroyed
      */
     postDestruction() { }
     /**
      * Function triggered the first time the component is rendering inside DOM
      */
     postCreation() { }
+    /**
+    * Function triggered each time the component is rendering inside DOM
+    */
+    postConnect() { }
+    /**
+    * Function triggered each time the component is removed from the DOM
+    */
+    postDisonnect() { }
     /**
      * Find a parent by tagname if exist
      */
@@ -6385,7 +6449,8 @@ const _ = {};
 let _n;
 const Icon = class Icon extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon", "type"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'icon'() { return this.getStringProp('icon') }
+    get 'is_hidden'() { return this.getBoolAttr('is_hidden') }
+    set 'is_hidden'(val) { this.setBoolAttr('is_hidden', val) }    get 'icon'() { return this.getStringProp('icon') }
     set 'icon'(val) { this.setStringAttr('icon', val) }get 'type'() { return this.getStringProp('type') }
     set 'type'(val) { this.setStringAttr('type', val) }    static defaultType = 'outlined';
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
@@ -6395,7 +6460,7 @@ const Icon = class Icon extends Aventus.WebComponent {
     if (target.isReady)
         target.loadFont();
 })); }
-    static __style = `:host{--_material-icon-animation-duration: var(--material-icon-animation-duration, 1.75s)}:host{direction:ltr;display:inline-block;font-family:"Material Symbols Outlined";-moz-font-feature-settings:"liga";font-size:24px;-moz-osx-font-smoothing:grayscale;font-style:normal;font-weight:normal;letter-spacing:normal;line-height:1;text-transform:none;white-space:nowrap;word-wrap:normal}:host([type=sharp]){font-family:"Material Symbols Sharp"}:host([type=rounded]){font-family:"Material Symbols Rounded"}:host([type=outlined]){font-family:"Material Symbols Outlined"}:host([spin]){animation:spin var(--_material-icon-animation-duration) linear infinite}:host([reverse_spin]){animation:reverse-spin var(--_material-icon-animation-duration) linear infinite}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes reverse-spin{0%{transform:rotate(360deg)}100%{transform:rotate(0deg)}}`;
+    static __style = `:host{--_material-icon-animation-duration: var(--material-icon-animation-duration, 1.75s)}:host{direction:ltr;display:inline-block;font-family:"Material Symbols Outlined";-moz-font-feature-settings:"liga";font-size:24px;-moz-osx-font-smoothing:grayscale;font-style:normal;font-weight:normal;letter-spacing:normal;line-height:1;text-transform:none;white-space:nowrap;word-wrap:normal}:host([is_hidden]){opacity:0}:host([type=sharp]){font-family:"Material Symbols Sharp"}:host([type=rounded]){font-family:"Material Symbols Rounded"}:host([type=outlined]){font-family:"Material Symbols Outlined"}:host([spin]){animation:spin var(--_material-icon-animation-duration) linear infinite}:host([reverse_spin]){animation:reverse-spin var(--_material-icon-animation-duration) linear infinite}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes reverse-spin{0%{transform:rotate(360deg)}100%{transform:rotate(0deg)}}`;
     __getStatic() {
         return Icon;
     }
@@ -6412,13 +6477,31 @@ const Icon = class Icon extends Aventus.WebComponent {
     getClassName() {
         return "Icon";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = "check_box_outline_blank"; }if(!this.hasAttribute('type')){ this['type'] = Icon.defaultType; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon');this.__upgradeProperty('type'); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('is_hidden')) {this.setAttribute('is_hidden' ,'true'); }if(!this.hasAttribute('icon')){ this['icon'] = "check_box_outline_blank"; }if(!this.hasAttribute('type')){ this['type'] = Icon.defaultType; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('is_hidden');this.__upgradeProperty('icon');this.__upgradeProperty('type'); }
+    __listBoolProps() { return ["is_hidden"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     async loadFont() {
         if (!this.type)
             return;
-        let url = 'https://fonts.googleapis.com/icon?family=Material+Symbols+';
-        url += this.type.charAt(0).toUpperCase() + this.type.slice(1);
+        const name = this.type.charAt(0).toUpperCase() + this.type.slice(1);
+        let fontName = 'Material Symbols ' + name;
+        for (let font of document.fonts) {
+            if (font.family == fontName) {
+                this.is_hidden = false;
+                return;
+            }
+        }
+        const cb = (e) => {
+            for (let font of e.fontfaces) {
+                if (font.family == fontName) {
+                    this.is_hidden = false;
+                    break;
+                }
+            }
+            document.fonts.removeEventListener("loadingdone", cb);
+        };
+        document.fonts.addEventListener("loadingdone", cb);
+        let url = 'https://fonts.googleapis.com/icon?family=Material+Symbols+' + name;
         await Aventus.ResourceLoader.loadInHead({
             type: "css",
             url: url

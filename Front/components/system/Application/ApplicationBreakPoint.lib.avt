@@ -1,0 +1,12 @@
+
+namespace System {
+
+    export class ApplicationBreakPoint {
+        public static xs: number = 300;
+        public static sm: number = 540;
+        public static md: number = 720;
+        public static lg: number = 960;
+        public static xl: number = 1140;
+    }
+}
+

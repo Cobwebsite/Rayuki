@@ -25,6 +25,10 @@ namespace System {
         //#region variables
         protected state?: Aventus.State;
         public application!: Application;
+
+        /** Only use to reset element inside the application router */
+        @Internal()
+        public resetNavElement!: () => void;
         //#endregion
 
 
@@ -69,6 +73,7 @@ namespace System {
         public async executeWithLoading<X>(prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
             return this.application.executeWithLoading(prom);
         }
+
         //#endregion
     }
 }

@@ -34,6 +34,7 @@ namespace Components {
             }
             throw 'Table can\'t be found for the cell';
         }
+        /** The content displayed - used for global search */
         protected content: string = "";
         public data!: U;
         //#endregion

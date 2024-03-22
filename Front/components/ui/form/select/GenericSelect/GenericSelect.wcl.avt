@@ -69,14 +69,21 @@ namespace Components {
 
         protected onInternalValueChanged() {
             if(!this.isConnected) return;
-
+            let found = false;
             for(let option of this.options) {
                 if(option.value == this.value) {
+                    found = true;
                     this.selectedOption = option;
                     this.displayValue = this.itemToText(option);
                     this.filter();
                     break;
                 }
+            }
+
+            if(!found) {
+                this.selectedOption = undefined;
+                this.displayValue = this.placeholder ?? '';
+                this.filter();
             }
         }
 
@@ -89,7 +96,6 @@ namespace Components {
             this.onChange.trigger([this.value]);
             this.filter();
             if(this.formPart) {
-                debugger
                 FormElement.setValue(this.formPart, this.value);
                 if(this.formPart.validateOnChange !== false) {
                     this.validate();

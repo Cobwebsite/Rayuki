@@ -311,6 +311,154 @@ namespace Components {
             this.scrollDirection('y', y);
         }
 
+        private autoScrollInterval: { top: number, left: number, right: number, bottom: number; } = {
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+        };
+        private autoScrollSpeed: { top: number, left: number, right: number, bottom: number; } = {
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+        };
+        private startAutoScrollRight() {
+            if(!this.autoScrollInterval.right) {
+                this.stopAutoScrollLeft();
+                this.autoScrollInterval.right = setInterval(() => {
+                    if(this.x == this.max.x) {
+                        this.stopAutoScrollRight();
+                        return;
+                    }
+                    this.addDelta({
+                        x: this.autoScrollSpeed.right,
+                        y: 0
+                    });
+                }, 100);
+            }
+        }
+        /**
+         * Define a speed percent to auto scroll right
+         */
+        public autoScrollRight(percent: number = 50) {
+            let slow = 10;
+            let fast = 200;
+            this.autoScrollSpeed.right = (fast - slow) * (percent / 100) + slow;
+            this.startAutoScrollRight();
+        }
+        /**
+         * Stop auto scrolling right
+         */
+        public stopAutoScrollRight() {
+            if(this.autoScrollInterval.right) {
+                clearInterval(this.autoScrollInterval.right);
+                this.autoScrollInterval.right = 0;
+            }
+        }
+       
+        private startAutoScrollLeft() {
+            if(!this.autoScrollInterval.left) {
+                this.stopAutoScrollRight();
+                this.autoScrollInterval.left = setInterval(() => {
+                    if(this.x == 0) {
+                        this.stopAutoScrollLeft();
+                        return;
+                    }
+                    this.addDelta({
+                        x: this.autoScrollSpeed.left * -1,
+                        y: 0
+                    });
+                }, 100);
+            }
+        }
+        /**
+         * Define a speed percent to auto scroll left
+         */
+        public autoScrollLeft(percent: number = 50) {
+            let slow = 10;
+            let fast = 200;
+            this.autoScrollSpeed.left = (fast - slow) * (percent / 100) + slow;
+            this.startAutoScrollLeft();
+        }
+        /**
+         * Stop auto scrolling left
+         */
+        public stopAutoScrollLeft() {
+            if(this.autoScrollInterval.left) {
+                clearInterval(this.autoScrollInterval.left);
+                this.autoScrollInterval.left = 0;
+            }
+        }
+
+        private startAutoScrollTop() {
+            if(!this.autoScrollInterval.top) {
+                this.stopAutoScrollBottom();
+                this.autoScrollInterval.top = setInterval(() => {
+                    if(this.y == 0) {
+                        this.stopAutoScrollTop();
+                        return;
+                    }
+                    this.addDelta({
+                        x: 0,
+                        y: this.autoScrollSpeed.top * -1
+                    });
+                }, 100);
+            }
+        }
+        /**
+         * Define a speed percent to auto scroll top
+         */
+        public autoScrollTop(percent: number = 50) {
+            let slow = 10;
+            let fast = 200;
+            this.autoScrollSpeed.top = (fast - slow) * (percent / 100) + slow;
+            this.startAutoScrollTop();
+        }
+        /**
+         * Stop auto scrolling top
+         */
+        public stopAutoScrollTop() {
+            if(this.autoScrollInterval.top) {
+                clearInterval(this.autoScrollInterval.top);
+                this.autoScrollInterval.top = 0;
+            }
+        }
+
+        private startAutoScrollBottom() {
+            if(!this.autoScrollInterval.bottom) {
+                this.stopAutoScrollTop();
+                this.autoScrollInterval.bottom = setInterval(() => {
+                    if(this.y == this.max.y) {
+                        this.stopAutoScrollBottom();
+                        return;
+                    }
+                    this.addDelta({
+                        x: 0,
+                        y: this.autoScrollSpeed.bottom
+                    });
+                }, 100);
+            }
+        }
+        /**
+         * Define a speed percent to auto scroll bottom
+         */
+        public autoScrollBottom(percent: number = 50) {
+            let slow = 10;
+            let fast = 200;
+            this.autoScrollSpeed.bottom = (fast - slow) * (percent / 100) + slow;
+            this.startAutoScrollBottom();
+        }
+        /**
+         * Stop auto scrolling bottom
+         */
+        public stopAutoScrollBottom() {
+            if(this.autoScrollInterval.bottom) {
+                clearInterval(this.autoScrollInterval.bottom);
+                this.autoScrollInterval.bottom = 0;
+            }
+        }
+
         //#endregion
 
         //#region events
@@ -569,7 +717,7 @@ namespace Components {
         protected override postCreation(): void {
             this.addResizeObserver();
             this.addAction();
-        }
+        };
         //#endregion
 
     }

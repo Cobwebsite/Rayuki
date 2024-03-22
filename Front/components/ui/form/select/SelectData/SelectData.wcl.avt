@@ -1,0 +1,133 @@
+import { OptionData } from "./OptionData/OptionData.wcl.avt";
+import { GenericSelect } from "../GenericSelect/GenericSelect.wcl.avt";
+import { Process } from "../../../../../libs/Process.lib.avt";
+
+namespace Components {
+    export abstract class SelectData<U extends Aventus.IData, T extends U | number> extends GenericSelect<OptionData<T>, T> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public loading!: boolean;
+        //#endregion
+
+
+        //#region variables
+        protected data: Aventus.RamItem<U>[] = [];
+        protected isInit: boolean = false;
+        //#endregion
+
+
+        //#region constructor
+        public constructor() {
+            super();
+            this.createOptions();
+        }
+        //#endregion
+
+
+        //#region methods
+        /**
+         * @inheritdoc
+         */
+        protected override itemToText(option: OptionData<T>): string {
+            return option.innerHTML;
+        }
+
+
+        protected async createOptions() {
+            this.loading = true;
+            this.data = await this.loadData();
+            for(let item of this.data) {
+                let option = new OptionData();
+                option.value = this.optionValue(item);
+                option.innerHTML = this.optionText(item);
+                this.appendChild(option);
+            }
+            this.loading = false;
+            this.init();
+        }
+
+
+        protected abstract defineRam(): Aventus.Ram<U>;
+        protected async loadData(): Promise<Aventus.RamItem<U>[]> {
+            const result = await Process.execute(this, this.defineRam().getListWithError()) ?? [];
+            return result;
+        }
+        protected abstract optionText(item: U): string;
+        protected abstract optionValue(item: U): T;
+
+        @BindThis()
+        protected subscribe() {
+            this.defineRam().onCreated(this.onCreated);
+            this.defineRam().onUpdated(this.onUpdated);
+            this.defineRam().onDeleted(this.onDeleted);
+        }
+
+        @BindThis()
+        protected unsubscribe() {
+            this.defineRam().offCreated(this.onCreated);
+            this.defineRam().offUpdated(this.onUpdated);
+            this.defineRam().offDeleted(this.onDeleted);
+        }
+
+        @BindThis()
+        protected onCreated(item: Aventus.RamItem<U>) {
+            this.data.push(item);
+            let option = new OptionData();
+            option.value = this.optionValue(item);
+            option.innerHTML = this.optionText(item);
+            this.appendChild(option);
+            this.loadElementsFromSlot();
+        }
+
+        @BindThis()
+        protected onDeleted(item: Aventus.RamItem<U>) {
+            for(let i = 0; i < this.options.length; i++) {
+                let option = this.options[i];
+                if(option.value == this.optionValue(item)) {
+                    this.options.splice(i, 1);
+                    option.remove();
+                    if(this.value == this.optionValue(item)) {
+                        this.value = undefined;
+                    }
+                }
+            }
+        }
+
+        @BindThis()
+        protected onUpdated(item: Aventus.RamItem<U>) {
+            for(let i = 0; i < this.options.length; i++) {
+                let option = this.options[i];
+                if(option.value == this.optionValue(item)) {
+                    option.innerHTML = this.optionText(item);
+                }
+            }
+        }
+
+        protected init() {
+            if(!this.isConnected) return;
+            if(this.isInit) return;
+            this.isInit = true;
+            super.postCreation();
+            this.subscribe();
+        }
+
+        protected override postDestruction(): void {
+            this.unsubscribe();
+        }
+        protected override postConnect(): void {
+        }
+
+
+        protected override postCreation(): void {
+            this.init();
+        }
+        //#endregion
+
+    }
+}

@@ -246,7 +246,8 @@ Components.Col = class Col extends Aventus.WebComponent {
     set 'offset_right_sm'(val) { this.setNumberAttr('offset_right_sm', val) }get 'offset_right_md'() { return this.getNumberAttr('offset_right_md') }
     set 'offset_right_md'(val) { this.setNumberAttr('offset_right_md', val) }get 'offset_right_lg'() { return this.getNumberAttr('offset_right_lg') }
     set 'offset_right_lg'(val) { this.setNumberAttr('offset_right_lg', val) }get 'offset_right_xl'() { return this.getNumberAttr('offset_right_xl') }
-    set 'offset_right_xl'(val) { this.setNumberAttr('offset_right_xl', val) }    static __style = `:host{--internal-col-padding:var(--col-padding, 8px)}:host{padding:var(--internal-col-padding)}:host([size="0"]){display:flex;width:0%}:host([offset="0"]){margin-left:0%}:host([offset_right="0"]){margin-right:0%}:host([size="1"]){display:flex;width:8.3333333333%}:host([offset="1"]){margin-left:8.3333333333%}:host([offset_right="1"]){margin-right:8.3333333333%}:host([size="2"]){display:flex;width:16.6666666667%}:host([offset="2"]){margin-left:16.6666666667%}:host([offset_right="2"]){margin-right:16.6666666667%}:host([size="3"]){display:flex;width:25%}:host([offset="3"]){margin-left:25%}:host([offset_right="3"]){margin-right:25%}:host([size="4"]){display:flex;width:33.3333333333%}:host([offset="4"]){margin-left:33.3333333333%}:host([offset_right="4"]){margin-right:33.3333333333%}:host([size="5"]){display:flex;width:41.6666666667%}:host([offset="5"]){margin-left:41.6666666667%}:host([offset_right="5"]){margin-right:41.6666666667%}:host([size="6"]){display:flex;width:50%}:host([offset="6"]){margin-left:50%}:host([offset_right="6"]){margin-right:50%}:host([size="7"]){display:flex;width:58.3333333333%}:host([offset="7"]){margin-left:58.3333333333%}:host([offset_right="7"]){margin-right:58.3333333333%}:host([size="8"]){display:flex;width:66.6666666667%}:host([offset="8"]){margin-left:66.6666666667%}:host([offset_right="8"]){margin-right:66.6666666667%}:host([size="9"]){display:flex;width:75%}:host([offset="9"]){margin-left:75%}:host([offset_right="9"]){margin-right:75%}:host([size="10"]){display:flex;width:83.3333333333%}:host([offset="10"]){margin-left:83.3333333333%}:host([offset_right="10"]){margin-right:83.3333333333%}:host([size="11"]){display:flex;width:91.6666666667%}:host([offset="11"]){margin-left:91.6666666667%}:host([offset_right="11"]){margin-right:91.6666666667%}:host([size="12"]){display:flex;width:100%}:host([offset="12"]){margin-left:100%}:host([offset_right="12"]){margin-right:100%}@container application (min-width: 300px){:host([size_xs="0"]){display:flex;width:0%}:host([offset_xs="0"]){margin-left:0%}:host([offset_right_xs="0"]){margin-right:0%}:host([size_xs="1"]){display:flex;width:8.3333333333%}:host([offset_xs="1"]){margin-left:8.3333333333%}:host([offset_right_xs="1"]){margin-right:8.3333333333%}:host([size_xs="2"]){display:flex;width:16.6666666667%}:host([offset_xs="2"]){margin-left:16.6666666667%}:host([offset_right_xs="2"]){margin-right:16.6666666667%}:host([size_xs="3"]){display:flex;width:25%}:host([offset_xs="3"]){margin-left:25%}:host([offset_right_xs="3"]){margin-right:25%}:host([size_xs="4"]){display:flex;width:33.3333333333%}:host([offset_xs="4"]){margin-left:33.3333333333%}:host([offset_right_xs="4"]){margin-right:33.3333333333%}:host([size_xs="5"]){display:flex;width:41.6666666667%}:host([offset_xs="5"]){margin-left:41.6666666667%}:host([offset_right_xs="5"]){margin-right:41.6666666667%}:host([size_xs="6"]){display:flex;width:50%}:host([offset_xs="6"]){margin-left:50%}:host([offset_right_xs="6"]){margin-right:50%}:host([size_xs="7"]){display:flex;width:58.3333333333%}:host([offset_xs="7"]){margin-left:58.3333333333%}:host([offset_right_xs="7"]){margin-right:58.3333333333%}:host([size_xs="8"]){display:flex;width:66.6666666667%}:host([offset_xs="8"]){margin-left:66.6666666667%}:host([offset_right_xs="8"]){margin-right:66.6666666667%}:host([size_xs="9"]){display:flex;width:75%}:host([offset_xs="9"]){margin-left:75%}:host([offset_right_xs="9"]){margin-right:75%}:host([size_xs="10"]){display:flex;width:83.3333333333%}:host([offset_xs="10"]){margin-left:83.3333333333%}:host([offset_right_xs="10"]){margin-right:83.3333333333%}:host([size_xs="11"]){display:flex;width:91.6666666667%}:host([offset_xs="11"]){margin-left:91.6666666667%}:host([offset_right_xs="11"]){margin-right:91.6666666667%}:host([size_xs="12"]){display:flex;width:100%}:host([offset_xs="12"]){margin-left:100%}:host([offset_right_xs="12"]){margin-right:100%}}@container application (min-width: 540px){:host([size_sm="0"]){display:flex;width:0%}:host([offset_sm="0"]){margin-left:0%}:host([offset_right_sm="0"]){margin-right:0%}:host([size_sm="1"]){display:flex;width:8.3333333333%}:host([offset_sm="1"]){margin-left:8.3333333333%}:host([offset_right_sm="1"]){margin-right:8.3333333333%}:host([size_sm="2"]){display:flex;width:16.6666666667%}:host([offset_sm="2"]){margin-left:16.6666666667%}:host([offset_right_sm="2"]){margin-right:16.6666666667%}:host([size_sm="3"]){display:flex;width:25%}:host([offset_sm="3"]){margin-left:25%}:host([offset_right_sm="3"]){margin-right:25%}:host([size_sm="4"]){display:flex;width:33.3333333333%}:host([offset_sm="4"]){margin-left:33.3333333333%}:host([offset_right_sm="4"]){margin-right:33.3333333333%}:host([size_sm="5"]){display:flex;width:41.6666666667%}:host([offset_sm="5"]){margin-left:41.6666666667%}:host([offset_right_sm="5"]){margin-right:41.6666666667%}:host([size_sm="6"]){display:flex;width:50%}:host([offset_sm="6"]){margin-left:50%}:host([offset_right_sm="6"]){margin-right:50%}:host([size_sm="7"]){display:flex;width:58.3333333333%}:host([offset_sm="7"]){margin-left:58.3333333333%}:host([offset_right_sm="7"]){margin-right:58.3333333333%}:host([size_sm="8"]){display:flex;width:66.6666666667%}:host([offset_sm="8"]){margin-left:66.6666666667%}:host([offset_right_sm="8"]){margin-right:66.6666666667%}:host([size_sm="9"]){display:flex;width:75%}:host([offset_sm="9"]){margin-left:75%}:host([offset_right_sm="9"]){margin-right:75%}:host([size_sm="10"]){display:flex;width:83.3333333333%}:host([offset_sm="10"]){margin-left:83.3333333333%}:host([offset_right_sm="10"]){margin-right:83.3333333333%}:host([size_sm="11"]){display:flex;width:91.6666666667%}:host([offset_sm="11"]){margin-left:91.6666666667%}:host([offset_right_sm="11"]){margin-right:91.6666666667%}:host([size_sm="12"]){display:flex;width:100%}:host([offset_sm="12"]){margin-left:100%}:host([offset_right_sm="12"]){margin-right:100%}}@container application (min-width: 720px){:host([size_md="0"]){display:flex;width:0%}:host([offset_md="0"]){margin-left:0%}:host([offset_right_md="0"]){margin-right:0%}:host([size_md="1"]){display:flex;width:8.3333333333%}:host([offset_md="1"]){margin-left:8.3333333333%}:host([offset_right_md="1"]){margin-right:8.3333333333%}:host([size_md="2"]){display:flex;width:16.6666666667%}:host([offset_md="2"]){margin-left:16.6666666667%}:host([offset_right_md="2"]){margin-right:16.6666666667%}:host([size_md="3"]){display:flex;width:25%}:host([offset_md="3"]){margin-left:25%}:host([offset_right_md="3"]){margin-right:25%}:host([size_md="4"]){display:flex;width:33.3333333333%}:host([offset_md="4"]){margin-left:33.3333333333%}:host([offset_right_md="4"]){margin-right:33.3333333333%}:host([size_md="5"]){display:flex;width:41.6666666667%}:host([offset_md="5"]){margin-left:41.6666666667%}:host([offset_right_md="5"]){margin-right:41.6666666667%}:host([size_md="6"]){display:flex;width:50%}:host([offset_md="6"]){margin-left:50%}:host([offset_right_md="6"]){margin-right:50%}:host([size_md="7"]){display:flex;width:58.3333333333%}:host([offset_md="7"]){margin-left:58.3333333333%}:host([offset_right_md="7"]){margin-right:58.3333333333%}:host([size_md="8"]){display:flex;width:66.6666666667%}:host([offset_md="8"]){margin-left:66.6666666667%}:host([offset_right_md="8"]){margin-right:66.6666666667%}:host([size_md="9"]){display:flex;width:75%}:host([offset_md="9"]){margin-left:75%}:host([offset_right_md="9"]){margin-right:75%}:host([size_md="10"]){display:flex;width:83.3333333333%}:host([offset_md="10"]){margin-left:83.3333333333%}:host([offset_right_md="10"]){margin-right:83.3333333333%}:host([size_md="11"]){display:flex;width:91.6666666667%}:host([offset_md="11"]){margin-left:91.6666666667%}:host([offset_right_md="11"]){margin-right:91.6666666667%}:host([size_md="12"]){display:flex;width:100%}:host([offset_md="12"]){margin-left:100%}:host([offset_right_md="12"]){margin-right:100%}}@container application (min-width: 960px){:host([size_lg="0"]){display:flex;width:0%}:host([offset_lg="0"]){margin-left:0%}:host([offset_right_lg="0"]){margin-right:0%}:host([size_lg="1"]){display:flex;width:8.3333333333%}:host([offset_lg="1"]){margin-left:8.3333333333%}:host([offset_right_lg="1"]){margin-right:8.3333333333%}:host([size_lg="2"]){display:flex;width:16.6666666667%}:host([offset_lg="2"]){margin-left:16.6666666667%}:host([offset_right_lg="2"]){margin-right:16.6666666667%}:host([size_lg="3"]){display:flex;width:25%}:host([offset_lg="3"]){margin-left:25%}:host([offset_right_lg="3"]){margin-right:25%}:host([size_lg="4"]){display:flex;width:33.3333333333%}:host([offset_lg="4"]){margin-left:33.3333333333%}:host([offset_right_lg="4"]){margin-right:33.3333333333%}:host([size_lg="5"]){display:flex;width:41.6666666667%}:host([offset_lg="5"]){margin-left:41.6666666667%}:host([offset_right_lg="5"]){margin-right:41.6666666667%}:host([size_lg="6"]){display:flex;width:50%}:host([offset_lg="6"]){margin-left:50%}:host([offset_right_lg="6"]){margin-right:50%}:host([size_lg="7"]){display:flex;width:58.3333333333%}:host([offset_lg="7"]){margin-left:58.3333333333%}:host([offset_right_lg="7"]){margin-right:58.3333333333%}:host([size_lg="8"]){display:flex;width:66.6666666667%}:host([offset_lg="8"]){margin-left:66.6666666667%}:host([offset_right_lg="8"]){margin-right:66.6666666667%}:host([size_lg="9"]){display:flex;width:75%}:host([offset_lg="9"]){margin-left:75%}:host([offset_right_lg="9"]){margin-right:75%}:host([size_lg="10"]){display:flex;width:83.3333333333%}:host([offset_lg="10"]){margin-left:83.3333333333%}:host([offset_right_lg="10"]){margin-right:83.3333333333%}:host([size_lg="11"]){display:flex;width:91.6666666667%}:host([offset_lg="11"]){margin-left:91.6666666667%}:host([offset_right_lg="11"]){margin-right:91.6666666667%}:host([size_lg="12"]){display:flex;width:100%}:host([offset_lg="12"]){margin-left:100%}:host([offset_right_lg="12"]){margin-right:100%}}@container application (min-width: 1140px){:host([size_xl="0"]){display:flex;width:0%}:host([offset_xl="0"]){margin-left:0%}:host([offset_right_xl="0"]){margin-right:0%}:host([size_xl="1"]){display:flex;width:8.3333333333%}:host([offset_xl="1"]){margin-left:8.3333333333%}:host([offset_right_xl="1"]){margin-right:8.3333333333%}:host([size_xl="2"]){display:flex;width:16.6666666667%}:host([offset_xl="2"]){margin-left:16.6666666667%}:host([offset_right_xl="2"]){margin-right:16.6666666667%}:host([size_xl="3"]){display:flex;width:25%}:host([offset_xl="3"]){margin-left:25%}:host([offset_right_xl="3"]){margin-right:25%}:host([size_xl="4"]){display:flex;width:33.3333333333%}:host([offset_xl="4"]){margin-left:33.3333333333%}:host([offset_right_xl="4"]){margin-right:33.3333333333%}:host([size_xl="5"]){display:flex;width:41.6666666667%}:host([offset_xl="5"]){margin-left:41.6666666667%}:host([offset_right_xl="5"]){margin-right:41.6666666667%}:host([size_xl="6"]){display:flex;width:50%}:host([offset_xl="6"]){margin-left:50%}:host([offset_right_xl="6"]){margin-right:50%}:host([size_xl="7"]){display:flex;width:58.3333333333%}:host([offset_xl="7"]){margin-left:58.3333333333%}:host([offset_right_xl="7"]){margin-right:58.3333333333%}:host([size_xl="8"]){display:flex;width:66.6666666667%}:host([offset_xl="8"]){margin-left:66.6666666667%}:host([offset_right_xl="8"]){margin-right:66.6666666667%}:host([size_xl="9"]){display:flex;width:75%}:host([offset_xl="9"]){margin-left:75%}:host([offset_right_xl="9"]){margin-right:75%}:host([size_xl="10"]){display:flex;width:83.3333333333%}:host([offset_xl="10"]){margin-left:83.3333333333%}:host([offset_right_xl="10"]){margin-right:83.3333333333%}:host([size_xl="11"]){display:flex;width:91.6666666667%}:host([offset_xl="11"]){margin-left:91.6666666667%}:host([offset_right_xl="11"]){margin-right:91.6666666667%}:host([size_xl="12"]){display:flex;width:100%}:host([offset_xl="12"]){margin-left:100%}:host([offset_right_xl="12"]){margin-right:100%}}`;
+    set 'offset_right_xl'(val) { this.setNumberAttr('offset_right_xl', val) }get 'center'() { return this.getBoolAttr('center') }
+    set 'center'(val) { this.setBoolAttr('center', val) }    static __style = `:host{--internal-col-padding:var(--col-padding, 8px)}:host{padding:var(--internal-col-padding)}:host([center]){justify-content:center}:host([size="0"]){display:flex;width:0%}:host([offset="0"]){margin-left:0%}:host([offset_right="0"]){margin-right:0%}:host([size="1"]){display:flex;width:8.3333333333%}:host([offset="1"]){margin-left:8.3333333333%}:host([offset_right="1"]){margin-right:8.3333333333%}:host([size="2"]){display:flex;width:16.6666666667%}:host([offset="2"]){margin-left:16.6666666667%}:host([offset_right="2"]){margin-right:16.6666666667%}:host([size="3"]){display:flex;width:25%}:host([offset="3"]){margin-left:25%}:host([offset_right="3"]){margin-right:25%}:host([size="4"]){display:flex;width:33.3333333333%}:host([offset="4"]){margin-left:33.3333333333%}:host([offset_right="4"]){margin-right:33.3333333333%}:host([size="5"]){display:flex;width:41.6666666667%}:host([offset="5"]){margin-left:41.6666666667%}:host([offset_right="5"]){margin-right:41.6666666667%}:host([size="6"]){display:flex;width:50%}:host([offset="6"]){margin-left:50%}:host([offset_right="6"]){margin-right:50%}:host([size="7"]){display:flex;width:58.3333333333%}:host([offset="7"]){margin-left:58.3333333333%}:host([offset_right="7"]){margin-right:58.3333333333%}:host([size="8"]){display:flex;width:66.6666666667%}:host([offset="8"]){margin-left:66.6666666667%}:host([offset_right="8"]){margin-right:66.6666666667%}:host([size="9"]){display:flex;width:75%}:host([offset="9"]){margin-left:75%}:host([offset_right="9"]){margin-right:75%}:host([size="10"]){display:flex;width:83.3333333333%}:host([offset="10"]){margin-left:83.3333333333%}:host([offset_right="10"]){margin-right:83.3333333333%}:host([size="11"]){display:flex;width:91.6666666667%}:host([offset="11"]){margin-left:91.6666666667%}:host([offset_right="11"]){margin-right:91.6666666667%}:host([size="12"]){display:flex;width:100%}:host([offset="12"]){margin-left:100%}:host([offset_right="12"]){margin-right:100%}@container application (min-width: 300px){:host([size_xs="0"]){display:flex;width:0%}:host([offset_xs="0"]){margin-left:0%}:host([offset_right_xs="0"]){margin-right:0%}:host([size_xs="1"]){display:flex;width:8.3333333333%}:host([offset_xs="1"]){margin-left:8.3333333333%}:host([offset_right_xs="1"]){margin-right:8.3333333333%}:host([size_xs="2"]){display:flex;width:16.6666666667%}:host([offset_xs="2"]){margin-left:16.6666666667%}:host([offset_right_xs="2"]){margin-right:16.6666666667%}:host([size_xs="3"]){display:flex;width:25%}:host([offset_xs="3"]){margin-left:25%}:host([offset_right_xs="3"]){margin-right:25%}:host([size_xs="4"]){display:flex;width:33.3333333333%}:host([offset_xs="4"]){margin-left:33.3333333333%}:host([offset_right_xs="4"]){margin-right:33.3333333333%}:host([size_xs="5"]){display:flex;width:41.6666666667%}:host([offset_xs="5"]){margin-left:41.6666666667%}:host([offset_right_xs="5"]){margin-right:41.6666666667%}:host([size_xs="6"]){display:flex;width:50%}:host([offset_xs="6"]){margin-left:50%}:host([offset_right_xs="6"]){margin-right:50%}:host([size_xs="7"]){display:flex;width:58.3333333333%}:host([offset_xs="7"]){margin-left:58.3333333333%}:host([offset_right_xs="7"]){margin-right:58.3333333333%}:host([size_xs="8"]){display:flex;width:66.6666666667%}:host([offset_xs="8"]){margin-left:66.6666666667%}:host([offset_right_xs="8"]){margin-right:66.6666666667%}:host([size_xs="9"]){display:flex;width:75%}:host([offset_xs="9"]){margin-left:75%}:host([offset_right_xs="9"]){margin-right:75%}:host([size_xs="10"]){display:flex;width:83.3333333333%}:host([offset_xs="10"]){margin-left:83.3333333333%}:host([offset_right_xs="10"]){margin-right:83.3333333333%}:host([size_xs="11"]){display:flex;width:91.6666666667%}:host([offset_xs="11"]){margin-left:91.6666666667%}:host([offset_right_xs="11"]){margin-right:91.6666666667%}:host([size_xs="12"]){display:flex;width:100%}:host([offset_xs="12"]){margin-left:100%}:host([offset_right_xs="12"]){margin-right:100%}}@container application (min-width: 540px){:host([size_sm="0"]){display:flex;width:0%}:host([offset_sm="0"]){margin-left:0%}:host([offset_right_sm="0"]){margin-right:0%}:host([size_sm="1"]){display:flex;width:8.3333333333%}:host([offset_sm="1"]){margin-left:8.3333333333%}:host([offset_right_sm="1"]){margin-right:8.3333333333%}:host([size_sm="2"]){display:flex;width:16.6666666667%}:host([offset_sm="2"]){margin-left:16.6666666667%}:host([offset_right_sm="2"]){margin-right:16.6666666667%}:host([size_sm="3"]){display:flex;width:25%}:host([offset_sm="3"]){margin-left:25%}:host([offset_right_sm="3"]){margin-right:25%}:host([size_sm="4"]){display:flex;width:33.3333333333%}:host([offset_sm="4"]){margin-left:33.3333333333%}:host([offset_right_sm="4"]){margin-right:33.3333333333%}:host([size_sm="5"]){display:flex;width:41.6666666667%}:host([offset_sm="5"]){margin-left:41.6666666667%}:host([offset_right_sm="5"]){margin-right:41.6666666667%}:host([size_sm="6"]){display:flex;width:50%}:host([offset_sm="6"]){margin-left:50%}:host([offset_right_sm="6"]){margin-right:50%}:host([size_sm="7"]){display:flex;width:58.3333333333%}:host([offset_sm="7"]){margin-left:58.3333333333%}:host([offset_right_sm="7"]){margin-right:58.3333333333%}:host([size_sm="8"]){display:flex;width:66.6666666667%}:host([offset_sm="8"]){margin-left:66.6666666667%}:host([offset_right_sm="8"]){margin-right:66.6666666667%}:host([size_sm="9"]){display:flex;width:75%}:host([offset_sm="9"]){margin-left:75%}:host([offset_right_sm="9"]){margin-right:75%}:host([size_sm="10"]){display:flex;width:83.3333333333%}:host([offset_sm="10"]){margin-left:83.3333333333%}:host([offset_right_sm="10"]){margin-right:83.3333333333%}:host([size_sm="11"]){display:flex;width:91.6666666667%}:host([offset_sm="11"]){margin-left:91.6666666667%}:host([offset_right_sm="11"]){margin-right:91.6666666667%}:host([size_sm="12"]){display:flex;width:100%}:host([offset_sm="12"]){margin-left:100%}:host([offset_right_sm="12"]){margin-right:100%}}@container application (min-width: 720px){:host([size_md="0"]){display:flex;width:0%}:host([offset_md="0"]){margin-left:0%}:host([offset_right_md="0"]){margin-right:0%}:host([size_md="1"]){display:flex;width:8.3333333333%}:host([offset_md="1"]){margin-left:8.3333333333%}:host([offset_right_md="1"]){margin-right:8.3333333333%}:host([size_md="2"]){display:flex;width:16.6666666667%}:host([offset_md="2"]){margin-left:16.6666666667%}:host([offset_right_md="2"]){margin-right:16.6666666667%}:host([size_md="3"]){display:flex;width:25%}:host([offset_md="3"]){margin-left:25%}:host([offset_right_md="3"]){margin-right:25%}:host([size_md="4"]){display:flex;width:33.3333333333%}:host([offset_md="4"]){margin-left:33.3333333333%}:host([offset_right_md="4"]){margin-right:33.3333333333%}:host([size_md="5"]){display:flex;width:41.6666666667%}:host([offset_md="5"]){margin-left:41.6666666667%}:host([offset_right_md="5"]){margin-right:41.6666666667%}:host([size_md="6"]){display:flex;width:50%}:host([offset_md="6"]){margin-left:50%}:host([offset_right_md="6"]){margin-right:50%}:host([size_md="7"]){display:flex;width:58.3333333333%}:host([offset_md="7"]){margin-left:58.3333333333%}:host([offset_right_md="7"]){margin-right:58.3333333333%}:host([size_md="8"]){display:flex;width:66.6666666667%}:host([offset_md="8"]){margin-left:66.6666666667%}:host([offset_right_md="8"]){margin-right:66.6666666667%}:host([size_md="9"]){display:flex;width:75%}:host([offset_md="9"]){margin-left:75%}:host([offset_right_md="9"]){margin-right:75%}:host([size_md="10"]){display:flex;width:83.3333333333%}:host([offset_md="10"]){margin-left:83.3333333333%}:host([offset_right_md="10"]){margin-right:83.3333333333%}:host([size_md="11"]){display:flex;width:91.6666666667%}:host([offset_md="11"]){margin-left:91.6666666667%}:host([offset_right_md="11"]){margin-right:91.6666666667%}:host([size_md="12"]){display:flex;width:100%}:host([offset_md="12"]){margin-left:100%}:host([offset_right_md="12"]){margin-right:100%}}@container application (min-width: 960px){:host([size_lg="0"]){display:flex;width:0%}:host([offset_lg="0"]){margin-left:0%}:host([offset_right_lg="0"]){margin-right:0%}:host([size_lg="1"]){display:flex;width:8.3333333333%}:host([offset_lg="1"]){margin-left:8.3333333333%}:host([offset_right_lg="1"]){margin-right:8.3333333333%}:host([size_lg="2"]){display:flex;width:16.6666666667%}:host([offset_lg="2"]){margin-left:16.6666666667%}:host([offset_right_lg="2"]){margin-right:16.6666666667%}:host([size_lg="3"]){display:flex;width:25%}:host([offset_lg="3"]){margin-left:25%}:host([offset_right_lg="3"]){margin-right:25%}:host([size_lg="4"]){display:flex;width:33.3333333333%}:host([offset_lg="4"]){margin-left:33.3333333333%}:host([offset_right_lg="4"]){margin-right:33.3333333333%}:host([size_lg="5"]){display:flex;width:41.6666666667%}:host([offset_lg="5"]){margin-left:41.6666666667%}:host([offset_right_lg="5"]){margin-right:41.6666666667%}:host([size_lg="6"]){display:flex;width:50%}:host([offset_lg="6"]){margin-left:50%}:host([offset_right_lg="6"]){margin-right:50%}:host([size_lg="7"]){display:flex;width:58.3333333333%}:host([offset_lg="7"]){margin-left:58.3333333333%}:host([offset_right_lg="7"]){margin-right:58.3333333333%}:host([size_lg="8"]){display:flex;width:66.6666666667%}:host([offset_lg="8"]){margin-left:66.6666666667%}:host([offset_right_lg="8"]){margin-right:66.6666666667%}:host([size_lg="9"]){display:flex;width:75%}:host([offset_lg="9"]){margin-left:75%}:host([offset_right_lg="9"]){margin-right:75%}:host([size_lg="10"]){display:flex;width:83.3333333333%}:host([offset_lg="10"]){margin-left:83.3333333333%}:host([offset_right_lg="10"]){margin-right:83.3333333333%}:host([size_lg="11"]){display:flex;width:91.6666666667%}:host([offset_lg="11"]){margin-left:91.6666666667%}:host([offset_right_lg="11"]){margin-right:91.6666666667%}:host([size_lg="12"]){display:flex;width:100%}:host([offset_lg="12"]){margin-left:100%}:host([offset_right_lg="12"]){margin-right:100%}}@container application (min-width: 1140px){:host([size_xl="0"]){display:flex;width:0%}:host([offset_xl="0"]){margin-left:0%}:host([offset_right_xl="0"]){margin-right:0%}:host([size_xl="1"]){display:flex;width:8.3333333333%}:host([offset_xl="1"]){margin-left:8.3333333333%}:host([offset_right_xl="1"]){margin-right:8.3333333333%}:host([size_xl="2"]){display:flex;width:16.6666666667%}:host([offset_xl="2"]){margin-left:16.6666666667%}:host([offset_right_xl="2"]){margin-right:16.6666666667%}:host([size_xl="3"]){display:flex;width:25%}:host([offset_xl="3"]){margin-left:25%}:host([offset_right_xl="3"]){margin-right:25%}:host([size_xl="4"]){display:flex;width:33.3333333333%}:host([offset_xl="4"]){margin-left:33.3333333333%}:host([offset_right_xl="4"]){margin-right:33.3333333333%}:host([size_xl="5"]){display:flex;width:41.6666666667%}:host([offset_xl="5"]){margin-left:41.6666666667%}:host([offset_right_xl="5"]){margin-right:41.6666666667%}:host([size_xl="6"]){display:flex;width:50%}:host([offset_xl="6"]){margin-left:50%}:host([offset_right_xl="6"]){margin-right:50%}:host([size_xl="7"]){display:flex;width:58.3333333333%}:host([offset_xl="7"]){margin-left:58.3333333333%}:host([offset_right_xl="7"]){margin-right:58.3333333333%}:host([size_xl="8"]){display:flex;width:66.6666666667%}:host([offset_xl="8"]){margin-left:66.6666666667%}:host([offset_right_xl="8"]){margin-right:66.6666666667%}:host([size_xl="9"]){display:flex;width:75%}:host([offset_xl="9"]){margin-left:75%}:host([offset_right_xl="9"]){margin-right:75%}:host([size_xl="10"]){display:flex;width:83.3333333333%}:host([offset_xl="10"]){margin-left:83.3333333333%}:host([offset_right_xl="10"]){margin-right:83.3333333333%}:host([size_xl="11"]){display:flex;width:91.6666666667%}:host([offset_xl="11"]){margin-left:91.6666666667%}:host([offset_right_xl="11"]){margin-right:91.6666666667%}:host([size_xl="12"]){display:flex;width:100%}:host([offset_xl="12"]){margin-left:100%}:host([offset_right_xl="12"]){margin-right:100%}}`;
     __getStatic() {
         return Col;
     }
@@ -264,8 +265,9 @@ Components.Col = class Col extends Aventus.WebComponent {
     getClassName() {
         return "Col";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('size')){ this['size'] = undefined; }if(!this.hasAttribute('size_xs')){ this['size_xs'] = undefined; }if(!this.hasAttribute('size_sm')){ this['size_sm'] = undefined; }if(!this.hasAttribute('size_md')){ this['size_md'] = undefined; }if(!this.hasAttribute('size_lg')){ this['size_lg'] = undefined; }if(!this.hasAttribute('size_xl')){ this['size_xl'] = undefined; }if(!this.hasAttribute('offset')){ this['offset'] = undefined; }if(!this.hasAttribute('offset_xs')){ this['offset_xs'] = undefined; }if(!this.hasAttribute('offset_sm')){ this['offset_sm'] = undefined; }if(!this.hasAttribute('offset_md')){ this['offset_md'] = undefined; }if(!this.hasAttribute('offset_lg')){ this['offset_lg'] = undefined; }if(!this.hasAttribute('offset_xl')){ this['offset_xl'] = undefined; }if(!this.hasAttribute('offset_right')){ this['offset_right'] = undefined; }if(!this.hasAttribute('offset_right_xs')){ this['offset_right_xs'] = undefined; }if(!this.hasAttribute('offset_right_sm')){ this['offset_right_sm'] = undefined; }if(!this.hasAttribute('offset_right_md')){ this['offset_right_md'] = undefined; }if(!this.hasAttribute('offset_right_lg')){ this['offset_right_lg'] = undefined; }if(!this.hasAttribute('offset_right_xl')){ this['offset_right_xl'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('size');this.__upgradeProperty('size_xs');this.__upgradeProperty('size_sm');this.__upgradeProperty('size_md');this.__upgradeProperty('size_lg');this.__upgradeProperty('size_xl');this.__upgradeProperty('offset');this.__upgradeProperty('offset_xs');this.__upgradeProperty('offset_sm');this.__upgradeProperty('offset_md');this.__upgradeProperty('offset_lg');this.__upgradeProperty('offset_xl');this.__upgradeProperty('offset_right');this.__upgradeProperty('offset_right_xs');this.__upgradeProperty('offset_right_sm');this.__upgradeProperty('offset_right_md');this.__upgradeProperty('offset_right_lg');this.__upgradeProperty('offset_right_xl'); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('size')){ this['size'] = undefined; }if(!this.hasAttribute('size_xs')){ this['size_xs'] = undefined; }if(!this.hasAttribute('size_sm')){ this['size_sm'] = undefined; }if(!this.hasAttribute('size_md')){ this['size_md'] = undefined; }if(!this.hasAttribute('size_lg')){ this['size_lg'] = undefined; }if(!this.hasAttribute('size_xl')){ this['size_xl'] = undefined; }if(!this.hasAttribute('offset')){ this['offset'] = undefined; }if(!this.hasAttribute('offset_xs')){ this['offset_xs'] = undefined; }if(!this.hasAttribute('offset_sm')){ this['offset_sm'] = undefined; }if(!this.hasAttribute('offset_md')){ this['offset_md'] = undefined; }if(!this.hasAttribute('offset_lg')){ this['offset_lg'] = undefined; }if(!this.hasAttribute('offset_xl')){ this['offset_xl'] = undefined; }if(!this.hasAttribute('offset_right')){ this['offset_right'] = undefined; }if(!this.hasAttribute('offset_right_xs')){ this['offset_right_xs'] = undefined; }if(!this.hasAttribute('offset_right_sm')){ this['offset_right_sm'] = undefined; }if(!this.hasAttribute('offset_right_md')){ this['offset_right_md'] = undefined; }if(!this.hasAttribute('offset_right_lg')){ this['offset_right_lg'] = undefined; }if(!this.hasAttribute('offset_right_xl')){ this['offset_right_xl'] = undefined; }if(!this.hasAttribute('center')) { this.attributeChangedCallback('center', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('size');this.__upgradeProperty('size_xs');this.__upgradeProperty('size_sm');this.__upgradeProperty('size_md');this.__upgradeProperty('size_lg');this.__upgradeProperty('size_xl');this.__upgradeProperty('offset');this.__upgradeProperty('offset_xs');this.__upgradeProperty('offset_sm');this.__upgradeProperty('offset_md');this.__upgradeProperty('offset_lg');this.__upgradeProperty('offset_xl');this.__upgradeProperty('offset_right');this.__upgradeProperty('offset_right_xs');this.__upgradeProperty('offset_right_sm');this.__upgradeProperty('offset_right_md');this.__upgradeProperty('offset_right_lg');this.__upgradeProperty('offset_right_xl');this.__upgradeProperty('center'); }
+    __listBoolProps() { return ["center"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
 }
 Components.Col.Namespace=`${moduleName}.Components`;
 Components.Col.Tag=`rk-col`;
@@ -898,6 +900,15 @@ System.AddOnTime.Tag=`rk-add-on-time`;
 _.System.AddOnTime=System.AddOnTime;
 if(!window.customElements.get('rk-add-on-time')){window.customElements.define('rk-add-on-time', System.AddOnTime);Aventus.WebComponentInstance.registerDefinition(System.AddOnTime);}
 
+System.ApplicationBreakPoint=class ApplicationBreakPoint {
+    static xs = 300;
+    static sm = 540;
+    static md = 720;
+    static lg = 960;
+    static xl = 1140;
+}
+System.ApplicationBreakPoint.Namespace=`${moduleName}.System`;
+_.System.ApplicationBreakPoint=System.ApplicationBreakPoint;
 Lib.Pointer=class Pointer {
     static isTouch(e) {
         if (e instanceof TouchEvent) {
@@ -911,45 +922,6 @@ Lib.Pointer=class Pointer {
 }
 Lib.Pointer.Namespace=`${moduleName}.Lib`;
 _.Lib.Pointer=Lib.Pointer;
-Components.Tracker=class Tracker {
-    velocityMultiplier = window.devicePixelRatio;
-    updateTime = Date.now();
-    delta = { x: 0, y: 0 };
-    velocity = { x: 0, y: 0 };
-    lastPosition = { x: 0, y: 0 };
-    constructor(touch) {
-        this.lastPosition = this.getPosition(touch);
-    }
-    update(touch) {
-        const { velocity, updateTime, lastPosition, } = this;
-        const now = Date.now();
-        const position = this.getPosition(touch);
-        const delta = {
-            x: -(position.x - lastPosition.x),
-            y: -(position.y - lastPosition.y),
-        };
-        const duration = (now - updateTime) || 16.7;
-        const vx = delta.x / duration * 16.7;
-        const vy = delta.y / duration * 16.7;
-        velocity.x = vx * this.velocityMultiplier;
-        velocity.y = vy * this.velocityMultiplier;
-        this.delta = delta;
-        this.updateTime = now;
-        this.lastPosition = position;
-    }
-    getPointerData(evt) {
-        return evt.touches ? evt.touches[evt.touches.length - 1] : evt;
-    }
-    getPosition(evt) {
-        const data = this.getPointerData(evt);
-        return {
-            x: data.clientX,
-            y: data.clientY,
-        };
-    }
-}
-Components.Tracker.Namespace=`${moduleName}.Components`;
-_.Components.Tracker=Components.Tracker;
 Lib.HttpRouter=class HttpRouter extends Aventus.HttpRouter {
 }
 Lib.HttpRouter.Namespace=`${moduleName}.Lib`;
@@ -1063,6 +1035,45 @@ Websocket.Events.ApplicationTestEvent=class ApplicationTestEvent extends Aventus
 }
 Websocket.Events.ApplicationTestEvent.Namespace=`${moduleName}.Websocket.Events`;
 _.Websocket.Events.ApplicationTestEvent=Websocket.Events.ApplicationTestEvent;
+Components.Tracker=class Tracker {
+    velocityMultiplier = window.devicePixelRatio;
+    updateTime = Date.now();
+    delta = { x: 0, y: 0 };
+    velocity = { x: 0, y: 0 };
+    lastPosition = { x: 0, y: 0 };
+    constructor(touch) {
+        this.lastPosition = this.getPosition(touch);
+    }
+    update(touch) {
+        const { velocity, updateTime, lastPosition, } = this;
+        const now = Date.now();
+        const position = this.getPosition(touch);
+        const delta = {
+            x: -(position.x - lastPosition.x),
+            y: -(position.y - lastPosition.y),
+        };
+        const duration = (now - updateTime) || 16.7;
+        const vx = delta.x / duration * 16.7;
+        const vy = delta.y / duration * 16.7;
+        velocity.x = vx * this.velocityMultiplier;
+        velocity.y = vy * this.velocityMultiplier;
+        this.delta = delta;
+        this.updateTime = now;
+        this.lastPosition = position;
+    }
+    getPointerData(evt) {
+        return evt.touches ? evt.touches[evt.touches.length - 1] : evt;
+    }
+    getPosition(evt) {
+        const data = this.getPointerData(evt);
+        return {
+            x: data.clientX,
+            y: data.clientY,
+        };
+    }
+}
+Components.Tracker.Namespace=`${moduleName}.Components`;
+_.Components.Tracker=Components.Tracker;
 (function (ResizeDirection) {
     ResizeDirection[ResizeDirection["Top"] = 0] = "Top";
     ResizeDirection[ResizeDirection["TopLeft"] = 1] = "TopLeft";
@@ -3107,6 +3118,7 @@ System.FrameNoScroll = class FrameNoScroll extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolProp('visible') }
     set 'visible'(val) { this.setBoolAttr('visible', val) }    state;
     application;
+    resetNavElement;
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("visible", ((target) => {
     if (target.visible) {
         target.onShow();
@@ -3167,30 +3179,6 @@ if (this.constructor == FrameNoScroll) { throw "can't instanciate an abstract cl
 }
 System.FrameNoScroll.Namespace=`${moduleName}.System`;
 _.System.FrameNoScroll=System.FrameNoScroll;
-
-System.Frame = class Frame extends System.FrameNoScroll {
-    static __style = `:host rk-scrollable{--scrollbar-content-padding: 0 15px}`;
-    constructor() { super(); if (this.constructor == Frame) { throw "can't instanciate an abstract class"; } }
-    __getStatic() {
-        return Frame;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Frame.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        slots: { 'before-scroll':`<slot name="before-scroll"></slot>`,'default':`<slot></slot>`,'after-scroll':`<slot name="after-scroll"></slot>` }, 
-        blocks: { 'default':`<slot name="before-scroll"></slot><rk-scrollable floating_scroll class="main-scroll">    <slot></slot></rk-scrollable><slot name="after-scroll"></slot>` }
-    });
-}
-    getClassName() {
-        return "Frame";
-    }
-}
-System.Frame.Namespace=`${moduleName}.System`;
-_.System.Frame=System.Frame;
 
 Lib.ApplicationState=class ApplicationState extends Aventus.State {
     /**
@@ -3580,6 +3568,731 @@ System.ApplicationSize=class ApplicationSize {
 }
 System.ApplicationSize.Namespace=`${moduleName}.System`;
 _.System.ApplicationSize=System.ApplicationSize;
+Components.TouchRecord=class TouchRecord {
+    _activeTouchID;
+    _touchList = {};
+    get _primitiveValue() {
+        return { x: 0, y: 0 };
+    }
+    isActive() {
+        return this._activeTouchID !== undefined;
+    }
+    getDelta() {
+        const tracker = this._getActiveTracker();
+        if (!tracker) {
+            return this._primitiveValue;
+        }
+        return { ...tracker.delta };
+    }
+    getVelocity() {
+        const tracker = this._getActiveTracker();
+        if (!tracker) {
+            return this._primitiveValue;
+        }
+        return { ...tracker.velocity };
+    }
+    getEasingDistance(damping) {
+        const deAcceleration = 1 - damping;
+        let distance = {
+            x: 0,
+            y: 0,
+        };
+        const vel = this.getVelocity();
+        Object.keys(vel).forEach(dir => {
+            let v = Math.abs(vel[dir]) <= 10 ? 0 : vel[dir];
+            while (v !== 0) {
+                distance[dir] += v;
+                v = (v * deAcceleration) | 0;
+            }
+        });
+        return distance;
+    }
+    track(evt) {
+        const { targetTouches, } = evt;
+        Array.from(targetTouches).forEach(touch => {
+            this._add(touch);
+        });
+        return this._touchList;
+    }
+    update(evt) {
+        const { touches, changedTouches, } = evt;
+        Array.from(touches).forEach(touch => {
+            this._renew(touch);
+        });
+        this._setActiveID(changedTouches);
+        return this._touchList;
+    }
+    release(evt) {
+        delete this._activeTouchID;
+        Array.from(evt.changedTouches).forEach(touch => {
+            this._delete(touch);
+        });
+    }
+    _add(touch) {
+        if (this._has(touch)) {
+            this._delete(touch);
+        }
+        const tracker = new Components.Tracker(touch);
+        this._touchList[touch.identifier] = tracker;
+    }
+    _renew(touch) {
+        if (!this._has(touch)) {
+            return;
+        }
+        const tracker = this._touchList[touch.identifier];
+        tracker.update(touch);
+    }
+    _delete(touch) {
+        delete this._touchList[touch.identifier];
+    }
+    _has(touch) {
+        return this._touchList.hasOwnProperty(touch.identifier);
+    }
+    _setActiveID(touches) {
+        this._activeTouchID = touches[touches.length - 1].identifier;
+    }
+    _getActiveTracker() {
+        const { _touchList, _activeTouchID, } = this;
+        if (_activeTouchID !== undefined) {
+            return _touchList[_activeTouchID];
+        }
+        return undefined;
+    }
+}
+Components.TouchRecord.Namespace=`${moduleName}.Components`;
+_.Components.TouchRecord=Components.TouchRecord;
+Components.Scrollable = class Scrollable extends Aventus.WebComponent {
+    static get observedAttributes() {return ["zoom"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'y_scroll_visible'() { return this.getBoolAttr('y_scroll_visible') }
+    set 'y_scroll_visible'(val) { this.setBoolAttr('y_scroll_visible', val) }get 'x_scroll_visible'() { return this.getBoolAttr('x_scroll_visible') }
+    set 'x_scroll_visible'(val) { this.setBoolAttr('x_scroll_visible', val) }get 'floating_scroll'() { return this.getBoolAttr('floating_scroll') }
+    set 'floating_scroll'(val) { this.setBoolAttr('floating_scroll', val) }get 'x_scroll'() { return this.getBoolAttr('x_scroll') }
+    set 'x_scroll'(val) { this.setBoolAttr('x_scroll', val) }get 'y_scroll'() { return this.getBoolAttr('y_scroll') }
+    set 'y_scroll'(val) { this.setBoolAttr('y_scroll', val) }get 'auto_hide'() { return this.getBoolAttr('auto_hide') }
+    set 'auto_hide'(val) { this.setBoolAttr('auto_hide', val) }get 'break'() { return this.getNumberAttr('break') }
+    set 'break'(val) { this.setNumberAttr('break', val) }get 'disable'() { return this.getBoolAttr('disable') }
+    set 'disable'(val) { this.setBoolAttr('disable', val) }get 'no_user_select'() { return this.getBoolAttr('no_user_select') }
+    set 'no_user_select'(val) { this.setBoolAttr('no_user_select', val) }    get 'zoom'() { return this.getNumberProp('zoom') }
+    set 'zoom'(val) { this.setNumberAttr('zoom', val) }    observer;
+    display = { x: 0, y: 0 };
+    max = {
+        x: 0,
+        y: 0
+    };
+    margin = {
+        x: 0,
+        y: 0
+    };
+    position = {
+        x: 0,
+        y: 0
+    };
+    momentum = { x: 0, y: 0 };
+    contentWrapperSize = { x: 0, y: 0 };
+    scroller = {
+        x: () => {
+            if (!this.horizontalScroller) {
+                throw 'can\'t find the horizontalScroller';
+            }
+            return this.horizontalScroller;
+        },
+        y: () => {
+            if (!this.verticalScroller) {
+                throw 'can\'t find the verticalScroller';
+            }
+            return this.verticalScroller;
+        }
+    };
+    scrollerContainer = {
+        x: () => {
+            if (!this.horizontalScrollerContainer) {
+                throw 'can\'t find the horizontalScrollerContainer';
+            }
+            return this.horizontalScrollerContainer;
+        },
+        y: () => {
+            if (!this.verticalScrollerContainer) {
+                throw 'can\'t find the verticalScrollerContainer';
+            }
+            return this.verticalScrollerContainer;
+        }
+    };
+    hideDelay = { x: 0, y: 0 };
+    touchRecord;
+    pointerCount = 0;
+    savedBreak = 1;
+    get x() {
+        return this.position.x;
+    }
+    get y() {
+        return this.position.y;
+    }
+    onScrollChange = new Aventus.Callback();
+    renderAnimation;
+    autoScrollInterval = {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+    };
+    autoScrollSpeed = {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+    };
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("zoom", ((target) => {
+    target.changeZoom();
+})); }
+    static __style = `:host{--_scrollbar-container-color: var(--scrollbar-container-color, transparent);--_scrollbar-color: var(--scrollbar-color, #757575);--_scrollbar-active-color: var(--scrollbar-active-color, #858585);--_scroller-width: var(--scroller-width, 6px);--_scroller-top: var(--scroller-top, 3px);--_scroller-bottom: var(--scroller-bottom, 3px);--_scroller-right: var(--scroller-right, 3px);--_scroller-left: var(--scroller-left, 3px);--_scrollbar-content-padding: var(--scrollbar-content-padding, 0);--_scrollbar-container-display: var(--scrollbar-container-display, inline-block)}:host{display:block;height:100%;min-height:inherit;min-width:inherit;overflow:hidden;position:relative;-webkit-user-drag:none;-khtml-user-drag:none;-moz-user-drag:none;-o-user-drag:none;width:100%}:host .scroll-main-container{display:block;height:100%;min-height:inherit;min-width:inherit;position:relative;width:100%}:host .scroll-main-container .content-zoom{display:block;height:100%;min-height:inherit;min-width:inherit;position:relative;transform-origin:0 0;width:100%;z-index:4}:host .scroll-main-container .content-zoom .content-hidder{display:block;height:100%;min-height:inherit;min-width:inherit;overflow:hidden;position:relative;width:100%}:host .scroll-main-container .content-zoom .content-hidder .content-wrapper{display:var(--_scrollbar-container-display);height:100%;min-height:inherit;min-width:inherit;padding:var(--_scrollbar-content-padding);position:relative;width:100%}:host .scroll-main-container .scroller-wrapper .container-scroller{display:none;overflow:hidden;position:absolute;transition:transform .2s linear;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller{background-color:var(--_scrollbar-container-color);border-radius:5px}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller .scroller{background-color:var(--_scrollbar-color);border-radius:5px;cursor:pointer;position:absolute;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .scroller.active{background-color:var(--_scrollbar-active-color)}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical{height:calc(100% - var(--_scroller-bottom)*2 - var(--_scroller-width));padding-left:var(--_scroller-left);right:var(--_scroller-right);top:var(--_scroller-bottom);transform:0;width:calc(var(--_scroller-width) + var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical.hide{transform:translateX(calc(var(--_scroller-width) + var(--_scroller-left)))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller .scroller{width:calc(100% - var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal{bottom:var(--_scroller-bottom);height:calc(var(--_scroller-width) + var(--_scroller-top));left:var(--_scroller-right);padding-top:var(--_scroller-top);transform:0;width:calc(100% - var(--_scroller-right)*2 - var(--_scroller-width))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal.hide{transform:translateY(calc(var(--_scroller-width) + var(--_scroller-top)))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller .scroller{height:calc(100% - var(--_scroller-top))}:host([y_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{height:auto}:host([x_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{width:auto}:host([y_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.vertical{display:block}:host([x_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.horizontal{display:block}:host([no_user_select]) .content-wrapper *{user-select:none}:host([no_user_select]) ::slotted{user-select:none}`;
+    constructor() {            super();            this.renderAnimation = this.createAnimation();            this.onWheel = this.onWheel.bind(this);            this.onTouchStart = this.onTouchStart.bind(this);            this.onTouchMove = this.onTouchMove.bind(this);            this.onTouchEnd = this.onTouchEnd.bind(this);            this.touchRecord = new Components.TouchRecord();        }
+    __getStatic() {
+        return Scrollable;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Scrollable.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="scroll-main-container" _id="scrollable_0">    <div class="content-zoom" _id="scrollable_1">        <div class="content-hidder" _id="scrollable_2">            <div class="content-wrapper" part="content-wrapper" _id="scrollable_3">                <slot></slot>            </div>        </div>    </div>    <div class="scroller-wrapper">        <div class="container-scroller vertical" _id="scrollable_4">            <div class="shadow-scroller">                <div class="scroller" _id="scrollable_5"></div>            </div>        </div>        <div class="container-scroller horizontal" _id="scrollable_6">            <div class="shadow-scroller">                <div class="scroller" _id="scrollable_7"></div>            </div>        </div>    </div></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "mainContainer",
+      "ids": [
+        "scrollable_0"
+      ]
+    },
+    {
+      "name": "contentZoom",
+      "ids": [
+        "scrollable_1"
+      ]
+    },
+    {
+      "name": "contentHidder",
+      "ids": [
+        "scrollable_2"
+      ]
+    },
+    {
+      "name": "contentWrapper",
+      "ids": [
+        "scrollable_3"
+      ]
+    },
+    {
+      "name": "verticalScrollerContainer",
+      "ids": [
+        "scrollable_4"
+      ]
+    },
+    {
+      "name": "verticalScroller",
+      "ids": [
+        "scrollable_5"
+      ]
+    },
+    {
+      "name": "horizontalScrollerContainer",
+      "ids": [
+        "scrollable_6"
+      ]
+    },
+    {
+      "name": "horizontalScroller",
+      "ids": [
+        "scrollable_7"
+      ]
+    }
+  ]
+}); }
+    getClassName() {
+        return "Scrollable";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('y_scroll_visible')) { this.attributeChangedCallback('y_scroll_visible', false, false); }if(!this.hasAttribute('x_scroll_visible')) { this.attributeChangedCallback('x_scroll_visible', false, false); }if(!this.hasAttribute('floating_scroll')) { this.attributeChangedCallback('floating_scroll', false, false); }if(!this.hasAttribute('x_scroll')) { this.attributeChangedCallback('x_scroll', false, false); }if(!this.hasAttribute('y_scroll')) {this.setAttribute('y_scroll' ,'true'); }if(!this.hasAttribute('auto_hide')) { this.attributeChangedCallback('auto_hide', false, false); }if(!this.hasAttribute('break')){ this['break'] = 0.1; }if(!this.hasAttribute('disable')) { this.attributeChangedCallback('disable', false, false); }if(!this.hasAttribute('no_user_select')) { this.attributeChangedCallback('no_user_select', false, false); }if(!this.hasAttribute('zoom')){ this['zoom'] = 1; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('y_scroll_visible');this.__upgradeProperty('x_scroll_visible');this.__upgradeProperty('floating_scroll');this.__upgradeProperty('x_scroll');this.__upgradeProperty('y_scroll');this.__upgradeProperty('auto_hide');this.__upgradeProperty('break');this.__upgradeProperty('disable');this.__upgradeProperty('no_user_select');this.__upgradeProperty('zoom'); }
+    __listBoolProps() { return ["y_scroll_visible","x_scroll_visible","floating_scroll","x_scroll","y_scroll","auto_hide","disable","no_user_select"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    createAnimation() {
+        return new Aventus.Animation({
+            fps: 60,
+            animate: () => {
+                const nextX = this.nextPosition('x');
+                const nextY = this.nextPosition('y');
+                this.momentum.x = nextX.momentum;
+                this.momentum.y = nextY.momentum;
+                this.scrollDirection('x', nextX.position);
+                this.scrollDirection('y', nextY.position);
+                if (!this.momentum.x && !this.momentum.y) {
+                    this.renderAnimation.stop();
+                }
+            },
+            stopped: () => {
+                if (this.momentum.x || this.momentum.y) {
+                    this.renderAnimation.start();
+                }
+            }
+        });
+    }
+    nextPosition(direction) {
+        const current = this.position[direction];
+        const remain = this.momentum[direction];
+        let result = {
+            momentum: 0,
+            position: 0,
+        };
+        if (Math.abs(remain) <= 0.1) {
+            result.position = current + remain;
+        }
+        else {
+            let nextMomentum = remain * (1 - this.break);
+            nextMomentum |= 0;
+            result.momentum = nextMomentum;
+            result.position = current + remain - nextMomentum;
+        }
+        let correctPosition = this.correctScrollValue(result.position, direction);
+        if (correctPosition != result.position) {
+            result.position = correctPosition;
+            result.momentum = 0;
+        }
+        return result;
+    }
+    scrollDirection(direction, value) {
+        const max = this.max[direction];
+        if (max != 0) {
+            this.position[direction] = this.correctScrollValue(value, direction);
+        }
+        else {
+            this.position[direction] = 0;
+        }
+        let container = this.scrollerContainer[direction]();
+        let scroller = this.scroller[direction]();
+        if (this.auto_hide) {
+            container.classList.remove("hide");
+            clearTimeout(this.hideDelay[direction]);
+            this.hideDelay[direction] = setTimeout(() => {
+                container.classList.add("hide");
+            }, 1000);
+        }
+        let containerSize = direction == 'y' ? container.offsetHeight : container.offsetWidth;
+        if (this.contentWrapperSize[direction] != 0) {
+            let scrollPosition = this.position[direction] / this.contentWrapperSize[direction] * containerSize;
+            scroller.style.transform = `translate${direction.toUpperCase()}(${scrollPosition}px)`;
+            this.contentWrapper.style.transform = `translate3d(${-1 * this.x}px, ${-1 * this.y}px, 0)`;
+        }
+        this.triggerScrollChange();
+    }
+    correctScrollValue(value, direction) {
+        if (value < 0) {
+            value = 0;
+        }
+        else if (value > this.max[direction]) {
+            value = this.max[direction];
+        }
+        return value;
+    }
+    triggerScrollChange() {
+        this.onScrollChange.trigger([this.x, this.y]);
+    }
+    scrollToPosition(x, y) {
+        this.scrollDirection('x', x);
+        this.scrollDirection('y', y);
+    }
+    scrollX(x) {
+        this.scrollDirection('x', x);
+    }
+    scrollY(y) {
+        this.scrollDirection('y', y);
+    }
+    startAutoScrollRight() {
+        if (!this.autoScrollInterval.right) {
+            this.stopAutoScrollLeft();
+            this.autoScrollInterval.right = setInterval(() => {
+                if (this.x == this.max.x) {
+                    this.stopAutoScrollRight();
+                    return;
+                }
+                this.addDelta({
+                    x: this.autoScrollSpeed.right,
+                    y: 0
+                });
+            }, 100);
+        }
+    }
+    autoScrollRight(percent = 50) {
+        let slow = 10;
+        let fast = 200;
+        this.autoScrollSpeed.right = (fast - slow) * (percent / 100) + slow;
+        this.startAutoScrollRight();
+    }
+    stopAutoScrollRight() {
+        if (this.autoScrollInterval.right) {
+            clearInterval(this.autoScrollInterval.right);
+            this.autoScrollInterval.right = 0;
+        }
+    }
+    startAutoScrollLeft() {
+        if (!this.autoScrollInterval.left) {
+            this.stopAutoScrollRight();
+            this.autoScrollInterval.left = setInterval(() => {
+                if (this.x == 0) {
+                    this.stopAutoScrollLeft();
+                    return;
+                }
+                this.addDelta({
+                    x: this.autoScrollSpeed.left * -1,
+                    y: 0
+                });
+            }, 100);
+        }
+    }
+    autoScrollLeft(percent = 50) {
+        let slow = 10;
+        let fast = 200;
+        this.autoScrollSpeed.left = (fast - slow) * (percent / 100) + slow;
+        this.startAutoScrollLeft();
+    }
+    stopAutoScrollLeft() {
+        if (this.autoScrollInterval.left) {
+            clearInterval(this.autoScrollInterval.left);
+            this.autoScrollInterval.left = 0;
+        }
+    }
+    startAutoScrollTop() {
+        if (!this.autoScrollInterval.top) {
+            this.stopAutoScrollBottom();
+            this.autoScrollInterval.top = setInterval(() => {
+                if (this.y == 0) {
+                    this.stopAutoScrollTop();
+                    return;
+                }
+                this.addDelta({
+                    x: 0,
+                    y: this.autoScrollSpeed.top * -1
+                });
+            }, 100);
+        }
+    }
+    autoScrollTop(percent = 50) {
+        let slow = 10;
+        let fast = 200;
+        this.autoScrollSpeed.top = (fast - slow) * (percent / 100) + slow;
+        this.startAutoScrollTop();
+    }
+    stopAutoScrollTop() {
+        if (this.autoScrollInterval.top) {
+            clearInterval(this.autoScrollInterval.top);
+            this.autoScrollInterval.top = 0;
+        }
+    }
+    startAutoScrollBottom() {
+        if (!this.autoScrollInterval.bottom) {
+            this.stopAutoScrollTop();
+            this.autoScrollInterval.bottom = setInterval(() => {
+                if (this.y == this.max.y) {
+                    this.stopAutoScrollBottom();
+                    return;
+                }
+                this.addDelta({
+                    x: 0,
+                    y: this.autoScrollSpeed.bottom
+                });
+            }, 100);
+        }
+    }
+    autoScrollBottom(percent = 50) {
+        let slow = 10;
+        let fast = 200;
+        this.autoScrollSpeed.bottom = (fast - slow) * (percent / 100) + slow;
+        this.startAutoScrollBottom();
+    }
+    stopAutoScrollBottom() {
+        if (this.autoScrollInterval.bottom) {
+            clearInterval(this.autoScrollInterval.bottom);
+            this.autoScrollInterval.bottom = 0;
+        }
+    }
+    addAction() {
+        this.addEventListener("wheel", this.onWheel);
+        this.addEventListener("touchstart", this.onTouchStart);
+        this.addEventListener("touchmove", this.onTouchMove);
+        this.addEventListener("touchcancel", this.onTouchEnd);
+        this.addEventListener("touchend", this.onTouchEnd);
+        this.addScrollDrag('x');
+        this.addScrollDrag('y');
+    }
+    addScrollDrag(direction) {
+        let scroller = this.scroller[direction]();
+        scroller.addEventListener("touchstart", (e) => {
+            e.stopPropagation();
+        });
+        let startPosition = 0;
+        new Aventus.DragAndDrop({
+            element: scroller,
+            applyDrag: false,
+            usePercent: true,
+            offsetDrag: 0,
+            isDragEnable: () => !this.disable,
+            onStart: (e) => {
+                this.no_user_select = true;
+                scroller.classList.add("active");
+                startPosition = this.position[direction];
+            },
+            onMove: (e, position) => {
+                let delta = position[direction] / 100 * this.contentWrapperSize[direction];
+                let value = startPosition + delta;
+                this.scrollDirection(direction, value);
+            },
+            onStop: () => {
+                this.no_user_select = false;
+                scroller.classList.remove("active");
+            }
+        });
+    }
+    addDelta(delta) {
+        if (this.disable) {
+            return;
+        }
+        this.momentum.x += delta.x;
+        this.momentum.y += delta.y;
+        this.renderAnimation?.start();
+    }
+    onWheel(e) {
+        const DELTA_MODE = [1.0, 28.0, 500.0];
+        const mode = DELTA_MODE[e.deltaMode] || DELTA_MODE[0];
+        let newValue = {
+            x: 0,
+            y: e.deltaY * mode,
+        };
+        if (!this.y_scroll && this.x_scroll) {
+            newValue = {
+                x: e.deltaY * mode,
+                y: 0,
+            };
+            if ((newValue.x > 0 && this.x != this.max.x) ||
+                (newValue.x <= 0 && this.x != 0)) {
+                e.stopPropagation();
+            }
+        }
+        else {
+            if ((newValue.y > 0 && this.y != this.max.y) ||
+                (newValue.y <= 0 && this.y != 0)) {
+                e.stopPropagation();
+            }
+        }
+        this.addDelta(newValue);
+    }
+    onTouchStart(e) {
+        this.touchRecord.track(e);
+        this.momentum = {
+            x: 0,
+            y: 0
+        };
+        if (this.pointerCount === 0) {
+            this.savedBreak = this.break;
+            this.break = Math.max(this.break, 0.5); // less frames on touchmove
+        }
+        this.pointerCount++;
+    }
+    onTouchMove(e) {
+        this.touchRecord.update(e);
+        const delta = this.touchRecord.getDelta();
+        this.addDelta(delta);
+    }
+    onTouchEnd(e) {
+        const delta = this.touchRecord.getEasingDistance(this.savedBreak);
+        this.addDelta(delta);
+        this.pointerCount--;
+        if (this.pointerCount === 0) {
+            this.break = this.savedBreak;
+        }
+        this.touchRecord.release(e);
+    }
+    calculateRealSize() {
+        if (!this.contentZoom || !this.mainContainer || !this.contentWrapper) {
+            return;
+        }
+        const currentOffsetWidth = this.contentZoom.offsetWidth;
+        const currentOffsetHeight = this.contentZoom.offsetHeight;
+        this.contentWrapperSize.x = this.contentWrapper.offsetWidth;
+        this.contentWrapperSize.y = this.contentWrapper.offsetHeight;
+        if (this.zoom < 1) {
+            // scale the container for zoom
+            this.contentZoom.style.width = this.mainContainer.offsetWidth / this.zoom + 'px';
+            this.contentZoom.style.height = this.mainContainer.offsetHeight / this.zoom + 'px';
+            this.display.y = currentOffsetHeight;
+            this.display.x = currentOffsetWidth;
+        }
+        else {
+            this.display.y = currentOffsetHeight / this.zoom;
+            this.display.x = currentOffsetWidth / this.zoom;
+        }
+    }
+    calculatePositionScrollerContainer(direction) {
+        if (direction == 'y') {
+            this.calculatePositionScrollerContainerY();
+        }
+        else {
+            this.calculatePositionScrollerContainerX();
+        }
+    }
+    calculatePositionScrollerContainerY() {
+        const leftMissing = this.mainContainer.offsetWidth - this.verticalScrollerContainer.offsetLeft;
+        if (leftMissing > 0 && this.y_scroll_visible && !this.floating_scroll) {
+            this.contentHidder.style.width = 'calc(100% - ' + leftMissing + 'px)';
+            this.contentHidder.style.marginRight = leftMissing + 'px';
+            this.margin.x = leftMissing;
+        }
+        else {
+            this.contentHidder.style.width = '';
+            this.contentHidder.style.marginRight = '';
+            this.margin.x = 0;
+        }
+    }
+    calculatePositionScrollerContainerX() {
+        const topMissing = this.mainContainer.offsetHeight - this.horizontalScrollerContainer.offsetTop;
+        if (topMissing > 0 && this.x_scroll_visible && !this.floating_scroll) {
+            this.contentHidder.style.height = 'calc(100% - ' + topMissing + 'px)';
+            this.contentHidder.style.marginBottom = topMissing + 'px';
+            this.margin.y = topMissing;
+        }
+        else {
+            this.contentHidder.style.height = '';
+            this.contentHidder.style.marginBottom = '';
+            this.margin.y = 0;
+        }
+    }
+    calculateSizeScroller(direction) {
+        const scrollerSize = ((this.display[direction] - this.margin[direction]) / this.contentWrapperSize[direction] * 100);
+        if (direction == "y") {
+            this.scroller[direction]().style.height = scrollerSize + '%';
+        }
+        else {
+            this.scroller[direction]().style.width = scrollerSize + '%';
+        }
+        let maxScrollContent = this.contentWrapperSize[direction] - this.display[direction];
+        if (maxScrollContent < 0) {
+            maxScrollContent = 0;
+        }
+        this.max[direction] = maxScrollContent + this.margin[direction];
+    }
+    changeZoom() {
+        this.contentZoom.style.transform = 'scale(' + this.zoom + ')';
+        this.dimensionRefreshed();
+    }
+    dimensionRefreshed() {
+        this.calculateRealSize();
+        if (this.contentWrapperSize.y - this.display.y > 0) {
+            if (!this.y_scroll_visible) {
+                this.y_scroll_visible = true;
+                this.calculatePositionScrollerContainer('y');
+            }
+            this.calculateSizeScroller('y');
+            this.scrollDirection('y', this.y);
+        }
+        else if (this.y_scroll_visible) {
+            this.y_scroll_visible = false;
+            this.calculatePositionScrollerContainer('y');
+            this.calculateSizeScroller('y');
+            this.scrollDirection('y', 0);
+        }
+        if (this.contentWrapperSize.x - this.display.x > 0) {
+            if (!this.x_scroll_visible) {
+                this.x_scroll_visible = true;
+                this.calculatePositionScrollerContainer('x');
+            }
+            this.calculateSizeScroller('x');
+            this.scrollDirection('x', this.x);
+        }
+        else if (this.x_scroll_visible) {
+            this.x_scroll_visible = false;
+            this.calculatePositionScrollerContainer('x');
+            this.calculateSizeScroller('x');
+            this.scrollDirection('x', 0);
+        }
+    }
+    createResizeObserver() {
+        let inProgress = false;
+        return new Aventus.ResizeObserver({
+            callback: entries => {
+                if (inProgress) {
+                    return;
+                }
+                inProgress = true;
+                this.dimensionRefreshed();
+                inProgress = false;
+            },
+            fps: 30
+        });
+    }
+    addResizeObserver() {
+        if (this.observer == undefined) {
+            this.observer = this.createResizeObserver();
+        }
+        this.observer.observe(this.contentWrapper);
+        this.observer.observe(this);
+    }
+    postCreation() {
+        this.addResizeObserver();
+        this.addAction();
+    }
+    static lock(element) {
+        const container = element.findParentByType(Components.Scrollable);
+        if (container) {
+            container.disable = true;
+        }
+    }
+    static unlock(element) {
+        const container = element.findParentByType(Components.Scrollable);
+        if (container) {
+            container.disable = false;
+        }
+    }
+}
+Components.Scrollable.Namespace=`${moduleName}.Components`;
+Components.Scrollable.Tag=`rk-scrollable`;
+_.Components.Scrollable=Components.Scrollable;
+if(!window.customElements.get('rk-scrollable')){window.customElements.define('rk-scrollable', Components.Scrollable);Aventus.WebComponentInstance.registerDefinition(Components.Scrollable);}
+
+System.Frame = class Frame extends System.FrameNoScroll {
+    static __style = `:host .main-scroll{--scrollbar-content-padding: 0 15px}`;
+    constructor() { super(); if (this.constructor == Frame) { throw "can't instanciate an abstract class"; } }
+    __getStatic() {
+        return Frame;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Frame.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'before-scroll':`<slot name="before-scroll"></slot>`,'default':`<slot></slot>`,'after-scroll':`<slot name="after-scroll"></slot>` }, 
+        blocks: { 'default':`<slot name="before-scroll"></slot><rk-scrollable floating_scroll class="main-scroll" _id="frame_0">    <slot></slot></rk-scrollable><slot name="after-scroll"></slot>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "mainScroll",
+      "ids": [
+        "frame_0"
+      ]
+    }
+  ]
+}); }
+    getClassName() {
+        return "Frame";
+    }
+}
+System.Frame.Namespace=`${moduleName}.System`;
+_.System.Frame=System.Frame;
+
 System.Frame404 = class Frame404 extends System.Frame {
     static __style = ``;
     __getStatic() {
@@ -3926,7 +4639,7 @@ Components.Popup = class Popup extends Aventus.WebComponent {
 }));    super.__registerWatchesActions();
 }
     static __style = `:host{--_popup-background-color: var(--popup-background-color, var(--application-background-color, var(--primary-color-opacity)));--_popup-border-radius: var(--popup-border-radius, var(--application-border-radius, 10px));--_popup-header-background-color: var(--popup-header-background-color, var(--application-header-background-color, var(--darker-active)))}:host{align-items:center;animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(48,48,48,.1);border-radius:var(--application-border-radius);display:flex;inset:0;justify-content:center;position:absolute;z-index:650}:host .popup{background-color:var(--_popup-background-color);border-radius:var(--_popup-border-radius);box-shadow:var(--elevation-5);display:flex;flex-direction:column;max-height:calc(100% - 50px);max-width:calc(100% - 50px)}:host .popup .header{align-items:center;border-top-left-radius:var(--_popup-border-radius);border-top-right-radius:var(--_popup-border-radius);display:flex;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .popup .header .background{background-color:var(--_popup-header-background-color);inset:0;position:absolute;z-index:1}:host .popup .header .title{flex-grow:1;margin-left:15px;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .popup .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .popup .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .popup .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);overflow:hidden;padding:15px;padding-top:15px;width:100%;z-index:1}:host([no_red_btn]) .popup .header .application-actions .btn{display:none}:host([behind]){z-index:550}@media screen and (min-width: 1225px){:host .popup .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}`;
-    constructor() { super(); if (this.constructor == Popup) { throw "can't instanciate an abstract class"; } }
+    constructor() {            super();            this.info = this.defaultOptions();if (this.constructor == Popup) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return Popup;
     }
@@ -3967,7 +4680,7 @@ Components.Popup = class Popup extends Aventus.WebComponent {
         return "Popup";
     }
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('no_red_btn')) { this.attributeChangedCallback('no_red_btn', false, false); }if(!this.hasAttribute('behind')) { this.attributeChangedCallback('behind', false, false); } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["info"] = this.defaultOptions(); }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["info"] = undefined; }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('no_red_btn');this.__upgradeProperty('behind'); }
     __listBoolProps() { return ["no_red_btn","behind"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     mergeInfo(info) {
@@ -3986,6 +4699,9 @@ Components.Popup = class Popup extends Aventus.WebComponent {
     }
     redPress() {
         this.remove();
+    }
+    postCreation() {
+        this.onOptionsChanged();
     }
     __c6b222033048639bf6ac58d471520fbamethod0() {
         return this.info.title;
@@ -4296,6 +5012,9 @@ System.Application = class Application extends Aventus.WebComponent {
             console.log(e);
         }
     }
+    shouldDestroyFrame(frame) {
+        return false;
+    }
     initRoute(path) {
         let element;
         let allRoutes = this.allRoutes;
@@ -4312,10 +5031,15 @@ System.Application = class Application extends Aventus.WebComponent {
                             let cst = options.render();
                             element = new cst;
                             element.application = this;
+                            element.resetNavElement = () => element = undefined;
                             this.contentEl?.appendChild(element);
                         }
                         if (this.oldFrame && this.oldFrame != element) {
                             await this.oldFrame.hide();
+                            if (this.shouldDestroyFrame(this.oldFrame)) {
+                                this.oldFrame.remove();
+                                this.oldFrame.resetNavElement();
+                            }
                         }
                         let oldPage = this.oldFrame;
                         let oldUrl = this.activePath;
@@ -5759,9 +6483,11 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
     removeApp(application) {
         const appNumber = application.options?.applicationNumber ?? -1;
         const type = application.$type;
-        delete this.applications[type][appNumber];
-        if (Object.keys(this.applications[type]).length == 0) {
-            delete this.applications[type];
+        if (this.applications[type]) {
+            delete this.applications[type][appNumber];
+            if (Object.keys(this.applications[type]).length == 0) {
+                delete this.applications[type];
+            }
         }
         this.manageAppBottomBar(type);
     }
@@ -5961,577 +6687,6 @@ System.Desktop.Namespace=`${moduleName}.System`;
 System.Desktop.Tag=`rk-desktop`;
 _.System.Desktop=System.Desktop;
 if(!window.customElements.get('rk-desktop')){window.customElements.define('rk-desktop', System.Desktop);Aventus.WebComponentInstance.registerDefinition(System.Desktop);}
-
-Components.TouchRecord=class TouchRecord {
-    _activeTouchID;
-    _touchList = {};
-    get _primitiveValue() {
-        return { x: 0, y: 0 };
-    }
-    isActive() {
-        return this._activeTouchID !== undefined;
-    }
-    getDelta() {
-        const tracker = this._getActiveTracker();
-        if (!tracker) {
-            return this._primitiveValue;
-        }
-        return { ...tracker.delta };
-    }
-    getVelocity() {
-        const tracker = this._getActiveTracker();
-        if (!tracker) {
-            return this._primitiveValue;
-        }
-        return { ...tracker.velocity };
-    }
-    getEasingDistance(damping) {
-        const deAcceleration = 1 - damping;
-        let distance = {
-            x: 0,
-            y: 0,
-        };
-        const vel = this.getVelocity();
-        Object.keys(vel).forEach(dir => {
-            let v = Math.abs(vel[dir]) <= 10 ? 0 : vel[dir];
-            while (v !== 0) {
-                distance[dir] += v;
-                v = (v * deAcceleration) | 0;
-            }
-        });
-        return distance;
-    }
-    track(evt) {
-        const { targetTouches, } = evt;
-        Array.from(targetTouches).forEach(touch => {
-            this._add(touch);
-        });
-        return this._touchList;
-    }
-    update(evt) {
-        const { touches, changedTouches, } = evt;
-        Array.from(touches).forEach(touch => {
-            this._renew(touch);
-        });
-        this._setActiveID(changedTouches);
-        return this._touchList;
-    }
-    release(evt) {
-        delete this._activeTouchID;
-        Array.from(evt.changedTouches).forEach(touch => {
-            this._delete(touch);
-        });
-    }
-    _add(touch) {
-        if (this._has(touch)) {
-            this._delete(touch);
-        }
-        const tracker = new Components.Tracker(touch);
-        this._touchList[touch.identifier] = tracker;
-    }
-    _renew(touch) {
-        if (!this._has(touch)) {
-            return;
-        }
-        const tracker = this._touchList[touch.identifier];
-        tracker.update(touch);
-    }
-    _delete(touch) {
-        delete this._touchList[touch.identifier];
-    }
-    _has(touch) {
-        return this._touchList.hasOwnProperty(touch.identifier);
-    }
-    _setActiveID(touches) {
-        this._activeTouchID = touches[touches.length - 1].identifier;
-    }
-    _getActiveTracker() {
-        const { _touchList, _activeTouchID, } = this;
-        if (_activeTouchID !== undefined) {
-            return _touchList[_activeTouchID];
-        }
-        return undefined;
-    }
-}
-Components.TouchRecord.Namespace=`${moduleName}.Components`;
-_.Components.TouchRecord=Components.TouchRecord;
-Components.Scrollable = class Scrollable extends Aventus.WebComponent {
-    static get observedAttributes() {return ["zoom"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'y_scroll_visible'() { return this.getBoolAttr('y_scroll_visible') }
-    set 'y_scroll_visible'(val) { this.setBoolAttr('y_scroll_visible', val) }get 'x_scroll_visible'() { return this.getBoolAttr('x_scroll_visible') }
-    set 'x_scroll_visible'(val) { this.setBoolAttr('x_scroll_visible', val) }get 'floating_scroll'() { return this.getBoolAttr('floating_scroll') }
-    set 'floating_scroll'(val) { this.setBoolAttr('floating_scroll', val) }get 'x_scroll'() { return this.getBoolAttr('x_scroll') }
-    set 'x_scroll'(val) { this.setBoolAttr('x_scroll', val) }get 'y_scroll'() { return this.getBoolAttr('y_scroll') }
-    set 'y_scroll'(val) { this.setBoolAttr('y_scroll', val) }get 'auto_hide'() { return this.getBoolAttr('auto_hide') }
-    set 'auto_hide'(val) { this.setBoolAttr('auto_hide', val) }get 'break'() { return this.getNumberAttr('break') }
-    set 'break'(val) { this.setNumberAttr('break', val) }get 'disable'() { return this.getBoolAttr('disable') }
-    set 'disable'(val) { this.setBoolAttr('disable', val) }get 'no_user_select'() { return this.getBoolAttr('no_user_select') }
-    set 'no_user_select'(val) { this.setBoolAttr('no_user_select', val) }    get 'zoom'() { return this.getNumberProp('zoom') }
-    set 'zoom'(val) { this.setNumberAttr('zoom', val) }    observer;
-    display = { x: 0, y: 0 };
-    max = {
-        x: 0,
-        y: 0
-    };
-    margin = {
-        x: 0,
-        y: 0
-    };
-    position = {
-        x: 0,
-        y: 0
-    };
-    momentum = { x: 0, y: 0 };
-    contentWrapperSize = { x: 0, y: 0 };
-    scroller = {
-        x: () => {
-            if (!this.horizontalScroller) {
-                throw 'can\'t find the horizontalScroller';
-            }
-            return this.horizontalScroller;
-        },
-        y: () => {
-            if (!this.verticalScroller) {
-                throw 'can\'t find the verticalScroller';
-            }
-            return this.verticalScroller;
-        }
-    };
-    scrollerContainer = {
-        x: () => {
-            if (!this.horizontalScrollerContainer) {
-                throw 'can\'t find the horizontalScrollerContainer';
-            }
-            return this.horizontalScrollerContainer;
-        },
-        y: () => {
-            if (!this.verticalScrollerContainer) {
-                throw 'can\'t find the verticalScrollerContainer';
-            }
-            return this.verticalScrollerContainer;
-        }
-    };
-    hideDelay = { x: 0, y: 0 };
-    touchRecord;
-    pointerCount = 0;
-    savedBreak = 1;
-    get x() {
-        return this.position.x;
-    }
-    get y() {
-        return this.position.y;
-    }
-    onScrollChange = new Aventus.Callback();
-    renderAnimation;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("zoom", ((target) => {
-    target.changeZoom();
-})); }
-    static __style = `:host{--_scrollbar-container-color: var(--scrollbar-container-color, transparent);--_scrollbar-color: var(--scrollbar-color, #757575);--_scrollbar-active-color: var(--scrollbar-active-color, #858585);--_scroller-width: var(--scroller-width, 6px);--_scroller-top: var(--scroller-top, 3px);--_scroller-bottom: var(--scroller-bottom, 3px);--_scroller-right: var(--scroller-right, 3px);--_scroller-left: var(--scroller-left, 3px);--_scrollbar-content-padding: var(--scrollbar-content-padding, 0);--_scrollbar-container-display: var(--scrollbar-container-display, inline-block)}:host{display:block;height:100%;min-height:inherit;min-width:inherit;overflow:hidden;position:relative;-webkit-user-drag:none;-khtml-user-drag:none;-moz-user-drag:none;-o-user-drag:none;width:100%}:host .scroll-main-container{display:block;height:100%;min-height:inherit;min-width:inherit;position:relative;width:100%}:host .scroll-main-container .content-zoom{display:block;height:100%;min-height:inherit;min-width:inherit;position:relative;transform-origin:0 0;width:100%;z-index:4}:host .scroll-main-container .content-zoom .content-hidder{display:block;height:100%;min-height:inherit;min-width:inherit;overflow:hidden;position:relative;width:100%}:host .scroll-main-container .content-zoom .content-hidder .content-wrapper{display:var(--_scrollbar-container-display);height:100%;min-height:inherit;min-width:inherit;padding:var(--_scrollbar-content-padding);position:relative;width:100%}:host .scroll-main-container .scroller-wrapper .container-scroller{display:none;overflow:hidden;position:absolute;transition:transform .2s linear;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller{background-color:var(--_scrollbar-container-color);border-radius:5px}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller .scroller{background-color:var(--_scrollbar-color);border-radius:5px;cursor:pointer;position:absolute;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .scroller.active{background-color:var(--_scrollbar-active-color)}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical{height:calc(100% - var(--_scroller-bottom)*2 - var(--_scroller-width));padding-left:var(--_scroller-left);right:var(--_scroller-right);top:var(--_scroller-bottom);transform:0;width:calc(var(--_scroller-width) + var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical.hide{transform:translateX(calc(var(--_scroller-width) + var(--_scroller-left)))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller .scroller{width:calc(100% - var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal{bottom:var(--_scroller-bottom);height:calc(var(--_scroller-width) + var(--_scroller-top));left:var(--_scroller-right);padding-top:var(--_scroller-top);transform:0;width:calc(100% - var(--_scroller-right)*2 - var(--_scroller-width))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal.hide{transform:translateY(calc(var(--_scroller-width) + var(--_scroller-top)))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller .scroller{height:calc(100% - var(--_scroller-top))}:host([y_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{height:auto}:host([x_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{width:auto}:host([y_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.vertical{display:block}:host([x_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.horizontal{display:block}:host([no_user_select]) .content-wrapper *{user-select:none}:host([no_user_select]) ::slotted{user-select:none}`;
-    constructor() {            super();            this.renderAnimation = this.createAnimation();            this.onWheel = this.onWheel.bind(this);            this.onTouchStart = this.onTouchStart.bind(this);            this.onTouchMove = this.onTouchMove.bind(this);            this.onTouchEnd = this.onTouchEnd.bind(this);            this.touchRecord = new Components.TouchRecord();        }
-    __getStatic() {
-        return Scrollable;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Scrollable.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="scroll-main-container" _id="scrollable_0">    <div class="content-zoom" _id="scrollable_1">        <div class="content-hidder" _id="scrollable_2">            <div class="content-wrapper" part="content-wrapper" _id="scrollable_3">                <slot></slot>            </div>        </div>    </div>    <div class="scroller-wrapper">        <div class="container-scroller vertical" _id="scrollable_4">            <div class="shadow-scroller">                <div class="scroller" _id="scrollable_5"></div>            </div>        </div>        <div class="container-scroller horizontal" _id="scrollable_6">            <div class="shadow-scroller">                <div class="scroller" _id="scrollable_7"></div>            </div>        </div>    </div></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "mainContainer",
-      "ids": [
-        "scrollable_0"
-      ]
-    },
-    {
-      "name": "contentZoom",
-      "ids": [
-        "scrollable_1"
-      ]
-    },
-    {
-      "name": "contentHidder",
-      "ids": [
-        "scrollable_2"
-      ]
-    },
-    {
-      "name": "contentWrapper",
-      "ids": [
-        "scrollable_3"
-      ]
-    },
-    {
-      "name": "verticalScrollerContainer",
-      "ids": [
-        "scrollable_4"
-      ]
-    },
-    {
-      "name": "verticalScroller",
-      "ids": [
-        "scrollable_5"
-      ]
-    },
-    {
-      "name": "horizontalScrollerContainer",
-      "ids": [
-        "scrollable_6"
-      ]
-    },
-    {
-      "name": "horizontalScroller",
-      "ids": [
-        "scrollable_7"
-      ]
-    }
-  ]
-}); }
-    getClassName() {
-        return "Scrollable";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('y_scroll_visible')) { this.attributeChangedCallback('y_scroll_visible', false, false); }if(!this.hasAttribute('x_scroll_visible')) { this.attributeChangedCallback('x_scroll_visible', false, false); }if(!this.hasAttribute('floating_scroll')) { this.attributeChangedCallback('floating_scroll', false, false); }if(!this.hasAttribute('x_scroll')) { this.attributeChangedCallback('x_scroll', false, false); }if(!this.hasAttribute('y_scroll')) {this.setAttribute('y_scroll' ,'true'); }if(!this.hasAttribute('auto_hide')) { this.attributeChangedCallback('auto_hide', false, false); }if(!this.hasAttribute('break')){ this['break'] = 0.1; }if(!this.hasAttribute('disable')) { this.attributeChangedCallback('disable', false, false); }if(!this.hasAttribute('no_user_select')) { this.attributeChangedCallback('no_user_select', false, false); }if(!this.hasAttribute('zoom')){ this['zoom'] = 1; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('y_scroll_visible');this.__upgradeProperty('x_scroll_visible');this.__upgradeProperty('floating_scroll');this.__upgradeProperty('x_scroll');this.__upgradeProperty('y_scroll');this.__upgradeProperty('auto_hide');this.__upgradeProperty('break');this.__upgradeProperty('disable');this.__upgradeProperty('no_user_select');this.__upgradeProperty('zoom'); }
-    __listBoolProps() { return ["y_scroll_visible","x_scroll_visible","floating_scroll","x_scroll","y_scroll","auto_hide","disable","no_user_select"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    createAnimation() {
-        return new Aventus.Animation({
-            fps: 60,
-            animate: () => {
-                const nextX = this.nextPosition('x');
-                const nextY = this.nextPosition('y');
-                this.momentum.x = nextX.momentum;
-                this.momentum.y = nextY.momentum;
-                this.scrollDirection('x', nextX.position);
-                this.scrollDirection('y', nextY.position);
-                if (!this.momentum.x && !this.momentum.y) {
-                    this.renderAnimation.stop();
-                }
-            },
-            stopped: () => {
-                if (this.momentum.x || this.momentum.y) {
-                    this.renderAnimation.start();
-                }
-            }
-        });
-    }
-    nextPosition(direction) {
-        const current = this.position[direction];
-        const remain = this.momentum[direction];
-        let result = {
-            momentum: 0,
-            position: 0,
-        };
-        if (Math.abs(remain) <= 0.1) {
-            result.position = current + remain;
-        }
-        else {
-            let nextMomentum = remain * (1 - this.break);
-            nextMomentum |= 0;
-            result.momentum = nextMomentum;
-            result.position = current + remain - nextMomentum;
-        }
-        let correctPosition = this.correctScrollValue(result.position, direction);
-        if (correctPosition != result.position) {
-            result.position = correctPosition;
-            result.momentum = 0;
-        }
-        return result;
-    }
-    scrollDirection(direction, value) {
-        const max = this.max[direction];
-        if (max != 0) {
-            this.position[direction] = this.correctScrollValue(value, direction);
-        }
-        else {
-            this.position[direction] = 0;
-        }
-        let container = this.scrollerContainer[direction]();
-        let scroller = this.scroller[direction]();
-        if (this.auto_hide) {
-            container.classList.remove("hide");
-            clearTimeout(this.hideDelay[direction]);
-            this.hideDelay[direction] = setTimeout(() => {
-                container.classList.add("hide");
-            }, 1000);
-        }
-        let containerSize = direction == 'y' ? container.offsetHeight : container.offsetWidth;
-        if (this.contentWrapperSize[direction] != 0) {
-            let scrollPosition = this.position[direction] / this.contentWrapperSize[direction] * containerSize;
-            scroller.style.transform = `translate${direction.toUpperCase()}(${scrollPosition}px)`;
-            this.contentWrapper.style.transform = `translate3d(${-1 * this.x}px, ${-1 * this.y}px, 0)`;
-        }
-        this.triggerScrollChange();
-    }
-    correctScrollValue(value, direction) {
-        if (value < 0) {
-            value = 0;
-        }
-        else if (value > this.max[direction]) {
-            value = this.max[direction];
-        }
-        return value;
-    }
-    triggerScrollChange() {
-        this.onScrollChange.trigger([this.x, this.y]);
-    }
-    scrollToPosition(x, y) {
-        this.scrollDirection('x', x);
-        this.scrollDirection('y', y);
-    }
-    scrollX(x) {
-        this.scrollDirection('x', x);
-    }
-    scrollY(y) {
-        this.scrollDirection('y', y);
-    }
-    addAction() {
-        this.addEventListener("wheel", this.onWheel);
-        this.addEventListener("touchstart", this.onTouchStart);
-        this.addEventListener("touchmove", this.onTouchMove);
-        this.addEventListener("touchcancel", this.onTouchEnd);
-        this.addEventListener("touchend", this.onTouchEnd);
-        this.addScrollDrag('x');
-        this.addScrollDrag('y');
-    }
-    addScrollDrag(direction) {
-        let scroller = this.scroller[direction]();
-        scroller.addEventListener("touchstart", (e) => {
-            e.stopPropagation();
-        });
-        let startPosition = 0;
-        new Aventus.DragAndDrop({
-            element: scroller,
-            applyDrag: false,
-            usePercent: true,
-            offsetDrag: 0,
-            isDragEnable: () => !this.disable,
-            onStart: (e) => {
-                this.no_user_select = true;
-                scroller.classList.add("active");
-                startPosition = this.position[direction];
-            },
-            onMove: (e, position) => {
-                let delta = position[direction] / 100 * this.contentWrapperSize[direction];
-                let value = startPosition + delta;
-                this.scrollDirection(direction, value);
-            },
-            onStop: () => {
-                this.no_user_select = false;
-                scroller.classList.remove("active");
-            }
-        });
-    }
-    addDelta(delta) {
-        if (this.disable) {
-            return;
-        }
-        this.momentum.x += delta.x;
-        this.momentum.y += delta.y;
-        this.renderAnimation?.start();
-    }
-    onWheel(e) {
-        const DELTA_MODE = [1.0, 28.0, 500.0];
-        const mode = DELTA_MODE[e.deltaMode] || DELTA_MODE[0];
-        let newValue = {
-            x: 0,
-            y: e.deltaY * mode,
-        };
-        if (!this.y_scroll && this.x_scroll) {
-            newValue = {
-                x: e.deltaY * mode,
-                y: 0,
-            };
-            if ((newValue.x > 0 && this.x != this.max.x) ||
-                (newValue.x <= 0 && this.x != 0)) {
-                e.stopPropagation();
-            }
-        }
-        else {
-            if ((newValue.y > 0 && this.y != this.max.y) ||
-                (newValue.y <= 0 && this.y != 0)) {
-                e.stopPropagation();
-            }
-        }
-        this.addDelta(newValue);
-    }
-    onTouchStart(e) {
-        this.touchRecord.track(e);
-        this.momentum = {
-            x: 0,
-            y: 0
-        };
-        if (this.pointerCount === 0) {
-            this.savedBreak = this.break;
-            this.break = Math.max(this.break, 0.5); // less frames on touchmove
-        }
-        this.pointerCount++;
-    }
-    onTouchMove(e) {
-        this.touchRecord.update(e);
-        const delta = this.touchRecord.getDelta();
-        this.addDelta(delta);
-    }
-    onTouchEnd(e) {
-        const delta = this.touchRecord.getEasingDistance(this.savedBreak);
-        this.addDelta(delta);
-        this.pointerCount--;
-        if (this.pointerCount === 0) {
-            this.break = this.savedBreak;
-        }
-        this.touchRecord.release(e);
-    }
-    calculateRealSize() {
-        if (!this.contentZoom || !this.mainContainer || !this.contentWrapper) {
-            return;
-        }
-        const currentOffsetWidth = this.contentZoom.offsetWidth;
-        const currentOffsetHeight = this.contentZoom.offsetHeight;
-        this.contentWrapperSize.x = this.contentWrapper.offsetWidth;
-        this.contentWrapperSize.y = this.contentWrapper.offsetHeight;
-        if (this.zoom < 1) {
-            // scale the container for zoom
-            this.contentZoom.style.width = this.mainContainer.offsetWidth / this.zoom + 'px';
-            this.contentZoom.style.height = this.mainContainer.offsetHeight / this.zoom + 'px';
-            this.display.y = currentOffsetHeight;
-            this.display.x = currentOffsetWidth;
-        }
-        else {
-            this.display.y = currentOffsetHeight / this.zoom;
-            this.display.x = currentOffsetWidth / this.zoom;
-        }
-    }
-    calculatePositionScrollerContainer(direction) {
-        if (direction == 'y') {
-            this.calculatePositionScrollerContainerY();
-        }
-        else {
-            this.calculatePositionScrollerContainerX();
-        }
-    }
-    calculatePositionScrollerContainerY() {
-        const leftMissing = this.mainContainer.offsetWidth - this.verticalScrollerContainer.offsetLeft;
-        if (leftMissing > 0 && this.y_scroll_visible && !this.floating_scroll) {
-            this.contentHidder.style.width = 'calc(100% - ' + leftMissing + 'px)';
-            this.contentHidder.style.marginRight = leftMissing + 'px';
-            this.margin.x = leftMissing;
-        }
-        else {
-            this.contentHidder.style.width = '';
-            this.contentHidder.style.marginRight = '';
-            this.margin.x = 0;
-        }
-    }
-    calculatePositionScrollerContainerX() {
-        const topMissing = this.mainContainer.offsetHeight - this.horizontalScrollerContainer.offsetTop;
-        if (topMissing > 0 && this.x_scroll_visible && !this.floating_scroll) {
-            this.contentHidder.style.height = 'calc(100% - ' + topMissing + 'px)';
-            this.contentHidder.style.marginBottom = topMissing + 'px';
-            this.margin.y = topMissing;
-        }
-        else {
-            this.contentHidder.style.height = '';
-            this.contentHidder.style.marginBottom = '';
-            this.margin.y = 0;
-        }
-    }
-    calculateSizeScroller(direction) {
-        const scrollerSize = ((this.display[direction] - this.margin[direction]) / this.contentWrapperSize[direction] * 100);
-        if (direction == "y") {
-            this.scroller[direction]().style.height = scrollerSize + '%';
-        }
-        else {
-            this.scroller[direction]().style.width = scrollerSize + '%';
-        }
-        let maxScrollContent = this.contentWrapperSize[direction] - this.display[direction];
-        if (maxScrollContent < 0) {
-            maxScrollContent = 0;
-        }
-        this.max[direction] = maxScrollContent + this.margin[direction];
-    }
-    changeZoom() {
-        this.contentZoom.style.transform = 'scale(' + this.zoom + ')';
-        this.dimensionRefreshed();
-    }
-    dimensionRefreshed() {
-        this.calculateRealSize();
-        if (this.contentWrapperSize.y - this.display.y > 0) {
-            if (!this.y_scroll_visible) {
-                this.y_scroll_visible = true;
-                this.calculatePositionScrollerContainer('y');
-            }
-            this.calculateSizeScroller('y');
-            this.scrollDirection('y', this.y);
-        }
-        else if (this.y_scroll_visible) {
-            this.y_scroll_visible = false;
-            this.calculatePositionScrollerContainer('y');
-            this.calculateSizeScroller('y');
-            this.scrollDirection('y', 0);
-        }
-        if (this.contentWrapperSize.x - this.display.x > 0) {
-            if (!this.x_scroll_visible) {
-                this.x_scroll_visible = true;
-                this.calculatePositionScrollerContainer('x');
-            }
-            this.calculateSizeScroller('x');
-            this.scrollDirection('x', this.x);
-        }
-        else if (this.x_scroll_visible) {
-            this.x_scroll_visible = false;
-            this.calculatePositionScrollerContainer('x');
-            this.calculateSizeScroller('x');
-            this.scrollDirection('x', 0);
-        }
-    }
-    createResizeObserver() {
-        let inProgress = false;
-        return new Aventus.ResizeObserver({
-            callback: entries => {
-                if (inProgress) {
-                    return;
-                }
-                inProgress = true;
-                this.dimensionRefreshed();
-                inProgress = false;
-            },
-            fps: 30
-        });
-    }
-    addResizeObserver() {
-        if (this.observer == undefined) {
-            this.observer = this.createResizeObserver();
-        }
-        this.observer.observe(this.contentWrapper);
-        this.observer.observe(this);
-    }
-    postCreation() {
-        this.addResizeObserver();
-        this.addAction();
-    }
-    static lock(element) {
-        const container = element.findParentByType(Components.Scrollable);
-        if (container) {
-            container.disable = true;
-        }
-    }
-    static unlock(element) {
-        const container = element.findParentByType(Components.Scrollable);
-        if (container) {
-            container.disable = false;
-        }
-    }
-}
-Components.Scrollable.Namespace=`${moduleName}.Components`;
-Components.Scrollable.Tag=`rk-scrollable`;
-_.Components.Scrollable=Components.Scrollable;
-if(!window.customElements.get('rk-scrollable')){window.customElements.define('rk-scrollable', Components.Scrollable);Aventus.WebComponentInstance.registerDefinition(Components.Scrollable);}
 
 System.Os = class Os extends Aventus.WebComponent {
     static get observedAttributes() {return ["desktop_list", "show_application_list", "active_desktop"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -6876,6 +7031,42 @@ System.Os.Tag=`rk-os`;
 _.System.Os=System.Os;
 if(!window.customElements.get('rk-os')){window.customElements.define('rk-os', System.Os);Aventus.WebComponentInstance.registerDefinition(System.Os);}
 
+Lib.Process=class Process {
+    static async execute(component, prom) {
+        const app = component.findParentByType(System.Application);
+        if (app) {
+            return app.execute(prom);
+        }
+        else {
+            const queryResult = await prom;
+            return await this.parseErrors(queryResult);
+        }
+    }
+    static async executeWithLoading(component, prom) {
+        const app = component.findParentByType(System.Application);
+        if (app) {
+            return app.executeWithLoading(prom);
+        }
+        return this.execute(component, prom);
+    }
+    static async parseErrors(result) {
+        if (result.errors.length > 0) {
+            let msg = result.errors.map(p => p.message).join("<br/>");
+            await System.Os.instance.alert({
+                title: "Error",
+                description: msg,
+                behind: false,
+                min_width: '300px',
+            });
+            return undefined;
+        }
+        if (result instanceof Aventus.ResultWithError)
+            return result.result;
+        return undefined;
+    }
+}
+Lib.Process.Namespace=`${moduleName}.Lib`;
+_.Lib.Process=Lib.Process;
 System.AppIcon = class AppIcon extends Aventus.WebComponent {
     get 'shaking'() { return this.getBoolAttr('shaking') }
     set 'shaking'(val) { this.setBoolAttr('shaking', val) }get 'can_remove'() { return this.getBoolAttr('can_remove') }
@@ -7143,7 +7334,7 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
 					}    __registerWatchesActions() {
     this.__addWatchesActions("sidnavItems");    super.__registerWatchesActions();
 }
-    static __style = `:host{--_application-sidnav-sidenav-width: var(--application-sidnav-sidenav-width, 200px)}:host .header .navigation-actions .menu{align-items:center;border:1px solid var(--darker);border-radius:200px;display:none;height:24px;justify-content:center;transition:background-color var(--bezier-curve) .2s,border var(--bezier-curve) .2s;width:24px}:host .header .navigation-actions .menu mi-icon{font-size:18px}:host .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host .content .sidenav-hider{animation-duration:300ms;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(0,0,0,.2);display:none;inset:0;position:absolute;z-index:50}:host .content .sidenav{background-color:var(--secondary-color);box-shadow:var(--elevation-4);height:100%;transition:transform .3s var(--bezier-curve);width:var(--_application-sidnav-sidenav-width);z-index:50}:host .content .sidenav .sidenav-item{align-items:center;border-bottom:1px solid var(--lighter-active);cursor:pointer;display:flex;flex-wrap:nowrap;height:51px;padding:10px;transition:linear background-color .3s}:host .content .sidenav .sidenav-item rk-img{--img-fill-color: var(--text-color);flex-grow:0;flex-shrink:0;height:30px;width:30px}:host .content .sidenav .sidenav-item rk-img[src=""]{display:none}:host .content .sidenav .sidenav-item span{color:var(--text-color);flex-grow:1;flex-shrink:0;margin-left:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:calc(100% - 45px)}:host .content .sidenav .sidenav-item rk-img[src=""]~span{margin-left:0}:host .content .sidenav .sidenav-item[active]{background-color:var(--lighter-active)}:host .content .container{flex-shrink:0;height:100%;transition:width .3s var(--bezier-curve),margin-left .3s var(--bezier-curve);width:calc(100% - var(--_application-sidnav-sidenav-width))}:host([open_sidenav]) .navigation-actions .menu{background-color:var(--darker) !important}:host([no_sidenav]) .header .navigation-actions .menu{display:none !important}:host([no_sidenav]) .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host([no_sidenav]) .content .sidenav{display:none}:host([no_sidenav]) .content .container{height:100%;width:100%}@media screen and (min-width: 1225px){:host .header .navigation-actions .menu:hover{background-color:var(--darker) !important;border:1px solid rgba(0,0,0,0)}:host .content .sidenav .sidenav-item:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host .header .navigation-actions .menu{height:26px;width:26px}:host .header .navigation-actions .menu mi-icon{font-size:20px}:host .content{height:calc(100% - 40px)}}@container application (max-width: 300px){:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=xs]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=xs]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 300px){:host([hide_menu_size=xs][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=xs][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 540px){:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=sm]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=sm]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 540px){:host([hide_menu_size=sm][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=sm][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 720px){:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=md]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=md]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 720px){:host([hide_menu_size=md][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=md][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 960px){:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=lg]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=lg]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 960px){:host([hide_menu_size=lg][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=lg][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 1140px){:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=xl]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=xl]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 1140px){:host([hide_menu_size=xl][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=xl][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{visibility:100%;visibility:visible}}`;
+    static __style = `:host{--_application-sidnav-sidenav-width: var(--application-sidnav-sidenav-width, 200px)}:host .header .navigation-actions .menu{align-items:center;border:1px solid var(--darker);border-radius:200px;display:none;height:24px;justify-content:center;transition:background-color var(--bezier-curve) .2s,border var(--bezier-curve) .2s;width:24px}:host .header .navigation-actions .menu mi-icon{font-size:18px}:host .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host .content .sidenav-hider{animation-duration:300ms;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(0,0,0,.2);display:none;inset:0;position:absolute;z-index:50}:host .content .sidenav{background-color:var(--secondary-color);box-shadow:var(--elevation-4);height:100%;transition:transform .3s var(--bezier-curve);width:var(--_application-sidnav-sidenav-width);z-index:50}:host .content .sidenav .sidenav-item{align-items:center;border-bottom:1px solid var(--lighter-active);cursor:pointer;display:flex;flex-wrap:nowrap;height:51px;padding:10px;transition:linear background-color .3s}:host .content .sidenav .sidenav-item rk-img{--img-fill-color: var(--text-color);flex-grow:0;flex-shrink:0;height:30px;width:30px}:host .content .sidenav .sidenav-item rk-img[src=""]{display:none}:host .content .sidenav .sidenav-item mi-icon{align-items:center;color:var(--text-color);display:flex;height:30px;justify-content:center;width:30px}:host .content .sidenav .sidenav-item span{color:var(--text-color);flex-grow:1;flex-shrink:0;margin-left:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:calc(100% - 45px)}:host .content .sidenav .sidenav-item rk-img[src=""]~span{margin-left:0}:host .content .sidenav .sidenav-item[active]{background-color:var(--lighter-active)}:host .content .container{flex-shrink:0;height:100%;transition:width .3s var(--bezier-curve),margin-left .3s var(--bezier-curve);width:calc(100% - var(--_application-sidnav-sidenav-width))}:host([open_sidenav]) .navigation-actions .menu{background-color:var(--darker) !important}:host([no_sidenav]) .header .navigation-actions .menu{display:none !important}:host([no_sidenav]) .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host([no_sidenav]) .content .sidenav{display:none}:host([no_sidenav]) .content .container{height:100%;width:100%}@media screen and (min-width: 1225px){:host .header .navigation-actions .menu:hover{background-color:var(--darker) !important;border:1px solid rgba(0,0,0,0)}:host .content .sidenav .sidenav-item:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host .header .navigation-actions .menu{height:26px;width:26px}:host .header .navigation-actions .menu mi-icon{font-size:20px}:host .content{height:calc(100% - 40px)}}@container application (max-width: 300px){:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=xs]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=xs]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 300px){:host([hide_menu_size=xs][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=xs][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 540px){:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=sm]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=sm]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 540px){:host([hide_menu_size=sm][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=sm][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 720px){:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=md]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=md]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 720px){:host([hide_menu_size=md][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=md][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 960px){:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=lg]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=lg]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 960px){:host([hide_menu_size=lg][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=lg][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 1140px){:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=xl]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=xl]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 1140px){:host([hide_menu_size=xl][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=xl][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{visibility:100%;visibility:visible}}`;
     constructor() { super(); if (this.constructor == ApplicationSidnav) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return ApplicationSidnav;
@@ -7991,7 +8182,7 @@ Components.Input = class Input extends Components.FormElement {
     set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
     target.inputEl.value = target.value;
 })); }
-    static __style = `:host{--_input-height: var(--input-height, 30px);--_input-background-color: var(--input-background-color, var(--form-element-background, white));--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-background-color);border:var(--_input-input-border);border-radius:var(--_input-border-radius);display:flex;height:var(--_input-height);padding:0 10px;width:100%}:host .input .icon{display:none;height:var(--_input-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-font-size);height:100%;margin:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:50%;color:#fff;display:none;font-size:calc(var(--_input-error-logo-size) - 5px);height:var(--_input-error-logo-size);justify-content:center;width:var(--_input-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0;text-align:justify}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}`;
+    static __style = `:host{--_input-height: var(--input-height, 30px);--_input-background-color: var(--input-background-color, var(--form-element-background, white));--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-background-color);border:var(--_input-input-border);border-radius:var(--_input-border-radius);display:flex;height:var(--_input-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-font-size);height:100%;margin:0;outline:none;padding:5px 0;padding-right:10px;min-width:0}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:50%;color:#fff;display:none;font-size:calc(var(--_input-error-logo-size) - 5px);height:var(--_input-error-logo-size);justify-content:center;width:var(--_input-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0;text-align:justify}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}`;
     __getStatic() {
         return Input;
     }
@@ -8340,7 +8531,7 @@ State.CreateOrUpdate=class CreateOrUpdate extends Lib.ApplicationStorableState {
         return this.genericState().replace("{id:number}", this.item.Id + "");
     }
     genericState() {
-        return `/${this.defineObjectName()}/{id:number}`;
+        return `/${this.defineObjectName().toLowerCase()}/{id:number}`;
     }
     async save() {
         let result;
@@ -8580,13 +8771,20 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
     onInternalValueChanged() {
         if (!this.isConnected)
             return;
+        let found = false;
         for (let option of this.options) {
             if (option.value == this.value) {
+                found = true;
                 this.selectedOption = option;
                 this.displayValue = this.itemToText(option);
                 this.filter();
                 break;
             }
+        }
+        if (!found) {
+            this.selectedOption = undefined;
+            this.displayValue = this.placeholder ?? '';
+            this.filter();
         }
     }
     setValueFromOption(option) {
@@ -8597,7 +8795,6 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
         this.onChange.trigger([this.value]);
         this.filter();
         if (this.formPart) {
-            debugger;
             Components.FormElement.setValue(this.formPart, this.value);
             if (this.formPart.validateOnChange !== false) {
                 this.validate();
@@ -8808,6 +9005,31 @@ if (this.constructor == SelectEnum) { throw "can't instanciate an abstract class
 }
 Components.SelectEnum.Namespace=`${moduleName}.Components`;
 _.Components.SelectEnum=Components.SelectEnum;
+
+Components.OptionData = class OptionData extends Components.GenericOption {
+    static __style = ``;
+    __getStatic() {
+        return OptionData;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(OptionData.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "OptionData";
+    }
+}
+Components.OptionData.Namespace=`${moduleName}.Components`;
+Components.OptionData.Tag=`rk-option-data`;
+_.Components.OptionData=Components.OptionData;
+if(!window.customElements.get('rk-option-data')){window.customElements.define('rk-option-data', Components.OptionData);Aventus.WebComponentInstance.registerDefinition(Components.OptionData);}
 
 Components.Option = class Option extends Components.GenericOption {
     static get observedAttributes() {return ["value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -9043,6 +9265,113 @@ Components.ItemBoxOption.Tag=`rk-item-box-option`;
 _.Components.ItemBoxOption=Components.ItemBoxOption;
 if(!window.customElements.get('rk-item-box-option')){window.customElements.define('rk-item-box-option', Components.ItemBoxOption);Aventus.WebComponentInstance.registerDefinition(Components.ItemBoxOption);}
 
+Components.SelectData = class SelectData extends Components.GenericSelect {
+    get 'loading'() { return this.getBoolAttr('loading') }
+    set 'loading'(val) { this.setBoolAttr('loading', val) }    data = [];
+    isInit = false;
+    static __style = ``;
+    constructor() {
+            super();
+            this.createOptions();
+if (this.constructor == SelectData) { throw "can't instanciate an abstract class"; } this.subscribe=this.subscribe.bind(this)this.unsubscribe=this.unsubscribe.bind(this)this.onCreated=this.onCreated.bind(this)this.onDeleted=this.onDeleted.bind(this)this.onUpdated=this.onUpdated.bind(this) }
+    __getStatic() {
+        return SelectData;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(SelectData.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "SelectData";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading'); }
+    __listBoolProps() { return ["loading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    itemToText(option) {
+        return option.innerHTML;
+    }
+    async createOptions() {
+        this.loading = true;
+        this.data = await this.loadData();
+        for (let item of this.data) {
+            let option = new Components.OptionData();
+            option.value = this.optionValue(item);
+            option.innerHTML = this.optionText(item);
+            this.appendChild(option);
+        }
+        this.loading = false;
+        this.init();
+    }
+    async loadData() {
+        const result = await Lib.Process.execute(this, this.defineRam().getListWithError()) ?? [];
+        return result;
+    }
+    subscribe() {
+        this.defineRam().onCreated(this.onCreated);
+        this.defineRam().onUpdated(this.onUpdated);
+        this.defineRam().onDeleted(this.onDeleted);
+    }
+    unsubscribe() {
+        this.defineRam().offCreated(this.onCreated);
+        this.defineRam().offUpdated(this.onUpdated);
+        this.defineRam().offDeleted(this.onDeleted);
+    }
+    onCreated(item) {
+        this.data.push(item);
+        let option = new Components.OptionData();
+        option.value = this.optionValue(item);
+        option.innerHTML = this.optionText(item);
+        this.appendChild(option);
+        this.loadElementsFromSlot();
+    }
+    onDeleted(item) {
+        for (let i = 0; i < this.options.length; i++) {
+            let option = this.options[i];
+            if (option.value == this.optionValue(item)) {
+                this.options.splice(i, 1);
+                option.remove();
+                if (this.value == this.optionValue(item)) {
+                    this.value = undefined;
+                }
+            }
+        }
+    }
+    onUpdated(item) {
+        for (let i = 0; i < this.options.length; i++) {
+            let option = this.options[i];
+            if (option.value == this.optionValue(item)) {
+                option.innerHTML = this.optionText(item);
+            }
+        }
+    }
+    init() {
+        if (!this.isConnected)
+            return;
+        if (this.isInit)
+            return;
+        this.isInit = true;
+        super.postCreation();
+        this.subscribe();
+    }
+    postDestruction() {
+        this.unsubscribe();
+    }
+    postConnect() {
+    }
+    postCreation() {
+        this.init();
+    }
+}
+Components.SelectData.Namespace=`${moduleName}.Components`;
+_.Components.SelectData=Components.SelectData;
+
 Components.Table = class Table extends Aventus.WebComponent {
     static get observedAttributes() {return ["auto_hide_scroll", "grid"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'col_resize'() { return this.getBoolAttr('col_resize') }
@@ -9077,7 +9406,7 @@ Components.Table = class Table extends Aventus.WebComponent {
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("grid", ((target) => {
     target.updateGrid();
 })); }
-    static __style = `:host{--_table-background-color: var(--table-background-color, var(--secondary-color));--_table-elevation: var(--table-elevation, var(--elevation-2));--_table-header-height: var(--table-header-height, 50px);--_table-header-backgroud-color: var(--table-header-backgroud-color, var(--primary-color));--_table-header-color: var(--table-header-color, var(--text-color-reverse));--_table-border-color: var(--table-border-color, var(--secondary-color));--_table-header-vertical-border: var(--table-header-vertical-border, 1px solid var(--_table-border-color));--_table-header-horizontal-border: var(--table-header-horizontal-border, 1px solid var(--_table-border-color));--_table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-padding: var(--table-cell-padding, 10px);--local-table-cell-resize-display: none}:host{background-color:var(--_table-background-color);border:1px solid var(--_table-border-color);border-radius:5px;box-shadow:var(--_table-elevation);display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper{display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper .header{--scrollbar-color: transparent;--scrollbar-active-color: transparent;--scroller-width: 0;height:var(--_table-header-height);width:100%}:host .style-wrapper .body{display:flex;flex-direction:column;height:calc(100% - var(--_table-header-height));width:100%}:host .style-wrapper rk-scrollable::part(content-wrapper){min-width:100%}:host([col_resize]){--local-table-cell-resize-display: block}:host([grid]) .style-wrapper .header{display:none}:host([grid]) .style-wrapper .body{flex-direction:row}:host([grid]) .style-wrapper .body rk-scrollable::part(content-wrapper){display:flex;flex-wrap:wrap;gap:15px;padding:15px}`;
+    static __style = `:host{--_table-background-color: var(--table-background-color, var(--secondary-color));--_table-elevation: var(--table-elevation, var(--elevation-2));--_table-header-height: var(--table-header-height, 50px);--_table-header-backgroud-color: var(--table-header-backgroud-color, var(--primary-color));--_table-header-color: var(--table-header-color, var(--text-color-reverse));--_table-border-color: var(--table-border-color, var(--secondary-color));--_table-header-vertical-border: var(--table-header-vertical-border, 1px solid var(--_table-border-color));--_table-header-horizontal-border: var(--table-header-horizontal-border, 1px solid var(--_table-border-color));--_table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-padding: var(--table-cell-padding, 10px);--local-table-cell-resize-display: none}:host{background-color:var(--_table-background-color);border:1px solid var(--_table-border-color);border-radius:5px;box-shadow:var(--_table-elevation);display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper{display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper .header{--scrollbar-color: transparent;--scrollbar-active-color: transparent;--scroller-width: 0;height:var(--_table-header-height);width:100%}:host .style-wrapper .body{display:flex;flex-direction:column;height:calc(100% - var(--_table-header-height));width:100%}:host .style-wrapper rk-scrollable::part(content-wrapper){min-width:100%}:host([col_resize]){--local-table-cell-resize-display: block}:host([grid]) .style-wrapper .header{display:none}:host([grid]) .style-wrapper .body{flex-direction:row}:host([grid]) .style-wrapper .body rk-scrollable::part(content-wrapper){display:flex;flex-wrap:wrap;gap:15px;justify-content:center;padding:15px}`;
     constructor() {
             super();
             this.options = this.configure(this.defaultOptions());

@@ -35,18 +35,11 @@ namespace Core
 
         public static string wwwroot
         {
-            get
-            {
-
-                return app.Environment.WebRootPath;
-            }
+            get => app.Environment.WebRootPath;
         }
         public static bool IsDev
         {
-            get
-            {
-                return app.Environment.IsDevelopment();
-            }
+            get => app.Environment.IsDevelopment();
         }
 
         public static DatabaseConfig? Config

@@ -338,6 +338,8 @@ namespace Core.App
         {
             foreach (RayukiApp app in allApps)
             {
+                Seeder? seeder = app.DefineSeeder();
+                if(seeder != null) seeder.Run();
                 await app.OnStart();
             }
         }

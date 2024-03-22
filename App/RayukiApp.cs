@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Logic;
 
 namespace Core.App
 {
@@ -23,7 +24,12 @@ namespace Core.App
         public abstract string DisplayName();
         public virtual void DefinePermissions()
         {
-            
+
+        }
+
+        public virtual Seeder? DefineSeeder()
+        {
+            return null;
         }
         protected void RegisterPermissions<T>() where T : Enum
         {

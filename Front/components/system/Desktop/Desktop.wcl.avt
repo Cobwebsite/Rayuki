@@ -213,10 +213,12 @@ namespace System {
         public removeApp(application: Application) {
             const appNumber = application.options?.applicationNumber ?? -1;
             const type = application.$type;
-            delete this.applications[type][appNumber];
-
-            if(Object.keys(this.applications[type]).length == 0) {
-                delete this.applications[type];
+            
+            if(this.applications[type]) {
+                delete this.applications[type][appNumber];
+                if(Object.keys(this.applications[type]).length == 0) {
+                    delete this.applications[type];
+                }
             }
 
             this.manageAppBottomBar(type);
@@ -359,7 +361,7 @@ namespace System {
                     icon: desktopIcon
                 });
                 if(result.success) {
-                    this.pageCaseEl.removeElementAt(icon.position)
+                    this.pageCaseEl.removeElementAt(icon.position);
                 }
             }
         }

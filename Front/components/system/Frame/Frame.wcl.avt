@@ -1,3 +1,4 @@
+import type { Scrollable } from "../../ui/layout/Scrollable/Scrollable.wcl.avt";
 import { FrameNoScroll } from "./FrameNoScroll/FrameNoScroll.wcl.avt";
 
 namespace System {
@@ -8,11 +9,14 @@ namespace System {
 
 
         //#region props
-        
+
         //#endregion
 
 
         //#region variables
+
+        @ViewElement()
+        public readonly mainScroll!: Scrollable;
 
         //#endregion
 
@@ -23,7 +27,7 @@ namespace System {
 
 
         //#region methods
-        
+
         //#endregion
     }
 }
