@@ -1,6 +1,5 @@
 import { OptionEnum } from "./OptionEnum/OptionEnum.wcl.avt";
-import type { GenericOption } from "../GenericSelect/GenericOption/GenericOption.wcl.avt";
-import { GenericSelect, type ExtractType } from "../GenericSelect/GenericSelect.wcl.avt";
+import { GenericSelect } from "../GenericSelect/GenericSelect.wcl.avt";
 
 namespace Components {
     export abstract class SelectEnum<U extends Aventus.Enum> extends GenericSelect<OptionEnum<U>, Aventus.EnumValue<U>> implements Aventus.DefaultComponent {

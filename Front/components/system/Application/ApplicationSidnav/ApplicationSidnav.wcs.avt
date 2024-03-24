@@ -139,6 +139,9 @@
 		.sidenav {
 			display: none;
 		}
+		.sidenav-hider {
+			display: none!important;
+		}
 
 		.container {
 			height: 100%;

@@ -5201,6 +5201,16 @@ const WebComponent=class WebComponent extends HTMLElement {
                 delete this[prop];
                 this[prop] = value;
             }
+            else {
+                this.__correctGetter(prop);
+            }
+        }
+    }
+    __correctGetter(prop) {
+        if (Object.hasOwn(this, prop)) {
+            const value = this[prop];
+            delete this[prop];
+            this[prop] = value;
         }
     }
     __getStateManager(managerClass) {

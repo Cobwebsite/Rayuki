@@ -1,12 +1,12 @@
 import type { SizeList } from "../ApplicationSize.lib.avt";
 import { Scrollable } from "../../../ui/layout/Scrollable/Scrollable.wcl.avt";
-import { Frame } from "../../Frame/Frame.wcl.avt";
 import { Application } from "../Application.wcl.avt";
+import type { FrameNoScroll } from "../../Frame/FrameNoScroll/FrameNoScroll.wcl.avt";
 
 namespace System {
     type ApplicationSidnavRouteOptions = {
         route: string,
-        frame: new () => Frame,
+        frame: new () => FrameNoScroll,
         name: string,
         icon?: string,
         miIcon?: MaterialIcon.IconType,
