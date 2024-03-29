@@ -1,0 +1,67 @@
+<div class="header">
+    <mi-icon icon="chevron_left" class="chevron touch hover" @press="previousMonth"></mi-icon>
+    <div class="current-info" @press="showMonthSelect">
+        <div class="month-year touch hover">
+            <div class="month" @element="monthEl"></div>
+            <div class="year" @element="yearEl"></div>
+        </div>
+    </div>
+    <mi-icon icon="chevron_right" class="chevron touch hover" @press="nextMonth"></mi-icon>
+
+    <div class="selectors">
+        <div class="month-select">
+            <div class="month-select-header">
+                <mi-icon icon="chevron_left" class="chevron touch hover" @press="previousYearTemp"></mi-icon>
+                <div class="current-info" @press="showYearSelect">
+                    <div class="temp-year touch hover">
+                        {{ this.dateTemp.getFullYear() }}
+                    </div>
+                </div>
+                <mi-icon icon="chevron_right" class="chevron touch hover" @press="nextMonthYearTemp"></mi-icon>
+            </div>
+            <div class="month-select-body" @element="bodyMonthEl">
+                <div class="month-el touch hover" @press="selectMonthTemp">Janv.</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">Févr.</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">Mars</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">Avr.</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">Mai</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">Juin</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">Juil.</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">Août</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">Sept.</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">Oct.</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">Nov.</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">Déc.</div>
+            </div>
+        </div>
+        <div class="year-select">
+            <div class="year-select-header">
+                <mi-icon icon="chevron_left" class="chevron touch hover" @press="previousYearGroupTemp"></mi-icon>
+                <div class="current-info">
+                    <div class="temp-year-range">
+                        {{ this.yearGroupTxt }}
+                    </div>
+                </div>
+                <mi-icon icon="chevron_right" class="chevron touch hover" @press="nextYearGroupTemp"></mi-icon>
+            </div>
+            <div class="year-select-body" @element="bodyYearEl">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="body">
+    <div class="days-header">
+        <div class="day-header">Lu</div>
+        <div class="day-header">Ma</div>
+        <div class="day-header">Me</div>
+        <div class="day-header">Je</div>
+        <div class="day-header">Ve</div>
+        <div class="day-header">Sa</div>
+        <div class="day-header">Di</div>
+    </div>
+    <div class="days-body" @element="bodyEl">
+
+    </div>
+</div>
+<div class="hider" @press="hideSelector"></div>

@@ -1,0 +1,60 @@
+import type { Calendar } from "../../../calendar/Calendar/Calendar.wcl.avt";
+import type { DatePicker } from "../DatePicker.wcl.avt";
+
+export class CalendarContainer extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+    @Attribute()
+    public visible!: boolean;
+    //#endregion
+
+
+    //#region variables
+    private picker!: DatePicker;
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+    public init(picker: DatePicker) {
+        this.picker = picker;
+        this.shadowRoot.appendChild(picker.calendar);
+    }
+    public async show(container?: HTMLElement) {
+        if(!container) {
+            container = document.body;
+        }
+
+        let box = this.picker.getBoundingClientRect();
+        let boxInput = this.picker.inputEl.getBoundingClientRect();
+        let contBox = container.getBoundingClientRect();
+
+        let newTop = boxInput.top + boxInput.height + 2;
+        let maxHeight = contBox.height - newTop - 10;
+
+        this.style.top = newTop + 'px';
+        this.style.left = box.left + 'px';
+        this.style.maxHeight = maxHeight + 'px';
+        container.appendChild(this);
+        this.visible = true;
+    }
+    public hide() {
+        this.visible = false;
+        this.parentElement?.removeChild(this);
+    }
+
+    protected override postCreation(): void {
+        this.setAttribute("tabindex", "-1");
+    }
+    //#endregion
+
+}

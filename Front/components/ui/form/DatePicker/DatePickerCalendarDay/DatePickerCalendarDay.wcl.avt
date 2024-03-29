@@ -1,0 +1,53 @@
+import { DatePickerCalendar } from "../DatePickerCalendar/DatePickerCalendar.wcl.avt";
+import type { Calendar } from "../../../calendar/Calendar/Calendar.wcl.avt";
+import { CalendarDay } from "../../../calendar/CalendarDay/CalendarDay.wcl.avt";
+import { DateTools } from "../../../../../libs/DateTools.lib.avt";
+
+export class DatePickerCalendarDay extends CalendarDay implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+    @Attribute()
+    public selected!: boolean;
+    //#endregion
+
+
+    //#region variables
+
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+    public override init(dateDisplayed: Date, dateDay: Date, calendar: Calendar): void {
+        super.init(dateDisplayed, dateDay, calendar);
+        if(calendar instanceof DatePickerCalendar) {
+            if(DateTools.isSameDate(calendar.picker.value, dateDay)) {
+                this.selected = true;
+            }
+
+            calendar.onDateClicked.add(this.checkIfSelected);
+        }
+    }
+
+    @BindThis()
+    public checkIfSelected(date: Date, element: CalendarDay) {
+        this.selected = element == this;
+    }
+
+    public override postDestruction(): void {
+        super.postDestruction();
+        this.calendar.onDateClicked.remove(this.checkIfSelected);
+    }
+
+    //#endregion
+
+}

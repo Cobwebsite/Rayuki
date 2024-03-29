@@ -1,0 +1,10 @@
+namespace Lib {
+    export class DomTools {
+        public static clearElement(element: HTMLElement) {
+            const children = Array.from(element.children);
+            for(let child of children) {
+                child.remove();
+            }
+        }
+    }
+}

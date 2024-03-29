@@ -673,6 +673,7 @@ namespace System {
         }
 
         protected override postDestruction(): void {
+            super.postDestruction();
             this.options?.desktop.removeApp(this);
             this.removeApplicationHistory();
             this.sizeManager.remove();

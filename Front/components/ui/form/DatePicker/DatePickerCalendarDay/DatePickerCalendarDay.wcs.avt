@@ -1,0 +1,3 @@
+:host([selected]) {
+    background-color: var(--primary-color);
+}

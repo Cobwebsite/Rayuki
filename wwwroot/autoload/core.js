@@ -15,10 +15,10 @@ const App = {};
 _.App = {};
 const Components = {};
 _.Components = {};
-const System = {};
-_.System = {};
 const Lib = {};
 _.Lib = {};
+const System = {};
+_.System = {};
 const Websocket = {};
 _.Websocket = {};
 Websocket.Events = {};
@@ -461,6 +461,7 @@ Components.Img = class Img extends Aventus.WebComponent {
         }
     }
     postDestruction() {
+        super.postDestruction();
         this.resizeObserver?.disconnect();
         this.resizeObserver = undefined;
     }
@@ -593,6 +594,9 @@ Components.OptionsContainer = class OptionsContainer extends Aventus.WebComponen
         });
         this.addEventListener("transitionend", (event) => {
             this.isAnimating = false;
+            if (!this.open) {
+                this.parentElement?.removeChild(this);
+            }
         });
     }
     postCreation() {
@@ -711,6 +715,27 @@ Components.ButtonIconMi.Tag=`rk-button-icon-mi`;
 _.Components.ButtonIconMi=Components.ButtonIconMi;
 if(!window.customElements.get('rk-button-icon-mi')){window.customElements.define('rk-button-icon-mi', Components.ButtonIconMi);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIconMi);}
 
+Lib.DomTools=class DomTools {
+    static clearElement(element) {
+        const children = Array.from(element.children);
+        for (let child of children) {
+            child.remove();
+        }
+    }
+}
+Lib.DomTools.Namespace=`${moduleName}.Lib`;
+_.Lib.DomTools=Lib.DomTools;
+Lib.DateTools=class DateTools {
+    static isSameDate(date1, date2) {
+        if (date1 == null && date2 == null)
+            return true;
+        if (date1 == null || date2 == null)
+            return false;
+        return date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear();
+    }
+}
+Lib.DateTools.Namespace=`${moduleName}.Lib`;
+_.Lib.DateTools=Lib.DateTools;
 System.Loading = class Loading extends Aventus.WebComponent {
     static get observedAttributes() {return ["text"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'background'() { return this.getBoolAttr('background') }
@@ -751,44 +776,6 @@ System.Loading.Namespace=`${moduleName}.System`;
 System.Loading.Tag=`rk-loading`;
 _.System.Loading=System.Loading;
 if(!window.customElements.get('rk-loading')){window.customElements.define('rk-loading', System.Loading);Aventus.WebComponentInstance.registerDefinition(System.Loading);}
-
-(function (LoginCode) {
-    LoginCode[LoginCode["OK"] = 0] = "OK";
-    LoginCode[LoginCode["WrongCredentials"] = 1] = "WrongCredentials";
-    LoginCode[LoginCode["Unknown"] = 2] = "Unknown";
-    LoginCode[LoginCode["NotConnected"] = 3] = "NotConnected";
-})(Errors.LoginCode || (Errors.LoginCode = {}));
-
-_.Errors.LoginCode=Errors.LoginCode;
-Errors.LoginError=class LoginError extends Aventus.GenericError {
-    static get Fullname() { return "Core.Logic.LoginError, Core"; }
-}
-Errors.LoginError.Namespace=`${moduleName}.Errors`;Aventus.Converter.register(Errors.LoginError.Fullname, Errors.LoginError);
-_.Errors.LoginError=Errors.LoginError;
-System.Panel = class Panel extends Aventus.WebComponent {
-    static __style = `:host{background-color:var(--primary-color-opacity);border-radius:10px}@media screen and (max-width: 768px){:host{background-color:var(--primary-color)}}@media screen and (max-width: 1224px){:host{border-radius:0px}}`;
-    __getStatic() {
-        return Panel;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Panel.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "Panel";
-    }
-}
-System.Panel.Namespace=`${moduleName}.System`;
-System.Panel.Tag=`rk-panel`;
-_.System.Panel=System.Panel;
-if(!window.customElements.get('rk-panel')){window.customElements.define('rk-panel', System.Panel);Aventus.WebComponentInstance.registerDefinition(System.Panel);}
 
 System.AddOnTime = class AddOnTime extends Aventus.WebComponent {
     days = [
@@ -922,50 +909,47 @@ Lib.Pointer=class Pointer {
 }
 Lib.Pointer.Namespace=`${moduleName}.Lib`;
 _.Lib.Pointer=Lib.Pointer;
+(function (LoginCode) {
+    LoginCode[LoginCode["OK"] = 0] = "OK";
+    LoginCode[LoginCode["WrongCredentials"] = 1] = "WrongCredentials";
+    LoginCode[LoginCode["Unknown"] = 2] = "Unknown";
+    LoginCode[LoginCode["NotConnected"] = 3] = "NotConnected";
+})(Errors.LoginCode || (Errors.LoginCode = {}));
+
+_.Errors.LoginCode=Errors.LoginCode;
+Errors.LoginError=class LoginError extends Aventus.GenericError {
+    static get Fullname() { return "Core.Logic.LoginError, Core"; }
+}
+Errors.LoginError.Namespace=`${moduleName}.Errors`;Aventus.Converter.register(Errors.LoginError.Fullname, Errors.LoginError);
+_.Errors.LoginError=Errors.LoginError;
 Lib.HttpRouter=class HttpRouter extends Aventus.HttpRouter {
 }
 Lib.HttpRouter.Namespace=`${moduleName}.Lib`;
 _.Lib.HttpRouter=Lib.HttpRouter;
-System.HomeBtn = class HomeBtn extends Aventus.WebComponent {
-    get 'active'() { return this.getBoolAttr('active') }
-    set 'active'(val) { this.setBoolAttr('active', val) }    static __style = `:host{position:relative}:host .icon{border-radius:5px;cursor:pointer;margin:0 3px;max-height:calc(100% - 16px);max-width:34px;padding:7px;transition:background-color .2s var(--bezier-curve)}:host rk-home-panel{bottom:calc(100% + 5px);height:0;overflow:hidden;transition:bottom var(--bezier-curve) .7s,height var(--bezier-curve) .7s}:host([active]) .icon{background-color:var(--text-color)}:host([active]) .icon rk-img{--img-fill-color: var(--primary-color-opacity)}:host([active]) rk-home-panel{bottom:calc(100% + 10px);height:400px}@media screen and (min-width: 1225px){:host(:not([active])) .icon:hover{background-color:var(--lighter-active)}}`;
+System.Panel = class Panel extends Aventus.WebComponent {
+    static __style = `:host{background-color:var(--primary-color-opacity);border-radius:10px}@media screen and (max-width: 768px){:host{background-color:var(--primary-color)}}@media screen and (max-width: 1224px){:host{border-radius:0px}}`;
     __getStatic() {
-        return HomeBtn;
+        return Panel;
     }
     __getStyle() {
         let arrStyle = super.__getStyle();
-        arrStyle.push(HomeBtn.__style);
+        arrStyle.push(Panel.__style);
         return arrStyle;
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="icon" _id="homebtn_0">    <rk-img mode="contains" src="/img/icons/house.svg" class="touch"></rk-img></div><rk-home-panel></rk-home-panel>` }
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "pressEvents": [
-    {
-      "id": "homebtn_0",
-      "onPress": (e, pressInstance, c) => { c.comp.toggleActive(e, pressInstance); }
-    }
-  ]
-}); }
     getClassName() {
-        return "HomeBtn";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('active'); }
-    __listBoolProps() { return ["active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    toggleActive() {
-        this.active = !this.active;
-    }
-    postCreation() {
+        return "Panel";
     }
 }
-System.HomeBtn.Namespace=`${moduleName}.System`;
-System.HomeBtn.Tag=`rk-home-btn`;
-_.System.HomeBtn=System.HomeBtn;
-if(!window.customElements.get('rk-home-btn')){window.customElements.define('rk-home-btn', System.HomeBtn);Aventus.WebComponentInstance.registerDefinition(System.HomeBtn);}
+System.Panel.Namespace=`${moduleName}.System`;
+System.Panel.Tag=`rk-panel`;
+_.System.Panel=System.Panel;
+if(!window.customElements.get('rk-panel')){window.customElements.define('rk-panel', System.Panel);Aventus.WebComponentInstance.registerDefinition(System.Panel);}
 
 Lib.Geometry=class Geometry {
     static getIntersectingRectangle(rect1, rect2) {
@@ -1977,6 +1961,40 @@ Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRou
 }
 Routes.DesktopRouter.Namespace=`${moduleName}.Routes`;
 _.Routes.DesktopRouter=Routes.DesktopRouter;
+RAM.DesktopRAM=class DesktopRAM extends AventusSharp.RAM.RamHttp {
+    /**
+     * @inheritdoc
+     */
+    defineRoutes() {
+        return new Routes.DesktopRouter(new Lib.HttpRouter());
+    }
+    /**
+     * Create a singleton to store data
+     */
+    static getInstance() {
+        return Aventus.Instance.get(RAM.DesktopRAM);
+    }
+    /**
+     * @inheritdoc
+     */
+    defineIndexKey() {
+        return 'Id';
+    }
+    /**
+     * @inheritdoc
+     */
+    getTypeForData(objJson) {
+        return Data.Desktop;
+    }
+    async beforeUpdateItem(item, fromList, result) {
+        const savedApps = item.Applications;
+        item.Applications = [];
+        await super.beforeUpdateItem(item, fromList, result);
+        item.Applications = savedApps;
+    }
+}
+RAM.DesktopRAM.Namespace=`${moduleName}.RAM`;
+_.RAM.DesktopRAM=RAM.DesktopRAM;
 Components.PageCase = class PageCase extends Aventus.WebComponent {
     static get observedAttributes() {return ["case_width", "case_height"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'min_case_margin_left'() { return this.getNumberAttr('min_case_margin_left') }
@@ -5423,6 +5441,7 @@ System.Application = class Application extends Aventus.WebComponent {
         this.watchTransition();
     }
     postDestruction() {
+        super.postDestruction();
         this.options?.desktop.removeApp(this);
         this.removeApplicationHistory();
         this.sizeManager.remove();
@@ -5518,6 +5537,7 @@ Components.Link = class Link extends Aventus.WebComponent {
         });
     }
     postDestruction() {
+        super.postDestruction();
         this.pressManager?.destroy();
         this.pressManager = undefined;
     }
@@ -5529,6 +5549,251 @@ Components.Link.Namespace=`${moduleName}.Components`;
 Components.Link.Tag=`rk-link`;
 _.Components.Link=Components.Link;
 if(!window.customElements.get('rk-link')){window.customElements.define('rk-link', Components.Link);Aventus.WebComponentInstance.registerDefinition(Components.Link);}
+
+RAM.UserRAM=class UserRAM extends AventusSharp.RAM.RamHttp {
+    connectedUserId;
+    /**
+     * Create a singleton to store data
+     */
+    static getInstance() {
+        return Aventus.Instance.get(RAM.UserRAM);
+    }
+    /**
+     * @inheritdoc
+     */
+    defineIndexKey() {
+        return 'Id';
+    }
+    /**
+     * @inheritdoc
+     */
+    getTypeForData(objJson) {
+        return this.addUserMethod(Data.User);
+    }
+    /**
+     * @inheritdoc
+     */
+    defineRoutes() {
+        return new Routes.UserRouter(new Lib.HttpRouter());
+    }
+    async getConnected() {
+        return this.actionGuard.run(["getConnected"], async () => {
+            let result = new Aventus.ResultWithError();
+            if (!this.connectedUserId) {
+                let query = await new Routes.CoreRouter().routes.User.GetConnected();
+                if (!query.success || !query.result) {
+                    result.errors = query.errors;
+                    return result;
+                }
+                this.connectedUserId = query.result.Id;
+                this.addOrUpdateData(query.result, result);
+                if (!result.success) {
+                    return result;
+                }
+            }
+            return this.getByIdWithError(this.connectedUserId);
+        });
+    }
+    /**
+     * Mixin pattern to add methods
+     */
+    addUserMethod(Base) {
+        return class Extension extends Base {
+            static get className() {
+                return Base.className || Base.name;
+            }
+            get className() {
+                return Base.className || Base.name;
+            }
+        };
+    }
+}
+RAM.UserRAM.Namespace=`${moduleName}.RAM`;
+_.RAM.UserRAM=RAM.UserRAM;
+Lib.SessionManager=class SessionManager {
+    static async logout() {
+        try {
+            await new Routes.CoreRouter().routes.Logout();
+        }
+        catch { }
+        window.location.reload();
+    }
+    static async getUser() {
+        let result = await RAM.UserRAM.getInstance().getConnected();
+        if (result.containsCode(Errors.LoginCode.NotConnected, Errors.LoginError)) {
+            this.logout();
+        }
+        else if (!result.success) {
+        }
+        return result.result;
+    }
+}
+Lib.SessionManager.Namespace=`${moduleName}.Lib`;
+_.Lib.SessionManager=Lib.SessionManager;
+System.HomePanel = class HomePanel extends System.Panel {
+    get 'currentUser'() {
+						return this.__watch["currentUser"];
+					}
+					set 'currentUser'(val) {
+						this.__watch["currentUser"] = val;
+					}    btn;
+    __registerWatchesActions() {
+    this.__addWatchesActions("currentUser");    super.__registerWatchesActions();
+}
+    static __style = `:host{display:flex;flex-direction:column;left:-9px;position:absolute;width:500px}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:5px;margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .grid{display:flex;flex-wrap:wrap;gap:10px;padding:10px}:host .content rk-row rk-col .favoris .favoris-container .grid *{aspect-ratio:1/1;flex-shrink:0;height:auto;width:calc(33.3333333333% - 6.6666666667px)}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;justify-content:space-between;width:100%}:host .footer .person{align-items:center;display:flex;padding:8px 10px;margin:10px 10px;border-radius:5px;transition:background-color .2s var(--bezier-curve)}:host .footer .person rk-img{height:25px}:host .footer .person .name{margin-left:10px}:host .footer .person:hover{background-color:var(--lighter)}:host .footer rk-button{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;aspect-ratio:1;border:none;box-shadow:var(--elevation-2);min-width:auto;margin:10px 10px}`;
+    __getStatic() {
+        return HomePanel;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(HomePanel.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="content">    <rk-row>        <rk-col size="6">            <div class="recent">                <div class="title">                    Récents                </div>                <rk-scrollable class="scrollable recent-container" floating_scroll _id="homepanel_0">                </rk-scrollable>            </div>        </rk-col>        <rk-col size="6">            <div class="favoris">                <div class="title">                    Mes favoris                </div>                <rk-scrollable class="scrollable favoris-container" floating_scroll>                    <div class="grid" _id="homepanel_1"></div>                </rk-scrollable>            </div>        </rk-col>    </rk-row></div><div class="footer">    <div class="person touch" _id="homepanel_2">        <div class="icon">            <rk-img src="/img/avatar.png"></rk-img>        </div>        <div class="name" _id="homepanel_3"></div>    </div>    <rk-button icon="/img/icons/power-off.svg" _id="homepanel_4"></rk-button></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "recentContainer",
+      "ids": [
+        "homepanel_0"
+      ]
+    },
+    {
+      "name": "favorisContainer",
+      "ids": [
+        "homepanel_1"
+      ]
+    }
+  ],
+  "content": {
+    "homepanel_3°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod0())} ${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod1())}`
+    }
+  },
+  "pressEvents": [
+    {
+      "id": "homepanel_2",
+      "onPress": (e, pressInstance, c) => { c.comp.openProfil(e, pressInstance); }
+    },
+    {
+      "id": "homepanel_4",
+      "onPress": (e, pressInstance, c) => { c.comp.logout(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "HomePanel";
+    }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["currentUser"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('currentUser'); }
+    openProfil() {
+        let desktop = this.findParentByType(System.Desktop);
+        if (desktop) {
+            desktop.openUrl("Settings", "/", "/user");
+            this.btn.active = false;
+        }
+    }
+    async logout() {
+        Lib.SessionManager.logout();
+    }
+    async displayRecent() {
+        // for(let i = 0; i < 20; i++) {
+        //     let test = new AppIconInline();
+        //     let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
+        //     let app = await ApplicationRAM.getInstance().getApplicationByName("Cave");
+        //     if(icon && app) {
+        //         test.setIcon(icon);
+        //         test.text = app.DisplayName;
+        //     }
+        //     this.recentContainer.appendChild(test);
+        // }
+    }
+    async displayFavoris() {
+        // for(let i = 0; i < 20; i++) {
+        //     let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
+        //     if(icon) {
+        //         this.favorisContainer.appendChild(icon);
+        //     }
+        // }
+    }
+    async getUser() {
+        this.currentUser = await Lib.SessionManager.getUser();
+    }
+    postCreation() {
+        this.getUser();
+        this.displayRecent();
+        this.displayFavoris();
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => { },
+            onDrag: () => { },
+        });
+    }
+    __71121dd8c2837747a91ecf75da806c7amethod0() {
+        return this.currentUser?.Firstname;
+    }
+    __71121dd8c2837747a91ecf75da806c7amethod1() {
+        return this.currentUser?.Lastname;
+    }
+}
+System.HomePanel.Namespace=`${moduleName}.System`;
+System.HomePanel.Tag=`rk-home-panel`;
+_.System.HomePanel=System.HomePanel;
+if(!window.customElements.get('rk-home-panel')){window.customElements.define('rk-home-panel', System.HomePanel);Aventus.WebComponentInstance.registerDefinition(System.HomePanel);}
+
+System.HomeBtn = class HomeBtn extends Aventus.WebComponent {
+    get 'active'() { return this.getBoolAttr('active') }
+    set 'active'(val) { this.setBoolAttr('active', val) }    static __style = `:host{position:relative}:host .icon{border-radius:5px;cursor:pointer;margin:0 3px;max-height:calc(100% - 16px);max-width:34px;padding:7px;transition:background-color .2s var(--bezier-curve)}:host rk-home-panel{bottom:calc(100% + 5px);height:0;overflow:hidden;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s}:host([active]) .icon{background-color:var(--text-color)}:host([active]) .icon rk-img{--img-fill-color: var(--primary-color-opacity)}:host([active]) rk-home-panel{bottom:calc(100% + 10px);height:400px}@media screen and (min-width: 1225px){:host(:not([active])) .icon:hover{background-color:var(--lighter-active)}}`;
+    __getStatic() {
+        return HomeBtn;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(HomeBtn.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="icon" _id="homebtn_0">    <rk-img mode="contains" src="/img/icons/house.svg" class="touch"></rk-img></div><rk-home-panel _id="homebtn_1"></rk-home-panel>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "homePanel",
+      "ids": [
+        "homebtn_1"
+      ]
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "homebtn_0",
+      "onPress": (e, pressInstance, c) => { c.comp.toggleActive(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "HomeBtn";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('active'); }
+    __listBoolProps() { return ["active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    toggleActive() {
+        this.active = !this.active;
+    }
+    postCreation() {
+        this.homePanel.btn = this;
+    }
+}
+System.HomeBtn.Namespace=`${moduleName}.System`;
+System.HomeBtn.Tag=`rk-home-btn`;
+_.System.HomeBtn=System.HomeBtn;
+if(!window.customElements.get('rk-home-btn')){window.customElements.define('rk-home-btn', System.HomeBtn);Aventus.WebComponentInstance.registerDefinition(System.HomeBtn);}
 
 System.BottomBar = class BottomBar extends Aventus.WebComponent {
     get desktop() {
@@ -6267,40 +6532,6 @@ System.PwaPromptIos.Tag=`rk-pwa-prompt-ios`;
 _.System.PwaPromptIos=System.PwaPromptIos;
 if(!window.customElements.get('rk-pwa-prompt-ios')){window.customElements.define('rk-pwa-prompt-ios', System.PwaPromptIos);Aventus.WebComponentInstance.registerDefinition(System.PwaPromptIos);}
 
-RAM.DesktopRAM=class DesktopRAM extends AventusSharp.RAM.RamHttp {
-    /**
-     * @inheritdoc
-     */
-    defineRoutes() {
-        return new Routes.DesktopRouter(new Lib.HttpRouter());
-    }
-    /**
-     * Create a singleton to store data
-     */
-    static getInstance() {
-        return Aventus.Instance.get(RAM.DesktopRAM);
-    }
-    /**
-     * @inheritdoc
-     */
-    defineIndexKey() {
-        return 'Id';
-    }
-    /**
-     * @inheritdoc
-     */
-    getTypeForData(objJson) {
-        return Data.Desktop;
-    }
-    async beforeUpdateItem(item, fromList, result) {
-        const savedApps = item.Applications;
-        item.Applications = [];
-        await super.beforeUpdateItem(item, fromList, result);
-        item.Applications = savedApps;
-    }
-}
-RAM.DesktopRAM.Namespace=`${moduleName}.RAM`;
-_.RAM.DesktopRAM=RAM.DesktopRAM;
 System.Desktop = class Desktop extends Aventus.WebComponent {
     static get observedAttributes() {return ["desktop_id"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'show_application_list'() { return this.getBoolAttr('show_application_list') }
@@ -7531,189 +7762,6 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
 System.ApplicationSidnav.Namespace=`${moduleName}.System`;
 _.System.ApplicationSidnav=System.ApplicationSidnav;
 
-RAM.UserRAM=class UserRAM extends AventusSharp.RAM.RamHttp {
-    connectedUserId;
-    /**
-     * Create a singleton to store data
-     */
-    static getInstance() {
-        return Aventus.Instance.get(RAM.UserRAM);
-    }
-    /**
-     * @inheritdoc
-     */
-    defineIndexKey() {
-        return 'Id';
-    }
-    /**
-     * @inheritdoc
-     */
-    getTypeForData(objJson) {
-        return this.addUserMethod(Data.User);
-    }
-    /**
-     * @inheritdoc
-     */
-    defineRoutes() {
-        return new Routes.UserRouter(new Lib.HttpRouter());
-    }
-    async getConnected() {
-        return this.actionGuard.run(["getConnected"], async () => {
-            let result = new Aventus.ResultWithError();
-            if (!this.connectedUserId) {
-                let query = await new Routes.CoreRouter().routes.User.GetConnected();
-                if (!query.success || !query.result) {
-                    result.errors = query.errors;
-                    return result;
-                }
-                this.connectedUserId = query.result.Id;
-                this.addOrUpdateData(query.result, result);
-                if (!result.success) {
-                    return result;
-                }
-            }
-            return this.getByIdWithError(this.connectedUserId);
-        });
-    }
-    /**
-     * Mixin pattern to add methods
-     */
-    addUserMethod(Base) {
-        return class Extension extends Base {
-            static get className() {
-                return Base.className || Base.name;
-            }
-            get className() {
-                return Base.className || Base.name;
-            }
-        };
-    }
-}
-RAM.UserRAM.Namespace=`${moduleName}.RAM`;
-_.RAM.UserRAM=RAM.UserRAM;
-Lib.SessionManager=class SessionManager {
-    static async logout() {
-        try {
-            await new Routes.CoreRouter().routes.Logout();
-        }
-        catch { }
-        window.location.reload();
-    }
-    static async getUser() {
-        let result = await RAM.UserRAM.getInstance().getConnected();
-        if (result.containsCode(Errors.LoginCode.NotConnected, Errors.LoginError)) {
-            this.logout();
-        }
-        else if (!result.success) {
-        }
-        return result.result;
-    }
-}
-Lib.SessionManager.Namespace=`${moduleName}.Lib`;
-_.Lib.SessionManager=Lib.SessionManager;
-System.HomePanel = class HomePanel extends System.Panel {
-    get 'currentUser'() {
-						return this.__watch["currentUser"];
-					}
-					set 'currentUser'(val) {
-						this.__watch["currentUser"] = val;
-					}    __registerWatchesActions() {
-    this.__addWatchesActions("currentUser");    super.__registerWatchesActions();
-}
-    static __style = `:host{display:flex;flex-direction:column;left:-9px;position:absolute;width:500px}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:5px;margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .grid{display:flex;flex-wrap:wrap;gap:10px;padding:10px}:host .content rk-row rk-col .favoris .favoris-container .grid *{aspect-ratio:1/1;flex-shrink:0;height:auto;width:calc(33.3333333333% - 6.6666666667px)}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;padding:10px 10px;width:100%}:host .footer rk-img{height:25px}:host .footer .nom{flex-grow:1}:host .footer rk-button{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;border:none;box-shadow:var(--elevation-2);min-width:auto;aspect-ratio:1}`;
-    __getStatic() {
-        return HomePanel;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(HomePanel.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="content">    <rk-row>        <rk-col size="6">            <div class="recent">                <div class="title">                    Récents                </div>                <rk-scrollable class="scrollable recent-container" floating_scroll _id="homepanel_0">                </rk-scrollable>            </div>        </rk-col>        <rk-col size="6">            <div class="favoris">                <div class="title">                    Mes favoris                </div>                <rk-scrollable class="scrollable favoris-container" floating_scroll>                    <div class="grid" _id="homepanel_1"></div>                </rk-scrollable>            </div>        </rk-col>    </rk-row></div><div class="footer">    <div class="icon">        <rk-img src="/img/avatar.png"></rk-img>    </div>    <div class="nom" _id="homepanel_2"></div>    <rk-button icon="/img/icons/power-off.svg" _id="homepanel_3"></rk-button></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "recentContainer",
-      "ids": [
-        "homepanel_0"
-      ]
-    },
-    {
-      "name": "favorisContainer",
-      "ids": [
-        "homepanel_1"
-      ]
-    }
-  ],
-  "content": {
-    "homepanel_2°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod0())} ${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod1())}`
-    }
-  },
-  "pressEvents": [
-    {
-      "id": "homepanel_3",
-      "onPress": (e, pressInstance, c) => { c.comp.logout(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "HomePanel";
-    }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["currentUser"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('currentUser'); }
-    async logout() {
-        Lib.SessionManager.logout();
-    }
-    async displayRecent() {
-        // for(let i = 0; i < 20; i++) {
-        //     let test = new AppIconInline();
-        //     let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
-        //     let app = await ApplicationRAM.getInstance().getApplicationByName("Cave");
-        //     if(icon && app) {
-        //         test.setIcon(icon);
-        //         test.text = app.DisplayName;
-        //     }
-        //     this.recentContainer.appendChild(test);
-        // }
-    }
-    async displayFavoris() {
-        // for(let i = 0; i < 20; i++) {
-        //     let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
-        //     if(icon) {
-        //         this.favorisContainer.appendChild(icon);
-        //     }
-        // }
-    }
-    async getUser() {
-        this.currentUser = await Lib.SessionManager.getUser();
-    }
-    postCreation() {
-        this.getUser();
-        this.displayRecent();
-        this.displayFavoris();
-        new Aventus.PressManager({
-            element: this,
-            onPress: () => { },
-            onDrag: () => { },
-        });
-    }
-    __71121dd8c2837747a91ecf75da806c7amethod0() {
-        return this.currentUser?.Firstname;
-    }
-    __71121dd8c2837747a91ecf75da806c7amethod1() {
-        return this.currentUser?.Lastname;
-    }
-}
-System.HomePanel.Namespace=`${moduleName}.System`;
-System.HomePanel.Tag=`rk-home-panel`;
-_.System.HomePanel=System.HomePanel;
-if(!window.customElements.get('rk-home-panel')){window.customElements.define('rk-home-panel', System.HomePanel);Aventus.WebComponentInstance.registerDefinition(System.HomePanel);}
-
 System.PwaPrompt = class PwaPrompt extends Aventus.WebComponent {
     static instance;
     static get isAvailable() {
@@ -7769,6 +7817,485 @@ System.PwaPrompt.Namespace=`${moduleName}.System`;
 System.PwaPrompt.Tag=`rk-pwa-prompt`;
 _.System.PwaPrompt=System.PwaPrompt;
 if(!window.customElements.get('rk-pwa-prompt')){window.customElements.define('rk-pwa-prompt', System.PwaPrompt);Aventus.WebComponentInstance.registerDefinition(System.PwaPrompt);}
+
+const CalendarDay = class CalendarDay extends Aventus.WebComponent {
+    get 'other'() { return this.getBoolAttr('other') }
+    set 'other'(val) { this.setBoolAttr('other', val) }get 'today'() { return this.getBoolAttr('today') }
+    set 'today'(val) { this.setBoolAttr('today', val) }    calendar;
+    date = new Date();
+    static __style = `:host{align-items:center;display:flex;height:30px;justify-content:center;width:30px;border-radius:5px;cursor:pointer;transition:color .2s var(--bezier-curve),background-color .2s var(--bezier-curve)}:host([other]){color:var(--secondary-color)}:host([today]){color:var(--orange)}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--lighter)}}`;
+    constructor() { super(); if (this.constructor == CalendarDay) { throw "can't instanciate an abstract class"; } }
+    __getStatic() {
+        return CalendarDay;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(CalendarDay.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "CalendarDay";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('other')) { this.attributeChangedCallback('other', false, false); }if(!this.hasAttribute('today')) { this.attributeChangedCallback('today', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('other');this.__upgradeProperty('today'); }
+    __listBoolProps() { return ["other","today"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    init(dateDisplayed, dateDay, calendar) {
+        this.shadowRoot.innerHTML = dateDay.getDate() + '';
+        this.other = dateDisplayed.getMonth() != dateDay.getMonth();
+        this.calendar = calendar;
+        this.date.setTime(dateDay.getTime());
+        this.today = Lib.DateTools.isSameDate(new Date(), dateDay);
+    }
+    postCreation() {
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => {
+                this.calendar.onDateClicked.trigger([this.date, this]);
+            }
+        });
+    }
+}
+CalendarDay.Namespace=`${moduleName}`;
+_.CalendarDay=CalendarDay;
+
+const CalendarDayDefault = class CalendarDayDefault extends CalendarDay {
+    static __style = ``;
+    __getStatic() {
+        return CalendarDayDefault;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(CalendarDayDefault.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "CalendarDayDefault";
+    }
+}
+CalendarDayDefault.Namespace=`${moduleName}`;
+CalendarDayDefault.Tag=`rk-calendar-day-default`;
+_.CalendarDayDefault=CalendarDayDefault;
+if(!window.customElements.get('rk-calendar-day-default')){window.customElements.define('rk-calendar-day-default', CalendarDayDefault);Aventus.WebComponentInstance.registerDefinition(CalendarDayDefault);}
+
+Components.Calendar = class Calendar extends Aventus.WebComponent {
+    static get observedAttributes() {return ["date", "show_selector"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'selector'() { return this.getStringAttr('selector') }
+    set 'selector'(val) { this.setStringAttr('selector', val) }    get 'date'() { return this.getDateProp('date') }
+    set 'date'(val) { this.setDateAttr('date', val) }get 'show_selector'() { return this.getBoolProp('show_selector') }
+    set 'show_selector'(val) { this.setBoolAttr('show_selector', val) }    get 'dateTemp'() {
+						return this.__watch["dateTemp"];
+					}
+					set 'dateTemp'(val) {
+						this.__watch["dateTemp"] = val;
+					}get 'yearGroupPage'() {
+						return this.__watch["yearGroupPage"];
+					}
+					set 'yearGroupPage'(val) {
+						this.__watch["yearGroupPage"] = val;
+					}get 'yearGroupTxt'() {
+						return this.__watch["yearGroupTxt"];
+					}
+					set 'yearGroupTxt'(val) {
+						this.__watch["yearGroupTxt"] = val;
+					}    onDateClicked = new Aventus.Callback();
+    __registerWatchesActions() {
+    this.__addWatchesActions("dateTemp", ((target) => {
+    target.renderDatesTemp();
+    target.printYearRange();
+}));this.__addWatchesActions("yearGroupPage", ((target) => {
+    target.printYearRange();
+}));this.__addWatchesActions("yearGroupTxt");    super.__registerWatchesActions();
+}
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("date", ((target) => {
+    target.renderDates();
+}));this.__addPropertyActions("show_selector", ((target) => {
+    if (target.show_selector) {
+        target.dateTemp = target.date;
+    }
+})); }
+    static __style = `:host{background-color:#fff;border-radius:10px;box-shadow:var(--elevation-3);display:flex;flex-direction:column;padding:15px;position:relative;width:fit-content}:host .hover{transition:background-color .2s var(--bezier-curve)}:host .header{align-items:center;display:flex;flex-direction:row;font-size:var(--font-size-md);justify-content:space-between;position:relative}:host .header .current-info{align-items:center;display:flex;flex-direction:row;flex-grow:1;justify-content:center}:host .header .current-info .month-year{align-items:center;border-radius:5px;display:flex;flex-direction:row;padding:5px 10px}:host .header .current-info .month-year .month{margin-right:5px}:host .header .chevron{align-items:center;border-radius:5px;display:flex;height:30px;justify-content:center;text-align:center;width:30px}:host .header .selectors{background-color:var(--primary-color);border-radius:10px;box-shadow:var(--elevation-3);left:50%;opacity:0;padding:10px;pointer-events:none;position:absolute;top:calc(100% + 12px);transform:translateX(-50%);transition:opacity .2s var(--bezier-curve),visibility .2s var(--bezier-curve);visibility:hidden;z-index:5}:host .header .selectors::after{border-bottom:10px solid var(--primary-color);border-left:10px solid rgba(0,0,0,0);border-right:10px solid rgba(0,0,0,0);content:"";left:50%;position:absolute;top:-8px;transform:translateX(-50%)}:host .header .selectors .month-select{display:none}:host .header .selectors .month-select .month-select-header{align-items:center;display:flex}:host .header .selectors .month-select .month-select-header .current-info .temp-year{border-radius:5px;font-size:var(--font-size);padding:5px 10px;display:flex}:host .header .selectors .month-select .month-select-body{display:flex;flex-wrap:wrap;font-size:calc(var(--font-size)*.9);margin-top:0px;width:200px}:host .header .selectors .month-select .month-select-body .month-el{align-items:center;border-radius:5px;display:flex;height:30px;justify-content:center;margin:3px 5px;width:calc((100% - 30px)/3)}:host .header .selectors .month-select .month-select-body .month-el:hover,:host .header .selectors .month-select .month-select-body .month-el.active{background-color:var(--lighter)}:host .header .selectors .year-select{display:none}:host .header .selectors .year-select .year-select-header{align-items:center;display:flex}:host .header .selectors .year-select .year-select-header .current-info .temp-year-range{border-radius:5px;font-size:var(--font-size);padding:5px 10px;display:flex}:host .header .selectors .year-select .year-select-body{display:flex;flex-wrap:wrap;font-size:calc(var(--font-size)*.9);margin-top:0px;width:200px}:host .header .selectors .year-select .year-select-body .year-el{align-items:center;border-radius:5px;display:flex;height:30px;justify-content:center;margin:3px 5px;width:calc((100% - 30px)/3)}:host .header .selectors .year-select .year-select-body .year-el:hover,:host .header .selectors .year-select .year-select-body .year-el.active{background-color:var(--lighter)}:host .body{display:flex;flex-direction:column;margin-top:10px}:host .body .days-header{color:var(--text-color-light);display:flex;flex-direction:row;gap:10px}:host .body .days-header .day-header{align-items:center;display:flex;height:30px;justify-content:center;width:30px}:host .body .days-body{flex-direction:column}:host .body .days-body .days-row{display:flex;flex-direction:row;gap:10px;margin:5px 0}:host .hider{display:none;inset:0;position:absolute;z-index:1}:host([show_selector]) .hider{display:block}:host([show_selector]) .header .selectors{opacity:1;pointer-events:auto;visibility:visible}:host([selector=month]) .header .selectors .month-select{display:block}:host([selector=year]) .header .selectors .year-select{display:block}@media screen and (min-width: 1225px){:host .hover:hover{background-color:var(--lighter)}}`;
+    __getStatic() {
+        return Calendar;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Calendar.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="header">    <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_0"></mi-icon>    <div class="current-info" _id="calendar_1">        <div class="month-year touch hover">            <div class="month" _id="calendar_2"></div>            <div class="year" _id="calendar_3"></div>        </div>    </div>    <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_4"></mi-icon>    <div class="selectors">        <div class="month-select">            <div class="month-select-header">                <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_5"></mi-icon>                <div class="current-info" _id="calendar_6">                    <div class="temp-year touch hover" _id="calendar_7"></div>                </div>                <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_8"></mi-icon>            </div>            <div class="month-select-body" _id="calendar_9">                <div class="month-el touch hover" _id="calendar_10">Janv.</div>                <div class="month-el touch hover" _id="calendar_11">Févr.</div>                <div class="month-el touch hover" _id="calendar_12">Mars</div>                <div class="month-el touch hover" _id="calendar_13">Avr.</div>                <div class="month-el touch hover" _id="calendar_14">Mai</div>                <div class="month-el touch hover" _id="calendar_15">Juin</div>                <div class="month-el touch hover" _id="calendar_16">Juil.</div>                <div class="month-el touch hover" _id="calendar_17">Août</div>                <div class="month-el touch hover" _id="calendar_18">Sept.</div>                <div class="month-el touch hover" _id="calendar_19">Oct.</div>                <div class="month-el touch hover" _id="calendar_20">Nov.</div>                <div class="month-el touch hover" _id="calendar_21">Déc.</div>            </div>        </div>        <div class="year-select">            <div class="year-select-header">                <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_22"></mi-icon>                <div class="current-info">                    <div class="temp-year-range" _id="calendar_23"></div>                </div>                <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_24"></mi-icon>            </div>            <div class="year-select-body" _id="calendar_25">            </div>        </div>    </div></div><div class="body">    <div class="days-header">        <div class="day-header">Lu</div>        <div class="day-header">Ma</div>        <div class="day-header">Me</div>        <div class="day-header">Je</div>        <div class="day-header">Ve</div>        <div class="day-header">Sa</div>        <div class="day-header">Di</div>    </div>    <div class="days-body" _id="calendar_26">    </div></div><div class="hider" _id="calendar_27"></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "monthEl",
+      "ids": [
+        "calendar_2"
+      ]
+    },
+    {
+      "name": "yearEl",
+      "ids": [
+        "calendar_3"
+      ]
+    },
+    {
+      "name": "bodyMonthEl",
+      "ids": [
+        "calendar_9"
+      ]
+    },
+    {
+      "name": "bodyYearEl",
+      "ids": [
+        "calendar_25"
+      ]
+    },
+    {
+      "name": "bodyEl",
+      "ids": [
+        "calendar_26"
+      ]
+    }
+  ],
+  "content": {
+    "calendar_7°@HTML": {
+      "fct": (c) => `\r\n                        ${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method0())}\r\n                    `,
+      "once": true
+    },
+    "calendar_23°@HTML": {
+      "fct": (c) => `\r\n                        ${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method1())}\r\n                    `,
+      "once": true
+    }
+  },
+  "pressEvents": [
+    {
+      "id": "calendar_0",
+      "onPress": (e, pressInstance, c) => { c.comp.previousMonth(e, pressInstance); }
+    },
+    {
+      "id": "calendar_1",
+      "onPress": (e, pressInstance, c) => { c.comp.showMonthSelect(e, pressInstance); }
+    },
+    {
+      "id": "calendar_4",
+      "onPress": (e, pressInstance, c) => { c.comp.nextMonth(e, pressInstance); }
+    },
+    {
+      "id": "calendar_5",
+      "onPress": (e, pressInstance, c) => { c.comp.previousYearTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_6",
+      "onPress": (e, pressInstance, c) => { c.comp.showYearSelect(e, pressInstance); }
+    },
+    {
+      "id": "calendar_8",
+      "onPress": (e, pressInstance, c) => { c.comp.nextMonthYearTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_10",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_11",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_12",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_13",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_14",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_15",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_16",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_17",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_18",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_19",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_20",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_21",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_22",
+      "onPress": (e, pressInstance, c) => { c.comp.previousYearGroupTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_24",
+      "onPress": (e, pressInstance, c) => { c.comp.nextYearGroupTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_27",
+      "onPress": (e, pressInstance, c) => { c.comp.hideSelector(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "Calendar";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('selector')){ this['selector'] = 'month'; }if(!this.hasAttribute('date')){ this['date'] = new Date(); }if(!this.hasAttribute('show_selector')) { this.attributeChangedCallback('show_selector', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["dateTemp"] = new Date();w["yearGroupPage"] = 0;w["yearGroupTxt"] = ""; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('selector');this.__upgradeProperty('date');this.__upgradeProperty('show_selector');this.__correctGetter('dateTemp');this.__correctGetter('yearGroupPage');this.__correctGetter('yearGroupTxt'); }
+    __listBoolProps() { return ["show_selector"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    monthsName() {
+        return [
+            'Janvier',
+            'Février',
+            'Mars',
+            'Avril',
+            'Mai',
+            'Juin',
+            'Juillet',
+            'Août',
+            'Septembre',
+            'Octobre',
+            'Novembre',
+            'Décembre'
+        ];
+    }
+    nextMonth() {
+        let date = this.date;
+        let newDate = new Date();
+        newDate.setTime(date.getTime());
+        newDate.setDate(1);
+        newDate.setMonth(newDate.getMonth() + 1);
+        this.date = newDate;
+    }
+    previousMonth() {
+        let date = this.date;
+        let newDate = new Date();
+        newDate.setTime(date.getTime());
+        newDate.setDate(1);
+        newDate.setMonth(newDate.getMonth() - 1);
+        this.date = newDate;
+    }
+    defineCalendarDay() {
+        return CalendarDayDefault;
+    }
+    renderDates() {
+        if (!this.isConnected)
+            return;
+        Lib.DomTools.clearElement(this.bodyEl);
+        let date = this.date;
+        this.yearEl.innerHTML = date.getFullYear() + '';
+        this.monthEl.innerHTML = this.monthsName()[date.getMonth()];
+        let maxDate = new Date();
+        maxDate.setTime(date.getTime());
+        maxDate.setDate(1);
+        maxDate.setMonth(maxDate.getMonth() + 1);
+        maxDate.setDate(0);
+        maxDate.setHours(23);
+        maxDate.setMinutes(59);
+        maxDate.setSeconds(59);
+        maxDate.setDate(maxDate.getDate() + (7 - maxDate.getDay()));
+        let startDate = new Date();
+        startDate.setTime(date.getTime());
+        startDate.setDate(1);
+        let diff = 1 - (startDate.getDay() - 1);
+        if (diff < 0) {
+            startDate.setDate(diff);
+        }
+        let i = 0;
+        let row = document.createElement("div");
+        row.classList.add("days-row");
+        let CaseCst = this.defineCalendarDay();
+        while (startDate < maxDate) {
+            let caseEl = new CaseCst();
+            caseEl.init(date, startDate, this);
+            row.appendChild(caseEl);
+            startDate.setDate(startDate.getDate() + 1);
+            i++;
+            if (i == 7) {
+                i = 0;
+                this.bodyEl.appendChild(row);
+                row = document.createElement("div");
+                row.classList.add("days-row");
+            }
+        }
+    }
+    renderDatesTemp() {
+        let el = this.bodyMonthEl.querySelector(".active");
+        if (el) {
+            el.classList.remove("active");
+        }
+        if (this.dateTemp.getFullYear() == this.date.getFullYear())
+            this.bodyMonthEl.children[this.dateTemp.getMonth()].classList.add("active");
+        let now = new Date();
+        this.yearGroupPage = Math.ceil((this.dateTemp.getFullYear() - now.getFullYear() - 5) / 12);
+    }
+    showMonthSelect() {
+        this.selector = 'month';
+        this.show_selector = true;
+    }
+    showYearSelect() {
+        this.selector = 'year';
+        this.show_selector = true;
+    }
+    hideSelector() {
+        this.show_selector = false;
+    }
+    selectMonthTemp(e, instance) {
+        let children = Array.from(this.bodyMonthEl.children);
+        let index = children.indexOf(instance.getElement());
+        if (index != -1) {
+            let date = this.date;
+            let newDate = new Date();
+            newDate.setTime(date.getTime());
+            newDate.setDate(1);
+            newDate.setMonth(index);
+            newDate.setFullYear(this.dateTemp.getFullYear());
+            this.date = newDate;
+        }
+        this.hideSelector();
+    }
+    previousYearTemp() {
+        let date = this.dateTemp ?? new Date();
+        let newDate = new Date();
+        newDate.setTime(date.getTime());
+        newDate.setDate(1);
+        newDate.setFullYear(newDate.getFullYear() - 1);
+        this.dateTemp = newDate;
+    }
+    nextMonthYearTemp() {
+        let date = this.dateTemp ?? new Date();
+        let newDate = new Date();
+        newDate.setTime(date.getTime());
+        newDate.setDate(1);
+        newDate.setFullYear(newDate.getFullYear() + 1);
+        this.dateTemp = newDate;
+    }
+    previousYearGroupTemp() {
+        this.yearGroupPage--;
+    }
+    nextYearGroupTemp() {
+        this.yearGroupPage++;
+    }
+    printYearRange() {
+        let currentYear = new Date().getFullYear();
+        let basicRangeStart = (currentYear + this.yearGroupPage * 12) - 6;
+        let basicRangeEnd = (currentYear + this.yearGroupPage * 12) + 6;
+        this.yearGroupTxt = `${basicRangeStart} - ${basicRangeEnd}`;
+        this.bodyYearEl.innerHTML = "";
+        for (let i = basicRangeStart; i < basicRangeEnd; i++) {
+            this.createYearCase(i);
+        }
+    }
+    createYearCase(year) {
+        let div = document.createElement("div");
+        div.classList.add("year-el");
+        div.innerHTML = year + '';
+        if (year == this.dateTemp.getFullYear()) {
+            div.classList.add("active");
+        }
+        div.addEventListener("click", (e) => {
+            let newDate = new Date();
+            newDate.setTime(this.dateTemp.getTime());
+            newDate.setFullYear(year);
+            this.dateTemp = newDate;
+            this.showMonthSelect();
+        });
+        this.bodyYearEl.appendChild(div);
+    }
+    postDisonnect() {
+        this.show_selector = false;
+    }
+    postCreation() {
+    }
+    __209c968d688f11ad02afc05e2a5220a2method0() {
+        return this.dateTemp.getFullYear();
+    }
+    __209c968d688f11ad02afc05e2a5220a2method1() {
+        return this.yearGroupTxt;
+    }
+}
+Components.Calendar.Namespace=`${moduleName}.Components`;
+Components.Calendar.Tag=`rk-calendar`;
+_.Components.Calendar=Components.Calendar;
+if(!window.customElements.get('rk-calendar')){window.customElements.define('rk-calendar', Components.Calendar);Aventus.WebComponentInstance.registerDefinition(Components.Calendar);}
+
+const DatePickerCalendarDay = class DatePickerCalendarDay extends CalendarDay {
+    get 'selected'() { return this.getBoolAttr('selected') }
+    set 'selected'(val) { this.setBoolAttr('selected', val) }    static __style = `:host([selected]){background-color:var(--primary-color)}`;
+    constructor() { super(); this.checkIfSelected=this.checkIfSelected.bind(this) }
+    __getStatic() {
+        return DatePickerCalendarDay;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(DatePickerCalendarDay.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`` }
+    });
+}
+    getClassName() {
+        return "DatePickerCalendarDay";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('selected')) { this.attributeChangedCallback('selected', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('selected'); }
+    __listBoolProps() { return ["selected"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    init(dateDisplayed, dateDay, calendar) {
+        super.init(dateDisplayed, dateDay, calendar);
+        if (calendar instanceof DatePickerCalendar) {
+            if (Lib.DateTools.isSameDate(calendar.picker.value, dateDay)) {
+                this.selected = true;
+            }
+            calendar.onDateClicked.add(this.checkIfSelected);
+        }
+    }
+    checkIfSelected(date, element) {
+        this.selected = element == this;
+    }
+    postDestruction() {
+        super.postDestruction();
+        this.calendar.onDateClicked.remove(this.checkIfSelected);
+    }
+}
+DatePickerCalendarDay.Namespace=`${moduleName}`;
+DatePickerCalendarDay.Tag=`rk-date-picker-calendar-day`;
+_.DatePickerCalendarDay=DatePickerCalendarDay;
+if(!window.customElements.get('rk-date-picker-calendar-day')){window.customElements.define('rk-date-picker-calendar-day', DatePickerCalendarDay);Aventus.WebComponentInstance.registerDefinition(DatePickerCalendarDay);}
 
 Components.FormElement = class FormElement extends Aventus.WebComponent {
     get 'has_errors'() { return this.getBoolAttr('has_errors') }
@@ -8184,7 +8711,7 @@ Components.Input = class Input extends Components.FormElement {
     set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
     target.inputEl.value = target.value;
 })); }
-    static __style = `:host{--_input-height: var(--input-height, 30px);--_input-background-color: var(--input-background-color, var(--form-element-background, white));--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-background-color);border:var(--_input-input-border);border-radius:var(--_input-border-radius);display:flex;height:var(--_input-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-font-size);height:100%;margin:0;outline:none;padding:5px 0;padding-right:10px;min-width:0}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:50%;color:#fff;display:none;font-size:calc(var(--_input-error-logo-size) - 5px);height:var(--_input-error-logo-size);justify-content:center;width:var(--_input-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0;text-align:justify}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}`;
+    static __style = `:host{--_input-height: var(--input-height, 30px);--_input-background-color: var(--input-background-color, var(--form-element-background, white));--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-background-color);border:var(--_input-input-border);border-radius:var(--_input-border-radius);display:flex;height:var(--_input-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:50%;color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-error-logo-size) - 5px);height:var(--_input-error-logo-size);justify-content:center;width:var(--_input-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0;text-align:justify}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}`;
     __getStatic() {
         return Input;
     }
@@ -8650,6 +9177,272 @@ Components.Button.Tag=`rk-button`;
 _.Components.Button=Components.Button;
 if(!window.customElements.get('rk-button')){window.customElements.define('rk-button', Components.Button);Aventus.WebComponentInstance.registerDefinition(Components.Button);}
 
+const DatePickerCalendar = class DatePickerCalendar extends Components.Calendar {
+    picker;
+    static __style = ``;
+    __getStatic() {
+        return DatePickerCalendar;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(DatePickerCalendar.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`` }
+    });
+}
+    getClassName() {
+        return "DatePickerCalendar";
+    }
+    defineCalendarDay() {
+        return DatePickerCalendarDay;
+    }
+}
+DatePickerCalendar.Namespace=`${moduleName}`;
+DatePickerCalendar.Tag=`rk-date-picker-calendar`;
+_.DatePickerCalendar=DatePickerCalendar;
+if(!window.customElements.get('rk-date-picker-calendar')){window.customElements.define('rk-date-picker-calendar', DatePickerCalendar);Aventus.WebComponentInstance.registerDefinition(DatePickerCalendar);}
+
+Components.DatePicker = class DatePicker extends Components.FormElement {
+    static get observedAttributes() {return ["label", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'year_format'() { return this.getStringAttr('year_format') }
+    set 'year_format'(val) { this.setStringAttr('year_format', val) }get 'month_format'() { return this.getStringAttr('month_format') }
+    set 'month_format'(val) { this.setStringAttr('month_format', val) }get 'day_format'() { return this.getStringAttr('day_format') }
+    set 'day_format'(val) { this.setStringAttr('day_format', val) }get 'locale'() { return this.getStringAttr('locale') }
+    set 'locale'(val) { this.setStringAttr('locale', val) }get 'time_zone'() { return this.getStringAttr('time_zone') }
+    set 'time_zone'(val) { this.setStringAttr('time_zone', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    get 'value'() {
+						return this.__watch["value"];
+					}
+					set 'value'(val) {
+						this.__watch["value"] = val;
+					}    calendar;
+    __registerWatchesActions() {
+    this.__addWatchesActions("value", ((target) => {
+    target.renderDate();
+}));    super.__registerWatchesActions();
+}
+    static __style = `:host{--_input-height: var(--input-height, 30px);--_input-background-color: var(--input-background-color, var(--form-element-background, white));--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-background-color);border:var(--_input-input-border);border-radius:var(--_input-border-radius);display:flex;height:var(--_input-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:50%;color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-error-logo-size) - 5px);height:var(--_input-error-logo-size);justify-content:center;width:var(--_input-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0;text-align:justify}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}`;
+    constructor() {
+            super();
+            this.bindCalendar();
+        }
+    __getStatic() {
+        return DatePicker;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(DatePicker.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<label for="input" _id="datepicker_0"></label><div class="input" _id="datepicker_1">    <rk-img class="icon" _id="datepicker_2"></rk-img>    <input id="input" readonly _id="datepicker_3" />    <div class="error-logo">!</div></div><div class="errors">    <template _id="datepicker_4"></template></div><rk-calendar-container _id="datepicker_6"></rk-calendar-container>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "inputEl",
+      "ids": [
+        "datepicker_3"
+      ]
+    },
+    {
+      "name": "calendarContainer",
+      "ids": [
+        "datepicker_6"
+      ]
+    }
+  ],
+  "content": {
+    "datepicker_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__e3c5860a3719823edab2c4b36e42865dmethod1())}`,
+      "once": true
+    },
+    "datepicker_2°src": {
+      "fct": (c) => `${c.print(c.comp.__e3c5860a3719823edab2c4b36e42865dmethod2())}`,
+      "once": true
+    }
+  },
+  "events": [
+    {
+      "eventName": "focus",
+      "id": "datepicker_3",
+      "fct": (e, c) => c.comp.removeErrors(e)
+    },
+    {
+      "eventName": "input",
+      "id": "datepicker_3",
+      "fct": (e, c) => c.comp.onValueChange(e)
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "datepicker_1",
+      "onPress": (e, pressInstance, c) => { c.comp.showCalendar(e, pressInstance); }
+    }
+  ]
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`         <div _id="datepicker_5"></div>    `);templ0.setActions({
+  "content": {
+    "datepicker_5°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__e3c5860a3719823edab2c4b36e42865dmethod3(c.data.error))}`,
+      "once": true
+    }
+  }
+});this.__getStatic().__template.addLoop({
+                    anchorId: 'datepicker_4',
+                    template: templ0,
+                simple:{data: "this.errors",item:"error"}}); }
+    getClassName() {
+        return "DatePicker";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('year_format')){ this['year_format'] = "numeric"; }if(!this.hasAttribute('month_format')){ this['month_format'] = "2-digit"; }if(!this.hasAttribute('day_format')){ this['day_format'] = "2-digit"; }if(!this.hasAttribute('locale')){ this['locale'] = undefined; }if(!this.hasAttribute('time_zone')){ this['time_zone'] = undefined; }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = new Date(); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('year_format');this.__upgradeProperty('month_format');this.__upgradeProperty('day_format');this.__upgradeProperty('locale');this.__upgradeProperty('time_zone');this.__upgradeProperty('label');this.__upgradeProperty('icon');this.__correctGetter('value'); }
+    defineCalendar() {
+        return DatePickerCalendar;
+    }
+    renderDate() {
+        if (!this.value) {
+            this.inputEl.value = '';
+        }
+        else {
+            this.inputEl.value = this.value.toLocaleDateString(this.locale, {
+                year: this.year_format,
+                month: this.month_format,
+                day: this.day_format,
+                timeZone: this.time_zone,
+            });
+        }
+        this.calendar.date = this.value ?? new Date();
+    }
+    removeErrors() {
+        this.errors = [];
+    }
+    onValueChange() {
+        //this.value = this.inputEl.value;
+        this.onChange.trigger([this.value]);
+        if (this.formPart) {
+            Components.FormElement.setValue(this.formPart, this.value);
+            if (this.formPart.validateOnChange !== false) {
+                this.validate();
+            }
+        }
+    }
+    showCalendar() {
+        this.calendarContainer.show();
+        setTimeout(() => {
+            this.calendarContainer.focus({ preventScroll: true });
+        }, 100);
+    }
+    bindCalendar() {
+        this.calendar = new (this.defineCalendar())();
+        this.calendar.picker = this;
+        this.calendar.onDateClicked.add((date, caseEl) => {
+            this.value = date;
+        });
+    }
+    manageFocus() {
+        this.calendarContainer.init(this);
+        let blurTimeout = 0;
+        ;
+        let blur = () => {
+            blurTimeout = setTimeout(() => {
+                this.calendarContainer.hide();
+            }, 100);
+        };
+        this.inputEl.addEventListener("blur", () => {
+            blur();
+        });
+        this.calendarContainer.addEventListener("blur", (e) => {
+            blur();
+        });
+        this.inputEl.addEventListener("focus", () => {
+            clearTimeout(blurTimeout);
+        });
+        this.calendarContainer.addEventListener("focus", () => {
+            clearTimeout(blurTimeout);
+        });
+    }
+    postCreation() {
+        super.postCreation();
+        this.manageFocus();
+        this.renderDate();
+    }
+    __e3c5860a3719823edab2c4b36e42865dmethod1() {
+        return this.label;
+    }
+    __e3c5860a3719823edab2c4b36e42865dmethod2() {
+        return this.icon;
+    }
+    __e3c5860a3719823edab2c4b36e42865dmethod3(error) {
+        return error;
+    }
+}
+Components.DatePicker.Namespace=`${moduleName}.Components`;
+Components.DatePicker.Tag=`rk-date-picker`;
+_.Components.DatePicker=Components.DatePicker;
+if(!window.customElements.get('rk-date-picker')){window.customElements.define('rk-date-picker', Components.DatePicker);Aventus.WebComponentInstance.registerDefinition(Components.DatePicker);}
+
+const CalendarContainer = class CalendarContainer extends Aventus.WebComponent {
+    get 'visible'() { return this.getBoolAttr('visible') }
+    set 'visible'(val) { this.setBoolAttr('visible', val) }    picker;
+    static __style = `:host{display:none;left:0;position:absolute;top:0;z-index:800}:host([visible]){display:block}`;
+    __getStatic() {
+        return CalendarContainer;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(CalendarContainer.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`` }
+    });
+}
+    getClassName() {
+        return "CalendarContainer";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible'); }
+    __listBoolProps() { return ["visible"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    init(picker) {
+        this.picker = picker;
+        this.shadowRoot.appendChild(picker.calendar);
+    }
+    async show(container) {
+        if (!container) {
+            container = document.body;
+        }
+        let box = this.picker.getBoundingClientRect();
+        let boxInput = this.picker.inputEl.getBoundingClientRect();
+        let contBox = container.getBoundingClientRect();
+        let newTop = boxInput.top + boxInput.height + 2;
+        let maxHeight = contBox.height - newTop - 10;
+        this.style.top = newTop + 'px';
+        this.style.left = box.left + 'px';
+        this.style.maxHeight = maxHeight + 'px';
+        container.appendChild(this);
+        this.visible = true;
+    }
+    hide() {
+        this.visible = false;
+        this.parentElement?.removeChild(this);
+    }
+    postCreation() {
+        this.setAttribute("tabindex", "-1");
+    }
+}
+CalendarContainer.Namespace=`${moduleName}`;
+CalendarContainer.Tag=`rk-calendar-container`;
+_.CalendarContainer=CalendarContainer;
+if(!window.customElements.get('rk-calendar-container')){window.customElements.define('rk-calendar-container', CalendarContainer);Aventus.WebComponentInstance.registerDefinition(CalendarContainer);}
+
 Components.GenericSelect = class GenericSelect extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "searchable"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'open'() { return this.getBoolAttr('open') }
@@ -8863,6 +9656,10 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
         this.optionsContainer.addEventListener("focus", () => {
             clearTimeout(blurTimeout);
         });
+    }
+    postDestruction() {
+        super.postDestruction();
+        this.optionsContainer.remove();
     }
     postCreation() {
         this.manageFocus();
@@ -9363,6 +10160,7 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
         this.subscribe();
     }
     postDestruction() {
+        super.postDestruction();
         this.unsubscribe();
     }
     postConnect() {

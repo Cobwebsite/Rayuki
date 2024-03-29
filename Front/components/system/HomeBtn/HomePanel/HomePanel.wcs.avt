@@ -71,15 +71,28 @@
 		display: flex;
 		gap: 10px;
 		height: 57px;
-		padding: 10px 10px;
+		justify-content: space-between;
 		width: 100%;
 
-		rk-img {
-			height: 25px;
+		.person {
+			align-items: center;
+			display: flex;
+			padding: 8px 10px;
+			margin: 10px 10px;
+			border-radius: 5px;
+			transition: background-color 0.2s var(--bezier-curve);
+
+			rk-img {
+				height: 25px;
+			}
+
+			.name {
+				margin-left: 10px;
+			}
 		}
 
-		.nom {
-			flex-grow: 1;
+		.person:hover {
+			background-color: var(--lighter);
 		}
 
 		rk-button {
@@ -88,10 +101,11 @@
 			--button-icon-fill-color: transparent;
 			--button-background-color: var(--red);
 			--button-background-color-hover: transparent;
+			aspect-ratio: 1;
 			border: none;
 			box-shadow: var(--elevation-2);
 			min-width: auto;
-			aspect-ratio: 1;
+			margin: 10px 10px;
 		}
 
 

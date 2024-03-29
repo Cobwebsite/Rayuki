@@ -1,4 +1,4 @@
 <div class="icon" @press="toggleActive">
     <rk-img mode="contains" src="/img/icons/house.svg" class="touch"></rk-img>
 </div>
-<rk-home-panel></rk-home-panel>
+<rk-home-panel @element="homePanel"></rk-home-panel>

@@ -1,3 +1,4 @@
+import type { HomePanel } from "./HomePanel/HomePanel.wcl.avt";
 
 namespace System {
     export class HomeBtn extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -14,7 +15,8 @@ namespace System {
 
 
         //#region variables
-
+        @ViewElement()
+        protected homePanel!: HomePanel;
         //#endregion
 
 
@@ -33,7 +35,7 @@ namespace System {
         }
 
         protected override postCreation(): void {
-
+            this.homePanel.btn = this;
         }
         //#endregion
 

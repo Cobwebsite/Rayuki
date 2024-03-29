@@ -1,0 +1,271 @@
+import { CalendarDayDefault } from "../CalendarDayDefault/CalendarDayDefault.wcl.avt";
+import { CalendarDay } from "../CalendarDay/CalendarDay.wcl.avt";
+import { DomTools } from "../../../../libs/DomTools.lib.avt";
+
+namespace Components {
+    export class Calendar extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property((target: Calendar) => {
+            target.renderDates();
+        })
+        public date: Date = new Date();
+
+        @Attribute()
+        protected selector: 'month' | 'year' = 'month';
+
+        @Property((target: Calendar) => {
+            if(target.show_selector) {
+                target.dateTemp = target.date;
+            }
+        })
+        protected show_selector!: boolean;
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected bodyEl!: HTMLDivElement;
+        @ViewElement()
+        protected monthEl!: HTMLDivElement;
+        @ViewElement()
+        protected yearEl!: HTMLDivElement;
+        @ViewElement()
+        protected bodyMonthEl!: HTMLDivElement;
+        @ViewElement()
+        protected bodyYearEl!: HTMLDivElement;
+
+        @Watch((target: Calendar) => {
+            target.renderDatesTemp();
+            target.printYearRange();
+        })
+        public dateTemp: Date = new Date();
+
+        @Watch((target: Calendar) => {
+            target.printYearRange();
+        })
+        public yearGroupPage: number = 0;
+
+        @Watch()
+        public yearGroupTxt: string = "";
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region events
+        public readonly onDateClicked: Aventus.Callback<(date: Date, element: CalendarDay) => void> = new Aventus.Callback();
+        //#endregion
+
+        //#region methods
+        protected monthsName(): string[] {
+            return [
+                'Janvier',
+                'Février',
+                'Mars',
+                'Avril',
+                'Mai',
+                'Juin',
+                'Juillet',
+                'Août',
+                'Septembre',
+                'Octobre',
+                'Novembre',
+                'Décembre'
+            ];
+        }
+
+        protected nextMonth() {
+            let date = this.date;
+            let newDate = new Date();
+            newDate.setTime(date.getTime());
+            newDate.setDate(1);
+            newDate.setMonth(newDate.getMonth() + 1);
+            this.date = newDate;
+        }
+
+        protected previousMonth() {
+            let date = this.date;
+            let newDate = new Date();
+            newDate.setTime(date.getTime());
+            newDate.setDate(1);
+            newDate.setMonth(newDate.getMonth() - 1);
+            this.date = newDate;
+        }
+
+        protected defineCalendarDay(): new (...args) => CalendarDay {
+            return CalendarDayDefault;
+        }
+
+        protected renderDates() {
+            if(!this.isConnected) return;
+            DomTools.clearElement(this.bodyEl);
+            let date = this.date;
+            this.yearEl.innerHTML = date.getFullYear() + '';
+            this.monthEl.innerHTML = this.monthsName()[date.getMonth()];
+
+            let maxDate = new Date();
+            maxDate.setTime(date.getTime());
+            maxDate.setDate(1);
+            maxDate.setMonth(maxDate.getMonth() + 1);
+            maxDate.setDate(0);
+            maxDate.setHours(23);
+            maxDate.setMinutes(59);
+            maxDate.setSeconds(59);
+            maxDate.setDate(maxDate.getDate() + (7 - maxDate.getDay()));
+
+            let startDate = new Date();
+            startDate.setTime(date.getTime());
+            startDate.setDate(1);
+            let diff = 1 - (startDate.getDay() - 1);
+            if(diff < 0) {
+                startDate.setDate(diff);
+            }
+
+            let i = 0;
+            let row = document.createElement("div");
+            row.classList.add("days-row");
+            let CaseCst = this.defineCalendarDay();
+            while(startDate < maxDate) {
+                let caseEl = new CaseCst();
+                caseEl.init(date, startDate, this);
+                row.appendChild(caseEl);
+                startDate.setDate(startDate.getDate() + 1);
+
+                i++;
+                if(i == 7) {
+                    i = 0;
+                    this.bodyEl.appendChild(row);
+                    row = document.createElement("div");
+                    row.classList.add("days-row");
+                }
+            }
+        }
+
+        protected renderDatesTemp() {
+            let el = this.bodyMonthEl.querySelector(".active");
+            if(el) {
+                el.classList.remove("active");
+            }
+            if(this.dateTemp.getFullYear() == this.date.getFullYear())
+                this.bodyMonthEl.children[this.dateTemp.getMonth()].classList.add("active");
+
+            let now = new Date();
+            this.yearGroupPage = Math.ceil((this.dateTemp.getFullYear() - now.getFullYear() - 5) / 12);
+        }
+
+        //#region popup select date
+        protected showMonthSelect() {
+            this.selector = 'month';
+            this.show_selector = true;
+        }
+
+        protected showYearSelect() {
+            this.selector = 'year';
+            this.show_selector = true;
+        }
+
+        protected hideSelector() {
+            this.show_selector = false;
+        }
+        /**
+         * 
+         */
+        protected selectMonthTemp(e: Event, instance: Aventus.PressManager) {
+            let children = Array.from(this.bodyMonthEl.children);
+            let index = children.indexOf(instance.getElement());
+            if(index != -1) {
+                let date = this.date;
+                let newDate = new Date();
+                newDate.setTime(date.getTime());
+                newDate.setDate(1);
+                newDate.setMonth(index);
+                newDate.setFullYear(this.dateTemp.getFullYear());
+                this.date = newDate;
+            }
+            this.hideSelector();
+        }
+
+        /**
+         * 
+         */
+        protected previousYearTemp() {
+            let date = this.dateTemp ?? new Date();
+            let newDate = new Date();
+            newDate.setTime(date.getTime());
+            newDate.setDate(1);
+            newDate.setFullYear(newDate.getFullYear() - 1);
+            this.dateTemp = newDate;
+        }
+        /**
+         * 
+         */
+        protected nextMonthYearTemp() {
+            let date = this.dateTemp ?? new Date();
+            let newDate = new Date();
+            newDate.setTime(date.getTime());
+            newDate.setDate(1);
+            newDate.setFullYear(newDate.getFullYear() + 1);
+            this.dateTemp = newDate;
+        }
+
+        /**
+         * 
+         */
+        protected previousYearGroupTemp() {
+            this.yearGroupPage--;
+        }
+        /**
+         * 
+         */
+        protected nextYearGroupTemp() {
+            this.yearGroupPage++;
+        }
+
+        protected printYearRange() {
+            let currentYear = new Date().getFullYear();
+            let basicRangeStart = (currentYear + this.yearGroupPage * 12) - 6;
+            let basicRangeEnd = (currentYear + this.yearGroupPage * 12) + 6;
+            this.yearGroupTxt = `${basicRangeStart} - ${basicRangeEnd}`;
+            this.bodyYearEl.innerHTML = "";
+            for(let i = basicRangeStart; i < basicRangeEnd; i++) {
+                this.createYearCase(i);
+            }
+        }
+
+        protected createYearCase(year: number) {
+            let div = document.createElement("div");
+            div.classList.add("year-el");
+            div.innerHTML = year + '';
+            if(year == this.dateTemp.getFullYear()) {
+                div.classList.add("active");
+            }
+            div.addEventListener("click", (e) => {
+                let newDate = new Date();
+                newDate.setTime(this.dateTemp.getTime());
+                newDate.setFullYear(year);
+                this.dateTemp = newDate;
+                this.showMonthSelect();
+            });
+            this.bodyYearEl.appendChild(div);
+        }
+        //#endregion
+
+        protected override postDisonnect(): void {
+            this.show_selector = false;
+        }
+
+        protected override postCreation(): void {
+        }
+        //#endregion
+
+    }
+}

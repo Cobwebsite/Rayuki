@@ -79,6 +79,8 @@
 			text-align: justify;
 		}
 	}
+
+	.calendar {}
 }
 
 :host([has_errors]) {

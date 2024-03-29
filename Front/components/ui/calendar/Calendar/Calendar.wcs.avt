@@ -1,0 +1,248 @@
+@import '@root/_responsive.gs.avt';
+
+:host {
+	background-color: white;
+	border-radius: 10px;
+	box-shadow: var(--elevation-3);
+	display: flex;
+	flex-direction: column;
+	padding: 15px;
+	position: relative;
+	width: fit-content;
+
+	.hover {
+		transition: background-color 0.2s var(--bezier-curve);
+	}
+
+	.header {
+		align-items: center;
+		display: flex;
+		flex-direction: row;
+		font-size: var(--font-size-md);
+		justify-content: space-between;
+		position: relative;
+
+		.current-info {
+			align-items: center;
+			display: flex;
+			flex-direction: row;
+			flex-grow: 1;
+			justify-content: center;
+
+			.month-year {
+				align-items: center;
+				border-radius: 5px;
+				display: flex;
+				flex-direction: row;
+				padding: 5px 10px;
+
+
+				.month {
+					margin-right: 5px;
+				}
+			}
+		}
+
+		.chevron {
+			align-items: center;
+			border-radius: 5px;
+			display: flex;
+			height: 30px;
+			justify-content: center;
+			text-align: center;
+			width: 30px;
+		}
+
+		.selectors {
+			background-color: var(--primary-color);
+			border-radius: 10px;
+			box-shadow: var(--elevation-3);
+			left: 50%;
+			opacity: 0;
+			padding: 10px;
+			pointer-events: none;
+			position: absolute;
+			top: calc(100% + 12px);
+			transform: translateX(-50%);
+			transition:
+				opacity 0.2s var(--bezier-curve),
+				visibility 0.2s var(--bezier-curve);
+			visibility: hidden;
+			z-index: 5;
+
+			&::after {
+				border-bottom: 10px solid var(--primary-color);
+				border-left: 10px solid transparent;
+				border-right: 10px solid transparent;
+				content: "";
+				left: 50%;
+				position: absolute;
+				top: -8px;
+				transform: translateX(-50%);
+			}
+
+			.month-select {
+				display: none;
+
+				.month-select-header {
+					align-items: center;
+					display: flex;
+
+					.current-info {
+						.temp-year {
+							border-radius: 5px;
+							font-size: var(--font-size);
+							padding: 5px 10px;
+							display: flex;
+						}
+					}
+				}
+
+				.month-select-body {
+					display: flex;
+					flex-wrap: wrap;
+					font-size: calc(var(--font-size) * 0.9);
+					margin-top: 0px;
+					width: 200px;
+
+					.month-el {
+						align-items: center;
+						border-radius: 5px;
+						display: flex;
+						height: 30px;
+						justify-content: center;
+						margin: 3px 5px;
+						width: calc((100% - 30px) / 3);
+					}
+
+					.month-el:hover,
+					.month-el.active {
+						background-color: var(--lighter);
+					}
+				}
+			}
+
+			.year-select {
+				display: none;
+
+				.year-select-header {
+					align-items: center;
+					display: flex;
+
+					.current-info {
+						.temp-year-range {
+							border-radius: 5px;
+							font-size: var(--font-size);
+							padding: 5px 10px;
+							display: flex;
+						}
+					}
+				}
+
+				.year-select-body {
+					display: flex;
+					flex-wrap: wrap;
+					font-size: calc(var(--font-size) * 0.9);
+					margin-top: 0px;
+					width: 200px;
+
+					.year-el {
+						align-items: center;
+						border-radius: 5px;
+						display: flex;
+						height: 30px;
+						justify-content: center;
+						margin: 3px 5px;
+						width: calc((100% - 30px) / 3);
+					}
+
+					.year-el:hover,
+					.year-el.active {
+						background-color: var(--lighter);
+					}
+				}
+			}
+		}
+	}
+
+	.body {
+		display: flex;
+		flex-direction: column;
+		margin-top: 10px;
+
+		.days-header {
+			color: var(--text-color-light);
+			display: flex;
+			flex-direction: row;
+			gap: 10px;
+
+			.day-header {
+				align-items: center;
+				display: flex;
+				height: 30px;
+				justify-content: center;
+				width: 30px;
+			}
+		}
+
+		.days-body {
+			flex-direction: column;
+
+			.days-row {
+				display: flex;
+				flex-direction: row;
+				gap: 10px;
+				margin: 5px 0;
+			}
+		}
+	}
+
+	.hider {
+		display: none;
+		inset: 0;
+		position: absolute;
+		z-index: 1;
+	}
+}
+
+:host([show_selector]) {
+	.hider {
+		display: block;
+	}
+
+	.header {
+		.selectors {
+			opacity: 1;
+			pointer-events: auto;
+			visibility: visible;
+		}
+	}
+}
+
+:host([selector="month"]) {
+	.header {
+		.selectors {
+			.month-select {
+				display: block;
+			}
+		}
+	}
+}
+
+:host([selector="year"]) {
+	.header {
+		.selectors {
+			.year-select {
+				display: block;
+			}
+		}
+	}
+}
+
+@include desktop {
+	:host {
+		.hover:hover {
+			background-color: var(--lighter);
+		}
+	}
+}

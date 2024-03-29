@@ -1,0 +1,13 @@
+<label for="input">{{ this.label }}</label>
+<div class="input" @press="showCalendar">
+    <rk-img src="{{ this.icon }}" class="icon"></rk-img>
+    <input id="input" @element="inputEl" @focus="removeErrors" @input="onValueChange" readonly />
+    <div class="error-logo">!</div>
+</div>
+<div class="errors">
+    for(let error of this.errors) { 
+        <div>{{ error }}</div>
+    }
+</div>
+
+<rk-calendar-container @element="calendarContainer"></rk-calendar-container>

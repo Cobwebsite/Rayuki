@@ -279,15 +279,15 @@ const compareObject=function compareObject(obj1, obj2) {
         }
         return true;
     }
-    else if (obj1 instanceof Date) {
-        return obj1.toString() === obj2.toString();
-    }
     else if (typeof obj1 === 'object' && obj1 !== undefined && obj1 !== null) {
         if (typeof obj2 !== 'object' || obj2 === undefined || obj2 === null) {
             return false;
         }
         if (obj1 instanceof HTMLElement || obj2 instanceof HTMLElement) {
             return obj1 == obj2;
+        }
+        if (obj1 instanceof Date || obj2 instanceof Date) {
+            return obj1.toString() === obj2.toString();
         }
         if (Object.keys(obj1).length !== Object.keys(obj2).length) {
             return false;
@@ -5183,6 +5183,7 @@ const WebComponent=class WebComponent extends HTMLElement {
         return [];
     }
     __upgradeProperty(prop) {
+        this.__correctGetter(prop);
         let boolProps = this.__listBoolProps();
         if (boolProps.indexOf(prop) != -1) {
             if (this.hasAttribute(prop) && (this.getAttribute(prop) === "true" || this.getAttribute(prop) === "")) {
@@ -5200,9 +5201,6 @@ const WebComponent=class WebComponent extends HTMLElement {
                 let value = this.getAttribute(prop);
                 delete this[prop];
                 this[prop] = value;
-            }
-            else {
-                this.__correctGetter(prop);
             }
         }
     }
@@ -5331,12 +5329,18 @@ const WebComponent=class WebComponent extends HTMLElement {
         this.__stateCleared = true;
     }
     dateToString(d) {
+        if (typeof d == 'string') {
+            d = this.stringToDate(d);
+        }
         if (d instanceof Date) {
             return new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().split("T")[0];
         }
         return null;
     }
     dateTimeToString(dt) {
+        if (typeof dt == 'string') {
+            dt = this.stringToDate(dt);
+        }
         if (dt instanceof Date) {
             return new Date(dt.getTime() - (dt.getTimezoneOffset() * 60000)).toISOString().slice(0, -1);
         }

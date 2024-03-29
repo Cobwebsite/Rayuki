@@ -1,0 +1,152 @@
+import type { CalendarContainer } from "./CalendarContainer/CalendarContainer.wcl.avt";
+import { FormElement } from "../FormElement/FormElement.wcl.avt";
+import { Calendar } from "../../calendar/Calendar/Calendar.wcl.avt";
+import { DatePickerCalendar } from "./DatePickerCalendar/DatePickerCalendar.wcl.avt";
+
+namespace Components {
+    export class DatePicker extends FormElement<Date> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property()
+        public label?: string;
+
+        @Property()
+        public icon?: string;
+
+        @Attribute()
+        public year_format: "numeric" | "2-digit" = "numeric";
+
+        @Attribute()
+        public month_format: "numeric" | "2-digit" | "long" | "short" | "narrow" = "2-digit";
+
+        @Attribute()
+        public day_format: "numeric" | "2-digit" = "2-digit";
+
+        @Attribute()
+        public locale?: string;
+
+        @Attribute()
+        public time_zone?: string;
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected calendarContainer!: CalendarContainer;
+        @ViewElement()
+        public readonly inputEl!: HTMLInputElement;
+
+        @Watch((target: DatePicker) => {
+            target.renderDate();
+        })
+        public override value: Date | undefined = new Date();
+
+        public calendar!: DatePickerCalendar;
+        //#endregion
+
+
+        //#region constructor
+        public constructor() {
+            super();
+            this.bindCalendar();
+        }
+        //#endregion
+
+
+        //#region methods
+        @InternalProtected()
+        public defineCalendar(): new (...args) => DatePickerCalendar {
+            return DatePickerCalendar;
+        }
+
+        public renderDate() {
+            if(!this.value) {
+                this.inputEl.value = '';
+            }
+            else {
+                this.inputEl.value = this.value.toLocaleDateString(this.locale, {
+                    year: this.year_format,
+                    month: this.month_format,
+                    day: this.day_format,
+                    timeZone: this.time_zone,
+                });
+            }
+            this.calendar.date = this.value ?? new Date();
+        }
+
+        /**
+         * 
+         */
+        protected removeErrors() {
+            this.errors = [];
+        }
+        /**
+         * 
+         */
+        protected onValueChange() {
+            //this.value = this.inputEl.value;
+            this.onChange.trigger([this.value]);
+            if(this.formPart) {
+                FormElement.setValue(this.formPart, this.value);
+                if(this.formPart.validateOnChange !== false) {
+                    this.validate();
+                }
+            }
+        }
+
+        /**
+         * 
+         */
+        protected showCalendar() {
+            this.calendarContainer.show();
+            setTimeout(() => {
+                this.calendarContainer.focus({ preventScroll: true });
+            }, 100);
+        }
+
+        protected bindCalendar() {
+            this.calendar = new (this.defineCalendar())();
+            this.calendar.picker = this;
+            this.calendar.onDateClicked.add((date, caseEl) => {
+                this.value = date;
+            });
+
+
+        }
+
+        protected manageFocus() {
+            this.calendarContainer.init(this);
+            let blurTimeout: number = 0;;
+            let blur = () => {
+                blurTimeout = setTimeout(() => {
+                    this.calendarContainer.hide();
+                }, 100);
+            };
+            this.inputEl.addEventListener("blur", () => {
+                blur();
+            });
+            this.calendarContainer.addEventListener("blur", (e) => {
+                blur();
+            });
+            this.inputEl.addEventListener("focus", () => {
+                clearTimeout(blurTimeout);
+            });
+            this.calendarContainer.addEventListener("focus", () => {
+                clearTimeout(blurTimeout);
+            });
+        }
+
+        protected override postCreation(): void {
+            super.postCreation();
+            this.manageFocus();
+            this.renderDate();
+        }
+        //#endregion
+
+    }
+}

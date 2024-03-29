@@ -1,11 +1,9 @@
-import { AppIconInline } from "../../AppIcon/AppIconInline/AppIconInline.wcl.avt";
 import { Panel } from "../../Panel/Panel.wcl.avt";
 import type { Scrollable } from "../../../ui/layout/Scrollable/Scrollable.wcl.avt";
-import type { AppIcon } from "../../AppIcon/AppIcon.wcl.avt";
-import { ApplicationRAM } from "../../../../ram/Application.ram.avt";
-import { CoreRouter } from "../../../../generated/CoreRouter.lib.avt";
 import { SessionManager } from "../../../../libs/SessionManager.lib.avt";
 import type { User } from "../../../../generated/Data/User.data.avt";
+import { Desktop } from "../../Desktop/Desktop.wcl.avt";
+import type { HomeBtn } from "../HomeBtn.wcl.avt";
 
 namespace System {
     export class HomePanel extends Panel implements Aventus.DefaultComponent {
@@ -30,6 +28,7 @@ namespace System {
         @Watch()
         public currentUser?: User;
 
+        public btn!: HomeBtn;
         //#endregion
 
 
@@ -39,6 +38,19 @@ namespace System {
 
 
         //#region methods
+
+
+        /**
+         * 
+         */
+        protected openProfil() {
+            let desktop = this.findParentByType(Desktop);
+            if(desktop) {
+                desktop.openUrl("Settings", "/", "/user");
+                this.btn.active = false;
+            }
+        }
+
 
         /**
          * 

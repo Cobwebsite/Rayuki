@@ -17,7 +17,7 @@
 		bottom: calc(100% + 5px);
 		height: 0;
 		overflow: hidden;
-		transition: bottom var(--bezier-curve) 0.7s, height var(--bezier-curve) 0.7s;
+		transition: bottom var(--bezier-curve) 0.5s, height var(--bezier-curve) 0.5s;
 	}
 }
 

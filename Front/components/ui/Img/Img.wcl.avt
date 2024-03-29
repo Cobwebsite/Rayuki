@@ -167,6 +167,7 @@ namespace Components {
         }
 
         protected override postDestruction(): void {
+            super.postDestruction();
             this.resizeObserver?.disconnect();
             this.resizeObserver = undefined;
         }

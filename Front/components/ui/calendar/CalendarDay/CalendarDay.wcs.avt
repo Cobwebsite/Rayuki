@@ -1,0 +1,31 @@
+@import '@root/_responsive.gs.avt';
+
+:host {
+	align-items: center;
+	display: flex;
+	height: 30px;
+	justify-content: center;
+	width: 30px;
+	border-radius: 5px;
+    cursor: pointer;
+    transition: 
+        color 0.2s var(--bezier-curve),
+        background-color 0.2s var(--bezier-curve);
+}
+
+
+:host([other]) {
+	color: var(--secondary-color);
+}
+
+:host([today]) {
+	color: var(--orange);
+}
+
+
+
+@include desktop {
+	:host(:hover) {
+		background-color: var(--lighter);
+	}
+}
