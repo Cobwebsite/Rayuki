@@ -1,7 +1,18 @@
 @import '@root/_responsive.gs.avt';
 
 :host {
-	background-color: white;
+	--_calendar-background-color: var(--calendar-background-color, white);
+	--_calendar-background-color-case-hover: var(--calendar-background-color-case-hover, var(--lighter));
+	--_calendar-background-color-case-active: var(--calendar-background-color-case-active, var(--lighter));
+	--_calendar-background-color-selector: var(--calendar-background-color-selector, white);
+	--_calendar-text-color-case: var(--calendar-text-color-case, var(--text-color));
+	--_calendar-text-color-case-others: var(--calendar-text-color-case-others, var(--secondary-color));
+	--_calendar-text-color-case-header: var(--calendar-text-color-case-header, var(--text-color-light));
+	--_calendar-text-color-case-today: var(--calendar-text-color-case-today, var(--orange));
+}
+
+:host {
+	background-color: var(--_calendar-background-color);
 	border-radius: 10px;
 	box-shadow: var(--elevation-3);
 	display: flex;
@@ -54,7 +65,7 @@
 		}
 
 		.selectors {
-			background-color: var(--primary-color);
+			background-color: var(--_calendar-background-color-selector);
 			border-radius: 10px;
 			box-shadow: var(--elevation-3);
 			left: 50%;
@@ -71,7 +82,7 @@
 			z-index: 5;
 
 			&::after {
-				border-bottom: 10px solid var(--primary-color);
+				border-bottom: 10px solid var(--_calendar-background-color-selector);
 				border-left: 10px solid transparent;
 				border-right: 10px solid transparent;
 				content: "";
@@ -91,9 +102,9 @@
 					.current-info {
 						.temp-year {
 							border-radius: 5px;
+							display: flex;
 							font-size: var(--font-size);
 							padding: 5px 10px;
-							display: flex;
 						}
 					}
 				}
@@ -115,9 +126,8 @@
 						width: calc((100% - 30px) / 3);
 					}
 
-					.month-el:hover,
 					.month-el.active {
-						background-color: var(--lighter);
+						background-color: var(--_calendar-background-color-case-active);
 					}
 				}
 			}
@@ -132,9 +142,9 @@
 					.current-info {
 						.temp-year-range {
 							border-radius: 5px;
+							display: flex;
 							font-size: var(--font-size);
 							padding: 5px 10px;
-							display: flex;
 						}
 					}
 				}
@@ -156,9 +166,8 @@
 						width: calc((100% - 30px) / 3);
 					}
 
-					.year-el:hover,
 					.year-el.active {
-						background-color: var(--lighter);
+						background-color: var(--_calendar-background-color-case-active);
 					}
 				}
 			}
@@ -171,7 +180,7 @@
 		margin-top: 10px;
 
 		.days-header {
-			color: var(--text-color-light);
+			color: var(--_calendar-text-color-case-header);
 			display: flex;
 			flex-direction: row;
 			gap: 10px;
@@ -242,7 +251,7 @@
 @include desktop {
 	:host {
 		.hover:hover {
-			background-color: var(--lighter);
+			background-color: var(--_calendar-background-color-case-hover);
 		}
 	}
 }

@@ -1,140 +1,10 @@
+import type { ApplicationQueryFctResult } from "../../../system/Application/ApplicationError.lib.avt";
+import { Application } from "../../../system/Application/Application.wcl.avt";
 import { FormElement, type IFormElement } from "../FormElement/FormElement.wcl.avt";
+import type { BodyJSON, FormData } from "./FormType.lib.avt";
+import { InternalVirtualForm, type VirtualForm } from "./VirtualForm.lib.avt";
 
 namespace Components {
-    export type FormType = {
-        [key: string]: FormPart<any>;
-    };
-
-    export type FormValidateResult = string | boolean | undefined | Promise<string> | Promise<boolean> | Promise<undefined>;
-    export type FormValidate<T> = (value: T | undefined) => FormValidateResult;
-
-    export interface FormPart<T = any> {
-        name: string,
-        validateOnChange?: boolean,
-        value: T | undefined | { get: () => T; set: (value: T) => void; },
-        elements?: IFormElement[],
-        validate?: FormValidate<T>;
-    };
-
-
-    export type BodyJSON = { [key: string | number]: unknown; };
-    export type FormData<T extends BodyJSON> = {
-        [K in keyof T]: FormPart<T[K]>
-    };
-
-    type FormDataInternal<T extends BodyJSON> = {
-        [K in keyof T]: Required<FormPart<T[K]>>
-    };
-
-
-    export type VirtualForm<T extends BodyJSON> = FormDataInternal<T> & {
-        validate(): Promise<boolean | string[]>;
-        addFieldError(name: keyof T, error: string): boolean;
-    };
-
-    class InternalVirtualForm<T extends BodyJSON> {
-
-        private __config: FormDataInternal<T>;
-
-        @Internal()
-        public constructor(config: FormData<T>) {
-            for(let name in config) {
-                if(!config[name].elements) {
-                    config[name].elements = [];
-                }
-                if(!config[name].validate) {
-                    config[name].validate = () => true;
-                }
-            }
-            this.__config = config as FormDataInternal<T>;
-
-            for(let key in config) {
-                this.registerKey(key);
-            }
-        }
-
-        private registerKey(key: Extract<keyof T, string>) {
-            Object.defineProperty(this, key, {
-                get: () => this.__config[key],
-                set: (value) => this.__config[key] = value,
-                enumerable: true
-            });
-        }
-
-        public getData(): T {
-            let result: any = {};
-            for(let name in this.__config) {
-                result[name] = FormElement.getValue(this.__config[name]);
-            }
-
-            return result as T;
-        }
-
-        /**
-         * Return an array of string for all message not displayed otherwhise return a bool
-         */
-        public async validate(): Promise<boolean | string[]> {
-            let proms: Promise<boolean>[] = [];
-            let promsCustom: Promise<FormValidateResult>[] = [];
-            const namesCustom: string[] = [];
-            const resultErrors: string[] = [];
-            for(let name in this.__config) {
-                const elements = this.__config[name].elements;
-                if(!elements || elements.length == 0) {
-                    const result = this.__config[name].validate(FormElement.getValue(this.__config[name]));
-                    if(result instanceof Promise) {
-                        promsCustom.push(result);
-                        namesCustom.push(name);
-                    }
-                    else if(result !== undefined && result !== true && result !== "") {
-                        if(result === false) {
-                            resultErrors.push("Le champs " + name + " n'est pas valide");
-                        }
-                        resultErrors.push(result + "");
-                    }
-                }
-                else {
-                    for(let element of this.__config[name].elements) {
-                        proms.push(element.validate());
-                    }
-                }
-            }
-
-            const result2 = await Promise.all(promsCustom);
-            for(let i = 0; i < result2.length; i++) {
-                const resultTemp = result2[i];
-                if(resultTemp !== undefined && resultTemp !== true && resultTemp !== "") {
-                    if(resultTemp === false) {
-                        resultErrors.push("Le champs " + namesCustom[i] + " n'est pas valide");
-                    }
-                    resultErrors.push(resultTemp + "");
-                }
-            }
-
-
-            if(resultErrors.length > 0) {
-                return resultErrors;
-            }
-
-            const result = await Promise.all(proms);
-            for(let resultTemp of result) {
-                if(!resultTemp) return false;
-            }
-
-
-            return true;
-        }
-
-        public addFieldError(name: keyof T, error: string): boolean {
-            if(this.__config[name]?.elements.length > 0) {
-                for(let el of this.__config[name].elements) {
-                    el.errors.push(error);
-                }
-                return true;
-            }
-            return false
-        }
-    }
 
     export class Form<T extends BodyJSON> extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
@@ -164,7 +34,8 @@ namespace Components {
         public onSubmit: Aventus.Callback<() => void> = new Aventus.Callback();
         //#endregion
 
-        //#region methods
+        //#region methods 
+
         public registerFormElement(element: IFormElement) {
             if(!this.elements.includes(element)) {
                 this.elements.push(element);

@@ -1,12 +1,12 @@
 :host {
-	--_input-height: var(--input-height, 30px);
-	--_input-background-color: var(--input-background-color, var(--form-element-background, white));
-	--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));
-	--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));
-	--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));
-	--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));
-	--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));
-	--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0));
+	--_datepicker-height: var(--input-height, 30px);
+	--_datepicker-background-color: var(--input-background-color, var(--form-element-background, white));
+	--_datepicker-icon-height: var(--input-icon-height, calc(var(--_datepicker-height) / 2));
+	--_datepicker-error-logo-size: var(--input-error-logo-size, calc(var(--_datepicker-height) / 2));
+	--_datepicker-font-size: var(--input-font-size, var(--form-element-font-size, 16px));
+	--_datepicker-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_datepicker-font-size) * 0.95)));
+	--_datepicker-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));
+	--_datepicker-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0));
 }
 
 :host {
@@ -15,25 +15,25 @@
 
 	label {
 		display: none;
-		font-size: var(--_input-font-size-label);
+		font-size: var(--_datepicker-font-size-label);
 		margin-bottom: 5px;
 		margin-left: 3px;
 	}
 
 	.input {
 		align-items: center;
-		background-color: var(--_input-background-color);
-		border: var(--_input-input-border);
-		border-radius: var(--_input-border-radius);
+		background-color: var(--_datepicker-background-color);
+		border: var(--_datepicker-input-border);
+		border-radius: var(--_datepicker-border-radius);
 		display: flex;
-		height: var(--_input-height);
+		height: var(--_datepicker-height);
 		padding: 0 10px;
 		width: 100%;
 
 		.icon {
 			display: none;
 			flex-shrink: 0;
-			height: var(--_input-icon-height);
+			height: var(--_datepicker-icon-height);
 			margin-right: 10px;
 		}
 
@@ -43,7 +43,7 @@
 			color: var(--text-color);
 			display: block;
 			flex-grow: 1;
-			font-size: var(--_input-font-size);
+			font-size: var(--_datepicker-font-size);
 			height: 100%;
 			margin: 0;
 			min-width: 0;
@@ -59,10 +59,10 @@
 			color: white;
 			display: none;
 			flex-shrink: 0;
-			font-size: calc(var(--_input-error-logo-size) - 5px);
-			height: var(--_input-error-logo-size);
+			font-size: calc(var(--_datepicker-error-logo-size) - 5px);
+			height: var(--_datepicker-error-logo-size);
 			justify-content: center;
-			width: var(--_input-error-logo-size);
+			width: var(--_datepicker-error-logo-size);
 		}
 	}
 

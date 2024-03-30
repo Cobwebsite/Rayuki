@@ -13,8 +13,10 @@
 	box-shadow: var(--_application-box-shadow);
 	container-name: application;
 	container-type: inline-size;
+	height: var(--app-height);
 	outline: none;
 	position: absolute;
+	width: var(--app-width);
 	z-index: 50;
 
 	.header {
@@ -23,6 +25,7 @@
 		border-top-right-radius: var(--_application-border-radius);
 		cursor: grab;
 		display: flex;
+		flex-shrink: 0;
 		height: 30px;
 		overflow: hidden;
 		position: relative;
@@ -39,23 +42,23 @@
 		.navigation-actions {
 			align-items: center;
 			display: flex;
+			flex-grow: 0;
 			height: 100%;
 			margin-left: 15px;
 			margin-right: 15px;
 			z-index: 2;
-			flex-grow: 0;
 
 			.action {
+				align-items: center;
 				border-radius: 2px;
+				display: flex;
 				/* border: 1px solid var(--lighter);*/
 				height: calc(100% - 6px);
+				justify-content: center;
 				padding: 0px;
 				padding: 1px 5px;
 				transition: background-color var(--bezier-curve) 0.2s;
 				width: 22px;
-				display: flex;
-				align-items: center;
-				justify-content: center;
 
 				rk-img {
 					height: 100%;
@@ -108,9 +111,9 @@
 
 
 	.loading {
+		border-radius: var(--_application-border-radius);
 		display: none;
 		z-index: 600;
-		border-radius: var(--_application-border-radius);
 	}
 
 	rk-resize {
@@ -228,9 +231,9 @@
 		z-index: 502;
 
 		.header {
-			height: 40px;
 			border-top-left-radius: 0;
 			border-top-right-radius: 0;
+			height: 40px;
 
 			.application-actions {
 				gap: 10px;
@@ -247,9 +250,9 @@
 		}
 
 		.content {
-			height: calc(100% - 45px);
 			border-bottom-left-radius: 0;
 			border-bottom-right-radius: 0;
+			height: calc(100% - 45px);
 		}
 
 		rk-resize {
@@ -262,5 +265,3 @@
 		width: 100% !important;
 	}
 }
-
-

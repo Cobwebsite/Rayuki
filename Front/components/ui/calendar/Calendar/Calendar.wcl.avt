@@ -234,7 +234,7 @@ namespace Components {
             let currentYear = new Date().getFullYear();
             let basicRangeStart = (currentYear + this.yearGroupPage * 12) - 6;
             let basicRangeEnd = (currentYear + this.yearGroupPage * 12) + 6;
-            this.yearGroupTxt = `${basicRangeStart} - ${basicRangeEnd}`;
+            this.yearGroupTxt = `${basicRangeStart} - ${basicRangeEnd-1}`;
             this.bodyYearEl.innerHTML = "";
             for(let i = basicRangeStart; i < basicRangeEnd; i++) {
                 this.createYearCase(i);
@@ -244,6 +244,8 @@ namespace Components {
         protected createYearCase(year: number) {
             let div = document.createElement("div");
             div.classList.add("year-el");
+            div.classList.add("touch");
+            div.classList.add("hover");
             div.innerHTML = year + '';
             if(year == this.dateTemp.getFullYear()) {
                 div.classList.add("active");

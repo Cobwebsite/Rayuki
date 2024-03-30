@@ -1,7 +1,8 @@
 import type { ItemBoxOption } from "./ItemBoxOption/ItemBoxOption.wcl.avt";
 import { BoxContainer } from "../../../layout/BoxContainer/BoxContainer.wcl.avt";
 import { FormElement, type IFormElement } from "../../FormElement/FormElement.wcl.avt";
-import type { Form, FormPart } from "../../Form/Form.wcl.avt";
+import type { FormPart } from "../../Form/FormType.lib.avt";
+import type { Form } from "../../Form/Form.wcl.avt";
 
 namespace Components {
     export class ItemBoxSelect extends BoxContainer implements Aventus.DefaultComponent, IFormElement<string> {

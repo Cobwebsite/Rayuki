@@ -2,6 +2,7 @@
 	--_scrollbar-container-color: var(--scrollbar-container-color, transparent);
 	--_scrollbar-color: var(--scrollbar-color, #757575);
 	--_scrollbar-active-color: var(--scrollbar-active-color, #858585);
+	--_scrollbar-max-height: var(--scrollbar-max-height, 100%);
 
 
 	--_scroller-width: var(--scroller-width, 6px);
@@ -32,6 +33,7 @@
 	.scroll-main-container {
 		display: block;
 		height: 100%;
+		max-height: var(--_scrollbar-max-height);
 		min-height: inherit;
 		min-width: inherit;
 		position: relative;
@@ -41,6 +43,7 @@
 		.content-zoom {
 			display: block;
 			height: 100%;
+			max-height: var(--_scrollbar-max-height);
 			min-height: inherit;
 			min-width: inherit;
 			position: relative;
@@ -48,14 +51,17 @@
 			width: 100%;
 			z-index: 4;
 
+
 			.content-hidder {
 				display: block;
 				height: 100%;
+				max-height: var(--_scrollbar-max-height);
 				min-height: inherit;
 				min-width: inherit;
 				overflow: hidden;
 				position: relative;
 				width: 100%;
+
 
 				.content-wrapper {
 					display: var(--_scrollbar-container-display);

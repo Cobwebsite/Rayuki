@@ -1,0 +1,24 @@
+import type { IFormElement } from "../FormElement/FormElement.wcl.avt";
+
+namespace Components {
+    export type FormType = {
+        [key: string]: FormPart<any>;
+    };
+
+    export type FormValidateResult = string | boolean | undefined | Promise<string> | Promise<boolean> | Promise<undefined>;
+    export type FormValidate<T> = (value: T | undefined) => FormValidateResult;
+
+    export interface FormPart<T = any> {
+        validateOnChange?: boolean,
+        value: T | undefined | { get: () => T; set: (value: T) => void; },
+        elements?: IFormElement[],
+        validate?: FormValidate<T>;
+    };
+
+
+    export type BodyJSON = { [key: string | number]: unknown; };
+    export type FormData<T extends BodyJSON> = {
+        [K in keyof T]: FormPart<T[K]>
+    };
+
+}

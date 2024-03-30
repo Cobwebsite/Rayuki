@@ -10,6 +10,13 @@ namespace Components {
         TopRight
     }
 
+    export type ResizeConfig = {
+        applyWidth?: (value: number) => void,
+        applyHeight?: (value: number) => void,
+        applyTop?: (value: number) => void,
+        applyLeft?: (value: number) => void,
+    };
+
     export class Resize extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static
@@ -75,6 +82,20 @@ namespace Components {
         public readonly onStop: Aventus.Callback<(direction: ResizeDirection) => void> = new Aventus.Callback();
         public readonly onPointerUp: Aventus.Callback<(direction: ResizeDirection) => void> = new Aventus.Callback();
 
+        protected applyWidth(value: number) {
+            this.target.style.width = value + "px";
+        }
+
+        protected applyHeight(value: number) {
+            this.target.style.height = value + "px";
+        }
+        protected applyTop(value: number) {
+            this.target.style.top = value + "px";
+        }
+        protected applyLeft(value: number) {
+            this.target.style.left = value + "px";
+        }
+
         private transformWidth(w: number) {
             let outbound = false;
             if(this.max_width && this.max_width > 0) {
@@ -134,7 +155,7 @@ namespace Components {
                 onMove: (e) => {
                     let transform = this.transformWidth(width + (e.pageX - startX));
                     if(!transform.outbound) {
-                        this.target.style.width = transform.w + "px";
+                        this.applyWidth(transform.w);
                         this.onMove.trigger([direction]);
                     }
                 },
@@ -171,8 +192,8 @@ namespace Components {
                 onMove: (e) => {
                     let transform = this.transformWidth(width - (e.pageX - startX));
                     if(!transform.outbound) {
-                        this.target.style.width = transform.w + "px";
-                        this.target.style.left = left + (e.pageX - startX) + "px";
+                        this.applyWidth(transform.w);
+                        this.applyLeft(left + (e.pageX - startX));
                         this.onMove.trigger([direction]);
                     }
                 },
@@ -207,7 +228,7 @@ namespace Components {
                 onMove: (e) => {
                     let transform = this.transformHeight(height + (e.pageY - startY));
                     if(!transform.outbound) {
-                        this.target.style.height = transform.h + "px";
+                        this.applyHeight(transform.h);
                         this.onMove.trigger([direction]);
                     }
                 },
@@ -247,12 +268,12 @@ namespace Components {
                 onMove: (e) => {
                     let transformH = this.transformHeight(height + (e.pageY - startY));
                     if(!transformH.outbound) {
-                        this.target.style.height = transformH.h + "px";
+                        this.applyHeight(transformH.h);
                     }
                     let transformW = this.transformWidth(width - (e.pageX - startX));
                     if(!transformW.outbound) {
-                        this.target.style.width = transformW.w + "px";
-                        this.target.style.left = left + (e.pageX - startX) + "px";
+                        this.applyWidth(transformW.w);
+                        this.applyLeft(left + (e.pageX - startX));
                     }
                     if(!transformH.outbound || !transformW.outbound) {
                         this.onMove.trigger([direction]);
@@ -292,11 +313,11 @@ namespace Components {
                 onMove: (e) => {
                     let transformH = this.transformHeight(height + (e.pageY - startY));
                     if(!transformH.outbound) {
-                        this.target.style.height = transformH.h + "px";
+                        this.applyHeight(transformH.h);
                     }
                     let transformW = this.transformWidth(width + (e.pageX - startX));
                     if(!transformW.outbound) {
-                        this.target.style.width = transformW.w + "px";
+                        this.applyWidth(transformW.w);
                     }
                     if(!transformW.outbound || !transformH.outbound) {
                         this.onMove.trigger([direction]);
@@ -335,8 +356,8 @@ namespace Components {
                 onMove: (e) => {
                     let transformH = this.transformHeight(height - (e.pageY - startY));
                     if(!transformH.outbound) {
-                        this.target.style.height = transformH.h + "px";
-                        this.target.style.top = top + (e.pageY - startY) + "px";
+                        this.applyHeight(transformH.h);
+                        this.applyTop(top + (e.pageY - startY));
                         this.onMove.trigger([direction]);
                     }
                 },
@@ -379,13 +400,13 @@ namespace Components {
                 onMove: (e) => {
                     let transformH = this.transformHeight(height - (e.pageY - startY));
                     if(!transformH.outbound) {
-                        this.target.style.height = transformH.h + "px";
-                        this.target.style.top = top + (e.pageY - startY) + "px";
+                        this.applyHeight(transformH.h);
+                        this.applyTop(top + (e.pageY - startY));
                     }
                     let transformW = this.transformWidth(width - (e.pageX - startX));
                     if(!transformW.outbound) {
-                        this.target.style.width = transformW.w + "px";
-                        this.target.style.left = left + (e.pageX - startX) + "px";
+                        this.applyWidth(transformW.w);
+                        this.applyLeft(left + (e.pageX - startX));
                     }
                     if(!transformH.outbound || !transformW.outbound) {
                         this.onMove.trigger([direction]);
@@ -428,12 +449,12 @@ namespace Components {
                 onMove: (e) => {
                     let transformH = this.transformHeight(height - (e.pageY - startY));
                     if(!transformH.outbound) {
-                        this.target.style.height = transformH.h + "px";
-                        this.target.style.top = top + (e.pageY - startY) + "px";
+                        this.applyHeight(transformH.h);
+                        this.applyTop(top + (e.pageY - startY));
                     }
                     let transformW = this.transformWidth(width + (e.pageX - startX));
                     if(!transformW.outbound) {
-                        this.target.style.width = transformW.w + "px";
+                        this.applyWidth(transformW.w);
                     }
                     if(!transformH.outbound || !transformW.outbound) {
                         this.onMove.trigger([direction]);
@@ -448,8 +469,14 @@ namespace Components {
             });
         }
 
-        public init(target: HTMLElement) {
+        public init(target: HTMLElement, config?: ResizeConfig) {
             this._target = target;
+            if(config) {
+                if(config.applyWidth) this.applyWidth = config.applyWidth.bind(this);
+                if(config.applyHeight) this.applyHeight = config.applyHeight.bind(this);
+                if(config.applyLeft) this.applyLeft = config.applyLeft.bind(this);
+                if(config.applyTop) this.applyTop = config.applyTop.bind(this);
+            }
             this.resizeRight();
             this.resizeLeft();
             this.resizeBottom();

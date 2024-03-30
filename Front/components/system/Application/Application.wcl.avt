@@ -473,8 +473,8 @@ namespace System {
         private setSizeInfo(info: ApplicationPositionSize) {
             this.style.left = info.left + 'px';
             this.style.top = info.top + 'px';
-            this.style.width = info.width + 'px';
-            this.style.height = info.height + 'px';
+            this.style.setProperty("--app-width", info.width + "px");
+            this.style.setProperty("--app-height", info.height + "px");
             this.full = info.isFullScreen;
         }
 
@@ -515,7 +515,10 @@ namespace System {
          * Add the bind to the resize function
          */
         protected addResize() {
-            this.resizeEl.init(this);
+            this.resizeEl.init(this, {
+                applyWidth: (value) => this.style.setProperty("--app-width", value + "px"),
+                applyHeight: (value) => this.style.setProperty("--app-height", value + "px")
+            });
             this.resizeEl.onPointerDown.add(this.onResizeStart);
             this.resizeEl.onPointerUp.add(this.onResizeStop);
         }

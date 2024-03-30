@@ -4,6 +4,7 @@
 	--_popup-background-color: var(--popup-background-color, var(--application-background-color, var(--primary-color-opacity)));
 	--_popup-border-radius: var(--popup-border-radius, var(--application-border-radius, 10px));
 	--_popup-header-background-color: var(--popup-header-background-color, var(--application-header-background-color, var(--darker-active)));
+	--_popup-content-padding: var(--popup-content-padding, 15px);
 }
 
 :host {
@@ -24,6 +25,8 @@
 		background-color: var(--_popup-background-color);
 		border-radius: var(--_popup-border-radius);
 		box-shadow: var(--elevation-5);
+		container-name: application;
+		container-type: inline-size;
 		display: flex;
 		flex-direction: column;
 		max-height: calc(100% - 50px);
@@ -34,6 +37,7 @@
 			border-top-left-radius: var(--_popup-border-radius);
 			border-top-right-radius: var(--_popup-border-radius);
 			display: flex;
+			flex-shrink: 0;
 			height: 30px;
 			overflow: hidden;
 			position: relative;
@@ -74,12 +78,13 @@
 		}
 
 		.content {
+			--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - var(--_popup-content-padding) - var(--_popup-content-padding));
 			border-bottom-left-radius: var(--_application-border-radius);
 			border-bottom-right-radius: var(--_application-border-radius);
 			height: calc(100% - 30px);
+			max-height: calc(var(--app-height) - 50px - 30px);
 			overflow: hidden;
-			padding: 15px;
-			padding-top: 15px;
+			padding: var(--_popup-content-padding);
 			width: 100%;
 			z-index: 1;
 		}

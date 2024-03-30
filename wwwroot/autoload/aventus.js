@@ -1,6 +1,3 @@
-Object.defineProperty(window, "AvInstance", {
-	get() {return Aventus.Instance;}
-})
 var Aventus;
 (Aventus||(Aventus = {}));
 (function (Aventus) {
@@ -853,6 +850,18 @@ const Style=class Style {
 }
 Style.Namespace=`${moduleName}`;
 _.Style=Style;
+const Async=function Async(el) {
+    return new Promise((resolve) => {
+        if (el instanceof Promise) {
+            el.then(resolve);
+        }
+        else {
+            resolve(el);
+        }
+    });
+}
+
+_.Async=Async;
 const ResourceLoader=class ResourceLoader {
     static headerLoaded = {};
     static headerWaiting = {};
@@ -6452,6 +6461,10 @@ _.TemplateInstance=TemplateInstance;
 
 for(let key in _) { Aventus[key] = _[key] }
 })(Aventus);
+ 
+Object.defineProperty(window, "AvInstance", {
+	get() {return Aventus.Instance;}
+})
 
 var MaterialIcon;
 (MaterialIcon||(MaterialIcon = {}));

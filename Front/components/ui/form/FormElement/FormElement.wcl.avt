@@ -1,4 +1,5 @@
-import { Form, type FormPart } from "../Form/Form.wcl.avt";
+import { Form } from "../Form/Form.wcl.avt";
+import type { FormPart } from "../Form/FormType.lib.avt";
 
 namespace Components {
 
@@ -58,7 +59,7 @@ namespace Components {
                 }
             }
             if(path == "formPart" || path == "formPart.value") {
-                element.value = element.formPart ? FormElement.getValue(element.formPart) ?? '' : '';
+                element.value = element.formPart ? FormElement.getValue(element.formPart) : '';
                 if(element.formPart && !element.formPart.elements?.includes(element)) {
                     element.formPart.elements?.push(element);
                 }

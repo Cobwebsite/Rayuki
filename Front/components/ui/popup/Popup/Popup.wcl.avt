@@ -70,9 +70,31 @@ namespace Components {
 
         public abstract defaultOptions(): U;
 
-        protected redPress() {
+        protected close() {
             this.remove();
         }
+
+        protected resolve(response: T, no_close?: boolean) {
+            if(this.cb) {
+                this.cb(response);
+            }
+            if(!no_close) {
+                this.close();
+            }
+        }
+
+        /**
+         * This method will be triggered when the user press on the red button
+         * 
+         * You can use this method to `resolve()` something
+         * 
+         * ```typescript
+         * protected override redPress(): void {
+         *   this.resolve(null);
+         * }
+         * ```
+         */
+        protected abstract redPress(): void;
 
         protected override postCreation(): void {
             this.onOptionsChanged();

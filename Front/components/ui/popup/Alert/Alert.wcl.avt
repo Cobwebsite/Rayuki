@@ -40,18 +40,17 @@ namespace Components {
                 btn_txt: "ok"
             };
         }
+
+
         /**
          * 
          */
-        protected close() {
-            if(this.cb) {
-                this.cb();
-            }
-            this.remove();
+        protected validate() {
+            this.resolve();
         }
 
         protected override redPress(): void {
-            this.close();
+            this.resolve();
         }
         //#endregion
 

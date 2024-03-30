@@ -6,7 +6,7 @@
             <div class="btn red touch" @press="redPress"></div>
         </div>
     </div>
-    <div class="content">
+    <rk-scrollable class="content">
         <slot></slot>
-    </div>
+    </rk-scrollable>
 </div>

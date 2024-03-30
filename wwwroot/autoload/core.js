@@ -715,6 +715,73 @@ Components.ButtonIconMi.Tag=`rk-button-icon-mi`;
 _.Components.ButtonIconMi=Components.ButtonIconMi;
 if(!window.customElements.get('rk-button-icon-mi')){window.customElements.define('rk-button-icon-mi', Components.ButtonIconMi);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIconMi);}
 
+Components.Button = class Button extends Aventus.WebComponent {
+    static get observedAttributes() {return ["icon_before", "icon_after", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'color'() { return this.getStringAttr('color') }
+    set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
+    set 'outline'(val) { this.setBoolAttr('outline', val) }get 'submit'() { return this.getBoolAttr('submit') }
+    set 'submit'(val) { this.setBoolAttr('submit', val) }    get 'icon_before'() { return this.getStringProp('icon_before') }
+    set 'icon_before'(val) { this.setStringAttr('icon_before', val) }get 'icon_after'() { return this.getStringProp('icon_after') }
+    set 'icon_after'(val) { this.setStringAttr('icon_after', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
+    target.icon_before = target.icon;
+})); }
+    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent)}:host{background-color:var(--internal-button-background-color);border-radius:5px;box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;overflow:hidden;position:relative}:host .hider{background-color:var(--_button-background-color-hover);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:hover) .hider{opacity:1;visibility:visible}}`;
+    __getStatic() {
+        return Button;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Button.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="hider"></div><div class="content">    <rk-img class="icon-before" _id="button_0"></rk-img>    <slot></slot>    <rk-img class="icon-after" _id="button_1"></rk-img></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "button_0°src": {
+      "fct": (c) => `${c.print(c.comp.__e17753be66eb8c36ad73f4b01845474bmethod0())}`,
+      "once": true
+    },
+    "button_1°src": {
+      "fct": (c) => `${c.print(c.comp.__e17753be66eb8c36ad73f4b01845474bmethod1())}`,
+      "once": true
+    }
+  }
+}); }
+    getClassName() {
+        return "Button";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('submit')) { this.attributeChangedCallback('submit', false, false); }if(!this.hasAttribute('icon_before')){ this['icon_before'] = undefined; }if(!this.hasAttribute('icon_after')){ this['icon_after'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('submit');this.__upgradeProperty('icon_before');this.__upgradeProperty('icon_after');this.__upgradeProperty('icon'); }
+    __listBoolProps() { return ["outline","submit"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    registerToForm() {
+        if (!this.submit)
+            return;
+        const parent = this.findParentByType(System.Form);
+        if (parent) {
+            parent.registerSubmit(this);
+        }
+    }
+    postCreation() {
+        this.registerToForm();
+    }
+    __e17753be66eb8c36ad73f4b01845474bmethod0() {
+        return this.icon_before;
+    }
+    __e17753be66eb8c36ad73f4b01845474bmethod1() {
+        return this.icon_after;
+    }
+}
+Components.Button.Namespace=`${moduleName}.Components`;
+Components.Button.Tag=`rk-button`;
+_.Components.Button=Components.Button;
+if(!window.customElements.get('rk-button')){window.customElements.define('rk-button', Components.Button);Aventus.WebComponentInstance.registerDefinition(Components.Button);}
+
 Lib.DomTools=class DomTools {
     static clearElement(element) {
         const children = Array.from(element.children);
@@ -2748,6 +2815,18 @@ Components.Resize = class Resize extends Aventus.WebComponent {
     __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('target');this.__upgradeProperty('min_width');this.__upgradeProperty('min_height');this.__upgradeProperty('max_width');this.__upgradeProperty('max_height'); }
     styleBefore(addStyle) {
     }
+    applyWidth(value) {
+        this.target.style.width = value + "px";
+    }
+    applyHeight(value) {
+        this.target.style.height = value + "px";
+    }
+    applyTop(value) {
+        this.target.style.top = value + "px";
+    }
+    applyLeft(value) {
+        this.target.style.left = value + "px";
+    }
     transformWidth(w) {
         let outbound = false;
         if (this.max_width && this.max_width > 0) {
@@ -2806,7 +2885,7 @@ Components.Resize = class Resize extends Aventus.WebComponent {
             onMove: (e) => {
                 let transform = this.transformWidth(width + (e.pageX - startX));
                 if (!transform.outbound) {
-                    this.target.style.width = transform.w + "px";
+                    this.applyWidth(transform.w);
                     this.onMove.trigger([direction]);
                 }
             },
@@ -2842,8 +2921,8 @@ Components.Resize = class Resize extends Aventus.WebComponent {
             onMove: (e) => {
                 let transform = this.transformWidth(width - (e.pageX - startX));
                 if (!transform.outbound) {
-                    this.target.style.width = transform.w + "px";
-                    this.target.style.left = left + (e.pageX - startX) + "px";
+                    this.applyWidth(transform.w);
+                    this.applyLeft(left + (e.pageX - startX));
                     this.onMove.trigger([direction]);
                 }
             },
@@ -2877,7 +2956,7 @@ Components.Resize = class Resize extends Aventus.WebComponent {
             onMove: (e) => {
                 let transform = this.transformHeight(height + (e.pageY - startY));
                 if (!transform.outbound) {
-                    this.target.style.height = transform.h + "px";
+                    this.applyHeight(transform.h);
                     this.onMove.trigger([direction]);
                 }
             },
@@ -2917,12 +2996,12 @@ Components.Resize = class Resize extends Aventus.WebComponent {
             onMove: (e) => {
                 let transformH = this.transformHeight(height + (e.pageY - startY));
                 if (!transformH.outbound) {
-                    this.target.style.height = transformH.h + "px";
+                    this.applyHeight(transformH.h);
                 }
                 let transformW = this.transformWidth(width - (e.pageX - startX));
                 if (!transformW.outbound) {
-                    this.target.style.width = transformW.w + "px";
-                    this.target.style.left = left + (e.pageX - startX) + "px";
+                    this.applyWidth(transformW.w);
+                    this.applyLeft(left + (e.pageX - startX));
                 }
                 if (!transformH.outbound || !transformW.outbound) {
                     this.onMove.trigger([direction]);
@@ -2962,11 +3041,11 @@ Components.Resize = class Resize extends Aventus.WebComponent {
             onMove: (e) => {
                 let transformH = this.transformHeight(height + (e.pageY - startY));
                 if (!transformH.outbound) {
-                    this.target.style.height = transformH.h + "px";
+                    this.applyHeight(transformH.h);
                 }
                 let transformW = this.transformWidth(width + (e.pageX - startX));
                 if (!transformW.outbound) {
-                    this.target.style.width = transformW.w + "px";
+                    this.applyWidth(transformW.w);
                 }
                 if (!transformW.outbound || !transformH.outbound) {
                     this.onMove.trigger([direction]);
@@ -3004,8 +3083,8 @@ Components.Resize = class Resize extends Aventus.WebComponent {
             onMove: (e) => {
                 let transformH = this.transformHeight(height - (e.pageY - startY));
                 if (!transformH.outbound) {
-                    this.target.style.height = transformH.h + "px";
-                    this.target.style.top = top + (e.pageY - startY) + "px";
+                    this.applyHeight(transformH.h);
+                    this.applyTop(top + (e.pageY - startY));
                     this.onMove.trigger([direction]);
                 }
             },
@@ -3047,13 +3126,13 @@ Components.Resize = class Resize extends Aventus.WebComponent {
             onMove: (e) => {
                 let transformH = this.transformHeight(height - (e.pageY - startY));
                 if (!transformH.outbound) {
-                    this.target.style.height = transformH.h + "px";
-                    this.target.style.top = top + (e.pageY - startY) + "px";
+                    this.applyHeight(transformH.h);
+                    this.applyTop(top + (e.pageY - startY));
                 }
                 let transformW = this.transformWidth(width - (e.pageX - startX));
                 if (!transformW.outbound) {
-                    this.target.style.width = transformW.w + "px";
-                    this.target.style.left = left + (e.pageX - startX) + "px";
+                    this.applyWidth(transformW.w);
+                    this.applyLeft(left + (e.pageX - startX));
                 }
                 if (!transformH.outbound || !transformW.outbound) {
                     this.onMove.trigger([direction]);
@@ -3095,12 +3174,12 @@ Components.Resize = class Resize extends Aventus.WebComponent {
             onMove: (e) => {
                 let transformH = this.transformHeight(height - (e.pageY - startY));
                 if (!transformH.outbound) {
-                    this.target.style.height = transformH.h + "px";
-                    this.target.style.top = top + (e.pageY - startY) + "px";
+                    this.applyHeight(transformH.h);
+                    this.applyTop(top + (e.pageY - startY));
                 }
                 let transformW = this.transformWidth(width + (e.pageX - startX));
                 if (!transformW.outbound) {
-                    this.target.style.width = transformW.w + "px";
+                    this.applyWidth(transformW.w);
                 }
                 if (!transformH.outbound || !transformW.outbound) {
                     this.onMove.trigger([direction]);
@@ -3114,8 +3193,18 @@ Components.Resize = class Resize extends Aventus.WebComponent {
             }
         });
     }
-    init(target) {
+    init(target, config) {
         this._target = target;
+        if (config) {
+            if (config.applyWidth)
+                this.applyWidth = config.applyWidth.bind(this);
+            if (config.applyHeight)
+                this.applyHeight = config.applyHeight.bind(this);
+            if (config.applyLeft)
+                this.applyLeft = config.applyLeft.bind(this);
+            if (config.applyTop)
+                this.applyTop = config.applyTop.bind(this);
+        }
         this.resizeRight();
         this.resizeLeft();
         this.resizeBottom();
@@ -3762,7 +3851,7 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("zoom", ((target) => {
     target.changeZoom();
 })); }
-    static __style = `:host{--_scrollbar-container-color: var(--scrollbar-container-color, transparent);--_scrollbar-color: var(--scrollbar-color, #757575);--_scrollbar-active-color: var(--scrollbar-active-color, #858585);--_scroller-width: var(--scroller-width, 6px);--_scroller-top: var(--scroller-top, 3px);--_scroller-bottom: var(--scroller-bottom, 3px);--_scroller-right: var(--scroller-right, 3px);--_scroller-left: var(--scroller-left, 3px);--_scrollbar-content-padding: var(--scrollbar-content-padding, 0);--_scrollbar-container-display: var(--scrollbar-container-display, inline-block)}:host{display:block;height:100%;min-height:inherit;min-width:inherit;overflow:hidden;position:relative;-webkit-user-drag:none;-khtml-user-drag:none;-moz-user-drag:none;-o-user-drag:none;width:100%}:host .scroll-main-container{display:block;height:100%;min-height:inherit;min-width:inherit;position:relative;width:100%}:host .scroll-main-container .content-zoom{display:block;height:100%;min-height:inherit;min-width:inherit;position:relative;transform-origin:0 0;width:100%;z-index:4}:host .scroll-main-container .content-zoom .content-hidder{display:block;height:100%;min-height:inherit;min-width:inherit;overflow:hidden;position:relative;width:100%}:host .scroll-main-container .content-zoom .content-hidder .content-wrapper{display:var(--_scrollbar-container-display);height:100%;min-height:inherit;min-width:inherit;padding:var(--_scrollbar-content-padding);position:relative;width:100%}:host .scroll-main-container .scroller-wrapper .container-scroller{display:none;overflow:hidden;position:absolute;transition:transform .2s linear;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller{background-color:var(--_scrollbar-container-color);border-radius:5px}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller .scroller{background-color:var(--_scrollbar-color);border-radius:5px;cursor:pointer;position:absolute;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .scroller.active{background-color:var(--_scrollbar-active-color)}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical{height:calc(100% - var(--_scroller-bottom)*2 - var(--_scroller-width));padding-left:var(--_scroller-left);right:var(--_scroller-right);top:var(--_scroller-bottom);transform:0;width:calc(var(--_scroller-width) + var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical.hide{transform:translateX(calc(var(--_scroller-width) + var(--_scroller-left)))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller .scroller{width:calc(100% - var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal{bottom:var(--_scroller-bottom);height:calc(var(--_scroller-width) + var(--_scroller-top));left:var(--_scroller-right);padding-top:var(--_scroller-top);transform:0;width:calc(100% - var(--_scroller-right)*2 - var(--_scroller-width))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal.hide{transform:translateY(calc(var(--_scroller-width) + var(--_scroller-top)))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller .scroller{height:calc(100% - var(--_scroller-top))}:host([y_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{height:auto}:host([x_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{width:auto}:host([y_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.vertical{display:block}:host([x_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.horizontal{display:block}:host([no_user_select]) .content-wrapper *{user-select:none}:host([no_user_select]) ::slotted{user-select:none}`;
+    static __style = `:host{--_scrollbar-container-color: var(--scrollbar-container-color, transparent);--_scrollbar-color: var(--scrollbar-color, #757575);--_scrollbar-active-color: var(--scrollbar-active-color, #858585);--_scrollbar-max-height: var(--scrollbar-max-height, 100%);--_scroller-width: var(--scroller-width, 6px);--_scroller-top: var(--scroller-top, 3px);--_scroller-bottom: var(--scroller-bottom, 3px);--_scroller-right: var(--scroller-right, 3px);--_scroller-left: var(--scroller-left, 3px);--_scrollbar-content-padding: var(--scrollbar-content-padding, 0);--_scrollbar-container-display: var(--scrollbar-container-display, inline-block)}:host{display:block;height:100%;min-height:inherit;min-width:inherit;overflow:hidden;position:relative;-webkit-user-drag:none;-khtml-user-drag:none;-moz-user-drag:none;-o-user-drag:none;width:100%}:host .scroll-main-container{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;position:relative;width:100%}:host .scroll-main-container .content-zoom{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;position:relative;transform-origin:0 0;width:100%;z-index:4}:host .scroll-main-container .content-zoom .content-hidder{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;overflow:hidden;position:relative;width:100%}:host .scroll-main-container .content-zoom .content-hidder .content-wrapper{display:var(--_scrollbar-container-display);height:100%;min-height:inherit;min-width:inherit;padding:var(--_scrollbar-content-padding);position:relative;width:100%}:host .scroll-main-container .scroller-wrapper .container-scroller{display:none;overflow:hidden;position:absolute;transition:transform .2s linear;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller{background-color:var(--_scrollbar-container-color);border-radius:5px}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller .scroller{background-color:var(--_scrollbar-color);border-radius:5px;cursor:pointer;position:absolute;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .scroller.active{background-color:var(--_scrollbar-active-color)}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical{height:calc(100% - var(--_scroller-bottom)*2 - var(--_scroller-width));padding-left:var(--_scroller-left);right:var(--_scroller-right);top:var(--_scroller-bottom);transform:0;width:calc(var(--_scroller-width) + var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical.hide{transform:translateX(calc(var(--_scroller-width) + var(--_scroller-left)))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller .scroller{width:calc(100% - var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal{bottom:var(--_scroller-bottom);height:calc(var(--_scroller-width) + var(--_scroller-top));left:var(--_scroller-right);padding-top:var(--_scroller-top);transform:0;width:calc(100% - var(--_scroller-right)*2 - var(--_scroller-width))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal.hide{transform:translateY(calc(var(--_scroller-width) + var(--_scroller-top)))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller .scroller{height:calc(100% - var(--_scroller-top))}:host([y_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{height:auto}:host([x_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{width:auto}:host([y_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.vertical{display:block}:host([x_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.horizontal{display:block}:host([no_user_select]) .content-wrapper *{user-select:none}:host([no_user_select]) ::slotted{user-select:none}`;
     constructor() {            super();            this.renderAnimation = this.createAnimation();            this.onWheel = this.onWheel.bind(this);            this.onTouchStart = this.onTouchStart.bind(this);            this.onTouchMove = this.onTouchMove.bind(this);            this.onTouchEnd = this.onTouchEnd.bind(this);            this.touchRecord = new Components.TouchRecord();        }
     __getStatic() {
         return Scrollable;
@@ -4656,7 +4745,7 @@ Components.Popup = class Popup extends Aventus.WebComponent {
     target.onOptionsChanged();
 }));    super.__registerWatchesActions();
 }
-    static __style = `:host{--_popup-background-color: var(--popup-background-color, var(--application-background-color, var(--primary-color-opacity)));--_popup-border-radius: var(--popup-border-radius, var(--application-border-radius, 10px));--_popup-header-background-color: var(--popup-header-background-color, var(--application-header-background-color, var(--darker-active)))}:host{align-items:center;animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(48,48,48,.1);border-radius:var(--application-border-radius);display:flex;inset:0;justify-content:center;position:absolute;z-index:650}:host .popup{background-color:var(--_popup-background-color);border-radius:var(--_popup-border-radius);box-shadow:var(--elevation-5);display:flex;flex-direction:column;max-height:calc(100% - 50px);max-width:calc(100% - 50px)}:host .popup .header{align-items:center;border-top-left-radius:var(--_popup-border-radius);border-top-right-radius:var(--_popup-border-radius);display:flex;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .popup .header .background{background-color:var(--_popup-header-background-color);inset:0;position:absolute;z-index:1}:host .popup .header .title{flex-grow:1;margin-left:15px;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .popup .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .popup .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .popup .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);overflow:hidden;padding:15px;padding-top:15px;width:100%;z-index:1}:host([no_red_btn]) .popup .header .application-actions .btn{display:none}:host([behind]){z-index:550}@media screen and (min-width: 1225px){:host .popup .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}`;
+    static __style = `:host{--_popup-background-color: var(--popup-background-color, var(--application-background-color, var(--primary-color-opacity)));--_popup-border-radius: var(--popup-border-radius, var(--application-border-radius, 10px));--_popup-header-background-color: var(--popup-header-background-color, var(--application-header-background-color, var(--darker-active)));--_popup-content-padding: var(--popup-content-padding, 15px)}:host{align-items:center;animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(48,48,48,.1);border-radius:var(--application-border-radius);display:flex;inset:0;justify-content:center;position:absolute;z-index:650}:host .popup{background-color:var(--_popup-background-color);border-radius:var(--_popup-border-radius);box-shadow:var(--elevation-5);container-name:application;container-type:inline-size;display:flex;flex-direction:column;max-height:calc(100% - 50px);max-width:calc(100% - 50px)}:host .popup .header{align-items:center;border-top-left-radius:var(--_popup-border-radius);border-top-right-radius:var(--_popup-border-radius);display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .popup .header .background{background-color:var(--_popup-header-background-color);inset:0;position:absolute;z-index:1}:host .popup .header .title{flex-grow:1;margin-left:15px;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .popup .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .popup .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .popup .content{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - var(--_popup-content-padding) - var(--_popup-content-padding));border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);max-height:calc(var(--app-height) - 50px - 30px);overflow:hidden;padding:var(--_popup-content-padding);width:100%;z-index:1}:host([no_red_btn]) .popup .header .application-actions .btn{display:none}:host([behind]){z-index:550}@media screen and (min-width: 1225px){:host .popup .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}`;
     constructor() {            super();            this.info = this.defaultOptions();if (this.constructor == Popup) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return Popup;
@@ -4669,7 +4758,7 @@ Components.Popup = class Popup extends Aventus.WebComponent {
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="popup" _id="popup_0">    <div class="header">        <div class="background"></div>        <div class="title" _id="popup_1"></div>        <div class="application-actions">            <div class="btn red touch" _id="popup_2"></div>        </div>    </div>    <div class="content">        <slot></slot>    </div></div>` }
+        blocks: { 'default':`<div class="popup" _id="popup_0">    <div class="header">        <div class="background"></div>        <div class="title" _id="popup_1"></div>        <div class="application-actions">            <div class="btn red touch" _id="popup_2"></div>        </div>    </div>    <rk-scrollable class="content">        <slot></slot>    </rk-scrollable></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -4715,8 +4804,16 @@ Components.Popup = class Popup extends Aventus.WebComponent {
         this.popupEl.style.minWidth = this.info.min_width ?? '';
         this.popupEl.style.minHeight = this.info.min_height ?? '';
     }
-    redPress() {
+    close() {
         this.remove();
+    }
+    resolve(response, no_close) {
+        if (this.cb) {
+            this.cb(response);
+        }
+        if (!no_close) {
+            this.close();
+        }
     }
     postCreation() {
         this.onOptionsChanged();
@@ -4781,16 +4878,10 @@ Components.Confirm = class Confirm extends Components.Popup {
         };
     }
     cancel() {
-        if (this.cb) {
-            this.cb(false);
-        }
-        this.remove();
+        this.resolve(false);
     }
     validate() {
-        if (this.cb) {
-            this.cb(true);
-        }
-        this.remove();
+        this.resolve(false);
     }
     redPress() {
         this.cancel();
@@ -4840,7 +4931,7 @@ Components.Alert = class Alert extends Components.Popup {
     {
       "eventName": "click",
       "id": "alert_1",
-      "fct": (e, c) => c.comp.close(e)
+      "fct": (e, c) => c.comp.validate(e)
     }
   ]
 }); }
@@ -4854,14 +4945,11 @@ Components.Alert = class Alert extends Components.Popup {
             btn_txt: "ok"
         };
     }
-    close() {
-        if (this.cb) {
-            this.cb();
-        }
-        this.remove();
+    validate() {
+        this.resolve();
     }
     redPress() {
-        this.close();
+        this.resolve();
     }
     __d0561a7aa91ff42b328166316d099970method0() {
         return this.info.description;
@@ -4909,7 +4997,7 @@ System.Application = class Application extends Aventus.WebComponent {
 }));this.__addPropertyActions("is_hidden", ((target) => {
     target.onIsHiddenChange();
 })); }
-    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;outline:none;position:absolute;z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;height:100%;margin-left:15px;margin-right:15px;z-index:2;flex-grow:0}:host .header .navigation-actions .action{border-radius:2px;height:calc(100% - 6px);padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px;display:flex;align-items:center;justify-content:center}:host .header .navigation-actions .action rk-img{height:100%;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{display:none;z-index:600;border-radius:var(--_application-border-radius)}:host rk-resize{--resize-z-index: 4}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_active]){z-index:501}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{height:40px;border-top-left-radius:0;border-top-right-radius:0}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{height:calc(100% - 45px);border-bottom-left-radius:0;border-bottom-right-radius:0}:host rk-resize{display:none}:host([is_hidden]){left:0 !important;width:100% !important}}`;
+    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_active]){z-index:501}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 45px)}:host rk-resize{display:none}:host([is_hidden]){left:0 !important;width:100% !important}}`;
     constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.validError404=this.validError404.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this) }
     __getStatic() {
         return Application;
@@ -5275,8 +5363,8 @@ System.Application = class Application extends Aventus.WebComponent {
     setSizeInfo(info) {
         this.style.left = info.left + 'px';
         this.style.top = info.top + 'px';
-        this.style.width = info.width + 'px';
-        this.style.height = info.height + 'px';
+        this.style.setProperty("--app-width", info.width + "px");
+        this.style.setProperty("--app-height", info.height + "px");
         this.full = info.isFullScreen;
     }
     addMoveDragAndDrop() {
@@ -5308,7 +5396,10 @@ System.Application = class Application extends Aventus.WebComponent {
         });
     }
     addResize() {
-        this.resizeEl.init(this);
+        this.resizeEl.init(this, {
+            applyWidth: (value) => this.style.setProperty("--app-width", value + "px"),
+            applyHeight: (value) => this.style.setProperty("--app-height", value + "px")
+        });
         this.resizeEl.onPointerDown.add(this.onResizeStart);
         this.resizeEl.onPointerUp.add(this.onResizeStop);
     }
@@ -7823,7 +7914,7 @@ const CalendarDay = class CalendarDay extends Aventus.WebComponent {
     set 'other'(val) { this.setBoolAttr('other', val) }get 'today'() { return this.getBoolAttr('today') }
     set 'today'(val) { this.setBoolAttr('today', val) }    calendar;
     date = new Date();
-    static __style = `:host{align-items:center;display:flex;height:30px;justify-content:center;width:30px;border-radius:5px;cursor:pointer;transition:color .2s var(--bezier-curve),background-color .2s var(--bezier-curve)}:host([other]){color:var(--secondary-color)}:host([today]){color:var(--orange)}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--lighter)}}`;
+    static __style = `:host{align-items:center;color:var(--_calendar-text-color-case);display:flex;height:30px;justify-content:center;width:30px;border-radius:5px;cursor:pointer;transition:color .2s var(--bezier-curve),background-color .2s var(--bezier-curve)}:host([other]){color:var(--_calendar-text-color-case-others)}:host([today]){color:var(--_calendar-text-color-case-today)}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--_calendar-background-color-case-hover)}}`;
     constructor() { super(); if (this.constructor == CalendarDay) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return CalendarDay;
@@ -7925,7 +8016,7 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
         target.dateTemp = target.date;
     }
 })); }
-    static __style = `:host{background-color:#fff;border-radius:10px;box-shadow:var(--elevation-3);display:flex;flex-direction:column;padding:15px;position:relative;width:fit-content}:host .hover{transition:background-color .2s var(--bezier-curve)}:host .header{align-items:center;display:flex;flex-direction:row;font-size:var(--font-size-md);justify-content:space-between;position:relative}:host .header .current-info{align-items:center;display:flex;flex-direction:row;flex-grow:1;justify-content:center}:host .header .current-info .month-year{align-items:center;border-radius:5px;display:flex;flex-direction:row;padding:5px 10px}:host .header .current-info .month-year .month{margin-right:5px}:host .header .chevron{align-items:center;border-radius:5px;display:flex;height:30px;justify-content:center;text-align:center;width:30px}:host .header .selectors{background-color:var(--primary-color);border-radius:10px;box-shadow:var(--elevation-3);left:50%;opacity:0;padding:10px;pointer-events:none;position:absolute;top:calc(100% + 12px);transform:translateX(-50%);transition:opacity .2s var(--bezier-curve),visibility .2s var(--bezier-curve);visibility:hidden;z-index:5}:host .header .selectors::after{border-bottom:10px solid var(--primary-color);border-left:10px solid rgba(0,0,0,0);border-right:10px solid rgba(0,0,0,0);content:"";left:50%;position:absolute;top:-8px;transform:translateX(-50%)}:host .header .selectors .month-select{display:none}:host .header .selectors .month-select .month-select-header{align-items:center;display:flex}:host .header .selectors .month-select .month-select-header .current-info .temp-year{border-radius:5px;font-size:var(--font-size);padding:5px 10px;display:flex}:host .header .selectors .month-select .month-select-body{display:flex;flex-wrap:wrap;font-size:calc(var(--font-size)*.9);margin-top:0px;width:200px}:host .header .selectors .month-select .month-select-body .month-el{align-items:center;border-radius:5px;display:flex;height:30px;justify-content:center;margin:3px 5px;width:calc((100% - 30px)/3)}:host .header .selectors .month-select .month-select-body .month-el:hover,:host .header .selectors .month-select .month-select-body .month-el.active{background-color:var(--lighter)}:host .header .selectors .year-select{display:none}:host .header .selectors .year-select .year-select-header{align-items:center;display:flex}:host .header .selectors .year-select .year-select-header .current-info .temp-year-range{border-radius:5px;font-size:var(--font-size);padding:5px 10px;display:flex}:host .header .selectors .year-select .year-select-body{display:flex;flex-wrap:wrap;font-size:calc(var(--font-size)*.9);margin-top:0px;width:200px}:host .header .selectors .year-select .year-select-body .year-el{align-items:center;border-radius:5px;display:flex;height:30px;justify-content:center;margin:3px 5px;width:calc((100% - 30px)/3)}:host .header .selectors .year-select .year-select-body .year-el:hover,:host .header .selectors .year-select .year-select-body .year-el.active{background-color:var(--lighter)}:host .body{display:flex;flex-direction:column;margin-top:10px}:host .body .days-header{color:var(--text-color-light);display:flex;flex-direction:row;gap:10px}:host .body .days-header .day-header{align-items:center;display:flex;height:30px;justify-content:center;width:30px}:host .body .days-body{flex-direction:column}:host .body .days-body .days-row{display:flex;flex-direction:row;gap:10px;margin:5px 0}:host .hider{display:none;inset:0;position:absolute;z-index:1}:host([show_selector]) .hider{display:block}:host([show_selector]) .header .selectors{opacity:1;pointer-events:auto;visibility:visible}:host([selector=month]) .header .selectors .month-select{display:block}:host([selector=year]) .header .selectors .year-select{display:block}@media screen and (min-width: 1225px){:host .hover:hover{background-color:var(--lighter)}}`;
+    static __style = `:host{--_calendar-background-color: var(--calendar-background-color, white);--_calendar-background-color-case-hover: var(--calendar-background-color-case-hover, var(--lighter));--_calendar-background-color-case-active: var(--calendar-background-color-case-active, var(--lighter));--_calendar-background-color-selector: var(--calendar-background-color-selector, white);--_calendar-text-color-case: var(--calendar-text-color-case, var(--text-color));--_calendar-text-color-case-others: var(--calendar-text-color-case-others, var(--secondary-color));--_calendar-text-color-case-header: var(--calendar-text-color-case-header, var(--text-color-light));--_calendar-text-color-case-today: var(--calendar-text-color-case-today, var(--orange))}:host{background-color:var(--_calendar-background-color);border-radius:10px;box-shadow:var(--elevation-3);display:flex;flex-direction:column;padding:15px;position:relative;width:fit-content}:host .hover{transition:background-color .2s var(--bezier-curve)}:host .header{align-items:center;display:flex;flex-direction:row;font-size:var(--font-size-md);justify-content:space-between;position:relative}:host .header .current-info{align-items:center;display:flex;flex-direction:row;flex-grow:1;justify-content:center}:host .header .current-info .month-year{align-items:center;border-radius:5px;display:flex;flex-direction:row;padding:5px 10px}:host .header .current-info .month-year .month{margin-right:5px}:host .header .chevron{align-items:center;border-radius:5px;display:flex;height:30px;justify-content:center;text-align:center;width:30px}:host .header .selectors{background-color:var(--_calendar-background-color-selector);border-radius:10px;box-shadow:var(--elevation-3);left:50%;opacity:0;padding:10px;pointer-events:none;position:absolute;top:calc(100% + 12px);transform:translateX(-50%);transition:opacity .2s var(--bezier-curve),visibility .2s var(--bezier-curve);visibility:hidden;z-index:5}:host .header .selectors::after{border-bottom:10px solid var(--_calendar-background-color-selector);border-left:10px solid rgba(0,0,0,0);border-right:10px solid rgba(0,0,0,0);content:"";left:50%;position:absolute;top:-8px;transform:translateX(-50%)}:host .header .selectors .month-select{display:none}:host .header .selectors .month-select .month-select-header{align-items:center;display:flex}:host .header .selectors .month-select .month-select-header .current-info .temp-year{border-radius:5px;display:flex;font-size:var(--font-size);padding:5px 10px}:host .header .selectors .month-select .month-select-body{display:flex;flex-wrap:wrap;font-size:calc(var(--font-size)*.9);margin-top:0px;width:200px}:host .header .selectors .month-select .month-select-body .month-el{align-items:center;border-radius:5px;display:flex;height:30px;justify-content:center;margin:3px 5px;width:calc((100% - 30px)/3)}:host .header .selectors .month-select .month-select-body .month-el.active{background-color:var(--_calendar-background-color-case-active)}:host .header .selectors .year-select{display:none}:host .header .selectors .year-select .year-select-header{align-items:center;display:flex}:host .header .selectors .year-select .year-select-header .current-info .temp-year-range{border-radius:5px;display:flex;font-size:var(--font-size);padding:5px 10px}:host .header .selectors .year-select .year-select-body{display:flex;flex-wrap:wrap;font-size:calc(var(--font-size)*.9);margin-top:0px;width:200px}:host .header .selectors .year-select .year-select-body .year-el{align-items:center;border-radius:5px;display:flex;height:30px;justify-content:center;margin:3px 5px;width:calc((100% - 30px)/3)}:host .header .selectors .year-select .year-select-body .year-el.active{background-color:var(--_calendar-background-color-case-active)}:host .body{display:flex;flex-direction:column;margin-top:10px}:host .body .days-header{color:var(--_calendar-text-color-case-header);display:flex;flex-direction:row;gap:10px}:host .body .days-header .day-header{align-items:center;display:flex;height:30px;justify-content:center;width:30px}:host .body .days-body{flex-direction:column}:host .body .days-body .days-row{display:flex;flex-direction:row;gap:10px;margin:5px 0}:host .hider{display:none;inset:0;position:absolute;z-index:1}:host([show_selector]) .hider{display:block}:host([show_selector]) .header .selectors{opacity:1;pointer-events:auto;visibility:visible}:host([selector=month]) .header .selectors .month-select{display:block}:host([selector=year]) .header .selectors .year-select{display:block}@media screen and (min-width: 1225px){:host .hover:hover{background-color:var(--_calendar-background-color-case-hover)}}`;
     __getStatic() {
         return Calendar;
     }
@@ -8213,7 +8304,7 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
         let currentYear = new Date().getFullYear();
         let basicRangeStart = (currentYear + this.yearGroupPage * 12) - 6;
         let basicRangeEnd = (currentYear + this.yearGroupPage * 12) + 6;
-        this.yearGroupTxt = `${basicRangeStart} - ${basicRangeEnd}`;
+        this.yearGroupTxt = `${basicRangeStart} - ${basicRangeEnd - 1}`;
         this.bodyYearEl.innerHTML = "";
         for (let i = basicRangeStart; i < basicRangeEnd; i++) {
             this.createYearCase(i);
@@ -8222,6 +8313,8 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
     createYearCase(year) {
         let div = document.createElement("div");
         div.classList.add("year-el");
+        div.classList.add("touch");
+        div.classList.add("hover");
         div.innerHTML = year + '';
         if (year == this.dateTemp.getFullYear()) {
             div.classList.add("active");
@@ -8297,6 +8390,291 @@ DatePickerCalendarDay.Tag=`rk-date-picker-calendar-day`;
 _.DatePickerCalendarDay=DatePickerCalendarDay;
 if(!window.customElements.get('rk-date-picker-calendar-day')){window.customElements.define('rk-date-picker-calendar-day', DatePickerCalendarDay);Aventus.WebComponentInstance.registerDefinition(DatePickerCalendarDay);}
 
+Components.InternalVirtualForm=class InternalVirtualForm {
+    __config;
+    constructor(config) {
+        for (let name in config) {
+            if (!config[name].elements) {
+                config[name].elements = [];
+            }
+            if (!config[name].validate) {
+                config[name].validate = () => true;
+            }
+        }
+        this.__config = config;
+        for (let key in config) {
+            this.registerKey(key);
+        }
+    }
+    async validateAndExecute(result, application) {
+        const validationResult = await this.validate(application);
+        if (validationResult) {
+            return await this.execute(result, application);
+        }
+        return undefined;
+    }
+    async validate(from) {
+        let proms = [];
+        let promsCustom = [];
+        const namesCustom = [];
+        const resultErrors = [];
+        for (let name in this.__config) {
+            const elements = this.__config[name].elements;
+            if (!elements || elements.length == 0) {
+                const result = this.__config[name].validate(Components.FormElement.getValue(this.__config[name]));
+                if (result instanceof Promise) {
+                    promsCustom.push(result);
+                    namesCustom.push(name);
+                }
+                else if (result !== undefined && result !== true && result !== "") {
+                    if (result === false) {
+                        resultErrors.push("Le champs " + name + " n'est pas valide");
+                    }
+                    resultErrors.push(result + "");
+                }
+            }
+            else {
+                for (let element of this.__config[name].elements) {
+                    proms.push(element.validate());
+                }
+            }
+        }
+        const result2 = await Promise.all(promsCustom);
+        for (let i = 0; i < result2.length; i++) {
+            const resultTemp = result2[i];
+            if (resultTemp !== undefined && resultTemp !== true && resultTemp !== "") {
+                if (resultTemp === false) {
+                    resultErrors.push("Le champs " + namesCustom[i] + " n'est pas valide");
+                }
+                resultErrors.push(resultTemp + "");
+            }
+        }
+        if (resultErrors.length > 0) {
+            if (from) {
+                let application = from instanceof System.Application ? from : from.findParentByType(System.Application);
+                await application?.alert({
+                    title: "Erreur de validation",
+                    description: resultErrors.join("<br>")
+                });
+                return false;
+            }
+            return resultErrors;
+        }
+        const result = await Promise.all(proms);
+        for (let resultTemp of result) {
+            if (!resultTemp)
+                return false;
+        }
+        return true;
+    }
+    async execute(query, from) {
+        let queryResult = await Aventus.Async(query);
+        if (queryResult.errors.length > 0) {
+            let noPrintErrors = [];
+            for (let error of queryResult.errors) {
+                if (error instanceof AventusSharp.Data.DataError &&
+                    error.code == AventusSharp.Data.DataErrorCode.ValidationError &&
+                    error.details.length > 0 &&
+                    error.details[0] instanceof AventusSharp.Data.FieldErrorInfo) {
+                    let fieldInfo = error.details[0];
+                    if (this.addFieldError(fieldInfo.Name, error.message)) {
+                        continue;
+                    }
+                }
+                noPrintErrors.push(error);
+            }
+            queryResult.errors = noPrintErrors;
+        }
+        if (from) {
+            let application = from instanceof System.Application ? from : from.findParentByType(System.Application);
+            if (application) {
+                return await application.parseErrors(queryResult);
+            }
+        }
+        return queryResult;
+    }
+    registerKey(key) {
+        Object.defineProperty(this, key, {
+            get: () => this.__config[key],
+            set: (value) => this.__config[key] = value,
+            enumerable: true
+        });
+    }
+    getData() {
+        let result = {};
+        for (let name in this.__config) {
+            result[name] = Components.FormElement.getValue(this.__config[name]);
+        }
+        return result;
+    }
+    // public async validate(from?: Aventus.WebComponent): Promise<boolean | string[]> {
+    //     for(let name in this.__config) {
+    //         if(!elements || elements.length == 0) {
+    //             const result = this.__config[name].validate(FormElement.getValue(this.__config[name]));
+    //             if(result instanceof Promise) {
+    //                 promsCustom.push(result);
+    //                 namesCustom.push(name);
+    //             else if(result !== undefined && result !== true && result !== "") {
+    //                 if(result === false) {
+    //                     resultErrors.push("Le champs " + name + " n'est pas valide");
+    //                 resultErrors.push(result + "");
+    //             for(let element of this.__config[name].elements) {
+    //                 proms.push(element.validate());
+    //     const result2 = await Promise.all(promsCustom);
+    //     for(let i = 0; i < result2.length; i++) {
+    //         if(resultTemp !== undefined && resultTemp !== true && resultTemp !== "") {
+    //             if(resultTemp === false) {
+    //                 resultErrors.push("Le champs " + namesCustom[i] + " n'est pas valide");
+    //             resultErrors.push(resultTemp + "");
+    //     if(resultErrors.length > 0) {
+    //         if(from) {
+    //             let application = from instanceof Application ? from : from.findParentByType(Application);
+    //             await application?.alert({
+    //                 description: resultErrors.join("<br>")
+    //             });
+    //     const result = await Promise.all(proms);
+    //     for(let resultTemp of result) {
+    //         if(!resultTemp) return false;
+    addFieldError(name, error) {
+        if (this.__config[name]?.elements.length > 0) {
+            for (let el of this.__config[name].elements) {
+                el.errors.push(error);
+            }
+            return true;
+        }
+        return false;
+    }
+}
+Components.InternalVirtualForm.Namespace=`${moduleName}.Components`;
+Components.Form = class Form extends Aventus.WebComponent {
+    elements = [];
+    onSubmit = new Aventus.Callback();
+    static __style = `:host{padding:15px;width:100%}`;
+    __getStatic() {
+        return Form;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Form.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "Form";
+    }
+    registerFormElement(element) {
+        if (!this.elements.includes(element)) {
+            this.elements.push(element);
+        }
+    }
+    registerSubmit(element) {
+        new Aventus.PressManager({
+            element,
+            onPress: () => {
+                this.submit();
+            }
+        });
+    }
+    async submit() {
+        if (await this.validate()) {
+            this.onSubmit.trigger([]);
+        }
+    }
+    async validate() {
+        let proms = [];
+        for (let element of this.elements) {
+            proms.push(element.validate());
+        }
+        const result = await Promise.all(proms);
+        for (let resultTemp of result) {
+            if (!resultTemp)
+                return false;
+        }
+        return true;
+    }
+    static create(config) {
+        return new Components.InternalVirtualForm(config);
+    }
+}
+Components.Form.Namespace=`${moduleName}.Components`;
+Components.Form.Tag=`rk-form`;
+_.Components.Form=Components.Form;
+if(!window.customElements.get('rk-form')){window.customElements.define('rk-form', Components.Form);Aventus.WebComponentInstance.registerDefinition(Components.Form);}
+
+State.CreateOrUpdate=class CreateOrUpdate extends Lib.ApplicationStorableState {
+    static _state = "";
+    static get state() {
+        if (this._state == "") {
+            let cst = this;
+            new cst();
+        }
+        return this._state;
+    }
+    __form;
+    get form() {
+        return this.__form;
+    }
+    constructor(item) {
+        super(item);
+        this.constructor['_state'] = this.genericState();
+        this.__form = Aventus.Watcher.get(Components.Form.create(this.defineFormSchema()));
+    }
+    /**
+     * @inheritdoc
+     */
+    get name() {
+        return this.genericState().replace("{id:number}", this.item.Id + "");
+    }
+    genericState() {
+        return `/${this.defineObjectName().toLowerCase()}/{id:number}`;
+    }
+    async save() {
+        let result;
+        const validationResult = await this.form.validate(this.application);
+        if (validationResult === true) {
+            let ramResult;
+            if (this.item.Id == 0) {
+                ramResult = await this.application.showLoading(this.defineRAM().createWithError(this.item));
+            }
+            else {
+                ramResult = await this.application.showLoading(this.defineRAM().updateWithError(this.item));
+            }
+            if (ramResult.errors.length > 0) {
+                let noPrintErrors = [];
+                for (let error of ramResult.errors) {
+                    if (error instanceof AventusSharp.Data.DataError &&
+                        error.code == AventusSharp.Data.DataErrorCode.ValidationError &&
+                        error.details.length > 0 &&
+                        error.details[0] instanceof AventusSharp.Data.FieldErrorInfo) {
+                        let fieldInfo = error.details[0];
+                        if (this.form.addFieldError(fieldInfo.Name, error.message)) {
+                            continue;
+                        }
+                    }
+                    noPrintErrors.push(error);
+                }
+                ramResult.errors = noPrintErrors;
+            }
+            return await this.application.parseErrors(ramResult);
+        }
+        return result;
+    }
+    back() {
+        const splitted = this.name.split("/");
+        splitted.pop();
+        this.application.navigate(splitted.join("/"));
+    }
+    cancel() {
+        this.back();
+    }
+}
+State.CreateOrUpdate.Namespace=`${moduleName}.State`;Aventus.Converter.register(State.CreateOrUpdate.Fullname, State.CreateOrUpdate);
+_.State.CreateOrUpdate=State.CreateOrUpdate;
 Components.FormElement = class FormElement extends Aventus.WebComponent {
     get 'has_errors'() { return this.getBoolAttr('has_errors') }
     set 'has_errors'(val) { this.setBoolAttr('has_errors', val) }    get 'errors'() {
@@ -8399,7 +8777,7 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
             }
         }
         if (path == "formPart" || path == "formPart.value") {
-            element.value = element.formPart ? Components.FormElement.getValue(element.formPart) ?? '' : '';
+            element.value = element.formPart ? Components.FormElement.getValue(element.formPart) : '';
             if (element.formPart && !element.formPart.elements?.includes(element)) {
                 element.formPart.elements?.push(element);
             }
@@ -8885,298 +9263,6 @@ Components.Checkbox.Tag=`rk-checkbox`;
 _.Components.Checkbox=Components.Checkbox;
 if(!window.customElements.get('rk-checkbox')){window.customElements.define('rk-checkbox', Components.Checkbox);Aventus.WebComponentInstance.registerDefinition(Components.Checkbox);}
 
-Components.InternalVirtualForm=class InternalVirtualForm {
-    __config;
-    constructor(config) {
-        for (let name in config) {
-            if (!config[name].elements) {
-                config[name].elements = [];
-            }
-            if (!config[name].validate) {
-                config[name].validate = () => true;
-            }
-        }
-        this.__config = config;
-        for (let key in config) {
-            this.registerKey(key);
-        }
-    }
-    registerKey(key) {
-        Object.defineProperty(this, key, {
-            get: () => this.__config[key],
-            set: (value) => this.__config[key] = value,
-            enumerable: true
-        });
-    }
-    getData() {
-        let result = {};
-        for (let name in this.__config) {
-            result[name] = Components.FormElement.getValue(this.__config[name]);
-        }
-        return result;
-    }
-    /**
-     * Return an array of string for all message not displayed otherwhise return a bool
-     */
-    async validate() {
-        let proms = [];
-        let promsCustom = [];
-        const namesCustom = [];
-        const resultErrors = [];
-        for (let name in this.__config) {
-            const elements = this.__config[name].elements;
-            if (!elements || elements.length == 0) {
-                const result = this.__config[name].validate(Components.FormElement.getValue(this.__config[name]));
-                if (result instanceof Promise) {
-                    promsCustom.push(result);
-                    namesCustom.push(name);
-                }
-                else if (result !== undefined && result !== true && result !== "") {
-                    if (result === false) {
-                        resultErrors.push("Le champs " + name + " n'est pas valide");
-                    }
-                    resultErrors.push(result + "");
-                }
-            }
-            else {
-                for (let element of this.__config[name].elements) {
-                    proms.push(element.validate());
-                }
-            }
-        }
-        const result2 = await Promise.all(promsCustom);
-        for (let i = 0; i < result2.length; i++) {
-            const resultTemp = result2[i];
-            if (resultTemp !== undefined && resultTemp !== true && resultTemp !== "") {
-                if (resultTemp === false) {
-                    resultErrors.push("Le champs " + namesCustom[i] + " n'est pas valide");
-                }
-                resultErrors.push(resultTemp + "");
-            }
-        }
-        if (resultErrors.length > 0) {
-            return resultErrors;
-        }
-        const result = await Promise.all(proms);
-        for (let resultTemp of result) {
-            if (!resultTemp)
-                return false;
-        }
-        return true;
-    }
-    addFieldError(name, error) {
-        if (this.__config[name]?.elements.length > 0) {
-            for (let el of this.__config[name].elements) {
-                el.errors.push(error);
-            }
-            return true;
-        }
-        return false;
-    }
-}
-Components.InternalVirtualForm.Namespace=`${moduleName}.Components`;
-Components.Form = class Form extends Aventus.WebComponent {
-    elements = [];
-    onSubmit = new Aventus.Callback();
-    static __style = `:host{padding:15px;width:100%}`;
-    __getStatic() {
-        return Form;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Form.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "Form";
-    }
-    registerFormElement(element) {
-        if (!this.elements.includes(element)) {
-            this.elements.push(element);
-        }
-    }
-    registerSubmit(element) {
-        new Aventus.PressManager({
-            element,
-            onPress: () => {
-                this.submit();
-            }
-        });
-    }
-    async submit() {
-        if (await this.validate()) {
-            this.onSubmit.trigger([]);
-        }
-    }
-    async validate() {
-        let proms = [];
-        for (let element of this.elements) {
-            proms.push(element.validate());
-        }
-        const result = await Promise.all(proms);
-        for (let resultTemp of result) {
-            if (!resultTemp)
-                return false;
-        }
-        return true;
-    }
-    static create(config) {
-        return new Components.InternalVirtualForm(config);
-    }
-}
-Components.Form.Namespace=`${moduleName}.Components`;
-Components.Form.Tag=`rk-form`;
-_.Components.Form=Components.Form;
-if(!window.customElements.get('rk-form')){window.customElements.define('rk-form', Components.Form);Aventus.WebComponentInstance.registerDefinition(Components.Form);}
-
-State.CreateOrUpdate=class CreateOrUpdate extends Lib.ApplicationStorableState {
-    static _state = "";
-    static get state() {
-        if (this._state == "") {
-            let cst = this;
-            new cst();
-        }
-        return this._state;
-    }
-    __form;
-    get form() {
-        return this.__form;
-    }
-    constructor(item) {
-        super(item);
-        this.constructor['_state'] = this.genericState();
-        this.__form = Aventus.Watcher.get(Components.Form.create(this.defineFormSchema()));
-    }
-    /**
-     * @inheritdoc
-     */
-    get name() {
-        return this.genericState().replace("{id:number}", this.item.Id + "");
-    }
-    genericState() {
-        return `/${this.defineObjectName().toLowerCase()}/{id:number}`;
-    }
-    async save() {
-        let result;
-        const validationResult = await this.form.validate();
-        if (validationResult === true) {
-            let ramResult;
-            if (this.item.Id == 0) {
-                ramResult = await this.application.showLoading(this.defineRAM().createWithError(this.item));
-            }
-            else {
-                ramResult = await this.application.showLoading(this.defineRAM().updateWithError(this.item));
-            }
-            if (ramResult.errors.length > 0) {
-                let noPrintErrors = [];
-                for (let error of ramResult.errors) {
-                    if (error instanceof AventusSharp.Data.DataError &&
-                        error.code == AventusSharp.Data.DataErrorCode.ValidationError &&
-                        error.details.length > 0 &&
-                        error.details[0] instanceof AventusSharp.Data.FieldErrorInfo) {
-                        let fieldInfo = error.details[0];
-                        if (this.form.addFieldError(fieldInfo.Name, error.message)) {
-                            continue;
-                        }
-                    }
-                    noPrintErrors.push(error);
-                }
-                ramResult.errors = noPrintErrors;
-            }
-            return await this.application.parseErrors(ramResult);
-        }
-        else if (Array.isArray(validationResult)) {
-            await this.application.alert({
-                title: "Erreur de validation",
-                description: validationResult.join("<br>")
-            });
-        }
-        return result;
-    }
-    back() {
-        const splitted = this.name.split("/");
-        splitted.pop();
-        this.application.navigate(splitted.join("/"));
-    }
-    cancel() {
-        this.back();
-    }
-}
-State.CreateOrUpdate.Namespace=`${moduleName}.State`;Aventus.Converter.register(State.CreateOrUpdate.Fullname, State.CreateOrUpdate);
-_.State.CreateOrUpdate=State.CreateOrUpdate;
-Components.Button = class Button extends Aventus.WebComponent {
-    static get observedAttributes() {return ["icon_before", "icon_after", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'color'() { return this.getStringAttr('color') }
-    set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
-    set 'outline'(val) { this.setBoolAttr('outline', val) }get 'submit'() { return this.getBoolAttr('submit') }
-    set 'submit'(val) { this.setBoolAttr('submit', val) }    get 'icon_before'() { return this.getStringProp('icon_before') }
-    set 'icon_before'(val) { this.setStringAttr('icon_before', val) }get 'icon_after'() { return this.getStringProp('icon_after') }
-    set 'icon_after'(val) { this.setStringAttr('icon_after', val) }get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
-    target.icon_before = target.icon;
-})); }
-    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent)}:host{background-color:var(--internal-button-background-color);border-radius:5px;box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;overflow:hidden;position:relative}:host .hider{background-color:var(--_button-background-color-hover);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:hover) .hider{opacity:1;visibility:visible}}`;
-    __getStatic() {
-        return Button;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Button.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="hider"></div><div class="content">    <rk-img class="icon-before" _id="button_0"></rk-img>    <slot></slot>    <rk-img class="icon-after" _id="button_1"></rk-img></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "button_0°src": {
-      "fct": (c) => `${c.print(c.comp.__e17753be66eb8c36ad73f4b01845474bmethod0())}`,
-      "once": true
-    },
-    "button_1°src": {
-      "fct": (c) => `${c.print(c.comp.__e17753be66eb8c36ad73f4b01845474bmethod1())}`,
-      "once": true
-    }
-  }
-}); }
-    getClassName() {
-        return "Button";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('submit')) { this.attributeChangedCallback('submit', false, false); }if(!this.hasAttribute('icon_before')){ this['icon_before'] = undefined; }if(!this.hasAttribute('icon_after')){ this['icon_after'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('submit');this.__upgradeProperty('icon_before');this.__upgradeProperty('icon_after');this.__upgradeProperty('icon'); }
-    __listBoolProps() { return ["outline","submit"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    registerToForm() {
-        if (!this.submit)
-            return;
-        const parent = this.findParentByType(Components.Form);
-        if (parent) {
-            parent.registerSubmit(this);
-        }
-    }
-    postCreation() {
-        this.registerToForm();
-    }
-    __e17753be66eb8c36ad73f4b01845474bmethod0() {
-        return this.icon_before;
-    }
-    __e17753be66eb8c36ad73f4b01845474bmethod1() {
-        return this.icon_after;
-    }
-}
-Components.Button.Namespace=`${moduleName}.Components`;
-Components.Button.Tag=`rk-button`;
-_.Components.Button=Components.Button;
-if(!window.customElements.get('rk-button')){window.customElements.define('rk-button', Components.Button);Aventus.WebComponentInstance.registerDefinition(Components.Button);}
-
 const DatePickerCalendar = class DatePickerCalendar extends Components.Calendar {
     picker;
     static __style = ``;
@@ -9212,7 +9298,8 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
     set 'month_format'(val) { this.setStringAttr('month_format', val) }get 'day_format'() { return this.getStringAttr('day_format') }
     set 'day_format'(val) { this.setStringAttr('day_format', val) }get 'locale'() { return this.getStringAttr('locale') }
     set 'locale'(val) { this.setStringAttr('locale', val) }get 'time_zone'() { return this.getStringAttr('time_zone') }
-    set 'time_zone'(val) { this.setStringAttr('time_zone', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'time_zone'(val) { this.setStringAttr('time_zone', val) }get 'hide_on_select'() { return this.getBoolAttr('hide_on_select') }
+    set 'hide_on_select'(val) { this.setBoolAttr('hide_on_select', val) }    get 'label'() { return this.getStringProp('label') }
     set 'label'(val) { this.setStringAttr('label', val) }get 'icon'() { return this.getStringProp('icon') }
     set 'icon'(val) { this.setStringAttr('icon', val) }    get 'value'() {
 						return this.__watch["value"];
@@ -9225,7 +9312,7 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
     target.renderDate();
 }));    super.__registerWatchesActions();
 }
-    static __style = `:host{--_input-height: var(--input-height, 30px);--_input-background-color: var(--input-background-color, var(--form-element-background, white));--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-background-color);border:var(--_input-input-border);border-radius:var(--_input-border-radius);display:flex;height:var(--_input-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:50%;color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-error-logo-size) - 5px);height:var(--_input-error-logo-size);justify-content:center;width:var(--_input-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0;text-align:justify}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}`;
+    static __style = `:host{--_datepicker-height: var(--input-height, 30px);--_datepicker-background-color: var(--input-background-color, var(--form-element-background, white));--_datepicker-icon-height: var(--input-icon-height, calc(var(--_datepicker-height) / 2));--_datepicker-error-logo-size: var(--input-error-logo-size, calc(var(--_datepicker-height) / 2));--_datepicker-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_datepicker-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_datepicker-font-size) * 0.95)));--_datepicker-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_datepicker-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_datepicker-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_datepicker-background-color);border:var(--_datepicker-input-border);border-radius:var(--_datepicker-border-radius);display:flex;height:var(--_datepicker-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_datepicker-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_datepicker-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:50%;color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_datepicker-error-logo-size) - 5px);height:var(--_datepicker-error-logo-size);justify-content:center;width:var(--_datepicker-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0;text-align:justify}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}`;
     constructor() {
             super();
             this.bindCalendar();
@@ -9300,9 +9387,10 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
     getClassName() {
         return "DatePicker";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('year_format')){ this['year_format'] = "numeric"; }if(!this.hasAttribute('month_format')){ this['month_format'] = "2-digit"; }if(!this.hasAttribute('day_format')){ this['day_format'] = "2-digit"; }if(!this.hasAttribute('locale')){ this['locale'] = undefined; }if(!this.hasAttribute('time_zone')){ this['time_zone'] = undefined; }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('year_format')){ this['year_format'] = "numeric"; }if(!this.hasAttribute('month_format')){ this['month_format'] = "2-digit"; }if(!this.hasAttribute('day_format')){ this['day_format'] = "2-digit"; }if(!this.hasAttribute('locale')){ this['locale'] = undefined; }if(!this.hasAttribute('time_zone')){ this['time_zone'] = undefined; }if(!this.hasAttribute('hide_on_select')) { this.attributeChangedCallback('hide_on_select', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = new Date(); }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('year_format');this.__upgradeProperty('month_format');this.__upgradeProperty('day_format');this.__upgradeProperty('locale');this.__upgradeProperty('time_zone');this.__upgradeProperty('label');this.__upgradeProperty('icon');this.__correctGetter('value'); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('year_format');this.__upgradeProperty('month_format');this.__upgradeProperty('day_format');this.__upgradeProperty('locale');this.__upgradeProperty('time_zone');this.__upgradeProperty('hide_on_select');this.__upgradeProperty('label');this.__upgradeProperty('icon');this.__correctGetter('value'); }
+    __listBoolProps() { return ["hide_on_select"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     defineCalendar() {
         return DatePickerCalendar;
     }
@@ -9344,6 +9432,9 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
         this.calendar.picker = this;
         this.calendar.onDateClicked.add((date, caseEl) => {
             this.value = date;
+            if (this.hide_on_select) {
+                this.calendarContainer.hide();
+            }
         });
     }
     manageFocus() {
@@ -9391,7 +9482,7 @@ if(!window.customElements.get('rk-date-picker')){window.customElements.define('r
 const CalendarContainer = class CalendarContainer extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
     set 'visible'(val) { this.setBoolAttr('visible', val) }    picker;
-    static __style = `:host{display:none;left:0;position:absolute;top:0;z-index:800}:host([visible]){display:block}`;
+    static __style = `:host{display:none;position:absolute;z-index:800}:host([visible]){display:block}`;
     __getStatic() {
         return CalendarContainer;
     }
@@ -9423,12 +9514,23 @@ const CalendarContainer = class CalendarContainer extends Aventus.WebComponent {
         let boxInput = this.picker.inputEl.getBoundingClientRect();
         let contBox = container.getBoundingClientRect();
         let newTop = boxInput.top + boxInput.height + 2;
-        let maxHeight = contBox.height - newTop - 10;
         this.style.top = newTop + 'px';
+        this.style.bottom = '';
         this.style.left = box.left + 'px';
-        this.style.maxHeight = maxHeight + 'px';
+        this.style.right = '';
         container.appendChild(this);
         this.visible = true;
+        let height = this.offsetHeight;
+        if (height + newTop > contBox.height) {
+            newTop = contBox.height - boxInput.top + 2;
+            this.style.top = '';
+            this.style.bottom = newTop + 'px';
+        }
+        let width = this.offsetWidth;
+        if (width + box.left > contBox.width) {
+            let newRight = contBox.width - (width) - 2;
+            this.style.left = newRight + 'px';
+        }
     }
     hide() {
         this.visible = false;
@@ -10101,8 +10203,8 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
         this.data = await this.loadData();
         for (let item of this.data) {
             let option = new Components.OptionData();
-            option.value = this.optionValue(item);
-            option.innerHTML = this.optionText(item);
+            option.value = await Aventus.Async(this.optionValue(item));
+            option.innerHTML = await Aventus.Async(this.optionText(item));
             this.appendChild(option);
         }
         this.loading = false;
@@ -10122,11 +10224,11 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
         this.defineRam().offUpdated(this.onUpdated);
         this.defineRam().offDeleted(this.onDeleted);
     }
-    onCreated(item) {
+    async onCreated(item) {
         this.data.push(item);
         let option = new Components.OptionData();
-        option.value = this.optionValue(item);
-        option.innerHTML = this.optionText(item);
+        option.value = await Aventus.Async(this.optionValue(item));
+        option.innerHTML = await Aventus.Async(this.optionText(item));
         this.appendChild(option);
         this.loadElementsFromSlot();
     }
@@ -10142,11 +10244,11 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
             }
         }
     }
-    onUpdated(item) {
+    async onUpdated(item) {
         for (let i = 0; i < this.options.length; i++) {
             let option = this.options[i];
             if (option.value == this.optionValue(item)) {
-                option.innerHTML = this.optionText(item);
+                option.innerHTML = await Aventus.Async(this.optionText(item));
             }
         }
     }

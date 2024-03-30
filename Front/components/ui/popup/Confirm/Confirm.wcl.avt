@@ -47,19 +47,13 @@ namespace Components {
          * 
          */
         protected cancel() {
-            if(this.cb) {
-                this.cb(false);
-            }
-            this.remove();
+            this.resolve(false);
         }
         /**
          * 
          */
         protected validate() {
-            if(this.cb) {
-                this.cb(true);
-            }
-            this.remove();
+            this.resolve(false);
         }
 
         protected override redPress(): void {
