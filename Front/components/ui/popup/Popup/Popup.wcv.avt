@@ -3,7 +3,7 @@
         <div class="background"></div>
         <div class="title">{{ this.info.title }}</div>
         <div class="application-actions">
-            <div class="btn red touch" @press="redPress"></div>
+            <div class="btn red touch" @press="cancel"></div>
         </div>
     </div>
     <rk-scrollable class="content">

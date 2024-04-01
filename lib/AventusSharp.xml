@@ -458,7 +458,7 @@
             Delete inside the DM a bunch of elements and return them
             If something went wrong an empty list will be returned
             </summary>
-            <param name="values"></param>
+            <param name="ids"></param>
             <returns></returns>
         </member>
         <member name="M:AventusSharp.Data.Storable`1.DeleteWithError(System.Collections.Generic.List{`0})">
@@ -472,7 +472,7 @@
             <summary>
             Delete inside the DM a bunch of elements and return them
             </summary>
-            <param name="values"></param>
+            <param name="ids"></param>
             <returns></returns>
         </member>
         <member name="M:AventusSharp.Data.Storable`1.Delete(`0)">
@@ -681,7 +681,7 @@
             <summary>
             Transform data into object T. Add path to tell where to find data to cast
             </summary>
-            <typeparam name="T"></typeparam>
+            <param name="type">Type needed</param>
             <param name="propPath">Path where to find data</param>
             <returns></returns>
         </member>
@@ -1520,7 +1520,7 @@
             <summary>
             Transform data into object T. Add path to tell where to find data to cast
             </summary>
-            <typeparam name="T"></typeparam>
+            <param name="type">Type needed</param>
             <param name="propPath">Path where to find data</param>
             <returns></returns>
         </member>
@@ -1548,7 +1548,6 @@
             <param name="context">context of request HTTP</param>
             <param name="webSocket">websocket create</param>
             <param name="instance">Instance of WebsocketInstance (parent)</param>
-            <param name="ownerId">Owner id</param>
         </member>
         <member name="M:AventusSharp.WebSocket.WebSocketConnection.Start">
             <summary>

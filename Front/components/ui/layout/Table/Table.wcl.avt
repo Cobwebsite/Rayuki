@@ -13,7 +13,7 @@ namespace Components {
     export type TableCellType = 'number' | 'string' | 'date' | 'boolean' | 'custom' | 'picture';
     export type TableSchema = {
         displayName: string,
-        name: string,
+        name?: string,
         type: TableCellType,
         cell?: new () => TableCell<any, any>;
         cellHeader?: new () => TableCell<any, any>;

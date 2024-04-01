@@ -1,3 +1,6 @@
+Object.defineProperty(window, "AvInstance", {
+	get() {return Aventus.Instance;}
+})
 var Aventus;
 (Aventus||(Aventus = {}));
 (function (Aventus) {
@@ -850,18 +853,6 @@ const Style=class Style {
 }
 Style.Namespace=`${moduleName}`;
 _.Style=Style;
-const Async=function Async(el) {
-    return new Promise((resolve) => {
-        if (el instanceof Promise) {
-            el.then(resolve);
-        }
-        else {
-            resolve(el);
-        }
-    });
-}
-
-_.Async=Async;
 const ResourceLoader=class ResourceLoader {
     static headerLoaded = {};
     static headerWaiting = {};
@@ -1031,6 +1022,18 @@ const ResourceLoader=class ResourceLoader {
 }
 ResourceLoader.Namespace=`${moduleName}`;
 _.ResourceLoader=ResourceLoader;
+const Async=function Async(el) {
+    return new Promise((resolve) => {
+        if (el instanceof Promise) {
+            el.then(resolve);
+        }
+        else {
+            resolve(el);
+        }
+    });
+}
+
+_.Async=Async;
 const Json=class Json {
     /**
      * Converts a JavaScript class instance to a JSON object.
@@ -1117,6 +1120,52 @@ const Json=class Json {
 }
 Json.Namespace=`${moduleName}`;
 _.Json=Json;
+const Data=class Data {
+    /**
+     * The schema for the class
+     */
+    static $schema;
+    /**
+     * The current namespace
+     */
+    static Namespace = "";
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    static get Fullname() { return this.Namespace + "." + this.name; }
+    /**
+     * The current namespace
+     */
+    get namespace() {
+        return this.constructor['Namespace'];
+    }
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    get $type() {
+        return this.constructor['Fullname'];
+    }
+    /**
+     * Get the name of the class
+     */
+    get className() {
+        return this.constructor.name;
+    }
+    /**
+     * Get a JSON for the current object
+     */
+    toJSON() {
+        let toAvoid = ['className', 'namespace'];
+        return Json.classToJson(this, {
+            isValidKey: (key) => !toAvoid.includes(key)
+        });
+    }
+    clone() {
+        return Converter.transform(JSON.parse(JSON.stringify(this)));
+    }
+}
+Data.Namespace=`${moduleName}`;
+_.Data=Data;
 const ConverterTransform=class ConverterTransform {
     transform(data) {
         return this.transformLoop(data);
@@ -1168,6 +1217,21 @@ const ConverterTransform=class ConverterTransform {
                                     map.set(this.transformLoop(keyValue[0]), this.transformLoop(keyValue[1]));
                                 }
                                 return map;
+                            }
+                            else if (obj instanceof Data) {
+                                let cst = obj.constructor;
+                                if (cst.$schema[key] == 'boolean') {
+                                    return value ? true : false;
+                                }
+                                else if (cst.$schema[key] == 'number') {
+                                    return isNaN(Number(value)) ? 0 : Number(value);
+                                }
+                                else if (cst.$schema[key] == 'number') {
+                                    return isNaN(Number(value)) ? 0 : Number(value);
+                                }
+                                else if (cst.$schema[key] == 'Date') {
+                                    return value ? new Date(value) : null;
+                                }
                             }
                             return this.transformLoop(value);
                         }
@@ -1286,78 +1350,6 @@ const Converter=class Converter {
 }
 Converter.Namespace=`${moduleName}`;
 _.Converter=Converter;
-const DataManager=class DataManager {
-    /**
-     * Register a unique string type for a data
-     */
-    static register($type, cst) {
-        Converter.register($type, cst);
-    }
-    /**
-     * Get the contructor for the unique string type
-     */
-    static getConstructor($type) {
-        let result = Converter.info.get($type);
-        if (result) {
-            return result;
-        }
-        return null;
-    }
-    /**
-     * Clone the object to keep real type
-     */
-    static clone(data) {
-        return Converter.transform(JSON.parse(JSON.stringify(data)));
-    }
-}
-DataManager.Namespace=`${moduleName}`;
-_.DataManager=DataManager;
-const Data=class Data {
-    /**
-     * The schema for the class
-     */
-    static get $schema() { return {}; }
-    /**
-     * The current namespace
-     */
-    static Namespace = "";
-    /**
-     * Get the unique type for the data. Define it as the namespace + class name
-     */
-    static get Fullname() { return this.Namespace + "." + this.name; }
-    /**
-     * The current namespace
-     */
-    get namespace() {
-        return this.constructor['Namespace'];
-    }
-    /**
-     * Get the unique type for the data. Define it as the namespace + class name
-     */
-    get $type() {
-        return this.constructor['Fullname'];
-    }
-    /**
-     * Get the name of the class
-     */
-    get className() {
-        return this.constructor.name;
-    }
-    /**
-     * Get a JSON for the current object
-     */
-    toJSON() {
-        let toAvoid = ['className', 'namespace'];
-        return Json.classToJson(this, {
-            isValidKey: (key) => !toAvoid.includes(key)
-        });
-    }
-    clone() {
-        return DataManager.clone(this);
-    }
-}
-Data.Namespace=`${moduleName}`;
-_.Data=Data;
 const GenericError=class GenericError {
     /**
      * Code for the error
@@ -6461,10 +6453,6 @@ _.TemplateInstance=TemplateInstance;
 
 for(let key in _) { Aventus[key] = _[key] }
 })(Aventus);
- 
-Object.defineProperty(window, "AvInstance", {
-	get() {return Aventus.Instance;}
-})
 
 var MaterialIcon;
 (MaterialIcon||(MaterialIcon = {}));
@@ -6601,7 +6589,10 @@ Data.AventusFile=class AventusFile {
         });
     }
 }
-Data.AventusFile.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.AventusFile.Fullname, Data.AventusFile);
+Data.AventusFile.Namespace=`${moduleName}.Data`;
+Data.AventusFile.$schema={"Uri":"string","Upload":"File","$type":"string"};
+Aventus.Converter.register(Data.AventusFile.Fullname, Data.AventusFile);
+
 _.Data.AventusFile=Data.AventusFile;
 (function (DataErrorCode) {
     DataErrorCode[DataErrorCode["DefaultDMGenericType"] = 0] = "DefaultDMGenericType";
@@ -6649,13 +6640,19 @@ _.Data.DataErrorCode=Data.DataErrorCode;
 Data.DataError=class DataError extends Aventus.GenericError {
     static get Fullname() { return "AventusSharp.Data.DataError, AventusSharp"; }
 }
-Data.DataError.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.DataError.Fullname, Data.DataError);
+Data.DataError.Namespace=`${moduleName}.Data`;
+Data.DataError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
+Aventus.Converter.register(Data.DataError.Fullname, Data.DataError);
+
 _.Data.DataError=Data.DataError;
 Data.FieldErrorInfo=class FieldErrorInfo {
     static get Fullname() { return "AventusSharp.Data.FieldErrorInfo, AventusSharp"; }
     Name;
 }
-Data.FieldErrorInfo.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.FieldErrorInfo.Fullname, Data.FieldErrorInfo);
+Data.FieldErrorInfo.Namespace=`${moduleName}.Data`;
+Data.FieldErrorInfo.$schema={"Name":"string"};
+Aventus.Converter.register(Data.FieldErrorInfo.Fullname, Data.FieldErrorInfo);
+
 _.Data.FieldErrorInfo=Data.FieldErrorInfo;
 (function (RouteErrorCode) {
     RouteErrorCode[RouteErrorCode["UnknowError"] = 0] = "UnknowError";
@@ -6669,7 +6666,10 @@ _.Routes.RouteErrorCode=Routes.RouteErrorCode;
 Routes.RouteError=class RouteError extends Aventus.GenericError {
     static get Fullname() { return "AventusSharp.Routes.RouteError, AventusSharp"; }
 }
-Routes.RouteError.Namespace=`${moduleName}.Routes`;Aventus.Converter.register(Routes.RouteError.Fullname, Routes.RouteError);
+Routes.RouteError.Namespace=`${moduleName}.Routes`;
+Routes.RouteError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
+Aventus.Converter.register(Routes.RouteError.Fullname, Routes.RouteError);
+
 _.Routes.RouteError=Routes.RouteError;
 Routes.StorableRoute=class StorableRoute extends Aventus.HttpRoute {
     async GetAll() {
@@ -6711,6 +6711,7 @@ Routes.StorableRoute=class StorableRoute extends Aventus.HttpRoute {
     }
 }
 Routes.StorableRoute.Namespace=`${moduleName}.Routes`;
+
 _.Routes.StorableRoute=Routes.StorableRoute;
 WebSocket.Route=class Route {
     endpoint;
@@ -6719,6 +6720,7 @@ WebSocket.Route=class Route {
     }
 }
 WebSocket.Route.Namespace=`${moduleName}.WebSocket`;
+
 _.WebSocket.Route=WebSocket.Route;
 (function (SocketErrorCode) {
     SocketErrorCode[SocketErrorCode["socketClosed"] = 0] = "socketClosed";
@@ -6731,6 +6733,7 @@ _.WebSocket.SocketErrorCode=WebSocket.SocketErrorCode;
 WebSocket.SocketError=class SocketError extends Aventus.GenericError {
 }
 WebSocket.SocketError.Namespace=`${moduleName}.WebSocket`;
+
 _.WebSocket.SocketError=WebSocket.SocketError;
 (function (WsErrorCode) {
     WsErrorCode[WsErrorCode["UnknowError"] = 0] = "UnknowError";
@@ -6745,12 +6748,13 @@ _.WebSocket.WsErrorCode=WebSocket.WsErrorCode;
 WebSocket.WsError=class WsError extends Aventus.GenericError {
     static get Fullname() { return "AventusSharp.WebSocket.WsError, AventusSharp"; }
 }
-WebSocket.WsError.Namespace=`${moduleName}.WebSocket`;Aventus.Converter.register(WebSocket.WsError.Fullname, WebSocket.WsError);
+WebSocket.WsError.Namespace=`${moduleName}.WebSocket`;
+WebSocket.WsError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
+Aventus.Converter.register(WebSocket.WsError.Fullname, WebSocket.WsError);
+
 _.WebSocket.WsError=WebSocket.WsError;
 Data.Storable=class Storable extends Aventus.Data {
     Id = 0;
-    CreatedDate = new Date();
-    UpdatedDate = new Date();
     /**
      * @inerhit
      */
@@ -6774,7 +6778,10 @@ Data.Storable=class Storable extends Aventus.Data {
         });
     }
 }
-Data.Storable.Namespace=`${moduleName}.Data`;Data.Storable.$schema={"Id":"number","CreatedDate":"Date","UpdatedDate":"Date"};Aventus.DataManager.register(Data.Storable.Fullname, Data.Storable);
+Data.Storable.Namespace=`${moduleName}.Data`;
+Data.Storable.$schema={...(Aventus.Data?.$schema ?? {}), "Id":"number"};
+Aventus.Converter.register(Data.Storable.Fullname, Data.Storable);
+
 _.Data.Storable=Data.Storable;
 RAM.RamHttp=class RamHttp extends Aventus.Ram {
     getAllDone = false;
@@ -6901,26 +6908,48 @@ RAM.RamHttp=class RamHttp extends Aventus.Ram {
     }
 }
 RAM.RamHttp.Namespace=`${moduleName}.RAM`;
+
 _.RAM.RamHttp=RAM.RamHttp;
+Data.StorableTimestamp=class StorableTimestamp extends Data.Storable {
+    CreatedDate = new Date();
+    UpdatedDate = new Date();
+}
+Data.StorableTimestamp.Namespace=`${moduleName}.Data`;
+Data.StorableTimestamp.$schema={...(Data.Storable?.$schema ?? {}), "CreatedDate":"Date","UpdatedDate":"Date"};
+Aventus.Converter.register(Data.StorableTimestamp.Fullname, Data.StorableTimestamp);
+
+_.Data.StorableTimestamp=Data.StorableTimestamp;
 Tools.VoidWithError=class VoidWithError extends Aventus.VoidWithError {
     static get Fullname() { return "AventusSharp.Tools.VoidWithError, AventusSharp"; }
 }
-Tools.VoidWithError.Namespace=`${moduleName}.Tools`;Aventus.Converter.register(Tools.VoidWithError.Fullname, Tools.VoidWithError);
+Tools.VoidWithError.Namespace=`${moduleName}.Tools`;
+Tools.VoidWithError.$schema={...(Aventus.VoidWithError?.$schema ?? {}), };
+Aventus.Converter.register(Tools.VoidWithError.Fullname, Tools.VoidWithError);
+
 _.Tools.VoidWithError=Tools.VoidWithError;
 WebSocket.VoidWithWsError=class VoidWithWsError extends Tools.VoidWithError {
     static get Fullname() { return "AventusSharp.WebSocket.VoidWithWsError, AventusSharp"; }
 }
-WebSocket.VoidWithWsError.Namespace=`${moduleName}.WebSocket`;Aventus.Converter.register(WebSocket.VoidWithWsError.Fullname, WebSocket.VoidWithWsError);
+WebSocket.VoidWithWsError.Namespace=`${moduleName}.WebSocket`;
+WebSocket.VoidWithWsError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
+Aventus.Converter.register(WebSocket.VoidWithWsError.Fullname, WebSocket.VoidWithWsError);
+
 _.WebSocket.VoidWithWsError=WebSocket.VoidWithWsError;
 Routes.VoidWithRouteError=class VoidWithRouteError extends Tools.VoidWithError {
     static get Fullname() { return "AventusSharp.Routes.VoidWithRouteError, AventusSharp"; }
 }
-Routes.VoidWithRouteError.Namespace=`${moduleName}.Routes`;Aventus.Converter.register(Routes.VoidWithRouteError.Fullname, Routes.VoidWithRouteError);
+Routes.VoidWithRouteError.Namespace=`${moduleName}.Routes`;
+Routes.VoidWithRouteError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
+Aventus.Converter.register(Routes.VoidWithRouteError.Fullname, Routes.VoidWithRouteError);
+
 _.Routes.VoidWithRouteError=Routes.VoidWithRouteError;
 Data.VoidWithDataError=class VoidWithDataError extends Tools.VoidWithError {
     static get Fullname() { return "AventusSharp.Data.VoidWithDataError, AventusSharp"; }
 }
-Data.VoidWithDataError.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.VoidWithDataError.Fullname, Data.VoidWithDataError);
+Data.VoidWithDataError.Namespace=`${moduleName}.Data`;
+Data.VoidWithDataError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
+Aventus.Converter.register(Data.VoidWithDataError.Fullname, Data.VoidWithDataError);
+
 _.Data.VoidWithDataError=Data.VoidWithDataError;
 WebSocket.Connection=class Connection {
     options;
@@ -7261,6 +7290,7 @@ WebSocket.Connection=class Connection {
     }
 }
 WebSocket.Connection.Namespace=`${moduleName}.WebSocket`;
+
 _.WebSocket.Connection=WebSocket.Connection;
 WebSocket.EndPoint=class EndPoint extends WebSocket.Connection {
     static With(options) {
@@ -7316,6 +7346,7 @@ WebSocket.EndPoint=class EndPoint extends WebSocket.Connection {
     }
 }
 WebSocket.EndPoint.Namespace=`${moduleName}.WebSocket`;
+
 _.WebSocket.EndPoint=WebSocket.EndPoint;
 WebSocket.Event=class Event {
     endpoint;
@@ -7365,6 +7396,7 @@ WebSocket.Event=class Event {
     }
 }
 WebSocket.Event.Namespace=`${moduleName}.WebSocket`;
+
 _.WebSocket.Event=WebSocket.Event;
 WebSocket.StorableWsRoute_GetAll=class StorableWsRoute_GetAll extends WebSocket.Event {
     StorableName;
@@ -7380,6 +7412,7 @@ WebSocket.StorableWsRoute_GetAll=class StorableWsRoute_GetAll extends WebSocket.
     }
 }
 WebSocket.StorableWsRoute_GetAll.Namespace=`${moduleName}.WebSocket`;
+
 _.WebSocket.StorableWsRoute_GetAll=WebSocket.StorableWsRoute_GetAll;
 WebSocket.StorableWsRoute_Create=class StorableWsRoute_Create extends WebSocket.Event {
     StorableName;
@@ -7395,6 +7428,7 @@ WebSocket.StorableWsRoute_Create=class StorableWsRoute_Create extends WebSocket.
     }
 }
 WebSocket.StorableWsRoute_Create.Namespace=`${moduleName}.WebSocket`;
+
 _.WebSocket.StorableWsRoute_Create=WebSocket.StorableWsRoute_Create;
 WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends WebSocket.Event {
     StorableName;
@@ -7410,6 +7444,7 @@ WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends We
     }
 }
 WebSocket.StorableWsRoute_CreateMany.Namespace=`${moduleName}.WebSocket`;
+
 _.WebSocket.StorableWsRoute_CreateMany=WebSocket.StorableWsRoute_CreateMany;
 WebSocket.StorableWsRoute_GetById=class StorableWsRoute_GetById extends WebSocket.Event {
     StorableName;
@@ -7425,6 +7460,7 @@ WebSocket.StorableWsRoute_GetById=class StorableWsRoute_GetById extends WebSocke
     }
 }
 WebSocket.StorableWsRoute_GetById.Namespace=`${moduleName}.WebSocket`;
+
 _.WebSocket.StorableWsRoute_GetById=WebSocket.StorableWsRoute_GetById;
 WebSocket.StorableWsRoute_Update=class StorableWsRoute_Update extends WebSocket.Event {
     StorableName;
@@ -7440,6 +7476,7 @@ WebSocket.StorableWsRoute_Update=class StorableWsRoute_Update extends WebSocket.
     }
 }
 WebSocket.StorableWsRoute_Update.Namespace=`${moduleName}.WebSocket`;
+
 _.WebSocket.StorableWsRoute_Update=WebSocket.StorableWsRoute_Update;
 WebSocket.StorableWsRoute_UpdateMany=class StorableWsRoute_UpdateMany extends WebSocket.Event {
     StorableName;
@@ -7455,6 +7492,7 @@ WebSocket.StorableWsRoute_UpdateMany=class StorableWsRoute_UpdateMany extends We
     }
 }
 WebSocket.StorableWsRoute_UpdateMany.Namespace=`${moduleName}.WebSocket`;
+
 _.WebSocket.StorableWsRoute_UpdateMany=WebSocket.StorableWsRoute_UpdateMany;
 WebSocket.StorableWsRoute_Delete=class StorableWsRoute_Delete extends WebSocket.Event {
     StorableName;
@@ -7470,6 +7508,7 @@ WebSocket.StorableWsRoute_Delete=class StorableWsRoute_Delete extends WebSocket.
     }
 }
 WebSocket.StorableWsRoute_Delete.Namespace=`${moduleName}.WebSocket`;
+
 _.WebSocket.StorableWsRoute_Delete=WebSocket.StorableWsRoute_Delete;
 WebSocket.StorableWsRoute_DeleteMany=class StorableWsRoute_DeleteMany extends WebSocket.Event {
     StorableName;
@@ -7485,26 +7524,39 @@ WebSocket.StorableWsRoute_DeleteMany=class StorableWsRoute_DeleteMany extends We
     }
 }
 WebSocket.StorableWsRoute_DeleteMany.Namespace=`${moduleName}.WebSocket`;
+
 _.WebSocket.StorableWsRoute_DeleteMany=WebSocket.StorableWsRoute_DeleteMany;
 Tools.ResultWithError=class ResultWithError extends Aventus.ResultWithError {
     static get Fullname() { return "AventusSharp.Tools.ResultWithError, AventusSharp"; }
 }
-Tools.ResultWithError.Namespace=`${moduleName}.Tools`;Aventus.Converter.register(Tools.ResultWithError.Fullname, Tools.ResultWithError);
+Tools.ResultWithError.Namespace=`${moduleName}.Tools`;
+Tools.ResultWithError.$schema={...(Aventus.ResultWithError?.$schema ?? {}), };
+Aventus.Converter.register(Tools.ResultWithError.Fullname, Tools.ResultWithError);
+
 _.Tools.ResultWithError=Tools.ResultWithError;
 WebSocket.ResultWithWsError=class ResultWithWsError extends Tools.ResultWithError {
     static get Fullname() { return "AventusSharp.WebSocket.ResultWithWsError, AventusSharp"; }
 }
-WebSocket.ResultWithWsError.Namespace=`${moduleName}.WebSocket`;Aventus.Converter.register(WebSocket.ResultWithWsError.Fullname, WebSocket.ResultWithWsError);
+WebSocket.ResultWithWsError.Namespace=`${moduleName}.WebSocket`;
+WebSocket.ResultWithWsError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
+Aventus.Converter.register(WebSocket.ResultWithWsError.Fullname, WebSocket.ResultWithWsError);
+
 _.WebSocket.ResultWithWsError=WebSocket.ResultWithWsError;
 Routes.ResultWithRouteError=class ResultWithRouteError extends Tools.ResultWithError {
     static get Fullname() { return "AventusSharp.Routes.ResultWithRouteError, AventusSharp"; }
 }
-Routes.ResultWithRouteError.Namespace=`${moduleName}.Routes`;Aventus.Converter.register(Routes.ResultWithRouteError.Fullname, Routes.ResultWithRouteError);
+Routes.ResultWithRouteError.Namespace=`${moduleName}.Routes`;
+Routes.ResultWithRouteError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
+Aventus.Converter.register(Routes.ResultWithRouteError.Fullname, Routes.ResultWithRouteError);
+
 _.Routes.ResultWithRouteError=Routes.ResultWithRouteError;
 Data.ResultWithDataError=class ResultWithDataError extends Tools.ResultWithError {
     static get Fullname() { return "AventusSharp.Data.ResultWithDataError, AventusSharp"; }
 }
-Data.ResultWithDataError.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.ResultWithDataError.Fullname, Data.ResultWithDataError);
+Data.ResultWithDataError.Namespace=`${moduleName}.Data`;
+Data.ResultWithDataError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
+Aventus.Converter.register(Data.ResultWithDataError.Fullname, Data.ResultWithDataError);
+
 _.Data.ResultWithDataError=Data.ResultWithDataError;
 WebSocket.StorableWsRoute=class StorableWsRoute extends WebSocket.Route {
     events;
@@ -7584,6 +7636,7 @@ WebSocket.StorableWsRoute=class StorableWsRoute extends WebSocket.Route {
     }
 }
 WebSocket.StorableWsRoute.Namespace=`${moduleName}.WebSocket`;
+
 _.WebSocket.StorableWsRoute=WebSocket.StorableWsRoute;
 RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
     getAllDone = false;
@@ -7925,6 +7978,7 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
     }
 }
 RAM.RamWebSocket.Namespace=`${moduleName}.RAM`;
+
 _.RAM.RamWebSocket=RAM.RamWebSocket;
 
 for(let key in _) { AventusSharp[key] = _[key] }

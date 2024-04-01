@@ -2,6 +2,7 @@ import type { CalendarContainer } from "./CalendarContainer/CalendarContainer.wc
 import { FormElement } from "../FormElement/FormElement.wcl.avt";
 import { Calendar } from "../../calendar/Calendar/Calendar.wcl.avt";
 import { DatePickerCalendar } from "./DatePickerCalendar/DatePickerCalendar.wcl.avt";
+import { DateTools } from "../../../../libs/DateTools.lib.avt";
 
 namespace Components {
     export class DatePicker extends FormElement<Date> implements Aventus.DefaultComponent {
@@ -92,7 +93,6 @@ namespace Components {
          * 
          */
         protected onValueChange() {
-            //this.value = this.inputEl.value;
             this.onChange.trigger([this.value]);
             if(this.formPart) {
                 FormElement.setValue(this.formPart, this.value);
@@ -116,9 +116,12 @@ namespace Components {
             this.calendar = new (this.defineCalendar())();
             this.calendar.picker = this;
             this.calendar.onDateClicked.add((date, caseEl) => {
-                this.value = date;
-                if(this.hide_on_select) {
-                    this.calendarContainer.hide();
+                if(!DateTools.isSameDate(this.value, date)) {
+                    this.value = date;
+                    this.onValueChange();
+                    if(this.hide_on_select) {
+                        this.calendarContainer.hide();
+                    }
                 }
             });
 

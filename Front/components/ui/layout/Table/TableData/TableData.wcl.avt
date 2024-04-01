@@ -68,17 +68,17 @@ namespace Components {
             });
         }
 
-        public async newData() {
+        public async newData(): Promise<void> {
             let state = this.defineNewState();
             await this.application?.navigate(state);
         }
-        public async editData(data: T) {
+        public async editData(data: T): Promise<void> {
             let cloneData = data.clone();
             let state = this.defineEditState(cloneData);
             await this.application?.navigate(state);
         }
         public abstract defineDeleteMessage(data: T): string;
-        public async deleteData(data: T) {
+        public async deleteData(data: T): Promise<void> {
             const message = this.defineDeleteMessage(data);
             let confirm = await this.application?.confirm({
                 title: "Confirmation de suppression",

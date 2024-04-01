@@ -13,6 +13,8 @@ import type { Desktop } from "../Desktop/Desktop.wcl.avt";
 import type { ContextMenu, IContextMenu } from "../../ui/ContextMenu/ContextMenu.wcl.avt";
 import { Geometry, type Rectangle } from "../../../libs/Geometry.lib.avt";
 import type { ApplicationQueryFct, ApplicationQueryFctResult, ApplicationQueryResult, GetArgs } from "./ApplicationError.lib.avt";
+import { ShortcutManager, SpecialTouch } from "../../../libs/ShortcutManager.lib.avt";
+import { Os } from "../Os/Os.wcl.avt";
 
 namespace System {
 
@@ -65,7 +67,9 @@ namespace System {
             target.onIsHiddenChange();
         })
         public is_hidden: boolean = false;
-        @Attribute()
+        @Property((target: Application) => {
+            target.manageShortcut();
+        })
         public is_active: boolean = false;
         @Attribute()
         public loading: boolean = false;
@@ -178,6 +182,28 @@ namespace System {
                 console.log(e);
             }
         }
+
+        protected defineShortcut(): [(string | SpecialTouch)[], cb: () => void][] {
+            return [
+                [[SpecialTouch.Control, SpecialTouch.ArrowLeft], this.moveApplicationToLeft],
+                [[SpecialTouch.Control, SpecialTouch.ArrowRight], this.moveApplicationToRight]
+            ]
+        }
+        private manageShortcut() {
+            let shortcuts = this.defineShortcut();
+            if(this.is_active) {
+                for(let shortcut of shortcuts) {
+                    ShortcutManager.subscribe(shortcut[0], shortcut[1]);
+                }
+            }
+            else {
+                for(let shortcut of shortcuts) {
+                    ShortcutManager.unsubscribe(shortcut[0], shortcut[1]);
+                }
+            }
+        }
+
+        
         /**
          * Determine if the frame should be destroyed when hiding
          */
@@ -471,11 +497,40 @@ namespace System {
          * Define the size wanted for the current 
          */
         private setSizeInfo(info: ApplicationPositionSize) {
-            this.style.left = info.left + 'px';
-            this.style.top = info.top + 'px';
-            this.style.setProperty("--app-width", info.width + "px");
-            this.style.setProperty("--app-height", info.height + "px");
+            this.moveApplication(info);
             this.full = info.isFullScreen;
+        }
+
+        public moveApplication(options: { left?: number, top?: number, width?: number, height?: number; }) {
+            if(options.left != undefined)
+                this.style.left = options.left + 'px';
+            if(options.top != undefined)
+                this.style.top = options.top + 'px';
+            if(options.width != undefined)
+                this.style.setProperty("--app-width", options.width + "px");
+            if(options.height != undefined)
+                this.style.setProperty("--app-height", options.height + "px");
+        }
+
+        @BindThis()
+        protected moveApplicationToLeft() {
+            this.moveApplication({
+                top: 5,
+                left: 5,
+                height: Os.instance.offsetHeight - 10,
+                width: Os.instance.offsetWidth / 2 - 7,
+            });
+            this.saveSize();
+        }
+        @BindThis()
+        protected moveApplicationToRight() {
+            this.moveApplication({
+                top: 5,
+                left: Os.instance.offsetWidth / 2 + 2,
+                height: Os.instance.offsetHeight - 10,
+                width: Os.instance.offsetWidth / 2 - 7,
+            });
+            this.saveSize();
         }
 
         /**

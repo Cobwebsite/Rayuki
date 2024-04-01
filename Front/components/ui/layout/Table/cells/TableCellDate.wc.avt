@@ -7,9 +7,12 @@ namespace Components {
 	     */
 	    public override setContent(data: Date | undefined, rowData: U) {
 			if(!this.contentEl) return;
-
 	        if(data instanceof Date) {
-				this.content = data.toISOString();
+				this.content = data.toLocaleDateString(undefined, {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                });
 	        }
 	        else {
 				this.content = '';

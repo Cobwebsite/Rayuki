@@ -1,0 +1,136 @@
+import { FormElement } from "../FormElement/FormElement.wcl.avt";
+
+
+namespace Components {
+    export class InputNumber extends FormElement<number> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property()
+        public label?: string;
+        @Property()
+        public placeholder?: string;
+
+        @Property()
+        public icon?: string;
+
+        @Property((target: InputNumber) => {
+            target.inputEl.value = target.value + '';
+        })
+        public override value: number = 0;
+
+        @Property()
+        public min!: number;
+
+        @Property()
+        public max!: number;
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected inputEl!: HTMLInputElement;
+
+        public errorsTxt: Partial<{
+            notNumber: string;
+            lowerThanMin: string,
+            biggerThanMax: string;
+        }> = {};
+
+        protected defaultErrorsTxt: {
+            notNumber: string;
+            lowerThanMin: string,
+            biggerThanMax: string;
+        } = {
+                notNumber: "Le nombre n'est pas valide",
+                lowerThanMin: "Le nombre n'est pas plus grand que " + this.min,
+                biggerThanMax: "Le nombre n'est pas plus petit que " + this.max,
+            };
+
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+        //#region methods
+
+        /**
+         * 
+         */
+        protected removeErrors() {
+            this.errors = [];
+        }
+
+        protected isNumber(apply: boolean): boolean {
+            let valueTemp = Number(this.inputEl.value);
+            if(!this.inputEl.value || isNaN(valueTemp)) {
+                return false;
+            }
+            if(apply)
+                this.value = valueTemp;
+            return true;
+        }
+
+        protected isBiggerThanMin(): boolean {
+            if(this.min != 0 || this.hasAttribute("min")) {
+                return this.value >= this.min;
+            }
+            return true;
+        }
+        protected isLowerThanMax(): boolean {
+            if(this.max != 0 || this.hasAttribute("max")) {
+                return this.value <= this.max;
+            }
+            return true;
+        }
+
+        protected localValidation(apply: boolean = false): boolean {
+            this.errors = [];
+            if(!this.isNumber(apply)) {
+                const txt = this.errorsTxt.notNumber ?? this.defaultErrorsTxt.notNumber;
+                this.errors.push(txt);
+                return false;
+            }
+            if(!this.isBiggerThanMin()) {
+                const txt = this.errorsTxt.lowerThanMin ?? this.defaultErrorsTxt.lowerThanMin;
+                this.errors.push(txt);
+                return false;
+            }
+            if(!this.isLowerThanMax()) {
+                const txt = this.errorsTxt.biggerThanMax ?? this.defaultErrorsTxt.biggerThanMax;
+                this.errors.push(txt);
+                return false;
+            }
+            return true;
+        }
+
+        public override async validate(): Promise<boolean> {
+            if(!this.localValidation()) return false;
+            return super.validate();
+        }
+
+        /**
+         * 
+         */
+        protected onValueChange() {
+            if(!this.localValidation(true)) return;
+
+            this.onChange.trigger([this.value]);
+            if(this.formPart) {
+                FormElement.setValue(this.formPart, this.value);
+                if(this.formPart.validateOnChange !== false) {
+                    this.validate();
+                }
+            }
+        }
+
+        //#endregion
+
+    }
+}

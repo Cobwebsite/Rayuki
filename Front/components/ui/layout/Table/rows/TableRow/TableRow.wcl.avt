@@ -64,7 +64,8 @@ namespace Components {
                 cell.data = data;
                 cell.label = cellConfig.name;
                 cell.grid = this.grid;
-                cell.setContent(data[cellConfig.name], data);
+                const v = cellConfig.name ? data[cellConfig.name] : undefined
+                cell.setContent(v, data);
                 this.rowContentEl.appendChild(cell);
                 this.cells.push(cell);
                 i++;

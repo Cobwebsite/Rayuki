@@ -46,18 +46,12 @@ namespace Components {
         /**
          * 
          */
-        protected cancel() {
-            this.resolve(false);
-        }
-        /**
-         * 
-         */
         protected validate() {
             this.resolve(false);
         }
 
-        protected override redPress(): void {
-            this.cancel();
+        protected override cancel(): void {
+            this.resolve(false);
         }
         //#endregion
 

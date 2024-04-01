@@ -66,14 +66,20 @@ Data.Permission=class Permission extends AventusSharp.Data.Storable {
     AdditionalInfo = "";
     EnumValue;
 }
-Data.Permission.Namespace=`${moduleName}.Data`;Data.Permission.$schema={"EnumName":"string","AdditionalInfo":"string","EnumValue":"Aventus.Enum"};Aventus.DataManager.register(Data.Permission.Fullname, Data.Permission);Aventus.Converter.register(Data.Permission.Fullname, Data.Permission);
+Data.Permission.Namespace=`${moduleName}.Data`;
+Data.Permission.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "EnumName":"string","AdditionalInfo":"string","EnumValue":"Aventus.Enum"};
+Aventus.Converter.register(Data.Permission.Fullname, Data.Permission);
+
 _.Data.Permission=Data.Permission;
 Data.Company=class Company extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Company, Core"; }
     Name = "";
     Logo = "";
 }
-Data.Company.Namespace=`${moduleName}.Data`;Data.Company.$schema={"Name":"string","Logo":"string"};Aventus.DataManager.register(Data.Company.Fullname, Data.Company);Aventus.Converter.register(Data.Company.Fullname, Data.Company);
+Data.Company.Namespace=`${moduleName}.Data`;
+Data.Company.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Logo":"string"};
+Aventus.Converter.register(Data.Company.Fullname, Data.Company);
+
 _.Data.Company=Data.Company;
 (function (AppErrorCode) {
     AppErrorCode[AppErrorCode["AppFileNotFound"] = 0] = "AppFileNotFound";
@@ -715,73 +721,6 @@ Components.ButtonIconMi.Tag=`rk-button-icon-mi`;
 _.Components.ButtonIconMi=Components.ButtonIconMi;
 if(!window.customElements.get('rk-button-icon-mi')){window.customElements.define('rk-button-icon-mi', Components.ButtonIconMi);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIconMi);}
 
-Components.Button = class Button extends Aventus.WebComponent {
-    static get observedAttributes() {return ["icon_before", "icon_after", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'color'() { return this.getStringAttr('color') }
-    set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
-    set 'outline'(val) { this.setBoolAttr('outline', val) }get 'submit'() { return this.getBoolAttr('submit') }
-    set 'submit'(val) { this.setBoolAttr('submit', val) }    get 'icon_before'() { return this.getStringProp('icon_before') }
-    set 'icon_before'(val) { this.setStringAttr('icon_before', val) }get 'icon_after'() { return this.getStringProp('icon_after') }
-    set 'icon_after'(val) { this.setStringAttr('icon_after', val) }get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
-    target.icon_before = target.icon;
-})); }
-    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent)}:host{background-color:var(--internal-button-background-color);border-radius:5px;box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;overflow:hidden;position:relative}:host .hider{background-color:var(--_button-background-color-hover);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:hover) .hider{opacity:1;visibility:visible}}`;
-    __getStatic() {
-        return Button;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Button.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="hider"></div><div class="content">    <rk-img class="icon-before" _id="button_0"></rk-img>    <slot></slot>    <rk-img class="icon-after" _id="button_1"></rk-img></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "button_0°src": {
-      "fct": (c) => `${c.print(c.comp.__e17753be66eb8c36ad73f4b01845474bmethod0())}`,
-      "once": true
-    },
-    "button_1°src": {
-      "fct": (c) => `${c.print(c.comp.__e17753be66eb8c36ad73f4b01845474bmethod1())}`,
-      "once": true
-    }
-  }
-}); }
-    getClassName() {
-        return "Button";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('submit')) { this.attributeChangedCallback('submit', false, false); }if(!this.hasAttribute('icon_before')){ this['icon_before'] = undefined; }if(!this.hasAttribute('icon_after')){ this['icon_after'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('submit');this.__upgradeProperty('icon_before');this.__upgradeProperty('icon_after');this.__upgradeProperty('icon'); }
-    __listBoolProps() { return ["outline","submit"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    registerToForm() {
-        if (!this.submit)
-            return;
-        const parent = this.findParentByType(System.Form);
-        if (parent) {
-            parent.registerSubmit(this);
-        }
-    }
-    postCreation() {
-        this.registerToForm();
-    }
-    __e17753be66eb8c36ad73f4b01845474bmethod0() {
-        return this.icon_before;
-    }
-    __e17753be66eb8c36ad73f4b01845474bmethod1() {
-        return this.icon_after;
-    }
-}
-Components.Button.Namespace=`${moduleName}.Components`;
-Components.Button.Tag=`rk-button`;
-_.Components.Button=Components.Button;
-if(!window.customElements.get('rk-button')){window.customElements.define('rk-button', Components.Button);Aventus.WebComponentInstance.registerDefinition(Components.Button);}
-
 Lib.DomTools=class DomTools {
     static clearElement(element) {
         const children = Array.from(element.children);
@@ -791,6 +730,7 @@ Lib.DomTools=class DomTools {
     }
 }
 Lib.DomTools.Namespace=`${moduleName}.Lib`;
+
 _.Lib.DomTools=Lib.DomTools;
 Lib.DateTools=class DateTools {
     static isSameDate(date1, date2) {
@@ -802,6 +742,7 @@ Lib.DateTools=class DateTools {
     }
 }
 Lib.DateTools.Namespace=`${moduleName}.Lib`;
+
 _.Lib.DateTools=Lib.DateTools;
 System.Loading = class Loading extends Aventus.WebComponent {
     static get observedAttributes() {return ["text"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -962,6 +903,7 @@ System.ApplicationBreakPoint=class ApplicationBreakPoint {
     static xl = 1140;
 }
 System.ApplicationBreakPoint.Namespace=`${moduleName}.System`;
+
 _.System.ApplicationBreakPoint=System.ApplicationBreakPoint;
 Lib.Pointer=class Pointer {
     static isTouch(e) {
@@ -975,6 +917,7 @@ Lib.Pointer=class Pointer {
     }
 }
 Lib.Pointer.Namespace=`${moduleName}.Lib`;
+
 _.Lib.Pointer=Lib.Pointer;
 (function (LoginCode) {
     LoginCode[LoginCode["OK"] = 0] = "OK";
@@ -987,11 +930,15 @@ _.Errors.LoginCode=Errors.LoginCode;
 Errors.LoginError=class LoginError extends Aventus.GenericError {
     static get Fullname() { return "Core.Logic.LoginError, Core"; }
 }
-Errors.LoginError.Namespace=`${moduleName}.Errors`;Aventus.Converter.register(Errors.LoginError.Fullname, Errors.LoginError);
+Errors.LoginError.Namespace=`${moduleName}.Errors`;
+Errors.LoginError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
+Aventus.Converter.register(Errors.LoginError.Fullname, Errors.LoginError);
+
 _.Errors.LoginError=Errors.LoginError;
 Lib.HttpRouter=class HttpRouter extends Aventus.HttpRouter {
 }
 Lib.HttpRouter.Namespace=`${moduleName}.Lib`;
+
 _.Lib.HttpRouter=Lib.HttpRouter;
 System.Panel = class Panel extends Aventus.WebComponent {
     static __style = `:host{background-color:var(--primary-color-opacity);border-radius:10px}@media screen and (max-width: 768px){:host{background-color:var(--primary-color)}}@media screen and (max-width: 1224px){:host{border-radius:0px}}`;
@@ -1042,6 +989,7 @@ Lib.Geometry=class Geometry {
     }
 }
 Lib.Geometry.Namespace=`${moduleName}.Lib`;
+
 _.Lib.Geometry=Lib.Geometry;
 Websocket.Events.ApplicationTestEvent2=class ApplicationTestEvent2 extends AventusSharp.WebSocket.Event {
     /**
@@ -1052,6 +1000,7 @@ Websocket.Events.ApplicationTestEvent2=class ApplicationTestEvent2 extends Avent
     }
 }
 Websocket.Events.ApplicationTestEvent2.Namespace=`${moduleName}.Websocket.Events`;
+
 _.Websocket.Events.ApplicationTestEvent2=Websocket.Events.ApplicationTestEvent2;
 Websocket.Routes.DesktopRouter_RemoveDesktopIcon=class DesktopRouter_RemoveDesktopIcon extends AventusSharp.WebSocket.Event {
     /**
@@ -1068,13 +1017,17 @@ Websocket.Routes.DesktopRouter_RemoveDesktopIcon=class DesktopRouter_RemoveDeskt
     }
 }
 Websocket.Routes.DesktopRouter_RemoveDesktopIcon.Namespace=`${moduleName}.Websocket.Routes`;
+
 _.Websocket.Routes.DesktopRouter_RemoveDesktopIcon=Websocket.Routes.DesktopRouter_RemoveDesktopIcon;
 Websocket.Events.Body=class Body {
     static get Fullname() { return "Core.Websocket.Events.ApplicationTestEvent+Body, Core"; }
     id;
     name;
 }
-Websocket.Events.Body.Namespace=`${moduleName}.Websocket.Events`;Aventus.Converter.register(Websocket.Events.Body.Fullname, Websocket.Events.Body);
+Websocket.Events.Body.Namespace=`${moduleName}.Websocket.Events`;
+Websocket.Events.Body.$schema={"id":"number","name":"string"};
+Aventus.Converter.register(Websocket.Events.Body.Fullname, Websocket.Events.Body);
+
 _.Websocket.Events.Body=Websocket.Events.Body;
 Websocket.Events.ApplicationTestEvent=class ApplicationTestEvent extends AventusSharp.WebSocket.Event {
     /**
@@ -1085,6 +1038,7 @@ Websocket.Events.ApplicationTestEvent=class ApplicationTestEvent extends Aventus
     }
 }
 Websocket.Events.ApplicationTestEvent.Namespace=`${moduleName}.Websocket.Events`;
+
 _.Websocket.Events.ApplicationTestEvent=Websocket.Events.ApplicationTestEvent;
 Components.Tracker=class Tracker {
     velocityMultiplier = window.devicePixelRatio;
@@ -1124,6 +1078,7 @@ Components.Tracker=class Tracker {
     }
 }
 Components.Tracker.Namespace=`${moduleName}.Components`;
+
 _.Components.Tracker=Components.Tracker;
 (function (ResizeDirection) {
     ResizeDirection[ResizeDirection["Top"] = 0] = "Top";
@@ -1166,13 +1121,17 @@ Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
     }
 }
 Routes.MainRouter.Namespace=`${moduleName}.Routes`;
+
 _.Routes.MainRouter=Routes.MainRouter;
 App.AppConfiguration=class AppConfiguration {
     static get Fullname() { return "Core.App.AppConfiguration, Core"; }
     appsInstalled = [];
     allApps = new Map();
 }
-App.AppConfiguration.Namespace=`${moduleName}.App`;Aventus.Converter.register(App.AppConfiguration.Fullname, App.AppConfiguration);
+App.AppConfiguration.Namespace=`${moduleName}.App`;
+App.AppConfiguration.$schema={"appsInstalled":"string","allApps":"Map"};
+Aventus.Converter.register(App.AppConfiguration.Fullname, App.AppConfiguration);
+
 Data.ApplicationData=class ApplicationData extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.ApplicationData, Core"; }
     Name = "";
@@ -1182,7 +1141,10 @@ Data.ApplicationData=class ApplicationData extends AventusSharp.Data.Storable {
     LogoTagName = "";
     Extension;
 }
-Data.ApplicationData.Namespace=`${moduleName}.Data`;Data.ApplicationData.$schema={"Name":"string","DisplayName":"string","Version":"number","LogoClassName":"string","LogoTagName":"string","Extension":"string"};Aventus.DataManager.register(Data.ApplicationData.Fullname, Data.ApplicationData);Aventus.Converter.register(Data.ApplicationData.Fullname, Data.ApplicationData);
+Data.ApplicationData.Namespace=`${moduleName}.Data`;
+Data.ApplicationData.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","DisplayName":"string","Version":"number","LogoClassName":"string","LogoTagName":"string","Extension":"string"};
+Aventus.Converter.register(Data.ApplicationData.Fullname, Data.ApplicationData);
+
 _.Data.ApplicationData=Data.ApplicationData;
 Websocket.Routes.ApplicationRouter_GetAll3=class ApplicationRouter_GetAll3 extends AventusSharp.WebSocket.Event {
     /**
@@ -1193,6 +1155,7 @@ Websocket.Routes.ApplicationRouter_GetAll3=class ApplicationRouter_GetAll3 exten
     }
 }
 Websocket.Routes.ApplicationRouter_GetAll3.Namespace=`${moduleName}.Websocket.Routes`;
+
 _.Websocket.Routes.ApplicationRouter_GetAll3=Websocket.Routes.ApplicationRouter_GetAll3;
 Websocket.Routes.ApplicationRouter_GetAll2=class ApplicationRouter_GetAll2 extends AventusSharp.WebSocket.Event {
     /**
@@ -1209,6 +1172,7 @@ Websocket.Routes.ApplicationRouter_GetAll2=class ApplicationRouter_GetAll2 exten
     }
 }
 Websocket.Routes.ApplicationRouter_GetAll2.Namespace=`${moduleName}.Websocket.Routes`;
+
 _.Websocket.Routes.ApplicationRouter_GetAll2=Websocket.Routes.ApplicationRouter_GetAll2;
 Components.PageCaseContainer = class PageCaseContainer extends Aventus.WebComponent {
     static __style = `:host{display:block;float:left;height:100%;box-sizing:border-box;border-right:5px #000}`;
@@ -1272,14 +1236,20 @@ Data.ApplicationOpen=class ApplicationOpen {
     history;
     isHidden;
 }
-Data.ApplicationOpen.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.ApplicationOpen.Fullname, Data.ApplicationOpen);
+Data.ApplicationOpen.Namespace=`${moduleName}.Data`;
+Data.ApplicationOpen.$schema={"id":"string","applicationName":"string","number":"number","history":"string","isHidden":"boolean"};
+Aventus.Converter.register(Data.ApplicationOpen.Fullname, Data.ApplicationOpen);
+
 _.Data.ApplicationOpen=Data.ApplicationOpen;
 Data.ApplicationOpenInfo=class ApplicationOpenInfo {
     static get Fullname() { return "Core.Data.ApplicationOpenInfo, Core"; }
     DesktopId;
     Info;
 }
-Data.ApplicationOpenInfo.Namespace=`${moduleName}.Data`;Aventus.Converter.register(Data.ApplicationOpenInfo.Fullname, Data.ApplicationOpenInfo);
+Data.ApplicationOpenInfo.Namespace=`${moduleName}.Data`;
+Data.ApplicationOpenInfo.$schema={"DesktopId":"number","Info":"ApplicationOpen"};
+Aventus.Converter.register(Data.ApplicationOpenInfo.Fullname, Data.ApplicationOpenInfo);
+
 _.Data.ApplicationOpenInfo=Data.ApplicationOpenInfo;
 Websocket.Routes.DesktopRouter_RemoveApp=class DesktopRouter_RemoveApp extends AventusSharp.WebSocket.Event {
     /**
@@ -1296,6 +1266,7 @@ Websocket.Routes.DesktopRouter_RemoveApp=class DesktopRouter_RemoveApp extends A
     }
 }
 Websocket.Routes.DesktopRouter_RemoveApp.Namespace=`${moduleName}.Websocket.Routes`;
+
 _.Websocket.Routes.DesktopRouter_RemoveApp=Websocket.Routes.DesktopRouter_RemoveApp;
 Websocket.Routes.DesktopRouter_RegisterOpenApp=class DesktopRouter_RegisterOpenApp extends AventusSharp.WebSocket.Event {
     /**
@@ -1312,6 +1283,7 @@ Websocket.Routes.DesktopRouter_RegisterOpenApp=class DesktopRouter_RegisterOpenA
     }
 }
 Websocket.Routes.DesktopRouter_RegisterOpenApp.Namespace=`${moduleName}.Websocket.Routes`;
+
 _.Websocket.Routes.DesktopRouter_RegisterOpenApp=Websocket.Routes.DesktopRouter_RegisterOpenApp;
 (function (DesktopLocation) {
     DesktopLocation[DesktopLocation["Desktop"] = 0] = "Desktop";
@@ -1330,7 +1302,10 @@ _.Data.BackgroundSize=Data.BackgroundSize;
 Data.DataTypes.ImageFile=class ImageFile extends AventusSharp.Data.AventusFile {
     static get Fullname() { return "Core.Data.DataTypes.ImageFile, Core"; }
 }
-Data.DataTypes.ImageFile.Namespace=`${moduleName}.Data.DataTypes`;Aventus.Converter.register(Data.DataTypes.ImageFile.Fullname, Data.DataTypes.ImageFile);
+Data.DataTypes.ImageFile.Namespace=`${moduleName}.Data.DataTypes`;
+Data.DataTypes.ImageFile.$schema={...(AventusSharp.Data.AventusFile?.$schema ?? {}), };
+Aventus.Converter.register(Data.DataTypes.ImageFile.Fullname, Data.DataTypes.ImageFile);
+
 _.Data.DataTypes.ImageFile=Data.DataTypes.ImageFile;
 Data.User=class User extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.User, Core"; }
@@ -1342,7 +1317,10 @@ Data.User=class User extends AventusSharp.Data.Storable {
     Picture = new Data.DataTypes.ImageFile();
     IsSuperAdmin = false;
 }
-Data.User.Namespace=`${moduleName}.Data`;Data.User.$schema={"Firstname":"string","Lastname":"string","Username":"string","Password":"string","Token":"string","Picture":""+moduleName+".Data.DataTypes.ImageFile","IsSuperAdmin":"boolean"};Aventus.DataManager.register(Data.User.Fullname, Data.User);Aventus.Converter.register(Data.User.Fullname, Data.User);
+Data.User.Namespace=`${moduleName}.Data`;
+Data.User.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Firstname":"string","Lastname":"string","Username":"string","Password":"string","Token":"string","Picture":""+moduleName+".Data.DataTypes.ImageFile","IsSuperAdmin":"boolean"};
+Aventus.Converter.register(Data.User.Fullname, Data.User);
+
 _.Data.User=Data.User;
 Data.PermissionUser=class PermissionUser extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.PermissionUser, Core"; }
@@ -1351,7 +1329,10 @@ Data.PermissionUser=class PermissionUser extends AventusSharp.Data.Storable {
     Data;
     User;
 }
-Data.PermissionUser.Namespace=`${moduleName}.Data`;Data.PermissionUser.$schema={"Permission":""+moduleName+".Data.Permission","User":""+moduleName+".Data.User"};Aventus.DataManager.register(Data.PermissionUser.Fullname, Data.PermissionUser);Aventus.Converter.register(Data.PermissionUser.Fullname, Data.PermissionUser);
+Data.PermissionUser.Namespace=`${moduleName}.Data`;
+Data.PermissionUser.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":""+moduleName+".Data.Permission","User":""+moduleName+".Data.User"};
+Aventus.Converter.register(Data.PermissionUser.Fullname, Data.PermissionUser);
+
 _.Data.PermissionUser=Data.PermissionUser;
 Data.Group=class Group extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Group, Core"; }
@@ -1360,7 +1341,10 @@ Data.Group=class Group extends AventusSharp.Data.Storable {
     Users = [];
     parentGroup = undefined;
 }
-Data.Group.Namespace=`${moduleName}.Data`;Data.Group.$schema={"Name":"string","Description":"string","Users":""+moduleName+".Data.User","parentGroup":"Group"};Aventus.DataManager.register(Data.Group.Fullname, Data.Group);Aventus.Converter.register(Data.Group.Fullname, Data.Group);
+Data.Group.Namespace=`${moduleName}.Data`;
+Data.Group.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Description":"string","Users":""+moduleName+".Data.User","parentGroup":"Group"};
+Aventus.Converter.register(Data.Group.Fullname, Data.Group);
+
 _.Data.Group=Data.Group;
 Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.PermissionGroup, Core"; }
@@ -1369,7 +1353,10 @@ Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
     Data;
     Group;
 }
-Data.PermissionGroup.Namespace=`${moduleName}.Data`;Data.PermissionGroup.$schema={"Permission":""+moduleName+".Data.Permission","Group":""+moduleName+".Data.Group"};Aventus.DataManager.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
+Data.PermissionGroup.Namespace=`${moduleName}.Data`;
+Data.PermissionGroup.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":""+moduleName+".Data.Permission","Group":""+moduleName+".Data.Group"};
+Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
+
 _.Data.PermissionGroup=Data.PermissionGroup;
 State.DesktopStateManager=class DesktopStateManager extends Aventus.StateManager {
     /**
@@ -1380,6 +1367,7 @@ State.DesktopStateManager=class DesktopStateManager extends Aventus.StateManager
     }
 }
 State.DesktopStateManager.Namespace=`${moduleName}.State`;
+
 _.State.DesktopStateManager=State.DesktopStateManager;
 (function (SpecialTouch) {
     SpecialTouch[SpecialTouch["Backspace"] = 0] = "Backspace";
@@ -1895,6 +1883,7 @@ Lib.ShortcutManager=class ShortcutManager {
     }
 }
 Lib.ShortcutManager.Namespace=`${moduleName}.Lib`;
+
 _.Lib.ShortcutManager=Lib.ShortcutManager;
 State.MoveApplication=class MoveApplication extends Aventus.State {
     static state = "/application/move";
@@ -1971,6 +1960,7 @@ State.MoveApplication=class MoveApplication extends Aventus.State {
     }
 }
 State.MoveApplication.Namespace=`${moduleName}.State`;
+
 _.State.MoveApplication=State.MoveApplication;
 Data.DekstopConfiguration=class DekstopConfiguration extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.DekstopConfiguration, Core"; }
@@ -1983,7 +1973,10 @@ Data.DekstopConfiguration=class DekstopConfiguration extends AventusSharp.Data.S
     SizeDesktop = 40;
     BackgroundColor = undefined;
 }
-Data.DekstopConfiguration.Namespace=`${moduleName}.Data`;Data.DekstopConfiguration.$schema={"Background":""+moduleName+".Data.DataTypes.ImageFile","BackgroundSize":"BackgroundSize","SyncDesktop":"boolean","SizeMobile":"number","SizeTablet":"number","SizeDesktop":"number","BackgroundColor":"string"};Aventus.DataManager.register(Data.DekstopConfiguration.Fullname, Data.DekstopConfiguration);Aventus.Converter.register(Data.DekstopConfiguration.Fullname, Data.DekstopConfiguration);
+Data.DekstopConfiguration.Namespace=`${moduleName}.Data`;
+Data.DekstopConfiguration.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Background":""+moduleName+".Data.DataTypes.ImageFile","BackgroundSize":"BackgroundSize","SyncDesktop":"boolean","SizeMobile":"number","SizeTablet":"number","SizeDesktop":"number","BackgroundColor":"string"};
+Aventus.Converter.register(Data.DekstopConfiguration.Fullname, Data.DekstopConfiguration);
+
 _.Data.DekstopConfiguration=Data.DekstopConfiguration;
 Data.DesktopAppIcon=class DesktopAppIcon extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.DesktopAppIcon, Core"; }
@@ -1992,7 +1985,10 @@ Data.DesktopAppIcon=class DesktopAppIcon extends AventusSharp.Data.Storable {
     IconTag;
     Location;
 }
-Data.DesktopAppIcon.Namespace=`${moduleName}.Data`;Data.DesktopAppIcon.$schema={"Position":"number","DesktopId":"number","IconTag":"string","Location":"DesktopLocation"};Aventus.DataManager.register(Data.DesktopAppIcon.Fullname, Data.DesktopAppIcon);Aventus.Converter.register(Data.DesktopAppIcon.Fullname, Data.DesktopAppIcon);
+Data.DesktopAppIcon.Namespace=`${moduleName}.Data`;
+Data.DesktopAppIcon.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Position":"number","DesktopId":"number","IconTag":"string","Location":"DesktopLocation"};
+Aventus.Converter.register(Data.DesktopAppIcon.Fullname, Data.DesktopAppIcon);
+
 _.Data.DesktopAppIcon=Data.DesktopAppIcon;
 Websocket.Routes.DesktopRouter_SetDesktopIcon=class DesktopRouter_SetDesktopIcon extends AventusSharp.WebSocket.Event {
     /**
@@ -2009,6 +2005,7 @@ Websocket.Routes.DesktopRouter_SetDesktopIcon=class DesktopRouter_SetDesktopIcon
     }
 }
 Websocket.Routes.DesktopRouter_SetDesktopIcon.Namespace=`${moduleName}.Websocket.Routes`;
+
 _.Websocket.Routes.DesktopRouter_SetDesktopIcon=Websocket.Routes.DesktopRouter_SetDesktopIcon;
 Data.Desktop=class Desktop extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Desktop, Core"; }
@@ -2019,7 +2016,10 @@ Data.Desktop=class Desktop extends AventusSharp.Data.Storable {
     Icons = [];
     Applications = [];
 }
-Data.Desktop.Namespace=`${moduleName}.Data`;Data.Desktop.$schema={"Name":"string","Token":"string","UserId":"number","Configuration":"DekstopConfiguration","Icons":"DesktopAppIcon","Applications":""+moduleName+".Data.ApplicationOpen"};Aventus.DataManager.register(Data.Desktop.Fullname, Data.Desktop);Aventus.Converter.register(Data.Desktop.Fullname, Data.Desktop);
+Data.Desktop.Namespace=`${moduleName}.Data`;
+Data.Desktop.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Token":"string","UserId":"number","Configuration":"DekstopConfiguration","Icons":"DesktopAppIcon","Applications":""+moduleName+".Data.ApplicationOpen"};
+Aventus.Converter.register(Data.Desktop.Fullname, Data.Desktop);
+
 _.Data.Desktop=Data.Desktop;
 Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRoute {
     StorableName() {
@@ -2027,6 +2027,7 @@ Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRou
     }
 }
 Routes.DesktopRouter.Namespace=`${moduleName}.Routes`;
+
 _.Routes.DesktopRouter=Routes.DesktopRouter;
 RAM.DesktopRAM=class DesktopRAM extends AventusSharp.RAM.RamHttp {
     /**
@@ -2061,6 +2062,7 @@ RAM.DesktopRAM=class DesktopRAM extends AventusSharp.RAM.RamHttp {
     }
 }
 RAM.DesktopRAM.Namespace=`${moduleName}.RAM`;
+
 _.RAM.DesktopRAM=RAM.DesktopRAM;
 Components.PageCase = class PageCase extends Aventus.WebComponent {
     static get observedAttributes() {return ["case_width", "case_height"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -2421,6 +2423,7 @@ Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
     }
 }
 Routes.ApplicationRouter.Namespace=`${moduleName}.Routes`;
+
 _.Routes.ApplicationRouter=Routes.ApplicationRouter;
 Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
     async Can(body) {
@@ -2430,6 +2433,7 @@ Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
     }
 }
 Routes.PermissionRouter.Namespace=`${moduleName}.Routes`;
+
 _.Routes.PermissionRouter=Routes.PermissionRouter;
 Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRoute {
     async GetConnected() {
@@ -2441,6 +2445,7 @@ Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRoute {
     }
 }
 Routes.UserRouter.Namespace=`${moduleName}.Routes`;
+
 _.Routes.UserRouter=Routes.UserRouter;
 Routes.CoreHttpRoutes= [
     { type: Routes.ApplicationRouter, path: "Application" },
@@ -2458,6 +2463,7 @@ Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter.WithRoute(Routes.C
     }
 }
 Routes.CoreRouter.Namespace=`${moduleName}.Routes`;
+
 _.Routes.CoreRouter=Routes.CoreRouter;
 Lib.ServiceWorker=class ServiceWorker {
     static getInstance() {
@@ -2524,6 +2530,7 @@ Lib.ServiceWorker=class ServiceWorker {
     }
 }
 Lib.ServiceWorker.Namespace=`${moduleName}.Lib`;
+
 _.Lib.ServiceWorker=Lib.ServiceWorker;
 Permissions.Permission=class Permission {
     static saved = {};
@@ -2547,6 +2554,7 @@ Permissions.Permission=class Permission {
     }
 }
 Permissions.Permission.Namespace=`${moduleName}.Permissions`;
+
 _.Permissions.Permission=Permissions.Permission;
 RAM.ApplicationRAM=class ApplicationRAM extends Aventus.Ram {
     getAllDone = false;
@@ -2616,6 +2624,7 @@ RAM.ApplicationRAM=class ApplicationRAM extends Aventus.Ram {
     }
 }
 RAM.ApplicationRAM.Namespace=`${moduleName}.RAM`;
+
 _.RAM.ApplicationRAM=RAM.ApplicationRAM;
 System.AppList = class AppList extends Aventus.WebComponent {
     static get observedAttributes() {return ["show"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -3365,7 +3374,10 @@ Lib.ApplicationState=class ApplicationState extends Aventus.State {
         });
     }
 }
-Lib.ApplicationState.Namespace=`${moduleName}.Lib`;Aventus.Converter.register(Lib.ApplicationState.Fullname, Lib.ApplicationState);
+Lib.ApplicationState.Namespace=`${moduleName}.Lib`;
+Lib.ApplicationState.$schema={...(Aventus.State?.$schema ?? {}), "$type":"string","__manager":"ApplicationStateManager","application":""+moduleName+".System.Application","__canSaveState":"boolean"};
+Aventus.Converter.register(Lib.ApplicationState.Fullname, Lib.ApplicationState);
+
 _.Lib.ApplicationState=Lib.ApplicationState;
 Lib.ApplicationStorableState=class ApplicationStorableState extends Lib.ApplicationState {
     __item;
@@ -3401,7 +3413,10 @@ Lib.ApplicationStorableState=class ApplicationStorableState extends Lib.Applicat
         addField("item");
     }
 }
-Lib.ApplicationStorableState.Namespace=`${moduleName}.Lib`;Aventus.Converter.register(Lib.ApplicationStorableState.Fullname, Lib.ApplicationStorableState);
+Lib.ApplicationStorableState.Namespace=`${moduleName}.Lib`;
+Lib.ApplicationStorableState.$schema={...(Lib.ApplicationState?.$schema ?? {}), "__item":"T","item":"T"};
+Aventus.Converter.register(Lib.ApplicationStorableState.Fullname, Lib.ApplicationStorableState);
+
 _.Lib.ApplicationStorableState=Lib.ApplicationStorableState;
 Lib.ApplicationEmptyState=class ApplicationEmptyState extends Lib.ApplicationState {
     localName;
@@ -3419,7 +3434,10 @@ Lib.ApplicationEmptyState=class ApplicationEmptyState extends Lib.ApplicationSta
         return this.localName;
     }
 }
-Lib.ApplicationEmptyState.Namespace=`${moduleName}.Lib`;Aventus.Converter.register(Lib.ApplicationEmptyState.Fullname, Lib.ApplicationEmptyState);
+Lib.ApplicationEmptyState.Namespace=`${moduleName}.Lib`;
+Lib.ApplicationEmptyState.$schema={...(Lib.ApplicationState?.$schema ?? {}), "localName":"string","name":"string"};
+Aventus.Converter.register(Lib.ApplicationEmptyState.Fullname, Lib.ApplicationEmptyState);
+
 _.Lib.ApplicationEmptyState=Lib.ApplicationEmptyState;
 Lib.ApplicationStateManager=class ApplicationStateManager extends Aventus.StateManager {
     application;
@@ -3443,6 +3461,7 @@ Lib.ApplicationStateManager=class ApplicationStateManager extends Aventus.StateM
     }
 }
 Lib.ApplicationStateManager.Namespace=`${moduleName}.Lib`;
+
 _.Lib.ApplicationStateManager=Lib.ApplicationStateManager;
 System.ApplicationHistoryConvert=class ApplicationHistoryConvert extends Aventus.ConverterTransform {
     manager;
@@ -3463,6 +3482,7 @@ System.ApplicationHistoryConvert=class ApplicationHistoryConvert extends Aventus
     }
 }
 System.ApplicationHistoryConvert.Namespace=`${moduleName}.System`;
+
 _.System.ApplicationHistoryConvert=System.ApplicationHistoryConvert;
 System.ApplicationHistory=class ApplicationHistory {
     static Fullname = "Core.System.ApplicationHistory";
@@ -3545,7 +3565,10 @@ System.ApplicationHistory=class ApplicationHistory {
         return new System.ApplicationHistory();
     }
 }
-System.ApplicationHistory.Namespace=`${moduleName}.System`;Aventus.Converter.register(System.ApplicationHistory.Fullname, System.ApplicationHistory);
+System.ApplicationHistory.Namespace=`${moduleName}.System`;
+System.ApplicationHistory.$schema={"$type":"string","memory":"History","currentPosition":"number","nextAvailable":"boolean","previousAvailable":"boolean"};
+Aventus.Converter.register(System.ApplicationHistory.Fullname, System.ApplicationHistory);
+
 _.System.ApplicationHistory=System.ApplicationHistory;
 System.ApplicationSizeStorage=class ApplicationSizeStorage {
     memoryPrefered = {};
@@ -3585,6 +3608,7 @@ System.ApplicationSizeStorage=class ApplicationSizeStorage {
     }
 }
 System.ApplicationSizeStorage.Namespace=`${moduleName}.System`;
+
 System.ApplicationSize=class ApplicationSize {
     application;
     storage;
@@ -3674,6 +3698,7 @@ System.ApplicationSize=class ApplicationSize {
     }
 }
 System.ApplicationSize.Namespace=`${moduleName}.System`;
+
 _.System.ApplicationSize=System.ApplicationSize;
 Components.TouchRecord=class TouchRecord {
     _activeTouchID;
@@ -3767,6 +3792,7 @@ Components.TouchRecord=class TouchRecord {
     }
 }
 Components.TouchRecord.Namespace=`${moduleName}.Components`;
+
 _.Components.TouchRecord=Components.TouchRecord;
 Components.Scrollable = class Scrollable extends Aventus.WebComponent {
     static get observedAttributes() {return ["zoom"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -4471,6 +4497,7 @@ Websocket.Routes.ApplicationRouter=class ApplicationRouter extends AventusSharp.
     }
 }
 Websocket.Routes.ApplicationRouter.Namespace=`${moduleName}.Websocket.Routes`;
+
 _.Websocket.Routes.ApplicationRouter=Websocket.Routes.ApplicationRouter;
 Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocket.Route {
     events;
@@ -4517,6 +4544,7 @@ Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocke
     }
 }
 Websocket.Routes.DesktopRouter.Namespace=`${moduleName}.Websocket.Routes`;
+
 _.Websocket.Routes.DesktopRouter=Websocket.Routes.DesktopRouter;
 Websocket.MainEndPointRoutes= [
     { type: Websocket.Routes.ApplicationRouter, path: "application" },
@@ -4541,6 +4569,7 @@ Websocket.MainEndPoint=class MainEndPoint extends AventusSharp.WebSocket.EndPoin
     }
 }
 Websocket.MainEndPoint.Namespace=`${moduleName}.Websocket`;
+
 _.Websocket.MainEndPoint=Websocket.MainEndPoint;
 Lib.MainSocket=class MainSocket extends Websocket.MainEndPoint {
     static _instance;
@@ -4560,6 +4589,7 @@ Lib.MainSocket=class MainSocket extends Websocket.MainEndPoint {
     }
 }
 Lib.MainSocket.Namespace=`${moduleName}.Lib`;
+
 _.Lib.MainSocket=Lib.MainSocket;
 Lib.ApplicationManager=class ApplicationManager {
     static waitingDelay = 1000;
@@ -4584,7 +4614,7 @@ Lib.ApplicationManager=class ApplicationManager {
             let mustAdd = true;
             for (let i = 0; i < this.openApplications[DesktopId].length; i++) {
                 let current = this.openApplications[DesktopId][i];
-                if (current.id == Info.id) {
+                if (current.number == Info.number && current.applicationName == Info.applicationName) {
                     this.openApplications[DesktopId][i] = Info;
                     mustAdd = false;
                     break;
@@ -4611,7 +4641,7 @@ Lib.ApplicationManager=class ApplicationManager {
             }
             for (let i = 0; i < this.openApplications[DesktopId].length; i++) {
                 let current = this.openApplications[DesktopId][i];
-                if (current.id == Info.id) {
+                if (current.number == Info.number && current.applicationName == Info.applicationName) {
                     this.openApplications[DesktopId].splice(i, 1);
                     if (this.openApplications[DesktopId].length == 0) {
                         delete this.openApplications[DesktopId];
@@ -4730,22 +4760,26 @@ Lib.ApplicationManager=class ApplicationManager {
     }
 }
 Lib.ApplicationManager.Namespace=`${moduleName}.Lib`;
+
 _.Lib.ApplicationManager=Lib.ApplicationManager;
 Components.Popup = class Popup extends Aventus.WebComponent {
     get 'no_red_btn'() { return this.getBoolAttr('no_red_btn') }
     set 'no_red_btn'(val) { this.setBoolAttr('no_red_btn', val) }get 'behind'() { return this.getBoolAttr('behind') }
-    set 'behind'(val) { this.setBoolAttr('behind', val) }    get 'info'() {
+    set 'behind'(val) { this.setBoolAttr('behind', val) }get 'close_on_click'() { return this.getBoolAttr('close_on_click') }
+    set 'close_on_click'(val) { this.setBoolAttr('close_on_click', val) }    get 'info'() {
 						return this.__watch["info"];
 					}
 					set 'info'(val) {
 						this.__watch["info"] = val;
 					}    cb;
+    pressManagerClose;
+    pressManagerPopup;
     __registerWatchesActions() {
     this.__addWatchesActions("info", ((target, action, path, value) => {
     target.onOptionsChanged();
 }));    super.__registerWatchesActions();
 }
-    static __style = `:host{--_popup-background-color: var(--popup-background-color, var(--application-background-color, var(--primary-color-opacity)));--_popup-border-radius: var(--popup-border-radius, var(--application-border-radius, 10px));--_popup-header-background-color: var(--popup-header-background-color, var(--application-header-background-color, var(--darker-active)));--_popup-content-padding: var(--popup-content-padding, 15px)}:host{align-items:center;animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(48,48,48,.1);border-radius:var(--application-border-radius);display:flex;inset:0;justify-content:center;position:absolute;z-index:650}:host .popup{background-color:var(--_popup-background-color);border-radius:var(--_popup-border-radius);box-shadow:var(--elevation-5);container-name:application;container-type:inline-size;display:flex;flex-direction:column;max-height:calc(100% - 50px);max-width:calc(100% - 50px)}:host .popup .header{align-items:center;border-top-left-radius:var(--_popup-border-radius);border-top-right-radius:var(--_popup-border-radius);display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .popup .header .background{background-color:var(--_popup-header-background-color);inset:0;position:absolute;z-index:1}:host .popup .header .title{flex-grow:1;margin-left:15px;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .popup .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .popup .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .popup .content{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - var(--_popup-content-padding) - var(--_popup-content-padding));border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);max-height:calc(var(--app-height) - 50px - 30px);overflow:hidden;padding:var(--_popup-content-padding);width:100%;z-index:1}:host([no_red_btn]) .popup .header .application-actions .btn{display:none}:host([behind]){z-index:550}@media screen and (min-width: 1225px){:host .popup .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}`;
+    static __style = `:host{--_popup-background-color: var(--popup-background-color, var(--application-background-color, var(--primary-color-opacity)));--_popup-border-radius: var(--popup-border-radius, var(--application-border-radius, 10px));--_popup-header-background-color: var(--popup-header-background-color, var(--application-header-background-color, var(--darker-active)));--_popup-content-padding: var(--popup-content-padding, 15px)}:host{align-items:center;animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(48,48,48,.1);border-radius:var(--application-border-radius);display:flex;inset:0;justify-content:center;position:absolute;z-index:650}:host .popup{background-color:var(--_popup-background-color);border-radius:var(--_popup-border-radius);box-shadow:var(--elevation-5);container-name:application;container-type:inline-size;display:flex;flex-direction:column;max-height:calc(100% - 50px);max-width:calc(100% - 50px)}:host .popup .header{align-items:center;border-top-left-radius:var(--_popup-border-radius);border-top-right-radius:var(--_popup-border-radius);display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .popup .header .background{background-color:var(--_popup-header-background-color);inset:0;position:absolute;z-index:1}:host .popup .header .title{flex-grow:1;margin-left:15px;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .popup .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .popup .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .popup .content{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - var(--_popup-content-padding) - var(--_popup-content-padding));border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);max-height:calc(var(--app-height) - 50px - 30px);overflow:hidden;padding:var(--_popup-content-padding);width:100%;z-index:1}:host .popup.shake{animation-duration:.3s;animation-iteration-count:1;animation-name:shake;animation-timing-function:var(--bezier-curve)}:host(.fade-out){animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeOut;animation-timing-function:var(--bezier-curve)}:host([no_red_btn]) .popup .header .application-actions .btn{display:none}:host([behind]){z-index:550}@media screen and (min-width: 1225px){:host .popup .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}@keyframes fadeOut{0%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}@keyframes shake{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}`;
     constructor() {            super();            this.info = this.defaultOptions();if (this.constructor == Popup) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return Popup;
@@ -4779,17 +4813,17 @@ Components.Popup = class Popup extends Aventus.WebComponent {
   "pressEvents": [
     {
       "id": "popup_2",
-      "onPress": (e, pressInstance, c) => { c.comp.redPress(e, pressInstance); }
+      "onPress": (e, pressInstance, c) => { c.comp.cancel(e, pressInstance); }
     }
   ]
 }); }
     getClassName() {
         return "Popup";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('no_red_btn')) { this.attributeChangedCallback('no_red_btn', false, false); }if(!this.hasAttribute('behind')) { this.attributeChangedCallback('behind', false, false); } }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('no_red_btn')) { this.attributeChangedCallback('no_red_btn', false, false); }if(!this.hasAttribute('behind')) { this.attributeChangedCallback('behind', false, false); }if(!this.hasAttribute('close_on_click')) { this.attributeChangedCallback('close_on_click', false, false); } }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["info"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('no_red_btn');this.__upgradeProperty('behind');this.__correctGetter('info'); }
-    __listBoolProps() { return ["no_red_btn","behind"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('no_red_btn');this.__upgradeProperty('behind');this.__upgradeProperty('close_on_click');this.__correctGetter('info'); }
+    __listBoolProps() { return ["no_red_btn","behind","close_on_click"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     mergeInfo(info) {
         this.info = { ...this.info, ...info };
     }
@@ -4799,13 +4833,21 @@ Components.Popup = class Popup extends Aventus.WebComponent {
     onOptionsChanged() {
         this.no_red_btn = this.info.hide_red_btn == true;
         this.behind = this.info.behind == true;
+        this.close_on_click = this.info.close_on_click == true;
         this.popupEl.style.maxWidth = this.info.max_width ?? '';
         this.popupEl.style.maxHeight = this.info.max_height ?? '';
         this.popupEl.style.minWidth = this.info.min_width ?? '';
         this.popupEl.style.minHeight = this.info.min_height ?? '';
     }
     close() {
-        this.remove();
+        this.classList.add("fade-out");
+    }
+    addCloseWatcher() {
+        this.addEventListener("animationend", (e) => {
+            if (e.animationName == "fadeOut") {
+                this.remove();
+            }
+        });
     }
     resolve(response, no_close) {
         if (this.cb) {
@@ -4815,7 +4857,35 @@ Components.Popup = class Popup extends Aventus.WebComponent {
             this.close();
         }
     }
+    addPress() {
+        this.popupEl.addEventListener("animationend", (e) => {
+            if (e.animationName == "shake") {
+                this.popupEl.classList.remove("shake");
+            }
+        });
+        this.pressManagerClose = new Aventus.PressManager({
+            element: this,
+            onPress: (e) => {
+                if (this.close_on_click) {
+                    this.close();
+                }
+                else {
+                    this.popupEl.classList.add("shake");
+                }
+            }
+        });
+        this.pressManagerPopup = new Aventus.PressManager({
+            element: this.popupEl,
+            onPress: (e) => { }
+        });
+    }
+    postDestruction() {
+        this.pressManagerClose?.destroy();
+        this.pressManagerPopup?.destroy();
+    }
     postCreation() {
+        this.addCloseWatcher();
+        this.addPress();
         this.onOptionsChanged();
     }
     __c6b222033048639bf6ac58d471520fbamethod0() {
@@ -4877,14 +4947,11 @@ Components.Confirm = class Confirm extends Components.Popup {
             false_txt: "Non",
         };
     }
-    cancel() {
-        this.resolve(false);
-    }
     validate() {
         this.resolve(false);
     }
-    redPress() {
-        this.cancel();
+    cancel() {
+        this.resolve(false);
     }
     __caa2fd56843944180566fbe49a4bb311method0() {
         return this.info.description;
@@ -4948,7 +5015,7 @@ Components.Alert = class Alert extends Components.Popup {
     validate() {
         this.resolve();
     }
-    redPress() {
+    cancel() {
         this.resolve();
     }
     __d0561a7aa91ff42b328166316d099970method0() {
@@ -4964,14 +5031,14 @@ _.Components.Alert=Components.Alert;
 if(!window.customElements.get('rk-alert')){window.customElements.define('rk-alert', Components.Alert);Aventus.WebComponentInstance.registerDefinition(Components.Alert);}
 
 System.Application = class Application extends Aventus.WebComponent {
-    static get observedAttributes() {return ["app_title", "full", "is_hidden"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    static get observedAttributes() {return ["app_title", "full", "is_hidden", "is_active"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'moving'() { return this.getBoolAttr('moving') }
-    set 'moving'(val) { this.setBoolAttr('moving', val) }get 'is_active'() { return this.getBoolAttr('is_active') }
-    set 'is_active'(val) { this.setBoolAttr('is_active', val) }get 'loading'() { return this.getBoolAttr('loading') }
+    set 'moving'(val) { this.setBoolAttr('moving', val) }get 'loading'() { return this.getBoolAttr('loading') }
     set 'loading'(val) { this.setBoolAttr('loading', val) }    get 'app_title'() { return this.getStringProp('app_title') }
     set 'app_title'(val) { this.setStringAttr('app_title', val) }get 'full'() { return this.getBoolProp('full') }
     set 'full'(val) { this.setBoolAttr('full', val) }get 'is_hidden'() { return this.getBoolProp('is_hidden') }
-    set 'is_hidden'(val) { this.setBoolAttr('is_hidden', val) }    static activeApplication = null;
+    set 'is_hidden'(val) { this.setBoolAttr('is_hidden', val) }get 'is_active'() { return this.getBoolProp('is_active') }
+    set 'is_active'(val) { this.setBoolAttr('is_active', val) }    static activeApplication = null;
     oldFrame;
     allRoutes = {};
     activePath = "";
@@ -4996,9 +5063,11 @@ System.Application = class Application extends Aventus.WebComponent {
     target.saveSize();
 }));this.__addPropertyActions("is_hidden", ((target) => {
     target.onIsHiddenChange();
+}));this.__addPropertyActions("is_active", ((target) => {
+    target.manageShortcut();
 })); }
     static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_active]){z-index:501}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 45px)}:host rk-resize{display:none}:host([is_hidden]){left:0 !important;width:100% !important}}`;
-    constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.validError404=this.validError404.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this) }
+    constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.validError404=this.validError404.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this)this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)this.moveApplicationToRight=this.moveApplicationToRight.bind(this) }
     __getStatic() {
         return Application;
     }
@@ -5078,9 +5147,9 @@ System.Application = class Application extends Aventus.WebComponent {
     getClassName() {
         return "Application";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('moving')) { this.attributeChangedCallback('moving', false, false); }if(!this.hasAttribute('is_active')) { this.attributeChangedCallback('is_active', false, false); }if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('app_title')){ this['app_title'] = "Page title"; }if(!this.hasAttribute('full')) { this.attributeChangedCallback('full', false, false); }if(!this.hasAttribute('is_hidden')) { this.attributeChangedCallback('is_hidden', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('navigator');this.__upgradeProperty('moving');this.__upgradeProperty('is_active');this.__upgradeProperty('loading');this.__upgradeProperty('app_title');this.__upgradeProperty('full');this.__upgradeProperty('is_hidden'); }
-    __listBoolProps() { return ["moving","is_active","loading","full","is_hidden"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('moving')) { this.attributeChangedCallback('moving', false, false); }if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('app_title')){ this['app_title'] = "Page title"; }if(!this.hasAttribute('full')) { this.attributeChangedCallback('full', false, false); }if(!this.hasAttribute('is_hidden')) { this.attributeChangedCallback('is_hidden', false, false); }if(!this.hasAttribute('is_active')) { this.attributeChangedCallback('is_active', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('navigator');this.__upgradeProperty('moving');this.__upgradeProperty('loading');this.__upgradeProperty('app_title');this.__upgradeProperty('full');this.__upgradeProperty('is_hidden');this.__upgradeProperty('is_active'); }
+    __listBoolProps() { return ["moving","loading","full","is_hidden","is_active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     onContextMenu(contextMenu, stop) {
         stop();
     }
@@ -5116,6 +5185,25 @@ System.Application = class Application extends Aventus.WebComponent {
         }
         catch (e) {
             console.log(e);
+        }
+    }
+    defineShortcut() {
+        return [
+            [[Lib.SpecialTouch.Control, Lib.SpecialTouch.ArrowLeft], this.moveApplicationToLeft],
+            [[Lib.SpecialTouch.Control, Lib.SpecialTouch.ArrowRight], this.moveApplicationToRight]
+        ];
+    }
+    manageShortcut() {
+        let shortcuts = this.defineShortcut();
+        if (this.is_active) {
+            for (let shortcut of shortcuts) {
+                Lib.ShortcutManager.subscribe(shortcut[0], shortcut[1]);
+            }
+        }
+        else {
+            for (let shortcut of shortcuts) {
+                Lib.ShortcutManager.unsubscribe(shortcut[0], shortcut[1]);
+            }
         }
     }
     shouldDestroyFrame(frame) {
@@ -5361,11 +5449,36 @@ System.Application = class Application extends Aventus.WebComponent {
         return false;
     }
     setSizeInfo(info) {
-        this.style.left = info.left + 'px';
-        this.style.top = info.top + 'px';
-        this.style.setProperty("--app-width", info.width + "px");
-        this.style.setProperty("--app-height", info.height + "px");
+        this.moveApplication(info);
         this.full = info.isFullScreen;
+    }
+    moveApplication(options) {
+        if (options.left != undefined)
+            this.style.left = options.left + 'px';
+        if (options.top != undefined)
+            this.style.top = options.top + 'px';
+        if (options.width != undefined)
+            this.style.setProperty("--app-width", options.width + "px");
+        if (options.height != undefined)
+            this.style.setProperty("--app-height", options.height + "px");
+    }
+    moveApplicationToLeft() {
+        this.moveApplication({
+            top: 5,
+            left: 5,
+            height: System.Os.instance.offsetHeight - 10,
+            width: System.Os.instance.offsetWidth / 2 - 7,
+        });
+        this.saveSize();
+    }
+    moveApplicationToRight() {
+        this.moveApplication({
+            top: 5,
+            left: System.Os.instance.offsetWidth / 2 + 2,
+            height: System.Os.instance.offsetHeight - 10,
+            width: System.Os.instance.offsetWidth / 2 - 7,
+        });
+        this.saveSize();
     }
     addMoveDragAndDrop() {
         let hasMove = false;
@@ -5700,6 +5813,7 @@ RAM.UserRAM=class UserRAM extends AventusSharp.RAM.RamHttp {
     }
 }
 RAM.UserRAM.Namespace=`${moduleName}.RAM`;
+
 _.RAM.UserRAM=RAM.UserRAM;
 Lib.SessionManager=class SessionManager {
     static async logout() {
@@ -5720,6 +5834,7 @@ Lib.SessionManager=class SessionManager {
     }
 }
 Lib.SessionManager.Namespace=`${moduleName}.Lib`;
+
 _.Lib.SessionManager=Lib.SessionManager;
 System.HomePanel = class HomePanel extends System.Panel {
     get 'currentUser'() {
@@ -6187,6 +6302,7 @@ Lib.AppIconManager=class AppIconManager {
     }
 }
 Lib.AppIconManager.Namespace=`${moduleName}.Lib`;
+
 _.Lib.AppIconManager=Lib.AppIconManager;
 System.Notification = class Notification extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon", "subject"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -6515,6 +6631,7 @@ System.NotificationManager=class NotificationManager {
     }
 }
 System.NotificationManager.Namespace=`${moduleName}.System`;
+
 _.System.NotificationManager=System.NotificationManager;
 Lib.Platform=class Platform {
     static onScreenChange = new Aventus.Callback();
@@ -6558,6 +6675,7 @@ Lib.Platform=class Platform {
     }
 }
 Lib.Platform.Namespace=`${moduleName}.Lib`;
+
 _.Lib.Platform=Lib.Platform;
 System.PwaPromptIos = class PwaPromptIos extends Aventus.WebComponent {
     get 'ready'() { return this.getBoolAttr('ready') }
@@ -7389,6 +7507,7 @@ Lib.Process=class Process {
     }
 }
 Lib.Process.Namespace=`${moduleName}.Lib`;
+
 _.Lib.Process=Lib.Process;
 System.AppIcon = class AppIcon extends Aventus.WebComponent {
     get 'shaking'() { return this.getBoolAttr('shaking') }
@@ -8390,291 +8509,6 @@ DatePickerCalendarDay.Tag=`rk-date-picker-calendar-day`;
 _.DatePickerCalendarDay=DatePickerCalendarDay;
 if(!window.customElements.get('rk-date-picker-calendar-day')){window.customElements.define('rk-date-picker-calendar-day', DatePickerCalendarDay);Aventus.WebComponentInstance.registerDefinition(DatePickerCalendarDay);}
 
-Components.InternalVirtualForm=class InternalVirtualForm {
-    __config;
-    constructor(config) {
-        for (let name in config) {
-            if (!config[name].elements) {
-                config[name].elements = [];
-            }
-            if (!config[name].validate) {
-                config[name].validate = () => true;
-            }
-        }
-        this.__config = config;
-        for (let key in config) {
-            this.registerKey(key);
-        }
-    }
-    async validateAndExecute(result, application) {
-        const validationResult = await this.validate(application);
-        if (validationResult) {
-            return await this.execute(result, application);
-        }
-        return undefined;
-    }
-    async validate(from) {
-        let proms = [];
-        let promsCustom = [];
-        const namesCustom = [];
-        const resultErrors = [];
-        for (let name in this.__config) {
-            const elements = this.__config[name].elements;
-            if (!elements || elements.length == 0) {
-                const result = this.__config[name].validate(Components.FormElement.getValue(this.__config[name]));
-                if (result instanceof Promise) {
-                    promsCustom.push(result);
-                    namesCustom.push(name);
-                }
-                else if (result !== undefined && result !== true && result !== "") {
-                    if (result === false) {
-                        resultErrors.push("Le champs " + name + " n'est pas valide");
-                    }
-                    resultErrors.push(result + "");
-                }
-            }
-            else {
-                for (let element of this.__config[name].elements) {
-                    proms.push(element.validate());
-                }
-            }
-        }
-        const result2 = await Promise.all(promsCustom);
-        for (let i = 0; i < result2.length; i++) {
-            const resultTemp = result2[i];
-            if (resultTemp !== undefined && resultTemp !== true && resultTemp !== "") {
-                if (resultTemp === false) {
-                    resultErrors.push("Le champs " + namesCustom[i] + " n'est pas valide");
-                }
-                resultErrors.push(resultTemp + "");
-            }
-        }
-        if (resultErrors.length > 0) {
-            if (from) {
-                let application = from instanceof System.Application ? from : from.findParentByType(System.Application);
-                await application?.alert({
-                    title: "Erreur de validation",
-                    description: resultErrors.join("<br>")
-                });
-                return false;
-            }
-            return resultErrors;
-        }
-        const result = await Promise.all(proms);
-        for (let resultTemp of result) {
-            if (!resultTemp)
-                return false;
-        }
-        return true;
-    }
-    async execute(query, from) {
-        let queryResult = await Aventus.Async(query);
-        if (queryResult.errors.length > 0) {
-            let noPrintErrors = [];
-            for (let error of queryResult.errors) {
-                if (error instanceof AventusSharp.Data.DataError &&
-                    error.code == AventusSharp.Data.DataErrorCode.ValidationError &&
-                    error.details.length > 0 &&
-                    error.details[0] instanceof AventusSharp.Data.FieldErrorInfo) {
-                    let fieldInfo = error.details[0];
-                    if (this.addFieldError(fieldInfo.Name, error.message)) {
-                        continue;
-                    }
-                }
-                noPrintErrors.push(error);
-            }
-            queryResult.errors = noPrintErrors;
-        }
-        if (from) {
-            let application = from instanceof System.Application ? from : from.findParentByType(System.Application);
-            if (application) {
-                return await application.parseErrors(queryResult);
-            }
-        }
-        return queryResult;
-    }
-    registerKey(key) {
-        Object.defineProperty(this, key, {
-            get: () => this.__config[key],
-            set: (value) => this.__config[key] = value,
-            enumerable: true
-        });
-    }
-    getData() {
-        let result = {};
-        for (let name in this.__config) {
-            result[name] = Components.FormElement.getValue(this.__config[name]);
-        }
-        return result;
-    }
-    // public async validate(from?: Aventus.WebComponent): Promise<boolean | string[]> {
-    //     for(let name in this.__config) {
-    //         if(!elements || elements.length == 0) {
-    //             const result = this.__config[name].validate(FormElement.getValue(this.__config[name]));
-    //             if(result instanceof Promise) {
-    //                 promsCustom.push(result);
-    //                 namesCustom.push(name);
-    //             else if(result !== undefined && result !== true && result !== "") {
-    //                 if(result === false) {
-    //                     resultErrors.push("Le champs " + name + " n'est pas valide");
-    //                 resultErrors.push(result + "");
-    //             for(let element of this.__config[name].elements) {
-    //                 proms.push(element.validate());
-    //     const result2 = await Promise.all(promsCustom);
-    //     for(let i = 0; i < result2.length; i++) {
-    //         if(resultTemp !== undefined && resultTemp !== true && resultTemp !== "") {
-    //             if(resultTemp === false) {
-    //                 resultErrors.push("Le champs " + namesCustom[i] + " n'est pas valide");
-    //             resultErrors.push(resultTemp + "");
-    //     if(resultErrors.length > 0) {
-    //         if(from) {
-    //             let application = from instanceof Application ? from : from.findParentByType(Application);
-    //             await application?.alert({
-    //                 description: resultErrors.join("<br>")
-    //             });
-    //     const result = await Promise.all(proms);
-    //     for(let resultTemp of result) {
-    //         if(!resultTemp) return false;
-    addFieldError(name, error) {
-        if (this.__config[name]?.elements.length > 0) {
-            for (let el of this.__config[name].elements) {
-                el.errors.push(error);
-            }
-            return true;
-        }
-        return false;
-    }
-}
-Components.InternalVirtualForm.Namespace=`${moduleName}.Components`;
-Components.Form = class Form extends Aventus.WebComponent {
-    elements = [];
-    onSubmit = new Aventus.Callback();
-    static __style = `:host{padding:15px;width:100%}`;
-    __getStatic() {
-        return Form;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Form.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "Form";
-    }
-    registerFormElement(element) {
-        if (!this.elements.includes(element)) {
-            this.elements.push(element);
-        }
-    }
-    registerSubmit(element) {
-        new Aventus.PressManager({
-            element,
-            onPress: () => {
-                this.submit();
-            }
-        });
-    }
-    async submit() {
-        if (await this.validate()) {
-            this.onSubmit.trigger([]);
-        }
-    }
-    async validate() {
-        let proms = [];
-        for (let element of this.elements) {
-            proms.push(element.validate());
-        }
-        const result = await Promise.all(proms);
-        for (let resultTemp of result) {
-            if (!resultTemp)
-                return false;
-        }
-        return true;
-    }
-    static create(config) {
-        return new Components.InternalVirtualForm(config);
-    }
-}
-Components.Form.Namespace=`${moduleName}.Components`;
-Components.Form.Tag=`rk-form`;
-_.Components.Form=Components.Form;
-if(!window.customElements.get('rk-form')){window.customElements.define('rk-form', Components.Form);Aventus.WebComponentInstance.registerDefinition(Components.Form);}
-
-State.CreateOrUpdate=class CreateOrUpdate extends Lib.ApplicationStorableState {
-    static _state = "";
-    static get state() {
-        if (this._state == "") {
-            let cst = this;
-            new cst();
-        }
-        return this._state;
-    }
-    __form;
-    get form() {
-        return this.__form;
-    }
-    constructor(item) {
-        super(item);
-        this.constructor['_state'] = this.genericState();
-        this.__form = Aventus.Watcher.get(Components.Form.create(this.defineFormSchema()));
-    }
-    /**
-     * @inheritdoc
-     */
-    get name() {
-        return this.genericState().replace("{id:number}", this.item.Id + "");
-    }
-    genericState() {
-        return `/${this.defineObjectName().toLowerCase()}/{id:number}`;
-    }
-    async save() {
-        let result;
-        const validationResult = await this.form.validate(this.application);
-        if (validationResult === true) {
-            let ramResult;
-            if (this.item.Id == 0) {
-                ramResult = await this.application.showLoading(this.defineRAM().createWithError(this.item));
-            }
-            else {
-                ramResult = await this.application.showLoading(this.defineRAM().updateWithError(this.item));
-            }
-            if (ramResult.errors.length > 0) {
-                let noPrintErrors = [];
-                for (let error of ramResult.errors) {
-                    if (error instanceof AventusSharp.Data.DataError &&
-                        error.code == AventusSharp.Data.DataErrorCode.ValidationError &&
-                        error.details.length > 0 &&
-                        error.details[0] instanceof AventusSharp.Data.FieldErrorInfo) {
-                        let fieldInfo = error.details[0];
-                        if (this.form.addFieldError(fieldInfo.Name, error.message)) {
-                            continue;
-                        }
-                    }
-                    noPrintErrors.push(error);
-                }
-                ramResult.errors = noPrintErrors;
-            }
-            return await this.application.parseErrors(ramResult);
-        }
-        return result;
-    }
-    back() {
-        const splitted = this.name.split("/");
-        splitted.pop();
-        this.application.navigate(splitted.join("/"));
-    }
-    cancel() {
-        this.back();
-    }
-}
-State.CreateOrUpdate.Namespace=`${moduleName}.State`;Aventus.Converter.register(State.CreateOrUpdate.Fullname, State.CreateOrUpdate);
-_.State.CreateOrUpdate=State.CreateOrUpdate;
 Components.FormElement = class FormElement extends Aventus.WebComponent {
     get 'has_errors'() { return this.getBoolAttr('has_errors') }
     set 'has_errors'(val) { this.setBoolAttr('has_errors', val) }    get 'errors'() {
@@ -9080,6 +8914,165 @@ Components.Slider.Tag=`rk-slider`;
 _.Components.Slider=Components.Slider;
 if(!window.customElements.get('rk-slider')){window.customElements.define('rk-slider', Components.Slider);Aventus.WebComponentInstance.registerDefinition(Components.Slider);}
 
+Components.InputNumber = class InputNumber extends Components.FormElement {
+    static get observedAttributes() {return ["label", "placeholder", "icon", "value", "min", "max"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
+    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'value'() { return this.getNumberProp('value') }
+    set 'value'(val) { this.setNumberAttr('value', val) }get 'min'() { return this.getNumberProp('min') }
+    set 'min'(val) { this.setNumberAttr('min', val) }get 'max'() { return this.getNumberProp('max') }
+    set 'max'(val) { this.setNumberAttr('max', val) }    errorsTxt = {};
+    defaultErrorsTxt = {
+        notNumber: "Le nombre n'est pas valide",
+        lowerThanMin: "Le nombre n'est pas plus grand que " + this.min,
+        biggerThanMax: "Le nombre n'est pas plus petit que " + this.max,
+    };
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
+    target.inputEl.value = target.value + '';
+})); }
+    static __style = `:host{--_input-number-height: var(--input-number-height, 30px);--_input-number-background-color: var(--input-number-background-color, var(--form-element-background, white));--_input-number-icon-height: var(--input-number-icon-height, calc(var(--_input-number-height) / 2));--_input-number-error-logo-size: var(--input-number-error-logo-size, calc(var(--_input-number-height) / 2));--_input-number-font-size: var(--input-number-font-size, var(--form-element-font-size, 16px));--_input-number-font-size-label: var(--input-number-font-size-label, var(--form-element-font-size-label, calc(var(--_input-number-font-size) * 0.95)));--_input-number-input-border: var(--input-number-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-number-border-radius: var(--input-number-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-number-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-number-background-color);border:var(--_input-number-input-border);border-radius:var(--_input-number-border-radius);display:flex;height:var(--_input-number-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-number-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-number-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:50%;color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-number-error-logo-size) - 5px);height:var(--_input-number-error-logo-size);justify-content:center;width:var(--_input-number-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0;text-align:justify}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}`;
+    __getStatic() {
+        return InputNumber;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(InputNumber.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<label for="input" _id="inputnumber_0"></label><div class="input">    <rk-img class="icon" _id="inputnumber_1"></rk-img>    <input id="input" _id="inputnumber_2" />    <div class="error-logo">!</div></div><div class="errors">    <template _id="inputnumber_3"></template></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "inputEl",
+      "ids": [
+        "inputnumber_2"
+      ]
+    }
+  ],
+  "content": {
+    "inputnumber_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method1())}`,
+      "once": true
+    },
+    "inputnumber_1°src": {
+      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method2())}`,
+      "once": true
+    },
+    "inputnumber_2°placeholder": {
+      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method3())}`,
+      "once": true
+    }
+  },
+  "events": [
+    {
+      "eventName": "focus",
+      "id": "inputnumber_2",
+      "fct": (e, c) => c.comp.removeErrors(e)
+    },
+    {
+      "eventName": "change",
+      "id": "inputnumber_2",
+      "fct": (e, c) => c.comp.onValueChange(e)
+    }
+  ]
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`         <div _id="inputnumber_4"></div>    `);templ0.setActions({
+  "content": {
+    "inputnumber_4°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method4(c.data.error))}`,
+      "once": true
+    }
+  }
+});this.__getStatic().__template.addLoop({
+                    anchorId: 'inputnumber_3',
+                    template: templ0,
+                simple:{data: "this.errors",item:"error"}}); }
+    getClassName() {
+        return "InputNumber";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = 0; }if(!this.hasAttribute('min')){ this['min'] = undefined; }if(!this.hasAttribute('max')){ this['max'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('value');this.__upgradeProperty('min');this.__upgradeProperty('max'); }
+    removeErrors() {
+        this.errors = [];
+    }
+    isNumber(apply) {
+        let valueTemp = Number(this.inputEl.value);
+        if (!this.inputEl.value || isNaN(valueTemp)) {
+            return false;
+        }
+        if (apply)
+            this.value = valueTemp;
+        return true;
+    }
+    isBiggerThanMin() {
+        if (this.min != 0 || this.hasAttribute("min")) {
+            return this.value >= this.min;
+        }
+        return true;
+    }
+    isLowerThanMax() {
+        if (this.max != 0 || this.hasAttribute("max")) {
+            return this.value <= this.max;
+        }
+        return true;
+    }
+    localValidation(apply = false) {
+        this.errors = [];
+        if (!this.isNumber(apply)) {
+            const txt = this.errorsTxt.notNumber ?? this.defaultErrorsTxt.notNumber;
+            this.errors.push(txt);
+            return false;
+        }
+        if (!this.isBiggerThanMin()) {
+            const txt = this.errorsTxt.lowerThanMin ?? this.defaultErrorsTxt.lowerThanMin;
+            this.errors.push(txt);
+            return false;
+        }
+        if (!this.isLowerThanMax()) {
+            const txt = this.errorsTxt.biggerThanMax ?? this.defaultErrorsTxt.biggerThanMax;
+            this.errors.push(txt);
+            return false;
+        }
+        return true;
+    }
+    async validate() {
+        if (!this.localValidation())
+            return false;
+        return super.validate();
+    }
+    onValueChange() {
+        if (!this.localValidation(true))
+            return;
+        this.onChange.trigger([this.value]);
+        if (this.formPart) {
+            Components.FormElement.setValue(this.formPart, this.value);
+            if (this.formPart.validateOnChange !== false) {
+                this.validate();
+            }
+        }
+    }
+    __181298e531eab1a15f907371f4223808method1() {
+        return this.label;
+    }
+    __181298e531eab1a15f907371f4223808method2() {
+        return this.icon;
+    }
+    __181298e531eab1a15f907371f4223808method3() {
+        return this.placeholder;
+    }
+    __181298e531eab1a15f907371f4223808method4(error) {
+        return error;
+    }
+}
+Components.InputNumber.Namespace=`${moduleName}.Components`;
+Components.InputNumber.Tag=`rk-input-number`;
+_.Components.InputNumber=Components.InputNumber;
+if(!window.customElements.get('rk-input-number')){window.customElements.define('rk-input-number', Components.InputNumber);Aventus.WebComponentInstance.registerDefinition(Components.InputNumber);}
+
 Components.Input = class Input extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'label'() { return this.getStringProp('label') }
@@ -9263,6 +9256,362 @@ Components.Checkbox.Tag=`rk-checkbox`;
 _.Components.Checkbox=Components.Checkbox;
 if(!window.customElements.get('rk-checkbox')){window.customElements.define('rk-checkbox', Components.Checkbox);Aventus.WebComponentInstance.registerDefinition(Components.Checkbox);}
 
+Components.InternalVirtualForm=class InternalVirtualForm {
+    __config;
+    constructor(config) {
+        for (let name in config) {
+            if (!config[name].elements) {
+                config[name].elements = [];
+            }
+            if (!config[name].validate) {
+                config[name].validate = () => true;
+            }
+        }
+        this.__config = config;
+        for (let key in config) {
+            this.registerKey(key);
+        }
+    }
+    async validateAndExecute(result, application) {
+        const validationResult = await this.validate(application);
+        if (validationResult) {
+            return await this.execute(result, application);
+        }
+        return undefined;
+    }
+    async validate(from) {
+        let proms = [];
+        let promsCustom = [];
+        const namesCustom = [];
+        const resultErrors = [];
+        for (let name in this.__config) {
+            const elements = this.__config[name].elements;
+            if (!elements || elements.length == 0) {
+                const result = this.__config[name].validate(Components.FormElement.getValue(this.__config[name]));
+                if (result instanceof Promise) {
+                    promsCustom.push(result);
+                    namesCustom.push(name);
+                }
+                else if (result !== undefined && result !== true && result !== "") {
+                    if (result === false) {
+                        resultErrors.push("Le champs " + name + " n'est pas valide");
+                    }
+                    resultErrors.push(result + "");
+                }
+            }
+            else {
+                for (let element of this.__config[name].elements) {
+                    proms.push(element.validate());
+                }
+            }
+        }
+        const result2 = await Promise.all(promsCustom);
+        for (let i = 0; i < result2.length; i++) {
+            const resultTemp = result2[i];
+            if (resultTemp !== undefined && resultTemp !== true && resultTemp !== "") {
+                if (resultTemp === false) {
+                    resultErrors.push("Le champs " + namesCustom[i] + " n'est pas valide");
+                }
+                resultErrors.push(resultTemp + "");
+            }
+        }
+        if (resultErrors.length > 0) {
+            if (from) {
+                let application = from instanceof System.Application ? from : from.findParentByType(System.Application);
+                await application?.alert({
+                    title: "Erreur de validation",
+                    description: resultErrors.join("<br>")
+                });
+                return false;
+            }
+            return resultErrors;
+        }
+        const result = await Promise.all(proms);
+        for (let resultTemp of result) {
+            if (!resultTemp)
+                return false;
+        }
+        return true;
+    }
+    async execute(query, from) {
+        let queryResult = await Aventus.Async(query);
+        if (queryResult.errors.length > 0) {
+            let noPrintErrors = [];
+            for (let error of queryResult.errors) {
+                if (error instanceof AventusSharp.Data.DataError &&
+                    error.code == AventusSharp.Data.DataErrorCode.ValidationError &&
+                    error.details.length > 0 &&
+                    error.details[0] instanceof AventusSharp.Data.FieldErrorInfo) {
+                    let fieldInfo = error.details[0];
+                    if (this.addFieldError(fieldInfo.Name, error.message)) {
+                        continue;
+                    }
+                }
+                noPrintErrors.push(error);
+            }
+            queryResult.errors = noPrintErrors;
+        }
+        if (from) {
+            let application = from instanceof System.Application ? from : from.findParentByType(System.Application);
+            if (application) {
+                return await application.parseErrors(queryResult);
+            }
+        }
+        return queryResult;
+    }
+    registerKey(key) {
+        Object.defineProperty(this, key, {
+            get: () => this.__config[key],
+            set: (value) => this.__config[key] = value,
+            enumerable: true
+        });
+    }
+    getData() {
+        let result = {};
+        for (let name in this.__config) {
+            result[name] = Components.FormElement.getValue(this.__config[name]);
+        }
+        return result;
+    }
+    // public async validate(from?: Aventus.WebComponent): Promise<boolean | string[]> {
+    //     for(let name in this.__config) {
+    //         if(!elements || elements.length == 0) {
+    //             const result = this.__config[name].validate(FormElement.getValue(this.__config[name]));
+    //             if(result instanceof Promise) {
+    //                 promsCustom.push(result);
+    //                 namesCustom.push(name);
+    //             else if(result !== undefined && result !== true && result !== "") {
+    //                 if(result === false) {
+    //                     resultErrors.push("Le champs " + name + " n'est pas valide");
+    //                 resultErrors.push(result + "");
+    //             for(let element of this.__config[name].elements) {
+    //                 proms.push(element.validate());
+    //     const result2 = await Promise.all(promsCustom);
+    //     for(let i = 0; i < result2.length; i++) {
+    //         if(resultTemp !== undefined && resultTemp !== true && resultTemp !== "") {
+    //             if(resultTemp === false) {
+    //                 resultErrors.push("Le champs " + namesCustom[i] + " n'est pas valide");
+    //             resultErrors.push(resultTemp + "");
+    //     if(resultErrors.length > 0) {
+    //         if(from) {
+    //             let application = from instanceof Application ? from : from.findParentByType(Application);
+    //             await application?.alert({
+    //                 description: resultErrors.join("<br>")
+    //             });
+    //     const result = await Promise.all(proms);
+    //     for(let resultTemp of result) {
+    //         if(!resultTemp) return false;
+    addFieldError(name, error) {
+        if (this.__config[name]?.elements.length > 0) {
+            for (let el of this.__config[name].elements) {
+                el.errors.push(error);
+            }
+            return true;
+        }
+        return false;
+    }
+}
+Components.InternalVirtualForm.Namespace=`${moduleName}.Components`;
+
+Components.Form = class Form extends Aventus.WebComponent {
+    elements = [];
+    onSubmit = new Aventus.Callback();
+    static __style = `:host{padding:15px;width:100%}`;
+    __getStatic() {
+        return Form;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Form.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "Form";
+    }
+    registerFormElement(element) {
+        if (!this.elements.includes(element)) {
+            this.elements.push(element);
+        }
+    }
+    registerSubmit(element) {
+        new Aventus.PressManager({
+            element,
+            onPress: () => {
+                this.submit();
+            }
+        });
+    }
+    async submit() {
+        if (await this.validate()) {
+            this.onSubmit.trigger([]);
+        }
+    }
+    async validate() {
+        let proms = [];
+        for (let element of this.elements) {
+            proms.push(element.validate());
+        }
+        const result = await Promise.all(proms);
+        for (let resultTemp of result) {
+            if (!resultTemp)
+                return false;
+        }
+        return true;
+    }
+    static create(config) {
+        return new Components.InternalVirtualForm(config);
+    }
+}
+Components.Form.Namespace=`${moduleName}.Components`;
+Components.Form.Tag=`rk-form`;
+_.Components.Form=Components.Form;
+if(!window.customElements.get('rk-form')){window.customElements.define('rk-form', Components.Form);Aventus.WebComponentInstance.registerDefinition(Components.Form);}
+
+State.CreateOrUpdate=class CreateOrUpdate extends Lib.ApplicationStorableState {
+    static _state = "";
+    static get state() {
+        if (this._state == "") {
+            let cst = this;
+            new cst();
+        }
+        return this._state;
+    }
+    __form;
+    get form() {
+        return this.__form;
+    }
+    constructor(item) {
+        super(item);
+        this.constructor['_state'] = this.genericState();
+        this.__form = Aventus.Watcher.get(Components.Form.create(this.defineFormSchema()));
+    }
+    /**
+     * @inheritdoc
+     */
+    get name() {
+        return this.genericState().replace("{id:number}", this.item.Id + "");
+    }
+    genericState() {
+        return `/${this.defineObjectName().toLowerCase()}/{id:number}`;
+    }
+    async save() {
+        let result;
+        const validationResult = await this.form.validate(this.application);
+        if (validationResult === true) {
+            let ramResult;
+            if (this.item.Id == 0) {
+                ramResult = await this.application.showLoading(this.defineRAM().createWithError(this.item));
+            }
+            else {
+                ramResult = await this.application.showLoading(this.defineRAM().updateWithError(this.item));
+            }
+            if (ramResult.errors.length > 0) {
+                let noPrintErrors = [];
+                for (let error of ramResult.errors) {
+                    if (error instanceof AventusSharp.Data.DataError &&
+                        error.code == AventusSharp.Data.DataErrorCode.ValidationError &&
+                        error.details.length > 0 &&
+                        error.details[0] instanceof AventusSharp.Data.FieldErrorInfo) {
+                        let fieldInfo = error.details[0];
+                        if (this.form.addFieldError(fieldInfo.Name, error.message)) {
+                            continue;
+                        }
+                    }
+                    noPrintErrors.push(error);
+                }
+                ramResult.errors = noPrintErrors;
+            }
+            return await this.application.parseErrors(ramResult);
+        }
+        return result;
+    }
+    back() {
+        const splitted = this.name.split("/");
+        splitted.pop();
+        this.application.navigate(splitted.join("/"));
+    }
+    cancel() {
+        this.back();
+    }
+}
+State.CreateOrUpdate.Namespace=`${moduleName}.State`;
+State.CreateOrUpdate.$schema={...(Lib.ApplicationStorableState?.$schema ?? {}), "__form":""+moduleName+".Components.VirtualForm","form":""+moduleName+".Components.VirtualForm","name":"string"};
+Aventus.Converter.register(State.CreateOrUpdate.Fullname, State.CreateOrUpdate);
+
+_.State.CreateOrUpdate=State.CreateOrUpdate;
+Components.Button = class Button extends Aventus.WebComponent {
+    static get observedAttributes() {return ["icon_before", "icon_after", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'color'() { return this.getStringAttr('color') }
+    set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
+    set 'outline'(val) { this.setBoolAttr('outline', val) }get 'submit'() { return this.getBoolAttr('submit') }
+    set 'submit'(val) { this.setBoolAttr('submit', val) }    get 'icon_before'() { return this.getStringProp('icon_before') }
+    set 'icon_before'(val) { this.setStringAttr('icon_before', val) }get 'icon_after'() { return this.getStringProp('icon_after') }
+    set 'icon_after'(val) { this.setStringAttr('icon_after', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
+    target.icon_before = target.icon;
+})); }
+    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent)}:host{background-color:var(--internal-button-background-color);border-radius:5px;box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;overflow:hidden;position:relative}:host .hider{background-color:var(--_button-background-color-hover);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:hover) .hider{opacity:1;visibility:visible}}`;
+    __getStatic() {
+        return Button;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Button.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="hider"></div><div class="content">    <rk-img class="icon-before" _id="button_0"></rk-img>    <slot></slot>    <rk-img class="icon-after" _id="button_1"></rk-img></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "button_0°src": {
+      "fct": (c) => `${c.print(c.comp.__e17753be66eb8c36ad73f4b01845474bmethod0())}`,
+      "once": true
+    },
+    "button_1°src": {
+      "fct": (c) => `${c.print(c.comp.__e17753be66eb8c36ad73f4b01845474bmethod1())}`,
+      "once": true
+    }
+  }
+}); }
+    getClassName() {
+        return "Button";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('submit')) { this.attributeChangedCallback('submit', false, false); }if(!this.hasAttribute('icon_before')){ this['icon_before'] = undefined; }if(!this.hasAttribute('icon_after')){ this['icon_after'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('submit');this.__upgradeProperty('icon_before');this.__upgradeProperty('icon_after');this.__upgradeProperty('icon'); }
+    __listBoolProps() { return ["outline","submit"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    registerToForm() {
+        if (!this.submit)
+            return;
+        const parent = this.findParentByType(Components.Form);
+        if (parent) {
+            parent.registerSubmit(this);
+        }
+    }
+    postCreation() {
+        this.registerToForm();
+    }
+    __e17753be66eb8c36ad73f4b01845474bmethod0() {
+        return this.icon_before;
+    }
+    __e17753be66eb8c36ad73f4b01845474bmethod1() {
+        return this.icon_after;
+    }
+}
+Components.Button.Namespace=`${moduleName}.Components`;
+Components.Button.Tag=`rk-button`;
+_.Components.Button=Components.Button;
+if(!window.customElements.get('rk-button')){window.customElements.define('rk-button', Components.Button);Aventus.WebComponentInstance.registerDefinition(Components.Button);}
+
 const DatePickerCalendar = class DatePickerCalendar extends Components.Calendar {
     picker;
     static __style = ``;
@@ -9412,7 +9761,6 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
         this.errors = [];
     }
     onValueChange() {
-        //this.value = this.inputEl.value;
         this.onChange.trigger([this.value]);
         if (this.formPart) {
             Components.FormElement.setValue(this.formPart, this.value);
@@ -9431,9 +9779,12 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
         this.calendar = new (this.defineCalendar())();
         this.calendar.picker = this;
         this.calendar.onDateClicked.add((date, caseEl) => {
-            this.value = date;
-            if (this.hide_on_select) {
-                this.calendarContainer.hide();
+            if (!Lib.DateTools.isSameDate(this.value, date)) {
+                this.value = date;
+                this.onValueChange();
+                if (this.hide_on_select) {
+                    this.calendarContainer.hide();
+                }
             }
         });
     }
@@ -9579,7 +9930,7 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
         target.inputEl.setAttribute("disabled", "disabled");
     }
 })); }
-    static __style = `:host{--_select-height: var(--select-height, 30px);--_select-background-color: var(--select-background-color, var(--form-element-background, white));--_select-icon-height: var(--select-icon-height, calc(var(--_select-height) / 2));--_select-error-logo-size: var(--select-error-logo-size, calc(var(--_select-height) / 2));--_select-font-size: var(--select-font-size, var(--form-element-font-size, 16px));--_select-font-size-label: var(--select-font-size-label, var(--form-element-font-size-label, calc(var(--_select-font-size) * 0.95)));--_select-select-border: var(--select-select-border, var(--form-element-border, 1px solid var(--lighter-active)));--_generic-select-border-radius: var(--generic-select-border-radius, var(--form-element-border-radius, 0));--_select-caret-height: var(--select-caret-height, calc(var(--_select-height) / 2));--_select-caret-color: var(--select-caret-color, var(--form-element-color))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_select-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_select-background-color);border:var(--_select-select-border);border-radius:var(--_generic-select-border-radius);cursor:pointer;display:flex;height:var(--_select-height);padding:0 10px;width:100%}:host .input .icon{display:none;height:var(--_select-icon-height);margin-right:10px}:host .input rk-img.caret{--img-fill-color: var(--_select-caret-color);--img-stroke-width: 0;aspect-ratio:1;flex-grow:0;flex-shrink:0;height:var(--_select-caret-height);transform:rotate(-90deg);transition:transform .5s var(--bezier-curve)}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_select-font-size);height:100%;margin:0;opacity:1;outline:none;padding:5px 0;padding-right:10px;-webkit-text-fill-color:var(--text-color);width:100%}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:50%;color:#fff;display:none;font-size:calc(var(--_select-error-logo-size) - 5px);height:var(--_select-error-logo-size);justify-content:center;width:var(--_select-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0;text-align:justify}:host .hidden{display:none}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([open]) .input .caret{transform:rotate(-270deg)}`;
+    static __style = `:host{--_select-height: var(--select-height, 30px);--_select-background-color: var(--select-background-color, var(--form-element-background, white));--_select-icon-height: var(--select-icon-height, calc(var(--_select-height) / 2));--_select-error-logo-size: var(--select-error-logo-size, calc(var(--_select-height) / 2));--_select-font-size: var(--select-font-size, var(--form-element-font-size, 16px));--_select-font-size-label: var(--select-font-size-label, var(--form-element-font-size-label, calc(var(--_select-font-size) * 0.95)));--_select-select-border: var(--select-select-border, var(--form-element-border, 1px solid var(--lighter-active)));--_generic-select-border-radius: var(--generic-select-border-radius, var(--form-element-border-radius, 0));--_select-caret-height: var(--select-caret-height, calc(var(--_select-height) / 2));--_select-caret-color: var(--select-caret-color, var(--form-element-color))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_select-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_select-background-color);border:var(--_select-select-border);border-radius:var(--_generic-select-border-radius);cursor:pointer;display:flex;height:var(--_select-height);padding:0 10px;width:100%}:host .input .icon{display:none;height:var(--_select-icon-height);margin-right:10px}:host .input rk-img.caret{--img-fill-color: var(--_select-caret-color);--img-stroke-width: 0;aspect-ratio:1;flex-grow:0;flex-shrink:0;height:var(--_select-caret-height);transform:rotate(-90deg);transition:transform .5s var(--bezier-curve)}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_select-font-size);height:100%;margin:0;opacity:1;outline:none;padding:5px 0;padding-right:10px;-webkit-text-fill-color:var(--text-color);width:100%}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:50%;color:#fff;display:none;font-size:calc(var(--_select-error-logo-size) - 5px);height:var(--_select-error-logo-size);justify-content:center;width:var(--_select-error-logo-size);flex-shrink:0}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0;text-align:justify}:host .hidden{display:none}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([open]) .input .caret{transform:rotate(-270deg)}`;
     constructor() { super(); if (this.constructor == GenericSelect) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return GenericSelect;
@@ -10656,7 +11007,8 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
             cell.data = data;
             cell.label = cellConfig.name;
             cell.grid = this.grid;
-            cell.setContent(data[cellConfig.name], data);
+            const v = cellConfig.name ? data[cellConfig.name] : undefined;
+            cell.setContent(v, data);
             this.rowContentEl.appendChild(cell);
             this.cells.push(cell);
             i++;
@@ -11050,7 +11402,11 @@ Components.TableCellDate = class TableCellDate extends Components.TableCell {
         if (!this.contentEl)
             return;
         if (data instanceof Date) {
-            this.content = data.toISOString();
+            this.content = data.toLocaleDateString(undefined, {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+            });
         }
         else {
             this.content = '';
@@ -11300,12 +11656,18 @@ if(!window.customElements.get('rk-table-data-cell-action')){window.customElement
 App.AppError=class AppError extends Aventus.GenericError {
     static get Fullname() { return "Core.App.AppError, Core"; }
 }
-App.AppError.Namespace=`${moduleName}.App`;Aventus.Converter.register(App.AppError.Fullname, App.AppError);
+App.AppError.Namespace=`${moduleName}.App`;
+App.AppError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
+Aventus.Converter.register(App.AppError.Fullname, App.AppError);
+
 _.App.AppError=App.AppError;
 Errors.DesktopError=class DesktopError extends Aventus.GenericError {
     static get Fullname() { return "Core.Logic.DesktopError, Core"; }
 }
-Errors.DesktopError.Namespace=`${moduleName}.Errors`;Aventus.Converter.register(Errors.DesktopError.Fullname, Errors.DesktopError);
+Errors.DesktopError.Namespace=`${moduleName}.Errors`;
+Errors.DesktopError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
+Aventus.Converter.register(Errors.DesktopError.Fullname, Errors.DesktopError);
+
 _.Errors.DesktopError=Errors.DesktopError;
 Permissions.PermissionQuery=class PermissionQuery {
     $type;
@@ -11319,31 +11681,47 @@ Permissions.PermissionQuery=class PermissionQuery {
     }
 }
 Permissions.PermissionQuery.Namespace=`${moduleName}.Permissions`;
+
 _.Permissions.PermissionQuery=Permissions.PermissionQuery;
 Permissions.ApplicationPermissionQuery=class ApplicationPermissionQuery extends Permissions.PermissionQuery {
     static get Fullname() { return "Core.Permissions.ApplicationPermissionQuery, Core"; }
 }
-Permissions.ApplicationPermissionQuery.Namespace=`${moduleName}.Permissions`;Aventus.Converter.register(Permissions.ApplicationPermissionQuery.Fullname, Permissions.ApplicationPermissionQuery);
+Permissions.ApplicationPermissionQuery.Namespace=`${moduleName}.Permissions`;
+Permissions.ApplicationPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
+Aventus.Converter.register(Permissions.ApplicationPermissionQuery.Fullname, Permissions.ApplicationPermissionQuery);
+
 _.Permissions.ApplicationPermissionQuery=Permissions.ApplicationPermissionQuery;
 Permissions.DesktopPermissionQuery=class DesktopPermissionQuery extends Permissions.PermissionQuery {
     static get Fullname() { return "Core.Permissions.DesktopPermissionQuery, Core"; }
 }
-Permissions.DesktopPermissionQuery.Namespace=`${moduleName}.Permissions`;Aventus.Converter.register(Permissions.DesktopPermissionQuery.Fullname, Permissions.DesktopPermissionQuery);
+Permissions.DesktopPermissionQuery.Namespace=`${moduleName}.Permissions`;
+Permissions.DesktopPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
+Aventus.Converter.register(Permissions.DesktopPermissionQuery.Fullname, Permissions.DesktopPermissionQuery);
+
 _.Permissions.DesktopPermissionQuery=Permissions.DesktopPermissionQuery;
 Errors.ImageFileError=class ImageFileError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.ImageFileError, Core"; }
 }
-Errors.ImageFileError.Namespace=`${moduleName}.Errors`;Aventus.Converter.register(Errors.ImageFileError.Fullname, Errors.ImageFileError);
+Errors.ImageFileError.Namespace=`${moduleName}.Errors`;
+Errors.ImageFileError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
+Aventus.Converter.register(Errors.ImageFileError.Fullname, Errors.ImageFileError);
+
 _.Errors.ImageFileError=Errors.ImageFileError;
 Tools.ResultWithImageFileError=class ResultWithImageFileError extends AventusSharp.Tools.ResultWithError {
     static get Fullname() { return "Core.Tools.ResultWithImageFileError, Core"; }
 }
-Tools.ResultWithImageFileError.Namespace=`${moduleName}.Tools`;Aventus.Converter.register(Tools.ResultWithImageFileError.Fullname, Tools.ResultWithImageFileError);
+Tools.ResultWithImageFileError.Namespace=`${moduleName}.Tools`;
+Tools.ResultWithImageFileError.$schema={...(AventusSharp.Tools.ResultWithError?.$schema ?? {}), };
+Aventus.Converter.register(Tools.ResultWithImageFileError.Fullname, Tools.ResultWithImageFileError);
+
 _.Tools.ResultWithImageFileError=Tools.ResultWithImageFileError;
 Tools.VoidWithImageFileError=class VoidWithImageFileError extends AventusSharp.Tools.VoidWithError {
     static get Fullname() { return "Core.Tools.VoidWithImageFileError, Core"; }
 }
-Tools.VoidWithImageFileError.Namespace=`${moduleName}.Tools`;Aventus.Converter.register(Tools.VoidWithImageFileError.Fullname, Tools.VoidWithImageFileError);
+Tools.VoidWithImageFileError.Namespace=`${moduleName}.Tools`;
+Tools.VoidWithImageFileError.$schema={...(AventusSharp.Tools.VoidWithError?.$schema ?? {}), };
+Aventus.Converter.register(Tools.VoidWithImageFileError.Fullname, Tools.VoidWithImageFileError);
+
 _.Tools.VoidWithImageFileError=Tools.VoidWithImageFileError;
 
 for(let key in _) { Core[key] = _[key] }

@@ -29,7 +29,7 @@ namespace Lib {
                 let mustAdd = true;
                 for(let i = 0; i < this.openApplications[DesktopId].length; i++) {
                     let current = this.openApplications[DesktopId][i];
-                    if(current.id == Info.id) {
+                    if(current.number == Info.number && current.applicationName == Info.applicationName) {
                         this.openApplications[DesktopId][i] = Info;
                         mustAdd = false;
                         break;
@@ -57,7 +57,7 @@ namespace Lib {
                 }
                 for(let i = 0; i < this.openApplications[DesktopId].length; i++) {
                     let current = this.openApplications[DesktopId][i];
-                    if(current.id == Info.id) {
+                    if(current.number == Info.number && current.applicationName == Info.applicationName) {
                         this.openApplications[DesktopId].splice(i, 1);
                         if(this.openApplications[DesktopId].length == 0) {
                             delete this.openApplications[DesktopId];

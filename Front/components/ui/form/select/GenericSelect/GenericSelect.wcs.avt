@@ -77,6 +77,7 @@
 			height: var(--_select-error-logo-size);
 			justify-content: center;
 			width: var(--_select-error-logo-size);
+			flex-shrink: 0;
 		}
 	}
 

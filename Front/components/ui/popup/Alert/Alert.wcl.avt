@@ -49,7 +49,7 @@ namespace Components {
             this.resolve();
         }
 
-        protected override redPress(): void {
+        protected override cancel(): void {
             this.resolve();
         }
         //#endregion
