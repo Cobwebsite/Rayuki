@@ -1,0 +1,32 @@
+import { Desktop } from "./Desktop.wcl.avt";
+
+namespace System {
+    export interface IDesktopActivable extends HTMLElement {
+        is_desktop_active: boolean;
+        setDesktopActive:() => void
+        removeDesktopActive:() => void
+    }
+
+
+    export class DesktopActivableLogic {
+
+        private static findDeskstop(el: IDesktopActivable, desktop?: Desktop): Desktop | null {
+            if(desktop) {
+                return desktop;
+            }
+            else if(el instanceof HTMLElement) {
+                let desktopTemp = Aventus.ElementExtension.findParentByType(el, Desktop);
+                return desktopTemp;
+            }
+            return null;
+        }
+
+        public static set(el: IDesktopActivable, desktop?: Desktop) {
+            this.findDeskstop(el, desktop)?.setElementToActive(el);
+        }
+
+        public static remove(el: IDesktopActivable, desktop?: Desktop) {
+            this.findDeskstop(el, desktop)?.removeElementFromActive(el);
+        }
+    }
+}

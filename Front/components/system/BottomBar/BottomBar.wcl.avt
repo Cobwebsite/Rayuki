@@ -7,9 +7,10 @@ import { AppIcon } from "../AppIcon/AppIcon.wcl.avt";
 import { HomeBtn } from "../HomeBtn/HomeBtn.wcl.avt";
 import { MainSocket } from "../../../libs/MainSocket.lib.avt";
 import { DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.data.avt";
+import { DesktopActivableLogic, type IDesktopActivable } from "../Desktop/IActivable.lib.avt";
 
 namespace System {
-    export class BottomBar extends Aventus.WebComponent implements Aventus.DefaultComponent, MoveApplicationProvider {
+    export class BottomBar extends Aventus.WebComponent implements Aventus.DefaultComponent, MoveApplicationProvider, IDesktopActivable {
 
         //#region static
 
@@ -34,6 +35,8 @@ namespace System {
             }
             throw "impossible";
         }
+
+        public is_desktop_active: boolean = false;
         //#endregion
 
 
@@ -85,7 +88,7 @@ namespace System {
             this.setAttribute("tabindex", "-1");
             this.addEventListener("focus", (e) => {
                 e.stopPropagation();
-                Application.setActive(null);
+                this.setDesktopActive();
             });
 
         }
@@ -261,11 +264,20 @@ namespace System {
         }
         //#endregion    
 
+        //#region desktop activable
+        public setDesktopActive() {
+            DesktopActivableLogic.set(this)
+        }
+        public removeDesktopActive() {
+            DesktopActivableLogic.remove(this)
+        }
+        //#endregion
+
         protected override postCreation(): void {
             this.addSwipe();
             this.addFocus();
         }
         //#endregion
 
+    }
 }
-            }

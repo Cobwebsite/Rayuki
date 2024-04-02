@@ -3,7 +3,7 @@ import { DesktopRAM } from "../../../ram/Desktop.ram.avt";
 import type { BottomBar } from "../BottomBar/BottomBar.wcl.avt";
 import type { PageCase } from "../../ui/layout/PageCase/PageCase.wcl.avt";
 import { PageCaseSlot } from "../../ui/layout/PageCase/PageCaseSlot/PageCaseSlot.wcl.avt";
-import type { Application } from "../Application/Application.wcl.avt";
+import { Application } from "../Application/Application.wcl.avt";
 import { ApplicationOpen } from "../../../generated/Data/ApplicationOpen.lib.avt";
 import { ApplicationHistory } from "../Application/ApplicationHistory.lib.avt";
 import { AppIconManager } from "../../../libs/AppIconManager.lib.avt";
@@ -18,6 +18,7 @@ import type { DesktopData } from "../../../libs/TypeMapper.lib.avt";
 import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
 import { Platform } from "../../../libs/Platform.lib.avt";
 import { Notification } from "../Os/Notification/Notification.wcl.avt";
+import type { IDesktopActivable } from "./IActivable.lib.avt";
 
 namespace System {
     export class Desktop extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, MoveApplicationProvider {
@@ -62,6 +63,8 @@ namespace System {
         public get iconSize(): number {
             return this._iconSize;
         }
+
+        protected activableOrder: IDesktopActivable[] = [];
         //#endregion
 
 
@@ -131,6 +134,8 @@ namespace System {
                 });
                 this.appContainer.appendChild(comp);
                 comp.focus();
+                this.setElementToActive(comp);
+
                 await comp.navigate(url);
 
                 this.applications[comp.$type][i] = comp;
@@ -213,7 +218,7 @@ namespace System {
         public removeApp(application: Application) {
             const appNumber = application.options?.applicationNumber ?? -1;
             const type = application.$type;
-            
+
             if(this.applications[type]) {
                 delete this.applications[type][appNumber];
                 if(Object.keys(this.applications[type]).length == 0) {
@@ -445,6 +450,39 @@ namespace System {
                 });
             }
 
+        }
+        //#endregion
+
+        //#region active order
+        public setElementToActive(el: IDesktopActivable) {
+            let index = this.activableOrder.indexOf(el);
+            if(index != -1) {
+                this.activableOrder.splice(index, 1);
+            }
+            this.activableOrder.splice(0, 0, el);
+            this.applyActiveToElement();
+        }
+        public removeElementFromActive(el: IDesktopActivable) {
+            let index = this.activableOrder.indexOf(el);
+            if(index != -1) {
+                this.activableOrder.splice(index, 1);
+            }
+            this.applyActiveToElement();
+        }
+        protected applyActiveToElement() {
+            let total = 501 + this.activableOrder.length;
+            let first = true;
+            for(let el of this.activableOrder) {
+                if(first) {
+                    first = false;
+                    el.is_desktop_active = true;
+                }
+                else {
+                    el.is_desktop_active = false;
+                }
+                el.style.zIndex = total+'';
+                total--;
+            }
         }
         //#endregion
 

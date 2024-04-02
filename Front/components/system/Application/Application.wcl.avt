@@ -15,6 +15,7 @@ import { Geometry, type Rectangle } from "../../../libs/Geometry.lib.avt";
 import type { ApplicationQueryFct, ApplicationQueryFctResult, ApplicationQueryResult, GetArgs } from "./ApplicationError.lib.avt";
 import { ShortcutManager, SpecialTouch } from "../../../libs/ShortcutManager.lib.avt";
 import { Os } from "../Os/Os.wcl.avt";
+import { DesktopActivableLogic, type IDesktopActivable } from "../Desktop/IActivable.lib.avt";
 
 namespace System {
 
@@ -32,22 +33,10 @@ namespace System {
 
     export type ExtractTypePopup<X extends Popup<U, Y>, U = any, Y extends PopupInfo = any> = X extends Popup<infer U, Y> ? U : never;
 
-    export abstract class Application extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu {
+    export abstract class Application extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, IDesktopActivable {
 
         //#region static
-        private static activeApplication: Application | null = null;
-        public static setActive(app: Application | null) {
-            if(this.activeApplication == app) {
-                return;
-            }
-            if(this.activeApplication) {
-                this.activeApplication.is_active = false;
-            }
-            if(app) {
-                app.is_active = true;
-            }
-            this.activeApplication = app;
-        }
+       
         //#endregion
 
 
@@ -67,14 +56,9 @@ namespace System {
             target.onIsHiddenChange();
         })
         public is_hidden: boolean = false;
-        @Property((target: Application) => {
-            target.manageShortcut();
-        })
-        public is_active: boolean = false;
+       
         @Attribute()
         public loading: boolean = false;
-
-
 
         //#endregion
 
@@ -90,6 +74,11 @@ namespace System {
         protected navigatePreviousEl!: HTMLDivElement;
         @ViewElement()
         protected navigateNextEl!: HTMLDivElement;
+
+        @Watch((target: Application) => {
+            target.manageShortcut();
+        })
+        public is_desktop_active: boolean = false;
 
 
         private oldFrame: FrameNoScroll | undefined;
@@ -191,7 +180,7 @@ namespace System {
         }
         private manageShortcut() {
             let shortcuts = this.defineShortcut();
-            if(this.is_active) {
+            if(this.is_desktop_active) {
                 for(let shortcut of shortcuts) {
                     ShortcutManager.subscribe(shortcut[0], shortcut[1]);
                 }
@@ -699,14 +688,23 @@ namespace System {
         }
         //#endregion
 
+        //#region desktop activable
         private addFocus() {
             this.setAttribute("tabindex", "-1");
             this.addEventListener("focus", (e) => {
                 e.stopPropagation();
-                Application.setActive(this);
+                this.setDesktopActive();
             });
-            Application.setActive(this);
         }
+        public setDesktopActive() {
+            DesktopActivableLogic.set(this)
+        }
+        public removeDesktopActive() {
+            DesktopActivableLogic.remove(this)
+        }
+        //#endregion
+
+        
         private rightClick() {
             this.addEventListener("contextmenu", (e) => {
                 e.preventDefault();
@@ -733,6 +731,7 @@ namespace System {
         protected override postDestruction(): void {
             super.postDestruction();
             this.options?.desktop.removeApp(this);
+            this.removeDesktopActive();
             this.removeApplicationHistory();
             this.sizeManager.remove();
         }

@@ -919,52 +919,6 @@ Lib.Pointer=class Pointer {
 Lib.Pointer.Namespace=`${moduleName}.Lib`;
 
 _.Lib.Pointer=Lib.Pointer;
-(function (LoginCode) {
-    LoginCode[LoginCode["OK"] = 0] = "OK";
-    LoginCode[LoginCode["WrongCredentials"] = 1] = "WrongCredentials";
-    LoginCode[LoginCode["Unknown"] = 2] = "Unknown";
-    LoginCode[LoginCode["NotConnected"] = 3] = "NotConnected";
-})(Errors.LoginCode || (Errors.LoginCode = {}));
-
-_.Errors.LoginCode=Errors.LoginCode;
-Errors.LoginError=class LoginError extends Aventus.GenericError {
-    static get Fullname() { return "Core.Logic.LoginError, Core"; }
-}
-Errors.LoginError.Namespace=`${moduleName}.Errors`;
-Errors.LoginError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
-Aventus.Converter.register(Errors.LoginError.Fullname, Errors.LoginError);
-
-_.Errors.LoginError=Errors.LoginError;
-Lib.HttpRouter=class HttpRouter extends Aventus.HttpRouter {
-}
-Lib.HttpRouter.Namespace=`${moduleName}.Lib`;
-
-_.Lib.HttpRouter=Lib.HttpRouter;
-System.Panel = class Panel extends Aventus.WebComponent {
-    static __style = `:host{background-color:var(--primary-color-opacity);border-radius:10px}@media screen and (max-width: 768px){:host{background-color:var(--primary-color)}}@media screen and (max-width: 1224px){:host{border-radius:0px}}`;
-    __getStatic() {
-        return Panel;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Panel.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "Panel";
-    }
-}
-System.Panel.Namespace=`${moduleName}.System`;
-System.Panel.Tag=`rk-panel`;
-_.System.Panel=System.Panel;
-if(!window.customElements.get('rk-panel')){window.customElements.define('rk-panel', System.Panel);Aventus.WebComponentInstance.registerDefinition(System.Panel);}
-
 Lib.Geometry=class Geometry {
     static getIntersectingRectangle(rect1, rect2) {
         const [r1, r2] = [rect1, rect2].map(r => {
@@ -991,6 +945,18 @@ Lib.Geometry=class Geometry {
 Lib.Geometry.Namespace=`${moduleName}.Lib`;
 
 _.Lib.Geometry=Lib.Geometry;
+(function (ResizeDirection) {
+    ResizeDirection[ResizeDirection["Top"] = 0] = "Top";
+    ResizeDirection[ResizeDirection["TopLeft"] = 1] = "TopLeft";
+    ResizeDirection[ResizeDirection["Left"] = 2] = "Left";
+    ResizeDirection[ResizeDirection["BottomLeft"] = 3] = "BottomLeft";
+    ResizeDirection[ResizeDirection["Bottom"] = 4] = "Bottom";
+    ResizeDirection[ResizeDirection["BottomRight"] = 5] = "BottomRight";
+    ResizeDirection[ResizeDirection["Right"] = 6] = "Right";
+    ResizeDirection[ResizeDirection["TopRight"] = 7] = "TopRight";
+})(Components.ResizeDirection || (Components.ResizeDirection = {}));
+
+_.Components.ResizeDirection=Components.ResizeDirection;
 Websocket.Events.ApplicationTestEvent2=class ApplicationTestEvent2 extends AventusSharp.WebSocket.Event {
     /**
      * @inheritdoc
@@ -1040,6 +1006,27 @@ Websocket.Events.ApplicationTestEvent=class ApplicationTestEvent extends Aventus
 Websocket.Events.ApplicationTestEvent.Namespace=`${moduleName}.Websocket.Events`;
 
 _.Websocket.Events.ApplicationTestEvent=Websocket.Events.ApplicationTestEvent;
+(function (LoginCode) {
+    LoginCode[LoginCode["OK"] = 0] = "OK";
+    LoginCode[LoginCode["WrongCredentials"] = 1] = "WrongCredentials";
+    LoginCode[LoginCode["Unknown"] = 2] = "Unknown";
+    LoginCode[LoginCode["NotConnected"] = 3] = "NotConnected";
+})(Errors.LoginCode || (Errors.LoginCode = {}));
+
+_.Errors.LoginCode=Errors.LoginCode;
+Errors.LoginError=class LoginError extends Aventus.GenericError {
+    static get Fullname() { return "Core.Logic.LoginError, Core"; }
+}
+Errors.LoginError.Namespace=`${moduleName}.Errors`;
+Errors.LoginError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
+Aventus.Converter.register(Errors.LoginError.Fullname, Errors.LoginError);
+
+_.Errors.LoginError=Errors.LoginError;
+Lib.HttpRouter=class HttpRouter extends Aventus.HttpRouter {
+}
+Lib.HttpRouter.Namespace=`${moduleName}.Lib`;
+
+_.Lib.HttpRouter=Lib.HttpRouter;
 Components.Tracker=class Tracker {
     velocityMultiplier = window.devicePixelRatio;
     updateTime = Date.now();
@@ -1080,18 +1067,52 @@ Components.Tracker=class Tracker {
 Components.Tracker.Namespace=`${moduleName}.Components`;
 
 _.Components.Tracker=Components.Tracker;
-(function (ResizeDirection) {
-    ResizeDirection[ResizeDirection["Top"] = 0] = "Top";
-    ResizeDirection[ResizeDirection["TopLeft"] = 1] = "TopLeft";
-    ResizeDirection[ResizeDirection["Left"] = 2] = "Left";
-    ResizeDirection[ResizeDirection["BottomLeft"] = 3] = "BottomLeft";
-    ResizeDirection[ResizeDirection["Bottom"] = 4] = "Bottom";
-    ResizeDirection[ResizeDirection["BottomRight"] = 5] = "BottomRight";
-    ResizeDirection[ResizeDirection["Right"] = 6] = "Right";
-    ResizeDirection[ResizeDirection["TopRight"] = 7] = "TopRight";
-})(Components.ResizeDirection || (Components.ResizeDirection = {}));
+System.Panel = class Panel extends Aventus.WebComponent {
+    static __style = `:host{background-color:var(--primary-color-opacity);border-radius:10px}@media screen and (max-width: 768px){:host{background-color:var(--primary-color)}}@media screen and (max-width: 1224px){:host{border-radius:0px}}`;
+    __getStatic() {
+        return Panel;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Panel.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "Panel";
+    }
+}
+System.Panel.Namespace=`${moduleName}.System`;
+System.Panel.Tag=`rk-panel`;
+_.System.Panel=System.Panel;
+if(!window.customElements.get('rk-panel')){window.customElements.define('rk-panel', System.Panel);Aventus.WebComponentInstance.registerDefinition(System.Panel);}
 
-_.Components.ResizeDirection=Components.ResizeDirection;
+System.DesktopActivableLogic=class DesktopActivableLogic {
+    static findDeskstop(el, desktop) {
+        if (desktop) {
+            return desktop;
+        }
+        else if (el instanceof HTMLElement) {
+            let desktopTemp = Aventus.ElementExtension.findParentByType(el, System.Desktop);
+            return desktopTemp;
+        }
+        return null;
+    }
+    static set(el, desktop) {
+        this.findDeskstop(el, desktop)?.setElementToActive(el);
+    }
+    static remove(el, desktop) {
+        this.findDeskstop(el, desktop)?.removeElementFromActive(el);
+    }
+}
+System.DesktopActivableLogic.Namespace=`${moduleName}.System`;
+
+_.System.DesktopActivableLogic=System.DesktopActivableLogic;
 Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
     async LoginAction(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/login`, Aventus.HttpMethod.POST);
@@ -1268,23 +1289,6 @@ Websocket.Routes.DesktopRouter_RemoveApp=class DesktopRouter_RemoveApp extends A
 Websocket.Routes.DesktopRouter_RemoveApp.Namespace=`${moduleName}.Websocket.Routes`;
 
 _.Websocket.Routes.DesktopRouter_RemoveApp=Websocket.Routes.DesktopRouter_RemoveApp;
-Websocket.Routes.DesktopRouter_RegisterOpenApp=class DesktopRouter_RegisterOpenApp extends AventusSharp.WebSocket.Event {
-    /**
-     * @inheritdoc
-     */
-    path() {
-        return `/desktop/RegisterOpenApp`;
-    }
-    /**
-     * @inheritdoc
-     */
-    listenOnBoot() {
-        return true;
-    }
-}
-Websocket.Routes.DesktopRouter_RegisterOpenApp.Namespace=`${moduleName}.Websocket.Routes`;
-
-_.Websocket.Routes.DesktopRouter_RegisterOpenApp=Websocket.Routes.DesktopRouter_RegisterOpenApp;
 (function (DesktopLocation) {
     DesktopLocation[DesktopLocation["Desktop"] = 0] = "Desktop";
     DesktopLocation[DesktopLocation["BottomBar"] = 1] = "BottomBar";
@@ -2735,971 +2739,6 @@ System.AppList.Tag=`rk-app-list`;
 _.System.AppList=System.AppList;
 if(!window.customElements.get('rk-app-list')){window.customElements.define('rk-app-list', System.AppList);Aventus.WebComponentInstance.registerDefinition(System.AppList);}
 
-Components.Resize = class Resize extends Aventus.WebComponent {
-    get 'min_width'() { return this.getNumberAttr('min_width') }
-    set 'min_width'(val) { this.setNumberAttr('min_width', val) }get 'min_height'() { return this.getNumberAttr('min_height') }
-    set 'min_height'(val) { this.setNumberAttr('min_height', val) }get 'max_width'() { return this.getNumberAttr('max_width') }
-    set 'max_width'(val) { this.setNumberAttr('max_width', val) }get 'max_height'() { return this.getNumberAttr('max_height') }
-    set 'max_height'(val) { this.setNumberAttr('max_height', val) }    _target;
-    get target() {
-        if (this._target)
-            return this._target;
-        throw 'no target defined';
-    }
-    onPointerDown = new Aventus.Callback();
-    onStart = new Aventus.Callback();
-    onMove = new Aventus.Callback();
-    onStop = new Aventus.Callback();
-    onPointerUp = new Aventus.Callback();
-    static __style = `:host{--_resize-z-index:var(--resize-z-index, 1)}:host{--width: 10px;--space: 10px}:host div{position:absolute;z-index:var(--_resize-z-index)}:host .top{height:var(--width);left:var(--space);right:var(--space);top:calc(var(--width)/-2);cursor:ns-resize}:host .top-left{top:calc(var(--width)/-2);left:calc(var(--width)/-2);width:calc(var(--width)/2 + var(--space));height:calc(var(--width)/2 + var(--space));cursor:se-resize}:host .left{bottom:var(--space);top:var(--space);width:var(--width);left:calc(var(--width)/-2);cursor:ew-resize}:host .bottom-left{bottom:calc(var(--width)/-2);left:calc(var(--width)/-2);width:calc(var(--width)/2 + var(--space));height:calc(var(--width)/2 + var(--space));cursor:ne-resize}:host .bottom{height:var(--width);left:var(--space);right:var(--space);bottom:calc(var(--width)/-2);cursor:ns-resize}:host .bottom-right{bottom:calc(var(--width)/-2);right:calc(var(--width)/-2);width:calc(var(--width)/2 + var(--space));height:calc(var(--width)/2 + var(--space));cursor:se-resize}:host .right{bottom:var(--space);top:var(--space);width:var(--width);right:calc(var(--width)/-2);cursor:ew-resize}:host .top-right{top:calc(var(--width)/-2);right:calc(var(--width)/-2);width:calc(var(--width)/2 + var(--space));height:calc(var(--width)/2 + var(--space));cursor:ne-resize}`;
-    __getStatic() {
-        return Resize;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Resize.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="top" _id="resize_0"></div><div class="top-left" _id="resize_1"></div><div class="left" _id="resize_2"></div><div class="bottom-left" _id="resize_3"></div><div class="bottom" _id="resize_4"></div><div class="bottom-right" _id="resize_5"></div><div class="right" _id="resize_6"></div><div class="top-right" _id="resize_7"></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "top",
-      "ids": [
-        "resize_0"
-      ]
-    },
-    {
-      "name": "top_left",
-      "ids": [
-        "resize_1"
-      ]
-    },
-    {
-      "name": "left",
-      "ids": [
-        "resize_2"
-      ]
-    },
-    {
-      "name": "bottom_left",
-      "ids": [
-        "resize_3"
-      ]
-    },
-    {
-      "name": "bottom",
-      "ids": [
-        "resize_4"
-      ]
-    },
-    {
-      "name": "bottom_right",
-      "ids": [
-        "resize_5"
-      ]
-    },
-    {
-      "name": "right",
-      "ids": [
-        "resize_6"
-      ]
-    },
-    {
-      "name": "top_right",
-      "ids": [
-        "resize_7"
-      ]
-    }
-  ]
-}); }
-    getClassName() {
-        return "Resize";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('min_width')){ this['min_width'] = undefined; }if(!this.hasAttribute('min_height')){ this['min_height'] = undefined; }if(!this.hasAttribute('max_width')){ this['max_width'] = undefined; }if(!this.hasAttribute('max_height')){ this['max_height'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('target');this.__upgradeProperty('min_width');this.__upgradeProperty('min_height');this.__upgradeProperty('max_width');this.__upgradeProperty('max_height'); }
-    styleBefore(addStyle) {
-    }
-    applyWidth(value) {
-        this.target.style.width = value + "px";
-    }
-    applyHeight(value) {
-        this.target.style.height = value + "px";
-    }
-    applyTop(value) {
-        this.target.style.top = value + "px";
-    }
-    applyLeft(value) {
-        this.target.style.left = value + "px";
-    }
-    transformWidth(w) {
-        let outbound = false;
-        if (this.max_width && this.max_width > 0) {
-            if (w > this.max_width) {
-                w = this.max_width;
-                outbound = true;
-            }
-        }
-        let min_width = this.min_width ?? 0;
-        if (w < min_width) {
-            w = min_width;
-            outbound = true;
-        }
-        return {
-            w,
-            outbound
-        };
-    }
-    transformHeight(h) {
-        let outbound = false;
-        if (this.max_height && this.max_height > 0) {
-            if (h > this.max_height) {
-                h = this.max_height;
-                outbound = true;
-            }
-        }
-        let min_height = this.min_height ?? 0;
-        if (h < min_height) {
-            h = min_height;
-            outbound = true;
-        }
-        return {
-            h,
-            outbound
-        };
-    }
-    resizeRight() {
-        if (!this.right) {
-            return;
-        }
-        let width;
-        let startX;
-        let direction = Components.ResizeDirection.Right;
-        new Aventus.DragAndDrop({
-            element: this.right,
-            applyDrag: false,
-            offsetDrag: 0,
-            onPointerDown: () => {
-                this.onPointerDown.trigger([direction]);
-            },
-            onStart: (e) => {
-                width = this.target.offsetWidth;
-                startX = e.pageX;
-                this.onStart.trigger([direction]);
-            },
-            onMove: (e) => {
-                let transform = this.transformWidth(width + (e.pageX - startX));
-                if (!transform.outbound) {
-                    this.applyWidth(transform.w);
-                    this.onMove.trigger([direction]);
-                }
-            },
-            onStop: () => {
-                this.onStop.trigger([direction]);
-            },
-            onPointerUp: () => {
-                this.onPointerUp.trigger([direction]);
-            }
-        });
-    }
-    resizeLeft() {
-        if (!this.left) {
-            return;
-        }
-        let width;
-        let left;
-        let startX;
-        let direction = Components.ResizeDirection.Left;
-        new Aventus.DragAndDrop({
-            element: this.left,
-            applyDrag: false,
-            offsetDrag: 0,
-            onPointerDown: () => {
-                this.onPointerDown.trigger([direction]);
-            },
-            onStart: (e) => {
-                width = this.target.offsetWidth;
-                left = this.target.offsetLeft;
-                startX = e.pageX;
-                this.onStart.trigger([direction]);
-            },
-            onMove: (e) => {
-                let transform = this.transformWidth(width - (e.pageX - startX));
-                if (!transform.outbound) {
-                    this.applyWidth(transform.w);
-                    this.applyLeft(left + (e.pageX - startX));
-                    this.onMove.trigger([direction]);
-                }
-            },
-            onStop: () => {
-                this.onStop.trigger([direction]);
-            },
-            onPointerUp: () => {
-                this.onPointerUp.trigger([direction]);
-            }
-        });
-    }
-    resizeBottom() {
-        if (!this.bottom) {
-            return;
-        }
-        let height;
-        let startY;
-        let direction = Components.ResizeDirection.Bottom;
-        new Aventus.DragAndDrop({
-            element: this.bottom,
-            applyDrag: false,
-            offsetDrag: 0,
-            onPointerDown: () => {
-                this.onPointerDown.trigger([direction]);
-            },
-            onStart: (e) => {
-                height = this.target.offsetHeight;
-                startY = e.pageY;
-                this.onStart.trigger([direction]);
-            },
-            onMove: (e) => {
-                let transform = this.transformHeight(height + (e.pageY - startY));
-                if (!transform.outbound) {
-                    this.applyHeight(transform.h);
-                    this.onMove.trigger([direction]);
-                }
-            },
-            onStop: () => {
-                this.onStop.trigger([direction]);
-            },
-            onPointerUp: () => {
-                this.onPointerUp.trigger([direction]);
-            }
-        });
-    }
-    resizeBottomLeft() {
-        if (!this.bottom_left) {
-            return;
-        }
-        let height;
-        let width;
-        let left;
-        let startX;
-        let startY;
-        let direction = Components.ResizeDirection.BottomLeft;
-        new Aventus.DragAndDrop({
-            element: this.bottom_left,
-            applyDrag: false,
-            offsetDrag: 0,
-            onPointerDown: () => {
-                this.onPointerDown.trigger([direction]);
-            },
-            onStart: (e) => {
-                height = this.target.offsetHeight;
-                startY = e.pageY;
-                width = this.target.offsetWidth;
-                left = this.target.offsetLeft;
-                startX = e.pageX;
-                this.onStart.trigger([direction]);
-            },
-            onMove: (e) => {
-                let transformH = this.transformHeight(height + (e.pageY - startY));
-                if (!transformH.outbound) {
-                    this.applyHeight(transformH.h);
-                }
-                let transformW = this.transformWidth(width - (e.pageX - startX));
-                if (!transformW.outbound) {
-                    this.applyWidth(transformW.w);
-                    this.applyLeft(left + (e.pageX - startX));
-                }
-                if (!transformH.outbound || !transformW.outbound) {
-                    this.onMove.trigger([direction]);
-                }
-            },
-            onStop: () => {
-                this.onStop.trigger([direction]);
-            },
-            onPointerUp: () => {
-                this.onPointerUp.trigger([direction]);
-            }
-        });
-    }
-    resizeBottomRight() {
-        if (!this.bottom_right) {
-            return;
-        }
-        let height;
-        let width;
-        let startX;
-        let startY;
-        let direction = Components.ResizeDirection.BottomRight;
-        new Aventus.DragAndDrop({
-            element: this.bottom_right,
-            applyDrag: false,
-            offsetDrag: 0,
-            onPointerDown: () => {
-                this.onPointerDown.trigger([direction]);
-            },
-            onStart: (e) => {
-                height = this.target.offsetHeight;
-                startY = e.pageY;
-                width = this.target.offsetWidth;
-                startX = e.pageX;
-                this.onStart.trigger([direction]);
-            },
-            onMove: (e) => {
-                let transformH = this.transformHeight(height + (e.pageY - startY));
-                if (!transformH.outbound) {
-                    this.applyHeight(transformH.h);
-                }
-                let transformW = this.transformWidth(width + (e.pageX - startX));
-                if (!transformW.outbound) {
-                    this.applyWidth(transformW.w);
-                }
-                if (!transformW.outbound || !transformH.outbound) {
-                    this.onMove.trigger([direction]);
-                }
-            },
-            onStop: () => {
-                this.onStop.trigger([direction]);
-            },
-            onPointerUp: () => {
-                this.onPointerUp.trigger([direction]);
-            }
-        });
-    }
-    resizeTop() {
-        if (!this.top) {
-            return;
-        }
-        let height;
-        let top;
-        let startY;
-        let direction = Components.ResizeDirection.Top;
-        new Aventus.DragAndDrop({
-            element: this.top,
-            applyDrag: false,
-            offsetDrag: 0,
-            onPointerDown: () => {
-                this.onPointerDown.trigger([direction]);
-            },
-            onStart: (e) => {
-                height = this.target.offsetHeight;
-                top = this.target.offsetTop;
-                startY = e.pageY;
-                this.onStart.trigger([direction]);
-            },
-            onMove: (e) => {
-                let transformH = this.transformHeight(height - (e.pageY - startY));
-                if (!transformH.outbound) {
-                    this.applyHeight(transformH.h);
-                    this.applyTop(top + (e.pageY - startY));
-                    this.onMove.trigger([direction]);
-                }
-            },
-            onStop: () => {
-                this.onStop.trigger([direction]);
-            },
-            onPointerUp: () => {
-                this.onPointerUp.trigger([direction]);
-            }
-        });
-    }
-    resizeTopLeft() {
-        if (!this.top_left) {
-            return;
-        }
-        let height;
-        let top;
-        let width;
-        let left;
-        let startX;
-        let startY;
-        let direction = Components.ResizeDirection.TopLeft;
-        new Aventus.DragAndDrop({
-            element: this.top_left,
-            applyDrag: false,
-            offsetDrag: 0,
-            onPointerDown: () => {
-                this.onPointerDown.trigger([direction]);
-            },
-            onStart: (e) => {
-                height = this.target.offsetHeight;
-                top = this.target.offsetTop;
-                startY = e.pageY;
-                width = this.target.offsetWidth;
-                left = this.target.offsetLeft;
-                startX = e.pageX;
-                this.onStart.trigger([direction]);
-            },
-            onMove: (e) => {
-                let transformH = this.transformHeight(height - (e.pageY - startY));
-                if (!transformH.outbound) {
-                    this.applyHeight(transformH.h);
-                    this.applyTop(top + (e.pageY - startY));
-                }
-                let transformW = this.transformWidth(width - (e.pageX - startX));
-                if (!transformW.outbound) {
-                    this.applyWidth(transformW.w);
-                    this.applyLeft(left + (e.pageX - startX));
-                }
-                if (!transformH.outbound || !transformW.outbound) {
-                    this.onMove.trigger([direction]);
-                }
-            },
-            onStop: () => {
-                this.onStop.trigger([direction]);
-            },
-            onPointerUp: () => {
-                this.onPointerUp.trigger([direction]);
-            }
-        });
-    }
-    resizeTopRight() {
-        if (!this.top_right) {
-            return;
-        }
-        let height;
-        let top;
-        let width;
-        let startX;
-        let startY;
-        let direction = Components.ResizeDirection.TopRight;
-        new Aventus.DragAndDrop({
-            element: this.top_right,
-            applyDrag: false,
-            offsetDrag: 0,
-            onPointerDown: () => {
-                this.onPointerDown.trigger([direction]);
-            },
-            onStart: (e) => {
-                height = this.target.offsetHeight;
-                top = this.target.offsetTop;
-                startY = e.pageY;
-                width = this.target.offsetWidth;
-                startX = e.pageX;
-                this.onStart.trigger([direction]);
-            },
-            onMove: (e) => {
-                let transformH = this.transformHeight(height - (e.pageY - startY));
-                if (!transformH.outbound) {
-                    this.applyHeight(transformH.h);
-                    this.applyTop(top + (e.pageY - startY));
-                }
-                let transformW = this.transformWidth(width + (e.pageX - startX));
-                if (!transformW.outbound) {
-                    this.applyWidth(transformW.w);
-                }
-                if (!transformH.outbound || !transformW.outbound) {
-                    this.onMove.trigger([direction]);
-                }
-            },
-            onStop: () => {
-                this.onStop.trigger([direction]);
-            },
-            onPointerUp: () => {
-                this.onPointerUp.trigger([direction]);
-            }
-        });
-    }
-    init(target, config) {
-        this._target = target;
-        if (config) {
-            if (config.applyWidth)
-                this.applyWidth = config.applyWidth.bind(this);
-            if (config.applyHeight)
-                this.applyHeight = config.applyHeight.bind(this);
-            if (config.applyLeft)
-                this.applyLeft = config.applyLeft.bind(this);
-            if (config.applyTop)
-                this.applyTop = config.applyTop.bind(this);
-        }
-        this.resizeRight();
-        this.resizeLeft();
-        this.resizeBottom();
-        this.resizeTop();
-        this.resizeTopLeft();
-        this.resizeTopRight();
-        this.resizeBottomLeft();
-        this.resizeBottomRight();
-    }
-}
-Components.Resize.Namespace=`${moduleName}.Components`;
-Components.Resize.Tag=`rk-resize`;
-_.Components.Resize=Components.Resize;
-if(!window.customElements.get('rk-resize')){window.customElements.define('rk-resize', Components.Resize);Aventus.WebComponentInstance.registerDefinition(Components.Resize);}
-
-System.FrameNoScroll = class FrameNoScroll extends Aventus.WebComponent {
-    static get observedAttributes() {return ["visible"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'visible'() { return this.getBoolProp('visible') }
-    set 'visible'(val) { this.setBoolAttr('visible', val) }    state;
-    application;
-    resetNavElement;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("visible", ((target) => {
-    if (target.visible) {
-        target.onShow();
-    }
-    else {
-        target.onHide();
-    }
-})); }
-    static __style = `:host{animation-delay:var(--local-frame-animation-delay, 0ms);animation-duration:200ms;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);animation-fill-mode:forwards;display:none;height:100%;opacity:0;visibility:hidden;width:100%}:host([visible]){display:block}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}`;
-    constructor() {
-            super();
-            this.addFadeIn();
-if (this.constructor == FrameNoScroll) { throw "can't instanciate an abstract class"; } }
-    __getStatic() {
-        return FrameNoScroll;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(FrameNoScroll.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "FrameNoScroll";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible'); }
-    __listBoolProps() { return ["visible"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    addFadeIn() {
-        this.style.setProperty("--local-frame-animation-delay", "200ms");
-        this.addEventListener("animationend", (e) => {
-            if (e.animationName == "fadeIn") {
-                this.style.removeProperty("--local-frame-animation-delay");
-            }
-        });
-    }
-    async show(state) {
-        this.state = state;
-        this.visible = true;
-    }
-    async hide() {
-        this.visible = false;
-    }
-    async askChange(newState) {
-        return true;
-    }
-    async execute(prom) {
-        return this.application.execute(prom);
-    }
-    async executeWithLoading(prom) {
-        return this.application.executeWithLoading(prom);
-    }
-}
-System.FrameNoScroll.Namespace=`${moduleName}.System`;
-_.System.FrameNoScroll=System.FrameNoScroll;
-
-Lib.ApplicationState=class ApplicationState extends Aventus.State {
-    /**
-     * The current namespace
-     */
-    static Namespace = "";
-    /**
-     * Get the unique type for the data. Define it as the namespace + class name
-     */
-    static get Fullname() { return this.Namespace + "." + this.name; }
-    $type;
-    __manager;
-    get application() {
-        return this.__manager.application;
-    }
-    ;
-    __canSaveState = true;
-    enableSaveState() {
-        this.__canSaveState = true;
-    }
-    disableSaveState() {
-        this.__canSaveState = false;
-    }
-    canSync() {
-        if (!this.__canSaveState || !this.__manager)
-            return false;
-        return true;
-    }
-    constructor() {
-        super();
-        this.$type = this.constructor['Fullname'];
-    }
-    setManager(manager) {
-        this.__manager = manager;
-    }
-    saveState() {
-        if (!this.canSync())
-            return;
-        this.__manager.save();
-    }
-    async activate() {
-        return super.activate(this.__manager);
-    }
-    /**
-     * Override this tell which field must by sync
-     */
-    syncField(addField) {
-    }
-    /**
-     * Override this tell which field must by sync
-     */
-    syncFieldNoCheck(addField) {
-    }
-    runSyncField() {
-        const result = ["$type"];
-        const addField = (field) => {
-            result.push(field);
-        };
-        this.syncField(addField);
-        this.syncFieldNoCheck(addField);
-        return result;
-    }
-    toJSON() {
-        const fields = this.runSyncField();
-        return Aventus.Json.classToJson(this, {
-            isValidKey: (key) => {
-                return fields.includes(key);
-            }
-        });
-    }
-    copyValues(src) {
-        const fields = this.runSyncField();
-        Aventus.Converter.copyValuesClass(this, src, {
-            isValidKey: (key) => {
-                return fields.includes(key);
-            }
-        });
-    }
-}
-Lib.ApplicationState.Namespace=`${moduleName}.Lib`;
-Lib.ApplicationState.$schema={...(Aventus.State?.$schema ?? {}), "$type":"string","__manager":"ApplicationStateManager","application":""+moduleName+".System.Application","__canSaveState":"boolean"};
-Aventus.Converter.register(Lib.ApplicationState.Fullname, Lib.ApplicationState);
-
-_.Lib.ApplicationState=Lib.ApplicationState;
-Lib.ApplicationStorableState=class ApplicationStorableState extends Lib.ApplicationState {
-    __item;
-    get item() {
-        return this.__item;
-    }
-    set item(value) {
-        if (!this.__item) {
-            this.__item = Aventus.Watcher.get(value, () => {
-                this.saveState();
-            });
-        }
-        try {
-            for (let key in value) {
-                this.__item[key] = value[key];
-            }
-        }
-        catch (e) {
-            console.log(e);
-        }
-    }
-    constructor(item) {
-        super();
-        if (item) {
-            this.item = item;
-        }
-        else {
-            this.item = this.newElement();
-        }
-    }
-    syncField(addField) {
-        super.syncField(addField);
-        addField("item");
-    }
-}
-Lib.ApplicationStorableState.Namespace=`${moduleName}.Lib`;
-Lib.ApplicationStorableState.$schema={...(Lib.ApplicationState?.$schema ?? {}), "__item":"T","item":"T"};
-Aventus.Converter.register(Lib.ApplicationStorableState.Fullname, Lib.ApplicationStorableState);
-
-_.Lib.ApplicationStorableState=Lib.ApplicationStorableState;
-Lib.ApplicationEmptyState=class ApplicationEmptyState extends Lib.ApplicationState {
-    localName;
-    constructor(stateName) {
-        super();
-        this.localName = stateName;
-    }
-    syncFieldNoCheck(addField) {
-        addField("localName");
-    }
-    /**
-     * @inheritdoc
-     */
-    get name() {
-        return this.localName;
-    }
-}
-Lib.ApplicationEmptyState.Namespace=`${moduleName}.Lib`;
-Lib.ApplicationEmptyState.$schema={...(Lib.ApplicationState?.$schema ?? {}), "localName":"string","name":"string"};
-Aventus.Converter.register(Lib.ApplicationEmptyState.Fullname, Lib.ApplicationEmptyState);
-
-_.Lib.ApplicationEmptyState=Lib.ApplicationEmptyState;
-Lib.ApplicationStateManager=class ApplicationStateManager extends Aventus.StateManager {
-    application;
-    constructor(application) {
-        super();
-        this.application = application;
-    }
-    save() {
-        return this.application.saveApplicationHistory();
-    }
-    assignDefaultState(stateName) {
-        let el = new Lib.ApplicationEmptyState(stateName);
-        el.setManager(this);
-        return el;
-    }
-    setState(state) {
-        if (state instanceof Lib.ApplicationState) {
-            state.setManager(this);
-        }
-        return super.setState(state);
-    }
-}
-Lib.ApplicationStateManager.Namespace=`${moduleName}.Lib`;
-
-_.Lib.ApplicationStateManager=Lib.ApplicationStateManager;
-System.ApplicationHistoryConvert=class ApplicationHistoryConvert extends Aventus.ConverterTransform {
-    manager;
-    constructor(manager) {
-        super();
-        this.manager = manager;
-    }
-    beforeTransformObject(obj) {
-        if (obj instanceof Lib.ApplicationState) {
-            obj.setManager(this.manager);
-            obj.disableSaveState();
-        }
-    }
-    afterTransformObject(obj) {
-        if (obj instanceof Lib.ApplicationState) {
-            obj.enableSaveState();
-        }
-    }
-}
-System.ApplicationHistoryConvert.Namespace=`${moduleName}.System`;
-
-_.System.ApplicationHistoryConvert=System.ApplicationHistoryConvert;
-System.ApplicationHistory=class ApplicationHistory {
-    static Fullname = "Core.System.ApplicationHistory";
-    $type = System.ApplicationHistory.Fullname;
-    memory = [];
-    currentPosition = -1;
-    push(history) {
-        if (this.currentPosition != this.memory.length - 1) {
-            let nb = this.memory.length - (this.currentPosition + 1);
-            this.memory.splice(this.currentPosition + 1, nb);
-        }
-        this.memory.push(history);
-        this.currentPosition = this.memory.length - 1;
-    }
-    replace(history) {
-        if (this.memory.length == 0) {
-            this.memory.push(history);
-            return;
-        }
-        const last = this.memory.length - 1;
-        this.memory.splice(last, 1, history);
-    }
-    replaceAt(history, index) {
-        if (this.memory.length <= index) {
-            throw "index is too short";
-        }
-        this.memory.splice(index - 1, 1, history);
-    }
-    clear() {
-        if (this.memory.length == 0) {
-            return;
-        }
-        const last = this.memory.length - 1;
-        const lastHistory = this.memory[last];
-        this.memory = [lastHistory];
-    }
-    next() {
-        if (this.nextAvailable) {
-            this.currentPosition++;
-            return this.memory[this.currentPosition];
-        }
-        return null;
-    }
-    cancelNext() {
-        this.currentPosition--;
-    }
-    current() {
-        return this.memory[this.currentPosition];
-    }
-    get nextAvailable() {
-        return this.currentPosition < this.memory.length - 1;
-    }
-    previous() {
-        if (this.previousAvailable) {
-            this.currentPosition--;
-            return this.memory[this.currentPosition];
-        }
-        return null;
-    }
-    cancelPrevious() {
-        this.currentPosition++;
-    }
-    get previousAvailable() {
-        return this.currentPosition > 0;
-    }
-    toText() {
-        let txt = JSON.stringify(this);
-        return txt;
-    }
-    static fromText(manager, txt) {
-        if (!txt) {
-            return new System.ApplicationHistory();
-        }
-        try {
-            const converter = new System.ApplicationHistoryConvert(manager);
-            return Aventus.Converter.transform(JSON.parse(txt), converter);
-        }
-        catch (e) {
-        }
-        return new System.ApplicationHistory();
-    }
-}
-System.ApplicationHistory.Namespace=`${moduleName}.System`;
-System.ApplicationHistory.$schema={"$type":"string","memory":"History","currentPosition":"number","nextAvailable":"boolean","previousAvailable":"boolean"};
-Aventus.Converter.register(System.ApplicationHistory.Fullname, System.ApplicationHistory);
-
-_.System.ApplicationHistory=System.ApplicationHistory;
-System.ApplicationSizeStorage=class ApplicationSizeStorage {
-    memoryPrefered = {};
-    memory = {};
-    keyPrefered = "ApplicationSizeStoragePrefered";
-    keySave = "ApplicationSizeStorage";
-    constructor() {
-        this.memoryPrefered = JSON.parse(sessionStorage.getItem(this.keyPrefered) ?? "{}");
-        this.memory = JSON.parse(sessionStorage.getItem(this.keySave) ?? "{}");
-    }
-    getInfoPrefered(appName) {
-        return this.memoryPrefered[appName];
-    }
-    setInfoPrefered(appName, value) {
-        this.memoryPrefered[appName] = value;
-        sessionStorage.setItem(this.keyPrefered, JSON.stringify(this.memoryPrefered));
-    }
-    getInfo(desktopId, appName, appNumber) {
-        const key = this.getKey(desktopId, appName, appNumber);
-        return this.memory[key];
-    }
-    setInfo(desktopId, appName, appNumber, value) {
-        const key = this.getKey(desktopId, appName, appNumber);
-        this.memory[key] = value;
-        sessionStorage.setItem(this.keySave, JSON.stringify(this.memory));
-    }
-    removeInfo(desktopId, appName, appNumber) {
-        const key = this.getKey(desktopId, appName, appNumber);
-        delete this.memory[key];
-    }
-    clearAll() {
-        this.memory = {};
-        sessionStorage.setItem(this.keySave, JSON.stringify(this.memory));
-    }
-    getKey(desktopId, appName, appNumber) {
-        return desktopId + ":" + appName + "$" + appNumber;
-    }
-}
-System.ApplicationSizeStorage.Namespace=`${moduleName}.System`;
-
-System.ApplicationSize=class ApplicationSize {
-    application;
-    storage;
-    constructor(application) {
-        this.application = application;
-        this.storage = Aventus.Instance.get(System.ApplicationSizeStorage);
-    }
-    load() {
-        const cst = this.application.constructor;
-        let desktopId = this.application.options?.desktopId ?? 0;
-        let applicationNumber = this.application.options?.applicationNumber ?? 0;
-        let info = this.storage.getInfo(desktopId, cst.Fullname, applicationNumber);
-        if (!info) {
-            return this.getPrefered();
-        }
-        return info;
-    }
-    save() {
-        if (!this.application.isReady)
-            return;
-        const cst = this.application.constructor;
-        let desktopId = this.application.options?.desktopId ?? 0;
-        let applicationNumber = this.application.options?.applicationNumber ?? 0;
-        let info;
-        if (this.application.full) {
-            let oldValues = this.load();
-            info = {
-                isFullScreen: true,
-                height: oldValues.height,
-                width: oldValues.width,
-                left: oldValues.left,
-                top: oldValues.top
-            };
-        }
-        else {
-            if (this.application.offsetHeight == 0 || this.application.offsetWidth == 0) {
-                return;
-            }
-            info = {
-                isFullScreen: false,
-                height: this.application.offsetHeight,
-                width: this.application.offsetWidth,
-                left: this.application.offsetLeft,
-                top: this.application.offsetTop
-            };
-        }
-        this.storage.setInfo(desktopId, cst.Fullname, applicationNumber, info);
-        this.storage.setInfoPrefered(cst.Fullname, info);
-    }
-    remove() {
-        const cst = this.application.constructor;
-        let desktopId = this.application.options?.desktopId ?? 0;
-        let applicationNumber = this.application.options?.applicationNumber ?? 0;
-        this.storage.removeInfo(desktopId, cst.Fullname, applicationNumber);
-    }
-    getPrefered() {
-        const cst = this.application.constructor;
-        const info = this.storage.getInfoPrefered(cst.Fullname);
-        if (!info) {
-            return System.ApplicationSize.getBasicSize();
-        }
-        return info;
-    }
-    static getBasicSize() {
-        let height = document.body.offsetHeight * 0.8;
-        if (height < 500) {
-            height = document.body.offsetHeight;
-        }
-        let width = height / 5 * 8;
-        if (width > document.body.offsetWidth) {
-            width = document.body.offsetWidth;
-        }
-        let top = (document.body.offsetHeight - height) / 2 - 40;
-        if (top < 0) {
-            top = 0;
-        }
-        let left = (document.body.offsetWidth - width) / 2;
-        if (left < 0) {
-            left = 0;
-        }
-        return {
-            isFullScreen: false,
-            height,
-            width,
-            top, left
-        };
-    }
-}
-System.ApplicationSize.Namespace=`${moduleName}.System`;
-
-_.System.ApplicationSize=System.ApplicationSize;
 Components.TouchRecord=class TouchRecord {
     _activeTouchID;
     _touchList = {};
@@ -4392,70 +3431,252 @@ Components.Scrollable.Tag=`rk-scrollable`;
 _.Components.Scrollable=Components.Scrollable;
 if(!window.customElements.get('rk-scrollable')){window.customElements.define('rk-scrollable', Components.Scrollable);Aventus.WebComponentInstance.registerDefinition(Components.Scrollable);}
 
-System.Frame = class Frame extends System.FrameNoScroll {
-    static __style = `:host .main-scroll{--scrollbar-content-padding: 0 15px}`;
-    constructor() { super(); if (this.constructor == Frame) { throw "can't instanciate an abstract class"; } }
+RAM.UserRAM=class UserRAM extends AventusSharp.RAM.RamHttp {
+    connectedUserId;
+    /**
+     * Create a singleton to store data
+     */
+    static getInstance() {
+        return Aventus.Instance.get(RAM.UserRAM);
+    }
+    /**
+     * @inheritdoc
+     */
+    defineIndexKey() {
+        return 'Id';
+    }
+    /**
+     * @inheritdoc
+     */
+    getTypeForData(objJson) {
+        return this.addUserMethod(Data.User);
+    }
+    /**
+     * @inheritdoc
+     */
+    defineRoutes() {
+        return new Routes.UserRouter(new Lib.HttpRouter());
+    }
+    async getConnected() {
+        return this.actionGuard.run(["getConnected"], async () => {
+            let result = new Aventus.ResultWithError();
+            if (!this.connectedUserId) {
+                let query = await new Routes.CoreRouter().routes.User.GetConnected();
+                if (!query.success || !query.result) {
+                    result.errors = query.errors;
+                    return result;
+                }
+                this.connectedUserId = query.result.Id;
+                this.addOrUpdateData(query.result, result);
+                if (!result.success) {
+                    return result;
+                }
+            }
+            return this.getByIdWithError(this.connectedUserId);
+        });
+    }
+    /**
+     * Mixin pattern to add methods
+     */
+    addUserMethod(Base) {
+        return class Extension extends Base {
+            static get className() {
+                return Base.className || Base.name;
+            }
+            get className() {
+                return Base.className || Base.name;
+            }
+        };
+    }
+}
+RAM.UserRAM.Namespace=`${moduleName}.RAM`;
+
+_.RAM.UserRAM=RAM.UserRAM;
+Lib.SessionManager=class SessionManager {
+    static async logout() {
+        try {
+            await new Routes.CoreRouter().routes.Logout();
+        }
+        catch { }
+        window.location.reload();
+    }
+    static async getUser() {
+        let result = await RAM.UserRAM.getInstance().getConnected();
+        if (result.containsCode(Errors.LoginCode.NotConnected, Errors.LoginError)) {
+            this.logout();
+        }
+        else if (!result.success) {
+        }
+        return result.result;
+    }
+}
+Lib.SessionManager.Namespace=`${moduleName}.Lib`;
+
+_.Lib.SessionManager=Lib.SessionManager;
+System.HomePanel = class HomePanel extends System.Panel {
+    get 'currentUser'() {
+						return this.__watch["currentUser"];
+					}
+					set 'currentUser'(val) {
+						this.__watch["currentUser"] = val;
+					}    btn;
+    __registerWatchesActions() {
+    this.__addWatchesActions("currentUser");    super.__registerWatchesActions();
+}
+    static __style = `:host{display:flex;flex-direction:column;left:-9px;position:absolute;width:500px}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:5px;margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .grid{display:flex;flex-wrap:wrap;gap:10px;padding:10px}:host .content rk-row rk-col .favoris .favoris-container .grid *{aspect-ratio:1/1;flex-shrink:0;height:auto;width:calc(33.3333333333% - 6.6666666667px)}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;justify-content:space-between;width:100%}:host .footer .person{align-items:center;display:flex;padding:8px 10px;margin:10px 10px;border-radius:5px;transition:background-color .2s var(--bezier-curve)}:host .footer .person rk-img{height:25px}:host .footer .person .name{margin-left:10px}:host .footer .person:hover{background-color:var(--lighter)}:host .footer rk-button{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;aspect-ratio:1;border:none;box-shadow:var(--elevation-2);min-width:auto;margin:10px 10px}`;
     __getStatic() {
-        return Frame;
+        return HomePanel;
     }
     __getStyle() {
         let arrStyle = super.__getStyle();
-        arrStyle.push(Frame.__style);
+        arrStyle.push(HomePanel.__style);
         return arrStyle;
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        slots: { 'before-scroll':`<slot name="before-scroll"></slot>`,'default':`<slot></slot>`,'after-scroll':`<slot name="after-scroll"></slot>` }, 
-        blocks: { 'default':`<slot name="before-scroll"></slot><rk-scrollable floating_scroll class="main-scroll" _id="frame_0">    <slot></slot></rk-scrollable><slot name="after-scroll"></slot>` }
+        blocks: { 'default':`<div class="content">    <rk-row>        <rk-col size="6">            <div class="recent">                <div class="title">                    Récents                </div>                <rk-scrollable class="scrollable recent-container" floating_scroll _id="homepanel_0">                </rk-scrollable>            </div>        </rk-col>        <rk-col size="6">            <div class="favoris">                <div class="title">                    Mes favoris                </div>                <rk-scrollable class="scrollable favoris-container" floating_scroll>                    <div class="grid" _id="homepanel_1"></div>                </rk-scrollable>            </div>        </rk-col>    </rk-row></div><div class="footer">    <div class="person touch" _id="homepanel_2">        <div class="icon">            <rk-img src="/img/avatar.png"></rk-img>        </div>        <div class="name" _id="homepanel_3"></div>    </div>    <rk-button icon="/img/icons/power-off.svg" _id="homepanel_4"></rk-button></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
-      "name": "mainScroll",
+      "name": "recentContainer",
       "ids": [
-        "frame_0"
+        "homepanel_0"
       ]
+    },
+    {
+      "name": "favorisContainer",
+      "ids": [
+        "homepanel_1"
+      ]
+    }
+  ],
+  "content": {
+    "homepanel_3°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod0())} ${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod1())}`
+    }
+  },
+  "pressEvents": [
+    {
+      "id": "homepanel_2",
+      "onPress": (e, pressInstance, c) => { c.comp.openProfil(e, pressInstance); }
+    },
+    {
+      "id": "homepanel_4",
+      "onPress": (e, pressInstance, c) => { c.comp.logout(e, pressInstance); }
     }
   ]
 }); }
     getClassName() {
-        return "Frame";
+        return "HomePanel";
+    }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["currentUser"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('currentUser'); }
+    openProfil() {
+        let desktop = this.findParentByType(System.Desktop);
+        if (desktop) {
+            desktop.openUrl("Settings", "/", "/user");
+            this.btn.active = false;
+        }
+    }
+    async logout() {
+        Lib.SessionManager.logout();
+    }
+    async displayRecent() {
+        // for(let i = 0; i < 20; i++) {
+        //     let test = new AppIconInline();
+        //     let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
+        //     let app = await ApplicationRAM.getInstance().getApplicationByName("Cave");
+        //     if(icon && app) {
+        //         test.setIcon(icon);
+        //         test.text = app.DisplayName;
+        //     }
+        //     this.recentContainer.appendChild(test);
+        // }
+    }
+    async displayFavoris() {
+        // for(let i = 0; i < 20; i++) {
+        //     let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
+        //     if(icon) {
+        //         this.favorisContainer.appendChild(icon);
+        //     }
+        // }
+    }
+    async getUser() {
+        this.currentUser = await Lib.SessionManager.getUser();
+    }
+    postCreation() {
+        this.getUser();
+        this.displayRecent();
+        this.displayFavoris();
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => { },
+            onDrag: () => { },
+        });
+    }
+    __71121dd8c2837747a91ecf75da806c7amethod0() {
+        return this.currentUser?.Firstname;
+    }
+    __71121dd8c2837747a91ecf75da806c7amethod1() {
+        return this.currentUser?.Lastname;
     }
 }
-System.Frame.Namespace=`${moduleName}.System`;
-_.System.Frame=System.Frame;
+System.HomePanel.Namespace=`${moduleName}.System`;
+System.HomePanel.Tag=`rk-home-panel`;
+_.System.HomePanel=System.HomePanel;
+if(!window.customElements.get('rk-home-panel')){window.customElements.define('rk-home-panel', System.HomePanel);Aventus.WebComponentInstance.registerDefinition(System.HomePanel);}
 
-System.Frame404 = class Frame404 extends System.Frame {
-    static __style = ``;
+System.HomeBtn = class HomeBtn extends Aventus.WebComponent {
+    get 'active'() { return this.getBoolAttr('active') }
+    set 'active'(val) { this.setBoolAttr('active', val) }    static __style = `:host{position:relative}:host .icon{border-radius:5px;cursor:pointer;margin:0 3px;max-height:calc(100% - 16px);max-width:34px;padding:7px;transition:background-color .2s var(--bezier-curve)}:host rk-home-panel{bottom:calc(100% + 5px);height:0;overflow:hidden;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s}:host([active]) .icon{background-color:var(--text-color)}:host([active]) .icon rk-img{--img-fill-color: var(--primary-color-opacity)}:host([active]) rk-home-panel{bottom:calc(100% + 10px);height:400px}@media screen and (min-width: 1225px){:host(:not([active])) .icon:hover{background-color:var(--lighter-active)}}`;
     __getStatic() {
-        return Frame404;
+        return HomeBtn;
     }
     __getStyle() {
         let arrStyle = super.__getStyle();
-        arrStyle.push(Frame404.__style);
+        arrStyle.push(HomeBtn.__style);
         return arrStyle;
     }
-    __getHtml() {super.__getHtml();
+    __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<p>Erreur 404</p>` }
+        blocks: { 'default':`<div class="icon" _id="homebtn_0">    <rk-img mode="contains" src="/img/icons/house.svg" class="touch"></rk-img></div><rk-home-panel _id="homebtn_1"></rk-home-panel>` }
     });
 }
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "homePanel",
+      "ids": [
+        "homebtn_1"
+      ]
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "homebtn_0",
+      "onPress": (e, pressInstance, c) => { c.comp.toggleActive(e, pressInstance); }
+    }
+  ]
+}); }
     getClassName() {
-        return "Frame404";
+        return "HomeBtn";
     }
-    pageTitle() {
-        return "Page not found";
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('active'); }
+    __listBoolProps() { return ["active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    toggleActive() {
+        this.active = !this.active;
     }
-    onShow() {
-    }
-    onHide() {
+    postCreation() {
+        this.homePanel.btn = this;
     }
 }
-System.Frame404.Namespace=`${moduleName}.System`;
-System.Frame404.Tag=`rk-frame-404`;
-_.System.Frame404=System.Frame404;
-if(!window.customElements.get('rk-frame-404')){window.customElements.define('rk-frame-404', System.Frame404);Aventus.WebComponentInstance.registerDefinition(System.Frame404);}
+System.HomeBtn.Namespace=`${moduleName}.System`;
+System.HomeBtn.Tag=`rk-home-btn`;
+_.System.HomeBtn=System.HomeBtn;
+if(!window.customElements.get('rk-home-btn')){window.customElements.define('rk-home-btn', System.HomeBtn);Aventus.WebComponentInstance.registerDefinition(System.HomeBtn);}
 
 Websocket.Routes.ApplicationRouter=class ApplicationRouter extends AventusSharp.WebSocket.Route {
     events;
@@ -4499,6 +3720,23 @@ Websocket.Routes.ApplicationRouter=class ApplicationRouter extends AventusSharp.
 Websocket.Routes.ApplicationRouter.Namespace=`${moduleName}.Websocket.Routes`;
 
 _.Websocket.Routes.ApplicationRouter=Websocket.Routes.ApplicationRouter;
+Websocket.Routes.DesktopRouter_RegisterOpenApp=class DesktopRouter_RegisterOpenApp extends AventusSharp.WebSocket.Event {
+    /**
+     * @inheritdoc
+     */
+    path() {
+        return `/desktop/RegisterOpenApp`;
+    }
+    /**
+     * @inheritdoc
+     */
+    listenOnBoot() {
+        return true;
+    }
+}
+Websocket.Routes.DesktopRouter_RegisterOpenApp.Namespace=`${moduleName}.Websocket.Routes`;
+
+_.Websocket.Routes.DesktopRouter_RegisterOpenApp=Websocket.Routes.DesktopRouter_RegisterOpenApp;
 Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocket.Route {
     events;
     constructor(endpoint) {
@@ -4591,6 +3829,1127 @@ Lib.MainSocket=class MainSocket extends Websocket.MainEndPoint {
 Lib.MainSocket.Namespace=`${moduleName}.Lib`;
 
 _.Lib.MainSocket=Lib.MainSocket;
+System.BottomBar = class BottomBar extends Aventus.WebComponent {
+    get desktop() {
+        if (this.parentNode instanceof ShadowRoot) {
+            if (this.parentNode.host instanceof System.Desktop) {
+                return this.parentNode.host;
+            }
+        }
+        throw "impossible";
+    }
+    is_desktop_active = false;
+    timeoutOverHome = 0;
+    emptyIcon;
+    static __style = `:host{align-items:center;background-color:var(--primary-color-opacity);box-shadow:var(--elevation-3);border-radius:10px;bottom:10px;color:var(--text-color);display:flex;font-size:var(--font-size);height:50px;left:100px;outline:none;padding:0 10px;position:absolute;transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s,transform 1s var(--bezier-curve);width:calc(100% - 200px);z-index:100}:host .section{align-items:center;display:flex;height:100%}:host .section .icon{--img-stroke-color: transparent;--img-fill-color: var(--text-color);border-radius:5px;cursor:pointer;margin:0 3px;max-height:calc(100% - 16px);max-width:34px;padding:7px;transition:background-color .2s var(--bezier-curve)}:host .section rk-app-icon{margin:0 5px}:host .separator{background-color:var(--text-color);display:inline-block;height:50%;margin:0 13px;width:1px}:host .applications{flex-grow:1;gap:10px;position:relative}:host .applications .empty-icon{background-color:var(--darker-active);border-radius:5px;height:30px;width:30px}:host .nb-notifications{align-items:center;background-color:var(--text-color);border-radius:50%;color:var(--primary-color-opacity);display:flex;font-size:14px;font-weight:bold;height:25px;justify-content:center;letter-spacing:-1px;padding-right:1px;width:25px}@media screen and (min-width: 1225px){:host .section .icon:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host{border-radius:0;border-bottom-left-radius:0;border-bottom-right-radius:0;bottom:0px;left:0px;padding:0 10px;width:100%}}@media screen and (max-width: 768px){:host{height:70px}:host .basic-action{display:none}:host .addons{display:none}:host .separator{display:none}:host .applications .empty-icon{height:50px;width:50px}}`;
+    constructor() { super(); this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this) }
+    __getStatic() {
+        return BottomBar;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(BottomBar.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="section basic-action">    <rk-home-btn></rk-home-btn>    <rk-img mode="contains" src="/img/icons/application-panel.svg" class="touch icon" _id="bottombar_0"></rk-img>    <rk-img mode="contains" src="/img/icons/search.svg" class="touch icon"></rk-img>    <rk-img mode="contains" src="/img/icons/layout-fluid.svg" class="touch icon" _id="bottombar_1"></rk-img></div><div class="separator"></div><div class="section applications" _id="bottombar_2"></div><div class="separator"></div><div class="section addons">    <rk-add-on-time></rk-add-on-time></div>` }
+    });
+}
+    __createStates() { super.__createStates(); let that = this;  this.__createStatesList(State.MoveApplication.state, State.DesktopStateManager);this.__addActiveState(State.MoveApplication.state, State.DesktopStateManager, (state, slugs) => { that.__inactiveDefaultState(State.DesktopStateManager); that.onMoveApplication(state, slugs);})this.__addInactiveState(State.MoveApplication.state, State.DesktopStateManager, (state, nextState, slugs) => { that.onStopMovingApplication(state, nextState, slugs);that.__activeDefaultState(nextState, State.DesktopStateManager);}) }
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "applicationsContainer",
+      "ids": [
+        "bottombar_2"
+      ]
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "bottombar_0",
+      "onPress": (e, pressInstance, c) => { c.comp.showAppList(e, pressInstance); }
+    },
+    {
+      "id": "bottombar_1",
+      "onPress": (e, pressInstance, c) => { c.comp.showDesktops(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "BottomBar";
+    }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('desktop'); }
+    addSwipe() {
+        let enable = true;
+        let startY = 0;
+        new Aventus.DragAndDrop({
+            element: this,
+            applyDrag: false,
+            offsetDrag: 50,
+            isDragEnable: () => enable,
+            onStart: (e) => {
+                startY = e.pageY;
+            },
+            onMove: (e) => {
+                let positionY = startY - e.pageY;
+                if (positionY > 50) {
+                    enable = false;
+                    this.showAppList();
+                }
+            },
+            onStop: () => {
+                enable = true;
+            }
+        });
+    }
+    showAppList() {
+        System.Os.instance.show_application_list = true;
+    }
+    showDesktops() {
+        System.Os.instance.desktop_list = true;
+    }
+    addFocus() {
+        this.setAttribute("tabindex", "-1");
+        this.addEventListener("focus", (e) => {
+            e.stopPropagation();
+            this.setDesktopActive();
+        });
+    }
+    setAppPositionTemp(shadow, x, y, state) {
+        let caseEl = this.shadowRoot.elementFromPoint(x, y);
+        if (caseEl && this.shadowRoot.contains(caseEl)) {
+            shadow.style.width = "";
+            shadow.style.height = "";
+            if (caseEl instanceof System.HomeBtn) {
+                if (!this.timeoutOverHome && !caseEl.active) {
+                    this.timeoutOverHome = setTimeout(() => {
+                        let caseEl = this.shadowRoot.elementFromPoint(state.lastX, state.lastY);
+                        if (caseEl instanceof System.HomeBtn) {
+                            caseEl.active = true;
+                        }
+                    }, 2000);
+                }
+                return false;
+            }
+            if (this.timeoutOverHome) {
+                clearTimeout(this.timeoutOverHome);
+                this.timeoutOverHome = 0;
+            }
+            let rect = this.applicationsContainer.getBoundingClientRect();
+            if (x >= rect.x && x <= rect.x + rect.width) {
+                if (!this.emptyIcon) {
+                    this.emptyIcon = document.createElement("DIV");
+                    this.emptyIcon.classList.add("empty-icon");
+                }
+                let children = Array.from(this.applicationsContainer.children);
+                let found = false;
+                for (let i = 0; i < children.length; i++) {
+                    let child = children[i];
+                    if (child instanceof System.AppIcon) {
+                        if (x < rect.x + child.offsetLeft + (child.offsetWidth / 2)) {
+                            this.applicationsContainer.insertBefore(this.emptyIcon, child);
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if (!found) {
+                    this.applicationsContainer.appendChild(this.emptyIcon);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    clearAppPositionTemp(state) {
+        if (this.timeoutOverHome) {
+            let caseEl = this.shadowRoot.elementFromPoint(state.lastX, state.lastY);
+            if (!(caseEl instanceof System.HomeBtn)) {
+                clearTimeout(this.timeoutOverHome);
+                this.timeoutOverHome = 0;
+            }
+        }
+        if (this.emptyIcon?.parentNode) {
+            this.emptyIcon.remove();
+        }
+    }
+    async setAppPosition(icon, x, y) {
+        if (this.emptyIcon?.parentNode) {
+            let children = this.emptyIcon.parentNode?.children ?? [];
+            let no = Array.from(children).indexOf(this.emptyIcon);
+            if (no == -1)
+                return;
+            this.applicationsContainer.insertBefore(icon, this.emptyIcon);
+            this.emptyIcon.remove();
+            let desktopIcon = new Data.DesktopAppIcon();
+            desktopIcon.DesktopId = this.desktop.desktop_id;
+            desktopIcon.Position = no;
+            desktopIcon.IconTag = icon.tag;
+            desktopIcon.Location = Data.DesktopLocation.BottomBar;
+            desktopIcon.Id = icon.iconId;
+            let result = await Lib.MainSocket.instance.routes.desktop.SetDesktopIcon({
+                icon: desktopIcon
+            });
+            if (result.success && result.result) {
+                icon.iconId = result.result.Id;
+                icon.position = result.result.Position;
+                icon.can_remove = true;
+            }
+            no++;
+            for (; no < children.length; no++) {
+                let child = children[no];
+                if (child instanceof System.AppIcon) {
+                    let desktopIcon = new Data.DesktopAppIcon();
+                    desktopIcon.DesktopId = this.desktop.desktop_id;
+                    desktopIcon.Position = no;
+                    desktopIcon.IconTag = child.tag;
+                    desktopIcon.Location = Data.DesktopLocation.BottomBar;
+                    desktopIcon.Id = child.iconId;
+                    let result = await Lib.MainSocket.instance.routes.desktop.SetDesktopIcon({
+                        icon: desktopIcon
+                    });
+                    if (result.success) {
+                        child.position = no;
+                    }
+                }
+            }
+        }
+    }
+    async removeAppPosition(icon, x, y) {
+        let caseEl = this.shadowRoot.elementFromPoint(x, y);
+        if (caseEl && this.shadowRoot.contains(caseEl)) {
+            let children = icon.parentNode?.children ?? [];
+            let no = Array.from(children).indexOf(icon);
+            let desktopIcon = new Data.DesktopAppIcon();
+            desktopIcon.Id = icon.iconId;
+            let result = await Lib.MainSocket.instance.routes.desktop.RemoveDesktopIcon({
+                icon: desktopIcon
+            });
+            if (result.success) {
+                icon.remove();
+                for (; no < children.length; no++) {
+                    let child = children[no];
+                    if (child instanceof System.AppIcon) {
+                        let desktopIcon = new Data.DesktopAppIcon();
+                        desktopIcon.DesktopId = this.desktop.desktop_id;
+                        desktopIcon.Position = no;
+                        desktopIcon.IconTag = child.tag;
+                        desktopIcon.Location = Data.DesktopLocation.BottomBar;
+                        desktopIcon.Id = child.iconId;
+                        let result = await Lib.MainSocket.instance.routes.desktop.SetDesktopIcon({
+                            icon: desktopIcon
+                        });
+                        if (result.success) {
+                            child.position = no;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    onMoveApplication(state, slugs) {
+        if (!this.desktop?.is_active) {
+            return;
+        }
+        if (state instanceof State.MoveApplication) {
+            state.registerProvider(this);
+        }
+    }
+    onStopMovingApplication(state, nextState, slugs) {
+        if (!this.desktop?.is_active) {
+            return;
+        }
+    }
+    setApplication(el) {
+        this.applicationsContainer.appendChild(el);
+    }
+    setDesktopActive() {
+        System.DesktopActivableLogic.set(this);
+    }
+    removeDesktopActive() {
+        System.DesktopActivableLogic.remove(this);
+    }
+    postCreation() {
+        this.addSwipe();
+        this.addFocus();
+    }
+}
+System.BottomBar.Namespace=`${moduleName}.System`;
+System.BottomBar.Tag=`rk-bottom-bar`;
+_.System.BottomBar=System.BottomBar;
+if(!window.customElements.get('rk-bottom-bar')){window.customElements.define('rk-bottom-bar', System.BottomBar);Aventus.WebComponentInstance.registerDefinition(System.BottomBar);}
+
+Components.Resize = class Resize extends Aventus.WebComponent {
+    get 'min_width'() { return this.getNumberAttr('min_width') }
+    set 'min_width'(val) { this.setNumberAttr('min_width', val) }get 'min_height'() { return this.getNumberAttr('min_height') }
+    set 'min_height'(val) { this.setNumberAttr('min_height', val) }get 'max_width'() { return this.getNumberAttr('max_width') }
+    set 'max_width'(val) { this.setNumberAttr('max_width', val) }get 'max_height'() { return this.getNumberAttr('max_height') }
+    set 'max_height'(val) { this.setNumberAttr('max_height', val) }    _target;
+    get target() {
+        if (this._target)
+            return this._target;
+        throw 'no target defined';
+    }
+    onPointerDown = new Aventus.Callback();
+    onStart = new Aventus.Callback();
+    onMove = new Aventus.Callback();
+    onStop = new Aventus.Callback();
+    onPointerUp = new Aventus.Callback();
+    static __style = `:host{--_resize-z-index:var(--resize-z-index, 1)}:host{--width: 10px;--space: 10px}:host div{position:absolute;z-index:var(--_resize-z-index)}:host .top{height:var(--width);left:var(--space);right:var(--space);top:calc(var(--width)/-2);cursor:ns-resize}:host .top-left{top:calc(var(--width)/-2);left:calc(var(--width)/-2);width:calc(var(--width)/2 + var(--space));height:calc(var(--width)/2 + var(--space));cursor:se-resize}:host .left{bottom:var(--space);top:var(--space);width:var(--width);left:calc(var(--width)/-2);cursor:ew-resize}:host .bottom-left{bottom:calc(var(--width)/-2);left:calc(var(--width)/-2);width:calc(var(--width)/2 + var(--space));height:calc(var(--width)/2 + var(--space));cursor:ne-resize}:host .bottom{height:var(--width);left:var(--space);right:var(--space);bottom:calc(var(--width)/-2);cursor:ns-resize}:host .bottom-right{bottom:calc(var(--width)/-2);right:calc(var(--width)/-2);width:calc(var(--width)/2 + var(--space));height:calc(var(--width)/2 + var(--space));cursor:se-resize}:host .right{bottom:var(--space);top:var(--space);width:var(--width);right:calc(var(--width)/-2);cursor:ew-resize}:host .top-right{top:calc(var(--width)/-2);right:calc(var(--width)/-2);width:calc(var(--width)/2 + var(--space));height:calc(var(--width)/2 + var(--space));cursor:ne-resize}`;
+    __getStatic() {
+        return Resize;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Resize.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="top" _id="resize_0"></div><div class="top-left" _id="resize_1"></div><div class="left" _id="resize_2"></div><div class="bottom-left" _id="resize_3"></div><div class="bottom" _id="resize_4"></div><div class="bottom-right" _id="resize_5"></div><div class="right" _id="resize_6"></div><div class="top-right" _id="resize_7"></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "top",
+      "ids": [
+        "resize_0"
+      ]
+    },
+    {
+      "name": "top_left",
+      "ids": [
+        "resize_1"
+      ]
+    },
+    {
+      "name": "left",
+      "ids": [
+        "resize_2"
+      ]
+    },
+    {
+      "name": "bottom_left",
+      "ids": [
+        "resize_3"
+      ]
+    },
+    {
+      "name": "bottom",
+      "ids": [
+        "resize_4"
+      ]
+    },
+    {
+      "name": "bottom_right",
+      "ids": [
+        "resize_5"
+      ]
+    },
+    {
+      "name": "right",
+      "ids": [
+        "resize_6"
+      ]
+    },
+    {
+      "name": "top_right",
+      "ids": [
+        "resize_7"
+      ]
+    }
+  ]
+}); }
+    getClassName() {
+        return "Resize";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('min_width')){ this['min_width'] = undefined; }if(!this.hasAttribute('min_height')){ this['min_height'] = undefined; }if(!this.hasAttribute('max_width')){ this['max_width'] = undefined; }if(!this.hasAttribute('max_height')){ this['max_height'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('target');this.__upgradeProperty('min_width');this.__upgradeProperty('min_height');this.__upgradeProperty('max_width');this.__upgradeProperty('max_height'); }
+    styleBefore(addStyle) {
+    }
+    applyWidth(value) {
+        this.target.style.width = value + "px";
+    }
+    applyHeight(value) {
+        this.target.style.height = value + "px";
+    }
+    applyTop(value) {
+        this.target.style.top = value + "px";
+    }
+    applyLeft(value) {
+        this.target.style.left = value + "px";
+    }
+    transformWidth(w) {
+        let outbound = false;
+        if (this.max_width && this.max_width > 0) {
+            if (w > this.max_width) {
+                w = this.max_width;
+                outbound = true;
+            }
+        }
+        let min_width = this.min_width ?? 0;
+        if (w < min_width) {
+            w = min_width;
+            outbound = true;
+        }
+        return {
+            w,
+            outbound
+        };
+    }
+    transformHeight(h) {
+        let outbound = false;
+        if (this.max_height && this.max_height > 0) {
+            if (h > this.max_height) {
+                h = this.max_height;
+                outbound = true;
+            }
+        }
+        let min_height = this.min_height ?? 0;
+        if (h < min_height) {
+            h = min_height;
+            outbound = true;
+        }
+        return {
+            h,
+            outbound
+        };
+    }
+    resizeRight() {
+        if (!this.right) {
+            return;
+        }
+        let width;
+        let startX;
+        let direction = Components.ResizeDirection.Right;
+        new Aventus.DragAndDrop({
+            element: this.right,
+            applyDrag: false,
+            offsetDrag: 0,
+            onPointerDown: () => {
+                this.onPointerDown.trigger([direction]);
+            },
+            onStart: (e) => {
+                width = this.target.offsetWidth;
+                startX = e.pageX;
+                this.onStart.trigger([direction]);
+            },
+            onMove: (e) => {
+                let transform = this.transformWidth(width + (e.pageX - startX));
+                if (!transform.outbound) {
+                    this.applyWidth(transform.w);
+                    this.onMove.trigger([direction]);
+                }
+            },
+            onStop: () => {
+                this.onStop.trigger([direction]);
+            },
+            onPointerUp: () => {
+                this.onPointerUp.trigger([direction]);
+            }
+        });
+    }
+    resizeLeft() {
+        if (!this.left) {
+            return;
+        }
+        let width;
+        let left;
+        let startX;
+        let direction = Components.ResizeDirection.Left;
+        new Aventus.DragAndDrop({
+            element: this.left,
+            applyDrag: false,
+            offsetDrag: 0,
+            onPointerDown: () => {
+                this.onPointerDown.trigger([direction]);
+            },
+            onStart: (e) => {
+                width = this.target.offsetWidth;
+                left = this.target.offsetLeft;
+                startX = e.pageX;
+                this.onStart.trigger([direction]);
+            },
+            onMove: (e) => {
+                let transform = this.transformWidth(width - (e.pageX - startX));
+                if (!transform.outbound) {
+                    this.applyWidth(transform.w);
+                    this.applyLeft(left + (e.pageX - startX));
+                    this.onMove.trigger([direction]);
+                }
+            },
+            onStop: () => {
+                this.onStop.trigger([direction]);
+            },
+            onPointerUp: () => {
+                this.onPointerUp.trigger([direction]);
+            }
+        });
+    }
+    resizeBottom() {
+        if (!this.bottom) {
+            return;
+        }
+        let height;
+        let startY;
+        let direction = Components.ResizeDirection.Bottom;
+        new Aventus.DragAndDrop({
+            element: this.bottom,
+            applyDrag: false,
+            offsetDrag: 0,
+            onPointerDown: () => {
+                this.onPointerDown.trigger([direction]);
+            },
+            onStart: (e) => {
+                height = this.target.offsetHeight;
+                startY = e.pageY;
+                this.onStart.trigger([direction]);
+            },
+            onMove: (e) => {
+                let transform = this.transformHeight(height + (e.pageY - startY));
+                if (!transform.outbound) {
+                    this.applyHeight(transform.h);
+                    this.onMove.trigger([direction]);
+                }
+            },
+            onStop: () => {
+                this.onStop.trigger([direction]);
+            },
+            onPointerUp: () => {
+                this.onPointerUp.trigger([direction]);
+            }
+        });
+    }
+    resizeBottomLeft() {
+        if (!this.bottom_left) {
+            return;
+        }
+        let height;
+        let width;
+        let left;
+        let startX;
+        let startY;
+        let direction = Components.ResizeDirection.BottomLeft;
+        new Aventus.DragAndDrop({
+            element: this.bottom_left,
+            applyDrag: false,
+            offsetDrag: 0,
+            onPointerDown: () => {
+                this.onPointerDown.trigger([direction]);
+            },
+            onStart: (e) => {
+                height = this.target.offsetHeight;
+                startY = e.pageY;
+                width = this.target.offsetWidth;
+                left = this.target.offsetLeft;
+                startX = e.pageX;
+                this.onStart.trigger([direction]);
+            },
+            onMove: (e) => {
+                let transformH = this.transformHeight(height + (e.pageY - startY));
+                if (!transformH.outbound) {
+                    this.applyHeight(transformH.h);
+                }
+                let transformW = this.transformWidth(width - (e.pageX - startX));
+                if (!transformW.outbound) {
+                    this.applyWidth(transformW.w);
+                    this.applyLeft(left + (e.pageX - startX));
+                }
+                if (!transformH.outbound || !transformW.outbound) {
+                    this.onMove.trigger([direction]);
+                }
+            },
+            onStop: () => {
+                this.onStop.trigger([direction]);
+            },
+            onPointerUp: () => {
+                this.onPointerUp.trigger([direction]);
+            }
+        });
+    }
+    resizeBottomRight() {
+        if (!this.bottom_right) {
+            return;
+        }
+        let height;
+        let width;
+        let startX;
+        let startY;
+        let direction = Components.ResizeDirection.BottomRight;
+        new Aventus.DragAndDrop({
+            element: this.bottom_right,
+            applyDrag: false,
+            offsetDrag: 0,
+            onPointerDown: () => {
+                this.onPointerDown.trigger([direction]);
+            },
+            onStart: (e) => {
+                height = this.target.offsetHeight;
+                startY = e.pageY;
+                width = this.target.offsetWidth;
+                startX = e.pageX;
+                this.onStart.trigger([direction]);
+            },
+            onMove: (e) => {
+                let transformH = this.transformHeight(height + (e.pageY - startY));
+                if (!transformH.outbound) {
+                    this.applyHeight(transformH.h);
+                }
+                let transformW = this.transformWidth(width + (e.pageX - startX));
+                if (!transformW.outbound) {
+                    this.applyWidth(transformW.w);
+                }
+                if (!transformW.outbound || !transformH.outbound) {
+                    this.onMove.trigger([direction]);
+                }
+            },
+            onStop: () => {
+                this.onStop.trigger([direction]);
+            },
+            onPointerUp: () => {
+                this.onPointerUp.trigger([direction]);
+            }
+        });
+    }
+    resizeTop() {
+        if (!this.top) {
+            return;
+        }
+        let height;
+        let top;
+        let startY;
+        let direction = Components.ResizeDirection.Top;
+        new Aventus.DragAndDrop({
+            element: this.top,
+            applyDrag: false,
+            offsetDrag: 0,
+            onPointerDown: () => {
+                this.onPointerDown.trigger([direction]);
+            },
+            onStart: (e) => {
+                height = this.target.offsetHeight;
+                top = this.target.offsetTop;
+                startY = e.pageY;
+                this.onStart.trigger([direction]);
+            },
+            onMove: (e) => {
+                let transformH = this.transformHeight(height - (e.pageY - startY));
+                if (!transformH.outbound) {
+                    this.applyHeight(transformH.h);
+                    this.applyTop(top + (e.pageY - startY));
+                    this.onMove.trigger([direction]);
+                }
+            },
+            onStop: () => {
+                this.onStop.trigger([direction]);
+            },
+            onPointerUp: () => {
+                this.onPointerUp.trigger([direction]);
+            }
+        });
+    }
+    resizeTopLeft() {
+        if (!this.top_left) {
+            return;
+        }
+        let height;
+        let top;
+        let width;
+        let left;
+        let startX;
+        let startY;
+        let direction = Components.ResizeDirection.TopLeft;
+        new Aventus.DragAndDrop({
+            element: this.top_left,
+            applyDrag: false,
+            offsetDrag: 0,
+            onPointerDown: () => {
+                this.onPointerDown.trigger([direction]);
+            },
+            onStart: (e) => {
+                height = this.target.offsetHeight;
+                top = this.target.offsetTop;
+                startY = e.pageY;
+                width = this.target.offsetWidth;
+                left = this.target.offsetLeft;
+                startX = e.pageX;
+                this.onStart.trigger([direction]);
+            },
+            onMove: (e) => {
+                let transformH = this.transformHeight(height - (e.pageY - startY));
+                if (!transformH.outbound) {
+                    this.applyHeight(transformH.h);
+                    this.applyTop(top + (e.pageY - startY));
+                }
+                let transformW = this.transformWidth(width - (e.pageX - startX));
+                if (!transformW.outbound) {
+                    this.applyWidth(transformW.w);
+                    this.applyLeft(left + (e.pageX - startX));
+                }
+                if (!transformH.outbound || !transformW.outbound) {
+                    this.onMove.trigger([direction]);
+                }
+            },
+            onStop: () => {
+                this.onStop.trigger([direction]);
+            },
+            onPointerUp: () => {
+                this.onPointerUp.trigger([direction]);
+            }
+        });
+    }
+    resizeTopRight() {
+        if (!this.top_right) {
+            return;
+        }
+        let height;
+        let top;
+        let width;
+        let startX;
+        let startY;
+        let direction = Components.ResizeDirection.TopRight;
+        new Aventus.DragAndDrop({
+            element: this.top_right,
+            applyDrag: false,
+            offsetDrag: 0,
+            onPointerDown: () => {
+                this.onPointerDown.trigger([direction]);
+            },
+            onStart: (e) => {
+                height = this.target.offsetHeight;
+                top = this.target.offsetTop;
+                startY = e.pageY;
+                width = this.target.offsetWidth;
+                startX = e.pageX;
+                this.onStart.trigger([direction]);
+            },
+            onMove: (e) => {
+                let transformH = this.transformHeight(height - (e.pageY - startY));
+                if (!transformH.outbound) {
+                    this.applyHeight(transformH.h);
+                    this.applyTop(top + (e.pageY - startY));
+                }
+                let transformW = this.transformWidth(width + (e.pageX - startX));
+                if (!transformW.outbound) {
+                    this.applyWidth(transformW.w);
+                }
+                if (!transformH.outbound || !transformW.outbound) {
+                    this.onMove.trigger([direction]);
+                }
+            },
+            onStop: () => {
+                this.onStop.trigger([direction]);
+            },
+            onPointerUp: () => {
+                this.onPointerUp.trigger([direction]);
+            }
+        });
+    }
+    init(target, config) {
+        this._target = target;
+        if (config) {
+            if (config.applyWidth)
+                this.applyWidth = config.applyWidth.bind(this);
+            if (config.applyHeight)
+                this.applyHeight = config.applyHeight.bind(this);
+            if (config.applyLeft)
+                this.applyLeft = config.applyLeft.bind(this);
+            if (config.applyTop)
+                this.applyTop = config.applyTop.bind(this);
+        }
+        this.resizeRight();
+        this.resizeLeft();
+        this.resizeBottom();
+        this.resizeTop();
+        this.resizeTopLeft();
+        this.resizeTopRight();
+        this.resizeBottomLeft();
+        this.resizeBottomRight();
+    }
+}
+Components.Resize.Namespace=`${moduleName}.Components`;
+Components.Resize.Tag=`rk-resize`;
+_.Components.Resize=Components.Resize;
+if(!window.customElements.get('rk-resize')){window.customElements.define('rk-resize', Components.Resize);Aventus.WebComponentInstance.registerDefinition(Components.Resize);}
+
+System.FrameNoScroll = class FrameNoScroll extends Aventus.WebComponent {
+    static get observedAttributes() {return ["visible"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'visible'() { return this.getBoolProp('visible') }
+    set 'visible'(val) { this.setBoolAttr('visible', val) }    state;
+    application;
+    resetNavElement;
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("visible", ((target) => {
+    if (target.visible) {
+        target.onShow();
+    }
+    else {
+        target.onHide();
+    }
+})); }
+    static __style = `:host{animation-delay:var(--local-frame-animation-delay, 0ms);animation-duration:200ms;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);animation-fill-mode:forwards;display:none;height:100%;opacity:0;visibility:hidden;width:100%}:host([visible]){display:block}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}`;
+    constructor() {
+            super();
+            this.addFadeIn();
+if (this.constructor == FrameNoScroll) { throw "can't instanciate an abstract class"; } }
+    __getStatic() {
+        return FrameNoScroll;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(FrameNoScroll.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "FrameNoScroll";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible'); }
+    __listBoolProps() { return ["visible"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    addFadeIn() {
+        this.style.setProperty("--local-frame-animation-delay", "200ms");
+        this.addEventListener("animationend", (e) => {
+            if (e.animationName == "fadeIn") {
+                this.style.removeProperty("--local-frame-animation-delay");
+            }
+        });
+    }
+    async show(state) {
+        this.state = state;
+        this.visible = true;
+    }
+    async hide() {
+        this.visible = false;
+    }
+    async askChange(newState) {
+        return true;
+    }
+    async execute(prom) {
+        return this.application.execute(prom);
+    }
+    async executeWithLoading(prom) {
+        return this.application.executeWithLoading(prom);
+    }
+}
+System.FrameNoScroll.Namespace=`${moduleName}.System`;
+_.System.FrameNoScroll=System.FrameNoScroll;
+
+System.Frame = class Frame extends System.FrameNoScroll {
+    static __style = `:host .main-scroll{--scrollbar-content-padding: 0 15px}`;
+    constructor() { super(); if (this.constructor == Frame) { throw "can't instanciate an abstract class"; } }
+    __getStatic() {
+        return Frame;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Frame.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'before-scroll':`<slot name="before-scroll"></slot>`,'default':`<slot></slot>`,'after-scroll':`<slot name="after-scroll"></slot>` }, 
+        blocks: { 'default':`<slot name="before-scroll"></slot><rk-scrollable floating_scroll class="main-scroll" _id="frame_0">    <slot></slot></rk-scrollable><slot name="after-scroll"></slot>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "mainScroll",
+      "ids": [
+        "frame_0"
+      ]
+    }
+  ]
+}); }
+    getClassName() {
+        return "Frame";
+    }
+}
+System.Frame.Namespace=`${moduleName}.System`;
+_.System.Frame=System.Frame;
+
+Lib.ApplicationState=class ApplicationState extends Aventus.State {
+    /**
+     * The current namespace
+     */
+    static Namespace = "";
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    static get Fullname() { return this.Namespace + "." + this.name; }
+    $type;
+    __manager;
+    get application() {
+        return this.__manager.application;
+    }
+    ;
+    __canSaveState = true;
+    enableSaveState() {
+        this.__canSaveState = true;
+    }
+    disableSaveState() {
+        this.__canSaveState = false;
+    }
+    canSync() {
+        if (!this.__canSaveState || !this.__manager)
+            return false;
+        return true;
+    }
+    constructor() {
+        super();
+        this.$type = this.constructor['Fullname'];
+    }
+    setManager(manager) {
+        this.__manager = manager;
+    }
+    saveState() {
+        if (!this.canSync())
+            return;
+        this.__manager.save();
+    }
+    async activate() {
+        return super.activate(this.__manager);
+    }
+    /**
+     * Override this tell which field must by sync
+     */
+    syncField(addField) {
+    }
+    /**
+     * Override this tell which field must by sync
+     */
+    syncFieldNoCheck(addField) {
+    }
+    runSyncField() {
+        const result = ["$type"];
+        const addField = (field) => {
+            result.push(field);
+        };
+        this.syncField(addField);
+        this.syncFieldNoCheck(addField);
+        return result;
+    }
+    toJSON() {
+        const fields = this.runSyncField();
+        return Aventus.Json.classToJson(this, {
+            isValidKey: (key) => {
+                return fields.includes(key);
+            }
+        });
+    }
+    copyValues(src) {
+        const fields = this.runSyncField();
+        Aventus.Converter.copyValuesClass(this, src, {
+            isValidKey: (key) => {
+                return fields.includes(key);
+            }
+        });
+    }
+}
+Lib.ApplicationState.Namespace=`${moduleName}.Lib`;
+Lib.ApplicationState.$schema={...(Aventus.State?.$schema ?? {}), "$type":"string","__manager":"ApplicationStateManager","application":""+moduleName+".System.Application","__canSaveState":"boolean"};
+Aventus.Converter.register(Lib.ApplicationState.Fullname, Lib.ApplicationState);
+
+_.Lib.ApplicationState=Lib.ApplicationState;
+Lib.ApplicationStorableState=class ApplicationStorableState extends Lib.ApplicationState {
+    __item;
+    get item() {
+        return this.__item;
+    }
+    set item(value) {
+        if (!this.__item) {
+            this.__item = Aventus.Watcher.get(value, () => {
+                this.saveState();
+            });
+        }
+        try {
+            for (let key in value) {
+                this.__item[key] = value[key];
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+    constructor(item) {
+        super();
+        if (item) {
+            this.item = item;
+        }
+        else {
+            this.item = this.newElement();
+        }
+    }
+    syncField(addField) {
+        super.syncField(addField);
+        addField("item");
+    }
+}
+Lib.ApplicationStorableState.Namespace=`${moduleName}.Lib`;
+Lib.ApplicationStorableState.$schema={...(Lib.ApplicationState?.$schema ?? {}), "__item":"T","item":"T"};
+Aventus.Converter.register(Lib.ApplicationStorableState.Fullname, Lib.ApplicationStorableState);
+
+_.Lib.ApplicationStorableState=Lib.ApplicationStorableState;
+Lib.ApplicationEmptyState=class ApplicationEmptyState extends Lib.ApplicationState {
+    localName;
+    constructor(stateName) {
+        super();
+        this.localName = stateName;
+    }
+    syncFieldNoCheck(addField) {
+        addField("localName");
+    }
+    /**
+     * @inheritdoc
+     */
+    get name() {
+        return this.localName;
+    }
+}
+Lib.ApplicationEmptyState.Namespace=`${moduleName}.Lib`;
+Lib.ApplicationEmptyState.$schema={...(Lib.ApplicationState?.$schema ?? {}), "localName":"string","name":"string"};
+Aventus.Converter.register(Lib.ApplicationEmptyState.Fullname, Lib.ApplicationEmptyState);
+
+_.Lib.ApplicationEmptyState=Lib.ApplicationEmptyState;
+Lib.ApplicationStateManager=class ApplicationStateManager extends Aventus.StateManager {
+    application;
+    constructor(application) {
+        super();
+        this.application = application;
+    }
+    save() {
+        return this.application.saveApplicationHistory();
+    }
+    assignDefaultState(stateName) {
+        let el = new Lib.ApplicationEmptyState(stateName);
+        el.setManager(this);
+        return el;
+    }
+    setState(state) {
+        if (state instanceof Lib.ApplicationState) {
+            state.setManager(this);
+        }
+        return super.setState(state);
+    }
+}
+Lib.ApplicationStateManager.Namespace=`${moduleName}.Lib`;
+
+_.Lib.ApplicationStateManager=Lib.ApplicationStateManager;
+System.ApplicationHistoryConvert=class ApplicationHistoryConvert extends Aventus.ConverterTransform {
+    manager;
+    constructor(manager) {
+        super();
+        this.manager = manager;
+    }
+    beforeTransformObject(obj) {
+        if (obj instanceof Lib.ApplicationState) {
+            obj.setManager(this.manager);
+            obj.disableSaveState();
+        }
+    }
+    afterTransformObject(obj) {
+        if (obj instanceof Lib.ApplicationState) {
+            obj.enableSaveState();
+        }
+    }
+}
+System.ApplicationHistoryConvert.Namespace=`${moduleName}.System`;
+
+_.System.ApplicationHistoryConvert=System.ApplicationHistoryConvert;
+System.ApplicationHistory=class ApplicationHistory {
+    static Fullname = "Core.System.ApplicationHistory";
+    $type = System.ApplicationHistory.Fullname;
+    memory = [];
+    currentPosition = -1;
+    push(history) {
+        if (this.currentPosition != this.memory.length - 1) {
+            let nb = this.memory.length - (this.currentPosition + 1);
+            this.memory.splice(this.currentPosition + 1, nb);
+        }
+        this.memory.push(history);
+        this.currentPosition = this.memory.length - 1;
+    }
+    replace(history) {
+        if (this.memory.length == 0) {
+            this.memory.push(history);
+            return;
+        }
+        const last = this.memory.length - 1;
+        this.memory.splice(last, 1, history);
+    }
+    replaceAt(history, index) {
+        if (this.memory.length <= index) {
+            throw "index is too short";
+        }
+        this.memory.splice(index - 1, 1, history);
+    }
+    clear() {
+        if (this.memory.length == 0) {
+            return;
+        }
+        const last = this.memory.length - 1;
+        const lastHistory = this.memory[last];
+        this.memory = [lastHistory];
+    }
+    next() {
+        if (this.nextAvailable) {
+            this.currentPosition++;
+            return this.memory[this.currentPosition];
+        }
+        return null;
+    }
+    cancelNext() {
+        this.currentPosition--;
+    }
+    current() {
+        return this.memory[this.currentPosition];
+    }
+    get nextAvailable() {
+        return this.currentPosition < this.memory.length - 1;
+    }
+    previous() {
+        if (this.previousAvailable) {
+            this.currentPosition--;
+            return this.memory[this.currentPosition];
+        }
+        return null;
+    }
+    cancelPrevious() {
+        this.currentPosition++;
+    }
+    get previousAvailable() {
+        return this.currentPosition > 0;
+    }
+    toText() {
+        let txt = JSON.stringify(this);
+        return txt;
+    }
+    static fromText(manager, txt) {
+        if (!txt) {
+            return new System.ApplicationHistory();
+        }
+        try {
+            const converter = new System.ApplicationHistoryConvert(manager);
+            return Aventus.Converter.transform(JSON.parse(txt), converter);
+        }
+        catch (e) {
+        }
+        return new System.ApplicationHistory();
+    }
+}
+System.ApplicationHistory.Namespace=`${moduleName}.System`;
+System.ApplicationHistory.$schema={"$type":"string","memory":"History","currentPosition":"number","nextAvailable":"boolean","previousAvailable":"boolean"};
+Aventus.Converter.register(System.ApplicationHistory.Fullname, System.ApplicationHistory);
+
+_.System.ApplicationHistory=System.ApplicationHistory;
 Lib.ApplicationManager=class ApplicationManager {
     static waitingDelay = 1000;
     static waitings = {};
@@ -4762,6 +5121,167 @@ Lib.ApplicationManager=class ApplicationManager {
 Lib.ApplicationManager.Namespace=`${moduleName}.Lib`;
 
 _.Lib.ApplicationManager=Lib.ApplicationManager;
+System.ApplicationSizeStorage=class ApplicationSizeStorage {
+    memoryPrefered = {};
+    memory = {};
+    keyPrefered = "ApplicationSizeStoragePrefered";
+    keySave = "ApplicationSizeStorage";
+    constructor() {
+        this.memoryPrefered = JSON.parse(sessionStorage.getItem(this.keyPrefered) ?? "{}");
+        this.memory = JSON.parse(sessionStorage.getItem(this.keySave) ?? "{}");
+    }
+    getInfoPrefered(appName) {
+        return this.memoryPrefered[appName];
+    }
+    setInfoPrefered(appName, value) {
+        this.memoryPrefered[appName] = value;
+        sessionStorage.setItem(this.keyPrefered, JSON.stringify(this.memoryPrefered));
+    }
+    getInfo(desktopId, appName, appNumber) {
+        const key = this.getKey(desktopId, appName, appNumber);
+        return this.memory[key];
+    }
+    setInfo(desktopId, appName, appNumber, value) {
+        const key = this.getKey(desktopId, appName, appNumber);
+        this.memory[key] = value;
+        sessionStorage.setItem(this.keySave, JSON.stringify(this.memory));
+    }
+    removeInfo(desktopId, appName, appNumber) {
+        const key = this.getKey(desktopId, appName, appNumber);
+        delete this.memory[key];
+    }
+    clearAll() {
+        this.memory = {};
+        sessionStorage.setItem(this.keySave, JSON.stringify(this.memory));
+    }
+    getKey(desktopId, appName, appNumber) {
+        return desktopId + ":" + appName + "$" + appNumber;
+    }
+}
+System.ApplicationSizeStorage.Namespace=`${moduleName}.System`;
+
+System.ApplicationSize=class ApplicationSize {
+    application;
+    storage;
+    constructor(application) {
+        this.application = application;
+        this.storage = Aventus.Instance.get(System.ApplicationSizeStorage);
+    }
+    load() {
+        const cst = this.application.constructor;
+        let desktopId = this.application.options?.desktopId ?? 0;
+        let applicationNumber = this.application.options?.applicationNumber ?? 0;
+        let info = this.storage.getInfo(desktopId, cst.Fullname, applicationNumber);
+        if (!info) {
+            return this.getPrefered();
+        }
+        return info;
+    }
+    save() {
+        if (!this.application.isReady)
+            return;
+        const cst = this.application.constructor;
+        let desktopId = this.application.options?.desktopId ?? 0;
+        let applicationNumber = this.application.options?.applicationNumber ?? 0;
+        let info;
+        if (this.application.full) {
+            let oldValues = this.load();
+            info = {
+                isFullScreen: true,
+                height: oldValues.height,
+                width: oldValues.width,
+                left: oldValues.left,
+                top: oldValues.top
+            };
+        }
+        else {
+            if (this.application.offsetHeight == 0 || this.application.offsetWidth == 0) {
+                return;
+            }
+            info = {
+                isFullScreen: false,
+                height: this.application.offsetHeight,
+                width: this.application.offsetWidth,
+                left: this.application.offsetLeft,
+                top: this.application.offsetTop
+            };
+        }
+        this.storage.setInfo(desktopId, cst.Fullname, applicationNumber, info);
+        this.storage.setInfoPrefered(cst.Fullname, info);
+    }
+    remove() {
+        const cst = this.application.constructor;
+        let desktopId = this.application.options?.desktopId ?? 0;
+        let applicationNumber = this.application.options?.applicationNumber ?? 0;
+        this.storage.removeInfo(desktopId, cst.Fullname, applicationNumber);
+    }
+    getPrefered() {
+        const cst = this.application.constructor;
+        const info = this.storage.getInfoPrefered(cst.Fullname);
+        if (!info) {
+            return System.ApplicationSize.getBasicSize();
+        }
+        return info;
+    }
+    static getBasicSize() {
+        let height = document.body.offsetHeight * 0.8;
+        if (height < 500) {
+            height = document.body.offsetHeight;
+        }
+        let width = height / 5 * 8;
+        if (width > document.body.offsetWidth) {
+            width = document.body.offsetWidth;
+        }
+        let top = (document.body.offsetHeight - height) / 2 - 40;
+        if (top < 0) {
+            top = 0;
+        }
+        let left = (document.body.offsetWidth - width) / 2;
+        if (left < 0) {
+            left = 0;
+        }
+        return {
+            isFullScreen: false,
+            height,
+            width,
+            top, left
+        };
+    }
+}
+System.ApplicationSize.Namespace=`${moduleName}.System`;
+
+_.System.ApplicationSize=System.ApplicationSize;
+System.Frame404 = class Frame404 extends System.Frame {
+    static __style = ``;
+    __getStatic() {
+        return Frame404;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Frame404.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<p>Erreur 404</p>` }
+    });
+}
+    getClassName() {
+        return "Frame404";
+    }
+    pageTitle() {
+        return "Page not found";
+    }
+    onShow() {
+    }
+    onHide() {
+    }
+}
+System.Frame404.Namespace=`${moduleName}.System`;
+System.Frame404.Tag=`rk-frame-404`;
+_.System.Frame404=System.Frame404;
+if(!window.customElements.get('rk-frame-404')){window.customElements.define('rk-frame-404', System.Frame404);Aventus.WebComponentInstance.registerDefinition(System.Frame404);}
+
 Components.Popup = class Popup extends Aventus.WebComponent {
     get 'no_red_btn'() { return this.getBoolAttr('no_red_btn') }
     set 'no_red_btn'(val) { this.setBoolAttr('no_red_btn', val) }get 'behind'() { return this.getBoolAttr('behind') }
@@ -5031,15 +5551,18 @@ _.Components.Alert=Components.Alert;
 if(!window.customElements.get('rk-alert')){window.customElements.define('rk-alert', Components.Alert);Aventus.WebComponentInstance.registerDefinition(Components.Alert);}
 
 System.Application = class Application extends Aventus.WebComponent {
-    static get observedAttributes() {return ["app_title", "full", "is_hidden", "is_active"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    static get observedAttributes() {return ["app_title", "full", "is_hidden"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'moving'() { return this.getBoolAttr('moving') }
     set 'moving'(val) { this.setBoolAttr('moving', val) }get 'loading'() { return this.getBoolAttr('loading') }
     set 'loading'(val) { this.setBoolAttr('loading', val) }    get 'app_title'() { return this.getStringProp('app_title') }
     set 'app_title'(val) { this.setStringAttr('app_title', val) }get 'full'() { return this.getBoolProp('full') }
     set 'full'(val) { this.setBoolAttr('full', val) }get 'is_hidden'() { return this.getBoolProp('is_hidden') }
-    set 'is_hidden'(val) { this.setBoolAttr('is_hidden', val) }get 'is_active'() { return this.getBoolProp('is_active') }
-    set 'is_active'(val) { this.setBoolAttr('is_active', val) }    static activeApplication = null;
-    oldFrame;
+    set 'is_hidden'(val) { this.setBoolAttr('is_hidden', val) }    get 'is_desktop_active'() {
+						return this.__watch["is_desktop_active"];
+					}
+					set 'is_desktop_active'(val) {
+						this.__watch["is_desktop_active"] = val;
+					}    oldFrame;
     allRoutes = {};
     activePath = "";
     activeState;
@@ -5059,14 +5582,17 @@ System.Application = class Application extends Aventus.WebComponent {
         }
         return this.router;
     }
+    __registerWatchesActions() {
+    this.__addWatchesActions("is_desktop_active", ((target) => {
+    target.manageShortcut();
+}));    super.__registerWatchesActions();
+}
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("full", ((target) => {
     target.saveSize();
 }));this.__addPropertyActions("is_hidden", ((target) => {
     target.onIsHiddenChange();
-}));this.__addPropertyActions("is_active", ((target) => {
-    target.manageShortcut();
 })); }
-    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_active]){z-index:501}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 45px)}:host rk-resize{display:none}:host([is_hidden]){left:0 !important;width:100% !important}}`;
+    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 45px)}:host rk-resize{display:none}:host([is_hidden]){left:0 !important;width:100% !important}}`;
     constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.validError404=this.validError404.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this)this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)this.moveApplicationToRight=this.moveApplicationToRight.bind(this) }
     __getStatic() {
         return Application;
@@ -5147,9 +5673,10 @@ System.Application = class Application extends Aventus.WebComponent {
     getClassName() {
         return "Application";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('moving')) { this.attributeChangedCallback('moving', false, false); }if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('app_title')){ this['app_title'] = "Page title"; }if(!this.hasAttribute('full')) { this.attributeChangedCallback('full', false, false); }if(!this.hasAttribute('is_hidden')) { this.attributeChangedCallback('is_hidden', false, false); }if(!this.hasAttribute('is_active')) { this.attributeChangedCallback('is_active', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('navigator');this.__upgradeProperty('moving');this.__upgradeProperty('loading');this.__upgradeProperty('app_title');this.__upgradeProperty('full');this.__upgradeProperty('is_hidden');this.__upgradeProperty('is_active'); }
-    __listBoolProps() { return ["moving","loading","full","is_hidden","is_active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('moving')) { this.attributeChangedCallback('moving', false, false); }if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('app_title')){ this['app_title'] = "Page title"; }if(!this.hasAttribute('full')) { this.attributeChangedCallback('full', false, false); }if(!this.hasAttribute('is_hidden')) { this.attributeChangedCallback('is_hidden', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["is_desktop_active"] = false; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('navigator');this.__upgradeProperty('moving');this.__upgradeProperty('loading');this.__upgradeProperty('app_title');this.__upgradeProperty('full');this.__upgradeProperty('is_hidden');this.__correctGetter('is_desktop_active'); }
+    __listBoolProps() { return ["moving","loading","full","is_hidden"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     onContextMenu(contextMenu, stop) {
         stop();
     }
@@ -5195,7 +5722,7 @@ System.Application = class Application extends Aventus.WebComponent {
     }
     manageShortcut() {
         let shortcuts = this.defineShortcut();
-        if (this.is_active) {
+        if (this.is_desktop_active) {
             for (let shortcut of shortcuts) {
                 Lib.ShortcutManager.subscribe(shortcut[0], shortcut[1]);
             }
@@ -5622,9 +6149,14 @@ System.Application = class Application extends Aventus.WebComponent {
         this.setAttribute("tabindex", "-1");
         this.addEventListener("focus", (e) => {
             e.stopPropagation();
-            System.Application.setActive(this);
+            this.setDesktopActive();
         });
-        System.Application.setActive(this);
+    }
+    setDesktopActive() {
+        System.DesktopActivableLogic.set(this);
+    }
+    removeDesktopActive() {
+        System.DesktopActivableLogic.remove(this);
     }
     rightClick() {
         this.addEventListener("contextmenu", (e) => {
@@ -5647,23 +6179,12 @@ System.Application = class Application extends Aventus.WebComponent {
     postDestruction() {
         super.postDestruction();
         this.options?.desktop.removeApp(this);
+        this.removeDesktopActive();
         this.removeApplicationHistory();
         this.sizeManager.remove();
     }
     __b8adb9845de45194ca3aae9322a8888cmethod0() {
         return this.app_title;
-    }
-    static setActive(app) {
-        if (this.activeApplication == app) {
-            return;
-        }
-        if (this.activeApplication) {
-            this.activeApplication.is_active = false;
-        }
-        if (app) {
-            app.is_active = true;
-        }
-        this.activeApplication = app;
     }
 }
 System.Application.Namespace=`${moduleName}.System`;
@@ -5753,498 +6274,6 @@ Components.Link.Namespace=`${moduleName}.Components`;
 Components.Link.Tag=`rk-link`;
 _.Components.Link=Components.Link;
 if(!window.customElements.get('rk-link')){window.customElements.define('rk-link', Components.Link);Aventus.WebComponentInstance.registerDefinition(Components.Link);}
-
-RAM.UserRAM=class UserRAM extends AventusSharp.RAM.RamHttp {
-    connectedUserId;
-    /**
-     * Create a singleton to store data
-     */
-    static getInstance() {
-        return Aventus.Instance.get(RAM.UserRAM);
-    }
-    /**
-     * @inheritdoc
-     */
-    defineIndexKey() {
-        return 'Id';
-    }
-    /**
-     * @inheritdoc
-     */
-    getTypeForData(objJson) {
-        return this.addUserMethod(Data.User);
-    }
-    /**
-     * @inheritdoc
-     */
-    defineRoutes() {
-        return new Routes.UserRouter(new Lib.HttpRouter());
-    }
-    async getConnected() {
-        return this.actionGuard.run(["getConnected"], async () => {
-            let result = new Aventus.ResultWithError();
-            if (!this.connectedUserId) {
-                let query = await new Routes.CoreRouter().routes.User.GetConnected();
-                if (!query.success || !query.result) {
-                    result.errors = query.errors;
-                    return result;
-                }
-                this.connectedUserId = query.result.Id;
-                this.addOrUpdateData(query.result, result);
-                if (!result.success) {
-                    return result;
-                }
-            }
-            return this.getByIdWithError(this.connectedUserId);
-        });
-    }
-    /**
-     * Mixin pattern to add methods
-     */
-    addUserMethod(Base) {
-        return class Extension extends Base {
-            static get className() {
-                return Base.className || Base.name;
-            }
-            get className() {
-                return Base.className || Base.name;
-            }
-        };
-    }
-}
-RAM.UserRAM.Namespace=`${moduleName}.RAM`;
-
-_.RAM.UserRAM=RAM.UserRAM;
-Lib.SessionManager=class SessionManager {
-    static async logout() {
-        try {
-            await new Routes.CoreRouter().routes.Logout();
-        }
-        catch { }
-        window.location.reload();
-    }
-    static async getUser() {
-        let result = await RAM.UserRAM.getInstance().getConnected();
-        if (result.containsCode(Errors.LoginCode.NotConnected, Errors.LoginError)) {
-            this.logout();
-        }
-        else if (!result.success) {
-        }
-        return result.result;
-    }
-}
-Lib.SessionManager.Namespace=`${moduleName}.Lib`;
-
-_.Lib.SessionManager=Lib.SessionManager;
-System.HomePanel = class HomePanel extends System.Panel {
-    get 'currentUser'() {
-						return this.__watch["currentUser"];
-					}
-					set 'currentUser'(val) {
-						this.__watch["currentUser"] = val;
-					}    btn;
-    __registerWatchesActions() {
-    this.__addWatchesActions("currentUser");    super.__registerWatchesActions();
-}
-    static __style = `:host{display:flex;flex-direction:column;left:-9px;position:absolute;width:500px}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:5px;margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .grid{display:flex;flex-wrap:wrap;gap:10px;padding:10px}:host .content rk-row rk-col .favoris .favoris-container .grid *{aspect-ratio:1/1;flex-shrink:0;height:auto;width:calc(33.3333333333% - 6.6666666667px)}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;justify-content:space-between;width:100%}:host .footer .person{align-items:center;display:flex;padding:8px 10px;margin:10px 10px;border-radius:5px;transition:background-color .2s var(--bezier-curve)}:host .footer .person rk-img{height:25px}:host .footer .person .name{margin-left:10px}:host .footer .person:hover{background-color:var(--lighter)}:host .footer rk-button{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;aspect-ratio:1;border:none;box-shadow:var(--elevation-2);min-width:auto;margin:10px 10px}`;
-    __getStatic() {
-        return HomePanel;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(HomePanel.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="content">    <rk-row>        <rk-col size="6">            <div class="recent">                <div class="title">                    Récents                </div>                <rk-scrollable class="scrollable recent-container" floating_scroll _id="homepanel_0">                </rk-scrollable>            </div>        </rk-col>        <rk-col size="6">            <div class="favoris">                <div class="title">                    Mes favoris                </div>                <rk-scrollable class="scrollable favoris-container" floating_scroll>                    <div class="grid" _id="homepanel_1"></div>                </rk-scrollable>            </div>        </rk-col>    </rk-row></div><div class="footer">    <div class="person touch" _id="homepanel_2">        <div class="icon">            <rk-img src="/img/avatar.png"></rk-img>        </div>        <div class="name" _id="homepanel_3"></div>    </div>    <rk-button icon="/img/icons/power-off.svg" _id="homepanel_4"></rk-button></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "recentContainer",
-      "ids": [
-        "homepanel_0"
-      ]
-    },
-    {
-      "name": "favorisContainer",
-      "ids": [
-        "homepanel_1"
-      ]
-    }
-  ],
-  "content": {
-    "homepanel_3°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod0())} ${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod1())}`
-    }
-  },
-  "pressEvents": [
-    {
-      "id": "homepanel_2",
-      "onPress": (e, pressInstance, c) => { c.comp.openProfil(e, pressInstance); }
-    },
-    {
-      "id": "homepanel_4",
-      "onPress": (e, pressInstance, c) => { c.comp.logout(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "HomePanel";
-    }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["currentUser"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('currentUser'); }
-    openProfil() {
-        let desktop = this.findParentByType(System.Desktop);
-        if (desktop) {
-            desktop.openUrl("Settings", "/", "/user");
-            this.btn.active = false;
-        }
-    }
-    async logout() {
-        Lib.SessionManager.logout();
-    }
-    async displayRecent() {
-        // for(let i = 0; i < 20; i++) {
-        //     let test = new AppIconInline();
-        //     let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
-        //     let app = await ApplicationRAM.getInstance().getApplicationByName("Cave");
-        //     if(icon && app) {
-        //         test.setIcon(icon);
-        //         test.text = app.DisplayName;
-        //     }
-        //     this.recentContainer.appendChild(test);
-        // }
-    }
-    async displayFavoris() {
-        // for(let i = 0; i < 20; i++) {
-        //     let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
-        //     if(icon) {
-        //         this.favorisContainer.appendChild(icon);
-        //     }
-        // }
-    }
-    async getUser() {
-        this.currentUser = await Lib.SessionManager.getUser();
-    }
-    postCreation() {
-        this.getUser();
-        this.displayRecent();
-        this.displayFavoris();
-        new Aventus.PressManager({
-            element: this,
-            onPress: () => { },
-            onDrag: () => { },
-        });
-    }
-    __71121dd8c2837747a91ecf75da806c7amethod0() {
-        return this.currentUser?.Firstname;
-    }
-    __71121dd8c2837747a91ecf75da806c7amethod1() {
-        return this.currentUser?.Lastname;
-    }
-}
-System.HomePanel.Namespace=`${moduleName}.System`;
-System.HomePanel.Tag=`rk-home-panel`;
-_.System.HomePanel=System.HomePanel;
-if(!window.customElements.get('rk-home-panel')){window.customElements.define('rk-home-panel', System.HomePanel);Aventus.WebComponentInstance.registerDefinition(System.HomePanel);}
-
-System.HomeBtn = class HomeBtn extends Aventus.WebComponent {
-    get 'active'() { return this.getBoolAttr('active') }
-    set 'active'(val) { this.setBoolAttr('active', val) }    static __style = `:host{position:relative}:host .icon{border-radius:5px;cursor:pointer;margin:0 3px;max-height:calc(100% - 16px);max-width:34px;padding:7px;transition:background-color .2s var(--bezier-curve)}:host rk-home-panel{bottom:calc(100% + 5px);height:0;overflow:hidden;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s}:host([active]) .icon{background-color:var(--text-color)}:host([active]) .icon rk-img{--img-fill-color: var(--primary-color-opacity)}:host([active]) rk-home-panel{bottom:calc(100% + 10px);height:400px}@media screen and (min-width: 1225px){:host(:not([active])) .icon:hover{background-color:var(--lighter-active)}}`;
-    __getStatic() {
-        return HomeBtn;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(HomeBtn.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="icon" _id="homebtn_0">    <rk-img mode="contains" src="/img/icons/house.svg" class="touch"></rk-img></div><rk-home-panel _id="homebtn_1"></rk-home-panel>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "homePanel",
-      "ids": [
-        "homebtn_1"
-      ]
-    }
-  ],
-  "pressEvents": [
-    {
-      "id": "homebtn_0",
-      "onPress": (e, pressInstance, c) => { c.comp.toggleActive(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "HomeBtn";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('active'); }
-    __listBoolProps() { return ["active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    toggleActive() {
-        this.active = !this.active;
-    }
-    postCreation() {
-        this.homePanel.btn = this;
-    }
-}
-System.HomeBtn.Namespace=`${moduleName}.System`;
-System.HomeBtn.Tag=`rk-home-btn`;
-_.System.HomeBtn=System.HomeBtn;
-if(!window.customElements.get('rk-home-btn')){window.customElements.define('rk-home-btn', System.HomeBtn);Aventus.WebComponentInstance.registerDefinition(System.HomeBtn);}
-
-System.BottomBar = class BottomBar extends Aventus.WebComponent {
-    get desktop() {
-        if (this.parentNode instanceof ShadowRoot) {
-            if (this.parentNode.host instanceof System.Desktop) {
-                return this.parentNode.host;
-            }
-        }
-        throw "impossible";
-    }
-    timeoutOverHome = 0;
-    emptyIcon;
-    static __style = `:host{align-items:center;background-color:var(--primary-color-opacity);box-shadow:var(--elevation-3);border-radius:10px;bottom:10px;color:var(--text-color);display:flex;font-size:var(--font-size);height:50px;left:100px;outline:none;padding:0 10px;position:absolute;transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s,transform 1s var(--bezier-curve);width:calc(100% - 200px);z-index:100}:host .section{align-items:center;display:flex;height:100%}:host .section .icon{--img-stroke-color: transparent;--img-fill-color: var(--text-color);border-radius:5px;cursor:pointer;margin:0 3px;max-height:calc(100% - 16px);max-width:34px;padding:7px;transition:background-color .2s var(--bezier-curve)}:host .section rk-app-icon{margin:0 5px}:host .separator{background-color:var(--text-color);display:inline-block;height:50%;margin:0 13px;width:1px}:host .applications{flex-grow:1;gap:10px;position:relative}:host .applications .empty-icon{background-color:var(--darker-active);border-radius:5px;height:30px;width:30px}:host .nb-notifications{align-items:center;background-color:var(--text-color);border-radius:50%;color:var(--primary-color-opacity);display:flex;font-size:14px;font-weight:bold;height:25px;justify-content:center;letter-spacing:-1px;padding-right:1px;width:25px}@media screen and (min-width: 1225px){:host .section .icon:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host{border-radius:0;border-bottom-left-radius:0;border-bottom-right-radius:0;bottom:0px;left:0px;padding:0 10px;width:100%}}@media screen and (max-width: 768px){:host{height:70px}:host .basic-action{display:none}:host .addons{display:none}:host .separator{display:none}:host .applications .empty-icon{height:50px;width:50px}}`;
-    constructor() { super(); this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this) }
-    __getStatic() {
-        return BottomBar;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(BottomBar.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="section basic-action">    <rk-home-btn></rk-home-btn>    <rk-img mode="contains" src="/img/icons/application-panel.svg" class="touch icon" _id="bottombar_0"></rk-img>    <rk-img mode="contains" src="/img/icons/search.svg" class="touch icon"></rk-img>    <rk-img mode="contains" src="/img/icons/layout-fluid.svg" class="touch icon" _id="bottombar_1"></rk-img></div><div class="separator"></div><div class="section applications" _id="bottombar_2"></div><div class="separator"></div><div class="section addons">    <rk-add-on-time></rk-add-on-time></div>` }
-    });
-}
-    __createStates() { super.__createStates(); let that = this;  this.__createStatesList(State.MoveApplication.state, State.DesktopStateManager);this.__addActiveState(State.MoveApplication.state, State.DesktopStateManager, (state, slugs) => { that.__inactiveDefaultState(State.DesktopStateManager); that.onMoveApplication(state, slugs);})this.__addInactiveState(State.MoveApplication.state, State.DesktopStateManager, (state, nextState, slugs) => { that.onStopMovingApplication(state, nextState, slugs);that.__activeDefaultState(nextState, State.DesktopStateManager);}) }
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "applicationsContainer",
-      "ids": [
-        "bottombar_2"
-      ]
-    }
-  ],
-  "pressEvents": [
-    {
-      "id": "bottombar_0",
-      "onPress": (e, pressInstance, c) => { c.comp.showAppList(e, pressInstance); }
-    },
-    {
-      "id": "bottombar_1",
-      "onPress": (e, pressInstance, c) => { c.comp.showDesktops(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "BottomBar";
-    }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('desktop'); }
-    addSwipe() {
-        let enable = true;
-        let startY = 0;
-        new Aventus.DragAndDrop({
-            element: this,
-            applyDrag: false,
-            offsetDrag: 50,
-            isDragEnable: () => enable,
-            onStart: (e) => {
-                startY = e.pageY;
-            },
-            onMove: (e) => {
-                let positionY = startY - e.pageY;
-                if (positionY > 50) {
-                    enable = false;
-                    this.showAppList();
-                }
-            },
-            onStop: () => {
-                enable = true;
-            }
-        });
-    }
-    showAppList() {
-        System.Os.instance.show_application_list = true;
-    }
-    showDesktops() {
-        System.Os.instance.desktop_list = true;
-    }
-    addFocus() {
-        this.setAttribute("tabindex", "-1");
-        this.addEventListener("focus", (e) => {
-            e.stopPropagation();
-            System.Application.setActive(null);
-        });
-    }
-    setAppPositionTemp(shadow, x, y, state) {
-        let caseEl = this.shadowRoot.elementFromPoint(x, y);
-        if (caseEl && this.shadowRoot.contains(caseEl)) {
-            shadow.style.width = "";
-            shadow.style.height = "";
-            if (caseEl instanceof System.HomeBtn) {
-                if (!this.timeoutOverHome && !caseEl.active) {
-                    this.timeoutOverHome = setTimeout(() => {
-                        let caseEl = this.shadowRoot.elementFromPoint(state.lastX, state.lastY);
-                        if (caseEl instanceof System.HomeBtn) {
-                            caseEl.active = true;
-                        }
-                    }, 2000);
-                }
-                return false;
-            }
-            if (this.timeoutOverHome) {
-                clearTimeout(this.timeoutOverHome);
-                this.timeoutOverHome = 0;
-            }
-            let rect = this.applicationsContainer.getBoundingClientRect();
-            if (x >= rect.x && x <= rect.x + rect.width) {
-                if (!this.emptyIcon) {
-                    this.emptyIcon = document.createElement("DIV");
-                    this.emptyIcon.classList.add("empty-icon");
-                }
-                let children = Array.from(this.applicationsContainer.children);
-                let found = false;
-                for (let i = 0; i < children.length; i++) {
-                    let child = children[i];
-                    if (child instanceof System.AppIcon) {
-                        if (x < rect.x + child.offsetLeft + (child.offsetWidth / 2)) {
-                            this.applicationsContainer.insertBefore(this.emptyIcon, child);
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-                if (!found) {
-                    this.applicationsContainer.appendChild(this.emptyIcon);
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-    clearAppPositionTemp(state) {
-        if (this.timeoutOverHome) {
-            let caseEl = this.shadowRoot.elementFromPoint(state.lastX, state.lastY);
-            if (!(caseEl instanceof System.HomeBtn)) {
-                clearTimeout(this.timeoutOverHome);
-                this.timeoutOverHome = 0;
-            }
-        }
-        if (this.emptyIcon?.parentNode) {
-            this.emptyIcon.remove();
-        }
-    }
-    async setAppPosition(icon, x, y) {
-        if (this.emptyIcon?.parentNode) {
-            let children = this.emptyIcon.parentNode?.children ?? [];
-            let no = Array.from(children).indexOf(this.emptyIcon);
-            if (no == -1)
-                return;
-            this.applicationsContainer.insertBefore(icon, this.emptyIcon);
-            this.emptyIcon.remove();
-            let desktopIcon = new Data.DesktopAppIcon();
-            desktopIcon.DesktopId = this.desktop.desktop_id;
-            desktopIcon.Position = no;
-            desktopIcon.IconTag = icon.tag;
-            desktopIcon.Location = Data.DesktopLocation.BottomBar;
-            desktopIcon.Id = icon.iconId;
-            let result = await Lib.MainSocket.instance.routes.desktop.SetDesktopIcon({
-                icon: desktopIcon
-            });
-            if (result.success && result.result) {
-                icon.iconId = result.result.Id;
-                icon.position = result.result.Position;
-                icon.can_remove = true;
-            }
-            no++;
-            for (; no < children.length; no++) {
-                let child = children[no];
-                if (child instanceof System.AppIcon) {
-                    let desktopIcon = new Data.DesktopAppIcon();
-                    desktopIcon.DesktopId = this.desktop.desktop_id;
-                    desktopIcon.Position = no;
-                    desktopIcon.IconTag = child.tag;
-                    desktopIcon.Location = Data.DesktopLocation.BottomBar;
-                    desktopIcon.Id = child.iconId;
-                    let result = await Lib.MainSocket.instance.routes.desktop.SetDesktopIcon({
-                        icon: desktopIcon
-                    });
-                    if (result.success) {
-                        child.position = no;
-                    }
-                }
-            }
-        }
-    }
-    async removeAppPosition(icon, x, y) {
-        let caseEl = this.shadowRoot.elementFromPoint(x, y);
-        if (caseEl && this.shadowRoot.contains(caseEl)) {
-            let children = icon.parentNode?.children ?? [];
-            let no = Array.from(children).indexOf(icon);
-            let desktopIcon = new Data.DesktopAppIcon();
-            desktopIcon.Id = icon.iconId;
-            let result = await Lib.MainSocket.instance.routes.desktop.RemoveDesktopIcon({
-                icon: desktopIcon
-            });
-            if (result.success) {
-                icon.remove();
-                for (; no < children.length; no++) {
-                    let child = children[no];
-                    if (child instanceof System.AppIcon) {
-                        let desktopIcon = new Data.DesktopAppIcon();
-                        desktopIcon.DesktopId = this.desktop.desktop_id;
-                        desktopIcon.Position = no;
-                        desktopIcon.IconTag = child.tag;
-                        desktopIcon.Location = Data.DesktopLocation.BottomBar;
-                        desktopIcon.Id = child.iconId;
-                        let result = await Lib.MainSocket.instance.routes.desktop.SetDesktopIcon({
-                            icon: desktopIcon
-                        });
-                        if (result.success) {
-                            child.position = no;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    onMoveApplication(state, slugs) {
-        if (!this.desktop?.is_active) {
-            return;
-        }
-        if (state instanceof State.MoveApplication) {
-            state.registerProvider(this);
-        }
-    }
-    onStopMovingApplication(state, nextState, slugs) {
-        if (!this.desktop?.is_active) {
-            return;
-        }
-    }
-    setApplication(el) {
-        this.applicationsContainer.appendChild(el);
-    }
-    postCreation() {
-        this.addSwipe();
-        this.addFocus();
-    }
-}
-System.BottomBar.Namespace=`${moduleName}.System`;
-System.BottomBar.Tag=`rk-bottom-bar`;
-_.System.BottomBar=System.BottomBar;
-if(!window.customElements.get('rk-bottom-bar')){window.customElements.define('rk-bottom-bar', System.BottomBar);Aventus.WebComponentInstance.registerDefinition(System.BottomBar);}
 
 Lib.AppIconManager=class AppIconManager {
     static loaded = [];
@@ -6753,6 +6782,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
     get iconSize() {
         return this._iconSize;
     }
+    activableOrder = [];
     oldActiveCase;
     pressManagerStopMoveApp;
     static __style = `:host{--_desktop-background-color: var(--desktop-background-color, var(--primary-color))}:host{background-color:var(--_desktop-background-color);background-position:center;background-repeat:no-repeat;background-size:cover;flex-shrink:0;height:100%;overflow:hidden;position:relative;width:100%}:host .icons{--page-case-border-radius: 5px;--page-case-border-active: 1px solid var(--darker-active);--page-case-background-active: var(--lighter-active);height:calc(100% - 70px);transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s;width:100%;z-index:2}:host .app-container{transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host([show_application_list])>*{opacity:0 !important;visibility:hidden !important}:host([background_size=Cover]){background-size:cover}:host([background_size=Contain]){background-size:contain}:host([background_size=Stretch]){background-size:100% 100%}`;
@@ -6852,6 +6882,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             });
             this.appContainer.appendChild(comp);
             comp.focus();
+            this.setElementToActive(comp);
             await comp.navigate(url);
             this.applications[comp.$type][i] = comp;
             this.manageAppBottomBar(comp.$type);
@@ -7118,6 +7149,36 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             data.onUpdate(() => {
                 this.applyDataChange();
             });
+        }
+    }
+    setElementToActive(el) {
+        let index = this.activableOrder.indexOf(el);
+        if (index != -1) {
+            this.activableOrder.splice(index, 1);
+        }
+        this.activableOrder.splice(0, 0, el);
+        this.applyActiveToElement();
+    }
+    removeElementFromActive(el) {
+        let index = this.activableOrder.indexOf(el);
+        if (index != -1) {
+            this.activableOrder.splice(index, 1);
+        }
+        this.applyActiveToElement();
+    }
+    applyActiveToElement() {
+        let total = 501 + this.activableOrder.length;
+        let first = true;
+        for (let el of this.activableOrder) {
+            if (first) {
+                first = false;
+                el.is_desktop_active = true;
+            }
+            else {
+                el.is_desktop_active = false;
+            }
+            el.style.zIndex = total + '';
+            total--;
         }
     }
     postCreation() {

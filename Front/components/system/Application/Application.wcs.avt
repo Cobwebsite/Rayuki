@@ -163,10 +163,6 @@
 	}
 }
 
-:host([is_active]) {
-	z-index: 501;
-}
-
 :host([is_hidden]) {
 	height: 0 !important;
 	left: calc(50% - 100px) !important;
