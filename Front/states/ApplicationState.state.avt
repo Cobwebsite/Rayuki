@@ -1,0 +1,163 @@
+import type { Application } from "../components/system/Application/Application.wcl.avt";
+import type { ApplicationStateManager } from "../libs/ApplicationStateManager.state.avt";
+
+namespace State {
+    export type Field<T> = keyof T;
+    export type Fields<T> = (keyof T)[];
+
+    @Convertible()
+    export abstract class ApplicationState extends Aventus.State implements Aventus.IState {
+        /**
+         * The current namespace
+         */
+        public static readonly Namespace: string = "";
+        /**
+         * Get the unique type for the data. Define it as the namespace + class name
+         */
+        public static get Fullname(): string { return this.Namespace + "." + this.name; }
+
+
+        public readonly $type: string;
+        private __manager!: ApplicationStateManager;
+        
+        protected get application(): Application {
+            return this.__manager.application;
+        };
+
+        private __canSaveState: boolean = true;
+
+        public enableSaveState() {
+            this.__canSaveState = true;
+        }
+        public disableSaveState() {
+            this.__canSaveState = false;
+        }
+
+        private canSync(): boolean {
+            if(!this.__canSaveState || !this.__manager) return false;
+
+            return true;
+        }
+
+        public constructor() {
+            super();
+            this.$type = this.constructor['Fullname'];
+        }
+
+        public setManager(manager: ApplicationStateManager) {
+            this.__manager = manager;
+        }
+
+
+        public saveState() {
+            if(!this.canSync()) return;
+            this.__manager.save();
+        }
+
+        public override async activate(): Promise<boolean> {
+            return super.activate(this.__manager);
+        }
+
+        /**
+         * Override this tell which field must by sync
+         */
+        protected syncField(addField: (field: Field<this>) => void): void {
+        }
+
+        /**
+         * Override this tell which field must by sync
+         */
+        protected syncFieldNoCheck(addField: (field: string) => void): void {
+        }
+
+        private runSyncField(): string[] {
+            const result: string[] = ["$type"];
+            const addField = (field: Field<this> | string) => {
+                result.push(field as string);
+            };
+            this.syncField(addField);
+            this.syncFieldNoCheck(addField);
+            return result;
+        }
+
+        public toJSON() {
+            const fields = this.runSyncField();
+            return Aventus.Json.classToJson(this, {
+                isValidKey: (key) => {
+                    return fields.includes(key);
+                }
+            });
+        }
+
+        public copyValues<T extends ApplicationState>(src: T) {
+            const fields = this.runSyncField();
+            Aventus.Converter.copyValuesClass<ApplicationState>(this, src, {
+                isValidKey: (key) => {
+                    return fields.includes(key);
+                }
+            });
+        }
+    }
+
+    @Internal()
+    export class ApplicationEmptyState extends ApplicationState implements Aventus.IState {
+
+        private localName: string;
+
+        public constructor(stateName: string) {
+            super();
+            this.localName = stateName;
+        }
+
+        protected override syncFieldNoCheck(addField: (field: string) => void): void {
+            addField("localName");
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public override get name(): string {
+            return this.localName;
+        }
+    }
+
+    export abstract class ApplicationStorableState<T> extends ApplicationState implements Aventus.IState {
+        private __item!: T;
+        public get item(): T {
+            return this.__item;
+        }
+        private set item(value: T) {
+
+            if(!this.__item) {
+                this.__item = Aventus.Watcher.get(value as object, () => {
+                    this.saveState();
+                });
+            }
+            try {
+                for(let key in value) {
+                    this.__item[key] = value[key];
+                }
+            } catch(e) {
+                console.log(e);
+            }
+        }
+
+        public constructor(item?: T) {
+            super();
+            if(item) {
+                this.item = item;
+            }
+            else {
+                this.item = this.newElement();
+            }
+        }
+
+        protected override syncField(addField: (field: keyof this) => void): void {
+            super.syncField(addField);
+            addField("item");
+        }
+
+        public abstract newElement(): T;
+    }
+
+}

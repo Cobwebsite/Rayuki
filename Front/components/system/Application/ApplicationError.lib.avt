@@ -1,5 +1,3 @@
-import { ApplicationState, ApplicationStateManager } from "../../../libs/ApplicationStateManager.state.avt";
-
 namespace System {
      
     export type ApplicationQueryFctResult<X> = Aventus.ResultWithError<X> | Aventus.VoidWithError;

@@ -84,6 +84,8 @@
 			border-bottom-right-radius: var(--_application-border-radius);
 			height: calc(100% - 30px);
 			max-height: calc(var(--app-height) - 50px - 30px);
+			min-width: auto;
+			min-height: auto;
 			overflow: hidden;
 			padding: var(--_popup-content-padding);
 			width: 100%;
@@ -159,7 +161,7 @@
 		visibility: hidden;
 	}
 
-	
+
 }
 
 @keyframes shake {

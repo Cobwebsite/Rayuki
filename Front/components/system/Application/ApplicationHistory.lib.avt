@@ -1,4 +1,5 @@
-import { ApplicationState, ApplicationStateManager } from "../../../libs/ApplicationStateManager.state.avt";
+import { ApplicationState } from "../../../states/ApplicationState.state.avt";
+import type { ApplicationStateManager } from "../../../libs/ApplicationStateManager.state.avt";
 
 namespace System {
     export type History = {

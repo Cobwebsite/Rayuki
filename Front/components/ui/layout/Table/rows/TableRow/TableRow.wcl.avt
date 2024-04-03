@@ -64,7 +64,7 @@ namespace Components {
                 cell.data = data;
                 cell.label = cellConfig.name;
                 cell.grid = this.grid;
-                const v = cellConfig.name ? data[cellConfig.name] : undefined
+                const v = cellConfig.name ? Aventus.getValueFromObject(cellConfig.name, data) : undefined
                 cell.setContent(v, data);
                 this.rowContentEl.appendChild(cell);
                 this.cells.push(cell);

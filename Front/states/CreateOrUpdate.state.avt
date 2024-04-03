@@ -1,7 +1,7 @@
 import type { VirtualForm } from "../components/ui/form/Form/VirtualForm.lib.avt";
 import type { BodyJSON, FormData } from "../components/ui/form/Form/FormType.lib.avt";
-import { ApplicationStorableState } from "../libs/ApplicationStateManager.state.avt";
 import { Form } from "../components/ui/form/Form/Form.wcl.avt";
+import { ApplicationStorableState } from "./ApplicationState.state.avt";
 
 namespace State {
     export abstract class CreateOrUpdate<T extends AventusSharp.Data.Storable, U extends BodyJSON> extends ApplicationStorableState<T> implements Aventus.IState {

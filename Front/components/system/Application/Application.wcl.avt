@@ -1,7 +1,7 @@
 import { FrameNoScroll } from "../Frame/FrameNoScroll/FrameNoScroll.wcl.avt";
 import { ApplicationHistory } from "./ApplicationHistory.lib.avt";
 import { Resize, ResizeDirection } from "../../ui/Resize/Resize.wcl.avt";
-import { ApplicationState, ApplicationStateManager } from "../../../libs/ApplicationStateManager.state.avt";
+import { ApplicationStateManager } from "../../../libs/ApplicationStateManager.state.avt";
 import { Popup, type PopupInfo } from "../../ui/popup/Popup/Popup.wcl.avt";
 import { Alert, type AlertInfo } from "../../ui/popup/Alert/Alert.wcl.avt";
 import { Confirm, type ConfirmInfo } from "../../ui/popup/Confirm/Confirm.wcl.avt";
@@ -16,6 +16,7 @@ import type { ApplicationQueryFct, ApplicationQueryFctResult, ApplicationQueryRe
 import { ShortcutManager, SpecialTouch } from "../../../libs/ShortcutManager.lib.avt";
 import { Os } from "../Os/Os.wcl.avt";
 import { DesktopActivableLogic, type IDesktopActivable } from "../Desktop/IActivable.lib.avt";
+import { ApplicationState } from "../../../states/ApplicationState.state.avt";
 
 namespace System {
 
@@ -294,7 +295,7 @@ namespace System {
                 this.navigateNextEl.classList.add("disable");
             }
         }
-        protected async navigatePrevious() {
+        public async navigatePrevious() {
             let history = this.history.previous();
             if(history) {
                 if(await this.navigator.setState(history.state)) {
@@ -307,7 +308,7 @@ namespace System {
             }
         }
 
-        protected async navigateNext() {
+        public async navigateNext() {
             let history = this.history.next();
             if(history) {
                 if(await this.navigator.setState(history.state)) {

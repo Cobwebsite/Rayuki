@@ -1,1 +1,1 @@
-<av-checkbox @change="changed" @element="checkboxEl"></av-checkbox>
+<rk-checkbox @change="changed" @element="checkboxEl"></rk-checkbox>

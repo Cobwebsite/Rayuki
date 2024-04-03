@@ -1,6 +1,5 @@
 :host {
-	--table-cell-padding: 0;
-	--table-cell-vertical-border: var(--_table-header-vertical-border);
+	--_table-cell-vertical-border: var(--_table-header-vertical-border);
 	width: 100%;
 
 	.row-content {
