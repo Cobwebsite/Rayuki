@@ -46,8 +46,6 @@ namespace Core.Logic
             foreach (X value in values)
             {
                 PasswordManager.HashPassword(value);
-
-                // value.Picture.
             }
         }
 

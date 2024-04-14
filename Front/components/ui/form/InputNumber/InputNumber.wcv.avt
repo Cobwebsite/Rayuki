@@ -5,7 +5,9 @@
     <div class="error-logo">!</div>
 </div>
 <div class="errors">
-    for(let error of this.errors) { 
-        <div>{{ error }}</div>
+    for(let error of this.errors) {
+        if(error != "") {
+            <div>{{ error }}</div>
+        }
     }
 </div>

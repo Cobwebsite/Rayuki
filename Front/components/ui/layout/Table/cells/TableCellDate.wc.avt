@@ -2,12 +2,31 @@
 import { TableCell } from "./TableCell/TableCell.wcl.avt";
 namespace Components {
 	export class TableCellDate<U = any> extends TableCell<Date, U> implements Aventus.DefaultComponent {
-	    /**
+	    
+		protected date? :Date;
+
+		/**
+		* @inheritdoc
+		*/
+		public override sortAsc(cell: this): number {
+			if(cell.date?.toISOString() == this.date?.toISOString()) return 0;
+
+			if(this.date && !cell.date) return -1;
+			if(!this.date && cell.date) return 1;
+
+			if(this.date && cell.date)
+				return this.date.getTime() - cell.date.getTime();
+
+			return 0;
+		}
+			
+		/**
 	     * @inheritdoc
 	     */
 	    public override setContent(data: Date | undefined, rowData: U) {
 			if(!this.contentEl) return;
 	        if(data instanceof Date) {
+				this.date = data;
 				this.content = data.toLocaleDateString(undefined, {
                     year: 'numeric',
                     month: '2-digit',

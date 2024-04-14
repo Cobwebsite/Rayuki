@@ -7,7 +7,7 @@
             Ajouter à la page d'accueil
         </p>
         <button class="pwaPromptCancel iOSPWA-cancel" @press="close">
-            Annuler
+            Fermer
         </button>
     </div>
     <div class="pwaPromptBody iOSPWA-body">

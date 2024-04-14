@@ -14,6 +14,19 @@ namespace Core.Data.DataTypes
     [Typescript]
     public class ImageFile : AventusFile
     {
+
+        public ImageFile() {
+            this.Uri = DefineDefaultUri();
+        }
+        public override void SetUriFromStorage(string uri)
+        {
+            Uri = string.IsNullOrEmpty(uri) ? DefineDefaultUri() : uri;
+        }
+
+        protected virtual string DefineDefaultUri() {
+            return "";
+        }
+
         public VoidWithError ValidateAndSaveAsFile(string filePath, int? maxSize = null)
         {
             if (Upload == null)
@@ -79,7 +92,7 @@ namespace Core.Data.DataTypes
 
                 Upload.FilePath = compressAction.Result;
                 Upload.FileName = Path.GetFileName(Upload.FilePath);
-                
+
                 return result;
             }
             catch (Exception e)

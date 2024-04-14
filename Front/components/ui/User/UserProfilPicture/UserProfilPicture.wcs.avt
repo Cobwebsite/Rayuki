@@ -1,0 +1,31 @@
+:host {
+	border-radius: 1000px;
+	flex-shrink: 0;
+	height: 100px;
+	overflow: hidden;
+	width: 100px;
+
+	rk-img {
+		height: 100%;
+		width: 100%;
+	}
+
+	.bg-default {
+		align-items: center;
+		background-color: var(--secondary-color);
+		border-radius: 1000px;
+		box-shadow: var(--elevation-4);
+		color: var(--text-color-reverse);
+		display: flex;
+		flex-shrink: 0;
+		height: 100%;
+		justify-content: center;
+		width: 100%;
+
+		svg {
+			fill: var(--text-color-reverse);
+			height: 70%;
+			width: 70%;
+		}
+	}
+}

@@ -1,0 +1,86 @@
+import { PwaPromptIos } from "../components/system/PwaPrompt/PwaPromptIos/PwaPromptIos.wcl.avt";
+import { Platform } from "./Platform.lib.avt";
+
+namespace Lib {
+
+    type BeforeInstallPromptEvent = {
+        prompt: () => void;
+        userChoice: Promise<{ outcome: "accepted" | "dismissed"; }>;
+    };
+
+    export class PWA {
+        public static get isAvailable(): boolean {
+            if(window['deferredPrompt']) {
+                return true;
+            }
+            return false;
+        }
+
+        public static get isAvailableIOS(): boolean {
+            return Platform.isiOS && !Platform.isStandalone;
+        }
+
+        private static e?: BeforeInstallPromptEvent;
+        private static isInit: boolean = false;
+        private static startInstall: Date | undefined;
+
+
+        protected static onInit: Aventus.Callback<() => Promise<void>> = new Aventus.Callback();
+        public static onDownloading: Aventus.Callback<() => Promise<void>> = new Aventus.Callback();
+        public static onDownloaded: Aventus.Callback<() => Promise<void>> = new Aventus.Callback();
+        public static async init() {
+            if(this.isInit) {
+                return;
+            }
+            if(!this.e && PWA.isAvailable) {
+                this.e = window['deferredPrompt'];
+                let result = this.onInit.trigger([]);
+                this.isInit = true;
+            }
+            else if(PWA.isAvailableIOS) {
+                let result = this.onInit.trigger([]);
+                this.isInit = true;
+            }
+
+            if(this.isInit) {
+                window.addEventListener('appinstalled', async (evt) => {
+
+                    let now = new Date();
+                    let start = this.startInstall ?? new Date();
+                    let diffMs = now.getTime() - start.getTime();
+                    if(diffMs < 3000) {
+                        await Aventus.sleep(3000 - diffMs);
+                    }
+                    this.onDownloaded.trigger([]);
+                });
+            }
+
+        }
+
+        public static addOnInit(cb: () => Promise<void>) {
+            if(this.isInit) {
+                cb();
+            }
+            else {
+                this.onInit.add(cb);
+            }
+        }
+
+
+        public static async download() {
+            if(this.isAvailable && this.e) {
+                this.e.prompt();
+                // Wait for the user to respond to the prompt
+                const choiceResult = await this.e.userChoice;
+                if(choiceResult.outcome === 'accepted') {
+                    this.startInstall = new Date();
+                    this.onDownloading.trigger([]);
+                }
+            }
+            else if(this.isAvailableIOS) {
+                let pwaios = new PwaPromptIos();
+                document.body.appendChild(pwaios);
+            }
+        }
+    }
+}

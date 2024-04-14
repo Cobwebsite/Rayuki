@@ -24,9 +24,7 @@
 </div>
 <div class="footer">
     <div @press="openProfil" class="person touch">
-        <div class="icon">
-            <rk-img src="/img/avatar.png"></rk-img>
-        </div>
+        <rk-user-profil-picture class="icon" uri="{{ this.currentUser?.Picture.Uri }}"></rk-user-profil-picture>
         <div class="name">{{ this.currentUser?.Firstname }} {{ this.currentUser?.Lastname }}</div>
     </div>
     <rk-button icon="/img/icons/power-off.svg" @press="logout"></rk-button>

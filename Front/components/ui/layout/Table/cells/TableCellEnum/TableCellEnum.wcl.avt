@@ -14,12 +14,12 @@ namespace Components {
 
 
         //#region variables
-		protected enumEl: T;
+        protected enumEl: T;
         //#endregion
 
 
         //#region constructor
-		constructor() {
+        constructor() {
             super();
             this.enumEl = this.defineEnum();
         }
@@ -27,9 +27,15 @@ namespace Components {
 
 
         //#region methods
-		public abstract defineEnum(): T;
+        public abstract defineEnum(): T;
 
-		protected getEnumName(value: T[Extract<keyof T, string>]): string {
+        public override sortAsc(cell: this): number {
+            let value = this.content;
+            let valueCell = cell.content;
+            return value.localeCompare(valueCell);
+        }
+
+        protected getEnumName(value: T[Extract<keyof T, string>]): string {
             return this.enumEl[value] as string;
         }
 
@@ -38,8 +44,8 @@ namespace Components {
          */
         public override setContent(data: T[Extract<keyof T, string>] | undefined, rowData: U) {
             if(!this.contentEl) return;
-	        this.content = data != undefined ? this.getEnumName(data) : "";
-	        this.contentEl.innerHTML = this.content;
+            this.content = data != undefined ? this.getEnumName(data) : "";
+            this.contentEl.innerHTML = this.content;
         }
 
         //#endregion

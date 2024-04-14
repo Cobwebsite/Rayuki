@@ -1,0 +1,77 @@
+import { TabHeader } from "./TabHeader/TabHeader.wcl.avt";
+import { Tab } from "./Tab/Tab.wcl.avt";
+
+export class Tabs<T extends Tab = Tab> extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+
+    //#endregion
+
+
+    //#region variables
+    protected tabs: { [label: string]: T; } = {};
+
+    @ViewElement()
+    protected headerEl!: HTMLDivElement;
+    @ViewElement()
+    protected bodyEl!: HTMLDivElement;
+
+    protected activeHeader?: TabHeader<T>;
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+
+    protected loadTabs() {
+        let elements = this.getElementsInSlot();
+        let first: TabHeader<T> | null = null;
+        for(let element of elements) {
+            if(element instanceof Tab) {
+                this.tabs[element.label] = element as T;
+
+                let header = new (this.defineTabHeader())();
+                this.headerEl.appendChild(header);
+                header.init(element as T);
+
+                if(first == null) {
+                    first = header;
+                }
+            }
+        }
+
+        if(first) {
+            this.displayActive(first);
+        }
+    }
+
+    protected displayActive(tabHeader: TabHeader<T>) {
+        if(this.activeHeader) {
+            this.activeHeader.active = false;
+            this.activeHeader.tab.parentNode?.removeChild(this.activeHeader.tab);
+        }
+
+        this.activeHeader = tabHeader;
+        this.activeHeader.active = true;
+        this.bodyEl.appendChild(this.activeHeader);
+    }
+
+    protected defineTabHeader(): new (...args) => TabHeader<T> {
+        return TabHeader;
+    }
+
+    protected override postCreation(): void {
+        super.postCreation();
+    }
+    //#endregion
+
+}

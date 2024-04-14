@@ -3,27 +3,42 @@
 	
 	
 	
+	
+	
+	
+	
+	
 <script>
 import { TableCell } from "./TableCell/TableCell.wcl.avt";
 namespace Components {
 	    type TableCellBooleanType = boolean | (1 | 0) | ('true' | 'false');
 	    export class TableCellBoolean<U = any> extends TableCell<TableCellBooleanType, U> implements Aventus.DefaultComponent {
+	
+	        /**
+	        * @inheritdoc
+	        */
+	        public override sortAsc(cell: this): number {
+	            let x = this.content == 'Oui';
+	            let y = cell.content == 'Oui';
+	            return (x === y) ? 0 : x ? -1 : 1;
+	        }
+
 	        /**
 	         * @inheritdoc
 	         */
 	        public override setContent(data: TableCellBooleanType | undefined, rowData: U) {
 	            if(!this.contentEl) return;
-				
+	
 	            if(data === true || data === 1 || data === 'true') {
-					this.content = 'Oui';
+	                this.content = 'Oui';
 	            }
 	            else {
-					this.content = 'Non';
+	                this.content = 'Non';
 	            }
-				this.contentEl.innerHTML = this.content;
+	            this.contentEl.innerHTML = this.content;
 
 	        }
-	}
+	    }
 }
 </script>
 

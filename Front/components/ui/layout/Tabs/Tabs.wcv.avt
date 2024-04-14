@@ -1,0 +1,9 @@
+<rk-scrollable y_scroll="false" x_scroll class="header" @element="headerEl">
+
+</rk-scrollable>
+<rk-scrollable y_scroll x_scroll="false" class="body" @element="bodyEl">
+
+</rk-scrollable>
+<div class="hidden">
+    <slot></slot>
+</div>

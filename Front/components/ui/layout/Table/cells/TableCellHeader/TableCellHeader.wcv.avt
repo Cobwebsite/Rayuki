@@ -1,0 +1,4 @@
+<slot>
+    <div @element="headerName" class="header-name"></div>
+    <mi-icon icon="expand_less" class="sort-direction"></mi-icon>
+</slot>

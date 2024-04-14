@@ -1,49 +1,59 @@
-import { Platform } from "../../../../libs/Platform.lib.avt";
 
-namespace System {
-    export class PwaPromptIos extends Aventus.WebComponent implements Aventus.DefaultComponent {
+export class PwaPromptIos extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
-        //#region static
-        public static get isAvailable(): boolean {
-            return Platform.isiOS && !Platform.isStandalone;
+    //#region static
+    public static get isStandalone(): boolean {
+        if("standalone" in window.navigator && window.navigator.standalone) {
+            return true;
         }
-        //#endregion
- 
-
-        //#region props
-
-        //#endregion
-
-
-        //#region variables
-        @ViewElement()
-        protected overlay!: HTMLDivElement;
-        @ViewElement()
-        protected prompt!: HTMLDivElement;
-        @Attribute()
-        public ready!: boolean;
-        //#endregion
-
-
-        //#region constructor
-
-        //#endregion
-
-
-        //#region methods
-        public show() {
-            this.overlay?.classList.add("visible");
-            this.prompt?.classList.add("visible");
-        }
-        public close() {
-            this.overlay?.classList.remove("visible");
-            this.prompt?.classList.remove("visible");
-        }
-
-        protected override postCreation(): void {
-            this.ready = true;
-        }
-        //#endregion
-
+        return false;
     }
+    public static get isiOS(): boolean {
+        let test1 = /iphone|ipad|ipod/.test(
+            window.navigator.userAgent.toLowerCase()
+        );
+        let test2 = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+        return test1 || test2;
+    }
+
+    public static get isAvailable(): boolean {
+        return this.isiOS && !this.isStandalone;
+    }
+    //#endregion
+
+
+    //#region props
+
+    //#endregion
+
+
+    //#region variables
+    @ViewElement()
+    protected overlay!: HTMLDivElement;
+    @ViewElement()
+    protected prompt!: HTMLDivElement;
+    @Attribute()
+    public visible!: boolean;
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+
+    public close() {
+        this.addEventListener("transitionend", () => {
+            this.remove()
+        })
+        this.visible = false;
+    }
+
+    protected override postCreation(): void {
+        this.visible = true;
+    }
+    //#endregion
+
 }

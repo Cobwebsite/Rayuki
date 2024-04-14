@@ -9,6 +9,7 @@ using Core.Logic;
 using AventusSharp.Routes;
 using System.Timers;
 using Newtonsoft.Json;
+using Core.Data;
 
 namespace Core.App
 {
@@ -147,9 +148,9 @@ namespace Core.App
                                                 object? o = Activator.CreateInstance(theType);
                                                 if (o is RayukiApp newAppFile)
                                                 {
-                                                    newAppFile.action = new Action<Type>((Type type) =>
+                                                    newAppFile.action = new Action<Type, PermissionDescription?>((Type type, PermissionDescription? description) =>
                                                     {
-                                                        PermissionDM.GetInstance().RegisterPermissions(type);
+                                                        PermissionDM.GetInstance().RegisterPermissions(type, description);
                                                     });
                                                     allApps.Add(newAppFile);
                                                 }

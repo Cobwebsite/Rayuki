@@ -1,14 +1,44 @@
+<slot name="before"></slot>
 <div class="style-wrapper" @element="styleWrapper">
-    <slot name="before"></slot>
-    <div class="header">
+    <slot name="header">
+        if(this.showHeader) {
+            <div class="header">
+                <div class="title">{{ this.tableTitle }}</div>
+                if(this.showSearch) {
+                    <div class="search">
+                        <rk-input placeholder="Recherche" @change="globalFilter"></rk-input>
+                    </div>
+                }
+            </div>
+        }
+    </slot>
+    <div class="row-header">
         <rk-scrollable y_scroll="false" x_scroll @element="headerContainer" floating_scroll>
 
         </rk-scrollable>
     </div>
     <div class="body">
-        <rk-scrollable x_scroll @element="bodyContainer" floating_scroll auto_hide="{{this.auto_hide_scroll}}">
+        <rk-scrollable x_scroll @element="bodyContainer" floating_scroll auto_hide="{{ this.auto_hide_scroll }}">
         </rk-scrollable>
     </div>
-    <slot name="after"></slot>
-    <slot></slot>
+    <slot name="footer">
+        if(this.showFooter) {
+            <div class="footer">
+                <div class="items-per-page">
+                    <span>Éléments par page : </span>
+                    <rk-input-number @bind="this.items_per_page" min="1" :errorsTxt="this.errorsTxtItemPerPage"></rk-input-number>
+                </div>
+                <div class="location">{{ this.locationInfo() }}</div>
+                <div class="pagination">
+                    <mi-icon icon="keyboard_double_arrow_left" @press="firstPage" class="btn-previous touch"></mi-icon>
+                    <mi-icon icon="keyboard_arrow_left" @press="previousPage" class="btn-previous touch"></mi-icon>
+                    <mi-icon icon="keyboard_arrow_right" @press="nextPage" class="btn-next touch"></mi-icon>
+                    <mi-icon icon="keyboard_double_arrow_right" @press="lastPage" class="btn-next touch"></mi-icon>
+                </div>
+            </div>
+        }
+    </slot>
+   
 </div>
+<slot name="after"></slot>
+<slot></slot>

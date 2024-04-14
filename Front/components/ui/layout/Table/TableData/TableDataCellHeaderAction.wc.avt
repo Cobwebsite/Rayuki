@@ -1,17 +1,12 @@
 
 <script>
-	import { TableData } from "./TableData.wcl.avt";
-	import { TableCell } from "../cells/TableCell/TableCell.wcl.avt";
-	namespace Components {
-		export class TableDataCellHeaderAction<U = any> extends TableCell<string, U> implements Aventus.DefaultComponent {
-			/**
-			* @inheritdoc
-			*/
-			public override setContent(data: string | undefined, rowData: U) {
-			}
+	import { TableCellHeader } from "../cells/TableCellHeader/TableCellHeader.wcl.avt";
+import { TableData } from "./TableData.wcl.avt";
 
+	namespace Components {
+		export class TableDataCellHeaderAction<U = any> extends TableCellHeader<U> implements Aventus.DefaultComponent {
+			
 			protected override postCreation(): void {
-				super.postCreation();
 				new Aventus.PressManager({
 					element: this,
 					onPress: () => {
@@ -21,6 +16,13 @@
 					}
 				});
 		
+			}
+
+			/**
+			* @inheritdoc
+			*/
+			public override setContent(data: undefined, rowData: U) {
+				
 			}
 		}
 	}

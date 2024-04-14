@@ -13,9 +13,20 @@ namespace Core.Logic
     {
         public void RegisterPermissions<T>() where T : Enum
         {
-            RegisterPermissions(typeof(T));
+            RegisterPermissions(typeof(T), null);
         }
-        internal void RegisterPermissions(Type type)
+        public void RegisterPermissions<T, U>() where T : Enum
+        {
+            object? description = Activator.CreateInstance(typeof(U));
+            if (description is PermissionDescription<T> descriptionCasted)
+            {
+                RegisterPermissions(typeof(T), descriptionCasted);
+            }
+            else {
+                RegisterPermissions(typeof(T), null);
+            }
+        }
+        internal void RegisterPermissions(Type type, PermissionDescription? description)
         {
             Array values = Enum.GetValues(type);
             foreach (object value in values)

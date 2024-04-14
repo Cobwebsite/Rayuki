@@ -1,6 +1,6 @@
+import { TableDataCellHeaderAction } from "./TableDataCellHeaderAction.wc.avt";
 import { Application } from "../../../../system/Application/Application.wcl.avt";
 import { Table, type TableSchema } from "../Table.wcl.avt";
-import { TableDataCellHeaderAction } from "./TableDataCellHeaderAction.wc.avt";
 
 namespace Components {
     export abstract class TableData<T extends AventusSharp.Data.Storable> extends Table<T> implements Aventus.DefaultComponent {
@@ -32,31 +32,31 @@ namespace Components {
         public abstract defineEditState(data: T): Aventus.State;
         public async loadData() {
             let ram = this.defineRAM();
-            this.rawData = await this.application?.executeWithLoading(ram.getListWithError());
+            this.data = await this.application?.executeWithLoading(ram.getListWithError());
 
             ram.onCreated((data) => {
-                if(!this.rawData) {
-                    this.rawData = [data];
+                if(!this.data) {
+                    this.data = [data];
                 }
                 else {
-                    this.rawData.push(data);
+                    this.data.push(data);
                 }
             });
 
             ram.onDeleted((data) => {
-                if(!this.rawData) return;
-                const index = this.rawData.findIndex(p => p.Id == data.Id);
+                if(!this.data) return;
+                const index = this.data.findIndex(p => p.Id == data.Id);
                 if(index != -1) {
-                    this.rawData.splice(index, 1);
+                    this.data.splice(index, 1);
                 }
             });
 
             ram.onUpdated((data) => {
-                if(!this.rawData) {
-                    this.rawData = [data];
+                if(!this.data) {
+                    this.data = [data];
                 }
                 else {
-                    const index = this.rawData.findIndex(p => p.Id == data.Id);
+                    const index = this.data.findIndex(p => p.Id == data.Id);
                     if(index != -1) {
                         this.render();
                     }
@@ -83,7 +83,7 @@ namespace Components {
             if(confirm) {
                 let ram = this.defineRAM();
                 await this.application?.executeWithLoading(ram.deleteWithError(data));
-                this.rawData = await this.application?.executeWithLoading(ram.getListWithError());
+                this.data = await this.application?.executeWithLoading(ram.getListWithError());
             }
         }
 

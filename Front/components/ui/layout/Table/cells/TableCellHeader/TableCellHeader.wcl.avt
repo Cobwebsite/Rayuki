@@ -1,0 +1,47 @@
+import { TableCell } from "../TableCell/TableCell.wcl.avt";
+
+namespace Components {
+    export class TableCellHeader<U = any> extends TableCell<undefined, U> implements Aventus.DefaultComponent {
+
+        public sortable!: boolean;
+
+        @Attribute()
+        public sort_direction?:'asc'|'desc'
+
+        @ViewElement()
+        protected headerName!: HTMLDivElement;
+
+        /**
+        * @inheritdoc
+        */
+        public override sortAsc(cell: this): number {
+            return 0;
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public override setContent(data: undefined, rowData: U) {
+            this.content = data != undefined ? data + "" : "";
+            this.headerName.innerHTML = this.content;
+        }
+
+
+        protected override postCreation(): void {
+            new Aventus.PressManager({
+                element: this,
+                onPress: () => {
+                    if(this.sortable && this.row?.table) {
+                        let current = this.sort_direction;
+                        if(!current) current = 'desc';
+                        else if(current == 'desc') current = 'asc';
+                        else if(current == 'asc') current = undefined;
+
+                        this.row.table.setSortColumn(this.content, current);
+                    }
+                }
+            });
+        }
+    }
+}
+

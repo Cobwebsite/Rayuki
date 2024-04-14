@@ -26,9 +26,9 @@ namespace Data {
 		public Background!: ImageFile;
 		public BackgroundSize: BackgroundSize = BackgroundSize.Cover;
 		public SyncDesktop: boolean = false;
-		public SizeMobile: number = 75;
+		public SizeMobile: number = 85;
 		public SizeTablet: number = 75;
-		public SizeDesktop: number = 40;
+		public SizeDesktop: number = 65;
 		public BackgroundColor?: string = undefined;
 	}
 

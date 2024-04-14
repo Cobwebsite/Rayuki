@@ -1,0 +1,54 @@
+:host {
+	align-items: center;
+	background-color: var(--darker);
+	border-radius: 5px;
+	box-shadow: var(--elevation-2);
+	display: none;
+	height: 30px;
+	justify-content: center;
+	padding: 5px;
+	width: 30px;
+
+	.download {
+		display: inline-block;
+	}
+	.sync {
+		display: none;
+	}
+
+	.rotate {
+		animation-name: rotate;
+		animation-duration: 1.5s;
+		animation-iteration-count: infinite;
+		animation-timing-function: linear;
+		animation-direction: reverse;
+	}
+}
+
+:host([visible]) {
+	display: flex !important;
+}
+
+:host([downloading]) {
+	.download {
+		display: none;
+	}
+	.sync {
+		display: inline-block;
+	}
+}
+
+
+@keyframes rotate {
+	0% {
+		transform: rotate(0);
+	}
+
+	50% {
+		transform: rotate(180deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}

@@ -1,14 +1,14 @@
 :host {
-	--_table-cell-vertical-border: var(--_table-header-vertical-border);
+	--_table-cell-vertical-border: var(--_table-row-header-vertical-border);
 	width: 100%;
 
 	.row-content {
-		background-color: var(--_table-header-backgroud-color);
-		border-bottom: var(--_table-header-horizontal-border);
-		color: var(--_table-header-color);
+		background-color: var(--_table-row-header-backgroud-color);
+		border-bottom: var(--_table-row-header-horizontal-border);
+		color: var(--_table-row-header-color);
 		display: flex;
 		flex-direction: row;
-		height: var(--_table-header-height);
+		height: var(--_table-row-header-height);
 		width: 100%;
 	}
 }

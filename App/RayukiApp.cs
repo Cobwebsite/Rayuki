@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core.Data;
 using Core.Logic;
 
 namespace Core.App
 {
     public abstract class RayukiApp
     {
-        internal Action<Type> action;
+        internal Action<Type, PermissionDescription?> action;
         public virtual Task OnStart()
         {
             return Task.CompletedTask;
@@ -31,9 +27,20 @@ namespace Core.App
         {
             return null;
         }
+        protected void RegisterPermissions<T, U>() where T : Enum where U : PermissionDescription<T>
+        {
+            object? description = Activator.CreateInstance(typeof(U));
+            if (description is PermissionDescription<T> descriptionCasted)
+            {
+                action(typeof(T), descriptionCasted);
+            }
+            else {
+                action(typeof(T), null);
+            }
+        }
         protected void RegisterPermissions<T>() where T : Enum
         {
-            action(typeof(T));
+            action(typeof(T), null);
         }
     }
 }

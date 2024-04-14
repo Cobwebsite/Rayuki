@@ -71,12 +71,14 @@
 		display: none;
 		font-size: var(--font-size-sm);
 		line-height: 1.1;
-		margin: 10px;
-		margin-bottom: 0px;
-
-		div {
+		margin: 0 10px;
+		*>div {
 			margin: 5px 0;
 		}
+		*>div:first-child {
+			margin-top: 10px;
+		}
+		
 	}
 }
 
@@ -89,9 +91,6 @@
 		}
 	}
 
-	.errors {
-		display: block;
-	}
 }
 
 :host([icon]:not([icon=""])) {

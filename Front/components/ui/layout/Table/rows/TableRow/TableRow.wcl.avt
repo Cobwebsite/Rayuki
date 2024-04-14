@@ -1,6 +1,6 @@
 import type { TableCell } from "../../cells/TableCell/TableCell.wcl.avt";
 import { TableCellString } from "../../cells/TableCellString.wc.avt";
-import type { Table, TableOptions, TableSchema } from "../../Table.wcl.avt";
+import type { SortColumns, Table, TableOptions, TableSchema } from "../../Table.wcl.avt";
 
 namespace Components {
     export class TableRow<T> extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -11,8 +11,6 @@ namespace Components {
 
 
         //#region props
-        @Attribute()
-        public hide!: boolean;
         @Property((target: TableRow<T>) => {
             target.updateGrid();
         })
@@ -35,8 +33,8 @@ namespace Components {
             return this._data;
         }
 
-        protected cells: TableCell<any, T>[] = [];
-
+        protected cells: { [displayName: string]: TableCell<any, T>; } = {};
+        protected options!: TableOptions<T>;
         //#endregion
 
 
@@ -52,45 +50,71 @@ namespace Components {
         protected customGridTemplate(): boolean {
             return false;
         }
+
+        protected getCell(cellConfig: TableSchema): new (...args) => TableCell<any> {
+            return cellConfig.cell ?? TableCellString;
+        }
+
+        protected getContent(cellConfig: TableSchema, data: T): any {
+            return cellConfig.name ? Aventus.getValueFromObject(cellConfig.name, data) : undefined;
+        }
+        protected addCellOption(cell: TableCell<any>, cellConfig: TableSchema, data: T): void {
+
+        }
+
         public init(options: TableOptions<T>, data: T) {
+            this.options = options;
             this._data = data;
             let i = 0;
-            this.cells = [];
+            this.cells = {};
             for(let cellConfig of options.schema) {
-                let cst = cellConfig.cell ?? TableCellString;
+                let cst = this.getCell(cellConfig);
                 let cell = new cst();
                 cell.index = i;
                 cell.row = this;
                 cell.data = data;
                 cell.label = cellConfig.name;
                 cell.grid = this.grid;
-                const v = cellConfig.name ? Aventus.getValueFromObject(cellConfig.name, data) : undefined
+                this.addCellOption(cell, cellConfig, data);
+                const v = this.getContent(cellConfig, data);
                 cell.setContent(v, data);
                 this.rowContentEl.appendChild(cell);
-                this.cells.push(cell);
+                this.cells[cellConfig.displayName] = cell;
                 i++;
             }
         }
 
         public globalSearch(search: string): boolean {
-            for(let cell of this.cells) {
-                if(cell.globalSearch(search)) {
+            for(let name in this.cells) {
+                if(this.cells[name].globalSearch(search)) {
                     return true;
                 }
             }
             return false;
         }
 
+        public sort(row: TableRow<T>, column: string, order: 'asc' | 'desc'): number {
+            let cell = this.cells[column];
+            let cellRow = row.cells[column];
+
+            if(!cell || !cellRow) return 0;
+
+            let result = cell.sortAsc(cellRow);
+            if(order == 'desc')
+                result *= -1;
+            return result;
+        }
+
         protected updateGrid() {
-            for(const cell of this.cells) {
-                cell.grid = this.grid;
+            for(let name in this.cells) {
+                this.cells[name].grid = this.grid;
             }
         }
 
         protected override postDestruction(): void {
             super.postDestruction();
-            for(let cell of this.cells) {
-                cell.remove();
+            for(let name in this.cells) {
+                this.cells[name].remove();
             }
         }
         //#endregion

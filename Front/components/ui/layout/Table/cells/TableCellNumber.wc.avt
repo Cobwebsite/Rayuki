@@ -3,7 +3,21 @@
 
 	namespace Components {
 	    export class TableCellNumber<U = any> extends TableCell<number, U> implements Aventus.DefaultComponent {
-	        /**
+	        
+			/**
+	        * @inheritdoc
+	        */
+	        public override sortAsc(cell: this): number {
+				if(this.content == '' && cell.content == '') return 0;
+				if(this.content == '') return 1
+				if(cell.content == '') return -1
+
+	            let x = Number(this.content);
+	            let y = Number(cell.content);
+	            return x - y;
+	        }
+			
+			/**
 	        * @inheritdoc
 	        */
 	        public override setContent(data: number | undefined, rowData: U) {

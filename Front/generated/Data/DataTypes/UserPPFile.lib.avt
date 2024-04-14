@@ -1,0 +1,10 @@
+import { ImageFile } from './ImageFile.lib.avt';
+
+namespace Data.DataTypes {
+
+	@Convertible()
+	export class UserPPFile extends ImageFile  {
+		public static override get Fullname(): string { return "Core.Data.DataTypes.UserPPFile, Core"; }
+	}
+
+}

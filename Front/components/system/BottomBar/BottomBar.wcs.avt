@@ -3,9 +3,9 @@
 :host {
 	align-items: center;
 	background-color: var(--primary-color-opacity);
-	box-shadow: var(--elevation-3);
 	border-radius: 10px;
 	bottom: 10px;
+	box-shadow: var(--elevation-3);
 	color: var(--text-color);
 	display: flex;
 	font-size: var(--font-size);
@@ -112,13 +112,14 @@
 			display: none;
 		}
 
-		.addons {
+		.addons > * {
 			display: none;
 		}
 
 		.separator {
 			display: none;
 		}
+
 		.applications {
 			.empty-icon {
 				height: 50px;

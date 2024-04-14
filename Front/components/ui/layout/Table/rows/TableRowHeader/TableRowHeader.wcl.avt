@@ -1,5 +1,6 @@
-import { TableCellString } from "../../cells/TableCellString.wc.avt";
-import type { TableOptions } from "../../Table.wcl.avt";
+import { TableCellHeader } from "../../cells/TableCellHeader/TableCellHeader.wcl.avt";
+import type { TableCell } from "../../cells/TableCell/TableCell.wcl.avt";
+import type { TableOptions, TableSchema } from "../../Table.wcl.avt";
 import { TableRow } from "../TableRow/TableRow.wcl.avt";
 
 namespace Components {
@@ -16,7 +17,7 @@ namespace Components {
 
 
         //#region variables
-
+        public override cells: { [displayName: string]: TableCell<any, T>; } = {};
         //#endregion
 
 
@@ -26,18 +27,30 @@ namespace Components {
 
 
         //#region methods
-        public override init(options: TableOptions<T>, data: T | null = null): void {
-            let i = 0;
-            for(let cellConfig of options.schema) {
-                let cst = cellConfig.cellHeader ?? TableCellString;
-                let cell = new cst();
-                cell.row = this;
-                cell.index = i;
-                cell.setContent(cellConfig.displayName, data as T);
-                this.rowContentEl.appendChild(cell);
-                i++;
+
+        protected override getContent(cellConfig: TableSchema, data: T) {
+            return cellConfig.displayName
+        }
+
+        protected override addCellOption(cell: TableCell<any, any>, cellConfig: TableSchema, data: T): void {
+            if(cell instanceof TableCellHeader) {
+                if(cellConfig.sortable !== undefined) {
+                    cell.sortable = cellConfig.sortable;
+                }
+                else {
+                    cell.sortable = this.options.sortable;
+                }
             }
         }
+
+        protected override getCell(cellConfig: TableSchema): new (...args: any[]) => TableCell<any, any> {
+            return cellConfig.cellHeader ?? TableCellHeader;
+        }
+
+        public override init(options: TableOptions<T>, data?: T) {
+            super.init(options, data as T);
+        }
+
         //#endregion
 
     }

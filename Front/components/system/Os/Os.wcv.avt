@@ -14,4 +14,3 @@
     </div>
 </rk-scrollable>
 <rk-button-icon class="add-desktop" icon="/img/icons/add.svg" color="blue"></rk-button-icon>
-<rk-pwa-prompt></rk-pwa-prompt>

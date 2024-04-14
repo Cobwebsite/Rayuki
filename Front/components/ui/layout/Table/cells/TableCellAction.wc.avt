@@ -1,0 +1,32 @@
+<script>
+    import { TableCell } from "./TableCell/TableCell.wcl.avt";
+        
+        namespace Components {
+            export class TableCellAction<U = any> extends TableCell<undefined, U> implements Aventus.DefaultComponent {
+                
+                /**
+                * @inheritdoc
+                */
+                public override sortAsc(cell: this): number {
+                    return 0;
+                }
+                
+                /**
+                 * @inheritdoc
+                 */
+                public override setContent(data: undefined, rowData: U) {
+        
+                }
+            }
+        }
+    
+    </script>
+    
+    <template>	
+        <slot></slot>
+    </template>
+    
+    <style>	
+        
+    </style>
+        

@@ -8,5 +8,6 @@
 <div class="section applications" @element="applicationsContainer"></div>
 <div class="separator"></div>
 <div class="section addons">
+    <rk-pwa-button></rk-pwa-button>
     <rk-add-on-time></rk-add-on-time>
 </div>

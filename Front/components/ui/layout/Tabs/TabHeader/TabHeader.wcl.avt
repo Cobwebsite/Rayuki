@@ -1,0 +1,38 @@
+import type { Tab } from "../Tab/Tab.wcl.avt";
+
+export class TabHeader<T extends Tab = Tab> extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+    @Property()
+    public label: string = "";
+    @Attribute()
+    public active!: boolean;
+    //#endregion
+
+
+    //#region variables
+    protected _tab!: T;
+    public get tab(): T {
+        return this._tab;
+    }
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+    public init(tab: T) {
+        this.label = tab.label;
+        this._tab = tab;
+    }
+    //#endregion
+
+}

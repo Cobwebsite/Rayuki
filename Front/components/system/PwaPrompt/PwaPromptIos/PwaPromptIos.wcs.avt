@@ -13,18 +13,12 @@
 		position: fixed;
 		top: 0;
 		touch-action: none;
+		transition: opacity 0.2s ease-in;
 		visibility: hidden;
 		width: 100vw;
 		z-index: 999999;
 	}
 
-	.pwaPromptOverlay.visible {
-		display: block;
-		opacity: 1;
-		pointer-events: initial;
-		touch-action: initial;
-		visibility: visible;
-	}
 
 	.pwaPromptOverlay.modern {
 		background: rgba(10, 10, 10, 0.5);
@@ -46,16 +40,9 @@
 		position: fixed;
 		touch-action: none;
 		transform: translateY(calc(100% + 10px));
-		
+		transition: transform 0.4s cubic-bezier(0.4, 0.24, 0.3, 1);
 		width: calc(100vw - 16px);
 		z-index: 999999;
-	}
-
-	.pwaPrompt.visible {
-		display: block;
-		pointer-events: initial;
-		touch-action: initial;
-		transform: translateY(0);
 	}
 
 	.pwaPrompt.modern {
@@ -194,11 +181,19 @@
 }
 
 
-:host([ready]) {
+:host([visible]) {
 	.pwaPromptOverlay {
-		transition: opacity 0.2s ease-in;
+		display: block;
+		opacity: 1;
+		pointer-events: initial;
+		touch-action: initial;
+		visibility: visible;
 	}
+
 	.pwaPrompt {
-		transition: transform 0.4s cubic-bezier(0.4, 0.24, 0.3, 1);
+		display: block;
+		pointer-events: initial;
+		touch-action: initial;
+		transform: translateY(0);
 	}
 }

@@ -12,7 +12,15 @@ namespace Components {
 		public full!:boolean;
 
 		private clone?:TableCellPicture<U>;
-	    /**
+	    
+		/**
+		* @inheritdoc
+		*/
+		public override sortAsc(cell: this): number {
+			return 0;
+		}
+		
+		/**
 	     * @inheritdoc
 	     */
 	    public override setContent(data: string | undefined, rowData: U) {
