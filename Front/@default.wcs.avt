@@ -1,7 +1,7 @@
 :host {
+	--img-fill-color: var(--text-color);
 	box-sizing: border-box;
 	display: inline-block;
-	--img-fill-color: var(--text-color);
 }
 
 :host * {
@@ -12,8 +12,10 @@
 	cursor: pointer;
 	-webkit-tap-highlight-color: transparent;
 }
-.touch.disable, .touch.disabled {
-    cursor: default;
+
+.touch.disable,
+.touch.disabled {
+	cursor: default;
 }
 
 .green {

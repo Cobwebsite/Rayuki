@@ -127,7 +127,7 @@ namespace System {
         /**
          * Add all your routes inside this function (addRoute or addRouteAsync)
          */
-        protected abstract defineRoutes(): void;
+        protected abstract defineRoutes(): Promise<void>;
         public get navigator(): ApplicationStateManager {
             if(!this.router) {
                 this.router = new ApplicationStateManager(this);
@@ -235,7 +235,10 @@ namespace System {
                             this.activeState = currentState;
                             await element.show(currentState);
 
-                            this.app_title = element.pageTitle();
+                            let titleTemp = element.pageTitle();
+                            if(titleTemp !== undefined) {
+                                this.app_title = titleTemp;
+                            }
 
                             this.onNewPage(oldUrl, oldPage, path, element);
                         } catch(e) {

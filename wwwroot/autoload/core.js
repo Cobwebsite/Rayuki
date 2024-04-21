@@ -4,7 +4,7 @@ var Core;
 (function (Core) {
 const moduleName = `Core`;
 const _ = {};
-Aventus.Style.store("@default", `:host{box-sizing:border-box;display:inline-block;--img-fill-color: var(--text-color)}:host *{box-sizing:border-box}.touch{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}.touch.disable,.touch.disabled{cursor:default}.green{background-color:var(--green)}.red{background-color:var(--red)}.orange{background-color:var(--orange)}.blue{background-color:var(--blue)}`)
+Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block}:host *{box-sizing:border-box}.touch{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}.touch.disable,.touch.disabled{cursor:default}.green{background-color:var(--green)}.red{background-color:var(--red)}.orange{background-color:var(--orange)}.blue{background-color:var(--blue)}`)
 const Errors = {};
 _.Errors = {};
 const Permissions = {};
@@ -60,6 +60,12 @@ _.Permissions.ApplicationPermission=Permissions.ApplicationPermission;
 })(Errors.DesktopErrorCode || (Errors.DesktopErrorCode = {}));
 
 _.Errors.DesktopErrorCode=Errors.DesktopErrorCode;
+(function (DemoEnum) {
+    DemoEnum[DemoEnum["Value1"] = 0] = "Value1";
+    DemoEnum[DemoEnum["Value2"] = 1] = "Value2";
+})(Data.DemoEnum || (Data.DemoEnum = {}));
+
+_.Data.DemoEnum=Data.DemoEnum;
 Data.Permission=class Permission extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Permission, Core"; }
     EnumName;
@@ -146,8 +152,14 @@ if(!window.customElements.get('rk-user-profil-picture')){window.customElements.d
 const Tooltip = class Tooltip extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
     set 'visible'(val) { this.setBoolAttr('visible', val) }get 'position'() { return this.getStringAttr('position') }
-    set 'position'(val) { this.setStringAttr('position', val) }    parent = null;
-    static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:5px;box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;z-index:1}:host::after{content:"";position:absolute}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--primary-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:50%;top:-8px;transform:translateX(-50%)}:host([visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x);transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--primary-color);bottom:-8px;left:50%;transform:translateX(-50%)}:host([visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=right]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--primary-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:50%;transform:translateY(-50%)}:host([visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--primary-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:50%;transform:translateY(-50%)}:host([visible][position=left]){right:var(--local-tooltip-to-x)}`;
+    set 'position'(val) { this.setStringAttr('position', val) }get 'color'() { return this.getStringAttr('color') }
+    set 'color'(val) { this.setStringAttr('color', val) }get 'use_absolute'() { return this.getBoolAttr('use_absolute') }
+    set 'use_absolute'(val) { this.setBoolAttr('use_absolute', val) }    parent = null;
+    isDestroyed = false;
+    timeoutEnter = false;
+    timeout = 0;
+    static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:5px;box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;pointer-events:none;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;width:max-content;z-index:1}:host::after{content:"";position:absolute}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--_tooltip-background-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:50%;top:-8px;transform:translateX(-50%)}:host([use_absolute][position=bottom]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=bottom]:not([use_absolute])){left:50%;bottom:0px;transform:translateX(-50%) translateY(calc(100% - 10px))}:host([position=bottom][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(100% + 10px))}:host([position=top]){transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--_tooltip-background-color);bottom:-8px;left:50%;transform:translateX(-50%)}:host([use_absolute][position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x)}:host([use_absolute][visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=top]:not([use_absolute])){left:50%;top:0px;transform:translateX(-50%) translateY(calc(-100% + 10px))}:host([position=top][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(-100% - 10px))}:host([position=right]){transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=right]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=right]:not([use_absolute])){right:0;top:50%;transform:translateX(calc(100% - 10px)) translateY(-50%)}:host([visible][position=right]:not([use_absolute])){transform:translateX(calc(100% + 10px)) translateY(-50%)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=left]){right:var(--local-tooltip-to-x)}:host([position=left]:not([use_absolute])){left:0;top:50%;transform:translateX(calc(-100% + 10px)) translateY(-50%)}:host([visible][position=left]:not([use_absolute])){transform:translateX(calc(-100% - 10px)) translateY(-50%)}:host([color=primary]){--_tooltip-background-color: var(--primary-color);--_tooltip-color: var(--text-color)}:host([color=green]){--_tooltip-background-color: var(--green);--_tooltip-color: var(--text-color-green)}:host([color=red]){--_tooltip-background-color: var(--red);--_tooltip-color: var(--text-color-red)}:host([color=orange]){--_tooltip-background-color: var(--orange);--_tooltip-color: var(--text-color-orange)}:host([color=blue]){--_tooltip-background-color: var(--blue);--_tooltip-color: var(--text-color-blue)}`;
+    constructor() { super(); this.onMouseEnter=this.onMouseEnter.bind(this)this.onMouseLeave=this.onMouseLeave.bind(this)this.onTransitionEnd=this.onTransitionEnd.bind(this) }
     __getStatic() {
         return Tooltip;
     }
@@ -165,11 +177,11 @@ const Tooltip = class Tooltip extends Aventus.WebComponent {
     getClassName() {
         return "Tooltip";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('position')){ this['position'] = 'left'; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('position'); }
-    __listBoolProps() { return ["visible"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('position')){ this['position'] = 'left'; }if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('use_absolute')) { this.attributeChangedCallback('use_absolute', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('position');this.__upgradeProperty('color');this.__upgradeProperty('use_absolute'); }
+    __listBoolProps() { return ["visible","use_absolute"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     calculatePosition() {
-        if (!this.parent)
+        if (!this.parent || !this.use_absolute)
             return;
         let rect = this.parent.getBoundingClientRect();
         let center = {
@@ -205,28 +217,55 @@ const Tooltip = class Tooltip extends Aventus.WebComponent {
             this.style.setProperty("--local-tooltip-to-y", center.y + 'px');
         }
     }
+    onMouseEnter() {
+        this.calculatePosition();
+        if (this.use_absolute) {
+            document.body.appendChild(this);
+            this.timeoutEnter = false;
+            this.timeout = setTimeout(() => {
+                this.timeoutEnter = true;
+                this.visible = true;
+            }, 50);
+        }
+        else {
+            this.visible = true;
+        }
+    }
+    onMouseLeave() {
+        this.visible = false;
+        if (this.use_absolute) {
+            if (!this.timeoutEnter) {
+                clearTimeout(this.timeout);
+                this.onTransitionEnd();
+            }
+        }
+    }
+    onTransitionEnd() {
+        if (!this.use_absolute || this.visible)
+            return;
+        if (this.parent && !this.isDestroyed)
+            this.parent?.appendChild(this);
+        else
+            this.remove();
+    }
     registerAction() {
         if (!this.parent)
             return;
-        this.parent.addEventListener("mouseenter", () => {
-            this.calculatePosition();
-            document.body.appendChild(this);
-            requestAnimationFrame(() => {
-                this.visible = true;
-            });
-        });
-        this.parent.addEventListener("mouseleave", () => {
-            this.visible = false;
-        });
-        this.addEventListener("transitionend", () => {
-            if (!this.visible) {
-                this.parentNode?.removeChild(this);
-            }
-        });
+        this.parent.addEventListener("mouseenter", this.onMouseEnter);
+        this.parent.addEventListener("mouseleave", this.onMouseLeave);
+        this.addEventListener("transitionend", this.onTransitionEnd);
     }
     postCreation() {
         this.parent = this.parentElement;
         this.registerAction();
+    }
+    postDestruction() {
+        this.isDestroyed = true;
+        super.postDestruction();
+        if (!this.parent)
+            return;
+        this.parent.removeEventListener("mouseenter", this.onMouseEnter);
+        this.parent.removeEventListener("mouseleave", this.onMouseLeave);
     }
 }
 Tooltip.Namespace=`${moduleName}`;
@@ -944,6 +983,16 @@ Lib.DateTools=class DateTools {
             return false;
         return date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear();
     }
+    static print(date, options, locale) {
+        if (!options) {
+            options = {
+                year: "numeric",
+                month: "long",
+                day: "2-digit"
+            };
+        }
+        return date.toLocaleDateString(locale, options);
+    }
 }
 Lib.DateTools.Namespace=`${moduleName}.Lib`;
 
@@ -1390,6 +1439,16 @@ System.DesktopActivableLogic=class DesktopActivableLogic {
 System.DesktopActivableLogic.Namespace=`${moduleName}.System`;
 
 _.System.DesktopActivableLogic=System.DesktopActivableLogic;
+Data.Pdf=class Pdf {
+    static get Fullname() { return "Core.Data.Pdf, Core"; }
+    Name = "";
+    Html = "";
+}
+Data.Pdf.Namespace=`${moduleName}.Data`;
+Data.Pdf.$schema={"Name":"string","Html":"string"};
+Aventus.Converter.register(Data.Pdf.Fullname, Data.Pdf);
+
+_.Data.Pdf=Data.Pdf;
 Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
     async LoginAction(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/login`, Aventus.HttpMethod.POST);
@@ -1596,6 +1655,57 @@ Data.DataTypes.UserPPFile.$schema={...(Data.DataTypes.ImageFile?.$schema ?? {}),
 Aventus.Converter.register(Data.DataTypes.UserPPFile.Fullname, Data.DataTypes.UserPPFile);
 
 _.Data.DataTypes.UserPPFile=Data.DataTypes.UserPPFile;
+Data.User=class User extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.User, Core"; }
+    Firstname = "";
+    Lastname = "";
+    Username = "";
+    Password = "";
+    Token = "";
+    Picture = new Data.DataTypes.ImageFile();
+    IsSuperAdmin = false;
+}
+Data.User.Namespace=`${moduleName}.Data`;
+Data.User.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Firstname":"string","Lastname":"string","Username":"string","Password":"string","Token":"string","Picture":""+moduleName+".Data.DataTypes.ImageFile","IsSuperAdmin":"boolean"};
+Aventus.Converter.register(Data.User.Fullname, Data.User);
+
+_.Data.User=Data.User;
+Data.PermissionUser=class PermissionUser extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.PermissionUser, Core"; }
+    Data;
+    Permission;
+    Data;
+    User;
+}
+Data.PermissionUser.Namespace=`${moduleName}.Data`;
+Data.PermissionUser.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":""+moduleName+".Data.Permission","User":""+moduleName+".Data.User"};
+Aventus.Converter.register(Data.PermissionUser.Fullname, Data.PermissionUser);
+
+_.Data.PermissionUser=Data.PermissionUser;
+Data.Group=class Group extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.Group, Core"; }
+    Name = "";
+    Description = "";
+    Users = [];
+    parentGroup = undefined;
+}
+Data.Group.Namespace=`${moduleName}.Data`;
+Data.Group.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Description":"string","Users":""+moduleName+".Data.User","parentGroup":"Group"};
+Aventus.Converter.register(Data.Group.Fullname, Data.Group);
+
+_.Data.Group=Data.Group;
+Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.PermissionGroup, Core"; }
+    Data;
+    Permission;
+    Data;
+    Group;
+}
+Data.PermissionGroup.Namespace=`${moduleName}.Data`;
+Data.PermissionGroup.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":""+moduleName+".Data.Permission","Group":""+moduleName+".Data.Group"};
+Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
+
+_.Data.PermissionGroup=Data.PermissionGroup;
 State.DesktopStateManager=class DesktopStateManager extends Aventus.StateManager {
     /**
      * Get the instance of the StateManager
@@ -2663,6 +2773,16 @@ Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
 Routes.ApplicationRouter.Namespace=`${moduleName}.Routes`;
 
 _.Routes.ApplicationRouter=Routes.ApplicationRouter;
+Routes.PdfRouter=class PdfRouter extends Aventus.HttpRoute {
+    async Generate(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/generate`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryVoid(this.router);
+    }
+}
+Routes.PdfRouter.Namespace=`${moduleName}.Routes`;
+
+_.Routes.PdfRouter=Routes.PdfRouter;
 Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
     async Can(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/can`, Aventus.HttpMethod.POST);
@@ -2673,57 +2793,6 @@ Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
 Routes.PermissionRouter.Namespace=`${moduleName}.Routes`;
 
 _.Routes.PermissionRouter=Routes.PermissionRouter;
-Data.User=class User extends AventusSharp.Data.Storable {
-    static get Fullname() { return "Core.Data.User, Core"; }
-    Firstname = "";
-    Lastname = "";
-    Username = "";
-    Password = "";
-    Token = "";
-    Picture = new Data.DataTypes.UserPPFile();
-    IsSuperAdmin = false;
-}
-Data.User.Namespace=`${moduleName}.Data`;
-Data.User.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Firstname":"string","Lastname":"string","Username":"string","Password":"string","Token":"string","Picture":""+moduleName+".Data.DataTypes.UserPPFile","IsSuperAdmin":"boolean"};
-Aventus.Converter.register(Data.User.Fullname, Data.User);
-
-_.Data.User=Data.User;
-Data.PermissionUser=class PermissionUser extends AventusSharp.Data.Storable {
-    static get Fullname() { return "Core.Data.PermissionUser, Core"; }
-    Data;
-    Permission;
-    Data;
-    User;
-}
-Data.PermissionUser.Namespace=`${moduleName}.Data`;
-Data.PermissionUser.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":""+moduleName+".Data.Permission","User":""+moduleName+".Data.User"};
-Aventus.Converter.register(Data.PermissionUser.Fullname, Data.PermissionUser);
-
-_.Data.PermissionUser=Data.PermissionUser;
-Data.Group=class Group extends AventusSharp.Data.Storable {
-    static get Fullname() { return "Core.Data.Group, Core"; }
-    Name = "";
-    Description = "";
-    Users = [];
-    parentGroup = undefined;
-}
-Data.Group.Namespace=`${moduleName}.Data`;
-Data.Group.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Description":"string","Users":""+moduleName+".Data.User","parentGroup":"Group"};
-Aventus.Converter.register(Data.Group.Fullname, Data.Group);
-
-_.Data.Group=Data.Group;
-Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
-    static get Fullname() { return "Core.Data.PermissionGroup, Core"; }
-    Data;
-    Permission;
-    Data;
-    Group;
-}
-Data.PermissionGroup.Namespace=`${moduleName}.Data`;
-Data.PermissionGroup.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":""+moduleName+".Data.Permission","Group":""+moduleName+".Data.Group"};
-Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
-
-_.Data.PermissionGroup=Data.PermissionGroup;
 Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRoute {
     async GetConnected() {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/getconnected`, Aventus.HttpMethod.GET);
@@ -2740,6 +2809,7 @@ Routes.CoreHttpRoutes= [
     { type: Routes.ApplicationRouter, path: "Application" },
     { type: Routes.DesktopRouter, path: "Desktop" },
     { type: Routes.MainRouter, path: "" },
+    { type: Routes.PdfRouter, path: "Pdf" },
     { type: Routes.PermissionRouter, path: "Permission" },
     { type: Routes.UserRouter, path: "User" },
 ];
@@ -6061,7 +6131,10 @@ System.Application = class Application extends Aventus.WebComponent {
                         this.activePath = path;
                         this.activeState = currentState;
                         await element.show(currentState);
-                        this.app_title = element.pageTitle();
+                        let titleTemp = element.pageTitle();
+                        if (titleTemp !== undefined) {
+                            this.app_title = titleTemp;
+                        }
                         this.onNewPage(oldUrl, oldPage, path, element);
                     }
                     catch (e) {
@@ -8262,6 +8335,123 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
 System.ApplicationSidnav.Namespace=`${moduleName}.System`;
 _.System.ApplicationSidnav=System.ApplicationSidnav;
 
+Lib.PWA=class PWA {
+    static get isAvailable() {
+        if (window['deferredPrompt']) {
+            return true;
+        }
+        return false;
+    }
+    static get isAvailableIOS() {
+        return Lib.Platform.isiOS && !Lib.Platform.isStandalone;
+    }
+    static e;
+    static isInit = false;
+    static startInstall;
+    static onInit = new Aventus.Callback();
+    static onDownloading = new Aventus.Callback();
+    static onDownloaded = new Aventus.Callback();
+    static async init() {
+        if (this.isInit) {
+            return;
+        }
+        if (!this.e && Lib.PWA.isAvailable) {
+            this.e = window['deferredPrompt'];
+            let result = this.onInit.trigger([]);
+            this.isInit = true;
+        }
+        else if (Lib.PWA.isAvailableIOS) {
+            let result = this.onInit.trigger([]);
+            this.isInit = true;
+        }
+        if (this.isInit) {
+            window.addEventListener('appinstalled', async (evt) => {
+                let now = new Date();
+                let start = this.startInstall ?? new Date();
+                let diffMs = now.getTime() - start.getTime();
+                if (diffMs < 3000) {
+                    await Aventus.sleep(3000 - diffMs);
+                }
+                this.onDownloaded.trigger([]);
+            });
+        }
+    }
+    static addOnInit(cb) {
+        if (this.isInit) {
+            cb();
+        }
+        else {
+            this.onInit.add(cb);
+        }
+    }
+    static async download() {
+        if (this.isAvailable && this.e) {
+            this.e.prompt();
+            const choiceResult = await this.e.userChoice;
+            if (choiceResult.outcome === 'accepted') {
+                this.startInstall = new Date();
+                this.onDownloading.trigger([]);
+            }
+        }
+        else if (this.isAvailableIOS) {
+            let pwaios = new PwaPromptIos();
+            document.body.appendChild(pwaios);
+        }
+    }
+}
+Lib.PWA.Namespace=`${moduleName}.Lib`;
+
+_.Lib.PWA=Lib.PWA;
+System.PwaButton = class PwaButton extends Aventus.WebComponent {
+    get 'visible'() { return this.getBoolAttr('visible') }
+    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'downloading'() { return this.getBoolAttr('downloading') }
+    set 'downloading'(val) { this.setBoolAttr('downloading', val) }    static __style = `:host{align-items:center;background-color:var(--darker);border-radius:5px;box-shadow:var(--elevation-2);display:none;height:30px;justify-content:center;padding:5px;width:30px}:host .download{display:inline-block}:host .sync{display:none}:host .rotate{animation-name:rotate;animation-duration:1.5s;animation-iteration-count:infinite;animation-timing-function:linear;animation-direction:reverse}:host([visible]){display:flex !important}:host([downloading]) .download{display:none}:host([downloading]) .sync{display:inline-block}@keyframes rotate{0%{transform:rotate(0)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}`;
+    __getStatic() {
+        return PwaButton;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(PwaButton.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<mi-icon icon="download" class="download"></mi-icon><mi-icon icon="sync" class="sync rotate"></mi-icon>` }
+    });
+}
+    getClassName() {
+        return "PwaButton";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('downloading')) { this.attributeChangedCallback('downloading', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('downloading'); }
+    __listBoolProps() { return ["visible","downloading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    async init() {
+        Lib.PWA.addOnInit(async () => {
+            this.visible = true;
+            new Aventus.PressManager({
+                element: this,
+                onPress: () => {
+                    Lib.PWA.download();
+                }
+            });
+        });
+        Lib.PWA.onDownloading.add(async () => {
+            this.downloading = true;
+        });
+        Lib.PWA.onDownloaded.add(async () => {
+            this.remove();
+        });
+    }
+    postCreation() {
+        this.classList.add("touch");
+        this.init();
+    }
+}
+System.PwaButton.Namespace=`${moduleName}.System`;
+System.PwaButton.Tag=`rk-pwa-button`;
+_.System.PwaButton=System.PwaButton;
+if(!window.customElements.get('rk-pwa-button')){window.customElements.define('rk-pwa-button', System.PwaButton);Aventus.WebComponentInstance.registerDefinition(System.PwaButton);}
+
 const CalendarDay = class CalendarDay extends Aventus.WebComponent {
     get 'other'() { return this.getBoolAttr('other') }
     set 'other'(val) { this.setBoolAttr('other', val) }get 'today'() { return this.getBoolAttr('today') }
@@ -8962,6 +9152,9 @@ Components.Slider = class Slider extends Components.FormElement {
     set 'value'(val) { this.setNumberAttr('value', val) }get 'step'() { return this.getNumberProp('step') }
     set 'step'(val) { this.setNumberAttr('step', val) }    currentPercent = 0;
     timerPopup = 0;
+    onDragStart = new Aventus.Callback();
+    onDragStop = new Aventus.Callback();
+    onValidateValue = new Aventus.Callback();
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("min", ((target) => {
     target.calculatePercent();
 }));this.__addPropertyActions("max", ((target) => {
@@ -9030,6 +9223,7 @@ Components.Slider = class Slider extends Components.FormElement {
                     clearTimeout(this.timerPopup);
                     this.popup_visible = true;
                 }
+                this.onDragStart.trigger([]);
             },
             onStart: (e) => {
                 startX = e.pageX;
@@ -9050,6 +9244,7 @@ Components.Slider = class Slider extends Components.FormElement {
                         this.popup_visible = false;
                     }, 1000);
                 }
+                this.onDragStop.trigger([]);
             }
         });
     }
@@ -9072,11 +9267,14 @@ Components.Slider = class Slider extends Components.FormElement {
             }
         });
     }
-    calculatePercent() {
+    calculatePercent(value) {
         if (!this.isConnected)
             return;
+        if (value === undefined) {
+            value = this.value;
+        }
         let range = this.max - this.min;
-        let percent = (this.value - this.min) / range * 100;
+        let percent = (value - this.min) / range * 100;
         this.setPercent(percent);
     }
     calculateValue(emit = true) {
@@ -9088,6 +9286,14 @@ Components.Slider = class Slider extends Components.FormElement {
         }
         else {
             value -= diff;
+        }
+        let result = this.onValidateValue.trigger([value]);
+        if (result.length > 0) {
+            if (result[0] != value) {
+                // we correct the value so apply percent
+                this.calculatePercent(result[0]);
+                value = result[0];
+            }
         }
         if (value != this.value) {
             this.value = value;
@@ -9804,13 +10010,14 @@ Components.Button = class Button extends Aventus.WebComponent {
     get 'color'() { return this.getStringAttr('color') }
     set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
     set 'outline'(val) { this.setBoolAttr('outline', val) }get 'submit'() { return this.getBoolAttr('submit') }
-    set 'submit'(val) { this.setBoolAttr('submit', val) }    get 'icon_before'() { return this.getStringProp('icon_before') }
+    set 'submit'(val) { this.setBoolAttr('submit', val) }get 'disabled'() { return this.getBoolAttr('disabled') }
+    set 'disabled'(val) { this.setBoolAttr('disabled', val) }    get 'icon_before'() { return this.getStringProp('icon_before') }
     set 'icon_before'(val) { this.setStringAttr('icon_before', val) }get 'icon_after'() { return this.getStringProp('icon_after') }
     set 'icon_after'(val) { this.setStringAttr('icon_after', val) }get 'icon'() { return this.getStringProp('icon') }
     set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
     target.icon_before = target.icon;
 })); }
-    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent)}:host{background-color:var(--internal-button-background-color);border-radius:5px;box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;overflow:hidden;position:relative}:host .hider{background-color:var(--_button-background-color-hover);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:hover) .hider{opacity:1;visibility:visible}}`;
+    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--internal-button-background-color);border-radius:5px;box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;cursor:not-allowed;color:var(--_button-color-disable);box-shadow:none}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
     __getStatic() {
         return Button;
     }
@@ -9840,9 +10047,9 @@ Components.Button = class Button extends Aventus.WebComponent {
     getClassName() {
         return "Button";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('submit')) { this.attributeChangedCallback('submit', false, false); }if(!this.hasAttribute('icon_before')){ this['icon_before'] = undefined; }if(!this.hasAttribute('icon_after')){ this['icon_after'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('submit');this.__upgradeProperty('icon_before');this.__upgradeProperty('icon_after');this.__upgradeProperty('icon'); }
-    __listBoolProps() { return ["outline","submit"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('submit')) { this.attributeChangedCallback('submit', false, false); }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('icon_before')){ this['icon_before'] = undefined; }if(!this.hasAttribute('icon_after')){ this['icon_after'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('submit');this.__upgradeProperty('disabled');this.__upgradeProperty('icon_before');this.__upgradeProperty('icon_after');this.__upgradeProperty('icon'); }
+    __listBoolProps() { return ["outline","submit","disabled"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     registerToForm() {
         if (!this.submit)
             return;
@@ -11368,7 +11575,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
         this.currentPage = 0;
         this.render();
     }
-    addFilter(name, action) {
+    addFilter(name, action, reload = true) {
         let nameTxt = name;
         if (!this.filters[nameTxt]) {
             this.filters[nameTxt] = [];
@@ -11377,9 +11584,10 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
             return;
         }
         this.filters[nameTxt].push(action);
-        this.filterData();
+        if (reload)
+            this.filterData();
     }
-    removeFilter(name, action) {
+    removeFilter(name, action, reload = true) {
         let nameTxt = name;
         if (this.filters[nameTxt]) {
             let index = this.filters[nameTxt].indexOf(action);
@@ -11387,7 +11595,8 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
                 this.filters[nameTxt].splice(index, 1);
             }
         }
-        this.filterData();
+        if (reload)
+            this.filterData();
     }
     registerObserver() {
         this.resizeObserver = new Aventus.ResizeObserver(() => {
@@ -11511,16 +11720,28 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
         let i = 0;
         this.cells = {};
         for (let cellConfig of options.schema) {
-            let cst = this.getCell(cellConfig);
-            let cell = new cst();
+            let cellInfo = this.getCell(cellConfig);
+            let cell;
+            let applyContent = true;
+            if (Aventus.isClass(cellInfo)) {
+                let cst = cellInfo;
+                cell = new cst();
+            }
+            else {
+                let fct = cellInfo;
+                cell = fct(data);
+                applyContent = false;
+            }
             cell.index = i;
             cell.row = this;
             cell.data = data;
             cell.label = cellConfig.name;
             cell.grid = this.grid;
             this.addCellOption(cell, cellConfig, data);
-            const v = this.getContent(cellConfig, data);
-            cell.setContent(v, data);
+            if (applyContent) {
+                const v = this.getContent(cellConfig, data);
+                cell.setContent(v, data);
+            }
             this.rowContentEl.appendChild(cell);
             this.cells[cellConfig.displayName] = cell;
             i++;
@@ -12046,6 +12267,39 @@ Components.TableCellDate.Tag=`rk-table-cell-date`;
 _.Components.TableCellDate=Components.TableCellDate;
 if(!window.customElements.get('rk-table-cell-date')){window.customElements.define('rk-table-cell-date', Components.TableCellDate);Aventus.WebComponentInstance.registerDefinition(Components.TableCellDate);}
 
+Components.TableCellCustom = class TableCellCustom extends Components.TableCell {
+    static __style = ``;
+    __getStatic() {
+        return TableCellCustom;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(TableCellCustom.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`` }
+    });
+}
+    getClassName() {
+        return "TableCellCustom";
+    }
+    sortAsc(cell) {
+        let value = this.content;
+        let valueCell = cell.content;
+        return value.localeCompare(valueCell);
+    }
+    setContent(data, rowData) {
+        this.content = data != undefined ? data + "" : "";
+        this.contentEl.innerHTML = this.content;
+    }
+}
+Components.TableCellCustom.Namespace=`${moduleName}.Components`;
+Components.TableCellCustom.Tag=`rk-table-cell-custom`;
+_.Components.TableCellCustom=Components.TableCellCustom;
+if(!window.customElements.get('rk-table-cell-custom')){window.customElements.define('rk-table-cell-custom', Components.TableCellCustom);Aventus.WebComponentInstance.registerDefinition(Components.TableCellCustom);}
+
 const TableCellCheckbox = class TableCellCheckbox extends Components.TableCell {
     static __style = `:host span{cursor:pointer}`;
     __getStatic() {
@@ -12387,123 +12641,6 @@ Tools.VoidWithImageFileError.$schema={...(AventusSharp.Tools.VoidWithError?.$sch
 Aventus.Converter.register(Tools.VoidWithImageFileError.Fullname, Tools.VoidWithImageFileError);
 
 _.Tools.VoidWithImageFileError=Tools.VoidWithImageFileError;
-Lib.PWA=class PWA {
-    static get isAvailable() {
-        if (window['deferredPrompt']) {
-            return true;
-        }
-        return false;
-    }
-    static get isAvailableIOS() {
-        return Lib.Platform.isiOS && !Lib.Platform.isStandalone;
-    }
-    static e;
-    static isInit = false;
-    static startInstall;
-    static onInit = new Aventus.Callback();
-    static onDownloading = new Aventus.Callback();
-    static onDownloaded = new Aventus.Callback();
-    static async init() {
-        if (this.isInit) {
-            return;
-        }
-        if (!this.e && Lib.PWA.isAvailable) {
-            this.e = window['deferredPrompt'];
-            let result = this.onInit.trigger([]);
-            this.isInit = true;
-        }
-        else if (Lib.PWA.isAvailableIOS) {
-            let result = this.onInit.trigger([]);
-            this.isInit = true;
-        }
-        if (this.isInit) {
-            window.addEventListener('appinstalled', async (evt) => {
-                let now = new Date();
-                let start = this.startInstall ?? new Date();
-                let diffMs = now.getTime() - start.getTime();
-                if (diffMs < 3000) {
-                    await Aventus.sleep(3000 - diffMs);
-                }
-                this.onDownloaded.trigger([]);
-            });
-        }
-    }
-    static addOnInit(cb) {
-        if (this.isInit) {
-            cb();
-        }
-        else {
-            this.onInit.add(cb);
-        }
-    }
-    static async download() {
-        if (this.isAvailable && this.e) {
-            this.e.prompt();
-            const choiceResult = await this.e.userChoice;
-            if (choiceResult.outcome === 'accepted') {
-                this.startInstall = new Date();
-                this.onDownloading.trigger([]);
-            }
-        }
-        else if (this.isAvailableIOS) {
-            let pwaios = new PwaPromptIos();
-            document.body.appendChild(pwaios);
-        }
-    }
-}
-Lib.PWA.Namespace=`${moduleName}.Lib`;
-
-_.Lib.PWA=Lib.PWA;
-System.PwaButton = class PwaButton extends Aventus.WebComponent {
-    get 'visible'() { return this.getBoolAttr('visible') }
-    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'downloading'() { return this.getBoolAttr('downloading') }
-    set 'downloading'(val) { this.setBoolAttr('downloading', val) }    static __style = `:host{align-items:center;background-color:var(--darker);border-radius:5px;box-shadow:var(--elevation-2);display:none;height:30px;justify-content:center;padding:5px;width:30px}:host .download{display:inline-block}:host .sync{display:none}:host .rotate{animation-name:rotate;animation-duration:1.5s;animation-iteration-count:infinite;animation-timing-function:linear;animation-direction:reverse}:host([visible]){display:flex !important}:host([downloading]) .download{display:none}:host([downloading]) .sync{display:inline-block}@keyframes rotate{0%{transform:rotate(0)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}`;
-    __getStatic() {
-        return PwaButton;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(PwaButton.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<mi-icon icon="download" class="download"></mi-icon><mi-icon icon="sync" class="sync rotate"></mi-icon>` }
-    });
-}
-    getClassName() {
-        return "PwaButton";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('downloading')) { this.attributeChangedCallback('downloading', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('downloading'); }
-    __listBoolProps() { return ["visible","downloading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    async init() {
-        Lib.PWA.addOnInit(async () => {
-            this.visible = true;
-            new Aventus.PressManager({
-                element: this,
-                onPress: () => {
-                    Lib.PWA.download();
-                }
-            });
-        });
-        Lib.PWA.onDownloading.add(async () => {
-            this.downloading = true;
-        });
-        Lib.PWA.onDownloaded.add(async () => {
-            this.remove();
-        });
-    }
-    postCreation() {
-        this.classList.add("touch");
-        this.init();
-    }
-}
-System.PwaButton.Namespace=`${moduleName}.System`;
-System.PwaButton.Tag=`rk-pwa-button`;
-_.System.PwaButton=System.PwaButton;
-if(!window.customElements.get('rk-pwa-button')){window.customElements.define('rk-pwa-button', System.PwaButton);Aventus.WebComponentInstance.registerDefinition(System.PwaButton);}
-
 
 for(let key in _) { Core[key] = _[key] }
 })(Core);

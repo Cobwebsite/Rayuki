@@ -56,6 +56,12 @@ namespace Components {
         //#endregion
 
 
+        //#region events
+        public onDragStart: Aventus.Callback<() => void> = new Aventus.Callback();
+        public onDragStop: Aventus.Callback<() => void> = new Aventus.Callback();
+        public onValidateValue: Aventus.Callback<(value:number) => number, number> = new Aventus.Callback();
+        //#endregion
+
         //#region methods
         protected addMoveDot() {
             let startX: number = 0;
@@ -72,6 +78,7 @@ namespace Components {
                         clearTimeout(this.timerPopup);
                         this.popup_visible = true;
                     }
+                    this.onDragStart.trigger([]);
                 },
                 onStart: (e) => {
                     startX = e.pageX;
@@ -92,6 +99,7 @@ namespace Components {
                             this.popup_visible = false;
                         }, 1000);
                     }
+                    this.onDragStop.trigger([]);
                 }
             });
         }
@@ -115,11 +123,13 @@ namespace Components {
             });
         }
 
-        protected calculatePercent() {
+        protected calculatePercent(value?:number) {
             if(!this.isConnected) return;
-
+            if(value === undefined) {
+                value = this.value;
+            }
             let range = this.max - this.min;
-            let percent = (this.value - this.min) / range * 100;
+            let percent = (value - this.min) / range * 100;
             this.setPercent(percent);
         }
 
@@ -132,6 +142,14 @@ namespace Components {
             }
             else {
                 value -= diff;
+            }
+            let result = this.onValidateValue.trigger([value]);
+            if(result.length > 0) {
+                if(result[0] != value) {
+                    // we correct the value so apply percent
+                    this.calculatePercent(result[0]);
+                    value = result[0];
+                }
             }
             if(value != this.value) {
                 this.value = value;

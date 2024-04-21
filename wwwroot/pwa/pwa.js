@@ -12,7 +12,7 @@ if ('serviceWorker' in navigator) {
         e.preventDefault();
         // Stash the event so it can be triggered later.
         window.deferredPrompt = e;
-        Core?.Lib?.PWA?.init();
+        Core?.PwaButton?.instance?.init();
     });
 
 }

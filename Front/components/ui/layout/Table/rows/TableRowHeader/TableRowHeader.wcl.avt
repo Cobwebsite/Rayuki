@@ -28,11 +28,11 @@ namespace Components {
 
         //#region methods
 
-        protected override getContent(cellConfig: TableSchema, data: T) {
+        protected override getContent(cellConfig: TableSchema<T>, data: T) {
             return cellConfig.displayName
         }
 
-        protected override addCellOption(cell: TableCell<any, any>, cellConfig: TableSchema, data: T): void {
+        protected override addCellOption(cell: TableCell<any, any>, cellConfig: TableSchema<T>, data: T): void {
             if(cell instanceof TableCellHeader) {
                 if(cellConfig.sortable !== undefined) {
                     cell.sortable = cellConfig.sortable;
@@ -43,7 +43,7 @@ namespace Components {
             }
         }
 
-        protected override getCell(cellConfig: TableSchema): new (...args: any[]) => TableCell<any, any> {
+        protected override getCell(cellConfig: TableSchema<T>): new (...args: any[]) => TableCell<any, any> {
             return cellConfig.cellHeader ?? TableCellHeader;
         }
 

@@ -10,11 +10,20 @@ export class Tooltip extends Aventus.WebComponent implements Aventus.DefaultComp
     public visible: boolean = false;
     @Attribute()
     public position: 'top' | 'left' | 'bottom' | 'right' = 'left';
+
+    @Attribute()
+    public color?: "green" | "red" | "blue" | "orange" | "primary" | "secondary";
+
+    @Attribute()
+    public use_absolute!: boolean;
     //#endregion
 
 
     //#region variables
     protected parent: HTMLElement | null = null;
+    private isDestroyed: boolean = false;
+    protected timeoutEnter: boolean = false;
+    protected timeout: number = 0;
     //#endregion
 
 
@@ -25,7 +34,8 @@ export class Tooltip extends Aventus.WebComponent implements Aventus.DefaultComp
 
     //#region methods
     protected calculatePosition() {
-        if(!this.parent) return;
+        if(!this.parent || !this.use_absolute) return;
+
         let rect = this.parent.getBoundingClientRect();
         let center = {
             x: rect.left + rect.width / 2,
@@ -63,30 +73,62 @@ export class Tooltip extends Aventus.WebComponent implements Aventus.DefaultComp
         }
     }
 
+    @BindThis()
+    protected onMouseEnter() {
+        this.calculatePosition();
+        if(this.use_absolute) {
+            document.body.appendChild(this);
+            this.timeoutEnter = false;
+            this.timeout = setTimeout(() => {
+                this.timeoutEnter = true;
+                this.visible = true;
+            }, 50);
+        }
+        else {
+            this.visible = true;
+        }
+    }
+
+    @BindThis()
+    protected onMouseLeave() {
+        this.visible = false;
+        if(this.use_absolute) {
+            if(!this.timeoutEnter) {
+                clearTimeout(this.timeout);
+                this.onTransitionEnd();
+            }
+        }
+    }
+
+    @BindThis()
+    protected onTransitionEnd() {
+        if(!this.use_absolute || this.visible) return;
+
+        if(this.parent && !this.isDestroyed)
+            this.parent?.appendChild(this);
+        else
+            this.remove();
+    }
+
+
     protected registerAction() {
         if(!this.parent) return;
 
-        this.parent.addEventListener("mouseenter", () => {
-            this.calculatePosition();
-            document.body.appendChild(this);
-            requestAnimationFrame(() => {
-                this.visible = true;
-            });
-        });
-
-        this.parent.addEventListener("mouseleave", () => {
-            this.visible = false;
-        });
-
-        this.addEventListener("transitionend", () => {
-            if(!this.visible) {
-                this.parentNode?.removeChild(this);
-            }
-        });
+        this.parent.addEventListener("mouseenter", this.onMouseEnter);
+        this.parent.addEventListener("mouseleave", this.onMouseLeave);
+        this.addEventListener("transitionend", this.onTransitionEnd);
     }
     protected override postCreation(): void {
         this.parent = this.parentElement;
         this.registerAction();
+    }
+
+    protected override postDestruction(): void {
+        this.isDestroyed = true;
+        super.postDestruction();
+        if(!this.parent) return;
+        this.parent.removeEventListener("mouseenter", this.onMouseEnter);
+        this.parent.removeEventListener("mouseleave", this.onMouseLeave);
     }
     //#endregion
 

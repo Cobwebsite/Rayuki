@@ -1,0 +1,8 @@
+namespace Data {
+
+	export enum DemoEnum {
+		Value1,
+		Value2
+	}
+
+}

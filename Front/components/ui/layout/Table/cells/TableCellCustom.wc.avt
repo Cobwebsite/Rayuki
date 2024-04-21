@@ -1,0 +1,26 @@
+<script>
+import { TableCell } from "./TableCell/TableCell.wcl.avt";
+namespace Components {
+	export class TableCellCustom<U = any> extends TableCell<string, U> implements Aventus.DefaultComponent {
+	    
+		/**
+		* @inheritdoc
+		*/
+		public override sortAsc(cell: this): number {
+			let value = this.content;
+            let valueCell = cell.content;
+            return value.localeCompare(valueCell);
+		}
+		
+		/**
+	     * @inheritdoc
+	     */
+	    public override setContent(data: string | undefined, rowData: U) {
+	        this.content = data != undefined ? data + "" : "";
+	        this.contentEl.innerHTML = this.content;
+	    }
+	}
+}
+</script>
+	
+	

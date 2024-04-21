@@ -50,7 +50,7 @@ namespace System {
             });
         }
 
-        public abstract pageTitle(): string;
+        public abstract pageTitle(): string | undefined;
 
         public async show(state: Aventus.State | undefined): Promise<void> {
             this.state = state;

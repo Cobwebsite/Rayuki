@@ -493,6 +493,11 @@ const setValueToObject=function setValueToObject(path, obj, value) {
 }
 
 _.setValueToObject=setValueToObject;
+const isClass=function isClass(v) {
+    return typeof v === 'function' && /^\s*class\s+/.test(v.toString());
+}
+
+_.isClass=isClass;
 const sleep=function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -4150,6 +4155,7 @@ const GenericRam=class GenericRam {
         if (action.success) {
             if (action.result.length > 0) {
                 list = action.result;
+                action.result = [];
             }
             for (let item of list) {
                 let resultItem = await this._create(item, true);
@@ -4255,6 +4261,7 @@ const GenericRam=class GenericRam {
         if (action.success) {
             if (action.result.length > 0) {
                 list = action.result;
+                action.result = [];
             }
             for (let item of list) {
                 let resultItem = await this._update(item, true);
@@ -6075,7 +6082,7 @@ const TemplateInstance=class TemplateInstance {
                 let cb = getValueFromObject(event.eventName, el);
                 cb?.add((...args) => {
                     try {
-                        event.fct(this.context, args);
+                        return event.fct(this.context, args);
                     }
                     catch (e) {
                         console.error(e);
@@ -6481,6 +6488,10 @@ const TemplateInstance=class TemplateInstance {
         }
     }
     renderIf(_if) {
+        // this.renderIfMemory(_if);
+        this.renderIfRecreate(_if);
+    }
+    renderIfMemory(_if) {
         let computeds = [];
         let instances = [];
         if (!this._components[_if.anchorId] || this._components[_if.anchorId].length == 0)
@@ -6533,6 +6544,60 @@ const TemplateInstance=class TemplateInstance {
             instances.push(instance);
             instance.render();
         }
+        calculateActive();
+    }
+    renderIfRecreate(_if) {
+        let computeds = [];
+        if (!this._components[_if.anchorId] || this._components[_if.anchorId].length == 0)
+            return;
+        let anchor = this._components[_if.anchorId][0];
+        let currentActive = undefined;
+        let currentActiveNb = -1;
+        const createContext = () => {
+            if (currentActiveNb < 0 || currentActiveNb > _if.parts.length - 1) {
+                currentActive = undefined;
+                return;
+            }
+            const part = _if.parts[currentActiveNb];
+            let context = new TemplateContext(this.component, {}, this.context);
+            let content = part.template.template?.content.cloneNode(true);
+            document.adoptNode(content);
+            customElements.upgrade(content);
+            let actions = part.template.actions;
+            let instance = new TemplateInstance(this.component, content, actions, part.template.loops, part.template.ifs, context);
+            currentActive = instance;
+            instance.render();
+            anchor.parentNode?.insertBefore(currentActive.content, anchor);
+        };
+        for (let i = 0; i < _if.parts.length; i++) {
+            const part = _if.parts[i];
+            let _class = part.once ? ComputedNoRecomputed : Computed;
+            let computed = new _class(() => {
+                return part.condition(this.context);
+            });
+            computeds.push(computed);
+            computed.subscribe(() => {
+                calculateActive();
+            });
+            this.computeds.push(computed);
+        }
+        const calculateActive = () => {
+            let newActive = -1;
+            for (let i = 0; i < _if.parts.length; i++) {
+                if (computeds[i].value) {
+                    newActive = i;
+                    break;
+                }
+            }
+            if (newActive == currentActiveNb) {
+                return;
+            }
+            if (currentActive) {
+                currentActive.destructor();
+            }
+            currentActiveNb = newActive;
+            createContext();
+        };
         calculateActive();
     }
 }

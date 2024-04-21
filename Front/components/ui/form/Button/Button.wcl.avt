@@ -28,6 +28,9 @@ namespace Components {
 
         @Attribute()
         public submit!: boolean;
+
+        @Attribute()
+        public disabled!: boolean;
         //#endregion
 
 

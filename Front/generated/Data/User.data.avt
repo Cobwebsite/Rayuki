@@ -1,4 +1,4 @@
-import { UserPPFile } from './DataTypes/UserPPFile.lib.avt';
+import { ImageFile } from './DataTypes/ImageFile.lib.avt';
 
 namespace Data {
 
@@ -10,7 +10,7 @@ namespace Data {
 		public Username: string = "";
 		public Password: string = "";
 		public Token: string = "";
-		public Picture: UserPPFile = new UserPPFile();
+		public Picture: ImageFile = new ImageFile();
 		public IsSuperAdmin: boolean = false;
 	}
 

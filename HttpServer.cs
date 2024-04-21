@@ -5,15 +5,8 @@ using Core.App;
 using Core.Data;
 using Core.Logic;
 using Core.Tools;
-using Microsoft.AspNetCore.Http;
-using Microsoft.VisualStudio.Shell.Interop;
-using MySqlX.XDevAPI.Common;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Configuration;
-using System.Text;
 using WebPush;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 using RouterMiddleware = AventusSharp.Routes.RouterMiddleware;
 
 namespace Core
@@ -53,6 +46,7 @@ namespace Core
         public static void Init(string[] args)
         {
             webPush.SetVapidDetails("http://localhost:5000", PublicKey, PrivateKey);
+            _ = PdfTools.Init();
             InitBuilder(args);
             _ = LoadApps();
             InitHttpApp();

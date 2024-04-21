@@ -9,6 +9,8 @@
 	--_button-padding: var(--button-padding, 0 16px);
 	--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);
 	--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);
+	--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));
+	--_button-color-disable: var(--button-color-disable, var(--text-disable));
 }
 
 :host {
@@ -19,7 +21,6 @@
 	cursor: pointer;
 	height: 36px;
 	min-width: 64px;
-	overflow: hidden;
 	position: relative;
 
 	.hider {
@@ -50,6 +51,19 @@
 			height: 100%;
 			padding: 10px 0;
 		}
+	}
+}
+
+:host([disabled]) {
+	background-color: var(--_button-background-color-disable) !important;
+	cursor: not-allowed;
+	color: var(--_button-color-disable);
+	box-shadow: none;
+
+	.hider {
+		opacity: 1;
+		pointer-events: none;
+		visibility: visible;
 	}
 }
 
@@ -124,7 +138,7 @@
 }
 
 @include desktop {
-	:host(:hover) {
+	:host(:not([disabled]):hover) {
 		box-shadow: var(--internal-button-box-shadow-hover);
 
 		.hider {

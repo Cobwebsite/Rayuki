@@ -1,6 +1,6 @@
 import type { TableCell } from "../../cells/TableCell/TableCell.wcl.avt";
 import { TableCellString } from "../../cells/TableCellString.wc.avt";
-import type { SortColumns, Table, TableOptions, TableSchema } from "../../Table.wcl.avt";
+import type { SortColumns, Table, TableOptions, TableSchema, TableSchemaCell, TableSchemaCellCst, TableSchemaCellFct } from "../../Table.wcl.avt";
 
 namespace Components {
     export class TableRow<T> extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -51,14 +51,14 @@ namespace Components {
             return false;
         }
 
-        protected getCell(cellConfig: TableSchema): new (...args) => TableCell<any> {
+        protected getCell(cellConfig: TableSchema<T>): TableSchemaCell<T> {
             return cellConfig.cell ?? TableCellString;
         }
 
-        protected getContent(cellConfig: TableSchema, data: T): any {
+        protected getContent(cellConfig: TableSchema<T>, data: T): any {
             return cellConfig.name ? Aventus.getValueFromObject(cellConfig.name, data) : undefined;
         }
-        protected addCellOption(cell: TableCell<any>, cellConfig: TableSchema, data: T): void {
+        protected addCellOption(cell: TableCell<any>, cellConfig: TableSchema<T>, data: T): void {
 
         }
 
@@ -68,16 +68,28 @@ namespace Components {
             let i = 0;
             this.cells = {};
             for(let cellConfig of options.schema) {
-                let cst = this.getCell(cellConfig);
-                let cell = new cst();
+                let cellInfo = this.getCell(cellConfig);
+                let cell: TableCell<any, T>;
+                let applyContent = true;
+                if(Aventus.isClass(cellInfo)) {
+                    let cst = cellInfo as TableSchemaCellCst<T>;
+                    cell = new cst();
+                }
+                else {
+                    let fct = cellInfo as TableSchemaCellFct<T>;
+                    cell = fct(data);
+                    applyContent = false;
+                }
                 cell.index = i;
                 cell.row = this;
                 cell.data = data;
                 cell.label = cellConfig.name;
                 cell.grid = this.grid;
                 this.addCellOption(cell, cellConfig, data);
-                const v = this.getContent(cellConfig, data);
-                cell.setContent(v, data);
+                if(applyContent) {
+                    const v = this.getContent(cellConfig, data);
+                    cell.setContent(v, data);
+                }
                 this.rowContentEl.appendChild(cell);
                 this.cells[cellConfig.displayName] = cell;
                 i++;

@@ -12,18 +12,21 @@ import { TableCellHeader } from "./cells/TableCellHeader/TableCellHeader.wcl.avt
 
 namespace Components {
     export type TableCellType = 'number' | 'string' | 'date' | 'boolean' | 'custom' | 'picture';
-    export type TableSchema = {
+    export type TableSchemaCellFct<T> = (data:T) => TableCell<any, T>;
+    export type TableSchemaCellCst<T> = new () => TableCell<any, T>;
+    export type TableSchemaCell<T> = TableSchemaCellCst<T> | TableSchemaCellFct<T>;
+    export type TableSchema<T> = {
         displayName: string,
         name?: string,
         type: TableCellType,
-        cell?: new () => TableCell<any, any>;
+        cell?: TableSchemaCell<T>;
         cellHeader?: new () => TableCell<any, any>;
         width?: number;
         minWidth?: number;
         sortable?: boolean;
     };
     export type TableOptions<T> = {
-        schema: TableSchema[];
+        schema: TableSchema<T>[];
         selectable: boolean;
         row: new () => TableRow<T>;
         header: new () => TableRowHeader<T>;
@@ -202,7 +205,7 @@ namespace Components {
             });
         }
 
-        protected normalizeSchemaCell(cellConfig: TableSchema): void {
+        protected normalizeSchemaCell(cellConfig: TableSchema<T>): void {
             if(!cellConfig.cell) {
                 if(cellConfig.type == "boolean") cellConfig.cell = TableCellBoolean;
                 else if(cellConfig.type == "date") cellConfig.cell = TableCellDate;
@@ -451,7 +454,7 @@ namespace Components {
             this.currentPage = 0;
             this.render();
         }
-        public addFilter<U extends keyof T>(name: U, action: (value: T[U]) => boolean) {
+        public addFilter<U extends keyof T>(name: U, action: (value: T[U]) => boolean, reload: boolean = true) {
             let nameTxt = name as string;
             if(!this.filters[nameTxt]) {
                 this.filters[nameTxt] = [];
@@ -460,9 +463,10 @@ namespace Components {
                 return;
             }
             this.filters[nameTxt].push(action);
-            this.filterData();
+            if(reload)
+                this.filterData();
         }
-        public removeFilter<U extends keyof T>(name: U, action: (value: T[U]) => boolean) {
+        public removeFilter<U extends keyof T>(name: U, action: (value: T[U]) => boolean, reload: boolean = true) {
             let nameTxt = name as string;
             if(this.filters[nameTxt]) {
                 let index = this.filters[nameTxt].indexOf(action);
@@ -470,7 +474,8 @@ namespace Components {
                     this.filters[nameTxt].splice(index, 1);
                 }
             }
-            this.filterData();
+            if(reload)
+                this.filterData();
         }
         protected registerObserver() {
             this.resizeObserver = new Aventus.ResizeObserver(() => {

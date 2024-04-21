@@ -3,6 +3,7 @@
 	--primary-color: rgba(220, 220, 220, 1);
 	--secondary-color: #a5a5a5;
 	--secondary-color-active: #7a7a7a;
+	--disable-color:#818181;
 
 	--text-color: rgb(30, 30, 30);
 	--text-color-light: rgb(72, 72, 72);
