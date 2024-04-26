@@ -69,8 +69,11 @@ namespace System {
             return this.currentPosition < this.memory.length - 1;
         }
 
-        public previous(): History | null {
+        public previous(destroy: boolean = false): History | null {
             if(this.previousAvailable) {
+                if(destroy) {
+                    delete this.memory[this.currentPosition];
+                }
                 this.currentPosition--;
                 return this.memory[this.currentPosition];
             }
@@ -107,19 +110,19 @@ namespace System {
     export class ApplicationHistoryConvert extends Aventus.ConverterTransform {
 
         private manager: ApplicationStateManager;
-    
+
         public constructor(manager: ApplicationStateManager) {
             super();
             this.manager = manager;
         }
-    
+
         protected override beforeTransformObject(obj: Object): void {
             if(obj instanceof ApplicationState) {
                 obj.setManager(this.manager);
                 obj.disableSaveState();
             }
         }
-    
+
         protected override afterTransformObject(obj: Object): void {
             if(obj instanceof ApplicationState) {
                 obj.enableSaveState();

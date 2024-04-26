@@ -5,7 +5,6 @@ import { AppIconManager } from "../../../libs/AppIconManager.lib.avt";
 import type { ContextMenu, IContextMenu } from "../../ui/ContextMenu/ContextMenu.wcl.avt";
 import type { IPositionable } from "../../ui/layout/PageCase/PageCase.wcl.avt";
 import { AppList } from "../AppList/AppList.wcl.avt";
-import { MainSocket } from "../../../libs/MainSocket.lib.avt";
 
 namespace System {
     export abstract class AppIcon extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, IPositionable {

@@ -1,0 +1,11 @@
+namespace Data.DataTypes {
+
+	@Convertible()
+	export class Pdf extends AventusSharp.Data.AventusFile  {
+		public static override get Fullname(): string { return "Core.Data.DataTypes.Pdf, Core"; }
+		public Name: string = "";
+		public Html: string = "";
+		public Debug: boolean = false;
+	}
+
+}

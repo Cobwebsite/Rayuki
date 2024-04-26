@@ -137,7 +137,9 @@ const CallbackGroup=class CallbackGroup {
         if (!this.callbacks[group]) {
             this.callbacks[group] = [];
         }
-        this.callbacks[group].push(cb);
+        if (!this.callbacks[group].includes(cb)) {
+            this.callbacks[group].push(cb);
+        }
     }
     /**
      * Remove a callback for a group
@@ -166,27 +168,26 @@ CallbackGroup.Namespace=`${moduleName}`;
 
 _.CallbackGroup=CallbackGroup;
 const Callback=class Callback {
-    callbacks = [];
+    callbacks = new Map();
     /**
      * Clear all callbacks
      */
     clear() {
-        this.callbacks = [];
+        this.callbacks.clear();
     }
     /**
      * Add a callback
      */
-    add(cb) {
-        this.callbacks.push(cb);
+    add(cb, scope = null) {
+        if (!this.callbacks.has(cb)) {
+            this.callbacks.set(cb, scope);
+        }
     }
     /**
      * Remove a callback
      */
     remove(cb) {
-        let index = this.callbacks.indexOf(cb);
-        if (index != -1) {
-            this.callbacks.splice(index, 1);
-        }
+        this.callbacks.delete(cb);
     }
     /**
      * Trigger all callbacks
@@ -194,8 +195,8 @@ const Callback=class Callback {
     trigger(args) {
         let result = [];
         let cbs = [...this.callbacks];
-        for (let cb of cbs) {
-            result.push(cb.apply(null, args));
+        for (let [cb, scope] of cbs) {
+            result.push(cb.apply(scope, args));
         }
         return result;
     }
@@ -3670,7 +3671,7 @@ const Uri=class Uri {
         if (typeof from == "string") {
             from = this.prepare(from);
         }
-        let matches = from.regex.exec(current);
+        let matches = from.regex.exec(current.toLowerCase());
         if (matches) {
             let slugs = {};
             for (let param of from.params) {
@@ -6872,10 +6873,109 @@ WebSocket.Route=class Route {
     constructor(endpoint) {
         this.endpoint = endpoint;
     }
+    getPrefix() {
+        return "";
+    }
 }
 WebSocket.Route.Namespace=`${moduleName}.WebSocket`;
 
 _.WebSocket.Route=WebSocket.Route;
+WebSocket.Socket=class Socket {
+    static Debug = false;
+    static connections = {};
+    static getInstance(url, el) {
+        if (!this.connections[url]) {
+            this.connections[url] = new WebSocket.Socket(url, el);
+        }
+        else {
+            this.connections[url].registerEl(el);
+        }
+        return this.connections[url];
+    }
+    socket;
+    url;
+    elements = [];
+    reopenInterval = 0;
+    onOpen = new Aventus.Callback();
+    onClose = new Aventus.Callback();
+    onError = new Aventus.Callback();
+    onMessage = new Aventus.Callback();
+    get readyState() {
+        return this.socket.readyState;
+    }
+    constructor(url, el) {
+        this.url = url;
+        this.elements = [el];
+        this.socket = this.createWebSocket();
+        this.reopen = this.reopen.bind(this);
+        this.onClose.add(this.reopen);
+    }
+    registerEl(el) {
+        if (!this.elements.includes(el)) {
+            this.elements.push(el);
+        }
+    }
+    createWebSocket() {
+        this.removeSocket();
+        const socket = new window.WebSocket(this.url);
+        socket.onopen = (e) => {
+            clearInterval(this.reopenInterval);
+            this.onOpen.trigger([e]);
+        };
+        socket.onclose = (e) => {
+            this.onClose.trigger([e]);
+        };
+        socket.onerror = (e) => {
+            this.onError.trigger([e]);
+        };
+        socket.onmessage = (e) => {
+            this.onMessage.trigger([e]);
+        };
+        this.socket = socket;
+        return socket;
+    }
+    removeSocket() {
+        if (this.socket) {
+            this.socket.onopen = null;
+            this.socket.onclose = null;
+            this.socket.onerror = null;
+            this.socket.onmessage = null;
+            this.socket.close();
+        }
+    }
+    reopen() {
+        clearInterval(this.reopenInterval);
+        this.reopenInterval = setInterval(async () => {
+            console.warn("try reopen socket ");
+            await this.createWebSocket();
+            if (this.isReady()) {
+                clearInterval(this.reopenInterval);
+            }
+        }, 5000);
+    }
+    close(el, code, reason) {
+        let index = this.elements.indexOf(el);
+        if (index != -1) {
+            this.elements.splice(0, 1);
+        }
+        if (this.elements.length == 0) {
+            this.removeSocket();
+            delete WebSocket.Socket.connections[this.url];
+        }
+    }
+    send(data) {
+        this.socket.send(data);
+    }
+    /**
+    * Check if socket is ready
+    */
+    isReady() {
+        return this.socket.readyState == 1;
+    }
+}
+WebSocket.Socket.Namespace=`${moduleName}.WebSocket`;
+
+_.WebSocket.Socket=WebSocket.Socket;
 (function (SocketErrorCode) {
     SocketErrorCode[SocketErrorCode["socketClosed"] = 0] = "socketClosed";
     SocketErrorCode[SocketErrorCode["timeout"] = 1] = "timeout";
@@ -7106,13 +7206,21 @@ Aventus.Converter.register(Data.VoidWithDataError.Fullname, Data.VoidWithDataErr
 
 _.Data.VoidWithDataError=Data.VoidWithDataError;
 WebSocket.Connection=class Connection {
+    static Debug = false;
     options;
     waitingList = {};
-    timeoutError = 0;
     memoryBeforeOpen = [];
     socket;
+    actionGuard = new Aventus.ActionGuard();
     constructor() {
         this.options = this._configure(this.configure({}));
+        this._onOpen = this._onOpen.bind(this);
+        this._onClose = this._onClose.bind(this);
+        this._onError = this._onError.bind(this);
+        this.onMessage = this.onMessage.bind(this);
+        if (this.options.autoStart) {
+            this.open();
+        }
     }
     /**
      * Configure a new Websocket
@@ -7139,7 +7247,10 @@ WebSocket.Connection=class Connection {
             options.socketName = "";
         }
         if (options.log === undefined) {
-            options.log = false;
+            options.log = WebSocket.Connection.Debug;
+        }
+        if (options.autoStart === undefined) {
+            options.autoStart = true;
         }
         return options;
     }
@@ -7182,30 +7293,32 @@ WebSocket.Connection=class Connection {
      * Try to open the websocket
      */
     open() {
-        return new Promise((resolve) => {
-            try {
-                if (this.socket) {
-                    this.socket.close();
+        return this.actionGuard.run(["open"], () => {
+            return new Promise((resolve) => {
+                try {
+                    let protocol = "ws";
+                    if (this.options.useHttps) {
+                        protocol = "wss";
+                    }
+                    let url = protocol + "://" + this.options.host + ":" + this.options.port + this.options.socketName;
+                    this.log(url);
+                    this.openCallback = (isOpen) => {
+                        resolve(isOpen);
+                    };
+                    this.socket = WebSocket.Socket.getInstance(url, this);
+                    this.socket.onOpen.add(this._onOpen);
+                    this.socket.onClose.add(this._onClose);
+                    this.socket.onError.add(this._onError);
+                    this.socket.onMessage.add(this.onMessage);
+                    if (this.socket.isReady()) {
+                        this._onOpen();
+                    }
                 }
-                let protocol = "ws";
-                if (this.options.useHttps) {
-                    protocol = "wss";
+                catch (e) {
+                    console.log(e);
+                    resolve(false);
                 }
-                let url = protocol + "://" + this.options.host + ":" + this.options.port + this.options.socketName;
-                this.log(url);
-                this.openCallback = (isOpen) => {
-                    resolve(isOpen);
-                };
-                this.socket = new window.WebSocket(url);
-                this.socket.onopen = this._onOpen.bind(this);
-                this.socket.onclose = this._onClose.bind(this);
-                this.socket.onerror = this._onError.bind(this);
-                this.socket.onmessage = this.onMessage.bind(this);
-            }
-            catch (e) {
-                console.log(e);
-                resolve(false);
-            }
+            });
         });
     }
     jsonReplacer(key, value) {
@@ -7220,8 +7333,19 @@ WebSocket.Connection=class Connection {
      * @param data The data to send
      * @param options the options to add to the message (typically the uid)
      */
-    sendMessage(options) {
+    async sendMessage(options) {
         let result = new Tools.VoidWithError();
+        if (!this.socket || this.socket.readyState != 1) {
+            let isOpen = await this.open();
+            if (!isOpen) {
+                result.errors.push(new WebSocket.SocketError(WebSocket.SocketErrorCode.socketClosed, "Socket not ready ! Please ensure that it is open and ready to send message"));
+                this.log('Socket not ready ! Please ensure that it is open and ready to send message');
+                if (this.options.allowSendBeforeOpen) {
+                    this.memoryBeforeOpen.push(options);
+                }
+                return result;
+            }
+        }
         if (this.socket && this.socket.readyState == 1) {
             try {
                 let message = {
@@ -7262,7 +7386,7 @@ WebSocket.Connection=class Connection {
      * @param timeout The timeout before the request failed
      */
     sendMessageAndWait(options) {
-        return new Promise((resolve) => {
+        return new Promise(async (resolve) => {
             let result = new Aventus.ResultWithError();
             try {
                 let _uid = options.uid ? options.uid : Aventus.uuidv4();
@@ -7296,7 +7420,7 @@ WebSocket.Connection=class Connection {
                         resolve(result);
                     }, options.timeout);
                 }
-                let sendMessageResult = this.sendMessage(options);
+                let sendMessageResult = await this.sendMessage(options);
                 if (!sendMessageResult.success) {
                     for (let error of sendMessageResult.errors) {
                         result.errors.push(error);
@@ -7315,7 +7439,7 @@ WebSocket.Connection=class Connection {
      * Check if socket is ready
      */
     isReady() {
-        if (this.socket && this.socket.readyState == 1) {
+        if (this.socket && this.socket.isReady()) {
             return true;
         }
         return false;
@@ -7326,13 +7450,12 @@ WebSocket.Connection=class Connection {
     onOpen() {
     }
     _onOpen() {
-        if (this.socket && this.socket.readyState == 1) {
+        if (this.socket?.isReady()) {
             if (this.openCallback) {
                 this.openCallback(true);
                 this.openCallback = undefined;
             }
             this.log('Connection successfully established !' + this.options.host + ":" + this.options.port);
-            window.clearTimeout(this.timeoutError);
             this.onOpen();
             for (let i = 0; i < this.memoryBeforeOpen.length; i++) {
                 this.sendMessage(this.memoryBeforeOpen[i]);
@@ -7364,15 +7487,8 @@ WebSocket.Connection=class Connection {
     }
     /**
      * Callback called when the connection closed without calling the close function
-     * By default the socket will try to reconnect each 5000ms
      */
     onClose(event) {
-        let reopenInterval = setInterval(async () => {
-            console.warn("try reopen socket ");
-            if (await this.open()) {
-                clearInterval(reopenInterval);
-            }
-        }, 5000);
     }
     _onClose(event) {
         if (this.errorOccur) {
@@ -7387,11 +7503,11 @@ WebSocket.Connection=class Connection {
      */
     close() {
         if (this.socket) {
-            this.socket.onclose = null;
-            this.socket.onerror = null;
-            this.socket.onmessage = null;
-            this.socket.onopen = null;
-            this.socket.close();
+            this.socket.onOpen.remove(this._onOpen);
+            this.socket.onClose.remove(this._onClose);
+            this.socket.onError.remove(this._onError);
+            this.socket.onMessage.remove(this.onMessage);
+            this.socket.close(this);
             delete this.socket;
         }
     }
@@ -7410,7 +7526,14 @@ WebSocket.Connection=class Connection {
             for (let info of current) {
                 let params = Aventus.Uri.getParams(info, response.channel);
                 if (params) {
-                    info.callback(data, params, response.uid);
+                    let valueCb = data;
+                    if (data instanceof Aventus.ResultWithError) {
+                        valueCb = data.result;
+                    }
+                    else if (data instanceof Aventus.VoidWithError) {
+                        valueCb = undefined;
+                    }
+                    info.callback(valueCb, params, response.uid);
                 }
             }
         }
@@ -7447,25 +7570,16 @@ WebSocket.Connection.Namespace=`${moduleName}.WebSocket`;
 
 _.WebSocket.Connection=WebSocket.Connection;
 WebSocket.EndPoint=class EndPoint extends WebSocket.Connection {
-    static With(options) {
-        class EndPointWith extends WebSocket.EndPoint {
+    static WithRoute(options, from) {
+        const c = from ?? WebSocket.EndPoint;
+        class EndPointWith extends c {
             constructor() {
                 super();
                 for (let route of options.routes) {
-                    if (typeof route == "function") {
-                        this._routes.add(route);
-                    }
-                    else {
-                        this._routes.add(route.type, route.path);
-                    }
+                    this.registerRoute(route);
                 }
                 for (let _event of options.events) {
-                    if (typeof _event == "function") {
-                        this._events.add(_event);
-                    }
-                    else {
-                        this._events.add(_event.type, _event.path);
-                    }
+                    this.registerEvent(_event);
                 }
             }
         }
@@ -7482,6 +7596,25 @@ WebSocket.EndPoint=class EndPoint extends WebSocket.Connection {
             get: () => { return this._events; }
         });
         this.createProxy();
+        this.register();
+    }
+    register() {
+    }
+    registerRoute(route) {
+        if (typeof route == "function") {
+            this._routes.add(route);
+        }
+        else {
+            this._routes.add(route.type, route.path);
+        }
+    }
+    registerEvent(ev) {
+        if (typeof ev == "function") {
+            this._events.add(ev);
+        }
+        else {
+            this._events.add(ev.type, ev.path);
+        }
     }
     createProxy() {
         if (!this._routes) {
@@ -7510,9 +7643,13 @@ WebSocket.Event=class Event {
     get listening() {
         return this._listening;
     }
-    constructor(endpoint) {
+    getPrefix;
+    constructor(endpoint, getPrefix) {
         this.endpoint = endpoint;
+        this.getPrefix = getPrefix ?? (() => "");
         this.onEvent = this.onEvent.bind(this);
+    }
+    init() {
         this.routeInfo = {
             channel: this.path(),
             callback: this.onEvent
@@ -7554,15 +7691,15 @@ WebSocket.Event.Namespace=`${moduleName}.WebSocket`;
 _.WebSocket.Event=WebSocket.Event;
 WebSocket.StorableWsRoute_GetAll=class StorableWsRoute_GetAll extends WebSocket.Event {
     StorableName;
-    constructor(endpoint, StorableName) {
-        super(endpoint);
+    constructor(endpoint, getPrefix, StorableName) {
+        super(endpoint, getPrefix);
         this.StorableName = StorableName;
     }
     /**
      * @inheritdoc
      */
     path() {
-        return `/${this.StorableName()}`;
+        return `${this.getPrefix()}/${this.StorableName()}`;
     }
 }
 WebSocket.StorableWsRoute_GetAll.Namespace=`${moduleName}.WebSocket`;
@@ -7570,47 +7707,31 @@ WebSocket.StorableWsRoute_GetAll.Namespace=`${moduleName}.WebSocket`;
 _.WebSocket.StorableWsRoute_GetAll=WebSocket.StorableWsRoute_GetAll;
 WebSocket.StorableWsRoute_Create=class StorableWsRoute_Create extends WebSocket.Event {
     StorableName;
-    constructor(endpoint, StorableName) {
-        super(endpoint);
+    constructor(endpoint, getPrefix, StorableName) {
+        super(endpoint, getPrefix);
         this.StorableName = StorableName;
     }
     /**
      * @inheritdoc
      */
     path() {
-        return `/${this.StorableName()}`;
+        return `${this.getPrefix()}/${this.StorableName()}/Create`;
     }
 }
 WebSocket.StorableWsRoute_Create.Namespace=`${moduleName}.WebSocket`;
 
 _.WebSocket.StorableWsRoute_Create=WebSocket.StorableWsRoute_Create;
-WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends WebSocket.Event {
-    StorableName;
-    constructor(endpoint, StorableName) {
-        super(endpoint);
-        this.StorableName = StorableName;
-    }
-    /**
-     * @inheritdoc
-     */
-    path() {
-        return `/${this.StorableName()}s`;
-    }
-}
-WebSocket.StorableWsRoute_CreateMany.Namespace=`${moduleName}.WebSocket`;
-
-_.WebSocket.StorableWsRoute_CreateMany=WebSocket.StorableWsRoute_CreateMany;
 WebSocket.StorableWsRoute_GetById=class StorableWsRoute_GetById extends WebSocket.Event {
     StorableName;
-    constructor(endpoint, StorableName) {
-        super(endpoint);
+    constructor(endpoint, getPrefix, StorableName) {
+        super(endpoint, getPrefix);
         this.StorableName = StorableName;
     }
     /**
      * @inheritdoc
      */
     path() {
-        return `/${this.StorableName()}/{id:number}`;
+        return `${this.getPrefix()}/${this.StorableName()}/{id:number}`;
     }
 }
 WebSocket.StorableWsRoute_GetById.Namespace=`${moduleName}.WebSocket`;
@@ -7618,15 +7739,15 @@ WebSocket.StorableWsRoute_GetById.Namespace=`${moduleName}.WebSocket`;
 _.WebSocket.StorableWsRoute_GetById=WebSocket.StorableWsRoute_GetById;
 WebSocket.StorableWsRoute_Update=class StorableWsRoute_Update extends WebSocket.Event {
     StorableName;
-    constructor(endpoint, StorableName) {
-        super(endpoint);
+    constructor(endpoint, getPrefix, StorableName) {
+        super(endpoint, getPrefix);
         this.StorableName = StorableName;
     }
     /**
      * @inheritdoc
      */
     path() {
-        return `/${this.StorableName()}/{id:number}`;
+        return `${this.getPrefix()}/${this.StorableName()}/{id:number}/Update`;
     }
 }
 WebSocket.StorableWsRoute_Update.Namespace=`${moduleName}.WebSocket`;
@@ -7634,15 +7755,15 @@ WebSocket.StorableWsRoute_Update.Namespace=`${moduleName}.WebSocket`;
 _.WebSocket.StorableWsRoute_Update=WebSocket.StorableWsRoute_Update;
 WebSocket.StorableWsRoute_UpdateMany=class StorableWsRoute_UpdateMany extends WebSocket.Event {
     StorableName;
-    constructor(endpoint, StorableName) {
-        super(endpoint);
+    constructor(endpoint, getPrefix, StorableName) {
+        super(endpoint, getPrefix);
         this.StorableName = StorableName;
     }
     /**
      * @inheritdoc
      */
     path() {
-        return `/${this.StorableName()}s`;
+        return `${this.getPrefix()}/${this.StorableName()}/UpdateMany`;
     }
 }
 WebSocket.StorableWsRoute_UpdateMany.Namespace=`${moduleName}.WebSocket`;
@@ -7650,15 +7771,15 @@ WebSocket.StorableWsRoute_UpdateMany.Namespace=`${moduleName}.WebSocket`;
 _.WebSocket.StorableWsRoute_UpdateMany=WebSocket.StorableWsRoute_UpdateMany;
 WebSocket.StorableWsRoute_Delete=class StorableWsRoute_Delete extends WebSocket.Event {
     StorableName;
-    constructor(endpoint, StorableName) {
-        super(endpoint);
+    constructor(endpoint, getPrefix, StorableName) {
+        super(endpoint, getPrefix);
         this.StorableName = StorableName;
     }
     /**
      * @inheritdoc
      */
     path() {
-        return `/${this.StorableName()}/{id:number}`;
+        return `${this.getPrefix()}/${this.StorableName()}/{id:number}/Delete`;
     }
 }
 WebSocket.StorableWsRoute_Delete.Namespace=`${moduleName}.WebSocket`;
@@ -7666,15 +7787,15 @@ WebSocket.StorableWsRoute_Delete.Namespace=`${moduleName}.WebSocket`;
 _.WebSocket.StorableWsRoute_Delete=WebSocket.StorableWsRoute_Delete;
 WebSocket.StorableWsRoute_DeleteMany=class StorableWsRoute_DeleteMany extends WebSocket.Event {
     StorableName;
-    constructor(endpoint, StorableName) {
-        super(endpoint);
+    constructor(endpoint, getPrefix, StorableName) {
+        super(endpoint, getPrefix);
         this.StorableName = StorableName;
     }
     /**
      * @inheritdoc
      */
     path() {
-        return `/${this.StorableName()}s`;
+        return `${this.getPrefix()}/${this.StorableName()}/DeleteMany`;
     }
 }
 WebSocket.StorableWsRoute_DeleteMany.Namespace=`${moduleName}.WebSocket`;
@@ -7696,6 +7817,22 @@ WebSocket.ResultWithWsError.$schema={...(Tools.ResultWithError?.$schema ?? {}), 
 Aventus.Converter.register(WebSocket.ResultWithWsError.Fullname, WebSocket.ResultWithWsError);
 
 _.WebSocket.ResultWithWsError=WebSocket.ResultWithWsError;
+WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends WebSocket.Event {
+    /**
+     * @inheritdoc
+     */
+    path() {
+        return `${this.getPrefix()}/${this.StorableName()}/CreateMany`;
+    }
+    StorableName;
+    constructor(endpoint, getPrefix, StorableName) {
+        super(endpoint, getPrefix);
+        this.StorableName = StorableName;
+    }
+}
+WebSocket.StorableWsRoute_CreateMany.Namespace=`${moduleName}.WebSocket`;
+
+_.WebSocket.StorableWsRoute_CreateMany=WebSocket.StorableWsRoute_CreateMany;
 Routes.ResultWithRouteError=class ResultWithRouteError extends Tools.ResultWithError {
     static get Fullname() { return "AventusSharp.Routes.ResultWithRouteError, AventusSharp"; }
 }
@@ -7717,26 +7854,29 @@ WebSocket.StorableWsRoute=class StorableWsRoute extends WebSocket.Route {
     constructor(endpoint) {
         super(endpoint);
         this.events = {
-            GetAll: new WebSocket.StorableWsRoute_GetAll(endpoint, this.StorableName),
-            Create: new WebSocket.StorableWsRoute_Create(endpoint, this.StorableName),
-            CreateMany: new WebSocket.StorableWsRoute_CreateMany(endpoint, this.StorableName),
-            GetById: new WebSocket.StorableWsRoute_GetById(endpoint, this.StorableName),
-            Update: new WebSocket.StorableWsRoute_Update(endpoint, this.StorableName),
-            UpdateMany: new WebSocket.StorableWsRoute_UpdateMany(endpoint, this.StorableName),
-            Delete: new WebSocket.StorableWsRoute_Delete(endpoint, this.StorableName),
-            DeleteMany: new WebSocket.StorableWsRoute_DeleteMany(endpoint, this.StorableName),
+            GetAll: new WebSocket.StorableWsRoute_GetAll(endpoint, this.getPrefix, this.StorableName),
+            Create: new WebSocket.StorableWsRoute_Create(endpoint, this.getPrefix, this.StorableName),
+            CreateMany: new WebSocket.StorableWsRoute_CreateMany(endpoint, this.getPrefix, this.StorableName),
+            GetById: new WebSocket.StorableWsRoute_GetById(endpoint, this.getPrefix, this.StorableName),
+            Update: new WebSocket.StorableWsRoute_Update(endpoint, this.getPrefix, this.StorableName),
+            UpdateMany: new WebSocket.StorableWsRoute_UpdateMany(endpoint, this.getPrefix, this.StorableName),
+            Delete: new WebSocket.StorableWsRoute_Delete(endpoint, this.getPrefix, this.StorableName),
+            DeleteMany: new WebSocket.StorableWsRoute_DeleteMany(endpoint, this.getPrefix, this.StorableName),
         };
+        for (let key in this.events) {
+            this.events[key].init();
+        }
     }
     async GetAll(options = {}) {
         const info = {
-            channel: `/${this.StorableName()}`,
+            channel: `${this.getPrefix()}/${this.StorableName()}`,
             ...options,
         };
         return await this.endpoint.sendMessageAndWait(info);
     }
     async Create(body, options = {}) {
         const info = {
-            channel: `/${this.StorableName()}`,
+            channel: `${this.getPrefix()}/${this.StorableName()}/Create`,
             body: body,
             ...options,
         };
@@ -7744,7 +7884,7 @@ WebSocket.StorableWsRoute=class StorableWsRoute extends WebSocket.Route {
     }
     async CreateMany(body, options = {}) {
         const info = {
-            channel: `/${this.StorableName()}s`,
+            channel: `${this.getPrefix()}/${this.StorableName()}/CreateMany`,
             body: body,
             ...options,
         };
@@ -7752,14 +7892,14 @@ WebSocket.StorableWsRoute=class StorableWsRoute extends WebSocket.Route {
     }
     async GetById(id, options = {}) {
         const info = {
-            channel: `/${this.StorableName()}/${id}`,
+            channel: `${this.getPrefix()}/${this.StorableName()}/${id}`,
             ...options,
         };
         return await this.endpoint.sendMessageAndWait(info);
     }
     async Update(id, body, options = {}) {
         const info = {
-            channel: `/${this.StorableName()}/${id}`,
+            channel: `${this.getPrefix()}/${this.StorableName()}/${id}/Update`,
             body: body,
             ...options,
         };
@@ -7767,7 +7907,7 @@ WebSocket.StorableWsRoute=class StorableWsRoute extends WebSocket.Route {
     }
     async UpdateMany(body, options = {}) {
         const info = {
-            channel: `/${this.StorableName()}s`,
+            channel: `${this.getPrefix()}/${this.StorableName()}/UpdateMany`,
             body: body,
             ...options,
         };
@@ -7775,14 +7915,14 @@ WebSocket.StorableWsRoute=class StorableWsRoute extends WebSocket.Route {
     }
     async Delete(id, options = {}) {
         const info = {
-            channel: `/${this.StorableName()}/${id}`,
+            channel: `${this.getPrefix()}/${this.StorableName()}/${id}/Delete`,
             ...options,
         };
         return await this.endpoint.sendMessageAndWait(info);
     }
     async DeleteMany(body, options = {}) {
         const info = {
-            channel: `/${this.StorableName()}s`,
+            channel: `${this.getPrefix()}/${this.StorableName()}/DeleteMany`,
             body: body,
             ...options,
         };
@@ -7818,56 +7958,56 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
     }
     addEventsBindings() {
         const autoListen = this.listenOnStart();
-        this.routes.events.GetAll.onTrigger.add(this.otherGetAll);
+        this.routes.events.GetAll.onTrigger.add(this.otherGetAll, this);
         if (autoListen.GetAll) {
             this.routes.events.GetAll.listen();
         }
         else {
             this.routes.events.GetAll.stop();
         }
-        this.routes.events.GetById.onTrigger.add(this.otherGetById);
+        this.routes.events.GetById.onTrigger.add(this.otherGetById, this);
         if (autoListen.GetById) {
             this.routes.events.GetById.listen();
         }
         else {
             this.routes.events.GetById.stop();
         }
-        this.routes.events.Create.onTrigger.add(this.otherCreateItem);
+        this.routes.events.Create.onTrigger.add(this.otherCreateItem, this);
         if (autoListen.Create) {
             this.routes.events.Create.listen();
         }
         else {
             this.routes.events.Create.stop();
         }
-        this.routes.events.CreateMany.onTrigger.add(this.otherCreateList);
+        this.routes.events.CreateMany.onTrigger.add(this.otherCreateList, this);
         if (autoListen.CreateMany) {
             this.routes.events.CreateMany.listen();
         }
         else {
             this.routes.events.CreateMany.stop();
         }
-        this.routes.events.Update.onTrigger.add(this.otherCreateItem);
+        this.routes.events.Update.onTrigger.add(this.otherUpdateItem, this);
         if (autoListen.Update) {
             this.routes.events.Update.listen();
         }
         else {
             this.routes.events.Update.stop();
         }
-        this.routes.events.UpdateMany.onTrigger.add(this.otherCreateList);
+        this.routes.events.UpdateMany.onTrigger.add(this.otherUpdateList, this);
         if (autoListen.UpdateMany) {
             this.routes.events.UpdateMany.listen();
         }
         else {
             this.routes.events.UpdateMany.stop();
         }
-        this.routes.events.Delete.onTrigger.add(this.otherCreateItem);
+        this.routes.events.Delete.onTrigger.add(this.otherDeleteItem, this);
         if (autoListen.Delete) {
             this.routes.events.Delete.listen();
         }
         else {
             this.routes.events.Delete.stop();
         }
-        this.routes.events.DeleteMany.onTrigger.add(this.otherCreateList);
+        this.routes.events.DeleteMany.onTrigger.add(this.otherDeleteList, this);
         if (autoListen.DeleteMany) {
             this.routes.events.DeleteMany.listen();
         }

@@ -1,13 +1,12 @@
 import { Os } from "../Os/Os.wcl.avt";
-import { Application } from "../Application/Application.wcl.avt";
 import { MoveApplication, type MoveApplicationProvider } from "../../../states/desktop/MoveApplication.state.avt";
 import { DesktopStateManager } from "../../../states/desktop/Desktop.state.avt";
 import { Desktop } from "../Desktop/Desktop.wcl.avt";
 import { AppIcon } from "../AppIcon/AppIcon.wcl.avt";
 import { HomeBtn } from "../HomeBtn/HomeBtn.wcl.avt";
-import { MainSocket } from "../../../libs/MainSocket.lib.avt";
 import { DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.data.avt";
 import { DesktopActivableLogic, type IDesktopActivable } from "../Desktop/IActivable.lib.avt";
+import { MainEndPoint } from "../../../generated/Websocket/MainEndPoint.lib.avt";
 
 namespace System {
     export class BottomBar extends Aventus.WebComponent implements Aventus.DefaultComponent, MoveApplicationProvider, IDesktopActivable {
@@ -176,7 +175,7 @@ namespace System {
                 desktopIcon.IconTag = icon.tag;
                 desktopIcon.Location = DesktopLocation.BottomBar;
                 desktopIcon.Id = icon.iconId;
-                let result = await MainSocket.instance.routes.desktop.SetDesktopIcon({
+                let result = await MainEndPoint.getInstance().routes.desktop.SetDesktopIcon({
                     icon: desktopIcon
                 });
                 if(result.success && result.result) {
@@ -194,7 +193,7 @@ namespace System {
                         desktopIcon.IconTag = child.tag;
                         desktopIcon.Location = DesktopLocation.BottomBar;
                         desktopIcon.Id = child.iconId;
-                        let result = await MainSocket.instance.routes.desktop.SetDesktopIcon({
+                        let result = await MainEndPoint.getInstance().routes.desktop.SetDesktopIcon({
                             icon: desktopIcon
                         });
                         if(result.success) {
@@ -215,7 +214,7 @@ namespace System {
 
                 let desktopIcon = new DesktopAppIcon();
                 desktopIcon.Id = icon.iconId;
-                let result = await MainSocket.instance.routes.desktop.RemoveDesktopIcon({
+                let result = await MainEndPoint.getInstance().routes.desktop.RemoveDesktopIcon({
                     icon: desktopIcon
                 });
                 if(result.success) {
@@ -229,7 +228,7 @@ namespace System {
                             desktopIcon.IconTag = child.tag;
                             desktopIcon.Location = DesktopLocation.BottomBar;
                             desktopIcon.Id = child.iconId;
-                            let result = await MainSocket.instance.routes.desktop.SetDesktopIcon({
+                            let result = await MainEndPoint.getInstance().routes.desktop.SetDesktopIcon({
                                 icon: desktopIcon
                             });
                             if(result.success) {

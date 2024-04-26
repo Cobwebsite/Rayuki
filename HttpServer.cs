@@ -1,4 +1,5 @@
 ﻿using AventusSharp.Routes.Response;
+using AventusSharp.Scheduler;
 using AventusSharp.Tools;
 using AventusSharp.WebSocket;
 using Core.App;
@@ -85,6 +86,8 @@ namespace Core
             {
                 options.SerializerSettings.DateFormatString = "yyyy-MM-ddTHH:mm:ssZ";
             });
+
+            JobManager.Initialize();
 
             app = builder.Build();
         }

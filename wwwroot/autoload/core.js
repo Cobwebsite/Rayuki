@@ -5,6 +5,8 @@ var Core;
 const moduleName = `Core`;
 const _ = {};
 Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block}:host *{box-sizing:border-box}.touch{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}.touch.disable,.touch.disabled{cursor:default}.green{background-color:var(--green)}.red{background-color:var(--red)}.orange{background-color:var(--orange)}.blue{background-color:var(--blue)}`)
+const Websocket = {};
+_.Websocket = {};
 const Errors = {};
 _.Errors = {};
 const Permissions = {};
@@ -19,16 +21,14 @@ const Lib = {};
 _.Lib = {};
 const System = {};
 _.System = {};
-const Websocket = {};
-_.Websocket = {};
 Websocket.Events = {};
 _.Websocket.Events = {};
 Websocket.Routes = {};
 _.Websocket.Routes = {};
-const Routes = {};
-_.Routes = {};
 Data.DataTypes = {};
 _.Data.DataTypes = {};
+const Routes = {};
+_.Routes = {};
 const State = {};
 _.State = {};
 const RAM = {};
@@ -36,6 +36,18 @@ _.RAM = {};
 const Tools = {};
 _.Tools = {};
 let _n;
+Websocket.RayukiEndPointEvents= [];
+
+_.Websocket.RayukiEndPointEvents=Websocket.RayukiEndPointEvents;
+Websocket.RayukiEndPointRoutes= [];
+
+_.Websocket.RayukiEndPointRoutes=Websocket.RayukiEndPointRoutes;
+(function (PdfErrorCode) {
+    PdfErrorCode[PdfErrorCode["UnknowError"] = 0] = "UnknowError";
+    PdfErrorCode[PdfErrorCode["NoNameProvided"] = 1] = "NoNameProvided";
+})(Errors.PdfErrorCode || (Errors.PdfErrorCode = {}));
+
+_.Errors.PdfErrorCode=Errors.PdfErrorCode;
 (function (ImageFileErrorCode) {
     ImageFileErrorCode[ImageFileErrorCode["UnknowError"] = 0] = "UnknowError";
     ImageFileErrorCode[ImageFileErrorCode["NotValidImage"] = 1] = "NotValidImage";
@@ -77,6 +89,16 @@ Data.Permission.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "EnumNa
 Aventus.Converter.register(Data.Permission.Fullname, Data.Permission);
 
 _.Data.Permission=Data.Permission;
+Data.Pdf=class Pdf {
+    static get Fullname() { return "Core.Data.Pdf, Core"; }
+    Name = "";
+    Html = "";
+}
+Data.Pdf.Namespace=`${moduleName}.Data`;
+Data.Pdf.$schema={"Name":"string","Html":"string"};
+Aventus.Converter.register(Data.Pdf.Fullname, Data.Pdf);
+
+_.Data.Pdf=Data.Pdf;
 Data.Company=class Company extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Company, Core"; }
     Name = "";
@@ -1288,7 +1310,7 @@ Websocket.Events.ApplicationTestEvent2=class ApplicationTestEvent2 extends Avent
      * @inheritdoc
      */
     path() {
-        return `/application/test/2`;
+        return `${this.getPrefix()}/application/test/2`;
     }
 }
 Websocket.Events.ApplicationTestEvent2.Namespace=`${moduleName}.Websocket.Events`;
@@ -1299,7 +1321,7 @@ Websocket.Routes.DesktopRouter_RemoveDesktopIcon=class DesktopRouter_RemoveDeskt
      * @inheritdoc
      */
     path() {
-        return `/desktop/RemoveDesktopIcon`;
+        return `${this.getPrefix()}/desktop/RemoveDesktopIcon`;
     }
     /**
      * @inheritdoc
@@ -1321,17 +1343,6 @@ Websocket.Events.Body.$schema={"id":"number","name":"string"};
 Aventus.Converter.register(Websocket.Events.Body.Fullname, Websocket.Events.Body);
 
 _.Websocket.Events.Body=Websocket.Events.Body;
-Websocket.Events.ApplicationTestEvent=class ApplicationTestEvent extends AventusSharp.WebSocket.Event {
-    /**
-     * @inheritdoc
-     */
-    path() {
-        return `Core.Websocket.Events.ApplicationTestEvent`;
-    }
-}
-Websocket.Events.ApplicationTestEvent.Namespace=`${moduleName}.Websocket.Events`;
-
-_.Websocket.Events.ApplicationTestEvent=Websocket.Events.ApplicationTestEvent;
 (function (LoginCode) {
     LoginCode[LoginCode["OK"] = 0] = "OK";
     LoginCode[LoginCode["WrongCredentials"] = 1] = "WrongCredentials";
@@ -1439,16 +1450,17 @@ System.DesktopActivableLogic=class DesktopActivableLogic {
 System.DesktopActivableLogic.Namespace=`${moduleName}.System`;
 
 _.System.DesktopActivableLogic=System.DesktopActivableLogic;
-Data.Pdf=class Pdf {
-    static get Fullname() { return "Core.Data.Pdf, Core"; }
+Data.DataTypes.Pdf=class Pdf extends AventusSharp.Data.AventusFile {
+    static get Fullname() { return "Core.Data.DataTypes.Pdf, Core"; }
     Name = "";
     Html = "";
+    Debug = false;
 }
-Data.Pdf.Namespace=`${moduleName}.Data`;
-Data.Pdf.$schema={"Name":"string","Html":"string"};
-Aventus.Converter.register(Data.Pdf.Fullname, Data.Pdf);
+Data.DataTypes.Pdf.Namespace=`${moduleName}.Data.DataTypes`;
+Data.DataTypes.Pdf.$schema={...(AventusSharp.Data.AventusFile?.$schema ?? {}), "Name":"string","Html":"string","Debug":"boolean"};
+Aventus.Converter.register(Data.DataTypes.Pdf.Fullname, Data.DataTypes.Pdf);
 
-_.Data.Pdf=Data.Pdf;
+_.Data.DataTypes.Pdf=Data.DataTypes.Pdf;
 Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
     async LoginAction(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/login`, Aventus.HttpMethod.POST);
@@ -1508,7 +1520,7 @@ Websocket.Routes.ApplicationRouter_GetAll3=class ApplicationRouter_GetAll3 exten
      * @inheritdoc
      */
     path() {
-        return `/application3`;
+        return `${this.getPrefix()}/application3`;
     }
 }
 Websocket.Routes.ApplicationRouter_GetAll3.Namespace=`${moduleName}.Websocket.Routes`;
@@ -1519,7 +1531,7 @@ Websocket.Routes.ApplicationRouter_GetAll2=class ApplicationRouter_GetAll2 exten
      * @inheritdoc
      */
     path() {
-        return `/application2`;
+        return `${this.getPrefix()}/application2`;
     }
     /**
      * @inheritdoc
@@ -1613,7 +1625,7 @@ Websocket.Routes.DesktopRouter_RemoveApp=class DesktopRouter_RemoveApp extends A
      * @inheritdoc
      */
     path() {
-        return `/desktop/RemoveApp`;
+        return `${this.getPrefix()}/desktop/RemoveApp`;
     }
     /**
      * @inheritdoc
@@ -2343,7 +2355,7 @@ Websocket.Routes.DesktopRouter_SetDesktopIcon=class DesktopRouter_SetDesktopIcon
      * @inheritdoc
      */
     path() {
-        return `/desktop/SetDesktopIcon`;
+        return `${this.getPrefix()}/desktop/SetDesktopIcon`;
     }
     /**
      * @inheritdoc
@@ -4042,40 +4054,55 @@ System.HomeBtn.Tag=`rk-home-btn`;
 _.System.HomeBtn=System.HomeBtn;
 if(!window.customElements.get('rk-home-btn')){window.customElements.define('rk-home-btn', System.HomeBtn);Aventus.WebComponentInstance.registerDefinition(System.HomeBtn);}
 
+Websocket.Events.ApplicationTestEvent=class ApplicationTestEvent extends AventusSharp.WebSocket.Event {
+    /**
+     * @inheritdoc
+     */
+    path() {
+        return `${this.getPrefix()}Core.Websocket.Events.ApplicationTestEvent`;
+    }
+}
+Websocket.Events.ApplicationTestEvent.Namespace=`${moduleName}.Websocket.Events`;
+
+_.Websocket.Events.ApplicationTestEvent=Websocket.Events.ApplicationTestEvent;
 Websocket.Routes.ApplicationRouter=class ApplicationRouter extends AventusSharp.WebSocket.Route {
     events;
     constructor(endpoint) {
         super(endpoint);
         this.events = {
-            GetAll2: new Websocket.Routes.ApplicationRouter_GetAll2(endpoint),
-            GetAll3: new Websocket.Routes.ApplicationRouter_GetAll3(endpoint),
+            GetAll2: new Websocket.Routes.ApplicationRouter_GetAll2(endpoint, this.getPrefix),
+            GetAll3: new Websocket.Routes.ApplicationRouter_GetAll3(endpoint, this.getPrefix),
+            GetAll5: new Websocket.Events.ApplicationTestEvent(endpoint, this.getPrefix),
         };
+        for (let key in this.events) {
+            this.events[key].init();
+        }
     }
     async GetAll2(options = {}) {
         const info = {
-            channel: `/application2`,
+            channel: `${this.getPrefix()}/application2`,
             ...options,
         };
         return await this.endpoint.sendMessageAndWait(info);
     }
     async GetAll3(body, options = {}) {
         const info = {
-            channel: `/application3`,
+            channel: `${this.getPrefix()}/application3`,
             body: body,
             ...options,
         };
         return await this.endpoint.sendMessageAndWait(info);
     }
-    GetAll4(options = {}) {
+    async GetAll4(options = {}) {
         const info = {
-            channel: `/application4`,
+            channel: `${this.getPrefix()}/application4`,
             ...options,
         };
-        return this.endpoint.sendMessage(info);
+        return await this.endpoint.sendMessage(info);
     }
     async GetAll5(options = {}) {
         const info = {
-            channel: `/getall5`,
+            channel: `${this.getPrefix()}/getall5`,
             ...options,
         };
         return await this.endpoint.sendMessageAndWait(info);
@@ -4089,7 +4116,7 @@ Websocket.Routes.DesktopRouter_RegisterOpenApp=class DesktopRouter_RegisterOpenA
      * @inheritdoc
      */
     path() {
-        return `/desktop/RegisterOpenApp`;
+        return `${this.getPrefix()}/desktop/RegisterOpenApp`;
     }
     /**
      * @inheritdoc
@@ -4106,15 +4133,18 @@ Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocke
     constructor(endpoint) {
         super(endpoint);
         this.events = {
-            RegisterOpenApp: new Websocket.Routes.DesktopRouter_RegisterOpenApp(endpoint),
-            RemoveApp: new Websocket.Routes.DesktopRouter_RemoveApp(endpoint),
-            SetDesktopIcon: new Websocket.Routes.DesktopRouter_SetDesktopIcon(endpoint),
-            RemoveDesktopIcon: new Websocket.Routes.DesktopRouter_RemoveDesktopIcon(endpoint),
+            RegisterOpenApp: new Websocket.Routes.DesktopRouter_RegisterOpenApp(endpoint, this.getPrefix),
+            RemoveApp: new Websocket.Routes.DesktopRouter_RemoveApp(endpoint, this.getPrefix),
+            SetDesktopIcon: new Websocket.Routes.DesktopRouter_SetDesktopIcon(endpoint, this.getPrefix),
+            RemoveDesktopIcon: new Websocket.Routes.DesktopRouter_RemoveDesktopIcon(endpoint, this.getPrefix),
         };
+        for (let key in this.events) {
+            this.events[key].init();
+        }
     }
     async RegisterOpenApp(body, options = {}) {
         const info = {
-            channel: `/desktop/RegisterOpenApp`,
+            channel: `${this.getPrefix()}/desktop/RegisterOpenApp`,
             body: body,
             ...options,
         };
@@ -4122,7 +4152,7 @@ Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocke
     }
     async RemoveApp(body, options = {}) {
         const info = {
-            channel: `/desktop/RemoveApp`,
+            channel: `${this.getPrefix()}/desktop/RemoveApp`,
             body: body,
             ...options,
         };
@@ -4130,7 +4160,7 @@ Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocke
     }
     async SetDesktopIcon(body, options = {}) {
         const info = {
-            channel: `/desktop/SetDesktopIcon`,
+            channel: `${this.getPrefix()}/desktop/SetDesktopIcon`,
             body: body,
             ...options,
         };
@@ -4138,7 +4168,7 @@ Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocke
     }
     async RemoveDesktopIcon(body, options = {}) {
         const info = {
-            channel: `/desktop/RemoveDesktopIcon`,
+            channel: `${this.getPrefix()}/desktop/RemoveDesktopIcon`,
             body: body,
             ...options,
         };
@@ -4160,12 +4190,19 @@ Websocket.MainEndPointEvents= [
 ];
 
 _.Websocket.MainEndPointEvents=Websocket.MainEndPointEvents;
-Websocket.endPointInfo= {
+Websocket.MainEndPointType= AventusSharp.WebSocket.EndPoint.WithRoute({
     routes: Websocket.MainEndPointRoutes,
     events: Websocket.MainEndPointEvents
-};
+});
 
-Websocket.MainEndPoint=class MainEndPoint extends AventusSharp.WebSocket.EndPoint.With(Websocket.endPointInfo) {
+_.Websocket.MainEndPointType=Websocket.MainEndPointType;
+Websocket.MainEndPoint=class MainEndPoint extends Websocket.MainEndPointType {
+    /**
+     * Create a singleton
+     */
+    static getInstance() {
+        return Aventus.Instance.get(Websocket.MainEndPoint);
+    }
     get path() {
         return "/ws";
     }
@@ -4173,26 +4210,6 @@ Websocket.MainEndPoint=class MainEndPoint extends AventusSharp.WebSocket.EndPoin
 Websocket.MainEndPoint.Namespace=`${moduleName}.Websocket`;
 
 _.Websocket.MainEndPoint=Websocket.MainEndPoint;
-Lib.MainSocket=class MainSocket extends Websocket.MainEndPoint {
-    static _instance;
-    static get instance() {
-        return this._instance;
-    }
-    static async open() {
-        if (!this._instance) {
-            this._instance = new Lib.MainSocket();
-        }
-        await this._instance.open();
-    }
-    configure(options) {
-        options = super.configure(options);
-        options.log = true;
-        return options;
-    }
-}
-Lib.MainSocket.Namespace=`${moduleName}.Lib`;
-
-_.Lib.MainSocket=Lib.MainSocket;
 System.BottomBar = class BottomBar extends Aventus.WebComponent {
     get desktop() {
         if (this.parentNode instanceof ShadowRoot) {
@@ -4353,7 +4370,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
             desktopIcon.IconTag = icon.tag;
             desktopIcon.Location = Data.DesktopLocation.BottomBar;
             desktopIcon.Id = icon.iconId;
-            let result = await Lib.MainSocket.instance.routes.desktop.SetDesktopIcon({
+            let result = await Websocket.MainEndPoint.getInstance().routes.desktop.SetDesktopIcon({
                 icon: desktopIcon
             });
             if (result.success && result.result) {
@@ -4371,7 +4388,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
                     desktopIcon.IconTag = child.tag;
                     desktopIcon.Location = Data.DesktopLocation.BottomBar;
                     desktopIcon.Id = child.iconId;
-                    let result = await Lib.MainSocket.instance.routes.desktop.SetDesktopIcon({
+                    let result = await Websocket.MainEndPoint.getInstance().routes.desktop.SetDesktopIcon({
                         icon: desktopIcon
                     });
                     if (result.success) {
@@ -4388,7 +4405,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
             let no = Array.from(children).indexOf(icon);
             let desktopIcon = new Data.DesktopAppIcon();
             desktopIcon.Id = icon.iconId;
-            let result = await Lib.MainSocket.instance.routes.desktop.RemoveDesktopIcon({
+            let result = await Websocket.MainEndPoint.getInstance().routes.desktop.RemoveDesktopIcon({
                 icon: desktopIcon
             });
             if (result.success) {
@@ -4402,7 +4419,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
                         desktopIcon.IconTag = child.tag;
                         desktopIcon.Location = Data.DesktopLocation.BottomBar;
                         desktopIcon.Id = child.iconId;
-                        let result = await Lib.MainSocket.instance.routes.desktop.SetDesktopIcon({
+                        let result = await Websocket.MainEndPoint.getInstance().routes.desktop.SetDesktopIcon({
                             icon: desktopIcon
                         });
                         if (result.success) {
@@ -5278,8 +5295,11 @@ System.ApplicationHistory=class ApplicationHistory {
     get nextAvailable() {
         return this.currentPosition < this.memory.length - 1;
     }
-    previous() {
+    previous(destroy = false) {
         if (this.previousAvailable) {
+            if (destroy) {
+                delete this.memory[this.currentPosition];
+            }
             this.currentPosition--;
             return this.memory[this.currentPosition];
         }
@@ -5323,7 +5343,7 @@ Lib.ApplicationManager=class ApplicationManager {
     static async save(appInfo) {
         if (System.Os.instance.activeDesktop.data.Configuration.SyncDesktop) {
             await this.uniqueAction(appInfo, async (appInfo) => {
-                await Lib.MainSocket.instance.routes.desktop.RegisterOpenApp({
+                await Websocket.MainEndPoint.getInstance().routes.desktop.RegisterOpenApp({
                     appInfo
                 });
             });
@@ -5351,7 +5371,7 @@ Lib.ApplicationManager=class ApplicationManager {
     static async remove(appInfo) {
         if (System.Os.instance.activeDesktop.data.Configuration.SyncDesktop) {
             await this.uniqueAction(appInfo, async (appInfo) => {
-                await Lib.MainSocket.instance.routes.desktop.RemoveApp({
+                await Websocket.MainEndPoint.getInstance().routes.desktop.RemoveApp({
                     appInfo
                 });
             });
@@ -5417,8 +5437,8 @@ Lib.ApplicationManager=class ApplicationManager {
     static init() {
         this.onRegisterInfo = this.onRegisterInfo.bind(this);
         this.onRemoveApp = this.onRemoveApp.bind(this);
-        Lib.MainSocket.instance.routes.desktop.events.RegisterOpenApp.onTrigger.add(this.onRegisterInfo);
-        Lib.MainSocket.instance.routes.desktop.events.RemoveApp.onTrigger.add(this.onRemoveApp);
+        Websocket.MainEndPoint.getInstance().routes.desktop.events.RegisterOpenApp.onTrigger.add(this.onRegisterInfo);
+        Websocket.MainEndPoint.getInstance().routes.desktop.events.RemoveApp.onTrigger.add(this.onRemoveApp);
     }
     static async onRegisterInfo(item, params) {
         let key = this.getKey(item);
@@ -5863,13 +5883,13 @@ Components.Alert = class Alert extends Components.Popup {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-scrollable class="body" _id="alert_0"></rk-scrollable><div class="action">    <rk-button color="blue" _id="alert_1"></rk-button></div>` }
+        blocks: { 'default':`<rk-scrollable class="body">    <p _id="alert_0"></p></rk-scrollable><div class="action">    <rk-button color="blue" _id="alert_1"></rk-button></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "content": {
     "alert_0°@HTML": {
-      "fct": (c) => `\r\n    ${c.print(c.comp.__d0561a7aa91ff42b328166316d099970method0())}\r\n`,
+      "fct": (c) => `${c.print(c.comp.__d0561a7aa91ff42b328166316d099970method0())}`,
       "once": true
     },
     "alert_1°@HTML": {
@@ -6189,8 +6209,8 @@ System.Application = class Application extends Aventus.WebComponent {
             this.navigateNextEl.classList.add("disable");
         }
     }
-    async navigatePrevious() {
-        let history = this.history.previous();
+    async navigatePrevious(destroy = false) {
+        let history = this.history.previous(destroy);
         if (history) {
             if (await this.navigator.setState(history.state)) {
                 this.checkNavigationState();
@@ -7365,7 +7385,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             desktopIcon.Id = icon.iconId;
             this.oldActiveCase?.classList.remove("active");
             this.oldActiveCase = undefined;
-            let result = await Lib.MainSocket.instance.routes.desktop.SetDesktopIcon({
+            let result = await Websocket.MainEndPoint.getInstance().routes.desktop.SetDesktopIcon({
                 icon: desktopIcon
             });
             if (result.success && result.result) {
@@ -7379,7 +7399,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
         if (caseEl && this.pageCaseEl.shadowRoot.contains(caseEl)) {
             let desktopIcon = new Data.DesktopAppIcon();
             desktopIcon.Id = icon.iconId;
-            let result = await Lib.MainSocket.instance.routes.desktop.RemoveDesktopIcon({
+            let result = await Websocket.MainEndPoint.getInstance().routes.desktop.RemoveDesktopIcon({
                 icon: desktopIcon
             });
             if (result.success) {
@@ -7809,7 +7829,8 @@ System.Os = class Os extends Aventus.WebComponent {
         }).observe(this);
     }
     async startSocket() {
-        await Lib.MainSocket.open();
+        AventusSharp.WebSocket.Connection.Debug = true;
+        Websocket.MainEndPoint.getInstance().open();
         Lib.ApplicationManager.init();
     }
     postCreation() {
@@ -11147,6 +11168,7 @@ Components.Table = class Table extends Aventus.WebComponent {
     rowsFiltered = [];
     rowsDisplayed = [];
     resizeObserver;
+    mustForceRender = false;
     errorsTxtItemPerPage = {
         notNumber: '',
         lowerThanMin: '',
@@ -11430,7 +11452,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
         }
         this.render(order !== undefined);
     }
-    filterData() {
+    filterData(forceRender = false) {
         let result = [];
         let oldData = Array.from(this.rows.keys());
         if (this.data) {
@@ -11463,7 +11485,13 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
             this.rows.delete(oldItem);
         }
         result = this.sortData(result);
+        if (forceRender) {
+            this.mustForceRender = true;
+        }
         this.displayedData = result;
+        if (this.mustForceRender) {
+            this.render();
+        }
     }
     firstRender() {
         if (this.isFirstRender) {
@@ -11488,6 +11516,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
         }
     }
     render(onlySort = false) {
+        this.mustForceRender = false;
         if (!this.headerContainer || !this.bodyContainer) {
             return;
         }
@@ -11584,7 +11613,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
             return;
         }
         this.filters[nameTxt].push(action);
-        if (reload)
+        if (reload && this.isReady)
             this.filterData();
     }
     removeFilter(name, action, reload = true) {
@@ -11595,7 +11624,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
                 this.filters[nameTxt].splice(index, 1);
             }
         }
-        if (reload)
+        if (reload && this.isReady)
             this.filterData();
     }
     registerObserver() {
@@ -12484,7 +12513,7 @@ Components.TableData = class TableData extends Components.Table {
             else {
                 const index = this.data.findIndex(p => p.Id == data.Id);
                 if (index != -1) {
-                    this.render();
+                    this.filterData(true);
                 }
             }
         });
@@ -12641,6 +12670,41 @@ Tools.VoidWithImageFileError.$schema={...(AventusSharp.Tools.VoidWithError?.$sch
 Aventus.Converter.register(Tools.VoidWithImageFileError.Fullname, Tools.VoidWithImageFileError);
 
 _.Tools.VoidWithImageFileError=Tools.VoidWithImageFileError;
+Errors.PdfError=class PdfError extends Aventus.GenericError {
+    static get Fullname() { return "Core.Tools.PdfError, Core"; }
+}
+Errors.PdfError.Namespace=`${moduleName}.Errors`;
+Errors.PdfError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
+Aventus.Converter.register(Errors.PdfError.Fullname, Errors.PdfError);
+
+_.Errors.PdfError=Errors.PdfError;
+Tools.ResultWithPdfError=class ResultWithPdfError extends AventusSharp.Tools.ResultWithError {
+    static get Fullname() { return "Core.Tools.ResultWithPdfError, Core"; }
+}
+Tools.ResultWithPdfError.Namespace=`${moduleName}.Tools`;
+Tools.ResultWithPdfError.$schema={...(AventusSharp.Tools.ResultWithError?.$schema ?? {}), };
+Aventus.Converter.register(Tools.ResultWithPdfError.Fullname, Tools.ResultWithPdfError);
+
+_.Tools.ResultWithPdfError=Tools.ResultWithPdfError;
+Tools.VoidWithPdfError=class VoidWithPdfError extends AventusSharp.Tools.VoidWithError {
+    static get Fullname() { return "Core.Tools.VoidWithPdfError, Core"; }
+}
+Tools.VoidWithPdfError.Namespace=`${moduleName}.Tools`;
+Tools.VoidWithPdfError.$schema={...(AventusSharp.Tools.VoidWithError?.$schema ?? {}), };
+Aventus.Converter.register(Tools.VoidWithPdfError.Fullname, Tools.VoidWithPdfError);
+
+_.Tools.VoidWithPdfError=Tools.VoidWithPdfError;
+Websocket.RayukiEndPointType= AventusSharp.WebSocket.EndPoint.WithRoute({
+    routes: Websocket.RayukiEndPointRoutes,
+    events: Websocket.RayukiEndPointEvents
+});
+
+_.Websocket.RayukiEndPointType=Websocket.RayukiEndPointType;
+Websocket.RayukiEndPoint=class RayukiEndPoint extends Websocket.RayukiEndPointType {
+}
+Websocket.RayukiEndPoint.Namespace=`${moduleName}.Websocket`;
+
+_.Websocket.RayukiEndPoint=Websocket.RayukiEndPoint;
 
 for(let key in _) { Core[key] = _[key] }
 })(Core);

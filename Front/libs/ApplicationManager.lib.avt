@@ -1,7 +1,7 @@
-import { MainSocket } from "./MainSocket.lib.avt";
 import type { ApplicationOpen, ApplicationOpenInfo } from "../generated/Data/ApplicationOpen.lib.avt";
 import { Os } from "../components/system/Os/Os.wcl.avt";
 import { ApplicationHistory } from "../components/system/Application/ApplicationHistory.lib.avt";
+import { MainEndPoint } from "../generated/Websocket/MainEndPoint.lib.avt";
 
 namespace Lib {
     export class ApplicationManager {
@@ -16,7 +16,7 @@ namespace Lib {
         public static async save(appInfo: ApplicationOpenInfo) {
             if(Os.instance.activeDesktop.data.Configuration.SyncDesktop) {
                 await this.uniqueAction(appInfo, async (appInfo) => {
-                    await MainSocket.instance.routes.desktop.RegisterOpenApp({
+                    await MainEndPoint.getInstance().routes.desktop.RegisterOpenApp({
                         appInfo
                     });
                 });
@@ -45,7 +45,7 @@ namespace Lib {
         public static async remove(appInfo: ApplicationOpenInfo) {
             if(Os.instance.activeDesktop.data.Configuration.SyncDesktop) {
                 await this.uniqueAction(appInfo, async (appInfo) => {
-                    await MainSocket.instance.routes.desktop.RemoveApp({
+                    await MainEndPoint.getInstance().routes.desktop.RemoveApp({
                         appInfo
                     });
                 });
@@ -117,8 +117,8 @@ namespace Lib {
         public static init() {
             this.onRegisterInfo = this.onRegisterInfo.bind(this);
             this.onRemoveApp = this.onRemoveApp.bind(this);
-            MainSocket.instance.routes.desktop.events.RegisterOpenApp.onTrigger.add(this.onRegisterInfo);
-            MainSocket.instance.routes.desktop.events.RemoveApp.onTrigger.add(this.onRemoveApp);
+            MainEndPoint.getInstance().routes.desktop.events.RegisterOpenApp.onTrigger.add(this.onRegisterInfo);
+            MainEndPoint.getInstance().routes.desktop.events.RemoveApp.onTrigger.add(this.onRemoveApp);
 
         }
 

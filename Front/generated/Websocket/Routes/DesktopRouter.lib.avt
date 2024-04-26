@@ -15,47 +15,51 @@ namespace Websocket.Routes {
 		public constructor(endpoint: AventusSharp.WebSocket.EndPoint) {
 			super(endpoint);
 			this.events = {
-				RegisterOpenApp: new DesktopRouter_RegisterOpenApp(endpoint),
-				RemoveApp: new DesktopRouter_RemoveApp(endpoint),
-				SetDesktopIcon: new DesktopRouter_SetDesktopIcon(endpoint),
-				RemoveDesktopIcon: new DesktopRouter_RemoveDesktopIcon(endpoint),
+				RegisterOpenApp: new DesktopRouter_RegisterOpenApp(endpoint, this.getPrefix),
+				RemoveApp: new DesktopRouter_RemoveApp(endpoint, this.getPrefix),
+				SetDesktopIcon: new DesktopRouter_SetDesktopIcon(endpoint, this.getPrefix),
+				RemoveDesktopIcon: new DesktopRouter_RemoveDesktopIcon(endpoint, this.getPrefix),
 			};
+			
+			for(let key in this.events) {
+				this.events[key].init();
+			}
 		}
 
-		public async RegisterOpenApp(body: { appInfo: ApplicationOpenInfo } | FormData, options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Promise<Aventus.ResultWithError<ApplicationOpenInfo, Aventus.GenericError<number>>> {
+		public async RegisterOpenApp(body: { appInfo: ApplicationOpenInfo } | FormData, options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Promise<AventusSharp.ExtractResponse<DesktopRouter_RegisterOpenApp>> {
 			const info: AventusSharp.WebSocket.SocketSendMessageOptions = {
-				channel: `/desktop/RegisterOpenApp`,
+				channel: `${this.getPrefix()}/desktop/RegisterOpenApp`,
 				body: body,
 				...options,
 			};
-			return await this.endpoint.sendMessageAndWait<ApplicationOpenInfo>(info);
+			return await this.endpoint.sendMessageAndWait<AventusSharp.ExtractResponse<DesktopRouter_RegisterOpenApp>>(info);
 		}
 
-		public async RemoveApp(body: { appInfo: ApplicationOpenInfo } | FormData, options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Promise<Aventus.ResultWithError<ApplicationOpenInfo, Aventus.GenericError<number>>> {
+		public async RemoveApp(body: { appInfo: ApplicationOpenInfo } | FormData, options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Promise<AventusSharp.ExtractResponse<DesktopRouter_RemoveApp>> {
 			const info: AventusSharp.WebSocket.SocketSendMessageOptions = {
-				channel: `/desktop/RemoveApp`,
+				channel: `${this.getPrefix()}/desktop/RemoveApp`,
 				body: body,
 				...options,
 			};
-			return await this.endpoint.sendMessageAndWait<ApplicationOpenInfo>(info);
+			return await this.endpoint.sendMessageAndWait<AventusSharp.ExtractResponse<DesktopRouter_RemoveApp>>(info);
 		}
 
-		public async SetDesktopIcon(body: { icon: DesktopAppIcon } | FormData, options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Promise<Aventus.ResultWithError<DesktopAppIcon, Aventus.GenericError<number>>> {
+		public async SetDesktopIcon(body: { icon: DesktopAppIcon } | FormData, options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Promise<AventusSharp.ExtractResponse<DesktopRouter_SetDesktopIcon>> {
 			const info: AventusSharp.WebSocket.SocketSendMessageOptions = {
-				channel: `/desktop/SetDesktopIcon`,
+				channel: `${this.getPrefix()}/desktop/SetDesktopIcon`,
 				body: body,
 				...options,
 			};
-			return await this.endpoint.sendMessageAndWait<DesktopAppIcon>(info);
+			return await this.endpoint.sendMessageAndWait<AventusSharp.ExtractResponse<DesktopRouter_SetDesktopIcon>>(info);
 		}
 
-		public async RemoveDesktopIcon(body: { icon: DesktopAppIcon } | FormData, options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Promise<Aventus.ResultWithError<boolean, Aventus.GenericError<number>>> {
+		public async RemoveDesktopIcon(body: { icon: DesktopAppIcon } | FormData, options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Promise<AventusSharp.ExtractResponse<DesktopRouter_RemoveDesktopIcon>> {
 			const info: AventusSharp.WebSocket.SocketSendMessageOptions = {
-				channel: `/desktop/RemoveDesktopIcon`,
+				channel: `${this.getPrefix()}/desktop/RemoveDesktopIcon`,
 				body: body,
 				...options,
 			};
-			return await this.endpoint.sendMessageAndWait<boolean>(info);
+			return await this.endpoint.sendMessageAndWait<AventusSharp.ExtractResponse<DesktopRouter_RemoveDesktopIcon>>(info);
 		}
 	}
 	 
@@ -65,7 +69,7 @@ namespace Websocket.Routes {
 		 * @inheritdoc
 		 */
 		protected override path(): string {
-			return `/desktop/RegisterOpenApp`;
+			return `${this.getPrefix()}/desktop/RegisterOpenApp`;
 		}
 		
 		/**
@@ -82,7 +86,7 @@ namespace Websocket.Routes {
 		 * @inheritdoc
 		 */
 		protected override path(): string {
-			return `/desktop/RemoveApp`;
+			return `${this.getPrefix()}/desktop/RemoveApp`;
 		}
 		
 		/**
@@ -99,7 +103,7 @@ namespace Websocket.Routes {
 		 * @inheritdoc
 		 */
 		protected override path(): string {
-			return `/desktop/SetDesktopIcon`;
+			return `${this.getPrefix()}/desktop/SetDesktopIcon`;
 		}
 		
 		/**
@@ -116,7 +120,7 @@ namespace Websocket.Routes {
 		 * @inheritdoc
 		 */
 		protected override path(): string {
-			return `/desktop/RemoveDesktopIcon`;
+			return `${this.getPrefix()}/desktop/RemoveDesktopIcon`;
 		}
 		
 		/**

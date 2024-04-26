@@ -58,7 +58,7 @@ namespace Components {
                 else {
                     const index = this.data.findIndex(p => p.Id == data.Id);
                     if(index != -1) {
-                        this.render();
+                        this.filterData(true);
                     }
                 }
             });

@@ -1,0 +1,26 @@
+namespace Errors {
+
+	export enum PdfErrorCode {
+		UnknowError,
+		NoNameProvided
+	}
+
+	@Convertible()
+	export class PdfError extends Aventus.GenericError<typeof PdfErrorCode>  {
+		public static get Fullname(): string { return "Core.Tools.PdfError, Core"; }
+	}
+
+}
+namespace Tools {
+
+	@Convertible()
+	export class VoidWithPdfError extends AventusSharp.Tools.VoidWithError<PdfError>  {
+		public static override get Fullname(): string { return "Core.Tools.VoidWithPdfError, Core"; }
+	}
+
+	@Convertible()
+	export class ResultWithPdfError<T> extends AventusSharp.Tools.ResultWithError<T, PdfError>  {
+		public static override get Fullname(): string { return "Core.Tools.ResultWithPdfError, Core"; }
+	}
+
+}

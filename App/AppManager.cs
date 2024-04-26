@@ -74,22 +74,36 @@ namespace Core.App
                         }
                         return RouterMiddleware.PrepareRegex(urlPattern);
                     };
-                    config.PrintRoute = true;
+                    // config.PrintRoute = true;
                 });
+                List<string> crudTypeEvents = new List<string>() {
+                    (typeof(StorableWsRoute_CreateMany<>).FullName??"").Split("`")[0],
+                    (typeof(StorableWsRoute_UpdateMany<>).FullName??"").Split("`")[0],
+                    (typeof(StorableWsRoute_DeleteMany<>).FullName??"").Split("`")[0],
+                };
                 WebSocketMiddleware.Configure((config) =>
                 {
-                    config.transformPattern = (urlPattern, @params, type) =>
+                    config.transformPattern = (urlPattern, @params, obj, isEvent) =>
                     {
                         urlPattern = WebSocketMiddleware.ReplaceParams(urlPattern, @params);
-                        urlPattern = WebSocketMiddleware.ReplaceFunction(urlPattern, type);
-                        if (type.Assembly != Assembly.GetExecutingAssembly())
+                        urlPattern = WebSocketMiddleware.ReplaceFunction(urlPattern, obj);
+                        Type t = obj.GetType();
+                        if(isEvent) {
+                            string fullname = (t.FullName??"").Split("`")[0];
+                            if(crudTypeEvents.Contains(fullname)) {
+                                t = t.GetGenericArguments()[0];
+                            }
+                        }
+                        if (t.Assembly != Assembly.GetExecutingAssembly())
                         {
-                            string appName = type.Assembly.GetName().Name ?? "";
+                            string appName = t.Assembly.GetName().Name ?? "";
                             urlPattern = "/" + appName + urlPattern;
                         }
-                        return WebSocketMiddleware.PrepareRegex(urlPattern);
+                        return urlPattern;
                     };
                     config.PrintRoute = true;
+                    config.PrintTrigger = true;
+                    config.PrintQuery = true;
                 });
 
                 WebSocketMiddleware.Register(Assembly.GetExecutingAssembly());
@@ -194,9 +208,9 @@ namespace Core.App
                         string typeName = type.Name.Split('`')[0];
                         return assemblyName + "." + typeName;
                     };
-                    config.log.monitorDataOrdered = true;
-                    config.log.monitorManagerOrdered = true;
-                    config.log.printErrorInConsole = true;
+                    // config.log.monitorDataOrdered = true;
+                    // config.log.monitorManagerOrdered = true;
+                    // config.log.printErrorInConsole = true;
                 });
 
                 VoidWithError resultTemp = await DataMainManager.Init(GetAppsDlls());

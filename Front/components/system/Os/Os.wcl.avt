@@ -11,11 +11,11 @@ import type { Scrollable } from "../../ui/layout/Scrollable/Scrollable.wcl.avt";
 import { Confirm, type ConfirmInfo } from "../../ui/popup/Confirm/Confirm.wcl.avt";
 import type { Popup, PopupInfo } from "../../ui/popup/Popup/Popup.wcl.avt";
 import { Alert, type AlertInfo } from "../../ui/popup/Alert/Alert.wcl.avt";
-import { MainSocket } from "../../../libs/MainSocket.lib.avt";
 import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
 import { DesktopStateManager } from "../../../states/desktop/Desktop.state.avt";
 import { Pointer } from "../../../libs/Pointer.lib.avt";
 import { Platform } from "../../../libs/Platform.lib.avt";
+import { MainEndPoint } from "../../../generated/Websocket/MainEndPoint.lib.avt";
 
 namespace System {
     export class Os extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -334,7 +334,8 @@ namespace System {
         }
 
         private async startSocket() {
-            await MainSocket.open();
+            AventusSharp.WebSocket.Connection.Debug = true;
+            MainEndPoint.getInstance().open();
             ApplicationManager.init();
         }
 

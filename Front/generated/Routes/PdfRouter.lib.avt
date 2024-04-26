@@ -1,4 +1,4 @@
-import { Pdf } from '../Data/Pdf.lib.avt';
+import { Pdf } from '../Data/DataTypes/Pdf.lib.avt';
 
 namespace Routes {
 

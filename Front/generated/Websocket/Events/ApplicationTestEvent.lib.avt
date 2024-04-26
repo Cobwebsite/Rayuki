@@ -12,7 +12,7 @@ namespace Websocket.Events {
 		 * @inheritdoc
 		 */
 		protected override path(): string {
-			return `Core.Websocket.Events.ApplicationTestEvent`;
+			return `${this.getPrefix()}Core.Websocket.Events.ApplicationTestEvent`;
 		}
 	}
 
@@ -21,7 +21,7 @@ namespace Websocket.Events {
 		 * @inheritdoc
 		 */
 		protected override path(): string {
-			return `/application/test/2`;
+			return `${this.getPrefix()}/application/test/2`;
 		}
 	}
 

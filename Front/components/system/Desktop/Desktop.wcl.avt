@@ -11,14 +11,13 @@ import type { ContextMenu, IContextMenu } from "../../ui/ContextMenu/ContextMenu
 import { MoveApplication, type MoveApplicationProvider } from "../../../states/desktop/MoveApplication.state.avt";
 import { DesktopStateManager } from "../../../states/desktop/Desktop.state.avt";
 import type { AppIcon } from "../AppIcon/AppIcon.wcl.avt";
-import { MainSocket } from "../../../libs/MainSocket.lib.avt";
 import { BackgroundSize, DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.data.avt";
-import { ApplicationRAM } from "../../../ram/Application.ram.avt";
 import type { DesktopData } from "../../../libs/TypeMapper.lib.avt";
 import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
 import { Platform } from "../../../libs/Platform.lib.avt";
 import { Notification } from "../Os/Notification/Notification.wcl.avt";
 import type { IDesktopActivable } from "./IActivable.lib.avt";
+import { MainEndPoint } from "../../../generated/Websocket/MainEndPoint.lib.avt";
 
 namespace System {
     export class Desktop extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, MoveApplicationProvider {
@@ -346,7 +345,7 @@ namespace System {
                 desktopIcon.Id = icon.iconId;
                 this.oldActiveCase?.classList.remove("active");
                 this.oldActiveCase = undefined;
-                let result = await MainSocket.instance.routes.desktop.SetDesktopIcon({
+                let result = await MainEndPoint.getInstance().routes.desktop.SetDesktopIcon({
                     icon: desktopIcon
                 });
                 if(result.success && result.result) {
@@ -362,7 +361,7 @@ namespace System {
             if(caseEl && this.pageCaseEl.shadowRoot.contains(caseEl)) {
                 let desktopIcon = new DesktopAppIcon();
                 desktopIcon.Id = icon.iconId;
-                let result = await MainSocket.instance.routes.desktop.RemoveDesktopIcon({
+                let result = await MainEndPoint.getInstance().routes.desktop.RemoveDesktopIcon({
                     icon: desktopIcon
                 });
                 if(result.success) {
