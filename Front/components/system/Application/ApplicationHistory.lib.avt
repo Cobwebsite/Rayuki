@@ -71,8 +71,8 @@ namespace System {
 
         public previous(destroy: boolean = false): History | null {
             if(this.previousAvailable) {
-                if(destroy) {
-                    delete this.memory[this.currentPosition];
+                if(destroy === true) {
+                    this.memory.splice(this.currentPosition, 1);
                 }
                 this.currentPosition--;
                 return this.memory[this.currentPosition];

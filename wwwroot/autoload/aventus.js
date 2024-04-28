@@ -133,12 +133,12 @@ const CallbackGroup=class CallbackGroup {
     /**
      * Add a callback for a group
      */
-    add(group, cb) {
+    add(group, cb, scope = null) {
         if (!this.callbacks[group]) {
-            this.callbacks[group] = [];
+            this.callbacks[group] = new Map();
         }
-        if (!this.callbacks[group].includes(cb)) {
-            this.callbacks[group].push(cb);
+        if (!this.callbacks[group].has(cb)) {
+            this.callbacks[group].set(cb, scope);
         }
     }
     /**
@@ -146,10 +146,7 @@ const CallbackGroup=class CallbackGroup {
      */
     remove(group, cb) {
         if (this.callbacks[group]) {
-            let index = this.callbacks[group].indexOf(cb);
-            if (index != -1) {
-                this.callbacks[group].splice(index, 1);
-            }
+            this.callbacks[group].delete(cb);
         }
     }
     /**
@@ -158,8 +155,8 @@ const CallbackGroup=class CallbackGroup {
     trigger(group, args) {
         if (this.callbacks[group]) {
             let cbs = [...this.callbacks[group]];
-            for (let cb of cbs) {
-                cb.apply(null, args);
+            for (let [cb, scope] of cbs) {
+                cb.apply(scope, args);
             }
         }
     }
@@ -5969,11 +5966,15 @@ const TemplateInstance=class TemplateInstance {
     destructor() {
         this.isDestroyed = true;
         for (let name in this.loopRegisteries) {
-            for (let item of this.loopRegisteries[name].templates) {
+            let register = this.loopRegisteries[name];
+            for (let item of register.templates) {
                 item.destructor();
             }
-            for (let item of this.loopRegisteries[name].computeds) {
+            for (let item of register.computeds) {
                 item.destroy();
+            }
+            if (register.unsub) {
+                register.unsub();
             }
         }
         this.loopRegisteries = {};
@@ -6368,9 +6369,9 @@ const TemplateInstance=class TemplateInstance {
         }
     }
     resetLoopSimple(anchorId, basePath) {
-        let elements = this.context.getValueFromItem(basePath);
-        if (elements && this.loopRegisteries[anchorId]) {
-            elements.unsubscribe(this.loopRegisteries[anchorId].sub);
+        let register = this.loopRegisteries[anchorId];
+        if (register?.unsub) {
+            register.unsub();
         }
         this.resetLoopComplex(anchorId);
     }
@@ -6471,7 +6472,9 @@ const TemplateInstance=class TemplateInstance {
                     }
                 }
             };
-            this.loopRegisteries[loop.anchorId].sub = sub;
+            this.loopRegisteries[loop.anchorId].unsub = () => {
+                elements.unsubscribe(sub);
+            };
             elements.subscribe(sub);
         }
         let anchor = this._components[loop.anchorId][0];
@@ -7682,8 +7685,8 @@ WebSocket.Event=class Event {
             this.endpoint.removeRoute(this.routeInfo);
         }
     }
-    onEvent(data, params) {
-        this.onTrigger.trigger([data, params]);
+    onEvent(data, params, uid) {
+        this.onTrigger.trigger([data, params, uid]);
     }
 }
 WebSocket.Event.Namespace=`${moduleName}.WebSocket`;

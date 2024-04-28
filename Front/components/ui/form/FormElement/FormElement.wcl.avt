@@ -8,7 +8,6 @@ namespace Components {
 
         //#region static
         public static async validate(element: IFormElement<any>): Promise<boolean> {
-            element.errors = [];
             if(element.formPart?.validate) {
                 let result = element.formPart.validate(element.value);
                 if(result instanceof Promise) {
@@ -21,13 +20,13 @@ namespace Components {
                 }
 
                 if(result === false) {
-                    element.errors.push("Le champs n'est pas valide");
+                    element.errors = ["Le champs n'est pas valide"];
                     return false;
                 }
-
-                element.errors.push(result);
+                element.errors = [result];
                 return false;
             }
+            element.errors = [];
             return true;
         }
 

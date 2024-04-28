@@ -1,6 +1,9 @@
-
 :host {
 	.main-scroll {
 		--scrollbar-content-padding: 0 15px;
+
+		& > * {
+			--scrollbar-content-padding: 0;
+		}
 	}
 }

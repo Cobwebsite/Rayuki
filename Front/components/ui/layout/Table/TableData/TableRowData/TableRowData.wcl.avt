@@ -1,0 +1,55 @@
+import { TableData } from "../TableData.wcl.avt";
+import type { TableOptions } from "../../Table.wcl.avt";
+import { TableRow } from "../../rows/TableRow/TableRow.wcl.avt";
+
+namespace Components {
+    export class TableRowData<T extends AventusSharp.Data.Storable> extends TableRow<T> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+        protected ram?: Aventus.Ram<T>;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        public override init(options: TableOptions<T>, data: T): void {
+            super.init(options, data);
+
+            if(this.table instanceof TableData) {
+                this.ram = this.table.defineRAM();
+                this.ram.onUpdated(this.onUpdated);
+            }
+        }
+
+        @BindThis()
+        protected onUpdated(element: T) {
+            if(element.Id == this.data.Id) {
+                for(let cellConfig of this.options.schema) {
+					this.setCellContent(this.cells[cellConfig.displayName], cellConfig, element);
+                }
+            }
+        }
+
+        protected override postDestruction(): void {
+            if(this.ram) {
+                this.ram.offUpdated(this.onUpdated);
+            }
+        }
+        //#endregion
+
+    }
+}

@@ -1,6 +1,7 @@
 import { TableDataCellHeaderAction } from "./TableDataCellHeaderAction.wc.avt";
 import { Application } from "../../../../system/Application/Application.wcl.avt";
-import { Table, type TableSchema } from "../Table.wcl.avt";
+import { Table, type TableOptions, type TableSchema } from "../Table.wcl.avt";
+import { TableRowData } from "./TableRowData/TableRowData.wcl.avt";
 
 namespace Components {
     export abstract class TableData<T extends AventusSharp.Data.Storable> extends Table<T> implements Aventus.DefaultComponent {
@@ -18,6 +19,7 @@ namespace Components {
 
         //#region variables
         protected application?: Application;
+        protected ram?: Aventus.Ram<T>;
         //#endregion
 
 
@@ -31,37 +33,43 @@ namespace Components {
         public abstract defineNewState(): Aventus.State;
         public abstract defineEditState(data: T): Aventus.State;
         public async loadData() {
-            let ram = this.defineRAM();
-            this.data = await this.application?.executeWithLoading(ram.getListWithError());
+            this.ram = this.defineRAM();
+            this.data = await this.application?.executeWithLoading(this.ram.getListWithError());
+            this.ram.onCreated(this.onCreatedData);
+            this.ram.onUpdated(this.onUpdatedData);
+            this.ram.onDeleted(this.onDeletedData);
+        }
 
-            ram.onCreated((data) => {
-                if(!this.data) {
-                    this.data = [data];
-                }
-                else {
-                    this.data.push(data);
-                }
-            });
+        @BindThis()
+        protected onCreatedData(data:T) {
+            if(!this.data) {
+                this.data = [data];
+            }
+            else {
+                this.data.push(data);
+            }
+        }
 
-            ram.onDeleted((data) => {
-                if(!this.data) return;
+        @BindThis()
+        protected onUpdatedData(data:T) {
+            if(!this.data) {
+                this.data = [data];
+            }
+            else {
                 const index = this.data.findIndex(p => p.Id == data.Id);
                 if(index != -1) {
-                    this.data.splice(index, 1);
+                    this.filterData(true);
                 }
-            });
+            }
+        }
 
-            ram.onUpdated((data) => {
-                if(!this.data) {
-                    this.data = [data];
-                }
-                else {
-                    const index = this.data.findIndex(p => p.Id == data.Id);
-                    if(index != -1) {
-                        this.filterData(true);
-                    }
-                }
-            });
+        @BindThis()
+        protected onDeletedData(data:T) {
+            if(!this.data) return;
+            const index = this.data.findIndex(p => p.Id == data.Id);
+            if(index != -1) {
+                this.data.splice(index, 1);
+            }
         }
 
         public async newData(): Promise<void> {
@@ -95,11 +103,23 @@ namespace Components {
             }
         }
 
+        protected override defaultOptions(): TableOptions<T> {
+            let result = super.defaultOptions();
+            result.row = TableRowData;
+            return result;
+        }
+
 
         protected override postCreation(): void {
             super.postCreation();
             this.application = this.findParentByType(Application) ?? undefined;
             this.loadData();
+        }
+
+        protected override postDestruction(): void {
+            this.ram?.offCreated(this.onCreatedData);
+            this.ram?.offUpdated(this.onUpdatedData);
+            this.ram?.offDeleted(this.onDeletedData);
         }
         //#endregion
 

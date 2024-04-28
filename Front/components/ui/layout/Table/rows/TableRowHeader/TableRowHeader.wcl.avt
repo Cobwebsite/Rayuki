@@ -28,8 +28,8 @@ namespace Components {
 
         //#region methods
 
-        protected override getContent(cellConfig: TableSchema<T>, data: T) {
-            return cellConfig.displayName
+        protected override setCellContent(cell: TableCell<any, T>, cellConfig: TableSchema<T>, data: T) {
+            cell.setContent(cellConfig.displayName, data);
         }
 
         protected override addCellOption(cell: TableCell<any, any>, cellConfig: TableSchema<T>, data: T): void {

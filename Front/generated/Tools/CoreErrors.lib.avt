@@ -1,0 +1,14 @@
+namespace Errors {
+
+	export enum CoreErrorCode {
+		NotImplemented,
+		NotAvailable,
+		Impossible
+	}
+
+	@Convertible()
+	export class CoreError extends Aventus.GenericError<typeof CoreErrorCode>  {
+		public static get Fullname(): string { return "Core.Tools.CoreError, Core"; }
+	}
+
+}

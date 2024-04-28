@@ -91,7 +91,7 @@ const System = {};
 _.System = {};
 let _n;
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
-    static __style = `:host{background-color:#177192}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #D9994B;max-height:100%;flex-grow:1;padding:10%;padding-right:15%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    static __style = `:host{background-color:#177192}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #ffffff;max-height:100%;flex-grow:1;padding:10%;padding-right:15%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
     __getStatic() {
         return AppIcon;
     }

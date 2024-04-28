@@ -54,6 +54,13 @@ _.Errors.PdfErrorCode=Errors.PdfErrorCode;
 })(Errors.ImageFileErrorCode || (Errors.ImageFileErrorCode = {}));
 
 _.Errors.ImageFileErrorCode=Errors.ImageFileErrorCode;
+(function (CoreErrorCode) {
+    CoreErrorCode[CoreErrorCode["NotImplemented"] = 0] = "NotImplemented";
+    CoreErrorCode[CoreErrorCode["NotAvailable"] = 1] = "NotAvailable";
+    CoreErrorCode[CoreErrorCode["Impossible"] = 2] = "Impossible";
+})(Errors.CoreErrorCode || (Errors.CoreErrorCode = {}));
+
+_.Errors.CoreErrorCode=Errors.CoreErrorCode;
 (function (DesktopPermission) {
     DesktopPermission[DesktopPermission["CanEdit"] = 0] = "CanEdit";
     DesktopPermission[DesktopPermission["CanDelete"] = 1] = "CanDelete";
@@ -89,16 +96,6 @@ Data.Permission.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "EnumNa
 Aventus.Converter.register(Data.Permission.Fullname, Data.Permission);
 
 _.Data.Permission=Data.Permission;
-Data.Pdf=class Pdf {
-    static get Fullname() { return "Core.Data.Pdf, Core"; }
-    Name = "";
-    Html = "";
-}
-Data.Pdf.Namespace=`${moduleName}.Data`;
-Data.Pdf.$schema={"Name":"string","Html":"string"};
-Aventus.Converter.register(Data.Pdf.Fullname, Data.Pdf);
-
-_.Data.Pdf=Data.Pdf;
 Data.Company=class Company extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Company, Core"; }
     Name = "";
@@ -5024,7 +5021,7 @@ System.FrameNoScroll.Namespace=`${moduleName}.System`;
 _.System.FrameNoScroll=System.FrameNoScroll;
 
 System.Frame = class Frame extends System.FrameNoScroll {
-    static __style = `:host .main-scroll{--scrollbar-content-padding: 0 15px}`;
+    static __style = `:host .main-scroll{--scrollbar-content-padding: 0 15px}:host .main-scroll>*{--scrollbar-content-padding: 0}`;
     constructor() { super(); if (this.constructor == Frame) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return Frame;
@@ -5297,8 +5294,8 @@ System.ApplicationHistory=class ApplicationHistory {
     }
     previous(destroy = false) {
         if (this.previousAvailable) {
-            if (destroy) {
-                delete this.memory[this.currentPosition];
+            if (destroy === true) {
+                this.memory.splice(this.currentPosition, 1);
             }
             this.currentPosition--;
             return this.memory[this.currentPosition];
@@ -5975,7 +5972,7 @@ System.Application = class Application extends Aventus.WebComponent {
 }));this.__addPropertyActions("is_hidden", ((target) => {
     target.onIsHiddenChange();
 })); }
-    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 45px)}:host rk-resize{display:none}:host([is_hidden]){left:0 !important;width:100% !important}}`;
+    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;width:100%;pointer-events:none}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 45px)}:host rk-resize{display:none}:host([is_hidden]){left:0 !important;width:100% !important}}`;
     constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.validError404=this.validError404.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this)this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)this.moveApplicationToRight=this.moveApplicationToRight.bind(this) }
     __getStatic() {
         return Application;
@@ -9009,7 +9006,6 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
         Components.FormElement.onFormPartChange(this, path, value);
     }
     static async validate(element) {
-        element.errors = [];
         if (element.formPart?.validate) {
             let result = element.formPart.validate(element.value);
             if (result instanceof Promise) {
@@ -9020,12 +9016,13 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
                 return true;
             }
             if (result === false) {
-                element.errors.push("Le champs n'est pas valide");
+                element.errors = ["Le champs n'est pas valide"];
                 return false;
             }
-            element.errors.push(result);
+            element.errors = [result];
             return false;
         }
+        element.errors = [];
         return true;
     }
     static async setValue(part, value) {
@@ -9108,7 +9105,7 @@ Components.Switch = class Switch extends Components.FormElement {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<label for="element" class="label" _id="switch_0"></label><div class="bar">    <input id="element" type="checkbox" _id="switch_1" />    <div class="bar-content">        <div class="bar-fill"></div>        <div class="dot" _id="switch_2"></div>    </div></div>` }
+        blocks: { 'default':`<div class="label" _id="switch_0"></div><div class="bar" _id="switch_1">    <input id="element" type="checkbox" _id="switch_2" />    <div class="bar-content">        <div class="bar-fill"></div>        <div class="dot"></div>    </div></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -9116,7 +9113,7 @@ Components.Switch = class Switch extends Components.FormElement {
     {
       "name": "checkboxEl",
       "ids": [
-        "switch_1"
+        "switch_2"
       ]
     }
   ],
@@ -9128,7 +9125,11 @@ Components.Switch = class Switch extends Components.FormElement {
   },
   "pressEvents": [
     {
-      "id": "switch_2",
+      "id": "switch_0",
+      "onPress": (e, pressInstance, c) => { c.comp.toggleActive(e, pressInstance); }
+    },
+    {
+      "id": "switch_1",
       "onPress": (e, pressInstance, c) => { c.comp.toggleActive(e, pressInstance); }
     }
   ]
@@ -11738,9 +11739,6 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
     getCell(cellConfig) {
         return cellConfig.cell ?? Components.TableCellString;
     }
-    getContent(cellConfig, data) {
-        return cellConfig.name ? Aventus.getValueFromObject(cellConfig.name, data) : undefined;
-    }
     addCellOption(cell, cellConfig, data) {
     }
     init(options, data) {
@@ -11751,29 +11749,27 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
         for (let cellConfig of options.schema) {
             let cellInfo = this.getCell(cellConfig);
             let cell;
-            let applyContent = true;
-            if (Aventus.isClass(cellInfo)) {
-                let cst = cellInfo;
-                cell = new cst();
-            }
-            else {
-                let fct = cellInfo;
-                cell = fct(data);
-                applyContent = false;
-            }
+            let cst = cellInfo;
+            cell = new cst();
             cell.index = i;
             cell.row = this;
             cell.data = data;
             cell.label = cellConfig.name;
             cell.grid = this.grid;
             this.addCellOption(cell, cellConfig, data);
-            if (applyContent) {
-                const v = this.getContent(cellConfig, data);
-                cell.setContent(v, data);
-            }
+            this.setCellContent(cell, cellConfig, data);
             this.rowContentEl.appendChild(cell);
             this.cells[cellConfig.displayName] = cell;
             i++;
+        }
+    }
+    setCellContent(cell, cellConfig, data) {
+        if (cellConfig.cellContent) {
+            cellConfig.cellContent(data, cell);
+        }
+        else {
+            const v = cellConfig.name ? Aventus.getValueFromObject(cellConfig.name, data) : undefined;
+            cell.setContent(v, data);
         }
     }
     globalSearch(search) {
@@ -11810,6 +11806,52 @@ Components.TableRow.Namespace=`${moduleName}.Components`;
 Components.TableRow.Tag=`rk-table-row`;
 _.Components.TableRow=Components.TableRow;
 if(!window.customElements.get('rk-table-row')){window.customElements.define('rk-table-row', Components.TableRow);Aventus.WebComponentInstance.registerDefinition(Components.TableRow);}
+
+Components.TableRowData = class TableRowData extends Components.TableRow {
+    ram;
+    static __style = ``;
+    constructor() { super(); this.onUpdated=this.onUpdated.bind(this) }
+    __getStatic() {
+        return TableRowData;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(TableRowData.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "TableRowData";
+    }
+    init(options, data) {
+        super.init(options, data);
+        if (this.table instanceof Components.TableData) {
+            this.ram = this.table.defineRAM();
+            this.ram.onUpdated(this.onUpdated);
+        }
+    }
+    onUpdated(element) {
+        if (element.Id == this.data.Id) {
+            for (let cellConfig of this.options.schema) {
+                this.setCellContent(this.cells[cellConfig.displayName], cellConfig, element);
+            }
+        }
+    }
+    postDestruction() {
+        if (this.ram) {
+            this.ram.offUpdated(this.onUpdated);
+        }
+    }
+}
+Components.TableRowData.Namespace=`${moduleName}.Components`;
+Components.TableRowData.Tag=`rk-table-row-data`;
+_.Components.TableRowData=Components.TableRowData;
+if(!window.customElements.get('rk-table-row-data')){window.customElements.define('rk-table-row-data', Components.TableRowData);Aventus.WebComponentInstance.registerDefinition(Components.TableRowData);}
 
 Components.TableCell = class TableCell extends Aventus.WebComponent {
     static get observedAttributes() {return ["grid", "label"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -12177,8 +12219,8 @@ Components.TableRowHeader = class TableRowHeader extends Components.TableRow {
     getClassName() {
         return "TableRowHeader";
     }
-    getContent(cellConfig, data) {
-        return cellConfig.displayName;
+    setCellContent(cell, cellConfig, data) {
+        cell.setContent(cellConfig.displayName, data);
     }
     addCellOption(cell, cellConfig, data) {
         if (cell instanceof Components.TableCellHeader) {
@@ -12457,8 +12499,9 @@ if(!window.customElements.get('rk-table-cell-action')){window.customElements.def
 Components.TableData = class TableData extends Components.Table {
     get 'add_btn'() { return this.getBoolAttr('add_btn') }
     set 'add_btn'(val) { this.setBoolAttr('add_btn', val) }    application;
+    ram;
     static __style = `:host{position:relative}:host .add-btn{bottom:10px;display:none;position:absolute;right:10px;z-index:10;box-shadow:var(--elevation-4)}:host([grid][add_btn]) .add-btn{display:block}`;
-    constructor() { super(); if (this.constructor == TableData) { throw "can't instanciate an abstract class"; } }
+    constructor() { super(); if (this.constructor == TableData) { throw "can't instanciate an abstract class"; } this.onCreatedData=this.onCreatedData.bind(this)this.onUpdatedData=this.onUpdatedData.bind(this)this.onDeletedData=this.onDeletedData.bind(this) }
     __getStatic() {
         return TableData;
     }
@@ -12488,35 +12531,38 @@ Components.TableData = class TableData extends Components.Table {
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('add_btn'); }
     __listBoolProps() { return ["add_btn"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     async loadData() {
-        let ram = this.defineRAM();
-        this.data = await this.application?.executeWithLoading(ram.getListWithError());
-        ram.onCreated((data) => {
-            if (!this.data) {
-                this.data = [data];
-            }
-            else {
-                this.data.push(data);
-            }
-        });
-        ram.onDeleted((data) => {
-            if (!this.data)
-                return;
+        this.ram = this.defineRAM();
+        this.data = await this.application?.executeWithLoading(this.ram.getListWithError());
+        this.ram.onCreated(this.onCreatedData);
+        this.ram.onUpdated(this.onUpdatedData);
+        this.ram.onDeleted(this.onDeletedData);
+    }
+    onCreatedData(data) {
+        if (!this.data) {
+            this.data = [data];
+        }
+        else {
+            this.data.push(data);
+        }
+    }
+    onUpdatedData(data) {
+        if (!this.data) {
+            this.data = [data];
+        }
+        else {
             const index = this.data.findIndex(p => p.Id == data.Id);
             if (index != -1) {
-                this.data.splice(index, 1);
+                this.filterData(true);
             }
-        });
-        ram.onUpdated((data) => {
-            if (!this.data) {
-                this.data = [data];
-            }
-            else {
-                const index = this.data.findIndex(p => p.Id == data.Id);
-                if (index != -1) {
-                    this.filterData(true);
-                }
-            }
-        });
+        }
+    }
+    onDeletedData(data) {
+        if (!this.data)
+            return;
+        const index = this.data.findIndex(p => p.Id == data.Id);
+        if (index != -1) {
+            this.data.splice(index, 1);
+        }
     }
     async newData() {
         let state = this.defineNewState();
@@ -12545,10 +12591,20 @@ Components.TableData = class TableData extends Components.Table {
             this.add_btn = true;
         }
     }
+    defaultOptions() {
+        let result = super.defaultOptions();
+        result.row = Components.TableRowData;
+        return result;
+    }
     postCreation() {
         super.postCreation();
         this.application = this.findParentByType(System.Application) ?? undefined;
         this.loadData();
+    }
+    postDestruction() {
+        this.ram?.offCreated(this.onCreatedData);
+        this.ram?.offUpdated(this.onUpdatedData);
+        this.ram?.offDeleted(this.onDeletedData);
     }
 }
 Components.TableData.Namespace=`${moduleName}.Components`;
@@ -12646,6 +12702,14 @@ Permissions.DesktopPermissionQuery.$schema={...(Permissions.PermissionQuery?.$sc
 Aventus.Converter.register(Permissions.DesktopPermissionQuery.Fullname, Permissions.DesktopPermissionQuery);
 
 _.Permissions.DesktopPermissionQuery=Permissions.DesktopPermissionQuery;
+Errors.CoreError=class CoreError extends Aventus.GenericError {
+    static get Fullname() { return "Core.Tools.CoreError, Core"; }
+}
+Errors.CoreError.Namespace=`${moduleName}.Errors`;
+Errors.CoreError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
+Aventus.Converter.register(Errors.CoreError.Fullname, Errors.CoreError);
+
+_.Errors.CoreError=Errors.CoreError;
 Errors.ImageFileError=class ImageFileError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.ImageFileError, Core"; }
 }

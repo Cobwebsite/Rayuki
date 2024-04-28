@@ -12,14 +12,15 @@ import { TableCellHeader } from "./cells/TableCellHeader/TableCellHeader.wcl.avt
 
 namespace Components {
     export type TableCellType = 'number' | 'string' | 'date' | 'boolean' | 'custom' | 'picture';
-    export type TableSchemaCellFct<T> = (data: T) => TableCell<any, T>;
+    export type TableSchemaCellContent<T> = (data: T, cell: TableCell<any, T>) => void;
     export type TableSchemaCellCst<T> = new () => TableCell<any, T>;
-    export type TableSchemaCell<T> = TableSchemaCellCst<T> | TableSchemaCellFct<T>;
+    export type TableSchemaCell<T> = TableSchemaCellCst<T>;
     export type TableSchema<T> = {
         displayName: string,
         name?: string,
         type: TableCellType,
         cell?: TableSchemaCell<T>;
+        cellContent?: TableSchemaCellContent<T>;
         cellHeader?: new () => TableCell<any, any>;
         width?: number;
         minWidth?: number;
@@ -126,7 +127,7 @@ namespace Components {
         protected rowsFiltered: TableRow<T>[] = [];
         protected rowsDisplayed: TableRow<T>[] = [];
         protected resizeObserver!: Aventus.ResizeObserver;
-        protected mustForceRender:boolean = false;
+        protected mustForceRender: boolean = false;
 
         protected errorsTxtItemPerPage: {
             notNumber: string;
