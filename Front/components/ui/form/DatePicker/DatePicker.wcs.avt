@@ -50,8 +50,13 @@
 			outline: none;
 			padding: 5px 0;
 			padding-right: 10px;
-		}
 
+		}
+		.close-icon {
+			font-size: 18px;
+			flex-shrink: 0;
+			display: none;
+		}
 		.error-logo {
 			align-items: center;
 			background-color: var(--red);
@@ -107,5 +112,13 @@
 :host([label]:not([label=""])) {
 	label {
 		display: flex;
+	}
+}
+
+:host([show_close]) {
+	.input {
+		.close-icon {
+			display: inline-block;
+		}
 	}
 }

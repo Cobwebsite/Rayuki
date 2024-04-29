@@ -1,72 +1,74 @@
 import type { Calendar } from "../../../calendar/Calendar/Calendar.wcl.avt";
 import type { DatePicker } from "../DatePicker.wcl.avt";
 
-export class CalendarContainer extends Aventus.WebComponent implements Aventus.DefaultComponent {
+namespace Components {
+    export class CalendarContainer extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
-    //#region static
+        //#region static
 
-    //#endregion
-
-
-    //#region props
-    @Attribute()
-    public visible!: boolean;
-    //#endregion
+        //#endregion
 
 
-    //#region variables
-    private picker!: DatePicker;
-    //#endregion
+        //#region props
+        @Attribute()
+        public visible!: boolean;
+        //#endregion
 
 
-    //#region constructor
+        //#region variables
+        private picker!: DatePicker;
+        //#endregion
 
-    //#endregion
+
+        //#region constructor
+
+        //#endregion
 
 
-    //#region methods
-    public init(picker: DatePicker) {
-        this.picker = picker;
-        this.shadowRoot.appendChild(picker.calendar);
-    }
-    public async show(container?: HTMLElement) {
-        if(!container) {
-            container = document.body;
+        //#region methods
+        public init(picker: DatePicker) {
+            this.picker = picker;
+            this.shadowRoot.appendChild(picker.calendar);
+        }
+        public async show(container?: HTMLElement) {
+            if(!container) {
+                container = document.body;
+            }
+
+            let box = this.picker.getBoundingClientRect();
+            let boxInput = this.picker.inputEl.getBoundingClientRect();
+            let contBox = container.getBoundingClientRect();
+
+            let newTop = boxInput.top + boxInput.height + 2;
+
+            this.style.top = newTop + 'px';
+            this.style.bottom = '';
+            this.style.left = box.left + 'px';
+            this.style.right = '';
+            container.appendChild(this);
+            this.visible = true;
+
+            let height = this.offsetHeight;
+            if(height + newTop > contBox.height) {
+                newTop = contBox.height - boxInput.top + 2;
+                this.style.top = '';
+                this.style.bottom = newTop + 'px';
+            }
+            let width = this.offsetWidth;
+            if(width + box.left > contBox.width) {
+                let newRight = contBox.width - (width) - 2;
+                this.style.left = newRight + 'px';
+            }
+        }
+        public hide() {
+            this.visible = false;
+            this.parentElement?.removeChild(this);
         }
 
-        let box = this.picker.getBoundingClientRect();
-        let boxInput = this.picker.inputEl.getBoundingClientRect();
-        let contBox = container.getBoundingClientRect();
-
-        let newTop = boxInput.top + boxInput.height + 2;
-
-        this.style.top = newTop + 'px';
-        this.style.bottom = '';
-        this.style.left = box.left + 'px';
-        this.style.right = '';
-        container.appendChild(this);
-        this.visible = true;
-
-        let height = this.offsetHeight;
-        if(height + newTop > contBox.height) {
-            newTop = contBox.height - boxInput.top + 2;
-            this.style.top = '';
-            this.style.bottom = newTop + 'px';
+        protected override postCreation(): void {
+            this.setAttribute("tabindex", "-1");
         }
-        let width = this.offsetWidth;
-        if(width + box.left > contBox.width) {
-            let newRight = contBox.width - (width) - 2;
-            this.style.left = newRight + 'px';
-        }
-    }
-    public hide() {
-        this.visible = false;
-        this.parentElement?.removeChild(this);
-    }
+        //#endregion
 
-    protected override postCreation(): void {
-        this.setAttribute("tabindex", "-1");
     }
-    //#endregion
-
 }

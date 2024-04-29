@@ -1,58 +1,60 @@
 import type { Checkbox } from "../../../../form/Checkbox/Checkbox.wcl.avt";
 import { TableCell } from "../TableCell/TableCell.wcl.avt";
 
-export class TableCellCheckbox<U = any> extends TableCell<TableCellCheckbox, U> implements Aventus.DefaultComponent {
+namespace Components {
+    export class TableCellCheckbox<U = any> extends TableCell<TableCellCheckbox, U> implements Aventus.DefaultComponent {
 
-    //#region static
+        //#region static
 
-    //#endregion
-
-
-    //#region props
-
-    //#endregion
+        //#endregion
 
 
-    //#region variables
-    @ViewElement()
-    protected checkboxEl!: Checkbox;
-    //#endregion
+        //#region props
+
+        //#endregion
 
 
-    //#region constructor
-
-    //#endregion
-
-
-    //#region methods
-    /**
-     * @inheritdoc
-     */
-    public override sortAsc(cell: this): number {
-        return 0
-    }
-    /**
-     * @inheritdoc
-     */
-    public override setContent(data: TableCellCheckbox<any> | undefined, rowData: U) {
-
-    }
+        //#region variables
+        @ViewElement()
+        protected checkboxEl!: Checkbox;
+        //#endregion
 
 
-    /**
-     * 
-     */
-    protected changed() {
-        if(this.checkboxEl.value) {
-            this.table.selectRow(this.row);
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        /**
+         * @inheritdoc
+         */
+        public override sortAsc(cell: this): number {
+            return 0;
         }
-        else {
-            this.table.unselectRow(this.row);
+        /**
+         * @inheritdoc
+         */
+        public override setContent(data: TableCellCheckbox<any> | undefined, rowData: U) {
+
         }
+
+
+        /**
+         * 
+         */
+        protected changed() {
+            if(this.checkboxEl.value) {
+                this.table.selectRow(this.row);
+            }
+            else {
+                this.table.unselectRow(this.row);
+            }
+        }
+
+
+
+        //#endregion
+
     }
-
-
-
-    //#endregion
-
 }

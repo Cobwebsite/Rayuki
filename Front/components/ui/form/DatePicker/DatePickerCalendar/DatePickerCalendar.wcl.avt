@@ -3,32 +3,34 @@ import { Calendar } from "../../../calendar/Calendar/Calendar.wcl.avt";
 import type { CalendarDay } from "../../../calendar/CalendarDay/CalendarDay.wcl.avt";
 import type { DatePicker } from "../DatePicker.wcl.avt";
 
-export class DatePickerCalendar extends Calendar implements Aventus.DefaultComponent {
+namespace Components {
+    export class DatePickerCalendar extends Calendar implements Aventus.DefaultComponent {
 
-    //#region static
+        //#region static
 
-    //#endregion
-
-
-    //#region props
-
-    //#endregion
+        //#endregion
 
 
-    //#region variables
-    public picker!: DatePicker;
-    //#endregion
+        //#region props
+
+        //#endregion
 
 
-    //#region constructor
+        //#region variables
+        public picker!: DatePicker;
+        //#endregion
 
-    //#endregion
+
+        //#region constructor
+
+        //#endregion
 
 
-    //#region methods
-    protected override defineCalendarDay(): new (...args: any[]) => CalendarDay {
-        return DatePickerCalendarDay;
+        //#region methods
+        protected override defineCalendarDay(): new (...args: any[]) => CalendarDay {
+            return DatePickerCalendarDay;
+        }
+        //#endregion
+
     }
-    //#endregion
-
 }

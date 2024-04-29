@@ -1,28 +1,30 @@
-export class Tab extends Aventus.WebComponent implements Aventus.DefaultComponent {
+namespace Components {
+    export class Tab extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
-    //#region static
+        //#region static
 
-    //#endregion
-
-
-    //#region props
-    @Attribute()
-    public label: string = "";
-    //#endregion
+        //#endregion
 
 
-    //#region variables
-
-    //#endregion
-
-
-    //#region constructor
-
-    //#endregion
+        //#region props
+        @Attribute()
+        public label: string = "";
+        //#endregion
 
 
-    //#region methods
+        //#region variables
 
-    //#endregion
+        //#endregion
 
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+
+        //#endregion
+
+    }
 }

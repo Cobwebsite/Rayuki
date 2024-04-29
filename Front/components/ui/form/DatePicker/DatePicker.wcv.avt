@@ -2,6 +2,7 @@
 <div class="input" @press="showCalendar">
     <rk-img src="{{ this.icon }}" class="icon"></rk-img>
     <input id="input" @element="inputEl" @focus="removeErrors" @input="onValueChange" readonly />
+    <mi-icon class="close-icon touch" icon="close" @press="clearValue"></mi-icon>
     <div class="error-logo">!</div>
 </div>
 <div class="errors">

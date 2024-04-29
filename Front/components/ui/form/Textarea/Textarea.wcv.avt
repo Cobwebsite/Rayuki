@@ -1,0 +1,14 @@
+<label for="input">{{ this.label }}</label>
+<div class="input" @element="inputCont">
+    <rk-img src="{{ this.icon }}" class="icon"></rk-img>
+    <textarea rows="1" id="input" @element="inputEl" placeholder="{{ this.placeholder }}" @focus="removeErrors" @input="onValueChange"></textarea>
+    <div class="error-logo">!</div>
+    <rk-resize @element="resizeEl"></rk-resize>
+</div>
+<div class="errors">
+    for(let error of this.errors) {
+        if(error){
+            <div>{{ error }}</div>
+        }
+    }
+</div>

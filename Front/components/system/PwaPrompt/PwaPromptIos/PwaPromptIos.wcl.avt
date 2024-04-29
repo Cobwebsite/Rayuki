@@ -1,59 +1,60 @@
+namespace Components {
+    export class PwaPromptIos extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
-export class PwaPromptIos extends Aventus.WebComponent implements Aventus.DefaultComponent {
-
-    //#region static
-    public static get isStandalone(): boolean {
-        if("standalone" in window.navigator && window.navigator.standalone) {
-            return true;
+        //#region static
+        public static get isStandalone(): boolean {
+            if("standalone" in window.navigator && window.navigator.standalone) {
+                return true;
+            }
+            return false;
         }
-        return false;
+        public static get isiOS(): boolean {
+            let test1 = /iphone|ipad|ipod/.test(
+                window.navigator.userAgent.toLowerCase()
+            );
+            let test2 = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+            return test1 || test2;
+        }
+
+        public static get isAvailable(): boolean {
+            return this.isiOS && !this.isStandalone;
+        }
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected overlay!: HTMLDivElement;
+        @ViewElement()
+        protected prompt!: HTMLDivElement;
+        @Attribute()
+        public visible!: boolean;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+
+        public close() {
+            this.addEventListener("transitionend", () => {
+                this.remove();
+            });
+            this.visible = false;
+        }
+
+        protected override postCreation(): void {
+            this.visible = true;
+        }
+        //#endregion
+
     }
-    public static get isiOS(): boolean {
-        let test1 = /iphone|ipad|ipod/.test(
-            window.navigator.userAgent.toLowerCase()
-        );
-        let test2 = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
-        return test1 || test2;
-    }
-
-    public static get isAvailable(): boolean {
-        return this.isiOS && !this.isStandalone;
-    }
-    //#endregion
-
-
-    //#region props
-
-    //#endregion
-
-
-    //#region variables
-    @ViewElement()
-    protected overlay!: HTMLDivElement;
-    @ViewElement()
-    protected prompt!: HTMLDivElement;
-    @Attribute()
-    public visible!: boolean;
-    //#endregion
-
-
-    //#region constructor
-
-    //#endregion
-
-
-    //#region methods
-
-    public close() {
-        this.addEventListener("transitionend", () => {
-            this.remove()
-        })
-        this.visible = false;
-    }
-
-    protected override postCreation(): void {
-        this.visible = true;
-    }
-    //#endregion
-
 }

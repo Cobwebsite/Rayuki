@@ -1,135 +1,137 @@
-export class Tooltip extends Aventus.WebComponent implements Aventus.DefaultComponent {
+namespace Components {
+    export class Tooltip extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
-    //#region static
+        //#region static
 
-    //#endregion
-
-
-    //#region props
-    @Attribute()
-    public visible: boolean = false;
-    @Attribute()
-    public position: 'top' | 'left' | 'bottom' | 'right' = 'left';
-
-    @Attribute()
-    public color?: "green" | "red" | "blue" | "orange" | "primary" | "secondary";
-
-    @Attribute()
-    public use_absolute!: boolean;
-    //#endregion
+        //#endregion
 
 
-    //#region variables
-    protected parent: HTMLElement | null = null;
-    private isDestroyed: boolean = false;
-    protected timeoutEnter: boolean = false;
-    protected timeout: number = 0;
-    //#endregion
+        //#region props
+        @Attribute()
+        public visible: boolean = false;
+        @Attribute()
+        public position: 'top' | 'left' | 'bottom' | 'right' = 'left';
+
+        @Attribute()
+        public color?: "green" | "red" | "blue" | "orange" | "primary" | "secondary";
+
+        @Attribute()
+        public use_absolute!: boolean;
+        //#endregion
 
 
-    //#region constructor
-
-    //#endregion
-
-
-    //#region methods
-    protected calculatePosition() {
-        if(!this.parent || !this.use_absolute) return;
-
-        let rect = this.parent.getBoundingClientRect();
-        let center = {
-            x: rect.left + rect.width / 2,
-            y: rect.y + rect.height / 2
-        };
+        //#region variables
+        protected parent: HTMLElement | null = null;
+        private isDestroyed: boolean = false;
+        protected timeoutEnter: boolean = false;
+        protected timeout: number = 0;
+        //#endregion
 
 
-        if(this.position == 'bottom') {
-            let bottom = rect.y + rect.height;
-            this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
-            this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
-            this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
-            this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
-        }
-        else if(this.position == 'top') {
-            let bottom = document.body.offsetHeight - rect.top;
-            this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
-            this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
-            this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
-            this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
-        }
-        else if(this.position == 'right') {
-            let left = rect.x + rect.width;
-            this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
-            this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
-            this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
-            this.style.setProperty("--local-tooltip-to-y", center.y + 10 + 'px');
-        }
-        else if(this.position == 'left') {
-            let left = document.body.offsetWidth - rect.left;
-            this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
-            this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
-            this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
-            this.style.setProperty("--local-tooltip-to-y", center.y + 'px');
-        }
-    }
+        //#region constructor
 
-    @BindThis()
-    protected onMouseEnter() {
-        this.calculatePosition();
-        if(this.use_absolute) {
-            document.body.appendChild(this);
-            this.timeoutEnter = false;
-            this.timeout = setTimeout(() => {
-                this.timeoutEnter = true;
-                this.visible = true;
-            }, 50);
-        }
-        else {
-            this.visible = true;
-        }
-    }
+        //#endregion
 
-    @BindThis()
-    protected onMouseLeave() {
-        this.visible = false;
-        if(this.use_absolute) {
-            if(!this.timeoutEnter) {
-                clearTimeout(this.timeout);
-                this.onTransitionEnd();
+
+        //#region methods
+        protected calculatePosition() {
+            if(!this.parent || !this.use_absolute) return;
+
+            let rect = this.parent.getBoundingClientRect();
+            let center = {
+                x: rect.left + rect.width / 2,
+                y: rect.y + rect.height / 2
+            };
+
+
+            if(this.position == 'bottom') {
+                let bottom = rect.y + rect.height;
+                this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
+                this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
+                this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
+                this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
+            }
+            else if(this.position == 'top') {
+                let bottom = document.body.offsetHeight - rect.top;
+                this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
+                this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
+                this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
+                this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
+            }
+            else if(this.position == 'right') {
+                let left = rect.x + rect.width;
+                this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
+                this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
+                this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
+                this.style.setProperty("--local-tooltip-to-y", center.y + 10 + 'px');
+            }
+            else if(this.position == 'left') {
+                let left = document.body.offsetWidth - rect.left;
+                this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
+                this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
+                this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
+                this.style.setProperty("--local-tooltip-to-y", center.y + 'px');
             }
         }
+
+        @BindThis()
+        protected onMouseEnter() {
+            this.calculatePosition();
+            if(this.use_absolute) {
+                document.body.appendChild(this);
+                this.timeoutEnter = false;
+                this.timeout = setTimeout(() => {
+                    this.timeoutEnter = true;
+                    this.visible = true;
+                }, 50);
+            }
+            else {
+                this.visible = true;
+            }
+        }
+
+        @BindThis()
+        protected onMouseLeave() {
+            this.visible = false;
+            if(this.use_absolute) {
+                if(!this.timeoutEnter) {
+                    clearTimeout(this.timeout);
+                    this.onTransitionEnd();
+                }
+            }
+        }
+
+        @BindThis()
+        protected onTransitionEnd() {
+            if(!this.use_absolute || this.visible) return;
+
+            if(this.parent && !this.isDestroyed)
+                this.parent?.appendChild(this);
+            else
+                this.remove();
+        }
+
+
+        protected registerAction() {
+            if(!this.parent) return;
+
+            this.parent.addEventListener("mouseenter", this.onMouseEnter);
+            this.parent.addEventListener("mouseleave", this.onMouseLeave);
+            this.addEventListener("transitionend", this.onTransitionEnd);
+        }
+        protected override postCreation(): void {
+            this.parent = this.parentElement;
+            this.registerAction();
+        }
+
+        protected override postDestruction(): void {
+            this.isDestroyed = true;
+            super.postDestruction();
+            if(!this.parent) return;
+            this.parent.removeEventListener("mouseenter", this.onMouseEnter);
+            this.parent.removeEventListener("mouseleave", this.onMouseLeave);
+        }
+        //#endregion
+
     }
-
-    @BindThis()
-    protected onTransitionEnd() {
-        if(!this.use_absolute || this.visible) return;
-
-        if(this.parent && !this.isDestroyed)
-            this.parent?.appendChild(this);
-        else
-            this.remove();
-    }
-
-
-    protected registerAction() {
-        if(!this.parent) return;
-
-        this.parent.addEventListener("mouseenter", this.onMouseEnter);
-        this.parent.addEventListener("mouseleave", this.onMouseLeave);
-        this.addEventListener("transitionend", this.onTransitionEnd);
-    }
-    protected override postCreation(): void {
-        this.parent = this.parentElement;
-        this.registerAction();
-    }
-
-    protected override postDestruction(): void {
-        this.isDestroyed = true;
-        super.postDestruction();
-        if(!this.parent) return;
-        this.parent.removeEventListener("mouseenter", this.onMouseEnter);
-        this.parent.removeEventListener("mouseleave", this.onMouseLeave);
-    }
-    //#endregion
-
 }

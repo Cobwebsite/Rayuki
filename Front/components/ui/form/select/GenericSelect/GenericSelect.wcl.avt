@@ -2,9 +2,10 @@ import type { OptionsContainer } from "./OptionsContainer/OptionsContainer.wcl.a
 import { GenericOption } from "./GenericOption/GenericOption.wcl.avt";
 import { FormElement } from "../../FormElement/FormElement.wcl.avt";
 
-export type ExtractTypeOption<X extends GenericOption<U>, U> = X extends GenericOption<infer U> ? U : never;
 
 namespace Components {
+    export type ExtractTypeOption<X extends GenericOption<U>, U> = X extends GenericOption<infer U> ? U : never;
+    
     export abstract class GenericSelect<T extends GenericOption<U>, U = ExtractTypeOption<T, any>> extends FormElement<U> implements Aventus.DefaultComponent {
 
         //#region static

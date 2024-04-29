@@ -1,0 +1,91 @@
+import type { Resize } from "../../Resize/Resize.wcl.avt";
+import { FormElement } from "../FormElement/FormElement.wcl.avt";
+
+namespace Components {
+    export class Textarea extends FormElement<string> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property()
+        public label?: string;
+        @Property()
+        public placeholder?: string;
+        @Property()
+        public icon?: string;
+
+        @Property((target: Textarea) => {
+            target.inputEl.value = target.value;
+        })
+        public override value: string = "";
+
+        @Attribute()
+        public resize!: boolean;
+
+        @Attribute()
+        public autogrow!: boolean;
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected inputEl!: HTMLTextAreaElement;
+        @ViewElement()
+        protected resizeEl!: Resize;
+        @ViewElement()
+        protected inputCont!: HTMLDivElement;
+
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        /**
+         * 
+         */
+        protected removeErrors() {
+            this.errors = [];
+        }
+
+        protected calculateAutoGrow() {
+            if(this.autogrow) {
+                this.inputEl.style.height = 'auto';
+                let h = this.inputEl.scrollHeight + 'px';
+                this.inputEl.style.height = h;
+                this.inputCont.style.height = h;
+            }
+        }
+
+        /**
+         * 
+         */
+        protected onValueChange() {
+            this.calculateAutoGrow();
+            this.value = this.inputEl.value;
+            this.onChange.trigger([this.value]);
+            if(this.formPart) {
+                FormElement.setValue(this.formPart, this.value);
+                if(this.formPart.validateOnChange !== false) {
+                    this.validate();
+                }
+            }
+        }
+
+        protected override postCreation(): void {
+            if(this.resize) {
+                this.resizeEl.init(this.inputCont);
+            }
+            this.calculateAutoGrow();
+        }
+
+        //#endregion
+
+    }
+}

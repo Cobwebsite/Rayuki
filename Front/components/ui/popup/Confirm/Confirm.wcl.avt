@@ -47,7 +47,7 @@ namespace Components {
          * 
          */
         protected validate() {
-            this.resolve(false);
+            this.resolve(true);
         }
 
         protected override cancel(): void {

@@ -1,29 +1,31 @@
 import { CalendarDay } from "../CalendarDay/CalendarDay.wcl.avt";
 
-export class CalendarDayDefault extends CalendarDay implements Aventus.DefaultComponent {
+namespace Components {
+    export class CalendarDayDefault extends CalendarDay implements Aventus.DefaultComponent {
 
-	//#region static
-	
-	//#endregion
-	
-	
-	//#region props
-	
-	//#endregion
-	
-	
-	//#region variables
-	
-	//#endregion
-	
-	
-	//#region constructor
-	
-	//#endregion
-	
-	
-	//#region methods
-	
-	//#endregion
-	
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+
+        //#endregion
+
+    }
 }

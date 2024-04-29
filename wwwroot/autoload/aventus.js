@@ -2461,6 +2461,13 @@ const HttpRequest=class HttpRequest {
         }
         return formData;
     }
+    jsonReplacer(key, value) {
+        if (this[key] instanceof Date) {
+            const offset = this[key].getTimezoneOffset() * 60000;
+            return new Date(this[key].getTime() - offset).toISOString();
+        }
+        return value;
+    }
     prepareBody(data) {
         if (!data) {
             return;
@@ -2493,7 +2500,7 @@ const HttpRequest=class HttpRequest {
                 this.request.body = this.objectToFormData(data);
             }
             else {
-                this.request.body = JSON.stringify(data);
+                this.request.body = JSON.stringify(data, this.jsonReplacer);
                 this.setHeader("Content-Type", "Application/json");
             }
         }

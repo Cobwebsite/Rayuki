@@ -12,7 +12,7 @@ namespace Components {
         close_on_click?: boolean;
     };
 
-    export abstract class Popup<T, U extends PopupInfo> extends Aventus.WebComponent implements Aventus.DefaultComponent {
+    export abstract class Popup<T, U extends PopupInfo = PopupInfo> extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static
 

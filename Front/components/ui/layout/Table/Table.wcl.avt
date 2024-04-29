@@ -155,6 +155,7 @@ namespace Components {
             this.options = this.configure(this.defaultOptions());
             this.normalizeSchema();
             this.auto_hide_scroll = this.autoHideScroll();
+            this.style.display = 'none';
         }
         //#endregion
 
@@ -361,6 +362,7 @@ namespace Components {
             if(!this.headerContainer || !this.bodyContainer) {
                 return;
             }
+            let isFirst = this.isFirstRender;
             this.firstRender();
 
             this.hadGlobalSearch = false;
@@ -400,6 +402,9 @@ namespace Components {
 
             this.nbItems = this.rowsFiltered.length;
             this.renderPage();
+            if(isFirst) {
+                this.style.display = '';
+            }
         }
 
         protected renderPage() {

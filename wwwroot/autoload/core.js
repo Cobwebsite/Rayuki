@@ -168,7 +168,7 @@ Components.UserProfilPicture.Tag=`rk-user-profil-picture`;
 _.Components.UserProfilPicture=Components.UserProfilPicture;
 if(!window.customElements.get('rk-user-profil-picture')){window.customElements.define('rk-user-profil-picture', Components.UserProfilPicture);Aventus.WebComponentInstance.registerDefinition(Components.UserProfilPicture);}
 
-const Tooltip = class Tooltip extends Aventus.WebComponent {
+Components.Tooltip = class Tooltip extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
     set 'visible'(val) { this.setBoolAttr('visible', val) }get 'position'() { return this.getStringAttr('position') }
     set 'position'(val) { this.setStringAttr('position', val) }get 'color'() { return this.getStringAttr('color') }
@@ -287,12 +287,12 @@ const Tooltip = class Tooltip extends Aventus.WebComponent {
         this.parent.removeEventListener("mouseleave", this.onMouseLeave);
     }
 }
-Tooltip.Namespace=`${moduleName}`;
-Tooltip.Tag=`rk-tooltip`;
-_.Tooltip=Tooltip;
-if(!window.customElements.get('rk-tooltip')){window.customElements.define('rk-tooltip', Tooltip);Aventus.WebComponentInstance.registerDefinition(Tooltip);}
+Components.Tooltip.Namespace=`${moduleName}.Components`;
+Components.Tooltip.Tag=`rk-tooltip`;
+_.Components.Tooltip=Components.Tooltip;
+if(!window.customElements.get('rk-tooltip')){window.customElements.define('rk-tooltip', Components.Tooltip);Aventus.WebComponentInstance.registerDefinition(Components.Tooltip);}
 
-const Tab = class Tab extends Aventus.WebComponent {
+Components.Tab = class Tab extends Aventus.WebComponent {
     get 'label'() { return this.getStringAttr('label') }
     set 'label'(val) { this.setStringAttr('label', val) }    static __style = ``;
     __getStatic() {
@@ -315,12 +315,12 @@ const Tab = class Tab extends Aventus.WebComponent {
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = ""; } }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label'); }
 }
-Tab.Namespace=`${moduleName}`;
-Tab.Tag=`rk-tab`;
-_.Tab=Tab;
-if(!window.customElements.get('rk-tab')){window.customElements.define('rk-tab', Tab);Aventus.WebComponentInstance.registerDefinition(Tab);}
+Components.Tab.Namespace=`${moduleName}.Components`;
+Components.Tab.Tag=`rk-tab`;
+_.Components.Tab=Components.Tab;
+if(!window.customElements.get('rk-tab')){window.customElements.define('rk-tab', Components.Tab);Aventus.WebComponentInstance.registerDefinition(Components.Tab);}
 
-const TabHeader = class TabHeader extends Aventus.WebComponent {
+Components.TabHeader = class TabHeader extends Aventus.WebComponent {
     static get observedAttributes() {return ["label"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'active'() { return this.getBoolAttr('active') }
     set 'active'(val) { this.setBoolAttr('active', val) }    get 'label'() { return this.getStringProp('label') }
@@ -345,7 +345,7 @@ const TabHeader = class TabHeader extends Aventus.WebComponent {
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "content": {
     "tabheader_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__86516f88c19f54ff51b6b23ce30be60emethod0())}`,
+      "fct": (c) => `${c.print(c.comp.__f727d7837c6f3c532ffb27ded1e8c0e4method0())}`,
       "once": true
     }
   }
@@ -360,16 +360,16 @@ const TabHeader = class TabHeader extends Aventus.WebComponent {
         this.label = tab.label;
         this._tab = tab;
     }
-    __86516f88c19f54ff51b6b23ce30be60emethod0() {
+    __f727d7837c6f3c532ffb27ded1e8c0e4method0() {
         return this.label;
     }
 }
-TabHeader.Namespace=`${moduleName}`;
-TabHeader.Tag=`rk-tab-header`;
-_.TabHeader=TabHeader;
-if(!window.customElements.get('rk-tab-header')){window.customElements.define('rk-tab-header', TabHeader);Aventus.WebComponentInstance.registerDefinition(TabHeader);}
+Components.TabHeader.Namespace=`${moduleName}.Components`;
+Components.TabHeader.Tag=`rk-tab-header`;
+_.Components.TabHeader=Components.TabHeader;
+if(!window.customElements.get('rk-tab-header')){window.customElements.define('rk-tab-header', Components.TabHeader);Aventus.WebComponentInstance.registerDefinition(Components.TabHeader);}
 
-const Tabs = class Tabs extends Aventus.WebComponent {
+Components.Tabs = class Tabs extends Aventus.WebComponent {
     tabs = {};
     activeHeader;
     static __style = `:host .hidden{display:none}`;
@@ -410,7 +410,7 @@ const Tabs = class Tabs extends Aventus.WebComponent {
         let elements = this.getElementsInSlot();
         let first = null;
         for (let element of elements) {
-            if (element instanceof Tab) {
+            if (element instanceof Components.Tab) {
                 this.tabs[element.label] = element;
                 let header = new (this.defineTabHeader())();
                 this.headerEl.appendChild(header);
@@ -434,16 +434,16 @@ const Tabs = class Tabs extends Aventus.WebComponent {
         this.bodyEl.appendChild(this.activeHeader);
     }
     defineTabHeader() {
-        return TabHeader;
+        return Components.TabHeader;
     }
     postCreation() {
         super.postCreation();
     }
 }
-Tabs.Namespace=`${moduleName}`;
-Tabs.Tag=`rk-tabs`;
-_.Tabs=Tabs;
-if(!window.customElements.get('rk-tabs')){window.customElements.define('rk-tabs', Tabs);Aventus.WebComponentInstance.registerDefinition(Tabs);}
+Components.Tabs.Namespace=`${moduleName}.Components`;
+Components.Tabs.Tag=`rk-tabs`;
+_.Components.Tabs=Components.Tabs;
+if(!window.customElements.get('rk-tabs')){window.customElements.define('rk-tabs', Components.Tabs);Aventus.WebComponentInstance.registerDefinition(Components.Tabs);}
 
 Components.Separator = class Separator extends Aventus.WebComponent {
     static __style = `:host{--_separator-color: var(--separator-color, var(--text-color))}:host{background:linear-gradient(90deg, transparent 0%, var(--_separator-color) 50%, transparent 100%);height:1px;margin:20px auto;width:100%;display:flex}`;
@@ -1016,7 +1016,7 @@ Lib.DateTools=class DateTools {
 Lib.DateTools.Namespace=`${moduleName}.Lib`;
 
 _.Lib.DateTools=Lib.DateTools;
-const PwaPromptIos = class PwaPromptIos extends Aventus.WebComponent {
+Components.PwaPromptIos = class PwaPromptIos extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
     set 'visible'(val) { this.setBoolAttr('visible', val) }    static get isStandalone() {
         if ("standalone" in window.navigator && window.navigator.standalone) {
@@ -1084,10 +1084,10 @@ const PwaPromptIos = class PwaPromptIos extends Aventus.WebComponent {
         this.visible = true;
     }
 }
-PwaPromptIos.Namespace=`${moduleName}`;
-PwaPromptIos.Tag=`rk-pwa-prompt-ios`;
-_.PwaPromptIos=PwaPromptIos;
-if(!window.customElements.get('rk-pwa-prompt-ios')){window.customElements.define('rk-pwa-prompt-ios', PwaPromptIos);Aventus.WebComponentInstance.registerDefinition(PwaPromptIos);}
+Components.PwaPromptIos.Namespace=`${moduleName}.Components`;
+Components.PwaPromptIos.Tag=`rk-pwa-prompt-ios`;
+_.Components.PwaPromptIos=Components.PwaPromptIos;
+if(!window.customElements.get('rk-pwa-prompt-ios')){window.customElements.define('rk-pwa-prompt-ios', Components.PwaPromptIos);Aventus.WebComponentInstance.registerDefinition(Components.PwaPromptIos);}
 
 System.Loading = class Loading extends Aventus.WebComponent {
     static get observedAttributes() {return ["text"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -5848,7 +5848,7 @@ Components.Confirm = class Confirm extends Components.Popup {
         };
     }
     validate() {
-        this.resolve(false);
+        this.resolve(true);
     }
     cancel() {
         this.resolve(false);
@@ -8412,7 +8412,7 @@ Lib.PWA=class PWA {
             }
         }
         else if (this.isAvailableIOS) {
-            let pwaios = new PwaPromptIos();
+            let pwaios = new Components.PwaPromptIos();
             document.body.appendChild(pwaios);
         }
     }
@@ -8470,7 +8470,7 @@ System.PwaButton.Tag=`rk-pwa-button`;
 _.System.PwaButton=System.PwaButton;
 if(!window.customElements.get('rk-pwa-button')){window.customElements.define('rk-pwa-button', System.PwaButton);Aventus.WebComponentInstance.registerDefinition(System.PwaButton);}
 
-const CalendarDay = class CalendarDay extends Aventus.WebComponent {
+Components.CalendarDay = class CalendarDay extends Aventus.WebComponent {
     get 'other'() { return this.getBoolAttr('other') }
     set 'other'(val) { this.setBoolAttr('other', val) }get 'today'() { return this.getBoolAttr('today') }
     set 'today'(val) { this.setBoolAttr('today', val) }    calendar;
@@ -8513,10 +8513,10 @@ const CalendarDay = class CalendarDay extends Aventus.WebComponent {
         });
     }
 }
-CalendarDay.Namespace=`${moduleName}`;
-_.CalendarDay=CalendarDay;
+Components.CalendarDay.Namespace=`${moduleName}.Components`;
+_.Components.CalendarDay=Components.CalendarDay;
 
-const CalendarDayDefault = class CalendarDayDefault extends CalendarDay {
+Components.CalendarDayDefault = class CalendarDayDefault extends Components.CalendarDay {
     static __style = ``;
     __getStatic() {
         return CalendarDayDefault;
@@ -8536,10 +8536,10 @@ const CalendarDayDefault = class CalendarDayDefault extends CalendarDay {
         return "CalendarDayDefault";
     }
 }
-CalendarDayDefault.Namespace=`${moduleName}`;
-CalendarDayDefault.Tag=`rk-calendar-day-default`;
-_.CalendarDayDefault=CalendarDayDefault;
-if(!window.customElements.get('rk-calendar-day-default')){window.customElements.define('rk-calendar-day-default', CalendarDayDefault);Aventus.WebComponentInstance.registerDefinition(CalendarDayDefault);}
+Components.CalendarDayDefault.Namespace=`${moduleName}.Components`;
+Components.CalendarDayDefault.Tag=`rk-calendar-day-default`;
+_.Components.CalendarDayDefault=Components.CalendarDayDefault;
+if(!window.customElements.get('rk-calendar-day-default')){window.customElements.define('rk-calendar-day-default', Components.CalendarDayDefault);Aventus.WebComponentInstance.registerDefinition(Components.CalendarDayDefault);}
 
 Components.Calendar = class Calendar extends Aventus.WebComponent {
     static get observedAttributes() {return ["date", "show_selector"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -8761,7 +8761,7 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
         this.date = newDate;
     }
     defineCalendarDay() {
-        return CalendarDayDefault;
+        return Components.CalendarDayDefault;
     }
     renderDates() {
         if (!this.isConnected)
@@ -8906,7 +8906,7 @@ Components.Calendar.Tag=`rk-calendar`;
 _.Components.Calendar=Components.Calendar;
 if(!window.customElements.get('rk-calendar')){window.customElements.define('rk-calendar', Components.Calendar);Aventus.WebComponentInstance.registerDefinition(Components.Calendar);}
 
-const DatePickerCalendarDay = class DatePickerCalendarDay extends CalendarDay {
+Components.DatePickerCalendarDay = class DatePickerCalendarDay extends Components.CalendarDay {
     get 'selected'() { return this.getBoolAttr('selected') }
     set 'selected'(val) { this.setBoolAttr('selected', val) }    static __style = `:host([selected]){background-color:var(--primary-color)}`;
     constructor() { super(); this.checkIfSelected=this.checkIfSelected.bind(this) }
@@ -8931,7 +8931,7 @@ const DatePickerCalendarDay = class DatePickerCalendarDay extends CalendarDay {
     __listBoolProps() { return ["selected"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     init(dateDisplayed, dateDay, calendar) {
         super.init(dateDisplayed, dateDay, calendar);
-        if (calendar instanceof DatePickerCalendar) {
+        if (calendar instanceof Components.DatePickerCalendar) {
             if (Lib.DateTools.isSameDate(calendar.picker.value, dateDay)) {
                 this.selected = true;
             }
@@ -8946,10 +8946,10 @@ const DatePickerCalendarDay = class DatePickerCalendarDay extends CalendarDay {
         this.calendar.onDateClicked.remove(this.checkIfSelected);
     }
 }
-DatePickerCalendarDay.Namespace=`${moduleName}`;
-DatePickerCalendarDay.Tag=`rk-date-picker-calendar-day`;
-_.DatePickerCalendarDay=DatePickerCalendarDay;
-if(!window.customElements.get('rk-date-picker-calendar-day')){window.customElements.define('rk-date-picker-calendar-day', DatePickerCalendarDay);Aventus.WebComponentInstance.registerDefinition(DatePickerCalendarDay);}
+Components.DatePickerCalendarDay.Namespace=`${moduleName}.Components`;
+Components.DatePickerCalendarDay.Tag=`rk-date-picker-calendar-day`;
+_.Components.DatePickerCalendarDay=Components.DatePickerCalendarDay;
+if(!window.customElements.get('rk-date-picker-calendar-day')){window.customElements.define('rk-date-picker-calendar-day', Components.DatePickerCalendarDay);Aventus.WebComponentInstance.registerDefinition(Components.DatePickerCalendarDay);}
 
 Components.FormElement = class FormElement extends Aventus.WebComponent {
     get 'has_errors'() { return this.getBoolAttr('has_errors') }
@@ -9064,6 +9064,147 @@ Components.FormElement.Namespace=`${moduleName}.Components`;
 Components.FormElement.Tag=`rk-form-element`;
 _.Components.FormElement=Components.FormElement;
 if(!window.customElements.get('rk-form-element')){window.customElements.define('rk-form-element', Components.FormElement);Aventus.WebComponentInstance.registerDefinition(Components.FormElement);}
+
+Components.Textarea = class Textarea extends Components.FormElement {
+    static get observedAttributes() {return ["label", "placeholder", "icon", "value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'resize'() { return this.getBoolAttr('resize') }
+    set 'resize'(val) { this.setBoolAttr('resize', val) }get 'autogrow'() { return this.getBoolAttr('autogrow') }
+    set 'autogrow'(val) { this.setBoolAttr('autogrow', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
+    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'value'() { return this.getStringProp('value') }
+    set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
+    target.inputEl.value = target.value;
+})); }
+    static __style = `:host{--_textarea-height: var(--textarea-height, 30px);--_textarea-background-color: var(--textarea-background-color, var(--form-element-background, white));--_textarea-icon-height: var(--textarea-icon-height, calc(var(--_textarea-height) / 2));--_textarea-error-logo-size: var(--textarea-error-logo-size, calc(var(--_textarea-height) / 2));--_textarea-font-size: var(--textarea-font-size, var(--form-element-font-size, 16px));--_textarea-font-size-label: var(--textarea-font-size-label, var(--form-element-font-size-label, calc(var(--_textarea-font-size) * 0.95)));--_textarea-input-border: var(--textarea-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_textarea-border-radius: var(--textarea-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_textarea-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_textarea-background-color);border:var(--_textarea-input-border);border-radius:var(--_textarea-border-radius);display:flex;height:var(--_textarea-height);padding:0 10px;position:relative;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_textarea-icon-height);margin-right:10px}:host .input textarea{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-family:"Roboto",sans-serif;font-size:var(--_textarea-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px;resize:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:50%;color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_textarea-error-logo-size) - 5px);height:var(--_textarea-error-logo-size);justify-content:center;width:var(--_textarea-error-logo-size)}:host .input rk-resize{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([resize]) .input rk-resize{display:block}:host([autogrow]) .input textarea{overflow:hidden}`;
+    __getStatic() {
+        return Textarea;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Textarea.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<label for="input" _id="textarea_0"></label><div class="input" _id="textarea_1">    <rk-img class="icon" _id="textarea_2"></rk-img>    <textarea rows="1" id="input" _id="textarea_3"></textarea>    <div class="error-logo">!</div>    <rk-resize _id="textarea_4"></rk-resize></div><div class="errors">    <template _id="textarea_5"></template></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "inputCont",
+      "ids": [
+        "textarea_1"
+      ]
+    },
+    {
+      "name": "inputEl",
+      "ids": [
+        "textarea_3"
+      ]
+    },
+    {
+      "name": "resizeEl",
+      "ids": [
+        "textarea_4"
+      ]
+    }
+  ],
+  "content": {
+    "textarea_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__1d98574e598563b66bef89b75eeea5admethod1())}`,
+      "once": true
+    },
+    "textarea_2°src": {
+      "fct": (c) => `${c.print(c.comp.__1d98574e598563b66bef89b75eeea5admethod2())}`,
+      "once": true
+    },
+    "textarea_3°placeholder": {
+      "fct": (c) => `${c.print(c.comp.__1d98574e598563b66bef89b75eeea5admethod3())}`,
+      "once": true
+    }
+  },
+  "events": [
+    {
+      "eventName": "focus",
+      "id": "textarea_3",
+      "fct": (e, c) => c.comp.removeErrors(e)
+    },
+    {
+      "eventName": "input",
+      "id": "textarea_3",
+      "fct": (e, c) => c.comp.onValueChange(e)
+    }
+  ]
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <template _id="textarea_6"></template>    `);this.__getStatic().__template.addLoop({
+                    anchorId: 'textarea_5',
+                    template: templ0,
+                simple:{data: "this.errors",item:"error"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`            <div _id="textarea_7"></div>        `);templ1.setActions({
+  "content": {
+    "textarea_7°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__1d98574e598563b66bef89b75eeea5admethod4(c.data.error))}`,
+      "once": true
+    }
+  }
+});templ0.addIf({
+                    anchorId: 'textarea_6',
+                    parts: [{once: true,
+                    condition: (c) => true,
+                    template: templ1
+                }]
+            }); }
+    getClassName() {
+        return "Textarea";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('resize')) { this.attributeChangedCallback('resize', false, false); }if(!this.hasAttribute('autogrow')) { this.attributeChangedCallback('autogrow', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = ""; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('resize');this.__upgradeProperty('autogrow');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('value'); }
+    __listBoolProps() { return ["resize","autogrow"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    removeErrors() {
+        this.errors = [];
+    }
+    calculateAutoGrow() {
+        if (this.autogrow) {
+            this.inputEl.style.height = 'auto';
+            let h = this.inputEl.scrollHeight + 'px';
+            this.inputEl.style.height = h;
+            this.inputCont.style.height = h;
+        }
+    }
+    onValueChange() {
+        this.calculateAutoGrow();
+        this.value = this.inputEl.value;
+        this.onChange.trigger([this.value]);
+        if (this.formPart) {
+            Components.FormElement.setValue(this.formPart, this.value);
+            if (this.formPart.validateOnChange !== false) {
+                this.validate();
+            }
+        }
+    }
+    postCreation() {
+        if (this.resize) {
+            this.resizeEl.init(this.inputCont);
+        }
+        this.calculateAutoGrow();
+    }
+    __1d98574e598563b66bef89b75eeea5admethod1() {
+        return this.label;
+    }
+    __1d98574e598563b66bef89b75eeea5admethod2() {
+        return this.icon;
+    }
+    __1d98574e598563b66bef89b75eeea5admethod3() {
+        return this.placeholder;
+    }
+    __1d98574e598563b66bef89b75eeea5admethod4(error) {
+        return error;
+    }
+}
+Components.Textarea.Namespace=`${moduleName}.Components`;
+Components.Textarea.Tag=`rk-textarea`;
+_.Components.Textarea=Components.Textarea;
+if(!window.customElements.get('rk-textarea')){window.customElements.define('rk-textarea', Components.Textarea);Aventus.WebComponentInstance.registerDefinition(Components.Textarea);}
 
 Components.Switch = class Switch extends Components.FormElement {
     static get observedAttributes() {return ["label", "disabled", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -10095,7 +10236,7 @@ Components.Button.Tag=`rk-button`;
 _.Components.Button=Components.Button;
 if(!window.customElements.get('rk-button')){window.customElements.define('rk-button', Components.Button);Aventus.WebComponentInstance.registerDefinition(Components.Button);}
 
-const DatePickerCalendar = class DatePickerCalendar extends Components.Calendar {
+Components.DatePickerCalendar = class DatePickerCalendar extends Components.Calendar {
     picker;
     static __style = ``;
     __getStatic() {
@@ -10115,13 +10256,13 @@ const DatePickerCalendar = class DatePickerCalendar extends Components.Calendar 
         return "DatePickerCalendar";
     }
     defineCalendarDay() {
-        return DatePickerCalendarDay;
+        return Components.DatePickerCalendarDay;
     }
 }
-DatePickerCalendar.Namespace=`${moduleName}`;
-DatePickerCalendar.Tag=`rk-date-picker-calendar`;
-_.DatePickerCalendar=DatePickerCalendar;
-if(!window.customElements.get('rk-date-picker-calendar')){window.customElements.define('rk-date-picker-calendar', DatePickerCalendar);Aventus.WebComponentInstance.registerDefinition(DatePickerCalendar);}
+Components.DatePickerCalendar.Namespace=`${moduleName}.Components`;
+Components.DatePickerCalendar.Tag=`rk-date-picker-calendar`;
+_.Components.DatePickerCalendar=Components.DatePickerCalendar;
+if(!window.customElements.get('rk-date-picker-calendar')){window.customElements.define('rk-date-picker-calendar', Components.DatePickerCalendar);Aventus.WebComponentInstance.registerDefinition(Components.DatePickerCalendar);}
 
 Components.DatePicker = class DatePicker extends Components.FormElement {
     static get observedAttributes() {return ["label", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -10131,7 +10272,8 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
     set 'day_format'(val) { this.setStringAttr('day_format', val) }get 'locale'() { return this.getStringAttr('locale') }
     set 'locale'(val) { this.setStringAttr('locale', val) }get 'time_zone'() { return this.getStringAttr('time_zone') }
     set 'time_zone'(val) { this.setStringAttr('time_zone', val) }get 'hide_on_select'() { return this.getBoolAttr('hide_on_select') }
-    set 'hide_on_select'(val) { this.setBoolAttr('hide_on_select', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'hide_on_select'(val) { this.setBoolAttr('hide_on_select', val) }get 'show_close'() { return this.getBoolAttr('show_close') }
+    set 'show_close'(val) { this.setBoolAttr('show_close', val) }    get 'label'() { return this.getStringProp('label') }
     set 'label'(val) { this.setStringAttr('label', val) }get 'icon'() { return this.getStringProp('icon') }
     set 'icon'(val) { this.setStringAttr('icon', val) }    get 'value'() {
 						return this.__watch["value"];
@@ -10144,7 +10286,7 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
     target.renderDate();
 }));    super.__registerWatchesActions();
 }
-    static __style = `:host{--_datepicker-height: var(--input-height, 30px);--_datepicker-background-color: var(--input-background-color, var(--form-element-background, white));--_datepicker-icon-height: var(--input-icon-height, calc(var(--_datepicker-height) / 2));--_datepicker-error-logo-size: var(--input-error-logo-size, calc(var(--_datepicker-height) / 2));--_datepicker-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_datepicker-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_datepicker-font-size) * 0.95)));--_datepicker-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_datepicker-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_datepicker-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_datepicker-background-color);border:var(--_datepicker-input-border);border-radius:var(--_datepicker-border-radius);display:flex;height:var(--_datepicker-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_datepicker-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_datepicker-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:50%;color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_datepicker-error-logo-size) - 5px);height:var(--_datepicker-error-logo-size);justify-content:center;width:var(--_datepicker-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}`;
+    static __style = `:host{--_datepicker-height: var(--input-height, 30px);--_datepicker-background-color: var(--input-background-color, var(--form-element-background, white));--_datepicker-icon-height: var(--input-icon-height, calc(var(--_datepicker-height) / 2));--_datepicker-error-logo-size: var(--input-error-logo-size, calc(var(--_datepicker-height) / 2));--_datepicker-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_datepicker-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_datepicker-font-size) * 0.95)));--_datepicker-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_datepicker-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_datepicker-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_datepicker-background-color);border:var(--_datepicker-input-border);border-radius:var(--_datepicker-border-radius);display:flex;height:var(--_datepicker-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_datepicker-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_datepicker-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .close-icon{font-size:18px;flex-shrink:0;display:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:50%;color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_datepicker-error-logo-size) - 5px);height:var(--_datepicker-error-logo-size);justify-content:center;width:var(--_datepicker-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([show_close]) .input .close-icon{display:inline-block}`;
     constructor() {
             super();
             this.bindCalendar();
@@ -10159,7 +10301,7 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<label for="input" _id="datepicker_0"></label><div class="input" _id="datepicker_1">    <rk-img class="icon" _id="datepicker_2"></rk-img>    <input id="input" readonly _id="datepicker_3" />    <div class="error-logo">!</div></div><div class="errors">    <template _id="datepicker_4"></template></div><rk-calendar-container _id="datepicker_6"></rk-calendar-container>` }
+        blocks: { 'default':`<label for="input" _id="datepicker_0"></label><div class="input" _id="datepicker_1">    <rk-img class="icon" _id="datepicker_2"></rk-img>    <input id="input" readonly _id="datepicker_3" />    <mi-icon class="close-icon touch" icon="close" _id="datepicker_4"></mi-icon>    <div class="error-logo">!</div></div><div class="errors">    <template _id="datepicker_5"></template></div><rk-calendar-container _id="datepicker_7"></rk-calendar-container>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -10173,7 +10315,7 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
     {
       "name": "calendarContainer",
       "ids": [
-        "datepicker_6"
+        "datepicker_7"
       ]
     }
   ],
@@ -10203,32 +10345,37 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
     {
       "id": "datepicker_1",
       "onPress": (e, pressInstance, c) => { c.comp.showCalendar(e, pressInstance); }
+    },
+    {
+      "id": "datepicker_4",
+      "onPress": (e, pressInstance, c) => { c.comp.clearValue(e, pressInstance); }
     }
   ]
-});const templ0 = new Aventus.Template(this);templ0.setTemplate(`         <div _id="datepicker_5"></div>    `);templ0.setActions({
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`         <div _id="datepicker_6"></div>    `);templ0.setActions({
   "content": {
-    "datepicker_5°@HTML": {
+    "datepicker_6°@HTML": {
       "fct": (c) => `${c.print(c.comp.__e3c5860a3719823edab2c4b36e42865dmethod3(c.data.error))}`,
       "once": true
     }
   }
 });this.__getStatic().__template.addLoop({
-                    anchorId: 'datepicker_4',
+                    anchorId: 'datepicker_5',
                     template: templ0,
                 simple:{data: "this.errors",item:"error"}}); }
     getClassName() {
         return "DatePicker";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('year_format')){ this['year_format'] = "numeric"; }if(!this.hasAttribute('month_format')){ this['month_format'] = "2-digit"; }if(!this.hasAttribute('day_format')){ this['day_format'] = "2-digit"; }if(!this.hasAttribute('locale')){ this['locale'] = undefined; }if(!this.hasAttribute('time_zone')){ this['time_zone'] = undefined; }if(!this.hasAttribute('hide_on_select')) { this.attributeChangedCallback('hide_on_select', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = new Date(); }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('year_format');this.__upgradeProperty('month_format');this.__upgradeProperty('day_format');this.__upgradeProperty('locale');this.__upgradeProperty('time_zone');this.__upgradeProperty('hide_on_select');this.__upgradeProperty('label');this.__upgradeProperty('icon');this.__correctGetter('value'); }
-    __listBoolProps() { return ["hide_on_select"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('year_format')){ this['year_format'] = "numeric"; }if(!this.hasAttribute('month_format')){ this['month_format'] = "2-digit"; }if(!this.hasAttribute('day_format')){ this['day_format'] = "2-digit"; }if(!this.hasAttribute('locale')){ this['locale'] = undefined; }if(!this.hasAttribute('time_zone')){ this['time_zone'] = undefined; }if(!this.hasAttribute('hide_on_select')) { this.attributeChangedCallback('hide_on_select', false, false); }if(!this.hasAttribute('show_close')) { this.attributeChangedCallback('show_close', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('year_format');this.__upgradeProperty('month_format');this.__upgradeProperty('day_format');this.__upgradeProperty('locale');this.__upgradeProperty('time_zone');this.__upgradeProperty('hide_on_select');this.__upgradeProperty('show_close');this.__upgradeProperty('label');this.__upgradeProperty('icon');this.__correctGetter('value'); }
+    __listBoolProps() { return ["hide_on_select","show_close"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     defineCalendar() {
-        return DatePickerCalendar;
+        return Components.DatePickerCalendar;
     }
     renderDate() {
         if (!this.value) {
             this.inputEl.value = '';
+            this.show_close = false;
         }
         else {
             this.inputEl.value = this.value.toLocaleDateString(this.locale, {
@@ -10237,6 +10384,7 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
                 day: this.day_format,
                 timeZone: this.time_zone,
             });
+            this.show_close = true;
         }
         this.calendar.date = this.value ?? new Date();
     }
@@ -10251,6 +10399,10 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
                 this.validate();
             }
         }
+    }
+    clearValue() {
+        this.value = undefined;
+        this.onValueChange();
     }
     showCalendar() {
         this.calendarContainer.show();
@@ -10313,7 +10465,7 @@ Components.DatePicker.Tag=`rk-date-picker`;
 _.Components.DatePicker=Components.DatePicker;
 if(!window.customElements.get('rk-date-picker')){window.customElements.define('rk-date-picker', Components.DatePicker);Aventus.WebComponentInstance.registerDefinition(Components.DatePicker);}
 
-const CalendarContainer = class CalendarContainer extends Aventus.WebComponent {
+Components.CalendarContainer = class CalendarContainer extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
     set 'visible'(val) { this.setBoolAttr('visible', val) }    picker;
     static __style = `:host{display:none;position:absolute;z-index:800}:host([visible]){display:block}`;
@@ -10374,10 +10526,10 @@ const CalendarContainer = class CalendarContainer extends Aventus.WebComponent {
         this.setAttribute("tabindex", "-1");
     }
 }
-CalendarContainer.Namespace=`${moduleName}`;
-CalendarContainer.Tag=`rk-calendar-container`;
-_.CalendarContainer=CalendarContainer;
-if(!window.customElements.get('rk-calendar-container')){window.customElements.define('rk-calendar-container', CalendarContainer);Aventus.WebComponentInstance.registerDefinition(CalendarContainer);}
+Components.CalendarContainer.Namespace=`${moduleName}.Components`;
+Components.CalendarContainer.Tag=`rk-calendar-container`;
+_.Components.CalendarContainer=Components.CalendarContainer;
+if(!window.customElements.get('rk-calendar-container')){window.customElements.define('rk-calendar-container', Components.CalendarContainer);Aventus.WebComponentInstance.registerDefinition(Components.CalendarContainer);}
 
 Components.GenericSelect = class GenericSelect extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "searchable"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -11199,6 +11351,7 @@ Components.Table = class Table extends Aventus.WebComponent {
             this.options = this.configure(this.defaultOptions());
             this.normalizeSchema();
             this.auto_hide_scroll = this.autoHideScroll();
+            this.style.display = 'none';
 if (this.constructor == Table) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return Table;
@@ -11413,7 +11566,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
                 displayName: "",
                 name: "",
                 type: "custom",
-                cell: TableCellCheckbox,
+                cell: Components.TableCellCheckbox,
                 width: 50,
                 sortable: false
             });
@@ -11521,6 +11674,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
         if (!this.headerContainer || !this.bodyContainer) {
             return;
         }
+        let isFirst = this.isFirstRender;
         this.firstRender();
         this.hadGlobalSearch = false;
         if (!onlySort) {
@@ -11552,6 +11706,9 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
         }
         this.nbItems = this.rowsFiltered.length;
         this.renderPage();
+        if (isFirst) {
+            this.style.display = '';
+        }
     }
     renderPage() {
         this.correctPage();
@@ -12371,7 +12528,7 @@ Components.TableCellCustom.Tag=`rk-table-cell-custom`;
 _.Components.TableCellCustom=Components.TableCellCustom;
 if(!window.customElements.get('rk-table-cell-custom')){window.customElements.define('rk-table-cell-custom', Components.TableCellCustom);Aventus.WebComponentInstance.registerDefinition(Components.TableCellCustom);}
 
-const TableCellCheckbox = class TableCellCheckbox extends Components.TableCell {
+Components.TableCellCheckbox = class TableCellCheckbox extends Components.TableCell {
     static __style = `:host span{cursor:pointer}`;
     __getStatic() {
         return TableCellCheckbox;
@@ -12421,10 +12578,10 @@ const TableCellCheckbox = class TableCellCheckbox extends Components.TableCell {
         }
     }
 }
-TableCellCheckbox.Namespace=`${moduleName}`;
-TableCellCheckbox.Tag=`rk-table-cell-checkbox`;
-_.TableCellCheckbox=TableCellCheckbox;
-if(!window.customElements.get('rk-table-cell-checkbox')){window.customElements.define('rk-table-cell-checkbox', TableCellCheckbox);Aventus.WebComponentInstance.registerDefinition(TableCellCheckbox);}
+Components.TableCellCheckbox.Namespace=`${moduleName}.Components`;
+Components.TableCellCheckbox.Tag=`rk-table-cell-checkbox`;
+_.Components.TableCellCheckbox=Components.TableCellCheckbox;
+if(!window.customElements.get('rk-table-cell-checkbox')){window.customElements.define('rk-table-cell-checkbox', Components.TableCellCheckbox);Aventus.WebComponentInstance.registerDefinition(Components.TableCellCheckbox);}
 
 Components.TableCellBoolean = class TableCellBoolean extends Components.TableCell {
     static __style = ``;

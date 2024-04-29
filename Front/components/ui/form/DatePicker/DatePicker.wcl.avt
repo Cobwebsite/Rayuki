@@ -1,11 +1,10 @@
 import type { CalendarContainer } from "./CalendarContainer/CalendarContainer.wcl.avt";
 import { FormElement } from "../FormElement/FormElement.wcl.avt";
-import { Calendar } from "../../calendar/Calendar/Calendar.wcl.avt";
 import { DatePickerCalendar } from "./DatePickerCalendar/DatePickerCalendar.wcl.avt";
 import { DateTools } from "../../../../libs/DateTools.lib.avt";
 
 namespace Components {
-    export class DatePicker extends FormElement<Date> implements Aventus.DefaultComponent {
+    export class DatePicker extends FormElement<Date | undefined> implements Aventus.DefaultComponent {
 
         //#region static
 
@@ -36,6 +35,9 @@ namespace Components {
 
         @Attribute()
         public hide_on_select!: boolean;
+
+        @Attribute()
+        protected show_close!: boolean;
         //#endregion
 
 
@@ -48,7 +50,7 @@ namespace Components {
         @Watch((target: DatePicker) => {
             target.renderDate();
         })
-        public override value: Date | undefined = new Date();
+        public override value: Date | undefined = undefined;
 
         public calendar!: DatePickerCalendar;
         //#endregion
@@ -71,6 +73,7 @@ namespace Components {
         public renderDate() {
             if(!this.value) {
                 this.inputEl.value = '';
+                this.show_close = false;
             }
             else {
                 this.inputEl.value = this.value.toLocaleDateString(this.locale, {
@@ -79,6 +82,7 @@ namespace Components {
                     day: this.day_format,
                     timeZone: this.time_zone,
                 });
+                this.show_close = true;
             }
             this.calendar.date = this.value ?? new Date();
         }
@@ -100,6 +104,11 @@ namespace Components {
                     this.validate();
                 }
             }
+        }
+
+        public clearValue() {
+            this.value = undefined;
+            this.onValueChange();
         }
 
         /**

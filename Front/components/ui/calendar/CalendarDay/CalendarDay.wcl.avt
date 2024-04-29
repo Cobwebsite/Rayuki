@@ -1,49 +1,51 @@
 import { DateTools } from "../../../../libs/DateTools.lib.avt";
 import type { Calendar } from "../Calendar/Calendar.wcl.avt";
 
-export abstract class CalendarDay extends Aventus.WebComponent implements Aventus.DefaultComponent {
+namespace Components {
+    export abstract class CalendarDay extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
-    //#region static
+        //#region static
 
-    //#endregion
-
-
-    //#region props
-    @Attribute()
-    public other!: boolean;
-    @Attribute()
-    public today!: boolean;
-    //#endregion
+        //#endregion
 
 
-    //#region variables
-    protected calendar!: Calendar;
-    protected date: Date = new Date();
-    //#endregion
+        //#region props
+        @Attribute()
+        public other!: boolean;
+        @Attribute()
+        public today!: boolean;
+        //#endregion
 
 
-    //#region constructor
+        //#region variables
+        protected calendar!: Calendar;
+        protected date: Date = new Date();
+        //#endregion
 
-    //#endregion
+
+        //#region constructor
+
+        //#endregion
 
 
-    //#region methods
-    public init(dateDisplayed: Date, dateDay: Date, calendar: Calendar) {
-        this.shadowRoot.innerHTML = dateDay.getDate() + '';
-        this.other = dateDisplayed.getMonth() != dateDay.getMonth();
-        this.calendar = calendar;
-        this.date.setTime(dateDay.getTime());
-        this.today = DateTools.isSameDate(new Date(), dateDay)
+        //#region methods
+        public init(dateDisplayed: Date, dateDay: Date, calendar: Calendar) {
+            this.shadowRoot.innerHTML = dateDay.getDate() + '';
+            this.other = dateDisplayed.getMonth() != dateDay.getMonth();
+            this.calendar = calendar;
+            this.date.setTime(dateDay.getTime());
+            this.today = DateTools.isSameDate(new Date(), dateDay);
+        }
+
+        protected override postCreation(): void {
+            new Aventus.PressManager({
+                element: this,
+                onPress: () => {
+                    this.calendar.onDateClicked.trigger([this.date, this]);
+                }
+            });
+        }
+        //#endregion
+
     }
-
-    protected override postCreation(): void {
-        new Aventus.PressManager({
-            element: this,
-            onPress: () => {
-                this.calendar.onDateClicked.trigger([this.date, this]);
-            }
-        });
-    }
-    //#endregion
-
 }
