@@ -61,18 +61,21 @@ namespace State {
                 if(ramResult.errors.length > 0) {
                     let noPrintErrors: Aventus.GenericError[] = [];
                     for(let error of ramResult.errors) {
-                        if(
-                            error instanceof AventusSharp.Data.DataError &&
-                            error.code == AventusSharp.Data.DataErrorCode.ValidationError &&
-                            error.details.length > 0 &&
-                            error.details[0] instanceof AventusSharp.Data.FieldErrorInfo
-                        ) {
-                            let fieldInfo = error.details[0];
-                            if(this.form.addFieldError(fieldInfo.Name, error.message)) {
+                        if(error.details) {
+                            let found = false;
+                            for(let detail of error.details) {
+                                if(detail instanceof AventusSharp.Data.FieldErrorInfo) {
+                                    if(this.form.addFieldError(detail.Name, error.message)) {
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if(found) {
                                 continue;
                             }
                         }
-
+                        
                         noPrintErrors.push(error);
                     }
                     ramResult.errors = noPrintErrors;

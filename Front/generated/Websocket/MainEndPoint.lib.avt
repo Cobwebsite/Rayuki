@@ -1,43 +1,15 @@
-import { ApplicationRouter } from './Routes/ApplicationRouter.lib.avt';
-import { DesktopRouter } from './Routes/DesktopRouter.lib.avt';
-import { ApplicationTestEvent, ApplicationTestEvent2 } from './Events/ApplicationTestEvent.lib.avt';
-
 namespace Websocket {
 
-	export const MainEndPointRoutes: [
-		AventusSharp.WebSocket.RouteType<typeof ApplicationRouter, "application">,
-		AventusSharp.WebSocket.RouteType<typeof DesktopRouter, "desktop">,
-		] = [
-		{ type: ApplicationRouter, path: "application" },
-		{ type: DesktopRouter, path: "desktop" },
-	] as const;
-	
-	export const MainEndPointEvents: [
-		AventusSharp.WebSocket.EventType<typeof ApplicationTestEvent, "application.ApplicationTestEvent">,
-		AventusSharp.WebSocket.EventType<typeof ApplicationTestEvent2, "ApplicationTestEvent2">,
-		] = [
-		{ type: ApplicationTestEvent, path: "application.ApplicationTestEvent" },
-		{ type: ApplicationTestEvent2, path: "ApplicationTestEvent2" },
-	] as const;
-	
-	export const MainEndPointType: AventusSharp.WebSocket.EndPointType<{
-		routes: typeof MainEndPointRoutes,
-		events: typeof MainEndPointEvents
-		}> = AventusSharp.WebSocket.EndPoint.WithRoute({
-		routes: MainEndPointRoutes,
-		events: MainEndPointEvents
-	});
-	
-	export class MainEndPoint extends MainEndPointType {
+	export class MainEndPoint extends AventusSharp.WebSocket.EndPoint {
 		
 		/**
 		 * Create a singleton
 		 */
-		public static getInstance(): MainEndPoint {
+		public static override getInstance(): MainEndPoint {
 			return Aventus.Instance.get(MainEndPoint);
 		}
 		
-		protected get path(): string {
+		protected override get path(): string {
 			return "/ws";
 		}
 	}

@@ -5,7 +5,7 @@ using Path = AventusSharp.WebSocket.Attributes.Path;
 
 namespace Core.Websocket.Events
 {
-    [EndPoint<MainEndPoint>("application")]
+    [EndPoint<MainEndPoint>]
     public class ApplicationTestEvent : WsEvent<ApplicationTestEvent.Body>
     {
         protected override async Task<Body> Prepare()

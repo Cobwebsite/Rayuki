@@ -1,9 +1,13 @@
 import { ApplicationData } from '../Data/ApplicationData.data.avt';
 import { AppConfiguration } from '../App/AppConfiguration.lib.avt';
+import { CoreRouter } from '../CoreRouter.lib.avt';
 
 namespace Routes {
 
 	export class ApplicationRouter extends Aventus.HttpRoute {
+		public constructor(router?: Aventus.HttpRouter) {
+			super(router ?? new CoreRouter());
+		}
 		public async GetAll(): Promise<Aventus.ResultWithError<ApplicationData[], Aventus.GenericError<number>>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/application`, Aventus.HttpMethod.GET);
 			type TypeResult = ApplicationData[];

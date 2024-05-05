@@ -1,8 +1,12 @@
 import { type IPermissionQuery } from '../../libs/Permission.lib.avt';
+import { CoreRouter } from '../CoreRouter.lib.avt';
 
 namespace Routes {
 
 	export class PermissionRouter extends Aventus.HttpRoute {
+		public constructor(router?: Aventus.HttpRouter) {
+			super(router ?? new CoreRouter());
+		}
 		public async Can(body: { permissionQuery: IPermissionQuery } | FormData): Promise<Aventus.ResultWithError<boolean, Aventus.GenericError<number>>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/can`, Aventus.HttpMethod.POST);
 			request.setBody(body);

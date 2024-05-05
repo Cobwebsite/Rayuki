@@ -1,3 +1,4 @@
+import { ApplicationRouter } from "../generated/Routes/ApplicationRouter.lib.avt";
 import { CoreRouter } from "../generated/CoreRouter.lib.avt";
 import { ApplicationData } from "../generated/Data/ApplicationData.data.avt";
 
@@ -41,7 +42,7 @@ namespace RAM {
                 }
                 else {
                     this.isLoading = true;
-                    let apps = await new CoreRouter().routes.Application.GetAll();
+                    let apps = await new ApplicationRouter().GetAll();
                     if(apps.success && apps.result) {
                         for(let app of apps.result) {
                             let resultTemp: Aventus.ResultRamWithError<Aventus.RamItem<ApplicationData>> = new Aventus.ResultRamWithError();

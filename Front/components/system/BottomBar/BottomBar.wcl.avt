@@ -7,6 +7,7 @@ import { HomeBtn } from "../HomeBtn/HomeBtn.wcl.avt";
 import { DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.data.avt";
 import { DesktopActivableLogic, type IDesktopActivable } from "../Desktop/IActivable.lib.avt";
 import { MainEndPoint } from "../../../generated/Websocket/MainEndPoint.lib.avt";
+import { DesktopRouter } from "../../../generated/Websocket/Routes/DesktopRouter.lib.avt";
 
 namespace System {
     export class BottomBar extends Aventus.WebComponent implements Aventus.DefaultComponent, MoveApplicationProvider, IDesktopActivable {
@@ -175,7 +176,7 @@ namespace System {
                 desktopIcon.IconTag = icon.tag;
                 desktopIcon.Location = DesktopLocation.BottomBar;
                 desktopIcon.Id = icon.iconId;
-                let result = await MainEndPoint.getInstance().routes.desktop.SetDesktopIcon({
+                let result = await new DesktopRouter().SetDesktopIcon({
                     icon: desktopIcon
                 });
                 if(result.success && result.result) {
@@ -193,7 +194,7 @@ namespace System {
                         desktopIcon.IconTag = child.tag;
                         desktopIcon.Location = DesktopLocation.BottomBar;
                         desktopIcon.Id = child.iconId;
-                        let result = await MainEndPoint.getInstance().routes.desktop.SetDesktopIcon({
+                        let result = await new DesktopRouter().SetDesktopIcon({
                             icon: desktopIcon
                         });
                         if(result.success) {
@@ -214,7 +215,7 @@ namespace System {
 
                 let desktopIcon = new DesktopAppIcon();
                 desktopIcon.Id = icon.iconId;
-                let result = await MainEndPoint.getInstance().routes.desktop.RemoveDesktopIcon({
+                let result = await new DesktopRouter().RemoveDesktopIcon({
                     icon: desktopIcon
                 });
                 if(result.success) {
@@ -228,7 +229,7 @@ namespace System {
                             desktopIcon.IconTag = child.tag;
                             desktopIcon.Location = DesktopLocation.BottomBar;
                             desktopIcon.Id = child.iconId;
-                            let result = await MainEndPoint.getInstance().routes.desktop.SetDesktopIcon({
+                            let result = await new DesktopRouter().SetDesktopIcon({
                                 icon: desktopIcon
                             });
                             if(result.success) {

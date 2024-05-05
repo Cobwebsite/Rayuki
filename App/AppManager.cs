@@ -206,7 +206,7 @@ namespace Core.App
                     {
                         string assemblyName = type.Assembly.GetName().Name ?? "";
                         string typeName = type.Name.Split('`')[0];
-                        return assemblyName + "." + typeName;
+                        return assemblyName + "__" + typeName;
                     };
                     // config.log.monitorDataOrdered = true;
                     // config.log.monitorManagerOrdered = true;

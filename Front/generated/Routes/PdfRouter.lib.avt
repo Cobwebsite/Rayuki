@@ -1,8 +1,12 @@
 import { Pdf } from '../Data/DataTypes/Pdf.lib.avt';
+import { CoreRouter } from '../CoreRouter.lib.avt';
 
 namespace Routes {
 
 	export class PdfRouter extends Aventus.HttpRoute {
+		public constructor(router?: Aventus.HttpRouter) {
+			super(router ?? new CoreRouter());
+		}
 		public async Generate(body: { pdf: Pdf } | FormData): Promise<Aventus.VoidWithError<Aventus.GenericError<number>>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/generate`, Aventus.HttpMethod.POST);
 			request.setBody(body);

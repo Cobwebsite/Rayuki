@@ -25,97 +25,6 @@ var HttpMethod;
 })(HttpMethod || (HttpMethod = {}));
 
 _.HttpMethod=HttpMethod;
-const createCommProxy=function createCommProxy(that) {
-    let proxyData = {
-        routePath: {},
-        get(target, prop, receiver) {
-            if (prop == "add") {
-                return (cst, path) => {
-                    try {
-                        if (!path) {
-                            path = "";
-                        }
-                        let splitted = path.split(".");
-                        let current = this.routePath;
-                        for (let part of splitted) {
-                            if (part != "") {
-                                if (!current[part]) {
-                                    current[part] = {};
-                                }
-                                current = current[part];
-                            }
-                        }
-                        let instance = new cst(that);
-                        let keyFromChild = [];
-                        while (cst.prototype) {
-                            let keys = Object.getOwnPropertyNames(cst.prototype);
-                            for (let key of keys) {
-                                if (key != "constructor" && !keyFromChild.includes(key)) {
-                                    keyFromChild.push(key);
-                                    if (instance[key] instanceof Function)
-                                        current[key] = instance[key].bind(instance);
-                                    else
-                                        current[key] = instance[key];
-                                }
-                            }
-                            cst = Object.getPrototypeOf(cst);
-                        }
-                        let keysName = Object.getOwnPropertyNames(instance);
-                        for (let key of keysName) {
-                            if (!Object.getOwnPropertyDescriptor(current, key) && !keyFromChild.includes(key)) {
-                                keyFromChild.push(key);
-                                if (instance[key] instanceof Function)
-                                    instance[key] = instance[key].bind(instance);
-                                Object.defineProperty(current, key, {
-                                    get: () => {
-                                        return instance[key];
-                                    },
-                                    set: (value) => {
-                                        instance[key] = value;
-                                    }
-                                });
-                            }
-                        }
-                    }
-                    catch (e) {
-                        console.error(e);
-                    }
-                };
-            }
-            else if (prop == "getAll") {
-                return (flat) => {
-                    if (!flat) {
-                        return this.routePath;
-                    }
-                    else {
-                        let result = {};
-                        let load = (current, pathes) => {
-                            for (let key in current) {
-                                pathes.push(key);
-                                if (typeof current[key] == "function") {
-                                    result[pathes.join(".")] = current[key];
-                                }
-                                else {
-                                    load(current[key], pathes);
-                                }
-                                pathes.pop();
-                            }
-                        };
-                        load(this.routePath, []);
-                        return result;
-                    }
-                };
-            }
-            else if (this.routePath[prop]) {
-                return this.routePath[prop];
-            }
-            return null;
-        }
-    };
-    return proxyData;
-}
-
-_.createCommProxy=createCommProxy;
 const CallbackGroup=class CallbackGroup {
     callbacks = {};
     /**
@@ -2437,7 +2346,8 @@ const HttpRequest=class HttpRequest {
             let value = obj[key];
             const newKey = parentKey ? `${parentKey}[${key}]` : key;
             if (value instanceof Date) {
-                formData.append(newKey, value.toISOString());
+                const offset = this[key].getTimezoneOffset() * 60000;
+                formData.append(newKey, new Date(this[key].getTime() - offset).toISOString());
             }
             else if (typeof value === 'object' &&
                 value !== null &&
@@ -2600,34 +2510,23 @@ _.HttpRequest=HttpRequest;
 const HttpRouter=class HttpRouter {
     _routes;
     options;
-    static WithRoute(options) {
-        class Router extends HttpRouter {
-            constructor() {
-                super();
-                for (let route of options) {
-                    if (typeof route == "function") {
-                        this._routes.add(route);
-                    }
-                    else {
-                        this._routes.add(route.type, route.path);
-                    }
-                }
-            }
-        }
-        return Router;
-    }
+    // public static WithRoute<const T extends readonly ({ type: RouteType, path: string; } | RouteType)[]>(options: T): HttpRouterType<T> {
+    //         constructor() {
+    //             super();
+    //             for(let route of options) {
+    //                 if(typeof route == "function") {
+    //                     this._routes.add(route);
+    //                     this._routes.add(route.type, route.path);
     constructor() {
-        Object.defineProperty(this, "routes", {
-            get: () => { return this._routes; }
-        });
-        this.createRoutesProxy();
+        // Object.defineProperty(this, "routes", {
+        //     get: () => { return this._routes; }
+        // });
+        // this.createRoutesProxy();
         this.options = this.defineOptions(this.defaultOptionsValue());
     }
-    createRoutesProxy() {
-        if (!this._routes) {
-            this._routes = new Proxy({}, createCommProxy(this));
-        }
-    }
+    // private createRoutesProxy() {
+    //     if(!this._routes) {
+    //         this._routes = new Proxy({}, createCommProxy<HttpRoute>(this));
     defaultOptionsValue() {
         return {
             url: location.protocol + "//" + location.host
@@ -2656,35 +2555,19 @@ HttpRouter.Namespace=`${moduleName}`;
 
 _.HttpRouter=HttpRouter;
 const HttpRoute=class HttpRoute {
-    static JoinPath(s1, s2) {
-        return s1 + "." + s2;
-    }
-    static ExtendRoutes(options, path) {
-        let result = [];
-        if (!path) {
-            result = options;
-        }
-        else {
-            for (let option of options) {
-                if (typeof option == "function") {
-                    result.push({
-                        type: option,
-                        path: path
-                    });
-                }
-                else {
-                    result.push({
-                        type: option.type,
-                        path: this.JoinPath(path, option.path)
-                    });
-                }
-            }
-        }
-        return result;
-    }
+    // private static JoinPath<T extends string, U extends string>(s1: T, s2: U): Join<[T, U], "."> {
+    // public static ExtendRoutes<const T extends readonly ({ type: RouteType, path: string; } | RouteType)[], U extends string>(options: T, path: StringLiteral<U>) {
+    //     if(!path) {
+    //         for(let option of options) {
+    //             if(typeof option == "function") {
+    //                 result.push({
+    //                 });
+    //                 result.push({
+    //                     path: this.JoinPath(path, option.path)
+    //                 });
     router;
     constructor(router) {
-        this.router = router;
+        this.router = router ?? new HttpRouter();
     }
     getPrefix() {
         return "";
@@ -6878,18 +6761,6 @@ Routes.StorableRoute=class StorableRoute extends Aventus.HttpRoute {
 Routes.StorableRoute.Namespace=`${moduleName}.Routes`;
 
 _.Routes.StorableRoute=Routes.StorableRoute;
-WebSocket.Route=class Route {
-    endpoint;
-    constructor(endpoint) {
-        this.endpoint = endpoint;
-    }
-    getPrefix() {
-        return "";
-    }
-}
-WebSocket.Route.Namespace=`${moduleName}.WebSocket`;
-
-_.WebSocket.Route=WebSocket.Route;
 WebSocket.Socket=class Socket {
     static Debug = false;
     static connections = {};
@@ -7006,6 +6877,8 @@ _.WebSocket.SocketError=WebSocket.SocketError;
     WsErrorCode[WsErrorCode["MultipleMainEndpoint"] = 3] = "MultipleMainEndpoint";
     WsErrorCode[WsErrorCode["CantGetValueFromBody"] = 4] = "CantGetValueFromBody";
     WsErrorCode[WsErrorCode["NoConnection"] = 5] = "NoConnection";
+    WsErrorCode[WsErrorCode["NoEndPoint"] = 6] = "NoEndPoint";
+    WsErrorCode[WsErrorCode["NoPath"] = 7] = "NoPath";
 })(WebSocket.WsErrorCode || (WebSocket.WsErrorCode = {}));
 
 _.WebSocket.WsErrorCode=WebSocket.WsErrorCode;
@@ -7215,6 +7088,38 @@ Data.VoidWithDataError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(Data.VoidWithDataError.Fullname, Data.VoidWithDataError);
 
 _.Data.VoidWithDataError=Data.VoidWithDataError;
+Tools.ResultWithError=class ResultWithError extends Aventus.ResultWithError {
+    static get Fullname() { return "AventusSharp.Tools.ResultWithError, AventusSharp"; }
+}
+Tools.ResultWithError.Namespace=`${moduleName}.Tools`;
+Tools.ResultWithError.$schema={...(Aventus.ResultWithError?.$schema ?? {}), };
+Aventus.Converter.register(Tools.ResultWithError.Fullname, Tools.ResultWithError);
+
+_.Tools.ResultWithError=Tools.ResultWithError;
+WebSocket.ResultWithWsError=class ResultWithWsError extends Tools.ResultWithError {
+    static get Fullname() { return "AventusSharp.WebSocket.ResultWithWsError, AventusSharp"; }
+}
+WebSocket.ResultWithWsError.Namespace=`${moduleName}.WebSocket`;
+WebSocket.ResultWithWsError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
+Aventus.Converter.register(WebSocket.ResultWithWsError.Fullname, WebSocket.ResultWithWsError);
+
+_.WebSocket.ResultWithWsError=WebSocket.ResultWithWsError;
+Routes.ResultWithRouteError=class ResultWithRouteError extends Tools.ResultWithError {
+    static get Fullname() { return "AventusSharp.Routes.ResultWithRouteError, AventusSharp"; }
+}
+Routes.ResultWithRouteError.Namespace=`${moduleName}.Routes`;
+Routes.ResultWithRouteError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
+Aventus.Converter.register(Routes.ResultWithRouteError.Fullname, Routes.ResultWithRouteError);
+
+_.Routes.ResultWithRouteError=Routes.ResultWithRouteError;
+Data.ResultWithDataError=class ResultWithDataError extends Tools.ResultWithError {
+    static get Fullname() { return "AventusSharp.Data.ResultWithDataError, AventusSharp"; }
+}
+Data.ResultWithDataError.Namespace=`${moduleName}.Data`;
+Data.ResultWithDataError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
+Aventus.Converter.register(Data.ResultWithDataError.Fullname, Data.ResultWithDataError);
+
+_.Data.ResultWithDataError=Data.ResultWithDataError;
 WebSocket.Connection=class Connection {
     static Debug = false;
     options;
@@ -7222,6 +7127,12 @@ WebSocket.Connection=class Connection {
     memoryBeforeOpen = [];
     socket;
     actionGuard = new Aventus.ActionGuard();
+    /**
+     * Create a singleton
+     */
+    static getInstance() {
+        return Aventus.Instance.get(WebSocket.Connection);
+    }
     constructor() {
         this.options = this._configure(this.configure({}));
         this._onOpen = this._onOpen.bind(this);
@@ -7334,6 +7245,10 @@ WebSocket.Connection=class Connection {
     jsonReplacer(key, value) {
         if (this[key] instanceof Date && this[key].getFullYear() < 100) {
             return "0001-01-01T00:00:00";
+        }
+        else if (this[key] instanceof Date) {
+            const offset = this[key].getTimezoneOffset() * 60000;
+            return new Date(this[key].getTime() - offset).toISOString();
         }
         return value;
     }
@@ -7580,59 +7495,17 @@ WebSocket.Connection.Namespace=`${moduleName}.WebSocket`;
 
 _.WebSocket.Connection=WebSocket.Connection;
 WebSocket.EndPoint=class EndPoint extends WebSocket.Connection {
-    static WithRoute(options, from) {
-        const c = from ?? WebSocket.EndPoint;
-        class EndPointWith extends c {
-            constructor() {
-                super();
-                for (let route of options.routes) {
-                    this.registerRoute(route);
-                }
-                for (let _event of options.events) {
-                    this.registerEvent(_event);
-                }
-            }
-        }
-        return EndPointWith;
+    /**
+     * Create a singleton
+     */
+    static getInstance() {
+        return Aventus.Instance.get(WebSocket.EndPoint);
     }
-    _routes;
-    _events;
     constructor() {
         super();
-        Object.defineProperty(this, "routes", {
-            get: () => { return this._routes; }
-        });
-        Object.defineProperty(this, "events", {
-            get: () => { return this._events; }
-        });
-        this.createProxy();
         this.register();
     }
     register() {
-    }
-    registerRoute(route) {
-        if (typeof route == "function") {
-            this._routes.add(route);
-        }
-        else {
-            this._routes.add(route.type, route.path);
-        }
-    }
-    registerEvent(ev) {
-        if (typeof ev == "function") {
-            this._events.add(ev);
-        }
-        else {
-            this._events.add(ev.type, ev.path);
-        }
-    }
-    createProxy() {
-        if (!this._routes) {
-            this._routes = new Proxy({}, Aventus.createCommProxy(this));
-        }
-        if (!this._events) {
-            this._events = new Proxy({}, Aventus.createCommProxy(this));
-        }
     }
     /**
      * @inheritdoc
@@ -7641,10 +7514,26 @@ WebSocket.EndPoint=class EndPoint extends WebSocket.Connection {
         options.socketName = this.path;
         return options;
     }
+    get path() {
+        return "/ws";
+    }
+    ;
 }
 WebSocket.EndPoint.Namespace=`${moduleName}.WebSocket`;
 
 _.WebSocket.EndPoint=WebSocket.EndPoint;
+WebSocket.Route=class Route {
+    endpoint;
+    constructor(endpoint) {
+        this.endpoint = endpoint ?? WebSocket.EndPoint.getInstance();
+    }
+    getPrefix() {
+        return "";
+    }
+}
+WebSocket.Route.Namespace=`${moduleName}.WebSocket`;
+
+_.WebSocket.Route=WebSocket.Route;
 WebSocket.Event=class Event {
     endpoint;
     onTrigger = new Aventus.Callback();
@@ -7655,7 +7544,7 @@ WebSocket.Event=class Event {
     }
     getPrefix;
     constructor(endpoint, getPrefix) {
-        this.endpoint = endpoint;
+        this.endpoint = endpoint ?? WebSocket.EndPoint.getInstance();
         this.getPrefix = getPrefix ?? (() => "");
         this.onEvent = this.onEvent.bind(this);
     }
@@ -7731,6 +7620,22 @@ WebSocket.StorableWsRoute_Create=class StorableWsRoute_Create extends WebSocket.
 WebSocket.StorableWsRoute_Create.Namespace=`${moduleName}.WebSocket`;
 
 _.WebSocket.StorableWsRoute_Create=WebSocket.StorableWsRoute_Create;
+WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends WebSocket.Event {
+    /**
+     * @inheritdoc
+     */
+    path() {
+        return `${this.getPrefix()}/${this.StorableName()}/CreateMany`;
+    }
+    StorableName;
+    constructor(endpoint, getPrefix, StorableName) {
+        super(endpoint, getPrefix);
+        this.StorableName = StorableName;
+    }
+}
+WebSocket.StorableWsRoute_CreateMany.Namespace=`${moduleName}.WebSocket`;
+
+_.WebSocket.StorableWsRoute_CreateMany=WebSocket.StorableWsRoute_CreateMany;
 WebSocket.StorableWsRoute_GetById=class StorableWsRoute_GetById extends WebSocket.Event {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
@@ -7764,16 +7669,16 @@ WebSocket.StorableWsRoute_Update.Namespace=`${moduleName}.WebSocket`;
 
 _.WebSocket.StorableWsRoute_Update=WebSocket.StorableWsRoute_Update;
 WebSocket.StorableWsRoute_UpdateMany=class StorableWsRoute_UpdateMany extends WebSocket.Event {
-    StorableName;
-    constructor(endpoint, getPrefix, StorableName) {
-        super(endpoint, getPrefix);
-        this.StorableName = StorableName;
-    }
     /**
      * @inheritdoc
      */
     path() {
         return `${this.getPrefix()}/${this.StorableName()}/UpdateMany`;
+    }
+    StorableName;
+    constructor(endpoint, getPrefix, StorableName) {
+        super(endpoint, getPrefix);
+        this.StorableName = StorableName;
     }
 }
 WebSocket.StorableWsRoute_UpdateMany.Namespace=`${moduleName}.WebSocket`;
@@ -7796,82 +7701,34 @@ WebSocket.StorableWsRoute_Delete.Namespace=`${moduleName}.WebSocket`;
 
 _.WebSocket.StorableWsRoute_Delete=WebSocket.StorableWsRoute_Delete;
 WebSocket.StorableWsRoute_DeleteMany=class StorableWsRoute_DeleteMany extends WebSocket.Event {
-    StorableName;
-    constructor(endpoint, getPrefix, StorableName) {
-        super(endpoint, getPrefix);
-        this.StorableName = StorableName;
-    }
     /**
      * @inheritdoc
      */
     path() {
         return `${this.getPrefix()}/${this.StorableName()}/DeleteMany`;
     }
-}
-WebSocket.StorableWsRoute_DeleteMany.Namespace=`${moduleName}.WebSocket`;
-
-_.WebSocket.StorableWsRoute_DeleteMany=WebSocket.StorableWsRoute_DeleteMany;
-Tools.ResultWithError=class ResultWithError extends Aventus.ResultWithError {
-    static get Fullname() { return "AventusSharp.Tools.ResultWithError, AventusSharp"; }
-}
-Tools.ResultWithError.Namespace=`${moduleName}.Tools`;
-Tools.ResultWithError.$schema={...(Aventus.ResultWithError?.$schema ?? {}), };
-Aventus.Converter.register(Tools.ResultWithError.Fullname, Tools.ResultWithError);
-
-_.Tools.ResultWithError=Tools.ResultWithError;
-WebSocket.ResultWithWsError=class ResultWithWsError extends Tools.ResultWithError {
-    static get Fullname() { return "AventusSharp.WebSocket.ResultWithWsError, AventusSharp"; }
-}
-WebSocket.ResultWithWsError.Namespace=`${moduleName}.WebSocket`;
-WebSocket.ResultWithWsError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
-Aventus.Converter.register(WebSocket.ResultWithWsError.Fullname, WebSocket.ResultWithWsError);
-
-_.WebSocket.ResultWithWsError=WebSocket.ResultWithWsError;
-WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends WebSocket.Event {
-    /**
-     * @inheritdoc
-     */
-    path() {
-        return `${this.getPrefix()}/${this.StorableName()}/CreateMany`;
-    }
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
         this.StorableName = StorableName;
     }
 }
-WebSocket.StorableWsRoute_CreateMany.Namespace=`${moduleName}.WebSocket`;
+WebSocket.StorableWsRoute_DeleteMany.Namespace=`${moduleName}.WebSocket`;
 
-_.WebSocket.StorableWsRoute_CreateMany=WebSocket.StorableWsRoute_CreateMany;
-Routes.ResultWithRouteError=class ResultWithRouteError extends Tools.ResultWithError {
-    static get Fullname() { return "AventusSharp.Routes.ResultWithRouteError, AventusSharp"; }
-}
-Routes.ResultWithRouteError.Namespace=`${moduleName}.Routes`;
-Routes.ResultWithRouteError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
-Aventus.Converter.register(Routes.ResultWithRouteError.Fullname, Routes.ResultWithRouteError);
-
-_.Routes.ResultWithRouteError=Routes.ResultWithRouteError;
-Data.ResultWithDataError=class ResultWithDataError extends Tools.ResultWithError {
-    static get Fullname() { return "AventusSharp.Data.ResultWithDataError, AventusSharp"; }
-}
-Data.ResultWithDataError.Namespace=`${moduleName}.Data`;
-Data.ResultWithDataError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
-Aventus.Converter.register(Data.ResultWithDataError.Fullname, Data.ResultWithDataError);
-
-_.Data.ResultWithDataError=Data.ResultWithDataError;
+_.WebSocket.StorableWsRoute_DeleteMany=WebSocket.StorableWsRoute_DeleteMany;
 WebSocket.StorableWsRoute=class StorableWsRoute extends WebSocket.Route {
     events;
     constructor(endpoint) {
         super(endpoint);
         this.events = {
-            GetAll: new WebSocket.StorableWsRoute_GetAll(endpoint, this.getPrefix, this.StorableName),
-            Create: new WebSocket.StorableWsRoute_Create(endpoint, this.getPrefix, this.StorableName),
-            CreateMany: new WebSocket.StorableWsRoute_CreateMany(endpoint, this.getPrefix, this.StorableName),
-            GetById: new WebSocket.StorableWsRoute_GetById(endpoint, this.getPrefix, this.StorableName),
-            Update: new WebSocket.StorableWsRoute_Update(endpoint, this.getPrefix, this.StorableName),
-            UpdateMany: new WebSocket.StorableWsRoute_UpdateMany(endpoint, this.getPrefix, this.StorableName),
-            Delete: new WebSocket.StorableWsRoute_Delete(endpoint, this.getPrefix, this.StorableName),
-            DeleteMany: new WebSocket.StorableWsRoute_DeleteMany(endpoint, this.getPrefix, this.StorableName),
+            GetAll: new WebSocket.StorableWsRoute_GetAll(this.endpoint, this.getPrefix, this.StorableName),
+            Create: new WebSocket.StorableWsRoute_Create(this.endpoint, this.getPrefix, this.StorableName),
+            CreateMany: new WebSocket.StorableWsRoute_CreateMany(this.endpoint, this.getPrefix, this.StorableName),
+            GetById: new WebSocket.StorableWsRoute_GetById(this.endpoint, this.getPrefix, this.StorableName),
+            Update: new WebSocket.StorableWsRoute_Update(this.endpoint, this.getPrefix, this.StorableName),
+            UpdateMany: new WebSocket.StorableWsRoute_UpdateMany(this.endpoint, this.getPrefix, this.StorableName),
+            Delete: new WebSocket.StorableWsRoute_Delete(this.endpoint, this.getPrefix, this.StorableName),
+            DeleteMany: new WebSocket.StorableWsRoute_DeleteMany(this.endpoint, this.getPrefix, this.StorableName),
         };
         for (let key in this.events) {
             this.events[key].init();

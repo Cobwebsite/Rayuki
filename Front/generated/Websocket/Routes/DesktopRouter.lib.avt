@@ -1,5 +1,6 @@
 import { ApplicationOpenInfo } from '../../Data/ApplicationOpen.lib.avt';
 import { DesktopAppIcon } from '../../Data/Desktop.data.avt';
+import { MainEndPoint } from '../MainEndPoint.lib.avt';
 
 namespace Websocket.Routes {
 
@@ -12,13 +13,13 @@ namespace Websocket.Routes {
 			RemoveDesktopIcon: DesktopRouter_RemoveDesktopIcon,
 		}
 		
-		public constructor(endpoint: AventusSharp.WebSocket.EndPoint) {
-			super(endpoint);
+		public constructor(endpoint?: AventusSharp.WebSocket.EndPoint) {
+			super(endpoint ?? MainEndPoint.getInstance());
 			this.events = {
-				RegisterOpenApp: new DesktopRouter_RegisterOpenApp(endpoint, this.getPrefix),
-				RemoveApp: new DesktopRouter_RemoveApp(endpoint, this.getPrefix),
-				SetDesktopIcon: new DesktopRouter_SetDesktopIcon(endpoint, this.getPrefix),
-				RemoveDesktopIcon: new DesktopRouter_RemoveDesktopIcon(endpoint, this.getPrefix),
+				RegisterOpenApp: new DesktopRouter_RegisterOpenApp(this.endpoint, this.getPrefix),
+				RemoveApp: new DesktopRouter_RemoveApp(this.endpoint, this.getPrefix),
+				SetDesktopIcon: new DesktopRouter_SetDesktopIcon(this.endpoint, this.getPrefix),
+				RemoveDesktopIcon: new DesktopRouter_RemoveDesktopIcon(this.endpoint, this.getPrefix),
 			};
 			
 			for(let key in this.events) {

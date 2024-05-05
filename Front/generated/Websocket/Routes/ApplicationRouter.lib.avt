@@ -1,5 +1,6 @@
 import { ApplicationData } from '../../Data/ApplicationData.data.avt';
 import { Body, ApplicationTestEvent } from '../Events/ApplicationTestEvent.lib.avt';
+import { MainEndPoint } from '../MainEndPoint.lib.avt';
 
 namespace Websocket.Routes {
 
@@ -11,12 +12,12 @@ namespace Websocket.Routes {
 			GetAll5: ApplicationTestEvent,
 		}
 		
-		public constructor(endpoint: AventusSharp.WebSocket.EndPoint) {
-			super(endpoint);
+		public constructor(endpoint?: AventusSharp.WebSocket.EndPoint) {
+			super(endpoint ?? MainEndPoint.getInstance());
 			this.events = {
-				GetAll2: new ApplicationRouter_GetAll2(endpoint, this.getPrefix),
-				GetAll3: new ApplicationRouter_GetAll3(endpoint, this.getPrefix),
-				GetAll5: new ApplicationTestEvent(endpoint, this.getPrefix),
+				GetAll2: new ApplicationRouter_GetAll2(this.endpoint, this.getPrefix),
+				GetAll3: new ApplicationRouter_GetAll3(this.endpoint, this.getPrefix),
+				GetAll5: new ApplicationTestEvent(this.endpoint, this.getPrefix),
 			};
 			
 			for(let key in this.events) {

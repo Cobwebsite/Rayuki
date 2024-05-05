@@ -9,7 +9,6 @@ using Core.Tools;
 
 namespace Core.Routes
 {
-    [TypescriptPath("Application")]
     public class ApplicationRouter : Route
     {
         [Get, Path("/application")]

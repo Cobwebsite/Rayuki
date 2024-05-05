@@ -1,3 +1,4 @@
+import { PermissionRouter } from "../generated/Routes/PermissionRouter.lib.avt";
 import { CoreRouter } from "../generated/CoreRouter.lib.avt";
 
 namespace Permissions {
@@ -20,7 +21,7 @@ namespace Permissions {
                 return this.saved[key];
             }
 
-            let response = await new CoreRouter().routes.Permission.Can({ permissionQuery: query });
+            let response = await new PermissionRouter().Can({ permissionQuery: query });
             if(response.success && response.result !== undefined) {
                 this.saved[key] = response.result;
                 return this.saved[key];

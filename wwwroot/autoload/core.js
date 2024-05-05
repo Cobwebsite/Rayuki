@@ -7,12 +7,16 @@ const _ = {};
 Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block}:host *{box-sizing:border-box}.touch{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}.touch.disable,.touch.disabled{cursor:default}.green{background-color:var(--green)}.red{background-color:var(--red)}.orange{background-color:var(--orange)}.blue{background-color:var(--blue)}`)
 const Websocket = {};
 _.Websocket = {};
+Websocket.Events = {};
+_.Websocket.Events = {};
 const Errors = {};
 _.Errors = {};
 const Permissions = {};
 _.Permissions = {};
 const Data = {};
 _.Data = {};
+Data.DataTypes = {};
+_.Data.DataTypes = {};
 const App = {};
 _.App = {};
 const Components = {};
@@ -21,12 +25,8 @@ const Lib = {};
 _.Lib = {};
 const System = {};
 _.System = {};
-Websocket.Events = {};
-_.Websocket.Events = {};
 Websocket.Routes = {};
 _.Websocket.Routes = {};
-Data.DataTypes = {};
-_.Data.DataTypes = {};
 const Routes = {};
 _.Routes = {};
 const State = {};
@@ -36,12 +36,27 @@ _.RAM = {};
 const Tools = {};
 _.Tools = {};
 let _n;
-Websocket.RayukiEndPointEvents= [];
+Websocket.Events.ApplicationTestEvent2=class ApplicationTestEvent2 extends AventusSharp.WebSocket.Event {
+    /**
+     * @inheritdoc
+     */
+    path() {
+        return `${this.getPrefix()}/application/test/2`;
+    }
+}
+Websocket.Events.ApplicationTestEvent2.Namespace=`${moduleName}.Websocket.Events`;
 
-_.Websocket.RayukiEndPointEvents=Websocket.RayukiEndPointEvents;
-Websocket.RayukiEndPointRoutes= [];
+_.Websocket.Events.ApplicationTestEvent2=Websocket.Events.ApplicationTestEvent2;
+Websocket.Events.Body=class Body {
+    static get Fullname() { return "Core.Websocket.Events.ApplicationTestEvent+Body, Core"; }
+    id;
+    name;
+}
+Websocket.Events.Body.Namespace=`${moduleName}.Websocket.Events`;
+Websocket.Events.Body.$schema={"id":"number","name":"string"};
+Aventus.Converter.register(Websocket.Events.Body.Fullname, Websocket.Events.Body);
 
-_.Websocket.RayukiEndPointRoutes=Websocket.RayukiEndPointRoutes;
+_.Websocket.Events.Body=Websocket.Events.Body;
 (function (PdfErrorCode) {
     PdfErrorCode[PdfErrorCode["UnknowError"] = 0] = "UnknowError";
     PdfErrorCode[PdfErrorCode["NoNameProvided"] = 1] = "NoNameProvided";
@@ -96,6 +111,17 @@ Data.Permission.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "EnumNa
 Aventus.Converter.register(Data.Permission.Fullname, Data.Permission);
 
 _.Data.Permission=Data.Permission;
+Data.DataTypes.Pdf=class Pdf extends AventusSharp.Data.AventusFile {
+    static get Fullname() { return "Core.Data.DataTypes.Pdf, Core"; }
+    Name = "";
+    Html = "";
+    Debug = false;
+}
+Data.DataTypes.Pdf.Namespace=`${moduleName}.Data.DataTypes`;
+Data.DataTypes.Pdf.$schema={...(AventusSharp.Data.AventusFile?.$schema ?? {}), "Name":"string","Html":"string","Debug":"boolean"};
+Aventus.Converter.register(Data.DataTypes.Pdf.Fullname, Data.DataTypes.Pdf);
+
+_.Data.DataTypes.Pdf=Data.DataTypes.Pdf;
 Data.Company=class Company extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Company, Core"; }
     Name = "";
@@ -1302,17 +1328,34 @@ _.Lib.Geometry=Lib.Geometry;
 })(Components.ResizeDirection || (Components.ResizeDirection = {}));
 
 _.Components.ResizeDirection=Components.ResizeDirection;
-Websocket.Events.ApplicationTestEvent2=class ApplicationTestEvent2 extends AventusSharp.WebSocket.Event {
+Websocket.MainEndPoint=class MainEndPoint extends AventusSharp.WebSocket.EndPoint {
+    /**
+     * Create a singleton
+     */
+    static getInstance() {
+        return Aventus.Instance.get(Websocket.MainEndPoint);
+    }
+    get path() {
+        return "/ws";
+    }
+}
+Websocket.MainEndPoint.Namespace=`${moduleName}.Websocket`;
+
+_.Websocket.MainEndPoint=Websocket.MainEndPoint;
+Websocket.Events.ApplicationTestEvent=class ApplicationTestEvent extends AventusSharp.WebSocket.Event {
     /**
      * @inheritdoc
      */
     path() {
-        return `${this.getPrefix()}/application/test/2`;
+        return `${this.getPrefix()}Core.Websocket.Events.ApplicationTestEvent`;
+    }
+    constructor(endpoint, getPrefix) {
+        super(endpoint ?? Websocket.MainEndPoint.getInstance(), getPrefix);
     }
 }
-Websocket.Events.ApplicationTestEvent2.Namespace=`${moduleName}.Websocket.Events`;
+Websocket.Events.ApplicationTestEvent.Namespace=`${moduleName}.Websocket.Events`;
 
-_.Websocket.Events.ApplicationTestEvent2=Websocket.Events.ApplicationTestEvent2;
+_.Websocket.Events.ApplicationTestEvent=Websocket.Events.ApplicationTestEvent;
 Websocket.Routes.DesktopRouter_RemoveDesktopIcon=class DesktopRouter_RemoveDesktopIcon extends AventusSharp.WebSocket.Event {
     /**
      * @inheritdoc
@@ -1330,16 +1373,6 @@ Websocket.Routes.DesktopRouter_RemoveDesktopIcon=class DesktopRouter_RemoveDeskt
 Websocket.Routes.DesktopRouter_RemoveDesktopIcon.Namespace=`${moduleName}.Websocket.Routes`;
 
 _.Websocket.Routes.DesktopRouter_RemoveDesktopIcon=Websocket.Routes.DesktopRouter_RemoveDesktopIcon;
-Websocket.Events.Body=class Body {
-    static get Fullname() { return "Core.Websocket.Events.ApplicationTestEvent+Body, Core"; }
-    id;
-    name;
-}
-Websocket.Events.Body.Namespace=`${moduleName}.Websocket.Events`;
-Websocket.Events.Body.$schema={"id":"number","name":"string"};
-Aventus.Converter.register(Websocket.Events.Body.Fullname, Websocket.Events.Body);
-
-_.Websocket.Events.Body=Websocket.Events.Body;
 (function (LoginCode) {
     LoginCode[LoginCode["OK"] = 0] = "OK";
     LoginCode[LoginCode["WrongCredentials"] = 1] = "WrongCredentials";
@@ -1447,18 +1480,54 @@ System.DesktopActivableLogic=class DesktopActivableLogic {
 System.DesktopActivableLogic.Namespace=`${moduleName}.System`;
 
 _.System.DesktopActivableLogic=System.DesktopActivableLogic;
-Data.DataTypes.Pdf=class Pdf extends AventusSharp.Data.AventusFile {
-    static get Fullname() { return "Core.Data.DataTypes.Pdf, Core"; }
-    Name = "";
-    Html = "";
-    Debug = false;
+App.AppConfiguration=class AppConfiguration {
+    static get Fullname() { return "Core.App.AppConfiguration, Core"; }
+    appsInstalled = [];
+    allApps = new Map();
 }
-Data.DataTypes.Pdf.Namespace=`${moduleName}.Data.DataTypes`;
-Data.DataTypes.Pdf.$schema={...(AventusSharp.Data.AventusFile?.$schema ?? {}), "Name":"string","Html":"string","Debug":"boolean"};
-Aventus.Converter.register(Data.DataTypes.Pdf.Fullname, Data.DataTypes.Pdf);
+App.AppConfiguration.Namespace=`${moduleName}.App`;
+App.AppConfiguration.$schema={"appsInstalled":"string","allApps":"Map"};
+Aventus.Converter.register(App.AppConfiguration.Fullname, App.AppConfiguration);
 
-_.Data.DataTypes.Pdf=Data.DataTypes.Pdf;
+Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter {
+    defineOptions(options) {
+        options.url = location.protocol + "//" + location.host + "";
+        return options;
+    }
+}
+Routes.CoreRouter.Namespace=`${moduleName}.Routes`;
+
+_.Routes.CoreRouter=Routes.CoreRouter;
+Routes.PdfRouter=class PdfRouter extends Aventus.HttpRoute {
+    constructor(router) {
+        super(router ?? new Routes.CoreRouter());
+    }
+    async Generate(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/generate`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryVoid(this.router);
+    }
+}
+Routes.PdfRouter.Namespace=`${moduleName}.Routes`;
+
+_.Routes.PdfRouter=Routes.PdfRouter;
+Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
+    constructor(router) {
+        super(router ?? new Routes.CoreRouter());
+    }
+    async Can(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/can`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+}
+Routes.PermissionRouter.Namespace=`${moduleName}.Routes`;
+
+_.Routes.PermissionRouter=Routes.PermissionRouter;
 Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
+    constructor(router) {
+        super(router ?? new Routes.CoreRouter());
+    }
     async LoginAction(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/login`, Aventus.HttpMethod.POST);
         request.setBody(body);
@@ -1489,15 +1558,73 @@ Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
 Routes.MainRouter.Namespace=`${moduleName}.Routes`;
 
 _.Routes.MainRouter=Routes.MainRouter;
-App.AppConfiguration=class AppConfiguration {
-    static get Fullname() { return "Core.App.AppConfiguration, Core"; }
-    appsInstalled = [];
-    allApps = new Map();
+Lib.ServiceWorker=class ServiceWorker {
+    static getInstance() {
+        return AvInstance.get(Lib.ServiceWorker);
+    }
+    subscription;
+    async init(registration) {
+        if (await this.getSubscription(registration)) {
+            this.subscribe();
+        }
+    }
+    async getSubscription(registration) {
+        try {
+            let subscription = await registration.pushManager.getSubscription();
+            if (subscription) {
+                this.subscription = subscription;
+                return false;
+            }
+            let response = await new Routes.MainRouter().VapidPublicKey();
+            if (response.success && response.result) {
+                const vapidPublicKey = response.result;
+                // Chrome doesn't accept the base64-encoded (string) vapidPublicKey yet
+                // urlBase64ToUint8Array() is defined in /tools.js
+                const convertedVapidKey = this.urlBase64ToUint8Array(vapidPublicKey);
+                // Otherwise, subscribe the user (userVisibleOnly allows to specify that we don't plan to
+                // send notifications that don't have a visible effect for the user).
+                this.subscription = await registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: convertedVapidKey
+                });
+                return true;
+            }
+        }
+        catch (e) {
+            alert(e);
+        }
+        return false;
+    }
+    async subscribe() {
+        if (!this.subscription) {
+            return;
+        }
+        await new Routes.MainRouter().Register({
+            subscription: this.subscription
+        });
+    }
+    async unsubscribe() {
+        if (!this.subscription) {
+            return;
+        }
+        await this.subscription.unsubscribe();
+    }
+    urlBase64ToUint8Array(base64String) {
+        var padding = '='.repeat((4 - base64String.length % 4) % 4);
+        var base64 = (base64String + padding)
+            .replace(/\-/g, '+')
+            .replace(/_/g, '/');
+        var rawData = window.atob(base64);
+        var outputArray = new Uint8Array(rawData.length);
+        for (var i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+    }
 }
-App.AppConfiguration.Namespace=`${moduleName}.App`;
-App.AppConfiguration.$schema={"appsInstalled":"string","allApps":"Map"};
-Aventus.Converter.register(App.AppConfiguration.Fullname, App.AppConfiguration);
+Lib.ServiceWorker.Namespace=`${moduleName}.Lib`;
 
+_.Lib.ServiceWorker=Lib.ServiceWorker;
 Data.ApplicationData=class ApplicationData extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.ApplicationData, Core"; }
     Name = "";
@@ -1656,14 +1783,6 @@ Data.DataTypes.ImageFile.$schema={...(AventusSharp.Data.AventusFile?.$schema ?? 
 Aventus.Converter.register(Data.DataTypes.ImageFile.Fullname, Data.DataTypes.ImageFile);
 
 _.Data.DataTypes.ImageFile=Data.DataTypes.ImageFile;
-Data.DataTypes.UserPPFile=class UserPPFile extends Data.DataTypes.ImageFile {
-    static get Fullname() { return "Core.Data.DataTypes.UserPPFile, Core"; }
-}
-Data.DataTypes.UserPPFile.Namespace=`${moduleName}.Data.DataTypes`;
-Data.DataTypes.UserPPFile.$schema={...(Data.DataTypes.ImageFile?.$schema ?? {}), };
-Aventus.Converter.register(Data.DataTypes.UserPPFile.Fullname, Data.DataTypes.UserPPFile);
-
-_.Data.DataTypes.UserPPFile=Data.DataTypes.UserPPFile;
 Data.User=class User extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.User, Core"; }
     Firstname = "";
@@ -1715,6 +1834,21 @@ Data.PermissionGroup.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "P
 Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
 
 _.Data.PermissionGroup=Data.PermissionGroup;
+Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRoute {
+    constructor(router) {
+        super(router ?? new Routes.CoreRouter());
+    }
+    async GetConnected() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/getconnected`, Aventus.HttpMethod.GET);
+        return await request.queryJSON(this.router);
+    }
+    StorableName() {
+        return "User";
+    }
+}
+Routes.UserRouter.Namespace=`${moduleName}.Routes`;
+
+_.Routes.UserRouter=Routes.UserRouter;
 State.DesktopStateManager=class DesktopStateManager extends Aventus.StateManager {
     /**
      * Get the instance of the StateManager
@@ -2379,6 +2513,9 @@ Aventus.Converter.register(Data.Desktop.Fullname, Data.Desktop);
 
 _.Data.Desktop=Data.Desktop;
 Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRoute {
+    constructor(router) {
+        super(router ?? new Routes.CoreRouter());
+    }
     StorableName() {
         return "Desktop";
     }
@@ -2386,41 +2523,6 @@ Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRou
 Routes.DesktopRouter.Namespace=`${moduleName}.Routes`;
 
 _.Routes.DesktopRouter=Routes.DesktopRouter;
-RAM.DesktopRAM=class DesktopRAM extends AventusSharp.RAM.RamHttp {
-    /**
-     * @inheritdoc
-     */
-    defineRoutes() {
-        return new Routes.DesktopRouter(new Lib.HttpRouter());
-    }
-    /**
-     * Create a singleton to store data
-     */
-    static getInstance() {
-        return Aventus.Instance.get(RAM.DesktopRAM);
-    }
-    /**
-     * @inheritdoc
-     */
-    defineIndexKey() {
-        return 'Id';
-    }
-    /**
-     * @inheritdoc
-     */
-    getTypeForData(objJson) {
-        return Data.Desktop;
-    }
-    async beforeUpdateItem(item, fromList, result) {
-        const savedApps = item.Applications;
-        item.Applications = [];
-        await super.beforeUpdateItem(item, fromList, result);
-        item.Applications = savedApps;
-    }
-}
-RAM.DesktopRAM.Namespace=`${moduleName}.RAM`;
-
-_.RAM.DesktopRAM=RAM.DesktopRAM;
 Components.PageCase = class PageCase extends Aventus.WebComponent {
     static get observedAttributes() {return ["case_width", "case_height"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'min_case_margin_left'() { return this.getNumberAttr('min_case_margin_left') }
@@ -2760,6 +2862,9 @@ _.Components.PageCase=Components.PageCase;
 if(!window.customElements.get('rk-page-case')){window.customElements.define('rk-page-case', Components.PageCase);Aventus.WebComponentInstance.registerDefinition(Components.PageCase);}
 
 Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
+    constructor(router) {
+        super(router ?? new Routes.CoreRouter());
+    }
     async GetAll() {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/application`, Aventus.HttpMethod.GET);
         return await request.queryJSON(this.router);
@@ -2782,151 +2887,6 @@ Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
 Routes.ApplicationRouter.Namespace=`${moduleName}.Routes`;
 
 _.Routes.ApplicationRouter=Routes.ApplicationRouter;
-Routes.PdfRouter=class PdfRouter extends Aventus.HttpRoute {
-    async Generate(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/generate`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryVoid(this.router);
-    }
-}
-Routes.PdfRouter.Namespace=`${moduleName}.Routes`;
-
-_.Routes.PdfRouter=Routes.PdfRouter;
-Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
-    async Can(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/can`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryJSON(this.router);
-    }
-}
-Routes.PermissionRouter.Namespace=`${moduleName}.Routes`;
-
-_.Routes.PermissionRouter=Routes.PermissionRouter;
-Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRoute {
-    async GetConnected() {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/getconnected`, Aventus.HttpMethod.GET);
-        return await request.queryJSON(this.router);
-    }
-    StorableName() {
-        return "User";
-    }
-}
-Routes.UserRouter.Namespace=`${moduleName}.Routes`;
-
-_.Routes.UserRouter=Routes.UserRouter;
-Routes.CoreHttpRoutes= [
-    { type: Routes.ApplicationRouter, path: "Application" },
-    { type: Routes.DesktopRouter, path: "Desktop" },
-    { type: Routes.MainRouter, path: "" },
-    { type: Routes.PdfRouter, path: "Pdf" },
-    { type: Routes.PermissionRouter, path: "Permission" },
-    { type: Routes.UserRouter, path: "User" },
-];
-
-_.Routes.CoreHttpRoutes=Routes.CoreHttpRoutes;
-Routes.CoreRouterType= Aventus.HttpRouter.WithRoute(Routes.CoreHttpRoutes);
-
-_.Routes.CoreRouterType=Routes.CoreRouterType;
-Routes.CoreRouter=class CoreRouter extends Routes.CoreRouterType {
-    defineOptions(options) {
-        options.url = location.protocol + "//" + location.host + "";
-        return options;
-    }
-}
-Routes.CoreRouter.Namespace=`${moduleName}.Routes`;
-
-_.Routes.CoreRouter=Routes.CoreRouter;
-Lib.ServiceWorker=class ServiceWorker {
-    static getInstance() {
-        return AvInstance.get(Lib.ServiceWorker);
-    }
-    subscription;
-    async init(registration) {
-        if (await this.getSubscription(registration)) {
-            this.subscribe();
-        }
-    }
-    async getSubscription(registration) {
-        try {
-            let subscription = await registration.pushManager.getSubscription();
-            if (subscription) {
-                this.subscription = subscription;
-                return false;
-            }
-            let response = await new Routes.CoreRouter().routes.VapidPublicKey();
-            if (response.success && response.result) {
-                const vapidPublicKey = response.result;
-                // Chrome doesn't accept the base64-encoded (string) vapidPublicKey yet
-                // urlBase64ToUint8Array() is defined in /tools.js
-                const convertedVapidKey = this.urlBase64ToUint8Array(vapidPublicKey);
-                // Otherwise, subscribe the user (userVisibleOnly allows to specify that we don't plan to
-                // send notifications that don't have a visible effect for the user).
-                this.subscription = await registration.pushManager.subscribe({
-                    userVisibleOnly: true,
-                    applicationServerKey: convertedVapidKey
-                });
-                return true;
-            }
-        }
-        catch (e) {
-            alert(e);
-        }
-        return false;
-    }
-    async subscribe() {
-        if (!this.subscription) {
-            return;
-        }
-        await new Routes.CoreRouter().routes.Register({
-            subscription: this.subscription
-        });
-    }
-    async unsubscribe() {
-        if (!this.subscription) {
-            return;
-        }
-        await this.subscription.unsubscribe();
-    }
-    urlBase64ToUint8Array(base64String) {
-        var padding = '='.repeat((4 - base64String.length % 4) % 4);
-        var base64 = (base64String + padding)
-            .replace(/\-/g, '+')
-            .replace(/_/g, '/');
-        var rawData = window.atob(base64);
-        var outputArray = new Uint8Array(rawData.length);
-        for (var i = 0; i < rawData.length; ++i) {
-            outputArray[i] = rawData.charCodeAt(i);
-        }
-        return outputArray;
-    }
-}
-Lib.ServiceWorker.Namespace=`${moduleName}.Lib`;
-
-_.Lib.ServiceWorker=Lib.ServiceWorker;
-Permissions.Permission=class Permission {
-    static saved = {};
-    static async can(query) {
-        if (!query.additionalInfo) {
-            query.additionalInfo = "";
-        }
-        let key = query.enumName + "$" + query.value + "$" + query.additionalInfo;
-        if (Object.keys(this.saved).includes(key)) {
-            return this.saved[key];
-        }
-        let response = await new Routes.CoreRouter().routes.Permission.Can({ permissionQuery: query });
-        if (response.success && response.result !== undefined) {
-            this.saved[key] = response.result;
-            return this.saved[key];
-        }
-        else {
-            console.log(response.errors);
-        }
-        return false;
-    }
-}
-Permissions.Permission.Namespace=`${moduleName}.Permissions`;
-
-_.Permissions.Permission=Permissions.Permission;
 RAM.ApplicationRAM=class ApplicationRAM extends Aventus.Ram {
     getAllDone = false;
     /**
@@ -2963,7 +2923,7 @@ RAM.ApplicationRAM=class ApplicationRAM extends Aventus.Ram {
             }
             else {
                 this.isLoading = true;
-                let apps = await new Routes.CoreRouter().routes.Application.GetAll();
+                let apps = await new Routes.ApplicationRouter().GetAll();
                 if (apps.success && apps.result) {
                     for (let app of apps.result) {
                         let resultTemp = new Aventus.ResultRamWithError();
@@ -3828,7 +3788,7 @@ RAM.UserRAM=class UserRAM extends AventusSharp.RAM.RamHttp {
         return this.actionGuard.run(["getConnected"], async () => {
             let result = new Aventus.ResultWithError();
             if (!this.connectedUserId) {
-                let query = await new Routes.CoreRouter().routes.User.GetConnected();
+                let query = await new Routes.UserRouter().GetConnected();
                 if (!query.success || !query.result) {
                     result.errors = query.errors;
                     return result;
@@ -3862,7 +3822,7 @@ _.RAM.UserRAM=RAM.UserRAM;
 Lib.SessionManager=class SessionManager {
     static async logout() {
         try {
-            await new Routes.CoreRouter().routes.Logout();
+            await new Routes.MainRouter().Logout();
         }
         catch { }
         window.location.reload();
@@ -4051,63 +4011,6 @@ System.HomeBtn.Tag=`rk-home-btn`;
 _.System.HomeBtn=System.HomeBtn;
 if(!window.customElements.get('rk-home-btn')){window.customElements.define('rk-home-btn', System.HomeBtn);Aventus.WebComponentInstance.registerDefinition(System.HomeBtn);}
 
-Websocket.Events.ApplicationTestEvent=class ApplicationTestEvent extends AventusSharp.WebSocket.Event {
-    /**
-     * @inheritdoc
-     */
-    path() {
-        return `${this.getPrefix()}Core.Websocket.Events.ApplicationTestEvent`;
-    }
-}
-Websocket.Events.ApplicationTestEvent.Namespace=`${moduleName}.Websocket.Events`;
-
-_.Websocket.Events.ApplicationTestEvent=Websocket.Events.ApplicationTestEvent;
-Websocket.Routes.ApplicationRouter=class ApplicationRouter extends AventusSharp.WebSocket.Route {
-    events;
-    constructor(endpoint) {
-        super(endpoint);
-        this.events = {
-            GetAll2: new Websocket.Routes.ApplicationRouter_GetAll2(endpoint, this.getPrefix),
-            GetAll3: new Websocket.Routes.ApplicationRouter_GetAll3(endpoint, this.getPrefix),
-            GetAll5: new Websocket.Events.ApplicationTestEvent(endpoint, this.getPrefix),
-        };
-        for (let key in this.events) {
-            this.events[key].init();
-        }
-    }
-    async GetAll2(options = {}) {
-        const info = {
-            channel: `${this.getPrefix()}/application2`,
-            ...options,
-        };
-        return await this.endpoint.sendMessageAndWait(info);
-    }
-    async GetAll3(body, options = {}) {
-        const info = {
-            channel: `${this.getPrefix()}/application3`,
-            body: body,
-            ...options,
-        };
-        return await this.endpoint.sendMessageAndWait(info);
-    }
-    async GetAll4(options = {}) {
-        const info = {
-            channel: `${this.getPrefix()}/application4`,
-            ...options,
-        };
-        return await this.endpoint.sendMessage(info);
-    }
-    async GetAll5(options = {}) {
-        const info = {
-            channel: `${this.getPrefix()}/getall5`,
-            ...options,
-        };
-        return await this.endpoint.sendMessageAndWait(info);
-    }
-}
-Websocket.Routes.ApplicationRouter.Namespace=`${moduleName}.Websocket.Routes`;
-
-_.Websocket.Routes.ApplicationRouter=Websocket.Routes.ApplicationRouter;
 Websocket.Routes.DesktopRouter_RegisterOpenApp=class DesktopRouter_RegisterOpenApp extends AventusSharp.WebSocket.Event {
     /**
      * @inheritdoc
@@ -4128,12 +4031,12 @@ _.Websocket.Routes.DesktopRouter_RegisterOpenApp=Websocket.Routes.DesktopRouter_
 Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocket.Route {
     events;
     constructor(endpoint) {
-        super(endpoint);
+        super(endpoint ?? Websocket.MainEndPoint.getInstance());
         this.events = {
-            RegisterOpenApp: new Websocket.Routes.DesktopRouter_RegisterOpenApp(endpoint, this.getPrefix),
-            RemoveApp: new Websocket.Routes.DesktopRouter_RemoveApp(endpoint, this.getPrefix),
-            SetDesktopIcon: new Websocket.Routes.DesktopRouter_SetDesktopIcon(endpoint, this.getPrefix),
-            RemoveDesktopIcon: new Websocket.Routes.DesktopRouter_RemoveDesktopIcon(endpoint, this.getPrefix),
+            RegisterOpenApp: new Websocket.Routes.DesktopRouter_RegisterOpenApp(this.endpoint, this.getPrefix),
+            RemoveApp: new Websocket.Routes.DesktopRouter_RemoveApp(this.endpoint, this.getPrefix),
+            SetDesktopIcon: new Websocket.Routes.DesktopRouter_SetDesktopIcon(this.endpoint, this.getPrefix),
+            RemoveDesktopIcon: new Websocket.Routes.DesktopRouter_RemoveDesktopIcon(this.endpoint, this.getPrefix),
         };
         for (let key in this.events) {
             this.events[key].init();
@@ -4175,38 +4078,6 @@ Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocke
 Websocket.Routes.DesktopRouter.Namespace=`${moduleName}.Websocket.Routes`;
 
 _.Websocket.Routes.DesktopRouter=Websocket.Routes.DesktopRouter;
-Websocket.MainEndPointRoutes= [
-    { type: Websocket.Routes.ApplicationRouter, path: "application" },
-    { type: Websocket.Routes.DesktopRouter, path: "desktop" },
-];
-
-_.Websocket.MainEndPointRoutes=Websocket.MainEndPointRoutes;
-Websocket.MainEndPointEvents= [
-    { type: Websocket.Events.ApplicationTestEvent, path: "application.ApplicationTestEvent" },
-    { type: Websocket.Events.ApplicationTestEvent2, path: "ApplicationTestEvent2" },
-];
-
-_.Websocket.MainEndPointEvents=Websocket.MainEndPointEvents;
-Websocket.MainEndPointType= AventusSharp.WebSocket.EndPoint.WithRoute({
-    routes: Websocket.MainEndPointRoutes,
-    events: Websocket.MainEndPointEvents
-});
-
-_.Websocket.MainEndPointType=Websocket.MainEndPointType;
-Websocket.MainEndPoint=class MainEndPoint extends Websocket.MainEndPointType {
-    /**
-     * Create a singleton
-     */
-    static getInstance() {
-        return Aventus.Instance.get(Websocket.MainEndPoint);
-    }
-    get path() {
-        return "/ws";
-    }
-}
-Websocket.MainEndPoint.Namespace=`${moduleName}.Websocket`;
-
-_.Websocket.MainEndPoint=Websocket.MainEndPoint;
 System.BottomBar = class BottomBar extends Aventus.WebComponent {
     get desktop() {
         if (this.parentNode instanceof ShadowRoot) {
@@ -4367,7 +4238,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
             desktopIcon.IconTag = icon.tag;
             desktopIcon.Location = Data.DesktopLocation.BottomBar;
             desktopIcon.Id = icon.iconId;
-            let result = await Websocket.MainEndPoint.getInstance().routes.desktop.SetDesktopIcon({
+            let result = await new Websocket.Routes.DesktopRouter().SetDesktopIcon({
                 icon: desktopIcon
             });
             if (result.success && result.result) {
@@ -4385,7 +4256,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
                     desktopIcon.IconTag = child.tag;
                     desktopIcon.Location = Data.DesktopLocation.BottomBar;
                     desktopIcon.Id = child.iconId;
-                    let result = await Websocket.MainEndPoint.getInstance().routes.desktop.SetDesktopIcon({
+                    let result = await new Websocket.Routes.DesktopRouter().SetDesktopIcon({
                         icon: desktopIcon
                     });
                     if (result.success) {
@@ -4402,7 +4273,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
             let no = Array.from(children).indexOf(icon);
             let desktopIcon = new Data.DesktopAppIcon();
             desktopIcon.Id = icon.iconId;
-            let result = await Websocket.MainEndPoint.getInstance().routes.desktop.RemoveDesktopIcon({
+            let result = await new Websocket.Routes.DesktopRouter().RemoveDesktopIcon({
                 icon: desktopIcon
             });
             if (result.success) {
@@ -4416,7 +4287,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
                         desktopIcon.IconTag = child.tag;
                         desktopIcon.Location = Data.DesktopLocation.BottomBar;
                         desktopIcon.Id = child.iconId;
-                        let result = await Websocket.MainEndPoint.getInstance().routes.desktop.SetDesktopIcon({
+                        let result = await new Websocket.Routes.DesktopRouter().SetDesktopIcon({
                             icon: desktopIcon
                         });
                         if (result.success) {
@@ -5340,7 +5211,7 @@ Lib.ApplicationManager=class ApplicationManager {
     static async save(appInfo) {
         if (System.Os.instance.activeDesktop.data.Configuration.SyncDesktop) {
             await this.uniqueAction(appInfo, async (appInfo) => {
-                await Websocket.MainEndPoint.getInstance().routes.desktop.RegisterOpenApp({
+                await new Websocket.Routes.DesktopRouter().RegisterOpenApp({
                     appInfo
                 });
             });
@@ -5368,7 +5239,7 @@ Lib.ApplicationManager=class ApplicationManager {
     static async remove(appInfo) {
         if (System.Os.instance.activeDesktop.data.Configuration.SyncDesktop) {
             await this.uniqueAction(appInfo, async (appInfo) => {
-                await Websocket.MainEndPoint.getInstance().routes.desktop.RemoveApp({
+                await new Websocket.Routes.DesktopRouter().RemoveApp({
                     appInfo
                 });
             });
@@ -5434,8 +5305,8 @@ Lib.ApplicationManager=class ApplicationManager {
     static init() {
         this.onRegisterInfo = this.onRegisterInfo.bind(this);
         this.onRemoveApp = this.onRemoveApp.bind(this);
-        Websocket.MainEndPoint.getInstance().routes.desktop.events.RegisterOpenApp.onTrigger.add(this.onRegisterInfo);
-        Websocket.MainEndPoint.getInstance().routes.desktop.events.RemoveApp.onTrigger.add(this.onRemoveApp);
+        new Websocket.Routes.DesktopRouter().events.RegisterOpenApp.onTrigger.add(this.onRegisterInfo);
+        new Websocket.Routes.DesktopRouter().events.RemoveApp.onTrigger.add(this.onRemoveApp);
     }
     static async onRegisterInfo(item, params) {
         let key = this.getKey(item);
@@ -7089,6 +6960,41 @@ Lib.Platform=class Platform {
 Lib.Platform.Namespace=`${moduleName}.Lib`;
 
 _.Lib.Platform=Lib.Platform;
+RAM.DesktopRAM=class DesktopRAM extends AventusSharp.RAM.RamHttp {
+    /**
+     * @inheritdoc
+     */
+    defineRoutes() {
+        return new Routes.DesktopRouter(new Lib.HttpRouter());
+    }
+    /**
+     * Create a singleton to store data
+     */
+    static getInstance() {
+        return Aventus.Instance.get(RAM.DesktopRAM);
+    }
+    /**
+     * @inheritdoc
+     */
+    defineIndexKey() {
+        return 'Id';
+    }
+    /**
+     * @inheritdoc
+     */
+    getTypeForData(objJson) {
+        return Data.Desktop;
+    }
+    async beforeUpdateItem(item, fromList, result) {
+        const savedApps = item.Applications;
+        item.Applications = [];
+        await super.beforeUpdateItem(item, fromList, result);
+        item.Applications = savedApps;
+    }
+}
+RAM.DesktopRAM.Namespace=`${moduleName}.RAM`;
+
+_.RAM.DesktopRAM=RAM.DesktopRAM;
 System.Desktop = class Desktop extends Aventus.WebComponent {
     static get observedAttributes() {return ["desktop_id"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'show_application_list'() { return this.getBoolAttr('show_application_list') }
@@ -7105,7 +7011,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
     oldActiveCase;
     pressManagerStopMoveApp;
     static __style = `:host{--_desktop-background-color: var(--desktop-background-color, var(--primary-color))}:host{background-color:var(--_desktop-background-color);background-position:center;background-repeat:no-repeat;background-size:cover;flex-shrink:0;height:100%;overflow:hidden;position:relative;width:100%}:host .icons{--page-case-border-radius: 5px;--page-case-border-active: 1px solid var(--darker-active);--page-case-background-active: var(--lighter-active);height:calc(100% - 70px);transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s;width:100%;z-index:2}:host .app-container{transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host([show_application_list])>*{opacity:0 !important;visibility:hidden !important}:host([background_size=Cover]){background-size:cover}:host([background_size=Contain]){background-size:contain}:host([background_size=Stretch]){background-size:100% 100%}`;
-    constructor() { super(); this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this) }
+    constructor() {            super();this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this) }
     __getStatic() {
         return Desktop;
     }
@@ -7382,7 +7288,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             desktopIcon.Id = icon.iconId;
             this.oldActiveCase?.classList.remove("active");
             this.oldActiveCase = undefined;
-            let result = await Websocket.MainEndPoint.getInstance().routes.desktop.SetDesktopIcon({
+            let result = await new Websocket.Routes.DesktopRouter().SetDesktopIcon({
                 icon: desktopIcon
             });
             if (result.success && result.result) {
@@ -7396,7 +7302,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
         if (caseEl && this.pageCaseEl.shadowRoot.contains(caseEl)) {
             let desktopIcon = new Data.DesktopAppIcon();
             desktopIcon.Id = icon.iconId;
-            let result = await Websocket.MainEndPoint.getInstance().routes.desktop.RemoveDesktopIcon({
+            let result = await new Websocket.Routes.DesktopRouter().RemoveDesktopIcon({
                 icon: desktopIcon
             });
             if (result.success) {
@@ -9821,7 +9727,7 @@ Components.Checkbox = class Checkbox extends Components.FormElement {
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("checked", ((target) => {
     target.value = target.checked;
 })); }
-    static __style = `:host{--_checkbox-size: var(--checkbox-size, 18px);--_checkbox-height: var(--checkbox-height, var(--_checkbox-size));--_checkbox-width: var(--checkbox-width, var(--_checkbox-size));--_checkbox-size: 20px;--_checkbox-border-radius: var(--checkbox-border-radius, 2px);--_checkbox-border: var(--checkbox-border, var(--form-element-border));--_checkbox-border-active: var(--checkbox-border-active, var(--form-element-border-active, var(--_checkbox-border)));--_checkbox-background: var(--checkbox-background, var(--form-element-background, white));--_checkbox-background-active: var(--checkbox-background-active, var(--form-element-background-active, white));--_checkbox-tick-color: var(--checkbox-tick-color, var(--_checkbox-background));--_checkbox-tick-size: var(--checkbox-tick-size, 2px);--_checkbox-tick-padding: var(--checkbox-tick-padding, 10%);--_checkbox-font-size-label: var(--checkbox-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_checkbox-margin-label: var(--checkbox-margin-label, 5px)}:host{align-items:center;display:flex;width:min-content}:host .label:not(:empty){cursor:pointer;font-size:var(--_checkbox-font-size-label);margin-left:var(--_checkbox-margin-label)}:host .square{background-color:var(--_checkbox-background);border:var(--_checkbox-border);border-radius:var(--_checkbox-border-radius);cursor:pointer;flex-shrink:0;height:var(--_checkbox-height);position:relative;transition:border .4s var(--bezier-curve),background-color .4s var(--bezier-curve);width:var(--_checkbox-width);display:flex;align-items:center;justify-content:center}:host .square rk-img{--img-stroke-color: var(--_checkbox-tick-color);--img-stroke-width: var(--_checkbox-tick-size);height:calc(100% - var(--_checkbox-tick-padding));opacity:0;visibility:hidden;width:calc(100% - var(--_checkbox-tick-padding))}:host([checked]) .square{background-color:var(--_checkbox-background-active);border:var(--_checkbox-border-active)}:host([checked]) .square rk-img{opacity:1;visibility:visible}:host([checked]) .square rk-img::part(tick){animation:dash .3s linear forwards;animation-delay:.2s;stroke-dasharray:100;stroke-dashoffset:100}:host([left_label]) .label:not(:empty){margin-left:0;margin-right:var(--_checkbox-margin-label);order:1}:host([left_label]) .square{order:2}@keyframes dash{to{stroke-dashoffset:70}}`;
+    static __style = `:host{--_checkbox-size: var(--checkbox-size, 18px);--_checkbox-height: var(--checkbox-height, var(--_checkbox-size));--_checkbox-width: var(--checkbox-width, var(--_checkbox-size));--_checkbox-size: 20px;--_checkbox-border-radius: var(--checkbox-border-radius, 2px);--_checkbox-border: var(--checkbox-border, var(--form-element-border));--_checkbox-border-active: var(--checkbox-border-active, var(--form-element-border-active, var(--_checkbox-border)));--_checkbox-background: var(--checkbox-background, var(--form-element-background, white));--_checkbox-background-active: var(--checkbox-background-active, var(--form-element-background-active, white));--_checkbox-tick-color: var(--checkbox-tick-color, var(--_checkbox-background));--_checkbox-tick-size: var(--checkbox-tick-size, 2px);--_checkbox-tick-padding: var(--checkbox-tick-padding, 10%);--_checkbox-font-size-label: var(--checkbox-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_checkbox-margin-label: var(--checkbox-margin-label, 5px)}:host{align-items:center;display:flex}:host .label:not(:empty){cursor:pointer;font-size:var(--_checkbox-font-size-label);margin-left:var(--_checkbox-margin-label)}:host .square{background-color:var(--_checkbox-background);border:var(--_checkbox-border);border-radius:var(--_checkbox-border-radius);cursor:pointer;flex-shrink:0;height:var(--_checkbox-height);position:relative;transition:border .4s var(--bezier-curve),background-color .4s var(--bezier-curve);width:var(--_checkbox-width);display:flex;align-items:center;justify-content:center}:host .square rk-img{--img-stroke-color: var(--_checkbox-tick-color);--img-stroke-width: var(--_checkbox-tick-size);height:calc(100% - var(--_checkbox-tick-padding));opacity:0;visibility:hidden;width:calc(100% - var(--_checkbox-tick-padding))}:host([checked]) .square{background-color:var(--_checkbox-background-active);border:var(--_checkbox-border-active)}:host([checked]) .square rk-img{opacity:1;visibility:visible}:host([checked]) .square rk-img::part(tick){animation:dash .3s linear forwards;animation-delay:.2s;stroke-dasharray:100;stroke-dashoffset:100}:host([left_label]) .label:not(:empty){margin-left:0;margin-right:var(--_checkbox-margin-label);order:1}:host([left_label]) .square{order:2}@keyframes dash{to{stroke-dashoffset:70}}`;
     __getStatic() {
         return Checkbox;
     }
@@ -10137,12 +10043,17 @@ State.CreateOrUpdate=class CreateOrUpdate extends State.ApplicationStorableState
             if (ramResult.errors.length > 0) {
                 let noPrintErrors = [];
                 for (let error of ramResult.errors) {
-                    if (error instanceof AventusSharp.Data.DataError &&
-                        error.code == AventusSharp.Data.DataErrorCode.ValidationError &&
-                        error.details.length > 0 &&
-                        error.details[0] instanceof AventusSharp.Data.FieldErrorInfo) {
-                        let fieldInfo = error.details[0];
-                        if (this.form.addFieldError(fieldInfo.Name, error.message)) {
+                    if (error.details) {
+                        let found = false;
+                        for (let detail of error.details) {
+                            if (detail instanceof AventusSharp.Data.FieldErrorInfo) {
+                                if (this.form.addFieldError(detail.Name, error.message)) {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (found) {
                             continue;
                         }
                     }
@@ -12829,6 +12740,30 @@ Errors.DesktopError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.DesktopError.Fullname, Errors.DesktopError);
 
 _.Errors.DesktopError=Errors.DesktopError;
+Permissions.Permission=class Permission {
+    static saved = {};
+    static async can(query) {
+        if (!query.additionalInfo) {
+            query.additionalInfo = "";
+        }
+        let key = query.enumName + "$" + query.value + "$" + query.additionalInfo;
+        if (Object.keys(this.saved).includes(key)) {
+            return this.saved[key];
+        }
+        let response = await new Routes.PermissionRouter().Can({ permissionQuery: query });
+        if (response.success && response.result !== undefined) {
+            this.saved[key] = response.result;
+            return this.saved[key];
+        }
+        else {
+            console.log(response.errors);
+        }
+        return false;
+    }
+}
+Permissions.Permission.Namespace=`${moduleName}.Permissions`;
+
+_.Permissions.Permission=Permissions.Permission;
 Permissions.PermissionQuery=class PermissionQuery {
     $type;
     value;
@@ -12915,17 +12850,52 @@ Tools.VoidWithPdfError.$schema={...(AventusSharp.Tools.VoidWithError?.$schema ??
 Aventus.Converter.register(Tools.VoidWithPdfError.Fullname, Tools.VoidWithPdfError);
 
 _.Tools.VoidWithPdfError=Tools.VoidWithPdfError;
-Websocket.RayukiEndPointType= AventusSharp.WebSocket.EndPoint.WithRoute({
-    routes: Websocket.RayukiEndPointRoutes,
-    events: Websocket.RayukiEndPointEvents
-});
-
-_.Websocket.RayukiEndPointType=Websocket.RayukiEndPointType;
-Websocket.RayukiEndPoint=class RayukiEndPoint extends Websocket.RayukiEndPointType {
+Websocket.Routes.ApplicationRouter=class ApplicationRouter extends AventusSharp.WebSocket.Route {
+    events;
+    constructor(endpoint) {
+        super(endpoint ?? Websocket.MainEndPoint.getInstance());
+        this.events = {
+            GetAll2: new Websocket.Routes.ApplicationRouter_GetAll2(this.endpoint, this.getPrefix),
+            GetAll3: new Websocket.Routes.ApplicationRouter_GetAll3(this.endpoint, this.getPrefix),
+            GetAll5: new Websocket.Events.ApplicationTestEvent(this.endpoint, this.getPrefix),
+        };
+        for (let key in this.events) {
+            this.events[key].init();
+        }
+    }
+    async GetAll2(options = {}) {
+        const info = {
+            channel: `${this.getPrefix()}/application2`,
+            ...options,
+        };
+        return await this.endpoint.sendMessageAndWait(info);
+    }
+    async GetAll3(body, options = {}) {
+        const info = {
+            channel: `${this.getPrefix()}/application3`,
+            body: body,
+            ...options,
+        };
+        return await this.endpoint.sendMessageAndWait(info);
+    }
+    async GetAll4(options = {}) {
+        const info = {
+            channel: `${this.getPrefix()}/application4`,
+            ...options,
+        };
+        return await this.endpoint.sendMessage(info);
+    }
+    async GetAll5(options = {}) {
+        const info = {
+            channel: `${this.getPrefix()}/getall5`,
+            ...options,
+        };
+        return await this.endpoint.sendMessageAndWait(info);
+    }
 }
-Websocket.RayukiEndPoint.Namespace=`${moduleName}.Websocket`;
+Websocket.Routes.ApplicationRouter.Namespace=`${moduleName}.Websocket.Routes`;
 
-_.Websocket.RayukiEndPoint=Websocket.RayukiEndPoint;
+_.Websocket.Routes.ApplicationRouter=Websocket.Routes.ApplicationRouter;
 
 for(let key in _) { Core[key] = _[key] }
 })(Core);

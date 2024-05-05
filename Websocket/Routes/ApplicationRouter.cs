@@ -9,7 +9,7 @@ using Core.Tools;
 
 namespace Core.Websocket.Routes
 {
-    [EndPoint<MainEndPoint>("application")]
+    [EndPoint<MainEndPoint>]
     public class ApplicationRouter : WsRoute
     {
 

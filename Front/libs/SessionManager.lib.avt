@@ -1,13 +1,13 @@
 import { UserRAM, type UserExtended } from "../ram/User.ram.avt";
-import { CoreRouter } from "../generated/CoreRouter.lib.avt";
 import { LoginCode, LoginError } from "../generated/Logic/PasswordManager.lib.avt";
+import { MainRouter } from "../generated/Routes/MainRouter.lib.avt";
 
 namespace Lib {
     export class SessionManager {
 
         public static async logout() {
             try {
-                await new CoreRouter().routes.Logout();
+                await new MainRouter().Logout();
             } catch { }
             window.location.reload();
         }

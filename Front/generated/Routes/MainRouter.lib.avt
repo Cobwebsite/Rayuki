@@ -1,6 +1,11 @@
+import { CoreRouter } from '../CoreRouter.lib.avt';
+
 namespace Routes {
 
 	export class MainRouter extends Aventus.HttpRoute {
+		public constructor(router?: Aventus.HttpRouter) {
+			super(router ?? new CoreRouter());
+		}
 		public async LoginAction(body: { username: string, password: string } | FormData): Promise<Aventus.VoidWithError<Aventus.GenericError<number>>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/login`, Aventus.HttpMethod.POST);
 			request.setBody(body);

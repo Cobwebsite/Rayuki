@@ -10,7 +10,7 @@ using Core.Websocket.Attributes;
 
 namespace Core.Websocket.Routes
 {
-    [EndPoint<MainEndPoint>("desktop")]
+    [EndPoint<MainEndPoint>]
     public class DesktopRouter : WsRoute
     {
 

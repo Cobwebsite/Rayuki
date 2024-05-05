@@ -2,6 +2,7 @@
   "outputPath": "./Front/generated",
   "csProj": "./Core.csproj",
   "httpRouter": {
+    "createRouter": true,
     "routerName": "CoreRouter",
     "variableRoutesName": "CoreHttpRoutes",
     "namespace": "Routes"

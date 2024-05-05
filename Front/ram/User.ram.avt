@@ -46,7 +46,7 @@ namespace RAM {
             return this.actionGuard.run(["getConnected"], async () => {
                 let result: Aventus.ResultWithError<Aventus.RamItem<UserExtended>> = new Aventus.ResultWithError();
                 if(!this.connectedUserId) {
-                    let query = await new CoreRouter().routes.User.GetConnected();
+                    let query = await new UserRouter().GetConnected();
                     if(!query.success || !query.result) {
                         result.errors = query.errors;
                         return result;
