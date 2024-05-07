@@ -1,6 +1,6 @@
 <label for="input">{{ this.label }}</label>
 <div class="input">
-    <rk-img src="{{ this.icon }}" class="icon"></rk-img>
+    <rk-img src="{{ this.icon }}" class="icon" @element="iconEl"></rk-img>
     <input id="input" @element="inputEl" placeholder="{{ this.placeholder }}" @focus="removeErrors" @input="onValueChange" />
     <div class="error-logo">!</div>
 </div>

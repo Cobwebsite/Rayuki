@@ -1,1 +1,3 @@
-<slot></slot>
+<div class="opacity-wrapper">
+    <slot></slot>
+</div>

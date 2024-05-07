@@ -6547,16 +6547,19 @@ const Icon = class Icon extends Aventus.WebComponent {
         if (!this.type)
             return;
         const name = this.type.charAt(0).toUpperCase() + this.type.slice(1);
-        let fontName = 'Material Symbols ' + name;
+        let fontsName = [
+            'Material Symbols ' + name,
+            '"Material Symbols ' + name + '"',
+        ];
         for (let font of document.fonts) {
-            if (font.family == fontName) {
+            if (fontsName.includes(font.family)) {
                 this.is_hidden = false;
                 return;
             }
         }
         const cb = (e) => {
             for (let font of e.fontfaces) {
-                if (font.family == fontName) {
+                if (fontsName.includes(font.family)) {
                     this.is_hidden = false;
                     break;
                 }

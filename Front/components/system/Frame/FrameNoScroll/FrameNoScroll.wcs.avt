@@ -1,21 +1,30 @@
 @import '@root/_responsive.gs.avt';
 
 :host {
-	animation-delay: var(--local-frame-animation-delay, 0ms);
-	animation-duration: 200ms;
-	animation-name: fadeIn;
-	animation-timing-function: var(--bezier-curve);
-	animation-fill-mode: forwards;
 	display: none;
 	height: 100%;
-	opacity: 0;
-	visibility: hidden;
 	width: 100%;
+
+	.opacity-wrapper {
+		animation-delay: var(--local-frame-animation-delay, 0ms);
+		animation-duration: 200ms;
+		animation-fill-mode: forwards;
+		animation-name: fadeIn;
+		animation-timing-function: var(--bezier-curve);
+		display: none;
+		height: 100%;
+		visibility: hidden;
+		width: 100%;
+
+	}
 }
 
 
 :host([visible]) {
 	display: block;
+	.opacity-wrapper { 
+		display: block;
+	}
 }
 
 @keyframes fadeIn {

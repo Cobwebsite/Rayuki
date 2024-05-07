@@ -59,7 +59,7 @@ namespace Core.Logic
                     Lastname = "Bétrisey",
                     Password = "Pass$1234",
                     Username = "maxime.betrisey",
-                    IsSuperAdmin = true,
+                    // IsSuperAdmin = true,
                 }.Create();
             }
         }

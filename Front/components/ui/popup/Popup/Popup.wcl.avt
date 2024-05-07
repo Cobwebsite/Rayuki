@@ -1,3 +1,5 @@
+import { GenericPopup } from "../GenericPopup/GenericPopup.wcl.avt";
+import type { Scrollable } from "../../layout/Scrollable/Scrollable.wcl.avt";
 
 namespace Components {
 
@@ -12,7 +14,8 @@ namespace Components {
         close_on_click?: boolean;
     };
 
-    export abstract class Popup<T, U extends PopupInfo = PopupInfo> extends Aventus.WebComponent implements Aventus.DefaultComponent {
+    @OverrideView()
+    export abstract class Popup<T, U extends PopupInfo = PopupInfo> extends GenericPopup<T, U> implements Aventus.DefaultComponent {
 
         //#region static
 
@@ -20,133 +23,22 @@ namespace Components {
 
 
         //#region props
-        @Attribute()
-        public no_red_btn!: boolean;
-        @Attribute()
-        public behind!: boolean;
-        @Attribute()
-        public close_on_click!: boolean;
+        
         //#endregion
 
 
         //#region variables
-        protected cb?: (response: T) => void;
-
-        @Watch((target: Popup<T, U>, action: Aventus.WatchAction, path: string, value: any) => {
-            target.onOptionsChanged();
-        })
-        protected info: U;
-
-
-        @ViewElement()
-        protected popupEl!: HTMLDivElement;
-
-        protected pressManagerClose?: Aventus.PressManager;
-        protected pressManagerPopup?: Aventus.PressManager;
-
+       
         //#endregion
 
 
         //#region constructor
-        public constructor() {
-            super();
-            this.info = this.defaultOptions();
-        }
+       
         //#endregion
 
 
         //#region methods
-        public mergeInfo(info: Partial<U>) {
-            this.info = { ...this.info, ...info };
-        }
-        /**
-         * Define the callback
-         */
-        public init(cb: (response: T) => void) {
-            this.cb = cb;
-        }
-
-        protected onOptionsChanged() {
-            this.no_red_btn = this.info.hide_red_btn == true;
-            this.behind = this.info.behind == true;
-            this.close_on_click = this.info.close_on_click == true;
-            this.popupEl.style.maxWidth = this.info.max_width ?? '';
-            this.popupEl.style.maxHeight = this.info.max_height ?? '';
-            this.popupEl.style.minWidth = this.info.min_width ?? '';
-            this.popupEl.style.minHeight = this.info.min_height ?? '';
-        }
-
-        public abstract defaultOptions(): U;
-
-        protected close() {
-            this.classList.add("fade-out")
-        }
-
-        protected addCloseWatcher() {
-            this.addEventListener("animationend", (e) => {
-                if(e.animationName == "fadeOut") {
-                    this.remove();
-                }
-            })
-        }
-
-        protected resolve(response: T, no_close?: boolean) {
-            if(this.cb) {
-                this.cb(response);
-            }
-            if(!no_close) {
-                this.close();
-            }
-        }
-
-        /**
-         * This method will be triggered when the user press on the red button
-         * 
-         * You can use this method to `resolve()` something
-         * 
-         * ```typescript
-         * protected override redPress(): void {
-         *   this.resolve(null);
-         * }
-         * ```
-         */
-        protected abstract cancel(): void;
-
-        protected addPress() {
-           
-            this.popupEl.addEventListener("animationend", (e) => {
-                if(e.animationName == "shake") {
-                    this.popupEl.classList.remove("shake");
-                }
-            });
-            this.pressManagerClose = new Aventus.PressManager({
-                element: this,
-                onPress: (e) => {
-                    if(this.close_on_click) {
-                        this.close();
-                    }
-                    else {
-                        this.popupEl.classList.add("shake");
-                    }
-                }
-            });
-
-            this.pressManagerPopup = new Aventus.PressManager({
-                element: this.popupEl,
-                onPress: (e) => { }
-            });
-        }
-
-        protected override postDestruction(): void {
-            this.pressManagerClose?.destroy();
-            this.pressManagerPopup?.destroy();
-        }
-
-        protected override postCreation(): void {
-            this.addCloseWatcher();
-            this.addPress();
-            this.onOptionsChanged();
-        }
+       
         //#endregion
 
     }

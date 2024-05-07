@@ -1,4 +1,5 @@
-import { Popup, type PopupInfo } from "../Popup/Popup.wcl.avt";
+import { GenericPopup } from "../GenericPopup/GenericPopup.wcl.avt";
+import { type PopupInfo } from "../Popup/Popup.wcl.avt";
 
 namespace Components {
 
@@ -7,7 +8,7 @@ namespace Components {
         btn_txt: string;
     }
 
-    export class Alert extends Popup<void, AlertInfo> implements Aventus.DefaultComponent {
+    export class Alert extends GenericPopup<void, AlertInfo> implements Aventus.DefaultComponent {
 
         //#region static
 
@@ -52,6 +53,7 @@ namespace Components {
         protected override cancel(): void {
             this.resolve();
         }
+
         //#endregion
 
 }

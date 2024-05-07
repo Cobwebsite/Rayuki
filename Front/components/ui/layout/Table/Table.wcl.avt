@@ -12,7 +12,7 @@ import { TableCellHeader } from "./cells/TableCellHeader/TableCellHeader.wcl.avt
 
 namespace Components {
     export type TableCellType = 'number' | 'string' | 'date' | 'boolean' | 'custom' | 'picture';
-    export type TableSchemaCellContent<T> = (data: T, cell: TableCell<any, T>) => void;
+    export type TableSchemaCellContent<T> = (data: T, cell: TableCell<any, T>) => (void | string | undefined);
     export type TableSchemaCellCst<T> = new () => TableCell<any, T>;
     export type TableSchemaCell<T> = TableSchemaCellCst<T>;
     export type TableSchema<T> = {

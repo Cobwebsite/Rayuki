@@ -81,6 +81,7 @@ _.Errors.CoreErrorCode=Errors.CoreErrorCode;
     DesktopPermission[DesktopPermission["CanDelete"] = 1] = "CanDelete";
     DesktopPermission[DesktopPermission["CanCreate"] = 2] = "CanCreate";
     DesktopPermission[DesktopPermission["CanTemplate"] = 3] = "CanTemplate";
+    DesktopPermission[DesktopPermission["CanChangeBackground"] = 4] = "CanChangeBackground";
 })(Permissions.DesktopPermission || (Permissions.DesktopPermission = {}));
 
 _.Permissions.DesktopPermission=Permissions.DesktopPermission;
@@ -593,187 +594,6 @@ Components.Card.Tag=`rk-card`;
 _.Components.Card=Components.Card;
 if(!window.customElements.get('rk-card')){window.customElements.define('rk-card', Components.Card);Aventus.WebComponentInstance.registerDefinition(Components.Card);}
 
-Components.Img = class Img extends Aventus.WebComponent {
-    static get observedAttributes() {return ["src", "mode"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'cache'() { return this.getBoolAttr('cache') }
-    set 'cache'(val) { this.setBoolAttr('cache', val) }    get 'src'() { return this.getStringProp('src') }
-    set 'src'(val) { this.setStringAttr('src', val) }get 'mode'() { return this.getStringProp('mode') }
-    set 'mode'(val) { this.setStringAttr('mode', val) }    isCalculing;
-    maxCalculateSize = 10;
-    ratio = 1;
-    resizeObserver;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("src", ((target) => {
-    target.onSrcChanged();
-}));this.__addPropertyActions("mode", ((target) => {
-    if (target.src != "") {
-        target.calculateSize();
-    }
-})); }
-    static __style = `:host{--_img-color: var(--img-color);--_img-stroke-color: var(--img-stroke-color, var(--_img-color));--_img-fill-color: var(--img-fill-color, var(--_img-color));--_img-color-transition: var(--img-color-transition, none);--_img-stroke-width: var(--img-stroke-width, 1px)}:host{display:inline-block;font-size:0;overflow:hidden}:host *{box-sizing:border-box}:host img{opacity:0;transition:filter .3s linear}:host .svg{display:none;height:100%;width:100%}:host .svg svg{height:100%;width:100%}:host([src$=".svg"]) img{display:none}:host([src$=".svg"]) .svg{display:flex}:host([src$=".svg"]) .svg svg{fill:var(--_img-fill-color);stroke:var(--_img-stroke-color);stroke-width:var(--_img-stroke-width);transition:var(--_img-color-transition)}:host([display_bigger]) img{cursor:pointer}:host([display_bigger]) img:hover{filter:brightness(50%)}`;
-    __getStatic() {
-        return Img;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Img.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<img _id="img_0" /><div class="svg" _id="img_1"></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "imgEl",
-      "ids": [
-        "img_0"
-      ]
-    },
-    {
-      "name": "svgEl",
-      "ids": [
-        "img_1"
-      ]
-    }
-  ]
-}); }
-    getClassName() {
-        return "Img";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('cache')) { this.attributeChangedCallback('cache', false, false); }if(!this.hasAttribute('src')){ this['src'] = undefined; }if(!this.hasAttribute('mode')){ this['mode'] = "contains"; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('cache');this.__upgradeProperty('src');this.__upgradeProperty('mode'); }
-    __listBoolProps() { return ["cache"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    calculateSize(attempt = 0) {
-        if (this.isCalculing || !this.imgEl || !this.svgEl) {
-            return;
-        }
-        if (this.src == "") {
-            return;
-        }
-        this.isCalculing = true;
-        if (getComputedStyle(this).display == 'none') {
-            return;
-        }
-        if (attempt == this.maxCalculateSize) {
-            this.isCalculing = false;
-            return;
-        }
-        let element = this.imgEl;
-        if (this.src?.endsWith(".svg")) {
-            element = this.svgEl;
-        }
-        this.style.width = '';
-        this.style.height = '';
-        element.style.width = '';
-        element.style.height = '';
-        if (element.offsetWidth == 0 && element.offsetHeight == 0) {
-            setTimeout(() => {
-                this.isCalculing = false;
-                this.calculateSize(attempt + 1);
-            }, 100);
-            return;
-        }
-        let style = getComputedStyle(this);
-        let addedY = Number(style.paddingTop.replace("px", "")) + Number(style.paddingBottom.replace("px", "")) + Number(style.borderTopWidth.replace("px", "")) + Number(style.borderBottomWidth.replace("px", ""));
-        let addedX = Number(style.paddingLeft.replace("px", "")) + Number(style.paddingRight.replace("px", "")) + Number(style.borderLeftWidth.replace("px", "")) + Number(style.borderRightWidth.replace("px", ""));
-        let availableHeight = this.offsetHeight - addedY;
-        let availableWidth = this.offsetWidth - addedX;
-        let sameWidth = (element.offsetWidth == availableWidth);
-        let sameHeight = (element.offsetHeight == availableHeight);
-        this.ratio = element.offsetWidth / element.offsetHeight;
-        if (sameWidth && !sameHeight) {
-            // height is set
-            element.style.width = (availableHeight * this.ratio) + 'px';
-            element.style.height = availableHeight + 'px';
-        }
-        else if (!sameWidth && sameHeight) {
-            // width is set
-            element.style.width = availableWidth + 'px';
-            element.style.height = (availableWidth / this.ratio) + 'px';
-        }
-        else if (!sameWidth && !sameHeight) {
-            if (this.mode == "stretch") {
-                element.style.width = '100%';
-                element.style.height = '100%';
-            }
-            else if (this.mode == "contains") {
-                // suppose this height is max
-                let newWidth = (availableHeight * this.ratio);
-                if (newWidth <= availableWidth) {
-                    //we can apply this value
-                    element.style.width = newWidth + 'px';
-                    element.style.height = availableHeight + 'px';
-                }
-                else {
-                    element.style.width = availableWidth + 'px';
-                    element.style.height = (availableWidth / this.ratio) + 'px';
-                }
-            }
-            else if (this.mode == "cover") {
-                // suppose this height is min
-                let newWidth = (availableHeight * this.ratio);
-                if (newWidth >= availableWidth) {
-                    //we can apply this value
-                    element.style.width = newWidth + 'px';
-                    element.style.height = availableHeight + 'px';
-                }
-                else {
-                    element.style.width = availableWidth + 'px';
-                    element.style.height = (availableWidth / this.ratio) + 'px';
-                }
-            }
-        }
-        //center img
-        let diffTop = (this.offsetHeight - element.offsetHeight - addedY) / 2;
-        let diffLeft = (this.offsetWidth - element.offsetWidth - addedX) / 2;
-        element.style.transform = "translate(" + diffLeft + "px, " + diffTop + "px)";
-        element.style.opacity = '1';
-        this.isCalculing = false;
-    }
-    async onSrcChanged() {
-        if (!this.src || !this.svgEl || !this.imgEl) {
-            return;
-        }
-        if (this.src.endsWith(".svg")) {
-            let svgContent = await Aventus.ResourceLoader.load(this.src);
-            this.svgEl.innerHTML = svgContent;
-            this.calculateSize();
-        }
-        else if (this.cache) {
-            let base64 = await Aventus.ResourceLoader.load({
-                url: this.src,
-                type: 'img'
-            });
-            this.imgEl.setAttribute("src", base64);
-            this.calculateSize();
-        }
-        else {
-            this.imgEl.setAttribute("src", this.src);
-            this.calculateSize();
-        }
-    }
-    postDestruction() {
-        super.postDestruction();
-        this.resizeObserver?.disconnect();
-        this.resizeObserver = undefined;
-    }
-    postCreation() {
-        this.resizeObserver = new Aventus.ResizeObserver({
-            fps: 10,
-            callback: () => {
-                this.calculateSize();
-            }
-        });
-        this.resizeObserver.observe(this);
-    }
-}
-Components.Img.Namespace=`${moduleName}.Components`;
-Components.Img.Tag=`rk-img`;
-_.Components.Img=Components.Img;
-if(!window.customElements.get('rk-img')){window.customElements.define('rk-img', Components.Img);Aventus.WebComponentInstance.registerDefinition(Components.Img);}
-
 Components.BoxContainer = class BoxContainer extends Aventus.WebComponent {
     static get observedAttributes() {return ["space"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'space'() { return this.getNumberProp('space') }
@@ -927,6 +747,200 @@ Components.InputFile.Namespace=`${moduleName}.Components`;
 Components.InputFile.Tag=`rk-input-file`;
 _.Components.InputFile=Components.InputFile;
 if(!window.customElements.get('rk-input-file')){window.customElements.define('rk-input-file', Components.InputFile);Aventus.WebComponentInstance.registerDefinition(Components.InputFile);}
+
+Components.Img = class Img extends Aventus.WebComponent {
+    static get observedAttributes() {return ["src", "mode"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'cache'() { return this.getBoolAttr('cache') }
+    set 'cache'(val) { this.setBoolAttr('cache', val) }    get 'src'() { return this.getStringProp('src') }
+    set 'src'(val) { this.setStringAttr('src', val) }get 'mode'() { return this.getStringProp('mode') }
+    set 'mode'(val) { this.setStringAttr('mode', val) }    isCalculing;
+    maxCalculateSize = 10;
+    ratio = 1;
+    resizeObserver;
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("src", ((target) => {
+    target.onSrcChanged();
+}));this.__addPropertyActions("mode", ((target) => {
+    if (target.src != "") {
+        target.calculateSize();
+    }
+})); }
+    static __style = `:host{--_img-color: var(--img-color);--_img-stroke-color: var(--img-stroke-color, var(--_img-color));--_img-fill-color: var(--img-fill-color, var(--_img-color));--_img-color-transition: var(--img-color-transition, none);--_img-stroke-width: var(--img-stroke-width, 1px)}:host{display:inline-block;font-size:0;overflow:hidden}:host *{box-sizing:border-box}:host img{opacity:0;transition:filter .3s linear}:host .svg{display:none;height:100%;width:100%}:host .svg svg{height:100%;width:100%}:host mi-icon{display:none;height:100%;width:100%;font-size:inherit}:host([src$=".svg"]) img{display:none}:host([src$=".svg"]) .svg{display:flex}:host([src$=".svg"]) .svg svg{fill:var(--_img-fill-color);stroke:var(--_img-stroke-color);stroke-width:var(--_img-stroke-width);transition:var(--_img-color-transition)}:host([src$=".svg"]) mi-icon{display:none}:host([src^=mi-]){font-size:inherit}:host([src^=mi-]) img{display:none}:host([src^=mi-]) .svg{display:none}:host([src^=mi-]) mi-icon{display:inline-block}:host([display_bigger]) img{cursor:pointer}:host([display_bigger]) img:hover{filter:brightness(50%)}`;
+    __getStatic() {
+        return Img;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Img.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<img _id="img_0" /><div class="svg" _id="img_1"></div><mi-icon _id="img_2"></mi-icon>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "imgEl",
+      "ids": [
+        "img_0"
+      ]
+    },
+    {
+      "name": "svgEl",
+      "ids": [
+        "img_1"
+      ]
+    },
+    {
+      "name": "iconEl",
+      "ids": [
+        "img_2"
+      ]
+    }
+  ]
+}); }
+    getClassName() {
+        return "Img";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('cache')) { this.attributeChangedCallback('cache', false, false); }if(!this.hasAttribute('src')){ this['src'] = undefined; }if(!this.hasAttribute('mode')){ this['mode'] = "contains"; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('cache');this.__upgradeProperty('src');this.__upgradeProperty('mode'); }
+    __listBoolProps() { return ["cache"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    calculateSize(attempt = 0) {
+        if (this.isCalculing || !this.imgEl || !this.svgEl) {
+            return;
+        }
+        if (this.src == "") {
+            return;
+        }
+        this.isCalculing = true;
+        if (getComputedStyle(this).display == 'none') {
+            return;
+        }
+        if (attempt == this.maxCalculateSize) {
+            this.isCalculing = false;
+            return;
+        }
+        let element = this.imgEl;
+        if (this.src?.endsWith(".svg")) {
+            element = this.svgEl;
+        }
+        else if (this.src?.startsWith("mi-")) {
+            element = this.iconEl;
+        }
+        this.style.width = '';
+        this.style.height = '';
+        element.style.width = '';
+        element.style.height = '';
+        if (element.offsetWidth == 0 && element.offsetHeight == 0) {
+            setTimeout(() => {
+                this.isCalculing = false;
+                this.calculateSize(attempt + 1);
+            }, 100);
+            return;
+        }
+        let style = getComputedStyle(this);
+        let addedY = Number(style.paddingTop.replace("px", "")) + Number(style.paddingBottom.replace("px", "")) + Number(style.borderTopWidth.replace("px", "")) + Number(style.borderBottomWidth.replace("px", ""));
+        let addedX = Number(style.paddingLeft.replace("px", "")) + Number(style.paddingRight.replace("px", "")) + Number(style.borderLeftWidth.replace("px", "")) + Number(style.borderRightWidth.replace("px", ""));
+        let availableHeight = this.offsetHeight - addedY;
+        let availableWidth = this.offsetWidth - addedX;
+        let sameWidth = (element.offsetWidth == availableWidth);
+        let sameHeight = (element.offsetHeight == availableHeight);
+        this.ratio = element.offsetWidth / element.offsetHeight;
+        if (sameWidth && !sameHeight) {
+            // height is set
+            element.style.width = (availableHeight * this.ratio) + 'px';
+            element.style.height = availableHeight + 'px';
+        }
+        else if (!sameWidth && sameHeight) {
+            // width is set
+            element.style.width = availableWidth + 'px';
+            element.style.height = (availableWidth / this.ratio) + 'px';
+        }
+        else if (!sameWidth && !sameHeight) {
+            if (this.mode == "stretch") {
+                element.style.width = '100%';
+                element.style.height = '100%';
+            }
+            else if (this.mode == "contains") {
+                // suppose this height is max
+                let newWidth = (availableHeight * this.ratio);
+                if (newWidth <= availableWidth) {
+                    //we can apply this value
+                    element.style.width = newWidth + 'px';
+                    element.style.height = availableHeight + 'px';
+                }
+                else {
+                    element.style.width = availableWidth + 'px';
+                    element.style.height = (availableWidth / this.ratio) + 'px';
+                }
+            }
+            else if (this.mode == "cover") {
+                // suppose this height is min
+                let newWidth = (availableHeight * this.ratio);
+                if (newWidth >= availableWidth) {
+                    //we can apply this value
+                    element.style.width = newWidth + 'px';
+                    element.style.height = availableHeight + 'px';
+                }
+                else {
+                    element.style.width = availableWidth + 'px';
+                    element.style.height = (availableWidth / this.ratio) + 'px';
+                }
+            }
+        }
+        //center img
+        let diffTop = (this.offsetHeight - element.offsetHeight - addedY) / 2;
+        let diffLeft = (this.offsetWidth - element.offsetWidth - addedX) / 2;
+        element.style.transform = "translate(" + diffLeft + "px, " + diffTop + "px)";
+        element.style.opacity = '1';
+        this.isCalculing = false;
+    }
+    async onSrcChanged() {
+        if (!this.src || !this.svgEl || !this.imgEl || !this.iconEl) {
+            return;
+        }
+        if (this.src.endsWith(".svg")) {
+            let svgContent = await Aventus.ResourceLoader.load(this.src);
+            this.svgEl.innerHTML = svgContent;
+            this.calculateSize();
+        }
+        else if (this.src.startsWith("mi-")) {
+            this.iconEl.icon = this.src.replace("mi-", "");
+            this.calculateSize();
+        }
+        else if (this.cache) {
+            let base64 = await Aventus.ResourceLoader.load({
+                url: this.src,
+                type: 'img'
+            });
+            this.imgEl.setAttribute("src", base64);
+            this.calculateSize();
+        }
+        else {
+            this.imgEl.setAttribute("src", this.src);
+            this.calculateSize();
+        }
+    }
+    postDestruction() {
+        super.postDestruction();
+        this.resizeObserver?.disconnect();
+        this.resizeObserver = undefined;
+    }
+    postCreation() {
+        this.resizeObserver = new Aventus.ResizeObserver({
+            fps: 10,
+            callback: () => {
+                this.calculateSize();
+            }
+        });
+        this.resizeObserver.observe(this);
+    }
+}
+Components.Img.Namespace=`${moduleName}.Components`;
+Components.Img.Tag=`rk-img`;
+_.Components.Img=Components.Img;
+if(!window.customElements.get('rk-img')){window.customElements.define('rk-img', Components.Img);Aventus.WebComponentInstance.registerDefinition(Components.Img);}
 
 Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -1564,9 +1578,8 @@ Lib.ServiceWorker=class ServiceWorker {
     }
     subscription;
     async init(registration) {
-        if (await this.getSubscription(registration)) {
-            this.subscribe();
-        }
+        // if(await this.getSubscription(registration)) {
+        //     this.subscribe();
     }
     async getSubscription(registration) {
         try {
@@ -3827,6 +3840,9 @@ Lib.SessionManager=class SessionManager {
         catch { }
         window.location.reload();
     }
+    static getUserId() {
+        return userIdConnected;
+    }
     static async getUser() {
         let result = await RAM.UserRAM.getInstance().getConnected();
         if (result.containsCode(Errors.LoginCode.NotConnected, Errors.LoginError)) {
@@ -4838,7 +4854,7 @@ System.FrameNoScroll = class FrameNoScroll extends Aventus.WebComponent {
         target.onHide();
     }
 })); }
-    static __style = `:host{animation-delay:var(--local-frame-animation-delay, 0ms);animation-duration:200ms;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);animation-fill-mode:forwards;display:none;height:100%;opacity:0;visibility:hidden;width:100%}:host([visible]){display:block}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}`;
+    static __style = `:host{display:none;height:100%;width:100%}:host .opacity-wrapper{animation-delay:var(--local-frame-animation-delay, 0ms);animation-duration:200ms;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);display:none;height:100%;visibility:hidden;width:100%}:host([visible]){display:block}:host([visible]) .opacity-wrapper{display:block}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}`;
     constructor() {
             super();
             this.addFadeIn();
@@ -4854,7 +4870,7 @@ if (this.constructor == FrameNoScroll) { throw "can't instanciate an abstract cl
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
+        blocks: { 'default':`<div class="opacity-wrapper">    <slot></slot></div>` }
     });
 }
     getClassName() {
@@ -5533,7 +5549,7 @@ System.Frame404.Tag=`rk-frame-404`;
 _.System.Frame404=System.Frame404;
 if(!window.customElements.get('rk-frame-404')){window.customElements.define('rk-frame-404', System.Frame404);Aventus.WebComponentInstance.registerDefinition(System.Frame404);}
 
-Components.Popup = class Popup extends Aventus.WebComponent {
+Components.GenericPopup = class GenericPopup extends Aventus.WebComponent {
     get 'no_red_btn'() { return this.getBoolAttr('no_red_btn') }
     set 'no_red_btn'(val) { this.setBoolAttr('no_red_btn', val) }get 'behind'() { return this.getBoolAttr('behind') }
     set 'behind'(val) { this.setBoolAttr('behind', val) }get 'close_on_click'() { return this.getBoolAttr('close_on_click') }
@@ -5550,20 +5566,23 @@ Components.Popup = class Popup extends Aventus.WebComponent {
     target.onOptionsChanged();
 }));    super.__registerWatchesActions();
 }
-    static __style = `:host{--_popup-background-color: var(--popup-background-color, var(--application-background-color, var(--primary-color-opacity)));--_popup-border-radius: var(--popup-border-radius, var(--application-border-radius, 10px));--_popup-header-background-color: var(--popup-header-background-color, var(--application-header-background-color, var(--darker-active)));--_popup-content-padding: var(--popup-content-padding, 15px)}:host{align-items:center;animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(48,48,48,.1);border-radius:var(--application-border-radius);display:flex;inset:0;justify-content:center;position:absolute;z-index:650}:host .popup{background-color:var(--_popup-background-color);border-radius:var(--_popup-border-radius);box-shadow:var(--elevation-5);container-name:application;container-type:inline-size;display:flex;flex-direction:column;max-height:calc(100% - 50px);max-width:calc(100% - 50px)}:host .popup .header{align-items:center;border-top-left-radius:var(--_popup-border-radius);border-top-right-radius:var(--_popup-border-radius);display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .popup .header .background{background-color:var(--_popup-header-background-color);inset:0;position:absolute;z-index:1}:host .popup .header .title{flex-grow:1;margin-left:15px;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .popup .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .popup .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .popup .content{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - var(--_popup-content-padding) - var(--_popup-content-padding));border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);max-height:calc(var(--app-height) - 50px - 30px);min-width:auto;min-height:auto;overflow:hidden;padding:var(--_popup-content-padding);width:100%;z-index:1}:host .popup.shake{animation-duration:.3s;animation-iteration-count:1;animation-name:shake;animation-timing-function:var(--bezier-curve)}:host(.fade-out){animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeOut;animation-timing-function:var(--bezier-curve)}:host([no_red_btn]) .popup .header .application-actions .btn{display:none}:host([behind]){z-index:550}@media screen and (min-width: 1225px){:host .popup .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}@keyframes fadeOut{0%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}@keyframes shake{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}`;
-    constructor() {            super();            this.info = this.defaultOptions();if (this.constructor == Popup) { throw "can't instanciate an abstract class"; } }
+    static __style = `:host{--_popup-background-color: var(--popup-background-color, var(--application-background-color, var(--primary-color-opacity)));--_popup-border-radius: var(--popup-border-radius, var(--application-border-radius, 10px));--_popup-header-background-color: var(--popup-header-background-color, var(--application-header-background-color, var(--darker-active)));--_popup-content-padding: var(--popup-content-padding, 15px)}:host{align-items:center;animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(48,48,48,.1);border-radius:var(--application-border-radius);display:flex;inset:0;justify-content:center;position:absolute;z-index:650}:host .popup{background-color:var(--_popup-background-color);border-radius:var(--_popup-border-radius);box-shadow:var(--elevation-5);container-name:application;container-type:normal;display:flex;flex-direction:column;max-height:calc(100% - 50px);max-width:calc(100% - 50px);width:fit-content}:host .popup .header{align-items:center;border-top-left-radius:var(--_popup-border-radius);border-top-right-radius:var(--_popup-border-radius);display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .popup .header .background{background-color:var(--_popup-header-background-color);inset:0;position:absolute;z-index:1}:host .popup .header .title{flex-grow:1;margin-left:15px;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .popup .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .popup .header .application-actions .btn{border-radius:10px;height:15px;width:15px}:host .popup .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);max-height:calc(var(--app-height) - 50px - 30px);min-width:auto;min-height:auto;overflow:hidden;padding:var(--_popup-content-padding);width:100%;z-index:1;width:fit-content}:host .popup.shake{animation-duration:.3s;animation-iteration-count:1;animation-name:shake;animation-timing-function:var(--bezier-curve)}:host(.fade-out){animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeOut;animation-timing-function:var(--bezier-curve)}:host([no_red_btn]) .popup .header .application-actions .btn{display:none}:host([behind]){z-index:550}@media screen and (min-width: 1225px){:host .popup .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}@keyframes fadeOut{0%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}@keyframes shake{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}`;
+    constructor() {
+            super();
+            this.info = this.defaultOptions();
+if (this.constructor == GenericPopup) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
-        return Popup;
+        return GenericPopup;
     }
     __getStyle() {
         let arrStyle = super.__getStyle();
-        arrStyle.push(Popup.__style);
+        arrStyle.push(GenericPopup.__style);
         return arrStyle;
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="popup" _id="popup_0">    <div class="header">        <div class="background"></div>        <div class="title" _id="popup_1"></div>        <div class="application-actions">            <div class="btn red touch" _id="popup_2"></div>        </div>    </div>    <rk-scrollable class="content">        <slot></slot>    </rk-scrollable></div>` }
+        blocks: { 'default':`<div class="popup" _id="genericpopup_0">    <div class="header">        <div class="background"></div>        <div class="title" _id="genericpopup_1"></div>        <div class="application-actions">            <div class="btn red touch" _id="genericpopup_2"></div>        </div>    </div>    <div class="content">        <slot></slot>    </div></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -5571,25 +5590,25 @@ Components.Popup = class Popup extends Aventus.WebComponent {
     {
       "name": "popupEl",
       "ids": [
-        "popup_0"
+        "genericpopup_0"
       ]
     }
   ],
   "content": {
-    "popup_1°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__c6b222033048639bf6ac58d471520fbamethod0())}`,
+    "genericpopup_1°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__cc26f54f9c039edaaa84e25490791589method0())}`,
       "once": true
     }
   },
   "pressEvents": [
     {
-      "id": "popup_2",
+      "id": "genericpopup_2",
       "onPress": (e, pressInstance, c) => { c.comp.cancel(e, pressInstance); }
     }
   ]
 }); }
     getClassName() {
-        return "Popup";
+        return "GenericPopup";
     }
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('no_red_btn')) { this.attributeChangedCallback('no_red_btn', false, false); }if(!this.hasAttribute('behind')) { this.attributeChangedCallback('behind', false, false); }if(!this.hasAttribute('close_on_click')) { this.attributeChangedCallback('close_on_click', false, false); } }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["info"] = undefined; }
@@ -5659,14 +5678,14 @@ Components.Popup = class Popup extends Aventus.WebComponent {
         this.addPress();
         this.onOptionsChanged();
     }
-    __c6b222033048639bf6ac58d471520fbamethod0() {
+    __cc26f54f9c039edaaa84e25490791589method0() {
         return this.info.title;
     }
 }
-Components.Popup.Namespace=`${moduleName}.Components`;
-_.Components.Popup=Components.Popup;
+Components.GenericPopup.Namespace=`${moduleName}.Components`;
+_.Components.GenericPopup=Components.GenericPopup;
 
-Components.Confirm = class Confirm extends Components.Popup {
+Components.Confirm = class Confirm extends Components.GenericPopup {
     static __style = `:host .popup .body{align-items:center;display:flex;justify-content:center;line-height:1.5;padding:20px;padding-top:15px;text-align:center}:host .popup .action{align-items:center;display:flex;gap:20px;justify-content:center}`;
     __getStatic() {
         return Confirm;
@@ -5739,8 +5758,8 @@ Components.Confirm.Tag=`rk-confirm`;
 _.Components.Confirm=Components.Confirm;
 if(!window.customElements.get('rk-confirm')){window.customElements.define('rk-confirm', Components.Confirm);Aventus.WebComponentInstance.registerDefinition(Components.Confirm);}
 
-Components.Alert = class Alert extends Components.Popup {
-    static __style = `:host .popup .body{align-items:center;display:flex;justify-content:center;line-height:1.5;padding:20px;padding-top:15px;text-align:center}:host .popup .action{align-items:center;display:flex;gap:20px;justify-content:center}`;
+Components.Alert = class Alert extends Components.GenericPopup {
+    static __style = `:host .popup .content .body{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - 36px - var(--_popup-content-padding) - var(--_popup-content-padding));align-items:center;display:flex;justify-content:center;line-height:1.5;max-height:calc(var(--app-height) - 50px - 30px - 36px - var(--_popup-content-padding) - var(--_popup-content-padding));padding:20px;padding-top:15px;text-align:center}:host .popup .content .action{align-items:center;display:flex;gap:20px;height:36px;justify-content:center}`;
     __getStatic() {
         return Alert;
     }
@@ -5800,6 +5819,55 @@ Components.Alert.Namespace=`${moduleName}.Components`;
 Components.Alert.Tag=`rk-alert`;
 _.Components.Alert=Components.Alert;
 if(!window.customElements.get('rk-alert')){window.customElements.define('rk-alert', Components.Alert);Aventus.WebComponentInstance.registerDefinition(Components.Alert);}
+
+Components.Popup = class Popup extends Components.GenericPopup {
+    static __style = `:host .popup .content{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - var(--_popup-content-padding) - var(--_popup-content-padding))}`;
+    constructor() { super(); if (this.constructor == Popup) { throw "can't instanciate an abstract class"; } }
+    __getStatic() {
+        return Popup;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Popup.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="popup" _id="popup_0">    <div class="header">        <div class="background"></div>        <div class="title" _id="popup_1"></div>        <div class="application-actions">            <div class="btn red touch" _id="popup_2"></div>        </div>    </div>    <rk-scrollable class="content">        <slot></slot>    </rk-scrollable></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "popupEl",
+      "ids": [
+        "popup_0"
+      ]
+    }
+  ],
+  "content": {
+    "popup_1°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__c6b222033048639bf6ac58d471520fbamethod0())}`,
+      "once": true
+    }
+  },
+  "pressEvents": [
+    {
+      "id": "popup_2",
+      "onPress": (e, pressInstance, c) => { c.comp.cancel(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "Popup";
+    }
+    __c6b222033048639bf6ac58d471520fbamethod0() {
+        return this.info.title;
+    }
+}
+Components.Popup.Namespace=`${moduleName}.Components`;
+_.Components.Popup=Components.Popup;
 
 System.Application = class Application extends Aventus.WebComponent {
     static get observedAttributes() {return ["app_title", "full", "is_hidden"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -9596,117 +9664,6 @@ Components.InputNumber.Tag=`rk-input-number`;
 _.Components.InputNumber=Components.InputNumber;
 if(!window.customElements.get('rk-input-number')){window.customElements.define('rk-input-number', Components.InputNumber);Aventus.WebComponentInstance.registerDefinition(Components.InputNumber);}
 
-Components.Input = class Input extends Components.FormElement {
-    static get observedAttributes() {return ["label", "placeholder", "icon", "value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
-    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }get 'value'() { return this.getStringProp('value') }
-    set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
-    target.inputEl.value = target.value;
-})); }
-    static __style = `:host{--_input-height: var(--input-height, 30px);--_input-background-color: var(--input-background-color, var(--form-element-background, white));--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-background-color);border:var(--_input-input-border);border-radius:var(--_input-border-radius);display:flex;height:var(--_input-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:50%;color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-error-logo-size) - 5px);height:var(--_input-error-logo-size);justify-content:center;width:var(--_input-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}`;
-    __getStatic() {
-        return Input;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Input.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<label for="input" _id="input_0"></label><div class="input">    <rk-img class="icon" _id="input_1"></rk-img>    <input id="input" _id="input_2" />    <div class="error-logo">!</div></div><div class="errors">    <template _id="input_3"></template></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "inputEl",
-      "ids": [
-        "input_2"
-      ]
-    }
-  ],
-  "content": {
-    "input_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method1())}`,
-      "once": true
-    },
-    "input_1°src": {
-      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method2())}`,
-      "once": true
-    },
-    "input_2°placeholder": {
-      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method3())}`,
-      "once": true
-    }
-  },
-  "events": [
-    {
-      "eventName": "focus",
-      "id": "input_2",
-      "fct": (e, c) => c.comp.removeErrors(e)
-    },
-    {
-      "eventName": "input",
-      "id": "input_2",
-      "fct": (e, c) => c.comp.onValueChange(e)
-    }
-  ]
-});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <template _id="input_4"></template>    `);this.__getStatic().__template.addLoop({
-                    anchorId: 'input_3',
-                    template: templ0,
-                simple:{data: "this.errors",item:"error"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`            <div _id="input_5"></div>        `);templ1.setActions({
-  "content": {
-    "input_5°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method4(c.data.error))}`,
-      "once": true
-    }
-  }
-});templ0.addIf({
-                    anchorId: 'input_4',
-                    parts: [{once: true,
-                    condition: (c) => true,
-                    template: templ1
-                }]
-            }); }
-    getClassName() {
-        return "Input";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = ""; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('value'); }
-    removeErrors() {
-        this.errors = [];
-    }
-    onValueChange() {
-        this.value = this.inputEl.value;
-        this.onChange.trigger([this.value]);
-        if (this.formPart) {
-            Components.FormElement.setValue(this.formPart, this.value);
-            if (this.formPart.validateOnChange !== false) {
-                this.validate();
-            }
-        }
-    }
-    __7b4688f1d13a935f88db2286094e0088method1() {
-        return this.label;
-    }
-    __7b4688f1d13a935f88db2286094e0088method2() {
-        return this.icon;
-    }
-    __7b4688f1d13a935f88db2286094e0088method3() {
-        return this.placeholder;
-    }
-    __7b4688f1d13a935f88db2286094e0088method4(error) {
-        return error;
-    }
-}
-Components.Input.Namespace=`${moduleName}.Components`;
-Components.Input.Tag=`rk-input`;
-_.Components.Input=Components.Input;
-if(!window.customElements.get('rk-input')){window.customElements.define('rk-input', Components.Input);Aventus.WebComponentInstance.registerDefinition(Components.Input);}
-
 Components.Checkbox = class Checkbox extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'left_label'() { return this.getBoolAttr('left_label') }
@@ -10029,6 +9986,10 @@ State.CreateOrUpdate=class CreateOrUpdate extends State.ApplicationStorableState
     genericState() {
         return `/${this.defineObjectName().toLowerCase()}/{id:number}`;
     }
+    /**
+     * This will validate the form and save the model though the ram
+     * Errors are deals by this method. If success, result !== undefined
+     */
     async save() {
         let result;
         const validationResult = await this.form.validate(this.application);
@@ -10091,7 +10052,7 @@ Components.Button = class Button extends Aventus.WebComponent {
     set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
     target.icon_before = target.icon;
 })); }
-    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--internal-button-background-color);border-radius:5px;box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;cursor:not-allowed;color:var(--_button-color-disable);box-shadow:none}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
+    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, 5px);--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--internal-button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
     __getStatic() {
         return Button;
     }
@@ -10441,6 +10402,185 @@ Components.CalendarContainer.Namespace=`${moduleName}.Components`;
 Components.CalendarContainer.Tag=`rk-calendar-container`;
 _.Components.CalendarContainer=Components.CalendarContainer;
 if(!window.customElements.get('rk-calendar-container')){window.customElements.define('rk-calendar-container', Components.CalendarContainer);Aventus.WebComponentInstance.registerDefinition(Components.CalendarContainer);}
+
+Components.Input = class Input extends Components.FormElement {
+    static get observedAttributes() {return ["label", "placeholder", "icon", "icon_position", "value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
+    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'icon_position'() { return this.getStringProp('icon_position') }
+    set 'icon_position'(val) { this.setStringAttr('icon_position', val) }get 'value'() { return this.getStringProp('value') }
+    set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
+    target.inputEl.value = target.value;
+})); }
+    static __style = `:host{--_input-height: var(--input-height, 30px);--_input-background-color: var(--input-background-color, var(--form-element-background, white));--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-background-color);border:var(--_input-input-border);border-radius:var(--_input-border-radius);display:flex;height:var(--_input-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:50%;color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-error-logo-size) - 5px);height:var(--_input-error-logo-size);justify-content:center;width:var(--_input-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([icon_position=right]) .input .icon{order:2;margin-right:0px}:host([icon_position=right]) .input .input{order:1}:host([icon_position=right]) .input .error-logo{order:3;margin-left:10px}:host([label]:not([label=""])) label{display:flex}`;
+    __getStatic() {
+        return Input;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Input.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<label for="input" _id="input_0"></label><div class="input">    <rk-img class="icon" _id="input_1"></rk-img>    <input id="input" _id="input_2" />    <div class="error-logo">!</div></div><div class="errors">    <template _id="input_3"></template></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "iconEl",
+      "ids": [
+        "input_1"
+      ]
+    },
+    {
+      "name": "inputEl",
+      "ids": [
+        "input_2"
+      ]
+    }
+  ],
+  "content": {
+    "input_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method1())}`,
+      "once": true
+    },
+    "input_1°src": {
+      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method2())}`,
+      "once": true
+    },
+    "input_2°placeholder": {
+      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method3())}`,
+      "once": true
+    }
+  },
+  "events": [
+    {
+      "eventName": "focus",
+      "id": "input_2",
+      "fct": (e, c) => c.comp.removeErrors(e)
+    },
+    {
+      "eventName": "input",
+      "id": "input_2",
+      "fct": (e, c) => c.comp.onValueChange(e)
+    }
+  ]
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <template _id="input_4"></template>    `);this.__getStatic().__template.addLoop({
+                    anchorId: 'input_3',
+                    template: templ0,
+                simple:{data: "this.errors",item:"error"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`            <div _id="input_5"></div>        `);templ1.setActions({
+  "content": {
+    "input_5°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method4(c.data.error))}`,
+      "once": true
+    }
+  }
+});templ0.addIf({
+                    anchorId: 'input_4',
+                    parts: [{once: true,
+                    condition: (c) => true,
+                    template: templ1
+                }]
+            }); }
+    getClassName() {
+        return "Input";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('icon_position')){ this['icon_position'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = ""; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('icon_position');this.__upgradeProperty('value'); }
+    removeErrors() {
+        this.errors = [];
+    }
+    onValueChange() {
+        this.value = this.inputEl.value;
+        this.onChange.trigger([this.value]);
+        if (this.formPart) {
+            Components.FormElement.setValue(this.formPart, this.value);
+            if (this.formPart.validateOnChange !== false) {
+                this.validate();
+            }
+        }
+    }
+    __7b4688f1d13a935f88db2286094e0088method1() {
+        return this.label;
+    }
+    __7b4688f1d13a935f88db2286094e0088method2() {
+        return this.icon;
+    }
+    __7b4688f1d13a935f88db2286094e0088method3() {
+        return this.placeholder;
+    }
+    __7b4688f1d13a935f88db2286094e0088method4(error) {
+        return error;
+    }
+}
+Components.Input.Namespace=`${moduleName}.Components`;
+Components.Input.Tag=`rk-input`;
+_.Components.Input=Components.Input;
+if(!window.customElements.get('rk-input')){window.customElements.define('rk-input', Components.Input);Aventus.WebComponentInstance.registerDefinition(Components.Input);}
+
+Components.Password = class Password extends Components.Input {
+    static get observedAttributes() {return ["visible", "icon_position"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'visible'() { return this.getBoolProp('visible') }
+    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'icon_position'() { return this.getStringProp('icon_position') }
+    set 'icon_position'(val) { this.setStringAttr('icon_position', val) }    pressIcon;
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("visible", ((target) => {
+    target.updateIcon();
+})); }
+    static __style = `:host .input .icon{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}`;
+    __getStatic() {
+        return Password;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Password.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "Password";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('icon_position')){ this['icon_position'] = "right"; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('icon_position'); }
+    __listBoolProps() { return ["visible"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    toggleVisible() {
+        this.visible = !this.visible;
+    }
+    updateIcon() {
+        if (this.visible) {
+            this.inputEl.type = "input";
+            this.icon = "mi-visibility_off";
+        }
+        else {
+            this.inputEl.type = "password";
+            this.icon = "mi-visibility";
+        }
+    }
+    postCreation() {
+        super.postCreation();
+        this.pressIcon = new Aventus.PressManager({
+            element: this.iconEl,
+            onPress: () => {
+                this.toggleVisible();
+            }
+        });
+    }
+    postDestruction() {
+        super.postDestruction();
+        this.pressIcon?.destroy();
+    }
+}
+Components.Password.Namespace=`${moduleName}.Components`;
+Components.Password.Tag=`rk-password`;
+_.Components.Password=Components.Password;
+if(!window.customElements.get('rk-password')){window.customElements.define('rk-password', Components.Password);Aventus.WebComponentInstance.registerDefinition(Components.Password);}
 
 Components.GenericSelect = class GenericSelect extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "searchable"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -11256,7 +11396,7 @@ Components.Table = class Table extends Aventus.WebComponent {
         target.showFooter = true;
     }
 })); }
-    static __style = `:host{--_table-background-color: var(--table-background-color, var(--secondary-color));--_table-elevation: var(--table-elevation, var(--elevation-2));--_table-row-header-height: var(--table-row-header-height, 50px);--_table-header-backgroud-color: var(--table-header-backgroud-color, var(--primary-color));--_table-header-color: var(--table-header-color, var(--text-color-reverse));--_table-footer-backgroud-color: var(--table-footer-backgroud-color, var(--primary-color));--_table-footer-color: var(--table-footer-color, var(--text-color-reverse));--_table-row-header-backgroud-color: var(--table-row-header-backgroud-color, var(--primary-color));--_table-row-header-color: var(--table-row-header-color, var(--text-color-reverse));--_table-border-color: var(--table-border-color, var(--secondary-color));--_table-row-header-vertical-border: var(--table-row-header-vertical-border, 1px solid var(--_table-border-color));--_table-row-header-horizontal-border: var(--table-row-header-horizontal-border, 1px solid var(--_table-border-color));--_table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-padding: var(--table-cell-padding, 10px);--local-table-cell-resize-display: none}:host{background-color:var(--_table-background-color);border:1px solid var(--_table-border-color);border-radius:5px;box-shadow:var(--_table-elevation);display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper{display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper .header{align-items:center;background-color:var(--_table-header-backgroud-color);color:var(--_table-header-color);display:flex;justify-content:space-between;padding:10px}:host .style-wrapper .header .title{align-items:center;display:flex;font-size:var(--font-size-md);height:30px;margin-left:5px}:host .style-wrapper .row-header{--scrollbar-color: transparent;--scrollbar-active-color: transparent;--scroller-width: 0;height:var(--_table-row-header-height);width:100%}:host .style-wrapper .body{display:flex;flex-direction:column;height:calc(100% - var(--_table-row-header-height));width:100%}:host .style-wrapper .footer{align-items:center;background-color:var(--_table-footer-backgroud-color);color:var(--_table-footer-color);display:flex;gap:30px;justify-content:end;padding:10px}:host .style-wrapper .footer .items-per-page{align-items:center;display:flex}:host .style-wrapper .footer .items-per-page rk-input-number{margin-left:10px;min-width:auto;width:50px}:host .style-wrapper .footer .location{align-items:center;display:flex}:host .style-wrapper .footer .pagination{align-items:center;display:flex}:host .style-wrapper .footer .pagination .btn-previous,:host .style-wrapper .footer .pagination .btn-next{transition:background-color .2s var(--bezier-curve)}:host .style-wrapper rk-scrollable::part(content-wrapper){min-width:100%}:host([first_page]) .style-wrapper .footer .pagination .btn-previous{opacity:.5;pointer-events:none}:host([last_page]) .style-wrapper .footer .pagination .btn-next{opacity:.5;pointer-events:none}:host([col_resize]){--local-table-cell-resize-display: block}:host([grid]) .style-wrapper .header{display:none}:host([grid]) .style-wrapper .body{flex-direction:row}:host([grid]) .style-wrapper .body rk-scrollable::part(content-wrapper){display:flex;flex-wrap:wrap;gap:15px;justify-content:center;padding:15px}@media screen and (min-width: 1225px){:host .style-wrapper .footer .pagination .touch:hover{background-color:var(--lighter);border-radius:5px}}`;
+    static __style = `:host{--_table-background-color: var(--table-background-color, var(--secondary-color));--_table-elevation: var(--table-elevation, var(--elevation-2));--_table-row-header-height: var(--table-row-header-height, 50px);--_table-header-backgroud-color: var(--table-header-backgroud-color, var(--primary-color));--_table-header-color: var(--table-header-color, var(--text-color-reverse));--_table-footer-backgroud-color: var(--table-footer-backgroud-color, var(--primary-color));--_table-footer-color: var(--table-footer-color, var(--text-color-reverse));--_table-row-header-backgroud-color: var(--table-row-header-backgroud-color, var(--primary-color));--_table-row-header-color: var(--table-row-header-color, var(--text-color-reverse));--_table-border-color: var(--table-border-color, var(--secondary-color));--_table-row-header-vertical-border: var(--table-row-header-vertical-border, 1px solid var(--_table-border-color));--_table-row-header-horizontal-border: var(--table-row-header-horizontal-border, 1px solid var(--_table-border-color));--_table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-padding: var(--table-cell-padding, 10px);--local-table-cell-resize-display: none}:host{background-color:var(--_table-background-color);border-radius:5px;box-shadow:var(--_table-elevation);display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper{display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper .header{align-items:center;background-color:var(--_table-header-backgroud-color);color:var(--_table-header-color);display:flex;justify-content:space-between;padding:10px}:host .style-wrapper .header .title{align-items:center;display:flex;font-size:var(--font-size-md);height:30px;margin-left:5px}:host .style-wrapper .row-header{--scrollbar-color: transparent;--scrollbar-active-color: transparent;--scroller-width: 0;height:var(--_table-row-header-height);width:100%}:host .style-wrapper .body{display:flex;flex-direction:column;height:calc(100% - var(--_table-row-header-height));width:100%}:host .style-wrapper .footer{align-items:center;background-color:var(--_table-footer-backgroud-color);color:var(--_table-footer-color);display:flex;gap:30px;justify-content:end;padding:10px}:host .style-wrapper .footer .items-per-page{align-items:center;display:flex}:host .style-wrapper .footer .items-per-page rk-input-number{margin-left:10px;min-width:auto;width:50px}:host .style-wrapper .footer .location{align-items:center;display:flex}:host .style-wrapper .footer .pagination{align-items:center;display:flex}:host .style-wrapper .footer .pagination .btn-previous,:host .style-wrapper .footer .pagination .btn-next{transition:background-color .2s var(--bezier-curve)}:host .style-wrapper rk-scrollable::part(content-wrapper){min-width:100%}:host([first_page]) .style-wrapper .footer .pagination .btn-previous{opacity:.5;pointer-events:none}:host([last_page]) .style-wrapper .footer .pagination .btn-next{opacity:.5;pointer-events:none}:host([col_resize]){--local-table-cell-resize-display: block}:host([grid]) .style-wrapper .header{display:none}:host([grid]) .style-wrapper .body{flex-direction:row}:host([grid]) .style-wrapper .body rk-scrollable::part(content-wrapper){display:flex;flex-wrap:wrap;gap:15px;justify-content:center;padding:15px}@media screen and (min-width: 1225px){:host .style-wrapper .footer .pagination .touch:hover{background-color:var(--lighter);border-radius:5px}}`;
     constructor() {
             super();
             this.options = this.configure(this.defaultOptions());
@@ -11833,7 +11973,10 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
     }
     setCellContent(cell, cellConfig, data) {
         if (cellConfig.cellContent) {
-            cellConfig.cellContent(data, cell);
+            const result = cellConfig.cellContent(data, cell);
+            if (result) {
+                cell.setContent(result, data);
+            }
         }
         else {
             const v = cellConfig.name ? Aventus.getValueFromObject(cellConfig.name, data) : undefined;

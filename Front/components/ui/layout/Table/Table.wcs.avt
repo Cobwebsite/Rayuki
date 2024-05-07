@@ -22,7 +22,6 @@
 
 :host {
 	background-color: var(--_table-background-color);
-	border: 1px solid var(--_table-border-color);
 	border-radius: 5px;
 	box-shadow: var(--_table-elevation);
 	display: flex;

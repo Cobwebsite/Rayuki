@@ -7,7 +7,8 @@ namespace Core.Permissions
         CanEdit,
         CanDelete,
         CanCreate,
-        CanTemplate
+        CanTemplate,
+        CanChangeBackground,
     }
 
     [Typescript]

@@ -2,6 +2,7 @@ import { UserRAM, type UserExtended } from "../ram/User.ram.avt";
 import { LoginCode, LoginError } from "../generated/Logic/PasswordManager.lib.avt";
 import { MainRouter } from "../generated/Routes/MainRouter.lib.avt";
 
+
 namespace Lib {
     export class SessionManager {
 
@@ -11,7 +12,9 @@ namespace Lib {
             } catch { }
             window.location.reload();
         }
-
+        public static getUserId(): number {
+            return userIdConnected;
+        }
         public static async getUser(): Promise<Aventus.RamItem<UserExtended> | undefined> {
             let result = await UserRAM.getInstance().getConnected();
             if(result.containsCode(LoginCode.NotConnected, LoginError)) {

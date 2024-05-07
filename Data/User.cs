@@ -10,6 +10,7 @@ namespace Core.Data
     {
         public string Firstname { get; set; } = "";
         public string Lastname { get; set; } = "";
+        [Unique]
         public string Username { get; set; } = "";
 
         [Size(1, SizeEnum.Text), ValidatePassword]

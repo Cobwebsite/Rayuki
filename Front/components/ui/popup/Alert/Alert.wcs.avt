@@ -1,20 +1,31 @@
 :host {
 	.popup {
-		.body {
-			align-items: center;
-			display: flex;
-			justify-content: center;
-			line-height: 1.5;
-			padding: 20px;
-			padding-top: 15px;
-			text-align: center;
-		}
+		.content {
+			// display: flex;
+			// flex-direction: column;
 
-		.action {
-			align-items: center;
-			display: flex;
-			gap: 20px;
-			justify-content: center;
+			.body {
+				--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - 36px - var(--_popup-content-padding) - var(--_popup-content-padding));
+				align-items: center;
+				display: flex;
+				justify-content: center;
+				line-height: 1.5;
+				max-height: calc(var(--app-height) - 50px - 30px - 36px - var(--_popup-content-padding) - var(--_popup-content-padding));
+				padding: 20px;
+				padding-top: 15px;
+				text-align: center;
+			}
+
+			.body::part(content-wrapper) {
+			}
+
+			.action {
+				align-items: center;
+				display: flex;
+				gap: 20px;
+				height: 36px;
+				justify-content: center;
+			}
 		}
 	}
 }

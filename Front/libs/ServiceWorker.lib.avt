@@ -11,9 +11,9 @@ namespace Lib {
         private subscription?: PushSubscription;
 
         public async init(registration: ServiceWorkerRegistration) {
-            if(await this.getSubscription(registration)) {
-                this.subscribe();
-            }
+            // if(await this.getSubscription(registration)) {
+            //     this.subscribe();
+            // }
         }
 
         private async getSubscription(registration: ServiceWorkerRegistration): Promise<boolean> {

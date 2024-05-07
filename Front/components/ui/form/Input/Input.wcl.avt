@@ -1,3 +1,4 @@
+import type { Img } from "../../Img/Img.wcl.avt";
 import { FormElement } from "../FormElement/FormElement.wcl.avt";
 
 namespace Components {
@@ -17,6 +18,9 @@ namespace Components {
         @Property()
         public icon?: string;
 
+        @Property()
+        public icon_position?: 'left' | 'right';
+
         @Property((target: Input) => {
             target.inputEl.value = target.value;
         })
@@ -28,7 +32,8 @@ namespace Components {
         //#region variables
         @ViewElement()
         protected inputEl!: HTMLInputElement;
-
+        @ViewElement()
+        protected iconEl!: Img;
 
         //#endregion
 

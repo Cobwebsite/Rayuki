@@ -228,7 +228,7 @@ System.AppIcon = class AppIcon extends Core.System.AppIcon {
         super.postCreation();
         setTimeout(() => {
             if (!Core.System.Os.instance.activeDesktop.applications['Tutorial.Application.Main']) {
-                Core.System.Os.instance.activeDesktop.openUrl("Tutorial");
+                //Core.System.Os.instance.activeDesktop.openUrl("Tutorial");
             }
         }, 1000);
     }

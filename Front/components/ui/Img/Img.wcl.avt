@@ -31,6 +31,8 @@ namespace Components {
         protected imgEl!: HTMLImageElement;
         @ViewElement()
         protected svgEl!: HTMLDivElement;
+        @ViewElement()
+        protected iconEl!: MaterialIcon.Icon;
 
         private isCalculing?: boolean;
         private maxCalculateSize: number = 10;
@@ -66,9 +68,11 @@ namespace Components {
                 return;
             }
 
-            let element: HTMLImageElement | HTMLDivElement = this.imgEl;
+            let element: HTMLImageElement | HTMLDivElement | MaterialIcon.Icon = this.imgEl;
             if(this.src?.endsWith(".svg")) {
                 element = this.svgEl;
+            } else if(this.src?.startsWith("mi-")) {
+                element = this.iconEl;
             }
             this.style.width = '';
             this.style.height = '';
@@ -144,12 +148,16 @@ namespace Components {
             this.isCalculing = false;
         }
         private async onSrcChanged() {
-            if(!this.src || !this.svgEl || !this.imgEl) {
+            if(!this.src || !this.svgEl || !this.imgEl || !this.iconEl) {
                 return;
             }
             if(this.src.endsWith(".svg")) {
                 let svgContent = await Aventus.ResourceLoader.load(this.src);
                 this.svgEl.innerHTML = svgContent;
+                this.calculateSize();
+            }
+            else if(this.src.startsWith("mi-")) {
+                this.iconEl.icon = this.src.replace("mi-", "") as MaterialIcon.IconType;
                 this.calculateSize();
             }
             else if(this.cache) {

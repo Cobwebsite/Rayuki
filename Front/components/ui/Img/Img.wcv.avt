@@ -1,2 +1,3 @@
 <img @element="imgEl" />
 <div class="svg" @element="svgEl"></div> 
+<mi-icon @element="iconEl"></mi-icon>

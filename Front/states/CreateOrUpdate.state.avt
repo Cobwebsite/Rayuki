@@ -45,6 +45,10 @@ namespace State {
 
         protected abstract defineFormSchema(): FormData<U>;
 
+        /**
+         * This will validate the form and save the model though the ram
+         * Errors are deals by this method. If success, result !== undefined
+         */
         public async save(): Promise<T | undefined> {
 
             let result: T | undefined;

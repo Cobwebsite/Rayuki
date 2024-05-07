@@ -1,0 +1,12 @@
+<div class="popup" @element="popupEl">
+    <div class="header">
+        <div class="background"></div>
+        <div class="title">{{ this.info.title }}</div>
+        <div class="application-actions">
+            <div class="btn red touch" @press="cancel"></div>
+        </div>
+    </div>
+    <div class="content">
+        <slot></slot>
+    </div>
+</div>

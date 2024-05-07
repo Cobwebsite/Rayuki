@@ -1,3 +1,4 @@
+import { GenericPopup } from "../GenericPopup/GenericPopup.wcl.avt";
 import { Popup, type PopupInfo } from "../Popup/Popup.wcl.avt";
 
 namespace Components {
@@ -9,7 +10,7 @@ namespace Components {
     };
 
 
-    export class Confirm extends Popup<boolean, ConfirmInfo> implements Aventus.DefaultComponent {
+    export class Confirm extends GenericPopup<boolean, ConfirmInfo> implements Aventus.DefaultComponent {
 
         //#region static
 

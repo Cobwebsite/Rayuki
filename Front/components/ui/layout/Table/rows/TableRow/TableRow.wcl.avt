@@ -85,7 +85,10 @@ namespace Components {
 
         protected setCellContent(cell: TableCell<any, T>, cellConfig: TableSchema<T>, data: T): void {
             if(cellConfig.cellContent) {
-                cellConfig.cellContent(data, cell);
+                const result = cellConfig.cellContent(data, cell);
+                if(result) {
+                    cell.setContent(result, data);
+                }
             }
             else {
                 const v = cellConfig.name ? Aventus.getValueFromObject(cellConfig.name, data) : undefined;

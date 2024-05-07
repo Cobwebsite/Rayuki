@@ -26,16 +26,17 @@ namespace Core.Routes
     public class MainRouter : Route
     {
         [Get, Path("/")]
-        public IResponse Home()
+        public IResponse Home(HttpContext context)
         {
             Dictionary<string, List<string>> autoLoad = HttpServer.GetAutoLoad();
             return new ViewDynamic("index", new
             {
-                title = "Cobwesite",
+                title = "Cobwebsite",
                 styles = autoLoad["styles"].ToArray(),
                 scripts = autoLoad["scripts"].ToArray(),
                 is_dev = HttpServer.IsDev,
-                nb_apps = HttpServer.nbAppInDev
+                nb_apps = HttpServer.nbAppInDev,
+                user_id = context.GetUserId()
             });
         }
 

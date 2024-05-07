@@ -6,7 +6,8 @@ namespace Permissions {
 		CanEdit,
 		CanDelete,
 		CanCreate,
-		CanTemplate
+		CanTemplate,
+		CanChangeBackground
 	}
 
 	@Convertible()

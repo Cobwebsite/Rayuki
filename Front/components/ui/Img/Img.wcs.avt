@@ -32,6 +32,12 @@
 			width: 100%;
 		}
 	}
+	mi-icon {
+		display: none;
+		height: 100%;
+		width: 100%;
+		font-size: inherit;
+	}
 }
 
 :host([src$=".svg"]) {
@@ -48,6 +54,24 @@
 			stroke-width: var(--_img-stroke-width);
 			transition: var(--_img-color-transition);
 		}
+	}
+	mi-icon {
+		display: none;
+	}
+}
+
+:host([src^="mi-"]) {
+	font-size: inherit;
+	img {
+		display: none;
+	}
+
+	.svg {
+		display: none;
+	}
+
+	mi-icon {
+		display: inline-block;
 	}
 }
 

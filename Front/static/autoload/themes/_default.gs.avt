@@ -93,6 +93,8 @@
 
 	/*#region table */
 	--table-background-color: white;
+	--table-header-backgroud-color: #354155;
+	--table-row-header-backgroud-color: #415068;
 	/*#endregion */
 
 	/*#region shadow*/

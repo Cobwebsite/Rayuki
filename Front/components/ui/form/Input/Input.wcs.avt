@@ -102,6 +102,23 @@
 	}
 }
 
+:host([icon_position="right"]) {
+	.input {
+		.icon {
+			order: 2;
+			margin-right: 0px;
+		}
+		.input {
+			order: 1;
+		}
+
+		.error-logo  {
+			order: 3;
+			margin-left: 10px;
+		}
+	}
+}
+
 :host([label]:not([label=""])) {
 	label {
 		display: flex;

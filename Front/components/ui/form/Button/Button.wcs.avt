@@ -6,6 +6,7 @@
 	--internal-button-color: var(--button-color);
 	--internal-button-box-shadow: var(--button-box-shadow);
 	--internal-button-box-shadow-hover: var(--button-box-shadow-hover);
+	--_button-border-radius: var(--button-border-radius, 5px);
 	--_button-padding: var(--button-padding, 0 16px);
 	--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);
 	--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);
@@ -15,7 +16,7 @@
 
 :host {
 	background-color: var(--internal-button-background-color);
-	border-radius: 5px;
+	border-radius: var(--_button-border-radius);
 	box-shadow: var(--internal-button-box-shadow);
 	color: var(--internal-button-color);
 	cursor: pointer;
@@ -25,6 +26,7 @@
 
 	.hider {
 		background-color: var(--_button-background-color-hover);
+		border-radius: var(--_button-border-radius);
 		inset: 0;
 		opacity: 0;
 		position: absolute;
@@ -56,9 +58,9 @@
 
 :host([disabled]) {
 	background-color: var(--_button-background-color-disable) !important;
-	cursor: not-allowed;
-	color: var(--_button-color-disable);
 	box-shadow: none;
+	color: var(--_button-color-disable);
+	cursor: not-allowed;
 
 	.hider {
 		opacity: 1;

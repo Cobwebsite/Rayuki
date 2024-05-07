@@ -10,6 +10,9 @@
     <link rel="icon" href="/img/logo.svg" />
     <link rel="manifest" href="/pwa/manifest.json" />
     <title>{{ title }}</title>
+    <script>
+        const userIdConnected = Number("{{ user_id }}");
+    </script>
     <script src="/cssstylesheet.js"></script>
     <script>
     window.onerror = function(msg, url, linenumber) {
