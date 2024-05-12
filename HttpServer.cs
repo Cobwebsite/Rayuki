@@ -88,8 +88,9 @@ namespace Core
             });
 
             JobManager.Initialize();
-
+            
             app = builder.Build();
+            
         }
 
         private static void InitHttpApp()

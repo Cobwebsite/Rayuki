@@ -129,7 +129,7 @@ const System = {};
 _.System = {};
 let _n;
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
-    static __style = `:host{background-color:#7a7a7a}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #dcdcdc;flex-grow:1;max-height:100%;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    static __style = `:host{background-color:#7a7a7a}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #ffffff;flex-grow:1;max-height:100%;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
     __getStatic() {
         return AppIcon;
     }
@@ -227,9 +227,9 @@ System.AppIcon = class AppIcon extends Core.System.AppIcon {
     postCreation() {
         super.postCreation();
         setTimeout(() => {
-            if (!Core.System.Os.instance.activeDesktop.applications['Tutorial.Application.Main']) {
-                //Core.System.Os.instance.activeDesktop.openUrl("Tutorial");
-            }
+            // if(!Core.System.Os.instance.activeDesktop.applications['Tutorial.Application.Main']) {
+            // 	Core.System.Os.instance.activeDesktop.openUrl("Tutorial");
+            // }
         }, 1000);
     }
 }

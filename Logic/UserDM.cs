@@ -1,4 +1,5 @@
 ﻿using AventusSharp.Data;
+using AventusSharp.Data.Manager;
 using AventusSharp.Data.Manager.DB;
 using AventusSharp.Tools;
 using Core.App;
@@ -73,7 +74,7 @@ namespace Core.Logic
                 return result;
             }
 
-            var t = CreateUpdate<User>()
+            IUpdateBuilder<User> t = CreateUpdate<User>()
                 .Field(u => u.Username)
                 .Field(u => u.Firstname)
                 .Field(u => u.Picture)

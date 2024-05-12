@@ -31,7 +31,7 @@
 		input {
 			background-color: var(--form-element-background);
 			border: none;
-			border-radius: 100px;
+			border-radius: var(--border-radius-round);
 			box-shadow: var(--elevation-3);
 			font-size: var(--form-element-font-size);
 			line-height: var(--form-element-font-size);

@@ -29,7 +29,7 @@
 		.dot {
 			animation: lds-default 1.2s linear infinite;
 			background: var(--internal-loading-color);
-			border-radius: 50%;
+			border-radius: var(--border-radius-round);
 			height: var(--internal-dot-size);
 			position: absolute;
 			width: var(--internal-dot-size);

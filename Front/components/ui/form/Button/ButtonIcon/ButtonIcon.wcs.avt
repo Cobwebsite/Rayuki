@@ -10,7 +10,7 @@
 :host {
 	aspect-ratio: 1 / 1;
 	background-color: var(--internal-button-background-color);
-	border-radius: 50000px;
+	border-radius: var(--border-radius-round);
 	box-shadow: var(--internal-button-box-shadow);
 	color: var(--internal-button-color);
 	cursor: pointer;

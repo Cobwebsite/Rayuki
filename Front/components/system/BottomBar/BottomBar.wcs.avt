@@ -3,7 +3,7 @@
 :host {
 	align-items: center;
 	background-color: var(--primary-color-opacity);
-	border-radius: 10px;
+	border-radius: var(--border-radius);
 	bottom: 10px;
 	box-shadow: var(--elevation-3);
 	color: var(--text-color);
@@ -30,7 +30,7 @@
 		.icon {
 			--img-stroke-color: transparent;
 			--img-fill-color: var(--text-color);
-			border-radius: 5px;
+			border-radius: var(--border-radius-sm);
 			cursor: pointer;
 			margin: 0 3px;
 			max-height: calc(100% - 16px);
@@ -59,7 +59,7 @@
 
 		.empty-icon {
 			background-color: var(--darker-active);
-			border-radius: 5px;
+			border-radius: var(--border-radius-sm);
 			height: 30px;
 			width: 30px;
 		}
@@ -68,7 +68,7 @@
 	.nb-notifications {
 		align-items: center;
 		background-color: var(--text-color);
-		border-radius: 50%;
+		border-radius: var(--border-radius-round);
 		color: var(--primary-color-opacity);
 		display: flex;
 		font-size: 14px;

@@ -35,7 +35,7 @@ namespace Components {
 			padding: 3px;
 			cursor: pointer;
 			transition: background-color 0.2s linear;
-			border-radius:5px;
+			border-radius:var(--border-radius-sm);
 		}
 
 		mi-icon.delete {

@@ -36,7 +36,7 @@
 
 					.recent-container * {
 						background-color: var(--primary-color);
-						border-radius: 5px;
+						border-radius: var(--border-radius-sm);
 						margin: 10px;
 						overflow: hidden;
 					}
@@ -79,7 +79,7 @@
 			display: flex;
 			padding: 8px 10px;
 			margin: 10px 10px;
-			border-radius: 5px;
+			border-radius: var(--border-radius-sm);
 			transition: background-color 0.2s var(--bezier-curve);
 
 			.icon {

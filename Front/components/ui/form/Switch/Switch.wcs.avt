@@ -6,26 +6,27 @@
 	--_switch-active-background-color: var(--switch-active-background-color, var(--secondary-color));
 	--_switch-font-size: var(--switch-font-size, var(--form-element-font-size, 16px));
 	--_switch-font-size-label: var(--switch-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));
+	--_switch-border-radius: var(--switch-border-radius, 10px);
 }
 
 :host {
 	align-items: center;
 	display: flex;
 	font-size: var(--_switch-font-size);
-	width: 100%;
 	min-height: var(--_switch-dot-size);
+	width: 100%;
 
 	.label:not(:empty) {
 		cursor: pointer;
+		font-size: var(--_switch-font-size-label);
 		margin-right: 30px;
 		transition: filter 0.3s var(--bezier-curve);
-		font-size: var(--_switch-font-size-label);
 	}
 
 	.bar {
 		align-items: center;
 		background-color: var(--_switch-background-color);
-		border-radius: 10px;
+		border-radius: var(--_switch-border-radius);
 		cursor: pointer;
 		display: flex;
 		height: 10px;
@@ -59,7 +60,7 @@
 
 			.dot {
 				background-color: var(--_switch-dot-color);
-				border-radius: 50%;
+				border-radius: var(--border-radius-round);
 				box-shadow: none;
 				cursor: pointer;
 				height: var(--_switch-dot-size);
@@ -73,7 +74,7 @@
 
 			.bar-fill {
 				background-color: var(--_switch-active-background-color);
-				border-radius: 100px;
+				border-radius: var(--border-radius-round);
 				height: 100%;
 				left: 0;
 				pointer-events: all;

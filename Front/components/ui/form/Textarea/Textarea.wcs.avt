@@ -58,7 +58,7 @@
 		.error-logo {
 			align-items: center;
 			background-color: var(--red);
-			border-radius: 50%;
+			border-radius: var(--border-radius-round);
 			color: white;
 			display: none;
 			flex-shrink: 0;

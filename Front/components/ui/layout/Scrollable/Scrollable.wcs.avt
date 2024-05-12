@@ -87,11 +87,11 @@
 
 				.shadow-scroller {
 					background-color: var(--_scrollbar-container-color);
-					border-radius: 5px;
+					border-radius: var(--border-radius-sm);
 
 					.scroller {
 						background-color: var(--_scrollbar-color);
-						border-radius: 5px;
+						border-radius: var(--border-radius-sm);
 						cursor: pointer;
 						position: absolute;
 						-webkit-tap-highlight-color: transparent;

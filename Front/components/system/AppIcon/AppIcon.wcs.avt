@@ -3,7 +3,7 @@
 :host {
 	align-items: center;
 	background-color: #0c2247;
-	border-radius: 5px;
+	border-radius: var(--border-radius-sm);
 	box-shadow: var(--elevation-5);
 	cursor: pointer;
 	display: flex;
@@ -18,7 +18,7 @@
 
 	&::after {
 		background-color: var(--text-color);
-		border-radius: 5px;
+		border-radius: var(--border-radius-sm);
 		bottom: -7px;
 		content: "";
 		height: 4px;
@@ -33,7 +33,7 @@
 
 	.remove {
 		background-color: var(--primary-color);
-		border-radius: 10px;
+		border-radius: var(--border-radius-round);
 		display: none;
 		height: 20px;
 		position: absolute;

@@ -8,6 +8,7 @@
 }
 
 :host {
+	backdrop-filter: blur(2px);
 	background-color: var(--_application-background-color);
 	border-radius: var(--_application-border-radius);
 	box-shadow: var(--_application-box-shadow);
@@ -62,8 +63,8 @@
 
 				rk-img {
 					height: 100%;
-					width: 100%;
 					pointer-events: none;
+					width: 100%;
 				}
 			}
 
@@ -92,7 +93,7 @@
 			z-index: 2;
 
 			.btn {
-				border-radius: 10px;
+				border-radius: var(--border-radius-round);
 				height: 15px;
 				width: 15px;
 			}

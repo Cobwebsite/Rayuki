@@ -5,6 +5,7 @@
 	--_slider-dot-size: var(--slider-dot-size, var(--form-element-font-size, 16px));
 	--_slider-popup-font-size: var(--slider-popup-font-size, var(--font-size-sm));
 	--_slider-font-size-label: var(--slider-font-size-label, var(--form-element-font-size-label));
+	--_slider-border-radius: var(--slider-border-radius, var(--form-element-border-radius));
 
 
 	--local-slider-dot-percent: 0%;
@@ -30,7 +31,7 @@
 	.bar {
 		align-items: center;
 		background-color: var(--_slider-background-color);
-		border-radius: 10px;
+		border-radius: var(--_slider-border-radius);
 		cursor: pointer;
 		display: flex;
 		flex-direction: row;
@@ -41,7 +42,7 @@
 
 		.bar-fill {
 			background-color: var(--_slider-active-background-color);
-			border-radius: 100px;
+			border-radius: var(--border-radius-round);
 			height: 100%;
 			left: 0;
 			pointer-events: all;
@@ -53,7 +54,7 @@
 
 		.dot {
 			background-color: var(--_slider-dot-color);
-			border-radius: 50%;
+			border-radius: var(--border-radius-round);
 			box-shadow: var(--elevation-2);
 			cursor: pointer;
 			height: var(--_slider-dot-size);
@@ -67,7 +68,7 @@
 
 		.value {
 			background-color: var(--_slider-dot-color);
-			border-radius: 5px;
+			border-radius: var(--_slider-border-radius);
 			box-shadow: var(--elevation-2);
 			font-size: var(--_slider-popup-font-size);
 			left: var(--local-slider-dot-percent);

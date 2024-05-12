@@ -3,7 +3,7 @@
 	--primary-color: rgba(220, 220, 220, 1);
 	--secondary-color: #a5a5a5;
 	--secondary-color-active: #7a7a7a;
-	--disable-color:#818181;
+	--disable-color: #818181;
 
 	--text-color: rgb(30, 30, 30);
 	--text-color-light: rgb(72, 72, 72);
@@ -36,6 +36,10 @@
 	--font-size-xl: calc(var(--font-size) * 1.75);
 	--font-size-xxl: calc(var(--font-size) * 2);
 
+	--border-radius: 10px;
+	--border-radius-sm: 5px;
+	--border-radius-round: 100000px;
+
 
 	--bezier-curve: cubic-bezier(0.65, 0, 0.15, 1);
 
@@ -58,7 +62,7 @@
 	--application-header-background-color: var(--darker-active);
 	--application-background-color: var(--primary-color-opacity);
 	--popup-background-color: var(--primary-color);
-	--application-border-radius: 10px;
+	--application-border-radius: var(--border-radius);
 	/*#endregion*/
 
 	/*#region form element*/
@@ -71,7 +75,7 @@
 	--form-element-border-color-active: var(--secondary-color);
 	--form-element-border: 1px solid var(--form-element-border-color);
 	--form-element-border-active: 1px solid var(--form-element-border-color-active);
-	--form-element-border-radius: 5px;
+	--form-element-border-radius: var(--border-radius-sm);
 
 
 	/*#region button*/
@@ -132,25 +136,21 @@
 $tablet-breakpoint: 1224px;
 $mobile-breakpoint: 768px;
 
-// tablet
+/* tablet*/
 @media screen and (max-width:$tablet-breakpoint) {
-	:root {
-
-	}
+	:root {}
 }
 
-// mobile
+/* mobile*/
 @media screen and (max-width:$mobile-breakpoint) {
 	:root {
 		--application-background-color: var(--primary-color);
 	}
 }
 
-// pc
+/* pc*/
 @media screen and (min-width:#{$tablet-breakpoint + 1}) {
-	:root {
-
-	}
+	:root {}
 }
 
 :root.dark {

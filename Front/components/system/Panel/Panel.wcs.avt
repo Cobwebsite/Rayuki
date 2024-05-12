@@ -2,7 +2,7 @@
 
 :host {
 	background-color: var(--primary-color-opacity);
-	border-radius: 10px;
+	border-radius: var(--border-radius);
 }
 
 @include mobile {

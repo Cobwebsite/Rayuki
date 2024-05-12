@@ -10,7 +10,7 @@
 			.menu {
 				align-items: center;
 				border: 1px solid var(--darker);
-				border-radius: 200px;
+				border-radius: var(--border-radius-round);
 				display: none;
 				height: 24px;
 				justify-content: center;

@@ -47,7 +47,7 @@ import { TableData } from "./TableData.wcl.avt";
 		mi-icon {
 			color: var(--green);
 			cursor: pointer;
-			border-radius:5px;
+			border-radius:var(--border-radius-sm);
 		}
 		mi-icon:hover {
 			background-color:var(--lighter);

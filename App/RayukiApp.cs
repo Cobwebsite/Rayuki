@@ -1,5 +1,5 @@
-﻿using Core.Data;
-using Core.Logic;
+﻿using Core.Logic;
+using Core.Permissions.Descriptions;
 
 namespace Core.App
 {

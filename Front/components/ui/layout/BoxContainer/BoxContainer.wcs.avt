@@ -17,7 +17,7 @@
 
 	::slotted(*) {
 		border: 1px solid var(--_item-box-border-color);
-		border-radius: 4px;
+		border-radius: var(--border-radius-sm);
 		width: var(--_item-box-box-size);
         max-height: var(--_item-box-box-size);
         max-width: var(--_item-box-box-size);

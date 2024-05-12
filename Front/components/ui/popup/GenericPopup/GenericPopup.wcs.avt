@@ -72,7 +72,7 @@
 				z-index: 2;
 
 				.btn {
-					border-radius: 10px;
+					border-radius: var(--border-radius);
 					height: 15px;
 					width: 15px;
 				}

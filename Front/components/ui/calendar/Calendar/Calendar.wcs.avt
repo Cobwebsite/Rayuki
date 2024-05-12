@@ -13,7 +13,7 @@
 
 :host {
 	background-color: var(--_calendar-background-color);
-	border-radius: 10px;
+	border-radius: var(--border-radius);
 	box-shadow: var(--elevation-3);
 	display: flex;
 	flex-direction: column;
@@ -42,7 +42,7 @@
 
 			.month-year {
 				align-items: center;
-				border-radius: 5px;
+				border-radius: var(--border-radius-sm);
 				display: flex;
 				flex-direction: row;
 				padding: 5px 10px;
@@ -56,7 +56,7 @@
 
 		.chevron {
 			align-items: center;
-			border-radius: 5px;
+			border-radius: var(--border-radius-sm);
 			display: flex;
 			height: 30px;
 			justify-content: center;
@@ -66,7 +66,7 @@
 
 		.selectors {
 			background-color: var(--_calendar-background-color-selector);
-			border-radius: 10px;
+			border-radius: var(--border-radius);
 			box-shadow: var(--elevation-3);
 			left: 50%;
 			opacity: 0;
@@ -101,7 +101,7 @@
 
 					.current-info {
 						.temp-year {
-							border-radius: 5px;
+							border-radius: var(--border-radius-sm);
 							display: flex;
 							font-size: var(--font-size);
 							padding: 5px 10px;
@@ -118,7 +118,7 @@
 
 					.month-el {
 						align-items: center;
-						border-radius: 5px;
+						border-radius: var(--border-radius-sm);
 						display: flex;
 						height: 30px;
 						justify-content: center;
@@ -141,7 +141,7 @@
 
 					.current-info {
 						.temp-year-range {
-							border-radius: 5px;
+							border-radius: var(--border-radius-sm);
 							display: flex;
 							font-size: var(--font-size);
 							padding: 5px 10px;
@@ -158,7 +158,7 @@
 
 					.year-el {
 						align-items: center;
-						border-radius: 5px;
+						border-radius: var(--border-radius-sm);
 						display: flex;
 						height: 30px;
 						justify-content: center;

@@ -6,7 +6,7 @@
 	--internal-button-color: var(--button-color);
 	--internal-button-box-shadow: var(--button-box-shadow);
 	--internal-button-box-shadow-hover: var(--button-box-shadow-hover);
-	--_button-border-radius: var(--button-border-radius, 5px);
+	--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));
 	--_button-padding: var(--button-padding, 0 16px);
 	--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);
 	--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);

@@ -1,7 +1,7 @@
 :host {
 	--scrollbar-container-display: flex;
 	background-color: white;
-	border-radius: 5px;
+	border-radius: var(--border-radius-sm);
 	box-shadow: var(--elevation-3);
 	cursor: pointer;
 	display: flex;

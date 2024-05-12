@@ -1,7 +1,7 @@
 :host {
 	align-items: center;
 	background-color: var(--darker);
-	border-radius: 5px;
+	border-radius: var(--border-radius-sm);
 	box-shadow: var(--elevation-2);
 	display: none;
 	height: 30px;

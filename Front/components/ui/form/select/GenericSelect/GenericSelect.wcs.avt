@@ -70,7 +70,7 @@
 		.error-logo {
 			align-items: center;
 			background-color: var(--red);
-			border-radius: 50%;
+			border-radius: var(--border-radius-round);
 			color: white;
 			display: none;
 			font-size: calc(var(--_select-error-logo-size) - 5px);

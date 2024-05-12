@@ -2,7 +2,7 @@
 
 :host {
 	align-items: center;
-	border-radius: 5px;
+	border-radius: var(--border-radius-sm);
 	cursor: pointer;
 	display: flex;
 	margin-right: 10px;

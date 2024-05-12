@@ -15,7 +15,7 @@
 
 	.icons {
 		/* --page-case-background: var(--primary-color);*/
-		--page-case-border-radius: 5px;
+		--page-case-border-radius: var(--border-radius-sm);
 		--page-case-border-active: 1px solid var(--darker-active);
 		--page-case-background-active: var(--lighter-active);
 		/* background-color: var(--lighter-active);*/

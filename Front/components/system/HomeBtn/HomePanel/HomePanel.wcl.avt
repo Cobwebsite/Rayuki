@@ -46,7 +46,7 @@ namespace System {
         protected openProfil() {
             let desktop = this.findParentByType(Desktop);
             if(desktop) {
-                desktop.openUrl("Settings", "/", "/user");
+                desktop.openUrl("Settings", "/", "/profil");
                 this.btn.active = false;
             }
         }

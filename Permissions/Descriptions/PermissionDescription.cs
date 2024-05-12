@@ -1,12 +1,12 @@
 using AventusSharp.Data;
 using AventusSharp.Data.Attributes;
 
-namespace Core.Data
+namespace Core.Permissions.Descriptions
 {
     public class PermissionDescriptionItem
     {
-        public string DisplayName { get; set; }
-        public string Description { get; set; }
+        public string DisplayName { get; set; } = "";
+        public string Description { get; set; } = "";
         public List<Enum> Dependances { get; set; } = new List<Enum>();
     }
     public interface IPermissionDescription
@@ -16,7 +16,7 @@ namespace Core.Data
 
     public abstract class PermissionDescription : IPermissionDescription
     {
-        public virtual bool isGlobal() => true;
+        public virtual bool isEditable() => true;
 
         public Dictionary<object, PermissionDescriptionItem> Descriptions { get; set; } = new Dictionary<object, PermissionDescriptionItem>();
     }

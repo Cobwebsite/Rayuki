@@ -22,7 +22,7 @@
 
 :host {
 	background-color: var(--_table-background-color);
-	border-radius: 5px;
+	border-radius: var(--border-radius-sm);
 	box-shadow: var(--_table-elevation);
 	display: flex;
 	flex-direction: column;
@@ -171,7 +171,7 @@
 				.pagination {
 					.touch:hover{
 						background-color: var(--lighter);
-						border-radius: 5px;
+						border-radius: var(--border-radius-sm);
 					}
 				}
 			}
