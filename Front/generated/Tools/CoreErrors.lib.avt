@@ -3,7 +3,8 @@ namespace Errors {
 	export enum CoreErrorCode {
 		NotImplemented,
 		NotAvailable,
-		Impossible
+		Impossible,
+		NotAllowed
 	}
 
 	@Convertible()

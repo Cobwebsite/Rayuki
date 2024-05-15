@@ -1,0 +1,20 @@
+@import '@root/_responsive.gs.avt';
+
+:host {
+	background-color: #7a7a7a;
+	rk-img {
+		--img-stroke-color: transparent;
+		--img-fill-color: #ffffff;
+		flex-grow: 1;
+		max-height: 100%;
+		padding: 15%;
+	}
+}
+
+@include mobile {
+	:host {
+		rk-img {
+			padding: 7px;
+		}
+	}
+}

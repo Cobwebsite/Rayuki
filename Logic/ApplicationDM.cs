@@ -59,7 +59,7 @@ namespace Core.Logic
                 AdditionalInfo = application.Name,
                 EnumValue = ApplicationPermission.DenyAccess
             });
-
+            PermissionDM.GetInstance().RegisterAppPermissionTree(application.Name);
             return result;
         }
         public VoidWithError CreateIfNotExist(ApplicationData application)
@@ -114,7 +114,7 @@ namespace Core.Logic
         {
             List<string> deniedApps = new List<string>();
             string name = ApplicationPermission.DenyAccess.GetFullName();
-            List<PermissionUser> denied = PermissionUser.Where(p => p.Permission.EnumName == name && p.User.Id == userId);
+            List<PermissionUser> denied = PermissionUser.Where(p => p.Permission.EnumName == name && p.UserId == userId);
             
             foreach(PermissionUser permission in denied)
             {

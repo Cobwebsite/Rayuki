@@ -1,0 +1,51 @@
+import type { TwoColumnsSelect } from "../TwoColumnsSelect.wcl.avt";
+
+namespace Components {
+    export class TwoColumnsOption<T> extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public highlight!: boolean;
+        //#endregion
+
+
+        //#region variables
+        public value?: T;
+        protected select!: TwoColumnsSelect<TwoColumnsOption<T>>;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        public init(select: TwoColumnsSelect<TwoColumnsOption<T>>) {
+            this.select = select;
+        }
+        public filter(text: string) {
+            if(this.innerText.toLowerCase().includes(text)) {
+                this.style.display = "";
+            }
+            else {
+                this.style.display = "none";
+            }
+        }
+        protected override postCreation(): void {
+            new Aventus.PressManager({
+                element: this,
+                onPress: () => {
+                    this.highlight = !this.highlight;
+                }
+            });
+        }
+        //#endregion
+
+    }
+}

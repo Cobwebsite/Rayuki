@@ -1,0 +1,132 @@
+:host {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+
+	.wrapper {
+		align-items: center;
+		display: flex;
+		height: 100%;
+		width: 100%;
+
+		.col {
+			background-color: white;
+			border-radius: var(--border-radius-sm);
+			box-shadow: var(--elevation-1);
+			display: flex;
+			flex-direction: column;
+			flex-grow: 1;
+			height: 100%;
+			padding: 15px;
+			width: 100%;
+
+			.title {
+				font-size: calc(var(--font-size) * 0.85);
+				margin-bottom: 10px;
+				margin-left: 3px;
+			}
+
+			.title:empty {
+				display: none;
+			}
+
+			.search {
+				display: none;
+				margin-bottom: 15px;
+			}
+		}
+
+		.action {
+			display: flex;
+			flex-direction: column;
+			flex-grow: 0;
+			flex-shrink: 0;
+			gap: 5px;
+			padding: 10px;
+
+			.btn {
+				align-items: center;
+				background-color: white;
+				border-radius: var(--border-radius-sm);
+				box-shadow: var(--elevation-3);
+				cursor: pointer;
+				display: flex;
+				justify-content: center;
+				transition: box-shadow 0.3s var(--bezier-curve), background-color 0.3s var(--bezier-curve);
+
+				mi-icon {
+					font-size: var(--font-size-md);
+					padding: 2px;
+				}
+			}
+
+
+			.btn[disable="true"] {
+				color: var(--text-color-disable);
+				cursor: not-allowed;
+			}
+
+			.btn:hover {
+				background-color: var(--lighter);
+				box-shadow: var(--elevation-1);
+			}
+		}
+	}
+	.errors {
+		color: var(--red);
+		display: none;
+		font-size: var(--font-size-sm);
+		line-height: 1.1;
+		margin: 10px;
+		margin-bottom: 0px;
+
+		div {
+			margin: 5px 0;
+		}
+	}
+	.hidden {
+		display: none;
+	}
+}
+
+:host([has_errors]) {
+	.errors {
+		display: block;
+	}
+}
+
+:host([column]) {
+	.wrapper {
+		flex-direction: column;
+
+		.action {
+			flex-direction: row;
+
+			.btn {
+				mi-icon {
+					transform: rotate(90deg);
+				}
+			}
+		}
+	}
+}
+
+:host([searchable_unselect]) {
+	.wrapper {
+		.col {
+			.search-unselect {
+				display: inline-block;
+			}
+		}
+	}
+}
+
+:host([searchable_select]) {
+	.wrapper {
+		.col {
+			.search-select {
+				display: inline-block;
+			}
+		}
+	}
+}

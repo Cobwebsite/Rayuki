@@ -1,0 +1,25 @@
+import { PermissionUser } from '../Data/PermissionUser.data.avt';
+import { CoreRouter } from '../CoreRouter.lib.avt';
+
+namespace Routes {
+
+	export class PermissionUserRouter extends Aventus.HttpRoute {
+		public constructor(router?: Aventus.HttpRouter) {
+			super(router ?? new CoreRouter());
+		}
+		public async GetAllByUser(body: { userId: number } | FormData): Promise<Aventus.ResultWithError<PermissionUser[], Aventus.GenericError<number>>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissionuser/byuser`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = PermissionUser[];
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		public async EditPermission(body: { created: PermissionUser[], updated: PermissionUser[], deleted: PermissionUser[] } | FormData): Promise<Aventus.ResultWithError<boolean, Aventus.GenericError<number>>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissionuser/editpermission`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = boolean;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+	}
+
+}

@@ -5,58 +5,38 @@ namespace Core.Permissions.Descriptions
 {
     public class PermissionDescriptionItem
     {
+        internal int PermissionId { get; set; }
+        internal Enum Enum { get; set; }
         public string DisplayName { get; set; } = "";
         public string Description { get; set; } = "";
-        public List<Enum> Dependances { get; set; } = new List<Enum>();
+        public Enum? Parent { get; set; }
     }
     public interface IPermissionDescription
     {
-        public Dictionary<object, PermissionDescriptionItem> Descriptions { get; set; }
+        public Dictionary<Enum, PermissionDescriptionItem> Descriptions { get; set; }
     }
 
     public abstract class PermissionDescription : IPermissionDescription
     {
         public virtual bool isEditable() => true;
 
-        public Dictionary<object, PermissionDescriptionItem> Descriptions { get; set; } = new Dictionary<object, PermissionDescriptionItem>();
+        public Dictionary<Enum, PermissionDescriptionItem> Descriptions { get; set; } = new Dictionary<Enum, PermissionDescriptionItem>();
     }
     public abstract class PermissionDescription<T> : PermissionDescription where T : Enum
     {
 
         public PermissionDescription()
         {
-            Descriptions = DefineDescription().ToDictionary(p => (object)p.Key, p => p.Value);
+            Descriptions = DefineDescription().ToDictionary(p => (Enum)p.Key, p => p.Value);
         }
 
         protected abstract Dictionary<T, PermissionDescriptionItem> DefineDescription();
 
     }
 
-    public enum DemoEnum
+    internal class DefaultPermissionDescription : PermissionDescription
     {
-        Value1, // ceci est ma valeur 1 et je suis important
-        Value2, // ceci est ma valeur 2 et je ne suis pas important
+
     }
-    public class DemoDescription : PermissionDescription<DemoEnum>
-    {
-        protected override Dictionary<DemoEnum, PermissionDescriptionItem> DefineDescription()
-        {
-            return new Dictionary<DemoEnum, PermissionDescriptionItem>() {
-                {
-                    DemoEnum.Value1,
-                    new PermissionDescriptionItem() {
-                        DisplayName = "Value 1",
-                        Description = "My value 1"
-                    }
-                },
-                {
-                    DemoEnum.Value2,
-                    new PermissionDescriptionItem() {
-                        DisplayName = "Value 2",
-                        Description = "My value 2"
-                    }
-                },
-            };
-        }
-    }
+
 }

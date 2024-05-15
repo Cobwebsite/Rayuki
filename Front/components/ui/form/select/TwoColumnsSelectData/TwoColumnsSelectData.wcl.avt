@@ -1,0 +1,152 @@
+import { TwoColumnsSelect } from "../TwoColumnsSelect/TwoColumnsSelect.wcl.avt";
+import { Process } from "../../../../../libs/Process.lib.avt";
+import { TwoColumnsOptionData } from "./TwoColumnsOptionData/TwoColumnsOptionData.wcl.avt";
+
+namespace Components {
+    export abstract class TwoColumnsSelectData<U extends Aventus.IData, T extends U | number = U> extends TwoColumnsSelect<TwoColumnsOptionData<T>, T> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public loading!: boolean;
+        //#endregion
+
+
+        //#region variables
+        protected data: Aventus.RamItem<U>[] = [];
+        protected isInit: boolean = false;
+        //#endregion
+
+
+        //#region constructor
+        public constructor() {
+            super();
+            this.createOptions();
+        }
+        //#endregion
+
+
+        //#region methods
+        /**
+         * @inheritdoc
+         */
+        protected override itemToText(option: TwoColumnsOptionData<T>): string {
+            return option.innerHTML;
+        }
+
+        protected override include(array: T[], value: T): boolean {
+            if(typeof value == 'number') {
+                return array.includes(value);
+            }
+            let arrayEl = array as U[];
+            let valueEl = value as U;
+            let ram = this.defineRam();
+            return arrayEl.findIndex(p => ram.getId(p) == ram.getId(valueEl)) != -1;
+        }
+
+        protected async createOptions() {
+            this.loading = true;
+            this.data = await this.loadData();
+            for(let item of this.data) {
+                let option = new TwoColumnsOptionData();
+                option.value = await Aventus.Async(this.optionValue(item));
+                option.innerHTML = await Aventus.Async(this.optionText(item));
+                this.appendChild(option);
+            }
+            this.loading = false;
+            this.init();
+        }
+
+
+        protected abstract defineRam(): Aventus.Ram<U>;
+        protected async loadData(): Promise<Aventus.RamItem<U>[]> {
+            const result = await Process.execute(this, this.defineRam().getListWithError()) ?? [];
+            return result;
+        }
+        protected abstract optionText(item: U): Aventus.Asyncable<string>;
+        protected abstract optionValue(item: U): Aventus.Asyncable<T>;
+
+        @BindThis()
+        protected subscribe() {
+            this.defineRam().onCreated(this.onCreated);
+            this.defineRam().onUpdated(this.onUpdated);
+            this.defineRam().onDeleted(this.onDeleted);
+        }
+
+        @BindThis()
+        protected unsubscribe() {
+            this.defineRam().offCreated(this.onCreated);
+            this.defineRam().offUpdated(this.onUpdated);
+            this.defineRam().offDeleted(this.onDeleted);
+        }
+
+        @BindThis()
+        protected async onCreated(item: Aventus.RamItem<U>) {
+            this.data.push(item);
+            let option = new TwoColumnsOptionData();
+            option.value = await Aventus.Async(this.optionValue(item));
+            option.innerHTML = await Aventus.Async(this.optionText(item));
+            this.appendChild(option);
+            this.loadElementsFromSlot();
+        }
+
+        @BindThis()
+        protected onDeleted(item: Aventus.RamItem<U>) {
+            for(let i = 0; i < this.optionsSelected.length; i++) {
+                let option = this.optionsSelected[i];
+                if(option.value == this.optionValue(item)) {
+                    this.optionsSelected.splice(i, 1);
+                    option.remove();
+                }
+            }
+            for(let i = 0; i < this.optionsUnselected.length; i++) {
+                let option = this.optionsUnselected[i];
+                if(option.value == this.optionValue(item)) {
+                    this.optionsUnselected.splice(i, 1);
+                    option.remove();
+                }
+            }
+        }
+
+        @BindThis()
+        protected async onUpdated(item: Aventus.RamItem<U>) {
+            for(let i = 0; i < this.optionsSelected.length; i++) {
+                let option = this.optionsSelected[i];
+                if(option.value == this.optionValue(item)) {
+                    option.innerHTML = await Aventus.Async(this.optionText(item));
+                }
+            }
+            for(let i = 0; i < this.optionsUnselected.length; i++) {
+                let option = this.optionsUnselected[i];
+                if(option.value == this.optionValue(item)) {
+                    option.innerHTML = await Aventus.Async(this.optionText(item));
+                }
+            }
+        }
+
+        protected init() {
+            if(!this.isConnected) return;
+            if(this.isInit) return;
+            this.isInit = true;
+            super.postCreation();
+            this.subscribe();
+        }
+
+        protected override postDestruction(): void {
+            super.postDestruction();
+            this.unsubscribe();
+        }
+
+
+
+        protected override postCreation(): void {
+            this.init();
+        }
+        //#endregion
+
+    }
+}

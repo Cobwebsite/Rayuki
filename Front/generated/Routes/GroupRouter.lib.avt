@@ -1,0 +1,15 @@
+import { Group } from '../Data/Group.data.avt';
+import { CoreRouter } from '../CoreRouter.lib.avt';
+
+namespace Routes {
+
+	export class GroupRouter extends AventusSharp.Routes.StorableRoute<Group> {
+		public constructor(router?: Aventus.HttpRouter) {
+			super(router ?? new CoreRouter());
+		}
+		public StorableName() {
+			return "Group";
+		}
+	}
+
+}

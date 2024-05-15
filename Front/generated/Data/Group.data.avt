@@ -8,7 +8,6 @@ namespace Data {
 		public Name: string = "";
 		public Description: string = "";
 		public Users: User[] = [];
-		public parentGroup?: Group = undefined;
 	}
 
 }

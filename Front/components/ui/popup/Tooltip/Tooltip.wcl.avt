@@ -17,6 +17,9 @@ namespace Components {
 
         @Attribute()
         public use_absolute!: boolean;
+
+        @Attribute()
+        public delay!: number;
         //#endregion
 
 
@@ -77,16 +80,26 @@ namespace Components {
         @BindThis()
         protected onMouseEnter() {
             this.calculatePosition();
+            let delay = this.delay == 0 ? 50 : this.delay;
             if(this.use_absolute) {
                 document.body.appendChild(this);
                 this.timeoutEnter = false;
                 this.timeout = setTimeout(() => {
                     this.timeoutEnter = true;
                     this.visible = true;
-                }, 50);
+                }, delay);
             }
             else {
-                this.visible = true;
+                if(delay == 0) {
+                    this.visible = true;
+                }
+                else {
+                    this.timeoutEnter = false;
+                    this.timeout = setTimeout(() => {
+                        this.timeoutEnter = true;
+                        this.visible = true;
+                    }, delay);
+                }
             }
         }
 
@@ -94,6 +107,12 @@ namespace Components {
         protected onMouseLeave() {
             this.visible = false;
             if(this.use_absolute) {
+                if(!this.timeoutEnter) {
+                    clearTimeout(this.timeout);
+                    this.onTransitionEnd();
+                }
+            }
+            else if(this.delay != 0) {
                 if(!this.timeoutEnter) {
                     clearTimeout(this.timeout);
                     this.onTransitionEnd();

@@ -27,6 +27,7 @@
 		border-radius: var(--_textarea-border-radius);
 		display: flex;
 		height: var(--_textarea-height);
+		min-height: var(--_textarea-height);
 		padding: 0 10px;
 		position: relative;
 		width: 100%;

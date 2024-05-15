@@ -1,0 +1,46 @@
+<div class="wrapper">
+    <div class="col">
+        <div class="title">{{ this.title_unselect }}</div>
+        <div class="search search-unselect">
+            <rk-input placeholder="{{ this.placeholder_unselect }}" @change="searchUnselect"
+                @element="unselectSearchInput"></rk-input>
+        </div>
+        <rk-scrollable class="options" @element="unselectOptionsCont">
+
+        </rk-scrollable>
+    </div>
+    <div class="action">
+        <div class="btn" @press="selectAll">
+            <mi-icon icon="keyboard_double_arrow_right"></mi-icon>
+        </div>
+        <div class="btn" @press="selectHighlighted">
+            <mi-icon icon="keyboard_arrow_right"></mi-icon>
+        </div>
+        <div class="btn" @press="unselectHighlighted">
+            <mi-icon icon="keyboard_arrow_left"></mi-icon>
+        </div>
+        <div class="btn" @press="unselectAll">
+            <mi-icon icon="keyboard_double_arrow_left"></mi-icon>
+        </div>
+    </div>
+    <div class="col">
+        <div class="title">{{ this.title_select }}</div>
+        <div class="search search-select">
+            <rk-input placeholder="{{ this.placeholder_select }}" @change="searchSelect"
+                @element="selectSearchInput"></rk-input>
+        </div>
+        <rk-scrollable class="options" @element="selectOptionsCont">
+
+        </rk-scrollable>
+        <div class="errors">
+            for(let error of this.errors) { 
+                <div>{{ error }}</div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="hidden">
+    <slot></slot>
+</div>

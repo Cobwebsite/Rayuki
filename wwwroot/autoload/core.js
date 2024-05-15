@@ -13,6 +13,8 @@ const Errors = {};
 _.Errors = {};
 const Permissions = {};
 _.Permissions = {};
+Permissions.Tree = {};
+_.Permissions.Tree = {};
 const Data = {};
 _.Data = {};
 Data.DataTypes = {};
@@ -73,6 +75,7 @@ _.Errors.ImageFileErrorCode=Errors.ImageFileErrorCode;
     CoreErrorCode[CoreErrorCode["NotImplemented"] = 0] = "NotImplemented";
     CoreErrorCode[CoreErrorCode["NotAvailable"] = 1] = "NotAvailable";
     CoreErrorCode[CoreErrorCode["Impossible"] = 2] = "Impossible";
+    CoreErrorCode[CoreErrorCode["NotAllowed"] = 3] = "NotAllowed";
 })(Errors.CoreErrorCode || (Errors.CoreErrorCode = {}));
 
 _.Errors.CoreErrorCode=Errors.CoreErrorCode;
@@ -85,10 +88,6 @@ _.Errors.CoreErrorCode=Errors.CoreErrorCode;
 _.Permissions.UserPermission=Permissions.UserPermission;
 (function (DesktopPermission) {
     DesktopPermission[DesktopPermission["CanEdit"] = 0] = "CanEdit";
-    DesktopPermission[DesktopPermission["CanDelete"] = 1] = "CanDelete";
-    DesktopPermission[DesktopPermission["CanCreate"] = 2] = "CanCreate";
-    DesktopPermission[DesktopPermission["CanTemplate"] = 3] = "CanTemplate";
-    DesktopPermission[DesktopPermission["CanChangeBackground"] = 4] = "CanChangeBackground";
 })(Permissions.DesktopPermission || (Permissions.DesktopPermission = {}));
 
 _.Permissions.DesktopPermission=Permissions.DesktopPermission;
@@ -97,6 +96,20 @@ _.Permissions.DesktopPermission=Permissions.DesktopPermission;
 })(Permissions.ApplicationPermission || (Permissions.ApplicationPermission = {}));
 
 _.Permissions.ApplicationPermission=Permissions.ApplicationPermission;
+Permissions.Tree.PermissionTreeItem=class PermissionTreeItem {
+    static get Fullname() { return "Core.Permissions.Tree.PermissionTreeItem, Core"; }
+    DisplayName = "";
+    Description = "";
+    EnumName = "";
+    Value;
+    PermissionId;
+    Permissions = [];
+}
+Permissions.Tree.PermissionTreeItem.Namespace=`${moduleName}.Permissions.Tree`;
+Permissions.Tree.PermissionTreeItem.$schema={"DisplayName":"string","Description":"string","EnumName":"string","Value":"Aventus.Enum","PermissionId":"number","Permissions":"PermissionTreeItem"};
+Aventus.Converter.register(Permissions.Tree.PermissionTreeItem.Fullname, Permissions.Tree.PermissionTreeItem);
+
+_.Permissions.Tree.PermissionTreeItem=Permissions.Tree.PermissionTreeItem;
 (function (DesktopErrorCode) {
     DesktopErrorCode[DesktopErrorCode["NoDefaultDesktop"] = 0] = "NoDefaultDesktop";
 })(Errors.DesktopErrorCode || (Errors.DesktopErrorCode = {}));
@@ -119,6 +132,29 @@ Data.Permission.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "EnumNa
 Aventus.Converter.register(Data.Permission.Fullname, Data.Permission);
 
 _.Data.Permission=Data.Permission;
+Data.PermissionUser=class PermissionUser extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.PermissionUser, Core"; }
+    Data;
+    Permission;
+    UserId;
+    Allow;
+}
+Data.PermissionUser.Namespace=`${moduleName}.Data`;
+Data.PermissionUser.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":""+moduleName+".Data.Permission","UserId":"number","Allow":"boolean"};
+Aventus.Converter.register(Data.PermissionUser.Fullname, Data.PermissionUser);
+
+_.Data.PermissionUser=Data.PermissionUser;
+Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.PermissionGroup, Core"; }
+    Data;
+    Permission;
+    GroupId;
+}
+Data.PermissionGroup.Namespace=`${moduleName}.Data`;
+Data.PermissionGroup.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":""+moduleName+".Data.Permission","GroupId":"number"};
+Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
+
+_.Data.PermissionGroup=Data.PermissionGroup;
 Data.DataTypes.Pdf=class Pdf extends AventusSharp.Data.AventusFile {
     static get Fullname() { return "Core.Data.DataTypes.Pdf, Core"; }
     Name = "";
@@ -207,7 +243,8 @@ Components.Tooltip = class Tooltip extends Aventus.WebComponent {
     set 'visible'(val) { this.setBoolAttr('visible', val) }get 'position'() { return this.getStringAttr('position') }
     set 'position'(val) { this.setStringAttr('position', val) }get 'color'() { return this.getStringAttr('color') }
     set 'color'(val) { this.setStringAttr('color', val) }get 'use_absolute'() { return this.getBoolAttr('use_absolute') }
-    set 'use_absolute'(val) { this.setBoolAttr('use_absolute', val) }    parent = null;
+    set 'use_absolute'(val) { this.setBoolAttr('use_absolute', val) }get 'delay'() { return this.getNumberAttr('delay') }
+    set 'delay'(val) { this.setNumberAttr('delay', val) }    parent = null;
     isDestroyed = false;
     timeoutEnter = false;
     timeout = 0;
@@ -230,8 +267,8 @@ Components.Tooltip = class Tooltip extends Aventus.WebComponent {
     getClassName() {
         return "Tooltip";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('position')){ this['position'] = 'left'; }if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('use_absolute')) { this.attributeChangedCallback('use_absolute', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('position');this.__upgradeProperty('color');this.__upgradeProperty('use_absolute'); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('position')){ this['position'] = 'left'; }if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('use_absolute')) { this.attributeChangedCallback('use_absolute', false, false); }if(!this.hasAttribute('delay')){ this['delay'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('position');this.__upgradeProperty('color');this.__upgradeProperty('use_absolute');this.__upgradeProperty('delay'); }
     __listBoolProps() { return ["visible","use_absolute"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     calculatePosition() {
         if (!this.parent || !this.use_absolute)
@@ -272,21 +309,37 @@ Components.Tooltip = class Tooltip extends Aventus.WebComponent {
     }
     onMouseEnter() {
         this.calculatePosition();
+        let delay = this.delay == 0 ? 50 : this.delay;
         if (this.use_absolute) {
             document.body.appendChild(this);
             this.timeoutEnter = false;
             this.timeout = setTimeout(() => {
                 this.timeoutEnter = true;
                 this.visible = true;
-            }, 50);
+            }, delay);
         }
         else {
-            this.visible = true;
+            if (delay == 0) {
+                this.visible = true;
+            }
+            else {
+                this.timeoutEnter = false;
+                this.timeout = setTimeout(() => {
+                    this.timeoutEnter = true;
+                    this.visible = true;
+                }, delay);
+            }
         }
     }
     onMouseLeave() {
         this.visible = false;
         if (this.use_absolute) {
+            if (!this.timeoutEnter) {
+                clearTimeout(this.timeout);
+                this.onTransitionEnd();
+            }
+        }
+        else if (this.delay != 0) {
             if (!this.timeoutEnter) {
                 clearTimeout(this.timeout);
                 this.onTransitionEnd();
@@ -1519,6 +1572,42 @@ Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter {
 Routes.CoreRouter.Namespace=`${moduleName}.Routes`;
 
 _.Routes.CoreRouter=Routes.CoreRouter;
+Routes.PermissionUserRouter=class PermissionUserRouter extends Aventus.HttpRoute {
+    constructor(router) {
+        super(router ?? new Routes.CoreRouter());
+    }
+    async GetAllByUser(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissionuser/byuser`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async EditPermission(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissionuser/editpermission`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+}
+Routes.PermissionUserRouter.Namespace=`${moduleName}.Routes`;
+
+_.Routes.PermissionUserRouter=Routes.PermissionUserRouter;
+Routes.PermissionGroupRouter=class PermissionGroupRouter extends Aventus.HttpRoute {
+    constructor(router) {
+        super(router ?? new Routes.CoreRouter());
+    }
+    async GetAllByGroup(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissiongroup/bygroup`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async EditPermission(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissiongroup/editpermission`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+}
+Routes.PermissionGroupRouter.Namespace=`${moduleName}.Routes`;
+
+_.Routes.PermissionGroupRouter=Routes.PermissionGroupRouter;
 Routes.PdfRouter=class PdfRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
@@ -1532,19 +1621,6 @@ Routes.PdfRouter=class PdfRouter extends Aventus.HttpRoute {
 Routes.PdfRouter.Namespace=`${moduleName}.Routes`;
 
 _.Routes.PdfRouter=Routes.PdfRouter;
-Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
-    constructor(router) {
-        super(router ?? new Routes.CoreRouter());
-    }
-    async Can(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/can`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryJSON(this.router);
-    }
-}
-Routes.PermissionRouter.Namespace=`${moduleName}.Routes`;
-
-_.Routes.PermissionRouter=Routes.PermissionRouter;
 Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
@@ -1818,42 +1894,28 @@ Data.User.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Firstname":"
 Aventus.Converter.register(Data.User.Fullname, Data.User);
 
 _.Data.User=Data.User;
-Data.PermissionUser=class PermissionUser extends AventusSharp.Data.Storable {
-    static get Fullname() { return "Core.Data.PermissionUser, Core"; }
-    Data;
-    Permission;
-    Data;
-    User;
-}
-Data.PermissionUser.Namespace=`${moduleName}.Data`;
-Data.PermissionUser.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":""+moduleName+".Data.Permission","User":""+moduleName+".Data.User"};
-Aventus.Converter.register(Data.PermissionUser.Fullname, Data.PermissionUser);
-
-_.Data.PermissionUser=Data.PermissionUser;
 Data.Group=class Group extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Group, Core"; }
     Name = "";
     Description = "";
     Users = [];
-    parentGroup = undefined;
 }
 Data.Group.Namespace=`${moduleName}.Data`;
-Data.Group.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Description":"string","Users":""+moduleName+".Data.User","parentGroup":"Group"};
+Data.Group.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Description":"string","Users":""+moduleName+".Data.User"};
 Aventus.Converter.register(Data.Group.Fullname, Data.Group);
 
 _.Data.Group=Data.Group;
-Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
-    static get Fullname() { return "Core.Data.PermissionGroup, Core"; }
-    Data;
-    Permission;
-    Data;
-    Group;
+Routes.GroupRouter=class GroupRouter extends AventusSharp.Routes.StorableRoute {
+    constructor(router) {
+        super(router ?? new Routes.CoreRouter());
+    }
+    StorableName() {
+        return "Group";
+    }
 }
-Data.PermissionGroup.Namespace=`${moduleName}.Data`;
-Data.PermissionGroup.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":""+moduleName+".Data.Permission","Group":""+moduleName+".Data.Group"};
-Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
+Routes.GroupRouter.Namespace=`${moduleName}.Routes`;
 
-_.Data.PermissionGroup=Data.PermissionGroup;
+_.Routes.GroupRouter=Routes.GroupRouter;
 Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
@@ -5692,6 +5754,55 @@ if (this.constructor == GenericPopup) { throw "can't instanciate an abstract cla
 Components.GenericPopup.Namespace=`${moduleName}.Components`;
 _.Components.GenericPopup=Components.GenericPopup;
 
+Components.Popup = class Popup extends Components.GenericPopup {
+    static __style = `:host .popup .content{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - var(--_popup-content-padding) - var(--_popup-content-padding))}`;
+    constructor() { super(); if (this.constructor == Popup) { throw "can't instanciate an abstract class"; } }
+    __getStatic() {
+        return Popup;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Popup.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="popup" _id="popup_0">    <div class="header">        <div class="background"></div>        <div class="title" _id="popup_1"></div>        <div class="application-actions">            <div class="btn red touch" _id="popup_2"></div>        </div>    </div>    <rk-scrollable class="content">        <slot></slot>    </rk-scrollable></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "popupEl",
+      "ids": [
+        "popup_0"
+      ]
+    }
+  ],
+  "content": {
+    "popup_1°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__c6b222033048639bf6ac58d471520fbamethod0())}`,
+      "once": true
+    }
+  },
+  "pressEvents": [
+    {
+      "id": "popup_2",
+      "onPress": (e, pressInstance, c) => { c.comp.cancel(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "Popup";
+    }
+    __c6b222033048639bf6ac58d471520fbamethod0() {
+        return this.info.title;
+    }
+}
+Components.Popup.Namespace=`${moduleName}.Components`;
+_.Components.Popup=Components.Popup;
+
 Components.Confirm = class Confirm extends Components.GenericPopup {
     static __style = `:host .popup .body{align-items:center;display:flex;justify-content:center;line-height:1.5;padding:20px;padding-top:15px;text-align:center}:host .popup .action{align-items:center;display:flex;gap:20px;justify-content:center}`;
     __getStatic() {
@@ -5826,55 +5937,6 @@ Components.Alert.Namespace=`${moduleName}.Components`;
 Components.Alert.Tag=`rk-alert`;
 _.Components.Alert=Components.Alert;
 if(!window.customElements.get('rk-alert')){window.customElements.define('rk-alert', Components.Alert);Aventus.WebComponentInstance.registerDefinition(Components.Alert);}
-
-Components.Popup = class Popup extends Components.GenericPopup {
-    static __style = `:host .popup .content{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - var(--_popup-content-padding) - var(--_popup-content-padding))}`;
-    constructor() { super(); if (this.constructor == Popup) { throw "can't instanciate an abstract class"; } }
-    __getStatic() {
-        return Popup;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Popup.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="popup" _id="popup_0">    <div class="header">        <div class="background"></div>        <div class="title" _id="popup_1"></div>        <div class="application-actions">            <div class="btn red touch" _id="popup_2"></div>        </div>    </div>    <rk-scrollable class="content">        <slot></slot>    </rk-scrollable></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "popupEl",
-      "ids": [
-        "popup_0"
-      ]
-    }
-  ],
-  "content": {
-    "popup_1°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__c6b222033048639bf6ac58d471520fbamethod0())}`,
-      "once": true
-    }
-  },
-  "pressEvents": [
-    {
-      "id": "popup_2",
-      "onPress": (e, pressInstance, c) => { c.comp.cancel(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "Popup";
-    }
-    __c6b222033048639bf6ac58d471520fbamethod0() {
-        return this.info.title;
-    }
-}
-Components.Popup.Namespace=`${moduleName}.Components`;
-_.Components.Popup=Components.Popup;
 
 System.Application = class Application extends Aventus.WebComponent {
     static get observedAttributes() {return ["app_title", "full", "is_hidden"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -8065,6 +8127,30 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
 System.AppIcon.Namespace=`${moduleName}.System`;
 _.System.AppIcon=System.AppIcon;
 
+System.CoreAppIcon = class CoreAppIcon extends System.AppIcon {
+    static __style = `:host{background-color:#7a7a7a}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #ffffff;flex-grow:1;max-height:100%;padding:15%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    __getStatic() {
+        return CoreAppIcon;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(CoreAppIcon.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-img src="/img/icons/core.svg"></rk-img>` }
+    });
+}
+    getClassName() {
+        return "CoreAppIcon";
+    }
+}
+System.CoreAppIcon.Namespace=`${moduleName}.System`;
+System.CoreAppIcon.Tag=`rk-core-app-icon`;
+_.System.CoreAppIcon=System.CoreAppIcon;
+if(!window.customElements.get('rk-core-app-icon')){window.customElements.define('rk-core-app-icon', System.CoreAppIcon);Aventus.WebComponentInstance.registerDefinition(System.CoreAppIcon);}
+
 System.AppIconInline = class AppIconInline extends Aventus.WebComponent {
     static get observedAttributes() {return ["text"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'text'() { return this.getStringProp('text') }
@@ -9057,7 +9143,7 @@ Components.Textarea = class Textarea extends Components.FormElement {
     set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
     target.inputEl.value = target.value;
 })); }
-    static __style = `:host{--_textarea-height: var(--textarea-height, 30px);--_textarea-background-color: var(--textarea-background-color, var(--form-element-background, white));--_textarea-icon-height: var(--textarea-icon-height, calc(var(--_textarea-height) / 2));--_textarea-error-logo-size: var(--textarea-error-logo-size, calc(var(--_textarea-height) / 2));--_textarea-font-size: var(--textarea-font-size, var(--form-element-font-size, 16px));--_textarea-font-size-label: var(--textarea-font-size-label, var(--form-element-font-size-label, calc(var(--_textarea-font-size) * 0.95)));--_textarea-input-border: var(--textarea-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_textarea-border-radius: var(--textarea-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_textarea-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_textarea-background-color);border:var(--_textarea-input-border);border-radius:var(--_textarea-border-radius);display:flex;height:var(--_textarea-height);padding:0 10px;position:relative;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_textarea-icon-height);margin-right:10px}:host .input textarea{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-family:"Roboto",sans-serif;font-size:var(--_textarea-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px;resize:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_textarea-error-logo-size) - 5px);height:var(--_textarea-error-logo-size);justify-content:center;width:var(--_textarea-error-logo-size)}:host .input rk-resize{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([resize]) .input rk-resize{display:block}:host([autogrow]) .input textarea{overflow:hidden}`;
+    static __style = `:host{--_textarea-height: var(--textarea-height, 30px);--_textarea-background-color: var(--textarea-background-color, var(--form-element-background, white));--_textarea-icon-height: var(--textarea-icon-height, calc(var(--_textarea-height) / 2));--_textarea-error-logo-size: var(--textarea-error-logo-size, calc(var(--_textarea-height) / 2));--_textarea-font-size: var(--textarea-font-size, var(--form-element-font-size, 16px));--_textarea-font-size-label: var(--textarea-font-size-label, var(--form-element-font-size-label, calc(var(--_textarea-font-size) * 0.95)));--_textarea-input-border: var(--textarea-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_textarea-border-radius: var(--textarea-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_textarea-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_textarea-background-color);border:var(--_textarea-input-border);border-radius:var(--_textarea-border-radius);display:flex;height:var(--_textarea-height);min-height:var(--_textarea-height);padding:0 10px;position:relative;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_textarea-icon-height);margin-right:10px}:host .input textarea{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-family:"Roboto",sans-serif;font-size:var(--_textarea-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px;resize:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_textarea-error-logo-size) - 5px);height:var(--_textarea-error-logo-size);justify-content:center;width:var(--_textarea-error-logo-size)}:host .input rk-resize{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([resize]) .input rk-resize{display:block}:host([autogrow]) .input textarea{overflow:hidden}`;
     __getStatic() {
         return Textarea;
     }
@@ -11318,6 +11404,472 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
 Components.SelectData.Namespace=`${moduleName}.Components`;
 _.Components.SelectData=Components.SelectData;
 
+Components.TwoColumnsSelect = class TwoColumnsSelect extends Components.FormElement {
+    static get observedAttributes() {return ["title_unselect", "title_select", "placeholder_unselect", "placeholder_select"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'searchable_unselect'() { return this.getBoolAttr('searchable_unselect') }
+    set 'searchable_unselect'(val) { this.setBoolAttr('searchable_unselect', val) }get 'searchable_select'() { return this.getBoolAttr('searchable_select') }
+    set 'searchable_select'(val) { this.setBoolAttr('searchable_select', val) }    get 'title_unselect'() { return this.getStringProp('title_unselect') }
+    set 'title_unselect'(val) { this.setStringAttr('title_unselect', val) }get 'title_select'() { return this.getStringProp('title_select') }
+    set 'title_select'(val) { this.setStringAttr('title_select', val) }get 'placeholder_unselect'() { return this.getStringProp('placeholder_unselect') }
+    set 'placeholder_unselect'(val) { this.setStringAttr('placeholder_unselect', val) }get 'placeholder_select'() { return this.getStringProp('placeholder_select') }
+    set 'placeholder_select'(val) { this.setStringAttr('placeholder_select', val) }    get 'value'() {
+						return this.__watch["value"];
+					}
+					set 'value'(val) {
+						this.__watch["value"] = val;
+					}    selectedOption;
+    optionsSelected = [];
+    optionsUnselected = [];
+    canGenerateValues = false;
+    __registerWatchesActions() {
+    this.__addWatchesActions("value", ((target) => {
+    target.onInternalValueChanged();
+}));    super.__registerWatchesActions();
+}
+    static __style = `:host{display:flex;flex-direction:column;width:100%}:host .wrapper{align-items:center;display:flex;height:100%;width:100%}:host .wrapper .col{background-color:#fff;border-radius:var(--border-radius-sm);box-shadow:var(--elevation-1);display:flex;flex-direction:column;flex-grow:1;height:100%;padding:15px;width:100%}:host .wrapper .col .title{font-size:calc(var(--font-size)*.85);margin-bottom:10px;margin-left:3px}:host .wrapper .col .title:empty{display:none}:host .wrapper .col .search{display:none;margin-bottom:15px}:host .wrapper .action{display:flex;flex-direction:column;flex-grow:0;flex-shrink:0;gap:5px;padding:10px}:host .wrapper .action .btn{align-items:center;background-color:#fff;border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);cursor:pointer;display:flex;justify-content:center;transition:box-shadow .3s var(--bezier-curve),background-color .3s var(--bezier-curve)}:host .wrapper .action .btn mi-icon{font-size:var(--font-size-md);padding:2px}:host .wrapper .action .btn[disable=true]{color:var(--text-color-disable);cursor:not-allowed}:host .wrapper .action .btn:hover{background-color:var(--lighter);box-shadow:var(--elevation-1)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host .hidden{display:none}:host([has_errors]) .errors{display:block}:host([column]) .wrapper{flex-direction:column}:host([column]) .wrapper .action{flex-direction:row}:host([column]) .wrapper .action .btn mi-icon{transform:rotate(90deg)}:host([searchable_unselect]) .wrapper .col .search-unselect{display:inline-block}:host([searchable_select]) .wrapper .col .search-select{display:inline-block}`;
+    constructor() { super(); if (this.constructor == TwoColumnsSelect) { throw "can't instanciate an abstract class"; } }
+    __getStatic() {
+        return TwoColumnsSelect;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(TwoColumnsSelect.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="wrapper">    <div class="col">        <div class="title" _id="twocolumnsselect_0"></div>        <div class="search search-unselect">            <rk-input _id="twocolumnsselect_1"></rk-input>        </div>        <rk-scrollable class="options" _id="twocolumnsselect_2">        </rk-scrollable>    </div>    <div class="action">        <div class="btn" _id="twocolumnsselect_3">            <mi-icon icon="keyboard_double_arrow_right"></mi-icon>        </div>        <div class="btn" _id="twocolumnsselect_4">            <mi-icon icon="keyboard_arrow_right"></mi-icon>        </div>        <div class="btn" _id="twocolumnsselect_5">            <mi-icon icon="keyboard_arrow_left"></mi-icon>        </div>        <div class="btn" _id="twocolumnsselect_6">            <mi-icon icon="keyboard_double_arrow_left"></mi-icon>        </div>    </div>    <div class="col">        <div class="title" _id="twocolumnsselect_7"></div>        <div class="search search-select">            <rk-input _id="twocolumnsselect_8"></rk-input>        </div>        <rk-scrollable class="options" _id="twocolumnsselect_9">        </rk-scrollable>        <div class="errors">            <template _id="twocolumnsselect_10"></template>        </div>    </div></div><div class="hidden">    <slot></slot></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "unselectSearchInput",
+      "ids": [
+        "twocolumnsselect_1"
+      ]
+    },
+    {
+      "name": "unselectOptionsCont",
+      "ids": [
+        "twocolumnsselect_2"
+      ]
+    },
+    {
+      "name": "selectSearchInput",
+      "ids": [
+        "twocolumnsselect_8"
+      ]
+    },
+    {
+      "name": "selectOptionsCont",
+      "ids": [
+        "twocolumnsselect_9"
+      ]
+    }
+  ],
+  "content": {
+    "twocolumnsselect_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__02ff6a099b7c5d693b75b5727ffdf5e8method1())}`,
+      "once": true
+    },
+    "twocolumnsselect_1°placeholder": {
+      "fct": (c) => `${c.print(c.comp.__02ff6a099b7c5d693b75b5727ffdf5e8method2())}`,
+      "once": true
+    },
+    "twocolumnsselect_7°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__02ff6a099b7c5d693b75b5727ffdf5e8method3())}`,
+      "once": true
+    },
+    "twocolumnsselect_8°placeholder": {
+      "fct": (c) => `${c.print(c.comp.__02ff6a099b7c5d693b75b5727ffdf5e8method4())}`,
+      "once": true
+    }
+  },
+  "events": [
+    {
+      "eventName": "onChange",
+      "id": "twocolumnsselect_1",
+      "fct": (c, ...args) => c.comp.searchUnselect.apply(c.comp, ...args),
+      "isCallback": true
+    },
+    {
+      "eventName": "onChange",
+      "id": "twocolumnsselect_8",
+      "fct": (c, ...args) => c.comp.searchSelect.apply(c.comp, ...args),
+      "isCallback": true
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "twocolumnsselect_3",
+      "onPress": (e, pressInstance, c) => { c.comp.selectAll(e, pressInstance); }
+    },
+    {
+      "id": "twocolumnsselect_4",
+      "onPress": (e, pressInstance, c) => { c.comp.selectHighlighted(e, pressInstance); }
+    },
+    {
+      "id": "twocolumnsselect_5",
+      "onPress": (e, pressInstance, c) => { c.comp.unselectHighlighted(e, pressInstance); }
+    },
+    {
+      "id": "twocolumnsselect_6",
+      "onPress": (e, pressInstance, c) => { c.comp.unselectAll(e, pressInstance); }
+    }
+  ]
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`                 <div _id="twocolumnsselect_11"></div>            `);templ0.setActions({
+  "content": {
+    "twocolumnsselect_11°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__02ff6a099b7c5d693b75b5727ffdf5e8method5(c.data.error))}`,
+      "once": true
+    }
+  }
+});this.__getStatic().__template.addLoop({
+                    anchorId: 'twocolumnsselect_10',
+                    template: templ0,
+                simple:{data: "this.errors",item:"error"}}); }
+    getClassName() {
+        return "TwoColumnsSelect";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('searchable_unselect')) { this.attributeChangedCallback('searchable_unselect', false, false); }if(!this.hasAttribute('searchable_select')) { this.attributeChangedCallback('searchable_select', false, false); }if(!this.hasAttribute('title_unselect')){ this['title_unselect'] = undefined; }if(!this.hasAttribute('title_select')){ this['title_select'] = undefined; }if(!this.hasAttribute('placeholder_unselect')){ this['placeholder_unselect'] = "Recherche"; }if(!this.hasAttribute('placeholder_select')){ this['placeholder_select'] = "Recherche"; } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('searchable_unselect');this.__upgradeProperty('searchable_select');this.__upgradeProperty('title_unselect');this.__upgradeProperty('title_select');this.__upgradeProperty('placeholder_unselect');this.__upgradeProperty('placeholder_select');this.__correctGetter('value'); }
+    __listBoolProps() { return ["searchable_unselect","searchable_select"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    include(array, value) {
+        return array.includes(value);
+    }
+    onInternalValueChanged() {
+        if (!this.isConnected || !this.canGenerateValues)
+            return;
+        if (!this.value) {
+            for (let option of this.optionsSelected) {
+                this.unselectOptionsCont.appendChild(option);
+            }
+            this.reloadOptions();
+            return;
+        }
+        for (let option of this.optionsSelected) {
+            if (!option.value || !this.include(this.value, option.value)) {
+                this.unselectOptionsCont.appendChild(option);
+            }
+        }
+        for (let option of this.optionsUnselected) {
+            if (option.value && this.include(this.value, option.value)) {
+                this.selectOptionsCont.appendChild(option);
+            }
+        }
+        this.reloadOptions();
+        return;
+    }
+    changeValue() {
+        this.onChange.trigger([this.value]);
+        if (this.formPart) {
+            Components.FormElement.setValue(this.formPart, this.value);
+            if (this.formPart.validateOnChange !== false) {
+                this.validate();
+            }
+        }
+    }
+    loadElementsFromSlot() {
+        let elements = this.getElementsInSlot();
+        for (let element of elements) {
+            if (element instanceof Components.TwoColumnsOption) {
+                element.init(this);
+                this.unselectOptionsCont.appendChild(element);
+            }
+        }
+        this.reloadOptions();
+    }
+    reloadOptions() {
+        this.optionsSelected = Array.from(this.selectOptionsCont.children);
+        this.optionsUnselected = Array.from(this.unselectOptionsCont.children);
+        this.searchSelect();
+        this.searchUnselect();
+        if (this.canGenerateValues) {
+            let values = [];
+            for (let optionSelected of this.optionsSelected) {
+                if (optionSelected.value)
+                    values.push(optionSelected.value);
+            }
+            this.value = values;
+        }
+    }
+    removeErrors() {
+        this.errors = [];
+    }
+    selectAll() {
+        for (let optionUnselected of this.optionsUnselected) {
+            this.selectOptionsCont.appendChild(optionUnselected);
+        }
+        this.reloadOptions();
+        this.changeValue();
+    }
+    selectHighlighted() {
+        for (let optionUnselected of this.optionsUnselected) {
+            if (optionUnselected.highlight) {
+                this.selectOptionsCont.appendChild(optionUnselected);
+                optionUnselected.highlight = false;
+            }
+        }
+        this.reloadOptions();
+        this.changeValue();
+    }
+    unselectHighlighted() {
+        for (let optionSelected of this.optionsSelected) {
+            if (optionSelected.highlight) {
+                this.unselectOptionsCont.appendChild(optionSelected);
+                optionSelected.highlight = false;
+            }
+        }
+        this.reloadOptions();
+        this.changeValue();
+    }
+    unselectAll() {
+        for (let optionSelected of this.optionsSelected) {
+            this.unselectOptionsCont.appendChild(optionSelected);
+        }
+        this.reloadOptions();
+        this.changeValue();
+    }
+    searchUnselect() {
+        for (let option of this.optionsUnselected) {
+            option.filter(this.unselectSearchInput.value);
+        }
+    }
+    searchSelect() {
+        for (let option of this.optionsSelected) {
+            option.filter(this.selectSearchInput.value);
+        }
+    }
+    postDestruction() {
+        super.postDestruction();
+    }
+    postCreation() {
+        this.loadElementsFromSlot();
+        this.canGenerateValues = true;
+        this.onInternalValueChanged();
+    }
+    __02ff6a099b7c5d693b75b5727ffdf5e8method1() {
+        return this.title_unselect;
+    }
+    __02ff6a099b7c5d693b75b5727ffdf5e8method2() {
+        return this.placeholder_unselect;
+    }
+    __02ff6a099b7c5d693b75b5727ffdf5e8method3() {
+        return this.title_select;
+    }
+    __02ff6a099b7c5d693b75b5727ffdf5e8method4() {
+        return this.placeholder_select;
+    }
+    __02ff6a099b7c5d693b75b5727ffdf5e8method5(error) {
+        return error;
+    }
+}
+Components.TwoColumnsSelect.Namespace=`${moduleName}.Components`;
+_.Components.TwoColumnsSelect=Components.TwoColumnsSelect;
+
+Components.TwoColumnsOption = class TwoColumnsOption extends Aventus.WebComponent {
+    get 'highlight'() { return this.getBoolAttr('highlight') }
+    set 'highlight'(val) { this.setBoolAttr('highlight', val) }    value;
+    select;
+    static __style = `:host{border-radius:var(--border-radius-sm);cursor:pointer;margin:5px 0;padding:5px;transition:background-color .2s var(--bezier-curve)}:host([highlight]){background-color:var(--lighter)}:host(:first-child){margin-top:0}:host(:last-child){margin-bottom:0}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--lighter)}}`;
+    __getStatic() {
+        return TwoColumnsOption;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(TwoColumnsOption.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "TwoColumnsOption";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('highlight')) { this.attributeChangedCallback('highlight', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('highlight'); }
+    __listBoolProps() { return ["highlight"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    init(select) {
+        this.select = select;
+    }
+    filter(text) {
+        if (this.innerText.toLowerCase().includes(text)) {
+            this.style.display = "";
+        }
+        else {
+            this.style.display = "none";
+        }
+    }
+    postCreation() {
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => {
+                this.highlight = !this.highlight;
+            }
+        });
+    }
+}
+Components.TwoColumnsOption.Namespace=`${moduleName}.Components`;
+Components.TwoColumnsOption.Tag=`rk-two-columns-option`;
+_.Components.TwoColumnsOption=Components.TwoColumnsOption;
+if(!window.customElements.get('rk-two-columns-option')){window.customElements.define('rk-two-columns-option', Components.TwoColumnsOption);Aventus.WebComponentInstance.registerDefinition(Components.TwoColumnsOption);}
+
+Components.TwoColumnsOptionData = class TwoColumnsOptionData extends Components.TwoColumnsOption {
+    static __style = `:host{display:block}`;
+    __getStatic() {
+        return TwoColumnsOptionData;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(TwoColumnsOptionData.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "TwoColumnsOptionData";
+    }
+}
+Components.TwoColumnsOptionData.Namespace=`${moduleName}.Components`;
+Components.TwoColumnsOptionData.Tag=`rk-two-columns-option-data`;
+_.Components.TwoColumnsOptionData=Components.TwoColumnsOptionData;
+if(!window.customElements.get('rk-two-columns-option-data')){window.customElements.define('rk-two-columns-option-data', Components.TwoColumnsOptionData);Aventus.WebComponentInstance.registerDefinition(Components.TwoColumnsOptionData);}
+
+Components.TwoColumnsSelectData = class TwoColumnsSelectData extends Components.TwoColumnsSelect {
+    get 'loading'() { return this.getBoolAttr('loading') }
+    set 'loading'(val) { this.setBoolAttr('loading', val) }    data = [];
+    isInit = false;
+    static __style = ``;
+    constructor() {
+            super();
+            this.createOptions();
+if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abstract class"; } this.subscribe=this.subscribe.bind(this)this.unsubscribe=this.unsubscribe.bind(this)this.onCreated=this.onCreated.bind(this)this.onDeleted=this.onDeleted.bind(this)this.onUpdated=this.onUpdated.bind(this) }
+    __getStatic() {
+        return TwoColumnsSelectData;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(TwoColumnsSelectData.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "TwoColumnsSelectData";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading'); }
+    __listBoolProps() { return ["loading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    itemToText(option) {
+        return option.innerHTML;
+    }
+    include(array, value) {
+        if (typeof value == 'number') {
+            return array.includes(value);
+        }
+        let arrayEl = array;
+        let valueEl = value;
+        let ram = this.defineRam();
+        return arrayEl.findIndex(p => ram.getId(p) == ram.getId(valueEl)) != -1;
+    }
+    async createOptions() {
+        this.loading = true;
+        this.data = await this.loadData();
+        for (let item of this.data) {
+            let option = new Components.TwoColumnsOptionData();
+            option.value = await Aventus.Async(this.optionValue(item));
+            option.innerHTML = await Aventus.Async(this.optionText(item));
+            this.appendChild(option);
+        }
+        this.loading = false;
+        this.init();
+    }
+    async loadData() {
+        const result = await Lib.Process.execute(this, this.defineRam().getListWithError()) ?? [];
+        return result;
+    }
+    subscribe() {
+        this.defineRam().onCreated(this.onCreated);
+        this.defineRam().onUpdated(this.onUpdated);
+        this.defineRam().onDeleted(this.onDeleted);
+    }
+    unsubscribe() {
+        this.defineRam().offCreated(this.onCreated);
+        this.defineRam().offUpdated(this.onUpdated);
+        this.defineRam().offDeleted(this.onDeleted);
+    }
+    async onCreated(item) {
+        this.data.push(item);
+        let option = new Components.TwoColumnsOptionData();
+        option.value = await Aventus.Async(this.optionValue(item));
+        option.innerHTML = await Aventus.Async(this.optionText(item));
+        this.appendChild(option);
+        this.loadElementsFromSlot();
+    }
+    onDeleted(item) {
+        for (let i = 0; i < this.optionsSelected.length; i++) {
+            let option = this.optionsSelected[i];
+            if (option.value == this.optionValue(item)) {
+                this.optionsSelected.splice(i, 1);
+                option.remove();
+            }
+        }
+        for (let i = 0; i < this.optionsUnselected.length; i++) {
+            let option = this.optionsUnselected[i];
+            if (option.value == this.optionValue(item)) {
+                this.optionsUnselected.splice(i, 1);
+                option.remove();
+            }
+        }
+    }
+    async onUpdated(item) {
+        for (let i = 0; i < this.optionsSelected.length; i++) {
+            let option = this.optionsSelected[i];
+            if (option.value == this.optionValue(item)) {
+                option.innerHTML = await Aventus.Async(this.optionText(item));
+            }
+        }
+        for (let i = 0; i < this.optionsUnselected.length; i++) {
+            let option = this.optionsUnselected[i];
+            if (option.value == this.optionValue(item)) {
+                option.innerHTML = await Aventus.Async(this.optionText(item));
+            }
+        }
+    }
+    init() {
+        if (!this.isConnected)
+            return;
+        if (this.isInit)
+            return;
+        this.isInit = true;
+        super.postCreation();
+        this.subscribe();
+    }
+    postDestruction() {
+        super.postDestruction();
+        this.unsubscribe();
+    }
+    postCreation() {
+        this.init();
+    }
+}
+Components.TwoColumnsSelectData.Namespace=`${moduleName}.Components`;
+_.Components.TwoColumnsSelectData=Components.TwoColumnsSelectData;
+
 Components.Table = class Table extends Aventus.WebComponent {
     static get observedAttributes() {return ["auto_hide_scroll", "grid", "items_per_page"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'col_resize'() { return this.getBoolAttr('col_resize') }
@@ -11403,7 +11955,7 @@ Components.Table = class Table extends Aventus.WebComponent {
         target.showFooter = true;
     }
 })); }
-    static __style = `:host{--_table-background-color: var(--table-background-color, var(--secondary-color));--_table-elevation: var(--table-elevation, var(--elevation-2));--_table-row-header-height: var(--table-row-header-height, 50px);--_table-header-backgroud-color: var(--table-header-backgroud-color, var(--primary-color));--_table-header-color: var(--table-header-color, var(--text-color-reverse));--_table-footer-backgroud-color: var(--table-footer-backgroud-color, var(--primary-color));--_table-footer-color: var(--table-footer-color, var(--text-color-reverse));--_table-row-header-backgroud-color: var(--table-row-header-backgroud-color, var(--primary-color));--_table-row-header-color: var(--table-row-header-color, var(--text-color-reverse));--_table-border-color: var(--table-border-color, var(--secondary-color));--_table-row-header-vertical-border: var(--table-row-header-vertical-border, 1px solid var(--_table-border-color));--_table-row-header-horizontal-border: var(--table-row-header-horizontal-border, 1px solid var(--_table-border-color));--_table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-padding: var(--table-cell-padding, 10px);--local-table-cell-resize-display: none}:host{background-color:var(--_table-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--_table-elevation);display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper{display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper .header{align-items:center;background-color:var(--_table-header-backgroud-color);color:var(--_table-header-color);display:flex;justify-content:space-between;padding:10px}:host .style-wrapper .header .title{align-items:center;display:flex;font-size:var(--font-size-md);height:30px;margin-left:5px}:host .style-wrapper .row-header{--scrollbar-color: transparent;--scrollbar-active-color: transparent;--scroller-width: 0;height:var(--_table-row-header-height);width:100%}:host .style-wrapper .body{display:flex;flex-direction:column;height:calc(100% - var(--_table-row-header-height));width:100%}:host .style-wrapper .footer{align-items:center;background-color:var(--_table-footer-backgroud-color);color:var(--_table-footer-color);display:flex;gap:30px;justify-content:end;padding:10px}:host .style-wrapper .footer .items-per-page{align-items:center;display:flex}:host .style-wrapper .footer .items-per-page rk-input-number{margin-left:10px;min-width:auto;width:50px}:host .style-wrapper .footer .location{align-items:center;display:flex}:host .style-wrapper .footer .pagination{align-items:center;display:flex}:host .style-wrapper .footer .pagination .btn-previous,:host .style-wrapper .footer .pagination .btn-next{transition:background-color .2s var(--bezier-curve)}:host .style-wrapper rk-scrollable::part(content-wrapper){min-width:100%}:host([first_page]) .style-wrapper .footer .pagination .btn-previous{opacity:.5;pointer-events:none}:host([last_page]) .style-wrapper .footer .pagination .btn-next{opacity:.5;pointer-events:none}:host([col_resize]){--local-table-cell-resize-display: block}:host([grid]) .style-wrapper .header{display:none}:host([grid]) .style-wrapper .body{flex-direction:row}:host([grid]) .style-wrapper .body rk-scrollable::part(content-wrapper){display:flex;flex-wrap:wrap;gap:15px;justify-content:center;padding:15px}@media screen and (min-width: 1225px){:host .style-wrapper .footer .pagination .touch:hover{background-color:var(--lighter);border-radius:var(--border-radius-sm)}}`;
+    static __style = `:host{--_table-background-color: var(--table-background-color, var(--secondary-color));--_table-elevation: var(--table-elevation, var(--elevation-2));--_table-row-header-height: var(--table-row-header-height, 50px);--_table-header-backgroud-color: var(--table-header-backgroud-color, var(--primary-color));--_table-header-color: var(--table-header-color, var(--text-color-reverse));--_table-footer-backgroud-color: var(--table-footer-backgroud-color, var(--primary-color));--_table-footer-color: var(--table-footer-color, var(--text-color-reverse));--_table-row-header-backgroud-color: var(--table-row-header-backgroud-color, var(--primary-color));--_table-row-header-color: var(--table-row-header-color, var(--text-color-reverse));--_table-border-color: var(--table-border-color, var(--secondary-color));--_table-row-header-vertical-border: var(--table-row-header-vertical-border, 1px solid var(--_table-border-color));--_table-row-header-horizontal-border: var(--table-row-header-horizontal-border, 1px solid var(--_table-border-color));--_table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-padding: var(--table-cell-padding, 10px);--local-table-cell-resize-display: none}:host{background-color:var(--_table-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--_table-elevation);display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper{display:flex;flex-direction:column;height:100%;min-height:100%;width:100%}:host .style-wrapper .header{align-items:center;background-color:var(--_table-header-backgroud-color);color:var(--_table-header-color);display:flex;justify-content:space-between;min-height:0;padding:10px}:host .style-wrapper .header .title{align-items:center;display:flex;font-size:var(--font-size-md);height:30px;margin-left:5px}:host .style-wrapper .row-header{--scrollbar-color: transparent;--scrollbar-active-color: transparent;--scroller-width: 0;min-height:0;width:100%}:host .style-wrapper .body{display:flex;flex:1;flex-direction:column;min-height:0;width:100%}:host .style-wrapper .footer{align-items:center;background-color:var(--_table-footer-backgroud-color);color:var(--_table-footer-color);display:flex;gap:30px;justify-content:end;min-height:0;padding:10px}:host .style-wrapper .footer .items-per-page{align-items:center;display:flex}:host .style-wrapper .footer .items-per-page rk-input-number{margin-left:10px;min-width:auto;width:50px}:host .style-wrapper .footer .location{align-items:center;display:flex}:host .style-wrapper .footer .pagination{align-items:center;display:flex}:host .style-wrapper .footer .pagination .btn-previous,:host .style-wrapper .footer .pagination .btn-next{transition:background-color .2s var(--bezier-curve)}:host .style-wrapper rk-scrollable::part(content-wrapper){min-width:100%}:host([first_page]) .style-wrapper .footer .pagination .btn-previous{opacity:.5;pointer-events:none}:host([last_page]) .style-wrapper .footer .pagination .btn-next{opacity:.5;pointer-events:none}:host([col_resize]){--local-table-cell-resize-display: block}:host([grid]) .style-wrapper .header{display:none}:host([grid]) .style-wrapper .body{flex-direction:row}:host([grid]) .style-wrapper .body rk-scrollable::part(content-wrapper){display:flex;flex-wrap:wrap;gap:15px;justify-content:center;padding:15px}@media screen and (min-width: 1225px){:host .style-wrapper .footer .pagination .touch:hover{background-color:var(--lighter);border-radius:var(--border-radius-sm)}}`;
     constructor() {
             super();
             this.options = this.configure(this.defaultOptions());
@@ -12890,6 +13442,35 @@ Errors.DesktopError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.DesktopError.Fullname, Errors.DesktopError);
 
 _.Errors.DesktopError=Errors.DesktopError;
+Permissions.Tree.PermissionTree=class PermissionTree {
+    static get Fullname() { return "Core.Permissions.Tree.PermissionTree, Core"; }
+    AppName;
+    IconTagName;
+    PermissionId;
+    Permissions = [];
+}
+Permissions.Tree.PermissionTree.Namespace=`${moduleName}.Permissions.Tree`;
+Permissions.Tree.PermissionTree.$schema={"AppName":"string","IconTagName":"string","PermissionId":"number","Permissions":"PermissionTreeItem"};
+Aventus.Converter.register(Permissions.Tree.PermissionTree.Fullname, Permissions.Tree.PermissionTree);
+
+_.Permissions.Tree.PermissionTree=Permissions.Tree.PermissionTree;
+Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
+    constructor(router) {
+        super(router ?? new Routes.CoreRouter());
+    }
+    async Can(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/can`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async GetPermissionsTree() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/getpermissionstree`, Aventus.HttpMethod.GET);
+        return await request.queryJSON(this.router);
+    }
+}
+Routes.PermissionRouter.Namespace=`${moduleName}.Routes`;
+
+_.Routes.PermissionRouter=Routes.PermissionRouter;
 Permissions.Permission=class Permission {
     static saved = {};
     static async can(query) {
@@ -13054,6 +13635,48 @@ Websocket.Routes.ApplicationRouter=class ApplicationRouter extends AventusSharp.
 Websocket.Routes.ApplicationRouter.Namespace=`${moduleName}.Websocket.Routes`;
 
 _.Websocket.Routes.ApplicationRouter=Websocket.Routes.ApplicationRouter;
+RAM.GroupRAM=class GroupRAM extends AventusSharp.RAM.RamHttp {
+    /**
+     * Create a singleton to store data
+     */
+    static getInstance() {
+        return Aventus.Instance.get(RAM.GroupRAM);
+    }
+    /**
+     * @inheritdoc
+     */
+    defineIndexKey() {
+        return 'Id';
+    }
+    /**
+     * @inheritdoc
+     */
+    getTypeForData(objJson) {
+        return this.addUserMethod(Data.Group);
+    }
+    /**
+     * @inheritdoc
+     */
+    defineRoutes() {
+        return new Routes.GroupRouter(new Lib.HttpRouter());
+    }
+    /**
+     * Mixin pattern to add methods
+     */
+    addUserMethod(Base) {
+        return class Extension extends Base {
+            static get className() {
+                return Base.className || Base.name;
+            }
+            get className() {
+                return Base.className || Base.name;
+            }
+        };
+    }
+}
+RAM.GroupRAM.Namespace=`${moduleName}.RAM`;
+
+_.RAM.GroupRAM=RAM.GroupRAM;
 
 for(let key in _) { Core[key] = _[key] }
 })(Core);

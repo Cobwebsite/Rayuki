@@ -1,11 +1,13 @@
 ﻿using AventusSharp.Data;
+using AventusSharp.Data.Attributes;
 
 namespace Core.Data
 {
-    public class PermissionGroup : Storable<PermissionUser>
+    public class PermissionGroup : Storable<PermissionGroup>
     {
         public Permission Permission { get; set; }
 
-        public Group Group { get; set; }
+        [ForeignKey<Group>]
+        public int GroupId { get; set; }
     }
 }

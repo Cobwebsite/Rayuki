@@ -8,7 +8,8 @@ namespace Core.Tools {
     {
         NotImplemented,
         NotAvailable,
-        Impossible
+        Impossible,
+        NotAllowed,
     }
     
     [Typescript("Errors")]

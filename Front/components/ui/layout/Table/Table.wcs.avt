@@ -34,7 +34,7 @@
 		display: flex;
 		flex-direction: column;
 		height: 100%;
-		overflow: hidden;
+		min-height: 100%;
 		width: 100%;
 
 		.header {
@@ -43,6 +43,7 @@
 			color: var(--_table-header-color);
 			display: flex;
 			justify-content: space-between;
+			min-height: 0;
 			padding: 10px;
 
 			.title {
@@ -58,14 +59,15 @@
 			--scrollbar-color: transparent;
 			--scrollbar-active-color: transparent;
 			--scroller-width: 0;
-			height: var(--_table-row-header-height);
+			min-height: 0;
 			width: 100%;
 		}
 
 		.body {
 			display: flex;
+			flex: 1;
 			flex-direction: column;
-			height: calc(100% - var(--_table-row-header-height));
+			min-height: 0;
 			width: 100%;
 		}
 
@@ -76,6 +78,7 @@
 			display: flex;
 			gap: 30px;
 			justify-content: end;
+			min-height: 0;
 			padding: 10px;
 
 			.items-per-page {
@@ -169,7 +172,7 @@
 		.style-wrapper {
 			.footer {
 				.pagination {
-					.touch:hover{
+					.touch:hover {
 						background-color: var(--lighter);
 						border-radius: var(--border-radius-sm);
 					}

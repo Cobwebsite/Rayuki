@@ -1,4 +1,6 @@
 ﻿using AventusSharp.Data;
+using AventusSharp.Data.Attributes;
+using AventusSharp.Tools.Attributes;
 
 namespace Core.Data
 {
@@ -8,7 +10,5 @@ namespace Core.Data
         public string Description { get; set; } = "";
 
         public List<User> Users { get; set; } = new List<User>();
-
-        public Group? parentGroup { get; set; }
     }
 }

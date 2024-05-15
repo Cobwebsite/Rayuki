@@ -1,0 +1,218 @@
+import { FormElement } from "../../FormElement/FormElement.wcl.avt";
+import type { Scrollable } from "../../../layout/Scrollable/Scrollable.wcl.avt";
+import { TwoColumnsOption } from "./TwoColumnsOption/TwoColumnsOption.wcl.avt";
+import type { Input } from "../../Input/Input.wcl.avt";
+
+
+namespace Components {
+    export type ExtractTypeTwoColumnsOptions<X extends TwoColumnsOption<U>, U> = X extends TwoColumnsOption<infer U> ? U : never;
+
+    export abstract class TwoColumnsSelect<T extends TwoColumnsOption<U>, U = ExtractTypeTwoColumnsOptions<T, any>> extends FormElement<U[]> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property()
+        public title_unselect?: string;
+        @Property()
+        public title_select?: string;
+
+        @Property()
+        public placeholder_unselect: string = "Recherche";
+        @Property()
+        public placeholder_select?: string = "Recherche";
+
+        @Attribute()
+        public searchable_unselect!: boolean;
+        @Attribute()
+        public searchable_select!: boolean;
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected unselectOptionsCont!: Scrollable;
+        @ViewElement()
+        protected selectOptionsCont!: Scrollable;
+        @ViewElement()
+        protected unselectSearchInput!: Input;
+        @ViewElement()
+        protected selectSearchInput!: Input;
+
+
+        public selectedOption?: T;
+        @Watch((target: TwoColumnsSelect<T, U>) => {
+            target.onInternalValueChanged();
+        })
+        public override value: U[] | undefined = undefined;
+
+        protected optionsSelected: T[] = [];
+        protected optionsUnselected: T[] = [];
+
+        protected canGenerateValues: boolean = false;
+
+
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+        //#region methods
+        protected abstract itemToText(option: T): string;
+
+        protected include(array: U[], value: U): boolean {
+            return array.includes(value);
+        }
+
+        protected onInternalValueChanged() {
+            if(!this.isConnected || !this.canGenerateValues) return;
+            if(!this.value) {
+                for(let option of this.optionsSelected) {
+                    this.unselectOptionsCont.appendChild(option);
+                }
+                this.reloadOptions();
+                return;
+            }
+
+            for(let option of this.optionsSelected) {
+                if(!option.value || !this.include(this.value, option.value)) {
+                    this.unselectOptionsCont.appendChild(option);
+                }
+            }
+
+            for(let option of this.optionsUnselected) {
+                if(option.value && this.include(this.value, option.value)) {
+                    this.selectOptionsCont.appendChild(option);
+                }
+            }
+
+            this.reloadOptions();
+            return;
+        }
+
+        protected changeValue() {
+            this.onChange.trigger([this.value]);
+            if(this.formPart) {
+                FormElement.setValue(this.formPart, this.value);
+                if(this.formPart.validateOnChange !== false) {
+                    this.validate();
+                }
+            }
+        }
+
+        protected loadElementsFromSlot() {
+            let elements = this.getElementsInSlot();
+            for(let element of elements) {
+                if(element instanceof TwoColumnsOption) {
+                    element.init(this);
+                    this.unselectOptionsCont.appendChild(element);
+                }
+            }
+            this.reloadOptions();
+        }
+
+        protected reloadOptions() {
+            this.optionsSelected = Array.from(this.selectOptionsCont.children) as T[];
+            this.optionsUnselected = Array.from(this.unselectOptionsCont.children) as T[];
+
+            this.searchSelect();
+            this.searchUnselect();
+            if(this.canGenerateValues) {
+                let values: U[] = [];
+                for(let optionSelected of this.optionsSelected) {
+                    if(optionSelected.value)
+                        values.push(optionSelected.value);
+                }
+                this.value = values;
+            }
+        }
+
+        /**
+         * 
+         */
+        protected removeErrors() {
+            this.errors = [];
+        }
+
+        /**
+         * 
+         */
+        protected selectAll() {
+            for(let optionUnselected of this.optionsUnselected) {
+                this.selectOptionsCont.appendChild(optionUnselected);
+            }
+            this.reloadOptions();
+            this.changeValue();
+        }
+        /**
+         * 
+         */
+        protected selectHighlighted() {
+            for(let optionUnselected of this.optionsUnselected) {
+                if(optionUnselected.highlight) {
+                    this.selectOptionsCont.appendChild(optionUnselected);
+                    optionUnselected.highlight = false;
+                }
+            }
+            this.reloadOptions();
+            this.changeValue();
+        }
+        /**
+         * 
+         */
+        protected unselectHighlighted() {
+            for(let optionSelected of this.optionsSelected) {
+                if(optionSelected.highlight) {
+                    this.unselectOptionsCont.appendChild(optionSelected);
+                    optionSelected.highlight = false;
+                }
+            }
+            this.reloadOptions();
+            this.changeValue();
+        }
+        /**
+         * 
+         */
+        protected unselectAll() {
+            for(let optionSelected of this.optionsSelected) {
+                this.unselectOptionsCont.appendChild(optionSelected);
+            }
+            this.reloadOptions();
+            this.changeValue();
+        }
+
+        /**
+         * 
+         */
+        protected searchUnselect() {
+            for(let option of this.optionsUnselected) {
+                option.filter(this.unselectSearchInput.value);
+            }
+        }
+        /**
+         * 
+         */
+        protected searchSelect() {
+            for(let option of this.optionsSelected) {
+                option.filter(this.selectSearchInput.value);
+            }
+        }
+
+        protected override postDestruction(): void {
+            super.postDestruction();
+        }
+
+        protected override postCreation(): void {
+            this.loadElementsFromSlot();
+            this.canGenerateValues = true;
+            this.onInternalValueChanged();
+        }
+        //#endregion
+
+    }
+}

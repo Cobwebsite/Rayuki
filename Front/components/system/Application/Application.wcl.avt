@@ -17,6 +17,7 @@ import { ShortcutManager, SpecialTouch } from "../../../libs/ShortcutManager.lib
 import { Os } from "../Os/Os.wcl.avt";
 import { DesktopActivableLogic, type IDesktopActivable } from "../Desktop/IActivable.lib.avt";
 import { ApplicationState } from "../../../states/ApplicationState.state.avt";
+import type { GenericPopup } from "../../ui/popup/GenericPopup/GenericPopup.wcl.avt";
 
 namespace System {
 
@@ -32,7 +33,7 @@ namespace System {
         desktop: Desktop;
     };
 
-    export type ExtractTypePopup<X extends Popup<U, Y>, U = any, Y extends PopupInfo = any> = X extends Popup<infer U, Y> ? U : never;
+    export type ExtractTypePopup<X extends GenericPopup<U, Y>, U = any, Y extends PopupInfo = any> = X extends GenericPopup<infer U, Y> ? U : never;
 
     export abstract class Application extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, IDesktopActivable {
 
@@ -619,7 +620,7 @@ namespace System {
         //#endregion
 
         //#region popup
-        public popup<T extends Popup<U, X>, U = ExtractTypePopup<T>, X extends PopupInfo = PopupInfo>(p: T): Promise<U> {
+        public popup<T extends GenericPopup<U, X>, U = ExtractTypePopup<T>, X extends PopupInfo = PopupInfo>(p: T): Promise<U> {
             return new Promise<U>((resolve) => {
                 p.init((response) => {
                     resolve(response);

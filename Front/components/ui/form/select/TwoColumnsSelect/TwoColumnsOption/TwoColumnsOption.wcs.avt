@@ -1,0 +1,27 @@
+@import '@root/_responsive.gs.avt';
+
+:host {
+	border-radius: var(--border-radius-sm);
+	cursor: pointer;
+	margin: 5px 0;
+	padding: 5px;
+	transition: background-color 0.2s var(--bezier-curve);
+}
+
+:host([highlight]) {
+    background-color: var(--lighter);
+}
+
+:host(:first-child) {
+	margin-top: 0;
+}
+
+:host(:last-child) {
+	margin-bottom: 0;
+}
+
+@include desktop {
+	:host(:hover) {
+		background-color: var(--lighter);
+	}
+}

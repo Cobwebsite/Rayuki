@@ -1,3 +1,4 @@
+import { PermissionTree } from '../Permissions/Tree/PermissionTree.lib.avt';
 import { type IPermissionQuery } from '../../libs/Permission.lib.avt';
 import { CoreRouter } from '../CoreRouter.lib.avt';
 
@@ -11,6 +12,12 @@ namespace Routes {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/can`, Aventus.HttpMethod.POST);
 			request.setBody(body);
 			type TypeResult = boolean;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		public async GetPermissionsTree(): Promise<Aventus.ResultWithError<PermissionTree[], Aventus.GenericError<number>>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/getpermissionstree`, Aventus.HttpMethod.GET);
+			type TypeResult = PermissionTree[];
 			return await request.queryJSON<TypeResult>(this.router);
 		}
 	}

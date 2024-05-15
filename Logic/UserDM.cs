@@ -60,7 +60,18 @@ namespace Core.Logic
                     Lastname = "Bétrisey",
                     Password = "Pass$1234",
                     Username = "maxime.betrisey",
-                    // IsSuperAdmin = true,
+                    IsSuperAdmin = true,
+                }.Create();
+            }
+
+            for (int i = 0; i < 100; i++)
+            {
+                new User()
+                {
+                    Firstname = "John" + i,
+                    Lastname = "Doe",
+                    Password = "Pass$1234",
+                    Username = "john" + i,
                 }.Create();
             }
         }

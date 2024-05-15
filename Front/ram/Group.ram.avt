@@ -1,0 +1,60 @@
+import { GroupRouter } from "../generated/Routes/GroupRouter.lib.avt";
+import { Group } from "../generated/Data/Group.data.avt";
+import { HttpRouter } from "../libs/HttpRouter.lib.avt";
+
+namespace RAM {
+    interface GroupMethod {
+        // define your methods here
+    }
+
+    export type GroupExtended = Group & GroupMethod;
+
+    export class GroupRAM extends AventusSharp.RAM.RamHttp<GroupExtended> implements Aventus.IRam {
+
+        /**
+         * Create a singleton to store data
+         */
+        public static getInstance(): GroupRAM {
+            return Aventus.Instance.get(GroupRAM);
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public override defineIndexKey(): keyof GroupExtended {
+            return 'Id';
+        }
+        /**
+         * @inheritdoc
+         */
+        protected override getTypeForData(objJson: Aventus.KeysObject<GroupExtended> | GroupExtended): new () => GroupExtended {
+            return this.addUserMethod(Group);
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public override defineRoutes() {
+            return new GroupRouter(new HttpRouter());
+        }
+
+
+        /**
+         * Mixin pattern to add methods
+         */
+        private addUserMethod<B extends (new (...args: any[]) => Group) & { className?: string; }>(Base: B) {
+            return class Extension extends Base implements GroupExtended {
+
+                public static override get className(): string {
+                    return Base.className || Base.name;
+                }
+                public override get className(): string {
+                    return Base.className || Base.name;
+                }
+
+                // code your methods here
+            };
+        }
+
+    }
+}

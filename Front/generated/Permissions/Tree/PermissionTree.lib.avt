@@ -1,0 +1,23 @@
+namespace Permissions.Tree {
+
+	@Convertible()
+	export class PermissionTree {
+		public static get Fullname(): string { return "Core.Permissions.Tree.PermissionTree, Core"; }
+		public AppName!: string;
+		public IconTagName!: string;
+		public PermissionId!: number;
+		public Permissions: PermissionTreeItem[] = [];
+	}
+
+	@Convertible()
+	export class PermissionTreeItem {
+		public static get Fullname(): string { return "Core.Permissions.Tree.PermissionTreeItem, Core"; }
+		public DisplayName: string = "";
+		public Description: string = "";
+		public EnumName: string = "";
+		public Value!: Aventus.Enum;
+		public PermissionId!: number;
+		public Permissions: PermissionTreeItem[] = [];
+	}
+
+}

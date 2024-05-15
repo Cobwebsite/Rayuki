@@ -1,5 +1,4 @@
 import { Permission } from './Permission.data.avt';
-import { User } from './User.data.avt';
 
 namespace Data {
 
@@ -7,7 +6,8 @@ namespace Data {
 	export class PermissionUser extends AventusSharp.Data.Storable implements Aventus.IData {
 		public static override get Fullname(): string { return "Core.Data.PermissionUser, Core"; }
 		public Permission!: Permission;
-		public User!: User;
+		public UserId!: number;
+		public Allow!: boolean;
 	}
 
 }

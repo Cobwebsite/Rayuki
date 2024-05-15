@@ -1,5 +1,6 @@
 ﻿using AventusSharp.Data;
 using AventusSharp.Data.Attributes;
+using Core.Tools;
 
 namespace Core.Data
 {
@@ -15,7 +16,7 @@ namespace Core.Data
         {
             set
             {
-                EnumName = value.GetType().FullName + "." + value.ToString() + ", " + value.GetType().Assembly.GetName().Name;
+                EnumName = value.GetFullName();
             }
         }
     }

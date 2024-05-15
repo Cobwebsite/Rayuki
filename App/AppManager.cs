@@ -211,7 +211,7 @@ namespace Core.App
                     };
                     // config.log.monitorDataOrdered = true;
                     // config.log.monitorManagerOrdered = true;
-                    // config.log.printErrorInConsole = true;
+                    config.log.printErrorInConsole = true;
                 });
 
                 VoidWithError resultTemp = await DataMainManager.Init(GetAppsDlls());
