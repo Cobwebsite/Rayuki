@@ -7572,6 +7572,12 @@ WebSocket.Event=class Event {
     listen() {
         if (!this._listening) {
             this._listening = true;
+            if (!this.routeInfo) {
+                this.routeInfo = {
+                    channel: this.path(),
+                    callback: this.onEvent
+                };
+            }
             this.endpoint.addRoute(this.routeInfo);
         }
     }

@@ -16,6 +16,7 @@ import { DesktopStateManager } from "../../../states/desktop/Desktop.state.avt";
 import { Pointer } from "../../../libs/Pointer.lib.avt";
 import { Platform } from "../../../libs/Platform.lib.avt";
 import { MainEndPoint } from "../../../generated/Websocket/MainEndPoint.lib.avt";
+import type { GenericPopup } from "../../ui/popup/GenericPopup/GenericPopup.wcl.avt";
 
 namespace System {
     export class Os extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -295,7 +296,7 @@ namespace System {
 
 
         //#region popup
-        public popup<T extends Popup<U, X>, U = any, X extends PopupInfo = PopupInfo>(p: T): Promise<U> {
+        public popup<T extends GenericPopup<U, X>, U = any, X extends PopupInfo = PopupInfo>(p: T): Promise<U> {
             return new Promise<U>((resolve) => {
                 p.init((response) => {
                     resolve(response);

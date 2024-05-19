@@ -37,7 +37,7 @@
 	font-style: normal;
 	font-weight: 400;
 	src: url('/css/font/material-icon.woff2') format('woff2');
-  }
+}
 
 @import "./themes/_default.gs.avt";
 

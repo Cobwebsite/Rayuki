@@ -33,7 +33,7 @@ namespace Core
         }
         public static bool IsDev
         {
-            get => app.Environment.IsDevelopment();
+            get => false;//app.Environment.IsDevelopment();
         }
 
         public static DatabaseConfig? Config
@@ -49,7 +49,10 @@ namespace Core
             webPush.SetVapidDetails("http://localhost:5000", PublicKey, PrivateKey);
             _ = PdfTools.Init();
             InitBuilder(args);
-            _ = LoadApps();
+            Task.Delay(10000).ContinueWith(async (t) =>
+            {
+                await LoadApps();
+            });
             InitHttpApp();
         }
 
@@ -88,9 +91,9 @@ namespace Core
             });
 
             JobManager.Initialize();
-            
+
             app = builder.Build();
-            
+
         }
 
         private static void InitHttpApp()
@@ -98,7 +101,7 @@ namespace Core
             app.Lifetime.ApplicationStarted.Register(() =>
             {
                 HttpReady = true;
-                StartApps();
+                _ = StartApps();
             });
             app.Lifetime.ApplicationStopping.Register(OnStopping);
 
@@ -157,11 +160,11 @@ namespace Core
             else
             {
                 RayukiReady = true;
-                StartApps();
+                await StartApps();
             }
         }
 
-        private static async void StartApps()
+        private static async Task StartApps()
         {
             if (HttpReady && RayukiReady)
             {
@@ -219,7 +222,7 @@ namespace Core
                 {
                     { "ready", ServerReady }
                 };
-                Json json = new Json(o);
+                Json json = new Json(o.ToString());
                 await json.send(context);
                 return;
             }
@@ -229,7 +232,7 @@ namespace Core
                 await view.send(context);
                 return;
             }
-            
+
             await next();
 
         }
