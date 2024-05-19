@@ -24,7 +24,9 @@ namespace System {
 		
 		
 		//#region methods
-		
+		protected override postCreation(): void {
+            
+        }
 		//#endregion
 		
 	}

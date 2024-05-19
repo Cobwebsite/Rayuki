@@ -7,6 +7,7 @@ namespace Routes {
 		public constructor(router?: Aventus.HttpRouter) {
 			super(router ?? new CoreRouter());
 		}
+		@BindThis()
 		public async GetAllByGroup(body: { groupId: number } | FormData): Promise<Aventus.ResultWithError<PermissionGroup[], Aventus.GenericError<number>>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissiongroup/bygroup`, Aventus.HttpMethod.POST);
 			request.setBody(body);
@@ -14,6 +15,7 @@ namespace Routes {
 			return await request.queryJSON<TypeResult>(this.router);
 		}
 
+		@BindThis()
 		public async EditPermission(body: { created: PermissionGroup[], updated: PermissionGroup[], deleted: PermissionGroup[] } | FormData): Promise<Aventus.ResultWithError<boolean, Aventus.GenericError<number>>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissiongroup/editpermission`, Aventus.HttpMethod.POST);
 			request.setBody(body);

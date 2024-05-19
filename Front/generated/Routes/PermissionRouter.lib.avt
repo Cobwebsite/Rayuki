@@ -1,4 +1,5 @@
 import { PermissionTree } from '../Permissions/Tree/PermissionTree.lib.avt';
+import { PermissionForUser } from '../Logic/PermissionDM.lib.avt';
 import { type IPermissionQuery } from '../../libs/Permission.lib.avt';
 import { CoreRouter } from '../CoreRouter.lib.avt';
 
@@ -8,6 +9,7 @@ namespace Routes {
 		public constructor(router?: Aventus.HttpRouter) {
 			super(router ?? new CoreRouter());
 		}
+		@BindThis()
 		public async Can(body: { permissionQuery: IPermissionQuery } | FormData): Promise<Aventus.ResultWithError<boolean, Aventus.GenericError<number>>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/can`, Aventus.HttpMethod.POST);
 			request.setBody(body);
@@ -15,9 +17,17 @@ namespace Routes {
 			return await request.queryJSON<TypeResult>(this.router);
 		}
 
+		@BindThis()
 		public async GetPermissionsTree(): Promise<Aventus.ResultWithError<PermissionTree[], Aventus.GenericError<number>>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/getpermissionstree`, Aventus.HttpMethod.GET);
 			type TypeResult = PermissionTree[];
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async GetPermissionsForUser(idUser: number): Promise<Aventus.ResultWithError<PermissionForUser, Aventus.GenericError<number>>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissions/GetPermissionsForUser/${idUser}`, Aventus.HttpMethod.GET);
+			type TypeResult = PermissionForUser;
 			return await request.queryJSON<TypeResult>(this.router);
 		}
 	}

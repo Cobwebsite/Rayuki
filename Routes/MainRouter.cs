@@ -54,6 +54,7 @@ namespace Core.Routes
             if (result.Success && result.Result != null)
             {
                 context.SetConnected(result.Result.Id);
+                context.SetSuperAdmin(result.Result.IsSuperAdmin);
             }
             else
             {

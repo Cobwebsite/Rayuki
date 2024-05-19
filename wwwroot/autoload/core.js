@@ -92,7 +92,7 @@ _.Permissions.UserPermission=Permissions.UserPermission;
 
 _.Permissions.DesktopPermission=Permissions.DesktopPermission;
 (function (ApplicationPermission) {
-    ApplicationPermission[ApplicationPermission["DenyAccess"] = 0] = "DenyAccess";
+    ApplicationPermission[ApplicationPermission["AllowAccess"] = 0] = "AllowAccess";
 })(Permissions.ApplicationPermission || (Permissions.ApplicationPermission = {}));
 
 _.Permissions.ApplicationPermission=Permissions.ApplicationPermission;
@@ -155,6 +155,16 @@ Data.PermissionGroup.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "P
 Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
 
 _.Data.PermissionGroup=Data.PermissionGroup;
+Permissions.PermissionForUser=class PermissionForUser {
+    static get Fullname() { return "Core.Logic.PermissionForUser, Core"; }
+    permissionGroups = [];
+    permissionUsers = [];
+}
+Permissions.PermissionForUser.Namespace=`${moduleName}.Permissions`;
+Permissions.PermissionForUser.$schema={"permissionGroups":""+moduleName+".Data.PermissionGroup","permissionUsers":""+moduleName+".Data.PermissionUser"};
+Aventus.Converter.register(Permissions.PermissionForUser.Fullname, Permissions.PermissionForUser);
+
+_.Permissions.PermissionForUser=Permissions.PermissionForUser;
 Data.DataTypes.Pdf=class Pdf extends AventusSharp.Data.AventusFile {
     static get Fullname() { return "Core.Data.DataTypes.Pdf, Core"; }
     Name = "";
@@ -1575,6 +1585,8 @@ _.Routes.CoreRouter=Routes.CoreRouter;
 Routes.PermissionUserRouter=class PermissionUserRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
+        this.GetAllByUser = this.GetAllByUser.bind(this);
+        this.EditPermission = this.EditPermission.bind(this);
     }
     async GetAllByUser(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissionuser/byuser`, Aventus.HttpMethod.POST);
@@ -1593,6 +1605,8 @@ _.Routes.PermissionUserRouter=Routes.PermissionUserRouter;
 Routes.PermissionGroupRouter=class PermissionGroupRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
+        this.GetAllByGroup = this.GetAllByGroup.bind(this);
+        this.EditPermission = this.EditPermission.bind(this);
     }
     async GetAllByGroup(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissiongroup/bygroup`, Aventus.HttpMethod.POST);
@@ -1611,6 +1625,7 @@ _.Routes.PermissionGroupRouter=Routes.PermissionGroupRouter;
 Routes.PdfRouter=class PdfRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
+        this.Generate = this.Generate.bind(this);
     }
     async Generate(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/generate`, Aventus.HttpMethod.POST);
@@ -1624,6 +1639,12 @@ _.Routes.PdfRouter=Routes.PdfRouter;
 Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
+        this.LoginAction = this.LoginAction.bind(this);
+        this.Logout = this.Logout.bind(this);
+        this.VapidPublicKey = this.VapidPublicKey.bind(this);
+        this.Register = this.Register.bind(this);
+        this.SendNotification = this.SendNotification.bind(this);
+        this.Restart = this.Restart.bind(this);
     }
     async LoginAction(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/login`, Aventus.HttpMethod.POST);
@@ -1919,6 +1940,7 @@ _.Routes.GroupRouter=Routes.GroupRouter;
 Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
+        this.GetConnected = this.GetConnected.bind(this);
     }
     async GetConnected() {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/getconnected`, Aventus.HttpMethod.GET);
@@ -2946,6 +2968,10 @@ if(!window.customElements.get('rk-page-case')){window.customElements.define('rk-
 Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
+        this.GetAll = this.GetAll.bind(this);
+        this.ConfigureAppData = this.ConfigureAppData.bind(this);
+        this.InstallDevApp = this.InstallDevApp.bind(this);
+        this.UninstallDevApp = this.UninstallDevApp.bind(this);
     }
     async GetAll() {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/application`, Aventus.HttpMethod.GET);
@@ -4187,7 +4213,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="section basic-action">    <rk-home-btn></rk-home-btn>    <rk-img mode="contains" src="/img/icons/application-panel.svg" class="touch icon" _id="bottombar_0"></rk-img>    <rk-img mode="contains" src="/img/icons/search.svg" class="touch icon"></rk-img>    <rk-img mode="contains" src="/img/icons/layout-fluid.svg" class="touch icon" _id="bottombar_1"></rk-img></div><div class="separator"></div><div class="section applications" _id="bottombar_2"></div><div class="separator"></div><div class="section addons">    <rk-pwa-button></rk-pwa-button>    <rk-add-on-time></rk-add-on-time></div>` }
+        blocks: { 'default':`<div class="section basic-action">    <rk-home-btn></rk-home-btn>    <rk-img mode="contains" src="/img/icons/application-panel.svg" class="touch icon" _id="bottombar_0"></rk-img>    <rk-img mode="contains" src="/img/icons/search.svg" class="touch icon"></rk-img>    <rk-img mode="contains" src="/img/icons/layout-fluid.svg" class="touch icon" _id="bottombar_1"></rk-img></div><div class="separator"></div><div class="section applications" _id="bottombar_2"></div><div class="separator"></div><div class="section addons">    <rk-add-on-time></rk-add-on-time>    <rk-pwa-button></rk-pwa-button></div>` }
     });
 }
     __createStates() { super.__createStates(); let that = this;  this.__createStatesList(State.MoveApplication.state, State.DesktopStateManager);this.__addActiveState(State.MoveApplication.state, State.DesktopStateManager, (state, slugs) => { that.__inactiveDefaultState(State.DesktopStateManager); that.onMoveApplication(state, slugs);})this.__addInactiveState(State.MoveApplication.state, State.DesktopStateManager, (state, nextState, slugs) => { that.onStopMovingApplication(state, nextState, slugs);that.__activeDefaultState(nextState, State.DesktopStateManager);}) }
@@ -8145,6 +8171,8 @@ System.CoreAppIcon = class CoreAppIcon extends System.AppIcon {
     getClassName() {
         return "CoreAppIcon";
     }
+    postCreation() {
+    }
 }
 System.CoreAppIcon.Namespace=`${moduleName}.System`;
 System.CoreAppIcon.Tag=`rk-core-app-icon`;
@@ -11303,7 +11331,6 @@ Components.SelectData = class SelectData extends Components.GenericSelect {
     static __style = ``;
     constructor() {
             super();
-            this.createOptions();
 if (this.constructor == SelectData) { throw "can't instanciate an abstract class"; } this.subscribe=this.subscribe.bind(this)this.unsubscribe=this.unsubscribe.bind(this)this.onCreated=this.onCreated.bind(this)this.onDeleted=this.onDeleted.bind(this)this.onUpdated=this.onUpdated.bind(this) }
     __getStatic() {
         return SelectData;
@@ -11382,12 +11409,13 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
             }
         }
     }
-    init() {
+    async init() {
         if (!this.isConnected)
             return;
         if (this.isInit)
             return;
         this.isInit = true;
+        await this.createOptions();
         super.postCreation();
         this.subscribe();
     }
@@ -13457,6 +13485,9 @@ _.Permissions.Tree.PermissionTree=Permissions.Tree.PermissionTree;
 Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
+        this.Can = this.Can.bind(this);
+        this.GetPermissionsTree = this.GetPermissionsTree.bind(this);
+        this.GetPermissionsForUser = this.GetPermissionsForUser.bind(this);
     }
     async Can(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/can`, Aventus.HttpMethod.POST);
@@ -13465,6 +13496,10 @@ Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
     }
     async GetPermissionsTree() {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/getpermissionstree`, Aventus.HttpMethod.GET);
+        return await request.queryJSON(this.router);
+    }
+    async GetPermissionsForUser(idUser) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissions/GetPermissionsForUser/${idUser}`, Aventus.HttpMethod.GET);
         return await request.queryJSON(this.router);
     }
 }

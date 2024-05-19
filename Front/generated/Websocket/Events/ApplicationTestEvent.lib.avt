@@ -16,7 +16,7 @@ namespace Websocket.Events {
 		protected override path(): string {
 			return `${this.getPrefix()}Core.Websocket.Events.ApplicationTestEvent`;
 		}
-		public constructor(endpoint: AventusSharp.WebSocket.EndPoint, getPrefix: () => string) {
+		public constructor(endpoint?: AventusSharp.WebSocket.EndPoint, getPrefix?: () => string) {
 			super(endpoint ?? MainEndPoint.getInstance(), getPrefix);
 		}
 	}

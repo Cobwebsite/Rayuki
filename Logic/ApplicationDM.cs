@@ -57,7 +57,7 @@ namespace Core.Logic
             PermissionDM.GetInstance().CreateIfNotExist(new Permission()
             {
                 AdditionalInfo = application.Name,
-                EnumValue = ApplicationPermission.DenyAccess
+                EnumValue = ApplicationPermission.AllowAccess
             });
             PermissionDM.GetInstance().RegisterAppPermissionTree(application.Name);
             return result;
@@ -110,17 +110,20 @@ namespace Core.Logic
             return result;
         }
 
-        public List<ApplicationData> GetAllAllowed(int userId)
+        public List<ApplicationData> GetAllAllowed(int? userId, bool isSuperAdmin)
         {
-            List<string> deniedApps = new List<string>();
-            string name = ApplicationPermission.DenyAccess.GetFullName();
-            List<PermissionUser> denied = PermissionUser.Where(p => p.Permission.EnumName == name && p.UserId == userId);
-            
-            foreach(PermissionUser permission in denied)
-            {
-                deniedApps.Add(permission.Permission.AdditionalInfo);
+            if(isSuperAdmin) {
+                return ApplicationData.GetAll();
             }
-            ResultWithError<List<ApplicationData>> apps = ApplicationData.WhereWithError(a => !deniedApps.Contains(a.Name));
+            List<string> allowedApps = new List<string>();
+            string name = ApplicationPermission.AllowAccess.GetFullName();
+            List<PermissionUser> allowed = PermissionUser.Where(p => p.Permission.EnumName == name && p.UserId == userId);
+            
+            foreach(PermissionUser permission in allowed)
+            {
+                allowedApps.Add(permission.Permission.AdditionalInfo);
+            }
+            ResultWithError<List<ApplicationData>> apps = ApplicationData.WhereWithError(a => allowedApps.Contains(a.Name));
 
             return apps.Result ?? new List<ApplicationData>();
         }

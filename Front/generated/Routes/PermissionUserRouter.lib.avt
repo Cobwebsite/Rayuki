@@ -7,6 +7,7 @@ namespace Routes {
 		public constructor(router?: Aventus.HttpRouter) {
 			super(router ?? new CoreRouter());
 		}
+		@BindThis()
 		public async GetAllByUser(body: { userId: number } | FormData): Promise<Aventus.ResultWithError<PermissionUser[], Aventus.GenericError<number>>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissionuser/byuser`, Aventus.HttpMethod.POST);
 			request.setBody(body);
@@ -14,6 +15,7 @@ namespace Routes {
 			return await request.queryJSON<TypeResult>(this.router);
 		}
 
+		@BindThis()
 		public async EditPermission(body: { created: PermissionUser[], updated: PermissionUser[], deleted: PermissionUser[] } | FormData): Promise<Aventus.ResultWithError<boolean, Aventus.GenericError<number>>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissionuser/editpermission`, Aventus.HttpMethod.POST);
 			request.setBody(body);

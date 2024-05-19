@@ -33,7 +33,7 @@ namespace Core
         }
         public static bool IsDev
         {
-            get => false;//app.Environment.IsDevelopment();
+            get => app.Environment.IsDevelopment();
         }
 
         public static DatabaseConfig? Config
@@ -49,7 +49,7 @@ namespace Core
             webPush.SetVapidDetails("http://localhost:5000", PublicKey, PrivateKey);
             _ = PdfTools.Init();
             InitBuilder(args);
-            Task.Delay(10000).ContinueWith(async (t) =>
+            Task.Delay(1000).ContinueWith(async (t) =>
             {
                 await LoadApps();
             });
@@ -258,6 +258,7 @@ namespace Core
                     if (user != null)
                     {
                         context.SetConnected(user.Id);
+                        context.SetSuperAdmin(user.IsSuperAdmin);
                     }
                 }
                 else

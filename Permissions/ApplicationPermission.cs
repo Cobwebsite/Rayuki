@@ -5,7 +5,7 @@ namespace Core.Permissions
 {
     public enum ApplicationPermission
     {
-        DenyAccess
+        AllowAccess
     }
 
     [Typescript]
@@ -25,7 +25,7 @@ namespace Core.Permissions
         {
              return new Dictionary<ApplicationPermission, PermissionDescriptionItem>() {
                 {
-                    ApplicationPermission.DenyAccess,
+                    ApplicationPermission.AllowAccess,
                     new PermissionDescriptionItem() {
                         DisplayName = "",
                         Description = ""

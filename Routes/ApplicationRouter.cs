@@ -14,8 +14,7 @@ namespace Core.Routes
         [Get, Path("/application")]
         public List<ApplicationData> GetAll(HttpContext context)
         {
-            int userId = context.GetUserId() ?? 1;
-            return ApplicationDM.GetInstance().GetAllAllowed(userId);
+            return ApplicationDM.GetInstance().GetAllAllowed(context.GetUserId(), context.IsSuperAdmin());
         }
 
 

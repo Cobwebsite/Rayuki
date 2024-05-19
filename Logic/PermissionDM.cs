@@ -2,6 +2,7 @@
 using AventusSharp.Data.Manager;
 using AventusSharp.Data.Manager.DB;
 using AventusSharp.Tools;
+using AventusSharp.Tools.Attributes;
 using Core.App;
 using Core.Data;
 using Core.Permissions;
@@ -93,22 +94,22 @@ namespace Core.Logic
         {
             if (context.IsConnected())
             {
-                return Can(context.GetUserId() ?? 0, value, additionalInfo);
+                return Can(context.GetUserId() ?? 0, value, additionalInfo, context.IsSuperAdmin());
             }
             return false;
         }
 
         public bool Can(int idUser, Enum value)
         {
-            return Can(idUser, value, "");
+            bool isSuperAdmin = UserDM.GetInstance().GetById(idUser)?.IsSuperAdmin == true;
+            return Can(idUser, value, "", isSuperAdmin);
         }
 
         private IQueryBuilder<PermissionUser> CanQueryUser;
         private IExistBuilder<PermissionGroup> CanQueryGroup;
-        public bool Can(int idUser, Enum value, string additionalInfo)
+        public bool Can(int idUser, Enum value, string additionalInfo, bool isSuperAdmin)
         {
-            if (UserDM.GetInstance().GetById(idUser)?.IsSuperAdmin == true)
-            {
+            if(isSuperAdmin) {
                 return true;
             }
             string name = value.GetFullName();
@@ -258,7 +259,7 @@ namespace Core.Logic
 
         private void CreatePermissionTree(string appName, List<PermissionDescriptionItem> result)
         {
-            string name = ApplicationPermission.DenyAccess.GetFullName();
+            string name = ApplicationPermission.AllowAccess.GetFullName();
 
             string displayName = "";
             string logoTagName = "";
@@ -310,6 +311,28 @@ namespace Core.Logic
         }
         #endregion
 
+        public PermissionForUser GetPermissionsForUser(int idUser)
+        {
+            List<PermissionUser> permissionUsers = PermissionUser.Where(p => p.UserId == idUser);
+            List<int> groups = Group.Where(p => p.Users.Contains(new User() { Id = idUser })).Select(p => p.Id).ToList();
+            List<PermissionGroup> permissionGroups = PermissionGroup.Where(p => groups.Contains(p.GroupId));
 
+            return new PermissionForUser(permissionGroups, permissionUsers);
+        }
     }
+
+
+    [Typescript("Permissions")]
+    public class PermissionForUser
+    {
+        public List<PermissionGroup> permissionGroups;
+        public List<PermissionUser> permissionUsers;
+
+        public PermissionForUser(List<PermissionGroup> permissionGroups, List<PermissionUser> permissionUsers)
+        {
+            this.permissionGroups = permissionGroups;
+            this.permissionUsers = permissionUsers;
+        }
+    }
+
 }

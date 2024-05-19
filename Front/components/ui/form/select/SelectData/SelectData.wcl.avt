@@ -25,7 +25,6 @@ namespace Components {
         //#region constructor
         public constructor() {
             super();
-            this.createOptions();
         }
         //#endregion
 
@@ -109,10 +108,11 @@ namespace Components {
             }
         }
 
-        protected init() {
+        protected async init() {
             if(!this.isConnected) return;
             if(this.isInit) return;
             this.isInit = true;
+            await this.createOptions();
             super.postCreation();
             this.subscribe();
         }

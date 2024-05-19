@@ -3,7 +3,7 @@ import { PermissionQuery } from '../../libs/Permission.lib.avt';
 namespace Permissions {
 
 	export enum ApplicationPermission {
-		DenyAccess
+		AllowAccess
 	}
 
 	@Convertible()

@@ -22,7 +22,7 @@ namespace Core.Data
 
         public bool Can(Enum value, string additionalInfo)
         {
-            return PermissionDM.GetInstance().Can(this.Id, value, additionalInfo);
+            return PermissionDM.GetInstance().Can(Id, value, additionalInfo, IsSuperAdmin);
         }
     }
 }

@@ -1,0 +1,13 @@
+import { PermissionGroup } from '../Data/PermissionGroup.data.avt';
+import { PermissionUser } from '../Data/PermissionUser.data.avt';
+
+namespace Permissions {
+
+	@Convertible()
+	export class PermissionForUser {
+		public static get Fullname(): string { return "Core.Logic.PermissionForUser, Core"; }
+		public permissionGroups: PermissionGroup[] = [];
+		public permissionUsers: PermissionUser[] = [];
+	}
+
+}
