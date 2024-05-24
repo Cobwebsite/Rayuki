@@ -1,9 +1,9 @@
 :host {
 	.popup {
-		
+
 		.content {
 			--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - var(--_popup-content-padding) - var(--_popup-content-padding));
+			width: 100%;
 		}
 	}
 }
-

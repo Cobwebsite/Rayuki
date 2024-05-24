@@ -19,6 +19,7 @@ import { Notification } from "../Os/Notification/Notification.wcl.avt";
 import type { IDesktopActivable } from "./IActivable.lib.avt";
 import { MainEndPoint } from "../../../generated/Websocket/MainEndPoint.lib.avt";
 import { DesktopRouter } from "../../../generated/Websocket/Routes/DesktopRouter.lib.avt";
+import { ApplicationPermission, ApplicationPermissionQuery } from "../../../generated/Permissions/ApplicationPermission.lib.avt";
 
 namespace System {
     export class Desktop extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, MoveApplicationProvider {
@@ -116,6 +117,13 @@ namespace System {
             });
         }
         public async openUrl(application: string, componentUrl: string = "/", url: string = "/") {
+            if(!(await can(new ApplicationPermissionQuery(ApplicationPermission.AllowAccess, application)))) {
+                let notif = new Notification();
+                notif.subject = "Erreur";
+                notif.innerHTML = "Vous n'êtes pas autorisé à ouvrir l'application " + application;
+                Os.instance.notify(notif);
+                return;
+            }
             Os.instance.show_application_list = false;
             await this.loadApp(application);
 
@@ -192,6 +200,13 @@ namespace System {
                 return;
             }
             let appName = applicationName?.split(".")[0];
+            if(!(await can(new ApplicationPermissionQuery(ApplicationPermission.AllowAccess, appName)))) {
+                let notif = new Notification();
+                notif.subject = "Erreur";
+                notif.innerHTML = "Vous n'êtes pas autorisé à ouvrir l'application " + appName;
+                Os.instance.notify(notif);
+                return;
+            }
             await this.loadApp(appName);
 
 

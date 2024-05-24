@@ -1,0 +1,5 @@
+declare global {
+    var userIdConnected: number;
+    /** Ask if the user is allowed */
+    function can(query: Core.Permissions.IPermissionQuery): Promise<boolean>;
+}

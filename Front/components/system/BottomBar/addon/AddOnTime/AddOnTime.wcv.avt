@@ -1,2 +1,5 @@
-<div class="date" @element="date">Dim. 17 juillet</div>
-<div class="hour" @element="hour">10:33</div>
+<div class="display" @press="toggleActive">
+    <div class="date" @element="date"></div>
+    <div class="hour" @element="hour"></div>
+</div>
+<rk-calendar class="calendar" @element="calendarEl"></rk-calendar>

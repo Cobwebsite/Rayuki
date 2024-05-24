@@ -1,11 +1,9 @@
 import type { PopupInfo } from "../Popup/Popup.wcl.avt";
 import type { Scrollable } from "../../layout/Scrollable/Scrollable.wcl.avt";
+import type { ContextMenu, IContextMenu } from "../../ContextMenu/ContextMenu.wcl.avt";
 
 namespace Components {
-
-
-
-    export abstract class GenericPopup<T, U extends PopupInfo = PopupInfo> extends Aventus.WebComponent implements Aventus.DefaultComponent {
+    export abstract class GenericPopup<T, U extends PopupInfo = PopupInfo> extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu {
 
         //#region static
 
@@ -49,7 +47,14 @@ namespace Components {
         //#endregion
 
 
-        //#region methods
+        //#region methods        
+        /**
+         * @inheritdoc
+         */
+        public onContextMenu(contextMenu: ContextMenu, stop: () => void): void {
+            stop();
+        }
+
         public mergeInfo(info: Partial<U>) {
             this.info = { ...this.info, ...info };
         }

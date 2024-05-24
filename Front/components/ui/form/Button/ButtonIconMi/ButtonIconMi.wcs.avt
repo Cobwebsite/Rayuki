@@ -3,6 +3,7 @@
 		.icon {
 			height: auto;
 			padding: 0;
+			font-size: inherit;
 		}
 	}
 }

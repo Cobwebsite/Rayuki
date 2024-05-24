@@ -1,26 +1,58 @@
 @import '@root/_responsive.gs.avt';
 
 :host {
-	align-items: center;
-	border-radius: var(--border-radius-sm);
-	cursor: pointer;
-	display: flex;
-	margin-right: 10px;
-	padding: 10px;
-	transition: background-color linear 0.2s;
+	position: relative;
 
-	.date {
-		font-size: var(--font-size-sm);
+	.display {
+		align-items: center;
+		border-radius: var(--border-radius-sm);
+		cursor: pointer;
+		display: flex;
+		margin-right: 10px;
+		padding: 10px;
+		transition: background-color linear 0.2s;
+
+		.date {
+			font-size: var(--font-size-sm);
+		}
+
+		.hour {
+			font-size: var(--font-size-sm);
+			margin-left: 5px;
+		}
 	}
 
-	.hour {
-		font-size: var(--font-size-sm);
-		margin-left: 5px;
+	.calendar {
+		--calendar-background-color: var(--primary-color-opacity);
+		bottom: calc(100% + 10px);
+		box-shadow: var(--elevation-3);
+		height: 0;
+		overflow: hidden;
+		padding: 0px 15px;
+		position: absolute;
+		right: 10px;
+		pointer-events: none;
+		transition: bottom var(--bezier-curve) 0.5s, height var(--bezier-curve) 0.5s, padding var(--bezier-curve) 0.5s;
+	}
+}
+
+:host([active]) {
+	.display {
+		background-color: var(--lighter-active);
+	}
+
+	.calendar {
+		bottom: calc(100% + 10px);
+		height: var(--time-calendar-height);
+		padding: 15px;
+		pointer-events: all;
 	}
 }
 
 @include desktop {
-	:host(:hover) {
-		background-color: var(--lighter-active);
+	:host {
+		.display:hover {
+			background-color: var(--lighter-active);
+		}
 	}
 }

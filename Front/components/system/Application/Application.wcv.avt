@@ -1,4 +1,4 @@
-<div class="header" @element="header">
+<rk-context-menu-element class="header" @element="header">
     <div class="background"></div>
     <div class="navigation-actions">
         <div class="previous action touch disable" @element="navigatePreviousEl" @press="navigatePrevious">
@@ -14,8 +14,7 @@
         <div class="btn orange touch" @press="toggleFull"></div>
         <div class="btn red touch"  @press="kill"></div>
     </div>
-</div>
-<div class="content" @element="contentEl"></div>
+</rk-context-menu-element>
+<rk-context-menu-element class="content" @element="contentEl"></rk-context-menu-element>
 <rk-resize @element="resizeEl" min_width="200" min_height="200"></rk-resize>
 <rk-loading class="loading"></rk-loading>
-<slot></slot>

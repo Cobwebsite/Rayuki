@@ -18,6 +18,8 @@ import { Os } from "../Os/Os.wcl.avt";
 import { DesktopActivableLogic, type IDesktopActivable } from "../Desktop/IActivable.lib.avt";
 import { ApplicationState } from "../../../states/ApplicationState.state.avt";
 import type { GenericPopup } from "../../ui/popup/GenericPopup/GenericPopup.wcl.avt";
+import { FrameNotAllowed } from "../Frame/FrameNotAllowed/FrameNotAllowed.wcl.avt";
+import type { ContextMenuElement } from "../../ui/ContextMenu/ContextMenuElement/ContextMenuElement.wcl.avt";
 
 namespace System {
 
@@ -35,10 +37,13 @@ namespace System {
 
     export type ExtractTypePopup<X extends GenericPopup<U, Y>, U = any, Y extends PopupInfo = any> = X extends GenericPopup<infer U, Y> ? U : never;
 
-    export abstract class Application extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, IDesktopActivable {
+    /**
+     * Represent a window inside the OS
+     */
+    export abstract class Application extends Aventus.WebComponent implements Aventus.DefaultComponent, IDesktopActivable {
 
         //#region static
-       
+
         //#endregion
 
 
@@ -58,7 +63,7 @@ namespace System {
             target.onIsHiddenChange();
         })
         public is_hidden: boolean = false;
-       
+
         @Attribute()
         public loading: boolean = false;
 
@@ -67,11 +72,11 @@ namespace System {
 
         //#region variables
         @ViewElement()
-        protected header!: HTMLDivElement;
+        protected header!: ContextMenuElement;
         @ViewElement()
         protected resizeEl!: Resize;
         @ViewElement()
-        protected contentEl!: HTMLDivElement;
+        protected contentEl!: ContextMenuElement;
         @ViewElement()
         protected navigatePreviousEl!: HTMLDivElement;
         @ViewElement()
@@ -96,6 +101,7 @@ namespace System {
         public mustRemoveApplicationHistory: boolean = true;
         private oneStateActive: boolean = false;
         protected page404?: FrameNoScroll;
+        protected page405?: FrameNoScroll;
 
         protected sizeManager: ApplicationSize;
         protected isAnimating: boolean = false;
@@ -116,12 +122,36 @@ namespace System {
 
         //#region methods
 
+        //#region context menu
         /**
-         * @inheritdoc
+         * Use this function to add anything you want to display when user trigger the context menu on the content
          */
-        public onContextMenu(contextMenu: ContextMenu, stop: () => void): void {
+        @BindThis()
+        public onContextMenuContent(contextMenu: ContextMenu, stop: () => void): void {
             stop();
         }
+
+        /**
+         * Use this function to add anything you want to display when user trigger the context menu on the header
+         */
+        @BindThis()
+        public onContextMenuHeader(contextMenu: ContextMenu, stop: () => void): void {
+            contextMenu.addItem({
+                text: "Recentrer la fenetre",
+                icon: "/img/icons/window-restore.svg",
+                priority: 2,
+                action: () => {
+                    this.resetSize();
+                }
+            });
+            stop();
+        }
+
+        protected bindContextMenu() {
+            this.header.onContextMenu = this.onContextMenuHeader;
+            this.contentEl.onContextMenu = this.onContextMenuContent;
+        }
+        //#endregion
 
 
         //#region routing
@@ -129,6 +159,9 @@ namespace System {
          * Add all your routes inside this function (addRoute or addRouteAsync)
          */
         protected abstract defineRoutes(): Promise<void>;
+        /**
+         * Gets the navigator instance for managing application states.
+         */
         public get navigator(): ApplicationStateManager {
             if(!this.router) {
                 this.router = new ApplicationStateManager(this);
@@ -151,10 +184,15 @@ namespace System {
             }
             return hasChanged;
         }
-
+        /**
+         * Adds a route asynchronously.
+         */
         protected addRouteAsync<T extends FrameNoScroll>(options: ApplicationRoute) {
             this.allRoutes[options.route] = options;
         }
+        /**
+         * Adds a route.
+         */
         protected addRoute(route: string, frame: new () => FrameNoScroll) {
             this.allRoutes[route] = {
                 route: route,
@@ -162,6 +200,9 @@ namespace System {
                 render: () => frame
             };
         }
+        /**
+         * Registers the application routes and initializes them.
+         */
         private register(): void {
             try {
                 this.defineRoutes();
@@ -174,12 +215,18 @@ namespace System {
             }
         }
 
+        /**
+         *  Defines the keyboard shortcuts for the application.
+         */
         protected defineShortcut(): [(string | SpecialTouch)[], cb: () => void][] {
             return [
                 [[SpecialTouch.Control, SpecialTouch.ArrowLeft], this.moveApplicationToLeft],
                 [[SpecialTouch.Control, SpecialTouch.ArrowRight], this.moveApplicationToRight]
-            ]
+            ];
         }
+        /**
+         *  Manages the keyboard shortcuts for the application
+         */
         private manageShortcut() {
             let shortcuts = this.defineShortcut();
             if(this.is_desktop_active) {
@@ -194,13 +241,16 @@ namespace System {
             }
         }
 
-        
+
         /**
          * Determine if the frame should be destroyed when hiding
          */
         protected shouldDestroyFrame(frame: FrameNoScroll): boolean {
             return false;
         }
+        /**
+         * Initializes the route for a given path.
+         */
         private initRoute(path: string) {
             let element: FrameNoScroll | undefined;
             let allRoutes = this.allRoutes;
@@ -220,6 +270,22 @@ namespace System {
                                 element.application = this;
                                 element.resetNavElement = () => element = undefined;
                                 this.contentEl?.appendChild(element);
+                            }
+
+                            let isAllowed = await element.testPermissions();
+                            if(!isAllowed) {
+                                this.showErrorNotAllowed();
+                                return;
+                            }
+                            const canResult = await element.can(currentState);
+                            if(canResult !== true) {
+                                if(canResult === false) {
+                                    this.showErrorNotAllowed();
+                                }
+                                else {
+                                    this.navigate(canResult);
+                                }
+                                return;
                             }
                             if(this.oldFrame && this.oldFrame != element) {
                                 await this.oldFrame.hide();
@@ -253,7 +319,9 @@ namespace System {
             });
         }
 
-
+        /**
+         * Validates and handles 404 errors.
+         */
         @BindThis()
         protected async validError404() {
             if(!this.oneStateActive) {
@@ -271,20 +339,61 @@ namespace System {
                 this.activePath = '';
             }
         }
+        /**
+         * Returns the frame class for 404 errors.
+         */
         protected error404(state?: Aventus.State): (new () => FrameNoScroll) {
             return Frame404;
         }
+
+        /**
+         * Shows an error when access is not allowed.
+         */
+        @BindThis()
+        protected async showErrorNotAllowed() {
+            let frameError = this.errorNotAllowed(this.navigator.getState());
+            if(!this.page405) {
+                this.page405 = new frameError();
+                this.page405.application = this;
+                this.contentEl.appendChild(this.page405);
+            }
+            if(this.oldFrame && this.oldFrame != this.page405) {
+                await this.oldFrame.hide();
+            }
+            await this.page405.show(undefined);
+            this.oldFrame = this.page405;
+            this.activePath = '';
+        }
+        /**
+         * Returns the frame class for "not allowed" errors.
+         */
+        protected errorNotAllowed(state?: Aventus.State): (new () => FrameNoScroll) {
+            return FrameNotAllowed;
+        }
+
+        /**
+         * Handles the transition to a new page.
+         */
         protected onNewPage(oldUrl: string, oldFrame: FrameNoScroll | undefined, newUrl: string, newFrame: FrameNoScroll) { }
+        /**
+         * Gets the slugs of the current state.
+         */
         public getSlugs() {
             return this.navigator.getStateSlugs(this.activePath);
         }
 
+        /**
+         * Determines if the application can change to a new state.
+         */
         protected async canChangeState(newState: Aventus.State): Promise<boolean> {
             if(!this.oldFrame) return true;
 
             return await this.oldFrame.askChange(newState);
         }
 
+        /**
+         * Checks and updates the navigation state (previous/next availability).
+         */
         protected checkNavigationState() {
             if(this.history.previousAvailable) {
                 this.navigatePreviousEl.classList.remove("disable");
@@ -299,6 +408,9 @@ namespace System {
                 this.navigateNextEl.classList.add("disable");
             }
         }
+        /**
+         * Navigates to the previous state in the history.
+         */
         public async navigatePrevious(destroy: boolean = false) {
             let history = this.history.previous(destroy);
             if(history) {
@@ -312,6 +424,9 @@ namespace System {
             }
         }
 
+        /**
+         * Navigates to the next state in the history.
+         */
         public async navigateNext() {
             let history = this.history.next();
             if(history) {
@@ -325,13 +440,22 @@ namespace System {
             }
         }
 
+        /**
+         * Subscribes to navigation state changes.
+         */
         public subscribeNavigationChange(statePatterns: string | string[], callbacks: Aventus.StateAction): void {
             this.navigator.subscribe(statePatterns, callbacks);
         }
+        /**
+         * Unsubscribes from navigation state changes.
+         */
         public unsubscribeNavigationChange(statePatterns: string | string[], callbacks: Aventus.StateAction): void {
             this.navigator.unsubscribe(statePatterns, callbacks);
         }
 
+        /**
+         * Sets the application history.
+         */
         public async setHistory(history: ApplicationHistory) {
             this.history = history;
             let current = this.history.current();
@@ -356,6 +480,9 @@ namespace System {
             }
         }
 
+        /**
+         * Saves the application history.
+         */
         @BindThis()
         public async saveApplicationHistory() {
             if(!this.options) {
@@ -374,7 +501,9 @@ namespace System {
             await ApplicationManager.save(appInfo);
         }
 
-
+        /**
+         * Removes the application history
+         */
         protected async removeApplicationHistory() {
             if(!this.options) {
                 return;
@@ -400,10 +529,16 @@ namespace System {
         //#endregion
 
         //#region position + size
+        /**
+         * Handles the start of a resize operation.
+         */
         @BindThis()
         private onResizeStart(direction: ResizeDirection) {
             this.moving = true;
         }
+        /**
+         * Handles the end of a resize operation.
+         */
         @BindThis()
         private onResizeStop(direction: ResizeDirection) {
             this.moving = false;
@@ -495,6 +630,9 @@ namespace System {
             this.full = info.isFullScreen;
         }
 
+        /**
+         * Moves the application to the specified position and size.
+         */
         public moveApplication(options: { left?: number, top?: number, width?: number, height?: number; }) {
             if(options.left != undefined)
                 this.style.left = options.left + 'px';
@@ -506,6 +644,9 @@ namespace System {
                 this.style.setProperty("--app-height", options.height + "px");
         }
 
+        /**
+         * ;oves the application to the left side of the screen.
+         */
         @BindThis()
         protected moveApplicationToLeft() {
             this.moveApplication({
@@ -516,6 +657,9 @@ namespace System {
             });
             this.saveSize();
         }
+        /**
+         * Moves the application to the right side of the screen.
+         */
         @BindThis()
         protected moveApplicationToRight() {
             this.moveApplication({
@@ -572,7 +716,9 @@ namespace System {
             this.resizeEl.onPointerUp.add(this.onResizeStop);
         }
 
-
+        /**
+         * Executes a callback after a transition ends
+         */
         public afterTransition(cb: () => void) {
             setTimeout(() => {
                 if(this.isAnimating) {
@@ -582,6 +728,9 @@ namespace System {
                 cb();
             }, 100);
         }
+        /**
+         * Watches for transition events and handles them
+         */
         protected watchTransition() {
             this.addEventListener("transitionstart", () => {
                 this.isAnimating = true;
@@ -599,27 +748,37 @@ namespace System {
 
         //#region navbar
         /**
-         * 
+         * Toggles the fullscreen mode of the application.
          */
         public toggleFull() {
             this.full = !this.full;
         }
-
+        /**
+         * Hides the application.
+         */
         public hide() {
             this.is_hidden = true;
             this.saveApplicationHistory();
         }
+        /**
+         * Shows the application.
+         */
         public show() {
             this.is_hidden = false;
             this.saveApplicationHistory();
         }
-
+        /**
+         * Kills the application (removes it from the DOM).
+         */
         public kill() {
             this.remove();
         }
         //#endregion
 
         //#region popup
+        /**
+         * Opens a popup and returns a promise that resolves with the popup's result.
+         */
         public popup<T extends GenericPopup<U, X>, U = ExtractTypePopup<T>, X extends PopupInfo = PopupInfo>(p: T): Promise<U> {
             return new Promise<U>((resolve) => {
                 p.init((response) => {
@@ -628,12 +787,17 @@ namespace System {
                 this.shadowRoot.appendChild(p);
             });
         }
-
+        /**
+         * Shows an alert popup with the provided information.
+         */
         public async alert(info: Partial<AlertInfo>): Promise<void> {
             const a = new Alert();
             a.mergeInfo(info);
             await this.popup(a);
         }
+        /**
+         * Shows a confirm popup with the provided information.
+         */
         public async confirm(info: Partial<ConfirmInfo>): Promise<boolean> {
             const c = new Confirm();
             c.mergeInfo(info);
@@ -642,6 +806,9 @@ namespace System {
         //#endregion
 
         //#region execution process
+        /**
+         *  Parses errors from the application query result.
+         */
         public async parseErrors<X>(result: ApplicationQueryFctResult<X>): Promise<X | undefined> {
             if(result.errors.length > 0) {
                 let msg = result.errors.map(p => p.message).join("<br/>");
@@ -656,16 +823,23 @@ namespace System {
             if(result instanceof Aventus.ResultWithError) return result.result;
             return undefined;
         }
+        /**
+         * Executes a promise and parses its result.
+         */
         public async execute<X>(prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
             const queryResult = await prom;
             return await this.parseErrors(queryResult);
         }
-
+        /**
+         * Executes a promise with a loading indicator and parses its result.
+         */
         public async executeWithLoading<X>(prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
             const queryResult = await this.showLoading(prom);
             return await this.parseErrors(queryResult);
         }
-
+        /**
+         * Shows a loading indicator while executing a function or promise.
+         */
         public async showLoading<X>(fct: (() => Promise<X>) | Promise<X>): Promise<X> {
             const minDelay = 2000;
             let start: Date | undefined;
@@ -694,6 +868,9 @@ namespace System {
         //#endregion
 
         //#region desktop activable
+        /**
+         * Adds focus to the application.
+         */
         private addFocus() {
             this.setAttribute("tabindex", "-1");
             this.addEventListener("focus", (e) => {
@@ -701,38 +878,44 @@ namespace System {
                 this.setDesktopActive();
             });
         }
+        /**
+         * Sets the application as the active desktop application.
+         */
         public setDesktopActive() {
-            DesktopActivableLogic.set(this)
+            DesktopActivableLogic.set(this);
         }
+        /**
+         * Removes the application from the active desktop application.
+         */
         public removeDesktopActive() {
-            DesktopActivableLogic.remove(this)
+            DesktopActivableLogic.remove(this);
         }
         //#endregion
 
-        
-        private rightClick() {
-            this.addEventListener("contextmenu", (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-            });
-        }
 
+        /**
+         *  Initializes the application with the given options.
+         */
         public init(options: ApplicationInitOptions) {
             this.options = options;
             this.setSizeInfo(this.sizeManager.load());
         }
 
+        /**
+         * @inheritdoc
+         */
         protected override postCreation(): void {
             this.register();
-            this.rightClick();
             this.addResize();
             this.addFocus();
             this.addMoveDragAndDrop();
             this.watchTransition();
-
-
+            this.bindContextMenu();
         }
 
+        /**
+         * @inheritdoc
+         */
         protected override postDestruction(): void {
             super.postDestruction();
             this.options?.desktop.removeApp(this);

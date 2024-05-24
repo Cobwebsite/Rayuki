@@ -780,13 +780,13 @@ const Effect=class Effect {
         }
         let cb;
         if (path == "*") {
-            cb = (action, changePath, value) => { this.onChange(action, changePath, value); };
+            cb = (action, changePath, value, dones) => { this.onChange(action, changePath, value, dones); };
         }
         else {
-            cb = (action, changePath, value) => {
+            cb = (action, changePath, value, dones) => {
                 let full = fullPath;
                 if (changePath == path) {
-                    this.onChange(action, changePath, value);
+                    this.onChange(action, changePath, value, dones);
                 }
             };
         }
@@ -803,24 +803,24 @@ const Effect=class Effect {
     canChange(fct) {
         this.__allowChanged.push(fct);
     }
-    checkCanChange(action, changePath, value) {
+    checkCanChange(action, changePath, value, dones) {
         if (this.isDestroy) {
             return false;
         }
         for (let fct of this.__allowChanged) {
-            if (!fct(action, changePath, value)) {
+            if (!fct(action, changePath, value, dones)) {
                 return false;
             }
         }
         return true;
     }
-    onChange(action, changePath, value) {
-        if (!this.checkCanChange(action, changePath, value)) {
+    onChange(action, changePath, value, dones) {
+        if (!this.checkCanChange(action, changePath, value, dones)) {
             return;
         }
         this.run();
         for (let fct of this.__subscribes) {
-            fct(action, changePath, value);
+            fct(action, changePath, value, dones);
         }
     }
     destroy() {
@@ -873,8 +873,8 @@ const Computed=class Computed extends Effect {
     computedValue() {
         this._value = this.run();
     }
-    onChange(action, changePath, value) {
-        if (!this.checkCanChange(action, changePath, value)) {
+    onChange(action, changePath, value, dones) {
+        if (!this.checkCanChange(action, changePath, value, dones)) {
             return;
         }
         let oldValue = this._value;
@@ -883,7 +883,7 @@ const Computed=class Computed extends Effect {
             return;
         }
         for (let fct of this.__subscribes) {
-            fct(action, changePath, value);
+            fct(action, changePath, value, dones);
         }
     }
 }
@@ -1041,6 +1041,7 @@ const Watcher=class Watcher {
             callbacksReverse: new Map(),
             avoidUpdate: [],
             pathToRemove: [],
+            injectedDones: null,
             history: [{
                     object: JSON.parse(JSON.stringify(obj, jsonReplacer)),
                     trace: currentTrace,
@@ -1195,6 +1196,11 @@ const Watcher=class Watcher {
                 else if (prop == "__deleteAlias") {
                     return deleteAlias;
                 }
+                else if (prop == "__injectedDones") {
+                    return (dones) => {
+                        this.injectedDones = dones;
+                    };
+                }
                 else if (prop == "__trigger") {
                     return trigger;
                 }
@@ -1343,7 +1349,9 @@ const Watcher=class Watcher {
                 if (triggerChange) {
                     let index = this.avoidUpdate.indexOf(prop);
                     if (index == -1) {
-                        trigger('UPDATED', target, receiver, value, prop);
+                        let dones = this.injectedDones ?? [];
+                        this.injectedDones = null;
+                        trigger('UPDATED', target, receiver, value, prop, dones);
                     }
                     else {
                         this.avoidUpdate.splice(index, 1);
@@ -1441,6 +1449,9 @@ const Watcher=class Watcher {
             proxyData.callbacks[''] = [onDataChanged];
         }
         const trigger = (type, target, receiver, value, prop, dones = []) => {
+            if (dones.includes(proxyData.baseData)) {
+                return;
+            }
             if (target.__isProxy) {
                 return;
             }
@@ -1516,7 +1527,7 @@ const Watcher=class Watcher {
                 let cbs = [...proxyData.callbacks[name]];
                 for (let cb of cbs) {
                     try {
-                        cb(WatchAction[type], pathToSend, value);
+                        cb(WatchAction[type], pathToSend, value, dones);
                     }
                     catch (e) {
                         if (e != 'impossible')
@@ -5775,7 +5786,10 @@ const TemplateContext=class TemplateContext {
             }
         });
     }
-    updateWatch(name, value) {
+    updateWatch(name, value, dones) {
+        if (Watcher.is(this.watch[name])) {
+            this.watch[name].__injectedDones(dones);
+        }
         this.watch[name] = value;
     }
     normalizePath(path) {
@@ -5942,10 +5956,10 @@ const TemplateInstance=class TemplateInstance {
             }
             return {};
         });
-        computed.subscribe((action, path, value) => {
+        computed.subscribe((action, path, value, dones) => {
             for (let key in computed.value) {
                 let newValue = computed.value[key];
-                this.context.updateWatch(key, newValue);
+                this.context.updateWatch(key, newValue, dones);
             }
         });
         this.computeds.push(computed);
@@ -6075,7 +6089,7 @@ const TemplateInstance=class TemplateInstance {
             return "";
         });
         let timeout;
-        computed.subscribe((action, path, value) => {
+        computed.subscribe((action, path, value, dones) => {
             clearTimeout(timeout);
             // add timeout to group change that append on the same frame (for example index update)
             timeout = setTimeout(() => {
@@ -6109,8 +6123,11 @@ const TemplateInstance=class TemplateInstance {
             }
         });
         this.computeds.push(computed);
-        computed.subscribe(() => {
+        computed.subscribe((action, path, value, dones) => {
             for (const el of this._components[injection.id]) {
+                if (el instanceof WebComponent && el.__watch && Object.hasOwn(el.__watch, injection.injectionName)) {
+                    el.__watch.__injectedDones(dones);
+                }
                 el[injection.injectionName] = computed.value;
             }
         });
@@ -6139,10 +6156,13 @@ const TemplateInstance=class TemplateInstance {
             }
         });
         this.computeds.push(computed);
-        computed.subscribe(() => {
+        computed.subscribe((action, path, value, dones) => {
             if (isLocalChange)
                 return;
             for (const el of this._components[binding.id]) {
+                if (el instanceof WebComponent && el.__watch && Object.hasOwn(el.__watch, binding.injectionName)) {
+                    el.__watch.__injectedDones(dones);
+                }
                 el[binding.injectionName] = computed.value;
             }
         });

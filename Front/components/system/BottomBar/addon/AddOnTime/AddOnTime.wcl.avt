@@ -1,3 +1,5 @@
+import type { Calendar } from "../../../../ui/calendar/Calendar/Calendar.wcl.avt";
+
 namespace System {
     export class AddOnTime extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
@@ -7,7 +9,8 @@ namespace System {
 
 
         //#region props
-
+        @Attribute()
+        public active!: boolean;
         //#endregion
 
 
@@ -16,6 +19,8 @@ namespace System {
         protected date!: HTMLDivElement;
         @ViewElement()
         protected hour!: HTMLDivElement;
+        @ViewElement()
+        protected calendarEl!: Calendar;
 
 
         private days: string[] = [
@@ -101,9 +106,59 @@ namespace System {
             }, 1000 * 60);
         }
 
+        @BindThis()
+        private calculateCalendarSize() {
+            if(!this.active) {
+                this.calendarEl.style.transition = 'none';
+                setTimeout(() => {
+                    this.calendarEl.style.left = '100000px';
+                    this.calendarEl.style.height = 'auto';
+                    setTimeout(() => {
+                        let height = this.calendarEl.offsetHeight + 30;
+                        this.calendarEl.style.left = '';
+                        this.calendarEl.style.height = '';
+                        this.calendarEl.style.setProperty("--time-calendar-height", height + 'px');
+                        setTimeout(() => {
+                            this.calendarEl.style.transition = '';
+                        }, 50);
+                    }, 50);
+                }, 50);
+            }
+            else {
+                this.calendarEl.style.setProperty("--time-calendar-height", this.calendarEl.offsetHeight + 'px');
+            }
+        }
+
+        private bindCalendarSize() {
+            this.calendarEl.onDateChanged.add(this.calculateCalendarSize);
+            this.calculateCalendarSize();
+            this.calendarEl.addEventListener("transitionstart", () => {
+
+            });
+            this.calendarEl.addEventListener("transitionend", () => {
+                if(this.active) {
+                    this.calendarEl.style.height = 'auto';
+                }
+            });
+        }
+        /**
+         * 
+         */
+        protected toggleActive() {
+            if(this.active) {
+                this.calendarEl.style.height = '';
+                setTimeout(() => {
+                    this.active = false;
+                }, 10);
+            }
+            else {
+                this.active = true;
+            }
+        }
+
         protected override postCreation(): void {
             this.firstLoading();
-
+            this.bindCalendarSize();
         }
         //#endregion
 

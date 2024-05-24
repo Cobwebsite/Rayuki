@@ -63,6 +63,7 @@ namespace Components {
 
         //#region events
         public readonly onDateClicked: Aventus.Callback<(date: Date, element: CalendarDay) => void> = new Aventus.Callback();
+        public readonly onDateChanged: Aventus.Callback<(date: Date) => void> = new Aventus.Callback();
         //#endregion
 
         //#region methods
@@ -148,6 +149,8 @@ namespace Components {
                     row.classList.add("days-row");
                 }
             }
+
+            this.onDateChanged.trigger([this.date]);
         }
 
         protected renderDatesTemp() {

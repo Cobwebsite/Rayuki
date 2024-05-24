@@ -1,5 +1,7 @@
 import type { ApplicationQueryFctResult } from "../../Application/ApplicationError.lib.avt";
 import type { Application } from "../../Application/Application.wcl.avt";
+import type { IPermissionQuery } from "../../../../libs/Permission.lib.avt";
+import type { ApplicationState } from "../../../../states/ApplicationState.state.avt";
 
 namespace System {
     export abstract class FrameNoScroll extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -52,6 +54,48 @@ namespace System {
 
         public abstract pageTitle(): string | undefined;
 
+        @Internal()
+        public async testPermissions(): Promise<boolean> {
+            let proms: Promise<boolean>[] = [];
+            let queries: IPermissionQuery[] = [];
+            let test = (query: IPermissionQuery) => {
+                queries.push(query);
+            };
+            this.definePermissions(test);
+            if(queries.length == 0) {
+                return true;
+            }
+
+            for(let query of queries) {
+                proms.push(can(query));
+            }
+
+            const perms = await Promise.all(proms);
+            for(let perm of perms) {
+                if(!perm) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        /**
+         * Define the permissions needed to access the frame
+         * If one permission is denied, the user can't access the frame.
+         */
+        public definePermissions(can: (permission: IPermissionQuery) => void): void {
+            
+        }
+
+        /**
+         * Add custom check
+         * Return true if evrything is ok
+         * False will show the access denid page
+         * string or state will redirect to the page
+         */
+        public async can(state: Aventus.State): Promise<boolean | ApplicationState | string> {
+            return true;
+        }
         public async show(state: Aventus.State | undefined): Promise<void> {
             this.state = state;
             this.visible = true;
@@ -63,13 +107,26 @@ namespace System {
         public abstract onHide();
 
 
+        /**
+         * Define if the current state can be changed
+         * usefull to prevent change when editing data
+         */
         public async askChange(newState: Aventus.State): Promise<boolean> {
             return true;
         }
 
+        /**
+         * Execute a query and get the result
+         * The errors will be handled by the application
+         */
         public async execute<X>(prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
             return this.application.execute(prom);
         }
+        /**
+         * Execute a query and get the result
+         * The errors will be handled by the application
+         * Show a loader if the request take more than 200ms
+         */
         public async executeWithLoading<X>(prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
             return this.application.executeWithLoading(prom);
         }

@@ -6,7 +6,7 @@
 	left: -9px;
 	position: absolute;
 	width: 500px;
-
+	box-shadow: var(--elevation-3);
 
 	.content {
 		flex-grow: 1;
@@ -76,10 +76,10 @@
 
 		.person {
 			align-items: center;
-			display: flex;
-			padding: 8px 10px;
-			margin: 10px 10px;
 			border-radius: var(--border-radius-sm);
+			display: flex;
+			margin: 10px 10px;
+			padding: 8px 10px;
 			transition: background-color 0.2s var(--bezier-curve);
 
 			.icon {
@@ -96,18 +96,32 @@
 			background-color: var(--lighter);
 		}
 
-		rk-button {
-			--button-padding: 0px 8px;
-			--button-icon-stroke-color: var(--text-color-red);
-			--button-icon-fill-color: transparent;
-			--button-background-color: var(--red);
-			--button-background-color-hover: transparent;
-			aspect-ratio: 1;
-			border: none;
-			box-shadow: var(--elevation-2);
-			min-width: auto;
-			margin: 10px 10px;
+		.actions {
+			align-items: center;
+			display: flex;
+
+
+			rk-pwa-button {
+				color: var(--text-color-green);
+				background-color: var(--green);
+				height: 36px;
+				width: 36px;
+			}
+
+			rk-button {
+				--button-padding: 0px 8px;
+				--button-icon-stroke-color: var(--text-color-red);
+				--button-icon-fill-color: transparent;
+				--button-background-color: var(--red);
+				--button-background-color-hover: transparent;
+				aspect-ratio: 1;
+				border: none;
+				box-shadow: var(--elevation-2);
+				margin: 10px 10px;
+				min-width: auto;
+			}
 		}
+
 
 
 	}

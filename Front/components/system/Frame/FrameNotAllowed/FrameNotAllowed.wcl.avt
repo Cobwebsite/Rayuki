@@ -2,7 +2,7 @@ import type { IPermissionQuery } from "../../../../libs/Permission.lib.avt";
 import { Frame } from "../Frame.wcl.avt";
 
 namespace System {
-	export class Frame404 extends Frame implements Aventus.DefaultComponent {
+	export class FrameNotAllowed extends Frame implements Aventus.DefaultComponent {
 	
 		//#region static
 		
@@ -28,26 +28,25 @@ namespace System {
         /**
          * @inheritdoc
          */
-        public override pageTitle(): string {
-            return "Page not found";
+        public override pageTitle(): string | undefined {
+            return "Accès non autorisé";
         }
         /**
          * @inheritdoc
          */
-        public override definePermissions(can: (permission: IPermissionQuery) => void): void {
+        public override definePermissions(test: (permission: IPermissionQuery) => void): void {
             
         }
         /**
          * @inheritdoc
          */
         public override onShow() {
-           
+            
         }
         /**
          * @inheritdoc
          */
         public override onHide() {
-            
         }
 		
 		//#endregion

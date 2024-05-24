@@ -3,7 +3,7 @@ import { CoreRouter } from "../generated/CoreRouter.lib.avt";
 
 namespace Permissions {
     export interface IPermissionQuery {
-        enumName?: string,
+        $type?: string,
         value?: number | string,
         additionalInfo?: string;
     }
@@ -16,7 +16,7 @@ namespace Permissions {
                 query.additionalInfo = "";
             }
 
-            let key = query.enumName + "$" + query.value + "$" + query.additionalInfo;
+            let key = query.$type + "$" + query.value + "$" + query.additionalInfo;
             if(Object.keys(this.saved).includes(key)) {
                 return this.saved[key];
             }
@@ -32,6 +32,10 @@ namespace Permissions {
 
             return false;
         }
+
+        public static clear() {
+            this.saved = {};
+        }
     }
 
     export abstract class PermissionQuery<T extends Aventus.Enum> implements IPermissionQuery {
@@ -39,11 +43,10 @@ namespace Permissions {
         public value?: string | number;
         public additionalInfo?: string;
 
-        public can(value: Aventus.EnumValue<T>, additionalInfo?: string): Promise<boolean> {
+        public constructor(value: Aventus.EnumValue<T>, additionalInfo?: string) {
             this.$type = this.constructor['Fullname'];
             this.value = value;
             this.additionalInfo = additionalInfo;
-            return Permission.can(this);
         }
     }
 }

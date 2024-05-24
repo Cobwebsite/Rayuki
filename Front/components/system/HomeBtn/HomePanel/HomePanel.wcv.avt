@@ -27,5 +27,10 @@
         <rk-user-profil-picture class="icon" uri="{{ this.currentUser?.Picture.Uri }}"></rk-user-profil-picture>
         <div class="name">{{ this.currentUser?.Firstname }} {{ this.currentUser?.Lastname }}</div>
     </div>
-    <rk-button icon="/img/icons/power-off.svg" @press="logout"></rk-button>
+    <div class="actions">
+        <rk-pwa-button>
+            <rk-tooltip position="top" delay="1000" use_absolute color="green">Installer l'application</rk-tooltip>
+        </rk-pwa-button>
+        <rk-button icon="/img/icons/power-off.svg" @press="logout"></rk-button>
+    </div>
 </div>

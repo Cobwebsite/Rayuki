@@ -41,6 +41,7 @@ namespace Components {
     export type Key<T> = keyof T;
 
     export type FilterAction<T> = (value: T[Key<T>]) => boolean;
+    export type FilterDataAction<T> = (value: T) => boolean;
     export type SortColumns = { [key: string]: 'asc' | 'desc'; };
 
     export abstract class Table<T> extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -109,6 +110,7 @@ namespace Components {
         public data?: T[];
         protected options: TableOptions<T>;
         protected filters: { [key: string]: FilterAction<T>[]; } = {};
+        protected dataFilters: FilterDataAction<T>[] = [];
         protected sortColumns: SortColumns = {};
         protected globalSearchTxt?: string;
         protected rows: Map<T, TableRow<T>> = new Map();
@@ -139,7 +141,7 @@ namespace Components {
                 biggerThanMax: '',
             };
 
-        protected getSelectedData(): T[] {
+        public getSelectedData(): T[] {
             const result: T[] = [];
             for(let row of this.rowsSelected) {
                 result.push(row.data);
@@ -312,6 +314,12 @@ namespace Components {
                             }
                         }
                     }
+                    for(let dataFilter of this.dataFilters) {
+                        if(!dataFilter(item)) {
+                            isOk = false;
+                            break;
+                        }
+                    }
                     if(isOk) {
                         result.push(item);
                     }
@@ -468,6 +476,10 @@ namespace Components {
             this.currentPage = 0;
             this.render();
         }
+        /**
+         * Add filter on the data key
+         * return true if the element can be displayed
+         */
         public addFilter<U extends keyof T>(name: U, action: (value: T[U]) => boolean, reload: boolean = true) {
             let nameTxt = name as string;
             if(!this.filters[nameTxt]) {
@@ -487,6 +499,26 @@ namespace Components {
                 if(index != -1) {
                     this.filters[nameTxt].splice(index, 1);
                 }
+            }
+            if(reload && this.isReady)
+                this.filterData();
+        }
+        /**
+         * Add filter on the data
+         * return true if the element can be displayed
+         */
+        public addCustomFilter(action: (value: T) => boolean, reload: boolean = true) {
+            if(this.dataFilters.includes(action)) {
+                return;
+            }
+            this.dataFilters.push(action);
+            if(reload && this.isReady)
+                this.filterData();
+        }
+        public removeCustomFilter(action: (value: T) => boolean, reload: boolean = true) {
+            let index = this.dataFilters.indexOf(action);
+            if(index != -1) {
+                this.dataFilters.splice(index, 1);
             }
             if(reload && this.isReady)
                 this.filterData();

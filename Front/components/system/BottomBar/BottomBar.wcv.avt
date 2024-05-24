@@ -9,5 +9,4 @@
 <div class="separator"></div>
 <div class="section addons">
     <rk-add-on-time></rk-add-on-time>
-    <rk-pwa-button></rk-pwa-button>
 </div>

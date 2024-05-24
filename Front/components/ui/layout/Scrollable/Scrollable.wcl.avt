@@ -356,7 +356,7 @@ namespace Components {
                 this.autoScrollInterval.right = 0;
             }
         }
-       
+
         private startAutoScrollLeft() {
             if(!this.autoScrollInterval.left) {
                 this.stopAutoScrollRight();
@@ -586,6 +586,8 @@ namespace Components {
             this.contentWrapperSize.x = this.contentWrapper.offsetWidth;
             this.contentWrapperSize.y = this.contentWrapper.offsetHeight;
 
+
+
             if(this.zoom < 1) {
                 // scale the container for zoom
                 this.contentZoom.style.width = this.mainContainer.offsetWidth / this.zoom + 'px';
@@ -691,6 +693,7 @@ namespace Components {
                 this.scrollDirection('x', 0);
             }
 
+            
         }
         private createResizeObserver() {
             let inProgress = false;
