@@ -280,7 +280,7 @@ namespace System {
                             const canResult = await element.can(currentState);
                             if(canResult !== true) {
                                 if(canResult === false) {
-                                    this.showErrorNotAllowed();
+                                    return;
                                 }
                                 else {
                                     this.navigate(canResult);
@@ -334,7 +334,8 @@ namespace System {
                 if(this.oldFrame && this.oldFrame != this.page404) {
                     await this.oldFrame.hide();
                 }
-                await this.page404.show(undefined);
+                let state = this.navigator.getState() as Aventus.State;
+                await this.page404.show(state);
                 this.oldFrame = this.page404;
                 this.activePath = '';
             }
@@ -360,7 +361,8 @@ namespace System {
             if(this.oldFrame && this.oldFrame != this.page405) {
                 await this.oldFrame.hide();
             }
-            await this.page405.show(undefined);
+            let state = this.navigator.getState() as Aventus.State;
+            await this.page405.show(state);
             this.oldFrame = this.page405;
             this.activePath = '';
         }

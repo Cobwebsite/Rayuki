@@ -44,7 +44,7 @@ namespace Components {
     export type FilterDataAction<T> = (value: T) => boolean;
     export type SortColumns = { [key: string]: 'asc' | 'desc'; };
 
-    export abstract class Table<T> extends Aventus.WebComponent implements Aventus.DefaultComponent {
+    export abstract class Table<T, U extends TableOptions<T> = TableOptions<T>> extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static
 
@@ -78,6 +78,9 @@ namespace Components {
 
         @Attribute()
         private last_page!: boolean;
+
+        @Attribute()
+        public loading!: boolean;
         //#endregion
 
 
@@ -108,7 +111,7 @@ namespace Components {
             target.filterData();
         })
         public data?: T[];
-        protected options: TableOptions<T>;
+        protected options: U;
         protected filters: { [key: string]: FilterAction<T>[]; } = {};
         protected dataFilters: FilterDataAction<T>[] = [];
         protected sortColumns: SortColumns = {};
@@ -264,7 +267,7 @@ namespace Components {
         /**
          * Define the schema needed for the table
          */
-        protected abstract configure(options: TableOptions<T>): TableOptions<T>;
+        protected abstract configure(options: TableOptions<T>): U;
 
         public setColWidth(width: number, i: number) {
             this.styleWrapper?.style.setProperty("--_table-cell-width-" + (i + 1), width + "px");
@@ -430,6 +433,7 @@ namespace Components {
             }
 
             this.rowsDisplayed = rowsDisplayed;
+            this.loading = false;
         }
 
         protected locationInfo() {

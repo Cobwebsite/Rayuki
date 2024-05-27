@@ -19,7 +19,7 @@ namespace State {
 
         public readonly $type: string;
         private __manager!: ApplicationStateManager;
-        
+
         protected get application(): Application {
             return this.__manager.application;
         };
@@ -49,9 +49,13 @@ namespace State {
         }
 
 
+        private delaySaveState: number = 0;
         public saveState() {
             if(!this.canSync()) return;
-            this.__manager.save();
+            clearTimeout(this.delaySaveState);
+            this.delaySaveState = setTimeout(() => {
+                this.__manager.save();
+            }, 500);
         }
 
         public override async activate(): Promise<boolean> {

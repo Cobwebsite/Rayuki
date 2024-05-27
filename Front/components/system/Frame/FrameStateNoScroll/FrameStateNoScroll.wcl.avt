@@ -1,0 +1,40 @@
+import type { ApplicationState } from "../../../../states/ApplicationState.state.avt";
+import { FrameNoScroll } from "../FrameNoScroll/FrameNoScroll.wcl.avt";
+
+namespace System {
+	export abstract class FrameStateNoScroll<T extends Aventus.State> extends FrameNoScroll implements Aventus.DefaultComponent {
+	
+		//#region static
+		
+		//#endregion
+		
+		
+		//#region props
+		protected override state!: T;
+		//#endregion
+		
+		
+		//#region variables
+		
+		//#endregion
+		
+		
+		//#region constructor
+		
+		//#endregion
+		
+		
+		//#region methods
+		public abstract getState(): new (...args: any[]) => T;
+        public abstract onStateMissmatch(): Promise<string | boolean | ApplicationState>;
+
+		public override async can(state: Aventus.State): Promise<string | boolean | ApplicationState> {
+			if(state instanceof this.getState()) {
+				return true;
+			}
+			return this.onStateMissmatch();
+		}
+		//#endregion
+		
+	}
+}

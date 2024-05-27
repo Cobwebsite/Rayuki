@@ -69,6 +69,11 @@
 			flex-direction: column;
 			min-height: 0;
 			width: 100%;
+			position: relative;
+
+			.loading {
+				display: none;
+			}
 		}
 
 		.footer {
@@ -161,6 +166,18 @@
 				gap: 15px;
 				justify-content: center;
 				padding: 15px;
+			}
+		}
+	}
+}
+
+:host([loading]) {
+	.style-wrapper {
+		.body {
+			min-height: 200px;
+
+			.loading {
+				display: flex;
 			}
 		}
 	}

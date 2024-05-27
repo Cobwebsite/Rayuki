@@ -198,7 +198,8 @@ namespace Core
             };
 
             string path = Path.Join(wwwroot, "autoload");
-            string[] files = Directory.GetFiles(path);
+            List<string> files = Directory.GetFiles(path).ToList();
+            files.Sort();
             foreach (string file in files)
             {
                 string fileToUse = file.Replace(path, "").Replace("\\", "/");

@@ -1,0 +1,41 @@
+import type { ApplicationState } from "../../../../states/ApplicationState.state.avt";
+import { Frame } from "../Frame.wcl.avt";
+
+namespace System {
+    export abstract class FrameState<T extends Aventus.State> extends Frame implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        protected override state!: T;
+        //#endregion
+
+
+        //#region variables
+
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        public abstract getState(): new (...args: any[]) => T;
+        public abstract onStateMissmatch(): Promise<string | boolean | ApplicationState>;
+
+		public override async can(state: Aventus.State): Promise<string | boolean | ApplicationState> {
+			if(state instanceof this.getState()) {
+				return true;
+			}
+			return this.onStateMissmatch();
+		}
+
+        //#endregion
+
+    }
+}

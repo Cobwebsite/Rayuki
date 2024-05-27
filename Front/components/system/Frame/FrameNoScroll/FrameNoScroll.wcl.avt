@@ -25,7 +25,7 @@ namespace System {
 
 
         //#region variables
-        protected state?: Aventus.State;
+        protected state!: Aventus.State;
         public application!: Application;
 
         /** Only use to reset element inside the application router */
@@ -90,16 +90,17 @@ namespace System {
         /**
          * Add custom check
          * Return true if evrything is ok
-         * False will show the access denid page
+         * False will prevent showing
          * string or state will redirect to the page
          */
         public async can(state: Aventus.State): Promise<boolean | ApplicationState | string> {
             return true;
         }
-        public async show(state: Aventus.State | undefined): Promise<void> {
+        public async show(state: Aventus.State): Promise<void> {
             this.state = state;
             this.visible = true;
         }
+       
         public async hide(): Promise<void> {
             this.visible = false;
         }

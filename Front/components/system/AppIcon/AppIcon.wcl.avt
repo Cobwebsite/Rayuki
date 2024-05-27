@@ -71,9 +71,6 @@ namespace System {
                     }
                 });
             }
-            contextMenu.addSeparator({
-                priority: 1
-            });
         }
 
 

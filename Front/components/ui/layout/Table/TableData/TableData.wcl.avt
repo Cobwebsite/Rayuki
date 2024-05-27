@@ -4,7 +4,13 @@ import { Table, type TableOptions, type TableSchema } from "../Table.wcl.avt";
 import { TableRowData } from "./TableRowData/TableRowData.wcl.avt";
 
 namespace Components {
-    export abstract class TableData<T extends AventusSharp.Data.Storable> extends Table<T> implements Aventus.DefaultComponent {
+    export type TableDataOptions<T> = TableOptions<T> & {
+        /** Set to true if you need a loader */
+        showLoading: boolean;
+        /** Define the delay before loading data. Usefull to avoid animation freeze */
+        delayLoading: number;
+    };
+    export abstract class TableData<T extends AventusSharp.Data.Storable> extends Table<T, TableDataOptions<T>> implements Aventus.DefaultComponent {
 
         //#region static
 
@@ -20,6 +26,7 @@ namespace Components {
         //#region variables
         protected application?: Application;
         protected ram?: Aventus.Ram<T>;
+
         //#endregion
 
 
@@ -33,15 +40,20 @@ namespace Components {
         public abstract defineNewState(): Aventus.State;
         public abstract defineEditState(data: T): Aventus.State;
         public async loadData() {
-            this.ram = this.defineRAM();
-            this.data = await this.application?.executeWithLoading(this.ram.getListWithError());
-            this.ram.onCreated(this.onCreatedData);
-            this.ram.onUpdated(this.onUpdatedData);
-            this.ram.onDeleted(this.onDeletedData);
+            if(this.options.showLoading)
+                this.loading = true;
+
+            setTimeout(async () => {
+                this.ram = this.defineRAM();
+                this.data = await this.application?.executeWithLoading(this.ram.getListWithError());
+                this.ram.onCreated(this.onCreatedData);
+                this.ram.onUpdated(this.onUpdatedData);
+                this.ram.onDeleted(this.onDeletedData);
+            }, this.options.delayLoading);
         }
 
         @BindThis()
-        protected onCreatedData(data:T) {
+        protected onCreatedData(data: T) {
             if(!this.data) {
                 this.data = [data];
             }
@@ -51,7 +63,7 @@ namespace Components {
         }
 
         @BindThis()
-        protected onUpdatedData(data:T) {
+        protected onUpdatedData(data: T) {
             if(!this.data) {
                 this.data = [data];
             }
@@ -64,7 +76,7 @@ namespace Components {
         }
 
         @BindThis()
-        protected onDeletedData(data:T) {
+        protected onDeletedData(data: T) {
             if(!this.data) return;
             const index = this.data.findIndex(p => p.Id == data.Id);
             if(index != -1) {
@@ -103,11 +115,18 @@ namespace Components {
             }
         }
 
-        protected override defaultOptions(): TableOptions<T> {
-            let result = super.defaultOptions();
+        protected override defaultOptions(): TableDataOptions<T> {
+            let result: TableDataOptions<T> = {
+                ...super.defaultOptions(),
+                showLoading: true,
+                delayLoading: 0
+            };
+
             result.row = TableRowData;
             return result;
         }
+
+        protected abstract override configure(options: TableDataOptions<T>): TableDataOptions<T>;
 
 
         protected override postCreation(): void {

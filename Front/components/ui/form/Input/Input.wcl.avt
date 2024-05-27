@@ -22,7 +22,7 @@ namespace Components {
         public icon_position?: 'left' | 'right';
 
         @Property((target: Input) => {
-            target.inputEl.value = target.value;
+            target.inputEl.value = target.value ?? "";
         })
         public override value: string = "";
 

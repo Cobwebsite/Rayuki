@@ -4990,10 +4990,14 @@ State.ApplicationState=class ApplicationState extends Aventus.State {
     setManager(manager) {
         this.__manager = manager;
     }
+    delaySaveState = 0;
     saveState() {
         if (!this.canSync())
             return;
-        this.__manager.save();
+        clearTimeout(this.delaySaveState);
+        this.delaySaveState = setTimeout(() => {
+            this.__manager.save();
+        }, 500);
     }
     async activate() {
         return super.activate(this.__manager);
@@ -5035,7 +5039,7 @@ State.ApplicationState=class ApplicationState extends Aventus.State {
     }
 }
 State.ApplicationState.Namespace=`${moduleName}.State`;
-State.ApplicationState.$schema={...(Aventus.State?.$schema ?? {}), "$type":"string","__manager":""+moduleName+".Lib.ApplicationStateManager","application":""+moduleName+".System.Application","__canSaveState":"boolean"};
+State.ApplicationState.$schema={...(Aventus.State?.$schema ?? {}), "$type":"string","__manager":""+moduleName+".Lib.ApplicationStateManager","application":""+moduleName+".System.Application","__canSaveState":"boolean","delaySaveState":"number"};
 Aventus.Converter.register(State.ApplicationState.Fullname, State.ApplicationState);
 
 _.State.ApplicationState=State.ApplicationState;
@@ -5212,6 +5216,37 @@ if (this.constructor == FrameNoScroll) { throw "can't instanciate an abstract cl
 System.FrameNoScroll.Namespace=`${moduleName}.System`;
 _.System.FrameNoScroll=System.FrameNoScroll;
 
+System.FrameStateNoScroll = class FrameStateNoScroll extends System.FrameNoScroll {
+    state;
+    static __style = ``;
+    constructor() { super(); if (this.constructor == FrameStateNoScroll) { throw "can't instanciate an abstract class"; } }
+    __getStatic() {
+        return FrameStateNoScroll;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(FrameStateNoScroll.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "FrameStateNoScroll";
+    }
+    async can(state) {
+        if (state instanceof this.getState()) {
+            return true;
+        }
+        return this.onStateMissmatch();
+    }
+}
+System.FrameStateNoScroll.Namespace=`${moduleName}.System`;
+_.System.FrameStateNoScroll=System.FrameStateNoScroll;
+
 System.Frame = class Frame extends System.FrameNoScroll {
     static __style = `:host .main-scroll{--scrollbar-content-padding: 0 15px}:host .main-scroll>*{--scrollbar-content-padding: 0}`;
     constructor() { super(); if (this.constructor == Frame) { throw "can't instanciate an abstract class"; } }
@@ -5245,6 +5280,37 @@ System.Frame = class Frame extends System.FrameNoScroll {
 }
 System.Frame.Namespace=`${moduleName}.System`;
 _.System.Frame=System.Frame;
+
+System.FrameState = class FrameState extends System.Frame {
+    state;
+    static __style = ``;
+    constructor() { super(); if (this.constructor == FrameState) { throw "can't instanciate an abstract class"; } }
+    __getStatic() {
+        return FrameState;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(FrameState.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "FrameState";
+    }
+    async can(state) {
+        if (state instanceof this.getState()) {
+            return true;
+        }
+        return this.onStateMissmatch();
+    }
+}
+System.FrameState.Namespace=`${moduleName}.System`;
+_.System.FrameState=System.FrameState;
 
 System.FrameNotAllowed = class FrameNotAllowed extends System.Frame {
     static __style = ``;
@@ -6253,7 +6319,7 @@ System.Application = class Application extends Aventus.WebComponent {
                         const canResult = await element.can(currentState);
                         if (canResult !== true) {
                             if (canResult === false) {
-                                this.showErrorNotAllowed();
+                                return;
                             }
                             else {
                                 this.navigate(canResult);
@@ -6300,7 +6366,8 @@ System.Application = class Application extends Aventus.WebComponent {
             if (this.oldFrame && this.oldFrame != this.page404) {
                 await this.oldFrame.hide();
             }
-            await this.page404.show(undefined);
+            let state = this.navigator.getState();
+            await this.page404.show(state);
             this.oldFrame = this.page404;
             this.activePath = '';
         }
@@ -6318,7 +6385,8 @@ System.Application = class Application extends Aventus.WebComponent {
         if (this.oldFrame && this.oldFrame != this.page405) {
             await this.oldFrame.hide();
         }
-        await this.page405.show(undefined);
+        let state = this.navigator.getState();
+        await this.page405.show(state);
         this.oldFrame = this.page405;
         this.activePath = '';
     }
@@ -8140,9 +8208,6 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
                 }
             });
         }
-        contextMenu.addSeparator({
-            priority: 1
-        });
     }
     componentUrl() {
         return "/";
@@ -10829,7 +10894,7 @@ Components.Input = class Input extends Components.FormElement {
     set 'icon'(val) { this.setStringAttr('icon', val) }get 'icon_position'() { return this.getStringProp('icon_position') }
     set 'icon_position'(val) { this.setStringAttr('icon_position', val) }get 'value'() { return this.getStringProp('value') }
     set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
-    target.inputEl.value = target.value;
+    target.inputEl.value = target.value ?? "";
 })); }
     static __style = `:host{--_input-height: var(--input-height, 30px);--_input-background-color: var(--input-background-color, var(--form-element-background, white));--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-background-color);border:var(--_input-input-border);border-radius:var(--_input-border-radius);display:flex;height:var(--_input-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-error-logo-size) - 5px);height:var(--_input-error-logo-size);justify-content:center;width:var(--_input-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([icon_position=right]) .input .icon{order:2;margin-right:0px}:host([icon_position=right]) .input .input{order:1}:host([icon_position=right]) .input .error-logo{order:3;margin-left:10px}:host([label]:not([label=""])) label{display:flex}`;
     __getStatic() {
@@ -12201,7 +12266,8 @@ Components.Table = class Table extends Aventus.WebComponent {
     set 'col_resize'(val) { this.setBoolAttr('col_resize', val) }get 'grid_breakpoint'() { return this.getNumberAttr('grid_breakpoint') }
     set 'grid_breakpoint'(val) { this.setNumberAttr('grid_breakpoint', val) }get 'first_page'() { return this.getBoolAttr('first_page') }
     set 'first_page'(val) { this.setBoolAttr('first_page', val) }get 'last_page'() { return this.getBoolAttr('last_page') }
-    set 'last_page'(val) { this.setBoolAttr('last_page', val) }    get 'auto_hide_scroll'() { return this.getBoolProp('auto_hide_scroll') }
+    set 'last_page'(val) { this.setBoolAttr('last_page', val) }get 'loading'() { return this.getBoolAttr('loading') }
+    set 'loading'(val) { this.setBoolAttr('loading', val) }    get 'auto_hide_scroll'() { return this.getBoolProp('auto_hide_scroll') }
     set 'auto_hide_scroll'(val) { this.setBoolAttr('auto_hide_scroll', val) }get 'grid'() { return this.getBoolProp('grid') }
     set 'grid'(val) { this.setBoolAttr('grid', val) }get 'items_per_page'() { return this.getNumberProp('items_per_page') }
     set 'items_per_page'(val) { this.setNumberAttr('items_per_page', val) }    get 'tableTitle'() {
@@ -12281,7 +12347,7 @@ Components.Table = class Table extends Aventus.WebComponent {
         target.showFooter = true;
     }
 })); }
-    static __style = `:host{--_table-background-color: var(--table-background-color, var(--secondary-color));--_table-elevation: var(--table-elevation, var(--elevation-2));--_table-row-header-height: var(--table-row-header-height, 50px);--_table-header-backgroud-color: var(--table-header-backgroud-color, var(--primary-color));--_table-header-color: var(--table-header-color, var(--text-color-reverse));--_table-footer-backgroud-color: var(--table-footer-backgroud-color, var(--primary-color));--_table-footer-color: var(--table-footer-color, var(--text-color-reverse));--_table-row-header-backgroud-color: var(--table-row-header-backgroud-color, var(--primary-color));--_table-row-header-color: var(--table-row-header-color, var(--text-color-reverse));--_table-border-color: var(--table-border-color, var(--secondary-color));--_table-row-header-vertical-border: var(--table-row-header-vertical-border, 1px solid var(--_table-border-color));--_table-row-header-horizontal-border: var(--table-row-header-horizontal-border, 1px solid var(--_table-border-color));--_table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-padding: var(--table-cell-padding, 10px);--local-table-cell-resize-display: none}:host{background-color:var(--_table-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--_table-elevation);display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper{display:flex;flex-direction:column;height:100%;min-height:100%;width:100%}:host .style-wrapper .header{align-items:center;background-color:var(--_table-header-backgroud-color);color:var(--_table-header-color);display:flex;justify-content:space-between;min-height:0;padding:10px}:host .style-wrapper .header .title{align-items:center;display:flex;font-size:var(--font-size-md);height:30px;margin-left:5px}:host .style-wrapper .row-header{--scrollbar-color: transparent;--scrollbar-active-color: transparent;--scroller-width: 0;min-height:0;width:100%}:host .style-wrapper .body{display:flex;flex:1;flex-direction:column;min-height:0;width:100%}:host .style-wrapper .footer{align-items:center;background-color:var(--_table-footer-backgroud-color);color:var(--_table-footer-color);display:flex;gap:30px;justify-content:end;min-height:0;padding:10px}:host .style-wrapper .footer .items-per-page{align-items:center;display:flex}:host .style-wrapper .footer .items-per-page rk-input-number{margin-left:10px;min-width:auto;width:50px}:host .style-wrapper .footer .location{align-items:center;display:flex}:host .style-wrapper .footer .pagination{align-items:center;display:flex}:host .style-wrapper .footer .pagination .btn-previous,:host .style-wrapper .footer .pagination .btn-next{transition:background-color .2s var(--bezier-curve)}:host .style-wrapper rk-scrollable::part(content-wrapper){min-width:100%}:host([first_page]) .style-wrapper .footer .pagination .btn-previous{opacity:.5;pointer-events:none}:host([last_page]) .style-wrapper .footer .pagination .btn-next{opacity:.5;pointer-events:none}:host([col_resize]){--local-table-cell-resize-display: block}:host([grid]) .style-wrapper .header{display:none}:host([grid]) .style-wrapper .body{flex-direction:row}:host([grid]) .style-wrapper .body rk-scrollable::part(content-wrapper){display:flex;flex-wrap:wrap;gap:15px;justify-content:center;padding:15px}@media screen and (min-width: 1225px){:host .style-wrapper .footer .pagination .touch:hover{background-color:var(--lighter);border-radius:var(--border-radius-sm)}}`;
+    static __style = `:host{--_table-background-color: var(--table-background-color, var(--secondary-color));--_table-elevation: var(--table-elevation, var(--elevation-2));--_table-row-header-height: var(--table-row-header-height, 50px);--_table-header-backgroud-color: var(--table-header-backgroud-color, var(--primary-color));--_table-header-color: var(--table-header-color, var(--text-color-reverse));--_table-footer-backgroud-color: var(--table-footer-backgroud-color, var(--primary-color));--_table-footer-color: var(--table-footer-color, var(--text-color-reverse));--_table-row-header-backgroud-color: var(--table-row-header-backgroud-color, var(--primary-color));--_table-row-header-color: var(--table-row-header-color, var(--text-color-reverse));--_table-border-color: var(--table-border-color, var(--secondary-color));--_table-row-header-vertical-border: var(--table-row-header-vertical-border, 1px solid var(--_table-border-color));--_table-row-header-horizontal-border: var(--table-row-header-horizontal-border, 1px solid var(--_table-border-color));--_table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-padding: var(--table-cell-padding, 10px);--local-table-cell-resize-display: none}:host{background-color:var(--_table-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--_table-elevation);display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper{display:flex;flex-direction:column;height:100%;min-height:100%;width:100%}:host .style-wrapper .header{align-items:center;background-color:var(--_table-header-backgroud-color);color:var(--_table-header-color);display:flex;justify-content:space-between;min-height:0;padding:10px}:host .style-wrapper .header .title{align-items:center;display:flex;font-size:var(--font-size-md);height:30px;margin-left:5px}:host .style-wrapper .row-header{--scrollbar-color: transparent;--scrollbar-active-color: transparent;--scroller-width: 0;min-height:0;width:100%}:host .style-wrapper .body{display:flex;flex:1;flex-direction:column;min-height:0;width:100%;position:relative}:host .style-wrapper .body .loading{display:none}:host .style-wrapper .footer{align-items:center;background-color:var(--_table-footer-backgroud-color);color:var(--_table-footer-color);display:flex;gap:30px;justify-content:end;min-height:0;padding:10px}:host .style-wrapper .footer .items-per-page{align-items:center;display:flex}:host .style-wrapper .footer .items-per-page rk-input-number{margin-left:10px;min-width:auto;width:50px}:host .style-wrapper .footer .location{align-items:center;display:flex}:host .style-wrapper .footer .pagination{align-items:center;display:flex}:host .style-wrapper .footer .pagination .btn-previous,:host .style-wrapper .footer .pagination .btn-next{transition:background-color .2s var(--bezier-curve)}:host .style-wrapper rk-scrollable::part(content-wrapper){min-width:100%}:host([first_page]) .style-wrapper .footer .pagination .btn-previous{opacity:.5;pointer-events:none}:host([last_page]) .style-wrapper .footer .pagination .btn-next{opacity:.5;pointer-events:none}:host([col_resize]){--local-table-cell-resize-display: block}:host([grid]) .style-wrapper .header{display:none}:host([grid]) .style-wrapper .body{flex-direction:row}:host([grid]) .style-wrapper .body rk-scrollable::part(content-wrapper){display:flex;flex-wrap:wrap;gap:15px;justify-content:center;padding:15px}:host([loading]) .style-wrapper .body{min-height:200px}:host([loading]) .style-wrapper .body .loading{display:flex}@media screen and (min-width: 1225px){:host .style-wrapper .footer .pagination .touch:hover{background-color:var(--lighter);border-radius:var(--border-radius-sm)}}`;
     constructor() {
             super();
             this.options = this.configure(this.defaultOptions());
@@ -12299,8 +12365,8 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        slots: { 'before':`<slot name="before"></slot>`,'header':`<slot name="header">        <template _id="table_1"></template>    </slot>`,'footer':`<slot name="footer">        <template _id="table_7"></template>    </slot>`,'after':`<slot name="after"></slot>`,'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot name="before"></slot><div class="style-wrapper" _id="table_0">    <slot name="header">        <template _id="table_1"></template>    </slot>    <div class="row-header">        <rk-scrollable y_scroll="false" x_scroll floating_scroll _id="table_5">        </rk-scrollable>    </div>    <div class="body">        <rk-scrollable x_scroll floating_scroll _id="table_6">        </rk-scrollable>    </div>    <slot name="footer">        <template _id="table_7"></template>    </slot></div><slot name="after"></slot><slot></slot>` }
+        slots: { 'before':`<slot name="before"></slot>`,'header':`<slot name="header">        <template _id="table_1"></template>    </slot>`,'loader':`<slot name="loader">            <rk-loading class="loading"></rk-loading>        </slot>`,'footer':`<slot name="footer">        <template _id="table_7"></template>    </slot>`,'after':`<slot name="after"></slot>`,'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot name="before"></slot><div class="style-wrapper" _id="table_0">    <slot name="header">        <template _id="table_1"></template>    </slot>    <div class="row-header">        <rk-scrollable y_scroll="false" x_scroll floating_scroll _id="table_5">        </rk-scrollable>    </div>    <div class="body">        <rk-scrollable x_scroll floating_scroll _id="table_6">        </rk-scrollable>        <slot name="loader">            <rk-loading class="loading"></rk-loading>        </slot>    </div>    <slot name="footer">        <template _id="table_7"></template>    </slot></div><slot name="after"></slot><slot></slot>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -12414,10 +12480,10 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
     getClassName() {
         return "Table";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('col_resize')) { this.attributeChangedCallback('col_resize', false, false); }if(!this.hasAttribute('grid_breakpoint')){ this['grid_breakpoint'] = undefined; }if(!this.hasAttribute('first_page')) { this.attributeChangedCallback('first_page', false, false); }if(!this.hasAttribute('last_page')) { this.attributeChangedCallback('last_page', false, false); }if(!this.hasAttribute('auto_hide_scroll')) { this.attributeChangedCallback('auto_hide_scroll', false, false); }if(!this.hasAttribute('grid')) { this.attributeChangedCallback('grid', false, false); }if(!this.hasAttribute('items_per_page')){ this['items_per_page'] = 0; } }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('col_resize')) { this.attributeChangedCallback('col_resize', false, false); }if(!this.hasAttribute('grid_breakpoint')){ this['grid_breakpoint'] = undefined; }if(!this.hasAttribute('first_page')) { this.attributeChangedCallback('first_page', false, false); }if(!this.hasAttribute('last_page')) { this.attributeChangedCallback('last_page', false, false); }if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('auto_hide_scroll')) { this.attributeChangedCallback('auto_hide_scroll', false, false); }if(!this.hasAttribute('grid')) { this.attributeChangedCallback('grid', false, false); }if(!this.hasAttribute('items_per_page')){ this['items_per_page'] = 0; } }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["tableTitle"] = "";w["showSearch"] = false;w["showHeader"] = false;w["showFooter"] = false;w["displayedData"] = undefined;w["data"] = undefined;w["currentPage"] = 0;w["nbItems"] = 0; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('col_resize');this.__upgradeProperty('grid_breakpoint');this.__upgradeProperty('first_page');this.__upgradeProperty('last_page');this.__upgradeProperty('auto_hide_scroll');this.__upgradeProperty('grid');this.__upgradeProperty('items_per_page');this.__correctGetter('tableTitle');this.__correctGetter('showSearch');this.__correctGetter('showHeader');this.__correctGetter('showFooter');this.__correctGetter('displayedData');this.__correctGetter('data');this.__correctGetter('currentPage');this.__correctGetter('nbItems'); }
-    __listBoolProps() { return ["col_resize","first_page","last_page","auto_hide_scroll","grid"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('col_resize');this.__upgradeProperty('grid_breakpoint');this.__upgradeProperty('first_page');this.__upgradeProperty('last_page');this.__upgradeProperty('loading');this.__upgradeProperty('auto_hide_scroll');this.__upgradeProperty('grid');this.__upgradeProperty('items_per_page');this.__correctGetter('tableTitle');this.__correctGetter('showSearch');this.__correctGetter('showHeader');this.__correctGetter('showFooter');this.__correctGetter('displayedData');this.__correctGetter('data');this.__correctGetter('currentPage');this.__correctGetter('nbItems'); }
+    __listBoolProps() { return ["col_resize","first_page","last_page","loading","auto_hide_scroll","grid"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     getSelectedData() {
         const result = [];
         for (let row of this.rowsSelected) {
@@ -12664,6 +12730,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
             this.bodyContainer.appendChild(row);
         }
         this.rowsDisplayed = rowsDisplayed;
+        this.loading = false;
     }
     locationInfo() {
         const nbItems = this.nbItems;
@@ -13649,11 +13716,15 @@ Components.TableData = class TableData extends Components.Table {
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('add_btn'); }
     __listBoolProps() { return ["add_btn"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     async loadData() {
-        this.ram = this.defineRAM();
-        this.data = await this.application?.executeWithLoading(this.ram.getListWithError());
-        this.ram.onCreated(this.onCreatedData);
-        this.ram.onUpdated(this.onUpdatedData);
-        this.ram.onDeleted(this.onDeletedData);
+        if (this.options.showLoading)
+            this.loading = true;
+        setTimeout(async () => {
+            this.ram = this.defineRAM();
+            this.data = await this.application?.executeWithLoading(this.ram.getListWithError());
+            this.ram.onCreated(this.onCreatedData);
+            this.ram.onUpdated(this.onUpdatedData);
+            this.ram.onDeleted(this.onDeletedData);
+        }, this.options.delayLoading);
     }
     onCreatedData(data) {
         if (!this.data) {
@@ -13710,7 +13781,11 @@ Components.TableData = class TableData extends Components.Table {
         }
     }
     defaultOptions() {
-        let result = super.defaultOptions();
+        let result = {
+            ...super.defaultOptions(),
+            showLoading: true,
+            delayLoading: 0
+        };
         result.row = Components.TableRowData;
         return result;
     }
