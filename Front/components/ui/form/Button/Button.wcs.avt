@@ -95,48 +95,17 @@
 	color: var(--text-color);
 }
 
-:host([color="green"]) {
-	background-color: var(--green);
-	color: var(--text-color-green);
-}
+@include eachColor using ($color) {
+	:host([color="#{$color}"]) {
+		background-color: var(--#{$color});
+		color: var(--text-color-#{$color});
+	}
 
-:host([outline][color="green"]) {
-	background-color: transparent;
-	border: 1px solid var(--green);
-	color: var(--text-color);
-}
-
-:host([color="red"]) {
-	background-color: var(--red);
-	color: var(--text-color-red);
-}
-
-:host([outline][color="red"]) {
-	background-color: transparent;
-	border: 1px solid var(--red);
-	color: var(--text-color);
-}
-
-:host([color="orange"]) {
-	background-color: var(--orange);
-	color: var(--text-color-orange);
-}
-
-:host([outline][color="orange"]) {
-	background-color: transparent;
-	border: 1px solid var(--orange);
-	color: var(--text-color);
-}
-
-:host([color="blue"]) {
-	background-color: var(--blue);
-	color: var(--text-color-blue);
-}
-
-:host([outline][color="blue"]) {
-	background-color: transparent;
-	border: 1px solid var(--blue);
-	color: var(--text-color);
+	:host([outline][color="#{$color}"]) {
+		background-color: transparent;
+		border: 1px solid var(--#{$color});
+		color: var(--text-color);
+	}
 }
 
 @include desktop {

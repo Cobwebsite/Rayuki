@@ -1,0 +1,6 @@
+export type Colors = 'green' | 'success' | 'red' | 'error' | 'orange' | 'warning' | 'blue' | 'information' | 'primary' | 'secondary';
+
+export class Style {
+
+    public colors: Colors[] = ['green', 'success', 'red', 'error', 'orange', 'warning', 'blue', 'information', 'primary', 'secondary'];
+}

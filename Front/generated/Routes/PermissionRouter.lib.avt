@@ -10,7 +10,7 @@ namespace Routes {
 			super(router ?? new CoreRouter());
 		}
 		@BindThis()
-		public async Can(body: { permissionQuery: IPermissionQuery } | FormData): Promise<Aventus.ResultWithError<boolean, Aventus.GenericError<number>>> {
+		public async Can(body: { permissionQuery: IPermissionQuery } | FormData): Promise<AventusSharp.Tools.ResultWithError<boolean>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/can`, Aventus.HttpMethod.POST);
 			request.setBody(body);
 			type TypeResult = boolean;
@@ -18,14 +18,14 @@ namespace Routes {
 		}
 
 		@BindThis()
-		public async GetPermissionsTree(): Promise<Aventus.ResultWithError<PermissionTree[], Aventus.GenericError<number>>> {
+		public async GetPermissionsTree(): Promise<AventusSharp.Tools.ResultWithError<PermissionTree[]>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/getpermissionstree`, Aventus.HttpMethod.GET);
 			type TypeResult = PermissionTree[];
 			return await request.queryJSON<TypeResult>(this.router);
 		}
 
 		@BindThis()
-		public async GetPermissionsForUser(idUser: number): Promise<Aventus.ResultWithError<PermissionForUser, Aventus.GenericError<number>>> {
+		public async GetPermissionsForUser(idUser: number): Promise<AventusSharp.Tools.ResultWithError<PermissionForUser>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissions/GetPermissionsForUser/${idUser}`, Aventus.HttpMethod.GET);
 			type TypeResult = PermissionForUser;
 			return await request.queryJSON<TypeResult>(this.router);

@@ -15,11 +15,11 @@ import { BackgroundSize, DesktopAppIcon, DesktopLocation } from "../../../genera
 import type { DesktopData } from "../../../libs/TypeMapper.lib.avt";
 import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
 import { Platform } from "../../../libs/Platform.lib.avt";
-import { Notification } from "../Os/Notification/Notification.wcl.avt";
 import type { IDesktopActivable } from "./IActivable.lib.avt";
 import { MainEndPoint } from "../../../generated/Websocket/MainEndPoint.lib.avt";
 import { DesktopRouter } from "../../../generated/Websocket/Routes/DesktopRouter.lib.avt";
 import { ApplicationPermission, ApplicationPermissionQuery } from "../../../generated/Permissions/ApplicationPermission.lib.avt";
+import { Notification } from "../../ui/popup/Notification/Notification.wcl.avt";
 
 namespace System {
     export class Desktop extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, MoveApplicationProvider {

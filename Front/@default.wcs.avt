@@ -1,11 +1,16 @@
+@import '@root/_responsive.gs.avt';
+
 :host {
 	--img-fill-color: var(--text-color);
 	box-sizing: border-box;
 	display: inline-block;
+	touch-action: manipulation;
 }
+
 
 :host * {
 	box-sizing: border-box;
+	touch-action: manipulation;
 }
 
 .touch {
@@ -18,18 +23,13 @@
 	cursor: default;
 }
 
-.green {
-	background-color: var(--green);
-}
 
-.red {
-	background-color: var(--red);
-}
-
-.orange {
-	background-color: var(--orange);
-}
-
-.blue {
-	background-color: var(--blue);
+@include eachColor using ($color) {
+	.#{$color} {
+		background-color: var(--#{$color});
+		color: var(--text-color-#{$color});
+	}
+	.text-#{$color} {
+		color: var(--#{$color});
+	}
 }

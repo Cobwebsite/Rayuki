@@ -2,7 +2,8 @@ using System.Runtime.CompilerServices;
 using AventusSharp.Tools;
 using AventusSharp.Tools.Attributes;
 
-namespace Core.Tools {
+namespace Core.Tools
+{
     [Typescript("Errors")]
     public enum CoreErrorCode
     {
@@ -10,8 +11,10 @@ namespace Core.Tools {
         NotAvailable,
         Impossible,
         NotAllowed,
+        NotLogin,
+        ConversionFailed,
     }
-    
+
     [Typescript("Errors")]
     public class CoreError : GenericError<CoreErrorCode>
     {

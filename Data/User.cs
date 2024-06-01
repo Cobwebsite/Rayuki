@@ -24,5 +24,9 @@ namespace Core.Data
         {
             return PermissionDM.GetInstance().Can(Id, value, additionalInfo, IsSuperAdmin);
         }
+
+        public Settings? GetSettings(Enum @enum) {
+            return SettingsDM.GetInstance().GetSettingsForUser(@enum, Id).Result;
+        }
     }
 }

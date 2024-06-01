@@ -68,6 +68,7 @@ body.interaction {
 	box-sizing: border-box;
 	font-family: "Nunito", sans-serif;
 	font-family: "Roboto", sans-serif;
+	touch-action: manipulation;
 	-webkit-touch-callout: none;
 	/* iOS Safari */
 	-webkit-user-select: none;

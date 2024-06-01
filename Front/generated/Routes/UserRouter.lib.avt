@@ -8,7 +8,7 @@ namespace Routes {
 			super(router ?? new CoreRouter());
 		}
 		@BindThis()
-		public async GetConnected(): Promise<Aventus.ResultWithError<User, Aventus.GenericError<number>>> {
+		public async GetConnected(): Promise<AventusSharp.Tools.ResultWithError<User>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/getconnected`, Aventus.HttpMethod.GET);
 			type TypeResult = User;
 			return await request.queryJSON<TypeResult>(this.router);

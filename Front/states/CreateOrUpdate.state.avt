@@ -28,6 +28,11 @@ namespace State {
             this.__form = Aventus.Watcher.get(Form.create(this.defineFormSchema()));
         }
 
+        protected override refreshItem(key: string): void {
+            super.refreshItem(key);
+            this.form?.refresh(key as Extract<keyof U, string>);
+        }
+
         /**
          * @inheritdoc
          */

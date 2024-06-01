@@ -47,10 +47,10 @@ namespace Core.Routes
         }
 
         [Post, Path("/login")]
-        public VoidWithError<GenericError> LoginAction(string username, string password, HttpContext context)
+        public ResultWithError<bool> LoginAction(string username, string password, HttpContext context)
         {
             ResultWithError<User> result = PasswordManager.Login(username, password);
-            VoidWithError<GenericError> res = new();
+            ResultWithError<bool> res = new();
             if (result.Success && result.Result != null)
             {
                 context.SetConnected(result.Result.Id);
@@ -60,6 +60,7 @@ namespace Core.Routes
             {
                 res.Errors.AddRange(result.Errors);
             }
+            res.Result = res.Success;
             return res;
         }
 

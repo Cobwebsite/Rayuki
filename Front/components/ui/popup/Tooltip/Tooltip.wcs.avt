@@ -1,3 +1,5 @@
+@import "@root/_responsive.gs.avt";
+
 :host {
 	--local-tooltip-from-y: 0;
 	--local-tooltip-from-x: 0;
@@ -66,8 +68,8 @@
 }
 
 :host([position="bottom"]:not([use_absolute])) {
-	left: 50%;
 	bottom: 0px;
+	left: 50%;
 	transform: translateX(-50%) translateY(calc(100% - 10px));
 }
 
@@ -184,27 +186,9 @@
 
 /*#endregion*/
 
-:host([color="primary"]) {
-	--_tooltip-background-color: var(--primary-color);
-	--_tooltip-color: var(--text-color);
-}
-
-:host([color="green"]) {
-	--_tooltip-background-color: var(--green);
-	--_tooltip-color: var(--text-color-green);
-}
-
-:host([color="red"]) {
-	--_tooltip-background-color: var(--red);
-	--_tooltip-color: var(--text-color-red);
-}
-
-:host([color="orange"]) {
-	--_tooltip-background-color: var(--orange);
-	--_tooltip-color: var(--text-color-orange);
-}
-
-:host([color="blue"]) {
-	--_tooltip-background-color: var(--blue);
-	--_tooltip-color: var(--text-color-blue);
+@include eachColor using ($color) {
+	:host([color="#{$color}"]) {
+		--_tooltip-background-color: var(--#{$color});
+		--_tooltip-color: var(--text-color-#{$color});
+	}
 }

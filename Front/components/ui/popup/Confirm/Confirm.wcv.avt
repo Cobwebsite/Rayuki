@@ -1,5 +1,5 @@
 <rk-scrollable class="body">{{this.info.description}}</rk-scrollable>
 <div class="action">
     <rk-button color="red" @press="cancel">{{this.info.false_txt}}</rk-button>
-    <rk-button color="green" @press="validate">{{this.info.true_txt}}</rk-button>
+    <rk-button color="success" @press="validate">{{this.info.true_txt}}</rk-button>
 </div>

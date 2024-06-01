@@ -20,6 +20,8 @@ import { ApplicationState } from "../../../states/ApplicationState.state.avt";
 import type { GenericPopup } from "../../ui/popup/GenericPopup/GenericPopup.wcl.avt";
 import { FrameNotAllowed } from "../Frame/FrameNotAllowed/FrameNotAllowed.wcl.avt";
 import type { ContextMenuElement } from "../../ui/ContextMenu/ContextMenuElement/ContextMenuElement.wcl.avt";
+import type { NotificationManager } from "../../ui/popup/NotificationManager/NotificationManager.wcl.avt";
+import type { Notification, NotificationOptions } from "../../ui/popup/Notification/Notification.wcl.avt";
 
 namespace System {
 
@@ -81,6 +83,9 @@ namespace System {
         protected navigatePreviousEl!: HTMLDivElement;
         @ViewElement()
         protected navigateNextEl!: HTMLDivElement;
+        @ViewElement()
+        protected notificationManager!: NotificationManager;
+
 
         @Watch((target: Application) => {
             target.manageShortcut();
@@ -698,11 +703,26 @@ namespace System {
                     this.moving = false;
                     if(hasMove)
                         this.saveSize();
-                }
+                },
+
             });
 
             this.header.addEventListener("dblclick", () => {
                 this.toggleFull();
+            });
+            let allowDbl = false;
+            this.header.addEventListener("touchstart", (e) => {
+                e.preventDefault();
+                if(allowDbl) {
+                    this.toggleFull();
+                    allowDbl = false;
+                }
+                else {
+                    allowDbl = true;
+                    setTimeout(() => {
+                        allowDbl = false;
+                    }, 150);
+                }
             });
         }
 
@@ -804,6 +824,12 @@ namespace System {
             const c = new Confirm();
             c.mergeInfo(info);
             return await this.popup(c);
+        }
+
+        public notify(notification: Notification) : Promise<boolean>;
+        public notify(notification: NotificationOptions) : Promise<boolean>;
+        public notify(notification: Notification | NotificationOptions) {
+            return this.notificationManager.notify(notification);
         }
         //#endregion
 

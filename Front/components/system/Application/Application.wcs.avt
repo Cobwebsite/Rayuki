@@ -121,6 +121,10 @@
 	rk-resize {
 		--resize-z-index: 4;
 	}
+
+	rk-notification-manager {
+		top: 35px
+	}
 }
 
 :host(:not([moving])) {
@@ -216,6 +220,10 @@
 		.content {
 			height: calc(100% - 45px);
 		}
+
+		rk-notification-manager {
+			top: 45px
+		}
 	}
 }
 
@@ -255,6 +263,10 @@
 
 		rk-resize {
 			display: none;
+		}
+
+		rk-notification-manager {
+			top: 45px
 		}
 	}
 

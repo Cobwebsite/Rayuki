@@ -9,21 +9,21 @@ namespace Routes {
 			super(router ?? new CoreRouter());
 		}
 		@BindThis()
-		public async GetAll(): Promise<Aventus.ResultWithError<ApplicationData[], Aventus.GenericError<number>>> {
+		public async GetAll(): Promise<AventusSharp.Tools.ResultWithError<ApplicationData[]>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/application`, Aventus.HttpMethod.GET);
 			type TypeResult = ApplicationData[];
 			return await request.queryJSON<TypeResult>(this.router);
 		}
 
 		@BindThis()
-		public async ConfigureAppData(): Promise<Aventus.ResultWithError<AppConfiguration, Aventus.GenericError<number>>> {
+		public async ConfigureAppData(): Promise<AventusSharp.Tools.ResultWithError<AppConfiguration>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/configureApp/data`, Aventus.HttpMethod.GET);
 			type TypeResult = AppConfiguration;
 			return await request.queryJSON<TypeResult>(this.router);
 		}
 
 		@BindThis()
-		public async InstallDevApp(body: { container: string, app: string } | FormData): Promise<Aventus.ResultWithError<boolean, Aventus.GenericError<number>>> {
+		public async InstallDevApp(body: { container: string, app: string } | FormData): Promise<AventusSharp.Tools.ResultWithError<boolean>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/configureApp/install`, Aventus.HttpMethod.POST);
 			request.setBody(body);
 			type TypeResult = boolean;
@@ -31,7 +31,7 @@ namespace Routes {
 		}
 
 		@BindThis()
-		public async UninstallDevApp(body: { app: string } | FormData): Promise<Aventus.VoidWithError<Aventus.GenericError<number>>> {
+		public async UninstallDevApp(body: { app: string } | FormData): Promise<AventusSharp.Tools.VoidWithError> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/configureApp/uninstall`, Aventus.HttpMethod.POST);
 			request.setBody(body);
 			return await request.queryVoid(this.router);

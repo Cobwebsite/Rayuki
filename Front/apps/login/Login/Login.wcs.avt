@@ -1,92 +1,190 @@
+@import '@root/_responsive.gs.avt';
+
 :host {
+	align-items: center;
+	display: flex;
+	height: 100%;
+	justify-content: center;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+
 	.login-container {
-		background-color: rgba(25, 25, 25, 0.6);
+		background-color: rgba(25, 25, 25, 0.8);
 		border-radius: 5px;
 		box-sizing: border-box;
-		height: 130px;
-		left: calc(50% - 186px);
+		display: flex;
+		flex-direction: column;
 		padding: 20px;
-		/* Your style here*/
-		position: absolute;
-		top: calc(50% - 65px);
 		width: 372px;
 		z-index: 200;
+		transform: perspective(1000px);
+		box-shadow: var(--elevation-10);
 
+		.body {
+			display: flex;
 
-		.login-img-container {
-			float: left;
-			height: 75px;
-			margin-top: 12.5px;
+			.login-img-container {
+				height: 75px;
+				margin-top: 12.5px;
 
-			rk-img {
-				background-color: #818181;
-				border-radius: 50%;
-				height: 100%;
-				padding: 20px;
+				rk-img {
+					background-color: #818181;
+					border-radius: 50%;
+					height: 100%;
+					padding: 20px;
+				}
 			}
-		}
 
-		.field-container {
-			float: left;
-			margin-left: 13px;
-			width: 200px;
+			.field-container {
+				margin-left: 13px;
+				width: 200px;
 
-			input {
+				input,
+				::slotted(input) {
+					background-color: transparent;
+					border-radius: 0;
+					border: 1px solid white;
+					border-bottom: none;
+					color: white;
+					cursor: default;
+					height: 30px;
+					outline: none;
+					padding: 5px 5px;
+					width: 100%;
+				}
+
+				input[readonly],
+				::slotted(input[readonly]) {
+					color: #c9c9c9;
+				}
+
+				input:first-child {
+					border-top-left-radius: 3px;
+					border-top-right-radius: 3px;
+				}
+
+				input:last-child,
+				::slotted(input:last-child) {
+					border-bottom: 1px solid white;
+					border-bottom-left-radius: 3px;
+					border-bottom-right-radius: 3px;
+				}
+			}
+
+			.btn-login {
+				background-color: gray;
+				border: 1px solid white;
+				border-radius: 50%;
+				color: white;
+				cursor: pointer;
+				font-size: 20px;
+				font-weight: bold;
+				height: 30px;
+				line-height: 28px;
+				margin-left: 13px;
+				margin-top: 35px;
+				padding: 3px;
+				text-align: center;
+				transition: all 1s;
+				width: 30px;
+			}
+
+			.btn-login-mobile {
 				background-color: transparent;
 				border: 1px solid white;
-				border-bottom: none;
-				color: white;
-				cursor: default;
-				height: 30px;
-				outline: none;
-				padding: 5px 5px;
-				width: 100%;
+				box-shadow: none;
+				display: none;
+				font-size: 13px;
+				margin-top: 20px;
 			}
 
-			input[readonly] {
-				color: #c9c9c9;
-			}
-
-			input:first-child {
-				border-top-left-radius: 3px;
-				border-top-right-radius: 3px;
-			}
-
-			input:last-child {
-				border-bottom: 1px solid white;
-				border-bottom-left-radius: 3px;
-				border-bottom-right-radius: 3px;
-			}
-
-			input::placeholder {
-				color: white;
-				opacity: 1;
+			input[type="submit"] {
+				display: none;
 			}
 		}
 
-		.btn-login {
-			background-color: gray;
-			border: 1px solid white;
-			border-radius: 50%;
-			color: white;
-			color: black;
-			cursor: pointer;
-			float: left;
-			font-size: 20px;
-			font-weight: bold;
-			height: 30px;
-			line-height: 28px;
-			margin-left: 13px;
-			margin-top: 35px;
-			padding: 3px;
-			text-align: center;
-			transition: all 1s;
-			width: 30px;
+		.errors {
+			color: #ff5454;
+			display: none;
+			font-size: 13px;
+			margin-top: 20px;
 		}
+	}
+}
+
+:host([error]:not([error=""])) {
+	.login-container {
+		animation-duration: 0.25s;
+		animation-iteration-count: 2;
+		animation-name: shake;
+		animation-timing-function: linear;
+		transform-origin: center center;
+
+		.errors {
+			display: block;
+
+		}
+	}
+}
+
+@keyframes shake {
+	0% {
+		transform: translateX(0) rotate(0deg);
+	}
+
+	25% {
+		transform: translateX(20px) rotate(3deg);
+	}
+
+	50% {
+		transform: translateX(0px) rotate(0deg);
+	}
+
+	75% {
+		transform: translateX(-20px) rotate(-3deg);
+	}
+
+	100% {
+		transform: translateX(0px) rotate(0deg);
+	}
+}
 
 
-        input[type="submit"]{
-            display: none;
-        }
+@include tablet {
+	:host {
+		.login-container {
+			max-width: 300px;
+			width: calc(100% - 20px);
+
+			.body {
+				align-items: center;
+				flex-direction: column;
+
+				.login-img-container {
+					margin-bottom: 20px;
+					margin-top: 0;
+				}
+
+				.field-container {
+					margin: 0 20px;
+					width: 100%;
+				}
+
+				.btn-login {
+					display: none;
+				}
+
+				.btn-login-mobile {
+					display: inline-block;
+				}
+			}
+
+			.errors {
+				margin-top: 20px;
+				text-align: center;
+			}
+		}
 	}
 }

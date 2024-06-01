@@ -36,7 +36,7 @@ import { ConfigureAppType } from "../../ConfigureApp.wcl.avt";
 <style>	
 		:host {
 			rk-button {
-				background-color: var(--green);
+				background-color: var(--success);
 			}
 		}
 	

@@ -15,7 +15,7 @@ namespace Components {
         addFieldError(name: keyof T, error: string): boolean;
         execute<X>(result: Aventus.Asyncable<ApplicationQueryFctResult<X>>, from: Application): Promise<X | undefined>;
         execute<X>(result: Aventus.Asyncable<ApplicationQueryFctResult<X>>, from?: Aventus.WebComponent): Promise<ApplicationQueryFctResult<X>>;
-
+        refresh(key: Extract<keyof T, string>): void
         validateAndExecute<X>(result: Aventus.Asyncable<ApplicationQueryFctResult<X>>, from: Application): Promise<X | undefined>;
     }
     type FormDataInternal<T extends BodyJSON> = {
@@ -46,7 +46,7 @@ namespace Components {
                 this.registerKey(key);
             }
         }
-        
+
         public async validateAndExecute<X>(result: Aventus.Asyncable<ApplicationQueryFctResult<X>>, application: Application): Promise<X | undefined> {
             const validationResult = await this.validate(application);
             if(validationResult) {
@@ -171,72 +171,12 @@ namespace Components {
             return result as T;
         }
 
-        // /**
-        //  * Return an array of string for all message not displayed otherwhise return a bool
-        //  * If from is provided, an alert will be trigger if the error can't find a element
-        //  */
-        // public async validate(from?: Aventus.WebComponent): Promise<boolean | string[]> {
-        //     let proms: Promise<boolean>[] = [];
-        //     let promsCustom: Promise<FormValidateResult>[] = [];
-        //     const namesCustom: string[] = [];
-        //     const resultErrors: string[] = [];
-        //     for(let name in this.__config) {
-        //         const elements = this.__config[name].elements;
-        //         if(!elements || elements.length == 0) {
-        //             const result = this.__config[name].validate(FormElement.getValue(this.__config[name]));
-        //             if(result instanceof Promise) {
-        //                 promsCustom.push(result);
-        //                 namesCustom.push(name);
-        //             }
-        //             else if(result !== undefined && result !== true && result !== "") {
-        //                 if(result === false) {
-        //                     resultErrors.push("Le champs " + name + " n'est pas valide");
-        //                 }
-        //                 resultErrors.push(result + "");
-        //             }
-        //         }
-        //         else {
-        //             for(let element of this.__config[name].elements) {
-        //                 proms.push(element.validate());
-        //             }
-        //         }
-        //     }
-
-        //     const result2 = await Promise.all(promsCustom);
-        //     for(let i = 0; i < result2.length; i++) {
-        //         const resultTemp = result2[i];
-        //         if(resultTemp !== undefined && resultTemp !== true && resultTemp !== "") {
-        //             if(resultTemp === false) {
-        //                 resultErrors.push("Le champs " + namesCustom[i] + " n'est pas valide");
-        //             }
-        //             resultErrors.push(resultTemp + "");
-        //         }
-        //     }
-
-
-        //     if(resultErrors.length > 0) {
-        //         if(from) {
-
-        //             let application = from instanceof Application ? from : from.findParentByType(Application);
-        //             await application?.alert({
-        //                 title: "Erreur de validation",
-        //                 description: resultErrors.join("<br>")
-        //             });
-        //             return false;
-        //         }
-        //         return resultErrors;
-        //     }
-
-        //     const result = await Promise.all(proms);
-        //     for(let resultTemp of result) {
-        //         if(!resultTemp) return false;
-        //     }
-
-
-        //     return true;
-        // }
-
-
+        public refresh(key: Extract<keyof T, string>): void {
+            const config = this.__config[key];
+            for(let element of config.elements) {
+                element.value = FormElement.getValue(config);
+            }
+        }
 
         public addFieldError(name: keyof T, error: string): boolean {
             if(this.__config[name]?.elements.length > 0) {

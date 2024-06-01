@@ -21,12 +21,24 @@
 
 	--text-color-green: var(--text-color-reverse);
 	--green: #34c834;
+	--success: var(--green);
+	--text-color-success: var(--text-color-green);
 	--text-color-red: var(--text-color-reverse);
 	--red: #d43434;
+	--error: var(--red);
+	--text-color-error: var(--text-color-red);
 	--text-color-orange: var(--text-color-reverse);
 	--orange: #e4b349;
+	--warning: var(--orange);
+	--text-color-warning: var(--text-color-orange);
 	--text-color-blue: var(--text-color-reverse);
 	--blue: #2835c2;
+	--information: var(--blue);
+	--text-color-information: var(--text-color-blue);
+	--primary: var(--primary-color);
+	--text-color-primary: var(--text-color);
+	--secondary: var(--secondary-color);
+	--text-color-secondary: var(--text-color);
 
 	--rayuki-color: #0c2247;
 
@@ -139,7 +151,7 @@ $mobile-breakpoint: 768px;
 
 /* tablet*/
 @media screen and (max-width:$tablet-breakpoint) {
-	// :root {}
+	/* :root {}*/
 }
 
 /* mobile*/
@@ -151,7 +163,7 @@ $mobile-breakpoint: 768px;
 
 /* pc*/
 @media screen and (min-width:#{$tablet-breakpoint + 1}) {
-	// :root {}
+	/* :root {}*/
 }
 
 :root.dark {

@@ -102,8 +102,8 @@
 
 
 			rk-pwa-button {
-				color: var(--text-color-green);
-				background-color: var(--green);
+				color: var(--text-color-success);
+				background-color: var(--success);
 				height: 36px;
 				width: 36px;
 			}

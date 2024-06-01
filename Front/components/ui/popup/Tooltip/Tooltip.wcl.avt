@@ -1,3 +1,5 @@
+import type { Colors } from "../../../../libs/Style.lib.avt";
+
 namespace Components {
     export class Tooltip extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
@@ -13,7 +15,7 @@ namespace Components {
         public position: 'top' | 'left' | 'bottom' | 'right' = 'left';
 
         @Attribute()
-        public color?: "green" | "red" | "blue" | "orange" | "primary" | "secondary";
+        public color?: Colors;
 
         @Attribute()
         public use_absolute!: boolean;

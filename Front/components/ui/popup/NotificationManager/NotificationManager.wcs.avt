@@ -1,0 +1,10 @@
+:host {
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+	position: absolute;
+
+	::slotted(*) {
+		pointer-events: auto;
+	}
+}

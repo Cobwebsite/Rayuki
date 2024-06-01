@@ -4,7 +4,9 @@ var Core;
 (function (Core) {
 const moduleName = `Core`;
 const _ = {};
-Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block}:host *{box-sizing:border-box}.touch{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}.touch.disable,.touch.disabled{cursor:default}.green{background-color:var(--green)}.red{background-color:var(--red)}.orange{background-color:var(--orange)}.blue{background-color:var(--blue)}`)
+Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block;touch-action:manipulation}:host *{box-sizing:border-box;touch-action:manipulation}.touch{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}.touch.disable,.touch.disabled{cursor:default}.primary{background-color:var(--primary);color:var(--text-color-primary)}.text-primary{color:var(--primary)}.secondary{background-color:var(--secondary);color:var(--text-color-secondary)}.text-secondary{color:var(--secondary)}.green{background-color:var(--green);color:var(--text-color-green)}.text-green{color:var(--green)}.success{background-color:var(--success);color:var(--text-color-success)}.text-success{color:var(--success)}.red{background-color:var(--red);color:var(--text-color-red)}.text-red{color:var(--red)}.error{background-color:var(--error);color:var(--text-color-error)}.text-error{color:var(--error)}.orange{background-color:var(--orange);color:var(--text-color-orange)}.text-orange{color:var(--orange)}.warning{background-color:var(--warning);color:var(--text-color-warning)}.text-warning{color:var(--warning)}.blue{background-color:var(--blue);color:var(--text-color-blue)}.text-blue{color:var(--blue)}.information{background-color:var(--information);color:var(--text-color-information)}.text-information{color:var(--information)}`)
+const Data = {};
+_.Data = {};
 const Websocket = {};
 _.Websocket = {};
 Websocket.Events = {};
@@ -13,8 +15,6 @@ const Errors = {};
 _.Errors = {};
 const Permissions = {};
 _.Permissions = {};
-const Data = {};
-_.Data = {};
 Data.DataTypes = {};
 _.Data.DataTypes = {};
 const App = {};
@@ -38,6 +38,17 @@ _.RAM = {};
 const Tools = {};
 _.Tools = {};
 let _n;
+Data.Settings=class Settings extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.Settings, Core"; }
+    Key;
+    Value;
+    UserId = undefined;
+}
+Data.Settings.Namespace=`${moduleName}.Data`;
+Data.Settings.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Key":"string","Value":"string","UserId":"number"};
+Aventus.Converter.register(Data.Settings.Fullname, Data.Settings);
+
+_.Data.Settings=Data.Settings;
 Websocket.Events.ApplicationTestEvent2=class ApplicationTestEvent2 extends AventusSharp.WebSocket.Event {
     /**
      * @inheritdoc
@@ -76,6 +87,8 @@ _.Errors.ImageFileErrorCode=Errors.ImageFileErrorCode;
     CoreErrorCode[CoreErrorCode["NotAvailable"] = 1] = "NotAvailable";
     CoreErrorCode[CoreErrorCode["Impossible"] = 2] = "Impossible";
     CoreErrorCode[CoreErrorCode["NotAllowed"] = 3] = "NotAllowed";
+    CoreErrorCode[CoreErrorCode["NotLogin"] = 4] = "NotLogin";
+    CoreErrorCode[CoreErrorCode["ConversionFailed"] = 5] = "ConversionFailed";
 })(Errors.CoreErrorCode || (Errors.CoreErrorCode = {}));
 
 _.Errors.CoreErrorCode=Errors.CoreErrorCode;
@@ -184,147 +197,6 @@ Components.UserProfilPicture.Namespace=`${moduleName}.Components`;
 Components.UserProfilPicture.Tag=`rk-user-profil-picture`;
 _.Components.UserProfilPicture=Components.UserProfilPicture;
 if(!window.customElements.get('rk-user-profil-picture')){window.customElements.define('rk-user-profil-picture', Components.UserProfilPicture);Aventus.WebComponentInstance.registerDefinition(Components.UserProfilPicture);}
-
-Components.Tooltip = class Tooltip extends Aventus.WebComponent {
-    get 'visible'() { return this.getBoolAttr('visible') }
-    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'position'() { return this.getStringAttr('position') }
-    set 'position'(val) { this.setStringAttr('position', val) }get 'color'() { return this.getStringAttr('color') }
-    set 'color'(val) { this.setStringAttr('color', val) }get 'use_absolute'() { return this.getBoolAttr('use_absolute') }
-    set 'use_absolute'(val) { this.setBoolAttr('use_absolute', val) }get 'delay'() { return this.getNumberAttr('delay') }
-    set 'delay'(val) { this.setNumberAttr('delay', val) }    parent = null;
-    isDestroyed = false;
-    timeoutEnter = false;
-    timeout = 0;
-    static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;pointer-events:none;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;width:max-content;z-index:1}:host::after{content:"";position:absolute}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--_tooltip-background-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:50%;top:-8px;transform:translateX(-50%)}:host([use_absolute][position=bottom]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=bottom]:not([use_absolute])){left:50%;bottom:0px;transform:translateX(-50%) translateY(calc(100% - 10px))}:host([position=bottom][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(100% + 10px))}:host([position=top]){transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--_tooltip-background-color);bottom:-8px;left:50%;transform:translateX(-50%)}:host([use_absolute][position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x)}:host([use_absolute][visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=top]:not([use_absolute])){left:50%;top:0px;transform:translateX(-50%) translateY(calc(-100% + 10px))}:host([position=top][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(-100% - 10px))}:host([position=right]){transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=right]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=right]:not([use_absolute])){right:0;top:50%;transform:translateX(calc(100% - 10px)) translateY(-50%)}:host([visible][position=right]:not([use_absolute])){transform:translateX(calc(100% + 10px)) translateY(-50%)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=left]){right:var(--local-tooltip-to-x)}:host([position=left]:not([use_absolute])){left:0;top:50%;transform:translateX(calc(-100% + 10px)) translateY(-50%)}:host([visible][position=left]:not([use_absolute])){transform:translateX(calc(-100% - 10px)) translateY(-50%)}:host([color=primary]){--_tooltip-background-color: var(--primary-color);--_tooltip-color: var(--text-color)}:host([color=green]){--_tooltip-background-color: var(--green);--_tooltip-color: var(--text-color-green)}:host([color=red]){--_tooltip-background-color: var(--red);--_tooltip-color: var(--text-color-red)}:host([color=orange]){--_tooltip-background-color: var(--orange);--_tooltip-color: var(--text-color-orange)}:host([color=blue]){--_tooltip-background-color: var(--blue);--_tooltip-color: var(--text-color-blue)}`;
-    constructor() { super(); this.onMouseEnter=this.onMouseEnter.bind(this)this.onMouseLeave=this.onMouseLeave.bind(this)this.onTransitionEnd=this.onTransitionEnd.bind(this) }
-    __getStatic() {
-        return Tooltip;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Tooltip.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "Tooltip";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('position')){ this['position'] = 'left'; }if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('use_absolute')) { this.attributeChangedCallback('use_absolute', false, false); }if(!this.hasAttribute('delay')){ this['delay'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('position');this.__upgradeProperty('color');this.__upgradeProperty('use_absolute');this.__upgradeProperty('delay'); }
-    __listBoolProps() { return ["visible","use_absolute"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    calculatePosition() {
-        if (!this.parent || !this.use_absolute)
-            return;
-        let rect = this.parent.getBoundingClientRect();
-        let center = {
-            x: rect.left + rect.width / 2,
-            y: rect.y + rect.height / 2
-        };
-        if (this.position == 'bottom') {
-            let bottom = rect.y + rect.height;
-            this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
-            this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
-            this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
-            this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
-        }
-        else if (this.position == 'top') {
-            let bottom = document.body.offsetHeight - rect.top;
-            this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
-            this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
-            this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
-            this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
-        }
-        else if (this.position == 'right') {
-            let left = rect.x + rect.width;
-            this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
-            this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
-            this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
-            this.style.setProperty("--local-tooltip-to-y", center.y + 10 + 'px');
-        }
-        else if (this.position == 'left') {
-            let left = document.body.offsetWidth - rect.left;
-            this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
-            this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
-            this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
-            this.style.setProperty("--local-tooltip-to-y", center.y + 'px');
-        }
-    }
-    onMouseEnter() {
-        this.calculatePosition();
-        let delay = this.delay == 0 ? 50 : this.delay;
-        if (this.use_absolute) {
-            document.body.appendChild(this);
-            this.timeoutEnter = false;
-            this.timeout = setTimeout(() => {
-                this.timeoutEnter = true;
-                this.visible = true;
-            }, delay);
-        }
-        else {
-            if (delay == 0) {
-                this.visible = true;
-            }
-            else {
-                this.timeoutEnter = false;
-                this.timeout = setTimeout(() => {
-                    this.timeoutEnter = true;
-                    this.visible = true;
-                }, delay);
-            }
-        }
-    }
-    onMouseLeave() {
-        this.visible = false;
-        if (this.use_absolute) {
-            if (!this.timeoutEnter) {
-                clearTimeout(this.timeout);
-                this.onTransitionEnd();
-            }
-        }
-        else if (this.delay != 0) {
-            if (!this.timeoutEnter) {
-                clearTimeout(this.timeout);
-                this.onTransitionEnd();
-            }
-        }
-    }
-    onTransitionEnd() {
-        if (!this.use_absolute || this.visible)
-            return;
-        if (this.parent && !this.isDestroyed)
-            this.parent?.appendChild(this);
-        else
-            this.remove();
-    }
-    registerAction() {
-        if (!this.parent)
-            return;
-        this.parent.addEventListener("mouseenter", this.onMouseEnter);
-        this.parent.addEventListener("mouseleave", this.onMouseLeave);
-        this.addEventListener("transitionend", this.onTransitionEnd);
-    }
-    postCreation() {
-        this.parent = this.parentElement;
-        this.registerAction();
-    }
-    postDestruction() {
-        this.isDestroyed = true;
-        super.postDestruction();
-        if (!this.parent)
-            return;
-        this.parent.removeEventListener("mouseenter", this.onMouseEnter);
-        this.parent.removeEventListener("mouseleave", this.onMouseLeave);
-    }
-}
-Components.Tooltip.Namespace=`${moduleName}.Components`;
-Components.Tooltip.Tag=`rk-tooltip`;
-_.Components.Tooltip=Components.Tooltip;
-if(!window.customElements.get('rk-tooltip')){window.customElements.define('rk-tooltip', Components.Tooltip);Aventus.WebComponentInstance.registerDefinition(Components.Tooltip);}
 
 Components.Tab = class Tab extends Aventus.WebComponent {
     get 'label'() { return this.getStringAttr('label') }
@@ -771,7 +643,7 @@ Components.Img = class Img extends Aventus.WebComponent {
         target.calculateSize();
     }
 })); }
-    static __style = `:host{--_img-color: var(--img-color);--_img-stroke-color: var(--img-stroke-color, var(--_img-color));--_img-fill-color: var(--img-fill-color, var(--_img-color));--_img-color-transition: var(--img-color-transition, none);--_img-stroke-width: var(--img-stroke-width, 1px)}:host{display:inline-block;font-size:0;overflow:hidden}:host *{box-sizing:border-box}:host img{opacity:0;transition:filter .3s linear}:host .svg{display:none;height:100%;width:100%}:host .svg svg{height:100%;width:100%}:host mi-icon{display:none;height:100%;width:100%;font-size:inherit}:host([src$=".svg"]) img{display:none}:host([src$=".svg"]) .svg{display:flex}:host([src$=".svg"]) .svg svg{fill:var(--_img-fill-color);stroke:var(--_img-stroke-color);stroke-width:var(--_img-stroke-width);transition:var(--_img-color-transition)}:host([src$=".svg"]) mi-icon{display:none}:host([src^=mi-]){font-size:inherit}:host([src^=mi-]) img{display:none}:host([src^=mi-]) .svg{display:none}:host([src^=mi-]) mi-icon{display:inline-block}:host([display_bigger]) img{cursor:pointer}:host([display_bigger]) img:hover{filter:brightness(50%)}`;
+    static __style = `:host{--_img-color: var(--img-color);--_img-stroke-color: var(--img-stroke-color, var(--_img-color));--_img-fill-color: var(--img-fill-color, var(--_img-color));--_img-color-transition: var(--img-color-transition, none);--_img-stroke-width: var(--img-stroke-width, 1px)}:host{display:inline-block;font-size:0;overflow:hidden}:host *{box-sizing:border-box}:host img{opacity:0;transition:filter .3s linear}:host .svg{display:none;height:100%;width:100%}:host .svg svg{height:100%;width:100%}:host mi-icon{display:none;font-size:inherit;height:100%;width:100%}:host([src$=".svg"]) img{display:none}:host([src$=".svg"]) .svg{display:flex}:host([src$=".svg"]) .svg svg{fill:var(--_img-fill-color);stroke:var(--_img-stroke-color);stroke-width:var(--_img-stroke-width);transition:var(--_img-color-transition)}:host([src$=".svg"]) mi-icon{display:none}:host([src^=mi-]){font-size:inherit}:host([src^=mi-]) img{display:none}:host([src^=mi-]) .svg{display:none}:host([src^=mi-]) mi-icon{align-items:center;display:flex;justify-content:center}:host([display_bigger]) img{cursor:pointer}:host([display_bigger]) img:hover{filter:brightness(50%)}`;
     __getStatic() {
         return Img;
     }
@@ -948,87 +820,6 @@ Components.Img.Namespace=`${moduleName}.Components`;
 Components.Img.Tag=`rk-img`;
 _.Components.Img=Components.Img;
 if(!window.customElements.get('rk-img')){window.customElements.define('rk-img', Components.Img);Aventus.WebComponentInstance.registerDefinition(Components.Img);}
-
-Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
-    static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'color'() { return this.getStringAttr('color') }
-    set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
-    set 'outline'(val) { this.setBoolAttr('outline', val) }    get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{--internal-button-background-color: var(--button-background-color);--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover)}:host{aspect-ratio:1/1;background-color:var(--internal-button-background-color);border-radius:var(--border-radius-round);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;overflow:hidden;position:relative}:host .hider{background-color:var(--darker);inset:0;opacity:0;position:absolute;transform:opacity .3 var(--bezier-curve);z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;position:relative;z-index:2}:host .content .icon{--img-fill-color: var(--internal-button-color);height:100%;padding:10px 0}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:hover) .hider{opacity:1}}`;
-    __getStatic() {
-        return ButtonIcon;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(ButtonIcon.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="hider"></div><div class="content">    <rk-img class="icon" _id="buttonicon_0"></rk-img></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "buttonicon_0°src": {
-      "fct": (c) => `${c.print(c.comp.__86a55d8d752358ce167fd0da93753a9emethod0())}`,
-      "once": true
-    }
-  }
-}); }
-    getClassName() {
-        return "ButtonIcon";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('icon'); }
-    __listBoolProps() { return ["outline"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    __86a55d8d752358ce167fd0da93753a9emethod0() {
-        return this.icon;
-    }
-}
-Components.ButtonIcon.Namespace=`${moduleName}.Components`;
-Components.ButtonIcon.Tag=`rk-button-icon`;
-_.Components.ButtonIcon=Components.ButtonIcon;
-if(!window.customElements.get('rk-button-icon')){window.customElements.define('rk-button-icon', Components.ButtonIcon);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIcon);}
-
-Components.ButtonIconMi = class ButtonIconMi extends Components.ButtonIcon {
-    static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host .content .icon{height:auto;padding:0;font-size:inherit}`;
-    __getStatic() {
-        return ButtonIconMi;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(ButtonIconMi.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="hider"></div><div class="content">    <mi-icon class="icon" _id="buttoniconmi_0"></mi-icon></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "buttoniconmi_0°icon": {
-      "fct": (c) => `${c.print(c.comp.__6bf11e2b799d6cfde945f27815605c6bmethod0())}`,
-      "once": true
-    }
-  }
-}); }
-    getClassName() {
-        return "ButtonIconMi";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = "square"; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon'); }
-    __6bf11e2b799d6cfde945f27815605c6bmethod0() {
-        return this.icon;
-    }
-}
-Components.ButtonIconMi.Namespace=`${moduleName}.Components`;
-Components.ButtonIconMi.Tag=`rk-button-icon-mi`;
-_.Components.ButtonIconMi=Components.ButtonIconMi;
-if(!window.customElements.get('rk-button-icon-mi')){window.customElements.define('rk-button-icon-mi', Components.ButtonIconMi);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIconMi);}
 
 Components.PwaPromptIos = class PwaPromptIos extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
@@ -1215,6 +1006,234 @@ Lib.ApplicationStateManager=class ApplicationStateManager extends Aventus.StateM
 Lib.ApplicationStateManager.Namespace=`${moduleName}.Lib`;
 
 _.Lib.ApplicationStateManager=Lib.ApplicationStateManager;
+const Style=class Style {
+    colors = ['green', 'success', 'red', 'error', 'orange', 'warning', 'blue', 'information', 'primary', 'secondary'];
+}
+Style.Namespace=`${moduleName}`;
+
+_.Style=Style;
+Components.Tooltip = class Tooltip extends Aventus.WebComponent {
+    get 'visible'() { return this.getBoolAttr('visible') }
+    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'position'() { return this.getStringAttr('position') }
+    set 'position'(val) { this.setStringAttr('position', val) }get 'color'() { return this.getStringAttr('color') }
+    set 'color'(val) { this.setStringAttr('color', val) }get 'use_absolute'() { return this.getBoolAttr('use_absolute') }
+    set 'use_absolute'(val) { this.setBoolAttr('use_absolute', val) }get 'delay'() { return this.getNumberAttr('delay') }
+    set 'delay'(val) { this.setNumberAttr('delay', val) }    parent = null;
+    isDestroyed = false;
+    timeoutEnter = false;
+    timeout = 0;
+    static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;pointer-events:none;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;width:max-content;z-index:1}:host::after{content:"";position:absolute}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--_tooltip-background-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:50%;top:-8px;transform:translateX(-50%)}:host([use_absolute][position=bottom]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=bottom]:not([use_absolute])){bottom:0px;left:50%;transform:translateX(-50%) translateY(calc(100% - 10px))}:host([position=bottom][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(100% + 10px))}:host([position=top]){transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--_tooltip-background-color);bottom:-8px;left:50%;transform:translateX(-50%)}:host([use_absolute][position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x)}:host([use_absolute][visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=top]:not([use_absolute])){left:50%;top:0px;transform:translateX(-50%) translateY(calc(-100% + 10px))}:host([position=top][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(-100% - 10px))}:host([position=right]){transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=right]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=right]:not([use_absolute])){right:0;top:50%;transform:translateX(calc(100% - 10px)) translateY(-50%)}:host([visible][position=right]:not([use_absolute])){transform:translateX(calc(100% + 10px)) translateY(-50%)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=left]){right:var(--local-tooltip-to-x)}:host([position=left]:not([use_absolute])){left:0;top:50%;transform:translateX(calc(-100% + 10px)) translateY(-50%)}:host([visible][position=left]:not([use_absolute])){transform:translateX(calc(-100% - 10px)) translateY(-50%)}:host([color=primary]){--_tooltip-background-color: var(--primary);--_tooltip-color: var(--text-color-primary)}:host([color="secondary green"]){--_tooltip-background-color: var(--secondary green);--_tooltip-color: var(--text-color-secondary green)}:host([color=success]){--_tooltip-background-color: var(--success);--_tooltip-color: var(--text-color-success)}:host([color=red]){--_tooltip-background-color: var(--red);--_tooltip-color: var(--text-color-red)}:host([color=error]){--_tooltip-background-color: var(--error);--_tooltip-color: var(--text-color-error)}:host([color=orange]){--_tooltip-background-color: var(--orange);--_tooltip-color: var(--text-color-orange)}:host([color=warning]){--_tooltip-background-color: var(--warning);--_tooltip-color: var(--text-color-warning)}:host([color=blue]){--_tooltip-background-color: var(--blue);--_tooltip-color: var(--text-color-blue)}:host([color=information]){--_tooltip-background-color: var(--information);--_tooltip-color: var(--text-color-information)}`;
+    constructor() { super(); this.onMouseEnter=this.onMouseEnter.bind(this)this.onMouseLeave=this.onMouseLeave.bind(this)this.onTransitionEnd=this.onTransitionEnd.bind(this) }
+    __getStatic() {
+        return Tooltip;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Tooltip.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "Tooltip";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('position')){ this['position'] = 'left'; }if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('use_absolute')) { this.attributeChangedCallback('use_absolute', false, false); }if(!this.hasAttribute('delay')){ this['delay'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('position');this.__upgradeProperty('color');this.__upgradeProperty('use_absolute');this.__upgradeProperty('delay'); }
+    __listBoolProps() { return ["visible","use_absolute"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    calculatePosition() {
+        if (!this.parent || !this.use_absolute)
+            return;
+        let rect = this.parent.getBoundingClientRect();
+        let center = {
+            x: rect.left + rect.width / 2,
+            y: rect.y + rect.height / 2
+        };
+        if (this.position == 'bottom') {
+            let bottom = rect.y + rect.height;
+            this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
+            this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
+        }
+        else if (this.position == 'top') {
+            let bottom = document.body.offsetHeight - rect.top;
+            this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
+            this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
+        }
+        else if (this.position == 'right') {
+            let left = rect.x + rect.width;
+            this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
+            this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-y", center.y + 10 + 'px');
+        }
+        else if (this.position == 'left') {
+            let left = document.body.offsetWidth - rect.left;
+            this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
+            this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-y", center.y + 'px');
+        }
+    }
+    onMouseEnter() {
+        this.calculatePosition();
+        let delay = this.delay == 0 ? 50 : this.delay;
+        if (this.use_absolute) {
+            document.body.appendChild(this);
+            this.timeoutEnter = false;
+            this.timeout = setTimeout(() => {
+                this.timeoutEnter = true;
+                this.visible = true;
+            }, delay);
+        }
+        else {
+            if (delay == 0) {
+                this.visible = true;
+            }
+            else {
+                this.timeoutEnter = false;
+                this.timeout = setTimeout(() => {
+                    this.timeoutEnter = true;
+                    this.visible = true;
+                }, delay);
+            }
+        }
+    }
+    onMouseLeave() {
+        this.visible = false;
+        if (this.use_absolute) {
+            if (!this.timeoutEnter) {
+                clearTimeout(this.timeout);
+                this.onTransitionEnd();
+            }
+        }
+        else if (this.delay != 0) {
+            if (!this.timeoutEnter) {
+                clearTimeout(this.timeout);
+                this.onTransitionEnd();
+            }
+        }
+    }
+    onTransitionEnd() {
+        if (!this.use_absolute || this.visible)
+            return;
+        if (this.parent && !this.isDestroyed)
+            this.parent?.appendChild(this);
+        else
+            this.remove();
+    }
+    registerAction() {
+        if (!this.parent)
+            return;
+        this.parent.addEventListener("mouseenter", this.onMouseEnter);
+        this.parent.addEventListener("mouseleave", this.onMouseLeave);
+        this.addEventListener("transitionend", this.onTransitionEnd);
+    }
+    postCreation() {
+        this.parent = this.parentElement;
+        this.registerAction();
+    }
+    postDestruction() {
+        this.isDestroyed = true;
+        super.postDestruction();
+        if (!this.parent)
+            return;
+        this.parent.removeEventListener("mouseenter", this.onMouseEnter);
+        this.parent.removeEventListener("mouseleave", this.onMouseLeave);
+    }
+}
+Components.Tooltip.Namespace=`${moduleName}.Components`;
+Components.Tooltip.Tag=`rk-tooltip`;
+_.Components.Tooltip=Components.Tooltip;
+if(!window.customElements.get('rk-tooltip')){window.customElements.define('rk-tooltip', Components.Tooltip);Aventus.WebComponentInstance.registerDefinition(Components.Tooltip);}
+
+Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
+    static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'color'() { return this.getStringAttr('color') }
+    set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
+    set 'outline'(val) { this.setBoolAttr('outline', val) }    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{--internal-button-background-color: var(--button-background-color);--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover)}:host{aspect-ratio:1/1;background-color:var(--internal-button-background-color);border-radius:var(--border-radius-round);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;overflow:hidden;position:relative}:host .hider{background-color:var(--darker);inset:0;opacity:0;position:absolute;transform:opacity .3 var(--bezier-curve);z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;position:relative;z-index:2}:host .content .icon{--img-fill-color: var(--internal-button-color);height:100%;padding:10px 0}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color="secondary green"]){background-color:var(--secondary green);color:var(--text-color-secondary green)}:host([outline][color="secondary green"]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:hover) .hider{opacity:1}}`;
+    __getStatic() {
+        return ButtonIcon;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(ButtonIcon.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="hider"></div><div class="content">    <rk-img class="icon" _id="buttonicon_0"></rk-img></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "buttonicon_0°src": {
+      "fct": (c) => `${c.print(c.comp.__86a55d8d752358ce167fd0da93753a9emethod0())}`,
+      "once": true
+    }
+  }
+}); }
+    getClassName() {
+        return "ButtonIcon";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('icon'); }
+    __listBoolProps() { return ["outline"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __86a55d8d752358ce167fd0da93753a9emethod0() {
+        return this.icon;
+    }
+}
+Components.ButtonIcon.Namespace=`${moduleName}.Components`;
+Components.ButtonIcon.Tag=`rk-button-icon`;
+_.Components.ButtonIcon=Components.ButtonIcon;
+if(!window.customElements.get('rk-button-icon')){window.customElements.define('rk-button-icon', Components.ButtonIcon);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIcon);}
+
+Components.ButtonIconMi = class ButtonIconMi extends Components.ButtonIcon {
+    static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host .content .icon{height:auto;padding:0;font-size:inherit}`;
+    __getStatic() {
+        return ButtonIconMi;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(ButtonIconMi.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="hider"></div><div class="content">    <mi-icon class="icon" _id="buttoniconmi_0"></mi-icon></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "buttoniconmi_0°icon": {
+      "fct": (c) => `${c.print(c.comp.__6bf11e2b799d6cfde945f27815605c6bmethod0())}`,
+      "once": true
+    }
+  }
+}); }
+    getClassName() {
+        return "ButtonIconMi";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = "square"; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon'); }
+    __6bf11e2b799d6cfde945f27815605c6bmethod0() {
+        return this.icon;
+    }
+}
+Components.ButtonIconMi.Namespace=`${moduleName}.Components`;
+Components.ButtonIconMi.Tag=`rk-button-icon-mi`;
+_.Components.ButtonIconMi=Components.ButtonIconMi;
+if(!window.customElements.get('rk-button-icon-mi')){window.customElements.define('rk-button-icon-mi', Components.ButtonIconMi);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIconMi);}
+
 (function (ResizeDirection) {
     ResizeDirection[ResizeDirection["Top"] = 0] = "Top";
     ResizeDirection[ResizeDirection["TopLeft"] = 1] = "TopLeft";
@@ -1494,7 +1513,7 @@ Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
     async LoginAction(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/login`, Aventus.HttpMethod.POST);
         request.setBody(body);
-        return await request.queryVoid(this.router);
+        return await request.queryJSON(this.router);
     }
     async Logout() {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/logout`, Aventus.HttpMethod.POST);
@@ -3982,7 +4001,7 @@ System.HomePanel = class HomePanel extends System.Panel {
     __registerWatchesActions() {
     this.__addWatchesActions("currentUser");    super.__registerWatchesActions();
 }
-    static __style = `:host{display:flex;flex-direction:column;left:-9px;position:absolute;width:500px;box-shadow:var(--elevation-3)}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:var(--border-radius-sm);margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .grid{display:flex;flex-wrap:wrap;gap:10px;padding:10px}:host .content rk-row rk-col .favoris .favoris-container .grid *{aspect-ratio:1/1;flex-shrink:0;height:auto;width:calc(33.3333333333% - 6.6666666667px)}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;justify-content:space-between;width:100%}:host .footer .person{align-items:center;border-radius:var(--border-radius-sm);display:flex;margin:10px 10px;padding:8px 10px;transition:background-color .2s var(--bezier-curve)}:host .footer .person .icon{height:30px;width:30px}:host .footer .person .name{margin-left:10px}:host .footer .person:hover{background-color:var(--lighter)}:host .footer .actions{align-items:center;display:flex}:host .footer .actions rk-pwa-button{color:var(--text-color-green);background-color:var(--green);height:36px;width:36px}:host .footer .actions rk-button{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;aspect-ratio:1;border:none;box-shadow:var(--elevation-2);margin:10px 10px;min-width:auto}`;
+    static __style = `:host{display:flex;flex-direction:column;left:-9px;position:absolute;width:500px;box-shadow:var(--elevation-3)}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:var(--border-radius-sm);margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .grid{display:flex;flex-wrap:wrap;gap:10px;padding:10px}:host .content rk-row rk-col .favoris .favoris-container .grid *{aspect-ratio:1/1;flex-shrink:0;height:auto;width:calc(33.3333333333% - 6.6666666667px)}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;justify-content:space-between;width:100%}:host .footer .person{align-items:center;border-radius:var(--border-radius-sm);display:flex;margin:10px 10px;padding:8px 10px;transition:background-color .2s var(--bezier-curve)}:host .footer .person .icon{height:30px;width:30px}:host .footer .person .name{margin-left:10px}:host .footer .person:hover{background-color:var(--lighter)}:host .footer .actions{align-items:center;display:flex}:host .footer .actions rk-pwa-button{color:var(--text-color-success);background-color:var(--success);height:36px;width:36px}:host .footer .actions rk-button{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;aspect-ratio:1;border:none;box-shadow:var(--elevation-2);margin:10px 10px;min-width:auto}`;
     __getStatic() {
         return HomePanel;
     }
@@ -4956,6 +4975,494 @@ Components.Resize.Tag=`rk-resize`;
 _.Components.Resize=Components.Resize;
 if(!window.customElements.get('rk-resize')){window.customElements.define('rk-resize', Components.Resize);Aventus.WebComponentInstance.registerDefinition(Components.Resize);}
 
+Components.Notification = class Notification extends Aventus.WebComponent {
+    static get observedAttributes() {return ["icon", "subject"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'position'() { return this.getStringAttr('position') }
+    set 'position'(val) { this.setStringAttr('position', val) }get 'color'() { return this.getStringAttr('color') }
+    set 'color'(val) { this.setStringAttr('color', val) }get 'delay'() { return this.getNumberAttr('delay') }
+    set 'delay'(val) { this.setNumberAttr('delay', val) }get 'is_active'() { return this.getBoolAttr('is_active') }
+    set 'is_active'(val) { this.setBoolAttr('is_active', val) }    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'subject'() { return this.getStringProp('subject') }
+    set 'subject'(val) { this.setStringAttr('subject', val) }    showAsked = false;
+    onHide = () => { };
+    timeout = 0;
+    static __style = `:host{--internal-notification-box-shadow: var(--notification-box-shadow);--internal-notification-logo-fill-color: var(--notification-logo-fill-color, var(--text-color));--internal-notification-logo-stroke-color: var(--notification-logo-stroke-color, transparent);--local-notification-transition-delay: 0.4s;--_notification-margin-bottom: var(--notification-margin-bottom, 20px);--_notification-margin-top: var(--notification-margin-top, 20px);--_notification-margin-right: var(--notification-margin-right, 10px);--_notification-margin-left: var(--notification-margin-left, 10px)}:host{background-color:var(--secondary-color);border-radius:var(--border-radius);box-shadow:var(--internal-notification-box-shadow);color:var(--text-color);display:flex;max-width:calc(100% - 20px);min-height:40px;padding:10px 20px;position:absolute;z-index:600;align-items:center}:host .logo{--img-fill-color: var(--internal-notification-logo-fill-color);--img-stroke-color: var(--internal-notification-logo-stroke-color);flex-shrink:0;order:1;width:30px;font-size:24px;margin-right:5px}:host .logo[src=""]{display:none}:host .content{cursor:pointer;display:flex;flex-direction:column;order:2}:host .content .title{font-size:20px;font-weight:bold;margin-bottom:5px}:host .content .title:empty{display:none}:host .content .text{flex-grow:1;overflow:hidden}:host .content .text:empty{display:none}:host .close{cursor:pointer;flex-grow:0;height:30px;position:absolute;width:30px}:host(:empty) .content .title{margin-bottom:0}:host(:empty) .content .text{display:none}:host([position="bottom left"]){bottom:var(--_notification-margin-bottom);left:0px;opacity:0;transform:translateX(-100%);transition:left var(--local-notification-transition-delay) var(--bezier-curve),bottom var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position="bottom left"]) .logo{order:2;margin-right:0;margin-left:5px}:host([position="bottom left"]) .content{order:1}:host([position="bottom left"]) .close{left:5px;top:5px}:host([position="bottom left"][is_active]){left:var(--_notification-margin-left);opacity:1;transform:translateX(0)}:host([position="top left"]){top:var(--_notification-margin-top);left:0px;opacity:0;transform:translateX(-100%);transition:left var(--local-notification-transition-delay) var(--bezier-curve),top var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position="top left"]) .logo{order:2;margin-right:0;margin-left:5px}:host([position="top left"]) .content{order:1}:host([position="top left"]) .close{left:5px;top:5px}:host([position="top left"][is_active]){left:var(--_notification-margin-left);opacity:1;transform:translateX(0)}:host([position="bottom right"]){bottom:var(--_notification-margin-bottom);opacity:0;right:0px;transform:translateX(100%);transition:right var(--local-notification-transition-delay) var(--bezier-curve),bottom var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position="bottom right"]) .close{right:5px;top:5px}:host([position="bottom right"][is_active]){opacity:1;right:var(--_notification-margin-right);transform:translateX(0)}:host([position="top right"]){opacity:0;right:0px;top:var(--_notification-margin-top);transform:translateX(100%);transition:right var(--local-notification-transition-delay) var(--bezier-curve),top var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position="top right"]) .close{right:5px;top:5px}:host([position="top right"][is_active]){opacity:1;right:var(--_notification-margin-right);transform:translateX(0)}:host([position=top]){left:10%;opacity:0;transform:translateY(-100%);transition:top var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve);width:80%}:host([position=top]) .close{right:5px;top:5px}:host([position=top]:not([is_active])){top:0px !important}:host([position=top][is_active]){opacity:1;top:var(--_notification-margin-top);transform:translateY(0)}:host([position=bottom]){left:10%;transform:translateY(100%);transition:bottom var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve);width:80%}:host([position=bottom]) .close{right:5px;top:5px}:host([position=bottom]:not([is_active])){bottom:0px !important}:host([position=bottom][is_active]){bottom:var(--_notification-margin-bottom);opacity:1;transform:translateY(0)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([color="secondary green"]){background-color:var(--secondary green);color:var(--text-color-secondary green)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}`;
+    __getStatic() {
+        return Notification;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Notification.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<rk-img class="logo" _id="notification_0"></rk-img><div class="content" _id="notification_1">    <div class="title" _id="notification_2"></div>    <div class="text"><slot></slot></div></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "notification_0°src": {
+      "fct": (c) => `${c.print(c.comp.__539853f1187f37c9fe641c673a21b24cmethod0())}`,
+      "once": true
+    },
+    "notification_2°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__539853f1187f37c9fe641c673a21b24cmethod1())}`,
+      "once": true
+    }
+  },
+  "pressEvents": [
+    {
+      "id": "notification_0",
+      "onPress": (e, pressInstance, c) => { c.comp.clicked(e, pressInstance); }
+    },
+    {
+      "id": "notification_1",
+      "onPress": (e, pressInstance, c) => { c.comp.clicked(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "Notification";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('position')){ this['position'] = 'bottom right'; }if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('delay')){ this['delay'] = 2000; }if(!this.hasAttribute('is_active')) { this.attributeChangedCallback('is_active', false, false); }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('subject')){ this['subject'] = ""; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('position');this.__upgradeProperty('color');this.__upgradeProperty('delay');this.__upgradeProperty('is_active');this.__upgradeProperty('icon');this.__upgradeProperty('subject'); }
+    __listBoolProps() { return ["is_active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    show(onHide) {
+        this.onHide = onHide;
+        if (this.isReady) {
+            this.is_active = true;
+            this.startDelay();
+        }
+        else {
+            this.showAsked = true;
+        }
+    }
+    startDelay() {
+        if (this.delay > 0) {
+            this.timeout = setTimeout(() => {
+                this.close();
+            }, this.delay);
+        }
+    }
+    async clicked() {
+        if (this.onHide) {
+            this.is_active = false;
+            this.onHide(true);
+            await Aventus.sleep(420);
+            this.remove();
+        }
+    }
+    async close() {
+        if (this.onHide) {
+            this.is_active = false;
+            this.onHide(false);
+            await Aventus.sleep(420);
+            this.remove();
+        }
+    }
+    postCreation() {
+        if (this.showAsked) {
+            this.is_active = true;
+            this.startDelay();
+        }
+    }
+    __539853f1187f37c9fe641c673a21b24cmethod0() {
+        return this.icon;
+    }
+    __539853f1187f37c9fe641c673a21b24cmethod1() {
+        return this.subject;
+    }
+    static create(options) {
+        let el = new Components.Notification();
+        if (options.position)
+            el.position = options.position;
+        if (options.color)
+            el.color = options.color;
+        if (options.title)
+            el.subject = options.title;
+        if (options.body)
+            el.innerHTML = options.body;
+        if (options.delay)
+            el.delay = options.delay;
+        if (options.icon)
+            el.icon = options.icon;
+        return el;
+    }
+}
+Components.Notification.Namespace=`${moduleName}.Components`;
+Components.Notification.Tag=`rk-notification`;
+_.Components.Notification=Components.Notification;
+if(!window.customElements.get('rk-notification')){window.customElements.define('rk-notification', Components.Notification);Aventus.WebComponentInstance.registerDefinition(Components.Notification);}
+
+Components.NotificationManager = class NotificationManager extends Aventus.WebComponent {
+    get 'gap'() { return this.getNumberAttr('gap') }
+    set 'gap'(val) { this.setNumberAttr('gap', val) }    activeNotifications = {
+        top: [],
+        'top left': [],
+        'bottom left': [],
+        bottom: [],
+        'bottom right': [],
+        'top right': [],
+    };
+    waitingNotifications = {
+        top: [],
+        'top left': [],
+        'bottom left': [],
+        bottom: [],
+        'bottom right': [],
+        'top right': [],
+    };
+    get containerHeight() {
+        return this.offsetHeight;
+    }
+    static __style = `:host{inset:0;overflow:hidden;pointer-events:none;position:absolute}:host ::slotted(*){pointer-events:auto}`;
+    __getStatic() {
+        return NotificationManager;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(NotificationManager.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "NotificationManager";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('gap')){ this['gap'] = 10; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('containerHeight');this.__upgradeProperty('gap'); }
+    async notify(notification) {
+        let realNotification;
+        if (notification instanceof Components.Notification) {
+            realNotification = notification;
+        }
+        else {
+            realNotification = Components.Notification.create(notification);
+        }
+        this.appendChild(realNotification);
+        if (realNotification.position == "bottom") {
+            return this._notifyBottom(realNotification, true);
+        }
+        else if (realNotification.position == "bottom left") {
+            return this._notifyBottomLeft(realNotification, true);
+        }
+        else if (realNotification.position == "top left") {
+            return this._notifyTopLeft(realNotification, true);
+        }
+        else if (realNotification.position == "bottom right") {
+            return this._notifyBottomRight(realNotification, true);
+        }
+        else if (realNotification.position == "top right") {
+            return this._notifyTopRight(realNotification, true);
+        }
+        else if (realNotification.position == "top") {
+            return this._notifyTop(realNotification, true);
+        }
+        return false;
+    }
+    _notifyBottomRight(notification, firstTime, from = 0) {
+        return new Promise((resolve) => {
+            let height = notification.offsetHeight;
+            let position = "bottom right";
+            const _remove = (result) => {
+                let index = this.activeNotifications[position].indexOf(notification);
+                if (index > -1) {
+                    this.activeNotifications[position].splice(index, 1);
+                }
+                if (this.waitingNotifications[position].length > 0) {
+                    let nextNotif = this.waitingNotifications[position].splice(0, 1)[0];
+                    this._notifyBottomRight(nextNotif, false, index);
+                }
+                else {
+                    let bodyHeight = this.containerHeight;
+                    for (let i = 0; i < index; i++) {
+                        let notif = this.activeNotifications[position][i];
+                        let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
+                        notif.style.bottom = bottom - height - this.gap + 'px';
+                    }
+                }
+                resolve(result);
+            };
+            let length = this.activeNotifications[position].length;
+            if (length == 0) {
+                this.activeNotifications[position].push(notification);
+                notification.show(_remove);
+            }
+            else {
+                let bodyHeight = this.containerHeight;
+                let totHeight = 0;
+                for (let notif of this.activeNotifications[position]) {
+                    totHeight += notif.offsetHeight + this.gap;
+                }
+                if (totHeight + height < bodyHeight / 2) {
+                    for (let i = from; i < this.activeNotifications[position].length; i++) {
+                        let notif = this.activeNotifications[position][i];
+                        let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
+                        notif.style.bottom = bottom + height + this.gap + 'px';
+                    }
+                    this.activeNotifications[position].push(notification);
+                    notification.show(_remove);
+                }
+                else if (firstTime) {
+                    this.waitingNotifications[position].push(notification);
+                }
+            }
+        });
+    }
+    _notifyTopRight(notification, firstTime, from = 0) {
+        return new Promise((resolve) => {
+            let height = notification.offsetHeight;
+            let position = "top right";
+            const _remove = (result) => {
+                let index = this.activeNotifications[position].indexOf(notification);
+                if (index > -1) {
+                    this.activeNotifications[position].splice(index, 1);
+                }
+                if (this.waitingNotifications[position].length > 0) {
+                    let nextNotif = this.waitingNotifications[position].splice(0, 1)[0];
+                    this._notifyTopRight(nextNotif, false, index);
+                }
+                else {
+                    for (let i = 0; i < index; i++) {
+                        let notif = this.activeNotifications[position][i];
+                        let top = (notif.offsetTop - height - this.gap);
+                        notif.style.top = top + 'px';
+                    }
+                }
+                resolve(result);
+            };
+            let length = this.activeNotifications[position].length;
+            if (length == 0) {
+                this.activeNotifications[position].push(notification);
+                notification.show(_remove);
+            }
+            else {
+                let bodyHeight = this.containerHeight;
+                let totHeight = 0;
+                for (let notif of this.activeNotifications[position]) {
+                    totHeight += notif.offsetHeight + this.gap;
+                }
+                if (totHeight + height < bodyHeight / 2) {
+                    for (let i = from; i < this.activeNotifications[position].length; i++) {
+                        let notif = this.activeNotifications[position][i];
+                        let top = (notif.offsetTop + notif.offsetHeight);
+                        notif.style.top = top + this.gap + 'px';
+                    }
+                    this.activeNotifications[position].push(notification);
+                    notification.show(_remove);
+                }
+                else if (firstTime) {
+                    this.waitingNotifications[position].push(notification);
+                }
+            }
+        });
+    }
+    _notifyBottomLeft(notification, firstTime, from = 0) {
+        return new Promise((resolve) => {
+            let height = notification.offsetHeight;
+            let position = "bottom left";
+            const _remove = (result) => {
+                let index = this.activeNotifications[position].indexOf(notification);
+                if (index > -1) {
+                    this.activeNotifications[position].splice(index, 1);
+                }
+                if (this.waitingNotifications[position].length > 0) {
+                    let nextNotif = this.waitingNotifications[position].splice(0, 1)[0];
+                    this._notifyBottomLeft(nextNotif, false, index);
+                }
+                else {
+                    let bodyHeight = this.containerHeight;
+                    for (let i = 0; i < index; i++) {
+                        let notif = this.activeNotifications[position][i];
+                        let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
+                        notif.style.bottom = bottom - height - this.gap + 'px';
+                    }
+                }
+                resolve(result);
+            };
+            let length = this.activeNotifications[position].length;
+            if (length == 0) {
+                this.activeNotifications[position].push(notification);
+                notification.show(_remove);
+            }
+            else {
+                let bodyHeight = this.containerHeight;
+                let totHeight = 0;
+                for (let notif of this.activeNotifications[position]) {
+                    totHeight += notif.offsetHeight + this.gap;
+                }
+                if (totHeight + height < bodyHeight / 2) {
+                    for (let i = from; i < this.activeNotifications[position].length; i++) {
+                        let notif = this.activeNotifications[position][i];
+                        let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
+                        notif.style.bottom = bottom + height + this.gap + 'px';
+                    }
+                    this.activeNotifications[position].push(notification);
+                    notification.show(_remove);
+                }
+                else if (firstTime) {
+                    this.waitingNotifications[position].push(notification);
+                }
+            }
+        });
+    }
+    _notifyTopLeft(notification, firstTime, from = 0) {
+        return new Promise((resolve) => {
+            let height = notification.offsetHeight;
+            let position = "top left";
+            const _remove = (result) => {
+                let index = this.activeNotifications[position].indexOf(notification);
+                if (index > -1) {
+                    this.activeNotifications[position].splice(index, 1);
+                }
+                if (this.waitingNotifications[position].length > 0) {
+                    let nextNotif = this.waitingNotifications[position].splice(0, 1)[0];
+                    this._notifyTopRight(nextNotif, false, index);
+                }
+                else {
+                    for (let i = 0; i < index; i++) {
+                        let notif = this.activeNotifications[position][i];
+                        let top = (notif.offsetTop - height - this.gap);
+                        notif.style.top = top + 'px';
+                    }
+                }
+                resolve(result);
+            };
+            let length = this.activeNotifications[position].length;
+            if (length == 0) {
+                this.activeNotifications[position].push(notification);
+                notification.show(_remove);
+            }
+            else {
+                let bodyHeight = this.containerHeight;
+                let totHeight = 0;
+                for (let notif of this.activeNotifications[position]) {
+                    totHeight += notif.offsetHeight + this.gap;
+                }
+                if (totHeight + height < bodyHeight / 2) {
+                    for (let i = from; i < this.activeNotifications[position].length; i++) {
+                        let notif = this.activeNotifications[position][i];
+                        let top = (notif.offsetTop + notif.offsetHeight);
+                        notif.style.top = top + this.gap + 'px';
+                    }
+                    this.activeNotifications[position].push(notification);
+                    notification.show(_remove);
+                }
+                else if (firstTime) {
+                    this.waitingNotifications[position].push(notification);
+                }
+            }
+        });
+    }
+    _notifyTop(notification, firstTime, from = 0) {
+        return new Promise((resolve) => {
+            let height = notification.offsetHeight;
+            let position = "top";
+            const _remove = (result) => {
+                let index = this.activeNotifications[position].indexOf(notification);
+                if (index > -1) {
+                    this.activeNotifications[position].splice(index, 1);
+                }
+                if (this.waitingNotifications[position].length > 0) {
+                    let nextNotif = this.waitingNotifications[position].splice(0, 1)[0];
+                    this._notifyTop(nextNotif, false, index);
+                }
+                else {
+                    for (let i = 0; i < index; i++) {
+                        let notif = this.activeNotifications[position][i];
+                        let top = notif.offsetTop;
+                        notif.style.top = top - height - this.gap + 'px';
+                    }
+                }
+                resolve(result);
+            };
+            let length = this.activeNotifications[position].length;
+            if (length == 0) {
+                this.activeNotifications[position].push(notification);
+                notification.show(_remove);
+            }
+            else {
+                let bodyHeight = this.containerHeight;
+                let totHeight = 0;
+                for (let notif of this.activeNotifications[position]) {
+                    totHeight += notif.offsetHeight + this.gap;
+                }
+                if (totHeight + height < bodyHeight / 3) {
+                    for (let i = from; i < this.activeNotifications[position].length; i++) {
+                        let notif = this.activeNotifications[position][i];
+                        let top = notif.offsetTop;
+                        notif.style.top = top + height + this.gap + 'px';
+                    }
+                    this.activeNotifications[position].push(notification);
+                    notification.show(_remove);
+                }
+                else if (firstTime) {
+                    this.waitingNotifications[position].push(notification);
+                }
+            }
+        });
+    }
+    _notifyBottom(notification, firstTime, from = 0) {
+        return new Promise((resolve) => {
+            let height = notification.offsetHeight;
+            let position = "bottom";
+            const _remove = (result) => {
+                let index = this.activeNotifications[position].indexOf(notification);
+                if (index > -1) {
+                    this.activeNotifications[position].splice(index, 1);
+                }
+                if (this.waitingNotifications[position].length > 0) {
+                    let nextNotif = this.waitingNotifications[position].splice(0, 1)[0];
+                    this._notifyBottom(nextNotif, false, index);
+                }
+                else {
+                    let bodyHeight = this.containerHeight;
+                    for (let i = 0; i < index; i++) {
+                        let notif = this.activeNotifications[position][i];
+                        let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
+                        notif.style.bottom = bottom - height - this.gap + 'px';
+                    }
+                }
+                resolve(result);
+            };
+            let length = this.activeNotifications[position].length;
+            if (length == 0) {
+                this.activeNotifications[position].push(notification);
+                notification.show(_remove);
+            }
+            else {
+                let bodyHeight = this.containerHeight;
+                let totHeight = 0;
+                for (let notif of this.activeNotifications[position]) {
+                    totHeight += notif.offsetHeight + this.gap;
+                }
+                if (totHeight + height < bodyHeight / 3) {
+                    for (let i = from; i < this.activeNotifications[position].length; i++) {
+                        let notif = this.activeNotifications[position][i];
+                        let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
+                        notif.style.bottom = bottom + height + this.gap + 'px';
+                    }
+                    this.activeNotifications[position].push(notification);
+                    notification.show(_remove);
+                }
+                else if (firstTime) {
+                    this.waitingNotifications[position].push(notification);
+                }
+            }
+        });
+    }
+}
+Components.NotificationManager.Namespace=`${moduleName}.Components`;
+Components.NotificationManager.Tag=`rk-notification-manager`;
+_.Components.NotificationManager=Components.NotificationManager;
+if(!window.customElements.get('rk-notification-manager')){window.customElements.define('rk-notification-manager', Components.NotificationManager);Aventus.WebComponentInstance.registerDefinition(Components.NotificationManager);}
+
 State.ApplicationState=class ApplicationState extends Aventus.State {
     /**
      * The current namespace
@@ -5057,11 +5564,14 @@ State.ApplicationStorableState=class ApplicationStorableState extends State.Appl
         try {
             for (let key in value) {
                 this.__item[key] = value[key];
+                this.refreshItem(key);
             }
         }
         catch (e) {
             console.log(e);
         }
+    }
+    refreshItem(key) {
     }
     constructor(item) {
         super();
@@ -5968,7 +6478,7 @@ Components.Confirm = class Confirm extends Components.GenericPopup {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-scrollable class="body" _id="confirm_0"></rk-scrollable><div class="action">    <rk-button color="red" _id="confirm_1"></rk-button>    <rk-button color="green" _id="confirm_2"></rk-button></div>` }
+        blocks: { 'default':`<rk-scrollable class="body" _id="confirm_0"></rk-scrollable><div class="action">    <rk-button color="red" _id="confirm_1"></rk-button>    <rk-button color="success" _id="confirm_2"></rk-button></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -6134,7 +6644,7 @@ System.Application = class Application extends Aventus.WebComponent {
 }));this.__addPropertyActions("is_hidden", ((target) => {
     target.onIsHiddenChange();
 })); }
-    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{backdrop-filter:blur(2px);background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;pointer-events:none;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:var(--border-radius-round);height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 45px)}:host rk-resize{display:none}:host([is_hidden]){left:0 !important;width:100% !important}}`;
+    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{backdrop-filter:blur(2px);background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;pointer-events:none;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:var(--border-radius-round);height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host rk-notification-manager{top:35px}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}:host rk-notification-manager{top:45px}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 45px)}:host rk-resize{display:none}:host rk-notification-manager{top:45px}:host([is_hidden]){left:0 !important;width:100% !important}}`;
     constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.onContextMenuContent=this.onContextMenuContent.bind(this)this.onContextMenuHeader=this.onContextMenuHeader.bind(this)this.validError404=this.validError404.bind(this)this.showErrorNotAllowed=this.showErrorNotAllowed.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this)this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)this.moveApplicationToRight=this.moveApplicationToRight.bind(this) }
     __getStatic() {
         return Application;
@@ -6146,7 +6656,7 @@ System.Application = class Application extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-context-menu-element class="header" _id="application_0">    <div class="background"></div>    <div class="navigation-actions">        <div class="previous action touch disable" _id="application_1">            <rk-img src="/img/icons/angle-left.svg"></rk-img>        </div>        <div class="next action touch disable" _id="application_2">            <rk-img src="/img/icons/angle-right.svg"></rk-img>        </div>    </div>    <div class="title" _id="application_3"></div>    <div class="application-actions">        <div class="btn green touch" _id="application_4"></div>        <div class="btn orange touch" _id="application_5"></div>        <div class="btn red touch" _id="application_6"></div>    </div></rk-context-menu-element><rk-context-menu-element class="content" _id="application_7"></rk-context-menu-element><rk-resize min_width="200" min_height="200" _id="application_8"></rk-resize><rk-loading class="loading"></rk-loading>` }
+        blocks: { 'default':`<rk-context-menu-element class="header" _id="application_0">    <div class="background"></div>    <div class="navigation-actions">        <div class="previous action touch disable" _id="application_1">            <rk-img src="/img/icons/angle-left.svg"></rk-img>        </div>        <div class="next action touch disable" _id="application_2">            <rk-img src="/img/icons/angle-right.svg"></rk-img>        </div>    </div>    <div class="title" _id="application_3"></div>    <div class="application-actions">        <div class="btn green touch" _id="application_4"></div>        <div class="btn orange touch" _id="application_5"></div>        <div class="btn red touch" _id="application_6"></div>    </div></rk-context-menu-element><rk-context-menu-element class="content" _id="application_7"></rk-context-menu-element><rk-resize min_width="200" min_height="200" _id="application_8"></rk-resize><rk-loading class="loading"></rk-loading><rk-notification-manager _id="application_9"></rk-notification-manager>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -6179,6 +6689,12 @@ System.Application = class Application extends Aventus.WebComponent {
       "name": "resizeEl",
       "ids": [
         "application_8"
+      ]
+    },
+    {
+      "name": "notificationManager",
+      "ids": [
+        "application_9"
       ]
     }
   ],
@@ -6622,10 +7138,24 @@ System.Application = class Application extends Aventus.WebComponent {
                 this.moving = false;
                 if (hasMove)
                     this.saveSize();
-            }
+            },
         });
         this.header.addEventListener("dblclick", () => {
             this.toggleFull();
+        });
+        let allowDbl = false;
+        this.header.addEventListener("touchstart", (e) => {
+            e.preventDefault();
+            if (allowDbl) {
+                this.toggleFull();
+                allowDbl = false;
+            }
+            else {
+                allowDbl = true;
+                setTimeout(() => {
+                    allowDbl = false;
+                }, 150);
+            }
         });
     }
     addResize() {
@@ -6689,6 +7219,9 @@ System.Application = class Application extends Aventus.WebComponent {
         const c = new Components.Confirm();
         c.mergeInfo(info);
         return await this.popup(c);
+    }
+    notify(notification) {
+        return this.notificationManager.notify(notification);
     }
     async parseErrors(result) {
         if (result.errors.length > 0) {
@@ -6870,335 +7403,6 @@ Permissions.ApplicationPermissionQuery.$schema={...(Permissions.PermissionQuery?
 Aventus.Converter.register(Permissions.ApplicationPermissionQuery.Fullname, Permissions.ApplicationPermissionQuery);
 
 _.Permissions.ApplicationPermissionQuery=Permissions.ApplicationPermissionQuery;
-System.Notification = class Notification extends Aventus.WebComponent {
-    static get observedAttributes() {return ["icon", "subject"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'position'() { return this.getStringAttr('position') }
-    set 'position'(val) { this.setStringAttr('position', val) }get 'is_active'() { return this.getBoolAttr('is_active') }
-    set 'is_active'(val) { this.setBoolAttr('is_active', val) }    get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }get 'subject'() { return this.getStringProp('subject') }
-    set 'subject'(val) { this.setStringAttr('subject', val) }    showAsked = false;
-    onHide = () => { };
-    static __style = `:host{--internal-notification-box-shadow: var(--notification-box-shadow);--internal-notification-logo-fill-color: var(--notification-logo-fill-color, var(--text-color));--internal-notification-logo-stroke-color: var(--notification-logo-stroke-color, transparent);--local-notification-transition-delay: 0.4s}:host{background-color:var(--secondary-color);border-radius:var(--border-radius);box-shadow:var(--internal-notification-box-shadow);color:var(--text-color);display:flex;max-width:calc(100% - 20px);min-height:40px;padding:10px;position:absolute;width:400px;z-index:600}:host .logo{--img-fill-color: var(--internal-notification-logo-fill-color);--img-stroke-color: var(--internal-notification-logo-stroke-color);flex-shrink:0;order:1;width:30px}:host .logo[src=""]{display:none}:host .content{display:flex;flex-direction:column;order:2}:host .content .title{font-size:20px;font-weight:bold;margin-bottom:5px}:host .content .title:empty{display:none}:host .content .text{flex-grow:1;overflow:hidden}:host .content .text:empty{display:none}:host .close{cursor:pointer;flex-grow:0;height:30px;position:absolute;width:30px}:host([position=left]){bottom:80px;left:0px;opacity:0;transform:translateX(-100%);transition:left var(--local-notification-transition-delay) var(--bezier-curve),bottom var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position=left]) .logo{order:2}:host([position=left]) .content{margin-left:30px;margin-right:0px;order:1}:host([position=left]) .close{left:5px;top:5px}:host([position=left][is_active]){left:10px;opacity:1;transform:translateX(0)}:host([position=right]){bottom:80px;opacity:0;right:0px;transform:translateX(100%);transition:right var(--local-notification-transition-delay) var(--bezier-curve),bottom var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position=right]) .content{margin-left:10px;margin-right:30px}:host([position=right]) .close{right:5px;top:5px}:host([position=right][is_active]){opacity:1;right:10px;transform:translateX(0)}:host([position=top]){left:10%;opacity:0;transform:translateY(-100%);transition:top var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve);width:80%}:host([position=top]) .content{margin-left:10px;margin-right:30px}:host([position=top]) .close{right:5px;top:5px}:host([position=top]:not([is_active])){top:0px !important}:host([position=top][is_active]){opacity:1;top:10px;transform:translateY(0)}:host([position=bottom]){left:10%;transform:translateY(100%);transition:bottom var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve);width:80%}:host([position=bottom]) .content{margin-left:10px;margin-right:30px}:host([position=bottom]) .close{right:5px;top:5px}:host([position=bottom]:not([is_active])){bottom:0px !important}:host([position=bottom][is_active]){bottom:80px;opacity:1;transform:translateY(0)}`;
-    __getStatic() {
-        return Notification;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Notification.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<rk-img class="logo" _id="notification_0"></rk-img><div class="content" _id="notification_1">    <div class="title" _id="notification_2"></div>    <div class="text"><slot></slot></div></div><rk-img class="close" src="/img/icons/close.svg" _id="notification_3"></rk-img>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "notification_0°src": {
-      "fct": (c) => `${c.print(c.comp.__a84b39ff3d24d67167f2e8388c48a763method0())}`,
-      "once": true
-    },
-    "notification_2°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__a84b39ff3d24d67167f2e8388c48a763method1())}`,
-      "once": true
-    }
-  },
-  "pressEvents": [
-    {
-      "id": "notification_0",
-      "onPress": (e, pressInstance, c) => { c.comp.clicked(e, pressInstance); }
-    },
-    {
-      "id": "notification_1",
-      "onPress": (e, pressInstance, c) => { c.comp.clicked(e, pressInstance); }
-    },
-    {
-      "id": "notification_3",
-      "onPress": (e, pressInstance, c) => { c.comp.close(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "Notification";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('position')){ this['position'] = 'right'; }if(!this.hasAttribute('is_active')) { this.attributeChangedCallback('is_active', false, false); }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('subject')){ this['subject'] = ""; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('position');this.__upgradeProperty('is_active');this.__upgradeProperty('icon');this.__upgradeProperty('subject'); }
-    __listBoolProps() { return ["is_active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    show(onHide) {
-        this.onHide = onHide;
-        if (this.isReady) {
-            this.is_active = true;
-        }
-        else {
-            this.showAsked = true;
-        }
-    }
-    async clicked() {
-        if (this.onHide) {
-            this.is_active = false;
-            this.onHide(true);
-            await Aventus.sleep(420);
-            this.remove();
-        }
-    }
-    async close() {
-        if (this.onHide) {
-            this.is_active = false;
-            this.onHide(false);
-            await Aventus.sleep(420);
-            this.remove();
-        }
-    }
-    postCreation() {
-        if (this.showAsked) {
-            this.is_active = true;
-        }
-    }
-    __a84b39ff3d24d67167f2e8388c48a763method0() {
-        return this.icon;
-    }
-    __a84b39ff3d24d67167f2e8388c48a763method1() {
-        return this.subject;
-    }
-}
-System.Notification.Namespace=`${moduleName}.System`;
-System.Notification.Tag=`rk-notification`;
-_.System.Notification=System.Notification;
-if(!window.customElements.get('rk-notification')){window.customElements.define('rk-notification', System.Notification);Aventus.WebComponentInstance.registerDefinition(System.Notification);}
-
-System.NotificationManager=class NotificationManager {
-    activeNotifications = {
-        top: [],
-        left: [],
-        bottom: [],
-        right: [],
-    };
-    waitingNotifications = {
-        top: [],
-        left: [],
-        bottom: [],
-        right: [],
-    };
-    os;
-    constructor(os) {
-        this.os = os;
-    }
-    async notify(notification) {
-        this.os.shadowRoot.appendChild(notification);
-        if (notification.position == "bottom") {
-            return this._notifyBottom(notification, true);
-        }
-        else if (notification.position == "left") {
-            return this._notifyLeft(notification, true);
-        }
-        else if (notification.position == "right") {
-            return this._notifyRight(notification, true);
-        }
-        else if (notification.position == "top") {
-            return this._notifyTop(notification, true);
-        }
-        return false;
-    }
-    _notifyRight(notification, firstTime, from = 0) {
-        return new Promise((resolve) => {
-            let height = notification.offsetHeight;
-            let position = "right";
-            const _remove = (result) => {
-                let index = this.activeNotifications[position].indexOf(notification);
-                if (index > -1) {
-                    this.activeNotifications[position].splice(index, 1);
-                }
-                if (this.waitingNotifications[position].length > 0) {
-                    let nextNotif = this.waitingNotifications[position].splice(0, 1)[0];
-                    this._notifyRight(nextNotif, false, index);
-                }
-                else {
-                    let bodyHeight = document.body.offsetHeight;
-                    for (let i = 0; i < index; i++) {
-                        let notif = this.activeNotifications[position][i];
-                        let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
-                        notif.style.bottom = bottom - height - 20 + 'px';
-                    }
-                }
-                resolve(result);
-            };
-            let length = this.activeNotifications[position].length;
-            if (length == 0) {
-                this.activeNotifications[position].push(notification);
-                notification.show(_remove);
-            }
-            else {
-                let bodyHeight = document.body.offsetHeight;
-                let totHeight = 0;
-                for (let notif of this.activeNotifications[position]) {
-                    totHeight += notif.offsetHeight + 20;
-                }
-                if (totHeight + height < bodyHeight / 2) {
-                    for (let i = from; i < this.activeNotifications[position].length; i++) {
-                        let notif = this.activeNotifications[position][i];
-                        let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
-                        notif.style.bottom = bottom + height + 20 + 'px';
-                    }
-                    this.activeNotifications[position].push(notification);
-                    notification.show(_remove);
-                }
-                else if (firstTime) {
-                    this.waitingNotifications[position].push(notification);
-                }
-            }
-        });
-    }
-    _notifyLeft(notification, firstTime, from = 0) {
-        return new Promise((resolve) => {
-            let height = notification.offsetHeight;
-            let position = "left";
-            const _remove = (result) => {
-                let index = this.activeNotifications[position].indexOf(notification);
-                if (index > -1) {
-                    this.activeNotifications[position].splice(index, 1);
-                }
-                if (this.waitingNotifications[position].length > 0) {
-                    let nextNotif = this.waitingNotifications[position].splice(0, 1)[0];
-                    this._notifyLeft(nextNotif, false, index);
-                }
-                else {
-                    let bodyHeight = document.body.offsetHeight;
-                    for (let i = 0; i < index; i++) {
-                        let notif = this.activeNotifications[position][i];
-                        let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
-                        notif.style.bottom = bottom - height - 20 + 'px';
-                    }
-                }
-                resolve(result);
-            };
-            let length = this.activeNotifications[position].length;
-            if (length == 0) {
-                this.activeNotifications[position].push(notification);
-                notification.show(_remove);
-            }
-            else {
-                let bodyHeight = document.body.offsetHeight;
-                let totHeight = 0;
-                for (let notif of this.activeNotifications[position]) {
-                    totHeight += notif.offsetHeight + 20;
-                }
-                if (totHeight + height < bodyHeight / 2) {
-                    for (let i = from; i < this.activeNotifications[position].length; i++) {
-                        let notif = this.activeNotifications[position][i];
-                        let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
-                        notif.style.bottom = bottom + height + 20 + 'px';
-                    }
-                    this.activeNotifications[position].push(notification);
-                    notification.show(_remove);
-                }
-                else if (firstTime) {
-                    this.waitingNotifications[position].push(notification);
-                }
-            }
-        });
-    }
-    _notifyTop(notification, firstTime, from = 0) {
-        return new Promise((resolve) => {
-            let height = notification.offsetHeight;
-            let position = "top";
-            const _remove = (result) => {
-                let index = this.activeNotifications[position].indexOf(notification);
-                if (index > -1) {
-                    this.activeNotifications[position].splice(index, 1);
-                }
-                if (this.waitingNotifications[position].length > 0) {
-                    let nextNotif = this.waitingNotifications[position].splice(0, 1)[0];
-                    this._notifyTop(nextNotif, false, index);
-                }
-                else {
-                    for (let i = 0; i < index; i++) {
-                        let notif = this.activeNotifications[position][i];
-                        let top = notif.offsetTop;
-                        notif.style.top = top - height - 20 + 'px';
-                    }
-                }
-                resolve(result);
-            };
-            let length = this.activeNotifications[position].length;
-            if (length == 0) {
-                this.activeNotifications[position].push(notification);
-                notification.show(_remove);
-            }
-            else {
-                let bodyHeight = document.body.offsetHeight;
-                let totHeight = 0;
-                for (let notif of this.activeNotifications[position]) {
-                    totHeight += notif.offsetHeight + 20;
-                }
-                if (totHeight + height < bodyHeight / 3) {
-                    for (let i = from; i < this.activeNotifications[position].length; i++) {
-                        let notif = this.activeNotifications[position][i];
-                        let top = notif.offsetTop;
-                        notif.style.top = top + height + 20 + 'px';
-                    }
-                    this.activeNotifications[position].push(notification);
-                    notification.show(_remove);
-                }
-                else if (firstTime) {
-                    this.waitingNotifications[position].push(notification);
-                }
-            }
-        });
-    }
-    _notifyBottom(notification, firstTime, from = 0) {
-        return new Promise((resolve) => {
-            let height = notification.offsetHeight;
-            let position = "bottom";
-            const _remove = (result) => {
-                let index = this.activeNotifications[position].indexOf(notification);
-                if (index > -1) {
-                    this.activeNotifications[position].splice(index, 1);
-                }
-                if (this.waitingNotifications[position].length > 0) {
-                    let nextNotif = this.waitingNotifications[position].splice(0, 1)[0];
-                    this._notifyBottom(nextNotif, false, index);
-                }
-                else {
-                    let bodyHeight = document.body.offsetHeight;
-                    for (let i = 0; i < index; i++) {
-                        let notif = this.activeNotifications[position][i];
-                        let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
-                        notif.style.bottom = bottom - height - 20 + 'px';
-                    }
-                }
-                resolve(result);
-            };
-            let length = this.activeNotifications[position].length;
-            if (length == 0) {
-                this.activeNotifications[position].push(notification);
-                notification.show(_remove);
-            }
-            else {
-                let bodyHeight = document.body.offsetHeight;
-                let totHeight = 0;
-                for (let notif of this.activeNotifications[position]) {
-                    totHeight += notif.offsetHeight + 20;
-                }
-                if (totHeight + height < bodyHeight / 3) {
-                    for (let i = from; i < this.activeNotifications[position].length; i++) {
-                        let notif = this.activeNotifications[position][i];
-                        let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
-                        notif.style.bottom = bottom + height + 20 + 'px';
-                    }
-                    this.activeNotifications[position].push(notification);
-                    notification.show(_remove);
-                }
-                else if (firstTime) {
-                    this.waitingNotifications[position].push(notification);
-                }
-            }
-        });
-    }
-}
-System.NotificationManager.Namespace=`${moduleName}.System`;
-
-_.System.NotificationManager=System.NotificationManager;
 Lib.AppIconManager=class AppIconManager {
     static loaded = [];
     static dico = {};
@@ -7430,7 +7634,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
     }
     async openUrl(application, componentUrl = "/", url = "/") {
         if (!(await can(new Permissions.ApplicationPermissionQuery(Permissions.ApplicationPermission.AllowAccess, application)))) {
-            let notif = new System.Notification();
+            let notif = new Components.Notification();
             notif.subject = "Erreur";
             notif.innerHTML = "Vous n'êtes pas autorisé à ouvrir l'application " + application;
             System.Os.instance.notify(notif);
@@ -7461,7 +7665,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             this.manageAppBottomBar(comp.$type);
         }
         else {
-            let notif = new System.Notification();
+            let notif = new Components.Notification();
             notif.subject = "Erreur";
             notif.innerHTML = "Impossible de trouver l'application " + application + " sur " + componentUrl;
             System.Os.instance.notify(notif);
@@ -7506,7 +7710,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
         }
         let appName = applicationName?.split(".")[0];
         if (!(await can(new Permissions.ApplicationPermissionQuery(Permissions.ApplicationPermission.AllowAccess, appName)))) {
-            let notif = new System.Notification();
+            let notif = new Components.Notification();
             notif.subject = "Erreur";
             notif.innerHTML = "Vous n'êtes pas autorisé à ouvrir l'application " + appName;
             System.Os.instance.notify(notif);
@@ -7783,7 +7987,6 @@ System.Os = class Os extends Aventus.WebComponent {
 					set 'desktops'(val) {
 						this.__watch["desktops"] = val;
 					}    static instance;
-    notificationManager;
     activeDesktopEl;
     get activeDesktop() {
         return this.activeDesktopEl;
@@ -7803,8 +8006,8 @@ System.Os = class Os extends Aventus.WebComponent {
 }));this.__addPropertyActions("active_desktop", ((target) => {
     target.onActiveDesktop();
 })); }
-    static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;width:100%}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:var(--border-radius-round);cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;width:40px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;display:none;height:50px;min-width:auto;position:absolute;right:10px;z-index:6}:host rk-loading{opacity:0;visibility:hidden}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:max-content;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:var(--border-radius-sm)}:host([desktop_list]) .add-desktop{display:block}`;
-    constructor() {            super();            System.Os.instance = this;            Lib.Platform.init();            this.notificationManager = new System.NotificationManager(this);            Lib.ApplicationManager.reloadData();this.desktopMoveLeft=this.desktopMoveLeft.bind(this)this.desktopMoveRight=this.desktopMoveRight.bind(this)this.desktopMoveValidate=this.desktopMoveValidate.bind(this) }
+    static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;width:100%}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:var(--border-radius-round);cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;width:40px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;display:none;height:50px;min-width:auto;position:absolute;right:10px;z-index:6}:host rk-loading{opacity:0;visibility:hidden}:host .background{background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:25% 25%;inset:-20px;position:absolute;z-index:0;filter:brightness(0.8)}:host rk-notification-manager{bottom:60px}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:max-content;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:var(--border-radius-sm)}:host([desktop_list]) .add-desktop{display:block}`;
+    constructor() {            super();            System.Os.instance = this;            Lib.Platform.init();            Lib.ApplicationManager.reloadData();this.desktopMoveLeft=this.desktopMoveLeft.bind(this)this.desktopMoveRight=this.desktopMoveRight.bind(this)this.desktopMoveValidate=this.desktopMoveValidate.bind(this) }
     __getStatic() {
         return Os;
     }
@@ -7815,7 +8018,7 @@ System.Os = class Os extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-app-list _id="os_0"></rk-app-list><rk-loading text="Chargement du système" background></rk-loading><rk-scrollable y_scroll="false" disable _id="os_1">    <div class="desktop-container">        <template _id="os_2"></template>    </div></rk-scrollable><rk-button-icon class="add-desktop" icon="/img/icons/add.svg" color="blue"></rk-button-icon>` }
+        blocks: { 'default':`<div class="background"></div><rk-app-list _id="os_0"></rk-app-list><rk-loading text="Chargement du système" background></rk-loading><rk-scrollable y_scroll="false" disable _id="os_1">    <div class="desktop-container">        <template _id="os_2"></template>    </div></rk-scrollable><rk-button-icon class="add-desktop" icon="/img/icons/add.svg" color="blue"></rk-button-icon><rk-notification-manager _id="os_6"></rk-notification-manager>` }
     });
 }
     get desktopsEl () { var list = Array.from(this.shadowRoot.querySelectorAll('[_id="os_5"]')); return list; }    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -7830,6 +8033,12 @@ System.Os = class Os extends Aventus.WebComponent {
       "name": "desktopContainerScroll",
       "ids": [
         "os_1"
+      ]
+    },
+    {
+      "name": "notificationManager",
+      "ids": [
+        "os_6"
       ]
     }
   ]
@@ -10342,34 +10551,12 @@ Components.InternalVirtualForm=class InternalVirtualForm {
         }
         return result;
     }
-    // public async validate(from?: Aventus.WebComponent): Promise<boolean | string[]> {
-    //     for(let name in this.__config) {
-    //         if(!elements || elements.length == 0) {
-    //             const result = this.__config[name].validate(FormElement.getValue(this.__config[name]));
-    //             if(result instanceof Promise) {
-    //                 promsCustom.push(result);
-    //                 namesCustom.push(name);
-    //             else if(result !== undefined && result !== true && result !== "") {
-    //                 if(result === false) {
-    //                     resultErrors.push("Le champs " + name + " n'est pas valide");
-    //                 resultErrors.push(result + "");
-    //             for(let element of this.__config[name].elements) {
-    //                 proms.push(element.validate());
-    //     const result2 = await Promise.all(promsCustom);
-    //     for(let i = 0; i < result2.length; i++) {
-    //         if(resultTemp !== undefined && resultTemp !== true && resultTemp !== "") {
-    //             if(resultTemp === false) {
-    //                 resultErrors.push("Le champs " + namesCustom[i] + " n'est pas valide");
-    //             resultErrors.push(resultTemp + "");
-    //     if(resultErrors.length > 0) {
-    //         if(from) {
-    //             let application = from instanceof Application ? from : from.findParentByType(Application);
-    //             await application?.alert({
-    //                 description: resultErrors.join("<br>")
-    //             });
-    //     const result = await Promise.all(proms);
-    //     for(let resultTemp of result) {
-    //         if(!resultTemp) return false;
+    refresh(key) {
+        const config = this.__config[key];
+        for (let element of config.elements) {
+            element.value = Components.FormElement.getValue(config);
+        }
+    }
     addFieldError(name, error) {
         if (this.__config[name]?.elements.length > 0) {
             for (let el of this.__config[name].elements) {
@@ -10460,6 +10647,10 @@ State.CreateOrUpdate=class CreateOrUpdate extends State.ApplicationStorableState
         this.constructor['_state'] = this.genericState();
         this.__form = Aventus.Watcher.get(Components.Form.create(this.defineFormSchema()));
     }
+    refreshItem(key) {
+        super.refreshItem(key);
+        this.form?.refresh(key);
+    }
     /**
      * @inheritdoc
      */
@@ -10535,7 +10726,7 @@ Components.Button = class Button extends Aventus.WebComponent {
     set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
     target.icon_before = target.icon;
 })); }
-    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--internal-button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
+    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--internal-button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color="secondary green"]){background-color:var(--secondary green);color:var(--text-color-secondary green)}:host([outline][color="secondary green"]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
     __getStatic() {
         return Button;
     }
@@ -12329,6 +12520,10 @@ Components.Table = class Table extends Aventus.WebComponent {
         lowerThanMin: '',
         biggerThanMax: '',
     };
+    showLoadingStart;
+    showLoadingTimeout = 0;
+    timeoutBeforeLoading = 200;
+    minTimeoutLoading = 2000;
     select = new Aventus.Callback();
     __registerWatchesActions() {
     this.__addWatchesActions("tableTitle");this.__addWatchesActions("showSearch");this.__addWatchesActions("showHeader");this.__addWatchesActions("showFooter");this.__addWatchesActions("displayedData", ((target, action, path, value) => {
@@ -12491,6 +12686,25 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
         }
         return result;
     }
+    showLoading() {
+        this.showLoadingTimeout = setTimeout(() => {
+            this.showLoadingStart = new Date();
+            this.loading = true;
+        }, this.timeoutBeforeLoading);
+    }
+    async hideLoading() {
+        const minDelay = this.minTimeoutLoading;
+        clearTimeout(this.showLoadingTimeout);
+        if (this.showLoadingStart) {
+            let now = new Date();
+            let diffMs = now.getTime() - this.showLoadingStart.getTime();
+            if (diffMs < minDelay) {
+                await Aventus.sleep(minDelay - diffMs);
+            }
+            this.showLoadingStart = undefined;
+        }
+        this.loading = false;
+    }
     autoHideScroll() {
         return true;
     }
@@ -12572,6 +12786,12 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
                 width: 50,
                 sortable: false
             });
+        }
+        if (this.options.timeoutBeforeLoading !== undefined) {
+            this.timeoutBeforeLoading = this.options.timeoutBeforeLoading;
+        }
+        if (this.options.minTimeoutLoading !== undefined) {
+            this.minTimeoutLoading = this.options.minTimeoutLoading;
         }
     }
     defaultOptions() {
@@ -12730,7 +12950,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
             this.bodyContainer.appendChild(row);
         }
         this.rowsDisplayed = rowsDisplayed;
-        this.loading = false;
+        this.hideLoading();
     }
     locationInfo() {
         const nbItems = this.nbItems;
@@ -13717,7 +13937,7 @@ Components.TableData = class TableData extends Components.Table {
     __listBoolProps() { return ["add_btn"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     async loadData() {
         if (this.options.showLoading)
-            this.loading = true;
+            this.showLoading();
         setTimeout(async () => {
             this.ram = this.defineRAM();
             this.data = await this.application?.executeWithLoading(this.ram.getListWithError());

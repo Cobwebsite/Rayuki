@@ -3,4 +3,3 @@
     <div class="title">{{this.subject}}</div>
     <div class="text"><slot></slot></div>
 </div>
-<rk-img class="close" src="/img/icons/close.svg" @press="close"></rk-img>

@@ -2891,6 +2891,7 @@ const PressManager=class PressManager {
         }
         this.startPosition = { x: e.pageX, y: e.pageY };
         document.addEventListener("pointerup", this.functionsBinded.upAction);
+        document.addEventListener("pointercancel", this.functionsBinded.upAction);
         document.addEventListener("pointermove", this.functionsBinded.moveAction);
         this.timeoutLongPress = setTimeout(() => {
             if (!this.state.oneActionTriggered) {
@@ -2920,6 +2921,7 @@ const PressManager=class PressManager {
             e.stopImmediatePropagation();
         }
         document.removeEventListener("pointerup", this.functionsBinded.upAction);
+        document.removeEventListener("pointercancel", this.functionsBinded.upAction);
         document.removeEventListener("pointermove", this.functionsBinded.moveAction);
         clearTimeout(this.timeoutLongPress);
         if (this.state.isMoving) {
@@ -3127,6 +3129,7 @@ const PressManager=class PressManager {
             this.element.removeEventListener("trigger_pointer_longpress", this.functionsBinded.childLongPress);
             this.element.removeEventListener("trigger_pointer_dragstart", this.functionsBinded.childDragStart);
             document.removeEventListener("pointerup", this.functionsBinded.upAction);
+            document.removeEventListener("pointercancel", this.functionsBinded.upAction);
             document.removeEventListener("pointermove", this.functionsBinded.moveAction);
         }
     }
@@ -6537,13 +6540,14 @@ const Icon = class Icon extends Aventus.WebComponent {
     set 'icon'(val) { this.setStringAttr('icon', val) }get 'type'() { return this.getStringProp('type') }
     set 'type'(val) { this.setStringAttr('type', val) }    static defaultType = 'outlined';
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
-    if (target.isReady)
-        target.shadowRoot.innerHTML = target.icon;
+    if (target.isReady) {
+        // target.shadowRoot.innerHTML = target.icon;
+    }
 }));this.__addPropertyActions("type", ((target) => {
     if (target.isReady)
         target.loadFont();
 })); }
-    static __style = `:host{--_material-icon-animation-duration: var(--material-icon-animation-duration, 1.75s)}:host{direction:ltr;display:inline-block;font-family:"Material Symbols Outlined";-moz-font-feature-settings:"liga";font-size:24px;-moz-osx-font-smoothing:grayscale;font-style:normal;font-weight:normal;letter-spacing:normal;line-height:1;text-transform:none;white-space:nowrap;word-wrap:normal}:host([is_hidden]){opacity:0}:host([type=sharp]){font-family:"Material Symbols Sharp"}:host([type=rounded]){font-family:"Material Symbols Rounded"}:host([type=outlined]){font-family:"Material Symbols Outlined"}:host([spin]){animation:spin var(--_material-icon-animation-duration) linear infinite}:host([reverse_spin]){animation:reverse-spin var(--_material-icon-animation-duration) linear infinite}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes reverse-spin{0%{transform:rotate(360deg)}100%{transform:rotate(0deg)}}`;
+    static __style = `:host{--_material-icon-animation-duration: var(--material-icon-animation-duration, 1.75s)}:host{direction:ltr;display:inline-block;font-family:"Material Symbols Outlined";-moz-font-feature-settings:"liga";font-size:24px;-moz-osx-font-smoothing:grayscale;font-style:normal;font-weight:normal;letter-spacing:normal;line-height:1;text-transform:none;white-space:nowrap;word-wrap:normal}:host .icon{direction:inherit;display:inline-block;font-family:inherit;-moz-font-feature-settings:inherit;font-size:inherit;-moz-osx-font-smoothing:inherit;font-style:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;text-transform:inherit;white-space:inherit;word-wrap:inherit}:host([is_hidden]){opacity:0}:host([type=sharp]){font-family:"Material Symbols Sharp"}:host([type=rounded]){font-family:"Material Symbols Rounded"}:host([type=outlined]){font-family:"Material Symbols Outlined"}:host([spin]){animation:spin var(--_material-icon-animation-duration) linear infinite}:host([reverse_spin]){animation:reverse-spin var(--_material-icon-animation-duration) linear infinite}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes reverse-spin{0%{transform:rotate(360deg)}100%{transform:rotate(0deg)}}`;
     __getStatic() {
         return Icon;
     }
@@ -6554,9 +6558,19 @@ const Icon = class Icon extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`` }
+        blocks: { 'default':`<div class="icon" _id="icon_0"></div>` }
     });
 }
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "iconEl",
+      "ids": [
+        "icon_0"
+      ]
+    }
+  ]
+}); }
     getClassName() {
         return "Icon";
     }
@@ -6595,7 +6609,7 @@ const Icon = class Icon extends Aventus.WebComponent {
     }
     async init() {
         await this.loadFont();
-        this.shadowRoot.innerHTML = this.icon;
+        this.iconEl.innerHTML = this.icon;
     }
     postCreation() {
         this.init();

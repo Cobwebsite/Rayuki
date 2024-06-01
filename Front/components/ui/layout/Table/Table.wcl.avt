@@ -35,7 +35,11 @@ namespace Components {
         title: string,
         globalSearch: boolean,
         showFooter?: boolean;
-        items_per_page?: number;
+        items_per_page?: number,
+        /** Delay before the loading animation show. If the loading take less than this number no animation is shown */
+        timeoutBeforeLoading?: number,
+        /** Minimum amount of time that the loading show must be displayed. */
+        minTimeoutLoading?: number,
     };
 
     export type Key<T> = keyof T;
@@ -80,7 +84,7 @@ namespace Components {
         private last_page!: boolean;
 
         @Attribute()
-        public loading!: boolean;
+        private loading!: boolean;
         //#endregion
 
 
@@ -166,6 +170,32 @@ namespace Components {
 
 
         //#region methods
+        //#region loading
+        private showLoadingStart: Date | undefined;
+        private showLoadingTimeout: number = 0;
+        protected timeoutBeforeLoading: number = 200;
+        protected minTimeoutLoading: number = 2000;
+        public showLoading() {
+            this.showLoadingTimeout = setTimeout(() => {
+                this.showLoadingStart = new Date();
+                this.loading = true;
+            }, this.timeoutBeforeLoading);
+        }
+        public async hideLoading() {
+            const minDelay = this.minTimeoutLoading;
+            clearTimeout(this.showLoadingTimeout);
+            if(this.showLoadingStart) {
+                let now = new Date();
+                let diffMs = now.getTime() - this.showLoadingStart.getTime();
+                if(diffMs < minDelay) {
+                    await Aventus.sleep(minDelay - diffMs);
+                }
+                this.showLoadingStart = undefined;
+            }
+            this.loading = false;
+        }
+        //#endregion
+
         protected autoHideScroll() {
             return true;
         }
@@ -251,6 +281,14 @@ namespace Components {
                     width: 50,
                     sortable: false
                 });
+            }
+
+            if(this.options.timeoutBeforeLoading !== undefined) {
+                this.timeoutBeforeLoading = this.options.timeoutBeforeLoading
+            }
+
+            if(this.options.minTimeoutLoading !== undefined) {
+                this.minTimeoutLoading = this.options.minTimeoutLoading
             }
         }
         protected defaultOptions(): TableOptions<T> {
@@ -433,7 +471,7 @@ namespace Components {
             }
 
             this.rowsDisplayed = rowsDisplayed;
-            this.loading = false;
+            this.hideLoading();
         }
 
         protected locationInfo() {

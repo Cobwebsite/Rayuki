@@ -33,6 +33,7 @@ namespace Core
         }
         public static bool IsDev
         {
+            // get => false;
             get => app.Environment.IsDevelopment();
         }
 

@@ -41,7 +41,7 @@ namespace Components {
         public abstract defineEditState(data: T): Aventus.State;
         public async loadData() {
             if(this.options.showLoading)
-                this.loading = true;
+                this.showLoading();
 
             setTimeout(async () => {
                 this.ram = this.defineRAM();

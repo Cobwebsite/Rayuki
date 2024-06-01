@@ -1,3 +1,4 @@
+import type { Colors } from "../../../../libs/Style.lib.avt";
 import { Form } from "../Form/Form.wcl.avt";
 
 namespace Components {
@@ -10,7 +11,7 @@ namespace Components {
 
         //#region props
         @Attribute()
-        public color?: "green" | "red" | "blue" | "orange";
+        public color?: Colors;
 
         @Attribute()
         public outline!: boolean;

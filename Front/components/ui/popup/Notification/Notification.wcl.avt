@@ -1,21 +1,49 @@
+import type { Colors } from "../../../../libs/Style.lib.avt";
 
-namespace System {
-    export type NotificationPosition = 'bottom' | 'top' | 'left' | 'right';
+namespace Components {
+    export type NotificationPosition = 'bottom' | 'top' | 'bottom left' | 'top left' | 'bottom right' | 'top right';
+    export type NotificationOptions = {
+        position?: NotificationPosition;
+        color?: Colors,
+        title?: string;
+        body?: string;
+        delay?: number;
+        icon?: string;
+    };
+
 
     export class Notification extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static
+        public static create(options: NotificationOptions): Notification {
+            let el = new Notification();
 
+            if(options.position) el.position = options.position;
+            if(options.color) el.color = options.color;
+            if(options.title) el.subject = options.title;
+            if(options.body) el.innerHTML = options.body;
+            if(options.delay) el.delay = options.delay;
+            if(options.icon) el.icon = options.icon;
+
+            return el;
+        }
         //#endregion
 
 
         //#region props
         @Attribute()
-        public position: NotificationPosition = 'right';
+        public position: NotificationPosition = 'bottom right';
         @Property()
         public icon?: string;
         @Property()
         public subject: string = "";
+        @Attribute()
+        public color?: Colors;
+        /**
+         * Use minus -1 to have an infinite timer
+         */
+        @Attribute()
+        public delay: number = 2000;
 
         @Attribute()
         private is_active!: boolean;
@@ -25,6 +53,7 @@ namespace System {
         //#region variables
         public showAsked: boolean = false;
         private onHide: (result: boolean) => void = () => { };
+        public timeout: number = 0;
         //#endregion
 
 
@@ -38,9 +67,18 @@ namespace System {
             this.onHide = onHide;
             if(this.isReady) {
                 this.is_active = true;
+                this.startDelay();
             }
             else {
                 this.showAsked = true;
+            }
+        }
+
+        protected startDelay() {
+            if(this.delay > 0) {
+                this.timeout = setTimeout(() => {
+                    this.close();
+                }, this.delay);
             }
         }
         /**
@@ -69,6 +107,7 @@ namespace System {
         protected override postCreation(): void {
             if(this.showAsked) {
                 this.is_active = true;
+                this.startDelay();
             }
         }
 

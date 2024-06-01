@@ -32,11 +32,12 @@
 			width: 100%;
 		}
 	}
+
 	mi-icon {
 		display: none;
+		font-size: inherit;
 		height: 100%;
 		width: 100%;
-		font-size: inherit;
 	}
 }
 
@@ -55,6 +56,7 @@
 			transition: var(--_img-color-transition);
 		}
 	}
+
 	mi-icon {
 		display: none;
 	}
@@ -62,6 +64,7 @@
 
 :host([src^="mi-"]) {
 	font-size: inherit;
+
 	img {
 		display: none;
 	}
@@ -71,7 +74,9 @@
 	}
 
 	mi-icon {
-		display: inline-block;
+		align-items: center;
+		display: flex;
+		justify-content: center;
 	}
 }
 

@@ -1,0 +1,11 @@
+namespace Data {
+
+	@Convertible()
+	export class Settings extends AventusSharp.Data.Storable implements Aventus.IData {
+		public static override get Fullname(): string { return "Core.Data.Settings, Core"; }
+		public Key!: string;
+		public Value!: string;
+		public UserId?: number = undefined;
+	}
+
+}

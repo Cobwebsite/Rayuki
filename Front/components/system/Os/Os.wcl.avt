@@ -1,6 +1,4 @@
 import { AppList } from "../AppList/AppList.wcl.avt";
-import { Notification } from "./Notification/Notification.wcl.avt";
-import { NotificationManager } from "./Notification/NotificationManager.lib.avt";
 import { ApplicationRAM } from "../../../ram/Application.ram.avt";
 import { ContextMenu } from "../../ui/ContextMenu/ContextMenu.wcl.avt";
 import { ShortcutManager, SpecialTouch } from "../../../libs/ShortcutManager.lib.avt";
@@ -17,6 +15,8 @@ import { Pointer } from "../../../libs/Pointer.lib.avt";
 import { Platform } from "../../../libs/Platform.lib.avt";
 import { MainEndPoint } from "../../../generated/Websocket/MainEndPoint.lib.avt";
 import type { GenericPopup } from "../../ui/popup/GenericPopup/GenericPopup.wcl.avt";
+import { NotificationManager } from "../../ui/popup/NotificationManager/NotificationManager.wcl.avt";
+import type { Notification } from "../../ui/popup/Notification/Notification.wcl.avt";
 
 namespace System {
     export class Os extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -66,8 +66,9 @@ namespace System {
 
         @ViewElement()
         protected desktopContainerScroll!: Scrollable;
-
-        private notificationManager: NotificationManager;
+        
+        @ViewElement()
+        private notificationManager!: NotificationManager;
 
         protected activeDesktopEl!: Desktop;
         public get activeDesktop(): Desktop {
@@ -83,7 +84,6 @@ namespace System {
             super();
             Os.instance = this;
             Platform.init();
-            this.notificationManager = new NotificationManager(this);
             ApplicationManager.reloadData();
         }
         //#endregion

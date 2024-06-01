@@ -9,6 +9,19 @@ $size-breakpoints: (
 	"xl": 1140
 );
 
+$colors: (
+	'primary',
+	'secondary',
+	'green',
+	'success',
+	'red',
+	'error',
+	'orange',
+	'warning',
+	'blue',
+	'information'
+);
+
 @mixin tablet {
 	@media screen and (max-width:$tablet-breakpoint) {
 		@content;
@@ -73,5 +86,11 @@ $size-breakpoints: (
 
 	@container application (max-width: #{$sizeTemp+'px'}) {
 		@content;
+	}
+}
+
+@mixin eachColor {
+	@each $color in $colors {
+		@content($color);
 	}
 }

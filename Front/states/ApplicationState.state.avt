@@ -140,10 +140,14 @@ namespace State {
             try {
                 for(let key in value) {
                     this.__item[key] = value[key];
+                    this.refreshItem(key);
                 }
             } catch(e) {
                 console.log(e);
             }
+        }
+        protected refreshItem(key: string) {
+
         }
 
         public constructor(item?: T) {

@@ -1,8 +1,15 @@
+@import '@root/_responsive.gs.avt';
+
 :host {
 	--internal-notification-box-shadow: var(--notification-box-shadow);
 	--internal-notification-logo-fill-color: var(--notification-logo-fill-color, var(--text-color));
 	--internal-notification-logo-stroke-color: var(--notification-logo-stroke-color, transparent);
 	--local-notification-transition-delay: 0.4s;
+
+	--_notification-margin-bottom: var(--notification-margin-bottom, 20px);
+	--_notification-margin-top: var(--notification-margin-top, 20px);
+	--_notification-margin-right: var(--notification-margin-right, 10px);
+	--_notification-margin-left: var(--notification-margin-left, 10px);
 }
 
 :host {
@@ -13,10 +20,10 @@
 	display: flex;
 	max-width: calc(100% - 20px);
 	min-height: 40px;
-	padding: 10px;
+	padding: 10px 20px;
 	position: absolute;
-	width: 400px;
 	z-index: 600;
+	align-items: center;
 
 	.logo {
 		--img-fill-color: var(--internal-notification-logo-fill-color);
@@ -24,6 +31,8 @@
 		flex-shrink: 0;
 		order: 1;
 		width: 30px;
+		font-size: 24px;
+		margin-right: 5px;
 	}
 
 	.logo[src=""] {
@@ -32,6 +41,7 @@
 
 
 	.content {
+		cursor: pointer;
 		display: flex;
 		flex-direction: column;
 		order: 2;
@@ -65,9 +75,21 @@
 	}
 }
 
+:host(:empty) {
+	.content {
+		.title {
+			margin-bottom: 0;
+		}
 
-:host([position="left"]) {
-	bottom: 80px;
+		.text {
+			display: none;
+		}
+	}
+}
+
+/* #region position */
+:host([position="bottom left"]) {
+	bottom: var(--_notification-margin-bottom);
 	left: 0px;
 	opacity: 0;
 	transform: translateX(-100%);
@@ -78,11 +100,11 @@
 
 	.logo {
 		order: 2;
+		margin-right: 0;
+		margin-left: 5px;
 	}
 
 	.content {
-		margin-left: 30px;
-		margin-right: 0px;
 		order: 1;
 	}
 
@@ -92,14 +114,46 @@
 	}
 }
 
-:host([position="left"][is_active]) {
-	left: 10px;
+:host([position="bottom left"][is_active]) {
+	left: var(--_notification-margin-left);
 	opacity: 1;
 	transform: translateX(0);
 }
 
-:host([position="right"]) {
-	bottom: 80px;
+:host([position="top left"]) {
+	top: var(--_notification-margin-top);
+	left: 0px;
+	opacity: 0;
+	transform: translateX(-100%);
+	transition: left var(--local-notification-transition-delay) var(--bezier-curve),
+		top var(--local-notification-transition-delay) var(--bezier-curve),
+		transform var(--local-notification-transition-delay) var(--bezier-curve),
+		opacity var(--local-notification-transition-delay) var(--bezier-curve);
+
+	.logo {
+		order: 2;
+		margin-right: 0;
+		margin-left: 5px;
+	}
+
+	.content {
+		order: 1;
+	}
+
+	.close {
+		left: 5px;
+		top: 5px;
+	}
+}
+
+:host([position="top left"][is_active]) {
+	left: var(--_notification-margin-left);
+	opacity: 1;
+	transform: translateX(0);
+}
+
+:host([position="bottom right"]) {
+	bottom: var(--_notification-margin-bottom);
 	opacity: 0;
 	right: 0px;
 	transform: translateX(100%);
@@ -109,10 +163,7 @@
 		opacity var(--local-notification-transition-delay) var(--bezier-curve);
 
 
-	.content {
-		margin-left: 10px;
-		margin-right: 30px;
-	}
+	.content {}
 
 	.close {
 		right: 5px;
@@ -120,9 +171,34 @@
 	}
 }
 
-:host([position="right"][is_active]) {
+:host([position="bottom right"][is_active]) {
 	opacity: 1;
-	right: 10px;
+	right: var(--_notification-margin-right);
+	transform: translateX(0);
+}
+
+:host([position="top right"]) {
+	opacity: 0;
+	right: 0px;
+	top: var(--_notification-margin-top);
+	transform: translateX(100%);
+	transition: right var(--local-notification-transition-delay) var(--bezier-curve),
+		top var(--local-notification-transition-delay) var(--bezier-curve),
+		transform var(--local-notification-transition-delay) var(--bezier-curve),
+		opacity var(--local-notification-transition-delay) var(--bezier-curve);
+
+
+	.content {}
+
+	.close {
+		right: 5px;
+		top: 5px;
+	}
+}
+
+:host([position="top right"][is_active]) {
+	opacity: 1;
+	right: var(--_notification-margin-right);
 	transform: translateX(0);
 }
 
@@ -136,10 +212,7 @@
 		opacity var(--local-notification-transition-delay) var(--bezier-curve);
 	width: 80%;
 
-	.content {
-		margin-left: 10px;
-		margin-right: 30px;
-	}
+	.content {}
 
 	.close {
 		right: 5px;
@@ -153,7 +226,7 @@
 
 :host([position="top"][is_active]) {
 	opacity: 1;
-	top: 10px;
+	top: var(--_notification-margin-top);
 	transform: translateY(0);
 }
 
@@ -165,10 +238,7 @@
 		opacity var(--local-notification-transition-delay) var(--bezier-curve);
 	width: 80%;
 
-	.content {
-		margin-left: 10px;
-		margin-right: 30px;
-	}
+	.content {}
 
 	.close {
 		right: 5px;
@@ -181,7 +251,15 @@
 }
 
 :host([position="bottom"][is_active]) {
-	bottom: 80px;
+	bottom: var(--_notification-margin-bottom);
 	opacity: 1;
 	transform: translateY(0);
+}
+/* #endregion */
+
+@include eachColor using ($color) {
+	:host([color="#{$color}"]) {
+		background-color: var(--#{$color});
+		color: var(--text-color-#{$color});
+	}
 }

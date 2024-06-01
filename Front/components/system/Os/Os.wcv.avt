@@ -1,3 +1,4 @@
+<div class="background"></div>
 <rk-app-list @element="appList"></rk-app-list>
 <rk-loading text="Chargement du système" background></rk-loading>
 <rk-scrollable y_scroll="false" disable @element="desktopContainerScroll">
@@ -14,3 +15,4 @@
     </div>
 </rk-scrollable>
 <rk-button-icon class="add-desktop" icon="/img/icons/add.svg" color="blue"></rk-button-icon>
+<rk-notification-manager @element="notificationManager"></rk-notification-manager>

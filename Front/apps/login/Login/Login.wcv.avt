@@ -1,13 +1,18 @@
 <rk-blur src="/img/wp.png"></rk-blur>
-<form class="login-container" @element="formEl" @submit="loginAction" >
-    <div class="login-img-container">
-        <rk-img src="/img/avatar.png" mode="stretch"></rk-img>
+<form class="login-container" @element="formEl" @submit="loginAction">
+    <div class="body">
+        <div class="login-img-container">
+            <rk-img src="/img/avatar.png" mode="stretch"></rk-img>
+        </div>
+        <div class="field-container">
+            <input type="text" value="Cobwebsite" readonly="readonly" />
+            <slot></slot>
+            <input type="text" @element="usernameEl" name="username" placeholder="Nom d'utilisateur" @focus="clearError" />
+            <input type="password" @element="passwordEl" name="password" placeholder="Mot de passe" @focus="clearError" />
+        </div>
+        <rk-img class="btn-login" src="/img/icons/angle-right.svg" @click="validateForm"></rk-img>
+        <rk-button class="btn-login-mobile" @click="validateForm">Se connecter</rk-button>
+        <input @element="submitBtn" type="submit" value="sub">
     </div>
-    <div class="field-container">
-        <input type="text" value="Cobwebsite" readonly="readonly" />
-        <input type="text" @element="usernameEl" name="username" placeholder="votre login" />
-        <input type="password" @element="passwordEl" name="password" autocomplete="password" placeholder="votre mot de passe" />
-    </div>
-    <rk-img class="btn-login" src="/img/icons/angle-right.svg" @click="validateForm"></rk-img>
-    <input @element="submitBtn" type="submit" value="sub">
+    <div class="errors">{{this.error}}</div>
 </form>

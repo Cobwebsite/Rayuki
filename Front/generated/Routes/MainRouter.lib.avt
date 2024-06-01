@@ -7,40 +7,41 @@ namespace Routes {
 			super(router ?? new CoreRouter());
 		}
 		@BindThis()
-		public async LoginAction(body: { username: string, password: string } | FormData): Promise<Aventus.VoidWithError<Aventus.GenericError<number>>> {
+		public async LoginAction(body: { username: string, password: string } | FormData): Promise<AventusSharp.Tools.ResultWithError<boolean>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/login`, Aventus.HttpMethod.POST);
 			request.setBody(body);
-			return await request.queryVoid(this.router);
+			type TypeResult = boolean;
+			return await request.queryJSON<TypeResult>(this.router);
 		}
 
 		@BindThis()
-		public async Logout(): Promise<Aventus.VoidWithError<Aventus.GenericError<number>>> {
+		public async Logout(): Promise<AventusSharp.Tools.VoidWithError> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/logout`, Aventus.HttpMethod.POST);
 			return await request.queryVoid(this.router);
 		}
 
 		@BindThis()
-		public async VapidPublicKey(): Promise<Aventus.ResultWithError<string, Aventus.GenericError<number>>> {
+		public async VapidPublicKey(): Promise<AventusSharp.Tools.ResultWithError<string>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/vapidPublicKey`, Aventus.HttpMethod.GET);
 			type TypeResult = string;
 			return await request.queryJSON<TypeResult>(this.router);
 		}
 
 		@BindThis()
-		public async Register(body: { subscription: PushSubscription } | FormData): Promise<Aventus.VoidWithError<Aventus.GenericError<number>>> {
+		public async Register(body: { subscription: PushSubscription } | FormData): Promise<AventusSharp.Tools.VoidWithError> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/register`, Aventus.HttpMethod.POST);
 			request.setBody(body);
 			return await request.queryVoid(this.router);
 		}
 
 		@BindThis()
-		public async SendNotification(): Promise<Aventus.VoidWithError<Aventus.GenericError<number>>> {
+		public async SendNotification(): Promise<AventusSharp.Tools.VoidWithError> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/sendNotification`, Aventus.HttpMethod.GET);
 			return await request.queryVoid(this.router);
 		}
 
 		@BindThis()
-		public async Restart(): Promise<Aventus.VoidWithError<Aventus.GenericError<number>>> {
+		public async Restart(): Promise<AventusSharp.Tools.VoidWithError> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/restart`, Aventus.HttpMethod.GET);
 			return await request.queryVoid(this.router);
 		}

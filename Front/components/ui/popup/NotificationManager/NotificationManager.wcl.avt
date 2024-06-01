@@ -1,0 +1,398 @@
+import { Notification, type NotificationOptions, type NotificationPosition } from "../Notification/Notification.wcl.avt";
+
+namespace Components {
+    export class NotificationManager extends Aventus.WebComponent implements Aventus.DefaultComponent {
+        private activeNotifications: {
+            top: Notification[],
+            'top left': Notification[],
+            'bottom left': Notification[],
+            bottom: Notification[],
+            'bottom right': Notification[],
+            'top right': Notification[],
+        } = {
+                top: [],
+                'top left': [],
+                'bottom left': [],
+                bottom: [],
+                'bottom right': [],
+                'top right': [],
+            };
+
+        private waitingNotifications: {
+            top: Notification[],
+            'top left': Notification[],
+            'bottom left': Notification[],
+            bottom: Notification[],
+            'bottom right': Notification[],
+            'top right': Notification[],
+        } = {
+                top: [],
+                'top left': [],
+                'bottom left': [],
+                bottom: [],
+                'bottom right': [],
+                'top right': [],
+            };
+
+
+        public get containerHeight(): number {
+            return this.offsetHeight;
+        }
+
+
+        @Attribute()
+        public gap: number = 10;
+
+
+
+        public async notify(notification: Notification | NotificationOptions): Promise<boolean> {
+            let realNotification: Notification;
+            if(notification instanceof Notification) {
+                realNotification = notification;
+            }
+            else {
+                realNotification = Notification.create(notification);
+            }
+            this.appendChild(realNotification);
+            if(realNotification.position == "bottom") {
+                return this._notifyBottom(realNotification, true);
+            }
+            else if(realNotification.position == "bottom left") {
+                return this._notifyBottomLeft(realNotification, true);
+            }
+            else if(realNotification.position == "top left") {
+                return this._notifyTopLeft(realNotification, true);
+            }
+            else if(realNotification.position == "bottom right") {
+                return this._notifyBottomRight(realNotification, true);
+            }
+            else if(realNotification.position == "top right") {
+                return this._notifyTopRight(realNotification, true);
+            }
+            else if(realNotification.position == "top") {
+                return this._notifyTop(realNotification, true);
+            }
+            return false;
+        }
+
+
+        private _notifyBottomRight(notification: Notification, firstTime: boolean, from: number = 0) {
+            return new Promise<boolean>((resolve) => {
+
+                let height = notification.offsetHeight;
+                let position: NotificationPosition = "bottom right";
+
+                const _remove = (result: boolean) => {
+                    let index = this.activeNotifications[position].indexOf(notification);
+                    if(index > -1) {
+                        this.activeNotifications[position].splice(index, 1);
+                    }
+                    if(this.waitingNotifications[position].length > 0) {
+                        let nextNotif = this.waitingNotifications[position].splice(0, 1)[0];
+                        this._notifyBottomRight(nextNotif, false, index);
+                    }
+                    else {
+                        let bodyHeight = this.containerHeight;
+                        for(let i = 0; i < index; i++) {
+                            let notif = this.activeNotifications[position][i];
+                            let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
+                            notif.style.bottom = bottom - height - this.gap + 'px';
+                        }
+                    }
+                    resolve(result);
+                };
+
+                let length = this.activeNotifications[position].length;
+                if(length == 0) {
+                    this.activeNotifications[position].push(notification);
+                    notification.show(_remove);
+                }
+                else {
+                    let bodyHeight = this.containerHeight;
+                    let totHeight = 0;
+                    for(let notif of this.activeNotifications[position]) {
+                        totHeight += notif.offsetHeight + this.gap;
+                    }
+                    if(totHeight + height < bodyHeight / 2) {
+                        for(let i = from; i < this.activeNotifications[position].length; i++) {
+                            let notif = this.activeNotifications[position][i];
+                            let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
+                            notif.style.bottom = bottom + height + this.gap + 'px';
+                        }
+
+                        this.activeNotifications[position].push(notification);
+                        notification.show(_remove);
+                    }
+                    else if(firstTime) {
+                        this.waitingNotifications[position].push(notification);
+                    }
+                }
+            });
+        }
+
+        private _notifyTopRight(notification: Notification, firstTime: boolean, from: number = 0) {
+            return new Promise<boolean>((resolve) => {
+
+                let height = notification.offsetHeight;
+                let position: NotificationPosition = "top right";
+
+                const _remove = (result: boolean) => {
+                    let index = this.activeNotifications[position].indexOf(notification);
+                    if(index > -1) {
+                        this.activeNotifications[position].splice(index, 1);
+                    }
+                    if(this.waitingNotifications[position].length > 0) {
+                        let nextNotif = this.waitingNotifications[position].splice(0, 1)[0];
+                        this._notifyTopRight(nextNotif, false, index);
+                    }
+                    else {
+                        for(let i = 0; i < index; i++) {
+                            let notif = this.activeNotifications[position][i];
+                            let top = (notif.offsetTop - height - this.gap);
+                            notif.style.top = top + 'px';
+                        }
+                    }
+                    resolve(result);
+                };
+
+                let length = this.activeNotifications[position].length;
+                if(length == 0) {
+                    this.activeNotifications[position].push(notification);
+                    notification.show(_remove);
+                }
+                else {
+                    let bodyHeight = this.containerHeight;
+                    let totHeight = 0;
+                    for(let notif of this.activeNotifications[position]) {
+                        totHeight += notif.offsetHeight + this.gap;
+                    }
+                    if(totHeight + height < bodyHeight / 2) {
+                        for(let i = from; i < this.activeNotifications[position].length; i++) {
+                            let notif = this.activeNotifications[position][i];
+                            let top = (notif.offsetTop + notif.offsetHeight);
+                            notif.style.top = top + this.gap + 'px';
+                        }
+
+                        this.activeNotifications[position].push(notification);
+                        notification.show(_remove);
+                    }
+                    else if(firstTime) {
+                        this.waitingNotifications[position].push(notification);
+                    }
+                }
+            });
+        }
+
+        private _notifyBottomLeft(notification: Notification, firstTime: boolean, from: number = 0) {
+            return new Promise<boolean>((resolve) => {
+                let height = notification.offsetHeight;
+                let position: NotificationPosition = "bottom left";
+
+                const _remove = (result: boolean) => {
+                    let index = this.activeNotifications[position].indexOf(notification);
+                    if(index > -1) {
+                        this.activeNotifications[position].splice(index, 1);
+                    }
+                    if(this.waitingNotifications[position].length > 0) {
+                        let nextNotif = this.waitingNotifications[position].splice(0, 1)[0];
+                        this._notifyBottomLeft(nextNotif, false, index);
+                    }
+                    else {
+                        let bodyHeight = this.containerHeight;
+                        for(let i = 0; i < index; i++) {
+                            let notif = this.activeNotifications[position][i];
+                            let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
+                            notif.style.bottom = bottom - height - this.gap + 'px';
+                        }
+                    }
+                    resolve(result);
+                };
+
+                let length = this.activeNotifications[position].length;
+                if(length == 0) {
+                    this.activeNotifications[position].push(notification);
+                    notification.show(_remove);
+                }
+                else {
+                    let bodyHeight = this.containerHeight;
+                    let totHeight = 0;
+                    for(let notif of this.activeNotifications[position]) {
+                        totHeight += notif.offsetHeight + this.gap;
+                    }
+                    if(totHeight + height < bodyHeight / 2) {
+                        for(let i = from; i < this.activeNotifications[position].length; i++) {
+                            let notif = this.activeNotifications[position][i];
+                            let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
+                            notif.style.bottom = bottom + height + this.gap + 'px';
+                        }
+
+                        this.activeNotifications[position].push(notification);
+                        notification.show(_remove);
+                    }
+                    else if(firstTime) {
+                        this.waitingNotifications[position].push(notification);
+                    }
+                }
+            });
+        }
+
+        private _notifyTopLeft(notification: Notification, firstTime: boolean, from: number = 0) {
+            return new Promise<boolean>((resolve) => {
+
+                let height = notification.offsetHeight;
+                let position: NotificationPosition = "top left";
+
+                const _remove = (result: boolean) => {
+                    let index = this.activeNotifications[position].indexOf(notification);
+                    if(index > -1) {
+                        this.activeNotifications[position].splice(index, 1);
+                    }
+                    if(this.waitingNotifications[position].length > 0) {
+                        let nextNotif = this.waitingNotifications[position].splice(0, 1)[0];
+                        this._notifyTopRight(nextNotif, false, index);
+                    }
+                    else {
+                        for(let i = 0; i < index; i++) {
+                            let notif = this.activeNotifications[position][i];
+                            let top = (notif.offsetTop - height - this.gap);
+                            notif.style.top = top + 'px';
+                        }
+                    }
+                    resolve(result);
+                };
+
+                let length = this.activeNotifications[position].length;
+                if(length == 0) {
+                    this.activeNotifications[position].push(notification);
+                    notification.show(_remove);
+                }
+                else {
+                    let bodyHeight = this.containerHeight;
+                    let totHeight = 0;
+                    for(let notif of this.activeNotifications[position]) {
+                        totHeight += notif.offsetHeight + this.gap;
+                    }
+                    if(totHeight + height < bodyHeight / 2) {
+                        for(let i = from; i < this.activeNotifications[position].length; i++) {
+                            let notif = this.activeNotifications[position][i];
+                            let top = (notif.offsetTop + notif.offsetHeight);
+                            notif.style.top = top + this.gap + 'px';
+                        }
+
+                        this.activeNotifications[position].push(notification);
+                        notification.show(_remove);
+                    }
+                    else if(firstTime) {
+                        this.waitingNotifications[position].push(notification);
+                    }
+                }
+            });
+        }
+
+        private _notifyTop(notification: Notification, firstTime: boolean, from: number = 0) {
+            return new Promise<boolean>((resolve) => {
+                let height = notification.offsetHeight;
+                let position: NotificationPosition = "top";
+
+                const _remove = (result: boolean) => {
+                    let index = this.activeNotifications[position].indexOf(notification);
+                    if(index > -1) {
+                        this.activeNotifications[position].splice(index, 1);
+                    }
+                    if(this.waitingNotifications[position].length > 0) {
+                        let nextNotif = this.waitingNotifications[position].splice(0, 1)[0];
+                        this._notifyTop(nextNotif, false, index);
+                    }
+                    else {
+                        for(let i = 0; i < index; i++) {
+                            let notif = this.activeNotifications[position][i];
+                            let top = notif.offsetTop;
+                            notif.style.top = top - height - this.gap + 'px';
+                        }
+                    }
+                    resolve(result);
+                };
+
+                let length = this.activeNotifications[position].length;
+                if(length == 0) {
+                    this.activeNotifications[position].push(notification);
+                    notification.show(_remove);
+                }
+                else {
+                    let bodyHeight = this.containerHeight;
+                    let totHeight = 0;
+                    for(let notif of this.activeNotifications[position]) {
+                        totHeight += notif.offsetHeight + this.gap;
+                    }
+                    if(totHeight + height < bodyHeight / 3) {
+                        for(let i = from; i < this.activeNotifications[position].length; i++) {
+                            let notif = this.activeNotifications[position][i];
+                            let top = notif.offsetTop;
+                            notif.style.top = top + height + this.gap + 'px';
+                        }
+
+                        this.activeNotifications[position].push(notification);
+                        notification.show(_remove);
+                    }
+                    else if(firstTime) {
+                        this.waitingNotifications[position].push(notification);
+                    }
+                }
+            });
+        }
+
+        private _notifyBottom(notification: Notification, firstTime: boolean, from: number = 0) {
+            return new Promise<boolean>((resolve) => {
+                let height = notification.offsetHeight;
+                let position: NotificationPosition = "bottom";
+
+                const _remove = (result: boolean) => {
+                    let index = this.activeNotifications[position].indexOf(notification);
+                    if(index > -1) {
+                        this.activeNotifications[position].splice(index, 1);
+                    }
+                    if(this.waitingNotifications[position].length > 0) {
+                        let nextNotif = this.waitingNotifications[position].splice(0, 1)[0];
+                        this._notifyBottom(nextNotif, false, index);
+                    }
+                    else {
+                        let bodyHeight = this.containerHeight;
+                        for(let i = 0; i < index; i++) {
+                            let notif = this.activeNotifications[position][i];
+                            let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
+                            notif.style.bottom = bottom - height - this.gap + 'px';
+                        }
+                    }
+                    resolve(result);
+                };
+
+                let length = this.activeNotifications[position].length;
+                if(length == 0) {
+                    this.activeNotifications[position].push(notification);
+                    notification.show(_remove);
+                }
+                else {
+                    let bodyHeight = this.containerHeight;
+                    let totHeight = 0;
+                    for(let notif of this.activeNotifications[position]) {
+                        totHeight += notif.offsetHeight + this.gap;
+                    }
+                    if(totHeight + height < bodyHeight / 3) {
+                        for(let i = from; i < this.activeNotifications[position].length; i++) {
+                            let notif = this.activeNotifications[position][i];
+                            let bottom = bodyHeight - (notif.offsetTop + notif.offsetHeight);
+                            notif.style.bottom = bottom + height + this.gap + 'px';
+                        }
+
+                        this.activeNotifications[position].push(notification);
+                        notification.show(_remove);
+                    }
+                    else if(firstTime) {
+                        this.waitingNotifications[position].push(notification);
+                    }
+                }
+            });
+        }
+
+    }
+}
