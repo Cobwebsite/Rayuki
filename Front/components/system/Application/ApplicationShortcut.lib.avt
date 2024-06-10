@@ -1,0 +1,95 @@
+import { ShortcutManager, SpecialTouch } from "../../../libs/ShortcutManager.lib.avt";
+import type { Application } from "./Application.wcl.avt";
+
+namespace System {
+
+    export class ApplicationShortcut {
+        private application: Application;
+        protected cmds: [(string | SpecialTouch)[], cb: () => any][] = [];
+        public is_cmd: boolean = false;
+
+
+        public constructor(application: Application) {
+            this.application = application;
+        }
+
+        public init() {
+            this.cmds = this.defineCmds();
+        }
+
+        /**
+         *  Defines the keyboard shortcuts for the application.
+         */
+        protected defaultShortcut(): [(string | SpecialTouch)[], cb: () => any][] {
+            return [
+                [[SpecialTouch.Control, SpecialTouch.ArrowLeft], this.application.moveApplicationToLeft],
+                [[SpecialTouch.Control, SpecialTouch.ArrowRight], this.application.moveApplicationToRight],
+                [[SpecialTouch.Control, 'k'], this.startCmd],
+            ];
+        }
+
+        public manageShortcut() {
+            let shortcuts = this.defaultShortcut();
+            let customShortcut = this.application.defineShortcut();
+            for(let shortcut of customShortcut) {
+                shortcuts.push(shortcut);
+            }
+
+            if(this.application.is_desktop_active) {
+                for(let shortcut of shortcuts) {
+                    ShortcutManager.subscribe(shortcut[0], shortcut[1]);
+                }
+            }
+            else {
+                for(let shortcut of shortcuts) {
+                    ShortcutManager.unsubscribe(shortcut[0], shortcut[1]);
+                }
+            }
+        }
+
+
+        protected defineCmds(): [(string | SpecialTouch)[], cb: () => any][] {
+            return [
+                [['s'], this.runCmd(this.printState)],
+            ];
+        }
+
+        @BindThis()
+        protected startCmd() {
+            for(let cmd of this.cmds) {
+                ShortcutManager.subscribe(cmd[0], cmd[1]);
+            }
+            this.is_cmd = true;
+            setTimeout(() => {
+                this.stopCmd();
+            }, 2000);
+        }
+
+        @BindThis()
+        protected stopCmd() {
+            if(!this.is_cmd) return;
+
+            this.is_cmd = false;
+            for(let cmd of this.cmds) {
+                ShortcutManager.unsubscribe(cmd[0], cmd[1]);
+            }
+        }
+
+        protected runCmd(fct: () => any) {
+            return () => {
+                try {
+                    fct();
+                } catch {
+
+                }
+                this.stopCmd();
+            };
+        }
+
+        @BindThis()
+        protected printState() {
+            console.log(this.application.navigator.getState());
+        }
+    }
+}
+

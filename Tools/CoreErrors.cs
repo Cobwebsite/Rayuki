@@ -13,6 +13,7 @@ namespace Core.Tools
         NotAllowed,
         NotLogin,
         ConversionFailed,
+        SeederError,
     }
 
     [Typescript("Errors")]

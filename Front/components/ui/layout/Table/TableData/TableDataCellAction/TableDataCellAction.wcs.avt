@@ -1,0 +1,28 @@
+:host {
+	justify-content: flex-end;
+	padding: 0 7px;
+
+	mi-icon {
+		border-radius: var(--border-radius-sm);
+		color: var(--blue);
+		cursor: pointer;
+		font-size: var(--font-size-md);
+		margin: 0 2px;
+		padding: 3px;
+		transition: background-color 0.2s linear;
+	}
+
+	mi-icon.delete {
+		color: var(--red);
+	}
+
+	mi-icon:hover {
+		background-color: var(--lighter);
+	}
+}
+
+:host([grid]) {
+	align-items: center;
+	margin-top: 0;
+	width: 100%;
+}

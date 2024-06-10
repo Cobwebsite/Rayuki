@@ -1,0 +1,9 @@
+export type AddonsName = 'QrCodeReader' | 'QrCodeGenerator';
+export class Addon {
+    public static async load(name: AddonsName): Promise<void> {
+        await Aventus.ResourceLoader.loadInHead({
+            url: "/addon/" + name + ".js",
+            type: "js"
+        });
+    }
+}

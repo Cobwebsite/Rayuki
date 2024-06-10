@@ -1,4 +1,4 @@
-import { TableDataCellHeaderAction } from "./TableDataCellHeaderAction.wc.avt";
+import { TableDataCellHeaderAction } from "./TableDataCellHeaderAction/TableDataCellHeaderAction.wcl.avt";
 import { Application } from "../../../../system/Application/Application.wcl.avt";
 import { Table, type TableOptions, type TableSchema } from "../Table.wcl.avt";
 import { TableRowData } from "./TableRowData/TableRowData.wcl.avt";

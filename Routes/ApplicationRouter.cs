@@ -38,7 +38,7 @@ namespace Core.Routes
         {
             try
             {
-                if(!HttpServer.IsDev)
+                if (!HttpServer.IsDev)
                 {
                     return false;
                 }
@@ -68,10 +68,7 @@ namespace Core.Routes
 
                 return true;
             }
-            catch(Exception ex)
-            {
-
-            }
+            catch { }
             return false;
         }
 

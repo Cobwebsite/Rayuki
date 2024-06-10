@@ -37,11 +37,16 @@ namespace Core
             get => app.Environment.IsDevelopment();
         }
 
-        public static DatabaseConfig? Config
+        public static DatabaseConfig Config
         {
             get
             {
-                return app.Configuration.GetSection("Database").Get<DatabaseConfig>();
+                DatabaseConfig? result = app.Configuration.GetSection("Database").Get<DatabaseConfig>();
+                if(result == null) {
+                    Console.WriteLine("The database section can't be found inside the appsettings.json");
+                    Environment.Exit(0);
+                }
+                return result;
             }
         }
 
@@ -53,6 +58,7 @@ namespace Core
             Task.Delay(1000).ContinueWith(async (t) =>
             {
                 await LoadApps();
+                Console.WriteLine("Apps loaded");
             });
             InitHttpApp();
         }

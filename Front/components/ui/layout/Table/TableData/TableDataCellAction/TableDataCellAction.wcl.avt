@@ -1,0 +1,19 @@
+
+import { TableData } from "../TableData.wcl.avt";
+import { TableCellAction } from "../../cells/TableCellAction.wc.avt";
+
+namespace Components {
+    export class TableDataCellAction<U = any> extends TableCellAction<U> implements Aventus.DefaultComponent {
+
+        public editData() {
+            if(this.table instanceof TableData) {
+                this.table.editData(this.data);
+            }
+        }
+        public deleteData() {
+            if(this.table instanceof TableData) {
+                this.table.deleteData(this.data);
+            }
+        }
+    }
+}

@@ -13,7 +13,7 @@ import type { Desktop } from "../Desktop/Desktop.wcl.avt";
 import type { ContextMenu, IContextMenu } from "../../ui/ContextMenu/ContextMenu.wcl.avt";
 import { Geometry, type Rectangle } from "../../../libs/Geometry.lib.avt";
 import type { ApplicationQueryFct, ApplicationQueryFctResult, ApplicationQueryResult, GetArgs } from "./ApplicationError.lib.avt";
-import { ShortcutManager, SpecialTouch } from "../../../libs/ShortcutManager.lib.avt";
+import { type SpecialTouch } from "../../../libs/ShortcutManager.lib.avt";
 import { Os } from "../Os/Os.wcl.avt";
 import { DesktopActivableLogic, type IDesktopActivable } from "../Desktop/IActivable.lib.avt";
 import { ApplicationState } from "../../../states/ApplicationState.state.avt";
@@ -22,6 +22,7 @@ import { FrameNotAllowed } from "../Frame/FrameNotAllowed/FrameNotAllowed.wcl.av
 import type { ContextMenuElement } from "../../ui/ContextMenu/ContextMenuElement/ContextMenuElement.wcl.avt";
 import type { NotificationManager } from "../../ui/popup/NotificationManager/NotificationManager.wcl.avt";
 import type { Notification, NotificationOptions } from "../../ui/popup/Notification/Notification.wcl.avt";
+import { ApplicationShortcut } from "./ApplicationShortcut.lib.avt";
 
 namespace System {
 
@@ -88,7 +89,7 @@ namespace System {
 
 
         @Watch((target: Application) => {
-            target.manageShortcut();
+            target.shortcutManager.manageShortcut();
         })
         public is_desktop_active: boolean = false;
 
@@ -111,6 +112,7 @@ namespace System {
         protected sizeManager: ApplicationSize;
         protected isAnimating: boolean = false;
         private afterTransitionCb: (() => void)[] = [];
+        protected shortcutManager: ApplicationShortcut;
         //#endregion
 
 
@@ -121,6 +123,8 @@ namespace System {
             this.sizeManager = new ApplicationSize(this);
             this.canChangeState = this.canChangeState.bind(this);
             this.navigator.canChangeState(this.canChangeState);
+            this.shortcutManager = new ApplicationShortcut(this);
+            this.shortcutManager.init();
         }
         //#endregion
 
@@ -222,29 +226,12 @@ namespace System {
 
         /**
          *  Defines the keyboard shortcuts for the application.
-         */
-        protected defineShortcut(): [(string | SpecialTouch)[], cb: () => void][] {
-            return [
-                [[SpecialTouch.Control, SpecialTouch.ArrowLeft], this.moveApplicationToLeft],
-                [[SpecialTouch.Control, SpecialTouch.ArrowRight], this.moveApplicationToRight]
-            ];
+        */
+        @InternalProtected()
+        public defineShortcut(): [(string | SpecialTouch)[], cb: () => void][] {
+            return [];
         }
-        /**
-         *  Manages the keyboard shortcuts for the application
-         */
-        private manageShortcut() {
-            let shortcuts = this.defineShortcut();
-            if(this.is_desktop_active) {
-                for(let shortcut of shortcuts) {
-                    ShortcutManager.subscribe(shortcut[0], shortcut[1]);
-                }
-            }
-            else {
-                for(let shortcut of shortcuts) {
-                    ShortcutManager.unsubscribe(shortcut[0], shortcut[1]);
-                }
-            }
-        }
+        
 
 
         /**
@@ -655,7 +642,7 @@ namespace System {
          * ;oves the application to the left side of the screen.
          */
         @BindThis()
-        protected moveApplicationToLeft() {
+        public moveApplicationToLeft() {
             this.moveApplication({
                 top: 5,
                 left: 5,
@@ -668,7 +655,7 @@ namespace System {
          * Moves the application to the right side of the screen.
          */
         @BindThis()
-        protected moveApplicationToRight() {
+        public moveApplicationToRight() {
             this.moveApplication({
                 top: 5,
                 left: Os.instance.offsetWidth / 2 + 2,
@@ -826,8 +813,8 @@ namespace System {
             return await this.popup(c);
         }
 
-        public notify(notification: Notification) : Promise<boolean>;
-        public notify(notification: NotificationOptions) : Promise<boolean>;
+        public notify(notification: Notification): Promise<boolean>;
+        public notify(notification: NotificationOptions): Promise<boolean>;
         public notify(notification: Notification | NotificationOptions) {
             return this.notificationManager.notify(notification);
         }
@@ -863,35 +850,47 @@ namespace System {
          */
         public async executeWithLoading<X>(prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
             const queryResult = await this.showLoading(prom);
+            if(!queryResult) return undefined;
             return await this.parseErrors(queryResult);
         }
         /**
          * Shows a loading indicator while executing a function or promise.
          */
-        public async showLoading<X>(fct: (() => Promise<X>) | Promise<X>): Promise<X> {
-            const minDelay = 2000;
-            let start: Date | undefined;
-            let timeout = setTimeout(() => {
-                start = new Date();
-                this.loading = true;
-            }, 200);
-            let result: X;
-            if(fct instanceof Promise) {
-                result = await fct;
-            }
-            else {
-                result = await fct();
-            }
-            clearTimeout(timeout);
-            if(start) {
-                let now = new Date();
-                let diffMs = now.getTime() - start.getTime();
-                if(diffMs < minDelay) {
-                    await Aventus.sleep(minDelay - diffMs);
+        public async showLoading<X>(fct: (() => Promise<X>) | Promise<X>): Promise<X | null> {
+            let timeout: number = 0;
+            try {
+                const minDelay = 2000;
+                let start: Date | undefined;
+                timeout = setTimeout(() => {
+                    start = new Date();
+                    this.loading = true;
+                }, 200);
+                let result: X;
+                if(fct instanceof Promise) {
+                    result = await fct;
                 }
+                else {
+                    result = await fct();
+                }
+                clearTimeout(timeout);
+                if(start) {
+                    let now = new Date();
+                    let diffMs = now.getTime() - start.getTime();
+                    if(diffMs < minDelay) {
+                        await Aventus.sleep(minDelay - diffMs);
+                    }
+                }
+                this.loading = false;
+                return result;
+            } catch(e) {
+                clearTimeout(timeout);
+                this.loading = false;
+                this.alert({
+                    title: "Erreur",
+                    description: e
+                });
             }
-            this.loading = false;
-            return result;
+            return null;
         }
         //#endregion
 

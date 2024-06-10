@@ -1,0 +1,21 @@
+:host {
+	align-items: center;
+	display: flex;
+	justify-content: end;
+
+	span {
+		align-items: center;
+		display: flex;
+		height: 100%;
+	}
+
+	mi-icon {
+		border-radius: var(--border-radius-sm);
+		color: var(--green);
+		cursor: pointer;
+	}
+
+	mi-icon:hover {
+		background-color: var(--lighter);
+	}
+}

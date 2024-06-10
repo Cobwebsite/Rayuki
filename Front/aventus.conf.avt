@@ -57,6 +57,30 @@
             ]
         },
         {
+            "module": "Addon",
+            "name": "Addon",
+            "hideWarnings": true,
+            "disabled": false,
+            "src": [
+                "./addon/*"
+            ],
+            "compile": [
+                {
+                    "package": "../../../Libs/RayukiCore/Addon.package.avt"
+                }
+            ],
+            "dependances": [
+				{
+					"uri": "https://store.aventusjs.com/libs/QrCodeReader/1_0_0/QrCodeReader@Main.package.avt",
+                    "include": "full"
+				},
+				{
+					"uri": "https://store.aventusjs.com/libs/QrCodeGenerator/1_0_0/QrCodeGenerator@Main.package.avt",
+                    "include": "full"
+				}
+			]
+        },
+        {
             "name": "Login",
             "disabled": true,
             "src": [

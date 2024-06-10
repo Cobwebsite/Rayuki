@@ -2,11 +2,19 @@ using AventusSharp.Data.Storage.Default;
 using AventusSharp.Tools;
 using Core.App;
 using Core.Data;
+using Core.Tools;
 
 namespace Core.Logic
 {
     public abstract class Seeder
     {
+        protected bool IsDev
+        {
+            get
+            {
+                return HttpServer.IsDev;
+            }
+        }
         protected abstract int DefineVersion();
 
         internal void Run()
@@ -23,37 +31,39 @@ namespace Core.Logic
 
             for (; versionDb <= versionLocal; versionDb++)
             {
-                if (!_LoadVersion(versionDb, seeder))
+                VoidWithError resultTemp = _LoadVersion(versionDb, seeder);
+                if (!resultTemp.Success)
                 {
-                    Console.WriteLine("Seeder failed for " + name + " version " + versionDb);
+                    resultTemp.Print();
                     return;
                 }
             }
         }
 
-        private bool _LoadVersion(int version, SeederMemory seeder)
+        private VoidWithError _LoadVersion(int version, SeederMemory seeder)
         {
-            ResultWithError<BeginTransactionResult> transactionQuery = AppManager.Storage.BeginTransaction();
-            if (!transactionQuery.Success || transactionQuery.Result == null) return false;
-
-            if (!LoadVersion(version))
+            return AppManager.Storage.RunInsideTransaction(() =>
             {
-                transactionQuery.Result.Rollback();
-                return false;
-            }
+                VoidWithError voidWithError = new VoidWithError();
+                if (!LoadVersion(version))
+                {
+                    voidWithError.Errors.Add(new CoreError(CoreErrorCode.SeederError, "The seeder for the app " + GetType().Assembly.GetName().Name +" failed for version "+version));
+                    return voidWithError;
+                }
 
-            seeder.Version = version;
+                seeder.Version = version;
 
-            if (seeder.Id != 0)
-            {
-                seeder.Update();
-            }
-            else
-            {
-                seeder.Create();
-            }
-            transactionQuery.Result.Commit();
-            return true;
+                if (seeder.Id != 0)
+                {
+                    voidWithError.Errors = seeder.UpdateWithError();
+                }
+                else
+                {
+                    voidWithError.Errors = seeder.CreateWithError();
+                }
+
+                return voidWithError;
+            });
         }
 
         protected abstract bool LoadVersion(int version);

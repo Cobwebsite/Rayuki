@@ -5,8 +5,8 @@ var Core;
 const moduleName = `Core`;
 const _ = {};
 Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block;touch-action:manipulation}:host *{box-sizing:border-box;touch-action:manipulation}.touch{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}.touch.disable,.touch.disabled{cursor:default}.primary{background-color:var(--primary);color:var(--text-color-primary)}.text-primary{color:var(--primary)}.secondary{background-color:var(--secondary);color:var(--text-color-secondary)}.text-secondary{color:var(--secondary)}.green{background-color:var(--green);color:var(--text-color-green)}.text-green{color:var(--green)}.success{background-color:var(--success);color:var(--text-color-success)}.text-success{color:var(--success)}.red{background-color:var(--red);color:var(--text-color-red)}.text-red{color:var(--red)}.error{background-color:var(--error);color:var(--text-color-error)}.text-error{color:var(--error)}.orange{background-color:var(--orange);color:var(--text-color-orange)}.text-orange{color:var(--orange)}.warning{background-color:var(--warning);color:var(--text-color-warning)}.text-warning{color:var(--warning)}.blue{background-color:var(--blue);color:var(--text-color-blue)}.text-blue{color:var(--blue)}.information{background-color:var(--information);color:var(--text-color-information)}.text-information{color:var(--information)}`)
-const Data = {};
-_.Data = {};
+const Lib = {};
+_.Lib = {};
 const Websocket = {};
 _.Websocket = {};
 Websocket.Events = {};
@@ -15,14 +15,14 @@ const Errors = {};
 _.Errors = {};
 const Permissions = {};
 _.Permissions = {};
+const Data = {};
+_.Data = {};
 Data.DataTypes = {};
 _.Data.DataTypes = {};
 const App = {};
 _.App = {};
 const Components = {};
 _.Components = {};
-const Lib = {};
-_.Lib = {};
 const System = {};
 _.System = {};
 Websocket.Routes = {};
@@ -38,17 +38,27 @@ _.RAM = {};
 const Tools = {};
 _.Tools = {};
 let _n;
-Data.Settings=class Settings extends AventusSharp.Data.Storable {
-    static get Fullname() { return "Core.Data.Settings, Core"; }
-    Key;
-    Value;
-    UserId = undefined;
+Lib.StringTools=class StringTools {
+    static removeAccents(value) {
+        return value
+            .replace(/[áàãâä]/gi, "a")
+            .replace(/[éè¨ê]/gi, "e")
+            .replace(/[íìïî]/gi, "i")
+            .replace(/[óòöôõ]/gi, "o")
+            .replace(/[úùüû]/gi, "u")
+            .replace(/[ç]/gi, "c")
+            .replace(/[ñ]/gi, "n")
+            .replace(/[^a-zA-Z0-9]/g, " ");
+    }
+    static contains(src, search) {
+        const _src = this.removeAccents((src + '').toLowerCase());
+        const _search = this.removeAccents((search + '').toLowerCase());
+        return _src.includes(_search);
+    }
 }
-Data.Settings.Namespace=`${moduleName}.Data`;
-Data.Settings.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Key":"string","Value":"string","UserId":"number"};
-Aventus.Converter.register(Data.Settings.Fullname, Data.Settings);
+Lib.StringTools.Namespace=`Core.Lib`;
 
-_.Data.Settings=Data.Settings;
+_.Lib.StringTools=Lib.StringTools;
 Websocket.Events.ApplicationTestEvent2=class ApplicationTestEvent2 extends AventusSharp.WebSocket.Event {
     /**
      * @inheritdoc
@@ -57,7 +67,7 @@ Websocket.Events.ApplicationTestEvent2=class ApplicationTestEvent2 extends Avent
         return `${this.getPrefix()}/application/test/2`;
     }
 }
-Websocket.Events.ApplicationTestEvent2.Namespace=`${moduleName}.Websocket.Events`;
+Websocket.Events.ApplicationTestEvent2.Namespace=`Core.Websocket.Events`;
 
 _.Websocket.Events.ApplicationTestEvent2=Websocket.Events.ApplicationTestEvent2;
 Websocket.Events.Body=class Body {
@@ -65,7 +75,7 @@ Websocket.Events.Body=class Body {
     id;
     name;
 }
-Websocket.Events.Body.Namespace=`${moduleName}.Websocket.Events`;
+Websocket.Events.Body.Namespace=`Core.Websocket.Events`;
 Websocket.Events.Body.$schema={"id":"number","name":"string"};
 Aventus.Converter.register(Websocket.Events.Body.Fullname, Websocket.Events.Body);
 
@@ -109,6 +119,17 @@ _.Permissions.DesktopPermission=Permissions.DesktopPermission;
 })(Errors.DesktopErrorCode || (Errors.DesktopErrorCode = {}));
 
 _.Errors.DesktopErrorCode=Errors.DesktopErrorCode;
+Data.Settings=class Settings extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.Settings, Core"; }
+    Key;
+    Value;
+    UserId = undefined;
+}
+Data.Settings.Namespace=`Core.Data`;
+Data.Settings.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Key":"string","Value":"string","UserId":"number"};
+Aventus.Converter.register(Data.Settings.Fullname, Data.Settings);
+
+_.Data.Settings=Data.Settings;
 (function (DemoEnum) {
     DemoEnum[DemoEnum["Value1"] = 0] = "Value1";
     DemoEnum[DemoEnum["Value2"] = 1] = "Value2";
@@ -121,7 +142,7 @@ Data.DataTypes.Pdf=class Pdf extends AventusSharp.Data.AventusFile {
     Html = "";
     Debug = false;
 }
-Data.DataTypes.Pdf.Namespace=`${moduleName}.Data.DataTypes`;
+Data.DataTypes.Pdf.Namespace=`Core.Data.DataTypes`;
 Data.DataTypes.Pdf.$schema={...(AventusSharp.Data.AventusFile?.$schema ?? {}), "Name":"string","Html":"string","Debug":"boolean"};
 Aventus.Converter.register(Data.DataTypes.Pdf.Fullname, Data.DataTypes.Pdf);
 
@@ -131,7 +152,7 @@ Data.Company=class Company extends AventusSharp.Data.Storable {
     Name = "";
     Logo = "";
 }
-Data.Company.Namespace=`${moduleName}.Data`;
+Data.Company.Namespace=`Core.Data`;
 Data.Company.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Logo":"string"};
 Aventus.Converter.register(Data.Company.Fullname, Data.Company);
 
@@ -902,7 +923,7 @@ Lib.DomTools=class DomTools {
         }
     }
 }
-Lib.DomTools.Namespace=`${moduleName}.Lib`;
+Lib.DomTools.Namespace=`Core.Lib`;
 
 _.Lib.DomTools=Lib.DomTools;
 Lib.DateTools=class DateTools {
@@ -924,7 +945,7 @@ Lib.DateTools=class DateTools {
         return date.toLocaleDateString(locale, options);
     }
 }
-Lib.DateTools.Namespace=`${moduleName}.Lib`;
+Lib.DateTools.Namespace=`Core.Lib`;
 
 _.Lib.DateTools=Lib.DateTools;
 System.ApplicationBreakPoint=class ApplicationBreakPoint {
@@ -934,7 +955,7 @@ System.ApplicationBreakPoint=class ApplicationBreakPoint {
     static lg = 960;
     static xl = 1140;
 }
-System.ApplicationBreakPoint.Namespace=`${moduleName}.System`;
+System.ApplicationBreakPoint.Namespace=`Core.System`;
 
 _.System.ApplicationBreakPoint=System.ApplicationBreakPoint;
 Lib.Pointer=class Pointer {
@@ -948,7 +969,7 @@ Lib.Pointer=class Pointer {
         return false;
     }
 }
-Lib.Pointer.Namespace=`${moduleName}.Lib`;
+Lib.Pointer.Namespace=`Core.Lib`;
 
 _.Lib.Pointer=Lib.Pointer;
 (function (ApplicationPermission) {
@@ -979,7 +1000,7 @@ Lib.Geometry=class Geometry {
         return w * h;
     }
 }
-Lib.Geometry.Namespace=`${moduleName}.Lib`;
+Lib.Geometry.Namespace=`Core.Lib`;
 
 _.Lib.Geometry=Lib.Geometry;
 Lib.ApplicationStateManager=class ApplicationStateManager extends Aventus.StateManager {
@@ -1003,13 +1024,13 @@ Lib.ApplicationStateManager=class ApplicationStateManager extends Aventus.StateM
         return super.setState(state);
     }
 }
-Lib.ApplicationStateManager.Namespace=`${moduleName}.Lib`;
+Lib.ApplicationStateManager.Namespace=`Core.Lib`;
 
 _.Lib.ApplicationStateManager=Lib.ApplicationStateManager;
 const Style=class Style {
     colors = ['green', 'success', 'red', 'error', 'orange', 'warning', 'blue', 'information', 'primary', 'secondary'];
 }
-Style.Namespace=`${moduleName}`;
+Style.Namespace=`Core`;
 
 _.Style=Style;
 Components.Tooltip = class Tooltip extends Aventus.WebComponent {
@@ -1022,7 +1043,7 @@ Components.Tooltip = class Tooltip extends Aventus.WebComponent {
     isDestroyed = false;
     timeoutEnter = false;
     timeout = 0;
-    static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;pointer-events:none;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;width:max-content;z-index:1}:host::after{content:"";position:absolute}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--_tooltip-background-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:50%;top:-8px;transform:translateX(-50%)}:host([use_absolute][position=bottom]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=bottom]:not([use_absolute])){bottom:0px;left:50%;transform:translateX(-50%) translateY(calc(100% - 10px))}:host([position=bottom][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(100% + 10px))}:host([position=top]){transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--_tooltip-background-color);bottom:-8px;left:50%;transform:translateX(-50%)}:host([use_absolute][position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x)}:host([use_absolute][visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=top]:not([use_absolute])){left:50%;top:0px;transform:translateX(-50%) translateY(calc(-100% + 10px))}:host([position=top][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(-100% - 10px))}:host([position=right]){transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=right]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=right]:not([use_absolute])){right:0;top:50%;transform:translateX(calc(100% - 10px)) translateY(-50%)}:host([visible][position=right]:not([use_absolute])){transform:translateX(calc(100% + 10px)) translateY(-50%)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=left]){right:var(--local-tooltip-to-x)}:host([position=left]:not([use_absolute])){left:0;top:50%;transform:translateX(calc(-100% + 10px)) translateY(-50%)}:host([visible][position=left]:not([use_absolute])){transform:translateX(calc(-100% - 10px)) translateY(-50%)}:host([color=primary]){--_tooltip-background-color: var(--primary);--_tooltip-color: var(--text-color-primary)}:host([color="secondary green"]){--_tooltip-background-color: var(--secondary green);--_tooltip-color: var(--text-color-secondary green)}:host([color=success]){--_tooltip-background-color: var(--success);--_tooltip-color: var(--text-color-success)}:host([color=red]){--_tooltip-background-color: var(--red);--_tooltip-color: var(--text-color-red)}:host([color=error]){--_tooltip-background-color: var(--error);--_tooltip-color: var(--text-color-error)}:host([color=orange]){--_tooltip-background-color: var(--orange);--_tooltip-color: var(--text-color-orange)}:host([color=warning]){--_tooltip-background-color: var(--warning);--_tooltip-color: var(--text-color-warning)}:host([color=blue]){--_tooltip-background-color: var(--blue);--_tooltip-color: var(--text-color-blue)}:host([color=information]){--_tooltip-background-color: var(--information);--_tooltip-color: var(--text-color-information)}`;
+    static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;pointer-events:none;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;width:max-content;z-index:1}:host::after{content:"";position:absolute}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--_tooltip-background-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:50%;top:-8px;transform:translateX(-50%)}:host([use_absolute][position=bottom]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=bottom]:not([use_absolute])){bottom:0px;left:50%;transform:translateX(-50%) translateY(calc(100% - 10px))}:host([position=bottom][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(100% + 10px))}:host([position=top]){transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--_tooltip-background-color);bottom:-8px;left:50%;transform:translateX(-50%)}:host([use_absolute][position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x)}:host([use_absolute][visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=top]:not([use_absolute])){left:50%;top:0px;transform:translateX(-50%) translateY(calc(-100% + 10px))}:host([position=top][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(-100% - 10px))}:host([position=right]){transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=right]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=right]:not([use_absolute])){right:0;top:50%;transform:translateX(calc(100% - 10px)) translateY(-50%)}:host([visible][position=right]:not([use_absolute])){transform:translateX(calc(100% + 10px)) translateY(-50%)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=left]){right:var(--local-tooltip-to-x)}:host([position=left]:not([use_absolute])){left:0;top:50%;transform:translateX(calc(-100% + 10px)) translateY(-50%)}:host([visible][position=left]:not([use_absolute])){transform:translateX(calc(-100% - 10px)) translateY(-50%)}:host([color=primary]){--_tooltip-background-color: var(--primary);--_tooltip-color: var(--text-color-primary)}:host([color=secondary]){--_tooltip-background-color: var(--secondary);--_tooltip-color: var(--text-color-secondary)}:host([color=green]){--_tooltip-background-color: var(--green);--_tooltip-color: var(--text-color-green)}:host([color=success]){--_tooltip-background-color: var(--success);--_tooltip-color: var(--text-color-success)}:host([color=red]){--_tooltip-background-color: var(--red);--_tooltip-color: var(--text-color-red)}:host([color=error]){--_tooltip-background-color: var(--error);--_tooltip-color: var(--text-color-error)}:host([color=orange]){--_tooltip-background-color: var(--orange);--_tooltip-color: var(--text-color-orange)}:host([color=warning]){--_tooltip-background-color: var(--warning);--_tooltip-color: var(--text-color-warning)}:host([color=blue]){--_tooltip-background-color: var(--blue);--_tooltip-color: var(--text-color-blue)}:host([color=information]){--_tooltip-background-color: var(--information);--_tooltip-color: var(--text-color-information)}`;
     constructor() { super(); this.onMouseEnter=this.onMouseEnter.bind(this)this.onMouseLeave=this.onMouseLeave.bind(this)this.onTransitionEnd=this.onTransitionEnd.bind(this) }
     __getStatic() {
         return Tooltip;
@@ -1158,7 +1179,7 @@ Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
     get 'color'() { return this.getStringAttr('color') }
     set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
     set 'outline'(val) { this.setBoolAttr('outline', val) }    get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{--internal-button-background-color: var(--button-background-color);--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover)}:host{aspect-ratio:1/1;background-color:var(--internal-button-background-color);border-radius:var(--border-radius-round);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;overflow:hidden;position:relative}:host .hider{background-color:var(--darker);inset:0;opacity:0;position:absolute;transform:opacity .3 var(--bezier-curve);z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;position:relative;z-index:2}:host .content .icon{--img-fill-color: var(--internal-button-color);height:100%;padding:10px 0}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color="secondary green"]){background-color:var(--secondary green);color:var(--text-color-secondary green)}:host([outline][color="secondary green"]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:hover) .hider{opacity:1}}`;
+    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--internal-button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}:host{--_button-padding: var(--button-padding, 0)}:host{aspect-ratio:1/1;height:36px;min-width:auto;border-radius:var(--border-radius-round)}:host .hider{border-radius:var(--border-radius-round)}:host .content .icon{--img-fill-color: var(--_button-color);height:100%;padding:10px 0}`;
     __getStatic() {
         return ButtonIcon;
     }
@@ -1257,7 +1278,7 @@ Websocket.MainEndPoint=class MainEndPoint extends AventusSharp.WebSocket.EndPoin
         return "/ws";
     }
 }
-Websocket.MainEndPoint.Namespace=`${moduleName}.Websocket`;
+Websocket.MainEndPoint.Namespace=`Core.Websocket`;
 
 _.Websocket.MainEndPoint=Websocket.MainEndPoint;
 Websocket.Events.ApplicationTestEvent=class ApplicationTestEvent extends AventusSharp.WebSocket.Event {
@@ -1271,7 +1292,7 @@ Websocket.Events.ApplicationTestEvent=class ApplicationTestEvent extends Aventus
         super(endpoint ?? Websocket.MainEndPoint.getInstance(), getPrefix);
     }
 }
-Websocket.Events.ApplicationTestEvent.Namespace=`${moduleName}.Websocket.Events`;
+Websocket.Events.ApplicationTestEvent.Namespace=`Core.Websocket.Events`;
 
 _.Websocket.Events.ApplicationTestEvent=Websocket.Events.ApplicationTestEvent;
 Websocket.Routes.DesktopRouter_RemoveDesktopIcon=class DesktopRouter_RemoveDesktopIcon extends AventusSharp.WebSocket.Event {
@@ -1288,7 +1309,7 @@ Websocket.Routes.DesktopRouter_RemoveDesktopIcon=class DesktopRouter_RemoveDeskt
         return true;
     }
 }
-Websocket.Routes.DesktopRouter_RemoveDesktopIcon.Namespace=`${moduleName}.Websocket.Routes`;
+Websocket.Routes.DesktopRouter_RemoveDesktopIcon.Namespace=`Core.Websocket.Routes`;
 
 _.Websocket.Routes.DesktopRouter_RemoveDesktopIcon=Websocket.Routes.DesktopRouter_RemoveDesktopIcon;
 (function (LoginCode) {
@@ -1302,14 +1323,14 @@ _.Errors.LoginCode=Errors.LoginCode;
 Errors.LoginError=class LoginError extends Aventus.GenericError {
     static get Fullname() { return "Core.Logic.LoginError, Core"; }
 }
-Errors.LoginError.Namespace=`${moduleName}.Errors`;
+Errors.LoginError.Namespace=`Core.Errors`;
 Errors.LoginError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.LoginError.Fullname, Errors.LoginError);
 
 _.Errors.LoginError=Errors.LoginError;
 Lib.HttpRouter=class HttpRouter extends Aventus.HttpRouter {
 }
-Lib.HttpRouter.Namespace=`${moduleName}.Lib`;
+Lib.HttpRouter.Namespace=`Core.Lib`;
 
 _.Lib.HttpRouter=Lib.HttpRouter;
 Data.Permission=class Permission extends AventusSharp.Data.Storable {
@@ -1318,7 +1339,7 @@ Data.Permission=class Permission extends AventusSharp.Data.Storable {
     AdditionalInfo = "";
     EnumValue;
 }
-Data.Permission.Namespace=`${moduleName}.Data`;
+Data.Permission.Namespace=`Core.Data`;
 Data.Permission.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "EnumName":"string","AdditionalInfo":"string","EnumValue":"Aventus.Enum"};
 Aventus.Converter.register(Data.Permission.Fullname, Data.Permission);
 
@@ -1330,7 +1351,7 @@ Data.PermissionUser=class PermissionUser extends AventusSharp.Data.Storable {
     UserId;
     Allow;
 }
-Data.PermissionUser.Namespace=`${moduleName}.Data`;
+Data.PermissionUser.Namespace=`Core.Data`;
 Data.PermissionUser.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":""+moduleName+".Data.Permission","UserId":"number","Allow":"boolean"};
 Aventus.Converter.register(Data.PermissionUser.Fullname, Data.PermissionUser);
 
@@ -1344,7 +1365,7 @@ Permissions.Tree.PermissionTreeItem=class PermissionTreeItem {
     PermissionId;
     Permissions = [];
 }
-Permissions.Tree.PermissionTreeItem.Namespace=`${moduleName}.Permissions.Tree`;
+Permissions.Tree.PermissionTreeItem.Namespace=`Core.Permissions.Tree`;
 Permissions.Tree.PermissionTreeItem.$schema={"DisplayName":"string","Description":"string","EnumName":"string","Value":"Aventus.Enum","PermissionId":"number","Permissions":"PermissionTreeItem"};
 Aventus.Converter.register(Permissions.Tree.PermissionTreeItem.Fullname, Permissions.Tree.PermissionTreeItem);
 
@@ -1359,7 +1380,7 @@ Permissions.PermissionQuery=class PermissionQuery {
         this.additionalInfo = additionalInfo;
     }
 }
-Permissions.PermissionQuery.Namespace=`${moduleName}.Permissions`;
+Permissions.PermissionQuery.Namespace=`Core.Permissions`;
 
 _.Permissions.PermissionQuery=Permissions.PermissionQuery;
 Components.Tracker=class Tracker {
@@ -1399,7 +1420,7 @@ Components.Tracker=class Tracker {
         };
     }
 }
-Components.Tracker.Namespace=`${moduleName}.Components`;
+Components.Tracker.Namespace=`Core.Components`;
 
 _.Components.Tracker=Components.Tracker;
 System.Panel = class Panel extends Aventus.WebComponent {
@@ -1445,7 +1466,7 @@ System.DesktopActivableLogic=class DesktopActivableLogic {
         this.findDeskstop(el, desktop)?.removeElementFromActive(el);
     }
 }
-System.DesktopActivableLogic.Namespace=`${moduleName}.System`;
+System.DesktopActivableLogic.Namespace=`Core.System`;
 
 _.System.DesktopActivableLogic=System.DesktopActivableLogic;
 App.AppConfiguration=class AppConfiguration {
@@ -1453,7 +1474,7 @@ App.AppConfiguration=class AppConfiguration {
     appsInstalled = [];
     allApps = new Map();
 }
-App.AppConfiguration.Namespace=`${moduleName}.App`;
+App.AppConfiguration.Namespace=`Core.App`;
 App.AppConfiguration.$schema={"appsInstalled":"string","allApps":"Map"};
 Aventus.Converter.register(App.AppConfiguration.Fullname, App.AppConfiguration);
 
@@ -1463,7 +1484,7 @@ Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter {
         return options;
     }
 }
-Routes.CoreRouter.Namespace=`${moduleName}.Routes`;
+Routes.CoreRouter.Namespace=`Core.Routes`;
 
 _.Routes.CoreRouter=Routes.CoreRouter;
 Routes.PermissionUserRouter=class PermissionUserRouter extends Aventus.HttpRoute {
@@ -1483,7 +1504,7 @@ Routes.PermissionUserRouter=class PermissionUserRouter extends Aventus.HttpRoute
         return await request.queryJSON(this.router);
     }
 }
-Routes.PermissionUserRouter.Namespace=`${moduleName}.Routes`;
+Routes.PermissionUserRouter.Namespace=`Core.Routes`;
 
 _.Routes.PermissionUserRouter=Routes.PermissionUserRouter;
 Routes.PdfRouter=class PdfRouter extends Aventus.HttpRoute {
@@ -1497,7 +1518,7 @@ Routes.PdfRouter=class PdfRouter extends Aventus.HttpRoute {
         return await request.queryVoid(this.router);
     }
 }
-Routes.PdfRouter.Namespace=`${moduleName}.Routes`;
+Routes.PdfRouter.Namespace=`Core.Routes`;
 
 _.Routes.PdfRouter=Routes.PdfRouter;
 Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
@@ -1537,7 +1558,7 @@ Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
         return await request.queryVoid(this.router);
     }
 }
-Routes.MainRouter.Namespace=`${moduleName}.Routes`;
+Routes.MainRouter.Namespace=`Core.Routes`;
 
 _.Routes.MainRouter=Routes.MainRouter;
 Lib.ServiceWorker=class ServiceWorker {
@@ -1603,7 +1624,7 @@ Lib.ServiceWorker=class ServiceWorker {
         return outputArray;
     }
 }
-Lib.ServiceWorker.Namespace=`${moduleName}.Lib`;
+Lib.ServiceWorker.Namespace=`Core.Lib`;
 
 _.Lib.ServiceWorker=Lib.ServiceWorker;
 Data.ApplicationData=class ApplicationData extends AventusSharp.Data.Storable {
@@ -1615,7 +1636,7 @@ Data.ApplicationData=class ApplicationData extends AventusSharp.Data.Storable {
     LogoTagName = "";
     Extension;
 }
-Data.ApplicationData.Namespace=`${moduleName}.Data`;
+Data.ApplicationData.Namespace=`Core.Data`;
 Data.ApplicationData.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","DisplayName":"string","Version":"number","LogoClassName":"string","LogoTagName":"string","Extension":"string"};
 Aventus.Converter.register(Data.ApplicationData.Fullname, Data.ApplicationData);
 
@@ -1628,7 +1649,7 @@ Websocket.Routes.ApplicationRouter_GetAll3=class ApplicationRouter_GetAll3 exten
         return `${this.getPrefix()}/application3`;
     }
 }
-Websocket.Routes.ApplicationRouter_GetAll3.Namespace=`${moduleName}.Websocket.Routes`;
+Websocket.Routes.ApplicationRouter_GetAll3.Namespace=`Core.Websocket.Routes`;
 
 _.Websocket.Routes.ApplicationRouter_GetAll3=Websocket.Routes.ApplicationRouter_GetAll3;
 Websocket.Routes.ApplicationRouter_GetAll2=class ApplicationRouter_GetAll2 extends AventusSharp.WebSocket.Event {
@@ -1645,7 +1666,7 @@ Websocket.Routes.ApplicationRouter_GetAll2=class ApplicationRouter_GetAll2 exten
         return true;
     }
 }
-Websocket.Routes.ApplicationRouter_GetAll2.Namespace=`${moduleName}.Websocket.Routes`;
+Websocket.Routes.ApplicationRouter_GetAll2.Namespace=`Core.Websocket.Routes`;
 
 _.Websocket.Routes.ApplicationRouter_GetAll2=Websocket.Routes.ApplicationRouter_GetAll2;
 Components.PageCaseContainer = class PageCaseContainer extends Aventus.WebComponent {
@@ -1710,7 +1731,7 @@ Data.ApplicationOpen=class ApplicationOpen {
     history;
     isHidden;
 }
-Data.ApplicationOpen.Namespace=`${moduleName}.Data`;
+Data.ApplicationOpen.Namespace=`Core.Data`;
 Data.ApplicationOpen.$schema={"id":"string","applicationName":"string","number":"number","history":"string","isHidden":"boolean"};
 Aventus.Converter.register(Data.ApplicationOpen.Fullname, Data.ApplicationOpen);
 
@@ -1720,7 +1741,7 @@ Data.ApplicationOpenInfo=class ApplicationOpenInfo {
     DesktopId;
     Info;
 }
-Data.ApplicationOpenInfo.Namespace=`${moduleName}.Data`;
+Data.ApplicationOpenInfo.Namespace=`Core.Data`;
 Data.ApplicationOpenInfo.$schema={"DesktopId":"number","Info":"ApplicationOpen"};
 Aventus.Converter.register(Data.ApplicationOpenInfo.Fullname, Data.ApplicationOpenInfo);
 
@@ -1739,7 +1760,7 @@ Websocket.Routes.DesktopRouter_RemoveApp=class DesktopRouter_RemoveApp extends A
         return true;
     }
 }
-Websocket.Routes.DesktopRouter_RemoveApp.Namespace=`${moduleName}.Websocket.Routes`;
+Websocket.Routes.DesktopRouter_RemoveApp.Namespace=`Core.Websocket.Routes`;
 
 _.Websocket.Routes.DesktopRouter_RemoveApp=Websocket.Routes.DesktopRouter_RemoveApp;
 (function (DesktopLocation) {
@@ -1759,7 +1780,7 @@ _.Data.BackgroundSize=Data.BackgroundSize;
 Data.DataTypes.ImageFile=class ImageFile extends AventusSharp.Data.AventusFile {
     static get Fullname() { return "Core.Data.DataTypes.ImageFile, Core"; }
 }
-Data.DataTypes.ImageFile.Namespace=`${moduleName}.Data.DataTypes`;
+Data.DataTypes.ImageFile.Namespace=`Core.Data.DataTypes`;
 Data.DataTypes.ImageFile.$schema={...(AventusSharp.Data.AventusFile?.$schema ?? {}), };
 Aventus.Converter.register(Data.DataTypes.ImageFile.Fullname, Data.DataTypes.ImageFile);
 
@@ -1774,7 +1795,7 @@ Data.User=class User extends AventusSharp.Data.Storable {
     Picture = new Data.DataTypes.ImageFile();
     IsSuperAdmin = false;
 }
-Data.User.Namespace=`${moduleName}.Data`;
+Data.User.Namespace=`Core.Data`;
 Data.User.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Firstname":"string","Lastname":"string","Username":"string","Password":"string","Token":"string","Picture":""+moduleName+".Data.DataTypes.ImageFile","IsSuperAdmin":"boolean"};
 Aventus.Converter.register(Data.User.Fullname, Data.User);
 
@@ -1785,7 +1806,7 @@ Data.Group=class Group extends AventusSharp.Data.Storable {
     Description = "";
     Users = [];
 }
-Data.Group.Namespace=`${moduleName}.Data`;
+Data.Group.Namespace=`Core.Data`;
 Data.Group.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Description":"string","Users":""+moduleName+".Data.User"};
 Aventus.Converter.register(Data.Group.Fullname, Data.Group);
 
@@ -1798,7 +1819,7 @@ Routes.GroupRouter=class GroupRouter extends AventusSharp.Routes.StorableRoute {
         return "Group";
     }
 }
-Routes.GroupRouter.Namespace=`${moduleName}.Routes`;
+Routes.GroupRouter.Namespace=`Core.Routes`;
 
 _.Routes.GroupRouter=Routes.GroupRouter;
 Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRoute {
@@ -1814,7 +1835,7 @@ Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRoute {
         return "User";
     }
 }
-Routes.UserRouter.Namespace=`${moduleName}.Routes`;
+Routes.UserRouter.Namespace=`Core.Routes`;
 
 _.Routes.UserRouter=Routes.UserRouter;
 State.DesktopStateManager=class DesktopStateManager extends Aventus.StateManager {
@@ -1825,7 +1846,7 @@ State.DesktopStateManager=class DesktopStateManager extends Aventus.StateManager
         return Aventus.Instance.get(State.DesktopStateManager);
     }
 }
-State.DesktopStateManager.Namespace=`${moduleName}.State`;
+State.DesktopStateManager.Namespace=`Core.State`;
 
 _.State.DesktopStateManager=State.DesktopStateManager;
 (function (SpecialTouch) {
@@ -2412,9 +2433,88 @@ Lib.ShortcutManager=class ShortcutManager {
         Lib.ShortcutManager.isInit = false;
     }
 }
-Lib.ShortcutManager.Namespace=`${moduleName}.Lib`;
+Lib.ShortcutManager.Namespace=`Core.Lib`;
 
 _.Lib.ShortcutManager=Lib.ShortcutManager;
+System.ApplicationShortcut=class ApplicationShortcut {
+    application;
+    cmds = [];
+    is_cmd = false;
+    constructor(application) {
+        this.application = application;
+        this.startCmd = this.startCmd.bind(this);
+        this.stopCmd = this.stopCmd.bind(this);
+        this.printState = this.printState.bind(this);
+    }
+    init() {
+        this.cmds = this.defineCmds();
+    }
+    /**
+     *  Defines the keyboard shortcuts for the application.
+     */
+    defaultShortcut() {
+        return [
+            [[Lib.SpecialTouch.Control, Lib.SpecialTouch.ArrowLeft], this.application.moveApplicationToLeft],
+            [[Lib.SpecialTouch.Control, Lib.SpecialTouch.ArrowRight], this.application.moveApplicationToRight],
+            [[Lib.SpecialTouch.Control, 'k'], this.startCmd],
+        ];
+    }
+    manageShortcut() {
+        let shortcuts = this.defaultShortcut();
+        let customShortcut = this.application.defineShortcut();
+        for (let shortcut of customShortcut) {
+            shortcuts.push(shortcut);
+        }
+        if (this.application.is_desktop_active) {
+            for (let shortcut of shortcuts) {
+                Lib.ShortcutManager.subscribe(shortcut[0], shortcut[1]);
+            }
+        }
+        else {
+            for (let shortcut of shortcuts) {
+                Lib.ShortcutManager.unsubscribe(shortcut[0], shortcut[1]);
+            }
+        }
+    }
+    defineCmds() {
+        return [
+            [['s'], this.runCmd(this.printState)],
+        ];
+    }
+    startCmd() {
+        for (let cmd of this.cmds) {
+            Lib.ShortcutManager.subscribe(cmd[0], cmd[1]);
+        }
+        this.is_cmd = true;
+        setTimeout(() => {
+            this.stopCmd();
+        }, 2000);
+    }
+    stopCmd() {
+        if (!this.is_cmd)
+            return;
+        this.is_cmd = false;
+        for (let cmd of this.cmds) {
+            Lib.ShortcutManager.unsubscribe(cmd[0], cmd[1]);
+        }
+    }
+    runCmd(fct) {
+        return () => {
+            try {
+                fct();
+            }
+            catch {
+            }
+            this.stopCmd();
+        };
+    }
+    printState() {
+        console.log(this.application.navigator.getState());
+    }
+}
+System.ApplicationShortcut.Namespace=`Core.System`;
+
+_.System.ApplicationShortcut=System.ApplicationShortcut;
 State.MoveApplication=class MoveApplication extends Aventus.State {
     static state = "/application/move";
     providers = [];
@@ -2489,7 +2589,7 @@ State.MoveApplication=class MoveApplication extends Aventus.State {
         }
     }
 }
-State.MoveApplication.Namespace=`${moduleName}.State`;
+State.MoveApplication.Namespace=`Core.State`;
 
 _.State.MoveApplication=State.MoveApplication;
 Data.DekstopConfiguration=class DekstopConfiguration extends AventusSharp.Data.Storable {
@@ -2503,7 +2603,7 @@ Data.DekstopConfiguration=class DekstopConfiguration extends AventusSharp.Data.S
     SizeDesktop = 65;
     BackgroundColor = undefined;
 }
-Data.DekstopConfiguration.Namespace=`${moduleName}.Data`;
+Data.DekstopConfiguration.Namespace=`Core.Data`;
 Data.DekstopConfiguration.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Background":""+moduleName+".Data.DataTypes.ImageFile","BackgroundSize":"BackgroundSize","SyncDesktop":"boolean","SizeMobile":"number","SizeTablet":"number","SizeDesktop":"number","BackgroundColor":"string"};
 Aventus.Converter.register(Data.DekstopConfiguration.Fullname, Data.DekstopConfiguration);
 
@@ -2515,7 +2615,7 @@ Data.DesktopAppIcon=class DesktopAppIcon extends AventusSharp.Data.Storable {
     IconTag;
     Location;
 }
-Data.DesktopAppIcon.Namespace=`${moduleName}.Data`;
+Data.DesktopAppIcon.Namespace=`Core.Data`;
 Data.DesktopAppIcon.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Position":"number","DesktopId":"number","IconTag":"string","Location":"DesktopLocation"};
 Aventus.Converter.register(Data.DesktopAppIcon.Fullname, Data.DesktopAppIcon);
 
@@ -2534,7 +2634,7 @@ Websocket.Routes.DesktopRouter_SetDesktopIcon=class DesktopRouter_SetDesktopIcon
         return true;
     }
 }
-Websocket.Routes.DesktopRouter_SetDesktopIcon.Namespace=`${moduleName}.Websocket.Routes`;
+Websocket.Routes.DesktopRouter_SetDesktopIcon.Namespace=`Core.Websocket.Routes`;
 
 _.Websocket.Routes.DesktopRouter_SetDesktopIcon=Websocket.Routes.DesktopRouter_SetDesktopIcon;
 Data.Desktop=class Desktop extends AventusSharp.Data.Storable {
@@ -2546,7 +2646,7 @@ Data.Desktop=class Desktop extends AventusSharp.Data.Storable {
     Icons = [];
     Applications = [];
 }
-Data.Desktop.Namespace=`${moduleName}.Data`;
+Data.Desktop.Namespace=`Core.Data`;
 Data.Desktop.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Token":"string","UserId":"number","Configuration":"DekstopConfiguration","Icons":"DesktopAppIcon","Applications":""+moduleName+".Data.ApplicationOpen"};
 Aventus.Converter.register(Data.Desktop.Fullname, Data.Desktop);
 
@@ -2559,7 +2659,7 @@ Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRou
         return "Desktop";
     }
 }
-Routes.DesktopRouter.Namespace=`${moduleName}.Routes`;
+Routes.DesktopRouter.Namespace=`Core.Routes`;
 
 _.Routes.DesktopRouter=Routes.DesktopRouter;
 Components.PageCase = class PageCase extends Aventus.WebComponent {
@@ -2927,7 +3027,7 @@ Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
         return await request.queryVoid(this.router);
     }
 }
-Routes.ApplicationRouter.Namespace=`${moduleName}.Routes`;
+Routes.ApplicationRouter.Namespace=`Core.Routes`;
 
 _.Routes.ApplicationRouter=Routes.ApplicationRouter;
 RAM.ApplicationRAM=class ApplicationRAM extends Aventus.Ram {
@@ -2997,7 +3097,7 @@ RAM.ApplicationRAM=class ApplicationRAM extends Aventus.Ram {
         return null;
     }
 }
-RAM.ApplicationRAM.Namespace=`${moduleName}.RAM`;
+RAM.ApplicationRAM.Namespace=`Core.RAM`;
 
 _.RAM.ApplicationRAM=RAM.ApplicationRAM;
 System.AppList = class AppList extends Aventus.WebComponent {
@@ -3200,7 +3300,7 @@ Components.TouchRecord=class TouchRecord {
         return undefined;
     }
 }
-Components.TouchRecord.Namespace=`${moduleName}.Components`;
+Components.TouchRecord.Namespace=`Core.Components`;
 
 _.Components.TouchRecord=Components.TouchRecord;
 Components.Scrollable = class Scrollable extends Aventus.WebComponent {
@@ -3808,7 +3908,7 @@ Permissions.Tree.PermissionTree=class PermissionTree {
     PermissionId;
     Permissions = [];
 }
-Permissions.Tree.PermissionTree.Namespace=`${moduleName}.Permissions.Tree`;
+Permissions.Tree.PermissionTree.Namespace=`Core.Permissions.Tree`;
 Permissions.Tree.PermissionTree.$schema={"AppName":"string","IconTagName":"string","PermissionId":"number","Permissions":"PermissionTreeItem"};
 Aventus.Converter.register(Permissions.Tree.PermissionTree.Fullname, Permissions.Tree.PermissionTree);
 
@@ -3819,7 +3919,7 @@ Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
     Permission;
     GroupId;
 }
-Data.PermissionGroup.Namespace=`${moduleName}.Data`;
+Data.PermissionGroup.Namespace=`Core.Data`;
 Data.PermissionGroup.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":""+moduleName+".Data.Permission","GroupId":"number"};
 Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
 
@@ -3841,7 +3941,7 @@ Routes.PermissionGroupRouter=class PermissionGroupRouter extends Aventus.HttpRou
         return await request.queryJSON(this.router);
     }
 }
-Routes.PermissionGroupRouter.Namespace=`${moduleName}.Routes`;
+Routes.PermissionGroupRouter.Namespace=`Core.Routes`;
 
 _.Routes.PermissionGroupRouter=Routes.PermissionGroupRouter;
 Permissions.PermissionForUser=class PermissionForUser {
@@ -3849,7 +3949,7 @@ Permissions.PermissionForUser=class PermissionForUser {
     permissionGroups = [];
     permissionUsers = [];
 }
-Permissions.PermissionForUser.Namespace=`${moduleName}.Permissions`;
+Permissions.PermissionForUser.Namespace=`Core.Permissions`;
 Permissions.PermissionForUser.$schema={"permissionGroups":""+moduleName+".Data.PermissionGroup","permissionUsers":""+moduleName+".Data.PermissionUser"};
 Aventus.Converter.register(Permissions.PermissionForUser.Fullname, Permissions.PermissionForUser);
 
@@ -3875,7 +3975,7 @@ Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
         return await request.queryJSON(this.router);
     }
 }
-Routes.PermissionRouter.Namespace=`${moduleName}.Routes`;
+Routes.PermissionRouter.Namespace=`Core.Routes`;
 
 _.Routes.PermissionRouter=Routes.PermissionRouter;
 Permissions.Permission=class Permission {
@@ -3902,7 +4002,7 @@ Permissions.Permission=class Permission {
         this.saved = {};
     }
 }
-Permissions.Permission.Namespace=`${moduleName}.Permissions`;
+Permissions.Permission.Namespace=`Core.Permissions`;
 
 _.Permissions.Permission=Permissions.Permission;
 RAM.UserRAM=class UserRAM extends AventusSharp.RAM.RamHttp {
@@ -3963,7 +4063,7 @@ RAM.UserRAM=class UserRAM extends AventusSharp.RAM.RamHttp {
         };
     }
 }
-RAM.UserRAM.Namespace=`${moduleName}.RAM`;
+RAM.UserRAM.Namespace=`Core.RAM`;
 
 _.RAM.UserRAM=RAM.UserRAM;
 Lib.SessionManager=class SessionManager {
@@ -3988,7 +4088,7 @@ Lib.SessionManager=class SessionManager {
         return result.result;
     }
 }
-Lib.SessionManager.Namespace=`${moduleName}.Lib`;
+Lib.SessionManager.Namespace=`Core.Lib`;
 
 _.Lib.SessionManager=Lib.SessionManager;
 System.HomePanel = class HomePanel extends System.Panel {
@@ -4176,7 +4276,7 @@ Websocket.Routes.DesktopRouter_RegisterOpenApp=class DesktopRouter_RegisterOpenA
         return true;
     }
 }
-Websocket.Routes.DesktopRouter_RegisterOpenApp.Namespace=`${moduleName}.Websocket.Routes`;
+Websocket.Routes.DesktopRouter_RegisterOpenApp.Namespace=`Core.Websocket.Routes`;
 
 _.Websocket.Routes.DesktopRouter_RegisterOpenApp=Websocket.Routes.DesktopRouter_RegisterOpenApp;
 Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocket.Route {
@@ -4226,7 +4326,7 @@ Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocke
         return await this.endpoint.sendMessageAndWait(info);
     }
 }
-Websocket.Routes.DesktopRouter.Namespace=`${moduleName}.Websocket.Routes`;
+Websocket.Routes.DesktopRouter.Namespace=`Core.Websocket.Routes`;
 
 _.Websocket.Routes.DesktopRouter=Websocket.Routes.DesktopRouter;
 System.BottomBar = class BottomBar extends Aventus.WebComponent {
@@ -4986,7 +5086,7 @@ Components.Notification = class Notification extends Aventus.WebComponent {
     set 'subject'(val) { this.setStringAttr('subject', val) }    showAsked = false;
     onHide = () => { };
     timeout = 0;
-    static __style = `:host{--internal-notification-box-shadow: var(--notification-box-shadow);--internal-notification-logo-fill-color: var(--notification-logo-fill-color, var(--text-color));--internal-notification-logo-stroke-color: var(--notification-logo-stroke-color, transparent);--local-notification-transition-delay: 0.4s;--_notification-margin-bottom: var(--notification-margin-bottom, 20px);--_notification-margin-top: var(--notification-margin-top, 20px);--_notification-margin-right: var(--notification-margin-right, 10px);--_notification-margin-left: var(--notification-margin-left, 10px)}:host{background-color:var(--secondary-color);border-radius:var(--border-radius);box-shadow:var(--internal-notification-box-shadow);color:var(--text-color);display:flex;max-width:calc(100% - 20px);min-height:40px;padding:10px 20px;position:absolute;z-index:600;align-items:center}:host .logo{--img-fill-color: var(--internal-notification-logo-fill-color);--img-stroke-color: var(--internal-notification-logo-stroke-color);flex-shrink:0;order:1;width:30px;font-size:24px;margin-right:5px}:host .logo[src=""]{display:none}:host .content{cursor:pointer;display:flex;flex-direction:column;order:2}:host .content .title{font-size:20px;font-weight:bold;margin-bottom:5px}:host .content .title:empty{display:none}:host .content .text{flex-grow:1;overflow:hidden}:host .content .text:empty{display:none}:host .close{cursor:pointer;flex-grow:0;height:30px;position:absolute;width:30px}:host(:empty) .content .title{margin-bottom:0}:host(:empty) .content .text{display:none}:host([position="bottom left"]){bottom:var(--_notification-margin-bottom);left:0px;opacity:0;transform:translateX(-100%);transition:left var(--local-notification-transition-delay) var(--bezier-curve),bottom var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position="bottom left"]) .logo{order:2;margin-right:0;margin-left:5px}:host([position="bottom left"]) .content{order:1}:host([position="bottom left"]) .close{left:5px;top:5px}:host([position="bottom left"][is_active]){left:var(--_notification-margin-left);opacity:1;transform:translateX(0)}:host([position="top left"]){top:var(--_notification-margin-top);left:0px;opacity:0;transform:translateX(-100%);transition:left var(--local-notification-transition-delay) var(--bezier-curve),top var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position="top left"]) .logo{order:2;margin-right:0;margin-left:5px}:host([position="top left"]) .content{order:1}:host([position="top left"]) .close{left:5px;top:5px}:host([position="top left"][is_active]){left:var(--_notification-margin-left);opacity:1;transform:translateX(0)}:host([position="bottom right"]){bottom:var(--_notification-margin-bottom);opacity:0;right:0px;transform:translateX(100%);transition:right var(--local-notification-transition-delay) var(--bezier-curve),bottom var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position="bottom right"]) .close{right:5px;top:5px}:host([position="bottom right"][is_active]){opacity:1;right:var(--_notification-margin-right);transform:translateX(0)}:host([position="top right"]){opacity:0;right:0px;top:var(--_notification-margin-top);transform:translateX(100%);transition:right var(--local-notification-transition-delay) var(--bezier-curve),top var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position="top right"]) .close{right:5px;top:5px}:host([position="top right"][is_active]){opacity:1;right:var(--_notification-margin-right);transform:translateX(0)}:host([position=top]){left:10%;opacity:0;transform:translateY(-100%);transition:top var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve);width:80%}:host([position=top]) .close{right:5px;top:5px}:host([position=top]:not([is_active])){top:0px !important}:host([position=top][is_active]){opacity:1;top:var(--_notification-margin-top);transform:translateY(0)}:host([position=bottom]){left:10%;transform:translateY(100%);transition:bottom var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve);width:80%}:host([position=bottom]) .close{right:5px;top:5px}:host([position=bottom]:not([is_active])){bottom:0px !important}:host([position=bottom][is_active]){bottom:var(--_notification-margin-bottom);opacity:1;transform:translateY(0)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([color="secondary green"]){background-color:var(--secondary green);color:var(--text-color-secondary green)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}`;
+    static __style = `:host{--internal-notification-box-shadow: var(--notification-box-shadow);--internal-notification-logo-fill-color: var(--notification-logo-fill-color, var(--text-color));--internal-notification-logo-stroke-color: var(--notification-logo-stroke-color, transparent);--local-notification-transition-delay: 0.4s;--_notification-margin-bottom: var(--notification-margin-bottom, 20px);--_notification-margin-top: var(--notification-margin-top, 20px);--_notification-margin-right: var(--notification-margin-right, 10px);--_notification-margin-left: var(--notification-margin-left, 10px)}:host{background-color:var(--secondary-color);border-radius:var(--border-radius);box-shadow:var(--internal-notification-box-shadow);color:var(--text-color);display:flex;max-width:calc(100% - 20px);min-height:40px;padding:10px 20px;position:absolute;z-index:600;align-items:center}:host .logo{--img-fill-color: var(--internal-notification-logo-fill-color);--img-stroke-color: var(--internal-notification-logo-stroke-color);flex-shrink:0;order:1;width:30px;font-size:24px;margin-right:5px}:host .logo[src=""]{display:none}:host .content{cursor:pointer;display:flex;flex-direction:column;order:2}:host .content .title{font-size:20px;font-weight:bold;margin-bottom:5px}:host .content .title:empty{display:none}:host .content .text{flex-grow:1;overflow:hidden}:host .content .text:empty{display:none}:host .close{cursor:pointer;flex-grow:0;height:30px;position:absolute;width:30px}:host(:empty) .content .title{margin-bottom:0}:host(:empty) .content .text{display:none}:host([position="bottom left"]){bottom:var(--_notification-margin-bottom);left:0px;opacity:0;transform:translateX(-100%);transition:left var(--local-notification-transition-delay) var(--bezier-curve),bottom var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position="bottom left"]) .logo{order:2;margin-right:0;margin-left:5px}:host([position="bottom left"]) .content{order:1}:host([position="bottom left"]) .close{left:5px;top:5px}:host([position="bottom left"][is_active]){left:var(--_notification-margin-left);opacity:1;transform:translateX(0)}:host([position="top left"]){top:var(--_notification-margin-top);left:0px;opacity:0;transform:translateX(-100%);transition:left var(--local-notification-transition-delay) var(--bezier-curve),top var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position="top left"]) .logo{order:2;margin-right:0;margin-left:5px}:host([position="top left"]) .content{order:1}:host([position="top left"]) .close{left:5px;top:5px}:host([position="top left"][is_active]){left:var(--_notification-margin-left);opacity:1;transform:translateX(0)}:host([position="bottom right"]){bottom:var(--_notification-margin-bottom);opacity:0;right:0px;transform:translateX(100%);transition:right var(--local-notification-transition-delay) var(--bezier-curve),bottom var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position="bottom right"]) .close{right:5px;top:5px}:host([position="bottom right"][is_active]){opacity:1;right:var(--_notification-margin-right);transform:translateX(0)}:host([position="top right"]){opacity:0;right:0px;top:var(--_notification-margin-top);transform:translateX(100%);transition:right var(--local-notification-transition-delay) var(--bezier-curve),top var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position="top right"]) .close{right:5px;top:5px}:host([position="top right"][is_active]){opacity:1;right:var(--_notification-margin-right);transform:translateX(0)}:host([position=top]){left:10%;opacity:0;transform:translateY(-100%);transition:top var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve);width:80%}:host([position=top]) .close{right:5px;top:5px}:host([position=top]:not([is_active])){top:0px !important}:host([position=top][is_active]){opacity:1;top:var(--_notification-margin-top);transform:translateY(0)}:host([position=bottom]){left:10%;transform:translateY(100%);transition:bottom var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve);width:80%}:host([position=bottom]) .close{right:5px;top:5px}:host([position=bottom]:not([is_active])){bottom:0px !important}:host([position=bottom][is_active]){bottom:var(--_notification-margin-bottom);opacity:1;transform:translateY(0)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}`;
     __getStatic() {
         return Notification;
     }
@@ -5545,7 +5645,7 @@ State.ApplicationState=class ApplicationState extends Aventus.State {
         });
     }
 }
-State.ApplicationState.Namespace=`${moduleName}.State`;
+State.ApplicationState.Namespace=`Core.State`;
 State.ApplicationState.$schema={...(Aventus.State?.$schema ?? {}), "$type":"string","__manager":""+moduleName+".Lib.ApplicationStateManager","application":""+moduleName+".System.Application","__canSaveState":"boolean","delaySaveState":"number"};
 Aventus.Converter.register(State.ApplicationState.Fullname, State.ApplicationState);
 
@@ -5587,7 +5687,7 @@ State.ApplicationStorableState=class ApplicationStorableState extends State.Appl
         addField("item");
     }
 }
-State.ApplicationStorableState.Namespace=`${moduleName}.State`;
+State.ApplicationStorableState.Namespace=`Core.State`;
 State.ApplicationStorableState.$schema={...(State.ApplicationState?.$schema ?? {}), "__item":"T","item":"T"};
 Aventus.Converter.register(State.ApplicationStorableState.Fullname, State.ApplicationStorableState);
 
@@ -5608,7 +5708,7 @@ State.ApplicationEmptyState=class ApplicationEmptyState extends State.Applicatio
         return this.localName;
     }
 }
-State.ApplicationEmptyState.Namespace=`${moduleName}.State`;
+State.ApplicationEmptyState.Namespace=`Core.State`;
 State.ApplicationEmptyState.$schema={...(State.ApplicationState?.$schema ?? {}), "localName":"string","name":"string"};
 Aventus.Converter.register(State.ApplicationEmptyState.Fullname, State.ApplicationEmptyState);
 
@@ -5630,7 +5730,7 @@ System.ApplicationHistoryConvert=class ApplicationHistoryConvert extends Aventus
         }
     }
 }
-System.ApplicationHistoryConvert.Namespace=`${moduleName}.System`;
+System.ApplicationHistoryConvert.Namespace=`Core.System`;
 
 _.System.ApplicationHistoryConvert=System.ApplicationHistoryConvert;
 System.FrameNoScroll = class FrameNoScroll extends Aventus.WebComponent {
@@ -5939,7 +6039,7 @@ System.ApplicationHistory=class ApplicationHistory {
         return new System.ApplicationHistory();
     }
 }
-System.ApplicationHistory.Namespace=`${moduleName}.System`;
+System.ApplicationHistory.Namespace=`Core.System`;
 System.ApplicationHistory.$schema={"$type":"string","memory":"History","currentPosition":"number","nextAvailable":"boolean","previousAvailable":"boolean"};
 Aventus.Converter.register(System.ApplicationHistory.Fullname, System.ApplicationHistory);
 
@@ -6112,7 +6212,7 @@ Lib.ApplicationManager=class ApplicationManager {
         return appInfo.DesktopId + ":" + appInfo.Info?.applicationName + "$" + appInfo.Info?.number;
     }
 }
-Lib.ApplicationManager.Namespace=`${moduleName}.Lib`;
+Lib.ApplicationManager.Namespace=`Core.Lib`;
 
 _.Lib.ApplicationManager=Lib.ApplicationManager;
 System.ApplicationSizeStorage=class ApplicationSizeStorage {
@@ -6152,7 +6252,7 @@ System.ApplicationSizeStorage=class ApplicationSizeStorage {
         return desktopId + ":" + appName + "$" + appNumber;
     }
 }
-System.ApplicationSizeStorage.Namespace=`${moduleName}.System`;
+System.ApplicationSizeStorage.Namespace=`Core.System`;
 
 System.ApplicationSize=class ApplicationSize {
     application;
@@ -6242,7 +6342,7 @@ System.ApplicationSize=class ApplicationSize {
         };
     }
 }
-System.ApplicationSize.Namespace=`${moduleName}.System`;
+System.ApplicationSize.Namespace=`Core.System`;
 
 _.System.ApplicationSize=System.ApplicationSize;
 System.Frame404 = class Frame404 extends System.Frame {
@@ -6628,6 +6728,7 @@ System.Application = class Application extends Aventus.WebComponent {
     sizeManager;
     isAnimating = false;
     afterTransitionCb = [];
+    shortcutManager;
     get navigator() {
         if (!this.router) {
             this.router = new Lib.ApplicationStateManager(this);
@@ -6636,7 +6737,7 @@ System.Application = class Application extends Aventus.WebComponent {
     }
     __registerWatchesActions() {
     this.__addWatchesActions("is_desktop_active", ((target) => {
-    target.manageShortcut();
+    target.shortcutManager.manageShortcut();
 }));    super.__registerWatchesActions();
 }
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("full", ((target) => {
@@ -6645,7 +6746,7 @@ System.Application = class Application extends Aventus.WebComponent {
     target.onIsHiddenChange();
 })); }
     static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{backdrop-filter:blur(2px);background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;pointer-events:none;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:var(--border-radius-round);height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host rk-notification-manager{top:35px}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}:host rk-notification-manager{top:45px}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 45px)}:host rk-resize{display:none}:host rk-notification-manager{top:45px}:host([is_hidden]){left:0 !important;width:100% !important}}`;
-    constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.onContextMenuContent=this.onContextMenuContent.bind(this)this.onContextMenuHeader=this.onContextMenuHeader.bind(this)this.validError404=this.validError404.bind(this)this.showErrorNotAllowed=this.showErrorNotAllowed.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this)this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)this.moveApplicationToRight=this.moveApplicationToRight.bind(this) }
+    constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);            this.shortcutManager = new System.ApplicationShortcut(this);            this.shortcutManager.init();if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.onContextMenuContent=this.onContextMenuContent.bind(this)this.onContextMenuHeader=this.onContextMenuHeader.bind(this)this.validError404=this.validError404.bind(this)this.showErrorNotAllowed=this.showErrorNotAllowed.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this)this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)this.moveApplicationToRight=this.moveApplicationToRight.bind(this) }
     __getStatic() {
         return Application;
     }
@@ -6787,23 +6888,7 @@ System.Application = class Application extends Aventus.WebComponent {
         }
     }
     defineShortcut() {
-        return [
-            [[Lib.SpecialTouch.Control, Lib.SpecialTouch.ArrowLeft], this.moveApplicationToLeft],
-            [[Lib.SpecialTouch.Control, Lib.SpecialTouch.ArrowRight], this.moveApplicationToRight]
-        ];
-    }
-    manageShortcut() {
-        let shortcuts = this.defineShortcut();
-        if (this.is_desktop_active) {
-            for (let shortcut of shortcuts) {
-                Lib.ShortcutManager.subscribe(shortcut[0], shortcut[1]);
-            }
-        }
-        else {
-            for (let shortcut of shortcuts) {
-                Lib.ShortcutManager.unsubscribe(shortcut[0], shortcut[1]);
-            }
-        }
+        return [];
     }
     shouldDestroyFrame(frame) {
         return false;
@@ -7244,32 +7329,46 @@ System.Application = class Application extends Aventus.WebComponent {
     }
     async executeWithLoading(prom) {
         const queryResult = await this.showLoading(prom);
+        if (!queryResult)
+            return undefined;
         return await this.parseErrors(queryResult);
     }
     async showLoading(fct) {
-        const minDelay = 2000;
-        let start;
-        let timeout = setTimeout(() => {
-            start = new Date();
-            this.loading = true;
-        }, 200);
-        let result;
-        if (fct instanceof Promise) {
-            result = await fct;
-        }
-        else {
-            result = await fct();
-        }
-        clearTimeout(timeout);
-        if (start) {
-            let now = new Date();
-            let diffMs = now.getTime() - start.getTime();
-            if (diffMs < minDelay) {
-                await Aventus.sleep(minDelay - diffMs);
+        let timeout = 0;
+        try {
+            const minDelay = 2000;
+            let start;
+            timeout = setTimeout(() => {
+                start = new Date();
+                this.loading = true;
+            }, 200);
+            let result;
+            if (fct instanceof Promise) {
+                result = await fct;
             }
+            else {
+                result = await fct();
+            }
+            clearTimeout(timeout);
+            if (start) {
+                let now = new Date();
+                let diffMs = now.getTime() - start.getTime();
+                if (diffMs < minDelay) {
+                    await Aventus.sleep(minDelay - diffMs);
+                }
+            }
+            this.loading = false;
+            return result;
         }
-        this.loading = false;
-        return result;
+        catch (e) {
+            clearTimeout(timeout);
+            this.loading = false;
+            this.alert({
+                title: "Erreur",
+                description: e
+            });
+        }
+        return null;
     }
     addFocus() {
         this.setAttribute("tabindex", "-1");
@@ -7398,7 +7497,7 @@ if(!window.customElements.get('rk-link')){window.customElements.define('rk-link'
 Permissions.ApplicationPermissionQuery=class ApplicationPermissionQuery extends Permissions.PermissionQuery {
     static get Fullname() { return "Core.Permissions.ApplicationPermissionQuery, Core"; }
 }
-Permissions.ApplicationPermissionQuery.Namespace=`${moduleName}.Permissions`;
+Permissions.ApplicationPermissionQuery.Namespace=`Core.Permissions`;
 Permissions.ApplicationPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
 Aventus.Converter.register(Permissions.ApplicationPermissionQuery.Fullname, Permissions.ApplicationPermissionQuery);
 
@@ -7458,7 +7557,7 @@ Lib.AppIconManager=class AppIconManager {
         });
     }
 }
-Lib.AppIconManager.Namespace=`${moduleName}.Lib`;
+Lib.AppIconManager.Namespace=`Core.Lib`;
 
 _.Lib.AppIconManager=Lib.AppIconManager;
 Lib.Platform=class Platform {
@@ -7502,7 +7601,7 @@ Lib.Platform=class Platform {
         return element.offsetWidth + " / " + element.offsetHeight;
     }
 }
-Lib.Platform.Namespace=`${moduleName}.Lib`;
+Lib.Platform.Namespace=`Core.Lib`;
 
 _.Lib.Platform=Lib.Platform;
 RAM.DesktopRAM=class DesktopRAM extends AventusSharp.RAM.RamHttp {
@@ -7537,7 +7636,7 @@ RAM.DesktopRAM=class DesktopRAM extends AventusSharp.RAM.RamHttp {
         item.Applications = savedApps;
     }
 }
-RAM.DesktopRAM.Namespace=`${moduleName}.RAM`;
+RAM.DesktopRAM.Namespace=`Core.RAM`;
 
 _.RAM.DesktopRAM=RAM.DesktopRAM;
 System.Desktop = class Desktop extends Aventus.WebComponent {
@@ -8357,7 +8456,7 @@ Lib.Process=class Process {
         return undefined;
     }
 }
-Lib.Process.Namespace=`${moduleName}.Lib`;
+Lib.Process.Namespace=`Core.Lib`;
 
 _.Lib.Process=Lib.Process;
 System.AppIcon = class AppIcon extends Aventus.WebComponent {
@@ -9563,7 +9662,7 @@ Lib.PWA=class PWA {
         }
     }
 }
-Lib.PWA.Namespace=`${moduleName}.Lib`;
+Lib.PWA.Namespace=`Core.Lib`;
 
 _.Lib.PWA=Lib.PWA;
 System.PwaButton = class PwaButton extends Aventus.WebComponent {
@@ -10567,7 +10666,7 @@ Components.InternalVirtualForm=class InternalVirtualForm {
         return false;
     }
 }
-Components.InternalVirtualForm.Namespace=`${moduleName}.Components`;
+Components.InternalVirtualForm.Namespace=`Core.Components`;
 
 Components.Form = class Form extends Aventus.WebComponent {
     elements = [];
@@ -10675,6 +10774,9 @@ State.CreateOrUpdate=class CreateOrUpdate extends State.ApplicationStorableState
             else {
                 ramResult = await this.application.showLoading(this.defineRAM().updateWithError(this.item));
             }
+            if (ramResult == null) {
+                return undefined;
+            }
             if (ramResult.errors.length > 0) {
                 let noPrintErrors = [];
                 for (let error of ramResult.errors) {
@@ -10709,7 +10811,7 @@ State.CreateOrUpdate=class CreateOrUpdate extends State.ApplicationStorableState
         this.back();
     }
 }
-State.CreateOrUpdate.Namespace=`${moduleName}.State`;
+State.CreateOrUpdate.Namespace=`Core.State`;
 State.CreateOrUpdate.$schema={...(State.ApplicationStorableState?.$schema ?? {}), "__form":""+moduleName+".Components.VirtualForm","form":""+moduleName+".Components.VirtualForm","name":"string"};
 Aventus.Converter.register(State.CreateOrUpdate.Fullname, State.CreateOrUpdate);
 
@@ -10726,7 +10828,7 @@ Components.Button = class Button extends Aventus.WebComponent {
     set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
     target.icon_before = target.icon;
 })); }
-    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--internal-button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color="secondary green"]){background-color:var(--secondary green);color:var(--text-color-secondary green)}:host([outline][color="secondary green"]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
+    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--internal-button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
     __getStatic() {
         return Button;
     }
@@ -12523,7 +12625,7 @@ Components.Table = class Table extends Aventus.WebComponent {
     showLoadingStart;
     showLoadingTimeout = 0;
     timeoutBeforeLoading = 200;
-    minTimeoutLoading = 2000;
+    minTimeoutLoading = 1000;
     select = new Aventus.Callback();
     __registerWatchesActions() {
     this.__addWatchesActions("tableTitle");this.__addWatchesActions("showSearch");this.__addWatchesActions("showHeader");this.__addWatchesActions("showFooter");this.__addWatchesActions("displayedData", ((target, action, path, value) => {
@@ -13570,7 +13672,7 @@ _.Components.TableCellHeader=Components.TableCellHeader;
 if(!window.customElements.get('rk-table-cell-header')){window.customElements.define('rk-table-cell-header', Components.TableCellHeader);Aventus.WebComponentInstance.registerDefinition(Components.TableCellHeader);}
 
 Components.TableDataCellHeaderAction = class TableDataCellHeaderAction extends Components.TableCellHeader {
-    static __style = `:host{align-items:center;display:flex;justify-content:end}:host span{align-items:center;display:flex;height:100%}:host mi-icon{color:var(--green);cursor:pointer;border-radius:var(--border-radius-sm)}:host mi-icon:hover{background-color:var(--lighter)}`;
+    static __style = `:host{align-items:center;display:flex;justify-content:end}:host span{align-items:center;display:flex;height:100%}:host mi-icon{border-radius:var(--border-radius-sm);color:var(--green);cursor:pointer}:host mi-icon:hover{background-color:var(--lighter)}`;
     __getStatic() {
         return TableDataCellHeaderAction;
     }
@@ -14024,7 +14126,7 @@ Components.TableData.Namespace=`${moduleName}.Components`;
 _.Components.TableData=Components.TableData;
 
 Components.TableDataCellAction = class TableDataCellAction extends Components.TableCellAction {
-    static __style = `:host{padding:0 7px;justify-content:flex-end}:host mi-icon{font-size:var(--font-size-md);color:var(--blue);margin:0 2px;padding:3px;cursor:pointer;transition:background-color .2s linear;border-radius:var(--border-radius-sm)}:host mi-icon.delete{color:var(--red)}:host mi-icon:hover{background-color:var(--lighter)}:host([grid]){margin-top:0;align-items:center;width:100%}`;
+    static __style = `:host{justify-content:flex-end;padding:0 7px}:host mi-icon{border-radius:var(--border-radius-sm);color:var(--blue);cursor:pointer;font-size:var(--font-size-md);margin:0 2px;padding:3px;transition:background-color .2s linear}:host mi-icon.delete{color:var(--red)}:host mi-icon:hover{background-color:var(--lighter)}:host([grid]){align-items:center;margin-top:0;width:100%}`;
     __getStatic() {
         return TableDataCellAction;
     }
@@ -14072,7 +14174,7 @@ if(!window.customElements.get('rk-table-data-cell-action')){window.customElement
 App.AppError=class AppError extends Aventus.GenericError {
     static get Fullname() { return "Core.App.AppError, Core"; }
 }
-App.AppError.Namespace=`${moduleName}.App`;
+App.AppError.Namespace=`Core.App`;
 App.AppError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(App.AppError.Fullname, App.AppError);
 
@@ -14080,7 +14182,7 @@ _.App.AppError=App.AppError;
 Errors.DesktopError=class DesktopError extends Aventus.GenericError {
     static get Fullname() { return "Core.Logic.DesktopError, Core"; }
 }
-Errors.DesktopError.Namespace=`${moduleName}.Errors`;
+Errors.DesktopError.Namespace=`Core.Errors`;
 Errors.DesktopError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.DesktopError.Fullname, Errors.DesktopError);
 
@@ -14088,7 +14190,7 @@ _.Errors.DesktopError=Errors.DesktopError;
 Permissions.DesktopPermissionQuery=class DesktopPermissionQuery extends Permissions.PermissionQuery {
     static get Fullname() { return "Core.Permissions.DesktopPermissionQuery, Core"; }
 }
-Permissions.DesktopPermissionQuery.Namespace=`${moduleName}.Permissions`;
+Permissions.DesktopPermissionQuery.Namespace=`Core.Permissions`;
 Permissions.DesktopPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
 Aventus.Converter.register(Permissions.DesktopPermissionQuery.Fullname, Permissions.DesktopPermissionQuery);
 
@@ -14096,7 +14198,7 @@ _.Permissions.DesktopPermissionQuery=Permissions.DesktopPermissionQuery;
 Permissions.UserPermissionQuery=class UserPermissionQuery extends Permissions.PermissionQuery {
     static get Fullname() { return "Core.Permissions.UserPermissionQuery, Core"; }
 }
-Permissions.UserPermissionQuery.Namespace=`${moduleName}.Permissions`;
+Permissions.UserPermissionQuery.Namespace=`Core.Permissions`;
 Permissions.UserPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
 Aventus.Converter.register(Permissions.UserPermissionQuery.Fullname, Permissions.UserPermissionQuery);
 
@@ -14104,7 +14206,7 @@ _.Permissions.UserPermissionQuery=Permissions.UserPermissionQuery;
 Errors.CoreError=class CoreError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.CoreError, Core"; }
 }
-Errors.CoreError.Namespace=`${moduleName}.Errors`;
+Errors.CoreError.Namespace=`Core.Errors`;
 Errors.CoreError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.CoreError.Fullname, Errors.CoreError);
 
@@ -14112,7 +14214,7 @@ _.Errors.CoreError=Errors.CoreError;
 Errors.ImageFileError=class ImageFileError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.ImageFileError, Core"; }
 }
-Errors.ImageFileError.Namespace=`${moduleName}.Errors`;
+Errors.ImageFileError.Namespace=`Core.Errors`;
 Errors.ImageFileError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.ImageFileError.Fullname, Errors.ImageFileError);
 
@@ -14120,7 +14222,7 @@ _.Errors.ImageFileError=Errors.ImageFileError;
 Tools.ResultWithImageFileError=class ResultWithImageFileError extends AventusSharp.Tools.ResultWithError {
     static get Fullname() { return "Core.Tools.ResultWithImageFileError, Core"; }
 }
-Tools.ResultWithImageFileError.Namespace=`${moduleName}.Tools`;
+Tools.ResultWithImageFileError.Namespace=`Core.Tools`;
 Tools.ResultWithImageFileError.$schema={...(AventusSharp.Tools.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.ResultWithImageFileError.Fullname, Tools.ResultWithImageFileError);
 
@@ -14128,7 +14230,7 @@ _.Tools.ResultWithImageFileError=Tools.ResultWithImageFileError;
 Tools.VoidWithImageFileError=class VoidWithImageFileError extends AventusSharp.Tools.VoidWithError {
     static get Fullname() { return "Core.Tools.VoidWithImageFileError, Core"; }
 }
-Tools.VoidWithImageFileError.Namespace=`${moduleName}.Tools`;
+Tools.VoidWithImageFileError.Namespace=`Core.Tools`;
 Tools.VoidWithImageFileError.$schema={...(AventusSharp.Tools.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.VoidWithImageFileError.Fullname, Tools.VoidWithImageFileError);
 
@@ -14136,7 +14238,7 @@ _.Tools.VoidWithImageFileError=Tools.VoidWithImageFileError;
 Errors.PdfError=class PdfError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.PdfError, Core"; }
 }
-Errors.PdfError.Namespace=`${moduleName}.Errors`;
+Errors.PdfError.Namespace=`Core.Errors`;
 Errors.PdfError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.PdfError.Fullname, Errors.PdfError);
 
@@ -14144,7 +14246,7 @@ _.Errors.PdfError=Errors.PdfError;
 Tools.ResultWithPdfError=class ResultWithPdfError extends AventusSharp.Tools.ResultWithError {
     static get Fullname() { return "Core.Tools.ResultWithPdfError, Core"; }
 }
-Tools.ResultWithPdfError.Namespace=`${moduleName}.Tools`;
+Tools.ResultWithPdfError.Namespace=`Core.Tools`;
 Tools.ResultWithPdfError.$schema={...(AventusSharp.Tools.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.ResultWithPdfError.Fullname, Tools.ResultWithPdfError);
 
@@ -14152,7 +14254,7 @@ _.Tools.ResultWithPdfError=Tools.ResultWithPdfError;
 Tools.VoidWithPdfError=class VoidWithPdfError extends AventusSharp.Tools.VoidWithError {
     static get Fullname() { return "Core.Tools.VoidWithPdfError, Core"; }
 }
-Tools.VoidWithPdfError.Namespace=`${moduleName}.Tools`;
+Tools.VoidWithPdfError.Namespace=`Core.Tools`;
 Tools.VoidWithPdfError.$schema={...(AventusSharp.Tools.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.VoidWithPdfError.Fullname, Tools.VoidWithPdfError);
 
@@ -14200,9 +14302,20 @@ Websocket.Routes.ApplicationRouter=class ApplicationRouter extends AventusSharp.
         return await this.endpoint.sendMessageAndWait(info);
     }
 }
-Websocket.Routes.ApplicationRouter.Namespace=`${moduleName}.Websocket.Routes`;
+Websocket.Routes.ApplicationRouter.Namespace=`Core.Websocket.Routes`;
 
 _.Websocket.Routes.ApplicationRouter=Websocket.Routes.ApplicationRouter;
+const Addon=class Addon {
+    static async load(name) {
+        await Aventus.ResourceLoader.loadInHead({
+            url: "/addon/" + name + ".js",
+            type: "js"
+        });
+    }
+}
+Addon.Namespace=`Core`;
+
+_.Addon=Addon;
 RAM.GroupRAM=class GroupRAM extends AventusSharp.RAM.RamHttp {
     /**
      * Create a singleton to store data
@@ -14242,7 +14355,7 @@ RAM.GroupRAM=class GroupRAM extends AventusSharp.RAM.RamHttp {
         };
     }
 }
-RAM.GroupRAM.Namespace=`${moduleName}.RAM`;
+RAM.GroupRAM.Namespace=`Core.RAM`;
 
 _.RAM.GroupRAM=RAM.GroupRAM;
 

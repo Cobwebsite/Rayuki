@@ -70,7 +70,7 @@ const CallbackGroup=class CallbackGroup {
         }
     }
 }
-CallbackGroup.Namespace=`${moduleName}`;
+CallbackGroup.Namespace=`Aventus`;
 
 _.CallbackGroup=CallbackGroup;
 const Callback=class Callback {
@@ -107,7 +107,7 @@ const Callback=class Callback {
         return result;
     }
 }
-Callback.Namespace=`${moduleName}`;
+Callback.Namespace=`Aventus`;
 
 _.Callback=Callback;
 const Instance=class Instance {
@@ -134,7 +134,7 @@ const Instance=class Instance {
         return this.elements.delete(cst);
     }
 }
-Instance.Namespace=`${moduleName}`;
+Instance.Namespace=`Aventus`;
 
 _.Instance=Instance;
 const getValueFromObject=function getValueFromObject(path, obj) {
@@ -244,7 +244,7 @@ const ActionGuard=class ActionGuard {
         });
     }
 }
-ActionGuard.Namespace=`${moduleName}`;
+ActionGuard.Namespace=`Aventus`;
 
 _.ActionGuard=ActionGuard;
 const Mutex=class Mutex {
@@ -383,7 +383,7 @@ const Mutex=class Mutex {
         return result;
     }
 }
-Mutex.Namespace=`${moduleName}`;
+Mutex.Namespace=`Aventus`;
 
 _.Mutex=Mutex;
 const setValueToObject=function setValueToObject(path, obj, value) {
@@ -652,7 +652,7 @@ const ElementExtension=class ElementExtension {
         return _realTarget(startFrom);
     }
 }
-ElementExtension.Namespace=`${moduleName}`;
+ElementExtension.Namespace=`Aventus`;
 
 _.ElementExtension=ElementExtension;
 const Style=class Style {
@@ -732,7 +732,7 @@ const Style=class Style {
             : '';
     }
 }
-Style.Namespace=`${moduleName}`;
+Style.Namespace=`Aventus`;
 
 _.Style=Style;
 const Effect=class Effect {
@@ -847,7 +847,7 @@ const Effect=class Effect {
         }
     }
 }
-Effect.Namespace=`${moduleName}`;
+Effect.Namespace=`Aventus`;
 
 _.Effect=Effect;
 const Computed=class Computed extends Effect {
@@ -887,7 +887,7 @@ const Computed=class Computed extends Effect {
         }
     }
 }
-Computed.Namespace=`${moduleName}`;
+Computed.Namespace=`Aventus`;
 
 _.Computed=Computed;
 const Watcher=class Watcher {
@@ -1612,7 +1612,7 @@ const Watcher=class Watcher {
         return comp;
     }
 }
-Watcher.Namespace=`${moduleName}`;
+Watcher.Namespace=`Aventus`;
 
 _.Watcher=Watcher;
 const EffectNoRecomputed=class EffectNoRecomputed extends Effect {
@@ -1628,7 +1628,7 @@ const EffectNoRecomputed=class EffectNoRecomputed extends Effect {
         }
     }
 }
-EffectNoRecomputed.Namespace=`${moduleName}`;
+EffectNoRecomputed.Namespace=`Aventus`;
 
 _.EffectNoRecomputed=EffectNoRecomputed;
 const ComputedNoRecomputed=class ComputedNoRecomputed extends Computed {
@@ -1646,7 +1646,7 @@ const ComputedNoRecomputed=class ComputedNoRecomputed extends Computed {
     }
     run() { }
 }
-ComputedNoRecomputed.Namespace=`${moduleName}`;
+ComputedNoRecomputed.Namespace=`Aventus`;
 
 _.ComputedNoRecomputed=ComputedNoRecomputed;
 const compareObject=function compareObject(obj1, obj2) {
@@ -1871,7 +1871,7 @@ const ResourceLoader=class ResourceLoader {
         return result;
     }
 }
-ResourceLoader.Namespace=`${moduleName}`;
+ResourceLoader.Namespace=`Aventus`;
 
 _.ResourceLoader=ResourceLoader;
 const Async=function Async(el) {
@@ -1937,6 +1937,7 @@ const Json=class Json {
     static classFromJson(obj, data, options) {
         let realOptions = {
             transformValue: options?.transformValue ?? ((key, value) => value),
+            replaceUndefined: options?.replaceUndefined ?? false,
         };
         return this.__classFromJson(obj, data, realOptions);
     }
@@ -1945,7 +1946,7 @@ const Json=class Json {
         for (let prop of props) {
             let propUpperFirst = prop[0].toUpperCase() + prop.slice(1);
             let value = data[prop] === undefined ? data[propUpperFirst] : data[prop];
-            if (value !== undefined) {
+            if (value !== undefined || options.replaceUndefined) {
                 let propInfo = Object.getOwnPropertyDescriptor(obj, prop);
                 if (propInfo?.writable) {
                     obj[prop] = options.transformValue(prop, value);
@@ -1958,7 +1959,7 @@ const Json=class Json {
             for (let prop of props) {
                 let propUpperFirst = prop[0].toUpperCase() + prop.slice(1);
                 let value = data[prop] === undefined ? data[propUpperFirst] : data[prop];
-                if (value !== undefined) {
+                if (value !== undefined || options.replaceUndefined) {
                     let propInfo = Object.getOwnPropertyDescriptor(cstTemp.prototype, prop);
                     if (propInfo?.set) {
                         obj[prop] = options.transformValue(prop, value);
@@ -1970,7 +1971,7 @@ const Json=class Json {
         return obj;
     }
 }
-Json.Namespace=`${moduleName}`;
+Json.Namespace=`Aventus`;
 
 _.Json=Json;
 const Data=class Data {
@@ -2017,7 +2018,7 @@ const Data=class Data {
         return Converter.transform(JSON.parse(JSON.stringify(this)));
     }
 }
-Data.Namespace=`${moduleName}`;
+Data.Namespace=`Aventus`;
 
 _.Data=Data;
 const ConverterTransform=class ConverterTransform {
@@ -2057,12 +2058,15 @@ const ConverterTransform=class ConverterTransform {
                 let obj = objTemp;
                 this.beforeTransformObject(obj);
                 if (obj.fromJSON) {
-                    obj.fromJSON(data);
+                    obj = obj.fromJSON(data);
                 }
                 else {
                     obj = Json.classFromJson(obj, data, {
                         transformValue: (key, value) => {
                             if (obj[key] instanceof Date) {
+                                return value ? new Date(value) : null;
+                            }
+                            else if (typeof obj[key] == 'string' && /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.(\d{3})Z$/.exec(obj[key])) {
                                 return value ? new Date(value) : null;
                             }
                             else if (obj[key] instanceof Map) {
@@ -2100,6 +2104,9 @@ const ConverterTransform=class ConverterTransform {
             }
             return result;
         }
+        if (typeof data == 'string' && /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.(\d{3})Z$/.exec(data)) {
+            return new Date(data);
+        }
         return data;
     }
     copyValuesClass(target, src, options) {
@@ -2133,7 +2140,7 @@ const ConverterTransform=class ConverterTransform {
         }
     }
 }
-ConverterTransform.Namespace=`${moduleName}`;
+ConverterTransform.Namespace=`Aventus`;
 
 _.ConverterTransform=ConverterTransform;
 const Converter=class Converter {
@@ -2203,7 +2210,7 @@ const Converter=class Converter {
         return converter.copyValuesClass(to, from, options);
     }
 }
-Converter.Namespace=`${moduleName}`;
+Converter.Namespace=`Aventus`;
 
 _.Converter=Converter;
 const GenericError=class GenericError {
@@ -2230,17 +2237,17 @@ const GenericError=class GenericError {
         this.message = message;
     }
 }
-GenericError.Namespace=`${moduleName}`;
+GenericError.Namespace=`Aventus`;
 
 _.GenericError=GenericError;
 const RamError=class RamError extends GenericError {
 }
-RamError.Namespace=`${moduleName}`;
+RamError.Namespace=`Aventus`;
 
 _.RamError=RamError;
 const HttpError=class HttpError extends GenericError {
 }
-HttpError.Namespace=`${moduleName}`;
+HttpError.Namespace=`Aventus`;
 
 _.HttpError=HttpError;
 const VoidWithError=class VoidWithError {
@@ -2291,12 +2298,12 @@ const VoidWithError=class VoidWithError {
         return false;
     }
 }
-VoidWithError.Namespace=`${moduleName}`;
+VoidWithError.Namespace=`Aventus`;
 
 _.VoidWithError=VoidWithError;
 const VoidRamWithError=class VoidRamWithError extends VoidWithError {
 }
-VoidRamWithError.Namespace=`${moduleName}`;
+VoidRamWithError.Namespace=`Aventus`;
 
 _.VoidRamWithError=VoidRamWithError;
 const ResultWithError=class ResultWithError extends VoidWithError {
@@ -2316,12 +2323,12 @@ const ResultWithError=class ResultWithError extends VoidWithError {
         return result;
     }
 }
-ResultWithError.Namespace=`${moduleName}`;
+ResultWithError.Namespace=`Aventus`;
 
 _.ResultWithError=ResultWithError;
 const ResultRamWithError=class ResultRamWithError extends ResultWithError {
 }
-ResultRamWithError.Namespace=`${moduleName}`;
+ResultRamWithError.Namespace=`Aventus`;
 
 _.ResultRamWithError=ResultRamWithError;
 const HttpRequest=class HttpRequest {
@@ -2515,7 +2522,7 @@ const HttpRequest=class HttpRequest {
         return result;
     }
 }
-HttpRequest.Namespace=`${moduleName}`;
+HttpRequest.Namespace=`Aventus`;
 
 _.HttpRequest=HttpRequest;
 const HttpRouter=class HttpRouter {
@@ -2562,7 +2569,7 @@ const HttpRouter=class HttpRouter {
         return await new HttpRequest(url, HttpMethod.OPTION, data).queryJSON(this);
     }
 }
-HttpRouter.Namespace=`${moduleName}`;
+HttpRouter.Namespace=`Aventus`;
 
 _.HttpRouter=HttpRouter;
 const HttpRoute=class HttpRoute {
@@ -2584,7 +2591,7 @@ const HttpRoute=class HttpRoute {
         return "";
     }
 }
-HttpRoute.Namespace=`${moduleName}`;
+HttpRoute.Namespace=`Aventus`;
 
 _.HttpRoute=HttpRoute;
 const StorableRoute=class StorableRoute extends HttpRoute {
@@ -2611,7 +2618,7 @@ const StorableRoute=class StorableRoute extends HttpRoute {
         return await request.queryJSON(this.router);
     }
 }
-StorableRoute.Namespace=`${moduleName}`;
+StorableRoute.Namespace=`Aventus`;
 
 _.StorableRoute=StorableRoute;
 const Animation=class Animation {
@@ -2699,7 +2706,7 @@ const Animation=class Animation {
         return this.continueAnimation;
     }
 }
-Animation.Namespace=`${moduleName}`;
+Animation.Namespace=`Aventus`;
 
 _.Animation=Animation;
 const PressManager=class PressManager {
@@ -3134,7 +3141,7 @@ const PressManager=class PressManager {
         }
     }
 }
-PressManager.Namespace=`${moduleName}`;
+PressManager.Namespace=`Aventus`;
 
 _.PressManager=PressManager;
 const DragAndDrop=class DragAndDrop {
@@ -3406,7 +3413,7 @@ const DragAndDrop=class DragAndDrop {
         this.pressManager.destroy();
     }
 }
-DragAndDrop.Namespace=`${moduleName}`;
+DragAndDrop.Namespace=`Aventus`;
 
 _.DragAndDrop=DragAndDrop;
 const ResizeObserver=class ResizeObserver {
@@ -3534,7 +3541,7 @@ const ResizeObserver=class ResizeObserver {
         }, 0);
     }
 }
-ResizeObserver.Namespace=`${moduleName}`;
+ResizeObserver.Namespace=`Aventus`;
 
 _.ResizeObserver=ResizeObserver;
 const Uri=class Uri {
@@ -3612,14 +3619,15 @@ const Uri=class Uri {
         return normalizedPath;
     }
 }
-Uri.Namespace=`${moduleName}`;
+Uri.Namespace=`Aventus`;
 
 _.Uri=Uri;
 const GenericRam=class GenericRam {
     /**
      * The current namespace
      */
-    static get Namespace() { return ""; }
+    static Namespace = "";
+    // public static get Namespace(): string { return ""; }
     /**
      * Get the unique type for the data. Define it as the namespace + class name
      */
@@ -3818,7 +3826,9 @@ const GenericRam=class GenericRam {
         if (!item) {
             return;
         }
-        Json.classFromJson(item, objJson);
+        Json.classFromJson(item, objJson, {
+            replaceUndefined: true
+        });
     }
     publish(type, data) {
         [...this.subscribers[type]].forEach(callback => callback(data));
@@ -4390,12 +4400,12 @@ const GenericRam=class GenericRam {
      */
     async afterDeleteList(result) { }
 }
-GenericRam.Namespace=`${moduleName}`;
+GenericRam.Namespace=`Aventus`;
 
 _.GenericRam=GenericRam;
 const Ram=class Ram extends GenericRam {
 }
-Ram.Namespace=`${moduleName}`;
+Ram.Namespace=`Aventus`;
 
 _.Ram=Ram;
 const State=class State {
@@ -4420,7 +4430,7 @@ const State=class State {
         return true;
     }
 }
-State.Namespace=`${moduleName}`;
+State.Namespace=`Aventus`;
 
 _.State=State;
 const EmptyState=class EmptyState extends State {
@@ -4436,7 +4446,7 @@ const EmptyState=class EmptyState extends State {
         return this.localName;
     }
 }
-EmptyState.Namespace=`${moduleName}`;
+EmptyState.Namespace=`Aventus`;
 
 _.EmptyState=EmptyState;
 const StateManager=class StateManager {
@@ -4742,7 +4752,7 @@ const StateManager=class StateManager {
         }
     }
 }
-StateManager.Namespace=`${moduleName}`;
+StateManager.Namespace=`Aventus`;
 
 _.StateManager=StateManager;
 const Template=class Template {
@@ -4880,7 +4890,7 @@ const Template=class Template {
         return new TemplateInstance(component, content, this.actions, this.loops, this.ifs);
     }
 }
-Template.Namespace=`${moduleName}`;
+Template.Namespace=`Aventus`;
 
 _.Template=Template;
 const WebComponent=class WebComponent extends HTMLElement {
@@ -5549,7 +5559,7 @@ const WebComponent=class WebComponent extends HTMLElement {
         return ElementExtension.getElementsInSlot(this, slotName);
     }
 }
-WebComponent.Namespace=`${moduleName}`;
+WebComponent.Namespace=`Aventus`;
 
 _.WebComponent=WebComponent;
 const WebComponentInstance=class WebComponentInstance {
@@ -5622,7 +5632,7 @@ const WebComponentInstance=class WebComponentInstance {
         return null;
     }
 }
-WebComponentInstance.Namespace=`${moduleName}`;
+WebComponentInstance.Namespace=`Aventus`;
 
 _.WebComponentInstance=WebComponentInstance;
 const TemplateContext=class TemplateContext {
@@ -5828,7 +5838,7 @@ const TemplateContext=class TemplateContext {
         setValueToObject(name, this.comp, value);
     }
 }
-TemplateContext.Namespace=`${moduleName}`;
+TemplateContext.Namespace=`Aventus`;
 
 _.TemplateContext=TemplateContext;
 const TemplateInstance=class TemplateInstance {
@@ -6518,7 +6528,7 @@ const TemplateInstance=class TemplateInstance {
         calculateActive();
     }
 }
-TemplateInstance.Namespace=`${moduleName}`;
+TemplateInstance.Namespace=`Aventus`;
 
 _.TemplateInstance=TemplateInstance;
 

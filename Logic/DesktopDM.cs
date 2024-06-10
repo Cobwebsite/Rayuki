@@ -63,7 +63,12 @@ namespace Core.Logic
             List<Desktop> desktops = Desktop.Where(p => p.UserId == null);
             if (desktops.Count > 0)
             {
-                User u = User.GetById(userId);
+                ResultWithError<User> userQuery = User.GetByIdWithError(userId);
+                if(!userQuery.Success || userQuery.Result == null) {
+                    result.Errors = userQuery.Errors;
+                    return result;
+                }
+                User u = userQuery.Result;
                 Desktop d = new Desktop()
                 {
                     UserId = u.Id,

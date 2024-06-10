@@ -59,12 +59,16 @@ namespace State {
             let result: T | undefined;
             const validationResult = await this.form.validate(this.application);
             if(validationResult === true) {
-                let ramResult: Aventus.ResultRamWithError<Aventus.RamItem<T>>;
+                let ramResult: Aventus.ResultRamWithError<Aventus.RamItem<T>> | null;
                 if(this.item.Id == 0) {
                     ramResult = await this.application.showLoading(this.defineRAM().createWithError(this.item));
                 }
                 else {
                     ramResult = await this.application.showLoading(this.defineRAM().updateWithError(this.item));
+                }
+
+                if(ramResult == null) {
+                    return undefined;
                 }
 
                 if(ramResult.errors.length > 0) {
@@ -84,7 +88,7 @@ namespace State {
                                 continue;
                             }
                         }
-                        
+
                         noPrintErrors.push(error);
                     }
                     ramResult.errors = noPrintErrors;

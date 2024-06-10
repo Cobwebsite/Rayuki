@@ -1,0 +1,26 @@
+import { TableCellHeader } from "../../cells/TableCellHeader/TableCellHeader.wcl.avt";
+import { TableData } from "../TableData.wcl.avt";
+
+namespace Components {
+	export class TableDataCellHeaderAction<U = any> extends TableCellHeader<U> implements Aventus.DefaultComponent {
+		
+		protected override postCreation(): void {
+			new Aventus.PressManager({
+				element: this,
+				onPress: () => {
+					if(this.table instanceof TableData) {
+						this.table.newData();
+					}
+				}
+			});
+	
+		}
+
+		/**
+		* @inheritdoc
+		*/
+		public override setContent(data: undefined, rowData: U) {
+			
+		}
+	}
+}

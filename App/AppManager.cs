@@ -53,11 +53,7 @@ namespace Core.App
                    database: HttpServer.Config.Name,
                    username: HttpServer.Config.Username,
                    password: HttpServer.Config.Password
-
-               )
-                {
-                    keepConnectionOpen = true,
-                });
+                ));
                 storage.Connect();
                 if (HttpServer.resetStorage)
                     storage.ResetStorage();
@@ -89,9 +85,11 @@ namespace Core.App
                         urlPattern = WebSocketMiddleware.ReplaceParams(urlPattern, @params);
                         urlPattern = WebSocketMiddleware.ReplaceFunction(urlPattern, obj);
                         Type t = obj.GetType();
-                        if(isEvent) {
-                            string fullname = (t.FullName??"").Split("`")[0];
-                            if(crudTypeEvents.Contains(fullname)) {
+                        if (isEvent)
+                        {
+                            string fullname = (t.FullName ?? "").Split("`")[0];
+                            if (crudTypeEvents.Contains(fullname))
+                            {
                                 t = t.GetGenericArguments()[0];
                             }
                         }
@@ -355,7 +353,7 @@ namespace Core.App
             foreach (RayukiApp app in allApps)
             {
                 Seeder? seeder = app.DefineSeeder();
-                if(seeder != null) seeder.Run();
+                if (seeder != null) seeder.Run();
                 await app.OnStart();
             }
         }

@@ -1,0 +1,2 @@
+<mi-icon icon="edit" @press="editData"></mi-icon>
+<mi-icon class="delete" icon="delete" @press="deleteData"></mi-icon>

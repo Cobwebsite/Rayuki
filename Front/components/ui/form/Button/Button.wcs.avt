@@ -1,4 +1,4 @@
-@import "@root/_responsive.gs.avt";
+@import '@root/_responsive.gs.avt';
 
 :host {
 	--internal-button-background-color: var(--button-background-color);
