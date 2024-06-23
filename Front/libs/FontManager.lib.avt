@@ -1,0 +1,179 @@
+namespace Lib {
+    export class FontManager {
+
+        public static async loadedFonts() {
+            let fonts = Array.from(document.fonts);
+            const result: FontFace[] = [];
+            for(let font of fonts) {
+                if(font.status == 'loaded') {
+                    if(!font.__src) {
+                        let hasLoaded = await this.findFontInsideStylesheet(font);
+                        if(hasLoaded) {
+                            result.push(font);
+                        }
+                        else {
+                            console.warn("can't find src for ", font);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        private static urlToBase64(url): Promise<string> {
+            return new Promise<string>(async (resolve, reject) => {
+                try {
+                    const response = await fetch(url);
+                    const blob = await response.blob();
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result as string);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(blob);
+                } catch(e) {
+                    reject(e);
+                }
+            });
+        }
+
+        public static async getFontRulesBase64() {
+            const fonts = await this.loadedFonts();
+
+            const props: { [key: string]: { defaultValue: string, cssName: string; }; } = {
+                'style': {
+                    defaultValue: 'normal',
+                    cssName: 'font-style'
+                },
+                'weight': {
+                    defaultValue: 'normal',
+                    cssName: 'font-weight'
+                },
+                'unicodeRange': {
+                    defaultValue: 'U+0-10FFFF',
+                    cssName: 'unicode-range'
+                },
+                'display': {
+                    defaultValue: 'auto',
+                    cssName: 'font-display'
+                },
+                'ascentOverride': {
+                    defaultValue: 'normal',
+                    cssName: 'ascent-override'
+                },
+                'descentOverride': {
+                    defaultValue: 'normal',
+                    cssName: 'descent-override'
+                },
+                'featureSettings': {
+                    defaultValue: 'normal',
+                    cssName: 'font-feature-settings'
+                },
+                'lineGapOverride': {
+                    defaultValue: 'normal',
+                    cssName: 'line-gap-override'
+                },
+                'stretch': {
+                    defaultValue: 'normal',
+                    cssName: 'font-stretch'
+                }
+            };
+
+
+            let txt = '';
+            for(let font of fonts) {
+                let txtFont: string[] = ['@font-face {'];
+                txtFont.push("font-family: " + font.family + ";");
+                txtFont.push("src: url(\"" + await this.urlToBase64(font.__src) + "\");");
+                for(let prop in props) {
+                    if(font[prop] != props[prop].defaultValue) {
+                        txtFont.push(props[prop].cssName + ": " + font[prop] + ";");
+                    }
+                }
+                txtFont.push("}");
+                txt += txtFont.join("\n") + "\n";
+            }
+            return txt;
+        }
+
+        private static loadedStyles: { [href: string]: CSSStyleSheet; } = {};
+        private static async findFontInsideStylesheet(font: FontFace) {
+            for(let i = 0; i < document.styleSheets.length; i++) {
+                let sheet: CSSStyleSheet = document.styleSheets[i];
+                try {
+                    let rules = sheet.cssRules;
+                } catch(e) {
+                    if(sheet.href) {
+                        if(!this.loadedStyles[sheet.href]) {
+                            try {
+                                let response = await fetch(sheet.href);
+                                let txt = await response.text();
+                                this.loadedStyles[sheet.href] = new CSSStyleSheet();
+                                this.loadedStyles[sheet.href].replaceSync(txt);
+                            }
+                            catch(e2) {
+                                continue;
+                            }
+                        }
+                        sheet = this.loadedStyles[sheet.href] ?? null;
+                    }
+                    else {
+                        continue;
+                    }
+                }
+                try {
+                    // Parcourir toutes les règles de la feuille de style
+                    for(let j = 0; j < sheet.cssRules.length; j++) {
+                        const rule = sheet.cssRules[j];
+                        if(rule instanceof CSSFontFaceRule) {
+                            let styleAny = rule.style as any;
+                            const family = rule.style.fontFamily.replace(/['"]/g, '');
+                            if(family != font.family) continue;
+                            const otherCompares = {
+                                'fontStyle': 'style',
+                                'fontWeight': 'weight',
+                                'unicodeRange': 'unicodeRange',
+                                'fontDisplay': 'display',
+                                'ascentOverride': 'ascentOverride',
+                                'descentOverride': 'descentOverride',
+                                'fontFeatureSettings': 'featureSettings',
+                                'lineGapOverride': 'lineGapOverride',
+                                'fontStretch': 'stretch'
+                            };
+                            const defaultValue = {
+                                'fontStyle': 'normal',
+                                'fontWeight': 'normal',
+                                'unicodeRange': 'U+0-10FFFF',
+                                'fontDisplay': 'auto',
+                                'ascentOverride': 'normal',
+                                'descentOverride': 'normal',
+                                'fontFeatureSettings': 'normal',
+                                'lineGapOverride': 'normal',
+                                'fontStretch': 'normal'
+                            };
+                            let isSame = true;
+                            for(let otherCompare in otherCompares) {
+                                let v = otherCompares[otherCompare];
+                                if(styleAny[otherCompare] != font[v]) {
+                                    if(styleAny[otherCompare] != '' || defaultValue[otherCompare] != font[v]) {
+                                        isSame = false;
+                                        break;
+                                    }
+                                }
+                            }
+                            if(!isSame) continue;
+
+                            let resultMatch = /url\(['|"]?(.*?)['|"]?\)/g.exec(styleAny.src);
+                            if(resultMatch) {
+                                font.__src = resultMatch[1];
+                                return true;
+                            }
+
+                        }
+                    }
+                } catch(e) {
+                    console.error(`Failed to access stylesheet: ${sheet.href}`, e);
+                }
+            }
+            return false;
+        }
+    }
+}

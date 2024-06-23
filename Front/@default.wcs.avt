@@ -5,6 +5,7 @@
 	box-sizing: border-box;
 	display: inline-block;
 	touch-action: manipulation;
+	font-family: var(--font-family);
 }
 
 

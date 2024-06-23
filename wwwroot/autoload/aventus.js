@@ -6684,7 +6684,7 @@ Data.AventusFile=class AventusFile {
         });
     }
 }
-Data.AventusFile.Namespace=`${moduleName}.Data`;
+Data.AventusFile.Namespace=`AventusSharp.Data`;
 Data.AventusFile.$schema={"Uri":"string","Upload":"File","$type":"string"};
 Aventus.Converter.register(Data.AventusFile.Fullname, Data.AventusFile);
 
@@ -6735,7 +6735,7 @@ _.Data.DataErrorCode=Data.DataErrorCode;
 Data.DataError=class DataError extends Aventus.GenericError {
     static get Fullname() { return "AventusSharp.Data.DataError, AventusSharp"; }
 }
-Data.DataError.Namespace=`${moduleName}.Data`;
+Data.DataError.Namespace=`AventusSharp.Data`;
 Data.DataError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Data.DataError.Fullname, Data.DataError);
 
@@ -6744,7 +6744,7 @@ Data.FieldErrorInfo=class FieldErrorInfo {
     static get Fullname() { return "AventusSharp.Data.FieldErrorInfo, AventusSharp"; }
     Name;
 }
-Data.FieldErrorInfo.Namespace=`${moduleName}.Data`;
+Data.FieldErrorInfo.Namespace=`AventusSharp.Data`;
 Data.FieldErrorInfo.$schema={"Name":"string"};
 Aventus.Converter.register(Data.FieldErrorInfo.Fullname, Data.FieldErrorInfo);
 
@@ -6761,7 +6761,7 @@ _.Routes.RouteErrorCode=Routes.RouteErrorCode;
 Routes.RouteError=class RouteError extends Aventus.GenericError {
     static get Fullname() { return "AventusSharp.Routes.RouteError, AventusSharp"; }
 }
-Routes.RouteError.Namespace=`${moduleName}.Routes`;
+Routes.RouteError.Namespace=`AventusSharp.Routes`;
 Routes.RouteError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Routes.RouteError.Fullname, Routes.RouteError);
 
@@ -6805,7 +6805,7 @@ Routes.StorableRoute=class StorableRoute extends Aventus.HttpRoute {
         return await request.queryJSON(this.router);
     }
 }
-Routes.StorableRoute.Namespace=`${moduleName}.Routes`;
+Routes.StorableRoute.Namespace=`AventusSharp.Routes`;
 
 _.Routes.StorableRoute=Routes.StorableRoute;
 WebSocket.Socket=class Socket {
@@ -6901,7 +6901,7 @@ WebSocket.Socket=class Socket {
         return this.socket.readyState == 1;
     }
 }
-WebSocket.Socket.Namespace=`${moduleName}.WebSocket`;
+WebSocket.Socket.Namespace=`AventusSharp.WebSocket`;
 
 _.WebSocket.Socket=WebSocket.Socket;
 (function (SocketErrorCode) {
@@ -6914,7 +6914,7 @@ _.WebSocket.Socket=WebSocket.Socket;
 _.WebSocket.SocketErrorCode=WebSocket.SocketErrorCode;
 WebSocket.SocketError=class SocketError extends Aventus.GenericError {
 }
-WebSocket.SocketError.Namespace=`${moduleName}.WebSocket`;
+WebSocket.SocketError.Namespace=`AventusSharp.WebSocket`;
 
 _.WebSocket.SocketError=WebSocket.SocketError;
 (function (WsErrorCode) {
@@ -6932,7 +6932,7 @@ _.WebSocket.WsErrorCode=WebSocket.WsErrorCode;
 WebSocket.WsError=class WsError extends Aventus.GenericError {
     static get Fullname() { return "AventusSharp.WebSocket.WsError, AventusSharp"; }
 }
-WebSocket.WsError.Namespace=`${moduleName}.WebSocket`;
+WebSocket.WsError.Namespace=`AventusSharp.WebSocket`;
 WebSocket.WsError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(WebSocket.WsError.Fullname, WebSocket.WsError);
 
@@ -6962,7 +6962,7 @@ Data.Storable=class Storable extends Aventus.Data {
         });
     }
 }
-Data.Storable.Namespace=`${moduleName}.Data`;
+Data.Storable.Namespace=`AventusSharp.Data`;
 Data.Storable.$schema={...(Aventus.Data?.$schema ?? {}), "Id":"number"};
 Aventus.Converter.register(Data.Storable.Fullname, Data.Storable);
 
@@ -7091,14 +7091,14 @@ RAM.RamHttp=class RamHttp extends Aventus.Ram {
         }
     }
 }
-RAM.RamHttp.Namespace=`${moduleName}.RAM`;
+RAM.RamHttp.Namespace=`AventusSharp.RAM`;
 
 _.RAM.RamHttp=RAM.RamHttp;
 Data.StorableTimestamp=class StorableTimestamp extends Data.Storable {
     CreatedDate = new Date();
     UpdatedDate = new Date();
 }
-Data.StorableTimestamp.Namespace=`${moduleName}.Data`;
+Data.StorableTimestamp.Namespace=`AventusSharp.Data`;
 Data.StorableTimestamp.$schema={...(Data.Storable?.$schema ?? {}), "CreatedDate":"Date","UpdatedDate":"Date"};
 Aventus.Converter.register(Data.StorableTimestamp.Fullname, Data.StorableTimestamp);
 
@@ -7106,7 +7106,7 @@ _.Data.StorableTimestamp=Data.StorableTimestamp;
 Tools.VoidWithError=class VoidWithError extends Aventus.VoidWithError {
     static get Fullname() { return "AventusSharp.Tools.VoidWithError, AventusSharp"; }
 }
-Tools.VoidWithError.Namespace=`${moduleName}.Tools`;
+Tools.VoidWithError.Namespace=`AventusSharp.Tools`;
 Tools.VoidWithError.$schema={...(Aventus.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.VoidWithError.Fullname, Tools.VoidWithError);
 
@@ -7114,7 +7114,7 @@ _.Tools.VoidWithError=Tools.VoidWithError;
 WebSocket.VoidWithWsError=class VoidWithWsError extends Tools.VoidWithError {
     static get Fullname() { return "AventusSharp.WebSocket.VoidWithWsError, AventusSharp"; }
 }
-WebSocket.VoidWithWsError.Namespace=`${moduleName}.WebSocket`;
+WebSocket.VoidWithWsError.Namespace=`AventusSharp.WebSocket`;
 WebSocket.VoidWithWsError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(WebSocket.VoidWithWsError.Fullname, WebSocket.VoidWithWsError);
 
@@ -7122,7 +7122,7 @@ _.WebSocket.VoidWithWsError=WebSocket.VoidWithWsError;
 Routes.VoidWithRouteError=class VoidWithRouteError extends Tools.VoidWithError {
     static get Fullname() { return "AventusSharp.Routes.VoidWithRouteError, AventusSharp"; }
 }
-Routes.VoidWithRouteError.Namespace=`${moduleName}.Routes`;
+Routes.VoidWithRouteError.Namespace=`AventusSharp.Routes`;
 Routes.VoidWithRouteError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(Routes.VoidWithRouteError.Fullname, Routes.VoidWithRouteError);
 
@@ -7130,7 +7130,7 @@ _.Routes.VoidWithRouteError=Routes.VoidWithRouteError;
 Data.VoidWithDataError=class VoidWithDataError extends Tools.VoidWithError {
     static get Fullname() { return "AventusSharp.Data.VoidWithDataError, AventusSharp"; }
 }
-Data.VoidWithDataError.Namespace=`${moduleName}.Data`;
+Data.VoidWithDataError.Namespace=`AventusSharp.Data`;
 Data.VoidWithDataError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(Data.VoidWithDataError.Fullname, Data.VoidWithDataError);
 
@@ -7138,7 +7138,7 @@ _.Data.VoidWithDataError=Data.VoidWithDataError;
 Tools.ResultWithError=class ResultWithError extends Aventus.ResultWithError {
     static get Fullname() { return "AventusSharp.Tools.ResultWithError, AventusSharp"; }
 }
-Tools.ResultWithError.Namespace=`${moduleName}.Tools`;
+Tools.ResultWithError.Namespace=`AventusSharp.Tools`;
 Tools.ResultWithError.$schema={...(Aventus.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.ResultWithError.Fullname, Tools.ResultWithError);
 
@@ -7146,7 +7146,7 @@ _.Tools.ResultWithError=Tools.ResultWithError;
 WebSocket.ResultWithWsError=class ResultWithWsError extends Tools.ResultWithError {
     static get Fullname() { return "AventusSharp.WebSocket.ResultWithWsError, AventusSharp"; }
 }
-WebSocket.ResultWithWsError.Namespace=`${moduleName}.WebSocket`;
+WebSocket.ResultWithWsError.Namespace=`AventusSharp.WebSocket`;
 WebSocket.ResultWithWsError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(WebSocket.ResultWithWsError.Fullname, WebSocket.ResultWithWsError);
 
@@ -7154,7 +7154,7 @@ _.WebSocket.ResultWithWsError=WebSocket.ResultWithWsError;
 Routes.ResultWithRouteError=class ResultWithRouteError extends Tools.ResultWithError {
     static get Fullname() { return "AventusSharp.Routes.ResultWithRouteError, AventusSharp"; }
 }
-Routes.ResultWithRouteError.Namespace=`${moduleName}.Routes`;
+Routes.ResultWithRouteError.Namespace=`AventusSharp.Routes`;
 Routes.ResultWithRouteError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(Routes.ResultWithRouteError.Fullname, Routes.ResultWithRouteError);
 
@@ -7162,7 +7162,7 @@ _.Routes.ResultWithRouteError=Routes.ResultWithRouteError;
 Data.ResultWithDataError=class ResultWithDataError extends Tools.ResultWithError {
     static get Fullname() { return "AventusSharp.Data.ResultWithDataError, AventusSharp"; }
 }
-Data.ResultWithDataError.Namespace=`${moduleName}.Data`;
+Data.ResultWithDataError.Namespace=`AventusSharp.Data`;
 Data.ResultWithDataError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(Data.ResultWithDataError.Fullname, Data.ResultWithDataError);
 
@@ -7538,7 +7538,7 @@ WebSocket.Connection=class Connection {
         }
     }
 }
-WebSocket.Connection.Namespace=`${moduleName}.WebSocket`;
+WebSocket.Connection.Namespace=`AventusSharp.WebSocket`;
 
 _.WebSocket.Connection=WebSocket.Connection;
 WebSocket.EndPoint=class EndPoint extends WebSocket.Connection {
@@ -7566,7 +7566,7 @@ WebSocket.EndPoint=class EndPoint extends WebSocket.Connection {
     }
     ;
 }
-WebSocket.EndPoint.Namespace=`${moduleName}.WebSocket`;
+WebSocket.EndPoint.Namespace=`AventusSharp.WebSocket`;
 
 _.WebSocket.EndPoint=WebSocket.EndPoint;
 WebSocket.Route=class Route {
@@ -7578,7 +7578,7 @@ WebSocket.Route=class Route {
         return "";
     }
 }
-WebSocket.Route.Namespace=`${moduleName}.WebSocket`;
+WebSocket.Route.Namespace=`AventusSharp.WebSocket`;
 
 _.WebSocket.Route=WebSocket.Route;
 WebSocket.Event=class Event {
@@ -7638,7 +7638,7 @@ WebSocket.Event=class Event {
         this.onTrigger.trigger([data, params, uid]);
     }
 }
-WebSocket.Event.Namespace=`${moduleName}.WebSocket`;
+WebSocket.Event.Namespace=`AventusSharp.WebSocket`;
 
 _.WebSocket.Event=WebSocket.Event;
 WebSocket.StorableWsRoute_GetAll=class StorableWsRoute_GetAll extends WebSocket.Event {
@@ -7654,7 +7654,7 @@ WebSocket.StorableWsRoute_GetAll=class StorableWsRoute_GetAll extends WebSocket.
         return `${this.getPrefix()}/${this.StorableName()}`;
     }
 }
-WebSocket.StorableWsRoute_GetAll.Namespace=`${moduleName}.WebSocket`;
+WebSocket.StorableWsRoute_GetAll.Namespace=`AventusSharp.WebSocket`;
 
 _.WebSocket.StorableWsRoute_GetAll=WebSocket.StorableWsRoute_GetAll;
 WebSocket.StorableWsRoute_Create=class StorableWsRoute_Create extends WebSocket.Event {
@@ -7670,7 +7670,7 @@ WebSocket.StorableWsRoute_Create=class StorableWsRoute_Create extends WebSocket.
         return `${this.getPrefix()}/${this.StorableName()}/Create`;
     }
 }
-WebSocket.StorableWsRoute_Create.Namespace=`${moduleName}.WebSocket`;
+WebSocket.StorableWsRoute_Create.Namespace=`AventusSharp.WebSocket`;
 
 _.WebSocket.StorableWsRoute_Create=WebSocket.StorableWsRoute_Create;
 WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends WebSocket.Event {
@@ -7686,7 +7686,7 @@ WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends We
         this.StorableName = StorableName;
     }
 }
-WebSocket.StorableWsRoute_CreateMany.Namespace=`${moduleName}.WebSocket`;
+WebSocket.StorableWsRoute_CreateMany.Namespace=`AventusSharp.WebSocket`;
 
 _.WebSocket.StorableWsRoute_CreateMany=WebSocket.StorableWsRoute_CreateMany;
 WebSocket.StorableWsRoute_GetById=class StorableWsRoute_GetById extends WebSocket.Event {
@@ -7702,7 +7702,7 @@ WebSocket.StorableWsRoute_GetById=class StorableWsRoute_GetById extends WebSocke
         return `${this.getPrefix()}/${this.StorableName()}/{id:number}`;
     }
 }
-WebSocket.StorableWsRoute_GetById.Namespace=`${moduleName}.WebSocket`;
+WebSocket.StorableWsRoute_GetById.Namespace=`AventusSharp.WebSocket`;
 
 _.WebSocket.StorableWsRoute_GetById=WebSocket.StorableWsRoute_GetById;
 WebSocket.StorableWsRoute_Update=class StorableWsRoute_Update extends WebSocket.Event {
@@ -7718,7 +7718,7 @@ WebSocket.StorableWsRoute_Update=class StorableWsRoute_Update extends WebSocket.
         return `${this.getPrefix()}/${this.StorableName()}/{id:number}/Update`;
     }
 }
-WebSocket.StorableWsRoute_Update.Namespace=`${moduleName}.WebSocket`;
+WebSocket.StorableWsRoute_Update.Namespace=`AventusSharp.WebSocket`;
 
 _.WebSocket.StorableWsRoute_Update=WebSocket.StorableWsRoute_Update;
 WebSocket.StorableWsRoute_UpdateMany=class StorableWsRoute_UpdateMany extends WebSocket.Event {
@@ -7734,7 +7734,7 @@ WebSocket.StorableWsRoute_UpdateMany=class StorableWsRoute_UpdateMany extends We
         this.StorableName = StorableName;
     }
 }
-WebSocket.StorableWsRoute_UpdateMany.Namespace=`${moduleName}.WebSocket`;
+WebSocket.StorableWsRoute_UpdateMany.Namespace=`AventusSharp.WebSocket`;
 
 _.WebSocket.StorableWsRoute_UpdateMany=WebSocket.StorableWsRoute_UpdateMany;
 WebSocket.StorableWsRoute_Delete=class StorableWsRoute_Delete extends WebSocket.Event {
@@ -7750,7 +7750,7 @@ WebSocket.StorableWsRoute_Delete=class StorableWsRoute_Delete extends WebSocket.
         return `${this.getPrefix()}/${this.StorableName()}/{id:number}/Delete`;
     }
 }
-WebSocket.StorableWsRoute_Delete.Namespace=`${moduleName}.WebSocket`;
+WebSocket.StorableWsRoute_Delete.Namespace=`AventusSharp.WebSocket`;
 
 _.WebSocket.StorableWsRoute_Delete=WebSocket.StorableWsRoute_Delete;
 WebSocket.StorableWsRoute_DeleteMany=class StorableWsRoute_DeleteMany extends WebSocket.Event {
@@ -7766,7 +7766,7 @@ WebSocket.StorableWsRoute_DeleteMany=class StorableWsRoute_DeleteMany extends We
         this.StorableName = StorableName;
     }
 }
-WebSocket.StorableWsRoute_DeleteMany.Namespace=`${moduleName}.WebSocket`;
+WebSocket.StorableWsRoute_DeleteMany.Namespace=`AventusSharp.WebSocket`;
 
 _.WebSocket.StorableWsRoute_DeleteMany=WebSocket.StorableWsRoute_DeleteMany;
 WebSocket.StorableWsRoute=class StorableWsRoute extends WebSocket.Route {
@@ -7849,7 +7849,7 @@ WebSocket.StorableWsRoute=class StorableWsRoute extends WebSocket.Route {
         return await this.endpoint.sendMessageAndWait(info);
     }
 }
-WebSocket.StorableWsRoute.Namespace=`${moduleName}.WebSocket`;
+WebSocket.StorableWsRoute.Namespace=`AventusSharp.WebSocket`;
 
 _.WebSocket.StorableWsRoute=WebSocket.StorableWsRoute;
 RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
@@ -8191,7 +8191,7 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
         }
     }
 }
-RAM.RamWebSocket.Namespace=`${moduleName}.RAM`;
+RAM.RamWebSocket.Namespace=`AventusSharp.RAM`;
 
 _.RAM.RamWebSocket=RAM.RamWebSocket;
 

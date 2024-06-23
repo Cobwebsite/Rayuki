@@ -1,6 +1,7 @@
 import type { PopupInfo } from "../Popup/Popup.wcl.avt";
 import type { Scrollable } from "../../layout/Scrollable/Scrollable.wcl.avt";
 import type { ContextMenu, IContextMenu } from "../../ContextMenu/ContextMenu.wcl.avt";
+import type { Application } from "../../../system/Application/Application.wcl.avt";
 
 namespace Components {
     export abstract class GenericPopup<T, U extends PopupInfo = PopupInfo> extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu {
@@ -35,6 +36,9 @@ namespace Components {
 
         protected pressManagerClose?: Aventus.PressManager;
         protected pressManagerPopup?: Aventus.PressManager;
+
+        @InternalProtected()
+        public application?: Application;
 
         //#endregion
 

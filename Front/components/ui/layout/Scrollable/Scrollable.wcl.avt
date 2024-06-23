@@ -592,6 +592,7 @@ namespace Components {
                 // scale the container for zoom
                 this.contentZoom.style.width = this.mainContainer.offsetWidth / this.zoom + 'px';
                 this.contentZoom.style.height = this.mainContainer.offsetHeight / this.zoom + 'px';
+                this.contentZoom.style.maxHeight = this.mainContainer.offsetHeight / this.zoom + 'px';
                 this.display.y = currentOffsetHeight;
                 this.display.x = currentOffsetWidth;
             }

@@ -5,6 +5,7 @@ import { AppIconManager } from "../../../libs/AppIconManager.lib.avt";
 import type { ContextMenu, IContextMenu } from "../../ui/ContextMenu/ContextMenu.wcl.avt";
 import type { IPositionable } from "../../ui/layout/PageCase/PageCase.wcl.avt";
 import { AppList } from "../AppList/AppList.wcl.avt";
+import { Addon, type AddonsName } from "../../../libs/Addon.lib.avt";
 
 namespace System {
     export abstract class AppIcon extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, IPositionable {
@@ -74,7 +75,9 @@ namespace System {
         }
 
 
-
+        protected defineAddons(): AddonsName[] {
+            return [];
+        }
         /**
          * Define the path where to load the component : Define by a route http inside c# that return a Component
          */
@@ -218,6 +221,7 @@ namespace System {
 
         protected override postCreation(): void {
             AppIconManager.register(this, this.componentUrl());
+            Addon.need(this, this.defineAddons());
             this.createPressManager();
         }
         //#endregion

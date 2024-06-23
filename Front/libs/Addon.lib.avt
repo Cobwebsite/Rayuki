@@ -1,5 +1,26 @@
-export type AddonsName = 'QrCodeReader' | 'QrCodeGenerator';
+import { AppIcon } from "../components/system/AppIcon/AppIcon.wcl.avt";
+
+export type AddonsName = 'QrCodeReader' | 'QrCodeGenerator' | 'Univer';
 export class Addon {
+    private static dependances: { [application: string]: AddonsName[]; } = {};
+    public static need(application: string, addons: AddonsName[]);
+    public static need(application: AppIcon, addons: AddonsName[]);
+    public static need(application: string | AppIcon, addons: AddonsName[]) {
+        if(addons.length == 0) return;
+        if(application instanceof AppIcon) {
+            let cst = application.constructor as typeof AppIcon;
+            application = cst.Fullname.split(".")[0];
+        }
+        this.dependances[application] = addons;
+    }
+    public static async loadForApp(application: string): Promise<void> {
+        if(!this.dependances[application]) return;
+        let proms: Promise<void>[] = [];
+        for(let dep of this.dependances[application]) {
+            proms.push(this.load(dep));
+        }
+        await Promise.all(proms);
+    }
     public static async load(name: AddonsName): Promise<void> {
         await Aventus.ResourceLoader.loadInHead({
             url: "/addon/" + name + ".js",

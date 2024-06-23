@@ -1,0 +1,177 @@
+
+namespace Lib {
+    export type FileSaverOption = {
+        /**
+        * Automatically provide Unicode text encoding hints
+        * @default false
+        */
+        autoBom: boolean;
+    };
+    export class FileSaver {
+        private static bom(blob, opts) {
+            if(typeof opts === 'undefined') opts = { autoBom: false };
+            else if(typeof opts !== 'object') {
+                console.warn('Deprecated: Expected third argument to be a object');
+                opts = { autoBom: !opts };
+            }
+
+            // prepend BOM for UTF-8 XML and text/* types (including HTML)
+            // note: your browser will automatically convert UTF-16 U+FEFF to EF BB BF
+            if(opts.autoBom && /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(blob.type)) {
+                return new Blob([String.fromCharCode(0xFEFF), blob], { type: blob.type });
+            }
+            return blob;
+        }
+        private static download(url, name, opts) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+            xhr.responseType = 'blob';
+            xhr.onload = () => {
+                this.saveAs(xhr.response, name, opts);
+            };
+            xhr.onerror = () => {
+                console.error('could not download file');
+            };
+            xhr.send();
+        }
+
+        private static corsEnabled(url) {
+            var xhr = new XMLHttpRequest();
+            // use sync to avoid popup blocker
+            xhr.open('HEAD', url, false);
+            try {
+                xhr.send();
+            } catch(e) { }
+            return xhr.status >= 200 && xhr.status <= 299;
+        }
+        private static click(node) {
+            try {
+                node.dispatchEvent(new MouseEvent('click'));
+            } catch(e) {
+                var evt = document.createEvent('MouseEvents');
+                evt.initMouseEvent('click', true, true, window, 0, 0, 0, 80,
+                    20, false, false, false, false, 0, null);
+                node.dispatchEvent(evt);
+            }
+        }
+        private static get isMacOSWebView(): boolean {
+            return navigator && /Macintosh/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !/Safari/.test(navigator.userAgent);
+        }
+
+        private static _saveAs?: (blob: Blob | string, name: string, opts?: FileSaverOption, popup?) => Promise<void>;
+        public static get saveAs(): (blob: Blob | string, name: string, opts?: FileSaverOption) => Promise<void> {
+            if(!this._saveAs) {
+                this._saveAs = this.initSaveAs();
+            }
+            return this._saveAs;
+        }
+
+        private static initSaveAs() {
+            let result: (blob: Blob | string, name: string, opts?: FileSaverOption, popup?) => Promise<void>;
+            // probably in some web worker
+            // Use download attribute first if possible (#193 Lumia mobile) unless this is a macOS WebView
+            result = ('download' in HTMLAnchorElement.prototype && !this.isMacOSWebView)
+                ? (blob, name, opts) => {
+                    return new Promise<void>((resolve) => {
+                        var URL = URL || webkitURL;
+                        // Namespace is used to prevent conflict w/ Chrome Poper Blocker extension (Issue #561)
+                        var a = document.createElementNS('http://www.w3.org/1999/xhtml', 'a') as HTMLAnchorElement;
+                        name = name || 'download';
+
+                        a.download = name;
+                        a.rel = 'noopener'; // tabnabbing
+
+                        // TODO: detect chrome extensions & packaged apps
+                        // a.target = '_blank'
+
+                        if(typeof blob === 'string') {
+                            // Support regular links
+                            a.href = blob;
+                            if(a.origin !== location.origin) {
+                                this.corsEnabled(a.href)
+                                    ? this.download(blob, name, opts)
+                                    : this.click(a);
+                            } else {
+                                this.click(a);
+                            }
+                            resolve();
+                        } else {
+                            // Support blobs
+                            a.href = URL.createObjectURL(blob);
+                            setTimeout(() => { URL.revokeObjectURL(a.href); resolve(); }, 4E4); // 40s
+                            setTimeout(() => { this.click(a); }, 0);
+                        }
+                    });
+                }
+
+                // Use msSaveOrOpenBlob as a second approach
+                : 'msSaveOrOpenBlob' in navigator
+                    ? (blob, name, opts) => {
+                        return new Promise<void>((resolve) => {
+                            name = name || 'download';
+
+                            if(typeof blob === 'string') {
+                                if(this.corsEnabled(blob)) {
+                                    this.download(blob, name, opts);
+                                    resolve();
+                                } else {
+                                    var a = document.createElement('a');
+                                    a.href = blob;
+                                    a.target = '_blank';
+                                    setTimeout(() => { this.click(a); resolve(); });
+                                }
+                            } else {
+                                navigator['msSaveOrOpenBlob'](this.bom(blob, opts), name);
+                                resolve();
+                            }
+                        });
+                    }
+
+                    // Fallback to using FileReader and a popup
+                    : (blob, name, opts, popup) => {
+                        return new Promise<void>((resolve) => {
+                            // Open a popup immediately do go around popup blocker
+                            // Mostly only available on user interaction and the fileReader is async so...
+                            popup = popup || open('', '_blank');
+                            if(popup) {
+                                popup.document.title =
+                                    popup.document.body.innerText = 'downloading...';
+                            }
+
+                            if(typeof blob === 'string') {
+                                this.download(blob, name, opts);
+                                resolve();
+                                return;
+                            }
+
+                            var force = blob.type === 'application/octet-stream';
+                            var isSafari = /constructor/i.test(HTMLElement.toString()) || window['safari'];
+                            var isChromeIOS = /CriOS\/[\d]+/.test(navigator.userAgent);
+
+                            if((isChromeIOS || (force && isSafari) || this.isMacOSWebView) && typeof FileReader !== 'undefined') {
+                                // Safari doesn't allow downloading of blob URLs
+                                var reader = new FileReader();
+                                reader.onloadend = () => {
+                                    var url = reader.result as string;
+                                    url = isChromeIOS ? url : url.replace(/^data:[^;]*;/, 'data:attachment/file;');
+                                    if(popup) popup.location.href = url;
+                                    else location.replace(url);
+                                    popup = null; // reverse-tabnabbing #460
+                                    resolve();
+                                };
+                                reader.readAsDataURL(blob);
+                            } else {
+                                var URL = URL || webkitURL;
+                                var url = URL.createObjectURL(blob);
+                                if(popup) popup.location = url;
+                                else location.href = url;
+                                popup = null; // reverse-tabnabbing #460
+                                setTimeout(() => { URL.revokeObjectURL(url); resolve(); }, 4E4); // 40s
+                            }
+                        });
+                    };
+
+            return result;
+        }
+    }
+}

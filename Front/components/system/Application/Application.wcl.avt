@@ -788,8 +788,10 @@ namespace System {
         /**
          * Opens a popup and returns a promise that resolves with the popup's result.
          */
+        @BindThis()
         public popup<T extends GenericPopup<U, X>, U = ExtractTypePopup<T>, X extends PopupInfo = PopupInfo>(p: T): Promise<U> {
             return new Promise<U>((resolve) => {
+                p.application = this;
                 p.init((response) => {
                     resolve(response);
                 });
@@ -799,6 +801,7 @@ namespace System {
         /**
          * Shows an alert popup with the provided information.
          */
+        @BindThis()
         public async alert(info: Partial<AlertInfo>): Promise<void> {
             const a = new Alert();
             a.mergeInfo(info);
@@ -807,6 +810,7 @@ namespace System {
         /**
          * Shows a confirm popup with the provided information.
          */
+        @BindThis()
         public async confirm(info: Partial<ConfirmInfo>): Promise<boolean> {
             const c = new Confirm();
             c.mergeInfo(info);
@@ -815,6 +819,7 @@ namespace System {
 
         public notify(notification: Notification): Promise<boolean>;
         public notify(notification: NotificationOptions): Promise<boolean>;
+        @BindThis()
         public notify(notification: Notification | NotificationOptions) {
             return this.notificationManager.notify(notification);
         }

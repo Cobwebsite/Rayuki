@@ -53,6 +53,10 @@
                 {
                     "uri": "@local:MaterialIcon@Main",
                     "include": "none"
+                },
+                {
+                    "uri": "@local:Addon@Addon",
+                    "include": "none"
                 }
             ]
         },
@@ -76,6 +80,10 @@
 				},
 				{
 					"uri": "https://store.aventusjs.com/libs/QrCodeGenerator/1_0_0/QrCodeGenerator@Main.package.avt",
+                    "include": "full"
+				},
+                {
+					"uri": "@local:Univer@Main.package.avt",
                     "include": "full"
 				}
 			]

@@ -1,0 +1,377 @@
+import { FileSaver } from "../../../../libs/FileSaver.lib.avt";
+import { FontManager } from "../../../../libs/FontManager.lib.avt";
+import { SheetSplitter } from "../SheetSplitter/SheetSplitter.wcl.avt";
+
+namespace Components {
+    export type SheetFormat = "A3" | "A4" | "A5" | "letter" | "legal";
+    export type SheetOrientation = "portrait" | "landscape";
+    export type SheetSettings = {
+        format: SheetFormat,
+        orientation: SheetOrientation,
+        padding: string;
+    };
+    export abstract class Sheet extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        protected format: SheetFormat = "A4";
+
+        @Attribute()
+        protected orientation: SheetOrientation = "portrait";
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected headerEl!: HTMLDivElement;
+        @ViewElement()
+        protected bodyEl!: HTMLDivElement;
+        @ViewElement()
+        protected bodyWrapper!: HTMLDivElement;
+        @ViewElement()
+        protected footerEl!: HTMLDivElement;
+
+        private currentWrapper!: HTMLElement;
+        private currentBody!: HTMLElement;
+        private currentPage!: HTMLElement;
+        private basicPage!: HTMLElement;
+        private pageWrappers: Node[] = [];
+        //#endregion
+
+
+        //#region constructor
+        public constructor() {
+            super();
+            const settings = this.sheetSettings(this.defaultSettings());
+
+            this.format = settings.format;
+            this.orientation = settings.orientation;
+            this.style.setProperty("--sheet-padding", settings.padding);
+        }
+        //#endregion
+
+
+        //#region methods
+        private defaultSettings(): SheetSettings {
+            return {
+                format: "A4",
+                orientation: "portrait",
+                padding: "0"
+            };
+        }
+        protected abstract sheetSettings(settings: SheetSettings): SheetSettings;
+
+        protected addSinglePageValue() {
+            let children = this.currentPage.querySelectorAll("[page-number]");
+            for(let child of children) {
+                child.innerHTML = this.pageWrappers.length + '';
+            }
+        }
+
+        protected addAllPagesValue() {
+            let children = this.shadowRoot.querySelectorAll("[page-total]");
+            for(let child of children) {
+                child.innerHTML = this.pageWrappers.length + '';
+            }
+        }
+
+
+        protected createPage(splitter: SheetSplitter, container: Node): Node {
+            this.currentPage = this.basicPage.cloneNode(true) as HTMLElement;
+            this.currentBody = this.currentPage.querySelector(".body")!;
+            this.currentWrapper = this.currentPage.querySelector(".body-wrapper")!;
+            this.pageWrappers.push(this.currentWrapper);
+            this.shadowRoot.appendChild(this.currentPage);
+            const result = this.onNewPage(splitter, container);
+            this.addSinglePageValue();
+            if(!result) return this.currentWrapper;
+            return result;
+        }
+
+        protected getIdentifier(node: Node): null | string {
+            let result: string[] = [];
+            let samePage = true;
+            const loop = (el: Node) => {
+                if(el instanceof Element) {
+                    if(el.classList.contains("body-wrapper")) {
+                        samePage = el == this.currentWrapper;
+                        return;
+                    }
+                    if(el.classList.length > 0) {
+                        result.push("." + Array.from(el.classList.values()).join("."));
+                    }
+                }
+                if(!el.parentNode) return;
+                loop(el.parentNode);
+            };
+            loop(node);
+            if(samePage) {
+                return null;
+            }
+            return result.reverse().join(" ");
+        }
+
+        protected cloneFromParent(classname: string, container: Node): Node | null {
+            let parent = Aventus.ElementExtension.findParentByClass<HTMLElement>(container as HTMLElement, classname);
+            let result: Node | null = null;
+            const loop = (element: Node, parentClone: Node) => {
+                let nodeClone = element.cloneNode();
+                parentClone.appendChild(nodeClone);
+                if(element == container) {
+                    result = nodeClone;
+                    return;
+                }
+                if(element instanceof HTMLElement && element.hasAttribute("page-avoid-other")) {
+                    for(let child of Array.from(element.childNodes)) {
+                        if(child instanceof HTMLElement) {
+                            if(child.contains(container))
+                                loop(child, nodeClone);
+                        }
+                        else {
+                            loop(child, nodeClone);
+                        }
+                    }
+                }
+                else {
+                    for(let child of Array.from(element.childNodes)) {
+                        loop(child, nodeClone);
+                    }
+                }
+            };
+            if(parent) {
+                loop(parent, this.currentWrapper);
+            }
+            else {
+                debugger;
+                console.warn("Parent " + classname + " not found from element", container);
+            }
+            return result;
+        }
+
+        protected abstract onNewPage(splitter: SheetSplitter, container: Node): Node | null;
+
+        protected calculatePageLoop(element: Node, children: Node[], nb: number = 0): boolean {
+            let lastSplitter: SheetSplitter | null = null;
+            let lastIndex = 0;
+            let hasNewPageG = false;
+            for(let i = 0; i < children.length; i++) {
+                const child = children[i];
+                if(child instanceof SheetSplitter) {
+                    lastSplitter = child;
+                    lastIndex = i;
+                    continue;
+                }
+
+                element.appendChild(child);
+                if(this.currentWrapper.offsetHeight > this.currentBody.offsetHeight) {
+                    const children2 = Array.from(child.childNodes);
+                    for(let child2 of children2) {
+                        child.removeChild(child2);
+                    }
+                    const hasNewPage = this.calculatePageLoop(child, children2, nb + 1);
+                    if(hasNewPage) {
+                        hasNewPageG = true;
+                    }
+                    if(!hasNewPage) {
+                        for(let child2 of children2) {
+                            child.appendChild(child2);
+                        }
+                        if(lastSplitter) {
+                            for(let j = lastIndex + 1; j <= i; j++) {
+                                element.removeChild(children[j]);
+                            }
+                            const newWrapper = this.createPage(lastSplitter, element);
+                            let missingChild = children.slice(lastIndex + 1);
+                            this.calculatePageLoop(newWrapper, missingChild);
+                            return true;
+                        }
+                        else {
+                            if(nb == 0) {
+                                debugger;
+                                if(child instanceof HTMLElement) {
+                                    child.style.backgroundColor = "red";
+                                }
+                                throw {
+                                    msg: 'Can\'t find a page-splitter',
+                                    element: child
+                                };
+                            }
+                            else {
+                                element.removeChild(child);
+                            }
+                            return false;
+                        }
+                    }
+
+                    if(this.pageWrappers.includes(element) && element != this.currentWrapper) {
+                        element = this.currentWrapper;
+                    }
+                    else {
+                        const identifier = this.getIdentifier(element);
+                        if(identifier) {
+                            const el = this.currentWrapper.querySelector(identifier);
+                            if(el) {
+                                element = el;
+                            }
+                        }
+                    }
+                }
+            }
+            return hasNewPageG;
+        }
+        protected calculatePage() {
+            const mainChildren = Array.from(this.bodyWrapper.childNodes);
+            for(let mainChild of mainChildren) {
+                this.bodyWrapper.removeChild(mainChild);
+            }
+            this.currentPage = this.shadowRoot.querySelector(".sheet")!;
+            this.basicPage = this.currentPage.cloneNode(true) as HTMLElement;
+            this.currentWrapper = this.bodyWrapper;
+            this.currentBody = this.bodyEl;
+            this.pageWrappers.push(this.currentWrapper);
+
+            try {
+                this.addSinglePageValue();
+                this.calculatePageLoop(this.bodyWrapper, mainChildren);
+                this.addAllPagesValue();
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        protected urlToBase64(url): Promise<string> {
+            return new Promise<string>(async (resolve, reject) => {
+                try {
+                    const response = await fetch(url);
+                    const blob = await response.blob();
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result as string);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(blob);
+                } catch(e) {
+                    reject(e);
+                }
+            });
+        }
+
+        //#region save
+
+        public async export(): Promise<string> {
+            let stylesheets: { [name: string]: CSSStyleSheet; } = this.constructor['__styleSheets'];
+
+            let cssTxt = "";
+            for(let name in stylesheets) {
+                cssTxt += Aventus.Style.sheetToString(stylesheets[name]);
+            }
+
+            cssTxt = cssTxt.replace(/\:host\((.*?)\)/g, 'body\$1');
+            cssTxt = cssTxt.replace(/\:host/g, 'body');
+
+            const regexVariables = /var\((--.*?)[,|\)]/g;
+            let m: RegExpExecArray | null = null;
+            let computedStyle: CSSStyleDeclaration | null = null;
+            const cssVarValue: { [variable: string]: string; } = {};
+            while((m = regexVariables.exec(cssTxt)) !== null) {
+                if(m.index === regexVariables.lastIndex) {
+                    regexVariables.lastIndex++;
+                }
+                if(cssVarValue[m[1]]) continue;
+
+                if(!computedStyle) {
+                    computedStyle = getComputedStyle(this);
+                }
+
+                let v = computedStyle.getPropertyValue(m[1]);
+                if(v) {
+                    cssVarValue[m[1]] = v;
+                }
+            }
+            let cssVarTxt = "";
+            for(let key in cssVarValue) {
+                cssVarTxt += `${key}:${cssVarValue[key]};`;
+            }
+            if(cssVarTxt)
+                cssTxt = `body{${cssVarTxt}}` + cssTxt;
+
+
+
+            let attributes: string[] = [];
+
+            for(let attr of this.attributes) {
+                attributes.push(attr.nodeName + "=\"" + attr.nodeValue + "\"");
+            }
+
+            let imgs = this.shadowRoot.querySelectorAll("img");
+            const imgMemory: { [url: string]: string; } = {};
+            for(let img of imgs) {
+                if(img.src && !img.src.startsWith("data:")) {
+                    if(!imgMemory[img.src]) {
+                        imgMemory[img.src] = await this.urlToBase64(img.src);
+                    }
+                    img.src = imgMemory[img.src];
+                }
+            }
+
+            const fonts = await FontManager.getFontRulesBase64();
+
+            let generalStyle = "";
+            // for(let i = 0; i < document.styleSheets.length; i++) {
+            //     let sheet: CSSStyleSheet = document.styleSheets[i];
+            //     if(sheet.href?.endsWith("/autoload/default.css")) {
+            //         for(let j = 0; j < sheet.cssRules.length; j++) {
+            //             let rule = sheet.cssRules[j];
+            //             if(!(rule instanceof CSSStyleRule)) continue;
+
+            //             if([":root", "*"].includes(rule.selectorText)) {
+            //                 generalStyle += rule.cssText + "\n";
+            //             }
+            //         }
+            //     }
+            // }
+            cssTxt = generalStyle + cssTxt;
+
+            const txt = `<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Document</title>
+                <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&amp;display=swap" rel="stylesheet" />
+                <style>
+                    html {
+                        -webkit-print-color-adjust: exact;
+                    }
+                    ${fonts}
+                </style>
+                <style>${cssTxt}</style>
+            </head>
+            <body ${attributes.join(" ")}>
+                ${this.shadowRoot.innerHTML}
+            </body>
+            </html>`;
+
+            return txt;
+        }
+
+        public async saveAs(name: string): Promise<void> {
+            let blob = new Blob([await this.export()], {
+                type: "text/html"
+            });
+            FileSaver.saveAs(blob, name);
+        }
+        //#endregion
+
+        protected override postCreation(): void {
+            super.postCreation();
+            window['temp1'] = this;
+            this.calculatePage();
+        }
+        //#endregion
+
+    }
+}

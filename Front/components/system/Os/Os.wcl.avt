@@ -296,6 +296,7 @@ namespace System {
 
 
         //#region popup
+        @BindThis()
         public popup<T extends GenericPopup<U, X>, U = any, X extends PopupInfo = PopupInfo>(p: T): Promise<U> {
             return new Promise<U>((resolve) => {
                 p.init((response) => {
@@ -304,11 +305,13 @@ namespace System {
                 this.shadowRoot.appendChild(p);
             });
         }
+        @BindThis()
         public async alert(info: Partial<AlertInfo>) {
             const a = new Alert();
             a.mergeInfo(info);
             await this.popup(a);
         }
+        @BindThis()
         public async confirm(info: Partial<ConfirmInfo>) {
             const c = new Confirm();
             c.mergeInfo(info);

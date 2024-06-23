@@ -20,6 +20,7 @@ import { MainEndPoint } from "../../../generated/Websocket/MainEndPoint.lib.avt"
 import { DesktopRouter } from "../../../generated/Websocket/Routes/DesktopRouter.lib.avt";
 import { ApplicationPermission, ApplicationPermissionQuery } from "../../../generated/Permissions/ApplicationPermission.lib.avt";
 import { Notification } from "../../ui/popup/Notification/Notification.wcl.avt";
+import { Addon } from "../../../libs/Addon.lib.avt";
 
 namespace System {
     export class Desktop extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, MoveApplicationProvider {
@@ -107,6 +108,7 @@ namespace System {
 
         //#region application
         public async loadApp(application: string) {
+            await Addon.loadForApp(application);
             await Aventus.ResourceLoader.loadInHead({
                 type: "js",
                 url: "/apps/" + application + "/index.js"
@@ -497,7 +499,7 @@ namespace System {
                 else {
                     el.is_desktop_active = false;
                 }
-                el.style.zIndex = total+'';
+                el.style.zIndex = total + '';
                 total--;
             }
         }
