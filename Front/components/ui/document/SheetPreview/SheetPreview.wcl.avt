@@ -1,0 +1,134 @@
+import { Pdf } from "../../../../generated/Data/DataTypes/Pdf.lib.avt";
+import { PdfRouter } from "../../../../generated/Routes/PdfRouter.lib.avt";
+import { FileSaver } from "../../../../libs/FileSaver.lib.avt";
+import { Application } from "../../../system/Application/Application.wcl.avt";
+import type { Scrollable } from "../../layout/Scrollable/Scrollable.wcl.avt";
+import { Sheet } from "../Sheet/Sheet.wcl.avt";
+
+namespace Components {
+    export class SheetPreview extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public filename?: string;
+        @Attribute()
+        public loading!: boolean;
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected contentEl!: Scrollable;
+
+        @Watch((target: SheetPreview) => {
+            target.contentEl.zoom = target.zoom / 100;
+        })
+        public zoom: number = 100;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+
+        /**
+         * 
+         */
+        protected removeZoom() {
+            let newZoom = this.zoom;
+            newZoom = Math.floor(newZoom / 10) * 10;
+            if(newZoom == this.zoom) {
+                newZoom -= 10;
+            }
+            if(newZoom < 30) {
+                newZoom = 30;
+            }
+
+            if(newZoom != this.zoom) {
+                this.zoom = newZoom;
+            }
+        }
+        /**
+         * 
+         */
+        protected addZoom() {
+            let newZoom = this.zoom;
+            newZoom = Math.ceil(newZoom / 10) * 10;
+            if(newZoom == this.zoom) {
+                newZoom += 10;
+            }
+            if(newZoom > 200) {
+                newZoom = 200;
+            }
+
+            if(newZoom != this.zoom) {
+                this.zoom = newZoom;
+            }
+        }
+
+
+        /**
+         * 
+         */
+        protected async print() {
+            let el = this.getElementsInSlot()[0];
+            if(el instanceof Sheet) {
+                let execLoading: (fct: () => (() => Promise<void | null>) | Promise<void | null>) => Promise<void | null> = async (fct) => {
+                    this.loading = true;
+                    try {
+                        if(fct instanceof Promise) {
+                            await fct;
+                        }
+                        else {
+                            await fct();
+                        }
+                    } catch(e) {
+
+                    }
+                    this.loading = false;
+                };
+
+                let parent = this.findParentByType(Application);
+                if(parent) {
+                    execLoading = parent.showLoading as any;
+                }
+
+                await execLoading(async () => {
+                    let pdf = new Pdf();
+                    pdf.Name = this.filename ?? "doucment";
+                    pdf.Html = await el.export();
+                    let pdfResult = await new PdfRouter().Build({
+                        pdf
+                    });
+
+                    if(pdfResult.result) {
+                        FileSaver.saveAs(pdfResult.result, (this.filename ?? "doucment") + ".pdf");
+                    }
+                });
+
+            }
+
+        }
+
+
+        /**
+         * 
+         */
+        protected save() {
+            let el = this.getElementsInSlot()[0];
+            if(el instanceof Sheet) {
+                el.saveAs((this.filename ?? "doucment") + ".html");
+            }
+        }
+        //#endregion
+
+    }
+}

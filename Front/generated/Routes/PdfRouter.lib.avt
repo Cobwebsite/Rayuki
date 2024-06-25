@@ -13,6 +13,13 @@ namespace Routes {
 			request.setBody(body);
 			return await request.queryVoid(this.router);
 		}
+
+		@BindThis()
+		public async Build(body: { pdf: Pdf } | FormData): Promise<AventusSharp.Tools.ResultWithError<Blob>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/build`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			return await request.queryBlob(this.router);
+		}
 	}
 
 }

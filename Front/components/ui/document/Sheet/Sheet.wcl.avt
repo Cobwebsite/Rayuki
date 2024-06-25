@@ -10,10 +10,16 @@ namespace Components {
         orientation: SheetOrientation,
         padding: string;
     };
+    export type ISheetElement = {
+        getHtml(): string,
+        getCSS(): string,
+    };
     export abstract class Sheet extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static
-
+        public static isISheetElement(node: unknown): node is ISheetElement {
+            return typeof (node as ISheetElement).getHtml == 'function' && typeof (node as ISheetElement).getCSS == 'function';
+        }
         //#endregion
 
 
@@ -334,7 +340,32 @@ namespace Components {
             //     }
             // }
             cssTxt = generalStyle + cssTxt;
+            const sizeTxt = this.format + " " + this.orientation;
+            const sizes = {
+                "A3": {
+                    height: '420mm',
+                    width: '297mm'
+                },
+                "A4": {
+                    height: '297mm',
+                    width: '210mm'
+                },
+                "A5": {
+                    height: '210mm',
+                    width: '148mm'
+                },
+                "letter": {
+                    height: '279mm',
+                    width: '216mm'
+                },
+                "legal": {
+                    height: '357mm',
+                    width: '216mm'
+                }
+            } as const;
 
+            const widthTxt = this.orientation == 'portrait' ? sizes[this.format].width : sizes[this.format].height;
+            const heightTxt = this.orientation == 'portrait' ? sizes[this.format].height : sizes[this.format].width;
             const txt = `<!DOCTYPE html>
             <html lang="en">
             <head>
@@ -345,6 +376,19 @@ namespace Components {
                 <style>
                     html {
                         -webkit-print-color-adjust: exact;
+                        print-color-adjust: exact;
+                    }
+                    html, body {
+                        margin: 0;
+                        padding: 0;
+                    }
+                    body {
+                        width: ${widthTxt};
+                        height:  ${heightTxt};
+                    }
+                    @page {
+                        size: ${sizeTxt};
+                        margin: 0;
                     }
                     ${fonts}
                 </style>

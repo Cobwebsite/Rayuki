@@ -6,7 +6,8 @@ namespace Errors {
 		Impossible,
 		NotAllowed,
 		NotLogin,
-		ConversionFailed
+		ConversionFailed,
+		SeederError
 	}
 
 	@Convertible()

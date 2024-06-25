@@ -6,7 +6,7 @@ namespace Lib {
             const result: FontFace[] = [];
             for(let font of fonts) {
                 if(font.status == 'loaded') {
-                    if(!font.__src) {
+                    if(!font['__src']) {
                         let hasLoaded = await this.findFontInsideStylesheet(font);
                         if(hasLoaded) {
                             result.push(font);
@@ -82,7 +82,7 @@ namespace Lib {
             for(let font of fonts) {
                 let txtFont: string[] = ['@font-face {'];
                 txtFont.push("font-family: " + font.family + ";");
-                txtFont.push("src: url(\"" + await this.urlToBase64(font.__src) + "\");");
+                txtFont.push("src: url(\"" + await this.urlToBase64(font['__src']) + "\");");
                 for(let prop in props) {
                     if(font[prop] != props[prop].defaultValue) {
                         txtFont.push(props[prop].cssName + ": " + font[prop] + ";");
@@ -163,7 +163,7 @@ namespace Lib {
 
                             let resultMatch = /url\(['|"]?(.*?)['|"]?\)/g.exec(styleAny.src);
                             if(resultMatch) {
-                                font.__src = resultMatch[1];
+                                font['__src'] = resultMatch[1];
                                 return true;
                             }
 

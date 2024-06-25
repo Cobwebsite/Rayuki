@@ -1,0 +1,18 @@
+<div class="menu">
+    <mi-icon icon="save" @press="save"></mi-icon>
+    <mi-icon icon="print" @press="print"></mi-icon>
+</div>
+<rk-scrollable class="content" @element="contentEl">
+    <slot></slot>
+</rk-scrollable>
+<div class="footer">
+    <div class="filename">{{ this.filename }}</div>
+    <div class="slider">
+        <mi-icon icon="remove" @press="removeZoom"></mi-icon>
+        <rk-slider min="30" max="200" @bind="this.zoom"></rk-slider>
+        <mi-icon icon="add" @press="addZoom"></mi-icon>
+        <div class="value">{{ this.zoom }}%</div>
+    </div>
+</div>
+
+<rk-loading></rk-loading>

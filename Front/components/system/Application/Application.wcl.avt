@@ -829,6 +829,7 @@ namespace System {
         /**
          *  Parses errors from the application query result.
          */
+        @BindThis()
         public async parseErrors<X>(result: ApplicationQueryFctResult<X>): Promise<X | undefined> {
             if(result.errors.length > 0) {
                 let msg = result.errors.map(p => p.message).join("<br/>");
@@ -846,6 +847,7 @@ namespace System {
         /**
          * Executes a promise and parses its result.
          */
+        @BindThis()
         public async execute<X>(prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
             const queryResult = await prom;
             return await this.parseErrors(queryResult);
@@ -853,6 +855,7 @@ namespace System {
         /**
          * Executes a promise with a loading indicator and parses its result.
          */
+        @BindThis()
         public async executeWithLoading<X>(prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
             const queryResult = await this.showLoading(prom);
             if(!queryResult) return undefined;
@@ -861,6 +864,7 @@ namespace System {
         /**
          * Shows a loading indicator while executing a function or promise.
          */
+        @BindThis()
         public async showLoading<X>(fct: (() => Promise<X>) | Promise<X>): Promise<X | null> {
             let timeout: number = 0;
             try {

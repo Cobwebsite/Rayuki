@@ -12,7 +12,7 @@
 		margin: 0;
 		overflow: hidden;
 		padding: var(--_sheet-padding);
-		page-break-after: always;
+		page-break-before: page;
 		position: relative;
 		user-select: text;
 
@@ -47,42 +47,42 @@
 /*#region format*/
 :host([format="A3"][orientation="portrait"]) {
 	.sheet {
-		height: 419mm;
+		height: 420mm;
 		width: 297mm;
 	}
 }
 
 :host([format="A3"][orientation="landscape"]) {
 	.sheet {
-		height: 296mm;
+		height: 297mm;
 		width: 420mm;
 	}
 }
 
 :host([format="A4"][orientation="portrait"]) {
 	.sheet {
-		height: 296mm;
+		height: 297mm;
 		width: 210mm;
 	}
 }
 
 :host([format="A4"][orientation="landscape"]) {
 	.sheet {
-		height: 209mm;
+		height: 210mm;
 		width: 297mm;
 	}
 }
 
 :host([format="A5"][orientation="portrait"]) {
 	.sheet {
-		height: 209mm;
+		height: 210mm;
 		width: 148mm;
 	}
 }
 
 :host([format="A5"][orientation="landscape"]) {
 	.sheet {
-		height: 147mm;
+		height: 148mm;
 		width: 210mm;
 	}
 }
@@ -96,69 +96,22 @@
 
 :host([format="letter"][orientation="landscape"]) {
 	.sheet {
-		height: 215mm;
+		height: 216mm;
 		width: 280mm;
 	}
 }
 
 :host([format="legal"][orientation="portrait"]) {
 	.sheet {
-		height: 356mm;
+		height: 357mm;
 		width: 216mm;
 	}
 }
 
 :host([format="legal"][orientation="landscape"]) {
 	.sheet {
-		height: 215mm;
+		height: 216mm;
 		width: 357mm;
 	}
 }
-
-@page {
-	margin: 0;
-}
-
-@media print {
-	:host([format="A3"][orientation="landscape"]) {
-		width: 420mm;
-	}
-
-	:host([format="A3"][orientation="portrait"]) {
-		width: 297mm;
-	}
-
-	:host([format="A4"][orientation="landscape"]) {
-		width: 297mm;
-	}
-
-	:host([format="A4"][orientation="portrait"]) {
-		width: 210mm;
-	}
-
-	:host([format="A5"][orientation="landscape"]) {
-		width: 210mm;
-	}
-
-	:host([format="A5"][orientation="portrait"]) {
-		width: 148mm;
-	}
-
-	:host([format="letter"][orientation="portrait"]) {
-		width: 216mm;
-	}
-
-	:host([format="legal"][orientation="portrait"]) {
-		width: 216mm;
-	}
-
-	:host([format="letter"][orientation="landscape"]) {
-		width: 280mm;
-	}
-
-	:host([format="legal"][orientation="landscape"]) {
-		width: 357mm;
-	}
-}
-
 /*#endregion*/
