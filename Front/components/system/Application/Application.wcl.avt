@@ -231,7 +231,7 @@ namespace System {
         public defineShortcut(): [(string | SpecialTouch)[], cb: () => void][] {
             return [];
         }
-        
+
 
 
         /**
@@ -274,9 +274,7 @@ namespace System {
                                 if(canResult === false) {
                                     return;
                                 }
-                                else {
-                                    this.navigate(canResult);
-                                }
+                                this.navigate(canResult);
                                 return;
                             }
                             if(this.oldFrame && this.oldFrame != element) {

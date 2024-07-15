@@ -24,6 +24,10 @@ namespace Components {
         //#endregion
 
 
+        //#region events
+        public change: Aventus.Callback<(open: boolean) => void> = new Aventus.Callback();
+        //#endregion
+
         //#region methods
 
         /**
@@ -39,6 +43,7 @@ namespace Components {
          */
         protected toggleOpen() {
             this.open = !this.open;
+            this.change.trigger([this.open]);
         }
         //#endregion
 

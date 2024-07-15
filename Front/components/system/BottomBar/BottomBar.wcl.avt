@@ -50,6 +50,7 @@ namespace System {
         protected addSwipe() {
             let enable = true;
             let startY = 0;
+            
             new Aventus.DragAndDrop({
                 element: this,
                 applyDrag: false,

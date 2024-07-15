@@ -1,6 +1,32 @@
 Object.defineProperty(window, "AvInstance", {
 	get() {return Aventus.Instance;}
-})
+});
+
+(() => {
+	Map.prototype._defaultHas = Map.prototype.has;
+	Map.prototype._defaultSet = Map.prototype.set;
+	Map.prototype._defaultGet = Map.prototype.get;
+	Map.prototype.has = function(key) {
+		if(Aventus.Watcher?.is(key)) {
+			return Map.prototype._defaultHas.call(this,key.getTarget())
+		}
+		return Map.prototype._defaultHas.call(this,key);
+	}
+
+	Map.prototype.set = function(key, value) {
+		if(Aventus.Watcher?.is(key)) {
+			return Map.prototype._defaultSet.call(this, key.getTarget(), value)
+		}
+		return Map.prototype._defaultSet.call(this, key, value);
+	}
+	Map.prototype.get = function(key) {
+		if(Aventus.Watcher?.is(key)) {
+			return Map.prototype._defaultGet.call(this, key.getTarget())
+		}
+		return Map.prototype._defaultGet.call(this, key);
+	}
+})()
+
 var Aventus;
 (Aventus||(Aventus = {}));
 (function (Aventus) {
@@ -142,18 +168,25 @@ const getValueFromObject=function getValueFromObject(path, obj) {
     if (path == "") {
         return obj;
     }
+    const val = (key) => {
+        if (obj instanceof Map) {
+            return obj.get(key);
+        }
+        return obj[key];
+    };
     let splitted = path.split(".");
     for (let i = 0; i < splitted.length - 1; i++) {
         let split = splitted[i];
-        if (!obj[split] || typeof obj[split] !== 'object') {
+        let value = val(split);
+        if (!value || typeof value !== 'object') {
             return undefined;
         }
-        obj = obj[split];
+        obj = value;
     }
     if (!obj || typeof obj !== 'object') {
         return undefined;
     }
-    return obj[splitted[splitted.length - 1]];
+    return val(splitted[splitted.length - 1]);
 }
 
 _.getValueFromObject=getValueFromObject;
@@ -183,8 +216,8 @@ const ActionGuard=class ActionGuard {
     /**
      * Executes an action uniquely based on the specified keys.
      * @template T
-     * @param {any[]} keys - The keys associated with the action.
-     * @param {() => Promise<T>} action - The action to execute.
+     * @param {any[]} keys The keys associated with the action.
+     * @param {() => Promise<T>} action The action to execute.
      * @returns {Promise<T>} A promise that resolves with the result of the action.
      * @example
      *
@@ -388,15 +421,28 @@ Mutex.Namespace=`Aventus`;
 _.Mutex=Mutex;
 const setValueToObject=function setValueToObject(path, obj, value) {
     path = path.replace(/\[(.*?)\]/g, '.$1');
+    const val = (key) => {
+        if (obj instanceof Map) {
+            return obj.get(key);
+        }
+        return obj[key];
+    };
     let splitted = path.split(".");
     for (let i = 0; i < splitted.length - 1; i++) {
         let split = splitted[i];
-        if (!obj[split]) {
+        let value = val(split);
+        if (!value) {
             obj[split] = {};
+            value = obj[split];
         }
-        obj = obj[split];
+        obj = value;
     }
-    obj[splitted[splitted.length - 1]] = value;
+    if (obj instanceof Map) {
+        obj.set(splitted[splitted.length - 1], value);
+    }
+    else {
+        obj[splitted[splitted.length - 1]] = value;
+    }
 }
 
 _.setValueToObject=setValueToObject;
@@ -1011,6 +1057,7 @@ const Watcher=class Watcher {
                         }
                     };
                     addAlias(root, prop, (type, target, receiver2, value, prop2, dones) => {
+                        const pathSave = element.__path;
                         let proxy = element.__getProxy;
                         let triggerPath;
                         if (prop2.startsWith("[") || oldPath == "" || prop2 == "") {
@@ -1024,6 +1071,7 @@ const Watcher=class Watcher {
                         let newProp = splitted.pop();
                         let newReceiver = getValueFromObject(splitted.join("."), proxy);
                         element.__trigger(type, target, newReceiver, value, newProp, dones);
+                        element.__path = pathSave;
                     });
                     return unbindElement;
                 }
@@ -1296,6 +1344,62 @@ const Watcher=class Watcher {
                                     let res = target.pop();
                                     trigger('DELETED', target, receiver, oldValue, "[" + index + "]");
                                     trigger('UPDATED', target, receiver, target.length, "length");
+                                    return res;
+                                };
+                            }
+                        }
+                        else {
+                            result = element.bind(target);
+                        }
+                        return result;
+                    }
+                    else if (target instanceof Map) {
+                        let result;
+                        if (prop == "set") {
+                            if (target.__isProxy) {
+                                result = (key, value) => {
+                                    return target.set(key, value);
+                                };
+                            }
+                            else {
+                                result = (key, value) => {
+                                    let result = target.set(key, value);
+                                    trigger('CREATED', target, receiver, receiver.get(key), key);
+                                    trigger('UPDATED', target, receiver, target.size, "size");
+                                    return result;
+                                };
+                            }
+                        }
+                        else if (prop == "clear") {
+                            if (target.__isProxy) {
+                                result = () => {
+                                    return target.clear();
+                                };
+                            }
+                            else {
+                                result = () => {
+                                    let keys = target.keys();
+                                    for (let key of keys) {
+                                        let oldValue = receiver.get(key);
+                                        target.delete(key);
+                                        trigger('DELETED', target, receiver, oldValue, key);
+                                        trigger('UPDATED', target, receiver, target.size, "size");
+                                    }
+                                };
+                            }
+                        }
+                        else if (prop == "delete") {
+                            if (target.__isProxy) {
+                                result = (key) => {
+                                    return target.delete(key);
+                                };
+                            }
+                            else {
+                                result = (key) => {
+                                    let oldValue = receiver.get(key);
+                                    let res = target.delete(key);
+                                    trigger('DELETED', target, receiver, oldValue, key);
+                                    trigger('UPDATED', target, receiver, target.size, "size");
                                     return res;
                                 };
                             }
@@ -1685,18 +1789,35 @@ const compareObject=function compareObject(obj1, obj2) {
         }
         obj1 = Watcher.extract(obj1);
         obj2 = Watcher.extract(obj2);
-        if (Object.keys(obj1).length !== Object.keys(obj2).length) {
-            return false;
-        }
-        for (let key in obj1) {
-            if (!(key in obj2)) {
+        if (obj1 instanceof Map && obj2 instanceof Map) {
+            if (obj1.size != obj2.size) {
                 return false;
             }
-            if (!compareObject(obj1[key], obj2[key])) {
+            const keys = obj1.keys();
+            for (let key in keys) {
+                if (!obj2.has(key)) {
+                    return false;
+                }
+                if (!compareObject(obj1.get(key), obj2.get(key))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        else {
+            if (Object.keys(obj1).length !== Object.keys(obj2).length) {
                 return false;
             }
+            for (let key in obj1) {
+                if (!(key in obj2)) {
+                    return false;
+                }
+                if (!compareObject(obj1[key], obj2[key])) {
+                    return false;
+                }
+            }
+            return true;
         }
-        return true;
     }
     else {
         return obj1 === obj2;
@@ -2014,6 +2135,9 @@ const Data=class Data {
             isValidKey: (key) => !toAvoid.includes(key)
         });
     }
+    /**
+     * Clone the object by transforming a parsed JSON string back into the original type
+     */
     clone() {
         return Converter.transform(JSON.parse(JSON.stringify(this)));
     }
@@ -2544,25 +2668,10 @@ HttpRequest.Namespace=`Aventus`;
 
 _.HttpRequest=HttpRequest;
 const HttpRouter=class HttpRouter {
-    _routes;
     options;
-    // public static WithRoute<const T extends readonly ({ type: RouteType, path: string; } | RouteType)[]>(options: T): HttpRouterType<T> {
-    //         constructor() {
-    //             super();
-    //             for(let route of options) {
-    //                 if(typeof route == "function") {
-    //                     this._routes.add(route);
-    //                     this._routes.add(route.type, route.path);
     constructor() {
-        // Object.defineProperty(this, "routes", {
-        //     get: () => { return this._routes; }
-        // });
-        // this.createRoutesProxy();
         this.options = this.defineOptions(this.defaultOptionsValue());
     }
-    // private createRoutesProxy() {
-    //     if(!this._routes) {
-    //         this._routes = new Proxy({}, createCommProxy<HttpRoute>(this));
     defaultOptionsValue() {
         return {
             url: location.protocol + "//" + location.host
@@ -2591,16 +2700,6 @@ HttpRouter.Namespace=`Aventus`;
 
 _.HttpRouter=HttpRouter;
 const HttpRoute=class HttpRoute {
-    // private static JoinPath<T extends string, U extends string>(s1: T, s2: U): Join<[T, U], "."> {
-    // public static ExtendRoutes<const T extends readonly ({ type: RouteType, path: string; } | RouteType)[], U extends string>(options: T, path: StringLiteral<U>) {
-    //     if(!path) {
-    //         for(let option of options) {
-    //             if(typeof option == "function") {
-    //                 result.push({
-    //                 });
-    //                 result.push({
-    //                     path: this.JoinPath(path, option.path)
-    //                 });
     router;
     constructor(router) {
         this.router = router ?? new HttpRouter();
@@ -5644,7 +5743,7 @@ const WebComponentInstance=class WebComponentInstance {
         for (let part of splitted) {
             current = current[part];
         }
-        if (current && current.prototype instanceof Aventus.WebComponent) {
+        if (current && current.prototype instanceof WebComponent) {
             return new current();
         }
         return null;

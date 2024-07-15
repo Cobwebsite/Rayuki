@@ -15,20 +15,22 @@ namespace Components {
         addFieldError(name: keyof T, error: string): boolean;
         execute<X>(result: Aventus.Asyncable<ApplicationQueryFctResult<X>>, from: Application): Promise<X | undefined>;
         execute<X>(result: Aventus.Asyncable<ApplicationQueryFctResult<X>>, from?: Aventus.WebComponent): Promise<ApplicationQueryFctResult<X>>;
-        refresh(key: Extract<keyof T, string>): void
+        refresh(key: Extract<keyof T, string>): void;
         validateAndExecute<X>(result: Aventus.Asyncable<ApplicationQueryFctResult<X>>, from: Application): Promise<X | undefined>;
     }
     type FormDataInternal<T extends BodyJSON> = {
         [K in keyof T]: Required<FormPart<T[K]>>
     };
 
-    export type VirtualForm<T extends BodyJSON> = FormDataInternal<T> & InternalVirtualFormType<T>;
+    export type VirtualForm<T extends BodyJSON> = FormDataInternal<T> & InternalVirtualFormType<T> & { data: T; };
 
 
     @Internal()
     export class InternalVirtualForm<T extends BodyJSON> implements InternalVirtualFormType<T> {
 
         private __config: FormDataInternal<T>;
+
+        public data: any;
 
         @Internal()
         public constructor(config: FormData<T>) {
@@ -45,6 +47,36 @@ namespace Components {
             for(let key in config) {
                 this.registerKey(key);
             }
+            const that = this;
+            this.data = new Proxy({}, {
+                get(target, prop, receiver) {
+                    return that.__config[prop as string]?.value;
+                },
+                set(target, prop, value, receiver) {
+                    if(that.__config[prop as string]) {
+                        that.__config[prop as string].value = value;
+                        return true;
+                    }
+                    return false;
+                },
+                deleteProperty(target, prop) {
+                    delete that.__config[prop as string];
+                    return true;
+                },
+                defineProperty(target, prop, descriptor) {
+                    that.__config[prop as string];
+                    return true;
+                },
+                ownKeys(target) {
+                    return Object.keys(that.__config);
+                },
+                getOwnPropertyDescriptor(k) {
+                    return {
+                        enumerable: true,
+                        configurable: true,
+                    };
+                }
+            });
         }
 
         public async validateAndExecute<X>(result: Aventus.Asyncable<ApplicationQueryFctResult<X>>, application: Application): Promise<X | undefined> {

@@ -14,7 +14,7 @@ namespace Components {
 
 
         //#region props
-        @Attribute()
+        @Property()
         public filename?: string;
         @Attribute()
         public loading!: boolean;

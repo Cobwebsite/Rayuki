@@ -1,0 +1,10 @@
+namespace Lib {
+    export class NumberTools {
+        public static pretty(nb: number): string {
+            if(nb < 10) {
+                return '0' + nb;
+            }
+            return nb + '';
+        }
+    }
+}

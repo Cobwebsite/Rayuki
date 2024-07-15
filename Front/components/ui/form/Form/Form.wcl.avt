@@ -1,6 +1,4 @@
-import type { ApplicationQueryFctResult } from "../../../system/Application/ApplicationError.lib.avt";
-import { Application } from "../../../system/Application/Application.wcl.avt";
-import { FormElement, type IFormElement } from "../FormElement/FormElement.wcl.avt";
+import { type IFormElement } from "../FormElement/FormElement.wcl.avt";
 import type { BodyJSON, FormData } from "./FormType.lib.avt";
 import { InternalVirtualForm, type VirtualForm } from "./VirtualForm.lib.avt";
 

@@ -71,6 +71,17 @@ Lib.StringTools=class StringTools {
 Lib.StringTools.Namespace=`Core.Lib`;
 
 _.Lib.StringTools=Lib.StringTools;
+Lib.NumberTools=class NumberTools {
+    static pretty(nb) {
+        if (nb < 10) {
+            return '0' + nb;
+        }
+        return nb + '';
+    }
+}
+Lib.NumberTools.Namespace=`Core.Lib`;
+
+_.Lib.NumberTools=Lib.NumberTools;
 Websocket.Events.ApplicationTestEvent2=class ApplicationTestEvent2 extends AventusSharp.WebSocket.Event {
     /**
      * @inheritdoc
@@ -216,7 +227,7 @@ Components.UserProfilPicture = class UserProfilPicture extends Aventus.WebCompon
         return this.uri;
     }
 }
-Components.UserProfilPicture.Namespace=`${moduleName}.Components`;
+Components.UserProfilPicture.Namespace=`Core.Components`;
 Components.UserProfilPicture.Tag=`rk-user-profil-picture`;
 _.Components.UserProfilPicture=Components.UserProfilPicture;
 if(!window.customElements.get('rk-user-profil-picture')){window.customElements.define('rk-user-profil-picture', Components.UserProfilPicture);Aventus.WebComponentInstance.registerDefinition(Components.UserProfilPicture);}
@@ -244,7 +255,7 @@ Components.Tab = class Tab extends Aventus.WebComponent {
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = ""; } }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label'); }
 }
-Components.Tab.Namespace=`${moduleName}.Components`;
+Components.Tab.Namespace=`Core.Components`;
 Components.Tab.Tag=`rk-tab`;
 _.Components.Tab=Components.Tab;
 if(!window.customElements.get('rk-tab')){window.customElements.define('rk-tab', Components.Tab);Aventus.WebComponentInstance.registerDefinition(Components.Tab);}
@@ -293,7 +304,7 @@ Components.TabHeader = class TabHeader extends Aventus.WebComponent {
         return this.label;
     }
 }
-Components.TabHeader.Namespace=`${moduleName}.Components`;
+Components.TabHeader.Namespace=`Core.Components`;
 Components.TabHeader.Tag=`rk-tab-header`;
 _.Components.TabHeader=Components.TabHeader;
 if(!window.customElements.get('rk-tab-header')){window.customElements.define('rk-tab-header', Components.TabHeader);Aventus.WebComponentInstance.registerDefinition(Components.TabHeader);}
@@ -369,7 +380,7 @@ Components.Tabs = class Tabs extends Aventus.WebComponent {
         super.postCreation();
     }
 }
-Components.Tabs.Namespace=`${moduleName}.Components`;
+Components.Tabs.Namespace=`Core.Components`;
 Components.Tabs.Tag=`rk-tabs`;
 _.Components.Tabs=Components.Tabs;
 if(!window.customElements.get('rk-tabs')){window.customElements.define('rk-tabs', Components.Tabs);Aventus.WebComponentInstance.registerDefinition(Components.Tabs);}
@@ -394,7 +405,7 @@ Components.Separator = class Separator extends Aventus.WebComponent {
         return "Separator";
     }
 }
-Components.Separator.Namespace=`${moduleName}.Components`;
+Components.Separator.Namespace=`Core.Components`;
 Components.Separator.Tag=`rk-separator`;
 _.Components.Separator=Components.Separator;
 if(!window.customElements.get('rk-separator')){window.customElements.define('rk-separator', Components.Separator);Aventus.WebComponentInstance.registerDefinition(Components.Separator);}
@@ -419,7 +430,7 @@ Components.Row = class Row extends Aventus.WebComponent {
         return "Row";
     }
 }
-Components.Row.Namespace=`${moduleName}.Components`;
+Components.Row.Namespace=`Core.Components`;
 Components.Row.Tag=`rk-row`;
 _.Components.Row=Components.Row;
 if(!window.customElements.get('rk-row')){window.customElements.define('rk-row', Components.Row);Aventus.WebComponentInstance.registerDefinition(Components.Row);}
@@ -466,7 +477,7 @@ Components.Col = class Col extends Aventus.WebComponent {
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('size');this.__upgradeProperty('size_xs');this.__upgradeProperty('size_sm');this.__upgradeProperty('size_md');this.__upgradeProperty('size_lg');this.__upgradeProperty('size_xl');this.__upgradeProperty('offset');this.__upgradeProperty('offset_xs');this.__upgradeProperty('offset_sm');this.__upgradeProperty('offset_md');this.__upgradeProperty('offset_lg');this.__upgradeProperty('offset_xl');this.__upgradeProperty('offset_right');this.__upgradeProperty('offset_right_xs');this.__upgradeProperty('offset_right_sm');this.__upgradeProperty('offset_right_md');this.__upgradeProperty('offset_right_lg');this.__upgradeProperty('offset_right_xl');this.__upgradeProperty('center'); }
     __listBoolProps() { return ["center"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
 }
-Components.Col.Namespace=`${moduleName}.Components`;
+Components.Col.Namespace=`Core.Components`;
 Components.Col.Tag=`rk-col`;
 _.Components.Col=Components.Col;
 if(!window.customElements.get('rk-col')){window.customElements.define('rk-col', Components.Col);Aventus.WebComponentInstance.registerDefinition(Components.Col);}
@@ -491,7 +502,7 @@ Components.Card = class Card extends Aventus.WebComponent {
         return "Card";
     }
 }
-Components.Card.Namespace=`${moduleName}.Components`;
+Components.Card.Namespace=`Core.Components`;
 Components.Card.Tag=`rk-card`;
 _.Components.Card=Components.Card;
 if(!window.customElements.get('rk-card')){window.customElements.define('rk-card', Components.Card);Aventus.WebComponentInstance.registerDefinition(Components.Card);}
@@ -523,7 +534,7 @@ Components.BoxContainer = class BoxContainer extends Aventus.WebComponent {
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('space')){ this['space'] = 0; } }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('space'); }
 }
-Components.BoxContainer.Namespace=`${moduleName}.Components`;
+Components.BoxContainer.Namespace=`Core.Components`;
 Components.BoxContainer.Tag=`rk-box-container`;
 _.Components.BoxContainer=Components.BoxContainer;
 if(!window.customElements.get('rk-box-container')){window.customElements.define('rk-box-container', Components.BoxContainer);Aventus.WebComponentInstance.registerDefinition(Components.BoxContainer);}
@@ -548,7 +559,7 @@ Components.ItemBox = class ItemBox extends Aventus.WebComponent {
         return "ItemBox";
     }
 }
-Components.ItemBox.Namespace=`${moduleName}.Components`;
+Components.ItemBox.Namespace=`Core.Components`;
 Components.ItemBox.Tag=`rk-item-box`;
 _.Components.ItemBox=Components.ItemBox;
 if(!window.customElements.get('rk-item-box')){window.customElements.define('rk-item-box', Components.ItemBox);Aventus.WebComponentInstance.registerDefinition(Components.ItemBox);}
@@ -620,7 +631,7 @@ Components.OptionsContainer = class OptionsContainer extends Aventus.WebComponen
         this.setAttribute("tabindex", "-1");
     }
 }
-Components.OptionsContainer.Namespace=`${moduleName}.Components`;
+Components.OptionsContainer.Namespace=`Core.Components`;
 Components.OptionsContainer.Tag=`rk-options-container`;
 _.Components.OptionsContainer=Components.OptionsContainer;
 if(!window.customElements.get('rk-options-container')){window.customElements.define('rk-options-container', Components.OptionsContainer);Aventus.WebComponentInstance.registerDefinition(Components.OptionsContainer);}
@@ -645,7 +656,7 @@ Components.InputFile = class InputFile extends Aventus.WebComponent {
         return "InputFile";
     }
 }
-Components.InputFile.Namespace=`${moduleName}.Components`;
+Components.InputFile.Namespace=`Core.Components`;
 Components.InputFile.Tag=`rk-input-file`;
 _.Components.InputFile=Components.InputFile;
 if(!window.customElements.get('rk-input-file')){window.customElements.define('rk-input-file', Components.InputFile);Aventus.WebComponentInstance.registerDefinition(Components.InputFile);}
@@ -839,7 +850,7 @@ Components.Img = class Img extends Aventus.WebComponent {
         this.resizeObserver.observe(this);
     }
 }
-Components.Img.Namespace=`${moduleName}.Components`;
+Components.Img.Namespace=`Core.Components`;
 Components.Img.Tag=`rk-img`;
 _.Components.Img=Components.Img;
 if(!window.customElements.get('rk-img')){window.customElements.define('rk-img', Components.Img);Aventus.WebComponentInstance.registerDefinition(Components.Img);}
@@ -1054,7 +1065,7 @@ Components.SheetSplitter = class SheetSplitter extends Aventus.WebComponent {
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('copy')){ this['copy'] = undefined; }if(!this.hasAttribute('name')){ this['name'] = undefined; } }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('copy');this.__upgradeProperty('name'); }
 }
-Components.SheetSplitter.Namespace=`${moduleName}.Components`;
+Components.SheetSplitter.Namespace=`Core.Components`;
 Components.SheetSplitter.Tag=`rk-sheet-splitter`;
 _.Components.SheetSplitter=Components.SheetSplitter;
 if(!window.customElements.get('rk-sheet-splitter')){window.customElements.define('rk-sheet-splitter', Components.SheetSplitter);Aventus.WebComponentInstance.registerDefinition(Components.SheetSplitter);}
@@ -1127,7 +1138,7 @@ Components.PwaPromptIos = class PwaPromptIos extends Aventus.WebComponent {
         this.visible = true;
     }
 }
-Components.PwaPromptIos.Namespace=`${moduleName}.Components`;
+Components.PwaPromptIos.Namespace=`Core.Components`;
 Components.PwaPromptIos.Tag=`rk-pwa-prompt-ios`;
 _.Components.PwaPromptIos=Components.PwaPromptIos;
 if(!window.customElements.get('rk-pwa-prompt-ios')){window.customElements.define('rk-pwa-prompt-ios', Components.PwaPromptIos);Aventus.WebComponentInstance.registerDefinition(Components.PwaPromptIos);}
@@ -1386,7 +1397,7 @@ Components.Tooltip = class Tooltip extends Aventus.WebComponent {
         this.parent.removeEventListener("mouseleave", this.onMouseLeave);
     }
 }
-Components.Tooltip.Namespace=`${moduleName}.Components`;
+Components.Tooltip.Namespace=`Core.Components`;
 Components.Tooltip.Tag=`rk-tooltip`;
 _.Components.Tooltip=Components.Tooltip;
 if(!window.customElements.get('rk-tooltip')){window.customElements.define('rk-tooltip', Components.Tooltip);Aventus.WebComponentInstance.registerDefinition(Components.Tooltip);}
@@ -1428,7 +1439,7 @@ Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
         return this.icon;
     }
 }
-Components.ButtonIcon.Namespace=`${moduleName}.Components`;
+Components.ButtonIcon.Namespace=`Core.Components`;
 Components.ButtonIcon.Tag=`rk-button-icon`;
 _.Components.ButtonIcon=Components.ButtonIcon;
 if(!window.customElements.get('rk-button-icon')){window.customElements.define('rk-button-icon', Components.ButtonIcon);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIcon);}
@@ -1467,7 +1478,7 @@ Components.ButtonIconMi = class ButtonIconMi extends Components.ButtonIcon {
         return this.icon;
     }
 }
-Components.ButtonIconMi.Namespace=`${moduleName}.Components`;
+Components.ButtonIconMi.Namespace=`Core.Components`;
 Components.ButtonIconMi.Tag=`rk-button-icon-mi`;
 _.Components.ButtonIconMi=Components.ButtonIconMi;
 if(!window.customElements.get('rk-button-icon-mi')){window.customElements.define('rk-button-icon-mi', Components.ButtonIconMi);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIconMi);}
@@ -1660,7 +1671,7 @@ System.Panel = class Panel extends Aventus.WebComponent {
         return "Panel";
     }
 }
-System.Panel.Namespace=`${moduleName}.System`;
+System.Panel.Namespace=`Core.System`;
 System.Panel.Tag=`rk-panel`;
 _.System.Panel=System.Panel;
 if(!window.customElements.get('rk-panel')){window.customElements.define('rk-panel', System.Panel);Aventus.WebComponentInstance.registerDefinition(System.Panel);}
@@ -1912,7 +1923,7 @@ Components.PageCaseContainer = class PageCaseContainer extends Aventus.WebCompon
         return "PageCaseContainer";
     }
 }
-Components.PageCaseContainer.Namespace=`${moduleName}.Components`;
+Components.PageCaseContainer.Namespace=`Core.Components`;
 Components.PageCaseContainer.Tag=`rk-page-case-container`;
 _.Components.PageCaseContainer=Components.PageCaseContainer;
 if(!window.customElements.get('rk-page-case-container')){window.customElements.define('rk-page-case-container', Components.PageCaseContainer);Aventus.WebComponentInstance.registerDefinition(Components.PageCaseContainer);}
@@ -1941,7 +1952,7 @@ Components.PageCaseSlot = class PageCaseSlot extends Aventus.WebComponent {
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('no')){ this['no'] = undefined; } }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('no'); }
 }
-Components.PageCaseSlot.Namespace=`${moduleName}.Components`;
+Components.PageCaseSlot.Namespace=`Core.Components`;
 Components.PageCaseSlot.Tag=`rk-page-case-slot`;
 _.Components.PageCaseSlot=Components.PageCaseSlot;
 if(!window.customElements.get('rk-page-case-slot')){window.customElements.define('rk-page-case-slot', Components.PageCaseSlot);Aventus.WebComponentInstance.registerDefinition(Components.PageCaseSlot);}
@@ -2147,7 +2158,7 @@ Components.ContextMenuSeparator = class ContextMenuSeparator extends Aventus.Web
         return "ContextMenuSeparator";
     }
 }
-Components.ContextMenuSeparator.Namespace=`${moduleName}.Components`;
+Components.ContextMenuSeparator.Namespace=`Core.Components`;
 Components.ContextMenuSeparator.Tag=`rk-context-menu-separator`;
 _.Components.ContextMenuSeparator=Components.ContextMenuSeparator;
 if(!window.customElements.get('rk-context-menu-separator')){window.customElements.define('rk-context-menu-separator', Components.ContextMenuSeparator);Aventus.WebComponentInstance.registerDefinition(Components.ContextMenuSeparator);}
@@ -2155,7 +2166,8 @@ if(!window.customElements.get('rk-context-menu-separator')){window.customElement
 Components.Collapse = class Collapse extends Aventus.WebComponent {
     get 'open'() { return this.getBoolAttr('open') }
     set 'open'(val) { this.setBoolAttr('open', val) }get 'no_animation'() { return this.getBoolAttr('no_animation') }
-    set 'no_animation'(val) { this.setBoolAttr('no_animation', val) }    static __style = `:host .title{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .collapse{display:grid;grid-template-rows:0fr;transition:.5s var(--bezier-curve) grid-template-rows}:host .collapse .content{overflow:hidden}:host([open]) .collapse{grid-template-rows:1fr}:host([no_animation]) .collapse{transition:none}`;
+    set 'no_animation'(val) { this.setBoolAttr('no_animation', val) }    change = new Aventus.Callback();
+    static __style = `:host .title{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .collapse{display:grid;grid-template-rows:0fr;transition:.5s var(--bezier-curve) grid-template-rows}:host .collapse .content{overflow:hidden}:host([open]) .collapse{grid-template-rows:1fr}:host([no_animation]) .collapse{transition:none}`;
     __getStatic() {
         return Collapse;
     }
@@ -2198,9 +2210,10 @@ Components.Collapse = class Collapse extends Aventus.WebComponent {
     }
     toggleOpen() {
         this.open = !this.open;
+        this.change.trigger([this.open]);
     }
 }
-Components.Collapse.Namespace=`${moduleName}.Components`;
+Components.Collapse.Namespace=`Core.Components`;
 Components.Collapse.Tag=`rk-collapse`;
 _.Components.Collapse=Components.Collapse;
 if(!window.customElements.get('rk-collapse')){window.customElements.define('rk-collapse', Components.Collapse);Aventus.WebComponentInstance.registerDefinition(Components.Collapse);}
@@ -2288,7 +2301,7 @@ Components.ContextMenuItem = class ContextMenuItem extends Aventus.WebComponent 
         return this.icon?.startsWith("@mi:");
     }
 }
-Components.ContextMenuItem.Namespace=`${moduleName}.Components`;
+Components.ContextMenuItem.Namespace=`Core.Components`;
 Components.ContextMenuItem.Tag=`rk-context-menu-item`;
 _.Components.ContextMenuItem=Components.ContextMenuItem;
 if(!window.customElements.get('rk-context-menu-item')){window.customElements.define('rk-context-menu-item', Components.ContextMenuItem);Aventus.WebComponentInstance.registerDefinition(Components.ContextMenuItem);}
@@ -2503,7 +2516,7 @@ Components.ContextMenu = class ContextMenu extends Aventus.WebComponent {
         this.addFocus();
     }
 }
-Components.ContextMenu.Namespace=`${moduleName}.Components`;
+Components.ContextMenu.Namespace=`Core.Components`;
 Components.ContextMenu.Tag=`rk-context-menu`;
 _.Components.ContextMenu=Components.ContextMenu;
 if(!window.customElements.get('rk-context-menu')){window.customElements.define('rk-context-menu', Components.ContextMenu);Aventus.WebComponentInstance.registerDefinition(Components.ContextMenu);}
@@ -2547,7 +2560,7 @@ System.Loading = class Loading extends Aventus.WebComponent {
         return this.text;
     }
 }
-System.Loading.Namespace=`${moduleName}.System`;
+System.Loading.Namespace=`Core.System`;
 System.Loading.Tag=`rk-loading`;
 _.System.Loading=System.Loading;
 if(!window.customElements.get('rk-loading')){window.customElements.define('rk-loading', System.Loading);Aventus.WebComponentInstance.registerDefinition(System.Loading);}
@@ -2574,7 +2587,7 @@ Components.ContextMenuElement = class ContextMenuElement extends Aventus.WebComp
     onContextMenu(contextMenu, stop) {
     }
 }
-Components.ContextMenuElement.Namespace=`${moduleName}.Components`;
+Components.ContextMenuElement.Namespace=`Core.Components`;
 Components.ContextMenuElement.Tag=`rk-context-menu-element`;
 _.Components.ContextMenuElement=Components.ContextMenuElement;
 if(!window.customElements.get('rk-context-menu-element')){window.customElements.define('rk-context-menu-element', Components.ContextMenuElement);Aventus.WebComponentInstance.registerDefinition(Components.ContextMenuElement);}
@@ -3248,7 +3261,7 @@ Components.PageCase = class PageCase extends Aventus.WebComponent {
         this.addMoveAction();
     }
 }
-Components.PageCase.Namespace=`${moduleName}.Components`;
+Components.PageCase.Namespace=`Core.Components`;
 Components.PageCase.Tag=`rk-page-case`;
 _.Components.PageCase=Components.PageCase;
 if(!window.customElements.get('rk-page-case')){window.customElements.define('rk-page-case', Components.PageCase);Aventus.WebComponentInstance.registerDefinition(Components.PageCase);}
@@ -3457,7 +3470,7 @@ System.AppList = class AppList extends Aventus.WebComponent {
         this.addClose();
     }
 }
-System.AppList.Namespace=`${moduleName}.System`;
+System.AppList.Namespace=`Core.System`;
 System.AppList.Tag=`rk-app-list`;
 _.System.AppList=System.AppList;
 if(!window.customElements.get('rk-app-list')){window.customElements.define('rk-app-list', System.AppList);Aventus.WebComponentInstance.registerDefinition(System.AppList);}
@@ -4150,7 +4163,7 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
         }
     }
 }
-Components.Scrollable.Namespace=`${moduleName}.Components`;
+Components.Scrollable.Namespace=`Core.Components`;
 Components.Scrollable.Tag=`rk-scrollable`;
 _.Components.Scrollable=Components.Scrollable;
 if(!window.customElements.get('rk-scrollable')){window.customElements.define('rk-scrollable', Components.Scrollable);Aventus.WebComponentInstance.registerDefinition(Components.Scrollable);}
@@ -4461,7 +4474,7 @@ System.HomePanel = class HomePanel extends System.Panel {
         return this.currentUser?.Lastname;
     }
 }
-System.HomePanel.Namespace=`${moduleName}.System`;
+System.HomePanel.Namespace=`Core.System`;
 System.HomePanel.Tag=`rk-home-panel`;
 _.System.HomePanel=System.HomePanel;
 if(!window.customElements.get('rk-home-panel')){window.customElements.define('rk-home-panel', System.HomePanel);Aventus.WebComponentInstance.registerDefinition(System.HomePanel);}
@@ -4511,7 +4524,7 @@ System.HomeBtn = class HomeBtn extends Aventus.WebComponent {
         this.homePanel.btn = this;
     }
 }
-System.HomeBtn.Namespace=`${moduleName}.System`;
+System.HomeBtn.Namespace=`Core.System`;
 System.HomeBtn.Tag=`rk-home-btn`;
 _.System.HomeBtn=System.HomeBtn;
 if(!window.customElements.get('rk-home-btn')){window.customElements.define('rk-home-btn', System.HomeBtn);Aventus.WebComponentInstance.registerDefinition(System.HomeBtn);}
@@ -4830,7 +4843,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
         this.addFocus();
     }
 }
-System.BottomBar.Namespace=`${moduleName}.System`;
+System.BottomBar.Namespace=`Core.System`;
 System.BottomBar.Tag=`rk-bottom-bar`;
 _.System.BottomBar=System.BottomBar;
 if(!window.customElements.get('rk-bottom-bar')){window.customElements.define('rk-bottom-bar', System.BottomBar);Aventus.WebComponentInstance.registerDefinition(System.BottomBar);}
@@ -5324,7 +5337,7 @@ Components.Resize = class Resize extends Aventus.WebComponent {
         this.resizeBottomRight();
     }
 }
-Components.Resize.Namespace=`${moduleName}.Components`;
+Components.Resize.Namespace=`Core.Components`;
 Components.Resize.Tag=`rk-resize`;
 _.Components.Resize=Components.Resize;
 if(!window.customElements.get('rk-resize')){window.customElements.define('rk-resize', Components.Resize);Aventus.WebComponentInstance.registerDefinition(Components.Resize);}
@@ -5445,7 +5458,7 @@ Components.Notification = class Notification extends Aventus.WebComponent {
         return el;
     }
 }
-Components.Notification.Namespace=`${moduleName}.Components`;
+Components.Notification.Namespace=`Core.Components`;
 Components.Notification.Tag=`rk-notification`;
 _.Components.Notification=Components.Notification;
 if(!window.customElements.get('rk-notification')){window.customElements.define('rk-notification', Components.Notification);Aventus.WebComponentInstance.registerDefinition(Components.Notification);}
@@ -5812,7 +5825,7 @@ Components.NotificationManager = class NotificationManager extends Aventus.WebCo
         });
     }
 }
-Components.NotificationManager.Namespace=`${moduleName}.Components`;
+Components.NotificationManager.Namespace=`Core.Components`;
 Components.NotificationManager.Tag=`rk-notification-manager`;
 _.Components.NotificationManager=Components.NotificationManager;
 if(!window.customElements.get('rk-notification-manager')){window.customElements.define('rk-notification-manager', Components.NotificationManager);Aventus.WebComponentInstance.registerDefinition(Components.NotificationManager);}
@@ -6077,7 +6090,7 @@ if (this.constructor == FrameNoScroll) { throw "can't instanciate an abstract cl
         return this.application.executeWithLoading(prom);
     }
 }
-System.FrameNoScroll.Namespace=`${moduleName}.System`;
+System.FrameNoScroll.Namespace=`Core.System`;
 _.System.FrameNoScroll=System.FrameNoScroll;
 
 System.FrameStateNoScroll = class FrameStateNoScroll extends System.FrameNoScroll {
@@ -6108,7 +6121,7 @@ System.FrameStateNoScroll = class FrameStateNoScroll extends System.FrameNoScrol
         return this.onStateMissmatch();
     }
 }
-System.FrameStateNoScroll.Namespace=`${moduleName}.System`;
+System.FrameStateNoScroll.Namespace=`Core.System`;
 _.System.FrameStateNoScroll=System.FrameStateNoScroll;
 
 System.Frame = class Frame extends System.FrameNoScroll {
@@ -6142,7 +6155,7 @@ System.Frame = class Frame extends System.FrameNoScroll {
         return "Frame";
     }
 }
-System.Frame.Namespace=`${moduleName}.System`;
+System.Frame.Namespace=`Core.System`;
 _.System.Frame=System.Frame;
 
 System.FrameState = class FrameState extends System.Frame {
@@ -6173,7 +6186,7 @@ System.FrameState = class FrameState extends System.Frame {
         return this.onStateMissmatch();
     }
 }
-System.FrameState.Namespace=`${moduleName}.System`;
+System.FrameState.Namespace=`Core.System`;
 _.System.FrameState=System.FrameState;
 
 System.FrameNotAllowed = class FrameNotAllowed extends System.Frame {
@@ -6204,7 +6217,7 @@ System.FrameNotAllowed = class FrameNotAllowed extends System.Frame {
     onHide() {
     }
 }
-System.FrameNotAllowed.Namespace=`${moduleName}.System`;
+System.FrameNotAllowed.Namespace=`Core.System`;
 System.FrameNotAllowed.Tag=`rk-frame-not-allowed`;
 _.System.FrameNotAllowed=System.FrameNotAllowed;
 if(!window.customElements.get('rk-frame-not-allowed')){window.customElements.define('rk-frame-not-allowed', System.FrameNotAllowed);Aventus.WebComponentInstance.registerDefinition(System.FrameNotAllowed);}
@@ -6627,7 +6640,7 @@ System.Frame404 = class Frame404 extends System.Frame {
     onHide() {
     }
 }
-System.Frame404.Namespace=`${moduleName}.System`;
+System.Frame404.Namespace=`Core.System`;
 System.Frame404.Tag=`rk-frame-404`;
 _.System.Frame404=System.Frame404;
 if(!window.customElements.get('rk-frame-404')){window.customElements.define('rk-frame-404', System.Frame404);Aventus.WebComponentInstance.registerDefinition(System.Frame404);}
@@ -6769,7 +6782,7 @@ if (this.constructor == GenericPopup) { throw "can't instanciate an abstract cla
         return this.info.title;
     }
 }
-Components.GenericPopup.Namespace=`${moduleName}.Components`;
+Components.GenericPopup.Namespace=`Core.Components`;
 _.Components.GenericPopup=Components.GenericPopup;
 
 Components.Popup = class Popup extends Components.GenericPopup {
@@ -6818,7 +6831,7 @@ Components.Popup = class Popup extends Components.GenericPopup {
         return this.info.title;
     }
 }
-Components.Popup.Namespace=`${moduleName}.Components`;
+Components.Popup.Namespace=`Core.Components`;
 _.Components.Popup=Components.Popup;
 
 Components.Confirm = class Confirm extends Components.GenericPopup {
@@ -6889,7 +6902,7 @@ Components.Confirm = class Confirm extends Components.GenericPopup {
         return this.info.true_txt;
     }
 }
-Components.Confirm.Namespace=`${moduleName}.Components`;
+Components.Confirm.Namespace=`Core.Components`;
 Components.Confirm.Tag=`rk-confirm`;
 _.Components.Confirm=Components.Confirm;
 if(!window.customElements.get('rk-confirm')){window.customElements.define('rk-confirm', Components.Confirm);Aventus.WebComponentInstance.registerDefinition(Components.Confirm);}
@@ -6951,7 +6964,7 @@ Components.Alert = class Alert extends Components.GenericPopup {
         return this.info.btn_txt;
     }
 }
-Components.Alert.Namespace=`${moduleName}.Components`;
+Components.Alert.Namespace=`Core.Components`;
 Components.Alert.Tag=`rk-alert`;
 _.Components.Alert=Components.Alert;
 if(!window.customElements.get('rk-alert')){window.customElements.define('rk-alert', Components.Alert);Aventus.WebComponentInstance.registerDefinition(Components.Alert);}
@@ -7177,9 +7190,7 @@ System.Application = class Application extends Aventus.WebComponent {
                             if (canResult === false) {
                                 return;
                             }
-                            else {
-                                this.navigate(canResult);
-                            }
+                            this.navigate(canResult);
                             return;
                         }
                         if (this.oldFrame && this.oldFrame != element) {
@@ -7662,7 +7673,7 @@ System.Application = class Application extends Aventus.WebComponent {
         return this.app_title;
     }
 }
-System.Application.Namespace=`${moduleName}.System`;
+System.Application.Namespace=`Core.System`;
 _.System.Application=System.Application;
 
 Components.Link = class Link extends Aventus.WebComponent {
@@ -7745,7 +7756,7 @@ Components.Link = class Link extends Aventus.WebComponent {
         this.setOnPress();
     }
 }
-Components.Link.Namespace=`${moduleName}.Components`;
+Components.Link.Namespace=`Core.Components`;
 Components.Link.Tag=`rk-link`;
 _.Components.Link=Components.Link;
 if(!window.customElements.get('rk-link')){window.customElements.define('rk-link', Components.Link);Aventus.WebComponentInstance.registerDefinition(Components.Link);}
@@ -8325,7 +8336,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
         this.loadData();
     }
 }
-System.Desktop.Namespace=`${moduleName}.System`;
+System.Desktop.Namespace=`Core.System`;
 System.Desktop.Tag=`rk-desktop`;
 _.System.Desktop=System.Desktop;
 if(!window.customElements.get('rk-desktop')){window.customElements.define('rk-desktop', System.Desktop);Aventus.WebComponentInstance.registerDefinition(System.Desktop);}
@@ -8674,7 +8685,7 @@ System.Os = class Os extends Aventus.WebComponent {
         return { 'desktop': this.desktops[index] };
     }
 }
-System.Os.Namespace=`${moduleName}.System`;
+System.Os.Namespace=`Core.System`;
 System.Os.Tag=`rk-os`;
 _.System.Os=System.Os;
 if(!window.customElements.get('rk-os')){window.customElements.define('rk-os', System.Os);Aventus.WebComponentInstance.registerDefinition(System.Os);}
@@ -8908,7 +8919,7 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
         this.createPressManager();
     }
 }
-System.AppIcon.Namespace=`${moduleName}.System`;
+System.AppIcon.Namespace=`Core.System`;
 _.System.AppIcon=System.AppIcon;
 
 System.CoreAppIcon = class CoreAppIcon extends System.AppIcon {
@@ -8932,7 +8943,7 @@ System.CoreAppIcon = class CoreAppIcon extends System.AppIcon {
     postCreation() {
     }
 }
-System.CoreAppIcon.Namespace=`${moduleName}.System`;
+System.CoreAppIcon.Namespace=`Core.System`;
 System.CoreAppIcon.Tag=`rk-core-app-icon`;
 _.System.CoreAppIcon=System.CoreAppIcon;
 if(!window.customElements.get('rk-core-app-icon')){window.customElements.define('rk-core-app-icon', System.CoreAppIcon);Aventus.WebComponentInstance.registerDefinition(System.CoreAppIcon);}
@@ -8993,7 +9004,7 @@ System.AppIconInline = class AppIconInline extends Aventus.WebComponent {
         return this.text;
     }
 }
-System.AppIconInline.Namespace=`${moduleName}.System`;
+System.AppIconInline.Namespace=`Core.System`;
 System.AppIconInline.Tag=`rk-app-icon-inline`;
 _.System.AppIconInline=System.AppIconInline;
 if(!window.customElements.get('rk-app-icon-inline')){window.customElements.define('rk-app-icon-inline', System.AppIconInline);Aventus.WebComponentInstance.registerDefinition(System.AppIconInline);}
@@ -9203,7 +9214,7 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
         return item.useMi;
     }
 }
-System.ApplicationSidnav.Namespace=`${moduleName}.System`;
+System.ApplicationSidnav.Namespace=`Core.System`;
 _.System.ApplicationSidnav=System.ApplicationSidnav;
 
 Components.CalendarDay = class CalendarDay extends Aventus.WebComponent {
@@ -9249,7 +9260,7 @@ Components.CalendarDay = class CalendarDay extends Aventus.WebComponent {
         });
     }
 }
-Components.CalendarDay.Namespace=`${moduleName}.Components`;
+Components.CalendarDay.Namespace=`Core.Components`;
 _.Components.CalendarDay=Components.CalendarDay;
 
 Components.CalendarDayDefault = class CalendarDayDefault extends Components.CalendarDay {
@@ -9272,7 +9283,7 @@ Components.CalendarDayDefault = class CalendarDayDefault extends Components.Cale
         return "CalendarDayDefault";
     }
 }
-Components.CalendarDayDefault.Namespace=`${moduleName}.Components`;
+Components.CalendarDayDefault.Namespace=`Core.Components`;
 Components.CalendarDayDefault.Tag=`rk-calendar-day-default`;
 _.Components.CalendarDayDefault=Components.CalendarDayDefault;
 if(!window.customElements.get('rk-calendar-day-default')){window.customElements.define('rk-calendar-day-default', Components.CalendarDayDefault);Aventus.WebComponentInstance.registerDefinition(Components.CalendarDayDefault);}
@@ -9639,7 +9650,7 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
         return this.yearGroupTxt;
     }
 }
-Components.Calendar.Namespace=`${moduleName}.Components`;
+Components.Calendar.Namespace=`Core.Components`;
 Components.Calendar.Tag=`rk-calendar`;
 _.Components.Calendar=Components.Calendar;
 if(!window.customElements.get('rk-calendar')){window.customElements.define('rk-calendar', Components.Calendar);Aventus.WebComponentInstance.registerDefinition(Components.Calendar);}
@@ -9684,7 +9695,7 @@ Components.DatePickerCalendarDay = class DatePickerCalendarDay extends Component
         this.calendar.onDateClicked.remove(this.checkIfSelected);
     }
 }
-Components.DatePickerCalendarDay.Namespace=`${moduleName}.Components`;
+Components.DatePickerCalendarDay.Namespace=`Core.Components`;
 Components.DatePickerCalendarDay.Tag=`rk-date-picker-calendar-day`;
 _.Components.DatePickerCalendarDay=Components.DatePickerCalendarDay;
 if(!window.customElements.get('rk-date-picker-calendar-day')){window.customElements.define('rk-date-picker-calendar-day', Components.DatePickerCalendarDay);Aventus.WebComponentInstance.registerDefinition(Components.DatePickerCalendarDay);}
@@ -9854,7 +9865,7 @@ this.calculateCalendarSize=this.calculateCalendarSize.bind(this) }
         this.bindCalendarSize();
     }
 }
-System.AddOnTime.Namespace=`${moduleName}.System`;
+System.AddOnTime.Namespace=`Core.System`;
 System.AddOnTime.Tag=`rk-add-on-time`;
 _.System.AddOnTime=System.AddOnTime;
 if(!window.customElements.get('rk-add-on-time')){window.customElements.define('rk-add-on-time', System.AddOnTime);Aventus.WebComponentInstance.registerDefinition(System.AddOnTime);}
@@ -9972,7 +9983,7 @@ System.PwaButton = class PwaButton extends Aventus.WebComponent {
         this.init();
     }
 }
-System.PwaButton.Namespace=`${moduleName}.System`;
+System.PwaButton.Namespace=`Core.System`;
 System.PwaButton.Tag=`rk-pwa-button`;
 _.System.PwaButton=System.PwaButton;
 if(!window.customElements.get('rk-pwa-button')){window.customElements.define('rk-pwa-button', System.PwaButton);Aventus.WebComponentInstance.registerDefinition(System.PwaButton);}
@@ -10140,10 +10151,12 @@ Components.Sheet = class Sheet extends Aventus.WebComponent {
     currentPage;
     basicPage;
     pageWrappers = [];
+    settings;
     static __style = `:host{--_sheet-padding: var(--sheet-padding, 0)}:host .sheet{box-sizing:border-box;color:#000;display:flex;flex-direction:column;flex-shrink:0;margin:0;overflow:hidden;padding:var(--_sheet-padding);page-break-before:page;position:relative;user-select:text}:host .sheet .header,:host .sheet .footer{flex-grow:0;flex-shrink:0;width:100%}:host .sheet .body{flex-grow:1;overflow:hidden;width:100%}:host .sheet .body .body-wrapper{width:100%}@media screen{:host .sheet{background-color:#fff;box-shadow:0 .5mm 2mm rgba(0,0,0,.3)}}:host([format=A3][orientation=portrait]) .sheet{height:420mm;width:297mm}:host([format=A3][orientation=landscape]) .sheet{height:297mm;width:420mm}:host([format=A4][orientation=portrait]) .sheet{height:297mm;width:210mm}:host([format=A4][orientation=landscape]) .sheet{height:210mm;width:297mm}:host([format=A5][orientation=portrait]) .sheet{height:210mm;width:148mm}:host([format=A5][orientation=landscape]) .sheet{height:148mm;width:210mm}:host([format=letter][orientation=portrait]) .sheet{height:279mm;width:216mm}:host([format=letter][orientation=landscape]) .sheet{height:216mm;width:280mm}:host([format=legal][orientation=portrait]) .sheet{height:357mm;width:216mm}:host([format=legal][orientation=landscape]) .sheet{height:216mm;width:357mm}`;
     constructor() {
             super();
             const settings = this.sheetSettings(this.defaultSettings());
+            this.settings = settings;
             this.format = settings.format;
             this.orientation = settings.orientation;
             this.style.setProperty("--sheet-padding", settings.padding);
@@ -10199,7 +10212,8 @@ if (this.constructor == Sheet) { throw "can't instanciate an abstract class"; } 
         return {
             format: "A4",
             orientation: "portrait",
-            padding: "0"
+            padding: "0",
+            calculateOnDisplay: true
         };
     }
     addSinglePageValue() {
@@ -10514,20 +10528,22 @@ if (this.constructor == Sheet) { throw "can't instanciate an abstract class"; } 
     }
     postCreation() {
         super.postCreation();
-        window['temp1'] = this;
-        this.calculatePage();
+        if (this.settings.calculateOnDisplay) {
+            this.calculatePage();
+        }
     }
     static isISheetElement(node) {
         return typeof node.getHtml == 'function' && typeof node.getCSS == 'function';
     }
 }
-Components.Sheet.Namespace=`${moduleName}.Components`;
+Components.Sheet.Namespace=`Core.Components`;
 _.Components.Sheet=Components.Sheet;
 
 Components.SheetPreview = class SheetPreview extends Aventus.WebComponent {
-    get 'filename'() { return this.getStringAttr('filename') }
-    set 'filename'(val) { this.setStringAttr('filename', val) }get 'loading'() { return this.getBoolAttr('loading') }
-    set 'loading'(val) { this.setBoolAttr('loading', val) }    get 'zoom'() {
+    static get observedAttributes() {return ["filename"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'loading'() { return this.getBoolAttr('loading') }
+    set 'loading'(val) { this.setBoolAttr('loading', val) }    get 'filename'() { return this.getStringProp('filename') }
+    set 'filename'(val) { this.setStringAttr('filename', val) }    get 'zoom'() {
 						return this.__watch["zoom"];
 					}
 					set 'zoom'(val) {
@@ -10606,9 +10622,9 @@ Components.SheetPreview = class SheetPreview extends Aventus.WebComponent {
     getClassName() {
         return "SheetPreview";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('filename')){ this['filename'] = undefined; }if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); } }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('filename')){ this['filename'] = undefined; } }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["zoom"] = 100; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('filename');this.__upgradeProperty('loading');this.__correctGetter('zoom'); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading');this.__upgradeProperty('filename');this.__correctGetter('zoom'); }
     __listBoolProps() { return ["loading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     removeZoom() {
         let newZoom = this.zoom;
@@ -10691,11 +10707,104 @@ Components.SheetPreview = class SheetPreview extends Aventus.WebComponent {
         }
     }
 }
-Components.SheetPreview.Namespace=`${moduleName}.Components`;
+Components.SheetPreview.Namespace=`Core.Components`;
 Components.SheetPreview.Tag=`rk-sheet-preview`;
 _.Components.SheetPreview=Components.SheetPreview;
 if(!window.customElements.get('rk-sheet-preview')){window.customElements.define('rk-sheet-preview', Components.SheetPreview);Aventus.WebComponentInstance.registerDefinition(Components.SheetPreview);}
 
+Components.formDataBuilder=function formDataBuilder(item, settings) {
+    if (!settings) {
+        settings = {};
+    }
+    const final = {};
+    const createKey = (key) => {
+        final[key] = {
+            value: {
+                get: () => {
+                    return this.item[key];
+                },
+                set: (v) => {
+                    this.item[key] = v;
+                }
+            }
+        };
+        if (settings.generalValidation && settings.validation && settings.validation[key]) {
+            const gV = settings.generalValidation;
+            const v = settings.validation[key];
+            final[key].validate = async (value) => {
+                let gVR = await gV(value);
+                if (gVR !== undefined && gVR !== true && gVR !== "") {
+                    return gVR;
+                }
+                let vR = await v(value);
+                if (vR !== undefined && vR !== true && vR !== "") {
+                    return vR;
+                }
+                return true;
+            };
+        }
+        else if (settings.generalValidation) {
+            final[key].validate = settings.generalValidation;
+        }
+        else if (settings.validation && settings.validation[key]) {
+            final[key].validate = settings.validation[key];
+        }
+        if (settings.validateOnChange && settings.validateOnChange[key] !== undefined) {
+            final[key].validateOnChange = settings.validateOnChange[key];
+        }
+        else if (settings.generalValidateOnChange !== undefined) {
+            final[key].validateOnChange = settings.generalValidateOnChange;
+        }
+    };
+    if (settings.keysNotDefined) {
+        const proxyData = {
+            get(target, prop, receiver) {
+                if (!final[prop]) {
+                    createKey(prop);
+                }
+                return Reflect.get(target, prop, receiver);
+            },
+            set(target, prop, value, receiver) {
+                if (!final[prop]) {
+                    createKey(prop);
+                }
+                return Reflect.set(target, prop, value, receiver);
+            },
+            deleteProperty(target, prop) {
+                if (target.hasOwnProperty(prop)) {
+                    delete target[prop];
+                    return true;
+                }
+                return false;
+            },
+            defineProperty(target, prop, descriptor) {
+                if (!final[prop]) {
+                    createKey(prop);
+                }
+                return true;
+            },
+            ownKeys(target) {
+                return Reflect.ownKeys(target);
+            },
+            getOwnPropertyDescriptor(k) {
+                return {
+                    enumerable: true,
+                    configurable: true,
+                };
+            }
+        };
+        var proxy = new Proxy(final, proxyData);
+        return proxy;
+    }
+    else {
+        for (let key in this.item) {
+            createKey(key);
+        }
+    }
+    return final;
+}
+
+_.Components.formDataBuilder=Components.formDataBuilder;
 Components.FormElement = class FormElement extends Aventus.WebComponent {
     get 'has_errors'() { return this.getBoolAttr('has_errors') }
     set 'has_errors'(val) { this.setBoolAttr('has_errors', val) }    get 'errors'() {
@@ -10805,7 +10914,7 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
         }
     }
 }
-Components.FormElement.Namespace=`${moduleName}.Components`;
+Components.FormElement.Namespace=`Core.Components`;
 Components.FormElement.Tag=`rk-form-element`;
 _.Components.FormElement=Components.FormElement;
 if(!window.customElements.get('rk-form-element')){window.customElements.define('rk-form-element', Components.FormElement);Aventus.WebComponentInstance.registerDefinition(Components.FormElement);}
@@ -10946,7 +11055,7 @@ Components.Textarea = class Textarea extends Components.FormElement {
         return error;
     }
 }
-Components.Textarea.Namespace=`${moduleName}.Components`;
+Components.Textarea.Namespace=`Core.Components`;
 Components.Textarea.Tag=`rk-textarea`;
 _.Components.Textarea=Components.Textarea;
 if(!window.customElements.get('rk-textarea')){window.customElements.define('rk-textarea', Components.Textarea);Aventus.WebComponentInstance.registerDefinition(Components.Textarea);}
@@ -11043,7 +11152,7 @@ Components.Switch = class Switch extends Components.FormElement {
         return this.label;
     }
 }
-Components.Switch.Namespace=`${moduleName}.Components`;
+Components.Switch.Namespace=`Core.Components`;
 Components.Switch.Tag=`rk-switch`;
 _.Components.Switch=Components.Switch;
 if(!window.customElements.get('rk-switch')){window.customElements.define('rk-switch', Components.Switch);Aventus.WebComponentInstance.registerDefinition(Components.Switch);}
@@ -11257,7 +11366,7 @@ Components.Slider = class Slider extends Components.FormElement {
         return this.value;
     }
 }
-Components.Slider.Namespace=`${moduleName}.Components`;
+Components.Slider.Namespace=`Core.Components`;
 Components.Slider.Tag=`rk-slider`;
 _.Components.Slider=Components.Slider;
 if(!window.customElements.get('rk-slider')){window.customElements.define('rk-slider', Components.Slider);Aventus.WebComponentInstance.registerDefinition(Components.Slider);}
@@ -11430,7 +11539,7 @@ Components.InputNumber = class InputNumber extends Components.FormElement {
         return error != "";
     }
 }
-Components.InputNumber.Namespace=`${moduleName}.Components`;
+Components.InputNumber.Namespace=`Core.Components`;
 Components.InputNumber.Tag=`rk-input-number`;
 _.Components.InputNumber=Components.InputNumber;
 if(!window.customElements.get('rk-input-number')){window.customElements.define('rk-input-number', Components.InputNumber);Aventus.WebComponentInstance.registerDefinition(Components.InputNumber);}
@@ -11508,13 +11617,14 @@ Components.Checkbox = class Checkbox extends Components.FormElement {
         return this.label;
     }
 }
-Components.Checkbox.Namespace=`${moduleName}.Components`;
+Components.Checkbox.Namespace=`Core.Components`;
 Components.Checkbox.Tag=`rk-checkbox`;
 _.Components.Checkbox=Components.Checkbox;
 if(!window.customElements.get('rk-checkbox')){window.customElements.define('rk-checkbox', Components.Checkbox);Aventus.WebComponentInstance.registerDefinition(Components.Checkbox);}
 
 Components.InternalVirtualForm=class InternalVirtualForm {
     __config;
+    data;
     constructor(config) {
         for (let name in config) {
             if (!config[name].elements) {
@@ -11528,6 +11638,36 @@ Components.InternalVirtualForm=class InternalVirtualForm {
         for (let key in config) {
             this.registerKey(key);
         }
+        const that = this;
+        this.data = new Proxy({}, {
+            get(target, prop, receiver) {
+                return that.__config[prop]?.value;
+            },
+            set(target, prop, value, receiver) {
+                if (that.__config[prop]) {
+                    that.__config[prop].value = value;
+                    return true;
+                }
+                return false;
+            },
+            deleteProperty(target, prop) {
+                delete that.__config[prop];
+                return true;
+            },
+            defineProperty(target, prop, descriptor) {
+                that.__config[prop];
+                return true;
+            },
+            ownKeys(target) {
+                return Object.keys(that.__config);
+            },
+            getOwnPropertyDescriptor(k) {
+                return {
+                    enumerable: true,
+                    configurable: true,
+                };
+            }
+        });
     }
     async validateAndExecute(result, application) {
         const validationResult = await this.validate(application);
@@ -11703,7 +11843,7 @@ Components.Form = class Form extends Aventus.WebComponent {
         return new Components.InternalVirtualForm(config);
     }
 }
-Components.Form.Namespace=`${moduleName}.Components`;
+Components.Form.Namespace=`Core.Components`;
 Components.Form.Tag=`rk-form`;
 _.Components.Form=Components.Form;
 if(!window.customElements.get('rk-form')){window.customElements.define('rk-form', Components.Form);Aventus.WebComponentInstance.registerDefinition(Components.Form);}
@@ -11859,7 +11999,7 @@ Components.Button = class Button extends Aventus.WebComponent {
         return this.icon_after;
     }
 }
-Components.Button.Namespace=`${moduleName}.Components`;
+Components.Button.Namespace=`Core.Components`;
 Components.Button.Tag=`rk-button`;
 _.Components.Button=Components.Button;
 if(!window.customElements.get('rk-button')){window.customElements.define('rk-button', Components.Button);Aventus.WebComponentInstance.registerDefinition(Components.Button);}
@@ -11887,7 +12027,7 @@ Components.DatePickerCalendar = class DatePickerCalendar extends Components.Cale
         return Components.DatePickerCalendarDay;
     }
 }
-Components.DatePickerCalendar.Namespace=`${moduleName}.Components`;
+Components.DatePickerCalendar.Namespace=`Core.Components`;
 Components.DatePickerCalendar.Tag=`rk-date-picker-calendar`;
 _.Components.DatePickerCalendar=Components.DatePickerCalendar;
 if(!window.customElements.get('rk-date-picker-calendar')){window.customElements.define('rk-date-picker-calendar', Components.DatePickerCalendar);Aventus.WebComponentInstance.registerDefinition(Components.DatePickerCalendar);}
@@ -12088,7 +12228,7 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
         return error;
     }
 }
-Components.DatePicker.Namespace=`${moduleName}.Components`;
+Components.DatePicker.Namespace=`Core.Components`;
 Components.DatePicker.Tag=`rk-date-picker`;
 _.Components.DatePicker=Components.DatePicker;
 if(!window.customElements.get('rk-date-picker')){window.customElements.define('rk-date-picker', Components.DatePicker);Aventus.WebComponentInstance.registerDefinition(Components.DatePicker);}
@@ -12154,7 +12294,7 @@ Components.CalendarContainer = class CalendarContainer extends Aventus.WebCompon
         this.setAttribute("tabindex", "-1");
     }
 }
-Components.CalendarContainer.Namespace=`${moduleName}.Components`;
+Components.CalendarContainer.Namespace=`Core.Components`;
 Components.CalendarContainer.Tag=`rk-calendar-container`;
 _.Components.CalendarContainer=Components.CalendarContainer;
 if(!window.customElements.get('rk-calendar-container')){window.customElements.define('rk-calendar-container', Components.CalendarContainer);Aventus.WebComponentInstance.registerDefinition(Components.CalendarContainer);}
@@ -12272,7 +12412,7 @@ Components.Input = class Input extends Components.FormElement {
         return error;
     }
 }
-Components.Input.Namespace=`${moduleName}.Components`;
+Components.Input.Namespace=`Core.Components`;
 Components.Input.Tag=`rk-input`;
 _.Components.Input=Components.Input;
 if(!window.customElements.get('rk-input')){window.customElements.define('rk-input', Components.Input);Aventus.WebComponentInstance.registerDefinition(Components.Input);}
@@ -12333,7 +12473,7 @@ Components.Password = class Password extends Components.Input {
         this.pressIcon?.destroy();
     }
 }
-Components.Password.Namespace=`${moduleName}.Components`;
+Components.Password.Namespace=`Core.Components`;
 Components.Password.Tag=`rk-password`;
 _.Components.Password=Components.Password;
 if(!window.customElements.get('rk-password')){window.customElements.define('rk-password', Components.Password);Aventus.WebComponentInstance.registerDefinition(Components.Password);}
@@ -12575,7 +12715,7 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
         return error;
     }
 }
-Components.GenericSelect.Namespace=`${moduleName}.Components`;
+Components.GenericSelect.Namespace=`Core.Components`;
 _.Components.GenericSelect=Components.GenericSelect;
 
 Components.GenericOption = class GenericOption extends Aventus.WebComponent {
@@ -12619,7 +12759,7 @@ Components.GenericOption = class GenericOption extends Aventus.WebComponent {
         });
     }
 }
-Components.GenericOption.Namespace=`${moduleName}.Components`;
+Components.GenericOption.Namespace=`Core.Components`;
 Components.GenericOption.Tag=`rk-generic-option`;
 _.Components.GenericOption=Components.GenericOption;
 if(!window.customElements.get('rk-generic-option')){window.customElements.define('rk-generic-option', Components.GenericOption);Aventus.WebComponentInstance.registerDefinition(Components.GenericOption);}
@@ -12645,7 +12785,7 @@ Components.OptionEnum = class OptionEnum extends Components.GenericOption {
         return "OptionEnum";
     }
 }
-Components.OptionEnum.Namespace=`${moduleName}.Components`;
+Components.OptionEnum.Namespace=`Core.Components`;
 Components.OptionEnum.Tag=`rk-option-enum`;
 _.Components.OptionEnum=Components.OptionEnum;
 if(!window.customElements.get('rk-option-enum')){window.customElements.define('rk-option-enum', Components.OptionEnum);Aventus.WebComponentInstance.registerDefinition(Components.OptionEnum);}
@@ -12697,7 +12837,7 @@ if (this.constructor == SelectEnum) { throw "can't instanciate an abstract class
         super.postCreation();
     }
 }
-Components.SelectEnum.Namespace=`${moduleName}.Components`;
+Components.SelectEnum.Namespace=`Core.Components`;
 _.Components.SelectEnum=Components.SelectEnum;
 
 Components.OptionData = class OptionData extends Components.GenericOption {
@@ -12720,7 +12860,7 @@ Components.OptionData = class OptionData extends Components.GenericOption {
         return "OptionData";
     }
 }
-Components.OptionData.Namespace=`${moduleName}.Components`;
+Components.OptionData.Namespace=`Core.Components`;
 Components.OptionData.Tag=`rk-option-data`;
 _.Components.OptionData=Components.OptionData;
 if(!window.customElements.get('rk-option-data')){window.customElements.define('rk-option-data', Components.OptionData);Aventus.WebComponentInstance.registerDefinition(Components.OptionData);}
@@ -12749,7 +12889,7 @@ Components.Option = class Option extends Components.GenericOption {
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('value')){ this['value'] = undefined; } }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('value'); }
 }
-Components.Option.Namespace=`${moduleName}.Components`;
+Components.Option.Namespace=`Core.Components`;
 Components.Option.Tag=`rk-option`;
 _.Components.Option=Components.Option;
 if(!window.customElements.get('rk-option')){window.customElements.define('rk-option', Components.Option);Aventus.WebComponentInstance.registerDefinition(Components.Option);}
@@ -12784,7 +12924,7 @@ Components.Select = class Select extends Components.GenericSelect {
         return option.innerHTML;
     }
 }
-Components.Select.Namespace=`${moduleName}.Components`;
+Components.Select.Namespace=`Core.Components`;
 Components.Select.Tag=`rk-select`;
 _.Components.Select=Components.Select;
 if(!window.customElements.get('rk-select')){window.customElements.define('rk-select', Components.Select);Aventus.WebComponentInstance.registerDefinition(Components.Select);}
@@ -12900,7 +13040,7 @@ Components.ItemBoxSelect = class ItemBoxSelect extends Components.BoxContainer {
         this.selectInternalOption();
     }
 }
-Components.ItemBoxSelect.Namespace=`${moduleName}.Components`;
+Components.ItemBoxSelect.Namespace=`Core.Components`;
 Components.ItemBoxSelect.Tag=`rk-item-box-select`;
 _.Components.ItemBoxSelect=Components.ItemBoxSelect;
 if(!window.customElements.get('rk-item-box-select')){window.customElements.define('rk-item-box-select', Components.ItemBoxSelect);Aventus.WebComponentInstance.registerDefinition(Components.ItemBoxSelect);}
@@ -12954,7 +13094,7 @@ Components.ItemBoxOption = class ItemBoxOption extends Components.ItemBox {
         }
     }
 }
-Components.ItemBoxOption.Namespace=`${moduleName}.Components`;
+Components.ItemBoxOption.Namespace=`Core.Components`;
 Components.ItemBoxOption.Tag=`rk-item-box-option`;
 _.Components.ItemBoxOption=Components.ItemBoxOption;
 if(!window.customElements.get('rk-item-box-option')){window.customElements.define('rk-item-box-option', Components.ItemBoxOption);Aventus.WebComponentInstance.registerDefinition(Components.ItemBoxOption);}
@@ -13064,7 +13204,7 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
         this.init();
     }
 }
-Components.SelectData.Namespace=`${moduleName}.Components`;
+Components.SelectData.Namespace=`Core.Components`;
 _.Components.SelectData=Components.SelectData;
 
 Components.TwoColumnsSelect = class TwoColumnsSelect extends Components.FormElement {
@@ -13330,7 +13470,7 @@ Components.TwoColumnsSelect = class TwoColumnsSelect extends Components.FormElem
         return error;
     }
 }
-Components.TwoColumnsSelect.Namespace=`${moduleName}.Components`;
+Components.TwoColumnsSelect.Namespace=`Core.Components`;
 _.Components.TwoColumnsSelect=Components.TwoColumnsSelect;
 
 Components.TwoColumnsOption = class TwoColumnsOption extends Aventus.WebComponent {
@@ -13378,7 +13518,7 @@ Components.TwoColumnsOption = class TwoColumnsOption extends Aventus.WebComponen
         });
     }
 }
-Components.TwoColumnsOption.Namespace=`${moduleName}.Components`;
+Components.TwoColumnsOption.Namespace=`Core.Components`;
 Components.TwoColumnsOption.Tag=`rk-two-columns-option`;
 _.Components.TwoColumnsOption=Components.TwoColumnsOption;
 if(!window.customElements.get('rk-two-columns-option')){window.customElements.define('rk-two-columns-option', Components.TwoColumnsOption);Aventus.WebComponentInstance.registerDefinition(Components.TwoColumnsOption);}
@@ -13403,7 +13543,7 @@ Components.TwoColumnsOptionData = class TwoColumnsOptionData extends Components.
         return "TwoColumnsOptionData";
     }
 }
-Components.TwoColumnsOptionData.Namespace=`${moduleName}.Components`;
+Components.TwoColumnsOptionData.Namespace=`Core.Components`;
 Components.TwoColumnsOptionData.Tag=`rk-two-columns-option-data`;
 _.Components.TwoColumnsOptionData=Components.TwoColumnsOptionData;
 if(!window.customElements.get('rk-two-columns-option-data')){window.customElements.define('rk-two-columns-option-data', Components.TwoColumnsOptionData);Aventus.WebComponentInstance.registerDefinition(Components.TwoColumnsOptionData);}
@@ -13530,7 +13670,7 @@ if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abst
         this.init();
     }
 }
-Components.TwoColumnsSelectData.Namespace=`${moduleName}.Components`;
+Components.TwoColumnsSelectData.Namespace=`Core.Components`;
 _.Components.TwoColumnsSelectData=Components.TwoColumnsSelectData;
 
 Components.Table = class Table extends Aventus.WebComponent {
@@ -14165,7 +14305,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
         }
     }
 }
-Components.Table.Namespace=`${moduleName}.Components`;
+Components.Table.Namespace=`Core.Components`;
 _.Components.Table=Components.Table;
 
 Components.TableRow = class TableRow extends Aventus.WebComponent {
@@ -14289,7 +14429,7 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
         }
     }
 }
-Components.TableRow.Namespace=`${moduleName}.Components`;
+Components.TableRow.Namespace=`Core.Components`;
 Components.TableRow.Tag=`rk-table-row`;
 _.Components.TableRow=Components.TableRow;
 if(!window.customElements.get('rk-table-row')){window.customElements.define('rk-table-row', Components.TableRow);Aventus.WebComponentInstance.registerDefinition(Components.TableRow);}
@@ -14335,7 +14475,7 @@ Components.TableRowData = class TableRowData extends Components.TableRow {
         }
     }
 }
-Components.TableRowData.Namespace=`${moduleName}.Components`;
+Components.TableRowData.Namespace=`Core.Components`;
 Components.TableRowData.Tag=`rk-table-row-data`;
 _.Components.TableRowData=Components.TableRowData;
 if(!window.customElements.get('rk-table-row-data')){window.customElements.define('rk-table-row-data', Components.TableRowData);Aventus.WebComponentInstance.registerDefinition(Components.TableRowData);}
@@ -14434,7 +14574,7 @@ Components.TableCell = class TableCell extends Aventus.WebComponent {
         return this.grid;
     }
 }
-Components.TableCell.Namespace=`${moduleName}.Components`;
+Components.TableCell.Namespace=`Core.Components`;
 _.Components.TableCell=Components.TableCell;
 
 Components.TableCellString = class TableCellString extends Components.TableCell {
@@ -14465,7 +14605,7 @@ Components.TableCellString = class TableCellString extends Components.TableCell 
         this.contentEl.innerHTML = this.content;
     }
 }
-Components.TableCellString.Namespace=`${moduleName}.Components`;
+Components.TableCellString.Namespace=`Core.Components`;
 Components.TableCellString.Tag=`rk-table-cell-string`;
 _.Components.TableCellString=Components.TableCellString;
 if(!window.customElements.get('rk-table-cell-string')){window.customElements.define('rk-table-cell-string', Components.TableCellString);Aventus.WebComponentInstance.registerDefinition(Components.TableCellString);}
@@ -14542,7 +14682,7 @@ Components.TableCellPicture = class TableCellPicture extends Components.TableCel
         return this.src;
     }
 }
-Components.TableCellPicture.Namespace=`${moduleName}.Components`;
+Components.TableCellPicture.Namespace=`Core.Components`;
 Components.TableCellPicture.Tag=`rk-table-cell-picture`;
 _.Components.TableCellPicture=Components.TableCellPicture;
 if(!window.customElements.get('rk-table-cell-picture')){window.customElements.define('rk-table-cell-picture', Components.TableCellPicture);Aventus.WebComponentInstance.registerDefinition(Components.TableCellPicture);}
@@ -14583,7 +14723,7 @@ Components.TableCellNumber = class TableCellNumber extends Components.TableCell 
         this.contentEl.innerHTML = this.content;
     }
 }
-Components.TableCellNumber.Namespace=`${moduleName}.Components`;
+Components.TableCellNumber.Namespace=`Core.Components`;
 Components.TableCellNumber.Tag=`rk-table-cell-number`;
 _.Components.TableCellNumber=Components.TableCellNumber;
 if(!window.customElements.get('rk-table-cell-number')){window.customElements.define('rk-table-cell-number', Components.TableCellNumber);Aventus.WebComponentInstance.registerDefinition(Components.TableCellNumber);}
@@ -14646,7 +14786,7 @@ Components.TableCellHeader = class TableCellHeader extends Components.TableCell 
         });
     }
 }
-Components.TableCellHeader.Namespace=`${moduleName}.Components`;
+Components.TableCellHeader.Namespace=`Core.Components`;
 Components.TableCellHeader.Tag=`rk-table-cell-header`;
 _.Components.TableCellHeader=Components.TableCellHeader;
 if(!window.customElements.get('rk-table-cell-header')){window.customElements.define('rk-table-cell-header', Components.TableCellHeader);Aventus.WebComponentInstance.registerDefinition(Components.TableCellHeader);}
@@ -14682,7 +14822,7 @@ Components.TableDataCellHeaderAction = class TableDataCellHeaderAction extends C
     setContent(data, rowData) {
     }
 }
-Components.TableDataCellHeaderAction.Namespace=`${moduleName}.Components`;
+Components.TableDataCellHeaderAction.Namespace=`Core.Components`;
 Components.TableDataCellHeaderAction.Tag=`rk-table-data-cell-header-action`;
 _.Components.TableDataCellHeaderAction=Components.TableDataCellHeaderAction;
 if(!window.customElements.get('rk-table-data-cell-header-action')){window.customElements.define('rk-table-data-cell-header-action', Components.TableDataCellHeaderAction);Aventus.WebComponentInstance.registerDefinition(Components.TableDataCellHeaderAction);}
@@ -14726,7 +14866,7 @@ Components.TableRowHeader = class TableRowHeader extends Components.TableRow {
         super.init(options, data);
     }
 }
-Components.TableRowHeader.Namespace=`${moduleName}.Components`;
+Components.TableRowHeader.Namespace=`Core.Components`;
 Components.TableRowHeader.Tag=`rk-table-row-header`;
 _.Components.TableRowHeader=Components.TableRowHeader;
 if(!window.customElements.get('rk-table-row-header')){window.customElements.define('rk-table-row-header', Components.TableRowHeader);Aventus.WebComponentInstance.registerDefinition(Components.TableRowHeader);}
@@ -14770,7 +14910,7 @@ if (this.constructor == TableCellEnum) { throw "can't instanciate an abstract cl
         this.contentEl.innerHTML = this.content;
     }
 }
-Components.TableCellEnum.Namespace=`${moduleName}.Components`;
+Components.TableCellEnum.Namespace=`Core.Components`;
 _.Components.TableCellEnum=Components.TableCellEnum;
 
 Components.TableCellDate = class TableCellDate extends Components.TableCell {
@@ -14820,7 +14960,7 @@ Components.TableCellDate = class TableCellDate extends Components.TableCell {
         this.contentEl.innerHTML = this.content;
     }
 }
-Components.TableCellDate.Namespace=`${moduleName}.Components`;
+Components.TableCellDate.Namespace=`Core.Components`;
 Components.TableCellDate.Tag=`rk-table-cell-date`;
 _.Components.TableCellDate=Components.TableCellDate;
 if(!window.customElements.get('rk-table-cell-date')){window.customElements.define('rk-table-cell-date', Components.TableCellDate);Aventus.WebComponentInstance.registerDefinition(Components.TableCellDate);}
@@ -14853,7 +14993,7 @@ Components.TableCellCustom = class TableCellCustom extends Components.TableCell 
         this.contentEl.innerHTML = this.content;
     }
 }
-Components.TableCellCustom.Namespace=`${moduleName}.Components`;
+Components.TableCellCustom.Namespace=`Core.Components`;
 Components.TableCellCustom.Tag=`rk-table-cell-custom`;
 _.Components.TableCellCustom=Components.TableCellCustom;
 if(!window.customElements.get('rk-table-cell-custom')){window.customElements.define('rk-table-cell-custom', Components.TableCellCustom);Aventus.WebComponentInstance.registerDefinition(Components.TableCellCustom);}
@@ -14908,7 +15048,7 @@ Components.TableCellCheckbox = class TableCellCheckbox extends Components.TableC
         }
     }
 }
-Components.TableCellCheckbox.Namespace=`${moduleName}.Components`;
+Components.TableCellCheckbox.Namespace=`Core.Components`;
 Components.TableCellCheckbox.Tag=`rk-table-cell-checkbox`;
 _.Components.TableCellCheckbox=Components.TableCellCheckbox;
 if(!window.customElements.get('rk-table-cell-checkbox')){window.customElements.define('rk-table-cell-checkbox', Components.TableCellCheckbox);Aventus.WebComponentInstance.registerDefinition(Components.TableCellCheckbox);}
@@ -14948,7 +15088,7 @@ Components.TableCellBoolean = class TableCellBoolean extends Components.TableCel
         this.contentEl.innerHTML = this.content;
     }
 }
-Components.TableCellBoolean.Namespace=`${moduleName}.Components`;
+Components.TableCellBoolean.Namespace=`Core.Components`;
 Components.TableCellBoolean.Tag=`rk-table-cell-boolean`;
 _.Components.TableCellBoolean=Components.TableCellBoolean;
 if(!window.customElements.get('rk-table-cell-boolean')){window.customElements.define('rk-table-cell-boolean', Components.TableCellBoolean);Aventus.WebComponentInstance.registerDefinition(Components.TableCellBoolean);}
@@ -14978,7 +15118,7 @@ Components.TableCellAction = class TableCellAction extends Components.TableCell 
     setContent(data, rowData) {
     }
 }
-Components.TableCellAction.Namespace=`${moduleName}.Components`;
+Components.TableCellAction.Namespace=`Core.Components`;
 Components.TableCellAction.Tag=`rk-table-cell-action`;
 _.Components.TableCellAction=Components.TableCellAction;
 if(!window.customElements.get('rk-table-cell-action')){window.customElements.define('rk-table-cell-action', Components.TableCellAction);Aventus.WebComponentInstance.registerDefinition(Components.TableCellAction);}
@@ -15102,7 +15242,7 @@ Components.TableData = class TableData extends Components.Table {
         this.ram?.offDeleted(this.onDeletedData);
     }
 }
-Components.TableData.Namespace=`${moduleName}.Components`;
+Components.TableData.Namespace=`Core.Components`;
 _.Components.TableData=Components.TableData;
 
 Components.TableDataCellAction = class TableDataCellAction extends Components.TableCellAction {
@@ -15146,7 +15286,7 @@ Components.TableDataCellAction = class TableDataCellAction extends Components.Ta
         }
     }
 }
-Components.TableDataCellAction.Namespace=`${moduleName}.Components`;
+Components.TableDataCellAction.Namespace=`Core.Components`;
 Components.TableDataCellAction.Tag=`rk-table-data-cell-action`;
 _.Components.TableDataCellAction=Components.TableDataCellAction;
 if(!window.customElements.get('rk-table-data-cell-action')){window.customElements.define('rk-table-data-cell-action', Components.TableDataCellAction);Aventus.WebComponentInstance.registerDefinition(Components.TableDataCellAction);}

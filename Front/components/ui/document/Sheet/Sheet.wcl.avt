@@ -8,7 +8,8 @@ namespace Components {
     export type SheetSettings = {
         format: SheetFormat,
         orientation: SheetOrientation,
-        padding: string;
+        padding: string,
+        calculateOnDisplay: boolean,
     };
     export type ISheetElement = {
         getHtml(): string,
@@ -47,6 +48,8 @@ namespace Components {
         private currentPage!: HTMLElement;
         private basicPage!: HTMLElement;
         private pageWrappers: Node[] = [];
+
+        protected settings: SheetSettings;
         //#endregion
 
 
@@ -54,7 +57,7 @@ namespace Components {
         public constructor() {
             super();
             const settings = this.sheetSettings(this.defaultSettings());
-
+            this.settings = settings;
             this.format = settings.format;
             this.orientation = settings.orientation;
             this.style.setProperty("--sheet-padding", settings.padding);
@@ -67,7 +70,8 @@ namespace Components {
             return {
                 format: "A4",
                 orientation: "portrait",
-                padding: "0"
+                padding: "0",
+                calculateOnDisplay: true
             };
         }
         protected abstract sheetSettings(settings: SheetSettings): SheetSettings;
@@ -230,7 +234,10 @@ namespace Components {
             }
             return hasNewPageG;
         }
-        protected calculatePage() {
+        /**
+         * Take the content and split it inside multiple page
+         */
+        public calculatePage() {
             const mainChildren = Array.from(this.bodyWrapper.childNodes);
             for(let mainChild of mainChildren) {
                 this.bodyWrapper.removeChild(mainChild);
@@ -412,8 +419,9 @@ namespace Components {
 
         protected override postCreation(): void {
             super.postCreation();
-            window['temp1'] = this;
-            this.calculatePage();
+            if(this.settings.calculateOnDisplay) {
+                this.calculatePage();
+            }
         }
         //#endregion
 
