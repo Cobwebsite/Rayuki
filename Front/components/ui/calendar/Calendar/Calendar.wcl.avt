@@ -121,7 +121,9 @@ namespace Components {
             maxDate.setHours(23);
             maxDate.setMinutes(59);
             maxDate.setSeconds(59);
-            maxDate.setDate(maxDate.getDate() + (7 - maxDate.getDay()));
+            if(maxDate.getDay() > 0) {
+                maxDate.setDate(maxDate.getDate() + (7 - maxDate.getDay()));
+            }
 
             let startDate = new Date();
             startDate.setTime(date.getTime());

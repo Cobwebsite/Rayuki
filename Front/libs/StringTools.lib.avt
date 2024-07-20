@@ -17,5 +17,9 @@ namespace Lib {
             const _search = this.removeAccents((search + '').toLowerCase());
             return _src.includes(_search);
         }
+
+        public static firstLetterUpper(txt: string): string {
+            return txt.slice(0, 1).toUpperCase() + txt.slice(1);
+        }
     }
 }

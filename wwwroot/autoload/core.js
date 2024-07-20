@@ -50,6 +50,50 @@ _.RAM = {};
 const Tools = {};
 _.Tools = {};
 let _n;
+Lib.Time=class Time {
+    static cbEachMinute = new Map();
+    static cbEachMinuteFirst = new Map();
+    static runEachMinute(cb, runOnCall = true) {
+        if (this.cbEachMinute.has(cb))
+            return;
+        let missingSec = 60 - new Date().getSeconds();
+        if (runOnCall) {
+            cb();
+        }
+        if (missingSec == 0) {
+            const nb = setInterval(() => {
+                cb();
+            }, 1000 * 60);
+            this.cbEachMinute.set(cb, nb);
+        }
+        else {
+            const nb = setTimeout(() => {
+                this.cbEachMinuteFirst.delete(cb);
+                cb();
+                const nb2 = setInterval(() => {
+                    cb();
+                }, 1000 * 60);
+                this.cbEachMinute.set(cb, nb2);
+            }, missingSec * 1000);
+            this.cbEachMinuteFirst.set(cb, nb);
+        }
+    }
+    static stopRunEachMinute(cb) {
+        const timeoutValue = this.cbEachMinuteFirst.get(cb);
+        if (timeoutValue) {
+            clearTimeout(timeoutValue);
+            this.cbEachMinuteFirst.delete(cb);
+        }
+        const intervalValue = this.cbEachMinute.get(cb);
+        if (intervalValue) {
+            clearTimeout(intervalValue);
+            this.cbEachMinute.delete(cb);
+        }
+    }
+}
+Lib.Time.Namespace=`Core.Lib`;
+
+_.Lib.Time=Lib.Time;
 Lib.StringTools=class StringTools {
     static removeAccents(value) {
         return value
@@ -66,6 +110,9 @@ Lib.StringTools=class StringTools {
         const _src = this.removeAccents((src + '').toLowerCase());
         const _search = this.removeAccents((search + '').toLowerCase());
         return _src.includes(_search);
+    }
+    static firstLetterUpper(txt) {
+        return txt.slice(0, 1).toUpperCase() + txt.slice(1);
     }
 }
 Lib.StringTools.Namespace=`Core.Lib`;
@@ -513,7 +560,7 @@ Components.BoxContainer = class BoxContainer extends Aventus.WebComponent {
     set 'space'(val) { this.setNumberAttr('space', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("space", ((target) => {
     target.style.setProperty("--item-box-margin", target.space + 'px');
 })); }
-    static __style = `:host{--_item-box-box-size: var(--item-box-box-size, 16px);--_item-box-border-radius: var(--item-box-border-radius, 4px);--_item-box-border-color: var(--item-box-border-color, var(--secondary-color, #afafaf))}:host{align-items:center;box-sizing:border-box;display:flex;flex-direction:row;height:var(--_item-box-box-size);justify-content:center}:host ::slotted(*){border:1px solid var(--_item-box-border-color);border-radius:var(--border-radius-sm);width:var(--_item-box-box-size);max-height:var(--_item-box-box-size);max-width:var(--_item-box-box-size)}:host ::slotted(*:first-child){margin-left:0}:host ::slotted(*:last-child){margin-right:0}:host([space="0"]){border:1px solid var(--_item-box-border-color);border-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*){border:none;border-radius:0px;border-right:1px solid var(--_item-box-border-color);width:var(--_item-box-box-size)}:host([space="0"]) ::slotted(*:first-child){border-bottom-left-radius:var(--_item-box-border-radius);border-top-left-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*:last-child){border-bottom-right-radius:var(--_item-box-border-radius);border-right:none;border-top-right-radius:var(--_item-box-border-radius)}`;
+    static __style = `:host{--_item-box-box-size: var(--item-box-box-size, auto);--_item-box-box-padding: var(--item-box-box-padding, 0 10px);--_item-box-border-radius: var(--item-box-border-radius, 4px);--_item-box-border-color: var(--item-box-border-color, var(--secondary-color, #afafaf))}:host{align-items:center;box-sizing:border-box;display:flex;flex-direction:row;height:var(--_item-box-box-size);justify-content:center}:host ::slotted(*){border:1px solid var(--_item-box-border-color);border-radius:var(--border-radius-sm);width:var(--_item-box-box-size);max-height:var(--_item-box-box-size);max-width:var(--_item-box-box-size);padding:var(--_item-box-box-padding)}:host ::slotted(*:first-child){margin-left:0}:host ::slotted(*:last-child){margin-right:0}:host([space="0"]){border:1px solid var(--_item-box-border-color);border-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*){border:none;border-radius:0px;border-right:1px solid var(--_item-box-border-color);width:var(--_item-box-box-size)}:host([space="0"]) ::slotted(*:first-child){border-bottom-left-radius:var(--_item-box-border-radius);border-top-left-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*:last-child){border-bottom-right-radius:var(--_item-box-border-radius);border-right:none;border-top-right-radius:var(--_item-box-border-radius)}`;
     __getStatic() {
         return BoxContainer;
     }
@@ -1407,7 +1454,7 @@ Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
     get 'color'() { return this.getStringAttr('color') }
     set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
     set 'outline'(val) { this.setBoolAttr('outline', val) }    get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--internal-button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}:host{--_button-padding: var(--button-padding, 0)}:host{aspect-ratio:1/1;height:36px;min-width:auto;border-radius:var(--border-radius-round)}:host .hider{border-radius:var(--border-radius-round)}:host .content .icon{--img-fill-color: var(--_button-color);height:100%;padding:10px 0}`;
+    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--internal-button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}:host{--_button-padding: var(--button-padding, 0)}:host{aspect-ratio:1/1;height:36px;min-width:auto;border-radius:var(--border-radius-round)}:host .hider{border-radius:var(--border-radius-round)}:host .content .icon{--img-fill-color: var(--_button-color);height:100%;padding:10px 0}`;
     __getStatic() {
         return ButtonIcon;
     }
@@ -1580,7 +1627,7 @@ Data.PermissionUser=class PermissionUser extends AventusSharp.Data.Storable {
     Allow;
 }
 Data.PermissionUser.Namespace=`Core.Data`;
-Data.PermissionUser.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":""+moduleName+".Data.Permission","UserId":"number","Allow":"boolean"};
+Data.PermissionUser.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":"Core.Data.Permission","UserId":"number","Allow":"boolean"};
 Aventus.Converter.register(Data.PermissionUser.Fullname, Data.PermissionUser);
 
 _.Data.PermissionUser=Data.PermissionUser;
@@ -2030,7 +2077,7 @@ Data.User=class User extends AventusSharp.Data.Storable {
     IsSuperAdmin = false;
 }
 Data.User.Namespace=`Core.Data`;
-Data.User.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Firstname":"string","Lastname":"string","Username":"string","Password":"string","Token":"string","Picture":""+moduleName+".Data.DataTypes.ImageFile","IsSuperAdmin":"boolean"};
+Data.User.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Firstname":"string","Lastname":"string","Username":"string","Password":"string","Token":"string","Picture":"Core.Data.DataTypes.ImageFile","IsSuperAdmin":"boolean"};
 Aventus.Converter.register(Data.User.Fullname, Data.User);
 
 _.Data.User=Data.User;
@@ -2041,7 +2088,7 @@ Data.Group=class Group extends AventusSharp.Data.Storable {
     Users = [];
 }
 Data.Group.Namespace=`Core.Data`;
-Data.Group.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Description":"string","Users":""+moduleName+".Data.User"};
+Data.Group.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Description":"string","Users":"Core.Data.User"};
 Aventus.Converter.register(Data.Group.Fullname, Data.Group);
 
 _.Data.Group=Data.Group;
@@ -2870,7 +2917,7 @@ Data.DekstopConfiguration=class DekstopConfiguration extends AventusSharp.Data.S
     BackgroundColor = undefined;
 }
 Data.DekstopConfiguration.Namespace=`Core.Data`;
-Data.DekstopConfiguration.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Background":""+moduleName+".Data.DataTypes.ImageFile","BackgroundSize":"BackgroundSize","SyncDesktop":"boolean","SizeMobile":"number","SizeTablet":"number","SizeDesktop":"number","BackgroundColor":"string"};
+Data.DekstopConfiguration.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Background":"Core.Data.DataTypes.ImageFile","BackgroundSize":"BackgroundSize","SyncDesktop":"boolean","SizeMobile":"number","SizeTablet":"number","SizeDesktop":"number","BackgroundColor":"string"};
 Aventus.Converter.register(Data.DekstopConfiguration.Fullname, Data.DekstopConfiguration);
 
 _.Data.DekstopConfiguration=Data.DekstopConfiguration;
@@ -2913,7 +2960,7 @@ Data.Desktop=class Desktop extends AventusSharp.Data.Storable {
     Applications = [];
 }
 Data.Desktop.Namespace=`Core.Data`;
-Data.Desktop.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Token":"string","UserId":"number","Configuration":"DekstopConfiguration","Icons":"DesktopAppIcon","Applications":""+moduleName+".Data.ApplicationOpen"};
+Data.Desktop.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Token":"string","UserId":"number","Configuration":"DekstopConfiguration","Icons":"DesktopAppIcon","Applications":"Core.Data.ApplicationOpen"};
 Aventus.Converter.register(Data.Desktop.Fullname, Data.Desktop);
 
 _.Data.Desktop=Data.Desktop;
@@ -3795,6 +3842,10 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
         }
         this.triggerScrollChange();
     }
+    scrollDirectionPercent(direction, percent) {
+        const max = this.max[direction];
+        this.scrollDirection(direction, max * percent / 100);
+    }
     correctScrollValue(value, direction) {
         if (value < 0) {
             value = 0;
@@ -3814,8 +3865,14 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
     scrollX(x) {
         this.scrollDirection('x', x);
     }
+    scrollXPercent(x) {
+        this.scrollDirectionPercent('x', x);
+    }
     scrollY(y) {
         this.scrollDirection('y', y);
+    }
+    scrollYPercent(y) {
+        this.scrollDirectionPercent('y', y);
     }
     startAutoScrollRight() {
         if (!this.autoScrollInterval.right) {
@@ -4023,10 +4080,13 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
     }
     calculateRealSize() {
         if (!this.contentZoom || !this.mainContainer || !this.contentWrapper) {
-            return;
+            return false;
         }
         const currentOffsetWidth = this.contentZoom.offsetWidth;
         const currentOffsetHeight = this.contentZoom.offsetHeight;
+        let hasChanged = false;
+        if (this.contentWrapper.offsetWidth != this.contentWrapperSize.x || this.contentWrapper.offsetHeight != this.contentWrapperSize.y)
+            hasChanged = true;
         this.contentWrapperSize.x = this.contentWrapper.offsetWidth;
         this.contentWrapperSize.y = this.contentWrapper.offsetHeight;
         if (this.zoom < 1) {
@@ -4034,13 +4094,20 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
             this.contentZoom.style.width = this.mainContainer.offsetWidth / this.zoom + 'px';
             this.contentZoom.style.height = this.mainContainer.offsetHeight / this.zoom + 'px';
             this.contentZoom.style.maxHeight = this.mainContainer.offsetHeight / this.zoom + 'px';
+            if (currentOffsetHeight != this.display.y || currentOffsetWidth != this.display.x)
+                hasChanged = true;
             this.display.y = currentOffsetHeight;
             this.display.x = currentOffsetWidth;
         }
         else {
-            this.display.y = currentOffsetHeight / this.zoom;
-            this.display.x = currentOffsetWidth / this.zoom;
+            const newX = currentOffsetWidth / this.zoom;
+            const newY = currentOffsetHeight / this.zoom;
+            if (newY != this.display.y || newX != this.display.x)
+                hasChanged = true;
+            this.display.y = newY;
+            this.display.x = newX;
         }
+        return hasChanged;
     }
     calculatePositionScrollerContainer(direction) {
         if (direction == 'y') {
@@ -4092,10 +4159,12 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
     }
     changeZoom() {
         this.contentZoom.style.transform = 'scale(' + this.zoom + ')';
-        this.dimensionRefreshed();
+        this.dimensionRefreshed(true);
     }
-    dimensionRefreshed() {
-        this.calculateRealSize();
+    dimensionRefreshed(force = false) {
+        if (!this.calculateRealSize() && !force) {
+            return;
+        }
         if (this.contentWrapperSize.y - this.display.y > 0) {
             if (!this.y_scroll_visible) {
                 this.y_scroll_visible = true;
@@ -4147,6 +4216,7 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
         this.observer.observe(this);
     }
     postCreation() {
+        this.dimensionRefreshed();
         this.addResizeObserver();
         this.addAction();
     }
@@ -4187,7 +4257,7 @@ Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
     GroupId;
 }
 Data.PermissionGroup.Namespace=`Core.Data`;
-Data.PermissionGroup.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":""+moduleName+".Data.Permission","GroupId":"number"};
+Data.PermissionGroup.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":"Core.Data.Permission","GroupId":"number"};
 Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
 
 _.Data.PermissionGroup=Data.PermissionGroup;
@@ -4217,7 +4287,7 @@ Permissions.PermissionForUser=class PermissionForUser {
     permissionUsers = [];
 }
 Permissions.PermissionForUser.Namespace=`Core.Permissions`;
-Permissions.PermissionForUser.$schema={"permissionGroups":""+moduleName+".Data.PermissionGroup","permissionUsers":""+moduleName+".Data.PermissionUser"};
+Permissions.PermissionForUser.$schema={"permissionGroups":"Core.Data.PermissionGroup","permissionUsers":"Core.Data.PermissionUser"};
 Aventus.Converter.register(Permissions.PermissionForUser.Fullname, Permissions.PermissionForUser);
 
 _.Permissions.PermissionForUser=Permissions.PermissionForUser;
@@ -5913,7 +5983,7 @@ State.ApplicationState=class ApplicationState extends Aventus.State {
     }
 }
 State.ApplicationState.Namespace=`Core.State`;
-State.ApplicationState.$schema={...(Aventus.State?.$schema ?? {}), "$type":"string","__manager":""+moduleName+".Lib.ApplicationStateManager","application":""+moduleName+".System.Application","__canSaveState":"boolean","delaySaveState":"number"};
+State.ApplicationState.$schema={...(Aventus.State?.$schema ?? {}), "$type":"string","__manager":"Core.Lib.ApplicationStateManager","application":"Core.System.Application","__canSaveState":"boolean","delaySaveState":"number"};
 Aventus.Converter.register(State.ApplicationState.Fullname, State.ApplicationState);
 
 _.State.ApplicationState=State.ApplicationState;
@@ -9222,7 +9292,7 @@ Components.CalendarDay = class CalendarDay extends Aventus.WebComponent {
     set 'other'(val) { this.setBoolAttr('other', val) }get 'today'() { return this.getBoolAttr('today') }
     set 'today'(val) { this.setBoolAttr('today', val) }    calendar;
     date = new Date();
-    static __style = `:host{align-items:center;color:var(--_calendar-text-color-case);display:flex;height:30px;justify-content:center;width:30px;border-radius:var(--border-radius-sm);cursor:pointer;transition:color .2s var(--bezier-curve),background-color .2s var(--bezier-curve)}:host([other]){color:var(--_calendar-text-color-case-others)}:host([today]){color:var(--_calendar-text-color-case-today)}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--_calendar-background-color-case-hover)}}`;
+    static __style = `:host{align-items:center;border-radius:var(--border-radius-sm);color:var(--_calendar-text-color-case);cursor:pointer;display:flex;font-size:var(--_calendar-case-font-size);height:var(--_calendar-case-size);justify-content:center;transition:color .2s var(--bezier-curve),background-color .2s var(--bezier-curve);width:var(--_calendar-case-size)}:host([other]){color:var(--_calendar-text-color-case-others)}:host([today]){color:var(--_calendar-text-color-case-today)}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--_calendar-background-color-case-hover)}}`;
     constructor() { super(); if (this.constructor == CalendarDay) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return CalendarDay;
@@ -9325,7 +9395,7 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
         target.dateTemp = target.date;
     }
 })); }
-    static __style = `:host{--_calendar-background-color: var(--calendar-background-color, white);--_calendar-background-color-case-hover: var(--calendar-background-color-case-hover, var(--lighter));--_calendar-background-color-case-active: var(--calendar-background-color-case-active, var(--lighter));--_calendar-background-color-selector: var(--calendar-background-color-selector, white);--_calendar-text-color-case: var(--calendar-text-color-case, var(--text-color));--_calendar-text-color-case-others: var(--calendar-text-color-case-others, var(--secondary-color));--_calendar-text-color-case-header: var(--calendar-text-color-case-header, var(--text-color-light));--_calendar-text-color-case-today: var(--calendar-text-color-case-today, var(--orange))}:host{background-color:var(--_calendar-background-color);border-radius:var(--border-radius);box-shadow:var(--elevation-3);display:flex;flex-direction:column;padding:15px;position:relative;width:fit-content}:host .hover{transition:background-color .2s var(--bezier-curve)}:host .header{align-items:center;display:flex;flex-direction:row;font-size:var(--font-size-md);justify-content:space-between;position:relative}:host .header .current-info{align-items:center;display:flex;flex-direction:row;flex-grow:1;justify-content:center}:host .header .current-info .month-year{align-items:center;border-radius:var(--border-radius-sm);display:flex;flex-direction:row;padding:5px 10px}:host .header .current-info .month-year .month{margin-right:5px}:host .header .chevron{align-items:center;border-radius:var(--border-radius-sm);display:flex;height:30px;justify-content:center;text-align:center;width:30px}:host .header .selectors{background-color:var(--_calendar-background-color-selector);border-radius:var(--border-radius);box-shadow:var(--elevation-3);left:50%;opacity:0;padding:10px;pointer-events:none;position:absolute;top:calc(100% + 12px);transform:translateX(-50%);transition:opacity .2s var(--bezier-curve),visibility .2s var(--bezier-curve);visibility:hidden;z-index:5}:host .header .selectors::after{border-bottom:10px solid var(--_calendar-background-color-selector);border-left:10px solid rgba(0,0,0,0);border-right:10px solid rgba(0,0,0,0);content:"";left:50%;position:absolute;top:-8px;transform:translateX(-50%)}:host .header .selectors .month-select{display:none}:host .header .selectors .month-select .month-select-header{align-items:center;display:flex}:host .header .selectors .month-select .month-select-header .current-info .temp-year{border-radius:var(--border-radius-sm);display:flex;font-size:var(--font-size);padding:5px 10px}:host .header .selectors .month-select .month-select-body{display:flex;flex-wrap:wrap;font-size:calc(var(--font-size)*.9);margin-top:0px;width:200px}:host .header .selectors .month-select .month-select-body .month-el{align-items:center;border-radius:var(--border-radius-sm);display:flex;height:30px;justify-content:center;margin:3px 5px;width:calc((100% - 30px)/3)}:host .header .selectors .month-select .month-select-body .month-el.active{background-color:var(--_calendar-background-color-case-active)}:host .header .selectors .year-select{display:none}:host .header .selectors .year-select .year-select-header{align-items:center;display:flex}:host .header .selectors .year-select .year-select-header .current-info .temp-year-range{border-radius:var(--border-radius-sm);display:flex;font-size:var(--font-size);padding:5px 10px}:host .header .selectors .year-select .year-select-body{display:flex;flex-wrap:wrap;font-size:calc(var(--font-size)*.9);margin-top:0px;width:200px}:host .header .selectors .year-select .year-select-body .year-el{align-items:center;border-radius:var(--border-radius-sm);display:flex;height:30px;justify-content:center;margin:3px 5px;width:calc((100% - 30px)/3)}:host .header .selectors .year-select .year-select-body .year-el.active{background-color:var(--_calendar-background-color-case-active)}:host .body{display:flex;flex-direction:column;margin-top:10px}:host .body .days-header{color:var(--_calendar-text-color-case-header);display:flex;flex-direction:row;gap:10px}:host .body .days-header .day-header{align-items:center;display:flex;height:30px;justify-content:center;width:30px}:host .body .days-body{flex-direction:column}:host .body .days-body .days-row{display:flex;flex-direction:row;gap:10px;margin:5px 0}:host .hider{display:none;inset:0;position:absolute;z-index:1}:host([show_selector]) .hider{display:block}:host([show_selector]) .header .selectors{opacity:1;pointer-events:auto;visibility:visible}:host([selector=month]) .header .selectors .month-select{display:block}:host([selector=year]) .header .selectors .year-select{display:block}@media screen and (min-width: 1225px){:host .hover:hover{background-color:var(--_calendar-background-color-case-hover)}}`;
+    static __style = `:host{--_calendar-background-color: var(--calendar-background-color, white);--_calendar-background-color-case-hover: var(--calendar-background-color-case-hover, var(--lighter));--_calendar-background-color-case-active: var(--calendar-background-color-case-active, var(--lighter));--_calendar-background-color-selector: var(--calendar-background-color-selector, white);--_calendar-text-color-case: var(--calendar-text-color-case, var(--text-color));--_calendar-text-color-case-others: var(--calendar-text-color-case-others, var(--secondary-color));--_calendar-text-color-case-header: var(--calendar-text-color-case-header, var(--text-color-light));--_calendar-text-color-case-today: var(--calendar-text-color-case-today, var(--orange));--_calendar-case-size: var(--calendar-case-size, 30px);--_calendar-case-font-size: var(--calendar-case-font-size, var(--font-size, 16px));--_calendar-chevron-size: var(--calendar-chevron-size, calc(var(--_calendar-case-font-size) * 1.5));--_calendar-month-font-size: var(--calendar-month-font-size, calc(var(--_calendar-case-font-size) * 1.25));--_calendar-month-selector-height: var(--calendar-month-selector-height, var(--_calendar-case-size));--_calendar-year-selector-height: var(--calendar-year-selector-height, var(--_calendar-case-size));--_calendar-case-gap: var(--calendar-case-gap, 10px);--_calendar-row-gap: var(--calendar-row-gap, 5px)}:host{background-color:var(--_calendar-background-color);border-radius:var(--border-radius);box-shadow:var(--elevation-3);display:flex;flex-direction:column;padding:15px;position:relative;width:fit-content}:host .hover{transition:background-color .2s var(--bezier-curve)}:host .header{align-items:center;display:flex;flex-direction:row;justify-content:space-between;position:relative}:host .header .current-info{align-items:center;display:flex;flex-direction:row;flex-grow:1;font-size:var(--_calendar-month-font-size);justify-content:center}:host .header .current-info .month-year{align-items:center;border-radius:var(--border-radius-sm);display:flex;flex-direction:row;padding:5px 10px}:host .header .current-info .month-year .month{margin-right:5px}:host .header .chevron{align-items:center;border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-chevron-size);height:var(--_calendar-case-size);justify-content:center;text-align:center;width:var(--_calendar-case-size)}:host .header .selectors{background-color:var(--_calendar-background-color-selector);border-radius:var(--border-radius);box-shadow:var(--elevation-3);left:50%;opacity:0;padding:10px;pointer-events:none;position:absolute;top:calc(100% + 12px);transform:translateX(-50%);transition:opacity .2s var(--bezier-curve),visibility .2s var(--bezier-curve);visibility:hidden;width:100%;z-index:5}:host .header .selectors::after{border-bottom:10px solid var(--_calendar-background-color-selector);border-left:10px solid rgba(0,0,0,0);border-right:10px solid rgba(0,0,0,0);content:"";left:50%;position:absolute;top:-8px;transform:translateX(-50%)}:host .header .selectors .month-select{display:none;width:100%}:host .header .selectors .month-select .month-select-header{align-items:center;display:flex;margin-bottom:var(--_calendar-row-gap)}:host .header .selectors .month-select .month-select-header .current-info .temp-year{border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-month-font-size);padding:5px 10px}:host .header .selectors .month-select .month-select-body{display:flex;flex-wrap:wrap;font-size:var(--_calendar-case-font-size);gap:var(--_calendar-row-gap) var(--_calendar-case-gap);width:100%}:host .header .selectors .month-select .month-select-body .month-el{align-items:center;border-radius:var(--border-radius-sm);display:flex;height:var(--_calendar-month-selector-height);justify-content:center;width:calc((100% - var(--_calendar-case-gap)*2)/3)}:host .header .selectors .month-select .month-select-body .month-el.active{background-color:var(--_calendar-background-color-case-active)}:host .header .selectors .year-select{display:none;width:100%}:host .header .selectors .year-select .year-select-header{align-items:center;display:flex;margin-bottom:var(--_calendar-row-gap)}:host .header .selectors .year-select .year-select-header .current-info .temp-year-range{border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-month-font-size);padding:5px 10px}:host .header .selectors .year-select .year-select-body{display:flex;flex-wrap:wrap;font-size:var(--_calendar-case-font-size);gap:var(--_calendar-row-gap) var(--_calendar-case-gap);width:100%}:host .header .selectors .year-select .year-select-body .year-el{align-items:center;border-radius:var(--border-radius-sm);display:flex;height:var(--_calendar-year-selector-height);justify-content:center;width:calc((100% - var(--_calendar-case-gap)*2)/3)}:host .header .selectors .year-select .year-select-body .year-el.active{background-color:var(--_calendar-background-color-case-active)}:host .body{display:flex;flex-direction:column;margin-top:var(--_calendar-row-gap);gap:var(--_calendar-row-gap)}:host .body .days-header{color:var(--_calendar-text-color-case-header);display:flex;flex-direction:row;gap:10px}:host .body .days-header .day-header{align-items:center;display:flex;font-size:var(--_calendar-case-font-size);height:var(--_calendar-case-size);justify-content:center;width:var(--_calendar-case-size)}:host .body .days-body{display:flex;flex-direction:column;gap:var(--_calendar-row-gap)}:host .body .days-body .days-row{display:flex;flex-direction:row;gap:var(--_calendar-case-gap)}:host .hider{display:none;inset:0;position:absolute;z-index:1}:host([show_selector]) .hider{display:block}:host([show_selector]) .header .selectors{opacity:1;pointer-events:auto;visibility:visible}:host([selector=month]) .header .selectors .month-select{display:block}:host([selector=year]) .header .selectors .year-select{display:block}@media screen and (min-width: 1225px){:host .hover:hover{background-color:var(--_calendar-background-color-case-hover)}}`;
     __getStatic() {
         return Calendar;
     }
@@ -9526,7 +9596,9 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
         maxDate.setHours(23);
         maxDate.setMinutes(59);
         maxDate.setSeconds(59);
-        maxDate.setDate(maxDate.getDate() + (7 - maxDate.getDay()));
+        if (maxDate.getDay() > 0) {
+            maxDate.setDate(maxDate.getDate() + (7 - maxDate.getDay()));
+        }
         let startDate = new Date();
         startDate.setTime(date.getTime());
         startDate.setDate(1);
@@ -10721,10 +10793,10 @@ Components.formDataBuilder=function formDataBuilder(item, settings) {
         final[key] = {
             value: {
                 get: () => {
-                    return this.item[key];
+                    return item[key];
                 },
                 set: (v) => {
-                    this.item[key] = v;
+                    item[key] = v;
                 }
             }
         };
@@ -10732,7 +10804,7 @@ Components.formDataBuilder=function formDataBuilder(item, settings) {
             const gV = settings.generalValidation;
             const v = settings.validation[key];
             final[key].validate = async (value) => {
-                let gVR = await gV(value);
+                let gVR = await gV(key, value);
                 if (gVR !== undefined && gVR !== true && gVR !== "") {
                     return gVR;
                 }
@@ -10744,7 +10816,10 @@ Components.formDataBuilder=function formDataBuilder(item, settings) {
             };
         }
         else if (settings.generalValidation) {
-            final[key].validate = settings.generalValidation;
+            const gV = settings.generalValidation;
+            final[key].validate = async (value) => {
+                return await gV(key, value);
+            };
         }
         else if (settings.validation && settings.validation[key]) {
             final[key].validate = settings.validation[key];
@@ -10796,8 +10871,13 @@ Components.formDataBuilder=function formDataBuilder(item, settings) {
         var proxy = new Proxy(final, proxyData);
         return proxy;
     }
+    else if (settings.keys) {
+        for (let key of settings.keys) {
+            createKey(key);
+        }
+    }
     else {
-        for (let key in this.item) {
+        for (let key in item) {
             createKey(key);
         }
     }
@@ -11772,6 +11852,8 @@ Components.InternalVirtualForm=class InternalVirtualForm {
     }
     refresh(key) {
         const config = this.__config[key];
+        if (!config)
+            return;
         for (let element of config.elements) {
             element.value = Components.FormElement.getValue(config);
         }
@@ -11879,6 +11961,9 @@ State.CreateOrUpdate=class CreateOrUpdate extends State.ApplicationStorableState
     genericState() {
         return `/${this.defineObjectName().toLowerCase()}/{id:number}`;
     }
+    autoForm(element, settings) {
+        return Components.formDataBuilder(element, settings);
+    }
     /**
      * This will validate the form and save the model though the ram
      * Errors are deals by this method. If success, result !== undefined
@@ -11932,7 +12017,7 @@ State.CreateOrUpdate=class CreateOrUpdate extends State.ApplicationStorableState
     }
 }
 State.CreateOrUpdate.Namespace=`Core.State`;
-State.CreateOrUpdate.$schema={...(State.ApplicationStorableState?.$schema ?? {}), "__form":""+moduleName+".Components.VirtualForm","form":""+moduleName+".Components.VirtualForm","name":"string"};
+State.CreateOrUpdate.$schema={...(State.ApplicationStorableState?.$schema ?? {}), "__form":"Core.Components.VirtualForm","form":"Core.Components.VirtualForm","name":"string"};
 Aventus.Converter.register(State.CreateOrUpdate.Fullname, State.CreateOrUpdate);
 
 _.State.CreateOrUpdate=State.CreateOrUpdate;
@@ -11948,7 +12033,7 @@ Components.Button = class Button extends Aventus.WebComponent {
     set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
     target.icon_before = target.icon;
 })); }
-    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--internal-button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;min-width:64px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:10px}:host([icon_after]) .icon-after{display:block;margin-left:10px}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
+    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--internal-button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
     __getStatic() {
         return Button;
     }
@@ -14577,157 +14662,6 @@ Components.TableCell = class TableCell extends Aventus.WebComponent {
 Components.TableCell.Namespace=`Core.Components`;
 _.Components.TableCell=Components.TableCell;
 
-Components.TableCellString = class TableCellString extends Components.TableCell {
-    static __style = ``;
-    __getStatic() {
-        return TableCellString;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(TableCellString.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`` }
-    });
-}
-    getClassName() {
-        return "TableCellString";
-    }
-    sortAsc(cell) {
-        let value = this.content;
-        let valueCell = cell.content;
-        return value.localeCompare(valueCell);
-    }
-    setContent(data, rowData) {
-        this.content = data != undefined ? data + "" : "";
-        this.contentEl.innerHTML = this.content;
-    }
-}
-Components.TableCellString.Namespace=`Core.Components`;
-Components.TableCellString.Tag=`rk-table-cell-string`;
-_.Components.TableCellString=Components.TableCellString;
-if(!window.customElements.get('rk-table-cell-string')){window.customElements.define('rk-table-cell-string', Components.TableCellString);Aventus.WebComponentInstance.registerDefinition(Components.TableCellString);}
-
-Components.TableCellPicture = class TableCellPicture extends Components.TableCell {
-    static get observedAttributes() {return ["src", "full"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'src'() { return this.getStringProp('src') }
-    set 'src'(val) { this.setStringAttr('src', val) }get 'full'() { return this.getBoolProp('full') }
-    set 'full'(val) { this.setBoolAttr('full', val) }    clone;
-    static __style = `:host av-button{display:none}:host .img{border-radius:25px;height:50px;margin:auto;width:50px}:host .img img{object-fit:cover;width:100%;height:100%}:host([full]){position:absolute;inset:0;z-index:200}:host([full]) span{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;padding:40px}:host([full]) span av-button{display:inline-block;width:100px;margin-bottom:20px}:host([full]) span .img{flex-grow:1;width:100%}:host([full]) span .img img{object-fit:contain}`;
-    __getStatic() {
-        return TableCellPicture;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(TableCellPicture.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<av-button color="danger" _id="tablecellpicture_0">Fermer</av-button><div class="img" _id="tablecellpicture_1">
-		<img loading="lazy" _id="tablecellpicture_2" />
-	</div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "tablecellpicture_2°src": {
-      "fct": (c) => `${c.print(c.comp.__5c25ad747ea3a14316fd5b29073319bemethod0())}`,
-      "once": true
-    }
-  },
-  "pressEvents": [
-    {
-      "id": "tablecellpicture_0",
-      "onPress": (e, pressInstance, c) => { c.comp.setSmaller(e, pressInstance); }
-    },
-    {
-      "id": "tablecellpicture_1",
-      "onPress": (e, pressInstance, c) => { c.comp.setBigger(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "TableCellPicture";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('src')){ this['src'] = undefined; }if(!this.hasAttribute('full')) { this.attributeChangedCallback('full', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('src');this.__upgradeProperty('full'); }
-    __listBoolProps() { return ["full"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    sortAsc(cell) {
-        return 0;
-    }
-    setContent(data, rowData) {
-        this.src = data + "";
-    }
-    globalSearch(search) {
-        return false;
-    }
-    setBigger() {
-        if (this.clone)
-            return;
-        this.clone = this.cloneNode(true);
-        this.clone.full = true;
-        this.clone.clone = this;
-        document.body.appendChild(this.clone);
-    }
-    setSmaller() {
-        if (this.clone) {
-            this.remove();
-            this.clone.clone = undefined;
-        }
-    }
-    __5c25ad747ea3a14316fd5b29073319bemethod0() {
-        return this.src;
-    }
-}
-Components.TableCellPicture.Namespace=`Core.Components`;
-Components.TableCellPicture.Tag=`rk-table-cell-picture`;
-_.Components.TableCellPicture=Components.TableCellPicture;
-if(!window.customElements.get('rk-table-cell-picture')){window.customElements.define('rk-table-cell-picture', Components.TableCellPicture);Aventus.WebComponentInstance.registerDefinition(Components.TableCellPicture);}
-
-Components.TableCellNumber = class TableCellNumber extends Components.TableCell {
-    static __style = ``;
-    __getStatic() {
-        return TableCellNumber;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(TableCellNumber.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`` }
-    });
-}
-    getClassName() {
-        return "TableCellNumber";
-    }
-    sortAsc(cell) {
-        if (this.content == '' && cell.content == '')
-            return 0;
-        if (this.content == '')
-            return 1;
-        if (cell.content == '')
-            return -1;
-        let x = Number(this.content);
-        let y = Number(cell.content);
-        return x - y;
-    }
-    setContent(data, rowData) {
-        if (!this.contentEl)
-            return;
-        this.content = Number(data) + "";
-        this.contentEl.innerHTML = this.content;
-    }
-}
-Components.TableCellNumber.Namespace=`Core.Components`;
-Components.TableCellNumber.Tag=`rk-table-cell-number`;
-_.Components.TableCellNumber=Components.TableCellNumber;
-if(!window.customElements.get('rk-table-cell-number')){window.customElements.define('rk-table-cell-number', Components.TableCellNumber);Aventus.WebComponentInstance.registerDefinition(Components.TableCellNumber);}
-
 Components.TableCellHeader = class TableCellHeader extends Components.TableCell {
     get 'sort_direction'() { return this.getStringAttr('sort_direction') }
     set 'sort_direction'(val) { this.setStringAttr('sort_direction', val) }    sortable;
@@ -14913,91 +14847,6 @@ if (this.constructor == TableCellEnum) { throw "can't instanciate an abstract cl
 Components.TableCellEnum.Namespace=`Core.Components`;
 _.Components.TableCellEnum=Components.TableCellEnum;
 
-Components.TableCellDate = class TableCellDate extends Components.TableCell {
-    date;
-    static __style = ``;
-    __getStatic() {
-        return TableCellDate;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(TableCellDate.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`` }
-    });
-}
-    getClassName() {
-        return "TableCellDate";
-    }
-    sortAsc(cell) {
-        if (cell.date?.toISOString() == this.date?.toISOString())
-            return 0;
-        if (this.date && !cell.date)
-            return -1;
-        if (!this.date && cell.date)
-            return 1;
-        if (this.date && cell.date)
-            return this.date.getTime() - cell.date.getTime();
-        return 0;
-    }
-    setContent(data, rowData) {
-        if (!this.contentEl)
-            return;
-        if (data instanceof Date) {
-            this.date = data;
-            this.content = data.toLocaleDateString(undefined, {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-            });
-        }
-        else {
-            this.content = '';
-        }
-        this.contentEl.innerHTML = this.content;
-    }
-}
-Components.TableCellDate.Namespace=`Core.Components`;
-Components.TableCellDate.Tag=`rk-table-cell-date`;
-_.Components.TableCellDate=Components.TableCellDate;
-if(!window.customElements.get('rk-table-cell-date')){window.customElements.define('rk-table-cell-date', Components.TableCellDate);Aventus.WebComponentInstance.registerDefinition(Components.TableCellDate);}
-
-Components.TableCellCustom = class TableCellCustom extends Components.TableCell {
-    static __style = ``;
-    __getStatic() {
-        return TableCellCustom;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(TableCellCustom.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`` }
-    });
-}
-    getClassName() {
-        return "TableCellCustom";
-    }
-    sortAsc(cell) {
-        let value = this.content;
-        let valueCell = cell.content;
-        return value.localeCompare(valueCell);
-    }
-    setContent(data, rowData) {
-        this.content = data != undefined ? data + "" : "";
-        this.contentEl.innerHTML = this.content;
-    }
-}
-Components.TableCellCustom.Namespace=`Core.Components`;
-Components.TableCellCustom.Tag=`rk-table-cell-custom`;
-_.Components.TableCellCustom=Components.TableCellCustom;
-if(!window.customElements.get('rk-table-cell-custom')){window.customElements.define('rk-table-cell-custom', Components.TableCellCustom);Aventus.WebComponentInstance.registerDefinition(Components.TableCellCustom);}
-
 Components.TableCellCheckbox = class TableCellCheckbox extends Components.TableCell {
     static __style = `:host span{cursor:pointer}`;
     __getStatic() {
@@ -15052,76 +14901,6 @@ Components.TableCellCheckbox.Namespace=`Core.Components`;
 Components.TableCellCheckbox.Tag=`rk-table-cell-checkbox`;
 _.Components.TableCellCheckbox=Components.TableCellCheckbox;
 if(!window.customElements.get('rk-table-cell-checkbox')){window.customElements.define('rk-table-cell-checkbox', Components.TableCellCheckbox);Aventus.WebComponentInstance.registerDefinition(Components.TableCellCheckbox);}
-
-Components.TableCellBoolean = class TableCellBoolean extends Components.TableCell {
-    static __style = ``;
-    __getStatic() {
-        return TableCellBoolean;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(TableCellBoolean.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`` }
-    });
-}
-    getClassName() {
-        return "TableCellBoolean";
-    }
-    sortAsc(cell) {
-        let x = this.content == 'Oui';
-        let y = cell.content == 'Oui';
-        return (x === y) ? 0 : x ? -1 : 1;
-    }
-    setContent(data, rowData) {
-        if (!this.contentEl)
-            return;
-        if (data === true || data === 1 || data === 'true') {
-            this.content = 'Oui';
-        }
-        else {
-            this.content = 'Non';
-        }
-        this.contentEl.innerHTML = this.content;
-    }
-}
-Components.TableCellBoolean.Namespace=`Core.Components`;
-Components.TableCellBoolean.Tag=`rk-table-cell-boolean`;
-_.Components.TableCellBoolean=Components.TableCellBoolean;
-if(!window.customElements.get('rk-table-cell-boolean')){window.customElements.define('rk-table-cell-boolean', Components.TableCellBoolean);Aventus.WebComponentInstance.registerDefinition(Components.TableCellBoolean);}
-
-Components.TableCellAction = class TableCellAction extends Components.TableCell {
-    static __style = ``;
-    __getStatic() {
-        return TableCellAction;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(TableCellAction.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "TableCellAction";
-    }
-    sortAsc(cell) {
-        return 0;
-    }
-    setContent(data, rowData) {
-    }
-}
-Components.TableCellAction.Namespace=`Core.Components`;
-Components.TableCellAction.Tag=`rk-table-cell-action`;
-_.Components.TableCellAction=Components.TableCellAction;
-if(!window.customElements.get('rk-table-cell-action')){window.customElements.define('rk-table-cell-action', Components.TableCellAction);Aventus.WebComponentInstance.registerDefinition(Components.TableCellAction);}
 
 Components.TableData = class TableData extends Components.Table {
     get 'add_btn'() { return this.getBoolAttr('add_btn') }

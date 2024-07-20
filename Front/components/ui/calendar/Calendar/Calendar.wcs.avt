@@ -9,6 +9,14 @@
 	--_calendar-text-color-case-others: var(--calendar-text-color-case-others, var(--secondary-color));
 	--_calendar-text-color-case-header: var(--calendar-text-color-case-header, var(--text-color-light));
 	--_calendar-text-color-case-today: var(--calendar-text-color-case-today, var(--orange));
+	--_calendar-case-size: var(--calendar-case-size, 30px);
+	--_calendar-case-font-size: var(--calendar-case-font-size, var(--font-size, 16px));
+	--_calendar-chevron-size: var(--calendar-chevron-size, calc(var(--_calendar-case-font-size) * 1.5));
+	--_calendar-month-font-size: var(--calendar-month-font-size, calc(var(--_calendar-case-font-size) * 1.25));
+	--_calendar-month-selector-height: var(--calendar-month-selector-height, var(--_calendar-case-size));
+	--_calendar-year-selector-height: var(--calendar-year-selector-height, var(--_calendar-case-size));
+	--_calendar-case-gap: var(--calendar-case-gap, 10px);
+	--_calendar-row-gap: var(--calendar-row-gap, 5px);
 }
 
 :host {
@@ -29,7 +37,6 @@
 		align-items: center;
 		display: flex;
 		flex-direction: row;
-		font-size: var(--font-size-md);
 		justify-content: space-between;
 		position: relative;
 
@@ -38,6 +45,7 @@
 			display: flex;
 			flex-direction: row;
 			flex-grow: 1;
+			font-size: var(--_calendar-month-font-size);
 			justify-content: center;
 
 			.month-year {
@@ -58,10 +66,11 @@
 			align-items: center;
 			border-radius: var(--border-radius-sm);
 			display: flex;
-			height: 30px;
+			font-size: var(--_calendar-chevron-size);
+			height: var(--_calendar-case-size);
 			justify-content: center;
 			text-align: center;
-			width: 30px;
+			width: var(--_calendar-case-size);
 		}
 
 		.selectors {
@@ -79,6 +88,7 @@
 				opacity 0.2s var(--bezier-curve),
 				visibility 0.2s var(--bezier-curve);
 			visibility: hidden;
+			width: 100%;
 			z-index: 5;
 
 			&::after {
@@ -94,16 +104,18 @@
 
 			.month-select {
 				display: none;
+				width: 100%;
 
 				.month-select-header {
 					align-items: center;
 					display: flex;
+					margin-bottom: var(--_calendar-row-gap);
 
 					.current-info {
 						.temp-year {
 							border-radius: var(--border-radius-sm);
 							display: flex;
-							font-size: var(--font-size);
+							font-size: var(--_calendar-month-font-size);
 							padding: 5px 10px;
 						}
 					}
@@ -112,18 +124,17 @@
 				.month-select-body {
 					display: flex;
 					flex-wrap: wrap;
-					font-size: calc(var(--font-size) * 0.9);
-					margin-top: 0px;
-					width: 200px;
+					font-size: var(--_calendar-case-font-size);
+					gap: var(--_calendar-row-gap) var(--_calendar-case-gap);
+					width: 100%;
 
 					.month-el {
 						align-items: center;
 						border-radius: var(--border-radius-sm);
 						display: flex;
-						height: 30px;
+						height: var(--_calendar-month-selector-height);
 						justify-content: center;
-						margin: 3px 5px;
-						width: calc((100% - 30px) / 3);
+						width: calc((100% - var(--_calendar-case-gap) * 2) / 3);
 					}
 
 					.month-el.active {
@@ -134,16 +145,18 @@
 
 			.year-select {
 				display: none;
+				width: 100%;
 
 				.year-select-header {
 					align-items: center;
 					display: flex;
+					margin-bottom: var(--_calendar-row-gap);
 
 					.current-info {
 						.temp-year-range {
 							border-radius: var(--border-radius-sm);
 							display: flex;
-							font-size: var(--font-size);
+							font-size: var(--_calendar-month-font-size);
 							padding: 5px 10px;
 						}
 					}
@@ -152,18 +165,17 @@
 				.year-select-body {
 					display: flex;
 					flex-wrap: wrap;
-					font-size: calc(var(--font-size) * 0.9);
-					margin-top: 0px;
-					width: 200px;
+					font-size: var(--_calendar-case-font-size);
+					gap: var(--_calendar-row-gap) var(--_calendar-case-gap);
+					width: 100%;
 
 					.year-el {
 						align-items: center;
 						border-radius: var(--border-radius-sm);
 						display: flex;
-						height: 30px;
+						height: var(--_calendar-year-selector-height);
 						justify-content: center;
-						margin: 3px 5px;
-						width: calc((100% - 30px) / 3);
+						width: calc((100% - var(--_calendar-case-gap) * 2) / 3);
 					}
 
 					.year-el.active {
@@ -177,7 +189,8 @@
 	.body {
 		display: flex;
 		flex-direction: column;
-		margin-top: 10px;
+		margin-top: var(--_calendar-row-gap);
+		gap: var(--_calendar-row-gap);
 
 		.days-header {
 			color: var(--_calendar-text-color-case-header);
@@ -188,20 +201,22 @@
 			.day-header {
 				align-items: center;
 				display: flex;
-				height: 30px;
+				font-size: var(--_calendar-case-font-size);
+				height: var(--_calendar-case-size);
 				justify-content: center;
-				width: 30px;
+				width: var(--_calendar-case-size);
 			}
 		}
 
 		.days-body {
+			display: flex;
 			flex-direction: column;
+			gap: var(--_calendar-row-gap);
 
 			.days-row {
 				display: flex;
 				flex-direction: row;
-				gap: 10px;
-				margin: 5px 0;
+				gap: var(--_calendar-case-gap);
 			}
 		}
 	}

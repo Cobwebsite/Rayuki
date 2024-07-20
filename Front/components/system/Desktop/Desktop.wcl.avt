@@ -226,7 +226,6 @@ namespace System {
                 comp.focus();
                 comp.is_hidden = application.isHidden;
                 this.appContainer.appendChild(comp);
-
                 await comp.setHistory(ApplicationHistory.fromText(comp.navigator, application.history));
 
 

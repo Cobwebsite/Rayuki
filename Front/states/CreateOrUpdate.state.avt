@@ -1,5 +1,5 @@
 import type { VirtualForm } from "../components/ui/form/Form/VirtualForm.lib.avt";
-import type { BodyJSON, FormData } from "../components/ui/form/Form/FormType.lib.avt";
+import { formDataBuilder, type BodyJSON, type FormData, type formDataBuilderSettings } from "../components/ui/form/Form/FormType.lib.avt";
 import { Form } from "../components/ui/form/Form/Form.wcl.avt";
 import { ApplicationStorableState } from "./ApplicationState.state.avt";
 
@@ -50,12 +50,15 @@ namespace State {
 
         protected abstract defineFormSchema(): FormData<U>;
 
+        protected autoForm(element: U, settings?: formDataBuilderSettings<U>): FormData<U> {
+            return formDataBuilder(element, settings);
+        }
+
         /**
          * This will validate the form and save the model though the ram
          * Errors are deals by this method. If success, result !== undefined
          */
         public async save(): Promise<T | undefined> {
-
             let result: T | undefined;
             const validationResult = await this.form.validate(this.application);
             if(validationResult === true) {

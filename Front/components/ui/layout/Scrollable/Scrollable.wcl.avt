@@ -275,6 +275,13 @@ namespace Components {
             }
             this.triggerScrollChange();
         }
+        /**
+         * @param percent number between 0 - 100
+         */
+        private scrollDirectionPercent(direction: 'x' | 'y', percent: number) {
+            const max = this.max[direction];
+            this.scrollDirection(direction, max * percent / 100);
+        }
 
         private correctScrollValue(value: number, direction: 'x' | 'y'): number {
             if(value < 0) {
@@ -305,12 +312,25 @@ namespace Components {
             this.scrollDirection('x', x);
         }
         /**
+        * Scroll left - right
+        * @param x percent between 0 - 100
+        */
+        public scrollXPercent(x: number) {
+            this.scrollDirectionPercent('x', x);
+        }
+        /**
          * Scroll bottom - top
          */
         public scrollY(y: number) {
             this.scrollDirection('y', y);
         }
-
+        /**
+        * Scroll bottom - top
+        * @param y percent between 0 - 100
+        */
+        public scrollYPercent(y: number) {
+            this.scrollDirectionPercent('y', y);
+        }
         private autoScrollInterval: { top: number, left: number, right: number, bottom: number; } = {
             top: 0,
             left: 0,
@@ -576,30 +596,42 @@ namespace Components {
         //#endregion
 
         //#region position
-        private calculateRealSize() {
+        private calculateRealSize(): boolean {
             if(!this.contentZoom || !this.mainContainer || !this.contentWrapper) {
-                return;
+                return false;
             }
             const currentOffsetWidth = this.contentZoom.offsetWidth;
             const currentOffsetHeight = this.contentZoom.offsetHeight;
 
+            let hasChanged = false;
+
+            if(this.contentWrapper.offsetWidth != this.contentWrapperSize.x || this.contentWrapper.offsetHeight != this.contentWrapperSize.y)
+                hasChanged = true;
+
             this.contentWrapperSize.x = this.contentWrapper.offsetWidth;
             this.contentWrapperSize.y = this.contentWrapper.offsetHeight;
-
-
 
             if(this.zoom < 1) {
                 // scale the container for zoom
                 this.contentZoom.style.width = this.mainContainer.offsetWidth / this.zoom + 'px';
                 this.contentZoom.style.height = this.mainContainer.offsetHeight / this.zoom + 'px';
                 this.contentZoom.style.maxHeight = this.mainContainer.offsetHeight / this.zoom + 'px';
+                if(currentOffsetHeight != this.display.y || currentOffsetWidth != this.display.x)
+                    hasChanged = true;
+
                 this.display.y = currentOffsetHeight;
                 this.display.x = currentOffsetWidth;
             }
             else {
-                this.display.y = currentOffsetHeight / this.zoom;
-                this.display.x = currentOffsetWidth / this.zoom;
+                const newX = currentOffsetWidth / this.zoom;
+                const newY = currentOffsetHeight / this.zoom;
+                if(newY != this.display.y || newX != this.display.x)
+                    hasChanged = true;
+
+                this.display.y = newY;
+                this.display.x = newX;
             }
+            return hasChanged;
         }
 
         private calculatePositionScrollerContainer(direction: 'x' | 'y') {
@@ -658,11 +690,16 @@ namespace Components {
 
         private changeZoom() {
             this.contentZoom.style.transform = 'scale(' + this.zoom + ')';
-            this.dimensionRefreshed();
+            this.dimensionRefreshed(true);
         }
 
-        private dimensionRefreshed() {
-            this.calculateRealSize();
+        /**
+         * Inform that the size has changed
+         */
+        private dimensionRefreshed(force: boolean = false) {
+            if(!this.calculateRealSize() && !force) {
+                return;
+            }
 
             if(this.contentWrapperSize.y - this.display.y > 0) {
                 if(!this.y_scroll_visible) {
@@ -694,7 +731,7 @@ namespace Components {
                 this.scrollDirection('x', 0);
             }
 
-            
+
         }
         private createResizeObserver() {
             let inProgress = false;
@@ -719,6 +756,7 @@ namespace Components {
             this.observer.observe(this);
         }
         protected override postCreation(): void {
+            this.dimensionRefreshed();
             this.addResizeObserver();
             this.addAction();
         };

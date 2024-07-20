@@ -2,16 +2,17 @@
 
 :host {
 	align-items: center;
-	color: var(--_calendar-text-color-case);
-	display: flex;
-	height: 30px;
-	justify-content: center;
-	width: 30px;
 	border-radius: var(--border-radius-sm);
-    cursor: pointer;
-    transition: 
-        color 0.2s var(--bezier-curve),
-        background-color 0.2s var(--bezier-curve);
+	color: var(--_calendar-text-color-case);
+	cursor: pointer;
+	display: flex;
+	font-size: var(--_calendar-case-font-size);
+	height: var(--_calendar-case-size);
+	justify-content: center;
+	transition:
+		color 0.2s var(--bezier-curve),
+		background-color 0.2s var(--bezier-curve);
+	width: var(--_calendar-case-size);
 }
 
 

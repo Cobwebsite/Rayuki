@@ -19,6 +19,11 @@ namespace Components {
      */
     export type FormValidate<T> = (value: T | undefined) => FormValidateResult;
     /**
+     * Represents a general validation function for all values.
+     * The function takes the concerned key and the value and returns a FormValidateResult.
+     */
+    export type GeneralFormValidate<T> = (key: T, value: any) => FormValidateResult;
+    /**
      * Represents a part of a form.
      * @template T The type of the value of the form part.
      */
@@ -66,12 +71,12 @@ namespace Components {
          * An object where each key in T maps to a validation function for values of type T[K].
          */
         validation?: {
-            [K in keyof T]: FormValidate<T[K]>;
+            [K in keyof T]?: FormValidate<T[K]>;
         };
         /**
          * A general validation function that can be applied to any form part.
          */
-        generalValidation?: FormValidate<any>;
+        generalValidation?: GeneralFormValidate<keyof T>;
         /**
          * An object where each key in T maps to a boolean indicating whether to validate on change.
          */
@@ -82,6 +87,11 @@ namespace Components {
          * A general boolean indicating whether to validate on change.
          */
         generalValidateOnChange?: boolean;
+        /**
+         * Define which keys must be exposed
+         * If not set the whole object will be exposed
+         */
+        keys?: (keyof T)[];
     };
     /**
      * Builds form data from an item of type T and optional settings.
@@ -95,10 +105,10 @@ namespace Components {
             final[key] = {
                 value: {
                     get: () => {
-                        return this.item[key];
+                        return item[key];
                     },
                     set: (v) => {
-                        this.item[key] = v;
+                        item[key] = v;
                     }
                 }
             };
@@ -107,7 +117,7 @@ namespace Components {
                 const gV = settings.generalValidation;
                 const v = settings.validation[key];
                 final[key].validate = async (value: T[K] | undefined) => {
-                    let gVR = await gV(value);
+                    let gVR = await gV(key, value);
                     if(gVR !== undefined && gVR !== true && gVR !== "") {
                         return gVR;
                     }
@@ -120,7 +130,10 @@ namespace Components {
                 };
             }
             else if(settings.generalValidation) {
-                final[key].validate = settings.generalValidation;
+                const gV = settings.generalValidation;
+                final[key].validate = async (value: T[K] | undefined) => {
+                    return await gV(key, value);
+                }
             }
             else if(settings.validation && settings.validation[key]) {
                 final[key].validate = settings.validation[key];
@@ -175,8 +188,13 @@ namespace Components {
             var proxy = new Proxy(final, proxyData);
             return proxy;
         }
+        else if(settings.keys) {
+            for(let key of settings.keys) {
+                createKey(key);
+            }
+        }
         else {
-            for(let key in this.item) {
+            for(let key in item) {
                 createKey(key);
             }
         }

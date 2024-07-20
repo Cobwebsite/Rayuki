@@ -1,7 +1,8 @@
 
 
 :host {
-	--_item-box-box-size: var(--item-box-box-size, 16px);
+	--_item-box-box-size: var(--item-box-box-size, auto);
+	--_item-box-box-padding: var(--item-box-box-padding, 0 10px);
 	--_item-box-border-radius: var(--item-box-border-radius, 4px);
 	--_item-box-border-color: var(--item-box-border-color, var(--secondary-color, #afafaf));
 }
@@ -21,6 +22,7 @@
 		width: var(--_item-box-box-size);
         max-height: var(--_item-box-box-size);
         max-width: var(--_item-box-box-size);
+		padding: var(--_item-box-box-padding);
 	}
 
 	::slotted(*:first-child) {

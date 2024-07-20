@@ -1,0 +1,45 @@
+namespace Lib {
+    export class Time {
+        private static cbEachMinute: Map<Function, number> = new Map();
+        private static cbEachMinuteFirst: Map<Function, number> = new Map();
+        public static runEachMinute(cb: Function, runOnCall: boolean = true) {
+            if(this.cbEachMinute.has(cb)) return;
+
+            let missingSec = 60 - new Date().getSeconds();
+            if(runOnCall) {
+                cb();
+            }
+            if(missingSec == 0) {
+                const nb = setInterval(() => {
+                    cb();
+                }, 1000 * 60);
+                this.cbEachMinute.set(cb, nb);
+            }
+            else {
+                const nb = setTimeout(() => {
+                    this.cbEachMinuteFirst.delete(cb);
+                    cb();
+                    const nb2 = setInterval(() => {
+                        cb();
+                    }, 1000 * 60);
+                    this.cbEachMinute.set(cb, nb2);
+                }, missingSec * 1000);
+                this.cbEachMinuteFirst.set(cb, nb);
+            }
+        }
+
+        public static stopRunEachMinute(cb: Function) {
+            const timeoutValue = this.cbEachMinuteFirst.get(cb);
+            if(timeoutValue) {
+                clearTimeout(timeoutValue);
+                this.cbEachMinuteFirst.delete(cb);
+            }
+
+			const intervalValue = this.cbEachMinute.get(cb);
+            if(intervalValue) {
+                clearTimeout(intervalValue);
+                this.cbEachMinute.delete(cb);
+            }
+        }
+    }
+}

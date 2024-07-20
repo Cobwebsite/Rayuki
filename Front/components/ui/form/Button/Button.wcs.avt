@@ -10,6 +10,7 @@
 	--_button-padding: var(--button-padding, 0 16px);
 	--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);
 	--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);
+	--_button-icon-margin: var(--button-icon-margin, 10px);
 	--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));
 	--_button-color-disable: var(--button-color-disable, var(--text-disable));
 }
@@ -21,7 +22,6 @@
 	color: var(--internal-button-color);
 	cursor: pointer;
 	height: 36px;
-	min-width: 64px;
 	position: relative;
 
 	.hider {
@@ -72,14 +72,14 @@
 :host([icon_before]) {
 	.icon-before {
 		display: block;
-		margin-right: 10px;
+		margin-right: var(--_button-icon-margin);
 	}
 }
 
 :host([icon_after]) {
 	.icon-after {
 		display: block;
-		margin-left: 10px;
+		margin-left: var(--_button-icon-margin);
 	}
 }
 

@@ -205,6 +205,7 @@ namespace Components {
 
         public refresh(key: Extract<keyof T, string>): void {
             const config = this.__config[key];
+            if(!config) return;
             for(let element of config.elements) {
                 element.value = FormElement.getValue(config);
             }
