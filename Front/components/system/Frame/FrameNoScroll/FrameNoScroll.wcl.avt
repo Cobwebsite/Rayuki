@@ -11,14 +11,7 @@ namespace System {
 
 
         //#region props
-        @Property((target: FrameNoScroll) => {
-            if(target.visible) {
-                target.onShow();
-            }
-            else {
-                target.onHide();
-            }
-        })
+        @Property()
         private visible!: boolean;
 
         //#endregion
@@ -99,10 +92,12 @@ namespace System {
         public async show(state: Aventus.State): Promise<void> {
             this.state = state;
             this.visible = true;
+            this.onShow();
         }
        
         public async hide(): Promise<void> {
             this.visible = false;
+            this.onHide();
         }
         public abstract onShow();
         public abstract onHide();

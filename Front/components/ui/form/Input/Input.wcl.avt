@@ -33,8 +33,7 @@ namespace Components {
         @ViewElement()
         protected inputEl!: HTMLInputElement;
         @ViewElement()
-        protected iconEl!: Img;
-
+        protected iconEl!: Img | undefined;
         //#endregion
 
 

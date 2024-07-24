@@ -2059,6 +2059,7 @@ const Json=class Json {
         let realOptions = {
             transformValue: options?.transformValue ?? ((key, value) => value),
             replaceUndefined: options?.replaceUndefined ?? false,
+            replaceUndefinedWithKey: options?.replaceUndefinedWithKey ?? false,
         };
         return this.__classFromJson(obj, data, realOptions);
     }
@@ -2067,7 +2068,7 @@ const Json=class Json {
         for (let prop of props) {
             let propUpperFirst = prop[0].toUpperCase() + prop.slice(1);
             let value = data[prop] === undefined ? data[propUpperFirst] : data[prop];
-            if (value !== undefined || options.replaceUndefined) {
+            if (value !== undefined || options.replaceUndefined || (options.replaceUndefinedWithKey && (Object.hasOwn(data, prop) || Object.hasOwn(data, propUpperFirst)))) {
                 let propInfo = Object.getOwnPropertyDescriptor(obj, prop);
                 if (propInfo?.writable) {
                     obj[prop] = options.transformValue(prop, value);
@@ -2080,7 +2081,7 @@ const Json=class Json {
             for (let prop of props) {
                 let propUpperFirst = prop[0].toUpperCase() + prop.slice(1);
                 let value = data[prop] === undefined ? data[propUpperFirst] : data[prop];
-                if (value !== undefined || options.replaceUndefined) {
+                if (value !== undefined || options.replaceUndefined || (options.replaceUndefinedWithKey && (Object.hasOwn(data, prop) || Object.hasOwn(data, propUpperFirst)))) {
                     let propInfo = Object.getOwnPropertyDescriptor(cstTemp.prototype, prop);
                     if (propInfo?.set) {
                         obj[prop] = options.transformValue(prop, value);
@@ -3815,7 +3816,7 @@ const GenericRam=class GenericRam {
                 let id = that.getId(this);
                 let oldData = that.records.get(id);
                 if (oldData) {
-                    that.mergeObject(oldData, newData);
+                    that.mergeObject(oldData, newData, { replaceUndefinedWithKey: true });
                     let result = await that.update(oldData);
                     return result;
                 }
@@ -3830,7 +3831,7 @@ const GenericRam=class GenericRam {
                 }
                 let oldData = that.records.get(queryId.result);
                 if (oldData) {
-                    that.mergeObject(oldData, newData);
+                    that.mergeObject(oldData, newData, { replaceUndefinedWithKey: true });
                     let result = await that.updateWithError(oldData);
                     return result;
                 }
@@ -3939,13 +3940,16 @@ const GenericRam=class GenericRam {
     /**
      * Merge object and create real instance of class
      */
-    mergeObject(item, objJson) {
+    mergeObject(item, objJson, options) {
         if (!item) {
             return;
         }
-        Json.classFromJson(item, objJson, {
-            replaceUndefined: true
-        });
+        if (!options) {
+            options = {
+                replaceUndefined: true
+            };
+        }
+        Json.classFromJson(item, objJson, options);
     }
     publish(type, data) {
         [...this.subscribers[type]].forEach(callback => callback(data));

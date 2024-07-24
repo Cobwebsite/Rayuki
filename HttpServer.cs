@@ -42,11 +42,32 @@ namespace Core
             get
             {
                 DatabaseConfig? result = app.Configuration.GetSection("Database").Get<DatabaseConfig>();
-                if(result == null) {
-                    Console.WriteLine("The database section can't be found inside the appsettings.json");
-                    Environment.Exit(0);
+                if (result != null)
+                {
+                    return result;
                 }
-                return result;
+                result = DatabaseConfig.LoadFromEnv();
+                if (result != null)
+                {
+                    return result;
+                }
+
+                Console.WriteLine("The database section can't be found inside the appsettings.json");
+                Environment.Exit(0);
+                return new DatabaseConfig();
+            }
+        }
+
+        public static DefaultUserConfig DefaultUser
+        {
+            get
+            {
+                DefaultUserConfig? result = app.Configuration.GetSection("DefaultUser").Get<DefaultUserConfig>();
+                if (result != null)
+                {
+                    return result;
+                }
+                return DefaultUserConfig.LoadFromEnv();
             }
         }
 

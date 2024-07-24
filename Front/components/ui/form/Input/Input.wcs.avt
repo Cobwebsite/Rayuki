@@ -29,6 +29,7 @@
 		height: var(--_input-height);
 		padding: 0 10px;
 		width: 100%;
+		overflow: hidden;
 
 		.icon {
 			display: none;

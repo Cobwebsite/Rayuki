@@ -61,7 +61,18 @@
     <EmbeddedResource Remove="wwwroot\apps\**" />
     <None Remove="wwwroot\apps\**" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Content Remove="wwwroot\users\**" />
+    <Compile Remove="wwwroot\users\**" />
+    <EmbeddedResource Remove="wwwroot\users\**" />
+    <None Remove="wwwroot\users\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\desktops\**" />
+    <Compile Remove="wwwroot\desktops\**" />
+    <EmbeddedResource Remove="wwwroot\desktops\**" />
+    <None Remove="wwwroot\desktops\**" />
+  </ItemGroup>
 
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition=" '$(OS)' == 'Windows_NT' ">

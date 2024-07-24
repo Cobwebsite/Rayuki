@@ -1,7 +1,10 @@
 <label for="input">{{ this.label }}</label>
 <div class="input">
-    <rk-img src="{{ this.icon }}" class="icon" @element="iconEl"></rk-img>
+    <slot name="prepend">
+        <rk-img src="{{ this.icon }}" class="icon" @element="iconEl"></rk-img>
+    </slot>
     <input id="input" @element="inputEl" placeholder="{{ this.placeholder }}" @focus="removeErrors" @input="onValueChange" />
+    <slot name="append"></slot>
     <div class="error-logo">!</div>
 </div>
 <div class="errors">

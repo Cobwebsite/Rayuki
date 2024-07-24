@@ -252,6 +252,10 @@ namespace Components {
                 this.addSinglePageValue();
                 this.calculatePageLoop(this.bodyWrapper, mainChildren);
                 this.addAllPagesValue();
+                const elements = Array.from(this.shadowRoot.querySelectorAll("rk-sheet-splitter"));
+                for(let element of elements) {
+                    element.remove();
+                }
             } catch(e) {
                 console.error(e);
             }

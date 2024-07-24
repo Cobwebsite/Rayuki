@@ -16,5 +16,15 @@ namespace Lib {
             }
             return date.toLocaleDateString(locale, options);
         }
+
+        private static _localMonths: string[] = [];
+        public static getMonthsName(): string[] {
+            if(this._localMonths.length == 0) {
+                for(let i = 0; i < 12; i++) {
+                    this._localMonths.push(this.print(new Date(2024, i, 15), { month: "long" }));
+                }
+            }
+            return this._localMonths;
+        }
     }
 }

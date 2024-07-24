@@ -48,13 +48,17 @@ namespace Core.App
                     File.Delete(toDel);
                 }
 
+                DatabaseConfig config = HttpServer.Config;
                 MySQLStorage storage = new(new StorageCredentials(
-                   host: HttpServer.Config.Host,
-                   database: HttpServer.Config.Name,
-                   username: HttpServer.Config.Username,
-                   password: HttpServer.Config.Password
+                   host: config.Host,
+                   database: config.Name,
+                   username: config.Username,
+                   password: config.Password
                 ));
-                storage.Connect();
+                VoidWithError connectAction = storage.ConnectWithError();
+                if(!connectAction.Success) {
+                    return connectAction;
+                }
                 if (HttpServer.resetStorage)
                     storage.ResetStorage();
                 Storage = storage;
@@ -172,11 +176,9 @@ namespace Core.App
                                         }
                                     }
                                 }
-
                                 if (appFile != null)
                                 {
                                     apps.Add(appFile, dll);
-
                                     WebSocketMiddleware.Register(wsEndPoints, wsRoutes);
                                     RouterMiddleware.Register(httpRouters);
                                 }
@@ -207,8 +209,6 @@ namespace Core.App
                         string typeName = type.Name.Split('`')[0];
                         return assemblyName + "__" + typeName;
                     };
-                    // config.log.monitorDataOrdered = true;
-                    // config.log.monitorManagerOrdered = true;
                     config.log.printErrorInConsole = true;
                 });
 

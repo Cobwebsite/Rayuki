@@ -45,19 +45,19 @@ namespace Core.Logic
         public static ResultWithError<User> Login(string username, string password)
         {
             ResultWithError<User> result = new ();
-            ResultWithError<List<User>> users = User.WhereWithError(user => user.Username == username);
-            if (!users.Success)
+            ResultWithError<User> userQuery = User.SingleWithError(user => user.Username == username);
+            if (!userQuery.Success)
             {
-                result.Errors.AddRange(users.Errors);
+                result.Errors.AddRange(userQuery.Errors);
                 return result;
             }
-            if (users.Result == null || users.Result.Count() == 0)
+            if (userQuery.Result == null)
             {
                 result.Errors.Add(new LoginError(LoginCode.WrongCredentials, "Username and password doesn't match"));
                 return result;
             }
 
-            User user = users.Result[0];
+            User user = userQuery.Result;
             if(VerifyHashedPassword(user, password) == PasswordVerificationResult.Failed)
             {
                 result.Errors.Add(new LoginError(LoginCode.WrongCredentials, "Username and password doesn't match"));

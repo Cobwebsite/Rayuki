@@ -82,7 +82,6 @@ namespace Core.Routes
         public void Register(PushSubscription subscription)
         {
             this.subs.Add(subscription);
-            Console.WriteLine("in");
         }
         [Get, Path("/sendNotification")]
         public void SendNotification()

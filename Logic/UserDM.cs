@@ -54,24 +54,14 @@ namespace Core.Logic
         {
             if (!User.Exist(u => u.IsSuperAdmin))
             {
+                DefaultUserConfig result = HttpServer.DefaultUser;
                 new User()
                 {
-                    Firstname = "Maxime",
-                    Lastname = "Bétrisey",
-                    Password = "Pass$1234",
-                    Username = "maxime.betrisey",
+                    Firstname = result.Firstname,
+                    Lastname = result.Lastname,
+                    Password = result.Password,
+                    Username = result.Username,
                     IsSuperAdmin = true,
-                }.Create();
-            }
-
-            for (int i = 0; i < 100; i++)
-            {
-                new User()
-                {
-                    Firstname = "John" + i,
-                    Lastname = "Doe",
-                    Password = "Pass$1234",
-                    Username = "john" + i,
                 }.Create();
             }
         }
@@ -93,6 +83,7 @@ namespace Core.Logic
 
             if (user.Password != "")
             {
+                Console.WriteLine("change password to " + user.Password);
                 PasswordManager.HashPassword(user);
                 t.Field(u => u.Password);
             }
@@ -111,7 +102,12 @@ namespace Core.Logic
                 result.Errors.Add(new LoginError(LoginCode.NotConnected, "You aren't connected"));
                 return result;
             }
-            return GetByIdWithError((int)id).ToGeneric();
+            ResultWithError<User> queryUser = GetByIdWithError((int)id).ToGeneric();
+            if (queryUser.Success && queryUser.Result != null)
+            {
+                queryUser.Result.Password = "";
+            }
+            return queryUser;
         }
     }
 }
