@@ -181,11 +181,24 @@ namespace System {
         /**
          * Allow you to navigate between frames
          */
-        public async navigate(to: string | Aventus.State) {
+        public async navigate(to: string | Aventus.State): Promise<boolean> {
             let hasChanged = await this.navigator.setState(to);
             let state = this.navigator.getState();
             if(state && hasChanged) {
                 this.history.push({
+                    state: state
+                });
+                this.checkNavigationState();
+                this.saveApplicationHistory();
+            }
+            return hasChanged;
+        }
+
+        public async replaceState(to: string | Aventus.State): Promise<boolean> {
+            let hasChanged = await this.navigator.setState(to);
+            let state = this.navigator.getState();
+            if(state && hasChanged) {
+                this.history.replace({
                     state: state
                 });
                 this.checkNavigationState();

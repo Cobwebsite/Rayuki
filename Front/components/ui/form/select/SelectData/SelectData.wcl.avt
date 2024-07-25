@@ -43,8 +43,8 @@ namespace Components {
             this.data = await this.loadData();
             for(let item of this.data) {
                 let option = new OptionData();
-                option.value = await Aventus.Async(this.optionValue(item));
-                option.innerHTML = await Aventus.Async(this.optionText(item));
+                option.value = await this.optionValue(item);
+                option.innerHTML = await this.optionText(item);
                 this.appendChild(option);
             }
             this.loading = false;
@@ -78,8 +78,8 @@ namespace Components {
         protected async onCreated(item: Aventus.RamItem<U>) {
             this.data.push(item);
             let option = new OptionData();
-            option.value = await Aventus.Async(this.optionValue(item));
-            option.innerHTML = await Aventus.Async(this.optionText(item));
+            option.value = await this.optionValue(item);
+            option.innerHTML = await this.optionText(item);
             this.appendChild(option);
             this.loadElementsFromSlot();
         }
@@ -103,7 +103,7 @@ namespace Components {
             for(let i = 0; i < this.options.length; i++) {
                 let option = this.options[i];
                 if(option.value == this.optionValue(item)) {
-                    option.innerHTML = await Aventus.Async(this.optionText(item));
+                    option.innerHTML = await this.optionText(item);
                 }
             }
         }

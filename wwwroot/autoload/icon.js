@@ -25,7 +25,7 @@ const System = {};
 _.System = {};
 let _n;
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
-    static __style = `:host{background-color:#6d071a}:host rk-img{--img-stroke-color: transparent;--img-fill-color: white;flex-grow:1;height:100%;max-height:100%;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    static __style = `:host{background-color:#6d071a}:host rk-img{--img-stroke-color: transparent;--img-fill-color: white;flex-grow:1;height:100%;max-height:100%;padding:20%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
     __getStatic() {
         return AppIcon;
     }
@@ -36,7 +36,7 @@ System.AppIcon = class AppIcon extends Core.System.AppIcon {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-img src="/apps/Cave/img/grape.svg"></rk-img>` }
+        blocks: { 'default':`<rk-img src="/apps/Cave/img/configuration.svg"></rk-img>` }
     });
 }
     getClassName() {

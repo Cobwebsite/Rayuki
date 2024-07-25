@@ -6003,8 +6003,9 @@ State.ApplicationStorableState=class ApplicationStorableState extends State.Appl
     }
     set item(value) {
         if (!this.__item) {
-            this.__item = Aventus.Watcher.get(value, () => {
+            this.__item = Aventus.Watcher.get(value, (action, path, value) => {
                 this.saveState();
+                this.onItemChanged(action, path, value);
             });
         }
         try {
@@ -6017,7 +6018,8 @@ State.ApplicationStorableState=class ApplicationStorableState extends State.Appl
             console.log(e);
         }
     }
-    refreshItem(key) {
+    refreshItem(key) { }
+    onItemChanged(action, path, value) {
     }
     constructor(item) {
         super();
@@ -6141,7 +6143,7 @@ if (this.constructor == FrameNoScroll) { throw "can't instanciate an abstract cl
     }
     definePermissions(can) {
     }
-    async can(state) {
+    can(state) {
         return true;
     }
     async show(state) {
@@ -6187,7 +6189,7 @@ System.FrameStateNoScroll = class FrameStateNoScroll extends System.FrameNoScrol
     getClassName() {
         return "FrameStateNoScroll";
     }
-    async can(state) {
+    can(state) {
         if (state instanceof this.getState()) {
             return true;
         }
@@ -6252,7 +6254,7 @@ System.FrameState = class FrameState extends System.Frame {
     getClassName() {
         return "FrameState";
     }
-    async can(state) {
+    can(state) {
         if (state instanceof this.getState()) {
             return true;
         }
@@ -7199,6 +7201,18 @@ System.Application = class Application extends Aventus.WebComponent {
         let state = this.navigator.getState();
         if (state && hasChanged) {
             this.history.push({
+                state: state
+            });
+            this.checkNavigationState();
+            this.saveApplicationHistory();
+        }
+        return hasChanged;
+    }
+    async replaceState(to) {
+        let hasChanged = await this.navigator.setState(to);
+        let state = this.navigator.getState();
+        if (state && hasChanged) {
+            this.history.replace({
                 state: state
             });
             this.checkNavigationState();
@@ -10966,7 +10980,7 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
         element.errors = [];
         return true;
     }
-    static async setValue(part, value) {
+    static setValue(part, value) {
         if (part.value === undefined)
             part.value = value;
         else if (typeof part.value === "object" && part.value && Object.hasOwn(part.value, 'get') && Object.hasOwn(part.value, 'set')) {
@@ -11726,13 +11740,24 @@ Components.InternalVirtualForm=class InternalVirtualForm {
             this.registerKey(key);
         }
         const that = this;
-        this.data = new Proxy({}, {
+        const proxyData = {
+            __proxyData: {},
             get(target, prop, receiver) {
-                return that.__config[prop]?.value;
+                if (that.__config[prop]) {
+                    return Components.FormElement.getValue(that.__config[prop]);
+                }
+                if (Aventus.Watcher['__reservedName'][prop]) {
+                    return this.__proxyData[prop];
+                }
+                return undefined;
             },
             set(target, prop, value, receiver) {
                 if (that.__config[prop]) {
-                    that.__config[prop].value = value;
+                    Components.FormElement.setValue(that.__config[prop], value);
+                    return true;
+                }
+                else if (Aventus.Watcher['__reservedName'][prop]) {
+                    this.__proxyData[prop] = value;
                     return true;
                 }
                 return false;
@@ -11754,7 +11779,8 @@ Components.InternalVirtualForm=class InternalVirtualForm {
                     configurable: true,
                 };
             }
-        });
+        };
+        this.data = new Proxy({}, proxyData);
     }
     async validateAndExecute(result, application) {
         const validationResult = await this.validate(application);
@@ -11818,7 +11844,7 @@ Components.InternalVirtualForm=class InternalVirtualForm {
         return true;
     }
     async execute(query, from) {
-        let queryResult = await Aventus.Async(query);
+        let queryResult = await query;
         if (queryResult.errors.length > 0) {
             let noPrintErrors = [];
             for (let error of queryResult.errors) {
@@ -12620,7 +12646,7 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<label for="input" _id="genericselect_0"></label><div class="input" _id="genericselect_1">    <rk-img class="icon" _id="genericselect_2"></rk-img>    <input id="input" _id="genericselect_3" />    <div class="error-logo">!</div>    <rk-img src="/img/icons/angle-left.svg" class="caret"></rk-img></div><div class="errors">    <template _id="genericselect_4"></template></div><div class="hidden">    <slot></slot></div><rk-options-container class="options-container" _id="genericselect_6"></rk-options-container>` }
+        blocks: { 'default':`<label for="input" _id="genericselect_0"></label><div class="input" _id="genericselect_1">    <rk-img class="icon" _id="genericselect_2"></rk-img>    <input id="input" autocomplete="off" _id="genericselect_3" />    <div class="error-logo">!</div>    <rk-img src="/img/icons/angle-left.svg" class="caret"></rk-img></div><div class="errors">    <template _id="genericselect_4"></template></div><div class="hidden">    <slot></slot></div><rk-options-container class="options-container" _id="genericselect_6"></rk-options-container>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -13230,8 +13256,8 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
         this.data = await this.loadData();
         for (let item of this.data) {
             let option = new Components.OptionData();
-            option.value = await Aventus.Async(this.optionValue(item));
-            option.innerHTML = await Aventus.Async(this.optionText(item));
+            option.value = await this.optionValue(item);
+            option.innerHTML = await this.optionText(item);
             this.appendChild(option);
         }
         this.loading = false;
@@ -13254,8 +13280,8 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
     async onCreated(item) {
         this.data.push(item);
         let option = new Components.OptionData();
-        option.value = await Aventus.Async(this.optionValue(item));
-        option.innerHTML = await Aventus.Async(this.optionText(item));
+        option.value = await this.optionValue(item);
+        option.innerHTML = await this.optionText(item);
         this.appendChild(option);
         this.loadElementsFromSlot();
     }
@@ -13275,7 +13301,7 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
         for (let i = 0; i < this.options.length; i++) {
             let option = this.options[i];
             if (option.value == this.optionValue(item)) {
-                option.innerHTML = await Aventus.Async(this.optionText(item));
+                option.innerHTML = await this.optionText(item);
             }
         }
     }
@@ -13689,8 +13715,8 @@ if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abst
         this.data = await this.loadData();
         for (let item of this.data) {
             let option = new Components.TwoColumnsOptionData();
-            option.value = await Aventus.Async(this.optionValue(item));
-            option.innerHTML = await Aventus.Async(this.optionText(item));
+            option.value = await this.optionValue(item);
+            option.innerHTML = await this.optionText(item);
             this.appendChild(option);
         }
         this.loading = false;
@@ -13713,8 +13739,8 @@ if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abst
     async onCreated(item) {
         this.data.push(item);
         let option = new Components.TwoColumnsOptionData();
-        option.value = await Aventus.Async(this.optionValue(item));
-        option.innerHTML = await Aventus.Async(this.optionText(item));
+        option.value = await this.optionValue(item);
+        option.innerHTML = await this.optionText(item);
         this.appendChild(option);
         this.loadElementsFromSlot();
     }
@@ -13738,13 +13764,13 @@ if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abst
         for (let i = 0; i < this.optionsSelected.length; i++) {
             let option = this.optionsSelected[i];
             if (option.value == this.optionValue(item)) {
-                option.innerHTML = await Aventus.Async(this.optionText(item));
+                option.innerHTML = await this.optionText(item);
             }
         }
         for (let i = 0; i < this.optionsUnselected.length; i++) {
             let option = this.optionsUnselected[i];
             if (option.value == this.optionValue(item)) {
-                option.innerHTML = await Aventus.Async(this.optionText(item));
+                option.innerHTML = await this.optionText(item);
             }
         }
     }
@@ -15264,6 +15290,7 @@ Components.TableData = class TableData extends Components.Table {
         }, this.options.delayLoading);
     }
     onCreatedData(data) {
+        debugger;
         if (!this.data) {
             this.data = [data];
         }
@@ -15272,6 +15299,7 @@ Components.TableData = class TableData extends Components.Table {
         }
     }
     onUpdatedData(data) {
+        debugger;
         if (!this.data) {
             this.data = [data];
         }
@@ -15283,6 +15311,7 @@ Components.TableData = class TableData extends Components.Table {
         }
     }
     onDeletedData(data) {
+        debugger;
         if (!this.data)
             return;
         const index = this.data.findIndex(p => p.Id == data.Id);

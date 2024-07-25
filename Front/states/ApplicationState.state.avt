@@ -133,8 +133,9 @@ namespace State {
         private set item(value: T) {
 
             if(!this.__item) {
-                this.__item = Aventus.Watcher.get(value as object, () => {
+                this.__item = Aventus.Watcher.get(value as object, (action, path, value) => {
                     this.saveState();
+                    this.onItemChanged(action, path, value);
                 });
             }
             try {
@@ -146,7 +147,10 @@ namespace State {
                 console.log(e);
             }
         }
-        protected refreshItem(key: string) {
+        protected refreshItem(key: string) { }
+
+
+        protected onItemChanged(action: Aventus.WatchAction, path: string, value: any) {
 
         }
 

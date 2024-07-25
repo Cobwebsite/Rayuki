@@ -26,9 +26,9 @@ namespace System {
 
         //#region methods
         protected abstract getState(): new (...args: any[]) => T;
-        protected abstract onStateMissmatch(): Promise<string | boolean | ApplicationState>;
+        protected abstract onStateMissmatch():  Aventus.Asyncable<string | boolean | ApplicationState>;
 
-		public override async can(state: Aventus.State): Promise<string | boolean | ApplicationState> {
+		public override can(state: Aventus.State):  Aventus.Asyncable<string | boolean | ApplicationState> {
 			if(state instanceof this.getState()) {
 				return true;
 			}

@@ -164,6 +164,9 @@ Instance.Namespace=`Aventus`;
 
 _.Instance=Instance;
 const getValueFromObject=function getValueFromObject(path, obj) {
+    if (path === undefined) {
+        path = '';
+    }
     path = path.replace(/\[(.*?)\]/g, '.$1');
     if (path == "") {
         return obj;
@@ -968,6 +971,7 @@ const Watcher=class Watcher {
         const setProxyPath = (newProxy, newPath) => {
             if (newProxy instanceof Object && newProxy.__isProxy) {
                 newProxy.__path = newPath;
+                newProxy.__path = newPath;
             }
         };
         const jsonReplacer = (key, value) => {
@@ -1023,7 +1027,7 @@ const Watcher=class Watcher {
                 let root = element.__root;
                 if (root != proxyData.baseData) {
                     element.__validatePath();
-                    let oldPath = element.__path;
+                    let oldPath = element.__path ?? '';
                     let unbindElement = getValueFromObject(oldPath, root);
                     if (receiver == null) {
                         receiver = getValueFromObject(target.__path, realProxy);
@@ -1218,6 +1222,9 @@ const Watcher=class Watcher {
                     };
                 }
                 else if (prop == "toJSON") {
+                    if (target.toJSON) {
+                        return target.toJSON;
+                    }
                     if (Array.isArray(target)) {
                         return () => {
                             let result = [];

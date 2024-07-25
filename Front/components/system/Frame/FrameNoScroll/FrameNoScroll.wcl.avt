@@ -86,7 +86,7 @@ namespace System {
          * False will prevent showing
          * string or state will redirect to the page
          */
-        public async can(state: Aventus.State): Promise<boolean | ApplicationState | string> {
+        public can(state: Aventus.State):  Aventus.Asyncable<boolean | ApplicationState | string> {
             return true;
         }
         public async show(state: Aventus.State): Promise<void> {

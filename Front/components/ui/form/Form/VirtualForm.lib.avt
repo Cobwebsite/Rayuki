@@ -2,6 +2,7 @@ import type { ApplicationQueryFctResult } from "../../../system/Application/Appl
 import { Application } from "../../../system/Application/Application.wcl.avt";
 import type { BodyJSON, FormData, FormPart, FormValidateResult } from "./FormType.lib.avt";
 import { FormElement } from "../FormElement/FormElement.wcl.avt";
+import { Watcher } from "Aventus@Main:Aventus.package.avt";
 
 namespace Components {
 
@@ -48,13 +49,24 @@ namespace Components {
                 this.registerKey(key);
             }
             const that = this;
-            this.data = new Proxy({}, {
+            const proxyData = {
+                __proxyData:{},
                 get(target, prop, receiver) {
-                    return that.__config[prop as string]?.value;
+                    if(that.__config[prop as string]) {
+                        return FormElement.getValue(that.__config[prop as string]);
+                    }
+                    if(Aventus.Watcher['__reservedName'][prop]) {
+                        return this.__proxyData[prop];
+                    }
+                    return undefined;
                 },
                 set(target, prop, value, receiver) {
                     if(that.__config[prop as string]) {
-                        that.__config[prop as string].value = value;
+                        FormElement.setValue(that.__config[prop as string], value);
+                        return true;
+                    }
+                    else if(Aventus.Watcher['__reservedName'][prop]) {
+                        this.__proxyData[prop] = value;
                         return true;
                     }
                     return false;
@@ -76,7 +88,8 @@ namespace Components {
                         configurable: true,
                     };
                 }
-            });
+            }
+            this.data = new Proxy({}, proxyData);
         }
 
         public async validateAndExecute<X>(result: Aventus.Asyncable<ApplicationQueryFctResult<X>>, application: Application): Promise<X | undefined> {
@@ -155,7 +168,7 @@ namespace Components {
         public execute<X>(query: Aventus.Asyncable<ApplicationQueryFctResult<X>>, from: Application): Promise<X | undefined>;
         public execute<X>(query: Aventus.Asyncable<ApplicationQueryFctResult<X>>, from?: Aventus.WebComponent | undefined): Promise<ApplicationQueryFctResult<X>>;
         public async execute<X>(query: Aventus.Asyncable<ApplicationQueryFctResult<X>>, from?: Application | Aventus.WebComponent): Promise<ApplicationQueryFctResult<X> | Awaited<X> | undefined> {
-            let queryResult = await Aventus.Async(query);
+            let queryResult = await query;
 
             if(queryResult.errors.length > 0) {
                 let noPrintErrors: Aventus.GenericError[] = [];
