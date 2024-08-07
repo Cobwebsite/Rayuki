@@ -54,7 +54,6 @@ namespace Components {
 
         @BindThis()
         protected onCreatedData(data: T) {
-            debugger
             if(!this.data) {
                 this.data = [data];
             }
@@ -65,7 +64,6 @@ namespace Components {
 
         @BindThis()
         protected onUpdatedData(data: T) {
-            debugger
             if(!this.data) {
                 this.data = [data];
             }
@@ -79,7 +77,6 @@ namespace Components {
 
         @BindThis()
         protected onDeletedData(data: T) {
-            debugger
             if(!this.data) return;
             const index = this.data.findIndex(p => p.Id == data.Id);
             if(index != -1) {

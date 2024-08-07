@@ -115,7 +115,7 @@
 	}
 }
 
-:host([show_close]) {
+:host([show_close]:not([no_undefined])) {
 	.input {
 		.close-icon {
 			display: inline-block;

@@ -10,7 +10,8 @@ namespace Components {
 
 
         //#region props
-
+        @Attribute()
+        public txt_undefined?: string;
         //#endregion
 
 
@@ -43,6 +44,12 @@ namespace Components {
         }
 
         protected createOptions() {
+            if(this.txt_undefined !== undefined) {
+                let option = new OptionEnum();
+                option.value = undefined;
+                option.innerHTML = this.txt_undefined === "" ? "&nbsp;" : this.txt_undefined;
+                this.appendChild(option);
+            }
             let _enum = this.defineEnum();
             for(let key in _enum) {
                 if(!key.match(/^\d*$/)) {

@@ -13,6 +13,8 @@ namespace Components {
         //#region props
         @Attribute()
         public loading!: boolean;
+        @Attribute()
+        public txt_undefined?: string;
         //#endregion
 
 
@@ -41,6 +43,12 @@ namespace Components {
         protected async createOptions() {
             this.loading = true;
             this.data = await this.loadData();
+            if(this.txt_undefined !== undefined) {
+                let option = new OptionData();
+                option.value = undefined;
+                option.innerHTML = this.txt_undefined === "" ? "&nbsp;" : this.txt_undefined;
+                this.appendChild(option);
+            }
             for(let item of this.data) {
                 let option = new OptionData();
                 option.value = await this.optionValue(item);

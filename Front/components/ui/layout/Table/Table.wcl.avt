@@ -284,11 +284,11 @@ namespace Components {
             }
 
             if(this.options.timeoutBeforeLoading !== undefined) {
-                this.timeoutBeforeLoading = this.options.timeoutBeforeLoading
+                this.timeoutBeforeLoading = this.options.timeoutBeforeLoading;
             }
 
             if(this.options.minTimeoutLoading !== undefined) {
-                this.minTimeoutLoading = this.options.minTimeoutLoading
+                this.minTimeoutLoading = this.options.minTimeoutLoading;
             }
         }
         protected defaultOptions(): TableOptions<T> {
@@ -319,18 +319,22 @@ namespace Components {
         }
 
         public setSortColumn(column: string, order: 'asc' | 'desc' | undefined) {
-            let cell = this.header.cells[column];
-            if(!(cell instanceof TableCellHeader)) return;
+            if(!this.isFirstRender) {
+                let cell = this.header.cells[column];
+                if(!(cell instanceof TableCellHeader)) return;
 
-            cell.sort_direction = order;
-
+                cell.sort_direction = order;
+            }
             if(order === undefined) {
                 delete this.sortColumns[column];
             }
             else {
                 this.sortColumns[column] = order;
             }
-            this.render(order !== undefined);
+
+            if(!this.isFirstRender) {
+                this.render(order !== undefined);
+            }
         }
 
         protected filterData(forceRender: boolean = false) {
@@ -404,6 +408,14 @@ namespace Components {
 
                 this.headerContainer.innerHTML = "";
                 this.headerContainer.appendChild(this.header);
+
+                for(let column in this.sortColumns) {
+                    let cell = this.header.cells[column];
+                    if(!(cell instanceof TableCellHeader)) return;
+    
+                    cell.sort_direction = this.sortColumns[column];
+                }
+                
             }
         }
         protected render(onlySort: boolean = false) {
@@ -564,6 +576,9 @@ namespace Components {
             }
             if(reload && this.isReady)
                 this.filterData();
+        }
+        public applyFilters() {
+            this.filterData();
         }
         protected registerObserver() {
             this.resizeObserver = new Aventus.ResizeObserver(() => {

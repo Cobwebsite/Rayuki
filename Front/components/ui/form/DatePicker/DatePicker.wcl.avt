@@ -38,6 +38,9 @@ namespace Components {
 
         @Attribute()
         protected show_close!: boolean;
+
+        @Attribute()
+        public no_undefined!: boolean;
         //#endregion
 
 

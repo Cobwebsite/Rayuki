@@ -35,7 +35,7 @@
 
   <ItemGroup>
     <Reference Include="AventusSharp">
-      <HintPath>..\..\..\Aventus\AvenutsSharp\AvenutsSharp\bin\Debug\net7.0\AventusSharp.dll</HintPath>
+      <HintPath>lib\AventusSharp.dll</HintPath>
     </Reference>
     <Reference Include="WebPush">
       <HintPath>lib\WebPush.dll</HintPath>

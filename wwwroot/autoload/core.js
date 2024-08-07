@@ -12159,7 +12159,8 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
     set 'locale'(val) { this.setStringAttr('locale', val) }get 'time_zone'() { return this.getStringAttr('time_zone') }
     set 'time_zone'(val) { this.setStringAttr('time_zone', val) }get 'hide_on_select'() { return this.getBoolAttr('hide_on_select') }
     set 'hide_on_select'(val) { this.setBoolAttr('hide_on_select', val) }get 'show_close'() { return this.getBoolAttr('show_close') }
-    set 'show_close'(val) { this.setBoolAttr('show_close', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'show_close'(val) { this.setBoolAttr('show_close', val) }get 'no_undefined'() { return this.getBoolAttr('no_undefined') }
+    set 'no_undefined'(val) { this.setBoolAttr('no_undefined', val) }    get 'label'() { return this.getStringProp('label') }
     set 'label'(val) { this.setStringAttr('label', val) }get 'icon'() { return this.getStringProp('icon') }
     set 'icon'(val) { this.setStringAttr('icon', val) }    get 'value'() {
 						return this.__watch["value"];
@@ -12172,7 +12173,7 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
     target.renderDate();
 }));    super.__registerWatchesActions();
 }
-    static __style = `:host{--_datepicker-height: var(--input-height, 30px);--_datepicker-background-color: var(--input-background-color, var(--form-element-background, white));--_datepicker-icon-height: var(--input-icon-height, calc(var(--_datepicker-height) / 2));--_datepicker-error-logo-size: var(--input-error-logo-size, calc(var(--_datepicker-height) / 2));--_datepicker-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_datepicker-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_datepicker-font-size) * 0.95)));--_datepicker-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_datepicker-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_datepicker-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_datepicker-background-color);border:var(--_datepicker-input-border);border-radius:var(--_datepicker-border-radius);display:flex;height:var(--_datepicker-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_datepicker-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_datepicker-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .close-icon{font-size:18px;flex-shrink:0;display:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_datepicker-error-logo-size) - 5px);height:var(--_datepicker-error-logo-size);justify-content:center;width:var(--_datepicker-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([show_close]) .input .close-icon{display:inline-block}`;
+    static __style = `:host{--_datepicker-height: var(--input-height, 30px);--_datepicker-background-color: var(--input-background-color, var(--form-element-background, white));--_datepicker-icon-height: var(--input-icon-height, calc(var(--_datepicker-height) / 2));--_datepicker-error-logo-size: var(--input-error-logo-size, calc(var(--_datepicker-height) / 2));--_datepicker-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_datepicker-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_datepicker-font-size) * 0.95)));--_datepicker-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_datepicker-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_datepicker-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_datepicker-background-color);border:var(--_datepicker-input-border);border-radius:var(--_datepicker-border-radius);display:flex;height:var(--_datepicker-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_datepicker-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_datepicker-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .close-icon{font-size:18px;flex-shrink:0;display:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_datepicker-error-logo-size) - 5px);height:var(--_datepicker-error-logo-size);justify-content:center;width:var(--_datepicker-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([show_close]:not([no_undefined])) .input .close-icon{display:inline-block}`;
     constructor() {
             super();
             this.bindCalendar();
@@ -12251,10 +12252,10 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
     getClassName() {
         return "DatePicker";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('year_format')){ this['year_format'] = "numeric"; }if(!this.hasAttribute('month_format')){ this['month_format'] = "2-digit"; }if(!this.hasAttribute('day_format')){ this['day_format'] = "2-digit"; }if(!this.hasAttribute('locale')){ this['locale'] = undefined; }if(!this.hasAttribute('time_zone')){ this['time_zone'] = undefined; }if(!this.hasAttribute('hide_on_select')) { this.attributeChangedCallback('hide_on_select', false, false); }if(!this.hasAttribute('show_close')) { this.attributeChangedCallback('show_close', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('year_format')){ this['year_format'] = "numeric"; }if(!this.hasAttribute('month_format')){ this['month_format'] = "2-digit"; }if(!this.hasAttribute('day_format')){ this['day_format'] = "2-digit"; }if(!this.hasAttribute('locale')){ this['locale'] = undefined; }if(!this.hasAttribute('time_zone')){ this['time_zone'] = undefined; }if(!this.hasAttribute('hide_on_select')) { this.attributeChangedCallback('hide_on_select', false, false); }if(!this.hasAttribute('show_close')) { this.attributeChangedCallback('show_close', false, false); }if(!this.hasAttribute('no_undefined')) { this.attributeChangedCallback('no_undefined', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('year_format');this.__upgradeProperty('month_format');this.__upgradeProperty('day_format');this.__upgradeProperty('locale');this.__upgradeProperty('time_zone');this.__upgradeProperty('hide_on_select');this.__upgradeProperty('show_close');this.__upgradeProperty('label');this.__upgradeProperty('icon');this.__correctGetter('value'); }
-    __listBoolProps() { return ["hide_on_select","show_close"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('year_format');this.__upgradeProperty('month_format');this.__upgradeProperty('day_format');this.__upgradeProperty('locale');this.__upgradeProperty('time_zone');this.__upgradeProperty('hide_on_select');this.__upgradeProperty('show_close');this.__upgradeProperty('no_undefined');this.__upgradeProperty('label');this.__upgradeProperty('icon');this.__correctGetter('value'); }
+    __listBoolProps() { return ["hide_on_select","show_close","no_undefined"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     defineCalendar() {
         return Components.DatePickerCalendar;
     }
@@ -12912,7 +12913,8 @@ _.Components.OptionEnum=Components.OptionEnum;
 if(!window.customElements.get('rk-option-enum')){window.customElements.define('rk-option-enum', Components.OptionEnum);Aventus.WebComponentInstance.registerDefinition(Components.OptionEnum);}
 
 Components.SelectEnum = class SelectEnum extends Components.GenericSelect {
-    enumEl;
+    get 'txt_undefined'() { return this.getStringAttr('txt_undefined') }
+    set 'txt_undefined'(val) { this.setStringAttr('txt_undefined', val) }    enumEl;
     static __style = ``;
     constructor() {
             super();
@@ -12936,6 +12938,8 @@ if (this.constructor == SelectEnum) { throw "can't instanciate an abstract class
     getClassName() {
         return "SelectEnum";
     }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('txt_undefined')){ this['txt_undefined'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('txt_undefined'); }
     itemToText(option) {
         return option.innerHTML;
     }
@@ -12943,6 +12947,12 @@ if (this.constructor == SelectEnum) { throw "can't instanciate an abstract class
         return this.enumEl[value];
     }
     createOptions() {
+        if (this.txt_undefined !== undefined) {
+            let option = new Components.OptionEnum();
+            option.value = undefined;
+            option.innerHTML = this.txt_undefined === "" ? "&nbsp;" : this.txt_undefined;
+            this.appendChild(option);
+        }
         let _enum = this.defineEnum();
         for (let key in _enum) {
             if (!key.match(/^\d*$/)) {
@@ -13222,7 +13232,8 @@ if(!window.customElements.get('rk-item-box-option')){window.customElements.defin
 
 Components.SelectData = class SelectData extends Components.GenericSelect {
     get 'loading'() { return this.getBoolAttr('loading') }
-    set 'loading'(val) { this.setBoolAttr('loading', val) }    data = [];
+    set 'loading'(val) { this.setBoolAttr('loading', val) }get 'txt_undefined'() { return this.getStringAttr('txt_undefined') }
+    set 'txt_undefined'(val) { this.setStringAttr('txt_undefined', val) }    data = [];
     isInit = false;
     static __style = ``;
     constructor() {
@@ -13245,8 +13256,8 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
     getClassName() {
         return "SelectData";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading'); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('txt_undefined')){ this['txt_undefined'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading');this.__upgradeProperty('txt_undefined'); }
     __listBoolProps() { return ["loading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     itemToText(option) {
         return option.innerHTML;
@@ -13254,6 +13265,12 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
     async createOptions() {
         this.loading = true;
         this.data = await this.loadData();
+        if (this.txt_undefined !== undefined) {
+            let option = new Components.OptionData();
+            option.value = undefined;
+            option.innerHTML = this.txt_undefined === "" ? "&nbsp;" : this.txt_undefined;
+            this.appendChild(option);
+        }
         for (let item of this.data) {
             let option = new Components.OptionData();
             option.value = await this.optionValue(item);
@@ -14159,17 +14176,21 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
         return data;
     }
     setSortColumn(column, order) {
-        let cell = this.header.cells[column];
-        if (!(cell instanceof Components.TableCellHeader))
-            return;
-        cell.sort_direction = order;
+        if (!this.isFirstRender) {
+            let cell = this.header.cells[column];
+            if (!(cell instanceof Components.TableCellHeader))
+                return;
+            cell.sort_direction = order;
+        }
         if (order === undefined) {
             delete this.sortColumns[column];
         }
         else {
             this.sortColumns[column] = order;
         }
-        this.render(order !== undefined);
+        if (!this.isFirstRender) {
+            this.render(order !== undefined);
+        }
     }
     filterData(forceRender = false) {
         let result = [];
@@ -14238,6 +14259,12 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
             this.header.init(this.options);
             this.headerContainer.innerHTML = "";
             this.headerContainer.appendChild(this.header);
+            for (let column in this.sortColumns) {
+                let cell = this.header.cells[column];
+                if (!(cell instanceof Components.TableCellHeader))
+                    return;
+                cell.sort_direction = this.sortColumns[column];
+            }
         }
     }
     render(onlySort = false) {
@@ -14372,6 +14399,9 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
         }
         if (reload && this.isReady)
             this.filterData();
+    }
+    applyFilters() {
+        this.filterData();
     }
     registerObserver() {
         this.resizeObserver = new Aventus.ResizeObserver(() => {
@@ -15290,7 +15320,6 @@ Components.TableData = class TableData extends Components.Table {
         }, this.options.delayLoading);
     }
     onCreatedData(data) {
-        debugger;
         if (!this.data) {
             this.data = [data];
         }
@@ -15299,7 +15328,6 @@ Components.TableData = class TableData extends Components.Table {
         }
     }
     onUpdatedData(data) {
-        debugger;
         if (!this.data) {
             this.data = [data];
         }
@@ -15311,7 +15339,6 @@ Components.TableData = class TableData extends Components.Table {
         }
     }
     onDeletedData(data) {
-        debugger;
         if (!this.data)
             return;
         const index = this.data.findIndex(p => p.Id == data.Id);
