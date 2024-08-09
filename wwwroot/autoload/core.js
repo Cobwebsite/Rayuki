@@ -5996,50 +5996,6 @@ State.ApplicationState.$schema={...(Aventus.State?.$schema ?? {}), "$type":"stri
 Aventus.Converter.register(State.ApplicationState.Fullname, State.ApplicationState);
 
 _.State.ApplicationState=State.ApplicationState;
-State.ApplicationStorableState=class ApplicationStorableState extends State.ApplicationState {
-    __item;
-    get item() {
-        return this.__item;
-    }
-    set item(value) {
-        if (!this.__item) {
-            this.__item = Aventus.Watcher.get(value, (action, path, value) => {
-                this.saveState();
-                this.onItemChanged(action, path, value);
-            });
-        }
-        try {
-            for (let key in value) {
-                this.__item[key] = value[key];
-                this.refreshItem(key);
-            }
-        }
-        catch (e) {
-            console.log(e);
-        }
-    }
-    refreshItem(key) { }
-    onItemChanged(action, path, value) {
-    }
-    constructor(item) {
-        super();
-        if (item) {
-            this.item = item;
-        }
-        else {
-            this.item = this.newElement();
-        }
-    }
-    syncField(addField) {
-        super.syncField(addField);
-        addField("item");
-    }
-}
-State.ApplicationStorableState.Namespace=`Core.State`;
-State.ApplicationStorableState.$schema={...(State.ApplicationState?.$schema ?? {}), "__item":"T","item":"T"};
-Aventus.Converter.register(State.ApplicationStorableState.Fullname, State.ApplicationStorableState);
-
-_.State.ApplicationStorableState=State.ApplicationStorableState;
 State.ApplicationEmptyState=class ApplicationEmptyState extends State.ApplicationState {
     localName;
     constructor(stateName) {
@@ -6084,9 +6040,14 @@ _.System.ApplicationHistoryConvert=System.ApplicationHistoryConvert;
 System.FrameNoScroll = class FrameNoScroll extends Aventus.WebComponent {
     static get observedAttributes() {return ["visible"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'visible'() { return this.getBoolProp('visible') }
-    set 'visible'(val) { this.setBoolAttr('visible', val) }    state;
-    application;
+    set 'visible'(val) { this.setBoolAttr('visible', val) }    get 'state'() {
+						return this.__signals["state"].value;
+					}
+					set 'state'(val) {
+						this.__signals["state"].value = val;
+					}    application;
     resetNavElement;
+    __registerSignalsActions() { this.__signals["state"] = null; super.__registerSignalsActions();  }
     static __style = `:host{display:none;height:100%;width:100%}:host .opacity-wrapper{animation-delay:var(--local-frame-animation-delay, 0ms);animation-duration:200ms;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);display:none;height:100%;visibility:hidden;width:100%}:host([visible]){display:block}:host([visible]) .opacity-wrapper{display:block}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}`;
     constructor() {
             super();
@@ -6110,7 +6071,8 @@ if (this.constructor == FrameNoScroll) { throw "can't instanciate an abstract cl
         return "FrameNoScroll";
     }
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible'); }
+    __defaultValuesSignal(s) { super.__defaultValuesSignal(s); s["state"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__correctGetter('state'); }
     __listBoolProps() { return ["visible"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     addFadeIn() {
         this.style.setProperty("--local-frame-animation-delay", "200ms");
@@ -7089,7 +7051,7 @@ System.Application = class Application extends Aventus.WebComponent {
     target.onIsHiddenChange();
 })); }
     static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{backdrop-filter:blur(2px);background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;pointer-events:none;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:var(--border-radius-round);height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host rk-notification-manager{top:35px}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}:host rk-notification-manager{top:45px}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 45px)}:host rk-resize{display:none}:host rk-notification-manager{top:45px}:host([is_hidden]){left:0 !important;width:100% !important}}`;
-    constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);            this.shortcutManager = new System.ApplicationShortcut(this);            this.shortcutManager.init();if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.onContextMenuContent=this.onContextMenuContent.bind(this)this.onContextMenuHeader=this.onContextMenuHeader.bind(this)this.validError404=this.validError404.bind(this)this.showErrorNotAllowed=this.showErrorNotAllowed.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this)this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)this.moveApplicationToRight=this.moveApplicationToRight.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this)this.notify=this.notify.bind(this)this.parseErrors=this.parseErrors.bind(this)this.execute=this.execute.bind(this)this.executeWithLoading=this.executeWithLoading.bind(this)this.showLoading=this.showLoading.bind(this) }
+    constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);            this.shortcutManager = new System.ApplicationShortcut(this);            this.shortcutManager.init();if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.onContextMenuContent=this.onContextMenuContent.bind(this)this.onContextMenuHeader=this.onContextMenuHeader.bind(this)this.validError404=this.validError404.bind(this)this.showErrorNotAllowed=this.showErrorNotAllowed.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this)this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)this.moveApplicationToRight=this.moveApplicationToRight.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this)this.notify=this.notify.bind(this)this.popupErrors=this.popupErrors.bind(this)this.parseErrors=this.parseErrors.bind(this)this.execute=this.execute.bind(this)this.executeWithLoading=this.executeWithLoading.bind(this)this.showLoading=this.showLoading.bind(this) }
     __getStatic() {
         return Application;
     }
@@ -7284,7 +7246,10 @@ System.Application = class Application extends Aventus.WebComponent {
                             await this.oldFrame.hide();
                             if (this.shouldDestroyFrame(this.oldFrame)) {
                                 this.oldFrame.remove();
-                                this.oldFrame.resetNavElement();
+                                // resetNavElement not set for 404 or 405
+                                if (this.oldFrame.resetNavElement) {
+                                    this.oldFrame.resetNavElement();
+                                }
                             }
                         }
                         let oldPage = this.oldFrame;
@@ -7662,15 +7627,20 @@ System.Application = class Application extends Aventus.WebComponent {
     notify(notification) {
         return this.notificationManager.notify(notification);
     }
-    async parseErrors(result) {
-        if (result.errors.length > 0) {
-            let msg = result.errors.map(p => p.message).join("<br/>");
+    async popupErrors(errors) {
+        if (errors.length > 0) {
+            let msg = errors.map(p => p.message).join("<br/>");
             await this.alert({
                 title: "Error",
                 description: msg,
                 behind: false,
                 min_width: '300px',
             });
+        }
+    }
+    async parseErrors(result) {
+        if (result.errors.length > 0) {
+            await this.popupErrors(result.errors);
             return undefined;
         }
         if (result instanceof Aventus.ResultWithError)
@@ -10805,107 +10775,394 @@ Components.SheetPreview.Tag=`rk-sheet-preview`;
 _.Components.SheetPreview=Components.SheetPreview;
 if(!window.customElements.get('rk-sheet-preview')){window.customElements.define('rk-sheet-preview', Components.SheetPreview);Aventus.WebComponentInstance.registerDefinition(Components.SheetPreview);}
 
-Components.formDataBuilder=function formDataBuilder(item, settings) {
-    if (!settings) {
-        settings = {};
+Components.VirtualForm=class VirtualForm {
+    __watcher;
+    get item() {
+        return this.__watcher.item;
     }
-    const final = {};
-    const createKey = (key) => {
-        final[key] = {
-            value: {
-                get: () => {
-                    return item[key];
-                },
-                set: (v) => {
-                    item[key] = v;
-                }
+    set item(item) {
+        this.__watcher.item = item;
+    }
+    get parts() {
+        return this.__watcher.form;
+    }
+    _elements = {};
+    get elements() {
+        return { ...this._elements };
+    }
+    constructor() {
+        this.onWatcherChanged = this.onWatcherChanged.bind(this);
+        this.__watcher = Aventus.Watcher.get({
+            form: {}
+        }, this.onWatcherChanged);
+    }
+    transformForm(form) {
+        const result = form;
+        const createKey = (key) => {
+            this.transformFormPart(key, result[key]);
+        };
+        for (let key in result) {
+            createKey(key);
+        }
+        return result;
+    }
+    transformFormPart(key, part) {
+        if (!part)
+            return;
+        const realPart = part;
+        realPart.onValidation = new Aventus.Callback();
+        realPart.onValueChange = new Aventus.Callback();
+        if (!this._elements[key]) {
+            this._elements[key] = [];
+        }
+        realPart.register = (el) => {
+            if (!this._elements[key].includes(el)) {
+                this._elements[key].push(el);
             }
         };
-        if (settings.generalValidation && settings.validation && settings.validation[key]) {
-            const gV = settings.generalValidation;
-            const v = settings.validation[key];
-            final[key].validate = async (value) => {
-                let gVR = await gV(key, value);
-                if (gVR !== undefined && gVR !== true && gVR !== "") {
-                    return gVR;
-                }
-                let vR = await v(value);
-                if (vR !== undefined && vR !== true && vR !== "") {
-                    return vR;
-                }
-                return true;
-            };
-        }
-        else if (settings.generalValidation) {
-            const gV = settings.generalValidation;
-            final[key].validate = async (value) => {
-                return await gV(key, value);
-            };
-        }
-        else if (settings.validation && settings.validation[key]) {
-            final[key].validate = settings.validation[key];
-        }
-        if (settings.validateOnChange && settings.validateOnChange[key] !== undefined) {
-            final[key].validateOnChange = settings.validateOnChange[key];
-        }
-        else if (settings.generalValidateOnChange !== undefined) {
-            final[key].validateOnChange = settings.generalValidateOnChange;
-        }
-    };
-    if (settings.keysNotDefined) {
-        const proxyData = {
-            get(target, prop, receiver) {
-                if (!final[prop]) {
-                    createKey(prop);
-                }
-                return Reflect.get(target, prop, receiver);
+        realPart.unregister = (el) => {
+            const index = this._elements[key].indexOf(el);
+            if (index != -1) {
+                this._elements[key].splice(index, 1);
+            }
+        };
+        realPart.value = {
+            get: () => {
+                return Aventus.getValueFromObject(key, this.item);
             },
-            set(target, prop, value, receiver) {
-                if (!final[prop]) {
-                    createKey(prop);
+            set: (value) => {
+                return Aventus.setValueToObject(key, this.item, value);
+            }
+        };
+    }
+    setForm(item) {
+        this.__watcher.form = this.transformForm(item);
+    }
+    addFormEntry(name, part) {
+        this.transformFormPart(name, part);
+        let form = this.parts;
+        form[name] = part;
+    }
+    removeFormEntry(name) {
+        if (!this.parts)
+            return;
+        for (let key in this.parts) {
+            if (key == name) {
+                delete this.parts[key];
+                return;
+            }
+        }
+    }
+    destroy() {
+        delete this.__watcher.form;
+        if (this.__watcher.item) {
+            delete this.__watcher.item;
+        }
+        this.__watcher = undefined;
+        this.onItemChange.clear();
+    }
+    init(config) {
+        this.globalValidation = config.validate;
+        this.validateOnChange = config.validateOnChange;
+        this.handleValidateNoInputError = config.handleValidateNoInputError;
+        this.handleExecuteNoInputError = config.handleExecuteNoInputError;
+    }
+    _globalValidation;
+    set globalValidation(fct) {
+        this._globalValidation = fct;
+    }
+    _validateOnChange;
+    set validateOnChange(value) {
+        this._validateOnChange = value;
+    }
+    _handleValidateNoInputError;
+    set handleValidateNoInputError(value) {
+        this._handleValidateNoInputError = value;
+    }
+    _handleExecuteNoInputError;
+    set handleExecuteNoInputError(value) {
+        this._handleExecuteNoInputError = value;
+    }
+    onItemChange = new Aventus.Callback();
+    async onWatcherChanged(action, path, value) {
+        if (!this.parts)
+            return;
+        if (path == "item") {
+            for (let key in this.parts) {
+                let formPart = this.parts[key];
+                formPart.onValueChange.trigger([]);
+            }
+        }
+        else if (path.startsWith("item.")) {
+            let key = path.substring("item.".length);
+            if (this.parts[key]) {
+                let formPart = this.parts[key];
+                formPart.onValueChange.trigger([]);
+                const validateOnChange = formPart.validateOnChange === undefined ? this._validateOnChange : formPart.validateOnChange;
+                if (validateOnChange) {
+                    this.validate(key);
                 }
-                return Reflect.set(target, prop, value, receiver);
-            },
-            deleteProperty(target, prop) {
-                if (target.hasOwnProperty(prop)) {
-                    delete target[prop];
-                    return true;
-                }
-                return false;
-            },
-            defineProperty(target, prop, descriptor) {
-                if (!final[prop]) {
-                    createKey(prop);
-                }
-                return true;
-            },
-            ownKeys(target) {
-                return Reflect.ownKeys(target);
-            },
-            getOwnPropertyDescriptor(k) {
-                return {
-                    enumerable: true,
-                    configurable: true,
+            }
+            this.onItemChange.trigger([action, key, value]);
+        }
+    }
+    async _validate(key) {
+        if (!this.parts)
+            return { "@general": ["Aucun formulaire trouvé"] };
+        if (key !== undefined) {
+            let errorsForm = [];
+            if (this.parts[key]) {
+                let formPart = this.parts[key];
+                let errorsForm = [];
+                let value = formPart.value.get();
+                const resultToError = (result) => {
+                    if (result === false) {
+                        errorsForm.push('Le champs n\'est pas valide');
+                    }
+                    else if (typeof result == 'string' && result !== "") {
+                        errorsForm.push(result);
+                    }
+                    else if (Array.isArray(result)) {
+                        errorsForm = [...errorsForm, ...result];
+                    }
                 };
+                if (formPart.validate) {
+                    const global = async () => {
+                        if (this._globalValidation) {
+                            const result = await this._globalValidation(key, value);
+                            resultToError(result);
+                        }
+                    };
+                    let result = await formPart.validate(value, global);
+                    resultToError(result);
+                    const errors2d = await Promise.all(formPart.onValidation.trigger([errorsForm]));
+                    const errors = [];
+                    for (let errorsTemp of errors2d) {
+                        for (let errorTemp of errorsTemp) {
+                            if (!errors.includes(errorTemp)) {
+                                errors.push(errorTemp);
+                            }
+                        }
+                    }
+                }
+                else if (this._globalValidation) {
+                    const result = await this._globalValidation(key, value);
+                    resultToError(result);
+                }
+            }
+            return errorsForm.length == 0 ? {} : { [key]: errorsForm };
+        }
+        let errors = {};
+        for (let key in this.parts) {
+            errors = { ...errors, ...await this._validate(key) };
+        }
+        return errors;
+    }
+    async validate(key) {
+        const result = this._validate(key);
+        const unhandle = {};
+        let triggerUnhandle = false;
+        for (let key in result) {
+            if (!this._elements[key] || this._elements[key].length == 0) {
+                triggerUnhandle = true;
+                unhandle[key] = result[key];
+            }
+        }
+        if (triggerUnhandle && this._handleValidateNoInputError) {
+            this._handleValidateNoInputError(unhandle);
+        }
+        return Object.keys(result).length == 0;
+    }
+    async execute(query) {
+        let queryResult = await query;
+        if (queryResult.errors.length > 0) {
+            let noPrintErrors = [];
+            const elements = this.elements;
+            for (let error of queryResult.errors) {
+                if (error.details) {
+                    let found = false;
+                    for (let detail of error.details) {
+                        if (detail instanceof AventusSharp.Data.FieldErrorInfo) {
+                            if (elements[detail.Name]) {
+                                for (const element of elements[detail.Name]) {
+                                    element.errors.push(error.message);
+                                }
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (found) {
+                        continue;
+                    }
+                }
+                noPrintErrors.push(error);
+            }
+            if (noPrintErrors.length > 0 && this._handleExecuteNoInputError) {
+                this._handleExecuteNoInputError(noPrintErrors);
+            }
+            queryResult.errors = noPrintErrors;
+        }
+        return queryResult;
+    }
+}
+Components.VirtualForm.Namespace=`Core.Components`;
+
+_.Components.VirtualForm=Components.VirtualForm;
+State.ApplicationFormState=class ApplicationFormState extends State.ApplicationState {
+    _form;
+    get form() {
+        return this._form.parts;
+    }
+    get item() {
+        return this._form.item;
+    }
+    set item(item) {
+        this._form.item = item;
+    }
+    constructor() {
+        super();
+        this._form = new Components.VirtualForm();
+        this._form.setForm(this.defineForm());
+        this._form.init(this.configureForm(this.defaultConfigureForm()));
+        this._onItemChange = this._onItemChange.bind(this);
+        this._form.onItemChange.add(this._onItemChange);
+    }
+    _onItemChange(action, path, value) {
+        this.saveState();
+        this.onItemChange(action, path, value);
+    }
+    onItemChange(action, path, value) {
+    }
+    defaultConfigureForm() {
+        return {
+            handleValidateNoInputError: (errors) => {
+                this.application.alert({
+                    title: "Erreur de validation",
+                    description: Object.values(errors).flat().join("<br>")
+                });
+            },
+            handleExecuteNoInputError: (errors) => {
+                //this.application.popupErrors(errors);
             }
         };
-        var proxy = new Proxy(final, proxyData);
-        return proxy;
     }
-    else if (settings.keys) {
-        for (let key of settings.keys) {
-            createKey(key);
-        }
+    syncField(addField) {
+        super.syncField(addField);
+        addField("item");
     }
-    else {
-        for (let key in item) {
-            createKey(key);
-        }
+    validate(key) {
+        return this._form.validate(key);
     }
-    return final;
+    async execute(query) {
+        const queryResult = await this._form.execute(query);
+        return await this.application.parseErrors(queryResult);
+    }
+    addFormEntry(name, part) {
+        this._form.addFormEntry(name, part);
+    }
+    removeFormEntry(name) {
+        this._form.removeFormEntry(name);
+    }
 }
+State.ApplicationFormState.Namespace=`Core.State`;
+State.ApplicationFormState.$schema={...(State.ApplicationState?.$schema ?? {}), "_form":"Core.Components.VirtualForm","form":"Core.Components.InternalForm"};
+Aventus.Converter.register(State.ApplicationFormState.Fullname, State.ApplicationFormState);
 
-_.Components.formDataBuilder=Components.formDataBuilder;
+_.State.ApplicationFormState=State.ApplicationFormState;
+State.CreateOrUpdate=class CreateOrUpdate extends State.ApplicationFormState {
+    static _state = "";
+    static get state() {
+        if (this._state == "") {
+            let cst = this;
+            new cst();
+        }
+        return this._state;
+    }
+    get item() {
+        return this._form.item;
+    }
+    set item(item) {
+        this._form.item = item;
+    }
+    constructor(item) {
+        super();
+        this.constructor['_state'] = this.genericState();
+        this.item = item ?? this.newElement();
+    }
+    /**
+     * @inheritdoc
+     */
+    get name() {
+        const id = this.item?.Id ?? 0;
+        return this.genericState().replace("{id:number}", id + "");
+    }
+    genericState() {
+        return `/${this.defineObjectName().toLowerCase()}/{id:number}`;
+    }
+    /**
+     * This will validate the form and save the model though the ram
+     * Errors are deals by this method. If success, result !== undefined
+     */
+    async save() {
+        if (!this.item)
+            return;
+        let result;
+        const validationResult = await this.validate();
+        if (validationResult === true) {
+            let ramResult;
+            if (this.item.Id == 0) {
+                ramResult = await this.application.showLoading(this.defineRAM().createWithError(this.item));
+            }
+            else {
+                ramResult = await this.application.showLoading(this.defineRAM().updateWithError(this.item));
+            }
+            if (ramResult == null) {
+                return undefined;
+            }
+            if (ramResult.errors.length > 0) {
+                let noPrintErrors = [];
+                const elements = this._form.elements;
+                for (let error of ramResult.errors) {
+                    if (error.details) {
+                        let found = false;
+                        for (let detail of error.details) {
+                            if (detail instanceof AventusSharp.Data.FieldErrorInfo) {
+                                if (elements[detail.Name]) {
+                                    for (const element of elements[detail.Name]) {
+                                        element.errors.push(error.message);
+                                    }
+                                    found = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (found) {
+                            continue;
+                        }
+                    }
+                    noPrintErrors.push(error);
+                }
+                ramResult.errors = noPrintErrors;
+            }
+            return await this.application.parseErrors(ramResult);
+        }
+        return result;
+    }
+    back() {
+        const splitted = this.name.split("/");
+        splitted.pop();
+        this.application.navigate(splitted.join("/"));
+    }
+    cancel() {
+        this.back();
+    }
+}
+State.CreateOrUpdate.Namespace=`Core.State`;
+State.CreateOrUpdate.$schema={...(State.ApplicationFormState?.$schema ?? {}), "item":"T","name":"string"};
+Aventus.Converter.register(State.CreateOrUpdate.Fullname, State.CreateOrUpdate);
+
+_.State.CreateOrUpdate=State.CreateOrUpdate;
 Components.FormElement = class FormElement extends Aventus.WebComponent {
     get 'has_errors'() { return this.getBoolAttr('has_errors') }
     set 'has_errors'(val) { this.setBoolAttr('has_errors', val) }    get 'errors'() {
@@ -10918,21 +11175,23 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
 					}
 					set 'value'(val) {
 						this.__watch["value"] = val;
-					}get 'formPart'() {
-						return this.__watch["formPart"];
-					}
-					set 'formPart'(val) {
-						this.__watch["formPart"] = val;
-					}    form;
+					}    _formPart;
+    get formPart() {
+        return this._formPart;
+    }
+    set formPart(value) {
+        this.unlinkFormPart();
+        this._formPart = value;
+        this.linkFormPart();
+    }
     onChange = new Aventus.Callback();
     __registerWatchesActions() {
     this.__addWatchesActions("errors", ((target) => {
     target.has_errors = target.errors.length > 0;
-}));this.__addWatchesActions("value");this.__addWatchesActions("formPart", ((target, action, path, value) => {
-    target.onFormPartChange(action, path, value);
-}));    super.__registerWatchesActions();
+}));this.__addWatchesActions("value");    super.__registerWatchesActions();
 }
     static __style = ``;
+    constructor() { super(); if (this.constructor == FormElement) { throw "can't instanciate an abstract class"; } this.refreshValueFromForm=this.refreshValueFromForm.bind(this)this.onFormValidation=this.onFormValidation.bind(this) }
     __getStatic() {
         return FormElement;
     }
@@ -10951,74 +11210,43 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
         return "FormElement";
     }
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('has_errors')) { this.attributeChangedCallback('has_errors', false, false); } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["errors"] = [];w["value"] = undefined;w["formPart"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('has_errors');this.__correctGetter('errors');this.__correctGetter('value');this.__correctGetter('formPart'); }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["errors"] = [];w["value"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('formPart');this.__upgradeProperty('has_errors');this.__correctGetter('errors');this.__correctGetter('value'); }
     __listBoolProps() { return ["has_errors"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    validate() {
-        return Components.FormElement.validate(this);
-    }
-    onFormPartChange(action, path, value) {
-        Components.FormElement.onFormPartChange(this, path, value);
-    }
-    static async validate(element) {
-        if (element.formPart?.validate) {
-            let result = element.formPart.validate(element.value);
-            if (result instanceof Promise) {
-                result = await result;
-            }
-            if (result === undefined || result === true || result === "") {
-                element.errors = [];
-                return true;
-            }
-            if (result === false) {
-                element.errors = ["Le champs n'est pas valide"];
-                return false;
-            }
-            element.errors = [result];
-            return false;
+    refreshValueFromForm() {
+        if (this._formPart) {
+            this.value = this._formPart.value.get();
         }
-        element.errors = [];
-        return true;
     }
-    static setValue(part, value) {
-        if (part.value === undefined)
-            part.value = value;
-        else if (typeof part.value === "object" && part.value && Object.hasOwn(part.value, 'get') && Object.hasOwn(part.value, 'set')) {
-            part.value.set(value);
+    unlinkFormPart() {
+        if (this._formPart) {
+            this._formPart.register(this);
+            this._formPart.onValueChange.remove(this.refreshValueFromForm);
+            this._formPart.onValidation.remove(this.onFormValidation);
+        }
+    }
+    linkFormPart() {
+        if (this._formPart) {
+            this._formPart.unregister(this);
+            this._formPart.onValueChange.add(this.refreshValueFromForm);
+            this._formPart.onValidation.add(this.onFormValidation);
+            this.refreshValueFromForm();
         }
         else {
-            part.value = value;
+            this.value = undefined;
         }
     }
-    static getValue(part) {
-        const realPart = Aventus.Watcher.extract(part);
-        if (typeof realPart.value === "object" && realPart.value && Object.hasOwn(realPart.value, 'get') && Object.hasOwn(realPart.value, 'set')) {
-            return realPart.value.get();
-        }
-        return realPart.value;
+    onFormValidation(errors) {
+        this.errors = errors;
+        return this.errors;
     }
-    static onFormPartChange(element, path, value) {
-        if (path == "formPart" && value !== undefined) {
-            if (!element.form && element instanceof Aventus.WebComponent) {
-                const form = element.findParentByType(Components.Form);
-                if (form) {
-                    element.form = form;
-                    form.registerFormElement(element);
-                }
-            }
-        }
-        if (path == "formPart" || path == "formPart.value") {
-            element.value = element.formPart ? Components.FormElement.getValue(element.formPart) : '';
-            if (element.formPart && !element.formPart.elements?.includes(element)) {
-                element.formPart.elements?.push(element);
-            }
-        }
+    postDestruction() {
+        super.postDestruction();
+        this.unlinkFormPart();
     }
 }
 Components.FormElement.Namespace=`Core.Components`;
-Components.FormElement.Tag=`rk-form-element`;
 _.Components.FormElement=Components.FormElement;
-if(!window.customElements.get('rk-form-element')){window.customElements.define('rk-form-element', Components.FormElement);Aventus.WebComponentInstance.registerDefinition(Components.FormElement);}
 
 Components.Textarea = class Textarea extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -11131,10 +11359,7 @@ Components.Textarea = class Textarea extends Components.FormElement {
         this.value = this.inputEl.value;
         this.onChange.trigger([this.value]);
         if (this.formPart) {
-            Components.FormElement.setValue(this.formPart, this.value);
-            if (this.formPart.validateOnChange !== false) {
-                this.validate();
-            }
+            this.formPart.value.set(this.value);
         }
     }
     postCreation() {
@@ -11243,10 +11468,7 @@ Components.Switch = class Switch extends Components.FormElement {
         this.checked = !this.checked;
         this.onChange.trigger([this.checked]);
         if (this.formPart) {
-            Components.FormElement.setValue(this.formPart, this.value);
-            if (this.formPart.validateOnChange !== false) {
-                this.validate();
-            }
+            this.formPart.value.set(this.value);
         }
     }
     __0c8ab707a91de23d54bc9c39ebe1aeafmethod0() {
@@ -11418,10 +11640,7 @@ Components.Slider = class Slider extends Components.FormElement {
             if (emit) {
                 this.onChange.trigger([value]);
                 if (this.formPart) {
-                    Components.FormElement.setValue(this.formPart, this.value);
-                    if (this.formPart.validateOnChange !== false) {
-                        this.validate();
-                    }
+                    this.formPart.value.set(this.value);
                 }
             }
         }
@@ -11608,20 +11827,25 @@ Components.InputNumber = class InputNumber extends Components.FormElement {
         }
         return true;
     }
-    async validate() {
-        if (!this.localValidation())
-            return false;
-        return super.validate();
+    onFormValidation(errors) {
+        if (!this.localValidation()) {
+            errors.push("Il ne s'agit pas d'un nombre");
+        }
+        return super.onFormValidation(errors);
+    }
+    validate() {
+        if (!this.formPart) {
+            if (!this.localValidation()) {
+                this.errors = ["Il ne s'agit pas d'un nombre"];
+            }
+        }
     }
     onValueChange() {
         if (!this.localValidation(true))
             return;
         this.onChange.trigger([this.value]);
         if (this.formPart) {
-            Components.FormElement.setValue(this.formPart, this.value);
-            if (this.formPart.validateOnChange !== false) {
-                this.validate();
-            }
+            this.formPart.value.set(this.value);
         }
     }
     __181298e531eab1a15f907371f4223808method2() {
@@ -11644,264 +11868,6 @@ Components.InputNumber.Namespace=`Core.Components`;
 Components.InputNumber.Tag=`rk-input-number`;
 _.Components.InputNumber=Components.InputNumber;
 if(!window.customElements.get('rk-input-number')){window.customElements.define('rk-input-number', Components.InputNumber);Aventus.WebComponentInstance.registerDefinition(Components.InputNumber);}
-
-Components.Checkbox = class Checkbox extends Components.FormElement {
-    static get observedAttributes() {return ["label", "placeholder", "icon", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'left_label'() { return this.getBoolAttr('left_label') }
-    set 'left_label'(val) { this.setBoolAttr('left_label', val) }    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
-    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }get 'checked'() { return this.getBoolProp('checked') }
-    set 'checked'(val) { this.setBoolAttr('checked', val) }    get 'value'() {
-						return this.__watch["value"];
-					}
-					set 'value'(val) {
-						this.__watch["value"] = val;
-					}    __registerWatchesActions() {
-    this.__addWatchesActions("value", ((target) => {
-    target.checked = target.value;
-}));    super.__registerWatchesActions();
-}
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("checked", ((target) => {
-    target.value = target.checked;
-})); }
-    static __style = `:host{--_checkbox-size: var(--checkbox-size, 18px);--_checkbox-height: var(--checkbox-height, var(--_checkbox-size));--_checkbox-width: var(--checkbox-width, var(--_checkbox-size));--_checkbox-size: 20px;--_checkbox-border-radius: var(--checkbox-border-radius, var(--form-element-border-radius));--_checkbox-border: var(--checkbox-border, var(--form-element-border));--_checkbox-border-active: var(--checkbox-border-active, var(--form-element-border-active, var(--_checkbox-border)));--_checkbox-background: var(--checkbox-background, var(--form-element-background, white));--_checkbox-background-active: var(--checkbox-background-active, var(--form-element-background-active, white));--_checkbox-tick-color: var(--checkbox-tick-color, var(--_checkbox-background));--_checkbox-tick-size: var(--checkbox-tick-size, 2px);--_checkbox-tick-padding: var(--checkbox-tick-padding, 10%);--_checkbox-font-size-label: var(--checkbox-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_checkbox-margin-label: var(--checkbox-margin-label, 5px)}:host{align-items:center;display:flex}:host .label:not(:empty){cursor:pointer;font-size:var(--_checkbox-font-size-label);margin-left:var(--_checkbox-margin-label)}:host .square{background-color:var(--_checkbox-background);border:var(--_checkbox-border);border-radius:var(--_checkbox-border-radius);cursor:pointer;flex-shrink:0;height:var(--_checkbox-height);position:relative;transition:border .4s var(--bezier-curve),background-color .4s var(--bezier-curve);width:var(--_checkbox-width);display:flex;align-items:center;justify-content:center}:host .square rk-img{--img-stroke-color: var(--_checkbox-tick-color);--img-stroke-width: var(--_checkbox-tick-size);height:calc(100% - var(--_checkbox-tick-padding));opacity:0;visibility:hidden;width:calc(100% - var(--_checkbox-tick-padding))}:host([checked]) .square{background-color:var(--_checkbox-background-active);border:var(--_checkbox-border-active)}:host([checked]) .square rk-img{opacity:1;visibility:visible}:host([checked]) .square rk-img::part(tick){animation:dash .3s linear forwards;animation-delay:.2s;stroke-dasharray:100;stroke-dashoffset:100}:host([left_label]) .label:not(:empty){margin-left:0;margin-right:var(--_checkbox-margin-label);order:1}:host([left_label]) .square{order:2}@keyframes dash{to{stroke-dashoffset:70}}`;
-    __getStatic() {
-        return Checkbox;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Checkbox.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="square">    <rk-img src="/img/icons/tick.svg"></rk-img></div><div class="label" _id="checkbox_0"></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "checkbox_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__ab411575f51bcaf15868d94c774ac9c3method0())}`,
-      "once": true
-    }
-  }
-}); }
-    getClassName() {
-        return "Checkbox";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('left_label')) { this.attributeChangedCallback('left_label', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('checked')) { this.attributeChangedCallback('checked', false, false); } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = false; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('left_label');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('checked');this.__correctGetter('value'); }
-    __listBoolProps() { return ["left_label","checked"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    removeErrors() {
-        this.errors = [];
-    }
-    postCreation() {
-        super.postCreation();
-        new Aventus.PressManager({
-            element: this,
-            onPress: () => {
-                this.removeErrors();
-                this.checked = !this.checked;
-                this.onChange.trigger([this.checked]);
-                if (this.formPart) {
-                    Components.FormElement.setValue(this.formPart, this.value);
-                    if (this.formPart.validateOnChange !== false) {
-                        this.validate();
-                    }
-                }
-            }
-        });
-    }
-    __ab411575f51bcaf15868d94c774ac9c3method0() {
-        return this.label;
-    }
-}
-Components.Checkbox.Namespace=`Core.Components`;
-Components.Checkbox.Tag=`rk-checkbox`;
-_.Components.Checkbox=Components.Checkbox;
-if(!window.customElements.get('rk-checkbox')){window.customElements.define('rk-checkbox', Components.Checkbox);Aventus.WebComponentInstance.registerDefinition(Components.Checkbox);}
-
-Components.InternalVirtualForm=class InternalVirtualForm {
-    __config;
-    data;
-    constructor(config) {
-        for (let name in config) {
-            if (!config[name].elements) {
-                config[name].elements = [];
-            }
-            if (!config[name].validate) {
-                config[name].validate = () => true;
-            }
-        }
-        this.__config = config;
-        for (let key in config) {
-            this.registerKey(key);
-        }
-        const that = this;
-        const proxyData = {
-            __proxyData: {},
-            get(target, prop, receiver) {
-                if (that.__config[prop]) {
-                    return Components.FormElement.getValue(that.__config[prop]);
-                }
-                if (Aventus.Watcher['__reservedName'][prop]) {
-                    return this.__proxyData[prop];
-                }
-                return undefined;
-            },
-            set(target, prop, value, receiver) {
-                if (that.__config[prop]) {
-                    Components.FormElement.setValue(that.__config[prop], value);
-                    return true;
-                }
-                else if (Aventus.Watcher['__reservedName'][prop]) {
-                    this.__proxyData[prop] = value;
-                    return true;
-                }
-                return false;
-            },
-            deleteProperty(target, prop) {
-                delete that.__config[prop];
-                return true;
-            },
-            defineProperty(target, prop, descriptor) {
-                that.__config[prop];
-                return true;
-            },
-            ownKeys(target) {
-                return Object.keys(that.__config);
-            },
-            getOwnPropertyDescriptor(k) {
-                return {
-                    enumerable: true,
-                    configurable: true,
-                };
-            }
-        };
-        this.data = new Proxy({}, proxyData);
-    }
-    async validateAndExecute(result, application) {
-        const validationResult = await this.validate(application);
-        if (validationResult) {
-            return await this.execute(result, application);
-        }
-        return undefined;
-    }
-    async validate(from) {
-        let proms = [];
-        let promsCustom = [];
-        const namesCustom = [];
-        const resultErrors = [];
-        for (let name in this.__config) {
-            const elements = this.__config[name].elements;
-            if (!elements || elements.length == 0) {
-                const result = this.__config[name].validate(Components.FormElement.getValue(this.__config[name]));
-                if (result instanceof Promise) {
-                    promsCustom.push(result);
-                    namesCustom.push(name);
-                }
-                else if (result !== undefined && result !== true && result !== "") {
-                    if (result === false) {
-                        resultErrors.push("Le champs " + name + " n'est pas valide");
-                    }
-                    resultErrors.push(result + "");
-                }
-            }
-            else {
-                for (let element of this.__config[name].elements) {
-                    proms.push(element.validate());
-                }
-            }
-        }
-        const result2 = await Promise.all(promsCustom);
-        for (let i = 0; i < result2.length; i++) {
-            const resultTemp = result2[i];
-            if (resultTemp !== undefined && resultTemp !== true && resultTemp !== "") {
-                if (resultTemp === false) {
-                    resultErrors.push("Le champs " + namesCustom[i] + " n'est pas valide");
-                }
-                resultErrors.push(resultTemp + "");
-            }
-        }
-        if (resultErrors.length > 0) {
-            if (from) {
-                let application = from instanceof System.Application ? from : from.findParentByType(System.Application);
-                await application?.alert({
-                    title: "Erreur de validation",
-                    description: resultErrors.join("<br>")
-                });
-                return false;
-            }
-            return resultErrors;
-        }
-        const result = await Promise.all(proms);
-        for (let resultTemp of result) {
-            if (!resultTemp)
-                return false;
-        }
-        return true;
-    }
-    async execute(query, from) {
-        let queryResult = await query;
-        if (queryResult.errors.length > 0) {
-            let noPrintErrors = [];
-            for (let error of queryResult.errors) {
-                if (error instanceof AventusSharp.Data.DataError &&
-                    error.code == AventusSharp.Data.DataErrorCode.ValidationError &&
-                    error.details.length > 0 &&
-                    error.details[0] instanceof AventusSharp.Data.FieldErrorInfo) {
-                    let fieldInfo = error.details[0];
-                    if (this.addFieldError(fieldInfo.Name, error.message)) {
-                        continue;
-                    }
-                }
-                noPrintErrors.push(error);
-            }
-            queryResult.errors = noPrintErrors;
-        }
-        if (from) {
-            let application = from instanceof System.Application ? from : from.findParentByType(System.Application);
-            if (application) {
-                return await application.parseErrors(queryResult);
-            }
-        }
-        return queryResult;
-    }
-    registerKey(key) {
-        Object.defineProperty(this, key, {
-            get: () => this.__config[key],
-            set: (value) => this.__config[key] = value,
-            enumerable: true
-        });
-    }
-    getData() {
-        let result = {};
-        for (let name in this.__config) {
-            result[name] = Components.FormElement.getValue(this.__config[name]);
-        }
-        return result;
-    }
-    refresh(key) {
-        const config = this.__config[key];
-        if (!config)
-            return;
-        for (let element of config.elements) {
-            element.value = Components.FormElement.getValue(config);
-        }
-    }
-    addFieldError(name, error) {
-        if (this.__config[name]?.elements.length > 0) {
-            for (let el of this.__config[name].elements) {
-                el.errors.push(error);
-            }
-            return true;
-        }
-        return false;
-    }
-}
-Components.InternalVirtualForm.Namespace=`Core.Components`;
 
 Components.Form = class Form extends Aventus.WebComponent {
     elements = [];
@@ -11943,19 +11909,7 @@ Components.Form = class Form extends Aventus.WebComponent {
         }
     }
     async validate() {
-        let proms = [];
-        for (let element of this.elements) {
-            proms.push(element.validate());
-        }
-        const result = await Promise.all(proms);
-        for (let resultTemp of result) {
-            if (!resultTemp)
-                return false;
-        }
-        return true;
-    }
-    static create(config) {
-        return new Components.InternalVirtualForm(config);
+        return false;
     }
 }
 Components.Form.Namespace=`Core.Components`;
@@ -11963,97 +11917,85 @@ Components.Form.Tag=`rk-form`;
 _.Components.Form=Components.Form;
 if(!window.customElements.get('rk-form')){window.customElements.define('rk-form', Components.Form);Aventus.WebComponentInstance.registerDefinition(Components.Form);}
 
-State.CreateOrUpdate=class CreateOrUpdate extends State.ApplicationStorableState {
-    static _state = "";
-    static get state() {
-        if (this._state == "") {
-            let cst = this;
-            new cst();
-        }
-        return this._state;
+Components.ItemBoxSelect = class ItemBoxSelect extends Components.FormElement {
+    options = [];
+    optionSelected;
+    form;
+    static __style = `:host{position:relative}:host .select-notify{position:absolute;width:var(--internal-item-box-size);height:100%;left:0;top:0;background-color:var(--internal-item-box-select-select-background-color);transition:all .3s var(--bezier-curve);border-radius:var(--internal-item-border-radius);z-index:1}:host .container-option{display:flex;flex-direction:row;justify-content:center;align-items:center;height:100%;z-index:2}:host([space="0"]) .select-notify{border-radius:0}:host([space="0"]) .select-notify.first{border-top-left-radius:var(--internal-item-border-radius);border-bottom-left-radius:var(--internal-item-border-radius)}:host([space="0"]) .select-notify.last{border-top-right-radius:var(--internal-item-border-radius);border-bottom-right-radius:var(--internal-item-border-radius)}`;
+    __getStatic() {
+        return ItemBoxSelect;
     }
-    __form;
-    get form() {
-        return this.__form;
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(ItemBoxSelect.__style);
+        return arrStyle;
     }
-    constructor(item) {
-        super(item);
-        this.constructor['_state'] = this.genericState();
-        this.__form = Aventus.Watcher.get(Components.Form.create(this.defineFormSchema()));
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="select-notify" rk-element="selectNotify"></div><div class="container-option">    <slot></slot></div>` }
+    });
+}
+    getClassName() {
+        return "ItemBoxSelect";
     }
-    refreshItem(key) {
-        super.refreshItem(key);
-        this.form?.refresh(key);
-    }
-    /**
-     * @inheritdoc
-     */
-    get name() {
-        return this.genericState().replace("{id:number}", this.item.Id + "");
-    }
-    genericState() {
-        return `/${this.defineObjectName().toLowerCase()}/{id:number}`;
-    }
-    autoForm(element, settings) {
-        return Components.formDataBuilder(element, settings);
-    }
-    /**
-     * This will validate the form and save the model though the ram
-     * Errors are deals by this method. If success, result !== undefined
-     */
-    async save() {
-        let result;
-        const validationResult = await this.form.validate(this.application);
-        if (validationResult === true) {
-            let ramResult;
-            if (this.item.Id == 0) {
-                ramResult = await this.application.showLoading(this.defineRAM().createWithError(this.item));
+    selectInternalOption() {
+        if (!this.isConnected)
+            return;
+        let oneFound = false;
+        for (let option of this.options) {
+            if (option.value == this.value) {
+                if (this.optionSelected)
+                    this.optionSelected.selected = false;
+                option.selected = true;
+                this.optionSelected = option;
+                oneFound = true;
             }
             else {
-                ramResult = await this.application.showLoading(this.defineRAM().updateWithError(this.item));
+                option.selected = false;
             }
-            if (ramResult == null) {
-                return undefined;
-            }
-            if (ramResult.errors.length > 0) {
-                let noPrintErrors = [];
-                for (let error of ramResult.errors) {
-                    if (error.details) {
-                        let found = false;
-                        for (let detail of error.details) {
-                            if (detail instanceof AventusSharp.Data.FieldErrorInfo) {
-                                if (this.form.addFieldError(detail.Name, error.message)) {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (found) {
-                            continue;
-                        }
-                    }
-                    noPrintErrors.push(error);
-                }
-                ramResult.errors = noPrintErrors;
-            }
-            return await this.application.parseErrors(ramResult);
         }
-        return result;
+        if (!oneFound) {
+            this.optionSelected = undefined;
+        }
     }
-    back() {
-        const splitted = this.name.split("/");
-        splitted.pop();
-        this.application.navigate(splitted.join("/"));
+    selectOption(option) {
+        this.value = option.value;
+        this.onChange.trigger([this.value]);
+        if (this.formPart) {
+            this.formPart.value.set(this.value);
+        }
     }
-    cancel() {
-        this.back();
+    register(option) {
+        if (!this.options.includes(option)) {
+            this.options.push(option);
+            if (option.value == this.value) {
+                if (this.optionSelected) {
+                    this.optionSelected.selected = false;
+                }
+                option.selected = true;
+                this.optionSelected = option;
+            }
+        }
+    }
+    unregister(option) {
+        const index = this.options.indexOf(option);
+        if (index != -1) {
+            this.options.splice(index, 1);
+        }
+    }
+    removeErrors() {
+        this.errors = [];
+    }
+    postCreation() {
+        this.selectInternalOption();
     }
 }
-State.CreateOrUpdate.Namespace=`Core.State`;
-State.CreateOrUpdate.$schema={...(State.ApplicationStorableState?.$schema ?? {}), "__form":"Core.Components.VirtualForm","form":"Core.Components.VirtualForm","name":"string"};
-Aventus.Converter.register(State.CreateOrUpdate.Fullname, State.CreateOrUpdate);
+Components.ItemBoxSelect.Namespace=`Core.Components`;
+Components.ItemBoxSelect.Tag=`rk-item-box-select`;
+_.Components.ItemBoxSelect=Components.ItemBoxSelect;
+if(!window.customElements.get('rk-item-box-select')){window.customElements.define('rk-item-box-select', Components.ItemBoxSelect);Aventus.WebComponentInstance.registerDefinition(Components.ItemBoxSelect);}
 
-_.State.CreateOrUpdate=State.CreateOrUpdate;
 Components.Button = class Button extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon_before", "icon_after", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'color'() { return this.getStringAttr('color') }
@@ -12121,6 +12063,81 @@ Components.Button.Namespace=`Core.Components`;
 Components.Button.Tag=`rk-button`;
 _.Components.Button=Components.Button;
 if(!window.customElements.get('rk-button')){window.customElements.define('rk-button', Components.Button);Aventus.WebComponentInstance.registerDefinition(Components.Button);}
+
+Components.Checkbox = class Checkbox extends Components.FormElement {
+    static get observedAttributes() {return ["label", "placeholder", "icon", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'left_label'() { return this.getBoolAttr('left_label') }
+    set 'left_label'(val) { this.setBoolAttr('left_label', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
+    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'checked'() { return this.getBoolProp('checked') }
+    set 'checked'(val) { this.setBoolAttr('checked', val) }    get 'value'() {
+						return this.__watch["value"];
+					}
+					set 'value'(val) {
+						this.__watch["value"] = val;
+					}    __registerWatchesActions() {
+    this.__addWatchesActions("value", ((target) => {
+    target.checked = target.value;
+}));    super.__registerWatchesActions();
+}
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("checked", ((target) => {
+    target.value = target.checked;
+})); }
+    static __style = `:host{--_checkbox-size: var(--checkbox-size, 18px);--_checkbox-height: var(--checkbox-height, var(--_checkbox-size));--_checkbox-width: var(--checkbox-width, var(--_checkbox-size));--_checkbox-size: 20px;--_checkbox-border-radius: var(--checkbox-border-radius, var(--form-element-border-radius));--_checkbox-border: var(--checkbox-border, var(--form-element-border));--_checkbox-border-active: var(--checkbox-border-active, var(--form-element-border-active, var(--_checkbox-border)));--_checkbox-background: var(--checkbox-background, var(--form-element-background, white));--_checkbox-background-active: var(--checkbox-background-active, var(--form-element-background-active, white));--_checkbox-tick-color: var(--checkbox-tick-color, var(--_checkbox-background));--_checkbox-tick-size: var(--checkbox-tick-size, 2px);--_checkbox-tick-padding: var(--checkbox-tick-padding, 10%);--_checkbox-font-size-label: var(--checkbox-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_checkbox-margin-label: var(--checkbox-margin-label, 5px)}:host{align-items:center;display:flex}:host .label:not(:empty){cursor:pointer;font-size:var(--_checkbox-font-size-label);margin-left:var(--_checkbox-margin-label)}:host .square{background-color:var(--_checkbox-background);border:var(--_checkbox-border);border-radius:var(--_checkbox-border-radius);cursor:pointer;flex-shrink:0;height:var(--_checkbox-height);position:relative;transition:border .4s var(--bezier-curve),background-color .4s var(--bezier-curve);width:var(--_checkbox-width);display:flex;align-items:center;justify-content:center}:host .square rk-img{--img-stroke-color: var(--_checkbox-tick-color);--img-stroke-width: var(--_checkbox-tick-size);height:calc(100% - var(--_checkbox-tick-padding));opacity:0;visibility:hidden;width:calc(100% - var(--_checkbox-tick-padding))}:host([checked]) .square{background-color:var(--_checkbox-background-active);border:var(--_checkbox-border-active)}:host([checked]) .square rk-img{opacity:1;visibility:visible}:host([checked]) .square rk-img::part(tick){animation:dash .3s linear forwards;animation-delay:.2s;stroke-dasharray:100;stroke-dashoffset:100}:host([left_label]) .label:not(:empty){margin-left:0;margin-right:var(--_checkbox-margin-label);order:1}:host([left_label]) .square{order:2}@keyframes dash{to{stroke-dashoffset:70}}`;
+    __getStatic() {
+        return Checkbox;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Checkbox.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="square">    <rk-img src="/img/icons/tick.svg"></rk-img></div><div class="label" _id="checkbox_0"></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "checkbox_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__ab411575f51bcaf15868d94c774ac9c3method0())}`,
+      "once": true
+    }
+  }
+}); }
+    getClassName() {
+        return "Checkbox";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('left_label')) { this.attributeChangedCallback('left_label', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('checked')) { this.attributeChangedCallback('checked', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = false; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('left_label');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('checked');this.__correctGetter('value'); }
+    __listBoolProps() { return ["left_label","checked"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    removeErrors() {
+        this.errors = [];
+    }
+    postCreation() {
+        super.postCreation();
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => {
+                this.removeErrors();
+                this.checked = !this.checked;
+                this.onChange.trigger([this.checked]);
+                if (this.formPart) {
+                    this.formPart.value.set(this.value);
+                }
+            }
+        });
+    }
+    __ab411575f51bcaf15868d94c774ac9c3method0() {
+        return this.label;
+    }
+}
+Components.Checkbox.Namespace=`Core.Components`;
+Components.Checkbox.Tag=`rk-checkbox`;
+_.Components.Checkbox=Components.Checkbox;
+if(!window.customElements.get('rk-checkbox')){window.customElements.define('rk-checkbox', Components.Checkbox);Aventus.WebComponentInstance.registerDefinition(Components.Checkbox);}
 
 Components.DatePickerCalendar = class DatePickerCalendar extends Components.Calendar {
     picker;
@@ -12281,10 +12298,7 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
     onValueChange() {
         this.onChange.trigger([this.value]);
         if (this.formPart) {
-            Components.FormElement.setValue(this.formPart, this.value);
-            if (this.formPart.validateOnChange !== false) {
-                this.validate();
-            }
+            this.formPart.value.set(this.value);
         }
     }
     clearValue() {
@@ -12513,10 +12527,7 @@ Components.Input = class Input extends Components.FormElement {
         this.value = this.inputEl.value;
         this.onChange.trigger([this.value]);
         if (this.formPart) {
-            Components.FormElement.setValue(this.formPart, this.value);
-            if (this.formPart.validateOnChange !== false) {
-                this.validate();
-            }
+            this.formPart.value.set(this.value);
         }
     }
     __7b4688f1d13a935f88db2286094e0088method1() {
@@ -12747,10 +12758,7 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
         this.onChange.trigger([this.value]);
         this.filter();
         if (this.formPart) {
-            Components.FormElement.setValue(this.formPart, this.value);
-            if (this.formPart.validateOnChange !== false) {
-                this.validate();
-            }
+            this.formPart.value.set(this.value);
         }
     }
     removeErrors() {
@@ -13059,122 +13067,6 @@ Components.Select.Namespace=`Core.Components`;
 Components.Select.Tag=`rk-select`;
 _.Components.Select=Components.Select;
 if(!window.customElements.get('rk-select')){window.customElements.define('rk-select', Components.Select);Aventus.WebComponentInstance.registerDefinition(Components.Select);}
-
-Components.ItemBoxSelect = class ItemBoxSelect extends Components.BoxContainer {
-    static get observedAttributes() {return ["value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'has_errors'() { return this.getBoolAttr('has_errors') }
-    set 'has_errors'(val) { this.setBoolAttr('has_errors', val) }    get 'value'() { return this.getStringProp('value') }
-    set 'value'(val) { this.setStringAttr('value', val) }    get 'errors'() {
-						return this.__watch["errors"];
-					}
-					set 'errors'(val) {
-						this.__watch["errors"] = val;
-					}get 'formPart'() {
-						return this.__watch["formPart"];
-					}
-					set 'formPart'(val) {
-						this.__watch["formPart"] = val;
-					}    options = [];
-    optionSelected;
-    form;
-    onChange = new Aventus.Callback();
-    __registerWatchesActions() {
-    this.__addWatchesActions("errors", ((target) => {
-    target.has_errors = target.errors.length > 0;
-}));this.__addWatchesActions("formPart", ((target, action, path, value) => {
-    target.onFormPartChange(action, path, value);
-}));    super.__registerWatchesActions();
-}
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
-    target.selectInternalOption();
-})); }
-    static __style = `:host{position:relative}:host .select-notify{position:absolute;width:var(--internal-item-box-size);height:100%;left:0;top:0;background-color:var(--internal-item-box-select-select-background-color);transition:all .3s var(--bezier-curve);border-radius:var(--internal-item-border-radius);z-index:1}:host .container-option{display:flex;flex-direction:row;justify-content:center;align-items:center;height:100%;z-index:2}:host([space="0"]) .select-notify{border-radius:0}:host([space="0"]) .select-notify.first{border-top-left-radius:var(--internal-item-border-radius);border-bottom-left-radius:var(--internal-item-border-radius)}:host([space="0"]) .select-notify.last{border-top-right-radius:var(--internal-item-border-radius);border-bottom-right-radius:var(--internal-item-border-radius)}`;
-    __getStatic() {
-        return ItemBoxSelect;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(ItemBoxSelect.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="select-notify" rk-element="selectNotify"></div><div class="container-option">    <slot></slot></div>` }
-    });
-}
-    getClassName() {
-        return "ItemBoxSelect";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('has_errors')) { this.attributeChangedCallback('has_errors', false, false); }if(!this.hasAttribute('value')){ this['value'] = undefined; } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["errors"] = [];w["formPart"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('has_errors');this.__upgradeProperty('value');this.__correctGetter('errors');this.__correctGetter('formPart'); }
-    __listBoolProps() { return ["has_errors"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    selectInternalOption() {
-        if (!this.isConnected)
-            return;
-        let oneFound = false;
-        for (let option of this.options) {
-            if (option.value == this.value) {
-                if (this.optionSelected)
-                    this.optionSelected.selected = false;
-                option.selected = true;
-                this.optionSelected = option;
-                oneFound = true;
-            }
-            else {
-                option.selected = false;
-            }
-        }
-        if (!oneFound) {
-            this.optionSelected = undefined;
-        }
-    }
-    selectOption(option) {
-        this.value = option.value;
-        this.onChange.trigger([this.value]);
-        if (this.formPart) {
-            Components.FormElement.setValue(this.formPart, this.value);
-            if (this.formPart.validateOnChange !== false) {
-                this.validate();
-            }
-        }
-    }
-    register(option) {
-        if (!this.options.includes(option)) {
-            this.options.push(option);
-            if (option.value == this.value) {
-                if (this.optionSelected) {
-                    this.optionSelected.selected = false;
-                }
-                option.selected = true;
-                this.optionSelected = option;
-            }
-        }
-    }
-    unregister(option) {
-        const index = this.options.indexOf(option);
-        if (index != -1) {
-            this.options.splice(index, 1);
-        }
-    }
-    removeErrors() {
-        this.errors = [];
-    }
-    validate() {
-        return Components.FormElement.validate(this);
-    }
-    onFormPartChange(action, path, value) {
-        Components.FormElement.onFormPartChange(this, path, value);
-    }
-    postCreation() {
-        this.selectInternalOption();
-    }
-}
-Components.ItemBoxSelect.Namespace=`Core.Components`;
-Components.ItemBoxSelect.Tag=`rk-item-box-select`;
-_.Components.ItemBoxSelect=Components.ItemBoxSelect;
-if(!window.customElements.get('rk-item-box-select')){window.customElements.define('rk-item-box-select', Components.ItemBoxSelect);Aventus.WebComponentInstance.registerDefinition(Components.ItemBoxSelect);}
 
 Components.ItemBoxOption = class ItemBoxOption extends Components.ItemBox {
     get 'selected'() { return this.getBoolAttr('selected') }
@@ -13507,10 +13399,7 @@ Components.TwoColumnsSelect = class TwoColumnsSelect extends Components.FormElem
     changeValue() {
         this.onChange.trigger([this.value]);
         if (this.formPart) {
-            Components.FormElement.setValue(this.formPart, this.value);
-            if (this.formPart.validateOnChange !== false) {
-                this.validate();
-            }
+            this.formPart.value.set(this.value);
         }
     }
     loadElementsFromSlot() {

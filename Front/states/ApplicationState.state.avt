@@ -1,4 +1,7 @@
 import type { Application } from "../components/system/Application/Application.wcl.avt";
+import type { ApplicationQueryFctResult } from "../components/system/Application/ApplicationError.lib.avt";
+import type { FormPart, FormSchema, InternalForm, VirtualFormConfig } from "../components/ui/form/Form/FormType.lib.avt";
+import { VirtualForm } from "../components/ui/form/Form/VirtualForm.lib.avt";
 import type { ApplicationStateManager } from "../libs/ApplicationStateManager.state.avt";
 
 namespace State {
@@ -125,51 +128,76 @@ namespace State {
         }
     }
 
-    export abstract class ApplicationStorableState<T> extends ApplicationState implements Aventus.IState {
-        private __item!: T;
-        public get item(): T {
-            return this.__item;
-        }
-        private set item(value: T) {
+    export abstract class ApplicationFormState<T> extends ApplicationState implements Aventus.IState {
 
-            if(!this.__item) {
-                this.__item = Aventus.Watcher.get(value as object, (action, path, value) => {
-                    this.saveState();
-                    this.onItemChanged(action, path, value);
-                });
-            }
-            try {
-                for(let key in value) {
-                    this.__item[key] = value[key];
-                    this.refreshItem(key);
-                }
-            } catch(e) {
-                console.log(e);
-            }
-        }
-        protected refreshItem(key: string) { }
+        protected _form: VirtualForm<T>;
 
-
-        protected onItemChanged(action: Aventus.WatchAction, path: string, value: any) {
-
+        public get form(): InternalForm<T> {
+            return this._form.parts!;
         }
 
-        public constructor(item?: T) {
+        public get item(): T | undefined {
+            return this._form.item;
+        }
+        public set item(item: T | undefined) {
+            this._form.item = item;
+        }
+
+        public constructor() {
             super();
-            if(item) {
-                this.item = item;
-            }
-            else {
-                this.item = this.newElement();
-            }
+
+            this._form = new VirtualForm();
+            this._form.setForm(this.defineForm());
+            this._form.init(this.configureForm(this.defaultConfigureForm()));
+            this._onItemChange = this._onItemChange.bind(this);
+            this._form.onItemChange.add(this._onItemChange);
         }
+
+        private _onItemChange(action: Aventus.WatchAction, path: string, value: any) {
+            this.saveState();
+            this.onItemChange(action, path, value)
+        }
+        protected onItemChange(action: Aventus.WatchAction, path: string, value: any) {
+
+        }
+
+        protected abstract defineForm(): FormSchema<T>;
+        private defaultConfigureForm(): VirtualFormConfig {
+            return {
+                handleValidateNoInputError: (errors) => {
+                    this.application.alert({
+                        title: "Erreur de validation",
+                        description: Object.values(errors).flat().join("<br>")
+                    });
+                },
+                handleExecuteNoInputError: (errors) => {
+                    //this.application.popupErrors(errors);
+                }
+            };
+        }
+        protected abstract configureForm(config: VirtualFormConfig): VirtualFormConfig;
 
         protected override syncField(addField: (field: keyof this) => void): void {
             super.syncField(addField);
             addField("item");
         }
 
-        public abstract newElement(): T;
-    }
+        public validate(key?: string): Promise<boolean> {
+            return this._form.validate(key);
+        }
 
+        public async execute<X>(query: Aventus.Asyncable<ApplicationQueryFctResult<X>>): Promise<ApplicationQueryFctResult<X> | Awaited<X> | undefined> {
+            const queryResult = await this._form.execute(query);
+            return await this.application.parseErrors(queryResult);
+        }
+
+        public addFormEntry(name: string, part: FormPart): void {
+            this._form.addFormEntry(name, part);
+        }
+
+        public removeFormEntry(name: string): void {
+            this._form.removeFormEntry(name);
+        }
+
+    }
 }

@@ -1,10 +1,7 @@
-import type { VirtualForm } from "../components/ui/form/Form/VirtualForm.lib.avt";
-import { formDataBuilder, type BodyJSON, type FormData, type formDataBuilderSettings } from "../components/ui/form/Form/FormType.lib.avt";
-import { Form } from "../components/ui/form/Form/Form.wcl.avt";
-import { ApplicationStorableState } from "./ApplicationState.state.avt";
+import { ApplicationFormState } from "./ApplicationState.state.avt";
 
 namespace State {
-    export abstract class CreateOrUpdate<T extends AventusSharp.Data.Storable, U extends BodyJSON> extends ApplicationStorableState<T> implements Aventus.IState {
+    export abstract class CreateOrUpdate<T extends AventusSharp.Data.Storable> extends ApplicationFormState<Partial<T>> implements Aventus.IState {
 
         private static _state: string = "";
         public static get state(): string {
@@ -16,28 +13,25 @@ namespace State {
             return this._state;
         }
 
-        protected __form: VirtualForm<U>;
-        public get form(): VirtualForm<U> {
-            return this.__form;
+        public override get item(): T {
+            return this._form.item as T;
+        }
+        public override set item(item: T) {
+            this._form.item = item;
         }
 
         public constructor(item?: T) {
-            super(item);
-
+            super();
             this.constructor['_state'] = this.genericState();
-            this.__form = Aventus.Watcher.get(Form.create(this.defineFormSchema()));
-        }
-
-        protected override refreshItem(key: string): void {
-            super.refreshItem(key);
-            this.form?.refresh(key as Extract<keyof U, string>);
+            this.item = item ?? this.newElement();
         }
 
         /**
          * @inheritdoc
          */
         public override get name(): string {
-            return this.genericState().replace("{id:number}", this.item.Id + "");
+            const id = this.item?.Id ?? 0;
+            return this.genericState().replace("{id:number}", id + "");
         }
 
         private genericState() {
@@ -48,19 +42,17 @@ namespace State {
 
         protected abstract defineObjectName(): string;
 
-        protected abstract defineFormSchema(): FormData<U>;
-
-        protected autoForm(element: U, settings?: formDataBuilderSettings<U>): FormData<U> {
-            return formDataBuilder(element, settings);
-        }
+        public abstract newElement(): T;
 
         /**
          * This will validate the form and save the model though the ram
          * Errors are deals by this method. If success, result !== undefined
          */
         public async save(): Promise<T | undefined> {
+            if(!this.item) return;
+
             let result: T | undefined;
-            const validationResult = await this.form.validate(this.application);
+            const validationResult = await this.validate();
             if(validationResult === true) {
                 let ramResult: Aventus.ResultRamWithError<Aventus.RamItem<T>> | null;
                 if(this.item.Id == 0) {
@@ -76,12 +68,16 @@ namespace State {
 
                 if(ramResult.errors.length > 0) {
                     let noPrintErrors: Aventus.GenericError[] = [];
+                    const elements = this._form.elements;
                     for(let error of ramResult.errors) {
                         if(error.details) {
                             let found = false;
                             for(let detail of error.details) {
                                 if(detail instanceof AventusSharp.Data.FieldErrorInfo) {
-                                    if(this.form.addFieldError(detail.Name, error.message)) {
+                                    if(elements[detail.Name]) {
+                                        for(const element of elements[detail.Name]) {
+                                            element.errors.push(error.message);
+                                        }
                                         found = true;
                                         break;
                                     }

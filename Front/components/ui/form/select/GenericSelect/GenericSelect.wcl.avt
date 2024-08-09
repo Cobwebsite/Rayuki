@@ -97,10 +97,7 @@ namespace Components {
             this.onChange.trigger([this.value]);
             this.filter();
             if(this.formPart) {
-                FormElement.setValue(this.formPart, this.value);
-                if(this.formPart.validateOnChange !== false) {
-                    this.validate();
-                }
+                this.formPart.value.set(this.value);
             }
         }
 

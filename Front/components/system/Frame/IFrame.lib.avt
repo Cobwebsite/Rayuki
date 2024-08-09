@@ -1,0 +1,17 @@
+// import type { IPermissionQuery } from "../../../libs/Permission.lib.avt";
+// import type { ApplicationState } from "../../../states/ApplicationState.state.avt";
+// import type { Application } from "../Application/Application.wcl.avt";
+
+// namespace System {
+//     export interface IFrame extends HTMLElement {
+//         application: Application,
+//         resetNavElement: () => void,
+//         pageTitle: () => string | undefined;
+//         testPermissions: () => Promise<boolean>;
+//         definePermissions: (can: (permission: IPermissionQuery) => void) => void;
+//         can: (state: Aventus.State) => Aventus.Asyncable<boolean | ApplicationState | string>;
+//         show: (state: Aventus.State) => Promise<void>;
+//         hide: () => Promise<void>;
+//         askChange: (newState: Aventus.State) => Promise<boolean>;
+//     }
+// }

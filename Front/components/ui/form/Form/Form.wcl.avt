@@ -1,15 +1,11 @@
-import { type IFormElement } from "../FormElement/FormElement.wcl.avt";
-import type { BodyJSON, FormData } from "./FormType.lib.avt";
-import { InternalVirtualForm, type VirtualForm } from "./VirtualForm.lib.avt";
+import type { IFormElement } from "./FormType.lib.avt";
 
 namespace Components {
 
-    export class Form<T extends BodyJSON> extends Aventus.WebComponent implements Aventus.DefaultComponent {
+    export class Form<T> extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static
-        public static create<T extends BodyJSON>(config: FormData<T>): VirtualForm<T> {
-            return new InternalVirtualForm(config) as VirtualForm<T>;
-        }
+       
         //#endregion
 
 
@@ -56,16 +52,7 @@ namespace Components {
         }
 
         public async validate(): Promise<boolean> {
-            let proms: Promise<boolean>[] = [];
-            for(let element of this.elements) {
-                proms.push(element.validate());
-            }
-
-            const result = await Promise.all(proms);
-            for(let resultTemp of result) {
-                if(!resultTemp) return false;
-            }
-            return true;
+            return false;
         }
         //#endregion
 

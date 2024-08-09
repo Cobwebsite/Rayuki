@@ -1,39 +1,25 @@
 import type { ItemBoxOption } from "./ItemBoxOption/ItemBoxOption.wcl.avt";
 import { BoxContainer } from "../../../layout/BoxContainer/BoxContainer.wcl.avt";
-import { FormElement, type IFormElement } from "../../FormElement/FormElement.wcl.avt";
-import type { FormPart } from "../../Form/FormType.lib.avt";
+import { FormElement } from "../../FormElement/FormElement.wcl.avt";
+import type { FormPart, IFormElement } from "../../Form/FormType.lib.avt";
 import type { Form } from "../../Form/Form.wcl.avt";
 
 namespace Components {
-    export class ItemBoxSelect extends BoxContainer implements Aventus.DefaultComponent, IFormElement<string> {
+    export class ItemBoxSelect extends FormElement<string> implements Aventus.DefaultComponent {
 
         //#region static
 
         //#endregion
 
 
-        //#region props
-        @Property((target: ItemBoxSelect) => {
-            target.selectInternalOption();
-        })
-        public value: string | undefined;
-        @Attribute()
-        private has_errors!: boolean;
+
         //#endregion
 
 
         //#region variables
-        @Watch((target: ItemBoxSelect) => {
-            target.has_errors = target.errors.length > 0;
-        })
-        public errors: string[] = [];
+
         protected options: ItemBoxOption[] = [];
         protected optionSelected?: ItemBoxOption;
-
-        @Watch((target: ItemBoxSelect, action: Aventus.WatchAction, path: string, value: any) => {
-            target.onFormPartChange(action, path, value);
-        })
-        public formPart?: FormPart<string>;
 
         /**
          * @inheritdoc
@@ -48,7 +34,6 @@ namespace Components {
 
 
         //#region events
-        public onChange: Aventus.Callback<(value: string | undefined) => void> = new Aventus.Callback();
         //#endregion
 
         //#region methods
@@ -78,10 +63,7 @@ namespace Components {
             this.value = option.value;
             this.onChange.trigger([this.value]);
             if(this.formPart) {
-                FormElement.setValue(this.formPart, this.value);
-                if(this.formPart.validateOnChange !== false) {
-                    this.validate();
-                }
+                this.formPart.value.set(this.value);
             }
         }
 
@@ -112,16 +94,6 @@ namespace Components {
          */
         protected removeErrors() {
             this.errors = [];
-        }
-
-        public validate(): Promise<boolean> {
-            return FormElement.validate(this);
-        }
-        /**
-         * @inheritdoc
-         */
-        public onFormPartChange(action: Aventus.WatchAction, path: string, value: any) {
-            FormElement.onFormPartChange(this, path, value);
         }
 
         protected override postCreation(): void {

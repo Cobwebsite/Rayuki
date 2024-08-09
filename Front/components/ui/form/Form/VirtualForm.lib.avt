@@ -1,237 +1,268 @@
 import type { ApplicationQueryFctResult } from "../../../system/Application/ApplicationError.lib.avt";
-import { Application } from "../../../system/Application/Application.wcl.avt";
-import type { BodyJSON, FormData, FormPart, FormValidateResult } from "./FormType.lib.avt";
-import { FormElement } from "../FormElement/FormElement.wcl.avt";
-import { Watcher } from "Aventus@Main:Aventus.package.avt";
+import type { FormPart, FormSchema, FormValidate, FormValidateResult, IFormElement, InternalForm, InternalFormPart, VirtualFormConfig } from "./FormType.lib.avt";
 
 namespace Components {
+    export class VirtualForm<T> {
 
-    interface InternalVirtualFormType<T extends BodyJSON> {
-        /**
-        * Return an array of string for all message not displayed otherwhise return a bool
-        * If from is provided, an alert will be trigger if the error can't find a element
-        */
-        validate(from: Application): Promise<boolean>;
-        validate(from?: Aventus.WebComponent): Promise<boolean | string[]>;
-        addFieldError(name: keyof T, error: string): boolean;
-        execute<X>(result: Aventus.Asyncable<ApplicationQueryFctResult<X>>, from: Application): Promise<X | undefined>;
-        execute<X>(result: Aventus.Asyncable<ApplicationQueryFctResult<X>>, from?: Aventus.WebComponent): Promise<ApplicationQueryFctResult<X>>;
-        refresh(key: Extract<keyof T, string>): void;
-        validateAndExecute<X>(result: Aventus.Asyncable<ApplicationQueryFctResult<X>>, from: Application): Promise<X | undefined>;
-    }
-    type FormDataInternal<T extends BodyJSON> = {
-        [K in keyof T]: Required<FormPart<T[K]>>
-    };
+        private __watcher: any;
 
-    export type VirtualForm<T extends BodyJSON> = FormDataInternal<T> & InternalVirtualFormType<T> & { data: T; };
-
-
-    @Internal()
-    export class InternalVirtualForm<T extends BodyJSON> implements InternalVirtualFormType<T> {
-
-        private __config: FormDataInternal<T>;
-
-        public data: any;
-
-        @Internal()
-        public constructor(config: FormData<T>) {
-            for(let name in config) {
-                if(!config[name].elements) {
-                    config[name].elements = [];
-                }
-                if(!config[name].validate) {
-                    config[name].validate = () => true;
-                }
-            }
-            this.__config = config as FormDataInternal<T>;
-
-            for(let key in config) {
-                this.registerKey(key);
-            }
-            const that = this;
-            const proxyData = {
-                __proxyData:{},
-                get(target, prop, receiver) {
-                    if(that.__config[prop as string]) {
-                        return FormElement.getValue(that.__config[prop as string]);
-                    }
-                    if(Aventus.Watcher['__reservedName'][prop]) {
-                        return this.__proxyData[prop];
-                    }
-                    return undefined;
-                },
-                set(target, prop, value, receiver) {
-                    if(that.__config[prop as string]) {
-                        FormElement.setValue(that.__config[prop as string], value);
-                        return true;
-                    }
-                    else if(Aventus.Watcher['__reservedName'][prop]) {
-                        this.__proxyData[prop] = value;
-                        return true;
-                    }
-                    return false;
-                },
-                deleteProperty(target, prop) {
-                    delete that.__config[prop as string];
-                    return true;
-                },
-                defineProperty(target, prop, descriptor) {
-                    that.__config[prop as string];
-                    return true;
-                },
-                ownKeys(target) {
-                    return Object.keys(that.__config);
-                },
-                getOwnPropertyDescriptor(k) {
-                    return {
-                        enumerable: true,
-                        configurable: true,
-                    };
-                }
-            }
-            this.data = new Proxy({}, proxyData);
+        public get item(): T | undefined {
+            return this.__watcher.item;
         }
 
-        public async validateAndExecute<X>(result: Aventus.Asyncable<ApplicationQueryFctResult<X>>, application: Application): Promise<X | undefined> {
-            const validationResult = await this.validate(application);
-            if(validationResult) {
-                return await this.execute(result, application);
-            }
-            return undefined;
+        public set item(item: T | undefined) {
+            this.__watcher.item = item;
         }
 
-        public validate(from: Application): Promise<boolean>;
-        public validate(from?: Aventus.WebComponent | undefined): Promise<boolean | string[]>;
+        public get parts(): InternalForm<T> {
+            return this.__watcher.form;
+        }
 
-        public async validate(from?: Application | Aventus.WebComponent | undefined): Promise<boolean | string[]> {
-            let proms: Promise<boolean>[] = [];
-            let promsCustom: Promise<FormValidateResult>[] = [];
-            const namesCustom: string[] = [];
-            const resultErrors: string[] = [];
-            for(let name in this.__config) {
-                const elements = this.__config[name].elements;
-                if(!elements || elements.length == 0) {
-                    const result = this.__config[name].validate(FormElement.getValue(this.__config[name]));
-                    if(result instanceof Promise) {
-                        promsCustom.push(result);
-                        namesCustom.push(name);
+        private _elements: { [key: string]: IFormElement[]; } = {};
+
+        public get elements(): { [key: string]: IFormElement[]; } {
+            return { ...this._elements };
+        }
+
+        public constructor() {
+            this.onWatcherChanged = this.onWatcherChanged.bind(this);
+            this.__watcher = Aventus.Watcher.get({
+                form: {}
+            }, this.onWatcherChanged);
+        }
+
+        protected transformForm(form: FormSchema<T>): InternalForm<T> {
+            const result = form as InternalForm<T>;
+            const createKey = (key: string) => {
+                this.transformFormPart(key, result[key]);
+            };
+            for(let key in result) {
+                createKey(key);
+            }
+            return result;
+        }
+        protected transformFormPart(key: string, part: FormPart | undefined): void {
+            if(!part) return;
+
+            const realPart = part as InternalFormPart;
+            realPart.onValidation = new Aventus.Callback();
+            realPart.onValueChange = new Aventus.Callback();
+            if(!this._elements[key]) {
+                this._elements[key] = [];
+            }
+            realPart.register = (el) => {
+                if(!this._elements[key].includes(el)) {
+                    this._elements[key].push(el);
+                }
+            };
+            realPart.unregister = (el) => {
+                const index = this._elements[key].indexOf(el);
+                if(index != -1) {
+                    this._elements[key].splice(index, 1);
+                }
+            };
+            realPart.value = {
+                get: () => {
+                    return Aventus.getValueFromObject(key, this.item);
+                },
+                set: (value: any) => {
+                    return Aventus.setValueToObject(key, this.item, value);
+                }
+            };
+        }
+
+        public setForm(item: FormSchema<T>) {
+            this.__watcher.form = this.transformForm(item);
+        }
+        public addFormEntry(name: string, part: FormPart): void {
+            this.transformFormPart(name, part);
+            let form = this.parts as any;
+            form[name] = part;
+        }
+        public removeFormEntry(name: string): void {
+            if(!this.parts) return;
+            for(let key in this.parts) {
+                if(key == name) {
+                    delete this.parts[key];
+                    return;
+                }
+            }
+        }
+
+        public destroy() {
+            delete this.__watcher.form;
+            if(this.__watcher.item) {
+                delete this.__watcher.item;
+            }
+            this.__watcher = undefined;
+
+            this.onItemChange.clear();
+        }
+
+        public init(config: VirtualFormConfig): void {
+            this.globalValidation = config.validate;
+            this.validateOnChange = config.validateOnChange;
+            this.handleValidateNoInputError = config.handleValidateNoInputError;
+            this.handleExecuteNoInputError = config.handleExecuteNoInputError;
+        }
+
+        private _globalValidation?: FormValidate;
+        public set globalValidation(fct: FormValidate | undefined) {
+            this._globalValidation = fct;
+        }
+
+        private _validateOnChange?: boolean;
+        public set validateOnChange(value: boolean | undefined) {
+            this._validateOnChange = value;
+        }
+
+        private _handleValidateNoInputError?: (errors: { [key: string]: string[]; }) => any;
+        public set handleValidateNoInputError(value: ((errors: { [key: string]: string[]; }) => any) | undefined) {
+            this._handleValidateNoInputError = value;
+        }
+
+        private _handleExecuteNoInputError?: (errors: Aventus.GenericError[]) => any;
+        public set handleExecuteNoInputError(value: ((errors: Aventus.GenericError[]) => any) | undefined) {
+            this._handleExecuteNoInputError = value;
+        }
+
+        public onItemChange: Aventus.Callback<(action: Aventus.WatchAction, path: string, value: any) => void> = new Aventus.Callback();
+
+        protected async onWatcherChanged(action: Aventus.WatchAction, path: string, value: any) {
+            if(!this.parts) return;
+
+            if(path == "item") {
+                for(let key in this.parts) {
+                    let formPart = this.parts[key] as InternalFormPart;
+                    formPart.onValueChange.trigger([]);
+                }
+            }
+            else if(path.startsWith("item.")) {
+                let key = path.substring("item.".length);
+                if(this.parts[key]) {
+                    let formPart = this.parts[key] as InternalFormPart;
+                    formPart.onValueChange.trigger([]);
+                    const validateOnChange = formPart.validateOnChange === undefined ? this._validateOnChange : formPart.validateOnChange;
+                    if(validateOnChange) {
+                        this.validate(key);
                     }
-                    else if(result !== undefined && result !== true && result !== "") {
+                }
+                this.onItemChange.trigger([action, key, value]);
+            }
+        }
+
+        private async _validate(key: string | undefined): Promise<{ [key: string]: string[]; }> {
+            if(!this.parts) return { "@general": ["Aucun formulaire trouvé"] };
+
+            if(key !== undefined) {
+                let errorsForm: string[] = [];
+                if(this.parts[key]) {
+                    let formPart = this.parts[key] as InternalFormPart;
+                    let errorsForm: string[] = [];
+                    let value = formPart.value.get();
+
+                    const resultToError = (result: FormValidateResult) => {
                         if(result === false) {
-                            resultErrors.push("Le champs " + name + " n'est pas valide");
+                            errorsForm.push('Le champs n\'est pas valide');
                         }
-                        resultErrors.push(result + "");
+                        else if(typeof result == 'string' && result !== "") {
+                            errorsForm.push(result);
+                        }
+                        else if(Array.isArray(result)) {
+                            errorsForm = [...errorsForm, ...result];
+                        }
+                    };
+
+                    if(formPart.validate) {
+                        const global = async () => {
+                            if(this._globalValidation) {
+                                const result = await this._globalValidation(key, value);
+                                resultToError(result);
+                            }
+                        };
+
+                        let result = await formPart.validate(value, global);
+                        resultToError(result);
+
+                        const errors2d = await Promise.all(formPart.onValidation.trigger([errorsForm]));
+                        const errors: string[] = [];
+                        for(let errorsTemp of errors2d) {
+                            for(let errorTemp of errorsTemp) {
+                                if(!errors.includes(errorTemp)) {
+                                    errors.push(errorTemp);
+                                }
+                            }
+                        }
+
+                    }
+                    else if(this._globalValidation) {
+                        const result = await this._globalValidation(key, value);
+                        resultToError(result);
                     }
                 }
-                else {
-                    for(let element of this.__config[name].elements) {
-                        proms.push(element.validate());
-                    }
-                }
+                return errorsForm.length == 0 ? {} : { [key]: errorsForm };
             }
 
-            const result2 = await Promise.all(promsCustom);
-            for(let i = 0; i < result2.length; i++) {
-                const resultTemp = result2[i];
-                if(resultTemp !== undefined && resultTemp !== true && resultTemp !== "") {
-                    if(resultTemp === false) {
-                        resultErrors.push("Le champs " + namesCustom[i] + " n'est pas valide");
-                    }
-                    resultErrors.push(resultTemp + "");
-                }
+            let errors: { [key: string]: string[]; } = {};
+            for(let key in this.parts) {
+                errors = { ...errors, ...await this._validate(key) };
             }
 
-
-            if(resultErrors.length > 0) {
-                if(from) {
-
-                    let application = from instanceof Application ? from : from.findParentByType(Application);
-                    await application?.alert({
-                        title: "Erreur de validation",
-                        description: resultErrors.join("<br>")
-                    });
-                    return false;
-                }
-                return resultErrors;
-            }
-
-            const result = await Promise.all(proms);
-            for(let resultTemp of result) {
-                if(!resultTemp) return false;
-            }
-
-
-            return true;
+            return errors;
         }
 
+        public async validate(key?: string): Promise<boolean> {
+            const result = this._validate(key);
 
-        public execute<X>(query: Aventus.Asyncable<ApplicationQueryFctResult<X>>, from: Application): Promise<X | undefined>;
-        public execute<X>(query: Aventus.Asyncable<ApplicationQueryFctResult<X>>, from?: Aventus.WebComponent | undefined): Promise<ApplicationQueryFctResult<X>>;
-        public async execute<X>(query: Aventus.Asyncable<ApplicationQueryFctResult<X>>, from?: Application | Aventus.WebComponent): Promise<ApplicationQueryFctResult<X> | Awaited<X> | undefined> {
+            const unhandle: { [key: string]: string[]; } = {};
+            let triggerUnhandle = false;
+            for(let key in result) {
+                // si on ne trouve pas de formElement, on affiche un message
+                if(!this._elements[key] || this._elements[key].length == 0) {
+                    triggerUnhandle = true;
+                    unhandle[key] = result[key];
+                }
+            }
+
+            if(triggerUnhandle && this._handleValidateNoInputError) {
+                this._handleValidateNoInputError(unhandle);
+            }
+
+            return Object.keys(result).length == 0;
+        }
+
+        public async execute<X>(query: Aventus.Asyncable<ApplicationQueryFctResult<X>>): Promise<ApplicationQueryFctResult<X>> {
             let queryResult = await query;
 
             if(queryResult.errors.length > 0) {
                 let noPrintErrors: Aventus.GenericError[] = [];
+                const elements = this.elements;
                 for(let error of queryResult.errors) {
-                    if(
-                        error instanceof AventusSharp.Data.DataError &&
-                        error.code == AventusSharp.Data.DataErrorCode.ValidationError &&
-                        error.details.length > 0 &&
-                        error.details[0] instanceof AventusSharp.Data.FieldErrorInfo
-                    ) {
-                        let fieldInfo = error.details[0];
-                        if(this.addFieldError(fieldInfo.Name, error.message)) {
+                    if(error.details) {
+                        let found = false;
+                        for(let detail of error.details) {
+                            if(detail instanceof AventusSharp.Data.FieldErrorInfo) {
+                                if(elements[detail.Name]) {
+                                    for(const element of elements[detail.Name]) {
+                                        element.errors.push(error.message);
+                                    }
+                                    found = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if(found) {
                             continue;
                         }
                     }
-
                     noPrintErrors.push(error);
+                }
+                if(noPrintErrors.length > 0 && this._handleExecuteNoInputError) {
+                    this._handleExecuteNoInputError(noPrintErrors);
                 }
                 queryResult.errors = noPrintErrors;
             }
-
-            if(from) {
-                let application = from instanceof Application ? from : from.findParentByType(Application);
-                if(application) {
-                    return await application.parseErrors(queryResult);
-                }
-            }
             return queryResult;
-        }
-
-        private registerKey(key: Extract<keyof T, string>) {
-            Object.defineProperty(this, key, {
-                get: () => this.__config[key],
-                set: (value) => this.__config[key] = value,
-                enumerable: true
-            });
-        }
-
-        public getData(): T {
-            let result: any = {};
-            for(let name in this.__config) {
-                result[name] = FormElement.getValue(this.__config[name]);
-            }
-
-            return result as T;
-        }
-
-        public refresh(key: Extract<keyof T, string>): void {
-            const config = this.__config[key];
-            if(!config) return;
-            for(let element of config.elements) {
-                element.value = FormElement.getValue(config);
-            }
-        }
-
-        public addFieldError(name: keyof T, error: string): boolean {
-            if(this.__config[name]?.elements.length > 0) {
-                for(let el of this.__config[name].elements) {
-                    el.errors.push(error);
-                }
-                return true;
-            }
-            return false;
         }
     }
 }

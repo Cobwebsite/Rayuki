@@ -1,8 +1,7 @@
-import { FrameNoScroll } from "../Frame/FrameNoScroll/FrameNoScroll.wcl.avt";
 import { ApplicationHistory } from "./ApplicationHistory.lib.avt";
 import { Resize, ResizeDirection } from "../../ui/Resize/Resize.wcl.avt";
 import { ApplicationStateManager } from "../../../libs/ApplicationStateManager.state.avt";
-import { Popup, type PopupInfo } from "../../ui/popup/Popup/Popup.wcl.avt";
+import { type PopupInfo } from "../../ui/popup/Popup/Popup.wcl.avt";
 import { Alert, type AlertInfo } from "../../ui/popup/Alert/Alert.wcl.avt";
 import { Confirm, type ConfirmInfo } from "../../ui/popup/Confirm/Confirm.wcl.avt";
 import { ApplicationOpen, ApplicationOpenInfo } from "../../../generated/Data/ApplicationOpen.lib.avt";
@@ -10,9 +9,9 @@ import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
 import { Frame404 } from "../Frame/Frame404/Frame404.wcl.avt";
 import { ApplicationSize, type ApplicationPositionSize } from "./ApplicationSize.lib.avt";
 import type { Desktop } from "../Desktop/Desktop.wcl.avt";
-import type { ContextMenu, IContextMenu } from "../../ui/ContextMenu/ContextMenu.wcl.avt";
+import type { ContextMenu } from "../../ui/ContextMenu/ContextMenu.wcl.avt";
 import { Geometry, type Rectangle } from "../../../libs/Geometry.lib.avt";
-import type { ApplicationQueryFct, ApplicationQueryFctResult, ApplicationQueryResult, GetArgs } from "./ApplicationError.lib.avt";
+import type { ApplicationQueryFctResult } from "./ApplicationError.lib.avt";
 import { type SpecialTouch } from "../../../libs/ShortcutManager.lib.avt";
 import { Os } from "../Os/Os.wcl.avt";
 import { DesktopActivableLogic, type IDesktopActivable } from "../Desktop/IActivable.lib.avt";
@@ -23,6 +22,7 @@ import type { ContextMenuElement } from "../../ui/ContextMenu/ContextMenuElement
 import type { NotificationManager } from "../../ui/popup/NotificationManager/NotificationManager.wcl.avt";
 import type { Notification, NotificationOptions } from "../../ui/popup/Notification/Notification.wcl.avt";
 import { ApplicationShortcut } from "./ApplicationShortcut.lib.avt";
+import type { FrameNoScroll } from "../Frame/FrameNoScroll/FrameNoScroll.wcl.avt";
 
 namespace System {
 
@@ -249,6 +249,7 @@ namespace System {
 
         /**
          * Determine if the frame should be destroyed when hiding
+         * If not destroy you must be carefull with state refresh. This can be tricky
          */
         protected shouldDestroyFrame(frame: FrameNoScroll): boolean {
             return false;
@@ -294,7 +295,10 @@ namespace System {
                                 await this.oldFrame.hide();
                                 if(this.shouldDestroyFrame(this.oldFrame)) {
                                     this.oldFrame.remove();
-                                    this.oldFrame.resetNavElement();
+                                    // resetNavElement not set for 404 or 405
+                                    if(this.oldFrame.resetNavElement) {
+                                        this.oldFrame.resetNavElement();
+                                    }
                                 }
                             }
 
@@ -838,18 +842,27 @@ namespace System {
 
         //#region execution process
         /**
-         *  Parses errors from the application query result.
+         * Display GenericError as a popup
          */
         @BindThis()
-        public async parseErrors<X>(result: ApplicationQueryFctResult<X>): Promise<X | undefined> {
-            if(result.errors.length > 0) {
-                let msg = result.errors.map(p => p.message).join("<br/>");
+        public async popupErrors(errors: Aventus.GenericError[]) {
+            if(errors.length > 0) {
+                let msg = errors.map(p => p.message).join("<br/>");
                 await this.alert({
                     title: "Error",
                     description: msg,
                     behind: false,
                     min_width: '300px',
                 });
+            }
+        }
+        /**
+         *  Parses errors from the application query result.
+         */
+        @BindThis()
+        public async parseErrors<X>(result: ApplicationQueryFctResult<X>): Promise<X | undefined> {
+            if(result.errors.length > 0) {
+                await this.popupErrors(result.errors);
                 return undefined;
             }
             if(result instanceof Aventus.ResultWithError) return result.result;

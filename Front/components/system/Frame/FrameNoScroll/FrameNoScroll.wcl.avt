@@ -18,6 +18,7 @@ namespace System {
 
 
         //#region variables
+        @Signal()
         protected state!: Aventus.State;
         public application!: Application;
 
@@ -77,7 +78,7 @@ namespace System {
          * If one permission is denied, the user can't access the frame.
          */
         public definePermissions(can: (permission: IPermissionQuery) => void): void {
-            
+
         }
 
         /**
@@ -86,7 +87,7 @@ namespace System {
          * False will prevent showing
          * string or state will redirect to the page
          */
-        public can(state: Aventus.State):  Aventus.Asyncable<boolean | ApplicationState | string> {
+        public can(state: Aventus.State): Aventus.Asyncable<boolean | ApplicationState | string> {
             return true;
         }
         public async show(state: Aventus.State): Promise<void> {
@@ -94,7 +95,7 @@ namespace System {
             this.visible = true;
             this.onShow();
         }
-       
+
         public async hide(): Promise<void> {
             this.visible = false;
             this.onHide();

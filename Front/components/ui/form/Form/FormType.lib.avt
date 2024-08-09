@@ -1,204 +1,60 @@
-import type { IFormElement } from "../FormElement/FormElement.wcl.avt";
-
 namespace Components {
-    /**
-     * Represents a collection of form parts.
-     */
-    export type FormType = {
-        [key: string]: FormPart<any>;
-    };
+    export interface IFormElement<T = any> {
+        errors: string[];
+        value: T | undefined;
+        onChange: Aventus.Callback<(value: T) => void>;
+        formPart?: InternalFormPart<T>;
+    }
 
-    /**
-     * Represents the result of form validation.
-     * It can be a string, a boolean, undefined, or a promise of these types.
-     */
-    export type FormValidateResult = string | boolean | undefined | Promise<string | boolean | undefined>;
-    /**
-     * Represents a validation function for a value of type T.
-     * The function takes a value of type T or undefined and returns a FormValidateResult.
-     */
-    export type FormValidate<T> = (value: T | undefined) => FormValidateResult;
-    /**
-     * Represents a general validation function for all values.
-     * The function takes the concerned key and the value and returns a FormValidateResult.
-     */
-    export type GeneralFormValidate<T> = (key: T, value: any) => FormValidateResult;
-    /**
-     * Represents a part of a form.
-     * @template T The type of the value of the form part.
-     */
-    export interface FormPart<T = any> {
+    export type InternalForm<T> = { [K in keyof T]?: InternalFormPart<T[K]> };
+    export interface InternalFormPart<T = any> {
+        /**
+         * The value of the form part, which can be of type T or an object with get and set methods.
+         */
+        value: { get: () => T; set: (value: T | undefined) => void; },
+        /**
+         * A validation function for the form part.
+         */
+        validate?: FormPartValidate<T>;
         /**
          * Indicates whether validation should be performed on value change.
          */
         validateOnChange?: boolean,
-        /**
-         * The value of the form part, which can be of type T or an object with get and set methods.
-         */
-        value: T | undefined | { get: () => T; set: (value: T) => void; },
-        /**
-         * An array of form elements.
-         */
-        elements?: IFormElement[],
+
+        onValueChange: Aventus.Callback<() => void>,
+        onValidation: Aventus.Callback<(errors: string[]) => Aventus.Asyncable<string[]>, Aventus.Asyncable<string[]>>,
+        register: (element: IFormElement) => void;
+        unregister: (element: IFormElement) => void;
+    };
+
+    export type FormSchema<T> = { [K in keyof T]: FormPart<T[K]> };
+    export interface FormPart<T = any> {
         /**
          * A validation function for the form part.
          */
-        validate?: FormValidate<T>;
+        validate?: FormPartValidate<T>;
+        /**
+         * Indicates whether validation should be performed on value change.
+         */
+        validateOnChange?: boolean,
     };
 
     /**
-     * Represents a JSON body with keys of type string or number and values of unknown type.
-     */
-    export type BodyJSON = { [key: string | number]: unknown; };
+        * Represents the result of form validation.
+        * It can be a string, a boolean, undefined, or a promise of these types.
+        */
+    export type FormValidateResult = Aventus.Asyncable<string | string[] | boolean | undefined>;
     /**
-     * Represents form data where each key of type K in T maps to a form part of type T[K].
-     * @template T The type of the JSON body.
+     * Represents a validation function for a value of type T.
+     * The function takes a value of type T or undefined and returns a FormValidateResult.
      */
-    export type FormData<T extends BodyJSON> = {
-        [K in keyof T]: FormPart<T[K]>
+    export type FormPartValidate<T> = (value: T | undefined, globalValidation: () => Promise<void>) => FormValidateResult;
+    export type FormValidate = (field: string, value: unknown) => FormValidateResult;
+
+    export type VirtualFormConfig = {
+        validate?: FormValidate,
+        validateOnChange?: boolean,
+        handleValidateNoInputError?: (errors: { [key: string]: string[]; }) => any,
+        handleExecuteNoInputError?: (errors: Aventus.GenericError[]) => any;
     };
-
-    /**
-     * Represents settings for building form data.
-     * @template T The type of the JSON body.
-     */
-    export type formDataBuilderSettings<T> = {
-        /**
-         * Indicates whether keys are not predefined.
-         */
-        keysNotDefined?: boolean;
-        /**
-         * An object where each key in T maps to a validation function for values of type T[K].
-         */
-        validation?: {
-            [K in keyof T]?: FormValidate<T[K]>;
-        };
-        /**
-         * A general validation function that can be applied to any form part.
-         */
-        generalValidation?: GeneralFormValidate<keyof T>;
-        /**
-         * An object where each key in T maps to a boolean indicating whether to validate on change.
-         */
-        validateOnChange?: {
-            [K in keyof T]: boolean;
-        };
-        /**
-         * A general boolean indicating whether to validate on change.
-         */
-        generalValidateOnChange?: boolean;
-        /**
-         * Define which keys must be exposed
-         * If not set the whole object will be exposed
-         */
-        keys?: (keyof T)[];
-    };
-    /**
-     * Builds form data from an item of type T and optional settings.
-     */
-    export function formDataBuilder<T extends BodyJSON>(item: T, settings?: formDataBuilderSettings<T>): FormData<T> {
-        if(!settings) {
-            settings = {};
-        }
-        const final = {} as FormData<T>;
-        const createKey = <K extends keyof T>(key: K) => {
-            final[key] = {
-                value: {
-                    get: () => {
-                        return item[key];
-                    },
-                    set: (v) => {
-                        item[key] = v;
-                    }
-                }
-            };
-
-            if(settings.generalValidation && settings.validation && settings.validation[key]) {
-                const gV = settings.generalValidation;
-                const v = settings.validation[key];
-                final[key].validate = async (value: T[K] | undefined) => {
-                    let gVR = await gV(key, value);
-                    if(gVR !== undefined && gVR !== true && gVR !== "") {
-                        return gVR;
-                    }
-
-                    let vR = await v(value);
-                    if(vR !== undefined && vR !== true && vR !== "") {
-                        return vR;
-                    }
-                    return true;
-                };
-            }
-            else if(settings.generalValidation) {
-                const gV = settings.generalValidation;
-                final[key].validate = async (value: T[K] | undefined) => {
-                    return await gV(key, value);
-                }
-            }
-            else if(settings.validation && settings.validation[key]) {
-                final[key].validate = settings.validation[key];
-            }
-
-            if(settings.validateOnChange && settings.validateOnChange[key] !== undefined) {
-                final[key].validateOnChange = settings.validateOnChange[key];
-            }
-            else if(settings.generalValidateOnChange !== undefined) {
-                final[key].validateOnChange = settings.generalValidateOnChange;
-            }
-
-        };
-
-        if(settings.keysNotDefined) {
-            const proxyData = {
-                get(target, prop, receiver) {
-                    if(!final[prop]) {
-                        createKey(prop);
-                    }
-                    return Reflect.get(target, prop, receiver);
-                },
-                set(target, prop, value, receiver) {
-                    if(!final[prop]) {
-                        createKey(prop);
-                    }
-                    return Reflect.set(target, prop, value, receiver);
-                },
-                deleteProperty(target, prop) {
-                    if(target.hasOwnProperty(prop)) {
-                        delete target[prop];
-                        return true;
-                    }
-                    return false;
-                },
-                defineProperty(target, prop, descriptor) {
-                    if(!final[prop]) {
-                        createKey(prop);
-                    }
-                    return true;
-                },
-                ownKeys(target) {
-                    return Reflect.ownKeys(target);
-                },
-                getOwnPropertyDescriptor(k) {
-                    return {
-                        enumerable: true,
-                        configurable: true,
-                    };
-                }
-            };
-            var proxy = new Proxy(final, proxyData);
-            return proxy;
-        }
-        else if(settings.keys) {
-            for(let key of settings.keys) {
-                createKey(key);
-            }
-        }
-        else {
-            for(let key in item) {
-                createKey(key);
-            }
-        }
-        return final;
-    }
-
 }

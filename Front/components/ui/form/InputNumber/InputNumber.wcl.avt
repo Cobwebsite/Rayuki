@@ -110,11 +110,24 @@ namespace Components {
             return true;
         }
 
-        public override async validate(): Promise<boolean> {
-            if(!this.localValidation()) return false;
-            return super.validate();
+        public override onFormValidation(errors: string[]): Aventus.Asyncable<string[]> {
+            if(!this.localValidation()) {
+                errors.push("Il ne s'agit pas d'un nombre");
+            }
+            return super.onFormValidation(errors);
         }
 
+
+        /**
+         * 
+         */
+        protected validate() {
+            if(!this.formPart) {
+                if(!this.localValidation()) {
+                    this.errors = ["Il ne s'agit pas d'un nombre"];
+                }
+            }
+        }
         /**
          * 
          */
@@ -123,10 +136,7 @@ namespace Components {
 
             this.onChange.trigger([this.value]);
             if(this.formPart) {
-                FormElement.setValue(this.formPart, this.value);
-                if(this.formPart.validateOnChange !== false) {
-                    this.validate();
-                }
+                this.formPart.value.set(this.value);
             }
         }
 
