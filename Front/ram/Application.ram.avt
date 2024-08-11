@@ -1,5 +1,4 @@
 import { ApplicationRouter } from "../generated/Routes/ApplicationRouter.lib.avt";
-import { CoreRouter } from "../generated/CoreRouter.lib.avt";
 import { ApplicationData } from "../generated/Data/ApplicationData.data.avt";
 
 namespace RAM {

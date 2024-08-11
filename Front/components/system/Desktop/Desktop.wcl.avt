@@ -21,6 +21,7 @@ import { DesktopRouter } from "../../../generated/Websocket/Routes/DesktopRouter
 import { ApplicationPermission, ApplicationPermissionQuery } from "../../../generated/Permissions/ApplicationPermission.lib.avt";
 import { Notification } from "../../ui/popup/Notification/Notification.wcl.avt";
 import { Addon } from "../../../libs/Addon.lib.avt";
+import { ApplicationRAM } from "../../../ram/Application.ram.avt";
 
 namespace System {
     export class Desktop extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, MoveApplicationProvider {
@@ -109,13 +110,18 @@ namespace System {
         //#region application
         public async loadApp(application: string) {
             await Addon.loadForApp(application);
+            const appInfo = await ApplicationRAM.getInstance().getApplicationByName(application);
+            let version = "";
+            if(appInfo) {
+                version = "?v=" + appInfo.Version;
+            }
             await Aventus.ResourceLoader.loadInHead({
                 type: "js",
-                url: "/apps/" + application + "/index.js"
+                url: "/apps/" + application + "/index.js" + version
             });
             await Aventus.ResourceLoader.loadInHead({
                 type: "css",
-                url: "/apps/" + application + "/default.css"
+                url: "/apps/" + application + "/default.css" + version
             });
         }
         public async openUrl(application: string, componentUrl: string = "/", url: string = "/") {

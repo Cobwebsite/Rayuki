@@ -36,7 +36,8 @@ namespace Core.Routes
                 scripts = autoLoad["scripts"].ToArray(),
                 is_dev = HttpServer.IsDev,
                 nb_apps = HttpServer.nbAppInDev,
-                user_id = context.GetUserId()
+                user_id = context.GetUserId(),
+                version = HttpServer.Version
             });
         }
 

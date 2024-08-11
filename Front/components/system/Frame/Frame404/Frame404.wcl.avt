@@ -1,9 +1,8 @@
 import type { IPermissionQuery } from "../../../../libs/Permission.lib.avt";
 import { Frame } from "../Frame.wcl.avt";
-import type { IFrame } from "../IFrame.lib.avt";
 
 namespace System {
-	export class Frame404 extends Frame implements Aventus.DefaultComponent, IFrame {
+	export class Frame404 extends Frame implements Aventus.DefaultComponent {
 	
 		//#region static
 		

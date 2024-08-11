@@ -113,6 +113,7 @@ namespace System {
         protected isAnimating: boolean = false;
         private afterTransitionCb: (() => void)[] = [];
         protected shortcutManager: ApplicationShortcut;
+        public version: number = 0;
         //#endregion
 
 
@@ -268,7 +269,10 @@ namespace System {
                             if(!element) {
                                 let options = allRoutes[path];
                                 if(options.scriptUrl != "") {
-                                    await Aventus.ResourceLoader.loadInHead(options.scriptUrl);
+                                    await Aventus.ResourceLoader.loadInHead({
+                                        url: options.scriptUrl + "?v=" + this.version,
+                                        type: "js"
+                                    });
                                 }
 
                                 let cst = options.render();

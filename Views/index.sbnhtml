@@ -7,13 +7,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="theme-color" content="#dcdcdc" />
 
-    <link rel="icon" href="/img/logo.svg" />
-    <link rel="manifest" href="/pwa/manifest.json" />
+    <link rel="icon" href="/img/logo.svg?v={{ version }}" />
+    <link rel="manifest" href="/pwa/manifest.json?v={{ version }}" />
     <title>{{ title }}</title>
     <script>
         const userIdConnected = Number("{{ user_id }}");
+        const coreVersion = Number("{{ version }}");
     </script>
-    <script src="/cssstylesheet.js"></script>
+    <script src="/cssstylesheet.js?v={{ version }}"></script>
     <script>
     window.onerror = function(msg, url, linenumber) {
         alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
@@ -22,17 +23,17 @@
     }
     </script>
     {{ for script in scripts }}
-    <script src="{{ script }}"></script>
+    <script src="{{ script }}?v={{ version }}"></script>
     {{ end }}
     {{ for style in styles }}
-    <link rel="stylesheet" href="{{ style }}" />
+    <link rel="stylesheet" href="{{ style }}?v={{ version }}" />
     {{end}}
     {{ if is_dev }}
         {{ for nb in 1..nb_apps }}
             <script src="http://127.0.0.1:{{ 8079 + nb }}/?get_injected_code" async></script>
         {{end}}
     {{ end }}
-    <script src="/pwa/pwa.js"></script>
+    <script src="/pwa/pwa.js?v={{ version }}"></script>
 </head>
 <body>
     <rk-os></rk-os>

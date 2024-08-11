@@ -2150,7 +2150,7 @@ const Addon=class Addon {
     }
     static async load(name) {
         await Aventus.ResourceLoader.loadInHead({
-            url: "/addon/" + name + ".js",
+            url: "/addon/" + name + ".js?v=" + coreVersion,
             type: "js"
         });
     }
@@ -7034,6 +7034,7 @@ System.Application = class Application extends Aventus.WebComponent {
     isAnimating = false;
     afterTransitionCb = [];
     shortcutManager;
+    version = 0;
     get navigator() {
         if (!this.router) {
             this.router = new Lib.ApplicationStateManager(this);
@@ -7221,7 +7222,10 @@ System.Application = class Application extends Aventus.WebComponent {
                         if (!element) {
                             let options = allRoutes[path];
                             if (options.scriptUrl != "") {
-                                await Aventus.ResourceLoader.loadInHead(options.scriptUrl);
+                                await Aventus.ResourceLoader.loadInHead({
+                                    url: options.scriptUrl + "?v=" + this.version,
+                                    type: "js"
+                                });
                             }
                             let cst = options.render();
                             element = new cst;
@@ -7740,6 +7744,7 @@ Components.Link = class Link extends Aventus.WebComponent {
     set 'active_pattern'(val) { this.setStringAttr('active_pattern', val) }get 'active'() { return this.getBoolProp('active') }
     set 'active'(val) { this.setBoolAttr('active', val) }    pressManager;
     oldTo;
+    retriggerIfActive = false;
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("to", ((target) => {
     target.changeActiveSub();
 }));this.__addPropertyActions("active_pattern", ((target) => {
@@ -7793,10 +7798,15 @@ Components.Link = class Link extends Aventus.WebComponent {
     }
     onActiveChange() {
     }
+    allowTrigger(element) {
+        return true;
+    }
     setOnPress() {
         this.pressManager = new Aventus.PressManager({
             element: this,
             onPress: (e) => {
+                if (!this.allowTrigger(this))
+                    return;
                 let app = this.findParentByType(System.Application);
                 if (app && this.to) {
                     app.navigate(this.to);
@@ -8047,13 +8057,18 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
     }
     async loadApp(application) {
         await Addon.loadForApp(application);
+        const appInfo = await RAM.ApplicationRAM.getInstance().getApplicationByName(application);
+        let version = "";
+        if (appInfo) {
+            version = "?v=" + appInfo.Version;
+        }
         await Aventus.ResourceLoader.loadInHead({
             type: "js",
-            url: "/apps/" + application + "/index.js"
+            url: "/apps/" + application + "/index.js" + version
         });
         await Aventus.ResourceLoader.loadInHead({
             type: "css",
-            url: "/apps/" + application + "/default.css"
+            url: "/apps/" + application + "/default.css" + version
         });
     }
     async openUrl(application, componentUrl = "/", url = "/") {
@@ -8411,6 +8426,9 @@ System.Os = class Os extends Aventus.WebComponent {
 					set 'desktops'(val) {
 						this.__watch["desktops"] = val;
 					}    static instance;
+    static get version() {
+        return coreVersion;
+    }
     activeDesktopEl;
     get activeDesktop() {
         return this.activeDesktopEl;
@@ -9180,24 +9198,32 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
       "once": true
     },
     "applicationsidnav_15°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod6(c.data.item))}`,
+      "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod7(c.data.item))}`,
       "once": true
     }
-  }
+  },
+  "injection": [
+    {
+      "id": "applicationsidnav_11",
+      "injectionName": "allowTrigger",
+      "inject": (c) => c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod5(c.data.item),
+      "once": true
+    }
+  ]
 });this.__getStatic().__template.addLoop({
                     anchorId: 'applicationsidnav_10',
                     template: templ0,
                 simple:{data: "this.sidnavItems",item:"item"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`                        <mi-icon _id="applicationsidnav_13"></mi-icon>                    `);templ1.setActions({
   "content": {
     "applicationsidnav_13°icon": {
-      "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod5(c.data.item))}`,
+      "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod6(c.data.item))}`,
       "once": true
     }
   }
 });const templ2 = new Aventus.Template(this);templ2.setTemplate(`                        <rk-img _id="applicationsidnav_14"></rk-img>                    `);templ2.setActions({
   "content": {
     "applicationsidnav_14°src": {
-      "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod5(c.data.item))}`,
+      "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod6(c.data.item))}`,
       "once": true
     }
   }
@@ -9238,12 +9264,22 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
         else if (options.icon) {
             icon = options.icon;
         }
+        let allowTrigger;
+        if (options.allowTrigger) {
+            allowTrigger = options.allowTrigger;
+        }
+        else {
+            allowTrigger = (link) => {
+                return this.navigator.getState()?.name != link.to;
+            };
+        }
         this.sidnavItems.push({
             name: options.name,
             icon,
             useMi,
             route,
-            active: options.activeRoute ?? route
+            active: options.activeRoute ?? route,
+            allowTrigger
         });
     }
     toggleSidnav() {
@@ -9261,14 +9297,17 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
     __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod4(item) {
         return item.active;
     }
-    __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod5(item) {
+    __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod6(item) {
         return item.icon;
     }
-    __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod6(item) {
+    __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod7(item) {
         return item.name;
     }
     __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod1(item) {
         return item.useMi;
+    }
+    __564ed14a7e807cc2bd8ebdf7d29b1c4fmethod5(item) {
+        return item.allowTrigger;
     }
 }
 System.ApplicationSidnav.Namespace=`Core.System`;
@@ -10812,6 +10851,10 @@ Components.VirtualForm=class VirtualForm {
         const realPart = part;
         realPart.onValidation = new Aventus.Callback();
         realPart.onValueChange = new Aventus.Callback();
+        realPart.test = async () => {
+            const result = await this.validate(key);
+            return result;
+        };
         if (!this._elements[key]) {
             this._elements[key] = [];
         }
@@ -11708,7 +11751,7 @@ Components.InputNumber = class InputNumber extends Components.FormElement {
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
     target.inputEl.value = target.value + '';
 })); }
-    static __style = `:host{--_input-number-height: var(--input-number-height, 30px);--_input-number-background-color: var(--input-number-background-color, var(--form-element-background, white));--_input-number-icon-height: var(--input-number-icon-height, calc(var(--_input-number-height) / 2));--_input-number-error-logo-size: var(--input-number-error-logo-size, calc(var(--_input-number-height) / 2));--_input-number-font-size: var(--input-number-font-size, var(--form-element-font-size, 16px));--_input-number-font-size-label: var(--input-number-font-size-label, var(--form-element-font-size-label, calc(var(--_input-number-font-size) * 0.95)));--_input-number-input-border: var(--input-number-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-number-border-radius: var(--input-number-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-number-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-number-background-color);border:var(--_input-number-input-border);border-radius:var(--_input-number-border-radius);display:flex;height:var(--_input-number-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-number-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-number-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-number-error-logo-size) - 5px);height:var(--_input-number-error-logo-size);justify-content:center;width:var(--_input-number-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:0 10px}:host .errors *>div{margin:5px 0}:host .errors *>div:first-child{margin-top:10px}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}`;
+    static __style = `:host{--_input-number-height: var(--input-number-height, 30px);--_input-number-background-color: var(--input-number-background-color, var(--form-element-background, white));--_input-number-icon-height: var(--input-number-icon-height, calc(var(--_input-number-height) / 2));--_input-number-error-logo-size: var(--input-number-error-logo-size, calc(var(--_input-number-height) / 2));--_input-number-font-size: var(--input-number-font-size, var(--form-element-font-size, 16px));--_input-number-font-size-label: var(--input-number-font-size-label, var(--form-element-font-size-label, calc(var(--_input-number-font-size) * 0.95)));--_input-number-input-border: var(--input-number-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-number-border-radius: var(--input-number-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-number-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-number-background-color);border:var(--_input-number-input-border);border-radius:var(--_input-number-border-radius);display:flex;height:var(--_input-number-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-number-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-number-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-number-error-logo-size) - 5px);height:var(--_input-number-error-logo-size);justify-content:center;width:var(--_input-number-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:0 10px}:host .errors>div{margin:5px 0}:host .errors>div:first-child{margin-top:10px}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}`;
     __getStatic() {
         return InputNumber;
     }
@@ -11719,7 +11762,7 @@ Components.InputNumber = class InputNumber extends Components.FormElement {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<label for="input" _id="inputnumber_0"></label><div class="input">    <rk-img class="icon" _id="inputnumber_1"></rk-img>    <input id="input" _id="inputnumber_2" />    <div class="error-logo">!</div></div><div class="errors">    <template _id="inputnumber_3"></template></div>` }
+        blocks: { 'default':`<label for="input" _id="inputnumber_0"></label><div class="input">    <rk-img class="icon" _id="inputnumber_1"></rk-img>    <input autocomplete="off" id="input" _id="inputnumber_2" />    <div class="error-logo">!</div></div><div class="errors">    <template _id="inputnumber_3"></template></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -11733,15 +11776,15 @@ Components.InputNumber = class InputNumber extends Components.FormElement {
   ],
   "content": {
     "inputnumber_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method2())}`,
+      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method1())}`,
       "once": true
     },
     "inputnumber_1°src": {
-      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method3())}`,
+      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method2())}`,
       "once": true
     },
     "inputnumber_2°placeholder": {
-      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method4())}`,
+      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method3())}`,
       "once": true
     }
   },
@@ -11762,23 +11805,17 @@ Components.InputNumber = class InputNumber extends Components.FormElement {
       "fct": (e, c) => c.comp.validate(e)
     }
   ]
-});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <template _id="inputnumber_4"></template>    `);this.__getStatic().__template.addLoop({
-                    anchorId: 'inputnumber_3',
-                    template: templ0,
-                simple:{data: "this.errors",item:"error"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`            <div _id="inputnumber_5"></div>        `);templ1.setActions({
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <div _id="inputnumber_4"></div>    `);templ0.setActions({
   "content": {
-    "inputnumber_5°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method5(c.data.error))}`,
+    "inputnumber_4°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method4(c.data.error))}`,
       "once": true
     }
   }
-});templ0.addIf({
-                    anchorId: 'inputnumber_4',
-                    parts: [{once: true,
-                    condition: (c) => c.comp.__181298e531eab1a15f907371f4223808method1(c.data.error),
-                    template: templ1
-                }]
-            }); }
+});this.__getStatic().__template.addLoop({
+                    anchorId: 'inputnumber_3',
+                    template: templ0,
+                simple:{data: "this.errors",item:"error"}}); }
     getClassName() {
         return "InputNumber";
     }
@@ -11787,13 +11824,11 @@ Components.InputNumber = class InputNumber extends Components.FormElement {
     removeErrors() {
         this.errors = [];
     }
-    isNumber(apply) {
+    isNumber() {
         let valueTemp = Number(this.inputEl.value);
         if (!this.inputEl.value || isNaN(valueTemp)) {
             return false;
         }
-        if (apply)
-            this.value = valueTemp;
         return true;
     }
     isBiggerThanMin() {
@@ -11808,60 +11843,54 @@ Components.InputNumber = class InputNumber extends Components.FormElement {
         }
         return true;
     }
-    localValidation(apply = false) {
-        this.errors = [];
-        if (!this.isNumber(apply)) {
+    localValidation() {
+        let errors = [];
+        if (!this.isNumber()) {
             const txt = this.errorsTxt.notNumber ?? this.defaultErrorsTxt.notNumber;
-            this.errors.push(txt);
-            return false;
+            errors.push(txt);
         }
-        if (!this.isBiggerThanMin()) {
+        else if (!this.isBiggerThanMin()) {
             const txt = this.errorsTxt.lowerThanMin ?? this.defaultErrorsTxt.lowerThanMin;
-            this.errors.push(txt);
-            return false;
+            errors.push(txt);
         }
-        if (!this.isLowerThanMax()) {
+        else if (!this.isLowerThanMax()) {
             const txt = this.errorsTxt.biggerThanMax ?? this.defaultErrorsTxt.biggerThanMax;
-            this.errors.push(txt);
-            return false;
+            errors.push(txt);
         }
-        return true;
+        return errors;
     }
     onFormValidation(errors) {
-        if (!this.localValidation()) {
-            errors.push("Il ne s'agit pas d'un nombre");
-        }
+        errors = [...this.localValidation(), ...errors];
         return super.onFormValidation(errors);
     }
-    validate() {
+    async validate() {
         if (!this.formPart) {
-            if (!this.localValidation()) {
-                this.errors = ["Il ne s'agit pas d'un nombre"];
-            }
+            this.errors = this.localValidation();
+            return this.errors.length == 0;
         }
+        return await this.formPart.test();
     }
     onValueChange() {
-        if (!this.localValidation(true))
+        if (!this.isNumber()) {
             return;
+        }
+        this.value = Number(this.inputEl.value);
         this.onChange.trigger([this.value]);
         if (this.formPart) {
             this.formPart.value.set(this.value);
         }
     }
-    __181298e531eab1a15f907371f4223808method2() {
+    __181298e531eab1a15f907371f4223808method1() {
         return this.label;
     }
-    __181298e531eab1a15f907371f4223808method3() {
+    __181298e531eab1a15f907371f4223808method2() {
         return this.icon;
     }
-    __181298e531eab1a15f907371f4223808method4() {
+    __181298e531eab1a15f907371f4223808method3() {
         return this.placeholder;
     }
-    __181298e531eab1a15f907371f4223808method5(error) {
+    __181298e531eab1a15f907371f4223808method4(error) {
         return error;
-    }
-    __181298e531eab1a15f907371f4223808method1(error) {
-        return error != "";
     }
 }
 Components.InputNumber.Namespace=`Core.Components`;
@@ -12205,7 +12234,7 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<label for="input" _id="datepicker_0"></label><div class="input" _id="datepicker_1">    <rk-img class="icon" _id="datepicker_2"></rk-img>    <input id="input" readonly _id="datepicker_3" />    <mi-icon class="close-icon touch" icon="close" _id="datepicker_4"></mi-icon>    <div class="error-logo">!</div></div><div class="errors">    <template _id="datepicker_5"></template></div><rk-calendar-container _id="datepicker_7"></rk-calendar-container>` }
+        blocks: { 'default':`<label for="input" _id="datepicker_0"></label><div class="input" _id="datepicker_1">    <rk-img class="icon" _id="datepicker_2"></rk-img>    <input id="input" readonly autocomplete="off" _id="datepicker_3" />    <mi-icon class="close-icon touch" icon="close" _id="datepicker_4"></mi-icon>    <div class="error-logo">!</div></div><div class="errors">    <template _id="datepicker_5"></template></div><rk-calendar-container _id="datepicker_7"></rk-calendar-container>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -12454,7 +12483,7 @@ Components.Input = class Input extends Components.FormElement {
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'prepend':`<slot name="prepend">        <rk-img class="icon" _id="input_1"></rk-img>    </slot>`,'append':`<slot name="append"></slot>` }, 
-        blocks: { 'default':`<label for="input" _id="input_0"></label><div class="input">    <slot name="prepend">        <rk-img class="icon" _id="input_1"></rk-img>    </slot>    <input id="input" _id="input_2" />    <slot name="append"></slot>    <div class="error-logo">!</div></div><div class="errors">    <template _id="input_3"></template></div>` }
+        blocks: { 'default':`<label for="input" _id="input_0"></label><div class="input">    <slot name="prepend">        <rk-img class="icon" _id="input_1"></rk-img>    </slot>    <input autocomplete="off" id="input" _id="input_2" />    <slot name="append"></slot>    <div class="error-logo">!</div></div><div class="errors">    <template _id="input_3"></template></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({

@@ -67,13 +67,11 @@ namespace Components {
             this.errors = [];
         }
 
-        protected isNumber(apply: boolean): boolean {
+        protected isNumber(): boolean {
             let valueTemp = Number(this.inputEl.value);
             if(!this.inputEl.value || isNaN(valueTemp)) {
                 return false;
             }
-            if(apply)
-                this.value = valueTemp;
             return true;
         }
 
@@ -90,30 +88,25 @@ namespace Components {
             return true;
         }
 
-        protected localValidation(apply: boolean = false): boolean {
-            this.errors = [];
-            if(!this.isNumber(apply)) {
+        protected localValidation(): string[] {
+            let errors: string[] = [];
+            if(!this.isNumber()) {
                 const txt = this.errorsTxt.notNumber ?? this.defaultErrorsTxt.notNumber;
-                this.errors.push(txt);
-                return false;
+                errors.push(txt);
             }
-            if(!this.isBiggerThanMin()) {
+            else if(!this.isBiggerThanMin()) {
                 const txt = this.errorsTxt.lowerThanMin ?? this.defaultErrorsTxt.lowerThanMin;
-                this.errors.push(txt);
-                return false;
+                errors.push(txt);
             }
-            if(!this.isLowerThanMax()) {
+            else if(!this.isLowerThanMax()) {
                 const txt = this.errorsTxt.biggerThanMax ?? this.defaultErrorsTxt.biggerThanMax;
-                this.errors.push(txt);
-                return false;
+                errors.push(txt);
             }
-            return true;
+            return errors;
         }
 
         public override onFormValidation(errors: string[]): Aventus.Asyncable<string[]> {
-            if(!this.localValidation()) {
-                errors.push("Il ne s'agit pas d'un nombre");
-            }
+            errors = [...this.localValidation(), ...errors];
             return super.onFormValidation(errors);
         }
 
@@ -121,18 +114,21 @@ namespace Components {
         /**
          * 
          */
-        protected validate() {
+        public async validate() {
             if(!this.formPart) {
-                if(!this.localValidation()) {
-                    this.errors = ["Il ne s'agit pas d'un nombre"];
-                }
+                this.errors = this.localValidation();
+                return this.errors.length == 0;
             }
+            return await this.formPart.test();
         }
         /**
          * 
          */
         protected onValueChange() {
-            if(!this.localValidation(true)) return;
+            if(!this.isNumber()) {
+                return;
+            }
+            this.value = Number(this.inputEl.value);
 
             this.onChange.trigger([this.value]);
             if(this.formPart) {

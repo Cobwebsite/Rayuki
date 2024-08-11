@@ -1,5 +1,8 @@
 declare global {
     var userIdConnected: number;
+    var coreVersion: number;
+    /** global version number definition for all apps but set inside each app */
+    var $version:number;
     /** Ask if the user is allowed */
     function can(query: Core.Permissions.IPermissionQuery): Promise<boolean>;
 }

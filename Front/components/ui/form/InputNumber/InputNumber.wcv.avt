@@ -1,13 +1,11 @@
 <label for="input">{{ this.label }}</label>
 <div class="input">
     <rk-img src="{{ this.icon }}" class="icon"></rk-img>
-    <input id="input" @element="inputEl" placeholder="{{ this.placeholder }}" @focus="removeErrors" @change="onValueChange" @blur="validate" />
+    <input autocomplete="off" id="input" @element="inputEl" placeholder="{{ this.placeholder }}" @focus="removeErrors" @change="onValueChange" @blur="validate" />
     <div class="error-logo">!</div>
 </div>
 <div class="errors">
     for(let error of this.errors) {
-        if(error != "") {
-            <div>{{ error }}</div>
-        }
+        <div>{{ error }}</div>
     }
 </div>

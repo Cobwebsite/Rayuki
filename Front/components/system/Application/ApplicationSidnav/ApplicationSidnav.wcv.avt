@@ -23,7 +23,7 @@
     <div class="sidenav">
         <rk-scrollable auto_hide @element="navEl">
             for(let item of this.sidnavItems) { 
-                <rk-link to="{{ item.route }}" active_pattern="{{ item.active }}" class="sidenav-item">
+                <rk-link to="{{ item.route }}" active_pattern="{{ item.active }}" :allowTrigger="item.allowTrigger" class="sidenav-item">
                     if(item.useMi) {
                         <mi-icon icon="{{ item.icon }}"></mi-icon>
                     }

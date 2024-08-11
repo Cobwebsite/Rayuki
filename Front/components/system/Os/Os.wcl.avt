@@ -23,6 +23,9 @@ namespace System {
 
         //#region static
         public static instance: Os;
+        public static get version(): number {
+            return coreVersion;
+        }
         //#endregion
 
 
@@ -66,7 +69,7 @@ namespace System {
 
         @ViewElement()
         protected desktopContainerScroll!: Scrollable;
-        
+
         @ViewElement()
         private notificationManager!: NotificationManager;
 

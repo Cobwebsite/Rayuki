@@ -1,7 +1,6 @@
 import type { ApplicationOpen, ApplicationOpenInfo } from "../generated/Data/ApplicationOpen.lib.avt";
 import { Os } from "../components/system/Os/Os.wcl.avt";
 import { ApplicationHistory } from "../components/system/Application/ApplicationHistory.lib.avt";
-import { MainEndPoint } from "../generated/Websocket/MainEndPoint.lib.avt";
 import { DesktopRouter } from "../generated/Websocket/Routes/DesktopRouter.lib.avt";
 
 namespace Lib {

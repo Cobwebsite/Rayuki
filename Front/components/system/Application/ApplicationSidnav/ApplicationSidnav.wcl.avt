@@ -2,6 +2,7 @@ import type { SizeList } from "../ApplicationSize.lib.avt";
 import { Scrollable } from "../../../ui/layout/Scrollable/Scrollable.wcl.avt";
 import { Application } from "../Application.wcl.avt";
 import type { FrameNoScroll } from "../../Frame/FrameNoScroll/FrameNoScroll.wcl.avt";
+import type { Link } from "../../../ui/Link/Link.wcl.avt";
 
 namespace System {
     type ApplicationSidnavRouteOptions = {
@@ -11,6 +12,7 @@ namespace System {
         icon?: string,
         miIcon?: MaterialIcon.IconType,
         activeRoute?: string;
+        allowTrigger?: (link: Link) => boolean;
     };
 
     @OverrideView()
@@ -36,7 +38,7 @@ namespace System {
         protected navEl!: Scrollable;
 
         @Watch()
-        protected sidnavItems: { name: string, icon: string, useMi: boolean, route: string; active: string; }[] = [];
+        protected sidnavItems: { name: string, icon: string, useMi: boolean, route: string; active: string; allowTrigger: (link: Link) => boolean; }[] = [];
 
 
         //#endregion
@@ -68,12 +70,22 @@ namespace System {
             else if(options.icon) {
                 icon = options.icon;
             }
+            let allowTrigger: ((link: Link) => boolean);
+            if(options.allowTrigger) {
+                allowTrigger = options.allowTrigger;
+            }
+            else {
+                allowTrigger = (link) => {
+                    return this.navigator.getState()?.name != link.to;
+                };
+            }
             this.sidnavItems.push({
                 name: options.name,
                 icon,
                 useMi,
                 route,
-                active: options.activeRoute ?? route
+                active: options.activeRoute ?? route,
+                allowTrigger
             });
 
 

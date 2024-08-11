@@ -47,6 +47,10 @@ namespace Components {
             const realPart = part as InternalFormPart;
             realPart.onValidation = new Aventus.Callback();
             realPart.onValueChange = new Aventus.Callback();
+            realPart.test = async () => {
+                const result = await this.validate(key);
+                return result;
+            };
             if(!this._elements[key]) {
                 this._elements[key] = [];
             }

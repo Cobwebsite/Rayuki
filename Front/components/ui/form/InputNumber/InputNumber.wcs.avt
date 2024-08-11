@@ -72,10 +72,10 @@
 		font-size: var(--font-size-sm);
 		line-height: 1.1;
 		margin: 0 10px;
-		*>div {
+		&>div {
 			margin: 5px 0;
 		}
-		*>div:first-child {
+		&>div:first-child {
 			margin-top: 10px;
 		}
 		
@@ -90,7 +90,9 @@
 			display: flex;
 		}
 	}
-
+	.errors {
+		display: block;
+	}
 }
 
 :host([icon]:not([icon=""])) {

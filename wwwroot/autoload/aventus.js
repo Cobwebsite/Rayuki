@@ -5188,6 +5188,9 @@ const WebComponent=class WebComponent extends HTMLElement {
         for (let name in this.__watchFunctionsComputed) {
             this.__watchFunctionsComputed[name].destroy();
         }
+        for (let name in this.__signals) {
+            this.__signals[name].destroy();
+        }
         // TODO add missing info for destructor();
         this.postDestruction();
         this.destructChildren();

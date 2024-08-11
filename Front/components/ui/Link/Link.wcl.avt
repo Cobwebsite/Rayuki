@@ -29,6 +29,8 @@ namespace Components {
         //#region variables
         protected pressManager?: Aventus.PressManager;
         protected oldTo?: string;
+
+        protected retriggerIfActive: boolean = false;
         //#endregion
 
 
@@ -69,10 +71,17 @@ namespace Components {
 
         }
 
+        protected allowTrigger(element: Link): boolean {
+            return true;
+
+        }
+
         protected setOnPress() {
             this.pressManager = new Aventus.PressManager({
                 element: this,
                 onPress: (e) => {
+                    if(!this.allowTrigger(this)) return;
+
                     let app = this.findParentByType(Application);
                     if(app && this.to) {
                         app.navigate(this.to);

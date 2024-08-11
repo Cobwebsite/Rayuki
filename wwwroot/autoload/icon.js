@@ -24,6 +24,15 @@ const _ = {};
 const System = {};
 _.System = {};
 let _n;
+const AppInfo=class AppInfo {
+    static get Fullname() { return "Cave.AppInfo, Cave"; }
+    static Version = 2;
+}
+AppInfo.Namespace=`Cave`;
+AppInfo.$schema={};
+Aventus.Converter.register(AppInfo.Fullname, AppInfo);
+
+_.AppInfo=AppInfo;
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
     static __style = `:host{background-color:#6d071a}:host rk-img{--img-stroke-color: transparent;--img-fill-color: white;flex-grow:1;height:100%;max-height:100%;padding:20%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
     __getStatic() {
@@ -51,6 +60,9 @@ System.AppIcon.Tag=`cave-app-icon`;
 _.System.AppIcon=System.AppIcon;
 if(!window.customElements.get('cave-app-icon')){window.customElements.define('cave-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
 
+const Version= AppInfo.Version;
+
+_.Version=Version;
 
 for(let key in _) { Cave[key] = _[key] }
 })(Cave);
@@ -216,6 +228,15 @@ const _ = {};
 const System = {};
 _.System = {};
 let _n;
+const AppInfo=class AppInfo {
+    static get Fullname() { return "Settings.AppInfo, Settings"; }
+    static Version = 1;
+}
+AppInfo.Namespace=`Settings`;
+AppInfo.$schema={};
+Aventus.Converter.register(AppInfo.Fullname, AppInfo);
+
+_.AppInfo=AppInfo;
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
     static __style = `:host{background-color:#7a7a7a}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #ffffff;flex-grow:1;max-height:100%;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
     __getStatic() {
@@ -240,6 +261,9 @@ System.AppIcon.Tag=`settings-app-icon`;
 _.System.AppIcon=System.AppIcon;
 if(!window.customElements.get('settings-app-icon')){window.customElements.define('settings-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
 
+const Version= AppInfo.Version;
+
+_.Version=Version;
 
 for(let key in _) { Settings[key] = _[key] }
 })(Settings);
@@ -270,6 +294,18 @@ const _ = {};
 const System = {};
 _.System = {};
 let _n;
+const AppInfo=class AppInfo {
+    static get Fullname() { return "Suivi.AppInfo, Suivi"; }
+    static Version = 2;
+}
+AppInfo.Namespace=`Suivi`;
+AppInfo.$schema={};
+Aventus.Converter.register(AppInfo.Fullname, AppInfo);
+
+_.AppInfo=AppInfo;
+const Version= AppInfo.Version;
+
+_.Version=Version;
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
     static __style = `:host{background-color:#6d071a}:host rk-img{--img-stroke-color: transparent;--img-fill-color: white;max-height:100%;flex-grow:1;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
     __getStatic() {
