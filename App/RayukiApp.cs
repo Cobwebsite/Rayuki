@@ -1,4 +1,4 @@
-﻿using Core.Logic;
+﻿using Core.Migrations;
 using Core.Permissions.Descriptions;
 
 namespace Core.App
@@ -24,6 +24,11 @@ namespace Core.App
         }
 
         public virtual Seeder? DefineSeeder()
+        {
+            return null;
+        }
+
+        public virtual Migrator? DefineMigrator()
         {
             return null;
         }

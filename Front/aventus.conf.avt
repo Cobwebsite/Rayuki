@@ -74,19 +74,19 @@
                 }
             ],
             "dependances": [
-				{
-					"uri": "https://store.aventusjs.com/libs/QrCodeReader/1_0_0/QrCodeReader@Main.package.avt",
-                    "include": "full"
-				},
-				{
-					"uri": "https://store.aventusjs.com/libs/QrCodeGenerator/1_0_0/QrCodeGenerator@Main.package.avt",
-                    "include": "full"
-				},
                 {
-					"uri": "@local:Univer@Main.package.avt",
+                    "uri": "https://store.aventusjs.com/libs/QrCodeReader/1_0_0/QrCodeReader@Main.package.avt",
                     "include": "full"
-				}
-			]
+                },
+                {
+                    "uri": "https://store.aventusjs.com/libs/QrCodeGenerator/1_0_0/QrCodeGenerator@Main.package.avt",
+                    "include": "full"
+                },
+                {
+                    "uri": "@local:Univer@Main.package.avt",
+                    "include": "full"
+                }
+            ]
         },
         {
             "name": "Login",

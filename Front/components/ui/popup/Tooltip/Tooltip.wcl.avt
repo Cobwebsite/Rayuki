@@ -1,3 +1,4 @@
+import { Platform } from "../../../../libs/Platform.lib.avt";
 import type { Colors } from "../../../../libs/Style.lib.avt";
 
 namespace Components {
@@ -12,7 +13,7 @@ namespace Components {
         @Attribute()
         public visible: boolean = false;
         @Attribute()
-        public position: 'top' | 'left' | 'bottom' | 'right' = 'left';
+        public position: 'top' | 'left' | 'bottom' | 'right' = 'top';
 
         @Attribute()
         public color?: Colors;
@@ -21,7 +22,10 @@ namespace Components {
         public use_absolute!: boolean;
 
         @Attribute()
-        public delay!: number;
+        public delay: number = 50;
+
+        @Attribute()
+        public delay_touch: number = 500;
         //#endregion
 
 
@@ -30,6 +34,7 @@ namespace Components {
         private isDestroyed: boolean = false;
         protected timeoutEnter: boolean = false;
         protected timeout: number = 0;
+        protected pressManager?: Aventus.PressManager;
         //#endregion
 
 
@@ -132,12 +137,41 @@ namespace Components {
                 this.remove();
         }
 
+        protected onLongPress() {
+            this.calculatePosition();
+            if(this.use_absolute) {
+                document.body.appendChild(this);
+                this.timeoutEnter = false;
+                this.timeout = setTimeout(() => {
+                    this.timeoutEnter = true;
+                    this.visible = true;
+                }, 50);
+            }
+            else {
+                this.visible = true;
+            }
+        }
+
 
         protected registerAction() {
             if(!this.parent) return;
 
-            this.parent.addEventListener("mouseenter", this.onMouseEnter);
-            this.parent.addEventListener("mouseleave", this.onMouseLeave);
+            if(Platform.device != "pc") {
+                this.pressManager = new Aventus.PressManager({
+                    element: this.parent,
+                    onLongPress: () => {
+                        this.onLongPress();
+                    },
+                    onPressEnd: () => {
+                        this.onMouseLeave();
+                    },
+                    delayLongPress: this.delay_touch
+                });
+            }
+            else {
+                this.parent.addEventListener("mouseenter", this.onMouseEnter);
+                this.parent.addEventListener("mouseleave", this.onMouseLeave);
+            }
             this.addEventListener("transitionend", this.onTransitionEnd);
         }
         protected override postCreation(): void {

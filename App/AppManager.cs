@@ -11,6 +11,7 @@ using System.Timers;
 using Newtonsoft.Json;
 using Core.Data;
 using Core.Permissions.Descriptions;
+using Core.Migrations;
 
 namespace Core.App
 {
@@ -55,8 +56,10 @@ namespace Core.App
                    username: config.Username,
                    password: config.Password
                 ));
+                
                 VoidWithError connectAction = storage.ConnectWithError();
-                if(!connectAction.Success) {
+                if (!connectAction.Success)
+                {
                     return connectAction;
                 }
                 if (HttpServer.resetStorage)
@@ -116,10 +119,29 @@ namespace Core.App
                 {
                     Directory.CreateDirectory(appsDir);
                 }
+
+                // init migration (maybe add sort)
+                MigrationLogic migrationLogic = new MigrationLogic();
+                VoidWithError initMigration = migrationLogic.Init();
+                if (!initMigration.Success)
+                {
+                    result.Errors = initMigration.Errors;
+                    return result;
+                }
+
                 string[] dirs = Directory.GetDirectories(appsDir);
                 foreach (string dir in dirs)
                 {
                     string appName = dir.Split(Path.DirectorySeparatorChar).Last();
+                    string migrationPath = Path.Combine(dir, "migrations");
+                    if(Directory.Exists(migrationPath)) {
+                        string[] migrationFiles = Directory.GetFiles(migrationPath);
+                        foreach(string migrationFile in migrationFiles) {
+                            string fullMigrationPath = Path.Combine(migrationPath, migrationFile);
+                            migrationLogic.RunGlobal(fullMigrationPath, fullMigrationPath.Replace(appsDir, ""));
+                        }
+                    }
+
                     string path = Path.Combine(dir, appName + ".dll");
                     if (File.Exists(path))
                     {
@@ -170,6 +192,8 @@ namespace Core.App
                                                         PermissionDM.GetInstance().RegisterPermissions(type, description);
                                                     });
                                                     allApps.Add(newAppFile);
+
+
                                                 }
                                             }
 
@@ -190,7 +214,30 @@ namespace Core.App
                         }
                         catch (Exception e)
                         {
+                            result.Errors.Add(new AppError(AppErrorCode.UnknowError, e));
                             Console.WriteLine(e);
+                        }
+                    }
+                }
+
+                if (!result.Success)
+                {
+                    return result;
+                }
+
+
+                foreach (RayukiApp app in allApps)
+                {
+                    Migrator? migrator = app.DefineMigrator();
+                    if (migrator != null)
+                    {
+                        string name = app.GetType().Assembly.GetName().Name ?? "";
+                        int? oldVersion = migrationLogic.appMigrations.ContainsKey(name) ? migrationLogic.appMigrations[name] : null;
+                        VoidWithError migrationResult = migrator.Run(oldVersion, app.Version());
+                        if (!migrationResult.Success)
+                        {
+                            result.Errors = migrationResult.Errors;
+                            return result;
                         }
                     }
                 }

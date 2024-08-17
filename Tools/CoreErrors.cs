@@ -14,12 +14,17 @@ namespace Core.Tools
         NotLogin,
         ConversionFailed,
         SeederError,
+        MigrationError
     }
 
     [Typescript("Errors")]
     public class CoreError : GenericError<CoreErrorCode>
     {
         public CoreError(CoreErrorCode code, string message, [CallerFilePath] string callerPath = "", [CallerLineNumber] int callerNo = 0) : base(code, message, callerPath, callerNo)
+        {
+        }
+
+        public CoreError(CoreErrorCode code, Exception e, [CallerFilePath] string callerPath = "", [CallerLineNumber] int callerNo = 0) : base(code, e, callerPath, callerNo)
         {
         }
     }

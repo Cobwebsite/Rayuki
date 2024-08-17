@@ -4,7 +4,7 @@ using Core.App;
 using Core.Data;
 using Core.Tools;
 
-namespace Core.Logic
+namespace Core.Migrations
 {
     public abstract class Seeder
     {
