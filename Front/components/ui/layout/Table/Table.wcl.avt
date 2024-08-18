@@ -85,6 +85,9 @@ namespace Components {
 
         @Attribute()
         private loading!: boolean;
+
+        @Attribute()
+        private no_data!: boolean;
         //#endregion
 
 
@@ -412,10 +415,10 @@ namespace Components {
                 for(let column in this.sortColumns) {
                     let cell = this.header.cells[column];
                     if(!(cell instanceof TableCellHeader)) return;
-    
+
                     cell.sort_direction = this.sortColumns[column];
                 }
-                
+
             }
         }
         protected render(onlySort: boolean = false) {
@@ -462,6 +465,7 @@ namespace Components {
             }
 
             this.nbItems = this.rowsFiltered.length;
+            this.no_data = this.rowsFiltered.length == 0;
             this.renderPage();
             if(isFirst) {
                 this.style.display = '';

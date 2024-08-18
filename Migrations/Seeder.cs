@@ -44,10 +44,10 @@ namespace Core.Migrations
         {
             return AppManager.Storage.RunInsideTransaction(() =>
             {
-                VoidWithError voidWithError = new VoidWithError();
-                if (!LoadVersion(version))
+                VoidWithError voidWithError = LoadVersion(version);
+                if (!voidWithError.Success)
                 {
-                    voidWithError.Errors.Add(new CoreError(CoreErrorCode.SeederError, "The seeder for the app " + GetType().Assembly.GetName().Name +" failed for version "+version));
+                    voidWithError.Errors.Insert(0, new CoreError(CoreErrorCode.SeederError, "The seeder for the app " + GetType().Assembly.GetName().Name +" failed for version "+version));
                     return voidWithError;
                 }
 
@@ -66,6 +66,12 @@ namespace Core.Migrations
             });
         }
 
-        protected abstract bool LoadVersion(int version);
+        /// <summary>
+        /// Run custom seeder for a specific version.
+        /// This function is already running inside a Transaction
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
+        protected abstract VoidWithError LoadVersion(int version);
     }
 }

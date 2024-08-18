@@ -18,8 +18,11 @@
         </rk-scrollable>
     </div>
     <div class="body">
-        <rk-scrollable x_scroll @element="bodyContainer" floating_scroll auto_hide="{{ this.auto_hide_scroll }}">
+        <rk-scrollable class="rows" x_scroll @element="bodyContainer" floating_scroll auto_hide="{{ this.auto_hide_scroll }}">
         </rk-scrollable>
+        <slot name="no-data">
+            <div class="no-data">Aucune donnée trouvée</div>
+        </slot>
         <slot name="loader">
             <rk-loading class="loading"></rk-loading>
         </slot>

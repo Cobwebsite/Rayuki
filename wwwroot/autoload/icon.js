@@ -10,7 +10,7 @@ _.System = {};
 let _n;
 const AppInfo=class AppInfo {
     static get Fullname() { return "Cave.AppInfo, Cave"; }
-    static Version = 2;
+    static Version = 1;
 }
 AppInfo.Namespace=`Cave`;
 AppInfo.$schema={};
@@ -89,6 +89,56 @@ if(!window.customElements.get('explorer-app-icon')){window.customElements.define
 
 for(let key in _) { Explorer[key] = _[key] }
 })(Explorer);
+
+
+var Inventaire;
+(Inventaire||(Inventaire = {}));
+(function (Inventaire) {
+const moduleName = `Inventaire`;
+const _ = {};
+
+const System = {};
+_.System = {};
+let _n;
+const AppInfo=class AppInfo {
+    static get Fullname() { return "Inventaire.AppInfo, Inventaire"; }
+    static Version = 1;
+}
+AppInfo.Namespace=`Inventaire`;
+AppInfo.$schema={};
+Aventus.Converter.register(AppInfo.Fullname, AppInfo);
+
+_.AppInfo=AppInfo;
+System.AppIcon = class AppIcon extends Core.System.AppIcon {
+    static __style = `:host rk-img{--img-stroke-color: transparent;--img-fill-color: #acf4d6;max-height:100%;flex-grow:1;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    __getStatic() {
+        return AppIcon;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(AppIcon.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-img src="/apps/Inventaire/img/logo.svg"></rk-img>` }
+    });
+}
+    getClassName() {
+        return "AppIcon";
+    }
+}
+System.AppIcon.Namespace=`Inventaire.System`;
+System.AppIcon.Tag=`inventaire-app-icon`;
+_.System.AppIcon=System.AppIcon;
+if(!window.customElements.get('inventaire-app-icon')){window.customElements.define('inventaire-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
+
+const Version= AppInfo.Version;
+
+_.Version=Version;
+
+for(let key in _) { Inventaire[key] = _[key] }
+})(Inventaire);
 
 // Object.defineProperty(CSSStyleSheet.prototype, "innerHTML", {
 //     get: function() {
@@ -264,10 +314,10 @@ _.System = {};
 let _n;
 const AppInfo=class AppInfo {
     static get Fullname() { return "Suivi.AppInfo, Suivi"; }
-    Version = 1;
+    static Version = 1;
 }
 AppInfo.Namespace=`Suivi`;
-AppInfo.$schema={"Version":"number"};
+AppInfo.$schema={};
 Aventus.Converter.register(AppInfo.Fullname, AppInfo);
 
 _.AppInfo=AppInfo;

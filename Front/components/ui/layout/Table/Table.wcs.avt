@@ -68,11 +68,16 @@
 			flex: 1;
 			flex-direction: column;
 			min-height: 0;
-			width: 100%;
 			position: relative;
+			width: 100%;
 
 			.loading {
 				display: none;
+			}
+
+			.no-data {
+				display: none;
+				margin: 15px;
 			}
 		}
 
@@ -178,6 +183,19 @@
 
 			.loading {
 				display: flex;
+			}
+		}
+	}
+}
+
+:host([no_data]:not([loading])) {
+	.style-wrapper {
+		.body {
+			.no-data {
+				display: flex;
+			}
+			.rows {
+				display: none;
 			}
 		}
 	}
