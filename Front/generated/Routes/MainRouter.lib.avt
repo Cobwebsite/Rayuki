@@ -41,6 +41,28 @@ namespace Routes {
 		}
 
 		@BindThis()
+		public async BeginTransaction(body: { ms: number } | FormData): Promise<AventusSharp.Tools.ResultWithError<string>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/begin`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = string;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async CommitTransaction(body: { guid: string } | FormData): Promise<AventusSharp.Tools.VoidWithError> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/commit`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			return await request.queryVoid(this.router);
+		}
+
+		@BindThis()
+		public async RollbackTransaction(body: { guid: string } | FormData): Promise<AventusSharp.Tools.VoidWithError> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/rollback`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			return await request.queryVoid(this.router);
+		}
+
+		@BindThis()
 		public async Restart(): Promise<AventusSharp.Tools.VoidWithError> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/restart`, Aventus.HttpMethod.GET);
 			return await request.queryVoid(this.router);

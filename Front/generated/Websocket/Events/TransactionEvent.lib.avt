@@ -1,0 +1,26 @@
+import { MainEndPoint } from '../MainEndPoint.lib.avt';
+
+namespace Websocket.Events.TransactionCancelledEvent {
+
+	@Convertible()
+	export class Body {
+		public static get Fullname(): string { return "Core.Websocket.Events.TransactionCancelledEvent+Body, Core"; }
+		public guid!: string;
+	}
+
+}
+namespace Websocket.Events {
+
+	export class TransactionCancelledEvent extends AventusSharp.WebSocket.Event<Body> {
+		/**
+		 * @inheritdoc
+		 */
+		protected override path(): string {
+			return `${this.getPrefix()}Core.Websocket.Events.TransactionCancelledEvent`;
+		}
+		public constructor(endpoint?: AventusSharp.WebSocket.EndPoint, getPrefix?: () => string) {
+			super(endpoint ?? MainEndPoint.getInstance(), getPrefix);
+		}
+	}
+
+}

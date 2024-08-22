@@ -17,6 +17,7 @@ import { MainEndPoint } from "../../../generated/Websocket/MainEndPoint.lib.avt"
 import type { GenericPopup } from "../../ui/popup/GenericPopup/GenericPopup.wcl.avt";
 import { NotificationManager } from "../../ui/popup/NotificationManager/NotificationManager.wcl.avt";
 import type { Notification } from "../../ui/popup/Notification/Notification.wcl.avt";
+import { TransactionManager } from "../../../libs/TransactionManager.lib.avt";
 
 namespace System {
     export class Os extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -342,17 +343,23 @@ namespace System {
 
         private async startSocket() {
             AventusSharp.WebSocket.Connection.Debug = true;
-            MainEndPoint.getInstance().open();
+            await MainEndPoint.getInstance().open();
             ApplicationManager.init();
+            TransactionManager.init();
         }
 
-        protected override postCreation(): void {
+        private async init() {
             this.addResizeObserver();
-            this.systemLoading();
+            await this.startSocket();
             this.rightClick();
             this.preventScroll();
             this.addSwitchDesktop();
-            this.startSocket();
+            await this.systemLoading();
+        }
+
+        protected override postCreation(): void {
+            super.postCreation();
+            this.init();
         }
         //#endregion
 

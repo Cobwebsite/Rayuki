@@ -1,0 +1,99 @@
+import { TransactionManager } from "../libs/TransactionManager.lib.avt";
+
+namespace RAM {
+    type RamWithTransactionInjector<T extends AventusSharp.Data.Storable> = {
+        records: Map<number, Aventus.RamItem<T>>;
+        beforeRecordSet: (item: Aventus.RamItem<T>) => Promise<void>;
+        beforeRecordDelete: (item: Aventus.RamItem<T>) => Promise<void>,
+        addOrUpdateData: (item: Aventus.KeysObject<T>, result: Aventus.ResultWithError<Aventus.RamItem<T>>) => Promise<void>;
+        publish(type: 'created' | 'updated' | 'deleted', data: Aventus.RamItem<T>): void;
+    };
+    export class RamWithTransaction<T extends AventusSharp.Data.Storable> {
+
+        protected readonly memoryUpdateDelete: Map<number, T> = new Map();
+        protected readonly memoryCreate: Map<number, Aventus.RamItem<T>> = new Map();
+        protected memoryId: number[] = [];
+        protected isTransactionActive: boolean = false;
+        protected ram: RamWithTransactionInjector<T>;
+
+        public constructor(ram: RamWithTransactionInjector<T>) {
+            this.ram = ram;
+
+            this.onTransactionBegin = this.onTransactionBegin.bind(this);
+            this.onTransactionEnd = this.onTransactionEnd.bind(this);
+            this.beforeRecordDelete = this.beforeRecordDelete.bind(this);
+            this.beforeRecordSet = this.beforeRecordSet.bind(this);
+
+            TransactionManager.onTransactionBegin.add(this.onTransactionBegin);
+            TransactionManager.onTransactionEnd.add(this.onTransactionEnd);
+            ram.beforeRecordDelete = this.beforeRecordDelete;
+            ram.beforeRecordSet = this.beforeRecordSet;
+        }
+
+
+        protected onTransactionBegin() {
+            this.isTransactionActive = true;
+        }
+        protected async onTransactionEnd(success: boolean): Promise<void> {
+            this.isTransactionActive = false;
+            if(!success) {
+                // if not success rollback
+                for(const [id, item] of this.memoryUpdateDelete) {
+                    let resultTemp: Aventus.ResultRamWithError<Aventus.RamItem<T>> = new Aventus.ResultRamWithError();
+                    // reset deleted or updated element
+                    let type: 'updated' | 'created' = this.ram.records.has(id) ? 'updated' : 'created';
+                    await this.ram.addOrUpdateData(item, resultTemp);
+                    if(resultTemp.result)
+                        this.ram.publish(type, resultTemp.result);
+                }
+                this.memoryUpdateDelete.clear();
+                for(const [id, item] of this.memoryCreate) {
+                    this.ram.records.delete(id);
+                    this.ram.publish('deleted', item);
+                }
+                this.memoryCreate.clear();
+                this.memoryId = [];
+            }
+        }
+
+        protected async beforeRecordSet(item: Aventus.RamItem<T>): Promise<void> {
+            if(this.isTransactionActive) {
+                // save only first time change
+                if(this.memoryId.includes(item.Id)) return;
+                this.memoryId.push(item.Id);
+
+                if(this.ram.records.has(item.Id)) {
+                    this.memoryUpdateDelete.set(item.Id, item.clone());
+                }
+                else {
+                    this.memoryCreate.set(item.Id, item);
+                }
+            }
+        }
+
+        protected async beforeRecordDelete(item: Aventus.RamItem<T>): Promise<void> {
+            if(this.isTransactionActive) {
+                // save only first time change
+                if(this.memoryId.includes(item.Id)) return;
+                this.memoryId.push(item.Id);
+
+                this.memoryUpdateDelete.set(item.Id, item.clone());
+            }
+        }
+    }
+    export abstract class RamHttp<T extends AventusSharp.Data.Storable> extends AventusSharp.RAM.RamHttp<T> {
+
+        public constructor() {
+            super();
+            new RamWithTransaction(this as unknown as RamWithTransactionInjector<T>);
+        }
+    }
+
+    export abstract class RamWebSocket<T extends AventusSharp.Data.Storable> extends AventusSharp.RAM.RamWebSocket<T> {
+
+        public constructor() {
+            super();
+            new RamWithTransaction(this as unknown as RamWithTransactionInjector<T>);
+        }
+    }
+}

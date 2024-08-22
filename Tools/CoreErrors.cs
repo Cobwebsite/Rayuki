@@ -14,7 +14,9 @@ namespace Core.Tools
         NotLogin,
         ConversionFailed,
         SeederError,
-        MigrationError
+        MigrationError,
+        UnknowError,
+        TransactionGuidMissmatch,
     }
 
     [Typescript("Errors")]

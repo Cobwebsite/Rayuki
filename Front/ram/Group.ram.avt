@@ -1,6 +1,7 @@
 import { GroupRouter } from "../generated/Routes/GroupRouter.lib.avt";
 import { Group } from "../generated/Data/Group.data.avt";
 import { HttpRouter } from "../libs/HttpRouter.lib.avt";
+import { RamHttp } from "./RamWithTransaction.lib.avt";
 
 namespace RAM {
     interface GroupMethod {
@@ -9,7 +10,7 @@ namespace RAM {
 
     export type GroupExtended = Group & GroupMethod;
 
-    export class GroupRAM extends AventusSharp.RAM.RamHttp<GroupExtended> implements Aventus.IRam {
+    export class GroupRAM extends RamHttp<GroupExtended> implements Aventus.IRam {
 
         /**
          * Create a singleton to store data

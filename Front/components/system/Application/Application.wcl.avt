@@ -23,6 +23,8 @@ import type { NotificationManager } from "../../ui/popup/NotificationManager/Not
 import type { Notification, NotificationOptions } from "../../ui/popup/Notification/Notification.wcl.avt";
 import { ApplicationShortcut } from "./ApplicationShortcut.lib.avt";
 import type { FrameNoScroll } from "../Frame/FrameNoScroll/FrameNoScroll.wcl.avt";
+import { MainRouter } from "../../../generated/Routes/MainRouter.lib.avt";
+import { TransactionManager } from "../../../libs/TransactionManager.lib.avt";
 
 namespace System {
 
@@ -37,6 +39,8 @@ namespace System {
         desktopId: number;
         desktop: Desktop;
     };
+
+    export type ExecType<X> = (prom: Promise<ApplicationQueryFctResult<X>>) => Promise<X | undefined>;
 
     export type ExtractTypePopup<X extends GenericPopup<U, Y>, U = any, Y extends PopupInfo = any> = X extends GenericPopup<infer U, Y> ? U : never;
 
@@ -928,6 +932,70 @@ namespace System {
                 });
             }
             return null;
+        }
+
+        /**
+         * Start a transaction and run the code inside it. If any error occur, the transaction id rollback
+         */
+        @BindThis()
+        public async txExec<X>(
+            fct: ((exec: <T>(prom: Promise<ApplicationQueryFctResult<T>>) => Promise<T | undefined>) => Promise<X>) | Promise<X>,
+            ms?: number
+        ): Promise<X | undefined> {
+            try {
+                const beginResult = await TransactionManager.begin(ms);
+                if(!beginResult.success || !beginResult.result) {
+                    this.popupErrors(beginResult.errors);
+                    return undefined;
+                }
+
+                const resultWithError = new Aventus.ResultWithError<X>();
+                if(fct instanceof Promise) {
+                    resultWithError.result = await fct;
+                }
+                else {
+                    resultWithError.result = await fct(async (prom: Promise<ApplicationQueryFctResult<any>>) => {
+                        const queryResult = await prom;
+                        if(queryResult.errors.length > 0) {
+                            for(let error of queryResult.errors) {
+                                resultWithError.errors.push(error);
+                            }
+                        }
+                        if(queryResult instanceof Aventus.ResultWithError) return queryResult.result;
+                        return undefined;
+                    });
+                }
+
+                if(resultWithError.success) {
+                    const commitResult = await TransactionManager.commit(beginResult.result);
+                    resultWithError.errors = [...resultWithError.errors, ...commitResult.errors];
+                }
+                else {
+                    const rollbackResult = await TransactionManager.rollback(beginResult.result);
+                    resultWithError.errors = [...resultWithError.errors, ...rollbackResult.errors];
+                }
+                return this.parseErrors(resultWithError);
+            }
+            catch(e) {
+                this.alert({
+                    title: "Erreur",
+                    description: e
+                });
+            }
+            return undefined;
+        }
+
+        /**
+         * Start a transaction and run the code inside it. If any error occur, the transaction id rollback
+         */
+        @BindThis()
+        public async txExecLoading<X>(
+            fct: ((exec: <T>(prom: Promise<ApplicationQueryFctResult<T>>) => Promise<T | undefined>) => Promise<X>) | Promise<X>
+        ): Promise<X | undefined> {
+            const result = await this.showLoading(async () => {
+                return await this.txExec(fct);
+            });
+            return result ?? undefined;
         }
         //#endregion
 

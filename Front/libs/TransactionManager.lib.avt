@@ -1,0 +1,84 @@
+import { MainRouter } from "../generated/Routes/MainRouter.lib.avt";
+import { CoreError, CoreErrorCode } from "../generated/Tools/CoreErrors.lib.avt";
+import { TransactionCancelledEvent } from "../generated/Websocket/Events/TransactionEvent.lib.avt";
+
+namespace Lib {
+    export class TransactionManager {
+
+        private static mainRouter: MainRouter;
+        private static mutex: Aventus.Mutex;
+        private static cancelEvent: TransactionCancelledEvent;
+        private static guid?: string;
+
+        public static readonly onTransactionBegin: Aventus.Callback<() => Aventus.Asyncable<any>, Aventus.Asyncable<any>> = new Aventus.Callback();
+        public static readonly onTransactionEnd: Aventus.Callback<(success: boolean) => Aventus.Asyncable<any>, Aventus.Asyncable<any>> = new Aventus.Callback();
+
+
+        public static init() {
+            this.mainRouter = new MainRouter();
+            this.mutex = new Aventus.Mutex();
+            this.cancelEvent = new TransactionCancelledEvent();
+            this.cancelEvent.listen();
+            this.cancelEvent.onTrigger.add(async (body) => {
+                if(body.guid == this.guid) {
+                    this.guid = undefined;
+                    try {
+                        await this.onTransactionEnd.trigger([false]);
+                    } catch(e) {
+                        console.error(e);
+                    }
+                    this.mutex.release();
+                }
+            });
+            //new DesktopRouter().events.RegisterOpenApp.onTrigger.add(this.onRegisterInfo);
+        }
+
+        public static async begin(ms: number = 5000): Promise<AventusSharp.Tools.ResultWithError<string>> {
+            await this.mutex.waitOne();
+            const result = await this.mainRouter.BeginTransaction({ ms });
+            if(result.success && result.result) {
+                try {
+                    this.guid = result.result;
+                    await this.onTransactionBegin.trigger([]);
+                } catch(e) {
+                    result.errors.push(new CoreError(CoreErrorCode.UnknowError, e));
+                }
+            }
+            return result;
+        }
+
+        public static async commit(guid: string): Promise<AventusSharp.Tools.VoidWithError> {
+            if(this.guid != guid) {
+                const err = new AventusSharp.Tools.VoidWithError();
+                err.errors.push(new CoreError(CoreErrorCode.TransactionGuidMissmatch, "Les ids de transaction sont différents"));
+                return err;
+            }
+            this.guid = undefined;
+            const result = await this.mainRouter.CommitTransaction({ guid });
+            try {
+                await this.onTransactionEnd.trigger([result.success]);
+            } catch(e) {
+                result.errors.push(new CoreError(CoreErrorCode.UnknowError, e));
+            }
+            this.mutex.release();
+            return result;
+        }
+
+        public static async rollback(guid: string): Promise<AventusSharp.Tools.VoidWithError> {
+            if(this.guid != guid) {
+                const err = new AventusSharp.Tools.VoidWithError();
+                err.errors.push(new CoreError(CoreErrorCode.TransactionGuidMissmatch, "Les ids de transaction sont différents"));
+                return err;
+            }
+            this.guid = undefined;
+            const result = await this.mainRouter.RollbackTransaction({ guid });
+            try {
+                await this.onTransactionEnd.trigger([false]);
+            } catch(e) {
+                result.errors.push(new CoreError(CoreErrorCode.UnknowError, e));
+            }
+            this.mutex.release();
+            return result;
+        }
+    }
+}

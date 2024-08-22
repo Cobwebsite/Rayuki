@@ -5,38 +5,42 @@ var Core;
 const moduleName = `Core`;
 const _ = {};
 Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block;touch-action:manipulation;font-family:var(--font-family)}:host *{box-sizing:border-box;touch-action:manipulation}.touch{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}.touch.disable,.touch.disabled{cursor:default}.primary{background-color:var(--primary);color:var(--text-color-primary)}.text-primary{color:var(--primary)}.secondary{background-color:var(--secondary);color:var(--text-color-secondary)}.text-secondary{color:var(--secondary)}.green{background-color:var(--green);color:var(--text-color-green)}.text-green{color:var(--green)}.success{background-color:var(--success);color:var(--text-color-success)}.text-success{color:var(--success)}.red{background-color:var(--red);color:var(--text-color-red)}.text-red{color:var(--red)}.error{background-color:var(--error);color:var(--text-color-error)}.text-error{color:var(--error)}.orange{background-color:var(--orange);color:var(--text-color-orange)}.text-orange{color:var(--orange)}.warning{background-color:var(--warning);color:var(--text-color-warning)}.text-warning{color:var(--warning)}.blue{background-color:var(--blue);color:var(--text-color-blue)}.text-blue{color:var(--blue)}.information{background-color:var(--information);color:var(--text-color-information)}.text-information{color:var(--information)}`)
-const Lib = {};
+let Lib = {};
 _.Lib = {};
-const Websocket = {};
+let Websocket = {};
 _.Websocket = {};
 Websocket.Events = {};
 _.Websocket.Events = {};
-const Errors = {};
+let Errors = {};
 _.Errors = {};
-const Permissions = {};
+let Permissions = {};
 _.Permissions = {};
-const Data = {};
+let Data = {};
 _.Data = {};
-const App = {};
+let App = {};
 _.App = {};
-const Components = {};
+let Components = {};
 _.Components = {};
 Data.DataTypes = {};
 _.Data.DataTypes = {};
-const System = {};
+let System = {};
 _.System = {};
 Websocket.Routes = {};
 _.Websocket.Routes = {};
 Permissions.Tree = {};
 _.Permissions.Tree = {};
-const Routes = {};
+let Routes = {};
 _.Routes = {};
-const State = {};
+let State = {};
 _.State = {};
-const RAM = {};
+let RAM = {};
 _.RAM = {};
-const Tools = {};
+Websocket.Events.TransactionCancelledEvent = {};
+_.Websocket.Events.TransactionCancelledEvent = {};
+let Tools = {};
 _.Tools = {};
+Websocket.Events.ApplicationTestEvent = {};
+_.Websocket.Events.ApplicationTestEvent = {};
 let _n;
 Lib.Time=class Time {
     static cbEachMinute = new Map();
@@ -80,8 +84,8 @@ Lib.Time=class Time {
     }
 }
 Lib.Time.Namespace=`Core.Lib`;
-
 _.Lib.Time=Lib.Time;
+
 Lib.StringTools=class StringTools {
     static removeAccents(value) {
         return value
@@ -104,8 +108,8 @@ Lib.StringTools=class StringTools {
     }
 }
 Lib.StringTools.Namespace=`Core.Lib`;
-
 _.Lib.StringTools=Lib.StringTools;
+
 Lib.NumberTools=class NumberTools {
     static pretty(nb) {
         if (nb < 10) {
@@ -115,8 +119,8 @@ Lib.NumberTools=class NumberTools {
     }
 }
 Lib.NumberTools.Namespace=`Core.Lib`;
-
 _.Lib.NumberTools=Lib.NumberTools;
+
 Websocket.Events.ApplicationTestEvent2=class ApplicationTestEvent2 extends AventusSharp.WebSocket.Event {
     /**
      * @inheritdoc
@@ -126,58 +130,37 @@ Websocket.Events.ApplicationTestEvent2=class ApplicationTestEvent2 extends Avent
     }
 }
 Websocket.Events.ApplicationTestEvent2.Namespace=`Core.Websocket.Events`;
-
 _.Websocket.Events.ApplicationTestEvent2=Websocket.Events.ApplicationTestEvent2;
-Websocket.Events.Body=class Body {
-    static get Fullname() { return "Core.Websocket.Events.ApplicationTestEvent+Body, Core"; }
-    id;
-    name;
-}
-Websocket.Events.Body.Namespace=`Core.Websocket.Events`;
-Websocket.Events.Body.$schema={"id":"number","name":"string"};
-Aventus.Converter.register(Websocket.Events.Body.Fullname, Websocket.Events.Body);
 
-_.Websocket.Events.Body=Websocket.Events.Body;
 (function (PdfErrorCode) {
     PdfErrorCode[PdfErrorCode["UnknowError"] = 0] = "UnknowError";
     PdfErrorCode[PdfErrorCode["NoNameProvided"] = 1] = "NoNameProvided";
 })(Errors.PdfErrorCode || (Errors.PdfErrorCode = {}));
-
 _.Errors.PdfErrorCode=Errors.PdfErrorCode;
+
 (function (ImageFileErrorCode) {
     ImageFileErrorCode[ImageFileErrorCode["UnknowError"] = 0] = "UnknowError";
     ImageFileErrorCode[ImageFileErrorCode["NotValidImage"] = 1] = "NotValidImage";
 })(Errors.ImageFileErrorCode || (Errors.ImageFileErrorCode = {}));
-
 _.Errors.ImageFileErrorCode=Errors.ImageFileErrorCode;
-(function (CoreErrorCode) {
-    CoreErrorCode[CoreErrorCode["NotImplemented"] = 0] = "NotImplemented";
-    CoreErrorCode[CoreErrorCode["NotAvailable"] = 1] = "NotAvailable";
-    CoreErrorCode[CoreErrorCode["Impossible"] = 2] = "Impossible";
-    CoreErrorCode[CoreErrorCode["NotAllowed"] = 3] = "NotAllowed";
-    CoreErrorCode[CoreErrorCode["NotLogin"] = 4] = "NotLogin";
-    CoreErrorCode[CoreErrorCode["ConversionFailed"] = 5] = "ConversionFailed";
-    CoreErrorCode[CoreErrorCode["SeederError"] = 6] = "SeederError";
-})(Errors.CoreErrorCode || (Errors.CoreErrorCode = {}));
 
-_.Errors.CoreErrorCode=Errors.CoreErrorCode;
 (function (UserPermission) {
     UserPermission[UserPermission["CanEdit"] = 0] = "CanEdit";
     UserPermission[UserPermission["CanDelete"] = 1] = "CanDelete";
     UserPermission[UserPermission["CanCreate"] = 2] = "CanCreate";
 })(Permissions.UserPermission || (Permissions.UserPermission = {}));
-
 _.Permissions.UserPermission=Permissions.UserPermission;
+
 (function (DesktopPermission) {
     DesktopPermission[DesktopPermission["CanEdit"] = 0] = "CanEdit";
 })(Permissions.DesktopPermission || (Permissions.DesktopPermission = {}));
-
 _.Permissions.DesktopPermission=Permissions.DesktopPermission;
+
 (function (DesktopErrorCode) {
     DesktopErrorCode[DesktopErrorCode["NoDefaultDesktop"] = 0] = "NoDefaultDesktop";
 })(Errors.DesktopErrorCode || (Errors.DesktopErrorCode = {}));
-
 _.Errors.DesktopErrorCode=Errors.DesktopErrorCode;
+
 Data.Settings=class Settings extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Settings, Core"; }
     Key;
@@ -187,14 +170,14 @@ Data.Settings=class Settings extends AventusSharp.Data.Storable {
 Data.Settings.Namespace=`Core.Data`;
 Data.Settings.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Key":"string","Value":"string","UserId":"number"};
 Aventus.Converter.register(Data.Settings.Fullname, Data.Settings);
-
 _.Data.Settings=Data.Settings;
+
 (function (DemoEnum) {
     DemoEnum[DemoEnum["Value1"] = 0] = "Value1";
     DemoEnum[DemoEnum["Value2"] = 1] = "Value2";
 })(Data.DemoEnum || (Data.DemoEnum = {}));
-
 _.Data.DemoEnum=Data.DemoEnum;
+
 Data.Company=class Company extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Company, Core"; }
     Name = "";
@@ -203,8 +186,8 @@ Data.Company=class Company extends AventusSharp.Data.Storable {
 Data.Company.Namespace=`Core.Data`;
 Data.Company.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Logo":"string"};
 Aventus.Converter.register(Data.Company.Fullname, Data.Company);
-
 _.Data.Company=Data.Company;
+
 (function (AppErrorCode) {
     AppErrorCode[AppErrorCode["AppFileNotFound"] = 0] = "AppFileNotFound";
     AppErrorCode[AppErrorCode["MoreThanOneAppFileFound"] = 1] = "MoreThanOneAppFileFound";
@@ -214,8 +197,8 @@ _.Data.Company=Data.Company;
     AppErrorCode[AppErrorCode["NoName"] = 5] = "NoName";
     AppErrorCode[AppErrorCode["UnknowError"] = 6] = "UnknowError";
 })(App.AppErrorCode || (App.AppErrorCode = {}));
-
 _.App.AppErrorCode=App.AppErrorCode;
+
 Components.UserProfilPicture = class UserProfilPicture extends Aventus.WebComponent {
     static get observedAttributes() {return ["uri"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'uri'() { return this.getStringProp('uri') }
@@ -899,8 +882,8 @@ Data.DataTypes.Pdf=class Pdf extends AventusSharp.Data.AventusFile {
 Data.DataTypes.Pdf.Namespace=`Core.Data.DataTypes`;
 Data.DataTypes.Pdf.$schema={...(AventusSharp.Data.AventusFile?.$schema ?? {}), "Name":"string","Html":"string","Debug":"boolean"};
 Aventus.Converter.register(Data.DataTypes.Pdf.Fullname, Data.DataTypes.Pdf);
-
 _.Data.DataTypes.Pdf=Data.DataTypes.Pdf;
+
 Lib.FontManager=class FontManager {
     static async loadedFonts() {
         let fonts = Array.from(document.fonts);
@@ -1074,8 +1057,8 @@ Lib.FontManager=class FontManager {
     }
 }
 Lib.FontManager.Namespace=`Core.Lib`;
-
 _.Lib.FontManager=Lib.FontManager;
+
 Components.SheetSplitter = class SheetSplitter extends Aventus.WebComponent {
     get 'copy'() { return this.getStringAttr('copy') }
     set 'copy'(val) { this.setStringAttr('copy', val) }get 'name'() { return this.getStringAttr('name') }
@@ -1187,8 +1170,8 @@ Lib.DomTools=class DomTools {
     }
 }
 Lib.DomTools.Namespace=`Core.Lib`;
-
 _.Lib.DomTools=Lib.DomTools;
+
 Lib.DateTools=class DateTools {
     static isSameDate(date1, date2) {
         if (date1 == null && date2 == null)
@@ -1218,8 +1201,8 @@ Lib.DateTools=class DateTools {
     }
 }
 Lib.DateTools.Namespace=`Core.Lib`;
-
 _.Lib.DateTools=Lib.DateTools;
+
 System.ApplicationBreakPoint=class ApplicationBreakPoint {
     static xs = 300;
     static sm = 540;
@@ -1228,8 +1211,8 @@ System.ApplicationBreakPoint=class ApplicationBreakPoint {
     static xl = 1140;
 }
 System.ApplicationBreakPoint.Namespace=`Core.System`;
-
 _.System.ApplicationBreakPoint=System.ApplicationBreakPoint;
+
 Lib.Pointer=class Pointer {
     static isTouch(e) {
         if (window.TouchEvent && e instanceof TouchEvent) {
@@ -1242,13 +1225,13 @@ Lib.Pointer=class Pointer {
     }
 }
 Lib.Pointer.Namespace=`Core.Lib`;
-
 _.Lib.Pointer=Lib.Pointer;
+
 (function (ApplicationPermission) {
     ApplicationPermission[ApplicationPermission["AllowAccess"] = 0] = "AllowAccess";
 })(Permissions.ApplicationPermission || (Permissions.ApplicationPermission = {}));
-
 _.Permissions.ApplicationPermission=Permissions.ApplicationPermission;
+
 Lib.Geometry=class Geometry {
     static getIntersectingRectangle(rect1, rect2) {
         const [r1, r2] = [rect1, rect2].map(r => {
@@ -1273,8 +1256,8 @@ Lib.Geometry=class Geometry {
     }
 }
 Lib.Geometry.Namespace=`Core.Lib`;
-
 _.Lib.Geometry=Lib.Geometry;
+
 Lib.ApplicationStateManager=class ApplicationStateManager extends Aventus.StateManager {
     application;
     constructor(application) {
@@ -1297,14 +1280,14 @@ Lib.ApplicationStateManager=class ApplicationStateManager extends Aventus.StateM
     }
 }
 Lib.ApplicationStateManager.Namespace=`Core.Lib`;
-
 _.Lib.ApplicationStateManager=Lib.ApplicationStateManager;
-const Style=class Style {
+
+let Style=class Style {
     colors = ['green', 'success', 'red', 'error', 'orange', 'warning', 'blue', 'information', 'primary', 'secondary'];
 }
 Style.Namespace=`Core`;
-
 _.Style=Style;
+
 Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'color'() { return this.getStringAttr('color') }
@@ -1396,36 +1379,8 @@ if(!window.customElements.get('rk-button-icon-mi')){window.customElements.define
     ResizeDirection[ResizeDirection["Right"] = 6] = "Right";
     ResizeDirection[ResizeDirection["TopRight"] = 7] = "TopRight";
 })(Components.ResizeDirection || (Components.ResizeDirection = {}));
-
 _.Components.ResizeDirection=Components.ResizeDirection;
-Websocket.MainEndPoint=class MainEndPoint extends AventusSharp.WebSocket.EndPoint {
-    /**
-     * Create a singleton
-     */
-    static getInstance() {
-        return Aventus.Instance.get(Websocket.MainEndPoint);
-    }
-    get path() {
-        return "/ws";
-    }
-}
-Websocket.MainEndPoint.Namespace=`Core.Websocket`;
 
-_.Websocket.MainEndPoint=Websocket.MainEndPoint;
-Websocket.Events.ApplicationTestEvent=class ApplicationTestEvent extends AventusSharp.WebSocket.Event {
-    /**
-     * @inheritdoc
-     */
-    path() {
-        return `${this.getPrefix()}Core.Websocket.Events.ApplicationTestEvent`;
-    }
-    constructor(endpoint, getPrefix) {
-        super(endpoint ?? Websocket.MainEndPoint.getInstance(), getPrefix);
-    }
-}
-Websocket.Events.ApplicationTestEvent.Namespace=`Core.Websocket.Events`;
-
-_.Websocket.Events.ApplicationTestEvent=Websocket.Events.ApplicationTestEvent;
 Websocket.Routes.DesktopRouter_RemoveDesktopIcon=class DesktopRouter_RemoveDesktopIcon extends AventusSharp.WebSocket.Event {
     /**
      * @inheritdoc
@@ -1441,29 +1396,74 @@ Websocket.Routes.DesktopRouter_RemoveDesktopIcon=class DesktopRouter_RemoveDeskt
     }
 }
 Websocket.Routes.DesktopRouter_RemoveDesktopIcon.Namespace=`Core.Websocket.Routes`;
-
 _.Websocket.Routes.DesktopRouter_RemoveDesktopIcon=Websocket.Routes.DesktopRouter_RemoveDesktopIcon;
+
 (function (LoginCode) {
     LoginCode[LoginCode["OK"] = 0] = "OK";
     LoginCode[LoginCode["WrongCredentials"] = 1] = "WrongCredentials";
     LoginCode[LoginCode["Unknown"] = 2] = "Unknown";
     LoginCode[LoginCode["NotConnected"] = 3] = "NotConnected";
 })(Errors.LoginCode || (Errors.LoginCode = {}));
-
 _.Errors.LoginCode=Errors.LoginCode;
+
 Errors.LoginError=class LoginError extends Aventus.GenericError {
     static get Fullname() { return "Core.Logic.LoginError, Core"; }
 }
 Errors.LoginError.Namespace=`Core.Errors`;
 Errors.LoginError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.LoginError.Fullname, Errors.LoginError);
-
 _.Errors.LoginError=Errors.LoginError;
+
 Lib.HttpRouter=class HttpRouter extends Aventus.HttpRouter {
 }
 Lib.HttpRouter.Namespace=`Core.Lib`;
-
 _.Lib.HttpRouter=Lib.HttpRouter;
+
+(function (CoreErrorCode) {
+    CoreErrorCode[CoreErrorCode["NotImplemented"] = 0] = "NotImplemented";
+    CoreErrorCode[CoreErrorCode["NotAvailable"] = 1] = "NotAvailable";
+    CoreErrorCode[CoreErrorCode["Impossible"] = 2] = "Impossible";
+    CoreErrorCode[CoreErrorCode["NotAllowed"] = 3] = "NotAllowed";
+    CoreErrorCode[CoreErrorCode["NotLogin"] = 4] = "NotLogin";
+    CoreErrorCode[CoreErrorCode["ConversionFailed"] = 5] = "ConversionFailed";
+    CoreErrorCode[CoreErrorCode["SeederError"] = 6] = "SeederError";
+    CoreErrorCode[CoreErrorCode["MigrationError"] = 7] = "MigrationError";
+    CoreErrorCode[CoreErrorCode["UnknowError"] = 8] = "UnknowError";
+    CoreErrorCode[CoreErrorCode["TransactionGuidMissmatch"] = 9] = "TransactionGuidMissmatch";
+})(Errors.CoreErrorCode || (Errors.CoreErrorCode = {}));
+_.Errors.CoreErrorCode=Errors.CoreErrorCode;
+
+Websocket.MainEndPoint=class MainEndPoint extends AventusSharp.WebSocket.EndPoint {
+    /**
+     * Create a singleton
+     */
+    static getInstance() {
+        return Aventus.Instance.get(Websocket.MainEndPoint);
+    }
+    get path() {
+        return "/ws";
+    }
+}
+Websocket.MainEndPoint.Namespace=`Core.Websocket`;
+_.Websocket.MainEndPoint=Websocket.MainEndPoint;
+
+_n = Websocket.Events.ApplicationTestEvent;
+Websocket.Events.ApplicationTestEvent=class ApplicationTestEvent extends AventusSharp.WebSocket.Event {
+    /**
+     * @inheritdoc
+     */
+    path() {
+        return `${this.getPrefix()}Core.Websocket.Events.ApplicationTestEvent`;
+    }
+    constructor(endpoint, getPrefix) {
+        super(endpoint ?? Websocket.MainEndPoint.getInstance(), getPrefix);
+    }
+}
+Websocket.Events.ApplicationTestEvent.Namespace=`Core.Websocket.Events`;
+_.Websocket.Events.ApplicationTestEvent=Websocket.Events.ApplicationTestEvent;
+
+Object.assign(Websocket.Events.ApplicationTestEvent, _n);
+
 Data.Permission=class Permission extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Permission, Core"; }
     EnumName;
@@ -1473,8 +1473,8 @@ Data.Permission=class Permission extends AventusSharp.Data.Storable {
 Data.Permission.Namespace=`Core.Data`;
 Data.Permission.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "EnumName":"string","AdditionalInfo":"string","EnumValue":"Aventus.Enum"};
 Aventus.Converter.register(Data.Permission.Fullname, Data.Permission);
-
 _.Data.Permission=Data.Permission;
+
 Data.PermissionUser=class PermissionUser extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.PermissionUser, Core"; }
     Data;
@@ -1485,8 +1485,8 @@ Data.PermissionUser=class PermissionUser extends AventusSharp.Data.Storable {
 Data.PermissionUser.Namespace=`Core.Data`;
 Data.PermissionUser.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":"Core.Data.Permission","UserId":"number","Allow":"boolean"};
 Aventus.Converter.register(Data.PermissionUser.Fullname, Data.PermissionUser);
-
 _.Data.PermissionUser=Data.PermissionUser;
+
 Permissions.Tree.PermissionTreeItem=class PermissionTreeItem {
     static get Fullname() { return "Core.Permissions.Tree.PermissionTreeItem, Core"; }
     DisplayName = "";
@@ -1499,8 +1499,8 @@ Permissions.Tree.PermissionTreeItem=class PermissionTreeItem {
 Permissions.Tree.PermissionTreeItem.Namespace=`Core.Permissions.Tree`;
 Permissions.Tree.PermissionTreeItem.$schema={"DisplayName":"string","Description":"string","EnumName":"string","Value":"Aventus.Enum","PermissionId":"number","Permissions":"PermissionTreeItem"};
 Aventus.Converter.register(Permissions.Tree.PermissionTreeItem.Fullname, Permissions.Tree.PermissionTreeItem);
-
 _.Permissions.Tree.PermissionTreeItem=Permissions.Tree.PermissionTreeItem;
+
 Permissions.PermissionQuery=class PermissionQuery {
     $type;
     value;
@@ -1512,8 +1512,8 @@ Permissions.PermissionQuery=class PermissionQuery {
     }
 }
 Permissions.PermissionQuery.Namespace=`Core.Permissions`;
-
 _.Permissions.PermissionQuery=Permissions.PermissionQuery;
+
 Components.Tracker=class Tracker {
     velocityMultiplier = window.devicePixelRatio;
     updateTime = Date.now();
@@ -1552,8 +1552,8 @@ Components.Tracker=class Tracker {
     }
 }
 Components.Tracker.Namespace=`Core.Components`;
-
 _.Components.Tracker=Components.Tracker;
+
 System.Panel = class Panel extends Aventus.WebComponent {
     static __style = `:host{background-color:var(--primary-color-opacity);border-radius:var(--border-radius)}@media screen and (max-width: 768px){:host{background-color:var(--primary-color)}}@media screen and (max-width: 1224px){:host{border-radius:0px}}`;
     __getStatic() {
@@ -1598,8 +1598,8 @@ System.DesktopActivableLogic=class DesktopActivableLogic {
     }
 }
 System.DesktopActivableLogic.Namespace=`Core.System`;
-
 _.System.DesktopActivableLogic=System.DesktopActivableLogic;
+
 App.AppConfiguration=class AppConfiguration {
     static get Fullname() { return "Core.App.AppConfiguration, Core"; }
     appsInstalled = [];
@@ -1616,8 +1616,8 @@ Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter {
     }
 }
 Routes.CoreRouter.Namespace=`Core.Routes`;
-
 _.Routes.CoreRouter=Routes.CoreRouter;
+
 Routes.PermissionUserRouter=class PermissionUserRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
@@ -1636,8 +1636,8 @@ Routes.PermissionUserRouter=class PermissionUserRouter extends Aventus.HttpRoute
     }
 }
 Routes.PermissionUserRouter.Namespace=`Core.Routes`;
-
 _.Routes.PermissionUserRouter=Routes.PermissionUserRouter;
+
 Routes.PdfRouter=class PdfRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
@@ -1656,8 +1656,8 @@ Routes.PdfRouter=class PdfRouter extends Aventus.HttpRoute {
     }
 }
 Routes.PdfRouter.Namespace=`Core.Routes`;
-
 _.Routes.PdfRouter=Routes.PdfRouter;
+
 Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
@@ -1666,6 +1666,9 @@ Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
         this.VapidPublicKey = this.VapidPublicKey.bind(this);
         this.Register = this.Register.bind(this);
         this.SendNotification = this.SendNotification.bind(this);
+        this.BeginTransaction = this.BeginTransaction.bind(this);
+        this.CommitTransaction = this.CommitTransaction.bind(this);
+        this.RollbackTransaction = this.RollbackTransaction.bind(this);
         this.Restart = this.Restart.bind(this);
     }
     async LoginAction(body) {
@@ -1690,14 +1693,29 @@ Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/sendNotification`, Aventus.HttpMethod.GET);
         return await request.queryVoid(this.router);
     }
+    async BeginTransaction(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/begin`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async CommitTransaction(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/commit`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryVoid(this.router);
+    }
+    async RollbackTransaction(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/rollback`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryVoid(this.router);
+    }
     async Restart() {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/restart`, Aventus.HttpMethod.GET);
         return await request.queryVoid(this.router);
     }
 }
 Routes.MainRouter.Namespace=`Core.Routes`;
-
 _.Routes.MainRouter=Routes.MainRouter;
+
 Lib.ServiceWorker=class ServiceWorker {
     static getInstance() {
         return AvInstance.get(Lib.ServiceWorker);
@@ -1762,8 +1780,8 @@ Lib.ServiceWorker=class ServiceWorker {
     }
 }
 Lib.ServiceWorker.Namespace=`Core.Lib`;
-
 _.Lib.ServiceWorker=Lib.ServiceWorker;
+
 Data.ApplicationData=class ApplicationData extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.ApplicationData, Core"; }
     Name = "";
@@ -1776,8 +1794,8 @@ Data.ApplicationData=class ApplicationData extends AventusSharp.Data.Storable {
 Data.ApplicationData.Namespace=`Core.Data`;
 Data.ApplicationData.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","DisplayName":"string","Version":"number","LogoClassName":"string","LogoTagName":"string","Extension":"string"};
 Aventus.Converter.register(Data.ApplicationData.Fullname, Data.ApplicationData);
-
 _.Data.ApplicationData=Data.ApplicationData;
+
 Websocket.Routes.ApplicationRouter_GetAll3=class ApplicationRouter_GetAll3 extends AventusSharp.WebSocket.Event {
     /**
      * @inheritdoc
@@ -1787,8 +1805,8 @@ Websocket.Routes.ApplicationRouter_GetAll3=class ApplicationRouter_GetAll3 exten
     }
 }
 Websocket.Routes.ApplicationRouter_GetAll3.Namespace=`Core.Websocket.Routes`;
-
 _.Websocket.Routes.ApplicationRouter_GetAll3=Websocket.Routes.ApplicationRouter_GetAll3;
+
 Websocket.Routes.ApplicationRouter_GetAll2=class ApplicationRouter_GetAll2 extends AventusSharp.WebSocket.Event {
     /**
      * @inheritdoc
@@ -1804,8 +1822,8 @@ Websocket.Routes.ApplicationRouter_GetAll2=class ApplicationRouter_GetAll2 exten
     }
 }
 Websocket.Routes.ApplicationRouter_GetAll2.Namespace=`Core.Websocket.Routes`;
-
 _.Websocket.Routes.ApplicationRouter_GetAll2=Websocket.Routes.ApplicationRouter_GetAll2;
+
 Components.PageCaseContainer = class PageCaseContainer extends Aventus.WebComponent {
     static __style = `:host{display:block;float:left;height:100%;box-sizing:border-box;border-right:5px #000}`;
     __getStatic() {
@@ -1871,8 +1889,8 @@ Data.ApplicationOpen=class ApplicationOpen {
 Data.ApplicationOpen.Namespace=`Core.Data`;
 Data.ApplicationOpen.$schema={"id":"string","applicationName":"string","number":"number","history":"string","isHidden":"boolean"};
 Aventus.Converter.register(Data.ApplicationOpen.Fullname, Data.ApplicationOpen);
-
 _.Data.ApplicationOpen=Data.ApplicationOpen;
+
 Data.ApplicationOpenInfo=class ApplicationOpenInfo {
     static get Fullname() { return "Core.Data.ApplicationOpenInfo, Core"; }
     DesktopId;
@@ -1881,8 +1899,8 @@ Data.ApplicationOpenInfo=class ApplicationOpenInfo {
 Data.ApplicationOpenInfo.Namespace=`Core.Data`;
 Data.ApplicationOpenInfo.$schema={"DesktopId":"number","Info":"ApplicationOpen"};
 Aventus.Converter.register(Data.ApplicationOpenInfo.Fullname, Data.ApplicationOpenInfo);
-
 _.Data.ApplicationOpenInfo=Data.ApplicationOpenInfo;
+
 Websocket.Routes.DesktopRouter_RemoveApp=class DesktopRouter_RemoveApp extends AventusSharp.WebSocket.Event {
     /**
      * @inheritdoc
@@ -1898,30 +1916,30 @@ Websocket.Routes.DesktopRouter_RemoveApp=class DesktopRouter_RemoveApp extends A
     }
 }
 Websocket.Routes.DesktopRouter_RemoveApp.Namespace=`Core.Websocket.Routes`;
-
 _.Websocket.Routes.DesktopRouter_RemoveApp=Websocket.Routes.DesktopRouter_RemoveApp;
+
 (function (DesktopLocation) {
     DesktopLocation[DesktopLocation["Desktop"] = 0] = "Desktop";
     DesktopLocation[DesktopLocation["BottomBar"] = 1] = "BottomBar";
     DesktopLocation[DesktopLocation["HomeFav"] = 2] = "HomeFav";
 })(Data.DesktopLocation || (Data.DesktopLocation = {}));
-
 _.Data.DesktopLocation=Data.DesktopLocation;
+
 (function (BackgroundSize) {
     BackgroundSize[BackgroundSize["Cover"] = 0] = "Cover";
     BackgroundSize[BackgroundSize["Contain"] = 1] = "Contain";
     BackgroundSize[BackgroundSize["Stretch"] = 2] = "Stretch";
 })(Data.BackgroundSize || (Data.BackgroundSize = {}));
-
 _.Data.BackgroundSize=Data.BackgroundSize;
+
 Data.DataTypes.ImageFile=class ImageFile extends AventusSharp.Data.AventusFile {
     static get Fullname() { return "Core.Data.DataTypes.ImageFile, Core"; }
 }
 Data.DataTypes.ImageFile.Namespace=`Core.Data.DataTypes`;
 Data.DataTypes.ImageFile.$schema={...(AventusSharp.Data.AventusFile?.$schema ?? {}), };
 Aventus.Converter.register(Data.DataTypes.ImageFile.Fullname, Data.DataTypes.ImageFile);
-
 _.Data.DataTypes.ImageFile=Data.DataTypes.ImageFile;
+
 Data.User=class User extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.User, Core"; }
     Firstname = "";
@@ -1935,8 +1953,8 @@ Data.User=class User extends AventusSharp.Data.Storable {
 Data.User.Namespace=`Core.Data`;
 Data.User.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Firstname":"string","Lastname":"string","Username":"string","Password":"string","Token":"string","Picture":"Core.Data.DataTypes.ImageFile","IsSuperAdmin":"boolean"};
 Aventus.Converter.register(Data.User.Fullname, Data.User);
-
 _.Data.User=Data.User;
+
 Data.Group=class Group extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Group, Core"; }
     Name = "";
@@ -1946,8 +1964,8 @@ Data.Group=class Group extends AventusSharp.Data.Storable {
 Data.Group.Namespace=`Core.Data`;
 Data.Group.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Description":"string","Users":"Core.Data.User"};
 Aventus.Converter.register(Data.Group.Fullname, Data.Group);
-
 _.Data.Group=Data.Group;
+
 Routes.GroupRouter=class GroupRouter extends AventusSharp.Routes.StorableRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
@@ -1957,8 +1975,8 @@ Routes.GroupRouter=class GroupRouter extends AventusSharp.Routes.StorableRoute {
     }
 }
 Routes.GroupRouter.Namespace=`Core.Routes`;
-
 _.Routes.GroupRouter=Routes.GroupRouter;
+
 Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
@@ -1973,9 +1991,9 @@ Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRoute {
     }
 }
 Routes.UserRouter.Namespace=`Core.Routes`;
-
 _.Routes.UserRouter=Routes.UserRouter;
-const Addon=class Addon {
+
+let Addon=class Addon {
     static dependances = {};
     static need(application, addons) {
         if (addons.length == 0)
@@ -2003,8 +2021,8 @@ const Addon=class Addon {
     }
 }
 Addon.Namespace=`Core`;
-
 _.Addon=Addon;
+
 State.DesktopStateManager=class DesktopStateManager extends Aventus.StateManager {
     /**
      * Get the instance of the StateManager
@@ -2014,8 +2032,8 @@ State.DesktopStateManager=class DesktopStateManager extends Aventus.StateManager
     }
 }
 State.DesktopStateManager.Namespace=`Core.State`;
-
 _.State.DesktopStateManager=State.DesktopStateManager;
+
 (function (SpecialTouch) {
     SpecialTouch[SpecialTouch["Backspace"] = 0] = "Backspace";
     SpecialTouch[SpecialTouch["Insert"] = 1] = "Insert";
@@ -2036,8 +2054,8 @@ _.State.DesktopStateManager=State.DesktopStateManager;
     SpecialTouch[SpecialTouch["ArrowDown"] = 16] = "ArrowDown";
     SpecialTouch[SpecialTouch["Enter"] = 17] = "Enter";
 })(Lib.SpecialTouch || (Lib.SpecialTouch = {}));
-
 _.Lib.SpecialTouch=Lib.SpecialTouch;
+
 Components.ContextMenuSeparator = class ContextMenuSeparator extends Aventus.WebComponent {
     priority = 0;
     menu;
@@ -2603,8 +2621,8 @@ Lib.ShortcutManager=class ShortcutManager {
     }
 }
 Lib.ShortcutManager.Namespace=`Core.Lib`;
-
 _.Lib.ShortcutManager=Lib.ShortcutManager;
+
 System.ApplicationShortcut=class ApplicationShortcut {
     application;
     cmds = [];
@@ -2682,8 +2700,8 @@ System.ApplicationShortcut=class ApplicationShortcut {
     }
 }
 System.ApplicationShortcut.Namespace=`Core.System`;
-
 _.System.ApplicationShortcut=System.ApplicationShortcut;
+
 State.MoveApplication=class MoveApplication extends Aventus.State {
     static state = "/application/move";
     providers = [];
@@ -2759,8 +2777,8 @@ State.MoveApplication=class MoveApplication extends Aventus.State {
     }
 }
 State.MoveApplication.Namespace=`Core.State`;
-
 _.State.MoveApplication=State.MoveApplication;
+
 Data.DekstopConfiguration=class DekstopConfiguration extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.DekstopConfiguration, Core"; }
     Background;
@@ -2775,8 +2793,8 @@ Data.DekstopConfiguration=class DekstopConfiguration extends AventusSharp.Data.S
 Data.DekstopConfiguration.Namespace=`Core.Data`;
 Data.DekstopConfiguration.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Background":"Core.Data.DataTypes.ImageFile","BackgroundSize":"BackgroundSize","SyncDesktop":"boolean","SizeMobile":"number","SizeTablet":"number","SizeDesktop":"number","BackgroundColor":"string"};
 Aventus.Converter.register(Data.DekstopConfiguration.Fullname, Data.DekstopConfiguration);
-
 _.Data.DekstopConfiguration=Data.DekstopConfiguration;
+
 Data.DesktopAppIcon=class DesktopAppIcon extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.DesktopAppIcon, Core"; }
     Position;
@@ -2787,8 +2805,8 @@ Data.DesktopAppIcon=class DesktopAppIcon extends AventusSharp.Data.Storable {
 Data.DesktopAppIcon.Namespace=`Core.Data`;
 Data.DesktopAppIcon.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Position":"number","DesktopId":"number","IconTag":"string","Location":"DesktopLocation"};
 Aventus.Converter.register(Data.DesktopAppIcon.Fullname, Data.DesktopAppIcon);
-
 _.Data.DesktopAppIcon=Data.DesktopAppIcon;
+
 Websocket.Routes.DesktopRouter_SetDesktopIcon=class DesktopRouter_SetDesktopIcon extends AventusSharp.WebSocket.Event {
     /**
      * @inheritdoc
@@ -2804,8 +2822,8 @@ Websocket.Routes.DesktopRouter_SetDesktopIcon=class DesktopRouter_SetDesktopIcon
     }
 }
 Websocket.Routes.DesktopRouter_SetDesktopIcon.Namespace=`Core.Websocket.Routes`;
-
 _.Websocket.Routes.DesktopRouter_SetDesktopIcon=Websocket.Routes.DesktopRouter_SetDesktopIcon;
+
 Data.Desktop=class Desktop extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Desktop, Core"; }
     Name;
@@ -2818,8 +2836,8 @@ Data.Desktop=class Desktop extends AventusSharp.Data.Storable {
 Data.Desktop.Namespace=`Core.Data`;
 Data.Desktop.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Token":"string","UserId":"number","Configuration":"DekstopConfiguration","Icons":"DesktopAppIcon","Applications":"Core.Data.ApplicationOpen"};
 Aventus.Converter.register(Data.Desktop.Fullname, Data.Desktop);
-
 _.Data.Desktop=Data.Desktop;
+
 Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
@@ -2829,8 +2847,8 @@ Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRou
     }
 }
 Routes.DesktopRouter.Namespace=`Core.Routes`;
-
 _.Routes.DesktopRouter=Routes.DesktopRouter;
+
 Components.PageCase = class PageCase extends Aventus.WebComponent {
     static get observedAttributes() {return ["case_width", "case_height"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'min_case_margin_left'() { return this.getNumberAttr('min_case_margin_left') }
@@ -3197,8 +3215,8 @@ Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
     }
 }
 Routes.ApplicationRouter.Namespace=`Core.Routes`;
-
 _.Routes.ApplicationRouter=Routes.ApplicationRouter;
+
 RAM.ApplicationRAM=class ApplicationRAM extends Aventus.Ram {
     getAllDone = false;
     /**
@@ -3267,8 +3285,8 @@ RAM.ApplicationRAM=class ApplicationRAM extends Aventus.Ram {
     }
 }
 RAM.ApplicationRAM.Namespace=`Core.RAM`;
-
 _.RAM.ApplicationRAM=RAM.ApplicationRAM;
+
 System.AppList = class AppList extends Aventus.WebComponent {
     static get observedAttributes() {return ["show"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'no_transition'() { return this.getBoolAttr('no_transition') }
@@ -3470,8 +3488,8 @@ Components.TouchRecord=class TouchRecord {
     }
 }
 Components.TouchRecord.Namespace=`Core.Components`;
-
 _.Components.TouchRecord=Components.TouchRecord;
+
 Components.Scrollable = class Scrollable extends Aventus.WebComponent {
     static get observedAttributes() {return ["zoom"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'y_scroll_visible'() { return this.getBoolAttr('y_scroll_visible') }
@@ -4104,8 +4122,8 @@ Permissions.Tree.PermissionTree=class PermissionTree {
 Permissions.Tree.PermissionTree.Namespace=`Core.Permissions.Tree`;
 Permissions.Tree.PermissionTree.$schema={"AppName":"string","IconTagName":"string","PermissionId":"number","Permissions":"PermissionTreeItem"};
 Aventus.Converter.register(Permissions.Tree.PermissionTree.Fullname, Permissions.Tree.PermissionTree);
-
 _.Permissions.Tree.PermissionTree=Permissions.Tree.PermissionTree;
+
 Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.PermissionGroup, Core"; }
     Data;
@@ -4115,8 +4133,8 @@ Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
 Data.PermissionGroup.Namespace=`Core.Data`;
 Data.PermissionGroup.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":"Core.Data.Permission","GroupId":"number"};
 Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
-
 _.Data.PermissionGroup=Data.PermissionGroup;
+
 Routes.PermissionGroupRouter=class PermissionGroupRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
@@ -4135,8 +4153,8 @@ Routes.PermissionGroupRouter=class PermissionGroupRouter extends Aventus.HttpRou
     }
 }
 Routes.PermissionGroupRouter.Namespace=`Core.Routes`;
-
 _.Routes.PermissionGroupRouter=Routes.PermissionGroupRouter;
+
 Permissions.PermissionForUser=class PermissionForUser {
     static get Fullname() { return "Core.Logic.PermissionForUser, Core"; }
     permissionGroups = [];
@@ -4145,8 +4163,8 @@ Permissions.PermissionForUser=class PermissionForUser {
 Permissions.PermissionForUser.Namespace=`Core.Permissions`;
 Permissions.PermissionForUser.$schema={"permissionGroups":"Core.Data.PermissionGroup","permissionUsers":"Core.Data.PermissionUser"};
 Aventus.Converter.register(Permissions.PermissionForUser.Fullname, Permissions.PermissionForUser);
-
 _.Permissions.PermissionForUser=Permissions.PermissionForUser;
+
 Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
@@ -4169,8 +4187,8 @@ Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
     }
 }
 Routes.PermissionRouter.Namespace=`Core.Routes`;
-
 _.Routes.PermissionRouter=Routes.PermissionRouter;
+
 Permissions.Permission=class Permission {
     static saved = {};
     static async can(query) {
@@ -4196,9 +4214,203 @@ Permissions.Permission=class Permission {
     }
 }
 Permissions.Permission.Namespace=`Core.Permissions`;
-
 _.Permissions.Permission=Permissions.Permission;
-RAM.UserRAM=class UserRAM extends AventusSharp.RAM.RamHttp {
+
+_n = Websocket.Events.TransactionCancelledEvent;
+Websocket.Events.TransactionCancelledEvent=class TransactionCancelledEvent extends AventusSharp.WebSocket.Event {
+    /**
+     * @inheritdoc
+     */
+    path() {
+        return `${this.getPrefix()}Core.Websocket.Events.TransactionCancelledEvent`;
+    }
+    constructor(endpoint, getPrefix) {
+        super(endpoint ?? Websocket.MainEndPoint.getInstance(), getPrefix);
+    }
+}
+Websocket.Events.TransactionCancelledEvent.Namespace=`Core.Websocket.Events`;
+_.Websocket.Events.TransactionCancelledEvent=Websocket.Events.TransactionCancelledEvent;
+
+Object.assign(Websocket.Events.TransactionCancelledEvent, _n);
+
+Websocket.Events.TransactionCancelledEvent.Body=class Body {
+    static get Fullname() { return "Core.Websocket.Events.TransactionCancelledEvent+Body, Core"; }
+    guid;
+}
+Websocket.Events.TransactionCancelledEvent.Body.Namespace=`Core.Websocket.Events.TransactionCancelledEvent`;
+Websocket.Events.TransactionCancelledEvent.Body.$schema={"guid":"string"};
+Aventus.Converter.register(Websocket.Events.TransactionCancelledEvent.Body.Fullname, Websocket.Events.TransactionCancelledEvent.Body);
+_.Websocket.Events.TransactionCancelledEvent.Body=Websocket.Events.TransactionCancelledEvent.Body;
+
+Errors.CoreError=class CoreError extends Aventus.GenericError {
+    static get Fullname() { return "Core.Tools.CoreError, Core"; }
+}
+Errors.CoreError.Namespace=`Core.Errors`;
+Errors.CoreError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
+Aventus.Converter.register(Errors.CoreError.Fullname, Errors.CoreError);
+_.Errors.CoreError=Errors.CoreError;
+
+Lib.TransactionManager=class TransactionManager {
+    static mainRouter;
+    static mutex;
+    static cancelEvent;
+    static guid;
+    static onTransactionBegin = new Aventus.Callback();
+    static onTransactionEnd = new Aventus.Callback();
+    static init() {
+        this.mainRouter = new Routes.MainRouter();
+        this.mutex = new Aventus.Mutex();
+        this.cancelEvent = new Websocket.Events.TransactionCancelledEvent();
+        this.cancelEvent.listen();
+        this.cancelEvent.onTrigger.add(async (body) => {
+            if (body.guid == this.guid) {
+                this.guid = undefined;
+                try {
+                    await this.onTransactionEnd.trigger([false]);
+                }
+                catch (e) {
+                    console.error(e);
+                }
+                this.mutex.release();
+            }
+        });
+        //new DesktopRouter().events.RegisterOpenApp.onTrigger.add(this.onRegisterInfo);
+    }
+    static async begin(ms = 5000) {
+        await this.mutex.waitOne();
+        const result = await this.mainRouter.BeginTransaction({ ms });
+        if (result.success && result.result) {
+            try {
+                this.guid = result.result;
+                await this.onTransactionBegin.trigger([]);
+            }
+            catch (e) {
+                result.errors.push(new Errors.CoreError(Errors.CoreErrorCode.UnknowError, e));
+            }
+        }
+        return result;
+    }
+    static async commit(guid) {
+        if (this.guid != guid) {
+            const err = new AventusSharp.Tools.VoidWithError();
+            err.errors.push(new Errors.CoreError(Errors.CoreErrorCode.TransactionGuidMissmatch, "Les ids de transaction sont différents"));
+            return err;
+        }
+        this.guid = undefined;
+        const result = await this.mainRouter.CommitTransaction({ guid });
+        try {
+            await this.onTransactionEnd.trigger([result.success]);
+        }
+        catch (e) {
+            result.errors.push(new Errors.CoreError(Errors.CoreErrorCode.UnknowError, e));
+        }
+        this.mutex.release();
+        return result;
+    }
+    static async rollback(guid) {
+        if (this.guid != guid) {
+            const err = new AventusSharp.Tools.VoidWithError();
+            err.errors.push(new Errors.CoreError(Errors.CoreErrorCode.TransactionGuidMissmatch, "Les ids de transaction sont différents"));
+            return err;
+        }
+        this.guid = undefined;
+        const result = await this.mainRouter.RollbackTransaction({ guid });
+        try {
+            await this.onTransactionEnd.trigger([false]);
+        }
+        catch (e) {
+            result.errors.push(new Errors.CoreError(Errors.CoreErrorCode.UnknowError, e));
+        }
+        this.mutex.release();
+        return result;
+    }
+}
+Lib.TransactionManager.Namespace=`Core.Lib`;
+_.Lib.TransactionManager=Lib.TransactionManager;
+
+RAM.RamWithTransaction=class RamWithTransaction {
+    memoryUpdateDelete = new Map();
+    memoryCreate = new Map();
+    memoryId = [];
+    isTransactionActive = false;
+    ram;
+    constructor(ram) {
+        this.ram = ram;
+        this.onTransactionBegin = this.onTransactionBegin.bind(this);
+        this.onTransactionEnd = this.onTransactionEnd.bind(this);
+        this.beforeRecordDelete = this.beforeRecordDelete.bind(this);
+        this.beforeRecordSet = this.beforeRecordSet.bind(this);
+        Lib.TransactionManager.onTransactionBegin.add(this.onTransactionBegin);
+        Lib.TransactionManager.onTransactionEnd.add(this.onTransactionEnd);
+        ram.beforeRecordDelete = this.beforeRecordDelete;
+        ram.beforeRecordSet = this.beforeRecordSet;
+    }
+    onTransactionBegin() {
+        this.isTransactionActive = true;
+    }
+    async onTransactionEnd(success) {
+        this.isTransactionActive = false;
+        if (!success) {
+            for (const [id, item] of this.memoryUpdateDelete) {
+                let resultTemp = new Aventus.ResultRamWithError();
+                let type = this.ram.records.has(id) ? 'updated' : 'created';
+                await this.ram.addOrUpdateData(item, resultTemp);
+                if (resultTemp.result)
+                    this.ram.publish(type, resultTemp.result);
+            }
+            this.memoryUpdateDelete.clear();
+            for (const [id, item] of this.memoryCreate) {
+                this.ram.records.delete(id);
+                this.ram.publish('deleted', item);
+            }
+            this.memoryCreate.clear();
+            this.memoryId = [];
+        }
+    }
+    async beforeRecordSet(item) {
+        if (this.isTransactionActive) {
+            if (this.memoryId.includes(item.Id))
+                return;
+            this.memoryId.push(item.Id);
+            if (this.ram.records.has(item.Id)) {
+                this.memoryUpdateDelete.set(item.Id, item.clone());
+            }
+            else {
+                this.memoryCreate.set(item.Id, item);
+            }
+        }
+    }
+    async beforeRecordDelete(item) {
+        if (this.isTransactionActive) {
+            if (this.memoryId.includes(item.Id))
+                return;
+            this.memoryId.push(item.Id);
+            this.memoryUpdateDelete.set(item.Id, item.clone());
+        }
+    }
+}
+RAM.RamWithTransaction.Namespace=`Core.RAM`;
+_.RAM.RamWithTransaction=RAM.RamWithTransaction;
+
+RAM.RamWebSocket=class RamWebSocket extends AventusSharp.RAM.RamWebSocket {
+    constructor() {
+        super();
+        new RAM.RamWithTransaction(this);
+    }
+}
+RAM.RamWebSocket.Namespace=`Core.RAM`;
+_.RAM.RamWebSocket=RAM.RamWebSocket;
+
+RAM.RamHttp=class RamHttp extends AventusSharp.RAM.RamHttp {
+    constructor() {
+        super();
+        new RAM.RamWithTransaction(this);
+    }
+}
+RAM.RamHttp.Namespace=`Core.RAM`;
+_.RAM.RamHttp=RAM.RamHttp;
+
+RAM.UserRAM=class UserRAM extends RAM.RamHttp {
     connectedUserId;
     /**
      * Create a singleton to store data
@@ -4257,8 +4469,8 @@ RAM.UserRAM=class UserRAM extends AventusSharp.RAM.RamHttp {
     }
 }
 RAM.UserRAM.Namespace=`Core.RAM`;
-
 _.RAM.UserRAM=RAM.UserRAM;
+
 Lib.SessionManager=class SessionManager {
     static async logout() {
         try {
@@ -4282,8 +4494,8 @@ Lib.SessionManager=class SessionManager {
     }
 }
 Lib.SessionManager.Namespace=`Core.Lib`;
-
 _.Lib.SessionManager=Lib.SessionManager;
+
 System.HomePanel = class HomePanel extends System.Panel {
     get 'currentUser'() {
 						return this.__watch["currentUser"];
@@ -4470,8 +4682,8 @@ Websocket.Routes.DesktopRouter_RegisterOpenApp=class DesktopRouter_RegisterOpenA
     }
 }
 Websocket.Routes.DesktopRouter_RegisterOpenApp.Namespace=`Core.Websocket.Routes`;
-
 _.Websocket.Routes.DesktopRouter_RegisterOpenApp=Websocket.Routes.DesktopRouter_RegisterOpenApp;
+
 Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocket.Route {
     events;
     constructor(endpoint) {
@@ -4520,8 +4732,8 @@ Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocke
     }
 }
 Websocket.Routes.DesktopRouter.Namespace=`Core.Websocket.Routes`;
-
 _.Websocket.Routes.DesktopRouter=Websocket.Routes.DesktopRouter;
+
 System.BottomBar = class BottomBar extends Aventus.WebComponent {
     get desktop() {
         if (this.parentNode instanceof ShadowRoot) {
@@ -5841,8 +6053,8 @@ State.ApplicationState=class ApplicationState extends Aventus.State {
 State.ApplicationState.Namespace=`Core.State`;
 State.ApplicationState.$schema={...(Aventus.State?.$schema ?? {}), "$type":"string","__manager":"Core.Lib.ApplicationStateManager","application":"Core.System.Application","__canSaveState":"boolean","delaySaveState":"number"};
 Aventus.Converter.register(State.ApplicationState.Fullname, State.ApplicationState);
-
 _.State.ApplicationState=State.ApplicationState;
+
 State.ApplicationEmptyState=class ApplicationEmptyState extends State.ApplicationState {
     localName;
     constructor(stateName) {
@@ -5882,8 +6094,8 @@ System.ApplicationHistoryConvert=class ApplicationHistoryConvert extends Aventus
     }
 }
 System.ApplicationHistoryConvert.Namespace=`Core.System`;
-
 _.System.ApplicationHistoryConvert=System.ApplicationHistoryConvert;
+
 System.FrameNoScroll = class FrameNoScroll extends Aventus.WebComponent {
     static get observedAttributes() {return ["visible"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'visible'() { return this.getBoolProp('visible') }
@@ -6193,8 +6405,8 @@ System.ApplicationHistory=class ApplicationHistory {
 System.ApplicationHistory.Namespace=`Core.System`;
 System.ApplicationHistory.$schema={"$type":"string","memory":"History","currentPosition":"number","nextAvailable":"boolean","previousAvailable":"boolean"};
 Aventus.Converter.register(System.ApplicationHistory.Fullname, System.ApplicationHistory);
-
 _.System.ApplicationHistory=System.ApplicationHistory;
+
 Lib.ApplicationManager=class ApplicationManager {
     static waitingDelay = 1000;
     static waitings = {};
@@ -6364,8 +6576,8 @@ Lib.ApplicationManager=class ApplicationManager {
     }
 }
 Lib.ApplicationManager.Namespace=`Core.Lib`;
-
 _.Lib.ApplicationManager=Lib.ApplicationManager;
+
 System.ApplicationSizeStorage=class ApplicationSizeStorage {
     memoryPrefered = {};
     memory = {};
@@ -6494,8 +6706,8 @@ System.ApplicationSize=class ApplicationSize {
     }
 }
 System.ApplicationSize.Namespace=`Core.System`;
-
 _.System.ApplicationSize=System.ApplicationSize;
+
 System.Frame404 = class Frame404 extends System.Frame {
     static __style = ``;
     __getStatic() {
@@ -6899,7 +7111,7 @@ System.Application = class Application extends Aventus.WebComponent {
     target.onIsHiddenChange();
 })); }
     static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{backdrop-filter:blur(2px);background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;pointer-events:none;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:var(--border-radius-round);height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host rk-notification-manager{top:35px}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}:host rk-notification-manager{top:45px}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 45px)}:host rk-resize{display:none}:host rk-notification-manager{top:45px}:host([is_hidden]){left:0 !important;width:100% !important}}`;
-    constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);            this.shortcutManager = new System.ApplicationShortcut(this);            this.shortcutManager.init();if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.onContextMenuContent=this.onContextMenuContent.bind(this)this.onContextMenuHeader=this.onContextMenuHeader.bind(this)this.validError404=this.validError404.bind(this)this.showErrorNotAllowed=this.showErrorNotAllowed.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this)this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)this.moveApplicationToRight=this.moveApplicationToRight.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this)this.notify=this.notify.bind(this)this.popupErrors=this.popupErrors.bind(this)this.parseErrors=this.parseErrors.bind(this)this.execute=this.execute.bind(this)this.executeWithLoading=this.executeWithLoading.bind(this)this.showLoading=this.showLoading.bind(this) }
+    constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);            this.shortcutManager = new System.ApplicationShortcut(this);            this.shortcutManager.init();if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.onContextMenuContent=this.onContextMenuContent.bind(this)this.onContextMenuHeader=this.onContextMenuHeader.bind(this)this.validError404=this.validError404.bind(this)this.showErrorNotAllowed=this.showErrorNotAllowed.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this)this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)this.moveApplicationToRight=this.moveApplicationToRight.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this)this.notify=this.notify.bind(this)this.popupErrors=this.popupErrors.bind(this)this.parseErrors=this.parseErrors.bind(this)this.execute=this.execute.bind(this)this.executeWithLoading=this.executeWithLoading.bind(this)this.showLoading=this.showLoading.bind(this)this.txExec=this.txExec.bind(this)this.txExecLoading=this.txExecLoading.bind(this) }
     __getStatic() {
         return Application;
     }
@@ -7545,6 +7757,54 @@ System.Application = class Application extends Aventus.WebComponent {
         }
         return null;
     }
+    async txExec(fct, ms) {
+        try {
+            const beginResult = await Lib.TransactionManager.begin(ms);
+            if (!beginResult.success || !beginResult.result) {
+                this.popupErrors(beginResult.errors);
+                return undefined;
+            }
+            const resultWithError = new Aventus.ResultWithError();
+            if (fct instanceof Promise) {
+                resultWithError.result = await fct;
+            }
+            else {
+                resultWithError.result = await fct(async (prom) => {
+                    const queryResult = await prom;
+                    if (queryResult.errors.length > 0) {
+                        for (let error of queryResult.errors) {
+                            resultWithError.errors.push(error);
+                        }
+                    }
+                    if (queryResult instanceof Aventus.ResultWithError)
+                        return queryResult.result;
+                    return undefined;
+                });
+            }
+            if (resultWithError.success) {
+                const commitResult = await Lib.TransactionManager.commit(beginResult.result);
+                resultWithError.errors = [...resultWithError.errors, ...commitResult.errors];
+            }
+            else {
+                const rollbackResult = await Lib.TransactionManager.rollback(beginResult.result);
+                resultWithError.errors = [...resultWithError.errors, ...rollbackResult.errors];
+            }
+            return this.parseErrors(resultWithError);
+        }
+        catch (e) {
+            this.alert({
+                title: "Erreur",
+                description: e
+            });
+        }
+        return undefined;
+    }
+    async txExecLoading(fct) {
+        const result = await this.showLoading(async () => {
+            return await this.txExec(fct);
+        });
+        return result ?? undefined;
+    }
     addFocus() {
         this.setAttribute("tabindex", "-1");
         this.addEventListener("focus", (e) => {
@@ -7681,8 +7941,8 @@ Permissions.ApplicationPermissionQuery=class ApplicationPermissionQuery extends 
 Permissions.ApplicationPermissionQuery.Namespace=`Core.Permissions`;
 Permissions.ApplicationPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
 Aventus.Converter.register(Permissions.ApplicationPermissionQuery.Fullname, Permissions.ApplicationPermissionQuery);
-
 _.Permissions.ApplicationPermissionQuery=Permissions.ApplicationPermissionQuery;
+
 Lib.AppIconManager=class AppIconManager {
     static loaded = [];
     static dico = {};
@@ -7739,8 +7999,8 @@ Lib.AppIconManager=class AppIconManager {
     }
 }
 Lib.AppIconManager.Namespace=`Core.Lib`;
-
 _.Lib.AppIconManager=Lib.AppIconManager;
+
 Lib.Platform=class Platform {
     static onScreenChange = new Aventus.Callback();
     static init() {
@@ -7783,8 +8043,8 @@ Lib.Platform=class Platform {
     }
 }
 Lib.Platform.Namespace=`Core.Lib`;
-
 _.Lib.Platform=Lib.Platform;
+
 Components.Tooltip = class Tooltip extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
     set 'visible'(val) { this.setBoolAttr('visible', val) }get 'position'() { return this.getStringAttr('position') }
@@ -7956,7 +8216,7 @@ Components.Tooltip.Tag=`rk-tooltip`;
 _.Components.Tooltip=Components.Tooltip;
 if(!window.customElements.get('rk-tooltip')){window.customElements.define('rk-tooltip', Components.Tooltip);Aventus.WebComponentInstance.registerDefinition(Components.Tooltip);}
 
-RAM.DesktopRAM=class DesktopRAM extends AventusSharp.RAM.RamHttp {
+RAM.DesktopRAM=class DesktopRAM extends RAM.RamHttp {
     /**
      * @inheritdoc
      */
@@ -7989,8 +8249,8 @@ RAM.DesktopRAM=class DesktopRAM extends AventusSharp.RAM.RamHttp {
     }
 }
 RAM.DesktopRAM.Namespace=`Core.RAM`;
-
 _.RAM.DesktopRAM=RAM.DesktopRAM;
+
 System.Desktop = class Desktop extends Aventus.WebComponent {
     static get observedAttributes() {return ["desktop_id"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'show_application_list'() { return this.getBoolAttr('show_application_list') }
@@ -8757,16 +9017,21 @@ System.Os = class Os extends Aventus.WebComponent {
     }
     async startSocket() {
         AventusSharp.WebSocket.Connection.Debug = true;
-        Websocket.MainEndPoint.getInstance().open();
+        await Websocket.MainEndPoint.getInstance().open();
         Lib.ApplicationManager.init();
+        Lib.TransactionManager.init();
     }
-    postCreation() {
+    async init() {
         this.addResizeObserver();
-        this.systemLoading();
+        await this.startSocket();
         this.rightClick();
         this.preventScroll();
         this.addSwitchDesktop();
-        this.startSocket();
+        await this.systemLoading();
+    }
+    postCreation() {
+        super.postCreation();
+        this.init();
     }
     __1ce90dbdb85fa41f02d47acb05511f03method2(desktop) {
         return desktop.Id;
@@ -8818,8 +9083,8 @@ Lib.Process=class Process {
     }
 }
 Lib.Process.Namespace=`Core.Lib`;
-
 _.Lib.Process=Lib.Process;
+
 System.AppIcon = class AppIcon extends Aventus.WebComponent {
     get 'shaking'() { return this.getBoolAttr('shaking') }
     set 'shaking'(val) { this.setBoolAttr('shaking', val) }get 'can_remove'() { return this.getBoolAttr('can_remove') }
@@ -10051,8 +10316,8 @@ Lib.PWA=class PWA {
     }
 }
 Lib.PWA.Namespace=`Core.Lib`;
-
 _.Lib.PWA=Lib.PWA;
+
 System.PwaButton = class PwaButton extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
     set 'visible'(val) { this.setBoolAttr('visible', val) }get 'downloading'() { return this.getBoolAttr('downloading') }
@@ -10257,8 +10522,8 @@ Lib.FileSaver=class FileSaver {
     }
 }
 Lib.FileSaver.Namespace=`Core.Lib`;
-
 _.Lib.FileSaver=Lib.FileSaver;
+
 Components.Sheet = class Sheet extends Aventus.WebComponent {
     get 'format'() { return this.getStringAttr('format') }
     set 'format'(val) { this.setStringAttr('format', val) }get 'orientation'() { return this.getStringAttr('orientation') }
@@ -11068,8 +11333,8 @@ Components.VirtualForm=class VirtualForm {
     }
 }
 Components.VirtualForm.Namespace=`Core.Components`;
-
 _.Components.VirtualForm=Components.VirtualForm;
+
 State.ApplicationFormState=class ApplicationFormState extends State.ApplicationState {
     _form;
     get form() {
@@ -11129,8 +11394,8 @@ State.ApplicationFormState=class ApplicationFormState extends State.ApplicationS
 State.ApplicationFormState.Namespace=`Core.State`;
 State.ApplicationFormState.$schema={...(State.ApplicationState?.$schema ?? {}), "_form":"Core.Components.VirtualForm","form":"Core.Components.InternalForm"};
 Aventus.Converter.register(State.ApplicationFormState.Fullname, State.ApplicationFormState);
-
 _.State.ApplicationFormState=State.ApplicationFormState;
+
 State.CreateOrUpdate=class CreateOrUpdate extends State.ApplicationFormState {
     static _state = "";
     static get state() {
@@ -11222,8 +11487,8 @@ State.CreateOrUpdate=class CreateOrUpdate extends State.ApplicationFormState {
 State.CreateOrUpdate.Namespace=`Core.State`;
 State.CreateOrUpdate.$schema={...(State.ApplicationFormState?.$schema ?? {}), "item":"T","name":"string"};
 Aventus.Converter.register(State.CreateOrUpdate.Fullname, State.CreateOrUpdate);
-
 _.State.CreateOrUpdate=State.CreateOrUpdate;
+
 Components.FormElement = class FormElement extends Aventus.WebComponent {
     get 'has_errors'() { return this.getBoolAttr('has_errors') }
     set 'has_errors'(val) { this.setBoolAttr('has_errors', val) }    get 'errors'() {
@@ -15386,88 +15651,90 @@ App.AppError=class AppError extends Aventus.GenericError {
 App.AppError.Namespace=`Core.App`;
 App.AppError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(App.AppError.Fullname, App.AppError);
-
 _.App.AppError=App.AppError;
+
 Errors.DesktopError=class DesktopError extends Aventus.GenericError {
     static get Fullname() { return "Core.Logic.DesktopError, Core"; }
 }
 Errors.DesktopError.Namespace=`Core.Errors`;
 Errors.DesktopError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.DesktopError.Fullname, Errors.DesktopError);
-
 _.Errors.DesktopError=Errors.DesktopError;
+
 Permissions.DesktopPermissionQuery=class DesktopPermissionQuery extends Permissions.PermissionQuery {
     static get Fullname() { return "Core.Permissions.DesktopPermissionQuery, Core"; }
 }
 Permissions.DesktopPermissionQuery.Namespace=`Core.Permissions`;
 Permissions.DesktopPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
 Aventus.Converter.register(Permissions.DesktopPermissionQuery.Fullname, Permissions.DesktopPermissionQuery);
-
 _.Permissions.DesktopPermissionQuery=Permissions.DesktopPermissionQuery;
+
 Permissions.UserPermissionQuery=class UserPermissionQuery extends Permissions.PermissionQuery {
     static get Fullname() { return "Core.Permissions.UserPermissionQuery, Core"; }
 }
 Permissions.UserPermissionQuery.Namespace=`Core.Permissions`;
 Permissions.UserPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
 Aventus.Converter.register(Permissions.UserPermissionQuery.Fullname, Permissions.UserPermissionQuery);
-
 _.Permissions.UserPermissionQuery=Permissions.UserPermissionQuery;
-Errors.CoreError=class CoreError extends Aventus.GenericError {
-    static get Fullname() { return "Core.Tools.CoreError, Core"; }
-}
-Errors.CoreError.Namespace=`Core.Errors`;
-Errors.CoreError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
-Aventus.Converter.register(Errors.CoreError.Fullname, Errors.CoreError);
 
-_.Errors.CoreError=Errors.CoreError;
 Errors.ImageFileError=class ImageFileError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.ImageFileError, Core"; }
 }
 Errors.ImageFileError.Namespace=`Core.Errors`;
 Errors.ImageFileError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.ImageFileError.Fullname, Errors.ImageFileError);
-
 _.Errors.ImageFileError=Errors.ImageFileError;
+
 Tools.ResultWithImageFileError=class ResultWithImageFileError extends AventusSharp.Tools.ResultWithError {
     static get Fullname() { return "Core.Tools.ResultWithImageFileError, Core"; }
 }
 Tools.ResultWithImageFileError.Namespace=`Core.Tools`;
 Tools.ResultWithImageFileError.$schema={...(AventusSharp.Tools.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.ResultWithImageFileError.Fullname, Tools.ResultWithImageFileError);
-
 _.Tools.ResultWithImageFileError=Tools.ResultWithImageFileError;
+
 Tools.VoidWithImageFileError=class VoidWithImageFileError extends AventusSharp.Tools.VoidWithError {
     static get Fullname() { return "Core.Tools.VoidWithImageFileError, Core"; }
 }
 Tools.VoidWithImageFileError.Namespace=`Core.Tools`;
 Tools.VoidWithImageFileError.$schema={...(AventusSharp.Tools.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.VoidWithImageFileError.Fullname, Tools.VoidWithImageFileError);
-
 _.Tools.VoidWithImageFileError=Tools.VoidWithImageFileError;
+
 Errors.PdfError=class PdfError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.PdfError, Core"; }
 }
 Errors.PdfError.Namespace=`Core.Errors`;
 Errors.PdfError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.PdfError.Fullname, Errors.PdfError);
-
 _.Errors.PdfError=Errors.PdfError;
+
 Tools.ResultWithPdfError=class ResultWithPdfError extends AventusSharp.Tools.ResultWithError {
     static get Fullname() { return "Core.Tools.ResultWithPdfError, Core"; }
 }
 Tools.ResultWithPdfError.Namespace=`Core.Tools`;
 Tools.ResultWithPdfError.$schema={...(AventusSharp.Tools.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.ResultWithPdfError.Fullname, Tools.ResultWithPdfError);
-
 _.Tools.ResultWithPdfError=Tools.ResultWithPdfError;
+
 Tools.VoidWithPdfError=class VoidWithPdfError extends AventusSharp.Tools.VoidWithError {
     static get Fullname() { return "Core.Tools.VoidWithPdfError, Core"; }
 }
 Tools.VoidWithPdfError.Namespace=`Core.Tools`;
 Tools.VoidWithPdfError.$schema={...(AventusSharp.Tools.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.VoidWithPdfError.Fullname, Tools.VoidWithPdfError);
-
 _.Tools.VoidWithPdfError=Tools.VoidWithPdfError;
+
+Websocket.Events.ApplicationTestEvent.Body=class Body {
+    static get Fullname() { return "Core.Websocket.Events.ApplicationTestEvent+Body, Core"; }
+    id;
+    name;
+}
+Websocket.Events.ApplicationTestEvent.Body.Namespace=`Core.Websocket.Events.ApplicationTestEvent`;
+Websocket.Events.ApplicationTestEvent.Body.$schema={"id":"number","name":"string"};
+Aventus.Converter.register(Websocket.Events.ApplicationTestEvent.Body.Fullname, Websocket.Events.ApplicationTestEvent.Body);
+_.Websocket.Events.ApplicationTestEvent.Body=Websocket.Events.ApplicationTestEvent.Body;
+
 Websocket.Routes.ApplicationRouter=class ApplicationRouter extends AventusSharp.WebSocket.Route {
     events;
     constructor(endpoint) {
@@ -15512,9 +15779,9 @@ Websocket.Routes.ApplicationRouter=class ApplicationRouter extends AventusSharp.
     }
 }
 Websocket.Routes.ApplicationRouter.Namespace=`Core.Websocket.Routes`;
-
 _.Websocket.Routes.ApplicationRouter=Websocket.Routes.ApplicationRouter;
-RAM.GroupRAM=class GroupRAM extends AventusSharp.RAM.RamHttp {
+
+RAM.GroupRAM=class GroupRAM extends RAM.RamHttp {
     /**
      * Create a singleton to store data
      */
@@ -15554,8 +15821,8 @@ RAM.GroupRAM=class GroupRAM extends AventusSharp.RAM.RamHttp {
     }
 }
 RAM.GroupRAM.Namespace=`Core.RAM`;
-
 _.RAM.GroupRAM=RAM.GroupRAM;
+
 
 for(let key in _) { Core[key] = _[key] }
 })(Core);

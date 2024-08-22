@@ -1,8 +1,7 @@
 import { UserRouter } from "../generated/Routes/UserRouter.lib.avt";
 import { User } from "../generated/Data/User.data.avt";
 import { HttpRouter } from "../libs/HttpRouter.lib.avt";
-import { CoreRouter } from "../generated/CoreRouter.lib.avt";
-import { LoginCode, LoginError } from "../generated/Logic/PasswordManager.lib.avt";
+import { RamHttp } from "./RamWithTransaction.lib.avt";
 
 namespace RAM {
     interface UserMethod {
@@ -11,7 +10,7 @@ namespace RAM {
 
     export type UserExtended = User & UserMethod;
 
-    export class UserRAM extends AventusSharp.RAM.RamHttp<UserExtended> implements Aventus.IRam {
+    export class UserRAM extends RamHttp<UserExtended> implements Aventus.IRam {
 
         private connectedUserId?: number;
 

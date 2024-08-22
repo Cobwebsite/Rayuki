@@ -93,6 +93,21 @@ namespace Core.Routes
             }
         }
 
+        [Post, Path("/core/transaction/begin")]
+        public ResultWithError<string> BeginTransaction(HttpContext context, int ms) {
+            return HttpServer.TransactionManager.Begin(context, ms);
+        }
+
+        [Post, Path("/core/transaction/commit")]
+        public VoidWithError CommitTransaction(string guid) {
+            return HttpServer.TransactionManager.Commit(guid);
+        }
+
+        [Post, Path("/core/transaction/rollback")]
+        public VoidWithError RollbackTransaction(string guid) {
+            return HttpServer.TransactionManager.Rollback(guid);
+        }
+
         [Get, Path("/restart")]
         public void Restart()
         {

@@ -1,6 +1,6 @@
 import { MainEndPoint } from '../MainEndPoint.lib.avt';
 
-namespace Websocket.Events {
+namespace Websocket.Events.ApplicationTestEvent {
 
 	@Convertible()
 	export class Body {
@@ -8,6 +8,9 @@ namespace Websocket.Events {
 		public id!: number;
 		public name!: string;
 	}
+
+}
+namespace Websocket.Events {
 
 	export class ApplicationTestEvent extends AventusSharp.WebSocket.Event<Body> {
 		/**

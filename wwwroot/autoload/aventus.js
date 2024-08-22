@@ -39,8 +39,8 @@ var HttpErrorCode;
 (function (HttpErrorCode) {
     HttpErrorCode[HttpErrorCode["unknow"] = 0] = "unknow";
 })(HttpErrorCode || (HttpErrorCode = {}));
-
 _.HttpErrorCode=HttpErrorCode;
+
 var HttpMethod;
 (function (HttpMethod) {
     HttpMethod["GET"] = "GET";
@@ -49,8 +49,8 @@ var HttpMethod;
     HttpMethod["PUT"] = "PUT";
     HttpMethod["OPTION"] = "OPTION";
 })(HttpMethod || (HttpMethod = {}));
-
 _.HttpMethod=HttpMethod;
+
 const CallbackGroup=class CallbackGroup {
     callbacks = {};
     /**
@@ -97,8 +97,8 @@ const CallbackGroup=class CallbackGroup {
     }
 }
 CallbackGroup.Namespace=`Aventus`;
-
 _.CallbackGroup=CallbackGroup;
+
 const Callback=class Callback {
     callbacks = new Map();
     /**
@@ -134,8 +134,8 @@ const Callback=class Callback {
     }
 }
 Callback.Namespace=`Aventus`;
-
 _.Callback=Callback;
+
 const Instance=class Instance {
     static elements = new Map();
     static get(type) {
@@ -161,8 +161,8 @@ const Instance=class Instance {
     }
 }
 Instance.Namespace=`Aventus`;
-
 _.Instance=Instance;
+
 const getValueFromObject=function getValueFromObject(path, obj) {
     if (path === undefined) {
         path = '';
@@ -191,16 +191,16 @@ const getValueFromObject=function getValueFromObject(path, obj) {
     }
     return val(splitted[splitted.length - 1]);
 }
-
 _.getValueFromObject=getValueFromObject;
+
 var WatchAction;
 (function (WatchAction) {
     WatchAction[WatchAction["CREATED"] = 0] = "CREATED";
     WatchAction[WatchAction["UPDATED"] = 1] = "UPDATED";
     WatchAction[WatchAction["DELETED"] = 2] = "DELETED";
 })(WatchAction || (WatchAction = {}));
-
 _.WatchAction=WatchAction;
+
 const Signal=class Signal {
     __subscribes = [];
     _value;
@@ -242,16 +242,16 @@ const Signal=class Signal {
     }
 }
 Signal.Namespace=`Aventus`;
-
 _.Signal=Signal;
+
 var RamErrorCode;
 (function (RamErrorCode) {
     RamErrorCode[RamErrorCode["unknow"] = 0] = "unknow";
     RamErrorCode[RamErrorCode["noId"] = 1] = "noId";
     RamErrorCode[RamErrorCode["noItemInsideRam"] = 2] = "noItemInsideRam";
 })(RamErrorCode || (RamErrorCode = {}));
-
 _.RamErrorCode=RamErrorCode;
+
 const ActionGuard=class ActionGuard {
     /**
      * Map to store actions that are currently running.
@@ -324,8 +324,8 @@ const ActionGuard=class ActionGuard {
     }
 }
 ActionGuard.Namespace=`Aventus`;
-
 _.ActionGuard=ActionGuard;
+
 const Mutex=class Mutex {
     /**
      * Array to store functions waiting for the mutex to become available.
@@ -463,8 +463,8 @@ const Mutex=class Mutex {
     }
 }
 Mutex.Namespace=`Aventus`;
-
 _.Mutex=Mutex;
+
 const setValueToObject=function setValueToObject(path, obj, value) {
     path = path.replace(/\[(.*?)\]/g, '.$1');
     const val = (key) => {
@@ -490,24 +490,24 @@ const setValueToObject=function setValueToObject(path, obj, value) {
         obj[splitted[splitted.length - 1]] = value;
     }
 }
-
 _.setValueToObject=setValueToObject;
+
 const isClass=function isClass(v) {
     return typeof v === 'function' && /^\s*class\s+/.test(v.toString());
 }
-
 _.isClass=isClass;
+
 const sleep=function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-
 _.sleep=sleep;
+
 const uuidv4=function uuidv4() {
     let uid = '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, c => (Number(c) ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> Number(c) / 4).toString(16));
     return uid;
 }
-
 _.uuidv4=uuidv4;
+
 const ElementExtension=class ElementExtension {
     /**
      * Find a parent by tagname if exist Static.findParentByTag(this, "av-img")
@@ -745,8 +745,8 @@ const ElementExtension=class ElementExtension {
     }
 }
 ElementExtension.Namespace=`Aventus`;
-
 _.ElementExtension=ElementExtension;
+
 const Style=class Style {
     static instance;
     static noAnimation;
@@ -825,8 +825,8 @@ const Style=class Style {
     }
 }
 Style.Namespace=`Aventus`;
-
 _.Style=Style;
+
 const Effect=class Effect {
     callbacks = [];
     isInit = false;
@@ -940,8 +940,8 @@ const Effect=class Effect {
     }
 }
 Effect.Namespace=`Aventus`;
-
 _.Effect=Effect;
+
 const Computed=class Computed extends Effect {
     _value;
     __path = "*";
@@ -980,8 +980,8 @@ const Computed=class Computed extends Effect {
     }
 }
 Computed.Namespace=`Aventus`;
-
 _.Computed=Computed;
+
 const Watcher=class Watcher {
     constructor() { }
     ;
@@ -1777,8 +1777,8 @@ const Watcher=class Watcher {
     }
 }
 Watcher.Namespace=`Aventus`;
-
 _.Watcher=Watcher;
+
 const EffectNoRecomputed=class EffectNoRecomputed extends Effect {
     init() {
         this.isInit = true;
@@ -1793,8 +1793,8 @@ const EffectNoRecomputed=class EffectNoRecomputed extends Effect {
     }
 }
 EffectNoRecomputed.Namespace=`Aventus`;
-
 _.EffectNoRecomputed=EffectNoRecomputed;
+
 const ComputedNoRecomputed=class ComputedNoRecomputed extends Computed {
     init() {
         this.isInit = true;
@@ -1811,8 +1811,8 @@ const ComputedNoRecomputed=class ComputedNoRecomputed extends Computed {
     run() { }
 }
 ComputedNoRecomputed.Namespace=`Aventus`;
-
 _.ComputedNoRecomputed=ComputedNoRecomputed;
+
 const compareObject=function compareObject(obj1, obj2) {
     if (Array.isArray(obj1)) {
         if (!Array.isArray(obj2)) {
@@ -1883,8 +1883,8 @@ const compareObject=function compareObject(obj1, obj2) {
         return obj1 === obj2;
     }
 }
-
 _.compareObject=compareObject;
+
 const ResourceLoader=class ResourceLoader {
     static headerLoaded = {};
     static headerWaiting = {};
@@ -2053,8 +2053,8 @@ const ResourceLoader=class ResourceLoader {
     }
 }
 ResourceLoader.Namespace=`Aventus`;
-
 _.ResourceLoader=ResourceLoader;
+
 const Async=function Async(el) {
     return new Promise((resolve) => {
         if (el instanceof Promise) {
@@ -2065,8 +2065,8 @@ const Async=function Async(el) {
         }
     });
 }
-
 _.Async=Async;
+
 const Json=class Json {
     /**
      * Converts a JavaScript class instance to a JSON object.
@@ -2154,8 +2154,8 @@ const Json=class Json {
     }
 }
 Json.Namespace=`Aventus`;
-
 _.Json=Json;
+
 const Data=class Data {
     /**
      * The schema for the class
@@ -2204,8 +2204,8 @@ const Data=class Data {
     }
 }
 Data.Namespace=`Aventus`;
-
 _.Data=Data;
+
 const ConverterTransform=class ConverterTransform {
     transform(data) {
         return this.transformLoop(data);
@@ -2326,8 +2326,8 @@ const ConverterTransform=class ConverterTransform {
     }
 }
 ConverterTransform.Namespace=`Aventus`;
-
 _.ConverterTransform=ConverterTransform;
+
 const Converter=class Converter {
     /**
     * Map storing information about registered types.
@@ -2396,8 +2396,8 @@ const Converter=class Converter {
     }
 }
 Converter.Namespace=`Aventus`;
-
 _.Converter=Converter;
+
 const GenericError=class GenericError {
     /**
      * Code for the error
@@ -2423,18 +2423,18 @@ const GenericError=class GenericError {
     }
 }
 GenericError.Namespace=`Aventus`;
-
 _.GenericError=GenericError;
+
 const RamError=class RamError extends GenericError {
 }
 RamError.Namespace=`Aventus`;
-
 _.RamError=RamError;
+
 const HttpError=class HttpError extends GenericError {
 }
 HttpError.Namespace=`Aventus`;
-
 _.HttpError=HttpError;
+
 const VoidWithError=class VoidWithError {
     /**
      * Determine if the action is a success
@@ -2484,13 +2484,13 @@ const VoidWithError=class VoidWithError {
     }
 }
 VoidWithError.Namespace=`Aventus`;
-
 _.VoidWithError=VoidWithError;
+
 const VoidRamWithError=class VoidRamWithError extends VoidWithError {
 }
 VoidRamWithError.Namespace=`Aventus`;
-
 _.VoidRamWithError=VoidRamWithError;
+
 const ResultWithError=class ResultWithError extends VoidWithError {
     /**
       * The result value of the action.
@@ -2509,13 +2509,13 @@ const ResultWithError=class ResultWithError extends VoidWithError {
     }
 }
 ResultWithError.Namespace=`Aventus`;
-
 _.ResultWithError=ResultWithError;
+
 const ResultRamWithError=class ResultRamWithError extends ResultWithError {
 }
 ResultRamWithError.Namespace=`Aventus`;
-
 _.ResultRamWithError=ResultRamWithError;
+
 const HttpRequest=class HttpRequest {
     request;
     url;
@@ -2726,8 +2726,8 @@ const HttpRequest=class HttpRequest {
     }
 }
 HttpRequest.Namespace=`Aventus`;
-
 _.HttpRequest=HttpRequest;
+
 const HttpRouter=class HttpRouter {
     options;
     constructor() {
@@ -2758,8 +2758,8 @@ const HttpRouter=class HttpRouter {
     }
 }
 HttpRouter.Namespace=`Aventus`;
-
 _.HttpRouter=HttpRouter;
+
 const HttpRoute=class HttpRoute {
     router;
     constructor(router) {
@@ -2770,8 +2770,8 @@ const HttpRoute=class HttpRoute {
     }
 }
 HttpRoute.Namespace=`Aventus`;
-
 _.HttpRoute=HttpRoute;
+
 const StorableRoute=class StorableRoute extends HttpRoute {
     async GetAll() {
         const request = new HttpRequest(`/${this.StorableName()}`, HttpMethod.GET);
@@ -2797,8 +2797,8 @@ const StorableRoute=class StorableRoute extends HttpRoute {
     }
 }
 StorableRoute.Namespace=`Aventus`;
-
 _.StorableRoute=StorableRoute;
+
 const Animation=class Animation {
     /**
      * Default FPS for all Animation if not set inside options
@@ -2885,8 +2885,8 @@ const Animation=class Animation {
     }
 }
 Animation.Namespace=`Aventus`;
-
 _.Animation=Animation;
+
 const PressManager=class PressManager {
     static globalConfig = {
         delayDblPress: 150,
@@ -2918,7 +2918,7 @@ const PressManager=class PressManager {
     offsetDrag = PressManager.globalConfig.offsetDrag ?? 20;
     state = {
         oneActionTriggered: false,
-        isMoving: false,
+        moving: undefined,
     };
     startPosition = { x: 0, y: 0 };
     customFcts = {};
@@ -3086,8 +3086,8 @@ const PressManager=class PressManager {
     }
     genericUpAction(state, e) {
         clearTimeout(this.timeoutLongPress);
-        if (state.isMoving) {
-            state.isMoving = false;
+        if (state.moving == this) {
+            state.moving = undefined;
             if (this.options.onDragEnd) {
                 this.options.onDragEnd(e, this);
             }
@@ -3149,7 +3149,7 @@ const PressManager=class PressManager {
         }
     }
     genericMoveAction(state, e) {
-        if (!state.isMoving && !state.oneActionTriggered) {
+        if (!state.moving && !state.oneActionTriggered) {
             if (this.stopPropagation()) {
                 e.stopImmediatePropagation();
             }
@@ -3159,12 +3159,12 @@ const PressManager=class PressManager {
             if (distance > this.offsetDrag && this.downEventSaved) {
                 state.oneActionTriggered = true;
                 if (this.options.onDragStart) {
-                    state.isMoving = true;
+                    state.moving = this;
                     this.options.onDragStart(this.downEventSaved, this);
                 }
             }
         }
-        else if (state.isMoving) {
+        else if (state.moving == this) {
             if (this.options.onDrag) {
                 this.options.onDrag(e, this);
             }
@@ -3244,8 +3244,8 @@ const PressManager=class PressManager {
     }
 }
 PressManager.Namespace=`Aventus`;
-
 _.PressManager=PressManager;
+
 const DragAndDrop=class DragAndDrop {
     /**
      * Default offset before drag element
@@ -3535,8 +3535,8 @@ const DragAndDrop=class DragAndDrop {
     }
 }
 DragAndDrop.Namespace=`Aventus`;
-
 _.DragAndDrop=DragAndDrop;
+
 const ResizeObserver=class ResizeObserver {
     callback;
     targets;
@@ -3663,8 +3663,8 @@ const ResizeObserver=class ResizeObserver {
     }
 }
 ResizeObserver.Namespace=`Aventus`;
-
 _.ResizeObserver=ResizeObserver;
+
 const Uri=class Uri {
     static prepare(uri) {
         let params = [];
@@ -3741,8 +3741,8 @@ const Uri=class Uri {
     }
 }
 Uri.Namespace=`Aventus`;
-
 _.Uri=Uri;
+
 const GenericRam=class GenericRam {
     /**
      * The current namespace
@@ -3918,17 +3918,22 @@ const GenericRam=class GenericRam {
     /**
      * Add element inside Ram or update it. The instance inside the ram is unique and ll never be replaced
      */
-    addOrUpdateData(item, result) {
+    async addOrUpdateData(item, result) {
         try {
             let idWithError = this.getIdWithError(item);
             if (idWithError.success && idWithError.result !== undefined) {
                 let id = idWithError.result;
                 if (this.records.has(id)) {
-                    this.mergeObject(this.records.get(id), item);
+                    let uniqueRecord = this.records.get(id);
+                    await this.beforeRecordSet(uniqueRecord);
+                    this.mergeObject(uniqueRecord, item);
+                    await this.afterRecordSet(uniqueRecord);
                 }
                 else {
                     let realObject = this.getObjectForRam(item);
+                    await this.beforeRecordSet(realObject);
                     this.records.set(id, realObject);
+                    await this.afterRecordSet(realObject);
                 }
                 result.result = this.records.get(id);
             }
@@ -3954,11 +3959,21 @@ const GenericRam=class GenericRam {
         }
         Json.classFromJson(item, objJson, options);
     }
+    async beforeRecordSet(item) { }
+    async afterRecordSet(item) { }
+    async beforeRecordDelete(item) { }
+    async afterRecordDelete(item) { }
     publish(type, data) {
-        [...this.subscribers[type]].forEach(callback => callback(data));
+        let callbacks = [...this.subscribers[type]];
+        for (let callback of callbacks) {
+            callback(data);
+        }
         let sub = this.recordsSubscribers.get(this.getId(data));
         if (sub) {
-            [...sub[type]].forEach(callback => callback(data));
+            let localCallbacks = [...sub[type]];
+            for (let localCallback of localCallbacks) {
+                localCallback(data);
+            }
         }
     }
     subscribe(type, cb) {
@@ -4235,7 +4250,7 @@ const GenericRam=class GenericRam {
                 }
                 let resultTemp = this.getIdWithError(item);
                 if (resultTemp.success) {
-                    this.addOrUpdateData(item, action);
+                    await this.addOrUpdateData(item, action);
                     if (!action.success) {
                         return action;
                     }
@@ -4339,6 +4354,9 @@ const GenericRam=class GenericRam {
             if (resultTemp.success && resultTemp.result !== undefined) {
                 let key = resultTemp.result;
                 if (this.records.has(key)) {
+                    if (this.records.get(key) == item) {
+                        console.warn("You are updateing the same item. You should clone the object first to avoid weird effect");
+                    }
                     await this.beforeUpdateItem(item, fromList, action);
                     if (!action.success) {
                         return action;
@@ -4346,7 +4364,7 @@ const GenericRam=class GenericRam {
                     if (action.result) {
                         item = action.result;
                     }
-                    this.addOrUpdateData(item, action);
+                    await this.addOrUpdateData(item, action);
                     if (!action.success) {
                         return action;
                     }
@@ -4483,7 +4501,9 @@ const GenericRam=class GenericRam {
                         action.errors = deleteResult.errors;
                         return action;
                     }
+                    this.beforeRecordDelete(oldItem);
                     this.records.delete(key);
+                    this.afterRecordDelete(oldItem);
                     action.result = oldItem;
                     await this.afterDeleteItem(action, fromList);
                     if (!action.success) {
@@ -4525,13 +4545,13 @@ const GenericRam=class GenericRam {
     async afterDeleteList(result) { }
 }
 GenericRam.Namespace=`Aventus`;
-
 _.GenericRam=GenericRam;
+
 const Ram=class Ram extends GenericRam {
 }
 Ram.Namespace=`Aventus`;
-
 _.Ram=Ram;
+
 const State=class State {
     /**
      * Activate a custom state inside a specific manager
@@ -4555,8 +4575,8 @@ const State=class State {
     }
 }
 State.Namespace=`Aventus`;
-
 _.State=State;
+
 const EmptyState=class EmptyState extends State {
     localName;
     constructor(stateName) {
@@ -4571,8 +4591,8 @@ const EmptyState=class EmptyState extends State {
     }
 }
 EmptyState.Namespace=`Aventus`;
-
 _.EmptyState=EmptyState;
+
 const StateManager=class StateManager {
     subscribers = {};
     static canBeActivate(statePattern, stateName) {
@@ -4807,21 +4827,24 @@ const StateManager=class StateManager {
                         let oldSlug = Uri.getParams(subscriber, oldState.name);
                         if (oldSlug) {
                             let oldSlugNotNull = oldSlug;
-                            [...subscriber.callbacks.inactive].forEach(callback => {
+                            let callbacks = [...subscriber.callbacks.inactive];
+                            for (let callback of callbacks) {
                                 callback(oldState, stateToUse, oldSlugNotNull);
-                            });
+                            }
                         }
                     }
                     for (let trigger of triggerActive) {
-                        [...trigger.subscriber.callbacks.active].forEach(callback => {
+                        let callbacks = [...trigger.subscriber.callbacks.active];
+                        for (let callback of callbacks) {
                             callback(stateToUse, trigger.params);
-                        });
+                        }
                     }
                     for (let trigger of inactiveToActive) {
                         trigger.subscriber.isActive = true;
-                        [...trigger.subscriber.callbacks.active].forEach(callback => {
+                        let callbacks = [...trigger.subscriber.callbacks.active];
+                        for (let callback of callbacks) {
                             callback(stateToUse, trigger.params);
-                        });
+                        }
                     }
                     stateToUse.onActivate();
                 }
@@ -4833,9 +4856,10 @@ const StateManager=class StateManager {
                     if (slugs) {
                         let slugsNotNull = slugs;
                         this.subscribers[key].isActive = true;
-                        [...this.subscribers[key].callbacks.active].forEach(callback => {
+                        let callbacks = [...this.subscribers[key].callbacks.active];
+                        for (let callback of callbacks) {
                             callback(stateToUse, slugsNotNull);
-                        });
+                        }
                     }
                 }
                 stateToUse.onActivate();
@@ -4877,8 +4901,8 @@ const StateManager=class StateManager {
     }
 }
 StateManager.Namespace=`Aventus`;
-
 _.StateManager=StateManager;
+
 const Template=class Template {
     static validatePath(path, pathToCheck) {
         if (pathToCheck.startsWith(path)) {
@@ -5015,8 +5039,8 @@ const Template=class Template {
     }
 }
 Template.Namespace=`Aventus`;
-
 _.Template=Template;
+
 const WebComponent=class WebComponent extends HTMLElement {
     /**
      * Add attributes informations
@@ -5732,8 +5756,8 @@ const WebComponent=class WebComponent extends HTMLElement {
     }
 }
 WebComponent.Namespace=`Aventus`;
-
 _.WebComponent=WebComponent;
+
 const WebComponentInstance=class WebComponentInstance {
     static __allDefinitions = [];
     static __allInstances = [];
@@ -5805,8 +5829,8 @@ const WebComponentInstance=class WebComponentInstance {
     }
 }
 WebComponentInstance.Namespace=`Aventus`;
-
 _.WebComponentInstance=WebComponentInstance;
+
 const TemplateContext=class TemplateContext {
     data = {};
     comp;
@@ -6011,8 +6035,8 @@ const TemplateContext=class TemplateContext {
     }
 }
 TemplateContext.Namespace=`Aventus`;
-
 _.TemplateContext=TemplateContext;
+
 const TemplateInstance=class TemplateInstance {
     context;
     content;
@@ -6701,8 +6725,8 @@ const TemplateInstance=class TemplateInstance {
     }
 }
 TemplateInstance.Namespace=`Aventus`;
-
 _.TemplateInstance=TemplateInstance;
+
 
 for(let key in _) { Aventus[key] = _[key] }
 })(Aventus);
@@ -6812,15 +6836,15 @@ var AventusSharp;
 const moduleName = `AventusSharp`;
 const _ = {};
 
-const Data = {};
+let Data = {};
 _.Data = {};
-const Routes = {};
+let Routes = {};
 _.Routes = {};
-const WebSocket = {};
+let WebSocket = {};
 _.WebSocket = {};
-const RAM = {};
+let RAM = {};
 _.RAM = {};
-const Tools = {};
+let Tools = {};
 _.Tools = {};
 let _n;
 Data.AventusFile=class AventusFile {
@@ -6859,8 +6883,8 @@ Data.AventusFile=class AventusFile {
 Data.AventusFile.Namespace=`AventusSharp.Data`;
 Data.AventusFile.$schema={"Uri":"string","Upload":"File","$type":"string"};
 Aventus.Converter.register(Data.AventusFile.Fullname, Data.AventusFile);
-
 _.Data.AventusFile=Data.AventusFile;
+
 (function (DataErrorCode) {
     DataErrorCode[DataErrorCode["DefaultDMGenericType"] = 0] = "DefaultDMGenericType";
     DataErrorCode[DataErrorCode["DMOnlyForceInherit"] = 1] = "DMOnlyForceInherit";
@@ -6902,16 +6926,16 @@ _.Data.AventusFile=Data.AventusFile;
     DataErrorCode[DataErrorCode["ErrorCreatingReverseQuery"] = 37] = "ErrorCreatingReverseQuery";
     DataErrorCode[DataErrorCode["LinkNotSet"] = 38] = "LinkNotSet";
 })(Data.DataErrorCode || (Data.DataErrorCode = {}));
-
 _.Data.DataErrorCode=Data.DataErrorCode;
+
 Data.DataError=class DataError extends Aventus.GenericError {
     static get Fullname() { return "AventusSharp.Data.DataError, AventusSharp"; }
 }
 Data.DataError.Namespace=`AventusSharp.Data`;
 Data.DataError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Data.DataError.Fullname, Data.DataError);
-
 _.Data.DataError=Data.DataError;
+
 Data.FieldErrorInfo=class FieldErrorInfo {
     static get Fullname() { return "AventusSharp.Data.FieldErrorInfo, AventusSharp"; }
     Name;
@@ -6919,8 +6943,8 @@ Data.FieldErrorInfo=class FieldErrorInfo {
 Data.FieldErrorInfo.Namespace=`AventusSharp.Data`;
 Data.FieldErrorInfo.$schema={"Name":"string"};
 Aventus.Converter.register(Data.FieldErrorInfo.Fullname, Data.FieldErrorInfo);
-
 _.Data.FieldErrorInfo=Data.FieldErrorInfo;
+
 (function (RouteErrorCode) {
     RouteErrorCode[RouteErrorCode["UnknowError"] = 0] = "UnknowError";
     RouteErrorCode[RouteErrorCode["FormContentTypeUnknown"] = 1] = "FormContentTypeUnknown";
@@ -6928,16 +6952,16 @@ _.Data.FieldErrorInfo=Data.FieldErrorInfo;
     RouteErrorCode[RouteErrorCode["CantMoveFile"] = 3] = "CantMoveFile";
     RouteErrorCode[RouteErrorCode["CantCreateFolders"] = 4] = "CantCreateFolders";
 })(Routes.RouteErrorCode || (Routes.RouteErrorCode = {}));
-
 _.Routes.RouteErrorCode=Routes.RouteErrorCode;
+
 Routes.RouteError=class RouteError extends Aventus.GenericError {
     static get Fullname() { return "AventusSharp.Routes.RouteError, AventusSharp"; }
 }
 Routes.RouteError.Namespace=`AventusSharp.Routes`;
 Routes.RouteError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Routes.RouteError.Fullname, Routes.RouteError);
-
 _.Routes.RouteError=Routes.RouteError;
+
 Routes.StorableRoute=class StorableRoute extends Aventus.HttpRoute {
     async GetAll() {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}`, Aventus.HttpMethod.GET);
@@ -6978,8 +7002,8 @@ Routes.StorableRoute=class StorableRoute extends Aventus.HttpRoute {
     }
 }
 Routes.StorableRoute.Namespace=`AventusSharp.Routes`;
-
 _.Routes.StorableRoute=Routes.StorableRoute;
+
 WebSocket.Socket=class Socket {
     static Debug = false;
     static connections = {};
@@ -7074,21 +7098,21 @@ WebSocket.Socket=class Socket {
     }
 }
 WebSocket.Socket.Namespace=`AventusSharp.WebSocket`;
-
 _.WebSocket.Socket=WebSocket.Socket;
+
 (function (SocketErrorCode) {
     SocketErrorCode[SocketErrorCode["socketClosed"] = 0] = "socketClosed";
     SocketErrorCode[SocketErrorCode["timeout"] = 1] = "timeout";
     SocketErrorCode[SocketErrorCode["differentChannel"] = 2] = "differentChannel";
     SocketErrorCode[SocketErrorCode["unknow"] = 3] = "unknow";
 })(WebSocket.SocketErrorCode || (WebSocket.SocketErrorCode = {}));
-
 _.WebSocket.SocketErrorCode=WebSocket.SocketErrorCode;
+
 WebSocket.SocketError=class SocketError extends Aventus.GenericError {
 }
 WebSocket.SocketError.Namespace=`AventusSharp.WebSocket`;
-
 _.WebSocket.SocketError=WebSocket.SocketError;
+
 (function (WsErrorCode) {
     WsErrorCode[WsErrorCode["UnknowError"] = 0] = "UnknowError";
     WsErrorCode[WsErrorCode["CantDefineAssembly"] = 1] = "CantDefineAssembly";
@@ -7099,16 +7123,16 @@ _.WebSocket.SocketError=WebSocket.SocketError;
     WsErrorCode[WsErrorCode["NoEndPoint"] = 6] = "NoEndPoint";
     WsErrorCode[WsErrorCode["NoPath"] = 7] = "NoPath";
 })(WebSocket.WsErrorCode || (WebSocket.WsErrorCode = {}));
-
 _.WebSocket.WsErrorCode=WebSocket.WsErrorCode;
+
 WebSocket.WsError=class WsError extends Aventus.GenericError {
     static get Fullname() { return "AventusSharp.WebSocket.WsError, AventusSharp"; }
 }
 WebSocket.WsError.Namespace=`AventusSharp.WebSocket`;
 WebSocket.WsError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(WebSocket.WsError.Fullname, WebSocket.WsError);
-
 _.WebSocket.WsError=WebSocket.WsError;
+
 Data.Storable=class Storable extends Aventus.Data {
     Id = 0;
     /**
@@ -7137,8 +7161,8 @@ Data.Storable=class Storable extends Aventus.Data {
 Data.Storable.Namespace=`AventusSharp.Data`;
 Data.Storable.$schema={...(Aventus.Data?.$schema ?? {}), "Id":"number"};
 Aventus.Converter.register(Data.Storable.Fullname, Data.Storable);
-
 _.Data.Storable=Data.Storable;
+
 RAM.RamHttp=class RamHttp extends Aventus.Ram {
     getAllDone = false;
     routes;
@@ -7264,8 +7288,8 @@ RAM.RamHttp=class RamHttp extends Aventus.Ram {
     }
 }
 RAM.RamHttp.Namespace=`AventusSharp.RAM`;
-
 _.RAM.RamHttp=RAM.RamHttp;
+
 Data.StorableTimestamp=class StorableTimestamp extends Data.Storable {
     CreatedDate = new Date();
     UpdatedDate = new Date();
@@ -7273,72 +7297,72 @@ Data.StorableTimestamp=class StorableTimestamp extends Data.Storable {
 Data.StorableTimestamp.Namespace=`AventusSharp.Data`;
 Data.StorableTimestamp.$schema={...(Data.Storable?.$schema ?? {}), "CreatedDate":"Date","UpdatedDate":"Date"};
 Aventus.Converter.register(Data.StorableTimestamp.Fullname, Data.StorableTimestamp);
-
 _.Data.StorableTimestamp=Data.StorableTimestamp;
+
 Tools.VoidWithError=class VoidWithError extends Aventus.VoidWithError {
     static get Fullname() { return "AventusSharp.Tools.VoidWithError, AventusSharp"; }
 }
 Tools.VoidWithError.Namespace=`AventusSharp.Tools`;
 Tools.VoidWithError.$schema={...(Aventus.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.VoidWithError.Fullname, Tools.VoidWithError);
-
 _.Tools.VoidWithError=Tools.VoidWithError;
+
 WebSocket.VoidWithWsError=class VoidWithWsError extends Tools.VoidWithError {
     static get Fullname() { return "AventusSharp.WebSocket.VoidWithWsError, AventusSharp"; }
 }
 WebSocket.VoidWithWsError.Namespace=`AventusSharp.WebSocket`;
 WebSocket.VoidWithWsError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(WebSocket.VoidWithWsError.Fullname, WebSocket.VoidWithWsError);
-
 _.WebSocket.VoidWithWsError=WebSocket.VoidWithWsError;
+
 Routes.VoidWithRouteError=class VoidWithRouteError extends Tools.VoidWithError {
     static get Fullname() { return "AventusSharp.Routes.VoidWithRouteError, AventusSharp"; }
 }
 Routes.VoidWithRouteError.Namespace=`AventusSharp.Routes`;
 Routes.VoidWithRouteError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(Routes.VoidWithRouteError.Fullname, Routes.VoidWithRouteError);
-
 _.Routes.VoidWithRouteError=Routes.VoidWithRouteError;
+
 Data.VoidWithDataError=class VoidWithDataError extends Tools.VoidWithError {
     static get Fullname() { return "AventusSharp.Data.VoidWithDataError, AventusSharp"; }
 }
 Data.VoidWithDataError.Namespace=`AventusSharp.Data`;
 Data.VoidWithDataError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(Data.VoidWithDataError.Fullname, Data.VoidWithDataError);
-
 _.Data.VoidWithDataError=Data.VoidWithDataError;
+
 Tools.ResultWithError=class ResultWithError extends Aventus.ResultWithError {
     static get Fullname() { return "AventusSharp.Tools.ResultWithError, AventusSharp"; }
 }
 Tools.ResultWithError.Namespace=`AventusSharp.Tools`;
 Tools.ResultWithError.$schema={...(Aventus.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.ResultWithError.Fullname, Tools.ResultWithError);
-
 _.Tools.ResultWithError=Tools.ResultWithError;
+
 WebSocket.ResultWithWsError=class ResultWithWsError extends Tools.ResultWithError {
     static get Fullname() { return "AventusSharp.WebSocket.ResultWithWsError, AventusSharp"; }
 }
 WebSocket.ResultWithWsError.Namespace=`AventusSharp.WebSocket`;
 WebSocket.ResultWithWsError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(WebSocket.ResultWithWsError.Fullname, WebSocket.ResultWithWsError);
-
 _.WebSocket.ResultWithWsError=WebSocket.ResultWithWsError;
+
 Routes.ResultWithRouteError=class ResultWithRouteError extends Tools.ResultWithError {
     static get Fullname() { return "AventusSharp.Routes.ResultWithRouteError, AventusSharp"; }
 }
 Routes.ResultWithRouteError.Namespace=`AventusSharp.Routes`;
 Routes.ResultWithRouteError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(Routes.ResultWithRouteError.Fullname, Routes.ResultWithRouteError);
-
 _.Routes.ResultWithRouteError=Routes.ResultWithRouteError;
+
 Data.ResultWithDataError=class ResultWithDataError extends Tools.ResultWithError {
     static get Fullname() { return "AventusSharp.Data.ResultWithDataError, AventusSharp"; }
 }
 Data.ResultWithDataError.Namespace=`AventusSharp.Data`;
 Data.ResultWithDataError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(Data.ResultWithDataError.Fullname, Data.ResultWithDataError);
-
 _.Data.ResultWithDataError=Data.ResultWithDataError;
+
 WebSocket.Connection=class Connection {
     static Debug = false;
     options;
@@ -7711,8 +7735,8 @@ WebSocket.Connection=class Connection {
     }
 }
 WebSocket.Connection.Namespace=`AventusSharp.WebSocket`;
-
 _.WebSocket.Connection=WebSocket.Connection;
+
 WebSocket.EndPoint=class EndPoint extends WebSocket.Connection {
     /**
      * Create a singleton
@@ -7739,8 +7763,8 @@ WebSocket.EndPoint=class EndPoint extends WebSocket.Connection {
     ;
 }
 WebSocket.EndPoint.Namespace=`AventusSharp.WebSocket`;
-
 _.WebSocket.EndPoint=WebSocket.EndPoint;
+
 WebSocket.Route=class Route {
     endpoint;
     constructor(endpoint) {
@@ -7751,8 +7775,8 @@ WebSocket.Route=class Route {
     }
 }
 WebSocket.Route.Namespace=`AventusSharp.WebSocket`;
-
 _.WebSocket.Route=WebSocket.Route;
+
 WebSocket.Event=class Event {
     endpoint;
     onTrigger = new Aventus.Callback();
@@ -7811,8 +7835,8 @@ WebSocket.Event=class Event {
     }
 }
 WebSocket.Event.Namespace=`AventusSharp.WebSocket`;
-
 _.WebSocket.Event=WebSocket.Event;
+
 WebSocket.StorableWsRoute_GetAll=class StorableWsRoute_GetAll extends WebSocket.Event {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
@@ -7827,8 +7851,8 @@ WebSocket.StorableWsRoute_GetAll=class StorableWsRoute_GetAll extends WebSocket.
     }
 }
 WebSocket.StorableWsRoute_GetAll.Namespace=`AventusSharp.WebSocket`;
-
 _.WebSocket.StorableWsRoute_GetAll=WebSocket.StorableWsRoute_GetAll;
+
 WebSocket.StorableWsRoute_Create=class StorableWsRoute_Create extends WebSocket.Event {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
@@ -7843,8 +7867,8 @@ WebSocket.StorableWsRoute_Create=class StorableWsRoute_Create extends WebSocket.
     }
 }
 WebSocket.StorableWsRoute_Create.Namespace=`AventusSharp.WebSocket`;
-
 _.WebSocket.StorableWsRoute_Create=WebSocket.StorableWsRoute_Create;
+
 WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends WebSocket.Event {
     /**
      * @inheritdoc
@@ -7859,8 +7883,8 @@ WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends We
     }
 }
 WebSocket.StorableWsRoute_CreateMany.Namespace=`AventusSharp.WebSocket`;
-
 _.WebSocket.StorableWsRoute_CreateMany=WebSocket.StorableWsRoute_CreateMany;
+
 WebSocket.StorableWsRoute_GetById=class StorableWsRoute_GetById extends WebSocket.Event {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
@@ -7875,8 +7899,8 @@ WebSocket.StorableWsRoute_GetById=class StorableWsRoute_GetById extends WebSocke
     }
 }
 WebSocket.StorableWsRoute_GetById.Namespace=`AventusSharp.WebSocket`;
-
 _.WebSocket.StorableWsRoute_GetById=WebSocket.StorableWsRoute_GetById;
+
 WebSocket.StorableWsRoute_Update=class StorableWsRoute_Update extends WebSocket.Event {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
@@ -7891,8 +7915,8 @@ WebSocket.StorableWsRoute_Update=class StorableWsRoute_Update extends WebSocket.
     }
 }
 WebSocket.StorableWsRoute_Update.Namespace=`AventusSharp.WebSocket`;
-
 _.WebSocket.StorableWsRoute_Update=WebSocket.StorableWsRoute_Update;
+
 WebSocket.StorableWsRoute_UpdateMany=class StorableWsRoute_UpdateMany extends WebSocket.Event {
     /**
      * @inheritdoc
@@ -7907,8 +7931,8 @@ WebSocket.StorableWsRoute_UpdateMany=class StorableWsRoute_UpdateMany extends We
     }
 }
 WebSocket.StorableWsRoute_UpdateMany.Namespace=`AventusSharp.WebSocket`;
-
 _.WebSocket.StorableWsRoute_UpdateMany=WebSocket.StorableWsRoute_UpdateMany;
+
 WebSocket.StorableWsRoute_Delete=class StorableWsRoute_Delete extends WebSocket.Event {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
@@ -7923,8 +7947,8 @@ WebSocket.StorableWsRoute_Delete=class StorableWsRoute_Delete extends WebSocket.
     }
 }
 WebSocket.StorableWsRoute_Delete.Namespace=`AventusSharp.WebSocket`;
-
 _.WebSocket.StorableWsRoute_Delete=WebSocket.StorableWsRoute_Delete;
+
 WebSocket.StorableWsRoute_DeleteMany=class StorableWsRoute_DeleteMany extends WebSocket.Event {
     /**
      * @inheritdoc
@@ -7939,8 +7963,8 @@ WebSocket.StorableWsRoute_DeleteMany=class StorableWsRoute_DeleteMany extends We
     }
 }
 WebSocket.StorableWsRoute_DeleteMany.Namespace=`AventusSharp.WebSocket`;
-
 _.WebSocket.StorableWsRoute_DeleteMany=WebSocket.StorableWsRoute_DeleteMany;
+
 WebSocket.StorableWsRoute=class StorableWsRoute extends WebSocket.Route {
     events;
     constructor(endpoint) {
@@ -8022,8 +8046,8 @@ WebSocket.StorableWsRoute=class StorableWsRoute extends WebSocket.Route {
     }
 }
 WebSocket.StorableWsRoute.Namespace=`AventusSharp.WebSocket`;
-
 _.WebSocket.StorableWsRoute=WebSocket.StorableWsRoute;
+
 RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
     getAllDone = false;
     routes;
@@ -8364,8 +8388,8 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
     }
 }
 RAM.RamWebSocket.Namespace=`AventusSharp.RAM`;
-
 _.RAM.RamWebSocket=RAM.RamWebSocket;
+
 
 for(let key in _) { AventusSharp[key] = _[key] }
 })(AventusSharp);

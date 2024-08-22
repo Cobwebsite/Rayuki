@@ -72,6 +72,8 @@ namespace Core
             }
         }
 
+        public static readonly TransactionManager TransactionManager = new TransactionManager();
+
         public static void Init(string[] args)
         {
             webPush.SetVapidDetails("http://localhost:5000", PublicKey, PrivateKey);
@@ -151,6 +153,7 @@ namespace Core
                 KeepAliveInterval = TimeSpan.FromSeconds(120),
             });
 
+            // TODO : secure static files
             app.UseStaticFiles();
             app.Use(async (context, next) =>
             {
@@ -159,6 +162,7 @@ namespace Core
 
             app.Use(async (context, next) =>
             {
+                await TransactionManager.FilterQuery(context);
                 await WebSocketMiddleware.OnRequest(context, next);
             });
 
@@ -168,6 +172,7 @@ namespace Core
 
             app.Use(async (context, next) =>
             {
+                await TransactionManager.FilterQuery(context);
                 await RouterMiddleware.OnRequest(context, next);
             });
 

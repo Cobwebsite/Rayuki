@@ -1,10 +1,11 @@
 import { DesktopRouter } from "../generated/Routes/DesktopRouter.lib.avt";
 import { Desktop } from "../generated/Data/Desktop.data.avt";
 import { HttpRouter } from "../libs/HttpRouter.lib.avt";
+import { RamHttp } from "./RamWithTransaction.lib.avt";
 
 namespace RAM {
 
-    export class DesktopRAM extends AventusSharp.RAM.RamHttp<Desktop> implements Aventus.IRam {
+    export class DesktopRAM extends RamHttp<Desktop> implements Aventus.IRam {
 
         /**
          * @inheritdoc
