@@ -1,3 +1,33 @@
 :host {
-	
+	align-items: center;
+	background-color: var(--_tabs-header-background-color);
+	border-radius: var(--_tabs-border-radius);
+	cursor: pointer;
+	display: flex;
+	font-size: var(--_tabs-header-font-size);
+	height: 100%;
+	justify-content: center;
+	padding: var(--_tabs-header-padding);
+	position: relative;
+	transition: var(--_tabs-transition);
+
+	.sep {
+		background-color: transparent;
+		bottom: calc(var(--_tabs-spacing) * -1);
+		height: var(--_tabs-spacing);
+		left: 0;
+		position: absolute;
+		transition: var(--_tabs-transition);
+		width: 100%;
+	}
+}
+
+:host([active]) {
+	background-color: var(--_tabs-header-background-color-active);
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+
+	.sep {
+		background-color: var(--_tabs-header-background-color-active);
+	}
 }

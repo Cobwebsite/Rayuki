@@ -1,1 +1,2 @@
-<div class="label">{{ this.label }}</div>
+<div class="header-content" @element="contentEl"></div>
+<div class="sep"></div>

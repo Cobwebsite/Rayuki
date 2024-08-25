@@ -1,7 +1,8 @@
 
 
 :host {
-	--_item-box-box-size: var(--item-box-box-size, auto);
+	--_item-box-box-width: var(--item-box-box-width, auto);
+	--_item-box-box-height: var(--item-box-box-height, 100%);
 	--_item-box-box-padding: var(--item-box-box-padding, 0 10px);
 	--_item-box-border-radius: var(--item-box-border-radius, 4px);
 	--_item-box-border-color: var(--item-box-border-color, var(--secondary-color, #afafaf));
@@ -13,15 +14,14 @@
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: row;
-	height: var(--_item-box-box-size);
 	justify-content: center;
 
 	::slotted(*) {
 		border: 1px solid var(--_item-box-border-color);
 		border-radius: var(--border-radius-sm);
-		width: var(--_item-box-box-size);
-        max-height: var(--_item-box-box-size);
-        max-width: var(--_item-box-box-size);
+		width: var(--_item-box-box-width);
+        max-height: var(--_item-box-box-height);
+        max-width: var(--_item-box-box-width);
 		padding: var(--_item-box-box-padding);
 	}
 
@@ -42,7 +42,6 @@
 		border: none;
 		border-radius: 0px;
 		border-right: 1px solid var(--_item-box-border-color);
-		width: var(--_item-box-box-size);
 	}
 
 	::slotted(*:first-child) {

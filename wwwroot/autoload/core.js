@@ -252,7 +252,11 @@ if(!window.customElements.get('rk-user-profil-picture')){window.customElements.d
 
 Components.Tab = class Tab extends Aventus.WebComponent {
     get 'label'() { return this.getStringAttr('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }    static __style = ``;
+    set 'label'(val) { this.setStringAttr('label', val) }    get headerContent() {
+        let elements = this.getElementsInSlot("header");
+        return elements;
+    }
+    static __style = ``;
     __getStatic() {
         return Tab;
     }
@@ -263,145 +267,20 @@ Components.Tab = class Tab extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
+        slots: { 'default':`<slot></slot>`,'header':`<slot name="header"></slot>` }, 
+        blocks: { 'default':`<slot></slot><div class="slot-header">    <slot name="header"></slot></div>` }
     });
 }
     getClassName() {
         return "Tab";
     }
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = ""; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label'); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('headerContent');this.__upgradeProperty('label'); }
 }
 Components.Tab.Namespace=`Core.Components`;
 Components.Tab.Tag=`rk-tab`;
 _.Components.Tab=Components.Tab;
 if(!window.customElements.get('rk-tab')){window.customElements.define('rk-tab', Components.Tab);Aventus.WebComponentInstance.registerDefinition(Components.Tab);}
-
-Components.TabHeader = class TabHeader extends Aventus.WebComponent {
-    static get observedAttributes() {return ["label"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'active'() { return this.getBoolAttr('active') }
-    set 'active'(val) { this.setBoolAttr('active', val) }    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }    _tab;
-    get tab() {
-        return this._tab;
-    }
-    static __style = ``;
-    __getStatic() {
-        return TabHeader;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(TabHeader.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="label" _id="tabheader_0"></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "tabheader_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__f727d7837c6f3c532ffb27ded1e8c0e4method0())}`,
-      "once": true
-    }
-  }
-}); }
-    getClassName() {
-        return "TabHeader";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); }if(!this.hasAttribute('label')){ this['label'] = ""; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('tab');this.__upgradeProperty('active');this.__upgradeProperty('label'); }
-    __listBoolProps() { return ["active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    init(tab) {
-        this.label = tab.label;
-        this._tab = tab;
-    }
-    __f727d7837c6f3c532ffb27ded1e8c0e4method0() {
-        return this.label;
-    }
-}
-Components.TabHeader.Namespace=`Core.Components`;
-Components.TabHeader.Tag=`rk-tab-header`;
-_.Components.TabHeader=Components.TabHeader;
-if(!window.customElements.get('rk-tab-header')){window.customElements.define('rk-tab-header', Components.TabHeader);Aventus.WebComponentInstance.registerDefinition(Components.TabHeader);}
-
-Components.Tabs = class Tabs extends Aventus.WebComponent {
-    tabs = {};
-    activeHeader;
-    static __style = `:host .hidden{display:none}`;
-    __getStatic() {
-        return Tabs;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Tabs.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<rk-scrollable y_scroll="false" x_scroll class="header" _id="tabs_0"></rk-scrollable><rk-scrollable y_scroll x_scroll="false" class="body" _id="tabs_1"></rk-scrollable><div class="hidden">    <slot></slot></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "headerEl",
-      "ids": [
-        "tabs_0"
-      ]
-    },
-    {
-      "name": "bodyEl",
-      "ids": [
-        "tabs_1"
-      ]
-    }
-  ]
-}); }
-    getClassName() {
-        return "Tabs";
-    }
-    loadTabs() {
-        let elements = this.getElementsInSlot();
-        let first = null;
-        for (let element of elements) {
-            if (element instanceof Components.Tab) {
-                this.tabs[element.label] = element;
-                let header = new (this.defineTabHeader())();
-                this.headerEl.appendChild(header);
-                header.init(element);
-                if (first == null) {
-                    first = header;
-                }
-            }
-        }
-        if (first) {
-            this.displayActive(first);
-        }
-    }
-    displayActive(tabHeader) {
-        if (this.activeHeader) {
-            this.activeHeader.active = false;
-            this.activeHeader.tab.parentNode?.removeChild(this.activeHeader.tab);
-        }
-        this.activeHeader = tabHeader;
-        this.activeHeader.active = true;
-        this.bodyEl.appendChild(this.activeHeader);
-    }
-    defineTabHeader() {
-        return Components.TabHeader;
-    }
-    postCreation() {
-        super.postCreation();
-    }
-}
-Components.Tabs.Namespace=`Core.Components`;
-Components.Tabs.Tag=`rk-tabs`;
-_.Components.Tabs=Components.Tabs;
-if(!window.customElements.get('rk-tabs')){window.customElements.define('rk-tabs', Components.Tabs);Aventus.WebComponentInstance.registerDefinition(Components.Tabs);}
 
 Components.Separator = class Separator extends Aventus.WebComponent {
     static __style = `:host{--_separator-color: var(--separator-color, var(--text-color))}:host{background:linear-gradient(90deg, transparent 0%, var(--_separator-color) 50%, transparent 100%);height:1px;margin:20px auto;width:100%;display:flex}`;
@@ -531,7 +410,7 @@ Components.BoxContainer = class BoxContainer extends Aventus.WebComponent {
     set 'space'(val) { this.setNumberAttr('space', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("space", ((target) => {
     target.style.setProperty("--item-box-margin", target.space + 'px');
 })); }
-    static __style = `:host{--_item-box-box-size: var(--item-box-box-size, auto);--_item-box-box-padding: var(--item-box-box-padding, 0 10px);--_item-box-border-radius: var(--item-box-border-radius, 4px);--_item-box-border-color: var(--item-box-border-color, var(--secondary-color, #afafaf))}:host{align-items:center;box-sizing:border-box;display:flex;flex-direction:row;height:var(--_item-box-box-size);justify-content:center}:host ::slotted(*){border:1px solid var(--_item-box-border-color);border-radius:var(--border-radius-sm);width:var(--_item-box-box-size);max-height:var(--_item-box-box-size);max-width:var(--_item-box-box-size);padding:var(--_item-box-box-padding)}:host ::slotted(*:first-child){margin-left:0}:host ::slotted(*:last-child){margin-right:0}:host([space="0"]){border:1px solid var(--_item-box-border-color);border-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*){border:none;border-radius:0px;border-right:1px solid var(--_item-box-border-color);width:var(--_item-box-box-size)}:host([space="0"]) ::slotted(*:first-child){border-bottom-left-radius:var(--_item-box-border-radius);border-top-left-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*:last-child){border-bottom-right-radius:var(--_item-box-border-radius);border-right:none;border-top-right-radius:var(--_item-box-border-radius)}`;
+    static __style = `:host{--_item-box-box-width: var(--item-box-box-width, auto);--_item-box-box-height: var(--item-box-box-height, 100%);--_item-box-box-padding: var(--item-box-box-padding, 0 10px);--_item-box-border-radius: var(--item-box-border-radius, 4px);--_item-box-border-color: var(--item-box-border-color, var(--secondary-color, #afafaf))}:host{align-items:center;box-sizing:border-box;display:flex;flex-direction:row;justify-content:center}:host ::slotted(*){border:1px solid var(--_item-box-border-color);border-radius:var(--border-radius-sm);width:var(--_item-box-box-width);max-height:var(--_item-box-box-height);max-width:var(--_item-box-box-width);padding:var(--_item-box-box-padding)}:host ::slotted(*:first-child){margin-left:0}:host ::slotted(*:last-child){margin-right:0}:host([space="0"]){border:1px solid var(--_item-box-border-color);border-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*){border:none;border-radius:0px;border-right:1px solid var(--_item-box-border-color)}:host([space="0"]) ::slotted(*:first-child){border-bottom-left-radius:var(--_item-box-border-radius);border-top-left-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*:last-child){border-bottom-right-radius:var(--_item-box-border-radius);border-right:none;border-top-right-radius:var(--_item-box-border-radius)}`;
     __getStatic() {
         return BoxContainer;
     }
@@ -558,7 +437,7 @@ _.Components.BoxContainer=Components.BoxContainer;
 if(!window.customElements.get('rk-box-container')){window.customElements.define('rk-box-container', Components.BoxContainer);Aventus.WebComponentInstance.registerDefinition(Components.BoxContainer);}
 
 Components.ItemBox = class ItemBox extends Aventus.WebComponent {
-    static __style = `:host{--_item-box-margin: var(--item-box-margin, 0)}:host{display:flex;height:100%;align-items:center;justify-content:center;flex-direction:row;box-sizing:border-box;overflow:hidden;margin-left:var(--_item-box-margin);margin-right:var(--_item-box-margin)}:host ::slotted(*){max-height:var(--_item-box-box-size);max-width:var(--_item-box-box-size)}`;
+    static __style = `:host{--_item-box-margin: var(--item-box-margin, 0)}:host{display:flex;height:100%;align-items:center;justify-content:center;flex-direction:row;box-sizing:border-box;overflow:hidden;margin-left:var(--_item-box-margin);margin-right:var(--_item-box-margin)}:host ::slotted(*){max-height:var(--_item-box-box-height);max-width:var(--_item-box-box-width)}`;
     __getStatic() {
         return ItemBox;
     }
@@ -4112,6 +3991,101 @@ Components.Scrollable.Tag=`rk-scrollable`;
 _.Components.Scrollable=Components.Scrollable;
 if(!window.customElements.get('rk-scrollable')){window.customElements.define('rk-scrollable', Components.Scrollable);Aventus.WebComponentInstance.registerDefinition(Components.Scrollable);}
 
+Components.Tabs = class Tabs extends Aventus.WebComponent {
+    get 'first_active'() { return this.getBoolAttr('first_active') }
+    set 'first_active'(val) { this.setBoolAttr('first_active', val) }get 'last_active'() { return this.getBoolAttr('last_active') }
+    set 'last_active'(val) { this.setBoolAttr('last_active', val) }    tabs = {};
+    activeHeader;
+    static __style = `:host{--_tabs-background-color: var(--tabs-background-color, #ffffff);--_tabs-header-background-color: var(--tabs-header-background-color, var(--darker-active, rgb(125, 125, 125)));--_tabs-header-background-color-active: var(--tabs-header-background-color-active, var(--_tabs-background-color));--_tabs-header-padding: var(--tabs-header-padding, 10px 10px);--_tabs-header-font-size: var(--tabs-header-font-size, calc(var(--font-size) * 0.855));--_tabs-body-padding: var(--tabs-body-padding, 10px 10px);--_tabs-spacing: var(--tabs-spacing, 5px);--_tabs-transition: var(--tabs-transition, background-color var(--bezier-curve) 0.2s);--_tabs-border-radius: var(--tabs-border-radius, var(--border-radius-sm, 0))}:host{display:flex;flex-direction:column;overflow:hidden;width:100%}:host .header .header-wrapper{align-items:center;display:flex;flex-direction:row;flex-wrap:nowrap;gap:var(--_tabs-spacing);padding-bottom:var(--_tabs-spacing)}:host .body{background-color:var(--_tabs-background-color);border-radius:var(--_tabs-border-radius);padding:var(--_tabs-body-padding);width:100%}:host .hidden{display:none}:host([first_active]) .body{border-top-left-radius:0px}:host([last_active]) .body{border-top-right-radius:0px}`;
+    constructor() { super(); this.validateCorner=this.validateCorner.bind(this) }
+    __getStatic() {
+        return Tabs;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Tabs.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<rk-scrollable y_scroll="false" x_scroll class="header" floating_scroll auto_hide _id="tabs_0">    <div class="header-wrapper" _id="tabs_1"></div></rk-scrollable><div class="body" _id="tabs_2"></div><div class="hidden">    <slot></slot></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "headerScrollEl",
+      "ids": [
+        "tabs_0"
+      ]
+    },
+    {
+      "name": "headerEl",
+      "ids": [
+        "tabs_1"
+      ]
+    },
+    {
+      "name": "bodyEl",
+      "ids": [
+        "tabs_2"
+      ]
+    }
+  ]
+}); }
+    getClassName() {
+        return "Tabs";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('first_active')) { this.attributeChangedCallback('first_active', false, false); }if(!this.hasAttribute('last_active')) { this.attributeChangedCallback('last_active', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('first_active');this.__upgradeProperty('last_active'); }
+    __listBoolProps() { return ["first_active","last_active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    loadTabs() {
+        let elements = this.getElementsInSlot();
+        let first = null;
+        for (let element of elements) {
+            if (element instanceof Components.Tab) {
+                this.tabs[element.label] = element;
+                let header = new (this.defineTabHeader())();
+                this.headerEl.appendChild(header);
+                header.init(element, this);
+                if (first == null) {
+                    first = header;
+                }
+            }
+        }
+        if (first) {
+            this.displayActive(first);
+        }
+    }
+    displayActive(tabHeader) {
+        if (this.activeHeader) {
+            this.activeHeader.active = false;
+            this.activeHeader.tab.parentNode?.removeChild(this.activeHeader.tab);
+        }
+        this.activeHeader = tabHeader;
+        this.activeHeader.active = true;
+        this.bodyEl.appendChild(this.activeHeader.tab);
+        this.validateCorner();
+    }
+    defineTabHeader() {
+        return Components.TabHeader;
+    }
+    validateCorner() {
+        this.first_active = this.headerScrollEl.x == 0 && this.activeHeader == this.headerEl.children[0];
+        this.last_active = this.headerScrollEl['contentWrapper'].offsetWidth >= this.offsetWidth && this.headerScrollEl.x == this.headerScrollEl['max'].x && this.activeHeader == this.headerEl.children[this.headerEl.children.length - 1];
+    }
+    postCreation() {
+        super.postCreation();
+        this.headerScrollEl.onScrollChange.add(this.validateCorner);
+        this.loadTabs();
+    }
+}
+Components.Tabs.Namespace=`Core.Components`;
+Components.Tabs.Tag=`rk-tabs`;
+_.Components.Tabs=Components.Tabs;
+if(!window.customElements.get('rk-tabs')){window.customElements.define('rk-tabs', Components.Tabs);Aventus.WebComponentInstance.registerDefinition(Components.Tabs);}
+
 Permissions.Tree.PermissionTree=class PermissionTree {
     static get Fullname() { return "Core.Permissions.Tree.PermissionTree, Core"; }
     AppName;
@@ -4242,6 +4216,240 @@ Websocket.Events.TransactionCancelledEvent.Body.$schema={"guid":"string"};
 Aventus.Converter.register(Websocket.Events.TransactionCancelledEvent.Body.Fullname, Websocket.Events.TransactionCancelledEvent.Body);
 _.Websocket.Events.TransactionCancelledEvent.Body=Websocket.Events.TransactionCancelledEvent.Body;
 
+Lib.Platform=class Platform {
+    static onScreenChange = new Aventus.Callback();
+    static init() {
+        let currentDevice = this.device;
+        let screenObserver = new Aventus.ResizeObserver(() => {
+            let newDevice = this.device;
+            if (currentDevice != newDevice) {
+                currentDevice = newDevice;
+                this.onScreenChange.trigger([newDevice]);
+            }
+        });
+        screenObserver.observe(document.body);
+        const wsInstance = Websocket.MainEndPoint.getInstance();
+        wsInstance.onOpen.add(() => {
+            if (!this._isConnected) {
+                this._isConnected = true;
+                this.onReconnect.trigger([]);
+            }
+        });
+        wsInstance.onClose.add(() => {
+            if (this._isConnected) {
+                this._isConnected = false;
+                this.onDisconnect.trigger([]);
+            }
+        });
+    }
+    static onScreenChangeAndRun(cb) {
+        this.onScreenChange.add(cb);
+        cb(this.device);
+    }
+    static get device() {
+        if (document.body.offsetWidth > 1224) {
+            return "pc";
+        }
+        else if (document.body.offsetWidth > 768) {
+            return "tablet";
+        }
+        return "mobile";
+    }
+    static get isStandalone() {
+        if ("standalone" in window.navigator && window.navigator.standalone) {
+            return true;
+        }
+        return false;
+    }
+    static get isiOS() {
+        let test1 = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+        let test2 = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+        return test1 || test2;
+    }
+    static getRatio(element) {
+        return element.offsetWidth + " / " + element.offsetHeight;
+    }
+    static _isConnected = true;
+    static get isConnected() {
+        return Websocket.MainEndPoint.getInstance().isReady();
+    }
+    static onDisconnect = new Aventus.Callback();
+    static onReconnect = new Aventus.Callback();
+}
+Lib.Platform.Namespace=`Core.Lib`;
+_.Lib.Platform=Lib.Platform;
+
+Components.Tooltip = class Tooltip extends Aventus.WebComponent {
+    get 'visible'() { return this.getBoolAttr('visible') }
+    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'position'() { return this.getStringAttr('position') }
+    set 'position'(val) { this.setStringAttr('position', val) }get 'color'() { return this.getStringAttr('color') }
+    set 'color'(val) { this.setStringAttr('color', val) }get 'use_absolute'() { return this.getBoolAttr('use_absolute') }
+    set 'use_absolute'(val) { this.setBoolAttr('use_absolute', val) }get 'delay'() { return this.getNumberAttr('delay') }
+    set 'delay'(val) { this.setNumberAttr('delay', val) }get 'delay_touch'() { return this.getNumberAttr('delay_touch') }
+    set 'delay_touch'(val) { this.setNumberAttr('delay_touch', val) }    parent = null;
+    isDestroyed = false;
+    timeoutEnter = false;
+    timeout = 0;
+    pressManager;
+    static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;pointer-events:none;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;width:max-content;z-index:1}:host::after{content:"";position:absolute}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--_tooltip-background-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:50%;top:-8px;transform:translateX(-50%)}:host([use_absolute][position=bottom]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=bottom]:not([use_absolute])){bottom:0px;left:50%;transform:translateX(-50%) translateY(calc(100% - 10px))}:host([position=bottom][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(100% + 10px))}:host([position=top]){transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--_tooltip-background-color);bottom:-8px;left:50%;transform:translateX(-50%)}:host([use_absolute][position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x)}:host([use_absolute][visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=top]:not([use_absolute])){left:50%;top:0px;transform:translateX(-50%) translateY(calc(-100% + 10px))}:host([position=top][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(-100% - 10px))}:host([position=right]){transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=right]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=right]:not([use_absolute])){right:0;top:50%;transform:translateX(calc(100% - 10px)) translateY(-50%)}:host([visible][position=right]:not([use_absolute])){transform:translateX(calc(100% + 10px)) translateY(-50%)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=left]){right:var(--local-tooltip-to-x)}:host([position=left]:not([use_absolute])){left:0;top:50%;transform:translateX(calc(-100% + 10px)) translateY(-50%)}:host([visible][position=left]:not([use_absolute])){transform:translateX(calc(-100% - 10px)) translateY(-50%)}:host([color=primary]){--_tooltip-background-color: var(--primary);--_tooltip-color: var(--text-color-primary)}:host([color=secondary]){--_tooltip-background-color: var(--secondary);--_tooltip-color: var(--text-color-secondary)}:host([color=green]){--_tooltip-background-color: var(--green);--_tooltip-color: var(--text-color-green)}:host([color=success]){--_tooltip-background-color: var(--success);--_tooltip-color: var(--text-color-success)}:host([color=red]){--_tooltip-background-color: var(--red);--_tooltip-color: var(--text-color-red)}:host([color=error]){--_tooltip-background-color: var(--error);--_tooltip-color: var(--text-color-error)}:host([color=orange]){--_tooltip-background-color: var(--orange);--_tooltip-color: var(--text-color-orange)}:host([color=warning]){--_tooltip-background-color: var(--warning);--_tooltip-color: var(--text-color-warning)}:host([color=blue]){--_tooltip-background-color: var(--blue);--_tooltip-color: var(--text-color-blue)}:host([color=information]){--_tooltip-background-color: var(--information);--_tooltip-color: var(--text-color-information)}`;
+    constructor() { super(); this.onMouseEnter=this.onMouseEnter.bind(this)this.onMouseLeave=this.onMouseLeave.bind(this)this.onTransitionEnd=this.onTransitionEnd.bind(this) }
+    __getStatic() {
+        return Tooltip;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Tooltip.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "Tooltip";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('position')){ this['position'] = 'top'; }if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('use_absolute')) { this.attributeChangedCallback('use_absolute', false, false); }if(!this.hasAttribute('delay')){ this['delay'] = 50; }if(!this.hasAttribute('delay_touch')){ this['delay_touch'] = 500; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('position');this.__upgradeProperty('color');this.__upgradeProperty('use_absolute');this.__upgradeProperty('delay');this.__upgradeProperty('delay_touch'); }
+    __listBoolProps() { return ["visible","use_absolute"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    calculatePosition() {
+        if (!this.parent || !this.use_absolute)
+            return;
+        let rect = this.parent.getBoundingClientRect();
+        let center = {
+            x: rect.left + rect.width / 2,
+            y: rect.y + rect.height / 2
+        };
+        if (this.position == 'bottom') {
+            let bottom = rect.y + rect.height;
+            this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
+            this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
+        }
+        else if (this.position == 'top') {
+            let bottom = document.body.offsetHeight - rect.top;
+            this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
+            this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
+        }
+        else if (this.position == 'right') {
+            let left = rect.x + rect.width;
+            this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
+            this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-y", center.y + 10 + 'px');
+        }
+        else if (this.position == 'left') {
+            let left = document.body.offsetWidth - rect.left;
+            this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
+            this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-y", center.y + 'px');
+        }
+    }
+    onMouseEnter() {
+        this.calculatePosition();
+        let delay = this.delay == 0 ? 50 : this.delay;
+        if (this.use_absolute) {
+            document.body.appendChild(this);
+            this.timeoutEnter = false;
+            this.timeout = setTimeout(() => {
+                this.timeoutEnter = true;
+                this.visible = true;
+            }, delay);
+        }
+        else {
+            if (delay == 0) {
+                this.visible = true;
+            }
+            else {
+                this.timeoutEnter = false;
+                this.timeout = setTimeout(() => {
+                    this.timeoutEnter = true;
+                    this.visible = true;
+                }, delay);
+            }
+        }
+    }
+    onMouseLeave() {
+        this.visible = false;
+        if (this.use_absolute) {
+            if (!this.timeoutEnter) {
+                clearTimeout(this.timeout);
+                this.onTransitionEnd();
+            }
+        }
+        else if (this.delay != 0) {
+            if (!this.timeoutEnter) {
+                clearTimeout(this.timeout);
+                this.onTransitionEnd();
+            }
+        }
+    }
+    onTransitionEnd() {
+        if (!this.use_absolute || this.visible)
+            return;
+        if (this.parent && !this.isDestroyed)
+            this.parent?.appendChild(this);
+        else
+            this.remove();
+    }
+    onLongPress() {
+        this.calculatePosition();
+        if (this.use_absolute) {
+            document.body.appendChild(this);
+            this.timeoutEnter = false;
+            this.timeout = setTimeout(() => {
+                this.timeoutEnter = true;
+                this.visible = true;
+            }, 50);
+        }
+        else {
+            this.visible = true;
+        }
+    }
+    registerAction() {
+        if (!this.parent)
+            return;
+        if (Lib.Platform.device != "pc") {
+            this.pressManager = new Aventus.PressManager({
+                element: this.parent,
+                onLongPress: () => {
+                    this.onLongPress();
+                },
+                onPressEnd: () => {
+                    this.onMouseLeave();
+                },
+                delayLongPress: this.delay_touch
+            });
+        }
+        else {
+            this.parent.addEventListener("mouseenter", this.onMouseEnter);
+            this.parent.addEventListener("mouseleave", this.onMouseLeave);
+        }
+        this.addEventListener("transitionend", this.onTransitionEnd);
+    }
+    postCreation() {
+        this.parent = this.parentElement;
+        this.registerAction();
+    }
+    postDestruction() {
+        this.isDestroyed = true;
+        super.postDestruction();
+        if (!this.parent)
+            return;
+        this.parent.removeEventListener("mouseenter", this.onMouseEnter);
+        this.parent.removeEventListener("mouseleave", this.onMouseLeave);
+    }
+}
+Components.Tooltip.Namespace=`Core.Components`;
+Components.Tooltip.Tag=`rk-tooltip`;
+_.Components.Tooltip=Components.Tooltip;
+if(!window.customElements.get('rk-tooltip')){window.customElements.define('rk-tooltip', Components.Tooltip);Aventus.WebComponentInstance.registerDefinition(Components.Tooltip);}
+
 Errors.CoreError=class CoreError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.CoreError, Core"; }
 }
@@ -4260,6 +4468,18 @@ Lib.TransactionManager=class TransactionManager {
     static init() {
         this.mainRouter = new Routes.MainRouter();
         this.mutex = new Aventus.Mutex();
+        Lib.Platform.onDisconnect.add(async () => {
+            this.mutex.dispose();
+            if (this.guid) {
+                this.guid = undefined;
+                try {
+                    await this.onTransactionEnd.trigger([false]);
+                }
+                catch (e) {
+                    console.error(e);
+                }
+            }
+        });
         this.cancelEvent = new Websocket.Events.TransactionCancelledEvent();
         this.cancelEvent.listen();
         this.cancelEvent.onTrigger.add(async (body) => {
@@ -8001,221 +8221,6 @@ Lib.AppIconManager=class AppIconManager {
 Lib.AppIconManager.Namespace=`Core.Lib`;
 _.Lib.AppIconManager=Lib.AppIconManager;
 
-Lib.Platform=class Platform {
-    static onScreenChange = new Aventus.Callback();
-    static init() {
-        let currentDevice = this.device;
-        let screenObserver = new Aventus.ResizeObserver(() => {
-            let newDevice = this.device;
-            if (currentDevice != newDevice) {
-                currentDevice = newDevice;
-                this.onScreenChange.trigger([newDevice]);
-            }
-        });
-        screenObserver.observe(document.body);
-    }
-    static onScreenChangeAndRun(cb) {
-        this.onScreenChange.add(cb);
-        cb(this.device);
-    }
-    static get device() {
-        if (document.body.offsetWidth > 1224) {
-            return "pc";
-        }
-        else if (document.body.offsetWidth > 768) {
-            return "tablet";
-        }
-        return "mobile";
-    }
-    static get isStandalone() {
-        if ("standalone" in window.navigator && window.navigator.standalone) {
-            return true;
-        }
-        return false;
-    }
-    static get isiOS() {
-        let test1 = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
-        let test2 = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
-        return test1 || test2;
-    }
-    static getRatio(element) {
-        return element.offsetWidth + " / " + element.offsetHeight;
-    }
-}
-Lib.Platform.Namespace=`Core.Lib`;
-_.Lib.Platform=Lib.Platform;
-
-Components.Tooltip = class Tooltip extends Aventus.WebComponent {
-    get 'visible'() { return this.getBoolAttr('visible') }
-    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'position'() { return this.getStringAttr('position') }
-    set 'position'(val) { this.setStringAttr('position', val) }get 'color'() { return this.getStringAttr('color') }
-    set 'color'(val) { this.setStringAttr('color', val) }get 'use_absolute'() { return this.getBoolAttr('use_absolute') }
-    set 'use_absolute'(val) { this.setBoolAttr('use_absolute', val) }get 'delay'() { return this.getNumberAttr('delay') }
-    set 'delay'(val) { this.setNumberAttr('delay', val) }get 'delay_touch'() { return this.getNumberAttr('delay_touch') }
-    set 'delay_touch'(val) { this.setNumberAttr('delay_touch', val) }    parent = null;
-    isDestroyed = false;
-    timeoutEnter = false;
-    timeout = 0;
-    pressManager;
-    static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;pointer-events:none;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;width:max-content;z-index:1}:host::after{content:"";position:absolute}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--_tooltip-background-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:50%;top:-8px;transform:translateX(-50%)}:host([use_absolute][position=bottom]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=bottom]:not([use_absolute])){bottom:0px;left:50%;transform:translateX(-50%) translateY(calc(100% - 10px))}:host([position=bottom][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(100% + 10px))}:host([position=top]){transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--_tooltip-background-color);bottom:-8px;left:50%;transform:translateX(-50%)}:host([use_absolute][position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x)}:host([use_absolute][visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=top]:not([use_absolute])){left:50%;top:0px;transform:translateX(-50%) translateY(calc(-100% + 10px))}:host([position=top][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(-100% - 10px))}:host([position=right]){transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=right]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=right]:not([use_absolute])){right:0;top:50%;transform:translateX(calc(100% - 10px)) translateY(-50%)}:host([visible][position=right]:not([use_absolute])){transform:translateX(calc(100% + 10px)) translateY(-50%)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=left]){right:var(--local-tooltip-to-x)}:host([position=left]:not([use_absolute])){left:0;top:50%;transform:translateX(calc(-100% + 10px)) translateY(-50%)}:host([visible][position=left]:not([use_absolute])){transform:translateX(calc(-100% - 10px)) translateY(-50%)}:host([color=primary]){--_tooltip-background-color: var(--primary);--_tooltip-color: var(--text-color-primary)}:host([color=secondary]){--_tooltip-background-color: var(--secondary);--_tooltip-color: var(--text-color-secondary)}:host([color=green]){--_tooltip-background-color: var(--green);--_tooltip-color: var(--text-color-green)}:host([color=success]){--_tooltip-background-color: var(--success);--_tooltip-color: var(--text-color-success)}:host([color=red]){--_tooltip-background-color: var(--red);--_tooltip-color: var(--text-color-red)}:host([color=error]){--_tooltip-background-color: var(--error);--_tooltip-color: var(--text-color-error)}:host([color=orange]){--_tooltip-background-color: var(--orange);--_tooltip-color: var(--text-color-orange)}:host([color=warning]){--_tooltip-background-color: var(--warning);--_tooltip-color: var(--text-color-warning)}:host([color=blue]){--_tooltip-background-color: var(--blue);--_tooltip-color: var(--text-color-blue)}:host([color=information]){--_tooltip-background-color: var(--information);--_tooltip-color: var(--text-color-information)}`;
-    constructor() { super(); this.onMouseEnter=this.onMouseEnter.bind(this)this.onMouseLeave=this.onMouseLeave.bind(this)this.onTransitionEnd=this.onTransitionEnd.bind(this) }
-    __getStatic() {
-        return Tooltip;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Tooltip.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "Tooltip";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('position')){ this['position'] = 'top'; }if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('use_absolute')) { this.attributeChangedCallback('use_absolute', false, false); }if(!this.hasAttribute('delay')){ this['delay'] = 50; }if(!this.hasAttribute('delay_touch')){ this['delay_touch'] = 500; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('position');this.__upgradeProperty('color');this.__upgradeProperty('use_absolute');this.__upgradeProperty('delay');this.__upgradeProperty('delay_touch'); }
-    __listBoolProps() { return ["visible","use_absolute"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    calculatePosition() {
-        if (!this.parent || !this.use_absolute)
-            return;
-        let rect = this.parent.getBoundingClientRect();
-        let center = {
-            x: rect.left + rect.width / 2,
-            y: rect.y + rect.height / 2
-        };
-        if (this.position == 'bottom') {
-            let bottom = rect.y + rect.height;
-            this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
-            this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
-            this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
-            this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
-        }
-        else if (this.position == 'top') {
-            let bottom = document.body.offsetHeight - rect.top;
-            this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
-            this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
-            this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
-            this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
-        }
-        else if (this.position == 'right') {
-            let left = rect.x + rect.width;
-            this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
-            this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
-            this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
-            this.style.setProperty("--local-tooltip-to-y", center.y + 10 + 'px');
-        }
-        else if (this.position == 'left') {
-            let left = document.body.offsetWidth - rect.left;
-            this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
-            this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
-            this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
-            this.style.setProperty("--local-tooltip-to-y", center.y + 'px');
-        }
-    }
-    onMouseEnter() {
-        this.calculatePosition();
-        let delay = this.delay == 0 ? 50 : this.delay;
-        if (this.use_absolute) {
-            document.body.appendChild(this);
-            this.timeoutEnter = false;
-            this.timeout = setTimeout(() => {
-                this.timeoutEnter = true;
-                this.visible = true;
-            }, delay);
-        }
-        else {
-            if (delay == 0) {
-                this.visible = true;
-            }
-            else {
-                this.timeoutEnter = false;
-                this.timeout = setTimeout(() => {
-                    this.timeoutEnter = true;
-                    this.visible = true;
-                }, delay);
-            }
-        }
-    }
-    onMouseLeave() {
-        this.visible = false;
-        if (this.use_absolute) {
-            if (!this.timeoutEnter) {
-                clearTimeout(this.timeout);
-                this.onTransitionEnd();
-            }
-        }
-        else if (this.delay != 0) {
-            if (!this.timeoutEnter) {
-                clearTimeout(this.timeout);
-                this.onTransitionEnd();
-            }
-        }
-    }
-    onTransitionEnd() {
-        if (!this.use_absolute || this.visible)
-            return;
-        if (this.parent && !this.isDestroyed)
-            this.parent?.appendChild(this);
-        else
-            this.remove();
-    }
-    onLongPress() {
-        this.calculatePosition();
-        if (this.use_absolute) {
-            document.body.appendChild(this);
-            this.timeoutEnter = false;
-            this.timeout = setTimeout(() => {
-                this.timeoutEnter = true;
-                this.visible = true;
-            }, 50);
-        }
-        else {
-            this.visible = true;
-        }
-    }
-    registerAction() {
-        if (!this.parent)
-            return;
-        if (Lib.Platform.device != "pc") {
-            this.pressManager = new Aventus.PressManager({
-                element: this.parent,
-                onLongPress: () => {
-                    this.onLongPress();
-                },
-                onPressEnd: () => {
-                    this.onMouseLeave();
-                },
-                delayLongPress: this.delay_touch
-            });
-        }
-        else {
-            this.parent.addEventListener("mouseenter", this.onMouseEnter);
-            this.parent.addEventListener("mouseleave", this.onMouseLeave);
-        }
-        this.addEventListener("transitionend", this.onTransitionEnd);
-    }
-    postCreation() {
-        this.parent = this.parentElement;
-        this.registerAction();
-    }
-    postDestruction() {
-        this.isDestroyed = true;
-        super.postDestruction();
-        if (!this.parent)
-            return;
-        this.parent.removeEventListener("mouseenter", this.onMouseEnter);
-        this.parent.removeEventListener("mouseleave", this.onMouseLeave);
-    }
-}
-Components.Tooltip.Namespace=`Core.Components`;
-Components.Tooltip.Tag=`rk-tooltip`;
-_.Components.Tooltip=Components.Tooltip;
-if(!window.customElements.get('rk-tooltip')){window.customElements.define('rk-tooltip', Components.Tooltip);Aventus.WebComponentInstance.registerDefinition(Components.Tooltip);}
-
 RAM.DesktopRAM=class DesktopRAM extends RAM.RamHttp {
     /**
      * @inheritdoc
@@ -8727,7 +8732,7 @@ System.Os = class Os extends Aventus.WebComponent {
     target.onActiveDesktop();
 })); }
     static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;width:100%}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:var(--border-radius-round);cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;width:40px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;display:none;height:50px;min-width:auto;position:absolute;right:10px;z-index:6}:host rk-loading{opacity:0;visibility:hidden}:host .background{background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:25% 25%;inset:-20px;position:absolute;z-index:0;filter:brightness(0.8)}:host rk-notification-manager{bottom:60px}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:max-content;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:var(--border-radius-sm)}:host([desktop_list]) .add-desktop{display:block}`;
-    constructor() {            super();            System.Os.instance = this;            Lib.Platform.init();            Lib.ApplicationManager.reloadData();this.desktopMoveLeft=this.desktopMoveLeft.bind(this)this.desktopMoveRight=this.desktopMoveRight.bind(this)this.desktopMoveValidate=this.desktopMoveValidate.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this) }
+    constructor() {            super();            System.Os.instance = this;            Lib.ApplicationManager.reloadData();this.desktopMoveLeft=this.desktopMoveLeft.bind(this)this.desktopMoveRight=this.desktopMoveRight.bind(this)this.desktopMoveValidate=this.desktopMoveValidate.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this) }
     __getStatic() {
         return Os;
     }
@@ -9024,6 +9029,7 @@ System.Os = class Os extends Aventus.WebComponent {
     async init() {
         this.addResizeObserver();
         await this.startSocket();
+        Lib.Platform.init();
         this.rightClick();
         this.preventScroll();
         this.addSwitchDesktop();
@@ -12229,85 +12235,6 @@ Components.Form.Tag=`rk-form`;
 _.Components.Form=Components.Form;
 if(!window.customElements.get('rk-form')){window.customElements.define('rk-form', Components.Form);Aventus.WebComponentInstance.registerDefinition(Components.Form);}
 
-Components.ItemBoxSelect = class ItemBoxSelect extends Components.FormElement {
-    options = [];
-    optionSelected;
-    form;
-    static __style = `:host{position:relative}:host .select-notify{position:absolute;width:var(--internal-item-box-size);height:100%;left:0;top:0;background-color:var(--internal-item-box-select-select-background-color);transition:all .3s var(--bezier-curve);border-radius:var(--internal-item-border-radius);z-index:1}:host .container-option{display:flex;flex-direction:row;justify-content:center;align-items:center;height:100%;z-index:2}:host([space="0"]) .select-notify{border-radius:0}:host([space="0"]) .select-notify.first{border-top-left-radius:var(--internal-item-border-radius);border-bottom-left-radius:var(--internal-item-border-radius)}:host([space="0"]) .select-notify.last{border-top-right-radius:var(--internal-item-border-radius);border-bottom-right-radius:var(--internal-item-border-radius)}`;
-    __getStatic() {
-        return ItemBoxSelect;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(ItemBoxSelect.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="select-notify" rk-element="selectNotify"></div><div class="container-option">    <slot></slot></div>` }
-    });
-}
-    getClassName() {
-        return "ItemBoxSelect";
-    }
-    selectInternalOption() {
-        if (!this.isConnected)
-            return;
-        let oneFound = false;
-        for (let option of this.options) {
-            if (option.value == this.value) {
-                if (this.optionSelected)
-                    this.optionSelected.selected = false;
-                option.selected = true;
-                this.optionSelected = option;
-                oneFound = true;
-            }
-            else {
-                option.selected = false;
-            }
-        }
-        if (!oneFound) {
-            this.optionSelected = undefined;
-        }
-    }
-    selectOption(option) {
-        this.value = option.value;
-        this.onChange.trigger([this.value]);
-        if (this.formPart) {
-            this.formPart.value.set(this.value);
-        }
-    }
-    register(option) {
-        if (!this.options.includes(option)) {
-            this.options.push(option);
-            if (option.value == this.value) {
-                if (this.optionSelected) {
-                    this.optionSelected.selected = false;
-                }
-                option.selected = true;
-                this.optionSelected = option;
-            }
-        }
-    }
-    unregister(option) {
-        const index = this.options.indexOf(option);
-        if (index != -1) {
-            this.options.splice(index, 1);
-        }
-    }
-    removeErrors() {
-        this.errors = [];
-    }
-    postCreation() {
-        this.selectInternalOption();
-    }
-}
-Components.ItemBoxSelect.Namespace=`Core.Components`;
-Components.ItemBoxSelect.Tag=`rk-item-box-select`;
-_.Components.ItemBoxSelect=Components.ItemBoxSelect;
-if(!window.customElements.get('rk-item-box-select')){window.customElements.define('rk-item-box-select', Components.ItemBoxSelect);Aventus.WebComponentInstance.registerDefinition(Components.ItemBoxSelect);}
-
 Components.Button = class Button extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon_before", "icon_after", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'color'() { return this.getStringAttr('color') }
@@ -13380,11 +13307,108 @@ Components.Select.Tag=`rk-select`;
 _.Components.Select=Components.Select;
 if(!window.customElements.get('rk-select')){window.customElements.define('rk-select', Components.Select);Aventus.WebComponentInstance.registerDefinition(Components.Select);}
 
+Components.ItemBoxSelect = class ItemBoxSelect extends Components.FormElement {
+    static get observedAttributes() {return ["space"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'space'() { return this.getNumberProp('space') }
+    set 'space'(val) { this.setNumberAttr('space', val) }    get 'value'() {
+						return this.__watch["value"];
+					}
+					set 'value'(val) {
+						this.__watch["value"] = val;
+					}    options = [];
+    optionSelected;
+    form;
+    __registerWatchesActions() {
+    this.__addWatchesActions("value", ((target) => {
+    target.selectInternalOption();
+}));    super.__registerWatchesActions();
+}
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("space", ((target) => {
+    target.style.setProperty("--item-box-margin", target.space + 'px');
+})); }
+    static __style = `:host{--_item-box-box-width: var(--item-box-box-width, auto);--_item-box-box-height: var(--item-box-box-height, 100%);--_item-box-box-padding: var(--item-box-box-padding, 0 10px);--_item-box-border-radius: var(--item-box-border-radius, 4px);--_item-box-border-color: var(--item-box-border-color, var(--secondary-color, #afafaf));--_item-box-option-background-color-selected: var(--item-box-option-background-color-selected, var(--form-element-background-active, #afafaf));--_item-box-option-color-selected: var(--item-box-option-color-selected, var(--form-element-color-active, #fff))}:host{position:relative}:host .container-option{align-items:center;box-sizing:border-box;display:flex;flex-direction:row;height:100%;justify-content:center;z-index:2}:host ::slotted(*){border:1px solid var(--_item-box-border-color);border-radius:var(--border-radius-sm);max-height:var(--_item-box-box-height);max-width:var(--_item-box-box-width);padding:var(--_item-box-box-padding);width:var(--_item-box-box-width)}:host ::slotted(*:first-child){margin-left:0}:host ::slotted(*:last-child){margin-right:0}:host([space="0"]){border:1px solid var(--_item-box-border-color);border-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*){border:none;border-radius:0px;border-right:1px solid var(--_item-box-border-color)}:host([space="0"]) ::slotted(*:first-child){border-bottom-left-radius:var(--_item-box-border-radius);border-top-left-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*:last-child){border-bottom-right-radius:var(--_item-box-border-radius);border-right:none;border-top-right-radius:var(--_item-box-border-radius)}`;
+    __getStatic() {
+        return ItemBoxSelect;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(ItemBoxSelect.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="container-option">    <slot></slot></div>` }
+    });
+}
+    getClassName() {
+        return "ItemBoxSelect";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('space')){ this['space'] = 0; } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('space');this.__correctGetter('value'); }
+    selectInternalOption() {
+        if (!this.isConnected)
+            return;
+        let oneFound = false;
+        for (let option of this.options) {
+            if (option.value == this.value) {
+                if (this.optionSelected)
+                    this.optionSelected.selected = false;
+                option.selected = true;
+                this.optionSelected = option;
+                oneFound = true;
+            }
+            else {
+                option.selected = false;
+            }
+        }
+        if (!oneFound) {
+            this.optionSelected = undefined;
+        }
+    }
+    selectOption(option) {
+        this.value = option.value;
+        this.onChange.trigger([this.value]);
+        if (this.formPart) {
+            this.formPart.value.set(this.value);
+        }
+    }
+    register(option) {
+        if (!this.options.includes(option)) {
+            this.options.push(option);
+            if (option.value == this.value) {
+                if (this.optionSelected) {
+                    this.optionSelected.selected = false;
+                }
+                option.selected = true;
+                this.optionSelected = option;
+            }
+        }
+    }
+    unregister(option) {
+        const index = this.options.indexOf(option);
+        if (index != -1) {
+            this.options.splice(index, 1);
+        }
+    }
+    removeErrors() {
+        this.errors = [];
+    }
+    postCreation() {
+        this.selectInternalOption();
+    }
+}
+Components.ItemBoxSelect.Namespace=`Core.Components`;
+Components.ItemBoxSelect.Tag=`rk-item-box-select`;
+_.Components.ItemBoxSelect=Components.ItemBoxSelect;
+if(!window.customElements.get('rk-item-box-select')){window.customElements.define('rk-item-box-select', Components.ItemBoxSelect);Aventus.WebComponentInstance.registerDefinition(Components.ItemBoxSelect);}
+
 Components.ItemBoxOption = class ItemBoxOption extends Components.ItemBox {
     get 'selected'() { return this.getBoolAttr('selected') }
     set 'selected'(val) { this.setBoolAttr('selected', val) }get 'value'() { return this.getStringAttr('value') }
     set 'value'(val) { this.setStringAttr('value', val) }    select;
-    static __style = `:host{cursor:pointer}:host::slotted(*){pointer-events:none}:host>*{pointer-events:none}`;
+    static __style = `:host{cursor:pointer;transition:background-color var(--bezier-curve) .4s,color var(--bezier-curve) .4s}:host::slotted(*){pointer-events:none}:host>*{pointer-events:none}:host([selected]){background-color:var(--_item-box-option-background-color-selected);color:var(--_item-box-option-color-selected)}`;
     __getStatic() {
         return ItemBoxOption;
     }
@@ -14104,7 +14128,7 @@ Components.Table = class Table extends Aventus.WebComponent {
         target.showFooter = true;
     }
 })); }
-    static __style = `:host{--_table-background-color: var(--table-background-color, var(--secondary-color));--_table-elevation: var(--table-elevation, var(--elevation-2));--_table-row-header-height: var(--table-row-header-height, 50px);--_table-header-backgroud-color: var(--table-header-backgroud-color, var(--primary-color));--_table-header-color: var(--table-header-color, var(--text-color-reverse));--_table-footer-backgroud-color: var(--table-footer-backgroud-color, var(--primary-color));--_table-footer-color: var(--table-footer-color, var(--text-color-reverse));--_table-row-header-backgroud-color: var(--table-row-header-backgroud-color, var(--primary-color));--_table-row-header-color: var(--table-row-header-color, var(--text-color-reverse));--_table-border-color: var(--table-border-color, var(--secondary-color));--_table-row-header-vertical-border: var(--table-row-header-vertical-border, 1px solid var(--_table-border-color));--_table-row-header-horizontal-border: var(--table-row-header-horizontal-border, 1px solid var(--_table-border-color));--_table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-padding: var(--table-cell-padding, 10px);--local-table-cell-resize-display: none}:host{background-color:var(--_table-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--_table-elevation);display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper{display:flex;flex-direction:column;height:100%;min-height:100%;width:100%}:host .style-wrapper .header{align-items:center;background-color:var(--_table-header-backgroud-color);color:var(--_table-header-color);display:flex;justify-content:space-between;min-height:0;padding:10px}:host .style-wrapper .header .title{align-items:center;display:flex;font-size:var(--font-size-md);height:30px;margin-left:5px}:host .style-wrapper .row-header{--scrollbar-color: transparent;--scrollbar-active-color: transparent;--scroller-width: 0;min-height:0;width:100%}:host .style-wrapper .body{display:flex;flex:1;flex-direction:column;min-height:0;position:relative;width:100%}:host .style-wrapper .body .loading{display:none}:host .style-wrapper .body .no-data{display:none;margin:15px}:host .style-wrapper .footer{align-items:center;background-color:var(--_table-footer-backgroud-color);color:var(--_table-footer-color);display:flex;gap:30px;justify-content:end;min-height:0;padding:10px}:host .style-wrapper .footer .items-per-page{align-items:center;display:flex}:host .style-wrapper .footer .items-per-page rk-input-number{margin-left:10px;min-width:auto;width:50px}:host .style-wrapper .footer .location{align-items:center;display:flex}:host .style-wrapper .footer .pagination{align-items:center;display:flex}:host .style-wrapper .footer .pagination .btn-previous,:host .style-wrapper .footer .pagination .btn-next{transition:background-color .2s var(--bezier-curve)}:host .style-wrapper rk-scrollable::part(content-wrapper){min-width:100%}:host([first_page]) .style-wrapper .footer .pagination .btn-previous{opacity:.5;pointer-events:none}:host([last_page]) .style-wrapper .footer .pagination .btn-next{opacity:.5;pointer-events:none}:host([col_resize]){--local-table-cell-resize-display: block}:host([grid]) .style-wrapper .header{display:none}:host([grid]) .style-wrapper .body{flex-direction:row}:host([grid]) .style-wrapper .body rk-scrollable::part(content-wrapper){display:flex;flex-wrap:wrap;gap:15px;justify-content:center;padding:15px}:host([loading]) .style-wrapper .body{min-height:200px}:host([loading]) .style-wrapper .body .loading{display:flex}:host([no_data]:not([loading])) .style-wrapper .body .no-data{display:flex}:host([no_data]:not([loading])) .style-wrapper .body .rows{display:none}@media screen and (min-width: 1225px){:host .style-wrapper .footer .pagination .touch:hover{background-color:var(--lighter);border-radius:var(--border-radius-sm)}}`;
+    static __style = `:host{--_table-background-color: var(--table-background-color, var(--secondary-color));--_table-elevation: var(--table-elevation, var(--elevation-2));--_table-row-header-height: var(--table-row-header-height, 50px);--_table-header-backgroud-color: var(--table-header-backgroud-color, var(--primary-color));--_table-header-color: var(--table-header-color, var(--text-color-reverse));--_table-footer-backgroud-color: var(--table-footer-backgroud-color, var(--primary-color));--_table-footer-color: var(--table-footer-color, var(--text-color-reverse));--_table-row-header-backgroud-color: var(--table-row-header-backgroud-color, var(--primary-color));--_table-row-header-color: var(--table-row-header-color, var(--text-color-reverse));--_table-border-color: var(--table-border-color, var(--secondary-color));--_table-row-header-vertical-border: var(--table-row-header-vertical-border, 1px solid var(--_table-border-color));--_table-row-header-horizontal-border: var(--table-row-header-horizontal-border, 1px solid var(--_table-border-color));--_table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-padding: var(--table-cell-padding, 10px);--local-table-cell-resize-display: none}:host{background-color:var(--_table-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--_table-elevation);display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper{display:flex;flex-direction:column;height:100%;min-height:100%;width:100%}:host .style-wrapper .header{align-items:center;background-color:var(--_table-header-backgroud-color);color:var(--_table-header-color);display:flex;justify-content:space-between;min-height:0;padding:10px}:host .style-wrapper .header .title{align-items:center;display:flex;font-size:var(--font-size-md);height:30px;margin-left:5px}:host .style-wrapper .row-header{--scrollbar-color: transparent;--scrollbar-active-color: transparent;--scroller-width: 0;min-height:0;width:100%}:host .style-wrapper .body{display:flex;flex:1;flex-direction:column;min-height:0;position:relative;width:100%}:host .style-wrapper .body .loading{display:none}:host .style-wrapper .body .no-data{display:none;margin:15px}:host .style-wrapper .footer{align-items:center;background-color:var(--_table-footer-backgroud-color);color:var(--_table-footer-color);display:flex;gap:30px;justify-content:end;min-height:0;padding:10px}:host .style-wrapper .footer .items-per-page{align-items:center;display:flex}:host .style-wrapper .footer .items-per-page rk-input-number{margin-left:10px;min-width:auto;width:50px}:host .style-wrapper .footer .location{align-items:center;display:flex}:host .style-wrapper .footer .pagination{align-items:center;display:flex}:host .style-wrapper .footer .pagination .btn-previous,:host .style-wrapper .footer .pagination .btn-next{transition:background-color .2s var(--bezier-curve)}:host .style-wrapper rk-scrollable::part(content-wrapper){min-width:100%}:host([first_page]) .style-wrapper .footer .pagination .btn-previous{opacity:.5;pointer-events:none}:host([last_page]) .style-wrapper .footer .pagination .btn-next{opacity:.5;pointer-events:none}:host([col_resize]){--local-table-cell-resize-display: block}:host([grid]) .style-wrapper .row-header{display:none}:host([grid]) .style-wrapper .body{flex-direction:row}:host([grid]) .style-wrapper .body rk-scrollable::part(content-wrapper){display:flex;flex-wrap:wrap;gap:15px;justify-content:center;padding:15px}:host([loading]) .style-wrapper .body{min-height:200px}:host([loading]) .style-wrapper .body .loading{display:flex}:host([no_data]:not([loading])) .style-wrapper .body .no-data{display:flex}:host([no_data]:not([loading])) .style-wrapper .body .rows{display:none}@media screen and (min-width: 1225px){:host .style-wrapper .footer .pagination .touch:hover{background-color:var(--lighter);border-radius:var(--border-radius-sm)}}`;
     constructor() {
             super();
             this.options = this.configure(this.defaultOptions());
@@ -15644,6 +15668,79 @@ Components.TableDataCellAction.Namespace=`Core.Components`;
 Components.TableDataCellAction.Tag=`rk-table-data-cell-action`;
 _.Components.TableDataCellAction=Components.TableDataCellAction;
 if(!window.customElements.get('rk-table-data-cell-action')){window.customElements.define('rk-table-data-cell-action', Components.TableDataCellAction);Aventus.WebComponentInstance.registerDefinition(Components.TableDataCellAction);}
+
+Components.TabHeader = class TabHeader extends Aventus.WebComponent {
+    get 'active'() { return this.getBoolAttr('active') }
+    set 'active'(val) { this.setBoolAttr('active', val) }    _tab;
+    get tab() {
+        return this._tab;
+    }
+    tabs;
+    static __style = `:host{align-items:center;background-color:var(--_tabs-header-background-color);border-radius:var(--_tabs-border-radius);cursor:pointer;display:flex;font-size:var(--_tabs-header-font-size);height:100%;justify-content:center;padding:var(--_tabs-header-padding);position:relative;transition:var(--_tabs-transition)}:host .sep{background-color:rgba(0,0,0,0);bottom:calc(var(--_tabs-spacing)*-1);height:var(--_tabs-spacing);left:0;position:absolute;transition:var(--_tabs-transition);width:100%}:host([active]){background-color:var(--_tabs-header-background-color-active);border-bottom-left-radius:0;border-bottom-right-radius:0}:host([active]) .sep{background-color:var(--_tabs-header-background-color-active)}`;
+    __getStatic() {
+        return TabHeader;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(TabHeader.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="header-content" _id="tabheader_0"></div><div class="sep"></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "contentEl",
+      "ids": [
+        "tabheader_0"
+      ]
+    }
+  ]
+}); }
+    getClassName() {
+        return "TabHeader";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('tab');this.__upgradeProperty('active'); }
+    __listBoolProps() { return ["active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    init(tab, tabs) {
+        this.tabs = tabs;
+        let elements = tab.headerContent;
+        if (elements.length == 0) {
+            let lab = document.createElement("DIV");
+            lab.classList.add("label");
+            lab.innerHTML = tab.label;
+            this.contentEl.appendChild(lab);
+        }
+        else {
+            for (let el of elements) {
+                this.contentEl.appendChild(el);
+            }
+        }
+        this._tab = tab;
+    }
+    addPress() {
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => {
+                if (!this.active) {
+                    this.tabs.displayActive(this);
+                }
+            }
+        });
+    }
+    postCreation() {
+        super.postCreation();
+        this.addPress();
+    }
+}
+Components.TabHeader.Namespace=`Core.Components`;
+Components.TabHeader.Tag=`rk-tab-header`;
+_.Components.TabHeader=Components.TabHeader;
+if(!window.customElements.get('rk-tab-header')){window.customElements.define('rk-tab-header', Components.TabHeader);Aventus.WebComponentInstance.registerDefinition(Components.TabHeader);}
 
 App.AppError=class AppError extends Aventus.GenericError {
     static get Fullname() { return "Core.App.AppError, Core"; }

@@ -1,9 +1,9 @@
-<rk-scrollable y_scroll="false" x_scroll class="header" @element="headerEl">
-
+<rk-scrollable y_scroll="false" x_scroll class="header" floating_scroll auto_hide @element="headerScrollEl">
+    <div class="header-wrapper" @element="headerEl"></div>
 </rk-scrollable>
-<rk-scrollable y_scroll x_scroll="false" class="body" @element="bodyEl">
+<div class="body" @element="bodyEl">
 
-</rk-scrollable>
+</div>
 <div class="hidden">
     <slot></slot>
 </div>

@@ -1,4 +1,5 @@
 import type { Tab } from "../Tab/Tab.wcl.avt";
+import type { Tabs } from "../Tabs.wcl.avt";
 
 namespace Components {
     export class TabHeader<T extends Tab = Tab> extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -9,18 +10,22 @@ namespace Components {
 
 
         //#region props
-        @Property()
-        public label: string = "";
+
         @Attribute()
         public active!: boolean;
         //#endregion
 
 
         //#region variables
+        @ViewElement()
+        protected contentEl!: HTMLDivElement;
+
         protected _tab!: T;
         public get tab(): T {
             return this._tab;
         }
+
+        protected tabs!: Tabs<T>;
         //#endregion
 
 
@@ -30,11 +35,40 @@ namespace Components {
 
 
         //#region methods
-        public init(tab: T) {
-            this.label = tab.label;
+        public init(tab: T, tabs: Tabs<T>) {
+            this.tabs = tabs;
+
+            let elements = tab.headerContent;
+            if(elements.length == 0) {
+                let lab = document.createElement("DIV");
+                lab.classList.add("label");
+                lab.innerHTML = tab.label;
+                this.contentEl.appendChild(lab);
+            }
+            else {
+                for(let el of elements) {
+                    this.contentEl.appendChild(el);
+                }
+            }
             this._tab = tab;
+        }
+
+        protected addPress() {
+            new Aventus.PressManager({
+                element: this,
+                onPress: () => {
+                    if(!this.active) {
+                        this.tabs.displayActive(this);
+                    }
+                }
+            });
+        }
+
+        protected override postCreation(): void {
+            super.postCreation();
+            this.addPress();
         }
         //#endregion
 
-}
+    }
 }

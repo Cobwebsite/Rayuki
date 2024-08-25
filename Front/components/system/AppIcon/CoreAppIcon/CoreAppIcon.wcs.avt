@@ -1,4 +1,4 @@
-@import '@root/_responsive.gs.avt';
+@import '@root/_functions.gs.avt';
 
 :host {
 	background-color: #7a7a7a;

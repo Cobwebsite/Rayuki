@@ -15,7 +15,7 @@
     margin-right: var(--_item-box-margin);
 
     ::slotted(*) {
-        max-height: var(--_item-box-box-size);
-        max-width: var(--_item-box-box-size);
+        max-height: var(--_item-box-box-height);
+        max-width: var(--_item-box-box-width);
     }
 }

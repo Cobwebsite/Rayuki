@@ -1,6 +1,8 @@
 import { MainRouter } from "../generated/Routes/MainRouter.lib.avt";
 import { CoreError, CoreErrorCode } from "../generated/Tools/CoreErrors.lib.avt";
 import { TransactionCancelledEvent } from "../generated/Websocket/Events/TransactionEvent.lib.avt";
+import { MainEndPoint } from "../generated/Websocket/MainEndPoint.lib.avt";
+import { Platform } from "./Platform.lib.avt";
 
 namespace Lib {
     export class TransactionManager {
@@ -17,6 +19,17 @@ namespace Lib {
         public static init() {
             this.mainRouter = new MainRouter();
             this.mutex = new Aventus.Mutex();
+            Platform.onDisconnect.add(async () => {
+                this.mutex.dispose();
+                if(this.guid) {
+                    this.guid = undefined;
+                    try {
+                        await this.onTransactionEnd.trigger([false]);
+                    } catch(e) {
+                        console.error(e);
+                    }
+                }
+            });
             this.cancelEvent = new TransactionCancelledEvent();
             this.cancelEvent.listen();
             this.cancelEvent.onTrigger.add(async (body) => {

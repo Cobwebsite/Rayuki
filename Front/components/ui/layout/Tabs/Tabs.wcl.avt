@@ -1,5 +1,6 @@
 import { TabHeader } from "./TabHeader/TabHeader.wcl.avt";
 import { Tab } from "./Tab/Tab.wcl.avt";
+import type { Scrollable } from "../Scrollable/Scrollable.wcl.avt";
 
 namespace Components {
     export class Tabs<T extends Tab = Tab> extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -10,7 +11,10 @@ namespace Components {
 
 
         //#region props
-
+        @Attribute()
+        private first_active!: boolean;
+        @Attribute()
+        private last_active!: boolean;
         //#endregion
 
 
@@ -21,6 +25,9 @@ namespace Components {
         protected headerEl!: HTMLDivElement;
         @ViewElement()
         protected bodyEl!: HTMLDivElement;
+        @ViewElement()
+        protected headerScrollEl!: Scrollable;
+
 
         protected activeHeader?: TabHeader<T>;
         //#endregion
@@ -42,7 +49,7 @@ namespace Components {
 
                     let header = new (this.defineTabHeader())();
                     this.headerEl.appendChild(header);
-                    header.init(element as T);
+                    header.init(element as T, this);
 
                     if(first == null) {
                         first = header;
@@ -55,7 +62,7 @@ namespace Components {
             }
         }
 
-        protected displayActive(tabHeader: TabHeader<T>) {
+        public displayActive(tabHeader: TabHeader<T>) {
             if(this.activeHeader) {
                 this.activeHeader.active = false;
                 this.activeHeader.tab.parentNode?.removeChild(this.activeHeader.tab);
@@ -63,15 +70,24 @@ namespace Components {
 
             this.activeHeader = tabHeader;
             this.activeHeader.active = true;
-            this.bodyEl.appendChild(this.activeHeader);
+            this.bodyEl.appendChild(this.activeHeader.tab);
+            this.validateCorner();
         }
 
         protected defineTabHeader(): new (...args) => TabHeader<T> {
             return TabHeader;
         }
 
+        @BindThis()
+        protected validateCorner() {
+            this.first_active = this.headerScrollEl.x == 0 && this.activeHeader == this.headerEl.children[0];
+            this.last_active = this.headerScrollEl['contentWrapper'].offsetWidth >= this.offsetWidth && this.headerScrollEl.x == this.headerScrollEl['max'].x && this.activeHeader == this.headerEl.children[this.headerEl.children.length - 1];
+        }
+
         protected override postCreation(): void {
             super.postCreation();
+            this.headerScrollEl.onScrollChange.add(this.validateCorner)
+            this.loadTabs();
         }
         //#endregion
 

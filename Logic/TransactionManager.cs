@@ -1,8 +1,10 @@
 using System.Timers;
 using AventusSharp.Data.Storage.Default;
 using AventusSharp.Tools;
+using AventusSharp.WebSocket;
 using Core.App;
 using Core.Tools;
+using Core.Websocket;
 using Core.Websocket.Events;
 
 namespace Core.Logic
@@ -62,6 +64,7 @@ namespace Core.Logic
 
                 string guid = Guid.NewGuid().ToString();
                 this.guid = guid;
+                string localSession = httpContext.Session.Id;
                 sessionId = httpContext.Session.Id;
                 tcs = new TaskCompletionSource<object?>();
                 context = transactionQuery.Result;
@@ -81,7 +84,10 @@ namespace Core.Logic
                         }
                         // trop de temps on annule la transaction
                         transactionQuery.Result.Rollback();
-                        await new TransactionCancelledEvent(guid).Emit();
+
+                        WebSocketConnection? connection = WebSocketMiddleware.GetConnection<MainEndPoint>(localSession);
+                        if (connection != null)
+                            await new TransactionCancelledEvent(guid).EmitTo(connection);
                         locker.Release();
                     }
                 };
@@ -97,7 +103,7 @@ namespace Core.Logic
             }
             return result;
         }
-        
+
         /// <summary>
         /// Commits the transaction associated with the specified GUID.
         /// If the GUID matches the current transaction's GUID, the transaction is committed and the resources are released.
@@ -134,7 +140,7 @@ namespace Core.Logic
 
             return result;
         }
-        
+
         /// <summary>
         /// Rolls back the transaction associated with the specified GUID.
         /// If the GUID matches the current transaction's GUID, the transaction is rolled back and the resources are released.

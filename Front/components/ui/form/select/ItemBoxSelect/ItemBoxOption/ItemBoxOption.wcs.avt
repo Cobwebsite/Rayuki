@@ -1,12 +1,18 @@
 :host {
 	cursor: pointer;
+	transition: background-color var(--bezier-curve) 0.4s, color var(--bezier-curve) 0.4s;
 
 	&::slotted(*) {
 		pointer-events: none;
 	}
 
 	& > * {
-        /* safari block click */
+		/* safari block click */
 		pointer-events: none;
 	}
+}
+
+:host([selected]) {
+	background-color: var(--_item-box-option-background-color-selected);
+	color: var(--_item-box-option-color-selected);
 }

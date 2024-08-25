@@ -1,4 +1,4 @@
-@import '@root/_responsive.gs.avt';
+@import '@root/_functions.gs.avt';
 
 :host {
 	display: flex;

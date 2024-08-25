@@ -1,3 +1,4 @@
+import { MainEndPoint } from "../generated/Websocket/MainEndPoint.lib.avt";
 
 namespace Lib {
     export type DeviceType = "pc" | "tablet" | "mobile";
@@ -17,6 +18,19 @@ namespace Lib {
             });
             screenObserver.observe(document.body);
 
+            const wsInstance = MainEndPoint.getInstance();
+            wsInstance.onOpen.add(() => {
+                if(!this._isConnected) {
+                    this._isConnected = true;
+                    this.onReconnect.trigger([]);
+                }
+            });
+            wsInstance.onClose.add(() => {
+                if(this._isConnected) {
+                    this._isConnected = false;
+                    this.onDisconnect.trigger([]);
+                }
+            });
         }
 
         public static onScreenChangeAndRun(cb: (type: DeviceType) => void) {
@@ -52,5 +66,12 @@ namespace Lib {
         public static getRatio(element: HTMLElement): string {
             return element.offsetWidth + " / " + element.offsetHeight;
         }
+
+        private static _isConnected: boolean = true;
+        public static get isConnected(): boolean {
+            return MainEndPoint.getInstance().isReady();
+        }
+        public static readonly onDisconnect: Aventus.Callback<() => void> = new Aventus.Callback();
+        public static readonly onReconnect: Aventus.Callback<() => void> = new Aventus.Callback();
     }
 }

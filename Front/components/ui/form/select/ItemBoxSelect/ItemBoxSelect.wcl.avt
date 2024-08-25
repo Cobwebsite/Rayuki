@@ -1,7 +1,6 @@
 import type { ItemBoxOption } from "./ItemBoxOption/ItemBoxOption.wcl.avt";
 import { BoxContainer } from "../../../layout/BoxContainer/BoxContainer.wcl.avt";
 import { FormElement } from "../../FormElement/FormElement.wcl.avt";
-import type { FormPart, IFormElement } from "../../Form/FormType.lib.avt";
 import type { Form } from "../../Form/Form.wcl.avt";
 
 namespace Components {
@@ -11,12 +10,22 @@ namespace Components {
 
         //#endregion
 
-
-
+        //#region props
+        @Property((target: BoxContainer) => {
+            target.style.setProperty("--item-box-margin", target.space + 'px');
+        })
+        public space: number = 0;
         //#endregion
 
 
         //#region variables
+        /**
+         * @inheritdoc
+         */
+        @Watch((target: ItemBoxSelect) => {
+            target.selectInternalOption();
+        })
+        public override value: string | undefined;
 
         protected options: ItemBoxOption[] = [];
         protected optionSelected?: ItemBoxOption;

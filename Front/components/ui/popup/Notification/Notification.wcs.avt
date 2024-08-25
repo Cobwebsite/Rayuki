@@ -1,4 +1,4 @@
-@import '@root/_responsive.gs.avt';
+@import '@root/_functions.gs.avt';
 
 :host {
 	--internal-notification-box-shadow: var(--notification-box-shadow);

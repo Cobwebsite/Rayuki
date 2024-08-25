@@ -87,7 +87,6 @@ namespace System {
         public constructor() {
             super();
             Os.instance = this;
-            Platform.init();
             ApplicationManager.reloadData();
         }
         //#endregion
@@ -351,6 +350,7 @@ namespace System {
         private async init() {
             this.addResizeObserver();
             await this.startSocket();
+            Platform.init();
             this.rightClick();
             this.preventScroll();
             this.addSwitchDesktop();

@@ -1,4 +1,4 @@
-@import '@root/_responsive.gs.avt';
+@import '@root/_functions.gs.avt';
 
 :host {
 	--_table-background-color: var(--table-background-color, var(--secondary-color));
@@ -158,7 +158,7 @@
 
 :host([grid]) {
 	.style-wrapper {
-		.header {
+		.row-header {
 			display: none;
 		}
 

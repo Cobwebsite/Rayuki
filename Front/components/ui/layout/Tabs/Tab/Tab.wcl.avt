@@ -9,11 +9,15 @@ namespace Components {
         //#region props
         @Attribute()
         public label: string = "";
+
         //#endregion
 
 
         //#region variables
-
+        public get headerContent(): HTMLElement[] {
+            let elements = this.getElementsInSlot("header");
+            return elements;
+        }
         //#endregion
 
 

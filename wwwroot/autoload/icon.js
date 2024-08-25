@@ -5,10 +5,10 @@ var Cave;
 const moduleName = `Cave`;
 const _ = {};
 
-const System = {};
+let System = {};
 _.System = {};
 let _n;
-const AppInfo=class AppInfo {
+let AppInfo=class AppInfo {
     static get Fullname() { return "Cave.AppInfo, Cave"; }
     static Version = 1;
 }
@@ -44,9 +44,8 @@ System.AppIcon.Tag=`cave-app-icon`;
 _.System.AppIcon=System.AppIcon;
 if(!window.customElements.get('cave-app-icon')){window.customElements.define('cave-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
 
-const Version= AppInfo.Version;
+let Version= AppInfo.Version;
 _.Version=Version;
-
 
 
 for(let key in _) { Cave[key] = _[key] }
@@ -98,20 +97,20 @@ var Inventaire;
 const moduleName = `Inventaire`;
 const _ = {};
 
-const System = {};
+let System = {};
 _.System = {};
 let _n;
-const AppInfo=class AppInfo {
+let AppInfo=class AppInfo {
     static get Fullname() { return "Inventaire.AppInfo, Inventaire"; }
     static Version = 1;
 }
 AppInfo.Namespace=`Inventaire`;
 AppInfo.$schema={};
 Aventus.Converter.register(AppInfo.Fullname, AppInfo);
-
 _.AppInfo=AppInfo;
+
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
-    static __style = `:host rk-img{--img-stroke-color: transparent;--img-fill-color: #acf4d6;max-height:100%;flex-grow:1;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    static __style = `:host rk-img{--img-stroke-color: transparent;--img-fill-color: #ffffff;max-height:100%;flex-grow:1;padding:20%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
     __getStatic() {
         return AppIcon;
     }
@@ -128,15 +127,18 @@ System.AppIcon = class AppIcon extends Core.System.AppIcon {
     getClassName() {
         return "AppIcon";
     }
+    url() {
+        return "/fournisseur";
+    }
 }
 System.AppIcon.Namespace=`Inventaire.System`;
 System.AppIcon.Tag=`inventaire-app-icon`;
 _.System.AppIcon=System.AppIcon;
 if(!window.customElements.get('inventaire-app-icon')){window.customElements.define('inventaire-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
 
-const Version= AppInfo.Version;
-
+let Version= AppInfo.Version;
 _.Version=Version;
+
 
 for(let key in _) { Inventaire[key] = _[key] }
 })(Inventaire);
@@ -208,11 +210,11 @@ var Reservation;
 const moduleName = `Reservation`;
 const _ = {};
 
-const System = {};
+let System = {};
 _.System = {};
 let _n;
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
-    static __style = `:host rk-img{--img-stroke-color: transparent;--img-fill-color: #acf4d6;max-height:100%;flex-grow:1;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    static __style = `:host rk-img{--img-stroke-color: transparent;--img-fill-color: #fff;max-height:100%;flex-grow:1;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
     __getStatic() {
         return AppIcon;
     }

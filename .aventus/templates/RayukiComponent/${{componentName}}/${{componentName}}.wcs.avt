@@ -1,5 +1,0 @@
-@import '@root/_responsive.gs.avt';
-
-:host {
-    
-}

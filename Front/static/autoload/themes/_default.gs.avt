@@ -84,6 +84,7 @@
 	--form-element-background: white;
 	--form-element-background-active: var(--secondary-color);
 	--form-element-color: var(--text-color);
+	--form-element-color-active: var(--text-color-reverse);
 	--form-element-font-size: calc(var(--font-size) * 0.9);
 	--form-element-font-size-label: calc(var(--font-size) * 0.85);
 	--form-element-border-color: var(--lighter-active);
