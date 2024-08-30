@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "dotnet run --nologo -v q --property WarningLevel=0 /clp:ErrorsOnly",
-    "build": "dotnet build --nologo -v q --property WarningLevel=0 /clp:ErrorsOnly"
+    "build": "dotnet build --nologo -v q --property WarningLevel=0 /clp:ErrorsOnly",
+    "storybook": "cd Storybook && storybook dev -p 6006"
   },
   "author": "",
   "license": "ISC"

@@ -58,7 +58,13 @@
                     "uri": "@local:Addon@Addon",
                     "include": "none"
                 }
-            ]
+            ],
+            "stories": {
+                "output": "../../Storybook",
+                "format": "manual",
+                "live": false,
+                "prefix": "Front"
+            }
         },
         {
             "module": "Addon",

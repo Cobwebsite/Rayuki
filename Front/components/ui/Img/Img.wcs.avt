@@ -1,6 +1,18 @@
 :host {
+	/**
+	* Set fill color and stroke color for svg img
+	* @type color
+	*/
 	--_img-color: var(--img-color);
+	/**
+	* Set stroke color for svg img
+	* @type color
+	*/
 	--_img-stroke-color: var(--img-stroke-color, var(--_img-color));
+	/**
+	* Set fill color for svg img
+	* @type color
+	*/
 	--_img-fill-color: var(--img-fill-color, var(--_img-color));
 	--_img-color-transition: var(--img-color-transition, none);
 	--_img-stroke-width: var(--img-stroke-width, 1px);

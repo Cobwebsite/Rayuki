@@ -1,5 +1,8 @@
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+    })
     export class Img extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static
@@ -11,6 +14,7 @@ namespace Components {
         @Attribute()
         public cache!: boolean;
 
+        @StoryValue("/logo.svg")
         @Property((target: Img) => {
             target.onSrcChanged();
         })

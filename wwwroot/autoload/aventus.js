@@ -6847,6 +6847,44 @@ _.RAM = {};
 let Tools = {};
 _.Tools = {};
 let _n;
+Data.AventusFile=class AventusFile {
+    static get Fullname() { return "AventusSharp.Data.AventusFile, AventusSharp"; }
+    Uri;
+    Upload;
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    get $type() {
+        return this.constructor['Fullname'];
+    }
+    /**
+     * @inerhit
+     */
+    toJSON() {
+        let toAvoid = ['className', 'namespace'];
+        return Aventus.Json.classToJson(this, {
+            isValidKey: (key) => !toAvoid.includes(key),
+            beforeEnd: (result) => {
+                let resultTemp = {};
+                if (result.$type) {
+                    resultTemp.$type = result.$type;
+                    for (let key in result) {
+                        if (key != '$type') {
+                            resultTemp[key] = result[key];
+                        }
+                    }
+                    return resultTemp;
+                }
+                return result;
+            }
+        });
+    }
+}
+Data.AventusFile.Namespace=`AventusSharp.Data`;
+Data.AventusFile.$schema={"Uri":"string","Upload":"File","$type":"string"};
+Aventus.Converter.register(Data.AventusFile.Fullname, Data.AventusFile);
+_.Data.AventusFile=Data.AventusFile;
+
 (function (DataErrorCode) {
     DataErrorCode[DataErrorCode["DefaultDMGenericType"] = 0] = "DefaultDMGenericType";
     DataErrorCode[DataErrorCode["DMOnlyForceInherit"] = 1] = "DMOnlyForceInherit";
@@ -6917,7 +6955,7 @@ _.Data.FieldErrorInfo=Data.FieldErrorInfo;
 _.Routes.RouteErrorCode=Routes.RouteErrorCode;
 
 Routes.RouteError=class RouteError extends Aventus.GenericError {
-    static get Fullname() { return "AventusSharp.Routes.RouteError, AventusSharp"; }
+    static get Fullname() { return "AventusSharp.Routes.RouteError2, AventusSharp"; }
 }
 Routes.RouteError.Namespace=`AventusSharp.Routes`;
 Routes.RouteError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
@@ -7260,44 +7298,6 @@ Data.StorableTimestamp.Namespace=`AventusSharp.Data`;
 Data.StorableTimestamp.$schema={...(Data.Storable?.$schema ?? {}), "CreatedDate":"Date","UpdatedDate":"Date"};
 Aventus.Converter.register(Data.StorableTimestamp.Fullname, Data.StorableTimestamp);
 _.Data.StorableTimestamp=Data.StorableTimestamp;
-
-Data.AventusFile=class AventusFile {
-    static get Fullname() { return "AventusSharp.Data.AventusFile, AventusSharp"; }
-    Uri;
-    Upload;
-    /**
-     * Get the unique type for the data. Define it as the namespace + class name
-     */
-    get $type() {
-        return this.constructor['Fullname'];
-    }
-    /**
-     * @inerhit
-     */
-    toJSON() {
-        let toAvoid = ['className', 'namespace'];
-        return Aventus.Json.classToJson(this, {
-            isValidKey: (key) => !toAvoid.includes(key),
-            beforeEnd: (result) => {
-                let resultTemp = {};
-                if (result.$type) {
-                    resultTemp.$type = result.$type;
-                    for (let key in result) {
-                        if (key != '$type') {
-                            resultTemp[key] = result[key];
-                        }
-                    }
-                    return resultTemp;
-                }
-                return result;
-            }
-        });
-    }
-}
-Data.AventusFile.Namespace=`AventusSharp.Data`;
-Data.AventusFile.$schema={"Uri":"string","Upload":"File","$type":"string"};
-Aventus.Converter.register(Data.AventusFile.Fullname, Data.AventusFile);
-_.Data.AventusFile=Data.AventusFile;
 
 Tools.VoidWithError=class VoidWithError extends Aventus.VoidWithError {
     static get Fullname() { return "AventusSharp.Tools.VoidWithError, AventusSharp"; }
@@ -7765,7 +7765,7 @@ WebSocket.Route=class Route {
 WebSocket.Route.Namespace=`AventusSharp.WebSocket`;
 _.WebSocket.Route=WebSocket.Route;
 
-WebSocket.Event=class Event {
+WebSocket.WsEvent=class WsEvent {
     endpoint;
     onTrigger = new Aventus.Callback();
     routeInfo;
@@ -7822,10 +7822,10 @@ WebSocket.Event=class Event {
         this.onTrigger.trigger([data, params, uid]);
     }
 }
-WebSocket.Event.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.Event=WebSocket.Event;
+WebSocket.WsEvent.Namespace=`AventusSharp.WebSocket`;
+_.WebSocket.WsEvent=WebSocket.WsEvent;
 
-WebSocket.StorableWsRoute_GetAll=class StorableWsRoute_GetAll extends WebSocket.Event {
+WebSocket.StorableWsRoute_GetAll=class StorableWsRoute_GetAll extends WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -7841,7 +7841,7 @@ WebSocket.StorableWsRoute_GetAll=class StorableWsRoute_GetAll extends WebSocket.
 WebSocket.StorableWsRoute_GetAll.Namespace=`AventusSharp.WebSocket`;
 _.WebSocket.StorableWsRoute_GetAll=WebSocket.StorableWsRoute_GetAll;
 
-WebSocket.StorableWsRoute_Create=class StorableWsRoute_Create extends WebSocket.Event {
+WebSocket.StorableWsRoute_Create=class StorableWsRoute_Create extends WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -7857,7 +7857,7 @@ WebSocket.StorableWsRoute_Create=class StorableWsRoute_Create extends WebSocket.
 WebSocket.StorableWsRoute_Create.Namespace=`AventusSharp.WebSocket`;
 _.WebSocket.StorableWsRoute_Create=WebSocket.StorableWsRoute_Create;
 
-WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends WebSocket.Event {
+WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends WebSocket.WsEvent {
     /**
      * @inheritdoc
      */
@@ -7873,7 +7873,7 @@ WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends We
 WebSocket.StorableWsRoute_CreateMany.Namespace=`AventusSharp.WebSocket`;
 _.WebSocket.StorableWsRoute_CreateMany=WebSocket.StorableWsRoute_CreateMany;
 
-WebSocket.StorableWsRoute_GetById=class StorableWsRoute_GetById extends WebSocket.Event {
+WebSocket.StorableWsRoute_GetById=class StorableWsRoute_GetById extends WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -7889,7 +7889,7 @@ WebSocket.StorableWsRoute_GetById=class StorableWsRoute_GetById extends WebSocke
 WebSocket.StorableWsRoute_GetById.Namespace=`AventusSharp.WebSocket`;
 _.WebSocket.StorableWsRoute_GetById=WebSocket.StorableWsRoute_GetById;
 
-WebSocket.StorableWsRoute_Update=class StorableWsRoute_Update extends WebSocket.Event {
+WebSocket.StorableWsRoute_Update=class StorableWsRoute_Update extends WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -7905,7 +7905,7 @@ WebSocket.StorableWsRoute_Update=class StorableWsRoute_Update extends WebSocket.
 WebSocket.StorableWsRoute_Update.Namespace=`AventusSharp.WebSocket`;
 _.WebSocket.StorableWsRoute_Update=WebSocket.StorableWsRoute_Update;
 
-WebSocket.StorableWsRoute_UpdateMany=class StorableWsRoute_UpdateMany extends WebSocket.Event {
+WebSocket.StorableWsRoute_UpdateMany=class StorableWsRoute_UpdateMany extends WebSocket.WsEvent {
     /**
      * @inheritdoc
      */
@@ -7921,7 +7921,7 @@ WebSocket.StorableWsRoute_UpdateMany=class StorableWsRoute_UpdateMany extends We
 WebSocket.StorableWsRoute_UpdateMany.Namespace=`AventusSharp.WebSocket`;
 _.WebSocket.StorableWsRoute_UpdateMany=WebSocket.StorableWsRoute_UpdateMany;
 
-WebSocket.StorableWsRoute_Delete=class StorableWsRoute_Delete extends WebSocket.Event {
+WebSocket.StorableWsRoute_Delete=class StorableWsRoute_Delete extends WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -7937,7 +7937,7 @@ WebSocket.StorableWsRoute_Delete=class StorableWsRoute_Delete extends WebSocket.
 WebSocket.StorableWsRoute_Delete.Namespace=`AventusSharp.WebSocket`;
 _.WebSocket.StorableWsRoute_Delete=WebSocket.StorableWsRoute_Delete;
 
-WebSocket.StorableWsRoute_DeleteMany=class StorableWsRoute_DeleteMany extends WebSocket.Event {
+WebSocket.StorableWsRoute_DeleteMany=class StorableWsRoute_DeleteMany extends WebSocket.WsEvent {
     /**
      * @inheritdoc
      */

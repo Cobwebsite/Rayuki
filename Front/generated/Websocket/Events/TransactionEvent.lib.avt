@@ -11,7 +11,7 @@ namespace Websocket.Events.TransactionCancelledEvent {
 }
 namespace Websocket.Events {
 
-	export class TransactionCancelledEvent extends AventusSharp.WebSocket.Event<Body> {
+	export class TransactionCancelledEvent extends AventusSharp.WebSocket.WsEvent<Body> {
 		/**
 		 * @inheritdoc
 		 */

@@ -15,6 +15,8 @@ namespace Components {
         private first_active!: boolean;
         @Attribute()
         private last_active!: boolean;
+        @Property()
+        public header_full_width!: boolean;
         //#endregion
 
 
@@ -44,6 +46,7 @@ namespace Components {
             let elements = this.getElementsInSlot();
             let first: TabHeader<T> | null = null;
             for(let element of elements) {
+                element.parentElement?.removeChild(element);
                 if(element instanceof Tab) {
                     this.tabs[element.label] = element as T;
 
@@ -70,11 +73,11 @@ namespace Components {
 
             this.activeHeader = tabHeader;
             this.activeHeader.active = true;
-            this.bodyEl.appendChild(this.activeHeader.tab);
+            this.appendChild(this.activeHeader.tab);
             this.validateCorner();
         }
 
-        protected defineTabHeader(): new (...args) => TabHeader<T> {
+        protected defineTabHeader(): new (...args: any[]) => TabHeader<T> {
             return TabHeader;
         }
 
@@ -86,7 +89,7 @@ namespace Components {
 
         protected override postCreation(): void {
             super.postCreation();
-            this.headerScrollEl.onScrollChange.add(this.validateCorner)
+            this.headerScrollEl.onScrollChange.add(this.validateCorner);
             this.loadTabs();
         }
         //#endregion

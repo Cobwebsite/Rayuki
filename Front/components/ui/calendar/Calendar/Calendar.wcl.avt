@@ -102,7 +102,7 @@ namespace Components {
             this.date = newDate;
         }
 
-        protected defineCalendarDay(): new (...args) => CalendarDay {
+        protected defineCalendarDay(): new (...args: any[]) => CalendarDay {
             return CalendarDayDefault;
         }
 
@@ -239,7 +239,7 @@ namespace Components {
             let currentYear = new Date().getFullYear();
             let basicRangeStart = (currentYear + this.yearGroupPage * 12) - 6;
             let basicRangeEnd = (currentYear + this.yearGroupPage * 12) + 6;
-            this.yearGroupTxt = `${basicRangeStart} - ${basicRangeEnd-1}`;
+            this.yearGroupTxt = `${basicRangeStart} - ${basicRangeEnd - 1}`;
             this.bodyYearEl.innerHTML = "";
             for(let i = basicRangeStart; i < basicRangeEnd; i++) {
                 this.createYearCase(i);

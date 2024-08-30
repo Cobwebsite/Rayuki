@@ -64,7 +64,7 @@ namespace Websocket.Routes {
 		}
 	}
 	 
-	export class DesktopRouter_RegisterOpenApp extends AventusSharp.WebSocket.Event<ApplicationOpenInfo> {
+	export class DesktopRouter_RegisterOpenApp extends AventusSharp.WebSocket.WsEvent<ApplicationOpenInfo> {
 		
 		/**
 		 * @inheritdoc
@@ -81,7 +81,7 @@ namespace Websocket.Routes {
 		}
 	}
 	 
-	export class DesktopRouter_RemoveApp extends AventusSharp.WebSocket.Event<ApplicationOpenInfo> {
+	export class DesktopRouter_RemoveApp extends AventusSharp.WebSocket.WsEvent<ApplicationOpenInfo> {
 		
 		/**
 		 * @inheritdoc
@@ -98,7 +98,7 @@ namespace Websocket.Routes {
 		}
 	}
 	 
-	export class DesktopRouter_SetDesktopIcon extends AventusSharp.WebSocket.Event<DesktopAppIcon> {
+	export class DesktopRouter_SetDesktopIcon extends AventusSharp.WebSocket.WsEvent<DesktopAppIcon> {
 		
 		/**
 		 * @inheritdoc
@@ -115,7 +115,7 @@ namespace Websocket.Routes {
 		}
 	}
 	 
-	export class DesktopRouter_RemoveDesktopIcon extends AventusSharp.WebSocket.Event<boolean> {
+	export class DesktopRouter_RemoveDesktopIcon extends AventusSharp.WebSocket.WsEvent<boolean> {
 		
 		/**
 		 * @inheritdoc

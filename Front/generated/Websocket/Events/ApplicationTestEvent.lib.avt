@@ -12,7 +12,7 @@ namespace Websocket.Events.ApplicationTestEvent {
 }
 namespace Websocket.Events {
 
-	export class ApplicationTestEvent extends AventusSharp.WebSocket.Event<Body> {
+	export class ApplicationTestEvent extends AventusSharp.WebSocket.WsEvent<Body> {
 		/**
 		 * @inheritdoc
 		 */
@@ -24,7 +24,7 @@ namespace Websocket.Events {
 		}
 	}
 
-	export class ApplicationTestEvent2 extends AventusSharp.WebSocket.Event<string> {
+	export class ApplicationTestEvent2 extends AventusSharp.WebSocket.WsEvent<string> {
 		/**
 		 * @inheritdoc
 		 */

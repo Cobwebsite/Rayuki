@@ -34,10 +34,6 @@
 		padding: var(--_tabs-body-padding);
 		width: 100%;
 	}
-
-	.hidden {
-		display: none;
-	}
 }
 
 :host([first_active]) {
@@ -49,5 +45,13 @@
 :host([last_active]) {
 	.body {
 		border-top-right-radius: 0px;
+	}
+}
+
+:host([header_full_width]) {
+	.header {
+		.header-wrapper>* {
+			flex-grow: 1;
+		}
 	}
 }
