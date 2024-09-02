@@ -6,12 +6,19 @@ import type { Link } from "../../../ui/Link/Link.wcl.avt";
 
 namespace System {
     type ApplicationSidnavRouteOptions = {
+        /** Route that will display the frame */
         route: string,
+        /** The frame to display when the route is triggerd */
         frame: new () => FrameNoScroll,
+        /** The name inside the sidenav */
         name: string,
+        /** The icon set before the sidenav */
         icon?: string,
+        /** The icon set before the sidenav from material icon */
         miIcon?: MaterialIcon.IconType,
+        /** Define a path to define the sidenav button will be active */
         activeRoute?: string;
+        /** Can we trigger the link */
         allowTrigger?: (link: Link) => boolean;
     };
 

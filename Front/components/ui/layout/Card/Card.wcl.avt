@@ -22,7 +22,10 @@ namespace Components {
 
 
         //#region methods
-
+        protected override postCreation(): void {
+            // container-name
+            this.style.container = 'card / inline-size';
+        }
         //#endregion
 
     }

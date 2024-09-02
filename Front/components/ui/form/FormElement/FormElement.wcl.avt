@@ -60,14 +60,14 @@ namespace Components {
         }
         protected unlinkFormPart() {
             if(this._formPart) {
-                this._formPart.register(this);
+                this._formPart.unregister(this);
                 this._formPart.onValueChange.remove(this.refreshValueFromForm);
                 this._formPart.onValidation.remove(this.onFormValidation);
             }
         }
         protected linkFormPart() {
             if(this._formPart) {
-                this._formPart.unregister(this);
+                this._formPart.register(this);
                 this._formPart.onValueChange.add(this.refreshValueFromForm);
                 this._formPart.onValidation.add(this.onFormValidation);
                 this.refreshValueFromForm();

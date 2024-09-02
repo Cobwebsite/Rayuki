@@ -23,6 +23,15 @@ namespace Core.App
 
         }
 
+        /// <summary>
+        /// Define if the resource is accessible if the user isn't login
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public virtual bool LoginMiddleware(HttpRequest request, HttpContext context) {
+            return false;
+        }
+
         public virtual Seeder? DefineSeeder()
         {
             return null;

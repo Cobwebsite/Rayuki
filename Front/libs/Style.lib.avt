@@ -1,6 +1,19 @@
-export type Colors = 'green' | 'success' | 'red' | 'error' | 'orange' | 'warning' | 'blue' | 'information' | 'primary' | 'secondary';
+export type ColorsType = 'green' | 'success' | 'red' | 'error' | 'orange' | 'warning' | 'blue' | 'information' | 'primary' | 'secondary';
+
+export const Colors = {
+    'green': 'green',
+    'success': 'success',
+    'red': 'red',
+    'error': 'error',
+    'orange': 'orange',
+    'warning': 'warning',
+    'blue': 'blue',
+    'information': 'information',
+    'primary': 'primary',
+    'secondary': 'secondary',
+} as const;
 
 export class Style {
 
-    public colors: Colors[] = ['green', 'success', 'red', 'error', 'orange', 'warning', 'blue', 'information', 'primary', 'secondary'];
+    public colors: ColorsType[] = ['green', 'success', 'red', 'error', 'orange', 'warning', 'blue', 'information', 'primary', 'secondary'];
 }

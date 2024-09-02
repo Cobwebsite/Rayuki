@@ -1,0 +1,12 @@
+namespace Lib {
+    export class Validator {
+        public static email(txt: string): boolean {
+			if(!txt) return false;
+            return txt.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\b/) != null;
+        }
+		public static phone(txt: string): boolean {
+			if(!txt) return false;
+            return txt.match(/(\+?\d{1,3})?([\.-\/]?| +?)\(?\d{2,4}\)?([\.-\/]?| +?)?\d{2,4}([\.-\/]?| +?)?\d{2,4}([\.-\/]?| +?)?\d{0,4}/) != null;
+        }
+    }
+}

@@ -283,7 +283,10 @@ namespace Core
                 await next();
                 return;
             }
-
+            if(AppManager.LoginMiddleware(context)) {
+                await next();
+                return;
+            }
             if (context.Request.Path != "/login")
             {
                 if (IsDev)

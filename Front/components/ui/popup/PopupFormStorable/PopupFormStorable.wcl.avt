@@ -1,0 +1,51 @@
+import type { FormSchema, InternalForm } from "../../form/Form/FormType.lib.avt";
+import { VirtualForm } from "../../form/Form/VirtualForm.lib.avt";
+import { GenericPopup } from "../GenericPopup/GenericPopup.wcl.avt";
+
+namespace Components {
+    export abstract class PopupFormStorable<T extends AventusSharp.Data.Storable> extends GenericPopup<T | null> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+        public get item(): T {
+            return this._form.item as T;
+        }
+        public set item(value: T) {
+            this._form.item = value;
+        }
+        protected get form(): InternalForm<Partial<T>> {
+            return this._form.parts;
+        }
+        protected _form: VirtualForm<Partial<T>>;
+        //#endregion
+
+
+        //#region constructor
+		public constructor() {
+            super();
+
+            this._form = new VirtualForm();
+            this._form.setForm(this.defineSchema());
+        }
+        //#endregion
+
+
+        //#region methods
+		protected abstract defineSchema(): FormSchema<Partial<T>>;
+
+        protected validate(): Promise<boolean> {
+            return this._form.validate();
+        }
+        //#endregion
+
+    }
+}

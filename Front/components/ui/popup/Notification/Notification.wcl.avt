@@ -1,10 +1,10 @@
-import type { Colors } from "../../../../libs/Style.lib.avt";
+import type { ColorsType } from "../../../../libs/Style.lib.avt";
 
 namespace Components {
     export type NotificationPosition = 'bottom' | 'top' | 'bottom left' | 'top left' | 'bottom right' | 'top right';
     export type NotificationOptions = {
         position?: NotificationPosition;
-        color?: Colors,
+        color?: ColorsType,
         title?: string;
         body?: string;
         delay?: number;
@@ -32,13 +32,13 @@ namespace Components {
 
         //#region props
         @Attribute()
-        public position: NotificationPosition = 'bottom right';
+        public position: NotificationPosition = 'top right';
         @Property()
         public icon?: string;
         @Property()
         public subject: string = "";
         @Attribute()
-        public color?: Colors;
+        public color?: ColorsType;
         /**
          * Use minus -1 to have an infinite timer
          */

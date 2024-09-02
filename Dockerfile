@@ -48,6 +48,7 @@ WORKDIR /app
 # Créer un volume pour le dossier "apps"
 VOLUME /app/apps
 VOLUME /app/wwwroot/apps
+VOLUME /app/Views/apps
 
 # Copy everything needed to run the app from the "build" stage.
 COPY --from=build /app .

@@ -59,6 +59,12 @@ $labels: xs, sm, md, lg, xl;
             :host([offset_right_#{$label}="#{$i}"]) {
                 margin-right: #{$size + "%"};
             }
+
+            @if $i ==0 {
+                :host([size_#{$label}="#{$i}"]) {
+                    display: none;
+                }
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
 import { GenericPopup } from "../GenericPopup/GenericPopup.wcl.avt";
-import type { Scrollable } from "../../layout/Scrollable/Scrollable.wcl.avt";
 
 namespace Components {
 

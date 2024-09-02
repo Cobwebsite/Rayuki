@@ -1055,6 +1055,7 @@ namespace System {
             this.removeApplicationHistory();
             this.sizeManager.remove();
         }
+
         //#endregion
 
     }

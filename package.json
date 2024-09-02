@@ -9,7 +9,9 @@
   "scripts": {
     "dev": "dotnet run --nologo -v q --property WarningLevel=0 /clp:ErrorsOnly",
     "build": "dotnet build --nologo -v q --property WarningLevel=0 /clp:ErrorsOnly",
-    "storybook": "cd Storybook && storybook dev -p 6006"
+    "storybook": "cd Storybook && storybook dev -p 6006",
+    "docker:build": "docker build -t rayuki/core:latest .",
+    "docker:publish": "docker push rayuki/core:latest"
   },
   "author": "",
   "license": "ISC"

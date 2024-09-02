@@ -3959,6 +3959,35 @@ let GenericRam=class GenericRam {
         }
         Json.classFromJson(item, objJson, options);
     }
+    /**
+     * Create or update the item
+     */
+    async save(item, ...args) {
+        let action = await this.saveWithError(item, ...args);
+        if (action.success) {
+            return action.result;
+        }
+        return undefined;
+    }
+    /**
+     * Create or update the item
+     */
+    async saveWithError(item, ...args) {
+        let action = new ResultRamWithError();
+        let resultTemp = await this.getIdWithError(item);
+        if (resultTemp.success && resultTemp.result !== undefined) {
+            if (resultTemp.result) {
+                return this.updateWithError(item, ...args);
+            }
+            else {
+                return this.createWithError(item, ...args);
+            }
+        }
+        else {
+            action.errors = resultTemp.errors;
+        }
+        return action;
+    }
     async beforeRecordSet(item) { }
     async afterRecordSet(item) { }
     async beforeRecordDelete(item) { }
@@ -6955,7 +6984,7 @@ _.Data.FieldErrorInfo=Data.FieldErrorInfo;
 _.Routes.RouteErrorCode=Routes.RouteErrorCode;
 
 Routes.RouteError=class RouteError extends Aventus.GenericError {
-    static get Fullname() { return "AventusSharp.Routes.RouteError2, AventusSharp"; }
+    static get Fullname() { return "AventusSharp.Routes.RouteError, AventusSharp"; }
 }
 Routes.RouteError.Namespace=`AventusSharp.Routes`;
 Routes.RouteError.$schema={...(Aventus.GenericError?.$schema ?? {}), };

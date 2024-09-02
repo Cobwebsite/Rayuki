@@ -1,5 +1,5 @@
 import { Platform } from "../../../../libs/Platform.lib.avt";
-import type { Colors } from "../../../../libs/Style.lib.avt";
+import type { ColorsType } from "../../../../libs/Style.lib.avt";
 
 namespace Components {
     export class Tooltip extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -16,7 +16,7 @@ namespace Components {
         public position: 'top' | 'left' | 'bottom' | 'right' = 'top';
 
         @Attribute()
-        public color?: Colors;
+        public color?: ColorsType;
 
         @Attribute()
         public use_absolute!: boolean;

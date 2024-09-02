@@ -1,4 +1,4 @@
-import type { Colors } from "../../../../../libs/Style.lib.avt";
+import type { ColorsType } from "../../../../../libs/Style.lib.avt";
 
 namespace Components {
     export class ButtonIcon extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -13,7 +13,7 @@ namespace Components {
         public icon?: string;
 
         @Attribute()
-        public color?: Colors;
+        public color?: ColorsType;
 
         @Attribute()
         public outline!: boolean;

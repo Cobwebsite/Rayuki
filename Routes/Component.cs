@@ -1,4 +1,5 @@
-﻿using AventusSharp.Routes.Response;
+﻿using AventusSharp.Routes;
+using AventusSharp.Routes.Response;
 using Core.Data;
 using System.Reflection;
 using System.Text;
@@ -41,7 +42,7 @@ namespace Core.Routes
         }
 
 
-        public async Task send(HttpContext context)
+        public async Task send(HttpContext context, IRoute route)
         {
             string txt = $"<{tagName}></{tagName}>";
             byte[] bytes = Encoding.UTF8.GetBytes(txt);

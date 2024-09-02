@@ -1,24 +1,15 @@
-﻿using AventusSharp.Data;
-using AventusSharp.Routes;
-using AventusSharp.Routes.Attributes;
+﻿using AventusSharp.Routes.Attributes;
 using AventusSharp.Routes.Response;
 using AventusSharp.Tools;
-using AventusSharp.Tools.Attributes;
 using Core.Data;
 using Core.Logic;
-using Microsoft.AspNetCore.Identity;
 using Route = AventusSharp.Routes.Route;
 using Path = AventusSharp.Routes.Attributes.Path;
 using WebPush;
-using System.Reflection.Metadata.Ecma335;
 using Core.App;
-using System.Reflection;
-using Newtonsoft.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices;
 using EnvDTE;
-using Microsoft.VisualBasic;
 using Core.Tools;
 
 namespace Core.Routes

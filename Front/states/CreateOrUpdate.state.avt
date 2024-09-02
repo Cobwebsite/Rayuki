@@ -53,6 +53,7 @@ namespace State {
 
             let result: T | undefined;
             const validationResult = await this.validate();
+            
             if(validationResult === true) {
                 let ramResult: Aventus.ResultRamWithError<Aventus.RamItem<T>> | null;
                 if(this.item.Id == 0) {

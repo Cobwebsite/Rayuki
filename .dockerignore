@@ -10,6 +10,7 @@
 **/.env
 **/.git
 **/.gitignore
+**/.github
 **/.project
 **/.settings
 **/.toolstarget
@@ -31,3 +32,6 @@
 appsettings.json
 LICENSE
 README.md
+apps
+wwwroot/apps
+Views/apps

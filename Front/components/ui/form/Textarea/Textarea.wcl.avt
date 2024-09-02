@@ -18,7 +18,7 @@ namespace Components {
         public icon?: string;
 
         @Property((target: Textarea) => {
-            target.inputEl.value = target.value;
+            target.inputEl.value = target.value ?? "";
         })
         public override value: string = "";
 

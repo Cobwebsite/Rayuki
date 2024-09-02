@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Core.Data;
 using Core.Permissions.Descriptions;
 using Core.Migrations;
+using Core.Routes.Attributes;
 
 namespace Core.App
 {
@@ -56,7 +57,7 @@ namespace Core.App
                    username: config.Username,
                    password: config.Password
                 ));
-                
+
                 VoidWithError connectAction = storage.ConnectWithError();
                 if (!connectAction.Success)
                 {
@@ -67,17 +68,37 @@ namespace Core.App
                 Storage = storage;
                 RouterMiddleware.Configure((config) =>
                 {
-                    config.transformPattern = (urlPattern, @params, type) =>
+                    config.transformPattern = (urlPattern, @params, type, methodInfo) =>
                     {
                         urlPattern = RouterMiddleware.ReplaceParams(urlPattern, @params);
                         urlPattern = RouterMiddleware.ReplaceFunction(urlPattern, type);
                         if (type.Assembly != Assembly.GetExecutingAssembly())
                         {
-                            string appName = type.Assembly.GetName().Name ?? "";
-                            urlPattern = "/" + appName + urlPattern;
+                            if (methodInfo.GetCustomAttribute<NoPrefix>() == null)
+                            {
+                                string appName = type.Assembly.GetName().Name ?? "";
+                                urlPattern = "/" + appName + urlPattern;
+                            }
                         }
                         return RouterMiddleware.PrepareRegex(urlPattern);
                     };
+                    config.ViewDir = (HttpContext context, IRoute? from) =>
+                    {
+                        string basePath = Path.Combine(Environment.CurrentDirectory, "Views");
+                        if (from == null)
+                        {
+                            return basePath;
+                        }
+                        
+                        Type type = from.GetType();
+                        if (type.Assembly != Assembly.GetExecutingAssembly())
+                        {
+                            string appName = type.Assembly.GetName().Name ?? "";
+                            return Path.Combine(basePath, "apps", appName);
+                        }
+                        return basePath;
+                    };
+                    // config.PrintTrigger = true;
                     // config.PrintRoute = true;
                 });
                 List<string> crudTypeEvents = new List<string>() {
@@ -134,9 +155,11 @@ namespace Core.App
                 {
                     string appName = dir.Split(Path.DirectorySeparatorChar).Last();
                     string migrationPath = Path.Combine(dir, "migrations");
-                    if(Directory.Exists(migrationPath)) {
+                    if (Directory.Exists(migrationPath))
+                    {
                         string[] migrationFiles = Directory.GetFiles(migrationPath);
-                        foreach(string migrationFile in migrationFiles) {
+                        foreach (string migrationFile in migrationFiles)
+                        {
                             string fullMigrationPath = Path.Combine(migrationPath, migrationFile);
                             migrationLogic.RunGlobal(fullMigrationPath, fullMigrationPath.Replace(appsDir, ""));
                         }
@@ -419,6 +442,18 @@ namespace Core.App
             List<Assembly> result = apps.Values.ToList();
             result.Insert(0, Assembly.GetExecutingAssembly());
             return result;
+        }
+
+        public static bool LoginMiddleware(HttpContext context)
+        {
+            foreach (RayukiApp app in allApps)
+            {
+                if (app.LoginMiddleware(context.Request, context))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
