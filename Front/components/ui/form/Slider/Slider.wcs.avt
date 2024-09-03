@@ -1,11 +1,15 @@
 :host {
 	--_slider-background-color: var(--slider-background-color, var(--form-element-background, white));
+	--_slider-background-image: var(--slider-background-image, none);
+	--_slider-background-position: var(--slider-background-position, 0 0);
+	--_slider-background-size: var(--slider-background-size, auto);
 	--_slider-active-background-color: var(--slider-active-background-color, var(--secondary-color-active));
 	--_slider-dot-color: var(--slider-dot-color, var(--secondary-color));
 	--_slider-dot-size: var(--slider-dot-size, var(--form-element-font-size, 16px));
 	--_slider-popup-font-size: var(--slider-popup-font-size, var(--font-size-sm));
 	--_slider-font-size-label: var(--slider-font-size-label, var(--form-element-font-size-label));
 	--_slider-border-radius: var(--slider-border-radius, var(--form-element-border-radius));
+	--_slider-bar-height: var(--slider-bar-height, 5px);
 
 
 	--local-slider-dot-percent: 0%;
@@ -14,32 +18,35 @@
 :host {
 	align-items: center;
 	display: flex;
+	flex-direction: column;
 	height: var(--_slider-dot-size);
+	justify-content: center;
 	min-width: 100px;
 	width: 100%;
-	flex-direction: column;
-	justify-content: center;
 
 	label {
 		display: none;
+		flex-shrink: 0;
 		font-size: var(--_slider-font-size-label);
 		margin-bottom: 5px;
 		margin-left: 3px;
 		width: 100%;
-		flex-shrink: 0;
 	}
 
 	.bar {
 		align-items: center;
 		background-color: var(--_slider-background-color);
+		background-image: var(--_slider-background-image);
+		background-position: var(--_slider-background-position);
+		background-size: var(--_slider-background-size);
 		border-radius: var(--_slider-border-radius);
 		cursor: pointer;
 		display: flex;
 		flex-direction: row;
-		height: 5px;
+		flex-shrink: 0;
+		height: var(--_slider-bar-height);
 		position: relative;
 		width: 100%;
-		flex-shrink: 0;
 
 		.bar-fill {
 			background-color: var(--_slider-active-background-color);
@@ -65,6 +72,7 @@
 			transform: translateX(-50%);
 			transition: left var(--bezier-curve) 0.3s, box-shadow var(--bezier-curve) 0.3s, background-color var(--bezier-curve) 0.3s;
 			width: var(--_slider-dot-size);
+			z-index: 10;
 		}
 
 		.value {

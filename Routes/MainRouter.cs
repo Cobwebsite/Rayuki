@@ -16,6 +16,11 @@ namespace Core.Routes
 {
     public class MainRouter : Route
     {
+        // [Get, Path("/test2")]
+        // public IResponse Test(HttpContext context)
+        // {
+        //     return new View("test");
+        // }
         [Get, Path("/")]
         public IResponse Home(HttpContext context)
         {

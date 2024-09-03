@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/autoload/aventus.js"></script>
+    <script src="/autoload/core.js"></script>
+    <script src="/autoload/global_fct.js"></script>
+    <link rel="stylesheet" href="/autoload/default.css">
+    <script src="http://127.0.0.1:8080/?get_injected_code" async></script>
+    <style>
+        body {
+            overflow: visible;
+            display: inline-block;
+        }
+
+        .container {
+            width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            margin: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <rk-color-picker label="Couleur" value="#23f067"></rk-color-picker>
+        <rk-slider label="test" min="0" max="100"></rk-slider>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+:host {
+	/**
+		 * Hauteur du sélecteur de couleurs.
+		 */
+	--_color-picker-height: var(--color-picker-height, 30px);
+
+	/**
+		 * Couleur de fond du sélecteur de couleurs.
+		 * @type color
+		 */
+	--_color-picker-background-color: var(--color-picker-background-color, var(--form-element-background, white));
+
+	/**
+		 * Hauteur de l'icône du sélecteur de couleurs.
+		 */
+	--_color-picker-icon-height: var(--color-picker-icon-height, calc(var(--_color-picker-height) / 2));
+
+	/**
+		 * Taille du logo d'erreur.
+		 */
+	--_color-picker-error-logo-size: var(--color-picker-error-logo-size, calc(var(--_color-picker-height) / 2));
+
+	/**
+		 * Taille de la police du sélecteur de couleurs.
+		 */
+	--_color-picker-font-size: var(--color-picker-font-size, var(--form-element-font-size, 16px));
+
+	/**
+		 * Taille de la police du label du sélecteur de couleurs.
+		 */
+	--_color-picker-font-size-label: var(--color-picker-font-size-label, var(--form-element-font-size-label, calc(var(--_color-picker-font-size) * 0.95)));
+
+	/**
+		 * Bordure du sélecteur de couleurs.
+		 */
+	--_color-picker-color-picker-border: var(--color-picker-color-picker-border, var(--form-element-border, 1px solid var(--lighter-active)));
+
+	/**
+		 * Rayon de bordure du sélecteur de couleurs.
+		 */
+	--_color-picker-border-radius: var(--color-picker-border-radius, var(--form-element-border-radius, 0));
+}
+
+:host {
+	min-width: 100px;
+	width: 100%;
+
+	label {
+		display: none;
+		font-size: var(--_color-picker-font-size-label);
+		margin-bottom: 5px;
+		margin-left: 3px;
+	}
+
+	.input {
+		align-items: center;
+		background-color: var(--_color-picker-background-color);
+		border: var(--_color-picker-color-picker-border);
+		border-radius: var(--_color-picker-border-radius);
+		display: flex;
+		height: var(--_color-picker-height);
+		overflow: hidden;
+		padding: 0 10px;
+		width: 100%;
+
+		.preview {
+			aspect-ratio: 1/1;
+			background-image: repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa), repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);
+			background-position: 0 0, 2px 2px;
+			background-size: 4px 4px;
+			border-radius: var(--_color-picker-border-radius);
+			cursor: pointer;
+			display: none;
+			height: calc(100% - 10px);
+			position: relative;
+
+			&::after {
+				background-color: var(--_color-picker-selected-color);
+				border-radius: var(--_color-picker-border-radius);
+				content: "";
+				inset: 0;
+				position: absolute;
+			}
+		}
+
+		.preview-before {
+			margin-right: 10px;
+		}
+
+		.preview-after {
+			margin-left: 10px;
+		}
+
+		input {
+			background-color: transparent;
+			border: none;
+			color: var(--text-color);
+			display: block;
+			flex-grow: 1;
+			font-size: var(--_color-picker-font-size);
+			height: 100%;
+			margin: 0;
+			min-width: 0;
+			outline: none;
+			padding: 5px 0;
+			padding-right: 10px;
+		}
+
+		.error-logo {
+			align-items: center;
+			background-color: var(--red);
+			border-radius: var(--border-radius-round);
+			color: white;
+			display: none;
+			flex-shrink: 0;
+			font-size: calc(var(--_color-picker-error-logo-size) - 5px);
+			height: var(--_color-picker-error-logo-size);
+			justify-content: center;
+			width: var(--_color-picker-error-logo-size);
+		}
+	}
+
+	.errors {
+		color: var(--red);
+		display: none;
+		font-size: var(--font-size-sm);
+		line-height: 1.1;
+		margin: 10px;
+		margin-bottom: 0px;
+
+		div {
+			margin: 5px 0;
+		}
+	}
+
+	rk-color-picker-selector {
+		display: none;
+	}
+}
+
+:host([has_errors]) {
+	.input {
+		border: 1px solid var(--red);
+
+		.error-logo {
+			display: flex;
+		}
+	}
+
+	.errors {
+		display: block;
+	}
+}
+
+
+
+:host([label]:not([label=""])) {
+	label {
+		display: flex;
+	}
+}
+
+
+:host([preview="before"]) {
+	.input {
+		.preview-before {
+			display: block;
+		}
+	}
+}
+
+:host([preview="after"]) {
+	.input {
+		.preview-after {
+			display: block;
+		}
+	}
+}

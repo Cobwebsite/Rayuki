@@ -1,0 +1,19 @@
+<label for="input" @press="showPicker">{{ this.label }}</label>
+<div class="input" @press="showPicker" @element="containerEl">
+    <slot name="prepend"></slot>
+    <div class="preview preview-before"></div>
+    <input id="input" @element="inputEl" placeholder="{{ this.placeholder }}" @input="txtChange" @focus="removeErrors"
+        autocomplete="off" />
+    <slot name="append"></slot>
+    <div class="preview preview-after"></div>
+    <div class="error-logo">!</div>
+</div>
+<div class="errors">
+    for(let error of this.errors) { 
+        if(error) {
+            <div>{{ error }}</div>
+        }
+    }
+</div>
+<rk-color-picker-selector @element="pickerEl" :direction="this.direction" :opacity="this.opacity"
+    :show_text_value="this.show_text_value" :presets="this.presets"></rk-color-picker-selector>

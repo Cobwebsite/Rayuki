@@ -1,0 +1,311 @@
+import { Color } from "../../../../../libs/Color.lib.avt";
+
+namespace Components {
+    /**
+     * La classe `ColorPickerSelector` est un composant d'interface utilisateur pour sélectionner une couleur. 
+     * Elle offre des fonctionnalités avancées de gestion des couleurs, notamment la sélection par glisser-déposer, 
+     * le réglage de la teinte, de la saturation et de l'opacité, ainsi que l'affichage des valeurs de couleur sous forme de texte.
+     */
+    export class ColorPickerSelector extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        /**
+         * La couleur actuelle sélectionnée, représentée sous forme de chaîne de caractères (ex: "#35942a"). 
+         * Lorsque cette propriété est modifiée, la teinte (hue) et l'opacité (alpha) sont mises à jour, 
+         * et la position du sélecteur est ajustée en conséquence.
+         */
+        @Property((target: ColorPickerSelector) => {
+            if(!target.internalSet) {
+                target.canEmit = false;
+                target._color.setColorTxt(target.color);
+                target.hue = target._color.hsv.h;
+                target.alpha = target._color.a * 100;
+                target.updatePositionFromColor(target._color);
+                target.canEmit = true;
+            }
+        })
+        public color: string = "#ffffff00";
+
+        /**
+         * Définit la direction d'affichage du sélecteur de couleurs : `horizontal` ou `vertial`.
+         */
+        @Attribute()
+        public direction: 'horizontal' | 'vertial' = 'horizontal';
+
+        /**
+         * Indique si l'opacité de la couleur doit être affichée ou non.
+         */
+        @Attribute()
+        public opacity: boolean = true;
+
+        /**
+         * Indique si la valeur textuelle de la couleur sélectionnée doit être affichée.
+         */
+        @Attribute()
+        public show_text_value: boolean = true;
+        //#endregion
+
+
+        //#region variables
+        /**
+         * Conteneur pour le style du sélecteur de couleurs.
+         */
+        @ViewElement()
+        protected styleWrapper!: HTMLDivElement;
+        /**
+         * Élement représentant la zone où l'utilisateur peut sélectionner la couleur.
+         */
+        @ViewElement()
+        protected areaEl!: HTMLDivElement;
+        /**
+         * Élement représentant le point de sélection à l'intérieur de la zone de sélection.
+         */
+        @ViewElement()
+        protected areaDotEl!: HTMLDivElement;
+        /**
+         * Conteneur pour les couleurs prédéfinies (presets).
+         */
+        @ViewElement()
+        protected presetEl!: HTMLDivElement;
+
+        /**
+         * Texte représentant la couleur sélectionnée, mis à jour lors des changements de couleur.
+         */
+        @Watch((target: ColorPickerSelector, action: Aventus.WatchAction, path: string, value: any) => {
+            target.onColorTxtChange();
+        })
+        public colorTxt: string = "";
+
+        /**
+         * Représente la teinte (hue) de la couleur actuelle.
+         */
+        @Watch((target: ColorPickerSelector, action: Aventus.WatchAction, path: string, value: any) => {
+            target.changeHue();
+        })
+        protected hue: number = 0;
+
+        /**
+         * Représente le niveau d'opacité de la couleur actuelle, sur une échelle de 0 à 100.
+         */
+        @Watch((target: ColorPickerSelector, action: Aventus.WatchAction, path: string, value: any) => {
+            target.changeAlpha();
+        })
+        protected alpha: number = 100;
+
+        /**
+         * Liste des couleurs prédéfinies que l'utilisateur peut choisir.
+         */
+        @Watch((target: ColorPickerSelector, action: Aventus.WatchAction, path: string, value: any) => {
+            target.renderPresets();
+        })
+        public presets: string[] = [];
+
+        /**
+         * Instance de la classe `Color` pour gérer les opérations sur la couleur.
+         */
+        protected readonly _color: Color;
+        /**
+         * Indique si des événements de changement de couleur peuvent être émis.
+         */
+        protected canEmit: boolean = false;
+        /**
+         * Indique si le changement de couleur est interne (par exemple, via une mise à jour automatique).
+         */
+        protected internalSet: boolean = false;
+        /**
+         * Observer pour l'ajustement de la position du point de séléction
+         */
+        protected resizeObserver?: Aventus.ResizeObserver;
+        //#endregion
+
+
+        //#region constructor
+        public constructor() {
+            super();
+            this._color = new Color("#FFFFFF");
+            this._color.onColorChange.add(() => {
+                this.applyColorChange();
+            });
+        }
+        //#endregion
+
+        //#region events
+        /**
+         * Événement déclenché lors d'un changement de couleur. Les abonnés peuvent réagir au changement de la couleur sélectionnée.
+         */
+        public onChange: Aventus.Callback<(value: string | undefined) => void> = new Aventus.Callback();
+        //#endregion
+
+        //#region methods
+        /**
+         * Méthode appelée lorsque le texte de la couleur change. Si la nouvelle valeur est valide, 
+         * la couleur interne est mise à jour en conséquence.
+         */
+        protected onColorTxtChange() {
+            if(Color.isValid(this.colorTxt) && !this.internalSet) {
+                this._color.setColorTxt(this.colorTxt);
+                this.hue = this._color.hsv.h;
+                this.alpha = this._color.a * 100;
+                this.updatePositionFromColor(this._color);
+            }
+        }
+        /**
+         * Émet un événement de changement de couleur si cela est permis.
+         */
+        protected emitChange() {
+            if(this.canEmit) {
+                this.onChange.trigger([this.color]);
+            }
+        }
+        /**
+         * Modifie la teinte (hue) de la couleur actuelle et met à jour l'affichage.
+         */
+        protected changeHue() {
+            this._color.h = this.hue;
+            this.styleWrapper.style.setProperty("--_color-picker-selector-area-color", `hsl(${this.hue}, 100%, 50%)`);
+        }
+        /**
+         * Modifie l'opacité (alpha) de la couleur actuelle.
+         */
+        protected changeAlpha() {
+            this._color.a = this.alpha / 100;
+        }
+        /**
+         * Applique les changements de couleur en mettant à jour les styles CSS correspondants 
+         * et en synchronisant les valeurs de teinte, d'opacité, et de texte de couleur.
+         */
+        protected applyColorChange() {
+            this.styleWrapper.style.setProperty("--_color-picker-selector-color", this._color.hex);
+            this.styleWrapper.style.setProperty("--_color-picker-selector-area-color", `hsl(${this.hue}, 100%, 50%)`);
+            this.styleWrapper.style.setProperty("--_color-picker-selector-color-opacity", this._color.rgbString);
+
+            this.internalSet = true;
+            let hex = this._color.hex;
+            if(this.colorTxt != hex) {
+                this.colorTxt = this._color.hex;
+            }
+            if(this.color != hex) {
+                this.color = this._color.hex;
+                this.emitChange();
+            }
+            this.internalSet = false;
+        }
+         /**
+         * Ajoute un gestionnaire de pression (Drag and Drop) pour permettre à l'utilisateur de sélectionner la couleur en cliquant et glissant.
+         */
+        protected addPressManager() {
+            let clientRect: DOMRect;
+
+            const calc = (e: PointerEvent) => {
+                let positionX = e.clientX - clientRect.x;
+                let positionY = e.clientY - clientRect.y;
+                if(positionX < 0) positionX = 0;
+                else if(positionX > clientRect.width) positionX = clientRect.width;
+
+                if(positionY < 0) positionY = 0;
+                else if(positionY > clientRect.height) positionY = clientRect.height;
+
+                this.areaDotEl.style.left = positionX + 'px';
+                this.areaDotEl.style.top = positionY + 'px';
+
+                this.updateColorFromPosition(positionX, positionY);
+            };
+            new Aventus.DragAndDrop({
+                element: this.areaEl,
+                applyDrag: false,
+                offsetDrag: 0,
+                onPointerDown: (e) => {
+                    clientRect = this.areaEl.getBoundingClientRect();
+                    calc(e);
+                },
+                onMove: (e, position) => {
+                    calc(e);
+                }
+            });
+        }
+        /**
+         * Met à jour la couleur en fonction de la position du curseur dans la zone de sélection.
+         */
+        protected updateColorFromPosition(x: number, y: number): void {
+            const { width, height } = this.areaEl.getBoundingClientRect();
+            const hsv = {
+                h: this.hue,
+                s: x / width * 100,
+                v: 100 - (y / height * 100),
+            };
+
+            this._color.hsv = hsv;
+        }
+        /**
+         * Met à jour la position du sélecteur (point) en fonction de la couleur actuelle.
+         */
+        protected updatePositionFromColor(color: Color): void {
+            const { width, height } = this.areaEl.getBoundingClientRect();
+            const { h, s, v } = color.hsv;
+
+            const x = width * s / 100;
+            const y = (100 - v) * height / 100;
+
+            this.areaDotEl.style.left = x + 'px';
+            this.areaDotEl.style.top = y + 'px';
+        }
+        /**
+         * Rendu des couleurs prédéfinies dans la zone prévue à cet effet.
+         */
+        protected renderPresets() {
+            this.presetEl.innerHTML = '';
+            const createPreset = (color: string) => {
+                const el = document.createElement("div");
+                el.classList.add("preset");
+                el.style.backgroundColor = color;
+                el.addEventListener("click", () => {
+                    this._color.setColorTxt(color);
+                    this.hue = this._color.hsv.h;
+                    this.alpha = this._color.a * 100;
+                    this.updatePositionFromColor(this._color);
+                });
+                this.presetEl.appendChild(el);
+            };
+            for(const preset of this.presets) {
+                createPreset(preset);
+            }
+        }
+        /**
+         * Ajoute un observateur de redimensionnement pour ajuster la position du sélecteur de couleur lorsque la zone de sélection change de taille.
+         */
+        protected addObserver() {
+            this.resizeObserver = new Aventus.ResizeObserver(() => {
+                this.updatePositionFromColor(this._color);
+            });
+            this.resizeObserver.observe(this.areaEl);
+        }
+        /**
+         * @inheritdoc
+         */
+        protected override postCreation(): void {
+            this.hue = this._color.hsv.h;
+            this.alpha = this._color.a * 100;
+            this.applyColorChange();
+            this.addPressManager();
+            this.renderPresets();
+            this.updatePositionFromColor(this._color);
+            this.addObserver();
+        }
+        /**
+         * @inheritdoc
+         */
+        protected override postDestruction(): void {
+            if(this.resizeObserver) {
+                this.resizeObserver.disconnect();
+                this.resizeObserver = undefined;
+            }
+        }
+        //#endregion
+
+    }
+}

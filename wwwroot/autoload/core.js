@@ -42,6 +42,159 @@ _.Tools = {};
 Websocket.Events.ApplicationTestEvent = {};
 _.Websocket.Events.ApplicationTestEvent = {};
 let _n;
+Lib.Colors=class Colors {
+    static get BLACK() { return new Lib.Color("#000000"); }
+    static get SILVER() { return new Lib.Color("#c0c0c0"); }
+    static get GRAY() { return new Lib.Color("#808080"); }
+    static get WHITE() { return new Lib.Color("#ffffff"); }
+    static get MAROON() { return new Lib.Color("#800000"); }
+    static get RED() { return new Lib.Color("#ff0000"); }
+    static get PURPLE() { return new Lib.Color("#800080"); }
+    static get GREEN() { return new Lib.Color("#008000"); }
+    static get LIME() { return new Lib.Color("#00ff00"); }
+    static get OLIVE() { return new Lib.Color("#808000"); }
+    static get YELLOW() { return new Lib.Color("#ffff00"); }
+    static get NAVY() { return new Lib.Color("#000080"); }
+    static get BLUE() { return new Lib.Color("#0000ff"); }
+    static get TEAL() { return new Lib.Color("#008080"); }
+    static get AQUA() { return new Lib.Color("#00ffff"); }
+    static get ORANGE() { return new Lib.Color("#ffa500"); }
+    static get ALICEBLUE() { return new Lib.Color("#f0f8ff"); }
+    static get ANTIQUEWHITE() { return new Lib.Color("#faebd7"); }
+    static get AQUAMARINE() { return new Lib.Color("#7fffd4"); }
+    static get AZURE() { return new Lib.Color("#f0ffff"); }
+    static get BEIGE() { return new Lib.Color("#f5f5dc"); }
+    static get BISQUE() { return new Lib.Color("#ffe4c4"); }
+    static get BLANCHEDALMOND() { return new Lib.Color("#ffebcd"); }
+    static get BLUEVIOLET() { return new Lib.Color("#8a2be2"); }
+    static get BROWN() { return new Lib.Color("#a52a2a"); }
+    static get BURLYWOOD() { return new Lib.Color("#deb887"); }
+    static get CADETBLUE() { return new Lib.Color("#5f9ea0"); }
+    static get CHARTREUSE() { return new Lib.Color("#7fff00"); }
+    static get CHOCOLATE() { return new Lib.Color("#d2691e"); }
+    static get CORAL() { return new Lib.Color("#ff7f50"); }
+    static get CORNFLOWERBLUE() { return new Lib.Color("#6495ed"); }
+    static get CORNSILK() { return new Lib.Color("#fff8dc"); }
+    static get CRIMSON() { return new Lib.Color("#dc143c"); }
+    static get CYAN() { return new Lib.Color("#00ffff"); }
+    static get DARKBLUE() { return new Lib.Color("#00008b"); }
+    static get DARKCYAN() { return new Lib.Color("#008b8b"); }
+    static get DARKGOLDENROD() { return new Lib.Color("#b8860b"); }
+    static get DARKGRAY() { return new Lib.Color("#a9a9a9"); }
+    static get DARKGREEN() { return new Lib.Color("#006400"); }
+    static get DARKGREY() { return new Lib.Color("#a9a9a9"); }
+    static get DARKKHAKI() { return new Lib.Color("#bdb76b"); }
+    static get DARKMAGENTA() { return new Lib.Color("#8b008b"); }
+    static get DARKOLIVEGREEN() { return new Lib.Color("#556b2f"); }
+    static get DARKORANGE() { return new Lib.Color("#ff8c00"); }
+    static get DARKORCHID() { return new Lib.Color("#9932cc"); }
+    static get DARKRED() { return new Lib.Color("#8b0000"); }
+    static get DARKSALMON() { return new Lib.Color("#e9967a"); }
+    static get DARKSEAGREEN() { return new Lib.Color("#8fbc8f"); }
+    static get DARKSLATEBLUE() { return new Lib.Color("#483d8b"); }
+    static get DARKSLATEGRAY() { return new Lib.Color("#2f4f4f"); }
+    static get DARKSLATEGREY() { return new Lib.Color("#2f4f4f"); }
+    static get DARKTURQUOISE() { return new Lib.Color("#00ced1"); }
+    static get DARKVIOLET() { return new Lib.Color("#9400d3"); }
+    static get DEEPPINK() { return new Lib.Color("#ff1493"); }
+    static get DEEPSKYBLUE() { return new Lib.Color("#00bfff"); }
+    static get DIMGRAY() { return new Lib.Color("#696969"); }
+    static get DIMGREY() { return new Lib.Color("#696969"); }
+    static get DODGERBLUE() { return new Lib.Color("#1e90ff"); }
+    static get FIREBRICK() { return new Lib.Color("#b22222"); }
+    static get FLORALWHITE() { return new Lib.Color("#fffaf0"); }
+    static get FORESTGREEN() { return new Lib.Color("#228b22"); }
+    static get GAINSBORO() { return new Lib.Color("#dcdcdc"); }
+    static get GHOSTWHITE() { return new Lib.Color("#f8f8ff"); }
+    static get GOLD() { return new Lib.Color("#ffd700"); }
+    static get GOLDENROD() { return new Lib.Color("#daa520"); }
+    static get GREENYELLOW() { return new Lib.Color("#adff2f"); }
+    static get GREY() { return new Lib.Color("#808080"); }
+    static get HONEYDEW() { return new Lib.Color("#f0fff0"); }
+    static get HOTPINK() { return new Lib.Color("#ff69b4"); }
+    static get INDIANRED() { return new Lib.Color("#cd5c5c"); }
+    static get INDIGO() { return new Lib.Color("#4b0082"); }
+    static get IVORY() { return new Lib.Color("#fffff0"); }
+    static get KHAKI() { return new Lib.Color("#f0e68c"); }
+    static get LAVENDER() { return new Lib.Color("#e6e6fa"); }
+    static get LAVENDERBLUSH() { return new Lib.Color("#fff0f5"); }
+    static get LAWNGREEN() { return new Lib.Color("#7cfc00"); }
+    static get LEMONCHIFFON() { return new Lib.Color("#fffacd"); }
+    static get LIGHTBLUE() { return new Lib.Color("#add8e6"); }
+    static get LIGHTCORAL() { return new Lib.Color("#f08080"); }
+    static get LIGHTCYAN() { return new Lib.Color("#e0ffff"); }
+    static get LIGHTGOLDENRODYELLOW() { return new Lib.Color("#fafad2"); }
+    static get LIGHTGRAY() { return new Lib.Color("#d3d3d3"); }
+    static get LIGHTGREEN() { return new Lib.Color("#90ee90"); }
+    static get LIGHTGREY() { return new Lib.Color("#d3d3d3"); }
+    static get LIGHTPINK() { return new Lib.Color("#ffb6c1"); }
+    static get LIGHTSALMON() { return new Lib.Color("#ffa07a"); }
+    static get LIGHTSEAGREEN() { return new Lib.Color("#20b2aa"); }
+    static get LIGHTSKYBLUE() { return new Lib.Color("#87cefa"); }
+    static get LIGHTSLATEGRAY() { return new Lib.Color("#778899"); }
+    static get LIGHTSLATEGREY() { return new Lib.Color("#778899"); }
+    static get LIGHTSTEELBLUE() { return new Lib.Color("#b0c4de"); }
+    static get LIGHTYELLOW() { return new Lib.Color("#ffffe0"); }
+    static get LIMEGREEN() { return new Lib.Color("#32cd32"); }
+    static get LINEN() { return new Lib.Color("#faf0e6"); }
+    static get MAGENTA() { return new Lib.Color("#ff00ff"); }
+    static get FUCHSIA() { return new Lib.Color("#ff00ff"); }
+    static get MEDIUMAQUAMARINE() { return new Lib.Color("#66cdaa"); }
+    static get MEDIUMBLUE() { return new Lib.Color("#0000cd"); }
+    static get MEDIUMORCHID() { return new Lib.Color("#ba55d3"); }
+    static get MEDIUMPURPLE() { return new Lib.Color("#9370db"); }
+    static get MEDIUMSEAGREEN() { return new Lib.Color("#3cb371"); }
+    static get MEDIUMSLATEBLUE() { return new Lib.Color("#7b68ee"); }
+    static get MEDIUMSPRINGGREEN() { return new Lib.Color("#00fa9a"); }
+    static get MEDIUMTURQUOISE() { return new Lib.Color("#48d1cc"); }
+    static get MEDIUMVIOLETRED() { return new Lib.Color("#c71585"); }
+    static get MIDNIGHTBLUE() { return new Lib.Color("#191970"); }
+    static get MINTCREAM() { return new Lib.Color("#f5fffa"); }
+    static get MISTYROSE() { return new Lib.Color("#ffe4e1"); }
+    static get MOCCASIN() { return new Lib.Color("#ffe4b5"); }
+    static get NAVAJOWHITE() { return new Lib.Color("#ffdead"); }
+    static get OLDLACE() { return new Lib.Color("#fdf5e6"); }
+    static get OLIVEDRAB() { return new Lib.Color("#6b8e23"); }
+    static get ORANGERED() { return new Lib.Color("#ff4500"); }
+    static get ORCHID() { return new Lib.Color("#da70d6"); }
+    static get PALEGOLDENROD() { return new Lib.Color("#eee8aa"); }
+    static get PALEGREEN() { return new Lib.Color("#98fb98"); }
+    static get PALETURQUOISE() { return new Lib.Color("#afeeee"); }
+    static get PALEVIOLETRED() { return new Lib.Color("#db7093"); }
+    static get PAPAYAWHIP() { return new Lib.Color("#ffefd5"); }
+    static get PEACHPUFF() { return new Lib.Color("#ffdab9"); }
+    static get PERU() { return new Lib.Color("#cd853f"); }
+    static get PINK() { return new Lib.Color("#ffc0cb"); }
+    static get PLUM() { return new Lib.Color("#dda0dd"); }
+    static get POWDERBLUE() { return new Lib.Color("#b0e0e6"); }
+    static get ROSYBROWN() { return new Lib.Color("#bc8f8f"); }
+    static get ROYALBLUE() { return new Lib.Color("#4169e1"); }
+    static get SADDLEBROWN() { return new Lib.Color("#8b4513"); }
+    static get SALMON() { return new Lib.Color("#fa8072"); }
+    static get SANDYBROWN() { return new Lib.Color("#f4a460"); }
+    static get SEAGREEN() { return new Lib.Color("#2e8b57"); }
+    static get SEASHELL() { return new Lib.Color("#fff5ee"); }
+    static get SIENNA() { return new Lib.Color("#a0522d"); }
+    static get SKYBLUE() { return new Lib.Color("#87ceeb"); }
+    static get SLATEBLUE() { return new Lib.Color("#6a5acd"); }
+    static get SLATEGRAY() { return new Lib.Color("#708090"); }
+    static get SLATEGREY() { return new Lib.Color("#708090"); }
+    static get SNOW() { return new Lib.Color("#fffafa"); }
+    static get SPRINGGREEN() { return new Lib.Color("#00ff7f"); }
+    static get STEELBLUE() { return new Lib.Color("#4682b4"); }
+    static get TAN() { return new Lib.Color("#d2b48c"); }
+    static get THISTLE() { return new Lib.Color("#d8bfd8"); }
+    static get TOMATO() { return new Lib.Color("#ff6347"); }
+    static get TURQUOISE() { return new Lib.Color("#40e0d0"); }
+    static get VIOLET() { return new Lib.Color("#ee82ee"); }
+    static get WHEAT() { return new Lib.Color("#f5deb3"); }
+    static get WHITESMOKE() { return new Lib.Color("#f5f5f5"); }
+    static get YELLOWGREEN() { return new Lib.Color("#9acd32"); }
+    static get REBECCAPURPLE() { return new Lib.Color("#663399"); }
+}
+Lib.Colors.Namespace=`Core.Lib`;
+_.Lib.Colors=Lib.Colors;
+
 Lib.Validator=class Validator {
     static email(txt) {
         if (!txt)
@@ -218,8 +371,7 @@ _.App.AppErrorCode=App.AppErrorCode;
 Components.UserProfilPicture = class UserProfilPicture extends Aventus.WebComponent {
     static get observedAttributes() {return ["uri"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'uri'() { return this.getStringProp('uri') }
-    set 'uri'(val) { this.setStringAttr('uri', val) }
-    static __style = `:host{border-radius:var(--border-radius-round);flex-shrink:0;height:100px;overflow:hidden;width:100px}:host rk-img{height:100%;width:100%}:host .bg-default{align-items:center;background-color:var(--secondary-color);border-radius:var(--border-radius-round);box-shadow:var(--elevation-4);color:var(--text-color-reverse);display:flex;flex-shrink:0;height:100%;justify-content:center;width:100%}:host .bg-default svg{fill:var(--text-color-reverse);height:70%;width:70%}`;
+    set 'uri'(val) { this.setStringAttr('uri', val) }    static __style = `:host{border-radius:var(--border-radius-round);flex-shrink:0;height:100px;overflow:hidden;width:100px}:host rk-img{height:100%;width:100%}:host .bg-default{align-items:center;background-color:var(--secondary-color);border-radius:var(--border-radius-round);box-shadow:var(--elevation-4);color:var(--text-color-reverse);display:flex;flex-shrink:0;height:100%;justify-content:center;width:100%}:host .bg-default svg{fill:var(--text-color-reverse);height:70%;width:70%}`;
     __getStatic() {
         return UserProfilPicture;
     }
@@ -233,26 +385,14 @@ Components.UserProfilPicture = class UserProfilPicture extends Aventus.WebCompon
         blocks: { 'default':`<template _id="userprofilpicture_0"></template>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-const templ0 = new Aventus.Template(this);
-templ0.setTemplate(`
-    <rk-img _id="userprofilpicture_1"></rk-img>
-`);
-templ0.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();const templ0 = new Aventus.Template(this);templ0.setTemplate(`    <rk-img _id="userprofilpicture_1"></rk-img>`);templ0.setActions({
   "content": {
     "userprofilpicture_1°src": {
       "fct": (c) => `${c.print(c.comp.__4c9a0566bd04f8ca158657ccaa880d94method1())}`,
       "once": true
     }
   }
-});
-const templ1 = new Aventus.Template(this);
-templ1.setTemplate(`
-    <div class="bg-default">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"></path></svg>
-    </div>
-`);
-this.__getStatic().__template.addIf({
+});const templ1 = new Aventus.Template(this);templ1.setTemplate(`    <div class="bg-default">        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"></path></svg>    </div>`);this.__getStatic().__template.addIf({
                     anchorId: 'userprofilpicture_0',
                     parts: [{once: true,
                     condition: (c) => c.comp.__4c9a0566bd04f8ca158657ccaa880d94method0(),
@@ -261,15 +401,12 @@ this.__getStatic().__template.addIf({
                     condition: (c) => true,
                     template: templ1
                 }]
-            });
- }
+            }); }
     getClassName() {
         return "UserProfilPicture";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('uri')){ this['uri'] = undefined; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('uri');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('uri')){ this['uri'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('uri'); }
     __4c9a0566bd04f8ca158657ccaa880d94method1() {
         return this.uri;
     }
@@ -284,8 +421,7 @@ if(!window.customElements.get('rk-user-profil-picture')){window.customElements.d
 
 Components.Tab = class Tab extends Aventus.WebComponent {
     get 'label'() { return this.getStringAttr('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }
-    get headerContent() {
+    set 'label'(val) { this.setStringAttr('label', val) }    get headerContent() {
         let elements = this.getElementsInSlot("header");
         return elements;
     }
@@ -301,19 +437,14 @@ Components.Tab = class Tab extends Aventus.WebComponent {
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>`,'header':`<slot name="header"></slot>` }, 
-        blocks: { 'default':`<slot></slot><div class="slot-header">
-    <slot name="header"></slot>
-</div>` }
+        blocks: { 'default':`<slot></slot><div class="slot-header">    <slot name="header"></slot></div>` }
     });
 }
     getClassName() {
         return "Tab";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = ""; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('headerContent');
-this.__upgradeProperty('label');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = ""; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('headerContent');this.__upgradeProperty('label'); }
 }
 Components.Tab.Namespace=`Core.Components`;
 Components.Tab.Tag=`rk-tab`;
@@ -372,44 +503,25 @@ if(!window.customElements.get('rk-row')){window.customElements.define('rk-row', 
 
 Components.Col = class Col extends Aventus.WebComponent {
     get 'size'() { return this.getNumberAttr('size') }
-    set 'size'(val) { this.setNumberAttr('size', val) }
-get 'size_xs'() { return this.getNumberAttr('size_xs') }
-    set 'size_xs'(val) { this.setNumberAttr('size_xs', val) }
-get 'size_sm'() { return this.getNumberAttr('size_sm') }
-    set 'size_sm'(val) { this.setNumberAttr('size_sm', val) }
-get 'size_md'() { return this.getNumberAttr('size_md') }
-    set 'size_md'(val) { this.setNumberAttr('size_md', val) }
-get 'size_lg'() { return this.getNumberAttr('size_lg') }
-    set 'size_lg'(val) { this.setNumberAttr('size_lg', val) }
-get 'size_xl'() { return this.getNumberAttr('size_xl') }
-    set 'size_xl'(val) { this.setNumberAttr('size_xl', val) }
-get 'offset'() { return this.getNumberAttr('offset') }
-    set 'offset'(val) { this.setNumberAttr('offset', val) }
-get 'offset_xs'() { return this.getNumberAttr('offset_xs') }
-    set 'offset_xs'(val) { this.setNumberAttr('offset_xs', val) }
-get 'offset_sm'() { return this.getNumberAttr('offset_sm') }
-    set 'offset_sm'(val) { this.setNumberAttr('offset_sm', val) }
-get 'offset_md'() { return this.getNumberAttr('offset_md') }
-    set 'offset_md'(val) { this.setNumberAttr('offset_md', val) }
-get 'offset_lg'() { return this.getNumberAttr('offset_lg') }
-    set 'offset_lg'(val) { this.setNumberAttr('offset_lg', val) }
-get 'offset_xl'() { return this.getNumberAttr('offset_xl') }
-    set 'offset_xl'(val) { this.setNumberAttr('offset_xl', val) }
-get 'offset_right'() { return this.getNumberAttr('offset_right') }
-    set 'offset_right'(val) { this.setNumberAttr('offset_right', val) }
-get 'offset_right_xs'() { return this.getNumberAttr('offset_right_xs') }
-    set 'offset_right_xs'(val) { this.setNumberAttr('offset_right_xs', val) }
-get 'offset_right_sm'() { return this.getNumberAttr('offset_right_sm') }
-    set 'offset_right_sm'(val) { this.setNumberAttr('offset_right_sm', val) }
-get 'offset_right_md'() { return this.getNumberAttr('offset_right_md') }
-    set 'offset_right_md'(val) { this.setNumberAttr('offset_right_md', val) }
-get 'offset_right_lg'() { return this.getNumberAttr('offset_right_lg') }
-    set 'offset_right_lg'(val) { this.setNumberAttr('offset_right_lg', val) }
-get 'offset_right_xl'() { return this.getNumberAttr('offset_right_xl') }
-    set 'offset_right_xl'(val) { this.setNumberAttr('offset_right_xl', val) }
-get 'center'() { return this.getBoolAttr('center') }
-    set 'center'(val) { this.setBoolAttr('center', val) }
-    static __style = `:host{--internal-col-padding:var(--col-padding, 8px)}:host{padding:var(--internal-col-padding)}:host([center]){justify-content:center}:host([size="0"]){display:flex;width:0%}:host([offset="0"]){margin-left:0%}:host([offset_right="0"]){margin-right:0%}:host([size="1"]){display:flex;width:8.3333333333%}:host([offset="1"]){margin-left:8.3333333333%}:host([offset_right="1"]){margin-right:8.3333333333%}:host([size="2"]){display:flex;width:16.6666666667%}:host([offset="2"]){margin-left:16.6666666667%}:host([offset_right="2"]){margin-right:16.6666666667%}:host([size="3"]){display:flex;width:25%}:host([offset="3"]){margin-left:25%}:host([offset_right="3"]){margin-right:25%}:host([size="4"]){display:flex;width:33.3333333333%}:host([offset="4"]){margin-left:33.3333333333%}:host([offset_right="4"]){margin-right:33.3333333333%}:host([size="5"]){display:flex;width:41.6666666667%}:host([offset="5"]){margin-left:41.6666666667%}:host([offset_right="5"]){margin-right:41.6666666667%}:host([size="6"]){display:flex;width:50%}:host([offset="6"]){margin-left:50%}:host([offset_right="6"]){margin-right:50%}:host([size="7"]){display:flex;width:58.3333333333%}:host([offset="7"]){margin-left:58.3333333333%}:host([offset_right="7"]){margin-right:58.3333333333%}:host([size="8"]){display:flex;width:66.6666666667%}:host([offset="8"]){margin-left:66.6666666667%}:host([offset_right="8"]){margin-right:66.6666666667%}:host([size="9"]){display:flex;width:75%}:host([offset="9"]){margin-left:75%}:host([offset_right="9"]){margin-right:75%}:host([size="10"]){display:flex;width:83.3333333333%}:host([offset="10"]){margin-left:83.3333333333%}:host([offset_right="10"]){margin-right:83.3333333333%}:host([size="11"]){display:flex;width:91.6666666667%}:host([offset="11"]){margin-left:91.6666666667%}:host([offset_right="11"]){margin-right:91.6666666667%}:host([size="12"]){display:flex;width:100%}:host([offset="12"]){margin-left:100%}:host([offset_right="12"]){margin-right:100%}@container application (min-width: 300px){:host([size_xs="0"]){display:flex;width:0%}:host([offset_xs="0"]){margin-left:0%}:host([offset_right_xs="0"]){margin-right:0%}:host([size_xs="0"]){display:none}:host([size_xs="1"]){display:flex;width:8.3333333333%}:host([offset_xs="1"]){margin-left:8.3333333333%}:host([offset_right_xs="1"]){margin-right:8.3333333333%}:host([size_xs="2"]){display:flex;width:16.6666666667%}:host([offset_xs="2"]){margin-left:16.6666666667%}:host([offset_right_xs="2"]){margin-right:16.6666666667%}:host([size_xs="3"]){display:flex;width:25%}:host([offset_xs="3"]){margin-left:25%}:host([offset_right_xs="3"]){margin-right:25%}:host([size_xs="4"]){display:flex;width:33.3333333333%}:host([offset_xs="4"]){margin-left:33.3333333333%}:host([offset_right_xs="4"]){margin-right:33.3333333333%}:host([size_xs="5"]){display:flex;width:41.6666666667%}:host([offset_xs="5"]){margin-left:41.6666666667%}:host([offset_right_xs="5"]){margin-right:41.6666666667%}:host([size_xs="6"]){display:flex;width:50%}:host([offset_xs="6"]){margin-left:50%}:host([offset_right_xs="6"]){margin-right:50%}:host([size_xs="7"]){display:flex;width:58.3333333333%}:host([offset_xs="7"]){margin-left:58.3333333333%}:host([offset_right_xs="7"]){margin-right:58.3333333333%}:host([size_xs="8"]){display:flex;width:66.6666666667%}:host([offset_xs="8"]){margin-left:66.6666666667%}:host([offset_right_xs="8"]){margin-right:66.6666666667%}:host([size_xs="9"]){display:flex;width:75%}:host([offset_xs="9"]){margin-left:75%}:host([offset_right_xs="9"]){margin-right:75%}:host([size_xs="10"]){display:flex;width:83.3333333333%}:host([offset_xs="10"]){margin-left:83.3333333333%}:host([offset_right_xs="10"]){margin-right:83.3333333333%}:host([size_xs="11"]){display:flex;width:91.6666666667%}:host([offset_xs="11"]){margin-left:91.6666666667%}:host([offset_right_xs="11"]){margin-right:91.6666666667%}:host([size_xs="12"]){display:flex;width:100%}:host([offset_xs="12"]){margin-left:100%}:host([offset_right_xs="12"]){margin-right:100%}}@container application (min-width: 540px){:host([size_sm="0"]){display:flex;width:0%}:host([offset_sm="0"]){margin-left:0%}:host([offset_right_sm="0"]){margin-right:0%}:host([size_sm="0"]){display:none}:host([size_sm="1"]){display:flex;width:8.3333333333%}:host([offset_sm="1"]){margin-left:8.3333333333%}:host([offset_right_sm="1"]){margin-right:8.3333333333%}:host([size_sm="2"]){display:flex;width:16.6666666667%}:host([offset_sm="2"]){margin-left:16.6666666667%}:host([offset_right_sm="2"]){margin-right:16.6666666667%}:host([size_sm="3"]){display:flex;width:25%}:host([offset_sm="3"]){margin-left:25%}:host([offset_right_sm="3"]){margin-right:25%}:host([size_sm="4"]){display:flex;width:33.3333333333%}:host([offset_sm="4"]){margin-left:33.3333333333%}:host([offset_right_sm="4"]){margin-right:33.3333333333%}:host([size_sm="5"]){display:flex;width:41.6666666667%}:host([offset_sm="5"]){margin-left:41.6666666667%}:host([offset_right_sm="5"]){margin-right:41.6666666667%}:host([size_sm="6"]){display:flex;width:50%}:host([offset_sm="6"]){margin-left:50%}:host([offset_right_sm="6"]){margin-right:50%}:host([size_sm="7"]){display:flex;width:58.3333333333%}:host([offset_sm="7"]){margin-left:58.3333333333%}:host([offset_right_sm="7"]){margin-right:58.3333333333%}:host([size_sm="8"]){display:flex;width:66.6666666667%}:host([offset_sm="8"]){margin-left:66.6666666667%}:host([offset_right_sm="8"]){margin-right:66.6666666667%}:host([size_sm="9"]){display:flex;width:75%}:host([offset_sm="9"]){margin-left:75%}:host([offset_right_sm="9"]){margin-right:75%}:host([size_sm="10"]){display:flex;width:83.3333333333%}:host([offset_sm="10"]){margin-left:83.3333333333%}:host([offset_right_sm="10"]){margin-right:83.3333333333%}:host([size_sm="11"]){display:flex;width:91.6666666667%}:host([offset_sm="11"]){margin-left:91.6666666667%}:host([offset_right_sm="11"]){margin-right:91.6666666667%}:host([size_sm="12"]){display:flex;width:100%}:host([offset_sm="12"]){margin-left:100%}:host([offset_right_sm="12"]){margin-right:100%}}@container application (min-width: 720px){:host([size_md="0"]){display:flex;width:0%}:host([offset_md="0"]){margin-left:0%}:host([offset_right_md="0"]){margin-right:0%}:host([size_md="0"]){display:none}:host([size_md="1"]){display:flex;width:8.3333333333%}:host([offset_md="1"]){margin-left:8.3333333333%}:host([offset_right_md="1"]){margin-right:8.3333333333%}:host([size_md="2"]){display:flex;width:16.6666666667%}:host([offset_md="2"]){margin-left:16.6666666667%}:host([offset_right_md="2"]){margin-right:16.6666666667%}:host([size_md="3"]){display:flex;width:25%}:host([offset_md="3"]){margin-left:25%}:host([offset_right_md="3"]){margin-right:25%}:host([size_md="4"]){display:flex;width:33.3333333333%}:host([offset_md="4"]){margin-left:33.3333333333%}:host([offset_right_md="4"]){margin-right:33.3333333333%}:host([size_md="5"]){display:flex;width:41.6666666667%}:host([offset_md="5"]){margin-left:41.6666666667%}:host([offset_right_md="5"]){margin-right:41.6666666667%}:host([size_md="6"]){display:flex;width:50%}:host([offset_md="6"]){margin-left:50%}:host([offset_right_md="6"]){margin-right:50%}:host([size_md="7"]){display:flex;width:58.3333333333%}:host([offset_md="7"]){margin-left:58.3333333333%}:host([offset_right_md="7"]){margin-right:58.3333333333%}:host([size_md="8"]){display:flex;width:66.6666666667%}:host([offset_md="8"]){margin-left:66.6666666667%}:host([offset_right_md="8"]){margin-right:66.6666666667%}:host([size_md="9"]){display:flex;width:75%}:host([offset_md="9"]){margin-left:75%}:host([offset_right_md="9"]){margin-right:75%}:host([size_md="10"]){display:flex;width:83.3333333333%}:host([offset_md="10"]){margin-left:83.3333333333%}:host([offset_right_md="10"]){margin-right:83.3333333333%}:host([size_md="11"]){display:flex;width:91.6666666667%}:host([offset_md="11"]){margin-left:91.6666666667%}:host([offset_right_md="11"]){margin-right:91.6666666667%}:host([size_md="12"]){display:flex;width:100%}:host([offset_md="12"]){margin-left:100%}:host([offset_right_md="12"]){margin-right:100%}}@container application (min-width: 960px){:host([size_lg="0"]){display:flex;width:0%}:host([offset_lg="0"]){margin-left:0%}:host([offset_right_lg="0"]){margin-right:0%}:host([size_lg="0"]){display:none}:host([size_lg="1"]){display:flex;width:8.3333333333%}:host([offset_lg="1"]){margin-left:8.3333333333%}:host([offset_right_lg="1"]){margin-right:8.3333333333%}:host([size_lg="2"]){display:flex;width:16.6666666667%}:host([offset_lg="2"]){margin-left:16.6666666667%}:host([offset_right_lg="2"]){margin-right:16.6666666667%}:host([size_lg="3"]){display:flex;width:25%}:host([offset_lg="3"]){margin-left:25%}:host([offset_right_lg="3"]){margin-right:25%}:host([size_lg="4"]){display:flex;width:33.3333333333%}:host([offset_lg="4"]){margin-left:33.3333333333%}:host([offset_right_lg="4"]){margin-right:33.3333333333%}:host([size_lg="5"]){display:flex;width:41.6666666667%}:host([offset_lg="5"]){margin-left:41.6666666667%}:host([offset_right_lg="5"]){margin-right:41.6666666667%}:host([size_lg="6"]){display:flex;width:50%}:host([offset_lg="6"]){margin-left:50%}:host([offset_right_lg="6"]){margin-right:50%}:host([size_lg="7"]){display:flex;width:58.3333333333%}:host([offset_lg="7"]){margin-left:58.3333333333%}:host([offset_right_lg="7"]){margin-right:58.3333333333%}:host([size_lg="8"]){display:flex;width:66.6666666667%}:host([offset_lg="8"]){margin-left:66.6666666667%}:host([offset_right_lg="8"]){margin-right:66.6666666667%}:host([size_lg="9"]){display:flex;width:75%}:host([offset_lg="9"]){margin-left:75%}:host([offset_right_lg="9"]){margin-right:75%}:host([size_lg="10"]){display:flex;width:83.3333333333%}:host([offset_lg="10"]){margin-left:83.3333333333%}:host([offset_right_lg="10"]){margin-right:83.3333333333%}:host([size_lg="11"]){display:flex;width:91.6666666667%}:host([offset_lg="11"]){margin-left:91.6666666667%}:host([offset_right_lg="11"]){margin-right:91.6666666667%}:host([size_lg="12"]){display:flex;width:100%}:host([offset_lg="12"]){margin-left:100%}:host([offset_right_lg="12"]){margin-right:100%}}@container application (min-width: 1140px){:host([size_xl="0"]){display:flex;width:0%}:host([offset_xl="0"]){margin-left:0%}:host([offset_right_xl="0"]){margin-right:0%}:host([size_xl="0"]){display:none}:host([size_xl="1"]){display:flex;width:8.3333333333%}:host([offset_xl="1"]){margin-left:8.3333333333%}:host([offset_right_xl="1"]){margin-right:8.3333333333%}:host([size_xl="2"]){display:flex;width:16.6666666667%}:host([offset_xl="2"]){margin-left:16.6666666667%}:host([offset_right_xl="2"]){margin-right:16.6666666667%}:host([size_xl="3"]){display:flex;width:25%}:host([offset_xl="3"]){margin-left:25%}:host([offset_right_xl="3"]){margin-right:25%}:host([size_xl="4"]){display:flex;width:33.3333333333%}:host([offset_xl="4"]){margin-left:33.3333333333%}:host([offset_right_xl="4"]){margin-right:33.3333333333%}:host([size_xl="5"]){display:flex;width:41.6666666667%}:host([offset_xl="5"]){margin-left:41.6666666667%}:host([offset_right_xl="5"]){margin-right:41.6666666667%}:host([size_xl="6"]){display:flex;width:50%}:host([offset_xl="6"]){margin-left:50%}:host([offset_right_xl="6"]){margin-right:50%}:host([size_xl="7"]){display:flex;width:58.3333333333%}:host([offset_xl="7"]){margin-left:58.3333333333%}:host([offset_right_xl="7"]){margin-right:58.3333333333%}:host([size_xl="8"]){display:flex;width:66.6666666667%}:host([offset_xl="8"]){margin-left:66.6666666667%}:host([offset_right_xl="8"]){margin-right:66.6666666667%}:host([size_xl="9"]){display:flex;width:75%}:host([offset_xl="9"]){margin-left:75%}:host([offset_right_xl="9"]){margin-right:75%}:host([size_xl="10"]){display:flex;width:83.3333333333%}:host([offset_xl="10"]){margin-left:83.3333333333%}:host([offset_right_xl="10"]){margin-right:83.3333333333%}:host([size_xl="11"]){display:flex;width:91.6666666667%}:host([offset_xl="11"]){margin-left:91.6666666667%}:host([offset_right_xl="11"]){margin-right:91.6666666667%}:host([size_xl="12"]){display:flex;width:100%}:host([offset_xl="12"]){margin-left:100%}:host([offset_right_xl="12"]){margin-right:100%}}`;
+    set 'size'(val) { this.setNumberAttr('size', val) }get 'size_xs'() { return this.getNumberAttr('size_xs') }
+    set 'size_xs'(val) { this.setNumberAttr('size_xs', val) }get 'size_sm'() { return this.getNumberAttr('size_sm') }
+    set 'size_sm'(val) { this.setNumberAttr('size_sm', val) }get 'size_md'() { return this.getNumberAttr('size_md') }
+    set 'size_md'(val) { this.setNumberAttr('size_md', val) }get 'size_lg'() { return this.getNumberAttr('size_lg') }
+    set 'size_lg'(val) { this.setNumberAttr('size_lg', val) }get 'size_xl'() { return this.getNumberAttr('size_xl') }
+    set 'size_xl'(val) { this.setNumberAttr('size_xl', val) }get 'offset'() { return this.getNumberAttr('offset') }
+    set 'offset'(val) { this.setNumberAttr('offset', val) }get 'offset_xs'() { return this.getNumberAttr('offset_xs') }
+    set 'offset_xs'(val) { this.setNumberAttr('offset_xs', val) }get 'offset_sm'() { return this.getNumberAttr('offset_sm') }
+    set 'offset_sm'(val) { this.setNumberAttr('offset_sm', val) }get 'offset_md'() { return this.getNumberAttr('offset_md') }
+    set 'offset_md'(val) { this.setNumberAttr('offset_md', val) }get 'offset_lg'() { return this.getNumberAttr('offset_lg') }
+    set 'offset_lg'(val) { this.setNumberAttr('offset_lg', val) }get 'offset_xl'() { return this.getNumberAttr('offset_xl') }
+    set 'offset_xl'(val) { this.setNumberAttr('offset_xl', val) }get 'offset_right'() { return this.getNumberAttr('offset_right') }
+    set 'offset_right'(val) { this.setNumberAttr('offset_right', val) }get 'offset_right_xs'() { return this.getNumberAttr('offset_right_xs') }
+    set 'offset_right_xs'(val) { this.setNumberAttr('offset_right_xs', val) }get 'offset_right_sm'() { return this.getNumberAttr('offset_right_sm') }
+    set 'offset_right_sm'(val) { this.setNumberAttr('offset_right_sm', val) }get 'offset_right_md'() { return this.getNumberAttr('offset_right_md') }
+    set 'offset_right_md'(val) { this.setNumberAttr('offset_right_md', val) }get 'offset_right_lg'() { return this.getNumberAttr('offset_right_lg') }
+    set 'offset_right_lg'(val) { this.setNumberAttr('offset_right_lg', val) }get 'offset_right_xl'() { return this.getNumberAttr('offset_right_xl') }
+    set 'offset_right_xl'(val) { this.setNumberAttr('offset_right_xl', val) }get 'center'() { return this.getBoolAttr('center') }
+    set 'center'(val) { this.setBoolAttr('center', val) }    static __style = `:host{--internal-col-padding:var(--col-padding, 8px)}:host{padding:var(--internal-col-padding)}:host([center]){justify-content:center}:host([size="0"]){display:flex;width:0%}:host([offset="0"]){margin-left:0%}:host([offset_right="0"]){margin-right:0%}:host([size="1"]){display:flex;width:8.3333333333%}:host([offset="1"]){margin-left:8.3333333333%}:host([offset_right="1"]){margin-right:8.3333333333%}:host([size="2"]){display:flex;width:16.6666666667%}:host([offset="2"]){margin-left:16.6666666667%}:host([offset_right="2"]){margin-right:16.6666666667%}:host([size="3"]){display:flex;width:25%}:host([offset="3"]){margin-left:25%}:host([offset_right="3"]){margin-right:25%}:host([size="4"]){display:flex;width:33.3333333333%}:host([offset="4"]){margin-left:33.3333333333%}:host([offset_right="4"]){margin-right:33.3333333333%}:host([size="5"]){display:flex;width:41.6666666667%}:host([offset="5"]){margin-left:41.6666666667%}:host([offset_right="5"]){margin-right:41.6666666667%}:host([size="6"]){display:flex;width:50%}:host([offset="6"]){margin-left:50%}:host([offset_right="6"]){margin-right:50%}:host([size="7"]){display:flex;width:58.3333333333%}:host([offset="7"]){margin-left:58.3333333333%}:host([offset_right="7"]){margin-right:58.3333333333%}:host([size="8"]){display:flex;width:66.6666666667%}:host([offset="8"]){margin-left:66.6666666667%}:host([offset_right="8"]){margin-right:66.6666666667%}:host([size="9"]){display:flex;width:75%}:host([offset="9"]){margin-left:75%}:host([offset_right="9"]){margin-right:75%}:host([size="10"]){display:flex;width:83.3333333333%}:host([offset="10"]){margin-left:83.3333333333%}:host([offset_right="10"]){margin-right:83.3333333333%}:host([size="11"]){display:flex;width:91.6666666667%}:host([offset="11"]){margin-left:91.6666666667%}:host([offset_right="11"]){margin-right:91.6666666667%}:host([size="12"]){display:flex;width:100%}:host([offset="12"]){margin-left:100%}:host([offset_right="12"]){margin-right:100%}@container application (min-width: 300px){:host([size_xs="0"]){display:flex;width:0%}:host([offset_xs="0"]){margin-left:0%}:host([offset_right_xs="0"]){margin-right:0%}:host([size_xs="0"]){display:none}:host([size_xs="1"]){display:flex;width:8.3333333333%}:host([offset_xs="1"]){margin-left:8.3333333333%}:host([offset_right_xs="1"]){margin-right:8.3333333333%}:host([size_xs="2"]){display:flex;width:16.6666666667%}:host([offset_xs="2"]){margin-left:16.6666666667%}:host([offset_right_xs="2"]){margin-right:16.6666666667%}:host([size_xs="3"]){display:flex;width:25%}:host([offset_xs="3"]){margin-left:25%}:host([offset_right_xs="3"]){margin-right:25%}:host([size_xs="4"]){display:flex;width:33.3333333333%}:host([offset_xs="4"]){margin-left:33.3333333333%}:host([offset_right_xs="4"]){margin-right:33.3333333333%}:host([size_xs="5"]){display:flex;width:41.6666666667%}:host([offset_xs="5"]){margin-left:41.6666666667%}:host([offset_right_xs="5"]){margin-right:41.6666666667%}:host([size_xs="6"]){display:flex;width:50%}:host([offset_xs="6"]){margin-left:50%}:host([offset_right_xs="6"]){margin-right:50%}:host([size_xs="7"]){display:flex;width:58.3333333333%}:host([offset_xs="7"]){margin-left:58.3333333333%}:host([offset_right_xs="7"]){margin-right:58.3333333333%}:host([size_xs="8"]){display:flex;width:66.6666666667%}:host([offset_xs="8"]){margin-left:66.6666666667%}:host([offset_right_xs="8"]){margin-right:66.6666666667%}:host([size_xs="9"]){display:flex;width:75%}:host([offset_xs="9"]){margin-left:75%}:host([offset_right_xs="9"]){margin-right:75%}:host([size_xs="10"]){display:flex;width:83.3333333333%}:host([offset_xs="10"]){margin-left:83.3333333333%}:host([offset_right_xs="10"]){margin-right:83.3333333333%}:host([size_xs="11"]){display:flex;width:91.6666666667%}:host([offset_xs="11"]){margin-left:91.6666666667%}:host([offset_right_xs="11"]){margin-right:91.6666666667%}:host([size_xs="12"]){display:flex;width:100%}:host([offset_xs="12"]){margin-left:100%}:host([offset_right_xs="12"]){margin-right:100%}}@container application (min-width: 540px){:host([size_sm="0"]){display:flex;width:0%}:host([offset_sm="0"]){margin-left:0%}:host([offset_right_sm="0"]){margin-right:0%}:host([size_sm="0"]){display:none}:host([size_sm="1"]){display:flex;width:8.3333333333%}:host([offset_sm="1"]){margin-left:8.3333333333%}:host([offset_right_sm="1"]){margin-right:8.3333333333%}:host([size_sm="2"]){display:flex;width:16.6666666667%}:host([offset_sm="2"]){margin-left:16.6666666667%}:host([offset_right_sm="2"]){margin-right:16.6666666667%}:host([size_sm="3"]){display:flex;width:25%}:host([offset_sm="3"]){margin-left:25%}:host([offset_right_sm="3"]){margin-right:25%}:host([size_sm="4"]){display:flex;width:33.3333333333%}:host([offset_sm="4"]){margin-left:33.3333333333%}:host([offset_right_sm="4"]){margin-right:33.3333333333%}:host([size_sm="5"]){display:flex;width:41.6666666667%}:host([offset_sm="5"]){margin-left:41.6666666667%}:host([offset_right_sm="5"]){margin-right:41.6666666667%}:host([size_sm="6"]){display:flex;width:50%}:host([offset_sm="6"]){margin-left:50%}:host([offset_right_sm="6"]){margin-right:50%}:host([size_sm="7"]){display:flex;width:58.3333333333%}:host([offset_sm="7"]){margin-left:58.3333333333%}:host([offset_right_sm="7"]){margin-right:58.3333333333%}:host([size_sm="8"]){display:flex;width:66.6666666667%}:host([offset_sm="8"]){margin-left:66.6666666667%}:host([offset_right_sm="8"]){margin-right:66.6666666667%}:host([size_sm="9"]){display:flex;width:75%}:host([offset_sm="9"]){margin-left:75%}:host([offset_right_sm="9"]){margin-right:75%}:host([size_sm="10"]){display:flex;width:83.3333333333%}:host([offset_sm="10"]){margin-left:83.3333333333%}:host([offset_right_sm="10"]){margin-right:83.3333333333%}:host([size_sm="11"]){display:flex;width:91.6666666667%}:host([offset_sm="11"]){margin-left:91.6666666667%}:host([offset_right_sm="11"]){margin-right:91.6666666667%}:host([size_sm="12"]){display:flex;width:100%}:host([offset_sm="12"]){margin-left:100%}:host([offset_right_sm="12"]){margin-right:100%}}@container application (min-width: 720px){:host([size_md="0"]){display:flex;width:0%}:host([offset_md="0"]){margin-left:0%}:host([offset_right_md="0"]){margin-right:0%}:host([size_md="0"]){display:none}:host([size_md="1"]){display:flex;width:8.3333333333%}:host([offset_md="1"]){margin-left:8.3333333333%}:host([offset_right_md="1"]){margin-right:8.3333333333%}:host([size_md="2"]){display:flex;width:16.6666666667%}:host([offset_md="2"]){margin-left:16.6666666667%}:host([offset_right_md="2"]){margin-right:16.6666666667%}:host([size_md="3"]){display:flex;width:25%}:host([offset_md="3"]){margin-left:25%}:host([offset_right_md="3"]){margin-right:25%}:host([size_md="4"]){display:flex;width:33.3333333333%}:host([offset_md="4"]){margin-left:33.3333333333%}:host([offset_right_md="4"]){margin-right:33.3333333333%}:host([size_md="5"]){display:flex;width:41.6666666667%}:host([offset_md="5"]){margin-left:41.6666666667%}:host([offset_right_md="5"]){margin-right:41.6666666667%}:host([size_md="6"]){display:flex;width:50%}:host([offset_md="6"]){margin-left:50%}:host([offset_right_md="6"]){margin-right:50%}:host([size_md="7"]){display:flex;width:58.3333333333%}:host([offset_md="7"]){margin-left:58.3333333333%}:host([offset_right_md="7"]){margin-right:58.3333333333%}:host([size_md="8"]){display:flex;width:66.6666666667%}:host([offset_md="8"]){margin-left:66.6666666667%}:host([offset_right_md="8"]){margin-right:66.6666666667%}:host([size_md="9"]){display:flex;width:75%}:host([offset_md="9"]){margin-left:75%}:host([offset_right_md="9"]){margin-right:75%}:host([size_md="10"]){display:flex;width:83.3333333333%}:host([offset_md="10"]){margin-left:83.3333333333%}:host([offset_right_md="10"]){margin-right:83.3333333333%}:host([size_md="11"]){display:flex;width:91.6666666667%}:host([offset_md="11"]){margin-left:91.6666666667%}:host([offset_right_md="11"]){margin-right:91.6666666667%}:host([size_md="12"]){display:flex;width:100%}:host([offset_md="12"]){margin-left:100%}:host([offset_right_md="12"]){margin-right:100%}}@container application (min-width: 960px){:host([size_lg="0"]){display:flex;width:0%}:host([offset_lg="0"]){margin-left:0%}:host([offset_right_lg="0"]){margin-right:0%}:host([size_lg="0"]){display:none}:host([size_lg="1"]){display:flex;width:8.3333333333%}:host([offset_lg="1"]){margin-left:8.3333333333%}:host([offset_right_lg="1"]){margin-right:8.3333333333%}:host([size_lg="2"]){display:flex;width:16.6666666667%}:host([offset_lg="2"]){margin-left:16.6666666667%}:host([offset_right_lg="2"]){margin-right:16.6666666667%}:host([size_lg="3"]){display:flex;width:25%}:host([offset_lg="3"]){margin-left:25%}:host([offset_right_lg="3"]){margin-right:25%}:host([size_lg="4"]){display:flex;width:33.3333333333%}:host([offset_lg="4"]){margin-left:33.3333333333%}:host([offset_right_lg="4"]){margin-right:33.3333333333%}:host([size_lg="5"]){display:flex;width:41.6666666667%}:host([offset_lg="5"]){margin-left:41.6666666667%}:host([offset_right_lg="5"]){margin-right:41.6666666667%}:host([size_lg="6"]){display:flex;width:50%}:host([offset_lg="6"]){margin-left:50%}:host([offset_right_lg="6"]){margin-right:50%}:host([size_lg="7"]){display:flex;width:58.3333333333%}:host([offset_lg="7"]){margin-left:58.3333333333%}:host([offset_right_lg="7"]){margin-right:58.3333333333%}:host([size_lg="8"]){display:flex;width:66.6666666667%}:host([offset_lg="8"]){margin-left:66.6666666667%}:host([offset_right_lg="8"]){margin-right:66.6666666667%}:host([size_lg="9"]){display:flex;width:75%}:host([offset_lg="9"]){margin-left:75%}:host([offset_right_lg="9"]){margin-right:75%}:host([size_lg="10"]){display:flex;width:83.3333333333%}:host([offset_lg="10"]){margin-left:83.3333333333%}:host([offset_right_lg="10"]){margin-right:83.3333333333%}:host([size_lg="11"]){display:flex;width:91.6666666667%}:host([offset_lg="11"]){margin-left:91.6666666667%}:host([offset_right_lg="11"]){margin-right:91.6666666667%}:host([size_lg="12"]){display:flex;width:100%}:host([offset_lg="12"]){margin-left:100%}:host([offset_right_lg="12"]){margin-right:100%}}@container application (min-width: 1140px){:host([size_xl="0"]){display:flex;width:0%}:host([offset_xl="0"]){margin-left:0%}:host([offset_right_xl="0"]){margin-right:0%}:host([size_xl="0"]){display:none}:host([size_xl="1"]){display:flex;width:8.3333333333%}:host([offset_xl="1"]){margin-left:8.3333333333%}:host([offset_right_xl="1"]){margin-right:8.3333333333%}:host([size_xl="2"]){display:flex;width:16.6666666667%}:host([offset_xl="2"]){margin-left:16.6666666667%}:host([offset_right_xl="2"]){margin-right:16.6666666667%}:host([size_xl="3"]){display:flex;width:25%}:host([offset_xl="3"]){margin-left:25%}:host([offset_right_xl="3"]){margin-right:25%}:host([size_xl="4"]){display:flex;width:33.3333333333%}:host([offset_xl="4"]){margin-left:33.3333333333%}:host([offset_right_xl="4"]){margin-right:33.3333333333%}:host([size_xl="5"]){display:flex;width:41.6666666667%}:host([offset_xl="5"]){margin-left:41.6666666667%}:host([offset_right_xl="5"]){margin-right:41.6666666667%}:host([size_xl="6"]){display:flex;width:50%}:host([offset_xl="6"]){margin-left:50%}:host([offset_right_xl="6"]){margin-right:50%}:host([size_xl="7"]){display:flex;width:58.3333333333%}:host([offset_xl="7"]){margin-left:58.3333333333%}:host([offset_right_xl="7"]){margin-right:58.3333333333%}:host([size_xl="8"]){display:flex;width:66.6666666667%}:host([offset_xl="8"]){margin-left:66.6666666667%}:host([offset_right_xl="8"]){margin-right:66.6666666667%}:host([size_xl="9"]){display:flex;width:75%}:host([offset_xl="9"]){margin-left:75%}:host([offset_right_xl="9"]){margin-right:75%}:host([size_xl="10"]){display:flex;width:83.3333333333%}:host([offset_xl="10"]){margin-left:83.3333333333%}:host([offset_right_xl="10"]){margin-right:83.3333333333%}:host([size_xl="11"]){display:flex;width:91.6666666667%}:host([offset_xl="11"]){margin-left:91.6666666667%}:host([offset_right_xl="11"]){margin-right:91.6666666667%}:host([size_xl="12"]){display:flex;width:100%}:host([offset_xl="12"]){margin-left:100%}:host([offset_right_xl="12"]){margin-right:100%}}`;
     __getStatic() {
         return Col;
     }
@@ -427,46 +539,8 @@ get 'center'() { return this.getBoolAttr('center') }
     getClassName() {
         return "Col";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('size')){ this['size'] = undefined; }
-if(!this.hasAttribute('size_xs')){ this['size_xs'] = undefined; }
-if(!this.hasAttribute('size_sm')){ this['size_sm'] = undefined; }
-if(!this.hasAttribute('size_md')){ this['size_md'] = undefined; }
-if(!this.hasAttribute('size_lg')){ this['size_lg'] = undefined; }
-if(!this.hasAttribute('size_xl')){ this['size_xl'] = undefined; }
-if(!this.hasAttribute('offset')){ this['offset'] = undefined; }
-if(!this.hasAttribute('offset_xs')){ this['offset_xs'] = undefined; }
-if(!this.hasAttribute('offset_sm')){ this['offset_sm'] = undefined; }
-if(!this.hasAttribute('offset_md')){ this['offset_md'] = undefined; }
-if(!this.hasAttribute('offset_lg')){ this['offset_lg'] = undefined; }
-if(!this.hasAttribute('offset_xl')){ this['offset_xl'] = undefined; }
-if(!this.hasAttribute('offset_right')){ this['offset_right'] = undefined; }
-if(!this.hasAttribute('offset_right_xs')){ this['offset_right_xs'] = undefined; }
-if(!this.hasAttribute('offset_right_sm')){ this['offset_right_sm'] = undefined; }
-if(!this.hasAttribute('offset_right_md')){ this['offset_right_md'] = undefined; }
-if(!this.hasAttribute('offset_right_lg')){ this['offset_right_lg'] = undefined; }
-if(!this.hasAttribute('offset_right_xl')){ this['offset_right_xl'] = undefined; }
-if(!this.hasAttribute('center')) { this.attributeChangedCallback('center', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('size');
-this.__upgradeProperty('size_xs');
-this.__upgradeProperty('size_sm');
-this.__upgradeProperty('size_md');
-this.__upgradeProperty('size_lg');
-this.__upgradeProperty('size_xl');
-this.__upgradeProperty('offset');
-this.__upgradeProperty('offset_xs');
-this.__upgradeProperty('offset_sm');
-this.__upgradeProperty('offset_md');
-this.__upgradeProperty('offset_lg');
-this.__upgradeProperty('offset_xl');
-this.__upgradeProperty('offset_right');
-this.__upgradeProperty('offset_right_xs');
-this.__upgradeProperty('offset_right_sm');
-this.__upgradeProperty('offset_right_md');
-this.__upgradeProperty('offset_right_lg');
-this.__upgradeProperty('offset_right_xl');
-this.__upgradeProperty('center');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('size')){ this['size'] = undefined; }if(!this.hasAttribute('size_xs')){ this['size_xs'] = undefined; }if(!this.hasAttribute('size_sm')){ this['size_sm'] = undefined; }if(!this.hasAttribute('size_md')){ this['size_md'] = undefined; }if(!this.hasAttribute('size_lg')){ this['size_lg'] = undefined; }if(!this.hasAttribute('size_xl')){ this['size_xl'] = undefined; }if(!this.hasAttribute('offset')){ this['offset'] = undefined; }if(!this.hasAttribute('offset_xs')){ this['offset_xs'] = undefined; }if(!this.hasAttribute('offset_sm')){ this['offset_sm'] = undefined; }if(!this.hasAttribute('offset_md')){ this['offset_md'] = undefined; }if(!this.hasAttribute('offset_lg')){ this['offset_lg'] = undefined; }if(!this.hasAttribute('offset_xl')){ this['offset_xl'] = undefined; }if(!this.hasAttribute('offset_right')){ this['offset_right'] = undefined; }if(!this.hasAttribute('offset_right_xs')){ this['offset_right_xs'] = undefined; }if(!this.hasAttribute('offset_right_sm')){ this['offset_right_sm'] = undefined; }if(!this.hasAttribute('offset_right_md')){ this['offset_right_md'] = undefined; }if(!this.hasAttribute('offset_right_lg')){ this['offset_right_lg'] = undefined; }if(!this.hasAttribute('offset_right_xl')){ this['offset_right_xl'] = undefined; }if(!this.hasAttribute('center')) { this.attributeChangedCallback('center', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('size');this.__upgradeProperty('size_xs');this.__upgradeProperty('size_sm');this.__upgradeProperty('size_md');this.__upgradeProperty('size_lg');this.__upgradeProperty('size_xl');this.__upgradeProperty('offset');this.__upgradeProperty('offset_xs');this.__upgradeProperty('offset_sm');this.__upgradeProperty('offset_md');this.__upgradeProperty('offset_lg');this.__upgradeProperty('offset_xl');this.__upgradeProperty('offset_right');this.__upgradeProperty('offset_right_xs');this.__upgradeProperty('offset_right_sm');this.__upgradeProperty('offset_right_md');this.__upgradeProperty('offset_right_lg');this.__upgradeProperty('offset_right_xl');this.__upgradeProperty('center'); }
     __listBoolProps() { return ["center"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
 }
 Components.Col.Namespace=`Core.Components`;
@@ -506,11 +580,9 @@ if(!window.customElements.get('rk-card')){window.customElements.define('rk-card'
 Components.BoxContainer = class BoxContainer extends Aventus.WebComponent {
     static get observedAttributes() {return ["space"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'space'() { return this.getNumberProp('space') }
-    set 'space'(val) { this.setNumberAttr('space', val) }
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("space", ((target) => {
+    set 'space'(val) { this.setNumberAttr('space', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("space", ((target) => {
     target.style.setProperty("--item-box-margin", target.space + 'px');
-}));
- }
+})); }
     static __style = `:host{--_item-box-box-width: var(--item-box-box-width, auto);--_item-box-box-height: var(--item-box-box-height, 100%);--_item-box-box-padding: var(--item-box-box-padding, 0 10px);--_item-box-border-radius: var(--item-box-border-radius, 4px);--_item-box-border-color: var(--item-box-border-color, var(--secondary-color, #afafaf))}:host{align-items:center;box-sizing:border-box;display:flex;flex-direction:row;justify-content:center}:host ::slotted(*){border:1px solid var(--_item-box-border-color);border-radius:var(--border-radius-sm);width:var(--_item-box-box-width);max-height:var(--_item-box-box-height);max-width:var(--_item-box-box-width);padding:var(--_item-box-box-padding)}:host ::slotted(*:first-child){margin-left:0}:host ::slotted(*:last-child){margin-right:0}:host([space="0"]){border:1px solid var(--_item-box-border-color);border-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*){border:none;border-radius:0px;border-right:1px solid var(--_item-box-border-color)}:host([space="0"]) ::slotted(*:first-child){border-bottom-left-radius:var(--_item-box-border-radius);border-top-left-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*:last-child){border-bottom-right-radius:var(--_item-box-border-radius);border-right:none;border-top-right-radius:var(--_item-box-border-radius)}`;
     __getStatic() {
         return BoxContainer;
@@ -529,10 +601,8 @@ Components.BoxContainer = class BoxContainer extends Aventus.WebComponent {
     getClassName() {
         return "BoxContainer";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('space')){ this['space'] = 0; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('space');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('space')){ this['space'] = 0; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('space'); }
 }
 Components.BoxContainer.Namespace=`Core.Components`;
 Components.BoxContainer.Tag=`rk-box-container`;
@@ -566,8 +636,7 @@ if(!window.customElements.get('rk-item-box')){window.customElements.define('rk-i
 
 Components.OptionsContainer = class OptionsContainer extends Aventus.WebComponent {
     get 'open'() { return this.getBoolAttr('open') }
-    set 'open'(val) { this.setBoolAttr('open', val) }
-    select;
+    set 'open'(val) { this.setBoolAttr('open', val) }    select;
     onOpen = new Aventus.Callback();
     isAnimating = false;
     static __style = `:host{--_options-container-background: var(--options-container-background, var(--form-element-background, white));--_options-container-border-radius: var(--options-container-border-radius, var(--form-element-border-radius, 0));--_options-container-box-shadow: var(--options-container-box-shadow, var(--elevation-2))}:host{background-color:var(--_options-container-background);border-radius:var(--_options-container-border-radius);box-shadow:var(--_options-container-box-shadow);display:grid;grid-template-rows:0fr;left:0;overflow:hidden;position:absolute;top:0;transition:.2s var(--bezier-curve) grid-template-rows;z-index:800}:host rk-scrollable .container{display:flex;flex-direction:column}:host([open]){grid-template-rows:1fr}`;
@@ -582,20 +651,14 @@ Components.OptionsContainer = class OptionsContainer extends Aventus.WebComponen
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<rk-scrollable floating_scroll>
-    <div class="container">
-        <slot></slot>
-    </div>
-</rk-scrollable>` }
+        blocks: { 'default':`<rk-scrollable floating_scroll>    <div class="container">        <slot></slot>    </div></rk-scrollable>` }
     });
 }
     getClassName() {
         return "OptionsContainer";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('open')) { this.attributeChangedCallback('open', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('open');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('open')) { this.attributeChangedCallback('open', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('open'); }
     __listBoolProps() { return ["open"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     init(select) {
         this.select = select;
@@ -671,24 +734,19 @@ if(!window.customElements.get('rk-input-file')){window.customElements.define('rk
 Components.Img = class Img extends Aventus.WebComponent {
     static get observedAttributes() {return ["src", "mode"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'cache'() { return this.getBoolAttr('cache') }
-    set 'cache'(val) { this.setBoolAttr('cache', val) }
-    get 'src'() { return this.getStringProp('src') }
-    set 'src'(val) { this.setStringAttr('src', val) }
-get 'mode'() { return this.getStringProp('mode') }
-    set 'mode'(val) { this.setStringAttr('mode', val) }
-    isCalculing;
+    set 'cache'(val) { this.setBoolAttr('cache', val) }    get 'src'() { return this.getStringProp('src') }
+    set 'src'(val) { this.setStringAttr('src', val) }get 'mode'() { return this.getStringProp('mode') }
+    set 'mode'(val) { this.setStringAttr('mode', val) }    isCalculing;
     maxCalculateSize = 10;
     ratio = 1;
     resizeObserver;
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("src", ((target) => {
     target.onSrcChanged();
-}));
-this.__addPropertyActions("mode", ((target) => {
+}));this.__addPropertyActions("mode", ((target) => {
     if (target.src != "") {
         target.calculateSize();
     }
-}));
- }
+})); }
     static __style = `:host{--_img-color: var(--img-color);--_img-stroke-color: var(--img-stroke-color, var(--_img-color));--_img-fill-color: var(--img-fill-color, var(--_img-color));--_img-color-transition: var(--img-color-transition, none);--_img-stroke-width: var(--img-stroke-width, 1px)}:host{display:inline-block;font-size:0;overflow:hidden}:host *{box-sizing:border-box}:host img{opacity:0;transition:filter .3s linear}:host .svg{display:none;height:100%;width:100%}:host .svg svg{height:100%;width:100%}:host mi-icon{display:none;font-size:inherit;height:100%;width:100%}:host([src$=".svg"]) img{display:none}:host([src$=".svg"]) .svg{display:flex}:host([src$=".svg"]) .svg svg{fill:var(--_img-fill-color);stroke:var(--_img-stroke-color);stroke-width:var(--_img-stroke-width);transition:var(--_img-color-transition)}:host([src$=".svg"]) mi-icon{display:none}:host([src^=mi-]){font-size:inherit}:host([src^=mi-]) img{display:none}:host([src^=mi-]) .svg{display:none}:host([src^=mi-]) mi-icon{align-items:center;display:flex;justify-content:center}:host([display_bigger]) img{cursor:pointer}:host([display_bigger]) img:hover{filter:brightness(50%)}`;
     __getStatic() {
         return Img;
@@ -703,8 +761,7 @@ this.__addPropertyActions("mode", ((target) => {
         blocks: { 'default':`<img _id="img_0" /><div class="svg" _id="img_1"></div><mi-icon _id="img_2"></mi-icon>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "imgEl",
@@ -725,19 +782,12 @@ this.__getStatic().__template.setActions({
       ]
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "Img";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('cache')) { this.attributeChangedCallback('cache', false, false); }
-if(!this.hasAttribute('src')){ this['src'] = undefined; }
-if(!this.hasAttribute('mode')){ this['mode'] = "contains"; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('cache');
-this.__upgradeProperty('src');
-this.__upgradeProperty('mode');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('cache')) { this.attributeChangedCallback('cache', false, false); }if(!this.hasAttribute('src')){ this['src'] = undefined; }if(!this.hasAttribute('mode')){ this['mode'] = "contains"; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('cache');this.__upgradeProperty('src');this.__upgradeProperty('mode'); }
     __listBoolProps() { return ["cache"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     calculateSize(attempt = 0) {
         if (this.isCalculing || !this.imgEl || !this.svgEl) {
@@ -1063,10 +1113,8 @@ _.Lib.FontManager=Lib.FontManager;
 
 Components.SheetSplitter = class SheetSplitter extends Aventus.WebComponent {
     get 'copy'() { return this.getStringAttr('copy') }
-    set 'copy'(val) { this.setStringAttr('copy', val) }
-get 'name'() { return this.getStringAttr('name') }
-    set 'name'(val) { this.setStringAttr('name', val) }
-    static __style = `:host{display:none}`;
+    set 'copy'(val) { this.setStringAttr('copy', val) }get 'name'() { return this.getStringAttr('name') }
+    set 'name'(val) { this.setStringAttr('name', val) }    static __style = `:host{display:none}`;
     __getStatic() {
         return SheetSplitter;
     }
@@ -1084,12 +1132,8 @@ get 'name'() { return this.getStringAttr('name') }
     getClassName() {
         return "SheetSplitter";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('copy')){ this['copy'] = undefined; }
-if(!this.hasAttribute('name')){ this['name'] = undefined; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('copy');
-this.__upgradeProperty('name');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('copy')){ this['copy'] = undefined; }if(!this.hasAttribute('name')){ this['name'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('copy');this.__upgradeProperty('name'); }
 }
 Components.SheetSplitter.Namespace=`Core.Components`;
 Components.SheetSplitter.Tag=`rk-sheet-splitter`;
@@ -1098,8 +1142,7 @@ if(!window.customElements.get('rk-sheet-splitter')){window.customElements.define
 
 Components.PwaPromptIos = class PwaPromptIos extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
-    set 'visible'(val) { this.setBoolAttr('visible', val) }
-    static get isStandalone() {
+    set 'visible'(val) { this.setBoolAttr('visible', val) }    static get isStandalone() {
         if ("standalone" in window.navigator && window.navigator.standalone) {
             return true;
         }
@@ -1124,48 +1167,10 @@ Components.PwaPromptIos = class PwaPromptIos extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div aria-label="Close" role="button" class="pwaPromptOverlay modern iOSPWA-overlay" _id="pwapromptios_0">
-</div><div class="pwaPrompt iOSPWA-container modern" aria-describedby="description" aria-labelledby="homescreen" role="dialog" _id="pwapromptios_1">
-    <div class="pwaPromptHeader iOSPWA-header">
-        <p class="pwaPromptTitle iOSPWA-title">
-            Ajouter à la page d'accueil
-        </p>
-        <button class="pwaPromptCancel iOSPWA-cancel" _id="pwapromptios_2">
-            Fermer
-        </button>
-    </div>
-    <div class="pwaPromptBody iOSPWA-body">
-        <div class="pwaPromptDescription iOSPWA-description">
-            <p class="pwaPromptCopy iOSPWA-description-copy">
-                Ce site web est doté d'une fonctionnalité d'application. Ajoutez-le à votre écran d'accueil pour l'utiliser en plein écran
-            </p>
-        </div>
-    </div>
-    <div class="pwaPromptInstruction iOSPWA-steps">
-        <div class="pwaPromptInstructionStep iOSPWA-step1">
-            <svg class="pwaPromptShareIcon iOSPWA-step1-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 566 670">
-                <path d="M255 12c4-4 10-8 16-8s12 3 16 8l94 89c3 4 6 7 8 12 2 6 0 14-5 19-7 8-20 9-28 2l-7-7-57-60 2 54v276c0 12-10 22-22 22-12 1-24-10-23-22V110l1-43-60 65c-5 5-13 8-21 6a19 19 0 0 1-16-17c-1-7 2-13 7-18l95-91z"></path>
-                <path d="M43 207c16-17 40-23 63-23h83v46h-79c-12 0-25 3-33 13-8 9-10 21-10 33v260c0 13 0 27 6 38 5 12 18 18 30 19l14 1h302c14 0 28 0 40-8 11-7 16-21 16-34V276c0-11-2-24-9-33-8-10-22-13-34-13h-78v-46h75c13 0 25 1 37 4 16 4 31 13 41 27 11 17 14 37 14 57v280c0 20-3 41-15 58a71 71 0 0 1-45 27c-11 2-23 3-34 3H109c-19-1-40-4-56-15-14-9-23-23-27-38-4-12-5-25-5-38V270c1-22 6-47 22-63z"></path>
-            </svg>
-            <p class="pwaPromptCopy bold iOSPWA-step1-copy">
-                1) Appuyez sur le bouton "Partager" dans la barre de menu.
-            </p>
-        </div>
-        <div class="pwaPromptInstructionStep iOSPWA-step2">
-            <svg class="pwaPromptHomeIcon iOSPWA-step2-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 578 584">
-                <path d="M101 35l19-1h333c12 0 23 0 35 3 17 3 34 12 44 27 13 16 16 38 16 58v329c0 19 0 39-8 57a65 65 0 0 1-37 37c-18 7-38 7-57 7H130c-21 1-44 0-63-10-14-7-25-20-30-34-6-15-8-30-8-45V121c1-21 5-44 19-61 13-16 33-23 53-25m7 46c-10 1-19 6-24 14-7 8-9 20-9 31v334c0 12 2 25 10 34 9 10 23 12 35 12h336c14 1 30-3 38-15 6-9 8-20 8-31V125c0-12-2-24-10-33-9-9-22-12-35-12H121l-13 1z"></path>
-                <path d="M271 161c9-11 31-10 38 4 3 5 3 11 3 17v87h88c7 0 16 1 21 7 6 6 7 14 6 22a21 21 0 0 1-10 14c-5 4-11 5-17 5h-88v82c0 7-1 15-6 20-10 10-29 10-37-2-3-6-4-13-4-19v-81h-87c-8-1-17-3-23-9-5-6-6-15-4-22a21 21 0 0 1 11-14c6-3 13-3 19-3h84v-88c0-7 1-14 6-20z"></path>
-            </svg>
-            <p class="pwaPromptCopy bold iOSPWA-step2-copy">
-                2) Appuyez sur "Ajouter à l'écran d'accueil".
-            </p>
-        </div>
-    </div>
-</div>` }
+        blocks: { 'default':`<div aria-label="Close" role="button" class="pwaPromptOverlay modern iOSPWA-overlay" _id="pwapromptios_0"></div><div class="pwaPrompt iOSPWA-container modern" aria-describedby="description" aria-labelledby="homescreen" role="dialog" _id="pwapromptios_1">    <div class="pwaPromptHeader iOSPWA-header">        <p class="pwaPromptTitle iOSPWA-title">            Ajouter à la page d'accueil        </p>        <button class="pwaPromptCancel iOSPWA-cancel" _id="pwapromptios_2">            Fermer        </button>    </div>    <div class="pwaPromptBody iOSPWA-body">        <div class="pwaPromptDescription iOSPWA-description">            <p class="pwaPromptCopy iOSPWA-description-copy">                Ce site web est doté d'une fonctionnalité d'application. Ajoutez-le à votre écran d'accueil pour l'utiliser en plein écran            </p>        </div>    </div>    <div class="pwaPromptInstruction iOSPWA-steps">        <div class="pwaPromptInstructionStep iOSPWA-step1">            <svg class="pwaPromptShareIcon iOSPWA-step1-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 566 670">                <path d="M255 12c4-4 10-8 16-8s12 3 16 8l94 89c3 4 6 7 8 12 2 6 0 14-5 19-7 8-20 9-28 2l-7-7-57-60 2 54v276c0 12-10 22-22 22-12 1-24-10-23-22V110l1-43-60 65c-5 5-13 8-21 6a19 19 0 0 1-16-17c-1-7 2-13 7-18l95-91z"></path>                <path d="M43 207c16-17 40-23 63-23h83v46h-79c-12 0-25 3-33 13-8 9-10 21-10 33v260c0 13 0 27 6 38 5 12 18 18 30 19l14 1h302c14 0 28 0 40-8 11-7 16-21 16-34V276c0-11-2-24-9-33-8-10-22-13-34-13h-78v-46h75c13 0 25 1 37 4 16 4 31 13 41 27 11 17 14 37 14 57v280c0 20-3 41-15 58a71 71 0 0 1-45 27c-11 2-23 3-34 3H109c-19-1-40-4-56-15-14-9-23-23-27-38-4-12-5-25-5-38V270c1-22 6-47 22-63z"></path>            </svg>            <p class="pwaPromptCopy bold iOSPWA-step1-copy">                1) Appuyez sur le bouton "Partager" dans la barre de menu.            </p>        </div>        <div class="pwaPromptInstructionStep iOSPWA-step2">            <svg class="pwaPromptHomeIcon iOSPWA-step2-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 578 584">                <path d="M101 35l19-1h333c12 0 23 0 35 3 17 3 34 12 44 27 13 16 16 38 16 58v329c0 19 0 39-8 57a65 65 0 0 1-37 37c-18 7-38 7-57 7H130c-21 1-44 0-63-10-14-7-25-20-30-34-6-15-8-30-8-45V121c1-21 5-44 19-61 13-16 33-23 53-25m7 46c-10 1-19 6-24 14-7 8-9 20-9 31v334c0 12 2 25 10 34 9 10 23 12 35 12h336c14 1 30-3 38-15 6-9 8-20 8-31V125c0-12-2-24-10-33-9-9-22-12-35-12H121l-13 1z"></path>                <path d="M271 161c9-11 31-10 38 4 3 5 3 11 3 17v87h88c7 0 16 1 21 7 6 6 7 14 6 22a21 21 0 0 1-10 14c-5 4-11 5-17 5h-88v82c0 7-1 15-6 20-10 10-29 10-37-2-3-6-4-13-4-19v-81h-87c-8-1-17-3-23-9-5-6-6-15-4-22a21 21 0 0 1 11-14c6-3 13-3 19-3h84v-88c0-7 1-14 6-20z"></path>            </svg>            <p class="pwaPromptCopy bold iOSPWA-step2-copy">                2) Appuyez sur "Ajouter à l'écran d'accueil".            </p>        </div>    </div></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "overlay",
@@ -1186,15 +1191,12 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.close(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "PwaPromptIos";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible'); }
     __listBoolProps() { return ["visible"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     close() {
         this.addEventListener("transitionend", () => {
@@ -1341,12 +1343,9 @@ _.Style=Style;
 Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'color'() { return this.getStringAttr('color') }
-    set 'color'(val) { this.setStringAttr('color', val) }
-get 'outline'() { return this.getBoolAttr('outline') }
-    set 'outline'(val) { this.setBoolAttr('outline', val) }
-    get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }
-    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--internal-button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}:host{--_button-padding: var(--button-padding, 0)}:host{aspect-ratio:1/1;height:36px;min-width:auto;border-radius:var(--border-radius-round)}:host .hider{border-radius:var(--border-radius-round)}:host .content .icon{--img-fill-color: var(--_button-color);height:100%;padding:10px 0}`;
+    set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
+    set 'outline'(val) { this.setBoolAttr('outline', val) }    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--internal-button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}:host{--_button-padding: var(--button-padding, 0)}:host{aspect-ratio:1/1;height:36px;min-width:auto;border-radius:var(--border-radius-round)}:host .hider{border-radius:var(--border-radius-round)}:host .content .icon{--img-fill-color: var(--_button-color);height:100%;padding:10px 0}`;
     __getStatic() {
         return ButtonIcon;
     }
@@ -1357,32 +1356,22 @@ get 'outline'() { return this.getBoolAttr('outline') }
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="hider"></div><div class="content">
-    <rk-img class="icon" _id="buttonicon_0"></rk-img>
-</div>` }
+        blocks: { 'default':`<div class="hider"></div><div class="content">    <rk-img class="icon" _id="buttonicon_0"></rk-img></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "content": {
     "buttonicon_0°src": {
       "fct": (c) => `${c.print(c.comp.__86a55d8d752358ce167fd0da93753a9emethod0())}`,
       "once": true
     }
   }
-});
- }
+}); }
     getClassName() {
         return "ButtonIcon";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }
-if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }
-if(!this.hasAttribute('icon')){ this['icon'] = undefined; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');
-this.__upgradeProperty('outline');
-this.__upgradeProperty('icon');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('icon'); }
     __listBoolProps() { return ["outline"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     __86a55d8d752358ce167fd0da93753a9emethod0() {
         return this.icon;
@@ -1396,8 +1385,7 @@ if(!window.customElements.get('rk-button-icon')){window.customElements.define('r
 Components.ButtonIconMi = class ButtonIconMi extends Components.ButtonIcon {
     static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }
-    static __style = `:host .content .icon{height:auto;padding:0;font-size:inherit}`;
+    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host .content .icon{height:auto;padding:0;font-size:inherit}`;
     __getStatic() {
         return ButtonIconMi;
     }
@@ -1408,28 +1396,22 @@ Components.ButtonIconMi = class ButtonIconMi extends Components.ButtonIcon {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="hider"></div><div class="content">
-    <mi-icon class="icon" _id="buttoniconmi_0"></mi-icon>
-</div>` }
+        blocks: { 'default':`<div class="hider"></div><div class="content">    <mi-icon class="icon" _id="buttoniconmi_0"></mi-icon></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "content": {
     "buttoniconmi_0°icon": {
       "fct": (c) => `${c.print(c.comp.__6bf11e2b799d6cfde945f27815605c6bmethod0())}`,
       "once": true
     }
   }
-});
- }
+}); }
     getClassName() {
         return "ButtonIconMi";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = "square"; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = "square"; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon'); }
     __6bf11e2b799d6cfde945f27815605c6bmethod0() {
         return this.icon;
     }
@@ -1893,8 +1875,7 @@ if(!window.customElements.get('rk-page-case-container')){window.customElements.d
 
 Components.PageCaseSlot = class PageCaseSlot extends Aventus.WebComponent {
     get 'no'() { return this.getNumberAttr('no') }
-    set 'no'(val) { this.setNumberAttr('no', val) }
-    item;
+    set 'no'(val) { this.setNumberAttr('no', val) }    item;
     static __style = `:host{--internal-page-case-background: var(--page-case-background, transparent);--internal-page-case-background-active: var(--page-case-background-active, transparent);--internal-page-case-border-active: var(--page-case-border-active, none);--internal-page-case-border-radius:var(--page-case-border-radius, 0)}:host{display:block;width:var(--local-page-case-width);height:var(--local-page-case-height);background-color:var(--internal-page-case-background);border-radius:var(--internal-page-case-border-radius);margin:calc(var(--local-page-case-margin-top)/2) calc(var(--local-page-case-margin-left)/2);float:left;position:relative;box-sizing:border-box}:host ::slotted(*){position:absolute;top:0;left:0;width:var(--local-page-case-width);height:var(--local-page-case-height)}:host(.active){background-color:var(--internal-page-case-background-active);border:var(--internal-page-case-border-active)}`;
     __getStatic() {
         return PageCaseSlot;
@@ -1913,10 +1894,8 @@ Components.PageCaseSlot = class PageCaseSlot extends Aventus.WebComponent {
     getClassName() {
         return "PageCaseSlot";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('no')){ this['no'] = undefined; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('no');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('no')){ this['no'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('no'); }
 }
 Components.PageCaseSlot.Namespace=`Core.Components`;
 Components.PageCaseSlot.Tag=`rk-page-case-slot`;
@@ -2131,10 +2110,8 @@ if(!window.customElements.get('rk-context-menu-separator')){window.customElement
 
 Components.Collapse = class Collapse extends Aventus.WebComponent {
     get 'open'() { return this.getBoolAttr('open') }
-    set 'open'(val) { this.setBoolAttr('open', val) }
-get 'no_animation'() { return this.getBoolAttr('no_animation') }
-    set 'no_animation'(val) { this.setBoolAttr('no_animation', val) }
-    change = new Aventus.Callback();
+    set 'open'(val) { this.setBoolAttr('open', val) }get 'no_animation'() { return this.getBoolAttr('no_animation') }
+    set 'no_animation'(val) { this.setBoolAttr('no_animation', val) }    change = new Aventus.Callback();
     static __style = `:host .title{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .collapse{display:grid;grid-template-rows:0fr;transition:.5s var(--bezier-curve) grid-template-rows}:host .collapse .content{overflow:hidden}:host([open]) .collapse{grid-template-rows:1fr}:host([no_animation]) .collapse{transition:none}`;
     __getStatic() {
         return Collapse;
@@ -2147,17 +2124,10 @@ get 'no_animation'() { return this.getBoolAttr('no_animation') }
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'header':`<slot name="header"></slot>`,'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="title" _id="collapse_0">
-    <slot name="header"></slot>
-</div><div class="collapse" _id="collapse_1">
-    <div class="content">
-        <slot></slot>
-    </div>
-</div>` }
+        blocks: { 'default':`<div class="title" _id="collapse_0">    <slot name="header"></slot></div><div class="collapse" _id="collapse_1">    <div class="content">        <slot></slot>    </div></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "events": [
     {
       "eventName": "transitionend",
@@ -2171,17 +2141,12 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.toggleOpen(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "Collapse";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('open')) { this.attributeChangedCallback('open', false, false); }
-if(!this.hasAttribute('no_animation')) { this.attributeChangedCallback('no_animation', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('open');
-this.__upgradeProperty('no_animation');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('open')) { this.attributeChangedCallback('open', false, false); }if(!this.hasAttribute('no_animation')) { this.attributeChangedCallback('no_animation', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('open');this.__upgradeProperty('no_animation'); }
     __listBoolProps() { return ["open","no_animation"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     transitionEnd(e) {
         let cst = e.constructor;
@@ -2201,16 +2166,13 @@ if(!window.customElements.get('rk-collapse')){window.customElements.define('rk-c
 Components.ContextMenuItem = class ContextMenuItem extends Aventus.WebComponent {
     static get observedAttributes() {return ["text", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'text'() { return this.getStringProp('text') }
-    set 'text'(val) { this.setStringAttr('text', val) }
-get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }
-    priority = 0;
+    set 'text'(val) { this.setStringAttr('text', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    priority = 0;
     action = () => { };
     menu;
     canBeRendered = () => true;
     static __style = `:host{align-items:center;border-radius:var(--border-radius-sm);cursor:pointer;display:flex;font-size:var(--font-size);margin:0 5px;padding:5px 10px;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .title{margin-left:30px}:host .icon{display:none;font-size:var(--font-size-sm);margin-right:10px;width:20px}:host([icon]) .title{margin-left:0px}:host([icon]) .icon{display:inline-block}@media screen and (min-width: 1225px){:host{font-size:var(--font-size)}:host .icon{font-size:var(--font-size)}:host(:hover){background-color:var(--darker)}}`;
-    constructor() { super(); 
-this.onPress=this.onPress.bind(this) }
+    constructor() { super(); this.onPress=this.onPress.bind(this) }
     __getStatic() {
         return ContextMenuItem;
     }
@@ -2224,39 +2186,27 @@ this.onPress=this.onPress.bind(this) }
         blocks: { 'default':`<template _id="contextmenuitem_0"></template><div class="title" _id="contextmenuitem_3"></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "content": {
     "contextmenuitem_3°@HTML": {
       "fct": (c) => `${c.print(c.comp.__75e8d9b88cdfe8a028412b25f4042b69method3())}`,
       "once": true
     }
   }
-});
-const templ0 = new Aventus.Template(this);
-templ0.setTemplate(`
-    <mi-icon class="icon" _id="contextmenuitem_1"></mi-icon>
-`);
-templ0.setActions({
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`    <mi-icon class="icon" _id="contextmenuitem_1"></mi-icon>`);templ0.setActions({
   "content": {
     "contextmenuitem_1°icon": {
       "fct": (c) => `${c.print(c.comp.__75e8d9b88cdfe8a028412b25f4042b69method1())}`
     }
   }
-});
-const templ1 = new Aventus.Template(this);
-templ1.setTemplate(`
-    <rk-img class="icon" _id="contextmenuitem_2"></rk-img>
-`);
-templ1.setActions({
+});const templ1 = new Aventus.Template(this);templ1.setTemplate(`    <rk-img class="icon" _id="contextmenuitem_2"></rk-img>`);templ1.setActions({
   "content": {
     "contextmenuitem_2°src": {
       "fct": (c) => `${c.print(c.comp.__75e8d9b88cdfe8a028412b25f4042b69method2())}`,
       "once": true
     }
   }
-});
-this.__getStatic().__template.addIf({
+});this.__getStatic().__template.addIf({
                     anchorId: 'contextmenuitem_0',
                     parts: [{
                     condition: (c) => c.comp.__75e8d9b88cdfe8a028412b25f4042b69method0(),
@@ -2265,17 +2215,12 @@ this.__getStatic().__template.addIf({
                     condition: (c) => true,
                     template: templ1
                 }]
-            });
- }
+            }); }
     getClassName() {
         return "ContextMenuItem";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('text')){ this['text'] = ""; }
-if(!this.hasAttribute('icon')){ this['icon'] = undefined; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('text');
-this.__upgradeProperty('icon');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('text')){ this['text'] = ""; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('text');this.__upgradeProperty('icon'); }
     onPress() {
         this.action();
         this.menu.close();
@@ -2321,16 +2266,10 @@ Components.ContextMenu = class ContextMenu extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-scrollable floating_scroll>
-    <rk-collapse _id="contextmenu_0">
-        <div class="container" _id="contextmenu_1">
-        </div>
-    </rk-collapse>
-</rk-scrollable>` }
+        blocks: { 'default':`<rk-scrollable floating_scroll>    <rk-collapse _id="contextmenu_0">        <div class="container" _id="contextmenu_1">        </div>    </rk-collapse></rk-scrollable>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "collapseEl",
@@ -2345,8 +2284,7 @@ this.__getStatic().__template.setActions({
       ]
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "ContextMenu";
     }
@@ -2531,10 +2469,8 @@ if(!window.customElements.get('rk-context-menu')){window.customElements.define('
 System.Loading = class Loading extends Aventus.WebComponent {
     static get observedAttributes() {return ["text"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'background'() { return this.getBoolAttr('background') }
-    set 'background'(val) { this.setBoolAttr('background', val) }
-    get 'text'() { return this.getStringProp('text') }
-    set 'text'(val) { this.setStringAttr('text', val) }
-    static __style = `:host{--internal-dot-size: var(--dot-size, 12px);--internal-radius: var(--radius, 50px);--internal-loading-color: var(--loading-color, var(--primary-color, white));--internal-loading-background-color: var(--loading-background-color, var(--emphasize, rgba(0, 0, 0, 0.5)))}:host{align-items:center;background-color:var(--internal-loading-background-color);display:flex;flex-direction:column;height:100%;justify-content:center;left:0;position:absolute;top:0;width:100%;z-index:600}:host .dot-container{--center: (var(--internal-radius) - (var(--internal-dot-size) / 2));display:inline-block;height:calc(var(--internal-radius)*2);position:relative;width:calc(var(--internal-radius)*2);z-index:10}:host .dot-container .dot{animation:lds-default 1.2s linear infinite;background:var(--internal-loading-color);border-radius:var(--border-radius-round);height:var(--internal-dot-size);position:absolute;width:var(--internal-dot-size)}:host .dot-container .dot:nth-child(1){--angle: 0deg;animation-delay:0s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(2){--angle: -30deg;animation-delay:-0.1s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(3){--angle: -60deg;animation-delay:-0.2s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(4){--angle: -90deg;animation-delay:-0.3s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(5){--angle: -120deg;animation-delay:-0.4s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(6){--angle: -150deg;animation-delay:-0.5s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(7){--angle: 180deg;animation-delay:-0.6s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(8){--angle: 150deg;animation-delay:-0.7s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(9){--angle: 120deg;animation-delay:-0.8s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(10){--angle: 90deg;animation-delay:-0.9s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(11){--angle: 60deg;animation-delay:-1s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(12){--angle: 30deg;animation-delay:-1.1s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .text{color:var(--internal-loading-color);font-size:var(--font-size-lg);font-weight:bold;letter-spacing:1px;margin-top:25px;padding:0 15px;text-align:center;z-index:10}@keyframes lds-default{0%,20%,80%,100%{transform:scale(1)}50%{transform:scale(1.5)}}:host([background]){background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:50% 50%}:host([background])::after{content:"";position:absolute;inset:0;background-color:rgba(0,0,0,.5);z-index:1}`;
+    set 'background'(val) { this.setBoolAttr('background', val) }    get 'text'() { return this.getStringProp('text') }
+    set 'text'(val) { this.setStringAttr('text', val) }    static __style = `:host{--internal-dot-size: var(--dot-size, 12px);--internal-radius: var(--radius, 50px);--internal-loading-color: var(--loading-color, var(--primary-color, white));--internal-loading-background-color: var(--loading-background-color, var(--emphasize, rgba(0, 0, 0, 0.5)))}:host{align-items:center;background-color:var(--internal-loading-background-color);display:flex;flex-direction:column;height:100%;justify-content:center;left:0;position:absolute;top:0;width:100%;z-index:600}:host .dot-container{--center: (var(--internal-radius) - (var(--internal-dot-size) / 2));display:inline-block;height:calc(var(--internal-radius)*2);position:relative;width:calc(var(--internal-radius)*2);z-index:10}:host .dot-container .dot{animation:lds-default 1.2s linear infinite;background:var(--internal-loading-color);border-radius:var(--border-radius-round);height:var(--internal-dot-size);position:absolute;width:var(--internal-dot-size)}:host .dot-container .dot:nth-child(1){--angle: 0deg;animation-delay:0s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(2){--angle: -30deg;animation-delay:-0.1s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(3){--angle: -60deg;animation-delay:-0.2s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(4){--angle: -90deg;animation-delay:-0.3s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(5){--angle: -120deg;animation-delay:-0.4s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(6){--angle: -150deg;animation-delay:-0.5s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(7){--angle: 180deg;animation-delay:-0.6s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(8){--angle: 150deg;animation-delay:-0.7s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(9){--angle: 120deg;animation-delay:-0.8s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(10){--angle: 90deg;animation-delay:-0.9s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(11){--angle: 60deg;animation-delay:-1s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(12){--angle: 30deg;animation-delay:-1.1s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .text{color:var(--internal-loading-color);font-size:var(--font-size-lg);font-weight:bold;letter-spacing:1px;margin-top:25px;padding:0 15px;text-align:center;z-index:10}@keyframes lds-default{0%,20%,80%,100%{transform:scale(1)}50%{transform:scale(1.5)}}:host([background]){background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:50% 50%}:host([background])::after{content:"";position:absolute;inset:0;background-color:rgba(0,0,0,.5);z-index:1}`;
     __getStatic() {
         return Loading;
     }
@@ -2545,41 +2481,22 @@ System.Loading = class Loading extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="dot-container">
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-</div><div class="text" _id="loading_0"></div>` }
+        blocks: { 'default':`<div class="dot-container">    <div class="dot"></div>    <div class="dot"></div>    <div class="dot"></div>    <div class="dot"></div>    <div class="dot"></div>    <div class="dot"></div>    <div class="dot"></div>    <div class="dot"></div>    <div class="dot"></div>    <div class="dot"></div>    <div class="dot"></div>    <div class="dot"></div></div><div class="text" _id="loading_0"></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "content": {
     "loading_0°@HTML": {
       "fct": (c) => `${c.print(c.comp.__f449123065aa1f6c0a81c7fbf3673938method0())}`,
       "once": true
     }
   }
-});
- }
+}); }
     getClassName() {
         return "Loading";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('background')) { this.attributeChangedCallback('background', false, false); }
-if(!this.hasAttribute('text')){ this['text'] = ""; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('background');
-this.__upgradeProperty('text');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('background')) { this.attributeChangedCallback('background', false, false); }if(!this.hasAttribute('text')){ this['text'] = ""; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('background');this.__upgradeProperty('text'); }
     __listBoolProps() { return ["background"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     onContextMenu(contextMenu, stop) {
         stop();
@@ -2959,26 +2876,16 @@ _.Routes.DesktopRouter=Routes.DesktopRouter;
 Components.PageCase = class PageCase extends Aventus.WebComponent {
     static get observedAttributes() {return ["case_width", "case_height"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'min_case_margin_left'() { return this.getNumberAttr('min_case_margin_left') }
-    set 'min_case_margin_left'(val) { this.setNumberAttr('min_case_margin_left', val) }
-get 'min_case_margin_top'() { return this.getNumberAttr('min_case_margin_top') }
-    set 'min_case_margin_top'(val) { this.setNumberAttr('min_case_margin_top', val) }
-get 'move_content'() { return this.getBoolAttr('move_content') }
-    set 'move_content'(val) { this.setBoolAttr('move_content', val) }
-get 'order_position'() { return this.getBoolAttr('order_position') }
-    set 'order_position'(val) { this.setBoolAttr('order_position', val) }
-get 'inverse'() { return this.getBoolAttr('inverse') }
-    set 'inverse'(val) { this.setBoolAttr('inverse', val) }
-get 'allow_scroll_outside'() { return this.getBoolAttr('allow_scroll_outside') }
-    set 'allow_scroll_outside'(val) { this.setBoolAttr('allow_scroll_outside', val) }
-get 'lock'() { return this.getBoolAttr('lock') }
-    set 'lock'(val) { this.setBoolAttr('lock', val) }
-get 'min_page_number'() { return this.getNumberAttr('min_page_number') }
-    set 'min_page_number'(val) { this.setNumberAttr('min_page_number', val) }
-    get 'case_width'() { return this.getNumberProp('case_width') }
-    set 'case_width'(val) { this.setNumberAttr('case_width', val) }
-get 'case_height'() { return this.getNumberProp('case_height') }
-    set 'case_height'(val) { this.setNumberAttr('case_height', val) }
-    casesEl = [];
+    set 'min_case_margin_left'(val) { this.setNumberAttr('min_case_margin_left', val) }get 'min_case_margin_top'() { return this.getNumberAttr('min_case_margin_top') }
+    set 'min_case_margin_top'(val) { this.setNumberAttr('min_case_margin_top', val) }get 'move_content'() { return this.getBoolAttr('move_content') }
+    set 'move_content'(val) { this.setBoolAttr('move_content', val) }get 'order_position'() { return this.getBoolAttr('order_position') }
+    set 'order_position'(val) { this.setBoolAttr('order_position', val) }get 'inverse'() { return this.getBoolAttr('inverse') }
+    set 'inverse'(val) { this.setBoolAttr('inverse', val) }get 'allow_scroll_outside'() { return this.getBoolAttr('allow_scroll_outside') }
+    set 'allow_scroll_outside'(val) { this.setBoolAttr('allow_scroll_outside', val) }get 'lock'() { return this.getBoolAttr('lock') }
+    set 'lock'(val) { this.setBoolAttr('lock', val) }get 'min_page_number'() { return this.getNumberAttr('min_page_number') }
+    set 'min_page_number'(val) { this.setNumberAttr('min_page_number', val) }    get 'case_width'() { return this.getNumberProp('case_width') }
+    set 'case_width'(val) { this.setNumberAttr('case_width', val) }get 'case_height'() { return this.getNumberProp('case_height') }
+    set 'case_height'(val) { this.setNumberAttr('case_height', val) }    casesEl = [];
     pagesEl = [];
     contentsEl = {};
     nbCasePerPage = 0;
@@ -2989,14 +2896,12 @@ get 'case_height'() { return this.getNumberProp('case_height') }
     if (target.inverse) {
         target.calculateGrid();
     }
-}));
-this.__addPropertyActions("case_height", ((target) => {
+}));this.__addPropertyActions("case_height", ((target) => {
     target.style.setProperty("--local-page-case-height", target.case_height + 'px');
     if (target.inverse) {
         target.calculateGrid();
     }
-}));
- }
+})); }
     static __style = `:host{--internal-page-case-background: var(--page-case-background, transparent);--internal-page-case-background-active: var(--page-case-background-active, transparent);--internal-page-case-border-active: var(--page-case-border-active, none);--internal-page-case-border-radius:var(--page-case-border-radius, 0)}:host{display:block;width:100%;height:100%;position:relative;overflow:hidden}:host .page-hider{width:100%;height:100%;position:absolute;top:0;left:0}:host .slot-hider ::slotted(*){position:absolute;top:0;left:0;width:var(--local-page-case-width);height:var(--local-page-case-height)}:host([move_content]) .slot-hider{display:none}`;
     __getStatic() {
         return PageCase;
@@ -3009,14 +2914,10 @@ this.__addPropertyActions("case_height", ((target) => {
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="page-hider" _id="pagecase_0">
-</div><div class="slot-hider">
-    <slot></slot>
-</div>` }
+        blocks: { 'default':`<div class="page-hider" _id="pagecase_0"></div><div class="slot-hider">    <slot></slot></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "pageHider",
@@ -3025,33 +2926,12 @@ this.__getStatic().__template.setActions({
       ]
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "PageCase";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('min_case_margin_left')){ this['min_case_margin_left'] = 30; }
-if(!this.hasAttribute('min_case_margin_top')){ this['min_case_margin_top'] = 30; }
-if(!this.hasAttribute('move_content')) {this.setAttribute('move_content' ,'true'); }
-if(!this.hasAttribute('order_position')) { this.attributeChangedCallback('order_position', false, false); }
-if(!this.hasAttribute('inverse')) { this.attributeChangedCallback('inverse', false, false); }
-if(!this.hasAttribute('allow_scroll_outside')) { this.attributeChangedCallback('allow_scroll_outside', false, false); }
-if(!this.hasAttribute('lock')) { this.attributeChangedCallback('lock', false, false); }
-if(!this.hasAttribute('min_page_number')){ this['min_page_number'] = undefined; }
-if(!this.hasAttribute('case_width')){ this['case_width'] = 50; }
-if(!this.hasAttribute('case_height')){ this['case_height'] = 50; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('min_case_margin_left');
-this.__upgradeProperty('min_case_margin_top');
-this.__upgradeProperty('move_content');
-this.__upgradeProperty('order_position');
-this.__upgradeProperty('inverse');
-this.__upgradeProperty('allow_scroll_outside');
-this.__upgradeProperty('lock');
-this.__upgradeProperty('min_page_number');
-this.__upgradeProperty('case_width');
-this.__upgradeProperty('case_height');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('min_case_margin_left')){ this['min_case_margin_left'] = 30; }if(!this.hasAttribute('min_case_margin_top')){ this['min_case_margin_top'] = 30; }if(!this.hasAttribute('move_content')) {this.setAttribute('move_content' ,'true'); }if(!this.hasAttribute('order_position')) { this.attributeChangedCallback('order_position', false, false); }if(!this.hasAttribute('inverse')) { this.attributeChangedCallback('inverse', false, false); }if(!this.hasAttribute('allow_scroll_outside')) { this.attributeChangedCallback('allow_scroll_outside', false, false); }if(!this.hasAttribute('lock')) { this.attributeChangedCallback('lock', false, false); }if(!this.hasAttribute('min_page_number')){ this['min_page_number'] = undefined; }if(!this.hasAttribute('case_width')){ this['case_width'] = 50; }if(!this.hasAttribute('case_height')){ this['case_height'] = 50; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('min_case_margin_left');this.__upgradeProperty('min_case_margin_top');this.__upgradeProperty('move_content');this.__upgradeProperty('order_position');this.__upgradeProperty('inverse');this.__upgradeProperty('allow_scroll_outside');this.__upgradeProperty('lock');this.__upgradeProperty('min_page_number');this.__upgradeProperty('case_width');this.__upgradeProperty('case_height'); }
     __listBoolProps() { return ["move_content","order_position","inverse","allow_scroll_outside","lock"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     addResizeObserver() {
         this.resizeObserver = new Aventus.ResizeObserver(() => {
@@ -3434,16 +3314,12 @@ _.RAM.ApplicationRAM=RAM.ApplicationRAM;
 System.AppList = class AppList extends Aventus.WebComponent {
     static get observedAttributes() {return ["show"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'no_transition'() { return this.getBoolAttr('no_transition') }
-    set 'no_transition'(val) { this.setBoolAttr('no_transition', val) }
-    get 'show'() { return this.getBoolProp('show') }
-    set 'show'(val) { this.setBoolAttr('show', val) }
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("show", ((target) => {
+    set 'no_transition'(val) { this.setBoolAttr('no_transition', val) }    get 'show'() { return this.getBoolProp('show') }
+    set 'show'(val) { this.setBoolAttr('show', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("show", ((target) => {
     target.onShowChange();
-}));
- }
+})); }
     static __style = `:host{--internal-app-list-case-border-radius: var(--app-list-case-border-radius, var(--app-icon-border-radius, 10px));--internal-app-list-case-border: var(--app-list-case-border, none);--internal-app-list-case-background-color: var(--app-list-case-background-color, transparent);--internal-app-list-case-border-selected: var(--app-list-case-border-selected, 2px solid red);--internal-app-list-case-background-color-selected: var(--app-list-case-background-color-selected, transparent)}:host{align-items:center;background-color:var(--lighter-active);display:flex;flex-direction:column;inset:0;position:absolute;top:100%;transition:top .5s var(--bezier-curve);z-index:5}:host .search{align-items:center;display:flex;height:100px;justify-content:center;width:100%}:host .search input{background-color:var(--form-element-background);border:none;border-radius:var(--border-radius-round);box-shadow:var(--elevation-3);font-size:var(--form-element-font-size);line-height:var(--form-element-font-size);max-width:400px;outline:none;padding:10px 20px;width:calc(100% - 20px)}:host .app-list{--page-case-background: var(--internal-app-list-case-background-color);--page-case-background-active: var(--internal-app-list-case-background-color-selected);--page-case-border-active: var(--internal-app-list-case-border-selected);--page-case-border-radius: var(--internal-app-list-case-border-radius);flex-grow:1;max-width:1000px;width:100%}:host([show]){top:0}:host([no_transition]){transition:none}`;
-    constructor() { super(); 
-this.closeAppList=this.closeAppList.bind(this) }
+    constructor() { super(); this.closeAppList=this.closeAppList.bind(this) }
     __getStatic() {
         return AppList;
     }
@@ -3454,16 +3330,10 @@ this.closeAppList=this.closeAppList.bind(this) }
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="search" _id="applist_0">
-    <input type="text" placeholder="Rechercher" />
-</div><div class="app-list">
-    <rk-page-case case_width="100" case_height="100" min_case_margin_left="20" min_case_margin_top="20" min_page_number="1" _id="applist_1">
-    </rk-page-case>
-</div>` }
+        blocks: { 'default':`<div class="search" _id="applist_0">    <input type="text" placeholder="Rechercher" /></div><div class="app-list">    <rk-page-case case_width="100" case_height="100" min_case_margin_left="20" min_case_margin_top="20" min_page_number="1" _id="applist_1">    </rk-page-case></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "searchContainer",
@@ -3478,17 +3348,12 @@ this.__getStatic().__template.setActions({
       ]
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "AppList";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('no_transition')) { this.attributeChangedCallback('no_transition', false, false); }
-if(!this.hasAttribute('show')) { this.attributeChangedCallback('show', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('no_transition');
-this.__upgradeProperty('show');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('no_transition')) { this.attributeChangedCallback('no_transition', false, false); }if(!this.hasAttribute('show')) { this.attributeChangedCallback('show', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('no_transition');this.__upgradeProperty('show'); }
     __listBoolProps() { return ["no_transition","show"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     closeAppList() {
         System.Os.instance.show_application_list = false;
@@ -3652,26 +3517,16 @@ _.Components.TouchRecord=Components.TouchRecord;
 Components.Scrollable = class Scrollable extends Aventus.WebComponent {
     static get observedAttributes() {return ["zoom"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'y_scroll_visible'() { return this.getBoolAttr('y_scroll_visible') }
-    set 'y_scroll_visible'(val) { this.setBoolAttr('y_scroll_visible', val) }
-get 'x_scroll_visible'() { return this.getBoolAttr('x_scroll_visible') }
-    set 'x_scroll_visible'(val) { this.setBoolAttr('x_scroll_visible', val) }
-get 'floating_scroll'() { return this.getBoolAttr('floating_scroll') }
-    set 'floating_scroll'(val) { this.setBoolAttr('floating_scroll', val) }
-get 'x_scroll'() { return this.getBoolAttr('x_scroll') }
-    set 'x_scroll'(val) { this.setBoolAttr('x_scroll', val) }
-get 'y_scroll'() { return this.getBoolAttr('y_scroll') }
-    set 'y_scroll'(val) { this.setBoolAttr('y_scroll', val) }
-get 'auto_hide'() { return this.getBoolAttr('auto_hide') }
-    set 'auto_hide'(val) { this.setBoolAttr('auto_hide', val) }
-get 'break'() { return this.getNumberAttr('break') }
-    set 'break'(val) { this.setNumberAttr('break', val) }
-get 'disable'() { return this.getBoolAttr('disable') }
-    set 'disable'(val) { this.setBoolAttr('disable', val) }
-get 'no_user_select'() { return this.getBoolAttr('no_user_select') }
-    set 'no_user_select'(val) { this.setBoolAttr('no_user_select', val) }
-    get 'zoom'() { return this.getNumberProp('zoom') }
-    set 'zoom'(val) { this.setNumberAttr('zoom', val) }
-    observer;
+    set 'y_scroll_visible'(val) { this.setBoolAttr('y_scroll_visible', val) }get 'x_scroll_visible'() { return this.getBoolAttr('x_scroll_visible') }
+    set 'x_scroll_visible'(val) { this.setBoolAttr('x_scroll_visible', val) }get 'floating_scroll'() { return this.getBoolAttr('floating_scroll') }
+    set 'floating_scroll'(val) { this.setBoolAttr('floating_scroll', val) }get 'x_scroll'() { return this.getBoolAttr('x_scroll') }
+    set 'x_scroll'(val) { this.setBoolAttr('x_scroll', val) }get 'y_scroll'() { return this.getBoolAttr('y_scroll') }
+    set 'y_scroll'(val) { this.setBoolAttr('y_scroll', val) }get 'auto_hide'() { return this.getBoolAttr('auto_hide') }
+    set 'auto_hide'(val) { this.setBoolAttr('auto_hide', val) }get 'break'() { return this.getNumberAttr('break') }
+    set 'break'(val) { this.setNumberAttr('break', val) }get 'disable'() { return this.getBoolAttr('disable') }
+    set 'disable'(val) { this.setBoolAttr('disable', val) }get 'no_user_select'() { return this.getBoolAttr('no_user_select') }
+    set 'no_user_select'(val) { this.setBoolAttr('no_user_select', val) }    get 'zoom'() { return this.getNumberProp('zoom') }
+    set 'zoom'(val) { this.setNumberAttr('zoom', val) }    observer;
     display = { x: 0, y: 0 };
     max = {
         x: 0,
@@ -3741,18 +3596,9 @@ get 'no_user_select'() { return this.getBoolAttr('no_user_select') }
     };
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("zoom", ((target) => {
     target.changeZoom();
-}));
- }
+})); }
     static __style = `:host{--_scrollbar-container-color: var(--scrollbar-container-color, transparent);--_scrollbar-color: var(--scrollbar-color, #757575);--_scrollbar-active-color: var(--scrollbar-active-color, #858585);--_scrollbar-max-height: var(--scrollbar-max-height, 100%);--_scroller-width: var(--scroller-width, 6px);--_scroller-top: var(--scroller-top, 3px);--_scroller-bottom: var(--scroller-bottom, 3px);--_scroller-right: var(--scroller-right, 3px);--_scroller-left: var(--scroller-left, 3px);--_scrollbar-content-padding: var(--scrollbar-content-padding, 0);--_scrollbar-container-display: var(--scrollbar-container-display, inline-block)}:host{display:block;height:100%;min-height:inherit;min-width:inherit;overflow:hidden;position:relative;-webkit-user-drag:none;-khtml-user-drag:none;-moz-user-drag:none;-o-user-drag:none;width:100%}:host .scroll-main-container{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;position:relative;width:100%}:host .scroll-main-container .content-zoom{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;position:relative;transform-origin:0 0;width:100%;z-index:4}:host .scroll-main-container .content-zoom .content-hidder{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;overflow:hidden;position:relative;width:100%}:host .scroll-main-container .content-zoom .content-hidder .content-wrapper{display:var(--_scrollbar-container-display);height:100%;min-height:inherit;min-width:inherit;padding:var(--_scrollbar-content-padding);position:relative;width:100%}:host .scroll-main-container .scroller-wrapper .container-scroller{display:none;overflow:hidden;position:absolute;transition:transform .2s linear;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller{background-color:var(--_scrollbar-container-color);border-radius:var(--border-radius-sm)}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller .scroller{background-color:var(--_scrollbar-color);border-radius:var(--border-radius-sm);cursor:pointer;position:absolute;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .scroller.active{background-color:var(--_scrollbar-active-color)}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical{height:calc(100% - var(--_scroller-bottom)*2 - var(--_scroller-width));padding-left:var(--_scroller-left);right:var(--_scroller-right);top:var(--_scroller-bottom);transform:0;width:calc(var(--_scroller-width) + var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical.hide{transform:translateX(calc(var(--_scroller-width) + var(--_scroller-left)))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller .scroller{width:calc(100% - var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal{bottom:var(--_scroller-bottom);height:calc(var(--_scroller-width) + var(--_scroller-top));left:var(--_scroller-right);padding-top:var(--_scroller-top);transform:0;width:calc(100% - var(--_scroller-right)*2 - var(--_scroller-width))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal.hide{transform:translateY(calc(var(--_scroller-width) + var(--_scroller-top)))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller .scroller{height:calc(100% - var(--_scroller-top))}:host([y_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{height:auto}:host([x_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{width:auto}:host([y_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.vertical{display:block}:host([x_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.horizontal{display:block}:host([no_user_select]) .content-wrapper *{user-select:none}:host([no_user_select]) ::slotted{user-select:none}`;
-    constructor() {
-            super();
-            this.renderAnimation = this.createAnimation();
-            this.onWheel = this.onWheel.bind(this);
-            this.onTouchStart = this.onTouchStart.bind(this);
-            this.onTouchMove = this.onTouchMove.bind(this);
-            this.onTouchEnd = this.onTouchEnd.bind(this);
-            this.touchRecord = new Components.TouchRecord();
-        }
+    constructor() {            super();            this.renderAnimation = this.createAnimation();            this.onWheel = this.onWheel.bind(this);            this.onTouchStart = this.onTouchStart.bind(this);            this.onTouchMove = this.onTouchMove.bind(this);            this.onTouchEnd = this.onTouchEnd.bind(this);            this.touchRecord = new Components.TouchRecord();        }
     __getStatic() {
         return Scrollable;
     }
@@ -3764,31 +3610,10 @@ get 'no_user_select'() { return this.getBoolAttr('no_user_select') }
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="scroll-main-container" _id="scrollable_0">
-    <div class="content-zoom" _id="scrollable_1">
-        <div class="content-hidder" _id="scrollable_2">
-            <div class="content-wrapper" part="content-wrapper" _id="scrollable_3">
-                <slot></slot>
-            </div>
-        </div>
-    </div>
-    <div class="scroller-wrapper">
-        <div class="container-scroller vertical" _id="scrollable_4">
-            <div class="shadow-scroller">
-                <div class="scroller" _id="scrollable_5"></div>
-            </div>
-        </div>
-        <div class="container-scroller horizontal" _id="scrollable_6">
-            <div class="shadow-scroller">
-                <div class="scroller" _id="scrollable_7"></div>
-            </div>
-        </div>
-    </div>
-</div>` }
+        blocks: { 'default':`<div class="scroll-main-container" _id="scrollable_0">    <div class="content-zoom" _id="scrollable_1">        <div class="content-hidder" _id="scrollable_2">            <div class="content-wrapper" part="content-wrapper" _id="scrollable_3">                <slot></slot>            </div>        </div>    </div>    <div class="scroller-wrapper">        <div class="container-scroller vertical" _id="scrollable_4">            <div class="shadow-scroller">                <div class="scroller" _id="scrollable_5"></div>            </div>        </div>        <div class="container-scroller horizontal" _id="scrollable_6">            <div class="shadow-scroller">                <div class="scroller" _id="scrollable_7"></div>            </div>        </div>    </div></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "mainContainer",
@@ -3839,35 +3664,12 @@ this.__getStatic().__template.setActions({
       ]
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "Scrollable";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('y_scroll_visible')) { this.attributeChangedCallback('y_scroll_visible', false, false); }
-if(!this.hasAttribute('x_scroll_visible')) { this.attributeChangedCallback('x_scroll_visible', false, false); }
-if(!this.hasAttribute('floating_scroll')) { this.attributeChangedCallback('floating_scroll', false, false); }
-if(!this.hasAttribute('x_scroll')) { this.attributeChangedCallback('x_scroll', false, false); }
-if(!this.hasAttribute('y_scroll')) {this.setAttribute('y_scroll' ,'true'); }
-if(!this.hasAttribute('auto_hide')) { this.attributeChangedCallback('auto_hide', false, false); }
-if(!this.hasAttribute('break')){ this['break'] = 0.1; }
-if(!this.hasAttribute('disable')) { this.attributeChangedCallback('disable', false, false); }
-if(!this.hasAttribute('no_user_select')) { this.attributeChangedCallback('no_user_select', false, false); }
-if(!this.hasAttribute('zoom')){ this['zoom'] = 1; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('x');
-this.__correctGetter('y');
-this.__upgradeProperty('y_scroll_visible');
-this.__upgradeProperty('x_scroll_visible');
-this.__upgradeProperty('floating_scroll');
-this.__upgradeProperty('x_scroll');
-this.__upgradeProperty('y_scroll');
-this.__upgradeProperty('auto_hide');
-this.__upgradeProperty('break');
-this.__upgradeProperty('disable');
-this.__upgradeProperty('no_user_select');
-this.__upgradeProperty('zoom');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('y_scroll_visible')) { this.attributeChangedCallback('y_scroll_visible', false, false); }if(!this.hasAttribute('x_scroll_visible')) { this.attributeChangedCallback('x_scroll_visible', false, false); }if(!this.hasAttribute('floating_scroll')) { this.attributeChangedCallback('floating_scroll', false, false); }if(!this.hasAttribute('x_scroll')) { this.attributeChangedCallback('x_scroll', false, false); }if(!this.hasAttribute('y_scroll')) {this.setAttribute('y_scroll' ,'true'); }if(!this.hasAttribute('auto_hide')) { this.attributeChangedCallback('auto_hide', false, false); }if(!this.hasAttribute('break')){ this['break'] = 0.1; }if(!this.hasAttribute('disable')) { this.attributeChangedCallback('disable', false, false); }if(!this.hasAttribute('no_user_select')) { this.attributeChangedCallback('no_user_select', false, false); }if(!this.hasAttribute('zoom')){ this['zoom'] = 1; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('x');this.__correctGetter('y');this.__upgradeProperty('y_scroll_visible');this.__upgradeProperty('x_scroll_visible');this.__upgradeProperty('floating_scroll');this.__upgradeProperty('x_scroll');this.__upgradeProperty('y_scroll');this.__upgradeProperty('auto_hide');this.__upgradeProperty('break');this.__upgradeProperty('disable');this.__upgradeProperty('no_user_select');this.__upgradeProperty('zoom'); }
     __listBoolProps() { return ["y_scroll_visible","x_scroll_visible","floating_scroll","x_scroll","y_scroll","auto_hide","disable","no_user_select"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     createAnimation() {
         return new Aventus.Animation({
@@ -4337,16 +4139,12 @@ if(!window.customElements.get('rk-scrollable')){window.customElements.define('rk
 Components.Tabs = class Tabs extends Aventus.WebComponent {
     static get observedAttributes() {return ["header_full_width"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'first_active'() { return this.getBoolAttr('first_active') }
-    set 'first_active'(val) { this.setBoolAttr('first_active', val) }
-get 'last_active'() { return this.getBoolAttr('last_active') }
-    set 'last_active'(val) { this.setBoolAttr('last_active', val) }
-    get 'header_full_width'() { return this.getBoolProp('header_full_width') }
-    set 'header_full_width'(val) { this.setBoolAttr('header_full_width', val) }
-    tabs = {};
+    set 'first_active'(val) { this.setBoolAttr('first_active', val) }get 'last_active'() { return this.getBoolAttr('last_active') }
+    set 'last_active'(val) { this.setBoolAttr('last_active', val) }    get 'header_full_width'() { return this.getBoolProp('header_full_width') }
+    set 'header_full_width'(val) { this.setBoolAttr('header_full_width', val) }    tabs = {};
     activeHeader;
     static __style = `:host{--_tabs-background-color: var(--tabs-background-color, #ffffff);--_tabs-header-background-color: var(--tabs-header-background-color, var(--darker-active, rgb(125, 125, 125)));--_tabs-header-background-color-active: var(--tabs-header-background-color-active, var(--_tabs-background-color));--_tabs-header-padding: var(--tabs-header-padding, 10px 10px);--_tabs-header-font-size: var(--tabs-header-font-size, calc(var(--font-size) * 0.855));--_tabs-body-padding: var(--tabs-body-padding, 10px 10px);--_tabs-spacing: var(--tabs-spacing, 5px);--_tabs-transition: var(--tabs-transition, background-color var(--bezier-curve) 0.2s);--_tabs-border-radius: var(--tabs-border-radius, var(--border-radius-sm, 0))}:host{display:flex;flex-direction:column;overflow:hidden;width:100%}:host .header .header-wrapper{align-items:center;display:flex;flex-direction:row;flex-wrap:nowrap;gap:var(--_tabs-spacing);padding-bottom:var(--_tabs-spacing)}:host .body{background-color:var(--_tabs-background-color);border-radius:var(--_tabs-border-radius);padding:var(--_tabs-body-padding);width:100%}:host([first_active]) .body{border-top-left-radius:0px}:host([last_active]) .body{border-top-right-radius:0px}:host([header_full_width]) .header .header-wrapper>*{flex-grow:1}`;
-    constructor() { super(); 
-this.validateCorner=this.validateCorner.bind(this) }
+    constructor() { super(); this.validateCorner=this.validateCorner.bind(this) }
     __getStatic() {
         return Tabs;
     }
@@ -4358,15 +4156,10 @@ this.validateCorner=this.validateCorner.bind(this) }
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<rk-scrollable y_scroll="false" class="header" floating_scroll auto_hide _id="tabs_0">
-    <div class="header-wrapper" _id="tabs_1"></div>
-</rk-scrollable><div class="body" _id="tabs_2">
-    <slot></slot>
-</div>` }
+        blocks: { 'default':`<rk-scrollable y_scroll="false" class="header" floating_scroll auto_hide _id="tabs_0">    <div class="header-wrapper" _id="tabs_1"></div></rk-scrollable><div class="body" _id="tabs_2">    <slot></slot></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "headerScrollEl",
@@ -4395,19 +4188,12 @@ this.__getStatic().__template.setActions({
       "once": true
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "Tabs";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('first_active')) { this.attributeChangedCallback('first_active', false, false); }
-if(!this.hasAttribute('last_active')) { this.attributeChangedCallback('last_active', false, false); }
-if(!this.hasAttribute('header_full_width')) { this.attributeChangedCallback('header_full_width', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('first_active');
-this.__upgradeProperty('last_active');
-this.__upgradeProperty('header_full_width');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('first_active')) { this.attributeChangedCallback('first_active', false, false); }if(!this.hasAttribute('last_active')) { this.attributeChangedCallback('last_active', false, false); }if(!this.hasAttribute('header_full_width')) { this.attributeChangedCallback('header_full_width', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('first_active');this.__upgradeProperty('last_active');this.__upgradeProperty('header_full_width'); }
     __listBoolProps() { return ["first_active","last_active","header_full_width"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     loadTabs() {
         let elements = this.getElementsInSlot();
@@ -4654,27 +4440,18 @@ _.Lib.Platform=Lib.Platform;
 
 Components.Tooltip = class Tooltip extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
-    set 'visible'(val) { this.setBoolAttr('visible', val) }
-get 'position'() { return this.getStringAttr('position') }
-    set 'position'(val) { this.setStringAttr('position', val) }
-get 'color'() { return this.getStringAttr('color') }
-    set 'color'(val) { this.setStringAttr('color', val) }
-get 'use_absolute'() { return this.getBoolAttr('use_absolute') }
-    set 'use_absolute'(val) { this.setBoolAttr('use_absolute', val) }
-get 'delay'() { return this.getNumberAttr('delay') }
-    set 'delay'(val) { this.setNumberAttr('delay', val) }
-get 'delay_touch'() { return this.getNumberAttr('delay_touch') }
-    set 'delay_touch'(val) { this.setNumberAttr('delay_touch', val) }
-    parent = null;
+    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'position'() { return this.getStringAttr('position') }
+    set 'position'(val) { this.setStringAttr('position', val) }get 'color'() { return this.getStringAttr('color') }
+    set 'color'(val) { this.setStringAttr('color', val) }get 'use_absolute'() { return this.getBoolAttr('use_absolute') }
+    set 'use_absolute'(val) { this.setBoolAttr('use_absolute', val) }get 'delay'() { return this.getNumberAttr('delay') }
+    set 'delay'(val) { this.setNumberAttr('delay', val) }get 'delay_touch'() { return this.getNumberAttr('delay_touch') }
+    set 'delay_touch'(val) { this.setNumberAttr('delay_touch', val) }    parent = null;
     isDestroyed = false;
     timeoutEnter = false;
     timeout = 0;
     pressManager;
     static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;pointer-events:none;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;width:max-content;z-index:1}:host::after{content:"";position:absolute}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--_tooltip-background-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:50%;top:-8px;transform:translateX(-50%)}:host([use_absolute][position=bottom]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=bottom]:not([use_absolute])){bottom:0px;left:50%;transform:translateX(-50%) translateY(calc(100% - 10px))}:host([position=bottom][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(100% + 10px))}:host([position=top]){transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--_tooltip-background-color);bottom:-8px;left:50%;transform:translateX(-50%)}:host([use_absolute][position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x)}:host([use_absolute][visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=top]:not([use_absolute])){left:50%;top:0px;transform:translateX(-50%) translateY(calc(-100% + 10px))}:host([position=top][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(-100% - 10px))}:host([position=right]){transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=right]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=right]:not([use_absolute])){right:0;top:50%;transform:translateX(calc(100% - 10px)) translateY(-50%)}:host([visible][position=right]:not([use_absolute])){transform:translateX(calc(100% + 10px)) translateY(-50%)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=left]){right:var(--local-tooltip-to-x)}:host([position=left]:not([use_absolute])){left:0;top:50%;transform:translateX(calc(-100% + 10px)) translateY(-50%)}:host([visible][position=left]:not([use_absolute])){transform:translateX(calc(-100% - 10px)) translateY(-50%)}:host([color=primary]){--_tooltip-background-color: var(--primary);--_tooltip-color: var(--text-color-primary)}:host([color=secondary]){--_tooltip-background-color: var(--secondary);--_tooltip-color: var(--text-color-secondary)}:host([color=green]){--_tooltip-background-color: var(--green);--_tooltip-color: var(--text-color-green)}:host([color=success]){--_tooltip-background-color: var(--success);--_tooltip-color: var(--text-color-success)}:host([color=red]){--_tooltip-background-color: var(--red);--_tooltip-color: var(--text-color-red)}:host([color=error]){--_tooltip-background-color: var(--error);--_tooltip-color: var(--text-color-error)}:host([color=orange]){--_tooltip-background-color: var(--orange);--_tooltip-color: var(--text-color-orange)}:host([color=warning]){--_tooltip-background-color: var(--warning);--_tooltip-color: var(--text-color-warning)}:host([color=blue]){--_tooltip-background-color: var(--blue);--_tooltip-color: var(--text-color-blue)}:host([color=information]){--_tooltip-background-color: var(--information);--_tooltip-color: var(--text-color-information)}`;
-    constructor() { super(); 
-this.onMouseEnter=this.onMouseEnter.bind(this)
-this.onMouseLeave=this.onMouseLeave.bind(this)
-this.onTransitionEnd=this.onTransitionEnd.bind(this) }
+    constructor() { super(); this.onMouseEnter=this.onMouseEnter.bind(this)this.onMouseLeave=this.onMouseLeave.bind(this)this.onTransitionEnd=this.onTransitionEnd.bind(this) }
     __getStatic() {
         return Tooltip;
     }
@@ -4692,20 +4469,8 @@ this.onTransitionEnd=this.onTransitionEnd.bind(this) }
     getClassName() {
         return "Tooltip";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }
-if(!this.hasAttribute('position')){ this['position'] = 'top'; }
-if(!this.hasAttribute('color')){ this['color'] = undefined; }
-if(!this.hasAttribute('use_absolute')) { this.attributeChangedCallback('use_absolute', false, false); }
-if(!this.hasAttribute('delay')){ this['delay'] = 50; }
-if(!this.hasAttribute('delay_touch')){ this['delay_touch'] = 500; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');
-this.__upgradeProperty('position');
-this.__upgradeProperty('color');
-this.__upgradeProperty('use_absolute');
-this.__upgradeProperty('delay');
-this.__upgradeProperty('delay_touch');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('position')){ this['position'] = 'top'; }if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('use_absolute')) { this.attributeChangedCallback('use_absolute', false, false); }if(!this.hasAttribute('delay')){ this['delay'] = 50; }if(!this.hasAttribute('delay_touch')){ this['delay_touch'] = 500; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('position');this.__upgradeProperty('color');this.__upgradeProperty('use_absolute');this.__upgradeProperty('delay');this.__upgradeProperty('delay_touch'); }
     __listBoolProps() { return ["visible","use_absolute"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     calculatePosition() {
         if (!this.parent || !this.use_absolute)
@@ -5116,11 +4881,9 @@ System.HomePanel = class HomePanel extends System.Panel {
 					}
 					set 'currentUser'(val) {
 						this.__watch["currentUser"] = val;
-					}
-    btn;
+					}    btn;
     __registerWatchesActions() {
-    this.__addWatchesActions("currentUser");
-    super.__registerWatchesActions();
+    this.__addWatchesActions("currentUser");    super.__registerWatchesActions();
 }
     static __style = `:host{display:flex;flex-direction:column;left:-9px;position:absolute;width:500px;box-shadow:var(--elevation-3)}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:var(--border-radius-sm);margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .grid{display:flex;flex-wrap:wrap;gap:10px;padding:10px}:host .content rk-row rk-col .favoris .favoris-container .grid *{aspect-ratio:1/1;flex-shrink:0;height:auto;width:calc(33.3333333333% - 6.6666666667px)}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;justify-content:space-between;width:100%}:host .footer .person{align-items:center;border-radius:var(--border-radius-sm);display:flex;margin:10px 10px;padding:8px 10px;transition:background-color .2s var(--bezier-curve)}:host .footer .person .icon{height:30px;width:30px}:host .footer .person .name{margin-left:10px}:host .footer .person:hover{background-color:var(--lighter)}:host .footer .actions{align-items:center;display:flex}:host .footer .actions rk-pwa-button{color:var(--text-color-success);background-color:var(--success);height:36px;width:36px}:host .footer .actions rk-button{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;aspect-ratio:1;border:none;box-shadow:var(--elevation-2);margin:10px 10px;min-width:auto}`;
     __getStatic() {
@@ -5131,47 +4894,12 @@ System.HomePanel = class HomePanel extends System.Panel {
         arrStyle.push(HomePanel.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="content">
-    <rk-row>
-        <rk-col size="6">
-            <div class="recent">
-                <div class="title">
-                    Récents
-                </div>
-                <rk-scrollable class="scrollable recent-container" floating_scroll _id="homepanel_0">
-                </rk-scrollable>
-            </div>
-        </rk-col>
-        <rk-col size="6">
-            <div class="favoris">
-                <div class="title">
-                    Mes favoris
-                </div>
-                <rk-scrollable class="scrollable favoris-container" floating_scroll>
-                    <div class="grid" _id="homepanel_1"></div>
-                </rk-scrollable>
-            </div>
-        </rk-col>
-    </rk-row>
-</div><div class="footer">
-    <div class="person touch" _id="homepanel_2">
-        <rk-user-profil-picture class="icon" _id="homepanel_3"></rk-user-profil-picture>
-        <div class="name" _id="homepanel_4"></div>
-    </div>
-    <div class="actions">
-        <rk-pwa-button>
-            <rk-tooltip position="top" delay="1000" use_absolute color="green">Installer l'application</rk-tooltip>
-        </rk-pwa-button>
-        <rk-button icon="/img/icons/power-off.svg" _id="homepanel_5"></rk-button>
-    </div>
-</div>` }
+        blocks: { 'default':`<div class="content">    <rk-row>        <rk-col size="6">            <div class="recent">                <div class="title">                    Récents                </div>                <rk-scrollable class="scrollable recent-container" floating_scroll _id="homepanel_0">                </rk-scrollable>            </div>        </rk-col>        <rk-col size="6">            <div class="favoris">                <div class="title">                    Mes favoris                </div>                <rk-scrollable class="scrollable favoris-container" floating_scroll>                    <div class="grid" _id="homepanel_1"></div>                </rk-scrollable>            </div>        </rk-col>    </rk-row></div><div class="footer">    <div class="person touch" _id="homepanel_2">        <rk-user-profil-picture class="icon" _id="homepanel_3"></rk-user-profil-picture>        <div class="name" _id="homepanel_4"></div>    </div>    <div class="actions">        <rk-pwa-button>            <rk-tooltip position="top" delay="1000" use_absolute color="green">Installer l'application</rk-tooltip>        </rk-pwa-button>        <rk-button icon="/img/icons/power-off.svg" _id="homepanel_5"></rk-button>    </div></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "recentContainer",
@@ -5204,15 +4932,12 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.logout(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "HomePanel";
     }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["currentUser"] = undefined;
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('currentUser');
- }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["currentUser"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('currentUser'); }
     openProfil() {
         let desktop = this.findParentByType(System.Desktop);
         if (desktop) {
@@ -5273,8 +4998,7 @@ if(!window.customElements.get('rk-home-panel')){window.customElements.define('rk
 
 System.HomeBtn = class HomeBtn extends Aventus.WebComponent {
     get 'active'() { return this.getBoolAttr('active') }
-    set 'active'(val) { this.setBoolAttr('active', val) }
-    static __style = `:host{position:relative}:host .icon{border-radius:var(--border-radius-sm);cursor:pointer;margin:0 3px;max-height:calc(100% - 16px);max-width:34px;padding:7px;transition:background-color .2s var(--bezier-curve)}:host rk-home-panel{bottom:calc(100% + 5px);height:0;overflow:hidden;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s}:host([active]) .icon{background-color:var(--text-color)}:host([active]) .icon rk-img{--img-fill-color: var(--primary-color-opacity)}:host([active]) rk-home-panel{bottom:calc(100% + 10px);height:400px}@media screen and (min-width: 1225px){:host(:not([active])) .icon:hover{background-color:var(--lighter-active)}}`;
+    set 'active'(val) { this.setBoolAttr('active', val) }    static __style = `:host{position:relative}:host .icon{border-radius:var(--border-radius-sm);cursor:pointer;margin:0 3px;max-height:calc(100% - 16px);max-width:34px;padding:7px;transition:background-color .2s var(--bezier-curve)}:host rk-home-panel{bottom:calc(100% + 5px);height:0;overflow:hidden;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s}:host([active]) .icon{background-color:var(--text-color)}:host([active]) .icon rk-img{--img-fill-color: var(--primary-color-opacity)}:host([active]) rk-home-panel{bottom:calc(100% + 10px);height:400px}@media screen and (min-width: 1225px){:host(:not([active])) .icon:hover{background-color:var(--lighter-active)}}`;
     __getStatic() {
         return HomeBtn;
     }
@@ -5285,13 +5009,10 @@ System.HomeBtn = class HomeBtn extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="icon" _id="homebtn_0">
-    <rk-img mode="contains" src="/img/icons/house.svg" class="touch"></rk-img>
-</div><rk-home-panel _id="homebtn_1"></rk-home-panel>` }
+        blocks: { 'default':`<div class="icon" _id="homebtn_0">    <rk-img mode="contains" src="/img/icons/house.svg" class="touch"></rk-img></div><rk-home-panel _id="homebtn_1"></rk-home-panel>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "homePanel",
@@ -5306,15 +5027,12 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.toggleActive(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "HomeBtn";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('active');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('active'); }
     __listBoolProps() { return ["active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     toggleActive() {
         this.active = !this.active;
@@ -5408,11 +5126,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
     timeoutOverHome = 0;
     emptyIcon;
     static __style = `:host{align-items:center;background-color:var(--primary-color-opacity);border-radius:var(--border-radius);bottom:10px;box-shadow:var(--elevation-3);color:var(--text-color);display:flex;font-size:var(--font-size);height:50px;left:100px;outline:none;padding:0 10px;position:absolute;transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s,transform 1s var(--bezier-curve);width:calc(100% - 200px);z-index:100}:host .section{align-items:center;display:flex;height:100%}:host .section .icon{--img-stroke-color: transparent;--img-fill-color: var(--text-color);border-radius:var(--border-radius-sm);cursor:pointer;margin:0 3px;max-height:calc(100% - 16px);max-width:34px;padding:7px;transition:background-color .2s var(--bezier-curve)}:host .section rk-app-icon{margin:0 5px}:host .separator{background-color:var(--text-color);display:inline-block;height:50%;margin:0 13px;width:1px}:host .applications{flex-grow:1;gap:10px;position:relative}:host .applications .empty-icon{background-color:var(--darker-active);border-radius:var(--border-radius-sm);height:30px;width:30px}:host .nb-notifications{align-items:center;background-color:var(--text-color);border-radius:var(--border-radius-round);color:var(--primary-color-opacity);display:flex;font-size:14px;font-weight:bold;height:25px;justify-content:center;letter-spacing:-1px;padding-right:1px;width:25px}@media screen and (min-width: 1225px){:host .section .icon:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host{border-radius:0;border-bottom-left-radius:0;border-bottom-right-radius:0;bottom:0px;left:0px;padding:0 10px;width:100%}}@media screen and (max-width: 768px){:host{height:70px}:host .basic-action{display:none}:host .addons>*{display:none}:host .separator{display:none}:host .applications .empty-icon{height:50px;width:50px}}`;
-    constructor() { super(); 
-this.setAppPositionTemp=this.setAppPositionTemp.bind(this)
-this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)
-this.setAppPosition=this.setAppPosition.bind(this)
-this.removeAppPosition=this.removeAppPosition.bind(this) }
+    constructor() { super(); this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this) }
     __getStatic() {
         return BottomBar;
     }
@@ -5423,20 +5137,11 @@ this.removeAppPosition=this.removeAppPosition.bind(this) }
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="section basic-action">
-    <rk-home-btn></rk-home-btn>
-    <rk-img mode="contains" src="/img/icons/application-panel.svg" class="touch icon" _id="bottombar_0"></rk-img>
-    <rk-img mode="contains" src="/img/icons/layout-fluid.svg" class="touch icon" _id="bottombar_1"></rk-img>
-</div><div class="separator"></div><div class="section applications" _id="bottombar_2"></div><div class="separator"></div><div class="section addons">
-    <rk-add-on-time></rk-add-on-time>
-</div>` }
+        blocks: { 'default':`<div class="section basic-action">    <rk-home-btn></rk-home-btn>    <rk-img mode="contains" src="/img/icons/application-panel.svg" class="touch icon" _id="bottombar_0"></rk-img>    <rk-img mode="contains" src="/img/icons/layout-fluid.svg" class="touch icon" _id="bottombar_1"></rk-img></div><div class="separator"></div><div class="section applications" _id="bottombar_2"></div><div class="separator"></div><div class="section addons">    <rk-add-on-time></rk-add-on-time></div>` }
     });
 }
-    __createStates() { super.__createStates(); let that = this;  this.__createStatesList(State.MoveApplication.state, State.DesktopStateManager);this.__addActiveState(State.MoveApplication.state, State.DesktopStateManager, (state, slugs) => { that.__inactiveDefaultState(State.DesktopStateManager); that.onMoveApplication(state, slugs);})
-this.__addInactiveState(State.MoveApplication.state, State.DesktopStateManager, (state, nextState, slugs) => { that.onStopMovingApplication(state, nextState, slugs);that.__activeDefaultState(nextState, State.DesktopStateManager);})
- }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __createStates() { super.__createStates(); let that = this;  this.__createStatesList(State.MoveApplication.state, State.DesktopStateManager);this.__addActiveState(State.MoveApplication.state, State.DesktopStateManager, (state, slugs) => { that.__inactiveDefaultState(State.DesktopStateManager); that.onMoveApplication(state, slugs);})this.__addInactiveState(State.MoveApplication.state, State.DesktopStateManager, (state, nextState, slugs) => { that.onStopMovingApplication(state, nextState, slugs);that.__activeDefaultState(nextState, State.DesktopStateManager);}) }
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "applicationsContainer",
@@ -5455,13 +5160,11 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.showDesktops(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "BottomBar";
     }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('desktop');
- }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('desktop'); }
     addSwipe() {
         let enable = true;
         let startY = 0;
@@ -5664,14 +5367,10 @@ if(!window.customElements.get('rk-bottom-bar')){window.customElements.define('rk
 
 Components.Resize = class Resize extends Aventus.WebComponent {
     get 'min_width'() { return this.getNumberAttr('min_width') }
-    set 'min_width'(val) { this.setNumberAttr('min_width', val) }
-get 'min_height'() { return this.getNumberAttr('min_height') }
-    set 'min_height'(val) { this.setNumberAttr('min_height', val) }
-get 'max_width'() { return this.getNumberAttr('max_width') }
-    set 'max_width'(val) { this.setNumberAttr('max_width', val) }
-get 'max_height'() { return this.getNumberAttr('max_height') }
-    set 'max_height'(val) { this.setNumberAttr('max_height', val) }
-    _target;
+    set 'min_width'(val) { this.setNumberAttr('min_width', val) }get 'min_height'() { return this.getNumberAttr('min_height') }
+    set 'min_height'(val) { this.setNumberAttr('min_height', val) }get 'max_width'() { return this.getNumberAttr('max_width') }
+    set 'max_width'(val) { this.setNumberAttr('max_width', val) }get 'max_height'() { return this.getNumberAttr('max_height') }
+    set 'max_height'(val) { this.setNumberAttr('max_height', val) }    _target;
     get target() {
         if (this._target)
             return this._target;
@@ -5696,8 +5395,7 @@ get 'max_height'() { return this.getNumberAttr('max_height') }
         blocks: { 'default':`<div class="top" _id="resize_0"></div><div class="top-left" _id="resize_1"></div><div class="left" _id="resize_2"></div><div class="bottom-left" _id="resize_3"></div><div class="bottom" _id="resize_4"></div><div class="bottom-right" _id="resize_5"></div><div class="right" _id="resize_6"></div><div class="top-right" _id="resize_7"></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "top",
@@ -5748,22 +5446,12 @@ this.__getStatic().__template.setActions({
       ]
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "Resize";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('min_width')){ this['min_width'] = undefined; }
-if(!this.hasAttribute('min_height')){ this['min_height'] = undefined; }
-if(!this.hasAttribute('max_width')){ this['max_width'] = undefined; }
-if(!this.hasAttribute('max_height')){ this['max_height'] = undefined; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('target');
-this.__upgradeProperty('min_width');
-this.__upgradeProperty('min_height');
-this.__upgradeProperty('max_width');
-this.__upgradeProperty('max_height');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('min_width')){ this['min_width'] = undefined; }if(!this.hasAttribute('min_height')){ this['min_height'] = undefined; }if(!this.hasAttribute('max_width')){ this['max_width'] = undefined; }if(!this.hasAttribute('max_height')){ this['max_height'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('target');this.__upgradeProperty('min_width');this.__upgradeProperty('min_height');this.__upgradeProperty('max_width');this.__upgradeProperty('max_height'); }
     styleBefore(addStyle) {
     }
     applyWidth(value) {
@@ -6174,18 +5862,12 @@ if(!window.customElements.get('rk-resize')){window.customElements.define('rk-res
 Components.Notification = class Notification extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon", "subject"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'position'() { return this.getStringAttr('position') }
-    set 'position'(val) { this.setStringAttr('position', val) }
-get 'color'() { return this.getStringAttr('color') }
-    set 'color'(val) { this.setStringAttr('color', val) }
-get 'delay'() { return this.getNumberAttr('delay') }
-    set 'delay'(val) { this.setNumberAttr('delay', val) }
-get 'is_active'() { return this.getBoolAttr('is_active') }
-    set 'is_active'(val) { this.setBoolAttr('is_active', val) }
-    get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }
-get 'subject'() { return this.getStringProp('subject') }
-    set 'subject'(val) { this.setStringAttr('subject', val) }
-    showAsked = false;
+    set 'position'(val) { this.setStringAttr('position', val) }get 'color'() { return this.getStringAttr('color') }
+    set 'color'(val) { this.setStringAttr('color', val) }get 'delay'() { return this.getNumberAttr('delay') }
+    set 'delay'(val) { this.setNumberAttr('delay', val) }get 'is_active'() { return this.getBoolAttr('is_active') }
+    set 'is_active'(val) { this.setBoolAttr('is_active', val) }    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'subject'() { return this.getStringProp('subject') }
+    set 'subject'(val) { this.setStringAttr('subject', val) }    showAsked = false;
     onHide = () => { };
     timeout = 0;
     static __style = `:host{--internal-notification-box-shadow: var(--notification-box-shadow);--internal-notification-logo-fill-color: var(--notification-logo-fill-color, var(--text-color));--internal-notification-logo-stroke-color: var(--notification-logo-stroke-color, transparent);--local-notification-transition-delay: 0.4s;--_notification-margin-bottom: var(--notification-margin-bottom, 20px);--_notification-margin-top: var(--notification-margin-top, 20px);--_notification-margin-right: var(--notification-margin-right, 10px);--_notification-margin-left: var(--notification-margin-left, 10px)}:host{background-color:var(--secondary-color);border-radius:var(--border-radius);box-shadow:var(--internal-notification-box-shadow);color:var(--text-color);display:flex;max-width:calc(100% - 20px);min-height:40px;padding:10px 20px;position:absolute;z-index:600;align-items:center}:host .logo{--img-fill-color: var(--internal-notification-logo-fill-color);--img-stroke-color: var(--internal-notification-logo-stroke-color);flex-shrink:0;order:1;width:30px;font-size:24px;margin-right:5px}:host .logo[src=""]{display:none}:host .content{cursor:pointer;display:flex;flex-direction:column;order:2}:host .content .title{font-size:20px;font-weight:bold;margin-bottom:5px}:host .content .title:empty{display:none}:host .content .text{flex-grow:1;overflow:hidden}:host .content .text:empty{display:none}:host .close{cursor:pointer;flex-grow:0;height:30px;position:absolute;width:30px}:host(:empty) .content .title{margin-bottom:0}:host(:empty) .content .text{display:none}:host([position="bottom left"]){bottom:var(--_notification-margin-bottom);left:0px;opacity:0;transform:translateX(-100%);transition:left var(--local-notification-transition-delay) var(--bezier-curve),bottom var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position="bottom left"]) .logo{order:2;margin-right:0;margin-left:5px}:host([position="bottom left"]) .content{order:1}:host([position="bottom left"]) .close{left:5px;top:5px}:host([position="bottom left"][is_active]){left:var(--_notification-margin-left);opacity:1;transform:translateX(0)}:host([position="top left"]){top:var(--_notification-margin-top);left:0px;opacity:0;transform:translateX(-100%);transition:left var(--local-notification-transition-delay) var(--bezier-curve),top var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position="top left"]) .logo{order:2;margin-right:0;margin-left:5px}:host([position="top left"]) .content{order:1}:host([position="top left"]) .close{left:5px;top:5px}:host([position="top left"][is_active]){left:var(--_notification-margin-left);opacity:1;transform:translateX(0)}:host([position="bottom right"]){bottom:var(--_notification-margin-bottom);opacity:0;right:0px;transform:translateX(100%);transition:right var(--local-notification-transition-delay) var(--bezier-curve),bottom var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position="bottom right"]) .close{right:5px;top:5px}:host([position="bottom right"][is_active]){opacity:1;right:var(--_notification-margin-right);transform:translateX(0)}:host([position="top right"]){opacity:0;right:0px;top:var(--_notification-margin-top);transform:translateX(100%);transition:right var(--local-notification-transition-delay) var(--bezier-curve),top var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve)}:host([position="top right"]) .close{right:5px;top:5px}:host([position="top right"][is_active]){opacity:1;right:var(--_notification-margin-right);transform:translateX(0)}:host([position=top]){left:10%;opacity:0;transform:translateY(-100%);transition:top var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve);width:80%}:host([position=top]) .close{right:5px;top:5px}:host([position=top]:not([is_active])){top:0px !important}:host([position=top][is_active]){opacity:1;top:var(--_notification-margin-top);transform:translateY(0)}:host([position=bottom]){left:10%;transform:translateY(100%);transition:bottom var(--local-notification-transition-delay) var(--bezier-curve),transform var(--local-notification-transition-delay) var(--bezier-curve),opacity var(--local-notification-transition-delay) var(--bezier-curve);width:80%}:host([position=bottom]) .close{right:5px;top:5px}:host([position=bottom]:not([is_active])){bottom:0px !important}:host([position=bottom][is_active]){bottom:var(--_notification-margin-bottom);opacity:1;transform:translateY(0)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}`;
@@ -6200,14 +5882,10 @@ get 'subject'() { return this.getStringProp('subject') }
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<rk-img class="logo" _id="notification_0"></rk-img><div class="content" _id="notification_1">
-    <div class="title" _id="notification_2"></div>
-    <div class="text"><slot></slot></div>
-</div>` }
+        blocks: { 'default':`<rk-img class="logo" _id="notification_0"></rk-img><div class="content" _id="notification_1">    <div class="title" _id="notification_2"></div>    <div class="text"><slot></slot></div></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "content": {
     "notification_0°src": {
       "fct": (c) => `${c.print(c.comp.__539853f1187f37c9fe641c673a21b24cmethod0())}`,
@@ -6228,25 +5906,12 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.clicked(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "Notification";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('position')){ this['position'] = 'top right'; }
-if(!this.hasAttribute('color')){ this['color'] = undefined; }
-if(!this.hasAttribute('delay')){ this['delay'] = 2000; }
-if(!this.hasAttribute('is_active')) { this.attributeChangedCallback('is_active', false, false); }
-if(!this.hasAttribute('icon')){ this['icon'] = undefined; }
-if(!this.hasAttribute('subject')){ this['subject'] = ""; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('position');
-this.__upgradeProperty('color');
-this.__upgradeProperty('delay');
-this.__upgradeProperty('is_active');
-this.__upgradeProperty('icon');
-this.__upgradeProperty('subject');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('position')){ this['position'] = 'top right'; }if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('delay')){ this['delay'] = 2000; }if(!this.hasAttribute('is_active')) { this.attributeChangedCallback('is_active', false, false); }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('subject')){ this['subject'] = ""; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('position');this.__upgradeProperty('color');this.__upgradeProperty('delay');this.__upgradeProperty('is_active');this.__upgradeProperty('icon');this.__upgradeProperty('subject'); }
     __listBoolProps() { return ["is_active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     show(onHide) {
         this.onHide = onHide;
@@ -6317,8 +5982,7 @@ if(!window.customElements.get('rk-notification')){window.customElements.define('
 
 Components.NotificationManager = class NotificationManager extends Aventus.WebComponent {
     get 'gap'() { return this.getNumberAttr('gap') }
-    set 'gap'(val) { this.setNumberAttr('gap', val) }
-    activeNotifications = {
+    set 'gap'(val) { this.setNumberAttr('gap', val) }    activeNotifications = {
         top: [],
         'top left': [],
         'bottom left': [],
@@ -6355,11 +6019,8 @@ Components.NotificationManager = class NotificationManager extends Aventus.WebCo
     getClassName() {
         return "NotificationManager";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('gap')){ this['gap'] = 10; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('containerHeight');
-this.__upgradeProperty('gap');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('gap')){ this['gap'] = 10; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('containerHeight');this.__upgradeProperty('gap'); }
     async notify(notification) {
         let realNotification;
         if (notification instanceof Components.Notification) {
@@ -6817,17 +6478,14 @@ _.System.ApplicationHistoryConvert=System.ApplicationHistoryConvert;
 System.FrameNoScroll = class FrameNoScroll extends Aventus.WebComponent {
     static get observedAttributes() {return ["visible"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'visible'() { return this.getBoolProp('visible') }
-    set 'visible'(val) { this.setBoolAttr('visible', val) }
-    get 'state'() {
+    set 'visible'(val) { this.setBoolAttr('visible', val) }    get 'state'() {
 						return this.__signals["state"].value;
 					}
 					set 'state'(val) {
 						this.__signals["state"].value = val;
-					}
-    application;
+					}    application;
     resetNavElement;
-    __registerSignalsActions() { this.__signals["state"] = null;
- super.__registerSignalsActions();  }
+    __registerSignalsActions() { this.__signals["state"] = null; super.__registerSignalsActions();  }
     static __style = `:host{display:none;height:100%;width:100%}:host .opacity-wrapper{animation-delay:var(--local-frame-animation-delay, 0ms);animation-duration:200ms;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);display:none;height:100%;visibility:hidden;width:100%}:host([visible]){display:block}:host([visible]) .opacity-wrapper{display:block}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}`;
     constructor() {
             super();
@@ -6844,21 +6502,15 @@ if (this.constructor == FrameNoScroll) { throw "can't instanciate an abstract cl
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="opacity-wrapper">
-    <slot></slot>
-</div>` }
+        blocks: { 'default':`<div class="opacity-wrapper">    <slot></slot></div>` }
     });
 }
     getClassName() {
         return "FrameNoScroll";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }
- }
-    __defaultValuesSignal(s) { super.__defaultValuesSignal(s); s["state"] = undefined;
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');
-this.__correctGetter('state');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); } }
+    __defaultValuesSignal(s) { super.__defaultValuesSignal(s); s["state"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__correctGetter('state'); }
     __listBoolProps() { return ["visible"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     addFadeIn() {
         this.style.setProperty("--local-frame-animation-delay", "200ms");
@@ -6928,8 +6580,7 @@ System.FrameStateNoScroll = class FrameStateNoScroll extends System.FrameNoScrol
         arrStyle.push(FrameStateNoScroll.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -6959,17 +6610,13 @@ System.Frame = class Frame extends System.FrameNoScroll {
         arrStyle.push(Frame.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'before-scroll':`<slot name="before-scroll"></slot>`,'default':`<slot></slot>`,'after-scroll':`<slot name="after-scroll"></slot>` }, 
-        blocks: { 'default':`<slot name="before-scroll"></slot><rk-scrollable floating_scroll class="main-scroll" _id="frame_0">
-    <slot></slot>
-</rk-scrollable><slot name="after-scroll"></slot>` }
+        blocks: { 'default':`<slot name="before-scroll"></slot><rk-scrollable floating_scroll class="main-scroll" _id="frame_0">    <slot></slot></rk-scrollable><slot name="after-scroll"></slot>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "mainScroll",
@@ -6978,8 +6625,7 @@ this.__getStatic().__template.setActions({
       ]
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "Frame";
     }
@@ -6999,8 +6645,7 @@ System.FrameState = class FrameState extends System.Frame {
         arrStyle.push(FrameState.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -7029,8 +6674,7 @@ System.FrameNotAllowed = class FrameNotAllowed extends System.Frame {
         arrStyle.push(FrameNotAllowed.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         blocks: { 'default':`<p>Pas autorisé</p>` }
     });
@@ -7453,8 +7097,7 @@ System.Frame404 = class Frame404 extends System.Frame {
         arrStyle.push(Frame404.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         blocks: { 'default':`<p>Erreur 404</p>` }
     });
@@ -7479,26 +7122,21 @@ if(!window.customElements.get('rk-frame-404')){window.customElements.define('rk-
 
 Components.GenericPopup = class GenericPopup extends Aventus.WebComponent {
     get 'no_red_btn'() { return this.getBoolAttr('no_red_btn') }
-    set 'no_red_btn'(val) { this.setBoolAttr('no_red_btn', val) }
-get 'behind'() { return this.getBoolAttr('behind') }
-    set 'behind'(val) { this.setBoolAttr('behind', val) }
-get 'close_on_click'() { return this.getBoolAttr('close_on_click') }
-    set 'close_on_click'(val) { this.setBoolAttr('close_on_click', val) }
-    get 'info'() {
+    set 'no_red_btn'(val) { this.setBoolAttr('no_red_btn', val) }get 'behind'() { return this.getBoolAttr('behind') }
+    set 'behind'(val) { this.setBoolAttr('behind', val) }get 'close_on_click'() { return this.getBoolAttr('close_on_click') }
+    set 'close_on_click'(val) { this.setBoolAttr('close_on_click', val) }    get 'info'() {
 						return this.__watch["info"];
 					}
 					set 'info'(val) {
 						this.__watch["info"] = val;
-					}
-    cb;
+					}    cb;
     pressManagerClose;
     pressManagerPopup;
     application;
     __registerWatchesActions() {
     this.__addWatchesActions("info", ((target, action, path, value) => {
     target.onOptionsChanged();
-}));
-    super.__registerWatchesActions();
+}));    super.__registerWatchesActions();
 }
     static __style = `:host{--_popup-background-color: var(--popup-background-color, var(--application-background-color, var(--primary-color-opacity)));--_popup-border-radius: var(--popup-border-radius, var(--application-border-radius, 10px));--_popup-header-background-color: var(--popup-header-background-color, var(--application-header-background-color, var(--darker-active)));--_popup-content-padding: var(--popup-content-padding, 15px)}:host{align-items:center;animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(48,48,48,.1);border-radius:var(--application-border-radius);display:flex;inset:0;justify-content:center;position:absolute;z-index:650}:host .popup{background-color:var(--_popup-background-color);border-radius:var(--_popup-border-radius);box-shadow:var(--elevation-5);container-name:application;container-type:normal;display:flex;flex-direction:column;max-height:calc(100% - 50px);max-width:calc(100% - 50px);width:fit-content}:host .popup .header{align-items:center;border-top-left-radius:var(--_popup-border-radius);border-top-right-radius:var(--_popup-border-radius);display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .popup .header .background{background-color:var(--_popup-header-background-color);inset:0;position:absolute;z-index:1}:host .popup .header .title{flex-grow:1;margin-left:15px;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .popup .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .popup .header .application-actions .btn{border-radius:var(--border-radius);height:15px;width:15px}:host .popup .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);max-height:calc(var(--app-height) - 50px - 30px);min-width:auto;min-height:auto;overflow:hidden;padding:var(--_popup-content-padding);width:100%;z-index:1}:host .popup.shake{animation-duration:.3s;animation-iteration-count:1;animation-name:shake;animation-timing-function:var(--bezier-curve)}:host(.fade-out){animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeOut;animation-timing-function:var(--bezier-curve)}:host([no_red_btn]) .popup .header .application-actions .btn{display:none}:host([behind]){z-index:550}@media screen and (min-width: 1225px){:host .popup .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}@keyframes fadeOut{0%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}@keyframes shake{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}`;
     constructor() {
@@ -7516,22 +7154,10 @@ if (this.constructor == GenericPopup) { throw "can't instanciate an abstract cla
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="popup" _id="genericpopup_0">
-    <div class="header">
-        <div class="background"></div>
-        <div class="title" _id="genericpopup_1"></div>
-        <div class="application-actions">
-            <div class="btn red touch" _id="genericpopup_2"></div>
-        </div>
-    </div>
-    <div class="content">
-        <slot></slot>
-    </div>
-</div>` }
+        blocks: { 'default':`<div class="popup" _id="genericpopup_0">    <div class="header">        <div class="background"></div>        <div class="title" _id="genericpopup_1"></div>        <div class="application-actions">            <div class="btn red touch" _id="genericpopup_2"></div>        </div>    </div>    <div class="content">        <slot></slot>    </div></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "popupEl",
@@ -7552,22 +7178,13 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.cancel(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "GenericPopup";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('no_red_btn')) { this.attributeChangedCallback('no_red_btn', false, false); }
-if(!this.hasAttribute('behind')) { this.attributeChangedCallback('behind', false, false); }
-if(!this.hasAttribute('close_on_click')) { this.attributeChangedCallback('close_on_click', false, false); }
- }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["info"] = undefined;
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('no_red_btn');
-this.__upgradeProperty('behind');
-this.__upgradeProperty('close_on_click');
-this.__correctGetter('info');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('no_red_btn')) { this.attributeChangedCallback('no_red_btn', false, false); }if(!this.hasAttribute('behind')) { this.attributeChangedCallback('behind', false, false); }if(!this.hasAttribute('close_on_click')) { this.attributeChangedCallback('close_on_click', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["info"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('no_red_btn');this.__upgradeProperty('behind');this.__upgradeProperty('close_on_click');this.__correctGetter('info'); }
     __listBoolProps() { return ["no_red_btn","behind","close_on_click"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     onContextMenu(contextMenu, stop) {
         stop();
@@ -7657,22 +7274,10 @@ Components.Popup = class Popup extends Components.GenericPopup {
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="popup" _id="popup_0">
-    <div class="header">
-        <div class="background"></div>
-        <div class="title" _id="popup_1"></div>
-        <div class="application-actions">
-            <div class="btn red touch" _id="popup_2"></div>
-        </div>
-    </div>
-    <rk-scrollable class="content">
-        <slot></slot>
-    </rk-scrollable>
-</div>` }
+        blocks: { 'default':`<div class="popup" _id="popup_0">    <div class="header">        <div class="background"></div>        <div class="title" _id="popup_1"></div>        <div class="application-actions">            <div class="btn red touch" _id="popup_2"></div>        </div>    </div>    <rk-scrollable class="content">        <slot></slot>    </rk-scrollable></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "popupEl",
@@ -7693,8 +7298,7 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.cancel(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "Popup";
     }
@@ -7715,17 +7319,12 @@ Components.Confirm = class Confirm extends Components.GenericPopup {
         arrStyle.push(Confirm.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-scrollable class="body" _id="confirm_0"></rk-scrollable><div class="action">
-    <rk-button color="red" _id="confirm_1"></rk-button>
-    <rk-button color="success" _id="confirm_2"></rk-button>
-</div>` }
+        blocks: { 'default':`<rk-scrollable class="body" _id="confirm_0"></rk-scrollable><div class="action">    <rk-button color="red" _id="confirm_1"></rk-button>    <rk-button color="success" _id="confirm_2"></rk-button></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "content": {
     "confirm_0°@HTML": {
       "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method0())}`,
@@ -7750,8 +7349,7 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.validate(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "Confirm";
     }
@@ -7794,18 +7392,12 @@ Components.Alert = class Alert extends Components.GenericPopup {
         arrStyle.push(Alert.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-scrollable class="body">
-    <p _id="alert_0"></p>
-</rk-scrollable><div class="action">
-    <rk-button color="blue" _id="alert_1"></rk-button>
-</div>` }
+        blocks: { 'default':`<rk-scrollable class="body">    <p _id="alert_0"></p></rk-scrollable><div class="action">    <rk-button color="blue" _id="alert_1"></rk-button></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "content": {
     "alert_0°@HTML": {
       "fct": (c) => `${c.print(c.comp.__d0561a7aa91ff42b328166316d099970method0())}`,
@@ -7823,8 +7415,7 @@ this.__getStatic().__template.setActions({
       "fct": (e, c) => c.comp.validate(e)
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "Alert";
     }
@@ -7856,22 +7447,16 @@ if(!window.customElements.get('rk-alert')){window.customElements.define('rk-aler
 System.Application = class Application extends Aventus.WebComponent {
     static get observedAttributes() {return ["app_title", "full", "is_hidden"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'moving'() { return this.getBoolAttr('moving') }
-    set 'moving'(val) { this.setBoolAttr('moving', val) }
-get 'loading'() { return this.getBoolAttr('loading') }
-    set 'loading'(val) { this.setBoolAttr('loading', val) }
-    get 'app_title'() { return this.getStringProp('app_title') }
-    set 'app_title'(val) { this.setStringAttr('app_title', val) }
-get 'full'() { return this.getBoolProp('full') }
-    set 'full'(val) { this.setBoolAttr('full', val) }
-get 'is_hidden'() { return this.getBoolProp('is_hidden') }
-    set 'is_hidden'(val) { this.setBoolAttr('is_hidden', val) }
-    get 'is_desktop_active'() {
+    set 'moving'(val) { this.setBoolAttr('moving', val) }get 'loading'() { return this.getBoolAttr('loading') }
+    set 'loading'(val) { this.setBoolAttr('loading', val) }    get 'app_title'() { return this.getStringProp('app_title') }
+    set 'app_title'(val) { this.setStringAttr('app_title', val) }get 'full'() { return this.getBoolProp('full') }
+    set 'full'(val) { this.setBoolAttr('full', val) }get 'is_hidden'() { return this.getBoolProp('is_hidden') }
+    set 'is_hidden'(val) { this.setBoolAttr('is_hidden', val) }    get 'is_desktop_active'() {
 						return this.__watch["is_desktop_active"];
 					}
 					set 'is_desktop_active'(val) {
 						this.__watch["is_desktop_active"] = val;
-					}
-    oldFrame;
+					}    oldFrame;
     allRoutes = {};
     activePath = "";
     activeState;
@@ -7897,46 +7482,15 @@ get 'is_hidden'() { return this.getBoolProp('is_hidden') }
     __registerWatchesActions() {
     this.__addWatchesActions("is_desktop_active", ((target) => {
     target.shortcutManager.manageShortcut();
-}));
-    super.__registerWatchesActions();
+}));    super.__registerWatchesActions();
 }
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("full", ((target) => {
     target.saveSize();
-}));
-this.__addPropertyActions("is_hidden", ((target) => {
+}));this.__addPropertyActions("is_hidden", ((target) => {
     target.onIsHiddenChange();
-}));
- }
+})); }
     static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{backdrop-filter:blur(2px);background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;pointer-events:none;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:var(--border-radius-round);height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host rk-notification-manager{top:35px}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}:host rk-notification-manager{top:45px}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 45px)}:host rk-resize{display:none}:host rk-notification-manager{top:45px}:host([is_hidden]){left:0 !important;width:100% !important}}`;
-    constructor() {
-            super();
-            this.history = new System.ApplicationHistory();
-            this.sizeManager = new System.ApplicationSize(this);
-            this.canChangeState = this.canChangeState.bind(this);
-            this.navigator.canChangeState(this.canChangeState);
-            this.shortcutManager = new System.ApplicationShortcut(this);
-            this.shortcutManager.init();
-if (this.constructor == Application) { throw "can't instanciate an abstract class"; } 
-this.onContextMenuContent=this.onContextMenuContent.bind(this)
-this.onContextMenuHeader=this.onContextMenuHeader.bind(this)
-this.validError404=this.validError404.bind(this)
-this.showErrorNotAllowed=this.showErrorNotAllowed.bind(this)
-this.saveApplicationHistory=this.saveApplicationHistory.bind(this)
-this.onResizeStart=this.onResizeStart.bind(this)
-this.onResizeStop=this.onResizeStop.bind(this)
-this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)
-this.moveApplicationToRight=this.moveApplicationToRight.bind(this)
-this.popup=this.popup.bind(this)
-this.alert=this.alert.bind(this)
-this.confirm=this.confirm.bind(this)
-this.notify=this.notify.bind(this)
-this.popupErrors=this.popupErrors.bind(this)
-this.parseErrors=this.parseErrors.bind(this)
-this.execute=this.execute.bind(this)
-this.executeWithLoading=this.executeWithLoading.bind(this)
-this.showLoading=this.showLoading.bind(this)
-this.txExec=this.txExec.bind(this)
-this.txExecLoading=this.txExecLoading.bind(this) }
+    constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);            this.shortcutManager = new System.ApplicationShortcut(this);            this.shortcutManager.init();if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.onContextMenuContent=this.onContextMenuContent.bind(this)this.onContextMenuHeader=this.onContextMenuHeader.bind(this)this.validError404=this.validError404.bind(this)this.showErrorNotAllowed=this.showErrorNotAllowed.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this)this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)this.moveApplicationToRight=this.moveApplicationToRight.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this)this.notify=this.notify.bind(this)this.popupErrors=this.popupErrors.bind(this)this.parseErrors=this.parseErrors.bind(this)this.execute=this.execute.bind(this)this.executeWithLoading=this.executeWithLoading.bind(this)this.showLoading=this.showLoading.bind(this)this.txExec=this.txExec.bind(this)this.txExecLoading=this.txExecLoading.bind(this) }
     __getStatic() {
         return Application;
     }
@@ -7947,27 +7501,10 @@ this.txExecLoading=this.txExecLoading.bind(this) }
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-context-menu-element class="header" _id="application_0">
-    <div class="background"></div>
-    <div class="navigation-actions">
-        <div class="previous action touch disable" _id="application_1">
-            <rk-img src="/img/icons/angle-left.svg"></rk-img>
-        </div>
-        <div class="next action touch disable" _id="application_2">
-            <rk-img src="/img/icons/angle-right.svg"></rk-img>
-        </div>
-    </div>
-    <div class="title" _id="application_3"></div>
-    <div class="application-actions">
-        <div class="btn green touch" _id="application_4"></div>
-        <div class="btn orange touch" _id="application_5"></div>
-        <div class="btn red touch" _id="application_6"></div>
-    </div>
-</rk-context-menu-element><rk-context-menu-element class="content" _id="application_7"></rk-context-menu-element><rk-resize min_width="200" min_height="200" _id="application_8"></rk-resize><rk-loading class="loading"></rk-loading><rk-notification-manager _id="application_9"></rk-notification-manager>` }
+        blocks: { 'default':`<rk-context-menu-element class="header" _id="application_0">    <div class="background"></div>    <div class="navigation-actions">        <div class="previous action touch disable" _id="application_1">            <rk-img src="/img/icons/angle-left.svg"></rk-img>        </div>        <div class="next action touch disable" _id="application_2">            <rk-img src="/img/icons/angle-right.svg"></rk-img>        </div>    </div>    <div class="title" _id="application_3"></div>    <div class="application-actions">        <div class="btn green touch" _id="application_4"></div>        <div class="btn orange touch" _id="application_5"></div>        <div class="btn red touch" _id="application_6"></div>    </div></rk-context-menu-element><rk-context-menu-element class="content" _id="application_7"></rk-context-menu-element><rk-resize min_width="200" min_height="200" _id="application_8"></rk-resize><rk-loading class="loading"></rk-loading><rk-notification-manager _id="application_9"></rk-notification-manager>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "header",
@@ -8034,27 +7571,13 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.kill(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "Application";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('moving')) { this.attributeChangedCallback('moving', false, false); }
-if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }
-if(!this.hasAttribute('app_title')){ this['app_title'] = "Page title"; }
-if(!this.hasAttribute('full')) { this.attributeChangedCallback('full', false, false); }
-if(!this.hasAttribute('is_hidden')) { this.attributeChangedCallback('is_hidden', false, false); }
- }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["is_desktop_active"] = false;
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('navigator');
-this.__upgradeProperty('moving');
-this.__upgradeProperty('loading');
-this.__upgradeProperty('app_title');
-this.__upgradeProperty('full');
-this.__upgradeProperty('is_hidden');
-this.__correctGetter('is_desktop_active');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('moving')) { this.attributeChangedCallback('moving', false, false); }if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('app_title')){ this['app_title'] = "Page title"; }if(!this.hasAttribute('full')) { this.attributeChangedCallback('full', false, false); }if(!this.hasAttribute('is_hidden')) { this.attributeChangedCallback('is_hidden', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["is_desktop_active"] = false; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('navigator');this.__upgradeProperty('moving');this.__upgradeProperty('loading');this.__upgradeProperty('app_title');this.__upgradeProperty('full');this.__upgradeProperty('is_hidden');this.__correctGetter('is_desktop_active'); }
     __listBoolProps() { return ["moving","loading","full","is_hidden"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     onContextMenuContent(contextMenu, stop) {
         stop();
@@ -8703,28 +8226,20 @@ _.System.Application=System.Application;
 Components.Link = class Link extends Aventus.WebComponent {
     static get observedAttributes() {return ["to", "active_pattern", "active"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'to'() { return this.getStringProp('to') }
-    set 'to'(val) { this.setStringAttr('to', val) }
-get 'active_pattern'() { return this.getStringProp('active_pattern') }
-    set 'active_pattern'(val) { this.setStringAttr('active_pattern', val) }
-get 'active'() { return this.getBoolProp('active') }
-    set 'active'(val) { this.setBoolAttr('active', val) }
-    pressManager;
+    set 'to'(val) { this.setStringAttr('to', val) }get 'active_pattern'() { return this.getStringProp('active_pattern') }
+    set 'active_pattern'(val) { this.setStringAttr('active_pattern', val) }get 'active'() { return this.getBoolProp('active') }
+    set 'active'(val) { this.setBoolAttr('active', val) }    pressManager;
     oldTo;
     retriggerIfActive = false;
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("to", ((target) => {
     target.changeActiveSub();
-}));
-this.__addPropertyActions("active_pattern", ((target) => {
+}));this.__addPropertyActions("active_pattern", ((target) => {
     target.changeActiveSub();
-}));
-this.__addPropertyActions("active", ((target) => {
+}));this.__addPropertyActions("active", ((target) => {
     target.onActiveChange();
-}));
- }
+})); }
     static __style = ``;
-    constructor() { super(); 
-this.setActive=this.setActive.bind(this)
-this.setInactive=this.setInactive.bind(this) }
+    constructor() { super(); this.setActive=this.setActive.bind(this)this.setInactive=this.setInactive.bind(this) }
     __getStatic() {
         return Link;
     }
@@ -8742,14 +8257,8 @@ this.setInactive=this.setInactive.bind(this) }
     getClassName() {
         return "Link";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('to')){ this['to'] = undefined; }
-if(!this.hasAttribute('active_pattern')){ this['active_pattern'] = undefined; }
-if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('to');
-this.__upgradeProperty('active_pattern');
-this.__upgradeProperty('active');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('to')){ this['to'] = undefined; }if(!this.hasAttribute('active_pattern')){ this['active_pattern'] = undefined; }if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('to');this.__upgradeProperty('active_pattern');this.__upgradeProperty('active'); }
     __listBoolProps() { return ["active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     changeActiveSub() {
         let app = this.findParentByType(System.Application);
@@ -8909,14 +8418,10 @@ _.RAM.DesktopRAM=RAM.DesktopRAM;
 System.Desktop = class Desktop extends Aventus.WebComponent {
     static get observedAttributes() {return ["desktop_id"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'show_application_list'() { return this.getBoolAttr('show_application_list') }
-    set 'show_application_list'(val) { this.setBoolAttr('show_application_list', val) }
-get 'is_active'() { return this.getBoolAttr('is_active') }
-    set 'is_active'(val) { this.setBoolAttr('is_active', val) }
-get 'background_size'() { return this.getStringAttr('background_size') }
-    set 'background_size'(val) { this.setStringAttr('background_size', val) }
-    get 'desktop_id'() { return this.getNumberProp('desktop_id') }
-    set 'desktop_id'(val) { this.setNumberAttr('desktop_id', val) }
-    applications = {};
+    set 'show_application_list'(val) { this.setBoolAttr('show_application_list', val) }get 'is_active'() { return this.getBoolAttr('is_active') }
+    set 'is_active'(val) { this.setBoolAttr('is_active', val) }get 'background_size'() { return this.getStringAttr('background_size') }
+    set 'background_size'(val) { this.setStringAttr('background_size', val) }    get 'desktop_id'() { return this.getNumberProp('desktop_id') }
+    set 'desktop_id'(val) { this.setNumberAttr('desktop_id', val) }    applications = {};
     data;
     _iconSize = 0;
     get iconSize() {
@@ -8926,12 +8431,7 @@ get 'background_size'() { return this.getStringAttr('background_size') }
     oldActiveCase;
     pressManagerStopMoveApp;
     static __style = `:host{--_desktop-background-color: var(--desktop-background-color, var(--primary-color))}:host{background-color:var(--_desktop-background-color);background-position:center;background-repeat:no-repeat;background-size:cover;flex-shrink:0;height:100%;overflow:hidden;position:relative;width:100%}:host .icons{--page-case-border-radius: var(--border-radius-sm);--page-case-border-active: 1px solid var(--darker-active);--page-case-background-active: var(--lighter-active);height:calc(100% - 70px);transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s;width:100%;z-index:2}:host .app-container{transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host([show_application_list])>*{opacity:0 !important;visibility:hidden !important}:host([background_size=Cover]){background-size:cover}:host([background_size=Contain]){background-size:contain}:host([background_size=Stretch]){background-size:100% 100%}`;
-    constructor() {
-            super();
-this.setAppPositionTemp=this.setAppPositionTemp.bind(this)
-this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)
-this.setAppPosition=this.setAppPosition.bind(this)
-this.removeAppPosition=this.removeAppPosition.bind(this) }
+    constructor() {            super();this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this) }
     __getStatic() {
         return Desktop;
     }
@@ -8942,17 +8442,11 @@ this.removeAppPosition=this.removeAppPosition.bind(this) }
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="icons">
-    <rk-page-case case_width="75" case_height="75" min_case_margin_left="20" min_case_margin_top="20" min_page_number="1" order_position inverse _id="desktop_0">
-    </rk-page-case>
-</div><rk-bottom-bar _id="desktop_1"></rk-bottom-bar><div class="app-container" _id="desktop_2"></div>` }
+        blocks: { 'default':`<div class="icons">    <rk-page-case case_width="75" case_height="75" min_case_margin_left="20" min_case_margin_top="20" min_page_number="1" order_position inverse _id="desktop_0">    </rk-page-case></div><rk-bottom-bar _id="desktop_1"></rk-bottom-bar><div class="app-container" _id="desktop_2"></div>` }
     });
 }
-    __createStates() { super.__createStates(); let that = this;  this.__createStatesList(State.MoveApplication.state, State.DesktopStateManager);this.__addActiveState(State.MoveApplication.state, State.DesktopStateManager, (state, slugs) => { that.__inactiveDefaultState(State.DesktopStateManager); that.onMoveApplication(state, slugs);})
-this.__addInactiveState(State.MoveApplication.state, State.DesktopStateManager, (state, nextState, slugs) => { that.onStopMovingApplication(state, nextState, slugs);that.__activeDefaultState(nextState, State.DesktopStateManager);})
- }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __createStates() { super.__createStates(); let that = this;  this.__createStatesList(State.MoveApplication.state, State.DesktopStateManager);this.__addActiveState(State.MoveApplication.state, State.DesktopStateManager, (state, slugs) => { that.__inactiveDefaultState(State.DesktopStateManager); that.onMoveApplication(state, slugs);})this.__addInactiveState(State.MoveApplication.state, State.DesktopStateManager, (state, nextState, slugs) => { that.onStopMovingApplication(state, nextState, slugs);that.__activeDefaultState(nextState, State.DesktopStateManager);}) }
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "pageCaseEl",
@@ -8973,22 +8467,12 @@ this.__getStatic().__template.setActions({
       ]
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "Desktop";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('show_application_list')) { this.attributeChangedCallback('show_application_list', false, false); }
-if(!this.hasAttribute('is_active')) { this.attributeChangedCallback('is_active', false, false); }
-if(!this.hasAttribute('background_size')){ this['background_size'] = Data.BackgroundSize[Data.BackgroundSize.Cover]; }
-if(!this.hasAttribute('desktop_id')){ this['desktop_id'] = undefined; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('iconSize');
-this.__upgradeProperty('show_application_list');
-this.__upgradeProperty('is_active');
-this.__upgradeProperty('background_size');
-this.__upgradeProperty('desktop_id');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('show_application_list')) { this.attributeChangedCallback('show_application_list', false, false); }if(!this.hasAttribute('is_active')) { this.attributeChangedCallback('is_active', false, false); }if(!this.hasAttribute('background_size')){ this['background_size'] = Data.BackgroundSize[Data.BackgroundSize.Cover]; }if(!this.hasAttribute('desktop_id')){ this['desktop_id'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('iconSize');this.__upgradeProperty('show_application_list');this.__upgradeProperty('is_active');this.__upgradeProperty('background_size');this.__upgradeProperty('desktop_id'); }
     __listBoolProps() { return ["show_application_list","is_active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     onContextMenu(contextMenu, stop) {
         if (Object.keys(this.applications).length > 0) {
@@ -9374,22 +8858,16 @@ if(!window.customElements.get('rk-desktop')){window.customElements.define('rk-de
 System.Os = class Os extends Aventus.WebComponent {
     static get observedAttributes() {return ["desktop_list", "show_application_list", "active_desktop"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'loading'() { return this.getBoolAttr('loading') }
-    set 'loading'(val) { this.setBoolAttr('loading', val) }
-get 'ready'() { return this.getBoolAttr('ready') }
-    set 'ready'(val) { this.setBoolAttr('ready', val) }
-    get 'desktop_list'() { return this.getBoolProp('desktop_list') }
-    set 'desktop_list'(val) { this.setBoolAttr('desktop_list', val) }
-get 'show_application_list'() { return this.getBoolProp('show_application_list') }
-    set 'show_application_list'(val) { this.setBoolAttr('show_application_list', val) }
-get 'active_desktop'() { return this.getNumberProp('active_desktop') }
-    set 'active_desktop'(val) { this.setNumberAttr('active_desktop', val) }
-    get 'desktops'() {
+    set 'loading'(val) { this.setBoolAttr('loading', val) }get 'ready'() { return this.getBoolAttr('ready') }
+    set 'ready'(val) { this.setBoolAttr('ready', val) }    get 'desktop_list'() { return this.getBoolProp('desktop_list') }
+    set 'desktop_list'(val) { this.setBoolAttr('desktop_list', val) }get 'show_application_list'() { return this.getBoolProp('show_application_list') }
+    set 'show_application_list'(val) { this.setBoolAttr('show_application_list', val) }get 'active_desktop'() { return this.getNumberProp('active_desktop') }
+    set 'active_desktop'(val) { this.setNumberAttr('active_desktop', val) }    get 'desktops'() {
 						return this.__watch["desktops"];
 					}
 					set 'desktops'(val) {
 						this.__watch["desktops"] = val;
-					}
-    static instance;
+					}    static instance;
     static get version() {
         return coreVersion;
     }
@@ -9399,34 +8877,21 @@ get 'active_desktop'() { return this.getNumberProp('active_desktop') }
     }
     contextMenuCst = Components.ContextMenu;
     __registerWatchesActions() {
-    this.__addWatchesActions("desktops");
-    super.__registerWatchesActions();
+    this.__addWatchesActions("desktops");    super.__registerWatchesActions();
 }
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("desktop_list", ((target) => {
     target.onShowDesktopList();
-}));
-this.__addPropertyActions("show_application_list", ((target) => {
+}));this.__addPropertyActions("show_application_list", ((target) => {
     if (target.appList)
         target.appList.show = target.show_application_list;
     for (let desktop of target.desktopsEl) {
         desktop.show_application_list = target.show_application_list;
     }
-}));
-this.__addPropertyActions("active_desktop", ((target) => {
+}));this.__addPropertyActions("active_desktop", ((target) => {
     target.onActiveDesktop();
-}));
- }
+})); }
     static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;width:100%}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:var(--border-radius-round);cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;width:40px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;display:none;height:50px;min-width:auto;position:absolute;right:10px;z-index:6}:host rk-loading{opacity:0;visibility:hidden}:host .background{background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:25% 25%;inset:-20px;position:absolute;z-index:0;filter:brightness(0.8)}:host rk-notification-manager{bottom:60px}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:max-content;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:var(--border-radius-sm)}:host([desktop_list]) .add-desktop{display:block}`;
-    constructor() {
-            super();
-            System.Os.instance = this;
-            Lib.ApplicationManager.reloadData();
-this.desktopMoveLeft=this.desktopMoveLeft.bind(this)
-this.desktopMoveRight=this.desktopMoveRight.bind(this)
-this.desktopMoveValidate=this.desktopMoveValidate.bind(this)
-this.popup=this.popup.bind(this)
-this.alert=this.alert.bind(this)
-this.confirm=this.confirm.bind(this) }
+    constructor() {            super();            System.Os.instance = this;            Lib.ApplicationManager.reloadData();this.desktopMoveLeft=this.desktopMoveLeft.bind(this)this.desktopMoveRight=this.desktopMoveRight.bind(this)this.desktopMoveValidate=this.desktopMoveValidate.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this) }
     __getStatic() {
         return Os;
     }
@@ -9437,16 +8902,10 @@ this.confirm=this.confirm.bind(this) }
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="background"></div><rk-app-list _id="os_0"></rk-app-list><rk-loading text="Chargement du système" background></rk-loading><rk-scrollable y_scroll="false" disable _id="os_1">
-    <div class="desktop-container">
-        <template _id="os_2"></template>
-    </div>
-</rk-scrollable><rk-button-icon class="add-desktop" icon="/img/icons/add.svg" color="blue"></rk-button-icon><rk-notification-manager _id="os_6"></rk-notification-manager>` }
+        blocks: { 'default':`<div class="background"></div><rk-app-list _id="os_0"></rk-app-list><rk-loading text="Chargement du système" background></rk-loading><rk-scrollable y_scroll="false" disable _id="os_1">    <div class="desktop-container">        <template _id="os_2"></template>    </div></rk-scrollable><rk-button-icon class="add-desktop" icon="/img/icons/add.svg" color="blue"></rk-button-icon><rk-notification-manager _id="os_6"></rk-notification-manager>` }
     });
 }
-    get desktopsEl () { var list = Array.from(this.shadowRoot.querySelectorAll('[_id="os_5"]')); return list; }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    get desktopsEl () { var list = Array.from(this.shadowRoot.querySelectorAll('[_id="os_5"]')); return list; }    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "appList",
@@ -9467,16 +8926,7 @@ this.__getStatic().__template.setActions({
       ]
     }
   ]
-});
-const templ0 = new Aventus.Template(this);
-templ0.setTemplate(` 
-            <div class="desktop-case">
-                <rk-img class="delete-desktop" src="/img/icons/close.svg" _id="os_3"></rk-img>
-                <div class="desktop-hider" _id="os_4"></div>
-                <rk-desktop _id="os_5"></rk-desktop>
-            </div>
-        `);
-templ0.setActions({
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`             <div class="desktop-case">                <rk-img class="delete-desktop" src="/img/icons/close.svg" _id="os_3"></rk-img>                <div class="desktop-hider" _id="os_4"></div>                <rk-desktop _id="os_5"></rk-desktop>            </div>        `);templ0.setActions({
   "content": {
     "os_3°data-id": {
       "fct": (c) => `${c.print(c.comp.__1ce90dbdb85fa41f02d47acb05511f03method2(c.data.desktop))}`,
@@ -9506,32 +8956,16 @@ templ0.setActions({
       "fct": (c) => c.comp.__1ce90dbdb85fa41f02d47acb05511f03method1(c.data.index)
     }
   ]
-});
-this.__getStatic().__template.addLoop({
+});this.__getStatic().__template.addLoop({
                     anchorId: 'os_2',
                     template: templ0,
-                simple:{data: "this.desktops",index:"index"}
-});
- }
+                simple:{data: "this.desktops",index:"index"}}); }
     getClassName() {
         return "Os";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }
-if(!this.hasAttribute('ready')) { this.attributeChangedCallback('ready', false, false); }
-if(!this.hasAttribute('desktop_list')) { this.attributeChangedCallback('desktop_list', false, false); }
-if(!this.hasAttribute('show_application_list')) { this.attributeChangedCallback('show_application_list', false, false); }
-if(!this.hasAttribute('active_desktop')){ this['active_desktop'] = 0; }
- }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["desktops"] = [];
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('activeDesktop');
-this.__upgradeProperty('loading');
-this.__upgradeProperty('ready');
-this.__upgradeProperty('desktop_list');
-this.__upgradeProperty('show_application_list');
-this.__upgradeProperty('active_desktop');
-this.__correctGetter('desktops');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('ready')) { this.attributeChangedCallback('ready', false, false); }if(!this.hasAttribute('desktop_list')) { this.attributeChangedCallback('desktop_list', false, false); }if(!this.hasAttribute('show_application_list')) { this.attributeChangedCallback('show_application_list', false, false); }if(!this.hasAttribute('active_desktop')){ this['active_desktop'] = 0; } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["desktops"] = []; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('activeDesktop');this.__upgradeProperty('loading');this.__upgradeProperty('ready');this.__upgradeProperty('desktop_list');this.__upgradeProperty('show_application_list');this.__upgradeProperty('active_desktop');this.__correctGetter('desktops'); }
     __listBoolProps() { return ["loading","ready","desktop_list","show_application_list"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     onActiveDesktop() {
         this.style.setProperty("--_active-desktop", this.active_desktop + "");
@@ -9818,23 +9252,16 @@ _.Lib.Process=Lib.Process;
 
 System.AppIcon = class AppIcon extends Aventus.WebComponent {
     get 'shaking'() { return this.getBoolAttr('shaking') }
-    set 'shaking'(val) { this.setBoolAttr('shaking', val) }
-get 'can_remove'() { return this.getBoolAttr('can_remove') }
-    set 'can_remove'(val) { this.setBoolAttr('can_remove', val) }
-get 'is_open'() { return this.getBoolAttr('is_open') }
-    set 'is_open'(val) { this.setBoolAttr('is_open', val) }
-get 'position'() { return this.getNumberAttr('position') }
-    set 'position'(val) { this.setNumberAttr('position', val) }
-    pressManager;
+    set 'shaking'(val) { this.setBoolAttr('shaking', val) }get 'can_remove'() { return this.getBoolAttr('can_remove') }
+    set 'can_remove'(val) { this.setBoolAttr('can_remove', val) }get 'is_open'() { return this.getBoolAttr('is_open') }
+    set 'is_open'(val) { this.setBoolAttr('is_open', val) }get 'position'() { return this.getNumberAttr('position') }
+    set 'position'(val) { this.setNumberAttr('position', val) }    pressManager;
     pressManagerMove;
     dragAndDrop;
     moveApplicationState;
     iconId = 0;
     static __style = `:host{align-items:center;background-color:#0c2247;border-radius:var(--border-radius-sm);box-shadow:var(--elevation-5);cursor:pointer;display:flex;height:30px;justify-content:center;position:relative;transition:box-shadow var(--bezier-curve) .3s,transform var(--bezier-curve) .3s;width:30px;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host::after{background-color:var(--text-color);border-radius:var(--border-radius-sm);bottom:-7px;content:"";height:4px;opacity:0;position:absolute;transition:visibility var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s;visibility:hidden;width:4px}:host .remove{background-color:var(--primary-color);border-radius:var(--border-radius-round);display:none;height:20px;position:absolute;right:-10px;top:-10px;width:20px}:host .remove rk-img{--img-stroke-color: var(--text-color);height:100%;padding:0;width:100%}:host([shaking]){animation:shake linear .4s infinite}:host([shaking][can_remove]) .remove{display:block}:host([is_open]){transform:translateY(-3px)}:host([is_open])::after{visibility:visible;opacity:1}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--elevation-1)}}@media screen and (max-width: 768px){:host{height:50px;width:50px}}@keyframes shake{0%{transform:rotateZ(0) rotateX(-13deg)}25%{transform:rotateZ(2deg) rotateX(-13deg)}50%{transform:rotateZ(0) rotateX(-13deg)}75%{transform:rotateZ(-2deg) rotateX(-13deg)}100%{transform:rotateZ(0) rotateX(-13deg)}}`;
-    constructor() {
-            super();
-            this.classList.add("touch");
-if (this.constructor == AppIcon) { throw "can't instanciate an abstract class"; } }
+    constructor() {            super();            this.classList.add("touch");if (this.constructor == AppIcon) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return AppIcon;
     }
@@ -9849,32 +9276,20 @@ if (this.constructor == AppIcon) { throw "can't instanciate an abstract class"; 
         blocks: { 'default':`<div class="remove" _id="appicon_0"><rk-img src="/img/icons/close.svg"></rk-img></div><slot></slot>` }
     });
 }
-    __createStates() { super.__createStates(); let that = this;  this.__createStatesList(State.MoveApplication.state, State.DesktopStateManager);this.__addActiveState(State.MoveApplication.state, State.DesktopStateManager, (state, slugs) => { that.__inactiveDefaultState(State.DesktopStateManager); that.onMoveApplication(state, slugs);})
-this.__addInactiveState(State.MoveApplication.state, State.DesktopStateManager, (state, nextState, slugs) => { that.onStopMovingApplication(state, nextState, slugs);that.__activeDefaultState(nextState, State.DesktopStateManager);})
- }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __createStates() { super.__createStates(); let that = this;  this.__createStatesList(State.MoveApplication.state, State.DesktopStateManager);this.__addActiveState(State.MoveApplication.state, State.DesktopStateManager, (state, slugs) => { that.__inactiveDefaultState(State.DesktopStateManager); that.onMoveApplication(state, slugs);})this.__addInactiveState(State.MoveApplication.state, State.DesktopStateManager, (state, nextState, slugs) => { that.onStopMovingApplication(state, nextState, slugs);that.__activeDefaultState(nextState, State.DesktopStateManager);}) }
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "pressEvents": [
     {
       "id": "appicon_0",
       "onPress": (e, pressInstance, c) => { c.comp.removeApp(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "AppIcon";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('shaking')) { this.attributeChangedCallback('shaking', false, false); }
-if(!this.hasAttribute('can_remove')) { this.attributeChangedCallback('can_remove', false, false); }
-if(!this.hasAttribute('is_open')) { this.attributeChangedCallback('is_open', false, false); }
-if(!this.hasAttribute('position')){ this['position'] = undefined; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('shaking');
-this.__upgradeProperty('can_remove');
-this.__upgradeProperty('is_open');
-this.__upgradeProperty('position');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('shaking')) { this.attributeChangedCallback('shaking', false, false); }if(!this.hasAttribute('can_remove')) { this.attributeChangedCallback('can_remove', false, false); }if(!this.hasAttribute('is_open')) { this.attributeChangedCallback('is_open', false, false); }if(!this.hasAttribute('position')){ this['position'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('shaking');this.__upgradeProperty('can_remove');this.__upgradeProperty('is_open');this.__upgradeProperty('position'); }
     __listBoolProps() { return ["shaking","can_remove","is_open"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     async removeApp(e, instance) {
         if (this.moveApplicationState) {
@@ -10040,8 +9455,7 @@ System.CoreAppIcon = class CoreAppIcon extends System.AppIcon {
         arrStyle.push(CoreAppIcon.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         blocks: { 'default':`<rk-img src="/img/icons/core.svg"></rk-img>` }
     });
@@ -10060,8 +9474,7 @@ if(!window.customElements.get('rk-core-app-icon')){window.customElements.define(
 System.AppIconInline = class AppIconInline extends Aventus.WebComponent {
     static get observedAttributes() {return ["text"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'text'() { return this.getStringProp('text') }
-    set 'text'(val) { this.setStringAttr('text', val) }
-    static __style = `:host{align-items:center;display:flex;gap:10px;box-shadow:var(--elevation-3);cursor:pointer}:host .icon-container{height:30px;position:relative;width:30px}:host .icon-container .hider{inset:0;position:absolute}:host .icon-container .icon{height:100%;width:100%}:host .icon-container .icon *{box-shadow:none !important;animation:none !important;pointer-events:none}:host .text{flex-grow:1;flex-wrap:nowrap;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}`;
+    set 'text'(val) { this.setStringAttr('text', val) }    static __style = `:host{align-items:center;display:flex;gap:10px;box-shadow:var(--elevation-3);cursor:pointer}:host .icon-container{height:30px;position:relative;width:30px}:host .icon-container .hider{inset:0;position:absolute}:host .icon-container .icon{height:100%;width:100%}:host .icon-container .icon *{box-shadow:none !important;animation:none !important;pointer-events:none}:host .text{flex-grow:1;flex-wrap:nowrap;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}`;
     __getStatic() {
         return AppIconInline;
     }
@@ -10072,14 +9485,10 @@ System.AppIconInline = class AppIconInline extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="icon-container">
-    <div class="hider"></div>
-    <div class="icon" _id="appiconinline_0"></div>
-</div><div class="text" _id="appiconinline_1"></div>` }
+        blocks: { 'default':`<div class="icon-container">    <div class="hider"></div>    <div class="icon" _id="appiconinline_0"></div></div><div class="text" _id="appiconinline_1"></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "iconEl",
@@ -10094,15 +9503,12 @@ this.__getStatic().__template.setActions({
       "once": true
     }
   }
-});
- }
+}); }
     getClassName() {
         return "AppIconInline";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('text')){ this['text'] = undefined; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('text');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('text')){ this['text'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('text'); }
     setIcon(element) {
         this.iconEl.innerHTML = "";
         this.iconEl.appendChild(element);
@@ -10128,20 +9534,15 @@ if(!window.customElements.get('rk-app-icon-inline')){window.customElements.defin
 
 System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
     get 'hide_menu_size'() { return this.getStringAttr('hide_menu_size') }
-    set 'hide_menu_size'(val) { this.setStringAttr('hide_menu_size', val) }
-get 'open_sidenav'() { return this.getBoolAttr('open_sidenav') }
-    set 'open_sidenav'(val) { this.setBoolAttr('open_sidenav', val) }
-get 'no_sidenav'() { return this.getBoolAttr('no_sidenav') }
-    set 'no_sidenav'(val) { this.setBoolAttr('no_sidenav', val) }
-    get 'sidnavItems'() {
+    set 'hide_menu_size'(val) { this.setStringAttr('hide_menu_size', val) }get 'open_sidenav'() { return this.getBoolAttr('open_sidenav') }
+    set 'open_sidenav'(val) { this.setBoolAttr('open_sidenav', val) }get 'no_sidenav'() { return this.getBoolAttr('no_sidenav') }
+    set 'no_sidenav'(val) { this.setBoolAttr('no_sidenav', val) }    get 'sidnavItems'() {
 						return this.__watch["sidnavItems"];
 					}
 					set 'sidnavItems'(val) {
 						this.__watch["sidnavItems"] = val;
-					}
-    __registerWatchesActions() {
-    this.__addWatchesActions("sidnavItems");
-    super.__registerWatchesActions();
+					}    __registerWatchesActions() {
+    this.__addWatchesActions("sidnavItems");    super.__registerWatchesActions();
 }
     static __style = `:host{--_application-sidnav-sidenav-width: var(--application-sidnav-sidenav-width, 200px)}:host .header .navigation-actions .menu{align-items:center;border:1px solid var(--darker);border-radius:var(--border-radius-round);display:none;height:24px;justify-content:center;transition:background-color var(--bezier-curve) .2s,border var(--bezier-curve) .2s;width:24px}:host .header .navigation-actions .menu mi-icon{font-size:18px}:host .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host .content .sidenav-hider{animation-duration:300ms;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(0,0,0,.2);display:none;inset:0;position:absolute;z-index:50}:host .content .sidenav{background-color:var(--secondary-color);box-shadow:var(--elevation-4);height:100%;transition:transform .3s var(--bezier-curve);width:var(--_application-sidnav-sidenav-width);z-index:50}:host .content .sidenav .sidenav-item{align-items:center;border-bottom:1px solid var(--lighter-active);cursor:pointer;display:flex;flex-wrap:nowrap;height:51px;padding:10px;transition:linear background-color .3s}:host .content .sidenav .sidenav-item rk-img{--img-fill-color: var(--text-color);flex-grow:0;flex-shrink:0;height:30px;width:30px}:host .content .sidenav .sidenav-item rk-img[src=""]{display:none}:host .content .sidenav .sidenav-item mi-icon{align-items:center;color:var(--text-color);display:flex;height:30px;justify-content:center;width:30px}:host .content .sidenav .sidenav-item span{color:var(--text-color);flex-grow:1;flex-shrink:0;margin-left:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:calc(100% - 45px)}:host .content .sidenav .sidenav-item rk-img[src=""]~span{margin-left:0}:host .content .sidenav .sidenav-item[active]{background-color:var(--lighter-active)}:host .content .container{flex-shrink:0;height:100%;transition:width .3s var(--bezier-curve),margin-left .3s var(--bezier-curve);width:calc(100% - var(--_application-sidnav-sidenav-width))}:host([open_sidenav]) .navigation-actions .menu{background-color:var(--darker) !important}:host([no_sidenav]) .header .navigation-actions .menu{display:none !important}:host([no_sidenav]) .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host([no_sidenav]) .content .sidenav{display:none}:host([no_sidenav]) .content .sidenav-hider{display:none !important}:host([no_sidenav]) .content .container{height:100%;width:100%}@media screen and (min-width: 1225px){:host .header .navigation-actions .menu:hover{background-color:var(--darker) !important;border:1px solid rgba(0,0,0,0)}:host .content .sidenav .sidenav-item:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host .header .navigation-actions .menu{height:26px;width:26px}:host .header .navigation-actions .menu mi-icon{font-size:20px}:host .content{height:calc(100% - 40px)}}@container application (max-width: 300px){:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=xs]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=xs]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 300px){:host([hide_menu_size=xs][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=xs][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 540px){:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=sm]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=sm]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 540px){:host([hide_menu_size=sm][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=sm][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 720px){:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=md]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=md]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 720px){:host([hide_menu_size=md][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=md][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 960px){:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=lg]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=lg]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 960px){:host([hide_menu_size=lg][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=lg][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 1140px){:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=xl]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=xl]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 1140px){:host([hide_menu_size=xl][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=xl][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{visibility:100%;visibility:visible}}`;
     constructor() { super(); if (this.constructor == ApplicationSidnav) { throw "can't instanciate an abstract class"; } }
@@ -10156,39 +9557,10 @@ get 'no_sidenav'() { return this.getBoolAttr('no_sidenav') }
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="header" _id="applicationsidnav_0">
-    <div class="background"></div>
-    <div class="navigation-actions">
-        <div class="action menu touch" _id="applicationsidnav_1">
-            <mi-icon icon="menu"></mi-icon>
-        </div>
-        <div class="previous action touch disable" _id="applicationsidnav_2">
-            <rk-img src="/img/icons/angle-left.svg"></rk-img>
-        </div>
-        <div class="next action touch disable" _id="applicationsidnav_3">
-            <rk-img src="/img/icons/angle-right.svg"></rk-img>
-        </div>
-    </div>
-    <div class="title" _id="applicationsidnav_4"></div>
-    <div class="application-actions">
-        <div class="btn green touch" _id="applicationsidnav_5"></div>
-        <div class="btn orange touch" _id="applicationsidnav_6"></div>
-        <div class="btn red touch" _id="applicationsidnav_7"></div>
-    </div>
-</div><div class="content">
-    <div class="sidenav-hider" _id="applicationsidnav_8"></div>
-    <div class="sidenav">
-        <rk-scrollable auto_hide _id="applicationsidnav_9">
-            <template _id="applicationsidnav_10"></template>
-        </rk-scrollable>
-    </div>
-    <div class="container" _id="applicationsidnav_16">
-    </div>
-</div><rk-resize min_width="200" min_height="200" _id="applicationsidnav_17"></rk-resize><rk-loading class="loading"></rk-loading><slot></slot>` }
+        blocks: { 'default':`<div class="header" _id="applicationsidnav_0">    <div class="background"></div>    <div class="navigation-actions">        <div class="action menu touch" _id="applicationsidnav_1">            <mi-icon icon="menu"></mi-icon>        </div>        <div class="previous action touch disable" _id="applicationsidnav_2">            <rk-img src="/img/icons/angle-left.svg"></rk-img>        </div>        <div class="next action touch disable" _id="applicationsidnav_3">            <rk-img src="/img/icons/angle-right.svg"></rk-img>        </div>    </div>    <div class="title" _id="applicationsidnav_4"></div>    <div class="application-actions">        <div class="btn green touch" _id="applicationsidnav_5"></div>        <div class="btn orange touch" _id="applicationsidnav_6"></div>        <div class="btn red touch" _id="applicationsidnav_7"></div>    </div></div><div class="content">    <div class="sidenav-hider" _id="applicationsidnav_8"></div>    <div class="sidenav">        <rk-scrollable auto_hide _id="applicationsidnav_9">            <template _id="applicationsidnav_10"></template>        </rk-scrollable>    </div>    <div class="container" _id="applicationsidnav_16">    </div></div><rk-resize min_width="200" min_height="200" _id="applicationsidnav_17"></rk-resize><rk-loading class="loading"></rk-loading><slot></slot>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "header",
@@ -10263,15 +9635,7 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.closeSidenav(e, pressInstance); }
     }
   ]
-});
-const templ0 = new Aventus.Template(this);
-templ0.setTemplate(` 
-                <rk-link class="sidenav-item" _id="applicationsidnav_11">
-                    <template _id="applicationsidnav_12"></template>
-                    <span _id="applicationsidnav_15"></span>
-                </rk-link>
-            `);
-templ0.setActions({
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`                 <rk-link class="sidenav-item" _id="applicationsidnav_11">                    <template _id="applicationsidnav_12"></template>                    <span _id="applicationsidnav_15"></span>                </rk-link>            `);templ0.setActions({
   "content": {
     "applicationsidnav_11°to": {
       "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod3(c.data.item))}`,
@@ -10294,37 +9658,24 @@ templ0.setActions({
       "once": true
     }
   ]
-});
-this.__getStatic().__template.addLoop({
+});this.__getStatic().__template.addLoop({
                     anchorId: 'applicationsidnav_10',
                     template: templ0,
-                simple:{data: "this.sidnavItems",item:"item"}
-});
-const templ1 = new Aventus.Template(this);
-templ1.setTemplate(`
-                        <mi-icon _id="applicationsidnav_13"></mi-icon>
-                    `);
-templ1.setActions({
+                simple:{data: "this.sidnavItems",item:"item"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`                        <mi-icon _id="applicationsidnav_13"></mi-icon>                    `);templ1.setActions({
   "content": {
     "applicationsidnav_13°icon": {
       "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod6(c.data.item))}`,
       "once": true
     }
   }
-});
-const templ2 = new Aventus.Template(this);
-templ2.setTemplate(`
-                        <rk-img _id="applicationsidnav_14"></rk-img>
-                    `);
-templ2.setActions({
+});const templ2 = new Aventus.Template(this);templ2.setTemplate(`                        <rk-img _id="applicationsidnav_14"></rk-img>                    `);templ2.setActions({
   "content": {
     "applicationsidnav_14°src": {
       "fct": (c) => `${c.print(c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod6(c.data.item))}`,
       "once": true
     }
   }
-});
-templ0.addIf({
+});templ0.addIf({
                     anchorId: 'applicationsidnav_12',
                     parts: [{once: true,
                     condition: (c) => c.comp.__564ed14a7e807cc2bd8ebdf7d29b1c4fmethod1(c.data.item),
@@ -10333,22 +9684,13 @@ templ0.addIf({
                     condition: (c) => true,
                     template: templ2
                 }]
-            });
- }
+            }); }
     getClassName() {
         return "ApplicationSidnav";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('hide_menu_size')){ this['hide_menu_size'] = "sm"; }
-if(!this.hasAttribute('open_sidenav')) { this.attributeChangedCallback('open_sidenav', false, false); }
-if(!this.hasAttribute('no_sidenav')) { this.attributeChangedCallback('no_sidenav', false, false); }
- }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["sidnavItems"] = [];
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('hide_menu_size');
-this.__upgradeProperty('open_sidenav');
-this.__upgradeProperty('no_sidenav');
-this.__correctGetter('sidnavItems');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('hide_menu_size')){ this['hide_menu_size'] = "sm"; }if(!this.hasAttribute('open_sidenav')) { this.attributeChangedCallback('open_sidenav', false, false); }if(!this.hasAttribute('no_sidenav')) { this.attributeChangedCallback('no_sidenav', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["sidnavItems"] = []; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('hide_menu_size');this.__upgradeProperty('open_sidenav');this.__upgradeProperty('no_sidenav');this.__correctGetter('sidnavItems'); }
     __listBoolProps() { return ["open_sidenav","no_sidenav"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     addRouteSidenav(options) {
         let route = options.route;
@@ -10421,10 +9763,8 @@ _.System.ApplicationSidnav=System.ApplicationSidnav;
 
 Components.CalendarDay = class CalendarDay extends Aventus.WebComponent {
     get 'other'() { return this.getBoolAttr('other') }
-    set 'other'(val) { this.setBoolAttr('other', val) }
-get 'today'() { return this.getBoolAttr('today') }
-    set 'today'(val) { this.setBoolAttr('today', val) }
-    calendar;
+    set 'other'(val) { this.setBoolAttr('other', val) }get 'today'() { return this.getBoolAttr('today') }
+    set 'today'(val) { this.setBoolAttr('today', val) }    calendar;
     date = new Date();
     static __style = `:host{align-items:center;border-radius:var(--border-radius-sm);color:var(--_calendar-text-color-case);cursor:pointer;display:flex;font-size:var(--_calendar-case-font-size);height:var(--_calendar-case-size);justify-content:center;transition:color .2s var(--bezier-curve),background-color .2s var(--bezier-curve);width:var(--_calendar-case-size)}:host([other]){color:var(--_calendar-text-color-case-others)}:host([today]){color:var(--_calendar-text-color-case-today)}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--_calendar-background-color-case-hover)}}`;
     constructor() { super(); if (this.constructor == CalendarDay) { throw "can't instanciate an abstract class"; } }
@@ -10445,12 +9785,8 @@ get 'today'() { return this.getBoolAttr('today') }
     getClassName() {
         return "CalendarDay";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('other')) { this.attributeChangedCallback('other', false, false); }
-if(!this.hasAttribute('today')) { this.attributeChangedCallback('today', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('other');
-this.__upgradeProperty('today');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('other')) { this.attributeChangedCallback('other', false, false); }if(!this.hasAttribute('today')) { this.attributeChangedCallback('today', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('other');this.__upgradeProperty('today'); }
     __listBoolProps() { return ["other","today"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     init(dateDisplayed, dateDay, calendar) {
         this.shadowRoot.innerHTML = dateDay.getDate() + '';
@@ -10481,8 +9817,7 @@ Components.CalendarDayDefault = class CalendarDayDefault extends Components.Cale
         arrStyle.push(CalendarDayDefault.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -10500,51 +9835,40 @@ if(!window.customElements.get('rk-calendar-day-default')){window.customElements.
 Components.Calendar = class Calendar extends Aventus.WebComponent {
     static get observedAttributes() {return ["date", "show_selector"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'selector'() { return this.getStringAttr('selector') }
-    set 'selector'(val) { this.setStringAttr('selector', val) }
-    get 'date'() { return this.getDateProp('date') }
-    set 'date'(val) { this.setDateAttr('date', val) }
-get 'show_selector'() { return this.getBoolProp('show_selector') }
-    set 'show_selector'(val) { this.setBoolAttr('show_selector', val) }
-    get 'dateTemp'() {
+    set 'selector'(val) { this.setStringAttr('selector', val) }    get 'date'() { return this.getDateProp('date') }
+    set 'date'(val) { this.setDateAttr('date', val) }get 'show_selector'() { return this.getBoolProp('show_selector') }
+    set 'show_selector'(val) { this.setBoolAttr('show_selector', val) }    get 'dateTemp'() {
 						return this.__watch["dateTemp"];
 					}
 					set 'dateTemp'(val) {
 						this.__watch["dateTemp"] = val;
-					}
-get 'yearGroupPage'() {
+					}get 'yearGroupPage'() {
 						return this.__watch["yearGroupPage"];
 					}
 					set 'yearGroupPage'(val) {
 						this.__watch["yearGroupPage"] = val;
-					}
-get 'yearGroupTxt'() {
+					}get 'yearGroupTxt'() {
 						return this.__watch["yearGroupTxt"];
 					}
 					set 'yearGroupTxt'(val) {
 						this.__watch["yearGroupTxt"] = val;
-					}
-    onDateClicked = new Aventus.Callback();
+					}    onDateClicked = new Aventus.Callback();
     onDateChanged = new Aventus.Callback();
     __registerWatchesActions() {
     this.__addWatchesActions("dateTemp", ((target) => {
     target.renderDatesTemp();
     target.printYearRange();
-}));
-this.__addWatchesActions("yearGroupPage", ((target) => {
+}));this.__addWatchesActions("yearGroupPage", ((target) => {
     target.printYearRange();
-}));
-this.__addWatchesActions("yearGroupTxt");
-    super.__registerWatchesActions();
+}));this.__addWatchesActions("yearGroupTxt");    super.__registerWatchesActions();
 }
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("date", ((target) => {
     target.renderDates();
-}));
-this.__addPropertyActions("show_selector", ((target) => {
+}));this.__addPropertyActions("show_selector", ((target) => {
     if (target.show_selector) {
         target.dateTemp = target.date;
     }
-}));
- }
+})); }
     static __style = `:host{--_calendar-background-color: var(--calendar-background-color, white);--_calendar-background-color-case-hover: var(--calendar-background-color-case-hover, var(--lighter));--_calendar-background-color-case-active: var(--calendar-background-color-case-active, var(--lighter));--_calendar-background-color-selector: var(--calendar-background-color-selector, white);--_calendar-text-color-case: var(--calendar-text-color-case, var(--text-color));--_calendar-text-color-case-others: var(--calendar-text-color-case-others, var(--secondary-color));--_calendar-text-color-case-header: var(--calendar-text-color-case-header, var(--text-color-light));--_calendar-text-color-case-today: var(--calendar-text-color-case-today, var(--orange));--_calendar-case-size: var(--calendar-case-size, 30px);--_calendar-case-font-size: var(--calendar-case-font-size, var(--font-size, 16px));--_calendar-chevron-size: var(--calendar-chevron-size, calc(var(--_calendar-case-font-size) * 1.5));--_calendar-month-font-size: var(--calendar-month-font-size, calc(var(--_calendar-case-font-size) * 1.25));--_calendar-month-selector-height: var(--calendar-month-selector-height, var(--_calendar-case-size));--_calendar-year-selector-height: var(--calendar-year-selector-height, var(--_calendar-case-size));--_calendar-case-gap: var(--calendar-case-gap, 10px);--_calendar-row-gap: var(--calendar-row-gap, 5px)}:host{background-color:var(--_calendar-background-color);border-radius:var(--border-radius);box-shadow:var(--elevation-3);display:flex;flex-direction:column;padding:15px;position:relative;width:fit-content}:host .hover{transition:background-color .2s var(--bezier-curve)}:host .header{align-items:center;display:flex;flex-direction:row;justify-content:space-between;position:relative}:host .header .current-info{align-items:center;display:flex;flex-direction:row;flex-grow:1;font-size:var(--_calendar-month-font-size);justify-content:center}:host .header .current-info .month-year{align-items:center;border-radius:var(--border-radius-sm);display:flex;flex-direction:row;padding:5px 10px}:host .header .current-info .month-year .month{margin-right:5px}:host .header .chevron{align-items:center;border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-chevron-size);height:var(--_calendar-case-size);justify-content:center;text-align:center;width:var(--_calendar-case-size)}:host .header .selectors{background-color:var(--_calendar-background-color-selector);border-radius:var(--border-radius);box-shadow:var(--elevation-3);left:50%;opacity:0;padding:10px;pointer-events:none;position:absolute;top:calc(100% + 12px);transform:translateX(-50%);transition:opacity .2s var(--bezier-curve),visibility .2s var(--bezier-curve);visibility:hidden;width:100%;z-index:5}:host .header .selectors::after{border-bottom:10px solid var(--_calendar-background-color-selector);border-left:10px solid rgba(0,0,0,0);border-right:10px solid rgba(0,0,0,0);content:"";left:50%;position:absolute;top:-8px;transform:translateX(-50%)}:host .header .selectors .month-select{display:none;width:100%}:host .header .selectors .month-select .month-select-header{align-items:center;display:flex;margin-bottom:var(--_calendar-row-gap)}:host .header .selectors .month-select .month-select-header .current-info .temp-year{border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-month-font-size);padding:5px 10px}:host .header .selectors .month-select .month-select-body{display:flex;flex-wrap:wrap;font-size:var(--_calendar-case-font-size);gap:var(--_calendar-row-gap) var(--_calendar-case-gap);width:100%}:host .header .selectors .month-select .month-select-body .month-el{align-items:center;border-radius:var(--border-radius-sm);display:flex;height:var(--_calendar-month-selector-height);justify-content:center;width:calc((100% - var(--_calendar-case-gap)*2)/3)}:host .header .selectors .month-select .month-select-body .month-el.active{background-color:var(--_calendar-background-color-case-active)}:host .header .selectors .year-select{display:none;width:100%}:host .header .selectors .year-select .year-select-header{align-items:center;display:flex;margin-bottom:var(--_calendar-row-gap)}:host .header .selectors .year-select .year-select-header .current-info .temp-year-range{border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-month-font-size);padding:5px 10px}:host .header .selectors .year-select .year-select-body{display:flex;flex-wrap:wrap;font-size:var(--_calendar-case-font-size);gap:var(--_calendar-row-gap) var(--_calendar-case-gap);width:100%}:host .header .selectors .year-select .year-select-body .year-el{align-items:center;border-radius:var(--border-radius-sm);display:flex;height:var(--_calendar-year-selector-height);justify-content:center;width:calc((100% - var(--_calendar-case-gap)*2)/3)}:host .header .selectors .year-select .year-select-body .year-el.active{background-color:var(--_calendar-background-color-case-active)}:host .body{display:flex;flex-direction:column;margin-top:var(--_calendar-row-gap);gap:var(--_calendar-row-gap)}:host .body .days-header{color:var(--_calendar-text-color-case-header);display:flex;flex-direction:row;gap:10px}:host .body .days-header .day-header{align-items:center;display:flex;font-size:var(--_calendar-case-font-size);height:var(--_calendar-case-size);justify-content:center;width:var(--_calendar-case-size)}:host .body .days-body{display:flex;flex-direction:column;gap:var(--_calendar-row-gap)}:host .body .days-body .days-row{display:flex;flex-direction:row;gap:var(--_calendar-case-gap)}:host .hider{display:none;inset:0;position:absolute;z-index:1}:host([show_selector]) .hider{display:block}:host([show_selector]) .header .selectors{opacity:1;pointer-events:auto;visibility:visible}:host([selector=month]) .header .selectors .month-select{display:block}:host([selector=year]) .header .selectors .year-select{display:block}@media screen and (min-width: 1225px){:host .hover:hover{background-color:var(--_calendar-background-color-case-hover)}}`;
     __getStatic() {
         return Calendar;
@@ -10556,68 +9880,10 @@ this.__addPropertyActions("show_selector", ((target) => {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="header">
-    <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_0"></mi-icon>
-    <div class="current-info" _id="calendar_1">
-        <div class="month-year touch hover">
-            <div class="month" _id="calendar_2"></div>
-            <div class="year" _id="calendar_3"></div>
-        </div>
-    </div>
-    <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_4"></mi-icon>
-    <div class="selectors">
-        <div class="month-select">
-            <div class="month-select-header">
-                <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_5"></mi-icon>
-                <div class="current-info" _id="calendar_6">
-                    <div class="temp-year touch hover" _id="calendar_7"></div>
-                </div>
-                <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_8"></mi-icon>
-            </div>
-            <div class="month-select-body" _id="calendar_9">
-                <div class="month-el touch hover" _id="calendar_10">Janv.</div>
-                <div class="month-el touch hover" _id="calendar_11">Févr.</div>
-                <div class="month-el touch hover" _id="calendar_12">Mars</div>
-                <div class="month-el touch hover" _id="calendar_13">Avr.</div>
-                <div class="month-el touch hover" _id="calendar_14">Mai</div>
-                <div class="month-el touch hover" _id="calendar_15">Juin</div>
-                <div class="month-el touch hover" _id="calendar_16">Juil.</div>
-                <div class="month-el touch hover" _id="calendar_17">Août</div>
-                <div class="month-el touch hover" _id="calendar_18">Sept.</div>
-                <div class="month-el touch hover" _id="calendar_19">Oct.</div>
-                <div class="month-el touch hover" _id="calendar_20">Nov.</div>
-                <div class="month-el touch hover" _id="calendar_21">Déc.</div>
-            </div>
-        </div>
-        <div class="year-select">
-            <div class="year-select-header">
-                <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_22"></mi-icon>
-                <div class="current-info">
-                    <div class="temp-year-range" _id="calendar_23"></div>
-                </div>
-                <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_24"></mi-icon>
-            </div>
-            <div class="year-select-body" _id="calendar_25">
-            </div>
-        </div>
-    </div>
-</div><div class="body">
-    <div class="days-header">
-        <div class="day-header">Lu</div>
-        <div class="day-header">Ma</div>
-        <div class="day-header">Me</div>
-        <div class="day-header">Je</div>
-        <div class="day-header">Ve</div>
-        <div class="day-header">Sa</div>
-        <div class="day-header">Di</div>
-    </div>
-    <div class="days-body" _id="calendar_26">
-    </div>
-</div><div class="hider" _id="calendar_27"></div>` }
+        blocks: { 'default':`<div class="header">    <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_0"></mi-icon>    <div class="current-info" _id="calendar_1">        <div class="month-year touch hover">            <div class="month" _id="calendar_2"></div>            <div class="year" _id="calendar_3"></div>        </div>    </div>    <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_4"></mi-icon>    <div class="selectors">        <div class="month-select">            <div class="month-select-header">                <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_5"></mi-icon>                <div class="current-info" _id="calendar_6">                    <div class="temp-year touch hover" _id="calendar_7"></div>                </div>                <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_8"></mi-icon>            </div>            <div class="month-select-body" _id="calendar_9">                <div class="month-el touch hover" _id="calendar_10">Janv.</div>                <div class="month-el touch hover" _id="calendar_11">Févr.</div>                <div class="month-el touch hover" _id="calendar_12">Mars</div>                <div class="month-el touch hover" _id="calendar_13">Avr.</div>                <div class="month-el touch hover" _id="calendar_14">Mai</div>                <div class="month-el touch hover" _id="calendar_15">Juin</div>                <div class="month-el touch hover" _id="calendar_16">Juil.</div>                <div class="month-el touch hover" _id="calendar_17">Août</div>                <div class="month-el touch hover" _id="calendar_18">Sept.</div>                <div class="month-el touch hover" _id="calendar_19">Oct.</div>                <div class="month-el touch hover" _id="calendar_20">Nov.</div>                <div class="month-el touch hover" _id="calendar_21">Déc.</div>            </div>        </div>        <div class="year-select">            <div class="year-select-header">                <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_22"></mi-icon>                <div class="current-info">                    <div class="temp-year-range" _id="calendar_23"></div>                </div>                <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_24"></mi-icon>            </div>            <div class="year-select-body" _id="calendar_25">            </div>        </div>    </div></div><div class="body">    <div class="days-header">        <div class="day-header">Lu</div>        <div class="day-header">Ma</div>        <div class="day-header">Me</div>        <div class="day-header">Je</div>        <div class="day-header">Ve</div>        <div class="day-header">Sa</div>        <div class="day-header">Di</div>    </div>    <div class="days-body" _id="calendar_26">    </div></div><div class="hider" _id="calendar_27"></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "monthEl",
@@ -10746,26 +10012,13 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.hideSelector(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "Calendar";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('selector')){ this['selector'] = 'month'; }
-if(!this.hasAttribute('date')){ this['date'] = new Date(); }
-if(!this.hasAttribute('show_selector')) { this.attributeChangedCallback('show_selector', false, false); }
- }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["dateTemp"] = new Date();
-w["yearGroupPage"] = 0;
-w["yearGroupTxt"] = "";
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('selector');
-this.__upgradeProperty('date');
-this.__upgradeProperty('show_selector');
-this.__correctGetter('dateTemp');
-this.__correctGetter('yearGroupPage');
-this.__correctGetter('yearGroupTxt');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('selector')){ this['selector'] = 'month'; }if(!this.hasAttribute('date')){ this['date'] = new Date(); }if(!this.hasAttribute('show_selector')) { this.attributeChangedCallback('show_selector', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["dateTemp"] = new Date();w["yearGroupPage"] = 0;w["yearGroupTxt"] = ""; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('selector');this.__upgradeProperty('date');this.__upgradeProperty('show_selector');this.__correctGetter('dateTemp');this.__correctGetter('yearGroupPage');this.__correctGetter('yearGroupTxt'); }
     __listBoolProps() { return ["show_selector"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     monthsName() {
         return [
@@ -10950,10 +10203,8 @@ if(!window.customElements.get('rk-calendar')){window.customElements.define('rk-c
 
 Components.DatePickerCalendarDay = class DatePickerCalendarDay extends Components.CalendarDay {
     get 'selected'() { return this.getBoolAttr('selected') }
-    set 'selected'(val) { this.setBoolAttr('selected', val) }
-    static __style = `:host([selected]){background-color:var(--primary-color)}`;
-    constructor() { super(); 
-this.checkIfSelected=this.checkIfSelected.bind(this) }
+    set 'selected'(val) { this.setBoolAttr('selected', val) }    static __style = `:host([selected]){background-color:var(--primary-color)}`;
+    constructor() { super(); this.checkIfSelected=this.checkIfSelected.bind(this) }
     __getStatic() {
         return DatePickerCalendarDay;
     }
@@ -10962,8 +10213,7 @@ this.checkIfSelected=this.checkIfSelected.bind(this) }
         arrStyle.push(DatePickerCalendarDay.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         blocks: { 'default':`` }
     });
@@ -10971,10 +10221,8 @@ super.__getHtml();
     getClassName() {
         return "DatePickerCalendarDay";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('selected')) { this.attributeChangedCallback('selected', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('selected');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('selected')) { this.attributeChangedCallback('selected', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('selected'); }
     __listBoolProps() { return ["selected"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     init(dateDisplayed, dateDay, calendar) {
         super.init(dateDisplayed, dateDay, calendar);
@@ -11000,8 +10248,7 @@ if(!window.customElements.get('rk-date-picker-calendar-day')){window.customEleme
 
 System.AddOnTime = class AddOnTime extends Aventus.WebComponent {
     get 'active'() { return this.getBoolAttr('active') }
-    set 'active'(val) { this.setBoolAttr('active', val) }
-    days = [
+    set 'active'(val) { this.setBoolAttr('active', val) }    days = [
         'Dim.',
         'Lun.',
         'Mar.',
@@ -11039,14 +10286,10 @@ this.calculateCalendarSize=this.calculateCalendarSize.bind(this) }
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="display" _id="addontime_0">
-    <div class="date" _id="addontime_1"></div>
-    <div class="hour" _id="addontime_2"></div>
-</div><rk-calendar class="calendar" _id="addontime_3"></rk-calendar>` }
+        blocks: { 'default':`<div class="display" _id="addontime_0">    <div class="date" _id="addontime_1"></div>    <div class="hour" _id="addontime_2"></div></div><rk-calendar class="calendar" _id="addontime_3"></rk-calendar>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "date",
@@ -11073,15 +10316,12 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.toggleActive(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "AddOnTime";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('active');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('active'); }
     __listBoolProps() { return ["active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     firstLoading() {
         let missingSec = 60 - new Date().getSeconds();
@@ -11245,10 +10485,8 @@ _.Lib.PWA=Lib.PWA;
 
 System.PwaButton = class PwaButton extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
-    set 'visible'(val) { this.setBoolAttr('visible', val) }
-get 'downloading'() { return this.getBoolAttr('downloading') }
-    set 'downloading'(val) { this.setBoolAttr('downloading', val) }
-    static __style = `:host{align-items:center;background-color:var(--darker);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-2);display:none;height:30px;justify-content:center;padding:5px;width:30px}:host .download{display:inline-block}:host .sync{display:none}:host .rotate{animation-name:rotate;animation-duration:1.5s;animation-iteration-count:infinite;animation-timing-function:linear;animation-direction:reverse}:host([visible]){display:flex !important}:host([downloading]) .download{display:none}:host([downloading]) .sync{display:inline-block}@keyframes rotate{0%{transform:rotate(0)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}`;
+    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'downloading'() { return this.getBoolAttr('downloading') }
+    set 'downloading'(val) { this.setBoolAttr('downloading', val) }    static __style = `:host{align-items:center;background-color:var(--darker);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-2);display:none;height:30px;justify-content:center;padding:5px;width:30px}:host .download{display:inline-block}:host .sync{display:none}:host .rotate{animation-name:rotate;animation-duration:1.5s;animation-iteration-count:infinite;animation-timing-function:linear;animation-direction:reverse}:host([visible]){display:flex !important}:host([downloading]) .download{display:none}:host([downloading]) .sync{display:inline-block}@keyframes rotate{0%{transform:rotate(0)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}`;
     __getStatic() {
         return PwaButton;
     }
@@ -11266,12 +10504,8 @@ get 'downloading'() { return this.getBoolAttr('downloading') }
     getClassName() {
         return "PwaButton";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }
-if(!this.hasAttribute('downloading')) { this.attributeChangedCallback('downloading', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');
-this.__upgradeProperty('downloading');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('downloading')) { this.attributeChangedCallback('downloading', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('downloading'); }
     __listBoolProps() { return ["visible","downloading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     async init() {
         Lib.PWA.addOnInit(async () => {
@@ -11457,10 +10691,8 @@ _.Lib.FileSaver=Lib.FileSaver;
 
 Components.Sheet = class Sheet extends Aventus.WebComponent {
     get 'format'() { return this.getStringAttr('format') }
-    set 'format'(val) { this.setStringAttr('format', val) }
-get 'orientation'() { return this.getStringAttr('orientation') }
-    set 'orientation'(val) { this.setStringAttr('orientation', val) }
-    currentWrapper;
+    set 'format'(val) { this.setStringAttr('format', val) }get 'orientation'() { return this.getStringAttr('orientation') }
+    set 'orientation'(val) { this.setStringAttr('orientation', val) }    currentWrapper;
     currentBody;
     currentPage;
     basicPage;
@@ -11486,23 +10718,10 @@ if (this.constructor == Sheet) { throw "can't instanciate an abstract class"; } 
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'header':`<slot name="header"></slot>`,'default':`<slot></slot>`,'footer':`<slot name="footer"></slot>` }, 
-        blocks: { 'default':`<div class="sheet">
-    <div class="header" _id="sheet_0">
-        <slot name="header"></slot>
-    </div>
-    <div class="body" _id="sheet_1">
-        <div class="body-wrapper" _id="sheet_2">
-            <slot></slot>
-        </div>
-    </div>
-    <div class="footer" _id="sheet_3">
-        <slot name="footer"></slot>
-    </div>
-</div>` }
+        blocks: { 'default':`<div class="sheet">    <div class="header" _id="sheet_0">        <slot name="header"></slot>    </div>    <div class="body" _id="sheet_1">        <div class="body-wrapper" _id="sheet_2">            <slot></slot>        </div>    </div>    <div class="footer" _id="sheet_3">        <slot name="footer"></slot>    </div></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "headerEl",
@@ -11529,17 +10748,12 @@ this.__getStatic().__template.setActions({
       ]
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "Sheet";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('format')){ this['format'] = "A4"; }
-if(!this.hasAttribute('orientation')){ this['orientation'] = "portrait"; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('format');
-this.__upgradeProperty('orientation');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('format')){ this['format'] = "A4"; }if(!this.hasAttribute('orientation')){ this['orientation'] = "portrait"; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('format');this.__upgradeProperty('orientation'); }
     defaultSettings() {
         return {
             format: "A4",
@@ -11878,20 +11092,16 @@ _.Components.Sheet=Components.Sheet;
 Components.SheetPreview = class SheetPreview extends Aventus.WebComponent {
     static get observedAttributes() {return ["filename"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'loading'() { return this.getBoolAttr('loading') }
-    set 'loading'(val) { this.setBoolAttr('loading', val) }
-    get 'filename'() { return this.getStringProp('filename') }
-    set 'filename'(val) { this.setStringAttr('filename', val) }
-    get 'zoom'() {
+    set 'loading'(val) { this.setBoolAttr('loading', val) }    get 'filename'() { return this.getStringProp('filename') }
+    set 'filename'(val) { this.setStringAttr('filename', val) }    get 'zoom'() {
 						return this.__watch["zoom"];
 					}
 					set 'zoom'(val) {
 						this.__watch["zoom"] = val;
-					}
-    __registerWatchesActions() {
+					}    __registerWatchesActions() {
     this.__addWatchesActions("zoom", ((target) => {
     target.contentEl.zoom = target.zoom / 100;
-}));
-    super.__registerWatchesActions();
+}));    super.__registerWatchesActions();
 }
     static __style = `:host{display:flex;flex-direction:column;height:100%;width:100%}:host .menu{background-color:var(--primary-color);border-bottom:1px solid var(--lighter);box-shadow:var(--elevation-4);display:flex;flex-grow:0;flex-shrink:0;height:42px;padding:3px 15px;width:100%;z-index:2;gap:3px}:host .menu mi-icon{border:1px solid var(--darker);cursor:pointer;padding:5px}:host .menu mi-icon:hover{box-shadow:0px 0px 2px #000 inset}:host .content{--scrollbar-content-padding: 10px;background-color:var(--secondary-color);flex-grow:1;width:100%;padding-top:2px}:host .content *::slotted(*){display:flex;flex-wrap:wrap;gap:10px;justify-content:center}:host .footer{align-items:center;background-color:var(--primary-color);border-top:1px solid var(--lighter);display:flex;flex-direction:row;flex-grow:0;flex-shrink:0;font-size:13px;height:30px;justify-content:space-between;padding:0 15px;width:100%;z-index:2}:host .footer .slider{align-items:center;display:flex;gap:10px}:host .footer .slider mi-icon{cursor:pointer;font-size:18px}:host .footer .slider rk-slider{width:50px}:host .footer .slider .value{font-size:13px;text-align:center;width:30px}:host rk-loading{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}`;
     __getStatic() {
@@ -11905,24 +11115,10 @@ Components.SheetPreview = class SheetPreview extends Aventus.WebComponent {
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="menu">
-    <mi-icon icon="save" _id="sheetpreview_0"></mi-icon>
-    <mi-icon icon="print" _id="sheetpreview_1"></mi-icon>
-</div><rk-scrollable class="content" _id="sheetpreview_2">
-    <slot></slot>
-</rk-scrollable><div class="footer">
-    <div class="filename" _id="sheetpreview_3"></div>
-    <div class="slider">
-        <mi-icon icon="remove" _id="sheetpreview_4"></mi-icon>
-        <rk-slider min="30" max="200" _id="sheetpreview_5"></rk-slider>
-        <mi-icon icon="add" _id="sheetpreview_6"></mi-icon>
-        <div class="value" _id="sheetpreview_7"></div>
-    </div>
-</div><rk-loading></rk-loading>` }
+        blocks: { 'default':`<div class="menu">    <mi-icon icon="save" _id="sheetpreview_0"></mi-icon>    <mi-icon icon="print" _id="sheetpreview_1"></mi-icon></div><rk-scrollable class="content" _id="sheetpreview_2">    <slot></slot></rk-scrollable><div class="footer">    <div class="filename" _id="sheetpreview_3"></div>    <div class="slider">        <mi-icon icon="remove" _id="sheetpreview_4"></mi-icon>        <rk-slider min="30" max="200" _id="sheetpreview_5"></rk-slider>        <mi-icon icon="add" _id="sheetpreview_6"></mi-icon>        <div class="value" _id="sheetpreview_7"></div>    </div></div><rk-loading></rk-loading>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "contentEl",
@@ -11972,20 +11168,13 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.addZoom(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "SheetPreview";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }
-if(!this.hasAttribute('filename')){ this['filename'] = undefined; }
- }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["zoom"] = 100;
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading');
-this.__upgradeProperty('filename');
-this.__correctGetter('zoom');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('filename')){ this['filename'] = undefined; } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["zoom"] = 100; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading');this.__upgradeProperty('filename');this.__correctGetter('zoom'); }
     __listBoolProps() { return ["loading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     removeZoom() {
         let newZoom = this.zoom;
@@ -12491,8 +11680,7 @@ if (this.constructor == PopupFormStorable) { throw "can't instanciate an abstrac
         arrStyle.push(PopupFormStorable.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -12501,9 +11689,7 @@ super.__getHtml();
     getClassName() {
         return "PopupFormStorable";
     }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('item');
-this.__correctGetter('form');
- }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('item');this.__correctGetter('form'); }
     validate() {
         return this._form.validate();
     }
@@ -12536,8 +11722,7 @@ if (this.constructor == PopupForm) { throw "can't instanciate an abstract class"
         arrStyle.push(PopupForm.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -12546,9 +11731,7 @@ super.__getHtml();
     getClassName() {
         return "PopupForm";
     }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('item');
-this.__correctGetter('form');
- }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('item');this.__correctGetter('form'); }
     validate() {
         return this._form.validate();
     }
@@ -12558,20 +11741,17 @@ _.Components.PopupForm=Components.PopupForm;
 
 Components.FormElement = class FormElement extends Aventus.WebComponent {
     get 'has_errors'() { return this.getBoolAttr('has_errors') }
-    set 'has_errors'(val) { this.setBoolAttr('has_errors', val) }
-    get 'errors'() {
+    set 'has_errors'(val) { this.setBoolAttr('has_errors', val) }    get 'errors'() {
 						return this.__watch["errors"];
 					}
 					set 'errors'(val) {
 						this.__watch["errors"] = val;
-					}
-get 'value'() {
+					}get 'value'() {
 						return this.__watch["value"];
 					}
 					set 'value'(val) {
 						this.__watch["value"] = val;
-					}
-    _formPart;
+					}    _formPart;
     get formPart() {
         return this._formPart;
     }
@@ -12584,14 +11764,10 @@ get 'value'() {
     __registerWatchesActions() {
     this.__addWatchesActions("errors", ((target) => {
     target.has_errors = target.errors.length > 0;
-}));
-this.__addWatchesActions("value");
-    super.__registerWatchesActions();
+}));this.__addWatchesActions("value");    super.__registerWatchesActions();
 }
     static __style = ``;
-    constructor() { super(); if (this.constructor == FormElement) { throw "can't instanciate an abstract class"; } 
-this.refreshValueFromForm=this.refreshValueFromForm.bind(this)
-this.onFormValidation=this.onFormValidation.bind(this) }
+    constructor() { super(); if (this.constructor == FormElement) { throw "can't instanciate an abstract class"; } this.refreshValueFromForm=this.refreshValueFromForm.bind(this)this.onFormValidation=this.onFormValidation.bind(this) }
     __getStatic() {
         return FormElement;
     }
@@ -12609,16 +11785,9 @@ this.onFormValidation=this.onFormValidation.bind(this) }
     getClassName() {
         return "FormElement";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('has_errors')) { this.attributeChangedCallback('has_errors', false, false); }
- }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["errors"] = [];
-w["value"] = undefined;
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('formPart');
-this.__upgradeProperty('has_errors');
-this.__correctGetter('errors');
-this.__correctGetter('value');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('has_errors')) { this.attributeChangedCallback('has_errors', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["errors"] = [];w["value"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('formPart');this.__upgradeProperty('has_errors');this.__correctGetter('errors');this.__correctGetter('value'); }
     __listBoolProps() { return ["has_errors"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     refreshValueFromForm() {
         if (this._formPart) {
@@ -12658,21 +11827,14 @@ _.Components.FormElement=Components.FormElement;
 Components.Textarea = class Textarea extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'resize'() { return this.getBoolAttr('resize') }
-    set 'resize'(val) { this.setBoolAttr('resize', val) }
-get 'autogrow'() { return this.getBoolAttr('autogrow') }
-    set 'autogrow'(val) { this.setBoolAttr('autogrow', val) }
-    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }
-get 'placeholder'() { return this.getStringProp('placeholder') }
-    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }
-get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }
-get 'value'() { return this.getStringProp('value') }
-    set 'value'(val) { this.setStringAttr('value', val) }
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
+    set 'resize'(val) { this.setBoolAttr('resize', val) }get 'autogrow'() { return this.getBoolAttr('autogrow') }
+    set 'autogrow'(val) { this.setBoolAttr('autogrow', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
+    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'value'() { return this.getStringProp('value') }
+    set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
     target.inputEl.value = target.value ?? "";
-}));
- }
+})); }
     static __style = `:host{--_textarea-height: var(--textarea-height, 30px);--_textarea-background-color: var(--textarea-background-color, var(--form-element-background, white));--_textarea-icon-height: var(--textarea-icon-height, calc(var(--_textarea-height) / 2));--_textarea-error-logo-size: var(--textarea-error-logo-size, calc(var(--_textarea-height) / 2));--_textarea-font-size: var(--textarea-font-size, var(--form-element-font-size, 16px));--_textarea-font-size-label: var(--textarea-font-size-label, var(--form-element-font-size-label, calc(var(--_textarea-font-size) * 0.95)));--_textarea-input-border: var(--textarea-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_textarea-border-radius: var(--textarea-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_textarea-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_textarea-background-color);border:var(--_textarea-input-border);border-radius:var(--_textarea-border-radius);display:flex;height:var(--_textarea-height);min-height:var(--_textarea-height);padding:0 10px;position:relative;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_textarea-icon-height);margin-right:10px}:host .input textarea{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-family:"Roboto",sans-serif;font-size:var(--_textarea-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px;resize:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_textarea-error-logo-size) - 5px);height:var(--_textarea-error-logo-size);justify-content:center;width:var(--_textarea-error-logo-size)}:host .input rk-resize{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([resize]) .input rk-resize{display:block}:host([autogrow]) .input textarea{overflow:hidden}`;
     __getStatic() {
         return Textarea;
@@ -12682,21 +11844,12 @@ get 'value'() { return this.getStringProp('value') }
         arrStyle.push(Textarea.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<label for="input" _id="textarea_0"></label><div class="input" _id="textarea_1">
-    <rk-img class="icon" _id="textarea_2"></rk-img>
-    <textarea rows="1" id="input" _id="textarea_3"></textarea>
-    <div class="error-logo">!</div>
-    <rk-resize _id="textarea_4"></rk-resize>
-</div><div class="errors">
-    <template _id="textarea_5"></template>
-</div>` }
+        blocks: { 'default':`<label for="input" _id="textarea_0"></label><div class="input" _id="textarea_1">    <rk-img class="icon" _id="textarea_2"></rk-img>    <textarea rows="1" id="input" _id="textarea_3"></textarea>    <div class="error-logo">!</div>    <rk-resize _id="textarea_4"></rk-resize></div><div class="errors">    <template _id="textarea_5"></template></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "inputCont",
@@ -12743,53 +11896,28 @@ this.__getStatic().__template.setActions({
       "fct": (e, c) => c.comp.onValueChange(e)
     }
   ]
-});
-const templ0 = new Aventus.Template(this);
-templ0.setTemplate(`
-        <template _id="textarea_6"></template>
-    `);
-this.__getStatic().__template.addLoop({
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <template _id="textarea_6"></template>    `);this.__getStatic().__template.addLoop({
                     anchorId: 'textarea_5',
                     template: templ0,
-                simple:{data: "this.errors",item:"error"}
-});
-const templ1 = new Aventus.Template(this);
-templ1.setTemplate(`
-            <div _id="textarea_7"></div>
-        `);
-templ1.setActions({
+                simple:{data: "this.errors",item:"error"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`            <div _id="textarea_7"></div>        `);templ1.setActions({
   "content": {
     "textarea_7°@HTML": {
       "fct": (c) => `${c.print(c.comp.__1d98574e598563b66bef89b75eeea5admethod4(c.data.error))}`,
       "once": true
     }
   }
-});
-templ0.addIf({
+});templ0.addIf({
                     anchorId: 'textarea_6',
                     parts: [{once: true,
                     condition: (c) => true,
                     template: templ1
                 }]
-            });
- }
+            }); }
     getClassName() {
         return "Textarea";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('resize')) { this.attributeChangedCallback('resize', false, false); }
-if(!this.hasAttribute('autogrow')) { this.attributeChangedCallback('autogrow', false, false); }
-if(!this.hasAttribute('label')){ this['label'] = undefined; }
-if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }
-if(!this.hasAttribute('icon')){ this['icon'] = undefined; }
-if(!this.hasAttribute('value')){ this['value'] = ""; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('resize');
-this.__upgradeProperty('autogrow');
-this.__upgradeProperty('label');
-this.__upgradeProperty('placeholder');
-this.__upgradeProperty('icon');
-this.__upgradeProperty('value');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('resize')) { this.attributeChangedCallback('resize', false, false); }if(!this.hasAttribute('autogrow')) { this.attributeChangedCallback('autogrow', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = ""; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('resize');this.__upgradeProperty('autogrow');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('value'); }
     __listBoolProps() { return ["resize","autogrow"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     removeErrors() {
         this.errors = [];
@@ -12837,24 +11965,18 @@ if(!window.customElements.get('rk-textarea')){window.customElements.define('rk-t
 Components.Switch = class Switch extends Components.FormElement {
     static get observedAttributes() {return ["label", "disabled", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'label_end'() { return this.getBoolAttr('label_end') }
-    set 'label_end'(val) { this.setBoolAttr('label_end', val) }
-    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }
-get 'disabled'() { return this.getBoolProp('disabled') }
-    set 'disabled'(val) { this.setBoolAttr('disabled', val) }
-get 'checked'() { return this.getBoolProp('checked') }
-    set 'checked'(val) { this.setBoolAttr('checked', val) }
-    get 'value'() {
+    set 'label_end'(val) { this.setBoolAttr('label_end', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'disabled'() { return this.getBoolProp('disabled') }
+    set 'disabled'(val) { this.setBoolAttr('disabled', val) }get 'checked'() { return this.getBoolProp('checked') }
+    set 'checked'(val) { this.setBoolAttr('checked', val) }    get 'value'() {
 						return this.__watch["value"];
 					}
 					set 'value'(val) {
 						this.__watch["value"] = val;
-					}
-    __registerWatchesActions() {
+					}    __registerWatchesActions() {
     this.__addWatchesActions("value", ((target) => {
     target.checked = target.value;
-}));
-    super.__registerWatchesActions();
+}));    super.__registerWatchesActions();
 }
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("disabled", ((target) => {
     if (target.checkboxEl) {
@@ -12865,12 +11987,10 @@ get 'checked'() { return this.getBoolProp('checked') }
             target.checkboxEl.disabled = target.disabled;
         }
     }
-}));
-this.__addPropertyActions("checked", ((target) => {
+}));this.__addPropertyActions("checked", ((target) => {
     target.value = target.checked;
     target.checkboxEl.checked = target.checked;
-}));
- }
+})); }
     static __style = `:host{--_switch-background-color: var(--switch-background-color, var(--form-element-background, white));--_switch-dot-size: var(--switch-dot-size, 20px);--_switch-dot-color: var(--switch-dot-color, var(--secondary-color));--_switch-active-dot-color: var(--switch-active-dot-color, var(--secondary-color-active));--_switch-active-background-color: var(--switch-active-background-color, var(--secondary-color));--_switch-font-size: var(--switch-font-size, var(--form-element-font-size, 16px));--_switch-font-size-label: var(--switch-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_switch-border-radius: var(--switch-border-radius, 10px)}:host{align-items:center;display:flex;font-size:var(--_switch-font-size);min-height:var(--_switch-dot-size);width:100%}:host .label:not(:empty){cursor:pointer;font-size:var(--_switch-font-size-label);margin-right:30px;transition:filter .3s var(--bezier-curve)}:host .bar{align-items:center;background-color:var(--_switch-background-color);border-radius:var(--_switch-border-radius);cursor:pointer;display:flex;height:10px;position:relative;transition:filter .3s var(--bezier-curve);width:30px}:host .bar input{appearance:none;background-color:rgba(0,0,0,0);border:0;cursor:pointer;height:100%;left:0;margin:0;outline:none;padding:0;position:absolute;top:0;width:100%}:host .bar .bar-content{align-items:center;background-color:rgba(0,0,0,0);display:flex;height:100%;pointer-events:none;position:relative;width:100%}:host .bar .bar-content .dot{background-color:var(--_switch-dot-color);border-radius:var(--border-radius-round);box-shadow:none;cursor:pointer;height:var(--_switch-dot-size);left:0%;pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_switch-dot-size)}:host .bar .bar-content .bar-fill{background-color:var(--_switch-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:0%}:host .bar input:checked+.bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host .bar input:checked+.bar-content .bar-fill{width:100%}:host([label_end]) .label:not(:empty){margin-left:30px;margin-right:0px;order:2}:host([disabled]) .bar{cursor:not-allowed;filter:brightness(0.75)}:host([disabled]) .bar input{cursor:not-allowed}:host([disabled]) .bar .bar-content .dot{cursor:not-allowed}:host([disabled]) .label{cursor:default;filter:brightness(0.75)}`;
     __getStatic() {
         return Switch;
@@ -12880,20 +12000,12 @@ this.__addPropertyActions("checked", ((target) => {
         arrStyle.push(Switch.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="label" _id="switch_0"></div><div class="bar" _id="switch_1">
-    <input id="element" type="checkbox" _id="switch_2" />
-    <div class="bar-content">
-        <div class="bar-fill"></div>
-        <div class="dot"></div>
-    </div>
-</div>` }
+        blocks: { 'default':`<div class="label" _id="switch_0"></div><div class="bar" _id="switch_1">    <input id="element" type="checkbox" _id="switch_2" />    <div class="bar-content">        <div class="bar-fill"></div>        <div class="dot"></div>    </div></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "checkboxEl",
@@ -12918,24 +12030,13 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.toggleActive(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "Switch";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label_end')) { this.attributeChangedCallback('label_end', false, false); }
-if(!this.hasAttribute('label')){ this['label'] = undefined; }
-if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }
-if(!this.hasAttribute('checked')) { this.attributeChangedCallback('checked', false, false); }
- }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = false;
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label_end');
-this.__upgradeProperty('label');
-this.__upgradeProperty('disabled');
-this.__upgradeProperty('checked');
-this.__correctGetter('value');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label_end')) { this.attributeChangedCallback('label_end', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('checked')) { this.attributeChangedCallback('checked', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = false; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label_end');this.__upgradeProperty('label');this.__upgradeProperty('disabled');this.__upgradeProperty('checked');this.__correctGetter('value'); }
     __listBoolProps() { return ["label_end","disabled","checked"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     toggleActive() {
         if (this.disabled)
@@ -12958,37 +12059,26 @@ if(!window.customElements.get('rk-switch')){window.customElements.define('rk-swi
 Components.Slider = class Slider extends Components.FormElement {
     static get observedAttributes() {return ["label", "min", "max", "value", "step"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'popup'() { return this.getStringAttr('popup') }
-    set 'popup'(val) { this.setStringAttr('popup', val) }
-get 'no_transition'() { return this.getBoolAttr('no_transition') }
-    set 'no_transition'(val) { this.setBoolAttr('no_transition', val) }
-get 'popup_visible'() { return this.getBoolAttr('popup_visible') }
-    set 'popup_visible'(val) { this.setBoolAttr('popup_visible', val) }
-    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }
-get 'min'() { return this.getNumberProp('min') }
-    set 'min'(val) { this.setNumberAttr('min', val) }
-get 'max'() { return this.getNumberProp('max') }
-    set 'max'(val) { this.setNumberAttr('max', val) }
-get 'value'() { return this.getNumberProp('value') }
-    set 'value'(val) { this.setNumberAttr('value', val) }
-get 'step'() { return this.getNumberProp('step') }
-    set 'step'(val) { this.setNumberAttr('step', val) }
-    currentPercent = 0;
+    set 'popup'(val) { this.setStringAttr('popup', val) }get 'no_transition'() { return this.getBoolAttr('no_transition') }
+    set 'no_transition'(val) { this.setBoolAttr('no_transition', val) }get 'popup_visible'() { return this.getBoolAttr('popup_visible') }
+    set 'popup_visible'(val) { this.setBoolAttr('popup_visible', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'min'() { return this.getNumberProp('min') }
+    set 'min'(val) { this.setNumberAttr('min', val) }get 'max'() { return this.getNumberProp('max') }
+    set 'max'(val) { this.setNumberAttr('max', val) }get 'value'() { return this.getNumberProp('value') }
+    set 'value'(val) { this.setNumberAttr('value', val) }get 'step'() { return this.getNumberProp('step') }
+    set 'step'(val) { this.setNumberAttr('step', val) }    currentPercent = 0;
     timerPopup = 0;
     onDragStart = new Aventus.Callback();
     onDragStop = new Aventus.Callback();
     onValidateValue = new Aventus.Callback();
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("min", ((target) => {
     target.calculatePercent();
-}));
-this.__addPropertyActions("max", ((target) => {
+}));this.__addPropertyActions("max", ((target) => {
     target.calculatePercent();
-}));
-this.__addPropertyActions("value", ((target) => {
+}));this.__addPropertyActions("value", ((target) => {
     target.calculatePercent();
-}));
- }
-    static __style = `:host{--_slider-background-color: var(--slider-background-color, var(--form-element-background, white));--_slider-active-background-color: var(--slider-active-background-color, var(--secondary-color-active));--_slider-dot-color: var(--slider-dot-color, var(--secondary-color));--_slider-dot-size: var(--slider-dot-size, var(--form-element-font-size, 16px));--_slider-popup-font-size: var(--slider-popup-font-size, var(--font-size-sm));--_slider-font-size-label: var(--slider-font-size-label, var(--form-element-font-size-label));--_slider-border-radius: var(--slider-border-radius, var(--form-element-border-radius));--local-slider-dot-percent: 0%}:host{align-items:center;display:flex;height:var(--_slider-dot-size);min-width:100px;width:100%;flex-direction:column;justify-content:center}:host label{display:none;font-size:var(--_slider-font-size-label);margin-bottom:5px;margin-left:3px;width:100%;flex-shrink:0}:host .bar{align-items:center;background-color:var(--_slider-background-color);border-radius:var(--_slider-border-radius);cursor:pointer;display:flex;flex-direction:row;height:5px;position:relative;width:100%;flex-shrink:0}:host .bar .bar-fill{background-color:var(--_slider-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:var(--local-slider-dot-percent)}:host .bar .dot{background-color:var(--_slider-dot-color);border-radius:var(--border-radius-round);box-shadow:var(--elevation-2);cursor:pointer;height:var(--_slider-dot-size);left:var(--local-slider-dot-percent);pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_slider-dot-size)}:host .bar .value{background-color:var(--_slider-dot-color);border-radius:var(--_slider-border-radius);box-shadow:var(--elevation-2);font-size:var(--_slider-popup-font-size);left:var(--local-slider-dot-percent);opacity:0;padding:5px 10px;padding-bottom:2px;position:absolute;top:0;transform:translateY(calc(-100% - 12px)) translateX(-50%);transform-origin:center center;transition:left var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s;visibility:hidden}:host .bar .value::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:8px solid var(--_slider-dot-color);bottom:-7px;content:"";left:50%;position:absolute;transform:translateX(-50%)}:host([no_transition]) .bar .bar-fill{transition:none}:host([no_transition]) .bar .dot{transition:none}:host([no_transition]) .bar .value{transition:opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s}:host([popup_visible]) .bar .value{opacity:1;visibility:visible}:host([label]:not([label=""])) label{display:flex}`;
+})); }
+    static __style = `:host{--_slider-background-color: var(--slider-background-color, var(--form-element-background, white));--_slider-background-image: var(--slider-background-image, none);--_slider-background-position: var(--slider-background-position, 0 0);--_slider-background-size: var(--slider-background-size, auto);--_slider-active-background-color: var(--slider-active-background-color, var(--secondary-color-active));--_slider-dot-color: var(--slider-dot-color, var(--secondary-color));--_slider-dot-size: var(--slider-dot-size, var(--form-element-font-size, 16px));--_slider-popup-font-size: var(--slider-popup-font-size, var(--font-size-sm));--_slider-font-size-label: var(--slider-font-size-label, var(--form-element-font-size-label));--_slider-border-radius: var(--slider-border-radius, var(--form-element-border-radius));--_slider-bar-height: var(--slider-bar-height, 5px);--local-slider-dot-percent: 0%}:host{align-items:center;display:flex;flex-direction:column;height:var(--_slider-dot-size);justify-content:center;min-width:100px;width:100%}:host label{display:none;flex-shrink:0;font-size:var(--_slider-font-size-label);margin-bottom:5px;margin-left:3px;width:100%}:host .bar{align-items:center;background-color:var(--_slider-background-color);background-image:var(--_slider-background-image);background-position:var(--_slider-background-position);background-size:var(--_slider-background-size);border-radius:var(--_slider-border-radius);cursor:pointer;display:flex;flex-direction:row;flex-shrink:0;height:var(--_slider-bar-height);position:relative;width:100%}:host .bar .bar-fill{background-color:var(--_slider-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:var(--local-slider-dot-percent)}:host .bar .dot{background-color:var(--_slider-dot-color);border-radius:var(--border-radius-round);box-shadow:var(--elevation-2);cursor:pointer;height:var(--_slider-dot-size);left:var(--local-slider-dot-percent);pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_slider-dot-size);z-index:10}:host .bar .value{background-color:var(--_slider-dot-color);border-radius:var(--_slider-border-radius);box-shadow:var(--elevation-2);font-size:var(--_slider-popup-font-size);left:var(--local-slider-dot-percent);opacity:0;padding:5px 10px;padding-bottom:2px;position:absolute;top:0;transform:translateY(calc(-100% - 12px)) translateX(-50%);transform-origin:center center;transition:left var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s;visibility:hidden}:host .bar .value::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:8px solid var(--_slider-dot-color);bottom:-7px;content:"";left:50%;position:absolute;transform:translateX(-50%)}:host([no_transition]) .bar .bar-fill{transition:none}:host([no_transition]) .bar .dot{transition:none}:host([no_transition]) .bar .value{transition:opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s}:host([popup_visible]) .bar .value{opacity:1;visibility:visible}:host([label]:not([label=""])) label{display:flex}`;
     __getStatic() {
         return Slider;
     }
@@ -12997,18 +12087,13 @@ this.__addPropertyActions("value", ((target) => {
         arrStyle.push(Slider.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<label for="element" class="label" _id="slider_0"></label><div class="bar" _id="slider_1">
-    <div class="value" part="popup" _id="slider_2"></div>
-    <div class="bar-fill"></div>
-    <div class="dot" _id="slider_3"></div>
-</div>` }
+        slots: { 'dot':`<slot name="dot"></slot>`,'bar':`<slot name="bar"></slot>` }, 
+        blocks: { 'default':`<label for="element" class="label" _id="slider_0"></label><div class="bar" _id="slider_1">    <div class="value" part="popup" _id="slider_2"></div>    <div class="bar-fill">    </div>    <div class="dot" _id="slider_3">        <slot name="dot"></slot>    </div>    <slot name="bar"></slot></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "barEl",
@@ -13033,29 +12118,12 @@ this.__getStatic().__template.setActions({
       "once": true
     }
   }
-});
- }
+}); }
     getClassName() {
         return "Slider";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('popup')){ this['popup'] = 'never'; }
-if(!this.hasAttribute('no_transition')) { this.attributeChangedCallback('no_transition', false, false); }
-if(!this.hasAttribute('popup_visible')) { this.attributeChangedCallback('popup_visible', false, false); }
-if(!this.hasAttribute('label')){ this['label'] = undefined; }
-if(!this.hasAttribute('min')){ this['min'] = 0; }
-if(!this.hasAttribute('max')){ this['max'] = 100; }
-if(!this.hasAttribute('value')){ this['value'] = 0; }
-if(!this.hasAttribute('step')){ this['step'] = 1; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('popup');
-this.__upgradeProperty('no_transition');
-this.__upgradeProperty('popup_visible');
-this.__upgradeProperty('label');
-this.__upgradeProperty('min');
-this.__upgradeProperty('max');
-this.__upgradeProperty('value');
-this.__upgradeProperty('step');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('popup')){ this['popup'] = 'never'; }if(!this.hasAttribute('no_transition')) { this.attributeChangedCallback('no_transition', false, false); }if(!this.hasAttribute('popup_visible')) { this.attributeChangedCallback('popup_visible', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('min')){ this['min'] = 0; }if(!this.hasAttribute('max')){ this['max'] = 100; }if(!this.hasAttribute('value')){ this['value'] = 0; }if(!this.hasAttribute('step')){ this['step'] = 1; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('popup');this.__upgradeProperty('no_transition');this.__upgradeProperty('popup_visible');this.__upgradeProperty('label');this.__upgradeProperty('min');this.__upgradeProperty('max');this.__upgradeProperty('value');this.__upgradeProperty('step'); }
     __listBoolProps() { return ["no_transition","popup_visible"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     addMoveDot() {
         let startX = 0;
@@ -13203,18 +12271,12 @@ if(!window.customElements.get('rk-slider')){window.customElements.define('rk-sli
 Components.InputNumber = class InputNumber extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "value", "min", "max"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }
-get 'placeholder'() { return this.getStringProp('placeholder') }
-    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }
-get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }
-get 'value'() { return this.getNumberProp('value') }
-    set 'value'(val) { this.setNumberAttr('value', val) }
-get 'min'() { return this.getNumberProp('min') }
-    set 'min'(val) { this.setNumberAttr('min', val) }
-get 'max'() { return this.getNumberProp('max') }
-    set 'max'(val) { this.setNumberAttr('max', val) }
-    errorsTxt = {};
+    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
+    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'value'() { return this.getNumberProp('value') }
+    set 'value'(val) { this.setNumberAttr('value', val) }get 'min'() { return this.getNumberProp('min') }
+    set 'min'(val) { this.setNumberAttr('min', val) }get 'max'() { return this.getNumberProp('max') }
+    set 'max'(val) { this.setNumberAttr('max', val) }    errorsTxt = {};
     defaultErrorsTxt = {
         notNumber: "Le nombre n'est pas valide",
         lowerThanMin: "Le nombre n'est pas plus grand que " + this.min,
@@ -13222,8 +12284,7 @@ get 'max'() { return this.getNumberProp('max') }
     };
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
     target.inputEl.value = target.value + '';
-}));
- }
+})); }
     static __style = `:host{--_input-number-height: var(--input-number-height, 30px);--_input-number-background-color: var(--input-number-background-color, var(--form-element-background, white));--_input-number-icon-height: var(--input-number-icon-height, calc(var(--_input-number-height) / 2));--_input-number-error-logo-size: var(--input-number-error-logo-size, calc(var(--_input-number-height) / 2));--_input-number-font-size: var(--input-number-font-size, var(--form-element-font-size, 16px));--_input-number-font-size-label: var(--input-number-font-size-label, var(--form-element-font-size-label, calc(var(--_input-number-font-size) * 0.95)));--_input-number-input-border: var(--input-number-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-number-border-radius: var(--input-number-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-number-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-number-background-color);border:var(--_input-number-input-border);border-radius:var(--_input-number-border-radius);display:flex;height:var(--_input-number-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-number-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-number-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-number-error-logo-size) - 5px);height:var(--_input-number-error-logo-size);justify-content:center;width:var(--_input-number-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:0 10px}:host .errors>div{margin:5px 0}:host .errors>div:first-child{margin-top:10px}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}`;
     __getStatic() {
         return InputNumber;
@@ -13233,20 +12294,12 @@ get 'max'() { return this.getNumberProp('max') }
         arrStyle.push(InputNumber.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<label for="input" _id="inputnumber_0"></label><div class="input">
-    <rk-img class="icon" _id="inputnumber_1"></rk-img>
-    <input autocomplete="off" id="input" _id="inputnumber_2" />
-    <div class="error-logo">!</div>
-</div><div class="errors">
-    <template _id="inputnumber_3"></template>
-</div>` }
+        blocks: { 'default':`<label for="input" _id="inputnumber_0"></label><div class="input">    <rk-img class="icon" _id="inputnumber_1"></rk-img>    <input autocomplete="off" id="input" _id="inputnumber_2" />    <div class="error-logo">!</div></div><div class="errors">    <template _id="inputnumber_3"></template></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "inputEl",
@@ -13286,42 +12339,22 @@ this.__getStatic().__template.setActions({
       "fct": (e, c) => c.comp.validate(e)
     }
   ]
-});
-const templ0 = new Aventus.Template(this);
-templ0.setTemplate(`
-        <div _id="inputnumber_4"></div>
-    `);
-templ0.setActions({
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <div _id="inputnumber_4"></div>    `);templ0.setActions({
   "content": {
     "inputnumber_4°@HTML": {
       "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method4(c.data.error))}`,
       "once": true
     }
   }
-});
-this.__getStatic().__template.addLoop({
+});this.__getStatic().__template.addLoop({
                     anchorId: 'inputnumber_3',
                     template: templ0,
-                simple:{data: "this.errors",item:"error"}
-});
- }
+                simple:{data: "this.errors",item:"error"}}); }
     getClassName() {
         return "InputNumber";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = undefined; }
-if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }
-if(!this.hasAttribute('icon')){ this['icon'] = undefined; }
-if(!this.hasAttribute('value')){ this['value'] = 0; }
-if(!this.hasAttribute('min')){ this['min'] = undefined; }
-if(!this.hasAttribute('max')){ this['max'] = undefined; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label');
-this.__upgradeProperty('placeholder');
-this.__upgradeProperty('icon');
-this.__upgradeProperty('value');
-this.__upgradeProperty('min');
-this.__upgradeProperty('max');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = 0; }if(!this.hasAttribute('min')){ this['min'] = undefined; }if(!this.hasAttribute('max')){ this['max'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('value');this.__upgradeProperty('min');this.__upgradeProperty('max'); }
     removeErrors() {
         this.errors = [];
     }
@@ -13450,23 +12483,15 @@ if(!window.customElements.get('rk-form')){window.customElements.define('rk-form'
 Components.Button = class Button extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon_before", "icon_after", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'color'() { return this.getStringAttr('color') }
-    set 'color'(val) { this.setStringAttr('color', val) }
-get 'outline'() { return this.getBoolAttr('outline') }
-    set 'outline'(val) { this.setBoolAttr('outline', val) }
-get 'submit'() { return this.getBoolAttr('submit') }
-    set 'submit'(val) { this.setBoolAttr('submit', val) }
-get 'disabled'() { return this.getBoolAttr('disabled') }
-    set 'disabled'(val) { this.setBoolAttr('disabled', val) }
-    get 'icon_before'() { return this.getStringProp('icon_before') }
-    set 'icon_before'(val) { this.setStringAttr('icon_before', val) }
-get 'icon_after'() { return this.getStringProp('icon_after') }
-    set 'icon_after'(val) { this.setStringAttr('icon_after', val) }
-get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
+    set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
+    set 'outline'(val) { this.setBoolAttr('outline', val) }get 'submit'() { return this.getBoolAttr('submit') }
+    set 'submit'(val) { this.setBoolAttr('submit', val) }get 'disabled'() { return this.getBoolAttr('disabled') }
+    set 'disabled'(val) { this.setBoolAttr('disabled', val) }    get 'icon_before'() { return this.getStringProp('icon_before') }
+    set 'icon_before'(val) { this.setStringAttr('icon_before', val) }get 'icon_after'() { return this.getStringProp('icon_after') }
+    set 'icon_after'(val) { this.setStringAttr('icon_after', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
     target.icon_before = target.icon;
-}));
- }
+})); }
     static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--internal-button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
     __getStatic() {
         return Button;
@@ -13479,15 +12504,10 @@ get 'icon'() { return this.getStringProp('icon') }
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="hider"></div><div class="content">
-    <rk-img class="icon-before" _id="button_0"></rk-img>
-    <slot></slot>
-    <rk-img class="icon-after" _id="button_1"></rk-img>
-</div>` }
+        blocks: { 'default':`<div class="hider"></div><div class="content">    <rk-img class="icon-before" _id="button_0"></rk-img>    <slot></slot>    <rk-img class="icon-after" _id="button_1"></rk-img></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "content": {
     "button_0°src": {
       "fct": (c) => `${c.print(c.comp.__e17753be66eb8c36ad73f4b01845474bmethod0())}`,
@@ -13498,27 +12518,12 @@ this.__getStatic().__template.setActions({
       "once": true
     }
   }
-});
- }
+}); }
     getClassName() {
         return "Button";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }
-if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }
-if(!this.hasAttribute('submit')) { this.attributeChangedCallback('submit', false, false); }
-if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }
-if(!this.hasAttribute('icon_before')){ this['icon_before'] = undefined; }
-if(!this.hasAttribute('icon_after')){ this['icon_after'] = undefined; }
-if(!this.hasAttribute('icon')){ this['icon'] = undefined; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');
-this.__upgradeProperty('outline');
-this.__upgradeProperty('submit');
-this.__upgradeProperty('disabled');
-this.__upgradeProperty('icon_before');
-this.__upgradeProperty('icon_after');
-this.__upgradeProperty('icon');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('submit')) { this.attributeChangedCallback('submit', false, false); }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('icon_before')){ this['icon_before'] = undefined; }if(!this.hasAttribute('icon_after')){ this['icon_after'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('submit');this.__upgradeProperty('disabled');this.__upgradeProperty('icon_before');this.__upgradeProperty('icon_after');this.__upgradeProperty('icon'); }
     __listBoolProps() { return ["outline","submit","disabled"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     registerToForm() {
         if (!this.submit)
@@ -13546,31 +12551,23 @@ if(!window.customElements.get('rk-button')){window.customElements.define('rk-but
 Components.Checkbox = class Checkbox extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'left_label'() { return this.getBoolAttr('left_label') }
-    set 'left_label'(val) { this.setBoolAttr('left_label', val) }
-    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }
-get 'placeholder'() { return this.getStringProp('placeholder') }
-    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }
-get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }
-get 'checked'() { return this.getBoolProp('checked') }
-    set 'checked'(val) { this.setBoolAttr('checked', val) }
-    get 'value'() {
+    set 'left_label'(val) { this.setBoolAttr('left_label', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
+    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'checked'() { return this.getBoolProp('checked') }
+    set 'checked'(val) { this.setBoolAttr('checked', val) }    get 'value'() {
 						return this.__watch["value"];
 					}
 					set 'value'(val) {
 						this.__watch["value"] = val;
-					}
-    __registerWatchesActions() {
+					}    __registerWatchesActions() {
     this.__addWatchesActions("value", ((target) => {
     target.checked = target.value;
-}));
-    super.__registerWatchesActions();
+}));    super.__registerWatchesActions();
 }
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("checked", ((target) => {
     target.value = target.checked;
-}));
- }
+})); }
     static __style = `:host{--_checkbox-size: var(--checkbox-size, 18px);--_checkbox-height: var(--checkbox-height, var(--_checkbox-size));--_checkbox-width: var(--checkbox-width, var(--_checkbox-size));--_checkbox-size: 20px;--_checkbox-border-radius: var(--checkbox-border-radius, var(--form-element-border-radius));--_checkbox-border: var(--checkbox-border, var(--form-element-border));--_checkbox-border-active: var(--checkbox-border-active, var(--form-element-border-active, var(--_checkbox-border)));--_checkbox-background: var(--checkbox-background, var(--form-element-background, white));--_checkbox-background-active: var(--checkbox-background-active, var(--form-element-background-active, white));--_checkbox-tick-color: var(--checkbox-tick-color, var(--_checkbox-background));--_checkbox-tick-size: var(--checkbox-tick-size, 2px);--_checkbox-tick-padding: var(--checkbox-tick-padding, 10%);--_checkbox-font-size-label: var(--checkbox-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_checkbox-margin-label: var(--checkbox-margin-label, 5px)}:host{align-items:center;display:flex}:host .label:not(:empty){cursor:pointer;font-size:var(--_checkbox-font-size-label);margin-left:var(--_checkbox-margin-label)}:host .square{background-color:var(--_checkbox-background);border:var(--_checkbox-border);border-radius:var(--_checkbox-border-radius);cursor:pointer;flex-shrink:0;height:var(--_checkbox-height);position:relative;transition:border .4s var(--bezier-curve),background-color .4s var(--bezier-curve);width:var(--_checkbox-width);display:flex;align-items:center;justify-content:center}:host .square rk-img{--img-stroke-color: var(--_checkbox-tick-color);--img-stroke-width: var(--_checkbox-tick-size);height:calc(100% - var(--_checkbox-tick-padding));opacity:0;visibility:hidden;width:calc(100% - var(--_checkbox-tick-padding))}:host([checked]) .square{background-color:var(--_checkbox-background-active);border:var(--_checkbox-border-active)}:host([checked]) .square rk-img{opacity:1;visibility:visible}:host([checked]) .square rk-img::part(tick){animation:dash .3s linear forwards;animation-delay:.2s;stroke-dasharray:100;stroke-dashoffset:100}:host([left_label]) .label:not(:empty){margin-left:0;margin-right:var(--_checkbox-margin-label);order:1}:host([left_label]) .square{order:2}@keyframes dash{to{stroke-dashoffset:70}}`;
     __getStatic() {
         return Checkbox;
@@ -13580,42 +12577,25 @@ get 'checked'() { return this.getBoolProp('checked') }
         arrStyle.push(Checkbox.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="square">
-    <rk-img src="/img/icons/tick.svg"></rk-img>
-</div><div class="label" _id="checkbox_0"></div>` }
+        blocks: { 'default':`<div class="square">    <rk-img src="/img/icons/tick.svg"></rk-img></div><div class="label" _id="checkbox_0"></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "content": {
     "checkbox_0°@HTML": {
       "fct": (c) => `${c.print(c.comp.__ab411575f51bcaf15868d94c774ac9c3method0())}`,
       "once": true
     }
   }
-});
- }
+}); }
     getClassName() {
         return "Checkbox";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('left_label')) { this.attributeChangedCallback('left_label', false, false); }
-if(!this.hasAttribute('label')){ this['label'] = undefined; }
-if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }
-if(!this.hasAttribute('icon')){ this['icon'] = undefined; }
-if(!this.hasAttribute('checked')) { this.attributeChangedCallback('checked', false, false); }
- }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = false;
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('left_label');
-this.__upgradeProperty('label');
-this.__upgradeProperty('placeholder');
-this.__upgradeProperty('icon');
-this.__upgradeProperty('checked');
-this.__correctGetter('value');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('left_label')) { this.attributeChangedCallback('left_label', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('checked')) { this.attributeChangedCallback('checked', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = false; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('left_label');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('checked');this.__correctGetter('value'); }
     __listBoolProps() { return ["left_label","checked"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     removeErrors() {
         this.errors = [];
@@ -13654,8 +12634,7 @@ Components.DatePickerCalendar = class DatePickerCalendar extends Components.Cale
         arrStyle.push(DatePickerCalendar.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         blocks: { 'default':`` }
     });
@@ -13675,37 +12654,25 @@ if(!window.customElements.get('rk-date-picker-calendar')){window.customElements.
 Components.DatePicker = class DatePicker extends Components.FormElement {
     static get observedAttributes() {return ["label", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'year_format'() { return this.getStringAttr('year_format') }
-    set 'year_format'(val) { this.setStringAttr('year_format', val) }
-get 'month_format'() { return this.getStringAttr('month_format') }
-    set 'month_format'(val) { this.setStringAttr('month_format', val) }
-get 'day_format'() { return this.getStringAttr('day_format') }
-    set 'day_format'(val) { this.setStringAttr('day_format', val) }
-get 'locale'() { return this.getStringAttr('locale') }
-    set 'locale'(val) { this.setStringAttr('locale', val) }
-get 'time_zone'() { return this.getStringAttr('time_zone') }
-    set 'time_zone'(val) { this.setStringAttr('time_zone', val) }
-get 'hide_on_select'() { return this.getBoolAttr('hide_on_select') }
-    set 'hide_on_select'(val) { this.setBoolAttr('hide_on_select', val) }
-get 'show_close'() { return this.getBoolAttr('show_close') }
-    set 'show_close'(val) { this.setBoolAttr('show_close', val) }
-get 'no_undefined'() { return this.getBoolAttr('no_undefined') }
-    set 'no_undefined'(val) { this.setBoolAttr('no_undefined', val) }
-    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }
-get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }
-    get 'value'() {
+    set 'year_format'(val) { this.setStringAttr('year_format', val) }get 'month_format'() { return this.getStringAttr('month_format') }
+    set 'month_format'(val) { this.setStringAttr('month_format', val) }get 'day_format'() { return this.getStringAttr('day_format') }
+    set 'day_format'(val) { this.setStringAttr('day_format', val) }get 'locale'() { return this.getStringAttr('locale') }
+    set 'locale'(val) { this.setStringAttr('locale', val) }get 'time_zone'() { return this.getStringAttr('time_zone') }
+    set 'time_zone'(val) { this.setStringAttr('time_zone', val) }get 'hide_on_select'() { return this.getBoolAttr('hide_on_select') }
+    set 'hide_on_select'(val) { this.setBoolAttr('hide_on_select', val) }get 'show_close'() { return this.getBoolAttr('show_close') }
+    set 'show_close'(val) { this.setBoolAttr('show_close', val) }get 'no_undefined'() { return this.getBoolAttr('no_undefined') }
+    set 'no_undefined'(val) { this.setBoolAttr('no_undefined', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    get 'value'() {
 						return this.__watch["value"];
 					}
 					set 'value'(val) {
 						this.__watch["value"] = val;
-					}
-    calendar;
+					}    calendar;
     __registerWatchesActions() {
     this.__addWatchesActions("value", ((target) => {
     target.renderDate();
-}));
-    super.__registerWatchesActions();
+}));    super.__registerWatchesActions();
 }
     static __style = `:host{--_datepicker-height: var(--input-height, 30px);--_datepicker-background-color: var(--input-background-color, var(--form-element-background, white));--_datepicker-icon-height: var(--input-icon-height, calc(var(--_datepicker-height) / 2));--_datepicker-error-logo-size: var(--input-error-logo-size, calc(var(--_datepicker-height) / 2));--_datepicker-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_datepicker-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_datepicker-font-size) * 0.95)));--_datepicker-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_datepicker-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_datepicker-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_datepicker-background-color);border:var(--_datepicker-input-border);border-radius:var(--_datepicker-border-radius);display:flex;height:var(--_datepicker-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_datepicker-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_datepicker-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .close-icon{font-size:18px;flex-shrink:0;display:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_datepicker-error-logo-size) - 5px);height:var(--_datepicker-error-logo-size);justify-content:center;width:var(--_datepicker-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([show_close]:not([no_undefined])) .input .close-icon{display:inline-block}`;
     constructor() {
@@ -13720,21 +12687,12 @@ get 'icon'() { return this.getStringProp('icon') }
         arrStyle.push(DatePicker.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<label for="input" _id="datepicker_0"></label><div class="input" _id="datepicker_1">
-    <rk-img class="icon" _id="datepicker_2"></rk-img>
-    <input id="input" readonly autocomplete="off" _id="datepicker_3" />
-    <mi-icon class="close-icon touch" icon="close" _id="datepicker_4"></mi-icon>
-    <div class="error-logo">!</div>
-</div><div class="errors">
-    <template _id="datepicker_5"></template>
-</div><rk-calendar-container _id="datepicker_7"></rk-calendar-container>` }
+        blocks: { 'default':`<label for="input" _id="datepicker_0"></label><div class="input" _id="datepicker_1">    <rk-img class="icon" _id="datepicker_2"></rk-img>    <input id="input" readonly autocomplete="off" _id="datepicker_3" />    <mi-icon class="close-icon touch" icon="close" _id="datepicker_4"></mi-icon>    <div class="error-logo">!</div></div><div class="errors">    <template _id="datepicker_5"></template></div><rk-calendar-container _id="datepicker_7"></rk-calendar-container>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "inputEl",
@@ -13781,53 +12739,23 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.clearValue(e, pressInstance); }
     }
   ]
-});
-const templ0 = new Aventus.Template(this);
-templ0.setTemplate(` 
-        <div _id="datepicker_6"></div>
-    `);
-templ0.setActions({
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`         <div _id="datepicker_6"></div>    `);templ0.setActions({
   "content": {
     "datepicker_6°@HTML": {
       "fct": (c) => `${c.print(c.comp.__e3c5860a3719823edab2c4b36e42865dmethod3(c.data.error))}`,
       "once": true
     }
   }
-});
-this.__getStatic().__template.addLoop({
+});this.__getStatic().__template.addLoop({
                     anchorId: 'datepicker_5',
                     template: templ0,
-                simple:{data: "this.errors",item:"error"}
-});
- }
+                simple:{data: "this.errors",item:"error"}}); }
     getClassName() {
         return "DatePicker";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('year_format')){ this['year_format'] = "numeric"; }
-if(!this.hasAttribute('month_format')){ this['month_format'] = "2-digit"; }
-if(!this.hasAttribute('day_format')){ this['day_format'] = "2-digit"; }
-if(!this.hasAttribute('locale')){ this['locale'] = undefined; }
-if(!this.hasAttribute('time_zone')){ this['time_zone'] = undefined; }
-if(!this.hasAttribute('hide_on_select')) { this.attributeChangedCallback('hide_on_select', false, false); }
-if(!this.hasAttribute('show_close')) { this.attributeChangedCallback('show_close', false, false); }
-if(!this.hasAttribute('no_undefined')) { this.attributeChangedCallback('no_undefined', false, false); }
-if(!this.hasAttribute('label')){ this['label'] = undefined; }
-if(!this.hasAttribute('icon')){ this['icon'] = undefined; }
- }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined;
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('year_format');
-this.__upgradeProperty('month_format');
-this.__upgradeProperty('day_format');
-this.__upgradeProperty('locale');
-this.__upgradeProperty('time_zone');
-this.__upgradeProperty('hide_on_select');
-this.__upgradeProperty('show_close');
-this.__upgradeProperty('no_undefined');
-this.__upgradeProperty('label');
-this.__upgradeProperty('icon');
-this.__correctGetter('value');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('year_format')){ this['year_format'] = "numeric"; }if(!this.hasAttribute('month_format')){ this['month_format'] = "2-digit"; }if(!this.hasAttribute('day_format')){ this['day_format'] = "2-digit"; }if(!this.hasAttribute('locale')){ this['locale'] = undefined; }if(!this.hasAttribute('time_zone')){ this['time_zone'] = undefined; }if(!this.hasAttribute('hide_on_select')) { this.attributeChangedCallback('hide_on_select', false, false); }if(!this.hasAttribute('show_close')) { this.attributeChangedCallback('show_close', false, false); }if(!this.hasAttribute('no_undefined')) { this.attributeChangedCallback('no_undefined', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('year_format');this.__upgradeProperty('month_format');this.__upgradeProperty('day_format');this.__upgradeProperty('locale');this.__upgradeProperty('time_zone');this.__upgradeProperty('hide_on_select');this.__upgradeProperty('show_close');this.__upgradeProperty('no_undefined');this.__upgradeProperty('label');this.__upgradeProperty('icon');this.__correctGetter('value'); }
     __listBoolProps() { return ["hide_on_select","show_close","no_undefined"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     defineCalendar() {
         return Components.DatePickerCalendar;
@@ -13924,8 +12852,7 @@ if(!window.customElements.get('rk-date-picker')){window.customElements.define('r
 
 Components.CalendarContainer = class CalendarContainer extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
-    set 'visible'(val) { this.setBoolAttr('visible', val) }
-    picker;
+    set 'visible'(val) { this.setBoolAttr('visible', val) }    picker;
     static __style = `:host{display:none;position:absolute;z-index:800}:host([visible]){display:block}`;
     __getStatic() {
         return CalendarContainer;
@@ -13943,10 +12870,8 @@ Components.CalendarContainer = class CalendarContainer extends Aventus.WebCompon
     getClassName() {
         return "CalendarContainer";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible'); }
     __listBoolProps() { return ["visible"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     init(picker) {
         this.picker = picker;
@@ -13994,19 +12919,13 @@ if(!window.customElements.get('rk-calendar-container')){window.customElements.de
 Components.Input = class Input extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "icon_position", "value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }
-get 'placeholder'() { return this.getStringProp('placeholder') }
-    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }
-get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }
-get 'icon_position'() { return this.getStringProp('icon_position') }
-    set 'icon_position'(val) { this.setStringAttr('icon_position', val) }
-get 'value'() { return this.getStringProp('value') }
-    set 'value'(val) { this.setStringAttr('value', val) }
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
+    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
+    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'icon_position'() { return this.getStringProp('icon_position') }
+    set 'icon_position'(val) { this.setStringAttr('icon_position', val) }get 'value'() { return this.getStringProp('value') }
+    set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
     target.inputEl.value = target.value ?? "";
-}));
- }
+})); }
     static __style = `:host{--_input-height: var(--input-height, 30px);--_input-background-color: var(--input-background-color, var(--form-element-background, white));--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-background-color);border:var(--_input-input-border);border-radius:var(--_input-border-radius);display:flex;height:var(--_input-height);padding:0 10px;width:100%;overflow:hidden}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-error-logo-size) - 5px);height:var(--_input-error-logo-size);justify-content:center;width:var(--_input-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([icon_position=right]) .input .icon{order:2;margin-right:0px}:host([icon_position=right]) .input .input{order:1}:host([icon_position=right]) .input .error-logo{order:3;margin-left:10px}:host([label]:not([label=""])) label{display:flex}`;
     __getStatic() {
         return Input;
@@ -14016,26 +12935,13 @@ get 'value'() { return this.getStringProp('value') }
         arrStyle.push(Input.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        slots: { 'prepend':`<slot name="prepend">
-        <rk-img class="icon" _id="input_1"></rk-img>
-    </slot>`,'append':`<slot name="append"></slot>` }, 
-        blocks: { 'default':`<label for="input" _id="input_0"></label><div class="input">
-    <slot name="prepend">
-        <rk-img class="icon" _id="input_1"></rk-img>
-    </slot>
-    <input autocomplete="off" id="input" _id="input_2" />
-    <slot name="append"></slot>
-    <div class="error-logo">!</div>
-</div><div class="errors">
-    <template _id="input_3"></template>
-</div>` }
+        slots: { 'prepend':`<slot name="prepend">        <rk-img class="icon" _id="input_1"></rk-img>    </slot>`,'append':`<slot name="append"></slot>` }, 
+        blocks: { 'default':`<label for="input" _id="input_0"></label><div class="input">    <slot name="prepend">        <rk-img class="icon" _id="input_1"></rk-img>    </slot>    <input autocomplete="off" id="input" _id="input_2" />    <slot name="append"></slot>    <div class="error-logo">!</div></div><div class="errors">    <template _id="input_3"></template></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "iconEl",
@@ -14076,51 +12982,28 @@ this.__getStatic().__template.setActions({
       "fct": (e, c) => c.comp.onValueChange(e)
     }
   ]
-});
-const templ0 = new Aventus.Template(this);
-templ0.setTemplate(`
-        <template _id="input_4"></template>
-    `);
-this.__getStatic().__template.addLoop({
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <template _id="input_4"></template>    `);this.__getStatic().__template.addLoop({
                     anchorId: 'input_3',
                     template: templ0,
-                simple:{data: "this.errors",item:"error"}
-});
-const templ1 = new Aventus.Template(this);
-templ1.setTemplate(`
-            <div _id="input_5"></div>
-        `);
-templ1.setActions({
+                simple:{data: "this.errors",item:"error"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`            <div _id="input_5"></div>        `);templ1.setActions({
   "content": {
     "input_5°@HTML": {
       "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method4(c.data.error))}`,
       "once": true
     }
   }
-});
-templ0.addIf({
+});templ0.addIf({
                     anchorId: 'input_4',
                     parts: [{once: true,
                     condition: (c) => true,
                     template: templ1
                 }]
-            });
- }
+            }); }
     getClassName() {
         return "Input";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = undefined; }
-if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }
-if(!this.hasAttribute('icon')){ this['icon'] = undefined; }
-if(!this.hasAttribute('icon_position')){ this['icon_position'] = undefined; }
-if(!this.hasAttribute('value')){ this['value'] = ""; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label');
-this.__upgradeProperty('placeholder');
-this.__upgradeProperty('icon');
-this.__upgradeProperty('icon_position');
-this.__upgradeProperty('value');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('icon_position')){ this['icon_position'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = ""; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('icon_position');this.__upgradeProperty('value'); }
     removeErrors() {
         this.errors = [];
     }
@@ -14152,14 +13035,11 @@ if(!window.customElements.get('rk-input')){window.customElements.define('rk-inpu
 Components.Password = class Password extends Components.Input {
     static get observedAttributes() {return ["visible", "icon_position"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'visible'() { return this.getBoolProp('visible') }
-    set 'visible'(val) { this.setBoolAttr('visible', val) }
-get 'icon_position'() { return this.getStringProp('icon_position') }
-    set 'icon_position'(val) { this.setStringAttr('icon_position', val) }
-    pressIcon;
+    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'icon_position'() { return this.getStringProp('icon_position') }
+    set 'icon_position'(val) { this.setStringAttr('icon_position', val) }    pressIcon;
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("visible", ((target) => {
     target.updateIcon();
-}));
- }
+})); }
     static __style = `:host .input .icon{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}`;
     __getStatic() {
         return Password;
@@ -14169,8 +13049,7 @@ get 'icon_position'() { return this.getStringProp('icon_position') }
         arrStyle.push(Password.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -14179,12 +13058,8 @@ super.__getHtml();
     getClassName() {
         return "Password";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }
-if(!this.hasAttribute('icon_position')){ this['icon_position'] = "right"; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');
-this.__upgradeProperty('icon_position');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('icon_position')){ this['icon_position'] = "right"; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('icon_position'); }
     __listBoolProps() { return ["visible"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     toggleVisible() {
         this.visible = !this.visible;
@@ -14223,37 +13098,28 @@ if(!window.customElements.get('rk-password')){window.customElements.define('rk-p
 Components.GenericSelect = class GenericSelect extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "searchable"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'open'() { return this.getBoolAttr('open') }
-    set 'open'(val) { this.setBoolAttr('open', val) }
-    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }
-get 'placeholder'() { return this.getStringProp('placeholder') }
-    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }
-get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }
-get 'searchable'() { return this.getBoolProp('searchable') }
-    set 'searchable'(val) { this.setBoolAttr('searchable', val) }
-    get 'displayValue'() {
+    set 'open'(val) { this.setBoolAttr('open', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
+    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'searchable'() { return this.getBoolProp('searchable') }
+    set 'searchable'(val) { this.setBoolAttr('searchable', val) }    get 'displayValue'() {
 						return this.__watch["displayValue"];
 					}
 					set 'displayValue'(val) {
 						this.__watch["displayValue"] = val;
-					}
-get 'value'() {
+					}get 'value'() {
 						return this.__watch["value"];
 					}
 					set 'value'(val) {
 						this.__watch["value"] = val;
-					}
-    selectedOption;
+					}    selectedOption;
     options = [];
     __registerWatchesActions() {
     this.__addWatchesActions("displayValue", ((target, action, path, value) => {
     target.inputEl.value = target.displayValue;
-}));
-this.__addWatchesActions("value", ((target) => {
+}));this.__addWatchesActions("value", ((target) => {
     target.onInternalValueChanged();
-}));
-    super.__registerWatchesActions();
+}));    super.__registerWatchesActions();
 }
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("searchable", ((target) => {
     if (target.searchable) {
@@ -14262,8 +13128,7 @@ this.__addWatchesActions("value", ((target) => {
     else {
         target.inputEl.setAttribute("disabled", "disabled");
     }
-}));
- }
+})); }
     static __style = `:host{--_select-height: var(--select-height, 30px);--_select-background-color: var(--select-background-color, var(--form-element-background, white));--_select-icon-height: var(--select-icon-height, calc(var(--_select-height) / 2));--_select-error-logo-size: var(--select-error-logo-size, calc(var(--_select-height) / 2));--_select-font-size: var(--select-font-size, var(--form-element-font-size, 16px));--_select-font-size-label: var(--select-font-size-label, var(--form-element-font-size-label, calc(var(--_select-font-size) * 0.95)));--_select-select-border: var(--select-select-border, var(--form-element-border, 1px solid var(--lighter-active)));--_generic-select-border-radius: var(--generic-select-border-radius, var(--form-element-border-radius, 0));--_select-caret-height: var(--select-caret-height, calc(var(--_select-height) / 2));--_select-caret-color: var(--select-caret-color, var(--form-element-color))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_select-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_select-background-color);border:var(--_select-select-border);border-radius:var(--_generic-select-border-radius);cursor:pointer;display:flex;height:var(--_select-height);padding:0 10px;width:100%}:host .input .icon{display:none;height:var(--_select-icon-height);margin-right:10px}:host .input rk-img.caret{--img-fill-color: var(--_select-caret-color);--img-stroke-width: 0;aspect-ratio:1;flex-grow:0;flex-shrink:0;height:var(--_select-caret-height);transform:rotate(-90deg);transition:transform .5s var(--bezier-curve)}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_select-font-size);height:100%;margin:0;opacity:1;outline:none;padding:5px 0;padding-right:10px;-webkit-text-fill-color:var(--text-color);width:100%}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;font-size:calc(var(--_select-error-logo-size) - 5px);height:var(--_select-error-logo-size);justify-content:center;width:var(--_select-error-logo-size);flex-shrink:0}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host .hidden{display:none}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([open]) .input .caret{transform:rotate(-270deg)}`;
     constructor() { super(); if (this.constructor == GenericSelect) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
@@ -14274,24 +13139,13 @@ this.__addWatchesActions("value", ((target) => {
         arrStyle.push(GenericSelect.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<label for="input" _id="genericselect_0"></label><div class="input" _id="genericselect_1">
-    <rk-img class="icon" _id="genericselect_2"></rk-img>
-    <input id="input" autocomplete="off" _id="genericselect_3" />
-    <div class="error-logo">!</div>
-    <rk-img src="/img/icons/angle-left.svg" class="caret"></rk-img>
-</div><div class="errors">
-    <template _id="genericselect_4"></template>
-</div><div class="hidden">
-    <slot></slot>
-</div><rk-options-container class="options-container" _id="genericselect_6"></rk-options-container>` }
+        blocks: { 'default':`<label for="input" _id="genericselect_0"></label><div class="input" _id="genericselect_1">    <rk-img class="icon" _id="genericselect_2"></rk-img>    <input id="input" autocomplete="off" _id="genericselect_3" />    <div class="error-logo">!</div>    <rk-img src="/img/icons/angle-left.svg" class="caret"></rk-img></div><div class="errors">    <template _id="genericselect_4"></template></div><div class="hidden">    <slot></slot></div><rk-options-container class="options-container" _id="genericselect_6"></rk-options-container>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "inputEl",
@@ -14343,45 +13197,23 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.showOptions(e, pressInstance); }
     }
   ]
-});
-const templ0 = new Aventus.Template(this);
-templ0.setTemplate(` 
-        <div _id="genericselect_5"></div>
-    `);
-templ0.setActions({
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`         <div _id="genericselect_5"></div>    `);templ0.setActions({
   "content": {
     "genericselect_5°@HTML": {
       "fct": (c) => `${c.print(c.comp.__efca6c2ed5bcc3ecd5150acdf7f96c13method4(c.data.error))}`,
       "once": true
     }
   }
-});
-this.__getStatic().__template.addLoop({
+});this.__getStatic().__template.addLoop({
                     anchorId: 'genericselect_4',
                     template: templ0,
-                simple:{data: "this.errors",item:"error"}
-});
- }
+                simple:{data: "this.errors",item:"error"}}); }
     getClassName() {
         return "GenericSelect";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('open')) { this.attributeChangedCallback('open', false, false); }
-if(!this.hasAttribute('label')){ this['label'] = undefined; }
-if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }
-if(!this.hasAttribute('icon')){ this['icon'] = undefined; }
-if(!this.hasAttribute('searchable')) { this.attributeChangedCallback('searchable', false, false); }
- }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["displayValue"] = "";
-w["value"] = undefined;
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('open');
-this.__upgradeProperty('label');
-this.__upgradeProperty('placeholder');
-this.__upgradeProperty('icon');
-this.__upgradeProperty('searchable');
-this.__correctGetter('displayValue');
-this.__correctGetter('value');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('open')) { this.attributeChangedCallback('open', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('searchable')) { this.attributeChangedCallback('searchable', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["displayValue"] = "";w["value"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('open');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('searchable');this.__correctGetter('displayValue');this.__correctGetter('value'); }
     __listBoolProps() { return ["open","searchable"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     onInternalValueChanged() {
         if (!this.isConnected)
@@ -14557,8 +13389,7 @@ Components.OptionEnum = class OptionEnum extends Components.GenericOption {
         arrStyle.push(OptionEnum.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -14575,8 +13406,7 @@ if(!window.customElements.get('rk-option-enum')){window.customElements.define('r
 
 Components.SelectEnum = class SelectEnum extends Components.GenericSelect {
     get 'txt_undefined'() { return this.getStringAttr('txt_undefined') }
-    set 'txt_undefined'(val) { this.setStringAttr('txt_undefined', val) }
-    enumEl;
+    set 'txt_undefined'(val) { this.setStringAttr('txt_undefined', val) }    enumEl;
     static __style = ``;
     constructor() {
             super();
@@ -14591,8 +13421,7 @@ if (this.constructor == SelectEnum) { throw "can't instanciate an abstract class
         arrStyle.push(SelectEnum.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -14601,10 +13430,8 @@ super.__getHtml();
     getClassName() {
         return "SelectEnum";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('txt_undefined')){ this['txt_undefined'] = undefined; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('txt_undefined');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('txt_undefined')){ this['txt_undefined'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('txt_undefined'); }
     itemToText(option) {
         return option.innerHTML;
     }
@@ -14646,8 +13473,7 @@ Components.OptionData = class OptionData extends Components.GenericOption {
         arrStyle.push(OptionData.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -14665,8 +13491,7 @@ if(!window.customElements.get('rk-option-data')){window.customElements.define('r
 Components.Option = class Option extends Components.GenericOption {
     static get observedAttributes() {return ["value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'value'() { return this.getStringProp('value') }
-    set 'value'(val) { this.setStringAttr('value', val) }
-    static __style = ``;
+    set 'value'(val) { this.setStringAttr('value', val) }    static __style = ``;
     __getStatic() {
         return Option;
     }
@@ -14675,8 +13500,7 @@ Components.Option = class Option extends Components.GenericOption {
         arrStyle.push(Option.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -14685,10 +13509,8 @@ super.__getHtml();
     getClassName() {
         return "Option";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('value')){ this['value'] = undefined; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('value');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('value')){ this['value'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('value'); }
 }
 Components.Option.Namespace=`Core.Components`;
 Components.Option.Tag=`rk-option`;
@@ -14698,8 +13520,7 @@ if(!window.customElements.get('rk-option')){window.customElements.define('rk-opt
 Components.Select = class Select extends Components.GenericSelect {
     static get observedAttributes() {return ["value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'value'() { return this.getStringProp('value') }
-    set 'value'(val) { this.setStringAttr('value', val) }
-    static __style = ``;
+    set 'value'(val) { this.setStringAttr('value', val) }    static __style = ``;
     __getStatic() {
         return Select;
     }
@@ -14708,8 +13529,7 @@ Components.Select = class Select extends Components.GenericSelect {
         arrStyle.push(Select.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -14718,10 +13538,8 @@ super.__getHtml();
     getClassName() {
         return "Select";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('value')){ this['value'] = ""; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('value');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('value')){ this['value'] = ""; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('value'); }
     itemToText(option) {
         // if(option.value !== undefined) {
         //     return option.value
@@ -14737,26 +13555,22 @@ if(!window.customElements.get('rk-select')){window.customElements.define('rk-sel
 Components.ItemBoxSelect = class ItemBoxSelect extends Components.FormElement {
     static get observedAttributes() {return ["space"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'space'() { return this.getNumberProp('space') }
-    set 'space'(val) { this.setNumberAttr('space', val) }
-    get 'value'() {
+    set 'space'(val) { this.setNumberAttr('space', val) }    get 'value'() {
 						return this.__watch["value"];
 					}
 					set 'value'(val) {
 						this.__watch["value"] = val;
-					}
-    options = [];
+					}    options = [];
     optionSelected;
     form;
     __registerWatchesActions() {
     this.__addWatchesActions("value", ((target) => {
     target.selectInternalOption();
-}));
-    super.__registerWatchesActions();
+}));    super.__registerWatchesActions();
 }
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("space", ((target) => {
     target.style.setProperty("--item-box-margin", target.space + 'px');
-}));
- }
+})); }
     static __style = `:host{--_item-box-box-width: var(--item-box-box-width, auto);--_item-box-box-height: var(--item-box-box-height, 100%);--_item-box-box-padding: var(--item-box-box-padding, 0 10px);--_item-box-border-radius: var(--item-box-border-radius, 4px);--_item-box-border-color: var(--item-box-border-color, var(--secondary-color, #afafaf));--_item-box-option-background-color-selected: var(--item-box-option-background-color-selected, var(--form-element-background-active, #afafaf));--_item-box-option-color-selected: var(--item-box-option-color-selected, var(--form-element-color-active, #fff))}:host{position:relative}:host .container-option{align-items:center;box-sizing:border-box;display:flex;flex-direction:row;height:100%;justify-content:center;z-index:2}:host ::slotted(*){border:1px solid var(--_item-box-border-color);border-radius:var(--border-radius-sm);max-height:var(--_item-box-box-height);max-width:var(--_item-box-box-width);padding:var(--_item-box-box-padding);width:var(--_item-box-box-width)}:host ::slotted(*:first-child){margin-left:0}:host ::slotted(*:last-child){margin-right:0}:host([space="0"]){border:1px solid var(--_item-box-border-color);border-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*){border:none;border-radius:0px;border-right:1px solid var(--_item-box-border-color)}:host([space="0"]) ::slotted(*:first-child){border-bottom-left-radius:var(--_item-box-border-radius);border-top-left-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*:last-child){border-bottom-right-radius:var(--_item-box-border-radius);border-right:none;border-top-right-radius:var(--_item-box-border-radius)}`;
     __getStatic() {
         return ItemBoxSelect;
@@ -14766,25 +13580,18 @@ Components.ItemBoxSelect = class ItemBoxSelect extends Components.FormElement {
         arrStyle.push(ItemBoxSelect.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="container-option">
-    <slot></slot>
-</div>` }
+        blocks: { 'default':`<div class="container-option">    <slot></slot></div>` }
     });
 }
     getClassName() {
         return "ItemBoxSelect";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('space')){ this['space'] = 0; }
- }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined;
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('space');
-this.__correctGetter('value');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('space')){ this['space'] = 0; } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('space');this.__correctGetter('value'); }
     selectInternalOption() {
         if (!this.isConnected)
             return;
@@ -14844,10 +13651,8 @@ if(!window.customElements.get('rk-item-box-select')){window.customElements.defin
 
 Components.ItemBoxOption = class ItemBoxOption extends Components.ItemBox {
     get 'selected'() { return this.getBoolAttr('selected') }
-    set 'selected'(val) { this.setBoolAttr('selected', val) }
-get 'value'() { return this.getStringAttr('value') }
-    set 'value'(val) { this.setStringAttr('value', val) }
-    select;
+    set 'selected'(val) { this.setBoolAttr('selected', val) }get 'value'() { return this.getStringAttr('value') }
+    set 'value'(val) { this.setStringAttr('value', val) }    select;
     static __style = `:host{cursor:pointer;transition:background-color var(--bezier-curve) .4s,color var(--bezier-curve) .4s}:host::slotted(*){pointer-events:none}:host>*{pointer-events:none}:host([selected]){background-color:var(--_item-box-option-background-color-selected);color:var(--_item-box-option-color-selected)}`;
     __getStatic() {
         return ItemBoxOption;
@@ -14857,8 +13662,7 @@ get 'value'() { return this.getStringAttr('value') }
         arrStyle.push(ItemBoxOption.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -14867,12 +13671,8 @@ super.__getHtml();
     getClassName() {
         return "ItemBoxOption";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('selected')) { this.attributeChangedCallback('selected', false, false); }
-if(!this.hasAttribute('value')){ this['value'] = undefined; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('selected');
-this.__upgradeProperty('value');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('selected')) { this.attributeChangedCallback('selected', false, false); }if(!this.hasAttribute('value')){ this['value'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('selected');this.__upgradeProperty('value'); }
     __listBoolProps() { return ["selected"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     register() {
         this.select = this.findParentByType(Components.ItemBoxSelect);
@@ -14905,20 +13705,13 @@ if(!window.customElements.get('rk-item-box-option')){window.customElements.defin
 
 Components.SelectData = class SelectData extends Components.GenericSelect {
     get 'loading'() { return this.getBoolAttr('loading') }
-    set 'loading'(val) { this.setBoolAttr('loading', val) }
-get 'txt_undefined'() { return this.getStringAttr('txt_undefined') }
-    set 'txt_undefined'(val) { this.setStringAttr('txt_undefined', val) }
-    data = [];
+    set 'loading'(val) { this.setBoolAttr('loading', val) }get 'txt_undefined'() { return this.getStringAttr('txt_undefined') }
+    set 'txt_undefined'(val) { this.setStringAttr('txt_undefined', val) }    data = [];
     isInit = false;
     static __style = ``;
     constructor() {
             super();
-if (this.constructor == SelectData) { throw "can't instanciate an abstract class"; } 
-this.subscribe=this.subscribe.bind(this)
-this.unsubscribe=this.unsubscribe.bind(this)
-this.onCreated=this.onCreated.bind(this)
-this.onDeleted=this.onDeleted.bind(this)
-this.onUpdated=this.onUpdated.bind(this) }
+if (this.constructor == SelectData) { throw "can't instanciate an abstract class"; } this.subscribe=this.subscribe.bind(this)this.unsubscribe=this.unsubscribe.bind(this)this.onCreated=this.onCreated.bind(this)this.onDeleted=this.onDeleted.bind(this)this.onUpdated=this.onUpdated.bind(this) }
     __getStatic() {
         return SelectData;
     }
@@ -14927,8 +13720,7 @@ this.onUpdated=this.onUpdated.bind(this) }
         arrStyle.push(SelectData.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -14937,12 +13729,8 @@ super.__getHtml();
     getClassName() {
         return "SelectData";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }
-if(!this.hasAttribute('txt_undefined')){ this['txt_undefined'] = undefined; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading');
-this.__upgradeProperty('txt_undefined');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('txt_undefined')){ this['txt_undefined'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading');this.__upgradeProperty('txt_undefined'); }
     __listBoolProps() { return ["loading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     itemToText(option) {
         return option.innerHTML;
@@ -15033,32 +13821,24 @@ _.Components.SelectData=Components.SelectData;
 Components.TwoColumnsSelect = class TwoColumnsSelect extends Components.FormElement {
     static get observedAttributes() {return ["title_unselect", "title_select", "placeholder_unselect", "placeholder_select"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'searchable_unselect'() { return this.getBoolAttr('searchable_unselect') }
-    set 'searchable_unselect'(val) { this.setBoolAttr('searchable_unselect', val) }
-get 'searchable_select'() { return this.getBoolAttr('searchable_select') }
-    set 'searchable_select'(val) { this.setBoolAttr('searchable_select', val) }
-    get 'title_unselect'() { return this.getStringProp('title_unselect') }
-    set 'title_unselect'(val) { this.setStringAttr('title_unselect', val) }
-get 'title_select'() { return this.getStringProp('title_select') }
-    set 'title_select'(val) { this.setStringAttr('title_select', val) }
-get 'placeholder_unselect'() { return this.getStringProp('placeholder_unselect') }
-    set 'placeholder_unselect'(val) { this.setStringAttr('placeholder_unselect', val) }
-get 'placeholder_select'() { return this.getStringProp('placeholder_select') }
-    set 'placeholder_select'(val) { this.setStringAttr('placeholder_select', val) }
-    get 'value'() {
+    set 'searchable_unselect'(val) { this.setBoolAttr('searchable_unselect', val) }get 'searchable_select'() { return this.getBoolAttr('searchable_select') }
+    set 'searchable_select'(val) { this.setBoolAttr('searchable_select', val) }    get 'title_unselect'() { return this.getStringProp('title_unselect') }
+    set 'title_unselect'(val) { this.setStringAttr('title_unselect', val) }get 'title_select'() { return this.getStringProp('title_select') }
+    set 'title_select'(val) { this.setStringAttr('title_select', val) }get 'placeholder_unselect'() { return this.getStringProp('placeholder_unselect') }
+    set 'placeholder_unselect'(val) { this.setStringAttr('placeholder_unselect', val) }get 'placeholder_select'() { return this.getStringProp('placeholder_select') }
+    set 'placeholder_select'(val) { this.setStringAttr('placeholder_select', val) }    get 'value'() {
 						return this.__watch["value"];
 					}
 					set 'value'(val) {
 						this.__watch["value"] = val;
-					}
-    selectedOption;
+					}    selectedOption;
     optionsSelected = [];
     optionsUnselected = [];
     canGenerateValues = false;
     __registerWatchesActions() {
     this.__addWatchesActions("value", ((target) => {
     target.onInternalValueChanged();
-}));
-    super.__registerWatchesActions();
+}));    super.__registerWatchesActions();
 }
     static __style = `:host{display:flex;flex-direction:column;width:100%}:host .wrapper{align-items:center;display:flex;height:100%;width:100%}:host .wrapper .col{background-color:#fff;border-radius:var(--border-radius-sm);box-shadow:var(--elevation-1);display:flex;flex-direction:column;flex-grow:1;height:100%;padding:15px;width:100%}:host .wrapper .col .title{font-size:calc(var(--font-size)*.85);margin-bottom:10px;margin-left:3px}:host .wrapper .col .title:empty{display:none}:host .wrapper .col .search{display:none;margin-bottom:15px}:host .wrapper .action{display:flex;flex-direction:column;flex-grow:0;flex-shrink:0;gap:5px;padding:10px}:host .wrapper .action .btn{align-items:center;background-color:#fff;border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);cursor:pointer;display:flex;justify-content:center;transition:box-shadow .3s var(--bezier-curve),background-color .3s var(--bezier-curve)}:host .wrapper .action .btn mi-icon{font-size:var(--font-size-md);padding:2px}:host .wrapper .action .btn[disable=true]{color:var(--text-color-disable);cursor:not-allowed}:host .wrapper .action .btn:hover{background-color:var(--lighter);box-shadow:var(--elevation-1)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host .hidden{display:none}:host([has_errors]) .errors{display:block}:host([column]) .wrapper{flex-direction:column}:host([column]) .wrapper .action{flex-direction:row}:host([column]) .wrapper .action .btn mi-icon{transform:rotate(90deg)}:host([searchable_unselect]) .wrapper .col .search-unselect{display:inline-block}:host([searchable_select]) .wrapper .col .search-select{display:inline-block}`;
     constructor() { super(); if (this.constructor == TwoColumnsSelect) { throw "can't instanciate an abstract class"; } }
@@ -15070,51 +13850,13 @@ get 'placeholder_select'() { return this.getStringProp('placeholder_select') }
         arrStyle.push(TwoColumnsSelect.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="wrapper">
-    <div class="col">
-        <div class="title" _id="twocolumnsselect_0"></div>
-        <div class="search search-unselect">
-            <rk-input _id="twocolumnsselect_1"></rk-input>
-        </div>
-        <rk-scrollable class="options" _id="twocolumnsselect_2">
-        </rk-scrollable>
-    </div>
-    <div class="action">
-        <div class="btn" _id="twocolumnsselect_3">
-            <mi-icon icon="keyboard_double_arrow_right"></mi-icon>
-        </div>
-        <div class="btn" _id="twocolumnsselect_4">
-            <mi-icon icon="keyboard_arrow_right"></mi-icon>
-        </div>
-        <div class="btn" _id="twocolumnsselect_5">
-            <mi-icon icon="keyboard_arrow_left"></mi-icon>
-        </div>
-        <div class="btn" _id="twocolumnsselect_6">
-            <mi-icon icon="keyboard_double_arrow_left"></mi-icon>
-        </div>
-    </div>
-    <div class="col">
-        <div class="title" _id="twocolumnsselect_7"></div>
-        <div class="search search-select">
-            <rk-input _id="twocolumnsselect_8"></rk-input>
-        </div>
-        <rk-scrollable class="options" _id="twocolumnsselect_9">
-        </rk-scrollable>
-        <div class="errors">
-            <template _id="twocolumnsselect_10"></template>
-        </div>
-    </div>
-</div><div class="hidden">
-    <slot></slot>
-</div>` }
+        blocks: { 'default':`<div class="wrapper">    <div class="col">        <div class="title" _id="twocolumnsselect_0"></div>        <div class="search search-unselect">            <rk-input _id="twocolumnsselect_1"></rk-input>        </div>        <rk-scrollable class="options" _id="twocolumnsselect_2">        </rk-scrollable>    </div>    <div class="action">        <div class="btn" _id="twocolumnsselect_3">            <mi-icon icon="keyboard_double_arrow_right"></mi-icon>        </div>        <div class="btn" _id="twocolumnsselect_4">            <mi-icon icon="keyboard_arrow_right"></mi-icon>        </div>        <div class="btn" _id="twocolumnsselect_5">            <mi-icon icon="keyboard_arrow_left"></mi-icon>        </div>        <div class="btn" _id="twocolumnsselect_6">            <mi-icon icon="keyboard_double_arrow_left"></mi-icon>        </div>    </div>    <div class="col">        <div class="title" _id="twocolumnsselect_7"></div>        <div class="search search-select">            <rk-input _id="twocolumnsselect_8"></rk-input>        </div>        <rk-scrollable class="options" _id="twocolumnsselect_9">        </rk-scrollable>        <div class="errors">            <template _id="twocolumnsselect_10"></template>        </div>    </div></div><div class="hidden">    <slot></slot></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "unselectSearchInput",
@@ -15191,45 +13933,23 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.unselectAll(e, pressInstance); }
     }
   ]
-});
-const templ0 = new Aventus.Template(this);
-templ0.setTemplate(` 
-                <div _id="twocolumnsselect_11"></div>
-            `);
-templ0.setActions({
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`                 <div _id="twocolumnsselect_11"></div>            `);templ0.setActions({
   "content": {
     "twocolumnsselect_11°@HTML": {
       "fct": (c) => `${c.print(c.comp.__02ff6a099b7c5d693b75b5727ffdf5e8method5(c.data.error))}`,
       "once": true
     }
   }
-});
-this.__getStatic().__template.addLoop({
+});this.__getStatic().__template.addLoop({
                     anchorId: 'twocolumnsselect_10',
                     template: templ0,
-                simple:{data: "this.errors",item:"error"}
-});
- }
+                simple:{data: "this.errors",item:"error"}}); }
     getClassName() {
         return "TwoColumnsSelect";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('searchable_unselect')) { this.attributeChangedCallback('searchable_unselect', false, false); }
-if(!this.hasAttribute('searchable_select')) { this.attributeChangedCallback('searchable_select', false, false); }
-if(!this.hasAttribute('title_unselect')){ this['title_unselect'] = undefined; }
-if(!this.hasAttribute('title_select')){ this['title_select'] = undefined; }
-if(!this.hasAttribute('placeholder_unselect')){ this['placeholder_unselect'] = "Recherche"; }
-if(!this.hasAttribute('placeholder_select')){ this['placeholder_select'] = "Recherche"; }
- }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined;
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('searchable_unselect');
-this.__upgradeProperty('searchable_select');
-this.__upgradeProperty('title_unselect');
-this.__upgradeProperty('title_select');
-this.__upgradeProperty('placeholder_unselect');
-this.__upgradeProperty('placeholder_select');
-this.__correctGetter('value');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('searchable_unselect')) { this.attributeChangedCallback('searchable_unselect', false, false); }if(!this.hasAttribute('searchable_select')) { this.attributeChangedCallback('searchable_select', false, false); }if(!this.hasAttribute('title_unselect')){ this['title_unselect'] = undefined; }if(!this.hasAttribute('title_select')){ this['title_select'] = undefined; }if(!this.hasAttribute('placeholder_unselect')){ this['placeholder_unselect'] = "Recherche"; }if(!this.hasAttribute('placeholder_select')){ this['placeholder_select'] = "Recherche"; } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('searchable_unselect');this.__upgradeProperty('searchable_select');this.__upgradeProperty('title_unselect');this.__upgradeProperty('title_select');this.__upgradeProperty('placeholder_unselect');this.__upgradeProperty('placeholder_select');this.__correctGetter('value'); }
     __listBoolProps() { return ["searchable_unselect","searchable_select"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     include(array, value) {
         return array.includes(value);
@@ -15363,8 +14083,7 @@ _.Components.TwoColumnsSelect=Components.TwoColumnsSelect;
 
 Components.TwoColumnsOption = class TwoColumnsOption extends Aventus.WebComponent {
     get 'highlight'() { return this.getBoolAttr('highlight') }
-    set 'highlight'(val) { this.setBoolAttr('highlight', val) }
-    value;
+    set 'highlight'(val) { this.setBoolAttr('highlight', val) }    value;
     select;
     static __style = `:host{border-radius:var(--border-radius-sm);cursor:pointer;margin:5px 0;padding:5px;transition:background-color .2s var(--bezier-curve)}:host([highlight]){background-color:var(--lighter)}:host(:first-child){margin-top:0}:host(:last-child){margin-bottom:0}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--lighter)}}`;
     __getStatic() {
@@ -15384,10 +14103,8 @@ Components.TwoColumnsOption = class TwoColumnsOption extends Aventus.WebComponen
     getClassName() {
         return "TwoColumnsOption";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('highlight')) { this.attributeChangedCallback('highlight', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('highlight');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('highlight')) { this.attributeChangedCallback('highlight', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('highlight'); }
     __listBoolProps() { return ["highlight"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     init(select) {
         this.select = select;
@@ -15424,8 +14141,7 @@ Components.TwoColumnsOptionData = class TwoColumnsOptionData extends Components.
         arrStyle.push(TwoColumnsOptionData.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -15442,19 +14158,13 @@ if(!window.customElements.get('rk-two-columns-option-data')){window.customElemen
 
 Components.TwoColumnsSelectData = class TwoColumnsSelectData extends Components.TwoColumnsSelect {
     get 'loading'() { return this.getBoolAttr('loading') }
-    set 'loading'(val) { this.setBoolAttr('loading', val) }
-    data = [];
+    set 'loading'(val) { this.setBoolAttr('loading', val) }    data = [];
     isInit = false;
     static __style = ``;
     constructor() {
             super();
             this.createOptions();
-if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abstract class"; } 
-this.subscribe=this.subscribe.bind(this)
-this.unsubscribe=this.unsubscribe.bind(this)
-this.onCreated=this.onCreated.bind(this)
-this.onDeleted=this.onDeleted.bind(this)
-this.onUpdated=this.onUpdated.bind(this) }
+if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abstract class"; } this.subscribe=this.subscribe.bind(this)this.unsubscribe=this.unsubscribe.bind(this)this.onCreated=this.onCreated.bind(this)this.onDeleted=this.onDeleted.bind(this)this.onUpdated=this.onUpdated.bind(this) }
     __getStatic() {
         return TwoColumnsSelectData;
     }
@@ -15463,8 +14173,7 @@ this.onUpdated=this.onUpdated.bind(this) }
         arrStyle.push(TwoColumnsSelectData.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -15473,10 +14182,8 @@ super.__getHtml();
     getClassName() {
         return "TwoColumnsSelectData";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading'); }
     __listBoolProps() { return ["loading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     itemToText(option) {
         return option.innerHTML;
@@ -15577,72 +14284,55 @@ _.Components.TwoColumnsSelectData=Components.TwoColumnsSelectData;
 Components.Table = class Table extends Aventus.WebComponent {
     static get observedAttributes() {return ["auto_hide_scroll", "grid", "items_per_page"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'col_resize'() { return this.getBoolAttr('col_resize') }
-    set 'col_resize'(val) { this.setBoolAttr('col_resize', val) }
-get 'grid_breakpoint'() { return this.getNumberAttr('grid_breakpoint') }
-    set 'grid_breakpoint'(val) { this.setNumberAttr('grid_breakpoint', val) }
-get 'first_page'() { return this.getBoolAttr('first_page') }
-    set 'first_page'(val) { this.setBoolAttr('first_page', val) }
-get 'last_page'() { return this.getBoolAttr('last_page') }
-    set 'last_page'(val) { this.setBoolAttr('last_page', val) }
-get 'loading'() { return this.getBoolAttr('loading') }
-    set 'loading'(val) { this.setBoolAttr('loading', val) }
-get 'no_data'() { return this.getBoolAttr('no_data') }
-    set 'no_data'(val) { this.setBoolAttr('no_data', val) }
-    get 'auto_hide_scroll'() { return this.getBoolProp('auto_hide_scroll') }
-    set 'auto_hide_scroll'(val) { this.setBoolAttr('auto_hide_scroll', val) }
-get 'grid'() { return this.getBoolProp('grid') }
-    set 'grid'(val) { this.setBoolAttr('grid', val) }
-get 'items_per_page'() { return this.getNumberProp('items_per_page') }
-    set 'items_per_page'(val) { this.setNumberAttr('items_per_page', val) }
-    get 'tableTitle'() {
+    set 'col_resize'(val) { this.setBoolAttr('col_resize', val) }get 'grid_breakpoint'() { return this.getNumberAttr('grid_breakpoint') }
+    set 'grid_breakpoint'(val) { this.setNumberAttr('grid_breakpoint', val) }get 'first_page'() { return this.getBoolAttr('first_page') }
+    set 'first_page'(val) { this.setBoolAttr('first_page', val) }get 'last_page'() { return this.getBoolAttr('last_page') }
+    set 'last_page'(val) { this.setBoolAttr('last_page', val) }get 'loading'() { return this.getBoolAttr('loading') }
+    set 'loading'(val) { this.setBoolAttr('loading', val) }get 'no_data'() { return this.getBoolAttr('no_data') }
+    set 'no_data'(val) { this.setBoolAttr('no_data', val) }    get 'auto_hide_scroll'() { return this.getBoolProp('auto_hide_scroll') }
+    set 'auto_hide_scroll'(val) { this.setBoolAttr('auto_hide_scroll', val) }get 'grid'() { return this.getBoolProp('grid') }
+    set 'grid'(val) { this.setBoolAttr('grid', val) }get 'items_per_page'() { return this.getNumberProp('items_per_page') }
+    set 'items_per_page'(val) { this.setNumberAttr('items_per_page', val) }    get 'tableTitle'() {
 						return this.__watch["tableTitle"];
 					}
 					set 'tableTitle'(val) {
 						this.__watch["tableTitle"] = val;
-					}
-get 'showSearch'() {
+					}get 'showSearch'() {
 						return this.__watch["showSearch"];
 					}
 					set 'showSearch'(val) {
 						this.__watch["showSearch"] = val;
-					}
-get 'showHeader'() {
+					}get 'showHeader'() {
 						return this.__watch["showHeader"];
 					}
 					set 'showHeader'(val) {
 						this.__watch["showHeader"] = val;
-					}
-get 'showFooter'() {
+					}get 'showFooter'() {
 						return this.__watch["showFooter"];
 					}
 					set 'showFooter'(val) {
 						this.__watch["showFooter"] = val;
-					}
-get 'displayedData'() {
+					}get 'displayedData'() {
 						return this.__watch["displayedData"];
 					}
 					set 'displayedData'(val) {
 						this.__watch["displayedData"] = val;
-					}
-get 'data'() {
+					}get 'data'() {
 						return this.__watch["data"];
 					}
 					set 'data'(val) {
 						this.__watch["data"] = val;
-					}
-get 'currentPage'() {
+					}get 'currentPage'() {
 						return this.__watch["currentPage"];
 					}
 					set 'currentPage'(val) {
 						this.__watch["currentPage"] = val;
-					}
-get 'nbItems'() {
+					}get 'nbItems'() {
 						return this.__watch["nbItems"];
 					}
 					set 'nbItems'(val) {
 						this.__watch["nbItems"] = val;
-					}
-    options;
+					}    options;
     filters = {};
     dataFilters = [];
     sortColumns = {};
@@ -15667,32 +14357,22 @@ get 'nbItems'() {
     minTimeoutLoading = 1000;
     select = new Aventus.Callback();
     __registerWatchesActions() {
-    this.__addWatchesActions("tableTitle");
-this.__addWatchesActions("showSearch");
-this.__addWatchesActions("showHeader");
-this.__addWatchesActions("showFooter");
-this.__addWatchesActions("displayedData", ((target, action, path, value) => {
+    this.__addWatchesActions("tableTitle");this.__addWatchesActions("showSearch");this.__addWatchesActions("showHeader");this.__addWatchesActions("showFooter");this.__addWatchesActions("displayedData", ((target, action, path, value) => {
     target.render();
-}));
-this.__addWatchesActions("data", ((target, action, path, value) => {
+}));this.__addWatchesActions("data", ((target, action, path, value) => {
     target.filterData();
-}));
-this.__addWatchesActions("currentPage", ((target) => {
+}));this.__addWatchesActions("currentPage", ((target) => {
     target.correctPage();
-}));
-this.__addWatchesActions("nbItems");
-    super.__registerWatchesActions();
+}));this.__addWatchesActions("nbItems");    super.__registerWatchesActions();
 }
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("grid", ((target) => {
     target.updateGrid();
-}));
-this.__addPropertyActions("items_per_page", ((target) => {
+}));this.__addPropertyActions("items_per_page", ((target) => {
     target.renderPage();
     if (target.items_per_page > 0 && target.options.showFooter === undefined) {
         target.showFooter = true;
     }
-}));
- }
+})); }
     static __style = `:host{--_table-background-color: var(--table-background-color, var(--secondary-color));--_table-elevation: var(--table-elevation, var(--elevation-2));--_table-row-header-height: var(--table-row-header-height, 50px);--_table-header-backgroud-color: var(--table-header-backgroud-color, var(--primary-color));--_table-header-color: var(--table-header-color, var(--text-color-reverse));--_table-footer-backgroud-color: var(--table-footer-backgroud-color, var(--primary-color));--_table-footer-color: var(--table-footer-color, var(--text-color-reverse));--_table-row-header-backgroud-color: var(--table-row-header-backgroud-color, var(--primary-color));--_table-row-header-color: var(--table-row-header-color, var(--text-color-reverse));--_table-border-color: var(--table-border-color, var(--secondary-color));--_table-row-header-vertical-border: var(--table-row-header-vertical-border, 1px solid var(--_table-border-color));--_table-row-header-horizontal-border: var(--table-row-header-horizontal-border, 1px solid var(--_table-border-color));--_table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-padding: var(--table-cell-padding, 10px);--local-table-cell-resize-display: none}:host{background-color:var(--_table-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--_table-elevation);display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper{display:flex;flex-direction:column;height:100%;min-height:100%;width:100%}:host .style-wrapper .header{align-items:center;background-color:var(--_table-header-backgroud-color);color:var(--_table-header-color);display:flex;justify-content:space-between;min-height:0;padding:10px}:host .style-wrapper .header .title{align-items:center;display:flex;font-size:var(--font-size-md);height:30px;margin-left:5px}:host .style-wrapper .row-header{--scrollbar-color: transparent;--scrollbar-active-color: transparent;--scroller-width: 0;min-height:0;width:100%}:host .style-wrapper .body{display:flex;flex:1;flex-direction:column;min-height:0;position:relative;width:100%}:host .style-wrapper .body .loading{display:none}:host .style-wrapper .body .no-data{display:none;margin:15px}:host .style-wrapper .footer{align-items:center;background-color:var(--_table-footer-backgroud-color);color:var(--_table-footer-color);display:flex;gap:30px;justify-content:end;min-height:0;padding:10px}:host .style-wrapper .footer .items-per-page{align-items:center;display:flex}:host .style-wrapper .footer .items-per-page rk-input-number{margin-left:10px;min-width:auto;width:50px}:host .style-wrapper .footer .location{align-items:center;display:flex}:host .style-wrapper .footer .pagination{align-items:center;display:flex}:host .style-wrapper .footer .pagination .btn-previous,:host .style-wrapper .footer .pagination .btn-next{transition:background-color .2s var(--bezier-curve)}:host .style-wrapper rk-scrollable::part(content-wrapper){min-width:100%}:host([first_page]) .style-wrapper .footer .pagination .btn-previous{opacity:.5;pointer-events:none}:host([last_page]) .style-wrapper .footer .pagination .btn-next{opacity:.5;pointer-events:none}:host([col_resize]){--local-table-cell-resize-display: block}:host([grid]) .style-wrapper .row-header{display:none}:host([grid]) .style-wrapper .body{flex-direction:row}:host([grid]) .style-wrapper .body rk-scrollable::part(content-wrapper){display:flex;flex-wrap:wrap;gap:15px;justify-content:center;padding:15px}:host([loading]) .style-wrapper .body{min-height:200px}:host([loading]) .style-wrapper .body .loading{display:flex}:host([no_data]:not([loading])) .style-wrapper .body .no-data{display:flex}:host([no_data]:not([loading])) .style-wrapper .body .rows{display:none}@media screen and (min-width: 1225px){:host .style-wrapper .footer .pagination .touch:hover{background-color:var(--lighter);border-radius:var(--border-radius-sm)}}`;
     constructor() {
             super();
@@ -15711,41 +14391,11 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        slots: { 'before':`<slot name="before"></slot>`,'header':`<slot name="header">
-        <template _id="table_1"></template>
-    </slot>`,'no-data':`<slot name="no-data">
-            <div class="no-data">Aucune donnée trouvée</div>
-        </slot>`,'loader':`<slot name="loader">
-            <rk-loading class="loading"></rk-loading>
-        </slot>`,'footer':`<slot name="footer">
-        <template _id="table_7"></template>
-    </slot>`,'after':`<slot name="after"></slot>`,'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot name="before"></slot><div class="style-wrapper" _id="table_0">
-    <slot name="header">
-        <template _id="table_1"></template>
-    </slot>
-    <div class="row-header">
-        <rk-scrollable y_scroll="false" x_scroll floating_scroll _id="table_5">
-        </rk-scrollable>
-    </div>
-    <div class="body">
-        <rk-scrollable class="rows" x_scroll floating_scroll _id="table_6">
-        </rk-scrollable>
-        <slot name="no-data">
-            <div class="no-data">Aucune donnée trouvée</div>
-        </slot>
-        <slot name="loader">
-            <rk-loading class="loading"></rk-loading>
-        </slot>
-    </div>
-    <slot name="footer">
-        <template _id="table_7"></template>
-    </slot>
-</div><slot name="after"></slot><slot></slot>` }
+        slots: { 'before':`<slot name="before"></slot>`,'header':`<slot name="header">        <template _id="table_1"></template>    </slot>`,'no-data':`<slot name="no-data">            <div class="no-data">Aucune donnée trouvée</div>        </slot>`,'loader':`<slot name="loader">            <rk-loading class="loading"></rk-loading>        </slot>`,'footer':`<slot name="footer">        <template _id="table_7"></template>    </slot>`,'after':`<slot name="after"></slot>`,'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot name="before"></slot><div class="style-wrapper" _id="table_0">    <slot name="header">        <template _id="table_1"></template>    </slot>    <div class="row-header">        <rk-scrollable y_scroll="false" x_scroll floating_scroll _id="table_5">        </rk-scrollable>    </div>    <div class="body">        <rk-scrollable class="rows" x_scroll floating_scroll _id="table_6">        </rk-scrollable>        <slot name="no-data">            <div class="no-data">Aucune donnée trouvée</div>        </slot>        <slot name="loader">            <rk-loading class="loading"></rk-loading>        </slot>    </div>    <slot name="footer">        <template _id="table_7"></template>    </slot></div><slot name="after"></slot><slot></slot>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "styleWrapper",
@@ -15772,29 +14422,14 @@ this.__getStatic().__template.setActions({
       "once": true
     }
   }
-});
-const templ0 = new Aventus.Template(this);
-templ0.setTemplate(`
-            <div class="header">
-                <div class="title" _id="table_2"></div>
-                <template _id="table_3"></template>
-            </div>
-        `);
-templ0.setActions({
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`            <div class="header">                <div class="title" _id="table_2"></div>                <template _id="table_3"></template>            </div>        `);templ0.setActions({
   "content": {
     "table_2°@HTML": {
       "fct": (c) => `${c.print(c.comp.__b5b6f5e196622f4341e5ecfc2e397e35method3())}`,
       "once": true
     }
   }
-});
-const templ1 = new Aventus.Template(this);
-templ1.setTemplate(`
-                    <div class="search">
-                        <rk-input placeholder="Recherche" _id="table_4"></rk-input>
-                    </div>
-                `);
-templ1.setActions({
+});const templ1 = new Aventus.Template(this);templ1.setTemplate(`                    <div class="search">                        <rk-input placeholder="Recherche" _id="table_4"></rk-input>                    </div>                `);templ1.setActions({
   "events": [
     {
       "eventName": "onChange",
@@ -15803,38 +14438,19 @@ templ1.setActions({
       "isCallback": true
     }
   ]
-});
-templ0.addIf({
+});templ0.addIf({
                     anchorId: 'table_3',
                     parts: [{once: true,
                     condition: (c) => c.comp.__b5b6f5e196622f4341e5ecfc2e397e35method1(),
                     template: templ1
                 }]
-            });
-this.__getStatic().__template.addIf({
+            });this.__getStatic().__template.addIf({
                     anchorId: 'table_1',
                     parts: [{once: true,
                     condition: (c) => c.comp.__b5b6f5e196622f4341e5ecfc2e397e35method0(),
                     template: templ0
                 }]
-            });
-const templ2 = new Aventus.Template(this);
-templ2.setTemplate(`
-            <div class="footer">
-                <div class="items-per-page">
-                    <span>Éléments par page : </span>
-                    <rk-input-number min="1" _id="table_8"></rk-input-number>
-                </div>
-                <div class="location" _id="table_9"></div>
-                <div class="pagination">
-                    <mi-icon icon="keyboard_double_arrow_left" class="btn-previous touch" _id="table_10"></mi-icon>
-                    <mi-icon icon="keyboard_arrow_left" class="btn-previous touch" _id="table_11"></mi-icon>
-                    <mi-icon icon="keyboard_arrow_right" class="btn-next touch" _id="table_12"></mi-icon>
-                    <mi-icon icon="keyboard_double_arrow_right" class="btn-next touch" _id="table_13"></mi-icon>
-                </div>
-            </div>
-        `);
-templ2.setActions({
+            });const templ2 = new Aventus.Template(this);templ2.setTemplate(`            <div class="footer">                <div class="items-per-page">                    <span>Éléments par page : </span>                    <rk-input-number min="1" _id="table_8"></rk-input-number>                </div>                <div class="location" _id="table_9"></div>                <div class="pagination">                    <mi-icon icon="keyboard_double_arrow_left" class="btn-previous touch" _id="table_10"></mi-icon>                    <mi-icon icon="keyboard_arrow_left" class="btn-previous touch" _id="table_11"></mi-icon>                    <mi-icon icon="keyboard_arrow_right" class="btn-next touch" _id="table_12"></mi-icon>                    <mi-icon icon="keyboard_double_arrow_right" class="btn-next touch" _id="table_13"></mi-icon>                </div>            </div>        `);templ2.setActions({
   "content": {
     "table_9°@HTML": {
       "fct": (c) => `${c.print(c.comp.__b5b6f5e196622f4341e5ecfc2e397e35method8())}`,
@@ -15880,55 +14496,19 @@ templ2.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.lastPage(e, pressInstance); }
     }
   ]
-});
-this.__getStatic().__template.addIf({
+});this.__getStatic().__template.addIf({
                     anchorId: 'table_7',
                     parts: [{once: true,
                     condition: (c) => c.comp.__b5b6f5e196622f4341e5ecfc2e397e35method2(),
                     template: templ2
                 }]
-            });
- }
+            }); }
     getClassName() {
         return "Table";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('col_resize')) { this.attributeChangedCallback('col_resize', false, false); }
-if(!this.hasAttribute('grid_breakpoint')){ this['grid_breakpoint'] = undefined; }
-if(!this.hasAttribute('first_page')) { this.attributeChangedCallback('first_page', false, false); }
-if(!this.hasAttribute('last_page')) { this.attributeChangedCallback('last_page', false, false); }
-if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }
-if(!this.hasAttribute('no_data')) { this.attributeChangedCallback('no_data', false, false); }
-if(!this.hasAttribute('auto_hide_scroll')) { this.attributeChangedCallback('auto_hide_scroll', false, false); }
-if(!this.hasAttribute('grid')) { this.attributeChangedCallback('grid', false, false); }
-if(!this.hasAttribute('items_per_page')){ this['items_per_page'] = 0; }
- }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["tableTitle"] = "";
-w["showSearch"] = false;
-w["showHeader"] = false;
-w["showFooter"] = false;
-w["displayedData"] = undefined;
-w["data"] = undefined;
-w["currentPage"] = 0;
-w["nbItems"] = 0;
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('col_resize');
-this.__upgradeProperty('grid_breakpoint');
-this.__upgradeProperty('first_page');
-this.__upgradeProperty('last_page');
-this.__upgradeProperty('loading');
-this.__upgradeProperty('no_data');
-this.__upgradeProperty('auto_hide_scroll');
-this.__upgradeProperty('grid');
-this.__upgradeProperty('items_per_page');
-this.__correctGetter('tableTitle');
-this.__correctGetter('showSearch');
-this.__correctGetter('showHeader');
-this.__correctGetter('showFooter');
-this.__correctGetter('displayedData');
-this.__correctGetter('data');
-this.__correctGetter('currentPage');
-this.__correctGetter('nbItems');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('col_resize')) { this.attributeChangedCallback('col_resize', false, false); }if(!this.hasAttribute('grid_breakpoint')){ this['grid_breakpoint'] = undefined; }if(!this.hasAttribute('first_page')) { this.attributeChangedCallback('first_page', false, false); }if(!this.hasAttribute('last_page')) { this.attributeChangedCallback('last_page', false, false); }if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('no_data')) { this.attributeChangedCallback('no_data', false, false); }if(!this.hasAttribute('auto_hide_scroll')) { this.attributeChangedCallback('auto_hide_scroll', false, false); }if(!this.hasAttribute('grid')) { this.attributeChangedCallback('grid', false, false); }if(!this.hasAttribute('items_per_page')){ this['items_per_page'] = 0; } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["tableTitle"] = "";w["showSearch"] = false;w["showHeader"] = false;w["showFooter"] = false;w["displayedData"] = undefined;w["data"] = undefined;w["currentPage"] = 0;w["nbItems"] = 0; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('col_resize');this.__upgradeProperty('grid_breakpoint');this.__upgradeProperty('first_page');this.__upgradeProperty('last_page');this.__upgradeProperty('loading');this.__upgradeProperty('no_data');this.__upgradeProperty('auto_hide_scroll');this.__upgradeProperty('grid');this.__upgradeProperty('items_per_page');this.__correctGetter('tableTitle');this.__correctGetter('showSearch');this.__correctGetter('showHeader');this.__correctGetter('showFooter');this.__correctGetter('displayedData');this.__correctGetter('data');this.__correctGetter('currentPage');this.__correctGetter('nbItems'); }
     __listBoolProps() { return ["col_resize","first_page","last_page","loading","no_data","auto_hide_scroll","grid"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     getSelectedData() {
         const result = [];
@@ -16354,10 +14934,8 @@ _.Components.Table=Components.Table;
 Components.TableRow = class TableRow extends Aventus.WebComponent {
     static get observedAttributes() {return ["grid"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'custom_grid'() { return this.getBoolAttr('custom_grid') }
-    set 'custom_grid'(val) { this.setBoolAttr('custom_grid', val) }
-    get 'grid'() { return this.getBoolProp('grid') }
-    set 'grid'(val) { this.setBoolAttr('grid', val) }
-    table;
+    set 'custom_grid'(val) { this.setBoolAttr('custom_grid', val) }    get 'grid'() { return this.getBoolProp('grid') }
+    set 'grid'(val) { this.setBoolAttr('grid', val) }    table;
     _data;
     get data() {
         return this._data;
@@ -16366,8 +14944,7 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
     options;
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("grid", ((target) => {
     target.updateGrid();
-}));
- }
+})); }
     static __style = `:host{width:100%}:host .row-content{align-items:stretch;border-bottom:var(--_table-cell-horizontal-border);display:flex;flex-direction:row;width:100%}:host .row-content>*:last-child{border-right:none !important}:host .grid-content{display:none}:host([grid]){width:fit-content}:host([grid]) .row-content,:host([grid]) .grid-content{border:var(--_table-cell-vertical-border);border-radius:var(--border-radius-sm);flex-direction:column;padding:10px;width:fit-content}:host([grid][custom_grid]) .row-content{display:none}:host([grid][custom_grid]) .grid-content{display:flex}`;
     constructor() {
             super();
@@ -16384,13 +14961,10 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="row-content" _id="tablerow_0"></div><div class="grid-content">
-    <slot></slot>
-</div>` }
+        blocks: { 'default':`<div class="row-content" _id="tablerow_0"></div><div class="grid-content">    <slot></slot></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "rowContentEl",
@@ -16399,18 +14973,12 @@ this.__getStatic().__template.setActions({
       ]
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "TableRow";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('custom_grid')) { this.attributeChangedCallback('custom_grid', false, false); }
-if(!this.hasAttribute('grid')) { this.attributeChangedCallback('grid', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('data');
-this.__upgradeProperty('custom_grid');
-this.__upgradeProperty('grid');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('custom_grid')) { this.attributeChangedCallback('custom_grid', false, false); }if(!this.hasAttribute('grid')) { this.attributeChangedCallback('grid', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('data');this.__upgradeProperty('custom_grid');this.__upgradeProperty('grid'); }
     __listBoolProps() { return ["custom_grid","grid"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     customGridTemplate() {
         return false;
@@ -16492,8 +15060,7 @@ if(!window.customElements.get('rk-table-row')){window.customElements.define('rk-
 Components.TableRowData = class TableRowData extends Components.TableRow {
     ram;
     static __style = ``;
-    constructor() { super(); 
-this.onUpdated=this.onUpdated.bind(this) }
+    constructor() { super(); this.onUpdated=this.onUpdated.bind(this) }
     __getStatic() {
         return TableRowData;
     }
@@ -16502,8 +15069,7 @@ this.onUpdated=this.onUpdated.bind(this) }
         arrStyle.push(TableRowData.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -16540,10 +15106,8 @@ if(!window.customElements.get('rk-table-row-data')){window.customElements.define
 Components.TableCell = class TableCell extends Aventus.WebComponent {
     static get observedAttributes() {return ["grid", "label"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'grid'() { return this.getBoolProp('grid') }
-    set 'grid'(val) { this.setBoolAttr('grid', val) }
-get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }
-    row;
+    set 'grid'(val) { this.setBoolAttr('grid', val) }get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }    row;
     index = 0;
     get table() {
         if (this.row && this.row.table) {
@@ -16566,14 +15130,10 @@ get 'label'() { return this.getStringProp('label') }
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<template _id="tablecell_0"></template><span class="content" _id="tablecell_2">
-    <slot></slot>
-</span><div class="resize" _id="tablecell_3"></div>` }
+        blocks: { 'default':`<template _id="tablecell_0"></template><span class="content" _id="tablecell_2">    <slot></slot></span><div class="resize" _id="tablecell_3"></div>` }
     });
 }
-    get labelEl () { return this.shadowRoot.querySelector('[_id="tablecell_1"]'); }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    get labelEl () { return this.shadowRoot.querySelector('[_id="tablecell_1"]'); }    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "contentEl",
@@ -16588,37 +15148,25 @@ this.__getStatic().__template.setActions({
       ]
     }
   ]
-});
-const templ0 = new Aventus.Template(this);
-templ0.setTemplate(`
-    <div class="label" _id="tablecell_1"></div>
-`);
-templ0.setActions({
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`    <div class="label" _id="tablecell_1"></div>`);templ0.setActions({
   "content": {
     "tablecell_1°@HTML": {
       "fct": (c) => `${c.print(c.comp.__ac8f24890b42a6032ac364c65280b7a3method1())}`,
       "once": true
     }
   }
-});
-this.__getStatic().__template.addIf({
+});this.__getStatic().__template.addIf({
                     anchorId: 'tablecell_0',
                     parts: [{once: true,
                     condition: (c) => c.comp.__ac8f24890b42a6032ac364c65280b7a3method0(),
                     template: templ0
                 }]
-            });
- }
+            }); }
     getClassName() {
         return "TableCell";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('grid')) { this.attributeChangedCallback('grid', false, false); }
-if(!this.hasAttribute('label')){ this['label'] = undefined; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('table');
-this.__upgradeProperty('grid');
-this.__upgradeProperty('label');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('grid')) { this.attributeChangedCallback('grid', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('table');this.__upgradeProperty('grid');this.__upgradeProperty('label'); }
     __listBoolProps() { return ["grid"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     addResize() {
         if (!this.resizeEl) {
@@ -16662,10 +15210,6 @@ Components.TableCellString = class TableCellString extends Components.TableCell 
         arrStyle.push(TableCellString.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
-
-}
     getClassName() {
         return "TableCellString";
     }
@@ -16687,10 +15231,8 @@ if(!window.customElements.get('rk-table-cell-string')){window.customElements.def
 Components.TableCellPicture = class TableCellPicture extends Components.TableCell {
     static get observedAttributes() {return ["src", "full"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'src'() { return this.getStringProp('src') }
-    set 'src'(val) { this.setStringAttr('src', val) }
-get 'full'() { return this.getBoolProp('full') }
-    set 'full'(val) { this.setBoolAttr('full', val) }
-    clone;
+    set 'src'(val) { this.setStringAttr('src', val) }get 'full'() { return this.getBoolProp('full') }
+    set 'full'(val) { this.setBoolAttr('full', val) }    clone;
     static __style = `:host av-button{display:none}:host .img{border-radius:25px;height:50px;margin:auto;width:50px}:host .img img{object-fit:cover;width:100%;height:100%}:host([full]){position:absolute;inset:0;z-index:200}:host([full]) span{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;padding:40px}:host([full]) span av-button{display:inline-block;width:100px;margin-bottom:20px}:host([full]) span .img{flex-grow:1;width:100%}:host([full]) span .img img{object-fit:contain}`;
     __getStatic() {
         return TableCellPicture;
@@ -16700,16 +15242,14 @@ get 'full'() { return this.getBoolProp('full') }
         arrStyle.push(TableCellPicture.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         blocks: { 'default':`<av-button color="danger" _id="tablecellpicture_0">Fermer</av-button><div class="img" _id="tablecellpicture_1">
 		<img loading="lazy" _id="tablecellpicture_2" />
 	</div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "content": {
     "tablecellpicture_2°src": {
       "fct": (c) => `${c.print(c.comp.__5c25ad747ea3a14316fd5b29073319bemethod0())}`,
@@ -16726,17 +15266,12 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.setBigger(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "TableCellPicture";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('src')){ this['src'] = undefined; }
-if(!this.hasAttribute('full')) { this.attributeChangedCallback('full', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('src');
-this.__upgradeProperty('full');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('src')){ this['src'] = undefined; }if(!this.hasAttribute('full')) { this.attributeChangedCallback('full', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('src');this.__upgradeProperty('full'); }
     __listBoolProps() { return ["full"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     sortAsc(cell) {
         return 0;
@@ -16780,12 +15315,6 @@ Components.TableCellNumber = class TableCellNumber extends Components.TableCell 
         arrStyle.push(TableCellNumber.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`` }
-    });
-}
     getClassName() {
         return "TableCellNumber";
     }
@@ -16814,8 +15343,7 @@ if(!window.customElements.get('rk-table-cell-number')){window.customElements.def
 
 Components.TableCellHeader = class TableCellHeader extends Components.TableCell {
     get 'sort_direction'() { return this.getStringAttr('sort_direction') }
-    set 'sort_direction'(val) { this.setStringAttr('sort_direction', val) }
-    sortable;
+    set 'sort_direction'(val) { this.setStringAttr('sort_direction', val) }    sortable;
     static __style = `:host .content{display:flex;align-items:center}:host .content .header-name{margin-left:21px}:host .content .sort-direction{margin-left:5px;font-size:var(--font-size);width:16px;height:16px;opacity:0;visibility:none;transform:rotate(180deg);transition:opacity .2s var(--bezier-curve),visibility .2s var(--bezier-curve),transform .4s var(--bezier-curve)}:host([sort_direction=asc]) .content .sort-direction{opacity:1;visibility:visible;transform:rotate(0deg)}:host([sort_direction=desc]) .content .sort-direction{opacity:1;visibility:visible;transform:rotate(180deg)}`;
     __getStatic() {
         return TableCellHeader;
@@ -16825,21 +15353,13 @@ Components.TableCellHeader = class TableCellHeader extends Components.TableCell 
         arrStyle.push(TableCellHeader.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot>
-    <div class="header-name" _id="tablecellheader_0"></div>
-    <mi-icon icon="expand_less" class="sort-direction"></mi-icon>
-</slot>` }, 
-        blocks: { 'default':`<slot>
-    <div class="header-name" _id="tablecellheader_0"></div>
-    <mi-icon icon="expand_less" class="sort-direction"></mi-icon>
-</slot>` }
+        slots: { 'default':`<slot>    <div class="header-name" _id="tablecellheader_0"></div>    <mi-icon icon="expand_less" class="sort-direction"></mi-icon></slot>` }, 
+        blocks: { 'default':`<slot>    <div class="header-name" _id="tablecellheader_0"></div>    <mi-icon icon="expand_less" class="sort-direction"></mi-icon></slot>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "headerName",
@@ -16848,15 +15368,12 @@ this.__getStatic().__template.setActions({
       ]
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "TableCellHeader";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('sort_direction')){ this['sort_direction'] = undefined; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('sort_direction');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('sort_direction')){ this['sort_direction'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('sort_direction'); }
     sortAsc(cell) {
         return 0;
     }
@@ -16897,8 +15414,7 @@ Components.TableDataCellHeaderAction = class TableDataCellHeaderAction extends C
         arrStyle.push(TableDataCellHeaderAction.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         blocks: { 'default':`<mi-icon icon="add"></mi-icon>` }
     });
@@ -16935,8 +15451,7 @@ Components.TableRowHeader = class TableRowHeader extends Components.TableRow {
         arrStyle.push(TableRowHeader.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         blocks: { 'default':`` }
     });
@@ -16984,8 +15499,7 @@ if (this.constructor == TableCellEnum) { throw "can't instanciate an abstract cl
         arrStyle.push(TableCellEnum.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -17013,7 +15527,6 @@ Components.TableCellEnum.Namespace=`Core.Components`;
 _.Components.TableCellEnum=Components.TableCellEnum;
 
 Components.TableCellDate = class TableCellDate extends Components.TableCell {
-    date;
     static __style = ``;
     __getStatic() {
         return TableCellDate;
@@ -17023,12 +15536,6 @@ Components.TableCellDate = class TableCellDate extends Components.TableCell {
         arrStyle.push(TableCellDate.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`` }
-    });
-}
     getClassName() {
         return "TableCellDate";
     }
@@ -17075,12 +15582,6 @@ Components.TableCellCustom = class TableCellCustom extends Components.TableCell 
         arrStyle.push(TableCellCustom.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`` }
-    });
-}
     getClassName() {
         return "TableCellCustom";
     }
@@ -17109,14 +15610,12 @@ Components.TableCellCheckbox = class TableCellCheckbox extends Components.TableC
         arrStyle.push(TableCellCheckbox.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         blocks: { 'default':`<rk-checkbox _id="tablecellcheckbox_0"></rk-checkbox>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "checkboxEl",
@@ -17133,8 +15632,7 @@ this.__getStatic().__template.setActions({
       "isCallback": true
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "TableCellCheckbox";
     }
@@ -17167,12 +15665,6 @@ Components.TableCellBoolean = class TableCellBoolean extends Components.TableCel
         arrStyle.push(TableCellBoolean.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`` }
-    });
-}
     getClassName() {
         return "TableCellBoolean";
     }
@@ -17208,8 +15700,7 @@ Components.TableCellAction = class TableCellAction extends Components.TableCell 
         arrStyle.push(TableCellAction.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot>` }
@@ -17231,14 +15722,10 @@ if(!window.customElements.get('rk-table-cell-action')){window.customElements.def
 
 Components.TableData = class TableData extends Components.Table {
     get 'add_btn'() { return this.getBoolAttr('add_btn') }
-    set 'add_btn'(val) { this.setBoolAttr('add_btn', val) }
-    application;
+    set 'add_btn'(val) { this.setBoolAttr('add_btn', val) }    application;
     ram;
     static __style = `:host{position:relative}:host .add-btn{bottom:10px;display:none;position:absolute;right:10px;z-index:10;box-shadow:var(--elevation-4)}:host([grid][add_btn]) .add-btn{display:block}`;
-    constructor() { super(); if (this.constructor == TableData) { throw "can't instanciate an abstract class"; } 
-this.onCreatedData=this.onCreatedData.bind(this)
-this.onUpdatedData=this.onUpdatedData.bind(this)
-this.onDeletedData=this.onDeletedData.bind(this) }
+    constructor() { super(); if (this.constructor == TableData) { throw "can't instanciate an abstract class"; } this.onCreatedData=this.onCreatedData.bind(this)this.onUpdatedData=this.onUpdatedData.bind(this)this.onDeletedData=this.onDeletedData.bind(this) }
     __getStatic() {
         return TableData;
     }
@@ -17247,30 +15734,25 @@ this.onDeletedData=this.onDeletedData.bind(this) }
         arrStyle.push(TableData.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
         blocks: { 'default':`<slot></slot><rk-button-icon-mi icon="add" class="add-btn touch" _id="tabledata_0"></rk-button-icon-mi>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "pressEvents": [
     {
       "id": "tabledata_0",
       "onPress": (e, pressInstance, c) => { c.comp.newData(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "TableData";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('add_btn')) { this.attributeChangedCallback('add_btn', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('add_btn');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('add_btn')) { this.attributeChangedCallback('add_btn', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('add_btn'); }
     __listBoolProps() { return ["add_btn"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     async loadData() {
         if (this.options.showLoading)
@@ -17370,14 +15852,12 @@ Components.TableDataCellAction = class TableDataCellAction extends Components.Ta
         arrStyle.push(TableDataCellAction.__style);
         return arrStyle;
     }
-    __getHtml() {
-super.__getHtml();
+    __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
         blocks: { 'default':`<mi-icon icon="edit" _id="tabledatacellaction_0"></mi-icon><mi-icon class="delete" icon="delete" _id="tabledatacellaction_1"></mi-icon>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "pressEvents": [
     {
       "id": "tabledatacellaction_0",
@@ -17388,8 +15868,7 @@ this.__getStatic().__template.setActions({
       "onPress": (e, pressInstance, c) => { c.comp.deleteData(e, pressInstance); }
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "TableDataCellAction";
     }
@@ -17411,8 +15890,7 @@ if(!window.customElements.get('rk-table-data-cell-action')){window.customElement
 
 Components.TabHeader = class TabHeader extends Aventus.WebComponent {
     get 'active'() { return this.getBoolAttr('active') }
-    set 'active'(val) { this.setBoolAttr('active', val) }
-    _tab;
+    set 'active'(val) { this.setBoolAttr('active', val) }    _tab;
     get tab() {
         return this._tab;
     }
@@ -17431,8 +15909,7 @@ Components.TabHeader = class TabHeader extends Aventus.WebComponent {
         blocks: { 'default':`<div class="header-content" _id="tabheader_0"></div><div class="sep"></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "contentEl",
@@ -17441,16 +15918,12 @@ this.__getStatic().__template.setActions({
       ]
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "TabHeader";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('tab');
-this.__upgradeProperty('active');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('tab');this.__upgradeProperty('active'); }
     __listBoolProps() { return ["active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     init(tab, tabs) {
         this.tabs = tabs;
@@ -17611,6 +16084,1121 @@ RAM.GroupRAM=class GroupRAM extends RAM.RamHttp {
 }
 RAM.GroupRAM.Namespace=`Core.RAM`;
 _.RAM.GroupRAM=RAM.GroupRAM;
+
+Lib.Color=class Color {
+    static isValid(txt) {
+        return this.getColorType(txt) != -1;
+    }
+    static types = {
+        rgb: "rgb",
+        hex: "hex",
+        rgba: "rgba",
+        hsl: "hsl",
+        hsla: "hsla",
+        hsv: "hsv",
+        hsva: "hsva",
+        static: "static"
+    };
+    static getColorType(colorString) {
+        let treatedColor = colorString.replaceAll(" ", "");
+        if (/^#?([a-f\d])([a-f\d])([a-f\d])([a-f\d])?$/i.test(treatedColor) ||
+            /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?$/i.test(treatedColor)) {
+            return Lib.Color.types.hex;
+        }
+        else if (/^rgba?\((\d{1,3},*){3,4}\)$/.test(treatedColor)) {
+            return treatedColor.startsWith("rgba") ? Lib.Color.types.rgba : Lib.Color.types.rgb;
+        }
+        else if (/^hsla?\(\s*(\d{1,3})\s*(,| )\s*(\d{1,3})%?\s*(,| )\s*(\d{1,3})%?\s*(,\s*(0|1|0?\.\d+)\s*)?\)$/.test(treatedColor)) {
+            return treatedColor.startsWith("hsla") ? Lib.Color.types.hsla : Lib.Color.types.hsl;
+        }
+        else if (/^hsva?\(\s*\d{1,3}\s*,\s*\d{1,3}%?\s*,\s*\d{1,3}%?\s*(,\s*(0|1|0?\.\d+))?\s*\)$/.test(treatedColor)) {
+            return treatedColor.startsWith("hsva") ? Lib.Color.types.hsva : Lib.Color.types.hsv;
+        }
+        else if (Object.hasOwn(Lib.Colors, colorString.toUpperCase())) {
+            return Lib.Color.types.static;
+        }
+        else {
+            return -1;
+        }
+    }
+    static createFromRgb(r, g, b) {
+        return new Lib.Color(`rgb(${r},${g},${b})`);
+    }
+    static createFromHsl(h, s, l) {
+        return new Lib.Color(`hsl(${h},${s}%,${l}%)`);
+    }
+    static createFromRgba(r, g, b, a) {
+        return new Lib.Color(`rgba(${r},${g},${b},${a})`);
+    }
+    static createFromHsla(h, s, l, a) {
+        return new Lib.Color(`hsla(${h},${s}%,${l}%,${a})`);
+    }
+    static createFromHsvla(h, s, v, a) {
+        return new Lib.Color(`hsva(${h},${s}%,${v}%,${a})`);
+    }
+    _watcher;
+    get currentColor() {
+        return this._watcher.currentColor;
+    }
+    set currentColor(value) {
+        this._watcher.currentColor = value;
+    }
+    get r() {
+        return this.currentColor.r;
+    }
+    set r(newValue) {
+        if (newValue >= 0 && newValue <= 255) {
+            this.currentColor.r = newValue;
+        }
+        else {
+            throw new Error("Invalid value");
+        }
+    }
+    get g() {
+        return this.currentColor.g;
+    }
+    set g(newValue) {
+        if (newValue >= 0 && newValue <= 255) {
+            this.currentColor.g = newValue;
+        }
+        else {
+            throw new Error("Invalid value");
+        }
+    }
+    get b() {
+        return this.currentColor.b;
+    }
+    set b(newValue) {
+        if (newValue >= 0 && newValue <= 255) {
+            this.currentColor.b = newValue;
+        }
+        else {
+            throw new Error("Invalid value");
+        }
+    }
+    get a() {
+        return this.currentColor.a;
+    }
+    set a(newValue) {
+        if (newValue >= 0 && newValue <= 1) {
+            this.currentColor.a = newValue;
+        }
+        else {
+            throw new Error("Invalid value for A (Alpha). It should be between 0 and 1.");
+        }
+    }
+    get h() {
+        return this.hsl.h;
+    }
+    set h(newValue) {
+        if (newValue >= 0 && newValue <= 360) {
+            let currentHSL = this.hsl;
+            currentHSL.h = newValue;
+            this.currentColor = { ...this.hslToRgb(currentHSL.h, currentHSL.s, currentHSL.l), a: this.currentColor.a };
+        }
+        else {
+            throw new Error("Invalid value for H (Hue). It should be between 0 and 360.");
+        }
+    }
+    /**
+     * The hex format of the color
+     */
+    get hex() {
+        return this.rgbToHex(this.currentColor.r, this.currentColor.g, this.currentColor.b, this.currentColor.a);
+    }
+    set hex(hexString) {
+        this.currentColor = this.hexStringToRgba(hexString);
+    }
+    /**
+     * The rgb format of the color
+     */
+    get rgb() {
+        const { r, g, b } = this.currentColor;
+        return { r, g, b };
+    }
+    get rgbString() {
+        const { r, g, b } = this.rgb;
+        return `rgb(${r}, ${g}, ${b})`;
+    }
+    set rgb(value) {
+        if (typeof value == 'string') {
+            this.currentColor = { ...this.stringToRgba(value), a: this.currentColor.a };
+        }
+        else if (typeof value === 'object' &&
+            !Array.isArray(value) &&
+            value !== null) {
+            value.r = Math.min(Math.max(value.r, 0), 255);
+            value.g = Math.min(Math.max(value.g, 0), 255);
+            value.b = Math.min(Math.max(value.b, 0), 255);
+            this.currentColor = { ...value, a: this.currentColor.a };
+        }
+    }
+    /**
+     * The rgba format of the color
+     */
+    get rgba() {
+        return this.currentColor;
+    }
+    set rgba(value) {
+        if (typeof value == 'string') {
+            this.currentColor = this.stringToRgba(value);
+        }
+        else if (typeof value === 'object' &&
+            !Array.isArray(value) &&
+            value !== null) {
+            value.r = Math.min(Math.max(value.r, 0), 255);
+            value.g = Math.min(Math.max(value.g, 0), 255);
+            value.b = Math.min(Math.max(value.b, 0), 255);
+            value.a = Math.min(Math.max(value.a, 0), 1);
+            this.currentColor = value;
+        }
+    }
+    get rgbaString() {
+        const { r, g, b, a } = this.rgba;
+        return `rgba(${r}, ${g}, ${b}, ${a})`;
+    }
+    /**
+     * The hsl format of the color
+     */
+    get hsl() {
+        const { h, s, l } = this.rgbToHsl(this.currentColor.r, this.currentColor.g, this.currentColor.b);
+        return { h, s, l };
+    }
+    get hslString() {
+        const { h, s, l } = this.hsl;
+        return `hsl(${h}, ${s}, ${l})`;
+    }
+    set hsl(value) {
+        if (typeof value == 'string') {
+            this.currentColor = { ...this.hslaStringToRgba(value), a: this.currentColor.a };
+        }
+        else if (typeof value === 'object' &&
+            !Array.isArray(value) &&
+            value !== null) {
+            this.currentColor = { ...this.hslToRgb(value.h, value.s, value.l), a: this.currentColor.a };
+        }
+    }
+    /**
+    * The hsla format of the color
+    */
+    get hsla() {
+        return this.rgbToHsla(this.currentColor.r, this.currentColor.g, this.currentColor.b, this.currentColor.a);
+    }
+    get hslaString() {
+        const { h, s, l, a } = this.hsla;
+        return `hsla(${h}, ${s}, ${l}, ${a})`;
+    }
+    set hsla(value) {
+        if (typeof value == 'string') {
+            this.currentColor = this.hslaStringToRgba(value);
+        }
+        else if (typeof value === 'object' &&
+            !Array.isArray(value) &&
+            value !== null) {
+            this.currentColor = this.hslaToRgba(value.h, value.s, value.l, value.a);
+        }
+    }
+    /**
+     * The hsv format of the color
+     */
+    get hsv() {
+        const { h, s, v } = this.rgbToHsv(this.currentColor.r, this.currentColor.g, this.currentColor.b);
+        return { h, s, v };
+    }
+    get hsvString() {
+        const { h, s, v } = this.hsv;
+        return `hsv(${h}, ${s}%, ${v}%)`;
+    }
+    set hsv(value) {
+        if (typeof value === 'string') {
+            this.currentColor = { ...this.hsvaStringToRgba(value), a: this.currentColor.a };
+        }
+        else if (typeof value === 'object' &&
+            !Array.isArray(value) &&
+            value !== null) {
+            this.currentColor = { ...this.hsvaToRgba(value.h, value.s, value.v, this.currentColor.a) };
+        }
+    }
+    /**
+     * The hsva format of the color
+     */
+    get hsva() {
+        return this.rgbToHsva(this.currentColor.r, this.currentColor.g, this.currentColor.b, this.currentColor.a);
+    }
+    get hsvaString() {
+        const { h, s, v, a } = this.hsva;
+        return `hsva(${h}, ${s}%, ${v}%, ${a})`;
+    }
+    set hsva(value) {
+        if (typeof value === 'string') {
+            this.currentColor = this.hsvaStringToRgba(value);
+        }
+        else if (typeof value === 'object' &&
+            !Array.isArray(value) &&
+            value !== null) {
+            this.currentColor = this.hsvaToRgba(value.h, value.s, value.v, value.a);
+        }
+    }
+    /**
+     * Create a new color
+     * @param {string} colorString - The color in hex or rgb format
+     */
+    constructor(colorString) {
+        let currentColor;
+        if (colorString === "" || !colorString) {
+            colorString = "#ffffff";
+        }
+        let colorType = Lib.Color.getColorType(colorString);
+        if (colorType !== -1) {
+            if (colorType === Lib.Color.types.static) {
+                let staticColor = Lib.Colors[colorString.toUpperCase()];
+                if (staticColor instanceof Lib.Color) {
+                    currentColor = staticColor.currentColor;
+                }
+                else {
+                    throw new Error("Unknown color type");
+                }
+            }
+            else if (colorType === Lib.Color.types.rgb || colorType === Lib.Color.types.rgba) {
+                currentColor = this.stringToRgba(colorString);
+            }
+            else if (colorType === Lib.Color.types.hex) {
+                currentColor = this.hexStringToRgba(colorString);
+            }
+            else if (colorType === Lib.Color.types.hsl || colorType === Lib.Color.types.hsla) {
+                currentColor = this.hslaStringToRgba(colorString);
+            }
+            else {
+                throw new Error("Unknown color type");
+            }
+        }
+        else {
+            throw new Error(`${colorString} is not a supported color`);
+        }
+        this._watcher = Aventus.Watcher.get({ currentColor }, () => {
+            this.onColorChange.trigger([]);
+        });
+    }
+    setColorTxt(colorString) {
+        if (colorString === "" || !colorString) {
+            colorString = "#ffffff";
+        }
+        let colorType = Lib.Color.getColorType(colorString);
+        if (colorType !== -1) {
+            if (colorType === Lib.Color.types.static) {
+                let staticColor = Lib.Colors[colorString.toUpperCase()];
+                if (staticColor instanceof Lib.Color) {
+                    this.currentColor = staticColor.currentColor;
+                }
+                else {
+                    throw new Error("Unknown color type");
+                }
+            }
+            else if (colorType === Lib.Color.types.rgb || colorType === Lib.Color.types.rgba) {
+                this.currentColor = this.stringToRgba(colorString);
+            }
+            else if (colorType === Lib.Color.types.hex) {
+                this.currentColor = this.hexStringToRgba(colorString);
+            }
+            else if (colorType === Lib.Color.types.hsl || colorType === Lib.Color.types.hsla) {
+                this.currentColor = this.hslaStringToRgba(colorString);
+            }
+            else {
+                throw new Error("Unknown color type");
+            }
+        }
+        else {
+            throw new Error(`${colorString} is not a supported color`);
+        }
+    }
+    onColorChange = new Aventus.Callback();
+    hexStringToRgba(hexColorString) {
+        // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+        let shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])([a-f\d])?$/i;
+        hexColorString = hexColorString.replace(shorthandRegex, function (m, r, g, b, a) {
+            return r + r + g + g + b + b + (a ? a + a : "");
+            ;
+        });
+        let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?$/i.exec(hexColorString);
+        if (!result) {
+            console.error(`Invalid hex string : ${hexColorString}`);
+            return {
+                r: 0,
+                g: 0,
+                b: 0,
+                a: 1
+            };
+        }
+        else {
+            return {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16),
+                a: result[4] ? parseInt(result[4], 16) / 255 : 1
+            };
+        }
+    }
+    stringToRgba(rgbColorString) {
+        let splitted = rgbColorString.replaceAll(/[\(\)rgb ]/g, "").split(",");
+        let result = [];
+        for (let i = 0; i < 4; i++) {
+            if (i < 3) {
+                result.push(Math.min(Math.max(parseInt(splitted[i]), 0), 255));
+            }
+            else {
+                result.push(Math.min(Math.max(parseFloat(splitted[i]), 0), 1));
+            }
+        }
+        return {
+            r: result[0],
+            g: result[1],
+            b: result[2],
+            a: result[3] || 1
+        };
+    }
+    rgbToHex(r, g, b, a = 1) {
+        let hex = "#" + ((1 << 24) + (Math.round(r) << 16) + (Math.round(g) << 8) + Math.round(b)).toString(16).slice(1);
+        if (a < 1) {
+            let alphaHex = Math.round(a * 255).toString(16).padStart(2, '0');
+            hex += alphaHex;
+        }
+        return hex;
+    }
+    hslStringToRgb(hslColorString) {
+        let [h, s, l] = hslColorString.replaceAll(/[\(\)hsl% ]/g, "").split(",").map(Number);
+        return this.hslToRgb(h, s, l);
+    }
+    rgbToHsl(r, g, b) {
+        r /= 255;
+        g /= 255;
+        b /= 255;
+        let max = Math.max(r, g, b);
+        let min = Math.min(r, g, b);
+        let h, s, l = (max + min) / 2;
+        if (max == min) {
+            h = s = 0;
+        }
+        else {
+            let d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+                case r:
+                    h = (g - b) / d + (g < b ? 6 : 0);
+                    break;
+                case g:
+                    h = (b - r) / d + 2;
+                    break;
+                case b:
+                    h = (r - g) / d + 4;
+                    break;
+                default: h = 0;
+            }
+            h /= 6;
+        }
+        return {
+            h: this.round(h * 360),
+            s: this.round(s * 100),
+            l: this.round(l * 100)
+        };
+    }
+    rgbToHsla(r, g, b, a) {
+        let hsl = this.rgbToHsl(r, g, b);
+        return { ...hsl, a: a };
+    }
+    hslToRgb(h, s, l) {
+        s /= 100;
+        l /= 100;
+        let c = (1 - Math.abs(2 * l - 1)) * s;
+        let x = c * (1 - Math.abs((h / 60) % 2 - 1));
+        let m = l - c / 2;
+        let r = 0, g = 0, b = 0;
+        if (0 <= h && h < 60) {
+            r = c;
+            g = x;
+            b = 0;
+        }
+        else if (60 <= h && h < 120) {
+            r = x;
+            g = c;
+            b = 0;
+        }
+        else if (120 <= h && h < 180) {
+            r = 0;
+            g = c;
+            b = x;
+        }
+        else if (180 <= h && h < 240) {
+            r = 0;
+            g = x;
+            b = c;
+        }
+        else if (240 <= h && h < 300) {
+            r = x;
+            g = 0;
+            b = c;
+        }
+        else if (300 <= h && h <= 360) {
+            r = c;
+            g = 0;
+            b = x;
+        }
+        return {
+            r: this.round((r + m) * 255),
+            g: this.round((g + m) * 255),
+            b: this.round((b + m) * 255)
+        };
+    }
+    hslaToRgba(h, s, l, a) {
+        let rgb = this.hslToRgb(h, s, l);
+        return { ...rgb, a: a };
+    }
+    hslaStringToRgba(hslaColorString) {
+        let [h, s, l, a] = hslaColorString.replaceAll(/[\(\)hsla% ]/g, "").split(",").map(Number);
+        return this.hslaToRgba(h, s, l, a);
+    }
+    rgbToHsv(r, g, b) {
+        r /= 255;
+        g /= 255;
+        b /= 255;
+        let max = Math.max(r, g, b);
+        let min = Math.min(r, g, b);
+        let h, s, v = max;
+        let delta = max - min;
+        s = max === 0 ? 0 : delta / max;
+        if (delta === 0) {
+            h = 0;
+        }
+        else {
+            switch (max) {
+                case r:
+                    h = (g - b) / delta + (g < b ? 6 : 0);
+                    break;
+                case g:
+                    h = (b - r) / delta + 2;
+                    break;
+                case b:
+                    h = (r - g) / delta + 4;
+                    break;
+                default:
+                    h = 0;
+            }
+            h /= 6;
+        }
+        return {
+            h: this.round(h * 360),
+            s: this.round(s * 100),
+            v: this.round(v * 100)
+        };
+    }
+    hsvToRgb(h, s, v) {
+        s /= 100;
+        v /= 100;
+        let c = v * s;
+        let x = c * (1 - Math.abs((h / 60) % 2 - 1));
+        let m = v - c;
+        let r = 0, g = 0, b = 0;
+        if (0 <= h && h < 60) {
+            r = c;
+            g = x;
+            b = 0;
+        }
+        else if (60 <= h && h < 120) {
+            r = x;
+            g = c;
+            b = 0;
+        }
+        else if (120 <= h && h < 180) {
+            r = 0;
+            g = c;
+            b = x;
+        }
+        else if (180 <= h && h < 240) {
+            r = 0;
+            g = x;
+            b = c;
+        }
+        else if (240 <= h && h < 300) {
+            r = x;
+            g = 0;
+            b = c;
+        }
+        else if (300 <= h && h <= 360) {
+            r = c;
+            g = 0;
+            b = x;
+        }
+        return {
+            r: this.round((r + m) * 255),
+            g: this.round((g + m) * 255),
+            b: this.round((b + m) * 255)
+        };
+    }
+    rgbToHsva(r, g, b, a) {
+        let hsv = this.rgbToHsv(r, g, b);
+        return { ...hsv, a };
+    }
+    hsvaToRgba(h, s, v, a) {
+        let rgb = this.hsvToRgb(h, s, v);
+        return { ...rgb, a };
+    }
+    hsvaStringToRgba(hsvaColorString) {
+        let [h, s, v, a] = hsvaColorString.replaceAll(/[\(\)hsva% ]/g, "").split(",").map(Number);
+        return this.hsvaToRgba(h, s, v, a);
+    }
+    round(nb) {
+        return Math.round(nb * 100) / 100;
+    }
+    /**
+     * Print the color in hex format
+     * @returns {string} - A pretty print of the color in hex format
+     */
+    toString() {
+        return this.rgbToHex(this.currentColor.r, this.currentColor.g, this.currentColor.b, this.currentColor.a);
+    }
+}
+Lib.Color.Namespace=`Core.Lib`;
+_.Lib.Color=Lib.Color;
+
+Components.ColorPickerSelector = class ColorPickerSelector extends Aventus.WebComponent {
+    static get observedAttributes() {return ["color"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'direction'() { return this.getStringAttr('direction') }
+    set 'direction'(val) { this.setStringAttr('direction', val) }get 'opacity'() { return this.getBoolAttr('opacity') }
+    set 'opacity'(val) { this.setBoolAttr('opacity', val) }get 'show_text_value'() { return this.getBoolAttr('show_text_value') }
+    set 'show_text_value'(val) { this.setBoolAttr('show_text_value', val) }    get 'color'() { return this.getStringProp('color') }
+    set 'color'(val) { this.setStringAttr('color', val) }    get 'colorTxt'() {
+						return this.__watch["colorTxt"];
+					}
+					set 'colorTxt'(val) {
+						this.__watch["colorTxt"] = val;
+					}get 'hue'() {
+						return this.__watch["hue"];
+					}
+					set 'hue'(val) {
+						this.__watch["hue"] = val;
+					}get 'alpha'() {
+						return this.__watch["alpha"];
+					}
+					set 'alpha'(val) {
+						this.__watch["alpha"] = val;
+					}get 'presets'() {
+						return this.__watch["presets"];
+					}
+					set 'presets'(val) {
+						this.__watch["presets"] = val;
+					}    _color;
+    canEmit = false;
+    internalSet = false;
+    resizeObserver;
+    onChange = new Aventus.Callback();
+    __registerWatchesActions() {
+    this.__addWatchesActions("colorTxt", ((target, action, path, value) => {
+    target.onColorTxtChange();
+}));this.__addWatchesActions("hue", ((target, action, path, value) => {
+    target.changeHue();
+}));this.__addWatchesActions("alpha", ((target, action, path, value) => {
+    target.changeAlpha();
+}));this.__addWatchesActions("presets", ((target, action, path, value) => {
+    target.renderPresets();
+}));    super.__registerWatchesActions();
+}
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("color", ((target) => {
+    if (!target.internalSet) {
+        target.canEmit = false;
+        target._color.setColorTxt(target.color);
+        target.hue = target._color.hsv.h;
+        target.alpha = target._color.a * 100;
+        target.updatePositionFromColor(target._color);
+        target.canEmit = true;
+    }
+})); }
+    static __style = `:host{--_color-picker-selector-area-width: var(--color-picker-selector-area-width, 200px);--_color-picker-selector-panel-width: var(--color-picker-selector-panel-width, 200px);--_color-picker-selector-background-color: var(--color-picker-selector-background-color, white);--_color-picker-selector-border-radius: var(--color-picker-selector-border-radius, var(--border-radius-sm))}:host{background-color:var(--_color-picker-selector-background-color);border-radius:var(--_color-picker-selector-border-radius);box-shadow:var(--elevation-2);width:max(var(--_color-picker-selector-area-width),var(--_color-picker-selector-panel-width));z-index:800}:host .style-wrapper{display:flex;flex-direction:column;width:100%}:host .style-wrapper .color-area{aspect-ratio:1/.5;background-image:linear-gradient(rgba(0, 0, 0, 0), #000),linear-gradient(90deg, #fff, var(--_color-picker-selector-area-color));border-top-left-radius:var(--_color-picker-selector-border-radius);border-top-right-radius:var(--_color-picker-selector-border-radius);cursor:pointer;margin:0 auto;position:relative;width:var(--_color-picker-selector-area-width)}:host .style-wrapper .color-area .area-dot{background-color:var(--_color-picker-selector-color-opacity);border:2px solid #fff;border-radius:var(--border-radius-round);height:10px;left:0;position:absolute;top:0;transform:translate(-50%, -50%);width:10px}:host .style-wrapper .color-panel{margin:0 auto;padding:15px;width:var(--_color-picker-selector-panel-width)}:host .style-wrapper .color-panel .color-hue{margin-bottom:5px;width:100%}:host .style-wrapper .color-panel .color-hue rk-slider{--slider-background-image: linear-gradient(to right, red 0, #ff0 16.66%, #0f0 33.33%, #0ff 50%, #00f 66.66%, #f0f 83.33%, red 100%);--slider-active-background-color: transparent;--slider-background-color: transparent;--slider-dot-color: var(--_color-picker-selector-area-color);--slider-bar-height: 8px;min-width:auto;width:100%}:host .style-wrapper .color-panel .color-alpha{display:none;margin-top:5px;position:relative}:host .style-wrapper .color-panel .color-alpha rk-slider{--slider-background-color: transparent;--slider-active-background-color: transparent;--slider-bar-height: 8px;min-width:auto;position:relative;width:100%;z-index:2}:host .style-wrapper .color-panel .color-alpha .bar{background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--_color-picker-selector-border-radius);inset:0;position:absolute;width:100%;z-index:1}:host .style-wrapper .color-panel .color-alpha .bar-color{background-image:linear-gradient(90deg, rgba(0, 0, 0, 0), var(--_color-picker-selector-color-opacity));border-radius:var(--_color-picker-selector-border-radius);inset:0;position:absolute;width:100%;z-index:2}:host .style-wrapper .color-panel .color-alpha .dot{background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--border-radius-round);inset:0;position:absolute;z-index:1}:host .style-wrapper .color-panel .color-alpha .dot-color{background-color:var(--_color-picker-selector-color);border-radius:var(--border-radius-round);inset:0;position:absolute;z-index:2}:host .style-wrapper .color-panel .color-result{align-items:center;display:flex;flex-direction:row;gap:10px;justify-content:center;margin-top:20px}:host .style-wrapper .color-panel .color-result .color-preview{background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--border-radius-round);flex-shrink:0;height:25px;overflow:hidden;position:relative;width:25px}:host .style-wrapper .color-panel .color-result .color-preview::after{background-color:var(--_color-picker-selector-color);content:"";inset:0;position:absolute}:host .style-wrapper .color-panel .color-result .color-text{display:none;width:calc(100% - 35px)}:host .style-wrapper .color-panel .color-result .color-text rk-input{--input-height: 25px;min-width:auto;width:100%}:host .style-wrapper .color-panel .color-preset:not(:empty){align-items:center;display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:20px;width:100%}:host .style-wrapper .color-panel .color-preset:not(:empty) .preset{border-radius:var(--border-radius-round);flex-shrink:0;height:20px;width:20px}:host([direction=horizontal]){width:fit-content}:host([direction=horizontal]) .style-wrapper{display:flex;flex-direction:row}:host([direction=horizontal]) .style-wrapper .color-area{aspect-ratio:auto;border-bottom-left-radius:var(--_color-picker-selector-border-radius);border-top-right-radius:0}:host([opacity]) .style-wrapper .color-panel .color-alpha{display:block}:host([show_text_value]) .style-wrapper .color-panel .color-result .color-text{display:block}`;
+    constructor() {
+            super();
+            this._color = new Lib.Color("#FFFFFF");
+            this._color.onColorChange.add(() => {
+                this.applyColorChange();
+            });
+        }
+    __getStatic() {
+        return ColorPickerSelector;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(ColorPickerSelector.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="style-wrapper" _id="colorpickerselector_0">    <div class="color-area" _id="colorpickerselector_1">        <div class="area-dot" _id="colorpickerselector_2"></div>    </div>    <div class="color-panel">        <div class="color-hue">            <rk-slider min="0" max="360" _id="colorpickerselector_3"></rk-slider>        </div>        <div class="color-alpha">            <rk-slider min="0" max="100" _id="colorpickerselector_4">                <span class="bar" slot="bar"></span>                <span class="bar-color" slot="bar"></span>                <span class="dot" slot="dot"></span>                <span class="dot-color" slot="dot"></span>            </rk-slider>        </div>        <div class="color-result">            <div class="color-preview"></div>            <div class="color-text">                <rk-input _id="colorpickerselector_5"></rk-input>            </div>        </div>        <div class="color-preset" _id="colorpickerselector_6"></div>    </div></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "styleWrapper",
+      "ids": [
+        "colorpickerselector_0"
+      ]
+    },
+    {
+      "name": "areaEl",
+      "ids": [
+        "colorpickerselector_1"
+      ]
+    },
+    {
+      "name": "areaDotEl",
+      "ids": [
+        "colorpickerselector_2"
+      ]
+    },
+    {
+      "name": "presetEl",
+      "ids": [
+        "colorpickerselector_6"
+      ]
+    }
+  ],
+  "bindings": [
+    {
+      "id": "colorpickerselector_3",
+      "injectionName": "value",
+      "eventNames": [
+        "onChange"
+      ],
+      "inject": (c) => c.comp.__5dc51ef8cb30a8337d492266c14d9daamethod0(),
+      "extract": (c, v) => c.comp.__5dc51ef8cb30a8337d492266c14d9daamethod1(v),
+      "once": true,
+      "isCallback": true
+    },
+    {
+      "id": "colorpickerselector_4",
+      "injectionName": "value",
+      "eventNames": [
+        "onChange"
+      ],
+      "inject": (c) => c.comp.__5dc51ef8cb30a8337d492266c14d9daamethod2(),
+      "extract": (c, v) => c.comp.__5dc51ef8cb30a8337d492266c14d9daamethod3(v),
+      "once": true,
+      "isCallback": true
+    },
+    {
+      "id": "colorpickerselector_5",
+      "injectionName": "value",
+      "eventNames": [
+        "onChange"
+      ],
+      "inject": (c) => c.comp.__5dc51ef8cb30a8337d492266c14d9daamethod4(),
+      "extract": (c, v) => c.comp.__5dc51ef8cb30a8337d492266c14d9daamethod5(v),
+      "once": true,
+      "isCallback": true
+    }
+  ]
+}); }
+    getClassName() {
+        return "ColorPickerSelector";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('direction')){ this['direction'] = 'horizontal'; }if(!this.hasAttribute('opacity')) {this.setAttribute('opacity' ,'true'); }if(!this.hasAttribute('show_text_value')) {this.setAttribute('show_text_value' ,'true'); }if(!this.hasAttribute('color')){ this['color'] = "#ffffff00"; } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["colorTxt"] = "";w["hue"] = 0;w["alpha"] = 100;w["presets"] = []; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('direction');this.__upgradeProperty('opacity');this.__upgradeProperty('show_text_value');this.__upgradeProperty('color');this.__correctGetter('colorTxt');this.__correctGetter('hue');this.__correctGetter('alpha');this.__correctGetter('presets'); }
+    __listBoolProps() { return ["opacity","show_text_value"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    onColorTxtChange() {
+        if (Lib.Color.isValid(this.colorTxt) && !this.internalSet) {
+            this._color.setColorTxt(this.colorTxt);
+            this.hue = this._color.hsv.h;
+            this.alpha = this._color.a * 100;
+            this.updatePositionFromColor(this._color);
+        }
+    }
+    emitChange() {
+        if (this.canEmit) {
+            this.onChange.trigger([this.color]);
+        }
+    }
+    changeHue() {
+        this._color.h = this.hue;
+        this.styleWrapper.style.setProperty("--_color-picker-selector-area-color", `hsl(${this.hue}, 100%, 50%)`);
+    }
+    changeAlpha() {
+        this._color.a = this.alpha / 100;
+    }
+    applyColorChange() {
+        this.styleWrapper.style.setProperty("--_color-picker-selector-color", this._color.hex);
+        this.styleWrapper.style.setProperty("--_color-picker-selector-area-color", `hsl(${this.hue}, 100%, 50%)`);
+        this.styleWrapper.style.setProperty("--_color-picker-selector-color-opacity", this._color.rgbString);
+        this.internalSet = true;
+        let hex = this._color.hex;
+        if (this.colorTxt != hex) {
+            this.colorTxt = this._color.hex;
+        }
+        if (this.color != hex) {
+            this.color = this._color.hex;
+            this.emitChange();
+        }
+        this.internalSet = false;
+    }
+    addPressManager() {
+        let clientRect;
+        const calc = (e) => {
+            let positionX = e.clientX - clientRect.x;
+            let positionY = e.clientY - clientRect.y;
+            if (positionX < 0)
+                positionX = 0;
+            else if (positionX > clientRect.width)
+                positionX = clientRect.width;
+            if (positionY < 0)
+                positionY = 0;
+            else if (positionY > clientRect.height)
+                positionY = clientRect.height;
+            this.areaDotEl.style.left = positionX + 'px';
+            this.areaDotEl.style.top = positionY + 'px';
+            this.updateColorFromPosition(positionX, positionY);
+        };
+        new Aventus.DragAndDrop({
+            element: this.areaEl,
+            applyDrag: false,
+            offsetDrag: 0,
+            onPointerDown: (e) => {
+                clientRect = this.areaEl.getBoundingClientRect();
+                calc(e);
+            },
+            onMove: (e, position) => {
+                calc(e);
+            }
+        });
+    }
+    updateColorFromPosition(x, y) {
+        const { width, height } = this.areaEl.getBoundingClientRect();
+        const hsv = {
+            h: this.hue,
+            s: x / width * 100,
+            v: 100 - (y / height * 100),
+        };
+        this._color.hsv = hsv;
+    }
+    updatePositionFromColor(color) {
+        const { width, height } = this.areaEl.getBoundingClientRect();
+        const { h, s, v } = color.hsv;
+        const x = width * s / 100;
+        const y = (100 - v) * height / 100;
+        this.areaDotEl.style.left = x + 'px';
+        this.areaDotEl.style.top = y + 'px';
+    }
+    renderPresets() {
+        this.presetEl.innerHTML = '';
+        const createPreset = (color) => {
+            const el = document.createElement("div");
+            el.classList.add("preset");
+            el.style.backgroundColor = color;
+            el.addEventListener("click", () => {
+                this._color.setColorTxt(color);
+                this.hue = this._color.hsv.h;
+                this.alpha = this._color.a * 100;
+                this.updatePositionFromColor(this._color);
+            });
+            this.presetEl.appendChild(el);
+        };
+        for (const preset of this.presets) {
+            createPreset(preset);
+        }
+    }
+    addObserver() {
+        this.resizeObserver = new Aventus.ResizeObserver(() => {
+            this.updatePositionFromColor(this._color);
+        });
+        this.resizeObserver.observe(this.areaEl);
+    }
+    postCreation() {
+        this.hue = this._color.hsv.h;
+        this.alpha = this._color.a * 100;
+        this.applyColorChange();
+        this.addPressManager();
+        this.renderPresets();
+        this.updatePositionFromColor(this._color);
+        this.addObserver();
+    }
+    postDestruction() {
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect();
+            this.resizeObserver = undefined;
+        }
+    }
+    __5dc51ef8cb30a8337d492266c14d9daamethod0() {
+        return this.hue;
+    }
+    __5dc51ef8cb30a8337d492266c14d9daamethod1(v) {
+        if (this) {
+            this.hue = v;
+        }
+    }
+    __5dc51ef8cb30a8337d492266c14d9daamethod2() {
+        return this.alpha;
+    }
+    __5dc51ef8cb30a8337d492266c14d9daamethod3(v) {
+        if (this) {
+            this.alpha = v;
+        }
+    }
+    __5dc51ef8cb30a8337d492266c14d9daamethod4() {
+        return this.colorTxt;
+    }
+    __5dc51ef8cb30a8337d492266c14d9daamethod5(v) {
+        if (this) {
+            this.colorTxt = v;
+        }
+    }
+}
+Components.ColorPickerSelector.Namespace=`Core.Components`;
+Components.ColorPickerSelector.Tag=`rk-color-picker-selector`;
+_.Components.ColorPickerSelector=Components.ColorPickerSelector;
+if(!window.customElements.get('rk-color-picker-selector')){window.customElements.define('rk-color-picker-selector', Components.ColorPickerSelector);Aventus.WebComponentInstance.registerDefinition(Components.ColorPickerSelector);}
+
+Components.ColorPicker = class ColorPicker extends Components.FormElement {
+    static get observedAttributes() {return ["value", "label", "placeholder", "direction", "opacity", "show_text_value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'preview'() { return this.getStringAttr('preview') }
+    set 'preview'(val) { this.setStringAttr('preview', val) }    get 'value'() { return this.getStringProp('value') }
+    set 'value'(val) { this.setStringAttr('value', val) }get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
+    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'direction'() { return this.getStringProp('direction') }
+    set 'direction'(val) { this.setStringAttr('direction', val) }get 'opacity'() { return this.getBoolProp('opacity') }
+    set 'opacity'(val) { this.setBoolAttr('opacity', val) }get 'show_text_value'() { return this.getBoolProp('show_text_value') }
+    set 'show_text_value'(val) { this.setBoolAttr('show_text_value', val) }    get 'presets'() {
+						return this.__watch["presets"];
+					}
+					set 'presets'(val) {
+						this.__watch["presets"] = val;
+					}    errorsTxt = {};
+    defaultErrorsTxt = {
+        notColor: "La couleur n'est pas valide",
+    };
+    __registerWatchesActions() {
+    this.__addWatchesActions("presets");    super.__registerWatchesActions();
+}
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
+    if (document.activeElement != target.inputEl && document.activeElement != target) {
+        target.inputEl.value = target.value + '';
+    }
+    target.containerEl.style.setProperty('--_color-picker-selected-color', target.value ?? 'transparent');
+})); }
+    static __style = `:host{--_color-picker-height: var(--color-picker-height, 30px);--_color-picker-background-color: var(--color-picker-background-color, var(--form-element-background, white));--_color-picker-icon-height: var(--color-picker-icon-height, calc(var(--_color-picker-height) / 2));--_color-picker-error-logo-size: var(--color-picker-error-logo-size, calc(var(--_color-picker-height) / 2));--_color-picker-font-size: var(--color-picker-font-size, var(--form-element-font-size, 16px));--_color-picker-font-size-label: var(--color-picker-font-size-label, var(--form-element-font-size-label, calc(var(--_color-picker-font-size) * 0.95)));--_color-picker-color-picker-border: var(--color-picker-color-picker-border, var(--form-element-border, 1px solid var(--lighter-active)));--_color-picker-border-radius: var(--color-picker-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_color-picker-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_color-picker-background-color);border:var(--_color-picker-color-picker-border);border-radius:var(--_color-picker-border-radius);display:flex;height:var(--_color-picker-height);overflow:hidden;padding:0 10px;width:100%}:host .input .preview{aspect-ratio:1/1;background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--_color-picker-border-radius);cursor:pointer;display:none;height:calc(100% - 10px);position:relative}:host .input .preview::after{background-color:var(--_color-picker-selected-color);border-radius:var(--_color-picker-border-radius);content:"";inset:0;position:absolute}:host .input .preview-before{margin-right:10px}:host .input .preview-after{margin-left:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_color-picker-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_color-picker-error-logo-size) - 5px);height:var(--_color-picker-error-logo-size);justify-content:center;width:var(--_color-picker-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host rk-color-picker-selector{display:none}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([label]:not([label=""])) label{display:flex}:host([preview=before]) .input .preview-before{display:block}:host([preview=after]) .input .preview-after{display:block}`;
+    __getStatic() {
+        return ColorPicker;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(ColorPicker.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'prepend':`<slot name="prepend"></slot>`,'append':`<slot name="append"></slot>` }, 
+        blocks: { 'default':`<label for="input" _id="colorpicker_0"></label><div class="input" _id="colorpicker_1">    <slot name="prepend"></slot>    <div class="preview preview-before"></div>    <input id="input" autocomplete="off" _id="colorpicker_2" />    <slot name="append"></slot>    <div class="preview preview-after"></div>    <div class="error-logo">!</div></div><div class="errors">    <template _id="colorpicker_3"></template></div><rk-color-picker-selector _id="colorpicker_6"></rk-color-picker-selector>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "containerEl",
+      "ids": [
+        "colorpicker_1"
+      ]
+    },
+    {
+      "name": "inputEl",
+      "ids": [
+        "colorpicker_2"
+      ]
+    },
+    {
+      "name": "pickerEl",
+      "ids": [
+        "colorpicker_6"
+      ]
+    }
+  ],
+  "content": {
+    "colorpicker_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod1())}`,
+      "once": true
+    },
+    "colorpicker_2°placeholder": {
+      "fct": (c) => `${c.print(c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod2())}`,
+      "once": true
+    }
+  },
+  "injection": [
+    {
+      "id": "colorpicker_6",
+      "injectionName": "direction",
+      "inject": (c) => c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod4(),
+      "once": true
+    },
+    {
+      "id": "colorpicker_6",
+      "injectionName": "opacity",
+      "inject": (c) => c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod5(),
+      "once": true
+    },
+    {
+      "id": "colorpicker_6",
+      "injectionName": "show_text_value",
+      "inject": (c) => c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod6(),
+      "once": true
+    },
+    {
+      "id": "colorpicker_6",
+      "injectionName": "presets",
+      "inject": (c) => c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod7(),
+      "once": true
+    }
+  ],
+  "events": [
+    {
+      "eventName": "input",
+      "id": "colorpicker_2",
+      "fct": (e, c) => c.comp.txtChange(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "colorpicker_2",
+      "fct": (e, c) => c.comp.removeErrors(e)
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "colorpicker_0",
+      "onPress": (e, pressInstance, c) => { c.comp.showPicker(e, pressInstance); }
+    },
+    {
+      "id": "colorpicker_1",
+      "onPress": (e, pressInstance, c) => { c.comp.showPicker(e, pressInstance); }
+    }
+  ]
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`         <template _id="colorpicker_4"></template>    `);this.__getStatic().__template.addLoop({
+                    anchorId: 'colorpicker_3',
+                    template: templ0,
+                simple:{data: "this.errors",item:"error"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`            <div _id="colorpicker_5"></div>        `);templ1.setActions({
+  "content": {
+    "colorpicker_5°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod3(c.data.error))}`,
+      "once": true
+    }
+  }
+});templ0.addIf({
+                    anchorId: 'colorpicker_4',
+                    parts: [{once: true,
+                    condition: (c) => true,
+                    template: templ1
+                }]
+            }); }
+    getClassName() {
+        return "ColorPicker";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('preview')){ this['preview'] = 'before'; }if(!this.hasAttribute('value')){ this['value'] = undefined; }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('direction')){ this['direction'] = 'horizontal'; }if(!this.hasAttribute('opacity')) {this.setAttribute('opacity' ,'true'); }if(!this.hasAttribute('show_text_value')) {this.setAttribute('show_text_value' ,'true'); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["presets"] = []; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('preview');this.__upgradeProperty('value');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('direction');this.__upgradeProperty('opacity');this.__upgradeProperty('show_text_value');this.__correctGetter('presets'); }
+    __listBoolProps() { return ["opacity","show_text_value"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    removeErrors() {
+        this.errors = [];
+    }
+    showPicker() {
+        let box = this.getBoundingClientRect();
+        let boxInput = this.inputEl.getBoundingClientRect();
+        let newTop = boxInput.top + boxInput.height + 2;
+        this.pickerEl.style.position = 'absolute';
+        this.pickerEl.style.top = newTop + 'px';
+        this.pickerEl.style.left = box.left + 'px';
+        this.pickerEl.setAttribute("tabindex", "-1");
+        this.pickerEl.colorTxt = this.value ?? "#ffffff00";
+        document.body.appendChild(this.pickerEl);
+    }
+    manageFocus() {
+        let blurTimeout = 0;
+        ;
+        let blur = () => {
+            blurTimeout = setTimeout(() => {
+                this.shadowRoot.appendChild(this.pickerEl);
+                this.validate();
+            }, 100);
+        };
+        this.inputEl.addEventListener("blur", () => {
+            blur();
+        });
+        this.pickerEl.addEventListener("blur", () => {
+            blur();
+        });
+        this.inputEl.addEventListener("focus", () => {
+            clearTimeout(blurTimeout);
+        });
+        this.pickerEl.addEventListener("focus", () => {
+            clearTimeout(blurTimeout);
+        });
+    }
+    localValidation() {
+        let errors = [];
+        if (this.inputEl.value && !Lib.Color.isValid(this.inputEl.value)) {
+            const txt = this.errorsTxt.notColor ?? this.defaultErrorsTxt.notColor;
+            errors.push(txt);
+        }
+        return errors;
+    }
+    onFormValidation(errors) {
+        errors = [...this.localValidation(), ...errors];
+        return super.onFormValidation(errors);
+    }
+    async validate() {
+        if (!this.formPart) {
+            this.errors = this.localValidation();
+            return this.errors.length == 0;
+        }
+        return await this.formPart.test();
+    }
+    txtChange() {
+        if (Lib.Color.isValid(this.inputEl.value)) {
+            this.value = this.inputEl.value;
+            this.pickerEl.colorTxt = this.inputEl.value;
+            this.onChange.trigger([this.value]);
+            if (this.formPart) {
+                this.formPart.value.set(this.value);
+            }
+        }
+    }
+    postCreation() {
+        this.manageFocus();
+        this.pickerEl.onChange.add(() => {
+            this.value = this.pickerEl.colorTxt;
+            this.onChange.trigger([this.value]);
+            if (this.formPart) {
+                this.formPart.value.set(this.value);
+            }
+        });
+    }
+    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod1() {
+        return this.label;
+    }
+    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod2() {
+        return this.placeholder;
+    }
+    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod3(error) {
+        return error;
+    }
+    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod4() {
+        return this.direction;
+    }
+    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod5() {
+        return this.opacity;
+    }
+    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod6() {
+        return this.show_text_value;
+    }
+    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod7() {
+        return this.presets;
+    }
+}
+Components.ColorPicker.Namespace=`Core.Components`;
+Components.ColorPicker.Tag=`rk-color-picker`;
+_.Components.ColorPicker=Components.ColorPicker;
+if(!window.customElements.get('rk-color-picker')){window.customElements.define('rk-color-picker', Components.ColorPicker);Aventus.WebComponentInstance.registerDefinition(Components.ColorPicker);}
 
 
 for(let key in _) { Core[key] = _[key] }

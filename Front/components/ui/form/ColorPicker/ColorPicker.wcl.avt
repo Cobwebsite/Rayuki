@@ -1,0 +1,221 @@
+import { Color } from "../../../../libs/Color.lib.avt";
+import { FormElement } from "../FormElement/FormElement.wcl.avt";
+import type { ColorPickerSelector } from "./ColorPickerSelector/ColorPickerSelector.wcl.avt";
+
+namespace Components {
+    /**
+     * La classe `ColorPicker` est un composant d'interface utilisateur permettant à l'utilisateur de choisir une couleur. 
+     */
+    export class ColorPicker extends FormElement<string> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+         /**
+         * La valeur actuelle du sélecteur de couleurs.
+         */
+        @Property((target: ColorPicker) => {
+            if(document.activeElement != target.inputEl && document.activeElement != target) {
+                target.inputEl.value = target.value + '';
+            }
+            target.containerEl.style.setProperty('--_color-picker-selected-color', target.value ?? 'transparent');
+        })
+        public override value: string | undefined;
+
+        /**
+         * Le libellé du sélecteur de couleurs.
+         */
+        @Property()
+        public label?: string;
+
+        /**
+         * Le texte d'espace réservé (placeholder) du champ de saisie du sélecteur de couleurs.
+         */
+        @Property()
+        public placeholder?: string;
+
+         /**
+         * Définit la position de l'aperçu de la couleur sélectionnée par rapport au champ de saisie. 
+         */
+        @Attribute()
+        public preview: 'before' | 'after' | 'none' = 'before';
+
+        /**
+         * Définit la direction d'affichage du sélecteur de couleurs.
+         */
+        @Property()
+        public direction: 'horizontal' | 'vertial' = 'horizontal';
+        /**
+         * Indique si l'opacité de la couleur doit être affichée ou non.
+         */
+        @Property()
+        public opacity: boolean = true;
+        /**
+         * Indique si la valeur textuelle de la couleur sélectionnée doit être affichée.
+         */
+        @Property()
+        public show_text_value: boolean = true;
+        //#endregion
+
+
+        //#region variables
+        /**
+         * Référence à l'élément d'entrée HTML où l'utilisateur saisit la valeur de la couleur.
+         */
+        @ViewElement()
+        protected inputEl!: HTMLInputElement;
+        /**
+         * Référence au sélecteur de couleurs (`ColorPickerSelector`) associé.
+         */
+        @ViewElement()
+        protected pickerEl!: ColorPickerSelector;
+        /**
+         * Conteneur principal du composant `ColorPicker`.
+         */
+        @ViewElement()
+        protected containerEl!: HTMLDivElement;
+
+        /**
+         * Liste des couleurs prédéfinies que l'utilisateur peut choisir.
+         */
+        @Watch()
+        public presets: string[] = [];
+
+        /**
+         * Messages d'erreur personnalisés pour la validation.
+         */
+        public errorsTxt: Partial<{
+            notColor: string;
+        }> = {};
+
+        /**
+         * Messages d'erreur par défaut pour la validation.
+         */
+        protected defaultErrorsTxt: {
+            notColor: string;
+        } = {
+                notColor: "La couleur n'est pas valide",
+            };
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        /**
+         * Supprime les erreurs de validation actuelles.
+         */
+        protected removeErrors() {
+            this.errors = [];
+        }
+        /**
+         * Affiche le sélecteur de couleurs sous l'élément d'entrée de couleur.
+         */
+        protected showPicker() {
+            let box = this.getBoundingClientRect();
+            let boxInput = this.inputEl.getBoundingClientRect();
+
+            let newTop = boxInput.top + boxInput.height + 2;
+
+            this.pickerEl.style.position ='absolute';
+            this.pickerEl.style.top = newTop + 'px';
+            this.pickerEl.style.left = box.left + 'px';
+            this.pickerEl.setAttribute("tabindex", "-1");
+            this.pickerEl.colorTxt = this.value ?? "#ffffff00";
+            document.body.appendChild(this.pickerEl);
+        }
+        /**
+         * Gère le focus et le blur sur l'élément d'entrée et le sélecteur de couleurs pour valider la sélection.
+         */
+        protected manageFocus() {
+            let blurTimeout: number = 0;;
+            let blur = () => {
+                blurTimeout = setTimeout(() => {
+                    this.shadowRoot.appendChild(this.pickerEl);
+                    this.validate();
+                }, 100);
+            };
+            this.inputEl.addEventListener("blur", () => {
+                blur();
+            });
+            this.pickerEl.addEventListener("blur", () => {
+                blur();
+            });
+            this.inputEl.addEventListener("focus", () => {
+                clearTimeout(blurTimeout);
+            });
+            this.pickerEl.addEventListener("focus", () => {
+                clearTimeout(blurTimeout);
+            });
+        }
+
+        /**
+         * Valide localement la valeur de la couleur saisie.
+         * retourne Une liste d'erreurs, vide si la validation est réussie.
+         */
+        protected localValidation(): string[] {
+            let errors: string[] = [];
+            if(this.inputEl.value && !Color.isValid(this.inputEl.value)) {
+                const txt = this.errorsTxt.notColor ?? this.defaultErrorsTxt.notColor;
+                errors.push(txt);
+            }
+
+            return errors;
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public override onFormValidation(errors: string[]): Aventus.Asyncable<string[]> {
+            errors = [...this.localValidation(), ...errors];
+            return super.onFormValidation(errors);
+        }
+
+        /**
+         * Valide la valeur actuelle du sélecteur de couleurs.
+         */
+        public async validate() {
+            if(!this.formPart) {
+                this.errors = this.localValidation();
+                return this.errors.length == 0;
+            }
+            return await this.formPart.test();
+        }
+
+        /**
+         * Met à jour la valeur du sélecteur de couleurs lorsque le texte d'entrée change.
+         */
+        protected txtChange() {
+            if(Color.isValid(this.inputEl.value)) {
+                this.value = this.inputEl.value;
+                this.pickerEl.colorTxt = this.inputEl.value;
+                this.onChange.trigger([this.value]);
+                if(this.formPart) {
+                    this.formPart.value.set(this.value);
+                }
+            }
+        }
+
+        /**
+         * @inheritdoc
+         */
+        protected override postCreation(): void {
+            this.manageFocus();
+            this.pickerEl.onChange.add(() => {
+                this.value = this.pickerEl.colorTxt;
+                this.onChange.trigger([this.value]);
+                if(this.formPart) {
+                    this.formPart.value.set(this.value);
+                }
+            });
+        }
+        //#endregion
+
+    }
+}

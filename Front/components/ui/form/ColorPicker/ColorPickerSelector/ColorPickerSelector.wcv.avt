@@ -1,0 +1,25 @@
+<div class="style-wrapper" @element="styleWrapper">
+    <div class="color-area" @element="areaEl">
+        <div class="area-dot" @element="areaDotEl"></div>
+    </div>
+    <div class="color-panel">
+        <div class="color-hue">
+            <rk-slider min="0" max="360" @bind="this.hue"></rk-slider>
+        </div>
+        <div class="color-alpha">
+            <rk-slider min="0" max="100" @bind="this.alpha">
+                <span class="bar" slot="bar"></span>
+                <span class="bar-color" slot="bar"></span>
+                <span class="dot" slot="dot"></span>
+                <span class="dot-color" slot="dot"></span>
+            </rk-slider>
+        </div>
+        <div class="color-result">
+            <div class="color-preview"></div>
+            <div class="color-text">
+                <rk-input @bind="this.colorTxt"></rk-input>
+            </div>
+        </div>
+        <div class="color-preset" @element="presetEl"></div>
+    </div>
+</div>
