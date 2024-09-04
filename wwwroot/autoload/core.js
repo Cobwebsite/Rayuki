@@ -42,159 +42,6 @@ _.Tools = {};
 Websocket.Events.ApplicationTestEvent = {};
 _.Websocket.Events.ApplicationTestEvent = {};
 let _n;
-Lib.Colors=class Colors {
-    static get BLACK() { return new Lib.Color("#000000"); }
-    static get SILVER() { return new Lib.Color("#c0c0c0"); }
-    static get GRAY() { return new Lib.Color("#808080"); }
-    static get WHITE() { return new Lib.Color("#ffffff"); }
-    static get MAROON() { return new Lib.Color("#800000"); }
-    static get RED() { return new Lib.Color("#ff0000"); }
-    static get PURPLE() { return new Lib.Color("#800080"); }
-    static get GREEN() { return new Lib.Color("#008000"); }
-    static get LIME() { return new Lib.Color("#00ff00"); }
-    static get OLIVE() { return new Lib.Color("#808000"); }
-    static get YELLOW() { return new Lib.Color("#ffff00"); }
-    static get NAVY() { return new Lib.Color("#000080"); }
-    static get BLUE() { return new Lib.Color("#0000ff"); }
-    static get TEAL() { return new Lib.Color("#008080"); }
-    static get AQUA() { return new Lib.Color("#00ffff"); }
-    static get ORANGE() { return new Lib.Color("#ffa500"); }
-    static get ALICEBLUE() { return new Lib.Color("#f0f8ff"); }
-    static get ANTIQUEWHITE() { return new Lib.Color("#faebd7"); }
-    static get AQUAMARINE() { return new Lib.Color("#7fffd4"); }
-    static get AZURE() { return new Lib.Color("#f0ffff"); }
-    static get BEIGE() { return new Lib.Color("#f5f5dc"); }
-    static get BISQUE() { return new Lib.Color("#ffe4c4"); }
-    static get BLANCHEDALMOND() { return new Lib.Color("#ffebcd"); }
-    static get BLUEVIOLET() { return new Lib.Color("#8a2be2"); }
-    static get BROWN() { return new Lib.Color("#a52a2a"); }
-    static get BURLYWOOD() { return new Lib.Color("#deb887"); }
-    static get CADETBLUE() { return new Lib.Color("#5f9ea0"); }
-    static get CHARTREUSE() { return new Lib.Color("#7fff00"); }
-    static get CHOCOLATE() { return new Lib.Color("#d2691e"); }
-    static get CORAL() { return new Lib.Color("#ff7f50"); }
-    static get CORNFLOWERBLUE() { return new Lib.Color("#6495ed"); }
-    static get CORNSILK() { return new Lib.Color("#fff8dc"); }
-    static get CRIMSON() { return new Lib.Color("#dc143c"); }
-    static get CYAN() { return new Lib.Color("#00ffff"); }
-    static get DARKBLUE() { return new Lib.Color("#00008b"); }
-    static get DARKCYAN() { return new Lib.Color("#008b8b"); }
-    static get DARKGOLDENROD() { return new Lib.Color("#b8860b"); }
-    static get DARKGRAY() { return new Lib.Color("#a9a9a9"); }
-    static get DARKGREEN() { return new Lib.Color("#006400"); }
-    static get DARKGREY() { return new Lib.Color("#a9a9a9"); }
-    static get DARKKHAKI() { return new Lib.Color("#bdb76b"); }
-    static get DARKMAGENTA() { return new Lib.Color("#8b008b"); }
-    static get DARKOLIVEGREEN() { return new Lib.Color("#556b2f"); }
-    static get DARKORANGE() { return new Lib.Color("#ff8c00"); }
-    static get DARKORCHID() { return new Lib.Color("#9932cc"); }
-    static get DARKRED() { return new Lib.Color("#8b0000"); }
-    static get DARKSALMON() { return new Lib.Color("#e9967a"); }
-    static get DARKSEAGREEN() { return new Lib.Color("#8fbc8f"); }
-    static get DARKSLATEBLUE() { return new Lib.Color("#483d8b"); }
-    static get DARKSLATEGRAY() { return new Lib.Color("#2f4f4f"); }
-    static get DARKSLATEGREY() { return new Lib.Color("#2f4f4f"); }
-    static get DARKTURQUOISE() { return new Lib.Color("#00ced1"); }
-    static get DARKVIOLET() { return new Lib.Color("#9400d3"); }
-    static get DEEPPINK() { return new Lib.Color("#ff1493"); }
-    static get DEEPSKYBLUE() { return new Lib.Color("#00bfff"); }
-    static get DIMGRAY() { return new Lib.Color("#696969"); }
-    static get DIMGREY() { return new Lib.Color("#696969"); }
-    static get DODGERBLUE() { return new Lib.Color("#1e90ff"); }
-    static get FIREBRICK() { return new Lib.Color("#b22222"); }
-    static get FLORALWHITE() { return new Lib.Color("#fffaf0"); }
-    static get FORESTGREEN() { return new Lib.Color("#228b22"); }
-    static get GAINSBORO() { return new Lib.Color("#dcdcdc"); }
-    static get GHOSTWHITE() { return new Lib.Color("#f8f8ff"); }
-    static get GOLD() { return new Lib.Color("#ffd700"); }
-    static get GOLDENROD() { return new Lib.Color("#daa520"); }
-    static get GREENYELLOW() { return new Lib.Color("#adff2f"); }
-    static get GREY() { return new Lib.Color("#808080"); }
-    static get HONEYDEW() { return new Lib.Color("#f0fff0"); }
-    static get HOTPINK() { return new Lib.Color("#ff69b4"); }
-    static get INDIANRED() { return new Lib.Color("#cd5c5c"); }
-    static get INDIGO() { return new Lib.Color("#4b0082"); }
-    static get IVORY() { return new Lib.Color("#fffff0"); }
-    static get KHAKI() { return new Lib.Color("#f0e68c"); }
-    static get LAVENDER() { return new Lib.Color("#e6e6fa"); }
-    static get LAVENDERBLUSH() { return new Lib.Color("#fff0f5"); }
-    static get LAWNGREEN() { return new Lib.Color("#7cfc00"); }
-    static get LEMONCHIFFON() { return new Lib.Color("#fffacd"); }
-    static get LIGHTBLUE() { return new Lib.Color("#add8e6"); }
-    static get LIGHTCORAL() { return new Lib.Color("#f08080"); }
-    static get LIGHTCYAN() { return new Lib.Color("#e0ffff"); }
-    static get LIGHTGOLDENRODYELLOW() { return new Lib.Color("#fafad2"); }
-    static get LIGHTGRAY() { return new Lib.Color("#d3d3d3"); }
-    static get LIGHTGREEN() { return new Lib.Color("#90ee90"); }
-    static get LIGHTGREY() { return new Lib.Color("#d3d3d3"); }
-    static get LIGHTPINK() { return new Lib.Color("#ffb6c1"); }
-    static get LIGHTSALMON() { return new Lib.Color("#ffa07a"); }
-    static get LIGHTSEAGREEN() { return new Lib.Color("#20b2aa"); }
-    static get LIGHTSKYBLUE() { return new Lib.Color("#87cefa"); }
-    static get LIGHTSLATEGRAY() { return new Lib.Color("#778899"); }
-    static get LIGHTSLATEGREY() { return new Lib.Color("#778899"); }
-    static get LIGHTSTEELBLUE() { return new Lib.Color("#b0c4de"); }
-    static get LIGHTYELLOW() { return new Lib.Color("#ffffe0"); }
-    static get LIMEGREEN() { return new Lib.Color("#32cd32"); }
-    static get LINEN() { return new Lib.Color("#faf0e6"); }
-    static get MAGENTA() { return new Lib.Color("#ff00ff"); }
-    static get FUCHSIA() { return new Lib.Color("#ff00ff"); }
-    static get MEDIUMAQUAMARINE() { return new Lib.Color("#66cdaa"); }
-    static get MEDIUMBLUE() { return new Lib.Color("#0000cd"); }
-    static get MEDIUMORCHID() { return new Lib.Color("#ba55d3"); }
-    static get MEDIUMPURPLE() { return new Lib.Color("#9370db"); }
-    static get MEDIUMSEAGREEN() { return new Lib.Color("#3cb371"); }
-    static get MEDIUMSLATEBLUE() { return new Lib.Color("#7b68ee"); }
-    static get MEDIUMSPRINGGREEN() { return new Lib.Color("#00fa9a"); }
-    static get MEDIUMTURQUOISE() { return new Lib.Color("#48d1cc"); }
-    static get MEDIUMVIOLETRED() { return new Lib.Color("#c71585"); }
-    static get MIDNIGHTBLUE() { return new Lib.Color("#191970"); }
-    static get MINTCREAM() { return new Lib.Color("#f5fffa"); }
-    static get MISTYROSE() { return new Lib.Color("#ffe4e1"); }
-    static get MOCCASIN() { return new Lib.Color("#ffe4b5"); }
-    static get NAVAJOWHITE() { return new Lib.Color("#ffdead"); }
-    static get OLDLACE() { return new Lib.Color("#fdf5e6"); }
-    static get OLIVEDRAB() { return new Lib.Color("#6b8e23"); }
-    static get ORANGERED() { return new Lib.Color("#ff4500"); }
-    static get ORCHID() { return new Lib.Color("#da70d6"); }
-    static get PALEGOLDENROD() { return new Lib.Color("#eee8aa"); }
-    static get PALEGREEN() { return new Lib.Color("#98fb98"); }
-    static get PALETURQUOISE() { return new Lib.Color("#afeeee"); }
-    static get PALEVIOLETRED() { return new Lib.Color("#db7093"); }
-    static get PAPAYAWHIP() { return new Lib.Color("#ffefd5"); }
-    static get PEACHPUFF() { return new Lib.Color("#ffdab9"); }
-    static get PERU() { return new Lib.Color("#cd853f"); }
-    static get PINK() { return new Lib.Color("#ffc0cb"); }
-    static get PLUM() { return new Lib.Color("#dda0dd"); }
-    static get POWDERBLUE() { return new Lib.Color("#b0e0e6"); }
-    static get ROSYBROWN() { return new Lib.Color("#bc8f8f"); }
-    static get ROYALBLUE() { return new Lib.Color("#4169e1"); }
-    static get SADDLEBROWN() { return new Lib.Color("#8b4513"); }
-    static get SALMON() { return new Lib.Color("#fa8072"); }
-    static get SANDYBROWN() { return new Lib.Color("#f4a460"); }
-    static get SEAGREEN() { return new Lib.Color("#2e8b57"); }
-    static get SEASHELL() { return new Lib.Color("#fff5ee"); }
-    static get SIENNA() { return new Lib.Color("#a0522d"); }
-    static get SKYBLUE() { return new Lib.Color("#87ceeb"); }
-    static get SLATEBLUE() { return new Lib.Color("#6a5acd"); }
-    static get SLATEGRAY() { return new Lib.Color("#708090"); }
-    static get SLATEGREY() { return new Lib.Color("#708090"); }
-    static get SNOW() { return new Lib.Color("#fffafa"); }
-    static get SPRINGGREEN() { return new Lib.Color("#00ff7f"); }
-    static get STEELBLUE() { return new Lib.Color("#4682b4"); }
-    static get TAN() { return new Lib.Color("#d2b48c"); }
-    static get THISTLE() { return new Lib.Color("#d8bfd8"); }
-    static get TOMATO() { return new Lib.Color("#ff6347"); }
-    static get TURQUOISE() { return new Lib.Color("#40e0d0"); }
-    static get VIOLET() { return new Lib.Color("#ee82ee"); }
-    static get WHEAT() { return new Lib.Color("#f5deb3"); }
-    static get WHITESMOKE() { return new Lib.Color("#f5f5f5"); }
-    static get YELLOWGREEN() { return new Lib.Color("#9acd32"); }
-    static get REBECCAPURPLE() { return new Lib.Color("#663399"); }
-}
-Lib.Colors.Namespace=`Core.Lib`;
-_.Lib.Colors=Lib.Colors;
-
 Lib.Validator=class Validator {
     static email(txt) {
         if (!txt)
@@ -549,7 +396,7 @@ _.Components.Col=Components.Col;
 if(!window.customElements.get('rk-col')){window.customElements.define('rk-col', Components.Col);Aventus.WebComponentInstance.registerDefinition(Components.Col);}
 
 Components.Card = class Card extends Aventus.WebComponent {
-    static __style = `:host{--internal-card-background-color: var(--card-background-color, white)}:host{border-color:rgba(47,43,61,.16);background-color:var(--internal-card-background-color);border-radius:var(--border-radius-sm);border-style:solid;border-width:0;box-shadow:var(--elevation-2);display:block;overflow:hidden;overflow-wrap:break-word;padding:24px;position:relative;text-decoration:none;transition-duration:.28s;transition-property:box-shadow,opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);z-index:0}`;
+    static __style = `:host{--internal-card-background-color: var(--card-background-color, white)}:host{background-color:var(--internal-card-background-color);border-color:rgba(47,43,61,.16);border-radius:var(--border-radius-sm);border-style:solid;border-width:0;box-shadow:var(--elevation-2);display:block;overflow:hidden;overflow-wrap:break-word;padding:24px;position:relative;text-decoration:none;transition-duration:.28s;transition-property:box-shadow,opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);width:100%;z-index:0}`;
     __getStatic() {
         return Card;
     }
@@ -925,6 +772,159 @@ Components.Img.Tag=`rk-img`;
 _.Components.Img=Components.Img;
 if(!window.customElements.get('rk-img')){window.customElements.define('rk-img', Components.Img);Aventus.WebComponentInstance.registerDefinition(Components.Img);}
 
+Lib.Colors=class Colors {
+    static get BLACK() { return new Lib.Color("#000000"); }
+    static get SILVER() { return new Lib.Color("#c0c0c0"); }
+    static get GRAY() { return new Lib.Color("#808080"); }
+    static get WHITE() { return new Lib.Color("#ffffff"); }
+    static get MAROON() { return new Lib.Color("#800000"); }
+    static get RED() { return new Lib.Color("#ff0000"); }
+    static get PURPLE() { return new Lib.Color("#800080"); }
+    static get GREEN() { return new Lib.Color("#008000"); }
+    static get LIME() { return new Lib.Color("#00ff00"); }
+    static get OLIVE() { return new Lib.Color("#808000"); }
+    static get YELLOW() { return new Lib.Color("#ffff00"); }
+    static get NAVY() { return new Lib.Color("#000080"); }
+    static get BLUE() { return new Lib.Color("#0000ff"); }
+    static get TEAL() { return new Lib.Color("#008080"); }
+    static get AQUA() { return new Lib.Color("#00ffff"); }
+    static get ORANGE() { return new Lib.Color("#ffa500"); }
+    static get ALICEBLUE() { return new Lib.Color("#f0f8ff"); }
+    static get ANTIQUEWHITE() { return new Lib.Color("#faebd7"); }
+    static get AQUAMARINE() { return new Lib.Color("#7fffd4"); }
+    static get AZURE() { return new Lib.Color("#f0ffff"); }
+    static get BEIGE() { return new Lib.Color("#f5f5dc"); }
+    static get BISQUE() { return new Lib.Color("#ffe4c4"); }
+    static get BLANCHEDALMOND() { return new Lib.Color("#ffebcd"); }
+    static get BLUEVIOLET() { return new Lib.Color("#8a2be2"); }
+    static get BROWN() { return new Lib.Color("#a52a2a"); }
+    static get BURLYWOOD() { return new Lib.Color("#deb887"); }
+    static get CADETBLUE() { return new Lib.Color("#5f9ea0"); }
+    static get CHARTREUSE() { return new Lib.Color("#7fff00"); }
+    static get CHOCOLATE() { return new Lib.Color("#d2691e"); }
+    static get CORAL() { return new Lib.Color("#ff7f50"); }
+    static get CORNFLOWERBLUE() { return new Lib.Color("#6495ed"); }
+    static get CORNSILK() { return new Lib.Color("#fff8dc"); }
+    static get CRIMSON() { return new Lib.Color("#dc143c"); }
+    static get CYAN() { return new Lib.Color("#00ffff"); }
+    static get DARKBLUE() { return new Lib.Color("#00008b"); }
+    static get DARKCYAN() { return new Lib.Color("#008b8b"); }
+    static get DARKGOLDENROD() { return new Lib.Color("#b8860b"); }
+    static get DARKGRAY() { return new Lib.Color("#a9a9a9"); }
+    static get DARKGREEN() { return new Lib.Color("#006400"); }
+    static get DARKGREY() { return new Lib.Color("#a9a9a9"); }
+    static get DARKKHAKI() { return new Lib.Color("#bdb76b"); }
+    static get DARKMAGENTA() { return new Lib.Color("#8b008b"); }
+    static get DARKOLIVEGREEN() { return new Lib.Color("#556b2f"); }
+    static get DARKORANGE() { return new Lib.Color("#ff8c00"); }
+    static get DARKORCHID() { return new Lib.Color("#9932cc"); }
+    static get DARKRED() { return new Lib.Color("#8b0000"); }
+    static get DARKSALMON() { return new Lib.Color("#e9967a"); }
+    static get DARKSEAGREEN() { return new Lib.Color("#8fbc8f"); }
+    static get DARKSLATEBLUE() { return new Lib.Color("#483d8b"); }
+    static get DARKSLATEGRAY() { return new Lib.Color("#2f4f4f"); }
+    static get DARKSLATEGREY() { return new Lib.Color("#2f4f4f"); }
+    static get DARKTURQUOISE() { return new Lib.Color("#00ced1"); }
+    static get DARKVIOLET() { return new Lib.Color("#9400d3"); }
+    static get DEEPPINK() { return new Lib.Color("#ff1493"); }
+    static get DEEPSKYBLUE() { return new Lib.Color("#00bfff"); }
+    static get DIMGRAY() { return new Lib.Color("#696969"); }
+    static get DIMGREY() { return new Lib.Color("#696969"); }
+    static get DODGERBLUE() { return new Lib.Color("#1e90ff"); }
+    static get FIREBRICK() { return new Lib.Color("#b22222"); }
+    static get FLORALWHITE() { return new Lib.Color("#fffaf0"); }
+    static get FORESTGREEN() { return new Lib.Color("#228b22"); }
+    static get GAINSBORO() { return new Lib.Color("#dcdcdc"); }
+    static get GHOSTWHITE() { return new Lib.Color("#f8f8ff"); }
+    static get GOLD() { return new Lib.Color("#ffd700"); }
+    static get GOLDENROD() { return new Lib.Color("#daa520"); }
+    static get GREENYELLOW() { return new Lib.Color("#adff2f"); }
+    static get GREY() { return new Lib.Color("#808080"); }
+    static get HONEYDEW() { return new Lib.Color("#f0fff0"); }
+    static get HOTPINK() { return new Lib.Color("#ff69b4"); }
+    static get INDIANRED() { return new Lib.Color("#cd5c5c"); }
+    static get INDIGO() { return new Lib.Color("#4b0082"); }
+    static get IVORY() { return new Lib.Color("#fffff0"); }
+    static get KHAKI() { return new Lib.Color("#f0e68c"); }
+    static get LAVENDER() { return new Lib.Color("#e6e6fa"); }
+    static get LAVENDERBLUSH() { return new Lib.Color("#fff0f5"); }
+    static get LAWNGREEN() { return new Lib.Color("#7cfc00"); }
+    static get LEMONCHIFFON() { return new Lib.Color("#fffacd"); }
+    static get LIGHTBLUE() { return new Lib.Color("#add8e6"); }
+    static get LIGHTCORAL() { return new Lib.Color("#f08080"); }
+    static get LIGHTCYAN() { return new Lib.Color("#e0ffff"); }
+    static get LIGHTGOLDENRODYELLOW() { return new Lib.Color("#fafad2"); }
+    static get LIGHTGRAY() { return new Lib.Color("#d3d3d3"); }
+    static get LIGHTGREEN() { return new Lib.Color("#90ee90"); }
+    static get LIGHTGREY() { return new Lib.Color("#d3d3d3"); }
+    static get LIGHTPINK() { return new Lib.Color("#ffb6c1"); }
+    static get LIGHTSALMON() { return new Lib.Color("#ffa07a"); }
+    static get LIGHTSEAGREEN() { return new Lib.Color("#20b2aa"); }
+    static get LIGHTSKYBLUE() { return new Lib.Color("#87cefa"); }
+    static get LIGHTSLATEGRAY() { return new Lib.Color("#778899"); }
+    static get LIGHTSLATEGREY() { return new Lib.Color("#778899"); }
+    static get LIGHTSTEELBLUE() { return new Lib.Color("#b0c4de"); }
+    static get LIGHTYELLOW() { return new Lib.Color("#ffffe0"); }
+    static get LIMEGREEN() { return new Lib.Color("#32cd32"); }
+    static get LINEN() { return new Lib.Color("#faf0e6"); }
+    static get MAGENTA() { return new Lib.Color("#ff00ff"); }
+    static get FUCHSIA() { return new Lib.Color("#ff00ff"); }
+    static get MEDIUMAQUAMARINE() { return new Lib.Color("#66cdaa"); }
+    static get MEDIUMBLUE() { return new Lib.Color("#0000cd"); }
+    static get MEDIUMORCHID() { return new Lib.Color("#ba55d3"); }
+    static get MEDIUMPURPLE() { return new Lib.Color("#9370db"); }
+    static get MEDIUMSEAGREEN() { return new Lib.Color("#3cb371"); }
+    static get MEDIUMSLATEBLUE() { return new Lib.Color("#7b68ee"); }
+    static get MEDIUMSPRINGGREEN() { return new Lib.Color("#00fa9a"); }
+    static get MEDIUMTURQUOISE() { return new Lib.Color("#48d1cc"); }
+    static get MEDIUMVIOLETRED() { return new Lib.Color("#c71585"); }
+    static get MIDNIGHTBLUE() { return new Lib.Color("#191970"); }
+    static get MINTCREAM() { return new Lib.Color("#f5fffa"); }
+    static get MISTYROSE() { return new Lib.Color("#ffe4e1"); }
+    static get MOCCASIN() { return new Lib.Color("#ffe4b5"); }
+    static get NAVAJOWHITE() { return new Lib.Color("#ffdead"); }
+    static get OLDLACE() { return new Lib.Color("#fdf5e6"); }
+    static get OLIVEDRAB() { return new Lib.Color("#6b8e23"); }
+    static get ORANGERED() { return new Lib.Color("#ff4500"); }
+    static get ORCHID() { return new Lib.Color("#da70d6"); }
+    static get PALEGOLDENROD() { return new Lib.Color("#eee8aa"); }
+    static get PALEGREEN() { return new Lib.Color("#98fb98"); }
+    static get PALETURQUOISE() { return new Lib.Color("#afeeee"); }
+    static get PALEVIOLETRED() { return new Lib.Color("#db7093"); }
+    static get PAPAYAWHIP() { return new Lib.Color("#ffefd5"); }
+    static get PEACHPUFF() { return new Lib.Color("#ffdab9"); }
+    static get PERU() { return new Lib.Color("#cd853f"); }
+    static get PINK() { return new Lib.Color("#ffc0cb"); }
+    static get PLUM() { return new Lib.Color("#dda0dd"); }
+    static get POWDERBLUE() { return new Lib.Color("#b0e0e6"); }
+    static get ROSYBROWN() { return new Lib.Color("#bc8f8f"); }
+    static get ROYALBLUE() { return new Lib.Color("#4169e1"); }
+    static get SADDLEBROWN() { return new Lib.Color("#8b4513"); }
+    static get SALMON() { return new Lib.Color("#fa8072"); }
+    static get SANDYBROWN() { return new Lib.Color("#f4a460"); }
+    static get SEAGREEN() { return new Lib.Color("#2e8b57"); }
+    static get SEASHELL() { return new Lib.Color("#fff5ee"); }
+    static get SIENNA() { return new Lib.Color("#a0522d"); }
+    static get SKYBLUE() { return new Lib.Color("#87ceeb"); }
+    static get SLATEBLUE() { return new Lib.Color("#6a5acd"); }
+    static get SLATEGRAY() { return new Lib.Color("#708090"); }
+    static get SLATEGREY() { return new Lib.Color("#708090"); }
+    static get SNOW() { return new Lib.Color("#fffafa"); }
+    static get SPRINGGREEN() { return new Lib.Color("#00ff7f"); }
+    static get STEELBLUE() { return new Lib.Color("#4682b4"); }
+    static get TAN() { return new Lib.Color("#d2b48c"); }
+    static get THISTLE() { return new Lib.Color("#d8bfd8"); }
+    static get TOMATO() { return new Lib.Color("#ff6347"); }
+    static get TURQUOISE() { return new Lib.Color("#40e0d0"); }
+    static get VIOLET() { return new Lib.Color("#ee82ee"); }
+    static get WHEAT() { return new Lib.Color("#f5deb3"); }
+    static get WHITESMOKE() { return new Lib.Color("#f5f5f5"); }
+    static get YELLOWGREEN() { return new Lib.Color("#9acd32"); }
+    static get REBECCAPURPLE() { return new Lib.Color("#663399"); }
+}
+Lib.Colors.Namespace=`Core.Lib`;
+_.Lib.Colors=Lib.Colors;
+
 Data.DataTypes.Pdf=class Pdf extends AventusSharp.Data.AventusFile {
     static get Fullname() { return "Core.Data.DataTypes.Pdf, Core"; }
     Name = "";
@@ -1231,6 +1231,13 @@ Lib.DateTools=class DateTools {
         if (date1 == null || date2 == null)
             return false;
         return date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear();
+    }
+    static isSameDateTime(date1, date2) {
+        if (date1 == null && date2 == null)
+            return true;
+        if (date1 == null || date2 == null)
+            return false;
+        return date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear() && date1.getHours() == date2.getHours() && date1.getMinutes() == date2.getMinutes();
     }
     static print(date, options, locale) {
         if (!options) {
@@ -6486,7 +6493,7 @@ System.FrameNoScroll = class FrameNoScroll extends Aventus.WebComponent {
 					}    application;
     resetNavElement;
     __registerSignalsActions() { this.__signals["state"] = null; super.__registerSignalsActions();  }
-    static __style = `:host{display:none;height:100%;width:100%}:host .opacity-wrapper{animation-delay:var(--local-frame-animation-delay, 0ms);animation-duration:200ms;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);display:none;height:100%;visibility:hidden;width:100%}:host([visible]){display:block}:host([visible]) .opacity-wrapper{display:block}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}`;
+    static __style = `:host{display:none;height:100%;width:100%;padding:0 5px}:host .opacity-wrapper{animation-delay:var(--local-frame-animation-delay, 0ms);animation-duration:200ms;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);display:none;height:100%;visibility:hidden;width:100%}:host([visible]){display:block}:host([visible]) .opacity-wrapper{display:block}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}`;
     constructor() {
             super();
             this.addFadeIn();
@@ -7489,7 +7496,7 @@ System.Application = class Application extends Aventus.WebComponent {
 }));this.__addPropertyActions("is_hidden", ((target) => {
     target.onIsHiddenChange();
 })); }
-    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{backdrop-filter:blur(2px);background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;pointer-events:none;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:var(--border-radius-round);height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin:5px;margin-top:0;overflow:hidden;width:calc(100% - 10px);z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host rk-notification-manager{top:35px}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}:host rk-notification-manager{top:45px}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 45px)}:host rk-resize{display:none}:host rk-notification-manager{top:45px}:host([is_hidden]){left:0 !important;width:100% !important}}`;
+    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{backdrop-filter:blur(2px);background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;pointer-events:none;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:var(--border-radius-round);height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin-bottom:5px;overflow:hidden;width:100%;z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host rk-notification-manager{top:35px}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}:host rk-notification-manager{top:45px}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 45px)}:host rk-resize{display:none}:host rk-notification-manager{top:45px}:host([is_hidden]){left:0 !important;width:100% !important}}`;
     constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);            this.shortcutManager = new System.ApplicationShortcut(this);            this.shortcutManager.init();if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.onContextMenuContent=this.onContextMenuContent.bind(this)this.onContextMenuHeader=this.onContextMenuHeader.bind(this)this.validError404=this.validError404.bind(this)this.showErrorNotAllowed=this.showErrorNotAllowed.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this)this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)this.moveApplicationToRight=this.moveApplicationToRight.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this)this.notify=this.notify.bind(this)this.popupErrors=this.popupErrors.bind(this)this.parseErrors=this.parseErrors.bind(this)this.execute=this.execute.bind(this)this.executeWithLoading=this.executeWithLoading.bind(this)this.showLoading=this.showLoading.bind(this)this.txExec=this.txExec.bind(this)this.txExecLoading=this.txExecLoading.bind(this) }
     __getStatic() {
         return Application;
@@ -11594,6 +11601,7 @@ State.CreateOrUpdate=class CreateOrUpdate extends State.ApplicationFormState {
     }
     /**
      * This will validate the form and save the model though the ram
+     *
      * Errors are deals by this method. If success, result !== undefined
      */
     async save() {
@@ -11791,6 +11799,7 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
     __listBoolProps() { return ["has_errors"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     refreshValueFromForm() {
         if (this._formPart) {
+            this.errors = [];
             this.value = this._formPart.value.get();
         }
     }
@@ -11824,6 +11833,450 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
 Components.FormElement.Namespace=`Core.Components`;
 _.Components.FormElement=Components.FormElement;
 
+Components.InputDate = class InputDate extends Components.FormElement {
+    static get observedAttributes() {return ["label", "placeholder", "icon", "icon_position", "time"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'year_format'() { return this.getStringAttr('year_format') }
+    set 'year_format'(val) { this.setStringAttr('year_format', val) }get 'month_format'() { return this.getStringAttr('month_format') }
+    set 'month_format'(val) { this.setStringAttr('month_format', val) }get 'day_format'() { return this.getStringAttr('day_format') }
+    set 'day_format'(val) { this.setStringAttr('day_format', val) }get 'locale'() { return this.getStringAttr('locale') }
+    set 'locale'(val) { this.setStringAttr('locale', val) }get 'time_zone'() { return this.getStringAttr('time_zone') }
+    set 'time_zone'(val) { this.setStringAttr('time_zone', val) }get 'is_focus'() { return this.getBoolAttr('is_focus') }
+    set 'is_focus'(val) { this.setBoolAttr('is_focus', val) }get 'clearable'() { return this.getBoolAttr('clearable') }
+    set 'clearable'(val) { this.setBoolAttr('clearable', val) }get 'show_clear_icon'() { return this.getBoolAttr('show_clear_icon') }
+    set 'show_clear_icon'(val) { this.setBoolAttr('show_clear_icon', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
+    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'icon_position'() { return this.getStringProp('icon_position') }
+    set 'icon_position'(val) { this.setStringAttr('icon_position', val) }get 'time'() { return this.getBoolProp('time') }
+    set 'time'(val) { this.setBoolAttr('time', val) }    get 'value'() {
+						return this.__watch["value"];
+					}
+					set 'value'(val) {
+						this.__watch["value"] = val;
+					}    __registerWatchesActions() {
+    this.__addWatchesActions("value", ((target) => {
+    target.setValueToInputs();
+}));    super.__registerWatchesActions();
+}
+    static __style = `:host{--_input-date-height: var(--input-date-height, 30px);--_input-date-background-color: var(--input-date-background-color, var(--form-element-background, white));--_input-date-icon-height: var(--input-date-icon-height, calc(var(--_input-date-height) / 2));--_input-date-error-logo-size: var(--input-date-error-logo-size, calc(var(--_input-date-height) / 2));--_input-date-font-size: var(--input-date-font-size, var(--form-element-font-size, 16px));--_input-date-font-size-label: var(--input-date-font-size-label, var(--form-element-font-size-label, calc(var(--_input-date-font-size) * 0.95)));--_input-date-input-border: var(--input-date-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-date-border-radius: var(--input-date-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-date-font-size-label);margin-bottom:5px;margin-left:3px;cursor:pointer}:host .input{align-items:center;background-color:var(--_input-date-background-color);border:var(--_input-date-input-border);border-radius:var(--_input-date-border-radius);display:flex;height:var(--_input-date-height);overflow:hidden;padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-date-icon-height);margin-right:10px}:host .input .edit{align-items:center;display:flex;display:none;flex-grow:1;height:100%}:host .input .edit input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;font-size:var(--_input-date-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;text-align:center;width:20px}:host .input .edit .year-input{width:38px}:host .input .edit span{color:var(--text-color);font-size:var(--_input-date-font-size);height:100%;padding:5px 0;text-align:center}:host .input .visual{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;font-size:var(--_input-date-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;width:20px;flex-grow:1}:host .input .clear-icon{font-size:18px;flex-shrink:0;display:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-date-error-logo-size) - 5px);height:var(--_input-date-error-logo-size);justify-content:center;width:var(--_input-date-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([icon_position=right]) .input .icon{margin-right:0px;order:2}:host([icon_position=right]) .input .input{order:1}:host([icon_position=right]) .input .error-logo{margin-left:10px;order:3}:host([label]:not([label=""])) label{display:flex}:host(:not([time])) .time{display:none}:host([is_focus]) .input .edit{display:flex}:host([is_focus]) .input .visual{display:none}:host([show_clear_icon]) .input .clear-icon{display:inline-block}`;
+    __getStatic() {
+        return InputDate;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(InputDate.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'prepend':`<slot name="prepend">        <rk-img class="icon" _id="inputdate_1"></rk-img>    </slot>`,'append':`<slot name="append"></slot>` }, 
+        blocks: { 'default':`<label for="input" _id="inputdate_0"></label><div class="input">    <slot name="prepend">        <rk-img class="icon" _id="inputdate_1"></rk-img>    </slot>    <input class="visual" readonly _id="inputdate_2" />    <div class="edit">        <input autocomplete="off" placeholder="xx" _id="inputdate_3" />        <span>.</span>        <input autocomplete="off" placeholder="xx" _id="inputdate_4" />        <span>.</span>        <input class="year-input" autocomplete="off" placeholder="xxxx" _id="inputdate_5" />        <span class="time">&nbsp;</span>        <input class="time" autocomplete="off" placeholder="xx" _id="inputdate_6" />        <span class="time">:</span>        <input class="time" autocomplete="off" placeholder="xx" _id="inputdate_7" />    </div>    <slot name="append"></slot>    <mi-icon class="clear-icon touch" icon="close" tabindex="-1" _id="inputdate_8"></mi-icon>    <div class="error-logo">!</div></div><div class="errors">    <template _id="inputdate_9"></template></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "iconEl",
+      "ids": [
+        "inputdate_1"
+      ]
+    },
+    {
+      "name": "dayEl",
+      "ids": [
+        "inputdate_3"
+      ]
+    },
+    {
+      "name": "monthEl",
+      "ids": [
+        "inputdate_4"
+      ]
+    },
+    {
+      "name": "yearEl",
+      "ids": [
+        "inputdate_5"
+      ]
+    },
+    {
+      "name": "hourEl",
+      "ids": [
+        "inputdate_6"
+      ]
+    },
+    {
+      "name": "minuteEl",
+      "ids": [
+        "inputdate_7"
+      ]
+    }
+  ],
+  "content": {
+    "inputdate_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method1())}`,
+      "once": true
+    },
+    "inputdate_1°src": {
+      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method2())}`,
+      "once": true
+    },
+    "inputdate_2°value": {
+      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method3())}`,
+      "once": true
+    }
+  },
+  "events": [
+    {
+      "eventName": "focus",
+      "id": "inputdate_3",
+      "fct": (e, c) => c.comp.selectContent(e)
+    },
+    {
+      "eventName": "keydown",
+      "id": "inputdate_3",
+      "fct": (e, c) => c.comp.triggerPoint(e)
+    },
+    {
+      "eventName": "keyup",
+      "id": "inputdate_3",
+      "fct": (e, c) => c.comp.validateLength2(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "inputdate_4",
+      "fct": (e, c) => c.comp.selectContent(e)
+    },
+    {
+      "eventName": "keydown",
+      "id": "inputdate_4",
+      "fct": (e, c) => c.comp.triggerPoint(e)
+    },
+    {
+      "eventName": "keyup",
+      "id": "inputdate_4",
+      "fct": (e, c) => c.comp.validateLength2(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "inputdate_5",
+      "fct": (e, c) => c.comp.selectContent(e)
+    },
+    {
+      "eventName": "keydown",
+      "id": "inputdate_5",
+      "fct": (e, c) => c.comp.triggerSpace(e)
+    },
+    {
+      "eventName": "keyup",
+      "id": "inputdate_5",
+      "fct": (e, c) => c.comp.validateLength4(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "inputdate_6",
+      "fct": (e, c) => c.comp.selectContent(e)
+    },
+    {
+      "eventName": "keydown",
+      "id": "inputdate_6",
+      "fct": (e, c) => c.comp.triggerSemiCol(e)
+    },
+    {
+      "eventName": "keyup",
+      "id": "inputdate_6",
+      "fct": (e, c) => c.comp.validateLength2(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "inputdate_7",
+      "fct": (e, c) => c.comp.selectContent(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "inputdate_8",
+      "fct": (e, c) => c.comp.preventFocus(e)
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "inputdate_8",
+      "onPress": (e, pressInstance, c) => { c.comp.clearValue(e, pressInstance); }
+    }
+  ]
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`         <div _id="inputdate_10"></div>    `);templ0.setActions({
+  "content": {
+    "inputdate_10°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method4(c.data.error))}`,
+      "once": true
+    }
+  }
+});this.__getStatic().__template.addLoop({
+                    anchorId: 'inputdate_9',
+                    template: templ0,
+                simple:{data: "this.errors",item:"error"}}); }
+    getClassName() {
+        return "InputDate";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('year_format')){ this['year_format'] = "2-digit"; }if(!this.hasAttribute('month_format')){ this['month_format'] = "short"; }if(!this.hasAttribute('day_format')){ this['day_format'] = "2-digit"; }if(!this.hasAttribute('locale')){ this['locale'] = undefined; }if(!this.hasAttribute('time_zone')){ this['time_zone'] = undefined; }if(!this.hasAttribute('is_focus')) { this.attributeChangedCallback('is_focus', false, false); }if(!this.hasAttribute('clearable')) {this.setAttribute('clearable' ,'true'); }if(!this.hasAttribute('show_clear_icon')) { this.attributeChangedCallback('show_clear_icon', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('icon_position')){ this['icon_position'] = undefined; }if(!this.hasAttribute('time')) { this.attributeChangedCallback('time', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('year_format');this.__upgradeProperty('month_format');this.__upgradeProperty('day_format');this.__upgradeProperty('locale');this.__upgradeProperty('time_zone');this.__upgradeProperty('is_focus');this.__upgradeProperty('clearable');this.__upgradeProperty('show_clear_icon');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('icon_position');this.__upgradeProperty('time');this.__correctGetter('value'); }
+    __listBoolProps() { return ["is_focus","clearable","show_clear_icon","time"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    selectContent(e) {
+        e.currentTarget.select();
+    }
+    setValueToInputs() {
+        if (this.value) {
+            const pretty = (nb) => {
+                if (nb < 10) {
+                    return '0' + nb;
+                }
+                return nb + '';
+            };
+            this.dayEl.value = pretty(this.value.getDate());
+            this.monthEl.value = pretty(this.value.getMonth() + 1);
+            this.yearEl.value = pretty(this.value.getFullYear());
+            this.hourEl.value = pretty(this.value.getHours());
+            this.minuteEl.value = pretty(this.value.getMinutes());
+        }
+        else {
+            this.dayEl.value = '';
+            this.monthEl.value = '';
+            this.yearEl.value = '';
+            this.hourEl.value = '';
+            this.minuteEl.value = '';
+        }
+        this.show_clear_icon = this.clearable && this.value !== undefined;
+    }
+    displayVisualDate() {
+        if (!this.value)
+            return "";
+        return this.value.toLocaleDateString(this.locale, {
+            year: this.year_format,
+            month: this.month_format,
+            day: this.day_format,
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: this.time_zone,
+        });
+    }
+    clearValue() {
+        this.value = undefined;
+        if (this.is_focus) {
+            this.dayEl.focus();
+            this.setValueToInputs();
+        }
+    }
+    localValidation() {
+        let errors = [];
+        let dayValue = this.dayEl.value;
+        let monthValue = this.monthEl.value;
+        let yearValue = this.yearEl.value;
+        let hourValue = this.hourEl.value;
+        let minuteValue = this.minuteEl.value;
+        if (!dayValue && !monthValue && !yearValue && !hourValue && !minuteValue) {
+            return [];
+        }
+        if (!monthValue) {
+            const txt = 'Le mois est obligatoire';
+            errors.push(txt);
+        }
+        else {
+            let nb = Number(monthValue);
+            if (isNaN(nb)) {
+                const txt = 'Le mois doit être un nombre';
+                errors.push(txt);
+            }
+            else if (nb < 1 || nb > 12) {
+                const txt = 'Le mois mois est compris entre 1 et 12';
+                errors.push(txt);
+            }
+        }
+        if (!yearValue) {
+            const txt = 'L\'année est obligatoire';
+            errors.push(txt);
+        }
+        else {
+            let nb = Number(yearValue);
+            if (isNaN(nb)) {
+                const txt = 'L\'année doit être un nombre';
+                errors.push(txt);
+            }
+            else if (nb < 0) {
+                const txt = 'L\'année doit être un nombre positif';
+                errors.push(txt);
+            }
+        }
+        if (!dayValue) {
+            const txt = 'Le jour est obligatoire';
+            errors.push(txt);
+        }
+        else if (errors.length == 0) {
+            let max = new Date(Number(yearValue), Number(monthValue), 0).getDate();
+            let nb = Number(dayValue);
+            if (isNaN(nb)) {
+                const txt = 'Le jour doit être un nombre';
+                errors.push(txt);
+            }
+            else if (nb < 1 || nb > max) {
+                const txt = 'Le jour est compris entre 1 et $max'.replace("$max", max + '');
+                errors.push(txt);
+            }
+        }
+        if (hourValue) {
+            let nb = Number(hourValue);
+            if (isNaN(nb)) {
+                const txt = 'L\'heure doit être un nombre';
+                errors.push(txt);
+            }
+            else if (nb < 0 || nb > 23) {
+                const txt = 'L\'heure doit est comprise entre 1 et 23';
+                errors.push(txt);
+            }
+        }
+        if (minuteValue) {
+            let nb = Number(minuteValue);
+            if (isNaN(nb)) {
+                const txt = 'La minute doit être un nombre';
+                errors.push(txt);
+            }
+            else if (nb < 0 || nb > 59) {
+                const txt = 'La minute doite est comprise entre 1 et 59';
+                errors.push(txt);
+            }
+        }
+        return errors;
+    }
+    async validate() {
+        if (!this.formPart) {
+            this.errors = this.localValidation();
+            return this.errors.length == 0;
+        }
+        return await this.formPart.test();
+    }
+    async onValueChange() {
+        let localValidations = this.localValidation();
+        if (localValidations.length == 0) {
+            let dayValue = this.dayEl.value;
+            let monthValue = this.monthEl.value;
+            let yearValue = this.yearEl.value;
+            let hourValue = this.hourEl.value;
+            let minuteValue = this.minuteEl.value;
+            let result = undefined;
+            if (!dayValue && !monthValue && !yearValue && !hourValue && !minuteValue) {
+            }
+            else {
+                let date = new Date(Number(yearValue), Number(monthValue) - 1, Number(dayValue), 0, 0, 0, 0);
+                if (this.time) {
+                    if (hourValue) {
+                        date.setHours(Number(hourValue));
+                    }
+                    if (minuteValue) {
+                        date.setMinutes(Number(minuteValue));
+                    }
+                }
+                result = date;
+            }
+            const isSame = this.time ? Lib.DateTools.isSameDateTime(this.value, result) : Lib.DateTools.isSameDate(this.value, result);
+            if (!isSame) {
+                this.value = result;
+                this.onChange.trigger([this.value]);
+                if (this.formPart) {
+                    this.formPart.value.set(this.value);
+                }
+            }
+            this.is_focus = false;
+        }
+        else {
+            this.errors = localValidations;
+        }
+    }
+    addBlurEvents() {
+        const elements = [this, this.dayEl, this.monthEl, this.yearEl, this.hourEl, this.minuteEl];
+        let blurTimeout = 0;
+        let blur = () => {
+            blurTimeout = setTimeout(() => {
+                this.onValueChange();
+            }, 100);
+        };
+        for (let element of elements) {
+            element.addEventListener("focus", () => {
+                this.errors = [];
+                this.is_focus = true;
+                clearTimeout(blurTimeout);
+            });
+            element.addEventListener("blur", () => {
+                blur();
+            });
+        }
+        this.addEventListener("focus", () => {
+            this.dayEl.focus();
+        });
+    }
+    triggerPoint(e) {
+        this.triggerChar(e, '.');
+    }
+    triggerSpace(e) {
+        this.triggerChar(e, ' ');
+    }
+    triggerSemiCol(e) {
+        this.triggerChar(e, ':');
+    }
+    triggerChar(e, char) {
+        if (e.key == char) {
+            e.preventDefault();
+            let el = e.target;
+            let nextInput = el.nextElementSibling?.nextElementSibling;
+            if (nextInput) {
+                nextInput.focus();
+            }
+        }
+    }
+    validateLength2(e) {
+        this.validateLength(e, 2);
+    }
+    validateLength4(e) {
+        this.validateLength(e, 4);
+    }
+    validateLength(e, length) {
+        if (e.key == 'Tab') {
+            return;
+        }
+        let el = e.target;
+        if (el.value.length == length) {
+            let nextInput = el.nextElementSibling?.nextElementSibling;
+            if (nextInput) {
+                nextInput.focus();
+            }
+        }
+    }
+    preventFocus(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    postCreation() {
+        super.postCreation();
+        this.setAttribute("tabindex", "-1");
+        this.addBlurEvents();
+    }
+    __85f0c0fbb346d55c45d594cadd252d33method1() {
+        return this.label;
+    }
+    __85f0c0fbb346d55c45d594cadd252d33method2() {
+        return this.icon;
+    }
+    __85f0c0fbb346d55c45d594cadd252d33method3() {
+        return this.displayVisualDate();
+    }
+    __85f0c0fbb346d55c45d594cadd252d33method4(error) {
+        return error;
+    }
+}
+Components.InputDate.Namespace=`Core.Components`;
+Components.InputDate.Tag=`rk-input-date`;
+_.Components.InputDate=Components.InputDate;
+if(!window.customElements.get('rk-input-date')){window.customElements.define('rk-input-date', Components.InputDate);Aventus.WebComponentInstance.registerDefinition(Components.InputDate);}
+
 Components.Textarea = class Textarea extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'resize'() { return this.getBoolAttr('resize') }
@@ -11835,7 +12288,7 @@ Components.Textarea = class Textarea extends Components.FormElement {
     set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
     target.inputEl.value = target.value ?? "";
 })); }
-    static __style = `:host{--_textarea-height: var(--textarea-height, 30px);--_textarea-background-color: var(--textarea-background-color, var(--form-element-background, white));--_textarea-icon-height: var(--textarea-icon-height, calc(var(--_textarea-height) / 2));--_textarea-error-logo-size: var(--textarea-error-logo-size, calc(var(--_textarea-height) / 2));--_textarea-font-size: var(--textarea-font-size, var(--form-element-font-size, 16px));--_textarea-font-size-label: var(--textarea-font-size-label, var(--form-element-font-size-label, calc(var(--_textarea-font-size) * 0.95)));--_textarea-input-border: var(--textarea-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_textarea-border-radius: var(--textarea-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_textarea-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_textarea-background-color);border:var(--_textarea-input-border);border-radius:var(--_textarea-border-radius);display:flex;height:var(--_textarea-height);min-height:var(--_textarea-height);padding:0 10px;position:relative;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_textarea-icon-height);margin-right:10px}:host .input textarea{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-family:"Roboto",sans-serif;font-size:var(--_textarea-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px;resize:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_textarea-error-logo-size) - 5px);height:var(--_textarea-error-logo-size);justify-content:center;width:var(--_textarea-error-logo-size)}:host .input rk-resize{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([resize]) .input rk-resize{display:block}:host([autogrow]) .input textarea{overflow:hidden}`;
+    static __style = `:host{--_textarea-height: var(--textarea-height, 30px);--_textarea-background-color: var(--textarea-background-color, var(--form-element-background, white));--_textarea-icon-height: var(--textarea-icon-height, calc(var(--_textarea-height) / 2));--_textarea-error-logo-size: var(--textarea-error-logo-size, calc(var(--_textarea-height) / 2));--_textarea-font-size: var(--textarea-font-size, var(--form-element-font-size, 16px));--_textarea-font-size-label: var(--textarea-font-size-label, var(--form-element-font-size-label, calc(var(--_textarea-font-size) * 0.95)));--_textarea-input-border: var(--textarea-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_textarea-border-radius: var(--textarea-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_textarea-font-size-label);margin-bottom:5px;margin-left:3px;cursor:pointer}:host .input{align-items:center;background-color:var(--_textarea-background-color);border:var(--_textarea-input-border);border-radius:var(--_textarea-border-radius);display:flex;height:var(--_textarea-height);min-height:var(--_textarea-height);padding:0 10px;position:relative;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_textarea-icon-height);margin-right:10px}:host .input textarea{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-family:"Roboto",sans-serif;font-size:var(--_textarea-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px;resize:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_textarea-error-logo-size) - 5px);height:var(--_textarea-error-logo-size);justify-content:center;width:var(--_textarea-error-logo-size)}:host .input rk-resize{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([resize]) .input rk-resize{display:block}:host([autogrow]) .input textarea{overflow:hidden}`;
     __getStatic() {
         return Textarea;
     }
@@ -12078,7 +12531,7 @@ Components.Slider = class Slider extends Components.FormElement {
 }));this.__addPropertyActions("value", ((target) => {
     target.calculatePercent();
 })); }
-    static __style = `:host{--_slider-background-color: var(--slider-background-color, var(--form-element-background, white));--_slider-background-image: var(--slider-background-image, none);--_slider-background-position: var(--slider-background-position, 0 0);--_slider-background-size: var(--slider-background-size, auto);--_slider-active-background-color: var(--slider-active-background-color, var(--secondary-color-active));--_slider-dot-color: var(--slider-dot-color, var(--secondary-color));--_slider-dot-size: var(--slider-dot-size, var(--form-element-font-size, 16px));--_slider-popup-font-size: var(--slider-popup-font-size, var(--font-size-sm));--_slider-font-size-label: var(--slider-font-size-label, var(--form-element-font-size-label));--_slider-border-radius: var(--slider-border-radius, var(--form-element-border-radius));--_slider-bar-height: var(--slider-bar-height, 5px);--local-slider-dot-percent: 0%}:host{align-items:center;display:flex;flex-direction:column;height:var(--_slider-dot-size);justify-content:center;min-width:100px;width:100%}:host label{display:none;flex-shrink:0;font-size:var(--_slider-font-size-label);margin-bottom:5px;margin-left:3px;width:100%}:host .bar{align-items:center;background-color:var(--_slider-background-color);background-image:var(--_slider-background-image);background-position:var(--_slider-background-position);background-size:var(--_slider-background-size);border-radius:var(--_slider-border-radius);cursor:pointer;display:flex;flex-direction:row;flex-shrink:0;height:var(--_slider-bar-height);position:relative;width:100%}:host .bar .bar-fill{background-color:var(--_slider-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:var(--local-slider-dot-percent)}:host .bar .dot{background-color:var(--_slider-dot-color);border-radius:var(--border-radius-round);box-shadow:var(--elevation-2);cursor:pointer;height:var(--_slider-dot-size);left:var(--local-slider-dot-percent);pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_slider-dot-size);z-index:10}:host .bar .value{background-color:var(--_slider-dot-color);border-radius:var(--_slider-border-radius);box-shadow:var(--elevation-2);font-size:var(--_slider-popup-font-size);left:var(--local-slider-dot-percent);opacity:0;padding:5px 10px;padding-bottom:2px;position:absolute;top:0;transform:translateY(calc(-100% - 12px)) translateX(-50%);transform-origin:center center;transition:left var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s;visibility:hidden}:host .bar .value::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:8px solid var(--_slider-dot-color);bottom:-7px;content:"";left:50%;position:absolute;transform:translateX(-50%)}:host([no_transition]) .bar .bar-fill{transition:none}:host([no_transition]) .bar .dot{transition:none}:host([no_transition]) .bar .value{transition:opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s}:host([popup_visible]) .bar .value{opacity:1;visibility:visible}:host([label]:not([label=""])) label{display:flex}`;
+    static __style = `:host{--_slider-background-color: var(--slider-background-color, var(--form-element-background, white));--_slider-background-image: var(--slider-background-image, none);--_slider-background-position: var(--slider-background-position, 0 0);--_slider-background-size: var(--slider-background-size, auto);--_slider-active-background-color: var(--slider-active-background-color, var(--secondary-color-active));--_slider-dot-color: var(--slider-dot-color, var(--secondary-color));--_slider-dot-size: var(--slider-dot-size, var(--form-element-font-size, 16px));--_slider-popup-font-size: var(--slider-popup-font-size, var(--font-size-sm));--_slider-font-size-label: var(--slider-font-size-label, var(--form-element-font-size-label));--_slider-border-radius: var(--slider-border-radius, var(--form-element-border-radius));--_slider-bar-height: var(--slider-bar-height, 5px);--local-slider-dot-percent: 0%}:host{align-items:center;display:flex;flex-direction:column;height:var(--_slider-dot-size);justify-content:center;min-width:100px;width:100%}:host label{cursor:pointer;display:none;flex-shrink:0;font-size:var(--_slider-font-size-label);margin-bottom:5px;margin-left:3px;width:100%}:host .bar{align-items:center;background-color:var(--_slider-background-color);background-image:var(--_slider-background-image);background-position:var(--_slider-background-position);background-size:var(--_slider-background-size);border-radius:var(--_slider-border-radius);cursor:pointer;display:flex;flex-direction:row;flex-shrink:0;height:var(--_slider-bar-height);position:relative;width:100%}:host .bar .bar-fill{background-color:var(--_slider-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:var(--local-slider-dot-percent)}:host .bar .dot{background-color:var(--_slider-dot-color);border-radius:var(--border-radius-round);box-shadow:var(--elevation-2);cursor:pointer;height:var(--_slider-dot-size);left:var(--local-slider-dot-percent);pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_slider-dot-size);z-index:10}:host .bar .value{background-color:var(--_slider-dot-color);border-radius:var(--_slider-border-radius);box-shadow:var(--elevation-2);font-size:var(--_slider-popup-font-size);left:var(--local-slider-dot-percent);opacity:0;padding:5px 10px;padding-bottom:2px;position:absolute;top:0;transform:translateY(calc(-100% - 12px)) translateX(-50%);transform-origin:center center;transition:left var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s;visibility:hidden}:host .bar .value::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:8px solid var(--_slider-dot-color);bottom:-7px;content:"";left:50%;position:absolute;transform:translateX(-50%)}:host([no_transition]) .bar .bar-fill{transition:none}:host([no_transition]) .bar .dot{transition:none}:host([no_transition]) .bar .value{transition:opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s}:host([popup_visible]) .bar .value{opacity:1;visibility:visible}:host([label]:not([label=""])) label{display:flex}`;
     __getStatic() {
         return Slider;
     }
@@ -12623,6 +13076,1121 @@ Components.Checkbox.Tag=`rk-checkbox`;
 _.Components.Checkbox=Components.Checkbox;
 if(!window.customElements.get('rk-checkbox')){window.customElements.define('rk-checkbox', Components.Checkbox);Aventus.WebComponentInstance.registerDefinition(Components.Checkbox);}
 
+Lib.Color=class Color {
+    static isValid(txt) {
+        return this.getColorType(txt) != -1;
+    }
+    static types = {
+        rgb: "rgb",
+        hex: "hex",
+        rgba: "rgba",
+        hsl: "hsl",
+        hsla: "hsla",
+        hsv: "hsv",
+        hsva: "hsva",
+        static: "static"
+    };
+    static getColorType(colorString) {
+        let treatedColor = colorString.replaceAll(" ", "");
+        if (/^#?([a-f\d])([a-f\d])([a-f\d])([a-f\d])?$/i.test(treatedColor) ||
+            /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?$/i.test(treatedColor)) {
+            return Lib.Color.types.hex;
+        }
+        else if (/^rgba?\((\d{1,3},*){3,4}\)$/.test(treatedColor)) {
+            return treatedColor.startsWith("rgba") ? Lib.Color.types.rgba : Lib.Color.types.rgb;
+        }
+        else if (/^hsla?\(\s*(\d{1,3})\s*(,| )\s*(\d{1,3})%?\s*(,| )\s*(\d{1,3})%?\s*(,\s*(0|1|0?\.\d+)\s*)?\)$/.test(treatedColor)) {
+            return treatedColor.startsWith("hsla") ? Lib.Color.types.hsla : Lib.Color.types.hsl;
+        }
+        else if (/^hsva?\(\s*\d{1,3}\s*,\s*\d{1,3}%?\s*,\s*\d{1,3}%?\s*(,\s*(0|1|0?\.\d+))?\s*\)$/.test(treatedColor)) {
+            return treatedColor.startsWith("hsva") ? Lib.Color.types.hsva : Lib.Color.types.hsv;
+        }
+        else if (Object.hasOwn(Lib.Colors, colorString.toUpperCase())) {
+            return Lib.Color.types.static;
+        }
+        else {
+            return -1;
+        }
+    }
+    static createFromRgb(r, g, b) {
+        return new Lib.Color(`rgb(${r},${g},${b})`);
+    }
+    static createFromHsl(h, s, l) {
+        return new Lib.Color(`hsl(${h},${s}%,${l}%)`);
+    }
+    static createFromRgba(r, g, b, a) {
+        return new Lib.Color(`rgba(${r},${g},${b},${a})`);
+    }
+    static createFromHsla(h, s, l, a) {
+        return new Lib.Color(`hsla(${h},${s}%,${l}%,${a})`);
+    }
+    static createFromHsvla(h, s, v, a) {
+        return new Lib.Color(`hsva(${h},${s}%,${v}%,${a})`);
+    }
+    _watcher;
+    get currentColor() {
+        return this._watcher.currentColor;
+    }
+    set currentColor(value) {
+        this._watcher.currentColor = value;
+    }
+    get r() {
+        return this.currentColor.r;
+    }
+    set r(newValue) {
+        if (newValue >= 0 && newValue <= 255) {
+            this.currentColor.r = newValue;
+        }
+        else {
+            throw new Error("Invalid value");
+        }
+    }
+    get g() {
+        return this.currentColor.g;
+    }
+    set g(newValue) {
+        if (newValue >= 0 && newValue <= 255) {
+            this.currentColor.g = newValue;
+        }
+        else {
+            throw new Error("Invalid value");
+        }
+    }
+    get b() {
+        return this.currentColor.b;
+    }
+    set b(newValue) {
+        if (newValue >= 0 && newValue <= 255) {
+            this.currentColor.b = newValue;
+        }
+        else {
+            throw new Error("Invalid value");
+        }
+    }
+    get a() {
+        return this.currentColor.a;
+    }
+    set a(newValue) {
+        if (newValue >= 0 && newValue <= 1) {
+            this.currentColor.a = newValue;
+        }
+        else {
+            throw new Error("Invalid value for A (Alpha). It should be between 0 and 1.");
+        }
+    }
+    get h() {
+        return this.hsl.h;
+    }
+    set h(newValue) {
+        if (newValue >= 0 && newValue <= 360) {
+            let currentHSL = this.hsl;
+            currentHSL.h = newValue;
+            this.currentColor = { ...this.hslToRgb(currentHSL.h, currentHSL.s, currentHSL.l), a: this.currentColor.a };
+        }
+        else {
+            throw new Error("Invalid value for H (Hue). It should be between 0 and 360.");
+        }
+    }
+    /**
+     * The hex format of the color
+     */
+    get hex() {
+        return this.rgbToHex(this.currentColor.r, this.currentColor.g, this.currentColor.b, this.currentColor.a);
+    }
+    set hex(hexString) {
+        this.currentColor = this.hexStringToRgba(hexString);
+    }
+    /**
+     * The rgb format of the color
+     */
+    get rgb() {
+        const { r, g, b } = this.currentColor;
+        return { r, g, b };
+    }
+    get rgbString() {
+        const { r, g, b } = this.rgb;
+        return `rgb(${r}, ${g}, ${b})`;
+    }
+    set rgb(value) {
+        if (typeof value == 'string') {
+            this.currentColor = { ...this.stringToRgba(value), a: this.currentColor.a };
+        }
+        else if (typeof value === 'object' &&
+            !Array.isArray(value) &&
+            value !== null) {
+            value.r = Math.min(Math.max(value.r, 0), 255);
+            value.g = Math.min(Math.max(value.g, 0), 255);
+            value.b = Math.min(Math.max(value.b, 0), 255);
+            this.currentColor = { ...value, a: this.currentColor.a };
+        }
+    }
+    /**
+     * The rgba format of the color
+     */
+    get rgba() {
+        return this.currentColor;
+    }
+    set rgba(value) {
+        if (typeof value == 'string') {
+            this.currentColor = this.stringToRgba(value);
+        }
+        else if (typeof value === 'object' &&
+            !Array.isArray(value) &&
+            value !== null) {
+            value.r = Math.min(Math.max(value.r, 0), 255);
+            value.g = Math.min(Math.max(value.g, 0), 255);
+            value.b = Math.min(Math.max(value.b, 0), 255);
+            value.a = Math.min(Math.max(value.a, 0), 1);
+            this.currentColor = value;
+        }
+    }
+    get rgbaString() {
+        const { r, g, b, a } = this.rgba;
+        return `rgba(${r}, ${g}, ${b}, ${a})`;
+    }
+    /**
+     * The hsl format of the color
+     */
+    get hsl() {
+        const { h, s, l } = this.rgbToHsl(this.currentColor.r, this.currentColor.g, this.currentColor.b);
+        return { h, s, l };
+    }
+    get hslString() {
+        const { h, s, l } = this.hsl;
+        return `hsl(${h}, ${s}, ${l})`;
+    }
+    set hsl(value) {
+        if (typeof value == 'string') {
+            this.currentColor = { ...this.hslaStringToRgba(value), a: this.currentColor.a };
+        }
+        else if (typeof value === 'object' &&
+            !Array.isArray(value) &&
+            value !== null) {
+            this.currentColor = { ...this.hslToRgb(value.h, value.s, value.l), a: this.currentColor.a };
+        }
+    }
+    /**
+    * The hsla format of the color
+    */
+    get hsla() {
+        return this.rgbToHsla(this.currentColor.r, this.currentColor.g, this.currentColor.b, this.currentColor.a);
+    }
+    get hslaString() {
+        const { h, s, l, a } = this.hsla;
+        return `hsla(${h}, ${s}, ${l}, ${a})`;
+    }
+    set hsla(value) {
+        if (typeof value == 'string') {
+            this.currentColor = this.hslaStringToRgba(value);
+        }
+        else if (typeof value === 'object' &&
+            !Array.isArray(value) &&
+            value !== null) {
+            this.currentColor = this.hslaToRgba(value.h, value.s, value.l, value.a);
+        }
+    }
+    /**
+     * The hsv format of the color
+     */
+    get hsv() {
+        const { h, s, v } = this.rgbToHsv(this.currentColor.r, this.currentColor.g, this.currentColor.b);
+        return { h, s, v };
+    }
+    get hsvString() {
+        const { h, s, v } = this.hsv;
+        return `hsv(${h}, ${s}%, ${v}%)`;
+    }
+    set hsv(value) {
+        if (typeof value === 'string') {
+            this.currentColor = { ...this.hsvaStringToRgba(value), a: this.currentColor.a };
+        }
+        else if (typeof value === 'object' &&
+            !Array.isArray(value) &&
+            value !== null) {
+            this.currentColor = { ...this.hsvaToRgba(value.h, value.s, value.v, this.currentColor.a) };
+        }
+    }
+    /**
+     * The hsva format of the color
+     */
+    get hsva() {
+        return this.rgbToHsva(this.currentColor.r, this.currentColor.g, this.currentColor.b, this.currentColor.a);
+    }
+    get hsvaString() {
+        const { h, s, v, a } = this.hsva;
+        return `hsva(${h}, ${s}%, ${v}%, ${a})`;
+    }
+    set hsva(value) {
+        if (typeof value === 'string') {
+            this.currentColor = this.hsvaStringToRgba(value);
+        }
+        else if (typeof value === 'object' &&
+            !Array.isArray(value) &&
+            value !== null) {
+            this.currentColor = this.hsvaToRgba(value.h, value.s, value.v, value.a);
+        }
+    }
+    /**
+     * Create a new color
+     * @param {string} colorString - The color in hex or rgb format
+     */
+    constructor(colorString) {
+        let currentColor;
+        if (colorString === "" || !colorString) {
+            colorString = "#ffffff";
+        }
+        let colorType = Lib.Color.getColorType(colorString);
+        if (colorType !== -1) {
+            if (colorType === Lib.Color.types.static) {
+                let staticColor = Lib.Colors[colorString.toUpperCase()];
+                if (staticColor instanceof Lib.Color) {
+                    currentColor = staticColor.currentColor;
+                }
+                else {
+                    throw new Error("Unknown color type");
+                }
+            }
+            else if (colorType === Lib.Color.types.rgb || colorType === Lib.Color.types.rgba) {
+                currentColor = this.stringToRgba(colorString);
+            }
+            else if (colorType === Lib.Color.types.hex) {
+                currentColor = this.hexStringToRgba(colorString);
+            }
+            else if (colorType === Lib.Color.types.hsl || colorType === Lib.Color.types.hsla) {
+                currentColor = this.hslaStringToRgba(colorString);
+            }
+            else {
+                throw new Error("Unknown color type");
+            }
+        }
+        else {
+            throw new Error(`${colorString} is not a supported color`);
+        }
+        this._watcher = Aventus.Watcher.get({ currentColor }, () => {
+            this.onColorChange.trigger([]);
+        });
+    }
+    setColorTxt(colorString) {
+        if (colorString === "" || !colorString) {
+            colorString = "#ffffff";
+        }
+        let colorType = Lib.Color.getColorType(colorString);
+        if (colorType !== -1) {
+            if (colorType === Lib.Color.types.static) {
+                let staticColor = Lib.Colors[colorString.toUpperCase()];
+                if (staticColor instanceof Lib.Color) {
+                    this.currentColor = staticColor.currentColor;
+                }
+                else {
+                    throw new Error("Unknown color type");
+                }
+            }
+            else if (colorType === Lib.Color.types.rgb || colorType === Lib.Color.types.rgba) {
+                this.currentColor = this.stringToRgba(colorString);
+            }
+            else if (colorType === Lib.Color.types.hex) {
+                this.currentColor = this.hexStringToRgba(colorString);
+            }
+            else if (colorType === Lib.Color.types.hsl || colorType === Lib.Color.types.hsla) {
+                this.currentColor = this.hslaStringToRgba(colorString);
+            }
+            else {
+                throw new Error("Unknown color type");
+            }
+        }
+        else {
+            throw new Error(`${colorString} is not a supported color`);
+        }
+    }
+    onColorChange = new Aventus.Callback();
+    hexStringToRgba(hexColorString) {
+        // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+        let shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])([a-f\d])?$/i;
+        hexColorString = hexColorString.replace(shorthandRegex, function (m, r, g, b, a) {
+            return r + r + g + g + b + b + (a ? a + a : "");
+            ;
+        });
+        let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?$/i.exec(hexColorString);
+        if (!result) {
+            console.error(`Invalid hex string : ${hexColorString}`);
+            return {
+                r: 0,
+                g: 0,
+                b: 0,
+                a: 1
+            };
+        }
+        else {
+            return {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16),
+                a: result[4] ? parseInt(result[4], 16) / 255 : 1
+            };
+        }
+    }
+    stringToRgba(rgbColorString) {
+        let splitted = rgbColorString.replaceAll(/[\(\)rgb ]/g, "").split(",");
+        let result = [];
+        for (let i = 0; i < 4; i++) {
+            if (i < 3) {
+                result.push(Math.min(Math.max(parseInt(splitted[i]), 0), 255));
+            }
+            else {
+                result.push(Math.min(Math.max(parseFloat(splitted[i]), 0), 1));
+            }
+        }
+        return {
+            r: result[0],
+            g: result[1],
+            b: result[2],
+            a: result[3] || 1
+        };
+    }
+    rgbToHex(r, g, b, a = 1) {
+        let hex = "#" + ((1 << 24) + (Math.round(r) << 16) + (Math.round(g) << 8) + Math.round(b)).toString(16).slice(1);
+        if (a < 1) {
+            let alphaHex = Math.round(a * 255).toString(16).padStart(2, '0');
+            hex += alphaHex;
+        }
+        return hex;
+    }
+    hslStringToRgb(hslColorString) {
+        let [h, s, l] = hslColorString.replaceAll(/[\(\)hsl% ]/g, "").split(",").map(Number);
+        return this.hslToRgb(h, s, l);
+    }
+    rgbToHsl(r, g, b) {
+        r /= 255;
+        g /= 255;
+        b /= 255;
+        let max = Math.max(r, g, b);
+        let min = Math.min(r, g, b);
+        let h, s, l = (max + min) / 2;
+        if (max == min) {
+            h = s = 0;
+        }
+        else {
+            let d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+                case r:
+                    h = (g - b) / d + (g < b ? 6 : 0);
+                    break;
+                case g:
+                    h = (b - r) / d + 2;
+                    break;
+                case b:
+                    h = (r - g) / d + 4;
+                    break;
+                default: h = 0;
+            }
+            h /= 6;
+        }
+        return {
+            h: this.round(h * 360),
+            s: this.round(s * 100),
+            l: this.round(l * 100)
+        };
+    }
+    rgbToHsla(r, g, b, a) {
+        let hsl = this.rgbToHsl(r, g, b);
+        return { ...hsl, a: a };
+    }
+    hslToRgb(h, s, l) {
+        s /= 100;
+        l /= 100;
+        let c = (1 - Math.abs(2 * l - 1)) * s;
+        let x = c * (1 - Math.abs((h / 60) % 2 - 1));
+        let m = l - c / 2;
+        let r = 0, g = 0, b = 0;
+        if (0 <= h && h < 60) {
+            r = c;
+            g = x;
+            b = 0;
+        }
+        else if (60 <= h && h < 120) {
+            r = x;
+            g = c;
+            b = 0;
+        }
+        else if (120 <= h && h < 180) {
+            r = 0;
+            g = c;
+            b = x;
+        }
+        else if (180 <= h && h < 240) {
+            r = 0;
+            g = x;
+            b = c;
+        }
+        else if (240 <= h && h < 300) {
+            r = x;
+            g = 0;
+            b = c;
+        }
+        else if (300 <= h && h <= 360) {
+            r = c;
+            g = 0;
+            b = x;
+        }
+        return {
+            r: this.round((r + m) * 255),
+            g: this.round((g + m) * 255),
+            b: this.round((b + m) * 255)
+        };
+    }
+    hslaToRgba(h, s, l, a) {
+        let rgb = this.hslToRgb(h, s, l);
+        return { ...rgb, a: a };
+    }
+    hslaStringToRgba(hslaColorString) {
+        let [h, s, l, a] = hslaColorString.replaceAll(/[\(\)hsla% ]/g, "").split(",").map(Number);
+        return this.hslaToRgba(h, s, l, a);
+    }
+    rgbToHsv(r, g, b) {
+        r /= 255;
+        g /= 255;
+        b /= 255;
+        let max = Math.max(r, g, b);
+        let min = Math.min(r, g, b);
+        let h, s, v = max;
+        let delta = max - min;
+        s = max === 0 ? 0 : delta / max;
+        if (delta === 0) {
+            h = 0;
+        }
+        else {
+            switch (max) {
+                case r:
+                    h = (g - b) / delta + (g < b ? 6 : 0);
+                    break;
+                case g:
+                    h = (b - r) / delta + 2;
+                    break;
+                case b:
+                    h = (r - g) / delta + 4;
+                    break;
+                default:
+                    h = 0;
+            }
+            h /= 6;
+        }
+        return {
+            h: this.round(h * 360),
+            s: this.round(s * 100),
+            v: this.round(v * 100)
+        };
+    }
+    hsvToRgb(h, s, v) {
+        s /= 100;
+        v /= 100;
+        let c = v * s;
+        let x = c * (1 - Math.abs((h / 60) % 2 - 1));
+        let m = v - c;
+        let r = 0, g = 0, b = 0;
+        if (0 <= h && h < 60) {
+            r = c;
+            g = x;
+            b = 0;
+        }
+        else if (60 <= h && h < 120) {
+            r = x;
+            g = c;
+            b = 0;
+        }
+        else if (120 <= h && h < 180) {
+            r = 0;
+            g = c;
+            b = x;
+        }
+        else if (180 <= h && h < 240) {
+            r = 0;
+            g = x;
+            b = c;
+        }
+        else if (240 <= h && h < 300) {
+            r = x;
+            g = 0;
+            b = c;
+        }
+        else if (300 <= h && h <= 360) {
+            r = c;
+            g = 0;
+            b = x;
+        }
+        return {
+            r: this.round((r + m) * 255),
+            g: this.round((g + m) * 255),
+            b: this.round((b + m) * 255)
+        };
+    }
+    rgbToHsva(r, g, b, a) {
+        let hsv = this.rgbToHsv(r, g, b);
+        return { ...hsv, a };
+    }
+    hsvaToRgba(h, s, v, a) {
+        let rgb = this.hsvToRgb(h, s, v);
+        return { ...rgb, a };
+    }
+    hsvaStringToRgba(hsvaColorString) {
+        let [h, s, v, a] = hsvaColorString.replaceAll(/[\(\)hsva% ]/g, "").split(",").map(Number);
+        return this.hsvaToRgba(h, s, v, a);
+    }
+    round(nb) {
+        return Math.round(nb * 100) / 100;
+    }
+    /**
+     * Print the color in hex format
+     * @returns {string} - A pretty print of the color in hex format
+     */
+    toString() {
+        return this.rgbToHex(this.currentColor.r, this.currentColor.g, this.currentColor.b, this.currentColor.a);
+    }
+}
+Lib.Color.Namespace=`Core.Lib`;
+_.Lib.Color=Lib.Color;
+
+Components.ColorPickerSelector = class ColorPickerSelector extends Aventus.WebComponent {
+    static get observedAttributes() {return ["color"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'direction'() { return this.getStringAttr('direction') }
+    set 'direction'(val) { this.setStringAttr('direction', val) }get 'opacity'() { return this.getBoolAttr('opacity') }
+    set 'opacity'(val) { this.setBoolAttr('opacity', val) }get 'show_text_value'() { return this.getBoolAttr('show_text_value') }
+    set 'show_text_value'(val) { this.setBoolAttr('show_text_value', val) }    get 'color'() { return this.getStringProp('color') }
+    set 'color'(val) { this.setStringAttr('color', val) }    get 'colorTxt'() {
+						return this.__watch["colorTxt"];
+					}
+					set 'colorTxt'(val) {
+						this.__watch["colorTxt"] = val;
+					}get 'hue'() {
+						return this.__watch["hue"];
+					}
+					set 'hue'(val) {
+						this.__watch["hue"] = val;
+					}get 'alpha'() {
+						return this.__watch["alpha"];
+					}
+					set 'alpha'(val) {
+						this.__watch["alpha"] = val;
+					}get 'presets'() {
+						return this.__watch["presets"];
+					}
+					set 'presets'(val) {
+						this.__watch["presets"] = val;
+					}    _color;
+    canEmit = false;
+    internalSet = false;
+    resizeObserver;
+    onChange = new Aventus.Callback();
+    __registerWatchesActions() {
+    this.__addWatchesActions("colorTxt", ((target, action, path, value) => {
+    target.onColorTxtChange();
+}));this.__addWatchesActions("hue", ((target, action, path, value) => {
+    target.changeHue();
+}));this.__addWatchesActions("alpha", ((target, action, path, value) => {
+    target.changeAlpha();
+}));this.__addWatchesActions("presets", ((target, action, path, value) => {
+    target.renderPresets();
+}));    super.__registerWatchesActions();
+}
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("color", ((target) => {
+    if (!target.internalSet) {
+        target.canEmit = false;
+        target._color.setColorTxt(target.color);
+        target.hue = target._color.hsv.h;
+        target.alpha = target._color.a * 100;
+        target.updatePositionFromColor(target._color);
+        target.canEmit = true;
+    }
+})); }
+    static __style = `:host{--_color-picker-selector-area-width: var(--color-picker-selector-area-width, 200px);--_color-picker-selector-panel-width: var(--color-picker-selector-panel-width, 200px);--_color-picker-selector-background-color: var(--color-picker-selector-background-color, white);--_color-picker-selector-border-radius: var(--color-picker-selector-border-radius, var(--border-radius-sm))}:host{background-color:var(--_color-picker-selector-background-color);border-radius:var(--_color-picker-selector-border-radius);box-shadow:var(--elevation-2);width:max(var(--_color-picker-selector-area-width),var(--_color-picker-selector-panel-width));z-index:800}:host .style-wrapper{display:flex;flex-direction:column;width:100%}:host .style-wrapper .color-area{aspect-ratio:1/.5;background-image:linear-gradient(rgba(0, 0, 0, 0), #000),linear-gradient(90deg, #fff, var(--_color-picker-selector-area-color));border-top-left-radius:var(--_color-picker-selector-border-radius);border-top-right-radius:var(--_color-picker-selector-border-radius);cursor:pointer;margin:0 auto;position:relative;width:var(--_color-picker-selector-area-width)}:host .style-wrapper .color-area .area-dot{background-color:var(--_color-picker-selector-color-opacity);border:2px solid #fff;border-radius:var(--border-radius-round);height:10px;left:0;position:absolute;top:0;transform:translate(-50%, -50%);width:10px}:host .style-wrapper .color-panel{margin:0 auto;padding:15px;width:var(--_color-picker-selector-panel-width)}:host .style-wrapper .color-panel .color-hue{margin-bottom:5px;width:100%}:host .style-wrapper .color-panel .color-hue rk-slider{--slider-background-image: linear-gradient(to right, red 0, #ff0 16.66%, #0f0 33.33%, #0ff 50%, #00f 66.66%, #f0f 83.33%, red 100%);--slider-active-background-color: transparent;--slider-background-color: transparent;--slider-dot-color: var(--_color-picker-selector-area-color);--slider-bar-height: 8px;min-width:auto;width:100%}:host .style-wrapper .color-panel .color-alpha{display:none;margin-top:5px;position:relative}:host .style-wrapper .color-panel .color-alpha rk-slider{--slider-background-color: transparent;--slider-active-background-color: transparent;--slider-bar-height: 8px;min-width:auto;position:relative;width:100%;z-index:2}:host .style-wrapper .color-panel .color-alpha .bar{background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--_color-picker-selector-border-radius);inset:0;position:absolute;width:100%;z-index:1}:host .style-wrapper .color-panel .color-alpha .bar-color{background-image:linear-gradient(90deg, rgba(0, 0, 0, 0), var(--_color-picker-selector-color-opacity));border-radius:var(--_color-picker-selector-border-radius);inset:0;position:absolute;width:100%;z-index:2}:host .style-wrapper .color-panel .color-alpha .dot{background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--border-radius-round);inset:0;position:absolute;z-index:1}:host .style-wrapper .color-panel .color-alpha .dot-color{background-color:var(--_color-picker-selector-color);border-radius:var(--border-radius-round);inset:0;position:absolute;z-index:2}:host .style-wrapper .color-panel .color-result{align-items:center;display:flex;flex-direction:row;gap:10px;justify-content:center;margin-top:20px}:host .style-wrapper .color-panel .color-result .color-preview{background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--border-radius-round);flex-shrink:0;height:25px;overflow:hidden;position:relative;width:25px}:host .style-wrapper .color-panel .color-result .color-preview::after{background-color:var(--_color-picker-selector-color);content:"";inset:0;position:absolute}:host .style-wrapper .color-panel .color-result .color-text{display:none;width:calc(100% - 35px)}:host .style-wrapper .color-panel .color-result .color-text rk-input{--input-height: 25px;min-width:auto;width:100%}:host .style-wrapper .color-panel .color-preset:not(:empty){align-items:center;display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:20px;width:100%}:host .style-wrapper .color-panel .color-preset:not(:empty) .preset{border-radius:var(--border-radius-round);flex-shrink:0;height:20px;width:20px}:host([direction=horizontal]){width:fit-content}:host([direction=horizontal]) .style-wrapper{display:flex;flex-direction:row}:host([direction=horizontal]) .style-wrapper .color-area{aspect-ratio:auto;border-bottom-left-radius:var(--_color-picker-selector-border-radius);border-top-right-radius:0}:host([opacity]) .style-wrapper .color-panel .color-alpha{display:block}:host([show_text_value]) .style-wrapper .color-panel .color-result .color-text{display:block}`;
+    constructor() {
+            super();
+            this._color = new Lib.Color("#FFFFFF");
+            this._color.onColorChange.add(() => {
+                this.applyColorChange();
+            });
+        }
+    __getStatic() {
+        return ColorPickerSelector;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(ColorPickerSelector.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="style-wrapper" _id="colorpickerselector_0">    <div class="color-area" _id="colorpickerselector_1">        <div class="area-dot" _id="colorpickerselector_2"></div>    </div>    <div class="color-panel">        <div class="color-hue">            <rk-slider min="0" max="360" _id="colorpickerselector_3"></rk-slider>        </div>        <div class="color-alpha">            <rk-slider min="0" max="100" _id="colorpickerselector_4">                <span class="bar" slot="bar"></span>                <span class="bar-color" slot="bar"></span>                <span class="dot" slot="dot"></span>                <span class="dot-color" slot="dot"></span>            </rk-slider>        </div>        <div class="color-result">            <div class="color-preview"></div>            <div class="color-text">                <rk-input _id="colorpickerselector_5"></rk-input>            </div>        </div>        <div class="color-preset" _id="colorpickerselector_6"></div>    </div></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "styleWrapper",
+      "ids": [
+        "colorpickerselector_0"
+      ]
+    },
+    {
+      "name": "areaEl",
+      "ids": [
+        "colorpickerselector_1"
+      ]
+    },
+    {
+      "name": "areaDotEl",
+      "ids": [
+        "colorpickerselector_2"
+      ]
+    },
+    {
+      "name": "presetEl",
+      "ids": [
+        "colorpickerselector_6"
+      ]
+    }
+  ],
+  "bindings": [
+    {
+      "id": "colorpickerselector_3",
+      "injectionName": "value",
+      "eventNames": [
+        "onChange"
+      ],
+      "inject": (c) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method0(),
+      "extract": (c, v) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method1(v),
+      "once": true,
+      "isCallback": true
+    },
+    {
+      "id": "colorpickerselector_4",
+      "injectionName": "value",
+      "eventNames": [
+        "onChange"
+      ],
+      "inject": (c) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method2(),
+      "extract": (c, v) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method3(v),
+      "once": true,
+      "isCallback": true
+    },
+    {
+      "id": "colorpickerselector_5",
+      "injectionName": "value",
+      "eventNames": [
+        "onChange"
+      ],
+      "inject": (c) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method4(),
+      "extract": (c, v) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method5(v),
+      "once": true,
+      "isCallback": true
+    }
+  ]
+}); }
+    getClassName() {
+        return "ColorPickerSelector";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('direction')){ this['direction'] = 'horizontal'; }if(!this.hasAttribute('opacity')) {this.setAttribute('opacity' ,'true'); }if(!this.hasAttribute('show_text_value')) {this.setAttribute('show_text_value' ,'true'); }if(!this.hasAttribute('color')){ this['color'] = "#ffffff00"; } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["colorTxt"] = "";w["hue"] = 0;w["alpha"] = 100;w["presets"] = []; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('direction');this.__upgradeProperty('opacity');this.__upgradeProperty('show_text_value');this.__upgradeProperty('color');this.__correctGetter('colorTxt');this.__correctGetter('hue');this.__correctGetter('alpha');this.__correctGetter('presets'); }
+    __listBoolProps() { return ["opacity","show_text_value"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    onColorTxtChange() {
+        if (Lib.Color.isValid(this.colorTxt) && !this.internalSet) {
+            this._color.setColorTxt(this.colorTxt);
+            this.hue = this._color.hsv.h;
+            this.alpha = this._color.a * 100;
+            this.updatePositionFromColor(this._color);
+        }
+    }
+    emitChange() {
+        if (this.canEmit) {
+            this.onChange.trigger([this.color]);
+        }
+    }
+    changeHue() {
+        this._color.h = this.hue;
+        this.styleWrapper.style.setProperty("--_color-picker-selector-area-color", `hsl(${this.hue}, 100%, 50%)`);
+    }
+    changeAlpha() {
+        this._color.a = this.alpha / 100;
+    }
+    applyColorChange() {
+        this.styleWrapper.style.setProperty("--_color-picker-selector-color", this._color.hex);
+        this.styleWrapper.style.setProperty("--_color-picker-selector-area-color", `hsl(${this.hue}, 100%, 50%)`);
+        this.styleWrapper.style.setProperty("--_color-picker-selector-color-opacity", this._color.rgbString);
+        this.internalSet = true;
+        let hex = this._color.hex;
+        if (this.colorTxt != hex) {
+            this.colorTxt = this._color.hex;
+        }
+        if (this.color != hex) {
+            this.color = this._color.hex;
+            this.emitChange();
+        }
+        this.internalSet = false;
+    }
+    addPressManager() {
+        let clientRect;
+        const calc = (e) => {
+            let positionX = e.clientX - clientRect.x;
+            let positionY = e.clientY - clientRect.y;
+            if (positionX < 0)
+                positionX = 0;
+            else if (positionX > clientRect.width)
+                positionX = clientRect.width;
+            if (positionY < 0)
+                positionY = 0;
+            else if (positionY > clientRect.height)
+                positionY = clientRect.height;
+            this.areaDotEl.style.left = positionX + 'px';
+            this.areaDotEl.style.top = positionY + 'px';
+            this.updateColorFromPosition(positionX, positionY);
+        };
+        new Aventus.DragAndDrop({
+            element: this.areaEl,
+            applyDrag: false,
+            offsetDrag: 0,
+            onPointerDown: (e) => {
+                clientRect = this.areaEl.getBoundingClientRect();
+                calc(e);
+            },
+            onMove: (e, position) => {
+                calc(e);
+            }
+        });
+    }
+    updateColorFromPosition(x, y) {
+        const { width, height } = this.areaEl.getBoundingClientRect();
+        const hsv = {
+            h: this.hue,
+            s: x / width * 100,
+            v: 100 - (y / height * 100),
+        };
+        this._color.hsv = hsv;
+    }
+    updatePositionFromColor(color) {
+        const { width, height } = this.areaEl.getBoundingClientRect();
+        const { h, s, v } = color.hsv;
+        const x = width * s / 100;
+        const y = (100 - v) * height / 100;
+        this.areaDotEl.style.left = x + 'px';
+        this.areaDotEl.style.top = y + 'px';
+    }
+    renderPresets() {
+        this.presetEl.innerHTML = '';
+        const createPreset = (color) => {
+            const el = document.createElement("div");
+            el.classList.add("preset");
+            el.style.backgroundColor = color;
+            el.addEventListener("click", () => {
+                this._color.setColorTxt(color);
+                this.hue = this._color.hsv.h;
+                this.alpha = this._color.a * 100;
+                this.updatePositionFromColor(this._color);
+            });
+            this.presetEl.appendChild(el);
+        };
+        for (const preset of this.presets) {
+            createPreset(preset);
+        }
+    }
+    addObserver() {
+        this.resizeObserver = new Aventus.ResizeObserver(() => {
+            this.updatePositionFromColor(this._color);
+        });
+        this.resizeObserver.observe(this.areaEl);
+    }
+    postCreation() {
+        this.hue = this._color.hsv.h;
+        this.alpha = this._color.a * 100;
+        this.applyColorChange();
+        this.addPressManager();
+        this.renderPresets();
+        this.updatePositionFromColor(this._color);
+        this.addObserver();
+    }
+    postDestruction() {
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect();
+            this.resizeObserver = undefined;
+        }
+    }
+    __8e40e5b3dc0703a294a7003ba5b4bc48method0() {
+        return this.hue;
+    }
+    __8e40e5b3dc0703a294a7003ba5b4bc48method1(v) {
+        if (this) {
+            this.hue = v;
+        }
+    }
+    __8e40e5b3dc0703a294a7003ba5b4bc48method2() {
+        return this.alpha;
+    }
+    __8e40e5b3dc0703a294a7003ba5b4bc48method3(v) {
+        if (this) {
+            this.alpha = v;
+        }
+    }
+    __8e40e5b3dc0703a294a7003ba5b4bc48method4() {
+        return this.colorTxt;
+    }
+    __8e40e5b3dc0703a294a7003ba5b4bc48method5(v) {
+        if (this) {
+            this.colorTxt = v;
+        }
+    }
+}
+Components.ColorPickerSelector.Namespace=`Core.Components`;
+Components.ColorPickerSelector.Tag=`rk-color-picker-selector`;
+_.Components.ColorPickerSelector=Components.ColorPickerSelector;
+if(!window.customElements.get('rk-color-picker-selector')){window.customElements.define('rk-color-picker-selector', Components.ColorPickerSelector);Aventus.WebComponentInstance.registerDefinition(Components.ColorPickerSelector);}
+
+Components.ColorPicker = class ColorPicker extends Components.FormElement {
+    static get observedAttributes() {return ["value", "label", "placeholder", "direction", "opacity", "show_text_value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'preview'() { return this.getStringAttr('preview') }
+    set 'preview'(val) { this.setStringAttr('preview', val) }    get 'value'() { return this.getStringProp('value') }
+    set 'value'(val) { this.setStringAttr('value', val) }get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
+    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'direction'() { return this.getStringProp('direction') }
+    set 'direction'(val) { this.setStringAttr('direction', val) }get 'opacity'() { return this.getBoolProp('opacity') }
+    set 'opacity'(val) { this.setBoolAttr('opacity', val) }get 'show_text_value'() { return this.getBoolProp('show_text_value') }
+    set 'show_text_value'(val) { this.setBoolAttr('show_text_value', val) }    get 'presets'() {
+						return this.__watch["presets"];
+					}
+					set 'presets'(val) {
+						this.__watch["presets"] = val;
+					}    errorsTxt = {};
+    defaultErrorsTxt = {
+        notColor: "La couleur n'est pas valide",
+    };
+    __registerWatchesActions() {
+    this.__addWatchesActions("presets");    super.__registerWatchesActions();
+}
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
+    if (document.activeElement != target.inputEl && document.activeElement != target) {
+        target.inputEl.value = target.value + '';
+    }
+    target.containerEl.style.setProperty('--_color-picker-selected-color', target.value ?? 'transparent');
+})); }
+    static __style = `:host{--_color-picker-height: var(--color-picker-height, 30px);--_color-picker-background-color: var(--color-picker-background-color, var(--form-element-background, white));--_color-picker-icon-height: var(--color-picker-icon-height, calc(var(--_color-picker-height) / 2));--_color-picker-error-logo-size: var(--color-picker-error-logo-size, calc(var(--_color-picker-height) / 2));--_color-picker-font-size: var(--color-picker-font-size, var(--form-element-font-size, 16px));--_color-picker-font-size-label: var(--color-picker-font-size-label, var(--form-element-font-size-label, calc(var(--_color-picker-font-size) * 0.95)));--_color-picker-color-picker-border: var(--color-picker-color-picker-border, var(--form-element-border, 1px solid var(--lighter-active)));--_color-picker-border-radius: var(--color-picker-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_color-picker-font-size-label);margin-bottom:5px;margin-left:3px;cursor:pointer}:host .input{align-items:center;background-color:var(--_color-picker-background-color);border:var(--_color-picker-color-picker-border);border-radius:var(--_color-picker-border-radius);display:flex;height:var(--_color-picker-height);overflow:hidden;padding:0 10px;width:100%}:host .input .preview{aspect-ratio:1/1;background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--_color-picker-border-radius);cursor:pointer;display:none;height:calc(100% - 10px);position:relative}:host .input .preview::after{background-color:var(--_color-picker-selected-color);border-radius:var(--_color-picker-border-radius);content:"";inset:0;position:absolute}:host .input .preview-before{margin-right:10px}:host .input .preview-after{margin-left:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_color-picker-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_color-picker-error-logo-size) - 5px);height:var(--_color-picker-error-logo-size);justify-content:center;width:var(--_color-picker-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host rk-color-picker-selector{display:none}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([label]:not([label=""])) label{display:flex}:host([preview=before]) .input .preview-before{display:block}:host([preview=after]) .input .preview-after{display:block}`;
+    __getStatic() {
+        return ColorPicker;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(ColorPicker.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'prepend':`<slot name="prepend"></slot>`,'append':`<slot name="append"></slot>` }, 
+        blocks: { 'default':`<label for="input" _id="colorpicker_0"></label><div class="input" _id="colorpicker_1">    <slot name="prepend"></slot>    <div class="preview preview-before"></div>    <input id="input" autocomplete="off" _id="colorpicker_2" />    <slot name="append"></slot>    <div class="preview preview-after"></div>    <div class="error-logo">!</div></div><div class="errors">    <template _id="colorpicker_3"></template></div><rk-color-picker-selector _id="colorpicker_6"></rk-color-picker-selector>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "containerEl",
+      "ids": [
+        "colorpicker_1"
+      ]
+    },
+    {
+      "name": "inputEl",
+      "ids": [
+        "colorpicker_2"
+      ]
+    },
+    {
+      "name": "pickerEl",
+      "ids": [
+        "colorpicker_6"
+      ]
+    }
+  ],
+  "content": {
+    "colorpicker_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod1())}`,
+      "once": true
+    },
+    "colorpicker_2°placeholder": {
+      "fct": (c) => `${c.print(c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod2())}`,
+      "once": true
+    }
+  },
+  "injection": [
+    {
+      "id": "colorpicker_6",
+      "injectionName": "direction",
+      "inject": (c) => c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod4(),
+      "once": true
+    },
+    {
+      "id": "colorpicker_6",
+      "injectionName": "opacity",
+      "inject": (c) => c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod5(),
+      "once": true
+    },
+    {
+      "id": "colorpicker_6",
+      "injectionName": "show_text_value",
+      "inject": (c) => c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod6(),
+      "once": true
+    },
+    {
+      "id": "colorpicker_6",
+      "injectionName": "presets",
+      "inject": (c) => c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod7(),
+      "once": true
+    }
+  ],
+  "events": [
+    {
+      "eventName": "input",
+      "id": "colorpicker_2",
+      "fct": (e, c) => c.comp.txtChange(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "colorpicker_2",
+      "fct": (e, c) => c.comp.removeErrors(e)
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "colorpicker_0",
+      "onPress": (e, pressInstance, c) => { c.comp.showPicker(e, pressInstance); }
+    },
+    {
+      "id": "colorpicker_1",
+      "onPress": (e, pressInstance, c) => { c.comp.showPicker(e, pressInstance); }
+    }
+  ]
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`         <template _id="colorpicker_4"></template>    `);this.__getStatic().__template.addLoop({
+                    anchorId: 'colorpicker_3',
+                    template: templ0,
+                simple:{data: "this.errors",item:"error"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`            <div _id="colorpicker_5"></div>        `);templ1.setActions({
+  "content": {
+    "colorpicker_5°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod3(c.data.error))}`,
+      "once": true
+    }
+  }
+});templ0.addIf({
+                    anchorId: 'colorpicker_4',
+                    parts: [{once: true,
+                    condition: (c) => true,
+                    template: templ1
+                }]
+            }); }
+    getClassName() {
+        return "ColorPicker";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('preview')){ this['preview'] = 'before'; }if(!this.hasAttribute('value')){ this['value'] = undefined; }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('direction')){ this['direction'] = 'horizontal'; }if(!this.hasAttribute('opacity')) {this.setAttribute('opacity' ,'true'); }if(!this.hasAttribute('show_text_value')) {this.setAttribute('show_text_value' ,'true'); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["presets"] = []; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('preview');this.__upgradeProperty('value');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('direction');this.__upgradeProperty('opacity');this.__upgradeProperty('show_text_value');this.__correctGetter('presets'); }
+    __listBoolProps() { return ["opacity","show_text_value"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    removeErrors() {
+        this.errors = [];
+    }
+    showPicker() {
+        let box = this.getBoundingClientRect();
+        let boxInput = this.inputEl.getBoundingClientRect();
+        let newTop = boxInput.top + boxInput.height + 2;
+        this.pickerEl.style.position = 'absolute';
+        this.pickerEl.style.top = newTop + 'px';
+        this.pickerEl.style.left = box.left + 'px';
+        this.pickerEl.setAttribute("tabindex", "-1");
+        this.pickerEl.colorTxt = this.value ?? "#ffffff00";
+        document.body.appendChild(this.pickerEl);
+    }
+    manageFocus() {
+        let blurTimeout = 0;
+        ;
+        let blur = () => {
+            blurTimeout = setTimeout(() => {
+                this.shadowRoot.appendChild(this.pickerEl);
+                this.validate();
+            }, 100);
+        };
+        this.inputEl.addEventListener("blur", () => {
+            blur();
+        });
+        this.pickerEl.addEventListener("blur", () => {
+            blur();
+        });
+        this.inputEl.addEventListener("focus", () => {
+            clearTimeout(blurTimeout);
+        });
+        this.pickerEl.addEventListener("focus", () => {
+            clearTimeout(blurTimeout);
+        });
+    }
+    localValidation() {
+        let errors = [];
+        if (this.inputEl.value && !Lib.Color.isValid(this.inputEl.value)) {
+            const txt = this.errorsTxt.notColor ?? this.defaultErrorsTxt.notColor;
+            errors.push(txt);
+        }
+        return errors;
+    }
+    onFormValidation(errors) {
+        errors = [...this.localValidation(), ...errors];
+        return super.onFormValidation(errors);
+    }
+    async validate() {
+        if (!this.formPart) {
+            this.errors = this.localValidation();
+            return this.errors.length == 0;
+        }
+        return await this.formPart.test();
+    }
+    txtChange() {
+        if (Lib.Color.isValid(this.inputEl.value)) {
+            this.value = this.inputEl.value;
+            this.pickerEl.colorTxt = this.inputEl.value;
+            this.onChange.trigger([this.value]);
+            if (this.formPart) {
+                this.formPart.value.set(this.value);
+            }
+        }
+    }
+    postCreation() {
+        this.manageFocus();
+        this.pickerEl.onChange.add(() => {
+            this.value = this.pickerEl.colorTxt;
+            this.onChange.trigger([this.value]);
+            if (this.formPart) {
+                this.formPart.value.set(this.value);
+            }
+        });
+    }
+    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod1() {
+        return this.label;
+    }
+    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod2() {
+        return this.placeholder;
+    }
+    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod3(error) {
+        return error;
+    }
+    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod4() {
+        return this.direction;
+    }
+    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod5() {
+        return this.opacity;
+    }
+    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod6() {
+        return this.show_text_value;
+    }
+    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod7() {
+        return this.presets;
+    }
+}
+Components.ColorPicker.Namespace=`Core.Components`;
+Components.ColorPicker.Tag=`rk-color-picker`;
+_.Components.ColorPicker=Components.ColorPicker;
+if(!window.customElements.get('rk-color-picker')){window.customElements.define('rk-color-picker', Components.ColorPicker);Aventus.WebComponentInstance.registerDefinition(Components.ColorPicker);}
+
 Components.DatePickerCalendar = class DatePickerCalendar extends Components.Calendar {
     picker;
     static __style = ``;
@@ -12674,7 +14242,7 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
     target.renderDate();
 }));    super.__registerWatchesActions();
 }
-    static __style = `:host{--_datepicker-height: var(--input-height, 30px);--_datepicker-background-color: var(--input-background-color, var(--form-element-background, white));--_datepicker-icon-height: var(--input-icon-height, calc(var(--_datepicker-height) / 2));--_datepicker-error-logo-size: var(--input-error-logo-size, calc(var(--_datepicker-height) / 2));--_datepicker-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_datepicker-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_datepicker-font-size) * 0.95)));--_datepicker-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_datepicker-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_datepicker-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_datepicker-background-color);border:var(--_datepicker-input-border);border-radius:var(--_datepicker-border-radius);display:flex;height:var(--_datepicker-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_datepicker-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_datepicker-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .close-icon{font-size:18px;flex-shrink:0;display:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_datepicker-error-logo-size) - 5px);height:var(--_datepicker-error-logo-size);justify-content:center;width:var(--_datepicker-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([show_close]:not([no_undefined])) .input .close-icon{display:inline-block}`;
+    static __style = `:host{--_datepicker-height: var(--input-height, 30px);--_datepicker-background-color: var(--input-background-color, var(--form-element-background, white));--_datepicker-icon-height: var(--input-icon-height, calc(var(--_datepicker-height) / 2));--_datepicker-error-logo-size: var(--input-error-logo-size, calc(var(--_datepicker-height) / 2));--_datepicker-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_datepicker-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_datepicker-font-size) * 0.95)));--_datepicker-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_datepicker-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_datepicker-font-size-label);margin-bottom:5px;margin-left:3px;cursor:pointer}:host .input{align-items:center;background-color:var(--_datepicker-background-color);border:var(--_datepicker-input-border);border-radius:var(--_datepicker-border-radius);display:flex;height:var(--_datepicker-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_datepicker-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_datepicker-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .close-icon{font-size:18px;flex-shrink:0;display:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_datepicker-error-logo-size) - 5px);height:var(--_datepicker-error-logo-size);justify-content:center;width:var(--_datepicker-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([show_close]:not([no_undefined])) .input .close-icon{display:inline-block}`;
     constructor() {
             super();
             this.bindCalendar();
@@ -12926,7 +14494,7 @@ Components.Input = class Input extends Components.FormElement {
     set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
     target.inputEl.value = target.value ?? "";
 })); }
-    static __style = `:host{--_input-height: var(--input-height, 30px);--_input-background-color: var(--input-background-color, var(--form-element-background, white));--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-background-color);border:var(--_input-input-border);border-radius:var(--_input-border-radius);display:flex;height:var(--_input-height);padding:0 10px;width:100%;overflow:hidden}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-error-logo-size) - 5px);height:var(--_input-error-logo-size);justify-content:center;width:var(--_input-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([icon_position=right]) .input .icon{order:2;margin-right:0px}:host([icon_position=right]) .input .input{order:1}:host([icon_position=right]) .input .error-logo{order:3;margin-left:10px}:host([label]:not([label=""])) label{display:flex}`;
+    static __style = `:host{--_input-height: var(--input-height, 30px);--_input-background-color: var(--input-background-color, var(--form-element-background, white));--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{cursor:pointer;display:none;font-size:var(--_input-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-background-color);border:var(--_input-input-border);border-radius:var(--_input-border-radius);display:flex;height:var(--_input-height);overflow:hidden;padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-error-logo-size) - 5px);height:var(--_input-error-logo-size);justify-content:center;width:var(--_input-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([icon_position=right]) .input .icon{margin-right:0px;order:2}:host([icon_position=right]) .input .input{order:1}:host([icon_position=right]) .input .error-logo{margin-left:10px;order:3}:host([label]:not([label=""])) label{display:flex}`;
     __getStatic() {
         return Input;
     }
@@ -13129,7 +14697,7 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
         target.inputEl.setAttribute("disabled", "disabled");
     }
 })); }
-    static __style = `:host{--_select-height: var(--select-height, 30px);--_select-background-color: var(--select-background-color, var(--form-element-background, white));--_select-icon-height: var(--select-icon-height, calc(var(--_select-height) / 2));--_select-error-logo-size: var(--select-error-logo-size, calc(var(--_select-height) / 2));--_select-font-size: var(--select-font-size, var(--form-element-font-size, 16px));--_select-font-size-label: var(--select-font-size-label, var(--form-element-font-size-label, calc(var(--_select-font-size) * 0.95)));--_select-select-border: var(--select-select-border, var(--form-element-border, 1px solid var(--lighter-active)));--_generic-select-border-radius: var(--generic-select-border-radius, var(--form-element-border-radius, 0));--_select-caret-height: var(--select-caret-height, calc(var(--_select-height) / 2));--_select-caret-color: var(--select-caret-color, var(--form-element-color))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_select-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_select-background-color);border:var(--_select-select-border);border-radius:var(--_generic-select-border-radius);cursor:pointer;display:flex;height:var(--_select-height);padding:0 10px;width:100%}:host .input .icon{display:none;height:var(--_select-icon-height);margin-right:10px}:host .input rk-img.caret{--img-fill-color: var(--_select-caret-color);--img-stroke-width: 0;aspect-ratio:1;flex-grow:0;flex-shrink:0;height:var(--_select-caret-height);transform:rotate(-90deg);transition:transform .5s var(--bezier-curve)}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_select-font-size);height:100%;margin:0;opacity:1;outline:none;padding:5px 0;padding-right:10px;-webkit-text-fill-color:var(--text-color);width:100%}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;font-size:calc(var(--_select-error-logo-size) - 5px);height:var(--_select-error-logo-size);justify-content:center;width:var(--_select-error-logo-size);flex-shrink:0}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host .hidden{display:none}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([open]) .input .caret{transform:rotate(-270deg)}`;
+    static __style = `:host{--_select-height: var(--select-height, 30px);--_select-background-color: var(--select-background-color, var(--form-element-background, white));--_select-icon-height: var(--select-icon-height, calc(var(--_select-height) / 2));--_select-error-logo-size: var(--select-error-logo-size, calc(var(--_select-height) / 2));--_select-font-size: var(--select-font-size, var(--form-element-font-size, 16px));--_select-font-size-label: var(--select-font-size-label, var(--form-element-font-size-label, calc(var(--_select-font-size) * 0.95)));--_select-select-border: var(--select-select-border, var(--form-element-border, 1px solid var(--lighter-active)));--_generic-select-border-radius: var(--generic-select-border-radius, var(--form-element-border-radius, 0));--_select-caret-height: var(--select-caret-height, calc(var(--_select-height) / 2));--_select-caret-color: var(--select-caret-color, var(--form-element-color))}:host{min-width:100px;width:100%}:host label{cursor:pointer;display:none;font-size:var(--_select-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_select-background-color);border:var(--_select-select-border);border-radius:var(--_generic-select-border-radius);cursor:pointer;display:flex;height:var(--_select-height);padding:0 10px;width:100%}:host .input .icon{display:none;height:var(--_select-icon-height);margin-right:10px}:host .input rk-img.caret{--img-fill-color: var(--_select-caret-color);--img-stroke-width: 0;aspect-ratio:1;flex-grow:0;flex-shrink:0;height:var(--_select-caret-height);transform:rotate(-90deg);transition:transform .5s var(--bezier-curve)}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_select-font-size);height:100%;margin:0;opacity:1;outline:none;padding:5px 0;padding-right:10px;-webkit-text-fill-color:var(--text-color);width:100%}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_select-error-logo-size) - 5px);height:var(--_select-error-logo-size);justify-content:center;width:var(--_select-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host .hidden{display:none}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([open]) .input .caret{transform:rotate(-270deg)}`;
     constructor() { super(); if (this.constructor == GenericSelect) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return GenericSelect;
@@ -16084,1121 +17652,6 @@ RAM.GroupRAM=class GroupRAM extends RAM.RamHttp {
 }
 RAM.GroupRAM.Namespace=`Core.RAM`;
 _.RAM.GroupRAM=RAM.GroupRAM;
-
-Lib.Color=class Color {
-    static isValid(txt) {
-        return this.getColorType(txt) != -1;
-    }
-    static types = {
-        rgb: "rgb",
-        hex: "hex",
-        rgba: "rgba",
-        hsl: "hsl",
-        hsla: "hsla",
-        hsv: "hsv",
-        hsva: "hsva",
-        static: "static"
-    };
-    static getColorType(colorString) {
-        let treatedColor = colorString.replaceAll(" ", "");
-        if (/^#?([a-f\d])([a-f\d])([a-f\d])([a-f\d])?$/i.test(treatedColor) ||
-            /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?$/i.test(treatedColor)) {
-            return Lib.Color.types.hex;
-        }
-        else if (/^rgba?\((\d{1,3},*){3,4}\)$/.test(treatedColor)) {
-            return treatedColor.startsWith("rgba") ? Lib.Color.types.rgba : Lib.Color.types.rgb;
-        }
-        else if (/^hsla?\(\s*(\d{1,3})\s*(,| )\s*(\d{1,3})%?\s*(,| )\s*(\d{1,3})%?\s*(,\s*(0|1|0?\.\d+)\s*)?\)$/.test(treatedColor)) {
-            return treatedColor.startsWith("hsla") ? Lib.Color.types.hsla : Lib.Color.types.hsl;
-        }
-        else if (/^hsva?\(\s*\d{1,3}\s*,\s*\d{1,3}%?\s*,\s*\d{1,3}%?\s*(,\s*(0|1|0?\.\d+))?\s*\)$/.test(treatedColor)) {
-            return treatedColor.startsWith("hsva") ? Lib.Color.types.hsva : Lib.Color.types.hsv;
-        }
-        else if (Object.hasOwn(Lib.Colors, colorString.toUpperCase())) {
-            return Lib.Color.types.static;
-        }
-        else {
-            return -1;
-        }
-    }
-    static createFromRgb(r, g, b) {
-        return new Lib.Color(`rgb(${r},${g},${b})`);
-    }
-    static createFromHsl(h, s, l) {
-        return new Lib.Color(`hsl(${h},${s}%,${l}%)`);
-    }
-    static createFromRgba(r, g, b, a) {
-        return new Lib.Color(`rgba(${r},${g},${b},${a})`);
-    }
-    static createFromHsla(h, s, l, a) {
-        return new Lib.Color(`hsla(${h},${s}%,${l}%,${a})`);
-    }
-    static createFromHsvla(h, s, v, a) {
-        return new Lib.Color(`hsva(${h},${s}%,${v}%,${a})`);
-    }
-    _watcher;
-    get currentColor() {
-        return this._watcher.currentColor;
-    }
-    set currentColor(value) {
-        this._watcher.currentColor = value;
-    }
-    get r() {
-        return this.currentColor.r;
-    }
-    set r(newValue) {
-        if (newValue >= 0 && newValue <= 255) {
-            this.currentColor.r = newValue;
-        }
-        else {
-            throw new Error("Invalid value");
-        }
-    }
-    get g() {
-        return this.currentColor.g;
-    }
-    set g(newValue) {
-        if (newValue >= 0 && newValue <= 255) {
-            this.currentColor.g = newValue;
-        }
-        else {
-            throw new Error("Invalid value");
-        }
-    }
-    get b() {
-        return this.currentColor.b;
-    }
-    set b(newValue) {
-        if (newValue >= 0 && newValue <= 255) {
-            this.currentColor.b = newValue;
-        }
-        else {
-            throw new Error("Invalid value");
-        }
-    }
-    get a() {
-        return this.currentColor.a;
-    }
-    set a(newValue) {
-        if (newValue >= 0 && newValue <= 1) {
-            this.currentColor.a = newValue;
-        }
-        else {
-            throw new Error("Invalid value for A (Alpha). It should be between 0 and 1.");
-        }
-    }
-    get h() {
-        return this.hsl.h;
-    }
-    set h(newValue) {
-        if (newValue >= 0 && newValue <= 360) {
-            let currentHSL = this.hsl;
-            currentHSL.h = newValue;
-            this.currentColor = { ...this.hslToRgb(currentHSL.h, currentHSL.s, currentHSL.l), a: this.currentColor.a };
-        }
-        else {
-            throw new Error("Invalid value for H (Hue). It should be between 0 and 360.");
-        }
-    }
-    /**
-     * The hex format of the color
-     */
-    get hex() {
-        return this.rgbToHex(this.currentColor.r, this.currentColor.g, this.currentColor.b, this.currentColor.a);
-    }
-    set hex(hexString) {
-        this.currentColor = this.hexStringToRgba(hexString);
-    }
-    /**
-     * The rgb format of the color
-     */
-    get rgb() {
-        const { r, g, b } = this.currentColor;
-        return { r, g, b };
-    }
-    get rgbString() {
-        const { r, g, b } = this.rgb;
-        return `rgb(${r}, ${g}, ${b})`;
-    }
-    set rgb(value) {
-        if (typeof value == 'string') {
-            this.currentColor = { ...this.stringToRgba(value), a: this.currentColor.a };
-        }
-        else if (typeof value === 'object' &&
-            !Array.isArray(value) &&
-            value !== null) {
-            value.r = Math.min(Math.max(value.r, 0), 255);
-            value.g = Math.min(Math.max(value.g, 0), 255);
-            value.b = Math.min(Math.max(value.b, 0), 255);
-            this.currentColor = { ...value, a: this.currentColor.a };
-        }
-    }
-    /**
-     * The rgba format of the color
-     */
-    get rgba() {
-        return this.currentColor;
-    }
-    set rgba(value) {
-        if (typeof value == 'string') {
-            this.currentColor = this.stringToRgba(value);
-        }
-        else if (typeof value === 'object' &&
-            !Array.isArray(value) &&
-            value !== null) {
-            value.r = Math.min(Math.max(value.r, 0), 255);
-            value.g = Math.min(Math.max(value.g, 0), 255);
-            value.b = Math.min(Math.max(value.b, 0), 255);
-            value.a = Math.min(Math.max(value.a, 0), 1);
-            this.currentColor = value;
-        }
-    }
-    get rgbaString() {
-        const { r, g, b, a } = this.rgba;
-        return `rgba(${r}, ${g}, ${b}, ${a})`;
-    }
-    /**
-     * The hsl format of the color
-     */
-    get hsl() {
-        const { h, s, l } = this.rgbToHsl(this.currentColor.r, this.currentColor.g, this.currentColor.b);
-        return { h, s, l };
-    }
-    get hslString() {
-        const { h, s, l } = this.hsl;
-        return `hsl(${h}, ${s}, ${l})`;
-    }
-    set hsl(value) {
-        if (typeof value == 'string') {
-            this.currentColor = { ...this.hslaStringToRgba(value), a: this.currentColor.a };
-        }
-        else if (typeof value === 'object' &&
-            !Array.isArray(value) &&
-            value !== null) {
-            this.currentColor = { ...this.hslToRgb(value.h, value.s, value.l), a: this.currentColor.a };
-        }
-    }
-    /**
-    * The hsla format of the color
-    */
-    get hsla() {
-        return this.rgbToHsla(this.currentColor.r, this.currentColor.g, this.currentColor.b, this.currentColor.a);
-    }
-    get hslaString() {
-        const { h, s, l, a } = this.hsla;
-        return `hsla(${h}, ${s}, ${l}, ${a})`;
-    }
-    set hsla(value) {
-        if (typeof value == 'string') {
-            this.currentColor = this.hslaStringToRgba(value);
-        }
-        else if (typeof value === 'object' &&
-            !Array.isArray(value) &&
-            value !== null) {
-            this.currentColor = this.hslaToRgba(value.h, value.s, value.l, value.a);
-        }
-    }
-    /**
-     * The hsv format of the color
-     */
-    get hsv() {
-        const { h, s, v } = this.rgbToHsv(this.currentColor.r, this.currentColor.g, this.currentColor.b);
-        return { h, s, v };
-    }
-    get hsvString() {
-        const { h, s, v } = this.hsv;
-        return `hsv(${h}, ${s}%, ${v}%)`;
-    }
-    set hsv(value) {
-        if (typeof value === 'string') {
-            this.currentColor = { ...this.hsvaStringToRgba(value), a: this.currentColor.a };
-        }
-        else if (typeof value === 'object' &&
-            !Array.isArray(value) &&
-            value !== null) {
-            this.currentColor = { ...this.hsvaToRgba(value.h, value.s, value.v, this.currentColor.a) };
-        }
-    }
-    /**
-     * The hsva format of the color
-     */
-    get hsva() {
-        return this.rgbToHsva(this.currentColor.r, this.currentColor.g, this.currentColor.b, this.currentColor.a);
-    }
-    get hsvaString() {
-        const { h, s, v, a } = this.hsva;
-        return `hsva(${h}, ${s}%, ${v}%, ${a})`;
-    }
-    set hsva(value) {
-        if (typeof value === 'string') {
-            this.currentColor = this.hsvaStringToRgba(value);
-        }
-        else if (typeof value === 'object' &&
-            !Array.isArray(value) &&
-            value !== null) {
-            this.currentColor = this.hsvaToRgba(value.h, value.s, value.v, value.a);
-        }
-    }
-    /**
-     * Create a new color
-     * @param {string} colorString - The color in hex or rgb format
-     */
-    constructor(colorString) {
-        let currentColor;
-        if (colorString === "" || !colorString) {
-            colorString = "#ffffff";
-        }
-        let colorType = Lib.Color.getColorType(colorString);
-        if (colorType !== -1) {
-            if (colorType === Lib.Color.types.static) {
-                let staticColor = Lib.Colors[colorString.toUpperCase()];
-                if (staticColor instanceof Lib.Color) {
-                    currentColor = staticColor.currentColor;
-                }
-                else {
-                    throw new Error("Unknown color type");
-                }
-            }
-            else if (colorType === Lib.Color.types.rgb || colorType === Lib.Color.types.rgba) {
-                currentColor = this.stringToRgba(colorString);
-            }
-            else if (colorType === Lib.Color.types.hex) {
-                currentColor = this.hexStringToRgba(colorString);
-            }
-            else if (colorType === Lib.Color.types.hsl || colorType === Lib.Color.types.hsla) {
-                currentColor = this.hslaStringToRgba(colorString);
-            }
-            else {
-                throw new Error("Unknown color type");
-            }
-        }
-        else {
-            throw new Error(`${colorString} is not a supported color`);
-        }
-        this._watcher = Aventus.Watcher.get({ currentColor }, () => {
-            this.onColorChange.trigger([]);
-        });
-    }
-    setColorTxt(colorString) {
-        if (colorString === "" || !colorString) {
-            colorString = "#ffffff";
-        }
-        let colorType = Lib.Color.getColorType(colorString);
-        if (colorType !== -1) {
-            if (colorType === Lib.Color.types.static) {
-                let staticColor = Lib.Colors[colorString.toUpperCase()];
-                if (staticColor instanceof Lib.Color) {
-                    this.currentColor = staticColor.currentColor;
-                }
-                else {
-                    throw new Error("Unknown color type");
-                }
-            }
-            else if (colorType === Lib.Color.types.rgb || colorType === Lib.Color.types.rgba) {
-                this.currentColor = this.stringToRgba(colorString);
-            }
-            else if (colorType === Lib.Color.types.hex) {
-                this.currentColor = this.hexStringToRgba(colorString);
-            }
-            else if (colorType === Lib.Color.types.hsl || colorType === Lib.Color.types.hsla) {
-                this.currentColor = this.hslaStringToRgba(colorString);
-            }
-            else {
-                throw new Error("Unknown color type");
-            }
-        }
-        else {
-            throw new Error(`${colorString} is not a supported color`);
-        }
-    }
-    onColorChange = new Aventus.Callback();
-    hexStringToRgba(hexColorString) {
-        // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-        let shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])([a-f\d])?$/i;
-        hexColorString = hexColorString.replace(shorthandRegex, function (m, r, g, b, a) {
-            return r + r + g + g + b + b + (a ? a + a : "");
-            ;
-        });
-        let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?$/i.exec(hexColorString);
-        if (!result) {
-            console.error(`Invalid hex string : ${hexColorString}`);
-            return {
-                r: 0,
-                g: 0,
-                b: 0,
-                a: 1
-            };
-        }
-        else {
-            return {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16),
-                a: result[4] ? parseInt(result[4], 16) / 255 : 1
-            };
-        }
-    }
-    stringToRgba(rgbColorString) {
-        let splitted = rgbColorString.replaceAll(/[\(\)rgb ]/g, "").split(",");
-        let result = [];
-        for (let i = 0; i < 4; i++) {
-            if (i < 3) {
-                result.push(Math.min(Math.max(parseInt(splitted[i]), 0), 255));
-            }
-            else {
-                result.push(Math.min(Math.max(parseFloat(splitted[i]), 0), 1));
-            }
-        }
-        return {
-            r: result[0],
-            g: result[1],
-            b: result[2],
-            a: result[3] || 1
-        };
-    }
-    rgbToHex(r, g, b, a = 1) {
-        let hex = "#" + ((1 << 24) + (Math.round(r) << 16) + (Math.round(g) << 8) + Math.round(b)).toString(16).slice(1);
-        if (a < 1) {
-            let alphaHex = Math.round(a * 255).toString(16).padStart(2, '0');
-            hex += alphaHex;
-        }
-        return hex;
-    }
-    hslStringToRgb(hslColorString) {
-        let [h, s, l] = hslColorString.replaceAll(/[\(\)hsl% ]/g, "").split(",").map(Number);
-        return this.hslToRgb(h, s, l);
-    }
-    rgbToHsl(r, g, b) {
-        r /= 255;
-        g /= 255;
-        b /= 255;
-        let max = Math.max(r, g, b);
-        let min = Math.min(r, g, b);
-        let h, s, l = (max + min) / 2;
-        if (max == min) {
-            h = s = 0;
-        }
-        else {
-            let d = max - min;
-            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-            switch (max) {
-                case r:
-                    h = (g - b) / d + (g < b ? 6 : 0);
-                    break;
-                case g:
-                    h = (b - r) / d + 2;
-                    break;
-                case b:
-                    h = (r - g) / d + 4;
-                    break;
-                default: h = 0;
-            }
-            h /= 6;
-        }
-        return {
-            h: this.round(h * 360),
-            s: this.round(s * 100),
-            l: this.round(l * 100)
-        };
-    }
-    rgbToHsla(r, g, b, a) {
-        let hsl = this.rgbToHsl(r, g, b);
-        return { ...hsl, a: a };
-    }
-    hslToRgb(h, s, l) {
-        s /= 100;
-        l /= 100;
-        let c = (1 - Math.abs(2 * l - 1)) * s;
-        let x = c * (1 - Math.abs((h / 60) % 2 - 1));
-        let m = l - c / 2;
-        let r = 0, g = 0, b = 0;
-        if (0 <= h && h < 60) {
-            r = c;
-            g = x;
-            b = 0;
-        }
-        else if (60 <= h && h < 120) {
-            r = x;
-            g = c;
-            b = 0;
-        }
-        else if (120 <= h && h < 180) {
-            r = 0;
-            g = c;
-            b = x;
-        }
-        else if (180 <= h && h < 240) {
-            r = 0;
-            g = x;
-            b = c;
-        }
-        else if (240 <= h && h < 300) {
-            r = x;
-            g = 0;
-            b = c;
-        }
-        else if (300 <= h && h <= 360) {
-            r = c;
-            g = 0;
-            b = x;
-        }
-        return {
-            r: this.round((r + m) * 255),
-            g: this.round((g + m) * 255),
-            b: this.round((b + m) * 255)
-        };
-    }
-    hslaToRgba(h, s, l, a) {
-        let rgb = this.hslToRgb(h, s, l);
-        return { ...rgb, a: a };
-    }
-    hslaStringToRgba(hslaColorString) {
-        let [h, s, l, a] = hslaColorString.replaceAll(/[\(\)hsla% ]/g, "").split(",").map(Number);
-        return this.hslaToRgba(h, s, l, a);
-    }
-    rgbToHsv(r, g, b) {
-        r /= 255;
-        g /= 255;
-        b /= 255;
-        let max = Math.max(r, g, b);
-        let min = Math.min(r, g, b);
-        let h, s, v = max;
-        let delta = max - min;
-        s = max === 0 ? 0 : delta / max;
-        if (delta === 0) {
-            h = 0;
-        }
-        else {
-            switch (max) {
-                case r:
-                    h = (g - b) / delta + (g < b ? 6 : 0);
-                    break;
-                case g:
-                    h = (b - r) / delta + 2;
-                    break;
-                case b:
-                    h = (r - g) / delta + 4;
-                    break;
-                default:
-                    h = 0;
-            }
-            h /= 6;
-        }
-        return {
-            h: this.round(h * 360),
-            s: this.round(s * 100),
-            v: this.round(v * 100)
-        };
-    }
-    hsvToRgb(h, s, v) {
-        s /= 100;
-        v /= 100;
-        let c = v * s;
-        let x = c * (1 - Math.abs((h / 60) % 2 - 1));
-        let m = v - c;
-        let r = 0, g = 0, b = 0;
-        if (0 <= h && h < 60) {
-            r = c;
-            g = x;
-            b = 0;
-        }
-        else if (60 <= h && h < 120) {
-            r = x;
-            g = c;
-            b = 0;
-        }
-        else if (120 <= h && h < 180) {
-            r = 0;
-            g = c;
-            b = x;
-        }
-        else if (180 <= h && h < 240) {
-            r = 0;
-            g = x;
-            b = c;
-        }
-        else if (240 <= h && h < 300) {
-            r = x;
-            g = 0;
-            b = c;
-        }
-        else if (300 <= h && h <= 360) {
-            r = c;
-            g = 0;
-            b = x;
-        }
-        return {
-            r: this.round((r + m) * 255),
-            g: this.round((g + m) * 255),
-            b: this.round((b + m) * 255)
-        };
-    }
-    rgbToHsva(r, g, b, a) {
-        let hsv = this.rgbToHsv(r, g, b);
-        return { ...hsv, a };
-    }
-    hsvaToRgba(h, s, v, a) {
-        let rgb = this.hsvToRgb(h, s, v);
-        return { ...rgb, a };
-    }
-    hsvaStringToRgba(hsvaColorString) {
-        let [h, s, v, a] = hsvaColorString.replaceAll(/[\(\)hsva% ]/g, "").split(",").map(Number);
-        return this.hsvaToRgba(h, s, v, a);
-    }
-    round(nb) {
-        return Math.round(nb * 100) / 100;
-    }
-    /**
-     * Print the color in hex format
-     * @returns {string} - A pretty print of the color in hex format
-     */
-    toString() {
-        return this.rgbToHex(this.currentColor.r, this.currentColor.g, this.currentColor.b, this.currentColor.a);
-    }
-}
-Lib.Color.Namespace=`Core.Lib`;
-_.Lib.Color=Lib.Color;
-
-Components.ColorPickerSelector = class ColorPickerSelector extends Aventus.WebComponent {
-    static get observedAttributes() {return ["color"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'direction'() { return this.getStringAttr('direction') }
-    set 'direction'(val) { this.setStringAttr('direction', val) }get 'opacity'() { return this.getBoolAttr('opacity') }
-    set 'opacity'(val) { this.setBoolAttr('opacity', val) }get 'show_text_value'() { return this.getBoolAttr('show_text_value') }
-    set 'show_text_value'(val) { this.setBoolAttr('show_text_value', val) }    get 'color'() { return this.getStringProp('color') }
-    set 'color'(val) { this.setStringAttr('color', val) }    get 'colorTxt'() {
-						return this.__watch["colorTxt"];
-					}
-					set 'colorTxt'(val) {
-						this.__watch["colorTxt"] = val;
-					}get 'hue'() {
-						return this.__watch["hue"];
-					}
-					set 'hue'(val) {
-						this.__watch["hue"] = val;
-					}get 'alpha'() {
-						return this.__watch["alpha"];
-					}
-					set 'alpha'(val) {
-						this.__watch["alpha"] = val;
-					}get 'presets'() {
-						return this.__watch["presets"];
-					}
-					set 'presets'(val) {
-						this.__watch["presets"] = val;
-					}    _color;
-    canEmit = false;
-    internalSet = false;
-    resizeObserver;
-    onChange = new Aventus.Callback();
-    __registerWatchesActions() {
-    this.__addWatchesActions("colorTxt", ((target, action, path, value) => {
-    target.onColorTxtChange();
-}));this.__addWatchesActions("hue", ((target, action, path, value) => {
-    target.changeHue();
-}));this.__addWatchesActions("alpha", ((target, action, path, value) => {
-    target.changeAlpha();
-}));this.__addWatchesActions("presets", ((target, action, path, value) => {
-    target.renderPresets();
-}));    super.__registerWatchesActions();
-}
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("color", ((target) => {
-    if (!target.internalSet) {
-        target.canEmit = false;
-        target._color.setColorTxt(target.color);
-        target.hue = target._color.hsv.h;
-        target.alpha = target._color.a * 100;
-        target.updatePositionFromColor(target._color);
-        target.canEmit = true;
-    }
-})); }
-    static __style = `:host{--_color-picker-selector-area-width: var(--color-picker-selector-area-width, 200px);--_color-picker-selector-panel-width: var(--color-picker-selector-panel-width, 200px);--_color-picker-selector-background-color: var(--color-picker-selector-background-color, white);--_color-picker-selector-border-radius: var(--color-picker-selector-border-radius, var(--border-radius-sm))}:host{background-color:var(--_color-picker-selector-background-color);border-radius:var(--_color-picker-selector-border-radius);box-shadow:var(--elevation-2);width:max(var(--_color-picker-selector-area-width),var(--_color-picker-selector-panel-width));z-index:800}:host .style-wrapper{display:flex;flex-direction:column;width:100%}:host .style-wrapper .color-area{aspect-ratio:1/.5;background-image:linear-gradient(rgba(0, 0, 0, 0), #000),linear-gradient(90deg, #fff, var(--_color-picker-selector-area-color));border-top-left-radius:var(--_color-picker-selector-border-radius);border-top-right-radius:var(--_color-picker-selector-border-radius);cursor:pointer;margin:0 auto;position:relative;width:var(--_color-picker-selector-area-width)}:host .style-wrapper .color-area .area-dot{background-color:var(--_color-picker-selector-color-opacity);border:2px solid #fff;border-radius:var(--border-radius-round);height:10px;left:0;position:absolute;top:0;transform:translate(-50%, -50%);width:10px}:host .style-wrapper .color-panel{margin:0 auto;padding:15px;width:var(--_color-picker-selector-panel-width)}:host .style-wrapper .color-panel .color-hue{margin-bottom:5px;width:100%}:host .style-wrapper .color-panel .color-hue rk-slider{--slider-background-image: linear-gradient(to right, red 0, #ff0 16.66%, #0f0 33.33%, #0ff 50%, #00f 66.66%, #f0f 83.33%, red 100%);--slider-active-background-color: transparent;--slider-background-color: transparent;--slider-dot-color: var(--_color-picker-selector-area-color);--slider-bar-height: 8px;min-width:auto;width:100%}:host .style-wrapper .color-panel .color-alpha{display:none;margin-top:5px;position:relative}:host .style-wrapper .color-panel .color-alpha rk-slider{--slider-background-color: transparent;--slider-active-background-color: transparent;--slider-bar-height: 8px;min-width:auto;position:relative;width:100%;z-index:2}:host .style-wrapper .color-panel .color-alpha .bar{background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--_color-picker-selector-border-radius);inset:0;position:absolute;width:100%;z-index:1}:host .style-wrapper .color-panel .color-alpha .bar-color{background-image:linear-gradient(90deg, rgba(0, 0, 0, 0), var(--_color-picker-selector-color-opacity));border-radius:var(--_color-picker-selector-border-radius);inset:0;position:absolute;width:100%;z-index:2}:host .style-wrapper .color-panel .color-alpha .dot{background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--border-radius-round);inset:0;position:absolute;z-index:1}:host .style-wrapper .color-panel .color-alpha .dot-color{background-color:var(--_color-picker-selector-color);border-radius:var(--border-radius-round);inset:0;position:absolute;z-index:2}:host .style-wrapper .color-panel .color-result{align-items:center;display:flex;flex-direction:row;gap:10px;justify-content:center;margin-top:20px}:host .style-wrapper .color-panel .color-result .color-preview{background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--border-radius-round);flex-shrink:0;height:25px;overflow:hidden;position:relative;width:25px}:host .style-wrapper .color-panel .color-result .color-preview::after{background-color:var(--_color-picker-selector-color);content:"";inset:0;position:absolute}:host .style-wrapper .color-panel .color-result .color-text{display:none;width:calc(100% - 35px)}:host .style-wrapper .color-panel .color-result .color-text rk-input{--input-height: 25px;min-width:auto;width:100%}:host .style-wrapper .color-panel .color-preset:not(:empty){align-items:center;display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:20px;width:100%}:host .style-wrapper .color-panel .color-preset:not(:empty) .preset{border-radius:var(--border-radius-round);flex-shrink:0;height:20px;width:20px}:host([direction=horizontal]){width:fit-content}:host([direction=horizontal]) .style-wrapper{display:flex;flex-direction:row}:host([direction=horizontal]) .style-wrapper .color-area{aspect-ratio:auto;border-bottom-left-radius:var(--_color-picker-selector-border-radius);border-top-right-radius:0}:host([opacity]) .style-wrapper .color-panel .color-alpha{display:block}:host([show_text_value]) .style-wrapper .color-panel .color-result .color-text{display:block}`;
-    constructor() {
-            super();
-            this._color = new Lib.Color("#FFFFFF");
-            this._color.onColorChange.add(() => {
-                this.applyColorChange();
-            });
-        }
-    __getStatic() {
-        return ColorPickerSelector;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(ColorPickerSelector.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="style-wrapper" _id="colorpickerselector_0">    <div class="color-area" _id="colorpickerselector_1">        <div class="area-dot" _id="colorpickerselector_2"></div>    </div>    <div class="color-panel">        <div class="color-hue">            <rk-slider min="0" max="360" _id="colorpickerselector_3"></rk-slider>        </div>        <div class="color-alpha">            <rk-slider min="0" max="100" _id="colorpickerselector_4">                <span class="bar" slot="bar"></span>                <span class="bar-color" slot="bar"></span>                <span class="dot" slot="dot"></span>                <span class="dot-color" slot="dot"></span>            </rk-slider>        </div>        <div class="color-result">            <div class="color-preview"></div>            <div class="color-text">                <rk-input _id="colorpickerselector_5"></rk-input>            </div>        </div>        <div class="color-preset" _id="colorpickerselector_6"></div>    </div></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "styleWrapper",
-      "ids": [
-        "colorpickerselector_0"
-      ]
-    },
-    {
-      "name": "areaEl",
-      "ids": [
-        "colorpickerselector_1"
-      ]
-    },
-    {
-      "name": "areaDotEl",
-      "ids": [
-        "colorpickerselector_2"
-      ]
-    },
-    {
-      "name": "presetEl",
-      "ids": [
-        "colorpickerselector_6"
-      ]
-    }
-  ],
-  "bindings": [
-    {
-      "id": "colorpickerselector_3",
-      "injectionName": "value",
-      "eventNames": [
-        "onChange"
-      ],
-      "inject": (c) => c.comp.__5dc51ef8cb30a8337d492266c14d9daamethod0(),
-      "extract": (c, v) => c.comp.__5dc51ef8cb30a8337d492266c14d9daamethod1(v),
-      "once": true,
-      "isCallback": true
-    },
-    {
-      "id": "colorpickerselector_4",
-      "injectionName": "value",
-      "eventNames": [
-        "onChange"
-      ],
-      "inject": (c) => c.comp.__5dc51ef8cb30a8337d492266c14d9daamethod2(),
-      "extract": (c, v) => c.comp.__5dc51ef8cb30a8337d492266c14d9daamethod3(v),
-      "once": true,
-      "isCallback": true
-    },
-    {
-      "id": "colorpickerselector_5",
-      "injectionName": "value",
-      "eventNames": [
-        "onChange"
-      ],
-      "inject": (c) => c.comp.__5dc51ef8cb30a8337d492266c14d9daamethod4(),
-      "extract": (c, v) => c.comp.__5dc51ef8cb30a8337d492266c14d9daamethod5(v),
-      "once": true,
-      "isCallback": true
-    }
-  ]
-}); }
-    getClassName() {
-        return "ColorPickerSelector";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('direction')){ this['direction'] = 'horizontal'; }if(!this.hasAttribute('opacity')) {this.setAttribute('opacity' ,'true'); }if(!this.hasAttribute('show_text_value')) {this.setAttribute('show_text_value' ,'true'); }if(!this.hasAttribute('color')){ this['color'] = "#ffffff00"; } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["colorTxt"] = "";w["hue"] = 0;w["alpha"] = 100;w["presets"] = []; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('direction');this.__upgradeProperty('opacity');this.__upgradeProperty('show_text_value');this.__upgradeProperty('color');this.__correctGetter('colorTxt');this.__correctGetter('hue');this.__correctGetter('alpha');this.__correctGetter('presets'); }
-    __listBoolProps() { return ["opacity","show_text_value"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    onColorTxtChange() {
-        if (Lib.Color.isValid(this.colorTxt) && !this.internalSet) {
-            this._color.setColorTxt(this.colorTxt);
-            this.hue = this._color.hsv.h;
-            this.alpha = this._color.a * 100;
-            this.updatePositionFromColor(this._color);
-        }
-    }
-    emitChange() {
-        if (this.canEmit) {
-            this.onChange.trigger([this.color]);
-        }
-    }
-    changeHue() {
-        this._color.h = this.hue;
-        this.styleWrapper.style.setProperty("--_color-picker-selector-area-color", `hsl(${this.hue}, 100%, 50%)`);
-    }
-    changeAlpha() {
-        this._color.a = this.alpha / 100;
-    }
-    applyColorChange() {
-        this.styleWrapper.style.setProperty("--_color-picker-selector-color", this._color.hex);
-        this.styleWrapper.style.setProperty("--_color-picker-selector-area-color", `hsl(${this.hue}, 100%, 50%)`);
-        this.styleWrapper.style.setProperty("--_color-picker-selector-color-opacity", this._color.rgbString);
-        this.internalSet = true;
-        let hex = this._color.hex;
-        if (this.colorTxt != hex) {
-            this.colorTxt = this._color.hex;
-        }
-        if (this.color != hex) {
-            this.color = this._color.hex;
-            this.emitChange();
-        }
-        this.internalSet = false;
-    }
-    addPressManager() {
-        let clientRect;
-        const calc = (e) => {
-            let positionX = e.clientX - clientRect.x;
-            let positionY = e.clientY - clientRect.y;
-            if (positionX < 0)
-                positionX = 0;
-            else if (positionX > clientRect.width)
-                positionX = clientRect.width;
-            if (positionY < 0)
-                positionY = 0;
-            else if (positionY > clientRect.height)
-                positionY = clientRect.height;
-            this.areaDotEl.style.left = positionX + 'px';
-            this.areaDotEl.style.top = positionY + 'px';
-            this.updateColorFromPosition(positionX, positionY);
-        };
-        new Aventus.DragAndDrop({
-            element: this.areaEl,
-            applyDrag: false,
-            offsetDrag: 0,
-            onPointerDown: (e) => {
-                clientRect = this.areaEl.getBoundingClientRect();
-                calc(e);
-            },
-            onMove: (e, position) => {
-                calc(e);
-            }
-        });
-    }
-    updateColorFromPosition(x, y) {
-        const { width, height } = this.areaEl.getBoundingClientRect();
-        const hsv = {
-            h: this.hue,
-            s: x / width * 100,
-            v: 100 - (y / height * 100),
-        };
-        this._color.hsv = hsv;
-    }
-    updatePositionFromColor(color) {
-        const { width, height } = this.areaEl.getBoundingClientRect();
-        const { h, s, v } = color.hsv;
-        const x = width * s / 100;
-        const y = (100 - v) * height / 100;
-        this.areaDotEl.style.left = x + 'px';
-        this.areaDotEl.style.top = y + 'px';
-    }
-    renderPresets() {
-        this.presetEl.innerHTML = '';
-        const createPreset = (color) => {
-            const el = document.createElement("div");
-            el.classList.add("preset");
-            el.style.backgroundColor = color;
-            el.addEventListener("click", () => {
-                this._color.setColorTxt(color);
-                this.hue = this._color.hsv.h;
-                this.alpha = this._color.a * 100;
-                this.updatePositionFromColor(this._color);
-            });
-            this.presetEl.appendChild(el);
-        };
-        for (const preset of this.presets) {
-            createPreset(preset);
-        }
-    }
-    addObserver() {
-        this.resizeObserver = new Aventus.ResizeObserver(() => {
-            this.updatePositionFromColor(this._color);
-        });
-        this.resizeObserver.observe(this.areaEl);
-    }
-    postCreation() {
-        this.hue = this._color.hsv.h;
-        this.alpha = this._color.a * 100;
-        this.applyColorChange();
-        this.addPressManager();
-        this.renderPresets();
-        this.updatePositionFromColor(this._color);
-        this.addObserver();
-    }
-    postDestruction() {
-        if (this.resizeObserver) {
-            this.resizeObserver.disconnect();
-            this.resizeObserver = undefined;
-        }
-    }
-    __5dc51ef8cb30a8337d492266c14d9daamethod0() {
-        return this.hue;
-    }
-    __5dc51ef8cb30a8337d492266c14d9daamethod1(v) {
-        if (this) {
-            this.hue = v;
-        }
-    }
-    __5dc51ef8cb30a8337d492266c14d9daamethod2() {
-        return this.alpha;
-    }
-    __5dc51ef8cb30a8337d492266c14d9daamethod3(v) {
-        if (this) {
-            this.alpha = v;
-        }
-    }
-    __5dc51ef8cb30a8337d492266c14d9daamethod4() {
-        return this.colorTxt;
-    }
-    __5dc51ef8cb30a8337d492266c14d9daamethod5(v) {
-        if (this) {
-            this.colorTxt = v;
-        }
-    }
-}
-Components.ColorPickerSelector.Namespace=`Core.Components`;
-Components.ColorPickerSelector.Tag=`rk-color-picker-selector`;
-_.Components.ColorPickerSelector=Components.ColorPickerSelector;
-if(!window.customElements.get('rk-color-picker-selector')){window.customElements.define('rk-color-picker-selector', Components.ColorPickerSelector);Aventus.WebComponentInstance.registerDefinition(Components.ColorPickerSelector);}
-
-Components.ColorPicker = class ColorPicker extends Components.FormElement {
-    static get observedAttributes() {return ["value", "label", "placeholder", "direction", "opacity", "show_text_value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'preview'() { return this.getStringAttr('preview') }
-    set 'preview'(val) { this.setStringAttr('preview', val) }    get 'value'() { return this.getStringProp('value') }
-    set 'value'(val) { this.setStringAttr('value', val) }get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
-    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'direction'() { return this.getStringProp('direction') }
-    set 'direction'(val) { this.setStringAttr('direction', val) }get 'opacity'() { return this.getBoolProp('opacity') }
-    set 'opacity'(val) { this.setBoolAttr('opacity', val) }get 'show_text_value'() { return this.getBoolProp('show_text_value') }
-    set 'show_text_value'(val) { this.setBoolAttr('show_text_value', val) }    get 'presets'() {
-						return this.__watch["presets"];
-					}
-					set 'presets'(val) {
-						this.__watch["presets"] = val;
-					}    errorsTxt = {};
-    defaultErrorsTxt = {
-        notColor: "La couleur n'est pas valide",
-    };
-    __registerWatchesActions() {
-    this.__addWatchesActions("presets");    super.__registerWatchesActions();
-}
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
-    if (document.activeElement != target.inputEl && document.activeElement != target) {
-        target.inputEl.value = target.value + '';
-    }
-    target.containerEl.style.setProperty('--_color-picker-selected-color', target.value ?? 'transparent');
-})); }
-    static __style = `:host{--_color-picker-height: var(--color-picker-height, 30px);--_color-picker-background-color: var(--color-picker-background-color, var(--form-element-background, white));--_color-picker-icon-height: var(--color-picker-icon-height, calc(var(--_color-picker-height) / 2));--_color-picker-error-logo-size: var(--color-picker-error-logo-size, calc(var(--_color-picker-height) / 2));--_color-picker-font-size: var(--color-picker-font-size, var(--form-element-font-size, 16px));--_color-picker-font-size-label: var(--color-picker-font-size-label, var(--form-element-font-size-label, calc(var(--_color-picker-font-size) * 0.95)));--_color-picker-color-picker-border: var(--color-picker-color-picker-border, var(--form-element-border, 1px solid var(--lighter-active)));--_color-picker-border-radius: var(--color-picker-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_color-picker-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_color-picker-background-color);border:var(--_color-picker-color-picker-border);border-radius:var(--_color-picker-border-radius);display:flex;height:var(--_color-picker-height);overflow:hidden;padding:0 10px;width:100%}:host .input .preview{aspect-ratio:1/1;background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--_color-picker-border-radius);cursor:pointer;display:none;height:calc(100% - 10px);position:relative}:host .input .preview::after{background-color:var(--_color-picker-selected-color);border-radius:var(--_color-picker-border-radius);content:"";inset:0;position:absolute}:host .input .preview-before{margin-right:10px}:host .input .preview-after{margin-left:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_color-picker-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_color-picker-error-logo-size) - 5px);height:var(--_color-picker-error-logo-size);justify-content:center;width:var(--_color-picker-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host rk-color-picker-selector{display:none}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([label]:not([label=""])) label{display:flex}:host([preview=before]) .input .preview-before{display:block}:host([preview=after]) .input .preview-after{display:block}`;
-    __getStatic() {
-        return ColorPicker;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(ColorPicker.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        slots: { 'prepend':`<slot name="prepend"></slot>`,'append':`<slot name="append"></slot>` }, 
-        blocks: { 'default':`<label for="input" _id="colorpicker_0"></label><div class="input" _id="colorpicker_1">    <slot name="prepend"></slot>    <div class="preview preview-before"></div>    <input id="input" autocomplete="off" _id="colorpicker_2" />    <slot name="append"></slot>    <div class="preview preview-after"></div>    <div class="error-logo">!</div></div><div class="errors">    <template _id="colorpicker_3"></template></div><rk-color-picker-selector _id="colorpicker_6"></rk-color-picker-selector>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "containerEl",
-      "ids": [
-        "colorpicker_1"
-      ]
-    },
-    {
-      "name": "inputEl",
-      "ids": [
-        "colorpicker_2"
-      ]
-    },
-    {
-      "name": "pickerEl",
-      "ids": [
-        "colorpicker_6"
-      ]
-    }
-  ],
-  "content": {
-    "colorpicker_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod1())}`,
-      "once": true
-    },
-    "colorpicker_2°placeholder": {
-      "fct": (c) => `${c.print(c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod2())}`,
-      "once": true
-    }
-  },
-  "injection": [
-    {
-      "id": "colorpicker_6",
-      "injectionName": "direction",
-      "inject": (c) => c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod4(),
-      "once": true
-    },
-    {
-      "id": "colorpicker_6",
-      "injectionName": "opacity",
-      "inject": (c) => c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod5(),
-      "once": true
-    },
-    {
-      "id": "colorpicker_6",
-      "injectionName": "show_text_value",
-      "inject": (c) => c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod6(),
-      "once": true
-    },
-    {
-      "id": "colorpicker_6",
-      "injectionName": "presets",
-      "inject": (c) => c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod7(),
-      "once": true
-    }
-  ],
-  "events": [
-    {
-      "eventName": "input",
-      "id": "colorpicker_2",
-      "fct": (e, c) => c.comp.txtChange(e)
-    },
-    {
-      "eventName": "focus",
-      "id": "colorpicker_2",
-      "fct": (e, c) => c.comp.removeErrors(e)
-    }
-  ],
-  "pressEvents": [
-    {
-      "id": "colorpicker_0",
-      "onPress": (e, pressInstance, c) => { c.comp.showPicker(e, pressInstance); }
-    },
-    {
-      "id": "colorpicker_1",
-      "onPress": (e, pressInstance, c) => { c.comp.showPicker(e, pressInstance); }
-    }
-  ]
-});const templ0 = new Aventus.Template(this);templ0.setTemplate(`         <template _id="colorpicker_4"></template>    `);this.__getStatic().__template.addLoop({
-                    anchorId: 'colorpicker_3',
-                    template: templ0,
-                simple:{data: "this.errors",item:"error"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`            <div _id="colorpicker_5"></div>        `);templ1.setActions({
-  "content": {
-    "colorpicker_5°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod3(c.data.error))}`,
-      "once": true
-    }
-  }
-});templ0.addIf({
-                    anchorId: 'colorpicker_4',
-                    parts: [{once: true,
-                    condition: (c) => true,
-                    template: templ1
-                }]
-            }); }
-    getClassName() {
-        return "ColorPicker";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('preview')){ this['preview'] = 'before'; }if(!this.hasAttribute('value')){ this['value'] = undefined; }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('direction')){ this['direction'] = 'horizontal'; }if(!this.hasAttribute('opacity')) {this.setAttribute('opacity' ,'true'); }if(!this.hasAttribute('show_text_value')) {this.setAttribute('show_text_value' ,'true'); } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["presets"] = []; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('preview');this.__upgradeProperty('value');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('direction');this.__upgradeProperty('opacity');this.__upgradeProperty('show_text_value');this.__correctGetter('presets'); }
-    __listBoolProps() { return ["opacity","show_text_value"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    removeErrors() {
-        this.errors = [];
-    }
-    showPicker() {
-        let box = this.getBoundingClientRect();
-        let boxInput = this.inputEl.getBoundingClientRect();
-        let newTop = boxInput.top + boxInput.height + 2;
-        this.pickerEl.style.position = 'absolute';
-        this.pickerEl.style.top = newTop + 'px';
-        this.pickerEl.style.left = box.left + 'px';
-        this.pickerEl.setAttribute("tabindex", "-1");
-        this.pickerEl.colorTxt = this.value ?? "#ffffff00";
-        document.body.appendChild(this.pickerEl);
-    }
-    manageFocus() {
-        let blurTimeout = 0;
-        ;
-        let blur = () => {
-            blurTimeout = setTimeout(() => {
-                this.shadowRoot.appendChild(this.pickerEl);
-                this.validate();
-            }, 100);
-        };
-        this.inputEl.addEventListener("blur", () => {
-            blur();
-        });
-        this.pickerEl.addEventListener("blur", () => {
-            blur();
-        });
-        this.inputEl.addEventListener("focus", () => {
-            clearTimeout(blurTimeout);
-        });
-        this.pickerEl.addEventListener("focus", () => {
-            clearTimeout(blurTimeout);
-        });
-    }
-    localValidation() {
-        let errors = [];
-        if (this.inputEl.value && !Lib.Color.isValid(this.inputEl.value)) {
-            const txt = this.errorsTxt.notColor ?? this.defaultErrorsTxt.notColor;
-            errors.push(txt);
-        }
-        return errors;
-    }
-    onFormValidation(errors) {
-        errors = [...this.localValidation(), ...errors];
-        return super.onFormValidation(errors);
-    }
-    async validate() {
-        if (!this.formPart) {
-            this.errors = this.localValidation();
-            return this.errors.length == 0;
-        }
-        return await this.formPart.test();
-    }
-    txtChange() {
-        if (Lib.Color.isValid(this.inputEl.value)) {
-            this.value = this.inputEl.value;
-            this.pickerEl.colorTxt = this.inputEl.value;
-            this.onChange.trigger([this.value]);
-            if (this.formPart) {
-                this.formPart.value.set(this.value);
-            }
-        }
-    }
-    postCreation() {
-        this.manageFocus();
-        this.pickerEl.onChange.add(() => {
-            this.value = this.pickerEl.colorTxt;
-            this.onChange.trigger([this.value]);
-            if (this.formPart) {
-                this.formPart.value.set(this.value);
-            }
-        });
-    }
-    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod1() {
-        return this.label;
-    }
-    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod2() {
-        return this.placeholder;
-    }
-    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod3(error) {
-        return error;
-    }
-    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod4() {
-        return this.direction;
-    }
-    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod5() {
-        return this.opacity;
-    }
-    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod6() {
-        return this.show_text_value;
-    }
-    __ca0a8e7f97d8ea0f1952ac0ce1ca76bbmethod7() {
-        return this.presets;
-    }
-}
-Components.ColorPicker.Namespace=`Core.Components`;
-Components.ColorPicker.Tag=`rk-color-picker`;
-_.Components.ColorPicker=Components.ColorPicker;
-if(!window.customElements.get('rk-color-picker')){window.customElements.define('rk-color-picker', Components.ColorPicker);Aventus.WebComponentInstance.registerDefinition(Components.ColorPicker);}
 
 
 for(let key in _) { Core[key] = _[key] }

@@ -16,7 +16,7 @@ namespace Components {
     
         //#region variables
         /**
-         * @inheritdoc
+         * List of errors. You must display errors in child component
          */
         @Watch((target: FormElement<T>) => {
             target.has_errors = target.errors.length > 0;
@@ -24,7 +24,7 @@ namespace Components {
         public errors: string[] = [];
     
         /**
-         * @inheritdoc
+         * Value for the current form element
          */
         @Watch()
         public value: T | undefined;
@@ -55,6 +55,7 @@ namespace Components {
         @BindThis()
         protected refreshValueFromForm() {
             if(this._formPart) {
+                this.errors = [];
                 this.value = this._formPart.value.get();
             }
         }

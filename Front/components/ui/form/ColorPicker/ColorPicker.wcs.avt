@@ -50,6 +50,7 @@
 		font-size: var(--_color-picker-font-size-label);
 		margin-bottom: 5px;
 		margin-left: 3px;
+		cursor: pointer;
 	}
 
 	.input {

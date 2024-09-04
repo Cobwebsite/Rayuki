@@ -104,10 +104,9 @@
 		border-bottom-left-radius: var(--_application-border-radius);
 		border-bottom-right-radius: var(--_application-border-radius);
 		height: calc(100% - 35px);
-		margin: 5px;
-		margin-top: 0;
+		margin-bottom: 5px;
 		overflow: hidden;
-		width: calc(100% - 10px);
+		width: 100%;
 		z-index: 1;
 	}
 

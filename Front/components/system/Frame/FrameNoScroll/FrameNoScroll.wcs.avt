@@ -4,6 +4,7 @@
 	display: none;
 	height: 100%;
 	width: 100%;
+	padding: 0 5px;
 
 	.opacity-wrapper {
 		animation-delay: var(--local-frame-animation-delay, 0ms);

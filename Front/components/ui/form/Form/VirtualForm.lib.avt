@@ -134,7 +134,6 @@ namespace Components {
 
         protected async onWatcherChanged(action: Aventus.WatchAction, path: string, value: any) {
             if(!this.parts) return;
-
             if(path == "item") {
                 for(let key in this.parts) {
                     let formPart = this.parts[key] as InternalFormPart;

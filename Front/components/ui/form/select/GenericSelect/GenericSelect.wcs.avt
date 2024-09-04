@@ -16,6 +16,7 @@
 	width: 100%;
 
 	label {
+		cursor: pointer;
 		display: none;
 		font-size: var(--_select-font-size-label);
 		margin-bottom: 5px;
@@ -73,11 +74,11 @@
 			border-radius: var(--border-radius-round);
 			color: white;
 			display: none;
+			flex-shrink: 0;
 			font-size: calc(var(--_select-error-logo-size) - 5px);
 			height: var(--_select-error-logo-size);
 			justify-content: center;
 			width: var(--_select-error-logo-size);
-			flex-shrink: 0;
 		}
 	}
 

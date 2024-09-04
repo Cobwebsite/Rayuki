@@ -5,6 +5,11 @@ namespace Lib {
             if(date1 == null || date2 == null) return false;
             return date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear();
         }
+        public static isSameDateTime(date1?: Date, date2?: Date) {
+            if(date1 == null && date2 == null) return true;
+            if(date1 == null || date2 == null) return false;
+            return date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear() && date1.getHours() == date2.getHours() && date1.getMinutes() == date2.getMinutes();
+        }
 
         public static print(date: Date, options?: Intl.DateTimeFormatOptions | undefined, locale?: string) {
             if(!options) {

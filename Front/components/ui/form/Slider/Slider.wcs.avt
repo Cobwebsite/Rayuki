@@ -25,6 +25,7 @@
 	width: 100%;
 
 	label {
+		cursor: pointer;
 		display: none;
 		flex-shrink: 0;
 		font-size: var(--_slider-font-size-label);

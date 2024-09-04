@@ -18,6 +18,7 @@
 		font-size: var(--_datepicker-font-size-label);
 		margin-bottom: 5px;
 		margin-left: 3px;
+		cursor: pointer;
 	}
 
 	.input {

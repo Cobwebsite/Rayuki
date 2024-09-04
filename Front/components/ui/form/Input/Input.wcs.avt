@@ -14,6 +14,7 @@
 	width: 100%;
 
 	label {
+		cursor: pointer;
 		display: none;
 		font-size: var(--_input-font-size-label);
 		margin-bottom: 5px;
@@ -27,9 +28,9 @@
 		border-radius: var(--_input-border-radius);
 		display: flex;
 		height: var(--_input-height);
+		overflow: hidden;
 		padding: 0 10px;
 		width: 100%;
-		overflow: hidden;
 
 		.icon {
 			display: none;
@@ -106,16 +107,17 @@
 :host([icon_position="right"]) {
 	.input {
 		.icon {
-			order: 2;
 			margin-right: 0px;
+			order: 2;
 		}
+
 		.input {
 			order: 1;
 		}
 
-		.error-logo  {
-			order: 3;
+		.error-logo {
 			margin-left: 10px;
+			order: 3;
 		}
 	}
 }

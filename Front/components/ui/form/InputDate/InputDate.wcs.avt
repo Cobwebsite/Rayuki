@@ -1,0 +1,221 @@
+:host {
+    /**
+	* Height of the date input field.
+	*/
+	--_input-date-height: var(--input-date-height, 30px);
+    /**
+	* Background color of the date input field.
+	* @type color
+	*/
+	--_input-date-background-color: var(--input-date-background-color, var(--form-element-background, white));
+    /**
+	* Height of the icon within the date input field.
+	*/
+	--_input-date-icon-height: var(--input-date-icon-height, calc(var(--_input-date-height) / 2));
+    /**
+	* Size of the error logo within the date input field.
+	*/
+	--_input-date-error-logo-size: var(--input-date-error-logo-size, calc(var(--_input-date-height) / 2));
+    /**
+	* Font size of the text in the date input field.
+	*/
+	--_input-date-font-size: var(--input-date-font-size, var(--form-element-font-size, 16px));
+    /**
+	* Font size of the label associated with the date input field.
+	*/
+	--_input-date-font-size-label: var(--input-date-font-size-label, var(--form-element-font-size-label, calc(var(--_input-date-font-size) * 0.95)));
+    /**
+	* Border style for the date input field.
+	*/
+	--_input-date-input-border: var(--input-date-input-border, var(--form-element-border, 1px solid var(--lighter-active)));
+    /**
+	* Border radius of the date input field.
+	*/
+	--_input-date-border-radius: var(--input-date-border-radius, var(--form-element-border-radius, 0));
+}
+
+:host {
+	min-width: 100px;
+	width: 100%;
+
+	label {
+		display: none;
+		font-size: var(--_input-date-font-size-label);
+		margin-bottom: 5px;
+		margin-left: 3px;
+        cursor: pointer;
+	}
+
+	.input {
+		align-items: center;
+		background-color: var(--_input-date-background-color);
+		border: var(--_input-date-input-border);
+		border-radius: var(--_input-date-border-radius);
+		display: flex;
+		height: var(--_input-date-height);
+		overflow: hidden;
+		padding: 0 10px;
+		width: 100%;
+
+		.icon {
+			display: none;
+			flex-shrink: 0;
+			height: var(--_input-date-icon-height);
+			margin-right: 10px;
+		}
+
+		.edit {
+			align-items: center;
+			display: flex;
+			display: none;
+			flex-grow: 1;
+			height: 100%;
+
+            input {
+                background-color: transparent;
+                border: none;
+                color: var(--text-color);
+                display: block;
+                font-size: var(--_input-date-font-size);
+                height: 100%;
+                margin: 0;
+                min-width: 0;
+                outline: none;
+                padding: 5px 0;
+                text-align: center;
+                width: 20px;
+            }
+    
+            .year-input {
+                width: 38px;
+            }
+    
+            span {
+                color: var(--text-color);
+                font-size: var(--_input-date-font-size);
+                height: 100%;
+                padding: 5px 0;
+                text-align: center;
+            }
+		}
+
+		.visual {
+            background-color: transparent;
+            border: none;
+            color: var(--text-color);
+            display: block;
+            font-size: var(--_input-date-font-size);
+            height: 100%;
+            margin: 0;
+            min-width: 0;
+            outline: none;
+            padding: 5px 0;
+            width: 20px;
+            flex-grow: 1;
+		}
+
+        .clear-icon {
+			font-size: 18px;
+			flex-shrink: 0;
+            display: none;
+		}
+
+		.error-logo {
+			align-items: center;
+			background-color: var(--red);
+			border-radius: var(--border-radius-round);
+			color: white;
+			display: none;
+			flex-shrink: 0;
+			font-size: calc(var(--_input-date-error-logo-size) - 5px);
+			height: var(--_input-date-error-logo-size);
+			justify-content: center;
+			width: var(--_input-date-error-logo-size);
+		}
+	}
+
+	.errors {
+		color: var(--red);
+		display: none;
+		font-size: var(--font-size-sm);
+		line-height: 1.1;
+		margin: 10px;
+		margin-bottom: 0px;
+
+		div {
+			margin: 5px 0;
+		}
+	}
+}
+
+:host([has_errors]) {
+	.input {
+		border: 1px solid var(--red);
+
+		.error-logo {
+			display: flex;
+		}
+	}
+
+	.errors {
+		display: block;
+	}
+}
+
+:host([icon]:not([icon=""])) {
+	.input {
+		.icon {
+			display: block;
+		}
+	}
+}
+
+:host([icon_position="right"]) {
+	.input {
+		.icon {
+			margin-right: 0px;
+			order: 2;
+		}
+
+		.input {
+			order: 1;
+		}
+
+		.error-logo {
+			margin-left: 10px;
+			order: 3;
+		}
+	}
+}
+
+:host([label]:not([label=""])) {
+	label {
+		display: flex;
+	}
+}
+
+:host(:not([time])) {
+	.time {
+		display: none;
+	}
+}
+
+:host([is_focus]) {
+	.input {
+		.edit {
+			display: flex;
+		}
+
+		.visual {
+			display: none;
+		}
+	}
+}
+
+:host([show_clear_icon]) {
+    .input {
+        .clear-icon {
+            display: inline-block;
+        }
+    }
+}

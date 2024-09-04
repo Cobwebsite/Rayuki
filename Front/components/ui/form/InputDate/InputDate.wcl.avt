@@ -1,0 +1,439 @@
+import { DateTools } from "../../../../libs/DateTools.lib.avt";
+import type { Img } from "../../Img/Img.wcl.avt";
+import { FormElement } from "../FormElement/FormElement.wcl.avt";
+
+namespace Components {
+    export class InputDate extends FormElement<Date> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        /**
+         * Label text for the input field.
+         */
+        @Property()
+        public label?: string;
+        /**
+         * Placeholder text for the input field.
+         */
+        @Property()
+        public placeholder?: string;
+        /**
+         * URL or path to an icon.
+         */
+        @Property()
+        public icon?: string;
+
+        /**
+         * Position of the icon.
+         */
+        @Property()
+        public icon_position?: 'left' | 'right';
+        /**
+         * Whether the time should be displayed.
+         */
+        @Property()
+        public time!: boolean;
+
+        /**
+         * Year format.
+         */
+        @Attribute()
+        public year_format: "numeric" | "2-digit" = "2-digit";
+
+        /**
+         * Month format.
+         */
+        @Attribute()
+        public month_format: "numeric" | "2-digit" | "long" | "short" | "narrow" = "short";
+
+        /**
+         * Day format.
+         */
+        @Attribute()
+        public day_format: "numeric" | "2-digit" = "2-digit";
+
+        /**
+         * Locale for date formatting.
+         */
+        @Attribute()
+        public locale?: string;
+
+        /**
+         * Time zone for date formatting.
+         */
+        @Attribute()
+        public time_zone?: string;
+
+        /**
+         * Whether the input is currently focused.
+         */
+        @Attribute()
+        protected is_focus!: boolean;
+
+        /**
+         * Whether the input is clearable.
+         */
+        @Attribute()
+        public clearable: boolean = true;
+
+        /**
+         * Whether to show the clear icon.
+         */
+        @Attribute()
+        protected show_clear_icon!: boolean;
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected iconEl!: Img;
+        @ViewElement()
+        protected dayEl!: HTMLInputElement;
+        @ViewElement()
+        protected monthEl!: HTMLInputElement;
+        @ViewElement()
+        protected yearEl!: HTMLInputElement;
+        @ViewElement()
+        protected hourEl!: HTMLInputElement;
+        @ViewElement()
+        protected minuteEl!: HTMLInputElement;
+
+
+        /**
+        * @inheritdoc
+        */
+        @Watch((target: InputDate) => {
+            target.setValueToInputs();
+        })
+        public override value: Date | undefined;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        /**
+         * Selects the entire content of the input field when focused.
+         */
+        protected selectContent(e: Event) {
+            (e.currentTarget as HTMLInputElement).select();
+        }
+
+        /**
+         * Sets the value of the date inputs (day, month, year, etc.) based on the current value.
+         */
+        protected setValueToInputs() {
+            if(this.value) {
+                const pretty = (nb: number) => {
+                    if(nb < 10) {
+                        return '0' + nb;
+                    }
+                    return nb + '';
+                };
+                this.dayEl.value = pretty(this.value.getDate());
+                this.monthEl.value = pretty(this.value.getMonth() + 1);
+                this.yearEl.value = pretty(this.value.getFullYear());
+                this.hourEl.value = pretty(this.value.getHours());
+                this.minuteEl.value = pretty(this.value.getMinutes());
+            }
+            else {
+                this.dayEl.value = '';
+                this.monthEl.value = '';
+                this.yearEl.value = '';
+                this.hourEl.value = '';
+                this.minuteEl.value = '';
+            }
+
+            this.show_clear_icon = this.clearable && this.value !== undefined;
+        }
+
+        /**
+         * Returns a formatted string representing the visual date.
+         */
+        protected displayVisualDate() {
+            if(!this.value) return "";
+
+            return this.value.toLocaleDateString(this.locale, {
+                year: this.year_format,
+                month: this.month_format,
+                day: this.day_format,
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZone: this.time_zone,
+            });
+        }
+
+        /**
+         * Clears the current value of the date input.
+         */
+        protected clearValue() {
+            this.value = undefined;
+            if(this.is_focus) {
+                this.dayEl.focus();
+                this.setValueToInputs();
+            }
+        }
+
+        /**
+         * Performs local validation of the date input fields.
+         */
+        protected localValidation(): string[] {
+            let errors: string[] = [];
+            let dayValue = this.dayEl.value;
+            let monthValue = this.monthEl.value;
+            let yearValue = this.yearEl.value;
+            let hourValue = this.hourEl.value;
+            let minuteValue = this.minuteEl.value;
+
+            if(!dayValue && !monthValue && !yearValue && !hourValue && !minuteValue) {
+                return [];
+            }
+
+
+            if(!monthValue) {
+                const txt = 'Le mois est obligatoire';
+                errors.push(txt);
+            }
+            else {
+                let nb = Number(monthValue);
+                if(isNaN(nb)) {
+                    const txt = 'Le mois doit être un nombre';
+                    errors.push(txt);
+                }
+                else if(nb < 1 || nb > 12) {
+                    const txt = 'Le mois mois est compris entre 1 et 12';
+                    errors.push(txt);
+                }
+            }
+
+            if(!yearValue) {
+                const txt = 'L\'année est obligatoire';
+                errors.push(txt);
+            }
+            else {
+                let nb = Number(yearValue);
+                if(isNaN(nb)) {
+                    const txt = 'L\'année doit être un nombre';
+                    errors.push(txt);
+                }
+                else if(nb < 0) {
+                    const txt = 'L\'année doit être un nombre positif';
+                    errors.push(txt);
+                }
+            }
+
+            if(!dayValue) {
+                const txt = 'Le jour est obligatoire';
+                errors.push(txt);
+            }
+            else if(errors.length == 0) {
+                let max = new Date(Number(yearValue), Number(monthValue), 0).getDate();
+                let nb = Number(dayValue);
+                if(isNaN(nb)) {
+                    const txt = 'Le jour doit être un nombre';
+                    errors.push(txt);
+                }
+                else if(nb < 1 || nb > max) {
+                    const txt = 'Le jour est compris entre 1 et $max'.replace("$max", max + '');
+                    errors.push(txt);
+                }
+            }
+
+
+
+            if(hourValue) {
+                let nb = Number(hourValue);
+                if(isNaN(nb)) {
+                    const txt = 'L\'heure doit être un nombre';
+                    errors.push(txt);
+                }
+                else if(nb < 0 || nb > 23) {
+                    const txt = 'L\'heure doit est comprise entre 1 et 23';
+                    errors.push(txt);
+                }
+            }
+
+            if(minuteValue) {
+                let nb = Number(minuteValue);
+                if(isNaN(nb)) {
+                    const txt = 'La minute doit être un nombre';
+                    errors.push(txt);
+                }
+                else if(nb < 0 || nb > 59) {
+                    const txt = 'La minute doite est comprise entre 1 et 59';
+                    errors.push(txt);
+                }
+            }
+
+            return errors;
+        }
+        /**
+         * Validates the input date and returns a boolean indicating whether the validation was successful.
+         */
+        public async validate() {
+            if(!this.formPart) {
+                this.errors = this.localValidation();
+                return this.errors.length == 0;
+            }
+            return await this.formPart.test();
+        }
+
+        /**
+        * Handles value changes and updates the value property accordingly.
+        */
+        protected async onValueChange() {
+            let localValidations = this.localValidation();
+            if(localValidations.length == 0) {
+                let dayValue = this.dayEl.value;
+                let monthValue = this.monthEl.value;
+                let yearValue = this.yearEl.value;
+                let hourValue = this.hourEl.value;
+                let minuteValue = this.minuteEl.value;
+                let result: Date | undefined = undefined;
+
+                if(!dayValue && !monthValue && !yearValue && !hourValue && !minuteValue) {
+                }
+                else {
+                    let date = new Date(Number(yearValue), Number(monthValue) - 1, Number(dayValue), 0, 0, 0, 0);
+                    if(this.time) {
+                        if(hourValue) {
+                            date.setHours(Number(hourValue));
+                        }
+                        if(minuteValue) {
+                            date.setMinutes(Number(minuteValue));
+                        }
+                    }
+                    result = date;
+                }
+
+                const isSame = this.time ? DateTools.isSameDateTime(this.value, result) : DateTools.isSameDate(this.value, result);
+
+                if(!isSame) {
+                    this.value = result;
+                    this.onChange.trigger([this.value]);
+                    if(this.formPart) {
+                        this.formPart.value.set(this.value);
+                    }
+                }
+
+                this.is_focus = false;
+            }
+            else {
+                this.errors = localValidations;
+            }
+        }
+
+        /**
+         * Adds blur events to the input fields to handle validation and focus changes.
+         */
+        protected addBlurEvents() {
+            const elements: HTMLElement[] = [this, this.dayEl, this.monthEl, this.yearEl, this.hourEl, this.minuteEl];
+            let blurTimeout: number = 0;
+            let blur = () => {
+                blurTimeout = setTimeout(() => {
+                    this.onValueChange();
+                }, 100);
+            };
+            for(let element of elements) {
+                element.addEventListener("focus", () => {
+                    this.errors = [];
+                    this.is_focus = true;
+                    clearTimeout(blurTimeout);
+                });
+                element.addEventListener("blur", () => {
+                    blur();
+                });
+            }
+            this.addEventListener("focus", () => {
+                this.dayEl.focus();
+            });
+        }
+
+
+        /**
+         * Triggers an event when the period character (.) is pressed.
+         */
+        protected triggerPoint(e: KeyboardEvent) {
+            this.triggerChar(e, '.');
+        }
+        /**
+         * Triggers an event when the space character is pressed.
+         */
+        protected triggerSpace(e: KeyboardEvent) {
+            this.triggerChar(e, ' ');
+        }
+        /**
+         * Triggers an event when the semicolon character (:) is pressed.
+         */
+        protected triggerSemiCol(e: KeyboardEvent) {
+            this.triggerChar(e, ':');
+        }
+        /**
+     * Triggers the focus on the next input element if a specific character is typed.
+     */
+        protected triggerChar(e: KeyboardEvent, char: string) {
+            if(e.key == char) {
+                e.preventDefault();
+                let el = e.target as HTMLInputElement;
+                let nextInput = el.nextElementSibling?.nextElementSibling as HTMLInputElement | undefined;
+                if(nextInput) {
+                    nextInput.focus();
+                }
+            }
+        }
+
+        /**
+         * Validates the length of the input value and moves focus if necessary.
+         */
+        protected validateLength2(e: KeyboardEvent) {
+            this.validateLength(e, 2);
+        }
+        /**
+         * Validates the length of the input value and moves focus if necessary.
+         */
+        protected validateLength4(e: KeyboardEvent) {
+            this.validateLength(e, 4);
+        }
+        /**
+         * Validates the length of the input value.
+         */
+        protected validateLength(e: KeyboardEvent, length: number) {
+            if(e.key == 'Tab') {
+                return;
+            }
+            let el = e.target as HTMLInputElement;
+            if(el.value.length == length) {
+                let nextInput = el.nextElementSibling?.nextElementSibling as HTMLInputElement | undefined;
+                if(nextInput) {
+                    nextInput.focus();
+                }
+            }
+        }
+
+        /**
+         * Prevents the focus on the input element.
+         */
+        protected preventFocus(e: Event) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        /**
+         * @inheritdoc
+         */
+        protected override postCreation(): void {
+            super.postCreation();
+            this.setAttribute("tabindex", "-1");
+            this.addBlurEvents();
+        }
+        //#endregion
+
+    }
+}

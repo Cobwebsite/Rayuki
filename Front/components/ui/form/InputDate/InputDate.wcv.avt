@@ -1,0 +1,26 @@
+<label for="input">{{ this.label }}</label>
+<div class="input">
+    <slot name="prepend">
+        <rk-img src="{{ this.icon }}" class="icon" @element="iconEl"></rk-img>
+    </slot>
+    <input class="visual" readonly value="{{ this.displayVisualDate() }}">
+    <div class="edit">
+        <input autocomplete="off" @element="dayEl" placeholder="xx" @focus="selectContent" @keydown="triggerPoint" @keyup="validateLength2" />
+        <span>.</span>
+        <input autocomplete="off" @element="monthEl" placeholder="xx" @focus="selectContent" @keydown="triggerPoint" @keyup="validateLength2" />
+        <span>.</span>
+        <input class="year-input" autocomplete="off" @element="yearEl" placeholder="xxxx" @focus="selectContent" @keydown="triggerSpace" @keyup="validateLength4" />
+        <span class="time">&nbsp;</span>
+        <input class="time" autocomplete="off" @element="hourEl" placeholder="xx" @focus="selectContent" @keydown="triggerSemiCol" @keyup="validateLength2"/>
+        <span class="time">:</span>
+        <input class="time" autocomplete="off" @element="minuteEl" placeholder="xx" @focus="selectContent" />
+    </div>
+    <slot name="append"></slot>
+    <mi-icon class="clear-icon touch" icon="close" @press="clearValue" tabindex="-1" @focus="preventFocus"></mi-icon>
+    <div class="error-logo">!</div>
+</div>
+<div class="errors">
+    for(let error of this.errors) { 
+        <div>{{ error }}</div>
+    }
+</div>
