@@ -34,8 +34,8 @@ namespace Core
         }
         public static bool IsDev
         {
-            // get => false;
-            get => app.Environment.IsDevelopment();
+            get => false;
+            // get => app.Environment.IsDevelopment();
         }
 
         public static DatabaseConfig Config

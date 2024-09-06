@@ -24,7 +24,7 @@ namespace Core.Logic
         {
             RegisterPermissions(typeof(T), null);
         }
-        public void RegisterPermissions<T, U>() where T : Enum
+        public void RegisterPermissions<T, U>() where T : Enum where U : PermissionDescription<T>
         {
             object? description = Activator.CreateInstance(typeof(U));
             if (description is PermissionDescription<T> descriptionCasted)
@@ -109,7 +109,8 @@ namespace Core.Logic
         private IExistBuilder<PermissionGroup> CanQueryGroup;
         public bool Can(int idUser, Enum value, string additionalInfo, bool isSuperAdmin)
         {
-            if(isSuperAdmin) {
+            if (isSuperAdmin)
+            {
                 return true;
             }
             string name = value.GetFullName();
@@ -140,14 +141,16 @@ namespace Core.Logic
             {
                 CanQueryGroup = PermissionGroup.StartExist().WhereWithParameters(pu => pu.Permission.Id == idPerm && groups.Contains(pu.GroupId));
             }
-            CanQueryGroup.SetVariable("idPerm", idPerm);
-            CanQueryGroup.SetVariable("groups", groups);
-            ResultWithError<bool> canGroup = CanQueryGroup.RunWithError();
-            if (canGroup.Result)
+            if (groups.Count > 0)
             {
-                return true;
+                CanQueryGroup.SetVariable("idPerm", idPerm);
+                CanQueryGroup.SetVariable("groups", groups);
+                ResultWithError<bool> canGroup = CanQueryGroup.RunWithError();
+                if (canGroup.Result)
+                {
+                    return true;
+                }
             }
-
             return false;
         }
 

@@ -1,6 +1,7 @@
 ﻿using AventusSharp.Data;
 using AventusSharp.Routes;
 using AventusSharp.Tools;
+using Core.App;
 using Core.Data;
 using Core.Logic;
 using Core.Tools;
@@ -11,6 +12,10 @@ namespace Core.Routes
 {
     public class UserRouter : StorableRoute<User>
     {
+        public override ResultWithError<List<User>> GetAll(HttpContext context)
+        {
+            return UserDM.GetInstance().WhereWithError(p => p.IsSuperAdmin == false);
+        }
         protected override ResultWithError<User> DM_Update(HttpContext context, User item)
         {
             return UserDM.GetInstance().UpdateBasicInfo(item);
@@ -25,8 +30,9 @@ namespace Core.Routes
         }
 
 
-        public ResultWithError<User> GetConnected(HttpContext context) {
-           return  UserDM.GetInstance().GetConnected(context.GetUserId());
+        public ResultWithError<User> GetConnected(HttpContext context)
+        {
+            return UserDM.GetInstance().GetConnected(context.GetUserId());
         }
     }
 }

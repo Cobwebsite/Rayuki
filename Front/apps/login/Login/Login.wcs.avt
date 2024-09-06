@@ -13,14 +13,14 @@
 	.login-container {
 		background-color: rgba(25, 25, 25, 0.8);
 		border-radius: 5px;
+		box-shadow: var(--elevation-10);
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
 		padding: 20px;
+		transform: perspective(1000px);
 		width: 372px;
 		z-index: 200;
-		transform: perspective(1000px);
-		box-shadow: var(--elevation-10);
 
 		.body {
 			display: flex;
@@ -44,9 +44,9 @@
 				input,
 				::slotted(input) {
 					background-color: transparent;
-					border-radius: 0;
 					border: 1px solid white;
 					border-bottom: none;
+					border-radius: 0;
 					color: white;
 					cursor: default;
 					height: 30px;
@@ -86,18 +86,49 @@
 				margin-left: 13px;
 				margin-top: 35px;
 				padding: 3px;
+				position: relative;
 				text-align: center;
 				transition: all 1s;
 				width: 30px;
+
+				mi-icon {
+					animation: rotate 1s linear infinite;
+					display: none;
+					font-size: 18px;
+					transform-origin: center;
+				}
+
+				rk-img {
+					height: 100%;
+				}
+
+
 			}
 
 			.btn-login-mobile {
-				background-color: transparent;
-				border: 1px solid white;
-				box-shadow: none;
 				display: none;
-				font-size: 13px;
 				margin-top: 20px;
+				outline: none;
+				-webkit-tap-highlight-color: transparent;
+
+				mi-icon {
+					animation: rotate 1s linear infinite;
+					display: none;
+					font-size: 18px;
+					outline: none;
+					transform-origin: center;
+				}
+
+				rk-button {
+					background-color: transparent;
+					border: 1px solid white;
+					box-shadow: none;
+					font-size: 13px;
+					margin-top: 20px;
+					outline: none;
+					-webkit-tap-highlight-color: transparent;
+					width: 110px;
+				}
 			}
 
 			input[type="submit"] {
@@ -110,6 +141,32 @@
 			display: none;
 			font-size: 13px;
 			margin-top: 20px;
+		}
+	}
+}
+
+:host([loading]) {
+	.login-container {
+		.body {
+			.btn-login {
+				mi-icon {
+					display: inline-block;
+				}
+
+				rk-img {
+					display: none;
+				}
+			}
+
+			.btn-login-mobile {
+				mi-icon {
+					display: inline-block;
+				}
+
+				rk-button span {
+					display: none;
+				}
+			}
 		}
 	}
 }
@@ -151,6 +208,19 @@
 	}
 }
 
+@keyframes rotate {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	50% {
+		transform: rotate(180deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
 
 @include tablet {
 	:host {

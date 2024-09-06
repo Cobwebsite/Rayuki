@@ -5,7 +5,7 @@ namespace Core.Permissions
 {
     public enum DesktopPermission
     {
-        CanEdit,
+        CanHaveVirtualDesktop,
     }
 
     [Typescript]
@@ -20,7 +20,7 @@ namespace Core.Permissions
         {
             return new Dictionary<DesktopPermission, PermissionDescriptionItem>() {
                 {
-                    DesktopPermission.CanEdit,
+                    DesktopPermission.CanHaveVirtualDesktop,
                     new PermissionDescriptionItem() {
                         DisplayName = "Gestion de bureaux multiples",
                         Description = "Permet de gérer des bureaux virtuels"

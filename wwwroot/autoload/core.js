@@ -13,8 +13,6 @@ Websocket.Events = {};
 _.Websocket.Events = {};
 let Errors = {};
 _.Errors = {};
-let Permissions = {};
-_.Permissions = {};
 let Data = {};
 _.Data = {};
 let App = {};
@@ -25,6 +23,8 @@ Data.DataTypes = {};
 _.Data.DataTypes = {};
 let System = {};
 _.System = {};
+let Permissions = {};
+_.Permissions = {};
 Websocket.Routes = {};
 _.Websocket.Routes = {};
 Permissions.Tree = {};
@@ -172,11 +172,6 @@ _.Errors.PdfErrorCode=Errors.PdfErrorCode;
     ImageFileErrorCode[ImageFileErrorCode["NotValidImage"] = 1] = "NotValidImage";
 })(Errors.ImageFileErrorCode || (Errors.ImageFileErrorCode = {}));
 _.Errors.ImageFileErrorCode=Errors.ImageFileErrorCode;
-
-(function (DesktopPermission) {
-    DesktopPermission[DesktopPermission["CanEdit"] = 0] = "CanEdit";
-})(Permissions.DesktopPermission || (Permissions.DesktopPermission = {}));
-_.Permissions.DesktopPermission=Permissions.DesktopPermission;
 
 (function (DesktopErrorCode) {
     DesktopErrorCode[DesktopErrorCode["NoDefaultDesktop"] = 0] = "NoDefaultDesktop";
@@ -1560,19 +1555,6 @@ Permissions.Tree.PermissionTreeItem.$schema={"DisplayName":"string","Description
 Aventus.Converter.register(Permissions.Tree.PermissionTreeItem.Fullname, Permissions.Tree.PermissionTreeItem);
 _.Permissions.Tree.PermissionTreeItem=Permissions.Tree.PermissionTreeItem;
 
-Permissions.PermissionQuery=class PermissionQuery {
-    $type;
-    value;
-    additionalInfo;
-    constructor(value, additionalInfo) {
-        this.$type = this.constructor['Fullname'];
-        this.value = value;
-        this.additionalInfo = additionalInfo;
-    }
-}
-Permissions.PermissionQuery.Namespace=`Core.Permissions`;
-_.Permissions.PermissionQuery=Permissions.PermissionQuery;
-
 Components.Tracker=class Tracker {
     velocityMultiplier = window.devicePixelRatio;
     updateTime = Date.now();
@@ -1637,6 +1619,11 @@ System.Panel.Namespace=`Core.System`;
 System.Panel.Tag=`rk-panel`;
 _.System.Panel=System.Panel;
 if(!window.customElements.get('rk-panel')){window.customElements.define('rk-panel', System.Panel);Aventus.WebComponentInstance.registerDefinition(System.Panel);}
+
+(function (DesktopPermission) {
+    DesktopPermission[DesktopPermission["CanHaveVirtualDesktop"] = 0] = "CanHaveVirtualDesktop";
+})(Permissions.DesktopPermission || (Permissions.DesktopPermission = {}));
+_.Permissions.DesktopPermission=Permissions.DesktopPermission;
 
 System.DesktopActivableLogic=class DesktopActivableLogic {
     static findDeskstop(el, desktop) {
@@ -2011,7 +1998,12 @@ _.Routes.GroupRouter=Routes.GroupRouter;
 Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
+        this.GetAll = this.GetAll.bind(this);
         this.GetConnected = this.GetConnected.bind(this);
+    }
+    async GetAll() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}`, Aventus.HttpMethod.GET);
+        return await request.queryJSON(this.router);
     }
     async GetConnected() {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/getconnected`, Aventus.HttpMethod.GET);
@@ -3427,6 +3419,27 @@ System.AppList.Tag=`rk-app-list`;
 _.System.AppList=System.AppList;
 if(!window.customElements.get('rk-app-list')){window.customElements.define('rk-app-list', System.AppList);Aventus.WebComponentInstance.registerDefinition(System.AppList);}
 
+Permissions.PermissionQuery=class PermissionQuery {
+    $type;
+    value;
+    additionalInfo;
+    constructor(value, additionalInfo) {
+        this.$type = this.constructor['Fullname'];
+        this.value = value;
+        this.additionalInfo = additionalInfo;
+    }
+}
+Permissions.PermissionQuery.Namespace=`Core.Permissions`;
+_.Permissions.PermissionQuery=Permissions.PermissionQuery;
+
+Permissions.DesktopPermissionQuery=class DesktopPermissionQuery extends Permissions.PermissionQuery {
+    static get Fullname() { return "Core.Permissions.DesktopPermissionQuery, Core"; }
+}
+Permissions.DesktopPermissionQuery.Namespace=`Core.Permissions`;
+Permissions.DesktopPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
+Aventus.Converter.register(Permissions.DesktopPermissionQuery.Fullname, Permissions.DesktopPermissionQuery);
+_.Permissions.DesktopPermissionQuery=Permissions.DesktopPermissionQuery;
+
 Components.TouchRecord=class TouchRecord {
     _activeTouchID;
     _touchList = {};
@@ -4649,6 +4662,7 @@ Lib.TransactionManager=class TransactionManager {
         this.cancelEvent = new Websocket.Events.TransactionCancelledEvent();
         this.cancelEvent.listen();
         this.cancelEvent.onTrigger.add(async (body) => {
+            return;
             if (body.guid == this.guid) {
                 this.guid = undefined;
                 try {
@@ -4660,7 +4674,6 @@ Lib.TransactionManager=class TransactionManager {
                 this.mutex.release();
             }
         });
-        //new DesktopRouter().events.RegisterOpenApp.onTrigger.add(this.onRegisterInfo);
     }
     static async begin(ms = 5000) {
         await this.mutex.waitOne();
@@ -4675,6 +4688,9 @@ Lib.TransactionManager=class TransactionManager {
             }
         }
         return result;
+    }
+    static isActive(guid) {
+        return this.guid == guid;
     }
     static async commit(guid) {
         if (this.guid != guid) {
@@ -5121,7 +5137,12 @@ Websocket.Routes.DesktopRouter.Namespace=`Core.Websocket.Routes`;
 _.Websocket.Routes.DesktopRouter=Websocket.Routes.DesktopRouter;
 
 System.BottomBar = class BottomBar extends Aventus.WebComponent {
-    get desktop() {
+    get 'permissions'() {
+						return this.__watch["permissions"];
+					}
+					set 'permissions'(val) {
+						this.__watch["permissions"] = val;
+					}    get desktop() {
         if (this.parentNode instanceof ShadowRoot) {
             if (this.parentNode.host instanceof System.Desktop) {
                 return this.parentNode.host;
@@ -5132,6 +5153,9 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
     is_desktop_active = false;
     timeoutOverHome = 0;
     emptyIcon;
+    __registerWatchesActions() {
+    this.__addWatchesActions("permissions");    super.__registerWatchesActions();
+}
     static __style = `:host{align-items:center;background-color:var(--primary-color-opacity);border-radius:var(--border-radius);bottom:10px;box-shadow:var(--elevation-3);color:var(--text-color);display:flex;font-size:var(--font-size);height:50px;left:100px;outline:none;padding:0 10px;position:absolute;transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s,transform 1s var(--bezier-curve);width:calc(100% - 200px);z-index:100}:host .section{align-items:center;display:flex;height:100%}:host .section .icon{--img-stroke-color: transparent;--img-fill-color: var(--text-color);border-radius:var(--border-radius-sm);cursor:pointer;margin:0 3px;max-height:calc(100% - 16px);max-width:34px;padding:7px;transition:background-color .2s var(--bezier-curve)}:host .section rk-app-icon{margin:0 5px}:host .separator{background-color:var(--text-color);display:inline-block;height:50%;margin:0 13px;width:1px}:host .applications{flex-grow:1;gap:10px;position:relative}:host .applications .empty-icon{background-color:var(--darker-active);border-radius:var(--border-radius-sm);height:30px;width:30px}:host .nb-notifications{align-items:center;background-color:var(--text-color);border-radius:var(--border-radius-round);color:var(--primary-color-opacity);display:flex;font-size:14px;font-weight:bold;height:25px;justify-content:center;letter-spacing:-1px;padding-right:1px;width:25px}@media screen and (min-width: 1225px){:host .section .icon:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host{border-radius:0;border-bottom-left-radius:0;border-bottom-right-radius:0;bottom:0px;left:0px;padding:0 10px;width:100%}}@media screen and (max-width: 768px){:host{height:70px}:host .basic-action{display:none}:host .addons>*{display:none}:host .separator{display:none}:host .applications .empty-icon{height:50px;width:50px}}`;
     constructor() { super(); this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this) }
     __getStatic() {
@@ -5144,7 +5168,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="section basic-action">    <rk-home-btn></rk-home-btn>    <rk-img mode="contains" src="/img/icons/application-panel.svg" class="touch icon" _id="bottombar_0"></rk-img>    <rk-img mode="contains" src="/img/icons/layout-fluid.svg" class="touch icon" _id="bottombar_1"></rk-img></div><div class="separator"></div><div class="section applications" _id="bottombar_2"></div><div class="separator"></div><div class="section addons">    <rk-add-on-time></rk-add-on-time></div>` }
+        blocks: { 'default':`<div class="section basic-action">    <rk-home-btn></rk-home-btn>    <rk-img mode="contains" src="/img/icons/application-panel.svg" class="touch icon" _id="bottombar_0"></rk-img>    <template _id="bottombar_1"></template></div><div class="separator"></div><div class="section applications" _id="bottombar_3"></div><div class="separator"></div><div class="section addons">    <rk-add-on-time></rk-add-on-time></div>` }
     });
 }
     __createStates() { super.__createStates(); let that = this;  this.__createStatesList(State.MoveApplication.state, State.DesktopStateManager);this.__addActiveState(State.MoveApplication.state, State.DesktopStateManager, (state, slugs) => { that.__inactiveDefaultState(State.DesktopStateManager); that.onMoveApplication(state, slugs);})this.__addInactiveState(State.MoveApplication.state, State.DesktopStateManager, (state, nextState, slugs) => { that.onStopMovingApplication(state, nextState, slugs);that.__activeDefaultState(nextState, State.DesktopStateManager);}) }
@@ -5153,7 +5177,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
     {
       "name": "applicationsContainer",
       "ids": [
-        "bottombar_2"
+        "bottombar_3"
       ]
     }
   ],
@@ -5161,17 +5185,30 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
     {
       "id": "bottombar_0",
       "onPress": (e, pressInstance, c) => { c.comp.showAppList(e, pressInstance); }
-    },
+    }
+  ]
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <rk-img mode="contains" src="/img/icons/layout-fluid.svg" class="touch icon" _id="bottombar_2"></rk-img>    `);templ0.setActions({
+  "pressEvents": [
     {
-      "id": "bottombar_1",
+      "id": "bottombar_2",
       "onPress": (e, pressInstance, c) => { c.comp.showDesktops(e, pressInstance); }
     }
   ]
-}); }
+});this.__getStatic().__template.addIf({
+                    anchorId: 'bottombar_1',
+                    parts: [{once: true,
+                    condition: (c) => c.comp.__caf7651d66630d65b331758f2e732cb4method0(),
+                    template: templ0
+                }]
+            }); }
     getClassName() {
         return "BottomBar";
     }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('desktop'); }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["permissions"] = {                CanHaveVirtualDesktop: false            }; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('desktop');this.__correctGetter('permissions'); }
+    async getPermissions() {
+        this.permissions.CanHaveVirtualDesktop = await can(new Permissions.DesktopPermissionQuery(Permissions.DesktopPermission.CanHaveVirtualDesktop));
+    }
     addSwipe() {
         let enable = true;
         let startY = 0;
@@ -5363,8 +5400,12 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
         System.DesktopActivableLogic.remove(this);
     }
     postCreation() {
+        this.getPermissions();
         this.addSwipe();
         this.addFocus();
+    }
+    __caf7651d66630d65b331758f2e732cb4method0() {
+        return this.permissions.CanHaveVirtualDesktop;
     }
 }
 System.BottomBar.Namespace=`Core.System`;
@@ -6800,6 +6841,9 @@ Lib.ApplicationManager=class ApplicationManager {
     static mutex = new Aventus.Mutex();
     static openApplications = {};
     static openApplicationsKey = "openApplications";
+    static get storage() {
+        return sessionStorage;
+    }
     static async save(appInfo) {
         if (System.Os.instance.activeDesktop.data.Configuration.SyncDesktop) {
             await this.uniqueAction(appInfo, async (appInfo) => {
@@ -6825,7 +6869,7 @@ Lib.ApplicationManager=class ApplicationManager {
             if (mustAdd) {
                 this.openApplications[DesktopId].push(Info);
             }
-            sessionStorage.setItem(this.openApplicationsKey, JSON.stringify(this.openApplications));
+            this.storage.setItem(this.openApplicationsKey, JSON.stringify(this.openApplications));
         }
     }
     static async remove(appInfo) {
@@ -6848,7 +6892,7 @@ Lib.ApplicationManager=class ApplicationManager {
                     if (this.openApplications[DesktopId].length == 0) {
                         delete this.openApplications[DesktopId];
                     }
-                    sessionStorage.setItem(this.openApplicationsKey, JSON.stringify(this.openApplications));
+                    this.storage.setItem(this.openApplicationsKey, JSON.stringify(this.openApplications));
                     return;
                 }
             }
@@ -6891,7 +6935,7 @@ Lib.ApplicationManager=class ApplicationManager {
         });
     }
     static reloadData() {
-        let savedValues = sessionStorage.getItem(this.openApplicationsKey) ?? '[]';
+        let savedValues = this.storage.getItem(this.openApplicationsKey) ?? '[]';
         this.openApplications = Aventus.Converter.transform(JSON.parse(savedValues));
     }
     static init() {
@@ -6969,16 +7013,19 @@ System.ApplicationSizeStorage=class ApplicationSizeStorage {
     memory = {};
     keyPrefered = "ApplicationSizeStoragePrefered";
     keySave = "ApplicationSizeStorage";
+    get storage() {
+        return localStorage;
+    }
     constructor() {
-        this.memoryPrefered = JSON.parse(sessionStorage.getItem(this.keyPrefered) ?? "{}");
-        this.memory = JSON.parse(sessionStorage.getItem(this.keySave) ?? "{}");
+        this.memoryPrefered = JSON.parse(this.storage.getItem(this.keyPrefered) ?? "{}");
+        this.memory = JSON.parse(this.storage.getItem(this.keySave) ?? "{}");
     }
     getInfoPrefered(appName) {
         return this.memoryPrefered[appName];
     }
     setInfoPrefered(appName, value) {
         this.memoryPrefered[appName] = value;
-        sessionStorage.setItem(this.keyPrefered, JSON.stringify(this.memoryPrefered));
+        this.storage.setItem(this.keyPrefered, JSON.stringify(this.memoryPrefered));
     }
     getInfo(desktopId, appName, appNumber) {
         const key = this.getKey(desktopId, appName, appNumber);
@@ -6987,7 +7034,7 @@ System.ApplicationSizeStorage=class ApplicationSizeStorage {
     setInfo(desktopId, appName, appNumber, value) {
         const key = this.getKey(desktopId, appName, appNumber);
         this.memory[key] = value;
-        sessionStorage.setItem(this.keySave, JSON.stringify(this.memory));
+        this.storage.setItem(this.keySave, JSON.stringify(this.memory));
     }
     removeInfo(desktopId, appName, appNumber) {
         const key = this.getKey(desktopId, appName, appNumber);
@@ -6995,7 +7042,7 @@ System.ApplicationSizeStorage=class ApplicationSizeStorage {
     }
     clearAll() {
         this.memory = {};
-        sessionStorage.setItem(this.keySave, JSON.stringify(this.memory));
+        this.storage.setItem(this.keySave, JSON.stringify(this.memory));
     }
     getKey(desktopId, appName, appNumber) {
         return desktopId + ":" + appName + "$" + appNumber;
@@ -8151,12 +8198,12 @@ System.Application = class Application extends Aventus.WebComponent {
                 return undefined;
             }
             const resultWithError = new Aventus.ResultWithError();
-            if (fct instanceof Promise) {
-                resultWithError.result = await fct;
+            if (!Lib.TransactionManager.isActive(beginResult.result)) {
+                resultWithError.errors.push(new Errors.CoreError(Errors.CoreErrorCode.TransactionGuidMissmatch, "La transaction n'est plus active"));
             }
             else {
-                resultWithError.result = await fct(async (prom) => {
-                    const queryResult = await prom;
+                resultWithError.result = await fct(async (fct, ...args) => {
+                    const queryResult = await fct(...args);
                     if (queryResult.errors.length > 0) {
                         for (let error of queryResult.errors) {
                             resultWithError.errors.push(error);
@@ -8166,14 +8213,14 @@ System.Application = class Application extends Aventus.WebComponent {
                         return queryResult.result;
                     return undefined;
                 });
-            }
-            if (resultWithError.success) {
-                const commitResult = await Lib.TransactionManager.commit(beginResult.result);
-                resultWithError.errors = [...resultWithError.errors, ...commitResult.errors];
-            }
-            else {
-                const rollbackResult = await Lib.TransactionManager.rollback(beginResult.result);
-                resultWithError.errors = [...resultWithError.errors, ...rollbackResult.errors];
+                if (resultWithError.success) {
+                    const commitResult = await Lib.TransactionManager.commit(beginResult.result);
+                    resultWithError.errors = [...resultWithError.errors, ...commitResult.errors];
+                }
+                else {
+                    const rollbackResult = await Lib.TransactionManager.rollback(beginResult.result);
+                    resultWithError.errors = [...resultWithError.errors, ...rollbackResult.errors];
+                }
             }
             return this.parseErrors(resultWithError);
         }
@@ -11601,7 +11648,6 @@ State.CreateOrUpdate=class CreateOrUpdate extends State.ApplicationFormState {
     }
     /**
      * This will validate the form and save the model though the ram
-     *
      * Errors are deals by this method. If success, result !== undefined
      */
     async save() {
@@ -11832,450 +11878,6 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
 }
 Components.FormElement.Namespace=`Core.Components`;
 _.Components.FormElement=Components.FormElement;
-
-Components.InputDate = class InputDate extends Components.FormElement {
-    static get observedAttributes() {return ["label", "placeholder", "icon", "icon_position", "time"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'year_format'() { return this.getStringAttr('year_format') }
-    set 'year_format'(val) { this.setStringAttr('year_format', val) }get 'month_format'() { return this.getStringAttr('month_format') }
-    set 'month_format'(val) { this.setStringAttr('month_format', val) }get 'day_format'() { return this.getStringAttr('day_format') }
-    set 'day_format'(val) { this.setStringAttr('day_format', val) }get 'locale'() { return this.getStringAttr('locale') }
-    set 'locale'(val) { this.setStringAttr('locale', val) }get 'time_zone'() { return this.getStringAttr('time_zone') }
-    set 'time_zone'(val) { this.setStringAttr('time_zone', val) }get 'is_focus'() { return this.getBoolAttr('is_focus') }
-    set 'is_focus'(val) { this.setBoolAttr('is_focus', val) }get 'clearable'() { return this.getBoolAttr('clearable') }
-    set 'clearable'(val) { this.setBoolAttr('clearable', val) }get 'show_clear_icon'() { return this.getBoolAttr('show_clear_icon') }
-    set 'show_clear_icon'(val) { this.setBoolAttr('show_clear_icon', val) }    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
-    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }get 'icon_position'() { return this.getStringProp('icon_position') }
-    set 'icon_position'(val) { this.setStringAttr('icon_position', val) }get 'time'() { return this.getBoolProp('time') }
-    set 'time'(val) { this.setBoolAttr('time', val) }    get 'value'() {
-						return this.__watch["value"];
-					}
-					set 'value'(val) {
-						this.__watch["value"] = val;
-					}    __registerWatchesActions() {
-    this.__addWatchesActions("value", ((target) => {
-    target.setValueToInputs();
-}));    super.__registerWatchesActions();
-}
-    static __style = `:host{--_input-date-height: var(--input-date-height, 30px);--_input-date-background-color: var(--input-date-background-color, var(--form-element-background, white));--_input-date-icon-height: var(--input-date-icon-height, calc(var(--_input-date-height) / 2));--_input-date-error-logo-size: var(--input-date-error-logo-size, calc(var(--_input-date-height) / 2));--_input-date-font-size: var(--input-date-font-size, var(--form-element-font-size, 16px));--_input-date-font-size-label: var(--input-date-font-size-label, var(--form-element-font-size-label, calc(var(--_input-date-font-size) * 0.95)));--_input-date-input-border: var(--input-date-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-date-border-radius: var(--input-date-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-date-font-size-label);margin-bottom:5px;margin-left:3px;cursor:pointer}:host .input{align-items:center;background-color:var(--_input-date-background-color);border:var(--_input-date-input-border);border-radius:var(--_input-date-border-radius);display:flex;height:var(--_input-date-height);overflow:hidden;padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-date-icon-height);margin-right:10px}:host .input .edit{align-items:center;display:flex;display:none;flex-grow:1;height:100%}:host .input .edit input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;font-size:var(--_input-date-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;text-align:center;width:20px}:host .input .edit .year-input{width:38px}:host .input .edit span{color:var(--text-color);font-size:var(--_input-date-font-size);height:100%;padding:5px 0;text-align:center}:host .input .visual{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;font-size:var(--_input-date-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;width:20px;flex-grow:1}:host .input .clear-icon{font-size:18px;flex-shrink:0;display:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-date-error-logo-size) - 5px);height:var(--_input-date-error-logo-size);justify-content:center;width:var(--_input-date-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([icon_position=right]) .input .icon{margin-right:0px;order:2}:host([icon_position=right]) .input .input{order:1}:host([icon_position=right]) .input .error-logo{margin-left:10px;order:3}:host([label]:not([label=""])) label{display:flex}:host(:not([time])) .time{display:none}:host([is_focus]) .input .edit{display:flex}:host([is_focus]) .input .visual{display:none}:host([show_clear_icon]) .input .clear-icon{display:inline-block}`;
-    __getStatic() {
-        return InputDate;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(InputDate.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        slots: { 'prepend':`<slot name="prepend">        <rk-img class="icon" _id="inputdate_1"></rk-img>    </slot>`,'append':`<slot name="append"></slot>` }, 
-        blocks: { 'default':`<label for="input" _id="inputdate_0"></label><div class="input">    <slot name="prepend">        <rk-img class="icon" _id="inputdate_1"></rk-img>    </slot>    <input class="visual" readonly _id="inputdate_2" />    <div class="edit">        <input autocomplete="off" placeholder="xx" _id="inputdate_3" />        <span>.</span>        <input autocomplete="off" placeholder="xx" _id="inputdate_4" />        <span>.</span>        <input class="year-input" autocomplete="off" placeholder="xxxx" _id="inputdate_5" />        <span class="time">&nbsp;</span>        <input class="time" autocomplete="off" placeholder="xx" _id="inputdate_6" />        <span class="time">:</span>        <input class="time" autocomplete="off" placeholder="xx" _id="inputdate_7" />    </div>    <slot name="append"></slot>    <mi-icon class="clear-icon touch" icon="close" tabindex="-1" _id="inputdate_8"></mi-icon>    <div class="error-logo">!</div></div><div class="errors">    <template _id="inputdate_9"></template></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "iconEl",
-      "ids": [
-        "inputdate_1"
-      ]
-    },
-    {
-      "name": "dayEl",
-      "ids": [
-        "inputdate_3"
-      ]
-    },
-    {
-      "name": "monthEl",
-      "ids": [
-        "inputdate_4"
-      ]
-    },
-    {
-      "name": "yearEl",
-      "ids": [
-        "inputdate_5"
-      ]
-    },
-    {
-      "name": "hourEl",
-      "ids": [
-        "inputdate_6"
-      ]
-    },
-    {
-      "name": "minuteEl",
-      "ids": [
-        "inputdate_7"
-      ]
-    }
-  ],
-  "content": {
-    "inputdate_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method1())}`,
-      "once": true
-    },
-    "inputdate_1°src": {
-      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method2())}`,
-      "once": true
-    },
-    "inputdate_2°value": {
-      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method3())}`,
-      "once": true
-    }
-  },
-  "events": [
-    {
-      "eventName": "focus",
-      "id": "inputdate_3",
-      "fct": (e, c) => c.comp.selectContent(e)
-    },
-    {
-      "eventName": "keydown",
-      "id": "inputdate_3",
-      "fct": (e, c) => c.comp.triggerPoint(e)
-    },
-    {
-      "eventName": "keyup",
-      "id": "inputdate_3",
-      "fct": (e, c) => c.comp.validateLength2(e)
-    },
-    {
-      "eventName": "focus",
-      "id": "inputdate_4",
-      "fct": (e, c) => c.comp.selectContent(e)
-    },
-    {
-      "eventName": "keydown",
-      "id": "inputdate_4",
-      "fct": (e, c) => c.comp.triggerPoint(e)
-    },
-    {
-      "eventName": "keyup",
-      "id": "inputdate_4",
-      "fct": (e, c) => c.comp.validateLength2(e)
-    },
-    {
-      "eventName": "focus",
-      "id": "inputdate_5",
-      "fct": (e, c) => c.comp.selectContent(e)
-    },
-    {
-      "eventName": "keydown",
-      "id": "inputdate_5",
-      "fct": (e, c) => c.comp.triggerSpace(e)
-    },
-    {
-      "eventName": "keyup",
-      "id": "inputdate_5",
-      "fct": (e, c) => c.comp.validateLength4(e)
-    },
-    {
-      "eventName": "focus",
-      "id": "inputdate_6",
-      "fct": (e, c) => c.comp.selectContent(e)
-    },
-    {
-      "eventName": "keydown",
-      "id": "inputdate_6",
-      "fct": (e, c) => c.comp.triggerSemiCol(e)
-    },
-    {
-      "eventName": "keyup",
-      "id": "inputdate_6",
-      "fct": (e, c) => c.comp.validateLength2(e)
-    },
-    {
-      "eventName": "focus",
-      "id": "inputdate_7",
-      "fct": (e, c) => c.comp.selectContent(e)
-    },
-    {
-      "eventName": "focus",
-      "id": "inputdate_8",
-      "fct": (e, c) => c.comp.preventFocus(e)
-    }
-  ],
-  "pressEvents": [
-    {
-      "id": "inputdate_8",
-      "onPress": (e, pressInstance, c) => { c.comp.clearValue(e, pressInstance); }
-    }
-  ]
-});const templ0 = new Aventus.Template(this);templ0.setTemplate(`         <div _id="inputdate_10"></div>    `);templ0.setActions({
-  "content": {
-    "inputdate_10°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method4(c.data.error))}`,
-      "once": true
-    }
-  }
-});this.__getStatic().__template.addLoop({
-                    anchorId: 'inputdate_9',
-                    template: templ0,
-                simple:{data: "this.errors",item:"error"}}); }
-    getClassName() {
-        return "InputDate";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('year_format')){ this['year_format'] = "2-digit"; }if(!this.hasAttribute('month_format')){ this['month_format'] = "short"; }if(!this.hasAttribute('day_format')){ this['day_format'] = "2-digit"; }if(!this.hasAttribute('locale')){ this['locale'] = undefined; }if(!this.hasAttribute('time_zone')){ this['time_zone'] = undefined; }if(!this.hasAttribute('is_focus')) { this.attributeChangedCallback('is_focus', false, false); }if(!this.hasAttribute('clearable')) {this.setAttribute('clearable' ,'true'); }if(!this.hasAttribute('show_clear_icon')) { this.attributeChangedCallback('show_clear_icon', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('icon_position')){ this['icon_position'] = undefined; }if(!this.hasAttribute('time')) { this.attributeChangedCallback('time', false, false); } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('year_format');this.__upgradeProperty('month_format');this.__upgradeProperty('day_format');this.__upgradeProperty('locale');this.__upgradeProperty('time_zone');this.__upgradeProperty('is_focus');this.__upgradeProperty('clearable');this.__upgradeProperty('show_clear_icon');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('icon_position');this.__upgradeProperty('time');this.__correctGetter('value'); }
-    __listBoolProps() { return ["is_focus","clearable","show_clear_icon","time"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    selectContent(e) {
-        e.currentTarget.select();
-    }
-    setValueToInputs() {
-        if (this.value) {
-            const pretty = (nb) => {
-                if (nb < 10) {
-                    return '0' + nb;
-                }
-                return nb + '';
-            };
-            this.dayEl.value = pretty(this.value.getDate());
-            this.monthEl.value = pretty(this.value.getMonth() + 1);
-            this.yearEl.value = pretty(this.value.getFullYear());
-            this.hourEl.value = pretty(this.value.getHours());
-            this.minuteEl.value = pretty(this.value.getMinutes());
-        }
-        else {
-            this.dayEl.value = '';
-            this.monthEl.value = '';
-            this.yearEl.value = '';
-            this.hourEl.value = '';
-            this.minuteEl.value = '';
-        }
-        this.show_clear_icon = this.clearable && this.value !== undefined;
-    }
-    displayVisualDate() {
-        if (!this.value)
-            return "";
-        return this.value.toLocaleDateString(this.locale, {
-            year: this.year_format,
-            month: this.month_format,
-            day: this.day_format,
-            hour: '2-digit',
-            minute: '2-digit',
-            timeZone: this.time_zone,
-        });
-    }
-    clearValue() {
-        this.value = undefined;
-        if (this.is_focus) {
-            this.dayEl.focus();
-            this.setValueToInputs();
-        }
-    }
-    localValidation() {
-        let errors = [];
-        let dayValue = this.dayEl.value;
-        let monthValue = this.monthEl.value;
-        let yearValue = this.yearEl.value;
-        let hourValue = this.hourEl.value;
-        let minuteValue = this.minuteEl.value;
-        if (!dayValue && !monthValue && !yearValue && !hourValue && !minuteValue) {
-            return [];
-        }
-        if (!monthValue) {
-            const txt = 'Le mois est obligatoire';
-            errors.push(txt);
-        }
-        else {
-            let nb = Number(monthValue);
-            if (isNaN(nb)) {
-                const txt = 'Le mois doit être un nombre';
-                errors.push(txt);
-            }
-            else if (nb < 1 || nb > 12) {
-                const txt = 'Le mois mois est compris entre 1 et 12';
-                errors.push(txt);
-            }
-        }
-        if (!yearValue) {
-            const txt = 'L\'année est obligatoire';
-            errors.push(txt);
-        }
-        else {
-            let nb = Number(yearValue);
-            if (isNaN(nb)) {
-                const txt = 'L\'année doit être un nombre';
-                errors.push(txt);
-            }
-            else if (nb < 0) {
-                const txt = 'L\'année doit être un nombre positif';
-                errors.push(txt);
-            }
-        }
-        if (!dayValue) {
-            const txt = 'Le jour est obligatoire';
-            errors.push(txt);
-        }
-        else if (errors.length == 0) {
-            let max = new Date(Number(yearValue), Number(monthValue), 0).getDate();
-            let nb = Number(dayValue);
-            if (isNaN(nb)) {
-                const txt = 'Le jour doit être un nombre';
-                errors.push(txt);
-            }
-            else if (nb < 1 || nb > max) {
-                const txt = 'Le jour est compris entre 1 et $max'.replace("$max", max + '');
-                errors.push(txt);
-            }
-        }
-        if (hourValue) {
-            let nb = Number(hourValue);
-            if (isNaN(nb)) {
-                const txt = 'L\'heure doit être un nombre';
-                errors.push(txt);
-            }
-            else if (nb < 0 || nb > 23) {
-                const txt = 'L\'heure doit est comprise entre 1 et 23';
-                errors.push(txt);
-            }
-        }
-        if (minuteValue) {
-            let nb = Number(minuteValue);
-            if (isNaN(nb)) {
-                const txt = 'La minute doit être un nombre';
-                errors.push(txt);
-            }
-            else if (nb < 0 || nb > 59) {
-                const txt = 'La minute doite est comprise entre 1 et 59';
-                errors.push(txt);
-            }
-        }
-        return errors;
-    }
-    async validate() {
-        if (!this.formPart) {
-            this.errors = this.localValidation();
-            return this.errors.length == 0;
-        }
-        return await this.formPart.test();
-    }
-    async onValueChange() {
-        let localValidations = this.localValidation();
-        if (localValidations.length == 0) {
-            let dayValue = this.dayEl.value;
-            let monthValue = this.monthEl.value;
-            let yearValue = this.yearEl.value;
-            let hourValue = this.hourEl.value;
-            let minuteValue = this.minuteEl.value;
-            let result = undefined;
-            if (!dayValue && !monthValue && !yearValue && !hourValue && !minuteValue) {
-            }
-            else {
-                let date = new Date(Number(yearValue), Number(monthValue) - 1, Number(dayValue), 0, 0, 0, 0);
-                if (this.time) {
-                    if (hourValue) {
-                        date.setHours(Number(hourValue));
-                    }
-                    if (minuteValue) {
-                        date.setMinutes(Number(minuteValue));
-                    }
-                }
-                result = date;
-            }
-            const isSame = this.time ? Lib.DateTools.isSameDateTime(this.value, result) : Lib.DateTools.isSameDate(this.value, result);
-            if (!isSame) {
-                this.value = result;
-                this.onChange.trigger([this.value]);
-                if (this.formPart) {
-                    this.formPart.value.set(this.value);
-                }
-            }
-            this.is_focus = false;
-        }
-        else {
-            this.errors = localValidations;
-        }
-    }
-    addBlurEvents() {
-        const elements = [this, this.dayEl, this.monthEl, this.yearEl, this.hourEl, this.minuteEl];
-        let blurTimeout = 0;
-        let blur = () => {
-            blurTimeout = setTimeout(() => {
-                this.onValueChange();
-            }, 100);
-        };
-        for (let element of elements) {
-            element.addEventListener("focus", () => {
-                this.errors = [];
-                this.is_focus = true;
-                clearTimeout(blurTimeout);
-            });
-            element.addEventListener("blur", () => {
-                blur();
-            });
-        }
-        this.addEventListener("focus", () => {
-            this.dayEl.focus();
-        });
-    }
-    triggerPoint(e) {
-        this.triggerChar(e, '.');
-    }
-    triggerSpace(e) {
-        this.triggerChar(e, ' ');
-    }
-    triggerSemiCol(e) {
-        this.triggerChar(e, ':');
-    }
-    triggerChar(e, char) {
-        if (e.key == char) {
-            e.preventDefault();
-            let el = e.target;
-            let nextInput = el.nextElementSibling?.nextElementSibling;
-            if (nextInput) {
-                nextInput.focus();
-            }
-        }
-    }
-    validateLength2(e) {
-        this.validateLength(e, 2);
-    }
-    validateLength4(e) {
-        this.validateLength(e, 4);
-    }
-    validateLength(e, length) {
-        if (e.key == 'Tab') {
-            return;
-        }
-        let el = e.target;
-        if (el.value.length == length) {
-            let nextInput = el.nextElementSibling?.nextElementSibling;
-            if (nextInput) {
-                nextInput.focus();
-            }
-        }
-    }
-    preventFocus(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
-    postCreation() {
-        super.postCreation();
-        this.setAttribute("tabindex", "-1");
-        this.addBlurEvents();
-    }
-    __85f0c0fbb346d55c45d594cadd252d33method1() {
-        return this.label;
-    }
-    __85f0c0fbb346d55c45d594cadd252d33method2() {
-        return this.icon;
-    }
-    __85f0c0fbb346d55c45d594cadd252d33method3() {
-        return this.displayVisualDate();
-    }
-    __85f0c0fbb346d55c45d594cadd252d33method4(error) {
-        return error;
-    }
-}
-Components.InputDate.Namespace=`Core.Components`;
-Components.InputDate.Tag=`rk-input-date`;
-_.Components.InputDate=Components.InputDate;
-if(!window.customElements.get('rk-input-date')){window.customElements.define('rk-input-date', Components.InputDate);Aventus.WebComponentInstance.registerDefinition(Components.InputDate);}
 
 Components.Textarea = class Textarea extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -12884,6 +12486,450 @@ Components.InputNumber.Namespace=`Core.Components`;
 Components.InputNumber.Tag=`rk-input-number`;
 _.Components.InputNumber=Components.InputNumber;
 if(!window.customElements.get('rk-input-number')){window.customElements.define('rk-input-number', Components.InputNumber);Aventus.WebComponentInstance.registerDefinition(Components.InputNumber);}
+
+Components.InputDate = class InputDate extends Components.FormElement {
+    static get observedAttributes() {return ["label", "placeholder", "icon", "icon_position", "time"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'year_format'() { return this.getStringAttr('year_format') }
+    set 'year_format'(val) { this.setStringAttr('year_format', val) }get 'month_format'() { return this.getStringAttr('month_format') }
+    set 'month_format'(val) { this.setStringAttr('month_format', val) }get 'day_format'() { return this.getStringAttr('day_format') }
+    set 'day_format'(val) { this.setStringAttr('day_format', val) }get 'locale'() { return this.getStringAttr('locale') }
+    set 'locale'(val) { this.setStringAttr('locale', val) }get 'time_zone'() { return this.getStringAttr('time_zone') }
+    set 'time_zone'(val) { this.setStringAttr('time_zone', val) }get 'is_focus'() { return this.getBoolAttr('is_focus') }
+    set 'is_focus'(val) { this.setBoolAttr('is_focus', val) }get 'clearable'() { return this.getBoolAttr('clearable') }
+    set 'clearable'(val) { this.setBoolAttr('clearable', val) }get 'show_clear_icon'() { return this.getBoolAttr('show_clear_icon') }
+    set 'show_clear_icon'(val) { this.setBoolAttr('show_clear_icon', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
+    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'icon_position'() { return this.getStringProp('icon_position') }
+    set 'icon_position'(val) { this.setStringAttr('icon_position', val) }get 'time'() { return this.getBoolProp('time') }
+    set 'time'(val) { this.setBoolAttr('time', val) }    get 'value'() {
+						return this.__watch["value"];
+					}
+					set 'value'(val) {
+						this.__watch["value"] = val;
+					}    __registerWatchesActions() {
+    this.__addWatchesActions("value", ((target) => {
+    target.setValueToInputs();
+}));    super.__registerWatchesActions();
+}
+    static __style = `:host{--_input-date-height: var(--input-date-height, 30px);--_input-date-background-color: var(--input-date-background-color, var(--form-element-background, white));--_input-date-icon-height: var(--input-date-icon-height, calc(var(--_input-date-height) / 2));--_input-date-error-logo-size: var(--input-date-error-logo-size, calc(var(--_input-date-height) / 2));--_input-date-font-size: var(--input-date-font-size, var(--form-element-font-size, 16px));--_input-date-font-size-label: var(--input-date-font-size-label, var(--form-element-font-size-label, calc(var(--_input-date-font-size) * 0.95)));--_input-date-input-border: var(--input-date-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-date-border-radius: var(--input-date-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-date-font-size-label);margin-bottom:5px;margin-left:3px;cursor:pointer}:host .input{align-items:center;background-color:var(--_input-date-background-color);border:var(--_input-date-input-border);border-radius:var(--_input-date-border-radius);display:flex;height:var(--_input-date-height);overflow:hidden;padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-date-icon-height);margin-right:10px}:host .input .edit{align-items:center;display:flex;display:none;flex-grow:1;height:100%}:host .input .edit input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;font-size:var(--_input-date-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;text-align:center;width:20px}:host .input .edit .year-input{width:38px}:host .input .edit span{color:var(--text-color);font-size:var(--_input-date-font-size);height:100%;padding:5px 0;text-align:center}:host .input .visual{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;font-size:var(--_input-date-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;width:20px;flex-grow:1}:host .input .clear-icon{font-size:18px;flex-shrink:0;display:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-date-error-logo-size) - 5px);height:var(--_input-date-error-logo-size);justify-content:center;width:var(--_input-date-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([icon_position=right]) .input .icon{margin-right:0px;order:2}:host([icon_position=right]) .input .input{order:1}:host([icon_position=right]) .input .error-logo{margin-left:10px;order:3}:host([label]:not([label=""])) label{display:flex}:host(:not([time])) .time{display:none}:host([is_focus]) .input .edit{display:flex}:host([is_focus]) .input .visual{display:none}:host([show_clear_icon]) .input .clear-icon{display:inline-block}`;
+    __getStatic() {
+        return InputDate;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(InputDate.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'prepend':`<slot name="prepend">        <rk-img class="icon" _id="inputdate_1"></rk-img>    </slot>`,'append':`<slot name="append"></slot>` }, 
+        blocks: { 'default':`<label for="input" _id="inputdate_0"></label><div class="input">    <slot name="prepend">        <rk-img class="icon" _id="inputdate_1"></rk-img>    </slot>    <input class="visual" readonly _id="inputdate_2" />    <div class="edit">        <input autocomplete="off" placeholder="xx" _id="inputdate_3" />        <span>.</span>        <input autocomplete="off" placeholder="xx" _id="inputdate_4" />        <span>.</span>        <input class="year-input" autocomplete="off" placeholder="xxxx" _id="inputdate_5" />        <span class="time">&nbsp;</span>        <input class="time" autocomplete="off" placeholder="xx" _id="inputdate_6" />        <span class="time">:</span>        <input class="time" autocomplete="off" placeholder="xx" _id="inputdate_7" />    </div>    <slot name="append"></slot>    <mi-icon class="clear-icon touch" icon="close" tabindex="-1" _id="inputdate_8"></mi-icon>    <div class="error-logo">!</div></div><div class="errors">    <template _id="inputdate_9"></template></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "iconEl",
+      "ids": [
+        "inputdate_1"
+      ]
+    },
+    {
+      "name": "dayEl",
+      "ids": [
+        "inputdate_3"
+      ]
+    },
+    {
+      "name": "monthEl",
+      "ids": [
+        "inputdate_4"
+      ]
+    },
+    {
+      "name": "yearEl",
+      "ids": [
+        "inputdate_5"
+      ]
+    },
+    {
+      "name": "hourEl",
+      "ids": [
+        "inputdate_6"
+      ]
+    },
+    {
+      "name": "minuteEl",
+      "ids": [
+        "inputdate_7"
+      ]
+    }
+  ],
+  "content": {
+    "inputdate_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method1())}`,
+      "once": true
+    },
+    "inputdate_1°src": {
+      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method2())}`,
+      "once": true
+    },
+    "inputdate_2°value": {
+      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method3())}`,
+      "once": true
+    }
+  },
+  "events": [
+    {
+      "eventName": "focus",
+      "id": "inputdate_3",
+      "fct": (e, c) => c.comp.selectContent(e)
+    },
+    {
+      "eventName": "keydown",
+      "id": "inputdate_3",
+      "fct": (e, c) => c.comp.triggerPoint(e)
+    },
+    {
+      "eventName": "keyup",
+      "id": "inputdate_3",
+      "fct": (e, c) => c.comp.validateLength2(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "inputdate_4",
+      "fct": (e, c) => c.comp.selectContent(e)
+    },
+    {
+      "eventName": "keydown",
+      "id": "inputdate_4",
+      "fct": (e, c) => c.comp.triggerPoint(e)
+    },
+    {
+      "eventName": "keyup",
+      "id": "inputdate_4",
+      "fct": (e, c) => c.comp.validateLength2(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "inputdate_5",
+      "fct": (e, c) => c.comp.selectContent(e)
+    },
+    {
+      "eventName": "keydown",
+      "id": "inputdate_5",
+      "fct": (e, c) => c.comp.triggerSpace(e)
+    },
+    {
+      "eventName": "keyup",
+      "id": "inputdate_5",
+      "fct": (e, c) => c.comp.validateLength4(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "inputdate_6",
+      "fct": (e, c) => c.comp.selectContent(e)
+    },
+    {
+      "eventName": "keydown",
+      "id": "inputdate_6",
+      "fct": (e, c) => c.comp.triggerSemiCol(e)
+    },
+    {
+      "eventName": "keyup",
+      "id": "inputdate_6",
+      "fct": (e, c) => c.comp.validateLength2(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "inputdate_7",
+      "fct": (e, c) => c.comp.selectContent(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "inputdate_8",
+      "fct": (e, c) => c.comp.preventFocus(e)
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "inputdate_8",
+      "onPress": (e, pressInstance, c) => { c.comp.clearValue(e, pressInstance); }
+    }
+  ]
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`         <div _id="inputdate_10"></div>    `);templ0.setActions({
+  "content": {
+    "inputdate_10°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method4(c.data.error))}`,
+      "once": true
+    }
+  }
+});this.__getStatic().__template.addLoop({
+                    anchorId: 'inputdate_9',
+                    template: templ0,
+                simple:{data: "this.errors",item:"error"}}); }
+    getClassName() {
+        return "InputDate";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('year_format')){ this['year_format'] = "2-digit"; }if(!this.hasAttribute('month_format')){ this['month_format'] = "short"; }if(!this.hasAttribute('day_format')){ this['day_format'] = "2-digit"; }if(!this.hasAttribute('locale')){ this['locale'] = undefined; }if(!this.hasAttribute('time_zone')){ this['time_zone'] = undefined; }if(!this.hasAttribute('is_focus')) { this.attributeChangedCallback('is_focus', false, false); }if(!this.hasAttribute('clearable')) {this.setAttribute('clearable' ,'true'); }if(!this.hasAttribute('show_clear_icon')) { this.attributeChangedCallback('show_clear_icon', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('icon_position')){ this['icon_position'] = undefined; }if(!this.hasAttribute('time')) { this.attributeChangedCallback('time', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('year_format');this.__upgradeProperty('month_format');this.__upgradeProperty('day_format');this.__upgradeProperty('locale');this.__upgradeProperty('time_zone');this.__upgradeProperty('is_focus');this.__upgradeProperty('clearable');this.__upgradeProperty('show_clear_icon');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('icon_position');this.__upgradeProperty('time');this.__correctGetter('value'); }
+    __listBoolProps() { return ["is_focus","clearable","show_clear_icon","time"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    selectContent(e) {
+        e.currentTarget.select();
+    }
+    setValueToInputs() {
+        if (this.value) {
+            const pretty = (nb) => {
+                if (nb < 10) {
+                    return '0' + nb;
+                }
+                return nb + '';
+            };
+            this.dayEl.value = pretty(this.value.getDate());
+            this.monthEl.value = pretty(this.value.getMonth() + 1);
+            this.yearEl.value = pretty(this.value.getFullYear());
+            this.hourEl.value = pretty(this.value.getHours());
+            this.minuteEl.value = pretty(this.value.getMinutes());
+        }
+        else {
+            this.dayEl.value = '';
+            this.monthEl.value = '';
+            this.yearEl.value = '';
+            this.hourEl.value = '';
+            this.minuteEl.value = '';
+        }
+        this.show_clear_icon = this.clearable && this.value !== undefined;
+    }
+    displayVisualDate() {
+        if (!this.value)
+            return "";
+        return this.value.toLocaleDateString(this.locale, {
+            year: this.year_format,
+            month: this.month_format,
+            day: this.day_format,
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: this.time_zone,
+        });
+    }
+    clearValue() {
+        this.value = undefined;
+        if (this.is_focus) {
+            this.dayEl.focus();
+            this.setValueToInputs();
+        }
+    }
+    localValidation() {
+        let errors = [];
+        let dayValue = this.dayEl.value;
+        let monthValue = this.monthEl.value;
+        let yearValue = this.yearEl.value;
+        let hourValue = this.hourEl.value;
+        let minuteValue = this.minuteEl.value;
+        if (!dayValue && !monthValue && !yearValue && !hourValue && !minuteValue) {
+            return [];
+        }
+        if (!monthValue) {
+            const txt = 'Le mois est obligatoire';
+            errors.push(txt);
+        }
+        else {
+            let nb = Number(monthValue);
+            if (isNaN(nb)) {
+                const txt = 'Le mois doit être un nombre';
+                errors.push(txt);
+            }
+            else if (nb < 1 || nb > 12) {
+                const txt = 'Le mois mois est compris entre 1 et 12';
+                errors.push(txt);
+            }
+        }
+        if (!yearValue) {
+            const txt = 'L\'année est obligatoire';
+            errors.push(txt);
+        }
+        else {
+            let nb = Number(yearValue);
+            if (isNaN(nb)) {
+                const txt = 'L\'année doit être un nombre';
+                errors.push(txt);
+            }
+            else if (nb < 0) {
+                const txt = 'L\'année doit être un nombre positif';
+                errors.push(txt);
+            }
+        }
+        if (!dayValue) {
+            const txt = 'Le jour est obligatoire';
+            errors.push(txt);
+        }
+        else if (errors.length == 0) {
+            let max = new Date(Number(yearValue), Number(monthValue), 0).getDate();
+            let nb = Number(dayValue);
+            if (isNaN(nb)) {
+                const txt = 'Le jour doit être un nombre';
+                errors.push(txt);
+            }
+            else if (nb < 1 || nb > max) {
+                const txt = 'Le jour est compris entre 1 et $max'.replace("$max", max + '');
+                errors.push(txt);
+            }
+        }
+        if (hourValue) {
+            let nb = Number(hourValue);
+            if (isNaN(nb)) {
+                const txt = 'L\'heure doit être un nombre';
+                errors.push(txt);
+            }
+            else if (nb < 0 || nb > 23) {
+                const txt = 'L\'heure doit est comprise entre 1 et 23';
+                errors.push(txt);
+            }
+        }
+        if (minuteValue) {
+            let nb = Number(minuteValue);
+            if (isNaN(nb)) {
+                const txt = 'La minute doit être un nombre';
+                errors.push(txt);
+            }
+            else if (nb < 0 || nb > 59) {
+                const txt = 'La minute doite est comprise entre 1 et 59';
+                errors.push(txt);
+            }
+        }
+        return errors;
+    }
+    async validate() {
+        if (!this.formPart) {
+            this.errors = this.localValidation();
+            return this.errors.length == 0;
+        }
+        return await this.formPart.test();
+    }
+    async onValueChange() {
+        let localValidations = this.localValidation();
+        if (localValidations.length == 0) {
+            let dayValue = this.dayEl.value;
+            let monthValue = this.monthEl.value;
+            let yearValue = this.yearEl.value;
+            let hourValue = this.hourEl.value;
+            let minuteValue = this.minuteEl.value;
+            let result = undefined;
+            if (!dayValue && !monthValue && !yearValue && !hourValue && !minuteValue) {
+            }
+            else {
+                let date = new Date(Number(yearValue), Number(monthValue) - 1, Number(dayValue), 0, 0, 0, 0);
+                if (this.time) {
+                    if (hourValue) {
+                        date.setHours(Number(hourValue));
+                    }
+                    if (minuteValue) {
+                        date.setMinutes(Number(minuteValue));
+                    }
+                }
+                result = date;
+            }
+            const isSame = this.time ? Lib.DateTools.isSameDateTime(this.value, result) : Lib.DateTools.isSameDate(this.value, result);
+            if (!isSame) {
+                this.value = result;
+                this.onChange.trigger([this.value]);
+                if (this.formPart) {
+                    this.formPart.value.set(this.value);
+                }
+            }
+            this.is_focus = false;
+        }
+        else {
+            this.errors = localValidations;
+        }
+    }
+    addBlurEvents() {
+        const elements = [this, this.dayEl, this.monthEl, this.yearEl, this.hourEl, this.minuteEl];
+        let blurTimeout = 0;
+        let blur = () => {
+            blurTimeout = setTimeout(() => {
+                this.onValueChange();
+            }, 100);
+        };
+        for (let element of elements) {
+            element.addEventListener("focus", () => {
+                this.errors = [];
+                this.is_focus = true;
+                clearTimeout(blurTimeout);
+            });
+            element.addEventListener("blur", () => {
+                blur();
+            });
+        }
+        this.addEventListener("focus", () => {
+            this.dayEl.focus();
+        });
+    }
+    triggerPoint(e) {
+        this.triggerChar(e, '.');
+    }
+    triggerSpace(e) {
+        this.triggerChar(e, ' ');
+    }
+    triggerSemiCol(e) {
+        this.triggerChar(e, ':');
+    }
+    triggerChar(e, char) {
+        if (e.key == char) {
+            e.preventDefault();
+            let el = e.target;
+            let nextInput = el.nextElementSibling?.nextElementSibling;
+            if (nextInput) {
+                nextInput.focus();
+            }
+        }
+    }
+    validateLength2(e) {
+        this.validateLength(e, 2);
+    }
+    validateLength4(e) {
+        this.validateLength(e, 4);
+    }
+    validateLength(e, length) {
+        if (e.key == 'Tab') {
+            return;
+        }
+        let el = e.target;
+        if (el.value.length == length) {
+            let nextInput = el.nextElementSibling?.nextElementSibling;
+            if (nextInput) {
+                nextInput.focus();
+            }
+        }
+    }
+    preventFocus(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    postCreation() {
+        super.postCreation();
+        this.setAttribute("tabindex", "-1");
+        this.addBlurEvents();
+    }
+    __85f0c0fbb346d55c45d594cadd252d33method1() {
+        return this.label;
+    }
+    __85f0c0fbb346d55c45d594cadd252d33method2() {
+        return this.icon;
+    }
+    __85f0c0fbb346d55c45d594cadd252d33method3() {
+        return this.displayVisualDate();
+    }
+    __85f0c0fbb346d55c45d594cadd252d33method4(error) {
+        return error;
+    }
+}
+Components.InputDate.Namespace=`Core.Components`;
+Components.InputDate.Tag=`rk-input-date`;
+_.Components.InputDate=Components.InputDate;
+if(!window.customElements.get('rk-input-date')){window.customElements.define('rk-input-date', Components.InputDate);Aventus.WebComponentInstance.registerDefinition(Components.InputDate);}
 
 Components.Form = class Form extends Aventus.WebComponent {
     elements = [];
@@ -15121,23 +15167,16 @@ _.Components.Select=Components.Select;
 if(!window.customElements.get('rk-select')){window.customElements.define('rk-select', Components.Select);Aventus.WebComponentInstance.registerDefinition(Components.Select);}
 
 Components.ItemBoxSelect = class ItemBoxSelect extends Components.FormElement {
-    static get observedAttributes() {return ["space"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    static get observedAttributes() {return ["space", "value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'space'() { return this.getNumberProp('space') }
-    set 'space'(val) { this.setNumberAttr('space', val) }    get 'value'() {
-						return this.__watch["value"];
-					}
-					set 'value'(val) {
-						this.__watch["value"] = val;
-					}    options = [];
+    set 'space'(val) { this.setNumberAttr('space', val) }get 'value'() { return this.getStringProp('value') }
+    set 'value'(val) { this.setStringAttr('value', val) }    options = [];
     optionSelected;
     form;
-    __registerWatchesActions() {
-    this.__addWatchesActions("value", ((target) => {
-    target.selectInternalOption();
-}));    super.__registerWatchesActions();
-}
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("space", ((target) => {
     target.style.setProperty("--item-box-margin", target.space + 'px');
+}));this.__addPropertyActions("value", ((target) => {
+    target.selectInternalOption();
 })); }
     static __style = `:host{--_item-box-box-width: var(--item-box-box-width, auto);--_item-box-box-height: var(--item-box-box-height, 100%);--_item-box-box-padding: var(--item-box-box-padding, 0 10px);--_item-box-border-radius: var(--item-box-border-radius, 4px);--_item-box-border-color: var(--item-box-border-color, var(--secondary-color, #afafaf));--_item-box-option-background-color-selected: var(--item-box-option-background-color-selected, var(--form-element-background-active, #afafaf));--_item-box-option-color-selected: var(--item-box-option-color-selected, var(--form-element-color-active, #fff))}:host{position:relative}:host .container-option{align-items:center;box-sizing:border-box;display:flex;flex-direction:row;height:100%;justify-content:center;z-index:2}:host ::slotted(*){border:1px solid var(--_item-box-border-color);border-radius:var(--border-radius-sm);max-height:var(--_item-box-box-height);max-width:var(--_item-box-box-width);padding:var(--_item-box-box-padding);width:var(--_item-box-box-width)}:host ::slotted(*:first-child){margin-left:0}:host ::slotted(*:last-child){margin-right:0}:host([space="0"]){border:1px solid var(--_item-box-border-color);border-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*){border:none;border-radius:0px;border-right:1px solid var(--_item-box-border-color)}:host([space="0"]) ::slotted(*:first-child){border-bottom-left-radius:var(--_item-box-border-radius);border-top-left-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*:last-child){border-bottom-right-radius:var(--_item-box-border-radius);border-right:none;border-top-right-radius:var(--_item-box-border-radius)}`;
     __getStatic() {
@@ -15157,9 +15196,8 @@ Components.ItemBoxSelect = class ItemBoxSelect extends Components.FormElement {
     getClassName() {
         return "ItemBoxSelect";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('space')){ this['space'] = 0; } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('space');this.__correctGetter('value'); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('space')){ this['space'] = 0; }if(!this.hasAttribute('value')){ this['value'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('space');this.__upgradeProperty('value'); }
     selectInternalOption() {
         if (!this.isConnected)
             return;
@@ -15586,6 +15624,7 @@ Components.TwoColumnsSelect = class TwoColumnsSelect extends Components.FormElem
         this.changeValue();
     }
     selectHighlighted() {
+        debugger;
         for (let optionUnselected of this.optionsUnselected) {
             if (optionUnselected.highlight) {
                 this.selectOptionsCont.appendChild(optionUnselected);
@@ -17544,14 +17583,6 @@ Errors.DesktopError.Namespace=`Core.Errors`;
 Errors.DesktopError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.DesktopError.Fullname, Errors.DesktopError);
 _.Errors.DesktopError=Errors.DesktopError;
-
-Permissions.DesktopPermissionQuery=class DesktopPermissionQuery extends Permissions.PermissionQuery {
-    static get Fullname() { return "Core.Permissions.DesktopPermissionQuery, Core"; }
-}
-Permissions.DesktopPermissionQuery.Namespace=`Core.Permissions`;
-Permissions.DesktopPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
-Aventus.Converter.register(Permissions.DesktopPermissionQuery.Fullname, Permissions.DesktopPermissionQuery);
-_.Permissions.DesktopPermissionQuery=Permissions.DesktopPermissionQuery;
 
 Errors.ImageFileError=class ImageFileError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.ImageFileError, Core"; }

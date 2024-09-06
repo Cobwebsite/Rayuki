@@ -33,6 +33,7 @@ namespace Lib {
             this.cancelEvent = new TransactionCancelledEvent();
             this.cancelEvent.listen();
             this.cancelEvent.onTrigger.add(async (body) => {
+                return;
                 if(body.guid == this.guid) {
                     this.guid = undefined;
                     try {
@@ -43,7 +44,6 @@ namespace Lib {
                     this.mutex.release();
                 }
             });
-            //new DesktopRouter().events.RegisterOpenApp.onTrigger.add(this.onRegisterInfo);
         }
 
         public static async begin(ms: number = 5000): Promise<AventusSharp.Tools.ResultWithError<string>> {
@@ -58,6 +58,10 @@ namespace Lib {
                 }
             }
             return result;
+        }
+
+        public static isActive(guid: string): boolean {
+            return this.guid == guid;
         }
 
         public static async commit(guid: string): Promise<AventusSharp.Tools.VoidWithError> {

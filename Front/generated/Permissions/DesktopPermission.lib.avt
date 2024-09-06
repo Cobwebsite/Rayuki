@@ -3,7 +3,7 @@ import { PermissionQuery } from '../../libs/Permission.lib.avt';
 namespace Permissions {
 
 	export enum DesktopPermission {
-		CanEdit
+		CanHaveVirtualDesktop
 	}
 
 	@Convertible()

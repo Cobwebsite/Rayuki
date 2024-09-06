@@ -6,8 +6,8 @@ import { AppIcon } from "../AppIcon/AppIcon.wcl.avt";
 import { HomeBtn } from "../HomeBtn/HomeBtn.wcl.avt";
 import { DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.data.avt";
 import { DesktopActivableLogic, type IDesktopActivable } from "../Desktop/IActivable.lib.avt";
-import { MainEndPoint } from "../../../generated/Websocket/MainEndPoint.lib.avt";
 import { DesktopRouter } from "../../../generated/Websocket/Routes/DesktopRouter.lib.avt";
+import { DesktopPermission, DesktopPermissionQuery } from "../../../generated/Permissions/DesktopPermission.lib.avt";
 
 namespace System {
     export class BottomBar extends Aventus.WebComponent implements Aventus.DefaultComponent, MoveApplicationProvider, IDesktopActivable {
@@ -37,6 +37,13 @@ namespace System {
         }
 
         public is_desktop_active: boolean = false;
+
+        @Watch()
+        public permissions: {
+            CanHaveVirtualDesktop: boolean;
+        } = {
+                CanHaveVirtualDesktop: false
+            };
         //#endregion
 
 
@@ -46,11 +53,13 @@ namespace System {
 
 
         //#region methods
-
+        protected async getPermissions() {
+            this.permissions.CanHaveVirtualDesktop = await can(new DesktopPermissionQuery(DesktopPermission.CanHaveVirtualDesktop));
+        }
         protected addSwipe() {
             let enable = true;
             let startY = 0;
-            
+
             new Aventus.DragAndDrop({
                 element: this,
                 applyDrag: false,
@@ -237,7 +246,7 @@ namespace System {
                                 child.position = no;
                             }
                         }
-    
+
                     }
                 }
             }
@@ -267,14 +276,15 @@ namespace System {
 
         //#region desktop activable
         public setDesktopActive() {
-            DesktopActivableLogic.set(this)
+            DesktopActivableLogic.set(this);
         }
         public removeDesktopActive() {
-            DesktopActivableLogic.remove(this)
+            DesktopActivableLogic.remove(this);
         }
         //#endregion
 
         protected override postCreation(): void {
+            this.getPermissions();
             this.addSwipe();
             this.addFocus();
         }

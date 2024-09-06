@@ -2,7 +2,9 @@
     <rk-home-btn></rk-home-btn>
     <rk-img mode="contains" src="/img/icons/application-panel.svg" class="touch icon" @press="showAppList"></rk-img>
     <!-- <rk-img mode="contains" src="/img/icons/search.svg" class="touch icon"></rk-img> -->
-    <rk-img mode="contains" src="/img/icons/layout-fluid.svg" class="touch icon" @press="showDesktops"></rk-img>
+    if(this.permissions.CanHaveVirtualDesktop) {
+        <rk-img mode="contains" src="/img/icons/layout-fluid.svg" class="touch icon" @press="showDesktops"></rk-img>
+    }
 </div>
 <div class="separator"></div>
 <div class="section applications" @element="applicationsContainer"></div>

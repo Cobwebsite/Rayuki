@@ -7,12 +7,22 @@
         <div class="field-container">
             <input type="text" value="Cobwebsite" readonly="readonly" />
             <slot></slot>
-            <input type="text" @element="usernameEl" name="username" placeholder="Nom d'utilisateur" @focus="clearError" />
-            <input type="password" @element="passwordEl" name="password" placeholder="Mot de passe" @focus="clearError" />
+            <input type="text" @element="usernameEl" name="username" placeholder="Nom d'utilisateur"
+                @focus="clearError" />
+            <input type="password" @element="passwordEl" @input="checkEnter" name="password" placeholder="Mot de passe"
+                @focus="clearError" />
         </div>
-        <rk-img class="btn-login" src="/img/icons/angle-right.svg" @click="validateForm"></rk-img>
-        <rk-button class="btn-login-mobile" @click="validateForm">Se connecter</rk-button>
+        <div class="btn-login">
+            <rk-img src="/img/icons/angle-right.svg" @click="validateForm"></rk-img>
+            <mi-icon icon="progress_activity"></mi-icon>
+        </div>
+        <div class="btn-login-mobile">
+            <rk-button @click="validateForm">
+                <span>Se connecter</span>
+                <mi-icon icon="progress_activity"></mi-icon>
+            </rk-button>
+        </div>
         <input @element="submitBtn" type="submit" value="sub">
     </div>
-    <div class="errors">{{this.error}}</div>
+    <div class="errors">{{ this.error }}</div>
 </form>

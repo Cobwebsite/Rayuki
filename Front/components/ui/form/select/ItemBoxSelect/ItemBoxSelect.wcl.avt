@@ -22,7 +22,7 @@ namespace Components {
         /**
          * @inheritdoc
          */
-        @Watch((target: ItemBoxSelect) => {
+        @Property((target: ItemBoxSelect) => {
             target.selectInternalOption();
         })
         public override value: string | undefined;

@@ -150,6 +150,7 @@ namespace Components {
          * 
          */
         protected selectHighlighted() {
+            debugger
             for(let optionUnselected of this.optionsUnselected) {
                 if(optionUnselected.highlight) {
                     this.selectOptionsCont.appendChild(optionUnselected);

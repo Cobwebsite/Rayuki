@@ -13,6 +13,10 @@ namespace Lib {
         private static openApplications: { [id: number]: ApplicationOpen[]; } = {};
         private static openApplicationsKey: string = "openApplications";
 
+        private static get storage(): Storage {
+            return sessionStorage;
+        }
+
         public static async save(appInfo: ApplicationOpenInfo) {
             if(Os.instance.activeDesktop.data.Configuration.SyncDesktop) {
                 await this.uniqueAction(appInfo, async (appInfo) => {
@@ -38,7 +42,7 @@ namespace Lib {
                 if(mustAdd) {
                     this.openApplications[DesktopId].push(Info);
                 }
-                sessionStorage.setItem(this.openApplicationsKey, JSON.stringify(this.openApplications));
+                this.storage.setItem(this.openApplicationsKey, JSON.stringify(this.openApplications));
             }
         }
 
@@ -62,7 +66,7 @@ namespace Lib {
                         if(this.openApplications[DesktopId].length == 0) {
                             delete this.openApplications[DesktopId];
                         }
-                        sessionStorage.setItem(this.openApplicationsKey, JSON.stringify(this.openApplications));
+                        this.storage.setItem(this.openApplicationsKey, JSON.stringify(this.openApplications));
                         return;
                     }
                 }
@@ -111,7 +115,7 @@ namespace Lib {
         }
 
         public static reloadData() {
-            let savedValues = sessionStorage.getItem(this.openApplicationsKey) ?? '[]';
+            let savedValues = this.storage.getItem(this.openApplicationsKey) ?? '[]';
             this.openApplications = Aventus.Converter.transform(JSON.parse(savedValues));
         }
         public static init() {

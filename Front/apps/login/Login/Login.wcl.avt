@@ -7,12 +7,14 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
 
 
     //#region props
-
+    @Property()
+    private error: string = "";
+    @Attribute()
+    private loading!: boolean;
     //#endregion
 
 
     //#region variables
-
     @ViewElement()
     private usernameEl!: HTMLInputElement;
     @ViewElement()
@@ -22,8 +24,7 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
     @ViewElement()
     private submitBtn!: HTMLInputElement;
 
-    @Property()
-    private error: string = "";
+
     //#endregion
 
 
@@ -47,6 +48,7 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
      * 
      */
     protected async login(e: Event) {
+        this.loading = true;
         let body = {
             username: this.usernameEl.value,
             password: this.passwordEl.value
@@ -78,6 +80,7 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
                 }
             }
         }
+        this.loading = false;
     }
 
     /**
@@ -131,7 +134,7 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
                 element: this,
                 offsetDrag: 0,
                 onMove: (e) => {
-                    onMove(e)
+                    onMove(e);
                 },
                 applyDrag: false
             });
@@ -139,9 +142,20 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
     }
 
 
+    /**
+     * 
+     */
+    protected checkEnter(e: KeyboardEvent) {
+        if(e.key == "Enter") {
+            this.validateForm();
+        }
+    }
+
+
+
     protected override postCreation(): void {
         super.postCreation();
-        this.moving3d();
+        //this.moving3d();
         this.appendChild(this.usernameEl);
         this.appendChild(this.passwordEl);
     }

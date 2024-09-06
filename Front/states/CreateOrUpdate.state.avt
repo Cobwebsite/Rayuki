@@ -46,7 +46,6 @@ namespace State {
 
         /**
          * This will validate the form and save the model though the ram
-         * 
          * Errors are deals by this method. If success, result !== undefined
          */
         public async save(): Promise<T | undefined> {

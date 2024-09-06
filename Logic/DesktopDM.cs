@@ -35,7 +35,7 @@ namespace Core.Logic
             //    UserId = 1
             //}.Create();
 
-            PermissionDM.GetInstance().RegisterPermissions<DesktopPermission>();
+            PermissionDM.GetInstance().RegisterPermissions<DesktopPermission, DesktopPermissionDescription>();
             return result;
         }
 

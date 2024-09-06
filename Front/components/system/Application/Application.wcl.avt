@@ -25,6 +25,7 @@ import { ApplicationShortcut } from "./ApplicationShortcut.lib.avt";
 import type { FrameNoScroll } from "../Frame/FrameNoScroll/FrameNoScroll.wcl.avt";
 import { MainRouter } from "../../../generated/Routes/MainRouter.lib.avt";
 import { TransactionManager } from "../../../libs/TransactionManager.lib.avt";
+import { CoreError, CoreErrorCode } from "../../../generated/Tools/CoreErrors.lib.avt";
 
 namespace System {
 
@@ -939,7 +940,10 @@ namespace System {
          */
         @BindThis()
         public async txExec<X>(
-            fct: ((exec: <T>(prom: Promise<ApplicationQueryFctResult<T>>) => Promise<T | undefined>) => Promise<X>) | Promise<X>,
+            fct: ((exec: <T, A extends any[]>(
+                fct: (...args: A) => Promise<ApplicationQueryFctResult<T>>,
+                ...args: A
+            ) => Promise<T | undefined>) => Promise<X>),
             ms?: number
         ): Promise<X | undefined> {
             try {
@@ -950,12 +954,15 @@ namespace System {
                 }
 
                 const resultWithError = new Aventus.ResultWithError<X>();
-                if(fct instanceof Promise) {
-                    resultWithError.result = await fct;
+                if(!TransactionManager.isActive(beginResult.result)) {
+                    resultWithError.errors.push(new CoreError(CoreErrorCode.TransactionGuidMissmatch, "La transaction n'est plus active"));
                 }
                 else {
-                    resultWithError.result = await fct(async (prom: Promise<ApplicationQueryFctResult<any>>) => {
-                        const queryResult = await prom;
+                    resultWithError.result = await fct(async <T, A extends any[]>(
+                        fct: (...args: A) => Promise<ApplicationQueryFctResult<T>>,
+                        ...args: A
+                    ): Promise<T | undefined> => {
+                        const queryResult = await fct(...args);
                         if(queryResult.errors.length > 0) {
                             for(let error of queryResult.errors) {
                                 resultWithError.errors.push(error);
@@ -964,15 +971,15 @@ namespace System {
                         if(queryResult instanceof Aventus.ResultWithError) return queryResult.result;
                         return undefined;
                     });
-                }
 
-                if(resultWithError.success) {
-                    const commitResult = await TransactionManager.commit(beginResult.result);
-                    resultWithError.errors = [...resultWithError.errors, ...commitResult.errors];
-                }
-                else {
-                    const rollbackResult = await TransactionManager.rollback(beginResult.result);
-                    resultWithError.errors = [...resultWithError.errors, ...rollbackResult.errors];
+                    if(resultWithError.success) {
+                        const commitResult = await TransactionManager.commit(beginResult.result);
+                        resultWithError.errors = [...resultWithError.errors, ...commitResult.errors];
+                    }
+                    else {
+                        const rollbackResult = await TransactionManager.rollback(beginResult.result);
+                        resultWithError.errors = [...resultWithError.errors, ...rollbackResult.errors];
+                    }
                 }
                 return this.parseErrors(resultWithError);
             }
@@ -990,7 +997,10 @@ namespace System {
          */
         @BindThis()
         public async txExecLoading<X>(
-            fct: ((exec: <T>(prom: Promise<ApplicationQueryFctResult<T>>) => Promise<T | undefined>) => Promise<X>) | Promise<X>
+            fct: ((exec: <T, A extends any[]>(
+                fct: (...args: A) => Promise<ApplicationQueryFctResult<T>>,
+                ...args: A
+            ) => Promise<T | undefined>) => Promise<X>)
         ): Promise<X | undefined> {
             const result = await this.showLoading(async () => {
                 return await this.txExec(fct);

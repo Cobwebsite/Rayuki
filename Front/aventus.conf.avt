@@ -4,8 +4,8 @@
     "build": [
         {
             "name": "Main",
-            "hideWarnings": true,
-            "disabled": false,
+            "hideWarnings": false,
+            "disabled": true,
             "src": [
                 "./components/*",
                 "./ram/*",
@@ -70,7 +70,7 @@
             "module": "Addon",
             "name": "Addon",
             "hideWarnings": true,
-            "disabled": false,
+            "disabled": true,
             "src": [
                 "./addon/*"
             ],
@@ -96,7 +96,7 @@
         },
         {
             "name": "Login",
-            "disabled": true,
+            "disabled": false,
             "src": [
                 "./apps/login/*"
             ],
@@ -113,7 +113,8 @@
                     "uri": "@AventusSharp"
                 },
                 {
-                    "uri": "&:Main"
+                    "uri": "&:Main",
+                    "include": "need"
                 }
             ]
         },
