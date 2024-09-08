@@ -11,7 +11,8 @@
     "build": "dotnet build --nologo -v q --property WarningLevel=0 /clp:ErrorsOnly",
     "storybook": "cd Storybook && storybook dev -p 6006",
     "docker:build": "docker build -t rayuki/core:latest .",
-    "docker:publish": "docker push rayuki/core:latest"
+    "docker:push": "docker push rayuki/core:latest",
+    "docker:publish": "npm run docker:build && npm run docker:push"
   },
   "author": "",
   "license": "ISC"

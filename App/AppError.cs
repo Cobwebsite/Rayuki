@@ -13,7 +13,8 @@ namespace Core.App
         NoIconFileFound,
         WrongVersionFormat,
         NoName,
-        UnknowError
+        UnknowError,
+        NotZipFile
     }
     public class AppError : GenericError<AppErrorCode>
     {

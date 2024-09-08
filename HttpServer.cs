@@ -38,6 +38,11 @@ namespace Core
             get => app.Environment.IsDevelopment();
         }
 
+        public static bool IsAppManagement
+        {
+            get => Environment.GetEnvironmentVariable("APP_MANAGEMENT") == "true";
+        }
+
         public static DatabaseConfig Config
         {
             get
@@ -76,8 +81,11 @@ namespace Core
 
         public static void Init(string[] args)
         {
-            webPush.SetVapidDetails("http://localhost:5000", PublicKey, PrivateKey);
-            _ = PdfTools.Init();
+            if (!IsAppManagement)
+            {
+                webPush.SetVapidDetails("http://localhost:5000", PublicKey, PrivateKey);
+                _ = PdfTools.Init();
+            }
             InitBuilder(args);
             Task.Delay(1000).ContinueWith(async (t) =>
             {
@@ -159,6 +167,7 @@ namespace Core
             {
                 await LoginMiddleware(context, next);
             });
+
 
             app.Use(async (context, next) =>
             {

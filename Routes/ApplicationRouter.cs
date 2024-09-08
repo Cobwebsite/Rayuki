@@ -6,6 +6,9 @@ using Path = AventusSharp.Routes.Attributes.Path;
 using AventusSharp.Routes.Response;
 using Core.App;
 using Core.Tools;
+using AventusSharp.Data;
+using AventusSharp.Routes.Request;
+using AventusSharp.Tools;
 
 namespace Core.Routes
 {
@@ -80,6 +83,13 @@ namespace Core.Routes
                 return;
             }
             AppManager.UnLoadApp(app);
+        }
+
+
+        [Post, Path("/installApp")]
+        public VoidWithError InstallApp(HttpFile file)
+        {
+            return AppManager.InstallApp(file);
         }
     }
 }
