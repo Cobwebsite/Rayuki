@@ -14,7 +14,8 @@ namespace Core.App
         WrongVersionFormat,
         NoName,
         UnknowError,
-        NotZipFile
+        NotZipFile,
+        NotInManagement
     }
     public class AppError : GenericError<AppErrorCode>
     {

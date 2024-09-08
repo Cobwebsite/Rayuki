@@ -1,3 +1,6 @@
 <label>Téléchargement de l'application</label>
-<rk-button>Téléverser</rk-button>
-<input style="display:none" type="file" @element="inputFileEl" @change="updateFile" />
+<rk-button @press="clickFile">Téléverser</rk-button>
+<div class="cross" @press="close">
+    <mi-icon icon="close"></mi-icon>
+</div>
+<input style="display:none" type="file" @element="inputFileEl" @change="updateFile" accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed" />

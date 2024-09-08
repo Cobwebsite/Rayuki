@@ -45,6 +45,9 @@ RUN --mount=type=cache,id=nuget,target=/root/.nuget/packages \
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS final
 WORKDIR /app
 
+# Install the necessary packages
+RUN apk add --no-cache fontconfig
+
 # Créer un volume pour le dossier "apps"
 VOLUME /app/apps
 VOLUME /app/wwwroot/apps

@@ -61,6 +61,21 @@ namespace System {
 
             }
         }
+
+
+        /**
+         * 
+         */
+        protected close() {
+            this.remove();
+            this.onClose.trigger([]);
+        }
+        /**
+         * 
+         */
+        protected clickFile() {
+            this.inputFileEl.click();
+        }
         //#endregion
 
     }

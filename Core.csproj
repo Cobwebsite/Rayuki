@@ -15,7 +15,8 @@
     <PackageReference Include="MySql.Data" Version="8.3.0" />
     <PackageReference Include="PuppeteerSharp" Version="16.0.0" />
     <PackageReference Include="Scriban" Version="5.9.1" />
-    <PackageReference Include="SkiaSharp" Version="2.88.7" />
+    <PackageReference Include="SkiaSharp" Version="2.88.8" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.8" />
     <PackageReference Include="SkiaSharp.Svg" Version="1.60.0" />
     <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
   </ItemGroup>

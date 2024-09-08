@@ -5,13 +5,25 @@
 	flex-direction: column;
 	justify-content: center;
 	left: 50%;
-	padding: 15px;
+	padding: 20px 45px;
 	position: absolute;
+	transform: translateX(-50%);
 	z-index: 999999;
 
 	label {
 		display: block;
 		font-size: var(--font-size-sm);
-		margin-bottom: 10px;
+		margin-bottom: 15px;
+	}
+
+	.cross {
+		cursor: pointer;
+		position: absolute;
+		right: 5px;
+		top: 5px;
+
+		mi-icon {
+			font-size: 18px;
+		}
 	}
 }

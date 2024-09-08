@@ -6051,7 +6051,7 @@ if(!window.customElements.get('rk-notification')){window.customElements.define('
 
 System.AppInstallPanel = class AppInstallPanel extends System.Panel {
     onClose = new Aventus.Callback();
-    static __style = `:host{align-items:center;bottom:70px;display:flex;flex-direction:column;justify-content:center;left:50%;padding:15px;position:absolute;z-index:999999}:host label{display:block;font-size:var(--font-size-sm);margin-bottom:10px}`;
+    static __style = `:host{align-items:center;bottom:70px;display:flex;flex-direction:column;justify-content:center;left:50%;padding:20px 45px;position:absolute;transform:translateX(-50%);z-index:999999}:host label{display:block;font-size:var(--font-size-sm);margin-bottom:15px}:host .cross{cursor:pointer;position:absolute;right:5px;top:5px}:host .cross mi-icon{font-size:18px}`;
     __getStatic() {
         return AppInstallPanel;
     }
@@ -6062,7 +6062,7 @@ System.AppInstallPanel = class AppInstallPanel extends System.Panel {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<label>Téléchargement de l'application</label><rk-button>Téléverser</rk-button><input style="display:none" type="file" _id="appinstallpanel_0" />` }
+        blocks: { 'default':`<label>Téléchargement de l'application</label><rk-button _id="appinstallpanel_0">Téléverser</rk-button><div class="cross" _id="appinstallpanel_1">    <mi-icon icon="close"></mi-icon></div><input style="display:none" type="file" accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed" _id="appinstallpanel_2" />` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -6070,15 +6070,25 @@ System.AppInstallPanel = class AppInstallPanel extends System.Panel {
     {
       "name": "inputFileEl",
       "ids": [
-        "appinstallpanel_0"
+        "appinstallpanel_2"
       ]
     }
   ],
   "events": [
     {
       "eventName": "change",
-      "id": "appinstallpanel_0",
+      "id": "appinstallpanel_2",
       "fct": (e, c) => c.comp.updateFile(e)
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "appinstallpanel_0",
+      "onPress": (e, pressInstance, c) => { c.comp.clickFile(e, pressInstance); }
+    },
+    {
+      "id": "appinstallpanel_1",
+      "onPress": (e, pressInstance, c) => { c.comp.close(e, pressInstance); }
     }
   ]
 }); }
@@ -6109,6 +6119,13 @@ System.AppInstallPanel = class AppInstallPanel extends System.Panel {
                 System.Os.instance.notify(notif);
             }
         }
+    }
+    close() {
+        this.remove();
+        this.onClose.trigger([]);
+    }
+    clickFile() {
+        this.inputFileEl.click();
     }
 }
 System.AppInstallPanel.Namespace=`Core.System`;

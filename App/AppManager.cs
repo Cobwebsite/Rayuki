@@ -468,13 +468,14 @@ namespace Core.App
             {
                 if (!HttpServer.IsAppManagement)
                 {
+                    result.Errors.Add(new AppError(AppErrorCode.NotInManagement, "The mode is wrong"));
                     return result;
                 }
                 using FileStream fileStream = File.OpenRead(file.FilePath);
                 IFileType fileType = FileTypeValidator.GetFileType(fileStream);
                 if (FileTypeValidator.IsArchive(fileStream) && fileType.Extension == "zip")
                 {
-                    ZipFile.ExtractToDirectory(fileStream, AppDomain.CurrentDomain.BaseDirectory);
+                    ZipFile.ExtractToDirectory(fileStream, AppDomain.CurrentDomain.BaseDirectory, true);
                 }
                 else
                 {
