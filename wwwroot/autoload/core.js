@@ -170,6 +170,8 @@ _.Errors.PdfErrorCode=Errors.PdfErrorCode;
 (function (ImageFileErrorCode) {
     ImageFileErrorCode[ImageFileErrorCode["UnknowError"] = 0] = "UnknowError";
     ImageFileErrorCode[ImageFileErrorCode["NotValidImage"] = 1] = "NotValidImage";
+    ImageFileErrorCode[ImageFileErrorCode["FileNotSvg"] = 2] = "FileNotSvg";
+    ImageFileErrorCode[ImageFileErrorCode["NoSize"] = 3] = "NoSize";
 })(Errors.ImageFileErrorCode || (Errors.ImageFileErrorCode = {}));
 _.Errors.ImageFileErrorCode=Errors.ImageFileErrorCode;
 
@@ -189,15 +191,17 @@ Data.Settings.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Key":"st
 Aventus.Converter.register(Data.Settings.Fullname, Data.Settings);
 _.Data.Settings=Data.Settings;
 
-Data.Company=class Company extends AventusSharp.Data.Storable {
-    static get Fullname() { return "Core.Data.Company, Core"; }
-    Name = "";
-    Logo = "";
+Data.ManifestIcon=class ManifestIcon extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Core.Data.ManifestIcon, Core"; }
+    src;
+    type;
+    sizes;
+    purpose = undefined;
 }
-Data.Company.Namespace=`Core.Data`;
-Data.Company.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Logo":"string"};
-Aventus.Converter.register(Data.Company.Fullname, Data.Company);
-_.Data.Company=Data.Company;
+Data.ManifestIcon.Namespace=`Core.Data`;
+Data.ManifestIcon.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "src":"string","type":"string","sizes":"string","purpose":"string"};
+Aventus.Converter.register(Data.ManifestIcon.Fullname, Data.ManifestIcon);
+_.Data.ManifestIcon=Data.ManifestIcon;
 
 (function (AppErrorCode) {
     AppErrorCode[AppErrorCode["AppFileNotFound"] = 0] = "AppFileNotFound";
@@ -1541,7 +1545,7 @@ Data.PermissionUser.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Pe
 Aventus.Converter.register(Data.PermissionUser.Fullname, Data.PermissionUser);
 _.Data.PermissionUser=Data.PermissionUser;
 
-Permissions.Tree.PermissionTreeItem=class PermissionTreeItem {
+Permissions.Tree.PermissionTreeItem=class PermissionTreeItem extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Permissions.Tree.PermissionTreeItem, Core"; }
     DisplayName = "";
     Description = "";
@@ -1551,7 +1555,7 @@ Permissions.Tree.PermissionTreeItem=class PermissionTreeItem {
     Permissions = [];
 }
 Permissions.Tree.PermissionTreeItem.Namespace=`Core.Permissions.Tree`;
-Permissions.Tree.PermissionTreeItem.$schema={"DisplayName":"string","Description":"string","EnumName":"string","Value":"Aventus.Enum","PermissionId":"number","Permissions":"PermissionTreeItem"};
+Permissions.Tree.PermissionTreeItem.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "DisplayName":"string","Description":"string","EnumName":"string","Value":"Aventus.Enum","PermissionId":"number","Permissions":"PermissionTreeItem"};
 Aventus.Converter.register(Permissions.Tree.PermissionTreeItem.Fullname, Permissions.Tree.PermissionTreeItem);
 _.Permissions.Tree.PermissionTreeItem=Permissions.Tree.PermissionTreeItem;
 
@@ -1646,13 +1650,13 @@ System.DesktopActivableLogic=class DesktopActivableLogic {
 System.DesktopActivableLogic.Namespace=`Core.System`;
 _.System.DesktopActivableLogic=System.DesktopActivableLogic;
 
-App.AppConfiguration=class AppConfiguration {
+App.AppConfiguration=class AppConfiguration extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.App.AppConfiguration, Core"; }
     appsInstalled = [];
     allApps = new Map();
 }
 App.AppConfiguration.Namespace=`Core.App`;
-App.AppConfiguration.$schema={"appsInstalled":"string","allApps":"Map"};
+App.AppConfiguration.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "appsInstalled":"string","allApps":"Map"};
 Aventus.Converter.register(App.AppConfiguration.Fullname, App.AppConfiguration);
 
 Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter {
@@ -1896,7 +1900,7 @@ Components.PageCaseSlot.Tag=`rk-page-case-slot`;
 _.Components.PageCaseSlot=Components.PageCaseSlot;
 if(!window.customElements.get('rk-page-case-slot')){window.customElements.define('rk-page-case-slot', Components.PageCaseSlot);Aventus.WebComponentInstance.registerDefinition(Components.PageCaseSlot);}
 
-Data.ApplicationOpen=class ApplicationOpen {
+Data.ApplicationOpen=class ApplicationOpen extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.ApplicationOpen, Core"; }
     id;
     applicationName;
@@ -1905,17 +1909,17 @@ Data.ApplicationOpen=class ApplicationOpen {
     isHidden;
 }
 Data.ApplicationOpen.Namespace=`Core.Data`;
-Data.ApplicationOpen.$schema={"id":"string","applicationName":"string","number":"number","history":"string","isHidden":"boolean"};
+Data.ApplicationOpen.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "id":"string","applicationName":"string","number":"number","history":"string","isHidden":"boolean"};
 Aventus.Converter.register(Data.ApplicationOpen.Fullname, Data.ApplicationOpen);
 _.Data.ApplicationOpen=Data.ApplicationOpen;
 
-Data.ApplicationOpenInfo=class ApplicationOpenInfo {
+Data.ApplicationOpenInfo=class ApplicationOpenInfo extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.ApplicationOpenInfo, Core"; }
     DesktopId;
     Info;
 }
 Data.ApplicationOpenInfo.Namespace=`Core.Data`;
-Data.ApplicationOpenInfo.$schema={"DesktopId":"number","Info":"ApplicationOpen"};
+Data.ApplicationOpenInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "DesktopId":"number","Info":"ApplicationOpen"};
 Aventus.Converter.register(Data.ApplicationOpenInfo.Fullname, Data.ApplicationOpenInfo);
 _.Data.ApplicationOpenInfo=Data.ApplicationOpenInfo;
 
@@ -1957,6 +1961,16 @@ Data.DataTypes.ImageFile.Namespace=`Core.Data.DataTypes`;
 Data.DataTypes.ImageFile.$schema={...(AventusSharp.Data.AventusFile?.$schema ?? {}), };
 Aventus.Converter.register(Data.DataTypes.ImageFile.Fullname, Data.DataTypes.ImageFile);
 _.Data.DataTypes.ImageFile=Data.DataTypes.ImageFile;
+
+Data.Company=class Company extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.Company, Core"; }
+    Name = "";
+    Logo = new Data.DataTypes.ImageFile();
+}
+Data.Company.Namespace=`Core.Data`;
+Data.Company.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Logo":"Core.Data.DataTypes.ImageFile"};
+Aventus.Converter.register(Data.Company.Fullname, Data.Company);
+_.Data.Company=Data.Company;
 
 Data.User=class User extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.User, Core"; }
@@ -4265,7 +4279,7 @@ Components.Tabs.Tag=`rk-tabs`;
 _.Components.Tabs=Components.Tabs;
 if(!window.customElements.get('rk-tabs')){window.customElements.define('rk-tabs', Components.Tabs);Aventus.WebComponentInstance.registerDefinition(Components.Tabs);}
 
-Permissions.Tree.PermissionTree=class PermissionTree {
+Permissions.Tree.PermissionTree=class PermissionTree extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Permissions.Tree.PermissionTree, Core"; }
     AppName;
     IconTagName;
@@ -4273,7 +4287,7 @@ Permissions.Tree.PermissionTree=class PermissionTree {
     Permissions = [];
 }
 Permissions.Tree.PermissionTree.Namespace=`Core.Permissions.Tree`;
-Permissions.Tree.PermissionTree.$schema={"AppName":"string","IconTagName":"string","PermissionId":"number","Permissions":"PermissionTreeItem"};
+Permissions.Tree.PermissionTree.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "AppName":"string","IconTagName":"string","PermissionId":"number","Permissions":"PermissionTreeItem"};
 Aventus.Converter.register(Permissions.Tree.PermissionTree.Fullname, Permissions.Tree.PermissionTree);
 _.Permissions.Tree.PermissionTree=Permissions.Tree.PermissionTree;
 
@@ -4308,13 +4322,13 @@ Routes.PermissionGroupRouter=class PermissionGroupRouter extends Aventus.HttpRou
 Routes.PermissionGroupRouter.Namespace=`Core.Routes`;
 _.Routes.PermissionGroupRouter=Routes.PermissionGroupRouter;
 
-Permissions.PermissionForUser=class PermissionForUser {
+Permissions.PermissionForUser=class PermissionForUser extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Logic.PermissionForUser, Core"; }
     permissionGroups = [];
     permissionUsers = [];
 }
 Permissions.PermissionForUser.Namespace=`Core.Permissions`;
-Permissions.PermissionForUser.$schema={"permissionGroups":"Core.Data.PermissionGroup","permissionUsers":"Core.Data.PermissionUser"};
+Permissions.PermissionForUser.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "permissionGroups":"Core.Data.PermissionGroup","permissionUsers":"Core.Data.PermissionUser"};
 Aventus.Converter.register(Permissions.PermissionForUser.Fullname, Permissions.PermissionForUser);
 _.Permissions.PermissionForUser=Permissions.PermissionForUser;
 
@@ -4386,12 +4400,12 @@ _.Websocket.Events.TransactionCancelledEvent=Websocket.Events.TransactionCancell
 
 Object.assign(Websocket.Events.TransactionCancelledEvent, _n);
 
-Websocket.Events.TransactionCancelledEvent.Body=class Body {
+Websocket.Events.TransactionCancelledEvent.Body=class Body extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Websocket.Events.TransactionCancelledEvent+Body, Core"; }
     guid;
 }
 Websocket.Events.TransactionCancelledEvent.Body.Namespace=`Core.Websocket.Events.TransactionCancelledEvent`;
-Websocket.Events.TransactionCancelledEvent.Body.$schema={"guid":"string"};
+Websocket.Events.TransactionCancelledEvent.Body.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "guid":"string"};
 Aventus.Converter.register(Websocket.Events.TransactionCancelledEvent.Body.Fullname, Websocket.Events.TransactionCancelledEvent.Body);
 _.Websocket.Events.TransactionCancelledEvent.Body=Websocket.Events.TransactionCancelledEvent.Body;
 
@@ -9610,8 +9624,7 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="header" _id="applicationsidnav_0">    <div class="background"></div>    <div class="navigation-actions">        <div class="action menu touch" _id="applicationsidnav_1">            <mi-icon icon="menu"></mi-icon>        </div>        <div class="previous action touch disable" _id="applicationsidnav_2">            <rk-img src="/img/icons/angle-left.svg"></rk-img>        </div>        <div class="next action touch disable" _id="applicationsidnav_3">            <rk-img src="/img/icons/angle-right.svg"></rk-img>        </div>    </div>    <div class="title" _id="applicationsidnav_4"></div>    <div class="application-actions">        <div class="btn green touch" _id="applicationsidnav_5"></div>        <div class="btn orange touch" _id="applicationsidnav_6"></div>        <div class="btn red touch" _id="applicationsidnav_7"></div>    </div></div><div class="content">    <div class="sidenav-hider" _id="applicationsidnav_8"></div>    <div class="sidenav">        <rk-scrollable auto_hide _id="applicationsidnav_9">            <template _id="applicationsidnav_10"></template>        </rk-scrollable>    </div>    <div class="container" _id="applicationsidnav_16">    </div></div><rk-resize min_width="200" min_height="200" _id="applicationsidnav_17"></rk-resize><rk-loading class="loading"></rk-loading><slot></slot>` }
+        blocks: { 'default':`<rk-context-menu-element class="header" _id="applicationsidnav_0">    <div class="background"></div>    <div class="navigation-actions">        <div class="action menu touch" _id="applicationsidnav_1">            <mi-icon icon="menu"></mi-icon>        </div>        <div class="previous action touch disable" _id="applicationsidnav_2">            <rk-img src="/img/icons/angle-left.svg"></rk-img>        </div>        <div class="next action touch disable" _id="applicationsidnav_3">            <rk-img src="/img/icons/angle-right.svg"></rk-img>        </div>    </div>    <div class="title" _id="applicationsidnav_4"></div>    <div class="application-actions">        <div class="btn green touch" _id="applicationsidnav_5"></div>        <div class="btn orange touch" _id="applicationsidnav_6"></div>        <div class="btn red touch" _id="applicationsidnav_7"></div>    </div></rk-context-menu-element><rk-context-menu-element class="content">    <div class="sidenav-hider" _id="applicationsidnav_8"></div>    <div class="sidenav">        <rk-scrollable auto_hide _id="applicationsidnav_9">            <template _id="applicationsidnav_10"></template>        </rk-scrollable>    </div>    <div class="container" _id="applicationsidnav_16">    </div></rk-context-menu-element><rk-resize min_width="200" min_height="200" _id="applicationsidnav_17"></rk-resize><rk-loading class="loading"></rk-loading><rk-notification-manager _id="applicationsidnav_18"></rk-notification-manager>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -9650,6 +9663,12 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
       "name": "resizeEl",
       "ids": [
         "applicationsidnav_17"
+      ]
+    },
+    {
+      "name": "notificationManager",
+      "ids": [
+        "applicationsidnav_18"
       ]
     }
   ],
@@ -17576,6 +17595,53 @@ App.AppError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(App.AppError.Fullname, App.AppError);
 _.App.AppError=App.AppError;
 
+Data.Manifest=class Manifest extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Core.Data.Manifest, Core"; }
+    name;
+    short_name;
+    icons = [];
+    theme_color;
+    background_color;
+    display;
+    orientation;
+    scope;
+    start_url;
+}
+Data.Manifest.Namespace=`Core.Data`;
+Data.Manifest.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "name":"string","short_name":"string","icons":"ManifestIcon","theme_color":"string","background_color":"string","display":"string","orientation":"string","scope":"string","start_url":"string"};
+Aventus.Converter.register(Data.Manifest.Fullname, Data.Manifest);
+_.Data.Manifest=Data.Manifest;
+
+Routes.CompanyRouter=class CompanyRouter extends Aventus.HttpRoute {
+    constructor(router) {
+        super(router ?? new Routes.CoreRouter());
+        this.GetMain = this.GetMain.bind(this);
+        this.Update = this.Update.bind(this);
+        this.ReadManifest = this.ReadManifest.bind(this);
+        this.SaveManifest = this.SaveManifest.bind(this);
+    }
+    async GetMain() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/getmain`, Aventus.HttpMethod.GET);
+        return await request.queryJSON(this.router);
+    }
+    async Update(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/update`, Aventus.HttpMethod.PUT);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async ReadManifest() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/readmanifest`, Aventus.HttpMethod.GET);
+        return await request.queryJSON(this.router);
+    }
+    async SaveManifest(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/savemanifest`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryVoid(this.router);
+    }
+}
+Routes.CompanyRouter.Namespace=`Core.Routes`;
+_.Routes.CompanyRouter=Routes.CompanyRouter;
+
 Errors.DesktopError=class DesktopError extends Aventus.GenericError {
     static get Fullname() { return "Core.Logic.DesktopError, Core"; }
 }
@@ -17632,13 +17698,13 @@ Tools.VoidWithPdfError.$schema={...(AventusSharp.Tools.VoidWithError?.$schema ??
 Aventus.Converter.register(Tools.VoidWithPdfError.Fullname, Tools.VoidWithPdfError);
 _.Tools.VoidWithPdfError=Tools.VoidWithPdfError;
 
-Websocket.Events.ApplicationTestEvent.Body=class Body {
+Websocket.Events.ApplicationTestEvent.Body=class Body extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Websocket.Events.ApplicationTestEvent+Body, Core"; }
     id;
     name;
 }
 Websocket.Events.ApplicationTestEvent.Body.Namespace=`Core.Websocket.Events.ApplicationTestEvent`;
-Websocket.Events.ApplicationTestEvent.Body.$schema={"id":"number","name":"string"};
+Websocket.Events.ApplicationTestEvent.Body.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "id":"number","name":"string"};
 Aventus.Converter.register(Websocket.Events.ApplicationTestEvent.Body.Fullname, Websocket.Events.ApplicationTestEvent.Body);
 _.Websocket.Events.ApplicationTestEvent.Body=Websocket.Events.ApplicationTestEvent.Body;
 

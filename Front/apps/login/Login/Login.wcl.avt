@@ -11,6 +11,11 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
     private error: string = "";
     @Attribute()
     private loading!: boolean;
+
+    @Property()
+    public company?: string;
+    @Property()
+    public icon?: string;
     //#endregion
 
 

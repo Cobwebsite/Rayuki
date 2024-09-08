@@ -5401,10 +5401,12 @@ _.Blur=Blur;
 if(!window.customElements.get('rk-blur')){window.customElements.define('rk-blur', Blur);Aventus.WebComponentInstance.registerDefinition(Blur);}
 
 const Login = class Login extends Aventus.WebComponent {
-    static get observedAttributes() {return ["error"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    static get observedAttributes() {return ["error", "company", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'loading'() { return this.getBoolAttr('loading') }
     set 'loading'(val) { this.setBoolAttr('loading', val) }    get 'error'() { return this.getStringProp('error') }
-    set 'error'(val) { this.setStringAttr('error', val) }    static __style = `:host{align-items:center;display:flex;height:100%;justify-content:center;left:0;position:absolute;top:0;width:100%}:host .login-container{background-color:rgba(25,25,25,.8);border-radius:5px;box-shadow:var(--elevation-10);box-sizing:border-box;display:flex;flex-direction:column;padding:20px;transform:perspective(1000px);width:372px;z-index:200}:host .login-container .body{display:flex}:host .login-container .body .login-img-container{height:75px;margin-top:12.5px}:host .login-container .body .login-img-container rk-img{background-color:#818181;border-radius:50%;height:100%;padding:20px}:host .login-container .body .field-container{margin-left:13px;width:200px}:host .login-container .body .field-container input,:host .login-container .body .field-container ::slotted(input){background-color:rgba(0,0,0,0);border:1px solid #fff;border-bottom:none;border-radius:0;color:#fff;cursor:default;height:30px;outline:none;padding:5px 5px;width:100%}:host .login-container .body .field-container input[readonly],:host .login-container .body .field-container ::slotted(input[readonly]){color:#c9c9c9}:host .login-container .body .field-container input:first-child{border-top-left-radius:3px;border-top-right-radius:3px}:host .login-container .body .field-container input:last-child,:host .login-container .body .field-container ::slotted(input:last-child){border-bottom:1px solid #fff;border-bottom-left-radius:3px;border-bottom-right-radius:3px}:host .login-container .body .btn-login{background-color:gray;border:1px solid #fff;border-radius:50%;color:#fff;cursor:pointer;font-size:20px;font-weight:bold;height:30px;line-height:28px;margin-left:13px;margin-top:35px;padding:3px;position:relative;text-align:center;transition:all 1s;width:30px}:host .login-container .body .btn-login mi-icon{animation:rotate 1s linear infinite;display:none;font-size:18px;transform-origin:center}:host .login-container .body .btn-login rk-img{height:100%}:host .login-container .body .btn-login-mobile{display:none;margin-top:20px;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .login-container .body .btn-login-mobile mi-icon{animation:rotate 1s linear infinite;display:none;font-size:18px;outline:none;transform-origin:center}:host .login-container .body .btn-login-mobile rk-button{background-color:rgba(0,0,0,0);border:1px solid #fff;box-shadow:none;font-size:13px;margin-top:20px;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);width:110px}:host .login-container .body input[type=submit]{display:none}:host .login-container .errors{color:#ff5454;display:none;font-size:13px;margin-top:20px}:host([loading]) .login-container .body .btn-login mi-icon{display:inline-block}:host([loading]) .login-container .body .btn-login rk-img{display:none}:host([loading]) .login-container .body .btn-login-mobile mi-icon{display:inline-block}:host([loading]) .login-container .body .btn-login-mobile rk-button span{display:none}:host([error]:not([error=""])) .login-container{animation-duration:.25s;animation-iteration-count:2;animation-name:shake;animation-timing-function:linear;transform-origin:center center}:host([error]:not([error=""])) .login-container .errors{display:block}@keyframes shake{0%{transform:translateX(0) rotate(0deg)}25%{transform:translateX(20px) rotate(3deg)}50%{transform:translateX(0px) rotate(0deg)}75%{transform:translateX(-20px) rotate(-3deg)}100%{transform:translateX(0px) rotate(0deg)}}@keyframes rotate{0%{transform:rotate(0deg)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}@media screen and (max-width: 1224px){:host .login-container{max-width:300px;width:calc(100% - 20px)}:host .login-container .body{align-items:center;flex-direction:column}:host .login-container .body .login-img-container{margin-bottom:20px;margin-top:0}:host .login-container .body .field-container{margin:0 20px;width:100%}:host .login-container .body .btn-login{display:none}:host .login-container .body .btn-login-mobile{display:inline-block}:host .login-container .errors{margin-top:20px;text-align:center}}`;
+    set 'error'(val) { this.setStringAttr('error', val) }get 'company'() { return this.getStringProp('company') }
+    set 'company'(val) { this.setStringAttr('company', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{align-items:center;display:flex;height:100%;justify-content:center;left:0;position:absolute;top:0;width:100%}:host .login-container{background-color:rgba(25,25,25,.8);border-radius:5px;box-shadow:var(--elevation-10);box-sizing:border-box;display:flex;flex-direction:column;padding:20px;transform:perspective(1000px);width:372px;z-index:200}:host .login-container .body{display:flex}:host .login-container .body .login-img-container{height:75px;margin-top:12.5px}:host .login-container .body .login-img-container rk-img{border-radius:50%;height:100%}:host .login-container .body .field-container{margin-left:13px;width:200px}:host .login-container .body .field-container input,:host .login-container .body .field-container ::slotted(input){background-color:rgba(0,0,0,0);border:1px solid #fff;border-bottom:none;border-radius:0;color:#fff;cursor:default;height:30px;outline:none;padding:5px 5px;width:100%}:host .login-container .body .field-container input[readonly],:host .login-container .body .field-container ::slotted(input[readonly]){color:#c9c9c9}:host .login-container .body .field-container input:first-child{border-top-left-radius:3px;border-top-right-radius:3px}:host .login-container .body .field-container input:last-child,:host .login-container .body .field-container ::slotted(input:last-child){border-bottom:1px solid #fff;border-bottom-left-radius:3px;border-bottom-right-radius:3px}:host .login-container .body .btn-login{background-color:gray;border:1px solid #fff;border-radius:50%;color:#fff;cursor:pointer;font-size:20px;font-weight:bold;height:30px;line-height:28px;margin-left:13px;margin-top:35px;padding:3px;position:relative;text-align:center;transition:all 1s;width:30px}:host .login-container .body .btn-login .loading{animation:rotate 1s linear infinite;display:none;font-size:18px;transform-origin:center}:host .login-container .body .btn-login rk-img{height:100%}:host .login-container .body .btn-login-mobile{display:none;margin-top:20px;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .login-container .body .btn-login-mobile .loading{animation:rotate 1s linear infinite;display:none;font-size:18px;outline:none;transform-origin:center}:host .login-container .body .btn-login-mobile rk-button{background-color:rgba(0,0,0,0);border:1px solid #fff;box-shadow:none;font-size:13px;margin-top:20px;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);width:140px}:host .login-container .body .btn-login-mobile rk-button span{margin-right:5px}:host .login-container .body input[type=submit]{display:none}:host .login-container .errors{color:#ff5454;display:none;font-size:13px;margin-top:20px}:host([loading]) .login-container .body .btn-login .loading{display:inline-block}:host([loading]) .login-container .body .btn-login rk-img{display:none}:host([loading]) .login-container .body .btn-login-mobile .loading{display:inline-block}:host([loading]) .login-container .body .btn-login-mobile rk-button *:not(.loading){display:none}:host([error]:not([error=""])) .login-container{animation-duration:.25s;animation-iteration-count:2;animation-name:shake;animation-timing-function:linear;transform-origin:center center}:host([error]:not([error=""])) .login-container .errors{display:block}@keyframes shake{0%{transform:translateX(0) rotate(0deg)}25%{transform:translateX(20px) rotate(3deg)}50%{transform:translateX(0px) rotate(0deg)}75%{transform:translateX(-20px) rotate(-3deg)}100%{transform:translateX(0px) rotate(0deg)}}@keyframes rotate{0%{transform:rotate(0deg)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}@media screen and (max-width: 1224px){:host .login-container{max-width:300px;width:calc(100% - 20px)}:host .login-container .body{align-items:center;flex-direction:column}:host .login-container .body .login-img-container{margin-bottom:20px;margin-top:0}:host .login-container .body .field-container{margin:0 20px;width:100%}:host .login-container .body .btn-login{display:none}:host .login-container .body .btn-login-mobile{display:inline-block}:host .login-container .errors{margin-top:20px;text-align:center}}`;
     __getStatic() {
         return Login;
     }
@@ -5416,7 +5418,7 @@ const Login = class Login extends Aventus.WebComponent {
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<rk-blur src="/img/wp.png"></rk-blur><form class="login-container" _id="login_0">    <div class="body">        <div class="login-img-container">            <rk-img src="/img/avatar.png" mode="stretch"></rk-img>        </div>        <div class="field-container">            <input type="text" value="Cobwebsite" readonly="readonly" />            <slot></slot>            <input type="text" name="username" placeholder="Nom d'utilisateur" _id="login_1" />            <input type="password" name="password" placeholder="Mot de passe" _id="login_2" />        </div>        <div class="btn-login">            <rk-img src="/img/icons/angle-right.svg" _id="login_3"></rk-img>            <mi-icon icon="progress_activity"></mi-icon>        </div>        <div class="btn-login-mobile">            <rk-button _id="login_4">                <span>Se connecter</span>                <mi-icon icon="progress_activity"></mi-icon>            </rk-button>        </div>        <input type="submit" value="sub" _id="login_5" />    </div>    <div class="errors" _id="login_6"></div></form>` }
+        blocks: { 'default':`<rk-blur src="/img/wp.png"></rk-blur><form class="login-container" _id="login_0">    <div class="body">        <div class="login-img-container">            <rk-img mode="stretch" _id="login_1"></rk-img>        </div>        <div class="field-container">            <input type="text" readonly="readonly" _id="login_2" />            <slot></slot>            <input type="text" name="username" placeholder="Nom d'utilisateur" _id="login_3" />            <input type="password" name="password" placeholder="Mot de passe" _id="login_4" />        </div>        <div class="btn-login">            <mi-icon icon="chevron_right" _id="login_5"></mi-icon>            <mi-icon class="loading" icon="progress_activity"></mi-icon>        </div>        <div class="btn-login-mobile">            <rk-button _id="login_6">                <span>Se connecter</span>                <mi-icon icon="chevron_right"></mi-icon>                <mi-icon class="loading" icon="progress_activity"></mi-icon>            </rk-button>        </div>        <input type="submit" value="sub" _id="login_7" />    </div>    <div class="errors" _id="login_8"></div></form>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -5430,25 +5432,33 @@ const Login = class Login extends Aventus.WebComponent {
     {
       "name": "usernameEl",
       "ids": [
-        "login_1"
+        "login_3"
       ]
     },
     {
       "name": "passwordEl",
       "ids": [
-        "login_2"
+        "login_4"
       ]
     },
     {
       "name": "submitBtn",
       "ids": [
-        "login_5"
+        "login_7"
       ]
     }
   ],
   "content": {
-    "login_6°@HTML": {
+    "login_1°src": {
       "fct": (c) => `${c.print(c.comp.__16a0b4642da4b9340c7f134867b43d8dmethod0())}`,
+      "once": true
+    },
+    "login_2°value": {
+      "fct": (c) => `${c.print(c.comp.__16a0b4642da4b9340c7f134867b43d8dmethod1())}`,
+      "once": true
+    },
+    "login_8°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__16a0b4642da4b9340c7f134867b43d8dmethod2())}`,
       "once": true
     }
   },
@@ -5460,27 +5470,27 @@ const Login = class Login extends Aventus.WebComponent {
     },
     {
       "eventName": "focus",
-      "id": "login_1",
+      "id": "login_3",
       "fct": (e, c) => c.comp.clearError(e)
     },
     {
       "eventName": "input",
-      "id": "login_2",
+      "id": "login_4",
       "fct": (e, c) => c.comp.checkEnter(e)
     },
     {
       "eventName": "focus",
-      "id": "login_2",
+      "id": "login_4",
       "fct": (e, c) => c.comp.clearError(e)
     },
     {
       "eventName": "click",
-      "id": "login_3",
+      "id": "login_5",
       "fct": (e, c) => c.comp.validateForm(e)
     },
     {
       "eventName": "click",
-      "id": "login_4",
+      "id": "login_6",
       "fct": (e, c) => c.comp.validateForm(e)
     }
   ]
@@ -5488,8 +5498,8 @@ const Login = class Login extends Aventus.WebComponent {
     getClassName() {
         return "Login";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('error')){ this['error'] = ""; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading');this.__upgradeProperty('error'); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('error')){ this['error'] = ""; }if(!this.hasAttribute('company')){ this['company'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading');this.__upgradeProperty('error');this.__upgradeProperty('company');this.__upgradeProperty('icon'); }
     __listBoolProps() { return ["loading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     loginAction(e) {
         e.preventDefault();
@@ -5586,6 +5596,12 @@ const Login = class Login extends Aventus.WebComponent {
         this.appendChild(this.passwordEl);
     }
     __16a0b4642da4b9340c7f134867b43d8dmethod0() {
+        return this.icon;
+    }
+    __16a0b4642da4b9340c7f134867b43d8dmethod1() {
+        return this.company;
+    }
+    __16a0b4642da4b9340c7f134867b43d8dmethod2() {
         return this.error;
     }
 }

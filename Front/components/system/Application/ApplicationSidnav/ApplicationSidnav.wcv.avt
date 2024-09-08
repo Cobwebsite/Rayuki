@@ -1,4 +1,4 @@
-<div class="header" @element="header">
+<rk-context-menu-element  class="header" @element="header">
     <div class="background"></div>
     <div class="navigation-actions">
         <div class="action menu touch" @press="toggleSidnav">
@@ -17,8 +17,8 @@
         <div class="btn orange touch" @press="toggleFull"></div>
         <div class="btn red touch" @press="kill"></div>
     </div>
-</div>
-<div class="content">
+</rk-context-menu-element >
+<rk-context-menu-element  class="content">
     <div class="sidenav-hider" @press="closeSidenav"></div>
     <div class="sidenav">
         <rk-scrollable auto_hide @element="navEl">
@@ -37,7 +37,7 @@
     </div>
     <div class="container" @element="contentEl">
     </div>
-</div>
+</rk-context-menu-element >
 <rk-resize @element="resizeEl" min_width="200" min_height="200"></rk-resize>
 <rk-loading class="loading"></rk-loading>
-<slot></slot>
+<rk-notification-manager @element="notificationManager"></rk-notification-manager>

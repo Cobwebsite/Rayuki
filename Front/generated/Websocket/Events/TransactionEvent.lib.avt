@@ -3,7 +3,7 @@ import { MainEndPoint } from '../MainEndPoint.lib.avt';
 namespace Websocket.Events.TransactionCancelledEvent {
 
 	@Convertible()
-	export class Body {
+	export class Body extends AventusSharp.Data.SharpClass  {
 		public static get Fullname(): string { return "Core.Websocket.Events.TransactionCancelledEvent+Body, Core"; }
 		public guid!: string;
 	}

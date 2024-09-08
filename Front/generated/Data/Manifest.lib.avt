@@ -1,0 +1,26 @@
+namespace Data {
+
+	@Convertible()
+	export class Manifest extends AventusSharp.Data.SharpClass  {
+		public static get Fullname(): string { return "Core.Data.Manifest, Core"; }
+		public name!: string;
+		public short_name!: string;
+		public icons: ManifestIcon[] = [];
+		public theme_color!: string;
+		public background_color!: string;
+		public display!: string;
+		public orientation!: string;
+		public scope!: string;
+		public start_url!: string;
+	}
+
+	@Convertible()
+	export class ManifestIcon extends AventusSharp.Data.SharpClass  {
+		public static get Fullname(): string { return "Core.Data.ManifestIcon, Core"; }
+		public src!: string;
+		public type!: string;
+		public sizes!: string;
+		public purpose?: string = undefined;
+	}
+
+}

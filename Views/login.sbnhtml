@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <!-- <link rel="icon" type="image/png" href="/Documents/logo.png" /> -->
+    <link rel="icon" href="{{ icon }}" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/autoload/default.css" />
     <script src="/login.js"></script>
-    <title>Cobwebsite - Rayuki</title>
+    <title>{{ company }} - Rayuki</title>
     <style>
         input::placeholder {
             color:white;
@@ -20,7 +20,7 @@
 </head>
 
 <body>
-    <rk-login></rk-login>
+    <rk-login company="{{ company }}" icon="{{ icon }}"></rk-login>
 </body>
 
 </html>

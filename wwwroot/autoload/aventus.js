@@ -7328,6 +7328,57 @@ Data.StorableTimestamp.$schema={...(Data.Storable?.$schema ?? {}), "CreatedDate"
 Aventus.Converter.register(Data.StorableTimestamp.Fullname, Data.StorableTimestamp);
 _.Data.StorableTimestamp=Data.StorableTimestamp;
 
+Data.SharpClass=class SharpClass {
+    /**
+     * The current namespace
+     */
+    get namespace() {
+        return this.constructor['Namespace'];
+    }
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    get $type() {
+        return this.constructor['Fullname'];
+    }
+    /**
+     * Get the name of the class
+     */
+    get className() {
+        return this.constructor.name;
+    }
+    /**
+     * Clone the object by transforming a parsed JSON string back into the original type
+     */
+    clone() {
+        return Aventus.Converter.transform(JSON.parse(JSON.stringify(this)));
+    }
+    /**
+     * Get a JSON for the current object
+     */
+    toJSON() {
+        let toAvoid = ['className', 'namespace'];
+        return Aventus.Json.classToJson(this, {
+            isValidKey: (key) => !toAvoid.includes(key),
+            beforeEnd: (result) => {
+                let resultTemp = {};
+                if (result.$type) {
+                    resultTemp.$type = result.$type;
+                    for (let key in result) {
+                        if (key != '$type') {
+                            resultTemp[key] = result[key];
+                        }
+                    }
+                    return resultTemp;
+                }
+                return result;
+            }
+        });
+    }
+}
+Data.SharpClass.Namespace=`AventusSharp.Data`;
+_.Data.SharpClass=Data.SharpClass;
+
 Tools.VoidWithError=class VoidWithError extends Aventus.VoidWithError {
     static get Fullname() { return "AventusSharp.Tools.VoidWithError, AventusSharp"; }
 }

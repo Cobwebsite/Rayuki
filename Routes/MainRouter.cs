@@ -24,10 +24,12 @@ namespace Core.Routes
         [Get, Path("/")]
         public IResponse Home(HttpContext context)
         {
+            Company company = CompanyDM.GetInstance().GetMain();
             Dictionary<string, List<string>> autoLoad = HttpServer.GetAutoLoad();
             return new ViewDynamic("index", new
             {
-                title = "Cobwebsite",
+                title = company.Name,
+                icon = company.Logo.Uri,
                 styles = autoLoad["styles"].ToArray(),
                 scripts = autoLoad["scripts"].ToArray(),
                 is_dev = HttpServer.IsDev,
@@ -40,7 +42,12 @@ namespace Core.Routes
         [Get, Path("/login")]
         public IResponse Login()
         {
-            return new View("login");
+            Company company = CompanyDM.GetInstance().GetMain();
+            return new ViewDynamic("login", new
+            {
+                company = company.Name,
+                icon = company.Logo.Uri
+            });
         }
 
         [Post, Path("/login")]
@@ -90,17 +97,20 @@ namespace Core.Routes
         }
 
         [Post, Path("/core/transaction/begin")]
-        public ResultWithError<string> BeginTransaction(HttpContext context, int ms) {
+        public ResultWithError<string> BeginTransaction(HttpContext context, int ms)
+        {
             return HttpServer.TransactionManager.Begin(context, ms);
         }
 
         [Post, Path("/core/transaction/commit")]
-        public VoidWithError CommitTransaction(string guid) {
+        public VoidWithError CommitTransaction(string guid)
+        {
             return HttpServer.TransactionManager.Commit(guid);
         }
 
         [Post, Path("/core/transaction/rollback")]
-        public VoidWithError RollbackTransaction(string guid) {
+        public VoidWithError RollbackTransaction(string guid)
+        {
             return HttpServer.TransactionManager.Rollback(guid);
         }
 

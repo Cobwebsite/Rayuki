@@ -34,8 +34,8 @@ namespace Core
         }
         public static bool IsDev
         {
-            get => false;
-            // get => app.Environment.IsDevelopment();
+            // get => false;
+            get => app.Environment.IsDevelopment();
         }
 
         public static DatabaseConfig Config
@@ -283,7 +283,8 @@ namespace Core
                 await next();
                 return;
             }
-            if(AppManager.LoginMiddleware(context)) {
+            if (AppManager.LoginMiddleware(context))
+            {
                 await next();
                 return;
             }

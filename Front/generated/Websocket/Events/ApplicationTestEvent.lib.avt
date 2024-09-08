@@ -3,7 +3,7 @@ import { MainEndPoint } from '../MainEndPoint.lib.avt';
 namespace Websocket.Events.ApplicationTestEvent {
 
 	@Convertible()
-	export class Body {
+	export class Body extends AventusSharp.Data.SharpClass  {
 		public static get Fullname(): string { return "Core.Websocket.Events.ApplicationTestEvent+Body, Core"; }
 		public id!: number;
 		public name!: string;

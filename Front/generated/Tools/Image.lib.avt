@@ -2,7 +2,9 @@ namespace Errors {
 
 	export enum ImageFileErrorCode {
 		UnknowError,
-		NotValidImage
+		NotValidImage,
+		FileNotSvg,
+		NoSize
 	}
 
 	@Convertible()

@@ -1,7 +1,7 @@
 namespace Data {
 
 	@Convertible()
-	export class ApplicationOpen {
+	export class ApplicationOpen extends AventusSharp.Data.SharpClass  {
 		public static get Fullname(): string { return "Core.Data.ApplicationOpen, Core"; }
 		public id!: string;
 		public applicationName!: string;
@@ -11,7 +11,7 @@ namespace Data {
 	}
 
 	@Convertible()
-	export class ApplicationOpenInfo {
+	export class ApplicationOpenInfo extends AventusSharp.Data.SharpClass  {
 		public static get Fullname(): string { return "Core.Data.ApplicationOpenInfo, Core"; }
 		public DesktopId!: number;
 		public Info!: ApplicationOpen;

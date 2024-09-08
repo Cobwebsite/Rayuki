@@ -30,10 +30,8 @@
 				margin-top: 12.5px;
 
 				rk-img {
-					background-color: #818181;
 					border-radius: 50%;
 					height: 100%;
-					padding: 20px;
 				}
 			}
 
@@ -91,7 +89,7 @@
 				transition: all 1s;
 				width: 30px;
 
-				mi-icon {
+				.loading {
 					animation: rotate 1s linear infinite;
 					display: none;
 					font-size: 18px;
@@ -111,7 +109,7 @@
 				outline: none;
 				-webkit-tap-highlight-color: transparent;
 
-				mi-icon {
+				.loading {
 					animation: rotate 1s linear infinite;
 					display: none;
 					font-size: 18px;
@@ -127,7 +125,10 @@
 					margin-top: 20px;
 					outline: none;
 					-webkit-tap-highlight-color: transparent;
-					width: 110px;
+					width: 140px;
+					span {
+						margin-right: 5px;
+					}
 				}
 			}
 
@@ -149,7 +150,7 @@
 	.login-container {
 		.body {
 			.btn-login {
-				mi-icon {
+				.loading {
 					display: inline-block;
 				}
 
@@ -159,11 +160,11 @@
 			}
 
 			.btn-login-mobile {
-				mi-icon {
+				.loading {
 					display: inline-block;
 				}
 
-				rk-button span {
+				rk-button *:not(.loading) {
 					display: none;
 				}
 			}

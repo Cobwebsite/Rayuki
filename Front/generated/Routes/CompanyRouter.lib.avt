@@ -1,0 +1,41 @@
+import { Company } from '../Data/Company.data.avt';
+import { Manifest } from '../Data/Manifest.lib.avt';
+import { CoreRouter } from '../CoreRouter.lib.avt';
+
+namespace Routes {
+
+	export class CompanyRouter extends Aventus.HttpRoute {
+		public constructor(router?: Aventus.HttpRouter) {
+			super(router ?? new CoreRouter());
+		}
+		@BindThis()
+		public async GetMain(): Promise<AventusSharp.Tools.ResultWithError<Company>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/getmain`, Aventus.HttpMethod.GET);
+			type TypeResult = Company;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async Update(body: { item: Company } | FormData): Promise<AventusSharp.Tools.ResultWithError<Company>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/update`, Aventus.HttpMethod.PUT);
+			request.setBody(body);
+			type TypeResult = Company;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async ReadManifest(): Promise<AventusSharp.Tools.ResultWithError<Manifest | undefined>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/readmanifest`, Aventus.HttpMethod.GET);
+			type TypeResult = Manifest | undefined;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async SaveManifest(body: { manifest: Manifest } | FormData): Promise<AventusSharp.Tools.VoidWithError> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/savemanifest`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			return await request.queryVoid(this.router);
+		}
+	}
+
+}

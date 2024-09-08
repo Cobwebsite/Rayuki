@@ -4,8 +4,8 @@
     "build": [
         {
             "name": "Main",
-            "hideWarnings": false,
-            "disabled": true,
+            "hideWarnings": true,
+            "disabled": false,
             "src": [
                 "./components/*",
                 "./ram/*",

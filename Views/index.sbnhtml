@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="theme-color" content="#dcdcdc" />
 
-    <link rel="icon" href="/img/logo.svg?v={{ version }}" />
+    <link rel="icon" href="{{ icon }}" />
     <link rel="manifest" href="/pwa/manifest.json?v={{ version }}" />
     <title>{{ title }}</title>
     <script>
