@@ -211,6 +211,7 @@ _.Data.ManifestIcon=Data.ManifestIcon;
     AppErrorCode[AppErrorCode["WrongVersionFormat"] = 4] = "WrongVersionFormat";
     AppErrorCode[AppErrorCode["NoName"] = 5] = "NoName";
     AppErrorCode[AppErrorCode["UnknowError"] = 6] = "UnknowError";
+    AppErrorCode[AppErrorCode["NotZipFile"] = 7] = "NotZipFile";
 })(App.AppErrorCode || (App.AppErrorCode = {}));
 _.App.AppErrorCode=App.AppErrorCode;
 
@@ -3231,6 +3232,7 @@ Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
         this.ConfigureAppData = this.ConfigureAppData.bind(this);
         this.InstallDevApp = this.InstallDevApp.bind(this);
         this.UninstallDevApp = this.UninstallDevApp.bind(this);
+        this.InstallApp = this.InstallApp.bind(this);
     }
     async GetAll() {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/application`, Aventus.HttpMethod.GET);
@@ -3247,6 +3249,11 @@ Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
     }
     async UninstallDevApp(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/configureApp/uninstall`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryVoid(this.router);
+    }
+    async InstallApp(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/installApp`, Aventus.HttpMethod.POST);
         request.setBody(body);
         return await request.queryVoid(this.router);
     }
@@ -6041,6 +6048,73 @@ Components.Notification.Namespace=`Core.Components`;
 Components.Notification.Tag=`rk-notification`;
 _.Components.Notification=Components.Notification;
 if(!window.customElements.get('rk-notification')){window.customElements.define('rk-notification', Components.Notification);Aventus.WebComponentInstance.registerDefinition(Components.Notification);}
+
+System.AppInstallPanel = class AppInstallPanel extends System.Panel {
+    onClose = new Aventus.Callback();
+    static __style = `:host{align-items:center;bottom:70px;display:flex;flex-direction:column;justify-content:center;left:50%;padding:15px;position:absolute;z-index:999999}:host label{display:block;font-size:var(--font-size-sm);margin-bottom:10px}`;
+    __getStatic() {
+        return AppInstallPanel;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(AppInstallPanel.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<label>Téléchargement de l'application</label><rk-button>Téléverser</rk-button><input style="display:none" type="file" _id="appinstallpanel_0" />` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "inputFileEl",
+      "ids": [
+        "appinstallpanel_0"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "eventName": "change",
+      "id": "appinstallpanel_0",
+      "fct": (e, c) => c.comp.updateFile(e)
+    }
+  ]
+}); }
+    getClassName() {
+        return "AppInstallPanel";
+    }
+    async updateFile() {
+        if (this.inputFileEl.files && this.inputFileEl.files.length > 0) {
+            const result = await new Routes.ApplicationRouter().InstallApp({
+                file: this.inputFileEl.files[0]
+            });
+            if (result.success) {
+                let notif = Components.Notification.create({
+                    color: "success",
+                    title: "Succès",
+                    body: "Téléchargement terminé",
+                });
+                System.Os.instance.notify(notif);
+                this.remove();
+                this.onClose.trigger([]);
+            }
+            else {
+                let notif = Components.Notification.create({
+                    color: "error",
+                    title: "Erreurs",
+                    body: "Il y a eu une erreur",
+                });
+                System.Os.instance.notify(notif);
+            }
+        }
+    }
+}
+System.AppInstallPanel.Namespace=`Core.System`;
+System.AppInstallPanel.Tag=`rk-app-install-panel`;
+_.System.AppInstallPanel=System.AppInstallPanel;
+if(!window.customElements.get('rk-app-install-panel')){window.customElements.define('rk-app-install-panel', System.AppInstallPanel);Aventus.WebComponentInstance.registerDefinition(System.AppInstallPanel);}
 
 Components.NotificationManager = class NotificationManager extends Aventus.WebComponent {
     get 'gap'() { return this.getNumberAttr('gap') }
@@ -8944,6 +9018,7 @@ System.Os = class Os extends Aventus.WebComponent {
         return this.activeDesktopEl;
     }
     contextMenuCst = Components.ContextMenu;
+    _appInstallPanel;
     __registerWatchesActions() {
     this.__addWatchesActions("desktops");    super.__registerWatchesActions();
 }
@@ -9234,6 +9309,22 @@ System.Os = class Os extends Aventus.WebComponent {
         c.mergeInfo(info);
         return await this.popup(c);
     }
+    allowInstallApp() {
+        Lib.ShortcutManager.subscribe([Lib.SpecialTouch.Control, Lib.SpecialTouch.Alt, "i"], () => {
+            if (this._appInstallPanel) {
+                this._appInstallPanel.remove();
+                this._appInstallPanel = undefined;
+            }
+            else {
+                let panel = new System.AppInstallPanel();
+                this._appInstallPanel = panel;
+                panel.onClose.add(() => {
+                    this._appInstallPanel = undefined;
+                });
+                this.shadowRoot.appendChild(panel);
+            }
+        });
+    }
     selectDesktop(e, pressInstance) {
         let el = pressInstance.getElement();
         let index = Number(el.getAttribute("index"));
@@ -9260,6 +9351,7 @@ System.Os = class Os extends Aventus.WebComponent {
         this.rightClick();
         this.preventScroll();
         this.addSwitchDesktop();
+        this.allowInstallApp();
         await this.systemLoading();
     }
     postCreation() {

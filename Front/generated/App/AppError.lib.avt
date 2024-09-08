@@ -7,7 +7,8 @@ namespace App {
 		NoIconFileFound,
 		WrongVersionFormat,
 		NoName,
-		UnknowError
+		UnknowError,
+		NotZipFile
 	}
 
 	@Convertible()

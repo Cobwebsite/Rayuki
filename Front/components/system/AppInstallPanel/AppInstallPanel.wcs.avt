@@ -1,0 +1,17 @@
+:host {
+	align-items: center;
+	bottom: 70px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	left: 50%;
+	padding: 15px;
+	position: absolute;
+	z-index: 999999;
+
+	label {
+		display: block;
+		font-size: var(--font-size-sm);
+		margin-bottom: 10px;
+	}
+}

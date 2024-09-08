@@ -1,0 +1,67 @@
+import { ApplicationRouter } from "../../../generated/Routes/ApplicationRouter.lib.avt";
+import { Notification } from "../../ui/popup/Notification/Notification.wcl.avt";
+import { Os } from "../Os/Os.wcl.avt";
+import { Panel } from "../Panel/Panel.wcl.avt";
+
+namespace System {
+    export class AppInstallPanel extends Panel implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected inputFileEl!: HTMLInputElement;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+        //#region events
+        public onClose: Aventus.Callback<() => void> = new Aventus.Callback();
+        //#endregion
+
+        //#region methods
+        /**
+         * 
+         */
+        protected async updateFile() {
+            if(this.inputFileEl.files && this.inputFileEl.files.length > 0) {
+                const result = await new ApplicationRouter().InstallApp({
+                    file: this.inputFileEl.files[0]
+                });
+                if(result.success) {
+                    let notif = Notification.create({
+                        color: "success",
+                        title: "Succès",
+                        body: "Téléchargement terminé",
+                    });
+                    Os.instance.notify(notif);
+                    this.remove();
+                    this.onClose.trigger([]);
+                }
+                else {
+                    let notif = Notification.create({
+                        color: "error",
+                        title: "Erreurs",
+                        body: "Il y a eu une erreur",
+                    });
+                    Os.instance.notify(notif);
+                }
+
+
+            }
+        }
+        //#endregion
+
+    }
+}

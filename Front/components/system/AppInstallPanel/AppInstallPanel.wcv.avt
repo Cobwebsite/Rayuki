@@ -1,0 +1,3 @@
+<label>Téléchargement de l'application</label>
+<rk-button>Téléverser</rk-button>
+<input style="display:none" type="file" @element="inputFileEl" @change="updateFile" />

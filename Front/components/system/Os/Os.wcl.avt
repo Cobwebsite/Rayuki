@@ -7,7 +7,7 @@ import type { DesktopData } from "../../../libs/TypeMapper.lib.avt";
 import type { Desktop } from "../Desktop/Desktop.wcl.avt";
 import type { Scrollable } from "../../ui/layout/Scrollable/Scrollable.wcl.avt";
 import { Confirm, type ConfirmInfo } from "../../ui/popup/Confirm/Confirm.wcl.avt";
-import type { Popup, PopupInfo } from "../../ui/popup/Popup/Popup.wcl.avt";
+import type { PopupInfo } from "../../ui/popup/Popup/Popup.wcl.avt";
 import { Alert, type AlertInfo } from "../../ui/popup/Alert/Alert.wcl.avt";
 import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
 import { DesktopStateManager } from "../../../states/desktop/Desktop.state.avt";
@@ -18,6 +18,7 @@ import type { GenericPopup } from "../../ui/popup/GenericPopup/GenericPopup.wcl.
 import { NotificationManager } from "../../ui/popup/NotificationManager/NotificationManager.wcl.avt";
 import type { Notification } from "../../ui/popup/Notification/Notification.wcl.avt";
 import { TransactionManager } from "../../../libs/TransactionManager.lib.avt";
+import { AppInstallPanel } from "../AppInstallPanel/AppInstallPanel.wcl.avt";
 
 namespace System {
     export class Os extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -322,6 +323,23 @@ namespace System {
         }
         //#endregion
 
+        private _appInstallPanel?: AppInstallPanel;
+        protected allowInstallApp() {
+            ShortcutManager.subscribe([SpecialTouch.Control, SpecialTouch.Alt, "i"], () => {
+                if(this._appInstallPanel) {
+                    this._appInstallPanel.remove();
+                    this._appInstallPanel = undefined;
+                }
+                else {
+                    let panel = new AppInstallPanel();
+                    this._appInstallPanel = panel;
+                    panel.onClose.add(() => {
+                        this._appInstallPanel = undefined;
+                    })
+                    this.shadowRoot.appendChild(panel);
+                }
+            });
+        }
         /**
          * 
          */
@@ -354,6 +372,7 @@ namespace System {
             this.rightClick();
             this.preventScroll();
             this.addSwitchDesktop();
+            this.allowInstallApp();
             await this.systemLoading();
         }
 
