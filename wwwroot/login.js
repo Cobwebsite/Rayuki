@@ -35,6 +35,102 @@ const _ = {};
 
 
 let _n;
+let uuidv4=function uuidv4() {
+    let uid = '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, c => (Number(c) ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> Number(c) / 4).toString(16));
+    return uid;
+}
+_.uuidv4=uuidv4;
+
+let ActionGuard=class ActionGuard {
+    /**
+     * Map to store actions that are currently running.
+     * @type {Map<any[], ((res: any) => void)[]>}
+     * @private
+     */
+    runningAction = new Map();
+    /**
+     * Executes an action uniquely based on the specified keys.
+     * @template T
+     * @param {any[]} keys The keys associated with the action.
+     * @param {() => Promise<T>} action The action to execute.
+     * @returns {Promise<T>} A promise that resolves with the result of the action.
+     * @example
+     *
+     *
+     * const actionGuard = new Aventus.ActionGuard();
+     *
+     *
+     * const keys = ["key1", "key2"];
+     *
+     *
+     * const action = async () => {
+     *
+     *     await new Promise(resolve => setTimeout(resolve, 1000));
+     *     return "Action executed";
+     * };
+     *
+     *
+     * await actionGuard.run(keys, action)
+     *
+     */
+    run(keys, action) {
+        return new Promise(async (resolve) => {
+            let actions = undefined;
+            let runningKeys = Array.from(this.runningAction.keys());
+            for (let runningKey of runningKeys) {
+                if (runningKey.length == keys.length) {
+                    let found = true;
+                    for (let i = 0; i < keys.length; i++) {
+                        if (runningKey[i] != keys[i]) {
+                            found = false;
+                            break;
+                        }
+                    }
+                    if (found) {
+                        actions = this.runningAction.get(runningKey);
+                        break;
+                    }
+                }
+            }
+            if (actions) {
+                actions.push((res) => {
+                    resolve(res);
+                });
+            }
+            else {
+                this.runningAction.set(keys, []);
+                let res = await action();
+                let actions = this.runningAction.get(keys);
+                if (actions) {
+                    for (let action of actions) {
+                        action(res);
+                    }
+                }
+                this.runningAction.delete(keys);
+                resolve(res);
+            }
+        });
+    }
+}
+ActionGuard.Namespace=`Aventus`;
+_.ActionGuard=ActionGuard;
+
+var HttpErrorCode;
+(function (HttpErrorCode) {
+    HttpErrorCode[HttpErrorCode["unknow"] = 0] = "unknow";
+})(HttpErrorCode || (HttpErrorCode = {}));
+_.HttpErrorCode=HttpErrorCode;
+
+var HttpMethod;
+(function (HttpMethod) {
+    HttpMethod["GET"] = "GET";
+    HttpMethod["POST"] = "POST";
+    HttpMethod["DELETE"] = "DELETE";
+    HttpMethod["PUT"] = "PUT";
+    HttpMethod["OPTION"] = "OPTION";
+})(HttpMethod || (HttpMethod = {}));
+_.HttpMethod=HttpMethod;
+
 let ElementExtension=class ElementExtension {
     /**
      * Find a parent by tagname if exist Static.findParentByTag(this, "av-img")
@@ -4319,6 +4415,824 @@ let WebComponentInstance=class WebComponentInstance {
 WebComponentInstance.Namespace=`Aventus`;
 _.WebComponentInstance=WebComponentInstance;
 
+let GenericError=class GenericError {
+    /**
+     * Code for the error
+     */
+    code;
+    /**
+     * Description of the error
+     */
+    message;
+    /**
+     * Additional details related to the error.
+     * @type {any[]}
+     */
+    details = [];
+    /**
+     * Creates a new instance of GenericError.
+     * @param {EnumValue<T>} code - The error code.
+     * @param {string} message - The error message.
+     */
+    constructor(code, message) {
+        this.code = code;
+        this.message = message;
+    }
+}
+GenericError.Namespace=`Aventus`;
+_.GenericError=GenericError;
+
+let VoidWithError=class VoidWithError {
+    /**
+     * Determine if the action is a success
+     */
+    get success() {
+        return this.errors.length == 0;
+    }
+    /**
+     * List of errors
+     */
+    errors = [];
+    /**
+     * Converts the current instance to a VoidWithError object.
+     * @returns {VoidWithError} A new instance of VoidWithError with the same error list.
+     */
+    toGeneric() {
+        const result = new VoidWithError();
+        result.errors = this.errors;
+        return result;
+    }
+    /**
+    * Checks if the error list contains a specific error code.
+    * @template U - The type of error, extending GenericError.
+    * @template T - The type of the error code, which extends either number or Enum.
+    * @param {EnumValue<T>} code - The error code to check for.
+    * @param {new (...args: any[]) => U} [type] - Optional constructor function of the error type.
+    * @returns {boolean} True if the error list contains the specified error code, otherwise false.
+    */
+    containsCode(code, type) {
+        if (type) {
+            for (let error of this.errors) {
+                if (error instanceof type) {
+                    if (error.code == code) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else {
+            for (let error of this.errors) {
+                if (error.code == code) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+VoidWithError.Namespace=`Aventus`;
+_.VoidWithError=VoidWithError;
+
+let ResultWithError=class ResultWithError extends VoidWithError {
+    /**
+      * The result value of the action.
+      * @type {U | undefined}
+      */
+    result;
+    /**
+     * Converts the current instance to a ResultWithError object.
+     * @returns {ResultWithError<U>} A new instance of ResultWithError with the same error list and result value.
+     */
+    toGeneric() {
+        const result = new ResultWithError();
+        result.errors = this.errors;
+        result.result = this.result;
+        return result;
+    }
+}
+ResultWithError.Namespace=`Aventus`;
+_.ResultWithError=ResultWithError;
+
+let HttpError=class HttpError extends GenericError {
+}
+HttpError.Namespace=`Aventus`;
+_.HttpError=HttpError;
+
+let Json=class Json {
+    /**
+     * Converts a JavaScript class instance to a JSON object.
+     * @template T - The type of the object to convert.
+     * @param {T} obj - The object to convert to JSON.
+     * @param {JsonToOptions} [options] - Options for JSON conversion.
+     * @returns {{ [key: string | number]: any; }} Returns the JSON representation of the object.
+     */
+    static classToJson(obj, options) {
+        const realOptions = {
+            isValidKey: options?.isValidKey ?? (() => true),
+            replaceKey: options?.replaceKey ?? ((key) => key),
+            transformValue: options?.transformValue ?? ((key, value) => value),
+            beforeEnd: options?.beforeEnd ?? ((res) => res)
+        };
+        return this.__classToJson(obj, realOptions);
+    }
+    static __classToJson(obj, options) {
+        let result = {};
+        let descriptors = Object.getOwnPropertyDescriptors(obj);
+        for (let key in descriptors) {
+            if (options.isValidKey(key))
+                result[options.replaceKey(key)] = options.transformValue(key, descriptors[key].value);
+        }
+        let cst = obj.constructor;
+        while (cst.prototype && cst != Object.prototype) {
+            let descriptorsClass = Object.getOwnPropertyDescriptors(cst.prototype);
+            for (let key in descriptorsClass) {
+                if (options.isValidKey(key)) {
+                    let descriptor = descriptorsClass[key];
+                    if (descriptor?.get) {
+                        result[options.replaceKey(key)] = options.transformValue(key, obj[key]);
+                    }
+                }
+            }
+            cst = Object.getPrototypeOf(cst);
+        }
+        result = options.beforeEnd(result);
+        return result;
+    }
+    /**
+    * Converts a JSON object to a JavaScript class instance.
+    * @template T - The type of the object to convert.
+    * @param {T} obj - The object to populate with JSON data.
+    * @param {*} data - The JSON data to populate the object with.
+    * @param {JsonFromOptions} [options] - Options for JSON deserialization.
+    * @returns {T} Returns the populated object.
+    */
+    static classFromJson(obj, data, options) {
+        let realOptions = {
+            transformValue: options?.transformValue ?? ((key, value) => value),
+            replaceUndefined: options?.replaceUndefined ?? false,
+            replaceUndefinedWithKey: options?.replaceUndefinedWithKey ?? false,
+        };
+        return this.__classFromJson(obj, data, realOptions);
+    }
+    static __classFromJson(obj, data, options) {
+        let props = Object.getOwnPropertyNames(obj);
+        for (let prop of props) {
+            let propUpperFirst = prop[0].toUpperCase() + prop.slice(1);
+            let value = data[prop] === undefined ? data[propUpperFirst] : data[prop];
+            if (value !== undefined || options.replaceUndefined || (options.replaceUndefinedWithKey && (Object.hasOwn(data, prop) || Object.hasOwn(data, propUpperFirst)))) {
+                let propInfo = Object.getOwnPropertyDescriptor(obj, prop);
+                if (propInfo?.writable) {
+                    obj[prop] = options.transformValue(prop, value);
+                }
+            }
+        }
+        let cstTemp = obj.constructor;
+        while (cstTemp.prototype && cstTemp != Object.prototype) {
+            props = Object.getOwnPropertyNames(cstTemp.prototype);
+            for (let prop of props) {
+                let propUpperFirst = prop[0].toUpperCase() + prop.slice(1);
+                let value = data[prop] === undefined ? data[propUpperFirst] : data[prop];
+                if (value !== undefined || options.replaceUndefined || (options.replaceUndefinedWithKey && (Object.hasOwn(data, prop) || Object.hasOwn(data, propUpperFirst)))) {
+                    let propInfo = Object.getOwnPropertyDescriptor(cstTemp.prototype, prop);
+                    if (propInfo?.set) {
+                        obj[prop] = options.transformValue(prop, value);
+                    }
+                }
+            }
+            cstTemp = Object.getPrototypeOf(cstTemp);
+        }
+        return obj;
+    }
+}
+Json.Namespace=`Aventus`;
+_.Json=Json;
+
+let Data=class Data {
+    /**
+     * The schema for the class
+     */
+    static $schema;
+    /**
+     * The current namespace
+     */
+    static Namespace = "";
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    static get Fullname() { return this.Namespace + "." + this.name; }
+    /**
+     * The current namespace
+     */
+    get namespace() {
+        return this.constructor['Namespace'];
+    }
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    get $type() {
+        return this.constructor['Fullname'];
+    }
+    /**
+     * Get the name of the class
+     */
+    get className() {
+        return this.constructor.name;
+    }
+    /**
+     * Get a JSON for the current object
+     */
+    toJSON() {
+        let toAvoid = ['className', 'namespace'];
+        return Json.classToJson(this, {
+            isValidKey: (key) => !toAvoid.includes(key)
+        });
+    }
+    /**
+     * Clone the object by transforming a parsed JSON string back into the original type
+     */
+    clone() {
+        return Converter.transform(JSON.parse(JSON.stringify(this)));
+    }
+}
+Data.Namespace=`Aventus`;
+_.Data=Data;
+
+let ConverterTransform=class ConverterTransform {
+    transform(data) {
+        return this.transformLoop(data);
+    }
+    createInstance(data) {
+        if (data.$type) {
+            let cst = Converter.info.get(data.$type);
+            if (cst) {
+                return new cst();
+            }
+        }
+        return undefined;
+    }
+    beforeTransformObject(obj) {
+    }
+    afterTransformObject(obj) {
+    }
+    transformLoop(data) {
+        if (data === null) {
+            return data;
+        }
+        if (Array.isArray(data)) {
+            let result = [];
+            for (let element of data) {
+                result.push(this.transformLoop(element));
+            }
+            return result;
+        }
+        if (data instanceof Date) {
+            return data;
+        }
+        if (typeof data === 'object' && !/^\s*class\s+/.test(data.toString())) {
+            let objTemp = this.createInstance(data);
+            if (objTemp) {
+                let obj = objTemp;
+                this.beforeTransformObject(obj);
+                if (obj.fromJSON) {
+                    obj = obj.fromJSON(data);
+                }
+                else {
+                    obj = Json.classFromJson(obj, data, {
+                        transformValue: (key, value) => {
+                            if (obj[key] instanceof Date) {
+                                return value ? new Date(value) : null;
+                            }
+                            else if (typeof obj[key] == 'string' && /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.(\d{3})Z$/.exec(obj[key])) {
+                                return value ? new Date(value) : null;
+                            }
+                            else if (obj[key] instanceof Map) {
+                                let map = new Map();
+                                for (const keyValue of value) {
+                                    map.set(this.transformLoop(keyValue[0]), this.transformLoop(keyValue[1]));
+                                }
+                                return map;
+                            }
+                            else if (obj instanceof Data) {
+                                let cst = obj.constructor;
+                                if (cst.$schema[key] == 'boolean') {
+                                    return value ? true : false;
+                                }
+                                else if (cst.$schema[key] == 'number') {
+                                    return isNaN(Number(value)) ? 0 : Number(value);
+                                }
+                                else if (cst.$schema[key] == 'number') {
+                                    return isNaN(Number(value)) ? 0 : Number(value);
+                                }
+                                else if (cst.$schema[key] == 'Date') {
+                                    return value ? new Date(value) : null;
+                                }
+                            }
+                            return this.transformLoop(value);
+                        }
+                    });
+                }
+                this.afterTransformObject(obj);
+                return obj;
+            }
+            let result = {};
+            for (let key in data) {
+                result[key] = this.transformLoop(data[key]);
+            }
+            return result;
+        }
+        if (typeof data == 'string' && /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.(\d{3})Z$/.exec(data)) {
+            return new Date(data);
+        }
+        return data;
+    }
+    copyValuesClass(target, src, options) {
+        const realOptions = {
+            isValidKey: options?.isValidKey ?? (() => true),
+            replaceKey: options?.replaceKey ?? ((key) => key),
+            transformValue: options?.transformValue ?? ((key, value) => value),
+        };
+        this.__classCopyValues(target, src, realOptions);
+    }
+    __classCopyValues(target, src, options) {
+        let props = Object.getOwnPropertyNames(target);
+        for (let prop of props) {
+            let propInfo = Object.getOwnPropertyDescriptor(target, prop);
+            if (propInfo?.writable) {
+                if (options.isValidKey(prop))
+                    target[options.replaceKey(prop)] = options.transformValue(prop, src[prop]);
+            }
+        }
+        let cstTemp = target.constructor;
+        while (cstTemp.prototype && cstTemp != Object.prototype) {
+            props = Object.getOwnPropertyNames(cstTemp.prototype);
+            for (let prop of props) {
+                let propInfo = Object.getOwnPropertyDescriptor(cstTemp.prototype, prop);
+                if (propInfo?.set && propInfo.get) {
+                    if (options.isValidKey(prop))
+                        target[options.replaceKey(prop)] = options.transformValue(prop, src[prop]);
+                }
+            }
+            cstTemp = Object.getPrototypeOf(cstTemp);
+        }
+    }
+}
+ConverterTransform.Namespace=`Aventus`;
+_.ConverterTransform=ConverterTransform;
+
+let Converter=class Converter {
+    /**
+    * Map storing information about registered types.
+    */
+    static info = new Map();
+    /**
+    * Map storing schemas for registered types.
+    */
+    static schema = new Map();
+    /**
+     * Internal converter instance.
+     */
+    static __converter = new ConverterTransform();
+    /**
+     * Getter for the internal converter instance.
+     */
+    static get converterTransform() {
+        return this.__converter;
+    }
+    /**
+    * Sets the converter instance.
+    * @param converter The converter instance to set.
+    */
+    static setConverter(converter) {
+        this.__converter = converter;
+    }
+    /**
+    * Registers a unique string type for any class.
+    * @param $type The unique string type identifier.
+    * @param cst The constructor function for the class.
+    * @param schema Optional schema for the registered type.
+    */
+    static register($type, cst, schema) {
+        this.info.set($type, cst);
+        if (schema) {
+            this.schema.set($type, schema);
+        }
+    }
+    /**
+     * Transforms the provided data using the current converter instance.
+     * @template T
+     * @param {*} data The data to transform.
+     * @param {IConverterTransform} [converter] Optional converter instance to use for transformation.
+     * @returns {T} Returns the transformed data.
+     */
+    static transform(data, converter) {
+        if (!converter) {
+            converter = this.converterTransform;
+        }
+        return converter.transform(data);
+    }
+    /**
+     * Copies values from one class instance to another using the current converter instance.
+     * @template T
+     * @param {T} to The destination class instance to copy values into.
+     * @param {T} from The source class instance to copy values from.
+     * @param {ClassCopyOptions} [options] Optional options for the copy operation.
+     * @param {IConverterTransform} [converter] Optional converter instance to use for the copy operation.
+     * @returns {T} Returns the destination class instance with copied values.
+     */
+    static copyValuesClass(to, from, options, converter) {
+        if (!converter) {
+            converter = this.converterTransform;
+        }
+        return converter.copyValuesClass(to, from, options);
+    }
+}
+Converter.Namespace=`Aventus`;
+_.Converter=Converter;
+
+let HttpRequest=class HttpRequest {
+    request;
+    url;
+    constructor(url, method = HttpMethod.GET, body) {
+        this.url = url;
+        this.request = {};
+        this.setMethod(method);
+        this.prepareBody(body);
+    }
+    setUrl(url) {
+        this.url = url;
+    }
+    toString() {
+        return this.url + " : " + JSON.stringify(this.request);
+    }
+    setBody(body) {
+        this.prepareBody(body);
+    }
+    setMethod(method) {
+        this.request.method = method;
+    }
+    objectToFormData(obj, formData, parentKey) {
+        formData = formData || new FormData();
+        let byPass = obj;
+        if (byPass.__isProxy) {
+            obj = byPass.getTarget();
+        }
+        const keys = obj.toJSON ? Object.keys(obj.toJSON()) : Object.keys(obj);
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            let value = obj[key];
+            const newKey = parentKey ? `${parentKey}[${key}]` : key;
+            if (value instanceof Date) {
+                const offset = this[key].getTimezoneOffset() * 60000;
+                formData.append(newKey, new Date(this[key].getTime() - offset).toISOString());
+            }
+            else if (typeof value === 'object' &&
+                value !== null &&
+                !(value instanceof File)) {
+                if (Array.isArray(value)) {
+                    for (let j = 0; j < value.length; j++) {
+                        const arrayKey = `${newKey}[${j}]`;
+                        this.objectToFormData({ [arrayKey]: value[j] }, formData);
+                    }
+                }
+                else {
+                    this.objectToFormData(value, formData, newKey);
+                }
+            }
+            else {
+                if (value === undefined || value === null) {
+                    value = "";
+                }
+                formData.append(newKey, value);
+            }
+        }
+        return formData;
+    }
+    jsonReplacer(key, value) {
+        if (this[key] instanceof Date) {
+            const offset = this[key].getTimezoneOffset() * 60000;
+            return new Date(this[key].getTime() - offset).toISOString();
+        }
+        return value;
+    }
+    prepareBody(data) {
+        if (!data) {
+            return;
+        }
+        else if (data instanceof FormData) {
+            this.request.body = data;
+        }
+        else {
+            let useFormData = false;
+            const analyseFormData = (obj) => {
+                for (let key in obj) {
+                    if (obj[key] instanceof File) {
+                        useFormData = true;
+                        break;
+                    }
+                    else if (Array.isArray(obj[key]) && obj[key].length > 0 && obj[key][0] instanceof File) {
+                        useFormData = true;
+                        break;
+                    }
+                    else if (typeof obj[key] == 'object' && !Array.isArray(obj[key]) && !(obj[key] instanceof Date)) {
+                        analyseFormData(obj[key]);
+                        if (useFormData) {
+                            break;
+                        }
+                    }
+                }
+            };
+            analyseFormData(data);
+            if (useFormData) {
+                this.request.body = this.objectToFormData(data);
+            }
+            else {
+                this.request.body = JSON.stringify(data, this.jsonReplacer);
+                this.setHeader("Content-Type", "Application/json");
+            }
+        }
+    }
+    setHeader(name, value) {
+        if (!this.request.headers) {
+            this.request.headers = [];
+        }
+        this.request.headers.push([name, value]);
+    }
+    async query(router) {
+        let result = new ResultWithError();
+        try {
+            const fullUrl = router ? router.options.url + this.url : this.url;
+            result.result = await fetch(fullUrl, this.request);
+        }
+        catch (e) {
+            result.errors.push(new HttpError(HttpErrorCode.unknow, e));
+        }
+        return result;
+    }
+    async queryVoid(router) {
+        let resultTemp = await this.query(router);
+        let result = new VoidWithError();
+        if (!resultTemp.success) {
+            result.errors = resultTemp.errors;
+            return result;
+        }
+        try {
+            if (!resultTemp.result) {
+                return result;
+            }
+            if (resultTemp.result.status != 204) {
+                let tempResult = Converter.transform(await resultTemp.result.json());
+                if (tempResult instanceof VoidWithError) {
+                    for (let error of tempResult.errors) {
+                        result.errors.push(error);
+                    }
+                }
+            }
+        }
+        catch (e) {
+        }
+        return result;
+    }
+    async queryJSON(router) {
+        let resultTemp = await this.query(router);
+        let result = new ResultWithError();
+        if (!resultTemp.success) {
+            result.errors = resultTemp.errors;
+            return result;
+        }
+        try {
+            if (!resultTemp.result) {
+                return result;
+            }
+            let tempResult = Converter.transform(await resultTemp.result.json());
+            if (tempResult instanceof VoidWithError) {
+                for (let error of tempResult.errors) {
+                    result.errors.push(error);
+                }
+                if (tempResult instanceof ResultWithError) {
+                    result.result = tempResult.result;
+                }
+            }
+            else {
+                result.result = tempResult;
+            }
+        }
+        catch (e) {
+            result.errors.push(new HttpError(HttpErrorCode.unknow, e));
+        }
+        return result;
+    }
+    async queryTxt(router) {
+        let resultTemp = await this.query(router);
+        let result = new ResultWithError();
+        if (!resultTemp.success) {
+            result.errors = resultTemp.errors;
+            return result;
+        }
+        try {
+            if (!resultTemp.result) {
+                return result;
+            }
+            result.result = await resultTemp.result.text();
+        }
+        catch (e) {
+            result.errors.push(new HttpError(HttpErrorCode.unknow, e));
+        }
+        return result;
+    }
+    async queryBlob(router) {
+        let resultTemp = await this.query(router);
+        let result = new ResultWithError();
+        if (!resultTemp.success) {
+            result.errors = resultTemp.errors;
+            return result;
+        }
+        try {
+            if (!resultTemp.result) {
+                return result;
+            }
+            result.result = await resultTemp.result.blob();
+        }
+        catch (e) {
+            result.errors.push(new HttpError(HttpErrorCode.unknow, e));
+        }
+        return result;
+    }
+}
+HttpRequest.Namespace=`Aventus`;
+_.HttpRequest=HttpRequest;
+
+let HttpRouter=class HttpRouter {
+    options;
+    constructor() {
+        this.options = this.defineOptions(this.defaultOptionsValue());
+    }
+    defaultOptionsValue() {
+        return {
+            url: location.protocol + "//" + location.host
+        };
+    }
+    defineOptions(options) {
+        return options;
+    }
+    async get(url) {
+        return await new HttpRequest(url).queryJSON(this);
+    }
+    async post(url, data) {
+        return await new HttpRequest(url, HttpMethod.POST, data).queryJSON(this);
+    }
+    async put(url, data) {
+        return await new HttpRequest(url, HttpMethod.PUT, data).queryJSON(this);
+    }
+    async delete(url, data) {
+        return await new HttpRequest(url, HttpMethod.DELETE, data).queryJSON(this);
+    }
+    async option(url, data) {
+        return await new HttpRequest(url, HttpMethod.OPTION, data).queryJSON(this);
+    }
+}
+HttpRouter.Namespace=`Aventus`;
+_.HttpRouter=HttpRouter;
+
+let HttpRoute=class HttpRoute {
+    router;
+    constructor(router) {
+        this.router = router ?? new HttpRouter();
+    }
+    getPrefix() {
+        return "";
+    }
+}
+HttpRoute.Namespace=`Aventus`;
+_.HttpRoute=HttpRoute;
+
+let ResizeObserver=class ResizeObserver {
+    callback;
+    targets;
+    fpsInterval = -1;
+    nextFrame;
+    entriesChangedEvent;
+    willTrigger;
+    static resizeObserverClassByObject = {};
+    static uniqueInstance;
+    static getUniqueInstance() {
+        if (!ResizeObserver.uniqueInstance) {
+            ResizeObserver.uniqueInstance = new window.ResizeObserver(entries => {
+                let allClasses = [];
+                for (let j = 0; j < entries.length; j++) {
+                    let entry = entries[j];
+                    let index = entry.target['sourceIndex'];
+                    if (ResizeObserver.resizeObserverClassByObject[index]) {
+                        for (let i = 0; i < ResizeObserver.resizeObserverClassByObject[index].length; i++) {
+                            let classTemp = ResizeObserver.resizeObserverClassByObject[index][i];
+                            classTemp.entryChanged(entry);
+                            if (allClasses.indexOf(classTemp) == -1) {
+                                allClasses.push(classTemp);
+                            }
+                        }
+                    }
+                }
+                for (let i = 0; i < allClasses.length; i++) {
+                    allClasses[i].triggerCb();
+                }
+            });
+        }
+        return ResizeObserver.uniqueInstance;
+    }
+    constructor(options) {
+        let realOption;
+        if (options instanceof Function) {
+            realOption = {
+                callback: options,
+            };
+        }
+        else {
+            realOption = options;
+        }
+        this.callback = realOption.callback;
+        this.targets = [];
+        if (!realOption.fps) {
+            realOption.fps = 60;
+        }
+        if (realOption.fps != -1) {
+            this.fpsInterval = 1000 / realOption.fps;
+        }
+        this.nextFrame = 0;
+        this.entriesChangedEvent = {};
+        this.willTrigger = false;
+    }
+    /**
+     * Observe size changing for the element
+     */
+    observe(target) {
+        if (!target["sourceIndex"]) {
+            target["sourceIndex"] = Math.random().toString(36);
+            this.targets.push(target);
+            ResizeObserver.resizeObserverClassByObject[target["sourceIndex"]] = [];
+            ResizeObserver.getUniqueInstance().observe(target);
+        }
+        if (ResizeObserver.resizeObserverClassByObject[target["sourceIndex"]].indexOf(this) == -1) {
+            ResizeObserver.resizeObserverClassByObject[target["sourceIndex"]].push(this);
+        }
+    }
+    /**
+     * Stop observing size changing for the element
+     */
+    unobserve(target) {
+        for (let i = 0; this.targets.length; i++) {
+            let tempTarget = this.targets[i];
+            if (tempTarget == target) {
+                let position = ResizeObserver.resizeObserverClassByObject[target['sourceIndex']].indexOf(this);
+                if (position != -1) {
+                    ResizeObserver.resizeObserverClassByObject[target['sourceIndex']].splice(position, 1);
+                }
+                if (ResizeObserver.resizeObserverClassByObject[target['sourceIndex']].length == 0) {
+                    delete ResizeObserver.resizeObserverClassByObject[target['sourceIndex']];
+                }
+                ResizeObserver.getUniqueInstance().unobserve(target);
+                this.targets.splice(i, 1);
+                return;
+            }
+        }
+    }
+    /**
+     * Destroy the resize observer
+     */
+    disconnect() {
+        for (let i = 0; this.targets.length; i++) {
+            this.unobserve(this.targets[i]);
+        }
+    }
+    entryChanged(entry) {
+        let index = entry.target.sourceIndex;
+        this.entriesChangedEvent[index] = entry;
+    }
+    triggerCb() {
+        if (!this.willTrigger) {
+            this.willTrigger = true;
+            this._triggerCb();
+        }
+    }
+    _triggerCb() {
+        let now = window.performance.now();
+        let elapsed = now - this.nextFrame;
+        if (this.fpsInterval != -1 && elapsed <= this.fpsInterval) {
+            requestAnimationFrame(() => {
+                this._triggerCb();
+            });
+            return;
+        }
+        this.nextFrame = now - (elapsed % this.fpsInterval);
+        let changed = Object.values(this.entriesChangedEvent);
+        this.entriesChangedEvent = {};
+        this.willTrigger = false;
+        setTimeout(() => {
+            this.callback(changed);
+        }, 0);
+    }
+}
+ResizeObserver.Namespace=`Aventus`;
+_.ResizeObserver=ResizeObserver;
+
 let DragAndDrop=class DragAndDrop {
     /**
      * Default offset before drag element
@@ -4780,134 +5694,6 @@ let ResourceLoader=class ResourceLoader {
 ResourceLoader.Namespace=`Aventus`;
 _.ResourceLoader=ResourceLoader;
 
-let ResizeObserver=class ResizeObserver {
-    callback;
-    targets;
-    fpsInterval = -1;
-    nextFrame;
-    entriesChangedEvent;
-    willTrigger;
-    static resizeObserverClassByObject = {};
-    static uniqueInstance;
-    static getUniqueInstance() {
-        if (!ResizeObserver.uniqueInstance) {
-            ResizeObserver.uniqueInstance = new window.ResizeObserver(entries => {
-                let allClasses = [];
-                for (let j = 0; j < entries.length; j++) {
-                    let entry = entries[j];
-                    let index = entry.target['sourceIndex'];
-                    if (ResizeObserver.resizeObserverClassByObject[index]) {
-                        for (let i = 0; i < ResizeObserver.resizeObserverClassByObject[index].length; i++) {
-                            let classTemp = ResizeObserver.resizeObserverClassByObject[index][i];
-                            classTemp.entryChanged(entry);
-                            if (allClasses.indexOf(classTemp) == -1) {
-                                allClasses.push(classTemp);
-                            }
-                        }
-                    }
-                }
-                for (let i = 0; i < allClasses.length; i++) {
-                    allClasses[i].triggerCb();
-                }
-            });
-        }
-        return ResizeObserver.uniqueInstance;
-    }
-    constructor(options) {
-        let realOption;
-        if (options instanceof Function) {
-            realOption = {
-                callback: options,
-            };
-        }
-        else {
-            realOption = options;
-        }
-        this.callback = realOption.callback;
-        this.targets = [];
-        if (!realOption.fps) {
-            realOption.fps = 60;
-        }
-        if (realOption.fps != -1) {
-            this.fpsInterval = 1000 / realOption.fps;
-        }
-        this.nextFrame = 0;
-        this.entriesChangedEvent = {};
-        this.willTrigger = false;
-    }
-    /**
-     * Observe size changing for the element
-     */
-    observe(target) {
-        if (!target["sourceIndex"]) {
-            target["sourceIndex"] = Math.random().toString(36);
-            this.targets.push(target);
-            ResizeObserver.resizeObserverClassByObject[target["sourceIndex"]] = [];
-            ResizeObserver.getUniqueInstance().observe(target);
-        }
-        if (ResizeObserver.resizeObserverClassByObject[target["sourceIndex"]].indexOf(this) == -1) {
-            ResizeObserver.resizeObserverClassByObject[target["sourceIndex"]].push(this);
-        }
-    }
-    /**
-     * Stop observing size changing for the element
-     */
-    unobserve(target) {
-        for (let i = 0; this.targets.length; i++) {
-            let tempTarget = this.targets[i];
-            if (tempTarget == target) {
-                let position = ResizeObserver.resizeObserverClassByObject[target['sourceIndex']].indexOf(this);
-                if (position != -1) {
-                    ResizeObserver.resizeObserverClassByObject[target['sourceIndex']].splice(position, 1);
-                }
-                if (ResizeObserver.resizeObserverClassByObject[target['sourceIndex']].length == 0) {
-                    delete ResizeObserver.resizeObserverClassByObject[target['sourceIndex']];
-                }
-                ResizeObserver.getUniqueInstance().unobserve(target);
-                this.targets.splice(i, 1);
-                return;
-            }
-        }
-    }
-    /**
-     * Destroy the resize observer
-     */
-    disconnect() {
-        for (let i = 0; this.targets.length; i++) {
-            this.unobserve(this.targets[i]);
-        }
-    }
-    entryChanged(entry) {
-        let index = entry.target.sourceIndex;
-        this.entriesChangedEvent[index] = entry;
-    }
-    triggerCb() {
-        if (!this.willTrigger) {
-            this.willTrigger = true;
-            this._triggerCb();
-        }
-    }
-    _triggerCb() {
-        let now = window.performance.now();
-        let elapsed = now - this.nextFrame;
-        if (this.fpsInterval != -1 && elapsed <= this.fpsInterval) {
-            requestAnimationFrame(() => {
-                this._triggerCb();
-            });
-            return;
-        }
-        this.nextFrame = now - (elapsed % this.fpsInterval);
-        let changed = Object.values(this.entriesChangedEvent);
-        this.entriesChangedEvent = {};
-        this.willTrigger = false;
-        setTimeout(() => {
-            this.callback(changed);
-        }, 0);
-    }
-}
-ResizeObserver.Namespace=`Aventus`;
-_.ResizeObserver=ResizeObserver;
-
 
 for(let key in _) { Aventus[key] = _[key] }
 })(Aventus);
@@ -5024,7 +5810,535 @@ if(!window.customElements.get('mi-icon')){window.customElements.define('mi-icon'
 for(let key in _) { MaterialIcon[key] = _[key] }
 })(MaterialIcon);
 
+var AventusSharp;
+(AventusSharp||(AventusSharp = {}));
+(function (AventusSharp) {
+const moduleName = `AventusSharp`;
+const _ = {};
 
+let WebSocket = {};
+_.WebSocket = {};
+let Tools = {};
+_.Tools = {};
+let _n;
+(function (SocketErrorCode) {
+    SocketErrorCode[SocketErrorCode["socketClosed"] = 0] = "socketClosed";
+    SocketErrorCode[SocketErrorCode["timeout"] = 1] = "timeout";
+    SocketErrorCode[SocketErrorCode["differentChannel"] = 2] = "differentChannel";
+    SocketErrorCode[SocketErrorCode["unknow"] = 3] = "unknow";
+})(WebSocket.SocketErrorCode || (WebSocket.SocketErrorCode = {}));
+_.WebSocket.SocketErrorCode=WebSocket.SocketErrorCode;
+
+WebSocket.Socket=class Socket {
+    static Debug = false;
+    static connections = {};
+    static getInstance(url, el) {
+        if (!this.connections[url]) {
+            this.connections[url] = new WebSocket.Socket(url, el);
+        }
+        else {
+            this.connections[url].registerEl(el);
+        }
+        return this.connections[url];
+    }
+    socket;
+    url;
+    elements = [];
+    reopenInterval = 0;
+    onOpen = new Aventus.Callback();
+    onClose = new Aventus.Callback();
+    onError = new Aventus.Callback();
+    onMessage = new Aventus.Callback();
+    get readyState() {
+        return this.socket.readyState;
+    }
+    constructor(url, el) {
+        this.url = url;
+        this.elements = [el];
+        this.socket = this.createWebSocket();
+        this.reopen = this.reopen.bind(this);
+        this.onClose.add(this.reopen);
+    }
+    registerEl(el) {
+        if (!this.elements.includes(el)) {
+            this.elements.push(el);
+        }
+    }
+    createWebSocket() {
+        this.removeSocket();
+        const socket = new window.WebSocket(this.url);
+        socket.onopen = (e) => {
+            clearInterval(this.reopenInterval);
+            this.onOpen.trigger([e]);
+        };
+        socket.onclose = (e) => {
+            this.onClose.trigger([e]);
+        };
+        socket.onerror = (e) => {
+            this.onError.trigger([e]);
+        };
+        socket.onmessage = (e) => {
+            this.onMessage.trigger([e]);
+        };
+        this.socket = socket;
+        return socket;
+    }
+    removeSocket() {
+        if (this.socket) {
+            this.socket.onopen = null;
+            this.socket.onclose = null;
+            this.socket.onerror = null;
+            this.socket.onmessage = null;
+            this.socket.close();
+        }
+    }
+    reopen() {
+        clearInterval(this.reopenInterval);
+        this.reopenInterval = setInterval(async () => {
+            console.warn("try reopen socket ");
+            await this.createWebSocket();
+            if (this.isReady()) {
+                clearInterval(this.reopenInterval);
+            }
+        }, 5000);
+    }
+    close(el, code, reason) {
+        let index = this.elements.indexOf(el);
+        if (index != -1) {
+            this.elements.splice(0, 1);
+        }
+        if (this.elements.length == 0) {
+            this.removeSocket();
+            delete WebSocket.Socket.connections[this.url];
+        }
+    }
+    send(data) {
+        this.socket.send(data);
+    }
+    /**
+    * Check if socket is ready
+    */
+    isReady() {
+        return this.socket.readyState == 1;
+    }
+}
+WebSocket.Socket.Namespace=`AventusSharp.WebSocket`;
+_.WebSocket.Socket=WebSocket.Socket;
+
+Tools.ResultWithError=class ResultWithError extends Aventus.ResultWithError {
+    static get Fullname() { return "AventusSharp.Tools.ResultWithError, AventusSharp"; }
+}
+Tools.ResultWithError.Namespace=`AventusSharp.Tools`;
+Tools.ResultWithError.$schema={...(Aventus.ResultWithError?.$schema ?? {}), };
+Aventus.Converter.register(Tools.ResultWithError.Fullname, Tools.ResultWithError);
+_.Tools.ResultWithError=Tools.ResultWithError;
+
+Tools.VoidWithError=class VoidWithError extends Aventus.VoidWithError {
+    static get Fullname() { return "AventusSharp.Tools.VoidWithError, AventusSharp"; }
+}
+Tools.VoidWithError.Namespace=`AventusSharp.Tools`;
+Tools.VoidWithError.$schema={...(Aventus.VoidWithError?.$schema ?? {}), };
+Aventus.Converter.register(Tools.VoidWithError.Fullname, Tools.VoidWithError);
+_.Tools.VoidWithError=Tools.VoidWithError;
+
+WebSocket.SocketError=class SocketError extends Aventus.GenericError {
+}
+WebSocket.SocketError.Namespace=`AventusSharp.WebSocket`;
+_.WebSocket.SocketError=WebSocket.SocketError;
+
+WebSocket.Connection=class Connection {
+    static Debug = false;
+    options;
+    waitingList = {};
+    memoryBeforeOpen = [];
+    socket;
+    actionGuard = new Aventus.ActionGuard();
+    /**
+     * Create a singleton
+     */
+    static getInstance() {
+        return Aventus.Instance.get(WebSocket.Connection);
+    }
+    constructor() {
+        this.options = this._configure(this.configure({}));
+        this._onOpen = this._onOpen.bind(this);
+        this._onClose = this._onClose.bind(this);
+        this._onError = this._onError.bind(this);
+        this.onMessage = this.onMessage.bind(this);
+        if (this.options.autoStart) {
+            this.open();
+        }
+    }
+    onOpen = new Aventus.Callback();
+    onClose = new Aventus.Callback();
+    onError = new Aventus.Callback();
+    /**
+     * Configure a new Websocket
+     */
+    _configure(options = {}) {
+        if (!options.host) {
+            options.host = window.location.hostname;
+        }
+        if (!options.hasOwnProperty('useHttps')) {
+            options.useHttps = window.location.protocol == "https:";
+        }
+        if (!options.port) {
+            if (window.location.port) {
+                options.port = parseInt(window.location.port);
+            }
+            else {
+                options.port = options.useHttps ? 443 : 80;
+            }
+        }
+        if (!options.routes) {
+            options.routes = {};
+        }
+        if (!options.socketName) {
+            options.socketName = "";
+        }
+        if (options.log === undefined) {
+            options.log = WebSocket.Connection.Debug;
+        }
+        if (options.autoStart === undefined) {
+            options.autoStart = true;
+        }
+        return options;
+    }
+    /**
+     * Add a new route to listen to the websocket
+     */
+    addRoute(newRoute) {
+        if (!this.options.routes.hasOwnProperty(newRoute.channel)) {
+            this.options.routes[newRoute.channel] = [];
+        }
+        for (let info of this.options.routes[newRoute.channel]) {
+            if (info.callback == newRoute.callback) {
+                return;
+            }
+        }
+        const { params, regex } = Aventus.Uri.prepare(newRoute.channel);
+        let prepared = {
+            callback: newRoute.callback,
+            channel: newRoute.channel,
+            regex,
+            params
+        };
+        this.options.routes[newRoute.channel].push(prepared);
+    }
+    /**
+     * The route to remove
+     * @param route - The route to remove
+     */
+    removeRoute(route) {
+        for (let i = 0; i < this.options.routes[route.channel].length; i++) {
+            let info = this.options.routes[route.channel][i];
+            if (info.callback == route.callback) {
+                this.options.routes[route.channel].splice(i, 1);
+                i--;
+            }
+        }
+    }
+    openCallback;
+    /**
+     * Try to open the websocket
+     */
+    open() {
+        return this.actionGuard.run(["open"], () => {
+            return new Promise((resolve) => {
+                try {
+                    let protocol = "ws";
+                    if (this.options.useHttps) {
+                        protocol = "wss";
+                    }
+                    let url = protocol + "://" + this.options.host + ":" + this.options.port + this.options.socketName;
+                    this.log(url);
+                    this.openCallback = (isOpen) => {
+                        resolve(isOpen);
+                    };
+                    this.socket = WebSocket.Socket.getInstance(url, this);
+                    this.socket.onOpen.add(this._onOpen);
+                    this.socket.onClose.add(this._onClose);
+                    this.socket.onError.add(this._onError);
+                    this.socket.onMessage.add(this.onMessage);
+                    if (this.socket.isReady()) {
+                        this._onOpen();
+                    }
+                }
+                catch (e) {
+                    console.log(e);
+                    resolve(false);
+                }
+            });
+        });
+    }
+    jsonReplacer(key, value) {
+        if (this[key] instanceof Date && this[key].getFullYear() < 100) {
+            return "0001-01-01T00:00:00";
+        }
+        else if (this[key] instanceof Date) {
+            const offset = this[key].getTimezoneOffset() * 60000;
+            return new Date(this[key].getTime() - offset).toISOString();
+        }
+        return value;
+    }
+    /**
+     * Send a message though the websocket
+     * @param channelName The channel on which the message is sent
+     * @param data The data to send
+     * @param options the options to add to the message (typically the uid)
+     */
+    async sendMessage(options) {
+        let result = new Tools.VoidWithError();
+        if (!this.socket || this.socket.readyState != 1) {
+            let isOpen = await this.open();
+            if (!isOpen) {
+                result.errors.push(new WebSocket.SocketError(WebSocket.SocketErrorCode.socketClosed, "Socket not ready ! Please ensure that it is open and ready to send message"));
+                this.log('Socket not ready ! Please ensure that it is open and ready to send message');
+                if (this.options.allowSendBeforeOpen) {
+                    this.memoryBeforeOpen.push(options);
+                }
+                return result;
+            }
+        }
+        if (this.socket && this.socket.readyState == 1) {
+            try {
+                let message = {
+                    channel: options.channel,
+                };
+                if (options.uid) {
+                    message.uid = options.uid;
+                }
+                if (options.body) {
+                    message.data = options.body;
+                    this.log(message);
+                    if (typeof options.body != 'string') {
+                        message.data = JSON.stringify(options.body, this.jsonReplacer);
+                    }
+                }
+                else {
+                    this.log(message);
+                }
+                this.socket.send(JSON.stringify(message));
+            }
+            catch (e) {
+                result.errors.push(new WebSocket.SocketError(WebSocket.SocketErrorCode.unknow, e));
+            }
+        }
+        else {
+            result.errors.push(new WebSocket.SocketError(WebSocket.SocketErrorCode.socketClosed, "Socket not ready ! Please ensure that it is open and ready to send message"));
+            this.log('Socket not ready ! Please ensure that it is open and ready to send message');
+            if (this.options.allowSendBeforeOpen) {
+                this.memoryBeforeOpen.push(options);
+            }
+        }
+        return result;
+    }
+    /**
+     * Send a message though the websocket and wait one answer give in parameters callbacks
+     * @param channelName The channel on which the message is sent
+     * @param body The data to send
+     * @param timeout The timeout before the request failed
+     */
+    sendMessageAndWait(options) {
+        return new Promise(async (resolve) => {
+            let result = new Aventus.ResultWithError();
+            try {
+                let _uid = options.uid ? options.uid : Aventus.uuidv4();
+                options.uid = _uid;
+                let timeoutInfo;
+                this.waitingList[_uid] = (channel, data) => {
+                    clearTimeout(timeoutInfo);
+                    if (channel.toLowerCase() != options.channel.toLowerCase()) {
+                        result.errors.push(new WebSocket.SocketError(WebSocket.SocketErrorCode.differentChannel, `We sent a message on ${options.channel} but we receive on ${channel}`));
+                        resolve(result);
+                    }
+                    else {
+                        if (data instanceof Aventus.VoidWithError) {
+                            for (let error of data.errors) {
+                                result.errors.push(error);
+                            }
+                            if (data instanceof Aventus.ResultWithError) {
+                                result.result = data.result;
+                            }
+                        }
+                        else {
+                            result.result = data;
+                        }
+                        resolve(result);
+                    }
+                };
+                if (options.timeout !== undefined) {
+                    timeoutInfo = setTimeout(() => {
+                        delete this.waitingList[_uid];
+                        result.errors.push(new WebSocket.SocketError(WebSocket.SocketErrorCode.timeout, "No message received after " + options.timeout + "ms"));
+                        resolve(result);
+                    }, options.timeout);
+                }
+                let sendMessageResult = await this.sendMessage(options);
+                if (!sendMessageResult.success) {
+                    for (let error of sendMessageResult.errors) {
+                        result.errors.push(error);
+                    }
+                    resolve(result);
+                }
+            }
+            catch (e) {
+                result.errors.push(new WebSocket.SocketError(WebSocket.SocketErrorCode.unknow, e));
+                resolve(result);
+            }
+        });
+    }
+    ;
+    /**
+     * Check if socket is ready
+     */
+    isReady() {
+        if (this.socket && this.socket.isReady()) {
+            return true;
+        }
+        return false;
+    }
+    _onOpen() {
+        if (this.socket?.isReady()) {
+            if (this.openCallback) {
+                this.openCallback(true);
+                this.openCallback = undefined;
+            }
+            this.log('Connection successfully established !' + this.options.host + ":" + this.options.port);
+            this.onOpen.trigger([]);
+            for (let i = 0; i < this.memoryBeforeOpen.length; i++) {
+                this.sendMessage(this.memoryBeforeOpen[i]);
+            }
+            this.memoryBeforeOpen = [];
+        }
+        else {
+            if (this.openCallback) {
+                this.openCallback(false);
+                this.openCallback = undefined;
+            }
+        }
+    }
+    errorOccur = false;
+    _onError(event) {
+        this.errorOccur = true;
+        if (this.openCallback) {
+            this.openCallback(false);
+            this.openCallback = undefined;
+            return;
+        }
+        this.log('An error has occured');
+        this.onError.trigger([event]);
+    }
+    _onClose(event) {
+        if (this.errorOccur) {
+            this.errorOccur = false;
+            return;
+        }
+        this.log('Closing connection');
+        this.onClose.trigger([event]);
+    }
+    /**
+     * Close the current connection
+     */
+    close() {
+        if (this.socket) {
+            this.socket.onOpen.remove(this._onOpen);
+            this.socket.onClose.remove(this._onClose);
+            this.socket.onError.remove(this._onError);
+            this.socket.onMessage.remove(this.onMessage);
+            this.socket.close(this);
+            delete this.socket;
+        }
+    }
+    onMessage(event) {
+        let response = JSON.parse(event.data);
+        this.log(response);
+        let data = {};
+        try {
+            data = Aventus.Converter.transform(JSON.parse(response.data));
+        }
+        catch (e) {
+            console.error(e);
+        }
+        for (let channel in this.options.routes) {
+            let current = this.options.routes[channel];
+            for (let info of current) {
+                let params = Aventus.Uri.getParams(info, response.channel);
+                if (params) {
+                    let valueCb = data;
+                    if (data instanceof Aventus.ResultWithError) {
+                        valueCb = data.result;
+                    }
+                    else if (data instanceof Aventus.VoidWithError) {
+                        valueCb = undefined;
+                    }
+                    info.callback(valueCb, params, response.uid);
+                }
+            }
+        }
+        if (response.uid) {
+            if (this.waitingList.hasOwnProperty(response.uid)) {
+                this.waitingList[response.uid](response.channel, data);
+                delete this.waitingList[response.uid];
+            }
+        }
+    }
+    /**
+     * Print a msg inside the console
+     */
+    log(message) {
+        if (this.options.log) {
+            const now = new Date();
+            const hours = (now.getHours()).toLocaleString(undefined, { minimumIntegerDigits: 2 });
+            const minutes = (now.getMinutes()).toLocaleString(undefined, { minimumIntegerDigits: 2 });
+            const seconds = (now.getSeconds()).toLocaleString(undefined, { minimumIntegerDigits: 2 });
+            if (message instanceof Object) {
+                let cloneMessage = JSON.parse(JSON.stringify(message, this.jsonReplacer));
+                if (cloneMessage.data && typeof cloneMessage.data == 'string') {
+                    cloneMessage.data = JSON.parse(cloneMessage.data);
+                }
+                console.log(`[WEBSOCKET] [${hours}:${minutes}:${seconds}]: `, cloneMessage);
+            }
+            else {
+                console.log(`[WEBSOCKET] [${hours}:${minutes}:${seconds}]: `, message);
+            }
+        }
+    }
+}
+WebSocket.Connection.Namespace=`AventusSharp.WebSocket`;
+_.WebSocket.Connection=WebSocket.Connection;
+
+WebSocket.EndPoint=class EndPoint extends WebSocket.Connection {
+    /**
+     * Create a singleton
+     */
+    static getInstance() {
+        return Aventus.Instance.get(WebSocket.EndPoint);
+    }
+    constructor() {
+        super();
+        this.register();
+    }
+    register() {
+    }
+    /**
+     * @inheritdoc
+     */
+    configure(options) {
+        options.socketName = this.path;
+        return options;
+    }
+    get path() {
+        return "/ws";
+    }
+    ;
+}
+WebSocket.EndPoint.Namespace=`AventusSharp.WebSocket`;
+_.WebSocket.EndPoint=WebSocket.EndPoint;
+
+
+for(let key in _) { AventusSharp[key] = _[key] }
+})(AventusSharp);
 
 
 
@@ -5036,6 +6350,14 @@ const _ = {};
 Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block;touch-action:manipulation;font-family:var(--font-family)}:host *{box-sizing:border-box;touch-action:manipulation}.touch{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}.touch.disable,.touch.disabled{cursor:default}.primary{background-color:var(--primary);color:var(--text-color-primary)}.text-primary{color:var(--primary)}.secondary{background-color:var(--secondary);color:var(--text-color-secondary)}.text-secondary{color:var(--secondary)}.green{background-color:var(--green);color:var(--text-color-green)}.text-green{color:var(--green)}.success{background-color:var(--success);color:var(--text-color-success)}.text-success{color:var(--success)}.red{background-color:var(--red);color:var(--text-color-red)}.text-red{color:var(--red)}.error{background-color:var(--error);color:var(--text-color-error)}.text-error{color:var(--error)}.orange{background-color:var(--orange);color:var(--text-color-orange)}.text-orange{color:var(--orange)}.warning{background-color:var(--warning);color:var(--text-color-warning)}.text-warning{color:var(--warning)}.blue{background-color:var(--blue);color:var(--text-color-blue)}.text-blue{color:var(--blue)}.information{background-color:var(--information);color:var(--text-color-information)}.text-information{color:var(--information)}`)
 let Components = {};
 _.Components = {};
+let Websocket = {};
+_.Websocket = {};
+let Errors = {};
+_.Errors = {};
+let Routes = {};
+_.Routes = {};
+let Lib = {};
+_.Lib = {};
 let _n;
 Components.Img = class Img extends Aventus.WebComponent {
     static get observedAttributes() {return ["src", "mode"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -5231,6 +6553,166 @@ Components.Img.Tag=`rk-img`;
 _.Components.Img=Components.Img;
 if(!window.customElements.get('rk-img')){window.customElements.define('rk-img', Components.Img);Aventus.WebComponentInstance.registerDefinition(Components.Img);}
 
+Websocket.MainEndPoint=class MainEndPoint extends AventusSharp.WebSocket.EndPoint {
+    /**
+     * Create a singleton
+     */
+    static getInstance() {
+        return Aventus.Instance.get(Websocket.MainEndPoint);
+    }
+    get path() {
+        return "/ws";
+    }
+}
+Websocket.MainEndPoint.Namespace=`Core.Websocket`;
+_.Websocket.MainEndPoint=Websocket.MainEndPoint;
+
+(function (LoginCode) {
+    LoginCode[LoginCode["OK"] = 0] = "OK";
+    LoginCode[LoginCode["WrongCredentials"] = 1] = "WrongCredentials";
+    LoginCode[LoginCode["Unknown"] = 2] = "Unknown";
+    LoginCode[LoginCode["NotConnected"] = 3] = "NotConnected";
+})(Errors.LoginCode || (Errors.LoginCode = {}));
+_.Errors.LoginCode=Errors.LoginCode;
+
+Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter {
+    defineOptions(options) {
+        options.url = location.protocol + "//" + location.host + "";
+        return options;
+    }
+}
+Routes.CoreRouter.Namespace=`Core.Routes`;
+_.Routes.CoreRouter=Routes.CoreRouter;
+
+Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
+    constructor(router) {
+        super(router ?? new Routes.CoreRouter());
+        this.LoginAction = this.LoginAction.bind(this);
+        this.Logout = this.Logout.bind(this);
+        this.VapidPublicKey = this.VapidPublicKey.bind(this);
+        this.Register = this.Register.bind(this);
+        this.SendNotification = this.SendNotification.bind(this);
+        this.BeginTransaction = this.BeginTransaction.bind(this);
+        this.CommitTransaction = this.CommitTransaction.bind(this);
+        this.RollbackTransaction = this.RollbackTransaction.bind(this);
+        this.Restart = this.Restart.bind(this);
+    }
+    async LoginAction(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/login`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async Logout() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/logout`, Aventus.HttpMethod.POST);
+        return await request.queryVoid(this.router);
+    }
+    async VapidPublicKey() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/vapidPublicKey`, Aventus.HttpMethod.GET);
+        return await request.queryJSON(this.router);
+    }
+    async Register(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/register`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryVoid(this.router);
+    }
+    async SendNotification() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/sendNotification`, Aventus.HttpMethod.GET);
+        return await request.queryVoid(this.router);
+    }
+    async BeginTransaction(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/begin`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async CommitTransaction(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/commit`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryVoid(this.router);
+    }
+    async RollbackTransaction(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/rollback`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryVoid(this.router);
+    }
+    async Restart() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/restart`, Aventus.HttpMethod.GET);
+        return await request.queryVoid(this.router);
+    }
+}
+Routes.MainRouter.Namespace=`Core.Routes`;
+_.Routes.MainRouter=Routes.MainRouter;
+
+Errors.LoginError=class LoginError extends Aventus.GenericError {
+    static get Fullname() { return "Core.Logic.LoginError, Core"; }
+}
+Errors.LoginError.Namespace=`Core.Errors`;
+Errors.LoginError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
+Aventus.Converter.register(Errors.LoginError.Fullname, Errors.LoginError);
+_.Errors.LoginError=Errors.LoginError;
+
+Lib.Platform=class Platform {
+    static onScreenChange = new Aventus.Callback();
+    static init() {
+        let currentDevice = this.device;
+        let screenObserver = new Aventus.ResizeObserver(() => {
+            let newDevice = this.device;
+            if (currentDevice != newDevice) {
+                currentDevice = newDevice;
+                this.onScreenChange.trigger([newDevice]);
+            }
+        });
+        screenObserver.observe(document.body);
+        const wsInstance = Websocket.MainEndPoint.getInstance();
+        wsInstance.onOpen.add(() => {
+            if (!this._isConnected) {
+                this._isConnected = true;
+                this.onReconnect.trigger([]);
+            }
+        });
+        wsInstance.onClose.add(() => {
+            if (this._isConnected) {
+                this._isConnected = false;
+                this.onDisconnect.trigger([]);
+            }
+        });
+    }
+    static onScreenChangeAndRun(cb) {
+        this.onScreenChange.add(cb);
+        cb(this.device);
+    }
+    static get device() {
+        if (document.body.offsetWidth > 1224) {
+            return "pc";
+        }
+        else if (document.body.offsetWidth > 768) {
+            return "tablet";
+        }
+        return "mobile";
+    }
+    static get isStandalone() {
+        if ("standalone" in window.navigator && window.navigator.standalone) {
+            return true;
+        }
+        return false;
+    }
+    static get isiOS() {
+        let test1 = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+        let test2 = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+        return test1 || test2;
+    }
+    static getRatio(element) {
+        return element.offsetWidth + " / " + element.offsetHeight;
+    }
+    static _isConnected = true;
+    static get isConnected() {
+        return Websocket.MainEndPoint.getInstance().isReady();
+    }
+    static onDisconnect = new Aventus.Callback();
+    static onReconnect = new Aventus.Callback();
+}
+Lib.Platform.Namespace=`Core.Lib`;
+_.Lib.Platform=Lib.Platform;
+
 Components.Form = class Form extends Aventus.WebComponent {
     elements = [];
     onSubmit = new Aventus.Callback();
@@ -5406,7 +6888,7 @@ const Login = class Login extends Aventus.WebComponent {
     set 'loading'(val) { this.setBoolAttr('loading', val) }    get 'error'() { return this.getStringProp('error') }
     set 'error'(val) { this.setStringAttr('error', val) }get 'company'() { return this.getStringProp('company') }
     set 'company'(val) { this.setStringAttr('company', val) }get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{align-items:center;display:flex;height:100%;justify-content:center;left:0;position:absolute;top:0;width:100%}:host .login-container{background-color:rgba(25,25,25,.8);border-radius:5px;box-shadow:var(--elevation-10);box-sizing:border-box;display:flex;flex-direction:column;padding:20px;transform:perspective(1000px);width:372px;z-index:200}:host .login-container .body{display:flex}:host .login-container .body .login-img-container{height:75px;margin-top:12.5px}:host .login-container .body .login-img-container rk-img{border-radius:50%;height:100%}:host .login-container .body .field-container{margin-left:13px;width:200px}:host .login-container .body .field-container input,:host .login-container .body .field-container ::slotted(input){background-color:rgba(0,0,0,0);border:1px solid #fff;border-bottom:none;border-radius:0;color:#fff;cursor:default;height:30px;outline:none;padding:5px 5px;width:100%}:host .login-container .body .field-container input[readonly],:host .login-container .body .field-container ::slotted(input[readonly]){color:#c9c9c9}:host .login-container .body .field-container input:first-child{border-top-left-radius:3px;border-top-right-radius:3px}:host .login-container .body .field-container input:last-child,:host .login-container .body .field-container ::slotted(input:last-child){border-bottom:1px solid #fff;border-bottom-left-radius:3px;border-bottom-right-radius:3px}:host .login-container .body .btn-login{background-color:gray;border:1px solid #fff;border-radius:50%;color:#fff;cursor:pointer;font-size:20px;font-weight:bold;height:30px;line-height:28px;margin-left:13px;margin-top:35px;padding:3px;position:relative;text-align:center;transition:all 1s;width:30px}:host .login-container .body .btn-login .loading{animation:rotate 1s linear infinite;display:none;font-size:18px;transform-origin:center}:host .login-container .body .btn-login rk-img{height:100%}:host .login-container .body .btn-login-mobile{display:none;margin-top:20px;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .login-container .body .btn-login-mobile .loading{animation:rotate 1s linear infinite;display:none;font-size:18px;outline:none;transform-origin:center}:host .login-container .body .btn-login-mobile rk-button{background-color:rgba(0,0,0,0);border:1px solid #fff;box-shadow:none;font-size:13px;margin-top:20px;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);width:140px}:host .login-container .body .btn-login-mobile rk-button span{margin-right:5px}:host .login-container .body input[type=submit]{display:none}:host .login-container .errors{color:#ff5454;display:none;font-size:13px;margin-top:20px}:host([loading]) .login-container .body .btn-login .loading{display:inline-block}:host([loading]) .login-container .body .btn-login rk-img{display:none}:host([loading]) .login-container .body .btn-login-mobile .loading{display:inline-block}:host([loading]) .login-container .body .btn-login-mobile rk-button *:not(.loading){display:none}:host([error]:not([error=""])) .login-container{animation-duration:.25s;animation-iteration-count:2;animation-name:shake;animation-timing-function:linear;transform-origin:center center}:host([error]:not([error=""])) .login-container .errors{display:block}@keyframes shake{0%{transform:translateX(0) rotate(0deg)}25%{transform:translateX(20px) rotate(3deg)}50%{transform:translateX(0px) rotate(0deg)}75%{transform:translateX(-20px) rotate(-3deg)}100%{transform:translateX(0px) rotate(0deg)}}@keyframes rotate{0%{transform:rotate(0deg)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}@media screen and (max-width: 1224px){:host .login-container{max-width:300px;width:calc(100% - 20px)}:host .login-container .body{align-items:center;flex-direction:column}:host .login-container .body .login-img-container{margin-bottom:20px;margin-top:0}:host .login-container .body .field-container{margin:0 20px;width:100%}:host .login-container .body .btn-login{display:none}:host .login-container .body .btn-login-mobile{display:inline-block}:host .login-container .errors{margin-top:20px;text-align:center}}`;
+    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{align-items:center;display:flex;height:100%;justify-content:center;left:0;position:absolute;top:0;width:100%}:host .login-container{background-color:rgba(25,25,25,.8);border-radius:5px;box-shadow:var(--elevation-10);box-sizing:border-box;display:flex;flex-direction:column;padding:20px;transform:perspective(1000px);width:372px;z-index:200}:host .login-container .body{display:flex}:host .login-container .body .login-img-container{height:75px;margin-top:12.5px}:host .login-container .body .login-img-container rk-img{border-radius:50%;height:100%}:host .login-container .body .field-container{margin-left:13px;width:200px}:host .login-container .body .field-container input,:host .login-container .body .field-container ::slotted(input){background-color:rgba(0,0,0,0);border:1px solid #fff;border-bottom:none;border-radius:0;color:#fff;cursor:default;height:30px;outline:none;padding:5px 5px;width:100%}:host .login-container .body .field-container input[readonly],:host .login-container .body .field-container ::slotted(input[readonly]){color:#c9c9c9}:host .login-container .body .field-container input:first-child{border-top-left-radius:3px;border-top-right-radius:3px}:host .login-container .body .field-container input:last-child,:host .login-container .body .field-container ::slotted(input:last-child){border-bottom:1px solid #fff;border-bottom-left-radius:3px;border-bottom-right-radius:3px}:host .login-container .body .btn-login{background-color:gray;border:1px solid #fff;border-radius:50%;color:#fff;cursor:pointer;font-size:20px;font-weight:bold;height:30px;line-height:28px;margin-left:13px;margin-top:35px;padding:3px;position:relative;text-align:center;transition:all 1s;width:30px}:host .login-container .body .btn-login .loading{animation:rotate 1s linear infinite;display:none;font-size:18px;transform-origin:center}:host .login-container .body .btn-login rk-img{height:100%}:host .login-container .body .btn-login-mobile{display:none;margin-top:20px;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .login-container .body .btn-login-mobile .loading{animation:rotate 1s linear infinite;display:none;font-size:18px;outline:none;transform-origin:center}:host .login-container .body .btn-login-mobile rk-button{background-color:rgba(0,0,0,0);border:1px solid #fff;box-shadow:none;font-size:13px;margin-top:20px;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);width:140px}:host .login-container .body .btn-login-mobile rk-button span{margin-right:5px}:host .login-container .body input[type=submit]{display:none}:host .login-container .errors{color:#ff5454;display:none;font-size:13px;margin-top:20px}:host([loading]) .login-container .body .btn-login mi-icon{display:none}:host([loading]) .login-container .body .btn-login .loading{display:inline-block}:host([loading]) .login-container .body .btn-login-mobile .loading{display:inline-block}:host([loading]) .login-container .body .btn-login-mobile rk-button *:not(.loading){display:none}:host([error]:not([error=""])) .login-container{animation-duration:.25s;animation-iteration-count:2;animation-name:shake;animation-timing-function:linear;transform-origin:center center}:host([error]:not([error=""])) .login-container .errors{display:block}@keyframes shake{0%{transform:translateX(0) rotate(0deg)}25%{transform:translateX(20px) rotate(3deg)}50%{transform:translateX(0px) rotate(0deg)}75%{transform:translateX(-20px) rotate(-3deg)}100%{transform:translateX(0px) rotate(0deg)}}@keyframes rotate{0%{transform:rotate(0deg)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}@media screen and (max-width: 1224px){:host .login-container{max-width:300px;width:calc(100% - 20px)}:host .login-container .body{align-items:center;flex-direction:column}:host .login-container .body .login-img-container{margin-bottom:20px;margin-top:0}:host .login-container .body .field-container{margin:0 20px;width:100%}:host .login-container .body .btn-login{display:none}:host .login-container .body .btn-login-mobile{display:inline-block}:host .login-container .errors{margin-top:20px;text-align:center}}`;
     __getStatic() {
         return Login;
     }

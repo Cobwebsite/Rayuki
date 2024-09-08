@@ -96,7 +96,7 @@
         },
         {
             "name": "Login",
-            "disabled": false,
+            "disabled": true,
             "src": [
                 "./apps/login/*"
             ],

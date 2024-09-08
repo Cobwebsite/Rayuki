@@ -150,12 +150,11 @@
 	.login-container {
 		.body {
 			.btn-login {
+				mi-icon {
+					display: none;
+				}
 				.loading {
 					display: inline-block;
-				}
-
-				rk-img {
-					display: none;
 				}
 			}
 
