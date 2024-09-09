@@ -2740,83 +2740,6 @@ System.ApplicationShortcut=class ApplicationShortcut {
 System.ApplicationShortcut.Namespace=`Core.System`;
 _.System.ApplicationShortcut=System.ApplicationShortcut;
 
-State.MoveApplication=class MoveApplication extends Aventus.State {
-    static state = "/application/move";
-    providers = [];
-    selectedProvider;
-    _lastX = 0;
-    _lastY = 0;
-    get lastX() {
-        return this._lastX;
-    }
-    get lastY() {
-        return this._lastY;
-    }
-    /**
-     * @inheritdoc
-     */
-    get name() {
-        return State.MoveApplication.state;
-    }
-    constructor() {
-        super();
-        this.resetState = this.resetState.bind(this);
-    }
-    resetState() {
-        Lib.ShortcutManager.unsubscribe([Lib.SpecialTouch.Escape], this.resetState);
-        State.DesktopStateManager.getInstance().setState("/");
-    }
-    async activate(manager) {
-        let result = await super.activate(manager);
-        if (result) {
-            Lib.ShortcutManager.subscribe([Lib.SpecialTouch.Escape], this.resetState);
-        }
-        return result;
-    }
-    registerProvider(provider) {
-        this.providers.push(provider);
-    }
-    onMove(icon, x, y) {
-        this._lastX = x;
-        this._lastY = y;
-        this.selectedProvider = undefined;
-        for (let provider of this.providers) {
-            if (provider.setAppPositionTemp(icon, x, y, this)) {
-                this.selectedProvider = provider;
-                break;
-            }
-        }
-        for (let provider of this.providers) {
-            if (provider != this.selectedProvider) {
-                provider.clearAppPositionTemp(this);
-            }
-        }
-    }
-    async onDrop(icon, x, y, reset) {
-        icon.style.width = '';
-        icon.style.height = '';
-        icon.style.top = '';
-        icon.style.left = '';
-        icon.style.zIndex = '';
-        icon.style.opacity = '';
-        icon.style.pointerEvents = '';
-        icon.style.position = '';
-        if (this.selectedProvider) {
-            await this.selectedProvider.setAppPosition(icon, x, y, this);
-        }
-        else {
-            reset();
-        }
-    }
-    onRemove(icon, x, y) {
-        for (let provider of this.providers) {
-            provider.removeAppPosition(icon, x, y, this);
-        }
-    }
-}
-State.MoveApplication.Namespace=`Core.State`;
-_.State.MoveApplication=State.MoveApplication;
-
 Data.DekstopConfiguration=class DekstopConfiguration extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.DekstopConfiguration, Core"; }
     Background;
@@ -4929,7 +4852,7 @@ System.HomePanel = class HomePanel extends System.Panel {
     __registerWatchesActions() {
     this.__addWatchesActions("currentUser");    super.__registerWatchesActions();
 }
-    static __style = `:host{display:flex;flex-direction:column;left:-9px;position:absolute;width:500px;box-shadow:var(--elevation-3)}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:var(--border-radius-sm);margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .grid{display:flex;flex-wrap:wrap;gap:10px;padding:10px}:host .content rk-row rk-col .favoris .favoris-container .grid *{aspect-ratio:1/1;flex-shrink:0;height:auto;width:calc(33.3333333333% - 6.6666666667px)}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;justify-content:space-between;width:100%}:host .footer .person{align-items:center;border-radius:var(--border-radius-sm);display:flex;margin:10px 10px;padding:8px 10px;transition:background-color .2s var(--bezier-curve)}:host .footer .person .icon{height:30px;width:30px}:host .footer .person .name{margin-left:10px}:host .footer .person:hover{background-color:var(--lighter)}:host .footer .actions{align-items:center;display:flex}:host .footer .actions rk-pwa-button{color:var(--text-color-success);background-color:var(--success);height:36px;width:36px}:host .footer .actions rk-button{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;aspect-ratio:1;border:none;box-shadow:var(--elevation-2);margin:10px 10px;min-width:auto}`;
+    static __style = `:host{display:flex;flex-direction:column;left:-9px;position:absolute;width:min(500px,var(--os-width));box-shadow:var(--elevation-3)}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:var(--border-radius-sm);margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .grid{display:flex;flex-wrap:wrap;gap:10px;padding:10px}:host .content rk-row rk-col .favoris .favoris-container .grid *{aspect-ratio:1/1;flex-shrink:0;height:auto;width:calc(33.3333333333% - 6.6666666667px)}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;justify-content:space-between;width:100%}:host .footer .person{align-items:center;border-radius:var(--border-radius-sm);display:flex;margin:10px 10px;padding:8px 10px;transition:background-color .2s var(--bezier-curve)}:host .footer .person .icon{height:30px;width:30px}:host .footer .person .name{margin-left:10px}:host .footer .person:hover{background-color:var(--lighter)}:host .footer .actions{align-items:center;display:flex}:host .footer .actions rk-pwa-button{color:var(--text-color-success);background-color:var(--success);height:36px;width:36px}:host .footer .actions rk-button{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;aspect-ratio:1;border:none;box-shadow:var(--elevation-2);margin:10px 10px;min-width:auto}@media screen and (max-width: 768px){:host{left:-10px}:host .content rk-row{flex-direction:column}:host .content rk-row rk-col{width:100%;height:50%}}`;
     __getStatic() {
         return HomePanel;
     }
@@ -5042,7 +4965,7 @@ if(!window.customElements.get('rk-home-panel')){window.customElements.define('rk
 
 System.HomeBtn = class HomeBtn extends Aventus.WebComponent {
     get 'active'() { return this.getBoolAttr('active') }
-    set 'active'(val) { this.setBoolAttr('active', val) }    static __style = `:host{position:relative}:host .icon{border-radius:var(--border-radius-sm);cursor:pointer;margin:0 3px;max-height:calc(100% - 16px);max-width:34px;padding:7px;transition:background-color .2s var(--bezier-curve)}:host rk-home-panel{bottom:calc(100% + 5px);height:0;overflow:hidden;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s}:host([active]) .icon{background-color:var(--text-color)}:host([active]) .icon rk-img{--img-fill-color: var(--primary-color-opacity)}:host([active]) rk-home-panel{bottom:calc(100% + 10px);height:400px}@media screen and (min-width: 1225px){:host(:not([active])) .icon:hover{background-color:var(--lighter-active)}}`;
+    set 'active'(val) { this.setBoolAttr('active', val) }    static __style = `:host{position:relative}:host .icon{border-radius:var(--border-radius-sm);cursor:pointer;margin:0 3px;max-height:calc(100% - 16px);max-width:34px;padding:7px;transition:background-color .2s var(--bezier-curve)}:host rk-home-panel{bottom:calc(100% + 5px);height:0;overflow:hidden;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s}:host([active]) .icon{background-color:var(--text-color)}:host([active]) .icon rk-img{--img-fill-color: var(--primary-color-opacity)}:host([active]) rk-home-panel{bottom:calc(100% + 10px);height:400px}@media screen and (min-width: 1225px){:host(:not([active])) .icon:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 768px){:host{margin-right:10px}:host .icon{height:45px;max-width:45px}:host([active]) rk-home-panel{bottom:calc(100% + 12px);height:calc(var(--os-height) - 69px)}}`;
     __getStatic() {
         return HomeBtn;
     }
@@ -5177,7 +5100,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
     __registerWatchesActions() {
     this.__addWatchesActions("permissions");    super.__registerWatchesActions();
 }
-    static __style = `:host{align-items:center;background-color:var(--primary-color-opacity);border-radius:var(--border-radius);bottom:10px;box-shadow:var(--elevation-3);color:var(--text-color);display:flex;font-size:var(--font-size);height:50px;left:100px;outline:none;padding:0 10px;position:absolute;transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s,transform 1s var(--bezier-curve);width:calc(100% - 200px);z-index:100}:host .section{align-items:center;display:flex;height:100%}:host .section .icon{--img-stroke-color: transparent;--img-fill-color: var(--text-color);border-radius:var(--border-radius-sm);cursor:pointer;margin:0 3px;max-height:calc(100% - 16px);max-width:34px;padding:7px;transition:background-color .2s var(--bezier-curve)}:host .section rk-app-icon{margin:0 5px}:host .separator{background-color:var(--text-color);display:inline-block;height:50%;margin:0 13px;width:1px}:host .applications{flex-grow:1;gap:10px;position:relative}:host .applications .empty-icon{background-color:var(--darker-active);border-radius:var(--border-radius-sm);height:30px;width:30px}:host .nb-notifications{align-items:center;background-color:var(--text-color);border-radius:var(--border-radius-round);color:var(--primary-color-opacity);display:flex;font-size:14px;font-weight:bold;height:25px;justify-content:center;letter-spacing:-1px;padding-right:1px;width:25px}@media screen and (min-width: 1225px){:host .section .icon:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host{border-radius:0;border-bottom-left-radius:0;border-bottom-right-radius:0;bottom:0px;left:0px;padding:0 10px;width:100%}}@media screen and (max-width: 768px){:host{height:70px}:host .basic-action{display:none}:host .addons>*{display:none}:host .separator{display:none}:host .applications .empty-icon{height:50px;width:50px}}`;
+    static __style = `:host{align-items:center;background-color:var(--primary-color-opacity);border-radius:var(--border-radius);bottom:10px;box-shadow:var(--elevation-3);color:var(--text-color);display:flex;font-size:var(--font-size);height:50px;left:100px;outline:none;padding:0 10px;position:absolute;transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s,transform 1s var(--bezier-curve);width:calc(100% - 200px);z-index:100}:host .section{align-items:center;display:flex;height:100%}:host .section .icon{--img-stroke-color: transparent;--img-fill-color: var(--text-color);border-radius:var(--border-radius-sm);cursor:pointer;margin:0 3px;max-height:calc(100% - 16px);max-width:34px;padding:7px;transition:background-color .2s var(--bezier-curve)}:host .section rk-app-icon{margin:0 5px}:host .separator{background-color:var(--text-color);display:inline-block;height:50%;margin:0 13px;width:1px}:host .applications{flex-grow:1;gap:10px;position:relative}:host .applications .empty-icon{background-color:var(--darker-active);border-radius:var(--border-radius-sm);height:30px;width:30px}:host .nb-notifications{align-items:center;background-color:var(--text-color);border-radius:var(--border-radius-round);color:var(--primary-color-opacity);display:flex;font-size:14px;font-weight:bold;height:25px;justify-content:center;letter-spacing:-1px;padding-right:1px;width:25px}@media screen and (min-width: 1225px){:host .section .icon:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host{border-radius:0;border-bottom-left-radius:0;border-bottom-right-radius:0;bottom:0px;left:0px;padding:0 10px;width:100%}}@media screen and (max-width: 768px){:host{height:70px}:host .basic-action>*{display:none}:host .basic-action rk-home-btn{display:inline-block}:host .addons>*{display:none}:host .separator{display:none}:host .applications .empty-icon{height:50px;width:50px}}`;
     constructor() { super(); this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this) }
     __getStatic() {
         return BottomBar;
@@ -9353,6 +9276,8 @@ System.Os = class Os extends Aventus.WebComponent {
     addResizeObserver() {
         new Aventus.ResizeObserver(() => {
             this.style.setProperty("--ration", Lib.Platform.getRatio(this));
+            this.style.setProperty("--os-width", this.offsetWidth + 'px');
+            this.style.setProperty("--os-height", this.offsetHeight + 'px');
         }).observe(this);
     }
     async startSocket() {
@@ -9588,6 +9513,9 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
                     baseOffsetY = elBox.y - this.offsetTop;
                     document.body.appendChild(this);
                 }
+                else {
+                    State.MoveApplication.shadowIcons.push(shadow);
+                }
                 shadow.style.zIndex = '505';
                 shadow.style.opacity = '0.6';
                 shadow.style.pointerEvents = 'none';
@@ -9621,6 +9549,94 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
 }
 System.AppIcon.Namespace=`Core.System`;
 _.System.AppIcon=System.AppIcon;
+
+State.MoveApplication=class MoveApplication extends Aventus.State {
+    static state = "/application/move";
+    static shadowIcons = [];
+    providers = [];
+    selectedProvider;
+    _lastX = 0;
+    _lastY = 0;
+    get lastX() {
+        return this._lastX;
+    }
+    get lastY() {
+        return this._lastY;
+    }
+    /**
+     * @inheritdoc
+     */
+    get name() {
+        return State.MoveApplication.state;
+    }
+    constructor() {
+        super();
+        this.resetState = this.resetState.bind(this);
+    }
+    resetState() {
+        Lib.ShortcutManager.unsubscribe([Lib.SpecialTouch.Escape], this.resetState);
+        State.DesktopStateManager.getInstance().setState("/");
+    }
+    async activate(manager) {
+        let result = await super.activate(manager);
+        if (result) {
+            Lib.ShortcutManager.subscribe([Lib.SpecialTouch.Escape], this.resetState);
+        }
+        return result;
+    }
+    onActivate() {
+        for (let icon of State.MoveApplication.shadowIcons) {
+            icon.onMoveApplication(this, {});
+        }
+    }
+    onInactivate(nextState) {
+        for (let icon of State.MoveApplication.shadowIcons) {
+            icon.onStopMovingApplication();
+        }
+    }
+    registerProvider(provider) {
+        this.providers.push(provider);
+    }
+    onMove(icon, x, y) {
+        this._lastX = x;
+        this._lastY = y;
+        this.selectedProvider = undefined;
+        for (let provider of this.providers) {
+            if (provider.setAppPositionTemp(icon, x, y, this)) {
+                this.selectedProvider = provider;
+                break;
+            }
+        }
+        for (let provider of this.providers) {
+            if (provider != this.selectedProvider) {
+                provider.clearAppPositionTemp(this);
+            }
+        }
+    }
+    async onDrop(icon, x, y, reset) {
+        icon.style.width = '';
+        icon.style.height = '';
+        icon.style.top = '';
+        icon.style.left = '';
+        icon.style.zIndex = '';
+        icon.style.opacity = '';
+        icon.style.pointerEvents = '';
+        icon.style.position = '';
+        if (this.selectedProvider) {
+            await this.selectedProvider.setAppPosition(icon, x, y, this);
+        }
+        else {
+            reset();
+        }
+    }
+    onRemove(icon, x, y) {
+        for (let provider of this.providers) {
+            provider.removeAppPosition(icon, x, y, this);
+        }
+    }
+}
+State.MoveApplication.Namespace=`Core.State`;
+_.State.MoveApplication=State.MoveApplication;
 
 System.CoreAppIcon = class CoreAppIcon extends System.AppIcon {
     static __style = `:host{background-color:#7a7a7a}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #ffffff;flex-grow:1;max-height:100%;padding:15%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;

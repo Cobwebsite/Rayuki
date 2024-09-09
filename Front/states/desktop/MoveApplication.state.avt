@@ -11,9 +11,11 @@ namespace State {
     };
     export class MoveApplication extends Aventus.State implements Aventus.IState {
         public static state: string = "/application/move";
+        public static shadowIcons: AppIcon[] = []; // hot fix : #TODO check how to fix it with drag&drop clone
 
         private providers: MoveApplicationProvider[] = [];
         private selectedProvider?: MoveApplicationProvider;
+
 
         private _lastX: number = 0;
         private _lastY: number = 0;
@@ -49,6 +51,18 @@ namespace State {
             }
             return result;
         }
+
+        public override onActivate(): void {
+            for(let icon of MoveApplication.shadowIcons) {
+                icon.onMoveApplication(this, {});
+            }
+        }
+        public override onInactivate(nextState: Aventus.State): void {
+            for(let icon of MoveApplication.shadowIcons) {
+                icon.onStopMovingApplication();
+            }
+        }
+        
 
 
 
@@ -94,7 +108,7 @@ namespace State {
 
         public onRemove(icon: AppIcon, x: number, y: number) {
             for(let provider of this.providers) {
-                provider.removeAppPosition(icon, x, y, this)
+                provider.removeAppPosition(icon, x, y, this);
             }
         }
     }

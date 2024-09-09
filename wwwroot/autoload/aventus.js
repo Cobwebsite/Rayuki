@@ -3044,6 +3044,7 @@ let PressManager=class PressManager {
         this.element.addEventListener("trigger_pointer_pressmove", this.functionsBinded.childPressMove);
     }
     genericDownAction(state, e) {
+        this.downEventSaved = e;
         if (this.options.onLongPress) {
             this.timeoutLongPress = setTimeout(() => {
                 if (!state.oneActionTriggered) {
@@ -3062,7 +3063,6 @@ let PressManager=class PressManager {
         if (!this.options.buttonAllowed?.includes(e.button)) {
             return;
         }
-        this.downEventSaved = e;
         if (this.stopPropagation()) {
             e.stopImmediatePropagation();
         }
@@ -3078,11 +3078,9 @@ let PressManager=class PressManager {
         this.genericDownAction(this.state, e);
         if (this.options.onPressStart) {
             this.options.onPressStart(e, this);
-            this.emitTriggerFunctionParent("pressstart", e);
+            // this.emitTriggerFunctionParent("pressstart", e);
         }
-        else {
-            this.emitTriggerFunction("pressstart", e);
-        }
+        this.emitTriggerFunction("pressstart", e);
     }
     genericUpAction(state, e) {
         clearTimeout(this.timeoutLongPress);
@@ -3142,17 +3140,12 @@ let PressManager=class PressManager {
         this.genericUpAction(this.state, e);
         if (this.options.onPressEnd) {
             this.options.onPressEnd(e, this);
-            this.emitTriggerFunctionParent("pressend", e);
+            // this.emitTriggerFunctionParent("pressend", e);
         }
-        else {
-            this.emitTriggerFunction("pressend", e);
-        }
+        this.emitTriggerFunction("pressend", e);
     }
     genericMoveAction(state, e) {
         if (!state.moving && !state.oneActionTriggered) {
-            if (this.stopPropagation()) {
-                e.stopImmediatePropagation();
-            }
             let xDist = e.pageX - this.startPosition.x;
             let yDist = e.pageY - this.startPosition.y;
             let distance = Math.sqrt(xDist * xDist + yDist * yDist);
@@ -3177,41 +3170,41 @@ let PressManager=class PressManager {
         if (this.options.onEvent) {
             this.options.onEvent(e);
         }
+        if (this.stopPropagation()) {
+            e.stopImmediatePropagation();
+        }
         this.genericMoveAction(this.state, e);
-        if (this.options.onDrag) {
-            this.emitTriggerFunctionParent("pressmove", e);
-        }
-        else {
-            this.emitTriggerFunction("pressmove", e);
-        }
+        // if(this.options.onDrag) {
+        //     this.emitTriggerFunctionParent("pressmove", e);
+        this.emitTriggerFunction("pressmove", e);
     }
     childPressStart(e) {
+        if (this.lastEmitEvent == e)
+            return;
         this.genericDownAction(e.detail.state, e.detail.realEvent);
         if (this.options.onPressStart) {
             this.options.onPressStart(e.detail.realEvent, this);
         }
     }
     childPressEnd(e) {
+        if (this.lastEmitEvent == e)
+            return;
         this.genericUpAction(e.detail.state, e.detail.realEvent);
         if (this.options.onPressEnd) {
             this.options.onPressEnd(e.detail.realEvent, this);
         }
     }
     childPressMove(e) {
+        if (this.lastEmitEvent == e)
+            return;
         this.genericMoveAction(e.detail.state, e.detail.realEvent);
     }
-    emitTriggerFunctionParent(action, e) {
-        let el = this.element.parentElement;
-        if (el == null) {
-            let parentNode = this.element.parentNode;
-            if (parentNode instanceof ShadowRoot) {
-                this.emitTriggerFunction(action, e, parentNode.host);
-            }
-        }
-        else {
-            this.emitTriggerFunction(action, e, el);
-        }
-    }
+    // protected emitTriggerFunctionParent(action: string, e: PointerEvent) {
+    //     if(el == null) {
+    //         if(parentNode instanceof ShadowRoot) {
+    //             this.emitTriggerFunction(action, e, parentNode.host);
+    //         this.emitTriggerFunction(action, e, el);
+    lastEmitEvent;
     emitTriggerFunction(action, e, el) {
         let ev = new CustomEvent("trigger_pointer_" + action, {
             bubbles: true,
@@ -3223,6 +3216,7 @@ let PressManager=class PressManager {
                 realEvent: e
             }
         });
+        this.lastEmitEvent = ev;
         if (!el) {
             el = this.element;
         }
@@ -6914,6 +6908,57 @@ Data.AventusFile.$schema={"Uri":"string","Upload":"File","$type":"string"};
 Aventus.Converter.register(Data.AventusFile.Fullname, Data.AventusFile);
 _.Data.AventusFile=Data.AventusFile;
 
+Data.SharpClass=class SharpClass {
+    /**
+     * The current namespace
+     */
+    get namespace() {
+        return this.constructor['Namespace'];
+    }
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    get $type() {
+        return this.constructor['Fullname'];
+    }
+    /**
+     * Get the name of the class
+     */
+    get className() {
+        return this.constructor.name;
+    }
+    /**
+     * Clone the object by transforming a parsed JSON string back into the original type
+     */
+    clone() {
+        return Aventus.Converter.transform(JSON.parse(JSON.stringify(this)));
+    }
+    /**
+     * Get a JSON for the current object
+     */
+    toJSON() {
+        let toAvoid = ['className', 'namespace'];
+        return Aventus.Json.classToJson(this, {
+            isValidKey: (key) => !toAvoid.includes(key),
+            beforeEnd: (result) => {
+                let resultTemp = {};
+                if (result.$type) {
+                    resultTemp.$type = result.$type;
+                    for (let key in result) {
+                        if (key != '$type') {
+                            resultTemp[key] = result[key];
+                        }
+                    }
+                    return resultTemp;
+                }
+                return result;
+            }
+        });
+    }
+}
+Data.SharpClass.Namespace=`AventusSharp.Data`;
+_.Data.SharpClass=Data.SharpClass;
+
 (function (DataErrorCode) {
     DataErrorCode[DataErrorCode["DefaultDMGenericType"] = 0] = "DefaultDMGenericType";
     DataErrorCode[DataErrorCode["DMOnlyForceInherit"] = 1] = "DMOnlyForceInherit";
@@ -7327,57 +7372,6 @@ Data.StorableTimestamp.Namespace=`AventusSharp.Data`;
 Data.StorableTimestamp.$schema={...(Data.Storable?.$schema ?? {}), "CreatedDate":"Date","UpdatedDate":"Date"};
 Aventus.Converter.register(Data.StorableTimestamp.Fullname, Data.StorableTimestamp);
 _.Data.StorableTimestamp=Data.StorableTimestamp;
-
-Data.SharpClass=class SharpClass {
-    /**
-     * The current namespace
-     */
-    get namespace() {
-        return this.constructor['Namespace'];
-    }
-    /**
-     * Get the unique type for the data. Define it as the namespace + class name
-     */
-    get $type() {
-        return this.constructor['Fullname'];
-    }
-    /**
-     * Get the name of the class
-     */
-    get className() {
-        return this.constructor.name;
-    }
-    /**
-     * Clone the object by transforming a parsed JSON string back into the original type
-     */
-    clone() {
-        return Aventus.Converter.transform(JSON.parse(JSON.stringify(this)));
-    }
-    /**
-     * Get a JSON for the current object
-     */
-    toJSON() {
-        let toAvoid = ['className', 'namespace'];
-        return Aventus.Json.classToJson(this, {
-            isValidKey: (key) => !toAvoid.includes(key),
-            beforeEnd: (result) => {
-                let resultTemp = {};
-                if (result.$type) {
-                    resultTemp.$type = result.$type;
-                    for (let key in result) {
-                        if (key != '$type') {
-                            resultTemp[key] = result[key];
-                        }
-                    }
-                    return resultTemp;
-                }
-                return result;
-            }
-        });
-    }
-}
-Data.SharpClass.Namespace=`AventusSharp.Data`;
-_.Data.SharpClass=Data.SharpClass;
 
 Tools.VoidWithError=class VoidWithError extends Aventus.VoidWithError {
     static get Fullname() { return "AventusSharp.Tools.VoidWithError, AventusSharp"; }

@@ -1,13 +1,12 @@
-﻿using AventusSharp.Data;
-using AventusSharp.Data.Manager;
+﻿using AventusSharp.Data.Manager;
 using AventusSharp.Data.Manager.DB;
-using AventusSharp.Data.Storage.Default;
 using AventusSharp.Tools;
 using Core.App;
 using Core.Data;
 using Core.Permissions;
 using Core.Tools;
 using System.Text.RegularExpressions;
+using Group = Core.Data.Group;
 
 namespace Core.Logic
 {
@@ -112,17 +111,28 @@ namespace Core.Logic
 
         public List<ApplicationData> GetAllAllowed(int? userId, bool isSuperAdmin)
         {
-            if(isSuperAdmin) {
+            if (userId == null) return new List<ApplicationData>();
+
+            if (isSuperAdmin)
+            {
                 return ApplicationData.GetAll();
             }
             List<string> allowedApps = new List<string>();
             string name = ApplicationPermission.AllowAccess.GetFullName();
             List<PermissionUser> allowed = PermissionUser.Where(p => p.Permission.EnumName == name && p.UserId == userId);
-            
-            foreach(PermissionUser permission in allowed)
+
+            foreach (PermissionUser permission in allowed)
             {
                 allowedApps.Add(permission.Permission.AdditionalInfo);
             }
+
+            int realId = (int)userId;
+            List<int> groups = Group.Where(p => p.Users.Contains(new User() { Id = realId })).Select(p => p.Id).ToList();
+            if (groups.Count > 0)
+            {
+                List<PermissionGroup> allowed2 = PermissionGroup.StartQuery().Where(pu => pu.Permission.EnumName == name && groups.Contains(pu.GroupId)).Run();
+            }
+
             ResultWithError<List<ApplicationData>> apps = ApplicationData.WhereWithError(a => allowedApps.Contains(a.Name));
 
             return apps.Result ?? new List<ApplicationData>();

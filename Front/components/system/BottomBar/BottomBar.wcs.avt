@@ -109,7 +109,13 @@
 		height: 70px;
 
 		.basic-action {
-			display: none;
+			> * {
+				display: none;
+			}
+
+			rk-home-btn {
+				display: inline-block;
+			}
 		}
 
 		.addons > * {

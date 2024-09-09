@@ -25,8 +25,12 @@ namespace Core
         public static WebPushClient webPush = new();
 
         public static readonly int nbAppInDev = 2;
-        public static readonly int Version = 1;
-        public static readonly bool resetStorage = true;
+        public static readonly string Version = "1.0.0";
+        public static bool resetStorage
+        {
+            // get => false;
+            get => app.Environment.IsDevelopment();
+        }
 
         public static string wwwroot
         {

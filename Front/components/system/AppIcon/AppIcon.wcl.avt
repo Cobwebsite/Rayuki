@@ -106,7 +106,8 @@ namespace System {
         }
 
         @StateActive(MoveApplication.state, DesktopStateManager)
-        protected onMoveApplication(state: Aventus.State, slugs: Aventus.StateSlug) {
+        @InternalProtected()
+        public onMoveApplication(state: Aventus.State, slugs: Aventus.StateSlug) {
             if(state instanceof MoveApplication) {
                 this.moveApplicationState = state;
                 this.shaking = true;
@@ -116,7 +117,8 @@ namespace System {
         }
 
         @StateInactive(MoveApplication.state, DesktopStateManager)
-        protected onStopMovingApplication() {
+        @InternalProtected()
+        public onStopMovingApplication() {
             this.moveApplicationState = undefined;
             this.shaking = false;
             this.destroyDragAndDrop();
@@ -191,6 +193,9 @@ namespace System {
                         baseOffsetX = elBox.x - this.offsetLeft;
                         baseOffsetY = elBox.y - this.offsetTop;
                         document.body.appendChild(this);
+                    }
+                    else {
+                        MoveApplication.shadowIcons.push(shadow);
                     }
                     shadow.style.zIndex = '505';
                     shadow.style.opacity = '0.6';

@@ -6956,7 +6956,7 @@ const Login = class Login extends Aventus.WebComponent {
       "fct": (e, c) => c.comp.clearError(e)
     },
     {
-      "eventName": "input",
+      "eventName": "keyup",
       "id": "login_4",
       "fct": (e, c) => c.comp.checkEnter(e)
     },

@@ -24,6 +24,7 @@
 :host([active]) {
 	.icon {
 		background-color: var(--text-color);
+
 		rk-img {
 			--img-fill-color: var(--primary-color-opacity);
 		}
@@ -39,6 +40,24 @@
 	:host(:not([active])) {
 		.icon:hover {
 			background-color: var(--lighter-active);
+		}
+	}
+}
+
+
+@include mobile {
+	:host {
+		margin-right: 10px;
+		.icon {
+			height: 45px;
+			max-width: 45px;
+		}
+	}
+
+	:host([active]) {
+		rk-home-panel {
+			bottom: calc(100% + 12px);
+			height: calc(var(--os-height) - 69px);
 		}
 	}
 }

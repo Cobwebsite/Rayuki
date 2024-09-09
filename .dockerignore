@@ -34,4 +34,6 @@ LICENSE
 README.md
 apps
 wwwroot/apps
+wwwroot/desktops
+wwwroot/users
 Views/apps

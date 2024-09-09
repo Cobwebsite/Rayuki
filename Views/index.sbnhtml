@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#dcdcdc" />
 
     <link rel="icon" href="{{ icon }}" />
-    <link rel="manifest" href="/pwa/manifest.json?v={{ version }}" />
+    <link rel="manifest" href="/pwa/custom/manifest.json?v={{ version }}" />
     <title>{{ title }}</title>
     <script>
         const userIdConnected = Number("{{ user_id }}");

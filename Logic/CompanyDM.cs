@@ -31,6 +31,25 @@ namespace Core.Logic
                 }.CreateWithError());
             }
 
+            string iconPath = Path.Combine(HttpServer.wwwroot, "pwa", "custom", "icons");
+            if (!Directory.Exists(iconPath))
+            {
+                Directory.CreateDirectory(iconPath);
+                string srcPath = Path.Combine(HttpServer.wwwroot, "img", "logo.svg");
+                int[] sizes = [512, 192, 144, 128, 96, 72, 48];
+                foreach (int size in sizes)
+                {
+                    result
+                        .Run(() => Image.SvgTo(srcPath, SKEncodedImageFormat.Png, size, size, Path.Combine(iconPath, "logo-" + size + ".png")).ToGeneric());
+                }
+            }
+
+            string manifestPath = Path.Combine(HttpServer.wwwroot, "pwa", "custom", "manifest.json");
+            if (!File.Exists(manifestPath))
+            {
+                File.WriteAllText(manifestPath, GetDefaultManifest());
+            }
+
             return result;
         }
 
@@ -49,7 +68,7 @@ namespace Core.Logic
                         return isSvgResult.ToGeneric().Errors;
                     }
 
-                    string pwaPath = Path.Combine(HttpServer.wwwroot, "pwa", "icons");
+                    string pwaPath = Path.Combine(HttpServer.wwwroot, "pwa", "custom", "icons");
                     int[] sizes = [512, 192, 144, 128, 96, 72, 48];
                     string srcPath;
                     VoidWithError resultTemp = new VoidWithError();
@@ -112,7 +131,7 @@ namespace Core.Logic
 
         public Manifest? ReadManifest()
         {
-            string manifestJson = File.ReadAllText(Path.Combine(HttpServer.wwwroot, "pwa", "manifest.json"));
+            string manifestJson = File.ReadAllText(Path.Combine(HttpServer.wwwroot, "pwa", "custom", "manifest.json"));
             return JsonConvert.DeserializeObject<Manifest>(manifestJson);
         }
         public void SaveManifest(Manifest manifest)
@@ -122,7 +141,65 @@ namespace Core.Logic
                 NullValueHandling = NullValueHandling.Ignore,
                 Formatting = Formatting.Indented
             });
-            File.WriteAllText(Path.Combine(HttpServer.wwwroot, "pwa", "manifest.json"), manifestJson);
+            File.WriteAllText(Path.Combine(HttpServer.wwwroot, "pwa", "custom", "manifest.json"), manifestJson);
+        }
+
+
+
+        private string GetDefaultManifest() {
+            return @"{
+    ""name"": ""Rayuki"",
+    ""short_name"": ""Rayuki"",
+    ""icons"": [
+        {
+            ""src"": ""/pwa/custom/icons/logo-48.png"",
+            ""type"": ""image/png"",
+            ""sizes"": ""48x48""
+        },
+        {
+            ""src"": ""/pwa/custom/icons/logo-72.png"",
+            ""type"": ""image/png"",
+            ""sizes"": ""72x72""
+        },
+        {
+            ""src"": ""/pwa/custom/icons/logo-96.png"",
+            ""type"": ""image/png"",
+            ""sizes"": ""96x96""
+        },
+        {
+            ""src"": ""/pwa/custom/icons/logo-128.png"",
+            ""type"": ""image/png"",
+            ""sizes"": ""128x128""
+        },
+        {
+            ""src"": ""/pwa/custom/icons/logo-144.png"",
+            ""type"": ""image/png"",
+            ""sizes"": ""144x144""
+        },
+        {
+            ""src"": ""/pwa/custom/icons/logo-192.png"",
+            ""type"": ""image/png"",
+            ""sizes"": ""192x192""
+        },
+        {
+            ""src"": ""/pwa/custom/icons/logo-512.png"",
+            ""type"": ""image/png"",
+            ""sizes"": ""512x512""
+        },
+        {
+            ""src"": ""/pwa/custom/icons/logo-512.png"",
+            ""type"": ""image/png"",
+            ""sizes"": ""512x512"",
+            ""purpose"": ""any maskable""
+        }
+    ],
+    ""theme_color"": ""#dcdcdc"",
+    ""background_color"": ""#ffffff"",
+    ""display"": ""standalone"",
+    ""orientation"": ""portrait"",
+    ""scope"": ""/"",
+    ""start_url"": ""/pwa/loading.html""
+}";
         }
     }
 }

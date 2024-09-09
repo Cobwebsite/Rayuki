@@ -9,7 +9,7 @@
             <slot></slot>
             <input type="text" @element="usernameEl" name="username" placeholder="Nom d'utilisateur"
                 @focus="clearError" />
-            <input type="password" @element="passwordEl" @input="checkEnter" name="password" placeholder="Mot de passe"
+            <input type="password" @element="passwordEl" @keyup="checkEnter" name="password" placeholder="Mot de passe"
                 @focus="clearError" />
         </div>
         <div class="btn-login">

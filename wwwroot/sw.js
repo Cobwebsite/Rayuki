@@ -2,7 +2,7 @@ const cacheName = 'valdev-dashboard-v1';
 const contentToCache = [
     '/sw.js',
     '/pwa/loading.html',
-    '/pwa/icons/logo-512.png',
+    '/pwa/custom/icons/logo-512.png',
     '/pwa/loader.css',
     '/img/logo.svg'
 ];
