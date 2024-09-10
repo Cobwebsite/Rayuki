@@ -12,10 +12,10 @@ namespace Core.Routes
 {
     public class UserRouter : StorableRoute<User>
     {
-        public override ResultWithError<List<User>> GetAll(HttpContext context)
-        {
-            return UserDM.GetInstance().WhereWithError(p => p.IsSuperAdmin == false);
-        }
+        // public override ResultWithError<List<User>> GetAll(HttpContext context)
+        // {
+        //     return UserDM.GetInstance().WhereWithError(p => p.IsSuperAdmin == false);
+        // }
         protected override ResultWithError<User> DM_Update(HttpContext context, User item)
         {
             return UserDM.GetInstance().UpdateBasicInfo(item);

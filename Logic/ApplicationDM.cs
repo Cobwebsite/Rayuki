@@ -130,7 +130,18 @@ namespace Core.Logic
             List<int> groups = Group.Where(p => p.Users.Contains(new User() { Id = realId })).Select(p => p.Id).ToList();
             if (groups.Count > 0)
             {
-                List<PermissionGroup> allowed2 = PermissionGroup.StartQuery().Where(pu => pu.Permission.EnumName == name && groups.Contains(pu.GroupId)).Run();
+                List<PermissionGroup> allowedInGroup = PermissionGroup
+                    .StartQuery()
+                    .Where(pu => pu.Permission.EnumName == name && groups.Contains(pu.GroupId))
+                    .Run();
+
+                foreach (PermissionGroup permission in allowedInGroup)
+                {
+                    if (!allowedApps.Contains(permission.Permission.AdditionalInfo))
+                    {
+                        allowedApps.Add(permission.Permission.AdditionalInfo);
+                    }
+                }
             }
 
             ResultWithError<List<ApplicationData>> apps = ApplicationData.WhereWithError(a => allowedApps.Contains(a.Name));
