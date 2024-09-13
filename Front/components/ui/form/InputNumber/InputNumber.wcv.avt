@@ -1,7 +1,7 @@
 <label for="input">{{ this.label }}</label>
 <div class="input">
     <rk-img src="{{ this.icon }}" class="icon"></rk-img>
-    <input autocomplete="off" id="input" @element="inputEl" placeholder="{{ this.placeholder }}" @focus="removeErrors" @change="onValueChange" @blur="validate" />
+    <input inputmode="numeric" pattern="[0-9]*" autocomplete="off" id="input" @element="inputEl" placeholder="{{ this.placeholder }}" @focus="removeErrors" @change="onValueChange" @blur="validate" />
     <div class="error-logo">!</div>
 </div>
 <div class="errors">

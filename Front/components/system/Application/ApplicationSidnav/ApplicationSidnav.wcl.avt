@@ -34,6 +34,8 @@ namespace System {
         @Attribute()
         public hide_menu_size?: SizeList = "sm";
         @Attribute()
+        public hide_menu_size_portrait?: SizeList = "lg";
+        @Attribute()
         public open_sidenav!: boolean;
         @Attribute()
         public no_sidenav!: boolean;

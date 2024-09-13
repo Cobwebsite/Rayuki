@@ -27,6 +27,16 @@ $colors: (
 		@content;
 	}
 }
+@mixin tablet-portrait {
+	@media screen and (max-width:$tablet-breakpoint) and (orientation:portrait) {
+		@content;
+	}
+}
+@mixin tablet-landscape {
+	@media screen and (max-width:$tablet-breakpoint) and (orientation:landscape) {
+		@content;
+	}
+}
 
 @mixin mobile {
 	@media screen and (max-width:$mobile-breakpoint) {
@@ -34,8 +44,42 @@ $colors: (
 	}
 }
 
+@mixin mobile-portrait {
+	@media screen and (max-width:$mobile-breakpoint) and (orientation:portrait) {
+		@content;
+	}
+}
+@mixin mobile-landscape {
+	@media screen and (max-width:$mobile-breakpoint) and (orientation:landscape) {
+		@content;
+	}
+}
+
 @mixin desktop {
 	@media screen and (min-width:#{$tablet-breakpoint + 1}) {
+		@content;
+	}
+}
+
+@mixin desktop-portrait {
+	@media screen and (min-width:#{$tablet-breakpoint + 1}) and (orientation:portrait) {
+		@content;
+	}
+}
+@mixin desktop-landscape {
+	@media screen and (min-width:#{$tablet-breakpoint + 1}) and (orientation:landscape) {
+		@content;
+	}
+}
+
+@mixin portrait {
+	@media screen and (orientation:portrait) {
+		@content;
+	}
+}
+
+@mixin landscape {
+	@media screen and (orientation:landscape) {
 		@content;
 	}
 }

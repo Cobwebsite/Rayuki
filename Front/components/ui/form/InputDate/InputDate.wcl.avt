@@ -352,7 +352,9 @@ namespace Components {
                 });
             }
             this.addEventListener("focus", () => {
-                this.dayEl.focus();
+                setTimeout(() => {
+                    this.dayEl.focus();
+                });
             });
         }
 

@@ -4,34 +4,39 @@
 	--img-fill-color: var(--text-color);
 	box-sizing: border-box;
 	display: inline-block;
-	touch-action: manipulation;
 	font-family: var(--font-family);
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
 
-	.touch {
-		cursor: pointer;
-		-webkit-tap-highlight-color: transparent;
-	}
-	
-	.touch.disable,
-	.touch.disabled {
-		cursor: default;
-	}
-	
-	
+
 	@include eachColor using ($color) {
 		.#{$color} {
 			background-color: var(--#{$color});
 			color: var(--text-color-#{$color});
 		}
+
 		.text-#{$color} {
 			color: var(--#{$color});
 		}
+	}
+
+	.touch {
+		cursor: pointer;
+	}
+
+	.touch.disable,
+	.touch.disabled {
+		cursor: default;
+	}
+
+	input::placeholder {
+		overflow: visible;
 	}
 }
 
 
 :host * {
 	box-sizing: border-box;
+	-webkit-tap-highlight-color: transparent;
 	touch-action: manipulation;
 }
-

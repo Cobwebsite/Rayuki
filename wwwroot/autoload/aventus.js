@@ -6787,7 +6787,7 @@ const Icon = class Icon extends Aventus.WebComponent {
     set 'type'(val) { this.setStringAttr('type', val) }    static defaultType = 'outlined';
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
     if (target.isReady) {
-        // target.shadowRoot.innerHTML = target.icon;
+        target.init();
     }
 }));this.__addPropertyActions("type", ((target) => {
     if (target.isReady)
@@ -6831,19 +6831,20 @@ const Icon = class Icon extends Aventus.WebComponent {
             'Material Symbols ' + name,
             '"Material Symbols ' + name + '"',
         ];
-        for (let font of document.fonts) {
-            if (fontsName.includes(font.family)) {
-                this.is_hidden = false;
-                return;
-            }
-        }
-        const cb = (e) => {
-            for (let font of e.fontfaces) {
+        const check = () => {
+            for (let font of document.fonts) {
                 if (fontsName.includes(font.family)) {
                     this.is_hidden = false;
-                    break;
+                    return true;
                 }
             }
+            return false;
+        };
+        if (check()) {
+            return;
+        }
+        const cb = (e) => {
+            check();
             document.fonts.removeEventListener("loadingdone", cb);
         };
         document.fonts.addEventListener("loadingdone", cb);
@@ -6852,6 +6853,9 @@ const Icon = class Icon extends Aventus.WebComponent {
             type: "css",
             url: url
         });
+        setTimeout(() => {
+            check();
+        }, 100);
     }
     async init() {
         await this.loadFont();

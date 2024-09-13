@@ -84,8 +84,8 @@
 			border-bottom-right-radius: var(--_application-border-radius);
 			height: calc(100% - 30px);
 			max-height: calc(var(--app-height) - 50px - 30px);
-			min-width: auto;
 			min-height: auto;
+			min-width: auto;
 			overflow: hidden;
 			padding: var(--_popup-content-padding);
 			width: 100%;
@@ -133,6 +133,29 @@
 						box-shadow: 0 0 4px var(--darker-active) inset;
 					}
 				}
+			}
+		}
+	}
+}
+
+@include tablet {
+	:host {
+		.popup {
+			.header {
+				height: 40px;
+
+				.application-actions {
+					gap: 10px;
+
+					.btn {
+						height: 20px;
+						width: 20px;
+					}
+				}
+			}
+
+			.content {
+				height: calc(100% - 45px);
 			}
 		}
 	}

@@ -10,7 +10,7 @@
 			.menu {
 				align-items: center;
 				border: 1px solid var(--darker);
-				border-radius: var(--border-radius-round);
+				border-radius: var(--border-radius-sm);
 				display: none;
 				height: 24px;
 				justify-content: center;
@@ -115,7 +115,8 @@
 :host([open_sidenav]) {
 	.navigation-actions {
 		.menu {
-			background-color: var(--darker) !important;
+			background-color: var(--darker-active) !important;
+			color: var(--text-color-reverse) !important;
 		}
 	}
 }
@@ -139,8 +140,9 @@
 		.sidenav {
 			display: none;
 		}
+
 		.sidenav-hider {
-			display: none!important;
+			display: none !important;
 		}
 
 		.container {
@@ -192,47 +194,96 @@
 	}
 }
 
+@include landscape {
+	@each $name, $size in $size-breakpoints {
+		:host([hide_menu_size="#{$name}"]:not([no_sidenav])) {
+			@container application (max-width: #{$size+'px'}) {
+				.header {
+					.navigation-actions {
 
-@each $name, $size in $size-breakpoints {
-	:host([hide_menu_size="#{$name}"]:not([no_sidenav])) {
-		@container application (max-width: #{$size+'px'}) {
-			.header {
-				.navigation-actions {
+						.menu {
+							display: flex;
+						}
 
-					.menu {
-						display: flex;
+						.previous,
+						.next {
+							display: none;
+						}
+					}
+				}
+
+				.content {
+					.sidenav {
+						/*position: absolute;*/
+						transform: translateX(calc(-100% - 20px));
 					}
 
-					.previous,
-					.next {
-						display: none;
+					.container {
+						margin-left: calc(var(--_application-sidnav-sidenav-width) * -1);
+						width: 100%;
 					}
 				}
 			}
+		}
 
-			.content {
-				.sidenav {
-					/*position: absolute;*/
-					transform: translateX(calc(-100% - 20px));
-				}
+		:host([hide_menu_size="#{$name}"][open_sidenav]) {
+			@container application (max-width: #{$size+'px'}) {
+				.content {
+					.sidenav-hider {
+						display: block;
+					}
 
-				.container {
-					margin-left: calc(var(--_application-sidnav-sidenav-width) * -1);
-					width: 100%;
+					.sidenav {
+						transform: translateX(0%);
+					}
 				}
 			}
 		}
 	}
+}
 
-	:host([hide_menu_size="#{$name}"][open_sidenav]) {
-		@container application (max-width: #{$size+'px'}) {
-			.content {
-				.sidenav-hider {
-					display: block;
+@include portrait {
+	@each $name, $size in $size-breakpoints {
+		:host([hide_menu_size_portrait="#{$name}"]:not([no_sidenav])) {
+			@container application (max-width: #{$size+'px'}) {
+				.header {
+					.navigation-actions {
+
+						.menu {
+							display: flex;
+						}
+
+						.previous,
+						.next {
+							display: none;
+						}
+					}
 				}
 
-				.sidenav {
-					transform: translateX(0%);
+				.content {
+					.sidenav {
+						/*position: absolute;*/
+						transform: translateX(calc(-100% - 20px));
+					}
+
+					.container {
+						margin-left: calc(var(--_application-sidnav-sidenav-width) * -1);
+						width: 100%;
+					}
+				}
+			}
+		}
+
+		:host([hide_menu_size_portrait="#{$name}"][open_sidenav]) {
+			@container application (max-width: #{$size+'px'}) {
+				.content {
+					.sidenav-hider {
+						display: block;
+					}
+
+					.sidenav {
+						transform: translateX(0%);
+					}
 				}
 			}
 		}

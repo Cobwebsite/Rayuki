@@ -5,15 +5,15 @@
     </slot>
     <input class="visual" readonly value="{{ this.displayVisualDate() }}">
     <div class="edit">
-        <input autocomplete="off" @element="dayEl" placeholder="xx" @focus="selectContent" @keydown="triggerPoint" @keyup="validateLength2" />
+        <input autocomplete="off" inputmode="numeric" pattern="[0-9]*" @element="dayEl" placeholder="xx" @focus="selectContent" @keydown="triggerPoint" @keyup="validateLength2" />
         <span>.</span>
-        <input autocomplete="off" @element="monthEl" placeholder="xx" @focus="selectContent" @keydown="triggerPoint" @keyup="validateLength2" />
+        <input autocomplete="off" inputmode="numeric" pattern="[0-9]*" @element="monthEl" placeholder="xx" @focus="selectContent" @keydown="triggerPoint" @keyup="validateLength2" />
         <span>.</span>
-        <input class="year-input" autocomplete="off" @element="yearEl" placeholder="xxxx" @focus="selectContent" @keydown="triggerSpace" @keyup="validateLength4" />
+        <input class="year-input" inputmode="numeric" pattern="[0-9]*" autocomplete="off" @element="yearEl" placeholder="xxxx" @focus="selectContent" @keydown="triggerSpace" @keyup="validateLength4" />
         <span class="time">&nbsp;</span>
-        <input class="time" autocomplete="off" @element="hourEl" placeholder="xx" @focus="selectContent" @keydown="triggerSemiCol" @keyup="validateLength2"/>
+        <input class="time" inputmode="numeric" pattern="[0-9]*" autocomplete="off" @element="hourEl" placeholder="xx" @focus="selectContent" @keydown="triggerSemiCol" @keyup="validateLength2"/>
         <span class="time">:</span>
-        <input class="time" autocomplete="off" @element="minuteEl" placeholder="xx" @focus="selectContent" />
+        <input class="time" inputmode="numeric" pattern="[0-9]*" autocomplete="off" @element="minuteEl" placeholder="xx" @focus="selectContent" />
     </div>
     <slot name="append"></slot>
     <mi-icon class="clear-icon touch" icon="close" @press="clearValue" tabindex="-1" @focus="preventFocus"></mi-icon>

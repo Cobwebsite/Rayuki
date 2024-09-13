@@ -44,6 +44,7 @@
 		margin-bottom: 5px;
 		margin-left: 3px;
         cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
 	}
 
 	.input {
@@ -53,7 +54,6 @@
 		border-radius: var(--_input-date-border-radius);
 		display: flex;
 		height: var(--_input-date-height);
-		overflow: hidden;
 		padding: 0 10px;
 		width: 100%;
 
