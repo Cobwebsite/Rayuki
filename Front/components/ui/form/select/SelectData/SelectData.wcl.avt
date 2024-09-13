@@ -32,6 +32,21 @@ namespace Components {
 
 
         //#region methods
+        protected override compare(item1: T | undefined, item2: T | undefined): boolean {
+            if(item1 === undefined && item2 === undefined) {
+                return true;
+            }
+            if(item1 === undefined || item2 === undefined) {
+                return false;
+            }
+            if(typeof item1 == 'number') {
+                return item1 == item2;
+            }
+            const key1 = this.defineRam().getId(item1 as U);
+            const key2 = this.defineRam().getId(item2 as U);
+            return key1 == key2;
+        }
+
         /**
          * @inheritdoc
          */
@@ -39,20 +54,29 @@ namespace Components {
             return option.innerHTML;
         }
 
-
         protected async createOptions() {
             this.loading = true;
             this.data = await this.loadData();
             if(this.txt_undefined !== undefined) {
-                let option = new OptionData();
+                let option = new OptionData<T>();
                 option.value = undefined;
+                if(this.compare(option.value, this.value)) {
+                    this.selectedOption = option;
+                    this.displayValue = this.itemToText(option);
+                    this.filter();
+                }
                 option.innerHTML = this.txt_undefined === "" ? "&nbsp;" : this.txt_undefined;
                 this.appendChild(option);
             }
             for(let item of this.data) {
-                let option = new OptionData();
+                let option = new OptionData<T>();
                 option.value = await this.optionValue(item);
                 option.innerHTML = await this.optionText(item);
+                if(this.compare(option.value, this.value)) {
+                    this.selectedOption = option;
+                    this.displayValue = this.itemToText(option);
+                    this.filter();
+                }
                 this.appendChild(option);
             }
             this.loading = false;
@@ -93,13 +117,14 @@ namespace Components {
         }
 
         @BindThis()
-        protected onDeleted(item: Aventus.RamItem<U>) {
+        protected async onDeleted(item: Aventus.RamItem<U>) {
             for(let i = 0; i < this.options.length; i++) {
                 let option = this.options[i];
-                if(option.value == this.optionValue(item)) {
+                let value = await this.optionValue(item);
+                if(this.compare(option.value, value)) {
                     this.options.splice(i, 1);
                     option.remove();
-                    if(this.value == this.optionValue(item)) {
+                    if(this.compare(this.value, value)) {
                         this.value = undefined;
                     }
                 }
@@ -110,7 +135,7 @@ namespace Components {
         protected async onUpdated(item: Aventus.RamItem<U>) {
             for(let i = 0; i < this.options.length; i++) {
                 let option = this.options[i];
-                if(option.value == this.optionValue(item)) {
+                if(this.compare(option.value, await this.optionValue(item))) {
                     option.innerHTML = await this.optionText(item);
                 }
             }

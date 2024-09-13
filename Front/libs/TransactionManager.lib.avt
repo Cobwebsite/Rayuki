@@ -1,7 +1,6 @@
 import { MainRouter } from "../generated/Routes/MainRouter.lib.avt";
 import { CoreError, CoreErrorCode } from "../generated/Tools/CoreErrors.lib.avt";
 import { TransactionCancelledEvent } from "../generated/Websocket/Events/TransactionEvent.lib.avt";
-import { MainEndPoint } from "../generated/Websocket/MainEndPoint.lib.avt";
 import { Platform } from "./Platform.lib.avt";
 
 namespace Lib {

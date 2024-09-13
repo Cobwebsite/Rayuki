@@ -1073,6 +1073,9 @@ let Watcher=class Watcher {
                     element.__validatePath();
                     let oldPath = element.__path ?? '';
                     let unbindElement = getValueFromObject(oldPath, root);
+                    if (unbindElement === undefined) {
+                        return element;
+                    }
                     if (receiver == null) {
                         receiver = getValueFromObject(target.__path, realProxy);
                         if (internalAliases[fullInternalPath]) {
@@ -1260,8 +1263,9 @@ let Watcher=class Watcher {
                     };
                 }
                 else if (prop == "getTarget") {
-                    return () => {
-                        clearReservedNames(target);
+                    return (clear = true) => {
+                        if (clear)
+                            clearReservedNames(target);
                         return target;
                     };
                 }
@@ -1737,9 +1741,9 @@ let Watcher=class Watcher {
     static is(obj) {
         return typeof obj == 'object' && obj.__isProxy;
     }
-    static extract(obj) {
+    static extract(obj, clearPath = false) {
         if (this.is(obj)) {
-            return obj.getTarget();
+            return obj.getTarget(clearPath);
         }
         else {
             if (obj instanceof Object) {
@@ -1841,14 +1845,24 @@ let compareObject=function compareObject(obj1, obj2) {
         if (typeof obj2 !== 'object' || obj2 === undefined || obj2 === null) {
             return false;
         }
+        if (obj1 == obj2) {
+            return true;
+        }
         if (obj1 instanceof HTMLElement || obj2 instanceof HTMLElement) {
-            return obj1 == obj2;
+            return false;
         }
         if (obj1 instanceof Date || obj2 instanceof Date) {
             return obj1.toString() === obj2.toString();
         }
-        obj1 = Watcher.extract(obj1);
-        obj2 = Watcher.extract(obj2);
+        let oneProxy = false;
+        if (Watcher.is(obj1)) {
+            oneProxy = true;
+            obj1 = Watcher.extract(obj1, false);
+        }
+        if (Watcher.is(obj2)) {
+            oneProxy = true;
+            obj2 = Watcher.extract(obj2, false);
+        }
         if (obj1 instanceof Map && obj2 instanceof Map) {
             if (obj1.size != obj2.size) {
                 return false;
@@ -1869,6 +1883,9 @@ let compareObject=function compareObject(obj1, obj2) {
                 return false;
             }
             for (let key in obj1) {
+                if (oneProxy && Watcher['__reservedName'][key]) {
+                    continue;
+                }
                 if (!(key in obj2)) {
                     return false;
                 }
@@ -7493,6 +7510,9 @@ WebSocket.Connection=class Connection {
         if (options.autoStart === undefined) {
             options.autoStart = true;
         }
+        if (options.sendPing !== undefined && options.sendPing <= 0) {
+            options.sendPing = undefined;
+        }
         return options;
     }
     /**
@@ -7606,7 +7626,7 @@ WebSocket.Connection=class Connection {
                         message.data = JSON.stringify(options.body, this.jsonReplacer);
                     }
                 }
-                else {
+                else if (options.channel != "/ping") {
                     this.log(message);
                 }
                 this.socket.send(JSON.stringify(message));
@@ -7689,6 +7709,21 @@ WebSocket.Connection=class Connection {
         }
         return false;
     }
+    sendPingTimeout = 0;
+    sendPing() {
+        this.sendMessage({
+            channel: "/ping",
+        });
+    }
+    startPing() {
+        clearInterval(this.sendPingTimeout);
+        this.sendPingTimeout = setInterval(() => {
+            this.sendPing();
+        }, 5000);
+    }
+    stopPing() {
+        clearInterval(this.sendPingTimeout);
+    }
     _onOpen() {
         if (this.socket?.isReady()) {
             if (this.openCallback) {
@@ -7701,6 +7736,9 @@ WebSocket.Connection=class Connection {
                 this.sendMessage(this.memoryBeforeOpen[i]);
             }
             this.memoryBeforeOpen = [];
+            if (this.options.sendPing) {
+                this.startPing();
+            }
         }
         else {
             if (this.openCallback) {
@@ -7721,6 +7759,7 @@ WebSocket.Connection=class Connection {
         this.onError.trigger([event]);
     }
     _onClose(event) {
+        this.stopPing();
         if (this.errorOccur) {
             this.errorOccur = false;
             return;
@@ -7817,6 +7856,7 @@ WebSocket.EndPoint=class EndPoint extends WebSocket.Connection {
      */
     configure(options) {
         options.socketName = this.path;
+        options.sendPing = 5000;
         return options;
     }
     get path() {

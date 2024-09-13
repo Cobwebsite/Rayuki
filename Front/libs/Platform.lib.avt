@@ -52,6 +52,9 @@ namespace Lib {
             if("standalone" in window.navigator && window.navigator.standalone) {
                 return true;
             }
+            else if(window.matchMedia('(display-mode: standalone)').matches) {
+                return true;
+            }
             return false;
         }
 

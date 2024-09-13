@@ -8,12 +8,12 @@ const _ = {};
 let System = {};
 _.System = {};
 let _n;
-let AppInfo=class AppInfo {
+let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Cave.AppInfo, Cave"; }
-    static Version = 1;
+    static Version = 2;
 }
 AppInfo.Namespace=`Cave`;
-AppInfo.$schema={};
+AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
 Aventus.Converter.register(AppInfo.Fullname, AppInfo);
 _.AppInfo=AppInfo;
 
@@ -301,12 +301,12 @@ const _ = {};
 let System = {};
 _.System = {};
 let _n;
-let AppInfo=class AppInfo {
+let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Suivi.AppInfo, Suivi"; }
-    static Version = 1;
+    static Version = 2;
 }
 AppInfo.Namespace=`Suivi`;
-AppInfo.$schema={};
+AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
 Aventus.Converter.register(AppInfo.Fullname, AppInfo);
 _.AppInfo=AppInfo;
 

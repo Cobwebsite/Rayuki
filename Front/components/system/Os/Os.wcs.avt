@@ -72,14 +72,33 @@
 		background-position: center center;
 		background-repeat: no-repeat;
 		background-size: 25% 25%;
+		filter: brightness(0.8);
 		inset: -20px;
 		position: absolute;
 		z-index: 0;
-		filter: brightness(0.8);
 	}
 
 	rk-notification-manager {
 		bottom: 60px;
+	}
+
+	.no-connection {
+		align-items: center;
+		animation-duration: 2s;
+		animation-iteration-count: infinite;
+		animation-name: blink;
+		background-color: var(--warning);
+		border-radius: var(--border-radius-sm);
+		box-shadow: var(--elevation-3);
+		color: var(--text-color-warning);
+		display: none;
+		font-size: var(--font-size-md);
+		gap: 10px;
+		padding: 5px 15px;
+		position: absolute;
+		right: 15px;
+		top: 15px;
+		z-index: 9999999;
 	}
 }
 
@@ -140,5 +159,38 @@
 
 	.add-desktop {
 		display: block;
+	}
+}
+
+:host([no_connection]) {
+	.no-connection {
+		display: flex;
+	}
+}
+
+@keyframes blink {
+	0% {
+		background-color: var(--warning);
+		color: var(--text-color-warning);
+	}
+
+	1% {
+		background-color: var(--text-color-warning);
+		color: var(--warning);
+	}
+
+	50% {
+		background-color: var(--text-color-warning);
+		color: var(--warning);
+	}
+
+	51% {
+		background-color: var(--warning);
+		color: var(--text-color-warning);
+	}
+
+	100% {
+		background-color: var(--warning);
+		color: var(--text-color-warning);
 	}
 }

@@ -12,7 +12,7 @@ namespace Core.Logic
 {
     public class ApplicationDM : DatabaseDM<ApplicationDM, ApplicationData>
     {
-        private IExistBuilder<ApplicationData>? CreateIfNotExistQuery = null;
+        private IQueryBuilder<ApplicationData>? CreateIfNotExistQuery = null;
 
         public VoidWithError RegisterApplication(RayukiApp app)
         {
@@ -66,23 +66,24 @@ namespace Core.Logic
             VoidWithError result = new();
             if (CreateIfNotExistQuery == null)
             {
-                CreateIfNotExistQuery = CreateExist<ApplicationData>().WhereWithParameters(a => a.Name == application.Name);
+                CreateIfNotExistQuery = CreateQuery<ApplicationData>().WhereWithParameters(a => a.Name == application.Name);
             }
-            ResultWithError<bool> queryResult = CreateIfNotExistQuery.Prepare(application).RunWithError();
+            ResultWithError<ApplicationData> queryResult = CreateIfNotExistQuery.Prepare(application).SingleWithError();
             if (!queryResult.Success && queryResult.Errors.Count > 0)
             {
                 result.Errors.AddRange(queryResult.Errors);
                 return result;
             }
-            if (queryResult.Result)
+            if (queryResult.Result != null)
             {
-                return result;
+                if (queryResult.Result.Version != application.Version)
+                {
+                    queryResult.Result.Version = application.Version;
+                    result.Run(() => UpdateWithError(queryResult.Result));
+                }
             }
-
-            ResultWithError<ApplicationData> createResult = CreateWithError(application);
-            if (!createResult.Success)
-            {
-                result.Errors.AddRange(createResult.Errors);
+            else {
+                    result.Run(() => CreateWithError(application));
             }
             return result;
         }

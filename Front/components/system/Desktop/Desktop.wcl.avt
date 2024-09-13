@@ -16,7 +16,6 @@ import type { DesktopData } from "../../../libs/TypeMapper.lib.avt";
 import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
 import { Platform } from "../../../libs/Platform.lib.avt";
 import type { IDesktopActivable } from "./IActivable.lib.avt";
-import { MainEndPoint } from "../../../generated/Websocket/MainEndPoint.lib.avt";
 import { DesktopRouter } from "../../../generated/Websocket/Routes/DesktopRouter.lib.avt";
 import { ApplicationPermission, ApplicationPermissionQuery } from "../../../generated/Permissions/ApplicationPermission.lib.avt";
 import { Notification } from "../../ui/popup/Notification/Notification.wcl.avt";
@@ -94,6 +93,16 @@ namespace System {
                                 this.applications[name][id].resetSize();
                             }
                         }
+                    }
+                });
+            }
+            if(Platform.isStandalone) {
+                contextMenu.addItem({
+                    text: "Recharger la page",
+                    materialIcon: "refresh",
+                    priority: 3,
+                    action: () => {
+                        window.location.reload();
                     }
                 });
             }

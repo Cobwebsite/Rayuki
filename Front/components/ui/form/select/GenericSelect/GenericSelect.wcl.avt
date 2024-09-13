@@ -5,7 +5,7 @@ import { FormElement } from "../../FormElement/FormElement.wcl.avt";
 
 namespace Components {
     export type ExtractTypeOption<X extends GenericOption<U>, U> = X extends GenericOption<infer U> ? U : never;
-    
+
     export abstract class GenericSelect<T extends GenericOption<U>, U = ExtractTypeOption<T, any>> extends FormElement<U> implements Aventus.DefaultComponent {
 
         //#region static
@@ -68,11 +68,14 @@ namespace Components {
         //#region methods
         protected abstract itemToText(option: T): string;
 
+        protected compare(item1: U | undefined, item2: U | undefined) {
+            return item1 == item2;
+        }
         protected onInternalValueChanged() {
             if(!this.isConnected) return;
             let found = false;
             for(let option of this.options) {
-                if(option.value == this.value) {
+                if(this.compare(option.value, this.value)) {
                     found = true;
                     this.selectedOption = option;
                     this.displayValue = this.itemToText(option);

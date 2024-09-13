@@ -4,7 +4,7 @@ var Core;
 (function (Core) {
 const moduleName = `Core`;
 const _ = {};
-Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block;touch-action:manipulation;font-family:var(--font-family)}:host *{box-sizing:border-box;touch-action:manipulation}.touch{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}.touch.disable,.touch.disabled{cursor:default}.primary{background-color:var(--primary);color:var(--text-color-primary)}.text-primary{color:var(--primary)}.secondary{background-color:var(--secondary);color:var(--text-color-secondary)}.text-secondary{color:var(--secondary)}.green{background-color:var(--green);color:var(--text-color-green)}.text-green{color:var(--green)}.success{background-color:var(--success);color:var(--text-color-success)}.text-success{color:var(--success)}.red{background-color:var(--red);color:var(--text-color-red)}.text-red{color:var(--red)}.error{background-color:var(--error);color:var(--text-color-error)}.text-error{color:var(--error)}.orange{background-color:var(--orange);color:var(--text-color-orange)}.text-orange{color:var(--orange)}.warning{background-color:var(--warning);color:var(--text-color-warning)}.text-warning{color:var(--warning)}.blue{background-color:var(--blue);color:var(--text-color-blue)}.text-blue{color:var(--blue)}.information{background-color:var(--information);color:var(--text-color-information)}.text-information{color:var(--information)}`)
+Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block;touch-action:manipulation;font-family:var(--font-family)}:host .touch{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .touch.disable,:host .touch.disabled{cursor:default}:host .primary{background-color:var(--primary);color:var(--text-color-primary)}:host .text-primary{color:var(--primary)}:host .secondary{background-color:var(--secondary);color:var(--text-color-secondary)}:host .text-secondary{color:var(--secondary)}:host .green{background-color:var(--green);color:var(--text-color-green)}:host .text-green{color:var(--green)}:host .success{background-color:var(--success);color:var(--text-color-success)}:host .text-success{color:var(--success)}:host .red{background-color:var(--red);color:var(--text-color-red)}:host .text-red{color:var(--red)}:host .error{background-color:var(--error);color:var(--text-color-error)}:host .text-error{color:var(--error)}:host .orange{background-color:var(--orange);color:var(--text-color-orange)}:host .text-orange{color:var(--orange)}:host .warning{background-color:var(--warning);color:var(--text-color-warning)}:host .text-warning{color:var(--warning)}:host .blue{background-color:var(--blue);color:var(--text-color-blue)}:host .text-blue{color:var(--blue)}:host .information{background-color:var(--information);color:var(--text-color-information)}:host .text-information{color:var(--information)}:host *{box-sizing:border-box;touch-action:manipulation}`)
 let Lib = {};
 _.Lib = {};
 let Websocket = {};
@@ -1140,6 +1140,65 @@ Components.SheetSplitter.Tag=`rk-sheet-splitter`;
 _.Components.SheetSplitter=Components.SheetSplitter;
 if(!window.customElements.get('rk-sheet-splitter')){window.customElements.define('rk-sheet-splitter', Components.SheetSplitter);Aventus.WebComponentInstance.registerDefinition(Components.SheetSplitter);}
 
+Lib.DomTools=class DomTools {
+    static clearElement(element) {
+        const children = Array.from(element.children);
+        for (let child of children) {
+            child.remove();
+        }
+    }
+}
+Lib.DomTools.Namespace=`Core.Lib`;
+_.Lib.DomTools=Lib.DomTools;
+
+Lib.DateTools=class DateTools {
+    static isSameDate(date1, date2) {
+        if (date1 == null && date2 == null)
+            return true;
+        if (date1 == null || date2 == null)
+            return false;
+        return date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear();
+    }
+    static isSameDateTime(date1, date2) {
+        if (date1 == null && date2 == null)
+            return true;
+        if (date1 == null || date2 == null)
+            return false;
+        return date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear() && date1.getHours() == date2.getHours() && date1.getMinutes() == date2.getMinutes();
+    }
+    static print(date, options, locale) {
+        if (!options) {
+            options = {
+                year: "numeric",
+                month: "long",
+                day: "2-digit"
+            };
+        }
+        return date.toLocaleDateString(locale, options);
+    }
+    static _localMonths = [];
+    static getMonthsName() {
+        if (this._localMonths.length == 0) {
+            for (let i = 0; i < 12; i++) {
+                this._localMonths.push(this.print(new Date(2024, i, 15), { month: "long" }));
+            }
+        }
+        return this._localMonths;
+    }
+}
+Lib.DateTools.Namespace=`Core.Lib`;
+_.Lib.DateTools=Lib.DateTools;
+
+System.ApplicationBreakPoint=class ApplicationBreakPoint {
+    static xs = 300;
+    static sm = 540;
+    static md = 720;
+    static lg = 960;
+    static xl = 1140;
+}
+System.ApplicationBreakPoint.Namespace=`Core.System`;
+_.System.ApplicationBreakPoint=System.ApplicationBreakPoint;
+
 Components.PwaPromptIos = class PwaPromptIos extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
     set 'visible'(val) { this.setBoolAttr('visible', val) }    static get isStandalone() {
@@ -1212,65 +1271,6 @@ Components.PwaPromptIos.Namespace=`Core.Components`;
 Components.PwaPromptIos.Tag=`rk-pwa-prompt-ios`;
 _.Components.PwaPromptIos=Components.PwaPromptIos;
 if(!window.customElements.get('rk-pwa-prompt-ios')){window.customElements.define('rk-pwa-prompt-ios', Components.PwaPromptIos);Aventus.WebComponentInstance.registerDefinition(Components.PwaPromptIos);}
-
-Lib.DomTools=class DomTools {
-    static clearElement(element) {
-        const children = Array.from(element.children);
-        for (let child of children) {
-            child.remove();
-        }
-    }
-}
-Lib.DomTools.Namespace=`Core.Lib`;
-_.Lib.DomTools=Lib.DomTools;
-
-Lib.DateTools=class DateTools {
-    static isSameDate(date1, date2) {
-        if (date1 == null && date2 == null)
-            return true;
-        if (date1 == null || date2 == null)
-            return false;
-        return date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear();
-    }
-    static isSameDateTime(date1, date2) {
-        if (date1 == null && date2 == null)
-            return true;
-        if (date1 == null || date2 == null)
-            return false;
-        return date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear() && date1.getHours() == date2.getHours() && date1.getMinutes() == date2.getMinutes();
-    }
-    static print(date, options, locale) {
-        if (!options) {
-            options = {
-                year: "numeric",
-                month: "long",
-                day: "2-digit"
-            };
-        }
-        return date.toLocaleDateString(locale, options);
-    }
-    static _localMonths = [];
-    static getMonthsName() {
-        if (this._localMonths.length == 0) {
-            for (let i = 0; i < 12; i++) {
-                this._localMonths.push(this.print(new Date(2024, i, 15), { month: "long" }));
-            }
-        }
-        return this._localMonths;
-    }
-}
-Lib.DateTools.Namespace=`Core.Lib`;
-_.Lib.DateTools=Lib.DateTools;
-
-System.ApplicationBreakPoint=class ApplicationBreakPoint {
-    static xs = 300;
-    static sm = 540;
-    static md = 720;
-    static lg = 960;
-    static xl = 1140;
-}
-System.ApplicationBreakPoint.Namespace=`Core.System`;
-_.System.ApplicationBreakPoint=System.ApplicationBreakPoint;
 
 Lib.Pointer=class Pointer {
     static isTouch(e) {
@@ -4380,6 +4380,9 @@ Lib.Platform=class Platform {
     }
     static get isStandalone() {
         if ("standalone" in window.navigator && window.navigator.standalone) {
+            return true;
+        }
+        else if (window.matchMedia('(display-mode: standalone)').matches) {
             return true;
         }
         return false;
@@ -8230,17 +8233,22 @@ System.Application = class Application extends Aventus.WebComponent {
                 resultWithError.errors.push(new Errors.CoreError(Errors.CoreErrorCode.TransactionGuidMissmatch, "La transaction n'est plus active"));
             }
             else {
-                resultWithError.result = await fct(async (fct, ...args) => {
-                    const queryResult = await fct(...args);
-                    if (queryResult.errors.length > 0) {
-                        for (let error of queryResult.errors) {
-                            resultWithError.errors.push(error);
+                try {
+                    resultWithError.result = await fct(async (fct, ...args) => {
+                        const queryResult = await fct(...args);
+                        if (queryResult.errors.length > 0) {
+                            for (let error of queryResult.errors) {
+                                resultWithError.errors.push(error);
+                            }
                         }
-                    }
-                    if (queryResult instanceof Aventus.ResultWithError)
-                        return queryResult.result;
-                    return undefined;
-                });
+                        if (queryResult instanceof Aventus.ResultWithError)
+                            return queryResult.result;
+                        return undefined;
+                    });
+                }
+                catch (e) {
+                    resultWithError.errors.push(new Errors.CoreError(Errors.CoreErrorCode.UnknowError, e));
+                }
                 if (resultWithError.success) {
                     const commitResult = await Lib.TransactionManager.commit(beginResult.result);
                     resultWithError.errors = [...resultWithError.errors, ...commitResult.errors];
@@ -8568,6 +8576,16 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
                             this.applications[name][id].resetSize();
                         }
                     }
+                }
+            });
+        }
+        if (Lib.Platform.isStandalone) {
+            contextMenu.addItem({
+                text: "Recharger la page",
+                materialIcon: "refresh",
+                priority: 3,
+                action: () => {
+                    window.location.reload();
                 }
             });
         }
@@ -8937,11 +8955,130 @@ System.Desktop.Tag=`rk-desktop`;
 _.System.Desktop=System.Desktop;
 if(!window.customElements.get('rk-desktop')){window.customElements.define('rk-desktop', System.Desktop);Aventus.WebComponentInstance.registerDefinition(System.Desktop);}
 
+Lib.PWA=class PWA {
+    static get isAvailable() {
+        if (window['deferredPrompt']) {
+            return true;
+        }
+        return false;
+    }
+    static get isAvailableIOS() {
+        return Lib.Platform.isiOS && !Lib.Platform.isStandalone;
+    }
+    static e;
+    static isInit = false;
+    static startInstall;
+    static onInit = new Aventus.Callback();
+    static onDownloading = new Aventus.Callback();
+    static onDownloaded = new Aventus.Callback();
+    static async init() {
+        if (this.isInit) {
+            return;
+        }
+        if (!this.e && Lib.PWA.isAvailable) {
+            this.e = window['deferredPrompt'];
+            let result = this.onInit.trigger([]);
+            this.isInit = true;
+        }
+        else if (Lib.PWA.isAvailableIOS) {
+            let result = this.onInit.trigger([]);
+            this.isInit = true;
+        }
+        if (this.isInit) {
+            window.addEventListener('appinstalled', async (evt) => {
+                let now = new Date();
+                let start = this.startInstall ?? new Date();
+                let diffMs = now.getTime() - start.getTime();
+                if (diffMs < 3000) {
+                    await Aventus.sleep(3000 - diffMs);
+                }
+                this.onDownloaded.trigger([]);
+            });
+        }
+    }
+    static addOnInit(cb) {
+        if (this.isInit) {
+            cb();
+        }
+        else {
+            this.onInit.add(cb);
+        }
+    }
+    static async download() {
+        if (this.isAvailable && this.e) {
+            this.e.prompt();
+            const choiceResult = await this.e.userChoice;
+            if (choiceResult.outcome === 'accepted') {
+                this.startInstall = new Date();
+                this.onDownloading.trigger([]);
+            }
+        }
+        else if (this.isAvailableIOS) {
+            let pwaios = new Components.PwaPromptIos();
+            document.body.appendChild(pwaios);
+        }
+    }
+}
+Lib.PWA.Namespace=`Core.Lib`;
+_.Lib.PWA=Lib.PWA;
+
+System.PwaButton = class PwaButton extends Aventus.WebComponent {
+    get 'visible'() { return this.getBoolAttr('visible') }
+    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'downloading'() { return this.getBoolAttr('downloading') }
+    set 'downloading'(val) { this.setBoolAttr('downloading', val) }    static __style = `:host{align-items:center;background-color:var(--darker);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-2);display:none;height:30px;justify-content:center;padding:5px;width:30px}:host .download{display:inline-block}:host .sync{display:none}:host .rotate{animation-name:rotate;animation-duration:1.5s;animation-iteration-count:infinite;animation-timing-function:linear;animation-direction:reverse}:host([visible]){display:flex !important}:host([downloading]) .download{display:none}:host([downloading]) .sync{display:inline-block}@keyframes rotate{0%{transform:rotate(0)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}`;
+    __getStatic() {
+        return PwaButton;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(PwaButton.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<mi-icon icon="download" class="download"></mi-icon><mi-icon icon="sync" class="sync rotate"></mi-icon><slot></slot>` }
+    });
+}
+    getClassName() {
+        return "PwaButton";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('downloading')) { this.attributeChangedCallback('downloading', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('downloading'); }
+    __listBoolProps() { return ["visible","downloading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    async init() {
+        Lib.PWA.addOnInit(async () => {
+            this.visible = true;
+            new Aventus.PressManager({
+                element: this,
+                onPress: () => {
+                    Lib.PWA.download();
+                }
+            });
+        });
+        Lib.PWA.onDownloading.add(async () => {
+            this.downloading = true;
+        });
+        Lib.PWA.onDownloaded.add(async () => {
+            this.remove();
+        });
+    }
+    postCreation() {
+        this.classList.add("touch");
+        this.init();
+    }
+}
+System.PwaButton.Namespace=`Core.System`;
+System.PwaButton.Tag=`rk-pwa-button`;
+_.System.PwaButton=System.PwaButton;
+if(!window.customElements.get('rk-pwa-button')){window.customElements.define('rk-pwa-button', System.PwaButton);Aventus.WebComponentInstance.registerDefinition(System.PwaButton);}
+
 System.Os = class Os extends Aventus.WebComponent {
     static get observedAttributes() {return ["desktop_list", "show_application_list", "active_desktop"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'loading'() { return this.getBoolAttr('loading') }
     set 'loading'(val) { this.setBoolAttr('loading', val) }get 'ready'() { return this.getBoolAttr('ready') }
-    set 'ready'(val) { this.setBoolAttr('ready', val) }    get 'desktop_list'() { return this.getBoolProp('desktop_list') }
+    set 'ready'(val) { this.setBoolAttr('ready', val) }get 'no_connection'() { return this.getBoolAttr('no_connection') }
+    set 'no_connection'(val) { this.setBoolAttr('no_connection', val) }    get 'desktop_list'() { return this.getBoolProp('desktop_list') }
     set 'desktop_list'(val) { this.setBoolAttr('desktop_list', val) }get 'show_application_list'() { return this.getBoolProp('show_application_list') }
     set 'show_application_list'(val) { this.setBoolAttr('show_application_list', val) }get 'active_desktop'() { return this.getNumberProp('active_desktop') }
     set 'active_desktop'(val) { this.setNumberAttr('active_desktop', val) }    get 'desktops'() {
@@ -8973,7 +9110,7 @@ System.Os = class Os extends Aventus.WebComponent {
 }));this.__addPropertyActions("active_desktop", ((target) => {
     target.onActiveDesktop();
 })); }
-    static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;width:100%}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:var(--border-radius-round);cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;width:40px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;display:none;height:50px;min-width:auto;position:absolute;right:10px;z-index:6}:host rk-loading{opacity:0;visibility:hidden}:host .background{background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:25% 25%;inset:-20px;position:absolute;z-index:0;filter:brightness(0.8)}:host rk-notification-manager{bottom:60px}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:max-content;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:var(--border-radius-sm)}:host([desktop_list]) .add-desktop{display:block}`;
+    static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;width:100%}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:var(--border-radius-round);cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;width:40px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;display:none;height:50px;min-width:auto;position:absolute;right:10px;z-index:6}:host rk-loading{opacity:0;visibility:hidden}:host .background{background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:25% 25%;filter:brightness(0.8);inset:-20px;position:absolute;z-index:0}:host rk-notification-manager{bottom:60px}:host .no-connection{align-items:center;animation-duration:2s;animation-iteration-count:infinite;animation-name:blink;background-color:var(--warning);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);color:var(--text-color-warning);display:none;font-size:var(--font-size-md);gap:10px;padding:5px 15px;position:absolute;right:15px;top:15px;z-index:9999999}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:max-content;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:var(--border-radius-sm)}:host([desktop_list]) .add-desktop{display:block}:host([no_connection]) .no-connection{display:flex}@keyframes blink{0%{background-color:var(--warning);color:var(--text-color-warning)}1%{background-color:var(--text-color-warning);color:var(--warning)}50%{background-color:var(--text-color-warning);color:var(--warning)}51%{background-color:var(--warning);color:var(--text-color-warning)}100%{background-color:var(--warning);color:var(--text-color-warning)}}`;
     constructor() {            super();            System.Os.instance = this;            Lib.ApplicationManager.reloadData();this.desktopMoveLeft=this.desktopMoveLeft.bind(this)this.desktopMoveRight=this.desktopMoveRight.bind(this)this.desktopMoveValidate=this.desktopMoveValidate.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this) }
     __getStatic() {
         return Os;
@@ -8985,7 +9122,7 @@ System.Os = class Os extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="background"></div><rk-app-list _id="os_0"></rk-app-list><rk-loading text="Chargement du système" background></rk-loading><rk-scrollable y_scroll="false" disable _id="os_1">    <div class="desktop-container">        <template _id="os_2"></template>    </div></rk-scrollable><rk-button-icon class="add-desktop" icon="/img/icons/add.svg" color="blue"></rk-button-icon><rk-notification-manager _id="os_6"></rk-notification-manager>` }
+        blocks: { 'default':`<div class="background"></div><rk-app-list _id="os_0"></rk-app-list><rk-loading text="Chargement du système" background></rk-loading><rk-scrollable y_scroll="false" disable _id="os_1">    <div class="desktop-container">        <template _id="os_2"></template>    </div></rk-scrollable><rk-button-icon class="add-desktop" icon="/img/icons/add.svg" color="blue"></rk-button-icon><rk-notification-manager _id="os_6"></rk-notification-manager><div class="no-connection">    <mi-icon icon="warning"></mi-icon>    <span>Hors-ligne</span></div>` }
     });
 }
     get desktopsEl () { var list = Array.from(this.shadowRoot.querySelectorAll('[_id="os_5"]')); return list; }    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -9046,10 +9183,10 @@ System.Os = class Os extends Aventus.WebComponent {
     getClassName() {
         return "Os";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('ready')) { this.attributeChangedCallback('ready', false, false); }if(!this.hasAttribute('desktop_list')) { this.attributeChangedCallback('desktop_list', false, false); }if(!this.hasAttribute('show_application_list')) { this.attributeChangedCallback('show_application_list', false, false); }if(!this.hasAttribute('active_desktop')){ this['active_desktop'] = 0; } }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('ready')) { this.attributeChangedCallback('ready', false, false); }if(!this.hasAttribute('no_connection')) { this.attributeChangedCallback('no_connection', false, false); }if(!this.hasAttribute('desktop_list')) { this.attributeChangedCallback('desktop_list', false, false); }if(!this.hasAttribute('show_application_list')) { this.attributeChangedCallback('show_application_list', false, false); }if(!this.hasAttribute('active_desktop')){ this['active_desktop'] = 0; } }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["desktops"] = []; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('activeDesktop');this.__upgradeProperty('loading');this.__upgradeProperty('ready');this.__upgradeProperty('desktop_list');this.__upgradeProperty('show_application_list');this.__upgradeProperty('active_desktop');this.__correctGetter('desktops'); }
-    __listBoolProps() { return ["loading","ready","desktop_list","show_application_list"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('activeDesktop');this.__upgradeProperty('loading');this.__upgradeProperty('ready');this.__upgradeProperty('no_connection');this.__upgradeProperty('desktop_list');this.__upgradeProperty('show_application_list');this.__upgradeProperty('active_desktop');this.__correctGetter('desktops'); }
+    __listBoolProps() { return ["loading","ready","no_connection","desktop_list","show_application_list"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     onActiveDesktop() {
         this.style.setProperty("--_active-desktop", this.active_desktop + "");
         if (this.activeDesktopEl) {
@@ -9280,7 +9417,47 @@ System.Os = class Os extends Aventus.WebComponent {
             this.style.setProperty("--os-height", this.offsetHeight + 'px');
         }).observe(this);
     }
+    manageOffline() {
+        let timeout;
+        let interval;
+        let fetchNb = 0;
+        const pingIndex = async () => {
+            try {
+                // it's for server is up but you aren't connected
+                await fetch("/");
+                fetchNb++;
+                if (fetchNb == 2) {
+                    window.location.reload();
+                }
+            }
+            catch (e) {
+            }
+        };
+        const startPing = () => {
+            fetchNb = 0;
+            clearInterval(interval);
+            this.no_connection = true;
+            interval = setInterval(() => {
+                pingIndex();
+            }, 5000);
+        };
+        const stopPing = () => {
+            this.no_connection = false;
+            clearInterval(interval);
+        };
+        Lib.Platform.onDisconnect.add(() => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                startPing();
+            }, 6000);
+        });
+        Lib.Platform.onReconnect.add(() => {
+            clearTimeout(timeout);
+            stopPing();
+        });
+    }
     async startSocket() {
+        this.manageOffline();
         AventusSharp.WebSocket.Connection.Debug = true;
         await Websocket.MainEndPoint.getInstance().open();
         Lib.ApplicationManager.init();
@@ -9295,6 +9472,7 @@ System.Os = class Os extends Aventus.WebComponent {
         this.addSwitchDesktop();
         this.allowInstallApp();
         await this.systemLoading();
+        Lib.PWA.init();
     }
     postCreation() {
         super.postCreation();
@@ -10614,124 +10792,6 @@ System.AddOnTime.Tag=`rk-add-on-time`;
 _.System.AddOnTime=System.AddOnTime;
 if(!window.customElements.get('rk-add-on-time')){window.customElements.define('rk-add-on-time', System.AddOnTime);Aventus.WebComponentInstance.registerDefinition(System.AddOnTime);}
 
-Lib.PWA=class PWA {
-    static get isAvailable() {
-        if (window['deferredPrompt']) {
-            return true;
-        }
-        return false;
-    }
-    static get isAvailableIOS() {
-        return Lib.Platform.isiOS && !Lib.Platform.isStandalone;
-    }
-    static e;
-    static isInit = false;
-    static startInstall;
-    static onInit = new Aventus.Callback();
-    static onDownloading = new Aventus.Callback();
-    static onDownloaded = new Aventus.Callback();
-    static async init() {
-        if (this.isInit) {
-            return;
-        }
-        if (!this.e && Lib.PWA.isAvailable) {
-            this.e = window['deferredPrompt'];
-            let result = this.onInit.trigger([]);
-            this.isInit = true;
-        }
-        else if (Lib.PWA.isAvailableIOS) {
-            let result = this.onInit.trigger([]);
-            this.isInit = true;
-        }
-        if (this.isInit) {
-            window.addEventListener('appinstalled', async (evt) => {
-                let now = new Date();
-                let start = this.startInstall ?? new Date();
-                let diffMs = now.getTime() - start.getTime();
-                if (diffMs < 3000) {
-                    await Aventus.sleep(3000 - diffMs);
-                }
-                this.onDownloaded.trigger([]);
-            });
-        }
-    }
-    static addOnInit(cb) {
-        if (this.isInit) {
-            cb();
-        }
-        else {
-            this.onInit.add(cb);
-        }
-    }
-    static async download() {
-        if (this.isAvailable && this.e) {
-            this.e.prompt();
-            const choiceResult = await this.e.userChoice;
-            if (choiceResult.outcome === 'accepted') {
-                this.startInstall = new Date();
-                this.onDownloading.trigger([]);
-            }
-        }
-        else if (this.isAvailableIOS) {
-            let pwaios = new Components.PwaPromptIos();
-            document.body.appendChild(pwaios);
-        }
-    }
-}
-Lib.PWA.Namespace=`Core.Lib`;
-_.Lib.PWA=Lib.PWA;
-
-System.PwaButton = class PwaButton extends Aventus.WebComponent {
-    get 'visible'() { return this.getBoolAttr('visible') }
-    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'downloading'() { return this.getBoolAttr('downloading') }
-    set 'downloading'(val) { this.setBoolAttr('downloading', val) }    static __style = `:host{align-items:center;background-color:var(--darker);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-2);display:none;height:30px;justify-content:center;padding:5px;width:30px}:host .download{display:inline-block}:host .sync{display:none}:host .rotate{animation-name:rotate;animation-duration:1.5s;animation-iteration-count:infinite;animation-timing-function:linear;animation-direction:reverse}:host([visible]){display:flex !important}:host([downloading]) .download{display:none}:host([downloading]) .sync{display:inline-block}@keyframes rotate{0%{transform:rotate(0)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}`;
-    __getStatic() {
-        return PwaButton;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(PwaButton.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<mi-icon icon="download" class="download"></mi-icon><mi-icon icon="sync" class="sync rotate"></mi-icon><slot></slot>` }
-    });
-}
-    getClassName() {
-        return "PwaButton";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('downloading')) { this.attributeChangedCallback('downloading', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('downloading'); }
-    __listBoolProps() { return ["visible","downloading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    async init() {
-        Lib.PWA.addOnInit(async () => {
-            this.visible = true;
-            new Aventus.PressManager({
-                element: this,
-                onPress: () => {
-                    Lib.PWA.download();
-                }
-            });
-        });
-        Lib.PWA.onDownloading.add(async () => {
-            this.downloading = true;
-        });
-        Lib.PWA.onDownloaded.add(async () => {
-            this.remove();
-        });
-    }
-    postCreation() {
-        this.classList.add("touch");
-        this.init();
-    }
-}
-System.PwaButton.Namespace=`Core.System`;
-System.PwaButton.Tag=`rk-pwa-button`;
-_.System.PwaButton=System.PwaButton;
-if(!window.customElements.get('rk-pwa-button')){window.customElements.define('rk-pwa-button', System.PwaButton);Aventus.WebComponentInstance.registerDefinition(System.PwaButton);}
-
 Lib.FileSaver=class FileSaver {
     static bom(blob, opts) {
         if (typeof opts === 'undefined')
@@ -11869,6 +11929,8 @@ Components.PopupFormStorable = class PopupFormStorable extends Components.Generi
             super();
             this._form = new Components.VirtualForm();
             this._form.setForm(this.defineSchema());
+            this.onItemChange = this.onItemChange.bind(this);
+            this._form.onItemChange.add(this.onItemChange);
 if (this.constructor == PopupFormStorable) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return PopupFormStorable;
@@ -11890,6 +11952,8 @@ if (this.constructor == PopupFormStorable) { throw "can't instanciate an abstrac
     __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('item');this.__correctGetter('form'); }
     validate() {
         return this._form.validate();
+    }
+    onItemChange(action, path, value) {
     }
 }
 Components.PopupFormStorable.Namespace=`Core.Components`;
@@ -14973,12 +15037,15 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["displayValue"] = "";w["value"] = undefined; }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('open');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('searchable');this.__correctGetter('displayValue');this.__correctGetter('value'); }
     __listBoolProps() { return ["open","searchable"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    compare(item1, item2) {
+        return item1 == item2;
+    }
     onInternalValueChanged() {
         if (!this.isConnected)
             return;
         let found = false;
         for (let option of this.options) {
-            if (option.value == this.value) {
+            if (this.compare(option.value, this.value)) {
                 found = true;
                 this.selectedOption = option;
                 this.displayValue = this.itemToText(option);
@@ -15482,6 +15549,20 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('txt_undefined')){ this['txt_undefined'] = undefined; } }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading');this.__upgradeProperty('txt_undefined'); }
     __listBoolProps() { return ["loading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    compare(item1, item2) {
+        if (item1 === undefined && item2 === undefined) {
+            return true;
+        }
+        if (item1 === undefined || item2 === undefined) {
+            return false;
+        }
+        if (typeof item1 == 'number') {
+            return item1 == item2;
+        }
+        const key1 = this.defineRam().getId(item1);
+        const key2 = this.defineRam().getId(item2);
+        return key1 == key2;
+    }
     itemToText(option) {
         return option.innerHTML;
     }
@@ -15491,6 +15572,11 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
         if (this.txt_undefined !== undefined) {
             let option = new Components.OptionData();
             option.value = undefined;
+            if (this.compare(option.value, this.value)) {
+                this.selectedOption = option;
+                this.displayValue = this.itemToText(option);
+                this.filter();
+            }
             option.innerHTML = this.txt_undefined === "" ? "&nbsp;" : this.txt_undefined;
             this.appendChild(option);
         }
@@ -15498,6 +15584,11 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
             let option = new Components.OptionData();
             option.value = await this.optionValue(item);
             option.innerHTML = await this.optionText(item);
+            if (this.compare(option.value, this.value)) {
+                this.selectedOption = option;
+                this.displayValue = this.itemToText(option);
+                this.filter();
+            }
             this.appendChild(option);
         }
         this.loading = false;
@@ -15525,13 +15616,14 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
         this.appendChild(option);
         this.loadElementsFromSlot();
     }
-    onDeleted(item) {
+    async onDeleted(item) {
         for (let i = 0; i < this.options.length; i++) {
             let option = this.options[i];
-            if (option.value == this.optionValue(item)) {
+            let value = await this.optionValue(item);
+            if (this.compare(option.value, value)) {
                 this.options.splice(i, 1);
                 option.remove();
-                if (this.value == this.optionValue(item)) {
+                if (this.compare(this.value, value)) {
                     this.value = undefined;
                 }
             }
@@ -15540,7 +15632,7 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
     async onUpdated(item) {
         for (let i = 0; i < this.options.length; i++) {
             let option = this.options[i];
-            if (option.value == this.optionValue(item)) {
+            if (this.compare(option.value, await this.optionValue(item))) {
                 option.innerHTML = await this.optionText(item);
             }
         }

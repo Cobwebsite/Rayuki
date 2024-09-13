@@ -44,7 +44,6 @@ namespace Lib {
 
             if(this.isInit) {
                 window.addEventListener('appinstalled', async (evt) => {
-
                     let now = new Date();
                     let start = this.startInstall ?? new Date();
                     let diffMs = now.getTime() - start.getTime();

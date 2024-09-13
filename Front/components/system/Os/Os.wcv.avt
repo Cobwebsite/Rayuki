@@ -16,3 +16,8 @@
 </rk-scrollable>
 <rk-button-icon class="add-desktop" icon="/img/icons/add.svg" color="blue"></rk-button-icon>
 <rk-notification-manager @element="notificationManager"></rk-notification-manager>
+
+<div class="no-connection">
+    <mi-icon icon="warning"></mi-icon>
+    <span>Hors-ligne</span>
+</div>

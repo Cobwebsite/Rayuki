@@ -958,19 +958,24 @@ namespace System {
                     resultWithError.errors.push(new CoreError(CoreErrorCode.TransactionGuidMissmatch, "La transaction n'est plus active"));
                 }
                 else {
-                    resultWithError.result = await fct(async <T, A extends any[]>(
-                        fct: (...args: A) => Promise<ApplicationQueryFctResult<T>>,
-                        ...args: A
-                    ): Promise<T | undefined> => {
-                        const queryResult = await fct(...args);
-                        if(queryResult.errors.length > 0) {
-                            for(let error of queryResult.errors) {
-                                resultWithError.errors.push(error);
+                    try {
+                        resultWithError.result = await fct(async <T, A extends any[]>(
+                            fct: (...args: A) => Promise<ApplicationQueryFctResult<T>>,
+                            ...args: A
+                        ): Promise<T | undefined> => {
+                            const queryResult = await fct(...args);
+                            if(queryResult.errors.length > 0) {
+                                for(let error of queryResult.errors) {
+                                    resultWithError.errors.push(error);
+                                }
                             }
-                        }
-                        if(queryResult instanceof Aventus.ResultWithError) return queryResult.result;
-                        return undefined;
-                    });
+                            if(queryResult instanceof Aventus.ResultWithError) return queryResult.result;
+                            return undefined;
+                        });
+                    }
+                    catch(e) {
+                        resultWithError.errors.push(new CoreError(CoreErrorCode.UnknowError, e))
+                    }
 
                     if(resultWithError.success) {
                         const commitResult = await TransactionManager.commit(beginResult.result);

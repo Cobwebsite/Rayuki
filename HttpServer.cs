@@ -28,8 +28,8 @@ namespace Core
         public static readonly string Version = "1.0.0";
         public static bool resetStorage
         {
-            get => false;
-            // get => app.Environment.IsDevelopment();
+            // get => false;
+            get => app.Environment.IsDevelopment();
         }
 
         public static string wwwroot
@@ -38,8 +38,8 @@ namespace Core
         }
         public static bool IsDev
         {
-            get => false;
-            // get => app.Environment.IsDevelopment();
+            // get => false;
+            get => app.Environment.IsDevelopment();
         }
 
         public static bool IsAppManagement

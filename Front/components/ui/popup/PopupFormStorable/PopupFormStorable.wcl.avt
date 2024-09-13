@@ -30,20 +30,26 @@ namespace Components {
 
 
         //#region constructor
-		public constructor() {
+        public constructor() {
             super();
 
             this._form = new VirtualForm();
             this._form.setForm(this.defineSchema());
+            this.onItemChange = this.onItemChange.bind(this);
+            this._form.onItemChange.add(this.onItemChange);
         }
         //#endregion
 
 
         //#region methods
-		protected abstract defineSchema(): FormSchema<Partial<T>>;
+        protected abstract defineSchema(): FormSchema<Partial<T>>;
 
         protected validate(): Promise<boolean> {
             return this._form.validate();
+        }
+
+        protected onItemChange(action: Aventus.WatchAction, path: string, value: any) {
+
         }
         //#endregion
 

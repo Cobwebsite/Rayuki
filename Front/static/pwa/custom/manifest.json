@@ -49,5 +49,5 @@
     "display": "standalone",
     "orientation": "portrait",
     "scope": "/",
-    "start_url": "/pwa/custom/loading.html"
+    "start_url": "/pwa/loading.html"
 }

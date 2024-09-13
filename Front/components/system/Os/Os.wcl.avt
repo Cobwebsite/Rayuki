@@ -19,6 +19,7 @@ import { NotificationManager } from "../../ui/popup/NotificationManager/Notifica
 import type { Notification } from "../../ui/popup/Notification/Notification.wcl.avt";
 import { TransactionManager } from "../../../libs/TransactionManager.lib.avt";
 import { AppInstallPanel } from "../AppInstallPanel/AppInstallPanel.wcl.avt";
+import { PWA } from "../../../libs/Pwa.lib.avt";
 
 namespace System {
     export class Os extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -51,6 +52,9 @@ namespace System {
 
         @Attribute()
         public ready: boolean = false;
+
+        @Attribute()
+        public no_connection!: boolean;
 
         @Property((target: Os) => {
             target.onActiveDesktop();
@@ -360,7 +364,49 @@ namespace System {
             }).observe(this);
         }
 
+        private manageOffline() {
+            let timeout: number;
+            let interval: number;
+            let fetchNb = 0;
+            const pingIndex = async () => {
+                try {
+                    // it's for server is up but you aren't connected
+                    await fetch("/");
+                    fetchNb++;
+                    if(fetchNb == 2) {
+                        window.location.reload();
+                    }
+                } catch(e) {
+
+                }
+            };
+            const startPing = () => {
+                fetchNb = 0;
+                clearInterval(interval);
+                this.no_connection = true;
+                interval = setInterval(() => {
+                    pingIndex();
+                }, 5000);
+            };
+            const stopPing = () => {
+                this.no_connection = false;
+                clearInterval(interval);
+            };
+            Platform.onDisconnect.add(() => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    startPing();
+                }, 6000);
+            });
+
+            Platform.onReconnect.add(() => {
+                clearTimeout(timeout);
+                stopPing();
+            });
+        }
+
         private async startSocket() {
+            this.manageOffline();
             AventusSharp.WebSocket.Connection.Debug = true;
             await MainEndPoint.getInstance().open();
             ApplicationManager.init();
@@ -376,6 +422,7 @@ namespace System {
             this.addSwitchDesktop();
             this.allowInstallApp();
             await this.systemLoading();
+            PWA.init();
         }
 
         protected override postCreation(): void {

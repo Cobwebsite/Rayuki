@@ -6,6 +6,27 @@
 	display: inline-block;
 	touch-action: manipulation;
 	font-family: var(--font-family);
+
+	.touch {
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+	
+	.touch.disable,
+	.touch.disabled {
+		cursor: default;
+	}
+	
+	
+	@include eachColor using ($color) {
+		.#{$color} {
+			background-color: var(--#{$color});
+			color: var(--text-color-#{$color});
+		}
+		.text-#{$color} {
+			color: var(--#{$color});
+		}
+	}
 }
 
 
@@ -14,23 +35,3 @@
 	touch-action: manipulation;
 }
 
-.touch {
-	cursor: pointer;
-	-webkit-tap-highlight-color: transparent;
-}
-
-.touch.disable,
-.touch.disabled {
-	cursor: default;
-}
-
-
-@include eachColor using ($color) {
-	.#{$color} {
-		background-color: var(--#{$color});
-		color: var(--text-color-#{$color});
-	}
-	.text-#{$color} {
-		color: var(--#{$color});
-	}
-}
