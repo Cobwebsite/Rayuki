@@ -1185,6 +1185,77 @@ Lib.DateTools=class DateTools {
         }
         return this._localMonths;
     }
+    static getStartMonth(date) {
+        const start = new Date();
+        start.setTime(date.getTime());
+        start.setDate(1);
+        start.setHours(0);
+        start.setMinutes(0);
+        start.setSeconds(0);
+        start.setMilliseconds(0);
+        return start;
+    }
+    static getEndMonth(date) {
+        const end = this.getStartMonth(date);
+        end.setMonth(end.getMonth() + 1);
+        end.setDate(0);
+        end.setHours(23);
+        end.setMinutes(59);
+        end.setSeconds(59);
+        end.setMilliseconds(999);
+        return end;
+    }
+    static getStartWeek(date) {
+        const start = new Date();
+        start.setTime(date.getTime());
+        const day = start.getDay();
+        const diff = (day === 0) ? -6 : 1 - day;
+        const monday = start.getDate() + diff;
+        start.setDate(monday);
+        start.setHours(0);
+        start.setMinutes(0);
+        start.setSeconds(0);
+        start.setMilliseconds(0);
+        return start;
+    }
+    static getEndWeek(date) {
+        const end = this.getStartWeek(date);
+        end.setDate(end.getDate() + 7);
+        end.setHours(23);
+        end.setMinutes(59);
+        end.setSeconds(59);
+        end.setMilliseconds(999);
+        return end;
+    }
+    static getStartDay(date) {
+        const start = new Date();
+        start.setTime(date.getTime());
+        start.setHours(0);
+        start.setMinutes(0);
+        start.setSeconds(0);
+        start.setMilliseconds(0);
+        return start;
+    }
+    static getEndDay(date) {
+        const end = this.getStartDay(date);
+        end.setHours(23);
+        end.setMinutes(59);
+        end.setSeconds(59);
+        end.setMilliseconds(999);
+        return end;
+    }
+    static diffMinutes(d1, d2) {
+        const diffMs = Math.abs(d1.getTime() - d2.getTime());
+        return Math.floor(diffMs / (1000 * 60));
+    }
+    static diffHours(d1, d2) {
+        const diffMs = Math.abs(d1.getTime() - d2.getTime());
+        return Math.floor(diffMs / (1000 * 60 * 60));
+    }
+    static diffDays(d1, d2) {
+        const diffMs = Math.abs(d1.getTime() - d2.getTime());
+        return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    }
 }
 Lib.DateTools.Namespace=`Core.Lib`;
 _.Lib.DateTools=Lib.DateTools;
@@ -7242,7 +7313,7 @@ if (this.constructor == GenericPopup) { throw "can't instanciate an abstract cla
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="popup" _id="genericpopup_0">    <div class="header">        <div class="background"></div>        <div class="title" _id="genericpopup_1"></div>        <div class="application-actions">            <div class="btn red touch" _id="genericpopup_2"></div>        </div>    </div>    <div class="content">        <slot></slot>    </div></div>` }
+        blocks: { 'default':`<div class="popup" _id="genericpopup_0">    <div class="header">        <div class="background"></div>        <div class="title" _id="genericpopup_1"></div>        <div class="application-actions">            <div class="btn red touch" _id="genericpopup_2"></div>        </div>    </div>    <div class="content" _id="genericpopup_3">        <slot></slot>    </div></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -7251,6 +7322,12 @@ if (this.constructor == GenericPopup) { throw "can't instanciate an abstract cla
       "name": "popupEl",
       "ids": [
         "genericpopup_0"
+      ]
+    },
+    {
+      "name": "contentEl",
+      "ids": [
+        "genericpopup_3"
       ]
     }
   ],
@@ -7577,7 +7654,7 @@ System.Application = class Application extends Aventus.WebComponent {
 }));this.__addPropertyActions("is_hidden", ((target) => {
     target.onIsHiddenChange();
 })); }
-    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{backdrop-filter:blur(2px);background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;pointer-events:none;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:var(--border-radius-round);height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin-bottom:5px;overflow:hidden;width:100%;z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host rk-notification-manager{top:35px}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}:host rk-notification-manager{top:45px}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 45px)}:host rk-resize{display:none}:host rk-notification-manager{top:45px}:host([is_hidden]){left:0 !important;width:100% !important}}`;
+    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{backdrop-filter:blur(2px);background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;pointer-events:none;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:var(--border-radius-round);height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin-bottom:5px;overflow:hidden;width:100%;z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host rk-notification-manager{top:35px}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;--app-height: var(--os-height) !important;left:0 !important;top:0 !important;--app-width: var(--os-width) !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}:host rk-notification-manager{top:45px}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 45px)}:host rk-resize{display:none}:host rk-notification-manager{top:45px}:host([is_hidden]){left:0 !important;width:100% !important}}`;
     constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);            this.shortcutManager = new System.ApplicationShortcut(this);            this.shortcutManager.init();if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.onContextMenuContent=this.onContextMenuContent.bind(this)this.onContextMenuHeader=this.onContextMenuHeader.bind(this)this.validError404=this.validError404.bind(this)this.showErrorNotAllowed=this.showErrorNotAllowed.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this)this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)this.moveApplicationToRight=this.moveApplicationToRight.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this)this.notify=this.notify.bind(this)this.popupErrors=this.popupErrors.bind(this)this.parseErrors=this.parseErrors.bind(this)this.execute=this.execute.bind(this)this.executeWithLoading=this.executeWithLoading.bind(this)this.showLoading=this.showLoading.bind(this)this.txExec=this.txExec.bind(this)this.txExecLoading=this.txExecLoading.bind(this) }
     __getStatic() {
         return Application;
@@ -8521,6 +8598,11 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
         return this._iconSize;
     }
     activableOrder = [];
+    get activeElement() {
+        if (this.activableOrder.length == 0)
+            return undefined;
+        return this.activableOrder[0];
+    }
     oldActiveCase;
     pressManagerStopMoveApp;
     static __style = `:host{--_desktop-background-color: var(--desktop-background-color, var(--primary-color))}:host{background-color:var(--_desktop-background-color);background-position:center;background-repeat:no-repeat;background-size:cover;flex-shrink:0;height:100%;overflow:hidden;position:relative;width:100%}:host .icons{--page-case-border-radius: var(--border-radius-sm);--page-case-border-active: 1px solid var(--darker-active);--page-case-background-active: var(--lighter-active);height:calc(100% - 70px);transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s;width:100%;z-index:2}:host .app-container{transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host([show_application_list])>*{opacity:0 !important;visibility:hidden !important}:host([background_size=Cover]){background-size:cover}:host([background_size=Contain]){background-size:contain}:host([background_size=Stretch]){background-size:100% 100%}`;
@@ -8565,7 +8647,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
         return "Desktop";
     }
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('show_application_list')) { this.attributeChangedCallback('show_application_list', false, false); }if(!this.hasAttribute('is_active')) { this.attributeChangedCallback('is_active', false, false); }if(!this.hasAttribute('background_size')){ this['background_size'] = Data.BackgroundSize[Data.BackgroundSize.Cover]; }if(!this.hasAttribute('desktop_id')){ this['desktop_id'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('iconSize');this.__upgradeProperty('show_application_list');this.__upgradeProperty('is_active');this.__upgradeProperty('background_size');this.__upgradeProperty('desktop_id'); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('iconSize');this.__correctGetter('activeElement');this.__upgradeProperty('show_application_list');this.__upgradeProperty('is_active');this.__upgradeProperty('background_size');this.__upgradeProperty('desktop_id'); }
     __listBoolProps() { return ["show_application_list","is_active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     onContextMenu(contextMenu, stop) {
         if (Object.keys(this.applications).length > 0) {
@@ -9466,7 +9548,32 @@ System.Os = class Os extends Aventus.WebComponent {
         Lib.ApplicationManager.init();
         Lib.TransactionManager.init();
     }
+    trapInOs() {
+        window.history.pushState({ _fileexplorer: 'back' }, document.title);
+        window.history.pushState({ _fileexplorer: 'main' }, document.title);
+        window.history.pushState({ _fileexplorer: 'forward' }, document.title);
+        window.history.back();
+        window.addEventListener('popstate', (e) => {
+            if (e.state && e.state._fileexplorer) {
+                if (e.state._fileexplorer === 'back') {
+                    window.history.forward();
+                    let element = this.activeDesktopEl.activeElement;
+                    if (element instanceof System.Application) {
+                        element.navigatePrevious();
+                    }
+                }
+                else if (e.state._fileexplorer === 'forward') {
+                    window.history.back();
+                    let element = this.activeDesktopEl.activeElement;
+                    if (element instanceof System.Application) {
+                        element.navigateNext();
+                    }
+                }
+            }
+        }, true);
+    }
     async init() {
+        this.trapInOs();
         this.addResizeObserver();
         await this.startSocket();
         Lib.Platform.init();
@@ -13590,6 +13697,10 @@ Lib.Color=class Color {
             this.currentColor = this.hsvaToRgba(value.h, value.s, value.v, value.a);
         }
     }
+    get isLight() {
+        const luminance = (0.299 * this.currentColor.r * this.currentColor.r + 0.587 * this.currentColor.g * this.currentColor.g + 0.114 * this.currentColor.b * this.currentColor.b);
+        return luminance > 16256;
+    }
     /**
      * Create a new color
      * @param {string} colorString - The color in hex or rgb format
@@ -14746,7 +14857,8 @@ if(!window.customElements.get('rk-calendar-container')){window.customElements.de
 
 Components.Input = class Input extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "icon_position", "value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'label'() { return this.getStringProp('label') }
+    get 'readonly'() { return this.getBoolAttr('readonly') }
+    set 'readonly'(val) { this.setBoolAttr('readonly', val) }    get 'label'() { return this.getStringProp('label') }
     set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
     set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
     set 'icon'(val) { this.setStringAttr('icon', val) }get 'icon_position'() { return this.getStringProp('icon_position') }
@@ -14754,7 +14866,7 @@ Components.Input = class Input extends Components.FormElement {
     set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
     target.inputEl.value = target.value ?? "";
 })); }
-    static __style = `:host{--_input-height: var(--input-height, 30px);--_input-background-color: var(--input-background-color, var(--form-element-background, white));--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{cursor:pointer;display:none;font-size:var(--_input-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-background-color);border:var(--_input-input-border);border-radius:var(--_input-border-radius);display:flex;height:var(--_input-height);overflow:hidden;padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-error-logo-size) - 5px);height:var(--_input-error-logo-size);justify-content:center;width:var(--_input-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([icon_position=right]) .input .icon{margin-right:0px;order:2}:host([icon_position=right]) .input .input{order:1}:host([icon_position=right]) .input .error-logo{margin-left:10px;order:3}:host([label]:not([label=""])) label{display:flex}`;
+    static __style = `:host{--_input-height: var(--input-height, 30px);--_input-background-color: var(--input-background-color, var(--form-element-background, white));--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0));--_input-readonly-background-color: var(--input-readonly-background-color, var(--form-element-background-readonly, var(--_input-background-color)));--_input-readonly-border: var(--input-readonly-border, var(--form-element-border-readonly, var(--_input-input-border)))}:host{min-width:100px;width:100%}:host label{cursor:pointer;display:none;font-size:var(--_input-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-background-color);border:var(--_input-input-border);border-radius:var(--_input-border-radius);display:flex;height:var(--_input-height);overflow:hidden;padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-error-logo-size) - 5px);height:var(--_input-error-logo-size);justify-content:center;width:var(--_input-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([icon_position=right]) .input .icon{margin-right:0px;order:2}:host([icon_position=right]) .input .input{order:1}:host([icon_position=right]) .input .error-logo{margin-left:10px;order:3}:host([label]:not([label=""])) label{display:flex}:host([readonly]){pointer-events:none}:host([readonly]) .input{background-color:var(--_input-readonly-background-color);border:var(--_input-readonly-border)}`;
     __getStatic() {
         return Input;
     }
@@ -14830,8 +14942,9 @@ Components.Input = class Input extends Components.FormElement {
     getClassName() {
         return "Input";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('icon_position')){ this['icon_position'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = ""; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('icon_position');this.__upgradeProperty('value'); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('readonly')) { this.attributeChangedCallback('readonly', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('icon_position')){ this['icon_position'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = ""; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('readonly');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('icon_position');this.__upgradeProperty('value'); }
+    __listBoolProps() { return ["readonly"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     removeErrors() {
         this.errors = [];
     }
@@ -14969,8 +15082,8 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<label for="input" _id="genericselect_0"></label><div class="input" _id="genericselect_1">    <rk-img class="icon" _id="genericselect_2"></rk-img>    <input id="input" autocomplete="off" _id="genericselect_3" />    <div class="error-logo">!</div>    <rk-img src="/img/icons/angle-left.svg" class="caret"></rk-img></div><div class="errors">    <template _id="genericselect_4"></template></div><div class="hidden">    <slot></slot></div><rk-options-container class="options-container" _id="genericselect_6"></rk-options-container>` }
+        slots: { 'prepend':`<slot name="prepend">        <rk-img class="icon" _id="genericselect_2"></rk-img>    </slot>`,'append':`<slot name="append"></slot>`,'default':`<slot></slot>` }, 
+        blocks: { 'default':`<label for="input" _id="genericselect_0"></label><div class="input" _id="genericselect_1">    <slot name="prepend">        <rk-img class="icon" _id="genericselect_2"></rk-img>    </slot>    <input id="input" autocomplete="off" _id="genericselect_3" />    <slot name="append"></slot>    <div class="error-logo">!</div>    <rk-img src="/img/icons/angle-left.svg" class="caret"></rk-img></div><div class="errors">    <template _id="genericselect_4"></template></div><div class="hidden">    <slot></slot></div><rk-options-container class="options-container" _id="genericselect_6"></rk-options-container>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -15294,31 +15407,6 @@ if (this.constructor == SelectEnum) { throw "can't instanciate an abstract class
 Components.SelectEnum.Namespace=`Core.Components`;
 _.Components.SelectEnum=Components.SelectEnum;
 
-Components.OptionData = class OptionData extends Components.GenericOption {
-    static __style = ``;
-    __getStatic() {
-        return OptionData;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(OptionData.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "OptionData";
-    }
-}
-Components.OptionData.Namespace=`Core.Components`;
-Components.OptionData.Tag=`rk-option-data`;
-_.Components.OptionData=Components.OptionData;
-if(!window.customElements.get('rk-option-data')){window.customElements.define('rk-option-data', Components.OptionData);Aventus.WebComponentInstance.registerDefinition(Components.OptionData);}
-
 Components.Option = class Option extends Components.GenericOption {
     static get observedAttributes() {return ["value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'value'() { return this.getStringProp('value') }
@@ -15570,14 +15658,23 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
         return key1 == key2;
     }
     itemToText(option) {
-        return option.innerHTML;
+        return option.getText();
+    }
+    defineOption() {
+        return Components.OptionData;
+    }
+    getOption() {
+        const cst = this.defineOption();
+        let option = new cst();
+        option.init(this);
+        return option;
     }
     async createOptions() {
         this.loading = true;
         this.data = await this.loadData();
         if (this.txt_undefined !== undefined) {
-            let option = new Components.OptionData();
-            option.value = undefined;
+            let option = this.getOption();
+            await option.setItem(undefined);
             if (this.compare(option.value, this.value)) {
                 this.selectedOption = option;
                 this.displayValue = this.itemToText(option);
@@ -15587,9 +15684,8 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
             this.appendChild(option);
         }
         for (let item of this.data) {
-            let option = new Components.OptionData();
-            option.value = await this.optionValue(item);
-            option.innerHTML = await this.optionText(item);
+            let option = this.getOption();
+            await option.setItem(item);
             if (this.compare(option.value, this.value)) {
                 this.selectedOption = option;
                 this.displayValue = this.itemToText(option);
@@ -15616,9 +15712,8 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
     }
     async onCreated(item) {
         this.data.push(item);
-        let option = new Components.OptionData();
-        option.value = await this.optionValue(item);
-        option.innerHTML = await this.optionText(item);
+        let option = this.getOption();
+        await option.setItem(item);
         this.appendChild(option);
         this.loadElementsFromSlot();
     }
@@ -15665,6 +15760,45 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
 }
 Components.SelectData.Namespace=`Core.Components`;
 _.Components.SelectData=Components.SelectData;
+
+Components.OptionData = class OptionData extends Components.GenericOption {
+    static __style = ``;
+    __getStatic() {
+        return OptionData;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(OptionData.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "OptionData";
+    }
+    getText() {
+        return this.innerHTML;
+    }
+    async setItem(item) {
+        let select = this.select;
+        if (!item) {
+            this.value = undefined;
+            this.innerHTML = '';
+        }
+        else {
+            this.value = await select.optionValue(item);
+            this.innerHTML = await select.optionText(item);
+        }
+    }
+}
+Components.OptionData.Namespace=`Core.Components`;
+Components.OptionData.Tag=`rk-option-data`;
+_.Components.OptionData=Components.OptionData;
+if(!window.customElements.get('rk-option-data')){window.customElements.define('rk-option-data', Components.OptionData);Aventus.WebComponentInstance.registerDefinition(Components.OptionData);}
 
 Components.TwoColumnsSelect = class TwoColumnsSelect extends Components.FormElement {
     static get observedAttributes() {return ["title_unselect", "title_select", "placeholder_unselect", "placeholder_select"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -16789,7 +16923,7 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
     get data() {
         return this._data;
     }
-    cells = {};
+    cells = [];
     options;
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("grid", ((target) => {
     target.updateGrid();
@@ -16841,7 +16975,7 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
         this.options = options;
         this._data = data;
         let i = 0;
-        this.cells = {};
+        this.cells = [];
         for (let cellConfig of options.schema) {
             let cellInfo = this.getCell(cellConfig);
             let cell;
@@ -16852,10 +16986,11 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
             cell.data = data;
             cell.label = cellConfig.name;
             cell.grid = this.grid;
+            cell.cellConfig = cellConfig;
             this.addCellOption(cell, cellConfig, data);
             this.setCellContent(cell, cellConfig, data);
             this.rowContentEl.appendChild(cell);
-            this.cells[cellConfig.displayName] = cell;
+            this.cells.push(cell);
             i++;
         }
     }
@@ -16872,16 +17007,16 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
         }
     }
     globalSearch(search) {
-        for (let name in this.cells) {
-            if (this.cells[name].globalSearch(search)) {
+        for (let cell of this.cells) {
+            if (cell.globalSearch(search)) {
                 return true;
             }
         }
         return false;
     }
     sort(row, column, order) {
-        let cell = this.cells[column];
-        let cellRow = row.cells[column];
+        let cell = this.cells.find(c => c.cellConfig.name == column || c.cellConfig.displayName == column);
+        let cellRow = row.cells.find(c => c.cellConfig.name == column || c.cellConfig.displayName == column);
         if (!cell || !cellRow)
             return 0;
         let result = cell.sortAsc(cellRow);
@@ -16890,14 +17025,14 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
         return result;
     }
     updateGrid() {
-        for (let name in this.cells) {
-            this.cells[name].grid = this.grid;
+        for (let cell of this.cells) {
+            cell.grid = this.grid;
         }
     }
     postDestruction() {
         super.postDestruction();
-        for (let name in this.cells) {
-            this.cells[name].remove();
+        for (let cell of this.cells) {
+            cell.remove();
         }
     }
 }
@@ -16966,6 +17101,7 @@ Components.TableCell = class TableCell extends Aventus.WebComponent {
     }
     content = "";
     data;
+    cellConfig;
     static __style = `:host{align-items:center;border-right:var(--_table-cell-vertical-border);display:flex;flex-shrink:0;justify-content:center;padding:var(--_table-cell-padding);position:relative;text-align:center}:host .resize{background-color:rgba(0,0,0,0);bottom:0;cursor:col-resize;display:var(--local-table-cell-resize-display);position:absolute;right:0;top:0;width:5px}:host(:nth-child(1)){flex-grow:var(--_table-cell-weight-1, 1);min-width:var(--_table-cell-min-width-1, auto);width:var(--_table-cell-width-1, calc(100% / var(--_table-nb-column)))}:host(:nth-child(2)){flex-grow:var(--_table-cell-weight-2, 1);min-width:var(--_table-cell-min-width-2, auto);width:var(--_table-cell-width-2, calc(100% / var(--_table-nb-column)))}:host(:nth-child(3)){flex-grow:var(--_table-cell-weight-3, 1);min-width:var(--_table-cell-min-width-3, auto);width:var(--_table-cell-width-3, calc(100% / var(--_table-nb-column)))}:host(:nth-child(4)){flex-grow:var(--_table-cell-weight-4, 1);min-width:var(--_table-cell-min-width-4, auto);width:var(--_table-cell-width-4, calc(100% / var(--_table-nb-column)))}:host(:nth-child(5)){flex-grow:var(--_table-cell-weight-5, 1);min-width:var(--_table-cell-min-width-5, auto);width:var(--_table-cell-width-5, calc(100% / var(--_table-nb-column)))}:host(:nth-child(6)){flex-grow:var(--_table-cell-weight-6, 1);min-width:var(--_table-cell-min-width-6, auto);width:var(--_table-cell-width-6, calc(100% / var(--_table-nb-column)))}:host(:nth-child(7)){flex-grow:var(--_table-cell-weight-7, 1);min-width:var(--_table-cell-min-width-7, auto);width:var(--_table-cell-width-7, calc(100% / var(--_table-nb-column)))}:host(:nth-child(8)){flex-grow:var(--_table-cell-weight-8, 1);min-width:var(--_table-cell-min-width-8, auto);width:var(--_table-cell-width-8, calc(100% / var(--_table-nb-column)))}:host(:nth-child(9)){flex-grow:var(--_table-cell-weight-9, 1);min-width:var(--_table-cell-min-width-9, auto);width:var(--_table-cell-width-9, calc(100% / var(--_table-nb-column)))}:host(:nth-child(10)){flex-grow:var(--_table-cell-weight-10, 1);min-width:var(--_table-cell-min-width-10, auto);width:var(--_table-cell-width-10, calc(100% / var(--_table-nb-column)))}:host(:nth-child(11)){flex-grow:var(--_table-cell-weight-11, 1);min-width:var(--_table-cell-min-width-11, auto);width:var(--_table-cell-width-11, calc(100% / var(--_table-nb-column)))}:host(:nth-child(12)){flex-grow:var(--_table-cell-weight-12, 1);min-width:var(--_table-cell-min-width-12, auto);width:var(--_table-cell-width-12, calc(100% / var(--_table-nb-column)))}:host(:nth-child(13)){flex-grow:var(--_table-cell-weight-13, 1);min-width:var(--_table-cell-min-width-13, auto);width:var(--_table-cell-width-13, calc(100% / var(--_table-nb-column)))}:host(:nth-child(14)){flex-grow:var(--_table-cell-weight-14, 1);min-width:var(--_table-cell-min-width-14, auto);width:var(--_table-cell-width-14, calc(100% / var(--_table-nb-column)))}:host(:nth-child(15)){flex-grow:var(--_table-cell-weight-15, 1);min-width:var(--_table-cell-min-width-15, auto);width:var(--_table-cell-width-15, calc(100% / var(--_table-nb-column)))}:host(:nth-child(16)){flex-grow:var(--_table-cell-weight-16, 1);min-width:var(--_table-cell-min-width-16, auto);width:var(--_table-cell-width-16, calc(100% / var(--_table-nb-column)))}:host(:nth-child(17)){flex-grow:var(--_table-cell-weight-17, 1);min-width:var(--_table-cell-min-width-17, auto);width:var(--_table-cell-width-17, calc(100% / var(--_table-nb-column)))}:host(:nth-child(18)){flex-grow:var(--_table-cell-weight-18, 1);min-width:var(--_table-cell-min-width-18, auto);width:var(--_table-cell-width-18, calc(100% / var(--_table-nb-column)))}:host(:nth-child(19)){flex-grow:var(--_table-cell-weight-19, 1);min-width:var(--_table-cell-min-width-19, auto);width:var(--_table-cell-width-19, calc(100% / var(--_table-nb-column)))}:host(:nth-child(20)){flex-grow:var(--_table-cell-weight-20, 1);min-width:var(--_table-cell-min-width-20, auto);width:var(--_table-cell-width-20, calc(100% / var(--_table-nb-column)))}:host([grid]){align-items:flex-start;border-right:none;flex-direction:column;justify-content:flex-start;margin-top:10px;padding:0}:host([grid]) .label{color:var(--text-color-light);font-size:var(--font-size-sm);margin-bottom:4px}:host([grid]) .content{margin-left:5px}:host([grid]) .resize{display:none}:host([grid]:first-child){margin-top:0}`;
     constructor() { super(); if (this.constructor == TableCell) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
@@ -17290,7 +17426,7 @@ _.Components.TableDataCellHeaderAction=Components.TableDataCellHeaderAction;
 if(!window.customElements.get('rk-table-data-cell-header-action')){window.customElements.define('rk-table-data-cell-header-action', Components.TableDataCellHeaderAction);Aventus.WebComponentInstance.registerDefinition(Components.TableDataCellHeaderAction);}
 
 Components.TableRowHeader = class TableRowHeader extends Components.TableRow {
-    cells = {};
+    cells = [];
     static __style = `:host{--_table-cell-vertical-border: var(--_table-row-header-vertical-border);width:100%}:host .row-content{background-color:var(--_table-row-header-backgroud-color);border-bottom:var(--_table-row-header-horizontal-border);color:var(--_table-row-header-color);display:flex;flex-direction:row;height:var(--_table-row-header-height);width:100%}`;
     __getStatic() {
         return TableRowHeader;

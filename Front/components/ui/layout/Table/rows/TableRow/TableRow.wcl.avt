@@ -33,7 +33,7 @@ namespace Components {
             return this._data;
         }
 
-        protected cells: { [displayName: string]: TableCell<any, T>; } = {};
+        protected cells: TableCell<any, T>[] = [];
         protected options!: TableOptions<T>;
         //#endregion
 
@@ -63,7 +63,7 @@ namespace Components {
             this.options = options;
             this._data = data;
             let i = 0;
-            this.cells = {};
+            this.cells = [];
             for(let cellConfig of options.schema) {
                 let cellInfo = this.getCell(cellConfig);
                 let cell: TableCell<any, T>;
@@ -75,10 +75,11 @@ namespace Components {
                 cell.data = data;
                 cell.label = cellConfig.name;
                 cell.grid = this.grid;
+                cell.cellConfig = cellConfig;
                 this.addCellOption(cell, cellConfig, data);
                 this.setCellContent(cell, cellConfig, data);
                 this.rowContentEl.appendChild(cell);
-                this.cells[cellConfig.displayName] = cell;
+                this.cells.push(cell);
                 i++;
             }
         }
@@ -97,8 +98,8 @@ namespace Components {
         }
 
         public globalSearch(search: string): boolean {
-            for(let name in this.cells) {
-                if(this.cells[name].globalSearch(search)) {
+            for(let cell of this.cells) {
+                if(cell.globalSearch(search)) {
                     return true;
                 }
             }
@@ -106,8 +107,8 @@ namespace Components {
         }
 
         public sort(row: TableRow<T>, column: string, order: 'asc' | 'desc'): number {
-            let cell = this.cells[column];
-            let cellRow = row.cells[column];
+            let cell = this.cells.find(c => c.cellConfig.name == column || c.cellConfig.displayName == column);
+            let cellRow = row.cells.find(c => c.cellConfig.name == column || c.cellConfig.displayName == column);
 
             if(!cell || !cellRow) return 0;
 
@@ -118,15 +119,15 @@ namespace Components {
         }
 
         protected updateGrid() {
-            for(let name in this.cells) {
-                this.cells[name].grid = this.grid;
+            for(let cell of this.cells) {
+                cell.grid = this.grid;
             }
         }
 
         protected override postDestruction(): void {
             super.postDestruction();
-            for(let name in this.cells) {
-                this.cells[name].remove();
+            for(let cell of this.cells) {
+                cell.remove();
             }
         }
         //#endregion

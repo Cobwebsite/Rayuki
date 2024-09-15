@@ -6,7 +6,7 @@
             <div class="btn red touch" @press="cancel"></div>
         </div>
     </div>
-    <div class="content">
+    <div class="content"  @element="contentEl">
         <slot></slot>
     </div>
 </div>

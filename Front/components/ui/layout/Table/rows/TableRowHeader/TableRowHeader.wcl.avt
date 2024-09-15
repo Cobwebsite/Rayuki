@@ -17,7 +17,7 @@ namespace Components {
 
 
         //#region variables
-        public override cells: { [displayName: string]: TableCell<any, T>; } = {};
+        public override cells: TableCell<any, T>[] = [];
         //#endregion
 
 

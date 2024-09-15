@@ -70,6 +70,16 @@
         <member name="M:AventusSharp.Data.DataMainManager.ManagerInformation.CanBeInit(System.Boolean)">
             Can be init only if there is at least one class not in force inherit
         </member>
+        <member name="T:AventusSharp.Data.Date">
+            <summary>
+            Class to handle file during process
+            </summary>
+        </member>
+        <member name="T:AventusSharp.Data.Datetime">
+            <summary>
+            Class to handle file during process
+            </summary>
+        </member>
         <member name="P:AventusSharp.Data.Manager.DataMemberInfo.Type">
             <summary>
             Interface for Type

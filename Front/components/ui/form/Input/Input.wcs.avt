@@ -7,6 +7,9 @@
 	--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));
 	--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));
 	--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0));
+
+	--_input-readonly-background-color: var(--input-readonly-background-color, var(--form-element-background-readonly, var(--_input-background-color)));
+	--_input-readonly-border: var(--input-readonly-border, var(--form-element-border-readonly, var(--_input-input-border)));
 }
 
 :host {
@@ -125,5 +128,15 @@
 :host([label]:not([label=""])) {
 	label {
 		display: flex;
+	}
+}
+
+
+:host([readonly]) {
+	pointer-events: none;
+
+	.input {
+		background-color: var(--_input-readonly-background-color);
+		border: var(--_input-readonly-border);
 	}
 }

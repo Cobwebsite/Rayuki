@@ -2268,7 +2268,7 @@ let ConverterTransform=class ConverterTransform {
                             if (obj[key] instanceof Date) {
                                 return value ? new Date(value) : null;
                             }
-                            else if (typeof obj[key] == 'string' && /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.(\d{3})Z$/.exec(obj[key])) {
+                            else if (typeof value == 'string' && /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d{3})Z)?$/.exec(value)) {
                                 return value ? new Date(value) : null;
                             }
                             else if (obj[key] instanceof Map) {
@@ -6980,6 +6980,15 @@ Data.SharpClass=class SharpClass {
 Data.SharpClass.Namespace=`AventusSharp.Data`;
 _.Data.SharpClass=Data.SharpClass;
 
+Data.Date=class Date extends Data.SharpClass {
+    static get Fullname() { return "AventusSharp.Data.Date, AventusSharp"; }
+    DateTime;
+}
+Data.Date.Namespace=`AventusSharp.Data`;
+Data.Date.$schema={...(Data.SharpClass?.$schema ?? {}), "DateTime":"AventusSharp.RealDate"};
+Aventus.Converter.register(Data.Date.Fullname, Data.Date);
+_.Data.Date=Data.Date;
+
 (function (DataErrorCode) {
     DataErrorCode[DataErrorCode["DefaultDMGenericType"] = 0] = "DefaultDMGenericType";
     DataErrorCode[DataErrorCode["DMOnlyForceInherit"] = 1] = "DMOnlyForceInherit";
@@ -7393,6 +7402,15 @@ Data.StorableTimestamp.Namespace=`AventusSharp.Data`;
 Data.StorableTimestamp.$schema={...(Data.Storable?.$schema ?? {}), "CreatedDate":"Date","UpdatedDate":"Date"};
 Aventus.Converter.register(Data.StorableTimestamp.Fullname, Data.StorableTimestamp);
 _.Data.StorableTimestamp=Data.StorableTimestamp;
+
+Data.Datetime=class Datetime extends Data.SharpClass {
+    static get Fullname() { return "AventusSharp.Data.Datetime, AventusSharp"; }
+    DateTime;
+}
+Data.Datetime.Namespace=`AventusSharp.Data`;
+Data.Datetime.$schema={...(Data.SharpClass?.$schema ?? {}), "DateTime":"AventusSharp.RealDate"};
+Aventus.Converter.register(Data.Datetime.Fullname, Data.Datetime);
+_.Data.Datetime=Data.Datetime;
 
 Tools.VoidWithError=class VoidWithError extends Aventus.VoidWithError {
     static get Fullname() { return "AventusSharp.Tools.VoidWithError, AventusSharp"; }

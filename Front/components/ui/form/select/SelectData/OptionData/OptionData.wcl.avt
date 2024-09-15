@@ -1,7 +1,8 @@
 import { GenericOption } from "../../GenericSelect/GenericOption/GenericOption.wcl.avt";
+import type { SelectData } from "../SelectData.wcl.avt";
 namespace Components {
 
-    export class OptionData<T extends Aventus.IData | number> extends GenericOption<T> implements Aventus.DefaultComponent {
+    export class OptionData<T extends Aventus.IData | number, U extends Aventus.IData> extends GenericOption<T> implements Aventus.DefaultComponent {
 
         //#region static
 
@@ -14,7 +15,6 @@ namespace Components {
 
 
         //#region variables
-
         //#endregion
 
 
@@ -24,7 +24,22 @@ namespace Components {
 
 
         //#region methods
+        public getText() {
+            return this.innerHTML;
+        }
 
+
+        public async setItem(item: U | undefined) {
+            let select = this.select as SelectData<any>;
+            if(!item) {
+                this.value = undefined;
+                this.innerHTML = '';
+            }
+            else {
+                this.value = await select.optionValue(item);
+                this.innerHTML = await select.optionText(item);
+            }
+        }
         //#endregion
     }
 }

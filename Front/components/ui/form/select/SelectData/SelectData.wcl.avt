@@ -3,7 +3,7 @@ import { GenericSelect } from "../GenericSelect/GenericSelect.wcl.avt";
 import { Process } from "../../../../../libs/Process.lib.avt";
 
 namespace Components {
-    export abstract class SelectData<U extends Aventus.IData, T extends U | number = U> extends GenericSelect<OptionData<T>, T> implements Aventus.DefaultComponent {
+    export abstract class SelectData<U extends Aventus.IData, T extends U | number = U, R extends OptionData<T, U> = OptionData<T, U>> extends GenericSelect<R, T> implements Aventus.DefaultComponent {
 
         //#region static
 
@@ -50,16 +50,27 @@ namespace Components {
         /**
          * @inheritdoc
          */
-        protected override itemToText(option: OptionData<T>): string {
-            return option.innerHTML;
+        protected override itemToText(option: R): string {
+            return option.getText();
+        }
+
+        protected defineOption(): new () => R {
+            return OptionData as unknown as new () => R;
+        }
+
+        private getOption(): R {
+            const cst = this.defineOption();
+            let option = new cst() as R;
+            option.init(this);
+            return option;
         }
 
         protected async createOptions() {
             this.loading = true;
             this.data = await this.loadData();
             if(this.txt_undefined !== undefined) {
-                let option = new OptionData<T>();
-                option.value = undefined;
+                let option = this.getOption();
+                await option.setItem(undefined);
                 if(this.compare(option.value, this.value)) {
                     this.selectedOption = option;
                     this.displayValue = this.itemToText(option);
@@ -69,9 +80,8 @@ namespace Components {
                 this.appendChild(option);
             }
             for(let item of this.data) {
-                let option = new OptionData<T>();
-                option.value = await this.optionValue(item);
-                option.innerHTML = await this.optionText(item);
+                let option = this.getOption();
+                await option.setItem(item);
                 if(this.compare(option.value, this.value)) {
                     this.selectedOption = option;
                     this.displayValue = this.itemToText(option);
@@ -89,8 +99,12 @@ namespace Components {
             const result = await Process.execute(this, this.defineRam().getListWithError()) ?? [];
             return result;
         }
-        protected abstract optionText(item: U): Aventus.Asyncable<string>;
-        protected abstract optionValue(item: U): Aventus.Asyncable<T>;
+        
+        @InternalProtected()
+        public abstract optionText(item: U): Aventus.Asyncable<string>;
+
+        @InternalProtected()
+        public abstract optionValue(item: U): Aventus.Asyncable<T>;
 
         @BindThis()
         protected subscribe() {
@@ -109,9 +123,8 @@ namespace Components {
         @BindThis()
         protected async onCreated(item: Aventus.RamItem<U>) {
             this.data.push(item);
-            let option = new OptionData();
-            option.value = await this.optionValue(item);
-            option.innerHTML = await this.optionText(item);
+            let option = this.getOption();
+            await option.setItem(item);
             this.appendChild(option);
             this.loadElementsFromSlot();
         }

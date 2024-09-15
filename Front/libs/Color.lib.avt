@@ -149,18 +149,18 @@ namespace Lib {
             }
         }
 
-		public get h(): number {
-			return this.hsl.h;
-		}
-		public set h(newValue: number) {
-			if (newValue >= 0 && newValue <= 360) {
-				let currentHSL = this.hsl;
-				currentHSL.h = newValue;
-				this.currentColor = { ...this.hslToRgb(currentHSL.h, currentHSL.s, currentHSL.l), a: this.currentColor.a };
-			} else {
-				throw new Error("Invalid value for H (Hue). It should be between 0 and 360.");
-			}
-		}
+        public get h(): number {
+            return this.hsl.h;
+        }
+        public set h(newValue: number) {
+            if(newValue >= 0 && newValue <= 360) {
+                let currentHSL = this.hsl;
+                currentHSL.h = newValue;
+                this.currentColor = { ...this.hslToRgb(currentHSL.h, currentHSL.s, currentHSL.l), a: this.currentColor.a };
+            } else {
+                throw new Error("Invalid value for H (Hue). It should be between 0 and 360.");
+            }
+        }
 
         /**
          * The hex format of the color
@@ -309,6 +309,11 @@ namespace Lib {
             ) {
                 this.currentColor = this.hsvaToRgba(value.h, value.s, value.v, value.a);
             }
+        }
+
+        public get isLight(): boolean {
+            const luminance = (0.299 * this.currentColor.r * this.currentColor.r + 0.587 * this.currentColor.g * this.currentColor.g + 0.114 * this.currentColor.b * this.currentColor.b);
+            return luminance > 16256;
         }
 
         /**

@@ -32,6 +32,8 @@ namespace Components {
 
         @ViewElement()
         protected popupEl!: HTMLDivElement;
+        @ViewElement()
+        protected contentEl!: HTMLDivElement;
 
 
         protected pressManagerClose?: Aventus.PressManager;

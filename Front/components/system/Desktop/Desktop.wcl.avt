@@ -67,6 +67,10 @@ namespace System {
         }
 
         protected activableOrder: IDesktopActivable[] = [];
+        public get activeElement(): IDesktopActivable | undefined {
+            if(this.activableOrder.length == 0) return undefined;
+            return this.activableOrder[0];
+        }
         //#endregion
 
 

@@ -26,6 +26,8 @@ namespace Components {
         })
         public override value: string = "";
 
+        @Attribute()
+        public readonly!: boolean;
         //#endregion
 
 

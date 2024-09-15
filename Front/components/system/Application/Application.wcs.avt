@@ -150,10 +150,10 @@
 
 :host([full]) {
 	border-radius: 0;
-	height: 100% !important;
+	--app-height: var(--os-height) !important;
 	left: 0 !important;
 	top: 0 !important;
-	width: 100% !important;
+	--app-width: var(--os-width) !important;
 	z-index: 500;
 
 	.header {

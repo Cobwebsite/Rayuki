@@ -93,6 +93,9 @@
 	--form-element-border-active: 1px solid var(--form-element-border-color-active);
 	--form-element-border-radius: var(--border-radius-sm);
 
+	--form-element-background-readonly: var(--primary-color);
+	--form-element-border-readonly: 1px solid var(--disable-color);
+
 
 	/*#region button*/
 	--button-background-color: #0c2247;

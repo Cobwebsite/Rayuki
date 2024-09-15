@@ -1,4 +1,4 @@
-import { Table } from "../../Table.wcl.avt";
+import { Table, type TableSchema } from "../../Table.wcl.avt";
 import { TableRow } from "../../rows/TableRow/TableRow.wcl.avt";
 
 namespace Components {
@@ -37,6 +37,8 @@ namespace Components {
         /** The content displayed - used for global search */
         protected content: string = "";
         public data!: U;
+
+        public cellConfig!: TableSchema<U>;
         //#endregion
 
 

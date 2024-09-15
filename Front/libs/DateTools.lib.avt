@@ -1,17 +1,17 @@
 namespace Lib {
     export class DateTools {
-        public static isSameDate(date1?: Date, date2?: Date) {
+        public static isSameDate(date1?: Date, date2?: Date): boolean {
             if(date1 == null && date2 == null) return true;
             if(date1 == null || date2 == null) return false;
             return date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear();
         }
-        public static isSameDateTime(date1?: Date, date2?: Date) {
+        public static isSameDateTime(date1?: Date, date2?: Date): boolean {
             if(date1 == null && date2 == null) return true;
             if(date1 == null || date2 == null) return false;
             return date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear() && date1.getHours() == date2.getHours() && date1.getMinutes() == date2.getMinutes();
         }
 
-        public static print(date: Date, options?: Intl.DateTimeFormatOptions | undefined, locale?: string) {
+        public static print(date: Date, options?: Intl.DateTimeFormatOptions | undefined, locale?: string): string {
             if(!options) {
                 options = {
                     year: "numeric",
@@ -30,6 +30,81 @@ namespace Lib {
                 }
             }
             return this._localMonths;
+        }
+
+        public static getStartMonth(date: Date): Date {
+            const start = new Date();
+            start.setTime(date.getTime());
+            start.setDate(1);
+            start.setHours(0);
+            start.setMinutes(0);
+            start.setSeconds(0);
+            start.setMilliseconds(0);
+            return start;
+        }
+        public static getEndMonth(date: Date): Date {
+            const end = this.getStartMonth(date);
+            end.setMonth(end.getMonth() + 1);
+            end.setDate(0);
+            end.setHours(23);
+            end.setMinutes(59);
+            end.setSeconds(59);
+            end.setMilliseconds(999);
+            return end;
+        }
+
+        public static getStartWeek(date: Date): Date {
+            const start = new Date();
+            start.setTime(date.getTime());
+            const day = start.getDay();
+            const diff = (day === 0) ? -6 : 1 - day;
+            const monday = start.getDate() + diff;
+            start.setDate(monday);
+            start.setHours(0);
+            start.setMinutes(0);
+            start.setSeconds(0);
+            start.setMilliseconds(0);
+            return start;
+        }
+        public static getEndWeek(date: Date): Date {
+            const end = this.getStartWeek(date);
+            end.setDate(end.getDate() + 7);
+            end.setHours(23);
+            end.setMinutes(59);
+            end.setSeconds(59);
+            end.setMilliseconds(999);
+            return end;
+        }
+
+        public static getStartDay(date: Date): Date {
+            const start = new Date();
+            start.setTime(date.getTime());
+            start.setHours(0);
+            start.setMinutes(0);
+            start.setSeconds(0);
+            start.setMilliseconds(0);
+            return start;
+        }
+        public static getEndDay(date: Date): Date {
+            const end = this.getStartDay(date);
+            end.setHours(23);
+            end.setMinutes(59);
+            end.setSeconds(59);
+            end.setMilliseconds(999);
+            return end;
+        }
+
+        public static diffMinutes(d1: Date, d2: Date): number {
+            const diffMs = Math.abs(d1.getTime() - d2.getTime());
+            return Math.floor(diffMs / (1000 * 60));
+        }
+        public static diffHours(d1: Date, d2: Date): number {
+            const diffMs = Math.abs(d1.getTime() - d2.getTime());
+            return Math.floor(diffMs / (1000 * 60 * 60));
+        }
+        public static diffDays(d1: Date, d2: Date): number {
+            const diffMs = Math.abs(d1.getTime() - d2.getTime());
+            return Math.floor(diffMs / (1000 * 60 * 60 * 24));
         }
     }
 }

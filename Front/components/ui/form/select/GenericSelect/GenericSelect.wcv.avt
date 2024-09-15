@@ -1,7 +1,10 @@
 <label for="input" @press="showOptions">{{ this.label }}</label>
 <div class="input" @press="showOptions">
-    <rk-img src="{{ this.icon }}" class="icon"></rk-img>
-    <input id="input" @element="inputEl" placeholder="{{ this.placeholder }}" @input="filter" autocomplete="off"/>
+    <slot name="prepend">
+        <rk-img src="{{ this.icon }}" class="icon"></rk-img>
+    </slot>
+    <input id="input" @element="inputEl" placeholder="{{ this.placeholder }}" @input="filter" autocomplete="off" />
+    <slot name="append"></slot>
     <div class="error-logo">!</div>
     <rk-img src="/img/icons/angle-left.svg" class="caret"></rk-img>
 </div>
