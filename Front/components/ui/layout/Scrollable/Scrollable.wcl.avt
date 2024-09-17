@@ -161,7 +161,8 @@ namespace Components {
         private touchRecord: TouchRecord;
         private pointerCount: number = 0;
         private savedBreak: number = 1;
-
+        private loadedOnce: boolean = false;
+        private savedPercent?: { x: number, y: number; };
 
         public get x(): number {
             return this.position.x;
@@ -697,10 +698,23 @@ namespace Components {
          * Inform that the size has changed
          */
         private dimensionRefreshed(force: boolean = false) {
+            if(this.contentWrapper.offsetHeight > 0 && this.contentWrapper.offsetWidth > 0) {
+                this.loadedOnce = true;
+                if(this.savedPercent) {
+                    this.position.x = this.contentWrapper.offsetWidth * this.savedPercent.x;
+                    this.position.y = this.contentWrapper.offsetHeight * this.savedPercent.y;
+                    this.savedPercent = undefined;
+                }
+            }
+            else if(this.loadedOnce) {
+                this.savedPercent = {
+                    x: this.position.x / this.contentWrapperSize.x,
+                    y: this.position.y / this.contentWrapperSize.y
+                };
+            }
             if(!this.calculateRealSize() && !force) {
                 return;
             }
-
             if(this.contentWrapperSize.y - this.display.y > 0) {
                 if(!this.y_scroll_visible) {
                     this.y_scroll_visible = true;

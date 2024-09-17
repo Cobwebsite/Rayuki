@@ -3612,6 +3612,8 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
     touchRecord;
     pointerCount = 0;
     savedBreak = 1;
+    loadedOnce = false;
+    savedPercent;
     get x() {
         return this.position.x;
     }
@@ -4098,6 +4100,20 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
         this.dimensionRefreshed(true);
     }
     dimensionRefreshed(force = false) {
+        if (this.contentWrapper.offsetHeight > 0 && this.contentWrapper.offsetWidth > 0) {
+            this.loadedOnce = true;
+            if (this.savedPercent) {
+                this.position.x = this.contentWrapper.offsetWidth * this.savedPercent.x;
+                this.position.y = this.contentWrapper.offsetHeight * this.savedPercent.y;
+                this.savedPercent = undefined;
+            }
+        }
+        else if (this.loadedOnce) {
+            this.savedPercent = {
+                x: this.position.x / this.contentWrapperSize.x,
+                y: this.position.y / this.contentWrapperSize.y
+            };
+        }
         if (!this.calculateRealSize() && !force) {
             return;
         }
@@ -12353,19 +12369,10 @@ Components.Switch = class Switch extends Components.FormElement {
 }));    super.__registerWatchesActions();
 }
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("disabled", ((target) => {
-    if (target.checkboxEl) {
-        if (target.disabled === undefined) {
-            target.checkboxEl.disabled = false;
-        }
-        else {
-            target.checkboxEl.disabled = target.disabled;
-        }
-    }
 }));this.__addPropertyActions("checked", ((target) => {
     target.value = target.checked;
-    target.checkboxEl.checked = target.checked;
 })); }
-    static __style = `:host{--_switch-background-color: var(--switch-background-color, var(--form-element-background, white));--_switch-dot-size: var(--switch-dot-size, 20px);--_switch-dot-color: var(--switch-dot-color, var(--secondary-color));--_switch-active-dot-color: var(--switch-active-dot-color, var(--secondary-color-active));--_switch-active-background-color: var(--switch-active-background-color, var(--secondary-color));--_switch-font-size: var(--switch-font-size, var(--form-element-font-size, 16px));--_switch-font-size-label: var(--switch-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_switch-border-radius: var(--switch-border-radius, 10px)}:host{align-items:center;display:flex;font-size:var(--_switch-font-size);min-height:var(--_switch-dot-size);width:100%}:host .label:not(:empty){cursor:pointer;font-size:var(--_switch-font-size-label);margin-right:30px;transition:filter .3s var(--bezier-curve)}:host .bar{align-items:center;background-color:var(--_switch-background-color);border-radius:var(--_switch-border-radius);cursor:pointer;display:flex;height:10px;position:relative;transition:filter .3s var(--bezier-curve);width:30px}:host .bar input{appearance:none;background-color:rgba(0,0,0,0);border:0;cursor:pointer;height:100%;left:0;margin:0;outline:none;padding:0;position:absolute;top:0;width:100%}:host .bar .bar-content{align-items:center;background-color:rgba(0,0,0,0);display:flex;height:100%;pointer-events:none;position:relative;width:100%}:host .bar .bar-content .dot{background-color:var(--_switch-dot-color);border-radius:var(--border-radius-round);box-shadow:none;cursor:pointer;height:var(--_switch-dot-size);left:0%;pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_switch-dot-size)}:host .bar .bar-content .bar-fill{background-color:var(--_switch-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:0%}:host .bar input:checked+.bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host .bar input:checked+.bar-content .bar-fill{width:100%}:host([label_end]) .label:not(:empty){margin-left:30px;margin-right:0px;order:2}:host([disabled]) .bar{cursor:not-allowed;filter:brightness(0.75)}:host([disabled]) .bar input{cursor:not-allowed}:host([disabled]) .bar .bar-content .dot{cursor:not-allowed}:host([disabled]) .label{cursor:default;filter:brightness(0.75)}`;
+    static __style = `:host{--_switch-background-color: var(--switch-background-color, var(--form-element-background, white));--_switch-dot-size: var(--switch-dot-size, 20px);--_switch-dot-color: var(--switch-dot-color, var(--secondary-color));--_switch-active-dot-color: var(--switch-active-dot-color, var(--secondary-color-active));--_switch-active-background-color: var(--switch-active-background-color, var(--secondary-color));--_switch-font-size: var(--switch-font-size, var(--form-element-font-size, 16px));--_switch-font-size-label: var(--switch-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_switch-border-radius: var(--switch-border-radius, 10px)}:host{align-items:center;display:flex;font-size:var(--_switch-font-size);min-height:var(--_switch-dot-size);width:100%}:host .label:not(:empty){cursor:pointer;font-size:var(--_switch-font-size-label);margin-right:30px;transition:filter .3s var(--bezier-curve)}:host .bar{align-items:center;background-color:var(--_switch-background-color);border-radius:var(--_switch-border-radius);cursor:pointer;display:flex;height:10px;position:relative;transition:filter .3s var(--bezier-curve);width:30px}:host .bar input{appearance:none;background-color:rgba(0,0,0,0);border:0;cursor:pointer;height:100%;left:0;margin:0;outline:none;padding:0;position:absolute;top:0;width:100%}:host .bar .bar-content{align-items:center;background-color:rgba(0,0,0,0);display:flex;height:100%;pointer-events:none;position:relative;width:100%}:host .bar .bar-content .dot{background-color:var(--_switch-dot-color);border-radius:var(--border-radius-round);box-shadow:none;cursor:pointer;height:var(--_switch-dot-size);left:0%;pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_switch-dot-size)}:host .bar .bar-content .bar-fill{background-color:var(--_switch-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:0%}:host .bar input:checked+.bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host .bar input:checked+.bar-content .bar-fill{width:100%}:host([label_end]) .label:not(:empty){margin-left:30px;margin-right:0px;order:2}:host([checked]) .bar .bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host([checked]) .bar .bar-content .bar-fill{width:100%}:host([disabled]) .bar{cursor:not-allowed;filter:brightness(0.75)}:host([disabled]) .bar input{cursor:not-allowed}:host([disabled]) .bar .bar-content .dot{cursor:not-allowed}:host([disabled]) .label{cursor:default;filter:brightness(0.75)}`;
     __getStatic() {
         return Switch;
     }
@@ -12376,18 +12383,10 @@ Components.Switch = class Switch extends Components.FormElement {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="label" _id="switch_0"></div><div class="bar" _id="switch_1">    <input id="element" type="checkbox" _id="switch_2" />    <div class="bar-content">        <div class="bar-fill"></div>        <div class="dot"></div>    </div></div>` }
+        blocks: { 'default':`<div class="label" _id="switch_0"></div><div class="bar" _id="switch_1">    <div class="bar-content">        <div class="bar-fill"></div>        <div class="dot"></div>    </div></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "checkboxEl",
-      "ids": [
-        "switch_2"
-      ]
-    }
-  ],
   "content": {
     "switch_0°@HTML": {
       "fct": (c) => `${c.print(c.comp.__0c8ab707a91de23d54bc9c39ebe1aeafmethod0())}`,
