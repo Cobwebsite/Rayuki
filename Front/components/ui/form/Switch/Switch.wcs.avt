@@ -110,6 +110,22 @@
 	}
 }
 
+:host([checked]) {
+	.bar {
+		.bar-content {
+			.dot {
+				background-color: var(--_switch-active-dot-color);
+				box-shadow: 0 0 5px var(--emphasize);
+				left: 100%;
+			}
+
+			.bar-fill {
+				width: 100%;
+			}
+		}
+	}
+}
+
 :host([disabled]) {
 	.bar {
 		cursor: not-allowed;

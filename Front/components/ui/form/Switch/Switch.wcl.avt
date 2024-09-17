@@ -16,29 +16,18 @@ namespace Components {
         
 
         @Property((target: Switch) => {
-            if(target.checkboxEl) {
-                if(target.disabled === undefined) {
-                    target.checkboxEl.disabled = false;
-                }
-                else {
-                    target.checkboxEl.disabled = target.disabled;
-                }
-            }
+            
         })
         public disabled!: boolean;
 
         @Property((target: Switch) => {
             target.value = target.checked;
-            target.checkboxEl.checked = target.checked;
         })
         public checked: boolean = false;
         //#endregion
 
 
         //#region variables
-
-        @ViewElement()
-        protected checkboxEl!: HTMLInputElement;
 
         /** Add value to use bind */
         @Watch((target: Switch) => {

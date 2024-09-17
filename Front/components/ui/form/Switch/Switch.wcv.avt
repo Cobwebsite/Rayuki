@@ -1,6 +1,5 @@
 <div class="label" @press="toggleActive">{{this.label}}</div>
 <div class="bar" @press="toggleActive">
-    <input id="element" type="checkbox" @element="checkboxEl" />
     <div class="bar-content">
         <div class="bar-fill"></div>
         <div class="dot"></div>
