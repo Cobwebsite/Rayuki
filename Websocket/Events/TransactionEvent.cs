@@ -12,9 +12,9 @@ namespace Core.Websocket.Events
         {
             this.guid = guid;
         }
-        protected override async Task<Body> Prepare()
+        protected override Task<Body> Prepare()
         {
-            return new Body() { guid = guid };
+            return Task.FromResult(new Body() { guid = guid });
         }
 
         [Typescript]

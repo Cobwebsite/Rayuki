@@ -2197,7 +2197,7 @@ Components.Collapse = class Collapse extends Aventus.WebComponent {
     get 'open'() { return this.getBoolAttr('open') }
     set 'open'(val) { this.setBoolAttr('open', val) }get 'no_animation'() { return this.getBoolAttr('no_animation') }
     set 'no_animation'(val) { this.setBoolAttr('no_animation', val) }    change = new Aventus.Callback();
-    static __style = `:host .title{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .collapse{display:grid;grid-template-rows:0fr;transition:.5s var(--bezier-curve) grid-template-rows}:host .collapse .content{overflow:hidden}:host([open]) .collapse{grid-template-rows:1fr}:host([no_animation]) .collapse{transition:none}`;
+    static __style = `:host{width:fit-content}:host .title{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .collapse{display:grid;grid-template-rows:0fr;transition:.5s var(--bezier-curve) grid-template-rows;width:max-content}:host .collapse .content{overflow:hidden;width:fit-content}:host([open]) .collapse{grid-template-rows:1fr}:host([no_animation]) .collapse{transition:none}`;
     __getStatic() {
         return Collapse;
     }
@@ -3406,6 +3406,9 @@ System.AppList = class AppList extends Aventus.WebComponent {
             isDragEnable: () => apply,
             correctPosition: (position) => {
                 position.x = 0;
+                if (position.y < 0) {
+                    position.y = 0;
+                }
                 return position;
             },
             onStart: () => {
@@ -6603,6 +6606,24 @@ State.ApplicationState.$schema={...(Aventus.State?.$schema ?? {}), "$type":"stri
 Aventus.Converter.register(State.ApplicationState.Fullname, State.ApplicationState);
 _.State.ApplicationState=State.ApplicationState;
 
+State.ApplicationWatchState=class ApplicationWatchState extends State.ApplicationState {
+    __watcher;
+    get watcher() {
+        return this.__watcher;
+    }
+    constructor() {
+        super();
+        this.onWatcherChanged = this.onWatcherChanged.bind(this);
+        this.__watcher = Aventus.Watcher.get({}, this.onWatcherChanged);
+    }
+    async onWatcherChanged(action, path, value) {
+    }
+}
+State.ApplicationWatchState.Namespace=`Core.State`;
+State.ApplicationWatchState.$schema={...(State.ApplicationState?.$schema ?? {}), };
+Aventus.Converter.register(State.ApplicationWatchState.Fullname, State.ApplicationWatchState);
+_.State.ApplicationWatchState=State.ApplicationWatchState;
+
 State.ApplicationEmptyState=class ApplicationEmptyState extends State.ApplicationState {
     localName;
     constructor(stateName) {
@@ -7670,7 +7691,7 @@ System.Application = class Application extends Aventus.WebComponent {
 }));this.__addPropertyActions("is_hidden", ((target) => {
     target.onIsHiddenChange();
 })); }
-    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{backdrop-filter:blur(2px);background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;pointer-events:none;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:var(--border-radius-round);height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 35px);margin-bottom:5px;overflow:hidden;width:100%;z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host rk-notification-manager{top:35px}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;--app-height: var(--os-height) !important;left:0 !important;top:0 !important;--app-width: var(--os-width) !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 45px)}:host rk-notification-manager{top:45px}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 45px)}:host rk-resize{display:none}:host rk-notification-manager{top:45px}:host([is_hidden]){left:0 !important;width:100% !important}}`;
+    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{backdrop-filter:blur(2px);background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;pointer-events:none;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:var(--border-radius-round);height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);overflow:hidden;width:100%;z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host rk-notification-manager{top:35px}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;--app-height: var(--os-height) !important;left:0 !important;top:0 !important;--app-width: var(--os-width) !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 40px)}:host rk-notification-manager{top:45px}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 40px)}:host rk-resize{display:none}:host rk-notification-manager{top:45px}:host([is_hidden]){left:0 !important;width:100% !important}}`;
     constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);            this.shortcutManager = new System.ApplicationShortcut(this);            this.shortcutManager.init();if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.onContextMenuContent=this.onContextMenuContent.bind(this)this.onContextMenuHeader=this.onContextMenuHeader.bind(this)this.validError404=this.validError404.bind(this)this.showErrorNotAllowed=this.showErrorNotAllowed.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this)this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)this.moveApplicationToRight=this.moveApplicationToRight.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this)this.notify=this.notify.bind(this)this.popupErrors=this.popupErrors.bind(this)this.parseErrors=this.parseErrors.bind(this)this.execute=this.execute.bind(this)this.executeWithLoading=this.executeWithLoading.bind(this)this.showLoading=this.showLoading.bind(this)this.txExec=this.txExec.bind(this)this.txExecLoading=this.txExecLoading.bind(this) }
     __getStatic() {
         return Application;
@@ -9589,6 +9610,11 @@ System.Os = class Os extends Aventus.WebComponent {
         }, true);
     }
     async init() {
+        Aventus.PressManager.setGlobalConfig({
+            delayDblPress: 250,
+            delayLongPress: 700,
+            offsetDrag: 20
+        });
         this.trapInOs();
         this.addResizeObserver();
         await this.startSocket();
@@ -10355,7 +10381,8 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
 					}
 					set 'yearGroupTxt'(val) {
 						this.__watch["yearGroupTxt"] = val;
-					}    onDateClicked = new Aventus.Callback();
+					}    cases = {};
+    onDateClicked = new Aventus.Callback();
     onDateChanged = new Aventus.Callback();
     __registerWatchesActions() {
     this.__addWatchesActions("dateTemp", ((target) => {
@@ -10558,9 +10585,13 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
     defineCalendarDay() {
         return Components.CalendarDayDefault;
     }
+    getCase(date) {
+        return this.cases[Lib.DateTools.print(date)];
+    }
     renderDates() {
         if (!this.isConnected)
             return;
+        this.cases = {};
         Lib.DomTools.clearElement(this.bodyEl);
         let date = this.date;
         this.yearEl.innerHTML = date.getFullYear() + '';
@@ -10589,6 +10620,7 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
         let CaseCst = this.defineCalendarDay();
         while (startDate < maxDate) {
             let caseEl = new CaseCst();
+            this.cases[Lib.DateTools.print(startDate)] = caseEl;
             caseEl.init(date, startDate, this);
             row.appendChild(caseEl);
             startDate.setDate(startDate.getDate() + 1);
@@ -12225,7 +12257,7 @@ Components.Textarea = class Textarea extends Components.FormElement {
     set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
     target.inputEl.value = target.value ?? "";
 })); }
-    static __style = `:host{--_textarea-height: var(--textarea-height, 30px);--_textarea-background-color: var(--textarea-background-color, var(--form-element-background, white));--_textarea-icon-height: var(--textarea-icon-height, calc(var(--_textarea-height) / 2));--_textarea-error-logo-size: var(--textarea-error-logo-size, calc(var(--_textarea-height) / 2));--_textarea-font-size: var(--textarea-font-size, var(--form-element-font-size, 16px));--_textarea-font-size-label: var(--textarea-font-size-label, var(--form-element-font-size-label, calc(var(--_textarea-font-size) * 0.95)));--_textarea-input-border: var(--textarea-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_textarea-border-radius: var(--textarea-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_textarea-font-size-label);margin-bottom:5px;margin-left:3px;cursor:pointer}:host .input{align-items:center;background-color:var(--_textarea-background-color);border:var(--_textarea-input-border);border-radius:var(--_textarea-border-radius);display:flex;height:var(--_textarea-height);min-height:var(--_textarea-height);padding:0 10px;position:relative;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_textarea-icon-height);margin-right:10px}:host .input textarea{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-family:"Roboto",sans-serif;font-size:var(--_textarea-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px;resize:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_textarea-error-logo-size) - 5px);height:var(--_textarea-error-logo-size);justify-content:center;width:var(--_textarea-error-logo-size)}:host .input rk-resize{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([resize]) .input rk-resize{display:block}:host([autogrow]) .input textarea{overflow:hidden}`;
+    static __style = `:host{--_textarea-height: var(--textarea-height, 30px);--_textarea-background-color: var(--textarea-background-color, var(--form-element-background, white));--_textarea-icon-height: var(--textarea-icon-height, calc(var(--_textarea-height) / 2));--_textarea-error-logo-size: var(--textarea-error-logo-size, calc(var(--_textarea-height) / 2));--_textarea-font-size: var(--textarea-font-size, var(--form-element-font-size, 16px));--_textarea-font-size-label: var(--textarea-font-size-label, var(--form-element-font-size-label, calc(var(--_textarea-font-size) * 0.95)));--_textarea-input-border: var(--textarea-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_textarea-border-radius: var(--textarea-border-radius, var(--form-element-border-radius, 0));--_textarea-autogrow-max-height: var(--textarea-autogrow-max-height, none)}:host{min-width:100px;width:100%}:host label{cursor:pointer;display:none;font-size:var(--_textarea-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_textarea-background-color);border:var(--_textarea-input-border);border-radius:var(--_textarea-border-radius);display:flex;height:var(--_textarea-height);min-height:var(--_textarea-height);padding:0 10px;position:relative;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_textarea-icon-height);margin-right:10px}:host .input textarea{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-family:"Roboto",sans-serif;font-size:var(--_textarea-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px;resize:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_textarea-error-logo-size) - 5px);height:var(--_textarea-error-logo-size);justify-content:center;width:var(--_textarea-error-logo-size)}:host .input rk-resize{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([resize]) .input rk-resize{display:block}:host([autogrow]) .input{max-height:var(--_textarea-autogrow-max-height)}:host([autogrow]) .input textarea{overflow:auto;max-height:var(--_textarea-autogrow-max-height)}`;
     __getStatic() {
         return Textarea;
     }
@@ -17071,7 +17103,9 @@ Components.TableRowData = class TableRowData extends Components.TableRow {
     onUpdated(element) {
         if (element.Id == this.data.Id) {
             for (let cellConfig of this.options.schema) {
-                this.setCellContent(this.cells[cellConfig.displayName], cellConfig, element);
+                let cell = this.cells.find(c => c.cellConfig.name == cellConfig.name || c.cellConfig.displayName == cellConfig.displayName);
+                if (cell)
+                    this.setCellContent(cell, cellConfig, element);
             }
         }
     }

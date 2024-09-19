@@ -103,8 +103,8 @@
 	.content {
 		border-bottom-left-radius: var(--_application-border-radius);
 		border-bottom-right-radius: var(--_application-border-radius);
-		height: calc(100% - 35px);
-		margin-bottom: 5px;
+		height: calc(100% - 30px);
+		// margin-bottom: 5px;
 		overflow: hidden;
 		width: 100%;
 		z-index: 1;
@@ -217,7 +217,7 @@
 		}
 
 		.content {
-			height: calc(100% - 45px);
+			height: calc(100% - 40px);
 		}
 
 		rk-notification-manager {
@@ -257,7 +257,7 @@
 		.content {
 			border-bottom-left-radius: 0;
 			border-bottom-right-radius: 0;
-			height: calc(100% - 45px);
+			height: calc(100% - 40px);
 		}
 
 		rk-resize {

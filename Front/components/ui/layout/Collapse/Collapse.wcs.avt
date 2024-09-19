@@ -1,15 +1,20 @@
 :host {
-    .title {
-        cursor: pointer;
+	width: fit-content;
+
+	.title {
+		cursor: pointer;
 		-webkit-tap-highlight-color: transparent;
-    }
+	}
+
 	.collapse {
 		display: grid;
 		grid-template-rows: 0fr;
-        transition: 0.5s var( --bezier-curve) grid-template-rows;
+		transition: 0.5s var(--bezier-curve) grid-template-rows;
+		width: max-content;
 
 		.content {
 			overflow: hidden;
+			width: fit-content;
 		}
 	}
 }
@@ -22,6 +27,6 @@
 
 :host([no_animation]) {
 	.collapse {
-        transition: none;
+		transition: none;
 	}
 }

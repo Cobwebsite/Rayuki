@@ -33,7 +33,7 @@ namespace Core.Logic
 
         #region Get for user
 
-        #region Get String
+        #region Get Default
         public ResultWithError<Settings> GetSettingsForUser(Enum _enum, HttpContext context)
         {
             int? userId = context.GetUserId();
@@ -60,6 +60,33 @@ namespace Core.Logic
             return _GetSettingsForUser.SingleWithError();
         }
         #endregion
+
+        #region Get String
+        protected ResultWithError<string> ParseToString(ResultWithError<Settings> result)
+        {
+            ResultWithError<string> converted = new ResultWithError<string>
+            {
+                Errors = result.Errors
+            };
+            if (!converted.Success || result.Result == null) return converted;
+            converted.Result = result.Result.Value;
+            return converted;
+        }
+        public ResultWithError<string> GetSettingsStringForUser(Enum _enum, HttpContext context)
+        {
+            return ParseToString(GetSettingsForUser(_enum, context));
+        }
+        public ResultWithError<string> GetSettingsStringForUser(Enum _enum, User user)
+        {
+            return ParseToString(GetSettingsForUser(_enum, user));
+        }
+        public ResultWithError<string> GetSettingsStringForUser(Enum _enum, int idUser)
+        {
+            return ParseToString(GetSettingsForUser(_enum, idUser));
+        }
+
+        #endregion
+
 
         #region Get int
         protected ResultWithError<int> ParseToInt(ResultWithError<Settings> result)
@@ -243,7 +270,7 @@ namespace Core.Logic
 
         #region Save for user
 
-        #region save string
+        #region save Default
         public ResultWithError<Settings> SaveSettingsForUser(Enum _enum, HttpContext context, string value)
         {
             int? userId = context.GetUserId();
@@ -283,6 +310,22 @@ namespace Core.Logic
             return _instance.CreateWithError(s);
         }
         #endregion
+
+        #region save string
+        public ResultWithError<string> SaveSettingsStringForUser(Enum _enum, HttpContext context, string value)
+        {
+            return ParseToString(SaveSettingsForUser(_enum, context, value.ToString()));
+        }
+        public ResultWithError<string> SaveSettingsStringForUser(Enum _enum, User user, string value)
+        {
+            return ParseToString(SaveSettingsForUser(_enum, user, value));
+        }
+        public ResultWithError<string> SaveSettingsStringForUser(Enum _enum, int idUser, string value)
+        {
+            return ParseToString(SaveSettingsForUser(_enum, idUser, value.ToString()));
+        }
+        #endregion
+
 
         #region save int
         public ResultWithError<int> SaveSettingsIntForUser(Enum _enum, HttpContext context, int value)

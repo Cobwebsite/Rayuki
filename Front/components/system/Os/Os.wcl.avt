@@ -441,6 +441,11 @@ namespace System {
         }
 
         private async init() {
+            Aventus.PressManager.setGlobalConfig({
+                delayDblPress: 250,
+                delayLongPress: 700,
+                offsetDrag: 20
+            });
             this.trapInOs();
             this.addResizeObserver();
             await this.startSocket();

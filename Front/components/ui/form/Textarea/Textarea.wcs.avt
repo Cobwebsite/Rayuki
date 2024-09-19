@@ -7,6 +7,7 @@
 	--_textarea-font-size-label: var(--textarea-font-size-label, var(--form-element-font-size-label, calc(var(--_textarea-font-size) * 0.95)));
 	--_textarea-input-border: var(--textarea-input-border, var(--form-element-border, 1px solid var(--lighter-active)));
 	--_textarea-border-radius: var(--textarea-border-radius, var(--form-element-border-radius, 0));
+	--_textarea-autogrow-max-height: var(--textarea-autogrow-max-height, none);
 }
 
 :host {
@@ -14,11 +15,11 @@
 	width: 100%;
 
 	label {
+		cursor: pointer;
 		display: none;
 		font-size: var(--_textarea-font-size-label);
 		margin-bottom: 5px;
 		margin-left: 3px;
-		cursor: pointer;
 	}
 
 	.input {
@@ -127,8 +128,11 @@
 
 :host([autogrow]) {
 	.input {
+		max-height: var(--_textarea-autogrow-max-height);
+
 		textarea {
-			overflow: hidden;
+			overflow: auto;
+			max-height: var(--_textarea-autogrow-max-height);
 		}
 	}
 }

@@ -39,7 +39,9 @@ namespace Components {
         protected onUpdated(element: T) {
             if(element.Id == this.data.Id) {
                 for(let cellConfig of this.options.schema) {
-					this.setCellContent(this.cells[cellConfig.displayName], cellConfig, element);
+                    let cell = this.cells.find(c => c.cellConfig.name == cellConfig.name || c.cellConfig.displayName == cellConfig.displayName);
+                    if(cell)
+                        this.setCellContent(cell, cellConfig, element);
                 }
             }
         }

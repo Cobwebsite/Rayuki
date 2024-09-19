@@ -127,7 +127,24 @@ namespace State {
             return this.localName;
         }
     }
+    export abstract class ApplicationWatchState extends ApplicationState implements Aventus.IState {
 
+        private __watcher: any;
+
+        public get watcher(): any {
+            return this.__watcher;
+        }
+
+        public constructor() {
+            super();
+            this.onWatcherChanged = this.onWatcherChanged.bind(this);
+            this.__watcher = Aventus.Watcher.get({}, this.onWatcherChanged);
+        }
+
+        protected async onWatcherChanged(action: Aventus.WatchAction, path: string, value: any) {
+
+        }
+    }
     export abstract class ApplicationFormState<T> extends ApplicationState implements Aventus.IState {
 
         protected _form: VirtualForm<T>;
@@ -155,7 +172,7 @@ namespace State {
 
         private _onItemChange(action: Aventus.WatchAction, path: string, value: any) {
             this.saveState();
-            this.onItemChange(action, path, value)
+            this.onItemChange(action, path, value);
         }
         protected onItemChange(action: Aventus.WatchAction, path: string, value: any) {
 

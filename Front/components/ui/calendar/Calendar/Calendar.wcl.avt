@@ -1,6 +1,7 @@
 import { CalendarDayDefault } from "../CalendarDayDefault/CalendarDayDefault.wcl.avt";
 import { CalendarDay } from "../CalendarDay/CalendarDay.wcl.avt";
 import { DomTools } from "../../../../libs/DomTools.lib.avt";
+import { DateTools } from "../../../../libs/DateTools.lib.avt";
 
 namespace Components {
     export class Calendar extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -53,6 +54,8 @@ namespace Components {
 
         @Watch()
         public yearGroupTxt: string = "";
+
+        protected cases: { [date: string]: CalendarDay; } = {};
         //#endregion
 
 
@@ -106,8 +109,13 @@ namespace Components {
             return CalendarDayDefault;
         }
 
+        public getCase(date: Date): CalendarDay | undefined {
+            return this.cases[DateTools.print(date)];
+        }
+
         protected renderDates() {
             if(!this.isConnected) return;
+            this.cases = {};
             DomTools.clearElement(this.bodyEl);
             let date = this.date;
             this.yearEl.innerHTML = date.getFullYear() + '';
@@ -139,10 +147,10 @@ namespace Components {
             let CaseCst = this.defineCalendarDay();
             while(startDate < maxDate) {
                 let caseEl = new CaseCst();
+                this.cases[DateTools.print(startDate)] = caseEl;
                 caseEl.init(date, startDate, this);
                 row.appendChild(caseEl);
                 startDate.setDate(startDate.getDate() + 1);
-
                 i++;
                 if(i == 7) {
                     i = 0;

@@ -1315,6 +1315,9 @@ let Watcher=class Watcher {
                 return undefined;
             },
             get(target, prop, receiver) {
+                if(typeof prop == 'symbol') {
+                    return Reflect.get(target, prop, receiver); 
+                }
                 if (reservedName[prop]) {
                     return target[prop];
                 }
@@ -2906,7 +2909,7 @@ _.Animation=Animation;
 
 let PressManager=class PressManager {
     static globalConfig = {
-        delayDblPress: 150,
+        delayDblPress: 250,
         delayLongPress: 700,
         offsetDrag: 20
     };
@@ -6782,17 +6785,22 @@ let _n;
 const Icon = class Icon extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon", "type"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'is_hidden'() { return this.getBoolAttr('is_hidden') }
-    set 'is_hidden'(val) { this.setBoolAttr('is_hidden', val) }    get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }get 'type'() { return this.getStringProp('type') }
-    set 'type'(val) { this.setStringAttr('type', val) }    static defaultType = 'outlined';
+    set 'is_hidden'(val) { this.setBoolAttr('is_hidden', val) }
+    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }
+get 'type'() { return this.getStringProp('type') }
+    set 'type'(val) { this.setStringAttr('type', val) }
+    static defaultType = 'outlined';
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
     if (target.isReady) {
         target.init();
     }
-}));this.__addPropertyActions("type", ((target) => {
+}));
+this.__addPropertyActions("type", ((target) => {
     if (target.isReady)
         target.loadFont();
-})); }
+}));
+ }
     static __style = `:host{--_material-icon-animation-duration: var(--material-icon-animation-duration, 1.75s)}:host{direction:ltr;display:inline-block;font-family:"Material Symbols Outlined";-moz-font-feature-settings:"liga";font-size:24px;-moz-osx-font-smoothing:grayscale;font-style:normal;font-weight:normal;letter-spacing:normal;line-height:1;text-transform:none;white-space:nowrap;word-wrap:normal}:host .icon{direction:inherit;display:inline-block;font-family:inherit;-moz-font-feature-settings:inherit;font-size:inherit;-moz-osx-font-smoothing:inherit;font-style:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;text-transform:inherit;white-space:inherit;word-wrap:inherit}:host([is_hidden]){opacity:0}:host([type=sharp]){font-family:"Material Symbols Sharp"}:host([type=rounded]){font-family:"Material Symbols Rounded"}:host([type=outlined]){font-family:"Material Symbols Outlined"}:host([spin]){animation:spin var(--_material-icon-animation-duration) linear infinite}:host([reverse_spin]){animation:reverse-spin var(--_material-icon-animation-duration) linear infinite}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes reverse-spin{0%{transform:rotate(360deg)}100%{transform:rotate(0deg)}}`;
     __getStatic() {
         return Icon;
@@ -6807,7 +6815,8 @@ const Icon = class Icon extends Aventus.WebComponent {
         blocks: { 'default':`<div class="icon" _id="icon_0"></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();
+this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "iconEl",
@@ -6816,12 +6825,19 @@ const Icon = class Icon extends Aventus.WebComponent {
       ]
     }
   ]
-}); }
+});
+ }
     getClassName() {
         return "Icon";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('is_hidden')) {this.setAttribute('is_hidden' ,'true'); }if(!this.hasAttribute('icon')){ this['icon'] = "check_box_outline_blank"; }if(!this.hasAttribute('type')){ this['type'] = Icon.defaultType; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('is_hidden');this.__upgradeProperty('icon');this.__upgradeProperty('type'); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('is_hidden')) {this.setAttribute('is_hidden' ,'true'); }
+if(!this.hasAttribute('icon')){ this['icon'] = "check_box_outline_blank"; }
+if(!this.hasAttribute('type')){ this['type'] = Icon.defaultType; }
+ }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('is_hidden');
+this.__upgradeProperty('icon');
+this.__upgradeProperty('type');
+ }
     __listBoolProps() { return ["is_hidden"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     async loadFont() {
         if (!this.type)

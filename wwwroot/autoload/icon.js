@@ -52,6 +52,56 @@ for(let key in _) { Cave[key] = _[key] }
 })(Cave);
 
 
+var Chat;
+(Chat||(Chat = {}));
+(function (Chat) {
+const moduleName = `Chat`;
+const _ = {};
+
+let System = {};
+_.System = {};
+let _n;
+let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Chat.AppInfo, Chat"; }
+    static Version = 1;
+}
+AppInfo.Namespace=`Chat`;
+AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
+Aventus.Converter.register(AppInfo.Fullname, AppInfo);
+_.AppInfo=AppInfo;
+
+System.AppIcon = class AppIcon extends Core.System.AppIcon {
+    static __style = `:host{background-color:#5060ec}:host rk-img{--img-fill-color: transparent;--img-stroke-color: #ffffff;max-height:100%;flex-grow:1;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    __getStatic() {
+        return AppIcon;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(AppIcon.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-img src="/apps/Chat/img/logo.svg"></rk-img>` }
+    });
+}
+    getClassName() {
+        return "AppIcon";
+    }
+}
+System.AppIcon.Namespace=`Chat.System`;
+System.AppIcon.Tag=`chat-app-icon`;
+_.System.AppIcon=System.AppIcon;
+if(!window.customElements.get('chat-app-icon')){window.customElements.define('chat-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
+
+let Version= AppInfo.Version;
+_.Version=Version;
+
+
+for(let key in _) { Chat[key] = _[key] }
+})(Chat);
+
+
 
 var Explorer;
 (Explorer||(Explorer = {}));
