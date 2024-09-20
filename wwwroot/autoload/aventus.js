@@ -136,6 +136,78 @@ let Callback=class Callback {
 Callback.Namespace=`Aventus`;
 _.Callback=Callback;
 
+let NormalizedEvent=class NormalizedEvent {
+    _event;
+    get event() {
+        return this._event;
+    }
+    constructor(event) {
+        this._event = event;
+    }
+    getProp(prop) {
+        if (prop in this.event) {
+            return this.event[prop];
+        }
+        return undefined;
+    }
+    stopImmediatePropagation() {
+        this.event.stopImmediatePropagation();
+    }
+    get clientX() {
+        if ('clientX' in this.event) {
+            return this.event.clientX;
+        }
+        else if ('touches' in this.event && this.event.touches.length > 0) {
+            return this.event.touches[0].clientX;
+        }
+        return 0;
+    }
+    get clientY() {
+        if ('clientY' in this.event) {
+            return this.event.clientY;
+        }
+        else if ('touches' in this.event && this.event.touches.length > 0) {
+            return this.event.touches[0].clientY;
+        }
+        return 0;
+    }
+    get pageX() {
+        if ('pageX' in this.event) {
+            return this.event.pageX;
+        }
+        else if ('touches' in this.event && this.event.touches.length > 0) {
+            return this.event.touches[0].pageX;
+        }
+        return 0;
+    }
+    get pageY() {
+        if ('pageY' in this.event) {
+            return this.event.pageY;
+        }
+        else if ('touches' in this.event && this.event.touches.length > 0) {
+            return this.event.touches[0].pageY;
+        }
+        return 0;
+    }
+    get type() {
+        return this.event.type;
+    }
+    get target() {
+        return this.event.target;
+    }
+    get timeStamp() {
+        return this.event.timeStamp;
+    }
+    get pointerType() {
+        return this.getProp("pointerType");
+    }
+    get button() {
+        return this.getProp("button");
+    }
+}
+NormalizedEvent.Namespace=`Aventus`;
+_.NormalizedEvent=NormalizedEvent;
+
 let Instance=class Instance {
     static elements = new Map();
     static get(type) {
@@ -1315,8 +1387,8 @@ let Watcher=class Watcher {
                 return undefined;
             },
             get(target, prop, receiver) {
-                if(typeof prop == 'symbol') {
-                    return Reflect.get(target, prop, receiver); 
+                if (typeof prop == 'symbol') {
+                    return Reflect.get(target, prop, receiver);
                 }
                 if (reservedName[prop]) {
                     return target[prop];
@@ -1492,6 +1564,9 @@ let Watcher=class Watcher {
                 return Reflect.get(target, prop, receiver);
             },
             set(target, prop, value, receiver) {
+                if (typeof prop == 'symbol') {
+                    return Reflect.set(target, prop, value, receiver);
+                }
                 let oldValue = Reflect.get(target, prop, receiver);
                 value = replaceByAlias(target, value, prop, receiver);
                 if (value instanceof Signal) {
@@ -1525,6 +1600,9 @@ let Watcher=class Watcher {
                 return result;
             },
             deleteProperty(target, prop) {
+                if (typeof prop == 'symbol') {
+                    return Reflect.deleteProperty(target, prop);
+                }
                 let triggerChange = false;
                 let pathToDelete = '';
                 if (!reservedName[prop]) {
@@ -1563,6 +1641,9 @@ let Watcher=class Watcher {
                 return false;
             },
             defineProperty(target, prop, descriptor) {
+                if (typeof prop == 'symbol') {
+                    return Reflect.defineProperty(target, prop, descriptor);
+                }
                 let triggerChange = false;
                 let newPath = '';
                 if (!reservedName[prop]) {
@@ -2947,6 +3028,8 @@ let PressManager=class PressManager {
     downEventSaved;
     useDblPress = false;
     stopPropagation = () => true;
+    isEventDownProcessed = false;
+    isEventUpProcessed = false;
     functionsBinded = {
         downAction: (e) => { },
         upAction: (e) => { },
@@ -3056,9 +3139,18 @@ let PressManager=class PressManager {
         this.functionsBinded.childPressEnd = this.childPressEnd.bind(this);
         this.functionsBinded.childPressMove = this.childPressMove.bind(this);
     }
+    preventTouch() {
+        const onTouch = (ev) => {
+            ev.preventDefault();
+        };
+        this.element.addEventListener('touchstart', onTouch, { passive: false });
+        this.element.addEventListener('touchmove', onTouch, { passive: false });
+        this.element.addEventListener('touchend', onTouch, { passive: false });
+    }
     init() {
         this.bindAllFunction();
         this.element.addEventListener("pointerdown", this.functionsBinded.downAction);
+        this.element.addEventListener("touchstart", this.functionsBinded.downAction);
         this.element.addEventListener("trigger_pointer_pressstart", this.functionsBinded.childPressStart);
         this.element.addEventListener("trigger_pointer_pressend", this.functionsBinded.childPressEnd);
         this.element.addEventListener("trigger_pointer_pressmove", this.functionsBinded.childPressMove);
@@ -3076,11 +3168,20 @@ let PressManager=class PressManager {
             }, this.delayLongPress);
         }
     }
-    downAction(e) {
+    downAction(ev) {
+        if (this.isEventDownProcessed) {
+            if (this.stopPropagation()) {
+                ev.stopImmediatePropagation();
+            }
+            return;
+        }
+        this.isEventDownProcessed = true;
+        this.isEventUpProcessed = false;
+        const e = new NormalizedEvent(ev);
         if (this.options.onEvent) {
             this.options.onEvent(e);
         }
-        if (!this.options.buttonAllowed?.includes(e.button)) {
+        if (e.button != undefined && !this.options.buttonAllowed?.includes(e.button)) {
             return;
         }
         if (this.stopPropagation()) {
@@ -3094,6 +3195,8 @@ let PressManager=class PressManager {
         this.startPosition = { x: e.pageX, y: e.pageY };
         document.addEventListener("pointerup", this.functionsBinded.upAction);
         document.addEventListener("pointercancel", this.functionsBinded.upAction);
+        document.addEventListener("touchend", this.functionsBinded.upAction);
+        document.addEventListener("touchcancel", this.functionsBinded.upAction);
         document.addEventListener("pointermove", this.functionsBinded.moveAction);
         this.genericDownAction(this.state, e);
         if (this.options.onPressStart) {
@@ -3147,7 +3250,16 @@ let PressManager=class PressManager {
             }
         }
     }
-    upAction(e) {
+    upAction(ev) {
+        if (this.isEventUpProcessed) {
+            if (this.stopPropagation()) {
+                ev.stopImmediatePropagation();
+            }
+            return;
+        }
+        const e = new NormalizedEvent(ev);
+        this.isEventUpProcessed = true;
+        this.isEventDownProcessed = false;
         if (this.options.onEvent) {
             this.options.onEvent(e);
         }
@@ -3156,6 +3268,8 @@ let PressManager=class PressManager {
         }
         document.removeEventListener("pointerup", this.functionsBinded.upAction);
         document.removeEventListener("pointercancel", this.functionsBinded.upAction);
+        document.removeEventListener("touchend", this.functionsBinded.upAction);
+        document.removeEventListener("touchcancel", this.functionsBinded.upAction);
         document.removeEventListener("pointermove", this.functionsBinded.moveAction);
         this.genericUpAction(this.state, e);
         if (this.options.onPressEnd) {
@@ -3186,7 +3300,8 @@ let PressManager=class PressManager {
             }
         }
     }
-    moveAction(e) {
+    moveAction(ev) {
+        const e = new NormalizedEvent(ev);
         if (this.options.onEvent) {
             this.options.onEvent(e);
         }
@@ -3219,11 +3334,6 @@ let PressManager=class PressManager {
             return;
         this.genericMoveAction(e.detail.state, e.detail.realEvent);
     }
-    // protected emitTriggerFunctionParent(action: string, e: PointerEvent) {
-    //     if(el == null) {
-    //         if(parentNode instanceof ShadowRoot) {
-    //             this.emitTriggerFunction(action, e, parentNode.host);
-    //         this.emitTriggerFunction(action, e, el);
     lastEmitEvent;
     emitTriggerFunction(action, e, el) {
         let ev = new CustomEvent("trigger_pointer_" + action, {
@@ -6785,22 +6895,17 @@ let _n;
 const Icon = class Icon extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon", "type"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'is_hidden'() { return this.getBoolAttr('is_hidden') }
-    set 'is_hidden'(val) { this.setBoolAttr('is_hidden', val) }
-    get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }
-get 'type'() { return this.getStringProp('type') }
-    set 'type'(val) { this.setStringAttr('type', val) }
-    static defaultType = 'outlined';
+    set 'is_hidden'(val) { this.setBoolAttr('is_hidden', val) }    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'type'() { return this.getStringProp('type') }
+    set 'type'(val) { this.setStringAttr('type', val) }    static defaultType = 'outlined';
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
     if (target.isReady) {
         target.init();
     }
-}));
-this.__addPropertyActions("type", ((target) => {
+}));this.__addPropertyActions("type", ((target) => {
     if (target.isReady)
         target.loadFont();
-}));
- }
+})); }
     static __style = `:host{--_material-icon-animation-duration: var(--material-icon-animation-duration, 1.75s)}:host{direction:ltr;display:inline-block;font-family:"Material Symbols Outlined";-moz-font-feature-settings:"liga";font-size:24px;-moz-osx-font-smoothing:grayscale;font-style:normal;font-weight:normal;letter-spacing:normal;line-height:1;text-transform:none;white-space:nowrap;word-wrap:normal}:host .icon{direction:inherit;display:inline-block;font-family:inherit;-moz-font-feature-settings:inherit;font-size:inherit;-moz-osx-font-smoothing:inherit;font-style:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;text-transform:inherit;white-space:inherit;word-wrap:inherit}:host([is_hidden]){opacity:0}:host([type=sharp]){font-family:"Material Symbols Sharp"}:host([type=rounded]){font-family:"Material Symbols Rounded"}:host([type=outlined]){font-family:"Material Symbols Outlined"}:host([spin]){animation:spin var(--_material-icon-animation-duration) linear infinite}:host([reverse_spin]){animation:reverse-spin var(--_material-icon-animation-duration) linear infinite}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes reverse-spin{0%{transform:rotate(360deg)}100%{transform:rotate(0deg)}}`;
     __getStatic() {
         return Icon;
@@ -6815,8 +6920,7 @@ this.__addPropertyActions("type", ((target) => {
         blocks: { 'default':`<div class="icon" _id="icon_0"></div>` }
     });
 }
-    __registerTemplateAction() { super.__registerTemplateAction();
-this.__getStatic().__template.setActions({
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
       "name": "iconEl",
@@ -6825,19 +6929,12 @@ this.__getStatic().__template.setActions({
       ]
     }
   ]
-});
- }
+}); }
     getClassName() {
         return "Icon";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('is_hidden')) {this.setAttribute('is_hidden' ,'true'); }
-if(!this.hasAttribute('icon')){ this['icon'] = "check_box_outline_blank"; }
-if(!this.hasAttribute('type')){ this['type'] = Icon.defaultType; }
- }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('is_hidden');
-this.__upgradeProperty('icon');
-this.__upgradeProperty('type');
- }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('is_hidden')) {this.setAttribute('is_hidden' ,'true'); }if(!this.hasAttribute('icon')){ this['icon'] = "check_box_outline_blank"; }if(!this.hasAttribute('type')){ this['type'] = Icon.defaultType; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('is_hidden');this.__upgradeProperty('icon');this.__upgradeProperty('type'); }
     __listBoolProps() { return ["is_hidden"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     async loadFont() {
         if (!this.type)
@@ -6897,15 +6994,15 @@ const moduleName = `AventusSharp`;
 const _ = {};
 
 let Data = {};
-_.Data = {};
+_.Data = AventusSharp.Data ?? {};
 let Routes = {};
-_.Routes = {};
+_.Routes = AventusSharp.Routes ?? {};
 let WebSocket = {};
-_.WebSocket = {};
+_.WebSocket = AventusSharp.WebSocket ?? {};
 let RAM = {};
-_.RAM = {};
+_.RAM = AventusSharp.RAM ?? {};
 let Tools = {};
-_.Tools = {};
+_.Tools = AventusSharp.Tools ?? {};
 let _n;
 Data.AventusFile=class AventusFile {
     static get Fullname() { return "AventusSharp.Data.AventusFile, AventusSharp"; }
@@ -7296,7 +7393,7 @@ RAM.RamHttp=class RamHttp extends Aventus.Ram {
             if (response.success && response.result) {
                 for (let item of response.result) {
                     let resultTemp = new Aventus.ResultRamWithError();
-                    this.addOrUpdateData(item, resultTemp);
+                    await this.addOrUpdateData(item, resultTemp);
                     if (!resultTemp.success) {
                         result.errors = [...result.errors, ...resultTemp.errors];
                     }
@@ -7316,7 +7413,7 @@ RAM.RamHttp=class RamHttp extends Aventus.Ram {
             let response = await this.routes.GetById(id);
             if (response.success && response.result) {
                 let resultTemp = new Aventus.ResultRamWithError();
-                this.addOrUpdateData(response.result, resultTemp);
+                await this.addOrUpdateData(response.result, resultTemp);
                 if (!resultTemp.success) {
                     result.errors = [...result.errors, ...resultTemp.errors];
                 }

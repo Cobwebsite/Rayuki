@@ -48,7 +48,7 @@ namespace Components {
 
 
         //#region methods
-        public abstract setContent(data: T | undefined, rowData: U);
+        public abstract setContent(data: T | undefined, rowData: U) : Aventus.Asyncable<void>;
 
         protected addResize() {
             if(!this.resizeEl) {

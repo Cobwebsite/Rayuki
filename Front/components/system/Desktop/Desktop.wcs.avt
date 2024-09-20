@@ -27,6 +27,18 @@
 		z-index: 2;
 	}
 
+	
+	.debug {
+		background-color: #f0f0f0;
+		inset: 0;
+		overflow-y: scroll;
+		padding: 10px;
+		position: absolute;
+		white-space: pre-wrap;
+		z-index: 1;
+		display: none;
+	}
+
 	.app-container {
 		transition:
 			opacity var(--bezier-curve) .5s,

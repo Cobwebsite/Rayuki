@@ -57,6 +57,9 @@ namespace System {
 
         @ViewElement()
         protected appContainer!: HTMLDivElement;
+                
+        @ViewElement()
+        protected debugEl!: HTMLDivElement;
 
         public applications: { [name: string]: { [id: number]: Application; }; } = {};
         public data!: Aventus.RamItem<DesktopData>;
@@ -523,8 +526,42 @@ namespace System {
         }
         //#endregion
 
+        protected addDebug() {
+            const debugConsole = this.debugEl;
+            
+            // Function to append messages to the console
+            function appendToConsole(message, type = 'log') {
+                const logEntry = document.createElement('div');
+                logEntry.textContent = `[${type.toUpperCase()}] ${message}`;
+                debugConsole.appendChild(logEntry);
+                debugConsole.scrollTop = debugConsole.scrollHeight; // Auto-scroll to the bottom
+            }
+
+            // Override console.log
+            const originalLog = console.log;
+            console.log = function(...args) {
+                originalLog.apply(console, args); // Call the original console.log
+                appendToConsole(args.join(' '), 'log');
+            };
+
+            // Override console.error
+            const originalError = console.error;
+            console.error = function(...args) {
+                originalError.apply(console, args); // Call the original console.error
+                appendToConsole(args.join(' '), 'error');
+            };
+
+            // Override console.warn
+            const originalWarn = console.warn;
+            console.warn = function(...args) {
+                originalWarn.apply(console, args); // Call the original console.warn
+                appendToConsole(args.join(' '), 'warn');
+            };
+        }
+
         protected override postCreation(): void {
             this.loadData();
+            //this.addDebug();
         }
         //#endregion
     }

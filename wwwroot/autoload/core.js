@@ -6,41 +6,41 @@ const moduleName = `Core`;
 const _ = {};
 Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block;font-family:var(--font-family);-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:manipulation}:host .primary{background-color:var(--primary);color:var(--text-color-primary)}:host .text-primary{color:var(--primary)}:host .secondary{background-color:var(--secondary);color:var(--text-color-secondary)}:host .text-secondary{color:var(--secondary)}:host .green{background-color:var(--green);color:var(--text-color-green)}:host .text-green{color:var(--green)}:host .success{background-color:var(--success);color:var(--text-color-success)}:host .text-success{color:var(--success)}:host .red{background-color:var(--red);color:var(--text-color-red)}:host .text-red{color:var(--red)}:host .error{background-color:var(--error);color:var(--text-color-error)}:host .text-error{color:var(--error)}:host .orange{background-color:var(--orange);color:var(--text-color-orange)}:host .text-orange{color:var(--orange)}:host .warning{background-color:var(--warning);color:var(--text-color-warning)}:host .text-warning{color:var(--warning)}:host .blue{background-color:var(--blue);color:var(--text-color-blue)}:host .text-blue{color:var(--blue)}:host .information{background-color:var(--information);color:var(--text-color-information)}:host .text-information{color:var(--information)}:host .touch{cursor:pointer}:host .touch.disable,:host .touch.disabled{cursor:default}:host input::placeholder{overflow:visible}:host *{box-sizing:border-box;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:manipulation}`)
 let Lib = {};
-_.Lib = {};
+_.Lib = Core.Lib ?? {};
 let Websocket = {};
-_.Websocket = {};
+_.Websocket = Core.Websocket ?? {};
 Websocket.Events = {};
-_.Websocket.Events = {};
+_.Websocket.Events = Core.Websocket?.Events ?? {};
 let Errors = {};
-_.Errors = {};
+_.Errors = Core.Errors ?? {};
 let Data = {};
-_.Data = {};
+_.Data = Core.Data ?? {};
 let App = {};
-_.App = {};
+_.App = Core.App ?? {};
 let Components = {};
-_.Components = {};
+_.Components = Core.Components ?? {};
 Data.DataTypes = {};
-_.Data.DataTypes = {};
+_.Data.DataTypes = Core.Data?.DataTypes ?? {};
 let System = {};
-_.System = {};
+_.System = Core.System ?? {};
 let Permissions = {};
-_.Permissions = {};
+_.Permissions = Core.Permissions ?? {};
 Websocket.Routes = {};
-_.Websocket.Routes = {};
+_.Websocket.Routes = Core.Websocket?.Routes ?? {};
 Permissions.Tree = {};
-_.Permissions.Tree = {};
+_.Permissions.Tree = Core.Permissions?.Tree ?? {};
 let Routes = {};
-_.Routes = {};
+_.Routes = Core.Routes ?? {};
 let State = {};
-_.State = {};
+_.State = Core.State ?? {};
 let RAM = {};
-_.RAM = {};
+_.RAM = Core.RAM ?? {};
 Websocket.Events.TransactionCancelledEvent = {};
-_.Websocket.Events.TransactionCancelledEvent = {};
+_.Websocket.Events.TransactionCancelledEvent = Core.Websocket?.Events?.TransactionCancelledEvent ?? {};
 let Tools = {};
-_.Tools = {};
+_.Tools = Core.Tools ?? {};
 Websocket.Events.ApplicationTestEvent = {};
-_.Websocket.Events.ApplicationTestEvent = {};
+_.Websocket.Events.ApplicationTestEvent = Core.Websocket?.Events?.ApplicationTestEvent ?? {};
 let _n;
 Lib.Validator=class Validator {
     static email(txt) {
@@ -2197,7 +2197,7 @@ Components.Collapse = class Collapse extends Aventus.WebComponent {
     get 'open'() { return this.getBoolAttr('open') }
     set 'open'(val) { this.setBoolAttr('open', val) }get 'no_animation'() { return this.getBoolAttr('no_animation') }
     set 'no_animation'(val) { this.setBoolAttr('no_animation', val) }    change = new Aventus.Callback();
-    static __style = `:host{width:fit-content}:host .title{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .collapse{display:grid;grid-template-rows:0fr;transition:.5s var(--bezier-curve) grid-template-rows;width:max-content}:host .collapse .content{overflow:hidden;width:fit-content}:host([open]) .collapse{grid-template-rows:1fr}:host([no_animation]) .collapse{transition:none}`;
+    static __style = `:host{--_collapse-width: var(--collapse-width, 100%)}:host{width:var(--_collapse-width)}:host .title{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .collapse{display:grid;grid-template-rows:0fr;transition:.5s var(--bezier-curve) grid-template-rows;width:var(--_collapse-width)}:host .collapse .content{overflow:hidden;width:var(--_collapse-width)}:host([open]) .collapse{grid-template-rows:1fr}:host([no_animation]) .collapse{transition:none}`;
     __getStatic() {
         return Collapse;
     }
@@ -7441,6 +7441,7 @@ if (this.constructor == GenericPopup) { throw "can't instanciate an abstract cla
                 }
             }
         });
+        // prevent close
         this.pressManagerPopup = new Aventus.PressManager({
             element: this.popupEl,
             onPress: (e) => { }
@@ -8642,7 +8643,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
     }
     oldActiveCase;
     pressManagerStopMoveApp;
-    static __style = `:host{--_desktop-background-color: var(--desktop-background-color, var(--primary-color))}:host{background-color:var(--_desktop-background-color);background-position:center;background-repeat:no-repeat;background-size:cover;flex-shrink:0;height:100%;overflow:hidden;position:relative;width:100%}:host .icons{--page-case-border-radius: var(--border-radius-sm);--page-case-border-active: 1px solid var(--darker-active);--page-case-background-active: var(--lighter-active);height:calc(100% - 70px);transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s;width:100%;z-index:2}:host .app-container{transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host([show_application_list])>*{opacity:0 !important;visibility:hidden !important}:host([background_size=Cover]){background-size:cover}:host([background_size=Contain]){background-size:contain}:host([background_size=Stretch]){background-size:100% 100%}`;
+    static __style = `:host{--_desktop-background-color: var(--desktop-background-color, var(--primary-color))}:host{background-color:var(--_desktop-background-color);background-position:center;background-repeat:no-repeat;background-size:cover;flex-shrink:0;height:100%;overflow:hidden;position:relative;width:100%}:host .icons{--page-case-border-radius: var(--border-radius-sm);--page-case-border-active: 1px solid var(--darker-active);--page-case-background-active: var(--lighter-active);height:calc(100% - 70px);transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s;width:100%;z-index:2}:host .debug{background-color:#f0f0f0;inset:0;overflow-y:scroll;padding:10px;position:absolute;white-space:pre-wrap;z-index:1;display:none}:host .app-container{transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host([show_application_list])>*{opacity:0 !important;visibility:hidden !important}:host([background_size=Cover]){background-size:cover}:host([background_size=Contain]){background-size:contain}:host([background_size=Stretch]){background-size:100% 100%}`;
     constructor() {            super();this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this) }
     __getStatic() {
         return Desktop;
@@ -8654,7 +8655,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="icons">    <rk-page-case case_width="75" case_height="75" min_case_margin_left="20" min_case_margin_top="20" min_page_number="1" order_position inverse _id="desktop_0">    </rk-page-case></div><rk-bottom-bar _id="desktop_1"></rk-bottom-bar><div class="app-container" _id="desktop_2"></div>` }
+        blocks: { 'default':`<div class="icons">    <rk-page-case case_width="75" case_height="75" min_case_margin_left="20" min_case_margin_top="20" min_page_number="1" order_position inverse _id="desktop_0">    </rk-page-case></div><rk-bottom-bar _id="desktop_1"></rk-bottom-bar><div class="debug" _id="desktop_2"></div><div class="app-container" _id="desktop_3"></div>` }
     });
 }
     __createStates() { super.__createStates(); let that = this;  this.__createStatesList(State.MoveApplication.state, State.DesktopStateManager);this.__addActiveState(State.MoveApplication.state, State.DesktopStateManager, (state, slugs) => { that.__inactiveDefaultState(State.DesktopStateManager); that.onMoveApplication(state, slugs);})this.__addInactiveState(State.MoveApplication.state, State.DesktopStateManager, (state, nextState, slugs) => { that.onStopMovingApplication(state, nextState, slugs);that.__activeDefaultState(nextState, State.DesktopStateManager);}) }
@@ -8673,9 +8674,15 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
       ]
     },
     {
-      "name": "appContainer",
+      "name": "debugEl",
       "ids": [
         "desktop_2"
+      ]
+    },
+    {
+      "name": "appContainer",
+      "ids": [
+        "desktop_3"
       ]
     }
   ]
@@ -9068,8 +9075,37 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             total--;
         }
     }
+    addDebug() {
+        const debugConsole = this.debugEl;
+        // Function to append messages to the console
+        function appendToConsole(message, type = 'log') {
+            const logEntry = document.createElement('div');
+            logEntry.textContent = `[${type.toUpperCase()}] ${message}`;
+            debugConsole.appendChild(logEntry);
+            debugConsole.scrollTop = debugConsole.scrollHeight; // Auto-scroll to the bottom
+        }
+        // Override console.log
+        const originalLog = console.log;
+        console.log = function (...args) {
+            originalLog.apply(console, args); // Call the original console.log
+            appendToConsole(args.join(' '), 'log');
+        };
+        // Override console.error
+        const originalError = console.error;
+        console.error = function (...args) {
+            originalError.apply(console, args); // Call the original console.error
+            appendToConsole(args.join(' '), 'error');
+        };
+        // Override console.warn
+        const originalWarn = console.warn;
+        console.warn = function (...args) {
+            originalWarn.apply(console, args); // Call the original console.warn
+            appendToConsole(args.join(' '), 'warn');
+        };
+    }
     postCreation() {
         this.loadData();
+        //this.addDebug();
     }
 }
 System.Desktop.Namespace=`Core.System`;
@@ -14105,13 +14141,7 @@ Components.ColorPickerSelector = class ColorPickerSelector extends Aventus.WebCo
     }
 })); }
     static __style = `:host{--_color-picker-selector-area-width: var(--color-picker-selector-area-width, 200px);--_color-picker-selector-panel-width: var(--color-picker-selector-panel-width, 200px);--_color-picker-selector-background-color: var(--color-picker-selector-background-color, white);--_color-picker-selector-border-radius: var(--color-picker-selector-border-radius, var(--border-radius-sm))}:host{background-color:var(--_color-picker-selector-background-color);border-radius:var(--_color-picker-selector-border-radius);box-shadow:var(--elevation-2);width:max(var(--_color-picker-selector-area-width),var(--_color-picker-selector-panel-width));z-index:800}:host .style-wrapper{display:flex;flex-direction:column;width:100%}:host .style-wrapper .color-area{aspect-ratio:1/.5;background-image:linear-gradient(rgba(0, 0, 0, 0), #000),linear-gradient(90deg, #fff, var(--_color-picker-selector-area-color));border-top-left-radius:var(--_color-picker-selector-border-radius);border-top-right-radius:var(--_color-picker-selector-border-radius);cursor:pointer;margin:0 auto;position:relative;width:var(--_color-picker-selector-area-width)}:host .style-wrapper .color-area .area-dot{background-color:var(--_color-picker-selector-color-opacity);border:2px solid #fff;border-radius:var(--border-radius-round);height:10px;left:0;position:absolute;top:0;transform:translate(-50%, -50%);width:10px}:host .style-wrapper .color-panel{margin:0 auto;padding:15px;width:var(--_color-picker-selector-panel-width)}:host .style-wrapper .color-panel .color-hue{margin-bottom:5px;width:100%}:host .style-wrapper .color-panel .color-hue rk-slider{--slider-background-image: linear-gradient(to right, red 0, #ff0 16.66%, #0f0 33.33%, #0ff 50%, #00f 66.66%, #f0f 83.33%, red 100%);--slider-active-background-color: transparent;--slider-background-color: transparent;--slider-dot-color: var(--_color-picker-selector-area-color);--slider-bar-height: 8px;min-width:auto;width:100%}:host .style-wrapper .color-panel .color-alpha{display:none;margin-top:5px;position:relative}:host .style-wrapper .color-panel .color-alpha rk-slider{--slider-background-color: transparent;--slider-active-background-color: transparent;--slider-bar-height: 8px;min-width:auto;position:relative;width:100%;z-index:2}:host .style-wrapper .color-panel .color-alpha .bar{background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--_color-picker-selector-border-radius);inset:0;position:absolute;width:100%;z-index:1}:host .style-wrapper .color-panel .color-alpha .bar-color{background-image:linear-gradient(90deg, rgba(0, 0, 0, 0), var(--_color-picker-selector-color-opacity));border-radius:var(--_color-picker-selector-border-radius);inset:0;position:absolute;width:100%;z-index:2}:host .style-wrapper .color-panel .color-alpha .dot{background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--border-radius-round);inset:0;position:absolute;z-index:1}:host .style-wrapper .color-panel .color-alpha .dot-color{background-color:var(--_color-picker-selector-color);border-radius:var(--border-radius-round);inset:0;position:absolute;z-index:2}:host .style-wrapper .color-panel .color-result{align-items:center;display:flex;flex-direction:row;gap:10px;justify-content:center;margin-top:20px}:host .style-wrapper .color-panel .color-result .color-preview{background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--border-radius-round);flex-shrink:0;height:25px;overflow:hidden;position:relative;width:25px}:host .style-wrapper .color-panel .color-result .color-preview::after{background-color:var(--_color-picker-selector-color);content:"";inset:0;position:absolute}:host .style-wrapper .color-panel .color-result .color-text{display:none;width:calc(100% - 35px)}:host .style-wrapper .color-panel .color-result .color-text rk-input{--input-height: 25px;min-width:auto;width:100%}:host .style-wrapper .color-panel .color-preset:not(:empty){align-items:center;display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:20px;width:100%}:host .style-wrapper .color-panel .color-preset:not(:empty) .preset{border-radius:var(--border-radius-round);flex-shrink:0;height:20px;width:20px}:host([direction=horizontal]){width:fit-content}:host([direction=horizontal]) .style-wrapper{display:flex;flex-direction:row}:host([direction=horizontal]) .style-wrapper .color-area{aspect-ratio:auto;border-bottom-left-radius:var(--_color-picker-selector-border-radius);border-top-right-radius:0}:host([opacity]) .style-wrapper .color-panel .color-alpha{display:block}:host([show_text_value]) .style-wrapper .color-panel .color-result .color-text{display:block}`;
-    constructor() {
-            super();
-            this._color = new Lib.Color("#FFFFFF");
-            this._color.onColorChange.add(() => {
-                this.applyColorChange();
-            });
-        }
+    constructor() {            super();            this._color = new Lib.Color("#FFFFFF");            this._color.onColorChange.add(() => {                this.applyColorChange();            });        }
     __getStatic() {
         return ColorPickerSelector;
     }
@@ -16660,7 +16690,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
     sortData(data) {
         return data;
     }
-    setSortColumn(column, order) {
+    async setSortColumn(column, order) {
         if (!this.isFirstRender) {
             let cell = this.header.cells[column];
             if (!(cell instanceof Components.TableCellHeader))
@@ -16674,17 +16704,17 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
             this.sortColumns[column] = order;
         }
         if (!this.isFirstRender) {
-            this.render(order !== undefined);
+            await this.render(order !== undefined);
         }
     }
-    filterData(forceRender = false) {
+    async filterData(forceRender = false) {
         let result = [];
         let oldData = Array.from(this.rows.keys());
         if (this.data) {
             for (let item of this.data) {
                 let isOk = true;
                 // remove old data to avoid delete it
-                let index = oldData.indexOf(item);
+                let index = oldData.indexOf(Aventus.Watcher.extract(item));
                 if (index != -1) {
                     oldData.splice(index, 1);
                 }
@@ -16721,7 +16751,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
         }
         this.displayedData = result;
         if (this.mustForceRender) {
-            this.render();
+            await this.render();
         }
     }
     firstRender() {
@@ -16752,7 +16782,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
             }
         }
     }
-    render(onlySort = false) {
+    async render(onlySort = false) {
         this.mustForceRender = false;
         if (!this.headerContainer || !this.bodyContainer) {
             return;
@@ -16842,12 +16872,12 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
         this.currentPage = this.items_per_page == 0 ? 0 : Math.floor(this.nbItems / this.items_per_page);
         this.renderPage();
     }
-    globalFilter(txt) {
+    async globalFilter(txt) {
         this.globalSearchTxt = txt;
         this.currentPage = 0;
-        this.render();
+        await this.render();
     }
-    addFilter(name, action, reload = true) {
+    async addFilter(name, action, reload = true) {
         let nameTxt = name;
         if (!this.filters[nameTxt]) {
             this.filters[nameTxt] = [];
@@ -16857,9 +16887,9 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
         }
         this.filters[nameTxt].push(action);
         if (reload && this.isReady)
-            this.filterData();
+            await this.filterData();
     }
-    removeFilter(name, action, reload = true) {
+    async removeFilter(name, action, reload = true) {
         let nameTxt = name;
         if (this.filters[nameTxt]) {
             let index = this.filters[nameTxt].indexOf(action);
@@ -16868,26 +16898,26 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; } 
             }
         }
         if (reload && this.isReady)
-            this.filterData();
+            await this.filterData();
     }
-    addCustomFilter(action, reload = true) {
+    async addCustomFilter(action, reload = true) {
         if (this.dataFilters.includes(action)) {
             return;
         }
         this.dataFilters.push(action);
         if (reload && this.isReady)
-            this.filterData();
+            await this.filterData();
     }
-    removeCustomFilter(action, reload = true) {
+    async removeCustomFilter(action, reload = true) {
         let index = this.dataFilters.indexOf(action);
         if (index != -1) {
             this.dataFilters.splice(index, 1);
         }
         if (reload && this.isReady)
-            this.filterData();
+            await this.filterData();
     }
-    applyFilters() {
-        this.filterData();
+    async applyFilters() {
+        await this.filterData();
     }
     registerObserver() {
         this.resizeObserver = new Aventus.ResizeObserver(() => {
@@ -17000,9 +17030,9 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
     getCell(cellConfig) {
         return cellConfig.cell ?? Components.TableCellString;
     }
-    addCellOption(cell, cellConfig, data) {
+    async addCellOption(cell, cellConfig, data) {
     }
-    init(options, data) {
+    async init(options, data) {
         this.options = options;
         this._data = data;
         let i = 0;
@@ -17018,23 +17048,23 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
             cell.label = cellConfig.name;
             cell.grid = this.grid;
             cell.cellConfig = cellConfig;
-            this.addCellOption(cell, cellConfig, data);
-            this.setCellContent(cell, cellConfig, data);
+            await this.addCellOption(cell, cellConfig, data);
+            await this.setCellContent(cell, cellConfig, data);
             this.rowContentEl.appendChild(cell);
             this.cells.push(cell);
             i++;
         }
     }
-    setCellContent(cell, cellConfig, data) {
+    async setCellContent(cell, cellConfig, data) {
         if (cellConfig.cellContent) {
-            const result = cellConfig.cellContent(data, cell);
+            const result = await cellConfig.cellContent(data, cell);
             if (result) {
-                cell.setContent(result, data);
+                await cell.setContent(result, data);
             }
         }
         else {
             const v = cellConfig.name ? Aventus.getValueFromObject(cellConfig.name, data) : undefined;
-            cell.setContent(v, data);
+            await cell.setContent(v, data);
         }
     }
     globalSearch(search) {
@@ -17093,7 +17123,7 @@ Components.TableRowData = class TableRowData extends Components.TableRow {
     getClassName() {
         return "TableRowData";
     }
-    init(options, data) {
+    async init(options, data) {
         super.init(options, data);
         if (this.table instanceof Components.TableData) {
             this.ram = this.table.defineRAM();
@@ -17477,10 +17507,10 @@ Components.TableRowHeader = class TableRowHeader extends Components.TableRow {
     getClassName() {
         return "TableRowHeader";
     }
-    setCellContent(cell, cellConfig, data) {
-        cell.setContent(cellConfig.displayName, data);
+    async setCellContent(cell, cellConfig, data) {
+        await cell.setContent(cellConfig.displayName, data);
     }
-    addCellOption(cell, cellConfig, data) {
+    async addCellOption(cell, cellConfig, data) {
         if (cell instanceof Components.TableCellHeader) {
             if (cellConfig.sortable !== undefined) {
                 cell.sortable = cellConfig.sortable;
@@ -17493,8 +17523,8 @@ Components.TableRowHeader = class TableRowHeader extends Components.TableRow {
     getCell(cellConfig) {
         return cellConfig.cellHeader ?? Components.TableCellHeader;
     }
-    init(options, data) {
-        super.init(options, data);
+    async init(options, data) {
+        await super.init(options, data);
     }
 }
 Components.TableRowHeader.Namespace=`Core.Components`;

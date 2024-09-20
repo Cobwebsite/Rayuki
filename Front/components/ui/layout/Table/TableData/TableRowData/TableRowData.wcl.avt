@@ -26,7 +26,7 @@ namespace Components {
 
 
         //#region methods
-        public override init(options: TableOptions<T>, data: T): void {
+        public override async init(options: TableOptions<T>, data: T): Promise<void> {
             super.init(options, data);
 
             if(this.table instanceof TableData) {

@@ -4,4 +4,5 @@
     </rk-page-case>
 </div>
 <rk-bottom-bar @element="bottomBar"></rk-bottom-bar>
+<div class="debug" @element="debugEl"></div>
 <div class="app-container" @element="appContainer"></div>

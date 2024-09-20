@@ -1,3 +1,4 @@
+import type { NormalizedEvent } from "Aventus@Main:Aventus.package.avt";
 import { Color } from "../../../../../libs/Color.lib.avt";
 
 namespace Components {
@@ -201,7 +202,7 @@ namespace Components {
         protected addPressManager() {
             let clientRect: DOMRect;
 
-            const calc = (e: PointerEvent) => {
+            const calc = (e: NormalizedEvent) => {
                 let positionX = e.clientX - clientRect.x;
                 let positionY = e.clientY - clientRect.y;
                 if(positionX < 0) positionX = 0;

@@ -1,5 +1,5 @@
 Object.defineProperty(window, "can", {
     get() { return Core.Permissions.Permission.can.bind(Core.Permissions.Permission); }
-})
+});
 
-File.prototype.toJSON = () => undefined
+File.prototype.toJSON = () => undefined;

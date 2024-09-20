@@ -1,5 +1,9 @@
 :host {
-	width: fit-content;
+	--_collapse-width: var(--collapse-width, 100%);
+}
+
+:host {
+	width: var(--_collapse-width);
 
 	.title {
 		cursor: pointer;
@@ -10,11 +14,11 @@
 		display: grid;
 		grid-template-rows: 0fr;
 		transition: 0.5s var(--bezier-curve) grid-template-rows;
-		width: max-content;
+		width: var(--_collapse-width);
 
 		.content {
 			overflow: hidden;
-			width: fit-content;
+			width: var(--_collapse-width);
 		}
 	}
 }

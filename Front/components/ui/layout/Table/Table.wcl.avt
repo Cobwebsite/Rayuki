@@ -12,7 +12,7 @@ import { TableCellHeader } from "./cells/TableCellHeader/TableCellHeader.wcl.avt
 
 namespace Components {
     export type TableCellType = 'number' | 'string' | 'date' | 'boolean' | 'custom' | 'picture';
-    export type TableSchemaCellContent<T> = (data: T, cell: TableCell<any, T>) => (void | string | undefined);
+    export type TableSchemaCellContent<T> = (data: T, cell: TableCell<any, T>) => (void | string | undefined) | Promise<(void | string | undefined)>;
     export type TableSchemaCellCst<T> = new () => TableCell<any, T>;
     export type TableSchemaCell<T> = TableSchemaCellCst<T>;
     export type TableSchema<T> = {
@@ -178,13 +178,13 @@ namespace Components {
         private showLoadingTimeout: number = 0;
         protected timeoutBeforeLoading: number = 200;
         protected minTimeoutLoading: number = 1000;
-        public showLoading() {
+        public showLoading(): void {
             this.showLoadingTimeout = setTimeout(() => {
                 this.showLoadingStart = new Date();
                 this.loading = true;
             }, this.timeoutBeforeLoading);
         }
-        public async hideLoading() {
+        public async hideLoading(): Promise<void> {
             const minDelay = this.minTimeoutLoading;
             clearTimeout(this.showLoadingTimeout);
             if(this.showLoadingStart) {
@@ -321,7 +321,7 @@ namespace Components {
             return data;
         }
 
-        public setSortColumn(column: string, order: 'asc' | 'desc' | undefined) {
+        public async setSortColumn(column: string, order: 'asc' | 'desc' | undefined): Promise<void> {
             if(!this.isFirstRender) {
                 let cell = this.header.cells[column];
                 if(!(cell instanceof TableCellHeader)) return;
@@ -336,18 +336,18 @@ namespace Components {
             }
 
             if(!this.isFirstRender) {
-                this.render(order !== undefined);
+                await this.render(order !== undefined);
             }
         }
 
-        protected filterData(forceRender: boolean = false) {
+        protected async filterData(forceRender: boolean = false): Promise<void> {
             let result: T[] = [];
             let oldData = Array.from(this.rows.keys());
             if(this.data) {
                 for(let item of this.data) {
                     let isOk = true;
                     // remove old data to avoid delete it
-                    let index = oldData.indexOf(item);
+                    let index = oldData.indexOf(Aventus.Watcher.extract(item));
                     if(index != -1) {
                         oldData.splice(index, 1);
                     }
@@ -384,7 +384,7 @@ namespace Components {
             }
             this.displayedData = result;
             if(this.mustForceRender) {
-                this.render();
+                await this.render();
             }
         }
 
@@ -421,7 +421,7 @@ namespace Components {
 
             }
         }
-        protected render(onlySort: boolean = false) {
+        protected async render(onlySort: boolean = false): Promise<void> {
             this.mustForceRender = false;
             if(!this.headerContainer || !this.bodyContainer) {
                 return;
@@ -529,16 +529,16 @@ namespace Components {
             this.renderPage();
         }
 
-        public globalFilter(txt: string) {
+        public async globalFilter(txt: string): Promise<void> {
             this.globalSearchTxt = txt;
             this.currentPage = 0;
-            this.render();
+            await this.render();
         }
         /**
          * Add filter on the data key
          * return true if the element can be displayed
          */
-        public addFilter<U extends keyof T>(name: U, action: (value: T[U]) => boolean, reload: boolean = true) {
+        public async addFilter<U extends keyof T>(name: U, action: (value: T[U]) => boolean, reload: boolean = true): Promise<void> {
             let nameTxt = name as string;
             if(!this.filters[nameTxt]) {
                 this.filters[nameTxt] = [];
@@ -548,9 +548,9 @@ namespace Components {
             }
             this.filters[nameTxt].push(action);
             if(reload && this.isReady)
-                this.filterData();
+                await this.filterData();
         }
-        public removeFilter<U extends keyof T>(name: U, action: (value: T[U]) => boolean, reload: boolean = true) {
+        public async removeFilter<U extends keyof T>(name: U, action: (value: T[U]) => boolean, reload: boolean = true): Promise<void> {
             let nameTxt = name as string;
             if(this.filters[nameTxt]) {
                 let index = this.filters[nameTxt].indexOf(action);
@@ -559,30 +559,30 @@ namespace Components {
                 }
             }
             if(reload && this.isReady)
-                this.filterData();
+                await this.filterData();
         }
         /**
          * Add filter on the data
          * return true if the element can be displayed
          */
-        public addCustomFilter(action: (value: T) => boolean, reload: boolean = true) {
+        public async addCustomFilter(action: (value: T) => boolean, reload: boolean = true): Promise<void> {
             if(this.dataFilters.includes(action)) {
                 return;
             }
             this.dataFilters.push(action);
             if(reload && this.isReady)
-                this.filterData();
+                await this.filterData();
         }
-        public removeCustomFilter(action: (value: T) => boolean, reload: boolean = true) {
+        public async removeCustomFilter(action: (value: T) => boolean, reload: boolean = true): Promise<void> {
             let index = this.dataFilters.indexOf(action);
             if(index != -1) {
                 this.dataFilters.splice(index, 1);
             }
             if(reload && this.isReady)
-                this.filterData();
+                await this.filterData();
         }
-        public applyFilters() {
-            this.filterData();
+        public async applyFilters(): Promise<void> {
+            await this.filterData();
         }
         protected registerObserver() {
             this.resizeObserver = new Aventus.ResizeObserver(() => {

@@ -135,10 +135,10 @@ namespace Components {
                     }
                 }
             });
-
+             // prevent close
             this.pressManagerPopup = new Aventus.PressManager({
                 element: this.popupEl,
-                onPress: (e) => { }
+                onPress: (e) => {}
             });
         }
 

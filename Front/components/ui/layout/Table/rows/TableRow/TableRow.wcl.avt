@@ -55,11 +55,11 @@ namespace Components {
             return cellConfig.cell ?? TableCellString;
         }
 
-        protected addCellOption(cell: TableCell<any>, cellConfig: TableSchema<T>, data: T): void {
+        protected async addCellOption(cell: TableCell<any>, cellConfig: TableSchema<T>, data: T): Promise<void> {
 
         }
 
-        public init(options: TableOptions<T>, data: T) {
+        public async init(options: TableOptions<T>, data: T) {
             this.options = options;
             this._data = data;
             let i = 0;
@@ -76,24 +76,24 @@ namespace Components {
                 cell.label = cellConfig.name;
                 cell.grid = this.grid;
                 cell.cellConfig = cellConfig;
-                this.addCellOption(cell, cellConfig, data);
-                this.setCellContent(cell, cellConfig, data);
+                await this.addCellOption(cell, cellConfig, data);
+                await this.setCellContent(cell, cellConfig, data);
                 this.rowContentEl.appendChild(cell);
                 this.cells.push(cell);
                 i++;
             }
         }
 
-        protected setCellContent(cell: TableCell<any, T>, cellConfig: TableSchema<T>, data: T): void {
+        protected async setCellContent(cell: TableCell<any, T>, cellConfig: TableSchema<T>, data: T): Promise<void> {
             if(cellConfig.cellContent) {
-                const result = cellConfig.cellContent(data, cell);
+                const result = await cellConfig.cellContent(data, cell);
                 if(result) {
-                    cell.setContent(result, data);
+                    await cell.setContent(result, data);
                 }
             }
             else {
                 const v = cellConfig.name ? Aventus.getValueFromObject(cellConfig.name, data) : undefined;
-                cell.setContent(v, data);
+                await cell.setContent(v, data);
             }
         }
 
