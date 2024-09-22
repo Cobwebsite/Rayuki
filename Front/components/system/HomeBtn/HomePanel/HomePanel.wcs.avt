@@ -114,8 +114,9 @@
 				--button-icon-fill-color: transparent;
 				--button-background-color: var(--red);
 				--button-background-color-hover: transparent;
-				aspect-ratio: 1;
 				border: none;
+				height: 36px;
+				width: 36px;
 				box-shadow: var(--elevation-2);
 				margin: 10px 10px;
 				min-width: auto;

@@ -17,7 +17,7 @@
     <script src="/cssstylesheet.js?v={{ version }}"></script>
     <script>
     window.onerror = function(msg, url, linenumber) {
-        alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+        //alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
         console.log(msg, url+':'+linenumber)
         return true;
     }

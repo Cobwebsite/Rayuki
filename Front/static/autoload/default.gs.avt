@@ -29,7 +29,7 @@ body.interaction {
 	font-family: "Nunito", sans-serif;
 	font-family: var(--font-family);
 	touch-action: manipulation;
-	-webkit-touch-callout: none;
+	-webkit-touch-callout: text;
 	/* iOS Safari */
 	-webkit-user-select: none;
 	/* Safari */

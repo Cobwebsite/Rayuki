@@ -1,6 +1,12 @@
 (function () {
     'use strict';
 
+    if (!Object.hasOwn) {
+        Object.hasOwn = function (obj, prop) {
+            return Object.prototype.hasOwnProperty.call(obj, prop);
+        };
+    }
+
     if (typeof document === 'undefined' || 'adoptedStyleSheets' in document) { return; }
 
     var hasShadyCss = 'ShadyCSS' in window && !ShadyCSS.nativeShadow;
@@ -30,7 +36,9 @@
         return arr1.filter(function (value) { return arr2.indexOf(value) === -1; });
     }
     function removeNode(node) {
-        node.parentNode.removeChild(node);
+        if (node && node.parentNode) {
+            node.parentNode.removeChild(node);
+        }
     }
     function getShadowRoot(element) {
         return element.shadowRoot || closedShadowRootRegistry.get(element);
@@ -53,7 +61,7 @@
     function isCSSStyleSheetInstance(instance) {
         return typeof instance === 'object'
             ? proto$1.isPrototypeOf(instance) ||
-                nonConstructedProto.isPrototypeOf(instance)
+            nonConstructedProto.isPrototypeOf(instance)
             : false;
     }
     function isNonConstructedStyleSheetInstance(instance) {
@@ -84,8 +92,8 @@
             $appliedMethods
                 .get(sheet)
                 .forEach(function (command) {
-                return adopter.sheet[command.method].apply(adopter.sheet, command.args);
-            });
+                    return adopter.sheet[command.method].apply(adopter.sheet, command.args);
+                });
         });
     }
     function checkInvocationCorrectness(self) {
@@ -193,7 +201,7 @@
                 ? NodeFilter.FILTER_ACCEPT
                 : NodeFilter.FILTER_REJECT;
         },
-        null, false);
+            null, false);
         for (var next = void 0; (next = iter.nextNode());) {
             callback(getShadowRoot(next));
         }

@@ -6441,7 +6441,7 @@ let TemplateInstance=class TemplateInstance {
                 return change.fct(this.context);
             }
             catch (e) {
-                if (e instanceof TypeError && e.message.startsWith("Cannot read properties of undefined")) {
+                if (e instanceof TypeError && e.message.includes("undefined")) {
                     if (computed instanceof ComputedNoRecomputed) {
                         computed.isInit = false;
                     }
@@ -6476,7 +6476,7 @@ let TemplateInstance=class TemplateInstance {
                 return injection.inject(this.context);
             }
             catch (e) {
-                if (e instanceof TypeError && e.message.startsWith("Cannot read properties of undefined")) {
+                if (e instanceof TypeError && e.message.includes("undefined")) {
                     if (computed instanceof ComputedNoRecomputed) {
                         computed.isInit = false;
                     }
@@ -6509,7 +6509,7 @@ let TemplateInstance=class TemplateInstance {
                 return binding.inject(this.context);
             }
             catch (e) {
-                if (e instanceof TypeError && e.message.startsWith("Cannot read properties of undefined")) {
+                if (e instanceof TypeError && e.message.includes("undefined")) {
                     if (computed instanceof ComputedNoRecomputed) {
                         computed.isInit = false;
                     }
