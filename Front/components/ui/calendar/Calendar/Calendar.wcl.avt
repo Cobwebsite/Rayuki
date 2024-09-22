@@ -121,31 +121,15 @@ namespace Components {
             this.yearEl.innerHTML = date.getFullYear() + '';
             this.monthEl.innerHTML = this.monthsName()[date.getMonth()];
 
-            let maxDate = new Date();
-            maxDate.setTime(date.getTime());
-            maxDate.setDate(1);
-            maxDate.setMonth(maxDate.getMonth() + 1);
-            maxDate.setDate(0);
-            maxDate.setHours(23);
-            maxDate.setMinutes(59);
-            maxDate.setSeconds(59);
-            if(maxDate.getDay() > 0) {
-                maxDate.setDate(maxDate.getDate() + (7 - maxDate.getDay()));
-            }
+            let startDate = DateTools.getStartWeek(DateTools.getStartMonth(date));
+            let endDate = DateTools.getEndWeek(DateTools.getEndMonth(date));
 
-            let startDate = new Date();
-            startDate.setTime(date.getTime());
-            startDate.setDate(1);
-            let diff = 1 - (startDate.getDay() - 1);
-            if(diff < 0) {
-                startDate.setDate(diff);
-            }
 
             let i = 0;
             let row = document.createElement("div");
             row.classList.add("days-row");
             let CaseCst = this.defineCalendarDay();
-            while(startDate < maxDate) {
+            while(startDate < endDate) {
                 let caseEl = new CaseCst();
                 this.cases[DateTools.print(startDate)] = caseEl;
                 caseEl.init(date, startDate, this);

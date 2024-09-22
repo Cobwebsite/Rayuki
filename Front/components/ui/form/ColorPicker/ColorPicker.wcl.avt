@@ -52,7 +52,7 @@ namespace Components {
          * Indique si l'opacité de la couleur doit être affichée ou non.
          */
         @Property()
-        public opacity: boolean = true;
+        public opacity: boolean = false;
         /**
          * Indique si la valeur textuelle de la couleur sélectionnée doit être affichée.
          */
@@ -127,7 +127,7 @@ namespace Components {
             this.pickerEl.style.top = newTop + 'px';
             this.pickerEl.style.left = box.left + 'px';
             this.pickerEl.setAttribute("tabindex", "-1");
-            this.pickerEl.colorTxt = this.value ?? "#ffffff00";
+            this.pickerEl.colorTxt = this.value ?? "#ffffff";
             document.body.appendChild(this.pickerEl);
         }
         /**

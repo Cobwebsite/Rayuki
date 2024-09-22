@@ -87,7 +87,7 @@ namespace System {
         /**
          * Define the starting endpoint for the application
          */
-        protected url(): string {
+        protected state(): string | Aventus.State {
             return "/";
         }
         public openApp() {
@@ -101,7 +101,7 @@ namespace System {
                 Os.instance.unHideApplication(application, this.componentUrl());
             }
             else {
-                Os.instance.openUrl(application, this.componentUrl(), this.url());
+                Os.instance.openUrl(application, this.componentUrl(), this.state());
             }
         }
 

@@ -27,22 +27,38 @@
 		z-index: 2;
 	}
 
-	
+
 	.debug {
 		background-color: #f0f0f0;
+		display: none;
 		inset: 0;
 		overflow-y: scroll;
 		padding: 10px;
 		position: absolute;
 		white-space: pre-wrap;
 		z-index: 1;
-		display: none;
 	}
 
 	.app-container {
 		transition:
 			opacity var(--bezier-curve) .5s,
 			visibility var(--bezier-curve) .5s;
+	}
+
+	.preview-auto-layout {
+		background: rgba(255, 255, 255, 0.2);
+		border: 1px solid rgba(255, 255, 255, 0.3);
+		border-radius: var(--application-border-radius);
+		box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+		display: none;
+		pointer-events: none;
+		position: absolute;
+		z-index: 999;
+		transition: 
+			width 0.2s linear,
+			height 0.2s linear,
+			top 0.2s linear,
+			left 0.2s linear;
 	}
 }
 

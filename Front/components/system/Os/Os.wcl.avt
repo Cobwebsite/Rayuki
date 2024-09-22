@@ -231,7 +231,7 @@ namespace System {
             this.ready = true;
         }
 
-        public async openUrl(application: string, componentUrl: string = "/", url: string = "/") {
+        public async openUrl(application: string, componentUrl: string = "/", url: string | Aventus.State = "/") {
             this.activeDesktopEl.openUrl(application, componentUrl, url);
         }
         public async unHideApplication(application: string, componentUrl: string = "/") {

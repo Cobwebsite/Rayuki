@@ -28,8 +28,7 @@ namespace System {
                 this.memory.push(history);
                 return;
             }
-            const last = this.memory.length - 1;
-            this.memory.splice(last, 1, history);
+            this.memory.splice(this.currentPosition, 1, history);
         }
 
         public replaceAt(history: History, index: number) {

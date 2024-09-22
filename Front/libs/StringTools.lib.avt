@@ -12,7 +12,8 @@ namespace Lib {
                 .replace(/[^a-zA-Z0-9]/g, " ");
         }
 
-        public static contains(src: string, search: string): boolean {
+        public static contains(src: string | undefined, search: string): boolean {
+            if(src === undefined) return false;
             const _src = this.removeAccents((src + '').toLowerCase());
             const _search = this.removeAccents((search + '').toLowerCase());
             return _src.includes(_search);

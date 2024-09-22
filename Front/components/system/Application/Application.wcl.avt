@@ -8,7 +8,7 @@ import { ApplicationOpen, ApplicationOpenInfo } from "../../../generated/Data/Ap
 import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
 import { Frame404 } from "../Frame/Frame404/Frame404.wcl.avt";
 import { ApplicationSize, type ApplicationPositionSize } from "./ApplicationSize.lib.avt";
-import type { Desktop } from "../Desktop/Desktop.wcl.avt";
+import { Desktop } from "../Desktop/Desktop.wcl.avt";
 import type { ContextMenu } from "../../ui/ContextMenu/ContextMenu.wcl.avt";
 import { Geometry, type Rectangle } from "../../../libs/Geometry.lib.avt";
 import type { ApplicationQueryFctResult } from "./ApplicationError.lib.avt";
@@ -297,7 +297,7 @@ namespace System {
                                 if(canResult === false) {
                                     return;
                                 }
-                                this.navigate(canResult);
+                                this.replaceState(canResult);
                                 return;
                             }
                             if(this.oldFrame && this.oldFrame != element) {
@@ -694,6 +694,9 @@ namespace System {
          */
         protected addMoveDragAndDrop() {
             let hasMove = false;
+            let desktopTemp = this.findParentByType(Desktop);
+            if(!desktopTemp) return;
+            let desktop = desktopTemp;
             new Aventus.DragAndDrop({
                 element: this,
                 elementTrigger: this.header,
@@ -707,11 +710,34 @@ namespace System {
                 onStart: (e) => {
                     this.moving = true;
                 },
-                onMove: () => {
+                onMove: (e) => {
                     hasMove = true;
+                    let preview: ("left" | 'right' | 'bottom' | 'top')[] = [];
+                    let diffX = desktopTemp.offsetWidth / 100 * 5
+                    if(e.clientX < diffX) {
+                        preview.push("left");
+                    }
+                    else if(e.clientX > desktop.offsetWidth - diffX) {
+                        preview.push("right");
+                    }
+                    let diffY = desktopTemp.offsetHeight / 100 * 10
+                    if(e.clientY < diffY) {
+                        preview.push("top");
+                    }
+                    else if(e.clientY > desktop.offsetHeight - diffY) {
+                        preview.push("bottom");
+                    }
+                    desktop.showPreviewPosition(preview);
                 },
                 onPointerUp: () => {
                     this.moving = false;
+                    let preview = desktop.getPreviewPosition();
+                    if(preview) {
+                        this.style.setProperty("--app-width", preview.w + "px");
+                        this.style.setProperty("--app-height", preview.h + "px");
+                        this.style.left = preview.l + "px";
+                        this.style.top = preview.t + "px";
+                    }
                     if(hasMove)
                         this.saveSize();
                 },

@@ -9,7 +9,8 @@
     <link rel="icon" href="{{ icon }}" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/autoload/default.css" />
-    <script src="/login.js"></script>
+    <script src="/cssstylesheet.js?v={{ version }}"></script>
+    <script src="/login.js?v={{ version }}"></script>
     <title>{{ company }} - Rayuki</title>
     <style>
         input::placeholder {

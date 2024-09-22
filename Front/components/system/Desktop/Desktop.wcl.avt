@@ -57,9 +57,13 @@ namespace System {
 
         @ViewElement()
         protected appContainer!: HTMLDivElement;
-                
+
         @ViewElement()
         protected debugEl!: HTMLDivElement;
+
+        @ViewElement()
+        protected previewAutoLayout!: HTMLDivElement;
+
 
         public applications: { [name: string]: { [id: number]: Application; }; } = {};
         public data!: Aventus.RamItem<DesktopData>;
@@ -140,7 +144,7 @@ namespace System {
                 url: "/apps/" + application + "/default.css" + version
             });
         }
-        public async openUrl(application: string, componentUrl: string = "/", url: string = "/") {
+        public async openUrl(application: string, componentUrl: string = "/", url: string | Aventus.State = "/") {
             if(!(await can(new ApplicationPermissionQuery(ApplicationPermission.AllowAccess, application)))) {
                 let notif = new Notification();
                 notif.subject = "Erreur";
@@ -311,6 +315,98 @@ namespace System {
             }
 
 
+        }
+
+        private showPreviewPositionTimeout?: number;
+        public showPreviewPosition(location: ("left" | 'right' | 'bottom' | 'top')[]) {
+            if(location.length == 0) {
+                if(this.showPreviewPositionTimeout !== undefined)
+                    clearTimeout(this.showPreviewPositionTimeout);
+                this.previewAutoLayout.style.display = '';
+                return;
+            }
+            let w, h, t, l = '';
+            let aw, ah, at, al = '';
+            if(location.includes("left")) {
+                w = '50%';
+                l = '0';
+                h = '100%';
+                t = '0';
+                aw = '0';
+                ah = '0';
+                at = '0';
+                al = '0';
+
+                if(location.includes("top")) {
+                    h = '50%';
+                }
+                else if(location.includes("bottom")) {
+                    h = '50%';
+                    t = '50%';
+                    at = '100%';
+                }
+            }
+            else if(location.includes("right")) {
+                w = '50%';
+                l = '50%';
+                h = '100%';
+                t = '0';
+                aw = '0';
+                ah = '0';
+                at = '0';
+                al = '100%';
+
+                if(location.includes("top")) {
+                    h = '50%';
+                }
+                else if(location.includes("bottom")) {
+                    h = '50%';
+                    t = '50%';
+                    at = '100%';
+                }
+            }
+            else {
+                if(this.showPreviewPositionTimeout !== undefined)
+                    clearTimeout(this.showPreviewPositionTimeout);
+                this.previewAutoLayout.style.display = '';
+                return;
+            }
+
+            if(this.showPreviewPositionTimeout !== undefined) return;
+
+            if(this.previewAutoLayout.style.display == 'block') {
+                this.previewAutoLayout.style.left = l;
+                this.previewAutoLayout.style.top = t;
+                this.previewAutoLayout.style.width = w;
+                this.previewAutoLayout.style.height = h;
+            }
+            else {
+                this.previewAutoLayout.style.display = 'block';
+                this.previewAutoLayout.style.left = al;
+                this.previewAutoLayout.style.top = at;
+                this.previewAutoLayout.style.width = aw;
+                this.previewAutoLayout.style.height = ah;
+                this.showPreviewPositionTimeout = setTimeout(() => {
+                    this.showPreviewPositionTimeout = undefined;
+                    this.previewAutoLayout.style.left = l;
+                    this.previewAutoLayout.style.top = t;
+                    this.previewAutoLayout.style.width = w;
+                    this.previewAutoLayout.style.height = h;
+                }, 100);
+            }
+        }
+        public getPreviewPosition() {
+            if(this.previewAutoLayout.style.display == 'block') {
+                const result = {
+                    w: this.previewAutoLayout.offsetWidth,
+                    h: this.previewAutoLayout.offsetHeight,
+                    t: this.previewAutoLayout.offsetTop,
+                    l: this.previewAutoLayout.offsetLeft
+                };
+                this.previewAutoLayout.style.display = '';
+                return result;
+            }
+            return null;
         }
         //#endregion
 
@@ -528,7 +624,7 @@ namespace System {
 
         protected addDebug() {
             const debugConsole = this.debugEl;
-            
+
             // Function to append messages to the console
             function appendToConsole(message, type = 'log') {
                 const logEntry = document.createElement('div');
@@ -539,21 +635,21 @@ namespace System {
 
             // Override console.log
             const originalLog = console.log;
-            console.log = function(...args) {
+            console.log = function (...args) {
                 originalLog.apply(console, args); // Call the original console.log
                 appendToConsole(args.join(' '), 'log');
             };
 
             // Override console.error
             const originalError = console.error;
-            console.error = function(...args) {
+            console.error = function (...args) {
                 originalError.apply(console, args); // Call the original console.error
                 appendToConsole(args.join(' '), 'error');
             };
 
             // Override console.warn
             const originalWarn = console.warn;
-            console.warn = function(...args) {
+            console.warn = function (...args) {
                 originalWarn.apply(console, args); // Call the original console.warn
                 appendToConsole(args.join(' '), 'warn');
             };

@@ -10,7 +10,7 @@ _.System = Cave.System ?? {};
 let _n;
 let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Cave.AppInfo, Cave"; }
-    static Version = 4;
+    static Version = 5;
 }
 AppInfo.Namespace=`Cave`;
 AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
@@ -264,7 +264,7 @@ let System = {};
 _.System = Reservation.System ?? {};
 let _n;
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
-    static __style = `:host rk-img{--img-stroke-color: transparent;--img-fill-color: #fff;max-height:100%;flex-grow:1;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    static __style = `:host{background-color:#365079}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #fff;max-height:100%;flex-grow:1;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
     __getStatic() {
         return AppIcon;
     }
@@ -353,7 +353,7 @@ _.System = Suivi.System ?? {};
 let _n;
 let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Suivi.AppInfo, Suivi"; }
-    static Version = 4;
+    static Version = 5;
 }
 AppInfo.Namespace=`Suivi`;
 AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };

@@ -128,6 +128,8 @@ Lib.StringTools=class StringTools {
             .replace(/[^a-zA-Z0-9]/g, " ");
     }
     static contains(src, search) {
+        if (src === undefined)
+            return false;
         const _src = this.removeAccents((src + '').toLowerCase());
         const _search = this.removeAccents((search + '').toLowerCase());
         return _src.includes(_search);
@@ -394,6 +396,31 @@ Components.Col.Namespace=`Core.Components`;
 Components.Col.Tag=`rk-col`;
 _.Components.Col=Components.Col;
 if(!window.customElements.get('rk-col')){window.customElements.define('rk-col', Components.Col);Aventus.WebComponentInstance.registerDefinition(Components.Col);}
+
+Components.CardTitle = class CardTitle extends Aventus.WebComponent {
+    static __style = `:host{font-size:var(--font-size);height:22px;margin:0;margin-bottom:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;font-weight:bold}`;
+    __getStatic() {
+        return CardTitle;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(CardTitle.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "CardTitle";
+    }
+}
+Components.CardTitle.Namespace=`Core.Components`;
+Components.CardTitle.Tag=`rk-card-title`;
+_.Components.CardTitle=Components.CardTitle;
+if(!window.customElements.get('rk-card-title')){window.customElements.define('rk-card-title', Components.CardTitle);Aventus.WebComponentInstance.registerDefinition(Components.CardTitle);}
 
 Components.Card = class Card extends Aventus.WebComponent {
     static __style = `:host{--internal-card-background-color: var(--card-background-color, white)}:host{background-color:var(--internal-card-background-color);border-color:rgba(47,43,61,.16);border-radius:var(--border-radius-sm);border-style:solid;border-width:0;box-shadow:var(--elevation-2);display:block;overflow:hidden;overflow-wrap:break-word;padding:24px;position:relative;text-decoration:none;transition-duration:.28s;transition-property:box-shadow,opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);width:100%;z-index:0}`;
@@ -6905,8 +6932,7 @@ System.ApplicationHistory=class ApplicationHistory {
             this.memory.push(history);
             return;
         }
-        const last = this.memory.length - 1;
-        this.memory.splice(last, 1, history);
+        this.memory.splice(this.currentPosition, 1, history);
     }
     replaceAt(history, index) {
         if (this.memory.length <= index) {
@@ -7884,7 +7910,7 @@ System.Application = class Application extends Aventus.WebComponent {
                             if (canResult === false) {
                                 return;
                             }
-                            this.navigate(canResult);
+                            this.replaceState(canResult);
                             return;
                         }
                         if (this.oldFrame && this.oldFrame != element) {
@@ -8166,6 +8192,10 @@ System.Application = class Application extends Aventus.WebComponent {
     }
     addMoveDragAndDrop() {
         let hasMove = false;
+        let desktopTemp = this.findParentByType(System.Desktop);
+        if (!desktopTemp)
+            return;
+        let desktop = desktopTemp;
         new Aventus.DragAndDrop({
             element: this,
             elementTrigger: this.header,
@@ -8179,11 +8209,34 @@ System.Application = class Application extends Aventus.WebComponent {
             onStart: (e) => {
                 this.moving = true;
             },
-            onMove: () => {
+            onMove: (e) => {
                 hasMove = true;
+                let preview = [];
+                let diffX = desktopTemp.offsetWidth / 100 * 5;
+                if (e.clientX < diffX) {
+                    preview.push("left");
+                }
+                else if (e.clientX > desktop.offsetWidth - diffX) {
+                    preview.push("right");
+                }
+                let diffY = desktopTemp.offsetHeight / 100 * 10;
+                if (e.clientY < diffY) {
+                    preview.push("top");
+                }
+                else if (e.clientY > desktop.offsetHeight - diffY) {
+                    preview.push("bottom");
+                }
+                desktop.showPreviewPosition(preview);
             },
             onPointerUp: () => {
                 this.moving = false;
+                let preview = desktop.getPreviewPosition();
+                if (preview) {
+                    this.style.setProperty("--app-width", preview.w + "px");
+                    this.style.setProperty("--app-height", preview.h + "px");
+                    this.style.left = preview.l + "px";
+                    this.style.top = preview.t + "px";
+                }
                 if (hasMove)
                     this.saveSize();
             },
@@ -8641,9 +8694,10 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             return undefined;
         return this.activableOrder[0];
     }
+    showPreviewPositionTimeout;
     oldActiveCase;
     pressManagerStopMoveApp;
-    static __style = `:host{--_desktop-background-color: var(--desktop-background-color, var(--primary-color))}:host{background-color:var(--_desktop-background-color);background-position:center;background-repeat:no-repeat;background-size:cover;flex-shrink:0;height:100%;overflow:hidden;position:relative;width:100%}:host .icons{--page-case-border-radius: var(--border-radius-sm);--page-case-border-active: 1px solid var(--darker-active);--page-case-background-active: var(--lighter-active);height:calc(100% - 70px);transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s;width:100%;z-index:2}:host .debug{background-color:#f0f0f0;inset:0;overflow-y:scroll;padding:10px;position:absolute;white-space:pre-wrap;z-index:1;display:none}:host .app-container{transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host([show_application_list])>*{opacity:0 !important;visibility:hidden !important}:host([background_size=Cover]){background-size:cover}:host([background_size=Contain]){background-size:contain}:host([background_size=Stretch]){background-size:100% 100%}`;
+    static __style = `:host{--_desktop-background-color: var(--desktop-background-color, var(--primary-color))}:host{background-color:var(--_desktop-background-color);background-position:center;background-repeat:no-repeat;background-size:cover;flex-shrink:0;height:100%;overflow:hidden;position:relative;width:100%}:host .icons{--page-case-border-radius: var(--border-radius-sm);--page-case-border-active: 1px solid var(--darker-active);--page-case-background-active: var(--lighter-active);height:calc(100% - 70px);transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s;width:100%;z-index:2}:host .debug{background-color:#f0f0f0;display:none;inset:0;overflow-y:scroll;padding:10px;position:absolute;white-space:pre-wrap;z-index:1}:host .app-container{transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host .preview-auto-layout{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:var(--application-border-radius);box-shadow:0 4px 30px rgba(0,0,0,.1);display:none;pointer-events:none;position:absolute;z-index:999;transition:width .2s linear,height .2s linear,top .2s linear,left .2s linear}:host([show_application_list])>*{opacity:0 !important;visibility:hidden !important}:host([background_size=Cover]){background-size:cover}:host([background_size=Contain]){background-size:contain}:host([background_size=Stretch]){background-size:100% 100%}`;
     constructor() {            super();this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this) }
     __getStatic() {
         return Desktop;
@@ -8655,7 +8709,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="icons">    <rk-page-case case_width="75" case_height="75" min_case_margin_left="20" min_case_margin_top="20" min_page_number="1" order_position inverse _id="desktop_0">    </rk-page-case></div><rk-bottom-bar _id="desktop_1"></rk-bottom-bar><div class="debug" _id="desktop_2"></div><div class="app-container" _id="desktop_3"></div>` }
+        blocks: { 'default':`<div class="icons">    <rk-page-case case_width="75" case_height="75" min_case_margin_left="20" min_case_margin_top="20" min_page_number="1" order_position inverse _id="desktop_0">    </rk-page-case></div><rk-bottom-bar _id="desktop_1"></rk-bottom-bar><div class="debug" _id="desktop_2"></div><div class="app-container" _id="desktop_3"></div><div class="preview-auto-layout" _id="desktop_4"></div>` }
     });
 }
     __createStates() { super.__createStates(); let that = this;  this.__createStatesList(State.MoveApplication.state, State.DesktopStateManager);this.__addActiveState(State.MoveApplication.state, State.DesktopStateManager, (state, slugs) => { that.__inactiveDefaultState(State.DesktopStateManager); that.onMoveApplication(state, slugs);})this.__addInactiveState(State.MoveApplication.state, State.DesktopStateManager, (state, nextState, slugs) => { that.onStopMovingApplication(state, nextState, slugs);that.__activeDefaultState(nextState, State.DesktopStateManager);}) }
@@ -8683,6 +8737,12 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
       "name": "appContainer",
       "ids": [
         "desktop_3"
+      ]
+    },
+    {
+      "name": "previewAutoLayout",
+      "ids": [
+        "desktop_4"
       ]
     }
   ]
@@ -8898,6 +8958,93 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
                 appContainer.append(iconTemp);
             }
         }
+    }
+    showPreviewPosition(location) {
+        if (location.length == 0) {
+            if (this.showPreviewPositionTimeout !== undefined)
+                clearTimeout(this.showPreviewPositionTimeout);
+            this.previewAutoLayout.style.display = '';
+            return;
+        }
+        let w, h, t, l = '';
+        let aw, ah, at, al = '';
+        if (location.includes("left")) {
+            w = '50%';
+            l = '0';
+            h = '100%';
+            t = '0';
+            aw = '0';
+            ah = '0';
+            at = '0';
+            al = '0';
+            if (location.includes("top")) {
+                h = '50%';
+            }
+            else if (location.includes("bottom")) {
+                h = '50%';
+                t = '50%';
+                at = '100%';
+            }
+        }
+        else if (location.includes("right")) {
+            w = '50%';
+            l = '50%';
+            h = '100%';
+            t = '0';
+            aw = '0';
+            ah = '0';
+            at = '0';
+            al = '100%';
+            if (location.includes("top")) {
+                h = '50%';
+            }
+            else if (location.includes("bottom")) {
+                h = '50%';
+                t = '50%';
+                at = '100%';
+            }
+        }
+        else {
+            if (this.showPreviewPositionTimeout !== undefined)
+                clearTimeout(this.showPreviewPositionTimeout);
+            this.previewAutoLayout.style.display = '';
+            return;
+        }
+        if (this.showPreviewPositionTimeout !== undefined)
+            return;
+        if (this.previewAutoLayout.style.display == 'block') {
+            this.previewAutoLayout.style.left = l;
+            this.previewAutoLayout.style.top = t;
+            this.previewAutoLayout.style.width = w;
+            this.previewAutoLayout.style.height = h;
+        }
+        else {
+            this.previewAutoLayout.style.display = 'block';
+            this.previewAutoLayout.style.left = al;
+            this.previewAutoLayout.style.top = at;
+            this.previewAutoLayout.style.width = aw;
+            this.previewAutoLayout.style.height = ah;
+            this.showPreviewPositionTimeout = setTimeout(() => {
+                this.showPreviewPositionTimeout = undefined;
+                this.previewAutoLayout.style.left = l;
+                this.previewAutoLayout.style.top = t;
+                this.previewAutoLayout.style.width = w;
+                this.previewAutoLayout.style.height = h;
+            }, 100);
+        }
+    }
+    getPreviewPosition() {
+        if (this.previewAutoLayout.style.display == 'block') {
+            const result = {
+                w: this.previewAutoLayout.offsetWidth,
+                h: this.previewAutoLayout.offsetHeight,
+                t: this.previewAutoLayout.offsetTop,
+                l: this.previewAutoLayout.offsetLeft
+            };
+            this.previewAutoLayout.style.display = '';
+            return result;
+        }
+        return null;
     }
     calculateIconSize() {
         let type = Lib.Platform.device;
@@ -9782,7 +9929,7 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
     componentUrl() {
         return "/";
     }
-    url() {
+    state() {
         return "/";
     }
     openApp() {
@@ -9795,7 +9942,7 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
             System.Os.instance.unHideApplication(application, this.componentUrl());
         }
         else {
-            System.Os.instance.openUrl(application, this.componentUrl(), this.url());
+            System.Os.instance.openUrl(application, this.componentUrl(), this.state());
         }
     }
     onMoveApplication(state, slugs) {
@@ -10632,29 +10779,13 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
         let date = this.date;
         this.yearEl.innerHTML = date.getFullYear() + '';
         this.monthEl.innerHTML = this.monthsName()[date.getMonth()];
-        let maxDate = new Date();
-        maxDate.setTime(date.getTime());
-        maxDate.setDate(1);
-        maxDate.setMonth(maxDate.getMonth() + 1);
-        maxDate.setDate(0);
-        maxDate.setHours(23);
-        maxDate.setMinutes(59);
-        maxDate.setSeconds(59);
-        if (maxDate.getDay() > 0) {
-            maxDate.setDate(maxDate.getDate() + (7 - maxDate.getDay()));
-        }
-        let startDate = new Date();
-        startDate.setTime(date.getTime());
-        startDate.setDate(1);
-        let diff = 1 - (startDate.getDay() - 1);
-        if (diff < 0) {
-            startDate.setDate(diff);
-        }
+        let startDate = Lib.DateTools.getStartWeek(Lib.DateTools.getStartMonth(date));
+        let endDate = Lib.DateTools.getEndWeek(Lib.DateTools.getEndMonth(date));
         let i = 0;
         let row = document.createElement("div");
         row.classList.add("days-row");
         let CaseCst = this.defineCalendarDay();
-        while (startDate < maxDate) {
+        while (startDate < endDate) {
             let caseEl = new CaseCst();
             this.cases[Lib.DateTools.print(startDate)] = caseEl;
             caseEl.init(date, startDate, this);
@@ -14221,7 +14352,7 @@ Components.ColorPickerSelector = class ColorPickerSelector extends Aventus.WebCo
     getClassName() {
         return "ColorPickerSelector";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('direction')){ this['direction'] = 'horizontal'; }if(!this.hasAttribute('opacity')) {this.setAttribute('opacity' ,'true'); }if(!this.hasAttribute('show_text_value')) {this.setAttribute('show_text_value' ,'true'); }if(!this.hasAttribute('color')){ this['color'] = "#ffffff00"; } }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('direction')){ this['direction'] = 'horizontal'; }if(!this.hasAttribute('opacity')) { this.attributeChangedCallback('opacity', false, false); }if(!this.hasAttribute('show_text_value')) {this.setAttribute('show_text_value' ,'true'); }if(!this.hasAttribute('color')){ this['color'] = "#ffffff"; } }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["colorTxt"] = "";w["hue"] = 0;w["alpha"] = 100;w["presets"] = []; }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('direction');this.__upgradeProperty('opacity');this.__upgradeProperty('show_text_value');this.__upgradeProperty('color');this.__correctGetter('colorTxt');this.__correctGetter('hue');this.__correctGetter('alpha');this.__correctGetter('presets'); }
     __listBoolProps() { return ["opacity","show_text_value"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
@@ -14517,7 +14648,7 @@ Components.ColorPicker = class ColorPicker extends Components.FormElement {
     getClassName() {
         return "ColorPicker";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('preview')){ this['preview'] = 'before'; }if(!this.hasAttribute('value')){ this['value'] = undefined; }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('direction')){ this['direction'] = 'horizontal'; }if(!this.hasAttribute('opacity')) {this.setAttribute('opacity' ,'true'); }if(!this.hasAttribute('show_text_value')) {this.setAttribute('show_text_value' ,'true'); } }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('preview')){ this['preview'] = 'before'; }if(!this.hasAttribute('value')){ this['value'] = undefined; }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('direction')){ this['direction'] = 'horizontal'; }if(!this.hasAttribute('opacity')) { this.attributeChangedCallback('opacity', false, false); }if(!this.hasAttribute('show_text_value')) {this.setAttribute('show_text_value' ,'true'); } }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["presets"] = []; }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('preview');this.__upgradeProperty('value');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('direction');this.__upgradeProperty('opacity');this.__upgradeProperty('show_text_value');this.__correctGetter('presets'); }
     __listBoolProps() { return ["opacity","show_text_value"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
@@ -14532,7 +14663,7 @@ Components.ColorPicker = class ColorPicker extends Components.FormElement {
         this.pickerEl.style.top = newTop + 'px';
         this.pickerEl.style.left = box.left + 'px';
         this.pickerEl.setAttribute("tabindex", "-1");
-        this.pickerEl.colorTxt = this.value ?? "#ffffff00";
+        this.pickerEl.colorTxt = this.value ?? "#ffffff";
         document.body.appendChild(this.pickerEl);
     }
     manageFocus() {

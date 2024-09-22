@@ -46,7 +46,8 @@ namespace Core.Routes
             return new ViewDynamic("login", new
             {
                 company = company.Name,
-                icon = company.Logo.Uri
+                icon = company.Logo.Uri,
+                version = HttpServer.Version
             });
         }
 

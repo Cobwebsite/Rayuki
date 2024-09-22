@@ -2352,7 +2352,7 @@ let ConverterTransform=class ConverterTransform {
                             if (obj[key] instanceof Date) {
                                 return value ? new Date(value) : null;
                             }
-                            else if (typeof value == 'string' && /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d{3})Z)?$/.exec(value)) {
+                            else if (typeof value == 'string' && /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d{3}))?Z?$/.exec(value)) {
                                 return value ? new Date(value) : null;
                             }
                             else if (obj[key] instanceof Map) {
@@ -3182,6 +3182,8 @@ let PressManager=class PressManager {
             this.options.onEvent(e);
         }
         if (e.button != undefined && !this.options.buttonAllowed?.includes(e.button)) {
+            this.isEventUpProcessed = true;
+            this.isEventDownProcessed = false;
             return;
         }
         if (this.stopPropagation()) {

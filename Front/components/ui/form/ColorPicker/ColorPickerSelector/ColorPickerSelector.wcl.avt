@@ -30,7 +30,7 @@ namespace Components {
                 target.canEmit = true;
             }
         })
-        public color: string = "#ffffff00";
+        public color: string = "#ffffff";
 
         /**
          * Définit la direction d'affichage du sélecteur de couleurs : `horizontal` ou `vertial`.
@@ -42,7 +42,7 @@ namespace Components {
          * Indique si l'opacité de la couleur doit être affichée ou non.
          */
         @Attribute()
-        public opacity: boolean = true;
+        public opacity: boolean = false;
 
         /**
          * Indique si la valeur textuelle de la couleur sélectionnée doit être affichée.
