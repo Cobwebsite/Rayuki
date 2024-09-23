@@ -6,7 +6,7 @@
 	display: inline-block;
 	font-family: var(--font-family);
 	-webkit-tap-highlight-color: transparent;
-	touch-action: manipulation;
+	touch-action: none;
 
 
 	@include eachColor using ($color) {
@@ -53,5 +53,5 @@
 :host * {
 	box-sizing: border-box;
 	-webkit-tap-highlight-color: transparent;
-	touch-action: manipulation;
+	touch-action: none;
 }

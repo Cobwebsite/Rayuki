@@ -344,10 +344,11 @@ namespace Components {
             let result: T[] = [];
             let oldData = Array.from(this.rows.keys());
             if(this.data) {
-                for(let item of this.data) {
+                let data = Aventus.Watcher.extract(this.data);
+                for(let item of data) {
                     let isOk = true;
                     // remove old data to avoid delete it
-                    let index = oldData.indexOf(Aventus.Watcher.extract(item));
+                    let index = oldData.indexOf(item);
                     if(index != -1) {
                         oldData.splice(index, 1);
                     }
@@ -435,7 +436,8 @@ namespace Components {
             if(!onlySort) {
                 let newRowsFiltered: TableRow<T>[] = [];
                 if(this.displayedData) {
-                    for(let item of this.displayedData) {
+                    let displayedData = Aventus.Watcher.extract(this.displayedData);
+                    for(let item of displayedData) {
 
                         let rowItem = this.rows.get(item);
                         if(!rowItem) {

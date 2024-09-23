@@ -363,6 +363,15 @@ namespace System {
                 this.style.setProperty("--os-width", this.offsetWidth + 'px');
                 this.style.setProperty("--os-height", this.offsetHeight + 'px');
             }).observe(this);
+
+            window.visualViewport?.addEventListener('resize', () => {
+                // setTimeout(() => {
+                //     console.log(window.scrollY);
+
+                // }, 1000)
+                // window.scrollTo(0, 0);
+                // document.body.scrollTop = 0;
+            });
         }
 
         private manageOffline() {

@@ -353,7 +353,7 @@ _.System = Suivi.System ?? {};
 let _n;
 let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Suivi.AppInfo, Suivi"; }
-    static Version = 5;
+    static Version = 6;
 }
 AppInfo.Namespace=`Suivi`;
 AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };

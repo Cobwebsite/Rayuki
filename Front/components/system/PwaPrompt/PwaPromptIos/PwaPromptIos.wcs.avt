@@ -186,14 +186,14 @@
 		display: block;
 		opacity: 1;
 		pointer-events: initial;
-		touch-action: initial;
+		touch-action: none;
 		visibility: visible;
 	}
 
 	.pwaPrompt {
 		display: block;
 		pointer-events: initial;
-		touch-action: initial;
+		touch-action: none;
 		transform: translateY(0);
 	}
 }

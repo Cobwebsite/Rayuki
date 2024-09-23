@@ -107,8 +107,8 @@ namespace Components {
         }
 
         public sort(row: TableRow<T>, column: string, order: 'asc' | 'desc'): number {
-            let cell = this.cells.find(c => c.cellConfig.name == column || c.cellConfig.displayName == column);
-            let cellRow = row.cells.find(c => c.cellConfig.name == column || c.cellConfig.displayName == column);
+            let cell = this.cells.find(c => c.cellConfig.displayName == column || c.cellConfig.name == column);
+            let cellRow = row.cells.find(c => c.cellConfig.displayName == column || c.cellConfig.name == column);
 
             if(!cell || !cellRow) return 0;
 
