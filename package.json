@@ -12,7 +12,8 @@
     "storybook": "cd Storybook && storybook dev -p 6006",
     "docker:build": "docker build -t rayuki/core:latest .",
     "docker:push": "docker push rayuki/core:latest",
-    "docker:publish": "npm run docker:build && npm run docker:push"
+    "docker:publish": "npm run prepare:build && npm run docker:build && npm run docker:push",
+    "prepare:build": "node _tools\\prepare-build.mjs"
   },
   "author": "",
   "license": "ISC"
