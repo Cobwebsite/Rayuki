@@ -26,7 +26,7 @@ namespace Core
 
         public static readonly int nbAppInDev = 2;
         public static readonly string Version = "1.0.7";
-        public static readonly string BuildDate = "2024-09-25T19:37:10.018Z";
+        public static readonly string BuildDate = "2024-09-25T20:04:20.817Z";
         public static bool resetStorage
         {
             // get => false;
