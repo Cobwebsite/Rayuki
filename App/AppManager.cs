@@ -72,6 +72,8 @@ namespace Core.App
                 Storage = storage;
                 RouterMiddleware.Configure((config) =>
                 {
+                    config.JSONSettings.DateFormatString =  "yyyy-MM-ddTHH:mm:ss";
+                    
                     config.transformPattern = (urlPattern, @params, type, methodInfo) =>
                     {
                         urlPattern = RouterMiddleware.ReplaceParams(urlPattern, @params);
@@ -112,6 +114,7 @@ namespace Core.App
                 };
                 WebSocketMiddleware.Configure((config) =>
                 {
+                    config.JSONSettings.DateFormatString =  "yyyy-MM-ddTHH:mm:ss";
                     config.transformPattern = (urlPattern, @params, obj, isEvent) =>
                     {
                         urlPattern = WebSocketMiddleware.ReplaceParams(urlPattern, @params);

@@ -1,0 +1,23 @@
+
+namespace Libs {
+    export class DateConverter extends Aventus.DateConverter {
+
+
+        public override isStringDate(txt: string): boolean {
+            return /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})$/.exec(txt) !== null;
+        }
+        public override fromString(txt: string): Date | null {
+            return new Date(txt);
+        }
+        public override toString(date: Date): string {
+            if(date.getFullYear() < 100) {
+                return "0001-01-01T00:00:00";
+            }
+            const offset = date.getTimezoneOffset() * 60000;
+            const iso = new Date(date.getTime() - offset).toISOString();
+            const isoSplit = iso.split(".");
+            isoSplit.pop();
+            return isoSplit.join(".");
+        }
+    }
+}

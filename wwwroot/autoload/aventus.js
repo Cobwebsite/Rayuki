@@ -35,6 +35,30 @@ const _ = {};
 
 
 let _n;
+let DateConverter=class DateConverter {
+    static __converter = new DateConverter();
+    static get converter() {
+        return this.__converter;
+    }
+    static set converter(value) {
+        this.__converter = value;
+    }
+    isStringDate(txt) {
+        return /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.(\d{3})Z$/.exec(txt) !== null;
+    }
+    fromString(txt) {
+        return new Date(txt);
+    }
+    toString(date) {
+        if (date.getFullYear() < 100) {
+            return "0001-01-01T00:00:00.000Z";
+        }
+        return date.toISOString();
+    }
+}
+DateConverter.Namespace=`Aventus`;
+_.DateConverter=DateConverter;
+
 var HttpErrorCode;
 (function (HttpErrorCode) {
     HttpErrorCode[HttpErrorCode["unknow"] = 0] = "unknow";
@@ -2352,8 +2376,8 @@ let ConverterTransform=class ConverterTransform {
                             if (obj[key] instanceof Date) {
                                 return value ? new Date(value) : null;
                             }
-                            else if (typeof value == 'string' && /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d{3}))?Z?$/.exec(value)) {
-                                return value ? new Date(value) : null;
+                            else if (typeof value == 'string' && DateConverter.converter.isStringDate(value)) {
+                                return value ? DateConverter.converter.fromString(value) : null;
                             }
                             else if (obj[key] instanceof Map) {
                                 let map = new Map();
@@ -2650,8 +2674,7 @@ let HttpRequest=class HttpRequest {
             let value = obj[key];
             const newKey = parentKey ? `${parentKey}[${key}]` : key;
             if (value instanceof Date) {
-                const offset = this[key].getTimezoneOffset() * 60000;
-                formData.append(newKey, new Date(this[key].getTime() - offset).toISOString());
+                formData.append(newKey, DateConverter.converter.toString(value));
             }
             else if (typeof value === 'object' &&
                 value !== null &&
@@ -2677,8 +2700,7 @@ let HttpRequest=class HttpRequest {
     }
     jsonReplacer(key, value) {
         if (this[key] instanceof Date) {
-            const offset = this[key].getTimezoneOffset() * 60000;
-            return new Date(this[key].getTime() - offset).toISOString();
+            return DateConverter.converter.toString(this[key]);
         }
         return value;
     }
@@ -7720,12 +7742,8 @@ WebSocket.Connection=class Connection {
         });
     }
     jsonReplacer(key, value) {
-        if (this[key] instanceof Date && this[key].getFullYear() < 100) {
-            return "0001-01-01T00:00:00";
-        }
-        else if (this[key] instanceof Date) {
-            const offset = this[key].getTimezoneOffset() * 60000;
-            return new Date(this[key].getTime() - offset).toISOString();
+        if (this[key] instanceof Date) {
+            return Aventus.DateConverter.converter.toString(this[key]);
         }
         return value;
     }

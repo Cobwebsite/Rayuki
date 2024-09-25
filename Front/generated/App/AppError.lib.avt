@@ -8,7 +8,8 @@ namespace App {
 		WrongVersionFormat,
 		NoName,
 		UnknowError,
-		NotZipFile
+		NotZipFile,
+		NotInManagement
 	}
 
 	@Convertible()

@@ -21,6 +21,7 @@ import { TransactionManager } from "../../../libs/TransactionManager.lib.avt";
 import { AppInstallPanel } from "../AppInstallPanel/AppInstallPanel.wcl.avt";
 import { PWA } from "../../../libs/Pwa.lib.avt";
 import { Application } from "../Application/Application.wcl.avt";
+import { DateConverter } from "../../../libs/DateConverter.lib.avt";
 
 namespace System {
     export class Os extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -450,6 +451,7 @@ namespace System {
         }
 
         private async init() {
+            Aventus.DateConverter.converter = new DateConverter();
             Aventus.PressManager.setGlobalConfig({
                 delayDblPress: 250,
                 delayLongPress: 700,

@@ -23,6 +23,8 @@ Data.DataTypes = {};
 _.Data.DataTypes = Core.Data?.DataTypes ?? {};
 let System = {};
 _.System = Core.System ?? {};
+let Libs = {};
+_.Libs = Core.Libs ?? {};
 let Permissions = {};
 _.Permissions = Core.Permissions ?? {};
 Websocket.Routes = {};
@@ -182,6 +184,17 @@ _.Errors.ImageFileErrorCode=Errors.ImageFileErrorCode;
 })(Errors.DesktopErrorCode || (Errors.DesktopErrorCode = {}));
 _.Errors.DesktopErrorCode=Errors.DesktopErrorCode;
 
+Data.SystemInfo=class SystemInfo extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Core.Data.SystemInfo, Core"; }
+    TimeZone;
+    Version;
+    CompilationDate;
+}
+Data.SystemInfo.Namespace=`Core.Data`;
+Data.SystemInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "TimeZone":"string","Version":"string","CompilationDate":"string"};
+Aventus.Converter.register(Data.SystemInfo.Fullname, Data.SystemInfo);
+_.Data.SystemInfo=Data.SystemInfo;
+
 Data.Settings=class Settings extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Settings, Core"; }
     Key;
@@ -214,6 +227,7 @@ _.Data.ManifestIcon=Data.ManifestIcon;
     AppErrorCode[AppErrorCode["NoName"] = 5] = "NoName";
     AppErrorCode[AppErrorCode["UnknowError"] = 6] = "UnknowError";
     AppErrorCode[AppErrorCode["NotZipFile"] = 7] = "NotZipFile";
+    AppErrorCode[AppErrorCode["NotInManagement"] = 8] = "NotInManagement";
 })(App.AppErrorCode || (App.AppErrorCode = {}));
 _.App.AppErrorCode=App.AppErrorCode;
 
@@ -1370,6 +1384,27 @@ Components.PwaPromptIos.Tag=`rk-pwa-prompt-ios`;
 _.Components.PwaPromptIos=Components.PwaPromptIos;
 if(!window.customElements.get('rk-pwa-prompt-ios')){window.customElements.define('rk-pwa-prompt-ios', Components.PwaPromptIos);Aventus.WebComponentInstance.registerDefinition(Components.PwaPromptIos);}
 
+Libs.DateConverter=class DateConverter extends Aventus.DateConverter {
+    isStringDate(txt) {
+        return /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})$/.exec(txt) !== null;
+    }
+    fromString(txt) {
+        return new Date(txt);
+    }
+    toString(date) {
+        if (date.getFullYear() < 100) {
+            return "0001-01-01T00:00:00";
+        }
+        const offset = date.getTimezoneOffset() * 60000;
+        const iso = new Date(date.getTime() - offset).toISOString();
+        const isoSplit = iso.split(".");
+        isoSplit.pop();
+        return isoSplit.join(".");
+    }
+}
+Libs.DateConverter.Namespace=`Core.Libs`;
+_.Libs.DateConverter=Libs.DateConverter;
+
 Lib.Pointer=class Pointer {
     static isTouch(e) {
         if (window.TouchEvent && e instanceof TouchEvent) {
@@ -1767,6 +1802,19 @@ Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter {
 Routes.CoreRouter.Namespace=`Core.Routes`;
 _.Routes.CoreRouter=Routes.CoreRouter;
 
+Routes.SystemInfoRouter=class SystemInfoRouter extends Aventus.HttpRoute {
+    constructor(router) {
+        super(router ?? new Routes.CoreRouter());
+        this.GetSystemInfo = this.GetSystemInfo.bind(this);
+    }
+    async GetSystemInfo() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/getsysteminfo`, Aventus.HttpMethod.GET);
+        return await request.queryJSON(this.router);
+    }
+}
+Routes.SystemInfoRouter.Namespace=`Core.Routes`;
+_.Routes.SystemInfoRouter=Routes.SystemInfoRouter;
+
 Routes.PermissionUserRouter=class PermissionUserRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
@@ -2111,12 +2159,7 @@ _.Routes.GroupRouter=Routes.GroupRouter;
 Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
-        this.GetAll = this.GetAll.bind(this);
         this.GetConnected = this.GetConnected.bind(this);
-    }
-    async GetAll() {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}`, Aventus.HttpMethod.GET);
-        return await request.queryJSON(this.router);
     }
     async GetConnected() {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/getconnected`, Aventus.HttpMethod.GET);
@@ -9800,6 +9843,7 @@ System.Os = class Os extends Aventus.WebComponent {
         }, true);
     }
     async init() {
+        Aventus.DateConverter.converter = new Libs.DateConverter();
         Aventus.PressManager.setGlobalConfig({
             delayDblPress: 250,
             delayLongPress: 700,

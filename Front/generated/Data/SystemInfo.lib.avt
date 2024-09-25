@@ -1,0 +1,11 @@
+namespace Data {
+
+	@Convertible()
+	export class SystemInfo extends AventusSharp.Data.SharpClass  {
+		public static get Fullname(): string { return "Core.Data.SystemInfo, Core"; }
+		public TimeZone!: string;
+		public Version!: string;
+		public CompilationDate!: string;
+	}
+
+}

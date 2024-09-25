@@ -1,0 +1,18 @@
+import { SystemInfo } from '../Data/SystemInfo.lib.avt';
+import { CoreRouter } from '../CoreRouter.lib.avt';
+
+namespace Routes {
+
+	export class SystemInfoRouter extends Aventus.HttpRoute {
+		public constructor(router?: Aventus.HttpRouter) {
+			super(router ?? new CoreRouter());
+		}
+		@BindThis()
+		public async GetSystemInfo(): Promise<AventusSharp.Tools.ResultWithError<SystemInfo>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/getsysteminfo`, Aventus.HttpMethod.GET);
+			type TypeResult = SystemInfo;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+	}
+
+}
