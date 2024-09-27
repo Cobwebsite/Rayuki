@@ -26,6 +26,8 @@ namespace System {
 
         @ViewElement()
         public applicationsContainer!: HTMLDivElement;
+        @ViewElement()
+        protected safeHider!: HTMLDivElement;
 
         public get desktop(): Desktop {
             if(this.parentNode instanceof ShadowRoot) {
@@ -60,6 +62,11 @@ namespace System {
             let enable = true;
             let startY = 0;
 
+            new Aventus.PressManager({
+                element:this.safeHider,
+                offsetDrag: 0,
+                onDrag:() => {}
+            })
             new Aventus.DragAndDrop({
                 element: this,
                 applyDrag: false,

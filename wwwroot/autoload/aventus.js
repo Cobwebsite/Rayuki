@@ -2365,6 +2365,14 @@ let ConverterTransform=class ConverterTransform {
         if (typeof data === 'object' && !/^\s*class\s+/.test(data.toString())) {
             let objTemp = this.createInstance(data);
             if (objTemp) {
+                if (objTemp instanceof Map) {
+                    if (data.values) {
+                        for (const keyValue of data.values) {
+                            objTemp.set(this.transformLoop(keyValue[0]), this.transformLoop(keyValue[1]));
+                        }
+                    }
+                    return objTemp;
+                }
                 let obj = objTemp;
                 this.beforeTransformObject(obj);
                 if (obj.fromJSON) {
@@ -2457,7 +2465,7 @@ let Converter=class Converter {
     /**
     * Map storing information about registered types.
     */
-    static info = new Map();
+    static info = new Map([["Aventus.Map", Map]]);
     /**
     * Map storing schemas for registered types.
     */

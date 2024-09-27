@@ -12,3 +12,4 @@
 <div class="section addons">
     <rk-add-on-time></rk-add-on-time>
 </div>
+<div class="safe-hider" @element="safeHider"></div>

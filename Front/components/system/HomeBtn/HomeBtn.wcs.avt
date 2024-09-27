@@ -7,8 +7,8 @@
 		border-radius: var(--border-radius-sm);
 		cursor: pointer;
 		margin: 0 3px;
-		max-height: calc(100% - 16px);
-		max-width: 34px;
+		max-height: calc(var(--desktop-bottom-bar) - 16px);
+		max-width: calc(var(--desktop-bottom-bar) - 16px);
 		padding: 7px;
 		transition: background-color 0.2s var(--bezier-curve);
 	}
@@ -48,10 +48,6 @@
 @include mobile {
 	:host {
 		margin-right: 10px;
-		.icon {
-			height: 45px;
-			max-width: 45px;
-		}
 	}
 
 	:host([active]) {

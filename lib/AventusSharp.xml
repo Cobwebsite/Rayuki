@@ -72,12 +72,12 @@
         </member>
         <member name="T:AventusSharp.Data.Date">
             <summary>
-            Class to handle file during process
+            Class to handle date during process
             </summary>
         </member>
         <member name="T:AventusSharp.Data.Datetime">
             <summary>
-            Class to handle file during process
+            Class to handle date during process
             </summary>
         </member>
         <member name="P:AventusSharp.Data.Manager.DataMemberInfo.Type">

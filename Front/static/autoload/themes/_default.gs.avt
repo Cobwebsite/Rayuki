@@ -1,3 +1,5 @@
+@import '@root/_functions.gs.avt';
+
 :root {
 	--primary-color-opacity: rgba(220, 220, 220, 0.9);
 	--primary-color: rgba(220, 220, 220, 1);
@@ -58,8 +60,6 @@
 
 	--bezier-curve: cubic-bezier(0.65, 0, 0.15, 1);
 
-
-
 	--notification-box-shadow: var(--elevation-5);
 	--card-background-color: #ffffff;
 
@@ -69,7 +69,13 @@
 	--button-box-shadow-hover: var(--elevation-0);
 
 	/*#region desktop */
+	--safe-area-top: env(safe-area-inset-top);
+	--safe-area-right: env(safe-area-inset-right);
+	--safe-area-bottom: 10px;//env(safe-area-inset-bottom);
+	--safe-area-left: env(safe-area-inset-left);
+
 	--desktop-background-color: var(--secondary-color);
+	--desktop-bottom-bar: 50px;
 	/*#endregion */
 
 	/*#region application*/
@@ -152,25 +158,22 @@
 	/*#endregion*/
 }
 
-$tablet-breakpoint: 1224px;
-$mobile-breakpoint: 768px;
-
-/* tablet*/
-@media screen and (max-width:$tablet-breakpoint) {
-	/* :root {}*/
+@include tablet {
+	:root {
+		--desktop-bottom-bar: 70px;
+		--slider-dot-size: 30px;
+		--slider-bar-height: 10px;
+	}
 }
 
-/* mobile*/
-@media screen and (max-width:$mobile-breakpoint) {
+@include mobile {
 	:root {
 		--application-background-color: var(--primary-color);
 	}
 }
 
-/* pc*/
-@media screen and (min-width:#{$tablet-breakpoint + 1}) {
-	/* :root {}*/
-}
+@include desktop {}
+
 
 :root.dark {
 	--primary-color-opacity: rgb(30, 30, 30, 0.9);

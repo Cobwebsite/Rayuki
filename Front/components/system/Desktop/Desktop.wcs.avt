@@ -19,7 +19,7 @@
 		--page-case-border-active: 1px solid var(--darker-active);
 		--page-case-background-active: var(--lighter-active);
 		/* background-color: var(--lighter-active);*/
-		height: calc(100% - 70px);
+		height: calc(100% - var(--desktop-bottom-bar) - 20px - var(--safe-area-bottom));
 		transition:
 			opacity var(--bezier-curve) .5s,
 			visibility var(--bezier-curve) .5s;

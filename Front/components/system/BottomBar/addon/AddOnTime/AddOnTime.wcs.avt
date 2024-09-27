@@ -2,6 +2,7 @@
 
 :host {
 	position: relative;
+	height: calc(var(--desktop-bottom-bar) - 20px);
 
 	.display {
 		align-items: center;
@@ -9,8 +10,9 @@
 		cursor: pointer;
 		display: flex;
 		margin-right: 10px;
-		padding: 10px;
+		padding: 0 10px;
 		transition: background-color linear 0.2s;
+		height: 100%;
 
 		.date {
 			font-size: var(--font-size-sm);
