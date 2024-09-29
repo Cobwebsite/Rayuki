@@ -21,6 +21,33 @@ namespace Components {
         public static isISheetElement(node: unknown): node is ISheetElement {
             return typeof (node as ISheetElement).getHtml == 'function' && typeof (node as ISheetElement).getCSS == 'function';
         }
+        private static sizes: Map<SheetFormat, Map<SheetOrientation, { width: number, height: number; }>> = new Map([
+            ["A3", new Map([
+                ["portrait", { width: 297, height: 420 }],
+                ["landscape", { width: 420, height: 297 }],
+            ])],
+            ["A4", new Map([
+                ["portrait", { width: 210, height: 297 }],
+                ["landscape", { width: 297, height: 210 }],
+            ])],
+            ["A5", new Map([
+                ["portrait", { width: 148, height: 210 }],
+                ["landscape", { width: 210, height: 148 }],
+            ])],
+            ["legal", new Map([
+                ["portrait", { width: 216, height: 357 }],
+                ["landscape", { width: 357, height: 216 }],
+            ])],
+            ["letter", new Map([
+                ["portrait", { width: 216, height: 279 }],
+                ["landscape", { width: 280, height: 216 }],
+            ])],
+        ]);
+        public static getSize(format: SheetFormat, orientation: SheetOrientation): { width: number, height: number; } {
+            return this.sizes.get(format)!.get(orientation)!;
+        }
+        public static mmToPx(mm: number) { return mm * 3.7795275591; }
+        public static pxToMm(px:number) { return px / 3.7795275591;}
         //#endregion
 
 

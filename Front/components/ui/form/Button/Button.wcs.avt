@@ -1,14 +1,14 @@
 @import '@root/_functions.gs.avt';
 
 :host {
-	--internal-button-background-color: var(--button-background-color);
+	--_button-background-color: var(--button-background-color);
 	--_button-background-color-hover: var(--button-background-color-hover, var(--darker));
-	--internal-button-color: var(--button-color);
-	--internal-button-box-shadow: var(--button-box-shadow);
-	--internal-button-box-shadow-hover: var(--button-box-shadow-hover);
+	--_button-color: var(--button-color, currentcolor);
+	--_button-box-shadow: var(--button-box-shadow);
+	--_button-box-shadow-hover: var(--button-box-shadow-hover);
 	--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));
 	--_button-padding: var(--button-padding, 0 16px);
-	--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);
+	--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);
 	--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);
 	--_button-icon-margin: var(--button-icon-margin, 10px);
 	--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));
@@ -16,10 +16,10 @@
 }
 
 :host {
-	background-color: var(--internal-button-background-color);
+	background-color: var(--_button-background-color);
 	border-radius: var(--_button-border-radius);
-	box-shadow: var(--internal-button-box-shadow);
-	color: var(--internal-button-color);
+	box-shadow: var(--_button-box-shadow);
+	color: var(--_button-color);
 	cursor: pointer;
 	height: 36px;
 	position: relative;
@@ -110,7 +110,7 @@
 
 @include desktop {
 	:host(:not([disabled]):hover) {
-		box-shadow: var(--internal-button-box-shadow-hover);
+		box-shadow: var(--_button-box-shadow-hover);
 
 		.hider {
 			opacity: 1;

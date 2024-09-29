@@ -631,6 +631,10 @@ namespace Components {
 
                 this.display.y = newY;
                 this.display.x = newX;
+
+                this.contentZoom.style.width = '';
+                this.contentZoom.style.height = '';
+                this.contentZoom.style.maxHeight = '';
             }
             return hasChanged;
         }

@@ -71,7 +71,7 @@
 	/*#region desktop */
 	--safe-area-top: env(safe-area-inset-top);
 	--safe-area-right: env(safe-area-inset-right);
-	--safe-area-bottom: 10px;//env(safe-area-inset-bottom);
+	--safe-area-bottom: env(safe-area-inset-bottom);
 	--safe-area-left: env(safe-area-inset-left);
 
 	--desktop-background-color: var(--secondary-color);

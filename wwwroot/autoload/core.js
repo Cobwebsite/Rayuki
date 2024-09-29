@@ -1485,7 +1485,7 @@ Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
     get 'color'() { return this.getStringAttr('color') }
     set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
     set 'outline'(val) { this.setBoolAttr('outline', val) }    get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--internal-button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}:host{--_button-padding: var(--button-padding, 0)}:host{aspect-ratio:1/1;height:36px;min-width:auto;border-radius:var(--border-radius-round)}:host .hider{border-radius:var(--border-radius-round)}:host .content .icon{--img-fill-color: var(--_button-color);height:100%;padding:10px 0}`;
+    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{--_button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--_button-color: var(--button-color, currentcolor);--_button-box-shadow: var(--button-box-shadow);--_button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--_button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--_button-box-shadow);color:var(--_button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--_button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}:host{--_button-padding: var(--button-padding, 0)}:host{aspect-ratio:1/1;height:36px;min-width:auto;border-radius:var(--border-radius-round)}:host .hider{border-radius:var(--border-radius-round)}:host .content .icon{--img-fill-color: var(--_button-color);height:100%;padding:0}`;
     __getStatic() {
         return ButtonIcon;
     }
@@ -4117,6 +4117,9 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
                 hasChanged = true;
             this.display.y = newY;
             this.display.x = newX;
+            this.contentZoom.style.width = '';
+            this.contentZoom.style.height = '';
+            this.contentZoom.style.maxHeight = '';
         }
         return hasChanged;
     }
@@ -5331,7 +5334,6 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
         new Aventus.PressManager({
             element: this.safeHider,
             offsetDrag: 0,
-            // onPress:() => {},
             onDrag: () => { }
         });
         new Aventus.DragAndDrop({
@@ -11339,7 +11341,29 @@ _.Lib.FileSaver=Lib.FileSaver;
 Components.Sheet = class Sheet extends Aventus.WebComponent {
     get 'format'() { return this.getStringAttr('format') }
     set 'format'(val) { this.setStringAttr('format', val) }get 'orientation'() { return this.getStringAttr('orientation') }
-    set 'orientation'(val) { this.setStringAttr('orientation', val) }    currentWrapper;
+    set 'orientation'(val) { this.setStringAttr('orientation', val) }    static sizes = new Map([
+        ["A3", new Map([
+                ["portrait", { width: 297, height: 420 }],
+                ["landscape", { width: 420, height: 297 }],
+            ])],
+        ["A4", new Map([
+                ["portrait", { width: 210, height: 297 }],
+                ["landscape", { width: 297, height: 210 }],
+            ])],
+        ["A5", new Map([
+                ["portrait", { width: 148, height: 210 }],
+                ["landscape", { width: 210, height: 148 }],
+            ])],
+        ["legal", new Map([
+                ["portrait", { width: 216, height: 357 }],
+                ["landscape", { width: 357, height: 216 }],
+            ])],
+        ["letter", new Map([
+                ["portrait", { width: 216, height: 279 }],
+                ["landscape", { width: 280, height: 216 }],
+            ])],
+    ]);
+    currentWrapper;
     currentBody;
     currentPage;
     basicPage;
@@ -11732,6 +11756,11 @@ if (this.constructor == Sheet) { throw "can't instanciate an abstract class"; } 
     static isISheetElement(node) {
         return typeof node.getHtml == 'function' && typeof node.getCSS == 'function';
     }
+    static getSize(format, orientation) {
+        return this.sizes.get(format).get(orientation);
+    }
+    static mmToPx(mm) { return mm * 3.7795275591; }
+    static pxToMm(px) { return px / 3.7795275591; }
 }
 Components.Sheet.Namespace=`Core.Components`;
 _.Components.Sheet=Components.Sheet;
