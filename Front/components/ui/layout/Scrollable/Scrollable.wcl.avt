@@ -363,8 +363,8 @@ namespace Components {
          * Define a speed percent to auto scroll right
          */
         public autoScrollRight(percent: number = 50) {
-            let slow = 10;
-            let fast = 200;
+            let slow = this.max.x * 1 / 100;
+            let fast = this.max.x * 10 / 100;
             this.autoScrollSpeed.right = (fast - slow) * (percent / 100) + slow;
             this.startAutoScrollRight();
         }
@@ -397,8 +397,8 @@ namespace Components {
          * Define a speed percent to auto scroll left
          */
         public autoScrollLeft(percent: number = 50) {
-            let slow = 10;
-            let fast = 200;
+            let slow = this.max.x * 1 / 100;
+            let fast = this.max.x * 10 / 100;
             this.autoScrollSpeed.left = (fast - slow) * (percent / 100) + slow;
             this.startAutoScrollLeft();
         }
@@ -431,8 +431,8 @@ namespace Components {
          * Define a speed percent to auto scroll top
          */
         public autoScrollTop(percent: number = 50) {
-            let slow = 10;
-            let fast = 200;
+            let slow = this.max.y * 1 / 100;
+            let fast = this.max.y * 10 / 100;
             this.autoScrollSpeed.top = (fast - slow) * (percent / 100) + slow;
             this.startAutoScrollTop();
         }
@@ -465,8 +465,8 @@ namespace Components {
          * Define a speed percent to auto scroll bottom
          */
         public autoScrollBottom(percent: number = 50) {
-            let slow = 10;
-            let fast = 200;
+            let slow = this.max.y * 1 / 100;
+            let fast = this.max.y * 10 / 100;
             this.autoScrollSpeed.bottom = (fast - slow) * (percent / 100) + slow;
             this.startAutoScrollBottom();
         }
@@ -532,6 +532,8 @@ namespace Components {
             this.renderAnimation?.start();
         }
         private onWheel(e: WheelEvent) {
+            // todo maybe manage zoom here
+            if(e.ctrlKey) return;
             const DELTA_MODE = [1.0, 28.0, 500.0];
             const mode = DELTA_MODE[e.deltaMode] || DELTA_MODE[0];
             let newValue = {
