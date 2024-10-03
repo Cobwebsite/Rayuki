@@ -1,4 +1,5 @@
-import { TouchRecord } from "./Touch.lib.avt";
+import type { InternalPointerEvent } from "Aventus@Main:Aventus.package.avt";
+import { TouchRecord, Tracker } from "./Touch.lib.avt";
 
 namespace Components {
     export class Scrollable extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -27,6 +28,10 @@ namespace Components {
             target.changeZoom();
         })
         public zoom: number = 1;
+        @Attribute()
+        public min_zoom: number = 1;
+        @Attribute()
+        public max_zoom!: number;
 
         @Attribute()
         private y_scroll_visible!: boolean;
@@ -70,6 +75,14 @@ namespace Components {
         @Attribute()
         private no_user_select!: boolean;
 
+        /**
+         * Allow scroll by dragging with the mouse
+         */
+        @Attribute()
+        public mouse_drag!: boolean;
+
+        @Attribute()
+        public pinch!: boolean;
         //#endregion
 
 
@@ -163,6 +176,12 @@ namespace Components {
         private savedBreak: number = 1;
         private loadedOnce: boolean = false;
         private savedPercent?: { x: number, y: number; };
+        private isDragScroller: boolean = false;
+        private cachedSvg?: SVGSVGElement;
+        private previousMidPoint?: { x: number, y: number; };
+        private previousDistance?: number;
+        private startTranslate: { x: number, y: number; } = { x: 0, y: 0 };
+
 
         public get x(): number {
             return this.position.x;
@@ -179,19 +198,26 @@ namespace Components {
             this.renderAnimation = this.createAnimation();
             this.onWheel = this.onWheel.bind(this);
             this.onTouchStart = this.onTouchStart.bind(this);
+            this.onTouchMovePointer = this.onTouchMovePointer.bind(this);
             this.onTouchMove = this.onTouchMove.bind(this);
+            this.onTouchMovePointer = this.onTouchMovePointer.bind(this);
             this.onTouchEnd = this.onTouchEnd.bind(this);
+            this.onTouchEndPointer = this.onTouchEndPointer.bind(this);
             this.touchRecord = new TouchRecord();
         }
         //#endregion
 
-
-        //#region methods
+        //#region events
 
         /**
          * Callback trigger when the scroll change
          */
         public onScrollChange: Aventus.Callback<(x: number, y: number) => void> = new Aventus.Callback();
+        public onZoomChange: Aventus.Callback<(zoom: number) => void> = new Aventus.Callback();
+
+        //#endregion
+
+        //#region methods
 
         //#region render
         private renderAnimation: Aventus.Animation;
@@ -480,24 +506,146 @@ namespace Components {
             }
         }
 
+
+        private createMatrix(): DOMMatrix {
+            if(!this.cachedSvg) {
+                this.cachedSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            }
+            return this.cachedSvg.createSVGMatrix();
+        }
+        private getMidPoint(a: Tracker, b: Tracker) {
+            return {
+                x: (a.lastPosition.x + b.lastPosition.x) / 2,
+                y: (a.lastPosition.y + b.lastPosition.y) / 2,
+            };
+        }
+        private getDistance(a: Tracker, b: Tracker) {
+            return Math.sqrt((b.lastPosition.x - a.lastPosition.x) ** 2 + (b.lastPosition.y - a.lastPosition.y) ** 2);
+        }
+
+        /**
+         * Zoom on a specific point
+         */
+        public zoomOnPoint(clientX: number, clientY: number, newZoom: number) {
+            let targetCoordinates = this.getBoundingClientRect();
+            let mousePositionRelativeToTarget = {
+                x: targetCoordinates.x - clientX,
+                y: targetCoordinates.y - clientY
+            };
+
+            let oldScale = this.zoom;
+            let newScale: number;
+            if(this.max_zoom > 0) {
+                newScale = Math.max(this.min_zoom, Math.min(this.max_zoom, newZoom));
+            }
+            else {
+                newScale = Math.max(this.min_zoom, newZoom);
+            }
+            let scaleDiff = newScale / oldScale;
+            const matrix = this.createMatrix()
+                .translate(this.x, this.y)
+                .translate(mousePositionRelativeToTarget.x, mousePositionRelativeToTarget.y)
+                .scale(scaleDiff)
+                .translate(-mousePositionRelativeToTarget.x, -mousePositionRelativeToTarget.y)
+                .scale(this.zoom);
+
+            const newZoomFinal = matrix.a || 1;
+            const newX = matrix.e || 0;
+            const newY = matrix.f || 0;
+
+            this.zoom = newZoomFinal;
+            this.onZoomChange.trigger([newZoomFinal]);
+            this.scrollDirection('x', newX);
+            this.scrollDirection('y', newY);
+        }
+
+        private pinchAction() {
+            const touches = this.touchRecord.getTouches();
+            if(touches.length == 2) {
+                const newMidpoint = this.getMidPoint(touches[0], touches[1]);
+                const prevMidpoint = this.previousMidPoint ?? newMidpoint;
+                const positioningElRect = this.getBoundingClientRect();
+
+                const originX = (positioningElRect.left + this.x - this.startTranslate.x) - prevMidpoint.x;
+                const originY = (positioningElRect.top + this.y - this.startTranslate.y) - prevMidpoint.y;
+
+                const newDistance = this.getDistance(touches[0], touches[1]);
+                const prevDistance = this.previousDistance;
+
+                let scaleDiff = prevDistance ? newDistance / prevDistance : 1;
+                const panX = prevMidpoint.x - newMidpoint.x;
+                const panY = prevMidpoint.y - newMidpoint.y;
+
+                let oldScale = this.zoom;
+                let newScale: number;
+                if(this.max_zoom > 0) {
+                    newScale = Math.max(this.min_zoom, Math.min(this.max_zoom, oldScale * scaleDiff));
+                }
+                else {
+                    newScale = Math.max(this.min_zoom, oldScale * scaleDiff);
+                }
+                scaleDiff = newScale / oldScale;
+
+                const matrix = this.createMatrix()
+                    .translate(panX, panY)
+                    .translate(originX, originY)
+                    .translate(this.x, this.y)
+                    .scale(scaleDiff)
+                    .translate(-originX, -originY)
+                    .scale(this.zoom);
+
+                const newZoom = matrix.a || 1;
+                const newX = matrix.e || 0;
+                const newY = matrix.f || 0;
+
+                this.zoom = newZoom;
+                this.onZoomChange.trigger([newZoom]);
+                this.scrollDirection('x', newX);
+                this.scrollDirection('y', newY);
+
+                this.previousMidPoint = newMidpoint;
+                this.previousDistance = newDistance;
+            }
+            return null;
+        }
         //#endregion
 
         //#region events
         private addAction() {
-            this.addEventListener("wheel", this.onWheel);
+            this.addEventListener("wheel", this.onWheel, { passive: false });
             this.addEventListener("touchstart", this.onTouchStart);
-            this.addEventListener("touchmove", this.onTouchMove);
-            this.addEventListener("touchcancel", this.onTouchEnd);
-            this.addEventListener("touchend", this.onTouchEnd);
+            this.addEventListener("trigger_pointer_pressstart", this.onTouchStartPointer);
+
+            if(this.mouse_drag) {
+                this.addEventListener("mousedown", this.onTouchStart);
+            }
             this.addScrollDrag('x');
             this.addScrollDrag('y');
+        }
+        private addActionMove() {
+            document.body.addEventListener("touchmove", this.onTouchMove);
+            document.body.addEventListener("trigger_pointer_pressmove", this.onTouchMovePointer);
+            document.body.addEventListener("touchcancel", this.onTouchEnd);
+            document.body.addEventListener("touchend", this.onTouchEnd);
+            document.body.addEventListener("trigger_pointer_pressend", this.onTouchEndPointer);
+            if(this.mouse_drag) {
+                document.body.addEventListener("mousemove", this.onTouchMove);
+                document.body.addEventListener("mouseup", this.onTouchEnd);
+            }
+        }
+        private removeActionMove() {
+            document.body.removeEventListener("touchmove", this.onTouchMove);
+            document.body.removeEventListener("trigger_pointer_pressmove", this.onTouchMovePointer);
+            document.body.removeEventListener("touchcancel", this.onTouchEnd);
+            document.body.removeEventListener("touchend", this.onTouchEnd);
+            document.body.removeEventListener("trigger_pointer_pressend", this.onTouchEndPointer);
+            document.body.removeEventListener("mousemove", this.onTouchMove);
+            document.body.removeEventListener("mouseup", this.onTouchEnd);
         }
 
         private addScrollDrag(direction: 'x' | 'y') {
             let scroller = this.scroller[direction]();
-            scroller.addEventListener("touchstart", (e) => {
-                e.stopPropagation();
-            });
+
             let startPosition = 0;
             new Aventus.DragAndDrop({
                 element: scroller,
@@ -506,6 +654,7 @@ namespace Components {
                 offsetDrag: 0,
                 isDragEnable: () => !this.disable,
                 onStart: (e) => {
+                    this.isDragScroller = true;
                     this.no_user_select = true;
                     scroller.classList.add("active");
                     startPosition = this.position[direction];
@@ -518,11 +667,29 @@ namespace Components {
                 onStop: () => {
                     this.no_user_select = false;
                     scroller.classList.remove("active");
+                    this.isDragScroller = false;
                 }
             });
         }
 
-
+        private shouldStopPropagation(e: Event, delta: { x: number, y: number; }) {
+            if(!this.y_scroll && this.x_scroll) {
+                if(
+                    (delta.x > 0 && this.x != this.max.x) ||
+                    (delta.x <= 0 && this.x != 0)
+                ) {
+                    e.stopPropagation();
+                }
+            }
+            else {
+                if(
+                    (delta.y > 0 && this.y != this.max.y) ||
+                    (delta.y <= 0 && this.y != 0)
+                ) {
+                    e.stopPropagation();
+                }
+            }
+        }
         private addDelta(delta: { x: number, y: number; }) {
             if(this.disable) {
                 return;
@@ -532,8 +699,18 @@ namespace Components {
             this.renderAnimation?.start();
         }
         private onWheel(e: WheelEvent) {
-            // todo maybe manage zoom here
-            if(e.ctrlKey) return;
+            if(e.ctrlKey) {
+                e.preventDefault();
+                e.stopPropagation();
+                if(this.pinch) {
+                    let factor = 0.9;
+                    if(e.deltaY < 0) {
+                        factor = 1.1;
+                    }
+                    this.zoomOnPoint(e.clientX, e.clientY, this.zoom * factor);
+                }
+                return;
+            }
             const DELTA_MODE = [1.0, 28.0, 500.0];
             const mode = DELTA_MODE[e.deltaMode] || DELTA_MODE[0];
             let newValue = {
@@ -545,27 +722,31 @@ namespace Components {
                     x: e.deltaY * mode,
                     y: 0,
                 };
-                if(
-                    (newValue.x > 0 && this.x != this.max.x) ||
-                    (newValue.x <= 0 && this.x != 0)
-                ) {
-                    e.stopPropagation();
-                }
             }
-            else {
-                if(
-                    (newValue.y > 0 && this.y != this.max.y) ||
-                    (newValue.y <= 0 && this.y != 0)
-                ) {
-                    e.stopPropagation();
-                }
+            else if(this.x_scroll && e.altKey) {
+                newValue = {
+                    x: e.deltaY * mode,
+                    y: 0,
+                };
             }
-
+            this.shouldStopPropagation(e, newValue);
             this.addDelta(newValue);
         }
 
-
-        private onTouchStart(e: TouchEvent) {
+        private onTouchStartPointer(e: InternalPointerEvent) {
+            if(e.detail.state.oneActionTriggered) return;
+            const ev = e.detail.realEvent.event;
+            if(ev instanceof TouchEvent) {
+                this.onTouchStart(ev);
+            }
+            else {
+                if(this.mouse_drag || ev.pointerType == "touch") {
+                    this.onTouchStart(ev);
+                }
+            }
+        }
+        private onTouchStart(e: TouchEvent | PointerEvent | MouseEvent) {
+            if(this.isDragScroller) return;
             this.touchRecord.track(e);
 
             this.momentum = {
@@ -574,26 +755,74 @@ namespace Components {
             };
 
             if(this.pointerCount === 0) {
+                this.addActionMove();
                 this.savedBreak = this.break;
                 this.break = Math.max(this.break, 0.5); // less frames on touchmove
             }
-            this.pointerCount++;
+            this.pointerCount = this.touchRecord.getNbOfTouches();
+
+            if(this.pinch && this.pointerCount == 2) {
+                this.startTranslate = { x: this.x, y: this.y };
+            }
         }
-        private onTouchMove(e: TouchEvent) {
+              
+        private onTouchMovePointer(e: InternalPointerEvent) {
+            if(e.detail.state.oneActionTriggered) return;
+            const ev = e.detail.realEvent.event;
+            if(ev instanceof TouchEvent) {
+                this.onTouchMove(ev);
+            }
+            else {
+                if(this.mouse_drag || ev.pointerType == "touch") {
+                    this.onTouchMove(ev);
+                }
+            }
+        }
+        private onTouchMove(e: TouchEvent | PointerEvent | MouseEvent) {
+            if(this.isDragScroller) return;
             this.touchRecord.update(e);
-            const delta = this.touchRecord.getDelta();
-            this.addDelta(delta);
+            if(this.pinch && this.pointerCount == 2) {
+                // zoom
+                e.stopPropagation();
+                this.renderAnimation?.stop();
+                this.pinchAction();
+            }
+            else {
+                const delta = this.touchRecord.getDelta();
+                this.shouldStopPropagation(e, delta);
+                this.addDelta(delta);
+            }
         }
-        private onTouchEnd(e: TouchEvent) {
+        private onTouchEndPointer(e: InternalPointerEvent) {
+            if(e.detail.state.oneActionTriggered) return;
+            const ev = e.detail.realEvent.event;
+            if(ev instanceof TouchEvent) {
+                this.onTouchEnd(ev);
+            }
+            else {
+                if(this.mouse_drag || ev.pointerType == "touch") {
+                    this.onTouchEnd(ev);
+                }
+
+            }
+        }
+        private onTouchEnd(e: TouchEvent | PointerEvent | MouseEvent) {
+            if(this.isDragScroller) return;
             const delta = this.touchRecord.getEasingDistance(this.savedBreak);
+            this.shouldStopPropagation(e, delta);
             this.addDelta(delta);
-            this.pointerCount--;
+            this.touchRecord.release(e);
+            this.pointerCount = this.touchRecord.getNbOfTouches();
 
             if(this.pointerCount === 0) {
                 this.break = this.savedBreak;
+                this.removeActionMove();
+            }
+            if(this.pointerCount < 2) {
+                this.previousMidPoint = undefined;
+                this.previousDistance = undefined;
             }
 
-            this.touchRecord.release(e);
         }
 
         //#endregion

@@ -32,12 +32,13 @@
 		background-color: #f0f0f0;
 		display: none;
 		inset: 0;
-		overflow-y: scroll;
+		overflow: auto;
 		padding: 10px;
 		position: absolute;
 		white-space: pre-wrap;
 		z-index: 1;
 		touch-action: none;
+		padding-bottom: 100px;
 	}
 
 	.app-container {

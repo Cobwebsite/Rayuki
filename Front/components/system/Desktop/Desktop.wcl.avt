@@ -624,7 +624,7 @@ namespace System {
 
         protected addDebug() {
             const debugConsole = this.debugEl;
-
+           
             // Function to append messages to the console
             function appendToConsole(message, type = 'log') {
                 const logEntry = document.createElement('div');
@@ -657,7 +657,7 @@ namespace System {
 
         protected override postCreation(): void {
             this.loadData();
-            // this.addDebug();
+            //this.addDebug();
         }
         //#endregion
     }
