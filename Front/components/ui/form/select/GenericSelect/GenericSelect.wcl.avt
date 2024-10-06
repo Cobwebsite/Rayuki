@@ -57,7 +57,7 @@ namespace Components {
 
         protected options: T[] = [];
 
-
+        protected optionsInited:boolean = false;
         //#endregion
 
 
@@ -72,7 +72,7 @@ namespace Components {
             return item1 == item2;
         }
         protected onInternalValueChanged() {
-            if(!this.isConnected) return;
+            if(!this.optionsInited) return;
             let found = false;
             for(let option of this.options) {
                 if(this.compare(option.value, this.value)) {
@@ -193,6 +193,7 @@ namespace Components {
             this.manageFocus();
             this.optionsContainer.init(this);
             this.loadElementsFromSlot();
+            this.optionsInited = true;
             this.onInternalValueChanged();
         }
         //#endregion

@@ -15579,6 +15579,7 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
 						this.__watch["value"] = val;
 					}    selectedOption;
     options = [];
+    optionsInited = false;
     __registerWatchesActions() {
     this.__addWatchesActions("displayValue", ((target, action, path, value) => {
     target.inputEl.value = target.displayValue;
@@ -15684,7 +15685,7 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
         return item1 == item2;
     }
     onInternalValueChanged() {
-        if (!this.isConnected)
+        if (!this.optionsInited)
             return;
         let found = false;
         for (let option of this.options) {
@@ -15782,6 +15783,7 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
         this.manageFocus();
         this.optionsContainer.init(this);
         this.loadElementsFromSlot();
+        this.optionsInited = true;
         this.onInternalValueChanged();
     }
     __efca6c2ed5bcc3ecd5150acdf7f96c13method1() {
@@ -15963,7 +15965,10 @@ if(!window.customElements.get('rk-option')){window.customElements.define('rk-opt
 Components.Select = class Select extends Components.GenericSelect {
     static get observedAttributes() {return ["value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'value'() { return this.getStringProp('value') }
-    set 'value'(val) { this.setStringAttr('value', val) }    static __style = ``;
+    set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
+    target.onInternalValueChanged();
+})); }
+    static __style = ``;
     __getStatic() {
         return Select;
     }

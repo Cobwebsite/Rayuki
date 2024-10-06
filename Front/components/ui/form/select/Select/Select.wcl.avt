@@ -10,7 +10,9 @@ namespace Components {
 
 
         //#region props
-        @Property()
+        @Property((target: Select) => {
+            target.onInternalValueChanged();
+        })
         public override value: string = "";
         //#endregion
 
@@ -35,8 +37,6 @@ namespace Components {
             // }
             return option.innerHTML;
         }
-
-
 
         //#endregion
 
