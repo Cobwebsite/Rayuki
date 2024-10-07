@@ -28,6 +28,9 @@ namespace Components {
 
         @Property()
         public max!: number;
+
+        @Property()
+        public unit?: string;
         //#endregion
 
 

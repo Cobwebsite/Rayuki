@@ -4,7 +4,9 @@
         <rk-img src="{{ this.icon }}" class="icon" @element="iconEl"></rk-img>
     </slot>
     <input autocomplete="off" id="input" @element="inputEl" placeholder="{{ this.placeholder }}" @focus="removeErrors" @input="onValueChange" />
-    <slot name="append"></slot>
+    <slot name="append">
+        <span class="unit">{{ this.unit }}</span>
+    </slot>
     <div class="error-logo">!</div>
 </div>
 <div class="errors">

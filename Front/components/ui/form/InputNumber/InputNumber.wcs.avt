@@ -7,6 +7,8 @@
 	--_input-number-font-size-label: var(--input-number-font-size-label, var(--form-element-font-size-label, calc(var(--_input-number-font-size) * 0.95)));
 	--_input-number-input-border: var(--input-number-input-border, var(--form-element-border, 1px solid var(--lighter-active)));
 	--_input-number-border-radius: var(--input-number-border-radius, var(--form-element-border-radius, 0));
+	--_input-number-unit-background-color: var(--input-number-unit-background-color, var(--secondary-color));
+	--_input-number-unit-color: var(--input-number-unit-color, var(--text-color-secondary));
 }
 
 :host {
@@ -64,6 +66,25 @@
 			justify-content: center;
 			width: var(--_input-number-error-logo-size);
 		}
+
+		.unit {
+			align-items: center;
+			background-color: var(--_input-number-unit-background-color);
+			border-bottom-right-radius: var(--_input-number-border-radius);
+			border-top-right-radius: var(--_input-number-border-radius);
+			color: var(--_input-number-unit-color);
+			display: flex;
+			font-size: 14px;
+			height: 100%;
+			justify-content: center;
+			margin-right: -10px;
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+
+		.unit:empty {
+			display: none;
+		}
 	}
 
 	.errors {
@@ -72,13 +93,15 @@
 		font-size: var(--font-size-sm);
 		line-height: 1.1;
 		margin: 0 10px;
-		&>div {
+
+		& > div {
 			margin: 5px 0;
 		}
-		&>div:first-child {
+
+		& > div:first-child {
 			margin-top: 10px;
 		}
-		
+
 	}
 }
 
@@ -90,6 +113,7 @@
 			display: flex;
 		}
 	}
+
 	.errors {
 		display: block;
 	}

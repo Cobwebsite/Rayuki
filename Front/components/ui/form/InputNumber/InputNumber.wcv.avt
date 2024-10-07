@@ -2,6 +2,9 @@
 <div class="input">
     <rk-img src="{{ this.icon }}" class="icon"></rk-img>
     <input inputmode="numeric" pattern="[0-9]*" autocomplete="off" id="input" @element="inputEl" placeholder="{{ this.placeholder }}" @focus="removeErrors" @input="onValueChange" @blur="validate" />
+    <slot name="append">
+        <span class="unit">{{ this.unit }}</span>
+    </slot>
     <div class="error-logo">!</div>
 </div>
 <div class="errors">

@@ -14,6 +14,9 @@ namespace Components {
         public label?: string;
         @Property()
         public placeholder?: string;
+        @Property()
+        public unit?: string;
+
 
         @Property()
         public icon?: string;
