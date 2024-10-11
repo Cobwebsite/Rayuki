@@ -61,6 +61,7 @@
 :host([use_absolute][position="bottom"]) {
 	left: var(--local-tooltip-from-x);
 	top: var(--local-tooltip-from-y);
+	max-height: calc(100% - var(--local-tooltip-to-y) - 10px);
 }
 
 :host([use_absolute][visible][position="bottom"]) {
@@ -96,6 +97,7 @@
 :host([use_absolute][position="top"]) {
 	bottom: var(--local-tooltip-from-y);
 	left: var(--local-tooltip-from-x);
+	max-height: calc(100% - var(--local-tooltip-to-y) - 10px);
 }
 
 :host([use_absolute][visible][position="top"]) {
@@ -131,6 +133,7 @@
 :host([use_absolute][position="right"]) {
 	left: var(--local-tooltip-from-x);
 	top: var(--local-tooltip-from-y);
+	max-width: calc(100% - var(--local-tooltip-to-x) - 10px);
 }
 
 :host([use_absolute][visible][position="right"]) {
@@ -168,6 +171,7 @@
 :host([use_absolute][position="left"]) {
 	right: var(--local-tooltip-from-x);
 	top: var(--local-tooltip-from-y);
+	max-width: calc(100% - var(--local-tooltip-to-x) - 10px);
 }
 
 :host([use_absolute][visible][position="left"]) {

@@ -32,21 +32,25 @@ namespace Components {
 
 
         protected activeHeader?: TabHeader<T>;
+
+        private elements: HTMLElement[] = [];
         //#endregion
 
 
         //#region constructor
-
+        
         //#endregion
 
 
         //#region methods
 
         protected loadTabs() {
+            // let elements = this.elements;
             let elements = this.getElementsInSlot();
+
             let first: TabHeader<T> | null = null;
             for(let element of elements) {
-                element.parentElement?.removeChild(element);
+                element.style.display = 'none';
                 if(element instanceof Tab) {
                     this.tabs[element.label] = element as T;
 
@@ -68,12 +72,12 @@ namespace Components {
         public displayActive(tabHeader: TabHeader<T>) {
             if(this.activeHeader) {
                 this.activeHeader.active = false;
-                this.activeHeader.tab.parentNode?.removeChild(this.activeHeader.tab);
+                this.activeHeader.tab.style.display = 'none';
             }
 
             this.activeHeader = tabHeader;
             this.activeHeader.active = true;
-            this.appendChild(this.activeHeader.tab);
+            this.activeHeader.tab.style.display = '';
             this.validateCorner();
         }
 

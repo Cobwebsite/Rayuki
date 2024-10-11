@@ -223,10 +223,17 @@ let NormalizedEvent=class NormalizedEvent {
         return this.event.timeStamp;
     }
     get pointerType() {
+        if (this._event instanceof TouchEvent)
+            return "touch";
         return this.getProp("pointerType");
     }
     get button() {
         return this.getProp("button");
+    }
+    get isTouch() {
+        if (this._event instanceof TouchEvent)
+            return true;
+        return this._event.pointerType == "touch";
     }
 }
 NormalizedEvent.Namespace=`Aventus`;
@@ -3043,13 +3050,12 @@ let PressManager=class PressManager {
     }
     options;
     element;
-    delayDblPress = PressManager.globalConfig.delayDblPress ?? 150;
-    delayLongPress = PressManager.globalConfig.delayLongPress ?? 700;
+    delayDblPress;
+    delayLongPress;
     nbPress = 0;
-    offsetDrag = PressManager.globalConfig.offsetDrag ?? 20;
+    offsetDrag;
     state = {
-        oneActionTriggered: false,
-        moving: undefined,
+        oneActionTriggered: null,
     };
     startPosition = { x: 0, y: 0 };
     customFcts = {};
@@ -3058,8 +3064,7 @@ let PressManager=class PressManager {
     downEventSaved;
     useDblPress = false;
     stopPropagation = () => true;
-    isEventDownProcessed = false;
-    isEventUpProcessed = false;
+    pointersRecord = {};
     functionsBinded = {
         downAction: (e) => { },
         upAction: (e) => { },
@@ -3076,6 +3081,9 @@ let PressManager=class PressManager {
         if (options.element === void 0) {
             throw 'You must provide an element';
         }
+        this.offsetDrag = PressManager.globalConfig.offsetDrag !== undefined ? PressManager.globalConfig.offsetDrag : 20;
+        this.delayLongPress = PressManager.globalConfig.delayLongPress ?? 700;
+        this.delayDblPress = PressManager.globalConfig.delayDblPress ?? 150;
         this.element = options.element;
         this.checkDragConstraint(options);
         this.assignValueOption(options);
@@ -3169,14 +3177,6 @@ let PressManager=class PressManager {
         this.functionsBinded.childPressEnd = this.childPressEnd.bind(this);
         this.functionsBinded.childPressMove = this.childPressMove.bind(this);
     }
-    preventTouch() {
-        const onTouch = (ev) => {
-            ev.preventDefault();
-        };
-        this.element.addEventListener('touchstart', onTouch, { passive: false });
-        this.element.addEventListener('touchmove', onTouch, { passive: false });
-        this.element.addEventListener('touchend', onTouch, { passive: false });
-    }
     init() {
         this.bindAllFunction();
         this.element.addEventListener("pointerdown", this.functionsBinded.downAction);
@@ -3185,62 +3185,112 @@ let PressManager=class PressManager {
         this.element.addEventListener("trigger_pointer_pressend", this.functionsBinded.childPressEnd);
         this.element.addEventListener("trigger_pointer_pressmove", this.functionsBinded.childPressMove);
     }
+    identifyEvent(touch) {
+        if (touch instanceof Touch)
+            return touch.identifier;
+        return touch.pointerId;
+    }
+    registerEvent(ev) {
+        if (ev instanceof TouchEvent) {
+            for (let touch of ev.targetTouches) {
+                const id = this.identifyEvent(touch);
+                if (this.pointersRecord[id]) {
+                    return false;
+                }
+                this.pointersRecord[id] = ev;
+            }
+            return true;
+        }
+        else {
+            const id = this.identifyEvent(ev);
+            if (this.pointersRecord[id]) {
+                return false;
+            }
+            this.pointersRecord[id] = ev;
+            return true;
+        }
+    }
+    unregisterEvent(ev) {
+        let result = true;
+        if (ev instanceof TouchEvent) {
+            for (let touch of ev.changedTouches) {
+                const id = this.identifyEvent(touch);
+                if (!this.pointersRecord[id]) {
+                    result = false;
+                }
+                else {
+                    delete this.pointersRecord[id];
+                }
+            }
+        }
+        else {
+            const id = this.identifyEvent(ev);
+            if (!this.pointersRecord[id]) {
+                result = false;
+            }
+            else {
+                delete this.pointersRecord[id];
+            }
+        }
+        return result;
+    }
     genericDownAction(state, e) {
         this.downEventSaved = e;
         if (this.options.onLongPress) {
             this.timeoutLongPress = setTimeout(() => {
                 if (!state.oneActionTriggered) {
                     if (this.options.onLongPress) {
-                        state.oneActionTriggered = true;
-                        this.options.onLongPress(e, this);
+                        if (this.options.onLongPress(e, this) !== false) {
+                            state.oneActionTriggered = this;
+                        }
                     }
                 }
             }, this.delayLongPress);
         }
     }
     downAction(ev) {
-        if (this.isEventDownProcessed) {
+        const isFirst = Object.values(this.pointersRecord).length == 0;
+        if (!this.registerEvent(ev)) {
             if (this.stopPropagation()) {
                 ev.stopImmediatePropagation();
             }
             return;
         }
-        this.isEventDownProcessed = true;
-        this.isEventUpProcessed = false;
         const e = new NormalizedEvent(ev);
         if (this.options.onEvent) {
             this.options.onEvent(e);
         }
         if (e.button != undefined && !this.options.buttonAllowed?.includes(e.button)) {
-            this.isEventUpProcessed = true;
-            this.isEventDownProcessed = false;
+            this.unregisterEvent(ev);
             return;
         }
         if (this.stopPropagation()) {
             e.stopImmediatePropagation();
         }
         this.customFcts = {};
-        if (this.nbPress == 0) {
-            this.state.oneActionTriggered = false;
+        if (this.nbPress == 0 && isFirst) {
+            this.state.oneActionTriggered = null;
             clearTimeout(this.timeoutDblPress);
         }
         this.startPosition = { x: e.pageX, y: e.pageY };
-        document.addEventListener("pointerup", this.functionsBinded.upAction);
-        document.addEventListener("pointercancel", this.functionsBinded.upAction);
-        document.addEventListener("touchend", this.functionsBinded.upAction);
-        document.addEventListener("touchcancel", this.functionsBinded.upAction);
-        document.addEventListener("pointermove", this.functionsBinded.moveAction);
+        if (isFirst) {
+            document.addEventListener("pointerup", this.functionsBinded.upAction);
+            document.addEventListener("pointercancel", this.functionsBinded.upAction);
+            document.addEventListener("touchend", this.functionsBinded.upAction);
+            document.addEventListener("touchcancel", this.functionsBinded.upAction);
+            document.addEventListener("pointermove", this.functionsBinded.moveAction);
+        }
         this.genericDownAction(this.state, e);
         if (this.options.onPressStart) {
             this.options.onPressStart(e, this);
+            this.lastEmitEvent = e;
             // this.emitTriggerFunctionParent("pressstart", e);
         }
         this.emitTriggerFunction("pressstart", e);
     }
     genericUpAction(state, e) {
         clearTimeout(this.timeoutLongPress);
-        if (state.moving == this) {
-            state.moving = undefined;
+        if (state.oneActionTriggered == this) {
             if (this.options.onDragEnd) {
                 this.options.onDragEnd(e, this);
             }
@@ -3253,10 +3303,12 @@ let PressManager=class PressManager {
                 this.nbPress++;
                 if (this.nbPress == 2) {
                     if (!state.oneActionTriggered) {
-                        state.oneActionTriggered = true;
                         this.nbPress = 0;
                         if (this.options.onDblPress) {
                             this.options.onDblPress(e, this);
+                            if (this.options.onDblPress(e, this) !== false) {
+                                state.oneActionTriggered = this;
+                            }
                         }
                     }
                 }
@@ -3265,8 +3317,9 @@ let PressManager=class PressManager {
                         this.nbPress = 0;
                         if (!state.oneActionTriggered) {
                             if (this.options.onPress) {
-                                state.oneActionTriggered = true;
-                                this.options.onPress(e, this);
+                                if (this.options.onPress(e, this) !== false) {
+                                    state.oneActionTriggered = this;
+                                }
                             }
                         }
                     }, this.delayDblPress);
@@ -3275,55 +3328,57 @@ let PressManager=class PressManager {
             else {
                 if (!state.oneActionTriggered) {
                     if (this.options.onPress) {
-                        state.oneActionTriggered = true;
-                        this.options.onPress(e, this);
+                        if (this.options.onPress(e, this) !== false) {
+                            state.oneActionTriggered = this;
+                        }
                     }
                 }
             }
         }
     }
     upAction(ev) {
-        if (this.isEventUpProcessed) {
+        if (!this.unregisterEvent(ev)) {
             if (this.stopPropagation()) {
                 ev.stopImmediatePropagation();
             }
             return;
         }
         const e = new NormalizedEvent(ev);
-        this.isEventUpProcessed = true;
-        this.isEventDownProcessed = false;
         if (this.options.onEvent) {
             this.options.onEvent(e);
         }
         if (this.stopPropagation()) {
             e.stopImmediatePropagation();
         }
-        document.removeEventListener("pointerup", this.functionsBinded.upAction);
-        document.removeEventListener("pointercancel", this.functionsBinded.upAction);
-        document.removeEventListener("touchend", this.functionsBinded.upAction);
-        document.removeEventListener("touchcancel", this.functionsBinded.upAction);
-        document.removeEventListener("pointermove", this.functionsBinded.moveAction);
+        if (Object.values(this.pointersRecord).length == 0) {
+            document.removeEventListener("pointerup", this.functionsBinded.upAction);
+            document.removeEventListener("pointercancel", this.functionsBinded.upAction);
+            document.removeEventListener("touchend", this.functionsBinded.upAction);
+            document.removeEventListener("touchcancel", this.functionsBinded.upAction);
+            document.removeEventListener("pointermove", this.functionsBinded.moveAction);
+        }
         this.genericUpAction(this.state, e);
         if (this.options.onPressEnd) {
             this.options.onPressEnd(e, this);
+            this.lastEmitEvent = e;
             // this.emitTriggerFunctionParent("pressend", e);
         }
         this.emitTriggerFunction("pressend", e);
     }
     genericMoveAction(state, e) {
-        if (!state.moving && !state.oneActionTriggered) {
+        if (!state.oneActionTriggered) {
             let xDist = e.pageX - this.startPosition.x;
             let yDist = e.pageY - this.startPosition.y;
             let distance = Math.sqrt(xDist * xDist + yDist * yDist);
             if (distance > this.offsetDrag && this.downEventSaved) {
-                state.oneActionTriggered = true;
                 if (this.options.onDragStart) {
-                    state.moving = this;
-                    this.options.onDragStart(this.downEventSaved, this);
+                    if (this.options.onDragStart(this.downEventSaved, this) !== false) {
+                        state.oneActionTriggered = this;
+                    }
                 }
             }
         }
-        else if (state.moving == this) {
+        else if (state.oneActionTriggered == this) {
             if (this.options.onDrag) {
                 this.options.onDrag(e, this);
             }
@@ -3341,12 +3396,13 @@ let PressManager=class PressManager {
             e.stopImmediatePropagation();
         }
         this.genericMoveAction(this.state, e);
+        this.lastEmitEvent = e;
         // if(this.options.onDrag) {
         //     this.emitTriggerFunctionParent("pressmove", e);
         this.emitTriggerFunction("pressmove", e);
     }
     childPressStart(e) {
-        if (this.lastEmitEvent == e)
+        if (this.lastEmitEvent == e.detail.realEvent)
             return;
         this.genericDownAction(e.detail.state, e.detail.realEvent);
         if (this.options.onPressStart) {
@@ -3354,7 +3410,7 @@ let PressManager=class PressManager {
         }
     }
     childPressEnd(e) {
-        if (this.lastEmitEvent == e)
+        if (this.lastEmitEvent == e.detail.realEvent)
             return;
         this.genericUpAction(e.detail.state, e.detail.realEvent);
         if (this.options.onPressEnd) {
@@ -3362,7 +3418,7 @@ let PressManager=class PressManager {
         }
     }
     childPressMove(e) {
-        if (this.lastEmitEvent == e)
+        if (this.lastEmitEvent == e.detail.realEvent)
             return;
         this.genericMoveAction(e.detail.state, e.detail.realEvent);
     }
@@ -3378,7 +3434,7 @@ let PressManager=class PressManager {
                 realEvent: e
             }
         });
-        this.lastEmitEvent = ev;
+        this.lastEmitEvent = e;
         if (!el) {
             el = this.element;
         }
@@ -3525,7 +3581,7 @@ let DragAndDrop=class DragAndDrop {
     onDragStart(e) {
         this.isEnable = this.options.isDragEnable();
         if (!this.isEnable) {
-            return;
+            return false;
         }
         let draggableElement = this.options.element;
         this.startCursorPosition = {
@@ -3553,7 +3609,7 @@ let DragAndDrop=class DragAndDrop {
             this.options.shadow.container.appendChild(draggableElement);
         }
         this.draggableElement = draggableElement;
-        this.options.onStart(e);
+        return this.options.onStart(e);
     }
     onDrag(e) {
         if (!this.isEnable) {

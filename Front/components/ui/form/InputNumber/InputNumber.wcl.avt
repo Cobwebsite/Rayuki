@@ -31,6 +31,9 @@ namespace Components {
 
         @Property()
         public unit?: string;
+
+        @Attribute()
+        public readonly!: boolean;
         //#endregion
 
 

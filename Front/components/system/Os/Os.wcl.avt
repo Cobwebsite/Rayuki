@@ -455,7 +455,7 @@ namespace System {
             Aventus.PressManager.setGlobalConfig({
                 delayDblPress: 250,
                 delayLongPress: 700,
-                offsetDrag: 20
+                offsetDrag: 0
             });
             this.trapInOs();
             this.addResizeObserver();
@@ -474,6 +474,5 @@ namespace System {
             this.init();
         }
         //#endregion
-
-}
+    }
 }

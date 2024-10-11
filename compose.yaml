@@ -28,6 +28,7 @@ services:
     ports:
       - 8080:8080
     volumes:
+      - /d/test/Storage:/app/Storage
       - /d/test/wwwroot:/app/wwwroot/apps
       - /d/test/apps:/app/apps
     environment:

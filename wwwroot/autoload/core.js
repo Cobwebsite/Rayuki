@@ -3603,7 +3603,6 @@ Components.TouchRecord=class TouchRecord {
         return this._touchList;
     }
     release(evt) {
-        delete this._activeTouchID;
         if (evt instanceof TouchEvent) {
             Array.from(evt.changedTouches).forEach(touch => {
                 this._delete(touch);
@@ -3639,6 +3638,9 @@ Components.TouchRecord=class TouchRecord {
     _delete(touch) {
         const identifier = this._getIdentifier(touch);
         delete this._touchList[identifier];
+        if (this._activeTouchID == identifier) {
+            this._activeTouchID = undefined;
+        }
     }
     _has(touch) {
         const identifier = this._getIdentifier(touch);
@@ -3726,7 +3728,6 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
     hideDelay = { x: 0, y: 0 };
     touchRecord;
     pointerCount = 0;
-    savedBreak = 1;
     loadedOnce = false;
     savedPercent;
     isDragScroller = false;
@@ -3755,6 +3756,7 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
         right: 0,
         bottom: 0,
     };
+    pressManager;
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("zoom", ((target) => {
     target.changeZoom();
 })); }
@@ -3864,7 +3866,8 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
             result.position = current + remain;
         }
         else {
-            let nextMomentum = remain * (1 - this.break);
+            const _break = this.pointerCount > 0 ? 0.5 : this.break;
+            let nextMomentum = remain * (1 - _break);
             nextMomentum |= 0;
             result.momentum = nextMomentum;
             result.position = current + remain - nextMomentum;
@@ -4128,33 +4131,57 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
     }
     addAction() {
         this.addEventListener("wheel", this.onWheel, { passive: false });
-        this.addEventListener("touchstart", this.onTouchStart);
-        this.addEventListener("trigger_pointer_pressstart", this.onTouchStartPointer);
+        this.pressManager = new Aventus.PressManager({
+            element: this,
+            offsetDrag: 0,
+            onPressStart: (e) => {
+                this.touchRecord.track(e.event);
+                this.pointerCount = this.touchRecord.getNbOfTouches();
+            },
+            onPressEnd: (e) => {
+                this.touchRecord.release(e.event);
+                this.pointerCount = this.touchRecord.getNbOfTouches();
+            },
+            onDragStart: (e) => {
+                if (!this.pinch && !this.x_scroll_visible && !this.y_scroll_visible) {
+                    return false;
+                }
+                return this.onTouchStartPointer(e);
+            },
+            onDrag: (e) => {
+                this.onTouchMovePointer(e);
+            },
+            onDragEnd: (e) => {
+                this.onTouchEndPointer(e);
+            }
+        });
+        // this.addEventListener("touchstart", this.onTouchStart);
+        // this.addEventListener("trigger_pointer_pressstart", this.onTouchStartPointer);
         if (this.mouse_drag) {
-            this.addEventListener("mousedown", this.onTouchStart);
+            // this.addEventListener("mousedown", this.onTouchStart);
         }
         this.addScrollDrag('x');
         this.addScrollDrag('y');
     }
     addActionMove() {
-        document.body.addEventListener("touchmove", this.onTouchMove);
-        document.body.addEventListener("trigger_pointer_pressmove", this.onTouchMovePointer);
-        document.body.addEventListener("touchcancel", this.onTouchEnd);
-        document.body.addEventListener("touchend", this.onTouchEnd);
-        document.body.addEventListener("trigger_pointer_pressend", this.onTouchEndPointer);
+        // document.body.addEventListener("touchmove", this.onTouchMove);
+        // document.body.addEventListener("trigger_pointer_pressmove", this.onTouchMovePointer);
+        // document.body.addEventListener("touchcancel", this.onTouchEnd);
+        // document.body.addEventListener("touchend", this.onTouchEnd);
+        // document.body.addEventListener("trigger_pointer_pressend", this.onTouchEndPointer);
         if (this.mouse_drag) {
-            document.body.addEventListener("mousemove", this.onTouchMove);
-            document.body.addEventListener("mouseup", this.onTouchEnd);
+            // document.body.addEventListener("mousemove", this.onTouchMove);
+            // document.body.addEventListener("mouseup", this.onTouchEnd);
         }
     }
     removeActionMove() {
-        document.body.removeEventListener("touchmove", this.onTouchMove);
-        document.body.removeEventListener("trigger_pointer_pressmove", this.onTouchMovePointer);
-        document.body.removeEventListener("touchcancel", this.onTouchEnd);
-        document.body.removeEventListener("touchend", this.onTouchEnd);
-        document.body.removeEventListener("trigger_pointer_pressend", this.onTouchEndPointer);
-        document.body.removeEventListener("mousemove", this.onTouchMove);
-        document.body.removeEventListener("mouseup", this.onTouchEnd);
+        // document.body.removeEventListener("touchmove", this.onTouchMove);
+        // document.body.removeEventListener("trigger_pointer_pressmove", this.onTouchMovePointer);
+        // document.body.removeEventListener("touchcancel", this.onTouchEnd);
+        // document.body.removeEventListener("touchend", this.onTouchEnd);
+        // document.body.removeEventListener("trigger_pointer_pressend", this.onTouchEndPointer);
+        // document.body.removeEventListener("mousemove", this.onTouchMove);
+        // document.body.removeEventListener("mouseup", this.onTouchEnd);
     }
     addScrollDrag(direction) {
         let scroller = this.scroller[direction]();
@@ -4240,17 +4267,18 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
         this.addDelta(newValue);
     }
     onTouchStartPointer(e) {
-        if (e.detail.state.oneActionTriggered)
-            return;
-        const ev = e.detail.realEvent.event;
+        const ev = e.event;
         if (ev instanceof TouchEvent) {
             this.onTouchStart(ev);
+            return true;
         }
         else {
             if (this.mouse_drag || ev.pointerType == "touch") {
                 this.onTouchStart(ev);
+                return true;
             }
         }
+        return false;
     }
     onTouchStart(e) {
         if (this.isDragScroller)
@@ -4262,8 +4290,6 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
         };
         if (this.pointerCount === 0) {
             this.addActionMove();
-            this.savedBreak = this.break;
-            this.break = Math.max(this.break, 0.5); // less frames on touchmove
         }
         this.pointerCount = this.touchRecord.getNbOfTouches();
         if (this.pinch && this.pointerCount == 2) {
@@ -4271,9 +4297,7 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
         }
     }
     onTouchMovePointer(e) {
-        if (e.detail.state.oneActionTriggered)
-            return;
-        const ev = e.detail.realEvent.event;
+        const ev = e.event;
         if (ev instanceof TouchEvent) {
             this.onTouchMove(ev);
         }
@@ -4300,9 +4324,7 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
         }
     }
     onTouchEndPointer(e) {
-        if (e.detail.state.oneActionTriggered)
-            return;
-        const ev = e.detail.realEvent.event;
+        const ev = e.event;
         if (ev instanceof TouchEvent) {
             this.onTouchEnd(ev);
         }
@@ -4315,13 +4337,12 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
     onTouchEnd(e) {
         if (this.isDragScroller)
             return;
-        const delta = this.touchRecord.getEasingDistance(this.savedBreak);
+        const delta = this.touchRecord.getEasingDistance(this.break);
         this.shouldStopPropagation(e, delta);
         this.addDelta(delta);
         this.touchRecord.release(e);
         this.pointerCount = this.touchRecord.getNbOfTouches();
         if (this.pointerCount === 0) {
-            this.break = this.savedBreak;
             this.removeActionMove();
         }
         if (this.pointerCount < 2) {
@@ -4513,6 +4534,7 @@ Components.Tabs = class Tabs extends Aventus.WebComponent {
     set 'last_active'(val) { this.setBoolAttr('last_active', val) }    get 'header_full_width'() { return this.getBoolProp('header_full_width') }
     set 'header_full_width'(val) { this.setBoolAttr('header_full_width', val) }    tabs = {};
     activeHeader;
+    elements = [];
     static __style = `:host{--_tabs-background-color: var(--tabs-background-color, #ffffff);--_tabs-header-background-color: var(--tabs-header-background-color, var(--darker-active, rgb(125, 125, 125)));--_tabs-header-background-color-active: var(--tabs-header-background-color-active, var(--_tabs-background-color));--_tabs-header-padding: var(--tabs-header-padding, 10px 10px);--_tabs-header-font-size: var(--tabs-header-font-size, calc(var(--font-size) * 0.855));--_tabs-body-padding: var(--tabs-body-padding, 10px 10px);--_tabs-spacing: var(--tabs-spacing, 5px);--_tabs-transition: var(--tabs-transition, background-color var(--bezier-curve) 0.2s);--_tabs-border-radius: var(--tabs-border-radius, var(--border-radius-sm, 0))}:host{display:flex;flex-direction:column;overflow:hidden;width:100%}:host .header .header-wrapper{align-items:center;display:flex;flex-direction:row;flex-wrap:nowrap;gap:var(--_tabs-spacing);padding-bottom:var(--_tabs-spacing)}:host .body{background-color:var(--_tabs-background-color);border-radius:var(--_tabs-border-radius);padding:var(--_tabs-body-padding);width:100%}:host([first_active]) .body{border-top-left-radius:0px}:host([last_active]) .body{border-top-right-radius:0px}:host([header_full_width]) .header .header-wrapper>*{flex-grow:1}`;
     constructor() { super(); this.validateCorner=this.validateCorner.bind(this) }
     __getStatic() {
@@ -4566,10 +4588,11 @@ Components.Tabs = class Tabs extends Aventus.WebComponent {
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('first_active');this.__upgradeProperty('last_active');this.__upgradeProperty('header_full_width'); }
     __listBoolProps() { return ["first_active","last_active","header_full_width"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     loadTabs() {
+        // let elements = this.elements;
         let elements = this.getElementsInSlot();
         let first = null;
         for (let element of elements) {
-            element.parentElement?.removeChild(element);
+            element.style.display = 'none';
             if (element instanceof Components.Tab) {
                 this.tabs[element.label] = element;
                 let header = new (this.defineTabHeader())();
@@ -4587,11 +4610,11 @@ Components.Tabs = class Tabs extends Aventus.WebComponent {
     displayActive(tabHeader) {
         if (this.activeHeader) {
             this.activeHeader.active = false;
-            this.activeHeader.tab.parentNode?.removeChild(this.activeHeader.tab);
+            this.activeHeader.tab.style.display = 'none';
         }
         this.activeHeader = tabHeader;
         this.activeHeader.active = true;
-        this.appendChild(this.activeHeader.tab);
+        this.activeHeader.tab.style.display = '';
         this.validateCorner();
     }
     defineTabHeader() {
@@ -4819,11 +4842,12 @@ Components.Tooltip = class Tooltip extends Aventus.WebComponent {
     set 'use_absolute'(val) { this.setBoolAttr('use_absolute', val) }get 'delay'() { return this.getNumberAttr('delay') }
     set 'delay'(val) { this.setNumberAttr('delay', val) }get 'delay_touch'() { return this.getNumberAttr('delay_touch') }
     set 'delay_touch'(val) { this.setNumberAttr('delay_touch', val) }    parent = null;
+    parentEv = null;
     isDestroyed = false;
     timeoutEnter = false;
     timeout = 0;
     pressManager;
-    static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;pointer-events:none;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;width:max-content;z-index:1}:host::after{content:"";position:absolute}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--_tooltip-background-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:50%;top:-8px;transform:translateX(-50%)}:host([use_absolute][position=bottom]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=bottom]:not([use_absolute])){bottom:0px;left:50%;transform:translateX(-50%) translateY(calc(100% - 10px))}:host([position=bottom][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(100% + 10px))}:host([position=top]){transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--_tooltip-background-color);bottom:-8px;left:50%;transform:translateX(-50%)}:host([use_absolute][position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x)}:host([use_absolute][visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=top]:not([use_absolute])){left:50%;top:0px;transform:translateX(-50%) translateY(calc(-100% + 10px))}:host([position=top][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(-100% - 10px))}:host([position=right]){transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=right]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=right]:not([use_absolute])){right:0;top:50%;transform:translateX(calc(100% - 10px)) translateY(-50%)}:host([visible][position=right]:not([use_absolute])){transform:translateX(calc(100% + 10px)) translateY(-50%)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=left]){right:var(--local-tooltip-to-x)}:host([position=left]:not([use_absolute])){left:0;top:50%;transform:translateX(calc(-100% + 10px)) translateY(-50%)}:host([visible][position=left]:not([use_absolute])){transform:translateX(calc(-100% - 10px)) translateY(-50%)}:host([color=primary]){--_tooltip-background-color: var(--primary);--_tooltip-color: var(--text-color-primary)}:host([color=secondary]){--_tooltip-background-color: var(--secondary);--_tooltip-color: var(--text-color-secondary)}:host([color=green]){--_tooltip-background-color: var(--green);--_tooltip-color: var(--text-color-green)}:host([color=success]){--_tooltip-background-color: var(--success);--_tooltip-color: var(--text-color-success)}:host([color=red]){--_tooltip-background-color: var(--red);--_tooltip-color: var(--text-color-red)}:host([color=error]){--_tooltip-background-color: var(--error);--_tooltip-color: var(--text-color-error)}:host([color=orange]){--_tooltip-background-color: var(--orange);--_tooltip-color: var(--text-color-orange)}:host([color=warning]){--_tooltip-background-color: var(--warning);--_tooltip-color: var(--text-color-warning)}:host([color=blue]){--_tooltip-background-color: var(--blue);--_tooltip-color: var(--text-color-blue)}:host([color=information]){--_tooltip-background-color: var(--information);--_tooltip-color: var(--text-color-information)}`;
+    static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;pointer-events:none;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;width:max-content;z-index:1}:host::after{content:"";position:absolute}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--_tooltip-background-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:50%;top:-8px;transform:translateX(-50%)}:host([use_absolute][position=bottom]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);max-height:calc(100% - var(--local-tooltip-to-y) - 10px)}:host([use_absolute][visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=bottom]:not([use_absolute])){bottom:0px;left:50%;transform:translateX(-50%) translateY(calc(100% - 10px))}:host([position=bottom][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(100% + 10px))}:host([position=top]){transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--_tooltip-background-color);bottom:-8px;left:50%;transform:translateX(-50%)}:host([use_absolute][position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x);max-height:calc(100% - var(--local-tooltip-to-y) - 10px)}:host([use_absolute][visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=top]:not([use_absolute])){left:50%;top:0px;transform:translateX(-50%) translateY(calc(-100% + 10px))}:host([position=top][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(-100% - 10px))}:host([position=right]){transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=right]){left:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);max-width:calc(100% - var(--local-tooltip-to-x) - 10px)}:host([use_absolute][visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=right]:not([use_absolute])){right:0;top:50%;transform:translateX(calc(100% - 10px)) translateY(-50%)}:host([visible][position=right]:not([use_absolute])){transform:translateX(calc(100% + 10px)) translateY(-50%)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:50%;transform:translateY(-50%)}:host([use_absolute][position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);max-width:calc(100% - var(--local-tooltip-to-x) - 10px)}:host([use_absolute][visible][position=left]){right:var(--local-tooltip-to-x)}:host([position=left]:not([use_absolute])){left:0;top:50%;transform:translateX(calc(-100% + 10px)) translateY(-50%)}:host([visible][position=left]:not([use_absolute])){transform:translateX(calc(-100% - 10px)) translateY(-50%)}:host([color=primary]){--_tooltip-background-color: var(--primary);--_tooltip-color: var(--text-color-primary)}:host([color=secondary]){--_tooltip-background-color: var(--secondary);--_tooltip-color: var(--text-color-secondary)}:host([color=green]){--_tooltip-background-color: var(--green);--_tooltip-color: var(--text-color-green)}:host([color=success]){--_tooltip-background-color: var(--success);--_tooltip-color: var(--text-color-success)}:host([color=red]){--_tooltip-background-color: var(--red);--_tooltip-color: var(--text-color-red)}:host([color=error]){--_tooltip-background-color: var(--error);--_tooltip-color: var(--text-color-error)}:host([color=orange]){--_tooltip-background-color: var(--orange);--_tooltip-color: var(--text-color-orange)}:host([color=warning]){--_tooltip-background-color: var(--warning);--_tooltip-color: var(--text-color-warning)}:host([color=blue]){--_tooltip-background-color: var(--blue);--_tooltip-color: var(--text-color-blue)}:host([color=information]){--_tooltip-background-color: var(--information);--_tooltip-color: var(--text-color-information)}`;
     constructor() { super(); this.onMouseEnter=this.onMouseEnter.bind(this)this.onMouseLeave=this.onMouseLeave.bind(this)this.onTransitionEnd=this.onTransitionEnd.bind(this) }
     __getStatic() {
         return Tooltip;
@@ -4846,9 +4870,9 @@ Components.Tooltip = class Tooltip extends Aventus.WebComponent {
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('position');this.__upgradeProperty('color');this.__upgradeProperty('use_absolute');this.__upgradeProperty('delay');this.__upgradeProperty('delay_touch'); }
     __listBoolProps() { return ["visible","use_absolute"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     calculatePosition() {
-        if (!this.parent || !this.use_absolute)
+        if (!this.parentEv || !this.use_absolute)
             return;
-        let rect = this.parent.getBoundingClientRect();
+        let rect = this.parentEv.getBoundingClientRect();
         let center = {
             x: rect.left + rect.width / 2,
             y: rect.y + rect.height / 2
@@ -4944,11 +4968,11 @@ Components.Tooltip = class Tooltip extends Aventus.WebComponent {
         }
     }
     registerAction() {
-        if (!this.parent)
+        if (!this.parentEv)
             return;
         if (Lib.Platform.device != "pc") {
             this.pressManager = new Aventus.PressManager({
-                element: this.parent,
+                element: this.parentEv,
                 onLongPress: () => {
                     this.onLongPress();
                 },
@@ -4959,22 +4983,29 @@ Components.Tooltip = class Tooltip extends Aventus.WebComponent {
             });
         }
         else {
-            this.parent.addEventListener("mouseenter", this.onMouseEnter);
-            this.parent.addEventListener("mouseleave", this.onMouseLeave);
+            this.parentEv.addEventListener("mouseenter", this.onMouseEnter);
+            this.parentEv.addEventListener("mouseleave", this.onMouseLeave);
         }
         this.addEventListener("transitionend", this.onTransitionEnd);
     }
     postCreation() {
-        this.parent = this.parentElement;
+        let parentEv = this.parentNode;
+        if (parentEv instanceof ShadowRoot) {
+            parentEv = parentEv.host;
+        }
+        if (parentEv instanceof HTMLElement) {
+            this.parentEv = parentEv;
+        }
+        this.parent = this.parentNode;
         this.registerAction();
     }
     postDestruction() {
         this.isDestroyed = true;
         super.postDestruction();
-        if (!this.parent)
+        if (!this.parentEv)
             return;
-        this.parent.removeEventListener("mouseenter", this.onMouseEnter);
-        this.parent.removeEventListener("mouseleave", this.onMouseLeave);
+        this.parentEv.removeEventListener("mouseenter", this.onMouseEnter);
+        this.parentEv.removeEventListener("mouseleave", this.onMouseLeave);
     }
 }
 Components.Tooltip.Namespace=`Core.Components`;
@@ -8536,14 +8567,19 @@ System.Application = class Application extends Aventus.WebComponent {
                 }
                 if (hasMove)
                     this.saveSize();
-            },
+            }
         });
-        this.header.addEventListener("dblclick", () => {
-            this.toggleFull();
+        new Aventus.PressManager({
+            element: this.header,
+            onDblPress: () => {
+                this.toggleFull();
+            }
         });
+        // this.header.addEventListener("dblclick", () => {
+        //     this.toggleFull();
+        // });
         let allowDbl = false;
-        this.header.addEventListener("touchstart", (e) => {
-            e.preventDefault();
+        this.header.addEventListener("trigger_pointer_pressstart", (e) => {
             if (allowDbl) {
                 this.toggleFull();
                 allowDbl = false;
@@ -9524,7 +9560,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
         // Function to append messages to the console
         function appendToConsole(message, type = 'log') {
             const logEntry = document.createElement('div');
-            logEntry.textContent = `[${type.toUpperCase()}] ${message}`;
+            logEntry.textContent = `[${(new Date()).getSeconds()} ${type.toUpperCase()}] ${message}`;
             debugConsole.appendChild(logEntry);
             debugConsole.scrollTop = debugConsole.scrollHeight; // Auto-scroll to the bottom
         }
@@ -9532,6 +9568,10 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
         const originalLog = console.log;
         console.log = function (...args) {
             originalLog.apply(console, args); // Call the original console.log
+            for (let i = 0; i < args.length; i++) {
+                if (typeof args[i] != 'string')
+                    args[i] = JSON.stringify(args[i]);
+            }
             appendToConsole(args.join(' '), 'log');
         };
         // Override console.error
@@ -9549,7 +9589,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
     }
     postCreation() {
         this.loadData();
-        //this.addDebug();
+        // this.addDebug();
     }
 }
 System.Desktop.Namespace=`Core.System`;
@@ -10101,7 +10141,7 @@ System.Os = class Os extends Aventus.WebComponent {
         Aventus.PressManager.setGlobalConfig({
             delayDblPress: 250,
             delayLongPress: 700,
-            offsetDrag: 20
+            offsetDrag: 0
         });
         this.trapInOs();
         this.addResizeObserver();
@@ -13174,7 +13214,8 @@ if(!window.customElements.get('rk-slider')){window.customElements.define('rk-sli
 
 Components.InputNumber = class InputNumber extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "value", "min", "max", "unit"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'label'() { return this.getStringProp('label') }
+    get 'readonly'() { return this.getBoolAttr('readonly') }
+    set 'readonly'(val) { this.setBoolAttr('readonly', val) }    get 'label'() { return this.getStringProp('label') }
     set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
     set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
     set 'icon'(val) { this.setStringAttr('icon', val) }get 'value'() { return this.getNumberProp('value') }
@@ -13190,7 +13231,7 @@ Components.InputNumber = class InputNumber extends Components.FormElement {
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
     target.inputEl.value = target.value + '';
 })); }
-    static __style = `:host{--_input-number-height: var(--input-number-height, 30px);--_input-number-background-color: var(--input-number-background-color, var(--form-element-background, white));--_input-number-icon-height: var(--input-number-icon-height, calc(var(--_input-number-height) / 2));--_input-number-error-logo-size: var(--input-number-error-logo-size, calc(var(--_input-number-height) / 2));--_input-number-font-size: var(--input-number-font-size, var(--form-element-font-size, 16px));--_input-number-font-size-label: var(--input-number-font-size-label, var(--form-element-font-size-label, calc(var(--_input-number-font-size) * 0.95)));--_input-number-input-border: var(--input-number-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-number-border-radius: var(--input-number-border-radius, var(--form-element-border-radius, 0));--_input-number-unit-background-color: var(--input-number-unit-background-color, var(--secondary-color));--_input-number-unit-color: var(--input-number-unit-color, var(--text-color-secondary))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-number-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-number-background-color);border:var(--_input-number-input-border);border-radius:var(--_input-number-border-radius);display:flex;height:var(--_input-number-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-number-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-number-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-number-error-logo-size) - 5px);height:var(--_input-number-error-logo-size);justify-content:center;width:var(--_input-number-error-logo-size)}:host .input .unit{align-items:center;background-color:var(--_input-number-unit-background-color);border-bottom-right-radius:var(--_input-number-border-radius);border-top-right-radius:var(--_input-number-border-radius);color:var(--_input-number-unit-color);display:flex;font-size:14px;height:100%;justify-content:center;margin-right:-10px;padding-left:10px;padding-right:10px}:host .input .unit:empty{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:0 10px}:host .errors>div{margin:5px 0}:host .errors>div:first-child{margin-top:10px}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}`;
+    static __style = `:host{--_input-number-height: var(--input-number-height, 30px);--_input-number-background-color: var(--input-number-background-color, var(--form-element-background, white));--_input-number-icon-height: var(--input-number-icon-height, calc(var(--_input-number-height) / 2));--_input-number-error-logo-size: var(--input-number-error-logo-size, calc(var(--_input-number-height) / 2));--_input-number-font-size: var(--input-number-font-size, var(--form-element-font-size, 16px));--_input-number-font-size-label: var(--input-number-font-size-label, var(--form-element-font-size-label, calc(var(--_input-number-font-size) * 0.95)));--_input-number-input-border: var(--input-number-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-number-border-radius: var(--input-number-border-radius, var(--form-element-border-radius, 0));--_input-number-unit-background-color: var(--input-number-unit-background-color, var(--secondary-color));--_input-number-unit-color: var(--input-number-unit-color, var(--text-color-secondary));--_input-number-readonly-background-color: var(--input-number-readonly-background-color, var(--form-element-background-readonly, var(--_input-number-background-color)));--_input-number-readonly-border: var(--input-number-readonly-border, var(--form-element-border-readonly, var(--_input-number-input-border)))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-number-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-number-background-color);border:var(--_input-number-input-border);border-radius:var(--_input-number-border-radius);display:flex;height:var(--_input-number-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-number-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-number-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-number-error-logo-size) - 5px);height:var(--_input-number-error-logo-size);justify-content:center;width:var(--_input-number-error-logo-size)}:host .input .unit{align-items:center;background-color:var(--_input-number-unit-background-color);border-bottom-right-radius:var(--_input-number-border-radius);border-top-right-radius:var(--_input-number-border-radius);color:var(--_input-number-unit-color);display:flex;font-size:14px;height:100%;justify-content:center;margin-right:-10px;padding-left:10px;padding-right:10px}:host .input .unit:empty{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:0 10px}:host .errors>div{margin:5px 0}:host .errors>div:first-child{margin-top:10px}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([readonly]){pointer-events:none}:host([readonly]) .input{background-color:var(--_input-readonly-background-color);border:var(--_input-readonly-border)}`;
     __getStatic() {
         return InputNumber;
     }
@@ -13263,8 +13304,9 @@ Components.InputNumber = class InputNumber extends Components.FormElement {
     getClassName() {
         return "InputNumber";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = 0; }if(!this.hasAttribute('min')){ this['min'] = undefined; }if(!this.hasAttribute('max')){ this['max'] = undefined; }if(!this.hasAttribute('unit')){ this['unit'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('value');this.__upgradeProperty('min');this.__upgradeProperty('max');this.__upgradeProperty('unit'); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('readonly')) { this.attributeChangedCallback('readonly', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = 0; }if(!this.hasAttribute('min')){ this['min'] = undefined; }if(!this.hasAttribute('max')){ this['max'] = undefined; }if(!this.hasAttribute('unit')){ this['unit'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('readonly');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('value');this.__upgradeProperty('min');this.__upgradeProperty('max');this.__upgradeProperty('unit'); }
+    __listBoolProps() { return ["readonly"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     removeErrors() {
         this.errors = [];
     }

@@ -88,6 +88,9 @@ System.AppIcon = class AppIcon extends Core.System.AppIcon {
     getClassName() {
         return "AppIcon";
     }
+    state() {
+        return "/cepage";
+    }
 }
 System.AppIcon.Namespace=`Cave.System`;
 System.AppIcon.Tag=`cave-app-icon`;

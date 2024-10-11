@@ -1,4 +1,4 @@
-import type { InternalPointerEvent } from "Aventus@Main:Aventus.package.avt";
+import { NormalizedEvent, PressManager, type InternalPointerEvent } from "Aventus@Main:Aventus.package.avt";
 import { TouchRecord, Tracker } from "./Touch.lib.avt";
 
 namespace Components {
@@ -173,7 +173,6 @@ namespace Components {
 
         private touchRecord: TouchRecord;
         private pointerCount: number = 0;
-        private savedBreak: number = 1;
         private loadedOnce: boolean = false;
         private savedPercent?: { x: number, y: number; };
         private isDragScroller: boolean = false;
@@ -257,7 +256,8 @@ namespace Components {
                 result.position = current + remain;
             }
             else {
-                let nextMomentum = remain * (1 - this.break);
+                const _break = this.pointerCount > 0 ? 0.5 : this.break;
+                let nextMomentum = remain * (1 - _break);
                 nextMomentum |= 0;
                 result.momentum = nextMomentum;
                 result.position = current + remain - nextMomentum;
@@ -269,6 +269,8 @@ namespace Components {
                 result.position = correctPosition;
                 result.momentum = 0;
             }
+
+            
 
 
             return result;
@@ -611,36 +613,61 @@ namespace Components {
         //#endregion
 
         //#region events
+        private pressManager!: PressManager;
         private addAction() {
             this.addEventListener("wheel", this.onWheel, { passive: false });
-            this.addEventListener("touchstart", this.onTouchStart);
-            this.addEventListener("trigger_pointer_pressstart", this.onTouchStartPointer);
+            this.pressManager = new PressManager({
+                element: this,
+                offsetDrag: 0,
+                onPressStart: (e) => {
+                    this.touchRecord.track(e.event);
+                    this.pointerCount = this.touchRecord.getNbOfTouches();
+                },
+                onPressEnd: (e) => {
+                    this.touchRecord.release(e.event);
+                    this.pointerCount = this.touchRecord.getNbOfTouches();
+                },
+                onDragStart: (e) => {
+                    if(!this.pinch && !this.x_scroll_visible && !this.y_scroll_visible) {
+                        return false;
+                    }
+                    return this.onTouchStartPointer(e);
+                },
+                onDrag: (e) => {
+                    this.onTouchMovePointer(e);
+                },
+                onDragEnd: (e) => {
+                    this.onTouchEndPointer(e);
+                }
+            });
+            // this.addEventListener("touchstart", this.onTouchStart);
+            // this.addEventListener("trigger_pointer_pressstart", this.onTouchStartPointer);
 
             if(this.mouse_drag) {
-                this.addEventListener("mousedown", this.onTouchStart);
+                // this.addEventListener("mousedown", this.onTouchStart);
             }
             this.addScrollDrag('x');
             this.addScrollDrag('y');
         }
         private addActionMove() {
-            document.body.addEventListener("touchmove", this.onTouchMove);
-            document.body.addEventListener("trigger_pointer_pressmove", this.onTouchMovePointer);
-            document.body.addEventListener("touchcancel", this.onTouchEnd);
-            document.body.addEventListener("touchend", this.onTouchEnd);
-            document.body.addEventListener("trigger_pointer_pressend", this.onTouchEndPointer);
+            // document.body.addEventListener("touchmove", this.onTouchMove);
+            // document.body.addEventListener("trigger_pointer_pressmove", this.onTouchMovePointer);
+            // document.body.addEventListener("touchcancel", this.onTouchEnd);
+            // document.body.addEventListener("touchend", this.onTouchEnd);
+            // document.body.addEventListener("trigger_pointer_pressend", this.onTouchEndPointer);
             if(this.mouse_drag) {
-                document.body.addEventListener("mousemove", this.onTouchMove);
-                document.body.addEventListener("mouseup", this.onTouchEnd);
+                // document.body.addEventListener("mousemove", this.onTouchMove);
+                // document.body.addEventListener("mouseup", this.onTouchEnd);
             }
         }
         private removeActionMove() {
-            document.body.removeEventListener("touchmove", this.onTouchMove);
-            document.body.removeEventListener("trigger_pointer_pressmove", this.onTouchMovePointer);
-            document.body.removeEventListener("touchcancel", this.onTouchEnd);
-            document.body.removeEventListener("touchend", this.onTouchEnd);
-            document.body.removeEventListener("trigger_pointer_pressend", this.onTouchEndPointer);
-            document.body.removeEventListener("mousemove", this.onTouchMove);
-            document.body.removeEventListener("mouseup", this.onTouchEnd);
+            // document.body.removeEventListener("touchmove", this.onTouchMove);
+            // document.body.removeEventListener("trigger_pointer_pressmove", this.onTouchMovePointer);
+            // document.body.removeEventListener("touchcancel", this.onTouchEnd);
+            // document.body.removeEventListener("touchend", this.onTouchEnd);
+            // document.body.removeEventListener("trigger_pointer_pressend", this.onTouchEndPointer);
+            // document.body.removeEventListener("mousemove", this.onTouchMove);
+            // document.body.removeEventListener("mouseup", this.onTouchEnd);
         }
 
         private addScrollDrag(direction: 'x' | 'y') {
@@ -733,17 +760,19 @@ namespace Components {
             this.addDelta(newValue);
         }
 
-        private onTouchStartPointer(e: InternalPointerEvent) {
-            if(e.detail.state.oneActionTriggered) return;
-            const ev = e.detail.realEvent.event;
+        private onTouchStartPointer(e: NormalizedEvent) {
+            const ev = e.event;
             if(ev instanceof TouchEvent) {
                 this.onTouchStart(ev);
+                return true;
             }
             else {
                 if(this.mouse_drag || ev.pointerType == "touch") {
                     this.onTouchStart(ev);
+                    return true;
                 }
             }
+            return false;
         }
         private onTouchStart(e: TouchEvent | PointerEvent | MouseEvent) {
             if(this.isDragScroller) return;
@@ -756,8 +785,6 @@ namespace Components {
 
             if(this.pointerCount === 0) {
                 this.addActionMove();
-                this.savedBreak = this.break;
-                this.break = Math.max(this.break, 0.5); // less frames on touchmove
             }
             this.pointerCount = this.touchRecord.getNbOfTouches();
 
@@ -765,10 +792,9 @@ namespace Components {
                 this.startTranslate = { x: this.x, y: this.y };
             }
         }
-              
-        private onTouchMovePointer(e: InternalPointerEvent) {
-            if(e.detail.state.oneActionTriggered) return;
-            const ev = e.detail.realEvent.event;
+
+        private onTouchMovePointer(e: NormalizedEvent) {
+            const ev = e.event;
             if(ev instanceof TouchEvent) {
                 this.onTouchMove(ev);
             }
@@ -781,6 +807,7 @@ namespace Components {
         private onTouchMove(e: TouchEvent | PointerEvent | MouseEvent) {
             if(this.isDragScroller) return;
             this.touchRecord.update(e);
+
             if(this.pinch && this.pointerCount == 2) {
                 // zoom
                 e.stopPropagation();
@@ -793,9 +820,8 @@ namespace Components {
                 this.addDelta(delta);
             }
         }
-        private onTouchEndPointer(e: InternalPointerEvent) {
-            if(e.detail.state.oneActionTriggered) return;
-            const ev = e.detail.realEvent.event;
+        private onTouchEndPointer(e: NormalizedEvent) {
+            const ev = e.event;
             if(ev instanceof TouchEvent) {
                 this.onTouchEnd(ev);
             }
@@ -808,14 +834,13 @@ namespace Components {
         }
         private onTouchEnd(e: TouchEvent | PointerEvent | MouseEvent) {
             if(this.isDragScroller) return;
-            const delta = this.touchRecord.getEasingDistance(this.savedBreak);
+            const delta = this.touchRecord.getEasingDistance(this.break);
             this.shouldStopPropagation(e, delta);
             this.addDelta(delta);
             this.touchRecord.release(e);
             this.pointerCount = this.touchRecord.getNbOfTouches();
 
             if(this.pointerCount === 0) {
-                this.break = this.savedBreak;
                 this.removeActionMove();
             }
             if(this.pointerCount < 2) {
@@ -1008,7 +1033,7 @@ namespace Components {
             this.dimensionRefreshed();
             this.addResizeObserver();
             this.addAction();
-        };
+        }
         //#endregion
 
     }

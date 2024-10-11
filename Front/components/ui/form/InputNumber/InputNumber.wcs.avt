@@ -9,6 +9,10 @@
 	--_input-number-border-radius: var(--input-number-border-radius, var(--form-element-border-radius, 0));
 	--_input-number-unit-background-color: var(--input-number-unit-background-color, var(--secondary-color));
 	--_input-number-unit-color: var(--input-number-unit-color, var(--text-color-secondary));
+
+	--_input-number-readonly-background-color: var(--input-number-readonly-background-color, var(--form-element-background-readonly, var(--_input-number-background-color)));
+	--_input-number-readonly-border: var(--input-number-readonly-border, var(--form-element-border-readonly, var(--_input-number-input-border)));
+
 }
 
 :host {
@@ -130,5 +134,15 @@
 :host([label]:not([label=""])) {
 	label {
 		display: flex;
+	}
+}
+
+
+:host([readonly]) {
+	pointer-events: none;
+
+	.input {
+		background-color: var(--_input-readonly-background-color);
+		border: var(--_input-readonly-border);
 	}
 }

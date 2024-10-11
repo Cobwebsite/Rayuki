@@ -154,7 +154,6 @@ namespace Components {
         }
 
         public release(evt: TouchEvent | PointerEvent | MouseEvent) {
-            delete this._activeTouchID;
             if(evt instanceof TouchEvent) {
                 Array.from(evt.changedTouches).forEach(touch => {
                     this._delete(touch);
@@ -196,6 +195,9 @@ namespace Components {
         private _delete(touch: Touch | PointerEvent | MouseEvent) {
             const identifier = this._getIdentifier(touch);
             delete this._touchList[identifier];
+            if(this._activeTouchID == identifier) {
+                this._activeTouchID = undefined;
+            }
         }
 
         private _has(touch: Touch | PointerEvent | MouseEvent): boolean {

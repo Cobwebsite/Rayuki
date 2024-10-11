@@ -30,7 +30,8 @@ namespace Components {
 
 
         //#region variables
-        protected parent: HTMLElement | null = null;
+        protected parent: Node | null = null;
+        protected parentEv: HTMLElement | null = null;
         private isDestroyed: boolean = false;
         protected timeoutEnter: boolean = false;
         protected timeout: number = 0;
@@ -45,9 +46,9 @@ namespace Components {
 
         //#region methods
         protected calculatePosition() {
-            if(!this.parent || !this.use_absolute) return;
+            if(!this.parentEv || !this.use_absolute) return;
 
-            let rect = this.parent.getBoundingClientRect();
+            let rect = this.parentEv.getBoundingClientRect();
             let center = {
                 x: rect.left + rect.width / 2,
                 y: rect.y + rect.height / 2
@@ -154,11 +155,11 @@ namespace Components {
 
 
         protected registerAction() {
-            if(!this.parent) return;
+            if(!this.parentEv) return;
 
             if(Platform.device != "pc") {
                 this.pressManager = new Aventus.PressManager({
-                    element: this.parent,
+                    element: this.parentEv,
                     onLongPress: () => {
                         this.onLongPress();
                     },
@@ -169,22 +170,29 @@ namespace Components {
                 });
             }
             else {
-                this.parent.addEventListener("mouseenter", this.onMouseEnter);
-                this.parent.addEventListener("mouseleave", this.onMouseLeave);
+                this.parentEv.addEventListener("mouseenter", this.onMouseEnter);
+                this.parentEv.addEventListener("mouseleave", this.onMouseLeave);
             }
             this.addEventListener("transitionend", this.onTransitionEnd);
         }
         protected override postCreation(): void {
-            this.parent = this.parentElement;
+            let parentEv = this.parentNode;
+            if(parentEv instanceof ShadowRoot) {
+                parentEv = parentEv.host;
+            }
+            if(parentEv instanceof HTMLElement) {
+                this.parentEv = parentEv;
+            }
+            this.parent = this.parentNode;
             this.registerAction();
         }
 
         protected override postDestruction(): void {
             this.isDestroyed = true;
             super.postDestruction();
-            if(!this.parent) return;
-            this.parent.removeEventListener("mouseenter", this.onMouseEnter);
-            this.parent.removeEventListener("mouseleave", this.onMouseLeave);
+            if(!this.parentEv) return;
+            this.parentEv.removeEventListener("mouseenter", this.onMouseEnter);
+            this.parentEv.removeEventListener("mouseleave", this.onMouseLeave);
         }
         //#endregion
 

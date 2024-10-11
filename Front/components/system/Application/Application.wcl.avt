@@ -740,16 +740,19 @@ namespace System {
                     }
                     if(hasMove)
                         this.saveSize();
-                },
-
+                }
             });
-
-            this.header.addEventListener("dblclick", () => {
-                this.toggleFull();
-            });
+            new Aventus.PressManager({
+                element:this.header,
+                onDblPress: () => {
+                    this.toggleFull();
+                }
+            })
+            // this.header.addEventListener("dblclick", () => {
+            //     this.toggleFull();
+            // });
             let allowDbl = false;
-            this.header.addEventListener("touchstart", (e) => {
-                e.preventDefault();
+            this.header.addEventListener("trigger_pointer_pressstart", (e) => {
                 if(allowDbl) {
                     this.toggleFull();
                     allowDbl = false;

@@ -624,11 +624,11 @@ namespace System {
 
         protected addDebug() {
             const debugConsole = this.debugEl;
-           
+
             // Function to append messages to the console
             function appendToConsole(message, type = 'log') {
                 const logEntry = document.createElement('div');
-                logEntry.textContent = `[${type.toUpperCase()}] ${message}`;
+                logEntry.textContent = `[${(new Date()).getSeconds()} ${type.toUpperCase()}] ${message}`;
                 debugConsole.appendChild(logEntry);
                 debugConsole.scrollTop = debugConsole.scrollHeight; // Auto-scroll to the bottom
             }
@@ -637,6 +637,10 @@ namespace System {
             const originalLog = console.log;
             console.log = function (...args) {
                 originalLog.apply(console, args); // Call the original console.log
+                for(let i = 0; i < args.length; i++) {
+                    if(typeof args[i] != 'string')
+                        args[i] = JSON.stringify(args[i]);
+                }
                 appendToConsole(args.join(' '), 'log');
             };
 
@@ -657,7 +661,7 @@ namespace System {
 
         protected override postCreation(): void {
             this.loadData();
-            //this.addDebug();
+            // this.addDebug();
         }
         //#endregion
     }
