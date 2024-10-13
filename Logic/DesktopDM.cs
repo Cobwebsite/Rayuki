@@ -22,18 +22,6 @@ namespace Core.Logic
         {
             VoidWithError result = await base.Initialize();
             CreateDefaultDesktop();
-            //new Desktop()
-            //{
-            //    Name = "My dekstop",
-            //    Background = "/img/test_wp.png",
-            //    UserId = 1
-            //}.Create();
-            //new Desktop()
-            //{
-            //    Name = "My dekstop2",
-            //    Background = "/img/wp.png",
-            //    UserId = 1
-            //}.Create();
 
             PermissionDM.GetInstance().RegisterPermissions<DesktopPermission, DesktopPermissionDescription>();
             return result;
@@ -54,7 +42,7 @@ namespace Core.Logic
 
         protected string GetPictureDirPath(Desktop desktop)
         {
-            return Path.Combine(HttpServer.wwwroot, "desktops", desktop.Token);
+            return Path.Combine(FileStorage.rootFolder, "Core", "desktops", desktop.Token);
         }
 
         private ResultWithError<Desktop> CreateDesktopForUser(int userId)
@@ -183,7 +171,7 @@ namespace Core.Logic
             foreach (X value in values)
             {
                 value.Token = Guid.NewGuid().ToString().Replace("-", "");
-                value.Configuration.Background.ValidateAndSaveToDir(GetPictureDirPath(value), 1200);
+                value.Configuration.Background.ValidateAndSaveToDir(GetPictureDirPath(value), 1200, FileStorage.GetCore());
             }
             return result;
         }
@@ -198,7 +186,7 @@ namespace Core.Logic
                 {
                     openApplications.Remove(value.Id);
                 }
-                result.AddRange(value.Configuration.Background.ValidateAndSaveToDir(GetPictureDirPath(value), 1200).Errors);
+                result.AddRange(value.Configuration.Background.ValidateAndSaveToDir(GetPictureDirPath(value), 1200, FileStorage.GetCore()).Errors);
             }
             return result;
 

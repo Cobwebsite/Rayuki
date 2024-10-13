@@ -33,6 +33,7 @@
 		border-radius: var(--_input-number-border-radius);
 		display: flex;
 		height: var(--_input-number-height);
+		overflow: hidden;
 		padding: 0 10px;
 		width: 100%;
 
@@ -74,8 +75,6 @@
 		.unit {
 			align-items: center;
 			background-color: var(--_input-number-unit-background-color);
-			border-bottom-right-radius: var(--_input-number-border-radius);
-			border-top-right-radius: var(--_input-number-border-radius);
 			color: var(--_input-number-unit-color);
 			display: flex;
 			font-size: 14px;

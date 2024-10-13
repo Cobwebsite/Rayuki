@@ -1,7 +1,6 @@
 
 using AventusSharp.Data.Manager.DB;
 using AventusSharp.Tools;
-using Core.App;
 using Core.Data;
 using Core.Data.DataTypes;
 using Core.Tools;
@@ -101,13 +100,13 @@ namespace Core.Logic
                     }
 
 
-                    ResultWithError<bool> saveTemp = value.Logo.SaveToFolderOnUpload(Path.Combine(HttpServer.wwwroot, "company"));
+                    ResultWithError<bool> saveTemp = value.Logo.SaveToFolderOnUpload(Path.Combine(FileStorage.rootFolder, "Core", "company"));
                     if (!saveTemp.Success)
                     {
                         return saveTemp.Errors;
                     }
 
-                    value.Logo.Uri = value.Logo.Upload.FilePath.Replace(HttpServer.wwwroot, "").Replace("\\", "/");
+                    value.Logo.Uri = value.Logo.Upload.FilePath.Replace(FileStorage.rootFolder, "/storage").Replace("\\", "/");
                     value.Logo.Upload = null;
                 }
             }

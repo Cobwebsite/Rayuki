@@ -11,6 +11,8 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices;
 using EnvDTE;
 using Core.Tools;
+using AventusSharp.Tools.Attributes;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace Core.Routes
 {
@@ -38,6 +40,37 @@ namespace Core.Routes
                 version = HttpServer.Version
             });
         }
+
+        [Get, Path("/storage/.*")]
+        [NoTypescript]
+        public async Task<ByteResponse> Storage(HttpContext context)
+        {
+            string uri = context.Request.Path.Value!.Replace("/storage/", "");
+            ResultWithError<byte[]> response = await FileStorage.Get().Get(uri);
+            string contentType = "application/octet-stream";
+            if (response.Success && response.Result != null)
+            {
+                var fileProvider = new FileExtensionContentTypeProvider();
+                if(fileProvider.TryGetContentType(uri, out string? contentTypeTemp)) {
+                    contentType = contentTypeTemp;
+                }
+                return new ByteResponse(response.Result, contentType);
+            }
+            response.Print();
+            if (response.Errors[0] is StorageError storageError)
+            {
+                if (storageError.Code == StorageErrorCode.NotFound)
+                {
+                    return new ByteResponse([], contentType, 404);
+                }
+                if (storageError.Code == StorageErrorCode.NotAllowed)
+                {
+                    return new ByteResponse([], contentType, 403);
+                }
+            }
+            return new ByteResponse([], "application/octet-stream", 500);
+        }
+
 
         [Get, Path("/login")]
         public IResponse Login()

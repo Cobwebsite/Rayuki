@@ -5,3 +5,4 @@ wwwroot/apps
 node_modules
 dist
 !Front/apps
+Storage

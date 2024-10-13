@@ -76,8 +76,6 @@
 		.unit {
 			align-items: center;
 			background-color: var(--_input-unit-background-color);
-			border-bottom-right-radius: var(--_input-border-radius);
-			border-top-right-radius: var(--_input-border-radius);
 			color: var(--_input-unit-color);
 			display: flex;
 			font-size: 14px;

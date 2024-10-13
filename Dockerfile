@@ -54,9 +54,6 @@ VOLUME /app/temp
 VOLUME /app/Storage
 VOLUME /app/wwwroot/apps
 VOLUME /app/wwwroot/pwa/custom
-VOLUME /app/wwwroot/desktops
-VOLUME /app/wwwroot/users
-VOLUME /app/wwwroot/company
 VOLUME /app/Views/apps
 
 # Copy everything needed to run the app from the "build" stage.
