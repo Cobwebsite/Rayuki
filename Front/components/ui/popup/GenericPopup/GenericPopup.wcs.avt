@@ -1,4 +1,4 @@
-@import '@root/_functions.gs.avt';
+@import '@root/static/_functions.gs.avt';
 
 :host {
 	--_popup-background-color: var(--popup-background-color, var(--application-background-color, var(--primary-color-opacity)));

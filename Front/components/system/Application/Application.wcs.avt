@@ -1,4 +1,4 @@
-@import '@root/_functions.gs.avt';
+@import '@root/static/_functions.gs.avt';
 
 :host {
 	--_application-box-shadow: var(--application-box-shadow);

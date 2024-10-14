@@ -1,4 +1,4 @@
-@import '@root/_functions.gs.avt';
+@import '@root/static/_functions.gs.avt';
 
 :host {
 	--_table-background-color: var(--table-background-color, var(--secondary-color));

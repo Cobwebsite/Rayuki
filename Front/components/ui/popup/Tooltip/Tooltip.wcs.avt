@@ -1,4 +1,4 @@
-@import "@root/_functions.gs.avt";
+@import "@root/static/_functions.gs.avt";
 
 :host {
 	--local-tooltip-from-y: 0;
