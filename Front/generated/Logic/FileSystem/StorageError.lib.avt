@@ -1,0 +1,14 @@
+namespace Errors {
+
+	export enum StorageErrorCode {
+		UnknowError,
+		NotAllowed,
+		NotFound
+	}
+
+	@Convertible()
+	export class StorageError extends Aventus.GenericError<typeof StorageErrorCode>  {
+		public static get Fullname(): string { return "Core.Logic.FileSystem.StorageError, Core"; }
+	}
+
+}

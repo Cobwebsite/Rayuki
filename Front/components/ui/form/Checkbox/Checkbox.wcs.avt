@@ -2,7 +2,6 @@
 	--_checkbox-size: var(--checkbox-size, 18px);
 	--_checkbox-height: var(--checkbox-height, var(--_checkbox-size));
 	--_checkbox-width: var(--checkbox-width, var(--_checkbox-size));
-	--_checkbox-size: 20px;
 	--_checkbox-border-radius: var(--checkbox-border-radius, var(--form-element-border-radius));
 	--_checkbox-border: var(--checkbox-border, var(--form-element-border));
 	--_checkbox-border-active: var(--checkbox-border-active, var(--form-element-border-active, var(--_checkbox-border)));

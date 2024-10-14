@@ -13,6 +13,10 @@ Websocket.Events = {};
 _.Websocket.Events = Core.Websocket?.Events ?? {};
 let Errors = {};
 _.Errors = Core.Errors ?? {};
+let Logic = {};
+_.Logic = Core.Logic ?? {};
+Logic.FileSystem = {};
+_.Logic.FileSystem = Core.Logic?.FileSystem ?? {};
 let Data = {};
 _.Data = Core.Data ?? {};
 let App = {};
@@ -178,6 +182,32 @@ _.Errors.PdfErrorCode=Errors.PdfErrorCode;
     ImageFileErrorCode[ImageFileErrorCode["NoSize"] = 3] = "NoSize";
 })(Errors.ImageFileErrorCode || (Errors.ImageFileErrorCode = {}));
 _.Errors.ImageFileErrorCode=Errors.ImageFileErrorCode;
+
+(function (StorageErrorCode) {
+    StorageErrorCode[StorageErrorCode["UnknowError"] = 0] = "UnknowError";
+    StorageErrorCode[StorageErrorCode["NotAllowed"] = 1] = "NotAllowed";
+    StorageErrorCode[StorageErrorCode["NotFound"] = 2] = "NotFound";
+})(Errors.StorageErrorCode || (Errors.StorageErrorCode = {}));
+_.Errors.StorageErrorCode=Errors.StorageErrorCode;
+
+(function (IsAllowedAction) {
+    IsAllowedAction[IsAllowedAction["Read"] = 0] = "Read";
+    IsAllowedAction[IsAllowedAction["Write"] = 1] = "Write";
+    IsAllowedAction[IsAllowedAction["Delete"] = 2] = "Delete";
+})(Logic.FileSystem.IsAllowedAction || (Logic.FileSystem.IsAllowedAction = {}));
+_.Logic.FileSystem.IsAllowedAction=Logic.FileSystem.IsAllowedAction;
+
+Logic.FileSystem.FileDetails=class FileDetails extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Core.Logic.FileSystem.FileDetails, Core"; }
+    Name;
+    Size;
+    LastEdit;
+    IsDirectory;
+}
+Logic.FileSystem.FileDetails.Namespace=`Core.Logic.FileSystem`;
+Logic.FileSystem.FileDetails.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "Name":"string","Size":"number","LastEdit":"Date","IsDirectory":"boolean"};
+Aventus.Converter.register(Logic.FileSystem.FileDetails.Fullname, Logic.FileSystem.FileDetails);
+_.Logic.FileSystem.FileDetails=Logic.FileSystem.FileDetails;
 
 (function (DesktopErrorCode) {
     DesktopErrorCode[DesktopErrorCode["NoDefaultDesktop"] = 0] = "NoDefaultDesktop";
@@ -8660,7 +8690,7 @@ System.Application = class Application extends Aventus.WebComponent {
     }
     async popupErrors(errors) {
         if (errors.length > 0) {
-            let msg = errors.map(p => p.message).join("<br/>");
+            let msg = errors.map(p => p.message.replace(/\n/g, '<br/>')).join("<br/>");
             await this.alert({
                 title: "Error",
                 description: msg,
@@ -13969,7 +13999,7 @@ Components.Checkbox = class Checkbox extends Components.FormElement {
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("checked", ((target) => {
     target.value = target.checked;
 })); }
-    static __style = `:host{--_checkbox-size: var(--checkbox-size, 18px);--_checkbox-height: var(--checkbox-height, var(--_checkbox-size));--_checkbox-width: var(--checkbox-width, var(--_checkbox-size));--_checkbox-size: 20px;--_checkbox-border-radius: var(--checkbox-border-radius, var(--form-element-border-radius));--_checkbox-border: var(--checkbox-border, var(--form-element-border));--_checkbox-border-active: var(--checkbox-border-active, var(--form-element-border-active, var(--_checkbox-border)));--_checkbox-background: var(--checkbox-background, var(--form-element-background, white));--_checkbox-background-active: var(--checkbox-background-active, var(--form-element-background-active, white));--_checkbox-tick-color: var(--checkbox-tick-color, var(--_checkbox-background));--_checkbox-tick-size: var(--checkbox-tick-size, 2px);--_checkbox-tick-padding: var(--checkbox-tick-padding, 10%);--_checkbox-font-size-label: var(--checkbox-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_checkbox-margin-label: var(--checkbox-margin-label, 5px)}:host{align-items:center;display:flex}:host .label:not(:empty){cursor:pointer;font-size:var(--_checkbox-font-size-label);margin-left:var(--_checkbox-margin-label)}:host .square{background-color:var(--_checkbox-background);border:var(--_checkbox-border);border-radius:var(--_checkbox-border-radius);cursor:pointer;flex-shrink:0;height:var(--_checkbox-height);position:relative;transition:border .4s var(--bezier-curve),background-color .4s var(--bezier-curve);width:var(--_checkbox-width);display:flex;align-items:center;justify-content:center}:host .square rk-img{--img-stroke-color: var(--_checkbox-tick-color);--img-stroke-width: var(--_checkbox-tick-size);height:calc(100% - var(--_checkbox-tick-padding));opacity:0;visibility:hidden;width:calc(100% - var(--_checkbox-tick-padding))}:host([checked]) .square{background-color:var(--_checkbox-background-active);border:var(--_checkbox-border-active)}:host([checked]) .square rk-img{opacity:1;visibility:visible}:host([checked]) .square rk-img::part(tick){animation:dash .3s linear forwards;animation-delay:.2s;stroke-dasharray:100;stroke-dashoffset:100}:host([left_label]) .label:not(:empty){margin-left:0;margin-right:var(--_checkbox-margin-label);order:1}:host([left_label]) .square{order:2}@keyframes dash{to{stroke-dashoffset:70}}`;
+    static __style = `:host{--_checkbox-size: var(--checkbox-size, 18px);--_checkbox-height: var(--checkbox-height, var(--_checkbox-size));--_checkbox-width: var(--checkbox-width, var(--_checkbox-size));--_checkbox-border-radius: var(--checkbox-border-radius, var(--form-element-border-radius));--_checkbox-border: var(--checkbox-border, var(--form-element-border));--_checkbox-border-active: var(--checkbox-border-active, var(--form-element-border-active, var(--_checkbox-border)));--_checkbox-background: var(--checkbox-background, var(--form-element-background, white));--_checkbox-background-active: var(--checkbox-background-active, var(--form-element-background-active, white));--_checkbox-tick-color: var(--checkbox-tick-color, var(--_checkbox-background));--_checkbox-tick-size: var(--checkbox-tick-size, 2px);--_checkbox-tick-padding: var(--checkbox-tick-padding, 10%);--_checkbox-font-size-label: var(--checkbox-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_checkbox-margin-label: var(--checkbox-margin-label, 5px)}:host{align-items:center;display:flex}:host .label:not(:empty){cursor:pointer;font-size:var(--_checkbox-font-size-label);margin-left:var(--_checkbox-margin-label)}:host .square{background-color:var(--_checkbox-background);border:var(--_checkbox-border);border-radius:var(--_checkbox-border-radius);cursor:pointer;flex-shrink:0;height:var(--_checkbox-height);position:relative;transition:border .4s var(--bezier-curve),background-color .4s var(--bezier-curve);width:var(--_checkbox-width);display:flex;align-items:center;justify-content:center}:host .square rk-img{--img-stroke-color: var(--_checkbox-tick-color);--img-stroke-width: var(--_checkbox-tick-size);height:calc(100% - var(--_checkbox-tick-padding));opacity:0;visibility:hidden;width:calc(100% - var(--_checkbox-tick-padding))}:host([checked]) .square{background-color:var(--_checkbox-background-active);border:var(--_checkbox-border-active)}:host([checked]) .square rk-img{opacity:1;visibility:visible}:host([checked]) .square rk-img::part(tick){animation:dash .3s linear forwards;animation-delay:.2s;stroke-dasharray:100;stroke-dashoffset:100}:host([left_label]) .label:not(:empty){margin-left:0;margin-right:var(--_checkbox-margin-label);order:1}:host([left_label]) .square{order:2}@keyframes dash{to{stroke-dashoffset:70}}`;
     __getStatic() {
         return Checkbox;
     }
@@ -18600,6 +18630,14 @@ Errors.DesktopError.Namespace=`Core.Errors`;
 Errors.DesktopError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.DesktopError.Fullname, Errors.DesktopError);
 _.Errors.DesktopError=Errors.DesktopError;
+
+Errors.StorageError=class StorageError extends Aventus.GenericError {
+    static get Fullname() { return "Core.Logic.FileSystem.StorageError, Core"; }
+}
+Errors.StorageError.Namespace=`Core.Errors`;
+Errors.StorageError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
+Aventus.Converter.register(Errors.StorageError.Fullname, Errors.StorageError);
+_.Errors.StorageError=Errors.StorageError;
 
 Errors.ImageFileError=class ImageFileError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.ImageFileError, Core"; }

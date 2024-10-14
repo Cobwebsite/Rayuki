@@ -885,7 +885,7 @@ namespace System {
         @BindThis()
         public async popupErrors(errors: Aventus.GenericError[]) {
             if(errors.length > 0) {
-                let msg = errors.map(p => p.message).join("<br/>");
+                let msg = errors.map(p => p.message.replace(/\n/g, '<br/>')).join("<br/>");
                 await this.alert({
                     title: "Error",
                     description: msg,

@@ -1,14 +1,10 @@
-using System.Runtime.CompilerServices;
 using AventusSharp.Data;
 using AventusSharp.Tools;
 using AventusSharp.Tools.Attributes;
-using Core.Logic;
+using Core.Logic.FileSystem;
 using Core.Tools;
 using FileTypeChecker;
-using FileTypeChecker.Abstracts;
 using FileTypeChecker.Extensions;
-using FileTypeChecker.Types;
-using SkiaSharp;
 
 namespace Core.Data.DataTypes
 {

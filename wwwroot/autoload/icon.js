@@ -36,7 +36,7 @@ System.AppIcon = class AppIcon extends Core.System.AppIcon {
         return "AppIcon";
     }
     state() {
-        return "/cardeditor";
+        return "/";
     }
 }
 System.AppIcon.Namespace=`CarteCommande.System`;

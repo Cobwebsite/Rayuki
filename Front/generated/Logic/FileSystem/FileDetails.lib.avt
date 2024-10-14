@@ -1,0 +1,12 @@
+namespace Logic.FileSystem {
+
+	@Convertible()
+	export class FileDetails extends AventusSharp.Data.SharpClass  {
+		public static get Fullname(): string { return "Core.Logic.FileSystem.FileDetails, Core"; }
+		public Name!: string;
+		public Size!: number;
+		public LastEdit!: Date;
+		public IsDirectory!: boolean;
+	}
+
+}
