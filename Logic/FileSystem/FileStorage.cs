@@ -51,8 +51,6 @@ namespace Core.Logic.FileSystem
                 }
                 string appUri = Path.GetFullPath(Path.Combine(Storage.rootFolder, AppName));
                 string fullPath = Path.GetFullPath(Path.Combine(Storage.rootFolder, AppName, uri));
-                Console.WriteLine(appUri);
-                Console.WriteLine(fullPath);
                 if (!fullPath.StartsWith(appUri))
                 {
                     result.Errors.Add(new StorageError(StorageErrorCode.NotAllowed, "Vous ne pouvez pas travailler sur un fichier hors de l'application"));
@@ -97,9 +95,9 @@ namespace Core.Logic.FileSystem
             return await Storage.GetTxt(GetPath(uri));
         }
 
-        public async Task<VoidWithError> Set(string uri, byte[] bytes)
+        public async Task<ResultWithError<bool>> Set(string uri, byte[] bytes)
         {
-            VoidWithError result = new();
+            ResultWithError<bool> result = new();
             result.Run(() => CheckPath(uri));
 
             if (!result.Success)
@@ -108,9 +106,9 @@ namespace Core.Logic.FileSystem
             return await Storage.Set(GetPath(uri), bytes);
         }
 
-        public async Task<VoidWithError> SetTxt(string uri, string text)
+        public async Task<ResultWithError<bool>> SetTxt(string uri, string text)
         {
-            VoidWithError result = new();
+            ResultWithError<bool> result = new();
             result.Run(() => CheckPath(uri));
 
             if (!result.Success)
@@ -130,15 +128,15 @@ namespace Core.Logic.FileSystem
             return Storage.SetFile(GetPath(uri), file);
         }
 
-        public VoidWithError Delete(string uri)
+        public ResultWithError<bool> DeleteFile(string uri)
         {
-            VoidWithError result = new VoidWithError();
+            ResultWithError<bool> result = new ResultWithError<bool>();
             result.Run(() => CheckPath(uri));
 
             if (!result.Success)
                 return result;
 
-            return Storage.Delete(GetPath(uri));
+            return Storage.DeleteFile(GetPath(uri));
         }
 
 
@@ -153,9 +151,9 @@ namespace Core.Logic.FileSystem
             return Storage.FileExists(GetPath(uri));
         }
 
-        public VoidWithError CreateDir(string uri)
+        public ResultWithError<bool> CreateDir(string uri)
         {
-            VoidWithError result = new VoidWithError();
+            ResultWithError<bool> result = new ResultWithError<bool>();
             result.Run(() => CheckPath(uri));
 
             if (!result.Success)
@@ -164,15 +162,26 @@ namespace Core.Logic.FileSystem
             return Storage.CreateDir(GetPath(uri));
         }
 
-        public VoidWithError DeleteDir(string uri)
+        public ResultWithError<bool> DeleteDir(string uri)
         {
-            VoidWithError result = new VoidWithError();
+            ResultWithError<bool> result = new ResultWithError<bool>();
             result.Run(() => CheckPath(uri));
 
             if (!result.Success)
                 return result;
 
             return Storage.DeleteDir(GetPath(uri));
+        }
+
+        public ResultWithError<bool> Delete(string uri)
+        {
+            ResultWithError<bool> result = new ResultWithError<bool>();
+            result.Run(() => CheckPath(uri));
+
+            if (!result.Success)
+                return result;
+
+            return Storage.Delete(GetPath(uri));
         }
 
         public ResultWithError<FileDetails> GetFileInfo(string uri)
@@ -254,10 +263,10 @@ namespace Core.Logic.FileSystem
             return result;
         }
 
-        public static async Task<VoidWithError> Set(string uri, byte[] bytes)
+        public static async Task<ResultWithError<bool>> Set(string uri, byte[] bytes)
         {
             uri = CorrectUri(uri);
-            VoidWithError result = new VoidWithError();
+            ResultWithError<bool> result = new ResultWithError<bool>();
             result.Run(() => IsAllowed(uri, IsAllowedAction.Write));
 
             if (!result.Success)
@@ -272,10 +281,11 @@ namespace Core.Logic.FileSystem
             {
                 result.Errors.Add(new StorageError(StorageErrorCode.UnknowError, e));
             }
+            result.Result = result.Success;
             return result;
         }
 
-        public static async Task<VoidWithError> SetTxt(string uri, string txt)
+        public static async Task<ResultWithError<bool>> SetTxt(string uri, string txt)
         {
             return await Set(uri, Encoding.UTF8.GetBytes(txt));
         }
@@ -300,11 +310,21 @@ namespace Core.Logic.FileSystem
             return result;
         }
 
-
-        public static VoidWithError Delete(string uri)
+        public static ResultWithError<bool> Delete(string uri)
         {
             uri = CorrectUri(uri);
-            VoidWithError result = new();
+            uri = Path.GetFullPath(Path.Combine(rootFolder, uri));
+            if(Directory.Exists(uri)) {
+                return DeleteDir(uri);
+            }
+            else {
+                return DeleteFile(uri);
+            }
+        }
+        public static ResultWithError<bool> DeleteFile(string uri)
+        {
+            uri = CorrectUri(uri);
+            ResultWithError<bool> result = new();
             result.Run(() => IsAllowed(uri, IsAllowedAction.Delete));
 
             if (!result.Success)
@@ -323,7 +343,7 @@ namespace Core.Logic.FileSystem
                     result.Errors.Add(new StorageError(StorageErrorCode.UnknowError, e));
                 }
             }
-
+            result.Result = result.Success;
             return result;
         }
 
@@ -342,10 +362,10 @@ namespace Core.Logic.FileSystem
             return result;
         }
 
-        public static VoidWithError CreateDir(string uri)
+        public static ResultWithError<bool> CreateDir(string uri)
         {
             uri = CorrectUri(uri);
-            VoidWithError result = new();
+            ResultWithError<bool> result = new();
             result.Run(() => IsAllowed(uri, IsAllowedAction.Write));
 
             if (!result.Success)
@@ -361,13 +381,14 @@ namespace Core.Logic.FileSystem
                 result.Errors.Add(new StorageError(StorageErrorCode.UnknowError, e));
             }
 
+            result.Result = result.Success;
             return result;
         }
 
-        public static VoidWithError DeleteDir(string uri)
+        public static ResultWithError<bool> DeleteDir(string uri)
         {
             uri = CorrectUri(uri);
-            VoidWithError result = new();
+            ResultWithError<bool> result = new();
             result.Run(() => IsAllowed(uri, IsAllowedAction.Delete));
 
             if (!result.Success)
@@ -379,14 +400,14 @@ namespace Core.Logic.FileSystem
             {
                 try
                 {
-                    Directory.Delete(uri);
+                    Directory.Delete(uri, true);
                 }
                 catch (Exception e)
                 {
                     result.Errors.Add(new StorageError(StorageErrorCode.UnknowError, e));
                 }
             }
-
+            result.Result = result.Success;
             return result;
         }
 
@@ -431,8 +452,8 @@ namespace Core.Logic.FileSystem
                     result.Result = new List<FileDetails>();
                     foreach (string name in names)
                     {
-                        VoidWithError queryAllowed = IsAllowed(Path.Combine(uri, name), IsAllowedAction.Read);
-                        if (queryAllowed.Success)
+                        ResultWithError<bool> queryAllowed = IsAllowed(Path.Combine(uri, name), IsAllowedAction.Read);
+                        if (queryAllowed.Success && queryAllowed.Result)
                         {
                             string fullUri2 = Path.GetFullPath(Path.Combine(rootFolder, uri, name));
                             result.Result.Add(FileDetails.Create(fullUri2));
@@ -457,9 +478,9 @@ namespace Core.Logic.FileSystem
             plugins.Add(plugin);
         }
 
-        protected static VoidWithError IsAllowed(string uri, IsAllowedAction action)
+        protected static ResultWithError<bool> IsAllowed(string uri, IsAllowedAction action)
         {
-            VoidWithError result = new VoidWithError();
+            ResultWithError<bool> result = new ResultWithError<bool>();
             string fullPath = Path.GetFullPath(Path.Combine(rootFolder, uri));
             if (!fullPath.StartsWith(rootFolder))
             {
@@ -476,6 +497,7 @@ namespace Core.Logic.FileSystem
                     break;
                 }
             }
+            result.Result = result.Success;
             return result;
         }
 

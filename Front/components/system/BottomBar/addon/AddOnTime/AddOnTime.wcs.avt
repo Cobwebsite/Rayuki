@@ -2,7 +2,7 @@
 
 :host {
 	position: relative;
-	height: calc(var(--desktop-bottom-bar) - 20px);
+	height: var(--desktop-bottom-bar-element);
 
 	.display {
 		align-items: center;
@@ -26,7 +26,7 @@
 
 	.calendar {
 		--calendar-background-color: var(--primary-color-opacity);
-		bottom: calc(100% + 10px);
+		bottom: calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element)) / 2 + 3px);
 		box-shadow: var(--elevation-3);
 		height: 0;
 		overflow: hidden;
@@ -44,7 +44,7 @@
 	}
 
 	.calendar {
-		bottom: calc(100% + 10px);
+		bottom: calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element)) / 2 + 3px);
 		height: var(--time-calendar-height);
 		padding: 15px;
 		pointer-events: all;

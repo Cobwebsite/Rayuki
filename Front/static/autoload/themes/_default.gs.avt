@@ -76,6 +76,7 @@
 
 	--desktop-background-color: var(--secondary-color);
 	--desktop-bottom-bar: 50px;
+	--desktop-bottom-bar-element: 34px;
 	/*#endregion */
 
 	/*#region application*/
@@ -161,6 +162,7 @@
 @include tablet {
 	:root {
 		--desktop-bottom-bar: 70px;
+		--desktop-bottom-bar-element: 45px;
 		--slider-dot-size: 30px;
 		--slider-bar-height: 10px;
 	}

@@ -1,0 +1,103 @@
+import { PressManager } from "Aventus@Main:Aventus.package.avt";
+import { ButtonIcon } from "../../../form/Button/ButtonIcon/ButtonIcon.wcl.avt";
+import { Menu, MenuState } from "../Menu.wcl.avt";
+import { MenuItem } from "../MenuItem/MenuItem.wcl.avt";
+import { MenuSeparator } from "../MenuSeparator/MenuSeparator.wcl.avt";
+
+namespace Components {
+    @OverrideView()
+    export class ButtonIconMenu extends ButtonIcon implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property((target: ButtonIconMenu) => {
+            target.syncMenu();
+        })
+        public open!: boolean;
+        //#endregion
+
+
+        //#region variables
+        protected menu?: Menu;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        protected stateMenuToOpen(state: MenuState) {
+			if(state == MenuState.Open || state == MenuState.Opening) {
+				return true;
+			}
+			return false;
+        }
+        protected syncMenu() {
+            if(!this.menu) return;
+
+            if(this.stateMenuToOpen(this.menu.state) != this.open) {
+                if(this.open) {
+                    this.menu.show(this.getBoundingClientRect());
+                }
+                else {
+                    this.menu.blur();
+                }
+            }
+        }
+        protected override postCreation(): void {
+            super.postCreation();
+
+            new PressManager({
+                element: this,
+                onPress: () => {
+                    if(this.menu && this.menu.state == MenuState.Close) {
+                        this.menu.show(this.getBoundingClientRect());
+                    }
+                }
+            });
+
+            let elements = this.getElementsInSlot();
+            const menuItems: (MenuItem | MenuSeparator)[] = [];
+            for(let element of elements) {
+                if(element instanceof Menu) {
+                    this.menu = element;
+                    element.parentNode?.removeChild(element);
+                }
+                else if(element instanceof MenuItem) {
+                    menuItems.push(element);
+                    element.parentNode?.removeChild(element);
+                }
+                else if(element instanceof MenuSeparator) {
+                    menuItems.push(element);
+                    element.parentNode?.removeChild(element);
+                }
+                else {
+                    element.remove();
+                }
+            }
+
+            if(!this.menu) {
+                let menu = new Menu();
+                this.menu = menu;
+                for(let item of menuItems) {
+                    menu.appendChild(item);
+                }
+            }
+
+            this.menu.stateChange.add((value) => {
+				const boolVal = this.stateMenuToOpen(value);
+                if(this.open != boolVal) {
+                    this.open = boolVal;
+                }
+            });
+        }
+        //#endregion
+
+    }
+}

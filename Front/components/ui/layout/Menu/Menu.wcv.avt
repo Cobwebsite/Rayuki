@@ -1,0 +1,7 @@
+<rk-scrollable floating_scroll>
+    <rk-collapse @element="collapseEl">
+        <div class="container" @element="containerEl">
+            <slot></slot>
+        </div>
+    </rk-collapse>
+</rk-scrollable>

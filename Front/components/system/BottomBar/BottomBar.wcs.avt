@@ -34,8 +34,8 @@
 			border-radius: var(--border-radius-sm);
 			cursor: pointer;
 			margin: 0 3px;
-			max-height: calc(var(--desktop-bottom-bar) - 16px);
-			max-width: calc(var(--desktop-bottom-bar) - 16px);
+			max-height: var(--desktop-bottom-bar-element);
+			max-width: var(--desktop-bottom-bar-element);
 			padding: 7px;
 			transition: background-color 0.2s var(--bezier-curve);
 		}
@@ -61,13 +61,13 @@
 		.empty-icon {
 			background-color: var(--darker-active);
 			border-radius: var(--border-radius-sm);
-			height: calc(var(--desktop-bottom-bar) - 20px);
-			width: calc(var(--desktop-bottom-bar) - 20px);
+			height: var(--desktop-bottom-bar-element);
+			width: var(--desktop-bottom-bar-element);
 		}
 
 		& > * {
-			height: calc(var(--desktop-bottom-bar) - 20px);
-			width: calc(var(--desktop-bottom-bar) - 20px);
+			height: var(--desktop-bottom-bar-element);
+			width: var(--desktop-bottom-bar-element);
 		}
 	}
 

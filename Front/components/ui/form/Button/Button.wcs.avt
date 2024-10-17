@@ -61,12 +61,6 @@
 	box-shadow: none;
 	color: var(--_button-color-disable);
 	cursor: not-allowed;
-
-	.hider {
-		opacity: 1;
-		pointer-events: none;
-		visibility: visible;
-	}
 }
 
 :host([icon_before]) {

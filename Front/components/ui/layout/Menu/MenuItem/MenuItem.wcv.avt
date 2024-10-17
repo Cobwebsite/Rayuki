@@ -1,0 +1,4 @@
+<rk-img class="icon" src="{{ this.icon }}"></rk-img>
+<div class="title">
+    <slot></slot>
+</div>

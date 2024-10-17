@@ -729,9 +729,9 @@ namespace System {
                     }
                     desktop.showPreviewPosition(preview);
                 },
-                onPointerUp: () => {
+                onPointerUp: async () => {
                     this.moving = false;
-                    let preview = desktop.getPreviewPosition();
+                    let preview = await desktop.getPreviewPosition();
                     if(preview) {
                         this.style.setProperty("--app-width", preview.w + "px");
                         this.style.setProperty("--app-height", preview.h + "px");
@@ -748,22 +748,6 @@ namespace System {
                     this.toggleFull();
                 }
             })
-            // this.header.addEventListener("dblclick", () => {
-            //     this.toggleFull();
-            // });
-            let allowDbl = false;
-            this.header.addEventListener("trigger_pointer_pressstart", (e) => {
-                if(allowDbl) {
-                    this.toggleFull();
-                    allowDbl = false;
-                }
-                else {
-                    allowDbl = true;
-                    setTimeout(() => {
-                        allowDbl = false;
-                    }, 150);
-                }
-            });
         }
 
         /**

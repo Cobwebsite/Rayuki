@@ -16,7 +16,7 @@ namespace Core.Logic.FileSystem
                     Name = info.Name,
                     Size = 0,
                     LastEdit = info.LastWriteTime,
-                    IsDirectory = Directory.Exists(uri)
+                    IsDirectory = true
                 };
             }
             else
@@ -26,7 +26,7 @@ namespace Core.Logic.FileSystem
                     Name = info.Name,
                     Size = info.Length,
                     LastEdit = info.LastWriteTime,
-                    IsDirectory = Directory.Exists(uri)
+                    IsDirectory = false
                 };
             }
 

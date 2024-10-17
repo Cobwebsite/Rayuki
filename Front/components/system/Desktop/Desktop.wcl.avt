@@ -318,6 +318,7 @@ namespace System {
         }
 
         private showPreviewPositionTimeout?: number;
+        private waitPreviewPosition?: Promise<void>;
         public showPreviewPosition(location: ("left" | 'right' | 'bottom' | 'top')[]) {
             if(location.length == 0) {
                 if(this.showPreviewPositionTimeout !== undefined)
@@ -381,6 +382,10 @@ namespace System {
                 this.previewAutoLayout.style.height = h;
             }
             else {
+                this.waitPreviewPosition = new Promise((resolve) => {
+                    this.watchPreviewTransitionResolve = resolve;
+                    this.waitPreviewPosition = undefined;
+                });
                 this.previewAutoLayout.style.display = 'block';
                 this.previewAutoLayout.style.left = al;
                 this.previewAutoLayout.style.top = at;
@@ -393,10 +398,23 @@ namespace System {
                     this.previewAutoLayout.style.width = w;
                     this.previewAutoLayout.style.height = h;
                 }, 100);
+
             }
         }
-        public getPreviewPosition() {
+        private watchPreviewTransitionResolve?: ((value: void | PromiseLike<void>) => void);
+        public watchPreviewTransition() {
+            this.previewAutoLayout.addEventListener('transitionend', () => {
+                if(this.watchPreviewTransitionResolve) {
+                    this.watchPreviewTransitionResolve();
+                    this.watchPreviewTransitionResolve = undefined;
+                }
+            });
+        }
+        public async getPreviewPosition() {
             if(this.previewAutoLayout.style.display == 'block') {
+                if(this.waitPreviewPosition) {
+                    await this.waitPreviewPosition;
+                }
                 const result = {
                     w: this.previewAutoLayout.offsetWidth,
                     h: this.previewAutoLayout.offsetHeight,
@@ -660,6 +678,7 @@ namespace System {
         }
 
         protected override postCreation(): void {
+            this.watchPreviewTransition();
             this.loadData();
             // this.addDebug();
         }

@@ -1,0 +1,402 @@
+import { Callback } from "Aventus@Main:Aventus.package.avt";
+import type { Collapse } from "../Collapse/Collapse.wcl.avt";
+
+namespace Components {
+    export enum MenuState {
+        Opening,
+        Open,
+        Closing,
+        Close
+    }
+
+    type MenuPositionInfo = {
+        rect: DOMRect;
+        maxHeight: number,
+        maxWidth: number,
+        menuHeight: number;
+        menuWidth: number;
+    };
+    type MenuPositionResult = {
+        top: number | null;
+        left: number | null;
+        bottom: number | null;
+        right: number | null;
+        maxHeight: number;
+        maxWidth: number;
+        found: boolean;
+    };
+    export class Menu extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property()
+        public position: 'bottom left' | 'bottom right' | 'top left' | 'top right' | 'left top' | 'left bottom' | 'right top' | 'right bottom' = 'left bottom';
+        @Attribute()
+        public edge_gap: number = 20;
+        @Attribute()
+        public position_gap: number = 5;
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected collapseEl!: Collapse;
+
+        @ViewElement()
+        protected containerEl!: HTMLDivElement;
+
+        public state: MenuState = MenuState.Close;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region events
+        public stateChange: Callback<(state: MenuState) => void> = new Callback();
+        //#endregion
+
+        //#region methods
+        public show(rect: DOMRect) {
+            this.calculatePosition(rect);
+            document.body.appendChild(this);
+            this.state = MenuState.Opening;
+            this.stateChange.trigger([this.state]);
+            setTimeout(() => {
+                this.collapseEl.open = true;
+            }, 100);
+        }
+
+        protected calculatePosition(rect: DOMRect) {
+            this.style.left = -10000 + 'px';
+            this.style.top = '0';
+            this.style.bottom = '';
+            this.style.right = '';
+            this.collapseEl.no_animation = true;
+            this.collapseEl.open = true;
+            document.body.appendChild(this);
+            let height = this.offsetHeight;
+            let width = this.offsetWidth;
+            this.collapseEl.open = false;
+            this.collapseEl.no_animation = false;
+            document.body.removeChild(this);
+
+            const getDefaultResult = (): MenuPositionResult => {
+                return {
+                    top: null,
+                    left: null,
+                    bottom: null,
+                    right: null,
+                    maxHeight: document.body.offsetHeight - 2 * this.edge_gap,
+                    maxWidth: document.body.offsetWidth - 2 * this.edge_gap,
+                    found: false
+                };
+            };
+
+
+            let info: MenuPositionInfo = {
+                maxHeight: document.body.offsetHeight,
+                maxWidth: document.body.offsetWidth,
+                menuHeight: height,
+                rect: rect,
+                menuWidth: width,
+            };
+            let result = getDefaultResult();
+            if(this.position == 'bottom right') {
+                this
+                    .getPositionBottomRight(info, result)
+                    .getPositionBottomLeft(info, result)
+                    .getPositionTopRight(info, result)
+                    .getPositionTopLeft(info, result);
+            }
+            else if(this.position == 'bottom left') {
+                this
+                    .getPositionBottomLeft(info, result)
+                    .getPositionBottomRight(info, result)
+                    .getPositionTopLeft(info, result)
+                    .getPositionTopRight(info, result);
+
+            }
+            else if(this.position == 'top left') {
+                this
+                    .getPositionTopLeft(info, result)
+                    .getPositionTopRight(info, result)
+                    .getPositionBottomLeft(info, result)
+                    .getPositionBottomRight(info, result);
+            }
+            else if(this.position == 'top right') {
+                this
+                    .getPositionTopRight(info, result)
+                    .getPositionTopLeft(info, result)
+                    .getPositionBottomRight(info, result)
+                    .getPositionBottomLeft(info, result);
+            }
+            else if(this.position == 'left top') {
+                this
+                    .getPositionLeftTop(info, result)
+                    .getPositionLeftBottom(info, result)
+                    .getPositionRightTop(info, result)
+                    .getPositionRightBottom(info, result);
+            }
+            else if(this.position == 'left bottom') {
+                this
+                    .getPositionLeftBottom(info, result)
+                    .getPositionLeftTop(info, result)
+                    .getPositionRightBottom(info, result)
+                    .getPositionRightTop(info, result);
+            }
+            else if(this.position == 'right top') {
+                this
+                    .getPositionRightTop(info, result)
+                    .getPositionRightBottom(info, result)
+                    .getPositionLeftTop(info, result)
+                    .getPositionLeftBottom(info, result);
+            }
+            else if(this.position == 'right bottom') {
+                this
+                    .getPositionRightBottom(info, result)
+                    .getPositionRightTop(info, result)
+                    .getPositionLeftBottom(info, result)
+                    .getPositionLeftTop(info, result);
+            }
+
+
+
+            // if(height > element.offsetHeight) {
+            //     if(pageY > element.offsetHeight / 2) {
+            //         let bottomNb = element.offsetHeight - pageY;
+            //         bottom = bottomNb + 'px';
+            //         maxHeight = element.offsetHeight - bottomNb;
+            //     }
+            //     else {
+            //         top = pageY + 'px';
+            //         maxHeight = element.offsetHeight - pageY;
+            //     }
+            // }
+            // else {
+            //     if(pageY + height > element.offsetHeight) {
+            //         let bottomNb = element.offsetHeight - pageY;
+            //         bottom = bottomNb + 'px';
+            //         maxHeight = element.offsetHeight - bottomNb;
+            //     }
+            //     else {
+            //         top = pageY + 'px';
+            //         // maxHeight = element.offsetHeight - pageY;
+            //     }
+            // }
+
+            // if(pageX + width > element.offsetWidth) {
+            //     right = element.offsetWidth - pageX - rect.width + 'px';
+            // }
+            // else {
+            //     left = pageX + 'px';
+            // }
+            if(!result.found) {
+                alert("Error");
+                return;
+            }
+
+            this.style.top = result.top !== null ? result.top + 'px' : '';
+            this.style.left = result.left !== null ? result.left + 'px' : '';
+            this.style.bottom = result.bottom !== null ? result.bottom + 'px' : '';
+            this.style.right = result.right !== null ? result.right + 'px' : '';
+            this.style.maxHeight = result.maxHeight + 'px';
+            this.style.maxWidth = result.maxWidth + 'px';
+        }
+
+        private resetResult(result: MenuPositionResult) {
+            result.top = null;
+            result.left = null;
+            result.bottom = null;
+            result.right = null;
+            result.maxHeight = document.body.offsetHeight - 2 * this.edge_gap;
+            result.maxWidth = document.body.offsetWidth - 2 * this.edge_gap;
+        }
+
+        private checkValue(name: 'right' | 'left' | 'bottom' | 'top', value: number, info: MenuPositionInfo, result: MenuPositionResult): boolean {
+            const { maxHeight, maxWidth, menuHeight, menuWidth } = info;
+            if(name == "top" || name == "bottom") {
+                if(menuHeight >= maxHeight - 2 * this.edge_gap) {
+                    if(value <= maxHeight / 2) {
+                        // on peut ouvrir vers le bas seulement si la position est plus haute que la moitié
+                        result[name] = value;
+                        result.maxHeight = (maxHeight - 2 * this.edge_gap) - value;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                else {
+                    if(value + menuHeight <= maxHeight - this.edge_gap) {
+                        result[name] = value;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+            }
+            else {
+                if(menuWidth >= maxWidth - 2 * this.edge_gap) {
+                    if(value <= maxWidth / 2) {
+                        // on peut ouvrir vers le gauche seulement si la position est plus loin que la moitié
+                        result[name] = value;
+                        result.maxWidth = (maxWidth - 2 * this.edge_gap) - value;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                else {
+                    if(value + menuWidth < maxWidth - this.edge_gap) {
+                        result[name] = value;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private getPositionBottomLeft(info: MenuPositionInfo, result: MenuPositionResult): Menu {
+            if(result.found) return this;
+            const { maxWidth, rect } = info;
+            this.resetResult(result);
+
+            const right = maxWidth - (rect.x + rect.width);
+            const top = rect.y + rect.height + this.position_gap;
+            if(!this.checkValue('right', right, info, result)) return this;
+            if(!this.checkValue('top', top, info, result)) return this;
+            result.found = true;
+            return this;
+        }
+        private getPositionBottomRight(info: MenuPositionInfo, result: MenuPositionResult): Menu {
+            if(result.found) return this;
+            const { rect } = info;
+            this.resetResult(result);
+
+            const left = rect.x;
+            const top = rect.y + rect.height + this.position_gap;
+
+            if(!this.checkValue('left', left, info, result)) return this;
+            if(!this.checkValue('top', top, info, result)) return this;
+
+            result.found = true;
+            return this;
+        }
+        private getPositionTopLeft(info: MenuPositionInfo, result: MenuPositionResult): Menu {
+            if(result.found) return this;
+            const { maxHeight, maxWidth, rect } = info;
+            this.resetResult(result);
+
+            const right = maxWidth - (rect.x + rect.width);
+            const bottom = maxHeight - rect.y + this.position_gap;
+
+            if(!this.checkValue('right', right, info, result)) return this;
+            if(!this.checkValue('bottom', bottom, info, result)) return this;
+
+            result.found = true;
+            return this;
+        }
+        private getPositionTopRight(info: MenuPositionInfo, result: MenuPositionResult): Menu {
+            if(result.found) return this;
+            const { maxHeight, rect } = info;
+            this.resetResult(result);
+
+            const left = rect.x;
+            const bottom = maxHeight - rect.y + this.position_gap;
+
+            if(!this.checkValue('left', left, info, result)) return this;
+            if(!this.checkValue('bottom', bottom, info, result)) return this;
+
+            result.found = true;
+            return this;
+        }
+
+        private getPositionLeftTop(info: MenuPositionInfo, result: MenuPositionResult): Menu {
+            if(result.found) return this;
+            const { maxHeight, maxWidth, rect } = info;
+            this.resetResult(result);
+
+            const right = maxWidth - rect.x + this.position_gap;
+            const bottom = maxHeight - (rect.y + rect.height);
+
+            if(!this.checkValue('right', right, info, result)) return this;
+            if(!this.checkValue('bottom', bottom, info, result)) return this;
+
+            result.found = true;
+            return this;
+        }
+        private getPositionLeftBottom(info: MenuPositionInfo, result: MenuPositionResult): Menu {
+            if(result.found) return this;
+            const { maxWidth, rect } = info;
+            this.resetResult(result);
+
+            const right = maxWidth - rect.x + this.position_gap;
+            const top = rect.y;
+            if(!this.checkValue('right', right, info, result)) return this;
+            if(!this.checkValue('top', top, info, result)) return this;
+            result.found = true;
+            return this;
+        }
+        private getPositionRightTop(info: MenuPositionInfo, result: MenuPositionResult): Menu {
+            if(result.found) return this;
+            const { maxHeight, rect } = info;
+            this.resetResult(result);
+
+            const left = rect.x + rect.width + this.position_gap;
+            const bottom = maxHeight - (rect.y + rect.height);
+
+            if(!this.checkValue('left', left, info, result)) return this;
+            if(!this.checkValue('bottom', bottom, info, result)) return this;
+
+            result.found = true;
+            return this;
+        }
+        private getPositionRightBottom(info: MenuPositionInfo, result: MenuPositionResult): Menu {
+            if(result.found) return this;
+            const { maxWidth, rect } = info;
+            this.resetResult(result);
+
+            const left = rect.x + rect.width + this.position_gap;
+            const top = rect.y;
+            if(!this.checkValue('left', left, info, result)) return this;
+            if(!this.checkValue('top', top, info, result)) return this;
+            result.found = true;
+            return this;
+        }
+
+        private addFocus() {
+            this.setAttribute("tabindex", "-1");
+            this.collapseEl.addEventListener("transitionend", (event) => {
+                if(this.collapseEl.open) {
+                    this.focus({ preventScroll: true });
+                    this.state = MenuState.Open;
+                }
+                else {
+                    this.state = MenuState.Close;
+                    this.remove(false);
+                }
+                this.stateChange.trigger([this.state]);
+            });
+            this.addEventListener("blur", (e) => {
+                e.stopPropagation();
+                this.collapseEl.open = false;
+                this.state = MenuState.Closing;
+                this.stateChange.trigger([this.state]);
+            });
+        }
+
+        protected override postCreation(): void {
+            this.addFocus();
+        }
+        //#endregion
+
+    }
+}

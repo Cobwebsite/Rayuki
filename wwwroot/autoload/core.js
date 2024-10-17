@@ -394,6 +394,78 @@ Components.Row.Tag=`rk-row`;
 _.Components.Row=Components.Row;
 if(!window.customElements.get('rk-row')){window.customElements.define('rk-row', Components.Row);Aventus.WebComponentInstance.registerDefinition(Components.Row);}
 
+Components.MenuSeparator = class MenuSeparator extends Aventus.WebComponent {
+    static __style = `:host{margin:5px 0px;background-color:var(--text-color);height:1px}`;
+    __getStatic() {
+        return MenuSeparator;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(MenuSeparator.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`` }
+    });
+}
+    getClassName() {
+        return "MenuSeparator";
+    }
+}
+Components.MenuSeparator.Namespace=`Core.Components`;
+Components.MenuSeparator.Tag=`rk-menu-separator`;
+_.Components.MenuSeparator=Components.MenuSeparator;
+if(!window.customElements.get('rk-menu-separator')){window.customElements.define('rk-menu-separator', Components.MenuSeparator);Aventus.WebComponentInstance.registerDefinition(Components.MenuSeparator);}
+
+Components.MenuItem = class MenuItem extends Aventus.WebComponent {
+    static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{align-items:center;border-radius:var(--border-radius-sm);cursor:pointer;display:flex;font-size:var(--font-size);margin:0 5px;padding:5px 10px;-webkit-tap-highlight-color:rgba(0,0,0,0);transition:background-color .2s linear}:host .title{margin-left:30px}:host .icon{display:none;font-size:var(--font-size-sm);margin-right:10px;width:20px}:host([icon]) .title{margin-left:0px}:host([icon]) .icon{display:inline-block}@media screen and (min-width: 1225px){:host{font-size:var(--font-size)}:host .icon{font-size:var(--font-size)}:host(:hover){background-color:var(--darker)}}`;
+    __getStatic() {
+        return MenuItem;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(MenuItem.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<rk-img class="icon" _id="menuitem_0"></rk-img><div class="title">    <slot></slot></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "menuitem_0°src": {
+      "fct": (c) => `${c.print(c.comp.__d02c0c7e8b84b9fd639369f589dd9b6fmethod0())}`,
+      "once": true
+    }
+  }
+}); }
+    getClassName() {
+        return "MenuItem";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = ""; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon'); }
+    __d02c0c7e8b84b9fd639369f589dd9b6fmethod0() {
+        return this.icon;
+    }
+}
+Components.MenuItem.Namespace=`Core.Components`;
+Components.MenuItem.Tag=`rk-menu-item`;
+_.Components.MenuItem=Components.MenuItem;
+if(!window.customElements.get('rk-menu-item')){window.customElements.define('rk-menu-item', Components.MenuItem);Aventus.WebComponentInstance.registerDefinition(Components.MenuItem);}
+
+(function (MenuState) {
+    MenuState[MenuState["Opening"] = 0] = "Opening";
+    MenuState[MenuState["Open"] = 1] = "Open";
+    MenuState[MenuState["Closing"] = 2] = "Closing";
+    MenuState[MenuState["Close"] = 3] = "Close";
+})(Components.MenuState || (Components.MenuState = {}));
+_.Components.MenuState=Components.MenuState;
+
 Components.Col = class Col extends Aventus.WebComponent {
     get 'size'() { return this.getNumberAttr('size') }
     set 'size'(val) { this.setNumberAttr('size', val) }get 'size_xs'() { return this.getNumberAttr('size_xs') }
@@ -1514,8 +1586,9 @@ Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'color'() { return this.getStringAttr('color') }
     set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
-    set 'outline'(val) { this.setBoolAttr('outline', val) }    get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{--_button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--_button-color: var(--button-color, currentcolor);--_button-box-shadow: var(--button-box-shadow);--_button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--_button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--_button-box-shadow);color:var(--_button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--_button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}:host{--_button-padding: var(--button-padding, 0)}:host{aspect-ratio:1/1;height:36px;min-width:auto;border-radius:var(--border-radius-round)}:host .hider{border-radius:var(--border-radius-round)}:host .content .icon{--img-fill-color: var(--_button-color);height:100%;padding:0}`;
+    set 'outline'(val) { this.setBoolAttr('outline', val) }get 'disabled'() { return this.getBoolAttr('disabled') }
+    set 'disabled'(val) { this.setBoolAttr('disabled', val) }    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{--_button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--_button-color: var(--button-color, currentcolor);--_button-box-shadow: var(--button-box-shadow);--_button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--_button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--_button-box-shadow);color:var(--_button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--_button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}:host{--_button-padding: var(--button-padding, 0)}:host{aspect-ratio:1/1;height:36px;min-width:auto;border-radius:var(--border-radius-round)}:host .hider{border-radius:var(--border-radius-round)}:host .content .icon{--img-fill-color: var(--_button-color);height:100%;padding:0}`;
     __getStatic() {
         return ButtonIcon;
     }
@@ -1540,9 +1613,9 @@ Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
     getClassName() {
         return "ButtonIcon";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('icon'); }
-    __listBoolProps() { return ["outline"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('disabled');this.__upgradeProperty('icon'); }
+    __listBoolProps() { return ["outline","disabled"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     __86a55d8d752358ce167fd0da93753a9emethod0() {
         return this.icon;
     }
@@ -2356,7 +2429,7 @@ Components.ContextMenuItem = class ContextMenuItem extends Aventus.WebComponent 
     action = () => { };
     menu;
     canBeRendered = () => true;
-    static __style = `:host{align-items:center;border-radius:var(--border-radius-sm);cursor:pointer;display:flex;font-size:var(--font-size);margin:0 5px;padding:5px 10px;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .title{margin-left:30px}:host .icon{display:none;font-size:var(--font-size-sm);margin-right:10px;width:20px}:host([icon]) .title{margin-left:0px}:host([icon]) .icon{display:inline-block}@media screen and (min-width: 1225px){:host{font-size:var(--font-size)}:host .icon{font-size:var(--font-size)}:host(:hover){background-color:var(--darker)}}`;
+    static __style = `:host{align-items:center;border-radius:var(--border-radius-sm);cursor:pointer;display:flex;font-size:var(--font-size);margin:0 5px;padding:5px 10px;-webkit-tap-highlight-color:rgba(0,0,0,0);transition:background-color .2s linear}:host .title{margin-left:30px}:host .icon{display:none;font-size:var(--font-size-sm);margin-right:10px;width:20px}:host([icon]) .title{margin-left:0px}:host([icon]) .icon{display:inline-block}@media screen and (min-width: 1225px){:host{font-size:var(--font-size)}:host .icon{font-size:var(--font-size)}:host(:hover){background-color:var(--darker)}}`;
     constructor() { super(); this.onPress=this.onPress.bind(this) }
     __getStatic() {
         return ContextMenuItem;
@@ -5435,7 +5508,7 @@ if(!window.customElements.get('rk-home-panel')){window.customElements.define('rk
 
 System.HomeBtn = class HomeBtn extends Aventus.WebComponent {
     get 'active'() { return this.getBoolAttr('active') }
-    set 'active'(val) { this.setBoolAttr('active', val) }    static __style = `:host{position:relative}:host .icon{border-radius:var(--border-radius-sm);cursor:pointer;margin:0 3px;max-height:calc(var(--desktop-bottom-bar) - 16px);max-width:calc(var(--desktop-bottom-bar) - 16px);padding:7px;transition:background-color .2s var(--bezier-curve)}:host rk-home-panel{bottom:calc(100% + 5px);height:0;overflow:hidden;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s}:host([active]) .icon{background-color:var(--text-color)}:host([active]) .icon rk-img{--img-fill-color: var(--primary-color-opacity)}:host([active]) rk-home-panel{bottom:calc(100% + 10px);height:400px}@media screen and (min-width: 1225px){:host(:not([active])) .icon:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 768px){:host{margin-right:10px}:host([active]) rk-home-panel{bottom:calc(100% + 12px);height:calc(var(--os-height) - 69px)}}`;
+    set 'active'(val) { this.setBoolAttr('active', val) }    static __style = `:host{position:relative}:host .icon{border-radius:var(--border-radius-sm);cursor:pointer;margin:0 3px;height:var(--desktop-bottom-bar-element);width:var(--desktop-bottom-bar-element);padding:7px;transition:background-color .2s var(--bezier-curve)}:host rk-home-panel{bottom:calc(100% + 5px);height:0;overflow:hidden;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s}:host([active]) .icon{background-color:var(--text-color)}:host([active]) .icon rk-img{--img-fill-color: var(--primary-color-opacity)}:host([active]) rk-home-panel{bottom:calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element))/2 + 3px);height:400px}@media screen and (min-width: 1225px){:host(:not([active])) .icon:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 768px){:host{margin-right:10px}:host([active]) rk-home-panel{bottom:calc(100% + 12px);height:calc(var(--os-height) - 69px)}}`;
     __getStatic() {
         return HomeBtn;
     }
@@ -5570,7 +5643,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
     __registerWatchesActions() {
     this.__addWatchesActions("permissions");    super.__registerWatchesActions();
 }
-    static __style = `:host{align-items:center;background-color:var(--primary-color-opacity);border-radius:var(--border-radius);bottom:10px;box-shadow:var(--elevation-3);color:var(--text-color);display:flex;font-size:var(--font-size);height:calc(var(--desktop-bottom-bar, 50px) + var(--safe-area-bottom));left:100px;outline:none;padding:0 10px;padding-bottom:var(--safe-area-bottom);position:absolute;transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s,transform 1s var(--bezier-curve);width:calc(100% - 200px);z-index:100}:host .section{align-items:center;display:flex;height:100%}:host .section .icon{--img-stroke-color: transparent;--img-fill-color: var(--text-color);border-radius:var(--border-radius-sm);cursor:pointer;margin:0 3px;max-height:calc(var(--desktop-bottom-bar) - 16px);max-width:calc(var(--desktop-bottom-bar) - 16px);padding:7px;transition:background-color .2s var(--bezier-curve)}:host .section rk-app-icon{margin:0 5px}:host .separator{background-color:var(--text-color);display:inline-block;height:50%;margin:0 13px;width:1px}:host .applications{flex-grow:1;gap:10px;position:relative}:host .applications .empty-icon{background-color:var(--darker-active);border-radius:var(--border-radius-sm);height:calc(var(--desktop-bottom-bar) - 20px);width:calc(var(--desktop-bottom-bar) - 20px)}:host .applications>*{height:calc(var(--desktop-bottom-bar) - 20px);width:calc(var(--desktop-bottom-bar) - 20px)}:host .nb-notifications{align-items:center;background-color:var(--text-color);border-radius:var(--border-radius-round);color:var(--primary-color-opacity);display:flex;font-size:14px;font-weight:bold;height:25px;justify-content:center;letter-spacing:-1px;padding-right:1px;width:25px}:host .safe-hider{bottom:0;height:var(--safe-area-bottom);left:0;position:absolute;width:100%}@media screen and (min-width: 1225px){:host .section .icon:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host{border-radius:0;border-bottom-left-radius:0;border-bottom-right-radius:0;bottom:0px;left:0px;width:100%}}@media screen and (max-width: 768px){:host .basic-action>*{display:none}:host .basic-action rk-home-btn{display:inline-block}:host .addons>*{display:none}:host .separator{display:none}}`;
+    static __style = `:host{align-items:center;background-color:var(--primary-color-opacity);border-radius:var(--border-radius);bottom:10px;box-shadow:var(--elevation-3);color:var(--text-color);display:flex;font-size:var(--font-size);height:calc(var(--desktop-bottom-bar, 50px) + var(--safe-area-bottom));left:100px;outline:none;padding:0 10px;padding-bottom:var(--safe-area-bottom);position:absolute;transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s,transform 1s var(--bezier-curve);width:calc(100% - 200px);z-index:100}:host .section{align-items:center;display:flex;height:100%}:host .section .icon{--img-stroke-color: transparent;--img-fill-color: var(--text-color);border-radius:var(--border-radius-sm);cursor:pointer;margin:0 3px;max-height:var(--desktop-bottom-bar-element);max-width:var(--desktop-bottom-bar-element);padding:7px;transition:background-color .2s var(--bezier-curve)}:host .section rk-app-icon{margin:0 5px}:host .separator{background-color:var(--text-color);display:inline-block;height:50%;margin:0 13px;width:1px}:host .applications{flex-grow:1;gap:10px;position:relative}:host .applications .empty-icon{background-color:var(--darker-active);border-radius:var(--border-radius-sm);height:var(--desktop-bottom-bar-element);width:var(--desktop-bottom-bar-element)}:host .applications>*{height:var(--desktop-bottom-bar-element);width:var(--desktop-bottom-bar-element)}:host .nb-notifications{align-items:center;background-color:var(--text-color);border-radius:var(--border-radius-round);color:var(--primary-color-opacity);display:flex;font-size:14px;font-weight:bold;height:25px;justify-content:center;letter-spacing:-1px;padding-right:1px;width:25px}:host .safe-hider{bottom:0;height:var(--safe-area-bottom);left:0;position:absolute;width:100%}@media screen and (min-width: 1225px){:host .section .icon:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host{border-radius:0;border-bottom-left-radius:0;border-bottom-right-radius:0;bottom:0px;left:0px;width:100%}}@media screen and (max-width: 768px){:host .basic-action>*{display:none}:host .basic-action rk-home-btn{display:inline-block}:host .addons>*{display:none}:host .separator{display:none}}`;
     constructor() { super(); this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this) }
     __getStatic() {
         return BottomBar;
@@ -8586,9 +8659,9 @@ System.Application = class Application extends Aventus.WebComponent {
                 }
                 desktop.showPreviewPosition(preview);
             },
-            onPointerUp: () => {
+            onPointerUp: async () => {
                 this.moving = false;
-                let preview = desktop.getPreviewPosition();
+                let preview = await desktop.getPreviewPosition();
                 if (preview) {
                     this.style.setProperty("--app-width", preview.w + "px");
                     this.style.setProperty("--app-height", preview.h + "px");
@@ -8603,22 +8676,6 @@ System.Application = class Application extends Aventus.WebComponent {
             element: this.header,
             onDblPress: () => {
                 this.toggleFull();
-            }
-        });
-        // this.header.addEventListener("dblclick", () => {
-        //     this.toggleFull();
-        // });
-        let allowDbl = false;
-        this.header.addEventListener("trigger_pointer_pressstart", (e) => {
-            if (allowDbl) {
-                this.toggleFull();
-                allowDbl = false;
-            }
-            else {
-                allowDbl = true;
-                setTimeout(() => {
-                    allowDbl = false;
-                }, 150);
             }
         });
     }
@@ -9058,6 +9115,8 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
         return this.activableOrder[0];
     }
     showPreviewPositionTimeout;
+    waitPreviewPosition;
+    watchPreviewTransitionResolve;
     oldActiveCase;
     pressManagerStopMoveApp;
     static __style = `:host{--_desktop-background-color: var(--desktop-background-color, var(--primary-color))}:host{background-color:var(--_desktop-background-color);background-position:center;background-repeat:no-repeat;background-size:cover;flex-shrink:0;height:100%;overflow:hidden;position:relative;width:100%}:host .icons{--page-case-border-radius: var(--border-radius-sm);--page-case-border-active: 1px solid var(--darker-active);--page-case-background-active: var(--lighter-active);height:calc(100% - var(--desktop-bottom-bar) - 20px - var(--safe-area-bottom));transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s;width:100%;z-index:2}:host .debug{background-color:#f0f0f0;display:none;inset:0;overflow:auto;padding:10px;position:absolute;white-space:pre-wrap;z-index:1;touch-action:none;padding-bottom:100px}:host .app-container{transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host .preview-auto-layout{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:var(--application-border-radius);box-shadow:0 4px 30px rgba(0,0,0,.1);display:none;pointer-events:none;position:absolute;z-index:999;transition:width .2s linear,height .2s linear,top .2s linear,left .2s linear}:host([show_application_list])>*{opacity:0 !important;visibility:hidden !important}:host([background_size=Cover]){background-size:cover}:host([background_size=Contain]){background-size:contain}:host([background_size=Stretch]){background-size:100% 100%}`;
@@ -9382,6 +9441,10 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             this.previewAutoLayout.style.height = h;
         }
         else {
+            this.waitPreviewPosition = new Promise((resolve) => {
+                this.watchPreviewTransitionResolve = resolve;
+                this.waitPreviewPosition = undefined;
+            });
             this.previewAutoLayout.style.display = 'block';
             this.previewAutoLayout.style.left = al;
             this.previewAutoLayout.style.top = at;
@@ -9396,8 +9459,19 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             }, 100);
         }
     }
-    getPreviewPosition() {
+    watchPreviewTransition() {
+        this.previewAutoLayout.addEventListener('transitionend', () => {
+            if (this.watchPreviewTransitionResolve) {
+                this.watchPreviewTransitionResolve();
+                this.watchPreviewTransitionResolve = undefined;
+            }
+        });
+    }
+    async getPreviewPosition() {
         if (this.previewAutoLayout.style.display == 'block') {
+            if (this.waitPreviewPosition) {
+                await this.waitPreviewPosition;
+            }
             const result = {
                 w: this.previewAutoLayout.offsetWidth,
                 h: this.previewAutoLayout.offsetHeight,
@@ -9618,6 +9692,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
         };
     }
     postCreation() {
+        this.watchPreviewTransition();
         this.loadData();
         // this.addDebug();
     }
@@ -10250,7 +10325,7 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
     dragAndDrop;
     moveApplicationState;
     iconId = 0;
-    static __style = `:host{align-items:center;background-color:#0c2247;border-radius:var(--border-radius-sm);box-shadow:var(--elevation-5);cursor:pointer;display:flex;height:30px;justify-content:center;position:relative;transition:box-shadow var(--bezier-curve) .3s,transform var(--bezier-curve) .3s;width:30px;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host::after{background-color:var(--text-color);border-radius:var(--border-radius-sm);bottom:-7px;content:"";height:4px;opacity:0;position:absolute;transition:visibility var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s;visibility:hidden;width:4px}:host .remove{background-color:var(--primary-color);border-radius:var(--border-radius-round);display:none;height:20px;position:absolute;right:-10px;top:-10px;width:20px}:host .remove rk-img{--img-stroke-color: var(--text-color);height:100%;padding:0;width:100%}:host([shaking]){animation:shake linear .4s infinite}:host([shaking][can_remove]) .remove{display:block}:host([is_open]){transform:translateY(-3px)}:host([is_open])::after{visibility:visible;opacity:1}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--elevation-1)}}@media screen and (max-width: 768px){:host{height:50px;width:50px}}@keyframes shake{0%{transform:rotateZ(0) rotateX(-13deg)}25%{transform:rotateZ(2deg) rotateX(-13deg)}50%{transform:rotateZ(0) rotateX(-13deg)}75%{transform:rotateZ(-2deg) rotateX(-13deg)}100%{transform:rotateZ(0) rotateX(-13deg)}}`;
+    static __style = `:host{align-items:center;background-color:#0c2247;border-radius:var(--border-radius-sm);box-shadow:var(--elevation-5);cursor:pointer;display:flex;height:var(--desktop-bottom-bar-element);justify-content:center;position:relative;transition:box-shadow var(--bezier-curve) .3s,transform var(--bezier-curve) .3s;width:var(--desktop-bottom-bar-element);-webkit-tap-highlight-color:rgba(0,0,0,0)}:host::after{background-color:var(--text-color);border-radius:var(--border-radius-sm);bottom:-7px;content:"";height:4px;opacity:0;position:absolute;transition:visibility var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s;visibility:hidden;width:4px}:host .remove{background-color:var(--primary-color);border-radius:var(--border-radius-round);display:none;height:20px;position:absolute;right:-10px;top:-10px;width:20px}:host .remove rk-img{--img-stroke-color: var(--text-color);height:100%;padding:0;width:100%}:host([shaking]){animation:shake linear .4s infinite}:host([shaking][can_remove]) .remove{display:block}:host([is_open]){transform:translateY(-3px)}:host([is_open])::after{visibility:visible;opacity:1}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--elevation-1)}}@keyframes shake{0%{transform:rotateZ(0) rotateX(-13deg)}25%{transform:rotateZ(2deg) rotateX(-13deg)}50%{transform:rotateZ(0) rotateX(-13deg)}75%{transform:rotateZ(-2deg) rotateX(-13deg)}100%{transform:rotateZ(0) rotateX(-13deg)}}`;
     constructor() {            super();            this.classList.add("touch");if (this.constructor == AppIcon) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return AppIcon;
@@ -11348,7 +11423,7 @@ System.AddOnTime = class AddOnTime extends Aventus.WebComponent {
         'Novembre',
         'Décembre'
     ];
-    static __style = `:host{position:relative;height:calc(var(--desktop-bottom-bar) - 20px)}:host .display{align-items:center;border-radius:var(--border-radius-sm);cursor:pointer;display:flex;margin-right:10px;padding:0 10px;transition:background-color linear .2s;height:100%}:host .display .date{font-size:var(--font-size-sm)}:host .display .hour{font-size:var(--font-size-sm);margin-left:5px}:host .calendar{--calendar-background-color: var(--primary-color-opacity);bottom:calc(100% + 10px);box-shadow:var(--elevation-3);height:0;overflow:hidden;padding:0px 15px;position:absolute;right:10px;pointer-events:none;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s,padding var(--bezier-curve) .5s}:host([active]) .display{background-color:var(--lighter-active)}:host([active]) .calendar{bottom:calc(100% + 10px);height:var(--time-calendar-height);padding:15px;pointer-events:all}@media screen and (min-width: 1225px){:host .display:hover{background-color:var(--lighter-active)}}`;
+    static __style = `:host{position:relative;height:var(--desktop-bottom-bar-element)}:host .display{align-items:center;border-radius:var(--border-radius-sm);cursor:pointer;display:flex;margin-right:10px;padding:0 10px;transition:background-color linear .2s;height:100%}:host .display .date{font-size:var(--font-size-sm)}:host .display .hour{font-size:var(--font-size-sm);margin-left:5px}:host .calendar{--calendar-background-color: var(--primary-color-opacity);bottom:calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element))/2 + 3px);box-shadow:var(--elevation-3);height:0;overflow:hidden;padding:0px 15px;position:absolute;right:10px;pointer-events:none;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s,padding var(--bezier-curve) .5s}:host([active]) .display{background-color:var(--lighter-active)}:host([active]) .calendar{bottom:calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element))/2 + 3px);height:var(--time-calendar-height);padding:15px;pointer-events:all}@media screen and (min-width: 1225px){:host .display:hover{background-color:var(--lighter-active)}}`;
     constructor() {
             super();
             this.classList.add("touch");
@@ -16881,6 +16956,484 @@ if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abst
 }
 Components.TwoColumnsSelectData.Namespace=`Core.Components`;
 _.Components.TwoColumnsSelectData=Components.TwoColumnsSelectData;
+
+Components.Menu = class Menu extends Aventus.WebComponent {
+    static get observedAttributes() {return ["position"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'edge_gap'() { return this.getNumberAttr('edge_gap') }
+    set 'edge_gap'(val) { this.setNumberAttr('edge_gap', val) }get 'position_gap'() { return this.getNumberAttr('position_gap') }
+    set 'position_gap'(val) { this.setNumberAttr('position_gap', val) }    get 'position'() { return this.getStringProp('position') }
+    set 'position'(val) { this.setStringAttr('position', val) }    state = Components.MenuState.Close;
+    stateChange = new Aventus.Callback();
+    static __style = `:host{--scrollbar-container-display: flex;background-color:#fff;border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);cursor:pointer;display:flex;flex-direction:column;outline:none;overflow:hidden;position:absolute;-webkit-tap-highlight-color:rgba(0,0,0,0);z-index:502}:host .container{display:flex;flex-direction:column;padding:5px 0}`;
+    __getStatic() {
+        return Menu;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Menu.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<rk-scrollable floating_scroll>    <rk-collapse _id="menu_0">        <div class="container" _id="menu_1">            <slot></slot>        </div>    </rk-collapse></rk-scrollable>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "collapseEl",
+      "ids": [
+        "menu_0"
+      ]
+    },
+    {
+      "name": "containerEl",
+      "ids": [
+        "menu_1"
+      ]
+    }
+  ]
+}); }
+    getClassName() {
+        return "Menu";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('edge_gap')){ this['edge_gap'] = 20; }if(!this.hasAttribute('position_gap')){ this['position_gap'] = 5; }if(!this.hasAttribute('position')){ this['position'] = 'left bottom'; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('edge_gap');this.__upgradeProperty('position_gap');this.__upgradeProperty('position'); }
+    show(rect) {
+        this.calculatePosition(rect);
+        document.body.appendChild(this);
+        this.state = Components.MenuState.Opening;
+        this.stateChange.trigger([this.state]);
+        setTimeout(() => {
+            this.collapseEl.open = true;
+        }, 100);
+    }
+    calculatePosition(rect) {
+        this.style.left = -10000 + 'px';
+        this.style.top = '0';
+        this.style.bottom = '';
+        this.style.right = '';
+        this.collapseEl.no_animation = true;
+        this.collapseEl.open = true;
+        document.body.appendChild(this);
+        let height = this.offsetHeight;
+        let width = this.offsetWidth;
+        this.collapseEl.open = false;
+        this.collapseEl.no_animation = false;
+        document.body.removeChild(this);
+        const getDefaultResult = () => {
+            return {
+                top: null,
+                left: null,
+                bottom: null,
+                right: null,
+                maxHeight: document.body.offsetHeight - 2 * this.edge_gap,
+                maxWidth: document.body.offsetWidth - 2 * this.edge_gap,
+                found: false
+            };
+        };
+        let info = {
+            maxHeight: document.body.offsetHeight,
+            maxWidth: document.body.offsetWidth,
+            menuHeight: height,
+            rect: rect,
+            menuWidth: width,
+        };
+        let result = getDefaultResult();
+        if (this.position == 'bottom right') {
+            this
+                .getPositionBottomRight(info, result)
+                .getPositionBottomLeft(info, result)
+                .getPositionTopRight(info, result)
+                .getPositionTopLeft(info, result);
+        }
+        else if (this.position == 'bottom left') {
+            this
+                .getPositionBottomLeft(info, result)
+                .getPositionBottomRight(info, result)
+                .getPositionTopLeft(info, result)
+                .getPositionTopRight(info, result);
+        }
+        else if (this.position == 'top left') {
+            this
+                .getPositionTopLeft(info, result)
+                .getPositionTopRight(info, result)
+                .getPositionBottomLeft(info, result)
+                .getPositionBottomRight(info, result);
+        }
+        else if (this.position == 'top right') {
+            this
+                .getPositionTopRight(info, result)
+                .getPositionTopLeft(info, result)
+                .getPositionBottomRight(info, result)
+                .getPositionBottomLeft(info, result);
+        }
+        else if (this.position == 'left top') {
+            this
+                .getPositionLeftTop(info, result)
+                .getPositionLeftBottom(info, result)
+                .getPositionRightTop(info, result)
+                .getPositionRightBottom(info, result);
+        }
+        else if (this.position == 'left bottom') {
+            this
+                .getPositionLeftBottom(info, result)
+                .getPositionLeftTop(info, result)
+                .getPositionRightBottom(info, result)
+                .getPositionRightTop(info, result);
+        }
+        else if (this.position == 'right top') {
+            this
+                .getPositionRightTop(info, result)
+                .getPositionRightBottom(info, result)
+                .getPositionLeftTop(info, result)
+                .getPositionLeftBottom(info, result);
+        }
+        else if (this.position == 'right bottom') {
+            this
+                .getPositionRightBottom(info, result)
+                .getPositionRightTop(info, result)
+                .getPositionLeftBottom(info, result)
+                .getPositionLeftTop(info, result);
+        }
+        // if(height > element.offsetHeight) {
+        //     if(pageY > element.offsetHeight / 2) {
+        //         let bottomNb = element.offsetHeight - pageY;
+        //         bottom = bottomNb + 'px';
+        //         maxHeight = element.offsetHeight - bottomNb;
+        //     }
+        //     else {
+        //         top = pageY + 'px';
+        //         maxHeight = element.offsetHeight - pageY;
+        //     }
+        // }
+        // else {
+        //     if(pageY + height > element.offsetHeight) {
+        //         let bottomNb = element.offsetHeight - pageY;
+        //         bottom = bottomNb + 'px';
+        //         maxHeight = element.offsetHeight - bottomNb;
+        //     }
+        //     else {
+        //         top = pageY + 'px';
+        //         // maxHeight = element.offsetHeight - pageY;
+        //     }
+        // }
+        // if(pageX + width > element.offsetWidth) {
+        //     right = element.offsetWidth - pageX - rect.width + 'px';
+        // }
+        // else {
+        //     left = pageX + 'px';
+        // }
+        if (!result.found) {
+            alert("Error");
+            return;
+        }
+        this.style.top = result.top !== null ? result.top + 'px' : '';
+        this.style.left = result.left !== null ? result.left + 'px' : '';
+        this.style.bottom = result.bottom !== null ? result.bottom + 'px' : '';
+        this.style.right = result.right !== null ? result.right + 'px' : '';
+        this.style.maxHeight = result.maxHeight + 'px';
+        this.style.maxWidth = result.maxWidth + 'px';
+    }
+    resetResult(result) {
+        result.top = null;
+        result.left = null;
+        result.bottom = null;
+        result.right = null;
+        result.maxHeight = document.body.offsetHeight - 2 * this.edge_gap;
+        result.maxWidth = document.body.offsetWidth - 2 * this.edge_gap;
+    }
+    checkValue(name, value, info, result) {
+        const { maxHeight, maxWidth, menuHeight, menuWidth } = info;
+        if (name == "top" || name == "bottom") {
+            if (menuHeight >= maxHeight - 2 * this.edge_gap) {
+                if (value <= maxHeight / 2) {
+                    // on peut ouvrir vers le bas seulement si la position est plus haute que la moitié
+                    result[name] = value;
+                    result.maxHeight = (maxHeight - 2 * this.edge_gap) - value;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                if (value + menuHeight <= maxHeight - this.edge_gap) {
+                    result[name] = value;
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+        else {
+            if (menuWidth >= maxWidth - 2 * this.edge_gap) {
+                if (value <= maxWidth / 2) {
+                    // on peut ouvrir vers le gauche seulement si la position est plus loin que la moitié
+                    result[name] = value;
+                    result.maxWidth = (maxWidth - 2 * this.edge_gap) - value;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                if (value + menuWidth < maxWidth - this.edge_gap) {
+                    result[name] = value;
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    getPositionBottomLeft(info, result) {
+        if (result.found)
+            return this;
+        const { maxWidth, rect } = info;
+        this.resetResult(result);
+        const right = maxWidth - (rect.x + rect.width);
+        const top = rect.y + rect.height + this.position_gap;
+        if (!this.checkValue('right', right, info, result))
+            return this;
+        if (!this.checkValue('top', top, info, result))
+            return this;
+        result.found = true;
+        return this;
+    }
+    getPositionBottomRight(info, result) {
+        if (result.found)
+            return this;
+        const { rect } = info;
+        this.resetResult(result);
+        const left = rect.x;
+        const top = rect.y + rect.height + this.position_gap;
+        if (!this.checkValue('left', left, info, result))
+            return this;
+        if (!this.checkValue('top', top, info, result))
+            return this;
+        result.found = true;
+        return this;
+    }
+    getPositionTopLeft(info, result) {
+        if (result.found)
+            return this;
+        const { maxHeight, maxWidth, rect } = info;
+        this.resetResult(result);
+        const right = maxWidth - (rect.x + rect.width);
+        const bottom = maxHeight - rect.y + this.position_gap;
+        if (!this.checkValue('right', right, info, result))
+            return this;
+        if (!this.checkValue('bottom', bottom, info, result))
+            return this;
+        result.found = true;
+        return this;
+    }
+    getPositionTopRight(info, result) {
+        if (result.found)
+            return this;
+        const { maxHeight, rect } = info;
+        this.resetResult(result);
+        const left = rect.x;
+        const bottom = maxHeight - rect.y + this.position_gap;
+        if (!this.checkValue('left', left, info, result))
+            return this;
+        if (!this.checkValue('bottom', bottom, info, result))
+            return this;
+        result.found = true;
+        return this;
+    }
+    getPositionLeftTop(info, result) {
+        if (result.found)
+            return this;
+        const { maxHeight, maxWidth, rect } = info;
+        this.resetResult(result);
+        const right = maxWidth - rect.x + this.position_gap;
+        const bottom = maxHeight - (rect.y + rect.height);
+        if (!this.checkValue('right', right, info, result))
+            return this;
+        if (!this.checkValue('bottom', bottom, info, result))
+            return this;
+        result.found = true;
+        return this;
+    }
+    getPositionLeftBottom(info, result) {
+        if (result.found)
+            return this;
+        const { maxWidth, rect } = info;
+        this.resetResult(result);
+        const right = maxWidth - rect.x + this.position_gap;
+        const top = rect.y;
+        if (!this.checkValue('right', right, info, result))
+            return this;
+        if (!this.checkValue('top', top, info, result))
+            return this;
+        result.found = true;
+        return this;
+    }
+    getPositionRightTop(info, result) {
+        if (result.found)
+            return this;
+        const { maxHeight, rect } = info;
+        this.resetResult(result);
+        const left = rect.x + rect.width + this.position_gap;
+        const bottom = maxHeight - (rect.y + rect.height);
+        if (!this.checkValue('left', left, info, result))
+            return this;
+        if (!this.checkValue('bottom', bottom, info, result))
+            return this;
+        result.found = true;
+        return this;
+    }
+    getPositionRightBottom(info, result) {
+        if (result.found)
+            return this;
+        const { maxWidth, rect } = info;
+        this.resetResult(result);
+        const left = rect.x + rect.width + this.position_gap;
+        const top = rect.y;
+        if (!this.checkValue('left', left, info, result))
+            return this;
+        if (!this.checkValue('top', top, info, result))
+            return this;
+        result.found = true;
+        return this;
+    }
+    addFocus() {
+        this.setAttribute("tabindex", "-1");
+        this.collapseEl.addEventListener("transitionend", (event) => {
+            if (this.collapseEl.open) {
+                this.focus({ preventScroll: true });
+                this.state = Components.MenuState.Open;
+            }
+            else {
+                this.state = Components.MenuState.Close;
+                this.remove(false);
+            }
+            this.stateChange.trigger([this.state]);
+        });
+        this.addEventListener("blur", (e) => {
+            e.stopPropagation();
+            this.collapseEl.open = false;
+            this.state = Components.MenuState.Closing;
+            this.stateChange.trigger([this.state]);
+        });
+    }
+    postCreation() {
+        this.addFocus();
+    }
+}
+Components.Menu.Namespace=`Core.Components`;
+Components.Menu.Tag=`rk-menu`;
+_.Components.Menu=Components.Menu;
+if(!window.customElements.get('rk-menu')){window.customElements.define('rk-menu', Components.Menu);Aventus.WebComponentInstance.registerDefinition(Components.Menu);}
+
+Components.ButtonIconMenu = class ButtonIconMenu extends Components.ButtonIcon {
+    static get observedAttributes() {return ["open"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'open'() { return this.getBoolProp('open') }
+    set 'open'(val) { this.setBoolAttr('open', val) }    menu;
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("open", ((target) => {
+    target.syncMenu();
+})); }
+    static __style = ``;
+    __getStatic() {
+        return ButtonIconMenu;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(ButtonIconMenu.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="hider"></div><div class="content">    <rk-img class="icon" _id="buttoniconmenu_0"></rk-img></div><slot></slot>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "buttoniconmenu_0°src": {
+      "fct": (c) => `${c.print(c.comp.__503a2de938f470c1fb45b45f48d4bb7dmethod0())}`,
+      "once": true
+    }
+  }
+}); }
+    getClassName() {
+        return "ButtonIconMenu";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('open')) { this.attributeChangedCallback('open', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('open'); }
+    __listBoolProps() { return ["open"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    stateMenuToOpen(state) {
+        if (state == Components.MenuState.Open || state == Components.MenuState.Opening) {
+            return true;
+        }
+        return false;
+    }
+    syncMenu() {
+        if (!this.menu)
+            return;
+        if (this.stateMenuToOpen(this.menu.state) != this.open) {
+            if (this.open) {
+                this.menu.show(this.getBoundingClientRect());
+            }
+            else {
+                this.menu.blur();
+            }
+        }
+    }
+    postCreation() {
+        super.postCreation();
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => {
+                if (this.menu && this.menu.state == Components.MenuState.Close) {
+                    this.menu.show(this.getBoundingClientRect());
+                }
+            }
+        });
+        let elements = this.getElementsInSlot();
+        const menuItems = [];
+        for (let element of elements) {
+            if (element instanceof Components.Menu) {
+                this.menu = element;
+                element.parentNode?.removeChild(element);
+            }
+            else if (element instanceof Components.MenuItem) {
+                menuItems.push(element);
+                element.parentNode?.removeChild(element);
+            }
+            else if (element instanceof Components.MenuSeparator) {
+                menuItems.push(element);
+                element.parentNode?.removeChild(element);
+            }
+            else {
+                element.remove();
+            }
+        }
+        if (!this.menu) {
+            let menu = new Components.Menu();
+            this.menu = menu;
+            for (let item of menuItems) {
+                menu.appendChild(item);
+            }
+        }
+        this.menu.stateChange.add((value) => {
+            const boolVal = this.stateMenuToOpen(value);
+            if (this.open != boolVal) {
+                this.open = boolVal;
+            }
+        });
+    }
+    __503a2de938f470c1fb45b45f48d4bb7dmethod0() {
+        return this.icon;
+    }
+}
+Components.ButtonIconMenu.Namespace=`Core.Components`;
+Components.ButtonIconMenu.Tag=`rk-button-icon-menu`;
+_.Components.ButtonIconMenu=Components.ButtonIconMenu;
+if(!window.customElements.get('rk-button-icon-menu')){window.customElements.define('rk-button-icon-menu', Components.ButtonIconMenu);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIconMenu);}
 
 Components.Table = class Table extends Aventus.WebComponent {
     static get observedAttributes() {return ["auto_hide_scroll", "grid", "items_per_page"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}

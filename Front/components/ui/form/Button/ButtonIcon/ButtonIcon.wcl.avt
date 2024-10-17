@@ -17,6 +17,9 @@ namespace Components {
 
         @Attribute()
         public outline!: boolean;
+
+        @Attribute()
+        public disabled!: boolean;
         //#endregion
 
 

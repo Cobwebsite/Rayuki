@@ -7,13 +7,13 @@
 	box-shadow: var(--elevation-5);
 	cursor: pointer;
 	display: flex;
-	height: 30px;
+	height: var(--desktop-bottom-bar-element);
 	justify-content: center;
 	position: relative;
 	transition:
 		box-shadow var(--bezier-curve) 0.3s,
 		transform var(--bezier-curve) 0.3s;
-	width: 30px;
+	width: var(--desktop-bottom-bar-element);
 	-webkit-tap-highlight-color: transparent;
 
 	&::after {
@@ -72,14 +72,6 @@
 @include desktop {
 	:host(:hover) {
 		box-shadow: var(--elevation-1);
-	}
-}
-
-
-@include mobile {
-	:host {
-		height: 50px;
-		width: 50px;
 	}
 }
 

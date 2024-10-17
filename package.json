@@ -11,8 +11,11 @@
     "build": "dotnet build --nologo -v q --property WarningLevel=0 /clp:ErrorsOnly",
     "storybook": "cd Storybook && storybook dev -p 6006",
     "docker:build": "docker build -t rayuki/core:latest .",
+    "docker:build-dev": "docker build -t rayuki/core:dev .",
     "docker:push": "docker push rayuki/core:latest",
+    "docker:push-dev": "docker push rayuki/core:dev",
     "docker:publish": "npm run prepare:build && npm run docker:build && npm run docker:push",
+    "docker:publish-dev": "npm run prepare:build && npm run docker:build-dev && npm run docker:push-dev",
     "prepare:build": "node _tools\\prepare-build.mjs"
   },
   "author": "",

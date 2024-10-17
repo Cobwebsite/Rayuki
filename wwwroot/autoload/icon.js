@@ -445,15 +445,14 @@ for(let key in _) { Suivi[key] = _[key] }
 })(Suivi);
 
 
-
 var Tutorial;
 (Tutorial||(Tutorial = {}));
 (function (Tutorial) {
 const moduleName = `Tutorial`;
 const _ = {};
 
-const System = {};
-_.System = {};
+let System = {};
+_.System = Tutorial.System ?? {};
 let _n;
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
     static __style = `:host rk-img{--img-stroke-color: transparent;--img-fill-color: white;max-height:100%;flex-grow:1;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
@@ -482,7 +481,7 @@ System.AppIcon = class AppIcon extends Core.System.AppIcon {
         }, 1000);
     }
 }
-System.AppIcon.Namespace=`${moduleName}.System`;
+System.AppIcon.Namespace=`Tutorial.System`;
 System.AppIcon.Tag=`tutorial-app-icon`;
 _.System.AppIcon=System.AppIcon;
 if(!window.customElements.get('tutorial-app-icon')){window.customElements.define('tutorial-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
