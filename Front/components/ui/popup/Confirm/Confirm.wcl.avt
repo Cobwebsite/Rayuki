@@ -1,3 +1,4 @@
+import { ShortcutManager, SpecialTouch } from "../../../../libs/ShortcutManager.lib.avt";
 import { GenericPopup } from "../GenericPopup/GenericPopup.wcl.avt";
 import { Popup, type PopupInfo } from "../Popup/Popup.wcl.avt";
 
@@ -32,6 +33,17 @@ namespace Components {
 
 
         //#region methods
+
+        public override init(cb: (response: boolean) => void): void {
+            super.init(cb);
+            this.addShortcuts();
+        }
+
+        protected override close(): void {
+            super.close();
+            this.removeShortcuts();
+        }
+
         /**
          * @inheritdoc
          */
@@ -44,13 +56,25 @@ namespace Components {
             };
         }
 
+        public addShortcuts() {
+            ShortcutManager.subscribe(SpecialTouch.Enter, this.validate, { replaceTemp: true });
+            ShortcutManager.subscribe(SpecialTouch.Escape, this.cancel, { replaceTemp: true });
+        }
+
+        public removeShortcuts() {
+            ShortcutManager.unsubscribe(SpecialTouch.Enter, this.validate);
+            ShortcutManager.unsubscribe(SpecialTouch.Escape, this.cancel);
+        }
+
         /**
          * 
          */
+        @BindThis()
         protected validate() {
             this.resolve(true);
         }
 
+        @BindThis()
         protected override cancel(): void {
             this.resolve(false);
         }

@@ -1,0 +1,2 @@
+<div class="display">{{ this.value }}</div>
+<input autocomplete="off" @element="inputEl" @blur="validateChange" @focus="removeErrors" @input="onValueChange" :value="this.value" @keyup="checkEnter" />

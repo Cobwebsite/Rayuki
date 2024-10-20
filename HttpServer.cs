@@ -25,8 +25,8 @@ namespace Core
         public static WebPushClient webPush = new();
 
         public static readonly int nbAppInDev = 2;
-        public static readonly string Version = "1.0.7";
-        public static readonly string BuildDate = "2024-10-17T16:45:33.141Z";
+        public static readonly string Version = "1.0.8";
+        public static readonly string BuildDate = "2024-10-19T08:42:08.228Z";
         public static bool resetStorage
         {
             // get => false;
@@ -103,6 +103,13 @@ namespace Core
         private static void InitBuilder(string[] args)
         {
             builder = WebApplication.CreateBuilder(args);
+
+            foreach (var s in builder.Configuration.Sources)
+            {
+                if (s is FileConfigurationSource)
+                    ((FileConfigurationSource)s).ReloadOnChange = false;
+            }
+            
 
             // Add services to the container.
             builder.Services

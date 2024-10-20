@@ -1,6 +1,6 @@
 import { Os } from "../Os/Os.wcl.avt";
 import { DesktopRAM } from "../../../ram/Desktop.ram.avt";
-import type { BottomBar } from "../BottomBar/BottomBar.wcl.avt";
+import { BottomBar } from "../BottomBar/BottomBar.wcl.avt";
 import type { PageCase } from "../../ui/layout/PageCase/PageCase.wcl.avt";
 import { PageCaseSlot } from "../../ui/layout/PageCase/PageCaseSlot/PageCaseSlot.wcl.avt";
 import { Application } from "../Application/Application.wcl.avt";
@@ -195,20 +195,34 @@ namespace System {
             }
 
             let allHidden = true;
+            let isFirst = false;
             for(let nb in this.applications[comp.$type]) {
                 if(!this.applications[comp.$type][nb].is_hidden) {
                     allHidden = false;
-                    break;
+                }
+                if(this.activableOrder[0] == this.applications[comp.$type][nb]) {
+                    isFirst = true;
+                }
+                else if(this.activableOrder[0] instanceof BottomBar && this.activableOrder[1] == this.applications[comp.$type][nb]) {
+                    isFirst = true;
                 }
             }
             if(allHidden) {
                 for(let nb in this.applications[comp.$type]) {
                     this.applications[comp.$type][nb].show();
+                    this.setElementToActive(this.applications[comp.$type][nb]);
                 }
             }
             else {
-                for(let nb in this.applications[comp.$type]) {
-                    this.applications[comp.$type][nb].hide();
+                if(isFirst) {
+                    for(let nb in this.applications[comp.$type]) {
+                        this.applications[comp.$type][nb].hide();
+                    }
+                }
+                else {
+                    for(let nb in this.applications[comp.$type]) {
+                        this.setElementToActive(this.applications[comp.$type][nb]);
+                    }
                 }
             }
         }

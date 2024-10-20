@@ -155,6 +155,56 @@ for(let key in _) { Chat[key] = _[key] }
 })(Chat);
 
 
+var Demo;
+(Demo||(Demo = {}));
+(function (Demo) {
+const moduleName = `Demo`;
+const _ = {};
+
+let System = {};
+_.System = Demo.System ?? {};
+let _n;
+let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Demo.AppInfo, Demo"; }
+    static Version = 1;
+}
+AppInfo.Namespace=`Demo`;
+AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
+Aventus.Converter.register(AppInfo.Fullname, AppInfo);
+_.AppInfo=AppInfo;
+
+System.AppIcon = class AppIcon extends Core.System.AppIcon {
+    static __style = `:host rk-img{--img-stroke-color: transparent;--img-fill-color: #acf4d6;max-height:100%;flex-grow:1;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    __getStatic() {
+        return AppIcon;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(AppIcon.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-img src="/apps/Demo/img/logo.svg"></rk-img>` }
+    });
+}
+    getClassName() {
+        return "AppIcon";
+    }
+}
+System.AppIcon.Namespace=`Demo.System`;
+System.AppIcon.Tag=`demo-app-icon`;
+_.System.AppIcon=System.AppIcon;
+if(!window.customElements.get('demo-app-icon')){window.customElements.define('demo-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
+
+let Version= AppInfo.Version;
+_.Version=Version;
+
+
+for(let key in _) { Demo[key] = _[key] }
+})(Demo);
+
+
 
 var Explorer;
 (Explorer||(Explorer = {}));

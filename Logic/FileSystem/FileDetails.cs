@@ -7,7 +7,7 @@ namespace Core.Logic.FileSystem
     {
         public static FileDetails Create(string uri)
         {
-            System.IO.FileInfo info = new System.IO.FileInfo(uri);
+            FileInfo info = new System.IO.FileInfo(uri);
             FileDetails result;
             if (Directory.Exists(uri))
             {
@@ -16,6 +16,7 @@ namespace Core.Logic.FileSystem
                     Name = info.Name,
                     Size = 0,
                     LastEdit = info.LastWriteTime,
+                    Extension = "",
                     IsDirectory = true
                 };
             }
@@ -26,6 +27,7 @@ namespace Core.Logic.FileSystem
                     Name = info.Name,
                     Size = info.Length,
                     LastEdit = info.LastWriteTime,
+                    Extension = info.Extension,
                     IsDirectory = false
                 };
             }
@@ -36,7 +38,7 @@ namespace Core.Logic.FileSystem
         public string Name { get; set; }
         public long Size { get; set; }
         public DateTime LastEdit { get; set; }
-
+        public string Extension { get; set; }
         public bool IsDirectory { get; set; }
     }
 

@@ -206,6 +206,18 @@ namespace Core.Logic.FileSystem
             return Storage.ReadDir(GetPath(uri));
         }
 
+        public ResultWithError<bool> Move(string uri, string toUri)
+        {
+            ResultWithError<bool> result = new ResultWithError<bool>();
+            result.Run(() => CheckPath(uri));
+            result.Run(() => CheckPath(toUri));
+
+            if (!result.Success)
+                return result;
+
+            return Storage.Move(GetPath(uri), GetPath(toUri));
+        }
+
     }
 
     internal class Storage
@@ -314,10 +326,12 @@ namespace Core.Logic.FileSystem
         {
             uri = CorrectUri(uri);
             uri = Path.GetFullPath(Path.Combine(rootFolder, uri));
-            if(Directory.Exists(uri)) {
+            if (Directory.Exists(uri))
+            {
                 return DeleteDir(uri);
             }
-            else {
+            else
+            {
                 return DeleteFile(uri);
             }
         }
@@ -347,6 +361,34 @@ namespace Core.Logic.FileSystem
             return result;
         }
 
+        public static ResultWithError<bool> Move(string uri, string toUri)
+        {
+            uri = CorrectUri(uri);
+            toUri = CorrectUri(toUri);
+            ResultWithError<bool> result = new();
+            result.Run(() => IsAllowed(uri, IsAllowedAction.Read));
+            result.Run(() => IsAllowed(toUri, IsAllowedAction.Write));
+
+            if (!result.Success)
+                return result;
+
+            uri = Path.GetFullPath(Path.Combine(rootFolder, uri));
+            toUri = Path.GetFullPath(Path.Combine(rootFolder, toUri));
+            // check exist
+            if (File.Exists(uri))
+            {
+                try
+                {
+                    File.Move(uri, toUri, true);
+                }
+                catch (Exception e)
+                {
+                    result.Errors.Add(new StorageError(StorageErrorCode.UnknowError, e));
+                }
+            }
+            result.Result = result.Success;
+            return result;
+        }
         public static ResultWithError<bool> FileExists(string uri)
         {
             uri = CorrectUri(uri);
@@ -473,6 +515,7 @@ namespace Core.Logic.FileSystem
             return result;
         }
 
+
         public static void Register(IStorageValidator plugin)
         {
             plugins.Add(plugin);
@@ -500,6 +543,7 @@ namespace Core.Logic.FileSystem
             result.Result = result.Success;
             return result;
         }
+
 
     }
 }

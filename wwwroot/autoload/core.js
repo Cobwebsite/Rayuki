@@ -202,10 +202,11 @@ Logic.FileSystem.FileDetails=class FileDetails extends AventusSharp.Data.SharpCl
     Name;
     Size;
     LastEdit;
+    Extension;
     IsDirectory;
 }
 Logic.FileSystem.FileDetails.Namespace=`Core.Logic.FileSystem`;
-Logic.FileSystem.FileDetails.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "Name":"string","Size":"number","LastEdit":"Date","IsDirectory":"boolean"};
+Logic.FileSystem.FileDetails.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "Name":"string","Size":"number","LastEdit":"Date","Extension":"string","IsDirectory":"boolean"};
 Aventus.Converter.register(Logic.FileSystem.FileDetails.Fullname, Logic.FileSystem.FileDetails);
 _.Logic.FileSystem.FileDetails=Logic.FileSystem.FileDetails;
 
@@ -1113,6 +1114,65 @@ Lib.FontManager=class FontManager {
             }
         });
     }
+    static async getFontRules() {
+        const fonts = await this.loadedFonts();
+        const props = {
+            'style': {
+                defaultValue: 'normal',
+                cssName: 'font-style'
+            },
+            'weight': {
+                defaultValue: 'normal',
+                cssName: 'font-weight'
+            },
+            'unicodeRange': {
+                defaultValue: 'U+0-10FFFF',
+                cssName: 'unicode-range'
+            },
+            'display': {
+                defaultValue: 'auto',
+                cssName: 'font-display'
+            },
+            'ascentOverride': {
+                defaultValue: 'normal',
+                cssName: 'ascent-override'
+            },
+            'descentOverride': {
+                defaultValue: 'normal',
+                cssName: 'descent-override'
+            },
+            'featureSettings': {
+                defaultValue: 'normal',
+                cssName: 'font-feature-settings'
+            },
+            'lineGapOverride': {
+                defaultValue: 'normal',
+                cssName: 'line-gap-override'
+            },
+            'stretch': {
+                defaultValue: 'normal',
+                cssName: 'font-stretch'
+            }
+        };
+        let txt = '';
+        for (let font of fonts) {
+            let txtFont = ['@font-face {'];
+            txtFont.push("font-family: " + font.family + ";");
+            let src = font['__src'];
+            if (src.startsWith("/")) {
+                src = location.protocol + '//' + location.host + src;
+            }
+            txtFont.push("src: url(\"" + src + "\");");
+            for (let prop in props) {
+                if (font[prop] != props[prop].defaultValue) {
+                    txtFont.push(props[prop].cssName + ": " + font[prop] + ";");
+                }
+            }
+            txtFont.push("}");
+            txt += txtFont.join("\n") + "\n";
+        }
+        return txt;
+    }
     static async getFontRulesBase64() {
         const fonts = await this.loadedFonts();
         const props = {
@@ -1289,6 +1349,112 @@ Lib.DomTools=class DomTools {
         for (let child of children) {
             child.remove();
         }
+    }
+    static async exportAsRawComponent(elements) {
+        let txt = "";
+        let loaded = [];
+        const template = (tag, html, css) => {
+            const tagUnder = tag.replace(/-/g, '_');
+            txt += `class ${tagUnder} extends HTMLElement {
+                    constructor() {
+                        super();
+                        let template = document.createElement('template');
+                        template.innerHTML = this.getText();
+    
+                        const shadowRoot = this.attachShadow({ mode: "open" });
+                        const style = new CSSStyleSheet();
+                        style.replaceSync(this.getStyle());
+                        shadowRoot.adoptedStyleSheets = [style];
+                        shadowRoot.appendChild(template.content.cloneNode(true));
+                    }
+    
+                    getText() {
+                        return \`${html}\`;
+                    }
+    
+                    getStyle() {
+                        return \`${css}\`;
+                    }
+                }
+                customElements.define("${tag}", ${tagUnder});
+                `;
+        };
+        const imgMemory = {};
+        const urlToBase64 = (url) => {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    const response = await fetch(url);
+                    const blob = await response.blob();
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(blob);
+                }
+                catch (e) {
+                    reject(e);
+                }
+            });
+        };
+        const load = async (element) => {
+            for (let child of element.children) {
+                await load(child);
+            }
+            if (element instanceof Aventus.WebComponent) {
+                const type = element.constructor;
+                if (!loaded.includes(type)) {
+                    loaded.push(type);
+                    for (let child of element.shadowRoot.children) {
+                        await load(child);
+                    }
+                    template(element.tag, element.shadowRoot.innerHTML, this.rawStyle(element));
+                }
+            }
+            if (element instanceof HTMLImageElement) {
+                if (element.src && !element.src.startsWith("data:")) {
+                    if (!imgMemory[element.src]) {
+                        imgMemory[element.src] = await urlToBase64(element.src);
+                    }
+                    element.src = imgMemory[element.src];
+                }
+            }
+        };
+        for (let element of elements) {
+            await load(element);
+        }
+        return txt;
+    }
+    static rawStyle(element) {
+        const type = element.constructor;
+        let stylesheets = type['__styleSheets'];
+        let cssTxt = "";
+        for (let name in stylesheets) {
+            cssTxt += Aventus.Style.sheetToString(stylesheets[name]);
+        }
+        const regexVariables = /var\((--.*?)[,|\)]/g;
+        let m = null;
+        let computedStyle = null;
+        const cssVarValue = {};
+        while ((m = regexVariables.exec(cssTxt)) !== null) {
+            if (m.index === regexVariables.lastIndex) {
+                regexVariables.lastIndex++;
+            }
+            if (cssVarValue[m[1]])
+                continue;
+            if (!computedStyle) {
+                computedStyle = getComputedStyle(element);
+            }
+            let v = computedStyle.getPropertyValue(m[1]);
+            if (v) {
+                cssVarValue[m[1]] = v;
+            }
+        }
+        let cssVarTxt = "";
+        for (let key in cssVarValue) {
+            cssVarTxt += `${key}:${cssVarValue[key]};`;
+        }
+        if (cssVarTxt)
+            cssTxt = `:host{${cssVarTxt}}` + cssTxt;
+        return cssTxt;
     }
 }
 Lib.DomTools.Namespace=`Core.Lib`;
@@ -2799,6 +2965,8 @@ Lib.ShortcutManager=class ShortcutManager {
     static memory = {};
     static isInit = false;
     static arrayKeys = [];
+    static options = new Map();
+    static replacingMemory = {};
     static getText(combinaison) {
         let allTouches = [];
         for (let touch of combinaison) {
@@ -2817,26 +2985,61 @@ Lib.ShortcutManager=class ShortcutManager {
         allTouches.sort();
         return allTouches.join("+");
     }
-    static subscribe(combinaison, cb) {
+    static subscribe(combinaison, cb, options) {
+        if (!Array.isArray(combinaison)) {
+            combinaison = [combinaison];
+        }
         let key = this.getText(combinaison);
+        if (options?.replaceTemp) {
+            if (Lib.ShortcutManager.memory[key]) {
+                if (!this.replacingMemory[key]) {
+                    this.replacingMemory[key] = [];
+                }
+                this.replacingMemory[key].push(Lib.ShortcutManager.memory[key]);
+                delete Lib.ShortcutManager.memory[key];
+            }
+        }
         if (!Lib.ShortcutManager.memory[key]) {
             Lib.ShortcutManager.memory[key] = [];
         }
         if (!Lib.ShortcutManager.memory[key].includes(cb)) {
             Lib.ShortcutManager.memory[key].push(cb);
+            if (options) {
+                this.options.set(cb, options);
+            }
         }
         if (!Lib.ShortcutManager.isInit) {
             Lib.ShortcutManager.init();
         }
     }
     static unsubscribe(combinaison, cb) {
+        if (!Array.isArray(combinaison)) {
+            combinaison = [combinaison];
+        }
         let key = this.getText(combinaison);
         if (Lib.ShortcutManager.memory[key]) {
             let index = Lib.ShortcutManager.memory[key].indexOf(cb);
             if (index != -1) {
                 Lib.ShortcutManager.memory[key].splice(index, 1);
+                let options = this.options.get(cb);
+                if (options) {
+                    this.options.delete(cb);
+                }
                 if (Lib.ShortcutManager.memory[key].length == 0) {
                     delete Lib.ShortcutManager.memory[key];
+                    if (options?.replaceTemp) {
+                        if (this.replacingMemory[key]) {
+                            if (this.replacingMemory[key].length > 0) {
+                                Lib.ShortcutManager.memory[key] = this.replacingMemory[key].pop();
+                                if (this.replacingMemory[key].length == 0) {
+                                    delete this.replacingMemory[key];
+                                }
+                            }
+                            else {
+                                delete this.replacingMemory[key];
+                            }
+                        }
+                    }
                 }
                 if (Object.keys(Lib.ShortcutManager.memory).length == 0 && Lib.ShortcutManager.isInit) {
                     Lib.ShortcutManager.uninit();
@@ -2872,7 +3075,16 @@ Lib.ShortcutManager=class ShortcutManager {
         this.arrayKeys.sort();
         let key = this.arrayKeys.join("+");
         if (Lib.ShortcutManager.memory[key]) {
-            e.preventDefault();
+            let preventDefault = true;
+            for (let cb of Lib.ShortcutManager.memory[key]) {
+                let options = this.options.get(cb);
+                if (options && options.preventDefault === false) {
+                    preventDefault = false;
+                }
+            }
+            if (preventDefault) {
+                e.preventDefault();
+            }
             this.arrayKeys = [];
             for (let cb of Lib.ShortcutManager.memory[key]) {
                 cb();
@@ -7971,6 +8183,7 @@ _.Components.Popup=Components.Popup;
 
 Components.Confirm = class Confirm extends Components.GenericPopup {
     static __style = `:host .popup .body{align-items:center;display:flex;justify-content:center;line-height:1.5;padding:20px;padding-top:15px;text-align:center}:host .popup .action{align-items:center;display:flex;gap:20px;justify-content:center}`;
+    constructor() { super(); this.validate=this.validate.bind(this)this.cancel=this.cancel.bind(this) }
     __getStatic() {
         return Confirm;
     }
@@ -8013,6 +8226,14 @@ Components.Confirm = class Confirm extends Components.GenericPopup {
     getClassName() {
         return "Confirm";
     }
+    init(cb) {
+        super.init(cb);
+        this.addShortcuts();
+    }
+    close() {
+        super.close();
+        this.removeShortcuts();
+    }
     defaultOptions() {
         return {
             title: "",
@@ -8020,6 +8241,14 @@ Components.Confirm = class Confirm extends Components.GenericPopup {
             true_txt: "Oui",
             false_txt: "Non",
         };
+    }
+    addShortcuts() {
+        Lib.ShortcutManager.subscribe(Lib.SpecialTouch.Enter, this.validate, { replaceTemp: true });
+        Lib.ShortcutManager.subscribe(Lib.SpecialTouch.Escape, this.cancel, { replaceTemp: true });
+    }
+    removeShortcuts() {
+        Lib.ShortcutManager.unsubscribe(Lib.SpecialTouch.Enter, this.validate);
+        Lib.ShortcutManager.unsubscribe(Lib.SpecialTouch.Escape, this.cancel);
     }
     validate() {
         this.resolve(true);
@@ -9270,20 +9499,34 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             return;
         }
         let allHidden = true;
+        let isFirst = false;
         for (let nb in this.applications[comp.$type]) {
             if (!this.applications[comp.$type][nb].is_hidden) {
                 allHidden = false;
-                break;
+            }
+            if (this.activableOrder[0] == this.applications[comp.$type][nb]) {
+                isFirst = true;
+            }
+            else if (this.activableOrder[0] instanceof System.BottomBar && this.activableOrder[1] == this.applications[comp.$type][nb]) {
+                isFirst = true;
             }
         }
         if (allHidden) {
             for (let nb in this.applications[comp.$type]) {
                 this.applications[comp.$type][nb].show();
+                this.setElementToActive(this.applications[comp.$type][nb]);
             }
         }
         else {
-            for (let nb in this.applications[comp.$type]) {
-                this.applications[comp.$type][nb].hide();
+            if (isFirst) {
+                for (let nb in this.applications[comp.$type]) {
+                    this.applications[comp.$type][nb].hide();
+                }
+            }
+            else {
+                for (let nb in this.applications[comp.$type]) {
+                    this.setElementToActive(this.applications[comp.$type][nb]);
+                }
             }
         }
     }
@@ -12286,13 +12529,13 @@ Components.SheetPreview = class SheetPreview extends Aventus.WebComponent {
             }
             await execLoading(async () => {
                 let pdf = new Data.DataTypes.Pdf();
-                pdf.Name = this.filename ?? "doucment";
+                pdf.Name = this.filename ?? "document";
                 pdf.Html = await el.export();
                 let pdfResult = await new Routes.PdfRouter().Build({
                     pdf
                 });
                 if (pdfResult.result) {
-                    Lib.FileSaver.saveAs(pdfResult.result, (this.filename ?? "doucment") + ".pdf");
+                    Lib.FileSaver.saveAs(pdfResult.result, (this.filename ?? "document") + ".pdf");
                 }
             });
         }
@@ -13938,6 +14181,124 @@ Components.InputDate.Tag=`rk-input-date`;
 _.Components.InputDate=Components.InputDate;
 if(!window.customElements.get('rk-input-date')){window.customElements.define('rk-input-date', Components.InputDate);Aventus.WebComponentInstance.registerDefinition(Components.InputDate);}
 
+Components.InlineText = class InlineText extends Components.FormElement {
+    get 'is_editing'() { return this.getBoolAttr('is_editing') }
+    set 'is_editing'(val) { this.setBoolAttr('is_editing', val) }    textBeforeEdit;
+    onIsEditChange = new Aventus.Callback();
+    static __style = `:host input{background-color:rgba(0,0,0,0);border:none;box-shadow:none;display:none;font-family:inherit;font-size:inherit;font-weight:inherit;margin:0;min-width:0;outline:none;padding:0;width:100%}:host([is_editing]) .display{display:none}:host([is_editing]) input{display:block}`;
+    __getStatic() {
+        return InlineText;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(InlineText.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="display" _id="inlinetext_0"></div><input autocomplete="off" _id="inlinetext_1" />` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "inputEl",
+      "ids": [
+        "inlinetext_1"
+      ]
+    }
+  ],
+  "content": {
+    "inlinetext_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__ff6c4988ad15a0c9578e9eb608a555dbmethod0())}`,
+      "once": true
+    }
+  },
+  "injection": [
+    {
+      "id": "inlinetext_1",
+      "injectionName": "value",
+      "inject": (c) => c.comp.__ff6c4988ad15a0c9578e9eb608a555dbmethod1(),
+      "once": true
+    }
+  ],
+  "events": [
+    {
+      "eventName": "blur",
+      "id": "inlinetext_1",
+      "fct": (e, c) => c.comp.validateChange(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "inlinetext_1",
+      "fct": (e, c) => c.comp.removeErrors(e)
+    },
+    {
+      "eventName": "input",
+      "id": "inlinetext_1",
+      "fct": (e, c) => c.comp.onValueChange(e)
+    },
+    {
+      "eventName": "keyup",
+      "id": "inlinetext_1",
+      "fct": (e, c) => c.comp.checkEnter(e)
+    }
+  ]
+}); }
+    getClassName() {
+        return "InlineText";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('is_editing')) { this.attributeChangedCallback('is_editing', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('is_editing'); }
+    __listBoolProps() { return ["is_editing"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    removeErrors() {
+        this.errors = [];
+    }
+    onValueChange() {
+        this.value = this.inputEl.value;
+        this.onChange.trigger([this.value]);
+        if (this.formPart) {
+            this.formPart.value.set(this.value);
+        }
+    }
+    edit() {
+        this.textBeforeEdit = this.value;
+        this.is_editing = true;
+        this.onIsEditChange.trigger([this.is_editing]);
+        this.inputEl.focus();
+        this.inputEl.select();
+    }
+    cancel() {
+        this.value = this.textBeforeEdit;
+    }
+    validateChange() {
+        this.is_editing = false;
+        this.onIsEditChange.trigger([this.is_editing]);
+    }
+    checkEnter(e) {
+        if (e.key == "Enter") {
+            this.inputEl.blur();
+        }
+        else if (e.key == "Escape") {
+            this.cancel();
+            this.inputEl.blur();
+        }
+    }
+    postCreation() {
+        super.postCreation();
+    }
+    __ff6c4988ad15a0c9578e9eb608a555dbmethod0() {
+        return this.value;
+    }
+    __ff6c4988ad15a0c9578e9eb608a555dbmethod1() {
+        return this.value;
+    }
+}
+Components.InlineText.Namespace=`Core.Components`;
+Components.InlineText.Tag=`rk-inline-text`;
+_.Components.InlineText=Components.InlineText;
+if(!window.customElements.get('rk-inline-text')){window.customElements.define('rk-inline-text', Components.InlineText);Aventus.WebComponentInstance.registerDefinition(Components.InlineText);}
+
 Components.Form = class Form extends Aventus.WebComponent {
     elements = [];
     onSubmit = new Aventus.Callback();
@@ -13998,7 +14359,7 @@ Components.Button = class Button extends Aventus.WebComponent {
     set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
     target.icon_before = target.icon;
 })); }
-    static __style = `:host{--_button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--_button-color: var(--button-color, currentcolor);--_button-box-shadow: var(--button-box-shadow);--_button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--_button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--_button-box-shadow);color:var(--_button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--_button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
+    static __style = `:host{--_button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--_button-color: var(--button-color, currentcolor);--_button-box-shadow: var(--button-box-shadow);--_button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--_button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--_button-box-shadow);color:var(--_button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--_button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
     __getStatic() {
         return Button;
     }

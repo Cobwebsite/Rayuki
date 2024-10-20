@@ -1,10 +1,138 @@
+import { WebComponent } from "Aventus@Main:Aventus.package.avt";
+
 namespace Lib {
+    export type ExportAsRawResult = {
+        txt: string,
+        loaded: (new (...args) => WebComponent)[];
+    };
     export class DomTools {
-        public static clearElement(element: HTMLElement) {
+        public static clearElement(element: HTMLElement | ShadowRoot) {
             const children = Array.from(element.children);
             for(let child of children) {
                 child.remove();
             }
+        }
+
+        public static async exportAsRawComponent(elements: Element[]) {
+            let txt = "";
+            let loaded: (typeof WebComponent)[] = [];
+
+            const template = (tag: string, html: string, css: string) => {
+                const tagUnder = tag.replace(/-/g, '_');
+                txt += `class ${tagUnder} extends HTMLElement {
+                    constructor() {
+                        super();
+                        let template = document.createElement('template');
+                        template.innerHTML = this.getText();
+    
+                        const shadowRoot = this.attachShadow({ mode: "open" });
+                        const style = new CSSStyleSheet();
+                        style.replaceSync(this.getStyle());
+                        shadowRoot.adoptedStyleSheets = [style];
+                        shadowRoot.appendChild(template.content.cloneNode(true));
+                    }
+    
+                    getText() {
+                        return \`${html}\`;
+                    }
+    
+                    getStyle() {
+                        return \`${css}\`;
+                    }
+                }
+                customElements.define("${tag}", ${tagUnder});
+                `;
+            };
+
+            const imgMemory: { [url: string]: string; } = {};
+
+            const urlToBase64 = (url) => {
+                return new Promise<string>(async (resolve, reject) => {
+                    try {
+                        const response = await fetch(url);
+                        const blob = await response.blob();
+                        const reader = new FileReader();
+                        reader.onloadend = () => resolve(reader.result as string);
+                        reader.onerror = reject;
+                        reader.readAsDataURL(blob);
+                    } catch(e) {
+                        reject(e);
+                    }
+                });
+            };
+
+            const load = async (element: Element) => {
+                for(let child of element.children) {
+                    await load(child);
+                }
+
+                if(element instanceof WebComponent) {
+                    const type = element.constructor as typeof WebComponent;
+                    if(!loaded.includes(type)) {
+                        loaded.push(type);
+
+                        for(let child of element.shadowRoot.children) {
+                            await load(child);
+                        }
+                        template(element.tag, element.shadowRoot.innerHTML, this.rawStyle(element));
+
+
+                    }
+                }
+
+                if(element instanceof HTMLImageElement) {
+                    if(element.src && !element.src.startsWith("data:")) {
+                        if(!imgMemory[element.src]) {
+                            imgMemory[element.src] = await urlToBase64(element.src);
+                        }
+                        element.src = imgMemory[element.src];
+                    }
+                }
+            };
+
+            for(let element of elements) {
+                await load(element);
+            }
+
+            return txt;
+        }
+
+        private static rawStyle(element: WebComponent) {
+            const type = element.constructor as typeof WebComponent;
+            let stylesheets: { [name: string]: CSSStyleSheet; } = type['__styleSheets'];
+
+            let cssTxt = "";
+            for(let name in stylesheets) {
+                cssTxt += Aventus.Style.sheetToString(stylesheets[name]);
+            }
+
+            const regexVariables = /var\((--.*?)[,|\)]/g;
+            let m: RegExpExecArray | null = null;
+            let computedStyle: CSSStyleDeclaration | null = null;
+            const cssVarValue: { [variable: string]: string; } = {};
+            while((m = regexVariables.exec(cssTxt)) !== null) {
+                if(m.index === regexVariables.lastIndex) {
+                    regexVariables.lastIndex++;
+                }
+                if(cssVarValue[m[1]]) continue;
+
+                if(!computedStyle) {
+                    computedStyle = getComputedStyle(element);
+                }
+
+                let v = computedStyle.getPropertyValue(m[1]);
+                if(v) {
+                    cssVarValue[m[1]] = v;
+                }
+            }
+            let cssVarTxt = "";
+            for(let key in cssVarValue) {
+                cssVarTxt += `${key}:${cssVarValue[key]};`;
+            }
+            if(cssVarTxt)
+                cssTxt = `:host{${cssVarTxt}}` + cssTxt;
+
+            return cssTxt;
         }
     }
 }

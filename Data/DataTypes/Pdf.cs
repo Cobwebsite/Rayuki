@@ -106,7 +106,7 @@ namespace Core.Data.DataTypes
                     using (var page = await browser.NewPageAsync())
                     {
                         await page.SetContentAsync(Html);
-                        result.Result = await page.PdfDataAsync();
+                        result.Result = await page.PdfDataAsync(pdfOptions);
                     }
                 }
             }

@@ -20,10 +20,19 @@ namespace Lib {
         Enter
     }
 
+    export interface ShortcutManagerOptions {
+        replaceTemp?: boolean,
+        preventDefault?: boolean;
+    }
+
     export class ShortcutManager {
         private static memory: { [key: string]: (() => void)[]; } = {};
         private static isInit: boolean = false;
         private static arrayKeys: string[] = [];
+
+        private static options: Map<() => void, ShortcutManagerOptions> = new Map();
+
+        private static replacingMemory: { [key: string]: (() => void)[][]; } = {};
 
         private static getText(combinaison: (SpecialTouch | string)[]) {
             let allTouches: string[] = [];
@@ -43,26 +52,61 @@ namespace Lib {
             allTouches.sort();
             return allTouches.join("+");
         }
-        public static subscribe(combinaison: (SpecialTouch | string)[], cb: () => void) {
+        public static subscribe(combinaison: (SpecialTouch | string)[] | (SpecialTouch | string), cb: () => void, options?: ShortcutManagerOptions) {
+            if(!Array.isArray(combinaison)) {
+                combinaison = [combinaison];
+            }
             let key: string = this.getText(combinaison);
+            if(options?.replaceTemp) {
+                if(ShortcutManager.memory[key]) {
+                    if(!this.replacingMemory[key]) {
+                        this.replacingMemory[key] = [];
+                    }
+                    this.replacingMemory[key].push(ShortcutManager.memory[key]);
+                    delete ShortcutManager.memory[key];
+                }
+            }
             if(!ShortcutManager.memory[key]) {
                 ShortcutManager.memory[key] = [];
             }
             if(!ShortcutManager.memory[key].includes(cb)) {
                 ShortcutManager.memory[key].push(cb);
+                if(options) {
+                    this.options.set(cb, options);
+                }
             }
             if(!ShortcutManager.isInit) {
                 ShortcutManager.init();
             }
         }
-        public static unsubscribe(combinaison: (SpecialTouch | string)[], cb: () => void) {
+        public static unsubscribe(combinaison: (SpecialTouch | string)[] | (SpecialTouch | string), cb: () => void) {
+            if(!Array.isArray(combinaison)) {
+                combinaison = [combinaison];
+            }
             let key: string = this.getText(combinaison);
             if(ShortcutManager.memory[key]) {
                 let index = ShortcutManager.memory[key].indexOf(cb);
                 if(index != -1) {
                     ShortcutManager.memory[key].splice(index, 1);
+                    let options = this.options.get(cb);
+                    if(options) {
+                        this.options.delete(cb);
+                    }
                     if(ShortcutManager.memory[key].length == 0) {
                         delete ShortcutManager.memory[key];
+                        if(options?.replaceTemp) {
+                            if(this.replacingMemory[key]) {
+                                if(this.replacingMemory[key].length > 0) {
+                                    ShortcutManager.memory[key] = this.replacingMemory[key].pop()!;
+                                    if(this.replacingMemory[key].length == 0) {
+                                        delete this.replacingMemory[key];
+                                    }
+                                }
+                                else {
+                                    delete this.replacingMemory[key];
+                                }
+                            }
+                        }
                     }
                     if(Object.keys(ShortcutManager.memory).length == 0 && ShortcutManager.isInit) {
                         ShortcutManager.uninit();
@@ -100,7 +144,17 @@ namespace Lib {
             this.arrayKeys.sort();
             let key: string = this.arrayKeys.join("+");
             if(ShortcutManager.memory[key]) {
-                e.preventDefault();
+                let preventDefault = true;
+                for(let cb of ShortcutManager.memory[key]) {
+                    let options = this.options.get(cb);
+                    if(options && options.preventDefault === false) {
+                        preventDefault = false;
+                    }
+                }
+                if(preventDefault) {
+                    e.preventDefault();
+                }
+
                 this.arrayKeys = [];
                 for(let cb of ShortcutManager.memory[key]) {
                     cb();
@@ -130,7 +184,5 @@ namespace Lib {
             this.arrayKeys = [];
             ShortcutManager.isInit = false;
         }
-
-
     }
 }

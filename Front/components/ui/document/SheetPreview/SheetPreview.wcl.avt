@@ -103,14 +103,14 @@ namespace Components {
 
                 await execLoading(async () => {
                     let pdf = new Pdf();
-                    pdf.Name = this.filename ?? "doucment";
+                    pdf.Name = this.filename ?? "document";
                     pdf.Html = await el.export();
                     let pdfResult = await new PdfRouter().Build({
                         pdf
                     });
 
                     if(pdfResult.result) {
-                        FileSaver.saveAs(pdfResult.result, (this.filename ?? "doucment") + ".pdf");
+                        FileSaver.saveAs(pdfResult.result, (this.filename ?? "document") + ".pdf");
                     }
                 });
 

@@ -1,0 +1,89 @@
+import { Callback } from "Aventus@Main:Aventus.package.avt";
+import { FormElement } from "../FormElement/FormElement.wcl.avt";
+
+namespace Components {
+    export class InlineText extends FormElement<string> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public is_editing!: boolean;
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected inputEl!: HTMLInputElement;
+
+        protected textBeforeEdit?: string;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+        //#region events
+        public onIsEditChange: Callback<(isEditing: boolean) => void> = new Callback();
+        //#endregion
+
+        //#region methods
+        /**
+         * 
+         */
+        protected removeErrors() {
+            this.errors = [];
+        }
+        /**
+         * 
+         */
+        protected onValueChange() {
+            this.value = this.inputEl.value;
+            this.onChange.trigger([this.value]);
+            if(this.formPart) {
+                this.formPart.value.set(this.value);
+            }
+        }
+
+        public edit() {
+            this.textBeforeEdit = this.value;
+            this.is_editing = true;
+            this.onIsEditChange.trigger([this.is_editing]);
+            this.inputEl.focus();
+            this.inputEl.select();
+        }
+
+        public cancel() {
+            this.value = this.textBeforeEdit;
+        }
+
+        protected validateChange() {
+            this.is_editing = false;
+            this.onIsEditChange.trigger([this.is_editing]);
+        }
+
+
+        /**
+         * 
+         */
+        protected checkEnter(e: KeyboardEvent) {
+            if(e.key == "Enter") {
+                this.inputEl.blur();
+            }
+            else if(e.key == "Escape") {
+                this.cancel();
+                this.inputEl.blur();
+            }
+        }
+
+        protected override postCreation(): void {
+            super.postCreation();
+        }
+        //#endregion
+
+    }
+}

@@ -1,0 +1,28 @@
+:host {
+	.display {}
+
+	input {
+		background-color: transparent;
+		border: none;
+		box-shadow: none;
+		display: none;
+		font-family: inherit;
+		font-size: inherit;
+		font-weight: inherit;
+		margin: 0;
+		min-width: 0;
+		outline: none;
+		padding: 0;
+		width: 100%;
+	}
+}
+
+:host([is_editing]) {
+	.display {
+		display: none;
+	}
+
+	input {
+		display: block;
+	}
+}

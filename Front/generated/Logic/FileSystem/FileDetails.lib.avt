@@ -6,6 +6,7 @@ namespace Logic.FileSystem {
 		public Name!: string;
 		public Size!: number;
 		public LastEdit!: Date;
+		public Extension!: string;
 		public IsDirectory!: boolean;
 	}
 
