@@ -2963,6 +2963,7 @@ if(!window.customElements.get('rk-context-menu-element')){window.customElements.
 
 Lib.ShortcutManager=class ShortcutManager {
     static memory = {};
+    static autoPrevents = [];
     static isInit = false;
     static arrayKeys = [];
     static options = new Map();
@@ -2974,7 +2975,7 @@ Lib.ShortcutManager=class ShortcutManager {
             if (typeof touch == "number" && Lib.SpecialTouch[touch] !== undefined) {
                 realTouch = Lib.SpecialTouch[touch];
             }
-            else if (touch.match(/[a-zA-Z0-9]/g)) {
+            else if (touch.match(/[a-zA-Z0-9_\+\-]/g)) {
                 realTouch = touch;
             }
             else {
@@ -3042,7 +3043,7 @@ Lib.ShortcutManager=class ShortcutManager {
                     }
                 }
                 if (Object.keys(Lib.ShortcutManager.memory).length == 0 && Lib.ShortcutManager.isInit) {
-                    Lib.ShortcutManager.uninit();
+                    //ShortcutManager.uninit();
                 }
             }
         }
@@ -3090,6 +3091,9 @@ Lib.ShortcutManager=class ShortcutManager {
                 cb();
             }
         }
+        else if (Lib.ShortcutManager.autoPrevents.includes(key)) {
+            e.preventDefault();
+        }
     }
     static onKeyUp(e) {
         let index = this.arrayKeys.indexOf(e.key);
@@ -3098,9 +3102,27 @@ Lib.ShortcutManager=class ShortcutManager {
         }
     }
     static init() {
+        if (Lib.ShortcutManager.isInit)
+            return;
         Lib.ShortcutManager.isInit = true;
         this.onKeyDown = this.onKeyDown.bind(this);
         this.onKeyUp = this.onKeyUp.bind(this);
+        Lib.ShortcutManager.autoPrevents = [
+            this.getText([Lib.SpecialTouch.Control, "s"]),
+            this.getText([Lib.SpecialTouch.Control, "p"]),
+            this.getText([Lib.SpecialTouch.Control, "l"]),
+            this.getText([Lib.SpecialTouch.Control, "k"]),
+            this.getText([Lib.SpecialTouch.Control, "j"]),
+            this.getText([Lib.SpecialTouch.Control, "h"]),
+            this.getText([Lib.SpecialTouch.Control, "g"]),
+            this.getText([Lib.SpecialTouch.Control, "f"]),
+            this.getText([Lib.SpecialTouch.Control, "d"]),
+            this.getText([Lib.SpecialTouch.Control, "o"]),
+            this.getText([Lib.SpecialTouch.Control, "u"]),
+            this.getText([Lib.SpecialTouch.Control, "e"]),
+            this.getText([Lib.SpecialTouch.Control, "-"]),
+            this.getText([Lib.SpecialTouch.Control, "+"]),
+        ];
         window.addEventListener("blur", () => {
             this.arrayKeys = [];
         });
@@ -5493,10 +5515,91 @@ RAM.RamWithTransaction=class RamWithTransaction {
 RAM.RamWithTransaction.Namespace=`Core.RAM`;
 _.RAM.RamWithTransaction=RAM.RamWithTransaction;
 
+RAM.RamCompletor=class RamCompletor {
+    objects = [];
+    fields = [];
+    error;
+    constructor(objects, error) {
+        if (!objects) {
+            objects = [];
+        }
+        else if (!Array.isArray(objects)) {
+            objects = [objects];
+        }
+        this.objects = objects;
+        this.error = error;
+    }
+    add(field) {
+        this.fields.push(field);
+        return this;
+    }
+    async run() {
+        const objects = this.objects;
+        const fields = this.fields;
+        const result = new Aventus.VoidWithError();
+        if (objects.length == 0)
+            return result;
+        const listIds = {};
+        const mapRecords = {};
+        for (let field of fields) {
+            let objKey = field.obj;
+            let idKey = field.id;
+            listIds[objKey] = [];
+            mapRecords[objKey] = {};
+            for (let value of objects) {
+                if (value[idKey]) {
+                    const listId = listIds[objKey];
+                    const mapRecord = mapRecords[objKey];
+                    if (value[objKey])
+                        continue;
+                    if (!listId.includes(value[idKey]))
+                        listId.push(value[idKey]);
+                    if (!mapRecord[value[idKey]]) {
+                        mapRecord[value[idKey]] = [];
+                    }
+                    mapRecord[value[idKey]].push(value);
+                }
+            }
+        }
+        for (let field of fields) {
+            let objKey = field.obj;
+            if (!listIds[objKey] || !mapRecords[objKey])
+                continue;
+            const listId = listIds[objKey];
+            const mapRecord = mapRecords[objKey];
+            if (listId.length > 0) {
+                const ram = Aventus.Instance.get(field.ram);
+                const query = await ram.getByIdsWithError(listId);
+                if (query.success && query.result) {
+                    for (let item of query.result) {
+                        if (mapRecord[item.Id]) {
+                            for (let record of mapRecord[item.Id]) {
+                                record[objKey] = item;
+                            }
+                        }
+                    }
+                }
+                else {
+                    result.errors = [...result.errors, ...query.errors];
+                    if (this.error) {
+                        this.error.errors = [...this.error.errors, ...query.errors];
+                    }
+                }
+            }
+        }
+        return result;
+    }
+}
+RAM.RamCompletor.Namespace=`Core.RAM`;
+_.RAM.RamCompletor=RAM.RamCompletor;
+
 RAM.RamWebSocket=class RamWebSocket extends AventusSharp.RAM.RamWebSocket {
     constructor() {
         super();
         new RAM.RamWithTransaction(this);
+    }
+    complete(objects, error) {
+        return new RAM.RamCompletor(objects, error);
     }
 }
 RAM.RamWebSocket.Namespace=`Core.RAM`;
@@ -5506,6 +5609,9 @@ RAM.RamHttp=class RamHttp extends AventusSharp.RAM.RamHttp {
     constructor() {
         super();
         new RAM.RamWithTransaction(this);
+    }
+    complete(objects, error) {
+        return new RAM.RamCompletor(objects, error);
     }
 }
 RAM.RamHttp.Namespace=`Core.RAM`;
@@ -10495,6 +10601,7 @@ System.Os = class Os extends Aventus.WebComponent {
         this.addResizeObserver();
         await this.startSocket();
         Lib.Platform.init();
+        Lib.ShortcutManager.init();
         this.rightClick();
         this.preventScroll();
         this.addSwitchDesktop();
@@ -13561,24 +13668,30 @@ _.Components.Slider=Components.Slider;
 if(!window.customElements.get('rk-slider')){window.customElements.define('rk-slider', Components.Slider);Aventus.WebComponentInstance.registerDefinition(Components.Slider);}
 
 Components.InputNumber = class InputNumber extends Components.FormElement {
-    static get observedAttributes() {return ["label", "placeholder", "icon", "value", "min", "max", "unit"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    static get observedAttributes() {return ["label", "placeholder", "icon", "min", "max", "unit"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'readonly'() { return this.getBoolAttr('readonly') }
     set 'readonly'(val) { this.setBoolAttr('readonly', val) }    get 'label'() { return this.getStringProp('label') }
     set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
     set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }get 'value'() { return this.getNumberProp('value') }
-    set 'value'(val) { this.setNumberAttr('value', val) }get 'min'() { return this.getNumberProp('min') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'min'() { return this.getNumberProp('min') }
     set 'min'(val) { this.setNumberAttr('min', val) }get 'max'() { return this.getNumberProp('max') }
     set 'max'(val) { this.setNumberAttr('max', val) }get 'unit'() { return this.getStringProp('unit') }
-    set 'unit'(val) { this.setStringAttr('unit', val) }    errorsTxt = {};
+    set 'unit'(val) { this.setStringAttr('unit', val) }    get 'value'() {
+						return this.__watch["value"];
+					}
+					set 'value'(val) {
+						this.__watch["value"] = val;
+					}    errorsTxt = {};
     defaultErrorsTxt = {
         notNumber: "Le nombre n'est pas valide",
         lowerThanMin: "Le nombre n'est pas plus grand que " + this.min,
         biggerThanMax: "Le nombre n'est pas plus petit que " + this.max,
     };
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
-    target.inputEl.value = target.value + '';
-})); }
+    __registerWatchesActions() {
+    this.__addWatchesActions("value", ((target) => {
+    target.inputEl.value = target.value !== undefined ? target.value + '' : '';
+}));    super.__registerWatchesActions();
+}
     static __style = `:host{--_input-number-height: var(--input-number-height, 30px);--_input-number-background-color: var(--input-number-background-color, var(--form-element-background, white));--_input-number-icon-height: var(--input-number-icon-height, calc(var(--_input-number-height) / 2));--_input-number-error-logo-size: var(--input-number-error-logo-size, calc(var(--_input-number-height) / 2));--_input-number-font-size: var(--input-number-font-size, var(--form-element-font-size, 16px));--_input-number-font-size-label: var(--input-number-font-size-label, var(--form-element-font-size-label, calc(var(--_input-number-font-size) * 0.95)));--_input-number-input-border: var(--input-number-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-number-border-radius: var(--input-number-border-radius, var(--form-element-border-radius, 0));--_input-number-unit-background-color: var(--input-number-unit-background-color, var(--secondary-color));--_input-number-unit-color: var(--input-number-unit-color, var(--text-color-secondary));--_input-number-readonly-background-color: var(--input-number-readonly-background-color, var(--form-element-background-readonly, var(--_input-number-background-color)));--_input-number-readonly-border: var(--input-number-readonly-border, var(--form-element-border-readonly, var(--_input-number-input-border)))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-number-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-number-background-color);border:var(--_input-number-input-border);border-radius:var(--_input-number-border-radius);display:flex;height:var(--_input-number-height);overflow:hidden;padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-number-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-number-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-number-error-logo-size) - 5px);height:var(--_input-number-error-logo-size);justify-content:center;width:var(--_input-number-error-logo-size)}:host .input .unit{align-items:center;background-color:var(--_input-number-unit-background-color);color:var(--_input-number-unit-color);display:flex;font-size:14px;height:100%;justify-content:center;margin-right:-10px;padding-left:10px;padding-right:10px}:host .input .unit:empty{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:0 10px}:host .errors>div{margin:5px 0}:host .errors>div:first-child{margin-top:10px}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([readonly]){pointer-events:none}:host([readonly]) .input{background-color:var(--_input-readonly-background-color);border:var(--_input-readonly-border)}`;
     __getStatic() {
         return InputNumber;
@@ -13652,13 +13765,16 @@ Components.InputNumber = class InputNumber extends Components.FormElement {
     getClassName() {
         return "InputNumber";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('readonly')) { this.attributeChangedCallback('readonly', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = 0; }if(!this.hasAttribute('min')){ this['min'] = undefined; }if(!this.hasAttribute('max')){ this['max'] = undefined; }if(!this.hasAttribute('unit')){ this['unit'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('readonly');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('value');this.__upgradeProperty('min');this.__upgradeProperty('max');this.__upgradeProperty('unit'); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('readonly')) { this.attributeChangedCallback('readonly', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('min')){ this['min'] = undefined; }if(!this.hasAttribute('max')){ this['max'] = undefined; }if(!this.hasAttribute('unit')){ this['unit'] = undefined; } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('readonly');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('min');this.__upgradeProperty('max');this.__upgradeProperty('unit');this.__correctGetter('value'); }
     __listBoolProps() { return ["readonly"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     removeErrors() {
         this.errors = [];
     }
-    isNumber() {
+    isNullNumber() {
+        if (this.inputEl.value === '')
+            return true;
         let valueTemp = Number(this.inputEl.value);
         if (!this.inputEl.value || isNaN(valueTemp)) {
             return false;
@@ -13666,12 +13782,16 @@ Components.InputNumber = class InputNumber extends Components.FormElement {
         return true;
     }
     isBiggerThanMin() {
+        if (this.value === undefined)
+            return true;
         if (this.min != 0 || this.hasAttribute("min")) {
             return this.value >= this.min;
         }
         return true;
     }
     isLowerThanMax() {
+        if (this.value === undefined)
+            return true;
         if (this.max != 0 || this.hasAttribute("max")) {
             return this.value <= this.max;
         }
@@ -13679,7 +13799,7 @@ Components.InputNumber = class InputNumber extends Components.FormElement {
     }
     localValidation() {
         let errors = [];
-        if (!this.isNumber()) {
+        if (!this.isNullNumber()) {
             const txt = this.errorsTxt.notNumber ?? this.defaultErrorsTxt.notNumber;
             errors.push(txt);
         }
@@ -13705,10 +13825,15 @@ Components.InputNumber = class InputNumber extends Components.FormElement {
         return await this.formPart.test();
     }
     onValueChange() {
-        if (!this.isNumber()) {
+        if (!this.isNullNumber()) {
             return;
         }
-        this.value = Number(this.inputEl.value);
+        if (this.inputEl.value === '') {
+            this.value = undefined;
+        }
+        else {
+            this.value = Number(this.inputEl.value);
+        }
         this.onChange.trigger([this.value]);
         if (this.formPart) {
             this.formPart.value.set(this.value);

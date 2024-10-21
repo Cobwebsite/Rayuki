@@ -461,6 +461,7 @@ namespace System {
             this.addResizeObserver();
             await this.startSocket();
             Platform.init();
+            ShortcutManager.init()
             this.rightClick();
             this.preventScroll();
             this.addSwitchDesktop();

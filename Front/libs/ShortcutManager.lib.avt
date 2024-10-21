@@ -27,6 +27,7 @@ namespace Lib {
 
     export class ShortcutManager {
         private static memory: { [key: string]: (() => void)[]; } = {};
+        private static autoPrevents: string[] = [];
         private static isInit: boolean = false;
         private static arrayKeys: string[] = [];
 
@@ -41,7 +42,7 @@ namespace Lib {
                 if(typeof touch == "number" && SpecialTouch[touch] !== undefined) {
                     realTouch = SpecialTouch[touch];
                 }
-                else if((touch as string).match(/[a-zA-Z0-9]/g)) {
+                else if((touch as string).match(/[a-zA-Z0-9_\+\-]/g)) {
                     realTouch = touch as string;
                 }
                 else {
@@ -109,7 +110,7 @@ namespace Lib {
                         }
                     }
                     if(Object.keys(ShortcutManager.memory).length == 0 && ShortcutManager.isInit) {
-                        ShortcutManager.uninit();
+                        //ShortcutManager.uninit();
                     }
                 }
             }
@@ -160,6 +161,9 @@ namespace Lib {
                     cb();
                 }
             }
+            else if(ShortcutManager.autoPrevents.includes(key)) {
+                e.preventDefault();
+            }
         }
         private static onKeyUp(e: KeyboardEvent) {
             let index = this.arrayKeys.indexOf(e.key);
@@ -168,10 +172,26 @@ namespace Lib {
             }
         }
 
-        private static init() {
+        public static init() {
+            if(ShortcutManager.isInit) return;
+
             ShortcutManager.isInit = true;
             this.onKeyDown = this.onKeyDown.bind(this);
             this.onKeyUp = this.onKeyUp.bind(this);
+            ShortcutManager.autoPrevents = [
+                this.getText([SpecialTouch.Control, "s"]),
+                this.getText([SpecialTouch.Control, "p"]),
+                this.getText([SpecialTouch.Control, "l"]),
+                this.getText([SpecialTouch.Control, "k"]),
+                this.getText([SpecialTouch.Control, "j"]),
+                this.getText([SpecialTouch.Control, "h"]),
+                this.getText([SpecialTouch.Control, "g"]),
+                this.getText([SpecialTouch.Control, "f"]),
+                this.getText([SpecialTouch.Control, "d"]),
+                this.getText([SpecialTouch.Control, "o"]),
+                this.getText([SpecialTouch.Control, "u"]),
+                this.getText([SpecialTouch.Control, "e"]),
+            ];
             window.addEventListener("blur", () => {
                 this.arrayKeys = [];
             });

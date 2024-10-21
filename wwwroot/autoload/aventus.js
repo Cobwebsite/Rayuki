@@ -7289,6 +7289,11 @@ Routes.StorableRoute=class StorableRoute extends Aventus.HttpRoute {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}/${id}`, Aventus.HttpMethod.GET);
         return await request.queryJSON(this.router);
     }
+    async GetByIds(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}/getbyids`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
     async Update(id, body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}/${id}`, Aventus.HttpMethod.PUT);
         request.setBody(body);
@@ -7522,12 +7527,18 @@ RAM.RamHttp=class RamHttp extends Aventus.Ram {
             }
         }
         if (missingIds.length > 0) {
-            for (let id of missingIds) {
-                let resultTemp = new Aventus.ResultRamWithError();
-                await this.beforeGetById(id, resultTemp);
-                if (!resultTemp.success) {
-                    result.errors = [...result.errors, ...resultTemp.errors];
+            let response = await this.routes.GetByIds({ ids: missingIds });
+            if (response.success && response.result) {
+                for (let item of response.result) {
+                    let resultTemp = new Aventus.ResultRamWithError();
+                    await this.addOrUpdateData(item, resultTemp);
+                    if (!resultTemp.success) {
+                        result.errors = [...result.errors, ...resultTemp.errors];
+                    }
                 }
+            }
+            else {
+                result.errors = [...result.errors, ...response.errors];
             }
         }
     }
@@ -8225,6 +8236,22 @@ WebSocket.StorableWsRoute_GetById=class StorableWsRoute_GetById extends WebSocke
 WebSocket.StorableWsRoute_GetById.Namespace=`AventusSharp.WebSocket`;
 _.WebSocket.StorableWsRoute_GetById=WebSocket.StorableWsRoute_GetById;
 
+WebSocket.StorableWsRoute_GetByIds=class StorableWsRoute_GetByIds extends WebSocket.WsEvent {
+    StorableName;
+    constructor(endpoint, getPrefix, StorableName) {
+        super(endpoint, getPrefix);
+        this.StorableName = StorableName;
+    }
+    /**
+     * @inheritdoc
+     */
+    path() {
+        return `${this.getPrefix()}/${this.StorableName()}s`;
+    }
+}
+WebSocket.StorableWsRoute_GetByIds.Namespace=`AventusSharp.WebSocket`;
+_.WebSocket.StorableWsRoute_GetByIds=WebSocket.StorableWsRoute_GetByIds;
+
 WebSocket.StorableWsRoute_Update=class StorableWsRoute_Update extends WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
@@ -8298,6 +8325,7 @@ WebSocket.StorableWsRoute=class StorableWsRoute extends WebSocket.Route {
             Create: new WebSocket.StorableWsRoute_Create(this.endpoint, this.getPrefix, this.StorableName),
             CreateMany: new WebSocket.StorableWsRoute_CreateMany(this.endpoint, this.getPrefix, this.StorableName),
             GetById: new WebSocket.StorableWsRoute_GetById(this.endpoint, this.getPrefix, this.StorableName),
+            GetByIds: new WebSocket.StorableWsRoute_GetByIds(this.endpoint, this.getPrefix, this.StorableName),
             Update: new WebSocket.StorableWsRoute_Update(this.endpoint, this.getPrefix, this.StorableName),
             UpdateMany: new WebSocket.StorableWsRoute_UpdateMany(this.endpoint, this.getPrefix, this.StorableName),
             Delete: new WebSocket.StorableWsRoute_Delete(this.endpoint, this.getPrefix, this.StorableName),
@@ -8333,6 +8361,14 @@ WebSocket.StorableWsRoute=class StorableWsRoute extends WebSocket.Route {
     async GetById(id, options = {}) {
         const info = {
             channel: `${this.getPrefix()}/${this.StorableName()}/${id}`,
+            ...options,
+        };
+        return await this.endpoint.sendMessageAndWait(info);
+    }
+    async GetByIds(body, options = {}) {
+        const info = {
+            channel: `${this.getPrefix()}/${this.StorableName()}/getbyids`,
+            body: body,
             ...options,
         };
         return await this.endpoint.sendMessageAndWait(info);
@@ -8534,12 +8570,18 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
             }
         }
         if (missingIds.length > 0) {
-            for (let id of missingIds) {
-                let resultTemp = new Aventus.ResultRamWithError();
-                await this.beforeGetById(id, resultTemp);
-                if (!resultTemp.success) {
-                    result.errors = [...result.errors, ...resultTemp.errors];
+            let response = await this.routes.GetByIds({ ids: missingIds });
+            if (response.success && response.result) {
+                for (let item of response.result) {
+                    let resultTemp = new Aventus.ResultRamWithError();
+                    await this.addOrUpdateData(item, resultTemp);
+                    if (!resultTemp.success) {
+                        result.errors = [...result.errors, ...resultTemp.errors];
+                    }
                 }
+            }
+            else {
+                result.errors = [...result.errors, ...response.errors];
             }
         }
     }

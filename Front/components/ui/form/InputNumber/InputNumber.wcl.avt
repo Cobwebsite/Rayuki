@@ -18,10 +18,10 @@ namespace Components {
         @Property()
         public icon?: string;
 
-        @Property((target: InputNumber) => {
-            target.inputEl.value = target.value + '';
+        @Watch((target: InputNumber) => {
+            target.inputEl.value = target.value !== undefined ? target.value + '' : '';
         })
-        public override value: number = 0;
+        public override value: number | undefined = undefined;
 
         @Property()
         public min!: number;
@@ -73,7 +73,8 @@ namespace Components {
             this.errors = [];
         }
 
-        protected isNumber(): boolean {
+        protected isNullNumber(): boolean {
+            if(this.inputEl.value === '') return true;
             let valueTemp = Number(this.inputEl.value);
             if(!this.inputEl.value || isNaN(valueTemp)) {
                 return false;
@@ -82,12 +83,14 @@ namespace Components {
         }
 
         protected isBiggerThanMin(): boolean {
+            if(this.value === undefined) return true;
             if(this.min != 0 || this.hasAttribute("min")) {
                 return this.value >= this.min;
             }
             return true;
         }
         protected isLowerThanMax(): boolean {
+            if(this.value === undefined) return true;
             if(this.max != 0 || this.hasAttribute("max")) {
                 return this.value <= this.max;
             }
@@ -96,7 +99,7 @@ namespace Components {
 
         protected localValidation(): string[] {
             let errors: string[] = [];
-            if(!this.isNumber()) {
+            if(!this.isNullNumber()) {
                 const txt = this.errorsTxt.notNumber ?? this.defaultErrorsTxt.notNumber;
                 errors.push(txt);
             }
@@ -120,7 +123,7 @@ namespace Components {
         /**
          * 
          */
-        public async validate() {
+        public async validate(): Promise<boolean> {
             if(!this.formPart) {
                 this.errors = this.localValidation();
                 return this.errors.length == 0;
@@ -131,10 +134,15 @@ namespace Components {
          * 
          */
         protected onValueChange() {
-            if(!this.isNumber()) {
+            if(!this.isNullNumber()) {
                 return;
             }
-            this.value = Number(this.inputEl.value);
+            if(this.inputEl.value === '') {
+                this.value = undefined;
+            }
+            else {
+                this.value = Number(this.inputEl.value);
+            }
 
             this.onChange.trigger([this.value]);
             if(this.formPart) {
