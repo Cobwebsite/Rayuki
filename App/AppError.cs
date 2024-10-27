@@ -10,6 +10,7 @@ namespace Core.App
         AppFileNotFound,
         MoreThanOneAppFileFound,
         NoAppFileFound,
+        NoPluginFileFound,
         NoIconFileFound,
         WrongVersionFormat,
         NoName,

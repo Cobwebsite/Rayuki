@@ -7,9 +7,7 @@ using RouterMiddleware = AventusSharp.Routes.RouterMiddleware;
 using AventusSharp.Tools;
 using Core.Logic;
 using AventusSharp.Routes;
-using System.Timers;
 using Newtonsoft.Json;
-using Core.Data;
 using Core.Permissions.Descriptions;
 using Core.Migrations;
 using Core.Routes.Attributes;
@@ -17,43 +15,38 @@ using AventusSharp.Routes.Request;
 using FileTypeChecker;
 using FileTypeChecker.Abstracts;
 using System.IO.Compression;
+using AventusSharp.Tools.Attributes;
+using Core.Tools;
 
 namespace Core.App
 {
+    [NoTypescript]
+    public enum LoadElement
+    {
+        App,
+        Plugin
+    }
     public static class AppManager
     {
         public static MySQLStorage Storage { get; private set; }
         private static AppLoadContext AppLoader = new AppLoadContext();
 
         private static Dictionary<Type, Assembly> apps = new Dictionary<Type, Assembly>();
+        private static Dictionary<Type, Assembly> plugins = new Dictionary<Type, Assembly>();
 
         private static List<RayukiApp> allApps = new List<RayukiApp>();
+        private static List<RayukiPlugin> allPlugins = new List<RayukiPlugin>();
 
-        private static List<string> waitingUnload = new List<string>();
+        private static List<string> waitingUnloadApps = new List<string>();
+        private static List<string> waitingUnloadPlugins = new List<string>();
 
         public async static Task<VoidWithError> Init()
         {
             VoidWithError result = new VoidWithError();
             try
             {
-                string toDel = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "apps", "todel.json");
-                if (File.Exists(toDel))
-                {
-                    List<string>? apps = JsonConvert.DeserializeObject<List<string>>(File.ReadAllText(toDel));
-                    if (apps != null)
-                    {
-                        foreach (string app in apps)
-                        {
-                            string dll = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "apps", app);
-                            if (Directory.Exists(dll))
-                            {
-                                Directory.Delete(dll, true);
-                            }
-                        }
-                    }
-                    File.Delete(toDel);
-                }
-
+                result.Run(() => DestroyElements(LoadElement.App));
+                result.Run(() => DestroyElements(LoadElement.Plugin));
                 DatabaseConfig config = HttpServer.Config;
                 MySQLStorage storage = new(new StorageCredentials(
                    host: config.Host,
@@ -72,8 +65,8 @@ namespace Core.App
                 Storage = storage;
                 RouterMiddleware.Configure((config) =>
                 {
-                    config.JSONSettings.DateFormatString =  "yyyy-MM-ddTHH:mm:ss";
-                    
+                    config.JSONSettings.DateFormatString = "yyyy-MM-ddTHH:mm:ss";
+
                     config.transformPattern = (urlPattern, @params, type, methodInfo) =>
                     {
                         urlPattern = RouterMiddleware.ReplaceParams(urlPattern, @params);
@@ -114,7 +107,7 @@ namespace Core.App
                 };
                 WebSocketMiddleware.Configure((config) =>
                 {
-                    config.JSONSettings.DateFormatString =  "yyyy-MM-ddTHH:mm:ss";
+                    config.JSONSettings.DateFormatString = "yyyy-MM-ddTHH:mm:ss";
                     config.transformPattern = (urlPattern, @params, obj, isEvent) =>
                     {
                         urlPattern = WebSocketMiddleware.ReplaceParams(urlPattern, @params);
@@ -142,137 +135,10 @@ namespace Core.App
 
                 WebSocketMiddleware.Register(Assembly.GetExecutingAssembly());
                 RouterMiddleware.Register(Assembly.GetExecutingAssembly());
-                string appsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "apps");
-                if (!Directory.Exists(appsDir))
-                {
-                    Directory.CreateDirectory(appsDir);
-                }
-                if (!HttpServer.IsAppManagement)
-                {
-                    // init migration (maybe add sort)
-                    MigrationLogic migrationLogic = new MigrationLogic();
-                    VoidWithError initMigration = migrationLogic.Init();
-                    if (!initMigration.Success)
-                    {
-                        result.Errors = initMigration.Errors;
-                        return result;
-                    }
 
-                    string[] dirs = Directory.GetDirectories(appsDir);
-                    foreach (string dir in dirs)
-                    {
-                        string appName = dir.Split(Path.DirectorySeparatorChar).Last();
-                        string migrationPath = Path.Combine(dir, "migrations");
-                        if (Directory.Exists(migrationPath))
-                        {
-                            string[] migrationFiles = Directory.GetFiles(migrationPath);
-                            foreach (string migrationFile in migrationFiles)
-                            {
-                                string fullMigrationPath = Path.Combine(migrationPath, migrationFile);
-                                migrationLogic.RunGlobal(fullMigrationPath, fullMigrationPath.Replace(appsDir, ""));
-                            }
-                        }
+                result.Run(() => LoadElements(LoadElement.Plugin));
+                result.Run(() => LoadElements(LoadElement.App));
 
-                        string path = Path.Combine(dir, appName + ".dll");
-                        if (File.Exists(path))
-                        {
-                            try
-                            {
-                                Console.WriteLine("loading " + path);
-                                Assembly dll = AppLoader.LoadFromAssemblyPath(path);
-
-                                if (dll.FullName != null)
-                                {
-
-                                    Type[] theList = dll.GetTypes();
-                                    List<Type> wsEndPoints = new List<Type>();
-                                    List<Type> wsRoutes = new List<Type>();
-                                    List<Type> httpRouters = new List<Type>();
-                                    Type? appFile = null;
-                                    foreach (Type theType in theList)
-                                    {
-                                        if (theType.Namespace != null)
-                                        {
-                                            Type[] interfaces = theType.GetInterfaces();
-                                            if (interfaces.Contains(typeof(IWsEndPoint)))
-                                            {
-                                                wsEndPoints.Add(theType);
-                                            }
-                                            else if (interfaces.Contains(typeof(IWsRoute)))
-                                            {
-                                                wsRoutes.Add(theType);
-                                            }
-                                            if (interfaces.Contains(typeof(IRoute)))
-                                            {
-                                                httpRouters.Add(theType);
-                                            }
-                                            else if (theType.IsSubclassOf(typeof(RayukiApp)))
-                                            {
-                                                if (appFile != null)
-                                                {
-                                                    result.Errors.Add(new AppError(AppErrorCode.MoreThanOneAppFileFound, "The app " + appName + " can't have 2 RayukiApp file"));
-                                                }
-                                                else
-                                                {
-                                                    appFile = theType;
-                                                    object? o = Activator.CreateInstance(theType);
-                                                    if (o is RayukiApp newAppFile)
-                                                    {
-                                                        newAppFile.action = new Action<Type, PermissionDescription?>((Type type, PermissionDescription? description) =>
-                                                        {
-                                                            PermissionDM.GetInstance().RegisterPermissions(type, description);
-                                                        });
-                                                        allApps.Add(newAppFile);
-
-
-                                                    }
-                                                }
-
-                                            }
-                                        }
-                                    }
-                                    if (appFile != null)
-                                    {
-                                        apps.Add(appFile, dll);
-                                        WebSocketMiddleware.Register(wsEndPoints, wsRoutes);
-                                        RouterMiddleware.Register(httpRouters);
-                                    }
-                                    else
-                                    {
-                                        result.Errors.Add(new AppError(AppErrorCode.NoAppFileFound, "The app " + appName + " must have a RayukiApp file"));
-                                    }
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                result.Errors.Add(new AppError(AppErrorCode.UnknowError, e));
-                                Console.WriteLine(e);
-                            }
-                        }
-                    }
-
-                    if (!result.Success)
-                    {
-                        return result;
-                    }
-
-                    foreach (RayukiApp app in allApps)
-                    {
-                        Migrator? migrator = app.DefineMigrator();
-                        if (migrator != null)
-                        {
-                            string name = app.GetType().Assembly.GetName().Name ?? "";
-                            int? oldVersion = migrationLogic.appMigrations.ContainsKey(name) ? migrationLogic.appMigrations[name] : null;
-                            VoidWithError migrationResult = migrator.Run(oldVersion, app.Version());
-                            if (!migrationResult.Success)
-                            {
-                                result.Errors = migrationResult.Errors;
-                                return result;
-                            }
-                        }
-                    }
-
-                }
                 DataMainManager.Configure(config =>
                 {
                     config.defaultStorage = storage;
@@ -290,11 +156,19 @@ namespace Core.App
                     config.log.printErrorInConsole = true;
                 });
 
-                VoidWithError resultTemp = await DataMainManager.Init(GetAppsDlls());
+                VoidWithError resultTemp = await DataMainManager.Init(GetDlls());
                 if (!resultTemp.Success)
                 {
                     result.Errors.AddRange(resultTemp.Errors);
                     return result;
+                }
+                foreach (RayukiPlugin allPlugin in allPlugins)
+                {
+                    VoidWithError registerResult = PluginDM.GetInstance().RegisterPlugin(allPlugin);
+                    if (!registerResult.Success)
+                    {
+                        result.Errors.AddRange(registerResult.Errors);
+                    }
                 }
                 foreach (RayukiApp appFile in allApps)
                 {
@@ -317,6 +191,242 @@ namespace Core.App
             {
                 result.Errors.Add(new AppError(AppErrorCode.UnknowError, e));
             }
+            return result;
+        }
+
+        private static VoidWithError DestroyElements(LoadElement element)
+        {
+            VoidWithError error = new VoidWithError();
+            try
+            {
+                string appsDir = "";
+                if (element == LoadElement.App)
+                {
+                    appsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "apps");
+                }
+                else
+                {
+                    appsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins");
+                }
+                string toDel = Path.Combine(appsDir, "todel.json");
+                if (File.Exists(toDel))
+                {
+                    List<string>? apps = JsonConvert.DeserializeObject<List<string>>(File.ReadAllText(toDel));
+                    if (apps != null)
+                    {
+                        foreach (string app in apps)
+                        {
+                            string dll = Path.Combine(appsDir, app);
+                            if (Directory.Exists(dll))
+                            {
+                                Directory.Delete(dll, true);
+                            }
+                        }
+                    }
+                    File.Delete(toDel);
+                }
+
+            }
+            catch (Exception e)
+            {
+                error.Errors.Add(new CoreError(CoreErrorCode.UnknowError, e));
+            }
+            return error;
+        }
+        
+        public static VoidWithError LoadElements(LoadElement element)
+        {
+            VoidWithError result = new VoidWithError();
+
+            if (!HttpServer.IsAppManagement)
+            {
+                string appsDir = "";
+                if (element == LoadElement.App)
+                {
+                    appsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "apps");
+                }
+                else
+                {
+                    appsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins");
+                }
+                if (!Directory.Exists(appsDir))
+                {
+                    Directory.CreateDirectory(appsDir);
+                }
+
+                // init migration (maybe add sort)
+                MigrationLogic migrationLogic = new MigrationLogic();
+                VoidWithError initMigration = migrationLogic.Init();
+                if (!initMigration.Success)
+                {
+                    result.Errors = initMigration.Errors;
+                    return result;
+                }
+
+                string[] dirs = Directory.GetDirectories(appsDir);
+                foreach (string dir in dirs)
+                {
+                    string appName = dir.Split(Path.DirectorySeparatorChar).Last();
+                    string migrationPath = Path.Combine(dir, "migrations");
+                    if (Directory.Exists(migrationPath))
+                    {
+                        string[] migrationFiles = Directory.GetFiles(migrationPath);
+                        foreach (string migrationFile in migrationFiles)
+                        {
+                            string fullMigrationPath = Path.Combine(migrationPath, migrationFile);
+                            migrationLogic.RunGlobal(fullMigrationPath, fullMigrationPath.Replace(appsDir, ""));
+                        }
+                    }
+
+                    string path = Path.Combine(dir, appName + ".dll");
+                    if (File.Exists(path))
+                    {
+                        try
+                        {
+                            Console.WriteLine("loading " + path);
+                            Assembly dll = AppLoader.LoadFromAssemblyPath(path);
+
+                            if (dll.FullName != null)
+                            {
+
+                                Type[] theList = dll.GetTypes();
+                                List<Type> wsEndPoints = new List<Type>();
+                                List<Type> wsRoutes = new List<Type>();
+                                List<Type> httpRouters = new List<Type>();
+                                Type? appFile = null;
+                                Type? pluginFile = null;
+                                foreach (Type theType in theList)
+                                {
+                                    if (theType.Namespace != null)
+                                    {
+                                        Type[] interfaces = theType.GetInterfaces();
+                                        if (interfaces.Contains(typeof(IWsEndPoint)))
+                                        {
+                                            wsEndPoints.Add(theType);
+                                        }
+                                        else if (interfaces.Contains(typeof(IWsRoute)))
+                                        {
+                                            wsRoutes.Add(theType);
+                                        }
+                                        if (interfaces.Contains(typeof(IRoute)))
+                                        {
+                                            httpRouters.Add(theType);
+                                        }
+                                        else if (theType.IsSubclassOf(typeof(RayukiApp)))
+                                        {
+                                            if (appFile != null)
+                                            {
+                                                result.Errors.Add(new AppError(AppErrorCode.MoreThanOneAppFileFound, "The app " + appName + " can't have 2 RayukiApp file"));
+                                            }
+                                            else
+                                            {
+                                                appFile = theType;
+                                                object? o = Activator.CreateInstance(theType);
+                                                if (o is RayukiApp newAppFile)
+                                                {
+                                                    newAppFile.action = new Action<Type, PermissionDescription?>((Type type, PermissionDescription? description) =>
+                                                    {
+                                                        PermissionDM.GetInstance().RegisterPermissions(type, description);
+                                                    });
+                                                    allApps.Add(newAppFile);
+
+
+                                                }
+                                            }
+
+                                        }
+                                        else if (theType.IsSubclassOf(typeof(RayukiPlugin)))
+                                        {
+                                            if (pluginFile != null)
+                                            {
+                                                result.Errors.Add(new AppError(AppErrorCode.MoreThanOneAppFileFound, "The plugin " + appName + " can't have 2 RayukiPlugin file"));
+                                            }
+                                            else
+                                            {
+                                                pluginFile = theType;
+                                                object? o = Activator.CreateInstance(theType);
+                                                if (o is RayukiPlugin newPluginFile)
+                                                {
+                                                    newPluginFile.action = new Action<Type, PermissionDescription?>((Type type, PermissionDescription? description) =>
+                                                    {
+                                                        PermissionDM.GetInstance().RegisterPermissions(type, description);
+                                                    });
+                                                    allPlugins.Add(newPluginFile);
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                }
+                                if (appFile != null)
+                                {
+                                    apps.Add(appFile, dll);
+                                    WebSocketMiddleware.Register(wsEndPoints, wsRoutes);
+                                    RouterMiddleware.Register(httpRouters);
+                                }
+                                else if (pluginFile != null)
+                                {
+                                    plugins.Add(pluginFile, dll);
+                                    WebSocketMiddleware.Register(wsEndPoints, wsRoutes);
+                                    RouterMiddleware.Register(httpRouters);
+                                }
+                                else
+                                {
+                                    if (element == LoadElement.App)
+                                        result.Errors.Add(new AppError(AppErrorCode.NoAppFileFound, "The app " + appName + " must have a RayukiApp file"));
+                                    else
+                                        result.Errors.Add(new AppError(AppErrorCode.NoPluginFileFound, "The plugin " + appName + " must have a RayukiPlugin file"));
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            result.Errors.Add(new AppError(AppErrorCode.UnknowError, e));
+                            Console.WriteLine(e);
+                        }
+                    }
+                }
+
+                if (!result.Success)
+                {
+                    return result;
+                }
+
+                foreach (RayukiPlugin plugin in allPlugins)
+                {
+                    Migrator? migrator = plugin.DefineMigrator();
+                    if (migrator != null)
+                    {
+                        string name = plugin.GetType().Assembly.GetName().Name ?? "";
+                        int? oldVersion = migrationLogic.appMigrations.ContainsKey(name) ? migrationLogic.appMigrations[name] : null;
+                        VoidWithError migrationResult = migrator.Run(oldVersion, plugin.Version());
+                        if (!migrationResult.Success)
+                        {
+                            result.Errors = migrationResult.Errors;
+                            return result;
+                        }
+                    }
+                }
+
+
+                foreach (RayukiApp app in allApps)
+                {
+                    Migrator? migrator = app.DefineMigrator();
+                    if (migrator != null)
+                    {
+                        string name = app.GetType().Assembly.GetName().Name ?? "";
+                        int? oldVersion = migrationLogic.appMigrations.ContainsKey(name) ? migrationLogic.appMigrations[name] : null;
+                        VoidWithError migrationResult = migrator.Run(oldVersion, app.Version());
+                        if (!migrationResult.Success)
+                        {
+                            result.Errors = migrationResult.Errors;
+                            return result;
+                        }
+                    }
+                }
+
+            }
+
             return result;
         }
 
@@ -381,7 +491,7 @@ namespace Core.App
                             apps.Add(appFile, dll);
                             WebSocketMiddleware.Register(wsEndPoints, wsRoutes);
                             RouterMiddleware.Register(httpRouters);
-                            VoidWithError resultTemp = await DataMainManager.Init(GetAppsDlls());
+                            VoidWithError resultTemp = await DataMainManager.Init(GetDlls());
                             result.Errors.AddRange(resultTemp.Errors);
                             foreach (RayukiApp newApp in newApps)
                             {
@@ -423,11 +533,24 @@ namespace Core.App
             {
                 Directory.Delete(www, true);
             }
-            waitingUnload.Add(appName);
+            waitingUnloadApps.Add(appName);
+        }
+        public static void UnLoadPlugin(string pluginName)
+        {
+            string www = Path.Combine(HttpServer.wwwroot, "plugins", pluginName);
+            if (Directory.Exists(www))
+            {
+                Directory.Delete(www, true);
+            }
+            waitingUnloadPlugins.Add(pluginName);
         }
 
         public static async Task OnStart()
         {
+            foreach (RayukiPlugin plugin in allPlugins)
+            {
+                await plugin.OnStart();
+            }
             foreach (RayukiApp app in allApps)
             {
                 Seeder? seeder = app.DefineSeeder();
@@ -438,16 +561,22 @@ namespace Core.App
 
         public static async void OnStop()
         {
+            foreach (RayukiPlugin plugin in allPlugins)
+            {
+                await plugin.OnStart();
+            }
             foreach (RayukiApp app in allApps)
             {
                 await app.OnStop();
             }
-            File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "apps", "todel.json"), JsonConvert.SerializeObject(waitingUnload));
+            File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "apps", "todel.json"), JsonConvert.SerializeObject(waitingUnloadApps));
+            File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins", "todel.json"), JsonConvert.SerializeObject(waitingUnloadPlugins));
         }
 
-        public static List<Assembly> GetAppsDlls()
+        public static List<Assembly> GetDlls()
         {
             List<Assembly> result = apps.Values.ToList();
+            result.AddRange(plugins.Values.ToList());
             result.Insert(0, Assembly.GetExecutingAssembly());
             return result;
         }

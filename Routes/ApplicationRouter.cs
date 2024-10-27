@@ -84,6 +84,15 @@ namespace Core.Routes
             }
             AppManager.UnLoadApp(app);
         }
+        [Post, Path("/configurePlugin/uninstall")]
+        public void UninstallDevPlugin(string plugin)
+        {
+            if (!HttpServer.IsDev)
+            {
+                return;
+            }
+            AppManager.UnLoadPlugin(plugin);
+        }
 
 
         [Post, Path("/installApp")]

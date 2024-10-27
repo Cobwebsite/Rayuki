@@ -3120,8 +3120,6 @@ Lib.ShortcutManager=class ShortcutManager {
             this.getText([Lib.SpecialTouch.Control, "o"]),
             this.getText([Lib.SpecialTouch.Control, "u"]),
             this.getText([Lib.SpecialTouch.Control, "e"]),
-            this.getText([Lib.SpecialTouch.Control, "-"]),
-            this.getText([Lib.SpecialTouch.Control, "+"]),
         ];
         window.addEventListener("blur", () => {
             this.arrayKeys = [];
@@ -12514,7 +12512,7 @@ Components.SheetPreview = class SheetPreview extends Aventus.WebComponent {
     target.contentEl.zoom = target.zoom / 100;
 }));    super.__registerWatchesActions();
 }
-    static __style = `:host{display:flex;flex-direction:column;height:100%;width:100%}:host .menu{background-color:var(--primary-color);border-bottom:1px solid var(--lighter);box-shadow:var(--elevation-4);display:flex;flex-grow:0;flex-shrink:0;height:42px;padding:3px 15px;width:100%;z-index:2;gap:3px}:host .menu mi-icon{border:1px solid var(--darker);cursor:pointer;padding:5px}:host .menu mi-icon:hover{box-shadow:0px 0px 2px #000 inset}:host .content{--scrollbar-content-padding: 10px;background-color:var(--secondary-color);flex-grow:1;width:100%;padding-top:2px}:host .content *::slotted(*){display:flex;flex-wrap:wrap;gap:10px;justify-content:center}:host .footer{align-items:center;background-color:var(--primary-color);border-top:1px solid var(--lighter);display:flex;flex-direction:row;flex-grow:0;flex-shrink:0;font-size:13px;height:30px;justify-content:space-between;padding:0 15px;width:100%;z-index:2}:host .footer .slider{align-items:center;display:flex;gap:10px}:host .footer .slider mi-icon{cursor:pointer;font-size:18px}:host .footer .slider rk-slider{width:50px}:host .footer .slider .value{font-size:13px;text-align:center;width:30px}:host rk-loading{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}`;
+    static __style = `:host{display:flex;flex-direction:column;height:100%;width:100%}:host .menu{background-color:var(--primary-color);border-bottom:1px solid var(--lighter);box-shadow:var(--elevation-4);display:flex;flex-grow:0;flex-shrink:0;height:42px;padding:3px 15px;width:100%;z-index:2;gap:3px}:host .menu mi-icon{border:1px solid var(--darker);cursor:pointer;padding:5px}:host .menu mi-icon:hover{box-shadow:0px 0px 2px #000 inset}:host .content{--scrollbar-content-padding: 10px;background-color:var(--secondary-color);flex-grow:1;width:100%;padding-top:2px}:host .content *::slotted(*){display:flex;flex-wrap:wrap;gap:10px;justify-content:center}:host .footer{align-items:center;background-color:var(--primary-color);border-top:1px solid var(--lighter);display:flex;flex-direction:row;flex-grow:0;flex-shrink:0;font-size:13px;height:30px;justify-content:space-between;padding:0 15px;width:100%;z-index:2}:host .footer .slider{--slider-dot-size: calc(var(--font-size) * 0.9);--slider-bar-height: 5px;align-items:center;display:flex;gap:10px}:host .footer .slider mi-icon{cursor:pointer;font-size:18px}:host .footer .slider rk-slider{width:50px}:host .footer .slider .value{font-size:13px;text-align:center;width:30px}:host rk-loading{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}`;
     __getStatic() {
         return SheetPreview;
     }

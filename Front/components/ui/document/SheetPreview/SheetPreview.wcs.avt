@@ -59,6 +59,8 @@
 		z-index: 2;
 
 		.slider {
+			--slider-dot-size: calc(var(--font-size) * 0.9);
+			--slider-bar-height: 5px;
 			align-items: center;
 			display: flex;
 			gap: 10px;

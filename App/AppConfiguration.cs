@@ -11,7 +11,7 @@ namespace Core.App
 
         public AppConfiguration()
         {
-            appsInstalled = AppManager.GetAppsDlls().Select(a => a.GetName().Name ?? "").ToList();
+            appsInstalled = AppManager.GetDlls().Select(a => a.GetName().Name ?? "").ToList();
 
             string[] dirs = Directory.GetDirectories("D:\\Rayuki\\Apps");
             allApps = new Dictionary<string, List<string>>();
