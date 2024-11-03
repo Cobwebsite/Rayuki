@@ -29,10 +29,10 @@ let System = {};
 _.System = Core.System ?? {};
 let Libs = {};
 _.Libs = Core.Libs ?? {};
-let Permissions = {};
-_.Permissions = Core.Permissions ?? {};
 Websocket.Routes = {};
 _.Websocket.Routes = Core.Websocket?.Routes ?? {};
+let Permissions = {};
+_.Permissions = Core.Permissions ?? {};
 Permissions.Tree = {};
 _.Permissions.Tree = Core.Permissions?.Tree ?? {};
 let Routes = {};
@@ -147,16 +147,17 @@ Lib.StringTools=class StringTools {
 Lib.StringTools.Namespace=`Core.Lib`;
 _.Lib.StringTools=Lib.StringTools;
 
-Lib.NumberTools=class NumberTools {
-    static pretty(nb) {
-        if (nb < 10) {
-            return '0' + nb;
-        }
-        return nb + '';
+Lib.Plugin=class Plugin {
+}
+Lib.Plugin.Namespace=`Core.Lib`;
+_.Lib.Plugin=Lib.Plugin;
+
+Lib.PluginManager=class PluginManager {
+    static register(plugin) {
     }
 }
-Lib.NumberTools.Namespace=`Core.Lib`;
-_.Lib.NumberTools=Lib.NumberTools;
+Lib.PluginManager.Namespace=`Core.Lib`;
+_.Lib.PluginManager=Lib.PluginManager;
 
 Websocket.Events.ApplicationTestEvent2=class ApplicationTestEvent2 extends AventusSharp.WebSocket.WsEvent {
     /**
@@ -1687,11 +1688,6 @@ Lib.Pointer=class Pointer {
 Lib.Pointer.Namespace=`Core.Lib`;
 _.Lib.Pointer=Lib.Pointer;
 
-(function (ApplicationPermission) {
-    ApplicationPermission[ApplicationPermission["AllowAccess"] = 0] = "AllowAccess";
-})(Permissions.ApplicationPermission || (Permissions.ApplicationPermission = {}));
-_.Permissions.ApplicationPermission=Permissions.ApplicationPermission;
-
 Lib.Geometry=class Geometry {
     static getIntersectingRectangle(rect1, rect2) {
         const [r1, r2] = [rect1, rect2].map(r => {
@@ -1961,6 +1957,11 @@ Permissions.Tree.PermissionTreeItem.Namespace=`Core.Permissions.Tree`;
 Permissions.Tree.PermissionTreeItem.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "DisplayName":"string","Description":"string","EnumName":"string","Value":"Aventus.Enum","PermissionId":"number","Permissions":"PermissionTreeItem"};
 Aventus.Converter.register(Permissions.Tree.PermissionTreeItem.Fullname, Permissions.Tree.PermissionTreeItem);
 _.Permissions.Tree.PermissionTreeItem=Permissions.Tree.PermissionTreeItem;
+
+(function (ApplicationPermission) {
+    ApplicationPermission[ApplicationPermission["AllowAccess"] = 0] = "AllowAccess";
+})(Permissions.ApplicationPermission || (Permissions.ApplicationPermission = {}));
+_.Permissions.ApplicationPermission=Permissions.ApplicationPermission;
 
 Components.Tracker=class Tracker {
     velocityMultiplier = window.devicePixelRatio;
@@ -2968,6 +2969,9 @@ Lib.ShortcutManager=class ShortcutManager {
     static arrayKeys = [];
     static options = new Map();
     static replacingMemory = {};
+    static isTxt(touch) {
+        return touch.match(/[a-zA-Z0-9_\+\-]/g);
+    }
     static getText(combinaison) {
         let allTouches = [];
         for (let touch of combinaison) {
@@ -2975,7 +2979,7 @@ Lib.ShortcutManager=class ShortcutManager {
             if (typeof touch == "number" && Lib.SpecialTouch[touch] !== undefined) {
                 realTouch = Lib.SpecialTouch[touch];
             }
-            else if (touch.match(/[a-zA-Z0-9_\+\-]/g)) {
+            else if (this.isTxt(touch)) {
                 realTouch = touch;
             }
             else {
@@ -3067,7 +3071,7 @@ Lib.ShortcutManager=class ShortcutManager {
                 this.arrayKeys.push(txt);
             }
         }
-        if (e.key.match(/[a-zA-Z0-9]/g) && !this.arrayKeys.includes(e.key)) {
+        if (this.isTxt(e.key) && !this.arrayKeys.includes(e.key)) {
             this.arrayKeys.push(e.key);
         }
         else if (Lib.SpecialTouch[e.key] !== undefined && !this.arrayKeys.includes(e.key)) {
@@ -4973,6 +4977,14 @@ Components.Tabs.Tag=`rk-tabs`;
 _.Components.Tabs=Components.Tabs;
 if(!window.customElements.get('rk-tabs')){window.customElements.define('rk-tabs', Components.Tabs);Aventus.WebComponentInstance.registerDefinition(Components.Tabs);}
 
+Permissions.ApplicationPermissionQuery=class ApplicationPermissionQuery extends Permissions.PermissionQuery {
+    static get Fullname() { return "Core.Permissions.ApplicationPermissionQuery, Core"; }
+}
+Permissions.ApplicationPermissionQuery.Namespace=`Core.Permissions`;
+Permissions.ApplicationPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
+Aventus.Converter.register(Permissions.ApplicationPermissionQuery.Fullname, Permissions.ApplicationPermissionQuery);
+_.Permissions.ApplicationPermissionQuery=Permissions.ApplicationPermissionQuery;
+
 Permissions.Tree.PermissionTree=class PermissionTree extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Permissions.Tree.PermissionTree, Core"; }
     AppName;
@@ -5764,11 +5776,14 @@ System.HomePanel = class HomePanel extends System.Panel {
     }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["currentUser"] = undefined; }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('currentUser'); }
-    openProfil() {
-        let desktop = this.findParentByType(System.Desktop);
-        if (desktop) {
-            desktop.openUrl("Settings", "/", "/profil");
-            this.btn.active = false;
+    async openProfil() {
+        const canSettings = await can(new Permissions.ApplicationPermissionQuery(Permissions.ApplicationPermission.AllowAccess, "Settings"));
+        if (canSettings) {
+            let desktop = this.findParentByType(System.Desktop);
+            if (desktop) {
+                desktop.openUrl("Settings", "/", "/profil");
+                this.btn.active = false;
+            }
         }
     }
     async logout() {
@@ -9328,14 +9343,6 @@ Components.Link.Tag=`rk-link`;
 _.Components.Link=Components.Link;
 if(!window.customElements.get('rk-link')){window.customElements.define('rk-link', Components.Link);Aventus.WebComponentInstance.registerDefinition(Components.Link);}
 
-Permissions.ApplicationPermissionQuery=class ApplicationPermissionQuery extends Permissions.PermissionQuery {
-    static get Fullname() { return "Core.Permissions.ApplicationPermissionQuery, Core"; }
-}
-Permissions.ApplicationPermissionQuery.Namespace=`Core.Permissions`;
-Permissions.ApplicationPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
-Aventus.Converter.register(Permissions.ApplicationPermissionQuery.Fullname, Permissions.ApplicationPermissionQuery);
-_.Permissions.ApplicationPermissionQuery=Permissions.ApplicationPermissionQuery;
-
 Lib.AppIconManager=class AppIconManager {
     static loaded = [];
     static dico = {};
@@ -9447,6 +9454,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             return undefined;
         return this.activableOrder[0];
     }
+    canOpenDisplaySettings = false;
     showPreviewPositionTimeout;
     waitPreviewPosition;
     watchPreviewTransitionResolve;
@@ -9533,13 +9541,15 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
                 }
             });
         }
-        contextMenu.addItem({
-            text: "Paramètres",
-            materialIcon: "display_settings",
-            action: () => {
-                this.openUrl("Settings", "/", "/display");
-            }
-        });
+        if (this.canOpenDisplaySettings) {
+            contextMenu.addItem({
+                text: "Paramètres",
+                materialIcon: "display_settings",
+                action: () => {
+                    this.openUrl("Settings", "/", "/display");
+                }
+            });
+        }
     }
     async loadApp(application) {
         await Addon.loadForApp(application);
@@ -9945,6 +9955,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
         this.calculateIconSize();
     }
     async loadData() {
+        this.canOpenDisplaySettings = await can(new Permissions.ApplicationPermissionQuery(Permissions.ApplicationPermission.AllowAccess, "Settings"));
         let data = await RAM.DesktopRAM.getInstance().getById(this.desktop_id);
         if (data) {
             this.data = data;
@@ -19733,6 +19744,70 @@ Websocket.Events.ApplicationTestEvent.Body.Namespace=`Core.Websocket.Events.Appl
 Websocket.Events.ApplicationTestEvent.Body.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "id":"number","name":"string"};
 Aventus.Converter.register(Websocket.Events.ApplicationTestEvent.Body.Fullname, Websocket.Events.ApplicationTestEvent.Body);
 _.Websocket.Events.ApplicationTestEvent.Body=Websocket.Events.ApplicationTestEvent.Body;
+
+Lib.NumberTools=class NumberTools {
+    static pretty(nb) {
+        if (nb < 10) {
+            return '0' + nb;
+        }
+        return nb + '';
+    }
+    static price(nb, options = {}) {
+        const realOptions = {
+            ...this.defaultPriceOptions(),
+            ...options
+        };
+        const { fractionSeparator, thousandSeparator, displayCurrency, currency, minimumFractionDigits, maximumFractionDigits, displaySign, replaceZeroCentsWithDash } = realOptions;
+        let sign = '';
+        if (displaySign === 'auto' && nb < 0) {
+            sign = '-';
+        }
+        else if (displaySign === 'negative' && nb < 0) {
+            sign = '-';
+        }
+        else if (displaySign === 'auto' && nb > 0) {
+            sign = '';
+        }
+        else {
+            sign = '';
+        }
+        const absValue = Math.abs(nb);
+        const formattedNumber = absValue.toLocaleString('en-US', {
+            minimumFractionDigits,
+            maximumFractionDigits,
+            useGrouping: true,
+        });
+        const [integerPart, decimalPart] = formattedNumber.split('.');
+        const formattedIntegerPart = integerPart.replace(/,/g, thousandSeparator);
+        let formattedDecimalPart = decimalPart ? decimalPart.replace('.', fractionSeparator) : '';
+        if (replaceZeroCentsWithDash && formattedDecimalPart === '00') {
+            formattedDecimalPart = '-';
+        }
+        let formattedPrice = `${sign}${formattedIntegerPart}`;
+        if (formattedDecimalPart) {
+            formattedPrice += fractionSeparator + formattedDecimalPart;
+        }
+        if (displayCurrency === 'before') {
+            formattedPrice = `${currency} ${formattedPrice}`;
+        }
+        else if (displayCurrency === 'after') {
+            formattedPrice = `${formattedPrice} ${currency}`;
+        }
+        return formattedPrice;
+    }
+    static defaultPriceOptions() {
+        return {
+            fractionSeparator: '.',
+            thousandSeparator: "'",
+            currency: "CHF",
+            displayCurrency: 'after',
+            displaySign: 'auto',
+            replaceZeroCentsWithDash: false
+        };
+    }
+}
+Lib.NumberTools.Namespace=`Core.Lib`;
+_.Lib.NumberTools=Lib.NumberTools;
 
 RAM.GroupRAM=class GroupRAM extends RAM.RamHttp {
     /**

@@ -50,9 +50,11 @@ RUN apk add --no-cache fontconfig
 
 # Créer un volume pour le dossier "apps"
 VOLUME /app/apps
+VOLUME /app/plugins
 VOLUME /app/temp
 VOLUME /app/Storage
 VOLUME /app/wwwroot/apps
+VOLUME /app/wwwroot/autoload/plugins
 VOLUME /app/wwwroot/pwa/custom
 VOLUME /app/Views/apps
 

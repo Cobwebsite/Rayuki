@@ -4,6 +4,7 @@ import { SessionManager } from "../../../../libs/SessionManager.lib.avt";
 import type { User } from "../../../../generated/Data/User.data.avt";
 import { Desktop } from "../../Desktop/Desktop.wcl.avt";
 import type { HomeBtn } from "../HomeBtn.wcl.avt";
+import { ApplicationPermission, ApplicationPermissionQuery } from "../../../../generated/Permissions/ApplicationPermission.lib.avt";
 
 namespace System {
     export class HomePanel extends Panel implements Aventus.DefaultComponent {
@@ -43,11 +44,14 @@ namespace System {
         /**
          * 
          */
-        protected openProfil() {
-            let desktop = this.findParentByType(Desktop);
-            if(desktop) {
-                desktop.openUrl("Settings", "/", "/profil");
-                this.btn.active = false;
+        protected async openProfil() {
+            const canSettings = await can(new ApplicationPermissionQuery(ApplicationPermission.AllowAccess, "Settings"));
+            if(canSettings) {
+                let desktop = this.findParentByType(Desktop);
+                if(desktop) {
+                    desktop.openUrl("Settings", "/", "/profil");
+                    this.btn.active = false;
+                }
             }
         }
 

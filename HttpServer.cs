@@ -25,8 +25,8 @@ namespace Core
         public static WebPushClient webPush = new();
 
         public static readonly int nbAppInDev = 2;
-        public static readonly string Version = "1.0.9";
-        public static readonly string BuildDate = "2024-10-24T14:26:49.657Z";
+        public static readonly string Version = "1.0.10";
+        public static readonly string BuildDate = "2024-11-03T09:53:24.238Z";
         public static bool resetStorage
         {
             // get => false;
@@ -109,7 +109,7 @@ namespace Core
                 if (s is FileConfigurationSource)
                     ((FileConfigurationSource)s).ReloadOnChange = false;
             }
-            
+
 
             // Add services to the container.
             builder.Services
@@ -265,6 +265,30 @@ namespace Core
                 else if (fileToUse.EndsWith(".js"))
                 {
                     result["scripts"].Add("/autoload" + fileToUse);
+                }
+            }
+
+
+            path = Path.Join(wwwroot, "autoload", "plugins");
+            if (Directory.Exists(path))
+            {
+                List<string> pluginsFolder = Directory.GetDirectories(path).ToList();
+                foreach (string pluginFolder in pluginsFolder)
+                {
+                    files = Directory.GetFiles(Path.Join(wwwroot, "autoload", "plugins", pluginFolder)).ToList();
+                    files.Sort();
+                    foreach (string file in files)
+                    {
+                        string fileToUse = file.Replace(wwwroot, "").Replace("\\", "/");
+                        if (fileToUse.EndsWith(".css"))
+                        {
+                            result["styles"].Add("/" + fileToUse);
+                        }
+                        else if (fileToUse.EndsWith(".js"))
+                        {
+                            result["scripts"].Add("/" + fileToUse);
+                        }
+                    }
                 }
             }
             return result;

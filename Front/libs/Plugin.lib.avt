@@ -1,0 +1,10 @@
+namespace Lib {
+    export abstract class Plugin {
+        public abstract init();
+    }
+    export class PluginManager {
+        public static register(plugin: Plugin) {
+
+        }
+    }
+}

@@ -6,5 +6,91 @@ namespace Lib {
             }
             return nb + '';
         }
+
+        public static price(nb: number, options: Partial<PriceOptions> = {}): string {
+            const realOptions: PriceOptions = {
+                ...this.defaultPriceOptions(),
+                ...options
+            };
+            // a coder
+
+            const {
+                fractionSeparator,
+                thousandSeparator,
+                displayCurrency,
+                currency,
+                minimumFractionDigits,
+                maximumFractionDigits,
+                displaySign,
+                replaceZeroCentsWithDash
+            } = realOptions;
+
+            // Gestion du signe
+            let sign = '';
+            if(displaySign === 'auto' && nb < 0) {
+                sign = '-';
+            } else if(displaySign === 'negative' && nb < 0) {
+                sign = '-';
+            } else if(displaySign === 'auto' && nb > 0) {
+                sign = '';
+            } else {
+                sign = '';
+            }
+
+            const absValue = Math.abs(nb);
+
+            // Formattage du nombre avec séparateur de milliers et décimales
+            const formattedNumber = absValue.toLocaleString('en-US', {
+                minimumFractionDigits,
+                maximumFractionDigits,
+                useGrouping: true,
+            });
+
+            // Remplacement des séparateurs pour correspondre aux options
+            const [integerPart, decimalPart] = formattedNumber.split('.');
+            const formattedIntegerPart = integerPart.replace(/,/g, thousandSeparator);
+            let formattedDecimalPart = decimalPart ? decimalPart.replace('.', fractionSeparator) : '';
+
+            if(replaceZeroCentsWithDash && formattedDecimalPart === '00') {
+                formattedDecimalPart = '-';
+            }
+
+            let formattedPrice = `${sign}${formattedIntegerPart}`;
+
+            if(formattedDecimalPart) {
+                formattedPrice += fractionSeparator + formattedDecimalPart;
+            }
+
+            // Affichage de la devise
+            if(displayCurrency === 'before') {
+                formattedPrice = `${currency} ${formattedPrice}`;
+            } else if(displayCurrency === 'after') {
+                formattedPrice = `${formattedPrice} ${currency}`;
+            }
+
+            return formattedPrice;
+        }
+        private static defaultPriceOptions(): PriceOptions {
+            return {
+                fractionSeparator: '.',
+                thousandSeparator: "'",
+                currency: "CHF",
+                displayCurrency: 'after',
+                displaySign: 'auto',
+                replaceZeroCentsWithDash: false
+            };
+        }
     }
+
+
+    export type PriceOptions = {
+        fractionSeparator: string;
+        thousandSeparator: string;
+        displayCurrency: 'before' | 'after' | 'none',
+        currency: string;
+        minimumFractionDigits?: number,
+        maximumFractionDigits?: number,
+        displaySign: 'negative' | 'never' | 'auto';
+        replaceZeroCentsWithDash: boolean;
+    };
 }

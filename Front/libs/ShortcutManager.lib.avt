@@ -35,6 +35,10 @@ namespace Lib {
 
         private static replacingMemory: { [key: string]: (() => void)[][]; } = {};
 
+        private static isTxt(touch:string) {
+            return touch.match(/[a-zA-Z0-9_\+\-]/g);
+        }
+
         private static getText(combinaison: (SpecialTouch | string)[]) {
             let allTouches: string[] = [];
             for(let touch of combinaison) {
@@ -42,7 +46,7 @@ namespace Lib {
                 if(typeof touch == "number" && SpecialTouch[touch] !== undefined) {
                     realTouch = SpecialTouch[touch];
                 }
-                else if((touch as string).match(/[a-zA-Z0-9_\+\-]/g)) {
+                else if(this.isTxt(touch as string)) {
                     realTouch = touch as string;
                 }
                 else {
@@ -135,7 +139,7 @@ namespace Lib {
                 }
             }
 
-            if(e.key.match(/[a-zA-Z0-9]/g) && !this.arrayKeys.includes(e.key)) {
+            if(this.isTxt(e.key) && !this.arrayKeys.includes(e.key)) {
                 this.arrayKeys.push(e.key);
             }
             else if(SpecialTouch[e.key] !== undefined && !this.arrayKeys.includes(e.key)) {

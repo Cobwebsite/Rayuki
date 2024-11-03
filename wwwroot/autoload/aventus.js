@@ -1091,6 +1091,7 @@ let Watcher=class Watcher {
     static __reservedName = {
         __path: '__path',
     };
+    static __triggerForced = false;
     static _registering = [];
     static get _register() {
         return this._registering[this._registering.length - 1];
@@ -1417,7 +1418,9 @@ let Watcher=class Watcher {
                 }
                 else if (prop == "__static_trigger") {
                     return (type) => {
+                        Watcher.__triggerForced = true;
                         trigger(type, target, receiver, target, '');
+                        Watcher.__triggerForced = false;
                     };
                 }
                 return undefined;
@@ -1622,6 +1625,9 @@ let Watcher=class Watcher {
                         if (!compareObject(value, oldValue)) {
                             triggerChange = true;
                         }
+                    }
+                    if (Watcher.__triggerForced) {
+                        triggerChange = true;
                     }
                 }
                 let result = Reflect.set(target, prop, value, receiver);
@@ -8523,12 +8529,12 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
             DeleteMany: true,
         };
     }
-    otherGetAll(items, params, uid) {
+    async otherGetAll(items, params, uid) {
         if (uid && this.otherGetAllLocked[uid])
             return;
         for (let item of items) {
             let resultTemp = new Aventus.ResultRamWithError();
-            this.addOrUpdateData(item, resultTemp);
+            await this.addOrUpdateData(item, resultTemp);
         }
     }
     async beforeGetAll(result) {
@@ -8542,7 +8548,7 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
             if (response.success && response.result) {
                 for (let item of response.result) {
                     let resultTemp = new Aventus.ResultRamWithError();
-                    this.addOrUpdateData(item, resultTemp);
+                    await this.addOrUpdateData(item, resultTemp);
                     if (!resultTemp.success) {
                         result.errors = [...result.errors, ...resultTemp.errors];
                     }
@@ -8553,11 +8559,11 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
             }
         }
     }
-    otherGetById(item, params, uid) {
+    async otherGetById(item, params, uid) {
         if (uid && this.otherGetByIdLocked[uid])
             return;
         let resultTemp = new Aventus.ResultRamWithError();
-        this.addOrUpdateData(item, resultTemp);
+        await this.addOrUpdateData(item, resultTemp);
     }
     async beforeGetById(id, result) {
         if (this.records.has(id)) {
@@ -8572,7 +8578,7 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
                 return;
             if (response.success && response.result) {
                 let resultTemp = new Aventus.ResultRamWithError();
-                this.addOrUpdateData(response.result, resultTemp);
+                await this.addOrUpdateData(response.result, resultTemp);
                 if (!resultTemp.success) {
                     result.errors = [...result.errors, ...resultTemp.errors];
                 }
@@ -8605,11 +8611,11 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
             }
         }
     }
-    otherCreateItem(item, params, uid) {
+    async otherCreateItem(item, params, uid) {
         if (uid && this.otherCreateItemLocked[uid])
             return;
         let resultTemp = new Aventus.ResultRamWithError();
-        this.addOrUpdateData(item, resultTemp);
+        await this.addOrUpdateData(item, resultTemp);
         if (resultTemp.success && resultTemp.result) {
             this.publish('created', resultTemp.result);
         }
@@ -8629,12 +8635,12 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
             result.errors = [...result.errors, ...response.errors];
         }
     }
-    otherCreateList(items, params, uid) {
+    async otherCreateList(items, params, uid) {
         if (uid && this.otherCreateListLocked[uid])
             return;
         for (let item of items) {
             let resultTemp = new Aventus.ResultRamWithError();
-            this.addOrUpdateData(item, resultTemp);
+            await this.addOrUpdateData(item, resultTemp);
             if (resultTemp.success && resultTemp.result) {
                 this.publish('created', resultTemp.result);
             }
@@ -8655,11 +8661,11 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
             result.errors = [...result.errors, ...response.errors];
         }
     }
-    otherUpdateItem(item, params, uid) {
+    async otherUpdateItem(item, params, uid) {
         if (uid && this.otherUpdateItemLocked[uid])
             return;
         let resultTemp = new Aventus.ResultRamWithError();
-        this.addOrUpdateData(item, resultTemp);
+        await this.addOrUpdateData(item, resultTemp);
         if (resultTemp.success && resultTemp.result) {
             this.publish('updated', resultTemp.result);
         }
@@ -8679,12 +8685,12 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
             result.errors = [...result.errors, ...response.errors];
         }
     }
-    otherUpdateList(items, params, uid) {
+    async otherUpdateList(items, params, uid) {
         if (uid && this.otherUpdateListLocked[uid])
             return;
         for (let item of items) {
             let resultTemp = new Aventus.ResultRamWithError();
-            this.addOrUpdateData(item, resultTemp);
+            await this.addOrUpdateData(item, resultTemp);
             if (resultTemp.success && resultTemp.result) {
                 this.publish('updated', resultTemp.result);
             }

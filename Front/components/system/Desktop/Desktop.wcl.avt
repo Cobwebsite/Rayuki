@@ -78,6 +78,8 @@ namespace System {
             if(this.activableOrder.length == 0) return undefined;
             return this.activableOrder[0];
         }
+
+        protected canOpenDisplaySettings: boolean = false;
         //#endregion
 
 
@@ -117,14 +119,15 @@ namespace System {
                     }
                 });
             }
-            contextMenu.addItem({
-                text: "Paramètres",
-                materialIcon: "display_settings",
-                action: () => {
-                    this.openUrl("Settings", "/", "/display");
-                }
-            });
-
+            if(this.canOpenDisplaySettings) {
+                contextMenu.addItem({
+                    text: "Paramètres",
+                    materialIcon: "display_settings",
+                    action: () => {
+                        this.openUrl("Settings", "/", "/display");
+                    }
+                });
+            }
         }
 
         //#region application
@@ -584,6 +587,7 @@ namespace System {
             this.calculateIconSize();
         }
         private async loadData() {
+            this.canOpenDisplaySettings = await can(new ApplicationPermissionQuery(ApplicationPermission.AllowAccess, "Settings"));
             let data = await DesktopRAM.getInstance().getById(this.desktop_id);
             if(data) {
                 this.data = data;
