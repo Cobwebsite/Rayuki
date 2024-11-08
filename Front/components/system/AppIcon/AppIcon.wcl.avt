@@ -8,6 +8,14 @@ import { AppList } from "../AppList/AppList.wcl.avt";
 import { Addon, type AddonsName } from "../../../libs/Addon.lib.avt";
 
 namespace System {
+
+    /**
+     * Define application icon
+     * @slot default - Slot to add content into your app icon
+     */
+    @Storybook({
+        export: "all"
+    })
     export abstract class AppIcon extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu, IPositionable {
 
         //#region static
@@ -16,15 +24,27 @@ namespace System {
 
 
         //#region props
+        /**
+         * Define if the application is shaking or not
+         */
         @Attribute()
         public shaking!: boolean;
 
+        /**
+         * Define if the cross to remove app must be shown
+         */
         @Attribute()
         public can_remove!: boolean;
 
+        /**
+         * Determine if the application is acutally opened or not
+         */
         @Attribute()
         public is_open!: boolean;
 
+        /**
+         * Define the position for the icon. It's usefull to order them
+         */
         @Attribute()
         public position!: number;
         //#endregion
@@ -35,6 +55,9 @@ namespace System {
         private pressManagerMove?: Aventus.PressManager;
         private dragAndDrop?: Aventus.DragAndDrop;
         private moveApplicationState?: MoveApplication;
+        /**
+         * Id of the current icon
+         */
         public iconId: number = 0;
         //#endregion
 
@@ -50,7 +73,7 @@ namespace System {
         //#region methods
 
         /**
-         * 
+         * Remove app. Used by the moveApplicationState
          */
         protected async removeApp(e: PointerEvent, instance: Aventus.PressManager) {
             if(this.moveApplicationState) {
@@ -59,7 +82,7 @@ namespace System {
         }
 
         /**
-         * @inheritdoc
+         * Function used to add item when user open the context menu
          */
         public onContextMenu(contextMenu: ContextMenu, stop: () => void): void {
             if(contextMenu.isTouch) {
@@ -74,7 +97,9 @@ namespace System {
             }
         }
 
-
+        /**
+         * Define addons needed for the application
+         */
         protected defineAddons(): AddonsName[] {
             return [];
         }
@@ -90,6 +115,9 @@ namespace System {
         protected state(): string | Aventus.State {
             return "/";
         }
+        /**
+         * Open the app on the current desktop
+         */
         public openApp() {
             if(this.shaking) {
                 return;
@@ -105,6 +133,9 @@ namespace System {
             }
         }
 
+        /**
+         * When the current desktop is editing application position
+         */
         @StateActive(MoveApplication.state, DesktopStateManager)
         @InternalProtected()
         public onMoveApplication(state: Aventus.State, slugs: Aventus.StateSlug) {
@@ -116,6 +147,9 @@ namespace System {
             }
         }
 
+        /**
+         * When the current desktop stop editing application position
+         */
         @StateInactive(MoveApplication.state, DesktopStateManager)
         @InternalProtected()
         public onStopMovingApplication() {
@@ -126,6 +160,9 @@ namespace System {
         }
 
         //#region mouse/touch action
+        /**
+         * Create press manager to trigger open and long press on touch device
+         */
         protected createPressManager() {
             this.destroyPressManager();
             this.pressManager = new Aventus.PressManager({
@@ -144,10 +181,16 @@ namespace System {
                 }
             });
         }
+        /**
+         * Remove press manager
+         */
         protected destroyPressManager() {
             this.pressManager?.destroy();
             this.pressManager = undefined;
         }
+        /**
+         * Add drag and drop to move element
+         */
         protected createDragAndDrop() {
             let state = DesktopStateManager.getInstance().getState();
             if(!(state instanceof MoveApplication)) {
@@ -216,6 +259,9 @@ namespace System {
                 }
             });
         }
+        /**
+         * Destroy drag and drop
+         */
         protected destroyDragAndDrop() {
             this.dragAndDrop?.destroy();
             this.dragAndDrop = undefined;
@@ -224,6 +270,9 @@ namespace System {
         }
         //#endregion
 
+        /**
+         * @inheritdoc
+         */
         protected override postCreation(): void {
             AppIconManager.register(this, this.componentUrl());
             Addon.need(this, this.defineAddons());

@@ -1,10 +1,16 @@
 import { WebComponent } from "Aventus@Main:Aventus.package.avt";
 
 namespace Lib {
+    @Storybook({
+        export: 'protected'
+    })
     export type ExportAsRawResult = {
         txt: string,
         loaded: (new (...args) => WebComponent)[];
     };
+    @Storybook({
+        export: 'protected'
+    })
     export class DomTools {
         public static clearElement(element: HTMLElement | ShadowRoot) {
             const children = Array.from(element.children);

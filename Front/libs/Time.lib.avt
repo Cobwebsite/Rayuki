@@ -1,4 +1,7 @@
 namespace Lib {
+    @Storybook({
+        export: 'protected'
+    })
     export class Time {
         private static cbEachMinute: Map<Function, number> = new Map();
         private static cbEachMinuteFirst: Map<Function, number> = new Map();

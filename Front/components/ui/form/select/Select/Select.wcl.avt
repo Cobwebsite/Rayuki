@@ -2,6 +2,10 @@ import type { Option } from "./Option/Option.wcl.avt";
 import { GenericSelect } from "../../select/GenericSelect/GenericSelect.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form/Select'
+    })
     export class Select extends GenericSelect<Option> implements Aventus.DefaultComponent {
 
         //#region static

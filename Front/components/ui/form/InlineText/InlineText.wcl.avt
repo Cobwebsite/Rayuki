@@ -2,6 +2,10 @@ import { Callback } from "Aventus@Main:Aventus.package.avt";
 import { FormElement } from "../FormElement/FormElement.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export class InlineText extends FormElement<string> implements Aventus.DefaultComponent {
 
         //#region static

@@ -4,6 +4,9 @@ import { ApplicationHistory } from "../components/system/Application/Application
 import { DesktopRouter } from "../generated/Websocket/Routes/DesktopRouter.lib.avt";
 
 namespace Lib {
+    @Storybook({
+        export: 'protected'
+    })
     export class ApplicationManager {
         private static waitingDelay: number = 1000;
         private static waitings: { [key: string]: { data: ApplicationOpenInfo, timeout: number; }; } = {};

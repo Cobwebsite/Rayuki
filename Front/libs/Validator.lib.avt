@@ -1,4 +1,7 @@
 namespace Lib {
+    @Storybook({
+        export: 'protected'
+    })
     export class Validator {
         public static email(txt: string): boolean {
 			if(!txt) return false;

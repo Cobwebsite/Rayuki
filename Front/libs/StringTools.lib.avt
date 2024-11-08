@@ -1,4 +1,7 @@
 namespace Lib {
+    @Storybook({
+        export: 'protected'
+    })
     export class StringTools {
         public static removeAccents(value: string): string {
             return value

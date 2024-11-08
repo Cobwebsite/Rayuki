@@ -4,6 +4,10 @@ import { CalendarDay } from "../../../calendar/CalendarDay/CalendarDay.wcl.avt";
 import { DateTools } from "../../../../../libs/DateTools.lib.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export class DatePickerCalendarDay extends CalendarDay implements Aventus.DefaultComponent {
 
         //#region static

@@ -1,5 +1,13 @@
+
+
+@Storybook({
+    prefix: 'Front/Style',
+})
 export type ColorsType = 'green' | 'success' | 'red' | 'error' | 'orange' | 'warning' | 'blue' | 'information' | 'primary' | 'secondary';
 
+@Storybook({
+    prefix: 'Front/Style',
+})
 export const Colors = {
     'green': 'green',
     'success': 'success',
@@ -13,6 +21,9 @@ export const Colors = {
     'secondary': 'secondary',
 } as const;
 
+@Storybook({
+    prefix: 'Front/Style',
+})
 export class Style {
 
     public colors: ColorsType[] = ['green', 'success', 'red', 'error', 'orange', 'warning', 'blue', 'information', 'primary', 'secondary'];

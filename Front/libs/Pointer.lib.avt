@@ -1,4 +1,7 @@
 namespace Lib {
+    @Storybook({
+        export: 'protected'
+    })
     export class Pointer {
         public static isTouch(e: Event): boolean {
             if(window.TouchEvent && e instanceof TouchEvent) {

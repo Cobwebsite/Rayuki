@@ -1,14 +1,24 @@
-import type { VirtualForm } from "./VirtualForm.lib.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export interface IFormElement<T = any> {
         errors: string[];
         value: T | undefined;
         onChange: Aventus.Callback<(value: T) => void>;
         formPart?: InternalFormPart<T>;
     }
-
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export type InternalForm<T> = { [K in keyof T]?: InternalFormPart<T[K]> };
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export interface InternalFormPart<T = any> {
         /**
          * The value of the form part, which can be of type T or an object with get and set methods.
@@ -30,7 +40,16 @@ namespace Components {
         test: () => Promise<boolean>
     };
 
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export type FormSchema<T> = { [K in keyof T]: FormPart<T[K]> };
+    
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export interface FormPart<T = any> {
         /**
          * A validation function for the form part.
@@ -43,17 +62,33 @@ namespace Components {
     };
 
     /**
-        * Represents the result of form validation.
-        * It can be a string, a boolean, undefined, or a promise of these types.
-        */
+    * Represents the result of form validation.
+    * It can be a string, a boolean, undefined, or a promise of these types.
+    */
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export type FormValidateResult = Aventus.Asyncable<string | string[] | boolean | undefined>;
     /**
      * Represents a validation function for a value of type T.
      * The function takes a value of type T or undefined and returns a FormValidateResult.
      */
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export type FormPartValidate<T> = (value: T | undefined, globalValidation: () => Promise<void>) => FormValidateResult;
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export type FormValidate = (field: string, value: unknown) => FormValidateResult;
 
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export type VirtualFormConfig = {
         validate?: FormValidate,
         validateOnChange?: boolean,

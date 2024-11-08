@@ -1,4 +1,9 @@
 namespace Components {
+
+    @Storybook({
+        export: 'public',
+        group: 'Components/Document'
+    })
     export class SheetSplitter extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

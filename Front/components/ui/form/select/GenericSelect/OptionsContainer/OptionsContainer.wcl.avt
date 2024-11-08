@@ -1,6 +1,10 @@
 import type { GenericSelect } from "../GenericSelect.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form/Select'
+    })
     export class OptionsContainer extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

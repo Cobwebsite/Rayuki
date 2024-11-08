@@ -2,6 +2,10 @@ import type { Resize } from "../../Resize/Resize.wcl.avt";
 import { FormElement } from "../FormElement/FormElement.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export class Textarea extends FormElement<string> implements Aventus.DefaultComponent {
 
         //#region static

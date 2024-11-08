@@ -2,6 +2,10 @@ import { Table, type TableSchema } from "../../Table.wcl.avt";
 import { TableRow } from "../../rows/TableRow/TableRow.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export abstract class TableCell<T, U = any> extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static
@@ -48,7 +52,7 @@ namespace Components {
 
 
         //#region methods
-        public abstract setContent(data: T | undefined, rowData: U) : Aventus.Asyncable<void>;
+        public abstract setContent(data: T | undefined, rowData: U): Aventus.Asyncable<void>;
 
         protected addResize() {
             if(!this.resizeEl) {

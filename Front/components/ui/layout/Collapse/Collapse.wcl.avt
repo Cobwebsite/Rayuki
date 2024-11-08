@@ -1,4 +1,8 @@
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout'
+    })
     export class Collapse extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

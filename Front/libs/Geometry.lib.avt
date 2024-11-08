@@ -1,5 +1,11 @@
 namespace Lib {
+    @Storybook({
+        export: 'protected'
+    })
     export type Rectangle = { x1: number, y1: number, x2: number, y2: number; };
+    @Storybook({
+        export: 'protected'
+    })
     export class Geometry {
         public static getIntersectingRectangle(rect1: Rectangle, rect2: Rectangle): Rectangle | false {
             const [r1, r2] = [rect1, rect2].map(r => {

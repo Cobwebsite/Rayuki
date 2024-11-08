@@ -3,18 +3,42 @@ import { FontManager } from "../../../../libs/FontManager.lib.avt";
 import { SheetSplitter } from "../SheetSplitter/SheetSplitter.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Document'
+    })
     export type SheetFormat = "A3" | "A4" | "A5" | "letter" | "legal";
+    
+    @Storybook({
+        export: 'public',
+        group: 'Components/Document'
+    })
     export type SheetOrientation = "portrait" | "landscape";
+    
+    @Storybook({
+        export: 'public',
+        group: 'Components/Document'
+    })
     export type SheetSettings = {
         format: SheetFormat,
         orientation: SheetOrientation,
         padding: string,
         calculateOnDisplay: boolean,
     };
+    
+    @Storybook({
+        export: 'public',
+        group: 'Components/Document'
+    })
     export type ISheetElement = {
         getHtml(): string,
         getCSS(): string,
     };
+
+    @Storybook({
+        export: 'public',
+        group: 'Components/Document'
+    })
     export abstract class Sheet extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

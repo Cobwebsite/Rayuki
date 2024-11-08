@@ -2,11 +2,17 @@ import { PermissionRouter } from "../generated/Routes/PermissionRouter.lib.avt";
 import { CoreRouter } from "../generated/CoreRouter.lib.avt";
 
 namespace Permissions {
+    @Storybook({
+        export: 'protected'
+    })
     export interface IPermissionQuery {
         $type?: string,
         value?: number | string,
         additionalInfo?: string;
     }
+    @Storybook({
+        export: 'protected'
+    })
     export class Permission {
 
         private static saved: { [key: string]: boolean; } = {};
@@ -38,6 +44,9 @@ namespace Permissions {
         }
     }
 
+    @Storybook({
+        export: 'protected'
+    })
     export abstract class PermissionQuery<T extends Aventus.Enum> implements IPermissionQuery {
         public $type?: string;
         public value?: string | number;

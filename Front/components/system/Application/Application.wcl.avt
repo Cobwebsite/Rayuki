@@ -28,26 +28,37 @@ import { TransactionManager } from "../../../libs/TransactionManager.lib.avt";
 import { CoreError, CoreErrorCode } from "../../../generated/Tools/CoreErrors.lib.avt";
 
 namespace System {
-
+    @Storybook({
+        export: 'protected'
+    })
     export type ApplicationRoute = {
         route: string,
         scriptUrl: string,
         render: () => new () => FrameNoScroll;
     };
-
+    @Storybook({
+        export: 'protected'
+    })
     export type ApplicationInitOptions = {
         applicationNumber: number,
         desktopId: number;
         desktop: Desktop;
     };
-
+    @Storybook({
+        export: 'protected'
+    })
     export type ExecType<X> = (prom: Promise<ApplicationQueryFctResult<X>>) => Promise<X | undefined>;
-
+    @Storybook({
+        export: 'protected'
+    })
     export type ExtractTypePopup<X extends GenericPopup<U, Y>, U = any, Y extends PopupInfo = any> = X extends GenericPopup<infer U, Y> ? U : never;
 
     /**
      * Represent a window inside the OS
      */
+    @Storybook({
+        export: 'protected'
+    })
     export abstract class Application extends Aventus.WebComponent implements Aventus.DefaultComponent, IDesktopActivable {
 
         //#region static

@@ -1,6 +1,10 @@
 import { FormElement } from "../FormElement/FormElement.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export class Checkbox extends FormElement<boolean> implements Aventus.DefaultComponent {
 
         //#region static

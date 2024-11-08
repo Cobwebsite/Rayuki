@@ -4,6 +4,11 @@ import { DomTools } from "../../../../libs/DomTools.lib.avt";
 import { DateTools } from "../../../../libs/DateTools.lib.avt";
 
 namespace Components {
+
+    @Storybook({
+        export: 'public',
+        group: 'Components/Calendar',
+    })
     export class Calendar extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static
@@ -12,6 +17,7 @@ namespace Components {
 
 
         //#region props
+        // @StoryValue({salut:"s"})
         @Property((target: Calendar) => {
             target.renderDates();
         })

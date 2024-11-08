@@ -2,6 +2,10 @@ import { Callback } from "Aventus@Main:Aventus.package.avt";
 import type { Collapse } from "../Collapse/Collapse.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout'
+    })
     export enum MenuState {
         Opening,
         Open,
@@ -16,6 +20,7 @@ namespace Components {
         menuHeight: number;
         menuWidth: number;
     };
+
     type MenuPositionResult = {
         top: number | null;
         left: number | null;
@@ -25,6 +30,11 @@ namespace Components {
         maxWidth: number;
         found: boolean;
     };
+
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout'
+    })
     export class Menu extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

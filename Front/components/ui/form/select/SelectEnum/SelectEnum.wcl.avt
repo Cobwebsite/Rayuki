@@ -2,6 +2,10 @@ import { OptionEnum } from "./OptionEnum/OptionEnum.wcl.avt";
 import { GenericSelect } from "../GenericSelect/GenericSelect.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form/Select'
+    })
     export abstract class SelectEnum<U extends Aventus.Enum> extends GenericSelect<OptionEnum<U>, Aventus.EnumValue<U>> implements Aventus.DefaultComponent {
 
         //#region static

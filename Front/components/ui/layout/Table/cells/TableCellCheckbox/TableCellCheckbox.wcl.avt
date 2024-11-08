@@ -2,6 +2,10 @@ import type { Checkbox } from "../../../../form/Checkbox/Checkbox.wcl.avt";
 import { TableCell } from "../TableCell/TableCell.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export class TableCellCheckbox<U = any> extends TableCell<TableCellCheckbox, U> implements Aventus.DefaultComponent {
 
         //#region static

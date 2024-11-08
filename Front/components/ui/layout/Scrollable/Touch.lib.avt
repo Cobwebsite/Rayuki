@@ -1,4 +1,8 @@
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout'
+    })
     export class Tracker {
         private readonly velocityMultiplier: number = window.devicePixelRatio;
 
@@ -52,6 +56,10 @@ namespace Components {
         }
     }
 
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout'
+    })
     export class TouchRecord {
         private _activeTouchID?: number;
         private _touchList: { [id: number]: Tracker; } = {};
@@ -91,7 +99,7 @@ namespace Components {
             return Object.values(this._touchList);
         }
 
-        
+
 
         public getEasingDistance(damping: number) {
             const deAcceleration = 1 - damping;

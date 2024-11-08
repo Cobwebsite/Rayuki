@@ -2,6 +2,10 @@ import type { ColorsType } from "../../../../libs/Style.lib.avt";
 import { Form } from "../Form/Form.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export class Button extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

@@ -4,6 +4,9 @@ import { TransactionCancelledEvent } from "../generated/Websocket/Events/Transac
 import { Platform } from "./Platform.lib.avt";
 
 namespace Lib {
+    @Storybook({
+        export: 'protected'
+    })
     export class TransactionManager {
 
         private static mainRouter: MainRouter;

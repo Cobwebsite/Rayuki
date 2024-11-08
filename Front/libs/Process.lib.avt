@@ -3,6 +3,9 @@ import { Application } from "../components/system/Application/Application.wcl.av
 import { Os } from "../components/system/Os/Os.wcl.avt";
 
 namespace Lib {
+    @Storybook({
+        export: 'protected'
+    })
     export class Process {
         public static async execute<X>(component: Aventus.WebComponent, prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
 			const app = component.findParentByType(Application)

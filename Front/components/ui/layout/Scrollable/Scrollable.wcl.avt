@@ -2,6 +2,10 @@ import { NormalizedEvent, PressManager, type InternalPointerEvent } from "Aventu
 import { TouchRecord, Tracker } from "./Touch.lib.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout'
+    })
     export class Scrollable extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

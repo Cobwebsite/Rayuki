@@ -1,7 +1,13 @@
 namespace Lib {
+    @Storybook({
+        export: 'protected'
+    })
     export abstract class Plugin {
         public abstract init();
     }
+    @Storybook({
+        export: 'protected'
+    })
     export class PluginManager {
         public static register(plugin: Plugin) {
 

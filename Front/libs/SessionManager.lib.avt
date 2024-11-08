@@ -5,6 +5,9 @@ import { Permission } from "./Permission.lib.avt";
 
 
 namespace Lib {
+    @Storybook({
+        export: 'protected'
+    })
     export class SessionManager {
 
         public static async logout() {

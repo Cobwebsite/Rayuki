@@ -6,6 +6,11 @@ import type { Scrollable } from "../../layout/Scrollable/Scrollable.wcl.avt";
 import { Sheet } from "../Sheet/Sheet.wcl.avt";
 
 namespace Components {
+
+    @Storybook({
+        export: 'public',
+        group: 'Components/Document'
+    })
     export class SheetPreview extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

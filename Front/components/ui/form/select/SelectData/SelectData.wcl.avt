@@ -3,6 +3,10 @@ import { GenericSelect } from "../GenericSelect/GenericSelect.wcl.avt";
 import { Process } from "../../../../../libs/Process.lib.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form/Select'
+    })
     export abstract class SelectData<U extends Aventus.IData, T extends U | number = U, R extends OptionData<T, U> = OptionData<T, U>> extends GenericSelect<R, T> implements Aventus.DefaultComponent {
 
         //#region static

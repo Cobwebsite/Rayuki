@@ -61,6 +61,9 @@ namespace System {
                 if(icon) {
                     this.pageCaseEl?.appendChild(icon);
                 }
+                else {
+                    console.error("Icon not found for " + app.LogoTagName);
+                }
             }
 
             this.pageCaseEl?.reset();
@@ -96,7 +99,7 @@ namespace System {
                         apply = false;
                     }
                 },
-                
+
                 onStop: () => {
                     apply = true;
                     this.no_transition = false;

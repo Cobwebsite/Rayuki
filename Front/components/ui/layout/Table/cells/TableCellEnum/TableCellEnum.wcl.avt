@@ -1,6 +1,10 @@
 import { TableCell } from "../TableCell/TableCell.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export abstract class TableCellEnum<T extends Aventus.Enum, U = any> extends TableCell<T[Extract<keyof T, string>], U> implements Aventus.DefaultComponent {
 
         //#region static

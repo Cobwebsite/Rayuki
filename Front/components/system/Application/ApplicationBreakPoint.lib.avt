@@ -1,6 +1,9 @@
 
 namespace System {
 
+    @Storybook({
+        export: 'protected'
+    })
     export class ApplicationBreakPoint {
         public static xs: number = 300;
         public static sm: number = 540;

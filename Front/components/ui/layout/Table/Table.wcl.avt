@@ -11,10 +11,30 @@ import type { Scrollable } from "../Scrollable/Scrollable.wcl.avt";
 import { TableCellHeader } from "./cells/TableCellHeader/TableCellHeader.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export type TableCellType = 'number' | 'string' | 'date' | 'boolean' | 'custom' | 'picture';
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export type TableSchemaCellContent<T> = (data: T, cell: TableCell<any, T>) => (void | string | undefined) | Promise<(void | string | undefined)>;
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export type TableSchemaCellCst<T> = new () => TableCell<any, T>;
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export type TableSchemaCell<T> = TableSchemaCellCst<T>;
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export type TableSchema<T> = {
         displayName: string,
         name?: string,
@@ -26,6 +46,10 @@ namespace Components {
         minWidth?: number;
         sortable?: boolean;
     };
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export type TableOptions<T> = {
         schema: TableSchema<T>[];
         selectable: boolean;
@@ -41,13 +65,30 @@ namespace Components {
         /** Minimum amount of time that the loading show must be displayed. */
         minTimeoutLoading?: number,
     };
-
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export type Key<T> = keyof T;
-
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export type FilterAction<T> = (value: T[Key<T>]) => boolean;
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export type FilterDataAction<T> = (value: T) => boolean;
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export type SortColumns = { [key: string]: 'asc' | 'desc'; };
-
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export abstract class Table<T, U extends TableOptions<T> = TableOptions<T>> extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

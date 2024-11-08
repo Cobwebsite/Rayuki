@@ -4,6 +4,10 @@ import { DatePickerCalendar } from "./DatePickerCalendar/DatePickerCalendar.wcl.
 import { DateTools } from "../../../../libs/DateTools.lib.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export class DatePicker extends FormElement<Date | undefined> implements Aventus.DefaultComponent {
 
         //#region static

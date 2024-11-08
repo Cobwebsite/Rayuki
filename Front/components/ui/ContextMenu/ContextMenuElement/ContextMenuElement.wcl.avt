@@ -1,6 +1,10 @@
 import type { ContextMenu, IContextMenu } from "../ContextMenu.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/ContextMenu'
+    })
     export class ContextMenuElement extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu {
 
         //#region static

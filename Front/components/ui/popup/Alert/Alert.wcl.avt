@@ -3,11 +3,19 @@ import { type PopupInfo } from "../Popup/Popup.wcl.avt";
 
 namespace Components {
 
+    @Storybook({
+        export: 'public',
+        group: 'Components/Popup'
+    })
     export interface AlertInfo extends PopupInfo {
         description: string,
         btn_txt: string;
     }
 
+    @Storybook({
+        export: 'public',
+        group: 'Components/Popup'
+    })
     export class Alert extends GenericPopup<void, AlertInfo> implements Aventus.DefaultComponent {
 
         //#region static

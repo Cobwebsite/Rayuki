@@ -3,6 +3,10 @@ import { TableCellString } from "../../cells/TableCellString.wc.avt";
 import type { SortColumns, Table, TableOptions, TableSchema, TableSchemaCell, TableSchemaCellCst } from "../../Table.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export class TableRow<T> extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

@@ -3,6 +3,10 @@ import { TableData } from "../TableData.wcl.avt";
 import { TableCellAction } from "../../cells/TableCellAction.wc.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export class TableDataCellAction<U = any> extends TableCellAction<U> implements Aventus.DefaultComponent {
 
         public editData() {

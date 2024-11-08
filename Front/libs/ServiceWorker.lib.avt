@@ -2,6 +2,9 @@ import { MainRouter } from "../generated/Routes/MainRouter.lib.avt";
 import { CoreRouter } from "../generated/CoreRouter.lib.avt";
 
 namespace Lib {
+    @Storybook({
+        export: 'protected'
+    })
     export class ServiceWorker {
 
         public static getInstance(): ServiceWorker {

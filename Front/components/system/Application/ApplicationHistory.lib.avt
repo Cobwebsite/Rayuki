@@ -2,9 +2,13 @@ import { ApplicationState } from "../../../states/ApplicationState.state.avt";
 import type { ApplicationStateManager } from "../../../libs/ApplicationStateManager.state.avt";
 
 namespace System {
+    @Storybook({
+        export: 'protected'
+    })
     export type History = {
         state: Aventus.State;
     };
+
 
     @Convertible()
     export class ApplicationHistory {

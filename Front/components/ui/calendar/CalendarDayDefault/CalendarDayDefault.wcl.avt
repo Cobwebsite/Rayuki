@@ -1,6 +1,11 @@
 import { CalendarDay } from "../CalendarDay/CalendarDay.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Calendar',
+        noLive: true,
+    })
     export class CalendarDayDefault extends CalendarDay implements Aventus.DefaultComponent {
 
         //#region static

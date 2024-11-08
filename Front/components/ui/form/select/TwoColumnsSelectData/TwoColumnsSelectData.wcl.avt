@@ -3,6 +3,10 @@ import { Process } from "../../../../../libs/Process.lib.avt";
 import { TwoColumnsOptionData } from "./TwoColumnsOptionData/TwoColumnsOptionData.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form/Select'
+    })
     export abstract class TwoColumnsSelectData<U extends Aventus.IData, T extends U | number = U> extends TwoColumnsSelect<TwoColumnsOptionData<T>, T> implements Aventus.DefaultComponent {
 
         //#region static

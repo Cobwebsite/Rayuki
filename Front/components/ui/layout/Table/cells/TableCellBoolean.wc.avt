@@ -1,17 +1,12 @@
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 <script>
 import { TableCell } from "./TableCell/TableCell.wcl.avt";
 namespace Components {
 	    type TableCellBooleanType = boolean | (1 | 0) | ('true' | 'false');
+
+		@Storybook({
+			export: 'public',
+			group: 'Components/Layout/Table'
+		})
 	    export class TableCellBoolean<U = any> extends TableCell<TableCellBooleanType, U> implements Aventus.DefaultComponent {
 	
 	        /**

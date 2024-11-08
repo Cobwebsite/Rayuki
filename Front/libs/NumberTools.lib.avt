@@ -1,4 +1,7 @@
 namespace Lib {
+    @Storybook({
+        export: 'protected'
+    })
     export class NumberTools {
         public static pretty(nb: number): string {
             if(nb < 10) {

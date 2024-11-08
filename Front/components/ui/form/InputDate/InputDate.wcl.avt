@@ -3,6 +3,10 @@ import type { Img } from "../../Img/Img.wcl.avt";
 import { FormElement } from "../FormElement/FormElement.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export class InputDate extends FormElement<Date> implements Aventus.DefaultComponent {
 
         //#region static

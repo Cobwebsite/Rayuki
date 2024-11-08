@@ -1,6 +1,10 @@
 import type { TwoColumnsSelect } from "../TwoColumnsSelect.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form/Select'
+    })
     export class TwoColumnsOption<T> extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

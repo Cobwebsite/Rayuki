@@ -1,7 +1,10 @@
 import { GenericPopup } from "../GenericPopup/GenericPopup.wcl.avt";
 
 namespace Components {
-
+    @Storybook({
+        export: 'public',
+        group: 'Components/Popup'
+    })
     export interface PopupInfo {
         title: string,
         max_width?: string,
@@ -13,6 +16,10 @@ namespace Components {
         close_on_click?: boolean;
     };
 
+    @Storybook({
+        export: 'public',
+        group: 'Components/Popup'
+    })
     @OverrideView()
     export abstract class Popup<T, U extends PopupInfo = PopupInfo> extends GenericPopup<T, U> implements Aventus.DefaultComponent {
 

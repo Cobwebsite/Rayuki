@@ -5,6 +5,10 @@ import { MenuItem } from "../MenuItem/MenuItem.wcl.avt";
 import { MenuSeparator } from "../MenuSeparator/MenuSeparator.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout'
+    })
     @OverrideView()
     export class ButtonIconMenu extends ButtonIcon implements Aventus.DefaultComponent {
 

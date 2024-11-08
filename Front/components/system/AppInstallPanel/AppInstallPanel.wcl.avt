@@ -4,6 +4,9 @@ import { Os } from "../Os/Os.wcl.avt";
 import { Panel } from "../Panel/Panel.wcl.avt";
 
 namespace System {
+    @Storybook({
+        export: 'protected'
+    })
     export class AppInstallPanel extends Panel implements Aventus.DefaultComponent {
 
         //#region static

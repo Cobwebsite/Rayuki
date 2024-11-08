@@ -4,12 +4,20 @@ import { Table, type TableOptions, type TableSchema } from "../Table.wcl.avt";
 import { TableRowData } from "./TableRowData/TableRowData.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export type TableDataOptions<T> = TableOptions<T> & {
         /** Set to true if you need a loader */
         showLoading: boolean;
         /** Define the delay before loading data. Usefull to avoid animation freeze */
         delayLoading: number;
     };
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export abstract class TableData<T extends AventusSharp.Data.Storable> extends Table<T, TableDataOptions<T>> implements Aventus.DefaultComponent {
 
         //#region static

@@ -5,8 +5,16 @@ import type { Input } from "../../Input/Input.wcl.avt";
 
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form/Select'
+    })
     export type ExtractTypeTwoColumnsOptions<X extends TwoColumnsOption<U>, U> = X extends TwoColumnsOption<infer U> ? U : never;
 
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form/Select'
+    })
     export abstract class TwoColumnsSelect<T extends TwoColumnsOption<U>, U = ExtractTypeTwoColumnsOptions<T, any>> extends FormElement<U[]> implements Aventus.DefaultComponent {
 
         //#region static

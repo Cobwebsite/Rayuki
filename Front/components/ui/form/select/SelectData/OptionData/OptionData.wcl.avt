@@ -2,6 +2,10 @@ import { GenericOption } from "../../GenericSelect/GenericOption/GenericOption.w
 import type { SelectData } from "../SelectData.wcl.avt";
 namespace Components {
 
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form/Select'
+    })
     export class OptionData<T extends Aventus.IData | number, U extends Aventus.IData> extends GenericOption<T> implements Aventus.DefaultComponent {
 
         //#region static

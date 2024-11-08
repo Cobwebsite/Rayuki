@@ -2,6 +2,10 @@ import { TableCellHeader } from "../../cells/TableCellHeader/TableCellHeader.wcl
 import { TableData } from "../TableData.wcl.avt";
 
 namespace Components {
+	@Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
 	export class TableDataCellHeaderAction<U = any> extends TableCellHeader<U> implements Aventus.DefaultComponent {
 		
 		protected override postCreation(): void {

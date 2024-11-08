@@ -1,8 +1,13 @@
 import { MainEndPoint } from "../generated/Websocket/MainEndPoint.lib.avt";
 
 namespace Lib {
+    @Storybook({
+        export: 'protected'
+    })
     export type DeviceType = "pc" | "tablet" | "mobile";
-
+    @Storybook({
+        export: 'protected'
+    })
     export class Platform {
 
         public static readonly onScreenChange: Aventus.Callback<(type: DeviceType) => void> = new Aventus.Callback();

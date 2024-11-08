@@ -1,40 +1,60 @@
 import { Colors } from "./Colors.lib.avt";
 
 namespace Lib {
+    @Storybook({
+        group:"Lib/Color"
+    })
     export type RGBColor = {
         r: number,
         g: number,
         b: number;
     };
+    @Storybook({
+        group:"Lib/Color"
+    })
     export type RGBAColor = {
         r: number,
         g: number,
         b: number,
         a: number;
     };
+    @Storybook({
+        group:"Lib/Color"
+    })
     export type HSLColor = {
         h: number,
         s: number,
         l: number;
     };
+    @Storybook({
+        group:"Lib/Color"
+    })
     export type HSLAColor = {
         h: number,
         s: number,
         l: number;
         a: number;
     };
+    @Storybook({
+        group:"Lib/Color"
+    })
     export type HSVColor = {
         h: number,
         s: number,
         v: number;
     };
-
+    @Storybook({
+        group:"Lib/Color"
+    })
     export type HSVAColor = {
         h: number,
         s: number,
         v: number;
         a: number;
     };
+    @Storybook({
+        group:"Lib/Color"
+    })
     export class Color {
 
         public static isValid(txt: string) {

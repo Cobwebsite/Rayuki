@@ -2,6 +2,10 @@ import type { ContextMenuSeparator } from "../ContextMenuSeparator/ContextMenuSe
 import type { ContextMenu } from "../ContextMenu.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/ContextMenu'
+    })
     export class ContextMenuItem extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

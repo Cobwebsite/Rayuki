@@ -2,6 +2,10 @@ import type { ApplicationQueryFctResult } from "../../../system/Application/Appl
 import type { FormPart, FormSchema, FormValidate, FormValidateResult, IFormElement, InternalForm, InternalFormPart, VirtualFormConfig } from "./FormType.lib.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export class VirtualForm<T> {
 
         private __watcher: any;

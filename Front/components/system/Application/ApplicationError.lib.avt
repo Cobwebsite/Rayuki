@@ -1,13 +1,27 @@
 namespace System {
-     
+    @Storybook({
+        export: 'protected'
+    })
     export type ApplicationQueryFctResult<X> = Aventus.ResultWithError<X> | Aventus.VoidWithError;
+    @Storybook({
+        export: 'protected'
+    })
     export type ApplicationQueryFct<X> = (...args) => Promise<ApplicationQueryFctResult<X>>;
-
+    @Storybook({
+        export: 'protected'
+    })
     export type GetErrorValue<X> = X extends Aventus.ResultWithError<infer B> ? B : undefined;
+    @Storybook({
+        export: 'protected'
+    })
     export type GetPromiseResult<X extends (...args: any) => any> = ReturnType<X> extends Promise<infer Y> ? Y : never;
-
+    @Storybook({
+        export: 'protected'
+    })
     export type ApplicationQueryResult<X extends (...args) => any> = GetErrorValue<GetPromiseResult<X>>;
-
+    @Storybook({
+        export: 'protected'
+    })
     export type GetArgs<X> = X extends (...args: infer P) => infer R ? P : never;
 }
 

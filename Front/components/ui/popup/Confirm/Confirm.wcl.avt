@@ -3,14 +3,20 @@ import { GenericPopup } from "../GenericPopup/GenericPopup.wcl.avt";
 import { Popup, type PopupInfo } from "../Popup/Popup.wcl.avt";
 
 namespace Components {
-
+    @Storybook({
+        export: 'public',
+        group: 'Components/Popup'
+    })
     export interface ConfirmInfo extends PopupInfo {
         description: string,
         true_txt: string,
         false_txt: string,
     };
 
-
+    @Storybook({
+        export: 'public',
+        group: 'Components/Popup'
+    })
     export class Confirm extends GenericPopup<boolean, ConfirmInfo> implements Aventus.DefaultComponent {
 
         //#region static

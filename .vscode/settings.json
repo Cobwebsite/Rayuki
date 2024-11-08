@@ -3,5 +3,8 @@
     "aventus.liveserver": {
         "launch_browser": false
     },
+    "aventus.readDirs": [
+        "./Front"
+    ],
     "svg.preview.background": "custom"
 }

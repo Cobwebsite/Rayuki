@@ -4,6 +4,10 @@ import { FormElement } from "../../FormElement/FormElement.wcl.avt";
 import type { Form } from "../../Form/Form.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form/Select'
+    })
     export class ItemBoxSelect extends FormElement<string> implements Aventus.DefaultComponent {
 
         //#region static

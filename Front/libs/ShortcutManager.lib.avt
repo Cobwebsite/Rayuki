@@ -1,4 +1,7 @@
 namespace Lib {
+    @Storybook({
+        export: 'protected'
+    })
     export enum SpecialTouch {
         Backspace,
         Insert,
@@ -20,11 +23,17 @@ namespace Lib {
         Enter
     }
 
+    @Storybook({
+        export: 'protected'
+    })
     export interface ShortcutManagerOptions {
         replaceTemp?: boolean,
         preventDefault?: boolean;
     }
 
+    @Storybook({
+        export: 'protected'
+    })
     export class ShortcutManager {
         private static memory: { [key: string]: (() => void)[]; } = {};
         private static autoPrevents: string[] = [];

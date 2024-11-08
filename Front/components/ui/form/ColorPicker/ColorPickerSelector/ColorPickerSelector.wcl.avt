@@ -7,6 +7,10 @@ namespace Components {
      * Elle offre des fonctionnalités avancées de gestion des couleurs, notamment la sélection par glisser-déposer, 
      * le réglage de la teinte, de la saturation et de l'opacité, ainsi que l'affichage des valeurs de couleur sous forme de texte.
      */
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export class ColorPickerSelector extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

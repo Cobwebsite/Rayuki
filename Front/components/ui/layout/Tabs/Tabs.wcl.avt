@@ -3,6 +3,10 @@ import { Tab } from "./Tab/Tab.wcl.avt";
 import type { Scrollable } from "../Scrollable/Scrollable.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout'
+    })
     export class Tabs<T extends Tab = Tab> extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

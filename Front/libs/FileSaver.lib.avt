@@ -1,5 +1,8 @@
 
 namespace Lib {
+    @Storybook({
+        export: 'protected'
+    })
     export type FileSaverOption = {
         /**
         * Automatically provide Unicode text encoding hints
@@ -7,6 +10,9 @@ namespace Lib {
         */
         autoBom: boolean;
     };
+    @Storybook({
+        export: 'protected'
+    })
     export class FileSaver {
         private static bom(blob, opts) {
             if(typeof opts === 'undefined') opts = { autoBom: false };

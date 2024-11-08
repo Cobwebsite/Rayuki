@@ -1,7 +1,15 @@
 import type { ColorsType } from "../../../../libs/Style.lib.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Popup'
+    })
     export type NotificationPosition = 'bottom' | 'top' | 'bottom left' | 'top left' | 'bottom right' | 'top right';
+    @Storybook({
+        export: 'public',
+        group: 'Components/Popup'
+    })
     export type NotificationOptions = {
         position?: NotificationPosition;
         color?: ColorsType,
@@ -11,7 +19,10 @@ namespace Components {
         icon?: string;
     };
 
-
+    @Storybook({
+        export: 'public',
+        group: 'Components/Popup'
+    })
     export class Notification extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

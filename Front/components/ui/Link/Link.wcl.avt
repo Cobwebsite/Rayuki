@@ -1,6 +1,10 @@
 import { Application } from "../../system/Application/Application.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components',
+    })
     export class Link extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

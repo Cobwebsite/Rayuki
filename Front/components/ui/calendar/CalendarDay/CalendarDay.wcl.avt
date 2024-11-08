@@ -2,6 +2,10 @@ import { DateTools } from "../../../../libs/DateTools.lib.avt";
 import type { Calendar } from "../Calendar/Calendar.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Calendar'
+    })
     export abstract class CalendarDay extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

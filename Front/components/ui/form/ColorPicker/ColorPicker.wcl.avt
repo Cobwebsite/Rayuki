@@ -3,9 +3,14 @@ import { FormElement } from "../FormElement/FormElement.wcl.avt";
 import type { ColorPickerSelector } from "./ColorPickerSelector/ColorPickerSelector.wcl.avt";
 
 namespace Components {
+    
     /**
      * La classe `ColorPicker` est un composant d'interface utilisateur permettant à l'utilisateur de choisir une couleur. 
      */
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export class ColorPicker extends FormElement<string> implements Aventus.DefaultComponent {
 
         //#region static

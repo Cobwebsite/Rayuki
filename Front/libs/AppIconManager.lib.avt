@@ -2,6 +2,10 @@ import type { AppIcon } from "../components/system/AppIcon/AppIcon.wcl.avt";
 
 namespace Lib {
     type AppIconCst = (new (...args) => AppIcon);
+
+    @Storybook({
+        export: 'protected'
+    })
     export class AppIconManager {
 
         private static loaded: string[] = [];

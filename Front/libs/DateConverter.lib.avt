@@ -1,5 +1,8 @@
 
-namespace Libs {
+namespace Lib {
+	@Storybook({
+        export: 'protected'
+    })
     export class DateConverter extends Aventus.DateConverter {
 
 

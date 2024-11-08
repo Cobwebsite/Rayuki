@@ -1,4 +1,7 @@
 namespace Lib {
+    @Storybook({
+        export: 'protected'
+    })
     export class DateTools {
         public static isSameDate(date1?: Date, date2?: Date): boolean {
             if(date1 == null && date2 == null) return true;

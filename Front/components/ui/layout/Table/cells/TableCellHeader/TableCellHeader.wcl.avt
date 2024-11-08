@@ -1,6 +1,10 @@
 import { TableCell } from "../TableCell/TableCell.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export class TableCellHeader<U = any> extends TableCell<undefined, U> implements Aventus.DefaultComponent {
 
         public sortable!: boolean;

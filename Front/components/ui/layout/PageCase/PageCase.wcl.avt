@@ -2,9 +2,17 @@ import { PageCaseContainer } from "./PageCaseContainer/PageCaseContainer.wcl.avt
 import { PageCaseSlot } from "./PageCaseSlot/PageCaseSlot.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout'
+    })
     export interface IPositionable {
         position: number;
     }
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout'
+    })
     export class PageCase extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

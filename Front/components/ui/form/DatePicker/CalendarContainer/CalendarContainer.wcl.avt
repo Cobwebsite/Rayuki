@@ -1,7 +1,10 @@
-import type { Calendar } from "../../../calendar/Calendar/Calendar.wcl.avt";
 import type { DatePicker } from "../DatePicker.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export class CalendarContainer extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

@@ -1,4 +1,7 @@
 namespace Components {
+    @Storybook({
+        export: 'public',
+    })
     export enum ResizeDirection {
         Top,
         TopLeft,
@@ -10,6 +13,9 @@ namespace Components {
         TopRight
     }
 
+    @Storybook({
+        export: 'public',
+    })
     export type ResizeConfig = {
         applyWidth?: (value: number) => void,
         applyHeight?: (value: number) => void,
@@ -17,6 +23,9 @@ namespace Components {
         applyLeft?: (value: number) => void,
     };
 
+    @Storybook({
+        export: 'public',
+    })
     export class Resize extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

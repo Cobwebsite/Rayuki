@@ -1,7 +1,9 @@
 import { Color } from "./Color.lib.avt";
 
 namespace Lib {
-	
+	@Storybook({
+        export: 'protected'
+    })
     export class Colors {
         public static get BLACK(): Color { return new Color("#000000"); }
         public static get SILVER(): Color { return new Color("#c0c0c0"); }

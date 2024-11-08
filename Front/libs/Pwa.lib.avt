@@ -7,7 +7,9 @@ namespace Lib {
         prompt: () => void;
         userChoice: Promise<{ outcome: "accepted" | "dismissed"; }>;
     };
-
+    @Storybook({
+        export: 'protected'
+    })
     export class PWA {
         public static get isAvailable(): boolean {
             if(window['deferredPrompt']) {

@@ -27,8 +27,6 @@ Data.DataTypes = {};
 _.Data.DataTypes = Core.Data?.DataTypes ?? {};
 let System = {};
 _.System = Core.System ?? {};
-let Libs = {};
-_.Libs = Core.Libs ?? {};
 Websocket.Routes = {};
 _.Websocket.Routes = Core.Websocket?.Routes ?? {};
 let Permissions = {};
@@ -1653,7 +1651,7 @@ Components.PwaPromptIos.Tag=`rk-pwa-prompt-ios`;
 _.Components.PwaPromptIos=Components.PwaPromptIos;
 if(!window.customElements.get('rk-pwa-prompt-ios')){window.customElements.define('rk-pwa-prompt-ios', Components.PwaPromptIos);Aventus.WebComponentInstance.registerDefinition(Components.PwaPromptIos);}
 
-Libs.DateConverter=class DateConverter extends Aventus.DateConverter {
+Lib.DateConverter=class DateConverter extends Aventus.DateConverter {
     isStringDate(txt) {
         return /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})$/.exec(txt) !== null;
     }
@@ -1671,8 +1669,8 @@ Libs.DateConverter=class DateConverter extends Aventus.DateConverter {
         return isoSplit.join(".");
     }
 }
-Libs.DateConverter.Namespace=`Core.Libs`;
-_.Libs.DateConverter=Libs.DateConverter;
+Lib.DateConverter.Namespace=`Core.Lib`;
+_.Lib.DateConverter=Lib.DateConverter;
 
 Lib.Pointer=class Pointer {
     static isTouch(e) {
@@ -3799,6 +3797,9 @@ System.AppList = class AppList extends Aventus.WebComponent {
             let icon = Aventus.WebComponentInstance.create(app.LogoTagName);
             if (icon) {
                 this.pageCaseEl?.appendChild(icon);
+            }
+            else {
+                console.error("Icon not found for " + app.LogoTagName);
             }
         }
         this.pageCaseEl?.reset();
@@ -10600,7 +10601,7 @@ System.Os = class Os extends Aventus.WebComponent {
         }, true);
     }
     async init() {
-        Aventus.DateConverter.converter = new Libs.DateConverter();
+        Aventus.DateConverter.converter = new Lib.DateConverter();
         Aventus.PressManager.setGlobalConfig({
             delayDblPress: 250,
             delayLongPress: 700,

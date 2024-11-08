@@ -2,8 +2,16 @@ import { ButtonIcon } from "../ButtonIcon/ButtonIcon.wcl.avt";
 
 namespace Components {
 
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
 	type IconType = MaterialIcon.IconType;
 
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
 	@OverrideView()
     export class ButtonIconMi extends ButtonIcon implements Aventus.DefaultComponent {
 

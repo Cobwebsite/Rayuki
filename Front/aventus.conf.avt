@@ -63,7 +63,8 @@
                 "output": "../../Storybook",
                 "format": "manual",
                 "live": false,
-                "prefix": "Front"
+                "prefix": "Front",
+                "srcBaseUrl": "https://github.com/Cobwebsite/Rayuki/tree/develop/Front"
             }
         },
         {

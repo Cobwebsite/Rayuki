@@ -3,6 +3,10 @@ import type { TableOptions } from "../../Table.wcl.avt";
 import { TableRow } from "../../rows/TableRow/TableRow.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export class TableRowData<T extends AventusSharp.Data.Storable> extends TableRow<T> implements Aventus.DefaultComponent {
 
         //#region static

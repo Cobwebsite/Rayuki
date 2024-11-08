@@ -5,6 +5,9 @@ import type { FrameNoScroll } from "../../Frame/FrameNoScroll/FrameNoScroll.wcl.
 import type { Link } from "../../../ui/Link/Link.wcl.avt";
 
 namespace System {
+    @Storybook({
+        export: 'protected'
+    })
     type ApplicationSidnavRouteOptions = {
         /** Route that will display the frame */
         route: string,
@@ -22,6 +25,9 @@ namespace System {
         allowTrigger?: (link: Link) => boolean;
     };
 
+    @Storybook({
+        export: 'protected'
+    })
     @OverrideView()
     export abstract class ApplicationSidnav extends Application implements Aventus.DefaultComponent {
 

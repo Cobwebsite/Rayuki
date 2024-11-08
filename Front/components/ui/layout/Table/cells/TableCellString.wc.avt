@@ -3,6 +3,10 @@
 <script>
 import { TableCell } from "./TableCell/TableCell.wcl.avt";
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export class TableCellString<U = any> extends TableCell<string, U> implements Aventus.DefaultComponent {
 
         /**

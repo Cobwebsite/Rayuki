@@ -2,6 +2,10 @@ import type { Tab } from "../Tab/Tab.wcl.avt";
 import type { Tabs } from "../Tabs.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout'
+    })
     export class TabHeader<T extends Tab = Tab> extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

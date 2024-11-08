@@ -1,7 +1,11 @@
 import type { IFormElement } from "./FormType.lib.avt";
 
 namespace Components {
-
+    
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export class Form<T> extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

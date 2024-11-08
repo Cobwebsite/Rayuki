@@ -2,6 +2,10 @@ import { Platform } from "../../../../libs/Platform.lib.avt";
 import type { ColorsType } from "../../../../libs/Style.lib.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Popup'
+    })
     export class Tooltip extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

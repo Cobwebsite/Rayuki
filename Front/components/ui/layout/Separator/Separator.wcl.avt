@@ -1,5 +1,9 @@
 namespace Components {
 	
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout'
+    })
     export class Separator extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

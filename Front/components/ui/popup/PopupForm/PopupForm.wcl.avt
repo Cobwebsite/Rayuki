@@ -3,6 +3,10 @@ import { VirtualForm } from "../../form/Form/VirtualForm.lib.avt";
 import { GenericPopup } from "../GenericPopup/GenericPopup.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Popup'
+    })
     export abstract class PopupForm<T> extends GenericPopup<T> implements Aventus.DefaultComponent {
 
         //#region static

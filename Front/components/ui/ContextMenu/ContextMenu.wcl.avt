@@ -4,6 +4,10 @@ import { ContextMenuSeparator } from "./ContextMenuSeparator/ContextMenuSeparato
 
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/ContextMenu'
+    })
     export interface IContextMenu {
         /**
          * Use this function to add anything you want to display when user trigger the context menu
@@ -12,6 +16,10 @@ namespace Components {
          */
         onContextMenu(contextMenu: ContextMenu, stop: () => void): void;
     }
+    @Storybook({
+        export: 'public',
+        group: 'Components/ContextMenu'
+    })
     export type ContextMenuItemOption = {
         icon?: string,
         materialIcon?: MaterialIcon.IconType,
@@ -21,12 +29,19 @@ namespace Components {
         action: () => void;
         canBeRendered?: (items: (ContextMenuItem | ContextMenuSeparator)[], current: ContextMenuItem | ContextMenuSeparator) => boolean;
     };
+    @Storybook({
+        export: 'public',
+        group: 'Components/ContextMenu'
+    })
     export type ContextMenuSeparatorOption = {
         /** The higher priority is on the top */
         priority?: number,
         canBeRendered?: (items: (ContextMenuItem | ContextMenuSeparator)[], current: ContextMenuItem | ContextMenuSeparator) => boolean;
     };
-
+    @Storybook({
+        export: 'public',
+        group: 'Components/ContextMenu'
+    })
     export class ContextMenu extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

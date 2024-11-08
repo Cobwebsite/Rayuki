@@ -1,6 +1,10 @@
 import { Notification, type NotificationOptions, type NotificationPosition } from "../Notification/Notification.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Popup'
+    })
     export class NotificationManager extends Aventus.WebComponent implements Aventus.DefaultComponent {
         private activeNotifications: {
             top: Notification[],

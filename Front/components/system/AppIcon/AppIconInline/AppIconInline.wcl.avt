@@ -1,6 +1,9 @@
 import { AppIcon } from "../AppIcon.wcl.avt";
 
 namespace System {
+    @Storybook({
+        export: 'protected'
+    })
     export class AppIconInline extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
         //#region static

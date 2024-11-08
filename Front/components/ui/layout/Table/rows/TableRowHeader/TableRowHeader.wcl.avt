@@ -4,6 +4,10 @@ import type { TableOptions, TableSchema } from "../../Table.wcl.avt";
 import { TableRow } from "../TableRow/TableRow.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
     export class TableRowHeader<T> extends TableRow<T> implements Aventus.DefaultComponent {
 
         //#region static

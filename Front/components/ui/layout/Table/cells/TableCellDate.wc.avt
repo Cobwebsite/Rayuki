@@ -1,6 +1,10 @@
 <script>
 import { TableCell } from "./TableCell/TableCell.wcl.avt";
 namespace Components {
+	@Storybook({
+        export: 'public',
+        group: 'Components/Layout/Table'
+    })
 	export class TableCellDate<U = any> extends TableCell<Date, U> implements Aventus.DefaultComponent {
 	    
 		protected date? :Date;

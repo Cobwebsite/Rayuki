@@ -1,6 +1,12 @@
 import { AppIcon } from "../components/system/AppIcon/AppIcon.wcl.avt";
 
+@Storybook({
+    group: "Addons"
+})
 export type AddonsName = 'QrCodeReader' | 'QrCodeGenerator' | 'Univer';
+@Storybook({
+    group: "Addons"
+})
 export class Addon {
     private static dependances: { [application: string]: AddonsName[]; } = {};
     public static need(application: string, addons: AddonsName[]);

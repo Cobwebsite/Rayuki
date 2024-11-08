@@ -2,6 +2,10 @@ import { Scrollable } from "../../layout/Scrollable/Scrollable.wcl.avt";
 import { FormElement } from "../FormElement/FormElement.wcl.avt";
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
     export class Slider extends FormElement<number> implements Aventus.DefaultComponent {
 
         //#region static

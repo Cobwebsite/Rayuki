@@ -4,8 +4,16 @@ import { FormElement } from "../../FormElement/FormElement.wcl.avt";
 
 
 namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form/Select'
+    })
     export type ExtractTypeOption<X extends GenericOption<U>, U> = X extends GenericOption<infer U> ? U : never;
 
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form/Select'
+    })
     export abstract class GenericSelect<T extends GenericOption<U>, U = ExtractTypeOption<T, any>> extends FormElement<U> implements Aventus.DefaultComponent {
 
         //#region static
