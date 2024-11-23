@@ -1,16 +1,13 @@
-﻿using AventusSharp.Data;
-using AventusSharp.Routes;
+﻿using AventusSharp.Routes;
 using AventusSharp.Tools;
-using Core.App;
 using Core.Data;
 using Core.Logic;
 using Core.Tools;
 using Newtonsoft.Json;
-using System;
 
 namespace Core.Routes
 {
-    public class UserRouter : StorableRoute<User>
+    public class UserRouter : StorableRouter<User>
     {
         // public override ResultWithError<List<User>> GetAll(HttpContext context)
         // {

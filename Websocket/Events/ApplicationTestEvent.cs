@@ -13,7 +13,7 @@ namespace Core.Websocket.Events
             return new Body() { id = 1, name = "test" };
         }
 
-        [Typescript]
+        [Export]
         public class Body
         {
             public int id;

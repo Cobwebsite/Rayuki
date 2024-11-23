@@ -5,7 +5,7 @@ using AventusSharp.Tools.Attributes;
 
 namespace Core.Logic.FileSystem
 {
-    [Typescript("Errors")]
+    [Export("Errors")]
     public enum StorageErrorCode
     {
         UnknowError,
@@ -13,7 +13,7 @@ namespace Core.Logic.FileSystem
         NotFound
     }
 
-    [Typescript("Errors")]
+    [Export("Errors")]
     public class StorageError : GenericError<StorageErrorCode>
     {
         public StorageError(StorageErrorCode code, string message, [CallerFilePath] string callerPath = "", [CallerLineNumber] int callerNo = 0) : base(code, message, callerPath, callerNo)

@@ -3,7 +3,7 @@ using Core.Data;
 
 namespace Core.Routes
 {
-    public class GroupRouter : StorableRoute<Group>
+    public class GroupRouter : StorableRouter<Group>
     {
 
     }

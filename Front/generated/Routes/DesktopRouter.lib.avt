@@ -3,7 +3,7 @@ import { CoreRouter } from '../CoreRouter.lib.avt';
 
 namespace Routes {
 
-	export class DesktopRouter extends AventusSharp.Routes.StorableRoute<Desktop> {
+	export class DesktopRouter extends AventusSharp.Routes.StorableRouter<Desktop> {
 		public constructor(router?: Aventus.HttpRouter) {
 			super(router ?? new CoreRouter());
 		}

@@ -1,15 +1,15 @@
 ﻿
+using AventusSharp.Routes;
 using AventusSharp.Routes.Attributes;
 using Core.Data;
 using Core.Logic;
 using Core.Permissions;
 using Core.Permissions.Tree;
 using Path = AventusSharp.Routes.Attributes.Path;
-using Route = AventusSharp.Routes.Route;
 
 namespace Core.Routes
 {
-    public class PermissionRouter : Route
+    public class PermissionRouter : Router
     {
         [Post]
         public bool Can(HttpContext context, IPermissionQuery permissionQuery)

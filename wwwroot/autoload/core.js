@@ -236,6 +236,16 @@ Data.Settings.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Key":"st
 Aventus.Converter.register(Data.Settings.Fullname, Data.Settings);
 _.Data.Settings=Data.Settings;
 
+Data.Plugin=class Plugin extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.Plugin, Core"; }
+    Name = "";
+    Version = 0;
+}
+Data.Plugin.Namespace=`Core.Data`;
+Data.Plugin.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Version":"number"};
+Aventus.Converter.register(Data.Plugin.Fullname, Data.Plugin);
+_.Data.Plugin=Data.Plugin;
+
 Data.ManifestIcon=class ManifestIcon extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.ManifestIcon, Core"; }
     src;
@@ -252,12 +262,13 @@ _.Data.ManifestIcon=Data.ManifestIcon;
     AppErrorCode[AppErrorCode["AppFileNotFound"] = 0] = "AppFileNotFound";
     AppErrorCode[AppErrorCode["MoreThanOneAppFileFound"] = 1] = "MoreThanOneAppFileFound";
     AppErrorCode[AppErrorCode["NoAppFileFound"] = 2] = "NoAppFileFound";
-    AppErrorCode[AppErrorCode["NoIconFileFound"] = 3] = "NoIconFileFound";
-    AppErrorCode[AppErrorCode["WrongVersionFormat"] = 4] = "WrongVersionFormat";
-    AppErrorCode[AppErrorCode["NoName"] = 5] = "NoName";
-    AppErrorCode[AppErrorCode["UnknowError"] = 6] = "UnknowError";
-    AppErrorCode[AppErrorCode["NotZipFile"] = 7] = "NotZipFile";
-    AppErrorCode[AppErrorCode["NotInManagement"] = 8] = "NotInManagement";
+    AppErrorCode[AppErrorCode["NoPluginFileFound"] = 3] = "NoPluginFileFound";
+    AppErrorCode[AppErrorCode["NoIconFileFound"] = 4] = "NoIconFileFound";
+    AppErrorCode[AppErrorCode["WrongVersionFormat"] = 5] = "WrongVersionFormat";
+    AppErrorCode[AppErrorCode["NoName"] = 6] = "NoName";
+    AppErrorCode[AppErrorCode["UnknowError"] = 7] = "UnknowError";
+    AppErrorCode[AppErrorCode["NotZipFile"] = 8] = "NotZipFile";
+    AppErrorCode[AppErrorCode["NotInManagement"] = 9] = "NotInManagement";
 })(App.AppErrorCode || (App.AppErrorCode = {}));
 _.App.AppErrorCode=App.AppErrorCode;
 
@@ -2413,7 +2424,7 @@ Data.Group.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"stri
 Aventus.Converter.register(Data.Group.Fullname, Data.Group);
 _.Data.Group=Data.Group;
 
-Routes.GroupRouter=class GroupRouter extends AventusSharp.Routes.StorableRoute {
+Routes.GroupRouter=class GroupRouter extends AventusSharp.Routes.StorableRouter {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
     }
@@ -2424,7 +2435,7 @@ Routes.GroupRouter=class GroupRouter extends AventusSharp.Routes.StorableRoute {
 Routes.GroupRouter.Namespace=`Core.Routes`;
 _.Routes.GroupRouter=Routes.GroupRouter;
 
-Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRoute {
+Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRouter {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
         this.GetConnected = this.GetConnected.bind(this);
@@ -3277,7 +3288,7 @@ Data.Desktop.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"st
 Aventus.Converter.register(Data.Desktop.Fullname, Data.Desktop);
 _.Data.Desktop=Data.Desktop;
 
-Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRoute {
+Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRouter {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
     }
@@ -3636,6 +3647,7 @@ Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
         this.ConfigureAppData = this.ConfigureAppData.bind(this);
         this.InstallDevApp = this.InstallDevApp.bind(this);
         this.UninstallDevApp = this.UninstallDevApp.bind(this);
+        this.UninstallDevPlugin = this.UninstallDevPlugin.bind(this);
         this.InstallApp = this.InstallApp.bind(this);
     }
     async GetAll() {
@@ -3653,6 +3665,11 @@ Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
     }
     async UninstallDevApp(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/configureApp/uninstall`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryVoid(this.router);
+    }
+    async UninstallDevPlugin(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/configurePlugin/uninstall`, Aventus.HttpMethod.POST);
         request.setBody(body);
         return await request.queryVoid(this.router);
     }
@@ -5905,19 +5922,18 @@ Websocket.Routes.DesktopRouter_RegisterOpenApp=class DesktopRouter_RegisterOpenA
 Websocket.Routes.DesktopRouter_RegisterOpenApp.Namespace=`Core.Websocket.Routes`;
 _.Websocket.Routes.DesktopRouter_RegisterOpenApp=Websocket.Routes.DesktopRouter_RegisterOpenApp;
 
-Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocket.Route {
-    events;
-    constructor(endpoint) {
-        super(endpoint ?? Websocket.MainEndPoint.getInstance());
-        this.events = {
+Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocket.Router {
+    defineEvents() {
+        return {
+            ...super.defineEvents(),
             RegisterOpenApp: new Websocket.Routes.DesktopRouter_RegisterOpenApp(this.endpoint, this.getPrefix),
             RemoveApp: new Websocket.Routes.DesktopRouter_RemoveApp(this.endpoint, this.getPrefix),
             SetDesktopIcon: new Websocket.Routes.DesktopRouter_SetDesktopIcon(this.endpoint, this.getPrefix),
             RemoveDesktopIcon: new Websocket.Routes.DesktopRouter_RemoveDesktopIcon(this.endpoint, this.getPrefix),
         };
-        for (let key in this.events) {
-            this.events[key].init();
-        }
+    }
+    constructor(endpoint) {
+        super(endpoint ?? Websocket.MainEndPoint.getInstance());
     }
     async RegisterOpenApp(body, options = {}) {
         const info = {

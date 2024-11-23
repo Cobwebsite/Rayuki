@@ -17,10 +17,11 @@ using FileTypeChecker.Abstracts;
 using System.IO.Compression;
 using AventusSharp.Tools.Attributes;
 using Core.Tools;
+using IRouter = AventusSharp.Routes.IRouter;
 
 namespace Core.App
 {
-    [NoTypescript]
+    [NoExport]
     public enum LoadElement
     {
         App,
@@ -81,7 +82,7 @@ namespace Core.App
                         }
                         return RouterMiddleware.PrepareRegex(urlPattern);
                     };
-                    config.ViewDir = (HttpContext context, IRoute? from) =>
+                    config.ViewDir = (HttpContext context, IRouter? from) =>
                     {
                         string basePath = Path.Combine(Environment.CurrentDirectory, "Views");
                         if (from == null)
@@ -304,11 +305,11 @@ namespace Core.App
                                         {
                                             wsEndPoints.Add(theType);
                                         }
-                                        else if (interfaces.Contains(typeof(IWsRoute)))
+                                        else if (interfaces.Contains(typeof(IWsRouter)))
                                         {
                                             wsRoutes.Add(theType);
                                         }
-                                        if (interfaces.Contains(typeof(IRoute)))
+                                        if (interfaces.Contains(typeof(IRouter)))
                                         {
                                             httpRouters.Add(theType);
                                         }
@@ -457,7 +458,7 @@ namespace Core.App
                                 {
                                     wsEndPoints.Add(theType);
                                 }
-                                else if (interfaces.Contains(typeof(IWsRoute)))
+                                else if (interfaces.Contains(typeof(IWsRouter)))
                                 {
                                     wsRoutes.Add(theType);
                                 }

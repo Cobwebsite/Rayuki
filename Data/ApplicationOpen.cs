@@ -4,7 +4,7 @@ using AventusSharp.Tools.Attributes;
 
 namespace Core.Data
 {
-    [Typescript]
+    [Export]
     public class ApplicationOpen
     {
         public string id { get => applicationName + "$" + number; }
@@ -25,7 +25,7 @@ namespace Core.Data
         public bool isHidden { get; set; }
     }
 
-    [Typescript]
+    [Export]
     public class ApplicationOpenInfo
     {
         public int DesktopId { get; set; }

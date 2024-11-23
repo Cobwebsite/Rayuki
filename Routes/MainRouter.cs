@@ -3,7 +3,6 @@ using AventusSharp.Routes.Response;
 using AventusSharp.Tools;
 using Core.Data;
 using Core.Logic;
-using Route = AventusSharp.Routes.Route;
 using Path = AventusSharp.Routes.Attributes.Path;
 using WebPush;
 using Core.App;
@@ -11,13 +10,14 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices;
 using EnvDTE;
 using Core.Tools;
-using AventusSharp.Tools.Attributes;
 using Microsoft.AspNetCore.StaticFiles;
 using Core.Logic.FileSystem;
+using AventusSharp.Routes;
+using AventusSharp.Tools.Attributes;
 
 namespace Core.Routes
 {
-    public class MainRouter : Route
+    public class MainRouter : Router
     {
         // [Get, Path("/test2")]
         // public IResponse Test(HttpContext context)
@@ -43,7 +43,7 @@ namespace Core.Routes
         }
 
         [Get, Path("/storage/.*")]
-        [NoTypescript]
+        [NoExport]
         public async Task<ByteResponse> Storage(HttpContext context)
         {
             string uri = context.Request.Path.Value!.Replace("/storage/", "");

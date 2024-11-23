@@ -5,13 +5,13 @@ using PuppeteerSharp;
 
 namespace Core.Tools
 {
-    [Typescript("Errors")]
+    [Export("Errors")]
     public enum PdfErrorCode
     {
         UnknowError,
         NoNameProvided
     }
-    [Typescript("Errors")]
+    [Export("Errors")]
     public class PdfError : GenericError<PdfErrorCode>
     {
         public PdfError(PdfErrorCode code, string message, [CallerFilePath] string callerPath = "", [CallerLineNumber] int callerNo = 0) : base(code, message, callerPath, callerNo)

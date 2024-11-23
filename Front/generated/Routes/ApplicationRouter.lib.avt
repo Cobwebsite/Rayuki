@@ -38,6 +38,13 @@ namespace Routes {
 		}
 
 		@BindThis()
+		public async UninstallDevPlugin(body: { plugin: string } | FormData): Promise<AventusSharp.Tools.VoidWithError> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/configurePlugin/uninstall`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			return await request.queryVoid(this.router);
+		}
+
+		@BindThis()
 		public async InstallApp(body: { file: File } | FormData): Promise<AventusSharp.Tools.VoidWithError> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/installApp`, Aventus.HttpMethod.POST);
 			request.setBody(body);

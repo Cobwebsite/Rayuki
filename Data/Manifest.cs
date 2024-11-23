@@ -2,7 +2,7 @@ using AventusSharp.Tools.Attributes;
 
 namespace Core.Data
 {
-    [Typescript]
+    [Export]
     public class Manifest
     {
         public string name { get; set; }
@@ -18,7 +18,7 @@ namespace Core.Data
 
     }
 
-    [Typescript]
+    [Export]
     public class ManifestIcon
     {
         public string src { get; set; }

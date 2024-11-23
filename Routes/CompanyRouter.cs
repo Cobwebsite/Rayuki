@@ -2,11 +2,11 @@ using AventusSharp.Routes.Attributes;
 using AventusSharp.Tools;
 using Core.Data;
 using Core.Logic;
-using Route = AventusSharp.Routes.Route;
+using AventusSharp.Routes;
 
 namespace Core.Routes
 {
-    public class CompanyRouter : Route
+    public class CompanyRouter : Router
     {
         public Company GetMain()
         {

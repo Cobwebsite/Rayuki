@@ -1,7 +1,7 @@
 ﻿using AventusSharp.Routes.Attributes;
 using Core.Data;
 using Core.Logic;
-using Route = AventusSharp.Routes.Route;
+using AventusSharp.Routes;
 using Path = AventusSharp.Routes.Attributes.Path;
 using AventusSharp.Routes.Response;
 using Core.App;
@@ -12,7 +12,7 @@ using AventusSharp.Tools;
 
 namespace Core.Routes
 {
-    public class ApplicationRouter : Route
+    public class ApplicationRouter : Router
     {
         [Get, Path("/application")]
         public List<ApplicationData> GetAll(HttpContext context)

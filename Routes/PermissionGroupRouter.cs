@@ -4,11 +4,10 @@ using AventusSharp.Tools;
 using Core.Data;
 using Core.Logic;
 using Path = AventusSharp.Routes.Attributes.Path;
-using Route = AventusSharp.Routes.Route;
 
 namespace Core.Routes
 {
-     public class PermissionGroupRouter : Route
+     public class PermissionGroupRouter : Router
     {
         [Post, Path("/permissiongroup/bygroup")]
         public ResultWithError<List<PermissionGroup>> GetAllByGroup(int groupId)

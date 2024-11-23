@@ -8,7 +8,7 @@ namespace Core.Permissions
         CanHaveVirtualDesktop,
     }
 
-    [Typescript]
+    [Export]
     public class DesktopPermissionQuery : PermissionQuery<DesktopPermission>
     {
 

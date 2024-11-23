@@ -2,7 +2,7 @@ using AventusSharp.Tools.Attributes;
 
 namespace Core.Permissions.Tree
 {
-    [Typescript]
+    [Export]
     public class PermissionTree
     {
         public string AppName { get; set; }
@@ -14,7 +14,7 @@ namespace Core.Permissions.Tree
         public List<PermissionTreeItem> Permissions { get; set; } = new List<PermissionTreeItem>();
     }
 
-    [Typescript]
+    [Export]
     public class PermissionTreeItem
     {
         public string DisplayName { get; set; } = "";

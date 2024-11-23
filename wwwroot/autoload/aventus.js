@@ -223,7 +223,7 @@ let NormalizedEvent=class NormalizedEvent {
         return this.event.timeStamp;
     }
     get pointerType() {
-        if (this._event instanceof TouchEvent)
+        if ('TouchEvent' in window && this._event instanceof TouchEvent)
             return "touch";
         return this.getProp("pointerType");
     }
@@ -231,7 +231,7 @@ let NormalizedEvent=class NormalizedEvent {
         return this.getProp("button");
     }
     get isTouch() {
-        if (this._event instanceof TouchEvent)
+        if ('TouchEvent' in window && this._event instanceof TouchEvent)
             return true;
         return this._event.pointerType == "touch";
     }
@@ -3209,7 +3209,7 @@ let PressManager=class PressManager {
         return touch.pointerId;
     }
     registerEvent(ev) {
-        if (ev instanceof TouchEvent) {
+        if ('TouchEvent' in window && ev instanceof TouchEvent) {
             for (let touch of ev.targetTouches) {
                 const id = this.identifyEvent(touch);
                 if (this.pointersRecord[id]) {
@@ -3230,7 +3230,7 @@ let PressManager=class PressManager {
     }
     unregisterEvent(ev) {
         let result = true;
-        if (ev instanceof TouchEvent) {
+        if ('TouchEvent' in window && ev instanceof TouchEvent) {
             for (let touch of ev.changedTouches) {
                 const id = this.identifyEvent(touch);
                 if (!this.pointersRecord[id]) {
@@ -7109,10 +7109,10 @@ let Routes = {};
 _.Routes = AventusSharp.Routes ?? {};
 let WebSocket = {};
 _.WebSocket = AventusSharp.WebSocket ?? {};
-let RAM = {};
-_.RAM = AventusSharp.RAM ?? {};
 let Tools = {};
 _.Tools = AventusSharp.Tools ?? {};
+let RAM = {};
+_.RAM = AventusSharp.RAM ?? {};
 let _n;
 Data.AventusFile=class AventusFile {
     static get Fullname() { return "AventusSharp.Data.AventusFile, AventusSharp"; }
@@ -7212,6 +7212,15 @@ Data.Date.$schema={...(Data.SharpClass?.$schema ?? {}), "DateTime":"AventusSharp
 Aventus.Converter.register(Data.Date.Fullname, Data.Date);
 _.Data.Date=Data.Date;
 
+Data.FieldErrorInfo=class FieldErrorInfo extends Data.SharpClass {
+    static get Fullname() { return "AventusSharp.Data.FieldErrorInfo, AventusSharp"; }
+    Name;
+}
+Data.FieldErrorInfo.Namespace=`AventusSharp.Data`;
+Data.FieldErrorInfo.$schema={...(Data.SharpClass?.$schema ?? {}), "Name":"string"};
+Aventus.Converter.register(Data.FieldErrorInfo.Fullname, Data.FieldErrorInfo);
+_.Data.FieldErrorInfo=Data.FieldErrorInfo;
+
 (function (DataErrorCode) {
     DataErrorCode[DataErrorCode["DefaultDMGenericType"] = 0] = "DefaultDMGenericType";
     DataErrorCode[DataErrorCode["DMOnlyForceInherit"] = 1] = "DMOnlyForceInherit";
@@ -7263,21 +7272,13 @@ Data.DataError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Data.DataError.Fullname, Data.DataError);
 _.Data.DataError=Data.DataError;
 
-Data.FieldErrorInfo=class FieldErrorInfo {
-    static get Fullname() { return "AventusSharp.Data.FieldErrorInfo, AventusSharp"; }
-    Name;
-}
-Data.FieldErrorInfo.Namespace=`AventusSharp.Data`;
-Data.FieldErrorInfo.$schema={"Name":"string"};
-Aventus.Converter.register(Data.FieldErrorInfo.Fullname, Data.FieldErrorInfo);
-_.Data.FieldErrorInfo=Data.FieldErrorInfo;
-
 (function (RouteErrorCode) {
     RouteErrorCode[RouteErrorCode["UnknowError"] = 0] = "UnknowError";
     RouteErrorCode[RouteErrorCode["FormContentTypeUnknown"] = 1] = "FormContentTypeUnknown";
     RouteErrorCode[RouteErrorCode["CantGetValueFromBody"] = 2] = "CantGetValueFromBody";
     RouteErrorCode[RouteErrorCode["CantMoveFile"] = 3] = "CantMoveFile";
     RouteErrorCode[RouteErrorCode["CantCreateFolders"] = 4] = "CantCreateFolders";
+    RouteErrorCode[RouteErrorCode["RouteAlreadyExist"] = 5] = "RouteAlreadyExist";
 })(Routes.RouteErrorCode || (Routes.RouteErrorCode = {}));
 _.Routes.RouteErrorCode=Routes.RouteErrorCode;
 
@@ -7288,53 +7289,6 @@ Routes.RouteError.Namespace=`AventusSharp.Routes`;
 Routes.RouteError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Routes.RouteError.Fullname, Routes.RouteError);
 _.Routes.RouteError=Routes.RouteError;
-
-Routes.StorableRoute=class StorableRoute extends Aventus.HttpRoute {
-    async GetAll() {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}`, Aventus.HttpMethod.GET);
-        return await request.queryJSON(this.router);
-    }
-    async Create(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryJSON(this.router);
-    }
-    async CreateMany(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}s`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryJSON(this.router);
-    }
-    async GetById(id) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}/${id}`, Aventus.HttpMethod.GET);
-        return await request.queryJSON(this.router);
-    }
-    async GetByIds(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}/getbyids`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryJSON(this.router);
-    }
-    async Update(id, body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}/${id}`, Aventus.HttpMethod.PUT);
-        request.setBody(body);
-        return await request.queryJSON(this.router);
-    }
-    async UpdateMany(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}s`, Aventus.HttpMethod.PUT);
-        request.setBody(body);
-        return await request.queryJSON(this.router);
-    }
-    async Delete(id) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}/${id}`, Aventus.HttpMethod.DELETE);
-        return await request.queryJSON(this.router);
-    }
-    async DeleteMany(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}s`, Aventus.HttpMethod.DELETE);
-        request.setBody(body);
-        return await request.queryJSON(this.router);
-    }
-}
-Routes.StorableRoute.Namespace=`AventusSharp.Routes`;
-_.Routes.StorableRoute=Routes.StorableRoute;
 
 WebSocket.Socket=class Socket {
     static Debug = false;
@@ -7495,6 +7449,147 @@ Data.Storable.$schema={...(Aventus.Data?.$schema ?? {}), "Id":"number"};
 Aventus.Converter.register(Data.Storable.Fullname, Data.Storable);
 _.Data.Storable=Data.Storable;
 
+Data.StorableTimestamp=class StorableTimestamp extends Data.Storable {
+    CreatedDate = new Date();
+    UpdatedDate = new Date();
+}
+Data.StorableTimestamp.Namespace=`AventusSharp.Data`;
+Data.StorableTimestamp.$schema={...(Data.Storable?.$schema ?? {}), "CreatedDate":"Date","UpdatedDate":"Date"};
+Aventus.Converter.register(Data.StorableTimestamp.Fullname, Data.StorableTimestamp);
+_.Data.StorableTimestamp=Data.StorableTimestamp;
+
+Data.Datetime=class Datetime extends Data.SharpClass {
+    static get Fullname() { return "AventusSharp.Data.Datetime, AventusSharp"; }
+    DateTime;
+}
+Data.Datetime.Namespace=`AventusSharp.Data`;
+Data.Datetime.$schema={...(Data.SharpClass?.$schema ?? {}), "DateTime":"AventusSharp.RealDate"};
+Aventus.Converter.register(Data.Datetime.Fullname, Data.Datetime);
+_.Data.Datetime=Data.Datetime;
+
+Tools.VoidWithError=class VoidWithError extends Aventus.VoidWithError {
+    static get Fullname() { return "AventusSharp.Tools.VoidWithError, AventusSharp"; }
+}
+Tools.VoidWithError.Namespace=`AventusSharp.Tools`;
+Tools.VoidWithError.$schema={...(Aventus.VoidWithError?.$schema ?? {}), };
+Aventus.Converter.register(Tools.VoidWithError.Fullname, Tools.VoidWithError);
+_.Tools.VoidWithError=Tools.VoidWithError;
+
+WebSocket.VoidWithWsError=class VoidWithWsError extends Tools.VoidWithError {
+    static get Fullname() { return "AventusSharp.WebSocket.VoidWithWsError, AventusSharp"; }
+}
+WebSocket.VoidWithWsError.Namespace=`AventusSharp.WebSocket`;
+WebSocket.VoidWithWsError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
+Aventus.Converter.register(WebSocket.VoidWithWsError.Fullname, WebSocket.VoidWithWsError);
+_.WebSocket.VoidWithWsError=WebSocket.VoidWithWsError;
+
+Routes.VoidWithRouteError=class VoidWithRouteError extends Tools.VoidWithError {
+    static get Fullname() { return "AventusSharp.Routes.VoidWithRouteError, AventusSharp"; }
+}
+Routes.VoidWithRouteError.Namespace=`AventusSharp.Routes`;
+Routes.VoidWithRouteError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
+Aventus.Converter.register(Routes.VoidWithRouteError.Fullname, Routes.VoidWithRouteError);
+_.Routes.VoidWithRouteError=Routes.VoidWithRouteError;
+
+Data.VoidWithDataError=class VoidWithDataError extends Tools.VoidWithError {
+    static get Fullname() { return "AventusSharp.Data.VoidWithDataError, AventusSharp"; }
+}
+Data.VoidWithDataError.Namespace=`AventusSharp.Data`;
+Data.VoidWithDataError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
+Aventus.Converter.register(Data.VoidWithDataError.Fullname, Data.VoidWithDataError);
+_.Data.VoidWithDataError=Data.VoidWithDataError;
+
+Tools.ResultWithError=class ResultWithError extends Aventus.ResultWithError {
+    static get Fullname() { return "AventusSharp.Tools.ResultWithError, AventusSharp"; }
+}
+Tools.ResultWithError.Namespace=`AventusSharp.Tools`;
+Tools.ResultWithError.$schema={...(Aventus.ResultWithError?.$schema ?? {}), };
+Aventus.Converter.register(Tools.ResultWithError.Fullname, Tools.ResultWithError);
+_.Tools.ResultWithError=Tools.ResultWithError;
+
+WebSocket.ResultWithWsError=class ResultWithWsError extends Tools.ResultWithError {
+    static get Fullname() { return "AventusSharp.WebSocket.ResultWithWsError, AventusSharp"; }
+}
+WebSocket.ResultWithWsError.Namespace=`AventusSharp.WebSocket`;
+WebSocket.ResultWithWsError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
+Aventus.Converter.register(WebSocket.ResultWithWsError.Fullname, WebSocket.ResultWithWsError);
+_.WebSocket.ResultWithWsError=WebSocket.ResultWithWsError;
+
+Routes.ResultWithRouteError=class ResultWithRouteError extends Tools.ResultWithError {
+    static get Fullname() { return "AventusSharp.Routes.ResultWithRouteError, AventusSharp"; }
+}
+Routes.ResultWithRouteError.Namespace=`AventusSharp.Routes`;
+Routes.ResultWithRouteError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
+Aventus.Converter.register(Routes.ResultWithRouteError.Fullname, Routes.ResultWithRouteError);
+_.Routes.ResultWithRouteError=Routes.ResultWithRouteError;
+
+Data.ResultWithDataError=class ResultWithDataError extends Tools.ResultWithError {
+    static get Fullname() { return "AventusSharp.Data.ResultWithDataError, AventusSharp"; }
+}
+Data.ResultWithDataError.Namespace=`AventusSharp.Data`;
+Data.ResultWithDataError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
+Aventus.Converter.register(Data.ResultWithDataError.Fullname, Data.ResultWithDataError);
+_.Data.ResultWithDataError=Data.ResultWithDataError;
+
+Routes.StorableRouter=class StorableRouter extends Aventus.HttpRoute {
+    constructor(router) {
+        super(router);
+        this.GetAll = this.GetAll.bind(this);
+        this.Create = this.Create.bind(this);
+        this.CreateMany = this.CreateMany.bind(this);
+        this.GetById = this.GetById.bind(this);
+        this.GetByIds = this.GetByIds.bind(this);
+        this.Update = this.Update.bind(this);
+        this.UpdateMany = this.UpdateMany.bind(this);
+        this.Delete = this.Delete.bind(this);
+        this.DeleteMany = this.DeleteMany.bind(this);
+    }
+    async GetAll() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}`, Aventus.HttpMethod.GET);
+        return await request.queryJSON(this.router);
+    }
+    async Create(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async CreateMany(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}s`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async GetById(id) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}/${id}`, Aventus.HttpMethod.GET);
+        return await request.queryJSON(this.router);
+    }
+    async GetByIds(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}/getbyids`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async Update(id, body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}/${id}`, Aventus.HttpMethod.PUT);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async UpdateMany(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}s`, Aventus.HttpMethod.PUT);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async Delete(id) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}/${id}`, Aventus.HttpMethod.DELETE);
+        return await request.queryJSON(this.router);
+    }
+    async DeleteMany(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/${this.StorableName()}s`, Aventus.HttpMethod.DELETE);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+}
+Routes.StorableRouter.Namespace=`AventusSharp.Routes`;
+_.Routes.StorableRouter=Routes.StorableRouter;
+
 RAM.RamHttp=class RamHttp extends Aventus.Ram {
     getAllDone = false;
     routes;
@@ -7635,88 +7730,6 @@ RAM.RamHttp=class RamHttp extends Aventus.Ram {
 RAM.RamHttp.Namespace=`AventusSharp.RAM`;
 _.RAM.RamHttp=RAM.RamHttp;
 
-Data.StorableTimestamp=class StorableTimestamp extends Data.Storable {
-    CreatedDate = new Date();
-    UpdatedDate = new Date();
-}
-Data.StorableTimestamp.Namespace=`AventusSharp.Data`;
-Data.StorableTimestamp.$schema={...(Data.Storable?.$schema ?? {}), "CreatedDate":"Date","UpdatedDate":"Date"};
-Aventus.Converter.register(Data.StorableTimestamp.Fullname, Data.StorableTimestamp);
-_.Data.StorableTimestamp=Data.StorableTimestamp;
-
-Data.Datetime=class Datetime extends Data.SharpClass {
-    static get Fullname() { return "AventusSharp.Data.Datetime, AventusSharp"; }
-    DateTime;
-}
-Data.Datetime.Namespace=`AventusSharp.Data`;
-Data.Datetime.$schema={...(Data.SharpClass?.$schema ?? {}), "DateTime":"AventusSharp.RealDate"};
-Aventus.Converter.register(Data.Datetime.Fullname, Data.Datetime);
-_.Data.Datetime=Data.Datetime;
-
-Tools.VoidWithError=class VoidWithError extends Aventus.VoidWithError {
-    static get Fullname() { return "AventusSharp.Tools.VoidWithError, AventusSharp"; }
-}
-Tools.VoidWithError.Namespace=`AventusSharp.Tools`;
-Tools.VoidWithError.$schema={...(Aventus.VoidWithError?.$schema ?? {}), };
-Aventus.Converter.register(Tools.VoidWithError.Fullname, Tools.VoidWithError);
-_.Tools.VoidWithError=Tools.VoidWithError;
-
-WebSocket.VoidWithWsError=class VoidWithWsError extends Tools.VoidWithError {
-    static get Fullname() { return "AventusSharp.WebSocket.VoidWithWsError, AventusSharp"; }
-}
-WebSocket.VoidWithWsError.Namespace=`AventusSharp.WebSocket`;
-WebSocket.VoidWithWsError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
-Aventus.Converter.register(WebSocket.VoidWithWsError.Fullname, WebSocket.VoidWithWsError);
-_.WebSocket.VoidWithWsError=WebSocket.VoidWithWsError;
-
-Routes.VoidWithRouteError=class VoidWithRouteError extends Tools.VoidWithError {
-    static get Fullname() { return "AventusSharp.Routes.VoidWithRouteError, AventusSharp"; }
-}
-Routes.VoidWithRouteError.Namespace=`AventusSharp.Routes`;
-Routes.VoidWithRouteError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
-Aventus.Converter.register(Routes.VoidWithRouteError.Fullname, Routes.VoidWithRouteError);
-_.Routes.VoidWithRouteError=Routes.VoidWithRouteError;
-
-Data.VoidWithDataError=class VoidWithDataError extends Tools.VoidWithError {
-    static get Fullname() { return "AventusSharp.Data.VoidWithDataError, AventusSharp"; }
-}
-Data.VoidWithDataError.Namespace=`AventusSharp.Data`;
-Data.VoidWithDataError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
-Aventus.Converter.register(Data.VoidWithDataError.Fullname, Data.VoidWithDataError);
-_.Data.VoidWithDataError=Data.VoidWithDataError;
-
-Tools.ResultWithError=class ResultWithError extends Aventus.ResultWithError {
-    static get Fullname() { return "AventusSharp.Tools.ResultWithError, AventusSharp"; }
-}
-Tools.ResultWithError.Namespace=`AventusSharp.Tools`;
-Tools.ResultWithError.$schema={...(Aventus.ResultWithError?.$schema ?? {}), };
-Aventus.Converter.register(Tools.ResultWithError.Fullname, Tools.ResultWithError);
-_.Tools.ResultWithError=Tools.ResultWithError;
-
-WebSocket.ResultWithWsError=class ResultWithWsError extends Tools.ResultWithError {
-    static get Fullname() { return "AventusSharp.WebSocket.ResultWithWsError, AventusSharp"; }
-}
-WebSocket.ResultWithWsError.Namespace=`AventusSharp.WebSocket`;
-WebSocket.ResultWithWsError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
-Aventus.Converter.register(WebSocket.ResultWithWsError.Fullname, WebSocket.ResultWithWsError);
-_.WebSocket.ResultWithWsError=WebSocket.ResultWithWsError;
-
-Routes.ResultWithRouteError=class ResultWithRouteError extends Tools.ResultWithError {
-    static get Fullname() { return "AventusSharp.Routes.ResultWithRouteError, AventusSharp"; }
-}
-Routes.ResultWithRouteError.Namespace=`AventusSharp.Routes`;
-Routes.ResultWithRouteError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
-Aventus.Converter.register(Routes.ResultWithRouteError.Fullname, Routes.ResultWithRouteError);
-_.Routes.ResultWithRouteError=Routes.ResultWithRouteError;
-
-Data.ResultWithDataError=class ResultWithDataError extends Tools.ResultWithError {
-    static get Fullname() { return "AventusSharp.Data.ResultWithDataError, AventusSharp"; }
-}
-Data.ResultWithDataError.Namespace=`AventusSharp.Data`;
-Data.ResultWithDataError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
-Aventus.Converter.register(Data.ResultWithDataError.Fullname, Data.ResultWithDataError);
-_.Data.ResultWithDataError=Data.ResultWithDataError;
-
 WebSocket.Connection=class Connection {
     static Debug = false;
     options;
@@ -7776,7 +7789,18 @@ WebSocket.Connection=class Connection {
         if (options.sendPing !== undefined && options.sendPing <= 0) {
             options.sendPing = undefined;
         }
+        if (options.logPrefix === undefined) {
+            options.logPrefix = "";
+        }
         return options;
+    }
+    getUrl() {
+        let protocol = "ws";
+        if (this.options.useHttps) {
+            protocol = "wss";
+        }
+        let url = protocol + "://" + this.options.host + ":" + this.options.port + this.options.socketName;
+        return url;
     }
     /**
      * Add a new route to listen to the websocket
@@ -7820,12 +7844,8 @@ WebSocket.Connection=class Connection {
         return this.actionGuard.run(["open"], () => {
             return new Promise((resolve) => {
                 try {
-                    let protocol = "ws";
-                    if (this.options.useHttps) {
-                        protocol = "wss";
-                    }
-                    let url = protocol + "://" + this.options.host + ":" + this.options.port + this.options.socketName;
-                    this.log(url);
+                    let url = this.getUrl();
+                    this.log("Opening " + url);
                     this.openCallback = (isOpen) => {
                         resolve(isOpen);
                     };
@@ -7989,7 +8009,11 @@ WebSocket.Connection=class Connection {
                 this.openCallback(true);
                 this.openCallback = undefined;
             }
-            this.log('Connection successfully established !' + this.options.host + ":" + this.options.port);
+            let protocol = "ws";
+            if (this.options.useHttps) {
+                protocol = "wss";
+            }
+            this.log(`Connection successfully established to ${this.getUrl()}!`);
             this.onOpen.trigger([]);
             for (let i = 0; i < this.memoryBeforeOpen.length; i++) {
                 this.sendMessage(this.memoryBeforeOpen[i]);
@@ -8081,15 +8105,16 @@ WebSocket.Connection=class Connection {
             const hours = (now.getHours()).toLocaleString(undefined, { minimumIntegerDigits: 2 });
             const minutes = (now.getMinutes()).toLocaleString(undefined, { minimumIntegerDigits: 2 });
             const seconds = (now.getSeconds()).toLocaleString(undefined, { minimumIntegerDigits: 2 });
+            const prefix = this.options.logPrefix ? `[${this.options.logPrefix}] ` : '';
             if (message instanceof Object) {
                 let cloneMessage = JSON.parse(JSON.stringify(message, this.jsonReplacer));
                 if (cloneMessage.data && typeof cloneMessage.data == 'string') {
                     cloneMessage.data = JSON.parse(cloneMessage.data);
                 }
-                console.log(`[WEBSOCKET] [${hours}:${minutes}:${seconds}]: `, cloneMessage);
+                console.log(`${prefix}[${hours}:${minutes}:${seconds}]: `, cloneMessage);
             }
             else {
-                console.log(`[WEBSOCKET] [${hours}:${minutes}:${seconds}]: `, message);
+                console.log(`${prefix}[${hours}:${minutes}:${seconds}]: `, message);
             }
         }
     }
@@ -8125,18 +8150,6 @@ WebSocket.EndPoint=class EndPoint extends WebSocket.Connection {
 }
 WebSocket.EndPoint.Namespace=`AventusSharp.WebSocket`;
 _.WebSocket.EndPoint=WebSocket.EndPoint;
-
-WebSocket.Route=class Route {
-    endpoint;
-    constructor(endpoint) {
-        this.endpoint = endpoint ?? WebSocket.EndPoint.getInstance();
-    }
-    getPrefix() {
-        return "";
-    }
-}
-WebSocket.Route.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.Route=WebSocket.Route;
 
 WebSocket.WsEvent=class WsEvent {
     endpoint;
@@ -8198,7 +8211,7 @@ WebSocket.WsEvent=class WsEvent {
 WebSocket.WsEvent.Namespace=`AventusSharp.WebSocket`;
 _.WebSocket.WsEvent=WebSocket.WsEvent;
 
-WebSocket.StorableWsRoute_GetAll=class StorableWsRoute_GetAll extends WebSocket.WsEvent {
+WebSocket.StorableWsRouter_GetAll=class StorableWsRouter_GetAll extends WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -8211,10 +8224,10 @@ WebSocket.StorableWsRoute_GetAll=class StorableWsRoute_GetAll extends WebSocket.
         return `${this.getPrefix()}/${this.StorableName()}`;
     }
 }
-WebSocket.StorableWsRoute_GetAll.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.StorableWsRoute_GetAll=WebSocket.StorableWsRoute_GetAll;
+WebSocket.StorableWsRouter_GetAll.Namespace=`AventusSharp.WebSocket`;
+_.WebSocket.StorableWsRouter_GetAll=WebSocket.StorableWsRouter_GetAll;
 
-WebSocket.StorableWsRoute_Create=class StorableWsRoute_Create extends WebSocket.WsEvent {
+WebSocket.StorableWsRouter_Create=class StorableWsRouter_Create extends WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -8227,8 +8240,8 @@ WebSocket.StorableWsRoute_Create=class StorableWsRoute_Create extends WebSocket.
         return `${this.getPrefix()}/${this.StorableName()}/Create`;
     }
 }
-WebSocket.StorableWsRoute_Create.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.StorableWsRoute_Create=WebSocket.StorableWsRoute_Create;
+WebSocket.StorableWsRouter_Create.Namespace=`AventusSharp.WebSocket`;
+_.WebSocket.StorableWsRouter_Create=WebSocket.StorableWsRouter_Create;
 
 WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends WebSocket.WsEvent {
     /**
@@ -8240,13 +8253,13 @@ WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends We
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
-        this.StorableName = StorableName;
+        this.StorableName = StorableName ?? (() => "");
     }
 }
 WebSocket.StorableWsRoute_CreateMany.Namespace=`AventusSharp.WebSocket`;
 _.WebSocket.StorableWsRoute_CreateMany=WebSocket.StorableWsRoute_CreateMany;
 
-WebSocket.StorableWsRoute_GetById=class StorableWsRoute_GetById extends WebSocket.WsEvent {
+WebSocket.StorableWsRouter_GetById=class StorableWsRouter_GetById extends WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -8259,10 +8272,10 @@ WebSocket.StorableWsRoute_GetById=class StorableWsRoute_GetById extends WebSocke
         return `${this.getPrefix()}/${this.StorableName()}/{id:number}`;
     }
 }
-WebSocket.StorableWsRoute_GetById.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.StorableWsRoute_GetById=WebSocket.StorableWsRoute_GetById;
+WebSocket.StorableWsRouter_GetById.Namespace=`AventusSharp.WebSocket`;
+_.WebSocket.StorableWsRouter_GetById=WebSocket.StorableWsRouter_GetById;
 
-WebSocket.StorableWsRoute_GetByIds=class StorableWsRoute_GetByIds extends WebSocket.WsEvent {
+WebSocket.StorableWsRouter_GetByIds=class StorableWsRouter_GetByIds extends WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -8272,13 +8285,13 @@ WebSocket.StorableWsRoute_GetByIds=class StorableWsRoute_GetByIds extends WebSoc
      * @inheritdoc
      */
     path() {
-        return `${this.getPrefix()}/${this.StorableName()}s`;
+        return `${this.getPrefix()}/${this.StorableName()}/getbyids`;
     }
 }
-WebSocket.StorableWsRoute_GetByIds.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.StorableWsRoute_GetByIds=WebSocket.StorableWsRoute_GetByIds;
+WebSocket.StorableWsRouter_GetByIds.Namespace=`AventusSharp.WebSocket`;
+_.WebSocket.StorableWsRouter_GetByIds=WebSocket.StorableWsRouter_GetByIds;
 
-WebSocket.StorableWsRoute_Update=class StorableWsRoute_Update extends WebSocket.WsEvent {
+WebSocket.StorableWsRouter_Update=class StorableWsRouter_Update extends WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -8291,8 +8304,8 @@ WebSocket.StorableWsRoute_Update=class StorableWsRoute_Update extends WebSocket.
         return `${this.getPrefix()}/${this.StorableName()}/{id:number}/Update`;
     }
 }
-WebSocket.StorableWsRoute_Update.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.StorableWsRoute_Update=WebSocket.StorableWsRoute_Update;
+WebSocket.StorableWsRouter_Update.Namespace=`AventusSharp.WebSocket`;
+_.WebSocket.StorableWsRouter_Update=WebSocket.StorableWsRouter_Update;
 
 WebSocket.StorableWsRoute_UpdateMany=class StorableWsRoute_UpdateMany extends WebSocket.WsEvent {
     /**
@@ -8304,13 +8317,13 @@ WebSocket.StorableWsRoute_UpdateMany=class StorableWsRoute_UpdateMany extends We
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
-        this.StorableName = StorableName;
+        this.StorableName = StorableName ?? (() => "");
     }
 }
 WebSocket.StorableWsRoute_UpdateMany.Namespace=`AventusSharp.WebSocket`;
 _.WebSocket.StorableWsRoute_UpdateMany=WebSocket.StorableWsRoute_UpdateMany;
 
-WebSocket.StorableWsRoute_Delete=class StorableWsRoute_Delete extends WebSocket.WsEvent {
+WebSocket.StorableWsRouter_Delete=class StorableWsRouter_Delete extends WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -8323,8 +8336,8 @@ WebSocket.StorableWsRoute_Delete=class StorableWsRoute_Delete extends WebSocket.
         return `${this.getPrefix()}/${this.StorableName()}/{id:number}/Delete`;
     }
 }
-WebSocket.StorableWsRoute_Delete.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.StorableWsRoute_Delete=WebSocket.StorableWsRoute_Delete;
+WebSocket.StorableWsRouter_Delete.Namespace=`AventusSharp.WebSocket`;
+_.WebSocket.StorableWsRouter_Delete=WebSocket.StorableWsRouter_Delete;
 
 WebSocket.StorableWsRoute_DeleteMany=class StorableWsRoute_DeleteMany extends WebSocket.WsEvent {
     /**
@@ -8336,30 +8349,46 @@ WebSocket.StorableWsRoute_DeleteMany=class StorableWsRoute_DeleteMany extends We
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
-        this.StorableName = StorableName;
+        this.StorableName = StorableName ?? (() => "");
     }
 }
 WebSocket.StorableWsRoute_DeleteMany.Namespace=`AventusSharp.WebSocket`;
 _.WebSocket.StorableWsRoute_DeleteMany=WebSocket.StorableWsRoute_DeleteMany;
 
-WebSocket.StorableWsRoute=class StorableWsRoute extends WebSocket.Route {
+WebSocket.Router=class Router {
+    endpoint;
     events;
     constructor(endpoint) {
-        super(endpoint);
-        this.events = {
-            GetAll: new WebSocket.StorableWsRoute_GetAll(this.endpoint, this.getPrefix, this.StorableName),
-            Create: new WebSocket.StorableWsRoute_Create(this.endpoint, this.getPrefix, this.StorableName),
-            CreateMany: new WebSocket.StorableWsRoute_CreateMany(this.endpoint, this.getPrefix, this.StorableName),
-            GetById: new WebSocket.StorableWsRoute_GetById(this.endpoint, this.getPrefix, this.StorableName),
-            GetByIds: new WebSocket.StorableWsRoute_GetByIds(this.endpoint, this.getPrefix, this.StorableName),
-            Update: new WebSocket.StorableWsRoute_Update(this.endpoint, this.getPrefix, this.StorableName),
-            UpdateMany: new WebSocket.StorableWsRoute_UpdateMany(this.endpoint, this.getPrefix, this.StorableName),
-            Delete: new WebSocket.StorableWsRoute_Delete(this.endpoint, this.getPrefix, this.StorableName),
-            DeleteMany: new WebSocket.StorableWsRoute_DeleteMany(this.endpoint, this.getPrefix, this.StorableName),
-        };
+        this.endpoint = endpoint ?? WebSocket.EndPoint.getInstance();
+        this.events = this.defineEvents();
         for (let key in this.events) {
             this.events[key].init();
         }
+    }
+    getPrefix() {
+        return "";
+    }
+    defineEvents() {
+        return {};
+    }
+}
+WebSocket.Router.Namespace=`AventusSharp.WebSocket`;
+_.WebSocket.Router=WebSocket.Router;
+
+WebSocket.StorableWsRouter=class StorableWsRouter extends WebSocket.Router {
+    defineEvents() {
+        return {
+            ...super.defineEvents(),
+            GetAll: new WebSocket.StorableWsRouter_GetAll(this.endpoint, this.getPrefix, this.StorableName),
+            Create: new WebSocket.StorableWsRouter_Create(this.endpoint, this.getPrefix, this.StorableName),
+            CreateMany: new WebSocket.StorableWsRoute_CreateMany(this.endpoint, this.getPrefix, this.StorableName),
+            GetById: new WebSocket.StorableWsRouter_GetById(this.endpoint, this.getPrefix, this.StorableName),
+            GetByIds: new WebSocket.StorableWsRouter_GetByIds(this.endpoint, this.getPrefix, this.StorableName),
+            Update: new WebSocket.StorableWsRouter_Update(this.endpoint, this.getPrefix, this.StorableName),
+            UpdateMany: new WebSocket.StorableWsRoute_UpdateMany(this.endpoint, this.getPrefix, this.StorableName),
+            Delete: new WebSocket.StorableWsRouter_Delete(this.endpoint, this.getPrefix, this.StorableName),
+            DeleteMany: new WebSocket.StorableWsRoute_DeleteMany(this.endpoint, this.getPrefix, this.StorableName),
+        };
     }
     async GetAll(options = {}) {
         const info = {
@@ -8431,8 +8460,8 @@ WebSocket.StorableWsRoute=class StorableWsRoute extends WebSocket.Route {
         return await this.endpoint.sendMessageAndWait(info);
     }
 }
-WebSocket.StorableWsRoute.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.StorableWsRoute=WebSocket.StorableWsRoute;
+WebSocket.StorableWsRouter.Namespace=`AventusSharp.WebSocket`;
+_.WebSocket.StorableWsRouter=WebSocket.StorableWsRouter;
 
 RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
     getAllDone = false;

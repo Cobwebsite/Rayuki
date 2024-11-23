@@ -3,7 +3,7 @@ using AventusSharp.Tools.Attributes;
 
 namespace Core.Data
 {
-    [NoTypescript]
+    [NoExport]
     public class SeederMemory : Storable<SeederMemory>
     {
         public string Name { get; set; } = "";

@@ -1,0 +1,10 @@
+namespace Data {
+
+	@Convertible()
+	export class Plugin extends AventusSharp.Data.Storable implements Aventus.IData {
+		public static override get Fullname(): string { return "Core.Data.Plugin, Core"; }
+		public Name: string = "";
+		public Version: number = 0;
+	}
+
+}

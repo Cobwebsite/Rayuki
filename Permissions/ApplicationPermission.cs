@@ -8,7 +8,7 @@ namespace Core.Permissions
         AllowAccess
     }
 
-    [Typescript]
+    [Export]
     public class ApplicationPermissionQuery : PermissionQuery<ApplicationPermission>
     {
 

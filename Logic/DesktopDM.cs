@@ -194,13 +194,13 @@ namespace Core.Logic
         }
     }
 
-    [Typescript("Errors")]
+    [Export("Errors")]
     public enum DesktopErrorCode
     {
         NoDefaultDesktop
     }
 
-    [Typescript("Errors")]
+    [Export("Errors")]
     public class DesktopError : GenericError<DesktopErrorCode>
     {
         public DesktopError(DesktopErrorCode code, string message, [CallerFilePath] string callerPath = "", [CallerLineNumber] int callerNo = 0) : base(code, message, callerPath, callerNo)

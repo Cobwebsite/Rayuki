@@ -9,7 +9,7 @@ using SKSvg = SkiaSharp.Extended.Svg.SKSvg;
 
 namespace Core.Tools
 {
-    [Typescript("Errors")]
+    [Export("Errors")]
     public enum ImageFileErrorCode
     {
         UnknowError,
@@ -17,7 +17,7 @@ namespace Core.Tools
         FileNotSvg,
         NoSize,
     }
-    [Typescript("Errors")]
+    [Export("Errors")]
     public class ImageFileError : GenericError<ImageFileErrorCode>
     {
         public ImageFileError(ImageFileErrorCode code, string message, [CallerFilePath] string callerPath = "", [CallerLineNumber] int callerNo = 0) : base(code, message, callerPath, callerNo)

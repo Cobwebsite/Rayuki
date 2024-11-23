@@ -7,7 +7,7 @@ using PuppeteerSharp.Media;
 
 namespace Core.Data.DataTypes
 {
-    [Typescript]
+    [Export]
     public class Pdf : AventusFile
     {
         public string Name { get; set; } = "";

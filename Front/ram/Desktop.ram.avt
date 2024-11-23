@@ -10,7 +10,7 @@ namespace RAM {
         /**
          * @inheritdoc
          */
-        public override defineRoutes(): AventusSharp.Routes.StorableRoute<Desktop> {
+        public override defineRoutes(): AventusSharp.Routes.StorableRouter<Desktop> {
             return new DesktopRouter(new HttpRouter());
         }
 

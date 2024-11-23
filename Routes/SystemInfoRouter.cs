@@ -1,10 +1,10 @@
 
+using AventusSharp.Routes;
 using Core.Data;
-using Route = AventusSharp.Routes.Route;
 
 namespace Core.Routes
 {
-    public class SystemInfoRouter : Route
+    public class SystemInfoRouter : Router
     {
         public SystemInfo GetSystemInfo() {
             return new SystemInfo() {

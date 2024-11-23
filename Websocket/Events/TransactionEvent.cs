@@ -17,7 +17,7 @@ namespace Core.Websocket.Events
             return Task.FromResult(new Body() { guid = guid });
         }
 
-        [Typescript]
+        [Export]
         public class Body
         {
             public string guid;

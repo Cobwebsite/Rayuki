@@ -8,7 +8,7 @@ using FileTypeChecker.Extensions;
 
 namespace Core.Data.DataTypes
 {
-    [Typescript]
+    [Export]
     public class ImageFile : AventusFile
     {
 

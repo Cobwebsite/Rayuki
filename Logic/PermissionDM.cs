@@ -325,7 +325,7 @@ namespace Core.Logic
     }
 
 
-    [Typescript("Permissions")]
+    [Export("Permissions")]
     public class PermissionForUser
     {
         public List<PermissionGroup> permissionGroups;

@@ -4,27 +4,26 @@ import { MainEndPoint } from '../MainEndPoint.lib.avt';
 
 namespace Websocket.Routes {
 
-	export class DesktopRouter extends AventusSharp.WebSocket.Route {
+	export type DesktopRouter__Routes = {
+		RegisterOpenApp: DesktopRouter_RegisterOpenApp,
+		RemoveApp: DesktopRouter_RemoveApp,
+		SetDesktopIcon: DesktopRouter_SetDesktopIcon,
+		RemoveDesktopIcon: DesktopRouter_RemoveDesktopIcon,
+	};
+	export class DesktopRouter<__Route extends DesktopRouter__Routes = DesktopRouter__Routes> extends AventusSharp.WebSocket.Router<__Route> {
 		
-		public events: {
-			RegisterOpenApp: DesktopRouter_RegisterOpenApp,
-			RemoveApp: DesktopRouter_RemoveApp,
-			SetDesktopIcon: DesktopRouter_SetDesktopIcon,
-			RemoveDesktopIcon: DesktopRouter_RemoveDesktopIcon,
-		}
-		
-		public constructor(endpoint?: AventusSharp.WebSocket.EndPoint) {
-			super(endpoint ?? MainEndPoint.getInstance());
-			this.events = {
+		 protected override defineEvents(): Partial<__Route> {
+			return {
+				...super.defineEvents(),
 				RegisterOpenApp: new DesktopRouter_RegisterOpenApp(this.endpoint, this.getPrefix),
 				RemoveApp: new DesktopRouter_RemoveApp(this.endpoint, this.getPrefix),
 				SetDesktopIcon: new DesktopRouter_SetDesktopIcon(this.endpoint, this.getPrefix),
 				RemoveDesktopIcon: new DesktopRouter_RemoveDesktopIcon(this.endpoint, this.getPrefix),
-			};
-			
-			for(let key in this.events) {
-				this.events[key].init();
 			}
+		}
+		
+		public constructor(endpoint?: AventusSharp.WebSocket.EndPoint) {
+			super(endpoint ?? MainEndPoint.getInstance());
 		}
 
 		public async RegisterOpenApp(body: { appInfo: ApplicationOpenInfo } | FormData, options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Promise<AventusSharp.ExtractResponse<DesktopRouter_RegisterOpenApp>> {

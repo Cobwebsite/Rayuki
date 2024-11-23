@@ -5,13 +5,12 @@ using Core.Logic;
 using Core.Websocket.Events;
 using Path = AventusSharp.WebSocket.Attributes.Path;
 using ListenOnBoot = AventusSharp.WebSocket.Attributes.ListenOnBoot;
-using Core.Tools;
 using Core.Websocket.Attributes;
 
 namespace Core.Websocket.Routes
 {
     [EndPoint<MainEndPoint>]
-    public class DesktopRouter : WsRoute
+    public class DesktopRouter : WsRouter
     {
 
         [Path("/desktop/RegisterOpenApp")]

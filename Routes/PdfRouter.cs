@@ -1,12 +1,12 @@
+using AventusSharp.Routes;
 using AventusSharp.Routes.Attributes;
 using AventusSharp.Routes.Response;
 using AventusSharp.Tools;
 using Core.Data.DataTypes;
-using Route = AventusSharp.Routes.Route;
 
 namespace Core.Routes
 {
-    public class PdfRouter : Route
+    public class PdfRouter : Router
     {
         [Post]
         public async Task<VoidWithError> Generate(Pdf pdf)

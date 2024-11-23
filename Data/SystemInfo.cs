@@ -3,7 +3,7 @@ using AventusSharp.Tools.Attributes;
 
 namespace Core.Data
 {
-    [Typescript]
+    [Export]
     public class SystemInfo
     {
         public string TimeZone { get; set; }

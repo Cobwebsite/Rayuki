@@ -3,6 +3,7 @@ using AventusSharp.Routes.Response;
 using Core.Data;
 using System.Reflection;
 using System.Text;
+using IRouter = AventusSharp.Routes.IRouter;
 
 namespace Core.Routes
 {
@@ -42,7 +43,7 @@ namespace Core.Routes
         }
 
 
-        public async Task send(HttpContext context, IRoute route)
+        public async Task send(HttpContext context, IRouter router)
         {
             string txt = $"<{tagName}></{tagName}>";
             byte[] bytes = Encoding.UTF8.GetBytes(txt);

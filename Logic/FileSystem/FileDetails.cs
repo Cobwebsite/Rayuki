@@ -2,7 +2,7 @@ using AventusSharp.Tools.Attributes;
 
 namespace Core.Logic.FileSystem
 {
-    [Typescript]
+    [Export]
     public class FileDetails
     {
         public static FileDetails Create(string uri)
