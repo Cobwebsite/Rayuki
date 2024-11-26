@@ -23,6 +23,7 @@ namespace Components {
         //#region variables
         protected data: Aventus.RamItem<U>[] = [];
         protected isInit: boolean = false;
+        protected createOptionsDone: boolean = false;
         //#endregion
 
 
@@ -62,6 +63,7 @@ namespace Components {
                 this.appendChild(option);
             }
             this.loading = false;
+            this.createOptionsDone = true;
             this.init();
         }
 
@@ -134,6 +136,7 @@ namespace Components {
 
         protected init() {
             if(!this.isConnected) return;
+            if(!this.createOptionsDone) return;
             if(this.isInit) return;
             this.isInit = true;
             super.postCreation();

@@ -3204,7 +3204,7 @@ let PressManager=class PressManager {
         this.element.addEventListener("trigger_pointer_pressmove", this.functionsBinded.childPressMove);
     }
     identifyEvent(touch) {
-        if (touch instanceof Touch)
+        if ('Touch' in window && touch instanceof Touch)
             return touch.identifier;
         return touch.pointerId;
     }
@@ -5381,6 +5381,9 @@ let WebComponent=class WebComponent extends HTMLElement {
         this.__registerSignalsActions();
         this.__createStates();
         this.__subscribeState();
+        if (this.constructor == WebComponent) {
+            throw "can't instanciate an abstract class";
+        }
     }
     /**
      * Remove all listeners
@@ -7532,8 +7535,8 @@ Aventus.Converter.register(Data.ResultWithDataError.Fullname, Data.ResultWithDat
 _.Data.ResultWithDataError=Data.ResultWithDataError;
 
 Routes.StorableRouter=class StorableRouter extends Aventus.HttpRoute {
-    constructor(router) {
-        super(router);
+    constructor() {
+        super();
         this.GetAll = this.GetAll.bind(this);
         this.Create = this.Create.bind(this);
         this.CreateMany = this.CreateMany.bind(this);

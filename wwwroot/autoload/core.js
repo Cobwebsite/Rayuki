@@ -7486,7 +7486,7 @@ System.FrameNoScroll = class FrameNoScroll extends Aventus.WebComponent {
     constructor() {
             super();
             this.addFadeIn();
-if (this.constructor == FrameNoScroll) { throw "can't instanciate an abstract class"; } }
+if (this.constructor == FrameNoScroll) { throw "can't instanciate an abstract class"; }}
     __getStatic() {
         return FrameNoScroll;
     }
@@ -7567,7 +7567,7 @@ _.System.FrameNoScroll=System.FrameNoScroll;
 System.FrameStateNoScroll = class FrameStateNoScroll extends System.FrameNoScroll {
     state;
     static __style = ``;
-    constructor() { super(); if (this.constructor == FrameStateNoScroll) { throw "can't instanciate an abstract class"; } }
+    constructor() { super(); if (this.constructor == FrameStateNoScroll) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return FrameStateNoScroll;
     }
@@ -7597,7 +7597,7 @@ _.System.FrameStateNoScroll=System.FrameStateNoScroll;
 
 System.Frame = class Frame extends System.FrameNoScroll {
     static __style = `:host .main-scroll{--scrollbar-content-padding: 0 15px}:host .main-scroll>*{--scrollbar-content-padding: 0}`;
-    constructor() { super(); if (this.constructor == Frame) { throw "can't instanciate an abstract class"; } }
+    constructor() { super(); if (this.constructor == Frame) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return Frame;
     }
@@ -7632,7 +7632,7 @@ _.System.Frame=System.Frame;
 System.FrameState = class FrameState extends System.Frame {
     state;
     static __style = ``;
-    constructor() { super(); if (this.constructor == FrameState) { throw "can't instanciate an abstract class"; } }
+    constructor() { super(); if (this.constructor == FrameState) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return FrameState;
     }
@@ -8143,7 +8143,7 @@ Components.GenericPopup = class GenericPopup extends Aventus.WebComponent {
     constructor() {
             super();
             this.info = this.defaultOptions();
-if (this.constructor == GenericPopup) { throw "can't instanciate an abstract class"; } }
+if (this.constructor == GenericPopup) { throw "can't instanciate an abstract class"; }}
     __getStatic() {
         return GenericPopup;
     }
@@ -8270,7 +8270,7 @@ _.Components.GenericPopup=Components.GenericPopup;
 
 Components.Popup = class Popup extends Components.GenericPopup {
     static __style = `:host .popup .content{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - var(--_popup-content-padding) - var(--_popup-content-padding));width:100%}`;
-    constructor() { super(); if (this.constructor == Popup) { throw "can't instanciate an abstract class"; } }
+    constructor() { super(); if (this.constructor == Popup) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return Popup;
     }
@@ -8515,7 +8515,7 @@ System.Application = class Application extends Aventus.WebComponent {
     target.onIsHiddenChange();
 })); }
     static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{backdrop-filter:blur(2px);background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;pointer-events:none;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:var(--border-radius-round);height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);overflow:hidden;width:100%;z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host rk-notification-manager{top:35px}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;--app-height: var(--os-height) !important;left:0 !important;top:0 !important;--app-width: var(--os-width) !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 40px)}:host rk-notification-manager{top:45px}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 40px)}:host rk-resize{display:none}:host rk-notification-manager{top:45px}:host([is_hidden]){left:0 !important;width:100% !important}}`;
-    constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);            this.shortcutManager = new System.ApplicationShortcut(this);            this.shortcutManager.init();if (this.constructor == Application) { throw "can't instanciate an abstract class"; } this.onContextMenuContent=this.onContextMenuContent.bind(this)this.onContextMenuHeader=this.onContextMenuHeader.bind(this)this.validError404=this.validError404.bind(this)this.showErrorNotAllowed=this.showErrorNotAllowed.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this)this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)this.moveApplicationToRight=this.moveApplicationToRight.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this)this.notify=this.notify.bind(this)this.popupErrors=this.popupErrors.bind(this)this.parseErrors=this.parseErrors.bind(this)this.execute=this.execute.bind(this)this.executeWithLoading=this.executeWithLoading.bind(this)this.showLoading=this.showLoading.bind(this)this.txExec=this.txExec.bind(this)this.txExecLoading=this.txExecLoading.bind(this) }
+    constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);            this.shortcutManager = new System.ApplicationShortcut(this);            this.shortcutManager.init();if (this.constructor == Application) { throw "can't instanciate an abstract class"; }this.onContextMenuContent=this.onContextMenuContent.bind(this)this.onContextMenuHeader=this.onContextMenuHeader.bind(this)this.validError404=this.validError404.bind(this)this.showErrorNotAllowed=this.showErrorNotAllowed.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this)this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)this.moveApplicationToRight=this.moveApplicationToRight.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this)this.notify=this.notify.bind(this)this.popupErrors=this.popupErrors.bind(this)this.parseErrors=this.parseErrors.bind(this)this.execute=this.execute.bind(this)this.executeWithLoading=this.executeWithLoading.bind(this)this.showLoading=this.showLoading.bind(this)this.txExec=this.txExec.bind(this)this.txExecLoading=this.txExecLoading.bind(this)}
     __getStatic() {
         return Application;
     }
@@ -9478,7 +9478,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
     oldActiveCase;
     pressManagerStopMoveApp;
     static __style = `:host{--_desktop-background-color: var(--desktop-background-color, var(--primary-color))}:host{background-color:var(--_desktop-background-color);background-position:center;background-repeat:no-repeat;background-size:cover;flex-shrink:0;height:100%;overflow:hidden;position:relative;width:100%}:host .icons{--page-case-border-radius: var(--border-radius-sm);--page-case-border-active: 1px solid var(--darker-active);--page-case-background-active: var(--lighter-active);height:calc(100% - var(--desktop-bottom-bar) - 20px - var(--safe-area-bottom));transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s;width:100%;z-index:2}:host .debug{background-color:#f0f0f0;display:none;inset:0;overflow:auto;padding:10px;position:absolute;white-space:pre-wrap;z-index:1;touch-action:none;padding-bottom:100px}:host .app-container{transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host .preview-auto-layout{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:var(--application-border-radius);box-shadow:0 4px 30px rgba(0,0,0,.1);display:none;pointer-events:none;position:absolute;z-index:999;transition:width .2s linear,height .2s linear,top .2s linear,left .2s linear}:host([show_application_list])>*{opacity:0 !important;visibility:hidden !important}:host([background_size=Cover]){background-size:cover}:host([background_size=Contain]){background-size:contain}:host([background_size=Stretch]){background-size:100% 100%}`;
-    constructor() {            super();this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this) }
+    constructor() {            super();this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this)}
     __getStatic() {
         return Desktop;
     }
@@ -10233,7 +10233,7 @@ System.Os = class Os extends Aventus.WebComponent {
     target.onActiveDesktop();
 })); }
     static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;width:100%}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:var(--border-radius-round);cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;width:40px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;display:none;height:50px;min-width:auto;position:absolute;right:10px;z-index:6}:host rk-loading{opacity:0;visibility:hidden}:host .background{background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:25% 25%;filter:brightness(0.8);inset:-20px;position:absolute;z-index:0}:host rk-notification-manager{bottom:60px}:host .no-connection{align-items:center;animation-duration:2s;animation-iteration-count:infinite;animation-name:blink;background-color:var(--warning);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);color:var(--text-color-warning);display:none;font-size:var(--font-size-md);gap:10px;padding:5px 15px;position:absolute;right:15px;top:15px;z-index:9999999}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:max-content;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:var(--border-radius-sm)}:host([desktop_list]) .add-desktop{display:block}:host([no_connection]) .no-connection{display:flex}@keyframes blink{0%{background-color:var(--warning);color:var(--text-color-warning)}1%{background-color:var(--text-color-warning);color:var(--warning)}50%{background-color:var(--text-color-warning);color:var(--warning)}51%{background-color:var(--warning);color:var(--text-color-warning)}100%{background-color:var(--warning);color:var(--text-color-warning)}}`;
-    constructor() {            super();            System.Os.instance = this;            Lib.ApplicationManager.reloadData();this.desktopMoveLeft=this.desktopMoveLeft.bind(this)this.desktopMoveRight=this.desktopMoveRight.bind(this)this.desktopMoveValidate=this.desktopMoveValidate.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this) }
+    constructor() {            super();            System.Os.instance = this;            Lib.ApplicationManager.reloadData();this.desktopMoveLeft=this.desktopMoveLeft.bind(this)this.desktopMoveRight=this.desktopMoveRight.bind(this)this.desktopMoveValidate=this.desktopMoveValidate.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this)}
     __getStatic() {
         return Os;
     }
@@ -10702,7 +10702,7 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
     moveApplicationState;
     iconId = 0;
     static __style = `:host{align-items:center;background-color:#0c2247;border-radius:var(--border-radius-sm);box-shadow:var(--elevation-5);cursor:pointer;display:flex;height:var(--desktop-bottom-bar-element);justify-content:center;position:relative;transition:box-shadow var(--bezier-curve) .3s,transform var(--bezier-curve) .3s;width:var(--desktop-bottom-bar-element);-webkit-tap-highlight-color:rgba(0,0,0,0)}:host::after{background-color:var(--text-color);border-radius:var(--border-radius-sm);bottom:-7px;content:"";height:4px;opacity:0;position:absolute;transition:visibility var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s;visibility:hidden;width:4px}:host .remove{background-color:var(--primary-color);border-radius:var(--border-radius-round);display:none;height:20px;position:absolute;right:-10px;top:-10px;width:20px}:host .remove rk-img{--img-stroke-color: var(--text-color);height:100%;padding:0;width:100%}:host([shaking]){animation:shake linear .4s infinite}:host([shaking][can_remove]) .remove{display:block}:host([is_open]){transform:translateY(-3px)}:host([is_open])::after{visibility:visible;opacity:1}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--elevation-1)}}@keyframes shake{0%{transform:rotateZ(0) rotateX(-13deg)}25%{transform:rotateZ(2deg) rotateX(-13deg)}50%{transform:rotateZ(0) rotateX(-13deg)}75%{transform:rotateZ(-2deg) rotateX(-13deg)}100%{transform:rotateZ(0) rotateX(-13deg)}}`;
-    constructor() {            super();            this.classList.add("touch");if (this.constructor == AppIcon) { throw "can't instanciate an abstract class"; } }
+    constructor() {            super();            this.classList.add("touch");if (this.constructor == AppIcon) { throw "can't instanciate an abstract class"; }}
     __getStatic() {
         return AppIcon;
     }
@@ -11078,7 +11078,7 @@ System.ApplicationSidnav = class ApplicationSidnav extends System.Application {
     this.__addWatchesActions("sidnavItems");    super.__registerWatchesActions();
 }
     static __style = `:host{--_application-sidnav-sidenav-width: var(--application-sidnav-sidenav-width, 200px)}:host .header .navigation-actions .menu{align-items:center;border:1px solid var(--darker);border-radius:var(--border-radius-sm);display:none;height:24px;justify-content:center;transition:background-color var(--bezier-curve) .2s,border var(--bezier-curve) .2s;width:24px}:host .header .navigation-actions .menu mi-icon{font-size:18px}:host .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host .content .sidenav-hider{animation-duration:300ms;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(0,0,0,.2);display:none;inset:0;position:absolute;z-index:50}:host .content .sidenav{background-color:var(--secondary-color);box-shadow:var(--elevation-4);height:100%;transition:transform .3s var(--bezier-curve);width:var(--_application-sidnav-sidenav-width);z-index:50}:host .content .sidenav .sidenav-item{align-items:center;border-bottom:1px solid var(--lighter-active);cursor:pointer;display:flex;flex-wrap:nowrap;height:51px;padding:10px;transition:linear background-color .3s}:host .content .sidenav .sidenav-item rk-img{--img-fill-color: var(--text-color);flex-grow:0;flex-shrink:0;height:30px;width:30px}:host .content .sidenav .sidenav-item rk-img[src=""]{display:none}:host .content .sidenav .sidenav-item mi-icon{align-items:center;color:var(--text-color);display:flex;height:30px;justify-content:center;width:30px}:host .content .sidenav .sidenav-item span{color:var(--text-color);flex-grow:1;flex-shrink:0;margin-left:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:calc(100% - 45px)}:host .content .sidenav .sidenav-item rk-img[src=""]~span{margin-left:0}:host .content .sidenav .sidenav-item[active]{background-color:var(--lighter-active)}:host .content .container{flex-shrink:0;height:100%;transition:width .3s var(--bezier-curve),margin-left .3s var(--bezier-curve);width:calc(100% - var(--_application-sidnav-sidenav-width))}:host([open_sidenav]) .navigation-actions .menu{background-color:var(--darker-active) !important;color:var(--text-color-reverse) !important}:host([no_sidenav]) .header .navigation-actions .menu{display:none !important}:host([no_sidenav]) .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host([no_sidenav]) .content .sidenav{display:none}:host([no_sidenav]) .content .sidenav-hider{display:none !important}:host([no_sidenav]) .content .container{height:100%;width:100%}@media screen and (min-width: 1225px){:host .header .navigation-actions .menu:hover{background-color:var(--darker) !important;border:1px solid rgba(0,0,0,0)}:host .content .sidenav .sidenav-item:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host .header .navigation-actions .menu{height:26px;width:26px}:host .header .navigation-actions .menu mi-icon{font-size:20px}:host .content{height:calc(100% - 40px)}}@media screen and (orientation: landscape){@container application (max-width: 300px){:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=xs]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=xs]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 300px){:host([hide_menu_size=xs][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=xs][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 540px){:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=sm]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=sm]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 540px){:host([hide_menu_size=sm][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=sm][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 720px){:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=md]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=md]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 720px){:host([hide_menu_size=md][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=md][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 960px){:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=lg]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=lg]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 960px){:host([hide_menu_size=lg][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=lg][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 1140px){:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=xl]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=xl]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 1140px){:host([hide_menu_size=xl][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=xl][open_sidenav]) .content .sidenav{transform:translateX(0%)}}}@media screen and (orientation: portrait){@container application (max-width: 300px){:host([hide_menu_size_portrait=xs]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size_portrait=xs]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size_portrait=xs]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size_portrait=xs]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size_portrait=xs]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 300px){:host([hide_menu_size_portrait=xs][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size_portrait=xs][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 540px){:host([hide_menu_size_portrait=sm]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size_portrait=sm]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size_portrait=sm]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size_portrait=sm]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size_portrait=sm]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 540px){:host([hide_menu_size_portrait=sm][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size_portrait=sm][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 720px){:host([hide_menu_size_portrait=md]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size_portrait=md]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size_portrait=md]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size_portrait=md]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size_portrait=md]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 720px){:host([hide_menu_size_portrait=md][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size_portrait=md][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 960px){:host([hide_menu_size_portrait=lg]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size_portrait=lg]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size_portrait=lg]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size_portrait=lg]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size_portrait=lg]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 960px){:host([hide_menu_size_portrait=lg][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size_portrait=lg][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 1140px){:host([hide_menu_size_portrait=xl]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size_portrait=xl]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size_portrait=xl]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size_portrait=xl]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size_portrait=xl]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 1140px){:host([hide_menu_size_portrait=xl][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size_portrait=xl][open_sidenav]) .content .sidenav{transform:translateX(0%)}}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{visibility:100%;visibility:visible}}`;
-    constructor() { super(); if (this.constructor == ApplicationSidnav) { throw "can't instanciate an abstract class"; } }
+    constructor() { super(); if (this.constructor == ApplicationSidnav) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return ApplicationSidnav;
     }
@@ -11305,7 +11305,7 @@ Components.CalendarDay = class CalendarDay extends Aventus.WebComponent {
     set 'today'(val) { this.setBoolAttr('today', val) }    calendar;
     date = new Date();
     static __style = `:host{align-items:center;border-radius:var(--border-radius-sm);color:var(--_calendar-text-color-case);cursor:pointer;display:flex;font-size:var(--_calendar-case-font-size);height:var(--_calendar-case-size);justify-content:center;transition:color .2s var(--bezier-curve),background-color .2s var(--bezier-curve);width:var(--_calendar-case-size)}:host([other]){color:var(--_calendar-text-color-case-others)}:host([today]){color:var(--_calendar-text-color-case-today)}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--_calendar-background-color-case-hover)}}`;
-    constructor() { super(); if (this.constructor == CalendarDay) { throw "can't instanciate an abstract class"; } }
+    constructor() { super(); if (this.constructor == CalendarDay) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return CalendarDay;
     }
@@ -11803,7 +11803,7 @@ System.AddOnTime = class AddOnTime extends Aventus.WebComponent {
     constructor() {
             super();
             this.classList.add("touch");
-this.calculateCalendarSize=this.calculateCalendarSize.bind(this) }
+this.calculateCalendarSize=this.calculateCalendarSize.bind(this)}
     __getStatic() {
         return AddOnTime;
     }
@@ -12138,7 +12138,7 @@ Components.Sheet = class Sheet extends Aventus.WebComponent {
             this.format = settings.format;
             this.orientation = settings.orientation;
             this.style.setProperty("--sheet-padding", settings.padding);
-if (this.constructor == Sheet) { throw "can't instanciate an abstract class"; } }
+if (this.constructor == Sheet) { throw "can't instanciate an abstract class"; }}
     __getStatic() {
         return Sheet;
     }
@@ -13110,7 +13110,7 @@ Components.PopupFormStorable = class PopupFormStorable extends Components.Generi
             this._form.setForm(this.defineSchema());
             this.onItemChange = this.onItemChange.bind(this);
             this._form.onItemChange.add(this.onItemChange);
-if (this.constructor == PopupFormStorable) { throw "can't instanciate an abstract class"; } }
+if (this.constructor == PopupFormStorable) { throw "can't instanciate an abstract class"; }}
     __getStatic() {
         return PopupFormStorable;
     }
@@ -13154,7 +13154,7 @@ Components.PopupForm = class PopupForm extends Components.GenericPopup {
             super();
             this._form = new Components.VirtualForm();
             this._form.setForm(this.defineSchema());
-if (this.constructor == PopupForm) { throw "can't instanciate an abstract class"; } }
+if (this.constructor == PopupForm) { throw "can't instanciate an abstract class"; }}
     __getStatic() {
         return PopupForm;
     }
@@ -13208,7 +13208,7 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
 }));this.__addWatchesActions("value");    super.__registerWatchesActions();
 }
     static __style = ``;
-    constructor() { super(); if (this.constructor == FormElement) { throw "can't instanciate an abstract class"; } this.refreshValueFromForm=this.refreshValueFromForm.bind(this)this.onFormValidation=this.onFormValidation.bind(this) }
+    constructor() { super(); if (this.constructor == FormElement) { throw "can't instanciate an abstract class"; }this.refreshValueFromForm=this.refreshValueFromForm.bind(this)this.onFormValidation=this.onFormValidation.bind(this) }
     __getStatic() {
         return FormElement;
     }
@@ -16272,7 +16272,7 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
     }
 })); }
     static __style = `:host{--_select-height: var(--select-height, 30px);--_select-background-color: var(--select-background-color, var(--form-element-background, white));--_select-icon-height: var(--select-icon-height, calc(var(--_select-height) / 2));--_select-error-logo-size: var(--select-error-logo-size, calc(var(--_select-height) / 2));--_select-font-size: var(--select-font-size, var(--form-element-font-size, 16px));--_select-font-size-label: var(--select-font-size-label, var(--form-element-font-size-label, calc(var(--_select-font-size) * 0.95)));--_select-select-border: var(--select-select-border, var(--form-element-border, 1px solid var(--lighter-active)));--_generic-select-border-radius: var(--generic-select-border-radius, var(--form-element-border-radius, 0));--_select-caret-height: var(--select-caret-height, calc(var(--_select-height) / 2));--_select-caret-color: var(--select-caret-color, var(--form-element-color))}:host{min-width:100px;width:100%}:host label{cursor:pointer;display:none;font-size:var(--_select-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_select-background-color);border:var(--_select-select-border);border-radius:var(--_generic-select-border-radius);cursor:pointer;display:flex;height:var(--_select-height);padding:0 10px;width:100%}:host .input .icon{display:none;height:var(--_select-icon-height);margin-right:10px}:host .input rk-img.caret{--img-fill-color: var(--_select-caret-color);--img-stroke-width: 0;aspect-ratio:1;flex-grow:0;flex-shrink:0;height:var(--_select-caret-height);transform:rotate(-90deg);transition:transform .5s var(--bezier-curve)}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_select-font-size);height:100%;margin:0;opacity:1;outline:none;padding:5px 0;padding-right:10px;-webkit-text-fill-color:var(--text-color);width:100%}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_select-error-logo-size) - 5px);height:var(--_select-error-logo-size);justify-content:center;width:var(--_select-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host .hidden{display:none}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([open]) .input .caret{transform:rotate(-270deg)}`;
-    constructor() { super(); if (this.constructor == GenericSelect) { throw "can't instanciate an abstract class"; } }
+    constructor() { super(); if (this.constructor == GenericSelect) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return GenericSelect;
     }
@@ -16558,7 +16558,7 @@ Components.SelectEnum = class SelectEnum extends Components.GenericSelect {
             super();
             this.enumEl = this.defineEnum();
             this.createOptions();
-if (this.constructor == SelectEnum) { throw "can't instanciate an abstract class"; } }
+if (this.constructor == SelectEnum) { throw "can't instanciate an abstract class"; }}
     __getStatic() {
         return SelectEnum;
     }
@@ -16827,7 +16827,7 @@ Components.SelectData = class SelectData extends Components.GenericSelect {
     static __style = ``;
     constructor() {
             super();
-if (this.constructor == SelectData) { throw "can't instanciate an abstract class"; } this.subscribe=this.subscribe.bind(this)this.unsubscribe=this.unsubscribe.bind(this)this.onCreated=this.onCreated.bind(this)this.onDeleted=this.onDeleted.bind(this)this.onUpdated=this.onUpdated.bind(this) }
+if (this.constructor == SelectData) { throw "can't instanciate an abstract class"; }this.subscribe=this.subscribe.bind(this)this.unsubscribe=this.unsubscribe.bind(this)this.onCreated=this.onCreated.bind(this)this.onDeleted=this.onDeleted.bind(this)this.onUpdated=this.onUpdated.bind(this)}
     __getStatic() {
         return SelectData;
     }
@@ -17028,7 +17028,7 @@ Components.TwoColumnsSelect = class TwoColumnsSelect extends Components.FormElem
 }));    super.__registerWatchesActions();
 }
     static __style = `:host{display:flex;flex-direction:column;width:100%}:host .wrapper{align-items:center;display:flex;height:100%;width:100%}:host .wrapper .col{background-color:#fff;border-radius:var(--border-radius-sm);box-shadow:var(--elevation-1);display:flex;flex-direction:column;flex-grow:1;height:100%;padding:15px;width:100%}:host .wrapper .col .title{font-size:calc(var(--font-size)*.85);margin-bottom:10px;margin-left:3px}:host .wrapper .col .title:empty{display:none}:host .wrapper .col .search{display:none;margin-bottom:15px}:host .wrapper .action{display:flex;flex-direction:column;flex-grow:0;flex-shrink:0;gap:5px;padding:10px}:host .wrapper .action .btn{align-items:center;background-color:#fff;border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);cursor:pointer;display:flex;justify-content:center;transition:box-shadow .3s var(--bezier-curve),background-color .3s var(--bezier-curve)}:host .wrapper .action .btn mi-icon{font-size:var(--font-size-md);padding:2px}:host .wrapper .action .btn[disable=true]{color:var(--text-color-disable);cursor:not-allowed}:host .wrapper .action .btn:hover{background-color:var(--lighter);box-shadow:var(--elevation-1)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host .hidden{display:none}:host([has_errors]) .errors{display:block}:host([column]) .wrapper{flex-direction:column}:host([column]) .wrapper .action{flex-direction:row}:host([column]) .wrapper .action .btn mi-icon{transform:rotate(90deg)}:host([searchable_unselect]) .wrapper .col .search-unselect{display:inline-block}:host([searchable_select]) .wrapper .col .search-select{display:inline-block}`;
-    constructor() { super(); if (this.constructor == TwoColumnsSelect) { throw "can't instanciate an abstract class"; } }
+    constructor() { super(); if (this.constructor == TwoColumnsSelect) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return TwoColumnsSelect;
     }
@@ -17348,11 +17348,12 @@ Components.TwoColumnsSelectData = class TwoColumnsSelectData extends Components.
     get 'loading'() { return this.getBoolAttr('loading') }
     set 'loading'(val) { this.setBoolAttr('loading', val) }    data = [];
     isInit = false;
+    createOptionsDone = false;
     static __style = ``;
     constructor() {
             super();
             this.createOptions();
-if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abstract class"; } this.subscribe=this.subscribe.bind(this)this.unsubscribe=this.unsubscribe.bind(this)this.onCreated=this.onCreated.bind(this)this.onDeleted=this.onDeleted.bind(this)this.onUpdated=this.onUpdated.bind(this) }
+if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abstract class"; }this.subscribe=this.subscribe.bind(this)this.unsubscribe=this.unsubscribe.bind(this)this.onCreated=this.onCreated.bind(this)this.onDeleted=this.onDeleted.bind(this)this.onUpdated=this.onUpdated.bind(this)}
     __getStatic() {
         return TwoColumnsSelectData;
     }
@@ -17395,6 +17396,7 @@ if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abst
             this.appendChild(option);
         }
         this.loading = false;
+        this.createOptionsDone = true;
         this.init();
     }
     async loadData() {
@@ -17451,6 +17453,8 @@ if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abst
     }
     init() {
         if (!this.isConnected)
+            return;
+        if (!this.createOptionsDone)
             return;
         if (this.isInit)
             return;
@@ -18046,7 +18050,7 @@ Components.Table = class Table extends Aventus.WebComponent {
             this.normalizeSchema();
             this.auto_hide_scroll = this.autoHideScroll();
             this.style.display = 'none';
-if (this.constructor == Table) { throw "can't instanciate an abstract class"; } }
+if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
     __getStatic() {
         return Table;
     }
@@ -18790,7 +18794,7 @@ Components.TableCell = class TableCell extends Aventus.WebComponent {
     data;
     cellConfig;
     static __style = `:host{align-items:center;border-right:var(--_table-cell-vertical-border);display:flex;flex-shrink:0;justify-content:center;padding:var(--_table-cell-padding);position:relative;text-align:center}:host .resize{background-color:rgba(0,0,0,0);bottom:0;cursor:col-resize;display:var(--local-table-cell-resize-display);position:absolute;right:0;top:0;width:5px}:host(:nth-child(1)){flex-grow:var(--_table-cell-weight-1, 1);min-width:var(--_table-cell-min-width-1, auto);width:var(--_table-cell-width-1, calc(100% / var(--_table-nb-column)))}:host(:nth-child(2)){flex-grow:var(--_table-cell-weight-2, 1);min-width:var(--_table-cell-min-width-2, auto);width:var(--_table-cell-width-2, calc(100% / var(--_table-nb-column)))}:host(:nth-child(3)){flex-grow:var(--_table-cell-weight-3, 1);min-width:var(--_table-cell-min-width-3, auto);width:var(--_table-cell-width-3, calc(100% / var(--_table-nb-column)))}:host(:nth-child(4)){flex-grow:var(--_table-cell-weight-4, 1);min-width:var(--_table-cell-min-width-4, auto);width:var(--_table-cell-width-4, calc(100% / var(--_table-nb-column)))}:host(:nth-child(5)){flex-grow:var(--_table-cell-weight-5, 1);min-width:var(--_table-cell-min-width-5, auto);width:var(--_table-cell-width-5, calc(100% / var(--_table-nb-column)))}:host(:nth-child(6)){flex-grow:var(--_table-cell-weight-6, 1);min-width:var(--_table-cell-min-width-6, auto);width:var(--_table-cell-width-6, calc(100% / var(--_table-nb-column)))}:host(:nth-child(7)){flex-grow:var(--_table-cell-weight-7, 1);min-width:var(--_table-cell-min-width-7, auto);width:var(--_table-cell-width-7, calc(100% / var(--_table-nb-column)))}:host(:nth-child(8)){flex-grow:var(--_table-cell-weight-8, 1);min-width:var(--_table-cell-min-width-8, auto);width:var(--_table-cell-width-8, calc(100% / var(--_table-nb-column)))}:host(:nth-child(9)){flex-grow:var(--_table-cell-weight-9, 1);min-width:var(--_table-cell-min-width-9, auto);width:var(--_table-cell-width-9, calc(100% / var(--_table-nb-column)))}:host(:nth-child(10)){flex-grow:var(--_table-cell-weight-10, 1);min-width:var(--_table-cell-min-width-10, auto);width:var(--_table-cell-width-10, calc(100% / var(--_table-nb-column)))}:host(:nth-child(11)){flex-grow:var(--_table-cell-weight-11, 1);min-width:var(--_table-cell-min-width-11, auto);width:var(--_table-cell-width-11, calc(100% / var(--_table-nb-column)))}:host(:nth-child(12)){flex-grow:var(--_table-cell-weight-12, 1);min-width:var(--_table-cell-min-width-12, auto);width:var(--_table-cell-width-12, calc(100% / var(--_table-nb-column)))}:host(:nth-child(13)){flex-grow:var(--_table-cell-weight-13, 1);min-width:var(--_table-cell-min-width-13, auto);width:var(--_table-cell-width-13, calc(100% / var(--_table-nb-column)))}:host(:nth-child(14)){flex-grow:var(--_table-cell-weight-14, 1);min-width:var(--_table-cell-min-width-14, auto);width:var(--_table-cell-width-14, calc(100% / var(--_table-nb-column)))}:host(:nth-child(15)){flex-grow:var(--_table-cell-weight-15, 1);min-width:var(--_table-cell-min-width-15, auto);width:var(--_table-cell-width-15, calc(100% / var(--_table-nb-column)))}:host(:nth-child(16)){flex-grow:var(--_table-cell-weight-16, 1);min-width:var(--_table-cell-min-width-16, auto);width:var(--_table-cell-width-16, calc(100% / var(--_table-nb-column)))}:host(:nth-child(17)){flex-grow:var(--_table-cell-weight-17, 1);min-width:var(--_table-cell-min-width-17, auto);width:var(--_table-cell-width-17, calc(100% / var(--_table-nb-column)))}:host(:nth-child(18)){flex-grow:var(--_table-cell-weight-18, 1);min-width:var(--_table-cell-min-width-18, auto);width:var(--_table-cell-width-18, calc(100% / var(--_table-nb-column)))}:host(:nth-child(19)){flex-grow:var(--_table-cell-weight-19, 1);min-width:var(--_table-cell-min-width-19, auto);width:var(--_table-cell-width-19, calc(100% / var(--_table-nb-column)))}:host(:nth-child(20)){flex-grow:var(--_table-cell-weight-20, 1);min-width:var(--_table-cell-min-width-20, auto);width:var(--_table-cell-width-20, calc(100% / var(--_table-nb-column)))}:host([grid]){align-items:flex-start;border-right:none;flex-direction:column;justify-content:flex-start;margin-top:10px;padding:0}:host([grid]) .label{color:var(--text-color-light);font-size:var(--font-size-sm);margin-bottom:4px}:host([grid]) .content{margin-left:5px}:host([grid]) .resize{display:none}:host([grid]:first-child){margin-top:0}`;
-    constructor() { super(); if (this.constructor == TableCell) { throw "can't instanciate an abstract class"; } }
+    constructor() { super(); if (this.constructor == TableCell) { throw "can't instanciate an abstract class"; } }
     __getStatic() {
         return TableCell;
     }
@@ -19162,7 +19166,7 @@ Components.TableCellEnum = class TableCellEnum extends Components.TableCell {
     constructor() {
             super();
             this.enumEl = this.defineEnum();
-if (this.constructor == TableCellEnum) { throw "can't instanciate an abstract class"; } }
+if (this.constructor == TableCellEnum) { throw "can't instanciate an abstract class"; }}
     __getStatic() {
         return TableCellEnum;
     }
@@ -19397,7 +19401,7 @@ Components.TableData = class TableData extends Components.Table {
     set 'add_btn'(val) { this.setBoolAttr('add_btn', val) }    application;
     ram;
     static __style = `:host{position:relative}:host .add-btn{bottom:10px;display:none;position:absolute;right:10px;z-index:10;box-shadow:var(--elevation-4)}:host([grid][add_btn]) .add-btn{display:block}`;
-    constructor() { super(); if (this.constructor == TableData) { throw "can't instanciate an abstract class"; } this.onCreatedData=this.onCreatedData.bind(this)this.onUpdatedData=this.onUpdatedData.bind(this)this.onDeletedData=this.onDeletedData.bind(this) }
+    constructor() { super(); if (this.constructor == TableData) { throw "can't instanciate an abstract class"; }this.onCreatedData=this.onCreatedData.bind(this)this.onUpdatedData=this.onUpdatedData.bind(this)this.onDeletedData=this.onDeletedData.bind(this) }
     __getStatic() {
         return TableData;
     }
