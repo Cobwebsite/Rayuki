@@ -1,4 +1,5 @@
-import { WebComponent } from "Aventus@Main:Aventus.package.avt";
+import { WebComponent, type Asyncable } from "Aventus@Main:Aventus.package.avt";
+import { Md5 } from "./md5.lib.avt";
 
 namespace Lib {
     @Storybook({
@@ -19,36 +20,67 @@ namespace Lib {
             }
         }
 
-        public static async exportAsRawComponent(elements: Element[]) {
-            let txt = "";
-            let loaded: (typeof WebComponent)[] = [];
+        public static async exportAsRawComponent(elements: Element[], getAttrs?: (element: Element, base: (element: Element) => string) => Asyncable<string>): Promise<{ js: string, html: string; }> {
+            const result: { js: string, html: string; } = { js: '', html: '' };
+            let loaded: Map<typeof WebComponent, string[]> = new Map();
+            //#region createComponent
+            const createComponent = (wc: WebComponent, content: string): string => {
+                const type = wc.constructor as typeof WebComponent;
+                const loadedPart = loaded.get(type);
+                if(!loadedPart) {
+                    const tagUnder = wc.tag.replace(/-/g, '_');
+                    result.js += `class ${tagUnder} extends HTMLElement {
+    constructor() {
+        super();
+        let template = document.createElement('template');
+        template.innerHTML = this.getText();
 
-            const template = (tag: string, html: string, css: string) => {
-                const tagUnder = tag.replace(/-/g, '_');
-                txt += `class ${tagUnder} extends HTMLElement {
-                    constructor() {
-                        super();
-                        let template = document.createElement('template');
-                        template.innerHTML = this.getText();
-    
-                        const shadowRoot = this.attachShadow({ mode: "open" });
-                        const style = new CSSStyleSheet();
-                        style.replaceSync(this.getStyle());
-                        shadowRoot.adoptedStyleSheets = [style];
-                        shadowRoot.appendChild(template.content.cloneNode(true));
+        const shadowRoot = this.attachShadow({ mode: "open" });
+        const style = new CSSStyleSheet();
+        style.replaceSync(this.getStyle());
+        shadowRoot.adoptedStyleSheets = [style];
+        shadowRoot.appendChild(template.content.cloneNode(true));
+    }
+
+    getText() {
+        return \`${content}\`;
+    }
+
+    getStyle() {
+        return \`${this.rawStyle(wc)}\`;
+    }
+}
+customElements.define("${wc.tag}", ${tagUnder});
+`;
+                    loaded.set(type, [Md5.create(content)]);
+                    return wc.tag;
+                }
+                else {
+                    let hash = Md5.create(content);
+                    let index = loadedPart.indexOf(hash);
+                    if(index == 0) {
+                        return wc.tag;
                     }
-    
-                    getText() {
-                        return \`${html}\`;
+                    else if(index > 0) {
+                        return wc.tag + '-' + index;
                     }
-    
-                    getStyle() {
-                        return \`${css}\`;
+                    else {
+                        const tagUnder = wc.tag.replace(/-/g, '_');
+                        const tagUnderNb = tagUnder + '_' + loadedPart.length;
+                        const tagNb = wc.tag + '-' + loadedPart.length;
+                        result.js += `class ${tagUnderNb} extends ${tagUnder} {
+    getText() {
+        return \`${content}\`;
+    }
+}
+customElements.define("${tagNb}", ${tagUnderNb});
+`;
+                        loadedPart.push(hash);
+                        return tagNb;
                     }
                 }
-                customElements.define("${tag}", ${tagUnder});
-                `;
             };
+            //#endregion
 
             const imgMemory: { [url: string]: string; } = {};
 
@@ -67,24 +99,45 @@ namespace Lib {
                 });
             };
 
-            const load = async (element: Element) => {
-                for(let child of element.children) {
-                    await load(child);
-                }
-
-                if(element instanceof WebComponent) {
-                    const type = element.constructor as typeof WebComponent;
-                    if(!loaded.includes(type)) {
-                        loaded.push(type);
-
-                        for(let child of element.shadowRoot.children) {
-                            await load(child);
-                        }
-                        template(element.tag, element.shadowRoot.innerHTML, this.rawStyle(element));
-
-
+            const _getAttrs = (element: Element): string => {
+                const attrs: string[] = [];
+                for(let attr of element.attributes) {
+                    if(attr.value === undefined) {
+                        attrs.push(attr.name);
+                    }
+                    else {
+                        attrs.push(attr.name + "=\"" + attr.value + "\"");
                     }
                 }
+                return attrs.join(" ");
+            };
+
+            const attrs = getAttrs ? (async (element: Element) => await getAttrs(element, _getAttrs)) : _getAttrs;
+
+            const load = async (element: Element): Promise<string> => {
+                let tag = element.tagName.toLowerCase();
+
+                if(element instanceof WebComponent) {
+                    let txt = '';
+                    for(let child of element.shadowRoot.childNodes) {
+                        if(child instanceof Element)
+                            txt += await load(child);
+                        else
+                            txt += child.textContent;
+                    }
+
+                    tag = createComponent(element, txt);
+                }
+
+                let content = '';
+                for(let child of element.childNodes) {
+                    if(child instanceof Element)
+                        content += await load(child);
+                    else
+                        content += child.textContent;
+                }
+
+
 
                 if(element instanceof HTMLImageElement) {
                     if(element.src && !element.src.startsWith("data:")) {
@@ -94,13 +147,19 @@ namespace Lib {
                         element.src = imgMemory[element.src];
                     }
                 }
+                
+                let attributes = await attrs(element);
+                if(attributes.length > 0) {
+                    attributes = ' ' + attributes;
+                }
+                return `<${tag}${attributes}>${content}</${tag}>`;
             };
 
             for(let element of elements) {
-                await load(element);
+                result.html += await load(element);
             }
 
-            return txt;
+            return result;
         }
 
         private static rawStyle(element: WebComponent) {
@@ -111,34 +170,38 @@ namespace Lib {
             for(let name in stylesheets) {
                 cssTxt += Aventus.Style.sheetToString(stylesheets[name]);
             }
-
-            const regexVariables = /var\((--.*?)[,|\)]/g;
-            let m: RegExpExecArray | null = null;
-            let computedStyle: CSSStyleDeclaration | null = null;
-            const cssVarValue: { [variable: string]: string; } = {};
-            while((m = regexVariables.exec(cssTxt)) !== null) {
-                if(m.index === regexVariables.lastIndex) {
-                    regexVariables.lastIndex++;
-                }
-                if(cssVarValue[m[1]]) continue;
-
-                if(!computedStyle) {
-                    computedStyle = getComputedStyle(element);
-                }
-
-                let v = computedStyle.getPropertyValue(m[1]);
-                if(v) {
-                    cssVarValue[m[1]] = v;
-                }
-            }
-            let cssVarTxt = "";
-            for(let key in cssVarValue) {
-                cssVarTxt += `${key}:${cssVarValue[key]};`;
-            }
-            if(cssVarTxt)
-                cssTxt = `:host{${cssVarTxt}}` + cssTxt;
-
             return cssTxt;
+
+            // const regexVariables = /var\((--.*?)[,|\)]/g;
+            // let m: RegExpExecArray | null = null;
+            // let computedStyle: CSSStyleDeclaration | null = null;
+            // const cssVarValue: { [variable: string]: string; } = {};
+            // while((m = regexVariables.exec(cssTxt)) !== null) {
+            //     if(m[1] == '--col-padding') {
+            //         debugger
+            //     }
+            //     if(m.index === regexVariables.lastIndex) {
+            //         regexVariables.lastIndex++;
+            //     }
+            //     if(cssVarValue[m[1]]) continue;
+
+            //     if(!computedStyle) {
+            //         computedStyle = getComputedStyle(element);
+            //     }
+
+            //     let v = computedStyle.getPropertyValue(m[1]);
+            //     if(v) {
+            //         cssVarValue[m[1]] = v;
+            //     }
+            // }
+            // let cssVarTxt = "";
+            // for(let key in cssVarValue) {
+            //     cssVarTxt += `${key}:${cssVarValue[key]};`;
+            // }
+            // if(cssVarTxt)
+            //     cssTxt = `:host{${cssVarTxt}}` + cssTxt;
+
+            // return cssTxt;
         }
     }
 }

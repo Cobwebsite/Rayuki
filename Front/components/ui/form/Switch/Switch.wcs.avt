@@ -7,6 +7,8 @@
 	--_switch-font-size: var(--switch-font-size, var(--form-element-font-size, 16px));
 	--_switch-font-size-label: var(--switch-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));
 	--_switch-border-radius: var(--switch-border-radius, 10px);
+	--_switch-margin-label: var(--switch-margin-label, 30px);
+	--_switch-label-width: var(--switch-label-width, auto);
 }
 
 :host {
@@ -19,8 +21,10 @@
 	.label:not(:empty) {
 		cursor: pointer;
 		font-size: var(--_switch-font-size-label);
-		margin-right: 30px;
+		margin-right: var(--_switch-margin-label);
 		transition: filter 0.3s var(--bezier-curve);
+		width: var(--_switch-label-width);
+		display: inline-block;
 	}
 
 	.bar {
@@ -104,7 +108,7 @@
 
 :host([label_end]) {
 	.label:not(:empty) {
-		margin-left: 30px;
+		margin-left: var(--_switch-margin-label);
 		margin-right: 0px;
 		order: 2;
 	}

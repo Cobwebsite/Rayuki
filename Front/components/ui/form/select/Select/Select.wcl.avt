@@ -39,7 +39,7 @@ namespace Components {
             // if(option.value !== undefined) {
             //     return option.value
             // }
-            return option.innerHTML;
+            return option.innerHTML.replace(/&nbsp;/g, " ");
         }
 
         //#endregion

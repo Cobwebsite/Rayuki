@@ -1353,122 +1353,169 @@ Components.SheetSplitter.Tag=`rk-sheet-splitter`;
 _.Components.SheetSplitter=Components.SheetSplitter;
 if(!window.customElements.get('rk-sheet-splitter')){window.customElements.define('rk-sheet-splitter', Components.SheetSplitter);Aventus.WebComponentInstance.registerDefinition(Components.SheetSplitter);}
 
-Lib.DomTools=class DomTools {
-    static clearElement(element) {
-        const children = Array.from(element.children);
-        for (let child of children) {
-            child.remove();
-        }
+let Md5=class Md5 {
+    static create(txt) {
+        return this.rstr2hex(this.rstr_md5(this.str2rstr_utf8(txt)));
     }
-    static async exportAsRawComponent(elements) {
-        let txt = "";
-        let loaded = [];
-        const template = (tag, html, css) => {
-            const tagUnder = tag.replace(/-/g, '_');
-            txt += `class ${tagUnder} extends HTMLElement {
-                    constructor() {
-                        super();
-                        let template = document.createElement('template');
-                        template.innerHTML = this.getText();
-    
-                        const shadowRoot = this.attachShadow({ mode: "open" });
-                        const style = new CSSStyleSheet();
-                        style.replaceSync(this.getStyle());
-                        shadowRoot.adoptedStyleSheets = [style];
-                        shadowRoot.appendChild(template.content.cloneNode(true));
-                    }
-    
-                    getText() {
-                        return \`${html}\`;
-                    }
-    
-                    getStyle() {
-                        return \`${css}\`;
-                    }
-                }
-                customElements.define("${tag}", ${tagUnder});
-                `;
-        };
-        const imgMemory = {};
-        const urlToBase64 = (url) => {
-            return new Promise(async (resolve, reject) => {
-                try {
-                    const response = await fetch(url);
-                    const blob = await response.blob();
-                    const reader = new FileReader();
-                    reader.onloadend = () => resolve(reader.result);
-                    reader.onerror = reject;
-                    reader.readAsDataURL(blob);
-                }
-                catch (e) {
-                    reject(e);
-                }
-            });
-        };
-        const load = async (element) => {
-            for (let child of element.children) {
-                await load(child);
-            }
-            if (element instanceof Aventus.WebComponent) {
-                const type = element.constructor;
-                if (!loaded.includes(type)) {
-                    loaded.push(type);
-                    for (let child of element.shadowRoot.children) {
-                        await load(child);
-                    }
-                    template(element.tag, element.shadowRoot.innerHTML, this.rawStyle(element));
-                }
-            }
-            if (element instanceof HTMLImageElement) {
-                if (element.src && !element.src.startsWith("data:")) {
-                    if (!imgMemory[element.src]) {
-                        imgMemory[element.src] = await urlToBase64(element.src);
-                    }
-                    element.src = imgMemory[element.src];
-                }
-            }
-        };
-        for (let element of elements) {
-            await load(element);
+    static rstr2hex(input) {
+        var hex_tab = "0123456789abcdef";
+        var output = "";
+        var x;
+        for (var i = 0; i < input.length; i++) {
+            x = input.charCodeAt(i);
+            output += hex_tab.charAt((x >>> 4) & 0x0F)
+                + hex_tab.charAt(x & 0x0F);
         }
-        return txt;
+        return output;
     }
-    static rawStyle(element) {
-        const type = element.constructor;
-        let stylesheets = type['__styleSheets'];
-        let cssTxt = "";
-        for (let name in stylesheets) {
-            cssTxt += Aventus.Style.sheetToString(stylesheets[name]);
+    static rstr_md5(txt) {
+        return this.binl2rstr(this.binl_md5(this.rstr2binl(txt), txt.length * 8));
+    }
+    static binl2rstr(input) {
+        var output = "";
+        for (var i = 0; i < input.length * 32; i += 8)
+            output += String.fromCharCode((input[i >> 5] >>> (i % 32)) & 0xFF);
+        return output;
+    }
+    static binl_md5(x, len) {
+        x[len >> 5] |= 0x80 << ((len) % 32);
+        x[(((len + 64) >>> 9) << 4) + 14] = len;
+        var a = 1732584193;
+        var b = -271733879;
+        var c = -1732584194;
+        var d = 271733878;
+        for (var i = 0; i < x.length; i += 16) {
+            var olda = a;
+            var oldb = b;
+            var oldc = c;
+            var oldd = d;
+            a = this.md5_ff(a, b, c, d, x[i + 0], 7, -680876936);
+            d = this.md5_ff(d, a, b, c, x[i + 1], 12, -389564586);
+            c = this.md5_ff(c, d, a, b, x[i + 2], 17, 606105819);
+            b = this.md5_ff(b, c, d, a, x[i + 3], 22, -1044525330);
+            a = this.md5_ff(a, b, c, d, x[i + 4], 7, -176418897);
+            d = this.md5_ff(d, a, b, c, x[i + 5], 12, 1200080426);
+            c = this.md5_ff(c, d, a, b, x[i + 6], 17, -1473231341);
+            b = this.md5_ff(b, c, d, a, x[i + 7], 22, -45705983);
+            a = this.md5_ff(a, b, c, d, x[i + 8], 7, 1770035416);
+            d = this.md5_ff(d, a, b, c, x[i + 9], 12, -1958414417);
+            c = this.md5_ff(c, d, a, b, x[i + 10], 17, -42063);
+            b = this.md5_ff(b, c, d, a, x[i + 11], 22, -1990404162);
+            a = this.md5_ff(a, b, c, d, x[i + 12], 7, 1804603682);
+            d = this.md5_ff(d, a, b, c, x[i + 13], 12, -40341101);
+            c = this.md5_ff(c, d, a, b, x[i + 14], 17, -1502002290);
+            b = this.md5_ff(b, c, d, a, x[i + 15], 22, 1236535329);
+            a = this.md5_gg(a, b, c, d, x[i + 1], 5, -165796510);
+            d = this.md5_gg(d, a, b, c, x[i + 6], 9, -1069501632);
+            c = this.md5_gg(c, d, a, b, x[i + 11], 14, 643717713);
+            b = this.md5_gg(b, c, d, a, x[i + 0], 20, -373897302);
+            a = this.md5_gg(a, b, c, d, x[i + 5], 5, -701558691);
+            d = this.md5_gg(d, a, b, c, x[i + 10], 9, 38016083);
+            c = this.md5_gg(c, d, a, b, x[i + 15], 14, -660478335);
+            b = this.md5_gg(b, c, d, a, x[i + 4], 20, -405537848);
+            a = this.md5_gg(a, b, c, d, x[i + 9], 5, 568446438);
+            d = this.md5_gg(d, a, b, c, x[i + 14], 9, -1019803690);
+            c = this.md5_gg(c, d, a, b, x[i + 3], 14, -187363961);
+            b = this.md5_gg(b, c, d, a, x[i + 8], 20, 1163531501);
+            a = this.md5_gg(a, b, c, d, x[i + 13], 5, -1444681467);
+            d = this.md5_gg(d, a, b, c, x[i + 2], 9, -51403784);
+            c = this.md5_gg(c, d, a, b, x[i + 7], 14, 1735328473);
+            b = this.md5_gg(b, c, d, a, x[i + 12], 20, -1926607734);
+            a = this.md5_hh(a, b, c, d, x[i + 5], 4, -378558);
+            d = this.md5_hh(d, a, b, c, x[i + 8], 11, -2022574463);
+            c = this.md5_hh(c, d, a, b, x[i + 11], 16, 1839030562);
+            b = this.md5_hh(b, c, d, a, x[i + 14], 23, -35309556);
+            a = this.md5_hh(a, b, c, d, x[i + 1], 4, -1530992060);
+            d = this.md5_hh(d, a, b, c, x[i + 4], 11, 1272893353);
+            c = this.md5_hh(c, d, a, b, x[i + 7], 16, -155497632);
+            b = this.md5_hh(b, c, d, a, x[i + 10], 23, -1094730640);
+            a = this.md5_hh(a, b, c, d, x[i + 13], 4, 681279174);
+            d = this.md5_hh(d, a, b, c, x[i + 0], 11, -358537222);
+            c = this.md5_hh(c, d, a, b, x[i + 3], 16, -722521979);
+            b = this.md5_hh(b, c, d, a, x[i + 6], 23, 76029189);
+            a = this.md5_hh(a, b, c, d, x[i + 9], 4, -640364487);
+            d = this.md5_hh(d, a, b, c, x[i + 12], 11, -421815835);
+            c = this.md5_hh(c, d, a, b, x[i + 15], 16, 530742520);
+            b = this.md5_hh(b, c, d, a, x[i + 2], 23, -995338651);
+            a = this.md5_ii(a, b, c, d, x[i + 0], 6, -198630844);
+            d = this.md5_ii(d, a, b, c, x[i + 7], 10, 1126891415);
+            c = this.md5_ii(c, d, a, b, x[i + 14], 15, -1416354905);
+            b = this.md5_ii(b, c, d, a, x[i + 5], 21, -57434055);
+            a = this.md5_ii(a, b, c, d, x[i + 12], 6, 1700485571);
+            d = this.md5_ii(d, a, b, c, x[i + 3], 10, -1894986606);
+            c = this.md5_ii(c, d, a, b, x[i + 10], 15, -1051523);
+            b = this.md5_ii(b, c, d, a, x[i + 1], 21, -2054922799);
+            a = this.md5_ii(a, b, c, d, x[i + 8], 6, 1873313359);
+            d = this.md5_ii(d, a, b, c, x[i + 15], 10, -30611744);
+            c = this.md5_ii(c, d, a, b, x[i + 6], 15, -1560198380);
+            b = this.md5_ii(b, c, d, a, x[i + 13], 21, 1309151649);
+            a = this.md5_ii(a, b, c, d, x[i + 4], 6, -145523070);
+            d = this.md5_ii(d, a, b, c, x[i + 11], 10, -1120210379);
+            c = this.md5_ii(c, d, a, b, x[i + 2], 15, 718787259);
+            b = this.md5_ii(b, c, d, a, x[i + 9], 21, -343485551);
+            a = this.safe_add(a, olda);
+            b = this.safe_add(b, oldb);
+            c = this.safe_add(c, oldc);
+            d = this.safe_add(d, oldd);
         }
-        const regexVariables = /var\((--.*?)[,|\)]/g;
-        let m = null;
-        let computedStyle = null;
-        const cssVarValue = {};
-        while ((m = regexVariables.exec(cssTxt)) !== null) {
-            if (m.index === regexVariables.lastIndex) {
-                regexVariables.lastIndex++;
+        return Array(a, b, c, d);
+    }
+    static rstr2binl(input) {
+        var output = Array(input.length >> 2);
+        for (var i = 0; i < output.length; i++)
+            output[i] = 0;
+        for (var i = 0; i < input.length * 8; i += 8)
+            output[i >> 5] |= (input.charCodeAt(i / 8) & 0xFF) << (i % 32);
+        return output;
+    }
+    static str2rstr_utf8(input) {
+        var output = "";
+        var i = -1;
+        var x, y;
+        while (++i < input.length) {
+            x = input.charCodeAt(i);
+            y = i + 1 < input.length ? input.charCodeAt(i + 1) : 0;
+            if (0xD800 <= x && x <= 0xDBFF && 0xDC00 <= y && y <= 0xDFFF) {
+                x = 0x10000 + ((x & 0x03FF) << 10) + (y & 0x03FF);
+                i++;
             }
-            if (cssVarValue[m[1]])
-                continue;
-            if (!computedStyle) {
-                computedStyle = getComputedStyle(element);
-            }
-            let v = computedStyle.getPropertyValue(m[1]);
-            if (v) {
-                cssVarValue[m[1]] = v;
-            }
+            if (x <= 0x7F)
+                output += String.fromCharCode(x);
+            else if (x <= 0x7FF)
+                output += String.fromCharCode(0xC0 | ((x >>> 6) & 0x1F), 0x80 | (x & 0x3F));
+            else if (x <= 0xFFFF)
+                output += String.fromCharCode(0xE0 | ((x >>> 12) & 0x0F), 0x80 | ((x >>> 6) & 0x3F), 0x80 | (x & 0x3F));
+            else if (x <= 0x1FFFFF)
+                output += String.fromCharCode(0xF0 | ((x >>> 18) & 0x07), 0x80 | ((x >>> 12) & 0x3F), 0x80 | ((x >>> 6) & 0x3F), 0x80 | (x & 0x3F));
         }
-        let cssVarTxt = "";
-        for (let key in cssVarValue) {
-            cssVarTxt += `${key}:${cssVarValue[key]};`;
-        }
-        if (cssVarTxt)
-            cssTxt = `:host{${cssVarTxt}}` + cssTxt;
-        return cssTxt;
+        return output;
+    }
+    static md5_cmn(q, a, b, x, s, t) {
+        return this.safe_add(this.bit_rol(this.safe_add(this.safe_add(a, q), this.safe_add(x, t)), s), b);
+    }
+    static md5_ff(a, b, c, d, x, s, t) {
+        return this.md5_cmn((b & c) | ((~b) & d), a, b, x, s, t);
+    }
+    static md5_gg(a, b, c, d, x, s, t) {
+        return this.md5_cmn((b & d) | (c & (~d)), a, b, x, s, t);
+    }
+    static md5_hh(a, b, c, d, x, s, t) {
+        return this.md5_cmn(b ^ c ^ d, a, b, x, s, t);
+    }
+    static md5_ii(a, b, c, d, x, s, t) {
+        return this.md5_cmn(c ^ (b | (~d)), a, b, x, s, t);
+    }
+    static safe_add(x, y) {
+        var lsw = (x & 0xFFFF) + (y & 0xFFFF);
+        var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+        return (msw << 16) | (lsw & 0xFFFF);
+    }
+    static bit_rol(num, cnt) {
+        return (num << cnt) | (num >>> (32 - cnt));
     }
 }
-Lib.DomTools.Namespace=`Core.Lib`;
-_.Lib.DomTools=Lib.DomTools;
+Md5.Namespace=`Core`;
+_.Md5=Md5;
 
 Lib.DateTools=class DateTools {
     static isSameDate(date1, date2) {
@@ -1749,6 +1796,19 @@ _.Lib.ApplicationStateManager=Lib.ApplicationStateManager;
 
 let Style=class Style {
     colors = ['green', 'success', 'red', 'error', 'orange', 'warning', 'blue', 'information', 'primary', 'secondary'];
+    static async getTheme(appName) {
+        let url = appName ? `/apps/${appName}/default.css` : `/autoload/default.css`;
+        const request = new Aventus.HttpRequest(url);
+        const themeResponse = await request.queryTxt();
+        let result = '';
+        if (themeResponse.success && themeResponse.result) {
+            const matches = themeResponse.result.matchAll(/:root\{.*?\}/g);
+            for (const match of matches) {
+                result += match[0];
+            }
+        }
+        return result;
+    }
 }
 Style.Namespace=`Core`;
 _.Style=Style;
@@ -11370,6 +11430,165 @@ Components.CalendarDayDefault.Tag=`rk-calendar-day-default`;
 _.Components.CalendarDayDefault=Components.CalendarDayDefault;
 if(!window.customElements.get('rk-calendar-day-default')){window.customElements.define('rk-calendar-day-default', Components.CalendarDayDefault);Aventus.WebComponentInstance.registerDefinition(Components.CalendarDayDefault);}
 
+Lib.DomTools=class DomTools {
+    static clearElement(element) {
+        const children = Array.from(element.children);
+        for (let child of children) {
+            child.remove();
+        }
+    }
+    static async exportAsRawComponent(elements, getAttrs) {
+        const result = { js: '', html: '' };
+        let loaded = new Map();
+        const createComponent = (wc, content) => {
+            const type = wc.constructor;
+            const loadedPart = loaded.get(type);
+            if (!loadedPart) {
+                const tagUnder = wc.tag.replace(/-/g, '_');
+                result.js += `class ${tagUnder} extends HTMLElement {
+    constructor() {
+        super();
+        let template = document.createElement('template');
+        template.innerHTML = this.getText();
+
+        const shadowRoot = this.attachShadow({ mode: "open" });
+        const style = new CSSStyleSheet();
+        style.replaceSync(this.getStyle());
+        shadowRoot.adoptedStyleSheets = [style];
+        shadowRoot.appendChild(template.content.cloneNode(true));
+    }
+
+    getText() {
+        return \`${content}\`;
+    }
+
+    getStyle() {
+        return \`${this.rawStyle(wc)}\`;
+    }
+}
+customElements.define("${wc.tag}", ${tagUnder});
+`;
+                loaded.set(type, [Md5.create(content)]);
+                return wc.tag;
+            }
+            else {
+                let hash = Md5.create(content);
+                let index = loadedPart.indexOf(hash);
+                if (index == 0) {
+                    return wc.tag;
+                }
+                else if (index > 0) {
+                    return wc.tag + '-' + index;
+                }
+                else {
+                    const tagUnder = wc.tag.replace(/-/g, '_');
+                    const tagUnderNb = tagUnder + '_' + loadedPart.length;
+                    const tagNb = wc.tag + '-' + loadedPart.length;
+                    result.js += `class ${tagUnderNb} extends ${tagUnder} {
+    getText() {
+        return \`${content}\`;
+    }
+}
+customElements.define("${tagNb}", ${tagUnderNb});
+`;
+                    loadedPart.push(hash);
+                    return tagNb;
+                }
+            }
+        };
+        const imgMemory = {};
+        const urlToBase64 = (url) => {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    const response = await fetch(url);
+                    const blob = await response.blob();
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(blob);
+                }
+                catch (e) {
+                    reject(e);
+                }
+            });
+        };
+        const _getAttrs = (element) => {
+            const attrs = [];
+            for (let attr of element.attributes) {
+                if (attr.value === undefined) {
+                    attrs.push(attr.name);
+                }
+                else {
+                    attrs.push(attr.name + "=\"" + attr.value + "\"");
+                }
+            }
+            return attrs.join(" ");
+        };
+        const attrs = getAttrs ? (async (element) => await getAttrs(element, _getAttrs)) : _getAttrs;
+        const load = async (element) => {
+            let tag = element.tagName.toLowerCase();
+            if (element instanceof Aventus.WebComponent) {
+                let txt = '';
+                for (let child of element.shadowRoot.childNodes) {
+                    if (child instanceof Element)
+                        txt += await load(child);
+                    else
+                        txt += child.textContent;
+                }
+                tag = createComponent(element, txt);
+            }
+            let content = '';
+            for (let child of element.childNodes) {
+                if (child instanceof Element)
+                    content += await load(child);
+                else
+                    content += child.textContent;
+            }
+            if (element instanceof HTMLImageElement) {
+                if (element.src && !element.src.startsWith("data:")) {
+                    if (!imgMemory[element.src]) {
+                        imgMemory[element.src] = await urlToBase64(element.src);
+                    }
+                    element.src = imgMemory[element.src];
+                }
+            }
+            let attributes = await attrs(element);
+            if (attributes.length > 0) {
+                attributes = ' ' + attributes;
+            }
+            return `<${tag}${attributes}>${content}</${tag}>`;
+        };
+        for (let element of elements) {
+            result.html += await load(element);
+        }
+        return result;
+    }
+    static rawStyle(element) {
+        const type = element.constructor;
+        let stylesheets = type['__styleSheets'];
+        let cssTxt = "";
+        for (let name in stylesheets) {
+            cssTxt += Aventus.Style.sheetToString(stylesheets[name]);
+        }
+        return cssTxt;
+        // const regexVariables = /var\((--.*?)[,|\)]/g;
+        // let m: RegExpExecArray | null = null;
+        // let computedStyle: CSSStyleDeclaration | null = null;
+        // while((m = regexVariables.exec(cssTxt)) !== null) {
+        //     if(m[1] == '--col-padding') {
+        //     if(m.index === regexVariables.lastIndex) {
+        //     if(cssVarValue[m[1]]) continue;
+        //     if(!computedStyle) {
+        //         computedStyle = getComputedStyle(element);
+        //     let v = computedStyle.getPropertyValue(m[1]);
+        //     if(v) {
+        // for(let key in cssVarValue) {
+        // if(cssVarTxt)
+    }
+}
+Lib.DomTools.Namespace=`Core.Lib`;
+_.Lib.DomTools=Lib.DomTools;
+
 Components.Calendar = class Calendar extends Aventus.WebComponent {
     static get observedAttributes() {return ["date", "show_selector"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'selector'() { return this.getStringAttr('selector') }
@@ -13424,7 +13643,7 @@ Components.Switch = class Switch extends Components.FormElement {
 }));this.__addPropertyActions("checked", ((target) => {
     target.value = target.checked;
 })); }
-    static __style = `:host{--_switch-background-color: var(--switch-background-color, var(--form-element-background, white));--_switch-dot-size: var(--switch-dot-size, 20px);--_switch-dot-color: var(--switch-dot-color, var(--secondary-color));--_switch-active-dot-color: var(--switch-active-dot-color, var(--secondary-color-active));--_switch-active-background-color: var(--switch-active-background-color, var(--secondary-color));--_switch-font-size: var(--switch-font-size, var(--form-element-font-size, 16px));--_switch-font-size-label: var(--switch-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_switch-border-radius: var(--switch-border-radius, 10px)}:host{align-items:center;display:flex;font-size:var(--_switch-font-size);min-height:var(--_switch-dot-size);width:100%}:host .label:not(:empty){cursor:pointer;font-size:var(--_switch-font-size-label);margin-right:30px;transition:filter .3s var(--bezier-curve)}:host .bar{align-items:center;background-color:var(--_switch-background-color);border-radius:var(--_switch-border-radius);cursor:pointer;display:flex;height:10px;position:relative;transition:filter .3s var(--bezier-curve);width:30px}:host .bar input{appearance:none;background-color:rgba(0,0,0,0);border:0;cursor:pointer;height:100%;left:0;margin:0;outline:none;padding:0;position:absolute;top:0;width:100%}:host .bar .bar-content{align-items:center;background-color:rgba(0,0,0,0);display:flex;height:100%;pointer-events:none;position:relative;width:100%}:host .bar .bar-content .dot{background-color:var(--_switch-dot-color);border-radius:var(--border-radius-round);box-shadow:none;cursor:pointer;height:var(--_switch-dot-size);left:0%;pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_switch-dot-size)}:host .bar .bar-content .bar-fill{background-color:var(--_switch-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:0%}:host .bar input:checked+.bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host .bar input:checked+.bar-content .bar-fill{width:100%}:host([label_end]) .label:not(:empty){margin-left:30px;margin-right:0px;order:2}:host([checked]) .bar .bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host([checked]) .bar .bar-content .bar-fill{width:100%}:host([disabled]) .bar{cursor:not-allowed;filter:brightness(0.75)}:host([disabled]) .bar input{cursor:not-allowed}:host([disabled]) .bar .bar-content .dot{cursor:not-allowed}:host([disabled]) .label{cursor:default;filter:brightness(0.75)}`;
+    static __style = `:host{--_switch-background-color: var(--switch-background-color, var(--form-element-background, white));--_switch-dot-size: var(--switch-dot-size, 20px);--_switch-dot-color: var(--switch-dot-color, var(--secondary-color));--_switch-active-dot-color: var(--switch-active-dot-color, var(--secondary-color-active));--_switch-active-background-color: var(--switch-active-background-color, var(--secondary-color));--_switch-font-size: var(--switch-font-size, var(--form-element-font-size, 16px));--_switch-font-size-label: var(--switch-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_switch-border-radius: var(--switch-border-radius, 10px);--_switch-margin-label: var(--switch-margin-label, 30px);--_switch-label-width: var(--switch-label-width, auto)}:host{align-items:center;display:flex;font-size:var(--_switch-font-size);min-height:var(--_switch-dot-size);width:100%}:host .label:not(:empty){cursor:pointer;font-size:var(--_switch-font-size-label);margin-right:var(--_switch-margin-label);transition:filter .3s var(--bezier-curve);width:var(--_switch-label-width);display:inline-block}:host .bar{align-items:center;background-color:var(--_switch-background-color);border-radius:var(--_switch-border-radius);cursor:pointer;display:flex;height:10px;position:relative;transition:filter .3s var(--bezier-curve);width:30px}:host .bar input{appearance:none;background-color:rgba(0,0,0,0);border:0;cursor:pointer;height:100%;left:0;margin:0;outline:none;padding:0;position:absolute;top:0;width:100%}:host .bar .bar-content{align-items:center;background-color:rgba(0,0,0,0);display:flex;height:100%;pointer-events:none;position:relative;width:100%}:host .bar .bar-content .dot{background-color:var(--_switch-dot-color);border-radius:var(--border-radius-round);box-shadow:none;cursor:pointer;height:var(--_switch-dot-size);left:0%;pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_switch-dot-size)}:host .bar .bar-content .bar-fill{background-color:var(--_switch-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:0%}:host .bar input:checked+.bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host .bar input:checked+.bar-content .bar-fill{width:100%}:host([label_end]) .label:not(:empty){margin-left:var(--_switch-margin-label);margin-right:0px;order:2}:host([checked]) .bar .bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host([checked]) .bar .bar-content .bar-fill{width:100%}:host([disabled]) .bar{cursor:not-allowed;filter:brightness(0.75)}:host([disabled]) .bar input{cursor:not-allowed}:host([disabled]) .bar .bar-content .dot{cursor:not-allowed}:host([disabled]) .label{cursor:default;filter:brightness(0.75)}`;
     __getStatic() {
         return Switch;
     }
@@ -16668,7 +16887,7 @@ Components.Select = class Select extends Components.GenericSelect {
         // if(option.value !== undefined) {
         //     return option.value
         // }
-        return option.innerHTML;
+        return option.innerHTML.replace(/&nbsp;/g, " ");
     }
 }
 Components.Select.Namespace=`Core.Components`;

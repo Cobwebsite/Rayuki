@@ -27,4 +27,19 @@ export const Colors = {
 export class Style {
 
     public colors: ColorsType[] = ['green', 'success', 'red', 'error', 'orange', 'warning', 'blue', 'information', 'primary', 'secondary'];
+
+    public static async getTheme(appName?: string) {
+        let url = appName ? `/apps/${appName}/default.css` : `/autoload/default.css`;
+        const request = new Aventus.HttpRequest(url);
+        const themeResponse = await request.queryTxt();
+        let result = '';
+        if(themeResponse.success && themeResponse.result) {
+            const matches = themeResponse.result.matchAll(/:root\{.*?\}/g);
+            for(const match of matches) {
+                result += match[0];
+            }
+        }
+
+        return result;
+    }
 }

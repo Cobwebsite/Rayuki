@@ -7535,8 +7535,8 @@ Aventus.Converter.register(Data.ResultWithDataError.Fullname, Data.ResultWithDat
 _.Data.ResultWithDataError=Data.ResultWithDataError;
 
 Routes.StorableRouter=class StorableRouter extends Aventus.HttpRoute {
-    constructor() {
-        super();
+    constructor(router) {
+        super(router);
         this.GetAll = this.GetAll.bind(this);
         this.Create = this.Create.bind(this);
         this.CreateMany = this.CreateMany.bind(this);
