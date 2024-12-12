@@ -113,6 +113,13 @@ namespace System {
         }
 
         /**
+         * Do action before application killed
+         */
+        public async beforeKill(prevent: () => void): Promise<void> {
+
+        }
+
+        /**
          * Execute a query and get the result
          * The errors will be handled by the application
          */

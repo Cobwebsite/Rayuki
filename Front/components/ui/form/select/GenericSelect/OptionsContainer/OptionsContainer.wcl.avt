@@ -1,3 +1,4 @@
+import { Style } from "../../../../../../libs/Style.lib.avt";
 import type { GenericSelect } from "../GenericSelect.wcl.avt";
 
 namespace Components {
@@ -23,6 +24,7 @@ namespace Components {
 
         public onOpen: Aventus.Callback<(open: boolean) => void> = new Aventus.Callback();
         public isAnimating: boolean = false;
+        protected firstOpen: boolean = true;
         //#endregion
 
 
@@ -38,6 +40,10 @@ namespace Components {
         public async show(container?: HTMLElement) {
             if(!container) {
                 container = document.body;
+            }
+
+            if(this.firstOpen) {
+                Style.lockVariable(this, "--options-container-background");
             }
 
             let box = this.select.getBoundingClientRect();
@@ -68,7 +74,7 @@ namespace Components {
             this.addEventListener("transitionend", (event) => {
                 this.isAnimating = false;
                 if(!this.open) {
-                    this.parentElement?.removeChild(this)
+                    this.parentElement?.removeChild(this);
                 }
             });
         }

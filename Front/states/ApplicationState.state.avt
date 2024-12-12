@@ -203,7 +203,7 @@ namespace State {
             return this._form.validate(key);
         }
 
-        public async execute<X>(query: Aventus.Asyncable<ApplicationQueryFctResult<X>>): Promise<ApplicationQueryFctResult<X> | Awaited<X> | undefined> {
+        public async execute<X>(query: Aventus.Asyncable<ApplicationQueryFctResult<X>>): Promise<Awaited<X> | undefined> {
             const queryResult = await this._form.execute(query);
             return await this.application.parseErrors(queryResult);
         }

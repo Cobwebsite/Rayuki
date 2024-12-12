@@ -827,8 +827,16 @@ namespace System {
         /**
          * Kills the application (removes it from the DOM).
          */
-        public kill() {
-            this.remove();
+        public async kill() {
+            let canKill = true;
+            if(this.oldFrame) {
+                await this.oldFrame.beforeKill(() => {
+                    canKill = false;
+                })
+            }
+            if(canKill) {
+                this.remove();
+            }
         }
         //#endregion
 

@@ -35,16 +35,16 @@ namespace Lib {
         export: 'protected'
     })
     export class ShortcutManager {
-        private static memory: { [key: string]: (() => void)[]; } = {};
+        private static memory: { [key: string]: (() => void | false | Promise<void>)[]; } = {};
         private static autoPrevents: string[] = [];
         private static isInit: boolean = false;
         private static arrayKeys: string[] = [];
 
-        private static options: Map<() => void, ShortcutManagerOptions> = new Map();
+        private static options: Map<() => void | false | Promise<void>, ShortcutManagerOptions> = new Map();
 
-        private static replacingMemory: { [key: string]: (() => void)[][]; } = {};
+        private static replacingMemory: { [key: string]: (() => void | false | Promise<void>)[][]; } = {};
 
-        private static isTxt(touch:string) {
+        private static isTxt(touch: string) {
             return touch.match(/[a-zA-Z0-9_\+\-]/g);
         }
 
@@ -66,7 +66,7 @@ namespace Lib {
             allTouches.sort();
             return allTouches.join("+");
         }
-        public static subscribe(combinaison: (SpecialTouch | string)[] | (SpecialTouch | string), cb: () => void, options?: ShortcutManagerOptions) {
+        public static subscribe(combinaison: (SpecialTouch | string)[] | (SpecialTouch | string), cb: () => void | false | Promise<void>, options?: ShortcutManagerOptions) {
             if(!Array.isArray(combinaison)) {
                 combinaison = [combinaison];
             }
@@ -93,7 +93,7 @@ namespace Lib {
                 ShortcutManager.init();
             }
         }
-        public static unsubscribe(combinaison: (SpecialTouch | string)[] | (SpecialTouch | string), cb: () => void) {
+        public static unsubscribe(combinaison: (SpecialTouch | string)[] | (SpecialTouch | string), cb: () => void | false | Promise<void>) {
             if(!Array.isArray(combinaison)) {
                 combinaison = [combinaison];
             }
@@ -165,13 +165,17 @@ namespace Lib {
                         preventDefault = false;
                     }
                 }
-                if(preventDefault) {
-                    e.preventDefault();
-                }
+
 
                 this.arrayKeys = [];
                 for(let cb of ShortcutManager.memory[key]) {
-                    cb();
+                    const result = cb();
+                    if(result === false) {
+                        preventDefault = result;
+                    }
+                }
+                if(preventDefault) {
+                    e.preventDefault();
                 }
             }
             else if(ShortcutManager.autoPrevents.includes(key)) {

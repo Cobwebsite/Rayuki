@@ -35,6 +35,7 @@ namespace Components {
     
         private _formPart?: InternalFormPart<T>;
     
+        @Injectable()
         public get formPart(): InternalFormPart<T> | undefined {
             return this._formPart;
         }

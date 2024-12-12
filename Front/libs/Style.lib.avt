@@ -42,4 +42,9 @@ export class Style {
 
         return result;
     }
+
+    public static lockVariable(el: HTMLElement, prop: string) {
+        let computed = getComputedStyle(el);
+        el.style.setProperty(prop, computed.getPropertyValue(prop.replace("--", "--_")))
+    }
 }

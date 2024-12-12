@@ -42,7 +42,7 @@ namespace Components {
 
 
         //#region constructor
-        
+
         //#endregion
 
 
@@ -65,6 +65,9 @@ namespace Components {
                     if(first == null) {
                         first = header;
                     }
+                    else if(!first.tab.selected && element.selected) {
+                        first = header;
+                    }
                 }
             }
 
@@ -76,12 +79,14 @@ namespace Components {
         public displayActive(tabHeader: TabHeader<T>) {
             if(this.activeHeader) {
                 this.activeHeader.active = false;
+                this.activeHeader.tab.selected = false;
                 this.activeHeader.tab.style.display = 'none';
             }
 
             this.activeHeader = tabHeader;
             this.activeHeader.active = true;
             this.activeHeader.tab.style.display = '';
+            this.activeHeader.tab.selected = true;
             this.validateCorner();
         }
 

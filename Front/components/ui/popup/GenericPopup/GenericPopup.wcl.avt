@@ -2,6 +2,7 @@ import type { PopupInfo } from "../Popup/Popup.wcl.avt";
 import type { Scrollable } from "../../layout/Scrollable/Scrollable.wcl.avt";
 import type { ContextMenu, IContextMenu } from "../../ContextMenu/ContextMenu.wcl.avt";
 import type { Application } from "../../../system/Application/Application.wcl.avt";
+import { ShortcutManager, SpecialTouch } from "../../../../libs/ShortcutManager.lib.avt";
 
 namespace Components {
     @Storybook({
@@ -73,6 +74,7 @@ namespace Components {
          */
         public init(cb: (response: T) => void) {
             this.cb = cb;
+            ShortcutManager.subscribe(SpecialTouch.Escape, this.cancel);
         }
 
         protected onOptionsChanged() {
@@ -100,6 +102,7 @@ namespace Components {
         }
 
         protected resolve(response: T, no_close?: boolean) {
+            ShortcutManager.unsubscribe(SpecialTouch.Escape, this.cancel);
             if(this.cb) {
                 this.cb(response);
             }
@@ -119,6 +122,7 @@ namespace Components {
          * }
          * ```
          */
+        @BindThis()
         protected abstract cancel(): void;
 
         protected addPress() {

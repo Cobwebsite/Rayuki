@@ -18,6 +18,9 @@ namespace Lib {
                             console.warn("can't find src for ", font);
                         }
                     }
+                    else {
+                        result.push(font);
+                    }
                 }
             }
             return result;

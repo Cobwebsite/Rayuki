@@ -24,6 +24,8 @@ namespace Components {
 
         @Watch((target: InputNumber) => {
             target.inputEl.value = target.value !== undefined ? target.value + '' : '';
+            if(target.value !== undefined)
+                target.value = target._round(target.value);
         })
         public override value: number | undefined = undefined;
 
@@ -35,6 +37,11 @@ namespace Components {
 
         @Property()
         public unit?: string;
+
+        @Property((target: InputNumber) => {
+            target.setRoundFactor();
+        })
+        public round?: string;
 
         @Attribute()
         public readonly!: boolean;
@@ -61,6 +68,7 @@ namespace Components {
                 biggerThanMax: "Le nombre n'est pas plus petit que " + this.max,
             };
 
+        protected roundFactor?: number = undefined;
         //#endregion
 
 
@@ -70,6 +78,16 @@ namespace Components {
 
         //#region methods
 
+        protected setRoundFactor() {
+            if(this.round) {
+                let nb = Number(this.round);
+                if(!isNaN(nb)) {
+                    this.roundFactor = Math.pow(10, nb);
+                    return;
+                }
+            }
+            this.roundFactor = undefined;
+        }
         /**
          * 
          */
@@ -123,6 +141,13 @@ namespace Components {
             return super.onFormValidation(errors);
         }
 
+        protected _round(nb: number): number {
+            if(this.roundFactor) {
+                return Math.round(nb * this.roundFactor) / this.roundFactor;
+            }
+            return nb;
+        }
+
 
         /**
          * 
@@ -145,6 +170,7 @@ namespace Components {
                 this.value = undefined;
             }
             else {
+
                 this.value = Number(this.inputEl.value);
             }
 

@@ -28,6 +28,7 @@ namespace Components {
         priority?: number,
         action: () => void;
         canBeRendered?: (items: (ContextMenuItem | ContextMenuSeparator)[], current: ContextMenuItem | ContextMenuSeparator) => boolean;
+        type?: new (...args: any[]) => ContextMenuItem;
     };
     @Storybook({
         export: 'public',
@@ -64,6 +65,8 @@ namespace Components {
         private _items: (ContextMenuItem | ContextMenuSeparator)[] = [];
 
         public isTouch: boolean = false;
+
+        public menuToUse?: (new (...args: any[]) => ContextMenu);
         //#endregion
 
 
@@ -127,27 +130,34 @@ namespace Components {
                 }
             }
 
+            let menu: ContextMenu = this;
+            if(this.menuToUse) {
+                menu = new this.menuToUse();
+                this.menuToUse = undefined;
+            }
+            menu.isTouch = isTouch;
+
             for(let item of this._items) {
-                item.menu = this;
-                this.containerEl.appendChild(item);
+                item.menu = menu;
+                menu.containerEl.appendChild(item);
             }
 
 
-            this.calculatePosition(pageX, pageY, element);
-            element.shadowRoot.appendChild(this);
+            this.calculatePosition(pageX, pageY, element, menu);
+            element.shadowRoot.appendChild(menu);
         }
 
-        protected calculatePosition(pageX: number, pageY: number, element: HTMLElement) {
-            this.style.left = -1000 + 'px';
-            this.style.top = '0';
-            this.collapseEl.no_animation = true;
-            this.collapseEl.open = true;
-            document.body.appendChild(this);
-            let height = this.offsetHeight;
-            let width = this.offsetWidth;
-            this.collapseEl.open = false;
-            this.collapseEl.no_animation = false;
-            document.body.removeChild(this);
+        protected calculatePosition(pageX: number, pageY: number, element: HTMLElement, menu: ContextMenu) {
+            menu.style.left = -1000 + 'px';
+            menu.style.top = '0';
+            menu.collapseEl.no_animation = true;
+            menu.collapseEl.open = true;
+            document.body.appendChild(menu);
+            let height = menu.offsetHeight;
+            let width = menu.offsetWidth;
+            menu.collapseEl.open = false;
+            menu.collapseEl.no_animation = false;
+            document.body.removeChild(menu);
             let top: string = '';
             let left: string = '';
             let bottom: string = '';
@@ -183,23 +193,23 @@ namespace Components {
                 left = pageX + 'px';
             }
 
-            this.style.top = top;
-            this.style.left = left;
-            this.style.bottom = bottom;
-            this.style.right = right;
-            this.style.maxHeight = (maxHeight - 20) + 'px';
+            menu.style.top = top;
+            menu.style.left = left;
+            menu.style.bottom = bottom;
+            menu.style.right = right;
+            menu.style.maxHeight = (maxHeight - 20) + 'px';
         }
 
         public addItem(item: ContextMenuItemOption | ContextMenuItem) {
             let converted: ContextMenuItem;
             if(!(item instanceof ContextMenuItem)) {
-                let temp = new ContextMenuItem();
+                let temp = new (item.type ?? ContextMenuItem)();
                 temp.priority = item.priority ?? 0;
                 if(item.icon) {
                     temp.icon = item.icon;
                 }
                 else if(item.materialIcon) {
-                    temp.icon = "@mi:" + item.materialIcon;
+                    temp.icon = "mi-" + item.materialIcon;
                 }
                 temp.text = item.text;
                 temp.action = item.action;
@@ -255,7 +265,7 @@ namespace Components {
             ContextMenu.instance = this;
             setTimeout(() => {
                 this.collapseEl.open = true;
-            }, 100)
+            }, 100);
             this.addFocus();
         }
         //#endregion

@@ -1,3 +1,4 @@
+import type { ApplicationQueryFctResult } from "../../../system/Application/ApplicationError.lib.avt";
 import type { FormSchema, InternalForm } from "../../form/Form/FormType.lib.avt";
 import { VirtualForm } from "../../form/Form/VirtualForm.lib.avt";
 import { GenericPopup } from "../GenericPopup/GenericPopup.wcl.avt";
@@ -52,8 +53,17 @@ namespace Components {
             return this._form.validate();
         }
 
+        public override init(cb: (response: T | null) => void): void {
+            super.init(cb);
+        }
+
         protected onItemChange(action: Aventus.WatchAction, path: string, value: any) {
 
+        }
+
+        protected async execute<X>(query: Aventus.Asyncable<ApplicationQueryFctResult<X>>): Promise<Awaited<X> | undefined> {
+            const queryResult = await this._form.execute(query);
+            return await this.application?.parseErrors(queryResult);
         }
         //#endregion
 
