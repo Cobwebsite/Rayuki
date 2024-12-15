@@ -40,6 +40,7 @@ namespace Components {
         protected timeoutEnter: boolean = false;
         protected timeout: number = 0;
         protected pressManager?: Aventus.PressManager;
+        protected screenMargin: number = 10;
         //#endregion
 
 
@@ -57,7 +58,34 @@ namespace Components {
                 x: rect.left + rect.width / 2,
                 y: rect.y + rect.height / 2
             };
+            
+            if(this.use_absolute) {
+                const diffMinX = center.x - this.offsetWidth / 2;
+                const diffMaxX = center.x + this.offsetWidth / 2;
+                const maxX = document.body.offsetWidth - this.screenMargin;
+                const minX = this.screenMargin;
+                if(diffMinX < minX) {
+                    center.x += minX - diffMinX;
+                    this.style.setProperty("--local-offset-carret-x", diffMinX - minX + 'px');
+                }
+                else if(diffMaxX > maxX) {
+                    center.x += maxX - diffMaxX;
+                    this.style.setProperty("--local-offset-carret-x", diffMaxX - maxX + 'px');
+                }
 
+                const diffMinY = center.y - this.offsetHeight / 2;
+                const diffMaxY = center.y + this.offsetHeight / 2;
+                const maxY = document.body.offsetHeight - this.screenMargin;
+                const minY = this.screenMargin;
+                if(diffMinY < minY) {
+                    center.y += minY - diffMinY;
+                    this.style.setProperty("--local-offset-carret-y", diffMinY - minY + 'px');
+                }
+                else if(diffMaxY > maxY) {
+                    center.y += maxY - diffMaxY;
+                    this.style.setProperty("--local-offset-carret-y", diffMaxY - maxY + 'px');
+                }
+            }
 
             if(this.position == 'bottom') {
                 let bottom = rect.y + rect.height;

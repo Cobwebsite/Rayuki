@@ -6,6 +6,9 @@
 	--local-tooltip-to-y: 0;
 	--local-tooltip-to-x: 0;
 
+	--local-offset-carret-x: 0px;
+	--local-offset-carret-y: 0px;
+
 	--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));
 	--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));
 	--_tooltip-color: var(--tooltip-color, var(--text-color));
@@ -52,7 +55,7 @@
 		border-bottom: 9px solid var(--_tooltip-background-color);
 		border-left: 6px solid transparent;
 		border-right: 6px solid transparent;
-		left: 50%;
+		left: calc(50% + var(--local-offset-carret-x));
 		top: -8px;
 		transform: translateX(-50%);
 	}
@@ -60,8 +63,8 @@
 
 :host([use_absolute][position="bottom"]) {
 	left: var(--local-tooltip-from-x);
-	top: var(--local-tooltip-from-y);
 	max-height: calc(100% - var(--local-tooltip-to-y) - 10px);
+	top: var(--local-tooltip-from-y);
 }
 
 :host([use_absolute][visible][position="bottom"]) {
@@ -89,7 +92,7 @@
 		border-right: 6px solid transparent;
 		border-top: 9px solid var(--_tooltip-background-color);
 		bottom: -8px;
-		left: 50%;
+		left: calc(50% + var(--local-offset-carret-x));
 		transform: translateX(-50%);
 	}
 }
@@ -125,15 +128,15 @@
 		border-right: 9px solid var(--_tooltip-background-color);
 		border-top: 6px solid transparent;
 		left: -8px;
-		top: 50%;
+		top: calc(50% + var(--local-offset-carret-y));
 		transform: translateY(-50%);
 	}
 }
 
 :host([use_absolute][position="right"]) {
 	left: var(--local-tooltip-from-x);
-	top: var(--local-tooltip-from-y);
 	max-width: calc(100% - var(--local-tooltip-to-x) - 10px);
+	top: var(--local-tooltip-from-y);
 }
 
 :host([use_absolute][visible][position="right"]) {
@@ -163,15 +166,15 @@
 		border-left: 9px solid var(--_tooltip-background-color);
 		border-top: 6px solid transparent;
 		right: -8px;
-		top: 50%;
+		top: calc(50% + var(--local-offset-carret-y));
 		transform: translateY(-50%);
 	}
 }
 
 :host([use_absolute][position="left"]) {
+	max-width: calc(100% - var(--local-tooltip-to-x) - 10px);
 	right: var(--local-tooltip-from-x);
 	top: var(--local-tooltip-from-y);
-	max-width: calc(100% - var(--local-tooltip-to-x) - 10px);
 }
 
 :host([use_absolute][visible][position="left"]) {
