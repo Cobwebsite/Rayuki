@@ -43,7 +43,25 @@ RUN --mount=type=cache,id=nuget,target=/root/.nuget/packages \
 # version (e.g., aspnet:7.0.10-alpine-3.18),
 # or SHA (e.g., mcr.microsoft.com/dotnet/aspnet@sha256:f3d99f54d504a21d38e4cc2f13ff47d67235efeeb85c109d3d1ff1808b38d034).
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS final
+
+
+#####################
+#PUPPETEER RECIPE
+#####################
+# Install latest chrome dev package and fonts to support major charsets (Chinese, Japanese, Arabic, Hebrew, Thai and a few others)
+# Note: this installs the necessary libs to make the bundled version of Chromium that Puppeteer
+# installs, work.
+RUN apk add chromium
+
+#####################
+#END PUPPETEER RECIPE
+#####################
+ENV PUPPETEER_EXECUTABLE_PATH="/usr/bin/chromium"
+
 WORKDIR /app
+
+EXPOSE 80
+EXPOSE 443
 
 # Install the necessary packages
 RUN apk add --no-cache fontconfig

@@ -48,6 +48,7 @@ namespace Core.Data.DataTypes
 
                 using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                 {
+                    Args = ["--no-sandbox"],
                     Headless = true
                 }))
                 {
@@ -100,6 +101,7 @@ namespace Core.Data.DataTypes
 
                 using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                 {
+                    Args = ["--no-sandbox"],
                     Headless = true
                 }))
                 {

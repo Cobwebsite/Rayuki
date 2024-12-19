@@ -18,6 +18,9 @@ namespace Core.Routes
         public async Task<ByteResponse> Build(Pdf pdf)
         {
             ResultWithError<byte[]> build = await pdf.Build();
+            if(!build.Success) {
+                build.Print();
+            }
             return new ByteResponse(build.Result ?? [], "application/pdf");
         }
     }
