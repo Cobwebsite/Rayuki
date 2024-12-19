@@ -164,14 +164,24 @@ namespace Components {
         protected displayVisualDate() {
             if(!this.value) return "";
 
-            return this.value.toLocaleDateString(this.locale, {
-                year: this.year_format,
-                month: this.month_format,
-                day: this.day_format,
-                hour: '2-digit',
-                minute: '2-digit',
-                timeZone: this.time_zone,
-            });
+            if(this.time) {
+                return this.value.toLocaleDateString(this.locale, {
+                    year: this.year_format,
+                    month: this.month_format,
+                    day: this.day_format,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    timeZone: this.time_zone,
+                });
+            }
+            else {
+                return this.value.toLocaleDateString(this.locale, {
+                    year: this.year_format,
+                    month: this.month_format,
+                    day: this.day_format,
+                    timeZone: this.time_zone,
+                });
+            }
         }
 
         /**

@@ -258,7 +258,8 @@ let ElementExtension=class ElementExtension {
                 debugger;
             }
             if (el.shadowRoot && x !== undefined && y !== undefined) {
-                var newEl = el.shadowRoot.elementFromPoint(x, y);
+                const elements = el.shadowRoot.elementsFromPoint(x, y);
+                var newEl = elements.length > 0 ? elements[0] : null;
                 if (newEl && newEl != el && (el.shadowRoot.contains(newEl) || el.contains(newEl))) {
                     return _realTarget(newEl, i + 1);
                 }

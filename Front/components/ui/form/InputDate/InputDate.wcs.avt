@@ -1,34 +1,34 @@
 :host {
-    /**
+	/**
 	* Height of the date input field.
 	*/
 	--_input-date-height: var(--input-date-height, 30px);
-    /**
+	/**
 	* Background color of the date input field.
 	* @type color
 	*/
 	--_input-date-background-color: var(--input-date-background-color, var(--form-element-background, white));
-    /**
+	/**
 	* Height of the icon within the date input field.
 	*/
 	--_input-date-icon-height: var(--input-date-icon-height, calc(var(--_input-date-height) / 2));
-    /**
+	/**
 	* Size of the error logo within the date input field.
 	*/
 	--_input-date-error-logo-size: var(--input-date-error-logo-size, calc(var(--_input-date-height) / 2));
-    /**
+	/**
 	* Font size of the text in the date input field.
 	*/
 	--_input-date-font-size: var(--input-date-font-size, var(--form-element-font-size, 16px));
-    /**
+	/**
 	* Font size of the label associated with the date input field.
 	*/
 	--_input-date-font-size-label: var(--input-date-font-size-label, var(--form-element-font-size-label, calc(var(--_input-date-font-size) * 0.95)));
-    /**
+	/**
 	* Border style for the date input field.
 	*/
 	--_input-date-input-border: var(--input-date-input-border, var(--form-element-border, 1px solid var(--lighter-active)));
-    /**
+	/**
 	* Border radius of the date input field.
 	*/
 	--_input-date-border-radius: var(--input-date-border-radius, var(--form-element-border-radius, 0));
@@ -39,11 +39,11 @@
 	width: 100%;
 
 	label {
+		cursor: pointer;
 		display: none;
 		font-size: var(--_input-date-font-size-label);
 		margin-bottom: 5px;
 		margin-left: 3px;
-        cursor: pointer;
 		-webkit-tap-highlight-color: transparent;
 	}
 
@@ -71,53 +71,53 @@
 			flex-grow: 1;
 			height: 100%;
 
-            input {
-                background-color: transparent;
-                border: none;
-                color: var(--text-color);
-                display: block;
-                font-size: var(--_input-date-font-size);
-                height: 100%;
-                margin: 0;
-                min-width: 0;
-                outline: none;
-                padding: 5px 0;
-                text-align: center;
-                width: 20px;
-            }
-    
-            .year-input {
-                width: 38px;
-            }
-    
-            span {
-                color: var(--text-color);
-                font-size: var(--_input-date-font-size);
-                height: 100%;
-                padding: 5px 0;
-                text-align: center;
-            }
+			input {
+				background-color: transparent;
+				border: none;
+				color: var(--text-color);
+				display: block;
+				font-size: var(--_input-date-font-size);
+				height: 100%;
+				margin: 0;
+				min-width: 0;
+				outline: none;
+				padding: 5px 0;
+				text-align: center;
+				width: 20px;
+			}
+
+			.year-input {
+				width: 38px;
+			}
+
+			span {
+				color: var(--text-color);
+				font-size: var(--_input-date-font-size);
+				height: 100%;
+				padding: 5px 0;
+				text-align: center;
+			}
 		}
 
 		.visual {
-            background-color: transparent;
-            border: none;
-            color: var(--text-color);
-            display: block;
-            font-size: var(--_input-date-font-size);
-            height: 100%;
-            margin: 0;
-            min-width: 0;
-            outline: none;
-            padding: 5px 0;
-            width: 20px;
-            flex-grow: 1;
+			background-color: transparent;
+			border: none;
+			color: var(--text-color);
+			display: block;
+			flex-grow: 1;
+			font-size: var(--_input-date-font-size);
+			height: 100%;
+			margin: 0;
+			min-width: 0;
+			outline: none;
+			padding: 5px 0;
+			width: 20px;
 		}
 
-        .clear-icon {
-			font-size: 18px;
+		.clear-icon {
+			display: none;
 			flex-shrink: 0;
-            display: none;
+			font-size: 18px;
 		}
 
 		.error-logo {
@@ -195,8 +195,12 @@
 }
 
 :host(:not([time])) {
-	.time {
-		display: none;
+	.input {
+		.edit {
+			.time {
+				display: none;
+			}
+		}
 	}
 }
 
@@ -213,9 +217,9 @@
 }
 
 :host([show_clear_icon]) {
-    .input {
-        .clear-icon {
-            display: inline-block;
-        }
-    }
+	.input {
+		.clear-icon {
+			display: inline-block;
+		}
+	}
 }

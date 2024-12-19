@@ -112,6 +112,11 @@
 		.error-logo {
 			display: flex;
 		}
+
+		.unit {
+			margin-right: -25px;
+			padding-right: 30px;
+		}
 	}
 
 	.errors {

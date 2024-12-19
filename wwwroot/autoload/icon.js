@@ -63,7 +63,7 @@ _.System = Cave.System ?? {};
 let _n;
 let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Cave.AppInfo, Cave"; }
-    static Version = 5;
+    static Version = 6;
 }
 AppInfo.Namespace=`Cave`;
 AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };

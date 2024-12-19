@@ -145,7 +145,7 @@ namespace State {
 
         }
     }
-    export abstract class ApplicationFormState<T> extends ApplicationState implements Aventus.IState {
+    export abstract class ApplicationFormState<T> extends ApplicationWatchState implements Aventus.IState {
 
         protected _form: VirtualForm<T>;
 
