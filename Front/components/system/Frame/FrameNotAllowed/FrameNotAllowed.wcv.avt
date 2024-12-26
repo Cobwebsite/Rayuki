@@ -1,1 +1,5 @@
-<p>Pas autorisé</p>
+<div class="page-not-allowed">
+    <rk-img src="/img/logo.svg"></rk-img>
+    <h1>Accès refusé</h1>
+    <p>Il semblerait que vous n'êtes pas autorisés à consulter cette page.</p>
+</div>

@@ -2,29 +2,30 @@ import type { IPermissionQuery } from "../../../../libs/Permission.lib.avt";
 import { Frame } from "../Frame.wcl.avt";
 
 namespace System {
-	export class Frame404 extends Frame implements Aventus.DefaultComponent {
-	
-		//#region static
-		
-		//#endregion
-		
-		
-		//#region props
-		
-		//#endregion
-		
-		
-		//#region variables
-		
-		//#endregion
-		
-		
-		//#region constructor
-		
-		//#endregion
-		
-		
-		//#region methods
+    export class Frame404 extends Frame implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+        @Watch()
+        public uri?: string;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
         /**
          * @inheritdoc
          */
@@ -35,22 +36,22 @@ namespace System {
          * @inheritdoc
          */
         public override definePermissions(can: (permission: IPermissionQuery) => void): void {
-            
+
         }
         /**
          * @inheritdoc
          */
         public override onShow() {
-           
+            this.uri = this.application.navigator.getState()?.name;
         }
         /**
          * @inheritdoc
          */
         public override onHide() {
-            
+
         }
-		
-		//#endregion
-		
-	}
+
+        //#endregion
+
+    }
 }

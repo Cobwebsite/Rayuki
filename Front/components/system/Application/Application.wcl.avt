@@ -130,6 +130,7 @@ namespace System {
         private afterTransitionCb: (() => void)[] = [];
         protected shortcutManager: ApplicationShortcut;
         public version: number = 0;
+        private isRegistered:boolean = false;
         //#endregion
 
 
@@ -244,6 +245,8 @@ namespace System {
          */
         private register(): void {
             try {
+                if(this.isRegistered) return;
+                this.isRegistered = true;
                 this.defineRoutes();
                 this.navigator.onAfterStateChanged(this.validError404);
                 for(let key in this.allRoutes) {
@@ -486,6 +489,9 @@ namespace System {
          * Sets the application history.
          */
         public async setHistory(history: ApplicationHistory) {
+            if(!this.isRegistered) {
+                await this.register();
+            }
             this.history = history;
             let current = this.history.current();
             if(current) {

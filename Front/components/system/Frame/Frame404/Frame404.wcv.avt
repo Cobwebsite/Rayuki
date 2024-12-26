@@ -1,1 +1,5 @@
-<p>Erreur 404</p>
+<div class="page-404">
+    <rk-img src="/img/logo.svg"></rk-img>
+    <h1>404</h1>
+    <p>Il semblerait que l'url <b>{{ this.uri }}</b> ne soit pas définie dans votre application.</p>
+</div>

@@ -1,3 +1,23 @@
 :host {
+    background-color: var(--rayuki-color);
+	color: white;
 	
+    .page-not-allowed {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+
+        rk-img {
+            width: min(300px, calc(100% - 50px));
+        }
+        h1 {
+            font-size: 80px;
+            letter-spacing: 5px;
+        }
+        p {
+            font-size: 30px;
+        }
+    }
 }
