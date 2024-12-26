@@ -18,6 +18,12 @@
 	}
 }
 
+:host(:last-child) {
+	.row-content {
+		border-bottom: none;
+	}
+}
+
 :host([grid]) {
 	width: fit-content;
 

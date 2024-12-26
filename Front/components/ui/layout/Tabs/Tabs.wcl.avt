@@ -100,6 +100,22 @@ namespace Components {
             this.last_active = this.headerScrollEl['contentWrapper'].offsetWidth >= this.offsetWidth && this.headerScrollEl.x == this.headerScrollEl['max'].x && this.activeHeader == this.headerEl.children[this.headerEl.children.length - 1];
         }
 
+        public setActive(labelOrIndex: number | string) {
+            if(typeof labelOrIndex == 'number') {
+                if(this.headerEl.children.length > labelOrIndex) {
+                    const header = this.headerEl.children[labelOrIndex];
+                    if(header instanceof TabHeader) {
+                        this.displayActive(header);
+                    }
+                }
+            }
+            else {
+                const header = this.tabs[labelOrIndex].tabHeader as TabHeader<T>;
+                if(header)
+                    this.displayActive(header);
+            }
+        }
+
         protected override postCreation(): void {
             super.postCreation();
             this.headerScrollEl.onScrollChange.add(this.validateCorner);

@@ -323,40 +323,6 @@ Components.UserProfilPicture.Tag=`rk-user-profil-picture`;
 _.Components.UserProfilPicture=Components.UserProfilPicture;
 if(!window.customElements.get('rk-user-profil-picture')){window.customElements.define('rk-user-profil-picture', Components.UserProfilPicture);Aventus.WebComponentInstance.registerDefinition(Components.UserProfilPicture);}
 
-Components.Tab = class Tab extends Aventus.WebComponent {
-    get 'label'() { return this.getStringAttr('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }get 'selected'() { return this.getBoolAttr('selected') }
-    set 'selected'(val) { this.setBoolAttr('selected', val) }    get headerContent() {
-        let elements = this.getElementsInSlot("header");
-        return elements;
-    }
-    static __style = ``;
-    __getStatic() {
-        return Tab;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Tab.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>`,'header':`<slot name="header"></slot>` }, 
-        blocks: { 'default':`<slot></slot><div class="slot-header">    <slot name="header"></slot></div>` }
-    });
-}
-    getClassName() {
-        return "Tab";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = ""; }if(!this.hasAttribute('selected')) { this.attributeChangedCallback('selected', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('headerContent');this.__upgradeProperty('label');this.__upgradeProperty('selected'); }
-    __listBoolProps() { return ["selected"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-}
-Components.Tab.Namespace=`Core.Components`;
-Components.Tab.Tag=`rk-tab`;
-_.Components.Tab=Components.Tab;
-if(!window.customElements.get('rk-tab')){window.customElements.define('rk-tab', Components.Tab);Aventus.WebComponentInstance.registerDefinition(Components.Tab);}
-
 Components.Separator = class Separator extends Aventus.WebComponent {
     static __style = `:host{--_separator-color: var(--separator-color, var(--text-color))}:host{background:linear-gradient(90deg, transparent 0%, var(--_separator-color) 50%, transparent 100%);height:1px;margin:20px auto;width:100%;display:flex}`;
     __getStatic() {
@@ -2884,7 +2850,7 @@ System.Loading = class Loading extends Aventus.WebComponent {
     static get observedAttributes() {return ["text"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'background'() { return this.getBoolAttr('background') }
     set 'background'(val) { this.setBoolAttr('background', val) }    get 'text'() { return this.getStringProp('text') }
-    set 'text'(val) { this.setStringAttr('text', val) }    static __style = `:host{--internal-dot-size: var(--dot-size, 12px);--internal-radius: var(--radius, 50px);--internal-loading-color: var(--loading-color, var(--primary-color, white));--internal-loading-background-color: var(--loading-background-color, var(--emphasize, rgba(0, 0, 0, 0.5)))}:host{align-items:center;background-color:var(--internal-loading-background-color);display:flex;flex-direction:column;height:100%;justify-content:center;left:0;position:absolute;top:0;width:100%;z-index:600}:host .dot-container{--center: (var(--internal-radius) - (var(--internal-dot-size) / 2));display:inline-block;height:calc(var(--internal-radius)*2);position:relative;width:calc(var(--internal-radius)*2);z-index:10}:host .dot-container .dot{animation:lds-default 1.2s linear infinite;background:var(--internal-loading-color);border-radius:var(--border-radius-round);height:var(--internal-dot-size);position:absolute;width:var(--internal-dot-size)}:host .dot-container .dot:nth-child(1){--angle: 0deg;animation-delay:0s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(2){--angle: -30deg;animation-delay:-0.1s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(3){--angle: -60deg;animation-delay:-0.2s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(4){--angle: -90deg;animation-delay:-0.3s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(5){--angle: -120deg;animation-delay:-0.4s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(6){--angle: -150deg;animation-delay:-0.5s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(7){--angle: 180deg;animation-delay:-0.6s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(8){--angle: 150deg;animation-delay:-0.7s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(9){--angle: 120deg;animation-delay:-0.8s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(10){--angle: 90deg;animation-delay:-0.9s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(11){--angle: 60deg;animation-delay:-1s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(12){--angle: 30deg;animation-delay:-1.1s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .text{color:var(--internal-loading-color);font-size:var(--font-size-lg);font-weight:bold;letter-spacing:1px;margin-top:25px;padding:0 15px;text-align:center;z-index:10}@keyframes lds-default{0%,20%,80%,100%{transform:scale(1)}50%{transform:scale(1.5)}}:host([background]){background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:50% 50%}:host([background])::after{content:"";position:absolute;inset:0;background-color:rgba(0,0,0,.5);z-index:1}`;
+    set 'text'(val) { this.setStringAttr('text', val) }    static __style = `:host{--internal-dot-size: var(--dot-size, 12px);--internal-radius: var(--radius, 50px);--internal-loading-color: var(--loading-color, var(--primary-color, white));--internal-loading-background-color: var(--loading-background-color, var(--emphasize, rgba(0, 0, 0, 0.5)))}:host{align-items:center;background-color:var(--internal-loading-background-color);display:flex;flex-direction:column;height:100%;justify-content:center;left:0;position:absolute;top:0;width:100%;z-index:600}:host .dot-container{--center: (var(--internal-radius) - (var(--internal-dot-size) / 2));display:inline-block;height:calc(var(--internal-radius)*2);position:relative;width:calc(var(--internal-radius)*2);z-index:10}:host .dot-container .dot{animation:lds-default 1.2s linear infinite;background:var(--internal-loading-color);border-radius:var(--border-radius-round);height:var(--internal-dot-size);position:absolute;width:var(--internal-dot-size)}:host .dot-container .dot:nth-child(1){--angle: 0deg;animation-delay:0s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(2){--angle: -30deg;animation-delay:-0.1s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(3){--angle: -60deg;animation-delay:-0.2s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(4){--angle: -90deg;animation-delay:-0.3s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(5){--angle: -120deg;animation-delay:-0.4s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(6){--angle: -150deg;animation-delay:-0.5s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(7){--angle: 180deg;animation-delay:-0.6s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(8){--angle: 150deg;animation-delay:-0.7s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(9){--angle: 120deg;animation-delay:-0.8s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(10){--angle: 90deg;animation-delay:-0.9s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(11){--angle: 60deg;animation-delay:-1s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .dot-container .dot:nth-child(12){--angle: 30deg;animation-delay:-1.1s;left:calc(cos(var(--angle))*var(--internal-radius) + var(--center));top:calc(sin(var(--angle))*var(--internal-radius) + var(--center))}:host .text{color:var(--internal-loading-color);font-size:var(--font-size-lg);font-weight:bold;letter-spacing:1px;margin-top:25px;padding:0 15px;text-align:center;z-index:10}:host([text=""]) .text{display:none}@keyframes lds-default{0%,20%,80%,100%{transform:scale(1)}50%{transform:scale(1.5)}}:host([background]){background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:50% 50%}:host([background])::after{content:"";position:absolute;inset:0;background-color:rgba(0,0,0,.5);z-index:1}`;
     __getStatic() {
         return Loading;
     }
@@ -4081,6 +4047,12 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
     get y() {
         return this.position.y;
     }
+    get xMax() {
+        return this.max.x;
+    }
+    get yMax() {
+        return this.max.y;
+    }
     onScrollChange = new Aventus.Callback();
     onZoomChange = new Aventus.Callback();
     renderAnimation;
@@ -4172,7 +4144,7 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
         return "Scrollable";
     }
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('min_zoom')){ this['min_zoom'] = 1; }if(!this.hasAttribute('max_zoom')){ this['max_zoom'] = undefined; }if(!this.hasAttribute('y_scroll_visible')) { this.attributeChangedCallback('y_scroll_visible', false, false); }if(!this.hasAttribute('x_scroll_visible')) { this.attributeChangedCallback('x_scroll_visible', false, false); }if(!this.hasAttribute('floating_scroll')) { this.attributeChangedCallback('floating_scroll', false, false); }if(!this.hasAttribute('x_scroll')) { this.attributeChangedCallback('x_scroll', false, false); }if(!this.hasAttribute('y_scroll')) {this.setAttribute('y_scroll' ,'true'); }if(!this.hasAttribute('auto_hide')) { this.attributeChangedCallback('auto_hide', false, false); }if(!this.hasAttribute('break')){ this['break'] = 0.1; }if(!this.hasAttribute('disable')) { this.attributeChangedCallback('disable', false, false); }if(!this.hasAttribute('no_user_select')) { this.attributeChangedCallback('no_user_select', false, false); }if(!this.hasAttribute('mouse_drag')) { this.attributeChangedCallback('mouse_drag', false, false); }if(!this.hasAttribute('pinch')) { this.attributeChangedCallback('pinch', false, false); }if(!this.hasAttribute('zoom')){ this['zoom'] = 1; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('x');this.__correctGetter('y');this.__upgradeProperty('min_zoom');this.__upgradeProperty('max_zoom');this.__upgradeProperty('y_scroll_visible');this.__upgradeProperty('x_scroll_visible');this.__upgradeProperty('floating_scroll');this.__upgradeProperty('x_scroll');this.__upgradeProperty('y_scroll');this.__upgradeProperty('auto_hide');this.__upgradeProperty('break');this.__upgradeProperty('disable');this.__upgradeProperty('no_user_select');this.__upgradeProperty('mouse_drag');this.__upgradeProperty('pinch');this.__upgradeProperty('zoom'); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('x');this.__correctGetter('y');this.__correctGetter('xMax');this.__correctGetter('yMax');this.__upgradeProperty('min_zoom');this.__upgradeProperty('max_zoom');this.__upgradeProperty('y_scroll_visible');this.__upgradeProperty('x_scroll_visible');this.__upgradeProperty('floating_scroll');this.__upgradeProperty('x_scroll');this.__upgradeProperty('y_scroll');this.__upgradeProperty('auto_hide');this.__upgradeProperty('break');this.__upgradeProperty('disable');this.__upgradeProperty('no_user_select');this.__upgradeProperty('mouse_drag');this.__upgradeProperty('pinch');this.__upgradeProperty('zoom'); }
     __listBoolProps() { return ["y_scroll_visible","x_scroll_visible","floating_scroll","x_scroll","y_scroll","auto_hide","disable","no_user_select","mouse_drag","pinch"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     createAnimation() {
         return new Aventus.Animation({
@@ -4875,7 +4847,7 @@ Components.Tabs = class Tabs extends Aventus.WebComponent {
     set 'header_full_width'(val) { this.setBoolAttr('header_full_width', val) }    tabs = {};
     activeHeader;
     elements = [];
-    static __style = `:host{--_tabs-background-color: var(--tabs-background-color, #ffffff);--_tabs-header-background-color: var(--tabs-header-background-color, var(--darker-active, rgb(125, 125, 125)));--_tabs-header-background-color-active: var(--tabs-header-background-color-active, var(--_tabs-background-color));--_tabs-header-padding: var(--tabs-header-padding, 10px 10px);--_tabs-header-font-size: var(--tabs-header-font-size, calc(var(--font-size) * 0.855));--_tabs-body-padding: var(--tabs-body-padding, 10px 10px);--_tabs-spacing: var(--tabs-spacing, 5px);--_tabs-transition: var(--tabs-transition, background-color var(--bezier-curve) 0.2s);--_tabs-border-radius: var(--tabs-border-radius, var(--border-radius-sm, 0))}:host{display:flex;flex-direction:column;overflow:hidden;width:100%}:host .header .header-wrapper{align-items:center;display:flex;flex-direction:row;flex-wrap:nowrap;gap:var(--_tabs-spacing);padding-bottom:var(--_tabs-spacing)}:host .body{background-color:var(--_tabs-background-color);border-radius:var(--_tabs-border-radius);padding:var(--_tabs-body-padding);width:100%}:host([first_active]) .body{border-top-left-radius:0px}:host([last_active]) .body{border-top-right-radius:0px}:host([header_full_width]) .header .header-wrapper>*{flex-grow:1}`;
+    static __style = `:host{--_tabs-background-color: var(--tabs-background-color, #ffffff);--_tabs-header-background-color: var(--tabs-header-background-color, var(--darker-active, rgb(125, 125, 125)));--_tabs-header-background-color-active: var(--tabs-header-background-color-active, var(--_tabs-background-color));--_tabs-header-background-color-disabled: var(--tabs-header-background-color-disabled, var(--form-element-background-readonly));--_tabs-header-padding: var(--tabs-header-padding, 10px 10px);--_tabs-header-font-size: var(--tabs-header-font-size, calc(var(--font-size) * 0.855));--_tabs-body-padding: var(--tabs-body-padding, 10px 10px);--_tabs-spacing: var(--tabs-spacing, 5px);--_tabs-transition: var(--tabs-transition, background-color var(--bezier-curve) 0.2s);--_tabs-border-radius: var(--tabs-border-radius, var(--border-radius-sm, 0))}:host{display:flex;flex-direction:column;overflow:hidden;width:100%}:host .header .header-wrapper{align-items:center;display:flex;flex-direction:row;flex-wrap:nowrap;gap:var(--_tabs-spacing);padding-bottom:var(--_tabs-spacing)}:host .body{background-color:var(--_tabs-background-color);border-radius:var(--_tabs-border-radius);padding:var(--_tabs-body-padding);width:100%}:host([first_active]) .body{border-top-left-radius:0px}:host([last_active]) .body{border-top-right-radius:0px}:host([header_full_width]) .header .header-wrapper>*{flex-grow:1}`;
     constructor() { super(); this.validateCorner=this.validateCorner.bind(this) }
     __getStatic() {
         return Tabs;
@@ -4968,6 +4940,21 @@ Components.Tabs = class Tabs extends Aventus.WebComponent {
     validateCorner() {
         this.first_active = this.headerScrollEl.x == 0 && this.activeHeader == this.headerEl.children[0];
         this.last_active = this.headerScrollEl['contentWrapper'].offsetWidth >= this.offsetWidth && this.headerScrollEl.x == this.headerScrollEl['max'].x && this.activeHeader == this.headerEl.children[this.headerEl.children.length - 1];
+    }
+    setActive(labelOrIndex) {
+        if (typeof labelOrIndex == 'number') {
+            if (this.headerEl.children.length > labelOrIndex) {
+                const header = this.headerEl.children[labelOrIndex];
+                if (header instanceof Components.TabHeader) {
+                    this.displayActive(header);
+                }
+            }
+        }
+        else {
+            const header = this.tabs[labelOrIndex].tabHeader;
+            if (header)
+                this.displayActive(header);
+        }
     }
     postCreation() {
         super.postCreation();
@@ -7678,7 +7665,7 @@ System.FrameState.Namespace=`Core.System`;
 _.System.FrameState=System.FrameState;
 
 System.FrameNotAllowed = class FrameNotAllowed extends System.Frame {
-    static __style = ``;
+    static __style = `:host{background-color:var(--rayuki-color);color:#fff}:host .page-not-allowed{align-items:center;display:flex;flex-direction:column;justify-content:center;width:100%}:host .page-not-allowed rk-img{width:min(300px,100% - 50px)}:host .page-not-allowed h1{font-size:80px;letter-spacing:5px}:host .page-not-allowed p{font-size:30px}`;
     __getStatic() {
         return FrameNotAllowed;
     }
@@ -7689,7 +7676,7 @@ System.FrameNotAllowed = class FrameNotAllowed extends System.Frame {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<p>Pas autorisé</p>` }
+        blocks: { 'default':`<div class="page-not-allowed">    <rk-img src="/img/logo.svg"></rk-img>    <h1>Accès refusé</h1>    <p>Il semblerait que vous n'êtes pas autorisés à consulter cette page.</p></div>` }
     });
 }
     getClassName() {
@@ -8106,7 +8093,15 @@ System.ApplicationSize.Namespace=`Core.System`;
 _.System.ApplicationSize=System.ApplicationSize;
 
 System.Frame404 = class Frame404 extends System.Frame {
-    static __style = ``;
+    get 'uri'() {
+						return this.__watch["uri"];
+					}
+					set 'uri'(val) {
+						this.__watch["uri"] = val;
+					}    __registerWatchesActions() {
+    this.__addWatchesActions("uri");    super.__registerWatchesActions();
+}
+    static __style = `:host{background-color:var(--rayuki-color);color:#fff}:host .page-404{align-items:center;display:flex;flex-direction:column;justify-content:center;width:100%}:host .page-404 rk-img{width:min(300px,100% - 50px)}:host .page-404 h1{font-size:80px;letter-spacing:5px}:host .page-404 p{font-size:30px}`;
     __getStatic() {
         return Frame404;
     }
@@ -8117,20 +8112,34 @@ System.Frame404 = class Frame404 extends System.Frame {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<p>Erreur 404</p>` }
+        blocks: { 'default':`<div class="page-404">    <rk-img src="/img/logo.svg"></rk-img>    <h1>404</h1>    <p>Il semblerait que l'url <b _id="frame404_0"></b> ne soit pas définie dans votre application.</p></div>` }
     });
 }
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "frame404_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__e97916a70f0e970e1472e22e83407c3fmethod0())}`,
+      "once": true
+    }
+  }
+}); }
     getClassName() {
         return "Frame404";
     }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["uri"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('uri'); }
     pageTitle() {
         return "Page not found";
     }
     definePermissions(can) {
     }
     onShow() {
+        this.uri = this.application.navigator.getState()?.name;
     }
     onHide() {
+    }
+    __e97916a70f0e970e1472e22e83407c3fmethod0() {
+        return this.uri;
     }
 }
 System.Frame404.Namespace=`Core.System`;
@@ -8517,6 +8526,7 @@ System.Application = class Application extends Aventus.WebComponent {
     afterTransitionCb = [];
     shortcutManager;
     version = 0;
+    isRegistered = false;
     get navigator() {
         if (!this.router) {
             this.router = new Lib.ApplicationStateManager(this);
@@ -8677,6 +8687,9 @@ System.Application = class Application extends Aventus.WebComponent {
     }
     register() {
         try {
+            if (this.isRegistered)
+                return;
+            this.isRegistered = true;
             this.defineRoutes();
             this.navigator.onAfterStateChanged(this.validError404);
             for (let key in this.allRoutes) {
@@ -8852,6 +8865,9 @@ System.Application = class Application extends Aventus.WebComponent {
         this.navigator.unsubscribe(statePatterns, callbacks);
     }
     async setHistory(history) {
+        if (!this.isRegistered) {
+            await this.register();
+        }
         this.history = history;
         let current = this.history.current();
         if (current) {
@@ -18919,7 +18935,7 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("grid", ((target) => {
     target.updateGrid();
 })); }
-    static __style = `:host{width:100%}:host .row-content{align-items:stretch;border-bottom:var(--_table-cell-horizontal-border);display:flex;flex-direction:row;width:100%}:host .row-content>*:last-child{border-right:none !important}:host .grid-content{display:none}:host([grid]){width:fit-content}:host([grid]) .row-content,:host([grid]) .grid-content{border:var(--_table-cell-vertical-border);border-radius:var(--border-radius-sm);flex-direction:column;padding:10px;width:fit-content}:host([grid][custom_grid]) .row-content{display:none}:host([grid][custom_grid]) .grid-content{display:flex}`;
+    static __style = `:host{width:100%}:host .row-content{align-items:stretch;border-bottom:var(--_table-cell-horizontal-border);display:flex;flex-direction:row;width:100%}:host .row-content>*:last-child{border-right:none !important}:host .grid-content{display:none}:host(:last-child) .row-content{border-bottom:none}:host([grid]){width:fit-content}:host([grid]) .row-content,:host([grid]) .grid-content{border:var(--_table-cell-vertical-border);border-radius:var(--border-radius-sm);flex-direction:column;padding:10px;width:fit-content}:host([grid][custom_grid]) .row-content{display:none}:host([grid][custom_grid]) .grid-content{display:flex}`;
     constructor() {
             super();
             this.custom_grid = this.customGridTemplate();
@@ -19868,12 +19884,14 @@ if(!window.customElements.get('rk-table-data-cell-action')){window.customElement
 
 Components.TabHeader = class TabHeader extends Aventus.WebComponent {
     get 'active'() { return this.getBoolAttr('active') }
-    set 'active'(val) { this.setBoolAttr('active', val) }    _tab;
+    set 'active'(val) { this.setBoolAttr('active', val) }get 'disabled'() { return this.getBoolAttr('disabled') }
+    set 'disabled'(val) { this.setBoolAttr('disabled', val) }get 'hidded'() { return this.getBoolAttr('hidded') }
+    set 'hidded'(val) { this.setBoolAttr('hidded', val) }    _tab;
     get tab() {
         return this._tab;
     }
     tabs;
-    static __style = `:host{align-items:center;background-color:var(--_tabs-header-background-color);border-radius:var(--_tabs-border-radius);cursor:pointer;display:flex;font-size:var(--_tabs-header-font-size);height:100%;justify-content:center;padding:var(--_tabs-header-padding);position:relative;transition:var(--_tabs-transition)}:host .sep{background-color:rgba(0,0,0,0);bottom:calc(var(--_tabs-spacing)*-1);height:var(--_tabs-spacing);left:0;position:absolute;transition:var(--_tabs-transition);width:100%}:host([active]){background-color:var(--_tabs-header-background-color-active);border-bottom-left-radius:0;border-bottom-right-radius:0}:host([active]) .sep{background-color:var(--_tabs-header-background-color-active)}`;
+    static __style = `:host{align-items:center;background-color:var(--_tabs-header-background-color);border-radius:var(--_tabs-border-radius);cursor:pointer;display:flex;font-size:var(--_tabs-header-font-size);height:100%;justify-content:center;padding:var(--_tabs-header-padding);position:relative;transition:var(--_tabs-transition)}:host .sep{background-color:rgba(0,0,0,0);bottom:calc(var(--_tabs-spacing)*-1);height:var(--_tabs-spacing);left:0;position:absolute;transition:var(--_tabs-transition);width:100%}:host([active]){background-color:var(--_tabs-header-background-color-active);border-bottom-left-radius:0;border-bottom-right-radius:0}:host([active]) .sep{background-color:var(--_tabs-header-background-color-active)}:host([disabled]){background-color:var(--_tabs-header-background-color-disabled);cursor:not-allowed}:host([hidded]){display:none}`;
     __getStatic() {
         return TabHeader;
     }
@@ -19900,9 +19918,9 @@ Components.TabHeader = class TabHeader extends Aventus.WebComponent {
     getClassName() {
         return "TabHeader";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('tab');this.__upgradeProperty('active'); }
-    __listBoolProps() { return ["active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('hidded')) { this.attributeChangedCallback('hidded', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('tab');this.__upgradeProperty('active');this.__upgradeProperty('disabled');this.__upgradeProperty('hidded'); }
+    __listBoolProps() { return ["active","disabled","hidded"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     init(tab, tabs) {
         this.tabs = tabs;
         let elements = tab.headerContent;
@@ -19918,11 +19936,16 @@ Components.TabHeader = class TabHeader extends Aventus.WebComponent {
             }
         }
         this._tab = tab;
+        tab.tabHeader = this;
+        this.hidded = tab.hidded;
+        this.disabled = tab.disabled;
     }
     addPress() {
         new Aventus.PressManager({
             element: this,
             onPress: () => {
+                if (this.disabled)
+                    return;
                 if (!this.active) {
                     this.tabs.displayActive(this);
                 }
@@ -19938,6 +19961,51 @@ Components.TabHeader.Namespace=`Core.Components`;
 Components.TabHeader.Tag=`rk-tab-header`;
 _.Components.TabHeader=Components.TabHeader;
 if(!window.customElements.get('rk-tab-header')){window.customElements.define('rk-tab-header', Components.TabHeader);Aventus.WebComponentInstance.registerDefinition(Components.TabHeader);}
+
+Components.Tab = class Tab extends Aventus.WebComponent {
+    static get observedAttributes() {return ["disabled", "hidded"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'label'() { return this.getStringAttr('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'selected'() { return this.getBoolAttr('selected') }
+    set 'selected'(val) { this.setBoolAttr('selected', val) }    get 'disabled'() { return this.getBoolProp('disabled') }
+    set 'disabled'(val) { this.setBoolAttr('disabled', val) }get 'hidded'() { return this.getBoolProp('hidded') }
+    set 'hidded'(val) { this.setBoolAttr('hidded', val) }    get headerContent() {
+        let elements = this.getElementsInSlot("header");
+        return elements;
+    }
+    tabHeader;
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("disabled", ((target) => {
+    if (target.tabHeader)
+        target.tabHeader.disabled = target.disabled;
+}));this.__addPropertyActions("hidded", ((target) => {
+    if (target.tabHeader)
+        target.tabHeader.hidded = target.hidded;
+})); }
+    static __style = ``;
+    __getStatic() {
+        return Tab;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Tab.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>`,'header':`<slot name="header"></slot>` }, 
+        blocks: { 'default':`<slot></slot><div class="slot-header">    <slot name="header"></slot></div>` }
+    });
+}
+    getClassName() {
+        return "Tab";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = ""; }if(!this.hasAttribute('selected')) { this.attributeChangedCallback('selected', false, false); }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('hidded')) { this.attributeChangedCallback('hidded', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('headerContent');this.__upgradeProperty('label');this.__upgradeProperty('selected');this.__upgradeProperty('disabled');this.__upgradeProperty('hidded'); }
+    __listBoolProps() { return ["selected","disabled","hidded"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+}
+Components.Tab.Namespace=`Core.Components`;
+Components.Tab.Tag=`rk-tab`;
+_.Components.Tab=Components.Tab;
+if(!window.customElements.get('rk-tab')){window.customElements.define('rk-tab', Components.Tab);Aventus.WebComponentInstance.registerDefinition(Components.Tab);}
 
 App.AppError=class AppError extends Aventus.GenericError {
     static get Fullname() { return "Core.App.AppError, Core"; }

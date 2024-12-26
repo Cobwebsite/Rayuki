@@ -132,6 +132,12 @@
 	}
 }
 
+:host([text=""]) {
+	.text {
+		display: none;
+	}
+}
+
 @keyframes lds-default {
 
 	0%,

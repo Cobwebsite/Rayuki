@@ -17,6 +17,14 @@ namespace Components {
 
         @Attribute()
         public active!: boolean;
+
+        @InternalProtected()
+        @Attribute()
+        public disabled!: boolean;
+
+        @InternalProtected()
+        @Attribute()
+        public hidded!: boolean;
         //#endregion
 
 
@@ -55,12 +63,16 @@ namespace Components {
                 }
             }
             this._tab = tab;
+            tab.tabHeader = this;
+            this.hidded = tab.hidded;
+            this.disabled = tab.disabled;
         }
 
         protected addPress() {
             new Aventus.PressManager({
                 element: this,
                 onPress: () => {
+                    if(this.disabled) return;
                     if(!this.active) {
                         this.tabs.displayActive(this);
                     }

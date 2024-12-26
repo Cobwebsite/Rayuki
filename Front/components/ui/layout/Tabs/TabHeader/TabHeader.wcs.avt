@@ -31,3 +31,12 @@
 		background-color: var(--_tabs-header-background-color-active);
 	}
 }
+
+:host([disabled]) {
+	background-color: var(--_tabs-header-background-color-disabled);
+	cursor: not-allowed;
+}
+
+:host([hidded]) {
+	display: none;
+}

@@ -2,6 +2,7 @@
 	--_tabs-background-color: var(--tabs-background-color, #ffffff);
 	--_tabs-header-background-color: var(--tabs-header-background-color, var(--darker-active, rgb(125, 125, 125)));
 	--_tabs-header-background-color-active: var(--tabs-header-background-color-active, var(--_tabs-background-color));
+	--_tabs-header-background-color-disabled: var(--tabs-header-background-color-disabled, var(--form-element-background-readonly));
 	--_tabs-header-padding: var(--tabs-header-padding, 10px 10px);
 	--_tabs-header-font-size: var(--tabs-header-font-size, calc(var(--font-size) * 0.855));
 	--_tabs-body-padding: var(--tabs-body-padding, 10px 10px);

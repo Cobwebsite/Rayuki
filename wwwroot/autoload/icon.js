@@ -164,6 +164,18 @@ const _ = {};
 let System = {};
 _.System = Projet.System ?? {};
 let _n;
+let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Projet.AppInfo, Projet"; }
+    static Version = 1;
+}
+AppInfo.Namespace=`Projet`;
+AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
+Aventus.Converter.register(AppInfo.Fullname, AppInfo);
+_.AppInfo=AppInfo;
+
+let Version= AppInfo.Version;
+_.Version=Version;
+
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
     static __style = `:host{background-color:#177192}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #ffffff;max-height:100%;flex-grow:1;padding:10%;padding-right:15%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
     __getStatic() {

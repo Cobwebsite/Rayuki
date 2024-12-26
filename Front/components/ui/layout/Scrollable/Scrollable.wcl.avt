@@ -192,6 +192,12 @@ namespace Components {
         public get y(): number {
             return this.position.y;
         }
+        public get xMax(): number {
+            return this.max.x;
+        }
+        public get yMax(): number {
+            return this.max.y;
+        }
         //#endregion
 
 

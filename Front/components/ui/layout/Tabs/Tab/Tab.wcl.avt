@@ -1,3 +1,5 @@
+import type { TabHeader } from "../TabHeader/TabHeader.wcl.avt";
+
 namespace Components {
     @Storybook({
         export: 'public',
@@ -16,6 +18,18 @@ namespace Components {
 
         @Attribute()
         public selected!: boolean;
+
+        @Property((target: Tab) => {
+            if(target.tabHeader)
+                target.tabHeader.disabled = target.disabled;
+        })
+        public disabled!: boolean;
+
+        @Property((target: Tab) => {
+            if(target.tabHeader)
+                target.tabHeader.hidded = target.hidded;
+        })
+        public hidded!: boolean;
         //#endregion
 
 
@@ -24,6 +38,9 @@ namespace Components {
             let elements = this.getElementsInSlot("header");
             return elements;
         }
+
+        @InternalProtected()
+        public tabHeader?: TabHeader;
         //#endregion
 
 
