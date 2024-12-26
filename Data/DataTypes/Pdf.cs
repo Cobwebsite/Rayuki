@@ -101,15 +101,29 @@ namespace Core.Data.DataTypes
 
                 using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
                 {
-                    Args = ["--no-sandbox"],
+                    Args = [
+                        "--disable-gpu",
+                        "--disable-dev-shm-usage",
+                        "--disable-setuid-sandbox",
+                        "--no-first-run",
+                        "--no-sandbox",
+                        "--no-zygote",
+                        "--deterministic-fetch",
+                        "--disable-features=IsolateOrigins",
+                        "--disable-site-isolation-trials",
+                    ],
                     Headless = true
                 }))
                 {
                     using (var page = await browser.NewPageAsync())
                     {
-                        await page.SetContentAsync(Html);
+                        await page.SetContentAsync(Html, new NavigationOptions()
+                        {
+                            Timeout = 0
+                        });
                         result.Result = await page.PdfDataAsync(pdfOptions);
                     }
+                    await browser.CloseAsync();
                 }
             }
             catch (Exception e)
