@@ -173,9 +173,6 @@ AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
 Aventus.Converter.register(AppInfo.Fullname, AppInfo);
 _.AppInfo=AppInfo;
 
-let Version= AppInfo.Version;
-_.Version=Version;
-
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
     static __style = `:host{background-color:#177192}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #ffffff;max-height:100%;flex-grow:1;padding:10%;padding-right:15%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
     __getStatic() {
@@ -204,6 +201,9 @@ System.AppIcon.Namespace=`Projet.System`;
 System.AppIcon.Tag=`projet-app-icon`;
 _.System.AppIcon=System.AppIcon;
 if(!window.customElements.get('projet-app-icon')){window.customElements.define('projet-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
+
+let Version= AppInfo.Version;
+_.Version=Version;
 
 
 for(let key in _) { Projet[key] = _[key] }

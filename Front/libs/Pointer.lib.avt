@@ -4,7 +4,7 @@ namespace Lib {
     })
     export class Pointer {
         public static isTouch(e: Event): boolean {
-            if(window.TouchEvent && e instanceof TouchEvent) {
+            if('TouchEvent' in window && e instanceof TouchEvent) {
                 return true;
             }
             if(e instanceof PointerEvent && (e.pointerType == "touch" || e.pointerType == "pen")) {

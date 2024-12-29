@@ -13,6 +13,7 @@
 	--_table-border-color: var(--table-border-color, var(--secondary-color));
 	--_table-row-header-vertical-border: var(--table-row-header-vertical-border, 1px solid var(--_table-border-color));
 	--_table-row-header-horizontal-border: var(--table-row-header-horizontal-border, 1px solid var(--_table-border-color));
+	--_table-last-row-border-bottom: var(--table-last-row-border-bottom, 1px solid var(--_table-border-color));
 
 	--_table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));
 	--_table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));
@@ -194,6 +195,7 @@
 			.no-data {
 				display: flex;
 			}
+
 			.rows {
 				display: none;
 			}

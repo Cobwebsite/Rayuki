@@ -33,7 +33,7 @@
 </head>
 
 <body>
-    <rk-login company="{{ company }}" icon="{{ icon }}"></rk-login>
+    <rk-login company="{{ company }}" icon="{{ icon }}?v={{ version }}"></rk-login>
 </body>
 
 </html>

@@ -20,7 +20,7 @@
 
 :host(:last-child) {
 	.row-content {
-		border-bottom: none;
+		border-bottom: var(--_table-last-row-border-bottom);
 	}
 }
 

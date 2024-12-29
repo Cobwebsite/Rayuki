@@ -125,7 +125,7 @@ namespace Components {
         }
 
         public track(evt: TouchEvent | PointerEvent | MouseEvent) {
-            if(evt instanceof TouchEvent) {
+            if('TouchEvent' in window && evt instanceof TouchEvent) {
                 const {
                     targetTouches,
                 } = evt;
@@ -135,14 +135,14 @@ namespace Components {
                 });
             }
             else {
-                this._add(evt);
+                this._add(evt as PointerEvent);
             }
 
             return this._touchList;
         }
 
         public update(evt: TouchEvent | PointerEvent | MouseEvent) {
-            if(evt instanceof TouchEvent) {
+            if('TouchEvent' in window && evt instanceof TouchEvent) {
                 const {
                     touches,
                     changedTouches,
@@ -153,7 +153,7 @@ namespace Components {
                 });
 
                 this._setActiveID(changedTouches);
-            } else {
+            } else if(evt instanceof PointerEvent) {
                 this._renew(evt);
                 this._setActiveID(evt);
             }
@@ -162,13 +162,13 @@ namespace Components {
         }
 
         public release(evt: TouchEvent | PointerEvent | MouseEvent) {
-            if(evt instanceof TouchEvent) {
+            if('TouchEvent' in window && evt instanceof TouchEvent) {
                 Array.from(evt.changedTouches).forEach(touch => {
                     this._delete(touch);
                 });
             }
             else {
-                this._delete(evt);
+                this._delete(evt as PointerEvent);
             }
         }
 

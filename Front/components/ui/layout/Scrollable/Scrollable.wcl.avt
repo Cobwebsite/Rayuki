@@ -280,7 +280,7 @@ namespace Components {
                 result.momentum = 0;
             }
 
-            
+
 
 
             return result;
@@ -772,11 +772,11 @@ namespace Components {
 
         private onTouchStartPointer(e: NormalizedEvent) {
             const ev = e.event;
-            if(ev instanceof TouchEvent) {
+            if('TouchEvent' in window && ev instanceof TouchEvent) {
                 this.onTouchStart(ev);
                 return true;
             }
-            else {
+            else if(ev instanceof PointerEvent) {
                 if(this.mouse_drag || ev.pointerType == "touch") {
                     this.onTouchStart(ev);
                     return true;
@@ -805,10 +805,10 @@ namespace Components {
 
         private onTouchMovePointer(e: NormalizedEvent) {
             const ev = e.event;
-            if(ev instanceof TouchEvent) {
+            if('TouchEvent' in window && ev instanceof TouchEvent) {
                 this.onTouchMove(ev);
             }
-            else {
+            else if(ev instanceof PointerEvent) {
                 if(this.mouse_drag || ev.pointerType == "touch") {
                     this.onTouchMove(ev);
                 }
@@ -832,10 +832,10 @@ namespace Components {
         }
         private onTouchEndPointer(e: NormalizedEvent) {
             const ev = e.event;
-            if(ev instanceof TouchEvent) {
+            if('TouchEvent' in window && ev instanceof TouchEvent) {
                 this.onTouchEnd(ev);
             }
-            else {
+            else if(ev instanceof PointerEvent) {
                 if(this.mouse_drag || ev.pointerType == "touch") {
                     this.onTouchEnd(ev);
                 }
