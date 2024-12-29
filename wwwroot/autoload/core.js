@@ -3919,7 +3919,7 @@ Components.TouchRecord=class TouchRecord {
         }
     }
     _getIdentifier(touch) {
-        if (touch instanceof Touch)
+        if ('Touch' in window && touch instanceof Touch)
             return touch.identifier;
         if (touch instanceof PointerEvent)
             return touch.pointerId;

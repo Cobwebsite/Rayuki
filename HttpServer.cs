@@ -25,8 +25,8 @@ namespace Core
         public static WebPushClient webPush = new();
 
         public static readonly int nbAppInDev = 2;
-        public static readonly string Version = "1.0.14";
-        public static readonly string BuildDate = "2024-12-26T20:18:46.503Z";
+        public static readonly string Version = "1.0.16";
+        public static readonly string BuildDate = "2024-12-29T15:30:39.178Z";
         public static bool resetStorage
         {
             // get => false;

@@ -174,9 +174,9 @@ namespace Components {
 
 
         private _getIdentifier(touch: Touch | PointerEvent | MouseEvent): number {
-            if(touch instanceof Touch) return touch.identifier;
+            if('Touch' in window && touch instanceof Touch) return touch.identifier;
             if(touch instanceof PointerEvent) return touch.pointerId;
-            return touch.button;
+            return (touch as MouseEvent).button;
         }
 
         private _add(touch: Touch | PointerEvent | MouseEvent) {
