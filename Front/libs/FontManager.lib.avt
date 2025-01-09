@@ -192,9 +192,8 @@ namespace Lib {
                     for(let j = 0; j < sheet.cssRules.length; j++) {
                         const rule = sheet.cssRules[j];
                         if(rule instanceof CSSFontFaceRule) {
-                            let styleAny = rule.style as any;
-                            const family = rule.style.fontFamily.replace(/['"]/g, '');
-                            if(family != font.family) continue;
+                            const family = rule.style.getPropertyValue('font-family').replace(/['"]/g, '');
+                            if(family != font.family.replace(/['"]/g, '')) continue;
                             const otherCompares = {
                                 'fontStyle': 'style',
                                 'fontWeight': 'weight',
@@ -219,9 +218,10 @@ namespace Lib {
                             };
                             let isSame = true;
                             for(let otherCompare in otherCompares) {
-                                let v = otherCompares[otherCompare];
-                                if(styleAny[otherCompare] != font[v]) {
-                                    if(styleAny[otherCompare] != '' || defaultValue[otherCompare] != font[v]) {
+                                let vOther = otherCompares[otherCompare];
+                                let v = rule.style.getPropertyValue(otherCompare.replace(/[A-Z]/g, match => '-' + match.toLowerCase()));
+                                if(v != font[vOther]) {
+                                    if(v != '' || defaultValue[otherCompare] != font[vOther]) {
                                         isSame = false;
                                         break;
                                     }
@@ -229,7 +229,7 @@ namespace Lib {
                             }
                             if(!isSame) continue;
 
-                            let resultMatch = /url\(['|"]?(.*?)['|"]?\)/g.exec(styleAny.src);
+                            let resultMatch = /url\(['|"]?(.*?)['|"]?\)/g.exec(rule.style.cssText);
                             if(resultMatch) {
                                 font['__src'] = resultMatch[1];
                                 return true;

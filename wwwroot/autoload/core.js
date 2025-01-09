@@ -1167,9 +1167,8 @@ Lib.FontManager=class FontManager {
                 for (let j = 0; j < sheet.cssRules.length; j++) {
                     const rule = sheet.cssRules[j];
                     if (rule instanceof CSSFontFaceRule) {
-                        let styleAny = rule.style;
-                        const family = rule.style.fontFamily.replace(/['"]/g, '');
-                        if (family != font.family)
+                        const family = rule.style.getPropertyValue('font-family').replace(/['"]/g, '');
+                        if (family != font.family.replace(/['"]/g, ''))
                             continue;
                         const otherCompares = {
                             'fontStyle': 'style',
@@ -1195,9 +1194,10 @@ Lib.FontManager=class FontManager {
                         };
                         let isSame = true;
                         for (let otherCompare in otherCompares) {
-                            let v = otherCompares[otherCompare];
-                            if (styleAny[otherCompare] != font[v]) {
-                                if (styleAny[otherCompare] != '' || defaultValue[otherCompare] != font[v]) {
+                            let vOther = otherCompares[otherCompare];
+                            let v = rule.style.getPropertyValue(otherCompare.replace(/[A-Z]/g, match => '-' + match.toLowerCase()));
+                            if (v != font[vOther]) {
+                                if (v != '' || defaultValue[otherCompare] != font[vOther]) {
                                     isSame = false;
                                     break;
                                 }
@@ -1205,7 +1205,7 @@ Lib.FontManager=class FontManager {
                         }
                         if (!isSame)
                             continue;
-                        let resultMatch = /url\(['|"]?(.*?)['|"]?\)/g.exec(styleAny.src);
+                        let resultMatch = /url\(['|"]?(.*?)['|"]?\)/g.exec(rule.style.cssText);
                         if (resultMatch) {
                             font['__src'] = resultMatch[1];
                             return true;

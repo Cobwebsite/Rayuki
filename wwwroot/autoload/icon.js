@@ -10,7 +10,7 @@ _.System = CarteCommande.System ?? {};
 let _n;
 let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "CarteCommande.AppInfo, CarteCommande"; }
-    static Version = 1;
+    static Version = 5;
 }
 AppInfo.Namespace=`CarteCommande`;
 AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
