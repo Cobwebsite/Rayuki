@@ -50,7 +50,7 @@ namespace System {
                     });
                     Os.instance.notify(notif);
                     this.remove();
-                    this.onClose.trigger([]);
+                    this.onClose.trigger();
                 }
                 else {
                     let notif = Notification.create({
@@ -71,7 +71,7 @@ namespace System {
          */
         protected close() {
             this.remove();
-            this.onClose.trigger([]);
+            this.onClose.trigger();
         }
         /**
          * 

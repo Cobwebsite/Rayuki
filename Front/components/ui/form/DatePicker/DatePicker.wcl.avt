@@ -104,7 +104,7 @@ namespace Components {
          * 
          */
         protected onValueChange() {
-            this.onChange.trigger([this.value]);
+            this.onChange.trigger(this.value);
             if(this.formPart) {
                 this.formPart.value.set(this.value);
             }

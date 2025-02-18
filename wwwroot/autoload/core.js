@@ -2552,7 +2552,7 @@ Components.Collapse = class Collapse extends Aventus.WebComponent {
     }
     toggleOpen() {
         this.open = !this.open;
-        this.change.trigger([this.open]);
+        this.change.trigger(this.open);
     }
 }
 Components.Collapse.Namespace=`Core.Components`;
@@ -4230,7 +4230,7 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
         return value;
     }
     triggerScrollChange() {
-        this.onScrollChange.trigger([this.x, this.y]);
+        this.onScrollChange.trigger(this.x, this.y);
     }
     scrollToPosition(x, y) {
         this.scrollDirection('x', x);
@@ -4396,7 +4396,7 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
         const newX = matrix.e || 0;
         const newY = matrix.f || 0;
         this.zoom = newZoomFinal;
-        this.onZoomChange.trigger([newZoomFinal]);
+        this.onZoomChange.trigger(newZoomFinal);
         this.scrollDirection('x', newX);
         this.scrollDirection('y', newY);
     }
@@ -4433,7 +4433,7 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
             const newX = matrix.e || 0;
             const newY = matrix.f || 0;
             this.zoom = newZoom;
-            this.onZoomChange.trigger([newZoom]);
+            this.onZoomChange.trigger(newZoom);
             this.scrollDirection('x', newX);
             this.scrollDirection('y', newY);
             this.previousMidPoint = newMidpoint;
@@ -5116,7 +5116,7 @@ Lib.Platform=class Platform {
             let newDevice = this.device;
             if (currentDevice != newDevice) {
                 currentDevice = newDevice;
-                this.onScreenChange.trigger([newDevice]);
+                this.onScreenChange.trigger(newDevice);
             }
         });
         screenObserver.observe(document.body);
@@ -5124,13 +5124,13 @@ Lib.Platform=class Platform {
         wsInstance.onOpen.add(() => {
             if (!this._isConnected) {
                 this._isConnected = true;
-                this.onReconnect.trigger([]);
+                this.onReconnect.trigger();
             }
         });
         wsInstance.onClose.add(() => {
             if (this._isConnected) {
                 this._isConnected = false;
-                this.onDisconnect.trigger([]);
+                this.onDisconnect.trigger();
             }
         });
     }
@@ -5403,7 +5403,7 @@ Lib.TransactionManager=class TransactionManager {
             if (this.guid) {
                 this.guid = undefined;
                 try {
-                    await this.onTransactionEnd.trigger([false]);
+                    await this.onTransactionEnd.trigger(false);
                 }
                 catch (e) {
                     console.error(e);
@@ -5417,7 +5417,7 @@ Lib.TransactionManager=class TransactionManager {
             if (body.guid == this.guid) {
                 this.guid = undefined;
                 try {
-                    await this.onTransactionEnd.trigger([false]);
+                    await this.onTransactionEnd.trigger(false);
                 }
                 catch (e) {
                     console.error(e);
@@ -5432,7 +5432,7 @@ Lib.TransactionManager=class TransactionManager {
         if (result.success && result.result) {
             try {
                 this.guid = result.result;
-                await this.onTransactionBegin.trigger([]);
+                await this.onTransactionBegin.trigger();
             }
             catch (e) {
                 result.errors.push(new Errors.CoreError(Errors.CoreErrorCode.UnknowError, e));
@@ -5452,7 +5452,7 @@ Lib.TransactionManager=class TransactionManager {
         this.guid = undefined;
         const result = await this.mainRouter.CommitTransaction({ guid });
         try {
-            await this.onTransactionEnd.trigger([result.success]);
+            await this.onTransactionEnd.trigger(result.success);
         }
         catch (e) {
             result.errors.push(new Errors.CoreError(Errors.CoreErrorCode.UnknowError, e));
@@ -5469,7 +5469,7 @@ Lib.TransactionManager=class TransactionManager {
         this.guid = undefined;
         const result = await this.mainRouter.RollbackTransaction({ guid });
         try {
-            await this.onTransactionEnd.trigger([false]);
+            await this.onTransactionEnd.trigger(false);
         }
         catch (e) {
             result.errors.push(new Errors.CoreError(Errors.CoreErrorCode.UnknowError, e));
@@ -6410,25 +6410,25 @@ Components.Resize = class Resize extends Aventus.WebComponent {
             applyDrag: false,
             offsetDrag: 0,
             onPointerDown: () => {
-                this.onPointerDown.trigger([direction]);
+                this.onPointerDown.trigger(direction);
             },
             onStart: (e) => {
                 width = this.target.offsetWidth;
                 startX = e.pageX;
-                this.onStart.trigger([direction]);
+                this.onStart.trigger(direction);
             },
             onMove: (e) => {
                 let transform = this.transformWidth(width + (e.pageX - startX));
                 if (!transform.outbound) {
                     this.applyWidth(transform.w);
-                    this.onMove.trigger([direction]);
+                    this.onMove.trigger(direction);
                 }
             },
             onStop: () => {
-                this.onStop.trigger([direction]);
+                this.onStop.trigger(direction);
             },
             onPointerUp: () => {
-                this.onPointerUp.trigger([direction]);
+                this.onPointerUp.trigger(direction);
             }
         });
     }
@@ -6445,27 +6445,27 @@ Components.Resize = class Resize extends Aventus.WebComponent {
             applyDrag: false,
             offsetDrag: 0,
             onPointerDown: () => {
-                this.onPointerDown.trigger([direction]);
+                this.onPointerDown.trigger(direction);
             },
             onStart: (e) => {
                 width = this.target.offsetWidth;
                 left = this.target.offsetLeft;
                 startX = e.pageX;
-                this.onStart.trigger([direction]);
+                this.onStart.trigger(direction);
             },
             onMove: (e) => {
                 let transform = this.transformWidth(width - (e.pageX - startX));
                 if (!transform.outbound) {
                     this.applyWidth(transform.w);
                     this.applyLeft(left + (e.pageX - startX));
-                    this.onMove.trigger([direction]);
+                    this.onMove.trigger(direction);
                 }
             },
             onStop: () => {
-                this.onStop.trigger([direction]);
+                this.onStop.trigger(direction);
             },
             onPointerUp: () => {
-                this.onPointerUp.trigger([direction]);
+                this.onPointerUp.trigger(direction);
             }
         });
     }
@@ -6481,25 +6481,25 @@ Components.Resize = class Resize extends Aventus.WebComponent {
             applyDrag: false,
             offsetDrag: 0,
             onPointerDown: () => {
-                this.onPointerDown.trigger([direction]);
+                this.onPointerDown.trigger(direction);
             },
             onStart: (e) => {
                 height = this.target.offsetHeight;
                 startY = e.pageY;
-                this.onStart.trigger([direction]);
+                this.onStart.trigger(direction);
             },
             onMove: (e) => {
                 let transform = this.transformHeight(height + (e.pageY - startY));
                 if (!transform.outbound) {
                     this.applyHeight(transform.h);
-                    this.onMove.trigger([direction]);
+                    this.onMove.trigger(direction);
                 }
             },
             onStop: () => {
-                this.onStop.trigger([direction]);
+                this.onStop.trigger(direction);
             },
             onPointerUp: () => {
-                this.onPointerUp.trigger([direction]);
+                this.onPointerUp.trigger(direction);
             }
         });
     }
@@ -6518,7 +6518,7 @@ Components.Resize = class Resize extends Aventus.WebComponent {
             applyDrag: false,
             offsetDrag: 0,
             onPointerDown: () => {
-                this.onPointerDown.trigger([direction]);
+                this.onPointerDown.trigger(direction);
             },
             onStart: (e) => {
                 height = this.target.offsetHeight;
@@ -6526,7 +6526,7 @@ Components.Resize = class Resize extends Aventus.WebComponent {
                 width = this.target.offsetWidth;
                 left = this.target.offsetLeft;
                 startX = e.pageX;
-                this.onStart.trigger([direction]);
+                this.onStart.trigger(direction);
             },
             onMove: (e) => {
                 let transformH = this.transformHeight(height + (e.pageY - startY));
@@ -6539,14 +6539,14 @@ Components.Resize = class Resize extends Aventus.WebComponent {
                     this.applyLeft(left + (e.pageX - startX));
                 }
                 if (!transformH.outbound || !transformW.outbound) {
-                    this.onMove.trigger([direction]);
+                    this.onMove.trigger(direction);
                 }
             },
             onStop: () => {
-                this.onStop.trigger([direction]);
+                this.onStop.trigger(direction);
             },
             onPointerUp: () => {
-                this.onPointerUp.trigger([direction]);
+                this.onPointerUp.trigger(direction);
             }
         });
     }
@@ -6564,14 +6564,14 @@ Components.Resize = class Resize extends Aventus.WebComponent {
             applyDrag: false,
             offsetDrag: 0,
             onPointerDown: () => {
-                this.onPointerDown.trigger([direction]);
+                this.onPointerDown.trigger(direction);
             },
             onStart: (e) => {
                 height = this.target.offsetHeight;
                 startY = e.pageY;
                 width = this.target.offsetWidth;
                 startX = e.pageX;
-                this.onStart.trigger([direction]);
+                this.onStart.trigger(direction);
             },
             onMove: (e) => {
                 let transformH = this.transformHeight(height + (e.pageY - startY));
@@ -6583,14 +6583,14 @@ Components.Resize = class Resize extends Aventus.WebComponent {
                     this.applyWidth(transformW.w);
                 }
                 if (!transformW.outbound || !transformH.outbound) {
-                    this.onMove.trigger([direction]);
+                    this.onMove.trigger(direction);
                 }
             },
             onStop: () => {
-                this.onStop.trigger([direction]);
+                this.onStop.trigger(direction);
             },
             onPointerUp: () => {
-                this.onPointerUp.trigger([direction]);
+                this.onPointerUp.trigger(direction);
             }
         });
     }
@@ -6607,27 +6607,27 @@ Components.Resize = class Resize extends Aventus.WebComponent {
             applyDrag: false,
             offsetDrag: 0,
             onPointerDown: () => {
-                this.onPointerDown.trigger([direction]);
+                this.onPointerDown.trigger(direction);
             },
             onStart: (e) => {
                 height = this.target.offsetHeight;
                 top = this.target.offsetTop;
                 startY = e.pageY;
-                this.onStart.trigger([direction]);
+                this.onStart.trigger(direction);
             },
             onMove: (e) => {
                 let transformH = this.transformHeight(height - (e.pageY - startY));
                 if (!transformH.outbound) {
                     this.applyHeight(transformH.h);
                     this.applyTop(top + (e.pageY - startY));
-                    this.onMove.trigger([direction]);
+                    this.onMove.trigger(direction);
                 }
             },
             onStop: () => {
-                this.onStop.trigger([direction]);
+                this.onStop.trigger(direction);
             },
             onPointerUp: () => {
-                this.onPointerUp.trigger([direction]);
+                this.onPointerUp.trigger(direction);
             }
         });
     }
@@ -6647,7 +6647,7 @@ Components.Resize = class Resize extends Aventus.WebComponent {
             applyDrag: false,
             offsetDrag: 0,
             onPointerDown: () => {
-                this.onPointerDown.trigger([direction]);
+                this.onPointerDown.trigger(direction);
             },
             onStart: (e) => {
                 height = this.target.offsetHeight;
@@ -6656,7 +6656,7 @@ Components.Resize = class Resize extends Aventus.WebComponent {
                 width = this.target.offsetWidth;
                 left = this.target.offsetLeft;
                 startX = e.pageX;
-                this.onStart.trigger([direction]);
+                this.onStart.trigger(direction);
             },
             onMove: (e) => {
                 let transformH = this.transformHeight(height - (e.pageY - startY));
@@ -6670,14 +6670,14 @@ Components.Resize = class Resize extends Aventus.WebComponent {
                     this.applyLeft(left + (e.pageX - startX));
                 }
                 if (!transformH.outbound || !transformW.outbound) {
-                    this.onMove.trigger([direction]);
+                    this.onMove.trigger(direction);
                 }
             },
             onStop: () => {
-                this.onStop.trigger([direction]);
+                this.onStop.trigger(direction);
             },
             onPointerUp: () => {
-                this.onPointerUp.trigger([direction]);
+                this.onPointerUp.trigger(direction);
             }
         });
     }
@@ -6696,7 +6696,7 @@ Components.Resize = class Resize extends Aventus.WebComponent {
             applyDrag: false,
             offsetDrag: 0,
             onPointerDown: () => {
-                this.onPointerDown.trigger([direction]);
+                this.onPointerDown.trigger(direction);
             },
             onStart: (e) => {
                 height = this.target.offsetHeight;
@@ -6704,7 +6704,7 @@ Components.Resize = class Resize extends Aventus.WebComponent {
                 startY = e.pageY;
                 width = this.target.offsetWidth;
                 startX = e.pageX;
-                this.onStart.trigger([direction]);
+                this.onStart.trigger(direction);
             },
             onMove: (e) => {
                 let transformH = this.transformHeight(height - (e.pageY - startY));
@@ -6717,14 +6717,14 @@ Components.Resize = class Resize extends Aventus.WebComponent {
                     this.applyWidth(transformW.w);
                 }
                 if (!transformH.outbound || !transformW.outbound) {
-                    this.onMove.trigger([direction]);
+                    this.onMove.trigger(direction);
                 }
             },
             onStop: () => {
-                this.onStop.trigger([direction]);
+                this.onStop.trigger(direction);
             },
             onPointerUp: () => {
-                this.onPointerUp.trigger([direction]);
+                this.onPointerUp.trigger(direction);
             }
         });
     }
@@ -6935,7 +6935,7 @@ System.AppInstallPanel = class AppInstallPanel extends System.Panel {
                 });
                 System.Os.instance.notify(notif);
                 this.remove();
-                this.onClose.trigger([]);
+                this.onClose.trigger();
             }
             else {
                 let notif = Components.Notification.create({
@@ -6949,7 +6949,7 @@ System.AppInstallPanel = class AppInstallPanel extends System.Panel {
     }
     close() {
         this.remove();
-        this.onClose.trigger([]);
+        this.onClose.trigger();
     }
     clickFile() {
         this.inputFileEl.click();
@@ -9520,7 +9520,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
     watchPreviewTransitionResolve;
     oldActiveCase;
     pressManagerStopMoveApp;
-    static __style = `:host{--_desktop-background-color: var(--desktop-background-color, var(--primary-color))}:host{background-color:var(--_desktop-background-color);background-position:center;background-repeat:no-repeat;background-size:cover;flex-shrink:0;height:100%;overflow:hidden;position:relative;width:100%}:host .icons{--page-case-border-radius: var(--border-radius-sm);--page-case-border-active: 1px solid var(--darker-active);--page-case-background-active: var(--lighter-active);height:calc(100% - var(--desktop-bottom-bar) - 20px - var(--safe-area-bottom));transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s;width:100%;z-index:2}:host .debug{background-color:#f0f0f0;display:none;inset:0;overflow:auto;padding:10px;position:absolute;white-space:pre-wrap;z-index:1;touch-action:none;padding-bottom:100px}:host .app-container{transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host .preview-auto-layout{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:var(--application-border-radius);box-shadow:0 4px 30px rgba(0,0,0,.1);display:none;pointer-events:none;position:absolute;z-index:999;transition:width .2s linear,height .2s linear,top .2s linear,left .2s linear}:host([show_application_list])>*{opacity:0 !important;visibility:hidden !important}:host([background_size=Cover]){background-size:cover}:host([background_size=Contain]){background-size:contain}:host([background_size=Stretch]){background-size:100% 100%}`;
+    static __style = `:host{--_desktop-background-color: var(--desktop-background-color, var(--primary-color))}:host{background-color:var(--_desktop-background-color);background-position:center;background-repeat:no-repeat;background-size:cover;flex-shrink:0;height:100%;overflow:hidden;position:relative;width:100%}:host .icons{--page-case-border-radius: var(--border-radius-sm);--page-case-border-active: 1px solid var(--darker-active);--page-case-background-active: var(--lighter-active);height:calc(100% - var(--desktop-bottom-bar) - 20px - var(--safe-area-bottom));transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s;width:100%;z-index:2}:host .debug{background-color:#f0f0f0;display:none;inset:0;overflow:auto;padding:10px;position:absolute;white-space:pre-wrap;z-index:1;touch-action:none;padding-bottom:100px}:host .app-container{transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host .preview-auto-layout{background:hsla(0,0%,100%,.2);border:1px solid hsla(0,0%,100%,.3);border-radius:var(--application-border-radius);box-shadow:0 4px 30px rgba(0,0,0,.1);display:none;pointer-events:none;position:absolute;z-index:999;transition:width .2s linear,height .2s linear,top .2s linear,left .2s linear}:host([show_application_list])>*{opacity:0 !important;visibility:hidden !important}:host([background_size=Cover]){background-size:cover}:host([background_size=Contain]){background-size:contain}:host([background_size=Stretch]){background-size:100% 100%}`;
     constructor() {            super();this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this)}
     __getStatic() {
         return Desktop;
@@ -10142,11 +10142,11 @@ Lib.PWA=class PWA {
         }
         if (!this.e && Lib.PWA.isAvailable) {
             this.e = window['deferredPrompt'];
-            let result = this.onInit.trigger([]);
+            let result = this.onInit.trigger();
             this.isInit = true;
         }
         else if (Lib.PWA.isAvailableIOS) {
-            let result = this.onInit.trigger([]);
+            let result = this.onInit.trigger();
             this.isInit = true;
         }
         if (this.isInit) {
@@ -10157,7 +10157,7 @@ Lib.PWA=class PWA {
                 if (diffMs < 3000) {
                     await Aventus.sleep(3000 - diffMs);
                 }
-                this.onDownloaded.trigger([]);
+                this.onDownloaded.trigger();
             });
         }
     }
@@ -10175,7 +10175,7 @@ Lib.PWA=class PWA {
             const choiceResult = await this.e.userChoice;
             if (choiceResult.outcome === 'accepted') {
                 this.startInstall = new Date();
-                this.onDownloading.trigger([]);
+                this.onDownloading.trigger();
             }
         }
         else if (this.isAvailableIOS) {
@@ -11380,7 +11380,7 @@ Components.CalendarDay = class CalendarDay extends Aventus.WebComponent {
         new Aventus.PressManager({
             element: this,
             onPress: () => {
-                this.calendar.onDateClicked.trigger([this.date, this]);
+                this.calendar.onDateClicked.trigger(this.date, this);
             }
         });
     }
@@ -11827,7 +11827,7 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
                 row.classList.add("days-row");
             }
         }
-        this.onDateChanged.trigger([this.date]);
+        this.onDateChanged.trigger(this.date);
     }
     renderDatesTemp() {
         let el = this.bodyMonthEl.querySelector(".active");
@@ -13020,20 +13020,20 @@ Components.VirtualForm=class VirtualForm {
         if (path == "item") {
             for (let key in this.parts) {
                 let formPart = this.parts[key];
-                formPart.onValueChange.trigger([]);
+                formPart.onValueChange.trigger();
             }
         }
         else if (path.startsWith("item.")) {
             let key = path.substring("item.".length);
             if (this.parts[key]) {
                 let formPart = this.parts[key];
-                formPart.onValueChange.trigger([]);
+                formPart.onValueChange.trigger();
                 const validateOnChange = formPart.validateOnChange === undefined ? this._validateOnChange : formPart.validateOnChange;
                 if (validateOnChange) {
                     this.validate(key);
                 }
             }
-            this.onItemChange.trigger([action, key, value]);
+            this.onItemChange.trigger(action, key, value);
         }
     }
     async _validate(key) {
@@ -13065,7 +13065,7 @@ Components.VirtualForm=class VirtualForm {
                         };
                         let result = await formPart.validate(value, global);
                         resultToError(result);
-                        const proms = formPart.onValidation.trigger([errorsForm]);
+                        const proms = formPart.onValidation.trigger(errorsForm);
                         // const errors2d = await Promise.all(proms);
                         // for(let errorsTemp of errors2d) {
                         //     for(let errorTemp of errorsTemp) {
@@ -13584,7 +13584,7 @@ Components.Textarea = class Textarea extends Components.FormElement {
     onValueChange() {
         this.calculateAutoGrow();
         this.value = this.inputEl.value;
-        this.onChange.trigger([this.value]);
+        this.onChange.trigger(this.value);
         if (this.formPart) {
             this.formPart.value.set(this.value);
         }
@@ -13676,7 +13676,7 @@ Components.Switch = class Switch extends Components.FormElement {
         if (this.disabled)
             return;
         this.checked = !this.checked;
-        this.onChange.trigger([this.checked]);
+        this.onChange.trigger(this.checked);
         if (this.formPart) {
             this.formPart.value.set(this.value);
         }
@@ -13774,7 +13774,7 @@ Components.Slider = class Slider extends Components.FormElement {
                     clearTimeout(this.timerPopup);
                     this.popup_visible = true;
                 }
-                this.onDragStart.trigger([]);
+                this.onDragStart.trigger();
             },
             onStart: (e) => {
                 startX = e.pageX;
@@ -13795,7 +13795,7 @@ Components.Slider = class Slider extends Components.FormElement {
                         this.popup_visible = false;
                     }, 1000);
                 }
-                this.onDragStop.trigger([]);
+                this.onDragStop.trigger();
             }
         });
     }
@@ -13838,7 +13838,7 @@ Components.Slider = class Slider extends Components.FormElement {
         else {
             value -= diff;
         }
-        let result = this.onValidateValue.trigger([value]);
+        let result = this.onValidateValue.trigger(value);
         if (result.length > 0) {
             if (result[0] != value) {
                 // we correct the value so apply percent
@@ -13849,7 +13849,7 @@ Components.Slider = class Slider extends Components.FormElement {
         if (value != this.value) {
             this.value = value;
             if (emit) {
-                this.onChange.trigger([value]);
+                this.onChange.trigger(value);
                 if (this.formPart) {
                     this.formPart.value.set(this.value);
                 }
@@ -14092,7 +14092,7 @@ Components.InputNumber = class InputNumber extends Components.FormElement {
         else {
             this.value = Number(this.inputEl.value);
         }
-        this.onChange.trigger([this.value]);
+        this.onChange.trigger(this.value);
         if (this.formPart) {
             this.formPart.value.set(this.value);
         }
@@ -14475,7 +14475,7 @@ Components.InputDate = class InputDate extends Components.FormElement {
             const isSame = this.time ? Lib.DateTools.isSameDateTime(this.value, result) : Lib.DateTools.isSameDate(this.value, result);
             if (!isSame) {
                 this.value = result;
-                this.onChange.trigger([this.value]);
+                this.onChange.trigger(this.value);
                 if (this.formPart) {
                     this.formPart.value.set(this.value);
                 }
@@ -14649,7 +14649,7 @@ Components.InlineText = class InlineText extends Components.FormElement {
     }
     onValueChange() {
         this.value = this.inputEl.value;
-        this.onChange.trigger([this.value]);
+        this.onChange.trigger(this.value);
         if (this.formPart) {
             this.formPart.value.set(this.value);
         }
@@ -14657,7 +14657,7 @@ Components.InlineText = class InlineText extends Components.FormElement {
     edit() {
         this.textBeforeEdit = this.value;
         this.is_editing = true;
-        this.onIsEditChange.trigger([this.is_editing]);
+        this.onIsEditChange.trigger(this.is_editing);
         this.inputEl.focus();
         this.inputEl.select();
     }
@@ -14666,7 +14666,7 @@ Components.InlineText = class InlineText extends Components.FormElement {
     }
     validateChange() {
         this.is_editing = false;
-        this.onIsEditChange.trigger([this.is_editing]);
+        this.onIsEditChange.trigger(this.is_editing);
     }
     checkEnter(e) {
         if (e.key == "Enter") {
@@ -14728,7 +14728,7 @@ Components.Form = class Form extends Aventus.WebComponent {
     }
     async submit() {
         if (await this.validate()) {
-            this.onSubmit.trigger([]);
+            this.onSubmit.trigger();
         }
     }
     async validate() {
@@ -14867,7 +14867,7 @@ Components.Checkbox = class Checkbox extends Components.FormElement {
             onPress: () => {
                 this.removeErrors();
                 this.checked = !this.checked;
-                this.onChange.trigger([this.checked]);
+                this.onChange.trigger(this.checked);
                 if (this.formPart) {
                     this.formPart.value.set(this.value);
                 }
@@ -15178,7 +15178,7 @@ Lib.Color=class Color {
             throw new Error(`${colorString} is not a supported color`);
         }
         this._watcher = Aventus.Watcher.get({ currentColor }, () => {
-            this.onColorChange.trigger([]);
+            this.onColorChange.trigger();
         });
     }
     setColorTxt(colorString) {
@@ -15608,7 +15608,7 @@ Components.ColorPickerSelector = class ColorPickerSelector extends Aventus.WebCo
     }
     emitChange() {
         if (this.canEmit) {
-            this.onChange.trigger([this.color]);
+            this.onChange.trigger(this.color);
         }
     }
     changeHue() {
@@ -15953,7 +15953,7 @@ Components.ColorPicker = class ColorPicker extends Components.FormElement {
         if (Lib.Color.isValid(this.inputEl.value)) {
             this.value = this.inputEl.value;
             this.pickerEl.colorTxt = this.inputEl.value;
-            this.onChange.trigger([this.value]);
+            this.onChange.trigger(this.value);
             if (this.formPart) {
                 this.formPart.value.set(this.value);
             }
@@ -15963,7 +15963,7 @@ Components.ColorPicker = class ColorPicker extends Components.FormElement {
         this.manageFocus();
         this.pickerEl.onChange.add(() => {
             this.value = this.pickerEl.colorTxt;
-            this.onChange.trigger([this.value]);
+            this.onChange.trigger(this.value);
             if (this.formPart) {
                 this.formPart.value.set(this.value);
             }
@@ -16153,7 +16153,7 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
         this.errors = [];
     }
     onValueChange() {
-        this.onChange.trigger([this.value]);
+        this.onChange.trigger(this.value);
         if (this.formPart) {
             this.formPart.value.set(this.value);
         }
@@ -16389,7 +16389,7 @@ Components.Input = class Input extends Components.FormElement {
     }
     onValueChange() {
         this.value = this.inputEl.value;
-        this.onChange.trigger([this.value]);
+        this.onChange.trigger(this.value);
         if (this.formPart) {
             this.formPart.value.set(this.value);
         }
@@ -16527,11 +16527,11 @@ Components.OptionsContainer = class OptionsContainer extends Aventus.WebComponen
         container.appendChild(this);
         await Aventus.sleep(10);
         this.open = true;
-        this.onOpen.trigger([true]);
+        this.onOpen.trigger(true);
     }
     hide() {
         this.open = false;
-        this.onOpen.trigger([false]);
+        this.onOpen.trigger(false);
     }
     addAnimationEnd() {
         this.addEventListener("transitionstart", (event) => {
@@ -16702,7 +16702,7 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
         this.value = option.value;
         this.displayValue = this.itemToText(option);
         this.hideOptions();
-        this.onChange.trigger([this.value]);
+        this.onChange.trigger(this.value);
         this.filter();
         if (this.formPart) {
             this.formPart.value.set(this.value);
@@ -17048,7 +17048,7 @@ Components.ItemBoxSelect = class ItemBoxSelect extends Components.FormElement {
     }
     selectOption(option) {
         this.value = option.value;
-        this.onChange.trigger([this.value]);
+        this.onChange.trigger(this.value);
         if (this.formPart) {
             this.formPart.value.set(this.value);
         }
@@ -17483,7 +17483,7 @@ Components.TwoColumnsSelect = class TwoColumnsSelect extends Components.FormElem
         return;
     }
     changeValue() {
-        this.onChange.trigger([this.value]);
+        this.onChange.trigger(this.value);
         if (this.formPart) {
             this.formPart.value.set(this.value);
         }
@@ -17838,7 +17838,7 @@ Components.Menu = class Menu extends Aventus.WebComponent {
         this.calculatePosition(rect);
         document.body.appendChild(this);
         this.state = Components.MenuState.Opening;
-        this.stateChange.trigger([this.state]);
+        this.stateChange.trigger(this.state);
         setTimeout(() => {
             this.collapseEl.open = true;
         }, 100);
@@ -18145,13 +18145,13 @@ Components.Menu = class Menu extends Aventus.WebComponent {
                 this.state = Components.MenuState.Close;
                 this.remove(false);
             }
-            this.stateChange.trigger([this.state]);
+            this.stateChange.trigger(this.state);
         });
         this.addEventListener("blur", (e) => {
             e.stopPropagation();
             this.collapseEl.open = false;
             this.state = Components.MenuState.Closing;
-            this.stateChange.trigger([this.state]);
+            this.stateChange.trigger(this.state);
         });
     }
     postCreation() {
@@ -18533,7 +18533,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
         if (!this.rowsSelected.includes(row)) {
             this.rowsSelected.push(row);
             this.onSelected();
-            this.select.trigger([this.getSelectedData()]);
+            this.select.trigger(this.getSelectedData());
         }
     }
     unselectRow(row) {
@@ -18543,13 +18543,13 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
         if (index != -1) {
             this.rowsSelected.splice(index, 1);
             this.onSelected();
-            this.select.trigger([this.getSelectedData()]);
+            this.select.trigger(this.getSelectedData());
         }
     }
     unselectAllRows() {
         this.rowsSelected = [];
         this.onSelected();
-        this.select.trigger([[]]);
+        this.select.trigger([]);
     }
     onSelected() {
     }

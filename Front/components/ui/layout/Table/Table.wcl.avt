@@ -30,16 +30,11 @@ namespace Components {
         export: 'public',
         group: 'Components/Layout/Table'
     })
-    export type TableSchemaCell<T> = TableSchemaCellCst<T>;
-    @Storybook({
-        export: 'public',
-        group: 'Components/Layout/Table'
-    })
     export type TableSchema<T> = {
         displayName: string,
         name?: string,
         type: TableCellType,
-        cell?: TableSchemaCell<T>;
+        cell?: TableSchemaCellCst<T>;
         cellContent?: TableSchemaCellContent<T>;
         cellHeader?: new () => TableCell<any, any>;
         width?: number;
@@ -248,7 +243,7 @@ namespace Components {
             if(!this.rowsSelected.includes(row)) {
                 this.rowsSelected.push(row);
                 this.onSelected();
-                this.select.trigger([this.getSelectedData()]);
+                this.select.trigger(this.getSelectedData());
             }
         }
         public unselectRow(row?: TableRow<T>) {
@@ -257,13 +252,13 @@ namespace Components {
             if(index != -1) {
                 this.rowsSelected.splice(index, 1);
                 this.onSelected();
-                this.select.trigger([this.getSelectedData()]);
+                this.select.trigger(this.getSelectedData());
             }
         }
         public unselectAllRows() {
             this.rowsSelected = [];
             this.onSelected();
-            this.select.trigger([[]]);
+            this.select.trigger([]);
         }
 
         public select: Aventus.Callback<(data: T[]) => void> = new Aventus.Callback();

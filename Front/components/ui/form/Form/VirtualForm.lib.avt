@@ -141,20 +141,20 @@ namespace Components {
             if(path == "item") {
                 for(let key in this.parts) {
                     let formPart = this.parts[key] as InternalFormPart;
-                    formPart.onValueChange.trigger([]);
+                    formPart.onValueChange.trigger();
                 }
             }
             else if(path.startsWith("item.")) {
                 let key = path.substring("item.".length);
                 if(this.parts[key]) {
                     let formPart = this.parts[key] as InternalFormPart;
-                    formPart.onValueChange.trigger([]);
+                    formPart.onValueChange.trigger();
                     const validateOnChange = formPart.validateOnChange === undefined ? this._validateOnChange : formPart.validateOnChange;
                     if(validateOnChange) {
                         this.validate(key);
                     }
                 }
-                this.onItemChange.trigger([action, key, value]);
+                this.onItemChange.trigger(action, key, value);
             }
         }
 
@@ -191,7 +191,7 @@ namespace Components {
                             let result = await formPart.validate(value, global);
                             resultToError(result);
 
-                            const proms = formPart.onValidation.trigger([errorsForm]);
+                            const proms = formPart.onValidation.trigger(errorsForm);
                             // const errors2d = await Promise.all(proms);
                             // const errors: string[] = [];
                             // for(let errorsTemp of errors2d) {

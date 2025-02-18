@@ -47,7 +47,7 @@ namespace Components {
          */
         protected onValueChange() {
             this.value = this.inputEl.value;
-            this.onChange.trigger([this.value]);
+            this.onChange.trigger(this.value);
             if(this.formPart) {
                 this.formPart.value.set(this.value);
             }
@@ -56,7 +56,7 @@ namespace Components {
         public edit() {
             this.textBeforeEdit = this.value;
             this.is_editing = true;
-            this.onIsEditChange.trigger([this.is_editing]);
+            this.onIsEditChange.trigger(this.is_editing);
             this.inputEl.focus();
             this.inputEl.select();
         }
@@ -67,7 +67,7 @@ namespace Components {
 
         protected validateChange() {
             this.is_editing = false;
-            this.onIsEditChange.trigger([this.is_editing]);
+            this.onIsEditChange.trigger(this.is_editing);
         }
 
 

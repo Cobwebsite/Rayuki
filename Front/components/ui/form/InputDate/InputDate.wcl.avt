@@ -331,7 +331,7 @@ namespace Components {
 
                 if(!isSame) {
                     this.value = result;
-                    this.onChange.trigger([this.value]);
+                    this.onChange.trigger(this.value);
                     if(this.formPart) {
                         this.formPart.value.set(this.value);
                     }

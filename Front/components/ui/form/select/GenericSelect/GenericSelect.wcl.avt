@@ -105,7 +105,7 @@ namespace Components {
             this.value = option.value;
             this.displayValue = this.itemToText(option);
             this.hideOptions();
-            this.onChange.trigger([this.value]);
+            this.onChange.trigger(this.value);
             this.filter();
             if(this.formPart) {
                 this.formPart.value.set(this.value);

@@ -36,11 +36,11 @@ namespace Lib {
             }
             if(!this.e && PWA.isAvailable) {
                 this.e = window['deferredPrompt'];
-                let result = this.onInit.trigger([]);
+                let result = this.onInit.trigger();
                 this.isInit = true;
             }
             else if(PWA.isAvailableIOS) {
-                let result = this.onInit.trigger([]);
+                let result = this.onInit.trigger();
                 this.isInit = true;
             }
 
@@ -52,7 +52,7 @@ namespace Lib {
                     if(diffMs < 3000) {
                         await Aventus.sleep(3000 - diffMs);
                     }
-                    this.onDownloaded.trigger([]);
+                    this.onDownloaded.trigger();
                 });
             }
 
@@ -75,7 +75,7 @@ namespace Lib {
                 const choiceResult = await this.e.userChoice;
                 if(choiceResult.outcome === 'accepted') {
                     this.startInstall = new Date();
-                    this.onDownloading.trigger([]);
+                    this.onDownloading.trigger();
                 }
             }
             else if(this.isAvailableIOS) {

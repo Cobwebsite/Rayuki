@@ -51,7 +51,7 @@ namespace Components {
 
         public async submit() {
             if(await this.validate()) {
-                this.onSubmit.trigger([]);
+                this.onSubmit.trigger();
             }
         }
 

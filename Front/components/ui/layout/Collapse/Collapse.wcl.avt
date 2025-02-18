@@ -47,7 +47,7 @@ namespace Components {
          */
         protected toggleOpen() {
             this.open = !this.open;
-            this.change.trigger([this.open]);
+            this.change.trigger(this.open);
         }
         //#endregion
 

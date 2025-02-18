@@ -60,11 +60,11 @@ namespace Components {
             container.appendChild(this);
             await Aventus.sleep(10);
             this.open = true;
-            this.onOpen.trigger([true]);
+            this.onOpen.trigger(true);
         }
         public hide() {
             this.open = false;
-            this.onOpen.trigger([false]);
+            this.onOpen.trigger(false);
         }
 
         protected addAnimationEnd() {

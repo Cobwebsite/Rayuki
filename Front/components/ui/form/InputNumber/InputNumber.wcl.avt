@@ -174,7 +174,7 @@ namespace Components {
                 this.value = Number(this.inputEl.value);
             }
 
-            this.onChange.trigger([this.value]);
+            this.onChange.trigger(this.value);
             if(this.formPart) {
                 this.formPart.value.set(this.value);
             }

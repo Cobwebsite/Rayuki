@@ -26,7 +26,7 @@ namespace Lib {
                 if(this.guid) {
                     this.guid = undefined;
                     try {
-                        await this.onTransactionEnd.trigger([false]);
+                        await this.onTransactionEnd.trigger(false);
                     } catch(e) {
                         console.error(e);
                     }
@@ -39,7 +39,7 @@ namespace Lib {
                 if(body.guid == this.guid) {
                     this.guid = undefined;
                     try {
-                        await this.onTransactionEnd.trigger([false]);
+                        await this.onTransactionEnd.trigger(false);
                     } catch(e) {
                         console.error(e);
                     }
@@ -54,7 +54,7 @@ namespace Lib {
             if(result.success && result.result) {
                 try {
                     this.guid = result.result;
-                    await this.onTransactionBegin.trigger([]);
+                    await this.onTransactionBegin.trigger();
                 } catch(e) {
                     result.errors.push(new CoreError(CoreErrorCode.UnknowError, e));
                 }
@@ -75,7 +75,7 @@ namespace Lib {
             this.guid = undefined;
             const result = await this.mainRouter.CommitTransaction({ guid });
             try {
-                await this.onTransactionEnd.trigger([result.success]);
+                await this.onTransactionEnd.trigger(result.success);
             } catch(e) {
                 result.errors.push(new CoreError(CoreErrorCode.UnknowError, e));
             }
@@ -92,7 +92,7 @@ namespace Lib {
             this.guid = undefined;
             const result = await this.mainRouter.RollbackTransaction({ guid });
             try {
-                await this.onTransactionEnd.trigger([false]);
+                await this.onTransactionEnd.trigger(false);
             } catch(e) {
                 result.errors.push(new CoreError(CoreErrorCode.UnknowError, e));
             }

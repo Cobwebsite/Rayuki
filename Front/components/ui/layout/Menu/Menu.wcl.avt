@@ -77,7 +77,7 @@ namespace Components {
             this.calculatePosition(rect);
             document.body.appendChild(this);
             this.state = MenuState.Opening;
-            this.stateChange.trigger([this.state]);
+            this.stateChange.trigger(this.state);
             setTimeout(() => {
                 this.collapseEl.open = true;
             }, 100);
@@ -393,13 +393,13 @@ namespace Components {
                     this.state = MenuState.Close;
                     this.remove(false);
                 }
-                this.stateChange.trigger([this.state]);
+                this.stateChange.trigger(this.state);
             });
             this.addEventListener("blur", (e) => {
                 e.stopPropagation();
                 this.collapseEl.open = false;
                 this.state = MenuState.Closing;
-                this.stateChange.trigger([this.state]);
+                this.stateChange.trigger(this.state);
             });
         }
 

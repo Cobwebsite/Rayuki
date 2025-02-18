@@ -154,25 +154,25 @@ namespace Components {
                 applyDrag: false,
                 offsetDrag: 0,
                 onPointerDown: () => {
-                    this.onPointerDown.trigger([direction]);
+                    this.onPointerDown.trigger(direction);
                 },
                 onStart: (e) => {
                     width = this.target.offsetWidth;
                     startX = e.pageX;
-                    this.onStart.trigger([direction]);
+                    this.onStart.trigger(direction);
                 },
                 onMove: (e) => {
                     let transform = this.transformWidth(width + (e.pageX - startX));
                     if(!transform.outbound) {
                         this.applyWidth(transform.w);
-                        this.onMove.trigger([direction]);
+                        this.onMove.trigger(direction);
                     }
                 },
                 onStop: () => {
-                    this.onStop.trigger([direction]);
+                    this.onStop.trigger(direction);
                 },
                 onPointerUp: () => {
-                    this.onPointerUp.trigger([direction]);
+                    this.onPointerUp.trigger(direction);
                 }
             });
         }
@@ -190,27 +190,27 @@ namespace Components {
                 applyDrag: false,
                 offsetDrag: 0,
                 onPointerDown: () => {
-                    this.onPointerDown.trigger([direction]);
+                    this.onPointerDown.trigger(direction);
                 },
                 onStart: (e) => {
                     width = this.target.offsetWidth;
                     left = this.target.offsetLeft;
                     startX = e.pageX;
-                    this.onStart.trigger([direction]);
+                    this.onStart.trigger(direction);
                 },
                 onMove: (e) => {
                     let transform = this.transformWidth(width - (e.pageX - startX));
                     if(!transform.outbound) {
                         this.applyWidth(transform.w);
                         this.applyLeft(left + (e.pageX - startX));
-                        this.onMove.trigger([direction]);
+                        this.onMove.trigger(direction);
                     }
                 },
                 onStop: () => {
-                    this.onStop.trigger([direction]);
+                    this.onStop.trigger(direction);
                 },
                 onPointerUp: () => {
-                    this.onPointerUp.trigger([direction]);
+                    this.onPointerUp.trigger(direction);
                 }
             });
         }
@@ -227,25 +227,25 @@ namespace Components {
                 applyDrag: false,
                 offsetDrag: 0,
                 onPointerDown: () => {
-                    this.onPointerDown.trigger([direction]);
+                    this.onPointerDown.trigger(direction);
                 },
                 onStart: (e) => {
                     height = this.target.offsetHeight;
                     startY = e.pageY;
-                    this.onStart.trigger([direction]);
+                    this.onStart.trigger(direction);
                 },
                 onMove: (e) => {
                     let transform = this.transformHeight(height + (e.pageY - startY));
                     if(!transform.outbound) {
                         this.applyHeight(transform.h);
-                        this.onMove.trigger([direction]);
+                        this.onMove.trigger(direction);
                     }
                 },
                 onStop: () => {
-                    this.onStop.trigger([direction]);
+                    this.onStop.trigger(direction);
                 },
                 onPointerUp: () => {
-                    this.onPointerUp.trigger([direction]);
+                    this.onPointerUp.trigger(direction);
                 }
             });
         }
@@ -264,7 +264,7 @@ namespace Components {
                 applyDrag: false,
                 offsetDrag: 0,
                 onPointerDown: () => {
-                    this.onPointerDown.trigger([direction]);
+                    this.onPointerDown.trigger(direction);
                 },
                 onStart: (e) => {
                     height = this.target.offsetHeight;
@@ -272,7 +272,7 @@ namespace Components {
                     width = this.target.offsetWidth;
                     left = this.target.offsetLeft;
                     startX = e.pageX;
-                    this.onStart.trigger([direction]);
+                    this.onStart.trigger(direction);
                 },
                 onMove: (e) => {
                     let transformH = this.transformHeight(height + (e.pageY - startY));
@@ -285,14 +285,14 @@ namespace Components {
                         this.applyLeft(left + (e.pageX - startX));
                     }
                     if(!transformH.outbound || !transformW.outbound) {
-                        this.onMove.trigger([direction]);
+                        this.onMove.trigger(direction);
                     }
                 },
                 onStop: () => {
-                    this.onStop.trigger([direction]);
+                    this.onStop.trigger(direction);
                 },
                 onPointerUp: () => {
-                    this.onPointerUp.trigger([direction]);
+                    this.onPointerUp.trigger(direction);
                 }
             });
         }
@@ -310,14 +310,14 @@ namespace Components {
                 applyDrag: false,
                 offsetDrag: 0,
                 onPointerDown: () => {
-                    this.onPointerDown.trigger([direction]);
+                    this.onPointerDown.trigger(direction);
                 },
                 onStart: (e) => {
                     height = this.target.offsetHeight;
                     startY = e.pageY;
                     width = this.target.offsetWidth;
                     startX = e.pageX;
-                    this.onStart.trigger([direction]);
+                    this.onStart.trigger(direction);
                 },
                 onMove: (e) => {
                     let transformH = this.transformHeight(height + (e.pageY - startY));
@@ -329,14 +329,14 @@ namespace Components {
                         this.applyWidth(transformW.w);
                     }
                     if(!transformW.outbound || !transformH.outbound) {
-                        this.onMove.trigger([direction]);
+                        this.onMove.trigger(direction);
                     }
                 },
                 onStop: () => {
-                    this.onStop.trigger([direction]);
+                    this.onStop.trigger(direction);
                 },
                 onPointerUp: () => {
-                    this.onPointerUp.trigger([direction]);
+                    this.onPointerUp.trigger(direction);
                 }
             });
         }
@@ -354,27 +354,27 @@ namespace Components {
                 applyDrag: false,
                 offsetDrag: 0,
                 onPointerDown: () => {
-                    this.onPointerDown.trigger([direction]);
+                    this.onPointerDown.trigger(direction);
                 },
                 onStart: (e) => {
                     height = this.target.offsetHeight;
                     top = this.target.offsetTop;
                     startY = e.pageY;
-                    this.onStart.trigger([direction]);
+                    this.onStart.trigger(direction);
                 },
                 onMove: (e) => {
                     let transformH = this.transformHeight(height - (e.pageY - startY));
                     if(!transformH.outbound) {
                         this.applyHeight(transformH.h);
                         this.applyTop(top + (e.pageY - startY));
-                        this.onMove.trigger([direction]);
+                        this.onMove.trigger(direction);
                     }
                 },
                 onStop: () => {
-                    this.onStop.trigger([direction]);
+                    this.onStop.trigger(direction);
                 },
                 onPointerUp: () => {
-                    this.onPointerUp.trigger([direction]);
+                    this.onPointerUp.trigger(direction);
                 }
             });
         }
@@ -395,7 +395,7 @@ namespace Components {
                 applyDrag: false,
                 offsetDrag: 0,
                 onPointerDown: () => {
-                    this.onPointerDown.trigger([direction]);
+                    this.onPointerDown.trigger(direction);
                 },
                 onStart: (e) => {
                     height = this.target.offsetHeight;
@@ -404,7 +404,7 @@ namespace Components {
                     width = this.target.offsetWidth;
                     left = this.target.offsetLeft;
                     startX = e.pageX;
-                    this.onStart.trigger([direction]);
+                    this.onStart.trigger(direction);
                 },
                 onMove: (e) => {
                     let transformH = this.transformHeight(height - (e.pageY - startY));
@@ -418,14 +418,14 @@ namespace Components {
                         this.applyLeft(left + (e.pageX - startX));
                     }
                     if(!transformH.outbound || !transformW.outbound) {
-                        this.onMove.trigger([direction]);
+                        this.onMove.trigger(direction);
                     }
                 },
                 onStop: () => {
-                    this.onStop.trigger([direction]);
+                    this.onStop.trigger(direction);
                 },
                 onPointerUp: () => {
-                    this.onPointerUp.trigger([direction]);
+                    this.onPointerUp.trigger(direction);
                 }
             });
         }
@@ -445,7 +445,7 @@ namespace Components {
                 applyDrag: false,
                 offsetDrag: 0,
                 onPointerDown: () => {
-                    this.onPointerDown.trigger([direction]);
+                    this.onPointerDown.trigger(direction);
                 },
                 onStart: (e) => {
                     height = this.target.offsetHeight;
@@ -453,7 +453,7 @@ namespace Components {
                     startY = e.pageY;
                     width = this.target.offsetWidth;
                     startX = e.pageX;
-                    this.onStart.trigger([direction]);
+                    this.onStart.trigger(direction);
                 },
                 onMove: (e) => {
                     let transformH = this.transformHeight(height - (e.pageY - startY));
@@ -466,14 +466,14 @@ namespace Components {
                         this.applyWidth(transformW.w);
                     }
                     if(!transformH.outbound || !transformW.outbound) {
-                        this.onMove.trigger([direction]);
+                        this.onMove.trigger(direction);
                     }
                 },
                 onStop: () => {
-                    this.onStop.trigger([direction]);
+                    this.onStop.trigger(direction);
                 },
                 onPointerUp: () => {
-                    this.onPointerUp.trigger([direction]);
+                    this.onPointerUp.trigger(direction);
                 }
             });
         }

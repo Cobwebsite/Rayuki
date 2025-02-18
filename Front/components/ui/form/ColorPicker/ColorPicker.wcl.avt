@@ -200,7 +200,7 @@ namespace Components {
             if(Color.isValid(this.inputEl.value)) {
                 this.value = this.inputEl.value;
                 this.pickerEl.colorTxt = this.inputEl.value;
-                this.onChange.trigger([this.value]);
+                this.onChange.trigger(this.value);
                 if(this.formPart) {
                     this.formPart.value.set(this.value);
                 }
@@ -214,7 +214,7 @@ namespace Components {
             this.manageFocus();
             this.pickerEl.onChange.add(() => {
                 this.value = this.pickerEl.colorTxt;
-                this.onChange.trigger([this.value]);
+                this.onChange.trigger(this.value);
                 if(this.formPart) {
                     this.formPart.value.set(this.value);
                 }

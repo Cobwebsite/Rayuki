@@ -1,6 +1,6 @@
 import type { TableCell } from "../../cells/TableCell/TableCell.wcl.avt";
 import { TableCellString } from "../../cells/TableCellString.wc.avt";
-import type { SortColumns, Table, TableOptions, TableSchema, TableSchemaCell, TableSchemaCellCst } from "../../Table.wcl.avt";
+import type { SortColumns, Table, TableOptions, TableSchema, TableSchemaCellCst } from "../../Table.wcl.avt";
 
 namespace Components {
     @Storybook({
@@ -55,7 +55,7 @@ namespace Components {
             return false;
         }
 
-        protected getCell(cellConfig: TableSchema<T>): TableSchemaCell<T> {
+        protected getCell(cellConfig: TableSchema<T>): TableSchemaCellCst<T> {
             return cellConfig.cell ?? TableCellString;
         }
 

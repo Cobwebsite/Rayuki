@@ -18,7 +18,7 @@ namespace Lib {
                 let newDevice = this.device;
                 if(currentDevice != newDevice) {
                     currentDevice = newDevice;
-                    this.onScreenChange.trigger([newDevice]);
+                    this.onScreenChange.trigger(newDevice);
                 }
             });
             screenObserver.observe(document.body);
@@ -27,13 +27,13 @@ namespace Lib {
             wsInstance.onOpen.add(() => {
                 if(!this._isConnected) {
                     this._isConnected = true;
-                    this.onReconnect.trigger([]);
+                    this.onReconnect.trigger();
                 }
             });
             wsInstance.onClose.add(() => {
                 if(this._isConnected) {
                     this._isConnected = false;
-                    this.onDisconnect.trigger([]);
+                    this.onDisconnect.trigger();
                 }
             });
         }

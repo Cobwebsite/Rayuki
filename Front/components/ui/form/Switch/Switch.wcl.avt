@@ -55,7 +55,7 @@ namespace Components {
         protected toggleActive() {
             if(this.disabled) return;
             this.checked = !this.checked;
-            this.onChange.trigger([this.checked]);
+            this.onChange.trigger(this.checked);
             if(this.formPart) {
                 this.formPart.value.set(this.value);
             }

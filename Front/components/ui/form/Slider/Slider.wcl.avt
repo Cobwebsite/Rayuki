@@ -82,7 +82,7 @@ namespace Components {
                         clearTimeout(this.timerPopup);
                         this.popup_visible = true;
                     }
-                    this.onDragStart.trigger([]);
+                    this.onDragStart.trigger();
                 },
                 onStart: (e) => {
                     startX = e.pageX;
@@ -103,7 +103,7 @@ namespace Components {
                             this.popup_visible = false;
                         }, 1000);
                     }
-                    this.onDragStop.trigger([]);
+                    this.onDragStop.trigger();
                 }
             });
         }
@@ -147,7 +147,7 @@ namespace Components {
             else {
                 value -= diff;
             }
-            let result = this.onValidateValue.trigger([value]);
+            let result = this.onValidateValue.trigger(value);
             if(result.length > 0) {
                 if(result[0] != value) {
                     // we correct the value so apply percent
@@ -158,7 +158,7 @@ namespace Components {
             if(value != this.value) {
                 this.value = value;
                 if(emit) {
-                    this.onChange.trigger([value]);
+                    this.onChange.trigger(value);
                     if(this.formPart) {
                         this.formPart.value.set(this.value);
                     }

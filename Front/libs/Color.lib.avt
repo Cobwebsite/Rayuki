@@ -370,7 +370,7 @@ namespace Lib {
             }
 
             this._watcher = Aventus.Watcher.get({ currentColor }, () => {
-                this.onColorChange.trigger([]);
+                this.onColorChange.trigger();
             });
         }
 

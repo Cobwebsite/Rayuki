@@ -69,7 +69,7 @@ namespace Components {
                 onPress: () => {
                     this.removeErrors();
                     this.checked = !this.checked;
-                    this.onChange.trigger([this.checked]);
+                    this.onChange.trigger(this.checked);
                     if(this.formPart) {
                         this.formPart.value.set(this.value);
                     }

@@ -333,7 +333,7 @@ namespace Components {
         }
 
         private triggerScrollChange() {
-            this.onScrollChange.trigger([this.x, this.y]);
+            this.onScrollChange.trigger(this.x, this.y);
         }
 
 
@@ -566,7 +566,7 @@ namespace Components {
             const newY = matrix.f || 0;
 
             this.zoom = newZoomFinal;
-            this.onZoomChange.trigger([newZoomFinal]);
+            this.onZoomChange.trigger(newZoomFinal);
             this.scrollDirection('x', newX);
             this.scrollDirection('y', newY);
         }
@@ -611,7 +611,7 @@ namespace Components {
                 const newY = matrix.f || 0;
 
                 this.zoom = newZoom;
-                this.onZoomChange.trigger([newZoom]);
+                this.onZoomChange.trigger(newZoom);
                 this.scrollDirection('x', newX);
                 this.scrollDirection('y', newY);
 

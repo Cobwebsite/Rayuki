@@ -164,7 +164,7 @@ namespace Components {
          */
         protected emitChange() {
             if(this.canEmit) {
-                this.onChange.trigger([this.color]);
+                this.onChange.trigger(this.color);
             }
         }
         /**

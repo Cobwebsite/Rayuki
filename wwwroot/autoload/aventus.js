@@ -330,6 +330,87 @@ var HttpMethod;
 })(HttpMethod || (HttpMethod = {}));
 _.HttpMethod=HttpMethod;
 
+let getValueFromObject=function getValueFromObject(path, obj) {
+    if (path === undefined) {
+        path = '';
+    }
+    path = path.replace(/\[(.*?)\]/g, '.$1');
+    if (path == "") {
+        return obj;
+    }
+    const val = (key) => {
+        if (obj instanceof Map) {
+            return obj.get(key);
+        }
+        return obj[key];
+    };
+    let splitted = path.split(".");
+    for (let i = 0; i < splitted.length - 1; i++) {
+        let split = splitted[i];
+        let value = val(split);
+        if (!value || typeof value !== 'object') {
+            return undefined;
+        }
+        obj = value;
+    }
+    if (!obj || typeof obj !== 'object') {
+        return undefined;
+    }
+    return val(splitted[splitted.length - 1]);
+}
+_.getValueFromObject=getValueFromObject;
+
+var WatchAction;
+(function (WatchAction) {
+    WatchAction[WatchAction["CREATED"] = 0] = "CREATED";
+    WatchAction[WatchAction["UPDATED"] = 1] = "UPDATED";
+    WatchAction[WatchAction["DELETED"] = 2] = "DELETED";
+})(WatchAction || (WatchAction = {}));
+_.WatchAction=WatchAction;
+
+let Signal=class Signal {
+    __subscribes = [];
+    _value;
+    _onChange;
+    get value() {
+        Watcher._register?.register(this, "*", Watcher._register.version, "*");
+        return this._value;
+    }
+    set value(item) {
+        const oldValue = this._value;
+        this._value = item;
+        if (oldValue != item) {
+            if (this._onChange) {
+                this._onChange();
+            }
+            for (let fct of this.__subscribes) {
+                fct(WatchAction.UPDATED, "*", item, []);
+            }
+        }
+    }
+    constructor(item, onChange) {
+        this._value = item;
+        this._onChange = onChange;
+    }
+    subscribe(fct) {
+        let index = this.__subscribes.indexOf(fct);
+        if (index == -1) {
+            this.__subscribes.push(fct);
+        }
+    }
+    unsubscribe(fct) {
+        let index = this.__subscribes.indexOf(fct);
+        if (index > -1) {
+            this.__subscribes.splice(index, 1);
+        }
+    }
+    destroy() {
+        this.__subscribes = [];
+    }
+}
+Signal.Namespace=`Aventus`;
+_.Signal=Signal;
+
 let CallbackGroup=class CallbackGroup {
     callbacks = {};
     /**
@@ -366,7 +447,7 @@ let CallbackGroup=class CallbackGroup {
     /**
      * Trigger all callbacks inside a group
      */
-    trigger(group, args) {
+    trigger(group, ...args) {
         if (this.callbacks[group]) {
             let cbs = [...this.callbacks[group]];
             for (let [cb, scope] of cbs) {
@@ -403,7 +484,7 @@ let Callback=class Callback {
     /**
      * Trigger all callbacks
      */
-    trigger(args) {
+    trigger(...args) {
         let result = [];
         let cbs = [...this.callbacks];
         for (let [cb, scope] of cbs) {
@@ -494,6 +575,12 @@ let NormalizedEvent=class NormalizedEvent {
 NormalizedEvent.Namespace=`Aventus`;
 _.NormalizedEvent=NormalizedEvent;
 
+let DragElementLeftTopType= [HTMLElement, SVGSVGElement];
+_.DragElementLeftTopType=DragElementLeftTopType;
+
+let DragElementXYType= [SVGGElement, SVGRectElement, SVGEllipseElement, SVGTextElement];
+_.DragElementXYType=DragElementXYType;
+
 let Instance=class Instance {
     static elements = new Map();
     static get(type) {
@@ -520,87 +607,6 @@ let Instance=class Instance {
 }
 Instance.Namespace=`Aventus`;
 _.Instance=Instance;
-
-let getValueFromObject=function getValueFromObject(path, obj) {
-    if (path === undefined) {
-        path = '';
-    }
-    path = path.replace(/\[(.*?)\]/g, '.$1');
-    if (path == "") {
-        return obj;
-    }
-    const val = (key) => {
-        if (obj instanceof Map) {
-            return obj.get(key);
-        }
-        return obj[key];
-    };
-    let splitted = path.split(".");
-    for (let i = 0; i < splitted.length - 1; i++) {
-        let split = splitted[i];
-        let value = val(split);
-        if (!value || typeof value !== 'object') {
-            return undefined;
-        }
-        obj = value;
-    }
-    if (!obj || typeof obj !== 'object') {
-        return undefined;
-    }
-    return val(splitted[splitted.length - 1]);
-}
-_.getValueFromObject=getValueFromObject;
-
-var WatchAction;
-(function (WatchAction) {
-    WatchAction[WatchAction["CREATED"] = 0] = "CREATED";
-    WatchAction[WatchAction["UPDATED"] = 1] = "UPDATED";
-    WatchAction[WatchAction["DELETED"] = 2] = "DELETED";
-})(WatchAction || (WatchAction = {}));
-_.WatchAction=WatchAction;
-
-let Signal=class Signal {
-    __subscribes = [];
-    _value;
-    _onChange;
-    get value() {
-        Watcher._register?.register(this, "*", Watcher._register.version, "*");
-        return this._value;
-    }
-    set value(item) {
-        const oldValue = this._value;
-        this._value = item;
-        if (oldValue != item) {
-            if (this._onChange) {
-                this._onChange();
-            }
-            for (let fct of this.__subscribes) {
-                fct(WatchAction.UPDATED, "*", item, []);
-            }
-        }
-    }
-    constructor(item, onChange) {
-        this._value = item;
-        this._onChange = onChange;
-    }
-    subscribe(fct) {
-        let index = this.__subscribes.indexOf(fct);
-        if (index == -1) {
-            this.__subscribes.push(fct);
-        }
-    }
-    unsubscribe(fct) {
-        let index = this.__subscribes.indexOf(fct);
-        if (index > -1) {
-            this.__subscribes.splice(index, 1);
-        }
-    }
-    destroy() {
-        this.__subscribes = [];
-    }
-}
-Signal.Namespace=`Aventus`;
-_.Signal=Signal;
 
 var RamErrorCode;
 (function (RamErrorCode) {
@@ -960,6 +966,188 @@ let Style=class Style {
 }
 Style.Namespace=`Aventus`;
 _.Style=Style;
+
+let ResourceLoader=class ResourceLoader {
+    static headerLoaded = {};
+    static headerWaiting = {};
+    /**
+     * Load the resource inside the head tag
+     */
+    static async loadInHead(options) {
+        const _options = this.prepareOptions(options);
+        if (this.headerLoaded[_options.url]) {
+            return true;
+        }
+        else if (this.headerWaiting.hasOwnProperty(_options.url)) {
+            return await this.awaitFctHead(_options.url);
+        }
+        else {
+            this.headerWaiting[_options.url] = [];
+            let tagEl;
+            if (_options.type == "js") {
+                tagEl = document.createElement("SCRIPT");
+            }
+            else if (_options.type == "css") {
+                tagEl = document.createElement("LINK");
+                tagEl.setAttribute("rel", "stylesheet");
+            }
+            else {
+                throw "unknow type " + _options.type + " to append into head";
+            }
+            document.head.appendChild(tagEl);
+            let result = await this.loadTag(tagEl, _options.url);
+            this.headerLoaded[_options.url] = true;
+            this.releaseAwaitFctHead(_options.url, result);
+            return result;
+        }
+    }
+    static loadTag(tagEl, url) {
+        return new Promise((resolve, reject) => {
+            tagEl.addEventListener("load", (e) => {
+                resolve(true);
+            });
+            tagEl.addEventListener("error", (e) => {
+                resolve(false);
+            });
+            if (tagEl instanceof HTMLLinkElement) {
+                tagEl.setAttribute("href", url);
+            }
+            else {
+                tagEl.setAttribute('src', url);
+            }
+        });
+    }
+    static releaseAwaitFctHead(url, result) {
+        if (this.headerWaiting[url]) {
+            for (let i = 0; i < this.headerWaiting[url].length; i++) {
+                this.headerWaiting[url][i](result);
+            }
+            delete this.headerWaiting[url];
+        }
+    }
+    static awaitFctHead(url) {
+        return new Promise((resolve) => {
+            this.headerWaiting[url].push((result) => {
+                resolve(result);
+            });
+        });
+    }
+    static requestLoaded = {};
+    static requestWaiting = {};
+    /**
+     *
+    */
+    static async load(options) {
+        options = this.prepareOptions(options);
+        if (this.requestLoaded[options.url]) {
+            return this.requestLoaded[options.url];
+        }
+        else if (this.requestWaiting.hasOwnProperty(options.url)) {
+            await this.awaitFct(options.url);
+            return this.requestLoaded[options.url];
+        }
+        else {
+            this.requestWaiting[options.url] = [];
+            let blob = false;
+            if (options.type == "img") {
+                blob = true;
+            }
+            let content = await this.fetching(options.url, blob);
+            if (options.type == "img" && content.startsWith("data:text/html;")) {
+                console.error("Can't load img " + options.url);
+                content = "";
+            }
+            this.requestLoaded[options.url] = content;
+            this.releaseAwaitFct(options.url);
+            return content;
+        }
+    }
+    static releaseAwaitFct(url) {
+        if (this.requestWaiting[url]) {
+            for (let i = 0; i < this.requestWaiting[url].length; i++) {
+                this.requestWaiting[url][i]();
+            }
+            delete this.requestWaiting[url];
+        }
+    }
+    static awaitFct(url) {
+        return new Promise((resolve) => {
+            this.requestWaiting[url].push(() => {
+                resolve('');
+            });
+        });
+    }
+    static async fetching(url, useBlob = false) {
+        if (useBlob) {
+            let result = await fetch(url, {
+                headers: {
+                    responseType: 'blob'
+                }
+            });
+            let blob = await result.blob();
+            return await this.readFile(blob);
+        }
+        else {
+            let result = await fetch(url);
+            return await result.text();
+        }
+    }
+    static readFile(blob) {
+        return new Promise((resolve) => {
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                resolve(reader.result);
+            };
+            reader.readAsDataURL(blob);
+        });
+    }
+    static imgExtensions = ["png", "jpg", "jpeg", "gif"];
+    static prepareOptions(options) {
+        let result;
+        if (typeof options === 'string' || options instanceof String) {
+            result = {
+                url: options,
+                type: 'js'
+            };
+            let splittedURI = result.url.split('.');
+            let extension = splittedURI[splittedURI.length - 1];
+            extension = extension.split("?")[0];
+            if (extension == "svg") {
+                result.type = 'svg';
+            }
+            else if (extension == "js") {
+                result.type = 'js';
+            }
+            else if (extension == "css") {
+                result.type = 'css';
+            }
+            else if (this.imgExtensions.indexOf(extension) != -1) {
+                result.type = 'img';
+            }
+            else {
+                throw 'unknow extension found :' + extension + ". Please define your extension inside options";
+            }
+        }
+        else {
+            result = options;
+        }
+        return result;
+    }
+}
+ResourceLoader.Namespace=`Aventus`;
+_.ResourceLoader=ResourceLoader;
+
+let Async=function Async(el) {
+    return new Promise((resolve) => {
+        if (el instanceof Promise) {
+            el.then(resolve);
+        }
+        else {
+            resolve(el);
+        }
+    });
+}
+_.Async=Async;
 
 let Effect=class Effect {
     callbacks = [];
@@ -2066,188 +2254,6 @@ let compareObject=function compareObject(obj1, obj2) {
 }
 _.compareObject=compareObject;
 
-let ResourceLoader=class ResourceLoader {
-    static headerLoaded = {};
-    static headerWaiting = {};
-    /**
-     * Load the resource inside the head tag
-     */
-    static async loadInHead(options) {
-        const _options = this.prepareOptions(options);
-        if (this.headerLoaded[_options.url]) {
-            return true;
-        }
-        else if (this.headerWaiting.hasOwnProperty(_options.url)) {
-            return await this.awaitFctHead(_options.url);
-        }
-        else {
-            this.headerWaiting[_options.url] = [];
-            let tagEl;
-            if (_options.type == "js") {
-                tagEl = document.createElement("SCRIPT");
-            }
-            else if (_options.type == "css") {
-                tagEl = document.createElement("LINK");
-                tagEl.setAttribute("rel", "stylesheet");
-            }
-            else {
-                throw "unknow type " + _options.type + " to append into head";
-            }
-            document.head.appendChild(tagEl);
-            let result = await this.loadTag(tagEl, _options.url);
-            this.headerLoaded[_options.url] = true;
-            this.releaseAwaitFctHead(_options.url, result);
-            return result;
-        }
-    }
-    static loadTag(tagEl, url) {
-        return new Promise((resolve, reject) => {
-            tagEl.addEventListener("load", (e) => {
-                resolve(true);
-            });
-            tagEl.addEventListener("error", (e) => {
-                resolve(false);
-            });
-            if (tagEl instanceof HTMLLinkElement) {
-                tagEl.setAttribute("href", url);
-            }
-            else {
-                tagEl.setAttribute('src', url);
-            }
-        });
-    }
-    static releaseAwaitFctHead(url, result) {
-        if (this.headerWaiting[url]) {
-            for (let i = 0; i < this.headerWaiting[url].length; i++) {
-                this.headerWaiting[url][i](result);
-            }
-            delete this.headerWaiting[url];
-        }
-    }
-    static awaitFctHead(url) {
-        return new Promise((resolve) => {
-            this.headerWaiting[url].push((result) => {
-                resolve(result);
-            });
-        });
-    }
-    static requestLoaded = {};
-    static requestWaiting = {};
-    /**
-     *
-    */
-    static async load(options) {
-        options = this.prepareOptions(options);
-        if (this.requestLoaded[options.url]) {
-            return this.requestLoaded[options.url];
-        }
-        else if (this.requestWaiting.hasOwnProperty(options.url)) {
-            await this.awaitFct(options.url);
-            return this.requestLoaded[options.url];
-        }
-        else {
-            this.requestWaiting[options.url] = [];
-            let blob = false;
-            if (options.type == "img") {
-                blob = true;
-            }
-            let content = await this.fetching(options.url, blob);
-            if (options.type == "img" && content.startsWith("data:text/html;")) {
-                console.error("Can't load img " + options.url);
-                content = "";
-            }
-            this.requestLoaded[options.url] = content;
-            this.releaseAwaitFct(options.url);
-            return content;
-        }
-    }
-    static releaseAwaitFct(url) {
-        if (this.requestWaiting[url]) {
-            for (let i = 0; i < this.requestWaiting[url].length; i++) {
-                this.requestWaiting[url][i]();
-            }
-            delete this.requestWaiting[url];
-        }
-    }
-    static awaitFct(url) {
-        return new Promise((resolve) => {
-            this.requestWaiting[url].push(() => {
-                resolve('');
-            });
-        });
-    }
-    static async fetching(url, useBlob = false) {
-        if (useBlob) {
-            let result = await fetch(url, {
-                headers: {
-                    responseType: 'blob'
-                }
-            });
-            let blob = await result.blob();
-            return await this.readFile(blob);
-        }
-        else {
-            let result = await fetch(url);
-            return await result.text();
-        }
-    }
-    static readFile(blob) {
-        return new Promise((resolve) => {
-            var reader = new FileReader();
-            reader.onloadend = function () {
-                resolve(reader.result);
-            };
-            reader.readAsDataURL(blob);
-        });
-    }
-    static imgExtensions = ["png", "jpg", "jpeg", "gif"];
-    static prepareOptions(options) {
-        let result;
-        if (typeof options === 'string' || options instanceof String) {
-            result = {
-                url: options,
-                type: 'js'
-            };
-            let splittedURI = result.url.split('.');
-            let extension = splittedURI[splittedURI.length - 1];
-            extension = extension.split("?")[0];
-            if (extension == "svg") {
-                result.type = 'svg';
-            }
-            else if (extension == "js") {
-                result.type = 'js';
-            }
-            else if (extension == "css") {
-                result.type = 'css';
-            }
-            else if (this.imgExtensions.indexOf(extension) != -1) {
-                result.type = 'img';
-            }
-            else {
-                throw 'unknow extension found :' + extension + ". Please define your extension inside options";
-            }
-        }
-        else {
-            result = options;
-        }
-        return result;
-    }
-}
-ResourceLoader.Namespace=`Aventus`;
-_.ResourceLoader=ResourceLoader;
-
-let Async=function Async(el) {
-    return new Promise((resolve) => {
-        if (el instanceof Promise) {
-            el.then(resolve);
-        }
-        else {
-            resolve(el);
-        }
-    });
-}
-_.Async=Async;
-
 let Json=class Json {
     /**
      * Converts a JavaScript class instance to a JSON object.
@@ -2608,7 +2614,7 @@ let GenericError=class GenericError {
      */
     constructor(code, message) {
         this.code = code;
-        this.message = message;
+        this.message = message + '';
     }
 }
 GenericError.Namespace=`Aventus`;
@@ -2756,6 +2762,9 @@ let HttpRequest=class HttpRequest {
             else {
                 if (value === undefined || value === null) {
                     value = "";
+                }
+                else if (Watcher.is(value)) {
+                    value = Watcher.extract(value);
                 }
                 formData.append(newKey, value);
             }
@@ -3552,6 +3561,8 @@ let DragAndDrop=class DragAndDrop {
             targets: [],
             usePercent: false,
             stopPropagation: true,
+            useMouseFinalPosition: false,
+            useTransform: false,
             isDragEnable: () => true,
             getZoom: () => 1,
             getOffsetX: () => 0,
@@ -3582,6 +3593,8 @@ let DragAndDrop=class DragAndDrop {
         this.defaultMerge(options, "targets");
         this.defaultMerge(options, "usePercent");
         this.defaultMerge(options, "stopPropagation");
+        this.defaultMerge(options, "useMouseFinalPosition");
+        this.defaultMerge(options, "useTransform");
         if (options.shadow !== void 0) {
             this.options.shadow.enable = options.shadow.enable;
             if (options.shadow.container !== void 0) {
@@ -3636,10 +3649,7 @@ let DragAndDrop=class DragAndDrop {
             x: e.pageX,
             y: e.pageY
         };
-        this.startElementPosition = {
-            x: draggableElement.offsetLeft,
-            y: draggableElement.offsetTop
-        };
+        this.startElementPosition = this.getBoundingBoxRelative(draggableElement);
         if (this.options.shadow.enable) {
             draggableElement = this.options.element.cloneNode(true);
             let elBox = this.options.element.getBoundingClientRect();
@@ -3652,9 +3662,9 @@ let DragAndDrop=class DragAndDrop {
                 draggableElement.style.position = "absolute";
                 draggableElement.style.top = this.positionShadowRelativeToElement.y + this.options.getOffsetY() + 'px';
                 draggableElement.style.left = this.positionShadowRelativeToElement.x + this.options.getOffsetX() + 'px';
+                this.options.shadow.transform(draggableElement);
+                this.options.shadow.container.appendChild(draggableElement);
             }
-            this.options.shadow.transform(draggableElement);
-            this.options.shadow.container.appendChild(draggableElement);
         }
         this.draggableElement = draggableElement;
         return this.options.onStart(e);
@@ -3687,7 +3697,10 @@ let DragAndDrop=class DragAndDrop {
         if (!this.isEnable) {
             return;
         }
-        let targets = this.getMatchingTargets();
+        let targets = this.options.useMouseFinalPosition ? this.getMatchingTargetsWithMousePosition({
+            x: e.clientX,
+            y: e.clientY
+        }) : this.getMatchingTargets();
         let draggableElement = this.draggableElement;
         if (this.options.shadow.enable && this.options.shadow.removeOnStop) {
             this.options.shadow.delete(draggableElement);
@@ -3700,26 +3713,50 @@ let DragAndDrop=class DragAndDrop {
     setPosition(position) {
         let draggableElement = this.draggableElement;
         if (this.options.usePercent) {
-            let elementParent = draggableElement.offsetParent;
-            let percentPosition = {
-                x: (position.x / elementParent.offsetWidth) * 100,
-                y: (position.y / elementParent.offsetHeight) * 100
-            };
-            percentPosition = this.options.correctPosition(percentPosition);
-            if (this.options.applyDrag) {
-                draggableElement.style.left = percentPosition.x + '%';
-                draggableElement.style.top = percentPosition.y + '%';
+            let elementParent = this.getOffsetParent(draggableElement);
+            if (elementParent instanceof HTMLElement) {
+                let percentPosition = {
+                    x: (position.x / elementParent.offsetWidth) * 100,
+                    y: (position.y / elementParent.offsetHeight) * 100
+                };
+                percentPosition = this.options.correctPosition(percentPosition);
+                if (this.options.applyDrag) {
+                    draggableElement.style.left = percentPosition.x + '%';
+                    draggableElement.style.top = percentPosition.y + '%';
+                }
+                return percentPosition;
             }
-            return percentPosition;
+            else {
+                console.error("Can't find parent. Contact an admin", draggableElement);
+            }
         }
         else {
             position = this.options.correctPosition(position);
             if (this.options.applyDrag) {
-                draggableElement.style.left = position.x + 'px';
-                draggableElement.style.top = position.y + 'px';
+                if (this.isLeftTopElement(draggableElement)) {
+                    draggableElement.style.left = position.x + 'px';
+                    draggableElement.style.top = position.y + 'px';
+                }
+                else {
+                    if (this.options.useTransform) {
+                        draggableElement.setAttribute("transform", `translate(${position.x},${position.y})`);
+                    }
+                    else {
+                        draggableElement.style.left = position.x + 'px';
+                        draggableElement.style.top = position.y + 'px';
+                    }
+                }
             }
         }
         return position;
+    }
+    getTargets() {
+        if (typeof this.options.targets == "function") {
+            return this.options.targets();
+        }
+        else {
+            return this.options.targets;
+        }
     }
     /**
      * Get targets within the current element position is matching
@@ -3727,16 +3764,10 @@ let DragAndDrop=class DragAndDrop {
     getMatchingTargets() {
         let draggableElement = this.draggableElement;
         let matchingTargets = [];
-        let srcTargets;
-        if (typeof this.options.targets == "function") {
-            srcTargets = this.options.targets();
-        }
-        else {
-            srcTargets = this.options.targets;
-        }
+        let srcTargets = this.getTargets();
         for (let target of srcTargets) {
-            const elementCoordinates = draggableElement.getBoundingClientRect();
-            const targetCoordinates = target.getBoundingClientRect();
+            let elementCoordinates = this.getBoundingBoxAbsolute(draggableElement);
+            let targetCoordinates = this.getBoundingBoxAbsolute(target);
             let offsetX = this.options.getOffsetX();
             let offsetY = this.options.getOffsetY();
             let zoom = this.options.getZoom();
@@ -3770,6 +3801,43 @@ let DragAndDrop=class DragAndDrop {
         return matchingTargets;
     }
     /**
+     * This function will return the targets that are matching with the mouse position
+     * @param mouse The mouse position
+     */
+    getMatchingTargetsWithMousePosition(mouse) {
+        let matchingTargets = [];
+        if (this.options.shadow.enable == false || this.options.shadow.container == null) {
+            console.warn("DragAndDrop : To use useMouseFinalPosition=true, you must enable shadow and set a container");
+            return matchingTargets;
+        }
+        const container = this.options.shadow.container;
+        let xCorrected = mouse.x - container.getBoundingClientRect().left;
+        let yCorrected = mouse.y - container.getBoundingClientRect().top;
+        for (let target of this.getTargets()) {
+            if (this.isLeftTopElement(target)) {
+                if (this.matchPosition(target, { x: mouse.x, y: mouse.y })) {
+                    matchingTargets.push(target);
+                }
+            }
+            else {
+                if (this.matchPosition(target, { x: xCorrected, y: yCorrected })) {
+                    matchingTargets.push(target);
+                }
+            }
+        }
+        return matchingTargets;
+    }
+    matchPosition(element, point) {
+        let elementCoordinates = this.getBoundingBoxAbsolute(element);
+        if (point.x >= elementCoordinates.x &&
+            point.x <= elementCoordinates.x + elementCoordinates.width &&
+            point.y >= elementCoordinates.y &&
+            point.y <= elementCoordinates.y + elementCoordinates.height) {
+            return true;
+        }
+        return false;
+    }
+    /**
      * Get element currently dragging
      */
     getElementDrag() {
@@ -3792,6 +3860,216 @@ let DragAndDrop=class DragAndDrop {
      */
     destroy() {
         this.pressManager.destroy();
+    }
+    isLeftTopElement(element) {
+        for (let Type of DragElementLeftTopType) {
+            if (element instanceof Type) {
+                return true;
+            }
+        }
+        return false;
+    }
+    isXYElement(element) {
+        for (let Type of DragElementXYType) {
+            if (element instanceof Type) {
+                return true;
+            }
+        }
+        return false;
+    }
+    getCoordinateFromAttribute(element) {
+        if (this.options.useTransform) {
+            const transform = element.getAttribute("transform");
+            const tvalue = transform?.match(/translate\(([^,]+),([^,]+)\)/);
+            const x = tvalue ? parseFloat(tvalue[1]) : 0;
+            const y = tvalue ? parseFloat(tvalue[2]) : 0;
+            return {
+                x: x,
+                y: y
+            };
+        }
+        return {
+            x: parseFloat(element.getAttribute("x")),
+            y: parseFloat(element.getAttribute("y"))
+        };
+    }
+    XYElementToRelativeBox(element) {
+        let coordinates = this.getCoordinateFromAttribute(element);
+        const width = parseFloat(element.getAttribute("width"));
+        const height = parseFloat(element.getAttribute("height"));
+        return {
+            x: coordinates.x,
+            y: coordinates.y,
+            width: width,
+            height: height,
+            bottom: coordinates.y + height,
+            right: coordinates.x + width,
+            top: coordinates.y,
+            left: coordinates.x,
+            toJSON() {
+                return JSON.stringify(this);
+            }
+        };
+    }
+    XYElementToAbsoluteBox(element) {
+        let coordinates = this.getCoordinateFromAttribute(element);
+        const parent = this.getOffsetParent(element);
+        if (parent) {
+            const box = parent.getBoundingClientRect();
+            coordinates = {
+                x: coordinates.x + box.x,
+                y: coordinates.y + box.y
+            };
+        }
+        const width = parseFloat(element.getAttribute("width"));
+        const height = parseFloat(element.getAttribute("height"));
+        return {
+            x: coordinates.x,
+            y: coordinates.y,
+            width: width,
+            height: height,
+            bottom: coordinates.y + height,
+            right: coordinates.x + width,
+            top: coordinates.y,
+            left: coordinates.x,
+            toJSON() {
+                return JSON.stringify(this);
+            }
+        };
+    }
+    getBoundingBoxAbsolute(element) {
+        if (this.isLeftTopElement(element)) {
+            if (element instanceof HTMLElement) {
+                const bounds = element.getBoundingClientRect();
+                return {
+                    x: bounds.x,
+                    y: bounds.y,
+                    width: bounds.width,
+                    height: bounds.height,
+                    bottom: bounds.bottom,
+                    right: bounds.right,
+                    top: bounds.top,
+                    left: bounds.left,
+                    toJSON() {
+                        return JSON.stringify(this);
+                    }
+                };
+            }
+        }
+        else if (this.isXYElement(element)) {
+            return this.XYElementToAbsoluteBox(element);
+        }
+        const parent = this.getOffsetParent(element);
+        if (parent instanceof HTMLElement) {
+            const rect = element.getBoundingClientRect();
+            const rectParent = parent.getBoundingClientRect();
+            const x = rect.left - rectParent.left;
+            const y = rect.top - rectParent.top;
+            return {
+                x: x,
+                y: y,
+                width: rect.width,
+                height: rect.height,
+                bottom: y + rect.height,
+                right: x + rect.width,
+                left: rect.left - rectParent.left,
+                top: rect.top - rectParent.top,
+                toJSON() {
+                    return JSON.stringify(this);
+                }
+            };
+        }
+        console.error("Element type not supported");
+        return {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0,
+            bottom: 0,
+            right: 0,
+            top: 0,
+            left: 0,
+            toJSON() {
+                return JSON.stringify(this);
+            }
+        };
+    }
+    getBoundingBoxRelative(element) {
+        if (this.isLeftTopElement(element)) {
+            if (element instanceof HTMLElement) {
+                return {
+                    x: element.offsetLeft,
+                    y: element.offsetTop,
+                    width: element.offsetWidth,
+                    height: element.offsetHeight,
+                    bottom: element.offsetTop + element.offsetHeight,
+                    right: element.offsetLeft + element.offsetWidth,
+                    top: element.offsetTop,
+                    left: element.offsetLeft,
+                    toJSON() {
+                        return JSON.stringify(this);
+                    }
+                };
+            }
+        }
+        else if (this.isXYElement(element)) {
+            return this.XYElementToRelativeBox(element);
+        }
+        const parent = this.getOffsetParent(element);
+        if (parent instanceof HTMLElement) {
+            const rect = element.getBoundingClientRect();
+            const rectParent = parent.getBoundingClientRect();
+            const x = rect.left - rectParent.left;
+            const y = rect.top - rectParent.top;
+            return {
+                x: x,
+                y: y,
+                width: rect.width,
+                height: rect.height,
+                bottom: y + rect.height,
+                right: x + rect.width,
+                left: rect.left - rectParent.left,
+                top: rect.top - rectParent.top,
+                toJSON() {
+                    return JSON.stringify(this);
+                }
+            };
+        }
+        console.error("Element type not supported");
+        return {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0,
+            bottom: 0,
+            right: 0,
+            top: 0,
+            left: 0,
+            toJSON() {
+                return JSON.stringify(this);
+            }
+        };
+    }
+    getOffsetParent(element) {
+        if (element instanceof HTMLElement) {
+            return element.offsetParent;
+        }
+        let current = element.parentNode;
+        while (current) {
+            if (current instanceof Element) {
+                const style = getComputedStyle(current);
+                if (style.position !== 'static') {
+                    return current;
+                }
+            }
+            if (current instanceof ShadowRoot) {
+                current = current.host;
+            }
+            else {
+                current = current.parentNode;
+            }
+        }
+        return null;
     }
 }
 DragAndDrop.Namespace=`Aventus`;
@@ -5154,7 +5432,7 @@ let StateManager=class StateManager {
                 }
                 stateToUse.onActivate();
             }
-            this.afterStateChanged.trigger([]);
+            this.afterStateChanged.trigger();
             return true;
         });
         return result ?? false;
