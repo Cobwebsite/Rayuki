@@ -11,7 +11,10 @@ namespace Core.Permissions
     [Export]
     public class ApplicationPermissionQuery : PermissionQuery<ApplicationPermission>
     {
-
+        public override PermissionDescription<ApplicationPermission>? Description()
+        {
+            return new ApplicationPermissionDescription();
+        }
     }
 
     public class ApplicationPermissionDescription : PermissionDescription<ApplicationPermission>

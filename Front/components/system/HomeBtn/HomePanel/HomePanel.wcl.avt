@@ -1,7 +1,7 @@
 import { Panel } from "../../Panel/Panel.wcl.avt";
 import type { Scrollable } from "../../../ui/layout/Scrollable/Scrollable.wcl.avt";
 import { SessionManager } from "../../../../libs/SessionManager.lib.avt";
-import type { User } from "../../../../generated/Data/User.data.avt";
+import type { User } from "../../../../generated/Data/User.lib.avt";
 import { Desktop } from "../../Desktop/Desktop.wcl.avt";
 import type { HomeBtn } from "../HomeBtn.wcl.avt";
 import { ApplicationPermission, ApplicationPermissionQuery } from "../../../../generated/Permissions/ApplicationPermission.lib.avt";

@@ -1,0 +1,57 @@
+import { Callback } from "Aventus@Main:Aventus.package.avt";
+import type { Checkbox } from "../Checkbox/Checkbox.wcl.avt";
+
+namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
+    export class CheckboxItem<T> extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property()
+        public label?: string;
+        @Property()
+        public left_label!: boolean;
+        @Property()
+        public checked: boolean = false;
+        //#endregion
+
+
+        //#region variables
+        @Watch()
+        @Injectable()
+        public value?: T;
+
+        @ViewElement()
+        protected checkboxEl!: Checkbox;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+        //#region events
+        public onChange: Callback<(value: T | undefined, from: CheckboxItem<T>) => void> = new Callback();
+        //#endregion
+
+        //#region methods
+        protected emitChange(value: boolean) {
+            if(value) {
+                this.onChange.trigger(this.value, this);
+            }
+            else if(true) {
+                this.checked = true;
+                this.checkboxEl.checked = true;
+            }
+        }
+        //#endregion
+
+    }
+}

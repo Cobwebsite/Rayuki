@@ -1,0 +1,37 @@
+import { SsoProvider } from "../generated/Data/SsoProvider.lib.avt";
+import { SsoProviderRouter } from "../generated/Routes/SsoProviderRouter.lib.avt";
+
+
+namespace RAM {
+	
+	export class SsoProviderRAM extends AventusSharp.RAM.RamHttp<SsoProvider> implements Aventus.IRam {
+        
+		/**
+		 * Create a singleton to store data
+		 */
+		public static getInstance(): SsoProviderRAM {
+			return Aventus.Instance.get(SsoProviderRAM);
+		}
+	
+		/**
+		 * @inheritdoc
+		 */
+		public override defineIndexKey(): keyof SsoProvider {
+			return 'Id';
+		}
+		/**
+		 * @inheritdoc
+		 */
+		protected override getTypeForData(objJson: Aventus.KeysObject<SsoProvider> | SsoProvider): new () => SsoProvider {
+			return SsoProvider;
+		}
+
+		/**
+         * @inheritdoc
+         */
+		public override defineRoutes(): AventusSharp.Routes.StorableRouter<SsoProvider> {
+			return new SsoProviderRouter();
+		}
+			
+	}
+}

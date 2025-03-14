@@ -1,0 +1,49 @@
+import type { SsoLogo } from "Core@Main:Core.Data.package.avt";
+import { PressManager } from "Aventus@Main:Aventus.package.avt";
+import { MainRouter } from "Core@Main:Core.Routes.package.avt";
+
+export class SsoOption extends Aventus.WebComponent implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+
+    //#endregion
+
+
+    //#region variables
+    @Watch()
+    @Injectable()
+    public provider?: { Id: number, Name: string, Logo: SsoLogo; };
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+	protected async runSso() {
+		if(!this.provider) return;
+
+		const router = new MainRouter();
+		const ssoRequest = await router.LoginSso({ ssoId: this.provider.Id });
+		if(ssoRequest.success && ssoRequest.result) {
+			location.replace(ssoRequest.result);
+		}
+	}
+    protected override postCreation(): void {
+        PressManager.create({
+            element: this,
+            onPress: () => {
+               this.runSso();
+            }
+        });
+    }
+    //#endregion
+
+}

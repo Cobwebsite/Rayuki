@@ -20,6 +20,17 @@ namespace Core.Logic
         private Dictionary<string, PermissionTree> PermissionTrees = new();
         private List<string> NeedReorder { get; set; } = new();
 
+        public void Register(List<Type> types)
+        {
+            foreach (Type type in types)
+            {
+                object? o = Activator.CreateInstance(type);
+                if (o is IPermissionQuery permission)
+                {
+                    RegisterPermissions(permission.enumType, permission.Description());
+                }
+            }
+        }
         public void RegisterPermissions<T>() where T : Enum
         {
             RegisterPermissions(typeof(T), null);
@@ -98,11 +109,23 @@ namespace Core.Logic
             }
             return false;
         }
-
         public bool Can(int idUser, Enum value)
         {
             bool isSuperAdmin = UserDM.GetInstance().GetById(idUser)?.IsSuperAdmin == true;
             return Can(idUser, value, "", isSuperAdmin);
+        }
+
+        public List<PermissionMultiple> CanMultiple(HttpContext context, List<IPermissionQuery> queries)
+        {
+            List<PermissionMultiple> result = new ();
+            foreach (IPermissionQuery query in queries)
+            {
+                result.Add(new PermissionMultiple(){
+                    Query = query,
+                    Allow = Can(context, query.value, query.additionalInfo)
+                });
+            }
+            return result;
         }
 
         private IQueryBuilder<PermissionUser> CanQueryUser;
@@ -218,6 +241,15 @@ namespace Core.Logic
             }
         }
 
+        private List<PermissionTreeItem> SortPermissionTreeItem(List<PermissionTreeItem> list)
+        {
+            List<PermissionTreeItem> result = list.OrderBy(item => item.Position ?? int.MaxValue).ThenBy(a => a.DisplayName).ToList();
+            foreach (PermissionTreeItem item in result)
+            {
+                item.Permissions = SortPermissionTreeItem(item.Permissions);
+            }
+            return result;
+        }
         public List<PermissionTree> GetPermissionsTree()
         {
             foreach (string appName in NeedReorder)
@@ -230,7 +262,10 @@ namespace Core.Logic
                 }
                 CreatePermissionTree(appName, result);
             }
-
+            foreach (KeyValuePair<string, PermissionTree> pair in PermissionTrees)
+            {
+                pair.Value.Permissions = SortPermissionTreeItem(pair.Value.Permissions);
+            }
             return PermissionTrees.Values.OrderBy(a => a.AppName).ToList();
         }
 
@@ -297,6 +332,7 @@ namespace Core.Logic
                 PermissionTreeItem treeItem = new();
                 treeItem.DisplayName = item.DisplayName;
                 treeItem.Description = item.Description;
+                treeItem.Position = item.Position;
                 treeItem.Value = item.Enum;
                 treeItem.EnumName = item.Enum.GetFullName();
                 treeItem.PermissionId = item.PermissionId;
@@ -338,4 +374,10 @@ namespace Core.Logic
         }
     }
 
+    [Export("Permissions")]
+    public class PermissionMultiple
+    {
+        public IPermissionQuery Query;
+        public bool Allow;
+    }
 }

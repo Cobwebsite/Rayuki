@@ -131,6 +131,36 @@ var HttpMethod;
 })(HttpMethod || (HttpMethod = {}));
 _.HttpMethod=HttpMethod;
 
+let DragElementXYType= [SVGGElement, SVGRectElement, SVGEllipseElement, SVGTextElement];
+_.DragElementXYType=DragElementXYType;
+
+let DragElementLeftTopType= [HTMLElement, SVGSVGElement];
+_.DragElementLeftTopType=DragElementLeftTopType;
+
+let DateConverter=class DateConverter {
+    static __converter = new DateConverter();
+    static get converter() {
+        return this.__converter;
+    }
+    static set converter(value) {
+        this.__converter = value;
+    }
+    isStringDate(txt) {
+        return /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.(\d{3})Z$/.exec(txt) !== null;
+    }
+    fromString(txt) {
+        return new Date(txt);
+    }
+    toString(date) {
+        if (date.getFullYear() < 100) {
+            return "0001-01-01T00:00:00.000Z";
+        }
+        return date.toISOString();
+    }
+}
+DateConverter.Namespace=`Aventus`;
+_.DateConverter=DateConverter;
+
 let ElementExtension=class ElementExtension {
     /**
      * Find a parent by tagname if exist Static.findParentByTag(this, "av-img")
@@ -354,8 +384,9 @@ let ElementExtension=class ElementExtension {
                 debugger;
             }
             if (el.shadowRoot && x !== undefined && y !== undefined) {
-                var newEl = el.shadowRoot.elementFromPoint(x, y);
-                if (newEl && newEl != el && el.shadowRoot.contains(newEl)) {
+                const elements = el.shadowRoot.elementsFromPoint(x, y);
+                var newEl = elements.length > 0 ? elements[0] : null;
+                if (newEl && newEl != el && (el.shadowRoot.contains(newEl) || el.contains(newEl))) {
                     return _realTarget(newEl, i + 1);
                 }
             }
@@ -365,6 +396,21 @@ let ElementExtension=class ElementExtension {
             startFrom = document.body;
         }
         return _realTarget(startFrom);
+    }
+    /**
+     * Get active element from the define root
+     */
+    static getActiveElement(root = document) {
+        if (!root)
+            return null;
+        let el = root.activeElement;
+        while (el instanceof WebComponent) {
+            let elTemp = el.shadowRoot?.activeElement;
+            if (!elTemp)
+                return el;
+            el = elTemp;
+        }
+        return el;
     }
 }
 ElementExtension.Namespace=`Aventus`;
@@ -418,6 +464,20 @@ let Style=class Style {
     static load(name, url) {
         return this.getInstance().load(name, url);
     }
+    static appendToHead(name) {
+        if (!document.head.querySelector(`style[data-name="${name}"]`)) {
+            const styleNode = document.createElement('style');
+            styleNode.setAttribute(`data-name`, name);
+            styleNode.innerHTML = Aventus.Style.getAsString(name);
+            document.getElementsByTagName('head')[0].appendChild(styleNode);
+        }
+    }
+    static refreshHead(name) {
+        const styleNode = document.head.querySelector(`style[data-name="${name}"]`);
+        if (styleNode) {
+            styleNode.innerHTML = Aventus.Style.getAsString(name);
+        }
+    }
     static getInstance() {
         if (!this.instance) {
             this.instance = new Style();
@@ -453,6 +513,7 @@ let Style=class Style {
         }
         else {
             style.replaceSync(content);
+            Style.refreshHead(name);
             return style;
         }
     }
@@ -529,7 +590,7 @@ let Callback=class Callback {
     /**
      * Trigger all callbacks
      */
-    trigger(args) {
+    trigger(...args) {
         let result = [];
         let cbs = [...this.callbacks];
         for (let [cb, scope] of cbs) {
@@ -680,6 +741,85 @@ let Mutex=class Mutex {
 Mutex.Namespace=`Aventus`;
 _.Mutex=Mutex;
 
+let NormalizedEvent=class NormalizedEvent {
+    _event;
+    get event() {
+        return this._event;
+    }
+    constructor(event) {
+        this._event = event;
+    }
+    getProp(prop) {
+        if (prop in this.event) {
+            return this.event[prop];
+        }
+        return undefined;
+    }
+    stopImmediatePropagation() {
+        this.event.stopImmediatePropagation();
+    }
+    get clientX() {
+        if ('clientX' in this.event) {
+            return this.event.clientX;
+        }
+        else if ('touches' in this.event && this.event.touches.length > 0) {
+            return this.event.touches[0].clientX;
+        }
+        return 0;
+    }
+    get clientY() {
+        if ('clientY' in this.event) {
+            return this.event.clientY;
+        }
+        else if ('touches' in this.event && this.event.touches.length > 0) {
+            return this.event.touches[0].clientY;
+        }
+        return 0;
+    }
+    get pageX() {
+        if ('pageX' in this.event) {
+            return this.event.pageX;
+        }
+        else if ('touches' in this.event && this.event.touches.length > 0) {
+            return this.event.touches[0].pageX;
+        }
+        return 0;
+    }
+    get pageY() {
+        if ('pageY' in this.event) {
+            return this.event.pageY;
+        }
+        else if ('touches' in this.event && this.event.touches.length > 0) {
+            return this.event.touches[0].pageY;
+        }
+        return 0;
+    }
+    get type() {
+        return this.event.type;
+    }
+    get target() {
+        return this.event.target;
+    }
+    get timeStamp() {
+        return this.event.timeStamp;
+    }
+    get pointerType() {
+        if ('TouchEvent' in window && this._event instanceof TouchEvent)
+            return "touch";
+        return this.getProp("pointerType");
+    }
+    get button() {
+        return this.getProp("button");
+    }
+    get isTouch() {
+        if ('TouchEvent' in window && this._event instanceof TouchEvent)
+            return true;
+        return this._event.pointerType == "touch";
+    }
+}
+NormalizedEvent.Namespace=`Aventus`;
+_.NormalizedEvent=NormalizedEvent;
+
 let compareObject=function compareObject(obj1, obj2) {
     if (Array.isArray(obj1)) {
         if (!Array.isArray(obj2)) {
@@ -708,14 +848,24 @@ let compareObject=function compareObject(obj1, obj2) {
         if (typeof obj2 !== 'object' || obj2 === undefined || obj2 === null) {
             return false;
         }
+        if (obj1 == obj2) {
+            return true;
+        }
         if (obj1 instanceof HTMLElement || obj2 instanceof HTMLElement) {
-            return obj1 == obj2;
+            return false;
         }
         if (obj1 instanceof Date || obj2 instanceof Date) {
             return obj1.toString() === obj2.toString();
         }
-        obj1 = Watcher.extract(obj1);
-        obj2 = Watcher.extract(obj2);
+        let oneProxy = false;
+        if (Watcher.is(obj1)) {
+            oneProxy = true;
+            obj1 = Watcher.extract(obj1, false);
+        }
+        if (Watcher.is(obj2)) {
+            oneProxy = true;
+            obj2 = Watcher.extract(obj2, false);
+        }
         if (obj1 instanceof Map && obj2 instanceof Map) {
             if (obj1.size != obj2.size) {
                 return false;
@@ -736,6 +886,9 @@ let compareObject=function compareObject(obj1, obj2) {
                 return false;
             }
             for (let key in obj1) {
+                if (oneProxy && Watcher['__reservedName'][key]) {
+                    continue;
+                }
                 if (!(key in obj2)) {
                     return false;
                 }
@@ -905,12 +1058,96 @@ let Effect=class Effect {
 Effect.Namespace=`Aventus`;
 _.Effect=Effect;
 
+let Signal=class Signal {
+    __subscribes = [];
+    _value;
+    _onChange;
+    get value() {
+        Watcher._register?.register(this, "*", Watcher._register.version, "*");
+        return this._value;
+    }
+    set value(item) {
+        const oldValue = this._value;
+        this._value = item;
+        if (oldValue != item) {
+            if (this._onChange) {
+                this._onChange();
+            }
+            for (let fct of this.__subscribes) {
+                fct(WatchAction.UPDATED, "*", item, []);
+            }
+        }
+    }
+    constructor(item, onChange) {
+        this._value = item;
+        this._onChange = onChange;
+    }
+    subscribe(fct) {
+        let index = this.__subscribes.indexOf(fct);
+        if (index == -1) {
+            this.__subscribes.push(fct);
+        }
+    }
+    unsubscribe(fct) {
+        let index = this.__subscribes.indexOf(fct);
+        if (index > -1) {
+            this.__subscribes.splice(index, 1);
+        }
+    }
+    destroy() {
+        this.__subscribes = [];
+    }
+}
+Signal.Namespace=`Aventus`;
+_.Signal=Signal;
+
+let Computed=class Computed extends Effect {
+    _value;
+    __path = "*";
+    get value() {
+        if (!this.isInit) {
+            this.init();
+        }
+        Watcher._register?.register(this, "*", Watcher._register.version, "*");
+        return this._value;
+    }
+    autoInit() {
+        return false;
+    }
+    constructor(fct) {
+        super(fct);
+    }
+    init() {
+        this.isInit = true;
+        this.computedValue();
+    }
+    computedValue() {
+        this._value = this.run();
+    }
+    onChange(action, changePath, value, dones) {
+        if (!this.checkCanChange(action, changePath, value, dones)) {
+            return;
+        }
+        let oldValue = this._value;
+        this.computedValue();
+        if (oldValue === this._value) {
+            return;
+        }
+        for (let fct of this.__subscribes) {
+            fct(action, changePath, value, dones);
+        }
+    }
+}
+Computed.Namespace=`Aventus`;
+_.Computed=Computed;
+
 let Watcher=class Watcher {
     constructor() { }
     ;
     static __reservedName = {
         __path: '__path',
     };
+    static __triggerForced = false;
     static _registering = [];
     static get _register() {
         return this._registering[this._registering.length - 1];
@@ -971,9 +1208,9 @@ let Watcher=class Watcher {
                 }
             }
         };
-        const replaceByAlias = (target, element, prop, receiver) => {
+        const replaceByAlias = (target, element, prop, receiver, apply, out = {}) => {
             let fullInternalPath = "";
-            if (Array.isArray(target)) {
+            if (Array.isArray(receiver)) {
                 if (prop != "length") {
                     if (target.__path) {
                         fullInternalPath = target.__path;
@@ -995,14 +1232,19 @@ let Watcher=class Watcher {
                 if (root != proxyData.baseData) {
                     element.__validatePath();
                     let oldPath = element.__path ?? '';
-                    let unbindElement = getValueFromObject(oldPath, root);
+                    let unbindElement = Watcher.extract(getValueFromObject(oldPath, root));
+                    if (unbindElement === undefined) {
+                        return element;
+                    }
                     if (receiver == null) {
                         receiver = getValueFromObject(target.__path, realProxy);
                         if (internalAliases[fullInternalPath]) {
                             internalAliases[fullInternalPath].unbind();
                         }
                     }
-                    let result = Reflect.set(target, prop, unbindElement, receiver);
+                    if (apply) {
+                        let result = Reflect.set(target, prop, unbindElement, receiver);
+                    }
                     element.__addAlias(proxyData.baseData, oldPath, (type, target, receiver2, value, prop2, dones) => {
                         let triggerPath;
                         if (prop2.startsWith("[") || fullInternalPath == "" || prop2 == "") {
@@ -1011,23 +1253,24 @@ let Watcher=class Watcher {
                         else {
                             triggerPath = fullInternalPath + "." + prop2;
                         }
-                        triggerPath = triggerPath.replace(/\[(.*?)\]/g, '.$1');
                         if (type == 'DELETED' && internalAliases[triggerPath]) {
                             internalAliases[triggerPath].unbind();
                         }
+                        triggerPath = triggerPath.replace(/\[(.*?)\]/g, '.$1');
                         let splitted = triggerPath.split(".");
                         let newProp = splitted.pop();
                         let newReceiver = getValueFromObject(splitted.join("."), realProxy);
-                        trigger(type, target, newReceiver, value, newProp, dones);
+                        if (newReceiver.getTarget(false) == target)
+                            trigger(type, target, newReceiver, value, newProp, dones);
                     });
                     internalAliases[fullInternalPath] = {
                         unbind: () => {
                             delete internalAliases[fullInternalPath];
                             element.__deleteAlias(proxyData.baseData, oldPath);
-                            deleteAlias(root, prop);
+                            deleteAlias(root, fullInternalPath);
                         }
                     };
-                    addAlias(root, prop, (type, target, receiver2, value, prop2, dones) => {
+                    addAlias(root, fullInternalPath, (type, target, receiver2, value, prop2, dones) => {
                         const pathSave = element.__path;
                         let proxy = element.__getProxy;
                         let triggerPath;
@@ -1041,9 +1284,11 @@ let Watcher=class Watcher {
                         let splitted = triggerPath.split(".");
                         let newProp = splitted.pop();
                         let newReceiver = getValueFromObject(splitted.join("."), proxy);
-                        element.__trigger(type, target, newReceiver, value, newProp, dones);
+                        if (newReceiver.getTarget(false) == target)
+                            element.__trigger(type, target, newReceiver, value, newProp, dones);
                         element.__path = pathSave;
                     });
+                    out.otherRoot = root;
                     return unbindElement;
                 }
             }
@@ -1070,7 +1315,7 @@ let Watcher=class Watcher {
             useHistory: false,
             getProxyObject(target, element, prop) {
                 let newProxy;
-                element = replaceByAlias(target, element, prop, null);
+                element = replaceByAlias(target, element, prop, null, true);
                 if (element instanceof Object && element.__isProxy) {
                     newProxy = element;
                 }
@@ -1183,8 +1428,9 @@ let Watcher=class Watcher {
                     };
                 }
                 else if (prop == "getTarget") {
-                    return () => {
-                        clearReservedNames(target);
+                    return (clear = true) => {
+                        if (clear)
+                            clearReservedNames(target);
                         return target;
                     };
                 }
@@ -1192,7 +1438,7 @@ let Watcher=class Watcher {
                     if (target.toJSON) {
                         return target.toJSON;
                     }
-                    if (Array.isArray(target)) {
+                    if (Array.isArray(receiver)) {
                         return () => {
                             let result = [];
                             for (let element of target) {
@@ -1228,12 +1474,17 @@ let Watcher=class Watcher {
                 }
                 else if (prop == "__static_trigger") {
                     return (type) => {
+                        Watcher.__triggerForced = true;
                         trigger(type, target, receiver, target, '');
+                        Watcher.__triggerForced = false;
                     };
                 }
                 return undefined;
             },
             get(target, prop, receiver) {
+                if (typeof prop == 'symbol') {
+                    return Reflect.get(target, prop, receiver);
+                }
                 if (reservedName[prop]) {
                     return target[prop];
                 }
@@ -1243,7 +1494,7 @@ let Watcher=class Watcher {
                 }
                 let element = target[prop];
                 if (typeof (element) == 'function') {
-                    if (Array.isArray(target)) {
+                    if (Array.isArray(receiver)) {
                         let result;
                         if (prop == 'push') {
                             if (target.__isProxy) {
@@ -1254,10 +1505,16 @@ let Watcher=class Watcher {
                             }
                             else {
                                 result = (el) => {
-                                    let index = target.push(el);
-                                    target.splice(target.length - 1, 1, el);
-                                    trigger('CREATED', target, receiver, receiver[index - 1], "[" + (index - 1) + "]");
-                                    trigger('UPDATED', target, receiver, target.length, "length");
+                                    let index = target.length;
+                                    let out = {};
+                                    el = replaceByAlias(target, el, target.length + '', receiver, false, out);
+                                    target.push(el);
+                                    const dones = [];
+                                    if (out.otherRoot) {
+                                        dones.push(out.otherRoot);
+                                    }
+                                    trigger('CREATED', target, receiver, receiver[index], "[" + (index) + "]", dones);
+                                    trigger('UPDATED', target, receiver, target.length, "length", dones);
                                     return index;
                                 };
                             }
@@ -1272,35 +1529,25 @@ let Watcher=class Watcher {
                             else {
                                 result = (index, nbRemove, ...insert) => {
                                     let oldValues = [];
+                                    const extReceiver = Watcher.extract(receiver);
                                     for (let i = index; i < index + nbRemove; i++) {
-                                        oldValues.push(receiver[i]);
+                                        oldValues.push(extReceiver[i]);
                                     }
                                     let updateLength = nbRemove != insert.length;
-                                    let res = target.splice(index, nbRemove, ...insert);
                                     for (let i = 0; i < oldValues.length; i++) {
+                                        target.splice((index + i), 1);
                                         trigger('DELETED', target, receiver, oldValues[i], "[" + index + "]");
                                     }
                                     for (let i = 0; i < insert.length; i++) {
-                                        target.splice((index + i), 1, insert[i]);
-                                        trigger('CREATED', target, receiver, receiver[(index + i)], "[" + (index + i) + "]");
+                                        const out = {};
+                                        let value = replaceByAlias(target, insert[i], (index + i) + '', receiver, false, out);
+                                        const dones = out.otherRoot ? [out.otherRoot] : [];
+                                        target.splice((index + i), 0, value);
+                                        trigger('CREATED', target, receiver, receiver[(index + i)], "[" + (index + i) + "]", dones);
                                     }
-                                    // for(let i = fromIndex, j = 0; i < target.length; i++, j++) {
-                                    //     let proxyEl = this.getProxyObject(target, target[i], i);
-                                    //     let recuUpdate = (childEl) => {
-                                    //         if(Array.isArray(childEl)) {
-                                    //             for(let i = 0; i < childEl.length; i++) {
-                                    //                 if(childEl[i] instanceof Object && childEl[i].__path) {
-                                    //                     let newProxyEl = this.getProxyObject(childEl, childEl[i], i);
-                                    //                     recuUpdate(newProxyEl);
-                                    //         else if(childEl instanceof Object && !(childEl instanceof Date)) {
-                                    //             for(let key in childEl) {
-                                    //                 if(childEl[key] instanceof Object && childEl[key].__path) {
-                                    //                     let newProxyEl = this.getProxyObject(childEl, childEl[key], key);
-                                    //                     recuUpdate(newProxyEl);
-                                    //     recuUpdate(proxyEl);
                                     if (updateLength)
                                         trigger('UPDATED', target, receiver, target.length, "length");
-                                    return res;
+                                    return target;
                                 };
                             }
                         }
@@ -1337,9 +1584,15 @@ let Watcher=class Watcher {
                             }
                             else {
                                 result = (key, value) => {
+                                    const out = {};
+                                    let dones = [];
+                                    key = Watcher.extract(key);
+                                    value = replaceByAlias(target, value, key + '', receiver, false, out);
+                                    if (out.otherRoot)
+                                        dones.push(out.otherRoot);
                                     let result = target.set(key, value);
-                                    trigger('CREATED', target, receiver, receiver.get(key), key);
-                                    trigger('UPDATED', target, receiver, target.size, "size");
+                                    trigger('CREATED', target, receiver, receiver.get(key), key + '', dones);
+                                    trigger('UPDATED', target, receiver, target.size, "size", dones);
                                     return result;
                                 };
                             }
@@ -1370,9 +1623,10 @@ let Watcher=class Watcher {
                             }
                             else {
                                 result = (key) => {
+                                    key = Watcher.extract(key);
                                     let oldValue = receiver.get(key);
                                     let res = target.delete(key);
-                                    trigger('DELETED', target, receiver, oldValue, key);
+                                    trigger('DELETED', target, receiver, oldValue, key + '');
                                     trigger('UPDATED', target, receiver, target.size, "size");
                                     return res;
                                 };
@@ -1408,14 +1662,17 @@ let Watcher=class Watcher {
                 return Reflect.get(target, prop, receiver);
             },
             set(target, prop, value, receiver) {
+                if (typeof prop == 'symbol') {
+                    return Reflect.set(target, prop, value, receiver);
+                }
                 let oldValue = Reflect.get(target, prop, receiver);
-                value = replaceByAlias(target, value, prop, receiver);
+                value = replaceByAlias(target, value, prop, receiver, true);
                 if (value instanceof Signal) {
                     value = value.value;
                 }
                 let triggerChange = false;
                 if (!reservedName[prop]) {
-                    if (Array.isArray(target)) {
+                    if (Array.isArray(receiver)) {
                         if (prop != "length") {
                             triggerChange = true;
                         }
@@ -1424,6 +1681,9 @@ let Watcher=class Watcher {
                         if (!compareObject(value, oldValue)) {
                             triggerChange = true;
                         }
+                    }
+                    if (Watcher.__triggerForced) {
+                        triggerChange = true;
                     }
                 }
                 let result = Reflect.set(target, prop, value, receiver);
@@ -1441,6 +1701,9 @@ let Watcher=class Watcher {
                 return result;
             },
             deleteProperty(target, prop) {
+                if (typeof prop == 'symbol') {
+                    return Reflect.deleteProperty(target, prop);
+                }
                 let triggerChange = false;
                 let pathToDelete = '';
                 if (!reservedName[prop]) {
@@ -1479,6 +1742,9 @@ let Watcher=class Watcher {
                 return false;
             },
             defineProperty(target, prop, descriptor) {
+                if (typeof prop == 'symbol') {
+                    return Reflect.defineProperty(target, prop, descriptor);
+                }
                 let triggerChange = false;
                 let newPath = '';
                 if (!reservedName[prop]) {
@@ -1544,7 +1810,7 @@ let Watcher=class Watcher {
                 rootPath = receiver.__path;
             }
             if (rootPath != "") {
-                if (Array.isArray(target)) {
+                if (Array.isArray(receiver)) {
                     if (prop && !prop.startsWith("[")) {
                         if (/^[0-9]*$/g.exec(prop)) {
                             rootPath += "[" + prop + "]";
@@ -1640,13 +1906,17 @@ let Watcher=class Watcher {
                         if (!regex.test(rootPath)) {
                             continue;
                         }
+                        let newProp = rootPath.replace(info.name, "");
+                        if (newProp.startsWith(".")) {
+                            newProp = newProp.slice(1);
+                        }
                         if (target.__path) {
                             let oldPath = target.__path;
-                            info.fct(type, target, receiver, value, prop, dones);
+                            info.fct(type, target, receiver, value, newProp, dones);
                             target.__path = oldPath;
                         }
                         else {
-                            info.fct(type, target, receiver, value, prop, dones);
+                            info.fct(type, target, receiver, value, newProp, dones);
                         }
                     }
                 }
@@ -1660,9 +1930,9 @@ let Watcher=class Watcher {
     static is(obj) {
         return typeof obj == 'object' && obj.__isProxy;
     }
-    static extract(obj) {
+    static extract(obj, clearPath = false) {
         if (this.is(obj)) {
-            return obj.getTarget();
+            return obj.getTarget(clearPath);
         }
         else {
             if (obj instanceof Object) {
@@ -1702,89 +1972,6 @@ let Watcher=class Watcher {
 Watcher.Namespace=`Aventus`;
 _.Watcher=Watcher;
 
-let Signal=class Signal {
-    __subscribes = [];
-    _value;
-    _onChange;
-    get value() {
-        Watcher._register?.register(this, "*", Watcher._register.version, "*");
-        return this._value;
-    }
-    set value(item) {
-        const oldValue = this._value;
-        this._value = item;
-        if (oldValue != item) {
-            if (this._onChange) {
-                this._onChange();
-            }
-            for (let fct of this.__subscribes) {
-                fct(WatchAction.UPDATED, "*", item, []);
-            }
-        }
-    }
-    constructor(item, onChange) {
-        this._value = item;
-        this._onChange = onChange;
-    }
-    subscribe(fct) {
-        let index = this.__subscribes.indexOf(fct);
-        if (index == -1) {
-            this.__subscribes.push(fct);
-        }
-    }
-    unsubscribe(fct) {
-        let index = this.__subscribes.indexOf(fct);
-        if (index > -1) {
-            this.__subscribes.splice(index, 1);
-        }
-    }
-    destroy() {
-        this.__subscribes = [];
-    }
-}
-Signal.Namespace=`Aventus`;
-_.Signal=Signal;
-
-let Computed=class Computed extends Effect {
-    _value;
-    __path = "*";
-    get value() {
-        if (!this.isInit) {
-            this.init();
-        }
-        Watcher._register?.register(this, "*", Watcher._register.version, "*");
-        return this._value;
-    }
-    autoInit() {
-        return false;
-    }
-    constructor(fct) {
-        super(fct);
-    }
-    init() {
-        this.isInit = true;
-        this.computedValue();
-    }
-    computedValue() {
-        this._value = this.run();
-    }
-    onChange(action, changePath, value, dones) {
-        if (!this.checkCanChange(action, changePath, value, dones)) {
-            return;
-        }
-        let oldValue = this._value;
-        this.computedValue();
-        if (oldValue === this._value) {
-            return;
-        }
-        for (let fct of this.__subscribes) {
-            fct(action, changePath, value, dones);
-        }
-    }
-}
-Computed.Namespace=`Aventus`;
-_.Computed=Computed;
-
 let ComputedNoRecomputed=class ComputedNoRecomputed extends Computed {
     init() {
         this.isInit = true;
@@ -1805,7 +1992,7 @@ _.ComputedNoRecomputed=ComputedNoRecomputed;
 
 let PressManager=class PressManager {
     static globalConfig = {
-        delayDblPress: 150,
+        delayDblPress: 250,
         delayLongPress: 700,
         offsetDrag: 20
     };
@@ -1828,13 +2015,12 @@ let PressManager=class PressManager {
     }
     options;
     element;
-    delayDblPress = PressManager.globalConfig.delayDblPress ?? 150;
-    delayLongPress = PressManager.globalConfig.delayLongPress ?? 700;
+    delayDblPress;
+    delayLongPress;
     nbPress = 0;
-    offsetDrag = PressManager.globalConfig.offsetDrag ?? 20;
+    offsetDrag;
     state = {
-        oneActionTriggered: false,
-        moving: undefined,
+        oneActionTriggered: null,
     };
     startPosition = { x: 0, y: 0 };
     customFcts = {};
@@ -1843,6 +2029,7 @@ let PressManager=class PressManager {
     downEventSaved;
     useDblPress = false;
     stopPropagation = () => true;
+    pointersRecord = {};
     functionsBinded = {
         downAction: (e) => { },
         upAction: (e) => { },
@@ -1859,6 +2046,9 @@ let PressManager=class PressManager {
         if (options.element === void 0) {
             throw 'You must provide an element';
         }
+        this.offsetDrag = PressManager.globalConfig.offsetDrag !== undefined ? PressManager.globalConfig.offsetDrag : 20;
+        this.delayLongPress = PressManager.globalConfig.delayLongPress ?? 700;
+        this.delayDblPress = PressManager.globalConfig.delayDblPress ?? 150;
         this.element = options.element;
         this.checkDragConstraint(options);
         this.assignValueOption(options);
@@ -1955,55 +2145,117 @@ let PressManager=class PressManager {
     init() {
         this.bindAllFunction();
         this.element.addEventListener("pointerdown", this.functionsBinded.downAction);
+        this.element.addEventListener("touchstart", this.functionsBinded.downAction);
         this.element.addEventListener("trigger_pointer_pressstart", this.functionsBinded.childPressStart);
         this.element.addEventListener("trigger_pointer_pressend", this.functionsBinded.childPressEnd);
         this.element.addEventListener("trigger_pointer_pressmove", this.functionsBinded.childPressMove);
     }
+    identifyEvent(touch) {
+        if ('Touch' in window && touch instanceof Touch)
+            return touch.identifier;
+        return touch.pointerId;
+    }
+    registerEvent(ev) {
+        if ('TouchEvent' in window && ev instanceof TouchEvent) {
+            for (let touch of ev.targetTouches) {
+                const id = this.identifyEvent(touch);
+                if (this.pointersRecord[id]) {
+                    return false;
+                }
+                this.pointersRecord[id] = ev;
+            }
+            return true;
+        }
+        else {
+            const id = this.identifyEvent(ev);
+            if (this.pointersRecord[id]) {
+                return false;
+            }
+            this.pointersRecord[id] = ev;
+            return true;
+        }
+    }
+    unregisterEvent(ev) {
+        let result = true;
+        if ('TouchEvent' in window && ev instanceof TouchEvent) {
+            for (let touch of ev.changedTouches) {
+                const id = this.identifyEvent(touch);
+                if (!this.pointersRecord[id]) {
+                    result = false;
+                }
+                else {
+                    delete this.pointersRecord[id];
+                }
+            }
+        }
+        else {
+            const id = this.identifyEvent(ev);
+            if (!this.pointersRecord[id]) {
+                result = false;
+            }
+            else {
+                delete this.pointersRecord[id];
+            }
+        }
+        return result;
+    }
     genericDownAction(state, e) {
+        this.downEventSaved = e;
         if (this.options.onLongPress) {
             this.timeoutLongPress = setTimeout(() => {
                 if (!state.oneActionTriggered) {
                     if (this.options.onLongPress) {
-                        state.oneActionTriggered = true;
-                        this.options.onLongPress(e, this);
+                        if (this.options.onLongPress(e, this) !== false) {
+                            state.oneActionTriggered = this;
+                        }
                     }
                 }
             }, this.delayLongPress);
         }
     }
-    downAction(e) {
+    downAction(ev) {
+        const isFirst = Object.values(this.pointersRecord).length == 0;
+        if (!this.registerEvent(ev)) {
+            if (this.stopPropagation()) {
+                ev.stopImmediatePropagation();
+            }
+            return;
+        }
+        const e = new NormalizedEvent(ev);
         if (this.options.onEvent) {
             this.options.onEvent(e);
         }
-        if (!this.options.buttonAllowed?.includes(e.button)) {
+        if (e.button != undefined && !this.options.buttonAllowed?.includes(e.button)) {
+            this.unregisterEvent(ev);
             return;
         }
-        this.downEventSaved = e;
         if (this.stopPropagation()) {
             e.stopImmediatePropagation();
         }
         this.customFcts = {};
-        if (this.nbPress == 0) {
-            this.state.oneActionTriggered = false;
+        if (this.nbPress == 0 && isFirst) {
+            this.state.oneActionTriggered = null;
             clearTimeout(this.timeoutDblPress);
         }
         this.startPosition = { x: e.pageX, y: e.pageY };
-        document.addEventListener("pointerup", this.functionsBinded.upAction);
-        document.addEventListener("pointercancel", this.functionsBinded.upAction);
-        document.addEventListener("pointermove", this.functionsBinded.moveAction);
+        if (isFirst) {
+            document.addEventListener("pointerup", this.functionsBinded.upAction);
+            document.addEventListener("pointercancel", this.functionsBinded.upAction);
+            document.addEventListener("touchend", this.functionsBinded.upAction);
+            document.addEventListener("touchcancel", this.functionsBinded.upAction);
+            document.addEventListener("pointermove", this.functionsBinded.moveAction);
+        }
         this.genericDownAction(this.state, e);
         if (this.options.onPressStart) {
             this.options.onPressStart(e, this);
-            this.emitTriggerFunctionParent("pressstart", e);
+            this.lastEmitEvent = e;
+            // this.emitTriggerFunctionParent("pressstart", e);
         }
-        else {
-            this.emitTriggerFunction("pressstart", e);
-        }
+        this.emitTriggerFunction("pressstart", e);
     }
     genericUpAction(state, e) {
         clearTimeout(this.timeoutLongPress);
-        if (state.moving == this) {
-            state.moving = undefined;
+        if (state.oneActionTriggered == this) {
             if (this.options.onDragEnd) {
                 this.options.onDragEnd(e, this);
             }
@@ -2016,10 +2268,11 @@ let PressManager=class PressManager {
                 this.nbPress++;
                 if (this.nbPress == 2) {
                     if (!state.oneActionTriggered) {
-                        state.oneActionTriggered = true;
                         this.nbPress = 0;
                         if (this.options.onDblPress) {
-                            this.options.onDblPress(e, this);
+                            if (this.options.onDblPress(e, this) !== false) {
+                                state.oneActionTriggered = this;
+                            }
                         }
                     }
                 }
@@ -2028,8 +2281,9 @@ let PressManager=class PressManager {
                         this.nbPress = 0;
                         if (!state.oneActionTriggered) {
                             if (this.options.onPress) {
-                                state.oneActionTriggered = true;
-                                this.options.onPress(e, this);
+                                if (this.options.onPress(e, this) !== false) {
+                                    state.oneActionTriggered = this;
+                                }
                             }
                         }
                     }, this.delayDblPress);
@@ -2038,49 +2292,57 @@ let PressManager=class PressManager {
             else {
                 if (!state.oneActionTriggered) {
                     if (this.options.onPress) {
-                        state.oneActionTriggered = true;
-                        this.options.onPress(e, this);
+                        if (this.options.onPress(e, this) !== false) {
+                            state.oneActionTriggered = this;
+                        }
                     }
                 }
             }
         }
     }
-    upAction(e) {
+    upAction(ev) {
+        if (!this.unregisterEvent(ev)) {
+            if (this.stopPropagation()) {
+                ev.stopImmediatePropagation();
+            }
+            return;
+        }
+        const e = new NormalizedEvent(ev);
         if (this.options.onEvent) {
             this.options.onEvent(e);
         }
         if (this.stopPropagation()) {
             e.stopImmediatePropagation();
         }
-        document.removeEventListener("pointerup", this.functionsBinded.upAction);
-        document.removeEventListener("pointercancel", this.functionsBinded.upAction);
-        document.removeEventListener("pointermove", this.functionsBinded.moveAction);
+        if (Object.values(this.pointersRecord).length == 0) {
+            document.removeEventListener("pointerup", this.functionsBinded.upAction);
+            document.removeEventListener("pointercancel", this.functionsBinded.upAction);
+            document.removeEventListener("touchend", this.functionsBinded.upAction);
+            document.removeEventListener("touchcancel", this.functionsBinded.upAction);
+            document.removeEventListener("pointermove", this.functionsBinded.moveAction);
+        }
         this.genericUpAction(this.state, e);
         if (this.options.onPressEnd) {
             this.options.onPressEnd(e, this);
-            this.emitTriggerFunctionParent("pressend", e);
+            this.lastEmitEvent = e;
+            // this.emitTriggerFunctionParent("pressend", e);
         }
-        else {
-            this.emitTriggerFunction("pressend", e);
-        }
+        this.emitTriggerFunction("pressend", e);
     }
     genericMoveAction(state, e) {
-        if (!state.moving && !state.oneActionTriggered) {
-            if (this.stopPropagation()) {
-                e.stopImmediatePropagation();
-            }
+        if (!state.oneActionTriggered) {
             let xDist = e.pageX - this.startPosition.x;
             let yDist = e.pageY - this.startPosition.y;
             let distance = Math.sqrt(xDist * xDist + yDist * yDist);
             if (distance > this.offsetDrag && this.downEventSaved) {
-                state.oneActionTriggered = true;
                 if (this.options.onDragStart) {
-                    state.moving = this;
-                    this.options.onDragStart(this.downEventSaved, this);
+                    if (this.options.onDragStart(this.downEventSaved, this) !== false) {
+                        state.oneActionTriggered = this;
+                    }
                 }
             }
         }
-        else if (state.moving == this) {
+        else if (state.oneActionTriggered == this) {
             if (this.options.onDrag) {
                 this.options.onDrag(e, this);
             }
@@ -2089,45 +2351,42 @@ let PressManager=class PressManager {
             }
         }
     }
-    moveAction(e) {
+    moveAction(ev) {
+        const e = new NormalizedEvent(ev);
         if (this.options.onEvent) {
             this.options.onEvent(e);
         }
+        if (this.stopPropagation()) {
+            e.stopImmediatePropagation();
+        }
         this.genericMoveAction(this.state, e);
-        if (this.options.onDrag) {
-            this.emitTriggerFunctionParent("pressmove", e);
-        }
-        else {
-            this.emitTriggerFunction("pressmove", e);
-        }
+        this.lastEmitEvent = e;
+        // if(this.options.onDrag) {
+        //     this.emitTriggerFunctionParent("pressmove", e);
+        this.emitTriggerFunction("pressmove", e);
     }
     childPressStart(e) {
+        if (this.lastEmitEvent == e.detail.realEvent)
+            return;
         this.genericDownAction(e.detail.state, e.detail.realEvent);
         if (this.options.onPressStart) {
             this.options.onPressStart(e.detail.realEvent, this);
         }
     }
     childPressEnd(e) {
+        if (this.lastEmitEvent == e.detail.realEvent)
+            return;
         this.genericUpAction(e.detail.state, e.detail.realEvent);
         if (this.options.onPressEnd) {
             this.options.onPressEnd(e.detail.realEvent, this);
         }
     }
     childPressMove(e) {
+        if (this.lastEmitEvent == e.detail.realEvent)
+            return;
         this.genericMoveAction(e.detail.state, e.detail.realEvent);
     }
-    emitTriggerFunctionParent(action, e) {
-        let el = this.element.parentElement;
-        if (el == null) {
-            let parentNode = this.element.parentNode;
-            if (parentNode instanceof ShadowRoot) {
-                this.emitTriggerFunction(action, e, parentNode.host);
-            }
-        }
-        else {
-            this.emitTriggerFunction(action, e, el);
-        }
-    }
+    lastEmitEvent;
     emitTriggerFunction(action, e, el) {
         let ev = new CustomEvent("trigger_pointer_" + action, {
             bubbles: true,
@@ -2139,6 +2398,7 @@ let PressManager=class PressManager {
                 realEvent: e
             }
         });
+        this.lastEmitEvent = e;
         if (!el) {
             el = this.element;
         }
@@ -2552,7 +2812,7 @@ let StateManager=class StateManager {
                 }
                 stateToUse.onActivate();
             }
-            this.afterStateChanged.trigger([]);
+            this.afterStateChanged.trigger();
             return true;
         });
         return result ?? false;
@@ -3046,7 +3306,7 @@ let TemplateInstance=class TemplateInstance {
                 return change.fct(this.context);
             }
             catch (e) {
-                if (e instanceof TypeError && e.message.startsWith("Cannot read properties of undefined")) {
+                if (e instanceof TypeError && e.message.includes("undefined")) {
                     if (computed instanceof ComputedNoRecomputed) {
                         computed.isInit = false;
                     }
@@ -3081,7 +3341,7 @@ let TemplateInstance=class TemplateInstance {
                 return injection.inject(this.context);
             }
             catch (e) {
-                if (e instanceof TypeError && e.message.startsWith("Cannot read properties of undefined")) {
+                if (e instanceof TypeError && e.message.includes("undefined")) {
                     if (computed instanceof ComputedNoRecomputed) {
                         computed.isInit = false;
                     }
@@ -3114,7 +3374,7 @@ let TemplateInstance=class TemplateInstance {
                 return binding.inject(this.context);
             }
             catch (e) {
-                if (e instanceof TypeError && e.message.startsWith("Cannot read properties of undefined")) {
+                if (e instanceof TypeError && e.message.includes("undefined")) {
                     if (computed instanceof ComputedNoRecomputed) {
                         computed.isInit = false;
                     }
@@ -3269,13 +3529,20 @@ let TemplateInstance=class TemplateInstance {
                 elements = this.context.getValueFromItem(currentPath);
             }
             if (!elements && onThis) {
-                elements = this.component.__watch;
+                const splittedPath = basePath.split(".");
+                const firstPart = splittedPath.length > 0 ? splittedPath[0] : null;
+                if (firstPart && this.component.__signals[firstPart]) {
+                    elements = this.component.__signals[firstPart];
+                }
+                else {
+                    elements = this.component.__watch;
+                }
             }
-            if (!elements || !elements.__isProxy) {
+            if (!elements || !(elements.__isProxy || elements instanceof Signal)) {
                 debugger;
             }
             const subTemp = (action, path, value) => {
-                if (basePath.startsWith(path)) {
+                if (basePath.startsWith(path) || path == "*") {
                     elements.unsubscribe(subTemp);
                     this.renderLoopSimple(loop, simple);
                     return;
@@ -3706,6 +3973,9 @@ let WebComponent=class WebComponent extends HTMLElement {
         this.__registerSignalsActions();
         this.__createStates();
         this.__subscribeState();
+        if (this.constructor == WebComponent) {
+            throw "can't instanciate an abstract class";
+        }
     }
     /**
      * Remove all listeners
@@ -4153,14 +4423,14 @@ let WebComponent=class WebComponent extends HTMLElement {
         }
     }
     getStringAttr(name) {
-        return this.getAttribute(name) ?? undefined;
+        return this.getAttribute(name)?.replace(/&avquot;/g, '"') ?? undefined;
     }
     setStringAttr(name, val) {
         if (val === undefined || val === null) {
             this.removeAttribute(name);
         }
         else {
-            this.setAttribute(name, val);
+            this.setAttribute(name, (val + "").replace(/"/g, '&avquot;'));
         }
     }
     getStringProp(name) {
@@ -4338,6 +4608,12 @@ let WebComponent=class WebComponent extends HTMLElement {
     getElementsInSlot(slotName) {
         return ElementExtension.getElementsInSlot(this, slotName);
     }
+    /**
+     * Get active element from the shadowroot or the document
+     */
+    getActiveElement(document) {
+        return ElementExtension.getActiveElement(document ?? this.shadowRoot);
+    }
 }
 WebComponent.Namespace=`Aventus`;
 _.WebComponent=WebComponent;
@@ -4414,109 +4690,6 @@ let WebComponentInstance=class WebComponentInstance {
 }
 WebComponentInstance.Namespace=`Aventus`;
 _.WebComponentInstance=WebComponentInstance;
-
-let GenericError=class GenericError {
-    /**
-     * Code for the error
-     */
-    code;
-    /**
-     * Description of the error
-     */
-    message;
-    /**
-     * Additional details related to the error.
-     * @type {any[]}
-     */
-    details = [];
-    /**
-     * Creates a new instance of GenericError.
-     * @param {EnumValue<T>} code - The error code.
-     * @param {string} message - The error message.
-     */
-    constructor(code, message) {
-        this.code = code;
-        this.message = message;
-    }
-}
-GenericError.Namespace=`Aventus`;
-_.GenericError=GenericError;
-
-let VoidWithError=class VoidWithError {
-    /**
-     * Determine if the action is a success
-     */
-    get success() {
-        return this.errors.length == 0;
-    }
-    /**
-     * List of errors
-     */
-    errors = [];
-    /**
-     * Converts the current instance to a VoidWithError object.
-     * @returns {VoidWithError} A new instance of VoidWithError with the same error list.
-     */
-    toGeneric() {
-        const result = new VoidWithError();
-        result.errors = this.errors;
-        return result;
-    }
-    /**
-    * Checks if the error list contains a specific error code.
-    * @template U - The type of error, extending GenericError.
-    * @template T - The type of the error code, which extends either number or Enum.
-    * @param {EnumValue<T>} code - The error code to check for.
-    * @param {new (...args: any[]) => U} [type] - Optional constructor function of the error type.
-    * @returns {boolean} True if the error list contains the specified error code, otherwise false.
-    */
-    containsCode(code, type) {
-        if (type) {
-            for (let error of this.errors) {
-                if (error instanceof type) {
-                    if (error.code == code) {
-                        return true;
-                    }
-                }
-            }
-        }
-        else {
-            for (let error of this.errors) {
-                if (error.code == code) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-}
-VoidWithError.Namespace=`Aventus`;
-_.VoidWithError=VoidWithError;
-
-let ResultWithError=class ResultWithError extends VoidWithError {
-    /**
-      * The result value of the action.
-      * @type {U | undefined}
-      */
-    result;
-    /**
-     * Converts the current instance to a ResultWithError object.
-     * @returns {ResultWithError<U>} A new instance of ResultWithError with the same error list and result value.
-     */
-    toGeneric() {
-        const result = new ResultWithError();
-        result.errors = this.errors;
-        result.result = this.result;
-        return result;
-    }
-}
-ResultWithError.Namespace=`Aventus`;
-_.ResultWithError=ResultWithError;
-
-let HttpError=class HttpError extends GenericError {
-}
-HttpError.Namespace=`Aventus`;
-_.HttpError=HttpError;
 
 let Json=class Json {
     /**
@@ -4607,56 +4780,6 @@ let Json=class Json {
 Json.Namespace=`Aventus`;
 _.Json=Json;
 
-let Data=class Data {
-    /**
-     * The schema for the class
-     */
-    static $schema;
-    /**
-     * The current namespace
-     */
-    static Namespace = "";
-    /**
-     * Get the unique type for the data. Define it as the namespace + class name
-     */
-    static get Fullname() { return this.Namespace + "." + this.name; }
-    /**
-     * The current namespace
-     */
-    get namespace() {
-        return this.constructor['Namespace'];
-    }
-    /**
-     * Get the unique type for the data. Define it as the namespace + class name
-     */
-    get $type() {
-        return this.constructor['Fullname'];
-    }
-    /**
-     * Get the name of the class
-     */
-    get className() {
-        return this.constructor.name;
-    }
-    /**
-     * Get a JSON for the current object
-     */
-    toJSON() {
-        let toAvoid = ['className', 'namespace'];
-        return Json.classToJson(this, {
-            isValidKey: (key) => !toAvoid.includes(key)
-        });
-    }
-    /**
-     * Clone the object by transforming a parsed JSON string back into the original type
-     */
-    clone() {
-        return Converter.transform(JSON.parse(JSON.stringify(this)));
-    }
-}
-Data.Namespace=`Aventus`;
-_.Data=Data;
-
 let ConverterTransform=class ConverterTransform {
     transform(data) {
         return this.transformLoop(data);
@@ -4691,6 +4814,14 @@ let ConverterTransform=class ConverterTransform {
         if (typeof data === 'object' && !/^\s*class\s+/.test(data.toString())) {
             let objTemp = this.createInstance(data);
             if (objTemp) {
+                if (objTemp instanceof Map) {
+                    if (data.values) {
+                        for (const keyValue of data.values) {
+                            objTemp.set(this.transformLoop(keyValue[0]), this.transformLoop(keyValue[1]));
+                        }
+                    }
+                    return objTemp;
+                }
                 let obj = objTemp;
                 this.beforeTransformObject(obj);
                 if (obj.fromJSON) {
@@ -4702,8 +4833,8 @@ let ConverterTransform=class ConverterTransform {
                             if (obj[key] instanceof Date) {
                                 return value ? new Date(value) : null;
                             }
-                            else if (typeof obj[key] == 'string' && /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.(\d{3})Z$/.exec(obj[key])) {
-                                return value ? new Date(value) : null;
+                            else if (typeof value == 'string' && DateConverter.converter.isStringDate(value)) {
+                                return value ? DateConverter.converter.fromString(value) : null;
                             }
                             else if (obj[key] instanceof Map) {
                                 let map = new Map();
@@ -4783,7 +4914,7 @@ let Converter=class Converter {
     /**
     * Map storing information about registered types.
     */
-    static info = new Map();
+    static info = new Map([["Aventus.Map", Map]]);
     /**
     * Map storing schemas for registered types.
     */
@@ -4849,6 +4980,1017 @@ let Converter=class Converter {
 Converter.Namespace=`Aventus`;
 _.Converter=Converter;
 
+let Data=class Data {
+    /**
+     * The schema for the class
+     */
+    static $schema;
+    /**
+     * The current namespace
+     */
+    static Namespace = "";
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    static get Fullname() { return this.Namespace + "." + this.name; }
+    /**
+     * The current namespace
+     */
+    get namespace() {
+        return this.constructor['Namespace'];
+    }
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    get $type() {
+        return this.constructor['Fullname'];
+    }
+    /**
+     * Get the name of the class
+     */
+    get className() {
+        return this.constructor.name;
+    }
+    /**
+     * Get a JSON for the current object
+     */
+    toJSON() {
+        let toAvoid = ['className', 'namespace'];
+        return Json.classToJson(this, {
+            isValidKey: (key) => !toAvoid.includes(key)
+        });
+    }
+    /**
+     * Clone the object by transforming a parsed JSON string back into the original type
+     */
+    clone() {
+        return Converter.transform(JSON.parse(JSON.stringify(this)));
+    }
+}
+Data.Namespace=`Aventus`;
+_.Data=Data;
+
+let DragAndDrop=class DragAndDrop {
+    /**
+     * Default offset before drag element
+     */
+    static defaultOffsetDrag = 20;
+    pressManager;
+    options;
+    startCursorPosition = { x: 0, y: 0 };
+    startElementPosition = { x: 0, y: 0 };
+    isEnable = true;
+    draggableElement;
+    constructor(options) {
+        this.options = this.getDefaultOptions(options.element);
+        this.mergeProperties(options);
+        this.mergeFunctions(options);
+        this.options.elementTrigger.style.touchAction = 'none';
+        this.pressManager = new PressManager({
+            element: this.options.elementTrigger,
+            onPressStart: this.onPressStart.bind(this),
+            onPressEnd: this.onPressEnd.bind(this),
+            onDragStart: this.onDragStart.bind(this),
+            onDrag: this.onDrag.bind(this),
+            onDragEnd: this.onDragEnd.bind(this),
+            offsetDrag: this.options.offsetDrag,
+            stopPropagation: this.options.stopPropagation
+        });
+    }
+    getDefaultOptions(element) {
+        return {
+            applyDrag: true,
+            element: element,
+            elementTrigger: element,
+            offsetDrag: DragAndDrop.defaultOffsetDrag,
+            shadow: {
+                enable: false,
+                container: document.body,
+                removeOnStop: true,
+                transform: () => { },
+                delete: (el) => {
+                    el.remove();
+                }
+            },
+            strict: false,
+            targets: [],
+            usePercent: false,
+            stopPropagation: true,
+            useMouseFinalPosition: false,
+            useTransform: false,
+            isDragEnable: () => true,
+            getZoom: () => 1,
+            getOffsetX: () => 0,
+            getOffsetY: () => 0,
+            onPointerDown: (e) => { },
+            onPointerUp: (e) => { },
+            onStart: (e) => { },
+            onMove: (e) => { },
+            onStop: (e) => { },
+            onDrop: (element, targets) => { },
+            correctPosition: (position) => position
+        };
+    }
+    mergeProperties(options) {
+        if (options.element === void 0) {
+            throw "You must define the element for the drag&drop";
+        }
+        this.options.element = options.element;
+        if (options.elementTrigger === void 0) {
+            this.options.elementTrigger = this.options.element;
+        }
+        else {
+            this.options.elementTrigger = options.elementTrigger;
+        }
+        this.defaultMerge(options, "applyDrag");
+        this.defaultMerge(options, "offsetDrag");
+        this.defaultMerge(options, "strict");
+        this.defaultMerge(options, "targets");
+        this.defaultMerge(options, "usePercent");
+        this.defaultMerge(options, "stopPropagation");
+        this.defaultMerge(options, "useMouseFinalPosition");
+        this.defaultMerge(options, "useTransform");
+        if (options.shadow !== void 0) {
+            this.options.shadow.enable = options.shadow.enable;
+            if (options.shadow.container !== void 0) {
+                this.options.shadow.container = options.shadow.container;
+            }
+            else {
+                this.options.shadow.container = document.body;
+            }
+            if (options.shadow.removeOnStop !== void 0) {
+                this.options.shadow.removeOnStop = options.shadow.removeOnStop;
+            }
+            if (options.shadow.transform !== void 0) {
+                this.options.shadow.transform = options.shadow.transform;
+            }
+            if (options.shadow.delete !== void 0) {
+                this.options.shadow.delete = options.shadow.delete;
+            }
+        }
+    }
+    mergeFunctions(options) {
+        this.defaultMerge(options, "isDragEnable");
+        this.defaultMerge(options, "getZoom");
+        this.defaultMerge(options, "getOffsetX");
+        this.defaultMerge(options, "getOffsetY");
+        this.defaultMerge(options, "onPointerDown");
+        this.defaultMerge(options, "onPointerUp");
+        this.defaultMerge(options, "onStart");
+        this.defaultMerge(options, "onMove");
+        this.defaultMerge(options, "onStop");
+        this.defaultMerge(options, "onDrop");
+        this.defaultMerge(options, "correctPosition");
+    }
+    defaultMerge(options, name) {
+        if (options[name] !== void 0) {
+            this.options[name] = options[name];
+        }
+    }
+    positionShadowRelativeToElement = { x: 0, y: 0 };
+    onPressStart(e) {
+        this.options.onPointerDown(e);
+    }
+    onPressEnd(e) {
+        this.options.onPointerUp(e);
+    }
+    onDragStart(e) {
+        this.isEnable = this.options.isDragEnable();
+        if (!this.isEnable) {
+            return false;
+        }
+        let draggableElement = this.options.element;
+        this.startCursorPosition = {
+            x: e.pageX,
+            y: e.pageY
+        };
+        this.startElementPosition = this.getBoundingBoxRelative(draggableElement);
+        if (this.options.shadow.enable) {
+            draggableElement = this.options.element.cloneNode(true);
+            let elBox = this.options.element.getBoundingClientRect();
+            let containerBox = this.options.shadow.container.getBoundingClientRect();
+            this.positionShadowRelativeToElement = {
+                x: elBox.x - containerBox.x,
+                y: elBox.y - containerBox.y
+            };
+            if (this.options.applyDrag) {
+                draggableElement.style.position = "absolute";
+                draggableElement.style.top = this.positionShadowRelativeToElement.y + this.options.getOffsetY() + 'px';
+                draggableElement.style.left = this.positionShadowRelativeToElement.x + this.options.getOffsetX() + 'px';
+                this.options.shadow.transform(draggableElement);
+                this.options.shadow.container.appendChild(draggableElement);
+            }
+        }
+        this.draggableElement = draggableElement;
+        return this.options.onStart(e);
+    }
+    onDrag(e) {
+        if (!this.isEnable) {
+            return;
+        }
+        let zoom = this.options.getZoom();
+        let diff = {
+            x: 0,
+            y: 0
+        };
+        if (this.options.shadow.enable) {
+            diff = {
+                x: (e.pageX - this.startCursorPosition.x) + this.positionShadowRelativeToElement.x + this.options.getOffsetX(),
+                y: (e.pageY - this.startCursorPosition.y) + this.positionShadowRelativeToElement.y + this.options.getOffsetY(),
+            };
+        }
+        else {
+            diff = {
+                x: (e.pageX - this.startCursorPosition.x) / zoom + this.startElementPosition.x + this.options.getOffsetX(),
+                y: (e.pageY - this.startCursorPosition.y) / zoom + this.startElementPosition.y + this.options.getOffsetY()
+            };
+        }
+        let newPos = this.setPosition(diff);
+        this.options.onMove(e, newPos);
+    }
+    onDragEnd(e) {
+        if (!this.isEnable) {
+            return;
+        }
+        let targets = this.options.useMouseFinalPosition ? this.getMatchingTargetsWithMousePosition({
+            x: e.clientX,
+            y: e.clientY
+        }) : this.getMatchingTargets();
+        let draggableElement = this.draggableElement;
+        if (this.options.shadow.enable && this.options.shadow.removeOnStop) {
+            this.options.shadow.delete(draggableElement);
+        }
+        if (targets.length > 0) {
+            this.options.onDrop(this.options.element, targets);
+        }
+        this.options.onStop(e);
+    }
+    setPosition(position) {
+        let draggableElement = this.draggableElement;
+        if (this.options.usePercent) {
+            let elementParent = this.getOffsetParent(draggableElement);
+            if (elementParent instanceof HTMLElement) {
+                let percentPosition = {
+                    x: (position.x / elementParent.offsetWidth) * 100,
+                    y: (position.y / elementParent.offsetHeight) * 100
+                };
+                percentPosition = this.options.correctPosition(percentPosition);
+                if (this.options.applyDrag) {
+                    draggableElement.style.left = percentPosition.x + '%';
+                    draggableElement.style.top = percentPosition.y + '%';
+                }
+                return percentPosition;
+            }
+            else {
+                console.error("Can't find parent. Contact an admin", draggableElement);
+            }
+        }
+        else {
+            position = this.options.correctPosition(position);
+            if (this.options.applyDrag) {
+                if (this.isLeftTopElement(draggableElement)) {
+                    draggableElement.style.left = position.x + 'px';
+                    draggableElement.style.top = position.y + 'px';
+                }
+                else {
+                    if (this.options.useTransform) {
+                        draggableElement.setAttribute("transform", `translate(${position.x},${position.y})`);
+                    }
+                    else {
+                        draggableElement.style.left = position.x + 'px';
+                        draggableElement.style.top = position.y + 'px';
+                    }
+                }
+            }
+        }
+        return position;
+    }
+    getTargets() {
+        if (typeof this.options.targets == "function") {
+            return this.options.targets();
+        }
+        else {
+            return this.options.targets;
+        }
+    }
+    /**
+     * Get targets within the current element position is matching
+     */
+    getMatchingTargets() {
+        let draggableElement = this.draggableElement;
+        let matchingTargets = [];
+        let srcTargets = this.getTargets();
+        for (let target of srcTargets) {
+            let elementCoordinates = this.getBoundingBoxAbsolute(draggableElement);
+            let targetCoordinates = this.getBoundingBoxAbsolute(target);
+            let offsetX = this.options.getOffsetX();
+            let offsetY = this.options.getOffsetY();
+            let zoom = this.options.getZoom();
+            targetCoordinates.x += offsetX;
+            targetCoordinates.y += offsetY;
+            targetCoordinates.width *= zoom;
+            targetCoordinates.height *= zoom;
+            if (this.options.strict) {
+                if ((elementCoordinates.x >= targetCoordinates.x && elementCoordinates.x + elementCoordinates.width <= targetCoordinates.x + targetCoordinates.width) &&
+                    (elementCoordinates.y >= targetCoordinates.y && elementCoordinates.y + elementCoordinates.height <= targetCoordinates.y + targetCoordinates.height)) {
+                    matchingTargets.push(target);
+                }
+            }
+            else {
+                let elementLeft = elementCoordinates.x;
+                let elementRight = elementCoordinates.x + elementCoordinates.width;
+                let elementTop = elementCoordinates.y;
+                let elementBottom = elementCoordinates.y + elementCoordinates.height;
+                let targetLeft = targetCoordinates.x;
+                let targetRight = targetCoordinates.x + targetCoordinates.width;
+                let targetTop = targetCoordinates.y;
+                let targetBottom = targetCoordinates.y + targetCoordinates.height;
+                if (!(elementRight < targetLeft ||
+                    elementLeft > targetRight ||
+                    elementBottom < targetTop ||
+                    elementTop > targetBottom)) {
+                    matchingTargets.push(target);
+                }
+            }
+        }
+        return matchingTargets;
+    }
+    /**
+     * This function will return the targets that are matching with the mouse position
+     * @param mouse The mouse position
+     */
+    getMatchingTargetsWithMousePosition(mouse) {
+        let matchingTargets = [];
+        if (this.options.shadow.enable == false || this.options.shadow.container == null) {
+            console.warn("DragAndDrop : To use useMouseFinalPosition=true, you must enable shadow and set a container");
+            return matchingTargets;
+        }
+        const container = this.options.shadow.container;
+        let xCorrected = mouse.x - container.getBoundingClientRect().left;
+        let yCorrected = mouse.y - container.getBoundingClientRect().top;
+        for (let target of this.getTargets()) {
+            if (this.isLeftTopElement(target)) {
+                if (this.matchPosition(target, { x: mouse.x, y: mouse.y })) {
+                    matchingTargets.push(target);
+                }
+            }
+            else {
+                if (this.matchPosition(target, { x: xCorrected, y: yCorrected })) {
+                    matchingTargets.push(target);
+                }
+            }
+        }
+        return matchingTargets;
+    }
+    matchPosition(element, point) {
+        let elementCoordinates = this.getBoundingBoxAbsolute(element);
+        if (point.x >= elementCoordinates.x &&
+            point.x <= elementCoordinates.x + elementCoordinates.width &&
+            point.y >= elementCoordinates.y &&
+            point.y <= elementCoordinates.y + elementCoordinates.height) {
+            return true;
+        }
+        return false;
+    }
+    /**
+     * Get element currently dragging
+     */
+    getElementDrag() {
+        return this.options.element;
+    }
+    /**
+     * Set targets where to drop
+     */
+    setTargets(targets) {
+        this.options.targets = targets;
+    }
+    /**
+     * Set targets where to drop
+     */
+    setTargetsFct(targets) {
+        this.options.targets = targets;
+    }
+    /**
+     * Destroy the current drag&drop instance
+     */
+    destroy() {
+        this.pressManager.destroy();
+    }
+    isLeftTopElement(element) {
+        for (let Type of DragElementLeftTopType) {
+            if (element instanceof Type) {
+                return true;
+            }
+        }
+        return false;
+    }
+    isXYElement(element) {
+        for (let Type of DragElementXYType) {
+            if (element instanceof Type) {
+                return true;
+            }
+        }
+        return false;
+    }
+    getCoordinateFromAttribute(element) {
+        if (this.options.useTransform) {
+            const transform = element.getAttribute("transform");
+            const tvalue = transform?.match(/translate\(([^,]+),([^,]+)\)/);
+            const x = tvalue ? parseFloat(tvalue[1]) : 0;
+            const y = tvalue ? parseFloat(tvalue[2]) : 0;
+            return {
+                x: x,
+                y: y
+            };
+        }
+        return {
+            x: parseFloat(element.getAttribute("x")),
+            y: parseFloat(element.getAttribute("y"))
+        };
+    }
+    XYElementToRelativeBox(element) {
+        let coordinates = this.getCoordinateFromAttribute(element);
+        const width = parseFloat(element.getAttribute("width"));
+        const height = parseFloat(element.getAttribute("height"));
+        return {
+            x: coordinates.x,
+            y: coordinates.y,
+            width: width,
+            height: height,
+            bottom: coordinates.y + height,
+            right: coordinates.x + width,
+            top: coordinates.y,
+            left: coordinates.x,
+            toJSON() {
+                return JSON.stringify(this);
+            }
+        };
+    }
+    XYElementToAbsoluteBox(element) {
+        let coordinates = this.getCoordinateFromAttribute(element);
+        const parent = this.getOffsetParent(element);
+        if (parent) {
+            const box = parent.getBoundingClientRect();
+            coordinates = {
+                x: coordinates.x + box.x,
+                y: coordinates.y + box.y
+            };
+        }
+        const width = parseFloat(element.getAttribute("width"));
+        const height = parseFloat(element.getAttribute("height"));
+        return {
+            x: coordinates.x,
+            y: coordinates.y,
+            width: width,
+            height: height,
+            bottom: coordinates.y + height,
+            right: coordinates.x + width,
+            top: coordinates.y,
+            left: coordinates.x,
+            toJSON() {
+                return JSON.stringify(this);
+            }
+        };
+    }
+    getBoundingBoxAbsolute(element) {
+        if (this.isLeftTopElement(element)) {
+            if (element instanceof HTMLElement) {
+                const bounds = element.getBoundingClientRect();
+                return {
+                    x: bounds.x,
+                    y: bounds.y,
+                    width: bounds.width,
+                    height: bounds.height,
+                    bottom: bounds.bottom,
+                    right: bounds.right,
+                    top: bounds.top,
+                    left: bounds.left,
+                    toJSON() {
+                        return JSON.stringify(this);
+                    }
+                };
+            }
+        }
+        else if (this.isXYElement(element)) {
+            return this.XYElementToAbsoluteBox(element);
+        }
+        const parent = this.getOffsetParent(element);
+        if (parent instanceof HTMLElement) {
+            const rect = element.getBoundingClientRect();
+            const rectParent = parent.getBoundingClientRect();
+            const x = rect.left - rectParent.left;
+            const y = rect.top - rectParent.top;
+            return {
+                x: x,
+                y: y,
+                width: rect.width,
+                height: rect.height,
+                bottom: y + rect.height,
+                right: x + rect.width,
+                left: rect.left - rectParent.left,
+                top: rect.top - rectParent.top,
+                toJSON() {
+                    return JSON.stringify(this);
+                }
+            };
+        }
+        console.error("Element type not supported");
+        return {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0,
+            bottom: 0,
+            right: 0,
+            top: 0,
+            left: 0,
+            toJSON() {
+                return JSON.stringify(this);
+            }
+        };
+    }
+    getBoundingBoxRelative(element) {
+        if (this.isLeftTopElement(element)) {
+            if (element instanceof HTMLElement) {
+                return {
+                    x: element.offsetLeft,
+                    y: element.offsetTop,
+                    width: element.offsetWidth,
+                    height: element.offsetHeight,
+                    bottom: element.offsetTop + element.offsetHeight,
+                    right: element.offsetLeft + element.offsetWidth,
+                    top: element.offsetTop,
+                    left: element.offsetLeft,
+                    toJSON() {
+                        return JSON.stringify(this);
+                    }
+                };
+            }
+        }
+        else if (this.isXYElement(element)) {
+            return this.XYElementToRelativeBox(element);
+        }
+        const parent = this.getOffsetParent(element);
+        if (parent instanceof HTMLElement) {
+            const rect = element.getBoundingClientRect();
+            const rectParent = parent.getBoundingClientRect();
+            const x = rect.left - rectParent.left;
+            const y = rect.top - rectParent.top;
+            return {
+                x: x,
+                y: y,
+                width: rect.width,
+                height: rect.height,
+                bottom: y + rect.height,
+                right: x + rect.width,
+                left: rect.left - rectParent.left,
+                top: rect.top - rectParent.top,
+                toJSON() {
+                    return JSON.stringify(this);
+                }
+            };
+        }
+        console.error("Element type not supported");
+        return {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0,
+            bottom: 0,
+            right: 0,
+            top: 0,
+            left: 0,
+            toJSON() {
+                return JSON.stringify(this);
+            }
+        };
+    }
+    getOffsetParent(element) {
+        if (element instanceof HTMLElement) {
+            return element.offsetParent;
+        }
+        let current = element.parentNode;
+        while (current) {
+            if (current instanceof Element) {
+                const style = getComputedStyle(current);
+                if (style.position !== 'static') {
+                    return current;
+                }
+            }
+            if (current instanceof ShadowRoot) {
+                current = current.host;
+            }
+            else {
+                current = current.parentNode;
+            }
+        }
+        return null;
+    }
+}
+DragAndDrop.Namespace=`Aventus`;
+_.DragAndDrop=DragAndDrop;
+
+let ResourceLoader=class ResourceLoader {
+    static headerLoaded = {};
+    static headerWaiting = {};
+    /**
+     * Load the resource inside the head tag
+     */
+    static async loadInHead(options) {
+        const _options = this.prepareOptions(options);
+        if (this.headerLoaded[_options.url]) {
+            return true;
+        }
+        else if (this.headerWaiting.hasOwnProperty(_options.url)) {
+            return await this.awaitFctHead(_options.url);
+        }
+        else {
+            this.headerWaiting[_options.url] = [];
+            let tagEl;
+            if (_options.type == "js") {
+                tagEl = document.createElement("SCRIPT");
+            }
+            else if (_options.type == "css") {
+                tagEl = document.createElement("LINK");
+                tagEl.setAttribute("rel", "stylesheet");
+            }
+            else {
+                throw "unknow type " + _options.type + " to append into head";
+            }
+            document.head.appendChild(tagEl);
+            let result = await this.loadTag(tagEl, _options.url);
+            this.headerLoaded[_options.url] = true;
+            this.releaseAwaitFctHead(_options.url, result);
+            return result;
+        }
+    }
+    static loadTag(tagEl, url) {
+        return new Promise((resolve, reject) => {
+            tagEl.addEventListener("load", (e) => {
+                resolve(true);
+            });
+            tagEl.addEventListener("error", (e) => {
+                resolve(false);
+            });
+            if (tagEl instanceof HTMLLinkElement) {
+                tagEl.setAttribute("href", url);
+            }
+            else {
+                tagEl.setAttribute('src', url);
+            }
+        });
+    }
+    static releaseAwaitFctHead(url, result) {
+        if (this.headerWaiting[url]) {
+            for (let i = 0; i < this.headerWaiting[url].length; i++) {
+                this.headerWaiting[url][i](result);
+            }
+            delete this.headerWaiting[url];
+        }
+    }
+    static awaitFctHead(url) {
+        return new Promise((resolve) => {
+            this.headerWaiting[url].push((result) => {
+                resolve(result);
+            });
+        });
+    }
+    static requestLoaded = {};
+    static requestWaiting = {};
+    /**
+     *
+    */
+    static async load(options) {
+        options = this.prepareOptions(options);
+        if (this.requestLoaded[options.url]) {
+            return this.requestLoaded[options.url];
+        }
+        else if (this.requestWaiting.hasOwnProperty(options.url)) {
+            await this.awaitFct(options.url);
+            return this.requestLoaded[options.url];
+        }
+        else {
+            this.requestWaiting[options.url] = [];
+            let blob = false;
+            if (options.type == "img") {
+                blob = true;
+            }
+            let content = await this.fetching(options.url, blob);
+            if (options.type == "img" && content.startsWith("data:text/html;")) {
+                console.error("Can't load img " + options.url);
+                content = "";
+            }
+            this.requestLoaded[options.url] = content;
+            this.releaseAwaitFct(options.url);
+            return content;
+        }
+    }
+    static releaseAwaitFct(url) {
+        if (this.requestWaiting[url]) {
+            for (let i = 0; i < this.requestWaiting[url].length; i++) {
+                this.requestWaiting[url][i]();
+            }
+            delete this.requestWaiting[url];
+        }
+    }
+    static awaitFct(url) {
+        return new Promise((resolve) => {
+            this.requestWaiting[url].push(() => {
+                resolve('');
+            });
+        });
+    }
+    static async fetching(url, useBlob = false) {
+        if (useBlob) {
+            let result = await fetch(url, {
+                headers: {
+                    responseType: 'blob'
+                }
+            });
+            let blob = await result.blob();
+            return await this.readFile(blob);
+        }
+        else {
+            let result = await fetch(url);
+            return await result.text();
+        }
+    }
+    static readFile(blob) {
+        return new Promise((resolve) => {
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                resolve(reader.result);
+            };
+            reader.readAsDataURL(blob);
+        });
+    }
+    static imgExtensions = ["png", "jpg", "jpeg", "gif"];
+    static prepareOptions(options) {
+        let result;
+        if (typeof options === 'string' || options instanceof String) {
+            result = {
+                url: options,
+                type: 'js'
+            };
+            let splittedURI = result.url.split('.');
+            let extension = splittedURI[splittedURI.length - 1];
+            extension = extension.split("?")[0];
+            if (extension == "svg") {
+                result.type = 'svg';
+            }
+            else if (extension == "js") {
+                result.type = 'js';
+            }
+            else if (extension == "css") {
+                result.type = 'css';
+            }
+            else if (this.imgExtensions.indexOf(extension) != -1) {
+                result.type = 'img';
+            }
+            else {
+                throw 'unknow extension found :' + extension + ". Please define your extension inside options";
+            }
+        }
+        else {
+            result = options;
+        }
+        return result;
+    }
+}
+ResourceLoader.Namespace=`Aventus`;
+_.ResourceLoader=ResourceLoader;
+
+let ResizeObserver=class ResizeObserver {
+    callback;
+    targets;
+    fpsInterval = -1;
+    nextFrame;
+    entriesChangedEvent;
+    willTrigger;
+    static resizeObserverClassByObject = {};
+    static uniqueInstance;
+    static getUniqueInstance() {
+        if (!ResizeObserver.uniqueInstance) {
+            ResizeObserver.uniqueInstance = new window.ResizeObserver(entries => {
+                let allClasses = [];
+                for (let j = 0; j < entries.length; j++) {
+                    let entry = entries[j];
+                    let index = entry.target['sourceIndex'];
+                    if (ResizeObserver.resizeObserverClassByObject[index]) {
+                        for (let i = 0; i < ResizeObserver.resizeObserverClassByObject[index].length; i++) {
+                            let classTemp = ResizeObserver.resizeObserverClassByObject[index][i];
+                            classTemp.entryChanged(entry);
+                            if (allClasses.indexOf(classTemp) == -1) {
+                                allClasses.push(classTemp);
+                            }
+                        }
+                    }
+                }
+                for (let i = 0; i < allClasses.length; i++) {
+                    allClasses[i].triggerCb();
+                }
+            });
+        }
+        return ResizeObserver.uniqueInstance;
+    }
+    constructor(options) {
+        let realOption;
+        if (options instanceof Function) {
+            realOption = {
+                callback: options,
+            };
+        }
+        else {
+            realOption = options;
+        }
+        this.callback = realOption.callback;
+        this.targets = [];
+        if (!realOption.fps) {
+            realOption.fps = 60;
+        }
+        if (realOption.fps != -1) {
+            this.fpsInterval = 1000 / realOption.fps;
+        }
+        this.nextFrame = 0;
+        this.entriesChangedEvent = {};
+        this.willTrigger = false;
+    }
+    /**
+     * Observe size changing for the element
+     */
+    observe(target) {
+        if (!target["sourceIndex"]) {
+            target["sourceIndex"] = Math.random().toString(36);
+            this.targets.push(target);
+            ResizeObserver.resizeObserverClassByObject[target["sourceIndex"]] = [];
+            ResizeObserver.getUniqueInstance().observe(target);
+        }
+        if (ResizeObserver.resizeObserverClassByObject[target["sourceIndex"]].indexOf(this) == -1) {
+            ResizeObserver.resizeObserverClassByObject[target["sourceIndex"]].push(this);
+        }
+    }
+    /**
+     * Stop observing size changing for the element
+     */
+    unobserve(target) {
+        for (let i = 0; this.targets.length; i++) {
+            let tempTarget = this.targets[i];
+            if (tempTarget == target) {
+                let position = ResizeObserver.resizeObserverClassByObject[target['sourceIndex']].indexOf(this);
+                if (position != -1) {
+                    ResizeObserver.resizeObserverClassByObject[target['sourceIndex']].splice(position, 1);
+                }
+                if (ResizeObserver.resizeObserverClassByObject[target['sourceIndex']].length == 0) {
+                    delete ResizeObserver.resizeObserverClassByObject[target['sourceIndex']];
+                }
+                ResizeObserver.getUniqueInstance().unobserve(target);
+                this.targets.splice(i, 1);
+                return;
+            }
+        }
+    }
+    /**
+     * Destroy the resize observer
+     */
+    disconnect() {
+        for (let i = 0; this.targets.length; i++) {
+            this.unobserve(this.targets[i]);
+        }
+    }
+    entryChanged(entry) {
+        let index = entry.target.sourceIndex;
+        this.entriesChangedEvent[index] = entry;
+    }
+    triggerCb() {
+        if (!this.willTrigger) {
+            this.willTrigger = true;
+            this._triggerCb();
+        }
+    }
+    _triggerCb() {
+        let now = window.performance.now();
+        let elapsed = now - this.nextFrame;
+        if (this.fpsInterval != -1 && elapsed <= this.fpsInterval) {
+            requestAnimationFrame(() => {
+                this._triggerCb();
+            });
+            return;
+        }
+        this.nextFrame = now - (elapsed % this.fpsInterval);
+        let changed = Object.values(this.entriesChangedEvent);
+        this.entriesChangedEvent = {};
+        this.willTrigger = false;
+        setTimeout(() => {
+            this.callback(changed);
+        }, 0);
+    }
+}
+ResizeObserver.Namespace=`Aventus`;
+_.ResizeObserver=ResizeObserver;
+
+let GenericError=class GenericError {
+    /**
+     * Code for the error
+     */
+    code;
+    /**
+     * Description of the error
+     */
+    message;
+    /**
+     * Additional details related to the error.
+     * @type {any[]}
+     */
+    details = [];
+    /**
+     * Creates a new instance of GenericError.
+     * @param {EnumValue<T>} code - The error code.
+     * @param {string} message - The error message.
+     */
+    constructor(code, message) {
+        this.code = code;
+        this.message = message + '';
+    }
+}
+GenericError.Namespace=`Aventus`;
+_.GenericError=GenericError;
+
+let VoidWithError=class VoidWithError {
+    /**
+     * Determine if the action is a success
+     */
+    get success() {
+        return this.errors.length == 0;
+    }
+    /**
+     * List of errors
+     */
+    errors = [];
+    /**
+     * Converts the current instance to a VoidWithError object.
+     * @returns {VoidWithError} A new instance of VoidWithError with the same error list.
+     */
+    toGeneric() {
+        const result = new VoidWithError();
+        result.errors = this.errors;
+        return result;
+    }
+    /**
+    * Checks if the error list contains a specific error code.
+    * @template U - The type of error, extending GenericError.
+    * @template T - The type of the error code, which extends either number or Enum.
+    * @param {EnumValue<T>} code - The error code to check for.
+    * @param {new (...args: any[]) => U} [type] - Optional constructor function of the error type.
+    * @returns {boolean} True if the error list contains the specified error code, otherwise false.
+    */
+    containsCode(code, type) {
+        if (type) {
+            for (let error of this.errors) {
+                if (error instanceof type) {
+                    if (error.code == code) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else {
+            for (let error of this.errors) {
+                if (error.code == code) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+VoidWithError.Namespace=`Aventus`;
+_.VoidWithError=VoidWithError;
+
+let ResultWithError=class ResultWithError extends VoidWithError {
+    /**
+      * The result value of the action.
+      * @type {U | undefined}
+      */
+    result;
+    /**
+     * Converts the current instance to a ResultWithError object.
+     * @returns {ResultWithError<U>} A new instance of ResultWithError with the same error list and result value.
+     */
+    toGeneric() {
+        const result = new ResultWithError();
+        result.errors = this.errors;
+        result.result = this.result;
+        return result;
+    }
+}
+ResultWithError.Namespace=`Aventus`;
+_.ResultWithError=ResultWithError;
+
+let HttpError=class HttpError extends GenericError {
+}
+HttpError.Namespace=`Aventus`;
+_.HttpError=HttpError;
+
 let HttpRequest=class HttpRequest {
     request;
     url;
@@ -4882,8 +6024,7 @@ let HttpRequest=class HttpRequest {
             let value = obj[key];
             const newKey = parentKey ? `${parentKey}[${key}]` : key;
             if (value instanceof Date) {
-                const offset = this[key].getTimezoneOffset() * 60000;
-                formData.append(newKey, new Date(this[key].getTime() - offset).toISOString());
+                formData.append(newKey, DateConverter.converter.toString(value));
             }
             else if (typeof value === 'object' &&
                 value !== null &&
@@ -4902,6 +6043,9 @@ let HttpRequest=class HttpRequest {
                 if (value === undefined || value === null) {
                     value = "";
                 }
+                else if (Watcher.is(value)) {
+                    value = Watcher.extract(value);
+                }
                 formData.append(newKey, value);
             }
         }
@@ -4909,8 +6053,7 @@ let HttpRequest=class HttpRequest {
     }
     jsonReplacer(key, value) {
         if (this[key] instanceof Date) {
-            const offset = this[key].getTimezoneOffset() * 60000;
-            return new Date(this[key].getTime() - offset).toISOString();
+            return DateConverter.converter.toString(this[key]);
         }
         return value;
     }
@@ -5105,595 +6248,6 @@ let HttpRoute=class HttpRoute {
 HttpRoute.Namespace=`Aventus`;
 _.HttpRoute=HttpRoute;
 
-let ResizeObserver=class ResizeObserver {
-    callback;
-    targets;
-    fpsInterval = -1;
-    nextFrame;
-    entriesChangedEvent;
-    willTrigger;
-    static resizeObserverClassByObject = {};
-    static uniqueInstance;
-    static getUniqueInstance() {
-        if (!ResizeObserver.uniqueInstance) {
-            ResizeObserver.uniqueInstance = new window.ResizeObserver(entries => {
-                let allClasses = [];
-                for (let j = 0; j < entries.length; j++) {
-                    let entry = entries[j];
-                    let index = entry.target['sourceIndex'];
-                    if (ResizeObserver.resizeObserverClassByObject[index]) {
-                        for (let i = 0; i < ResizeObserver.resizeObserverClassByObject[index].length; i++) {
-                            let classTemp = ResizeObserver.resizeObserverClassByObject[index][i];
-                            classTemp.entryChanged(entry);
-                            if (allClasses.indexOf(classTemp) == -1) {
-                                allClasses.push(classTemp);
-                            }
-                        }
-                    }
-                }
-                for (let i = 0; i < allClasses.length; i++) {
-                    allClasses[i].triggerCb();
-                }
-            });
-        }
-        return ResizeObserver.uniqueInstance;
-    }
-    constructor(options) {
-        let realOption;
-        if (options instanceof Function) {
-            realOption = {
-                callback: options,
-            };
-        }
-        else {
-            realOption = options;
-        }
-        this.callback = realOption.callback;
-        this.targets = [];
-        if (!realOption.fps) {
-            realOption.fps = 60;
-        }
-        if (realOption.fps != -1) {
-            this.fpsInterval = 1000 / realOption.fps;
-        }
-        this.nextFrame = 0;
-        this.entriesChangedEvent = {};
-        this.willTrigger = false;
-    }
-    /**
-     * Observe size changing for the element
-     */
-    observe(target) {
-        if (!target["sourceIndex"]) {
-            target["sourceIndex"] = Math.random().toString(36);
-            this.targets.push(target);
-            ResizeObserver.resizeObserverClassByObject[target["sourceIndex"]] = [];
-            ResizeObserver.getUniqueInstance().observe(target);
-        }
-        if (ResizeObserver.resizeObserverClassByObject[target["sourceIndex"]].indexOf(this) == -1) {
-            ResizeObserver.resizeObserverClassByObject[target["sourceIndex"]].push(this);
-        }
-    }
-    /**
-     * Stop observing size changing for the element
-     */
-    unobserve(target) {
-        for (let i = 0; this.targets.length; i++) {
-            let tempTarget = this.targets[i];
-            if (tempTarget == target) {
-                let position = ResizeObserver.resizeObserverClassByObject[target['sourceIndex']].indexOf(this);
-                if (position != -1) {
-                    ResizeObserver.resizeObserverClassByObject[target['sourceIndex']].splice(position, 1);
-                }
-                if (ResizeObserver.resizeObserverClassByObject[target['sourceIndex']].length == 0) {
-                    delete ResizeObserver.resizeObserverClassByObject[target['sourceIndex']];
-                }
-                ResizeObserver.getUniqueInstance().unobserve(target);
-                this.targets.splice(i, 1);
-                return;
-            }
-        }
-    }
-    /**
-     * Destroy the resize observer
-     */
-    disconnect() {
-        for (let i = 0; this.targets.length; i++) {
-            this.unobserve(this.targets[i]);
-        }
-    }
-    entryChanged(entry) {
-        let index = entry.target.sourceIndex;
-        this.entriesChangedEvent[index] = entry;
-    }
-    triggerCb() {
-        if (!this.willTrigger) {
-            this.willTrigger = true;
-            this._triggerCb();
-        }
-    }
-    _triggerCb() {
-        let now = window.performance.now();
-        let elapsed = now - this.nextFrame;
-        if (this.fpsInterval != -1 && elapsed <= this.fpsInterval) {
-            requestAnimationFrame(() => {
-                this._triggerCb();
-            });
-            return;
-        }
-        this.nextFrame = now - (elapsed % this.fpsInterval);
-        let changed = Object.values(this.entriesChangedEvent);
-        this.entriesChangedEvent = {};
-        this.willTrigger = false;
-        setTimeout(() => {
-            this.callback(changed);
-        }, 0);
-    }
-}
-ResizeObserver.Namespace=`Aventus`;
-_.ResizeObserver=ResizeObserver;
-
-let DragAndDrop=class DragAndDrop {
-    /**
-     * Default offset before drag element
-     */
-    static defaultOffsetDrag = 20;
-    pressManager;
-    options;
-    startCursorPosition = { x: 0, y: 0 };
-    startElementPosition = { x: 0, y: 0 };
-    isEnable = true;
-    draggableElement;
-    constructor(options) {
-        this.options = this.getDefaultOptions(options.element);
-        this.mergeProperties(options);
-        this.mergeFunctions(options);
-        this.options.elementTrigger.style.touchAction = 'none';
-        this.pressManager = new PressManager({
-            element: this.options.elementTrigger,
-            onPressStart: this.onPressStart.bind(this),
-            onPressEnd: this.onPressEnd.bind(this),
-            onDragStart: this.onDragStart.bind(this),
-            onDrag: this.onDrag.bind(this),
-            onDragEnd: this.onDragEnd.bind(this),
-            offsetDrag: this.options.offsetDrag,
-            stopPropagation: this.options.stopPropagation
-        });
-    }
-    getDefaultOptions(element) {
-        return {
-            applyDrag: true,
-            element: element,
-            elementTrigger: element,
-            offsetDrag: DragAndDrop.defaultOffsetDrag,
-            shadow: {
-                enable: false,
-                container: document.body,
-                removeOnStop: true,
-                transform: () => { },
-                delete: (el) => {
-                    el.remove();
-                }
-            },
-            strict: false,
-            targets: [],
-            usePercent: false,
-            stopPropagation: true,
-            isDragEnable: () => true,
-            getZoom: () => 1,
-            getOffsetX: () => 0,
-            getOffsetY: () => 0,
-            onPointerDown: (e) => { },
-            onPointerUp: (e) => { },
-            onStart: (e) => { },
-            onMove: (e) => { },
-            onStop: (e) => { },
-            onDrop: (element, targets) => { },
-            correctPosition: (position) => position
-        };
-    }
-    mergeProperties(options) {
-        if (options.element === void 0) {
-            throw "You must define the element for the drag&drop";
-        }
-        this.options.element = options.element;
-        if (options.elementTrigger === void 0) {
-            this.options.elementTrigger = this.options.element;
-        }
-        else {
-            this.options.elementTrigger = options.elementTrigger;
-        }
-        this.defaultMerge(options, "applyDrag");
-        this.defaultMerge(options, "offsetDrag");
-        this.defaultMerge(options, "strict");
-        this.defaultMerge(options, "targets");
-        this.defaultMerge(options, "usePercent");
-        this.defaultMerge(options, "stopPropagation");
-        if (options.shadow !== void 0) {
-            this.options.shadow.enable = options.shadow.enable;
-            if (options.shadow.container !== void 0) {
-                this.options.shadow.container = options.shadow.container;
-            }
-            else {
-                this.options.shadow.container = document.body;
-            }
-            if (options.shadow.removeOnStop !== void 0) {
-                this.options.shadow.removeOnStop = options.shadow.removeOnStop;
-            }
-            if (options.shadow.transform !== void 0) {
-                this.options.shadow.transform = options.shadow.transform;
-            }
-            if (options.shadow.delete !== void 0) {
-                this.options.shadow.delete = options.shadow.delete;
-            }
-        }
-    }
-    mergeFunctions(options) {
-        this.defaultMerge(options, "isDragEnable");
-        this.defaultMerge(options, "getZoom");
-        this.defaultMerge(options, "getOffsetX");
-        this.defaultMerge(options, "getOffsetY");
-        this.defaultMerge(options, "onPointerDown");
-        this.defaultMerge(options, "onPointerUp");
-        this.defaultMerge(options, "onStart");
-        this.defaultMerge(options, "onMove");
-        this.defaultMerge(options, "onStop");
-        this.defaultMerge(options, "onDrop");
-        this.defaultMerge(options, "correctPosition");
-    }
-    defaultMerge(options, name) {
-        if (options[name] !== void 0) {
-            this.options[name] = options[name];
-        }
-    }
-    positionShadowRelativeToElement = { x: 0, y: 0 };
-    onPressStart(e) {
-        this.options.onPointerDown(e);
-    }
-    onPressEnd(e) {
-        this.options.onPointerUp(e);
-    }
-    onDragStart(e) {
-        this.isEnable = this.options.isDragEnable();
-        if (!this.isEnable) {
-            return;
-        }
-        let draggableElement = this.options.element;
-        this.startCursorPosition = {
-            x: e.pageX,
-            y: e.pageY
-        };
-        this.startElementPosition = {
-            x: draggableElement.offsetLeft,
-            y: draggableElement.offsetTop
-        };
-        if (this.options.shadow.enable) {
-            draggableElement = this.options.element.cloneNode(true);
-            let elBox = this.options.element.getBoundingClientRect();
-            let containerBox = this.options.shadow.container.getBoundingClientRect();
-            this.positionShadowRelativeToElement = {
-                x: elBox.x - containerBox.x,
-                y: elBox.y - containerBox.y
-            };
-            if (this.options.applyDrag) {
-                draggableElement.style.position = "absolute";
-                draggableElement.style.top = this.positionShadowRelativeToElement.y + this.options.getOffsetY() + 'px';
-                draggableElement.style.left = this.positionShadowRelativeToElement.x + this.options.getOffsetX() + 'px';
-            }
-            this.options.shadow.transform(draggableElement);
-            this.options.shadow.container.appendChild(draggableElement);
-        }
-        this.draggableElement = draggableElement;
-        this.options.onStart(e);
-    }
-    onDrag(e) {
-        if (!this.isEnable) {
-            return;
-        }
-        let zoom = this.options.getZoom();
-        let diff = {
-            x: 0,
-            y: 0
-        };
-        if (this.options.shadow.enable) {
-            diff = {
-                x: (e.pageX - this.startCursorPosition.x) + this.positionShadowRelativeToElement.x + this.options.getOffsetX(),
-                y: (e.pageY - this.startCursorPosition.y) + this.positionShadowRelativeToElement.y + this.options.getOffsetY(),
-            };
-        }
-        else {
-            diff = {
-                x: (e.pageX - this.startCursorPosition.x) / zoom + this.startElementPosition.x + this.options.getOffsetX(),
-                y: (e.pageY - this.startCursorPosition.y) / zoom + this.startElementPosition.y + this.options.getOffsetY()
-            };
-        }
-        let newPos = this.setPosition(diff);
-        this.options.onMove(e, newPos);
-    }
-    onDragEnd(e) {
-        if (!this.isEnable) {
-            return;
-        }
-        let targets = this.getMatchingTargets();
-        let draggableElement = this.draggableElement;
-        if (this.options.shadow.enable && this.options.shadow.removeOnStop) {
-            this.options.shadow.delete(draggableElement);
-        }
-        if (targets.length > 0) {
-            this.options.onDrop(this.options.element, targets);
-        }
-        this.options.onStop(e);
-    }
-    setPosition(position) {
-        let draggableElement = this.draggableElement;
-        if (this.options.usePercent) {
-            let elementParent = draggableElement.offsetParent;
-            let percentPosition = {
-                x: (position.x / elementParent.offsetWidth) * 100,
-                y: (position.y / elementParent.offsetHeight) * 100
-            };
-            percentPosition = this.options.correctPosition(percentPosition);
-            if (this.options.applyDrag) {
-                draggableElement.style.left = percentPosition.x + '%';
-                draggableElement.style.top = percentPosition.y + '%';
-            }
-            return percentPosition;
-        }
-        else {
-            position = this.options.correctPosition(position);
-            if (this.options.applyDrag) {
-                draggableElement.style.left = position.x + 'px';
-                draggableElement.style.top = position.y + 'px';
-            }
-        }
-        return position;
-    }
-    /**
-     * Get targets within the current element position is matching
-     */
-    getMatchingTargets() {
-        let draggableElement = this.draggableElement;
-        let matchingTargets = [];
-        let srcTargets;
-        if (typeof this.options.targets == "function") {
-            srcTargets = this.options.targets();
-        }
-        else {
-            srcTargets = this.options.targets;
-        }
-        for (let target of srcTargets) {
-            const elementCoordinates = draggableElement.getBoundingClientRect();
-            const targetCoordinates = target.getBoundingClientRect();
-            let offsetX = this.options.getOffsetX();
-            let offsetY = this.options.getOffsetY();
-            let zoom = this.options.getZoom();
-            targetCoordinates.x += offsetX;
-            targetCoordinates.y += offsetY;
-            targetCoordinates.width *= zoom;
-            targetCoordinates.height *= zoom;
-            if (this.options.strict) {
-                if ((elementCoordinates.x >= targetCoordinates.x && elementCoordinates.x + elementCoordinates.width <= targetCoordinates.x + targetCoordinates.width) &&
-                    (elementCoordinates.y >= targetCoordinates.y && elementCoordinates.y + elementCoordinates.height <= targetCoordinates.y + targetCoordinates.height)) {
-                    matchingTargets.push(target);
-                }
-            }
-            else {
-                let elementLeft = elementCoordinates.x;
-                let elementRight = elementCoordinates.x + elementCoordinates.width;
-                let elementTop = elementCoordinates.y;
-                let elementBottom = elementCoordinates.y + elementCoordinates.height;
-                let targetLeft = targetCoordinates.x;
-                let targetRight = targetCoordinates.x + targetCoordinates.width;
-                let targetTop = targetCoordinates.y;
-                let targetBottom = targetCoordinates.y + targetCoordinates.height;
-                if (!(elementRight < targetLeft ||
-                    elementLeft > targetRight ||
-                    elementBottom < targetTop ||
-                    elementTop > targetBottom)) {
-                    matchingTargets.push(target);
-                }
-            }
-        }
-        return matchingTargets;
-    }
-    /**
-     * Get element currently dragging
-     */
-    getElementDrag() {
-        return this.options.element;
-    }
-    /**
-     * Set targets where to drop
-     */
-    setTargets(targets) {
-        this.options.targets = targets;
-    }
-    /**
-     * Set targets where to drop
-     */
-    setTargetsFct(targets) {
-        this.options.targets = targets;
-    }
-    /**
-     * Destroy the current drag&drop instance
-     */
-    destroy() {
-        this.pressManager.destroy();
-    }
-}
-DragAndDrop.Namespace=`Aventus`;
-_.DragAndDrop=DragAndDrop;
-
-let ResourceLoader=class ResourceLoader {
-    static headerLoaded = {};
-    static headerWaiting = {};
-    /**
-     * Load the resource inside the head tag
-     */
-    static async loadInHead(options) {
-        const _options = this.prepareOptions(options);
-        if (this.headerLoaded[_options.url]) {
-            return true;
-        }
-        else if (this.headerWaiting.hasOwnProperty(_options.url)) {
-            return await this.awaitFctHead(_options.url);
-        }
-        else {
-            this.headerWaiting[_options.url] = [];
-            let tagEl;
-            if (_options.type == "js") {
-                tagEl = document.createElement("SCRIPT");
-            }
-            else if (_options.type == "css") {
-                tagEl = document.createElement("LINK");
-                tagEl.setAttribute("rel", "stylesheet");
-            }
-            else {
-                throw "unknow type " + _options.type + " to append into head";
-            }
-            document.head.appendChild(tagEl);
-            let result = await this.loadTag(tagEl, _options.url);
-            this.headerLoaded[_options.url] = true;
-            this.releaseAwaitFctHead(_options.url, result);
-            return result;
-        }
-    }
-    static loadTag(tagEl, url) {
-        return new Promise((resolve, reject) => {
-            tagEl.addEventListener("load", (e) => {
-                resolve(true);
-            });
-            tagEl.addEventListener("error", (e) => {
-                resolve(false);
-            });
-            if (tagEl instanceof HTMLLinkElement) {
-                tagEl.setAttribute("href", url);
-            }
-            else {
-                tagEl.setAttribute('src', url);
-            }
-        });
-    }
-    static releaseAwaitFctHead(url, result) {
-        if (this.headerWaiting[url]) {
-            for (let i = 0; i < this.headerWaiting[url].length; i++) {
-                this.headerWaiting[url][i](result);
-            }
-            delete this.headerWaiting[url];
-        }
-    }
-    static awaitFctHead(url) {
-        return new Promise((resolve) => {
-            this.headerWaiting[url].push((result) => {
-                resolve(result);
-            });
-        });
-    }
-    static requestLoaded = {};
-    static requestWaiting = {};
-    /**
-     *
-    */
-    static async load(options) {
-        options = this.prepareOptions(options);
-        if (this.requestLoaded[options.url]) {
-            return this.requestLoaded[options.url];
-        }
-        else if (this.requestWaiting.hasOwnProperty(options.url)) {
-            await this.awaitFct(options.url);
-            return this.requestLoaded[options.url];
-        }
-        else {
-            this.requestWaiting[options.url] = [];
-            let blob = false;
-            if (options.type == "img") {
-                blob = true;
-            }
-            let content = await this.fetching(options.url, blob);
-            if (options.type == "img" && content.startsWith("data:text/html;")) {
-                console.error("Can't load img " + options.url);
-                content = "";
-            }
-            this.requestLoaded[options.url] = content;
-            this.releaseAwaitFct(options.url);
-            return content;
-        }
-    }
-    static releaseAwaitFct(url) {
-        if (this.requestWaiting[url]) {
-            for (let i = 0; i < this.requestWaiting[url].length; i++) {
-                this.requestWaiting[url][i]();
-            }
-            delete this.requestWaiting[url];
-        }
-    }
-    static awaitFct(url) {
-        return new Promise((resolve) => {
-            this.requestWaiting[url].push(() => {
-                resolve('');
-            });
-        });
-    }
-    static async fetching(url, useBlob = false) {
-        if (useBlob) {
-            let result = await fetch(url, {
-                headers: {
-                    responseType: 'blob'
-                }
-            });
-            let blob = await result.blob();
-            return await this.readFile(blob);
-        }
-        else {
-            let result = await fetch(url);
-            return await result.text();
-        }
-    }
-    static readFile(blob) {
-        return new Promise((resolve) => {
-            var reader = new FileReader();
-            reader.onloadend = function () {
-                resolve(reader.result);
-            };
-            reader.readAsDataURL(blob);
-        });
-    }
-    static imgExtensions = ["png", "jpg", "jpeg", "gif"];
-    static prepareOptions(options) {
-        let result;
-        if (typeof options === 'string' || options instanceof String) {
-            result = {
-                url: options,
-                type: 'js'
-            };
-            let splittedURI = result.url.split('.');
-            let extension = splittedURI[splittedURI.length - 1];
-            extension = extension.split("?")[0];
-            if (extension == "svg") {
-                result.type = 'svg';
-            }
-            else if (extension == "js") {
-                result.type = 'js';
-            }
-            else if (extension == "css") {
-                result.type = 'css';
-            }
-            else if (this.imgExtensions.indexOf(extension) != -1) {
-                result.type = 'img';
-            }
-            else {
-                throw 'unknow extension found :' + extension + ". Please define your extension inside options";
-            }
-        }
-        else {
-            result = options;
-        }
-        return result;
-    }
-}
-ResourceLoader.Namespace=`Aventus`;
-_.ResourceLoader=ResourceLoader;
-
 
 for(let key in _) { Aventus[key] = _[key] }
 })(Aventus);
@@ -5720,20 +6274,25 @@ const _ = {};
 
 let _n;
 const Icon = class Icon extends Aventus.WebComponent {
-    static get observedAttributes() {return ["icon", "type"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    static get observedAttributes() {return ["icon", "type", "fill"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'is_hidden'() { return this.getBoolAttr('is_hidden') }
-    set 'is_hidden'(val) { this.setBoolAttr('is_hidden', val) }    get 'icon'() { return this.getStringProp('icon') }
+    set 'is_hidden'(val) { this.setBoolAttr('is_hidden', val) }get 'no_check'() { return this.getBoolAttr('no_check') }
+    set 'no_check'(val) { this.setBoolAttr('no_check', val) }    get 'icon'() { return this.getStringProp('icon') }
     set 'icon'(val) { this.setStringAttr('icon', val) }get 'type'() { return this.getStringProp('type') }
-    set 'type'(val) { this.setStringAttr('type', val) }    static defaultType = 'outlined';
+    set 'type'(val) { this.setStringAttr('type', val) }get 'fill'() { return this.getBoolProp('fill') }
+    set 'fill'(val) { this.setBoolAttr('fill', val) }    static defaultType = 'outlined';
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
     if (target.isReady) {
-        // target.shadowRoot.innerHTML = target.icon;
+        target.init();
     }
 }));this.__addPropertyActions("type", ((target) => {
     if (target.isReady)
         target.loadFont();
+}));this.__addPropertyActions("fill", ((target) => {
+    if (target.isReady)
+        target.loadFont();
 })); }
-    static __style = `:host{--_material-icon-animation-duration: var(--material-icon-animation-duration, 1.75s)}:host{direction:ltr;display:inline-block;font-family:"Material Symbols Outlined";-moz-font-feature-settings:"liga";font-size:24px;-moz-osx-font-smoothing:grayscale;font-style:normal;font-weight:normal;letter-spacing:normal;line-height:1;text-transform:none;white-space:nowrap;word-wrap:normal}:host .icon{direction:inherit;display:inline-block;font-family:inherit;-moz-font-feature-settings:inherit;font-size:inherit;-moz-osx-font-smoothing:inherit;font-style:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;text-transform:inherit;white-space:inherit;word-wrap:inherit}:host([is_hidden]){opacity:0}:host([type=sharp]){font-family:"Material Symbols Sharp"}:host([type=rounded]){font-family:"Material Symbols Rounded"}:host([type=outlined]){font-family:"Material Symbols Outlined"}:host([spin]){animation:spin var(--_material-icon-animation-duration) linear infinite}:host([reverse_spin]){animation:reverse-spin var(--_material-icon-animation-duration) linear infinite}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes reverse-spin{0%{transform:rotate(360deg)}100%{transform:rotate(0deg)}}`;
+    static __style = `:host{--_material-icon-animation-duration: var(--material-icon-animation-duration, 1.75s)}:host{direction:ltr;display:inline-block;font-family:"Material Symbols Outlined";-moz-font-feature-settings:"liga";font-size:24px;-moz-osx-font-smoothing:grayscale;font-style:normal;font-weight:normal;letter-spacing:normal;line-height:1;text-transform:none;white-space:nowrap;word-wrap:normal}:host .icon{direction:inherit;display:inline-block;font-family:inherit;-moz-font-feature-settings:inherit;font-size:inherit;-moz-osx-font-smoothing:inherit;font-style:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;text-transform:inherit;white-space:inherit;word-wrap:inherit}:host([is_hidden]){opacity:0}:host([type=sharp]){font-family:"Material Symbols Sharp"}:host([type=rounded]){font-family:"Material Symbols Rounded"}:host([type=outlined]){font-family:"Material Symbols Outlined"}:host([fill]){font-variation-settings:"FILL" 1}:host([spin]){animation:spin var(--_material-icon-animation-duration) linear infinite}:host([reverse_spin]){animation:reverse-spin var(--_material-icon-animation-duration) linear infinite}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes reverse-spin{0%{transform:rotate(360deg)}100%{transform:rotate(0deg)}}`;
     __getStatic() {
         return Icon;
     }
@@ -5760,9 +6319,9 @@ const Icon = class Icon extends Aventus.WebComponent {
     getClassName() {
         return "Icon";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('is_hidden')) {this.setAttribute('is_hidden' ,'true'); }if(!this.hasAttribute('icon')){ this['icon'] = "check_box_outline_blank"; }if(!this.hasAttribute('type')){ this['type'] = Icon.defaultType; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('is_hidden');this.__upgradeProperty('icon');this.__upgradeProperty('type'); }
-    __listBoolProps() { return ["is_hidden"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('is_hidden')) {this.setAttribute('is_hidden' ,'true'); }if(!this.hasAttribute('no_check')) { this.attributeChangedCallback('no_check', false, false); }if(!this.hasAttribute('icon')){ this['icon'] = "check_box_outline_blank"; }if(!this.hasAttribute('type')){ this['type'] = Icon.defaultType; }if(!this.hasAttribute('fill')) { this.attributeChangedCallback('fill', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('is_hidden');this.__upgradeProperty('no_check');this.__upgradeProperty('icon');this.__upgradeProperty('type');this.__upgradeProperty('fill'); }
+    __listBoolProps() { return ["is_hidden","no_check","fill"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     async loadFont() {
         if (!this.type)
             return;
@@ -5771,30 +6330,39 @@ const Icon = class Icon extends Aventus.WebComponent {
             'Material Symbols ' + name,
             '"Material Symbols ' + name + '"',
         ];
-        for (let font of document.fonts) {
-            if (fontsName.includes(font.family)) {
-                this.is_hidden = false;
-                return;
-            }
-        }
-        const cb = (e) => {
-            for (let font of e.fontfaces) {
+        const check = () => {
+            for (let font of document.fonts) {
                 if (fontsName.includes(font.family)) {
                     this.is_hidden = false;
-                    break;
+                    return true;
                 }
             }
+            return false;
+        };
+        if (check()) {
+            return;
+        }
+        const cb = (e) => {
+            check();
             document.fonts.removeEventListener("loadingdone", cb);
         };
         document.fonts.addEventListener("loadingdone", cb);
-        let url = 'https://fonts.googleapis.com/icon?family=Material+Symbols+' + name;
+        let url = 'https://fonts.googleapis.com/css2?family=Material+Symbols+' + name + ":FILL@0..1";
         await Aventus.ResourceLoader.loadInHead({
             type: "css",
             url: url
         });
+        setTimeout(() => {
+            check();
+        }, 100);
     }
     async init() {
-        await this.loadFont();
+        if (!this.no_check) {
+            await this.loadFont();
+        }
+        else {
+            this.is_hidden = false;
+        }
         this.iconEl.innerHTML = this.icon;
     }
     postCreation() {
@@ -5817,9 +6385,13 @@ const moduleName = `AventusSharp`;
 const _ = {};
 
 let WebSocket = {};
-_.WebSocket = {};
+_.WebSocket = AventusSharp.WebSocket ?? {};
+let Data = {};
+_.Data = AventusSharp.Data ?? {};
+Data.CustomTableMembers = {};
+_.Data.CustomTableMembers = AventusSharp.Data?.CustomTableMembers ?? {};
 let Tools = {};
-_.Tools = {};
+_.Tools = AventusSharp.Tools ?? {};
 let _n;
 (function (SocketErrorCode) {
     SocketErrorCode[SocketErrorCode["socketClosed"] = 0] = "socketClosed";
@@ -5869,16 +6441,16 @@ WebSocket.Socket=class Socket {
         const socket = new window.WebSocket(this.url);
         socket.onopen = (e) => {
             clearInterval(this.reopenInterval);
-            this.onOpen.trigger([e]);
+            this.onOpen.trigger(e);
         };
         socket.onclose = (e) => {
-            this.onClose.trigger([e]);
+            this.onClose.trigger(e);
         };
         socket.onerror = (e) => {
-            this.onError.trigger([e]);
+            this.onError.trigger(e);
         };
         socket.onmessage = (e) => {
-            this.onMessage.trigger([e]);
+            this.onMessage.trigger(e);
         };
         this.socket = socket;
         return socket;
@@ -5924,6 +6496,71 @@ WebSocket.Socket=class Socket {
 }
 WebSocket.Socket.Namespace=`AventusSharp.WebSocket`;
 _.WebSocket.Socket=WebSocket.Socket;
+
+Data.Storable=class Storable extends Aventus.Data {
+    Id = 0;
+    /**
+     * @inerhit
+     */
+    toJSON() {
+        let toAvoid = ['className', 'namespace'];
+        return Aventus.Json.classToJson(this, {
+            isValidKey: (key) => !toAvoid.includes(key),
+            beforeEnd: (result) => {
+                let resultTemp = {};
+                if (result.$type) {
+                    resultTemp.$type = result.$type;
+                    for (let key in result) {
+                        if (key != '$type') {
+                            resultTemp[key] = result[key];
+                        }
+                    }
+                    return resultTemp;
+                }
+                return result;
+            }
+        });
+    }
+}
+Data.Storable.Namespace=`AventusSharp.Data`;
+Data.Storable.$schema={...(Aventus.Data?.$schema ?? {}), "Id":"number"};
+Aventus.Converter.register(Data.Storable.Fullname, Data.Storable);
+_.Data.Storable=Data.Storable;
+
+Data.CustomTableMembers.GenericFile=class GenericFile {
+    Uri;
+    Upload;
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    get $type() {
+        return this.constructor['Fullname'];
+    }
+    /**
+     * @inerhit
+     */
+    toJSON() {
+        let toAvoid = ['className', 'namespace'];
+        return Aventus.Json.classToJson(this, {
+            isValidKey: (key) => !toAvoid.includes(key),
+            beforeEnd: (result) => {
+                let resultTemp = {};
+                if (result.$type) {
+                    resultTemp.$type = result.$type;
+                    for (let key in result) {
+                        if (key != '$type') {
+                            resultTemp[key] = result[key];
+                        }
+                    }
+                    return resultTemp;
+                }
+                return result;
+            }
+        });
+    }
+}
+Data.CustomTableMembers.GenericFile.Namespace=`AventusSharp.Data.CustomTableMembers`;
+_.Data.CustomTableMembers.GenericFile=Data.CustomTableMembers.GenericFile;
 
 Tools.ResultWithError=class ResultWithError extends Aventus.ResultWithError {
     static get Fullname() { return "AventusSharp.Tools.ResultWithError, AventusSharp"; }
@@ -6002,7 +6639,21 @@ WebSocket.Connection=class Connection {
         if (options.autoStart === undefined) {
             options.autoStart = true;
         }
+        if (options.sendPing !== undefined && options.sendPing <= 0) {
+            options.sendPing = undefined;
+        }
+        if (options.logPrefix === undefined) {
+            options.logPrefix = "";
+        }
         return options;
+    }
+    getUrl() {
+        let protocol = "ws";
+        if (this.options.useHttps) {
+            protocol = "wss";
+        }
+        let url = protocol + "://" + this.options.host + ":" + this.options.port + this.options.socketName;
+        return url;
     }
     /**
      * Add a new route to listen to the websocket
@@ -6046,12 +6697,8 @@ WebSocket.Connection=class Connection {
         return this.actionGuard.run(["open"], () => {
             return new Promise((resolve) => {
                 try {
-                    let protocol = "ws";
-                    if (this.options.useHttps) {
-                        protocol = "wss";
-                    }
-                    let url = protocol + "://" + this.options.host + ":" + this.options.port + this.options.socketName;
-                    this.log(url);
+                    let url = this.getUrl();
+                    this.log("Opening " + url);
                     this.openCallback = (isOpen) => {
                         resolve(isOpen);
                     };
@@ -6072,12 +6719,8 @@ WebSocket.Connection=class Connection {
         });
     }
     jsonReplacer(key, value) {
-        if (this[key] instanceof Date && this[key].getFullYear() < 100) {
-            return "0001-01-01T00:00:00";
-        }
-        else if (this[key] instanceof Date) {
-            const offset = this[key].getTimezoneOffset() * 60000;
-            return new Date(this[key].getTime() - offset).toISOString();
+        if (this[key] instanceof Date) {
+            return Aventus.DateConverter.converter.toString(this[key]);
         }
         return value;
     }
@@ -6115,7 +6758,7 @@ WebSocket.Connection=class Connection {
                         message.data = JSON.stringify(options.body, this.jsonReplacer);
                     }
                 }
-                else {
+                else if (options.channel != "/ping") {
                     this.log(message);
                 }
                 this.socket.send(JSON.stringify(message));
@@ -6198,18 +6841,40 @@ WebSocket.Connection=class Connection {
         }
         return false;
     }
+    sendPingTimeout = 0;
+    sendPing() {
+        this.sendMessage({
+            channel: "/ping",
+        });
+    }
+    startPing() {
+        clearInterval(this.sendPingTimeout);
+        this.sendPingTimeout = setInterval(() => {
+            this.sendPing();
+        }, 5000);
+    }
+    stopPing() {
+        clearInterval(this.sendPingTimeout);
+    }
     _onOpen() {
         if (this.socket?.isReady()) {
             if (this.openCallback) {
                 this.openCallback(true);
                 this.openCallback = undefined;
             }
-            this.log('Connection successfully established !' + this.options.host + ":" + this.options.port);
-            this.onOpen.trigger([]);
+            let protocol = "ws";
+            if (this.options.useHttps) {
+                protocol = "wss";
+            }
+            this.log(`Connection successfully established to ${this.getUrl()}!`);
+            this.onOpen.trigger();
             for (let i = 0; i < this.memoryBeforeOpen.length; i++) {
                 this.sendMessage(this.memoryBeforeOpen[i]);
             }
             this.memoryBeforeOpen = [];
+            if (this.options.sendPing) {
+                this.startPing();
+            }
         }
         else {
             if (this.openCallback) {
@@ -6227,15 +6892,16 @@ WebSocket.Connection=class Connection {
             return;
         }
         this.log('An error has occured');
-        this.onError.trigger([event]);
+        this.onError.trigger(event);
     }
     _onClose(event) {
+        this.stopPing();
         if (this.errorOccur) {
             this.errorOccur = false;
             return;
         }
         this.log('Closing connection');
-        this.onClose.trigger([event]);
+        this.onClose.trigger(event);
     }
     /**
      * Close the current connection
@@ -6292,15 +6958,16 @@ WebSocket.Connection=class Connection {
             const hours = (now.getHours()).toLocaleString(undefined, { minimumIntegerDigits: 2 });
             const minutes = (now.getMinutes()).toLocaleString(undefined, { minimumIntegerDigits: 2 });
             const seconds = (now.getSeconds()).toLocaleString(undefined, { minimumIntegerDigits: 2 });
+            const prefix = this.options.logPrefix ? `[${this.options.logPrefix}] ` : '';
             if (message instanceof Object) {
                 let cloneMessage = JSON.parse(JSON.stringify(message, this.jsonReplacer));
                 if (cloneMessage.data && typeof cloneMessage.data == 'string') {
                     cloneMessage.data = JSON.parse(cloneMessage.data);
                 }
-                console.log(`[WEBSOCKET] [${hours}:${minutes}:${seconds}]: `, cloneMessage);
+                console.log(`${prefix}[${hours}:${minutes}:${seconds}]: `, cloneMessage);
             }
             else {
-                console.log(`[WEBSOCKET] [${hours}:${minutes}:${seconds}]: `, message);
+                console.log(`${prefix}[${hours}:${minutes}:${seconds}]: `, message);
             }
         }
     }
@@ -6326,6 +6993,7 @@ WebSocket.EndPoint=class EndPoint extends WebSocket.Connection {
      */
     configure(options) {
         options.socketName = this.path;
+        options.sendPing = 5000;
         return options;
     }
     get path() {
@@ -6347,18 +7015,43 @@ var Core;
 (function (Core) {
 const moduleName = `Core`;
 const _ = {};
-Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block;touch-action:manipulation;font-family:var(--font-family)}:host *{box-sizing:border-box;touch-action:manipulation}.touch{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}.touch.disable,.touch.disabled{cursor:default}.primary{background-color:var(--primary);color:var(--text-color-primary)}.text-primary{color:var(--primary)}.secondary{background-color:var(--secondary);color:var(--text-color-secondary)}.text-secondary{color:var(--secondary)}.green{background-color:var(--green);color:var(--text-color-green)}.text-green{color:var(--green)}.success{background-color:var(--success);color:var(--text-color-success)}.text-success{color:var(--success)}.red{background-color:var(--red);color:var(--text-color-red)}.text-red{color:var(--red)}.error{background-color:var(--error);color:var(--text-color-error)}.text-error{color:var(--error)}.orange{background-color:var(--orange);color:var(--text-color-orange)}.text-orange{color:var(--orange)}.warning{background-color:var(--warning);color:var(--text-color-warning)}.text-warning{color:var(--warning)}.blue{background-color:var(--blue);color:var(--text-color-blue)}.text-blue{color:var(--blue)}.information{background-color:var(--information);color:var(--text-color-information)}.text-information{color:var(--information)}`)
-let Components = {};
-_.Components = {};
+Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block;font-family:var(--font-family);-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none}:host .primary{background-color:var(--primary);color:var(--text-color-primary)}:host .text-primary{color:var(--primary)}:host .secondary{background-color:var(--secondary);color:var(--text-color-secondary)}:host .text-secondary{color:var(--secondary)}:host .green{background-color:var(--green);color:var(--text-color-green)}:host .text-green{color:var(--green)}:host .success{background-color:var(--success);color:var(--text-color-success)}:host .text-success{color:var(--success)}:host .red{background-color:var(--red);color:var(--text-color-red)}:host .text-red{color:var(--red)}:host .error{background-color:var(--error);color:var(--text-color-error)}:host .text-error{color:var(--error)}:host .orange{background-color:var(--orange);color:var(--text-color-orange)}:host .text-orange{color:var(--orange)}:host .warning{background-color:var(--warning);color:var(--text-color-warning)}:host .text-warning{color:var(--warning)}:host .blue{background-color:var(--blue);color:var(--text-color-blue)}:host .text-blue{color:var(--blue)}:host .information{background-color:var(--information);color:var(--text-color-information)}:host .text-information{color:var(--information)}:host .touch{cursor:pointer}:host .touch.disable,:host .touch.disabled{cursor:default}:host input::placeholder{overflow:visible}:host input,:host textarea,:host .text-select{-webkit-user-select:text;-khtml-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}:host *{box-sizing:border-box;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none}`)
 let Websocket = {};
-_.Websocket = {};
-let Errors = {};
-_.Errors = {};
+_.Websocket = Core.Websocket ?? {};
 let Routes = {};
-_.Routes = {};
+_.Routes = Core.Routes ?? {};
+let Components = {};
+_.Components = Core.Components ?? {};
+let Data = {};
+_.Data = Core.Data ?? {};
+Data.DataTypes = {};
+_.Data.DataTypes = Core.Data?.DataTypes ?? {};
 let Lib = {};
-_.Lib = {};
+_.Lib = Core.Lib ?? {};
 let _n;
+Websocket.MainEndPoint=class MainEndPoint extends AventusSharp.WebSocket.EndPoint {
+    /**
+     * Create a singleton
+     */
+    static getInstance() {
+        return Aventus.Instance.get(Websocket.MainEndPoint);
+    }
+    get path() {
+        return "/ws";
+    }
+}
+Websocket.MainEndPoint.Namespace=`Core.Websocket`;
+_.Websocket.MainEndPoint=Websocket.MainEndPoint;
+
+Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter {
+    defineOptions(options) {
+        options.url = location.protocol + "//" + location.host + "";
+        return options;
+    }
+}
+Routes.CoreRouter.Namespace=`Core.Routes`;
+_.Routes.CoreRouter=Routes.CoreRouter;
+
 Components.Img = class Img extends Aventus.WebComponent {
     static get observedAttributes() {return ["src", "mode"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'cache'() { return this.getBoolAttr('cache') }
@@ -6553,45 +7246,50 @@ Components.Img.Tag=`rk-img`;
 _.Components.Img=Components.Img;
 if(!window.customElements.get('rk-img')){window.customElements.define('rk-img', Components.Img);Aventus.WebComponentInstance.registerDefinition(Components.Img);}
 
-Websocket.MainEndPoint=class MainEndPoint extends AventusSharp.WebSocket.EndPoint {
-    /**
-     * Create a singleton
-     */
-    static getInstance() {
-        return Aventus.Instance.get(Websocket.MainEndPoint);
-    }
-    get path() {
-        return "/ws";
-    }
+Data.SsoProvider=class SsoProvider extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.SsoProvider, Core"; }
+    Name;
+    Logo;
+    ClientId;
+    ClientSecret;
+    AuthorizationEndpoint;
+    TokenEndpoint;
+    UserInfoEndpoint;
+    UserIdentifier;
+    UserName;
+    UserPicture = undefined;
+    AutoCreateUser;
 }
-Websocket.MainEndPoint.Namespace=`Core.Websocket`;
-_.Websocket.MainEndPoint=Websocket.MainEndPoint;
+Data.SsoProvider.Namespace=`Core.Data`;
+Data.SsoProvider.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Logo":"SsoLogo","ClientId":"string","ClientSecret":"string","AuthorizationEndpoint":"string","TokenEndpoint":"string","UserInfoEndpoint":"string","UserIdentifier":"string","UserName":"string","UserPicture":"string","AutoCreateUser":"boolean"};
+Aventus.Converter.register(Data.SsoProvider.Fullname, Data.SsoProvider);
+_.Data.SsoProvider=Data.SsoProvider;
 
-(function (LoginCode) {
-    LoginCode[LoginCode["OK"] = 0] = "OK";
-    LoginCode[LoginCode["WrongCredentials"] = 1] = "WrongCredentials";
-    LoginCode[LoginCode["Unknown"] = 2] = "Unknown";
-    LoginCode[LoginCode["NotConnected"] = 3] = "NotConnected";
-})(Errors.LoginCode || (Errors.LoginCode = {}));
-_.Errors.LoginCode=Errors.LoginCode;
-
-Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter {
-    defineOptions(options) {
-        options.url = location.protocol + "//" + location.host + "";
-        return options;
-    }
+Data.DataTypes.GenericFile=class GenericFile extends AventusSharp.Data.CustomTableMembers.GenericFile {
 }
-Routes.CoreRouter.Namespace=`Core.Routes`;
-_.Routes.CoreRouter=Routes.CoreRouter;
+Data.DataTypes.GenericFile.Namespace=`Core.Data.DataTypes`;
+_.Data.DataTypes.GenericFile=Data.DataTypes.GenericFile;
+
+Data.DataTypes.ImageFile=class ImageFile extends Data.DataTypes.GenericFile {
+}
+Data.DataTypes.ImageFile.Namespace=`Core.Data.DataTypes`;
+_.Data.DataTypes.ImageFile=Data.DataTypes.ImageFile;
+
+Data.SsoLogo=class SsoLogo extends Data.DataTypes.ImageFile {
+    static get Fullname() { return "Core.Data.SsoLogo, Core"; }
+}
+Data.SsoLogo.Namespace=`Core.Data`;
+Data.SsoLogo.$schema={...(Data.DataTypes.ImageFile?.$schema ?? {}), };
+Aventus.Converter.register(Data.SsoLogo.Fullname, Data.SsoLogo);
+_.Data.SsoLogo=Data.SsoLogo;
 
 Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
         this.LoginAction = this.LoginAction.bind(this);
+        this.LoginSso = this.LoginSso.bind(this);
         this.Logout = this.Logout.bind(this);
         this.VapidPublicKey = this.VapidPublicKey.bind(this);
-        this.Register = this.Register.bind(this);
-        this.SendNotification = this.SendNotification.bind(this);
         this.BeginTransaction = this.BeginTransaction.bind(this);
         this.CommitTransaction = this.CommitTransaction.bind(this);
         this.RollbackTransaction = this.RollbackTransaction.bind(this);
@@ -6602,6 +7300,11 @@ Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
         request.setBody(body);
         return await request.queryJSON(this.router);
     }
+    async LoginSso(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/login/sso`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
     async Logout() {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/logout`, Aventus.HttpMethod.POST);
         return await request.queryVoid(this.router);
@@ -6609,15 +7312,6 @@ Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
     async VapidPublicKey() {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/vapidPublicKey`, Aventus.HttpMethod.GET);
         return await request.queryJSON(this.router);
-    }
-    async Register(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/register`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryVoid(this.router);
-    }
-    async SendNotification() {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/sendNotification`, Aventus.HttpMethod.GET);
-        return await request.queryVoid(this.router);
     }
     async BeginTransaction(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/begin`, Aventus.HttpMethod.POST);
@@ -6642,14 +7336,6 @@ Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
 Routes.MainRouter.Namespace=`Core.Routes`;
 _.Routes.MainRouter=Routes.MainRouter;
 
-Errors.LoginError=class LoginError extends Aventus.GenericError {
-    static get Fullname() { return "Core.Logic.LoginError, Core"; }
-}
-Errors.LoginError.Namespace=`Core.Errors`;
-Errors.LoginError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
-Aventus.Converter.register(Errors.LoginError.Fullname, Errors.LoginError);
-_.Errors.LoginError=Errors.LoginError;
-
 Lib.Platform=class Platform {
     static onScreenChange = new Aventus.Callback();
     static init() {
@@ -6658,7 +7344,7 @@ Lib.Platform=class Platform {
             let newDevice = this.device;
             if (currentDevice != newDevice) {
                 currentDevice = newDevice;
-                this.onScreenChange.trigger([newDevice]);
+                this.onScreenChange.trigger(newDevice);
             }
         });
         screenObserver.observe(document.body);
@@ -6666,13 +7352,13 @@ Lib.Platform=class Platform {
         wsInstance.onOpen.add(() => {
             if (!this._isConnected) {
                 this._isConnected = true;
-                this.onReconnect.trigger([]);
+                this.onReconnect.trigger();
             }
         });
         wsInstance.onClose.add(() => {
             if (this._isConnected) {
                 this._isConnected = false;
-                this.onDisconnect.trigger([]);
+                this.onDisconnect.trigger();
             }
         });
     }
@@ -6691,6 +7377,9 @@ Lib.Platform=class Platform {
     }
     static get isStandalone() {
         if ("standalone" in window.navigator && window.navigator.standalone) {
+            return true;
+        }
+        else if (window.matchMedia('(display-mode: standalone)').matches) {
             return true;
         }
         return false;
@@ -6712,6 +7401,212 @@ Lib.Platform=class Platform {
 }
 Lib.Platform.Namespace=`Core.Lib`;
 _.Lib.Platform=Lib.Platform;
+
+Components.Tooltip = class Tooltip extends Aventus.WebComponent {
+    get 'visible'() { return this.getBoolAttr('visible') }
+    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'position'() { return this.getStringAttr('position') }
+    set 'position'(val) { this.setStringAttr('position', val) }get 'color'() { return this.getStringAttr('color') }
+    set 'color'(val) { this.setStringAttr('color', val) }get 'use_absolute'() { return this.getBoolAttr('use_absolute') }
+    set 'use_absolute'(val) { this.setBoolAttr('use_absolute', val) }get 'delay'() { return this.getNumberAttr('delay') }
+    set 'delay'(val) { this.setNumberAttr('delay', val) }get 'delay_touch'() { return this.getNumberAttr('delay_touch') }
+    set 'delay_touch'(val) { this.setNumberAttr('delay_touch', val) }    parent = null;
+    parentEv = null;
+    isDestroyed = false;
+    timeoutEnter = false;
+    timeout = 0;
+    pressManager;
+    screenMargin = 10;
+    static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--local-offset-carret-x: 0px;--local-offset-carret-y: 0px;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;pointer-events:none;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;width:max-content;z-index:1}:host::after{content:"";position:absolute}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--_tooltip-background-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:calc(50% + var(--local-offset-carret-x));top:-8px;transform:translateX(-50%)}:host([use_absolute][position=bottom]){left:var(--local-tooltip-from-x);max-height:calc(100% - var(--local-tooltip-to-y) - 10px);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=bottom]:not([use_absolute])){bottom:0px;left:50%;transform:translateX(-50%) translateY(calc(100% - 10px))}:host([position=bottom][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(100% + 10px))}:host([position=top]){transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--_tooltip-background-color);bottom:-8px;left:calc(50% + var(--local-offset-carret-x));transform:translateX(-50%)}:host([use_absolute][position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x);max-height:calc(100% - var(--local-tooltip-to-y) - 10px)}:host([use_absolute][visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=top]:not([use_absolute])){left:50%;top:0px;transform:translateX(-50%) translateY(calc(-100% + 10px))}:host([position=top][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(-100% - 10px))}:host([position=right]){transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:calc(50% + var(--local-offset-carret-y));transform:translateY(-50%)}:host([use_absolute][position=right]){left:var(--local-tooltip-from-x);max-width:calc(100% - var(--local-tooltip-to-x) - 10px);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=right]:not([use_absolute])){right:0;top:50%;transform:translateX(calc(100% - 10px)) translateY(-50%)}:host([visible][position=right]:not([use_absolute])){transform:translateX(calc(100% + 10px)) translateY(-50%)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:calc(50% + var(--local-offset-carret-y));transform:translateY(-50%)}:host([use_absolute][position=left]){max-width:calc(100% - var(--local-tooltip-to-x) - 10px);right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=left]){right:var(--local-tooltip-to-x)}:host([position=left]:not([use_absolute])){left:0;top:50%;transform:translateX(calc(-100% + 10px)) translateY(-50%)}:host([visible][position=left]:not([use_absolute])){transform:translateX(calc(-100% - 10px)) translateY(-50%)}:host([color=primary]){--_tooltip-background-color: var(--primary);--_tooltip-color: var(--text-color-primary)}:host([color=secondary]){--_tooltip-background-color: var(--secondary);--_tooltip-color: var(--text-color-secondary)}:host([color=green]){--_tooltip-background-color: var(--green);--_tooltip-color: var(--text-color-green)}:host([color=success]){--_tooltip-background-color: var(--success);--_tooltip-color: var(--text-color-success)}:host([color=red]){--_tooltip-background-color: var(--red);--_tooltip-color: var(--text-color-red)}:host([color=error]){--_tooltip-background-color: var(--error);--_tooltip-color: var(--text-color-error)}:host([color=orange]){--_tooltip-background-color: var(--orange);--_tooltip-color: var(--text-color-orange)}:host([color=warning]){--_tooltip-background-color: var(--warning);--_tooltip-color: var(--text-color-warning)}:host([color=blue]){--_tooltip-background-color: var(--blue);--_tooltip-color: var(--text-color-blue)}:host([color=information]){--_tooltip-background-color: var(--information);--_tooltip-color: var(--text-color-information)}`;
+    constructor() { super(); this.onMouseEnter=this.onMouseEnter.bind(this)this.onMouseLeave=this.onMouseLeave.bind(this)this.onTransitionEnd=this.onTransitionEnd.bind(this) }
+    __getStatic() {
+        return Tooltip;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Tooltip.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "Tooltip";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('position')){ this['position'] = 'top'; }if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('use_absolute')) { this.attributeChangedCallback('use_absolute', false, false); }if(!this.hasAttribute('delay')){ this['delay'] = 50; }if(!this.hasAttribute('delay_touch')){ this['delay_touch'] = 500; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('position');this.__upgradeProperty('color');this.__upgradeProperty('use_absolute');this.__upgradeProperty('delay');this.__upgradeProperty('delay_touch'); }
+    __listBoolProps() { return ["visible","use_absolute"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    calculatePosition() {
+        if (!this.parentEv || !this.use_absolute)
+            return;
+        let rect = this.parentEv.getBoundingClientRect();
+        let center = {
+            x: rect.left + rect.width / 2,
+            y: rect.y + rect.height / 2
+        };
+        if (this.use_absolute) {
+            const diffMinX = center.x - this.offsetWidth / 2;
+            const diffMaxX = center.x + this.offsetWidth / 2;
+            const maxX = document.body.offsetWidth - this.screenMargin;
+            const minX = this.screenMargin;
+            if (diffMinX < minX) {
+                center.x += minX - diffMinX;
+                this.style.setProperty("--local-offset-carret-x", diffMinX - minX + 'px');
+            }
+            else if (diffMaxX > maxX) {
+                center.x += maxX - diffMaxX;
+                this.style.setProperty("--local-offset-carret-x", diffMaxX - maxX + 'px');
+            }
+            const diffMinY = center.y - this.offsetHeight / 2;
+            const diffMaxY = center.y + this.offsetHeight / 2;
+            const maxY = document.body.offsetHeight - this.screenMargin;
+            const minY = this.screenMargin;
+            if (diffMinY < minY) {
+                center.y += minY - diffMinY;
+                this.style.setProperty("--local-offset-carret-y", diffMinY - minY + 'px');
+            }
+            else if (diffMaxY > maxY) {
+                center.y += maxY - diffMaxY;
+                this.style.setProperty("--local-offset-carret-y", diffMaxY - maxY + 'px');
+            }
+        }
+        if (this.position == 'bottom') {
+            let bottom = rect.y + rect.height;
+            this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
+            this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
+        }
+        else if (this.position == 'top') {
+            let bottom = document.body.offsetHeight - rect.top;
+            this.style.setProperty("--local-tooltip-from-y", bottom - 10 + 'px');
+            this.style.setProperty("--local-tooltip-from-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-x", center.x + 'px');
+            this.style.setProperty("--local-tooltip-to-y", bottom + 10 + 'px');
+        }
+        else if (this.position == 'right') {
+            let left = rect.x + rect.width;
+            this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
+            this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-y", center.y + 10 + 'px');
+        }
+        else if (this.position == 'left') {
+            let left = document.body.offsetWidth - rect.left;
+            this.style.setProperty("--local-tooltip-from-y", center.y + 'px');
+            this.style.setProperty("--local-tooltip-from-x", left - 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-x", left + 10 + 'px');
+            this.style.setProperty("--local-tooltip-to-y", center.y + 'px');
+        }
+    }
+    onMouseEnter() {
+        this.calculatePosition();
+        let delay = this.delay == 0 ? 50 : this.delay;
+        if (this.use_absolute) {
+            document.body.appendChild(this);
+            this.timeoutEnter = false;
+            this.timeout = setTimeout(() => {
+                this.timeoutEnter = true;
+                this.visible = true;
+            }, delay);
+        }
+        else {
+            if (delay == 0) {
+                this.visible = true;
+            }
+            else {
+                this.timeoutEnter = false;
+                this.timeout = setTimeout(() => {
+                    this.timeoutEnter = true;
+                    this.visible = true;
+                }, delay);
+            }
+        }
+    }
+    onMouseLeave() {
+        this.visible = false;
+        if (this.use_absolute) {
+            if (!this.timeoutEnter) {
+                clearTimeout(this.timeout);
+                this.onTransitionEnd();
+            }
+        }
+        else if (this.delay != 0) {
+            if (!this.timeoutEnter) {
+                clearTimeout(this.timeout);
+                this.onTransitionEnd();
+            }
+        }
+    }
+    onTransitionEnd() {
+        if (!this.use_absolute || this.visible)
+            return;
+        if (this.parent && !this.isDestroyed)
+            this.parent?.appendChild(this);
+        else
+            this.remove();
+    }
+    onLongPress() {
+        this.calculatePosition();
+        if (this.use_absolute) {
+            document.body.appendChild(this);
+            this.timeoutEnter = false;
+            this.timeout = setTimeout(() => {
+                this.timeoutEnter = true;
+                this.visible = true;
+            }, 50);
+        }
+        else {
+            this.visible = true;
+        }
+    }
+    registerAction() {
+        if (!this.parentEv)
+            return;
+        if (Lib.Platform.device != "pc") {
+            this.pressManager = new Aventus.PressManager({
+                element: this.parentEv,
+                onLongPress: () => {
+                    this.onLongPress();
+                },
+                onPressEnd: () => {
+                    this.onMouseLeave();
+                },
+                delayLongPress: this.delay_touch
+            });
+        }
+        else {
+            this.parentEv.addEventListener("mouseenter", this.onMouseEnter);
+            this.parentEv.addEventListener("mouseleave", this.onMouseLeave);
+        }
+        this.addEventListener("transitionend", this.onTransitionEnd);
+    }
+    postCreation() {
+        let parentEv = this.parentNode;
+        if (parentEv instanceof ShadowRoot) {
+            parentEv = parentEv.host;
+        }
+        if (parentEv instanceof HTMLElement) {
+            this.parentEv = parentEv;
+        }
+        this.parent = this.parentNode;
+        this.registerAction();
+    }
+    postDestruction() {
+        this.isDestroyed = true;
+        super.postDestruction();
+        if (!this.parentEv)
+            return;
+        this.parentEv.removeEventListener("mouseenter", this.onMouseEnter);
+        this.parentEv.removeEventListener("mouseleave", this.onMouseLeave);
+    }
+}
+Components.Tooltip.Namespace=`Core.Components`;
+Components.Tooltip.Tag=`rk-tooltip`;
+_.Components.Tooltip=Components.Tooltip;
+if(!window.customElements.get('rk-tooltip')){window.customElements.define('rk-tooltip', Components.Tooltip);Aventus.WebComponentInstance.registerDefinition(Components.Tooltip);}
 
 Components.Form = class Form extends Aventus.WebComponent {
     elements = [];
@@ -6749,7 +7644,7 @@ Components.Form = class Form extends Aventus.WebComponent {
     }
     async submit() {
         if (await this.validate()) {
-            this.onSubmit.trigger([]);
+            this.onSubmit.trigger();
         }
     }
     async validate() {
@@ -6773,7 +7668,7 @@ Components.Button = class Button extends Aventus.WebComponent {
     set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
     target.icon_before = target.icon;
 })); }
-    static __style = `:host{--internal-button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--internal-button-color: var(--button-color);--internal-button-box-shadow: var(--button-box-shadow);--internal-button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --internal-button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--internal-button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--internal-button-box-shadow);color:var(--internal-button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([disabled]) .hider{opacity:1;pointer-events:none;visibility:visible}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--internal-button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
+    static __style = `:host{--_button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--_button-color: var(--button-color, currentcolor);--_button-box-shadow: var(--button-box-shadow);--_button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--_button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--_button-box-shadow);color:var(--_button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--_button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
     __getStatic() {
         return Button;
     }
@@ -6841,13 +7736,80 @@ const _ = {};
 
 
 let _n;
+const SsoOption = class SsoOption extends Aventus.WebComponent {
+    get 'provider'() {
+						return this.__watch["provider"];
+					}
+					set 'provider'(val) {
+						this.__watch["provider"] = val;
+					}    __registerWatchesActions() {
+    this.__addWatchesActions("provider");    super.__registerWatchesActions();
+}
+    static __style = `:host{cursor:pointer;height:25px;position:relative}:host rk-img{height:100%}`;
+    __getStatic() {
+        return SsoOption;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(SsoOption.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-img _id="ssooption_0"></rk-img><rk-tooltip delay="700" _id="ssooption_1"></rk-tooltip>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "ssooption_0°src": {
+      "fct": (c) => `${c.print(c.comp.__0e863dc7d435673f02860fbfa40c50demethod0())}`
+    },
+    "ssooption_1°@HTML": {
+      "fct": (c) => `Login with ${c.print(c.comp.__0e863dc7d435673f02860fbfa40c50demethod1())}`
+    }
+  }
+}); }
+    getClassName() {
+        return "SsoOption";
+    }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["provider"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('provider'); }
+    async runSso() {
+        if (!this.provider)
+            return;
+        const router = new Core.Routes.MainRouter();
+        const ssoRequest = await router.LoginSso({ ssoId: this.provider.Id });
+        if (ssoRequest.success && ssoRequest.result) {
+            location.replace(ssoRequest.result);
+        }
+    }
+    postCreation() {
+        Aventus.PressManager.create({
+            element: this,
+            onPress: () => {
+                this.runSso();
+            }
+        });
+    }
+    __0e863dc7d435673f02860fbfa40c50demethod0() {
+        return this.provider?.Logo.Uri;
+    }
+    __0e863dc7d435673f02860fbfa40c50demethod1() {
+        return this.provider?.Name;
+    }
+}
+SsoOption.Namespace=`Core`;
+SsoOption.Tag=`rk-sso-option`;
+_.SsoOption=SsoOption;
+if(!window.customElements.get('rk-sso-option')){window.customElements.define('rk-sso-option', SsoOption);Aventus.WebComponentInstance.registerDefinition(SsoOption);}
+
 const Blur = class Blur extends Aventus.WebComponent {
     static get observedAttributes() {return ["src"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'src'() { return this.getStringProp('src') }
     set 'src'(val) { this.setStringAttr('src', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("src", ((target) => {
     target.effectEl.style.backgroundImage = "url('" + target.src + "')";
 })); }
-    static __style = `:host{--internal-blur-size: var(--blur-size, 4px)}:host{height:100%;left:0;position:absolute;top:0;width:100%}:host .effect{background-color:rgba(255,255,255,.3);background-position:center center;background-repeat:no-repeat;background-size:cover;filter:blur(var(--internal-blur-size));height:calc(100% + var(--internal-blur-size)*4);left:calc(var(--internal-blur-size)*-2);position:absolute;top:calc(var(--internal-blur-size)*-2);width:calc(100% + var(--internal-blur-size)*4)}`;
+    static __style = `:host{--internal-blur-size: var(--blur-size, 4px)}:host{height:100%;left:0;position:absolute;top:0;width:100%}:host .effect{background-color:hsla(0,0%,100%,.3);background-position:center center;background-repeat:no-repeat;background-size:cover;filter:blur(var(--internal-blur-size));height:calc(100% + var(--internal-blur-size)*4);left:calc(var(--internal-blur-size)*-2);position:absolute;top:calc(var(--internal-blur-size)*-2);width:calc(100% + var(--internal-blur-size)*4)}`;
     __getStatic() {
         return Blur;
     }
@@ -6883,12 +7845,30 @@ _.Blur=Blur;
 if(!window.customElements.get('rk-blur')){window.customElements.define('rk-blur', Blur);Aventus.WebComponentInstance.registerDefinition(Blur);}
 
 const Login = class Login extends Aventus.WebComponent {
-    static get observedAttributes() {return ["error", "company", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    static get observedAttributes() {return ["error", "company", "icon", "sso"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'loading'() { return this.getBoolAttr('loading') }
     set 'loading'(val) { this.setBoolAttr('loading', val) }    get 'error'() { return this.getStringProp('error') }
     set 'error'(val) { this.setStringAttr('error', val) }get 'company'() { return this.getStringProp('company') }
     set 'company'(val) { this.setStringAttr('company', val) }get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{align-items:center;display:flex;height:100%;justify-content:center;left:0;position:absolute;top:0;width:100%}:host .login-container{background-color:rgba(25,25,25,.8);border-radius:5px;box-shadow:var(--elevation-10);box-sizing:border-box;display:flex;flex-direction:column;padding:20px;transform:perspective(1000px);width:372px;z-index:200}:host .login-container .body{display:flex}:host .login-container .body .login-img-container{height:75px;margin-top:12.5px}:host .login-container .body .login-img-container rk-img{border-radius:50%;height:100%}:host .login-container .body .field-container{margin-left:13px;width:200px}:host .login-container .body .field-container input,:host .login-container .body .field-container ::slotted(input){background-color:rgba(0,0,0,0);border:1px solid #fff;border-bottom:none;border-radius:0;color:#fff;cursor:default;height:30px;outline:none;padding:5px 5px;width:100%}:host .login-container .body .field-container input[readonly],:host .login-container .body .field-container ::slotted(input[readonly]){color:#c9c9c9}:host .login-container .body .field-container input:first-child{border-top-left-radius:3px;border-top-right-radius:3px}:host .login-container .body .field-container input:last-child,:host .login-container .body .field-container ::slotted(input:last-child){border-bottom:1px solid #fff;border-bottom-left-radius:3px;border-bottom-right-radius:3px}:host .login-container .body .btn-login{background-color:gray;border:1px solid #fff;border-radius:50%;color:#fff;cursor:pointer;font-size:20px;font-weight:bold;height:30px;line-height:28px;margin-left:13px;margin-top:35px;padding:3px;position:relative;text-align:center;transition:all 1s;width:30px}:host .login-container .body .btn-login .loading{animation:rotate 1s linear infinite;display:none;font-size:18px;transform-origin:center}:host .login-container .body .btn-login rk-img{height:100%}:host .login-container .body .btn-login-mobile{display:none;margin-top:20px;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .login-container .body .btn-login-mobile .loading{animation:rotate 1s linear infinite;display:none;font-size:18px;outline:none;transform-origin:center}:host .login-container .body .btn-login-mobile rk-button{background-color:rgba(0,0,0,0);border:1px solid #fff;box-shadow:none;font-size:13px;margin-top:20px;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);width:140px}:host .login-container .body .btn-login-mobile rk-button span{margin-right:5px}:host .login-container .body input[type=submit]{display:none}:host .login-container .errors{color:#ff5454;display:none;font-size:13px;margin-top:20px}:host([loading]) .login-container .body .btn-login mi-icon{display:none}:host([loading]) .login-container .body .btn-login .loading{display:inline-block}:host([loading]) .login-container .body .btn-login-mobile .loading{display:inline-block}:host([loading]) .login-container .body .btn-login-mobile rk-button *:not(.loading){display:none}:host([error]:not([error=""])) .login-container{animation-duration:.25s;animation-iteration-count:2;animation-name:shake;animation-timing-function:linear;transform-origin:center center}:host([error]:not([error=""])) .login-container .errors{display:block}@keyframes shake{0%{transform:translateX(0) rotate(0deg)}25%{transform:translateX(20px) rotate(3deg)}50%{transform:translateX(0px) rotate(0deg)}75%{transform:translateX(-20px) rotate(-3deg)}100%{transform:translateX(0px) rotate(0deg)}}@keyframes rotate{0%{transform:rotate(0deg)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}@media screen and (max-width: 1224px){:host .login-container{max-width:300px;width:calc(100% - 20px)}:host .login-container .body{align-items:center;flex-direction:column}:host .login-container .body .login-img-container{margin-bottom:20px;margin-top:0}:host .login-container .body .field-container{margin:0 20px;width:100%}:host .login-container .body .btn-login{display:none}:host .login-container .body .btn-login-mobile{display:inline-block}:host .login-container .errors{margin-top:20px;text-align:center}}`;
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'sso'() { return this.getStringProp('sso') }
+    set 'sso'(val) { this.setStringAttr('sso', val) }    get 'ssoProviders'() {
+						return this.__watch["ssoProviders"];
+					}
+					set 'ssoProviders'(val) {
+						this.__watch["ssoProviders"] = val;
+					}    __registerWatchesActions() {
+    this.__addWatchesActions("ssoProviders");    super.__registerWatchesActions();
+}
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("sso", ((target) => {
+    if (target.sso) {
+        try {
+            target.ssoProviders = JSON.parse(target.sso);
+            console.log(target.ssoProviders);
+        }
+        catch { }
+    }
+})); }
+    static __style = `:host{align-items:center;display:flex;height:100%;justify-content:center;left:0;position:absolute;top:0;width:100%}:host .login-container{background-color:rgba(25,25,25,.8);border-radius:5px;box-shadow:var(--elevation-10);box-sizing:border-box;display:flex;flex-direction:column;padding:20px;transform:perspective(1000px);width:372px;z-index:200}:host .login-container .body{display:flex}:host .login-container .body .login-img-container{height:75px;margin-top:12.5px;width:75px}:host .login-container .body .login-img-container rk-img{border-radius:50%;height:100%;width:100%}:host .login-container .body .field-container{margin-left:13px;width:200px}:host .login-container .body .field-container input,:host .login-container .body .field-container ::slotted(input){background-color:rgba(0,0,0,0);border:1px solid #fff;border-bottom:none;border-radius:0;color:#fff;cursor:default;height:30px;outline:none;padding:5px 5px;width:100%}:host .login-container .body .field-container input[readonly],:host .login-container .body .field-container ::slotted(input[readonly]){color:#c9c9c9}:host .login-container .body .field-container input:first-child{border-top-left-radius:3px;border-top-right-radius:3px}:host .login-container .body .field-container input:last-child,:host .login-container .body .field-container ::slotted(input:last-child){border-bottom:1px solid #fff;border-bottom-left-radius:3px;border-bottom-right-radius:3px}:host .login-container .body .field-container .sso-providers{align-items:center;display:flex;gap:10px;justify-content:center;margin-top:15px}:host .login-container .body .field-container .sso-providers[hide=true]{display:none}:host .login-container .body .btn-login{background-color:gray;border:1px solid #fff;border-radius:50%;color:#fff;cursor:pointer;font-size:20px;font-weight:bold;height:30px;line-height:28px;margin-left:13px;margin-top:35px;padding:3px;position:relative;text-align:center;transition:all 1s;width:30px}:host .login-container .body .btn-login .loading{animation:rotate 1s linear infinite;display:none;font-size:18px;transform-origin:center}:host .login-container .body .btn-login rk-img{height:100%}:host .login-container .body .btn-login-mobile{display:none;margin-top:20px;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .login-container .body .btn-login-mobile .loading{animation:rotate 1s linear infinite;display:none;font-size:18px;outline:none;transform-origin:center}:host .login-container .body .btn-login-mobile rk-button{background-color:rgba(0,0,0,0);border:1px solid #fff;box-shadow:none;font-size:13px;margin-top:20px;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);width:140px}:host .login-container .body .btn-login-mobile rk-button span{margin-right:5px}:host .login-container .body input[type=submit]{display:none}:host .login-container .errors{color:#ff5454;display:none;font-size:13px;margin-top:20px}:host([loading]) .login-container .body .btn-login mi-icon{display:none}:host([loading]) .login-container .body .btn-login .loading{display:inline-block}:host([loading]) .login-container .body .btn-login-mobile .loading{display:inline-block}:host([loading]) .login-container .body .btn-login-mobile rk-button *:not(.loading){display:none}:host([error]:not([error=""])) .login-container{animation-duration:.25s;animation-iteration-count:2;animation-name:shake;animation-timing-function:linear;transform-origin:center center}:host([error]:not([error=""])) .login-container .errors{display:block}@keyframes shake{0%{transform:translateX(0) rotate(0deg)}25%{transform:translateX(20px) rotate(3deg)}50%{transform:translateX(0px) rotate(0deg)}75%{transform:translateX(-20px) rotate(-3deg)}100%{transform:translateX(0px) rotate(0deg)}}@keyframes rotate{0%{transform:rotate(0deg)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}@media screen and (max-width: 1224px){:host .login-container{max-width:300px;width:calc(100% - 20px)}:host .login-container .body{align-items:center;flex-direction:column}:host .login-container .body .login-img-container{margin-bottom:20px;margin-top:0}:host .login-container .body .field-container{margin:0 20px;width:100%}:host .login-container .body .btn-login{display:none}:host .login-container .body .btn-login-mobile{display:inline-block}:host .login-container .errors{margin-top:20px;text-align:center}}`;
     __getStatic() {
         return Login;
     }
@@ -6900,7 +7880,7 @@ const Login = class Login extends Aventus.WebComponent {
     __getHtml() {
     this.__getStatic().__template.setHTML({
         slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<rk-blur src="/img/wp.png"></rk-blur><form class="login-container" _id="login_0">    <div class="body">        <div class="login-img-container">            <rk-img mode="stretch" _id="login_1"></rk-img>        </div>        <div class="field-container">            <input type="text" readonly="readonly" _id="login_2" />            <slot></slot>            <input type="text" name="username" placeholder="Nom d'utilisateur" _id="login_3" />            <input type="password" name="password" placeholder="Mot de passe" _id="login_4" />        </div>        <div class="btn-login">            <mi-icon icon="chevron_right" _id="login_5"></mi-icon>            <mi-icon class="loading" icon="progress_activity"></mi-icon>        </div>        <div class="btn-login-mobile">            <rk-button _id="login_6">                <span>Se connecter</span>                <mi-icon icon="chevron_right"></mi-icon>                <mi-icon class="loading" icon="progress_activity"></mi-icon>            </rk-button>        </div>        <input type="submit" value="sub" _id="login_7" />    </div>    <div class="errors" _id="login_8"></div></form>` }
+        blocks: { 'default':`<rk-blur src="/img/wp.png"></rk-blur><form class="login-container" _id="login_0">    <div class="body">        <div class="login-img-container">            <rk-img mode="stretch" _id="login_1"></rk-img>        </div>        <div class="field-container">            <input type="text" readonly="readonly" _id="login_2" />            <slot></slot>            <input type="text" name="username" placeholder="Nom d'utilisateur" _id="login_3" />            <input type="password" name="password" placeholder="Mot de passe" _id="login_4" />            <div class="sso-providers" _id="login_5">                <template _id="login_6"></template>            </div>        </div>        <div class="btn-login">            <mi-icon icon="chevron_right" _id="login_8"></mi-icon>            <mi-icon class="loading" icon="progress_activity"></mi-icon>        </div>        <div class="btn-login-mobile">            <rk-button _id="login_9">                <span>Se connecter</span>                <mi-icon icon="chevron_right"></mi-icon>                <mi-icon class="loading" icon="progress_activity"></mi-icon>            </rk-button>        </div>        <input type="submit" value="sub" _id="login_10" />    </div>    <div class="errors" _id="login_11"></div></form>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -6926,21 +7906,25 @@ const Login = class Login extends Aventus.WebComponent {
     {
       "name": "submitBtn",
       "ids": [
-        "login_7"
+        "login_10"
       ]
     }
   ],
   "content": {
     "login_1°src": {
-      "fct": (c) => `${c.print(c.comp.__16a0b4642da4b9340c7f134867b43d8dmethod0())}`,
-      "once": true
-    },
-    "login_2°value": {
       "fct": (c) => `${c.print(c.comp.__16a0b4642da4b9340c7f134867b43d8dmethod1())}`,
       "once": true
     },
-    "login_8°@HTML": {
+    "login_2°value": {
       "fct": (c) => `${c.print(c.comp.__16a0b4642da4b9340c7f134867b43d8dmethod2())}`,
+      "once": true
+    },
+    "login_5°hide": {
+      "fct": (c) => `${c.print(c.comp.__16a0b4642da4b9340c7f134867b43d8dmethod3())}`,
+      "once": true
+    },
+    "login_11°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__16a0b4642da4b9340c7f134867b43d8dmethod5())}`,
       "once": true
     }
   },
@@ -6967,21 +7951,34 @@ const Login = class Login extends Aventus.WebComponent {
     },
     {
       "eventName": "click",
-      "id": "login_5",
+      "id": "login_8",
       "fct": (e, c) => c.comp.validateForm(e)
     },
     {
       "eventName": "click",
-      "id": "login_6",
+      "id": "login_9",
       "fct": (e, c) => c.comp.validateForm(e)
     }
   ]
-}); }
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`                    <rk-sso-option _id="login_7"></rk-sso-option>                `);templ0.setActions({
+  "injection": [
+    {
+      "id": "login_7",
+      "injectionName": "provider",
+      "inject": (c) => c.comp.__16a0b4642da4b9340c7f134867b43d8dmethod4(c.data.provider),
+      "once": true
+    }
+  ]
+});this.__getStatic().__template.addLoop({
+                    anchorId: 'login_6',
+                    template: templ0,
+                simple:{data: "this.ssoProviders",item:"provider"}}); }
     getClassName() {
         return "Login";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('error')){ this['error'] = ""; }if(!this.hasAttribute('company')){ this['company'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading');this.__upgradeProperty('error');this.__upgradeProperty('company');this.__upgradeProperty('icon'); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('error')){ this['error'] = ""; }if(!this.hasAttribute('company')){ this['company'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('sso')){ this['sso'] = undefined; } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["ssoProviders"] = []; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading');this.__upgradeProperty('error');this.__upgradeProperty('company');this.__upgradeProperty('icon');this.__upgradeProperty('sso');this.__correctGetter('ssoProviders'); }
     __listBoolProps() { return ["loading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     loginAction(e) {
         e.preventDefault();
@@ -7053,7 +8050,9 @@ const Login = class Login extends Aventus.WebComponent {
             this.formEl.style.transform = "perspective(1000px) translateZ(" + Z + "px) rotateX(" + XAngle + "deg) rotateY(" + YAngle + "deg)";
         };
         if (Core.Lib.Platform.device == "pc") {
-            this.addEventListener("mousemove", (e) => onMove(e));
+            this.addEventListener("mousemove", (e) => {
+                onMove(e);
+            });
         }
         else {
             new Aventus.DragAndDrop({
@@ -7077,14 +8076,20 @@ const Login = class Login extends Aventus.WebComponent {
         this.appendChild(this.usernameEl);
         this.appendChild(this.passwordEl);
     }
-    __16a0b4642da4b9340c7f134867b43d8dmethod0() {
+    __16a0b4642da4b9340c7f134867b43d8dmethod1() {
         return this.icon;
     }
-    __16a0b4642da4b9340c7f134867b43d8dmethod1() {
+    __16a0b4642da4b9340c7f134867b43d8dmethod2() {
         return this.company;
     }
-    __16a0b4642da4b9340c7f134867b43d8dmethod2() {
+    __16a0b4642da4b9340c7f134867b43d8dmethod3() {
+        return this.ssoProviders.length == 0;
+    }
+    __16a0b4642da4b9340c7f134867b43d8dmethod5() {
         return this.error;
+    }
+    __16a0b4642da4b9340c7f134867b43d8dmethod4(provider) {
+        return provider;
     }
 }
 Login.Namespace=`Core`;

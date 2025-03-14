@@ -1,0 +1,15 @@
+<label for="input">{{ this.label }}</label>
+<div class="input">
+    <div class="preview" @element="previewEl" @press="clickFile">
+        <rk-img src="{{ this.previewUri }}"></rk-img>
+        <mi-icon icon="close" class="remove" @press="deleteFile"></mi-icon>
+    </div>
+    <input id="input" type="file" style="display:none" @element="inputFileEl" @change="updateFile" accept="image/png, image/gif, image/jpeg, image/webp, .svg" />
+</div>
+<div class="errors">
+    for(let error of this.errors) {
+        if(error){
+            <div>{{ error }}</div>
+        }
+    }
+</div>

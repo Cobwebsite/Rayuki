@@ -1,0 +1,15 @@
+import { SsoProvider } from '../Data/SsoProvider.lib.avt';
+import { CoreRouter } from '../CoreRouter.lib.avt';
+
+namespace Routes {
+
+	export class SsoProviderRouter extends AventusSharp.Routes.StorableRouter<SsoProvider> {
+		public constructor(router?: Aventus.HttpRouter) {
+			super(router ?? new CoreRouter());
+		}
+		public StorableName() {
+			return "SsoProvider";
+		}
+	}
+
+}

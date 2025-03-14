@@ -4,7 +4,7 @@ import { DesktopStateManager } from "../../../states/desktop/Desktop.state.avt";
 import { Desktop } from "../Desktop/Desktop.wcl.avt";
 import { AppIcon } from "../AppIcon/AppIcon.wcl.avt";
 import { HomeBtn } from "../HomeBtn/HomeBtn.wcl.avt";
-import { DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.data.avt";
+import { DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.lib.avt";
 import { DesktopActivableLogic, type IDesktopActivable } from "../Desktop/IActivable.lib.avt";
 import { DesktopRouter } from "../../../generated/Websocket/Routes/DesktopRouter.lib.avt";
 import { DesktopPermission, DesktopPermissionQuery } from "../../../generated/Permissions/DesktopPermission.lib.avt";

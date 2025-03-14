@@ -1,10 +1,11 @@
 import type { ApplicationQueryFctResult } from "../../Application/ApplicationError.lib.avt";
 import type { Application } from "../../Application/Application.wcl.avt";
-import type { IPermissionQuery } from "../../../../libs/Permission.lib.avt";
+import { Permission, PermissionWatcher, type IPermission, type IPermissionQuery, type PermissionQuery, type PermissionQueryCst } from "../../../../libs/Permission.lib.avt";
 import type { ApplicationState } from "../../../../states/ApplicationState.state.avt";
+import { ActionGuard, sleep, Watcher, type Enum } from "Aventus@Main:Aventus.package.avt";
 
 namespace System {
-    export abstract class FrameNoScroll extends Aventus.WebComponent implements Aventus.DefaultComponent {
+    export abstract class FrameNoScroll extends Aventus.WebComponent implements Aventus.DefaultComponent, IPermission {
         //#region static
 
         //#endregion
@@ -31,6 +32,7 @@ namespace System {
         //#region constructor
         constructor() {
             super();
+            new PermissionWatcher(this);
             this.addFadeIn();
         }
         //#endregion
@@ -87,7 +89,7 @@ namespace System {
          * False will prevent showing
          * string or state will redirect to the page
          */
-        public can(state: Aventus.State): Aventus.Asyncable<boolean | ApplicationState | string> {
+        public allowState(state: Aventus.State): Aventus.Asyncable<boolean | ApplicationState | string> {
             return true;
         }
         public async show(state: Aventus.State): Promise<void> {
@@ -134,6 +136,11 @@ namespace System {
         public async executeWithLoading<X>(prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
             return this.application.executeWithLoading(prom);
         }
+
+        public can<T extends Enum>(query: IPermissionQuery | PermissionQueryCst<T>, value?: Aventus.EnumValue<T>, additionalInfo?: string): boolean {
+            return false;
+        }
+        public onPermissionSet<T extends Enum>(allow: boolean, query: PermissionQueryCst<T>, value: Aventus.EnumValue<T>, additionalInfo?: string) {}
 
         //#endregion
     }

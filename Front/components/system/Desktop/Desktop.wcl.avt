@@ -11,7 +11,7 @@ import type { ContextMenu, IContextMenu } from "../../ui/ContextMenu/ContextMenu
 import { MoveApplication, type MoveApplicationProvider } from "../../../states/desktop/MoveApplication.state.avt";
 import { DesktopStateManager } from "../../../states/desktop/Desktop.state.avt";
 import type { AppIcon } from "../AppIcon/AppIcon.wcl.avt";
-import { BackgroundSize, DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.data.avt";
+import { BackgroundSize, DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.lib.avt";
 import type { DesktopData } from "../../../libs/TypeMapper.lib.avt";
 import { ApplicationManager } from "../../../libs/ApplicationManager.lib.avt";
 import { Platform } from "../../../libs/Platform.lib.avt";

@@ -1,0 +1,83 @@
+:host {
+	--_input-image-height: var(--input-image-height, 30px);
+	--_input-image-font-size-label: var(--input-image-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));
+}
+
+:host {
+	label {
+		cursor: pointer;
+		display: none;
+		font-size: var(--_input-image-font-size-label);
+		margin-bottom: 5px;
+		margin-left: 3px;
+	}
+
+	.input {
+		align-items: center;
+		display: flex;
+		height: var(--_input-image-height);
+		padding: 0 10px;
+		width: 100%;
+
+		.preview {
+			aspect-ratio: 1;
+			height: 100%;
+			position: relative;
+
+			.remove {
+				background-color: var(--red);
+                color: var(--text-color-red);
+				border-radius: 50px;
+				box-shadow: var(--elevation-3);
+				cursor: pointer;
+				display: none;
+				font-size: var(--font-size-sm);
+				padding: 2px;
+				position: absolute;
+				right: 0;
+				top: 0;
+				transform: translate(50%, -50%);
+			}
+
+			rk-img {
+				height: 100%;
+				width: 100%;
+			}
+		}
+	}
+
+	.errors {
+		color: var(--red);
+		display: none;
+		font-size: var(--font-size-sm);
+		line-height: 1.1;
+		margin: 10px;
+		margin-bottom: 0px;
+
+		div {
+			margin: 5px 0;
+		}
+	}
+}
+
+:host([label]:not([label=""])) {
+	label {
+		display: flex;
+	}
+}
+
+:host([has_errors]) {
+	.errors {
+		display: block;
+	}
+}
+
+:host([show_delete]) {
+	.input {
+		.preview {
+			.remove {
+				display: inline-block;
+			}
+		}
+	}
+}

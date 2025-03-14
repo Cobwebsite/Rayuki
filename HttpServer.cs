@@ -1,13 +1,15 @@
-﻿using AventusSharp.Routes.Response;
+﻿using System.Reflection;
+using AventusSharp.Routes;
+using AventusSharp.Routes.Response;
 using AventusSharp.Scheduler;
 using AventusSharp.Tools;
 using AventusSharp.WebSocket;
 using Core.App;
 using Core.Data;
 using Core.Logic;
+using Core.Routes.Attributes;
 using Core.Tools;
 using Newtonsoft.Json.Linq;
-using WebPush;
 using RouterMiddleware = AventusSharp.Routes.RouterMiddleware;
 
 namespace Core
@@ -22,15 +24,15 @@ namespace Core
 
         public readonly static string PublicKey = "BHP2YbEJhQ2ysVHihL0dpuYzEJfPPcRViAGAcv0_mQ8a8BND8H_ErB6TUfZYG2co2k1i__cVfPkAHj0JMuJy89Q";
         private static string PrivateKey = "T5kkTj6AQx7-p8iqdUD7uzV98GU4Dg3VLF3k6lezD8o";
-        public static WebPushClient webPush = new();
+        // public static WebPushClient webPush = new();
 
         public static readonly int nbAppInDev = 2;
         public static readonly string Version = "1.0.17";
         public static readonly string BuildDate = "2025-01-09T09:22:14.701Z";
         public static bool resetStorage
         {
-            // get => false;
-            get => app.Environment.IsDevelopment();
+            get => false;
+            // get => app.Environment.IsDevelopment();
         }
 
         public static string wwwroot
@@ -39,8 +41,8 @@ namespace Core
         }
         public static bool IsDev
         {
-            // get => false;
-            get => app.Environment.IsDevelopment();
+            get => false;
+            // get => app.Environment.IsDevelopment();
         }
 
         public static bool IsAppManagement
@@ -88,7 +90,7 @@ namespace Core
         {
             if (!IsAppManagement)
             {
-                webPush.SetVapidDetails("http://localhost:5000", PublicKey, PrivateKey);
+                // webPush.SetVapidDetails("http://localhost:5000", PublicKey, PrivateKey);
                 _ = PdfTools.Init();
             }
             InitBuilder(args);
@@ -175,11 +177,13 @@ namespace Core
 
             // TODO : secure static files
             app.UseStaticFiles();
+
             app.Use(async (context, next) =>
             {
-                await LoginMiddleware(context, next);
+                RouterResolve? routerResolve = await RouterMiddleware.Resolve(context);
+                context.Items.Add("routerResolve", routerResolve);
+                await LoginMiddleware(context, next, routerResolve);
             });
-
 
             app.Use(async (context, next) =>
             {
@@ -187,16 +191,15 @@ namespace Core
                 await WebSocketMiddleware.OnRequest(context, next);
             });
 
-            //app.Use(WebSocketMiddleware.OnRequest);
-
-            app.UseRouting();
-
-            app.Use(async (context, next) =>
+            app.Use(async (HttpContext context, Func<Task> next) =>
             {
-                await TransactionManager.FilterQuery(context);
-                await RouterMiddleware.OnRequest(context, next);
+                RouterResolve? routerResolve = (RouterResolve?)context.Items["routerResolve"];
+                if (routerResolve != null)
+                {
+                    await TransactionManager.FilterQuery(context);
+                    await RouterMiddleware.OnRequest(context, routerResolve);
+                }
             });
-
 
             app.Run();
         }
@@ -316,7 +319,7 @@ namespace Core
             await next();
 
         }
-        private static async Task LoginMiddleware(HttpContext context, Func<Task> next)
+        private static async Task LoginMiddleware(HttpContext context, Func<Task> next, RouterResolve? routerResolve)
         {
             if (context.IsConnected())
             {
@@ -327,6 +330,20 @@ namespace Core
                 }
                 await next();
                 return;
+            }
+            if (routerResolve != null)
+            {
+                MethodInfo methodInfo = routerResolve.RouteInfo.action;
+                if (methodInfo.GetCustomAttribute<Public>() != null)
+                {
+                    await next();
+                    return;
+                }
+                if (methodInfo.DeclaringType?.GetCustomAttribute<Public>() != null)
+                {
+                    await next();
+                    return;
+                }
             }
             if (AppManager.LoginMiddleware(context))
             {
@@ -351,6 +368,7 @@ namespace Core
                     return;
                 }
             }
+
 
             await next();
 

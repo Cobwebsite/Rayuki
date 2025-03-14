@@ -1,7 +1,7 @@
 namespace Data.DataTypes {
 
 	@Convertible()
-	export class Pdf extends AventusSharp.Data.AventusFile  {
+	export class Pdf extends AventusSharp.Data.CustomTableMembers.AventusFile  {
 		public static override get Fullname(): string { return "Core.Data.DataTypes.Pdf, Core"; }
 		public Name: string = "";
 		public Html: string = "";

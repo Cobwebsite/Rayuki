@@ -17,6 +17,7 @@ namespace Permissions.Tree {
 		public EnumName: string = "";
 		public Value!: Aventus.Enum;
 		public PermissionId!: number;
+		public Position?: number = undefined;
 		public Permissions: PermissionTreeItem[] = [];
 	}
 

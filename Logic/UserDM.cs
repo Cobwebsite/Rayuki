@@ -12,57 +12,34 @@ namespace Core.Logic
     public class UserDM : DatabaseDM<UserDM, User>
     {
 
-        protected async override Task<VoidWithError> Initialize()
-        {
-            VoidWithError result = await base.Initialize();
-            CreateDefaultAdmin();
-            return result;
-        }
-
         protected string GetPictureDirPath(User user)
         {
             return Path.Combine(FileStorage.rootFolder, "Core", "users", user.Token);
         }
 
-        protected override List<GenericError> BeforeCreateWithError<X>(List<X> values)
-        {
-            List<GenericError> errors = base.BeforeCreateWithError(values);
-            foreach (X value in values)
-            {
-                value.Token = Guid.NewGuid().ToString().Replace("-", "");
-                errors.AddRange(value.Picture.ValidateAndSaveToDir(GetPictureDirPath(value), 1200, FileStorage.GetCore()).Errors);
-            }
-            return errors;
-        }
         protected override void BeforeCreate<X>(List<X> values)
         {
             base.BeforeCreate(values);
             foreach (X value in values)
             {
+                if (string.IsNullOrEmpty(value.Token))
+                {
+                    value.Token = Guid.NewGuid().ToString().Replace("-", "");
+                }
                 PasswordManager.HashPassword(value);
             }
         }
-
-        private void CreateDefaultAdmin()
+        protected override List<GenericError> AfterCreateWithError<X>(List<X> values, ResultWithError<List<X>> result)
         {
-            if (!User.Exist(u => u.IsSuperAdmin))
-            {
-                DefaultUserConfig result = HttpServer.DefaultUser;
-                new User()
-                {
-                    Firstname = result.Firstname,
-                    Lastname = result.Lastname,
-                    Password = result.Password,
-                    Username = result.Username,
-                    IsSuperAdmin = true,
-                }.Create();
-            }
+            List<GenericError> baseResult = base.AfterCreateWithError(values, result);
+
+            GroupDM.GetInstance().AssignDefaultGroup(values);
+            return baseResult;
         }
 
         public ResultWithError<User> UpdateBasicInfo(User user)
         {
             ResultWithError<User> result = new ResultWithError<User>();
-            result.Errors = user.Picture.ValidateAndSaveToDir(GetPictureDirPath(user), 1200, FileStorage.GetCore()).Errors;
             if (result.Errors.Count > 0)
             {
                 return result;

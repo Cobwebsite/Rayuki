@@ -17,6 +17,12 @@ namespace Core.Routes
             return PermissionDM.GetInstance().Can(context, permissionQuery.value, permissionQuery.additionalInfo);
         }
 
+        [Post]
+        public List<PermissionMultiple> CanMultiple(HttpContext context, List<IPermissionQuery> queries)
+        {
+            return PermissionDM.GetInstance().CanMultiple(context, queries);
+        }
+
         [Get]
         public List<PermissionTree> GetPermissionsTree()
         {

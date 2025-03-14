@@ -33,7 +33,7 @@ namespace Core.Tools
     public class ResultWithImageFileError<T> : ResultWithError<T, ImageFileError> { }
     public static class Image
     {
-        public static ResultWithImageFileError<string> Compress(string path, int maxSize)
+        public static ResultWithImageFileError<string> Compress(string path, int? maxHeight, int? maxWidth)
         {
             ResultWithImageFileError<string> result = new ResultWithImageFileError<string>();
             try
@@ -57,7 +57,7 @@ namespace Core.Tools
                 int sourceWidth = skImage.Width;
                 // Get the image current height
                 int sourceHeight = skImage.Height;
-                if (sourceHeight < maxSize && sourceWidth < maxSize)
+                if ((maxHeight == null || sourceHeight < maxHeight) && (maxWidth == null || sourceWidth < maxWidth))
                 {
                     result.Result = path;
                     return result;
@@ -66,8 +66,8 @@ namespace Core.Tools
                 float nPercentW = 0;
                 float nPercentH = 0;
                 // Calculate width and height with new desired size
-                nPercentW = (float)maxSize / (float)sourceWidth;
-                nPercentH = (float)maxSize / (float)sourceHeight;
+                nPercentW = maxWidth == null ? 1 : (float)maxWidth / (float)sourceWidth;
+                nPercentH = maxHeight == null ? 1 : (float)maxHeight / (float)sourceHeight;
                 nPercent = Math.Min(nPercentW, nPercentH);
                 // New Width and Height
                 int destWidth = (int)(sourceWidth * nPercent);

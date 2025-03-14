@@ -22,6 +22,7 @@ namespace Core.Permissions.Tree
         public string EnumName { get; set; } = "";
         public Enum Value { get; set; }
         public int PermissionId { get; set; }
+        public int? Position { get; set; }
         public List<PermissionTreeItem> Permissions { get; set; } = new List<PermissionTreeItem>();
     }
 }

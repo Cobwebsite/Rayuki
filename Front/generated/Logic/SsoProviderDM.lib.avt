@@ -1,0 +1,17 @@
+namespace Errors {
+
+	export enum SsoCode {
+		TokenFailed,
+		UserInfoFailed,
+		IdentifierNotFound,
+		NameNotFound,
+		PictureNotFound,
+		UserNotRegistered
+	}
+
+	@Convertible()
+	export class SsoError extends Aventus.GenericError<typeof SsoCode>  {
+		public static get Fullname(): string { return "Core.Logic.SsoError, Core"; }
+	}
+
+}

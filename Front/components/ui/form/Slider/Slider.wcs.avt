@@ -10,6 +10,7 @@
 	--_slider-font-size-label: var(--slider-font-size-label, var(--form-element-font-size-label));
 	--_slider-border-radius: var(--slider-border-radius, var(--form-element-border-radius));
 	--_slider-bar-height: var(--slider-bar-height, 5px);
+	--_slider-height: var(--slider-height, var(--input-height, 30px));
 
 
 	--local-slider-dot-percent: 0%;
@@ -19,7 +20,6 @@
 	align-items: center;
 	display: flex;
 	flex-direction: column;
-	height: var(--_slider-dot-size);
 	justify-content: center;
 	min-width: 100px;
 	width: 100%;
@@ -34,99 +34,110 @@
 		width: 100%;
 	}
 
-	.bar {
+	.input {
 		align-items: center;
-		background-color: var(--_slider-background-color);
-		background-image: var(--_slider-background-image);
-		background-position: var(--_slider-background-position);
-		background-size: var(--_slider-background-size);
-		border-radius: var(--_slider-border-radius);
-		cursor: pointer;
 		display: flex;
-		flex-direction: row;
-		flex-shrink: 0;
-		height: var(--_slider-bar-height);
-		position: relative;
 		width: 100%;
+		height: var(--_slider-height);
 
-		.bar-fill {
-			background-color: var(--_slider-active-background-color);
-			border-radius: var(--border-radius-round);
-			height: 100%;
-			left: 0;
-			pointer-events: all;
-			position: absolute;
-			top: 0;
-			transition: width var(--bezier-curve) 0.3s;
-			width: var(--local-slider-dot-percent);
-		}
-
-		.dot {
-			background-color: var(--_slider-dot-color);
-			border-radius: var(--border-radius-round);
-			box-shadow: var(--elevation-2);
-			cursor: pointer;
-			height: var(--_slider-dot-size);
-			left: var(--local-slider-dot-percent);
-			pointer-events: all;
-			position: absolute;
-			transform: translateX(-50%);
-			transition: left var(--bezier-curve) 0.3s, box-shadow var(--bezier-curve) 0.3s, background-color var(--bezier-curve) 0.3s;
-			width: var(--_slider-dot-size);
-			z-index: 10;
-		}
-
-		.value {
-			background-color: var(--_slider-dot-color);
+		.bar {
+			align-items: center;
+			background-color: var(--_slider-background-color);
+			background-image: var(--_slider-background-image);
+			background-position: var(--_slider-background-position);
+			background-size: var(--_slider-background-size);
 			border-radius: var(--_slider-border-radius);
-			box-shadow: var(--elevation-2);
-			font-size: var(--_slider-popup-font-size);
-			left: var(--local-slider-dot-percent);
-			opacity: 0;
-			padding: 5px 10px;
-			padding-bottom: 2px;
-			position: absolute;
-			top: 0;
-			transform: translateY(calc(-100% - 12px)) translateX(-50%);
-			transform-origin: center center;
-			transition: left var(--bezier-curve) 0.3s, opacity var(--bezier-curve) 0.3s, visibility var(--bezier-curve) 0.3s;
-			visibility: hidden;
+			cursor: pointer;
+			display: flex;
+			flex-direction: row;
+			flex-shrink: 0;
+			height: var(--_slider-bar-height);
+			position: relative;
+			width: 100%;
 
-			&::after {
-				border-left: 6px solid transparent;
-				border-right: 6px solid transparent;
-				border-top: 8px solid var(--_slider-dot-color);
-				bottom: -7px;
-				content: "";
-				left: 50%;
+			.bar-fill {
+				background-color: var(--_slider-active-background-color);
+				border-radius: var(--border-radius-round);
+				height: 100%;
+				left: 0;
+				pointer-events: all;
+				position: absolute;
+				top: 0;
+				transition: width var(--bezier-curve) 0.3s;
+				width: var(--local-slider-dot-percent);
+			}
+
+			.dot {
+				background-color: var(--_slider-dot-color);
+				border-radius: var(--border-radius-round);
+				box-shadow: var(--elevation-2);
+				cursor: pointer;
+				height: var(--_slider-dot-size);
+				left: var(--local-slider-dot-percent);
+				pointer-events: all;
 				position: absolute;
 				transform: translateX(-50%);
+				transition: left var(--bezier-curve) 0.3s, box-shadow var(--bezier-curve) 0.3s, background-color var(--bezier-curve) 0.3s;
+				width: var(--_slider-dot-size);
+				z-index: 10;
+			}
+
+			.value {
+				background-color: var(--_slider-dot-color);
+				border-radius: var(--_slider-border-radius);
+				box-shadow: var(--elevation-2);
+				font-size: var(--_slider-popup-font-size);
+				left: var(--local-slider-dot-percent);
+				opacity: 0;
+				padding: 5px 10px;
+				padding-bottom: 2px;
+				position: absolute;
+				top: 0;
+				transform: translateY(calc(-100% - 12px)) translateX(-50%);
+				transform-origin: center center;
+				transition: left var(--bezier-curve) 0.3s, opacity var(--bezier-curve) 0.3s, visibility var(--bezier-curve) 0.3s;
+				visibility: hidden;
+
+				&::after {
+					border-left: 6px solid transparent;
+					border-right: 6px solid transparent;
+					border-top: 8px solid var(--_slider-dot-color);
+					bottom: -7px;
+					content: "";
+					left: 50%;
+					position: absolute;
+					transform: translateX(-50%);
+				}
 			}
 		}
 	}
 }
 
 :host([no_transition]) {
-	.bar {
-		.bar-fill {
-			transition: none;
-		}
+	.input {
+		.bar {
+			.bar-fill {
+				transition: none;
+			}
 
-		.dot {
-			transition: none;
-		}
+			.dot {
+				transition: none;
+			}
 
-		.value {
-			transition: opacity var(--bezier-curve) 0.3s, visibility var(--bezier-curve) 0.3s;
+			.value {
+				transition: opacity var(--bezier-curve) 0.3s, visibility var(--bezier-curve) 0.3s;
+			}
 		}
 	}
 }
 
 :host([popup_visible]) {
-	.bar {
-		.value {
-			opacity: 1;
-			visibility: visible;
+	.input {
+		.bar {
+			.value {
+				opacity: 1;
+				visibility: visible;
+			}
 		}
 	}
 }

@@ -1,0 +1,116 @@
+import type { ImageFile } from "../../../../generated/Data/DataTypes/ImageFile.lib.avt";
+import { FormElement } from "../FormElement/FormElement.wcl.avt";
+
+namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
+    export class InputImage extends FormElement<ImageFile<any>> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property()
+        public label?: string;
+        @Property()
+        public default_preview: string = "/img/icons/default_img.svg";
+        @Property()
+        public no_default_preview!: boolean;
+        @Attribute()
+        public deletable: boolean = true;
+
+        @Attribute()
+        protected show_delete!: boolean;
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected previewEl!: HTMLDivElement;
+        @ViewElement()
+        protected inputFileEl!: HTMLInputElement;
+
+        /**
+        * Value for the current form element
+        */
+        @Watch((target: InputImage) => {
+            target.setPreview();
+        })
+        public override value: ImageFile<any> | undefined;
+
+        @Watch()
+        public previewUri?: string;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+
+        protected setPreview() {
+            if(!this.value?.Uri) {
+                this.previewUri = this.no_default_preview ? '' : this.default_preview;
+            }
+            else {
+                this.previewUri = this.value.Uri;
+                if(this.deletable) {
+                    this.show_delete = true;
+                }
+            }
+        }
+
+        /**
+         * 
+         */
+        protected updateFile() {
+            if(!this.value) return;
+            this.errors = [];
+            if(this.inputFileEl.files && this.inputFileEl.files.length > 0) {
+                this.value.Upload = this.inputFileEl.files[0];
+                this.previewUri = URL.createObjectURL(this.inputFileEl.files[0]);
+                if(this.deletable) {
+                    this.show_delete = true;
+                }
+            }
+            else {
+                this.value.Upload = undefined;
+                this.previewUri = this.default_preview;
+                this.show_delete = false;
+            }
+
+            this.onChange.trigger(this.value);
+            if(this.formPart) {
+                this.formPart.value.set(this.value);
+            }
+        }
+
+        /**
+         * 
+         */
+        protected deleteFile() {
+            this.inputFileEl.value = '';
+            this.updateFile();
+        }
+
+        /**
+         * 
+         */
+        protected clickFile() {
+            this.errors = [];
+            this.inputFileEl.click();
+        }
+
+        protected override postCreation(): void {
+            this.setPreview();
+        }
+        //#endregion
+
+    }
+}

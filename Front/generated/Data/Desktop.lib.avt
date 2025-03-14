@@ -13,9 +13,11 @@ namespace Data {
 	export class Desktop extends AventusSharp.Data.Storable implements Aventus.IData {
 		public static override get Fullname(): string { return "Core.Data.Desktop, Core"; }
 		public Name!: string;
+		private _Token!: string;
 		public Token!: string;
 		public UserId?: number = undefined;
-		public Configuration: DekstopConfiguration = new DekstopConfiguration();
+		private _Configuration: DekstopConfiguration = new DekstopConfiguration();
+		public Configuration!: DekstopConfiguration;
 		public Icons: DesktopAppIcon[] = [];
 		public Applications: ApplicationOpen[] = [];
 	}
@@ -23,7 +25,7 @@ namespace Data {
 	@Convertible()
 	export class DekstopConfiguration extends AventusSharp.Data.Storable implements Aventus.IData {
 		public static override get Fullname(): string { return "Core.Data.DekstopConfiguration, Core"; }
-		public Background!: ImageFile;
+		public Background!: DesktopBackground;
 		public BackgroundSize: BackgroundSize = BackgroundSize.Cover;
 		public SyncDesktop: boolean = false;
 		public SizeMobile: number = 85;
@@ -36,6 +38,11 @@ namespace Data {
 		Desktop,
 		BottomBar,
 		HomeFav
+	}
+
+	@Convertible()
+	export class DesktopBackground extends ImageFile<DekstopConfiguration>  {
+		public static get Fullname(): string { return "Core.Data.DesktopBackground, Core"; }
 	}
 
 	@Convertible()

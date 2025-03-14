@@ -28,10 +28,12 @@
 			.login-img-container {
 				height: 75px;
 				margin-top: 12.5px;
+				width: 75px;
 
 				rk-img {
 					border-radius: 50%;
 					height: 100%;
+					width: 100%;
 				}
 			}
 
@@ -68,6 +70,18 @@
 					border-bottom: 1px solid white;
 					border-bottom-left-radius: 3px;
 					border-bottom-right-radius: 3px;
+				}
+
+				.sso-providers {
+					align-items: center;
+					display: flex;
+					gap: 10px;
+					justify-content: center;
+					margin-top: 15px;
+				}
+
+				.sso-providers[hide="true"] {
+					display: none;
 				}
 			}
 
@@ -126,6 +140,7 @@
 					outline: none;
 					-webkit-tap-highlight-color: transparent;
 					width: 140px;
+
 					span {
 						margin-right: 5px;
 					}
@@ -153,6 +168,7 @@
 				mi-icon {
 					display: none;
 				}
+
 				.loading {
 					display: inline-block;
 				}

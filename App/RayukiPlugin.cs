@@ -5,7 +5,7 @@ namespace Core.App
 {
     public abstract class RayukiPlugin
     {
-        internal Action<Type, PermissionDescription?> action;
+        internal List<Type> permissions;
         public virtual Task OnStart()
         {
             return Task.CompletedTask;

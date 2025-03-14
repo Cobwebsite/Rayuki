@@ -1,5 +1,6 @@
 import { PermissionGroup } from '../Data/PermissionGroup.data.avt';
 import { PermissionUser } from '../Data/PermissionUser.data.avt';
+import { type IPermissionQuery } from '../../libs/Permission.lib.avt';
 
 namespace Permissions {
 
@@ -8,6 +9,13 @@ namespace Permissions {
 		public static get Fullname(): string { return "Core.Logic.PermissionForUser, Core"; }
 		public permissionGroups: PermissionGroup[] = [];
 		public permissionUsers: PermissionUser[] = [];
+	}
+
+	@Convertible()
+	export class PermissionMultiple extends AventusSharp.Data.SharpClass  {
+		public static get Fullname(): string { return "Core.Logic.PermissionMultiple, Core"; }
+		public Query!: IPermissionQuery;
+		public Allow!: boolean;
 	}
 
 }

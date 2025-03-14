@@ -17,7 +17,7 @@ namespace Core.Logic
         Unknown,
         NotConnected
     }
-    
+
     [Export("Errors")]
     public class LoginError : GenericError<LoginCode>
     {
@@ -30,21 +30,25 @@ namespace Core.Logic
     {
         private static readonly PasswordHasher<User> hasher = new PasswordHasher<User>();
 
-       
+
         public static void HashPassword(User user)
         {
-            user.Password = hasher.HashPassword(user, user.Password);
+            if (user.Password != null)
+            {
+                user.Password = hasher.HashPassword(user, user.Password);
+            }
         }
 
         public static PasswordVerificationResult VerifyHashedPassword(User user, string providedPassword)
         {
+            if (user.Password == null) return PasswordVerificationResult.Failed;
             return hasher.VerifyHashedPassword(user, user.Password, providedPassword);
         }
 
 
         public static ResultWithError<User> Login(string username, string password)
         {
-            ResultWithError<User> result = new ();
+            ResultWithError<User> result = new();
             ResultWithError<User> userQuery = User.SingleWithError(user => user.Username == username);
             if (!userQuery.Success)
             {
@@ -58,7 +62,7 @@ namespace Core.Logic
             }
 
             User user = userQuery.Result;
-            if(VerifyHashedPassword(user, password) == PasswordVerificationResult.Failed)
+            if (VerifyHashedPassword(user, password) == PasswordVerificationResult.Failed)
             {
                 result.Errors.Add(new LoginError(LoginCode.WrongCredentials, "Username and password doesn't match"));
                 return result;

@@ -15,6 +15,14 @@ namespace Routes {
 		}
 
 		@BindThis()
+		public async LoginSso(body: { ssoId: number } | FormData): Promise<AventusSharp.Tools.ResultWithError<string | string>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/login/sso`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = string | string;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
 		public async Logout(): Promise<AventusSharp.Tools.VoidWithError> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/logout`, Aventus.HttpMethod.POST);
 			return await request.queryVoid(this.router);
@@ -25,19 +33,6 @@ namespace Routes {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/vapidPublicKey`, Aventus.HttpMethod.GET);
 			type TypeResult = string;
 			return await request.queryJSON<TypeResult>(this.router);
-		}
-
-		@BindThis()
-		public async Register(body: { subscription: PushSubscription } | FormData): Promise<AventusSharp.Tools.VoidWithError> {
-			const request = new Aventus.HttpRequest(`${this.getPrefix()}/register`, Aventus.HttpMethod.POST);
-			request.setBody(body);
-			return await request.queryVoid(this.router);
-		}
-
-		@BindThis()
-		public async SendNotification(): Promise<AventusSharp.Tools.VoidWithError> {
-			const request = new Aventus.HttpRequest(`${this.getPrefix()}/sendNotification`, Aventus.HttpMethod.GET);
-			return await request.queryVoid(this.router);
 		}
 
 		@BindThis()

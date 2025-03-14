@@ -1,4 +1,4 @@
-import { User } from './User.data.avt';
+import { User } from './User.lib.avt';
 
 namespace Data {
 
@@ -7,6 +7,7 @@ namespace Data {
 		public static override get Fullname(): string { return "Core.Data.Group, Core"; }
 		public Name: string = "";
 		public Description: string = "";
+		public AssignationAuto: boolean = false;
 		public Users: User[] = [];
 	}
 

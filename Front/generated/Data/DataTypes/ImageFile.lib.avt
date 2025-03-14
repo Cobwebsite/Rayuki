@@ -1,8 +1,9 @@
+import { GenericFile } from './GenericFile.lib.avt';
+
 namespace Data.DataTypes {
 
-	@Convertible()
-	export class ImageFile extends AventusSharp.Data.AventusFile  {
-		public static override get Fullname(): string { return "Core.Data.DataTypes.ImageFile, Core"; }
+	export abstract class ImageFile<T extends Aventus.IData> extends GenericFile<T>  {
+
 	}
 
 }

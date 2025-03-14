@@ -8,10 +8,16 @@ namespace Data {
 		public Firstname: string = "";
 		public Lastname: string = "";
 		public Username: string = "";
-		public Password: string = "";
+		public Password?: string = undefined;
 		public Token: string = "";
-		public Picture: ImageFile = new ImageFile();
+		public Picture: UserPicture = new UserPicture();
 		public IsSuperAdmin: boolean = false;
+		public SsoProviderId?: number = undefined;
+	}
+
+	@Convertible()
+	export class UserPicture extends ImageFile<User>  {
+		public static get Fullname(): string { return "Core.Data.UserPicture, Core"; }
 	}
 
 }

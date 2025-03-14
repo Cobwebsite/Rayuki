@@ -1,4 +1,7 @@
+import { Os } from "../components/system/Os/Os.wcl.avt";
 import { PwaPromptIos } from "../components/system/PwaPrompt/PwaPromptIos/PwaPromptIos.wcl.avt";
+import { Notification } from "../components/ui/popup/Notification/Notification.wcl.avt";
+import { NotificationManager } from "../components/ui/popup/NotificationManager/NotificationManager.wcl.avt";
 import { Platform } from "./Platform.lib.avt";
 
 namespace Lib {
@@ -43,6 +46,14 @@ namespace Lib {
                 let result = this.onInit.trigger();
                 this.isInit = true;
             }
+
+            // if(Platform.isStandalone && Platform.device == "pc") {
+            //     const notification = Notification.create({
+            //         title: "Passer en pleine écran",
+            //         delay: 3000
+            //     })
+            //     Os.instance.notify(notification);
+            // }
 
             if(this.isInit) {
                 window.addEventListener('appinstalled', async (evt) => {

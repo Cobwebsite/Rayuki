@@ -172,7 +172,6 @@ namespace Core.Logic
             foreach (X value in values)
             {
                 value.Token = Guid.NewGuid().ToString().Replace("-", "");
-                value.Configuration.Background.ValidateAndSaveToDir(GetPictureDirPath(value), 1200, FileStorage.GetCore());
             }
             return result;
         }
@@ -187,7 +186,6 @@ namespace Core.Logic
                 {
                     openApplications.Remove(value.Id);
                 }
-                result.AddRange(value.Configuration.Background.ValidateAndSaveToDir(GetPictureDirPath(value), 1200, FileStorage.GetCore()).Errors);
             }
             return result;
 

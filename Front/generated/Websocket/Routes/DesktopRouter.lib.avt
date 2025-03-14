@@ -1,5 +1,5 @@
 import { ApplicationOpenInfo } from '../../Data/ApplicationOpen.lib.avt';
-import { DesktopAppIcon } from '../../Data/Desktop.data.avt';
+import { DesktopAppIcon } from '../../Data/Desktop.lib.avt';
 import { MainEndPoint } from '../MainEndPoint.lib.avt';
 
 namespace Websocket.Routes {

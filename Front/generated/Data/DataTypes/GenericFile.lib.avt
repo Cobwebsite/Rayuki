@@ -1,0 +1,17 @@
+namespace Data.DataTypes {
+
+	export abstract class GenericFile<T extends Aventus.IData> extends AventusSharp.Data.CustomTableMembers.GenericFile<T>  {
+
+	}
+
+	export enum FileErrorCode {
+		InvalidUri,
+		DownloadFailed
+	}
+
+	@Convertible()
+	export class FileError extends Aventus.GenericError<typeof FileErrorCode>  {
+		public static get Fullname(): string { return "Core.Data.DataTypes.FileError, Core"; }
+	}
+
+}

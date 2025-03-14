@@ -1,5 +1,5 @@
+import { ActionGuard, Callback, Mutex, Watcher, type Asyncable, type Enum, type EnumValue } from "Aventus@Main:Aventus.package.avt";
 import { PermissionRouter } from "../generated/Routes/PermissionRouter.lib.avt";
-import { CoreRouter } from "../generated/CoreRouter.lib.avt";
 
 namespace Permissions {
     @Storybook({
@@ -16,17 +16,19 @@ namespace Permissions {
     export class Permission {
 
         private static saved: { [key: string]: boolean; } = {};
+        private static waitings: IPermissionQuery[] = [];
+        private static cbs: {[key:string]: ((value:boolean) => void)[]} = {};
+        private static timeout?:number;
+        private static isAsking:Mutex = new Mutex();
 
         public static async can(query: IPermissionQuery): Promise<boolean> {
             if(!query.additionalInfo) {
                 query.additionalInfo = "";
             }
-
             let key = query.$type + "$" + query.value + "$" + query.additionalInfo;
             if(Object.keys(this.saved).includes(key)) {
                 return this.saved[key];
             }
-
             let response = await new PermissionRouter().Can({ permissionQuery: query });
             if(response.success && response.result !== undefined) {
                 this.saved[key] = response.result;
@@ -35,8 +37,64 @@ namespace Permissions {
             else {
                 console.log(response.errors);
             }
-
             return false;
+        }
+
+        public static async canDelay(query: IPermissionQuery): Promise<boolean> {
+            return new Promise<boolean>(async (resolve) => {
+                if(!query.additionalInfo) {
+                    query.additionalInfo = "";
+                }
+                let key = query.$type + "$" + query.value + "$" + query.additionalInfo;
+                if(Object.keys(this.saved).includes(key)) {
+                    resolve(this.saved[key]);
+                }
+                else {
+                    await this.isAsking.waitOne();
+                    if(this.cbs[key]) {
+                        this.cbs[key].push(resolve);
+                    }
+                    else {
+                        this.waitings.push(query);
+                        this.cbs[key] = [resolve];
+                        if(!this.timeout) {
+                            this.timeout = setTimeout(() => {
+                                this.askServer();
+                            }, 100)
+                        }
+                    }
+                    this.isAsking.release();
+                }
+            })
+        }
+
+           
+               
+        private static async askServer(): Promise<void> {
+            await this.isAsking.waitOne();
+            try {
+                if(this.waitings.length > 0) {
+                    let response = await new PermissionRouter().CanMultiple({ queries: this.waitings });
+                    this.waitings = [];
+                    if(response.success && response.result !== undefined) {
+                        for(let item of response.result) {
+                            let key = item.Query.$type + "$" + item.Query.value + "$" + item.Query.additionalInfo;
+                            this.saved[key] = item.Allow;
+                            for(let cb of this.cbs[key]) {
+                                cb(item.Allow);
+                            }
+                        }
+                    }
+                    else {
+                        console.log(response.errors);
+                    }
+                }
+            } catch {
+                
+            }
+            this.timeout = undefined;
+            this.cbs = {};
+            this.isAsking.release();
         }
 
         public static clear() {
@@ -56,6 +114,72 @@ namespace Permissions {
             this.$type = this.constructor['Fullname'];
             this.value = value;
             this.additionalInfo = additionalInfo;
+        }
+    }
+
+    export type PermissionQueryCst<T extends Aventus.Enum> = new (value: Aventus.EnumValue<T>, additionalInfo?: string) => PermissionQuery<T>;
+
+    /**
+     * Allow query permission on a webcomponent
+     * 
+     * Just return false inside the `can` method 
+     * Inside the constructor add `new PermissionWatcher(this)`
+     */
+    export interface IPermission {
+        can<T extends Enum>(query: IPermissionQuery|PermissionQueryCst<T>, value?: Aventus.EnumValue<T>, additionalInfo?: string): boolean;
+        onPermissionSet<T extends Enum>(allow: boolean, query: PermissionQueryCst<T>, value: Aventus.EnumValue<T>, additionalInfo?: string): Asyncable<void>;
+    }
+    export class PermissionWatcher {
+        private __permissions?: { [key: string]: boolean; };
+        private component?: IPermission;
+        public onPermissionSet:Callback<<T extends Enum>(allow: boolean, query: PermissionQueryCst<T>, value: Aventus.EnumValue<T>, additionalInfo?: string) => void> = new Callback();
+        public constructor(component?: IPermission) {
+            if(component) {
+                component.can = this.can.bind(this);
+            }
+            this.component = component;
+        }
+
+        /**
+         * Put the code `return false` or let the throw error
+         * This function will be override when you add `new PermissionWatcher(this)` inside the constructor
+         */
+        public can(query: IPermissionQuery): boolean;
+        public can<T extends Enum>(query: PermissionQueryCst<T>, value: Aventus.EnumValue<T>, additionalInfo?: string): boolean;
+        public can<T extends Enum>(query: IPermissionQuery|PermissionQueryCst<T>, value?: Aventus.EnumValue<T>, additionalInfo?: string): boolean {
+            if(!this.__permissions) {
+                this.__permissions = Watcher.get({}) as { [key: string]: boolean; };
+            }
+            const perms = this.__permissions;
+            let iperm:IPermissionQuery;
+            let cst:PermissionQueryCst<T>;
+            if(value !== undefined) {
+                const temp = query as PermissionQueryCst<T>;
+                cst = temp;
+                iperm = new temp(value, additionalInfo);
+            }
+            else {
+                iperm = query as IPermissionQuery;
+                cst = iperm.constructor as PermissionQueryCst<T>;
+                value = iperm.value as EnumValue<T> | undefined;
+            }
+            const key = iperm.$type + "°" + value;
+            if(Object.hasOwn(perms, key)) {
+                return perms[key];
+            }
+            perms[key] = false;
+
+            Permission.canDelay(iperm).then(async (result) => {
+                perms[key] = result;
+                this._onPermissionSet(result, cst, value!, additionalInfo);
+            });
+            return perms[key];
+        }
+        protected _onPermissionSet<T extends Enum>(allow: boolean, query: PermissionQueryCst<T>, value: Aventus.EnumValue<T>, additionalInfo?: string): Asyncable<void> {
+            if(this.component)
+                this.component.onPermissionSet(allow, query, value, additionalInfo);
+
+            this.onPermissionSet.trigger(allow, query as any, value, additionalInfo)
         }
     }
 }

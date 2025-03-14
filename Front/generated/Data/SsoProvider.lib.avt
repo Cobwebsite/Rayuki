@@ -1,0 +1,26 @@
+import { ImageFile } from './DataTypes/ImageFile.lib.avt';
+
+namespace Data {
+
+	@Convertible()
+	export class SsoProvider extends AventusSharp.Data.Storable implements Aventus.IData {
+		public static override get Fullname(): string { return "Core.Data.SsoProvider, Core"; }
+		public Name!: string;
+		public Logo!: SsoLogo;
+		public ClientId!: string;
+		public ClientSecret!: string;
+		public AuthorizationEndpoint!: string;
+		public TokenEndpoint!: string;
+		public UserInfoEndpoint!: string;
+		public UserIdentifier!: string;
+		public UserName!: string;
+		public UserPicture?: string = undefined;
+		public AutoCreateUser!: boolean;
+	}
+
+	@Convertible()
+	export class SsoLogo extends ImageFile<SsoProvider>  {
+		public static get Fullname(): string { return "Core.Data.SsoLogo, Core"; }
+	}
+
+}

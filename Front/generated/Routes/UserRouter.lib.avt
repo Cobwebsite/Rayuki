@@ -1,4 +1,4 @@
-import { User } from '../Data/User.data.avt';
+import { User } from '../Data/User.lib.avt';
 import { CoreRouter } from '../CoreRouter.lib.avt';
 
 namespace Routes {

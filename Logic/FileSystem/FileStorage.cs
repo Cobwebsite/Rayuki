@@ -1,5 +1,5 @@
 using System.Text;
-using AventusSharp.Data;
+using AventusSharp.Data.CustomTableMembers;
 using AventusSharp.Tools;
 using Path = System.IO.Path;
 
@@ -117,7 +117,7 @@ namespace Core.Logic.FileSystem
             return await Storage.SetTxt(GetPath(uri), text);
         }
 
-        public ResultWithError<bool> SetFile(string uri, AventusFile file)
+        public ResultWithError<bool> SetFile(string uri, IGenericFile file)
         {
             ResultWithError<bool> result = new();
             result.Run(() => CheckPath(uri));
@@ -301,7 +301,7 @@ namespace Core.Logic.FileSystem
         {
             return await Set(uri, Encoding.UTF8.GetBytes(txt));
         }
-        public static ResultWithError<bool> SetFile(string uri, AventusFile file)
+        public static ResultWithError<bool> SetFile(string uri, IGenericFile file)
         {
             uri = CorrectUri(uri);
             ResultWithError<bool> result = new ResultWithError<bool>();
@@ -313,7 +313,18 @@ namespace Core.Logic.FileSystem
             uri = Path.GetFullPath(Path.Combine(rootFolder, uri));
             try
             {
-                result.Execute(() => file.SaveToFileOnUpload(uri));
+                result.Execute(() =>
+                {
+                    ResultWithError<bool> resultTemp = new ResultWithError<bool>();
+
+                    if (file.Upload == null)
+                    {
+                        resultTemp.Result = true;
+                        return resultTemp;
+                    }
+
+                    return file.Upload.MoveWithError(uri).ToGeneric();
+                });
             }
             catch (Exception e)
             {

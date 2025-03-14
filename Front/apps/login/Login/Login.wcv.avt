@@ -11,6 +11,11 @@
                 @focus="clearError" />
             <input type="password" @element="passwordEl" @keyup="checkEnter" name="password" placeholder="Mot de passe"
                 @focus="clearError" />
+            <div class="sso-providers" hide="{{this.ssoProviders.length == 0}}">
+                for(let provider of this.ssoProviders) {
+                    <rk-sso-option :provider="provider"></rk-sso-option>
+                }
+            </div>
         </div>
         <div class="btn-login">
             <mi-icon icon="chevron_right" @click="validateForm"></mi-icon>

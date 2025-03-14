@@ -6,7 +6,13 @@ namespace Data {
 	export class Company extends AventusSharp.Data.Storable implements Aventus.IData {
 		public static override get Fullname(): string { return "Core.Data.Company, Core"; }
 		public Name: string = "";
-		public Logo: ImageFile = new ImageFile();
+		public Logo: CompanyImage = new CompanyImage();
+		public Version: number = 0;
+	}
+
+	@Convertible()
+	export class CompanyImage extends ImageFile<Company>  {
+		public static get Fullname(): string { return "Core.Data.CompanyImage, Core"; }
 	}
 
 }

@@ -1,0 +1,87 @@
+import { CheckboxItem } from "../CheckboxItem/CheckboxItem.wcl.avt";
+import { FormElement } from "../FormElement/FormElement.wcl.avt";
+
+namespace Components {
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
+    export class CheckboxGroup<T> extends FormElement<T> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property()
+        public multiple!: boolean;
+        //#endregion
+
+
+        //#region variables
+        @Watch((target: CheckboxGroup<T>) => {
+            target.onValueSet();
+        })
+        public override value: T | undefined;
+
+        protected options: CheckboxItem<T>[] = [];
+
+        protected selectedOption?: CheckboxItem<T>;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        protected loadCheckbox() {
+            const elements = this.getElementsInSlot();
+            const options: CheckboxItem<T>[] = [];
+            for(let element of elements) {
+                if(element instanceof CheckboxItem) {
+                    options.push(element);
+                    if(element.value == this.value) {
+                        element.checked = true;
+                        this.selectedOption = element;
+                    }
+                    element.onChange.remove(this.onChangeValue);
+                    element.onChange.add(this.onChangeValue);
+                }
+            }
+            this.options = options;
+
+        }
+        protected onValueSet() {
+            // select
+            let selected: CheckboxItem<T> | undefined = undefined;
+            for(let option of this.options) {
+                if(option.value == this.value) {
+                    selected = option;
+                    break;
+                }
+            }
+            if(this.selectedOption) {
+                this.selectedOption.checked = false;
+            }
+            this.selectedOption = selected;
+            if(this.selectedOption) {
+                this.selectedOption.checked = true;
+            }
+        }
+
+        @BindThis()
+        protected onChangeValue(value: T | undefined) {
+            this.value = value;
+        }
+
+        protected override postCreation(): void {
+            super.postCreation();
+            this.loadCheckbox();
+        }
+        //#endregion
+
+    }
+}

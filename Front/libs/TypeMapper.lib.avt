@@ -1,4 +1,4 @@
-import type { Desktop } from "../generated/Data/Desktop.data.avt";
+import type { Desktop } from "../generated/Data/Desktop.lib.avt";
 
 namespace Data {
     export type DesktopData = Desktop;

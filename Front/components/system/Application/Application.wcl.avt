@@ -26,6 +26,7 @@ import type { FrameNoScroll } from "../Frame/FrameNoScroll/FrameNoScroll.wcl.avt
 import { MainRouter } from "../../../generated/Routes/MainRouter.lib.avt";
 import { TransactionManager } from "../../../libs/TransactionManager.lib.avt";
 import { CoreError, CoreErrorCode } from "../../../generated/Tools/CoreErrors.lib.avt";
+import { Permission, type IPermissionQuery } from "../../../libs/Permission.lib.avt";
 
 namespace System {
     @Storybook({
@@ -35,6 +36,7 @@ namespace System {
         route: string,
         scriptUrl: string,
         render: () => new () => FrameNoScroll;
+        permissions?: IPermissionQuery | IPermissionQuery[];
     };
     @Storybook({
         export: 'protected'
@@ -130,7 +132,7 @@ namespace System {
         private afterTransitionCb: (() => void)[] = [];
         protected shortcutManager: ApplicationShortcut;
         public version: number = 0;
-        private isRegistered:boolean = false;
+        private isRegistered: boolean = false;
         //#endregion
 
 
@@ -233,21 +235,22 @@ namespace System {
         /**
          * Adds a route.
          */
-        protected addRoute(route: string, frame: new () => FrameNoScroll) {
+        protected addRoute(route: string, frame: new () => FrameNoScroll, permissions?: IPermissionQuery | IPermissionQuery[]) {
             this.allRoutes[route] = {
                 route: route,
                 scriptUrl: '',
-                render: () => frame
+                render: () => frame,
+                permissions
             };
         }
         /**
          * Registers the application routes and initializes them.
          */
-        private register(): void {
+        private async register(): Promise<void> {
             try {
                 if(this.isRegistered) return;
                 this.isRegistered = true;
-                this.defineRoutes();
+                await this.defineRoutes();
                 this.navigator.onAfterStateChanged(this.validError404);
                 for(let key in this.allRoutes) {
                     this.initRoute(key);
@@ -306,7 +309,19 @@ namespace System {
                                 this.showErrorNotAllowed();
                                 return;
                             }
-                            const canResult = await element.can(currentState);
+                            if(allRoutes[path].permissions) {
+                                let perms = allRoutes[path].permissions;
+                                if(!Array.isArray(perms)) {
+                                    perms = [perms];
+                                }
+                                for(let perm of perms) {
+                                    if(!await Permission.can(perm)) {
+                                        this.showErrorNotAllowed();
+                                        return;
+                                    }
+                                }
+                            }
+                            const canResult = await element.allowState(currentState);
                             if(canResult !== true) {
                                 if(canResult === false) {
                                     return;
@@ -730,14 +745,14 @@ namespace System {
                 onMove: (e) => {
                     hasMove = true;
                     let preview: ("left" | 'right' | 'bottom' | 'top')[] = [];
-                    let diffX = desktopTemp.offsetWidth / 100 * 5
+                    let diffX = desktopTemp.offsetWidth / 100 * 5;
                     if(e.clientX < diffX) {
                         preview.push("left");
                     }
                     else if(e.clientX > desktop.offsetWidth - diffX) {
                         preview.push("right");
                     }
-                    let diffY = desktopTemp.offsetHeight / 100 * 10
+                    let diffY = desktopTemp.offsetHeight / 100 * 10;
                     if(e.clientY < diffY) {
                         preview.push("top");
                     }
@@ -760,11 +775,11 @@ namespace System {
                 }
             });
             new Aventus.PressManager({
-                element:this.header,
+                element: this.header,
                 onDblPress: () => {
                     this.toggleFull();
                 }
-            })
+            });
         }
 
         /**
@@ -838,7 +853,7 @@ namespace System {
             if(this.oldFrame) {
                 await this.oldFrame.beforeKill(() => {
                     canKill = false;
-                })
+                });
             }
             if(canKill) {
                 this.remove();
@@ -1012,7 +1027,7 @@ namespace System {
                         });
                     }
                     catch(e) {
-                        resultWithError.errors.push(new CoreError(CoreErrorCode.UnknowError, e))
+                        resultWithError.errors.push(new CoreError(CoreErrorCode.UnknowError, e));
                     }
 
                     if(resultWithError.success) {

@@ -1,3 +1,5 @@
+import type { NormalizedEvent } from "Aventus@Main:Aventus.package.avt";
+import type { SsoLogo } from "Core@Main:Core.Data.package.avt";
 
 export class Login extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
@@ -8,7 +10,7 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
 
     //#region props
     @Property()
-    private error: string = "";
+    public error: string = "";
     @Attribute()
     private loading!: boolean;
 
@@ -16,6 +18,15 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
     public company?: string;
     @Property()
     public icon?: string;
+    @Property((target: Login) => {
+        if(target.sso) {
+            try {
+                target.ssoProviders = JSON.parse(target.sso);
+                console.log(target.ssoProviders);
+            } catch { }
+        }
+    })
+    public sso?: string;
     //#endregion
 
 
@@ -29,7 +40,8 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
     @ViewElement()
     private submitBtn!: HTMLInputElement;
 
-
+    @Watch()
+    public ssoProviders: { Id: number, Name: string, Logo: SsoLogo; }[] = [];
     //#endregion
 
 
@@ -113,7 +125,7 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
         let YAngle = 0;
         let Z = 0;
 
-        const onMove = (e: PointerEvent | MouseEvent) => {
+        const onMove = (e: NormalizedEvent | MouseEvent) => {
             var box = this.formEl.getBoundingClientRect();
             var XRel = e.pageX - box.left;
             var YRel = e.pageY - box.top;
@@ -132,7 +144,9 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
             this.formEl.style.transform = "perspective(1000px) translateZ(" + Z + "px) rotateX(" + XAngle + "deg) rotateY(" + YAngle + "deg)";
         };
         if(Core.Lib.Platform.device == "pc") {
-            this.addEventListener("mousemove", (e) => onMove(e));
+            this.addEventListener("mousemove", (e) => {
+                onMove(e);
+            });
         }
         else {
             new Aventus.DragAndDrop({

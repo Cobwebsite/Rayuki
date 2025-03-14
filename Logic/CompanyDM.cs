@@ -27,7 +27,7 @@ namespace Core.Logic
                 result.Run(() => new Company()
                 {
                     Name = "Rayuki",
-                    Logo = new ImageFile() { Uri = "/img/logo.svg" }
+                    Logo = new CompanyImage() { Uri = "/img/logo.svg" }
                 }.CreateWithError());
             }
 
@@ -60,6 +60,7 @@ namespace Core.Logic
 
             foreach (X value in values)
             {
+                value.Version++;
                 if (value.Logo.Upload != null)
                 {
                     ResultWithImageFileError<bool> isSvgResult = Image.IsSvg(value.Logo.Upload.FilePath);
@@ -101,14 +102,11 @@ namespace Core.Logic
                     }
 
 
-                    ResultWithError<bool> saveTemp = value.Logo.SaveToFolderOnUpload(Path.Combine(FileStorage.rootFolder, "Core", "company"));
+                    ResultWithError<bool> saveTemp = value.Logo.Save(value, value.Logo.Upload);
                     if (!saveTemp.Success)
                     {
                         return saveTemp.Errors;
                     }
-
-                    value.Logo.Uri = value.Logo.Upload.FilePath.Replace(FileStorage.rootFolder, "/storage").Replace("\\", "/");
-                    value.Logo.Upload = null;
                 }
             }
 
@@ -125,7 +123,7 @@ namespace Core.Logic
             return new Company()
             {
                 Name = "Rayuki debug",
-                Logo = new ImageFile() { Uri = "/img/logo.svg" }
+                Logo = new CompanyImage() { Uri = "/img/logo.svg" }
             };
         }
 
@@ -142,6 +140,8 @@ namespace Core.Logic
                 Formatting = Formatting.Indented
             });
             File.WriteAllText(Path.Combine(HttpServer.wwwroot, "pwa", "custom", "manifest.json"), manifestJson);
+            // increase version with update
+            GetMain().Update();
         }
 
 

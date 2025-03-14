@@ -1,5 +1,5 @@
 import { UserRouter } from "../generated/Routes/UserRouter.lib.avt";
-import { User } from "../generated/Data/User.data.avt";
+import { User } from "../generated/Data/User.lib.avt";
 import { HttpRouter } from "../libs/HttpRouter.lib.avt";
 import { RamHttp } from "./RamWithTransaction.lib.avt";
 

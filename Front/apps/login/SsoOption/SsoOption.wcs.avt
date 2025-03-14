@@ -1,0 +1,10 @@
+:host {
+	cursor: pointer;
+	height: 25px;
+	position: relative;
+
+	rk-img {
+		// --img-stroke-color: white;
+		height: 100%;
+	}
+}

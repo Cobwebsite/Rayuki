@@ -1,4 +1,4 @@
-import { Desktop } from '../Data/Desktop.data.avt';
+import { Desktop } from '../Data/Desktop.lib.avt';
 import { CoreRouter } from '../CoreRouter.lib.avt';
 
 namespace Routes {

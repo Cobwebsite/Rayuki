@@ -1,4 +1,3 @@
-import { isArray } from "Univer@Main:UniverEngineRender.package.avt";
 import { TransactionManager } from "../libs/TransactionManager.lib.avt";
 import type { VoidWithError } from "Aventus@Main:Aventus.package.avt";
 

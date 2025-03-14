@@ -43,7 +43,7 @@ namespace Components {
             if(item1 === undefined || item2 === undefined) {
                 return false;
             }
-            if(typeof item1 == 'number') {
+            if(typeof item1 == 'number' || typeof item2 == 'number') {
                 return item1 == item2;
             }
             const key1 = this.defineRam().getId(item1 as U);
@@ -103,7 +103,7 @@ namespace Components {
             const result = await Process.execute(this, this.defineRam().getListWithError()) ?? [];
             return result;
         }
-        
+
         @InternalProtected()
         public abstract optionText(item: U): Aventus.Asyncable<string>;
 

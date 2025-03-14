@@ -1,4 +1,5 @@
 using AventusSharp.Data;
+using AventusSharp.Data.CustomTableMembers;
 using AventusSharp.Tools;
 using AventusSharp.Tools.Attributes;
 using Core.Tools;

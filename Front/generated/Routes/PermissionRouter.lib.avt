@@ -1,5 +1,5 @@
+import { PermissionMultiple, PermissionForUser } from '../Logic/PermissionDM.lib.avt';
 import { PermissionTree } from '../Permissions/Tree/PermissionTree.lib.avt';
-import { PermissionForUser } from '../Logic/PermissionDM.lib.avt';
 import { type IPermissionQuery } from '../../libs/Permission.lib.avt';
 import { CoreRouter } from '../CoreRouter.lib.avt';
 
@@ -14,6 +14,14 @@ namespace Routes {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/can`, Aventus.HttpMethod.POST);
 			request.setBody(body);
 			type TypeResult = boolean;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async CanMultiple(body: { queries: IPermissionQuery[] } | FormData): Promise<AventusSharp.Tools.ResultWithError<PermissionMultiple[]>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/canmultiple`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = PermissionMultiple[];
 			return await request.queryJSON<TypeResult>(this.router);
 		}
 

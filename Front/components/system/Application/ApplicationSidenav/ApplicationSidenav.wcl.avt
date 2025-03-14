@@ -1,0 +1,164 @@
+import type { SizeList } from "../ApplicationSize.lib.avt";
+import { Scrollable } from "../../../ui/layout/Scrollable/Scrollable.wcl.avt";
+import { Application } from "../Application.wcl.avt";
+import type { FrameNoScroll } from "../../Frame/FrameNoScroll/FrameNoScroll.wcl.avt";
+import type { Link } from "../../../ui/Link/Link.wcl.avt";
+import { Permission, PermissionWatcher, type IPermission, type IPermissionQuery, type PermissionQueryCst } from "../../../../libs/Permission.lib.avt";
+
+namespace System {
+    @Storybook({
+        export: 'protected'
+    })
+        type ApplicationSidenavRouteOptions = {
+            /** Route that will display the frame */
+            route: string,
+            /** The frame to display when the route is triggerd */
+            frame: new () => FrameNoScroll,
+            /** The name inside the sidenav */
+            name: string,
+            /** The icon set before the sidenav */
+            icon?: string,
+            /** The icon set before the sidenav from material icon */
+            miIcon?: MaterialIcon.IconType,
+            /** Define a path to define the sidenav button will be active */
+            activeRoute?: string;
+            /** Can we trigger the link */
+            allowTrigger?: (link: Link) => boolean;
+            permissions?: IPermissionQuery | IPermissionQuery[];
+        };
+
+    @Storybook({
+        export: 'protected'
+    })
+    @OverrideView()
+    export abstract class ApplicationSidenav extends Application implements Aventus.DefaultComponent, IPermission {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public hide_menu_size?: SizeList = "sm";
+        @Attribute()
+        public hide_menu_size_portrait?: SizeList = "lg";
+        @Attribute()
+        public open_sidenav!: boolean;
+        @Attribute()
+        public no_sidenav!: boolean;
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected navEl!: Scrollable;
+
+        @Watch()
+        protected sidenavItems: { name: string, icon: string, useMi: boolean, route: string; active: string; allowTrigger: (link: Link) => boolean; can: () => boolean; }[] = [];
+
+
+        //#endregion
+
+
+        //#region constructor
+        public constructor() {
+            super();
+            new PermissionWatcher(this);
+        }
+        //#endregion
+
+
+        //#region methods        
+        /**         
+         * @inheritdoc
+         */
+        public can(query: IPermissionQuery): boolean;
+        /**
+         * @inheritdoc
+         */
+        public can<T extends Aventus.Enum>(query: PermissionQueryCst<T>, value: Aventus.EnumValue<T>, additionalInfo?: string): boolean;
+        /**
+         * @inheritdoc
+         */
+        public can(query: unknown, value?: unknown, additionalInfo?: unknown): boolean {
+            return false;
+        }
+
+
+
+
+        /**
+         * @inheritdoc
+         */
+        public onPermissionSet<T extends Aventus.Enum>(allow: boolean, query: PermissionQueryCst<T>, value: Aventus.EnumValue<T>, additionalInfo?: string): Aventus.Asyncable<void> {
+        }
+        protected addRouteSidenav(options: ApplicationSidenavRouteOptions) {
+            let route = options.route;
+            this.allRoutes[route] = {
+                route: route,
+                scriptUrl: '',
+                render: () => options.frame,
+                permissions: options.permissions
+            };
+            let icon = "";
+            let useMi = false;
+            if(options.miIcon) {
+                useMi = true;
+                icon = options.miIcon;
+            }
+            else if(options.icon?.startsWith("mi-")) {
+                useMi = true;
+                icon = options.icon.replace("mi-", "");
+            }
+            else if(options.icon) {
+                icon = options.icon;
+            }
+            let allowTrigger: ((link: Link) => boolean);
+            if(options.allowTrigger) {
+                allowTrigger = options.allowTrigger;
+            }
+            else {
+                allowTrigger = (link) => {
+                    return this.navigator.getState()?.name != link.to;
+                };
+            }
+            let can: () => boolean = () => true;
+            if(options.permissions) {
+                let perms = options.permissions;
+                if(!Array.isArray(perms)) {
+                    perms = [perms];
+                }
+                can = () => {
+                    let allTrue = true;
+                    for(let perm of perms) {
+                        if(!this.can(perm)) {
+                            allTrue = false;
+                        }
+                    }
+                    return allTrue;
+                };
+            }
+            this.sidenavItems.push({
+                name: options.name,
+                icon,
+                useMi,
+                route,
+                active: options.activeRoute ?? route,
+                allowTrigger,
+                can: can
+            });
+
+
+        }
+
+        protected toggleSidenav() {
+            this.open_sidenav = !this.open_sidenav;
+        }
+        protected closeSidenav() {
+            this.open_sidenav = false;
+        }
+        //#endregion
+
+    }
+}

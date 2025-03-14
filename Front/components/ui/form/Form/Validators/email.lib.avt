@@ -1,0 +1,18 @@
+import { Validator } from "../../../../../libs/Validator.lib.avt";
+import type { FormValidateResult } from "../FormType.lib.avt";
+import { formValidator, type FormValidator } from "./FormValidator.lib.avt";
+
+namespace Components {
+    export function email<T = any>(msg?: string): FormValidator<T> {
+        if(!msg) {
+            msg = "Veuillez saisir un email valide";
+        }
+        const fct: (value: T | undefined, globalValidation: () => Promise<void>) => FormValidateResult = (value, globalValidation) => {
+            if(value && typeof value == "string") {
+                return Validator.email(value);
+            }
+            return true;
+        };
+        return formValidator(fct);
+    }
+}

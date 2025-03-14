@@ -1,5 +1,6 @@
 import type { ApplicationQueryFctResult } from "../../../system/Application/ApplicationError.lib.avt";
-import type { FormPart, FormSchema, FormValidate, FormValidateResult, IFormElement, InternalForm, InternalFormPart, VirtualFormConfig } from "./FormType.lib.avt";
+import type { FormPart, FormPartValidate, FormSchema, FormValidate, FormValidateResult, IFormElement, InternalForm, InternalFormPart, VirtualFormConfig } from "./FormType.lib.avt";
+import { isFormValidator, type FormValidator } from "./Validators/FormValidator.lib.avt";
 
 namespace Components {
     @Storybook({
@@ -51,6 +52,50 @@ namespace Components {
             const realPart = part as InternalFormPart;
             realPart.onValidation = new Aventus.Callback();
             realPart.onValueChange = new Aventus.Callback();
+            if(part.validate) {
+                const isValidate = (validate: FormPartValidate<T> | (() => FormValidator<T>) | FormValidator<T>): validate is FormPartValidate<any> => {
+                    return validate.name == "validate";
+                };
+                let validate: FormPartValidate<any>;
+                if(Array.isArray(part.validate)) {
+                    const fcts: FormPartValidate<any>[] = [];
+                    for(let temp of part.validate) {
+                        let resultTemp = temp();
+                        if(isFormValidator(resultTemp)) {
+                            resultTemp = resultTemp();
+                        }
+                        fcts.push(resultTemp);
+                    }
+                    validate = async (value, globalFct) => {
+                        let result: string[] = [];
+                        for(let fct of fcts) {
+                            const temp = await fct(value, globalFct);
+                            if(temp === false) {
+                                result.push('Le champs n\'est pas valide');
+                            }
+                            else if(Array.isArray(temp)) {
+                                for(let error of temp) {
+                                    result.push(error);
+                                }
+                            }
+                            else if(typeof temp == 'string') {
+                                result.push(temp);
+                            }
+                        }
+                        return result.length == 0 ? undefined : result;
+                    };
+                }
+                else if(isValidate(part.validate)) {
+                    validate = part.validate;
+                }
+                else if(isFormValidator(part.validate)) {
+                    validate = part.validate();
+                }
+                else {
+                    validate = part.validate()();
+                }
+                realPart.validate = validate;
+            }
             realPart.test = async () => {
                 const result = await this.validate(key);
                 return result;

@@ -15,6 +15,7 @@ namespace Core.Tools
 
         public static void SetConnected(this HttpContext context, int userId)
         {
+            // context.User?.Identity.IsAuthenticated
             context.Session.SetInt32("userId", userId);
         }
         public static void Disconnect(this HttpContext context)

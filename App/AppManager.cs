@@ -18,6 +18,7 @@ using System.IO.Compression;
 using AventusSharp.Tools.Attributes;
 using Core.Tools;
 using IRouter = AventusSharp.Routes.IRouter;
+using Core.Permissions;
 
 namespace Core.App
 {
@@ -165,6 +166,7 @@ namespace Core.App
                 }
                 foreach (RayukiPlugin allPlugin in allPlugins)
                 {
+                    PermissionDM.GetInstance().Register(allPlugin.permissions);
                     VoidWithError registerResult = PluginDM.GetInstance().RegisterPlugin(allPlugin);
                     if (!registerResult.Success)
                     {
@@ -173,7 +175,7 @@ namespace Core.App
                 }
                 foreach (RayukiApp appFile in allApps)
                 {
-                    appFile.DefinePermissions();
+                    PermissionDM.GetInstance().Register(appFile.permissions);
                     VoidWithError registerResult = ApplicationDM.GetInstance().RegisterApplication(appFile);
                     if (!registerResult.Success)
                     {
@@ -234,7 +236,7 @@ namespace Core.App
             }
             return error;
         }
-        
+
         public static VoidWithError LoadElements(LoadElement element)
         {
             VoidWithError result = new VoidWithError();
@@ -294,8 +296,11 @@ namespace Core.App
                                 List<Type> wsEndPoints = new List<Type>();
                                 List<Type> wsRoutes = new List<Type>();
                                 List<Type> httpRouters = new List<Type>();
+                                List<Type> permissions = new List<Type>();
                                 Type? appFile = null;
                                 Type? pluginFile = null;
+                                RayukiApp? appInstance = null;
+                                RayukiPlugin? pluginInstance = null;
                                 foreach (Type theType in theList)
                                 {
                                     if (theType.Namespace != null)
@@ -325,10 +330,7 @@ namespace Core.App
                                                 object? o = Activator.CreateInstance(theType);
                                                 if (o is RayukiApp newAppFile)
                                                 {
-                                                    newAppFile.action = new Action<Type, PermissionDescription?>((Type type, PermissionDescription? description) =>
-                                                    {
-                                                        PermissionDM.GetInstance().RegisterPermissions(type, description);
-                                                    });
+                                                    appInstance = newAppFile;
                                                     allApps.Add(newAppFile);
 
 
@@ -348,25 +350,30 @@ namespace Core.App
                                                 object? o = Activator.CreateInstance(theType);
                                                 if (o is RayukiPlugin newPluginFile)
                                                 {
-                                                    newPluginFile.action = new Action<Type, PermissionDescription?>((Type type, PermissionDescription? description) =>
-                                                    {
-                                                        PermissionDM.GetInstance().RegisterPermissions(type, description);
-                                                    });
+                                                    pluginInstance = newPluginFile;
+
                                                     allPlugins.Add(newPluginFile);
                                                 }
                                             }
 
                                         }
+                                        else if (interfaces.Contains(typeof(IPermissionQuery)))
+                                        {
+                                            permissions.Add(theType);
+                                        }
                                     }
                                 }
                                 if (appFile != null)
                                 {
+                                    if (appInstance != null) appInstance.permissions = permissions;
                                     apps.Add(appFile, dll);
                                     WebSocketMiddleware.Register(wsEndPoints, wsRoutes);
                                     RouterMiddleware.Register(httpRouters);
+
                                 }
                                 else if (pluginFile != null)
                                 {
+                                    if (pluginInstance != null) pluginInstance.permissions = permissions;
                                     plugins.Add(pluginFile, dll);
                                     WebSocketMiddleware.Register(wsEndPoints, wsRoutes);
                                     RouterMiddleware.Register(httpRouters);
@@ -496,7 +503,6 @@ namespace Core.App
                             result.Errors.AddRange(resultTemp.Errors);
                             foreach (RayukiApp newApp in newApps)
                             {
-                                newApp.DefinePermissions();
                                 VoidWithError registerResult = ApplicationDM.GetInstance().RegisterApplication(newApp);
                                 if (!registerResult.Success)
                                 {
@@ -548,6 +554,8 @@ namespace Core.App
 
         public static async Task OnStart()
         {
+            CoreSeeder coreSeeder = new CoreSeeder();
+            coreSeeder.Run();
             foreach (RayukiPlugin plugin in allPlugins)
             {
                 await plugin.OnStart();

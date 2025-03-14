@@ -11,7 +11,10 @@ namespace Core.Permissions
     [Export]
     public class DesktopPermissionQuery : PermissionQuery<DesktopPermission>
     {
-
+        public override PermissionDescription<DesktopPermission>? Description()
+        {
+            return new DesktopPermissionDescription();
+        }
     }
 
     public class DesktopPermissionDescription : PermissionDescription<DesktopPermission>

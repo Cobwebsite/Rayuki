@@ -9,6 +9,7 @@ namespace Core.Permissions.Descriptions
         internal Enum Enum { get; set; }
         public string DisplayName { get; set; } = "";
         public string Description { get; set; } = "";
+        public int? Position { get; set; }
         public Enum? Parent { get; set; }
     }
     public interface IPermissionDescription

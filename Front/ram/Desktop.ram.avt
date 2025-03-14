@@ -1,5 +1,5 @@
 import { DesktopRouter } from "../generated/Routes/DesktopRouter.lib.avt";
-import { Desktop } from "../generated/Data/Desktop.data.avt";
+import { Desktop } from "../generated/Data/Desktop.lib.avt";
 import { HttpRouter } from "../libs/HttpRouter.lib.avt";
 import { RamHttp } from "./RamWithTransaction.lib.avt";
 

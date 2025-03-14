@@ -1,3 +1,4 @@
+import type { FormValidator } from "./Validators/FormValidator.lib.avt";
 
 namespace Components {
     @Storybook({
@@ -37,7 +38,7 @@ namespace Components {
         onValidation: Aventus.Callback<(errors: string[]) => Aventus.Asyncable<string[]>, Aventus.Asyncable<string[]>>,
         register: (element: IFormElement) => void;
         unregister: (element: IFormElement) => void;
-        test: () => Promise<boolean>
+        test: () => Promise<boolean>;
     };
 
     @Storybook({
@@ -45,7 +46,7 @@ namespace Components {
         group: 'Components/Form'
     })
     export type FormSchema<T> = { [K in keyof T]: FormPart<T[K]> };
-    
+
     @Storybook({
         export: 'public',
         group: 'Components/Form'
@@ -54,7 +55,14 @@ namespace Components {
         /**
          * A validation function for the form part.
          */
-        validate?: FormPartValidate<T>;
+        validate?:
+        FormPartValidate<T> |
+        (() => FormValidator<T>) |
+        FormValidator<T> |
+        (
+            (() => FormValidator<T>) |
+            FormValidator<T>
+        )[];
         /**
          * Indicates whether validation should be performed on value change.
          */

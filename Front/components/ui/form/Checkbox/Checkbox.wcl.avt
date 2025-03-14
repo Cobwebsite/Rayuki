@@ -15,11 +15,6 @@ namespace Components {
         //#region props
         @Property()
         public label?: string;
-        @Property()
-        public placeholder?: string;
-       
-        @Property()
-        public icon?: string;
 
 
         @Property((target: Checkbox) => {

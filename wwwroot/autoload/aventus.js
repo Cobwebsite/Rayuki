@@ -4457,6 +4457,7 @@ let GenericRam=class GenericRam {
      * Add element inside Ram or update it. The instance inside the ram is unique and ll never be replaced
      */
     async addOrUpdateData(item, result) {
+        let resultTemp = null;
         try {
             let idWithError = this.getIdWithError(item);
             if (idWithError.success && idWithError.result !== undefined) {
@@ -4466,22 +4467,27 @@ let GenericRam=class GenericRam {
                     await this.beforeRecordSet(uniqueRecord);
                     this.mergeObject(uniqueRecord, item);
                     await this.afterRecordSet(uniqueRecord);
+                    resultTemp = 'updated';
                 }
                 else {
                     let realObject = this.getObjectForRam(item);
                     await this.beforeRecordSet(realObject);
                     this.records.set(id, realObject);
                     await this.afterRecordSet(realObject);
+                    resultTemp = 'created';
                 }
                 result.result = this.records.get(id);
             }
             else {
                 result.errors = [...result.errors, ...idWithError.errors];
+                resultTemp = null;
             }
         }
         catch (e) {
             result.errors.push(new RamError(RamErrorCode.unknow, e));
+            resultTemp = null;
         }
+        return resultTemp;
     }
     /**
      * Merge object and create real instance of class
@@ -17930,6 +17936,8 @@ const _ = {};
 
 let Data = {};
 _.Data = AventusSharp.Data ?? {};
+Data.CustomTableMembers = {};
+_.Data.CustomTableMembers = AventusSharp.Data?.CustomTableMembers ?? {};
 let Routes = {};
 _.Routes = AventusSharp.Routes ?? {};
 let WebSocket = {};
@@ -17939,7 +17947,7 @@ _.Tools = AventusSharp.Tools ?? {};
 let RAM = {};
 _.RAM = AventusSharp.RAM ?? {};
 let _n;
-Data.AventusFile=class AventusFile {
+Data.CustomTableMembers.AventusFile=class AventusFile {
     static get Fullname() { return "AventusSharp.Data.AventusFile, AventusSharp"; }
     Uri;
     Upload;
@@ -17972,10 +17980,45 @@ Data.AventusFile=class AventusFile {
         });
     }
 }
-Data.AventusFile.Namespace=`AventusSharp.Data`;
-Data.AventusFile.$schema={"Uri":"string","Upload":"File","$type":"string"};
-Aventus.Converter.register(Data.AventusFile.Fullname, Data.AventusFile);
-_.Data.AventusFile=Data.AventusFile;
+Data.CustomTableMembers.AventusFile.Namespace=`AventusSharp.Data.CustomTableMembers`;
+Data.CustomTableMembers.AventusFile.$schema={"Uri":"string","Upload":"File","$type":"string"};
+Aventus.Converter.register(Data.CustomTableMembers.AventusFile.Fullname, Data.CustomTableMembers.AventusFile);
+_.Data.CustomTableMembers.AventusFile=Data.CustomTableMembers.AventusFile;
+
+Data.CustomTableMembers.GenericFile=class GenericFile {
+    Uri;
+    Upload;
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    get $type() {
+        return this.constructor['Fullname'];
+    }
+    /**
+     * @inerhit
+     */
+    toJSON() {
+        let toAvoid = ['className', 'namespace'];
+        return Aventus.Json.classToJson(this, {
+            isValidKey: (key) => !toAvoid.includes(key),
+            beforeEnd: (result) => {
+                let resultTemp = {};
+                if (result.$type) {
+                    resultTemp.$type = result.$type;
+                    for (let key in result) {
+                        if (key != '$type') {
+                            resultTemp[key] = result[key];
+                        }
+                    }
+                    return resultTemp;
+                }
+                return result;
+            }
+        });
+    }
+}
+Data.CustomTableMembers.GenericFile.Namespace=`AventusSharp.Data.CustomTableMembers`;
+_.Data.CustomTableMembers.GenericFile=Data.CustomTableMembers.GenericFile;
 
 Data.SharpClass=class SharpClass {
     /**
@@ -18155,16 +18198,16 @@ WebSocket.Socket=class Socket {
         const socket = new window.WebSocket(this.url);
         socket.onopen = (e) => {
             clearInterval(this.reopenInterval);
-            this.onOpen.trigger([e]);
+            this.onOpen.trigger(e);
         };
         socket.onclose = (e) => {
-            this.onClose.trigger([e]);
+            this.onClose.trigger(e);
         };
         socket.onerror = (e) => {
-            this.onError.trigger([e]);
+            this.onError.trigger(e);
         };
         socket.onmessage = (e) => {
-            this.onMessage.trigger([e]);
+            this.onMessage.trigger(e);
         };
         this.socket = socket;
         return socket;
@@ -18839,7 +18882,7 @@ WebSocket.Connection=class Connection {
                 protocol = "wss";
             }
             this.log(`Connection successfully established to ${this.getUrl()}!`);
-            this.onOpen.trigger([]);
+            this.onOpen.trigger();
             for (let i = 0; i < this.memoryBeforeOpen.length; i++) {
                 this.sendMessage(this.memoryBeforeOpen[i]);
             }
@@ -18864,7 +18907,7 @@ WebSocket.Connection=class Connection {
             return;
         }
         this.log('An error has occured');
-        this.onError.trigger([event]);
+        this.onError.trigger(event);
     }
     _onClose(event) {
         this.stopPing();
@@ -18873,7 +18916,7 @@ WebSocket.Connection=class Connection {
             return;
         }
         this.log('Closing connection');
-        this.onClose.trigger([event]);
+        this.onClose.trigger(event);
     }
     /**
      * Close the current connection
@@ -19030,7 +19073,7 @@ WebSocket.WsEvent=class WsEvent {
         }
     }
     onEvent(data, params, uid) {
-        this.onTrigger.trigger([data, params, uid]);
+        this.onTrigger.trigger(data, params, uid);
     }
 }
 WebSocket.WsEvent.Namespace=`AventusSharp.WebSocket`;

@@ -3,6 +3,7 @@ using AventusSharp.Data.Attributes;
 using AventusSharp.Tools.Attributes;
 using Core.Data.DataTypes;
 using Core.Logic;
+using Core.Logic.FileSystem;
 using Nullable = AventusSharp.Data.Attributes.Nullable;
 
 namespace Core.Data
@@ -18,12 +19,36 @@ namespace Core.Data
     {
         public string Name { get; set; }
 
-        public string Token { get; set; }
+        private string _Token;
+        public string Token
+        {
+            get
+            {
+                return _Token;
+            }
+            set
+            {
+                Configuration.Token = value;
+                _Token = value;
+            }
+        }
         [ForeignKey<User>, Nullable]
         public int? UserId { get; set; }
 
+        private DekstopConfiguration _Configuration = new DekstopConfiguration();
         [AutoCRUD]
-        public DekstopConfiguration Configuration { get; set; } = new DekstopConfiguration();
+        public DekstopConfiguration Configuration
+        {
+            get
+            {
+                return _Configuration;
+            }
+            set
+            {
+                _Configuration = value;
+                value.Token = Token;
+            }
+        }
 
         [NotInDB]
         public List<DesktopAppIcon> Icons { get => DesktopDM.GetInstance().GetDesktopIcons(Id); }
@@ -34,7 +59,9 @@ namespace Core.Data
 
     public class DekstopConfiguration : Storable<DekstopConfiguration>
     {
-        public ImageFile Background { get; set; }
+        [NotInDB, NoExport]
+        public string Token { get; set; }
+        public DesktopBackground Background { get; set; }
         public BackgroundSize BackgroundSize { get; set; } = BackgroundSize.Cover;
         public bool SyncDesktop { get; set; } = false;
 
@@ -46,7 +73,7 @@ namespace Core.Data
 
         public DekstopConfiguration()
         {
-            Background = new ImageFile()
+            Background = new DesktopBackground()
             {
                 Uri = "/img/default_wp.png"
             };
@@ -58,6 +85,25 @@ namespace Core.Data
         Desktop,
         BottomBar,
         HomeFav
+    }
+
+    [Export]
+    public class DesktopBackground : ImageFile<DekstopConfiguration>
+    {
+        protected override string DefineDirectory(DekstopConfiguration desktop)
+        {
+            return Path.Combine(FileStorage.rootFolder, "Core", "desktops", desktop.Token);
+        }
+
+        protected override ImageSize? DefineMaxSize()
+        {
+            return ImageSize.Size(1200);
+        }
+
+        protected override FileStorage? DefineStorage(DekstopConfiguration instance)
+        {
+            return FileStorage.GetCore();
+        }
     }
 
     public class DesktopAppIcon : Storable<DesktopAppIcon>

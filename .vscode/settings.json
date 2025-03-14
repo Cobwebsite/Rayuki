@@ -6,5 +6,21 @@
     "aventus.readDirs": [
         "./Front"
     ],
-    "svg.preview.background": "custom"
+    "svg.preview.background": "custom",
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MariaDB",
+            "name": "Local",
+            "database": "rayuki",
+            "username": "root",
+            "password": ""
+        }
+    ]
 }

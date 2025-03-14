@@ -7,8 +7,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="theme-color" content="#dcdcdc" />
 
-    <link rel="icon" href="{{ icon }}" />
-    <link rel="manifest" href="/pwa/custom/manifest.json?v={{ version }}" />
+    <link rel="icon" href="{{ icon }}?v={{ company_version }}" />
+    <link rel="manifest" href="/pwa/custom/manifest.json?v={{ version }}_{{ company_version }}" />
     <title>{{ title }}</title>
     <script>
         const userIdConnected = Number("{{ user_id }}");

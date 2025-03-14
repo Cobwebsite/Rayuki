@@ -1,7 +1,7 @@
 <rk-context-menu-element  class="header" @element="header">
     <div class="background"></div>
     <div class="navigation-actions">
-        <div class="action menu touch" @press="toggleSidnav">
+        <div class="action menu touch" @press="toggleSidenav">
             <mi-icon icon="menu"></mi-icon>
         </div>
         <div class="previous action touch disable" @element="navigatePreviousEl" @press="navigatePrevious">
@@ -22,16 +22,18 @@
     <div class="sidenav-hider" @press="closeSidenav"></div>
     <div class="sidenav">
         <rk-scrollable auto_hide @element="navEl">
-            for(let item of this.sidnavItems) { 
-                <rk-link to="{{ item.route }}" active_pattern="{{ item.active }}" :allowTrigger="item.allowTrigger" class="sidenav-item">
-                    if(item.useMi) {
-                        <mi-icon icon="{{ item.icon }}"></mi-icon>
-                    }
-                    else {
-                        <rk-img src="{{ item.icon }}"></rk-img>
-                    }
-                    <span>{{ item.name }}</span>
-                </rk-link>
+            for(let item of this.sidenavItems) {
+                if(item.can()) {
+                    <rk-link to="{{ item.route }}" active_pattern="{{ item.active }}" :allowTrigger="item.allowTrigger" class="sidenav-item">
+                        if(item.useMi) {
+                            <mi-icon icon="{{ item.icon }}"></mi-icon>
+                        }
+                        else {
+                            <rk-img src="{{ item.icon }}"></rk-img>
+                        }
+                        <span>{{ item.name }}</span>
+                    </rk-link>
+                }
             }
         </rk-scrollable>
     </div>

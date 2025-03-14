@@ -1,0 +1,17 @@
+import type { FormValidateResult } from "../FormType.lib.avt";
+import { formValidator, type FormValidator } from "./FormValidator.lib.avt";
+
+namespace Components {
+    export function required<T = any>(msg?: string): FormValidator<T> {
+        if(!msg) {
+            msg = "Ce champs doit être rempli";
+        }
+        const fct: (value: T | undefined, globalValidation: () => Promise<void>) => FormValidateResult = (value, globalValidation) => {
+            if(value === undefined || value === '' || value === null) {
+                return msg;
+            }
+            return true;
+        };
+        return formValidator(fct);
+    }
+}

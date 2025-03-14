@@ -1,0 +1,2 @@
+<rk-img src="{{ this.provider?.Logo.Uri }}"></rk-img>
+<rk-tooltip delay="700">Login with {{ this.provider?.Name }}</rk-tooltip>

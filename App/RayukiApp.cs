@@ -5,7 +5,7 @@ namespace Core.App
 {
     public abstract class RayukiApp
     {
-        internal Action<Type, PermissionDescription?> action;
+        internal List<Type> permissions;
         public virtual Task OnStart()
         {
             return Task.CompletedTask;
@@ -18,10 +18,7 @@ namespace Core.App
 
         public abstract int Version();
         public abstract string DisplayName();
-        public virtual void DefinePermissions()
-        {
-
-        }
+        
 
         /// <summary>
         /// Define if the resource is accessible if the user isn't login
@@ -40,21 +37,6 @@ namespace Core.App
         public virtual Migrator? DefineMigrator()
         {
             return null;
-        }
-        protected void RegisterPermissions<T, U>() where T : Enum where U : PermissionDescription<T>
-        {
-            object? description = Activator.CreateInstance(typeof(U));
-            if (description is PermissionDescription<T> descriptionCasted)
-            {
-                action(typeof(T), descriptionCasted);
-            }
-            else {
-                action(typeof(T), null);
-            }
-        }
-        protected void RegisterPermissions<T>() where T : Enum
-        {
-            action(typeof(T), null);
         }
     }
 }

@@ -1,0 +1,1 @@
+<rk-checkbox @element="checkboxEl" :label="this.label" :checked="this.checked" :left_label="this.left_label" @change="emitChange"></rk-checkbox>
