@@ -1,0 +1,37 @@
+import { Favorite } from "../generated/Data/Favorite.data.avt";
+import { FavoriteRouter } from "../generated/Websocket/Routes/FavoriteRouter.lib.avt";
+
+
+namespace Ram {
+
+    export class FavoriteRAM extends AventusSharp.RAM.RamWebSocket<Favorite> implements Aventus.IRam {
+
+        /**
+         * Create a singleton to store data
+         */
+        public static getInstance(): FavoriteRAM {
+            return Aventus.Instance.get(FavoriteRAM);
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public override defineIndexKey(): keyof Favorite {
+            return 'Id';
+        }
+        /**
+         * @inheritdoc
+         */
+        protected override getTypeForData(objJson: Aventus.KeysObject<Favorite> | Favorite): new () => Favorite {
+            return Favorite;
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public override defineRoutes(): AventusSharp.WebSocket.StorableWsRouter<Favorite> {
+            return new FavoriteRouter();
+        }
+
+    }
+}

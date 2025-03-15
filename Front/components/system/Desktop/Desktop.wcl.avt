@@ -147,13 +147,13 @@ namespace System {
                 url: "/apps/" + application + "/default.css" + version
             });
         }
-        public async openUrl(application: string, componentUrl: string = "/", url: string | Aventus.State = "/") {
+        public async openUrl(application: string, componentUrl: string = "/", url: string | Aventus.State = "/"): Promise<Application | null> {
             if(!(await can(new ApplicationPermissionQuery(ApplicationPermission.AllowAccess, application)))) {
                 let notif = new Notification();
                 notif.subject = "Erreur";
                 notif.innerHTML = "Vous n'êtes pas autorisé à ouvrir l'application " + application;
                 Os.instance.notify(notif);
-                return;
+                return null;
             }
             Os.instance.show_application_list = false;
             await this.loadApp(application);
@@ -177,11 +177,17 @@ namespace System {
                 comp.focus();
                 this.setElementToActive(comp);
 
+                await new Promise((resolve) => {
+                    comp.onRouteRegistered(resolve);
+                })
+                
                 await comp.navigate(url);
 
                 this.applications[comp.$type][i] = comp;
 
                 this.manageAppBottomBar(comp.$type);
+                
+                return comp;
             }
             else {
                 let notif = new Notification();
@@ -189,6 +195,7 @@ namespace System {
                 notif.innerHTML = "Impossible de trouver l'application " + application + " sur " + componentUrl;
                 Os.instance.notify(notif);
             }
+            return null;
         }
         public async unHideApplication(application: string, componentUrl: string = "/") {
             let tagName = await AppIconManager.getTagName(application, componentUrl);

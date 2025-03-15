@@ -43,6 +43,8 @@ let RAM = {};
 _.RAM = Core.RAM ?? {};
 Websocket.Events.TransactionCancelledEvent = {};
 _.Websocket.Events.TransactionCancelledEvent = Core.Websocket?.Events?.TransactionCancelledEvent ?? {};
+let Ram = {};
+_.Ram = Core.Ram ?? {};
 let Tools = {};
 _.Tools = Core.Tools ?? {};
 Websocket.Events.ApplicationTestEvent = {};
@@ -1692,6 +1694,23 @@ Lib.Geometry=class Geometry {
 Lib.Geometry.Namespace=`Core.Lib`;
 _.Lib.Geometry=Lib.Geometry;
 
+Websocket.Routes.DesktopRouter_RemoveDesktopIcon=class DesktopRouter_RemoveDesktopIcon extends AventusSharp.WebSocket.WsEvent {
+    /**
+     * @inheritdoc
+     */
+    path() {
+        return `${this.getPrefix()}/desktop/RemoveDesktopIcon`;
+    }
+    /**
+     * @inheritdoc
+     */
+    listenOnBoot() {
+        return true;
+    }
+}
+Websocket.Routes.DesktopRouter_RemoveDesktopIcon.Namespace=`Core.Websocket.Routes`;
+_.Websocket.Routes.DesktopRouter_RemoveDesktopIcon=Websocket.Routes.DesktopRouter_RemoveDesktopIcon;
+
 Lib.ApplicationStateManager=class ApplicationStateManager extends Aventus.StateManager {
     application;
     constructor(application) {
@@ -1833,23 +1852,6 @@ if(!window.customElements.get('rk-button-icon-mi')){window.customElements.define
 })(Components.ResizeDirection || (Components.ResizeDirection = {}));
 _.Components.ResizeDirection=Components.ResizeDirection;
 
-Websocket.Routes.DesktopRouter_RemoveDesktopIcon=class DesktopRouter_RemoveDesktopIcon extends AventusSharp.WebSocket.WsEvent {
-    /**
-     * @inheritdoc
-     */
-    path() {
-        return `${this.getPrefix()}/desktop/RemoveDesktopIcon`;
-    }
-    /**
-     * @inheritdoc
-     */
-    listenOnBoot() {
-        return true;
-    }
-}
-Websocket.Routes.DesktopRouter_RemoveDesktopIcon.Namespace=`Core.Websocket.Routes`;
-_.Websocket.Routes.DesktopRouter_RemoveDesktopIcon=Websocket.Routes.DesktopRouter_RemoveDesktopIcon;
-
 (function (LoginCode) {
     LoginCode[LoginCode["OK"] = 0] = "OK";
     LoginCode[LoginCode["WrongCredentials"] = 1] = "WrongCredentials";
@@ -1958,6 +1960,29 @@ _.Permissions.Tree.PermissionTreeItem=Permissions.Tree.PermissionTreeItem;
     ApplicationPermission[ApplicationPermission["AllowAccess"] = 0] = "AllowAccess";
 })(Permissions.ApplicationPermission || (Permissions.ApplicationPermission = {}));
 _.Permissions.ApplicationPermission=Permissions.ApplicationPermission;
+
+Data.Favorite=class Favorite extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.Favorite, Core"; }
+    Name;
+    TagName;
+    State;
+    UserId;
+}
+Data.Favorite.Namespace=`Core.Data`;
+Data.Favorite.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","TagName":"string","State":"string","UserId":"number"};
+Aventus.Converter.register(Data.Favorite.Fullname, Data.Favorite);
+_.Data.Favorite=Data.Favorite;
+
+Websocket.Routes.FavoriteRouter=class FavoriteRouter extends AventusSharp.WebSocket.StorableWsRouter {
+    constructor(endpoint) {
+        super(endpoint ?? Websocket.MainEndPoint.getInstance());
+    }
+    StorableName() {
+        return "Favorite";
+    }
+}
+Websocket.Routes.FavoriteRouter.Namespace=`Core.Websocket.Routes`;
+_.Websocket.Routes.FavoriteRouter=Websocket.Routes.FavoriteRouter;
 
 Components.Tracker=class Tracker {
     velocityMultiplier = window.devicePixelRatio;
@@ -2356,6 +2381,23 @@ Websocket.Routes.DesktopRouter_RemoveApp=class DesktopRouter_RemoveApp extends A
 }
 Websocket.Routes.DesktopRouter_RemoveApp.Namespace=`Core.Websocket.Routes`;
 _.Websocket.Routes.DesktopRouter_RemoveApp=Websocket.Routes.DesktopRouter_RemoveApp;
+
+Websocket.Routes.DesktopRouter_RegisterOpenApp=class DesktopRouter_RegisterOpenApp extends AventusSharp.WebSocket.WsEvent {
+    /**
+     * @inheritdoc
+     */
+    path() {
+        return `${this.getPrefix()}/desktop/RegisterOpenApp`;
+    }
+    /**
+     * @inheritdoc
+     */
+    listenOnBoot() {
+        return true;
+    }
+}
+Websocket.Routes.DesktopRouter_RegisterOpenApp.Namespace=`Core.Websocket.Routes`;
+_.Websocket.Routes.DesktopRouter_RegisterOpenApp=Websocket.Routes.DesktopRouter_RegisterOpenApp;
 
 (function (DesktopLocation) {
     DesktopLocation[DesktopLocation["Desktop"] = 0] = "Desktop";
@@ -5852,533 +5894,34 @@ Lib.SessionManager=class SessionManager {
 Lib.SessionManager.Namespace=`Core.Lib`;
 _.Lib.SessionManager=Lib.SessionManager;
 
-System.HomePanel = class HomePanel extends System.Panel {
-    get 'currentUser'() {
-						return this.__watch["currentUser"];
-					}
-					set 'currentUser'(val) {
-						this.__watch["currentUser"] = val;
-					}    btn;
-    __registerWatchesActions() {
-    this.__addWatchesActions("currentUser");    super.__registerWatchesActions();
-}
-    static __style = `:host{display:flex;flex-direction:column;left:-9px;position:absolute;width:min(500px,var(--os-width));box-shadow:var(--elevation-3)}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:var(--border-radius-sm);margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .grid{display:flex;flex-wrap:wrap;gap:10px;padding:10px}:host .content rk-row rk-col .favoris .favoris-container .grid *{aspect-ratio:1/1;flex-shrink:0;height:auto;width:calc(33.3333333333% - 6.6666666667px)}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;justify-content:space-between;width:100%}:host .footer .person{align-items:center;border-radius:var(--border-radius-sm);display:flex;margin:10px 10px;padding:8px 10px;transition:background-color .2s var(--bezier-curve)}:host .footer .person .icon{height:30px;width:30px}:host .footer .person .name{margin-left:10px}:host .footer .person:hover{background-color:var(--lighter)}:host .footer .actions{align-items:center;display:flex}:host .footer .actions rk-pwa-button{color:var(--text-color-success);background-color:var(--success);height:36px;width:36px}:host .footer .actions rk-button{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;border:none;height:36px;width:36px;box-shadow:var(--elevation-2);margin:10px 10px;min-width:auto}@media screen and (max-width: 768px){:host{left:-10px}:host .content rk-row{flex-direction:column}:host .content rk-row rk-col{width:100%;height:50%}}`;
-    __getStatic() {
-        return HomePanel;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(HomePanel.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="content">    <rk-row>        <rk-col size="6">            <div class="recent">                <div class="title">                    Récents                </div>                <rk-scrollable class="scrollable recent-container" floating_scroll _id="homepanel_0">                </rk-scrollable>            </div>        </rk-col>        <rk-col size="6">            <div class="favoris">                <div class="title">                    Mes favoris                </div>                <rk-scrollable class="scrollable favoris-container" floating_scroll>                    <div class="grid" _id="homepanel_1"></div>                </rk-scrollable>            </div>        </rk-col>    </rk-row></div><div class="footer">    <div class="person touch" _id="homepanel_2">        <rk-user-profil-picture class="icon" _id="homepanel_3"></rk-user-profil-picture>        <div class="name" _id="homepanel_4"></div>    </div>    <div class="actions">        <rk-pwa-button>            <rk-tooltip position="top" delay="1000" use_absolute color="green">Installer l'application</rk-tooltip>        </rk-pwa-button>        <rk-button icon="/img/icons/power-off.svg" _id="homepanel_5"></rk-button>    </div></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "recentContainer",
-      "ids": [
-        "homepanel_0"
-      ]
-    },
-    {
-      "name": "favorisContainer",
-      "ids": [
-        "homepanel_1"
-      ]
-    }
-  ],
-  "content": {
-    "homepanel_3°uri": {
-      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod0())}`
-    },
-    "homepanel_4°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod1())} ${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod2())}`
-    }
-  },
-  "pressEvents": [
-    {
-      "id": "homepanel_2",
-      "onPress": (e, pressInstance, c) => { c.comp.openProfil(e, pressInstance); }
-    },
-    {
-      "id": "homepanel_5",
-      "onPress": (e, pressInstance, c) => { c.comp.logout(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "HomePanel";
-    }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["currentUser"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('currentUser'); }
-    async openProfil() {
-        const canSettings = await can(new Permissions.ApplicationPermissionQuery(Permissions.ApplicationPermission.AllowAccess, "Settings"));
-        if (canSettings) {
-            let desktop = this.findParentByType(System.Desktop);
-            if (desktop) {
-                desktop.openUrl("Settings", "/", "/profil");
-                this.btn.active = false;
-            }
-        }
-    }
-    async logout() {
-        Lib.SessionManager.logout();
-    }
-    async displayRecent() {
-        // for(let i = 0; i < 20; i++) {
-        //     let test = new AppIconInline();
-        //     let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
-        //     let app = await ApplicationRAM.getInstance().getApplicationByName("Cave");
-        //     if(icon && app) {
-        //         test.setIcon(icon);
-        //         test.text = app.DisplayName;
-        //     }
-        //     this.recentContainer.appendChild(test);
-        // }
-    }
-    async displayFavoris() {
-        // for(let i = 0; i < 20; i++) {
-        //     let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
-        //     if(icon) {
-        //         this.favorisContainer.appendChild(icon);
-        //     }
-        // }
-    }
-    async getUser() {
-        this.currentUser = await Lib.SessionManager.getUser();
-    }
-    postCreation() {
-        this.getUser();
-        this.displayRecent();
-        this.displayFavoris();
-        new Aventus.PressManager({
-            element: this,
-            onPress: () => { },
-            onDrag: () => { },
-        });
-    }
-    __71121dd8c2837747a91ecf75da806c7amethod0() {
-        return this.currentUser?.Picture.Uri;
-    }
-    __71121dd8c2837747a91ecf75da806c7amethod1() {
-        return this.currentUser?.Firstname;
-    }
-    __71121dd8c2837747a91ecf75da806c7amethod2() {
-        return this.currentUser?.Lastname;
-    }
-}
-System.HomePanel.Namespace=`Core.System`;
-System.HomePanel.Tag=`rk-home-panel`;
-_.System.HomePanel=System.HomePanel;
-if(!window.customElements.get('rk-home-panel')){window.customElements.define('rk-home-panel', System.HomePanel);Aventus.WebComponentInstance.registerDefinition(System.HomePanel);}
-
-System.HomeBtn = class HomeBtn extends Aventus.WebComponent {
-    get 'active'() { return this.getBoolAttr('active') }
-    set 'active'(val) { this.setBoolAttr('active', val) }    static __style = `:host{position:relative}:host .icon{border-radius:var(--border-radius-sm);cursor:pointer;margin:0 3px;height:var(--desktop-bottom-bar-element);width:var(--desktop-bottom-bar-element);padding:7px;transition:background-color .2s var(--bezier-curve)}:host rk-home-panel{bottom:calc(100% + 5px);height:0;overflow:hidden;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s}:host([active]) .icon{background-color:var(--text-color)}:host([active]) .icon rk-img{--img-fill-color: var(--primary-color-opacity)}:host([active]) rk-home-panel{bottom:calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element))/2 + 3px);height:400px}@media screen and (min-width: 1225px){:host(:not([active])) .icon:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 768px){:host{margin-right:10px}:host([active]) rk-home-panel{bottom:calc(100% + 12px);height:calc(var(--os-height) - 69px)}}`;
-    __getStatic() {
-        return HomeBtn;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(HomeBtn.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="icon" _id="homebtn_0">    <rk-img mode="contains" src="/img/icons/house.svg" class="touch"></rk-img></div><rk-home-panel _id="homebtn_1"></rk-home-panel>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "homePanel",
-      "ids": [
-        "homebtn_1"
-      ]
-    }
-  ],
-  "pressEvents": [
-    {
-      "id": "homebtn_0",
-      "onPress": (e, pressInstance, c) => { c.comp.toggleActive(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "HomeBtn";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('active'); }
-    __listBoolProps() { return ["active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    toggleActive() {
-        this.active = !this.active;
-    }
-    postCreation() {
-        this.homePanel.btn = this;
-    }
-}
-System.HomeBtn.Namespace=`Core.System`;
-System.HomeBtn.Tag=`rk-home-btn`;
-_.System.HomeBtn=System.HomeBtn;
-if(!window.customElements.get('rk-home-btn')){window.customElements.define('rk-home-btn', System.HomeBtn);Aventus.WebComponentInstance.registerDefinition(System.HomeBtn);}
-
-Websocket.Routes.DesktopRouter_RegisterOpenApp=class DesktopRouter_RegisterOpenApp extends AventusSharp.WebSocket.WsEvent {
+Ram.FavoriteRAM=class FavoriteRAM extends AventusSharp.RAM.RamWebSocket {
     /**
-     * @inheritdoc
+     * Create a singleton to store data
      */
-    path() {
-        return `${this.getPrefix()}/desktop/RegisterOpenApp`;
+    static getInstance() {
+        return Aventus.Instance.get(Ram.FavoriteRAM);
     }
     /**
      * @inheritdoc
      */
-    listenOnBoot() {
-        return true;
+    defineIndexKey() {
+        return 'Id';
+    }
+    /**
+     * @inheritdoc
+     */
+    getTypeForData(objJson) {
+        return Data.Favorite;
+    }
+    /**
+     * @inheritdoc
+     */
+    defineRoutes() {
+        return new Websocket.Routes.FavoriteRouter();
     }
 }
-Websocket.Routes.DesktopRouter_RegisterOpenApp.Namespace=`Core.Websocket.Routes`;
-_.Websocket.Routes.DesktopRouter_RegisterOpenApp=Websocket.Routes.DesktopRouter_RegisterOpenApp;
-
-Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocket.Router {
-    defineEvents() {
-        return {
-            ...super.defineEvents(),
-            RegisterOpenApp: new Websocket.Routes.DesktopRouter_RegisterOpenApp(this.endpoint, this.getPrefix),
-            RemoveApp: new Websocket.Routes.DesktopRouter_RemoveApp(this.endpoint, this.getPrefix),
-            SetDesktopIcon: new Websocket.Routes.DesktopRouter_SetDesktopIcon(this.endpoint, this.getPrefix),
-            RemoveDesktopIcon: new Websocket.Routes.DesktopRouter_RemoveDesktopIcon(this.endpoint, this.getPrefix),
-        };
-    }
-    constructor(endpoint) {
-        super(endpoint ?? Websocket.MainEndPoint.getInstance());
-    }
-    async RegisterOpenApp(body, options = {}) {
-        const info = {
-            channel: `${this.getPrefix()}/desktop/RegisterOpenApp`,
-            body: body,
-            ...options,
-        };
-        return await this.endpoint.sendMessageAndWait(info);
-    }
-    async RemoveApp(body, options = {}) {
-        const info = {
-            channel: `${this.getPrefix()}/desktop/RemoveApp`,
-            body: body,
-            ...options,
-        };
-        return await this.endpoint.sendMessageAndWait(info);
-    }
-    async SetDesktopIcon(body, options = {}) {
-        const info = {
-            channel: `${this.getPrefix()}/desktop/SetDesktopIcon`,
-            body: body,
-            ...options,
-        };
-        return await this.endpoint.sendMessageAndWait(info);
-    }
-    async RemoveDesktopIcon(body, options = {}) {
-        const info = {
-            channel: `${this.getPrefix()}/desktop/RemoveDesktopIcon`,
-            body: body,
-            ...options,
-        };
-        return await this.endpoint.sendMessageAndWait(info);
-    }
-}
-Websocket.Routes.DesktopRouter.Namespace=`Core.Websocket.Routes`;
-_.Websocket.Routes.DesktopRouter=Websocket.Routes.DesktopRouter;
-
-System.BottomBar = class BottomBar extends Aventus.WebComponent {
-    get 'permissions'() {
-						return this.__watch["permissions"];
-					}
-					set 'permissions'(val) {
-						this.__watch["permissions"] = val;
-					}    get desktop() {
-        if (this.parentNode instanceof ShadowRoot) {
-            if (this.parentNode.host instanceof System.Desktop) {
-                return this.parentNode.host;
-            }
-        }
-        throw "impossible";
-    }
-    is_desktop_active = false;
-    timeoutOverHome = 0;
-    emptyIcon;
-    __registerWatchesActions() {
-    this.__addWatchesActions("permissions");    super.__registerWatchesActions();
-}
-    static __style = `:host{align-items:center;background-color:var(--primary-color-opacity);border-radius:var(--border-radius);bottom:10px;box-shadow:var(--elevation-3);color:var(--text-color);display:flex;font-size:var(--font-size);height:calc(var(--desktop-bottom-bar, 50px) + var(--safe-area-bottom));left:100px;outline:none;padding:0 10px;padding-bottom:var(--safe-area-bottom);position:absolute;transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s,transform 1s var(--bezier-curve);width:calc(100% - 200px);z-index:100}:host .section{align-items:center;display:flex;height:100%}:host .section .icon{--img-stroke-color: transparent;--img-fill-color: var(--text-color);border-radius:var(--border-radius-sm);cursor:pointer;margin:0 3px;max-height:var(--desktop-bottom-bar-element);max-width:var(--desktop-bottom-bar-element);padding:7px;transition:background-color .2s var(--bezier-curve)}:host .section rk-app-icon{margin:0 5px}:host .separator{background-color:var(--text-color);display:inline-block;height:50%;margin:0 13px;width:1px}:host .applications{flex-grow:1;gap:10px;position:relative}:host .applications .empty-icon{background-color:var(--darker-active);border-radius:var(--border-radius-sm);height:var(--desktop-bottom-bar-element);width:var(--desktop-bottom-bar-element)}:host .applications>*{height:var(--desktop-bottom-bar-element);width:var(--desktop-bottom-bar-element)}:host .nb-notifications{align-items:center;background-color:var(--text-color);border-radius:var(--border-radius-round);color:var(--primary-color-opacity);display:flex;font-size:14px;font-weight:bold;height:25px;justify-content:center;letter-spacing:-1px;padding-right:1px;width:25px}:host .safe-hider{bottom:0;height:var(--safe-area-bottom);left:0;position:absolute;width:100%}@media screen and (min-width: 1225px){:host .section .icon:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host{border-radius:0;border-bottom-left-radius:0;border-bottom-right-radius:0;bottom:0px;left:0px;width:100%}}@media screen and (max-width: 768px){:host .basic-action>*{display:none}:host .basic-action rk-home-btn{display:inline-block}:host .addons>*{display:none}:host .separator{display:none}}`;
-    constructor() { super(); this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this) }
-    __getStatic() {
-        return BottomBar;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(BottomBar.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="section basic-action">    <rk-home-btn></rk-home-btn>    <rk-img mode="contains" src="/img/icons/application-panel.svg" class="touch icon" _id="bottombar_0"></rk-img>    <template _id="bottombar_1"></template></div><div class="separator"></div><div class="section applications" _id="bottombar_3"></div><div class="separator"></div><div class="section addons">    <rk-add-on-time></rk-add-on-time></div><div class="safe-hider" _id="bottombar_4"></div>` }
-    });
-}
-    __createStates() { super.__createStates(); let that = this;  this.__createStatesList(State.MoveApplication.state, State.DesktopStateManager);this.__addActiveState(State.MoveApplication.state, State.DesktopStateManager, (state, slugs) => { that.__inactiveDefaultState(State.DesktopStateManager); that.onMoveApplication(state, slugs);})this.__addInactiveState(State.MoveApplication.state, State.DesktopStateManager, (state, nextState, slugs) => { that.onStopMovingApplication(state, nextState, slugs);that.__activeDefaultState(nextState, State.DesktopStateManager);}) }
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "applicationsContainer",
-      "ids": [
-        "bottombar_3"
-      ]
-    },
-    {
-      "name": "safeHider",
-      "ids": [
-        "bottombar_4"
-      ]
-    }
-  ],
-  "pressEvents": [
-    {
-      "id": "bottombar_0",
-      "onPress": (e, pressInstance, c) => { c.comp.showAppList(e, pressInstance); }
-    }
-  ]
-});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <rk-img mode="contains" src="/img/icons/layout-fluid.svg" class="touch icon" _id="bottombar_2"></rk-img>    `);templ0.setActions({
-  "pressEvents": [
-    {
-      "id": "bottombar_2",
-      "onPress": (e, pressInstance, c) => { c.comp.showDesktops(e, pressInstance); }
-    }
-  ]
-});this.__getStatic().__template.addIf({
-                    anchorId: 'bottombar_1',
-                    parts: [{once: true,
-                    condition: (c) => c.comp.__caf7651d66630d65b331758f2e732cb4method0(),
-                    template: templ0
-                }]
-            }); }
-    getClassName() {
-        return "BottomBar";
-    }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["permissions"] = {                CanHaveVirtualDesktop: false            }; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('desktop');this.__correctGetter('permissions'); }
-    async getPermissions() {
-        this.permissions.CanHaveVirtualDesktop = await can(new Permissions.DesktopPermissionQuery(Permissions.DesktopPermission.CanHaveVirtualDesktop));
-    }
-    addSwipe() {
-        let enable = true;
-        let startY = 0;
-        new Aventus.PressManager({
-            element: this.safeHider,
-            offsetDrag: 0,
-            onDrag: () => { }
-        });
-        new Aventus.DragAndDrop({
-            element: this,
-            applyDrag: false,
-            offsetDrag: 50,
-            isDragEnable: () => enable,
-            onStart: (e) => {
-                startY = e.pageY;
-            },
-            onMove: (e) => {
-                let positionY = startY - e.pageY;
-                if (positionY > 50) {
-                    enable = false;
-                    this.showAppList();
-                }
-            },
-            onStop: () => {
-                enable = true;
-            }
-        });
-    }
-    showAppList() {
-        System.Os.instance.show_application_list = true;
-    }
-    showDesktops() {
-        System.Os.instance.desktop_list = true;
-    }
-    addFocus() {
-        this.setAttribute("tabindex", "-1");
-        this.addEventListener("focus", (e) => {
-            e.stopPropagation();
-            this.setDesktopActive();
-        });
-    }
-    setAppPositionTemp(shadow, x, y, state) {
-        let caseEl = this.shadowRoot.elementFromPoint(x, y);
-        if (caseEl && this.shadowRoot.contains(caseEl)) {
-            shadow.style.width = "";
-            shadow.style.height = "";
-            if (caseEl instanceof System.HomeBtn) {
-                if (!this.timeoutOverHome && !caseEl.active) {
-                    this.timeoutOverHome = setTimeout(() => {
-                        let caseEl = this.shadowRoot.elementFromPoint(state.lastX, state.lastY);
-                        if (caseEl instanceof System.HomeBtn) {
-                            caseEl.active = true;
-                        }
-                    }, 2000);
-                }
-                return false;
-            }
-            if (this.timeoutOverHome) {
-                clearTimeout(this.timeoutOverHome);
-                this.timeoutOverHome = 0;
-            }
-            let rect = this.applicationsContainer.getBoundingClientRect();
-            if (x >= rect.x && x <= rect.x + rect.width) {
-                if (!this.emptyIcon) {
-                    this.emptyIcon = document.createElement("DIV");
-                    this.emptyIcon.classList.add("empty-icon");
-                }
-                let children = Array.from(this.applicationsContainer.children);
-                let found = false;
-                for (let i = 0; i < children.length; i++) {
-                    let child = children[i];
-                    if (child instanceof System.AppIcon) {
-                        if (x < rect.x + child.offsetLeft + (child.offsetWidth / 2)) {
-                            this.applicationsContainer.insertBefore(this.emptyIcon, child);
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-                if (!found) {
-                    this.applicationsContainer.appendChild(this.emptyIcon);
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-    clearAppPositionTemp(state) {
-        if (this.timeoutOverHome) {
-            let caseEl = this.shadowRoot.elementFromPoint(state.lastX, state.lastY);
-            if (!(caseEl instanceof System.HomeBtn)) {
-                clearTimeout(this.timeoutOverHome);
-                this.timeoutOverHome = 0;
-            }
-        }
-        if (this.emptyIcon?.parentNode) {
-            this.emptyIcon.remove();
-        }
-    }
-    async setAppPosition(icon, x, y) {
-        if (this.emptyIcon?.parentNode) {
-            let children = this.emptyIcon.parentNode?.children ?? [];
-            let no = Array.from(children).indexOf(this.emptyIcon);
-            if (no == -1)
-                return;
-            this.applicationsContainer.insertBefore(icon, this.emptyIcon);
-            this.emptyIcon.remove();
-            let desktopIcon = new Data.DesktopAppIcon();
-            desktopIcon.DesktopId = this.desktop.desktop_id;
-            desktopIcon.Position = no;
-            desktopIcon.IconTag = icon.tag;
-            desktopIcon.Location = Data.DesktopLocation.BottomBar;
-            desktopIcon.Id = icon.iconId;
-            let result = await new Websocket.Routes.DesktopRouter().SetDesktopIcon({
-                icon: desktopIcon
-            });
-            if (result.success && result.result) {
-                icon.iconId = result.result.Id;
-                icon.position = result.result.Position;
-                icon.can_remove = true;
-            }
-            no++;
-            for (; no < children.length; no++) {
-                let child = children[no];
-                if (child instanceof System.AppIcon) {
-                    let desktopIcon = new Data.DesktopAppIcon();
-                    desktopIcon.DesktopId = this.desktop.desktop_id;
-                    desktopIcon.Position = no;
-                    desktopIcon.IconTag = child.tag;
-                    desktopIcon.Location = Data.DesktopLocation.BottomBar;
-                    desktopIcon.Id = child.iconId;
-                    let result = await new Websocket.Routes.DesktopRouter().SetDesktopIcon({
-                        icon: desktopIcon
-                    });
-                    if (result.success) {
-                        child.position = no;
-                    }
-                }
-            }
-        }
-    }
-    async removeAppPosition(icon, x, y) {
-        let caseEl = this.shadowRoot.elementFromPoint(x, y);
-        if (caseEl && this.shadowRoot.contains(caseEl)) {
-            let children = icon.parentNode?.children ?? [];
-            let no = Array.from(children).indexOf(icon);
-            let desktopIcon = new Data.DesktopAppIcon();
-            desktopIcon.Id = icon.iconId;
-            let result = await new Websocket.Routes.DesktopRouter().RemoveDesktopIcon({
-                icon: desktopIcon
-            });
-            if (result.success) {
-                icon.remove();
-                for (; no < children.length; no++) {
-                    let child = children[no];
-                    if (child instanceof System.AppIcon) {
-                        let desktopIcon = new Data.DesktopAppIcon();
-                        desktopIcon.DesktopId = this.desktop.desktop_id;
-                        desktopIcon.Position = no;
-                        desktopIcon.IconTag = child.tag;
-                        desktopIcon.Location = Data.DesktopLocation.BottomBar;
-                        desktopIcon.Id = child.iconId;
-                        let result = await new Websocket.Routes.DesktopRouter().SetDesktopIcon({
-                            icon: desktopIcon
-                        });
-                        if (result.success) {
-                            child.position = no;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    onMoveApplication(state, slugs) {
-        if (!this.desktop?.is_active) {
-            return;
-        }
-        if (state instanceof State.MoveApplication) {
-            state.registerProvider(this);
-        }
-    }
-    onStopMovingApplication(state, nextState, slugs) {
-        if (!this.desktop?.is_active) {
-            return;
-        }
-    }
-    setApplication(el) {
-        this.applicationsContainer.appendChild(el);
-    }
-    setDesktopActive() {
-        System.DesktopActivableLogic.set(this);
-    }
-    removeDesktopActive() {
-        System.DesktopActivableLogic.remove(this);
-    }
-    postCreation() {
-        this.getPermissions();
-        this.addSwipe();
-        this.addFocus();
-    }
-    __caf7651d66630d65b331758f2e732cb4method0() {
-        return this.permissions.CanHaveVirtualDesktop;
-    }
-}
-System.BottomBar.Namespace=`Core.System`;
-System.BottomBar.Tag=`rk-bottom-bar`;
-_.System.BottomBar=System.BottomBar;
-if(!window.customElements.get('rk-bottom-bar')){window.customElements.define('rk-bottom-bar', System.BottomBar);Aventus.WebComponentInstance.registerDefinition(System.BottomBar);}
+Ram.FavoriteRAM.Namespace=`Core.Ram`;
+_.Ram.FavoriteRAM=Ram.FavoriteRAM;
 
 Components.Resize = class Resize extends Aventus.WebComponent {
     get 'min_width'() { return this.getNumberAttr('min_width') }
@@ -7956,180 +7499,6 @@ System.ApplicationHistory.$schema={"$type":"string","memory":"History[]","curren
 Aventus.Converter.register(System.ApplicationHistory.Fullname, System.ApplicationHistory);
 _.System.ApplicationHistory=System.ApplicationHistory;
 
-Lib.ApplicationManager=class ApplicationManager {
-    static waitingDelay = 1000;
-    static waitings = {};
-    static processing = {};
-    static mutex = new Aventus.Mutex();
-    static openApplications = {};
-    static openApplicationsKey = "openApplications";
-    static get storage() {
-        return sessionStorage;
-    }
-    static async save(appInfo) {
-        if (System.Os.instance.activeDesktop.data.Configuration.SyncDesktop) {
-            await this.uniqueAction(appInfo, async (appInfo) => {
-                await new Websocket.Routes.DesktopRouter().RegisterOpenApp({
-                    appInfo
-                });
-            });
-        }
-        else {
-            const { DesktopId, Info } = appInfo;
-            if (!this.openApplications[DesktopId]) {
-                this.openApplications[DesktopId] = [];
-            }
-            let mustAdd = true;
-            for (let i = 0; i < this.openApplications[DesktopId].length; i++) {
-                let current = this.openApplications[DesktopId][i];
-                if (current.number == Info.number && current.applicationName == Info.applicationName) {
-                    this.openApplications[DesktopId][i] = Info;
-                    mustAdd = false;
-                    break;
-                }
-            }
-            if (mustAdd) {
-                this.openApplications[DesktopId].push(Info);
-            }
-            this.storage.setItem(this.openApplicationsKey, JSON.stringify(this.openApplications));
-        }
-    }
-    static async remove(appInfo) {
-        if (System.Os.instance.activeDesktop.data.Configuration.SyncDesktop) {
-            await this.uniqueAction(appInfo, async (appInfo) => {
-                await new Websocket.Routes.DesktopRouter().RemoveApp({
-                    appInfo
-                });
-            });
-        }
-        else {
-            const { DesktopId, Info } = appInfo;
-            if (!this.openApplications[DesktopId]) {
-                return;
-            }
-            for (let i = 0; i < this.openApplications[DesktopId].length; i++) {
-                let current = this.openApplications[DesktopId][i];
-                if (current.number == Info.number && current.applicationName == Info.applicationName) {
-                    this.openApplications[DesktopId].splice(i, 1);
-                    if (this.openApplications[DesktopId].length == 0) {
-                        delete this.openApplications[DesktopId];
-                    }
-                    this.storage.setItem(this.openApplicationsKey, JSON.stringify(this.openApplications));
-                    return;
-                }
-            }
-        }
-    }
-    static getOpenApps(desktopId) {
-        return this.openApplications[desktopId] ?? [];
-    }
-    static uniqueAction(appInfo, action) {
-        this.mutex.safeRun(() => {
-            let key = this.getKey(appInfo);
-            if (this.waitings[key]) {
-                clearTimeout(this.waitings[key].timeout);
-            }
-            if (this.processing[key]) {
-                this.waitings[key] = {
-                    data: appInfo,
-                    timeout: 0
-                };
-                return;
-            }
-            this.waitings[key] = {
-                data: appInfo,
-                timeout: setTimeout(async () => {
-                    let appInfo;
-                    await this.mutex.safeRun(() => {
-                        appInfo = this.waitings[key].data;
-                        this.processing[key] = true;
-                        delete this.waitings[key];
-                    });
-                    await action(appInfo);
-                    await this.mutex.safeRun(() => {
-                        delete this.processing[key];
-                    });
-                    if (this.waitings[key]) {
-                        this.save(this.waitings[key].data);
-                    }
-                }, Lib.ApplicationManager.waitingDelay)
-            };
-        });
-    }
-    static reloadData() {
-        let savedValues = this.storage.getItem(this.openApplicationsKey) ?? '[]';
-        this.openApplications = Aventus.Converter.transform(JSON.parse(savedValues));
-    }
-    static init() {
-        this.onRegisterInfo = this.onRegisterInfo.bind(this);
-        this.onRemoveApp = this.onRemoveApp.bind(this);
-        new Websocket.Routes.DesktopRouter().events.RegisterOpenApp.onTrigger.add(this.onRegisterInfo);
-        new Websocket.Routes.DesktopRouter().events.RemoveApp.onTrigger.add(this.onRemoveApp);
-    }
-    static async onRegisterInfo(item, params) {
-        let key = this.getKey(item);
-        if (this.processing[key]) {
-            return;
-        }
-        if (!item.Info) {
-            return;
-        }
-        let info = item.Info;
-        if (info.number === undefined || info.history === undefined) {
-            return;
-        }
-        for (let desktopEl of System.Os.instance.desktopsEl) {
-            if (desktopEl.desktop_id == item.DesktopId) {
-                let found = false;
-                for (let appName in desktopEl.applications) {
-                    if (appName == info.applicationName) {
-                        let app = desktopEl.applications[appName][info.number];
-                        if (app) {
-                            found = true;
-                            app.setHistory(System.ApplicationHistory.fromText(app.navigator, info.history));
-                            app.is_hidden = info.isHidden ?? false;
-                            break;
-                        }
-                    }
-                }
-                if (!found) {
-                    this.processing[key] = true;
-                    await desktopEl.recreateApplication(info);
-                    delete this.processing[key];
-                }
-            }
-        }
-    }
-    static async onRemoveApp(item, params) {
-        if (!item.Info) {
-            return;
-        }
-        let info = item.Info;
-        if (info.number === undefined || info.history === undefined) {
-            return;
-        }
-        for (let desktopEl of System.Os.instance.desktopsEl) {
-            if (desktopEl.desktop_id == item.DesktopId) {
-                for (let appName in desktopEl.applications) {
-                    if (appName == info.applicationName) {
-                        let app = desktopEl.applications[appName][info.number];
-                        app.mustRemoveApplicationHistory = false;
-                        app.kill();
-                        if (app) {
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    static getKey(appInfo) {
-        return appInfo.DesktopId + ":" + appInfo.Info?.applicationName + "$" + appInfo.Info?.number;
-    }
-}
-Lib.ApplicationManager.Namespace=`Core.Lib`;
-_.Lib.ApplicationManager=Lib.ApplicationManager;
-
 System.ApplicationSizeStorage=class ApplicationSizeStorage {
     memoryPrefered = {};
     memory = {};
@@ -8317,6 +7686,229 @@ System.Frame404.Namespace=`Core.System`;
 System.Frame404.Tag=`rk-frame-404`;
 _.System.Frame404=System.Frame404;
 if(!window.customElements.get('rk-frame-404')){window.customElements.define('rk-frame-404', System.Frame404);Aventus.WebComponentInstance.registerDefinition(System.Frame404);}
+
+Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocket.Router {
+    defineEvents() {
+        return {
+            ...super.defineEvents(),
+            RegisterOpenApp: new Websocket.Routes.DesktopRouter_RegisterOpenApp(this.endpoint, this.getPrefix),
+            RemoveApp: new Websocket.Routes.DesktopRouter_RemoveApp(this.endpoint, this.getPrefix),
+            SetDesktopIcon: new Websocket.Routes.DesktopRouter_SetDesktopIcon(this.endpoint, this.getPrefix),
+            RemoveDesktopIcon: new Websocket.Routes.DesktopRouter_RemoveDesktopIcon(this.endpoint, this.getPrefix),
+        };
+    }
+    constructor(endpoint) {
+        super(endpoint ?? Websocket.MainEndPoint.getInstance());
+    }
+    async RegisterOpenApp(body, options = {}) {
+        const info = {
+            channel: `${this.getPrefix()}/desktop/RegisterOpenApp`,
+            body: body,
+            ...options,
+        };
+        return await this.endpoint.sendMessageAndWait(info);
+    }
+    async RemoveApp(body, options = {}) {
+        const info = {
+            channel: `${this.getPrefix()}/desktop/RemoveApp`,
+            body: body,
+            ...options,
+        };
+        return await this.endpoint.sendMessageAndWait(info);
+    }
+    async SetDesktopIcon(body, options = {}) {
+        const info = {
+            channel: `${this.getPrefix()}/desktop/SetDesktopIcon`,
+            body: body,
+            ...options,
+        };
+        return await this.endpoint.sendMessageAndWait(info);
+    }
+    async RemoveDesktopIcon(body, options = {}) {
+        const info = {
+            channel: `${this.getPrefix()}/desktop/RemoveDesktopIcon`,
+            body: body,
+            ...options,
+        };
+        return await this.endpoint.sendMessageAndWait(info);
+    }
+}
+Websocket.Routes.DesktopRouter.Namespace=`Core.Websocket.Routes`;
+_.Websocket.Routes.DesktopRouter=Websocket.Routes.DesktopRouter;
+
+Lib.ApplicationManager=class ApplicationManager {
+    static waitingDelay = 1000;
+    static waitings = {};
+    static processing = {};
+    static mutex = new Aventus.Mutex();
+    static openApplications = {};
+    static openApplicationsKey = "openApplications";
+    static get storage() {
+        return sessionStorage;
+    }
+    static async save(appInfo) {
+        if (System.Os.instance.activeDesktop.data.Configuration.SyncDesktop) {
+            await this.uniqueAction(appInfo, async (appInfo) => {
+                await new Websocket.Routes.DesktopRouter().RegisterOpenApp({
+                    appInfo
+                });
+            });
+        }
+        else {
+            const { DesktopId, Info } = appInfo;
+            if (!this.openApplications[DesktopId]) {
+                this.openApplications[DesktopId] = [];
+            }
+            let mustAdd = true;
+            for (let i = 0; i < this.openApplications[DesktopId].length; i++) {
+                let current = this.openApplications[DesktopId][i];
+                if (current.number == Info.number && current.applicationName == Info.applicationName) {
+                    this.openApplications[DesktopId][i] = Info;
+                    mustAdd = false;
+                    break;
+                }
+            }
+            if (mustAdd) {
+                this.openApplications[DesktopId].push(Info);
+            }
+            this.storage.setItem(this.openApplicationsKey, JSON.stringify(this.openApplications));
+        }
+    }
+    static async remove(appInfo) {
+        if (System.Os.instance.activeDesktop.data.Configuration.SyncDesktop) {
+            await this.uniqueAction(appInfo, async (appInfo) => {
+                await new Websocket.Routes.DesktopRouter().RemoveApp({
+                    appInfo
+                });
+            });
+        }
+        else {
+            const { DesktopId, Info } = appInfo;
+            if (!this.openApplications[DesktopId]) {
+                return;
+            }
+            for (let i = 0; i < this.openApplications[DesktopId].length; i++) {
+                let current = this.openApplications[DesktopId][i];
+                if (current.number == Info.number && current.applicationName == Info.applicationName) {
+                    this.openApplications[DesktopId].splice(i, 1);
+                    if (this.openApplications[DesktopId].length == 0) {
+                        delete this.openApplications[DesktopId];
+                    }
+                    this.storage.setItem(this.openApplicationsKey, JSON.stringify(this.openApplications));
+                    return;
+                }
+            }
+        }
+    }
+    static getOpenApps(desktopId) {
+        return this.openApplications[desktopId] ?? [];
+    }
+    static uniqueAction(appInfo, action) {
+        this.mutex.safeRun(() => {
+            let key = this.getKey(appInfo);
+            if (this.waitings[key]) {
+                clearTimeout(this.waitings[key].timeout);
+            }
+            if (this.processing[key]) {
+                this.waitings[key] = {
+                    data: appInfo,
+                    timeout: 0
+                };
+                return;
+            }
+            this.waitings[key] = {
+                data: appInfo,
+                timeout: setTimeout(async () => {
+                    let appInfo;
+                    await this.mutex.safeRun(() => {
+                        appInfo = this.waitings[key].data;
+                        this.processing[key] = true;
+                        delete this.waitings[key];
+                    });
+                    await action(appInfo);
+                    await this.mutex.safeRun(() => {
+                        delete this.processing[key];
+                    });
+                    if (this.waitings[key]) {
+                        this.save(this.waitings[key].data);
+                    }
+                }, Lib.ApplicationManager.waitingDelay)
+            };
+        });
+    }
+    static reloadData() {
+        let savedValues = this.storage.getItem(this.openApplicationsKey) ?? '[]';
+        this.openApplications = Aventus.Converter.transform(JSON.parse(savedValues));
+    }
+    static init() {
+        this.onRegisterInfo = this.onRegisterInfo.bind(this);
+        this.onRemoveApp = this.onRemoveApp.bind(this);
+        new Websocket.Routes.DesktopRouter().events.RegisterOpenApp.onTrigger.add(this.onRegisterInfo);
+        new Websocket.Routes.DesktopRouter().events.RemoveApp.onTrigger.add(this.onRemoveApp);
+    }
+    static async onRegisterInfo(item, params) {
+        let key = this.getKey(item);
+        if (this.processing[key]) {
+            return;
+        }
+        if (!item.Info) {
+            return;
+        }
+        let info = item.Info;
+        if (info.number === undefined || info.history === undefined) {
+            return;
+        }
+        for (let desktopEl of System.Os.instance.desktopsEl) {
+            if (desktopEl.desktop_id == item.DesktopId) {
+                let found = false;
+                for (let appName in desktopEl.applications) {
+                    if (appName == info.applicationName) {
+                        let app = desktopEl.applications[appName][info.number];
+                        if (app) {
+                            found = true;
+                            app.setHistory(System.ApplicationHistory.fromText(app.navigator, info.history));
+                            app.is_hidden = info.isHidden ?? false;
+                            break;
+                        }
+                    }
+                }
+                if (!found) {
+                    this.processing[key] = true;
+                    await desktopEl.recreateApplication(info);
+                    delete this.processing[key];
+                }
+            }
+        }
+    }
+    static async onRemoveApp(item, params) {
+        if (!item.Info) {
+            return;
+        }
+        let info = item.Info;
+        if (info.number === undefined || info.history === undefined) {
+            return;
+        }
+        for (let desktopEl of System.Os.instance.desktopsEl) {
+            if (desktopEl.desktop_id == item.DesktopId) {
+                for (let appName in desktopEl.applications) {
+                    if (appName == info.applicationName) {
+                        let app = desktopEl.applications[appName][info.number];
+                        app.mustRemoveApplicationHistory = false;
+                        app.kill();
+                        if (app) {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    static getKey(appInfo) {
+        return appInfo.DesktopId + ":" + appInfo.Info?.applicationName + "$" + appInfo.Info?.number;
+    }
+}
+Lib.ApplicationManager.Namespace=`Core.Lib`;
+_.Lib.ApplicationManager=Lib.ApplicationManager;
 
 Components.GenericPopup = class GenericPopup extends Aventus.WebComponent {
     get 'no_red_btn'() { return this.getBoolAttr('no_red_btn') }
@@ -8704,6 +8296,7 @@ System.Application = class Application extends Aventus.WebComponent {
         }
         return this.router;
     }
+    __onRouteRegisteredCb = [];
     __registerWatchesActions() {
     this.__addWatchesActions("is_desktop_active", ((target) => {
     target.shortcutManager.manageShortcut();
@@ -8816,6 +8409,14 @@ System.Application = class Application extends Aventus.WebComponent {
                 this.resetSize();
             }
         });
+        contextMenu.addItem({
+            text: "Favori",
+            icon: "mi-star",
+            priority: 1,
+            action: () => {
+                this.saveAsFavorite();
+            }
+        });
         stop();
     }
     bindContextMenu() {
@@ -8867,9 +8468,22 @@ System.Application = class Application extends Aventus.WebComponent {
             for (let key in this.allRoutes) {
                 this.initRoute(key);
             }
+            let cbs = [...this.__onRouteRegisteredCb];
+            for (let cb of cbs) {
+                cb();
+            }
+            this.__onRouteRegisteredCb = [];
         }
         catch (e) {
             console.log(e);
+        }
+    }
+    onRouteRegistered(cb) {
+        if (this.isRegistered) {
+            cb();
+        }
+        else {
+            this.__onRouteRegisteredCb.push(cb);
         }
     }
     defineShortcut() {
@@ -9315,6 +8929,18 @@ System.Application = class Application extends Aventus.WebComponent {
             this.remove();
         }
     }
+    async saveAsFavorite() {
+        let state = this.navigator.getState();
+        if (state) {
+            let favorite = new Data.Favorite();
+            let cst = this.constructor;
+            let application = cst.Fullname.split(".")[0];
+            favorite.Name = this.app_title;
+            favorite.TagName = this.tagName.toLowerCase();
+            favorite.State = JSON.stringify(state);
+            await this.execute(Ram.FavoriteRAM.getInstance().createWithError(favorite));
+        }
+    }
     popup(p) {
         return new Promise((resolve) => {
             p.application = this;
@@ -9587,6 +9213,535 @@ Components.Link.Tag=`rk-link`;
 _.Components.Link=Components.Link;
 if(!window.customElements.get('rk-link')){window.customElements.define('rk-link', Components.Link);Aventus.WebComponentInstance.registerDefinition(Components.Link);}
 
+Lib.Process=class Process {
+    static async execute(component, prom) {
+        const app = component.findParentByType(System.Application);
+        if (app) {
+            return app.execute(prom);
+        }
+        else {
+            const queryResult = await prom;
+            return await this.parseErrors(queryResult);
+        }
+    }
+    static async executeWithLoading(component, prom) {
+        const app = component.findParentByType(System.Application);
+        if (app) {
+            return app.executeWithLoading(prom);
+        }
+        return this.execute(component, prom);
+    }
+    static async parseErrors(result) {
+        if (result.errors.length > 0) {
+            let msg = result.errors.map(p => p.message).join("<br/>");
+            await System.Os.instance.alert({
+                title: "Error",
+                description: msg,
+                behind: false,
+                min_width: '300px',
+            });
+            return undefined;
+        }
+        if (result instanceof Aventus.ResultWithError)
+            return result.result;
+        return undefined;
+    }
+}
+Lib.Process.Namespace=`Core.Lib`;
+_.Lib.Process=Lib.Process;
+
+System.HomePanel = class HomePanel extends System.Panel {
+    get 'currentUser'() {
+						return this.__watch["currentUser"];
+					}
+					set 'currentUser'(val) {
+						this.__watch["currentUser"] = val;
+					}get 'favorites'() {
+						return this.__watch["favorites"];
+					}
+					set 'favorites'(val) {
+						this.__watch["favorites"] = val;
+					}    btn;
+    __registerWatchesActions() {
+    this.__addWatchesActions("currentUser");this.__addWatchesActions("favorites");    super.__registerWatchesActions();
+}
+    static __style = `:host{box-shadow:var(--elevation-3);display:flex;flex-direction:column;left:-9px;position:absolute;width:min(500px,var(--os-width))}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:var(--border-radius-sm);margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .wrapper{display:flex;flex-direction:column;gap:5px}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;justify-content:space-between;width:100%}:host .footer .person{align-items:center;border-radius:var(--border-radius-sm);display:flex;margin:10px 10px;padding:8px 10px;transition:background-color .2s var(--bezier-curve)}:host .footer .person .icon{height:30px;width:30px}:host .footer .person .name{margin-left:10px}:host .footer .person:hover{background-color:var(--lighter)}:host .footer .actions{align-items:center;display:flex}:host .footer .actions rk-pwa-button{background-color:var(--success);color:var(--text-color-success);height:36px;width:36px}:host .footer .actions rk-button{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;border:none;box-shadow:var(--elevation-2);height:36px;margin:10px 10px;min-width:auto;width:36px}@media screen and (max-width: 768px){:host{left:-10px}:host .content rk-row{flex-direction:column}:host .content rk-row rk-col{height:50%;width:100%}}`;
+    constructor() { super(); this.loadData=this.loadData.bind(this) }
+    __getStatic() {
+        return HomePanel;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(HomePanel.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="content">    <rk-row>        <rk-col size="6">            <div class="recent">                <div class="title">                    Récents                </div>                <rk-scrollable class="scrollable recent-container" floating_scroll _id="homepanel_0">                </rk-scrollable>            </div>        </rk-col>        <rk-col size="6">            <div class="favoris">                <div class="title">                    Mes favoris                </div>                <rk-scrollable class="scrollable favoris-container" floating_scroll _id="homepanel_1">                    <div class="wrapper">                        <template _id="homepanel_2"></template>                    </div>                </rk-scrollable>            </div>        </rk-col>    </rk-row></div><div class="footer">    <div class="person touch" _id="homepanel_4">        <rk-user-profil-picture class="icon" _id="homepanel_5"></rk-user-profil-picture>        <div class="name" _id="homepanel_6"></div>    </div>    <div class="actions">        <rk-pwa-button>            <rk-tooltip position="top" delay="1000" use_absolute color="green">Installer l'application</rk-tooltip>        </rk-pwa-button>        <rk-button icon="/img/icons/power-off.svg" _id="homepanel_7"></rk-button>    </div></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "recentContainer",
+      "ids": [
+        "homepanel_0"
+      ]
+    },
+    {
+      "name": "favorisContainer",
+      "ids": [
+        "homepanel_1"
+      ]
+    }
+  ],
+  "content": {
+    "homepanel_5°uri": {
+      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod2())}`
+    },
+    "homepanel_6°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod3())} ${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod4())}`
+    }
+  },
+  "pressEvents": [
+    {
+      "id": "homepanel_4",
+      "onPress": (e, pressInstance, c) => { c.comp.openProfil(e, pressInstance); }
+    },
+    {
+      "id": "homepanel_7",
+      "onPress": (e, pressInstance, c) => { c.comp.logout(e, pressInstance); }
+    }
+  ]
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`                            <rk-favorite-line _id="homepanel_3"></rk-favorite-line>                        `);templ0.setActions({
+  "injection": [
+    {
+      "id": "homepanel_3",
+      "injectionName": "favorite",
+      "inject": (c) => c.comp.__71121dd8c2837747a91ecf75da806c7amethod1(c.data.fav),
+      "once": true
+    }
+  ]
+});this.__getStatic().__template.addLoop({
+                    anchorId: 'homepanel_2',
+                    template: templ0,
+                simple:{data: "this.favorites",item:"fav"}}); }
+    getClassName() {
+        return "HomePanel";
+    }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["currentUser"] = undefined;w["favorites"] = []; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('currentUser');this.__correctGetter('favorites'); }
+    async openProfil() {
+        const canSettings = await can(new Permissions.ApplicationPermissionQuery(Permissions.ApplicationPermission.AllowAccess, "Settings"));
+        if (canSettings) {
+            let desktop = this.findParentByType(System.Desktop);
+            if (desktop) {
+                desktop.openUrl("Settings", "/", "/profil");
+                this.btn.active = false;
+            }
+        }
+    }
+    async logout() {
+        Lib.SessionManager.logout();
+    }
+    async displayRecent() {
+        // for(let i = 0; i < 20; i++) {
+        //     let test = new AppIconInline();
+        //     let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
+        //     let app = await ApplicationRAM.getInstance().getApplicationByName("Cave");
+        //     if(icon && app) {
+        //         test.setIcon(icon);
+        //         test.text = app.DisplayName;
+        //     }
+        //     this.recentContainer.appendChild(test);
+        // }
+    }
+    async getUser() {
+        this.currentUser = await Lib.SessionManager.getUser();
+    }
+    async initRam() {
+        let ram = Ram.FavoriteRAM.getInstance();
+        ram.onCreated(this.loadData);
+        ram.onUpdated((item) => this.loadData(item, true));
+        ram.onDeleted(this.loadData);
+        this.loadData();
+    }
+    async loadData(item, force) {
+        let ram = Ram.FavoriteRAM.getInstance();
+        const items = await Lib.Process.execute(this, ram.getListWithError());
+        if (items) {
+            if (force) {
+                this.favorites = [];
+            }
+            this.favorites = items;
+        }
+    }
+    postCreation() {
+        this.getUser();
+        this.displayRecent();
+        this.initRam();
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => { },
+            onDrag: () => { },
+        });
+    }
+    __71121dd8c2837747a91ecf75da806c7amethod2() {
+        return this.currentUser?.Picture.Uri;
+    }
+    __71121dd8c2837747a91ecf75da806c7amethod3() {
+        return this.currentUser?.Firstname;
+    }
+    __71121dd8c2837747a91ecf75da806c7amethod4() {
+        return this.currentUser?.Lastname;
+    }
+    __71121dd8c2837747a91ecf75da806c7amethod1(fav) {
+        return fav;
+    }
+}
+System.HomePanel.Namespace=`Core.System`;
+System.HomePanel.Tag=`rk-home-panel`;
+_.System.HomePanel=System.HomePanel;
+if(!window.customElements.get('rk-home-panel')){window.customElements.define('rk-home-panel', System.HomePanel);Aventus.WebComponentInstance.registerDefinition(System.HomePanel);}
+
+System.HomeBtn = class HomeBtn extends Aventus.WebComponent {
+    get 'active'() { return this.getBoolAttr('active') }
+    set 'active'(val) { this.setBoolAttr('active', val) }    static __style = `:host{position:relative}:host .icon{border-radius:var(--border-radius-sm);cursor:pointer;margin:0 3px;height:var(--desktop-bottom-bar-element);width:var(--desktop-bottom-bar-element);padding:7px;transition:background-color .2s var(--bezier-curve)}:host rk-home-panel{bottom:calc(100% + 5px);height:0;overflow:hidden;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s}:host([active]) .icon{background-color:var(--text-color)}:host([active]) .icon rk-img{--img-fill-color: var(--primary-color-opacity)}:host([active]) rk-home-panel{bottom:calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element))/2 + 3px);height:400px}@media screen and (min-width: 1225px){:host(:not([active])) .icon:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 768px){:host{margin-right:10px}:host([active]) rk-home-panel{bottom:calc(100% + 12px);height:calc(var(--os-height) - 69px)}}`;
+    __getStatic() {
+        return HomeBtn;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(HomeBtn.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="icon" _id="homebtn_0">    <rk-img mode="contains" src="/img/icons/house.svg" class="touch"></rk-img></div><rk-home-panel _id="homebtn_1"></rk-home-panel>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "homePanel",
+      "ids": [
+        "homebtn_1"
+      ]
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "homebtn_0",
+      "onPress": (e, pressInstance, c) => { c.comp.toggleActive(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "HomeBtn";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) {this.setAttribute('active' ,'true'); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('active'); }
+    __listBoolProps() { return ["active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    toggleActive() {
+        this.active = !this.active;
+    }
+    postCreation() {
+        this.homePanel.btn = this;
+    }
+}
+System.HomeBtn.Namespace=`Core.System`;
+System.HomeBtn.Tag=`rk-home-btn`;
+_.System.HomeBtn=System.HomeBtn;
+if(!window.customElements.get('rk-home-btn')){window.customElements.define('rk-home-btn', System.HomeBtn);Aventus.WebComponentInstance.registerDefinition(System.HomeBtn);}
+
+System.BottomBar = class BottomBar extends Aventus.WebComponent {
+    get 'permissions'() {
+						return this.__watch["permissions"];
+					}
+					set 'permissions'(val) {
+						this.__watch["permissions"] = val;
+					}    get desktop() {
+        if (this.parentNode instanceof ShadowRoot) {
+            if (this.parentNode.host instanceof System.Desktop) {
+                return this.parentNode.host;
+            }
+        }
+        throw "impossible";
+    }
+    is_desktop_active = false;
+    timeoutOverHome = 0;
+    emptyIcon;
+    __registerWatchesActions() {
+    this.__addWatchesActions("permissions");    super.__registerWatchesActions();
+}
+    static __style = `:host{align-items:center;background-color:var(--primary-color-opacity);border-radius:var(--border-radius);bottom:10px;box-shadow:var(--elevation-3);color:var(--text-color);display:flex;font-size:var(--font-size);height:calc(var(--desktop-bottom-bar, 50px) + var(--safe-area-bottom));left:100px;outline:none;padding:0 10px;padding-bottom:var(--safe-area-bottom);position:absolute;transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s,transform 1s var(--bezier-curve);width:calc(100% - 200px);z-index:100}:host .section{align-items:center;display:flex;height:100%}:host .section .icon{--img-stroke-color: transparent;--img-fill-color: var(--text-color);border-radius:var(--border-radius-sm);cursor:pointer;margin:0 3px;max-height:var(--desktop-bottom-bar-element);max-width:var(--desktop-bottom-bar-element);padding:7px;transition:background-color .2s var(--bezier-curve)}:host .section rk-app-icon{margin:0 5px}:host .separator{background-color:var(--text-color);display:inline-block;height:50%;margin:0 13px;width:1px}:host .applications{flex-grow:1;gap:10px;position:relative}:host .applications .empty-icon{background-color:var(--darker-active);border-radius:var(--border-radius-sm);height:var(--desktop-bottom-bar-element);width:var(--desktop-bottom-bar-element)}:host .applications>*{height:var(--desktop-bottom-bar-element);width:var(--desktop-bottom-bar-element)}:host .nb-notifications{align-items:center;background-color:var(--text-color);border-radius:var(--border-radius-round);color:var(--primary-color-opacity);display:flex;font-size:14px;font-weight:bold;height:25px;justify-content:center;letter-spacing:-1px;padding-right:1px;width:25px}:host .safe-hider{bottom:0;height:var(--safe-area-bottom);left:0;position:absolute;width:100%}@media screen and (min-width: 1225px){:host .section .icon:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host{border-radius:0;border-bottom-left-radius:0;border-bottom-right-radius:0;bottom:0px;left:0px;width:100%}}@media screen and (max-width: 768px){:host .basic-action>*{display:none}:host .basic-action rk-home-btn{display:inline-block}:host .addons>*{display:none}:host .separator{display:none}}`;
+    constructor() { super(); this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this) }
+    __getStatic() {
+        return BottomBar;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(BottomBar.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="section basic-action">    <rk-home-btn></rk-home-btn>    <rk-img mode="contains" src="/img/icons/application-panel.svg" class="touch icon" _id="bottombar_0"></rk-img>    <template _id="bottombar_1"></template></div><div class="separator"></div><div class="section applications" _id="bottombar_3"></div><div class="separator"></div><div class="section addons">    <rk-add-on-time></rk-add-on-time></div><div class="safe-hider" _id="bottombar_4"></div>` }
+    });
+}
+    __createStates() { super.__createStates(); let that = this;  this.__createStatesList(State.MoveApplication.state, State.DesktopStateManager);this.__addActiveState(State.MoveApplication.state, State.DesktopStateManager, (state, slugs) => { that.__inactiveDefaultState(State.DesktopStateManager); that.onMoveApplication(state, slugs);})this.__addInactiveState(State.MoveApplication.state, State.DesktopStateManager, (state, nextState, slugs) => { that.onStopMovingApplication(state, nextState, slugs);that.__activeDefaultState(nextState, State.DesktopStateManager);}) }
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "applicationsContainer",
+      "ids": [
+        "bottombar_3"
+      ]
+    },
+    {
+      "name": "safeHider",
+      "ids": [
+        "bottombar_4"
+      ]
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "bottombar_0",
+      "onPress": (e, pressInstance, c) => { c.comp.showAppList(e, pressInstance); }
+    }
+  ]
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <rk-img mode="contains" src="/img/icons/layout-fluid.svg" class="touch icon" _id="bottombar_2"></rk-img>    `);templ0.setActions({
+  "pressEvents": [
+    {
+      "id": "bottombar_2",
+      "onPress": (e, pressInstance, c) => { c.comp.showDesktops(e, pressInstance); }
+    }
+  ]
+});this.__getStatic().__template.addIf({
+                    anchorId: 'bottombar_1',
+                    parts: [{once: true,
+                    condition: (c) => c.comp.__caf7651d66630d65b331758f2e732cb4method0(),
+                    template: templ0
+                }]
+            }); }
+    getClassName() {
+        return "BottomBar";
+    }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["permissions"] = {                CanHaveVirtualDesktop: false            }; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('desktop');this.__correctGetter('permissions'); }
+    async getPermissions() {
+        this.permissions.CanHaveVirtualDesktop = await can(new Permissions.DesktopPermissionQuery(Permissions.DesktopPermission.CanHaveVirtualDesktop));
+    }
+    addSwipe() {
+        let enable = true;
+        let startY = 0;
+        new Aventus.PressManager({
+            element: this.safeHider,
+            offsetDrag: 0,
+            onDrag: () => { }
+        });
+        new Aventus.DragAndDrop({
+            element: this,
+            applyDrag: false,
+            offsetDrag: 50,
+            isDragEnable: () => enable,
+            onStart: (e) => {
+                startY = e.pageY;
+            },
+            onMove: (e) => {
+                let positionY = startY - e.pageY;
+                if (positionY > 50) {
+                    enable = false;
+                    this.showAppList();
+                }
+            },
+            onStop: () => {
+                enable = true;
+            }
+        });
+    }
+    showAppList() {
+        System.Os.instance.show_application_list = true;
+    }
+    showDesktops() {
+        System.Os.instance.desktop_list = true;
+    }
+    addFocus() {
+        this.setAttribute("tabindex", "-1");
+        this.addEventListener("focus", (e) => {
+            e.stopPropagation();
+            this.setDesktopActive();
+        });
+    }
+    setAppPositionTemp(shadow, x, y, state) {
+        let caseEl = this.shadowRoot.elementFromPoint(x, y);
+        if (caseEl && this.shadowRoot.contains(caseEl)) {
+            shadow.style.width = "";
+            shadow.style.height = "";
+            if (caseEl instanceof System.HomeBtn) {
+                if (!this.timeoutOverHome && !caseEl.active) {
+                    this.timeoutOverHome = setTimeout(() => {
+                        let caseEl = this.shadowRoot.elementFromPoint(state.lastX, state.lastY);
+                        if (caseEl instanceof System.HomeBtn) {
+                            caseEl.active = true;
+                        }
+                    }, 2000);
+                }
+                return false;
+            }
+            if (this.timeoutOverHome) {
+                clearTimeout(this.timeoutOverHome);
+                this.timeoutOverHome = 0;
+            }
+            let rect = this.applicationsContainer.getBoundingClientRect();
+            if (x >= rect.x && x <= rect.x + rect.width) {
+                if (!this.emptyIcon) {
+                    this.emptyIcon = document.createElement("DIV");
+                    this.emptyIcon.classList.add("empty-icon");
+                }
+                let children = Array.from(this.applicationsContainer.children);
+                let found = false;
+                for (let i = 0; i < children.length; i++) {
+                    let child = children[i];
+                    if (child instanceof System.AppIcon) {
+                        if (x < rect.x + child.offsetLeft + (child.offsetWidth / 2)) {
+                            this.applicationsContainer.insertBefore(this.emptyIcon, child);
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if (!found) {
+                    this.applicationsContainer.appendChild(this.emptyIcon);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    clearAppPositionTemp(state) {
+        if (this.timeoutOverHome) {
+            let caseEl = this.shadowRoot.elementFromPoint(state.lastX, state.lastY);
+            if (!(caseEl instanceof System.HomeBtn)) {
+                clearTimeout(this.timeoutOverHome);
+                this.timeoutOverHome = 0;
+            }
+        }
+        if (this.emptyIcon?.parentNode) {
+            this.emptyIcon.remove();
+        }
+    }
+    async setAppPosition(icon, x, y) {
+        if (this.emptyIcon?.parentNode) {
+            let children = this.emptyIcon.parentNode?.children ?? [];
+            let no = Array.from(children).indexOf(this.emptyIcon);
+            if (no == -1)
+                return;
+            this.applicationsContainer.insertBefore(icon, this.emptyIcon);
+            this.emptyIcon.remove();
+            let desktopIcon = new Data.DesktopAppIcon();
+            desktopIcon.DesktopId = this.desktop.desktop_id;
+            desktopIcon.Position = no;
+            desktopIcon.IconTag = icon.tag;
+            desktopIcon.Location = Data.DesktopLocation.BottomBar;
+            desktopIcon.Id = icon.iconId;
+            let result = await new Websocket.Routes.DesktopRouter().SetDesktopIcon({
+                icon: desktopIcon
+            });
+            if (result.success && result.result) {
+                icon.iconId = result.result.Id;
+                icon.position = result.result.Position;
+                icon.can_remove = true;
+            }
+            no++;
+            for (; no < children.length; no++) {
+                let child = children[no];
+                if (child instanceof System.AppIcon) {
+                    let desktopIcon = new Data.DesktopAppIcon();
+                    desktopIcon.DesktopId = this.desktop.desktop_id;
+                    desktopIcon.Position = no;
+                    desktopIcon.IconTag = child.tag;
+                    desktopIcon.Location = Data.DesktopLocation.BottomBar;
+                    desktopIcon.Id = child.iconId;
+                    let result = await new Websocket.Routes.DesktopRouter().SetDesktopIcon({
+                        icon: desktopIcon
+                    });
+                    if (result.success) {
+                        child.position = no;
+                    }
+                }
+            }
+        }
+    }
+    async removeAppPosition(icon, x, y) {
+        let caseEl = this.shadowRoot.elementFromPoint(x, y);
+        if (caseEl && this.shadowRoot.contains(caseEl)) {
+            let children = icon.parentNode?.children ?? [];
+            let no = Array.from(children).indexOf(icon);
+            let desktopIcon = new Data.DesktopAppIcon();
+            desktopIcon.Id = icon.iconId;
+            let result = await new Websocket.Routes.DesktopRouter().RemoveDesktopIcon({
+                icon: desktopIcon
+            });
+            if (result.success) {
+                icon.remove();
+                for (; no < children.length; no++) {
+                    let child = children[no];
+                    if (child instanceof System.AppIcon) {
+                        let desktopIcon = new Data.DesktopAppIcon();
+                        desktopIcon.DesktopId = this.desktop.desktop_id;
+                        desktopIcon.Position = no;
+                        desktopIcon.IconTag = child.tag;
+                        desktopIcon.Location = Data.DesktopLocation.BottomBar;
+                        desktopIcon.Id = child.iconId;
+                        let result = await new Websocket.Routes.DesktopRouter().SetDesktopIcon({
+                            icon: desktopIcon
+                        });
+                        if (result.success) {
+                            child.position = no;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    onMoveApplication(state, slugs) {
+        if (!this.desktop?.is_active) {
+            return;
+        }
+        if (state instanceof State.MoveApplication) {
+            state.registerProvider(this);
+        }
+    }
+    onStopMovingApplication(state, nextState, slugs) {
+        if (!this.desktop?.is_active) {
+            return;
+        }
+    }
+    setApplication(el) {
+        this.applicationsContainer.appendChild(el);
+    }
+    setDesktopActive() {
+        System.DesktopActivableLogic.set(this);
+    }
+    removeDesktopActive() {
+        System.DesktopActivableLogic.remove(this);
+    }
+    postCreation() {
+        this.getPermissions();
+        this.addSwipe();
+        this.addFocus();
+    }
+    __caf7651d66630d65b331758f2e732cb4method0() {
+        return this.permissions.CanHaveVirtualDesktop;
+    }
+}
+System.BottomBar.Namespace=`Core.System`;
+System.BottomBar.Tag=`rk-bottom-bar`;
+_.System.BottomBar=System.BottomBar;
+if(!window.customElements.get('rk-bottom-bar')){window.customElements.define('rk-bottom-bar', System.BottomBar);Aventus.WebComponentInstance.registerDefinition(System.BottomBar);}
+
 Lib.AppIconManager=class AppIconManager {
     static loaded = [];
     static dico = {};
@@ -9615,6 +9770,19 @@ Lib.AppIconManager=class AppIconManager {
     }
     static getIcon(tagName) {
         return this.dico[tagName];
+    }
+    static reverseTagName(tagName) {
+        tagName = tagName.toLowerCase();
+        for (let key in this.tags) {
+            if (this.tags[key] == tagName) {
+                const splitted = key.split("$");
+                return {
+                    application: splitted[0],
+                    url: splitted[1]
+                };
+            }
+        }
+        return undefined;
     }
     static getTagName(application, componentUrl, delay = 1000) {
         return new Promise((resolve) => {
@@ -9817,7 +9985,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             notif.subject = "Erreur";
             notif.innerHTML = "Vous n'êtes pas autorisé à ouvrir l'application " + application;
             System.Os.instance.notify(notif);
-            return;
+            return null;
         }
         System.Os.instance.show_application_list = false;
         await this.loadApp(application);
@@ -9839,9 +10007,13 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             this.appContainer.appendChild(comp);
             comp.focus();
             this.setElementToActive(comp);
+            await new Promise((resolve) => {
+                comp.onRouteRegistered(resolve);
+            });
             await comp.navigate(url);
             this.applications[comp.$type][i] = comp;
             this.manageAppBottomBar(comp.$type);
+            return comp;
         }
         else {
             let notif = new Components.Notification();
@@ -9849,6 +10021,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             notif.innerHTML = "Impossible de trouver l'application " + application + " sur " + componentUrl;
             System.Os.instance.notify(notif);
         }
+        return null;
     }
     async unHideApplication(application, componentUrl = "/") {
         let tagName = await Lib.AppIconManager.getTagName(application, componentUrl);
@@ -10885,42 +11058,119 @@ System.Os.Tag=`rk-os`;
 _.System.Os=System.Os;
 if(!window.customElements.get('rk-os')){window.customElements.define('rk-os', System.Os);Aventus.WebComponentInstance.registerDefinition(System.Os);}
 
-Lib.Process=class Process {
-    static async execute(component, prom) {
-        const app = component.findParentByType(System.Application);
-        if (app) {
-            return app.execute(prom);
-        }
-        else {
-            const queryResult = await prom;
-            return await this.parseErrors(queryResult);
-        }
+System.FavoriteLine = class FavoriteLine extends Aventus.WebComponent {
+    get 'favorite'() {
+						return this.__watch["favorite"];
+					}
+					set 'favorite'(val) {
+						this.__watch["favorite"] = val;
+					}    __registerWatchesActions() {
+    this.__addWatchesActions("favorite", ((target) => {
+    target.onSet();
+}));    super.__registerWatchesActions();
+}
+    static __style = `:host{align-items:center;background-color:var(--lighter);border-radius:var(--border-radius-sm);cursor:pointer;display:flex;gap:10px;overflow:hidden;padding:5px;transition:background-color .2s var(--bezier-curve)}:host .icon-container{height:30px;position:relative;width:30px}:host .icon-container .hider{inset:0;position:absolute}:host .icon-container .icon{height:100%;width:100%}:host .icon-container .icon *{animation:none !important;box-shadow:none !important;height:100% !important;pointer-events:none;width:100% !important}:host .text{flex-grow:1;flex-wrap:nowrap;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--lighter-active)}}`;
+    __getStatic() {
+        return FavoriteLine;
     }
-    static async executeWithLoading(component, prom) {
-        const app = component.findParentByType(System.Application);
-        if (app) {
-            return app.executeWithLoading(prom);
-        }
-        return this.execute(component, prom);
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(FavoriteLine.__style);
+        return arrStyle;
     }
-    static async parseErrors(result) {
-        if (result.errors.length > 0) {
-            let msg = result.errors.map(p => p.message).join("<br/>");
-            await System.Os.instance.alert({
-                title: "Error",
-                description: msg,
-                behind: false,
-                min_width: '300px',
-            });
-            return undefined;
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="icon-container">    <div class="hider"></div>    <div class="icon" _id="favoriteline_0"></div></div><div class="text" _id="favoriteline_1"></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "iconEl",
+      "ids": [
+        "favoriteline_0"
+      ]
+    }
+  ],
+  "content": {
+    "favoriteline_1°title": {
+      "fct": (c) => `${c.print(c.comp.__8e9ad2761ba69884258f1f5519c55461method0())}`
+    },
+    "favoriteline_1°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__8e9ad2761ba69884258f1f5519c55461method0())}`
+    }
+  }
+}); }
+    getClassName() {
+        return "FavoriteLine";
+    }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["favorite"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('favorite'); }
+    onContextMenu(contextMenu, stop) {
+        contextMenu.addItem({
+            text: "Supprimer",
+            icon: "mi-delete",
+            priority: 1,
+            action: () => {
+                this.deleteFromFavorite();
+            }
+        });
+        stop();
+    }
+    onSet() {
+        if (!this.favorite)
+            return;
+        const cst = Lib.AppIconManager.getIcon(this.favorite.TagName);
+        if (!cst)
+            return;
+        const icon = new cst();
+        this.iconEl.innerHTML = "";
+        this.iconEl.appendChild(icon);
+    }
+    async deleteFromFavorite() {
+        if (!this.favorite)
+            return;
+        await Lib.Process.execute(this, Ram.FavoriteRAM.getInstance().deleteWithError(this.favorite));
+    }
+    async open() {
+        if (!this.favorite) {
+            this.remove();
+            return;
         }
-        if (result instanceof Aventus.ResultWithError)
-            return result.result;
-        return undefined;
+        let desktop = System.Os.instance.activeDesktop;
+        const info = Lib.AppIconManager.reverseTagName(this.favorite.TagName);
+        if (!info) {
+            this.deleteFromFavorite();
+            this.remove();
+            return;
+        }
+        await desktop.loadApp(info.application);
+        const state = Aventus.Converter.transform(JSON.parse(this.favorite.State));
+        const app = await desktop.openUrl(info.application, info.url, state);
+        setTimeout(() => {
+            if (app && this.favorite && app.app_title != this.favorite.Name) {
+                const clone = this.favorite.clone();
+                clone.Name = app.app_title;
+                Lib.Process.execute(this, Ram.FavoriteRAM.getInstance().updateWithError(clone));
+            }
+        }, 500);
+    }
+    postCreation() {
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => {
+                this.open();
+            }
+        });
+    }
+    __8e9ad2761ba69884258f1f5519c55461method0() {
+        return this.favorite?.Name;
     }
 }
-Lib.Process.Namespace=`Core.Lib`;
-_.Lib.Process=Lib.Process;
+System.FavoriteLine.Namespace=`Core.System`;
+System.FavoriteLine.Tag=`rk-favorite-line`;
+_.System.FavoriteLine=System.FavoriteLine;
+if(!window.customElements.get('rk-favorite-line')){window.customElements.define('rk-favorite-line', System.FavoriteLine);Aventus.WebComponentInstance.registerDefinition(System.FavoriteLine);}
 
 System.AppIcon = class AppIcon extends Aventus.WebComponent {
     get 'shaking'() { return this.getBoolAttr('shaking') }
@@ -17452,6 +17702,153 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
 Components.GenericSelect.Namespace=`Core.Components`;
 _.Components.GenericSelect=Components.GenericSelect;
 
+Components.SelectData = class SelectData extends Components.GenericSelect {
+    get 'loading'() { return this.getBoolAttr('loading') }
+    set 'loading'(val) { this.setBoolAttr('loading', val) }get 'txt_undefined'() { return this.getStringAttr('txt_undefined') }
+    set 'txt_undefined'(val) { this.setStringAttr('txt_undefined', val) }    data = [];
+    isInit = false;
+    static __style = ``;
+    constructor() {
+            super();
+if (this.constructor == SelectData) { throw "can't instanciate an abstract class"; }this.subscribe=this.subscribe.bind(this)this.unsubscribe=this.unsubscribe.bind(this)this.onCreated=this.onCreated.bind(this)this.onDeleted=this.onDeleted.bind(this)this.onUpdated=this.onUpdated.bind(this)}
+    __getStatic() {
+        return SelectData;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(SelectData.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "SelectData";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('txt_undefined')){ this['txt_undefined'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading');this.__upgradeProperty('txt_undefined'); }
+    __listBoolProps() { return ["loading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    compare(item1, item2) {
+        if (item1 === undefined && item2 === undefined) {
+            return true;
+        }
+        if (item1 === undefined || item2 === undefined) {
+            return false;
+        }
+        if (typeof item1 == 'number' || typeof item2 == 'number') {
+            return item1 == item2;
+        }
+        const key1 = this.defineRam().getId(item1);
+        const key2 = this.defineRam().getId(item2);
+        return key1 == key2;
+    }
+    itemToText(option) {
+        return option.getText();
+    }
+    defineOption() {
+        return Components.OptionData;
+    }
+    getOption() {
+        const cst = this.defineOption();
+        let option = new cst();
+        option.init(this);
+        return option;
+    }
+    async createOptions() {
+        this.loading = true;
+        this.data = await this.loadData();
+        if (this.txt_undefined !== undefined) {
+            let option = this.getOption();
+            await option.setItem(undefined);
+            if (this.compare(option.value, this.value)) {
+                this.selectedOption = option;
+                this.displayValue = this.itemToText(option);
+                this.filter();
+            }
+            option.innerHTML = this.txt_undefined === "" ? "&nbsp;" : this.txt_undefined;
+            this.appendChild(option);
+        }
+        for (let item of this.data) {
+            let option = this.getOption();
+            await option.setItem(item);
+            if (this.compare(option.value, this.value)) {
+                this.selectedOption = option;
+                this.displayValue = this.itemToText(option);
+                this.filter();
+            }
+            this.appendChild(option);
+        }
+        this.loading = false;
+        this.init();
+    }
+    async loadData() {
+        const result = await Lib.Process.execute(this, this.defineRam().getListWithError()) ?? [];
+        return result;
+    }
+    subscribe() {
+        this.defineRam().onCreated(this.onCreated);
+        this.defineRam().onUpdated(this.onUpdated);
+        this.defineRam().onDeleted(this.onDeleted);
+    }
+    unsubscribe() {
+        this.defineRam().offCreated(this.onCreated);
+        this.defineRam().offUpdated(this.onUpdated);
+        this.defineRam().offDeleted(this.onDeleted);
+    }
+    async onCreated(item) {
+        this.data.push(item);
+        let option = this.getOption();
+        await option.setItem(item);
+        this.appendChild(option);
+        this.loadElementsFromSlot();
+    }
+    async onDeleted(item) {
+        for (let i = 0; i < this.options.length; i++) {
+            let option = this.options[i];
+            let value = await this.optionValue(item);
+            if (this.compare(option.value, value)) {
+                this.options.splice(i, 1);
+                option.remove();
+                if (this.compare(this.value, value)) {
+                    this.value = undefined;
+                }
+            }
+        }
+    }
+    async onUpdated(item) {
+        for (let i = 0; i < this.options.length; i++) {
+            let option = this.options[i];
+            if (this.compare(option.value, await this.optionValue(item))) {
+                option.innerHTML = await this.optionText(item);
+            }
+        }
+    }
+    async init() {
+        if (!this.isConnected)
+            return;
+        if (this.isInit)
+            return;
+        this.isInit = true;
+        await this.createOptions();
+        super.postCreation();
+        this.subscribe();
+    }
+    postDestruction() {
+        super.postDestruction();
+        this.unsubscribe();
+    }
+    postConnect() {
+    }
+    postCreation() {
+        this.init();
+    }
+}
+Components.SelectData.Namespace=`Core.Components`;
+_.Components.SelectData=Components.SelectData;
+
 Components.GenericOption = class GenericOption extends Aventus.WebComponent {
     value;
     select;
@@ -17792,153 +18189,6 @@ Components.ItemBoxOption.Namespace=`Core.Components`;
 Components.ItemBoxOption.Tag=`rk-item-box-option`;
 _.Components.ItemBoxOption=Components.ItemBoxOption;
 if(!window.customElements.get('rk-item-box-option')){window.customElements.define('rk-item-box-option', Components.ItemBoxOption);Aventus.WebComponentInstance.registerDefinition(Components.ItemBoxOption);}
-
-Components.SelectData = class SelectData extends Components.GenericSelect {
-    get 'loading'() { return this.getBoolAttr('loading') }
-    set 'loading'(val) { this.setBoolAttr('loading', val) }get 'txt_undefined'() { return this.getStringAttr('txt_undefined') }
-    set 'txt_undefined'(val) { this.setStringAttr('txt_undefined', val) }    data = [];
-    isInit = false;
-    static __style = ``;
-    constructor() {
-            super();
-if (this.constructor == SelectData) { throw "can't instanciate an abstract class"; }this.subscribe=this.subscribe.bind(this)this.unsubscribe=this.unsubscribe.bind(this)this.onCreated=this.onCreated.bind(this)this.onDeleted=this.onDeleted.bind(this)this.onUpdated=this.onUpdated.bind(this)}
-    __getStatic() {
-        return SelectData;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(SelectData.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "SelectData";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('txt_undefined')){ this['txt_undefined'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading');this.__upgradeProperty('txt_undefined'); }
-    __listBoolProps() { return ["loading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    compare(item1, item2) {
-        if (item1 === undefined && item2 === undefined) {
-            return true;
-        }
-        if (item1 === undefined || item2 === undefined) {
-            return false;
-        }
-        if (typeof item1 == 'number' || typeof item2 == 'number') {
-            return item1 == item2;
-        }
-        const key1 = this.defineRam().getId(item1);
-        const key2 = this.defineRam().getId(item2);
-        return key1 == key2;
-    }
-    itemToText(option) {
-        return option.getText();
-    }
-    defineOption() {
-        return Components.OptionData;
-    }
-    getOption() {
-        const cst = this.defineOption();
-        let option = new cst();
-        option.init(this);
-        return option;
-    }
-    async createOptions() {
-        this.loading = true;
-        this.data = await this.loadData();
-        if (this.txt_undefined !== undefined) {
-            let option = this.getOption();
-            await option.setItem(undefined);
-            if (this.compare(option.value, this.value)) {
-                this.selectedOption = option;
-                this.displayValue = this.itemToText(option);
-                this.filter();
-            }
-            option.innerHTML = this.txt_undefined === "" ? "&nbsp;" : this.txt_undefined;
-            this.appendChild(option);
-        }
-        for (let item of this.data) {
-            let option = this.getOption();
-            await option.setItem(item);
-            if (this.compare(option.value, this.value)) {
-                this.selectedOption = option;
-                this.displayValue = this.itemToText(option);
-                this.filter();
-            }
-            this.appendChild(option);
-        }
-        this.loading = false;
-        this.init();
-    }
-    async loadData() {
-        const result = await Lib.Process.execute(this, this.defineRam().getListWithError()) ?? [];
-        return result;
-    }
-    subscribe() {
-        this.defineRam().onCreated(this.onCreated);
-        this.defineRam().onUpdated(this.onUpdated);
-        this.defineRam().onDeleted(this.onDeleted);
-    }
-    unsubscribe() {
-        this.defineRam().offCreated(this.onCreated);
-        this.defineRam().offUpdated(this.onUpdated);
-        this.defineRam().offDeleted(this.onDeleted);
-    }
-    async onCreated(item) {
-        this.data.push(item);
-        let option = this.getOption();
-        await option.setItem(item);
-        this.appendChild(option);
-        this.loadElementsFromSlot();
-    }
-    async onDeleted(item) {
-        for (let i = 0; i < this.options.length; i++) {
-            let option = this.options[i];
-            let value = await this.optionValue(item);
-            if (this.compare(option.value, value)) {
-                this.options.splice(i, 1);
-                option.remove();
-                if (this.compare(this.value, value)) {
-                    this.value = undefined;
-                }
-            }
-        }
-    }
-    async onUpdated(item) {
-        for (let i = 0; i < this.options.length; i++) {
-            let option = this.options[i];
-            if (this.compare(option.value, await this.optionValue(item))) {
-                option.innerHTML = await this.optionText(item);
-            }
-        }
-    }
-    async init() {
-        if (!this.isConnected)
-            return;
-        if (this.isInit)
-            return;
-        this.isInit = true;
-        await this.createOptions();
-        super.postCreation();
-        this.subscribe();
-    }
-    postDestruction() {
-        super.postDestruction();
-        this.unsubscribe();
-    }
-    postConnect() {
-    }
-    postCreation() {
-        this.init();
-    }
-}
-Components.SelectData.Namespace=`Core.Components`;
-_.Components.SelectData=Components.SelectData;
 
 Components.OptionData = class OptionData extends Components.GenericOption {
     static __style = ``;

@@ -15,8 +15,12 @@
                 <div class="title">
                     Mes favoris
                 </div>
-                <rk-scrollable class="scrollable favoris-container" floating_scroll>
-                    <div class="grid" @element="favorisContainer"></div>
+                <rk-scrollable  @element="favorisContainer" class="scrollable favoris-container" floating_scroll>
+                    <div class="wrapper">
+                        for(let fav of this.favorites) {
+                            <rk-favorite-line :favorite="fav"></rk-favorite-line>
+                        }
+                    </div>
                 </rk-scrollable>
             </div>
         </rk-col>

@@ -40,6 +40,19 @@ namespace Lib {
         public static getIcon(tagName: string): AppIconCst | undefined {
             return this.dico[tagName];
         }
+        public static reverseTagName(tagName: string): { application: string, url: string; } | undefined {
+            tagName = tagName.toLowerCase();
+            for(let key in this.tags) {
+                if(this.tags[key] == tagName) {
+                    const splitted = key.split("$");
+                    return {
+                        application: splitted[0],
+                        url: splitted[1]
+                    };
+                }
+            }
+            return undefined;
+        }
         public static getTagName(application: string, componentUrl: string, delay: number = 1000): Promise<string> {
             return new Promise<string>((resolve) => {
                 let key = application + "$" + componentUrl;
@@ -47,7 +60,7 @@ namespace Lib {
                     resolve(this.tags[key]);
                 }
                 else {
-                    
+
                     let cb = () => {
                         if(this.tags[key]) {
                             let index = this.waiting.indexOf(cb);
@@ -61,7 +74,7 @@ namespace Lib {
                             this.waiting.splice(index, 1);
                         }
                         resolve("");
-                    }, delay)
+                    }, delay);
                     this.waiting.push(cb);
                 }
             });

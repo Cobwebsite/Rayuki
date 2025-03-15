@@ -1,0 +1,18 @@
+import { Favorite } from '../../Data/Favorite.data.avt';
+import { MainEndPoint } from '../MainEndPoint.lib.avt';
+
+namespace Websocket.Routes {
+
+	export class FavoriteRouter<__Route extends AventusSharp.WebSocket.StorableWsRouter__Routes<Favorite>> extends AventusSharp.WebSocket.StorableWsRouter<Favorite, __Route> {
+		
+		public constructor(endpoint?: AventusSharp.WebSocket.EndPoint) {
+			super(endpoint ?? MainEndPoint.getInstance());
+		}
+
+		public StorableName() {
+			return "Favorite";
+		}
+	}
+
+
+}

@@ -5,6 +5,9 @@ import type { User } from "../../../../generated/Data/User.lib.avt";
 import { Desktop } from "../../Desktop/Desktop.wcl.avt";
 import type { HomeBtn } from "../HomeBtn.wcl.avt";
 import { ApplicationPermission, ApplicationPermissionQuery } from "../../../../generated/Permissions/ApplicationPermission.lib.avt";
+import { FavoriteRAM } from "../../../../ram/Favorite.ram.avt";
+import { Process } from "../../../../libs/Process.lib.avt";
+import type { Favorite } from "../../../../generated/Data/Favorite.data.avt";
 
 namespace System {
     export class HomePanel extends Panel implements Aventus.DefaultComponent {
@@ -24,12 +27,15 @@ namespace System {
         protected recentContainer!: Scrollable;
 
         @ViewElement()
-        protected favorisContainer!: HTMLDivElement;
+        protected favorisContainer!: Scrollable;
 
         @Watch()
         public currentUser?: User;
 
         public btn!: HomeBtn;
+
+        @Watch()
+        public favorites: Favorite[] = [];
         //#endregion
 
 
@@ -78,24 +84,37 @@ namespace System {
             // }
         }
 
-        private async displayFavoris() {
-            // for(let i = 0; i < 20; i++) {
-            //     let icon = Aventus.WebComponentInstance.create<AppIcon>("Cave.System.AppIcon");
-            //     if(icon) {
-            //         this.favorisContainer.appendChild(icon);
-            //     }
-            // }
-        }
+
 
         private async getUser() {
             this.currentUser = await SessionManager.getUser();
+        }
+
+        private async initRam() {
+            let ram = FavoriteRAM.getInstance();
+            ram.onCreated(this.loadData);
+            ram.onUpdated((item) => this.loadData(item, true));
+            ram.onDeleted(this.loadData);
+            this.loadData();
+        }
+
+        @BindThis()
+        private async loadData(item?: Favorite, force?: boolean) {
+            let ram = FavoriteRAM.getInstance();
+            const items = await Process.execute(this, ram.getListWithError());
+            if(items) {
+                if(force) {
+                    this.favorites = [];
+                }
+                this.favorites = items;
+            }
         }
 
 
         protected override postCreation(): void {
             this.getUser();
             this.displayRecent();
-            this.displayFavoris();
+            this.initRam();
             new Aventus.PressManager({
                 element: this,
                 onPress: () => { },

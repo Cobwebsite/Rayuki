@@ -1,0 +1,101 @@
+import type { Favorite } from "../../../../generated/Data/Favorite.data.avt";
+import { AppIconManager } from "../../../../libs/AppIconManager.lib.avt";
+import { Process } from "../../../../libs/Process.lib.avt";
+import { FavoriteRAM } from "../../../../ram/Favorite.ram.avt";
+import type { ContextMenu, IContextMenu } from "../../../ui/ContextMenu/ContextMenu.wcl.avt";
+import { Os } from "../../Os/Os.wcl.avt";
+
+namespace System {
+    export class FavoriteLine extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected iconEl!: HTMLDivElement;
+
+        @Watch((target: FavoriteLine) => {
+            target.onSet();
+        })
+        @Injectable()
+        protected favorite?: Favorite;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        /**
+         * @inheritdoc
+         */
+        public onContextMenu(contextMenu: ContextMenu, stop: () => void): void {
+            contextMenu.addItem({
+                text: "Supprimer",
+                icon: "mi-delete",
+                priority: 1,
+                action: () => {
+                    this.deleteFromFavorite();
+                }
+            });
+            stop();
+        }
+        protected onSet() {
+            if(!this.favorite) return;
+            const cst = AppIconManager.getIcon(this.favorite.TagName);
+            if(!cst) return;
+            const icon = new cst();
+            this.iconEl.innerHTML = "";
+            this.iconEl.appendChild(icon);
+        }
+        protected async deleteFromFavorite() {
+            if(!this.favorite) return;
+
+            await Process.execute(this, FavoriteRAM.getInstance().deleteWithError(this.favorite));
+        }
+        protected async open() {
+            if(!this.favorite) {
+                this.remove();
+                return;
+            }
+            let desktop = Os.instance.activeDesktop;
+            const info = AppIconManager.reverseTagName(this.favorite.TagName);
+            if(!info) {
+                this.deleteFromFavorite();
+                this.remove();
+                return;
+            }
+            await desktop.loadApp(info.application);
+            const state = Aventus.Converter.transform<Aventus.State>(JSON.parse(this.favorite.State));
+            const app = await desktop.openUrl(info.application, info.url, state);
+            setTimeout(() => {
+                if(app && this.favorite && app.app_title != this.favorite.Name) {
+                    const clone = this.favorite.clone();
+                    clone.Name = app.app_title;
+                    Process.execute(this, FavoriteRAM.getInstance().updateWithError(clone));
+                }
+            }, 500);
+        }
+
+        protected override postCreation(): void {
+            new Aventus.PressManager({
+                element: this,
+                onPress: () => {
+                    this.open();
+                }
+            });
+        }
+        //#endregion
+
+	}
+}

@@ -1,0 +1,52 @@
+@import '@root/static/_functions.gs.avt';
+
+:host {
+	align-items: center;
+	background-color: var(--lighter);
+	border-radius: var(--border-radius-sm);
+	cursor: pointer;
+	display: flex;
+	gap: 10px;
+	overflow: hidden;
+	padding: 5px;
+	transition: background-color 0.2s var(--bezier-curve);
+
+	.icon-container {
+		height: 30px;
+		position: relative;
+		width: 30px;
+
+		.hider {
+			inset: 0;
+			position: absolute;
+		}
+
+		.icon {
+			height: 100%;
+			width: 100%;
+
+			* {
+				animation: none !important;
+				box-shadow: none !important;
+				height: 100% !important;
+				pointer-events: none;
+				width: 100% !important;
+			}
+		}
+	}
+
+	.text {
+		flex-grow: 1;
+		flex-wrap: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}
+
+
+@include desktop {
+	:host(:hover) {
+		background-color: var(--lighter-active);
+	}
+}

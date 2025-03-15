@@ -27,6 +27,8 @@ import { MainRouter } from "../../../generated/Routes/MainRouter.lib.avt";
 import { TransactionManager } from "../../../libs/TransactionManager.lib.avt";
 import { CoreError, CoreErrorCode } from "../../../generated/Tools/CoreErrors.lib.avt";
 import { Permission, type IPermissionQuery } from "../../../libs/Permission.lib.avt";
+import { Favorite } from "../../../generated/Data/Favorite.data.avt";
+import { FavoriteRAM } from "../../../ram/Favorite.ram.avt";
 
 namespace System {
     @Storybook({
@@ -148,7 +150,6 @@ namespace System {
         }
         //#endregion
 
-
         //#region methods
 
         //#region context menu
@@ -171,6 +172,14 @@ namespace System {
                 priority: 2,
                 action: () => {
                     this.resetSize();
+                }
+            });
+            contextMenu.addItem({
+                text: "Favori",
+                icon: "mi-star",
+                priority: 1,
+                action: () => {
+                    this.saveAsFavorite();
                 }
             });
             stop();
@@ -255,8 +264,22 @@ namespace System {
                 for(let key in this.allRoutes) {
                     this.initRoute(key);
                 }
+                let cbs = [...this.__onRouteRegisteredCb];
+                for(let cb of cbs) {
+                    cb();
+                }
+                this.__onRouteRegisteredCb = [];
             } catch(e) {
                 console.log(e);
+            }
+        }
+        private __onRouteRegisteredCb: Function[] = [];
+        public onRouteRegistered(cb: Function) {
+            if(this.isRegistered) {
+                cb();
+            }
+            else {
+                this.__onRouteRegisteredCb.push(cb);
             }
         }
 
@@ -857,6 +880,20 @@ namespace System {
             }
             if(canKill) {
                 this.remove();
+            }
+        }
+
+        protected async saveAsFavorite() {
+            let state = this.navigator.getState();
+            if(state) {
+                let favorite = new Favorite();
+                let cst = this.constructor as typeof Application;
+                let application = cst.Fullname.split(".")[0];
+                favorite.Name = this.app_title;
+                favorite.TagName = this.tagName.toLowerCase();
+                favorite.State = JSON.stringify(state);
+
+                await this.execute(FavoriteRAM.getInstance().createWithError(favorite));
             }
         }
         //#endregion
