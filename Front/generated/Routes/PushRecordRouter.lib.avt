@@ -1,0 +1,36 @@
+import { PushRecord } from '../Data/PushRecord.data.avt';
+import { CoreRouter } from '../CoreRouter.lib.avt';
+
+namespace Routes {
+
+	export class PushRecordRouter extends Aventus.HttpRoute {
+		public override getPrefix(): string { return "/push"; }
+		public constructor(router?: Aventus.HttpRouter) {
+			super(router ?? new CoreRouter());
+		}
+		@BindThis()
+		public async Get(body: { record: PushRecord } | FormData): Promise<AventusSharp.Tools.ResultWithError<PushRecord>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/get`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = PushRecord;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async CreateOrUpdate(body: { record: PushRecord } | FormData): Promise<AventusSharp.Tools.ResultWithError<PushRecord>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/createorupdate`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = PushRecord;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async Destroy(body: { record: PushRecord } | FormData): Promise<AventusSharp.Tools.ResultWithError<boolean>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/destroy`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = boolean;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+	}
+
+}

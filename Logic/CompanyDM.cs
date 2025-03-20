@@ -27,7 +27,9 @@ namespace Core.Logic
                 result.Run(() => new Company()
                 {
                     Name = "Rayuki",
-                    Logo = new CompanyImage() { Uri = "/img/logo.svg" }
+                    Logo = new CompanyImage() { Uri = "/img/logo.svg" },
+                    SiteUrl = "http://localhost:5001"
+                    // SiteUrl = "https://rayuki.com"
                 }.CreateWithError());
             }
 
@@ -123,7 +125,8 @@ namespace Core.Logic
             return new Company()
             {
                 Name = "Rayuki debug",
-                Logo = new CompanyImage() { Uri = "/img/logo.svg" }
+                Logo = new CompanyImage() { Uri = "/img/logo.svg" },
+                SiteUrl = "https://rayuki.com"
             };
         }
 
@@ -146,7 +149,8 @@ namespace Core.Logic
 
 
 
-        private string GetDefaultManifest() {
+        private string GetDefaultManifest()
+        {
             return @"{
     ""name"": ""Rayuki"",
     ""short_name"": ""Rayuki"",

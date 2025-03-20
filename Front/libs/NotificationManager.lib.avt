@@ -1,0 +1,148 @@
+import { Instance, Watcher, type Computed } from "Aventus@Main:Aventus.package.avt";
+import { Os } from "../components/system/Os/Os.wcl.avt";
+import { PushRecord } from "../generated/Data/PushRecord.data.avt";
+import { MainRouter } from "../generated/Routes/MainRouter.lib.avt";
+import { PushRecordRouter } from "../generated/Routes/PushRecordRouter.lib.avt";
+import { Process } from "./Process.lib.avt";
+
+namespace Lib {
+    export class NotificationManager {
+        public static getInstance() {
+            return Instance.get(NotificationManager);
+        }
+
+        private sw?: ServiceWorkerRegistration;
+        private record?: PushRecord;
+        private subscription?: PushSubscription;
+        private watcher: Watcher;
+
+        private constructor() {
+            this.watcher = Watcher.get({});
+        }
+
+        public get hasNotification(): boolean {
+            return this.watcher['enable'] ?? false;
+        }
+        private set hasNotification(value: boolean) {
+            this.watcher['enable'] = value;
+        }
+        public get isLoading(): boolean {
+            return this.watcher['isLoading'] ?? false;
+        }
+        private set isLoading(value: boolean) {
+            this.watcher['isLoading'] = value;
+        }
+        public get isInit(): boolean {
+            return this.watcher['isInit'] ?? false;
+        }
+        private set isInit(value: boolean) {
+            this.watcher['isInit'] = value;
+        }
+
+        public async init(sw: ServiceWorkerRegistration) {
+            this.sw = sw;
+            try {
+                let subscription = await this.sw.pushManager.getSubscription();
+                if(subscription) {
+                    this.subscription = subscription;
+                    const router = new PushRecordRouter();
+                    let record = this.subToRecord(subscription);
+                    this.record = await Process.execute(Os.instance, router.Get({ record: record }));
+                    if(!this.record) {
+                        await this.subscription.unsubscribe();
+                        this.subscription = undefined;
+                    }
+					else {
+						this.hasNotification = true;
+					}
+                }
+                this.isInit = true;
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        public async subscribe() {
+            if(!this.sw) return;
+            if(this.record) return;
+            this.isLoading = true;
+            let record: PushRecord | null = null;
+            try {
+                let subscription = await this.sw.pushManager.getSubscription();
+                if(subscription) {
+                    record = this.subToRecord(subscription);
+                    this.subscription = subscription;
+                }
+                else {
+                    const response = await new MainRouter().VapidPublicKey();
+                    if(response.success && response.result) {
+                        const vapidPublicKey = response.result;
+                        const convertedVapidKey = this.urlBase64ToUint8Array(vapidPublicKey);
+
+                        const subscription = await this.sw.pushManager.subscribe({
+                            userVisibleOnly: true,
+                            applicationServerKey: convertedVapidKey
+                        });
+
+                        record = this.subToRecord(subscription);
+                        this.subscription = subscription;
+                    }
+                }
+
+                if(record) {
+                    const router = new PushRecordRouter();
+                    this.record = await Process.execute(Os.instance, router.CreateOrUpdate({ record: record }));
+                    this.hasNotification = true;
+                }
+
+            } catch(e) {
+                console.error(e);
+            }
+            this.isLoading = false;
+        }
+
+        public async unsubscribe() {
+            if(!this.record) return;
+            if(!this.subscription) return;
+            this.isLoading = true;
+
+            try {
+                await this.subscription.unsubscribe();
+                this.subscription = undefined;
+                const router = new PushRecordRouter();
+                if(await Process.execute(Os.instance, router.Destroy({ record: this.record }))) {
+                    this.record = undefined;
+                    this.hasNotification = false;
+                }
+            } catch(e) {
+                console.error(e);
+            }
+            this.isLoading = false;
+
+        }
+
+        private urlBase64ToUint8Array(base64String: string): Uint8Array {
+            var padding = '='.repeat((4 - base64String.length % 4) % 4);
+            var base64 = (base64String + padding)
+                .replace(/\-/g, '+')
+                .replace(/_/g, '/');
+
+            var rawData = window.atob(base64);
+            var outputArray = new Uint8Array(rawData.length);
+
+            for(var i = 0; i < rawData.length; ++i) {
+                outputArray[i] = rawData.charCodeAt(i);
+            }
+            return outputArray;
+        }
+
+        private subToRecord(sub: PushSubscription) {
+            const result = new PushRecord();
+            const json = sub.toJSON();
+            result.EndPoint = sub.endpoint;
+            result.Auth = json.keys?.auth ?? '';
+            result.P256dh = json.keys?.p256dh ?? '';
+            return result;
+        }
+    }
+}

@@ -15,9 +15,9 @@
                 <div class="title">
                     Mes favoris
                 </div>
-                <rk-scrollable  @element="favorisContainer" class="scrollable favoris-container" floating_scroll>
+                <rk-scrollable @element="favorisContainer" class="scrollable favoris-container" floating_scroll>
                     <div class="wrapper">
-                        for(let fav of this.favorites) {
+                        for(let fav of this.favorites) { 
                             <rk-favorite-line :favorite="fav" :reorder="this.reorderFav"></rk-favorite-line>
                         }
                     </div>
@@ -32,6 +32,7 @@
         <div class="name">{{ this.currentUser?.Firstname }} {{ this.currentUser?.Lastname }}</div>
     </div>
     <div class="actions">
+        <rk-notification-btn class="btn"></rk-notification-btn>
         <rk-pwa-button>
             <rk-tooltip position="top" delay="1000" use_absolute color="green">Installer l'application</rk-tooltip>
         </rk-pwa-button>

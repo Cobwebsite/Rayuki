@@ -10,6 +10,7 @@ namespace Core.Data
         public string Name { get; set; } = "";
         public CompanyImage Logo { get; set; } = new CompanyImage();
         public int Version { get; set; } = 0;
+        public string SiteUrl {get; set;} = "";
     }
 
     [Export]

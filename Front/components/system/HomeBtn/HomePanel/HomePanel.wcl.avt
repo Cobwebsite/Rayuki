@@ -10,6 +10,7 @@ import { Process } from "../../../../libs/Process.lib.avt";
 import type { Favorite } from "../../../../generated/Data/Favorite.data.avt";
 import { FavoriteLine } from "../FavoriteLine/FavoriteLine.wcl.avt";
 import { NormalizedEvent, PressManager } from "Aventus@Main:Aventus.package.avt";
+import { NotificationManager } from "../../../../libs/NotificationManager.lib.avt";
 
 namespace System {
     export class HomePanel extends Panel implements Aventus.DefaultComponent {
@@ -40,6 +41,9 @@ namespace System {
         public favorites: Favorite[] = [];
         @Watch()
         public reorderFav: boolean = false;
+
+
+
         //#endregion
 
 
@@ -49,6 +53,7 @@ namespace System {
 
 
         //#region methods
+
 
 
         /**

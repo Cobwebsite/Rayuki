@@ -2126,6 +2126,14 @@ let Watcher=class Watcher {
         return comp;
     }
     /**
+     * Create an effect variable that will watch any changes
+     */
+    static watch(fct, cb) {
+        const comp = new Effect(fct);
+        comp.subscribe(cb);
+        return comp;
+    }
+    /**
      * Create a signal variable
      */
     static signal(item, onChange) {

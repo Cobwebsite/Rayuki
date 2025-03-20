@@ -1,0 +1,23 @@
+:host(:not([is_init])) {
+    display: none;
+}
+:host([loading]) {
+    rk-img {
+        animation-name: rotate;
+        animation-timing-function: linear;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

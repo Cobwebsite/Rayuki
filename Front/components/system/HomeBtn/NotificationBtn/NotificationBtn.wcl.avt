@@ -1,0 +1,92 @@
+import { PressManager, Watcher } from "Aventus@Main:Aventus.package.avt";
+import { NotificationManager } from "../../../../libs/NotificationManager.lib.avt";
+import { Button } from "../../../ui/form/Button/Button.wcl.avt";
+
+namespace System {
+    export class NotificationBtn extends Button implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public loading!: boolean;
+        @Attribute()
+        public is_init!: boolean;
+        //#endregion
+
+
+        //#region variables
+        public get hasNotification(): boolean {
+            return NotificationManager.getInstance().hasNotification;
+        }
+        public get isNotificationInit(): boolean {
+            return NotificationManager.getInstance().isInit;
+        }
+        public get isNotificationLoading(): boolean {
+            return NotificationManager.getInstance().isLoading;
+        }
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        /**
+        * 
+        */
+        protected async toggleNotification() {
+            if(this.isNotificationLoading) return;
+            if(this.hasNotification) {
+                await NotificationManager.getInstance().unsubscribe();
+            }
+            else {
+                await NotificationManager.getInstance().subscribe();
+            }
+        }
+
+        @BindThis()
+        protected setValues() {
+            if(this.isNotificationLoading) {
+                this.icon = "mi-progress_activity";
+                this.loading = true;
+            }
+            else {
+                this.loading = false;
+                if(this.hasNotification) {
+                    this.color = "blue";
+                    this.icon = "mi-notifications";
+                }
+                else {
+                    this.color = "red";
+                    this.icon = "mi-notifications_off";
+                }
+            }
+        }
+
+        protected override postCreation(): void {
+            super.postCreation();
+            new PressManager({
+                element: this,
+                onPress: () => {
+                    this.toggleNotification();
+                }
+            });
+
+            Watcher.watch(
+                () => [this.hasNotification, this.isNotificationLoading],
+                () => this.setValues()
+            );
+            Watcher.effect(() => this.is_init = this.isNotificationInit);
+           
+            this.setValues();
+        }
+        //#endregion
+
+	}
+}

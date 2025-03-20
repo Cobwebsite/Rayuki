@@ -1,0 +1,12 @@
+namespace Data {
+
+	@Convertible()
+	export class PushRecord extends AventusSharp.Data.Storable implements Aventus.IData {
+		public static override get Fullname(): string { return "Core.Data.PushRecord, Core"; }
+		public UserId!: number;
+		public EndPoint!: string;
+		public P256dh!: string;
+		public Auth!: string;
+	}
+
+}

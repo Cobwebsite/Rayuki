@@ -46,12 +46,38 @@ self.addEventListener('fetch', (e) => {
 
 
 self.addEventListener('push', function (event) {
-    const payload = event.data ? event.data.text() : 'no payload';
-    // Keep the service worker alive until the notification is created.
+    try {
+        if (!event.data) return;
+        const payloadSharp = JSON.parse(event.data.text());
+        const payload = {};
+        for (let key in payloadSharp) {
+            let keyLower = key[0].toLowerCase() + key.slice(1);
+            payload[keyLower] = payloadSharp[key];
+        }
+        console.log(payload);
+        // Keep the service worker alive until the notification is created.
+        event.waitUntil(
+            // Show a notification with title 'ServiceWorker Cookbook' and body 'Alea iacta est'.
+            self.registration.showNotification(payload.title, payload)
+        );
+    } catch (e) {
+        console.error(e);
+    }
+});
+
+self.addEventListener("notificationclick", (event) => {
+    event.notification.close();
+    
     event.waitUntil(
-        // Show a notification with title 'ServiceWorker Cookbook' and body 'Alea iacta est'.
-        self.registration.showNotification('ServiceWorker Cookbook', {
-            body: payload,
-        })
+        clients
+            .matchAll({
+                type: "window",
+            })
+            .then((clientList) => {
+                for (const client of clientList) {
+                    if (client.url === "/" && "focus" in client) return client.focus();
+                }
+                if (clients.openWindow) return clients.openWindow("/");
+            }),
     );
 });

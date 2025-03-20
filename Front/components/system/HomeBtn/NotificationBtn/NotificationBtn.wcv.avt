@@ -1,0 +1,1 @@
+<rk-tooltip position="top" delay="1000" use_absolute>Notifications {{ this.hasNotification ? "activées" : "desactivées" }}</rk-tooltip>

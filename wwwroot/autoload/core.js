@@ -1277,6 +1277,18 @@ Components.SheetSplitter.Tag=`rk-sheet-splitter`;
 _.Components.SheetSplitter=Components.SheetSplitter;
 if(!window.customElements.get('rk-sheet-splitter')){window.customElements.define('rk-sheet-splitter', Components.SheetSplitter);Aventus.WebComponentInstance.registerDefinition(Components.SheetSplitter);}
 
+Data.PushRecord=class PushRecord extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.PushRecord, Core"; }
+    UserId;
+    EndPoint;
+    P256dh;
+    Auth;
+}
+Data.PushRecord.Namespace=`Core.Data`;
+Data.PushRecord.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "UserId":"number","EndPoint":"string","P256dh":"string","Auth":"string"};
+Aventus.Converter.register(Data.PushRecord.Fullname, Data.PushRecord);
+_.Data.PushRecord=Data.PushRecord;
+
 let Md5=class Md5 {
     static create(txt) {
         return this.rstr2hex(this.rstr_md5(this.str2rstr_utf8(txt)));
@@ -2157,6 +2169,33 @@ Routes.PdfRouter=class PdfRouter extends Aventus.HttpRoute {
 Routes.PdfRouter.Namespace=`Core.Routes`;
 _.Routes.PdfRouter=Routes.PdfRouter;
 
+Routes.PushRecordRouter=class PushRecordRouter extends Aventus.HttpRoute {
+    getPrefix() { return "/push"; }
+    constructor(router) {
+        super(router ?? new Routes.CoreRouter());
+        this.Get = this.Get.bind(this);
+        this.CreateOrUpdate = this.CreateOrUpdate.bind(this);
+        this.Destroy = this.Destroy.bind(this);
+    }
+    async Get(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/get`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async CreateOrUpdate(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/createorupdate`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async Destroy(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/destroy`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+}
+Routes.PushRecordRouter.Namespace=`Core.Routes`;
+_.Routes.PushRecordRouter=Routes.PushRecordRouter;
+
 Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
@@ -2209,71 +2248,6 @@ Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
 }
 Routes.MainRouter.Namespace=`Core.Routes`;
 _.Routes.MainRouter=Routes.MainRouter;
-
-Lib.ServiceWorker=class ServiceWorker {
-    static getInstance() {
-        return AvInstance.get(Lib.ServiceWorker);
-    }
-    subscription;
-    async init(registration) {
-        // if(await this.getSubscription(registration)) {
-        //     this.subscribe();
-    }
-    async getSubscription(registration) {
-        try {
-            let subscription = await registration.pushManager.getSubscription();
-            if (subscription) {
-                this.subscription = subscription;
-                return false;
-            }
-            let response = await new Routes.MainRouter().VapidPublicKey();
-            if (response.success && response.result) {
-                const vapidPublicKey = response.result;
-                // Chrome doesn't accept the base64-encoded (string) vapidPublicKey yet
-                // urlBase64ToUint8Array() is defined in /tools.js
-                const convertedVapidKey = this.urlBase64ToUint8Array(vapidPublicKey);
-                // Otherwise, subscribe the user (userVisibleOnly allows to specify that we don't plan to
-                // send notifications that don't have a visible effect for the user).
-                this.subscription = await registration.pushManager.subscribe({
-                    userVisibleOnly: true,
-                    applicationServerKey: convertedVapidKey
-                });
-                return true;
-            }
-        }
-        catch (e) {
-            alert(e);
-        }
-        return false;
-    }
-    async subscribe() {
-        if (!this.subscription) {
-            return;
-        }
-        // await new MainRouter().Register({
-        // });
-    }
-    async unsubscribe() {
-        if (!this.subscription) {
-            return;
-        }
-        await this.subscription.unsubscribe();
-    }
-    urlBase64ToUint8Array(base64String) {
-        var padding = '='.repeat((4 - base64String.length % 4) % 4);
-        var base64 = (base64String + padding)
-            .replace(/\-/g, '+')
-            .replace(/_/g, '/');
-        var rawData = window.atob(base64);
-        var outputArray = new Uint8Array(rawData.length);
-        for (var i = 0; i < rawData.length; ++i) {
-            outputArray[i] = rawData.charCodeAt(i);
-        }
-        return outputArray;
-    }
-}
-Lib.ServiceWorker.Namespace=`Core.Lib`;
-_.Lib.ServiceWorker=Lib.ServiceWorker;
 
 Data.ApplicationData=class ApplicationData extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.ApplicationData, Core"; }
@@ -9558,7 +9532,7 @@ System.HomePanel = class HomePanel extends System.Panel {
     __registerWatchesActions() {
     this.__addWatchesActions("currentUser");this.__addWatchesActions("favorites");this.__addWatchesActions("reorderFav");    super.__registerWatchesActions();
 }
-    static __style = `:host{box-shadow:var(--elevation-3);display:flex;flex-direction:column;left:-9px;position:absolute;width:min(500px,var(--os-width))}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:var(--border-radius-sm);margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .wrapper{display:flex;flex-direction:column;gap:5px}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;justify-content:space-between;width:100%}:host .footer .person{align-items:center;border-radius:var(--border-radius-sm);display:flex;margin:10px 10px;padding:8px 10px;transition:background-color .2s var(--bezier-curve)}:host .footer .person .icon{height:30px;width:30px}:host .footer .person .name{margin-left:10px}:host .footer .person:hover{background-color:var(--lighter)}:host .footer .actions{align-items:center;display:flex}:host .footer .actions rk-pwa-button{background-color:var(--success);color:var(--text-color-success);height:36px;width:36px}:host .footer .actions rk-button{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;border:none;box-shadow:var(--elevation-2);height:36px;margin:10px 10px;min-width:auto;width:36px}@media screen and (max-width: 768px){:host{left:-10px}:host .content rk-row{flex-direction:column}:host .content rk-row rk-col{height:50%;width:100%}}`;
+    static __style = `:host{box-shadow:var(--elevation-3);display:flex;flex-direction:column;left:-9px;position:absolute;width:min(500px,var(--os-width))}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:var(--border-radius-sm);margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .wrapper{display:flex;flex-direction:column;gap:5px}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;justify-content:space-between;width:100%}:host .footer .person{align-items:center;border-radius:var(--border-radius-sm);display:flex;margin:10px 10px;padding:8px 10px;transition:background-color .2s var(--bezier-curve)}:host .footer .person .icon{height:30px;width:30px}:host .footer .person .name{margin-left:10px}:host .footer .person:hover{background-color:var(--lighter)}:host .footer .actions{align-items:center;display:flex;gap:10px;padding-right:10px}:host .footer .actions rk-pwa-button{background-color:var(--success);color:var(--text-color-success);height:36px;width:36px}:host .footer .actions rk-button,:host .footer .actions .btn{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;border:none;box-shadow:var(--elevation-2);height:36px;margin:10px 0;min-width:auto;transition:background-color .5s var(--bezier-curve);width:36px}@media screen and (max-width: 768px){:host{left:-10px}:host .content rk-row{flex-direction:column}:host .content rk-row rk-col{height:50%;width:100%}}`;
     constructor() { super(); this.loadData=this.loadData.bind(this)this.checkCancelState=this.checkCancelState.bind(this) }
     __getStatic() {
         return HomePanel;
@@ -9570,7 +9544,7 @@ System.HomePanel = class HomePanel extends System.Panel {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="content">    <rk-row>        <rk-col size="6">            <div class="recent">                <div class="title">                    Récents                </div>                <rk-scrollable class="scrollable recent-container" floating_scroll _id="homepanel_0">                </rk-scrollable>            </div>        </rk-col>        <rk-col size="6">            <div class="favoris">                <div class="title">                    Mes favoris                </div>                <rk-scrollable class="scrollable favoris-container" floating_scroll _id="homepanel_1">                    <div class="wrapper">                        <template _id="homepanel_2"></template>                    </div>                </rk-scrollable>            </div>        </rk-col>    </rk-row></div><div class="footer">    <div class="person touch" _id="homepanel_4">        <rk-user-profil-picture class="icon" _id="homepanel_5"></rk-user-profil-picture>        <div class="name" _id="homepanel_6"></div>    </div>    <div class="actions">        <rk-pwa-button>            <rk-tooltip position="top" delay="1000" use_absolute color="green">Installer l'application</rk-tooltip>        </rk-pwa-button>        <rk-button icon="/img/icons/power-off.svg" _id="homepanel_7"></rk-button>    </div></div>` }
+        blocks: { 'default':`<div class="content">    <rk-row>        <rk-col size="6">            <div class="recent">                <div class="title">                    Récents                </div>                <rk-scrollable class="scrollable recent-container" floating_scroll _id="homepanel_0">                </rk-scrollable>            </div>        </rk-col>        <rk-col size="6">            <div class="favoris">                <div class="title">                    Mes favoris                </div>                <rk-scrollable class="scrollable favoris-container" floating_scroll _id="homepanel_1">                    <div class="wrapper">                        <template _id="homepanel_2"></template>                    </div>                </rk-scrollable>            </div>        </rk-col>    </rk-row></div><div class="footer">    <div class="person touch" _id="homepanel_4">        <rk-user-profil-picture class="icon" _id="homepanel_5"></rk-user-profil-picture>        <div class="name" _id="homepanel_6"></div>    </div>    <div class="actions">        <rk-notification-btn class="btn"></rk-notification-btn>        <rk-pwa-button>            <rk-tooltip position="top" delay="1000" use_absolute color="green">Installer l'application</rk-tooltip>        </rk-pwa-button>        <rk-button icon="/img/icons/power-off.svg" _id="homepanel_7"></rk-button>    </div></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -9606,7 +9580,7 @@ System.HomePanel = class HomePanel extends System.Panel {
       "onPress": (e, pressInstance, c) => { c.comp.logout(e, pressInstance); }
     }
   ]
-});const templ0 = new Aventus.Template(this);templ0.setTemplate(`                            <rk-favorite-line _id="homepanel_3"></rk-favorite-line>                        `);templ0.setActions({
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`                             <rk-favorite-line _id="homepanel_3"></rk-favorite-line>                        `);templ0.setActions({
   "injection": [
     {
       "id": "homepanel_3",
@@ -12780,761 +12754,6 @@ System.AddOnTime.Tag=`rk-add-on-time`;
 _.System.AddOnTime=System.AddOnTime;
 if(!window.customElements.get('rk-add-on-time')){window.customElements.define('rk-add-on-time', System.AddOnTime);Aventus.WebComponentInstance.registerDefinition(System.AddOnTime);}
 
-Lib.FileSaver=class FileSaver {
-    static bom(blob, opts) {
-        if (typeof opts === 'undefined')
-            opts = { autoBom: false };
-        else if (typeof opts !== 'object') {
-            console.warn('Deprecated: Expected third argument to be a object');
-            opts = { autoBom: !opts };
-        }
-        // prepend BOM for UTF-8 XML and text/* types (including HTML)
-        if (opts.autoBom && /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(blob.type)) {
-            return new Blob([String.fromCharCode(0xFEFF), blob], { type: blob.type });
-        }
-        return blob;
-    }
-    static download(url, name, opts) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
-        xhr.responseType = 'blob';
-        xhr.onload = () => {
-            this.saveAs(xhr.response, name, opts);
-        };
-        xhr.onerror = () => {
-            console.error('could not download file');
-        };
-        xhr.send();
-    }
-    static corsEnabled(url) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('HEAD', url, false);
-        try {
-            xhr.send();
-        }
-        catch (e) { }
-        return xhr.status >= 200 && xhr.status <= 299;
-    }
-    static click(node) {
-        try {
-            node.dispatchEvent(new MouseEvent('click'));
-        }
-        catch (e) {
-            var evt = document.createEvent('MouseEvents');
-            evt.initMouseEvent('click', true, true, window, 0, 0, 0, 80, 20, false, false, false, false, 0, null);
-            node.dispatchEvent(evt);
-        }
-    }
-    static get isMacOSWebView() {
-        return navigator && /Macintosh/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !/Safari/.test(navigator.userAgent);
-    }
-    static _saveAs;
-    static get saveAs() {
-        if (!this._saveAs) {
-            this._saveAs = this.initSaveAs();
-        }
-        return this._saveAs;
-    }
-    static initSaveAs() {
-        let result;
-        // Use download attribute first if possible (#193 Lumia mobile) unless this is a macOS WebView
-        result = ('download' in HTMLAnchorElement.prototype && !this.isMacOSWebView)
-            ? (blob, name, opts) => {
-                return new Promise((resolve) => {
-                    var URL = URL || webkitURL;
-                    // Namespace is used to prevent conflict w/ Chrome Poper Blocker extension (Issue #561)
-                    var a = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
-                    name = name || 'download';
-                    a.download = name;
-                    a.rel = 'noopener';
-                    if (typeof blob === 'string') {
-                        a.href = blob;
-                        if (a.origin !== location.origin) {
-                            this.corsEnabled(a.href)
-                                ? this.download(blob, name, opts)
-                                : this.click(a);
-                        }
-                        else {
-                            this.click(a);
-                        }
-                        resolve();
-                    }
-                    else {
-                        a.href = URL.createObjectURL(blob);
-                        setTimeout(() => { URL.revokeObjectURL(a.href); resolve(); }, 4E4);
-                        setTimeout(() => { this.click(a); }, 0);
-                    }
-                });
-            }
-            : 'msSaveOrOpenBlob' in navigator
-                ? (blob, name, opts) => {
-                    return new Promise((resolve) => {
-                        name = name || 'download';
-                        if (typeof blob === 'string') {
-                            if (this.corsEnabled(blob)) {
-                                this.download(blob, name, opts);
-                                resolve();
-                            }
-                            else {
-                                var a = document.createElement('a');
-                                a.href = blob;
-                                a.target = '_blank';
-                                setTimeout(() => { this.click(a); resolve(); });
-                            }
-                        }
-                        else {
-                            navigator['msSaveOrOpenBlob'](this.bom(blob, opts), name);
-                            resolve();
-                        }
-                    });
-                }
-                : (blob, name, opts, popup) => {
-                    return new Promise((resolve) => {
-                        popup = popup || open('', '_blank');
-                        if (popup) {
-                            popup.document.title =
-                                popup.document.body.innerText = 'downloading...';
-                        }
-                        if (typeof blob === 'string') {
-                            this.download(blob, name, opts);
-                            resolve();
-                            return;
-                        }
-                        var force = blob.type === 'application/octet-stream';
-                        var isSafari = /constructor/i.test(HTMLElement.toString()) || window['safari'];
-                        var isChromeIOS = /CriOS\/[\d]+/.test(navigator.userAgent);
-                        if ((isChromeIOS || (force && isSafari) || this.isMacOSWebView) && typeof FileReader !== 'undefined') {
-                            var reader = new FileReader();
-                            reader.onloadend = () => {
-                                var url = reader.result;
-                                url = isChromeIOS ? url : url.replace(/^data:[^;]*;/, 'data:attachment/file;');
-                                if (popup)
-                                    popup.location.href = url;
-                                else
-                                    location.replace(url);
-                                popup = null;
-                                resolve();
-                            };
-                            reader.readAsDataURL(blob);
-                        }
-                        else {
-                            var URL = URL || webkitURL;
-                            var url = URL.createObjectURL(blob);
-                            if (popup)
-                                popup.location = url;
-                            else
-                                location.href = url;
-                            popup = null;
-                            setTimeout(() => { URL.revokeObjectURL(url); resolve(); }, 4E4);
-                        }
-                    });
-                };
-        return result;
-    }
-}
-Lib.FileSaver.Namespace=`Core.Lib`;
-_.Lib.FileSaver=Lib.FileSaver;
-
-Components.Sheet = class Sheet extends Aventus.WebComponent {
-    get 'format'() { return this.getStringAttr('format') }
-    set 'format'(val) { this.setStringAttr('format', val) }get 'orientation'() { return this.getStringAttr('orientation') }
-    set 'orientation'(val) { this.setStringAttr('orientation', val) }    static sizes = new Map([
-        ["A3", new Map([
-                ["portrait", { width: 297, height: 420 }],
-                ["landscape", { width: 420, height: 297 }],
-            ])],
-        ["A4", new Map([
-                ["portrait", { width: 210, height: 297 }],
-                ["landscape", { width: 297, height: 210 }],
-            ])],
-        ["A5", new Map([
-                ["portrait", { width: 148, height: 210 }],
-                ["landscape", { width: 210, height: 148 }],
-            ])],
-        ["legal", new Map([
-                ["portrait", { width: 216, height: 357 }],
-                ["landscape", { width: 357, height: 216 }],
-            ])],
-        ["letter", new Map([
-                ["portrait", { width: 216, height: 279 }],
-                ["landscape", { width: 280, height: 216 }],
-            ])],
-    ]);
-    currentWrapper;
-    currentBody;
-    currentPage;
-    basicPage;
-    pageWrappers = [];
-    settings;
-    static __style = `:host{--_sheet-padding: var(--sheet-padding, 0)}:host .sheet{box-sizing:border-box;color:#000;display:flex;flex-direction:column;flex-shrink:0;margin:0;overflow:hidden;padding:var(--_sheet-padding);page-break-before:page;position:relative;user-select:text}:host .sheet .header,:host .sheet .footer{flex-grow:0;flex-shrink:0;width:100%}:host .sheet .body{flex-grow:1;overflow:hidden;width:100%}:host .sheet .body .body-wrapper{width:100%}@media screen{:host .sheet{background-color:#fff;box-shadow:0 .5mm 2mm rgba(0,0,0,.3)}}:host([format=A3][orientation=portrait]) .sheet{height:420mm;width:297mm}:host([format=A3][orientation=landscape]) .sheet{height:297mm;width:420mm}:host([format=A4][orientation=portrait]) .sheet{height:297mm;width:210mm}:host([format=A4][orientation=landscape]) .sheet{height:210mm;width:297mm}:host([format=A5][orientation=portrait]) .sheet{height:210mm;width:148mm}:host([format=A5][orientation=landscape]) .sheet{height:148mm;width:210mm}:host([format=letter][orientation=portrait]) .sheet{height:279mm;width:216mm}:host([format=letter][orientation=landscape]) .sheet{height:216mm;width:280mm}:host([format=legal][orientation=portrait]) .sheet{height:357mm;width:216mm}:host([format=legal][orientation=landscape]) .sheet{height:216mm;width:357mm}`;
-    constructor() {
-            super();
-            const settings = this.sheetSettings(this.defaultSettings());
-            this.settings = settings;
-            this.format = settings.format;
-            this.orientation = settings.orientation;
-            this.style.setProperty("--sheet-padding", settings.padding);
-if (this.constructor == Sheet) { throw "can't instanciate an abstract class"; }}
-    __getStatic() {
-        return Sheet;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Sheet.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'header':`<slot name="header"></slot>`,'default':`<slot></slot>`,'footer':`<slot name="footer"></slot>` }, 
-        blocks: { 'default':`<div class="sheet">    <div class="header" _id="sheet_0">        <slot name="header"></slot>    </div>    <div class="body" _id="sheet_1">        <div class="body-wrapper" _id="sheet_2">            <slot></slot>        </div>    </div>    <div class="footer" _id="sheet_3">        <slot name="footer"></slot>    </div></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "headerEl",
-      "ids": [
-        "sheet_0"
-      ]
-    },
-    {
-      "name": "bodyEl",
-      "ids": [
-        "sheet_1"
-      ]
-    },
-    {
-      "name": "bodyWrapper",
-      "ids": [
-        "sheet_2"
-      ]
-    },
-    {
-      "name": "footerEl",
-      "ids": [
-        "sheet_3"
-      ]
-    }
-  ]
-}); }
-    getClassName() {
-        return "Sheet";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('format')){ this['format'] = "A4"; }if(!this.hasAttribute('orientation')){ this['orientation'] = "portrait"; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('format');this.__upgradeProperty('orientation'); }
-    defaultSettings() {
-        return {
-            format: "A4",
-            orientation: "portrait",
-            padding: "0",
-            calculateOnDisplay: true
-        };
-    }
-    addSinglePageValue() {
-        let children = this.currentPage.querySelectorAll("[page-number]");
-        for (let child of children) {
-            child.innerHTML = this.pageWrappers.length + '';
-        }
-    }
-    addAllPagesValue() {
-        let children = this.shadowRoot.querySelectorAll("[page-total]");
-        for (let child of children) {
-            child.innerHTML = this.pageWrappers.length + '';
-        }
-    }
-    createPage(splitter, container) {
-        this.currentPage = this.basicPage.cloneNode(true);
-        this.currentBody = this.currentPage.querySelector(".body");
-        this.currentWrapper = this.currentPage.querySelector(".body-wrapper");
-        this.pageWrappers.push(this.currentWrapper);
-        this.shadowRoot.appendChild(this.currentPage);
-        const result = this.onNewPage(splitter, container);
-        this.addSinglePageValue();
-        if (!result)
-            return this.currentWrapper;
-        return result;
-    }
-    getIdentifier(node) {
-        let result = [];
-        let samePage = true;
-        const loop = (el) => {
-            if (el instanceof Element) {
-                if (el.classList.contains("body-wrapper")) {
-                    samePage = el == this.currentWrapper;
-                    return;
-                }
-                if (el.classList.length > 0) {
-                    result.push("." + Array.from(el.classList.values()).join("."));
-                }
-            }
-            if (!el.parentNode)
-                return;
-            loop(el.parentNode);
-        };
-        loop(node);
-        if (samePage) {
-            return null;
-        }
-        return result.reverse().join(" ");
-    }
-    cloneFromParent(classname, container) {
-        let parent = Aventus.ElementExtension.findParentByClass(container, classname);
-        let result = null;
-        const loop = (element, parentClone) => {
-            let nodeClone = element.cloneNode();
-            parentClone.appendChild(nodeClone);
-            if (element == container) {
-                result = nodeClone;
-                return;
-            }
-            if (element instanceof HTMLElement && element.hasAttribute("page-avoid-other")) {
-                for (let child of Array.from(element.childNodes)) {
-                    if (child instanceof HTMLElement) {
-                        if (child.contains(container))
-                            loop(child, nodeClone);
-                    }
-                    else {
-                        loop(child, nodeClone);
-                    }
-                }
-            }
-            else {
-                for (let child of Array.from(element.childNodes)) {
-                    loop(child, nodeClone);
-                }
-            }
-        };
-        if (parent) {
-            loop(parent, this.currentWrapper);
-        }
-        else {
-            debugger;
-            console.warn("Parent " + classname + " not found from element", container);
-        }
-        return result;
-    }
-    calculatePageLoop(element, children, nb = 0) {
-        let lastSplitter = null;
-        let lastIndex = 0;
-        let hasNewPageG = false;
-        for (let i = 0; i < children.length; i++) {
-            const child = children[i];
-            if (child instanceof Components.SheetSplitter) {
-                lastSplitter = child;
-                lastIndex = i;
-                continue;
-            }
-            element.appendChild(child);
-            if (this.currentWrapper.offsetHeight > this.currentBody.offsetHeight) {
-                const children2 = Array.from(child.childNodes);
-                for (let child2 of children2) {
-                    child.removeChild(child2);
-                }
-                const hasNewPage = this.calculatePageLoop(child, children2, nb + 1);
-                if (hasNewPage) {
-                    hasNewPageG = true;
-                }
-                if (!hasNewPage) {
-                    for (let child2 of children2) {
-                        child.appendChild(child2);
-                    }
-                    if (lastSplitter) {
-                        for (let j = lastIndex + 1; j <= i; j++) {
-                            element.removeChild(children[j]);
-                        }
-                        const newWrapper = this.createPage(lastSplitter, element);
-                        let missingChild = children.slice(lastIndex + 1);
-                        this.calculatePageLoop(newWrapper, missingChild);
-                        return true;
-                    }
-                    else {
-                        if (nb == 0) {
-                            debugger;
-                            if (child instanceof HTMLElement) {
-                                child.style.backgroundColor = "red";
-                            }
-                            throw {
-                                msg: 'Can\'t find a page-splitter',
-                                element: child
-                            };
-                        }
-                        else {
-                            element.removeChild(child);
-                        }
-                        return false;
-                    }
-                }
-                if (this.pageWrappers.includes(element) && element != this.currentWrapper) {
-                    element = this.currentWrapper;
-                }
-                else {
-                    const identifier = this.getIdentifier(element);
-                    if (identifier) {
-                        const el = this.currentWrapper.querySelector(identifier);
-                        if (el) {
-                            element = el;
-                        }
-                    }
-                }
-            }
-        }
-        return hasNewPageG;
-    }
-    calculatePage() {
-        const mainChildren = Array.from(this.bodyWrapper.childNodes);
-        for (let mainChild of mainChildren) {
-            this.bodyWrapper.removeChild(mainChild);
-        }
-        this.currentPage = this.shadowRoot.querySelector(".sheet");
-        this.basicPage = this.currentPage.cloneNode(true);
-        this.currentWrapper = this.bodyWrapper;
-        this.currentBody = this.bodyEl;
-        this.pageWrappers.push(this.currentWrapper);
-        try {
-            this.addSinglePageValue();
-            this.calculatePageLoop(this.bodyWrapper, mainChildren);
-            this.addAllPagesValue();
-            const elements = Array.from(this.shadowRoot.querySelectorAll("rk-sheet-splitter"));
-            for (let element of elements) {
-                element.remove();
-            }
-        }
-        catch (e) {
-            console.error(e);
-        }
-    }
-    urlToBase64(url) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const response = await fetch(url);
-                const blob = await response.blob();
-                const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(blob);
-            }
-            catch (e) {
-                reject(e);
-            }
-        });
-    }
-    async export() {
-        let stylesheets = this.constructor['__styleSheets'];
-        let cssTxt = "";
-        for (let name in stylesheets) {
-            cssTxt += Aventus.Style.sheetToString(stylesheets[name]);
-        }
-        cssTxt = cssTxt.replace(/\:host\((.*?)\)/g, 'body\$1');
-        cssTxt = cssTxt.replace(/\:host/g, 'body');
-        const regexVariables = /var\((--.*?)[,|\)]/g;
-        let m = null;
-        let computedStyle = null;
-        const cssVarValue = {};
-        while ((m = regexVariables.exec(cssTxt)) !== null) {
-            if (m.index === regexVariables.lastIndex) {
-                regexVariables.lastIndex++;
-            }
-            if (cssVarValue[m[1]])
-                continue;
-            if (!computedStyle) {
-                computedStyle = getComputedStyle(this);
-            }
-            let v = computedStyle.getPropertyValue(m[1]);
-            if (v) {
-                cssVarValue[m[1]] = v;
-            }
-        }
-        let cssVarTxt = "";
-        for (let key in cssVarValue) {
-            cssVarTxt += `${key}:${cssVarValue[key]};`;
-        }
-        if (cssVarTxt)
-            cssTxt = `body{${cssVarTxt}}` + cssTxt;
-        let attributes = [];
-        for (let attr of this.attributes) {
-            attributes.push(attr.nodeName + "=\"" + attr.nodeValue + "\"");
-        }
-        let imgs = this.shadowRoot.querySelectorAll("img");
-        const imgMemory = {};
-        for (let img of imgs) {
-            if (img.src && !img.src.startsWith("data:")) {
-                if (!imgMemory[img.src]) {
-                    imgMemory[img.src] = await this.urlToBase64(img.src);
-                }
-                img.src = imgMemory[img.src];
-            }
-        }
-        const fonts = await Lib.FontManager.getFontRulesBase64();
-        let generalStyle = "";
-        // for(let i = 0; i < document.styleSheets.length; i++) {
-        //     let sheet: CSSStyleSheet = document.styleSheets[i];
-        //     if(sheet.href?.endsWith("/autoload/default.css")) {
-        //         for(let j = 0; j < sheet.cssRules.length; j++) {
-        //             let rule = sheet.cssRules[j];
-        //             if(!(rule instanceof CSSStyleRule)) continue;
-        //             if([":root", "*"].includes(rule.selectorText)) {
-        //                 generalStyle += rule.cssText + "\n";
-        //             }
-        //         }
-        //     }
-        // }
-        cssTxt = generalStyle + cssTxt;
-        const sizeTxt = this.format + " " + this.orientation;
-        const sizes = {
-            "A3": {
-                height: '420mm',
-                width: '297mm'
-            },
-            "A4": {
-                height: '297mm',
-                width: '210mm'
-            },
-            "A5": {
-                height: '210mm',
-                width: '148mm'
-            },
-            "letter": {
-                height: '279mm',
-                width: '216mm'
-            },
-            "legal": {
-                height: '357mm',
-                width: '216mm'
-            }
-        };
-        const widthTxt = this.orientation == 'portrait' ? sizes[this.format].width : sizes[this.format].height;
-        const heightTxt = this.orientation == 'portrait' ? sizes[this.format].height : sizes[this.format].width;
-        const txt = `<!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Document</title>
-                <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&amp;display=swap" rel="stylesheet" />
-                <style>
-                    html {
-                        -webkit-print-color-adjust: exact;
-                        print-color-adjust: exact;
-                    }
-                    html, body {
-                        margin: 0;
-                        padding: 0;
-                    }
-                    body {
-                        width: ${widthTxt};
-                        height:  ${heightTxt};
-                    }
-                    @page {
-                        size: ${sizeTxt};
-                        margin: 0;
-                    }
-                    ${fonts}
-                </style>
-                <style>${cssTxt}</style>
-            </head>
-            <body ${attributes.join(" ")}>
-                ${this.shadowRoot.innerHTML}
-            </body>
-            </html>`;
-        return txt;
-    }
-    async saveAs(name) {
-        let blob = new Blob([await this.export()], {
-            type: "text/html"
-        });
-        Lib.FileSaver.saveAs(blob, name);
-    }
-    postCreation() {
-        super.postCreation();
-        if (this.settings.calculateOnDisplay) {
-            this.calculatePage();
-        }
-    }
-    static isISheetElement(node) {
-        return typeof node.getHtml == 'function' && typeof node.getCSS == 'function';
-    }
-    static getSize(format, orientation) {
-        return this.sizes.get(format).get(orientation);
-    }
-    static mmToPx(mm) { return mm * 3.7795275591; }
-    static pxToMm(px) { return px / 3.7795275591; }
-}
-Components.Sheet.Namespace=`Core.Components`;
-_.Components.Sheet=Components.Sheet;
-
-Components.SheetPreview = class SheetPreview extends Aventus.WebComponent {
-    static get observedAttributes() {return ["filename"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'loading'() { return this.getBoolAttr('loading') }
-    set 'loading'(val) { this.setBoolAttr('loading', val) }    get 'filename'() { return this.getStringProp('filename') }
-    set 'filename'(val) { this.setStringAttr('filename', val) }    get 'zoom'() {
-						return this.__watch["zoom"];
-					}
-					set 'zoom'(val) {
-						this.__watch["zoom"] = val;
-					}    __registerWatchesActions() {
-    this.__addWatchesActions("zoom", ((target) => {
-    target.contentEl.zoom = target.zoom / 100;
-}));    super.__registerWatchesActions();
-}
-    static __style = `:host{display:flex;flex-direction:column;height:100%;width:100%}:host .menu{background-color:var(--primary-color);border-bottom:1px solid var(--lighter);box-shadow:var(--elevation-4);display:flex;flex-grow:0;flex-shrink:0;height:42px;padding:3px 15px;width:100%;z-index:2;gap:3px}:host .menu mi-icon{border:1px solid var(--darker);cursor:pointer;padding:5px}:host .menu mi-icon:hover{box-shadow:0px 0px 2px #000 inset}:host .content{--scrollbar-content-padding: 10px;background-color:var(--secondary-color);flex-grow:1;width:100%;padding-top:2px}:host .content *::slotted(*){display:flex;flex-wrap:wrap;gap:10px;justify-content:center}:host .footer{align-items:center;background-color:var(--primary-color);border-top:1px solid var(--lighter);display:flex;flex-direction:row;flex-grow:0;flex-shrink:0;font-size:13px;height:30px;justify-content:space-between;padding:0 15px;width:100%;z-index:2}:host .footer .slider{--slider-dot-size: calc(var(--font-size) * 0.9);--slider-bar-height: 5px;align-items:center;display:flex;gap:10px}:host .footer .slider mi-icon{cursor:pointer;font-size:18px}:host .footer .slider rk-slider{width:50px}:host .footer .slider .value{font-size:13px;text-align:center;width:30px}:host rk-loading{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}`;
-    __getStatic() {
-        return SheetPreview;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(SheetPreview.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="menu">    <mi-icon icon="save" _id="sheetpreview_0"></mi-icon>    <mi-icon icon="print" _id="sheetpreview_1"></mi-icon></div><rk-scrollable class="content" _id="sheetpreview_2">    <slot></slot></rk-scrollable><div class="footer">    <div class="filename" _id="sheetpreview_3"></div>    <div class="slider">        <mi-icon icon="remove" _id="sheetpreview_4"></mi-icon>        <rk-slider min="30" max="200" _id="sheetpreview_5"></rk-slider>        <mi-icon icon="add" _id="sheetpreview_6"></mi-icon>        <div class="value" _id="sheetpreview_7"></div>    </div></div><rk-loading></rk-loading>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "contentEl",
-      "ids": [
-        "sheetpreview_2"
-      ]
-    }
-  ],
-  "content": {
-    "sheetpreview_3°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__ef3ef2c620c645514a1d0f1099b9edaamethod0())}`,
-      "once": true
-    },
-    "sheetpreview_7°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__ef3ef2c620c645514a1d0f1099b9edaamethod3())}%`,
-      "once": true
-    }
-  },
-  "bindings": [
-    {
-      "id": "sheetpreview_5",
-      "injectionName": "value",
-      "eventNames": [
-        "onChange"
-      ],
-      "inject": (c) => c.comp.__ef3ef2c620c645514a1d0f1099b9edaamethod1(),
-      "extract": (c, v) => c.comp.__ef3ef2c620c645514a1d0f1099b9edaamethod2(v),
-      "once": true,
-      "isCallback": true
-    }
-  ],
-  "pressEvents": [
-    {
-      "id": "sheetpreview_0",
-      "onPress": (e, pressInstance, c) => { c.comp.save(e, pressInstance); }
-    },
-    {
-      "id": "sheetpreview_1",
-      "onPress": (e, pressInstance, c) => { c.comp.print(e, pressInstance); }
-    },
-    {
-      "id": "sheetpreview_4",
-      "onPress": (e, pressInstance, c) => { c.comp.removeZoom(e, pressInstance); }
-    },
-    {
-      "id": "sheetpreview_6",
-      "onPress": (e, pressInstance, c) => { c.comp.addZoom(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "SheetPreview";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('filename')){ this['filename'] = undefined; } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["zoom"] = 100; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading');this.__upgradeProperty('filename');this.__correctGetter('zoom'); }
-    __listBoolProps() { return ["loading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    removeZoom() {
-        let newZoom = this.zoom;
-        newZoom = Math.floor(newZoom / 10) * 10;
-        if (newZoom == this.zoom) {
-            newZoom -= 10;
-        }
-        if (newZoom < 30) {
-            newZoom = 30;
-        }
-        if (newZoom != this.zoom) {
-            this.zoom = newZoom;
-        }
-    }
-    addZoom() {
-        let newZoom = this.zoom;
-        newZoom = Math.ceil(newZoom / 10) * 10;
-        if (newZoom == this.zoom) {
-            newZoom += 10;
-        }
-        if (newZoom > 200) {
-            newZoom = 200;
-        }
-        if (newZoom != this.zoom) {
-            this.zoom = newZoom;
-        }
-    }
-    async print() {
-        let el = this.getElementsInSlot()[0];
-        if (el instanceof Components.Sheet) {
-            let execLoading = async (fct) => {
-                this.loading = true;
-                try {
-                    if (fct instanceof Promise) {
-                        await fct;
-                    }
-                    else {
-                        await fct();
-                    }
-                }
-                catch (e) {
-                }
-                this.loading = false;
-            };
-            let parent = this.findParentByType(System.Application);
-            if (parent) {
-                execLoading = parent.showLoading;
-            }
-            await execLoading(async () => {
-                let pdf = new Data.DataTypes.Pdf();
-                pdf.Name = this.filename ?? "document";
-                pdf.Html = await el.export();
-                let pdfResult = await new Routes.PdfRouter().Build({
-                    pdf
-                });
-                if (pdfResult.result) {
-                    Lib.FileSaver.saveAs(pdfResult.result, (this.filename ?? "document") + ".pdf");
-                }
-            });
-        }
-    }
-    save() {
-        let el = this.getElementsInSlot()[0];
-        if (el instanceof Components.Sheet) {
-            el.saveAs((this.filename ?? "doucment") + ".html");
-        }
-    }
-    __ef3ef2c620c645514a1d0f1099b9edaamethod0() {
-        return this.filename;
-    }
-    __ef3ef2c620c645514a1d0f1099b9edaamethod3() {
-        return this.zoom;
-    }
-    __ef3ef2c620c645514a1d0f1099b9edaamethod1() {
-        return this.zoom;
-    }
-    __ef3ef2c620c645514a1d0f1099b9edaamethod2(v) {
-        if (this) {
-            this.zoom = v;
-        }
-    }
-}
-Components.SheetPreview.Namespace=`Core.Components`;
-Components.SheetPreview.Tag=`rk-sheet-preview`;
-_.Components.SheetPreview=Components.SheetPreview;
-if(!window.customElements.get('rk-sheet-preview')){window.customElements.define('rk-sheet-preview', Components.SheetPreview);Aventus.WebComponentInstance.registerDefinition(Components.SheetPreview);}
-
 Component.formValidator=function formValidator(cb) {
     const _formValidator = () => {
         return cb;
@@ -15149,6 +14368,993 @@ Components.Button.Namespace=`Core.Components`;
 Components.Button.Tag=`rk-button`;
 _.Components.Button=Components.Button;
 if(!window.customElements.get('rk-button')){window.customElements.define('rk-button', Components.Button);Aventus.WebComponentInstance.registerDefinition(Components.Button);}
+
+Lib.NotificationManager=class NotificationManager {
+    static getInstance() {
+        return Aventus.Instance.get(Lib.NotificationManager);
+    }
+    sw;
+    record;
+    subscription;
+    watcher;
+    constructor() {
+        this.watcher = Aventus.Watcher.get({});
+    }
+    get hasNotification() {
+        return this.watcher['enable'] ?? false;
+    }
+    set hasNotification(value) {
+        this.watcher['enable'] = value;
+    }
+    get isLoading() {
+        return this.watcher['isLoading'] ?? false;
+    }
+    set isLoading(value) {
+        this.watcher['isLoading'] = value;
+    }
+    get isInit() {
+        return this.watcher['isInit'] ?? false;
+    }
+    set isInit(value) {
+        this.watcher['isInit'] = value;
+    }
+    async init(sw) {
+        this.sw = sw;
+        try {
+            let subscription = await this.sw.pushManager.getSubscription();
+            if (subscription) {
+                this.subscription = subscription;
+                const router = new Routes.PushRecordRouter();
+                let record = this.subToRecord(subscription);
+                this.record = await Lib.Process.execute(System.Os.instance, router.Get({ record: record }));
+                if (!this.record) {
+                    await this.subscription.unsubscribe();
+                    this.subscription = undefined;
+                }
+                else {
+                    this.hasNotification = true;
+                }
+            }
+            this.isInit = true;
+        }
+        catch (e) {
+            console.error(e);
+        }
+    }
+    async subscribe() {
+        if (!this.sw)
+            return;
+        if (this.record)
+            return;
+        this.isLoading = true;
+        let record = null;
+        try {
+            let subscription = await this.sw.pushManager.getSubscription();
+            if (subscription) {
+                record = this.subToRecord(subscription);
+                this.subscription = subscription;
+            }
+            else {
+                const response = await new Routes.MainRouter().VapidPublicKey();
+                if (response.success && response.result) {
+                    const vapidPublicKey = response.result;
+                    const convertedVapidKey = this.urlBase64ToUint8Array(vapidPublicKey);
+                    const subscription = await this.sw.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: convertedVapidKey
+                    });
+                    record = this.subToRecord(subscription);
+                    this.subscription = subscription;
+                }
+            }
+            if (record) {
+                const router = new Routes.PushRecordRouter();
+                this.record = await Lib.Process.execute(System.Os.instance, router.CreateOrUpdate({ record: record }));
+                this.hasNotification = true;
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
+        this.isLoading = false;
+    }
+    async unsubscribe() {
+        if (!this.record)
+            return;
+        if (!this.subscription)
+            return;
+        this.isLoading = true;
+        try {
+            await this.subscription.unsubscribe();
+            this.subscription = undefined;
+            const router = new Routes.PushRecordRouter();
+            if (await Lib.Process.execute(System.Os.instance, router.Destroy({ record: this.record }))) {
+                this.record = undefined;
+                this.hasNotification = false;
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
+        this.isLoading = false;
+    }
+    urlBase64ToUint8Array(base64String) {
+        var padding = '='.repeat((4 - base64String.length % 4) % 4);
+        var base64 = (base64String + padding)
+            .replace(/\-/g, '+')
+            .replace(/_/g, '/');
+        var rawData = window.atob(base64);
+        var outputArray = new Uint8Array(rawData.length);
+        for (var i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+    }
+    subToRecord(sub) {
+        const result = new Data.PushRecord();
+        const json = sub.toJSON();
+        result.EndPoint = sub.endpoint;
+        result.Auth = json.keys?.auth ?? '';
+        result.P256dh = json.keys?.p256dh ?? '';
+        return result;
+    }
+}
+Lib.NotificationManager.Namespace=`Core.Lib`;
+_.Lib.NotificationManager=Lib.NotificationManager;
+
+Lib.ServiceWorker=class ServiceWorker {
+    static getInstance() {
+        return AvInstance.get(Lib.ServiceWorker);
+    }
+    async init(registration) {
+        await Lib.NotificationManager.getInstance().init(registration);
+    }
+}
+Lib.ServiceWorker.Namespace=`Core.Lib`;
+_.Lib.ServiceWorker=Lib.ServiceWorker;
+
+System.NotificationBtn = class NotificationBtn extends Components.Button {
+    get 'loading'() { return this.getBoolAttr('loading') }
+    set 'loading'(val) { this.setBoolAttr('loading', val) }get 'is_init'() { return this.getBoolAttr('is_init') }
+    set 'is_init'(val) { this.setBoolAttr('is_init', val) }    get hasNotification() {
+        return Lib.NotificationManager.getInstance().hasNotification;
+    }
+    get isNotificationInit() {
+        return Lib.NotificationManager.getInstance().isInit;
+    }
+    get isNotificationLoading() {
+        return Lib.NotificationManager.getInstance().isLoading;
+    }
+    static __style = `:host(:not([is_init])){display:none}:host([loading]) rk-img{animation-name:rotate;animation-timing-function:linear;animation-duration:1s;animation-iteration-count:infinite}@keyframes rotate{0%{transform:rotate(0deg)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}`;
+    constructor() { super(); this.setValues=this.setValues.bind(this) }
+    __getStatic() {
+        return NotificationBtn;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(NotificationBtn.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-tooltip position="top" delay="1000" use_absolute _id="notificationbtn_0"></rk-tooltip>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "notificationbtn_0°@HTML": {
+      "fct": (c) => `Notifications ${c.print(c.comp.__e408074159161ac8cd828f4a9b06dfe2method0())}`
+    }
+  }
+}); }
+    getClassName() {
+        return "NotificationBtn";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('is_init')) { this.attributeChangedCallback('is_init', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('hasNotification');this.__correctGetter('isNotificationInit');this.__correctGetter('isNotificationLoading');this.__upgradeProperty('loading');this.__upgradeProperty('is_init'); }
+    __listBoolProps() { return ["loading","is_init"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    async toggleNotification() {
+        if (this.isNotificationLoading)
+            return;
+        if (this.hasNotification) {
+            await Lib.NotificationManager.getInstance().unsubscribe();
+        }
+        else {
+            await Lib.NotificationManager.getInstance().subscribe();
+        }
+    }
+    setValues() {
+        if (this.isNotificationLoading) {
+            this.icon = "mi-progress_activity";
+            this.loading = true;
+        }
+        else {
+            this.loading = false;
+            if (this.hasNotification) {
+                this.color = "blue";
+                this.icon = "mi-notifications";
+            }
+            else {
+                this.color = "red";
+                this.icon = "mi-notifications_off";
+            }
+        }
+    }
+    postCreation() {
+        super.postCreation();
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => {
+                this.toggleNotification();
+            }
+        });
+        Aventus.Watcher.watch(() => [this.hasNotification, this.isNotificationLoading], () => this.setValues());
+        Aventus.Watcher.effect(() => this.is_init = this.isNotificationInit);
+        this.setValues();
+    }
+    __e408074159161ac8cd828f4a9b06dfe2method0() {
+        return this.hasNotification ? "activées" : "desactivées";
+    }
+}
+System.NotificationBtn.Namespace=`Core.System`;
+System.NotificationBtn.Tag=`rk-notification-btn`;
+_.System.NotificationBtn=System.NotificationBtn;
+if(!window.customElements.get('rk-notification-btn')){window.customElements.define('rk-notification-btn', System.NotificationBtn);Aventus.WebComponentInstance.registerDefinition(System.NotificationBtn);}
+
+Lib.FileSaver=class FileSaver {
+    static bom(blob, opts) {
+        if (typeof opts === 'undefined')
+            opts = { autoBom: false };
+        else if (typeof opts !== 'object') {
+            console.warn('Deprecated: Expected third argument to be a object');
+            opts = { autoBom: !opts };
+        }
+        // prepend BOM for UTF-8 XML and text/* types (including HTML)
+        if (opts.autoBom && /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(blob.type)) {
+            return new Blob([String.fromCharCode(0xFEFF), blob], { type: blob.type });
+        }
+        return blob;
+    }
+    static download(url, name, opts) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.responseType = 'blob';
+        xhr.onload = () => {
+            this.saveAs(xhr.response, name, opts);
+        };
+        xhr.onerror = () => {
+            console.error('could not download file');
+        };
+        xhr.send();
+    }
+    static corsEnabled(url) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('HEAD', url, false);
+        try {
+            xhr.send();
+        }
+        catch (e) { }
+        return xhr.status >= 200 && xhr.status <= 299;
+    }
+    static click(node) {
+        try {
+            node.dispatchEvent(new MouseEvent('click'));
+        }
+        catch (e) {
+            var evt = document.createEvent('MouseEvents');
+            evt.initMouseEvent('click', true, true, window, 0, 0, 0, 80, 20, false, false, false, false, 0, null);
+            node.dispatchEvent(evt);
+        }
+    }
+    static get isMacOSWebView() {
+        return navigator && /Macintosh/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !/Safari/.test(navigator.userAgent);
+    }
+    static _saveAs;
+    static get saveAs() {
+        if (!this._saveAs) {
+            this._saveAs = this.initSaveAs();
+        }
+        return this._saveAs;
+    }
+    static initSaveAs() {
+        let result;
+        // Use download attribute first if possible (#193 Lumia mobile) unless this is a macOS WebView
+        result = ('download' in HTMLAnchorElement.prototype && !this.isMacOSWebView)
+            ? (blob, name, opts) => {
+                return new Promise((resolve) => {
+                    var URL = URL || webkitURL;
+                    // Namespace is used to prevent conflict w/ Chrome Poper Blocker extension (Issue #561)
+                    var a = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+                    name = name || 'download';
+                    a.download = name;
+                    a.rel = 'noopener';
+                    if (typeof blob === 'string') {
+                        a.href = blob;
+                        if (a.origin !== location.origin) {
+                            this.corsEnabled(a.href)
+                                ? this.download(blob, name, opts)
+                                : this.click(a);
+                        }
+                        else {
+                            this.click(a);
+                        }
+                        resolve();
+                    }
+                    else {
+                        a.href = URL.createObjectURL(blob);
+                        setTimeout(() => { URL.revokeObjectURL(a.href); resolve(); }, 4E4);
+                        setTimeout(() => { this.click(a); }, 0);
+                    }
+                });
+            }
+            : 'msSaveOrOpenBlob' in navigator
+                ? (blob, name, opts) => {
+                    return new Promise((resolve) => {
+                        name = name || 'download';
+                        if (typeof blob === 'string') {
+                            if (this.corsEnabled(blob)) {
+                                this.download(blob, name, opts);
+                                resolve();
+                            }
+                            else {
+                                var a = document.createElement('a');
+                                a.href = blob;
+                                a.target = '_blank';
+                                setTimeout(() => { this.click(a); resolve(); });
+                            }
+                        }
+                        else {
+                            navigator['msSaveOrOpenBlob'](this.bom(blob, opts), name);
+                            resolve();
+                        }
+                    });
+                }
+                : (blob, name, opts, popup) => {
+                    return new Promise((resolve) => {
+                        popup = popup || open('', '_blank');
+                        if (popup) {
+                            popup.document.title =
+                                popup.document.body.innerText = 'downloading...';
+                        }
+                        if (typeof blob === 'string') {
+                            this.download(blob, name, opts);
+                            resolve();
+                            return;
+                        }
+                        var force = blob.type === 'application/octet-stream';
+                        var isSafari = /constructor/i.test(HTMLElement.toString()) || window['safari'];
+                        var isChromeIOS = /CriOS\/[\d]+/.test(navigator.userAgent);
+                        if ((isChromeIOS || (force && isSafari) || this.isMacOSWebView) && typeof FileReader !== 'undefined') {
+                            var reader = new FileReader();
+                            reader.onloadend = () => {
+                                var url = reader.result;
+                                url = isChromeIOS ? url : url.replace(/^data:[^;]*;/, 'data:attachment/file;');
+                                if (popup)
+                                    popup.location.href = url;
+                                else
+                                    location.replace(url);
+                                popup = null;
+                                resolve();
+                            };
+                            reader.readAsDataURL(blob);
+                        }
+                        else {
+                            var URL = URL || webkitURL;
+                            var url = URL.createObjectURL(blob);
+                            if (popup)
+                                popup.location = url;
+                            else
+                                location.href = url;
+                            popup = null;
+                            setTimeout(() => { URL.revokeObjectURL(url); resolve(); }, 4E4);
+                        }
+                    });
+                };
+        return result;
+    }
+}
+Lib.FileSaver.Namespace=`Core.Lib`;
+_.Lib.FileSaver=Lib.FileSaver;
+
+Components.Sheet = class Sheet extends Aventus.WebComponent {
+    get 'format'() { return this.getStringAttr('format') }
+    set 'format'(val) { this.setStringAttr('format', val) }get 'orientation'() { return this.getStringAttr('orientation') }
+    set 'orientation'(val) { this.setStringAttr('orientation', val) }    static sizes = new Map([
+        ["A3", new Map([
+                ["portrait", { width: 297, height: 420 }],
+                ["landscape", { width: 420, height: 297 }],
+            ])],
+        ["A4", new Map([
+                ["portrait", { width: 210, height: 297 }],
+                ["landscape", { width: 297, height: 210 }],
+            ])],
+        ["A5", new Map([
+                ["portrait", { width: 148, height: 210 }],
+                ["landscape", { width: 210, height: 148 }],
+            ])],
+        ["legal", new Map([
+                ["portrait", { width: 216, height: 357 }],
+                ["landscape", { width: 357, height: 216 }],
+            ])],
+        ["letter", new Map([
+                ["portrait", { width: 216, height: 279 }],
+                ["landscape", { width: 280, height: 216 }],
+            ])],
+    ]);
+    currentWrapper;
+    currentBody;
+    currentPage;
+    basicPage;
+    pageWrappers = [];
+    settings;
+    static __style = `:host{--_sheet-padding: var(--sheet-padding, 0)}:host .sheet{box-sizing:border-box;color:#000;display:flex;flex-direction:column;flex-shrink:0;margin:0;overflow:hidden;padding:var(--_sheet-padding);page-break-before:page;position:relative;user-select:text}:host .sheet .header,:host .sheet .footer{flex-grow:0;flex-shrink:0;width:100%}:host .sheet .body{flex-grow:1;overflow:hidden;width:100%}:host .sheet .body .body-wrapper{width:100%}@media screen{:host .sheet{background-color:#fff;box-shadow:0 .5mm 2mm rgba(0,0,0,.3)}}:host([format=A3][orientation=portrait]) .sheet{height:420mm;width:297mm}:host([format=A3][orientation=landscape]) .sheet{height:297mm;width:420mm}:host([format=A4][orientation=portrait]) .sheet{height:297mm;width:210mm}:host([format=A4][orientation=landscape]) .sheet{height:210mm;width:297mm}:host([format=A5][orientation=portrait]) .sheet{height:210mm;width:148mm}:host([format=A5][orientation=landscape]) .sheet{height:148mm;width:210mm}:host([format=letter][orientation=portrait]) .sheet{height:279mm;width:216mm}:host([format=letter][orientation=landscape]) .sheet{height:216mm;width:280mm}:host([format=legal][orientation=portrait]) .sheet{height:357mm;width:216mm}:host([format=legal][orientation=landscape]) .sheet{height:216mm;width:357mm}`;
+    constructor() {
+            super();
+            const settings = this.sheetSettings(this.defaultSettings());
+            this.settings = settings;
+            this.format = settings.format;
+            this.orientation = settings.orientation;
+            this.style.setProperty("--sheet-padding", settings.padding);
+if (this.constructor == Sheet) { throw "can't instanciate an abstract class"; }}
+    __getStatic() {
+        return Sheet;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Sheet.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'header':`<slot name="header"></slot>`,'default':`<slot></slot>`,'footer':`<slot name="footer"></slot>` }, 
+        blocks: { 'default':`<div class="sheet">    <div class="header" _id="sheet_0">        <slot name="header"></slot>    </div>    <div class="body" _id="sheet_1">        <div class="body-wrapper" _id="sheet_2">            <slot></slot>        </div>    </div>    <div class="footer" _id="sheet_3">        <slot name="footer"></slot>    </div></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "headerEl",
+      "ids": [
+        "sheet_0"
+      ]
+    },
+    {
+      "name": "bodyEl",
+      "ids": [
+        "sheet_1"
+      ]
+    },
+    {
+      "name": "bodyWrapper",
+      "ids": [
+        "sheet_2"
+      ]
+    },
+    {
+      "name": "footerEl",
+      "ids": [
+        "sheet_3"
+      ]
+    }
+  ]
+}); }
+    getClassName() {
+        return "Sheet";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('format')){ this['format'] = "A4"; }if(!this.hasAttribute('orientation')){ this['orientation'] = "portrait"; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('format');this.__upgradeProperty('orientation'); }
+    defaultSettings() {
+        return {
+            format: "A4",
+            orientation: "portrait",
+            padding: "0",
+            calculateOnDisplay: true
+        };
+    }
+    addSinglePageValue() {
+        let children = this.currentPage.querySelectorAll("[page-number]");
+        for (let child of children) {
+            child.innerHTML = this.pageWrappers.length + '';
+        }
+    }
+    addAllPagesValue() {
+        let children = this.shadowRoot.querySelectorAll("[page-total]");
+        for (let child of children) {
+            child.innerHTML = this.pageWrappers.length + '';
+        }
+    }
+    createPage(splitter, container) {
+        this.currentPage = this.basicPage.cloneNode(true);
+        this.currentBody = this.currentPage.querySelector(".body");
+        this.currentWrapper = this.currentPage.querySelector(".body-wrapper");
+        this.pageWrappers.push(this.currentWrapper);
+        this.shadowRoot.appendChild(this.currentPage);
+        const result = this.onNewPage(splitter, container);
+        this.addSinglePageValue();
+        if (!result)
+            return this.currentWrapper;
+        return result;
+    }
+    getIdentifier(node) {
+        let result = [];
+        let samePage = true;
+        const loop = (el) => {
+            if (el instanceof Element) {
+                if (el.classList.contains("body-wrapper")) {
+                    samePage = el == this.currentWrapper;
+                    return;
+                }
+                if (el.classList.length > 0) {
+                    result.push("." + Array.from(el.classList.values()).join("."));
+                }
+            }
+            if (!el.parentNode)
+                return;
+            loop(el.parentNode);
+        };
+        loop(node);
+        if (samePage) {
+            return null;
+        }
+        return result.reverse().join(" ");
+    }
+    cloneFromParent(classname, container) {
+        let parent = Aventus.ElementExtension.findParentByClass(container, classname);
+        let result = null;
+        const loop = (element, parentClone) => {
+            let nodeClone = element.cloneNode();
+            parentClone.appendChild(nodeClone);
+            if (element == container) {
+                result = nodeClone;
+                return;
+            }
+            if (element instanceof HTMLElement && element.hasAttribute("page-avoid-other")) {
+                for (let child of Array.from(element.childNodes)) {
+                    if (child instanceof HTMLElement) {
+                        if (child.contains(container))
+                            loop(child, nodeClone);
+                    }
+                    else {
+                        loop(child, nodeClone);
+                    }
+                }
+            }
+            else {
+                for (let child of Array.from(element.childNodes)) {
+                    loop(child, nodeClone);
+                }
+            }
+        };
+        if (parent) {
+            loop(parent, this.currentWrapper);
+        }
+        else {
+            debugger;
+            console.warn("Parent " + classname + " not found from element", container);
+        }
+        return result;
+    }
+    calculatePageLoop(element, children, nb = 0) {
+        let lastSplitter = null;
+        let lastIndex = 0;
+        let hasNewPageG = false;
+        for (let i = 0; i < children.length; i++) {
+            const child = children[i];
+            if (child instanceof Components.SheetSplitter) {
+                lastSplitter = child;
+                lastIndex = i;
+                continue;
+            }
+            element.appendChild(child);
+            if (this.currentWrapper.offsetHeight > this.currentBody.offsetHeight) {
+                const children2 = Array.from(child.childNodes);
+                for (let child2 of children2) {
+                    child.removeChild(child2);
+                }
+                const hasNewPage = this.calculatePageLoop(child, children2, nb + 1);
+                if (hasNewPage) {
+                    hasNewPageG = true;
+                }
+                if (!hasNewPage) {
+                    for (let child2 of children2) {
+                        child.appendChild(child2);
+                    }
+                    if (lastSplitter) {
+                        for (let j = lastIndex + 1; j <= i; j++) {
+                            element.removeChild(children[j]);
+                        }
+                        const newWrapper = this.createPage(lastSplitter, element);
+                        let missingChild = children.slice(lastIndex + 1);
+                        this.calculatePageLoop(newWrapper, missingChild);
+                        return true;
+                    }
+                    else {
+                        if (nb == 0) {
+                            debugger;
+                            if (child instanceof HTMLElement) {
+                                child.style.backgroundColor = "red";
+                            }
+                            throw {
+                                msg: 'Can\'t find a page-splitter',
+                                element: child
+                            };
+                        }
+                        else {
+                            element.removeChild(child);
+                        }
+                        return false;
+                    }
+                }
+                if (this.pageWrappers.includes(element) && element != this.currentWrapper) {
+                    element = this.currentWrapper;
+                }
+                else {
+                    const identifier = this.getIdentifier(element);
+                    if (identifier) {
+                        const el = this.currentWrapper.querySelector(identifier);
+                        if (el) {
+                            element = el;
+                        }
+                    }
+                }
+            }
+        }
+        return hasNewPageG;
+    }
+    calculatePage() {
+        const mainChildren = Array.from(this.bodyWrapper.childNodes);
+        for (let mainChild of mainChildren) {
+            this.bodyWrapper.removeChild(mainChild);
+        }
+        this.currentPage = this.shadowRoot.querySelector(".sheet");
+        this.basicPage = this.currentPage.cloneNode(true);
+        this.currentWrapper = this.bodyWrapper;
+        this.currentBody = this.bodyEl;
+        this.pageWrappers.push(this.currentWrapper);
+        try {
+            this.addSinglePageValue();
+            this.calculatePageLoop(this.bodyWrapper, mainChildren);
+            this.addAllPagesValue();
+            const elements = Array.from(this.shadowRoot.querySelectorAll("rk-sheet-splitter"));
+            for (let element of elements) {
+                element.remove();
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
+    }
+    urlToBase64(url) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            }
+            catch (e) {
+                reject(e);
+            }
+        });
+    }
+    async export() {
+        let stylesheets = this.constructor['__styleSheets'];
+        let cssTxt = "";
+        for (let name in stylesheets) {
+            cssTxt += Aventus.Style.sheetToString(stylesheets[name]);
+        }
+        cssTxt = cssTxt.replace(/\:host\((.*?)\)/g, 'body\$1');
+        cssTxt = cssTxt.replace(/\:host/g, 'body');
+        const regexVariables = /var\((--.*?)[,|\)]/g;
+        let m = null;
+        let computedStyle = null;
+        const cssVarValue = {};
+        while ((m = regexVariables.exec(cssTxt)) !== null) {
+            if (m.index === regexVariables.lastIndex) {
+                regexVariables.lastIndex++;
+            }
+            if (cssVarValue[m[1]])
+                continue;
+            if (!computedStyle) {
+                computedStyle = getComputedStyle(this);
+            }
+            let v = computedStyle.getPropertyValue(m[1]);
+            if (v) {
+                cssVarValue[m[1]] = v;
+            }
+        }
+        let cssVarTxt = "";
+        for (let key in cssVarValue) {
+            cssVarTxt += `${key}:${cssVarValue[key]};`;
+        }
+        if (cssVarTxt)
+            cssTxt = `body{${cssVarTxt}}` + cssTxt;
+        let attributes = [];
+        for (let attr of this.attributes) {
+            attributes.push(attr.nodeName + "=\"" + attr.nodeValue + "\"");
+        }
+        let imgs = this.shadowRoot.querySelectorAll("img");
+        const imgMemory = {};
+        for (let img of imgs) {
+            if (img.src && !img.src.startsWith("data:")) {
+                if (!imgMemory[img.src]) {
+                    imgMemory[img.src] = await this.urlToBase64(img.src);
+                }
+                img.src = imgMemory[img.src];
+            }
+        }
+        const fonts = await Lib.FontManager.getFontRulesBase64();
+        let generalStyle = "";
+        // for(let i = 0; i < document.styleSheets.length; i++) {
+        //     let sheet: CSSStyleSheet = document.styleSheets[i];
+        //     if(sheet.href?.endsWith("/autoload/default.css")) {
+        //         for(let j = 0; j < sheet.cssRules.length; j++) {
+        //             let rule = sheet.cssRules[j];
+        //             if(!(rule instanceof CSSStyleRule)) continue;
+        //             if([":root", "*"].includes(rule.selectorText)) {
+        //                 generalStyle += rule.cssText + "\n";
+        //             }
+        //         }
+        //     }
+        // }
+        cssTxt = generalStyle + cssTxt;
+        const sizeTxt = this.format + " " + this.orientation;
+        const sizes = {
+            "A3": {
+                height: '420mm',
+                width: '297mm'
+            },
+            "A4": {
+                height: '297mm',
+                width: '210mm'
+            },
+            "A5": {
+                height: '210mm',
+                width: '148mm'
+            },
+            "letter": {
+                height: '279mm',
+                width: '216mm'
+            },
+            "legal": {
+                height: '357mm',
+                width: '216mm'
+            }
+        };
+        const widthTxt = this.orientation == 'portrait' ? sizes[this.format].width : sizes[this.format].height;
+        const heightTxt = this.orientation == 'portrait' ? sizes[this.format].height : sizes[this.format].width;
+        const txt = `<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Document</title>
+                <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&amp;display=swap" rel="stylesheet" />
+                <style>
+                    html {
+                        -webkit-print-color-adjust: exact;
+                        print-color-adjust: exact;
+                    }
+                    html, body {
+                        margin: 0;
+                        padding: 0;
+                    }
+                    body {
+                        width: ${widthTxt};
+                        height:  ${heightTxt};
+                    }
+                    @page {
+                        size: ${sizeTxt};
+                        margin: 0;
+                    }
+                    ${fonts}
+                </style>
+                <style>${cssTxt}</style>
+            </head>
+            <body ${attributes.join(" ")}>
+                ${this.shadowRoot.innerHTML}
+            </body>
+            </html>`;
+        return txt;
+    }
+    async saveAs(name) {
+        let blob = new Blob([await this.export()], {
+            type: "text/html"
+        });
+        Lib.FileSaver.saveAs(blob, name);
+    }
+    postCreation() {
+        super.postCreation();
+        if (this.settings.calculateOnDisplay) {
+            this.calculatePage();
+        }
+    }
+    static isISheetElement(node) {
+        return typeof node.getHtml == 'function' && typeof node.getCSS == 'function';
+    }
+    static getSize(format, orientation) {
+        return this.sizes.get(format).get(orientation);
+    }
+    static mmToPx(mm) { return mm * 3.7795275591; }
+    static pxToMm(px) { return px / 3.7795275591; }
+}
+Components.Sheet.Namespace=`Core.Components`;
+_.Components.Sheet=Components.Sheet;
+
+Components.SheetPreview = class SheetPreview extends Aventus.WebComponent {
+    static get observedAttributes() {return ["filename"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'loading'() { return this.getBoolAttr('loading') }
+    set 'loading'(val) { this.setBoolAttr('loading', val) }    get 'filename'() { return this.getStringProp('filename') }
+    set 'filename'(val) { this.setStringAttr('filename', val) }    get 'zoom'() {
+						return this.__watch["zoom"];
+					}
+					set 'zoom'(val) {
+						this.__watch["zoom"] = val;
+					}    __registerWatchesActions() {
+    this.__addWatchesActions("zoom", ((target) => {
+    target.contentEl.zoom = target.zoom / 100;
+}));    super.__registerWatchesActions();
+}
+    static __style = `:host{display:flex;flex-direction:column;height:100%;width:100%}:host .menu{background-color:var(--primary-color);border-bottom:1px solid var(--lighter);box-shadow:var(--elevation-4);display:flex;flex-grow:0;flex-shrink:0;height:42px;padding:3px 15px;width:100%;z-index:2;gap:3px}:host .menu mi-icon{border:1px solid var(--darker);cursor:pointer;padding:5px}:host .menu mi-icon:hover{box-shadow:0px 0px 2px #000 inset}:host .content{--scrollbar-content-padding: 10px;background-color:var(--secondary-color);flex-grow:1;width:100%;padding-top:2px}:host .content *::slotted(*){display:flex;flex-wrap:wrap;gap:10px;justify-content:center}:host .footer{align-items:center;background-color:var(--primary-color);border-top:1px solid var(--lighter);display:flex;flex-direction:row;flex-grow:0;flex-shrink:0;font-size:13px;height:30px;justify-content:space-between;padding:0 15px;width:100%;z-index:2}:host .footer .slider{--slider-dot-size: calc(var(--font-size) * 0.9);--slider-bar-height: 5px;align-items:center;display:flex;gap:10px}:host .footer .slider mi-icon{cursor:pointer;font-size:18px}:host .footer .slider rk-slider{width:50px}:host .footer .slider .value{font-size:13px;text-align:center;width:30px}:host rk-loading{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}`;
+    __getStatic() {
+        return SheetPreview;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(SheetPreview.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="menu">    <mi-icon icon="save" _id="sheetpreview_0"></mi-icon>    <mi-icon icon="print" _id="sheetpreview_1"></mi-icon></div><rk-scrollable class="content" _id="sheetpreview_2">    <slot></slot></rk-scrollable><div class="footer">    <div class="filename" _id="sheetpreview_3"></div>    <div class="slider">        <mi-icon icon="remove" _id="sheetpreview_4"></mi-icon>        <rk-slider min="30" max="200" _id="sheetpreview_5"></rk-slider>        <mi-icon icon="add" _id="sheetpreview_6"></mi-icon>        <div class="value" _id="sheetpreview_7"></div>    </div></div><rk-loading></rk-loading>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "contentEl",
+      "ids": [
+        "sheetpreview_2"
+      ]
+    }
+  ],
+  "content": {
+    "sheetpreview_3°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__ef3ef2c620c645514a1d0f1099b9edaamethod0())}`,
+      "once": true
+    },
+    "sheetpreview_7°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__ef3ef2c620c645514a1d0f1099b9edaamethod3())}%`,
+      "once": true
+    }
+  },
+  "bindings": [
+    {
+      "id": "sheetpreview_5",
+      "injectionName": "value",
+      "eventNames": [
+        "onChange"
+      ],
+      "inject": (c) => c.comp.__ef3ef2c620c645514a1d0f1099b9edaamethod1(),
+      "extract": (c, v) => c.comp.__ef3ef2c620c645514a1d0f1099b9edaamethod2(v),
+      "once": true,
+      "isCallback": true
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "sheetpreview_0",
+      "onPress": (e, pressInstance, c) => { c.comp.save(e, pressInstance); }
+    },
+    {
+      "id": "sheetpreview_1",
+      "onPress": (e, pressInstance, c) => { c.comp.print(e, pressInstance); }
+    },
+    {
+      "id": "sheetpreview_4",
+      "onPress": (e, pressInstance, c) => { c.comp.removeZoom(e, pressInstance); }
+    },
+    {
+      "id": "sheetpreview_6",
+      "onPress": (e, pressInstance, c) => { c.comp.addZoom(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "SheetPreview";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('filename')){ this['filename'] = undefined; } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["zoom"] = 100; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('loading');this.__upgradeProperty('filename');this.__correctGetter('zoom'); }
+    __listBoolProps() { return ["loading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    removeZoom() {
+        let newZoom = this.zoom;
+        newZoom = Math.floor(newZoom / 10) * 10;
+        if (newZoom == this.zoom) {
+            newZoom -= 10;
+        }
+        if (newZoom < 30) {
+            newZoom = 30;
+        }
+        if (newZoom != this.zoom) {
+            this.zoom = newZoom;
+        }
+    }
+    addZoom() {
+        let newZoom = this.zoom;
+        newZoom = Math.ceil(newZoom / 10) * 10;
+        if (newZoom == this.zoom) {
+            newZoom += 10;
+        }
+        if (newZoom > 200) {
+            newZoom = 200;
+        }
+        if (newZoom != this.zoom) {
+            this.zoom = newZoom;
+        }
+    }
+    async print() {
+        let el = this.getElementsInSlot()[0];
+        if (el instanceof Components.Sheet) {
+            let execLoading = async (fct) => {
+                this.loading = true;
+                try {
+                    if (fct instanceof Promise) {
+                        await fct;
+                    }
+                    else {
+                        await fct();
+                    }
+                }
+                catch (e) {
+                }
+                this.loading = false;
+            };
+            let parent = this.findParentByType(System.Application);
+            if (parent) {
+                execLoading = parent.showLoading;
+            }
+            await execLoading(async () => {
+                let pdf = new Data.DataTypes.Pdf();
+                pdf.Name = this.filename ?? "document";
+                pdf.Html = await el.export();
+                let pdfResult = await new Routes.PdfRouter().Build({
+                    pdf
+                });
+                if (pdfResult.result) {
+                    Lib.FileSaver.saveAs(pdfResult.result, (this.filename ?? "document") + ".pdf");
+                }
+            });
+        }
+    }
+    save() {
+        let el = this.getElementsInSlot()[0];
+        if (el instanceof Components.Sheet) {
+            el.saveAs((this.filename ?? "doucment") + ".html");
+        }
+    }
+    __ef3ef2c620c645514a1d0f1099b9edaamethod0() {
+        return this.filename;
+    }
+    __ef3ef2c620c645514a1d0f1099b9edaamethod3() {
+        return this.zoom;
+    }
+    __ef3ef2c620c645514a1d0f1099b9edaamethod1() {
+        return this.zoom;
+    }
+    __ef3ef2c620c645514a1d0f1099b9edaamethod2(v) {
+        if (this) {
+            this.zoom = v;
+        }
+    }
+}
+Components.SheetPreview.Namespace=`Core.Components`;
+Components.SheetPreview.Tag=`rk-sheet-preview`;
+_.Components.SheetPreview=Components.SheetPreview;
+if(!window.customElements.get('rk-sheet-preview')){window.customElements.define('rk-sheet-preview', Components.SheetPreview);Aventus.WebComponentInstance.registerDefinition(Components.SheetPreview);}
 
 Components.Checkbox = class Checkbox extends Components.FormElement {
     static get observedAttributes() {return ["label", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}

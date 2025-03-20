@@ -7,6 +7,7 @@ using AventusSharp.WebSocket;
 using Core.App;
 using Core.Data;
 using Core.Logic;
+using Core.Logic.Push;
 using Core.Routes.Attributes;
 using Core.Tools;
 using Newtonsoft.Json.Linq;
@@ -22,9 +23,6 @@ namespace Core
         private static bool RayukiReady;
         private static bool ServerReady;
 
-        public readonly static string PublicKey = "BHP2YbEJhQ2ysVHihL0dpuYzEJfPPcRViAGAcv0_mQ8a8BND8H_ErB6TUfZYG2co2k1i__cVfPkAHj0JMuJy89Q";
-        private static string PrivateKey = "T5kkTj6AQx7-p8iqdUD7uzV98GU4Dg3VLF3k6lezD8o";
-        // public static WebPushClient webPush = new();
 
         public static readonly int nbAppInDev = 2;
         public static readonly string Version = "1.0.17";
@@ -90,7 +88,7 @@ namespace Core
         {
             if (!IsAppManagement)
             {
-                // webPush.SetVapidDetails("http://localhost:5000", PublicKey, PrivateKey);
+                PushNotification.Init();
                 _ = PdfTools.Init();
             }
             InitBuilder(args);

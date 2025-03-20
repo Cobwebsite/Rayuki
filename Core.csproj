@@ -13,6 +13,7 @@
     <PackageReference Include="HttpMultipartParser" Version="8.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.20" />
     <PackageReference Include="MySql.Data" Version="8.3.0" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
     <PackageReference Include="PuppeteerSharp" Version="16.0.0" />
     <PackageReference Include="Scriban" Version="5.9.1" />
     <PackageReference Include="SkiaSharp" Version="2.88.8" />

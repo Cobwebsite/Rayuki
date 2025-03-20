@@ -105,6 +105,8 @@
 		.actions {
 			align-items: center;
 			display: flex;
+			gap: 10px;
+			padding-right: 10px;
 
 
 			rk-pwa-button {
@@ -114,7 +116,8 @@
 				width: 36px;
 			}
 
-			rk-button {
+			rk-button,
+			.btn {
 				--button-padding: 0px 8px;
 				--button-icon-stroke-color: var(--text-color-red);
 				--button-icon-fill-color: transparent;
@@ -123,8 +126,9 @@
 				border: none;
 				box-shadow: var(--elevation-2);
 				height: 36px;
-				margin: 10px 10px;
+				margin: 10px 0;
 				min-width: auto;
+				transition: background-color 0.5s var(--bezier-curve);
 				width: 36px;
 			}
 		}

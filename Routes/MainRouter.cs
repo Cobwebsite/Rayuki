@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using Core.Logic.FileSystem;
 using AventusSharp.Routes;
 using AventusSharp.Tools.Attributes;
+using Core.Logic.Push;
 
 namespace Core.Routes
 {
@@ -176,11 +177,10 @@ namespace Core.Routes
         }
 
         [Get, Path("/vapidPublicKey")]
-        public string VapidPublicKey()
+        public ResultWithError<string> VapidPublicKey()
         {
-            return HttpServer.PublicKey;
+            return new ResultWithError<string>() { Result = PushNotification.PublicKey };
         }
-
 
         // private List<PushSubscription> subs = new();
         // [Post, Path("/register")]
@@ -188,14 +188,11 @@ namespace Core.Routes
         // {
         //     this.subs.Add(subscription);
         // }
-        // [Get, Path("/sendNotification")]
-        // public void SendNotification()
-        // {
-        //     foreach (PushSubscription subscription in subs)
-        //     {
-        //         HttpServer.webPush.SendNotification(subscription, "salut");
-        //     }
-        // }
+        [Get, Path("/sendNotification")]
+        public void SendNotification()
+        {
+            PushRecordDM.GetInstance().NotifyAll();
+        }
 
         [Post, Path("/core/transaction/begin")]
         public ResultWithError<string> BeginTransaction(HttpContext context, int ms)
