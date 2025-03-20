@@ -13,4 +13,6 @@ public class Favorite : Storable<Favorite>
 
     [ForeignKey<User>, DeleteOnCascade]
     public int UserId { get; set; }
+
+    public int Order { get; set; }
 }

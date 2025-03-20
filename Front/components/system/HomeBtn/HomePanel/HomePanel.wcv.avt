@@ -18,7 +18,7 @@
                 <rk-scrollable  @element="favorisContainer" class="scrollable favoris-container" floating_scroll>
                     <div class="wrapper">
                         for(let fav of this.favorites) {
-                            <rk-favorite-line :favorite="fav"></rk-favorite-line>
+                            <rk-favorite-line :favorite="fav" :reorder="this.reorderFav"></rk-favorite-line>
                         }
                     </div>
                 </rk-scrollable>

@@ -1967,9 +1967,10 @@ Data.Favorite=class Favorite extends AventusSharp.Data.Storable {
     TagName;
     State;
     UserId;
+    Order;
 }
 Data.Favorite.Namespace=`Core.Data`;
-Data.Favorite.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","TagName":"string","State":"string","UserId":"number"};
+Data.Favorite.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","TagName":"string","State":"string","UserId":"number","Order":"number"};
 Aventus.Converter.register(Data.Favorite.Fullname, Data.Favorite);
 _.Data.Favorite=Data.Favorite;
 
@@ -3751,7 +3752,7 @@ System.AppList = class AppList extends Aventus.WebComponent {
     set 'show'(val) { this.setBoolAttr('show', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("show", ((target) => {
     target.onShowChange();
 })); }
-    static __style = `:host{--internal-app-list-case-border-radius: var(--app-list-case-border-radius, var(--app-icon-border-radius, 10px));--internal-app-list-case-border: var(--app-list-case-border, none);--internal-app-list-case-background-color: var(--app-list-case-background-color, transparent);--internal-app-list-case-border-selected: var(--app-list-case-border-selected, 2px solid red);--internal-app-list-case-background-color-selected: var(--app-list-case-background-color-selected, transparent)}:host{align-items:center;background-color:var(--lighter-active);display:flex;flex-direction:column;inset:0;position:absolute;top:100%;transition:top .5s var(--bezier-curve);z-index:5;height:100%}:host .search{align-items:center;display:flex;height:100px;justify-content:center;width:100%}:host .search input{background-color:var(--form-element-background);border:none;border-radius:var(--border-radius-round);box-shadow:var(--elevation-3);font-size:var(--form-element-font-size);line-height:var(--form-element-font-size);max-width:400px;outline:none;padding:10px 20px;width:calc(100% - 20px)}:host .app-list{--page-case-background: var(--internal-app-list-case-background-color);--page-case-background-active: var(--internal-app-list-case-background-color-selected);--page-case-border-active: var(--internal-app-list-case-border-selected);--page-case-border-radius: var(--internal-app-list-case-border-radius);flex-grow:1;max-width:1000px;width:100%}:host([show]){top:0}:host([no_transition]){transition:none}`;
+    static __style = `:host{--internal-app-list-case-border-radius: var(--app-list-case-border-radius, var(--app-icon-border-radius, 10px));--internal-app-list-case-border: var(--app-list-case-border, none);--internal-app-list-case-background-color: var(--app-list-case-background-color, transparent);--internal-app-list-case-border-selected: var(--app-list-case-border-selected, 2px solid red);--internal-app-list-case-background-color-selected: var(--app-list-case-background-color-selected, transparent)}:host{align-items:center;background-color:var(--lighter-active);display:flex;flex-direction:column;inset:0;position:absolute;top:100%;transition:top .5s var(--bezier-curve);z-index:5;height:100%}:host .search{align-items:center;display:flex;height:100px;justify-content:center;width:100%}:host .search input{background-color:var(--form-element-background);border:none;border-radius:var(--border-radius-round);box-shadow:var(--elevation-3);font-size:var(--form-element-font-size);line-height:var(--form-element-font-size);max-width:400px;outline:none;padding:10px 20px;width:calc(100% - 20px)}:host .app-list{--page-case-background: var(--internal-app-list-case-background-color);--page-case-background-active: var(--internal-app-list-case-background-color-selected);--page-case-border-active: var(--internal-app-list-case-border-selected);--page-case-border-radius: var(--internal-app-list-case-border-radius);flex-grow:1;max-width:1000px;width:100%;margin-top:50px}:host([show]){top:0}:host([no_transition]){transition:none}`;
     constructor() { super(); this.closeAppList=this.closeAppList.bind(this) }
     __getStatic() {
         return AppList;
@@ -3763,21 +3764,15 @@ System.AppList = class AppList extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="search" _id="applist_0">    <input type="text" placeholder="Rechercher" /></div><div class="app-list">    <rk-page-case case_width="100" case_height="100" min_case_margin_left="20" min_case_margin_top="20" min_page_number="1" _id="applist_1">    </rk-page-case></div>` }
+        blocks: { 'default':`<div class="app-list">    <rk-page-case case_width="100" case_height="100" min_case_margin_left="20" min_case_margin_top="20" min_page_number="1" _id="applist_0">    </rk-page-case></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
-      "name": "searchContainer",
-      "ids": [
-        "applist_0"
-      ]
-    },
-    {
       "name": "pageCaseEl",
       "ids": [
-        "applist_1"
+        "applist_0"
       ]
     }
   ]
@@ -9250,6 +9245,299 @@ Lib.Process=class Process {
 Lib.Process.Namespace=`Core.Lib`;
 _.Lib.Process=Lib.Process;
 
+Lib.AppIconManager=class AppIconManager {
+    static loaded = [];
+    static dico = {};
+    static tags = {};
+    static waiting = [];
+    static async register(appIcon, componentUrl = "/") {
+        let cst = appIcon.constructor;
+        let key = cst.Fullname + "$" + componentUrl;
+        if (this.loaded.includes(key)) {
+            return;
+        }
+        this.loaded.push(key);
+        let application = cst.Fullname.split(".")[0];
+        let code = await (await fetch("/" + application + componentUrl)).text();
+        let match = code.match("<(.*?)>");
+        if (!match) {
+            return;
+        }
+        let tagName = match[0].replace("<", "").replace(">", "");
+        this.dico[tagName] = cst;
+        this.tags[application + "$" + componentUrl] = tagName;
+        let cbs = [...this.waiting];
+        for (let cb of cbs) {
+            cb();
+        }
+    }
+    static getIcon(tagName) {
+        return this.dico[tagName];
+    }
+    static reverseTagName(tagName) {
+        tagName = tagName.toLowerCase();
+        for (let key in this.tags) {
+            if (this.tags[key] == tagName) {
+                const splitted = key.split("$");
+                return {
+                    application: splitted[0],
+                    url: splitted[1]
+                };
+            }
+        }
+        return undefined;
+    }
+    static getTagName(application, componentUrl, delay = 1000) {
+        return new Promise((resolve) => {
+            let key = application + "$" + componentUrl;
+            if (this.tags[key]) {
+                resolve(this.tags[key]);
+            }
+            else {
+                let cb = () => {
+                    if (this.tags[key]) {
+                        let index = this.waiting.indexOf(cb);
+                        this.waiting.splice(index, 1);
+                        resolve(this.tags[key]);
+                    }
+                };
+                setTimeout(() => {
+                    let index = this.waiting.indexOf(cb);
+                    if (index != -1) {
+                        this.waiting.splice(index, 1);
+                    }
+                    resolve("");
+                }, delay);
+                this.waiting.push(cb);
+            }
+        });
+    }
+}
+Lib.AppIconManager.Namespace=`Core.Lib`;
+_.Lib.AppIconManager=Lib.AppIconManager;
+
+System.FavoriteLine = class FavoriteLine extends Aventus.WebComponent {
+    get 'reorder'() { return this.getBoolAttr('reorder') }
+    set 'reorder'(val) { this.setBoolAttr('reorder', val) }get 'highlight_before'() { return this.getBoolAttr('highlight_before') }
+    set 'highlight_before'(val) { this.setBoolAttr('highlight_before', val) }get 'highlight_after'() { return this.getBoolAttr('highlight_after') }
+    set 'highlight_after'(val) { this.setBoolAttr('highlight_after', val) }    get 'favorite'() {
+						return this.__watch["favorite"];
+					}
+					set 'favorite'(val) {
+						this.__watch["favorite"] = val;
+					}    __registerWatchesActions() {
+    this.__addWatchesActions("favorite", ((target) => {
+    target.onSet();
+}));    super.__registerWatchesActions();
+}
+    static __style = `:host{align-items:center;background-color:var(--lighter);border-radius:var(--border-radius-sm);cursor:pointer;display:flex;overflow:hidden;padding:5px;position:relative;transition:background-color .2s var(--bezier-curve)}:host .drag-icon{align-items:center;cursor:grab;display:flex;opacity:0;overflow:hidden;transition:width .5s var(--bezier-curve),opacity .5s var(--bezier-curve),visibility .5s var(--bezier-curve);visibility:hidden;width:0}:host .icon-container{height:30px;margin-right:10px;position:relative;width:30px}:host .icon-container .hider{inset:0;position:absolute}:host .icon-container .icon{height:100%;width:100%}:host .icon-container .icon *{animation:none !important;box-shadow:none !important;height:100% !important;pointer-events:none;width:100% !important}:host .text{flex-grow:1;flex-wrap:nowrap;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}:host .line{display:none}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--lighter-active)}}:host([reorder]) .drag-icon{opacity:1;visibility:visible;width:24px}:host([highlight_after]) .line{background-color:var(--red);bottom:-1px;display:block;height:2px;left:0;position:absolute;width:100%}:host([highlight_before]:first-child) .line{background-color:var(--red);display:block;height:2px;left:0;position:absolute;top:-1px;width:100%}`;
+    __getStatic() {
+        return FavoriteLine;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(FavoriteLine.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="drag-icon" _id="favoriteline_0">    <mi-icon icon="drag_indicator"></mi-icon></div><div class="icon-container">    <div class="hider"></div>    <div class="icon" _id="favoriteline_1"></div></div><div class="text" _id="favoriteline_2"></div><div class="line"></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "dragEl",
+      "ids": [
+        "favoriteline_0"
+      ]
+    },
+    {
+      "name": "iconEl",
+      "ids": [
+        "favoriteline_1"
+      ]
+    }
+  ],
+  "content": {
+    "favoriteline_2°title": {
+      "fct": (c) => `${c.print(c.comp.__8e9ad2761ba69884258f1f5519c55461method0())}`
+    },
+    "favoriteline_2°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__8e9ad2761ba69884258f1f5519c55461method0())}`
+    }
+  }
+}); }
+    getClassName() {
+        return "FavoriteLine";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('reorder')) { this.attributeChangedCallback('reorder', false, false); }if(!this.hasAttribute('highlight_before')) { this.attributeChangedCallback('highlight_before', false, false); }if(!this.hasAttribute('highlight_after')) { this.attributeChangedCallback('highlight_after', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["favorite"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('reorder');this.__upgradeProperty('highlight_before');this.__upgradeProperty('highlight_after');this.__correctGetter('favorite'); }
+    __listBoolProps() { return ["reorder","highlight_before","highlight_after"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    onContextMenu(contextMenu, stop) {
+        contextMenu.addItem({
+            text: "Supprimer",
+            icon: "mi-delete",
+            priority: 1,
+            action: () => {
+                this.deleteFromFavorite();
+            }
+        });
+        contextMenu.addItem({
+            text: "Organiser les favoris",
+            icon: "/img/icons/organize-app.svg",
+            priority: 1,
+            action: () => {
+                this.reorderItems();
+            }
+        });
+        stop();
+    }
+    onSet() {
+        if (!this.favorite)
+            return;
+        const cst = Lib.AppIconManager.getIcon(this.favorite.TagName);
+        if (!cst)
+            return;
+        const icon = new cst();
+        this.iconEl.innerHTML = "";
+        this.iconEl.appendChild(icon);
+    }
+    async deleteFromFavorite() {
+        if (!this.favorite)
+            return;
+        await Lib.Process.execute(this, Ram.FavoriteRAM.getInstance().deleteWithError(this.favorite));
+    }
+    async open() {
+        if (!this.favorite) {
+            this.remove();
+            return;
+        }
+        let desktop = System.Os.instance.activeDesktop;
+        const info = Lib.AppIconManager.reverseTagName(this.favorite.TagName);
+        if (!info) {
+            this.deleteFromFavorite();
+            this.remove();
+            return;
+        }
+        await desktop.loadApp(info.application);
+        const state = Aventus.Converter.transform(JSON.parse(this.favorite.State));
+        const app = await desktop.openUrl(info.application, info.url, state);
+        setTimeout(() => {
+            if (app && this.favorite && app.app_title != this.favorite.Name) {
+                const clone = this.favorite.clone();
+                clone.Name = app.app_title;
+                Lib.Process.execute(this, Ram.FavoriteRAM.getInstance().updateWithError(clone));
+            }
+        }, 500);
+    }
+    reorderItems() {
+        this.findParentByType(System.HomePanel).startReorderFavorite();
+    }
+    addInteraction() {
+        let lastHighLight = undefined;
+        const clear = () => {
+            if (lastHighLight) {
+                lastHighLight.highlight_before = false;
+                lastHighLight.highlight_after = false;
+                lastHighLight = undefined;
+            }
+        };
+        let rows = [];
+        let container = this.parentElement;
+        let drag = new Aventus.DragAndDrop({
+            element: this,
+            elementTrigger: this.dragEl,
+            offsetDrag: 0,
+            shadow: {
+                enable: true,
+                transform: (el) => {
+                    el.favorite = this.favorite;
+                    el.style.width = this.offsetWidth + 'px';
+                    el.style.height = this.offsetHeight + 'px';
+                    el.style.zIndex = '999';
+                }
+            },
+            onStart: () => {
+                let children = Array.from(container.children);
+                rows = [];
+                for (let child of children) {
+                    if (child instanceof System.FavoriteLine) {
+                        rows.push(child);
+                    }
+                }
+            },
+            onMove: (e, position) => {
+                let found = false;
+                for (let i = 0; i < rows.length; i++) {
+                    let box = rows[i].getBoundingClientRect();
+                    if (position.y < box.top) {
+                        if (i == 0) {
+                            clear();
+                            rows[i].highlight_before = true;
+                            lastHighLight = rows[i];
+                        }
+                        else {
+                            clear();
+                            rows[i - 1].highlight_after = true;
+                            lastHighLight = rows[i - 1];
+                        }
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    clear();
+                    rows[rows.length - 1].highlight_after = true;
+                    lastHighLight = rows[rows.length - 1];
+                }
+            },
+            onStop: () => {
+                if (lastHighLight) {
+                    if (lastHighLight.highlight_after) {
+                        let index = rows.indexOf(lastHighLight);
+                        if (index == rows.length - 1) {
+                            container.appendChild(this);
+                        }
+                        else {
+                            container.insertBefore(this, rows[index + 1]);
+                        }
+                    }
+                    else if (lastHighLight.highlight_before) {
+                        container.insertBefore(this, lastHighLight);
+                    }
+                    clear();
+                    this.findParentByType(System.HomePanel).saveFavoriteOrder();
+                }
+            },
+        });
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => {
+                this.open();
+            },
+            onLongPress: (e) => {
+                if (e.pointerType == "mouse") {
+                    this.reorderItems();
+                }
+                else {
+                }
+            }
+        });
+    }
+    postCreation() {
+        this.addInteraction();
+    }
+    __8e9ad2761ba69884258f1f5519c55461method0() {
+        return this.favorite?.Name;
+    }
+}
+System.FavoriteLine.Namespace=`Core.System`;
+System.FavoriteLine.Tag=`rk-favorite-line`;
+_.System.FavoriteLine=System.FavoriteLine;
+if(!window.customElements.get('rk-favorite-line')){window.customElements.define('rk-favorite-line', System.FavoriteLine);Aventus.WebComponentInstance.registerDefinition(System.FavoriteLine);}
+
 System.HomePanel = class HomePanel extends System.Panel {
     get 'currentUser'() {
 						return this.__watch["currentUser"];
@@ -9261,12 +9549,17 @@ System.HomePanel = class HomePanel extends System.Panel {
 					}
 					set 'favorites'(val) {
 						this.__watch["favorites"] = val;
+					}get 'reorderFav'() {
+						return this.__watch["reorderFav"];
+					}
+					set 'reorderFav'(val) {
+						this.__watch["reorderFav"] = val;
 					}    btn;
     __registerWatchesActions() {
-    this.__addWatchesActions("currentUser");this.__addWatchesActions("favorites");    super.__registerWatchesActions();
+    this.__addWatchesActions("currentUser");this.__addWatchesActions("favorites");this.__addWatchesActions("reorderFav");    super.__registerWatchesActions();
 }
     static __style = `:host{box-shadow:var(--elevation-3);display:flex;flex-direction:column;left:-9px;position:absolute;width:min(500px,var(--os-width))}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:var(--border-radius-sm);margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .wrapper{display:flex;flex-direction:column;gap:5px}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;justify-content:space-between;width:100%}:host .footer .person{align-items:center;border-radius:var(--border-radius-sm);display:flex;margin:10px 10px;padding:8px 10px;transition:background-color .2s var(--bezier-curve)}:host .footer .person .icon{height:30px;width:30px}:host .footer .person .name{margin-left:10px}:host .footer .person:hover{background-color:var(--lighter)}:host .footer .actions{align-items:center;display:flex}:host .footer .actions rk-pwa-button{background-color:var(--success);color:var(--text-color-success);height:36px;width:36px}:host .footer .actions rk-button{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;border:none;box-shadow:var(--elevation-2);height:36px;margin:10px 10px;min-width:auto;width:36px}@media screen and (max-width: 768px){:host{left:-10px}:host .content rk-row{flex-direction:column}:host .content rk-row rk-col{height:50%;width:100%}}`;
-    constructor() { super(); this.loadData=this.loadData.bind(this) }
+    constructor() { super(); this.loadData=this.loadData.bind(this)this.checkCancelState=this.checkCancelState.bind(this) }
     __getStatic() {
         return HomePanel;
     }
@@ -9297,10 +9590,10 @@ System.HomePanel = class HomePanel extends System.Panel {
   ],
   "content": {
     "homepanel_5°uri": {
-      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod2())}`
+      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod3())}`
     },
     "homepanel_6°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod3())} ${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod4())}`
+      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod4())} ${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod5())}`
     }
   },
   "pressEvents": [
@@ -9320,6 +9613,12 @@ System.HomePanel = class HomePanel extends System.Panel {
       "injectionName": "favorite",
       "inject": (c) => c.comp.__71121dd8c2837747a91ecf75da806c7amethod1(c.data.fav),
       "once": true
+    },
+    {
+      "id": "homepanel_3",
+      "injectionName": "reorder",
+      "inject": (c) => c.comp.__71121dd8c2837747a91ecf75da806c7amethod2(),
+      "once": true
     }
   ]
 });this.__getStatic().__template.addLoop({
@@ -9329,8 +9628,8 @@ System.HomePanel = class HomePanel extends System.Panel {
     getClassName() {
         return "HomePanel";
     }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["currentUser"] = undefined;w["favorites"] = []; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('currentUser');this.__correctGetter('favorites'); }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["currentUser"] = undefined;w["favorites"] = [];w["reorderFav"] = false; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('currentUser');this.__correctGetter('favorites');this.__correctGetter('reorderFav'); }
     async openProfil() {
         const canSettings = await can(new Permissions.ApplicationPermissionQuery(Permissions.ApplicationPermission.AllowAccess, "Settings"));
         if (canSettings) {
@@ -9370,11 +9669,63 @@ System.HomePanel = class HomePanel extends System.Panel {
         let ram = Ram.FavoriteRAM.getInstance();
         const items = await Lib.Process.execute(this, ram.getListWithError());
         if (items) {
+            items.sort((a, b) => a.Order - b.Order);
             if (force) {
                 this.favorites = [];
             }
             this.favorites = items;
         }
+    }
+    saveFavoriteOrder() {
+        let children = Array.from(this.favorisContainer.children[0].children);
+        let i = 0;
+        const toSave = [];
+        for (let child of children) {
+            if (child instanceof System.FavoriteLine) {
+                if (child.favorite && child.favorite.Order != i) {
+                    const clone = child.favorite.clone();
+                    clone.Order = i;
+                    toSave.push(clone);
+                }
+                i++;
+            }
+        }
+        if (toSave.length > 0) {
+            Ram.FavoriteRAM.getInstance().updateListWithError(toSave);
+        }
+    }
+    stopReorderFavorite() {
+        const children = Array.from(this.favorisContainer.children[0].children);
+        for (let child of children) {
+            if (child instanceof System.FavoriteLine) {
+                child.reorder = false;
+            }
+        }
+        Aventus.PressManager.onEvent.remove(this.checkCancelState);
+        this.reorderFav = false;
+    }
+    startReorderFavorite() {
+        const children = Array.from(this.favorisContainer.children[0].children);
+        for (let child of children) {
+            if (child instanceof System.FavoriteLine) {
+                child.reorder = true;
+            }
+        }
+        Aventus.PressManager.onEvent.add(this.checkCancelState);
+        this.reorderFav = true;
+    }
+    checkCancelState(e, instance) {
+        if (e.event.type != "pointerdown" && e.event.type != "touchstart") {
+            return;
+        }
+        const el = instance.getElement();
+        const parentNode = el.parentNode;
+        if (el.classList.contains("drag-icon") && parentNode instanceof ShadowRoot) {
+            if (parentNode.host instanceof System.FavoriteLine) {
+                return;
+            }
+        }
+        this.stopReorderFavorite();
     }
     postCreation() {
         this.getUser();
@@ -9386,17 +9737,20 @@ System.HomePanel = class HomePanel extends System.Panel {
             onDrag: () => { },
         });
     }
-    __71121dd8c2837747a91ecf75da806c7amethod2() {
+    __71121dd8c2837747a91ecf75da806c7amethod3() {
         return this.currentUser?.Picture.Uri;
     }
-    __71121dd8c2837747a91ecf75da806c7amethod3() {
+    __71121dd8c2837747a91ecf75da806c7amethod4() {
         return this.currentUser?.Firstname;
     }
-    __71121dd8c2837747a91ecf75da806c7amethod4() {
+    __71121dd8c2837747a91ecf75da806c7amethod5() {
         return this.currentUser?.Lastname;
     }
     __71121dd8c2837747a91ecf75da806c7amethod1(fav) {
         return fav;
+    }
+    __71121dd8c2837747a91ecf75da806c7amethod2() {
+        return this.reorderFav;
     }
 }
 System.HomePanel.Namespace=`Core.System`;
@@ -9741,77 +10095,6 @@ System.BottomBar.Namespace=`Core.System`;
 System.BottomBar.Tag=`rk-bottom-bar`;
 _.System.BottomBar=System.BottomBar;
 if(!window.customElements.get('rk-bottom-bar')){window.customElements.define('rk-bottom-bar', System.BottomBar);Aventus.WebComponentInstance.registerDefinition(System.BottomBar);}
-
-Lib.AppIconManager=class AppIconManager {
-    static loaded = [];
-    static dico = {};
-    static tags = {};
-    static waiting = [];
-    static async register(appIcon, componentUrl = "/") {
-        let cst = appIcon.constructor;
-        let key = cst.Fullname + "$" + componentUrl;
-        if (this.loaded.includes(key)) {
-            return;
-        }
-        this.loaded.push(key);
-        let application = cst.Fullname.split(".")[0];
-        let code = await (await fetch("/" + application + componentUrl)).text();
-        let match = code.match("<(.*?)>");
-        if (!match) {
-            return;
-        }
-        let tagName = match[0].replace("<", "").replace(">", "");
-        this.dico[tagName] = cst;
-        this.tags[application + "$" + componentUrl] = tagName;
-        let cbs = [...this.waiting];
-        for (let cb of cbs) {
-            cb();
-        }
-    }
-    static getIcon(tagName) {
-        return this.dico[tagName];
-    }
-    static reverseTagName(tagName) {
-        tagName = tagName.toLowerCase();
-        for (let key in this.tags) {
-            if (this.tags[key] == tagName) {
-                const splitted = key.split("$");
-                return {
-                    application: splitted[0],
-                    url: splitted[1]
-                };
-            }
-        }
-        return undefined;
-    }
-    static getTagName(application, componentUrl, delay = 1000) {
-        return new Promise((resolve) => {
-            let key = application + "$" + componentUrl;
-            if (this.tags[key]) {
-                resolve(this.tags[key]);
-            }
-            else {
-                let cb = () => {
-                    if (this.tags[key]) {
-                        let index = this.waiting.indexOf(cb);
-                        this.waiting.splice(index, 1);
-                        resolve(this.tags[key]);
-                    }
-                };
-                setTimeout(() => {
-                    let index = this.waiting.indexOf(cb);
-                    if (index != -1) {
-                        this.waiting.splice(index, 1);
-                    }
-                    resolve("");
-                }, delay);
-                this.waiting.push(cb);
-            }
-        });
-    }
-}
-Lib.AppIconManager.Namespace=`Core.Lib`;
-_.Lib.AppIconManager=Lib.AppIconManager;
 
 RAM.DesktopRAM=class DesktopRAM extends RAM.RamHttp {
     /**
@@ -10872,14 +11155,6 @@ System.Os = class Os extends Aventus.WebComponent {
                     }
                 }
             });
-            // new Aventus.PressManager({
-            //     element: this,
-            //     delayLongPress: 500,
-            //     onLongPress: (e) => {
-            //         const menu = new this.contextMenuCst();
-            //         menu.init(e.pageX, e.pageY, true, this);
-            //     }
-            // });
         }
     }
     preventScroll() {
@@ -11057,120 +11332,6 @@ System.Os.Namespace=`Core.System`;
 System.Os.Tag=`rk-os`;
 _.System.Os=System.Os;
 if(!window.customElements.get('rk-os')){window.customElements.define('rk-os', System.Os);Aventus.WebComponentInstance.registerDefinition(System.Os);}
-
-System.FavoriteLine = class FavoriteLine extends Aventus.WebComponent {
-    get 'favorite'() {
-						return this.__watch["favorite"];
-					}
-					set 'favorite'(val) {
-						this.__watch["favorite"] = val;
-					}    __registerWatchesActions() {
-    this.__addWatchesActions("favorite", ((target) => {
-    target.onSet();
-}));    super.__registerWatchesActions();
-}
-    static __style = `:host{align-items:center;background-color:var(--lighter);border-radius:var(--border-radius-sm);cursor:pointer;display:flex;gap:10px;overflow:hidden;padding:5px;transition:background-color .2s var(--bezier-curve)}:host .icon-container{height:30px;position:relative;width:30px}:host .icon-container .hider{inset:0;position:absolute}:host .icon-container .icon{height:100%;width:100%}:host .icon-container .icon *{animation:none !important;box-shadow:none !important;height:100% !important;pointer-events:none;width:100% !important}:host .text{flex-grow:1;flex-wrap:nowrap;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--lighter-active)}}`;
-    __getStatic() {
-        return FavoriteLine;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(FavoriteLine.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="icon-container">    <div class="hider"></div>    <div class="icon" _id="favoriteline_0"></div></div><div class="text" _id="favoriteline_1"></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "iconEl",
-      "ids": [
-        "favoriteline_0"
-      ]
-    }
-  ],
-  "content": {
-    "favoriteline_1°title": {
-      "fct": (c) => `${c.print(c.comp.__8e9ad2761ba69884258f1f5519c55461method0())}`
-    },
-    "favoriteline_1°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__8e9ad2761ba69884258f1f5519c55461method0())}`
-    }
-  }
-}); }
-    getClassName() {
-        return "FavoriteLine";
-    }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["favorite"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('favorite'); }
-    onContextMenu(contextMenu, stop) {
-        contextMenu.addItem({
-            text: "Supprimer",
-            icon: "mi-delete",
-            priority: 1,
-            action: () => {
-                this.deleteFromFavorite();
-            }
-        });
-        stop();
-    }
-    onSet() {
-        if (!this.favorite)
-            return;
-        const cst = Lib.AppIconManager.getIcon(this.favorite.TagName);
-        if (!cst)
-            return;
-        const icon = new cst();
-        this.iconEl.innerHTML = "";
-        this.iconEl.appendChild(icon);
-    }
-    async deleteFromFavorite() {
-        if (!this.favorite)
-            return;
-        await Lib.Process.execute(this, Ram.FavoriteRAM.getInstance().deleteWithError(this.favorite));
-    }
-    async open() {
-        if (!this.favorite) {
-            this.remove();
-            return;
-        }
-        let desktop = System.Os.instance.activeDesktop;
-        const info = Lib.AppIconManager.reverseTagName(this.favorite.TagName);
-        if (!info) {
-            this.deleteFromFavorite();
-            this.remove();
-            return;
-        }
-        await desktop.loadApp(info.application);
-        const state = Aventus.Converter.transform(JSON.parse(this.favorite.State));
-        const app = await desktop.openUrl(info.application, info.url, state);
-        setTimeout(() => {
-            if (app && this.favorite && app.app_title != this.favorite.Name) {
-                const clone = this.favorite.clone();
-                clone.Name = app.app_title;
-                Lib.Process.execute(this, Ram.FavoriteRAM.getInstance().updateWithError(clone));
-            }
-        }, 500);
-    }
-    postCreation() {
-        new Aventus.PressManager({
-            element: this,
-            onPress: () => {
-                this.open();
-            }
-        });
-    }
-    __8e9ad2761ba69884258f1f5519c55461method0() {
-        return this.favorite?.Name;
-    }
-}
-System.FavoriteLine.Namespace=`Core.System`;
-System.FavoriteLine.Tag=`rk-favorite-line`;
-_.System.FavoriteLine=System.FavoriteLine;
-if(!window.customElements.get('rk-favorite-line')){window.customElements.define('rk-favorite-line', System.FavoriteLine);Aventus.WebComponentInstance.registerDefinition(System.FavoriteLine);}
 
 System.AppIcon = class AppIcon extends Aventus.WebComponent {
     get 'shaking'() { return this.getBoolAttr('shaking') }

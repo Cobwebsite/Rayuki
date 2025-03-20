@@ -2013,6 +2013,7 @@ let PressManager=class PressManager {
             return new PressManager(options);
         }
     }
+    static onEvent = new Callback();
     options;
     element;
     delayDblPress;
@@ -2225,6 +2226,7 @@ let PressManager=class PressManager {
         if (this.options.onEvent) {
             this.options.onEvent(e);
         }
+        PressManager.onEvent.trigger(e, this);
         if (e.button != undefined && !this.options.buttonAllowed?.includes(e.button)) {
             this.unregisterEvent(ev);
             return;
@@ -2311,6 +2313,7 @@ let PressManager=class PressManager {
         if (this.options.onEvent) {
             this.options.onEvent(e);
         }
+        PressManager.onEvent.trigger(e, this);
         if (this.stopPropagation()) {
             e.stopImmediatePropagation();
         }
@@ -2356,6 +2359,7 @@ let PressManager=class PressManager {
         if (this.options.onEvent) {
             this.options.onEvent(e);
         }
+        PressManager.onEvent.trigger(e, this);
         if (this.stopPropagation()) {
             e.stopImmediatePropagation();
         }

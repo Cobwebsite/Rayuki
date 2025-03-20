@@ -1,9 +1,11 @@
+import { DragAndDrop, PressManager } from "Aventus@Main:Aventus.package.avt";
 import type { Favorite } from "../../../../generated/Data/Favorite.data.avt";
 import { AppIconManager } from "../../../../libs/AppIconManager.lib.avt";
 import { Process } from "../../../../libs/Process.lib.avt";
 import { FavoriteRAM } from "../../../../ram/Favorite.ram.avt";
 import type { ContextMenu, IContextMenu } from "../../../ui/ContextMenu/ContextMenu.wcl.avt";
 import { Os } from "../../Os/Os.wcl.avt";
+import { HomePanel } from "../HomePanel/HomePanel.wcl.avt";
 
 namespace System {
     export class FavoriteLine extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu {
@@ -14,19 +16,26 @@ namespace System {
 
 
         //#region props
-
+        @Attribute()
+        public reorder!: boolean;
+        @Attribute()
+        public highlight_before!: boolean;
+        @Attribute()
+        public highlight_after!: boolean;
         //#endregion
 
 
         //#region variables
         @ViewElement()
         protected iconEl!: HTMLDivElement;
+        @ViewElement()
+        protected dragEl!: HTMLDivElement;
 
         @Watch((target: FavoriteLine) => {
             target.onSet();
         })
         @Injectable()
-        protected favorite?: Favorite;
+        public favorite?: Favorite;
         //#endregion
 
 
@@ -46,6 +55,14 @@ namespace System {
                 priority: 1,
                 action: () => {
                     this.deleteFromFavorite();
+                }
+            });
+            contextMenu.addItem({
+                text: "Organiser les favoris",
+                icon: "/img/icons/organize-app.svg",
+                priority: 1,
+                action: () => {
+                    this.reorderItems();
                 }
             });
             stop();
@@ -87,13 +104,106 @@ namespace System {
             }, 500);
         }
 
-        protected override postCreation(): void {
-            new Aventus.PressManager({
+        protected reorderItems() {
+            this.findParentByType(HomePanel)!.startReorderFavorite();
+        }
+
+        protected addInteraction() {
+            let lastHighLight: FavoriteLine | undefined = undefined;
+            const clear = () => {
+                if(lastHighLight) {
+                    lastHighLight.highlight_before = false;
+                    lastHighLight.highlight_after = false;
+                    lastHighLight = undefined;
+                }
+            };
+            let rows: FavoriteLine[] = [];
+            let container = this.parentElement!;
+            let drag = new DragAndDrop({
+                element: this,
+                elementTrigger: this.dragEl,
+                offsetDrag: 0,
+                shadow: {
+                    enable: true,
+                    transform: (el: FavoriteLine) => {
+                        el.favorite = this.favorite;
+                        el.style.width = this.offsetWidth + 'px';
+                        el.style.height = this.offsetHeight + 'px';
+                        el.style.zIndex = '999';
+                    }
+                },
+                onStart: () => {
+                    let children = Array.from(container.children);
+                    rows = [];
+                    for(let child of children) {
+                        if(child instanceof FavoriteLine) {
+                            rows.push(child);
+                        }
+                    }
+                },
+                onMove: (e, position) => {
+                    let found = false;
+                    for(let i = 0; i < rows.length; i++) {
+                        let box = rows[i].getBoundingClientRect();
+                        if(position.y < box.top) {
+                            if(i == 0) {
+                                clear();
+                                rows[i].highlight_before = true;
+                                lastHighLight = rows[i];
+                            }
+                            else {
+                                clear();
+                                rows[i - 1].highlight_after = true;
+                                lastHighLight = rows[i - 1];
+                            }
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(!found) {
+                        clear();
+                        rows[rows.length - 1].highlight_after = true;
+                        lastHighLight = rows[rows.length - 1];
+                    }
+                },
+                onStop: () => {
+                    if(lastHighLight) {
+                        if(lastHighLight.highlight_after) {
+                            let index = rows.indexOf(lastHighLight);
+                            if(index == rows.length - 1) {
+                                container.appendChild(this);
+                            }
+                            else {
+                                container.insertBefore(this, rows[index + 1]);
+                            }
+                        }
+                        else if(lastHighLight.highlight_before) {
+                            container.insertBefore(this, lastHighLight);
+                        }
+                        clear();
+                        this.findParentByType(HomePanel)!.saveFavoriteOrder();
+                    }
+                },
+            });
+
+            new PressManager({
                 element: this,
                 onPress: () => {
                     this.open();
+                },
+                onLongPress: (e) => {
+                    if(e.pointerType == "mouse") {
+                        this.reorderItems();
+                    }
+                    else {
+
+                    }
                 }
             });
+        }
+
+        protected override postCreation(): void {
+            this.addInteraction();
         }
         //#endregion
 

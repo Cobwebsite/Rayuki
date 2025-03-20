@@ -6,13 +6,25 @@
 	border-radius: var(--border-radius-sm);
 	cursor: pointer;
 	display: flex;
-	gap: 10px;
 	overflow: hidden;
 	padding: 5px;
+	position: relative;
 	transition: background-color 0.2s var(--bezier-curve);
+
+	.drag-icon {
+		align-items: center;
+		cursor: grab;
+		display: flex;
+		opacity: 0;
+		overflow: hidden;
+		transition: width 0.5s var(--bezier-curve), opacity 0.5s var(--bezier-curve), visibility 0.5s var(--bezier-curve);
+		visibility: hidden;
+		width: 0;
+	}
 
 	.icon-container {
 		height: 30px;
+		margin-right: 10px;
 		position: relative;
 		width: 30px;
 
@@ -42,11 +54,47 @@
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
+
+	.line {
+		display: none;
+	}
 }
 
 
 @include desktop {
 	:host(:hover) {
 		background-color: var(--lighter-active);
+	}
+}
+
+:host([reorder]) {
+	.drag-icon {
+		opacity: 1;
+		visibility: visible;
+		width: 24px;
+	}
+}
+
+:host([highlight_after]) {
+	.line {
+		background-color: var(--red);
+		bottom: -1px;
+		display: block;
+		height: 2px;
+		left: 0;
+		position: absolute;
+		width: 100%;
+	}
+}
+
+:host([highlight_before]:first-child) {
+	.line {
+		background-color: var(--red);
+		display: block;
+		height: 2px;
+		left: 0;
+		position: absolute;
+		top: -1px;
+		width: 100%;
 	}
 }

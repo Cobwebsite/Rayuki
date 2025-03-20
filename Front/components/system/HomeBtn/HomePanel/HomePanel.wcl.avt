@@ -8,6 +8,8 @@ import { ApplicationPermission, ApplicationPermissionQuery } from "../../../../g
 import { FavoriteRAM } from "../../../../ram/Favorite.ram.avt";
 import { Process } from "../../../../libs/Process.lib.avt";
 import type { Favorite } from "../../../../generated/Data/Favorite.data.avt";
+import { FavoriteLine } from "../FavoriteLine/FavoriteLine.wcl.avt";
+import { NormalizedEvent, PressManager } from "Aventus@Main:Aventus.package.avt";
 
 namespace System {
     export class HomePanel extends Panel implements Aventus.DefaultComponent {
@@ -36,6 +38,8 @@ namespace System {
 
         @Watch()
         public favorites: Favorite[] = [];
+        @Watch()
+        public reorderFav: boolean = false;
         //#endregion
 
 
@@ -103,6 +107,7 @@ namespace System {
             let ram = FavoriteRAM.getInstance();
             const items = await Process.execute(this, ram.getListWithError());
             if(items) {
+                items.sort((a, b) => a.Order - b.Order);
                 if(force) {
                     this.favorites = [];
                 }
@@ -110,17 +115,75 @@ namespace System {
             }
         }
 
+        public saveFavoriteOrder() {
+            let children = Array.from(this.favorisContainer.children[0].children);
+            let i = 0;
+            const toSave: Favorite[] = [];
+            for(let child of children) {
+                if(child instanceof FavoriteLine) {
+                    if(child.favorite && child.favorite.Order != i) {
+                        const clone = child.favorite.clone();
+                        clone.Order = i;
+                        toSave.push(clone);
+                    }
+
+                    i++;
+                }
+            }
+            if(toSave.length > 0) {
+                FavoriteRAM.getInstance().updateListWithError(toSave);
+            }
+        }
+
+        public stopReorderFavorite() {
+            const children = Array.from(this.favorisContainer.children[0].children);
+            for(let child of children) {
+                if(child instanceof FavoriteLine) {
+                    child.reorder = false;
+                }
+            }
+            PressManager.onEvent.remove(this.checkCancelState);
+            this.reorderFav = false;
+        }
+        public startReorderFavorite() {
+            const children = Array.from(this.favorisContainer.children[0].children);
+            for(let child of children) {
+                if(child instanceof FavoriteLine) {
+                    child.reorder = true;
+                }
+            }
+            PressManager.onEvent.add(this.checkCancelState);
+            this.reorderFav = true;
+        }
+
+        @BindThis()
+        protected checkCancelState(e: NormalizedEvent, instance: PressManager) {
+            if(e.event.type != "pointerdown" && e.event.type != "touchstart") {
+                return;
+            }
+            const el = instance.getElement();
+            const parentNode = el.parentNode;
+            if(el.classList.contains("drag-icon") && parentNode instanceof ShadowRoot) {
+                if(parentNode.host instanceof FavoriteLine) {
+                    return;
+                }
+            }
+            this.stopReorderFavorite();
+        }
+
 
         protected override postCreation(): void {
             this.getUser();
             this.displayRecent();
             this.initRam();
-            new Aventus.PressManager({
+            new PressManager({
                 element: this,
                 onPress: () => { },
                 onDrag: () => { },
             });
         }
+
+
         //#endregion
 
     }
