@@ -20,6 +20,14 @@ namespace Core.Logic
         private Dictionary<string, PermissionTree> PermissionTrees = new();
         private List<string> NeedReorder { get; set; } = new();
 
+        protected async override Task<VoidWithError> Initialize()
+        {
+            VoidWithError result = await base.Initialize();
+
+            RegisterPermissions<QuickAuthPermission, QuickAuthPermissionDescription>();
+            return result;
+        }
+
         public void Register(List<Type> types)
         {
             foreach (Type type in types)
@@ -117,10 +125,11 @@ namespace Core.Logic
 
         public List<PermissionMultiple> CanMultiple(HttpContext context, List<IPermissionQuery> queries)
         {
-            List<PermissionMultiple> result = new ();
+            List<PermissionMultiple> result = new();
             foreach (IPermissionQuery query in queries)
             {
-                result.Add(new PermissionMultiple(){
+                result.Add(new PermissionMultiple()
+                {
                     Query = query,
                     Allow = Can(context, query.value, query.additionalInfo)
                 });
@@ -357,6 +366,29 @@ namespace Core.Logic
             List<PermissionGroup> permissionGroups = PermissionGroup.Where(p => groups.Contains(p.GroupId));
 
             return new PermissionForUser(permissionGroups, permissionUsers);
+        }
+
+        public bool AllowQuickLogin(int idUser, out string? token)
+        {
+            token = null;
+            ResultWithError<int> result = SettingsDM.GetInstance().GetGlobalSettingsInt(QuickAuthPermission.Can);
+            if (result.Result == 0) return false;
+            if (result.Result == 1)
+            {
+                ResultWithError<string> resultToken = UserDM.GetInstance().GetQuickToken(idUser);
+                token = resultToken.Result;
+                return true;
+            }
+            if (result.Result == 2)
+            {
+                if (Can(idUser, QuickAuthPermission.Can))
+                {
+                    ResultWithError<string> resultToken = UserDM.GetInstance().GetQuickToken(idUser);
+                    token = resultToken.Result;
+                    return true;
+                }
+            }
+            return false;
         }
     }
 

@@ -45,10 +45,10 @@ namespace Core.Routes
 
         [Get, Path("/storage/.*")]
         [NoExport]
-        public async Task<ByteResponse> Storage(HttpContext context)
+        public ByteResponse Storage(HttpContext context)
         {
             string uri = context.Request.Path.Value!.Replace("/storage/", "");
-            ResultWithError<byte[]> response = await FileStorage.Get().Get(uri);
+            ResultWithError<byte[]> response = FileStorage.Get().Get(uri);
             string contentType = "application/octet-stream";
             if (response.Success && response.Result != null)
             {
@@ -75,106 +75,6 @@ namespace Core.Routes
         }
 
 
-        [Get, Path("/login")]
-        public IResponse Login(HttpContext context)
-        {
-            Company company = CompanyDM.GetInstance().GetMain();
-            List<SsoProvider> providers = SsoProvider
-                .StartQuery()
-                .Field(p => p.Id)
-                .Field(p => p.Name)
-                .Field(p => p.Logo)
-                .Run();
-            string error = context.Session.GetString("login_error") ?? "";
-            context.Session.Remove("login_error");
-            return new ViewDynamic("login", new
-            {
-                company = company.Name,
-                icon = company.Logo.Uri,
-                company_version = company.Version,
-                version = HttpServer.Version,
-                sso = Newtonsoft.Json.JsonConvert.SerializeObject(providers).Replace("\"", "&avquot;"),
-                error = error
-            });
-        }
-
-        [Post, Path("/login")]
-        public ResultWithError<bool> LoginAction(string username, string password, HttpContext context)
-        {
-            ResultWithError<User> result = PasswordManager.Login(username, password);
-            ResultWithError<bool> res = new();
-            if (result.Success && result.Result != null)
-            {
-                context.SetConnected(result.Result.Id);
-                context.SetSuperAdmin(result.Result.IsSuperAdmin);
-            }
-            else
-            {
-                res.Errors.AddRange(result.Errors);
-            }
-            res.Result = res.Success;
-            return res;
-        }
-
-
-        [Post, Path("/login/sso")]
-        public ResultWithError<string> LoginSso(HttpContext context, int ssoId)
-        {
-            ResultWithError<string> result = new();
-            ResultWithError<SsoProvider> providerQuery = SsoProvider.GetByIdWithError(ssoId);
-            if (!providerQuery.Success || providerQuery.Result == null)
-            {
-                result.Errors = providerQuery.Errors;
-                return result;
-            }
-
-            string state = Guid.NewGuid().ToString();
-            string redirectUri = "http://localhost:5001/login/sso/callback";
-            string authUrl = $"{providerQuery.Result.AuthorizationEndpoint}" +
-                               $"?client_id={providerQuery.Result.ClientId}" +
-                               $"&redirect_uri={redirectUri}" +
-                               $"&state={state}" +
-                               $"&scope=read:user user:email";
-            context.Session.SetString("OAuthState", state);
-            context.Session.SetInt32("OAuthId", ssoId);
-            result.Result = authUrl;
-            return result;
-        }
-
-        [Get, Path("/login/sso/callback"), NoExport]
-        public Redirect LoginSsoCallback(HttpContext context)
-        {
-            string? code = context.Request.Query["code"];
-            string? state = context.Request.Query["state"];
-            string? savedState = context.Session.GetString("OAuthState");
-            int? ssoId = context.Session.GetInt32("OAuthId");
-            if (savedState == null || savedState != state || ssoId == null || code == null)
-            {
-                context.Session.SetString("login_error", "Invalid OAuth state.");
-                return new Redirect("/login");
-            }
-            context.Session.Remove("OAuthId");
-            context.Session.Remove("OAuthState");
-
-            var result = SsoProviderDM.GetInstance().Login((int)ssoId, code).GetAwaiter().GetResult();
-            if (result.Result != null)
-            {
-                context.SetConnected(result.Result.Id);
-                context.SetSuperAdmin(result.Result.IsSuperAdmin);
-            }
-            foreach (GenericError error in result.Errors)
-            {
-                context.Session.SetString("login_error", error.Message);
-            }
-            return new Redirect("/login");
-        }
-
-
-        [Post, Path("/logout")]
-        public void Logout(HttpContext context)
-        {
-            context.Disconnect();
-        }
 
         [Get, Path("/vapidPublicKey")]
         public ResultWithError<string> VapidPublicKey()

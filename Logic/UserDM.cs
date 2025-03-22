@@ -5,6 +5,7 @@ using AventusSharp.Tools;
 using Core.App;
 using Core.Data;
 using Core.Logic.FileSystem;
+using Core.Permissions;
 using Scriban.Parsing;
 
 namespace Core.Logic
@@ -78,6 +79,42 @@ namespace Core.Logic
                 queryUser.Result.Password = "";
             }
             return queryUser;
+        }
+
+        public ResultWithError<string> GetQuickToken(int id)
+        {
+            ResultWithError<string> result = new();
+            ResultWithError<User> userQuery = GetByIdWithError(id);
+            if (!userQuery.Success || userQuery.Result == null)
+            {
+                result.Errors = userQuery.Errors;
+                return result;
+            }
+
+            if (string.IsNullOrEmpty(userQuery.Result.QuickToken))
+            {
+                userQuery.Result.QuickToken = Guid.NewGuid().ToString().Replace("-", "");
+                userQuery.Result.Update();
+            }
+            result.Result = userQuery.Result.QuickToken;
+            return result;
+        }
+
+        public User? QuickLogin(string token)
+        {
+            ResultWithError<int> resultQuery = SettingsDM.GetInstance().GetGlobalSettingsInt(QuickAuthPermission.Can);
+            if (resultQuery.Result == 0) return null;
+            User? user = Single(p => p.QuickToken == token);
+
+            if (resultQuery.Result == 1) return user;
+            if (resultQuery.Result == 2 && user != null)
+            {
+                if (PermissionDM.GetInstance().Can(user.Id, QuickAuthPermission.Can))
+                {
+                    return user;
+                }
+            }
+            return null;
         }
     }
 }

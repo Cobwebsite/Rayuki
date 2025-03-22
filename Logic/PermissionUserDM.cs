@@ -1,6 +1,7 @@
 using AventusSharp.Data.Manager.DB;
 using AventusSharp.Tools;
 using Core.Data;
+using Core.Tools;
 
 namespace Core.Logic
 {
@@ -36,6 +37,12 @@ namespace Core.Logic
                 result.Result = result.Success;
                 return result;
             });
+        }
+
+        public ResultWithError<PermissionUser> HasPermissionGroup(int userId, Enum @enum, string additionalInfo)
+        {
+            string name = @enum.GetFullName();
+            return SingleWithError(p => p.UserId == userId && p.Permission.EnumName == name && p.Permission.AdditionalInfo == additionalInfo);
         }
     }
 }

@@ -1,0 +1,10 @@
+namespace Routes.Responses {
+
+	@Convertible()
+	export class LoginResult extends AventusSharp.Data.SharpClass  {
+		public static get Fullname(): string { return "Core.Routes.Responses.LoginResult, Core"; }
+		public Success!: boolean;
+		public QuickAccess?: string = undefined;
+	}
+
+}

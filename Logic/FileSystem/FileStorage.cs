@@ -73,7 +73,7 @@ namespace Core.Logic.FileSystem
             return uri;
         }
 
-        public async Task<ResultWithError<byte[]>> Get(string uri)
+        public ResultWithError<byte[]> Get(string uri)
         {
             ResultWithError<byte[]> result = new ResultWithError<byte[]>();
             result.Run(() => CheckPath(uri));
@@ -81,10 +81,10 @@ namespace Core.Logic.FileSystem
             if (!result.Success)
                 return result;
 
-            return await Storage.Get(GetPath(uri));
+            return Storage.Get(GetPath(uri));
         }
 
-        public async Task<ResultWithError<string>> GetTxt(string uri)
+        public ResultWithError<string> GetTxt(string uri)
         {
             ResultWithError<string> result = new ResultWithError<string>();
             result.Run(() => CheckPath(uri));
@@ -92,10 +92,10 @@ namespace Core.Logic.FileSystem
             if (!result.Success)
                 return result;
 
-            return await Storage.GetTxt(GetPath(uri));
+            return Storage.GetTxt(GetPath(uri));
         }
 
-        public async Task<ResultWithError<bool>> Set(string uri, byte[] bytes)
+        public ResultWithError<bool> Set(string uri, byte[] bytes)
         {
             ResultWithError<bool> result = new();
             result.Run(() => CheckPath(uri));
@@ -103,10 +103,10 @@ namespace Core.Logic.FileSystem
             if (!result.Success)
                 return result;
 
-            return await Storage.Set(GetPath(uri), bytes);
+            return Storage.Set(GetPath(uri), bytes);
         }
 
-        public async Task<ResultWithError<bool>> SetTxt(string uri, string text)
+        public ResultWithError<bool> SetTxt(string uri, string text)
         {
             ResultWithError<bool> result = new();
             result.Run(() => CheckPath(uri));
@@ -114,7 +114,7 @@ namespace Core.Logic.FileSystem
             if (!result.Success)
                 return result;
 
-            return await Storage.SetTxt(GetPath(uri), text);
+            return Storage.SetTxt(GetPath(uri), text);
         }
 
         public ResultWithError<bool> SetFile(string uri, IGenericFile file)
@@ -233,7 +233,7 @@ namespace Core.Logic.FileSystem
             }
             return uri;
         }
-        public static async Task<ResultWithError<byte[]>> Get(string uri)
+        public static ResultWithError<byte[]> Get(string uri)
         {
             uri = CorrectUri(uri);
             ResultWithError<byte[]> result = new ResultWithError<byte[]>();
@@ -250,7 +250,7 @@ namespace Core.Logic.FileSystem
             }
             try
             {
-                result.Result = await File.ReadAllBytesAsync(uri);
+                result.Result = File.ReadAllBytesAsync(uri).GetAwaiter().GetResult();
             }
             catch (Exception e)
             {
@@ -259,11 +259,11 @@ namespace Core.Logic.FileSystem
             return result;
         }
 
-        public static async Task<ResultWithError<string>> GetTxt(string uri)
+        public static ResultWithError<string> GetTxt(string uri)
         {
             uri = CorrectUri(uri);
             ResultWithError<string> result = new ResultWithError<string>();
-            ResultWithError<byte[]> getByte = await Get(uri);
+            ResultWithError<byte[]> getByte = Get(uri);
             if (!getByte.Success || getByte.Result == null)
             {
                 result.Errors = getByte.Errors;
@@ -275,7 +275,7 @@ namespace Core.Logic.FileSystem
             return result;
         }
 
-        public static async Task<ResultWithError<bool>> Set(string uri, byte[] bytes)
+        public static ResultWithError<bool> Set(string uri, byte[] bytes)
         {
             uri = CorrectUri(uri);
             ResultWithError<bool> result = new ResultWithError<bool>();
@@ -287,7 +287,7 @@ namespace Core.Logic.FileSystem
             uri = Path.GetFullPath(Path.Combine(rootFolder, uri));
             try
             {
-                await File.WriteAllBytesAsync(uri, bytes);
+                File.WriteAllBytesAsync(uri, bytes).GetAwaiter().GetResult();
             }
             catch (Exception e)
             {
@@ -297,9 +297,9 @@ namespace Core.Logic.FileSystem
             return result;
         }
 
-        public static async Task<ResultWithError<bool>> SetTxt(string uri, string txt)
+        public static ResultWithError<bool> SetTxt(string uri, string txt)
         {
-            return await Set(uri, Encoding.UTF8.GetBytes(txt));
+            return Set(uri, Encoding.UTF8.GetBytes(txt));
         }
         public static ResultWithError<bool> SetFile(string uri, IGenericFile file)
         {

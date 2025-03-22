@@ -1,7 +1,7 @@
 import { UserRAM, type UserExtended } from "../ram/User.ram.avt";
 import { LoginCode, LoginError } from "../generated/Logic/PasswordManager.lib.avt";
-import { MainRouter } from "../generated/Routes/MainRouter.lib.avt";
 import { Permission } from "./Permission.lib.avt";
+import { LoginRouter } from "../generated/Routes/LoginRouter.lib.avt";
 
 
 namespace Lib {
@@ -12,7 +12,8 @@ namespace Lib {
 
         public static async logout() {
             try {
-                await new MainRouter().Logout();
+                await new LoginRouter().Logout();
+                localStorage.removeItem("quick_access_token");
                 Permission.clear();
             } catch { }
             window.location.reload();

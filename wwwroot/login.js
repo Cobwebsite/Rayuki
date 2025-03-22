@@ -115,6 +115,12 @@ let ActionGuard=class ActionGuard {
 ActionGuard.Namespace=`Aventus`;
 _.ActionGuard=ActionGuard;
 
+let DragElementXYType= [SVGGElement, SVGRectElement, SVGEllipseElement, SVGTextElement];
+_.DragElementXYType=DragElementXYType;
+
+let DragElementLeftTopType= [HTMLElement, SVGSVGElement];
+_.DragElementLeftTopType=DragElementLeftTopType;
+
 var HttpErrorCode;
 (function (HttpErrorCode) {
     HttpErrorCode[HttpErrorCode["unknow"] = 0] = "unknow";
@@ -130,12 +136,6 @@ var HttpMethod;
     HttpMethod["OPTION"] = "OPTION";
 })(HttpMethod || (HttpMethod = {}));
 _.HttpMethod=HttpMethod;
-
-let DragElementXYType= [SVGGElement, SVGRectElement, SVGEllipseElement, SVGTextElement];
-_.DragElementXYType=DragElementXYType;
-
-let DragElementLeftTopType= [HTMLElement, SVGSVGElement];
-_.DragElementLeftTopType=DragElementLeftTopType;
 
 let DateConverter=class DateConverter {
     static __converter = new DateConverter();
@@ -992,7 +992,7 @@ let Effect=class Effect {
         }
         else {
             cb = (action, changePath, value, dones) => {
-                let full = fullPath;
+                // if(changePath == path || changePath.startsWith(path + ".") || changePath.startsWith(path + "[")) {
                 if (changePath == path) {
                     this.onChange(action, changePath, value, dones);
                 }
@@ -1963,7 +1963,7 @@ let Watcher=class Watcher {
         return comp;
     }
     /**
-     * Create an effect variable that will watch any changes
+     * Create an effect variable that will watch any changes inside the fct and trigger the cb on change
      */
     static watch(fct, cb) {
         const comp = new Effect(fct);
@@ -5042,6 +5042,366 @@ let Data=class Data {
 Data.Namespace=`Aventus`;
 _.Data=Data;
 
+let GenericError=class GenericError {
+    /**
+     * Code for the error
+     */
+    code;
+    /**
+     * Description of the error
+     */
+    message;
+    /**
+     * Additional details related to the error.
+     * @type {any[]}
+     */
+    details = [];
+    /**
+     * Creates a new instance of GenericError.
+     * @param {EnumValue<T>} code - The error code.
+     * @param {string} message - The error message.
+     */
+    constructor(code, message) {
+        this.code = code;
+        this.message = message + '';
+    }
+}
+GenericError.Namespace=`Aventus`;
+_.GenericError=GenericError;
+
+let VoidWithError=class VoidWithError {
+    /**
+     * Determine if the action is a success
+     */
+    get success() {
+        return this.errors.length == 0;
+    }
+    /**
+     * List of errors
+     */
+    errors = [];
+    /**
+     * Converts the current instance to a VoidWithError object.
+     * @returns {VoidWithError} A new instance of VoidWithError with the same error list.
+     */
+    toGeneric() {
+        const result = new VoidWithError();
+        result.errors = this.errors;
+        return result;
+    }
+    /**
+    * Checks if the error list contains a specific error code.
+    * @template U - The type of error, extending GenericError.
+    * @template T - The type of the error code, which extends either number or Enum.
+    * @param {EnumValue<T>} code - The error code to check for.
+    * @param {new (...args: any[]) => U} [type] - Optional constructor function of the error type.
+    * @returns {boolean} True if the error list contains the specified error code, otherwise false.
+    */
+    containsCode(code, type) {
+        if (type) {
+            for (let error of this.errors) {
+                if (error instanceof type) {
+                    if (error.code == code) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else {
+            for (let error of this.errors) {
+                if (error.code == code) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+VoidWithError.Namespace=`Aventus`;
+_.VoidWithError=VoidWithError;
+
+let ResultWithError=class ResultWithError extends VoidWithError {
+    /**
+      * The result value of the action.
+      * @type {U | undefined}
+      */
+    result;
+    /**
+     * Converts the current instance to a ResultWithError object.
+     * @returns {ResultWithError<U>} A new instance of ResultWithError with the same error list and result value.
+     */
+    toGeneric() {
+        const result = new ResultWithError();
+        result.errors = this.errors;
+        result.result = this.result;
+        return result;
+    }
+}
+ResultWithError.Namespace=`Aventus`;
+_.ResultWithError=ResultWithError;
+
+let HttpError=class HttpError extends GenericError {
+}
+HttpError.Namespace=`Aventus`;
+_.HttpError=HttpError;
+
+let HttpRequest=class HttpRequest {
+    request;
+    url;
+    constructor(url, method = HttpMethod.GET, body) {
+        this.url = url;
+        this.request = {};
+        this.setMethod(method);
+        this.prepareBody(body);
+    }
+    setUrl(url) {
+        this.url = url;
+    }
+    toString() {
+        return this.url + " : " + JSON.stringify(this.request);
+    }
+    setBody(body) {
+        this.prepareBody(body);
+    }
+    setMethod(method) {
+        this.request.method = method;
+    }
+    objectToFormData(obj, formData, parentKey) {
+        formData = formData || new FormData();
+        let byPass = obj;
+        if (byPass.__isProxy) {
+            obj = byPass.getTarget();
+        }
+        const keys = obj.toJSON ? Object.keys(obj.toJSON()) : Object.keys(obj);
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            let value = obj[key];
+            const newKey = parentKey ? `${parentKey}[${key}]` : key;
+            if (value instanceof Date) {
+                formData.append(newKey, DateConverter.converter.toString(value));
+            }
+            else if (typeof value === 'object' &&
+                value !== null &&
+                !(value instanceof File)) {
+                if (Array.isArray(value)) {
+                    for (let j = 0; j < value.length; j++) {
+                        const arrayKey = `${newKey}[${j}]`;
+                        this.objectToFormData({ [arrayKey]: value[j] }, formData);
+                    }
+                }
+                else {
+                    this.objectToFormData(value, formData, newKey);
+                }
+            }
+            else {
+                if (value === undefined || value === null) {
+                    value = "";
+                }
+                else if (Watcher.is(value)) {
+                    value = Watcher.extract(value);
+                }
+                formData.append(newKey, value);
+            }
+        }
+        return formData;
+    }
+    jsonReplacer(key, value) {
+        if (this[key] instanceof Date) {
+            return DateConverter.converter.toString(this[key]);
+        }
+        return value;
+    }
+    prepareBody(data) {
+        if (!data) {
+            return;
+        }
+        else if (data instanceof FormData) {
+            this.request.body = data;
+        }
+        else {
+            let useFormData = false;
+            const analyseFormData = (obj) => {
+                for (let key in obj) {
+                    if (obj[key] instanceof File) {
+                        useFormData = true;
+                        break;
+                    }
+                    else if (Array.isArray(obj[key]) && obj[key].length > 0 && obj[key][0] instanceof File) {
+                        useFormData = true;
+                        break;
+                    }
+                    else if (typeof obj[key] == 'object' && !Array.isArray(obj[key]) && !(obj[key] instanceof Date)) {
+                        analyseFormData(obj[key]);
+                        if (useFormData) {
+                            break;
+                        }
+                    }
+                }
+            };
+            analyseFormData(data);
+            if (useFormData) {
+                this.request.body = this.objectToFormData(data);
+            }
+            else {
+                this.request.body = JSON.stringify(data, this.jsonReplacer);
+                this.setHeader("Content-Type", "Application/json");
+            }
+        }
+    }
+    setHeader(name, value) {
+        if (!this.request.headers) {
+            this.request.headers = [];
+        }
+        this.request.headers.push([name, value]);
+    }
+    async query(router) {
+        let result = new ResultWithError();
+        try {
+            const fullUrl = router ? router.options.url + this.url : this.url;
+            result.result = await fetch(fullUrl, this.request);
+        }
+        catch (e) {
+            result.errors.push(new HttpError(HttpErrorCode.unknow, e));
+        }
+        return result;
+    }
+    async queryVoid(router) {
+        let resultTemp = await this.query(router);
+        let result = new VoidWithError();
+        if (!resultTemp.success) {
+            result.errors = resultTemp.errors;
+            return result;
+        }
+        try {
+            if (!resultTemp.result) {
+                return result;
+            }
+            if (resultTemp.result.status != 204) {
+                let tempResult = Converter.transform(await resultTemp.result.json());
+                if (tempResult instanceof VoidWithError) {
+                    for (let error of tempResult.errors) {
+                        result.errors.push(error);
+                    }
+                }
+            }
+        }
+        catch (e) {
+        }
+        return result;
+    }
+    async queryJSON(router) {
+        let resultTemp = await this.query(router);
+        let result = new ResultWithError();
+        if (!resultTemp.success) {
+            result.errors = resultTemp.errors;
+            return result;
+        }
+        try {
+            if (!resultTemp.result) {
+                return result;
+            }
+            let tempResult = Converter.transform(await resultTemp.result.json());
+            if (tempResult instanceof VoidWithError) {
+                for (let error of tempResult.errors) {
+                    result.errors.push(error);
+                }
+                if (tempResult instanceof ResultWithError) {
+                    result.result = tempResult.result;
+                }
+            }
+            else {
+                result.result = tempResult;
+            }
+        }
+        catch (e) {
+            result.errors.push(new HttpError(HttpErrorCode.unknow, e));
+        }
+        return result;
+    }
+    async queryTxt(router) {
+        let resultTemp = await this.query(router);
+        let result = new ResultWithError();
+        if (!resultTemp.success) {
+            result.errors = resultTemp.errors;
+            return result;
+        }
+        try {
+            if (!resultTemp.result) {
+                return result;
+            }
+            result.result = await resultTemp.result.text();
+        }
+        catch (e) {
+            result.errors.push(new HttpError(HttpErrorCode.unknow, e));
+        }
+        return result;
+    }
+    async queryBlob(router) {
+        let resultTemp = await this.query(router);
+        let result = new ResultWithError();
+        if (!resultTemp.success) {
+            result.errors = resultTemp.errors;
+            return result;
+        }
+        try {
+            if (!resultTemp.result) {
+                return result;
+            }
+            result.result = await resultTemp.result.blob();
+        }
+        catch (e) {
+            result.errors.push(new HttpError(HttpErrorCode.unknow, e));
+        }
+        return result;
+    }
+}
+HttpRequest.Namespace=`Aventus`;
+_.HttpRequest=HttpRequest;
+
+let HttpRouter=class HttpRouter {
+    options;
+    constructor() {
+        this.options = this.defineOptions(this.defaultOptionsValue());
+    }
+    defaultOptionsValue() {
+        return {
+            url: location.protocol + "//" + location.host
+        };
+    }
+    defineOptions(options) {
+        return options;
+    }
+    async get(url) {
+        return await new HttpRequest(url).queryJSON(this);
+    }
+    async post(url, data) {
+        return await new HttpRequest(url, HttpMethod.POST, data).queryJSON(this);
+    }
+    async put(url, data) {
+        return await new HttpRequest(url, HttpMethod.PUT, data).queryJSON(this);
+    }
+    async delete(url, data) {
+        return await new HttpRequest(url, HttpMethod.DELETE, data).queryJSON(this);
+    }
+    async option(url, data) {
+        return await new HttpRequest(url, HttpMethod.OPTION, data).queryJSON(this);
+    }
+}
+HttpRouter.Namespace=`Aventus`;
+_.HttpRouter=HttpRouter;
+
+let HttpRoute=class HttpRoute {
+    router;
+    constructor(router) {
+        this.router = router ?? new HttpRouter();
+    }
+    getPrefix() {
+        return "";
+    }
+}
+HttpRoute.Namespace=`Aventus`;
+_.HttpRoute=HttpRoute;
+
 let DragAndDrop=class DragAndDrop {
     /**
      * Default offset before drag element
@@ -5760,7 +6120,7 @@ let ResourceLoader=class ResourceLoader {
                 result.type = 'img';
             }
             else {
-                throw 'unknow extension found :' + extension + ". Please define your extension inside options";
+                delete result.type;
             }
         }
         else {
@@ -5899,366 +6259,6 @@ let ResizeObserver=class ResizeObserver {
 }
 ResizeObserver.Namespace=`Aventus`;
 _.ResizeObserver=ResizeObserver;
-
-let GenericError=class GenericError {
-    /**
-     * Code for the error
-     */
-    code;
-    /**
-     * Description of the error
-     */
-    message;
-    /**
-     * Additional details related to the error.
-     * @type {any[]}
-     */
-    details = [];
-    /**
-     * Creates a new instance of GenericError.
-     * @param {EnumValue<T>} code - The error code.
-     * @param {string} message - The error message.
-     */
-    constructor(code, message) {
-        this.code = code;
-        this.message = message + '';
-    }
-}
-GenericError.Namespace=`Aventus`;
-_.GenericError=GenericError;
-
-let VoidWithError=class VoidWithError {
-    /**
-     * Determine if the action is a success
-     */
-    get success() {
-        return this.errors.length == 0;
-    }
-    /**
-     * List of errors
-     */
-    errors = [];
-    /**
-     * Converts the current instance to a VoidWithError object.
-     * @returns {VoidWithError} A new instance of VoidWithError with the same error list.
-     */
-    toGeneric() {
-        const result = new VoidWithError();
-        result.errors = this.errors;
-        return result;
-    }
-    /**
-    * Checks if the error list contains a specific error code.
-    * @template U - The type of error, extending GenericError.
-    * @template T - The type of the error code, which extends either number or Enum.
-    * @param {EnumValue<T>} code - The error code to check for.
-    * @param {new (...args: any[]) => U} [type] - Optional constructor function of the error type.
-    * @returns {boolean} True if the error list contains the specified error code, otherwise false.
-    */
-    containsCode(code, type) {
-        if (type) {
-            for (let error of this.errors) {
-                if (error instanceof type) {
-                    if (error.code == code) {
-                        return true;
-                    }
-                }
-            }
-        }
-        else {
-            for (let error of this.errors) {
-                if (error.code == code) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-}
-VoidWithError.Namespace=`Aventus`;
-_.VoidWithError=VoidWithError;
-
-let ResultWithError=class ResultWithError extends VoidWithError {
-    /**
-      * The result value of the action.
-      * @type {U | undefined}
-      */
-    result;
-    /**
-     * Converts the current instance to a ResultWithError object.
-     * @returns {ResultWithError<U>} A new instance of ResultWithError with the same error list and result value.
-     */
-    toGeneric() {
-        const result = new ResultWithError();
-        result.errors = this.errors;
-        result.result = this.result;
-        return result;
-    }
-}
-ResultWithError.Namespace=`Aventus`;
-_.ResultWithError=ResultWithError;
-
-let HttpError=class HttpError extends GenericError {
-}
-HttpError.Namespace=`Aventus`;
-_.HttpError=HttpError;
-
-let HttpRequest=class HttpRequest {
-    request;
-    url;
-    constructor(url, method = HttpMethod.GET, body) {
-        this.url = url;
-        this.request = {};
-        this.setMethod(method);
-        this.prepareBody(body);
-    }
-    setUrl(url) {
-        this.url = url;
-    }
-    toString() {
-        return this.url + " : " + JSON.stringify(this.request);
-    }
-    setBody(body) {
-        this.prepareBody(body);
-    }
-    setMethod(method) {
-        this.request.method = method;
-    }
-    objectToFormData(obj, formData, parentKey) {
-        formData = formData || new FormData();
-        let byPass = obj;
-        if (byPass.__isProxy) {
-            obj = byPass.getTarget();
-        }
-        const keys = obj.toJSON ? Object.keys(obj.toJSON()) : Object.keys(obj);
-        for (let i = 0; i < keys.length; i++) {
-            const key = keys[i];
-            let value = obj[key];
-            const newKey = parentKey ? `${parentKey}[${key}]` : key;
-            if (value instanceof Date) {
-                formData.append(newKey, DateConverter.converter.toString(value));
-            }
-            else if (typeof value === 'object' &&
-                value !== null &&
-                !(value instanceof File)) {
-                if (Array.isArray(value)) {
-                    for (let j = 0; j < value.length; j++) {
-                        const arrayKey = `${newKey}[${j}]`;
-                        this.objectToFormData({ [arrayKey]: value[j] }, formData);
-                    }
-                }
-                else {
-                    this.objectToFormData(value, formData, newKey);
-                }
-            }
-            else {
-                if (value === undefined || value === null) {
-                    value = "";
-                }
-                else if (Watcher.is(value)) {
-                    value = Watcher.extract(value);
-                }
-                formData.append(newKey, value);
-            }
-        }
-        return formData;
-    }
-    jsonReplacer(key, value) {
-        if (this[key] instanceof Date) {
-            return DateConverter.converter.toString(this[key]);
-        }
-        return value;
-    }
-    prepareBody(data) {
-        if (!data) {
-            return;
-        }
-        else if (data instanceof FormData) {
-            this.request.body = data;
-        }
-        else {
-            let useFormData = false;
-            const analyseFormData = (obj) => {
-                for (let key in obj) {
-                    if (obj[key] instanceof File) {
-                        useFormData = true;
-                        break;
-                    }
-                    else if (Array.isArray(obj[key]) && obj[key].length > 0 && obj[key][0] instanceof File) {
-                        useFormData = true;
-                        break;
-                    }
-                    else if (typeof obj[key] == 'object' && !Array.isArray(obj[key]) && !(obj[key] instanceof Date)) {
-                        analyseFormData(obj[key]);
-                        if (useFormData) {
-                            break;
-                        }
-                    }
-                }
-            };
-            analyseFormData(data);
-            if (useFormData) {
-                this.request.body = this.objectToFormData(data);
-            }
-            else {
-                this.request.body = JSON.stringify(data, this.jsonReplacer);
-                this.setHeader("Content-Type", "Application/json");
-            }
-        }
-    }
-    setHeader(name, value) {
-        if (!this.request.headers) {
-            this.request.headers = [];
-        }
-        this.request.headers.push([name, value]);
-    }
-    async query(router) {
-        let result = new ResultWithError();
-        try {
-            const fullUrl = router ? router.options.url + this.url : this.url;
-            result.result = await fetch(fullUrl, this.request);
-        }
-        catch (e) {
-            result.errors.push(new HttpError(HttpErrorCode.unknow, e));
-        }
-        return result;
-    }
-    async queryVoid(router) {
-        let resultTemp = await this.query(router);
-        let result = new VoidWithError();
-        if (!resultTemp.success) {
-            result.errors = resultTemp.errors;
-            return result;
-        }
-        try {
-            if (!resultTemp.result) {
-                return result;
-            }
-            if (resultTemp.result.status != 204) {
-                let tempResult = Converter.transform(await resultTemp.result.json());
-                if (tempResult instanceof VoidWithError) {
-                    for (let error of tempResult.errors) {
-                        result.errors.push(error);
-                    }
-                }
-            }
-        }
-        catch (e) {
-        }
-        return result;
-    }
-    async queryJSON(router) {
-        let resultTemp = await this.query(router);
-        let result = new ResultWithError();
-        if (!resultTemp.success) {
-            result.errors = resultTemp.errors;
-            return result;
-        }
-        try {
-            if (!resultTemp.result) {
-                return result;
-            }
-            let tempResult = Converter.transform(await resultTemp.result.json());
-            if (tempResult instanceof VoidWithError) {
-                for (let error of tempResult.errors) {
-                    result.errors.push(error);
-                }
-                if (tempResult instanceof ResultWithError) {
-                    result.result = tempResult.result;
-                }
-            }
-            else {
-                result.result = tempResult;
-            }
-        }
-        catch (e) {
-            result.errors.push(new HttpError(HttpErrorCode.unknow, e));
-        }
-        return result;
-    }
-    async queryTxt(router) {
-        let resultTemp = await this.query(router);
-        let result = new ResultWithError();
-        if (!resultTemp.success) {
-            result.errors = resultTemp.errors;
-            return result;
-        }
-        try {
-            if (!resultTemp.result) {
-                return result;
-            }
-            result.result = await resultTemp.result.text();
-        }
-        catch (e) {
-            result.errors.push(new HttpError(HttpErrorCode.unknow, e));
-        }
-        return result;
-    }
-    async queryBlob(router) {
-        let resultTemp = await this.query(router);
-        let result = new ResultWithError();
-        if (!resultTemp.success) {
-            result.errors = resultTemp.errors;
-            return result;
-        }
-        try {
-            if (!resultTemp.result) {
-                return result;
-            }
-            result.result = await resultTemp.result.blob();
-        }
-        catch (e) {
-            result.errors.push(new HttpError(HttpErrorCode.unknow, e));
-        }
-        return result;
-    }
-}
-HttpRequest.Namespace=`Aventus`;
-_.HttpRequest=HttpRequest;
-
-let HttpRouter=class HttpRouter {
-    options;
-    constructor() {
-        this.options = this.defineOptions(this.defaultOptionsValue());
-    }
-    defaultOptionsValue() {
-        return {
-            url: location.protocol + "//" + location.host
-        };
-    }
-    defineOptions(options) {
-        return options;
-    }
-    async get(url) {
-        return await new HttpRequest(url).queryJSON(this);
-    }
-    async post(url, data) {
-        return await new HttpRequest(url, HttpMethod.POST, data).queryJSON(this);
-    }
-    async put(url, data) {
-        return await new HttpRequest(url, HttpMethod.PUT, data).queryJSON(this);
-    }
-    async delete(url, data) {
-        return await new HttpRequest(url, HttpMethod.DELETE, data).queryJSON(this);
-    }
-    async option(url, data) {
-        return await new HttpRequest(url, HttpMethod.OPTION, data).queryJSON(this);
-    }
-}
-HttpRouter.Namespace=`Aventus`;
-_.HttpRouter=HttpRouter;
-
-let HttpRoute=class HttpRoute {
-    router;
-    constructor(router) {
-        this.router = router ?? new HttpRouter();
-    }
-    getPrefix() {
-        return "";
-    }
-}
-HttpRoute.Namespace=`Aventus`;
-_.HttpRoute=HttpRoute;
 
 
 for(let key in _) { Aventus[key] = _[key] }
@@ -6508,6 +6508,57 @@ WebSocket.Socket=class Socket {
 }
 WebSocket.Socket.Namespace=`AventusSharp.WebSocket`;
 _.WebSocket.Socket=WebSocket.Socket;
+
+Data.SharpClass=class SharpClass {
+    /**
+     * The current namespace
+     */
+    get namespace() {
+        return this.constructor['Namespace'];
+    }
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    get $type() {
+        return this.constructor['Fullname'];
+    }
+    /**
+     * Get the name of the class
+     */
+    get className() {
+        return this.constructor.name;
+    }
+    /**
+     * Clone the object by transforming a parsed JSON string back into the original type
+     */
+    clone() {
+        return Aventus.Converter.transform(JSON.parse(JSON.stringify(this)));
+    }
+    /**
+     * Get a JSON for the current object
+     */
+    toJSON() {
+        let toAvoid = ['className', 'namespace'];
+        return Aventus.Json.classToJson(this, {
+            isValidKey: (key) => !toAvoid.includes(key),
+            beforeEnd: (result) => {
+                let resultTemp = {};
+                if (result.$type) {
+                    resultTemp.$type = result.$type;
+                    for (let key in result) {
+                        if (key != '$type') {
+                            resultTemp[key] = result[key];
+                        }
+                    }
+                    return resultTemp;
+                }
+                return result;
+            }
+        });
+    }
+}
+Data.SharpClass.Namespace=`AventusSharp.Data`;
+_.Data.SharpClass=Data.SharpClass;
 
 Data.Storable=class Storable extends Aventus.Data {
     Id = 0;
@@ -7030,10 +7081,12 @@ const _ = {};
 Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block;font-family:var(--font-family);-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none}:host .primary{background-color:var(--primary);color:var(--text-color-primary)}:host .text-primary{color:var(--primary)}:host .secondary{background-color:var(--secondary);color:var(--text-color-secondary)}:host .text-secondary{color:var(--secondary)}:host .green{background-color:var(--green);color:var(--text-color-green)}:host .text-green{color:var(--green)}:host .success{background-color:var(--success);color:var(--text-color-success)}:host .text-success{color:var(--success)}:host .red{background-color:var(--red);color:var(--text-color-red)}:host .text-red{color:var(--red)}:host .error{background-color:var(--error);color:var(--text-color-error)}:host .text-error{color:var(--error)}:host .orange{background-color:var(--orange);color:var(--text-color-orange)}:host .text-orange{color:var(--orange)}:host .warning{background-color:var(--warning);color:var(--text-color-warning)}:host .text-warning{color:var(--warning)}:host .blue{background-color:var(--blue);color:var(--text-color-blue)}:host .text-blue{color:var(--blue)}:host .information{background-color:var(--information);color:var(--text-color-information)}:host .text-information{color:var(--information)}:host .touch{cursor:pointer}:host .touch.disable,:host .touch.disabled{cursor:default}:host input::placeholder{overflow:visible}:host input,:host textarea,:host .text-select{-webkit-user-select:text;-khtml-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}:host *{box-sizing:border-box;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none}`)
 let Websocket = {};
 _.Websocket = Core.Websocket ?? {};
-let Routes = {};
-_.Routes = Core.Routes ?? {};
 let Components = {};
 _.Components = Core.Components ?? {};
+let Routes = {};
+_.Routes = Core.Routes ?? {};
+Routes.Responses = {};
+_.Routes.Responses = Core.Routes?.Responses ?? {};
 let Data = {};
 _.Data = Core.Data ?? {};
 Data.DataTypes = {};
@@ -7054,15 +7107,6 @@ Websocket.MainEndPoint=class MainEndPoint extends AventusSharp.WebSocket.EndPoin
 }
 Websocket.MainEndPoint.Namespace=`Core.Websocket`;
 _.Websocket.MainEndPoint=Websocket.MainEndPoint;
-
-Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter {
-    defineOptions(options) {
-        options.url = location.protocol + "//" + location.host + "";
-        return options;
-    }
-}
-Routes.CoreRouter.Namespace=`Core.Routes`;
-_.Routes.CoreRouter=Routes.CoreRouter;
 
 Components.Img = class Img extends Aventus.WebComponent {
     static get observedAttributes() {return ["src", "mode"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -7258,6 +7302,66 @@ Components.Img.Tag=`rk-img`;
 _.Components.Img=Components.Img;
 if(!window.customElements.get('rk-img')){window.customElements.define('rk-img', Components.Img);Aventus.WebComponentInstance.registerDefinition(Components.Img);}
 
+Routes.Responses.LoginResult=class LoginResult extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Core.Routes.Responses.LoginResult, Core"; }
+    Success;
+    QuickAccess = undefined;
+}
+Routes.Responses.LoginResult.Namespace=`Core.Routes.Responses`;
+Routes.Responses.LoginResult.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "Success":"boolean","QuickAccess":"string"};
+Aventus.Converter.register(Routes.Responses.LoginResult.Fullname, Routes.Responses.LoginResult);
+_.Routes.Responses.LoginResult=Routes.Responses.LoginResult;
+
+Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter {
+    defineOptions(options) {
+        options.url = location.protocol + "//" + location.host + "";
+        return options;
+    }
+}
+Routes.CoreRouter.Namespace=`Core.Routes`;
+_.Routes.CoreRouter=Routes.CoreRouter;
+
+Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
+    constructor(router) {
+        super(router ?? new Routes.CoreRouter());
+        this.VapidPublicKey = this.VapidPublicKey.bind(this);
+        this.SendNotification = this.SendNotification.bind(this);
+        this.BeginTransaction = this.BeginTransaction.bind(this);
+        this.CommitTransaction = this.CommitTransaction.bind(this);
+        this.RollbackTransaction = this.RollbackTransaction.bind(this);
+        this.Restart = this.Restart.bind(this);
+    }
+    async VapidPublicKey() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/vapidPublicKey`, Aventus.HttpMethod.GET);
+        return await request.queryJSON(this.router);
+    }
+    async SendNotification() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/sendNotification`, Aventus.HttpMethod.GET);
+        return await request.queryVoid(this.router);
+    }
+    async BeginTransaction(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/begin`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async CommitTransaction(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/commit`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryVoid(this.router);
+    }
+    async RollbackTransaction(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/rollback`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryVoid(this.router);
+    }
+    async Restart() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/restart`, Aventus.HttpMethod.GET);
+        return await request.queryVoid(this.router);
+    }
+}
+Routes.MainRouter.Namespace=`Core.Routes`;
+_.Routes.MainRouter=Routes.MainRouter;
+
 Data.SsoProvider=class SsoProvider extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.SsoProvider, Core"; }
     Name;
@@ -7295,20 +7399,21 @@ Data.SsoLogo.$schema={...(Data.DataTypes.ImageFile?.$schema ?? {}), };
 Aventus.Converter.register(Data.SsoLogo.Fullname, Data.SsoLogo);
 _.Data.SsoLogo=Data.SsoLogo;
 
-Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
+Routes.LoginRouter=class LoginRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
         this.LoginAction = this.LoginAction.bind(this);
+        this.QuickLogin = this.QuickLogin.bind(this);
         this.LoginSso = this.LoginSso.bind(this);
         this.Logout = this.Logout.bind(this);
-        this.VapidPublicKey = this.VapidPublicKey.bind(this);
-        this.BeginTransaction = this.BeginTransaction.bind(this);
-        this.CommitTransaction = this.CommitTransaction.bind(this);
-        this.RollbackTransaction = this.RollbackTransaction.bind(this);
-        this.Restart = this.Restart.bind(this);
     }
     async LoginAction(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/login`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async QuickLogin(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/login/quick`, Aventus.HttpMethod.POST);
         request.setBody(body);
         return await request.queryJSON(this.router);
     }
@@ -7321,32 +7426,9 @@ Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/logout`, Aventus.HttpMethod.POST);
         return await request.queryVoid(this.router);
     }
-    async VapidPublicKey() {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/vapidPublicKey`, Aventus.HttpMethod.GET);
-        return await request.queryJSON(this.router);
-    }
-    async BeginTransaction(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/begin`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryJSON(this.router);
-    }
-    async CommitTransaction(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/commit`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryVoid(this.router);
-    }
-    async RollbackTransaction(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/rollback`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryVoid(this.router);
-    }
-    async Restart() {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/restart`, Aventus.HttpMethod.GET);
-        return await request.queryVoid(this.router);
-    }
 }
-Routes.MainRouter.Namespace=`Core.Routes`;
-_.Routes.MainRouter=Routes.MainRouter;
+Routes.LoginRouter.Namespace=`Core.Routes`;
+_.Routes.LoginRouter=Routes.LoginRouter;
 
 Lib.Platform=class Platform {
     static onScreenChange = new Aventus.Callback();
@@ -8007,9 +8089,12 @@ const Login = class Login extends Aventus.WebComponent {
         let formData = new FormData();
         formData.append("username", this.usernameEl.value);
         formData.append("password", this.passwordEl.value);
-        const router = new Core.Routes.MainRouter();
+        const router = new Core.Routes.LoginRouter();
         let result = await router.LoginAction(body);
-        if (result.success) {
+        if (result.success && result.result?.Success) {
+            if (result.result.QuickAccess) {
+                localStorage.setItem("quick_access_token", result.result.QuickAccess);
+            }
             window.location.pathname = "/";
         }
         else {
@@ -8082,9 +8167,23 @@ const Login = class Login extends Aventus.WebComponent {
             this.validateForm();
         }
     }
+    async quickAccessLogin() {
+        const token = localStorage.getItem("quick_access_token");
+        if (token) {
+            const router = new Core.Routes.LoginRouter();
+            const result = await router.QuickLogin({ token });
+            if (result.result) {
+                window.location.pathname = "/";
+            }
+            else {
+                localStorage.removeItem("quick_access_token");
+            }
+        }
+    }
     postCreation() {
         super.postCreation();
         //this.moving3d();
+        this.quickAccessLogin();
         this.appendChild(this.usernameEl);
         this.appendChild(this.passwordEl);
     }

@@ -1,3 +1,4 @@
+import { Permission } from '../Data/Permission.data.avt';
 import { PermissionMultiple, PermissionForUser } from '../Logic/PermissionDM.lib.avt';
 import { PermissionTree } from '../Permissions/Tree/PermissionTree.lib.avt';
 import { type IPermissionQuery } from '../../libs/Permission.lib.avt';
@@ -9,6 +10,14 @@ namespace Routes {
 		public constructor(router?: Aventus.HttpRouter) {
 			super(router ?? new CoreRouter());
 		}
+		@BindThis()
+		public async Get(body: { permissionQuery: IPermissionQuery } | FormData): Promise<AventusSharp.Tools.ResultWithError<Permission>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/get`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = Permission;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
 		@BindThis()
 		public async Can(body: { permissionQuery: IPermissionQuery } | FormData): Promise<AventusSharp.Tools.ResultWithError<boolean>> {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/can`, Aventus.HttpMethod.POST);

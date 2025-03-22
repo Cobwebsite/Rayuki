@@ -3,6 +3,7 @@ using AventusSharp.Routes.Attributes;
 using AventusSharp.Tools;
 using Core.Data;
 using Core.Logic;
+using Core.Permissions;
 using Path = AventusSharp.Routes.Attributes.Path;
 
 namespace Core.Routes
@@ -19,6 +20,12 @@ namespace Core.Routes
         public ResultWithError<bool> EditPermission(List<PermissionGroup> created, List<PermissionGroup> updated, List<PermissionGroup> deleted)
         {
             return PermissionGroupDM.GetInstance().EditPermission(created, updated, deleted);
+        }
+
+        [Post, Path("/permissiongroup/haspermission")]
+        public ResultWithError<PermissionGroup> HasPermission(int idGroup, IPermissionQuery permissionQuery)
+        {
+            return PermissionGroupDM.GetInstance().HasPermissionGroup(idGroup, permissionQuery.value, permissionQuery.additionalInfo);
         }
     }
 }

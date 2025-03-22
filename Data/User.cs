@@ -18,12 +18,17 @@ namespace Core.Data
 
         [Size(1, SizeEnum.Text), ValidatePassword]
         public string? Password { get; set; }
+        
+        [Unique]
         public string Token { get; set; } = "";
         public UserPicture Picture { get; set; } = new UserPicture();
         public bool IsSuperAdmin { get; set; } = false;
 
         [ForeignKey<SsoProvider>]
         public int? SsoProviderId { get; set; }
+
+        [Unique]
+        public string? QuickToken { get; set; }
 
         public bool Can(Enum value, string additionalInfo)
         {

@@ -1,4 +1,5 @@
 import { PermissionGroup } from '../Data/PermissionGroup.data.avt';
+import { type IPermissionQuery } from '../../libs/Permission.lib.avt';
 import { CoreRouter } from '../CoreRouter.lib.avt';
 
 namespace Routes {
@@ -20,6 +21,14 @@ namespace Routes {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissiongroup/editpermission`, Aventus.HttpMethod.POST);
 			request.setBody(body);
 			type TypeResult = boolean;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async HasPermission(body: { idGroup: number, permissionQuery: IPermissionQuery } | FormData): Promise<AventusSharp.Tools.ResultWithError<PermissionGroup>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissiongroup/haspermission`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = PermissionGroup;
 			return await request.queryJSON<TypeResult>(this.router);
 		}
 	}

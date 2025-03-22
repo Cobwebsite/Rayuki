@@ -1,0 +1,14 @@
+import { PermissionQuery } from '../../libs/Permission.lib.avt';
+
+namespace Permissions {
+
+	export enum QuickAuthPermission {
+		Can
+	}
+
+	@Convertible()
+	export class QuickAuthPermissionQuery extends PermissionQuery<typeof QuickAuthPermission>  {
+		public static get Fullname(): string { return "Core.Permissions.QuickAuthPermissionQuery, Core"; }
+	}
+
+}

@@ -43,7 +43,7 @@ namespace Core.Routes
         }
 
 
-        public async Task send(HttpContext context, IRouter router)
+        public async Task send(HttpContext context, IRouter? router)
         {
             string txt = $"<{tagName}></{tagName}>";
             byte[] bytes = Encoding.UTF8.GetBytes(txt);

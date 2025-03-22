@@ -8,9 +8,9 @@ namespace Core.Websocket.Events
     [EndPoint<MainEndPoint>]
     public class ApplicationTestEvent : WsEvent<ApplicationTestEvent.Body>
     {
-        protected override async Task<Body> Prepare()
+        protected override Task<Body> Prepare()
         {
-            return new Body() { id = 1, name = "test" };
+            return Task.FromResult(new Body() { id = 1, name = "test" });
         }
 
         [Export]
@@ -27,9 +27,9 @@ namespace Core.Websocket.Events
     [Path("/application/test/2")]
     public class ApplicationTestEvent2 : WsEvent<string>
     {
-        protected override async Task<string> Prepare()
+        protected override Task<string> Prepare()
         {
-            return "hello world";
+            return Task.FromResult("hello world");
         }
     }
 }

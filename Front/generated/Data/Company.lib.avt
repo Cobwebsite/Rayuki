@@ -8,6 +8,7 @@ namespace Data {
 		public Name: string = "";
 		public Logo: CompanyImage = new CompanyImage();
 		public Version: number = 0;
+		public SiteUrl: string = "";
 	}
 
 	@Convertible()

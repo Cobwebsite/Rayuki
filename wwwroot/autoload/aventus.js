@@ -1125,7 +1125,7 @@ let ResourceLoader=class ResourceLoader {
                 result.type = 'img';
             }
             else {
-                throw 'unknow extension found :' + extension + ". Please define your extension inside options";
+                delete result.type;
             }
         }
         else {
@@ -1198,7 +1198,7 @@ let Effect=class Effect {
         }
         else {
             cb = (action, changePath, value, dones) => {
-                let full = fullPath;
+                // if(changePath == path || changePath.startsWith(path + ".") || changePath.startsWith(path + "[")) {
                 if (changePath == path) {
                     this.onChange(action, changePath, value, dones);
                 }
@@ -2126,7 +2126,7 @@ let Watcher=class Watcher {
         return comp;
     }
     /**
-     * Create an effect variable that will watch any changes
+     * Create an effect variable that will watch any changes inside the fct and trigger the cb on change
      */
     static watch(fct, cb) {
         const comp = new Effect(fct);

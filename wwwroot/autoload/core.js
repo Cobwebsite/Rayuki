@@ -5,6 +5,8 @@ var Core;
 const moduleName = `Core`;
 const _ = {};
 Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block;font-family:var(--font-family);-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none}:host .primary{background-color:var(--primary);color:var(--text-color-primary)}:host .text-primary{color:var(--primary)}:host .secondary{background-color:var(--secondary);color:var(--text-color-secondary)}:host .text-secondary{color:var(--secondary)}:host .green{background-color:var(--green);color:var(--text-color-green)}:host .text-green{color:var(--green)}:host .success{background-color:var(--success);color:var(--text-color-success)}:host .text-success{color:var(--success)}:host .red{background-color:var(--red);color:var(--text-color-red)}:host .text-red{color:var(--red)}:host .error{background-color:var(--error);color:var(--text-color-error)}:host .text-error{color:var(--error)}:host .orange{background-color:var(--orange);color:var(--text-color-orange)}:host .text-orange{color:var(--orange)}:host .warning{background-color:var(--warning);color:var(--text-color-warning)}:host .text-warning{color:var(--warning)}:host .blue{background-color:var(--blue);color:var(--text-color-blue)}:host .text-blue{color:var(--blue)}:host .information{background-color:var(--information);color:var(--text-color-information)}:host .text-information{color:var(--information)}:host .touch{cursor:pointer}:host .touch.disable,:host .touch.disabled{cursor:default}:host input::placeholder{overflow:visible}:host input,:host textarea,:host .text-select{-webkit-user-select:text;-khtml-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}:host *{box-sizing:border-box;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none}`)
+let Permissions = {};
+_.Permissions = Core.Permissions ?? {};
 let Lib = {};
 _.Lib = Core.Lib ?? {};
 let Websocket = {};
@@ -31,12 +33,12 @@ let System = {};
 _.System = Core.System ?? {};
 Websocket.Routes = {};
 _.Websocket.Routes = Core.Websocket?.Routes ?? {};
-let Permissions = {};
-_.Permissions = Core.Permissions ?? {};
 Permissions.Tree = {};
 _.Permissions.Tree = Core.Permissions?.Tree ?? {};
 let Routes = {};
 _.Routes = Core.Routes ?? {};
+Routes.Responses = {};
+_.Routes.Responses = Core.Routes?.Responses ?? {};
 let State = {};
 _.State = Core.State ?? {};
 let RAM = {};
@@ -50,6 +52,11 @@ _.Tools = Core.Tools ?? {};
 Websocket.Events.ApplicationTestEvent = {};
 _.Websocket.Events.ApplicationTestEvent = Core.Websocket?.Events?.ApplicationTestEvent ?? {};
 let _n;
+(function (QuickAuthPermission) {
+    QuickAuthPermission[QuickAuthPermission["Can"] = 0] = "Can";
+})(Permissions.QuickAuthPermission || (Permissions.QuickAuthPermission = {}));
+_.Permissions.QuickAuthPermission=Permissions.QuickAuthPermission;
+
 Lib.Time=class Time {
     static cbEachMinute = new Map();
     static cbEachMinuteFirst = new Map();
@@ -1930,6 +1937,21 @@ _.Websocket.Events.ApplicationTestEvent=Websocket.Events.ApplicationTestEvent;
 
 Object.assign(Websocket.Events.ApplicationTestEvent, _n);
 
+Permissions.Tree.PermissionTreeItem=class PermissionTreeItem extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Core.Permissions.Tree.PermissionTreeItem, Core"; }
+    DisplayName = "";
+    Description = "";
+    EnumName = "";
+    Value;
+    PermissionId;
+    Position = undefined;
+    Permissions = [];
+}
+Permissions.Tree.PermissionTreeItem.Namespace=`Core.Permissions.Tree`;
+Permissions.Tree.PermissionTreeItem.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "DisplayName":"string","Description":"string","EnumName":"string","Value":"Aventus.Enum","PermissionId":"number","Position":"number","Permissions":"PermissionTreeItem[]"};
+Aventus.Converter.register(Permissions.Tree.PermissionTreeItem.Fullname, Permissions.Tree.PermissionTreeItem);
+_.Permissions.Tree.PermissionTreeItem=Permissions.Tree.PermissionTreeItem;
+
 Data.Permission=class Permission extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Permission, Core"; }
     EnumName;
@@ -1953,20 +1975,26 @@ Data.PermissionUser.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Pe
 Aventus.Converter.register(Data.PermissionUser.Fullname, Data.PermissionUser);
 _.Data.PermissionUser=Data.PermissionUser;
 
-Permissions.Tree.PermissionTreeItem=class PermissionTreeItem extends AventusSharp.Data.SharpClass {
-    static get Fullname() { return "Core.Permissions.Tree.PermissionTreeItem, Core"; }
-    DisplayName = "";
-    Description = "";
-    EnumName = "";
-    Value;
-    PermissionId;
-    Position = undefined;
-    Permissions = [];
+Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.PermissionGroup, Core"; }
+    Data;
+    Permission;
+    GroupId;
 }
-Permissions.Tree.PermissionTreeItem.Namespace=`Core.Permissions.Tree`;
-Permissions.Tree.PermissionTreeItem.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "DisplayName":"string","Description":"string","EnumName":"string","Value":"Aventus.Enum","PermissionId":"number","Position":"number","Permissions":"PermissionTreeItem[]"};
-Aventus.Converter.register(Permissions.Tree.PermissionTreeItem.Fullname, Permissions.Tree.PermissionTreeItem);
-_.Permissions.Tree.PermissionTreeItem=Permissions.Tree.PermissionTreeItem;
+Data.PermissionGroup.Namespace=`Core.Data`;
+Data.PermissionGroup.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":"Core.Data.Permission","GroupId":"number"};
+Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
+_.Data.PermissionGroup=Data.PermissionGroup;
+
+Routes.Responses.LoginResult=class LoginResult extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Core.Routes.Responses.LoginResult, Core"; }
+    Success;
+    QuickAccess = undefined;
+}
+Routes.Responses.LoginResult.Namespace=`Core.Routes.Responses`;
+Routes.Responses.LoginResult.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "Success":"boolean","QuickAccess":"string"};
+Aventus.Converter.register(Routes.Responses.LoginResult.Fullname, Routes.Responses.LoginResult);
+_.Routes.Responses.LoginResult=Routes.Responses.LoginResult;
 
 (function (ApplicationPermission) {
     ApplicationPermission[ApplicationPermission["AllowAccess"] = 0] = "AllowAccess";
@@ -2134,6 +2162,7 @@ Routes.PermissionUserRouter=class PermissionUserRouter extends Aventus.HttpRoute
         super(router ?? new Routes.CoreRouter());
         this.GetAllByUser = this.GetAllByUser.bind(this);
         this.EditPermission = this.EditPermission.bind(this);
+        this.HasPermission = this.HasPermission.bind(this);
     }
     async GetAllByUser(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissionuser/byuser`, Aventus.HttpMethod.POST);
@@ -2145,9 +2174,40 @@ Routes.PermissionUserRouter=class PermissionUserRouter extends Aventus.HttpRoute
         request.setBody(body);
         return await request.queryJSON(this.router);
     }
+    async HasPermission(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissionuser/haspermission`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
 }
 Routes.PermissionUserRouter.Namespace=`Core.Routes`;
 _.Routes.PermissionUserRouter=Routes.PermissionUserRouter;
+
+Routes.PermissionGroupRouter=class PermissionGroupRouter extends Aventus.HttpRoute {
+    constructor(router) {
+        super(router ?? new Routes.CoreRouter());
+        this.GetAllByGroup = this.GetAllByGroup.bind(this);
+        this.EditPermission = this.EditPermission.bind(this);
+        this.HasPermission = this.HasPermission.bind(this);
+    }
+    async GetAllByGroup(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissiongroup/bygroup`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async EditPermission(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissiongroup/editpermission`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async HasPermission(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissiongroup/haspermission`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+}
+Routes.PermissionGroupRouter.Namespace=`Core.Routes`;
+_.Routes.PermissionGroupRouter=Routes.PermissionGroupRouter;
 
 Routes.PdfRouter=class PdfRouter extends Aventus.HttpRoute {
     constructor(router) {
@@ -2199,32 +2259,20 @@ _.Routes.PushRecordRouter=Routes.PushRecordRouter;
 Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
-        this.LoginAction = this.LoginAction.bind(this);
-        this.LoginSso = this.LoginSso.bind(this);
-        this.Logout = this.Logout.bind(this);
         this.VapidPublicKey = this.VapidPublicKey.bind(this);
+        this.SendNotification = this.SendNotification.bind(this);
         this.BeginTransaction = this.BeginTransaction.bind(this);
         this.CommitTransaction = this.CommitTransaction.bind(this);
         this.RollbackTransaction = this.RollbackTransaction.bind(this);
         this.Restart = this.Restart.bind(this);
     }
-    async LoginAction(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/login`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryJSON(this.router);
-    }
-    async LoginSso(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/login/sso`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryJSON(this.router);
-    }
-    async Logout() {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/logout`, Aventus.HttpMethod.POST);
-        return await request.queryVoid(this.router);
-    }
     async VapidPublicKey() {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/vapidPublicKey`, Aventus.HttpMethod.GET);
         return await request.queryJSON(this.router);
+    }
+    async SendNotification() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/sendNotification`, Aventus.HttpMethod.GET);
+        return await request.queryVoid(this.router);
     }
     async BeginTransaction(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/begin`, Aventus.HttpMethod.POST);
@@ -4992,9 +5040,10 @@ Data.User=class User extends AventusSharp.Data.Storable {
     Picture = new Data.UserPicture();
     IsSuperAdmin = false;
     SsoProviderId = undefined;
+    QuickToken = undefined;
 }
 Data.User.Namespace=`Core.Data`;
-Data.User.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Firstname":"string","Lastname":"string","Username":"string","Password":"string","Token":"string","Picture":"UserPicture","IsSuperAdmin":"boolean","SsoProviderId":"number"};
+Data.User.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Firstname":"string","Lastname":"string","Username":"string","Password":"string","Token":"string","Picture":"UserPicture","IsSuperAdmin":"boolean","SsoProviderId":"number","QuickToken":"string"};
 Aventus.Converter.register(Data.User.Fullname, Data.User);
 _.Data.User=Data.User;
 
@@ -5045,6 +5094,37 @@ Permissions.ApplicationPermissionQuery.$schema={...(Permissions.PermissionQuery?
 Aventus.Converter.register(Permissions.ApplicationPermissionQuery.Fullname, Permissions.ApplicationPermissionQuery);
 _.Permissions.ApplicationPermissionQuery=Permissions.ApplicationPermissionQuery;
 
+Routes.LoginRouter=class LoginRouter extends Aventus.HttpRoute {
+    constructor(router) {
+        super(router ?? new Routes.CoreRouter());
+        this.LoginAction = this.LoginAction.bind(this);
+        this.QuickLogin = this.QuickLogin.bind(this);
+        this.LoginSso = this.LoginSso.bind(this);
+        this.Logout = this.Logout.bind(this);
+    }
+    async LoginAction(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/login`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async QuickLogin(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/login/quick`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async LoginSso(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/login/sso`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async Logout() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/logout`, Aventus.HttpMethod.POST);
+        return await request.queryVoid(this.router);
+    }
+}
+Routes.LoginRouter.Namespace=`Core.Routes`;
+_.Routes.LoginRouter=Routes.LoginRouter;
+
 Permissions.Tree.PermissionTree=class PermissionTree extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Permissions.Tree.PermissionTree, Core"; }
     AppName;
@@ -5056,37 +5136,6 @@ Permissions.Tree.PermissionTree.Namespace=`Core.Permissions.Tree`;
 Permissions.Tree.PermissionTree.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "AppName":"string","IconTagName":"string","PermissionId":"number","Permissions":"PermissionTreeItem[]"};
 Aventus.Converter.register(Permissions.Tree.PermissionTree.Fullname, Permissions.Tree.PermissionTree);
 _.Permissions.Tree.PermissionTree=Permissions.Tree.PermissionTree;
-
-Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
-    static get Fullname() { return "Core.Data.PermissionGroup, Core"; }
-    Data;
-    Permission;
-    GroupId;
-}
-Data.PermissionGroup.Namespace=`Core.Data`;
-Data.PermissionGroup.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":"Core.Data.Permission","GroupId":"number"};
-Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
-_.Data.PermissionGroup=Data.PermissionGroup;
-
-Routes.PermissionGroupRouter=class PermissionGroupRouter extends Aventus.HttpRoute {
-    constructor(router) {
-        super(router ?? new Routes.CoreRouter());
-        this.GetAllByGroup = this.GetAllByGroup.bind(this);
-        this.EditPermission = this.EditPermission.bind(this);
-    }
-    async GetAllByGroup(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissiongroup/bygroup`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryJSON(this.router);
-    }
-    async EditPermission(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/permissiongroup/editpermission`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryJSON(this.router);
-    }
-}
-Routes.PermissionGroupRouter.Namespace=`Core.Routes`;
-_.Routes.PermissionGroupRouter=Routes.PermissionGroupRouter;
 
 Permissions.PermissionForUser=class PermissionForUser extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Logic.PermissionForUser, Core"; }
@@ -5101,10 +5150,16 @@ _.Permissions.PermissionForUser=Permissions.PermissionForUser;
 Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new Routes.CoreRouter());
+        this.Get = this.Get.bind(this);
         this.Can = this.Can.bind(this);
         this.CanMultiple = this.CanMultiple.bind(this);
         this.GetPermissionsTree = this.GetPermissionsTree.bind(this);
         this.GetPermissionsForUser = this.GetPermissionsForUser.bind(this);
+    }
+    async Get(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/get`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
     }
     async Can(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/can`, Aventus.HttpMethod.POST);
@@ -5841,7 +5896,8 @@ _.RAM.UserRAM=RAM.UserRAM;
 Lib.SessionManager=class SessionManager {
     static async logout() {
         try {
-            await new Routes.MainRouter().Logout();
+            await new Routes.LoginRouter().Logout();
+            localStorage.removeItem("quick_access_token");
             Permissions.Permission.clear();
         }
         catch { }
@@ -9767,7 +9823,7 @@ System.HomeBtn = class HomeBtn extends Aventus.WebComponent {
     getClassName() {
         return "HomeBtn";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) {this.setAttribute('active' ,'true'); } }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); } }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('active'); }
     __listBoolProps() { return ["active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     toggleActive() {
@@ -15599,6 +15655,10 @@ Components.CheckboxGroup = class CheckboxGroup extends Components.FormElement {
     }
     onChangeValue(value) {
         this.value = value;
+        this.onChange.trigger(this.value);
+        if (this.formPart) {
+            this.formPart.value.set(this.value);
+        }
     }
     postCreation() {
         super.postCreation();
@@ -21293,9 +21353,10 @@ Data.Company=class Company extends AventusSharp.Data.Storable {
     Name = "";
     Logo = new Data.CompanyImage();
     Version = 0;
+    SiteUrl = "";
 }
 Data.Company.Namespace=`Core.Data`;
-Data.Company.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Logo":"CompanyImage","Version":"number"};
+Data.Company.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Logo":"CompanyImage","Version":"number","SiteUrl":"string"};
 Aventus.Converter.register(Data.Company.Fullname, Data.Company);
 _.Data.Company=Data.Company;
 
@@ -21600,6 +21661,14 @@ RAM.GroupRAM=class GroupRAM extends RAM.RamHttp {
 }
 RAM.GroupRAM.Namespace=`Core.RAM`;
 _.RAM.GroupRAM=RAM.GroupRAM;
+
+Permissions.QuickAuthPermissionQuery=class QuickAuthPermissionQuery extends Permissions.PermissionQuery {
+    static get Fullname() { return "Core.Permissions.QuickAuthPermissionQuery, Core"; }
+}
+Permissions.QuickAuthPermissionQuery.Namespace=`Core.Permissions`;
+Permissions.QuickAuthPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
+Aventus.Converter.register(Permissions.QuickAuthPermissionQuery.Fullname, Permissions.QuickAuthPermissionQuery);
+_.Permissions.QuickAuthPermissionQuery=Permissions.QuickAuthPermissionQuery;
 
 
 for(let key in _) { Core[key] = _[key] }

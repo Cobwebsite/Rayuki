@@ -10,7 +10,7 @@ namespace System {
 
         //#region props
         @Attribute()
-        public active: boolean = true;
+        public active!: boolean;
         //#endregion
 
 

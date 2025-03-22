@@ -16,7 +16,7 @@ public class PushNotification
     private static string _publicKey = "";
     private static string _privateKey = "";
 
-    public static async Task Init()
+    public static void Init()
     {
         try
         {
@@ -32,13 +32,13 @@ public class PushNotification
                     { "public", keysTemp.PublicKey },
                     { "private", keysTemp.PrivateKey }
                 };
-                ResultWithError<bool> writeResult = await storage.SetTxt("webpush/keys.json", keys.ToString());
+                ResultWithError<bool> writeResult = storage.SetTxt("webpush/keys.json", keys.ToString());
                 if (!writeResult.Success)
                 {
 
                 }
             }
-            ResultWithError<string> keysReadQuery = await storage.GetTxt("webpush/keys.json");
+            ResultWithError<string> keysReadQuery = storage.GetTxt("webpush/keys.json");
             if (!keysReadQuery.Success || keysReadQuery.Result == null)
             {
                 return;

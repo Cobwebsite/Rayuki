@@ -74,9 +74,13 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
         formData.append("username", this.usernameEl.value);
         formData.append("password", this.passwordEl.value);
 
-        const router = new Core.Routes.MainRouter();
+        const router = new Core.Routes.LoginRouter();
         let result = await router.LoginAction(body);
-        if(result.success) {
+
+        if(result.success && result.result?.Success) {
+            if(result.result.QuickAccess) {
+                localStorage.setItem("quick_access_token", result.result.QuickAccess);
+            }
             window.location.pathname = "/";
         }
         else {
@@ -170,11 +174,24 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
         }
     }
 
-
+    protected async quickAccessLogin() {
+        const token = localStorage.getItem("quick_access_token");
+        if(token) {
+            const router = new Core.Routes.LoginRouter();
+            const result = await router.QuickLogin({ token });
+            if(result.result) {
+                window.location.pathname = "/";
+            }
+            else {
+                localStorage.removeItem("quick_access_token");
+            }
+        }
+    }
 
     protected override postCreation(): void {
         super.postCreation();
         //this.moving3d();
+        this.quickAccessLogin();
         this.appendChild(this.usernameEl);
         this.appendChild(this.passwordEl);
     }

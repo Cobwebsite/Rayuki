@@ -75,6 +75,10 @@ namespace Components {
         @BindThis()
         protected onChangeValue(value: T | undefined) {
             this.value = value;
+            this.onChange.trigger(this.value);
+            if(this.formPart) {
+                this.formPart.value.set(this.value);
+            }
         }
 
         protected override postCreation(): void {

@@ -13,6 +13,7 @@ namespace Data {
 		public Picture: UserPicture = new UserPicture();
 		public IsSuperAdmin: boolean = false;
 		public SsoProviderId?: number = undefined;
+		public QuickToken?: string = undefined;
 	}
 
 	@Convertible()

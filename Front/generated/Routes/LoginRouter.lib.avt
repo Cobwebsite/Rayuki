@@ -1,0 +1,41 @@
+import { LoginResult } from './Responses/LoginResult.lib.avt';
+import { CoreRouter } from '../CoreRouter.lib.avt';
+
+namespace Routes {
+
+	export class LoginRouter extends Aventus.HttpRoute {
+		public constructor(router?: Aventus.HttpRouter) {
+			super(router ?? new CoreRouter());
+		}
+		@BindThis()
+		public async LoginAction(body: { username: string, password: string } | FormData): Promise<AventusSharp.Tools.ResultWithError<LoginResult>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/login`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = LoginResult;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async QuickLogin(body: { token: string } | FormData): Promise<AventusSharp.Tools.ResultWithError<void | void>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/login/quick`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = void | void;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async LoginSso(body: { ssoId: number } | FormData): Promise<AventusSharp.Tools.ResultWithError<string | string>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/login/sso`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = string | string;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async Logout(): Promise<AventusSharp.Tools.VoidWithError> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/logout`, Aventus.HttpMethod.POST);
+			return await request.queryVoid(this.router);
+		}
+	}
+
+}

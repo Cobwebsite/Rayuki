@@ -17,7 +17,7 @@ namespace Core.Permissions
     {
 
         public T value { get; set; }
-        public string additionalInfo { get; set; }
+        public string additionalInfo { get; set; } = "";
 
         [NoExport]
         public Type enumType { get => typeof(T); }

@@ -48,3 +48,53 @@ _.Version=Version;
 for(let key in _) { Settings[key] = _[key] }
 })(Settings);
 
+
+var Store;
+(Store||(Store = {}));
+(function (Store) {
+const moduleName = `Store`;
+const _ = {};
+
+let System = {};
+_.System = Store.System ?? {};
+let _n;
+let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Store.AppInfo, Store"; }
+    static Version = 1;
+}
+AppInfo.Namespace=`Store`;
+AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
+Aventus.Converter.register(AppInfo.Fullname, AppInfo);
+_.AppInfo=AppInfo;
+
+System.AppIcon = class AppIcon extends Core.System.AppIcon {
+    static __style = `:host{background-color:#5eb4f6}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #ffffff;flex-grow:1;max-height:100%;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    __getStatic() {
+        return AppIcon;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(AppIcon.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-img src="/apps/Store/img/logo.svg"></rk-img>` }
+    });
+}
+    getClassName() {
+        return "AppIcon";
+    }
+}
+System.AppIcon.Namespace=`Store.System`;
+System.AppIcon.Tag=`store-app-icon`;
+_.System.AppIcon=System.AppIcon;
+if(!window.customElements.get('store-app-icon')){window.customElements.define('store-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
+
+let Version= AppInfo.Version;
+_.Version=Version;
+
+
+for(let key in _) { Store[key] = _[key] }
+})(Store);
+
