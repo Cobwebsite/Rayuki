@@ -9,7 +9,7 @@ namespace Core.Data
     {
         public Permission Permission { get; set; }
 
-        [ForeignKey<User>]
+        [ForeignKey<User>, DeleteOnCascade]
         public int UserId { get; set; }
 
         public bool Allow { get; set; }

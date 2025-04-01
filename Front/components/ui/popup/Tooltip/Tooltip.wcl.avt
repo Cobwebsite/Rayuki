@@ -30,6 +30,9 @@ namespace Components {
 
         @Attribute()
         public delay_touch: number = 500;
+
+        @Attribute()
+        public no_caret!: boolean;
         //#endregion
 
 
@@ -58,7 +61,7 @@ namespace Components {
                 x: rect.left + rect.width / 2,
                 y: rect.y + rect.height / 2
             };
-            
+
             if(this.use_absolute) {
                 const diffMinX = center.x - this.offsetWidth / 2;
                 const diffMaxX = center.x + this.offsetWidth / 2;

@@ -22,7 +22,6 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
         if(target.sso) {
             try {
                 target.ssoProviders = JSON.parse(target.sso);
-                console.log(target.ssoProviders);
             } catch { }
         }
     })
@@ -97,7 +96,6 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
                 }
                 else {
                     this.error = error.message;
-                    // console.log(error);
                 }
             }
         }

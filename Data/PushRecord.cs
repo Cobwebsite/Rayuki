@@ -5,7 +5,7 @@ namespace Core.Data;
 
 public class PushRecord : Storable<PushRecord>
 {
-    [ForeignKey<User>]
+    [ForeignKey<User>, DeleteOnCascade]
     public int UserId { get; set; }
 
     [Unique]

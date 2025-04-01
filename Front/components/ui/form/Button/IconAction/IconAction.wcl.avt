@@ -1,0 +1,79 @@
+import { Icon, type IconType } from "MaterialIcon@Main:MaterialIcon.package.avt";
+import { Tooltip } from "../../../popup/Tooltip/Tooltip.wcl.avt";
+
+@OverrideView()
+export class IconAction extends Icon implements Aventus.DefaultComponent {
+
+    //#region static
+
+    //#endregion
+
+
+    //#region props
+    @Property()
+    public override icon: IconType = "square";
+    @Property((target: IconAction) => {
+        if(target.tooltip) {
+            target.tooltip.position = target.position;
+        }
+    })
+    public position: 'top' | 'left' | 'bottom' | 'right' = 'top';
+
+    @Property((target: IconAction) => {
+        if(target.tooltip) {
+            target.tooltip.delay = target.delay;
+        }
+    })
+    public delay: number = 700;
+
+    @Property((target: IconAction) => {
+        if(target.tooltip) {
+            target.tooltip.delay_touch = target.delay_touch;
+        }
+    })
+    public delay_touch: number = 700;
+    //#endregion
+
+
+    //#region variables
+    protected tooltip?: Tooltip;
+    //#endregion
+
+
+    //#region constructor
+
+    //#endregion
+
+
+    //#region methods
+
+    /**
+     * 
+     */
+    protected onSlotChange() {
+        const content = this.innerHTML.trim();
+        if(content == "") {
+            if(this.tooltip) {
+                this.tooltip.remove();
+                this.tooltip = undefined;
+            }
+        }
+        else {
+            if(!this.tooltip) {
+                this.tooltip = new Tooltip();
+                this.tooltip.position = this.position;
+                this.tooltip.delay = this.delay;
+                this.tooltip.delay_touch = this.delay_touch;
+                this.tooltip.use_absolute = true;
+                this.tooltip.no_caret = true;
+                this.tooltip.style.fontSize = "var(--font-size-sm)";
+                this.tooltip.style.color = "#efefef";
+                this.tooltip.style.backgroundColor = "#757575";
+                this.shadowRoot.appendChild(this.tooltip);
+            }
+            this.tooltip.innerHTML = content;
+        }
+    }
+    //#endregion
+
+}

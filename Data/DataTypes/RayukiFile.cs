@@ -2,6 +2,7 @@ namespace Core.Data.DataTypes;
 
 using System.Runtime.CompilerServices;
 using AventusSharp.Data;
+using AventusSharp.Data.CustomTableMembers;
 using AventusSharp.Routes.Request;
 using AventusSharp.Tools;
 using AventusSharp.Tools.Attributes;
@@ -10,9 +11,9 @@ using FileTypeChecker;
 using FileTypeChecker.Abstracts;
 
 [Export]
-public abstract class GenericFile<T> : AventusSharp.Data.CustomTableMembers.GenericFile<T> where T : IStorable
+public abstract class RayukiFile<T> : AventusFile<T> where T : IStorable
 {
-    public GenericFile()
+    public RayukiFile()
     {
         Uri = DefineDefaultUri();
     }

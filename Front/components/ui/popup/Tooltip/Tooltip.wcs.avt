@@ -41,6 +41,9 @@
 	}
 }
 
+:host([no_caret])::after {
+	display: none;
+}
 
 :host([visible]) {
 	opacity: 1;
@@ -81,6 +84,13 @@
 	transform: translateX(-50%) translateY(calc(100% + 10px));
 }
 
+:host([no_caret][use_absolute][position="bottom"]) {
+	top: calc(var(--local-tooltip-from-y) - 8px);
+}
+:host([no_caret][use_absolute][visible][position="bottom"]) {
+	top: calc(var(--local-tooltip-to-y) - 8px);
+}
+
 /*#endregion*/
 
 /*#region top*/
@@ -117,6 +127,14 @@
 	transform: translateX(-50%) translateY(calc(-100% - 10px));
 }
 
+:host([no_caret][use_absolute][position="top"]) {
+	bottom: calc(var(--local-tooltip-from-y) - 6px);
+}
+:host([no_caret][use_absolute][visible][position="top"]) {
+	bottom: calc(var(--local-tooltip-to-y) - 6px);
+}
+
+
 /*#endregion*/
 
 /*#region right*/
@@ -151,6 +169,13 @@
 
 :host([visible][position="right"]:not([use_absolute])) {
 	transform: translateX(calc(100% + 10px)) translateY(-50%);
+}
+
+:host([no_caret][use_absolute][position="right"]) {
+	left: calc(var(--local-tooltip-from-x) - 6px);
+}
+:host([no_caret][use_absolute][visible][position="right"]) {
+	left: calc(var(--local-tooltip-to-x) - 6px);
 }
 
 /*#endregion*/
@@ -189,6 +214,13 @@
 
 :host([visible][position="left"]:not([use_absolute])) {
 	transform: translateX(calc(-100% - 10px)) translateY(-50%);
+}
+
+:host([no_caret][use_absolute][position="left"]) {
+	right: calc(var(--local-tooltip-from-x) - 6px);
+}
+:host([no_caret][use_absolute][visible][position="left"]) {
+	right: calc(var(--local-tooltip-to-x) - 6px);
 }
 
 /*#endregion*/

@@ -121,22 +121,6 @@ _.DragElementXYType=DragElementXYType;
 let DragElementLeftTopType= [HTMLElement, SVGSVGElement];
 _.DragElementLeftTopType=DragElementLeftTopType;
 
-var HttpErrorCode;
-(function (HttpErrorCode) {
-    HttpErrorCode[HttpErrorCode["unknow"] = 0] = "unknow";
-})(HttpErrorCode || (HttpErrorCode = {}));
-_.HttpErrorCode=HttpErrorCode;
-
-var HttpMethod;
-(function (HttpMethod) {
-    HttpMethod["GET"] = "GET";
-    HttpMethod["POST"] = "POST";
-    HttpMethod["DELETE"] = "DELETE";
-    HttpMethod["PUT"] = "PUT";
-    HttpMethod["OPTION"] = "OPTION";
-})(HttpMethod || (HttpMethod = {}));
-_.HttpMethod=HttpMethod;
-
 let DateConverter=class DateConverter {
     static __converter = new DateConverter();
     static get converter() {
@@ -1058,89 +1042,6 @@ let Effect=class Effect {
 Effect.Namespace=`Aventus`;
 _.Effect=Effect;
 
-let Signal=class Signal {
-    __subscribes = [];
-    _value;
-    _onChange;
-    get value() {
-        Watcher._register?.register(this, "*", Watcher._register.version, "*");
-        return this._value;
-    }
-    set value(item) {
-        const oldValue = this._value;
-        this._value = item;
-        if (oldValue != item) {
-            if (this._onChange) {
-                this._onChange();
-            }
-            for (let fct of this.__subscribes) {
-                fct(WatchAction.UPDATED, "*", item, []);
-            }
-        }
-    }
-    constructor(item, onChange) {
-        this._value = item;
-        this._onChange = onChange;
-    }
-    subscribe(fct) {
-        let index = this.__subscribes.indexOf(fct);
-        if (index == -1) {
-            this.__subscribes.push(fct);
-        }
-    }
-    unsubscribe(fct) {
-        let index = this.__subscribes.indexOf(fct);
-        if (index > -1) {
-            this.__subscribes.splice(index, 1);
-        }
-    }
-    destroy() {
-        this.__subscribes = [];
-    }
-}
-Signal.Namespace=`Aventus`;
-_.Signal=Signal;
-
-let Computed=class Computed extends Effect {
-    _value;
-    __path = "*";
-    get value() {
-        if (!this.isInit) {
-            this.init();
-        }
-        Watcher._register?.register(this, "*", Watcher._register.version, "*");
-        return this._value;
-    }
-    autoInit() {
-        return false;
-    }
-    constructor(fct) {
-        super(fct);
-    }
-    init() {
-        this.isInit = true;
-        this.computedValue();
-    }
-    computedValue() {
-        this._value = this.run();
-    }
-    onChange(action, changePath, value, dones) {
-        if (!this.checkCanChange(action, changePath, value, dones)) {
-            return;
-        }
-        let oldValue = this._value;
-        this.computedValue();
-        if (oldValue === this._value) {
-            return;
-        }
-        for (let fct of this.__subscribes) {
-            fct(action, changePath, value, dones);
-        }
-    }
-}
-Computed.Namespace=`Aventus`;
-_.Computed=Computed;
-
 let Watcher=class Watcher {
     constructor() { }
     ;
@@ -1979,6 +1880,89 @@ let Watcher=class Watcher {
 }
 Watcher.Namespace=`Aventus`;
 _.Watcher=Watcher;
+
+let Signal=class Signal {
+    __subscribes = [];
+    _value;
+    _onChange;
+    get value() {
+        Watcher._register?.register(this, "*", Watcher._register.version, "*");
+        return this._value;
+    }
+    set value(item) {
+        const oldValue = this._value;
+        this._value = item;
+        if (oldValue != item) {
+            if (this._onChange) {
+                this._onChange();
+            }
+            for (let fct of this.__subscribes) {
+                fct(WatchAction.UPDATED, "*", item, []);
+            }
+        }
+    }
+    constructor(item, onChange) {
+        this._value = item;
+        this._onChange = onChange;
+    }
+    subscribe(fct) {
+        let index = this.__subscribes.indexOf(fct);
+        if (index == -1) {
+            this.__subscribes.push(fct);
+        }
+    }
+    unsubscribe(fct) {
+        let index = this.__subscribes.indexOf(fct);
+        if (index > -1) {
+            this.__subscribes.splice(index, 1);
+        }
+    }
+    destroy() {
+        this.__subscribes = [];
+    }
+}
+Signal.Namespace=`Aventus`;
+_.Signal=Signal;
+
+let Computed=class Computed extends Effect {
+    _value;
+    __path = "*";
+    get value() {
+        if (!this.isInit) {
+            this.init();
+        }
+        Watcher._register?.register(this, "*", Watcher._register.version, "*");
+        return this._value;
+    }
+    autoInit() {
+        return false;
+    }
+    constructor(fct) {
+        super(fct);
+    }
+    init() {
+        this.isInit = true;
+        this.computedValue();
+    }
+    computedValue() {
+        this._value = this.run();
+    }
+    onChange(action, changePath, value, dones) {
+        if (!this.checkCanChange(action, changePath, value, dones)) {
+            return;
+        }
+        let oldValue = this._value;
+        this.computedValue();
+        if (oldValue === this._value) {
+            return;
+        }
+        for (let fct of this.__subscribes) {
+            fct(action, changePath, value, dones);
+        }
+    }
+}
+Computed.Namespace=`Aventus`;
+_.Computed=Computed;
 
 let ComputedNoRecomputed=class ComputedNoRecomputed extends Computed {
     init() {
@@ -5042,366 +5026,6 @@ let Data=class Data {
 Data.Namespace=`Aventus`;
 _.Data=Data;
 
-let GenericError=class GenericError {
-    /**
-     * Code for the error
-     */
-    code;
-    /**
-     * Description of the error
-     */
-    message;
-    /**
-     * Additional details related to the error.
-     * @type {any[]}
-     */
-    details = [];
-    /**
-     * Creates a new instance of GenericError.
-     * @param {EnumValue<T>} code - The error code.
-     * @param {string} message - The error message.
-     */
-    constructor(code, message) {
-        this.code = code;
-        this.message = message + '';
-    }
-}
-GenericError.Namespace=`Aventus`;
-_.GenericError=GenericError;
-
-let VoidWithError=class VoidWithError {
-    /**
-     * Determine if the action is a success
-     */
-    get success() {
-        return this.errors.length == 0;
-    }
-    /**
-     * List of errors
-     */
-    errors = [];
-    /**
-     * Converts the current instance to a VoidWithError object.
-     * @returns {VoidWithError} A new instance of VoidWithError with the same error list.
-     */
-    toGeneric() {
-        const result = new VoidWithError();
-        result.errors = this.errors;
-        return result;
-    }
-    /**
-    * Checks if the error list contains a specific error code.
-    * @template U - The type of error, extending GenericError.
-    * @template T - The type of the error code, which extends either number or Enum.
-    * @param {EnumValue<T>} code - The error code to check for.
-    * @param {new (...args: any[]) => U} [type] - Optional constructor function of the error type.
-    * @returns {boolean} True if the error list contains the specified error code, otherwise false.
-    */
-    containsCode(code, type) {
-        if (type) {
-            for (let error of this.errors) {
-                if (error instanceof type) {
-                    if (error.code == code) {
-                        return true;
-                    }
-                }
-            }
-        }
-        else {
-            for (let error of this.errors) {
-                if (error.code == code) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-}
-VoidWithError.Namespace=`Aventus`;
-_.VoidWithError=VoidWithError;
-
-let ResultWithError=class ResultWithError extends VoidWithError {
-    /**
-      * The result value of the action.
-      * @type {U | undefined}
-      */
-    result;
-    /**
-     * Converts the current instance to a ResultWithError object.
-     * @returns {ResultWithError<U>} A new instance of ResultWithError with the same error list and result value.
-     */
-    toGeneric() {
-        const result = new ResultWithError();
-        result.errors = this.errors;
-        result.result = this.result;
-        return result;
-    }
-}
-ResultWithError.Namespace=`Aventus`;
-_.ResultWithError=ResultWithError;
-
-let HttpError=class HttpError extends GenericError {
-}
-HttpError.Namespace=`Aventus`;
-_.HttpError=HttpError;
-
-let HttpRequest=class HttpRequest {
-    request;
-    url;
-    constructor(url, method = HttpMethod.GET, body) {
-        this.url = url;
-        this.request = {};
-        this.setMethod(method);
-        this.prepareBody(body);
-    }
-    setUrl(url) {
-        this.url = url;
-    }
-    toString() {
-        return this.url + " : " + JSON.stringify(this.request);
-    }
-    setBody(body) {
-        this.prepareBody(body);
-    }
-    setMethod(method) {
-        this.request.method = method;
-    }
-    objectToFormData(obj, formData, parentKey) {
-        formData = formData || new FormData();
-        let byPass = obj;
-        if (byPass.__isProxy) {
-            obj = byPass.getTarget();
-        }
-        const keys = obj.toJSON ? Object.keys(obj.toJSON()) : Object.keys(obj);
-        for (let i = 0; i < keys.length; i++) {
-            const key = keys[i];
-            let value = obj[key];
-            const newKey = parentKey ? `${parentKey}[${key}]` : key;
-            if (value instanceof Date) {
-                formData.append(newKey, DateConverter.converter.toString(value));
-            }
-            else if (typeof value === 'object' &&
-                value !== null &&
-                !(value instanceof File)) {
-                if (Array.isArray(value)) {
-                    for (let j = 0; j < value.length; j++) {
-                        const arrayKey = `${newKey}[${j}]`;
-                        this.objectToFormData({ [arrayKey]: value[j] }, formData);
-                    }
-                }
-                else {
-                    this.objectToFormData(value, formData, newKey);
-                }
-            }
-            else {
-                if (value === undefined || value === null) {
-                    value = "";
-                }
-                else if (Watcher.is(value)) {
-                    value = Watcher.extract(value);
-                }
-                formData.append(newKey, value);
-            }
-        }
-        return formData;
-    }
-    jsonReplacer(key, value) {
-        if (this[key] instanceof Date) {
-            return DateConverter.converter.toString(this[key]);
-        }
-        return value;
-    }
-    prepareBody(data) {
-        if (!data) {
-            return;
-        }
-        else if (data instanceof FormData) {
-            this.request.body = data;
-        }
-        else {
-            let useFormData = false;
-            const analyseFormData = (obj) => {
-                for (let key in obj) {
-                    if (obj[key] instanceof File) {
-                        useFormData = true;
-                        break;
-                    }
-                    else if (Array.isArray(obj[key]) && obj[key].length > 0 && obj[key][0] instanceof File) {
-                        useFormData = true;
-                        break;
-                    }
-                    else if (typeof obj[key] == 'object' && !Array.isArray(obj[key]) && !(obj[key] instanceof Date)) {
-                        analyseFormData(obj[key]);
-                        if (useFormData) {
-                            break;
-                        }
-                    }
-                }
-            };
-            analyseFormData(data);
-            if (useFormData) {
-                this.request.body = this.objectToFormData(data);
-            }
-            else {
-                this.request.body = JSON.stringify(data, this.jsonReplacer);
-                this.setHeader("Content-Type", "Application/json");
-            }
-        }
-    }
-    setHeader(name, value) {
-        if (!this.request.headers) {
-            this.request.headers = [];
-        }
-        this.request.headers.push([name, value]);
-    }
-    async query(router) {
-        let result = new ResultWithError();
-        try {
-            const fullUrl = router ? router.options.url + this.url : this.url;
-            result.result = await fetch(fullUrl, this.request);
-        }
-        catch (e) {
-            result.errors.push(new HttpError(HttpErrorCode.unknow, e));
-        }
-        return result;
-    }
-    async queryVoid(router) {
-        let resultTemp = await this.query(router);
-        let result = new VoidWithError();
-        if (!resultTemp.success) {
-            result.errors = resultTemp.errors;
-            return result;
-        }
-        try {
-            if (!resultTemp.result) {
-                return result;
-            }
-            if (resultTemp.result.status != 204) {
-                let tempResult = Converter.transform(await resultTemp.result.json());
-                if (tempResult instanceof VoidWithError) {
-                    for (let error of tempResult.errors) {
-                        result.errors.push(error);
-                    }
-                }
-            }
-        }
-        catch (e) {
-        }
-        return result;
-    }
-    async queryJSON(router) {
-        let resultTemp = await this.query(router);
-        let result = new ResultWithError();
-        if (!resultTemp.success) {
-            result.errors = resultTemp.errors;
-            return result;
-        }
-        try {
-            if (!resultTemp.result) {
-                return result;
-            }
-            let tempResult = Converter.transform(await resultTemp.result.json());
-            if (tempResult instanceof VoidWithError) {
-                for (let error of tempResult.errors) {
-                    result.errors.push(error);
-                }
-                if (tempResult instanceof ResultWithError) {
-                    result.result = tempResult.result;
-                }
-            }
-            else {
-                result.result = tempResult;
-            }
-        }
-        catch (e) {
-            result.errors.push(new HttpError(HttpErrorCode.unknow, e));
-        }
-        return result;
-    }
-    async queryTxt(router) {
-        let resultTemp = await this.query(router);
-        let result = new ResultWithError();
-        if (!resultTemp.success) {
-            result.errors = resultTemp.errors;
-            return result;
-        }
-        try {
-            if (!resultTemp.result) {
-                return result;
-            }
-            result.result = await resultTemp.result.text();
-        }
-        catch (e) {
-            result.errors.push(new HttpError(HttpErrorCode.unknow, e));
-        }
-        return result;
-    }
-    async queryBlob(router) {
-        let resultTemp = await this.query(router);
-        let result = new ResultWithError();
-        if (!resultTemp.success) {
-            result.errors = resultTemp.errors;
-            return result;
-        }
-        try {
-            if (!resultTemp.result) {
-                return result;
-            }
-            result.result = await resultTemp.result.blob();
-        }
-        catch (e) {
-            result.errors.push(new HttpError(HttpErrorCode.unknow, e));
-        }
-        return result;
-    }
-}
-HttpRequest.Namespace=`Aventus`;
-_.HttpRequest=HttpRequest;
-
-let HttpRouter=class HttpRouter {
-    options;
-    constructor() {
-        this.options = this.defineOptions(this.defaultOptionsValue());
-    }
-    defaultOptionsValue() {
-        return {
-            url: location.protocol + "//" + location.host
-        };
-    }
-    defineOptions(options) {
-        return options;
-    }
-    async get(url) {
-        return await new HttpRequest(url).queryJSON(this);
-    }
-    async post(url, data) {
-        return await new HttpRequest(url, HttpMethod.POST, data).queryJSON(this);
-    }
-    async put(url, data) {
-        return await new HttpRequest(url, HttpMethod.PUT, data).queryJSON(this);
-    }
-    async delete(url, data) {
-        return await new HttpRequest(url, HttpMethod.DELETE, data).queryJSON(this);
-    }
-    async option(url, data) {
-        return await new HttpRequest(url, HttpMethod.OPTION, data).queryJSON(this);
-    }
-}
-HttpRouter.Namespace=`Aventus`;
-_.HttpRouter=HttpRouter;
-
-let HttpRoute=class HttpRoute {
-    router;
-    constructor(router) {
-        this.router = router ?? new HttpRouter();
-    }
-    getPrefix() {
-        return "";
-    }
-}
-HttpRoute.Namespace=`Aventus`;
-_.HttpRoute=HttpRoute;
-
 let DragAndDrop=class DragAndDrop {
     /**
      * Default offset before drag element
@@ -6260,6 +5884,104 @@ let ResizeObserver=class ResizeObserver {
 ResizeObserver.Namespace=`Aventus`;
 _.ResizeObserver=ResizeObserver;
 
+let GenericError=class GenericError {
+    /**
+     * Code for the error
+     */
+    code;
+    /**
+     * Description of the error
+     */
+    message;
+    /**
+     * Additional details related to the error.
+     * @type {any[]}
+     */
+    details = [];
+    /**
+     * Creates a new instance of GenericError.
+     * @param {EnumValue<T>} code - The error code.
+     * @param {string} message - The error message.
+     */
+    constructor(code, message) {
+        this.code = code;
+        this.message = message + '';
+    }
+}
+GenericError.Namespace=`Aventus`;
+_.GenericError=GenericError;
+
+let VoidWithError=class VoidWithError {
+    /**
+     * Determine if the action is a success
+     */
+    get success() {
+        return this.errors.length == 0;
+    }
+    /**
+     * List of errors
+     */
+    errors = [];
+    /**
+     * Converts the current instance to a VoidWithError object.
+     * @returns {VoidWithError} A new instance of VoidWithError with the same error list.
+     */
+    toGeneric() {
+        const result = new VoidWithError();
+        result.errors = this.errors;
+        return result;
+    }
+    /**
+    * Checks if the error list contains a specific error code.
+    * @template U - The type of error, extending GenericError.
+    * @template T - The type of the error code, which extends either number or Enum.
+    * @param {EnumValue<T>} code - The error code to check for.
+    * @param {new (...args: any[]) => U} [type] - Optional constructor function of the error type.
+    * @returns {boolean} True if the error list contains the specified error code, otherwise false.
+    */
+    containsCode(code, type) {
+        if (type) {
+            for (let error of this.errors) {
+                if (error instanceof type) {
+                    if (error.code == code) {
+                        return true;
+                    }
+                }
+            }
+        }
+        else {
+            for (let error of this.errors) {
+                if (error.code == code) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+VoidWithError.Namespace=`Aventus`;
+_.VoidWithError=VoidWithError;
+
+let ResultWithError=class ResultWithError extends VoidWithError {
+    /**
+      * The result value of the action.
+      * @type {U | undefined}
+      */
+    result;
+    /**
+     * Converts the current instance to a ResultWithError object.
+     * @returns {ResultWithError<U>} A new instance of ResultWithError with the same error list and result value.
+     */
+    toGeneric() {
+        const result = new ResultWithError();
+        result.errors = this.errors;
+        result.result = this.result;
+        return result;
+    }
+}
+ResultWithError.Namespace=`Aventus`;
+_.ResultWithError=ResultWithError;
+
 
 for(let key in _) { Aventus[key] = _[key] }
 })(Aventus);
@@ -6509,57 +6231,6 @@ WebSocket.Socket=class Socket {
 WebSocket.Socket.Namespace=`AventusSharp.WebSocket`;
 _.WebSocket.Socket=WebSocket.Socket;
 
-Data.SharpClass=class SharpClass {
-    /**
-     * The current namespace
-     */
-    get namespace() {
-        return this.constructor['Namespace'];
-    }
-    /**
-     * Get the unique type for the data. Define it as the namespace + class name
-     */
-    get $type() {
-        return this.constructor['Fullname'];
-    }
-    /**
-     * Get the name of the class
-     */
-    get className() {
-        return this.constructor.name;
-    }
-    /**
-     * Clone the object by transforming a parsed JSON string back into the original type
-     */
-    clone() {
-        return Aventus.Converter.transform(JSON.parse(JSON.stringify(this)));
-    }
-    /**
-     * Get a JSON for the current object
-     */
-    toJSON() {
-        let toAvoid = ['className', 'namespace'];
-        return Aventus.Json.classToJson(this, {
-            isValidKey: (key) => !toAvoid.includes(key),
-            beforeEnd: (result) => {
-                let resultTemp = {};
-                if (result.$type) {
-                    resultTemp.$type = result.$type;
-                    for (let key in result) {
-                        if (key != '$type') {
-                            resultTemp[key] = result[key];
-                        }
-                    }
-                    return resultTemp;
-                }
-                return result;
-            }
-        });
-    }
-}
-Data.SharpClass.Namespace=`AventusSharp.Data`;
-_.Data.SharpClass=Data.SharpClass;
-
 Data.Storable=class Storable extends Aventus.Data {
     Id = 0;
     /**
@@ -6590,7 +6261,7 @@ Data.Storable.$schema={...(Aventus.Data?.$schema ?? {}), "Id":"number"};
 Aventus.Converter.register(Data.Storable.Fullname, Data.Storable);
 _.Data.Storable=Data.Storable;
 
-Data.CustomTableMembers.GenericFile=class GenericFile {
+Data.CustomTableMembers.AventusFile=class AventusFile {
     Uri;
     Upload;
     /**
@@ -6622,16 +6293,8 @@ Data.CustomTableMembers.GenericFile=class GenericFile {
         });
     }
 }
-Data.CustomTableMembers.GenericFile.Namespace=`AventusSharp.Data.CustomTableMembers`;
-_.Data.CustomTableMembers.GenericFile=Data.CustomTableMembers.GenericFile;
-
-Tools.ResultWithError=class ResultWithError extends Aventus.ResultWithError {
-    static get Fullname() { return "AventusSharp.Tools.ResultWithError, AventusSharp"; }
-}
-Tools.ResultWithError.Namespace=`AventusSharp.Tools`;
-Tools.ResultWithError.$schema={...(Aventus.ResultWithError?.$schema ?? {}), };
-Aventus.Converter.register(Tools.ResultWithError.Fullname, Tools.ResultWithError);
-_.Tools.ResultWithError=Tools.ResultWithError;
+Data.CustomTableMembers.AventusFile.Namespace=`AventusSharp.Data.CustomTableMembers`;
+_.Data.CustomTableMembers.AventusFile=Data.CustomTableMembers.AventusFile;
 
 Tools.VoidWithError=class VoidWithError extends Aventus.VoidWithError {
     static get Fullname() { return "AventusSharp.Tools.VoidWithError, AventusSharp"; }
@@ -7083,10 +6746,6 @@ let Websocket = {};
 _.Websocket = Core.Websocket ?? {};
 let Components = {};
 _.Components = Core.Components ?? {};
-let Routes = {};
-_.Routes = Core.Routes ?? {};
-Routes.Responses = {};
-_.Routes.Responses = Core.Routes?.Responses ?? {};
 let Data = {};
 _.Data = Core.Data ?? {};
 Data.DataTypes = {};
@@ -7302,66 +6961,6 @@ Components.Img.Tag=`rk-img`;
 _.Components.Img=Components.Img;
 if(!window.customElements.get('rk-img')){window.customElements.define('rk-img', Components.Img);Aventus.WebComponentInstance.registerDefinition(Components.Img);}
 
-Routes.Responses.LoginResult=class LoginResult extends AventusSharp.Data.SharpClass {
-    static get Fullname() { return "Core.Routes.Responses.LoginResult, Core"; }
-    Success;
-    QuickAccess = undefined;
-}
-Routes.Responses.LoginResult.Namespace=`Core.Routes.Responses`;
-Routes.Responses.LoginResult.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "Success":"boolean","QuickAccess":"string"};
-Aventus.Converter.register(Routes.Responses.LoginResult.Fullname, Routes.Responses.LoginResult);
-_.Routes.Responses.LoginResult=Routes.Responses.LoginResult;
-
-Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter {
-    defineOptions(options) {
-        options.url = location.protocol + "//" + location.host + "";
-        return options;
-    }
-}
-Routes.CoreRouter.Namespace=`Core.Routes`;
-_.Routes.CoreRouter=Routes.CoreRouter;
-
-Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
-    constructor(router) {
-        super(router ?? new Routes.CoreRouter());
-        this.VapidPublicKey = this.VapidPublicKey.bind(this);
-        this.SendNotification = this.SendNotification.bind(this);
-        this.BeginTransaction = this.BeginTransaction.bind(this);
-        this.CommitTransaction = this.CommitTransaction.bind(this);
-        this.RollbackTransaction = this.RollbackTransaction.bind(this);
-        this.Restart = this.Restart.bind(this);
-    }
-    async VapidPublicKey() {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/vapidPublicKey`, Aventus.HttpMethod.GET);
-        return await request.queryJSON(this.router);
-    }
-    async SendNotification() {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/sendNotification`, Aventus.HttpMethod.GET);
-        return await request.queryVoid(this.router);
-    }
-    async BeginTransaction(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/begin`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryJSON(this.router);
-    }
-    async CommitTransaction(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/commit`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryVoid(this.router);
-    }
-    async RollbackTransaction(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/core/transaction/rollback`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryVoid(this.router);
-    }
-    async Restart() {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/restart`, Aventus.HttpMethod.GET);
-        return await request.queryVoid(this.router);
-    }
-}
-Routes.MainRouter.Namespace=`Core.Routes`;
-_.Routes.MainRouter=Routes.MainRouter;
-
 Data.SsoProvider=class SsoProvider extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.SsoProvider, Core"; }
     Name;
@@ -7381,12 +6980,12 @@ Data.SsoProvider.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name"
 Aventus.Converter.register(Data.SsoProvider.Fullname, Data.SsoProvider);
 _.Data.SsoProvider=Data.SsoProvider;
 
-Data.DataTypes.GenericFile=class GenericFile extends AventusSharp.Data.CustomTableMembers.GenericFile {
+Data.DataTypes.RayukiFile=class RayukiFile extends AventusSharp.Data.CustomTableMembers.AventusFile {
 }
-Data.DataTypes.GenericFile.Namespace=`Core.Data.DataTypes`;
-_.Data.DataTypes.GenericFile=Data.DataTypes.GenericFile;
+Data.DataTypes.RayukiFile.Namespace=`Core.Data.DataTypes`;
+_.Data.DataTypes.RayukiFile=Data.DataTypes.RayukiFile;
 
-Data.DataTypes.ImageFile=class ImageFile extends Data.DataTypes.GenericFile {
+Data.DataTypes.ImageFile=class ImageFile extends Data.DataTypes.RayukiFile {
 }
 Data.DataTypes.ImageFile.Namespace=`Core.Data.DataTypes`;
 _.Data.DataTypes.ImageFile=Data.DataTypes.ImageFile;
@@ -7398,37 +6997,6 @@ Data.SsoLogo.Namespace=`Core.Data`;
 Data.SsoLogo.$schema={...(Data.DataTypes.ImageFile?.$schema ?? {}), };
 Aventus.Converter.register(Data.SsoLogo.Fullname, Data.SsoLogo);
 _.Data.SsoLogo=Data.SsoLogo;
-
-Routes.LoginRouter=class LoginRouter extends Aventus.HttpRoute {
-    constructor(router) {
-        super(router ?? new Routes.CoreRouter());
-        this.LoginAction = this.LoginAction.bind(this);
-        this.QuickLogin = this.QuickLogin.bind(this);
-        this.LoginSso = this.LoginSso.bind(this);
-        this.Logout = this.Logout.bind(this);
-    }
-    async LoginAction(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/login`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryJSON(this.router);
-    }
-    async QuickLogin(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/login/quick`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryJSON(this.router);
-    }
-    async LoginSso(body) {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/login/sso`, Aventus.HttpMethod.POST);
-        request.setBody(body);
-        return await request.queryJSON(this.router);
-    }
-    async Logout() {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/logout`, Aventus.HttpMethod.POST);
-        return await request.queryVoid(this.router);
-    }
-}
-Routes.LoginRouter.Namespace=`Core.Routes`;
-_.Routes.LoginRouter=Routes.LoginRouter;
 
 Lib.Platform=class Platform {
     static onScreenChange = new Aventus.Callback();
@@ -7503,14 +7071,15 @@ Components.Tooltip = class Tooltip extends Aventus.WebComponent {
     set 'color'(val) { this.setStringAttr('color', val) }get 'use_absolute'() { return this.getBoolAttr('use_absolute') }
     set 'use_absolute'(val) { this.setBoolAttr('use_absolute', val) }get 'delay'() { return this.getNumberAttr('delay') }
     set 'delay'(val) { this.setNumberAttr('delay', val) }get 'delay_touch'() { return this.getNumberAttr('delay_touch') }
-    set 'delay_touch'(val) { this.setNumberAttr('delay_touch', val) }    parent = null;
+    set 'delay_touch'(val) { this.setNumberAttr('delay_touch', val) }get 'no_caret'() { return this.getBoolAttr('no_caret') }
+    set 'no_caret'(val) { this.setBoolAttr('no_caret', val) }    parent = null;
     parentEv = null;
     isDestroyed = false;
     timeoutEnter = false;
     timeout = 0;
     pressManager;
     screenMargin = 10;
-    static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--local-offset-carret-x: 0px;--local-offset-carret-y: 0px;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;pointer-events:none;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;width:max-content;z-index:1}:host::after{content:"";position:absolute}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--_tooltip-background-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:calc(50% + var(--local-offset-carret-x));top:-8px;transform:translateX(-50%)}:host([use_absolute][position=bottom]){left:var(--local-tooltip-from-x);max-height:calc(100% - var(--local-tooltip-to-y) - 10px);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=bottom]:not([use_absolute])){bottom:0px;left:50%;transform:translateX(-50%) translateY(calc(100% - 10px))}:host([position=bottom][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(100% + 10px))}:host([position=top]){transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--_tooltip-background-color);bottom:-8px;left:calc(50% + var(--local-offset-carret-x));transform:translateX(-50%)}:host([use_absolute][position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x);max-height:calc(100% - var(--local-tooltip-to-y) - 10px)}:host([use_absolute][visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=top]:not([use_absolute])){left:50%;top:0px;transform:translateX(-50%) translateY(calc(-100% + 10px))}:host([position=top][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(-100% - 10px))}:host([position=right]){transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:calc(50% + var(--local-offset-carret-y));transform:translateY(-50%)}:host([use_absolute][position=right]){left:var(--local-tooltip-from-x);max-width:calc(100% - var(--local-tooltip-to-x) - 10px);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=right]:not([use_absolute])){right:0;top:50%;transform:translateX(calc(100% - 10px)) translateY(-50%)}:host([visible][position=right]:not([use_absolute])){transform:translateX(calc(100% + 10px)) translateY(-50%)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:calc(50% + var(--local-offset-carret-y));transform:translateY(-50%)}:host([use_absolute][position=left]){max-width:calc(100% - var(--local-tooltip-to-x) - 10px);right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=left]){right:var(--local-tooltip-to-x)}:host([position=left]:not([use_absolute])){left:0;top:50%;transform:translateX(calc(-100% + 10px)) translateY(-50%)}:host([visible][position=left]:not([use_absolute])){transform:translateX(calc(-100% - 10px)) translateY(-50%)}:host([color=primary]){--_tooltip-background-color: var(--primary);--_tooltip-color: var(--text-color-primary)}:host([color=secondary]){--_tooltip-background-color: var(--secondary);--_tooltip-color: var(--text-color-secondary)}:host([color=green]){--_tooltip-background-color: var(--green);--_tooltip-color: var(--text-color-green)}:host([color=success]){--_tooltip-background-color: var(--success);--_tooltip-color: var(--text-color-success)}:host([color=red]){--_tooltip-background-color: var(--red);--_tooltip-color: var(--text-color-red)}:host([color=error]){--_tooltip-background-color: var(--error);--_tooltip-color: var(--text-color-error)}:host([color=orange]){--_tooltip-background-color: var(--orange);--_tooltip-color: var(--text-color-orange)}:host([color=warning]){--_tooltip-background-color: var(--warning);--_tooltip-color: var(--text-color-warning)}:host([color=blue]){--_tooltip-background-color: var(--blue);--_tooltip-color: var(--text-color-blue)}:host([color=information]){--_tooltip-background-color: var(--information);--_tooltip-color: var(--text-color-information)}`;
+    static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--local-offset-carret-x: 0px;--local-offset-carret-y: 0px;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;pointer-events:none;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;width:max-content;z-index:1}:host::after{content:"";position:absolute}:host([no_caret])::after{display:none}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--_tooltip-background-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:calc(50% + var(--local-offset-carret-x));top:-8px;transform:translateX(-50%)}:host([use_absolute][position=bottom]){left:var(--local-tooltip-from-x);max-height:calc(100% - var(--local-tooltip-to-y) - 10px);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=bottom]:not([use_absolute])){bottom:0px;left:50%;transform:translateX(-50%) translateY(calc(100% - 10px))}:host([position=bottom][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(100% + 10px))}:host([no_caret][use_absolute][position=bottom]){top:calc(var(--local-tooltip-from-y) - 8px)}:host([no_caret][use_absolute][visible][position=bottom]){top:calc(var(--local-tooltip-to-y) - 8px)}:host([position=top]){transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--_tooltip-background-color);bottom:-8px;left:calc(50% + var(--local-offset-carret-x));transform:translateX(-50%)}:host([use_absolute][position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x);max-height:calc(100% - var(--local-tooltip-to-y) - 10px)}:host([use_absolute][visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=top]:not([use_absolute])){left:50%;top:0px;transform:translateX(-50%) translateY(calc(-100% + 10px))}:host([position=top][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(-100% - 10px))}:host([no_caret][use_absolute][position=top]){bottom:calc(var(--local-tooltip-from-y) - 6px)}:host([no_caret][use_absolute][visible][position=top]){bottom:calc(var(--local-tooltip-to-y) - 6px)}:host([position=right]){transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:calc(50% + var(--local-offset-carret-y));transform:translateY(-50%)}:host([use_absolute][position=right]){left:var(--local-tooltip-from-x);max-width:calc(100% - var(--local-tooltip-to-x) - 10px);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=right]:not([use_absolute])){right:0;top:50%;transform:translateX(calc(100% - 10px)) translateY(-50%)}:host([visible][position=right]:not([use_absolute])){transform:translateX(calc(100% + 10px)) translateY(-50%)}:host([no_caret][use_absolute][position=right]){left:calc(var(--local-tooltip-from-x) - 6px)}:host([no_caret][use_absolute][visible][position=right]){left:calc(var(--local-tooltip-to-x) - 6px)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:calc(50% + var(--local-offset-carret-y));transform:translateY(-50%)}:host([use_absolute][position=left]){max-width:calc(100% - var(--local-tooltip-to-x) - 10px);right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=left]){right:var(--local-tooltip-to-x)}:host([position=left]:not([use_absolute])){left:0;top:50%;transform:translateX(calc(-100% + 10px)) translateY(-50%)}:host([visible][position=left]:not([use_absolute])){transform:translateX(calc(-100% - 10px)) translateY(-50%)}:host([no_caret][use_absolute][position=left]){right:calc(var(--local-tooltip-from-x) - 6px)}:host([no_caret][use_absolute][visible][position=left]){right:calc(var(--local-tooltip-to-x) - 6px)}:host([color=primary]){--_tooltip-background-color: var(--primary);--_tooltip-color: var(--text-color-primary)}:host([color=secondary]){--_tooltip-background-color: var(--secondary);--_tooltip-color: var(--text-color-secondary)}:host([color=green]){--_tooltip-background-color: var(--green);--_tooltip-color: var(--text-color-green)}:host([color=success]){--_tooltip-background-color: var(--success);--_tooltip-color: var(--text-color-success)}:host([color=red]){--_tooltip-background-color: var(--red);--_tooltip-color: var(--text-color-red)}:host([color=error]){--_tooltip-background-color: var(--error);--_tooltip-color: var(--text-color-error)}:host([color=orange]){--_tooltip-background-color: var(--orange);--_tooltip-color: var(--text-color-orange)}:host([color=warning]){--_tooltip-background-color: var(--warning);--_tooltip-color: var(--text-color-warning)}:host([color=blue]){--_tooltip-background-color: var(--blue);--_tooltip-color: var(--text-color-blue)}:host([color=information]){--_tooltip-background-color: var(--information);--_tooltip-color: var(--text-color-information)}`;
     constructor() { super(); this.onMouseEnter=this.onMouseEnter.bind(this)this.onMouseLeave=this.onMouseLeave.bind(this)this.onTransitionEnd=this.onTransitionEnd.bind(this) }
     __getStatic() {
         return Tooltip;
@@ -7529,9 +7098,9 @@ Components.Tooltip = class Tooltip extends Aventus.WebComponent {
     getClassName() {
         return "Tooltip";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('position')){ this['position'] = 'top'; }if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('use_absolute')) { this.attributeChangedCallback('use_absolute', false, false); }if(!this.hasAttribute('delay')){ this['delay'] = 50; }if(!this.hasAttribute('delay_touch')){ this['delay_touch'] = 500; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('position');this.__upgradeProperty('color');this.__upgradeProperty('use_absolute');this.__upgradeProperty('delay');this.__upgradeProperty('delay_touch'); }
-    __listBoolProps() { return ["visible","use_absolute"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('position')){ this['position'] = 'top'; }if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('use_absolute')) { this.attributeChangedCallback('use_absolute', false, false); }if(!this.hasAttribute('delay')){ this['delay'] = 50; }if(!this.hasAttribute('delay_touch')){ this['delay_touch'] = 500; }if(!this.hasAttribute('no_caret')) { this.attributeChangedCallback('no_caret', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('position');this.__upgradeProperty('color');this.__upgradeProperty('use_absolute');this.__upgradeProperty('delay');this.__upgradeProperty('delay_touch');this.__upgradeProperty('no_caret'); }
+    __listBoolProps() { return ["visible","use_absolute","no_caret"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     calculatePosition() {
         if (!this.parentEv || !this.use_absolute)
             return;
@@ -7871,7 +7440,7 @@ const SsoOption = class SsoOption extends Aventus.WebComponent {
     async runSso() {
         if (!this.provider)
             return;
-        const router = new Core.Routes.MainRouter();
+        const router = new Core.Routes.LoginRouter();
         const ssoRequest = await router.LoginSso({ ssoId: this.provider.Id });
         if (ssoRequest.success && ssoRequest.result) {
             location.replace(ssoRequest.result);
@@ -7957,7 +7526,6 @@ const Login = class Login extends Aventus.WebComponent {
     if (target.sso) {
         try {
             target.ssoProviders = JSON.parse(target.sso);
-            console.log(target.ssoProviders);
         }
         catch { }
     }
@@ -8111,7 +7679,6 @@ const Login = class Login extends Aventus.WebComponent {
                 }
                 else {
                     this.error = error.message;
-                    // console.log(error);
                 }
             }
         }

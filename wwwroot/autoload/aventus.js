@@ -17948,90 +17948,17 @@ const _ = {};
 
 let Data = {};
 _.Data = AventusSharp.Data ?? {};
-Data.CustomTableMembers = {};
-_.Data.CustomTableMembers = AventusSharp.Data?.CustomTableMembers ?? {};
 let Routes = {};
 _.Routes = AventusSharp.Routes ?? {};
 let WebSocket = {};
 _.WebSocket = AventusSharp.WebSocket ?? {};
+Data.CustomTableMembers = {};
+_.Data.CustomTableMembers = AventusSharp.Data?.CustomTableMembers ?? {};
 let Tools = {};
 _.Tools = AventusSharp.Tools ?? {};
 let RAM = {};
 _.RAM = AventusSharp.RAM ?? {};
 let _n;
-Data.CustomTableMembers.AventusFile=class AventusFile {
-    static get Fullname() { return "AventusSharp.Data.AventusFile, AventusSharp"; }
-    Uri;
-    Upload;
-    /**
-     * Get the unique type for the data. Define it as the namespace + class name
-     */
-    get $type() {
-        return this.constructor['Fullname'];
-    }
-    /**
-     * @inerhit
-     */
-    toJSON() {
-        let toAvoid = ['className', 'namespace'];
-        return Aventus.Json.classToJson(this, {
-            isValidKey: (key) => !toAvoid.includes(key),
-            beforeEnd: (result) => {
-                let resultTemp = {};
-                if (result.$type) {
-                    resultTemp.$type = result.$type;
-                    for (let key in result) {
-                        if (key != '$type') {
-                            resultTemp[key] = result[key];
-                        }
-                    }
-                    return resultTemp;
-                }
-                return result;
-            }
-        });
-    }
-}
-Data.CustomTableMembers.AventusFile.Namespace=`AventusSharp.Data.CustomTableMembers`;
-Data.CustomTableMembers.AventusFile.$schema={"Uri":"string","Upload":"File","$type":"string"};
-Aventus.Converter.register(Data.CustomTableMembers.AventusFile.Fullname, Data.CustomTableMembers.AventusFile);
-_.Data.CustomTableMembers.AventusFile=Data.CustomTableMembers.AventusFile;
-
-Data.CustomTableMembers.GenericFile=class GenericFile {
-    Uri;
-    Upload;
-    /**
-     * Get the unique type for the data. Define it as the namespace + class name
-     */
-    get $type() {
-        return this.constructor['Fullname'];
-    }
-    /**
-     * @inerhit
-     */
-    toJSON() {
-        let toAvoid = ['className', 'namespace'];
-        return Aventus.Json.classToJson(this, {
-            isValidKey: (key) => !toAvoid.includes(key),
-            beforeEnd: (result) => {
-                let resultTemp = {};
-                if (result.$type) {
-                    resultTemp.$type = result.$type;
-                    for (let key in result) {
-                        if (key != '$type') {
-                            resultTemp[key] = result[key];
-                        }
-                    }
-                    return resultTemp;
-                }
-                return result;
-            }
-        });
-    }
-}
-Data.CustomTableMembers.GenericFile.Namespace=`AventusSharp.Data.CustomTableMembers`;
-_.Data.CustomTableMembers.GenericFile=Data.CustomTableMembers.GenericFile;
-
 Data.SharpClass=class SharpClass {
     /**
      * The current namespace
@@ -18337,6 +18264,41 @@ Data.StorableTimestamp.Namespace=`AventusSharp.Data`;
 Data.StorableTimestamp.$schema={...(Data.Storable?.$schema ?? {}), "CreatedDate":"Date","UpdatedDate":"Date"};
 Aventus.Converter.register(Data.StorableTimestamp.Fullname, Data.StorableTimestamp);
 _.Data.StorableTimestamp=Data.StorableTimestamp;
+
+Data.CustomTableMembers.AventusFile=class AventusFile {
+    Uri;
+    Upload;
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    get $type() {
+        return this.constructor['Fullname'];
+    }
+    /**
+     * @inerhit
+     */
+    toJSON() {
+        let toAvoid = ['className', 'namespace'];
+        return Aventus.Json.classToJson(this, {
+            isValidKey: (key) => !toAvoid.includes(key),
+            beforeEnd: (result) => {
+                let resultTemp = {};
+                if (result.$type) {
+                    resultTemp.$type = result.$type;
+                    for (let key in result) {
+                        if (key != '$type') {
+                            resultTemp[key] = result[key];
+                        }
+                    }
+                    return resultTemp;
+                }
+                return result;
+            }
+        });
+    }
+}
+Data.CustomTableMembers.AventusFile.Namespace=`AventusSharp.Data.CustomTableMembers`;
+_.Data.CustomTableMembers.AventusFile=Data.CustomTableMembers.AventusFile;
 
 Data.Datetime=class Datetime extends Data.SharpClass {
     static get Fullname() { return "AventusSharp.Data.Datetime, AventusSharp"; }

@@ -30,7 +30,7 @@ export class SsoOption extends Aventus.WebComponent implements Aventus.DefaultCo
 	protected async runSso() {
 		if(!this.provider) return;
 
-		const router = new MainRouter();
+		const router = new Core.Routes.LoginRouter();
 		const ssoRequest = await router.LoginSso({ ssoId: this.provider.Id });
 		if(ssoRequest.success && ssoRequest.result) {
 			location.replace(ssoRequest.result);

@@ -98,3 +98,58 @@ _.Version=Version;
 for(let key in _) { Store[key] = _[key] }
 })(Store);
 
+
+var Projet;
+(Projet||(Projet = {}));
+(function (Projet) {
+const moduleName = `Projet`;
+const _ = {};
+
+let System = {};
+_.System = Projet.System ?? {};
+let _n;
+let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Projet.AppInfo, Projet"; }
+    static Version = 1;
+}
+AppInfo.Namespace=`Projet`;
+AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
+Aventus.Converter.register(AppInfo.Fullname, AppInfo);
+_.AppInfo=AppInfo;
+
+System.AppIcon = class AppIcon extends Core.System.AppIcon {
+    static __style = `:host{background-color:#177192}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #ffffff;max-height:100%;flex-grow:1;padding:10%;padding-right:15%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    __getStatic() {
+        return AppIcon;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(AppIcon.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-img src="/apps/Projet/img/icon.svg"></rk-img>` }
+    });
+}
+    getClassName() {
+        return "AppIcon";
+    }
+    defineAddons() {
+        return [
+            "Univer"
+        ];
+    }
+}
+System.AppIcon.Namespace=`Projet.System`;
+System.AppIcon.Tag=`projet-app-icon`;
+_.System.AppIcon=System.AppIcon;
+if(!window.customElements.get('projet-app-icon')){window.customElements.define('projet-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
+
+let Version= AppInfo.Version;
+_.Version=Version;
+
+
+for(let key in _) { Projet[key] = _[key] }
+})(Projet);
+

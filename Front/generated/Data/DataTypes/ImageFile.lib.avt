@@ -1,8 +1,8 @@
-import { GenericFile } from './GenericFile.lib.avt';
+import { RayukiFile } from './RayukiFile.lib.avt';
 
 namespace Data.DataTypes {
 
-	export abstract class ImageFile<T extends Aventus.IData> extends GenericFile<T>  {
+	export abstract class ImageFile<T extends Aventus.IData> extends RayukiFile<T>  {
 
 	}
 

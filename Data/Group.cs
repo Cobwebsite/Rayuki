@@ -10,6 +10,7 @@ namespace Core.Data
         public string Description { get; set; } = "";
         public bool AssignationAuto { get; set; } = false;
 
+        [DeleteOnCascade]
         public List<User> Users { get; set; } = new List<User>();
     }
 }

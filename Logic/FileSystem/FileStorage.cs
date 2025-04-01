@@ -117,7 +117,7 @@ namespace Core.Logic.FileSystem
             return Storage.SetTxt(GetPath(uri), text);
         }
 
-        public ResultWithError<bool> SetFile(string uri, IGenericFile file)
+        public ResultWithError<bool> SetFile(string uri, IAventusFile file)
         {
             ResultWithError<bool> result = new();
             result.Run(() => CheckPath(uri));
@@ -301,7 +301,7 @@ namespace Core.Logic.FileSystem
         {
             return Set(uri, Encoding.UTF8.GetBytes(txt));
         }
-        public static ResultWithError<bool> SetFile(string uri, IGenericFile file)
+        public static ResultWithError<bool> SetFile(string uri, IAventusFile file)
         {
             uri = CorrectUri(uri);
             ResultWithError<bool> result = new ResultWithError<bool>();

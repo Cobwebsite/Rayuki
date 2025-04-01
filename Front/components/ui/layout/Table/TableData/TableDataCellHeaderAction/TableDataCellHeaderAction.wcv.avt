@@ -1,1 +1,1 @@
-<mi-icon icon="add"></mi-icon>
+<mi-icon icon="add" @element="addEl"></mi-icon>

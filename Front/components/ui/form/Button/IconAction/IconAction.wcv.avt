@@ -1,0 +1,4 @@
+<div class="icon" @element="iconEl"></div>
+<div class="hidden">
+    <slot @slotchange="onSlotChange"></slot>
+</div>

@@ -10,7 +10,7 @@ using FileTypeChecker.Extensions;
 namespace Core.Data.DataTypes
 {
     [Export]
-    public abstract class ImageFile<T> : GenericFile<T> where T : IStorable
+    public abstract class ImageFile<T> : RayukiFile<T> where T : IStorable
     {
 
         public override ResultWithError<bool> Save(T instance, HttpFile Upload)

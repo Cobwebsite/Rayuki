@@ -5,8 +5,10 @@ var Core;
 const moduleName = `Core`;
 const _ = {};
 Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block;font-family:var(--font-family);-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none}:host .primary{background-color:var(--primary);color:var(--text-color-primary)}:host .text-primary{color:var(--primary)}:host .secondary{background-color:var(--secondary);color:var(--text-color-secondary)}:host .text-secondary{color:var(--secondary)}:host .green{background-color:var(--green);color:var(--text-color-green)}:host .text-green{color:var(--green)}:host .success{background-color:var(--success);color:var(--text-color-success)}:host .text-success{color:var(--success)}:host .red{background-color:var(--red);color:var(--text-color-red)}:host .text-red{color:var(--red)}:host .error{background-color:var(--error);color:var(--text-color-error)}:host .text-error{color:var(--error)}:host .orange{background-color:var(--orange);color:var(--text-color-orange)}:host .text-orange{color:var(--orange)}:host .warning{background-color:var(--warning);color:var(--text-color-warning)}:host .text-warning{color:var(--warning)}:host .blue{background-color:var(--blue);color:var(--text-color-blue)}:host .text-blue{color:var(--blue)}:host .information{background-color:var(--information);color:var(--text-color-information)}:host .text-information{color:var(--information)}:host .touch{cursor:pointer}:host .touch.disable,:host .touch.disabled{cursor:default}:host input::placeholder{overflow:visible}:host input,:host textarea,:host .text-select{-webkit-user-select:text;-khtml-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}:host *{box-sizing:border-box;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none}`)
-let Permissions = {};
-_.Permissions = Core.Permissions ?? {};
+let Data = {};
+_.Data = Core.Data ?? {};
+Data.DataTypes = {};
+_.Data.DataTypes = Core.Data?.DataTypes ?? {};
 let Lib = {};
 _.Lib = Core.Lib ?? {};
 let Websocket = {};
@@ -15,14 +17,12 @@ Websocket.Events = {};
 _.Websocket.Events = Core.Websocket?.Events ?? {};
 let Errors = {};
 _.Errors = Core.Errors ?? {};
+let Permissions = {};
+_.Permissions = Core.Permissions ?? {};
 let Logic = {};
 _.Logic = Core.Logic ?? {};
 Logic.FileSystem = {};
 _.Logic.FileSystem = Core.Logic?.FileSystem ?? {};
-let Data = {};
-_.Data = Core.Data ?? {};
-Data.DataTypes = {};
-_.Data.DataTypes = Core.Data?.DataTypes ?? {};
 let App = {};
 _.App = Core.App ?? {};
 let Components = {};
@@ -52,10 +52,11 @@ _.Tools = Core.Tools ?? {};
 Websocket.Events.ApplicationTestEvent = {};
 _.Websocket.Events.ApplicationTestEvent = Core.Websocket?.Events?.ApplicationTestEvent ?? {};
 let _n;
-(function (QuickAuthPermission) {
-    QuickAuthPermission[QuickAuthPermission["Can"] = 0] = "Can";
-})(Permissions.QuickAuthPermission || (Permissions.QuickAuthPermission = {}));
-_.Permissions.QuickAuthPermission=Permissions.QuickAuthPermission;
+(function (FileErrorCode) {
+    FileErrorCode[FileErrorCode["InvalidUri"] = 0] = "InvalidUri";
+    FileErrorCode[FileErrorCode["DownloadFailed"] = 1] = "DownloadFailed";
+})(Data.DataTypes.FileErrorCode || (Data.DataTypes.FileErrorCode = {}));
+_.Data.DataTypes.FileErrorCode=Data.DataTypes.FileErrorCode;
 
 Lib.Time=class Time {
     static cbEachMinute = new Map();
@@ -178,6 +179,11 @@ _.Errors.PdfErrorCode=Errors.PdfErrorCode;
 })(Errors.ImageFileErrorCode || (Errors.ImageFileErrorCode = {}));
 _.Errors.ImageFileErrorCode=Errors.ImageFileErrorCode;
 
+(function (QuickAuthPermission) {
+    QuickAuthPermission[QuickAuthPermission["Can"] = 0] = "Can";
+})(Permissions.QuickAuthPermission || (Permissions.QuickAuthPermission = {}));
+_.Permissions.QuickAuthPermission=Permissions.QuickAuthPermission;
+
 (function (SsoCode) {
     SsoCode[SsoCode["TokenFailed"] = 0] = "TokenFailed";
     SsoCode[SsoCode["UserInfoFailed"] = 1] = "UserInfoFailed";
@@ -263,12 +269,6 @@ Data.ManifestIcon.Namespace=`Core.Data`;
 Data.ManifestIcon.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "src":"string","type":"string","sizes":"string","purpose":"string"};
 Aventus.Converter.register(Data.ManifestIcon.Fullname, Data.ManifestIcon);
 _.Data.ManifestIcon=Data.ManifestIcon;
-
-(function (FileErrorCode) {
-    FileErrorCode[FileErrorCode["InvalidUri"] = 0] = "InvalidUri";
-    FileErrorCode[FileErrorCode["DownloadFailed"] = 1] = "DownloadFailed";
-})(Data.DataTypes.FileErrorCode || (Data.DataTypes.FileErrorCode = {}));
-_.Data.DataTypes.FileErrorCode=Data.DataTypes.FileErrorCode;
 
 (function (AppErrorCode) {
     AppErrorCode[AppErrorCode["AppFileNotFound"] = 0] = "AppFileNotFound";
@@ -1007,14 +1007,14 @@ Lib.Colors=class Colors {
 Lib.Colors.Namespace=`Core.Lib`;
 _.Lib.Colors=Lib.Colors;
 
-Data.DataTypes.Pdf=class Pdf extends AventusSharp.Data.CustomTableMembers.AventusFile {
+Data.DataTypes.Pdf=class Pdf extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.DataTypes.Pdf, Core"; }
     Name = "";
     Html = "";
     Debug = false;
 }
 Data.DataTypes.Pdf.Namespace=`Core.Data.DataTypes`;
-Data.DataTypes.Pdf.$schema={...(AventusSharp.Data.CustomTableMembers.AventusFile?.$schema ?? {}), "Name":"string","Html":"string","Debug":"boolean"};
+Data.DataTypes.Pdf.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "Name":"string","Html":"string","Debug":"boolean"};
 Aventus.Converter.register(Data.DataTypes.Pdf.Fullname, Data.DataTypes.Pdf);
 _.Data.DataTypes.Pdf=Data.DataTypes.Pdf;
 
@@ -2436,10 +2436,10 @@ _.Data.DesktopLocation=Data.DesktopLocation;
 })(Data.BackgroundSize || (Data.BackgroundSize = {}));
 _.Data.BackgroundSize=Data.BackgroundSize;
 
-Data.DataTypes.GenericFile=class GenericFile extends AventusSharp.Data.CustomTableMembers.GenericFile {
+Data.DataTypes.RayukiFile=class RayukiFile extends AventusSharp.Data.CustomTableMembers.AventusFile {
 }
-Data.DataTypes.GenericFile.Namespace=`Core.Data.DataTypes`;
-_.Data.DataTypes.GenericFile=Data.DataTypes.GenericFile;
+Data.DataTypes.RayukiFile.Namespace=`Core.Data.DataTypes`;
+_.Data.DataTypes.RayukiFile=Data.DataTypes.RayukiFile;
 
 let Addon=class Addon {
     static dependances = {};
@@ -3205,7 +3205,7 @@ System.ApplicationShortcut=class ApplicationShortcut {
 System.ApplicationShortcut.Namespace=`Core.System`;
 _.System.ApplicationShortcut=System.ApplicationShortcut;
 
-Data.DataTypes.ImageFile=class ImageFile extends Data.DataTypes.GenericFile {
+Data.DataTypes.ImageFile=class ImageFile extends Data.DataTypes.RayukiFile {
 }
 Data.DataTypes.ImageFile.Namespace=`Core.Data.DataTypes`;
 _.Data.DataTypes.ImageFile=Data.DataTypes.ImageFile;
@@ -5366,14 +5366,15 @@ Components.Tooltip = class Tooltip extends Aventus.WebComponent {
     set 'color'(val) { this.setStringAttr('color', val) }get 'use_absolute'() { return this.getBoolAttr('use_absolute') }
     set 'use_absolute'(val) { this.setBoolAttr('use_absolute', val) }get 'delay'() { return this.getNumberAttr('delay') }
     set 'delay'(val) { this.setNumberAttr('delay', val) }get 'delay_touch'() { return this.getNumberAttr('delay_touch') }
-    set 'delay_touch'(val) { this.setNumberAttr('delay_touch', val) }    parent = null;
+    set 'delay_touch'(val) { this.setNumberAttr('delay_touch', val) }get 'no_caret'() { return this.getBoolAttr('no_caret') }
+    set 'no_caret'(val) { this.setBoolAttr('no_caret', val) }    parent = null;
     parentEv = null;
     isDestroyed = false;
     timeoutEnter = false;
     timeout = 0;
     pressManager;
     screenMargin = 10;
-    static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--local-offset-carret-x: 0px;--local-offset-carret-y: 0px;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;pointer-events:none;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;width:max-content;z-index:1}:host::after{content:"";position:absolute}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--_tooltip-background-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:calc(50% + var(--local-offset-carret-x));top:-8px;transform:translateX(-50%)}:host([use_absolute][position=bottom]){left:var(--local-tooltip-from-x);max-height:calc(100% - var(--local-tooltip-to-y) - 10px);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=bottom]:not([use_absolute])){bottom:0px;left:50%;transform:translateX(-50%) translateY(calc(100% - 10px))}:host([position=bottom][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(100% + 10px))}:host([position=top]){transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--_tooltip-background-color);bottom:-8px;left:calc(50% + var(--local-offset-carret-x));transform:translateX(-50%)}:host([use_absolute][position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x);max-height:calc(100% - var(--local-tooltip-to-y) - 10px)}:host([use_absolute][visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=top]:not([use_absolute])){left:50%;top:0px;transform:translateX(-50%) translateY(calc(-100% + 10px))}:host([position=top][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(-100% - 10px))}:host([position=right]){transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:calc(50% + var(--local-offset-carret-y));transform:translateY(-50%)}:host([use_absolute][position=right]){left:var(--local-tooltip-from-x);max-width:calc(100% - var(--local-tooltip-to-x) - 10px);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=right]:not([use_absolute])){right:0;top:50%;transform:translateX(calc(100% - 10px)) translateY(-50%)}:host([visible][position=right]:not([use_absolute])){transform:translateX(calc(100% + 10px)) translateY(-50%)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:calc(50% + var(--local-offset-carret-y));transform:translateY(-50%)}:host([use_absolute][position=left]){max-width:calc(100% - var(--local-tooltip-to-x) - 10px);right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=left]){right:var(--local-tooltip-to-x)}:host([position=left]:not([use_absolute])){left:0;top:50%;transform:translateX(calc(-100% + 10px)) translateY(-50%)}:host([visible][position=left]:not([use_absolute])){transform:translateX(calc(-100% - 10px)) translateY(-50%)}:host([color=primary]){--_tooltip-background-color: var(--primary);--_tooltip-color: var(--text-color-primary)}:host([color=secondary]){--_tooltip-background-color: var(--secondary);--_tooltip-color: var(--text-color-secondary)}:host([color=green]){--_tooltip-background-color: var(--green);--_tooltip-color: var(--text-color-green)}:host([color=success]){--_tooltip-background-color: var(--success);--_tooltip-color: var(--text-color-success)}:host([color=red]){--_tooltip-background-color: var(--red);--_tooltip-color: var(--text-color-red)}:host([color=error]){--_tooltip-background-color: var(--error);--_tooltip-color: var(--text-color-error)}:host([color=orange]){--_tooltip-background-color: var(--orange);--_tooltip-color: var(--text-color-orange)}:host([color=warning]){--_tooltip-background-color: var(--warning);--_tooltip-color: var(--text-color-warning)}:host([color=blue]){--_tooltip-background-color: var(--blue);--_tooltip-color: var(--text-color-blue)}:host([color=information]){--_tooltip-background-color: var(--information);--_tooltip-color: var(--text-color-information)}`;
+    static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--local-offset-carret-x: 0px;--local-offset-carret-y: 0px;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;pointer-events:none;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;width:max-content;z-index:1}:host::after{content:"";position:absolute}:host([no_caret])::after{display:none}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--_tooltip-background-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:calc(50% + var(--local-offset-carret-x));top:-8px;transform:translateX(-50%)}:host([use_absolute][position=bottom]){left:var(--local-tooltip-from-x);max-height:calc(100% - var(--local-tooltip-to-y) - 10px);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=bottom]:not([use_absolute])){bottom:0px;left:50%;transform:translateX(-50%) translateY(calc(100% - 10px))}:host([position=bottom][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(100% + 10px))}:host([no_caret][use_absolute][position=bottom]){top:calc(var(--local-tooltip-from-y) - 8px)}:host([no_caret][use_absolute][visible][position=bottom]){top:calc(var(--local-tooltip-to-y) - 8px)}:host([position=top]){transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--_tooltip-background-color);bottom:-8px;left:calc(50% + var(--local-offset-carret-x));transform:translateX(-50%)}:host([use_absolute][position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x);max-height:calc(100% - var(--local-tooltip-to-y) - 10px)}:host([use_absolute][visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=top]:not([use_absolute])){left:50%;top:0px;transform:translateX(-50%) translateY(calc(-100% + 10px))}:host([position=top][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(-100% - 10px))}:host([no_caret][use_absolute][position=top]){bottom:calc(var(--local-tooltip-from-y) - 6px)}:host([no_caret][use_absolute][visible][position=top]){bottom:calc(var(--local-tooltip-to-y) - 6px)}:host([position=right]){transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:calc(50% + var(--local-offset-carret-y));transform:translateY(-50%)}:host([use_absolute][position=right]){left:var(--local-tooltip-from-x);max-width:calc(100% - var(--local-tooltip-to-x) - 10px);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=right]:not([use_absolute])){right:0;top:50%;transform:translateX(calc(100% - 10px)) translateY(-50%)}:host([visible][position=right]:not([use_absolute])){transform:translateX(calc(100% + 10px)) translateY(-50%)}:host([no_caret][use_absolute][position=right]){left:calc(var(--local-tooltip-from-x) - 6px)}:host([no_caret][use_absolute][visible][position=right]){left:calc(var(--local-tooltip-to-x) - 6px)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:calc(50% + var(--local-offset-carret-y));transform:translateY(-50%)}:host([use_absolute][position=left]){max-width:calc(100% - var(--local-tooltip-to-x) - 10px);right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=left]){right:var(--local-tooltip-to-x)}:host([position=left]:not([use_absolute])){left:0;top:50%;transform:translateX(calc(-100% + 10px)) translateY(-50%)}:host([visible][position=left]:not([use_absolute])){transform:translateX(calc(-100% - 10px)) translateY(-50%)}:host([no_caret][use_absolute][position=left]){right:calc(var(--local-tooltip-from-x) - 6px)}:host([no_caret][use_absolute][visible][position=left]){right:calc(var(--local-tooltip-to-x) - 6px)}:host([color=primary]){--_tooltip-background-color: var(--primary);--_tooltip-color: var(--text-color-primary)}:host([color=secondary]){--_tooltip-background-color: var(--secondary);--_tooltip-color: var(--text-color-secondary)}:host([color=green]){--_tooltip-background-color: var(--green);--_tooltip-color: var(--text-color-green)}:host([color=success]){--_tooltip-background-color: var(--success);--_tooltip-color: var(--text-color-success)}:host([color=red]){--_tooltip-background-color: var(--red);--_tooltip-color: var(--text-color-red)}:host([color=error]){--_tooltip-background-color: var(--error);--_tooltip-color: var(--text-color-error)}:host([color=orange]){--_tooltip-background-color: var(--orange);--_tooltip-color: var(--text-color-orange)}:host([color=warning]){--_tooltip-background-color: var(--warning);--_tooltip-color: var(--text-color-warning)}:host([color=blue]){--_tooltip-background-color: var(--blue);--_tooltip-color: var(--text-color-blue)}:host([color=information]){--_tooltip-background-color: var(--information);--_tooltip-color: var(--text-color-information)}`;
     constructor() { super(); this.onMouseEnter=this.onMouseEnter.bind(this)this.onMouseLeave=this.onMouseLeave.bind(this)this.onTransitionEnd=this.onTransitionEnd.bind(this) }
     __getStatic() {
         return Tooltip;
@@ -5392,9 +5393,9 @@ Components.Tooltip = class Tooltip extends Aventus.WebComponent {
     getClassName() {
         return "Tooltip";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('position')){ this['position'] = 'top'; }if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('use_absolute')) { this.attributeChangedCallback('use_absolute', false, false); }if(!this.hasAttribute('delay')){ this['delay'] = 50; }if(!this.hasAttribute('delay_touch')){ this['delay_touch'] = 500; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('position');this.__upgradeProperty('color');this.__upgradeProperty('use_absolute');this.__upgradeProperty('delay');this.__upgradeProperty('delay_touch'); }
-    __listBoolProps() { return ["visible","use_absolute"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('position')){ this['position'] = 'top'; }if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('use_absolute')) { this.attributeChangedCallback('use_absolute', false, false); }if(!this.hasAttribute('delay')){ this['delay'] = 50; }if(!this.hasAttribute('delay_touch')){ this['delay_touch'] = 500; }if(!this.hasAttribute('no_caret')) { this.attributeChangedCallback('no_caret', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('position');this.__upgradeProperty('color');this.__upgradeProperty('use_absolute');this.__upgradeProperty('delay');this.__upgradeProperty('delay_touch');this.__upgradeProperty('no_caret'); }
+    __listBoolProps() { return ["visible","use_absolute","no_caret"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     calculatePosition() {
         if (!this.parentEv || !this.use_absolute)
             return;
@@ -5564,6 +5565,93 @@ Components.Tooltip.Namespace=`Core.Components`;
 Components.Tooltip.Tag=`rk-tooltip`;
 _.Components.Tooltip=Components.Tooltip;
 if(!window.customElements.get('rk-tooltip')){window.customElements.define('rk-tooltip', Components.Tooltip);Aventus.WebComponentInstance.registerDefinition(Components.Tooltip);}
+
+const IconAction = class IconAction extends MaterialIcon.Icon {
+    static get observedAttributes() {return ["icon", "position", "delay", "delay_touch"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'position'() { return this.getStringProp('position') }
+    set 'position'(val) { this.setStringAttr('position', val) }get 'delay'() { return this.getNumberProp('delay') }
+    set 'delay'(val) { this.setNumberAttr('delay', val) }get 'delay_touch'() { return this.getNumberProp('delay_touch') }
+    set 'delay_touch'(val) { this.setNumberAttr('delay_touch', val) }    tooltip;
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("position", ((target) => {
+    if (target.tooltip) {
+        target.tooltip.position = target.position;
+    }
+}));this.__addPropertyActions("delay", ((target) => {
+    if (target.tooltip) {
+        target.tooltip.delay = target.delay;
+    }
+}));this.__addPropertyActions("delay_touch", ((target) => {
+    if (target.tooltip) {
+        target.tooltip.delay_touch = target.delay_touch;
+    }
+})); }
+    static __style = `:host{border-radius:var(--border-radius-sm);color:var(--blue);cursor:pointer;font-size:var(--font-size-md);padding:3px;position:relative;transition:background-color .2s linear}:host .hidden{display:none}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--lighter)}}`;
+    __getStatic() {
+        return IconAction;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(IconAction.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot _id="iconaction_1"></slot>` }, 
+        blocks: { 'default':`<div class="icon" _id="iconaction_0"></div><div class="hidden">    <slot _id="iconaction_1"></slot></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "iconEl",
+      "ids": [
+        "iconaction_0"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "eventName": "slotchange",
+      "id": "iconaction_1",
+      "fct": (e, c) => c.comp.onSlotChange(e)
+    }
+  ]
+}); }
+    getClassName() {
+        return "IconAction";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = "square"; }if(!this.hasAttribute('position')){ this['position'] = 'top'; }if(!this.hasAttribute('delay')){ this['delay'] = 700; }if(!this.hasAttribute('delay_touch')){ this['delay_touch'] = 700; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon');this.__upgradeProperty('position');this.__upgradeProperty('delay');this.__upgradeProperty('delay_touch'); }
+    onSlotChange() {
+        const content = this.innerHTML.trim();
+        if (content == "") {
+            if (this.tooltip) {
+                this.tooltip.remove();
+                this.tooltip = undefined;
+            }
+        }
+        else {
+            if (!this.tooltip) {
+                this.tooltip = new Components.Tooltip();
+                this.tooltip.position = this.position;
+                this.tooltip.delay = this.delay;
+                this.tooltip.delay_touch = this.delay_touch;
+                this.tooltip.use_absolute = true;
+                this.tooltip.no_caret = true;
+                this.tooltip.style.fontSize = "var(--font-size-sm)";
+                this.tooltip.style.color = "#efefef";
+                this.tooltip.style.backgroundColor = "#757575";
+                this.shadowRoot.appendChild(this.tooltip);
+            }
+            this.tooltip.innerHTML = content;
+        }
+    }
+}
+IconAction.Namespace=`Core`;
+IconAction.Tag=`rk-icon-action`;
+_.IconAction=IconAction;
+if(!window.customElements.get('rk-icon-action')){window.customElements.define('rk-icon-action', IconAction);Aventus.WebComponentInstance.registerDefinition(IconAction);}
 
 Errors.CoreError=class CoreError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.CoreError, Core"; }
@@ -20743,15 +20831,25 @@ Components.TableDataCellHeaderAction = class TableDataCellHeaderAction extends C
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<mi-icon icon="add"></mi-icon>` }
+        blocks: { 'default':`<mi-icon icon="add" _id="tabledatacellheaderaction_0"></mi-icon>` }
     });
 }
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "addEl",
+      "ids": [
+        "tabledatacellheaderaction_0"
+      ]
+    }
+  ]
+}); }
     getClassName() {
         return "TableDataCellHeaderAction";
     }
     postCreation() {
         new Aventus.PressManager({
-            element: this,
+            element: this.addEl,
             onPress: () => {
                 if (this.table instanceof Components.TableData) {
                     this.table.newData();
@@ -21360,14 +21458,6 @@ Data.Company.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"st
 Aventus.Converter.register(Data.Company.Fullname, Data.Company);
 _.Data.Company=Data.Company;
 
-Data.DataTypes.FileError=class FileError extends Aventus.GenericError {
-    static get Fullname() { return "Core.Data.DataTypes.FileError, Core"; }
-}
-Data.DataTypes.FileError.Namespace=`Core.Data.DataTypes`;
-Data.DataTypes.FileError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
-Aventus.Converter.register(Data.DataTypes.FileError.Fullname, Data.DataTypes.FileError);
-_.Data.DataTypes.FileError=Data.DataTypes.FileError;
-
 Data.Manifest=class Manifest extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.Manifest, Core"; }
     name;
@@ -21497,6 +21587,14 @@ Errors.SsoError.Namespace=`Core.Errors`;
 Errors.SsoError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.SsoError.Fullname, Errors.SsoError);
 _.Errors.SsoError=Errors.SsoError;
+
+Permissions.QuickAuthPermissionQuery=class QuickAuthPermissionQuery extends Permissions.PermissionQuery {
+    static get Fullname() { return "Core.Permissions.QuickAuthPermissionQuery, Core"; }
+}
+Permissions.QuickAuthPermissionQuery.Namespace=`Core.Permissions`;
+Permissions.QuickAuthPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
+Aventus.Converter.register(Permissions.QuickAuthPermissionQuery.Fullname, Permissions.QuickAuthPermissionQuery);
+_.Permissions.QuickAuthPermissionQuery=Permissions.QuickAuthPermissionQuery;
 
 Errors.ImageFileError=class ImageFileError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.ImageFileError, Core"; }
@@ -21662,13 +21760,13 @@ RAM.GroupRAM=class GroupRAM extends RAM.RamHttp {
 RAM.GroupRAM.Namespace=`Core.RAM`;
 _.RAM.GroupRAM=RAM.GroupRAM;
 
-Permissions.QuickAuthPermissionQuery=class QuickAuthPermissionQuery extends Permissions.PermissionQuery {
-    static get Fullname() { return "Core.Permissions.QuickAuthPermissionQuery, Core"; }
+Data.DataTypes.FileError=class FileError extends Aventus.GenericError {
+    static get Fullname() { return "Core.Data.DataTypes.FileError, Core"; }
 }
-Permissions.QuickAuthPermissionQuery.Namespace=`Core.Permissions`;
-Permissions.QuickAuthPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
-Aventus.Converter.register(Permissions.QuickAuthPermissionQuery.Fullname, Permissions.QuickAuthPermissionQuery);
-_.Permissions.QuickAuthPermissionQuery=Permissions.QuickAuthPermissionQuery;
+Data.DataTypes.FileError.Namespace=`Core.Data.DataTypes`;
+Data.DataTypes.FileError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
+Aventus.Converter.register(Data.DataTypes.FileError.Fullname, Data.DataTypes.FileError);
+_.Data.DataTypes.FileError=Data.DataTypes.FileError;
 
 
 for(let key in _) { Core[key] = _[key] }

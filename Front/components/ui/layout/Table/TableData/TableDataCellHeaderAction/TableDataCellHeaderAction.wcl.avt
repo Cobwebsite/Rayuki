@@ -2,29 +2,31 @@ import { TableCellHeader } from "../../cells/TableCellHeader/TableCellHeader.wcl
 import { TableData } from "../TableData.wcl.avt";
 
 namespace Components {
-	@Storybook({
+    @Storybook({
         export: 'public',
         group: 'Components/Layout/Table'
     })
-	export class TableDataCellHeaderAction<U = any> extends TableCellHeader<U> implements Aventus.DefaultComponent {
-		
-		protected override postCreation(): void {
-			new Aventus.PressManager({
-				element: this,
-				onPress: () => {
-					if(this.table instanceof TableData) {
-						this.table.newData();
-					}
-				}
-			});
-	
-		}
+    export class TableDataCellHeaderAction<U = any> extends TableCellHeader<U> implements Aventus.DefaultComponent {
+        @ViewElement()
+        protected addEl!: MaterialIcon.Icon;
 
-		/**
-		* @inheritdoc
-		*/
-		public override setContent(data: undefined, rowData: U) {
-			
-		}
-	}
+        protected override postCreation(): void {
+            new Aventus.PressManager({
+                element: this.addEl,
+                onPress: () => {
+                    if(this.table instanceof TableData) {
+                        this.table.newData();
+                    }
+                }
+            });
+
+        }
+
+        /**
+        * @inheritdoc
+        */
+        public override setContent(data: undefined, rowData: U) {
+
+        }
+    }
 }

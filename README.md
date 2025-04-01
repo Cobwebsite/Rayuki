@@ -8,3 +8,4 @@
  - **RAYUKI_CORE_PACKAGE** : D:\Rayuki\Libs\RayukiCore\Core.package.avt
  - **RAYUKI_CORE_DLL** : D:\Rayuki\Libs\RayukiCore\Core.dll
  - **RAYUKI_SHARP_DLL** : D:\Rayuki\Libs\AventusSharp\AventusSharp.dll
+ - **RAYUKI_SNIPPETS** : D:\Rayuki\Core\Core\.vscode\Rayuki.code-snippets

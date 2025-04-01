@@ -1,0 +1,21 @@
+@import '@root/static/_functions.gs.avt';
+
+:host {
+	border-radius: var(--border-radius-sm);
+	color: var(--blue);
+	cursor: pointer;
+	font-size: var(--font-size-md);
+	padding: 3px;
+	position: relative;
+	transition: background-color .2s linear;
+
+	.hidden {
+		display: none;
+	}
+}
+
+@include desktop {
+	:host(:hover) {
+		background-color: var(--lighter);
+	}
+}

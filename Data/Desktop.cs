@@ -32,7 +32,7 @@ namespace Core.Data
                 _Token = value;
             }
         }
-        [ForeignKey<User>, Nullable]
+        [ForeignKey<User>, Nullable, DeleteOnCascade]
         public int? UserId { get; set; }
 
         private DekstopConfiguration _Configuration = new DekstopConfiguration();

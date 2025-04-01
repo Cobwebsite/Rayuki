@@ -22,6 +22,8 @@ namespace Core.Data
         [Unique]
         public string Token { get; set; } = "";
         public UserPicture Picture { get; set; } = new UserPicture();
+
+        [AtLeast(1, true)]
         public bool IsSuperAdmin { get; set; } = false;
 
         [ForeignKey<SsoProvider>]
