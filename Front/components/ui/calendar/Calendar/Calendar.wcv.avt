@@ -20,18 +20,18 @@
                 <mi-icon icon="chevron_right" class="chevron touch hover" @press="nextMonthYearTemp"></mi-icon>
             </div>
             <div class="month-select-body" @element="bodyMonthEl">
-                <div class="month-el touch hover" @press="selectMonthTemp">Janv.</div>
-                <div class="month-el touch hover" @press="selectMonthTemp">Févr.</div>
-                <div class="month-el touch hover" @press="selectMonthTemp">Mars</div>
-                <div class="month-el touch hover" @press="selectMonthTemp">Avr.</div>
-                <div class="month-el touch hover" @press="selectMonthTemp">Mai</div>
-                <div class="month-el touch hover" @press="selectMonthTemp">Juin</div>
-                <div class="month-el touch hover" @press="selectMonthTemp">Juil.</div>
-                <div class="month-el touch hover" @press="selectMonthTemp">Août</div>
-                <div class="month-el touch hover" @press="selectMonthTemp">Sept.</div>
-                <div class="month-el touch hover" @press="selectMonthTemp">Oct.</div>
-                <div class="month-el touch hover" @press="selectMonthTemp">Nov.</div>
-                <div class="month-el touch hover" @press="selectMonthTemp">Déc.</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">{{ DateTools.getMonthName(0, true) }}.</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">{{ DateTools.getMonthName(1, true) }}.</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">{{ DateTools.getMonthName(2, true) }}</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">{{ DateTools.getMonthName(3, true) }}.</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">{{ DateTools.getMonthName(4, true) }}</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">{{ DateTools.getMonthName(5, true) }}</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">{{ DateTools.getMonthName(6, true) }}.</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">{{ DateTools.getMonthName(7, true) }}</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">{{ DateTools.getMonthName(8, true) }}.</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">{{ DateTools.getMonthName(9, true) }}.</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">{{ DateTools.getMonthName(10, true) }}.</div>
+                <div class="month-el touch hover" @press="selectMonthTemp">{{ DateTools.getMonthName(11, true) }}.</div>
             </div>
         </div>
         <div class="year-select">
@@ -45,20 +45,20 @@
                 <mi-icon icon="chevron_right" class="chevron touch hover" @press="nextYearGroupTemp"></mi-icon>
             </div>
             <div class="year-select-body" @element="bodyYearEl">
-                
+
             </div>
         </div>
     </div>
 </div>
 <div class="body">
     <div class="days-header">
-        <div class="day-header">Lu</div>
-        <div class="day-header">Ma</div>
-        <div class="day-header">Me</div>
-        <div class="day-header">Je</div>
-        <div class="day-header">Ve</div>
-        <div class="day-header">Sa</div>
-        <div class="day-header">Di</div>
+        <div class="day-header">{{ DateTools.getDayName(1, true) }}</div>
+        <div class="day-header">{{ DateTools.getDayName(2, true) }}</div>
+        <div class="day-header">{{ DateTools.getDayName(3, true) }}</div>
+        <div class="day-header">{{ DateTools.getDayName(4, true) }}</div>
+        <div class="day-header">{{ DateTools.getDayName(5, true) }}</div>
+        <div class="day-header">{{ DateTools.getDayName(6, true) }}</div>
+        <div class="day-header">{{ DateTools.getDayName(0, true) }}</div>
     </div>
     <div class="days-body" @element="bodyEl">
 

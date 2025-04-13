@@ -76,22 +76,6 @@ namespace Components {
         //#endregion
 
         //#region methods
-        protected monthsName(): string[] {
-            return [
-                'Janvier',
-                'Février',
-                'Mars',
-                'Avril',
-                'Mai',
-                'Juin',
-                'Juillet',
-                'Août',
-                'Septembre',
-                'Octobre',
-                'Novembre',
-                'Décembre'
-            ];
-        }
 
         protected nextMonth() {
             let date = this.date;
@@ -125,7 +109,7 @@ namespace Components {
             DomTools.clearElement(this.bodyEl);
             let date = this.date;
             this.yearEl.innerHTML = date.getFullYear() + '';
-            this.monthEl.innerHTML = this.monthsName()[date.getMonth()];
+            this.monthEl.innerHTML = DateTools.getMonthName(date.getMonth());
 
             let startDate = DateTools.getStartWeek(DateTools.getStartMonth(date));
             let endDate = DateTools.getEndWeek(DateTools.getEndMonth(date));

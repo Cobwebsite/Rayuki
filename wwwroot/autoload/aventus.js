@@ -25,7 +25,7 @@ Object.defineProperty(window, "AvInstance", {
 		}
 		return Map.prototype._defaultGet.call(this, key);
 	}
-})()
+})();
 
 var Aventus;
 (Aventus||(Aventus = {}));
@@ -17939,6 +17939,148 @@ if(!window.customElements.get('mi-icon')){window.customElements.define('mi-icon'
 
 for(let key in _) { MaterialIcon[key] = _[key] }
 })(MaterialIcon);
+
+(() => {
+	Object.defineProperty(window, "t", {
+		get() {return Aventus.I18n.t;}
+	});
+
+	Aventus.WebComponent.prototype.t = function(key, params = {}) {
+        const i18n = Aventus.I18n;
+        const localeKey = this.$type.replace(/\./g, '°') + "°" + key;
+        if(i18n.hasKey(localeKey)) {
+            return i18n.t(localeKey, params);
+        }
+        return i18n.t(key, params);
+	}
+
+})();
+
+
+var Aventus;
+(Aventus||(Aventus = {}));
+(function (Aventus) {
+const moduleName = `Aventus`;
+const _ = {};
+
+
+let _n;
+let I18nClass=class I18nClass {
+    constructor() { this.t = this.t.bind(this); }
+    currentLocale = "en-GB";
+    langMutex = new Aventus.ActionGuard();
+    watcher = Aventus.Watcher.get({
+        locale: {}
+    });
+    get locale() {
+        return this.watcher['locale'];
+    }
+    set locale(value) {
+        this.watcher['locale'] = value;
+    }
+    files = [];
+    waitingFiles = [];
+    __translations = {};
+    async setLocale(lang) {
+        this.currentLocale = lang;
+        if (!this.__translations[lang]) {
+            await this.langMutex.run([""], async () => {
+                const proms = [];
+                for (let file of this.files) {
+                    let uri = file.replace(/\$locale/g, lang);
+                    proms.push(Aventus.ResourceLoader.load(uri));
+                }
+                const results = await Promise.all(proms);
+                let items = {};
+                for (let result of results) {
+                    try {
+                        this.merge(items, JSON.parse(result));
+                    }
+                    catch (e) {
+                        console.error(e);
+                    }
+                }
+                this.__translations[lang] = items;
+                this.waitingFiles = [];
+            });
+        }
+        this.locale = this.__translations[lang];
+    }
+    getLocale() {
+        return this.currentLocale;
+    }
+    merge(from, to) {
+        for (let key in to) {
+            let val = to[key];
+            if (typeof val == 'object') {
+                let temp = {};
+                this.merge(temp, val);
+                from[key] = temp;
+            }
+            else {
+                from[key] = val;
+            }
+        }
+    }
+    registerFileTimeout = 0;
+    registerFile(file) {
+        if (this.files.includes(file))
+            return;
+        this.waitingFiles.push(file);
+        clearTimeout(this.registerFileTimeout);
+        this.registerFileTimeout = setTimeout(() => {
+            this.loadFileDelay();
+        }, 200);
+    }
+    async loadFileDelay() {
+        await this.langMutex.run([""], async () => {
+            const lang = this.currentLocale;
+            const proms = [];
+            for (let file of this.waitingFiles) {
+                let uri = file.replace(/\$locale/g, lang).toLowerCase();
+                proms.push(Aventus.ResourceLoader.load(uri));
+            }
+            const results = await Promise.all(proms);
+            let items = this.locale;
+            for (let result of results) {
+                try {
+                    this.merge(items, JSON.parse(result));
+                }
+                catch (e) {
+                    console.error(e);
+                }
+            }
+            for (let file of this.waitingFiles) {
+                this.files.push(file);
+            }
+            this.__translations[lang] = items;
+            this.waitingFiles = [];
+        });
+    }
+    hasKey(key) {
+        return this.locale[key] !== undefined;
+    }
+    t(key, params = {}) {
+        let translation = this.locale[key];
+        if (translation === undefined) {
+            translation = key;
+        }
+        for (let key in params) {
+            let regex = new RegExp("\\{ *" + key + " *\\}", "g");
+            translation = translation.replace(regex, params[key]);
+        }
+        return translation;
+    }
+}
+I18nClass.Namespace=`Aventus`;
+_.I18nClass=I18nClass;
+
+let I18n= Aventus.Instance.get(I18nClass);
+_.I18n=I18n;
+
+
+for(let key in _) { Aventus[key] = _[key] }
+})(Aventus);
 
 var AventusSharp;
 (AventusSharp||(AventusSharp = {}));

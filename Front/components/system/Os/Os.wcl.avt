@@ -22,6 +22,7 @@ import { AppInstallPanel } from "../AppInstallPanel/AppInstallPanel.wcl.avt";
 import { PWA } from "../../../libs/Pwa.lib.avt";
 import { Application } from "../Application/Application.wcl.avt";
 import { DateConverter } from "../../../libs/DateConverter.lib.avt";
+import { I18n } from "Aventus@I18n:Aventus.package.avt";
 
 namespace System {
     export class Os extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -62,6 +63,11 @@ namespace System {
             target.onActiveDesktop();
         })
         public active_desktop: number = 0;
+
+        @Property((target: Os) => {
+            target.setLocale(target.lang);
+        })
+        public override lang: string = "fr-FR";
         //#endregion
 
 
@@ -443,6 +449,10 @@ namespace System {
         }
 
         private async init() {
+            if(this.lang != I18n.getLocale()) {
+                await I18n.setLocale(this.lang);
+            }
+
             Aventus.DateConverter.converter = new DateConverter();
             Aventus.PressManager.setGlobalConfig({
                 delayDblPress: 250,
@@ -453,13 +463,22 @@ namespace System {
             this.addResizeObserver();
             await this.startSocket();
             Platform.init();
-            ShortcutManager.init()
+            ShortcutManager.init();
             this.rightClick();
             this.preventScroll();
             this.addSwitchDesktop();
             this.allowInstallApp();
             await this.systemLoading();
             PWA.init();
+        }
+
+        public async setLocale(lang: string): Promise<void> {
+            if(this.lang != lang) {
+                this.lang = lang;
+            }
+            else {
+                return await I18n.setLocale(lang);
+            }
         }
 
         protected override postCreation(): void {

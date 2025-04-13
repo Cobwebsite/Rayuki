@@ -10,6 +10,10 @@ using Scriban.Parsing;
 
 namespace Core.Logic
 {
+    public enum UserSettings
+    {
+        Lang
+    }
     public class UserDM : DatabaseDM<UserDM, User>
     {
 

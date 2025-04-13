@@ -1,0 +1,173 @@
+{
+    "Janv": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Janv"
+    },
+    "Févr": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Févr"
+    },
+    "Avr": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Avr"
+    },
+    "Juil": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Juil"
+    },
+    "Sept": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Sept"
+    },
+    "Oct": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Oct"
+    },
+    "Nov": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Nov"
+    },
+    "Déc": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Déc"
+    },
+
+    "Janvier": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Janvier"
+    },
+    "Février": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Février"
+    },
+    "Mars": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Mars"
+    },
+    "Avril": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Avril"
+    },
+    "Mai": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Mai"
+    },
+    "Juin": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Juin"
+    },
+    "Juillet": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Juillet"
+    },
+    "Août": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Août"
+    },
+    "Septembre": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Septembre"
+    },
+    "Octobre": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Octobre"
+    },
+    "Novembre": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Novembre"
+    },
+    "Décembre": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Décembre"
+    },
+    "Lun" : {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Lun"
+    },
+    "Mar" : {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Mar"
+    },
+    "Mer" : {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Mer"
+    },
+    "Jeu" : {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Jeu"
+    },
+    "Ven" : {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Ven"
+    },
+    "Sam" : {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Sam"
+    },
+    "Dim" : {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Dim"
+    },
+    "Lundi" : {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Lundi"
+    },
+    "Mardi" : {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Mardi"
+    },
+    "Mercredi" : {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Mercredi"
+    },
+    "Jeudi" : {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Jeudi"
+    },
+    "Vendredi" : {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Vendredi"
+    },
+    "Samedi" : {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Samedi"
+    },
+    "Dimanche" : {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "ⵌⵌ",
+        "fr-FR": "Dimanche"
+    }
+}

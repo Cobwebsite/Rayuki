@@ -36,6 +36,6 @@
     <script src="/pwa/pwa.js?v={{ version }}"></script>
 </head>
 <body>
-    <rk-os></rk-os>
+    <rk-os lang="{{ lang }}"></rk-os>
 </body>
 </html>

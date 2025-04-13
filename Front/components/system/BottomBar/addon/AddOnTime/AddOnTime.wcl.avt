@@ -1,3 +1,4 @@
+import { DateTools } from "../../../../../libs/DateTools.lib.avt";
 import type { Calendar } from "../../../../ui/calendar/Calendar/Calendar.wcl.avt";
 
 namespace System {
@@ -23,29 +24,6 @@ namespace System {
         protected calendarEl!: Calendar;
 
 
-        private days: string[] = [
-            'Dim.',
-            'Lun.',
-            'Mar.',
-            'Mer.',
-            'Jeu.',
-            'Ven.',
-            'Sam.'
-        ];
-        private months: string[] = [
-            'Janvier',
-            'Février',
-            'Mars',
-            'Avril',
-            'Mai',
-            'Juin',
-            'Juillet',
-            'Août',
-            'Septembre',
-            'Octobre',
-            'Novembre',
-            'Décembre'
-        ];
         //#endregion
 
 
@@ -83,8 +61,8 @@ namespace System {
             this.hour.innerHTML = this.prettyNumber(hours) + ":" + this.prettyNumber(minutes);
 
             if(force || (minutes == 0 && hours == 0)) {
-                let day = this.days[date.getDay()];
-                let month = this.months[date.getMonth()];
+                let day = DateTools.getDayName(date.getDay(), true) + ".";
+                let month = DateTools.getMonthName(date.getMonth());
                 let nb = date.getDate();
                 let txt = day + ' ' + this.prettyNumber(nb) + ' ' + month;
                 this.date.innerHTML = txt;

@@ -1,3 +1,5 @@
+import { I18n } from "Aventus@I18n:Aventus.package.avt";
+
 namespace Lib {
     @Storybook({
         export: 'protected'
@@ -26,13 +28,77 @@ namespace Lib {
         }
 
         private static _localMonths: string[] = [];
-        public static getMonthsName(): string[] {
+        public static getMonthsName(format: "numeric" | "2-digit" | "long" | "short" | "narrow" = "long"): string[] {
             if(this._localMonths.length == 0) {
                 for(let i = 0; i < 12; i++) {
-                    this._localMonths.push(this.print(new Date(2024, i, 15), { month: "long" }));
+                    this._localMonths.push(this.print(new Date(2024, i, 15), { month: format }));
                 }
             }
             return this._localMonths;
+        }
+        /**
+         * Janv = 0
+         */
+        public static getMonthName(nb: number = 0, short: boolean = false) {
+            let months: string[] = [];
+            if(short) {
+                months = [
+                    'Janv',
+                    'Févr',
+                    'Mars',
+                    'Avr',
+                    'Mai',
+                    'Juin',
+                    'Juil',
+                    'Août',
+                    'Sept',
+                    'Oct',
+                    'Nov',
+                    'Déc'
+                ];
+            } else {
+                months = [
+                    'Janvier',
+                    'Février',
+                    'Mars',
+                    'Avril',
+                    'Mai',
+                    'Juin',
+                    'Juillet',
+                    'Août',
+                    'Septembre',
+                    'Octobre',
+                    'Novembre',
+                    'Décembre'
+                ];
+            }
+            return I18n.t(months[nb]);
+        }
+        public static getDayName(nb: number = 0, short: boolean = false) {
+            let days: string[] = [];
+            if(short) {
+                days = [
+                    'Dim',
+                    'Lun',
+                    'Mar',
+                    'Mer',
+                    'Jeu',
+                    'Ven',
+                    'Sam'
+                ];
+            }
+            else {
+                days = [
+                    'Dimanche',
+                    'Lundi',
+                    'Mardi',
+                    'Mercredi',
+                    'Jeudi',
+                    'Vendredi',
+                    'Samedi'
+                ];
+            }
+            return I18n.t(days[nb]);
         }
 
         public static getStartMonth(date: Date): Date {

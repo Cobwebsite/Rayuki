@@ -2,9 +2,7 @@
     <rk-row>
         <rk-col size="6">
             <div class="recent">
-                <div class="title">
-                    Récents
-                </div>
+                <div class="title">{{ t("Récents") }}</div>
                 <rk-scrollable class="scrollable recent-container" @element="recentContainer" floating_scroll>
 
                 </rk-scrollable>
@@ -12,9 +10,7 @@
         </rk-col>
         <rk-col size="6">
             <div class="favoris">
-                <div class="title">
-                    Mes favoris
-                </div>
+                <div class="title">{{ t("Mes favoris") }}</div>
                 <rk-scrollable @element="favorisContainer" class="scrollable favoris-container" floating_scroll>
                     <div class="wrapper">
                         for(let fav of this.favorites) { 
@@ -34,7 +30,7 @@
     <div class="actions">
         <rk-notification-btn class="btn"></rk-notification-btn>
         <rk-pwa-button>
-            <rk-tooltip position="top" delay="1000" use_absolute color="green">Installer l'application</rk-tooltip>
+            <rk-tooltip position="top" delay="1000" use_absolute color="green">{{ t("Installer l'application") }}</rk-tooltip>
         </rk-pwa-button>
         <rk-button icon="/img/icons/power-off.svg" @press="logout"></rk-button>
     </div>

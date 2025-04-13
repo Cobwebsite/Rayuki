@@ -29,6 +29,7 @@ namespace Core.Routes
         {
             Company company = CompanyDM.GetInstance().GetMain();
             Dictionary<string, List<string>> autoLoad = HttpServer.GetAutoLoad();
+            string lang = SettingsDM.GetInstance().GetSettingsStringForUser(UserSettings.Lang,context).Result ?? "fr-FR";
             return new ViewDynamic("index", new
             {
                 title = company.Name,
@@ -40,6 +41,7 @@ namespace Core.Routes
                 user_id = context.GetUserId(),
                 version = HttpServer.Version,
                 company_version = company.Version,
+                lang = lang
             });
         }
 

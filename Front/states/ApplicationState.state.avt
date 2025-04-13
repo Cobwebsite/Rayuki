@@ -1,5 +1,6 @@
 import type { Application } from "../components/system/Application/Application.wcl.avt";
 import type { ApplicationQueryFctResult } from "../components/system/Application/ApplicationError.lib.avt";
+import type { FrameNoScroll } from "../components/system/Frame/FrameNoScroll/FrameNoScroll.wcl.avt";
 import type { FormPart, FormSchema, InternalForm, VirtualFormConfig } from "../components/ui/form/Form/FormType.lib.avt";
 import { VirtualForm } from "../components/ui/form/Form/VirtualForm.lib.avt";
 import type { ApplicationStateManager } from "../libs/ApplicationStateManager.state.avt";
@@ -9,7 +10,7 @@ namespace State {
     export type Fields<T> = (keyof T)[];
 
     @Convertible()
-    export abstract class ApplicationState extends Aventus.State implements Aventus.IState {
+    export abstract class ApplicationState<T extends FrameNoScroll = FrameNoScroll> extends Aventus.State implements Aventus.IState {
         /**
          * The current namespace
          */
@@ -23,9 +24,13 @@ namespace State {
         public readonly $type: string;
         private __manager!: ApplicationStateManager;
 
-        protected get application(): Application {
+        public get application(): Application {
             return this.__manager.application;
-        };
+        }
+
+        public get frame(): T {
+            return this.application.frame as T;
+        }
 
         private __canSaveState: boolean = true;
 
@@ -107,7 +112,7 @@ namespace State {
     }
 
     @Internal()
-    export class ApplicationEmptyState extends ApplicationState implements Aventus.IState {
+    export class ApplicationEmptyState<T extends FrameNoScroll = FrameNoScroll> extends ApplicationState<T> implements Aventus.IState {
 
         private localName: string;
 
@@ -127,7 +132,7 @@ namespace State {
             return this.localName;
         }
     }
-    export abstract class ApplicationWatchState extends ApplicationState implements Aventus.IState {
+    export abstract class ApplicationWatchState<T extends FrameNoScroll = FrameNoScroll> extends ApplicationState<T> implements Aventus.IState {
 
         private __watcher: any;
 
@@ -145,7 +150,7 @@ namespace State {
 
         }
     }
-    export abstract class ApplicationFormState<T> extends ApplicationWatchState implements Aventus.IState {
+    export abstract class ApplicationFormState<T, U extends FrameNoScroll = FrameNoScroll> extends ApplicationWatchState<U> implements Aventus.IState {
 
         protected _form: VirtualForm<T>;
 

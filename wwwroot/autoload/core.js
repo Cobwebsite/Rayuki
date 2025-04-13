@@ -5,10 +5,6 @@ var Core;
 const moduleName = `Core`;
 const _ = {};
 Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block;font-family:var(--font-family);-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none}:host .primary{background-color:var(--primary);color:var(--text-color-primary)}:host .text-primary{color:var(--primary)}:host .secondary{background-color:var(--secondary);color:var(--text-color-secondary)}:host .text-secondary{color:var(--secondary)}:host .green{background-color:var(--green);color:var(--text-color-green)}:host .text-green{color:var(--green)}:host .success{background-color:var(--success);color:var(--text-color-success)}:host .text-success{color:var(--success)}:host .red{background-color:var(--red);color:var(--text-color-red)}:host .text-red{color:var(--red)}:host .error{background-color:var(--error);color:var(--text-color-error)}:host .text-error{color:var(--error)}:host .orange{background-color:var(--orange);color:var(--text-color-orange)}:host .text-orange{color:var(--orange)}:host .warning{background-color:var(--warning);color:var(--text-color-warning)}:host .text-warning{color:var(--warning)}:host .blue{background-color:var(--blue);color:var(--text-color-blue)}:host .text-blue{color:var(--blue)}:host .information{background-color:var(--information);color:var(--text-color-information)}:host .text-information{color:var(--information)}:host .touch{cursor:pointer}:host .touch.disable,:host .touch.disabled{cursor:default}:host input::placeholder{overflow:visible}:host input,:host textarea,:host .text-select{-webkit-user-select:text;-khtml-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}:host *{box-sizing:border-box;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none}`)
-let Data = {};
-_.Data = Core.Data ?? {};
-Data.DataTypes = {};
-_.Data.DataTypes = Core.Data?.DataTypes ?? {};
 let Lib = {};
 _.Lib = Core.Lib ?? {};
 let Websocket = {};
@@ -23,6 +19,10 @@ let Logic = {};
 _.Logic = Core.Logic ?? {};
 Logic.FileSystem = {};
 _.Logic.FileSystem = Core.Logic?.FileSystem ?? {};
+let Data = {};
+_.Data = Core.Data ?? {};
+Data.DataTypes = {};
+_.Data.DataTypes = Core.Data?.DataTypes ?? {};
 let App = {};
 _.App = Core.App ?? {};
 let Components = {};
@@ -52,12 +52,6 @@ _.Tools = Core.Tools ?? {};
 Websocket.Events.ApplicationTestEvent = {};
 _.Websocket.Events.ApplicationTestEvent = Core.Websocket?.Events?.ApplicationTestEvent ?? {};
 let _n;
-(function (FileErrorCode) {
-    FileErrorCode[FileErrorCode["InvalidUri"] = 0] = "InvalidUri";
-    FileErrorCode[FileErrorCode["DownloadFailed"] = 1] = "DownloadFailed";
-})(Data.DataTypes.FileErrorCode || (Data.DataTypes.FileErrorCode = {}));
-_.Data.DataTypes.FileErrorCode=Data.DataTypes.FileErrorCode;
-
 Lib.Time=class Time {
     static cbEachMinute = new Map();
     static cbEachMinuteFirst = new Map();
@@ -269,6 +263,12 @@ Data.ManifestIcon.Namespace=`Core.Data`;
 Data.ManifestIcon.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "src":"string","type":"string","sizes":"string","purpose":"string"};
 Aventus.Converter.register(Data.ManifestIcon.Fullname, Data.ManifestIcon);
 _.Data.ManifestIcon=Data.ManifestIcon;
+
+(function (FileErrorCode) {
+    FileErrorCode[FileErrorCode["InvalidUri"] = 0] = "InvalidUri";
+    FileErrorCode[FileErrorCode["DownloadFailed"] = 1] = "DownloadFailed";
+})(Data.DataTypes.FileErrorCode || (Data.DataTypes.FileErrorCode = {}));
+_.Data.DataTypes.FileErrorCode=Data.DataTypes.FileErrorCode;
 
 (function (AppErrorCode) {
     AppErrorCode[AppErrorCode["AppFileNotFound"] = 0] = "AppFileNotFound";
@@ -1486,13 +1486,78 @@ Lib.DateTools=class DateTools {
         return date.toLocaleDateString(locale, options);
     }
     static _localMonths = [];
-    static getMonthsName() {
+    static getMonthsName(format = "long") {
         if (this._localMonths.length == 0) {
             for (let i = 0; i < 12; i++) {
-                this._localMonths.push(this.print(new Date(2024, i, 15), { month: "long" }));
+                this._localMonths.push(this.print(new Date(2024, i, 15), { month: format }));
             }
         }
         return this._localMonths;
+    }
+    /**
+     * Janv = 0
+     */
+    static getMonthName(nb = 0, short = false) {
+        let months = [];
+        if (short) {
+            months = [
+                'Janv',
+                'Févr',
+                'Mars',
+                'Avr',
+                'Mai',
+                'Juin',
+                'Juil',
+                'Août',
+                'Sept',
+                'Oct',
+                'Nov',
+                'Déc'
+            ];
+        }
+        else {
+            months = [
+                'Janvier',
+                'Février',
+                'Mars',
+                'Avril',
+                'Mai',
+                'Juin',
+                'Juillet',
+                'Août',
+                'Septembre',
+                'Octobre',
+                'Novembre',
+                'Décembre'
+            ];
+        }
+        return Aventus.I18n.t(months[nb]);
+    }
+    static getDayName(nb = 0, short = false) {
+        let days = [];
+        if (short) {
+            days = [
+                'Dim',
+                'Lun',
+                'Mar',
+                'Mer',
+                'Jeu',
+                'Ven',
+                'Sam'
+            ];
+        }
+        else {
+            days = [
+                'Dimanche',
+                'Lundi',
+                'Mardi',
+                'Mercredi',
+                'Jeudi',
+                'Vendredi',
+                'Samedi'
+            ];
+        }
+        return Aventus.I18n.t(days[nb]);
     }
     static getStartMonth(date) {
         const start = new Date();
@@ -3204,6 +3269,94 @@ System.ApplicationShortcut=class ApplicationShortcut {
 }
 System.ApplicationShortcut.Namespace=`Core.System`;
 _.System.ApplicationShortcut=System.ApplicationShortcut;
+
+State.MoveApplication=class MoveApplication extends Aventus.State {
+    static state = "/application/move";
+    static shadowIcons = [];
+    providers = [];
+    selectedProvider;
+    _lastX = 0;
+    _lastY = 0;
+    get lastX() {
+        return this._lastX;
+    }
+    get lastY() {
+        return this._lastY;
+    }
+    /**
+     * @inheritdoc
+     */
+    get name() {
+        return State.MoveApplication.state;
+    }
+    constructor() {
+        super();
+        this.resetState = this.resetState.bind(this);
+    }
+    resetState() {
+        Lib.ShortcutManager.unsubscribe([Lib.SpecialTouch.Escape], this.resetState);
+        State.DesktopStateManager.getInstance().setState("/");
+    }
+    async activate(manager) {
+        let result = await super.activate(manager);
+        if (result) {
+            Lib.ShortcutManager.subscribe([Lib.SpecialTouch.Escape], this.resetState);
+        }
+        return result;
+    }
+    onActivate() {
+        for (let icon of State.MoveApplication.shadowIcons) {
+            icon.onMoveApplication(this, {});
+        }
+    }
+    onInactivate(nextState) {
+        for (let icon of State.MoveApplication.shadowIcons) {
+            icon.onStopMovingApplication();
+        }
+    }
+    registerProvider(provider) {
+        this.providers.push(provider);
+    }
+    onMove(icon, x, y) {
+        this._lastX = x;
+        this._lastY = y;
+        this.selectedProvider = undefined;
+        for (let provider of this.providers) {
+            if (provider.setAppPositionTemp(icon, x, y, this)) {
+                this.selectedProvider = provider;
+                break;
+            }
+        }
+        for (let provider of this.providers) {
+            if (provider != this.selectedProvider) {
+                provider.clearAppPositionTemp(this);
+            }
+        }
+    }
+    async onDrop(icon, x, y, reset) {
+        icon.style.width = '';
+        icon.style.height = '';
+        icon.style.top = '';
+        icon.style.left = '';
+        icon.style.zIndex = '';
+        icon.style.opacity = '';
+        icon.style.pointerEvents = '';
+        icon.style.position = '';
+        if (this.selectedProvider) {
+            await this.selectedProvider.setAppPosition(icon, x, y, this);
+        }
+        else {
+            reset();
+        }
+    }
+    onRemove(icon, x, y) {
+        for (let provider of this.providers) {
+            provider.removeAppPosition(icon, x, y, this);
+        }
+    }
+}
+State.MoveApplication.Namespace=`Core.State`;
+_.State.MoveApplication=State.MoveApplication;
 
 Data.DataTypes.ImageFile=class ImageFile extends Data.DataTypes.RayukiFile {
 }
@@ -5566,93 +5719,6 @@ Components.Tooltip.Tag=`rk-tooltip`;
 _.Components.Tooltip=Components.Tooltip;
 if(!window.customElements.get('rk-tooltip')){window.customElements.define('rk-tooltip', Components.Tooltip);Aventus.WebComponentInstance.registerDefinition(Components.Tooltip);}
 
-const IconAction = class IconAction extends MaterialIcon.Icon {
-    static get observedAttributes() {return ["icon", "position", "delay", "delay_touch"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }get 'position'() { return this.getStringProp('position') }
-    set 'position'(val) { this.setStringAttr('position', val) }get 'delay'() { return this.getNumberProp('delay') }
-    set 'delay'(val) { this.setNumberAttr('delay', val) }get 'delay_touch'() { return this.getNumberProp('delay_touch') }
-    set 'delay_touch'(val) { this.setNumberAttr('delay_touch', val) }    tooltip;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("position", ((target) => {
-    if (target.tooltip) {
-        target.tooltip.position = target.position;
-    }
-}));this.__addPropertyActions("delay", ((target) => {
-    if (target.tooltip) {
-        target.tooltip.delay = target.delay;
-    }
-}));this.__addPropertyActions("delay_touch", ((target) => {
-    if (target.tooltip) {
-        target.tooltip.delay_touch = target.delay_touch;
-    }
-})); }
-    static __style = `:host{border-radius:var(--border-radius-sm);color:var(--blue);cursor:pointer;font-size:var(--font-size-md);padding:3px;position:relative;transition:background-color .2s linear}:host .hidden{display:none}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--lighter)}}`;
-    __getStatic() {
-        return IconAction;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(IconAction.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot _id="iconaction_1"></slot>` }, 
-        blocks: { 'default':`<div class="icon" _id="iconaction_0"></div><div class="hidden">    <slot _id="iconaction_1"></slot></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "iconEl",
-      "ids": [
-        "iconaction_0"
-      ]
-    }
-  ],
-  "events": [
-    {
-      "eventName": "slotchange",
-      "id": "iconaction_1",
-      "fct": (e, c) => c.comp.onSlotChange(e)
-    }
-  ]
-}); }
-    getClassName() {
-        return "IconAction";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = "square"; }if(!this.hasAttribute('position')){ this['position'] = 'top'; }if(!this.hasAttribute('delay')){ this['delay'] = 700; }if(!this.hasAttribute('delay_touch')){ this['delay_touch'] = 700; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon');this.__upgradeProperty('position');this.__upgradeProperty('delay');this.__upgradeProperty('delay_touch'); }
-    onSlotChange() {
-        const content = this.innerHTML.trim();
-        if (content == "") {
-            if (this.tooltip) {
-                this.tooltip.remove();
-                this.tooltip = undefined;
-            }
-        }
-        else {
-            if (!this.tooltip) {
-                this.tooltip = new Components.Tooltip();
-                this.tooltip.position = this.position;
-                this.tooltip.delay = this.delay;
-                this.tooltip.delay_touch = this.delay_touch;
-                this.tooltip.use_absolute = true;
-                this.tooltip.no_caret = true;
-                this.tooltip.style.fontSize = "var(--font-size-sm)";
-                this.tooltip.style.color = "#efefef";
-                this.tooltip.style.backgroundColor = "#757575";
-                this.shadowRoot.appendChild(this.tooltip);
-            }
-            this.tooltip.innerHTML = content;
-        }
-    }
-}
-IconAction.Namespace=`Core`;
-IconAction.Tag=`rk-icon-action`;
-_.IconAction=IconAction;
-if(!window.customElements.get('rk-icon-action')){window.customElements.define('rk-icon-action', IconAction);Aventus.WebComponentInstance.registerDefinition(IconAction);}
-
 Errors.CoreError=class CoreError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.CoreError, Core"; }
 }
@@ -7163,7 +7229,9 @@ State.ApplicationState=class ApplicationState extends Aventus.State {
     get application() {
         return this.__manager.application;
     }
-    ;
+    get frame() {
+        return this.application.frame;
+    }
     __canSaveState = true;
     enableSaveState() {
         this.__canSaveState = true;
@@ -7232,47 +7300,9 @@ State.ApplicationState=class ApplicationState extends Aventus.State {
     }
 }
 State.ApplicationState.Namespace=`Core.State`;
-State.ApplicationState.$schema={...(Aventus.State?.$schema ?? {}), "$type":"string","__manager":"Core.Lib.ApplicationStateManager","application":"Core.System.Application","__canSaveState":"boolean","delaySaveState":"number"};
+State.ApplicationState.$schema={...(Aventus.State?.$schema ?? {}), "$type":"string","__manager":"Core.Lib.ApplicationStateManager","application":"Core.System.Application","frame":"T","__canSaveState":"boolean","delaySaveState":"number"};
 Aventus.Converter.register(State.ApplicationState.Fullname, State.ApplicationState);
 _.State.ApplicationState=State.ApplicationState;
-
-State.ApplicationWatchState=class ApplicationWatchState extends State.ApplicationState {
-    __watcher;
-    get watcher() {
-        return this.__watcher;
-    }
-    constructor() {
-        super();
-        this.onWatcherChanged = this.onWatcherChanged.bind(this);
-        this.__watcher = Aventus.Watcher.get({}, this.onWatcherChanged);
-    }
-    async onWatcherChanged(action, path, value) {
-    }
-}
-State.ApplicationWatchState.Namespace=`Core.State`;
-State.ApplicationWatchState.$schema={...(State.ApplicationState?.$schema ?? {}), };
-Aventus.Converter.register(State.ApplicationWatchState.Fullname, State.ApplicationWatchState);
-_.State.ApplicationWatchState=State.ApplicationWatchState;
-
-State.ApplicationEmptyState=class ApplicationEmptyState extends State.ApplicationState {
-    localName;
-    constructor(stateName) {
-        super();
-        this.localName = stateName;
-    }
-    syncFieldNoCheck(addField) {
-        addField("localName");
-    }
-    /**
-     * @inheritdoc
-     */
-    get name() {
-        return this.localName;
-    }
-}
-State.ApplicationEmptyState.Namespace=`Core.State`;
-State.ApplicationEmptyState.$schema={...(State.ApplicationState?.$schema ?? {}), "localName":"string","name":"string"};
-Aventus.Converter.register(State.ApplicationEmptyState.Fullname, State.ApplicationEmptyState);
 
 System.ApplicationHistoryConvert=class ApplicationHistoryConvert extends Aventus.ConverterTransform {
     manager;
@@ -7394,6 +7424,44 @@ if (this.constructor == FrameNoScroll) { throw "can't instanciate an abstract cl
 }
 System.FrameNoScroll.Namespace=`Core.System`;
 _.System.FrameNoScroll=System.FrameNoScroll;
+
+State.ApplicationWatchState=class ApplicationWatchState extends State.ApplicationState {
+    __watcher;
+    get watcher() {
+        return this.__watcher;
+    }
+    constructor() {
+        super();
+        this.onWatcherChanged = this.onWatcherChanged.bind(this);
+        this.__watcher = Aventus.Watcher.get({}, this.onWatcherChanged);
+    }
+    async onWatcherChanged(action, path, value) {
+    }
+}
+State.ApplicationWatchState.Namespace=`Core.State`;
+State.ApplicationWatchState.$schema={...(State.ApplicationState?.$schema ?? {}), };
+Aventus.Converter.register(State.ApplicationWatchState.Fullname, State.ApplicationWatchState);
+_.State.ApplicationWatchState=State.ApplicationWatchState;
+
+State.ApplicationEmptyState=class ApplicationEmptyState extends State.ApplicationState {
+    localName;
+    constructor(stateName) {
+        super();
+        this.localName = stateName;
+    }
+    syncFieldNoCheck(addField) {
+        addField("localName");
+    }
+    /**
+     * @inheritdoc
+     */
+    get name() {
+        return this.localName;
+    }
+}
+State.ApplicationEmptyState.Namespace=`Core.State`;
+State.ApplicationEmptyState.$schema={...(State.ApplicationState?.$schema ?? {}), "localName":"string","name":"string"};
+Aventus.Converter.register(State.ApplicationEmptyState.Fullname, State.ApplicationEmptyState);
 
 System.FrameStateNoScroll = class FrameStateNoScroll extends System.FrameNoScroll {
     state;
@@ -8385,7 +8453,10 @@ System.Application = class Application extends Aventus.WebComponent {
 					}
 					set 'is_desktop_active'(val) {
 						this.__watch["is_desktop_active"] = val;
-					}    oldFrame;
+					}    __frame;
+    get frame() {
+        return this.__frame;
+    }
     allRoutes = {};
     activePath = "";
     activeState;
@@ -8508,7 +8579,7 @@ System.Application = class Application extends Aventus.WebComponent {
     }
     __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('moving')) { this.attributeChangedCallback('moving', false, false); }if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('app_title')){ this['app_title'] = "Page title"; }if(!this.hasAttribute('full')) { this.attributeChangedCallback('full', false, false); }if(!this.hasAttribute('is_hidden')) { this.attributeChangedCallback('is_hidden', false, false); } }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["is_desktop_active"] = false; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('navigator');this.__upgradeProperty('moving');this.__upgradeProperty('loading');this.__upgradeProperty('app_title');this.__upgradeProperty('full');this.__upgradeProperty('is_hidden');this.__correctGetter('is_desktop_active'); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('frame');this.__correctGetter('navigator');this.__upgradeProperty('moving');this.__upgradeProperty('loading');this.__upgradeProperty('app_title');this.__upgradeProperty('full');this.__upgradeProperty('is_hidden');this.__correctGetter('is_desktop_active'); }
     __listBoolProps() { return ["moving","loading","full","is_hidden"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     onContextMenuContent(contextMenu, stop) {
         stop();
@@ -8652,19 +8723,19 @@ System.Application = class Application extends Aventus.WebComponent {
                             this.replaceState(canResult);
                             return;
                         }
-                        if (this.oldFrame && this.oldFrame != element) {
-                            await this.oldFrame.hide();
-                            if (this.shouldDestroyFrame(this.oldFrame)) {
-                                this.oldFrame.remove();
+                        if (this.__frame && this.__frame != element) {
+                            await this.__frame.hide();
+                            if (this.shouldDestroyFrame(this.__frame)) {
+                                this.__frame.remove();
                                 // resetNavElement not set for 404 or 405
-                                if (this.oldFrame.resetNavElement) {
-                                    this.oldFrame.resetNavElement();
+                                if (this.__frame.resetNavElement) {
+                                    this.__frame.resetNavElement();
                                 }
                             }
                         }
-                        let oldPage = this.oldFrame;
+                        let oldPage = this.__frame;
                         let oldUrl = this.activePath;
-                        this.oldFrame = element;
+                        this.__frame = element;
                         this.activePath = path;
                         this.activeState = currentState;
                         await element.show(currentState);
@@ -8692,12 +8763,12 @@ System.Application = class Application extends Aventus.WebComponent {
                 this.page404.application = this;
                 this.contentEl.appendChild(this.page404);
             }
-            if (this.oldFrame && this.oldFrame != this.page404) {
-                await this.oldFrame.hide();
+            if (this.__frame && this.__frame != this.page404) {
+                await this.__frame.hide();
             }
             let state = this.navigator.getState();
             await this.page404.show(state);
-            this.oldFrame = this.page404;
+            this.__frame = this.page404;
             this.activePath = '';
         }
     }
@@ -8711,12 +8782,12 @@ System.Application = class Application extends Aventus.WebComponent {
             this.page405.application = this;
             this.contentEl.appendChild(this.page405);
         }
-        if (this.oldFrame && this.oldFrame != this.page405) {
-            await this.oldFrame.hide();
+        if (this.__frame && this.__frame != this.page405) {
+            await this.__frame.hide();
         }
         let state = this.navigator.getState();
         await this.page405.show(state);
-        this.oldFrame = this.page405;
+        this.__frame = this.page405;
         this.activePath = '';
     }
     errorNotAllowed(state) {
@@ -8727,9 +8798,9 @@ System.Application = class Application extends Aventus.WebComponent {
         return this.navigator.getStateSlugs(this.activePath);
     }
     async canChangeState(newState) {
-        if (!this.oldFrame)
+        if (!this.__frame)
             return true;
-        return await this.oldFrame.askChange(newState);
+        return await this.__frame.askChange(newState);
     }
     checkNavigationState() {
         if (this.history.previousAvailable) {
@@ -9033,8 +9104,8 @@ System.Application = class Application extends Aventus.WebComponent {
     }
     async kill() {
         let canKill = true;
-        if (this.oldFrame) {
-            await this.oldFrame.beforeKill(() => {
+        if (this.__frame) {
+            await this.__frame.beforeKill(() => {
                 canKill = false;
             });
         }
@@ -9688,7 +9759,7 @@ System.HomePanel = class HomePanel extends System.Panel {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="content">    <rk-row>        <rk-col size="6">            <div class="recent">                <div class="title">                    Récents                </div>                <rk-scrollable class="scrollable recent-container" floating_scroll _id="homepanel_0">                </rk-scrollable>            </div>        </rk-col>        <rk-col size="6">            <div class="favoris">                <div class="title">                    Mes favoris                </div>                <rk-scrollable class="scrollable favoris-container" floating_scroll _id="homepanel_1">                    <div class="wrapper">                        <template _id="homepanel_2"></template>                    </div>                </rk-scrollable>            </div>        </rk-col>    </rk-row></div><div class="footer">    <div class="person touch" _id="homepanel_4">        <rk-user-profil-picture class="icon" _id="homepanel_5"></rk-user-profil-picture>        <div class="name" _id="homepanel_6"></div>    </div>    <div class="actions">        <rk-notification-btn class="btn"></rk-notification-btn>        <rk-pwa-button>            <rk-tooltip position="top" delay="1000" use_absolute color="green">Installer l'application</rk-tooltip>        </rk-pwa-button>        <rk-button icon="/img/icons/power-off.svg" _id="homepanel_7"></rk-button>    </div></div>` }
+        blocks: { 'default':`<div class="content">    <rk-row>        <rk-col size="6">            <div class="recent">                <div class="title" _id="homepanel_0"></div>                <rk-scrollable class="scrollable recent-container" floating_scroll _id="homepanel_1">                </rk-scrollable>            </div>        </rk-col>        <rk-col size="6">            <div class="favoris">                <div class="title" _id="homepanel_2"></div>                <rk-scrollable class="scrollable favoris-container" floating_scroll _id="homepanel_3">                    <div class="wrapper">                        <template _id="homepanel_4"></template>                    </div>                </rk-scrollable>            </div>        </rk-col>    </rk-row></div><div class="footer">    <div class="person touch" _id="homepanel_6">        <rk-user-profil-picture class="icon" _id="homepanel_7"></rk-user-profil-picture>        <div class="name" _id="homepanel_8"></div>    </div>    <div class="actions">        <rk-notification-btn class="btn"></rk-notification-btn>        <rk-pwa-button>            <rk-tooltip position="top" delay="1000" use_absolute color="green" _id="homepanel_9"></rk-tooltip>        </rk-pwa-button>        <rk-button icon="/img/icons/power-off.svg" _id="homepanel_10"></rk-button>    </div></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -9696,51 +9767,63 @@ System.HomePanel = class HomePanel extends System.Panel {
     {
       "name": "recentContainer",
       "ids": [
-        "homepanel_0"
+        "homepanel_1"
       ]
     },
     {
       "name": "favorisContainer",
       "ids": [
-        "homepanel_1"
+        "homepanel_3"
       ]
     }
   ],
   "content": {
-    "homepanel_5°uri": {
-      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod3())}`
+    "homepanel_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod1())}`,
+      "once": true
     },
-    "homepanel_6°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod4())} ${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod5())}`
+    "homepanel_2°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod2())}`,
+      "once": true
+    },
+    "homepanel_7°uri": {
+      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod5())}`
+    },
+    "homepanel_8°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod6())} ${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod7())}`
+    },
+    "homepanel_9°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__71121dd8c2837747a91ecf75da806c7amethod8())}`,
+      "once": true
     }
   },
   "pressEvents": [
     {
-      "id": "homepanel_4",
+      "id": "homepanel_6",
       "onPress": (e, pressInstance, c) => { c.comp.openProfil(e, pressInstance); }
     },
     {
-      "id": "homepanel_7",
+      "id": "homepanel_10",
       "onPress": (e, pressInstance, c) => { c.comp.logout(e, pressInstance); }
     }
   ]
-});const templ0 = new Aventus.Template(this);templ0.setTemplate(`                             <rk-favorite-line _id="homepanel_3"></rk-favorite-line>                        `);templ0.setActions({
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`                             <rk-favorite-line _id="homepanel_5"></rk-favorite-line>                        `);templ0.setActions({
   "injection": [
     {
-      "id": "homepanel_3",
+      "id": "homepanel_5",
       "injectionName": "favorite",
-      "inject": (c) => c.comp.__71121dd8c2837747a91ecf75da806c7amethod1(c.data.fav),
+      "inject": (c) => c.comp.__71121dd8c2837747a91ecf75da806c7amethod3(c.data.fav),
       "once": true
     },
     {
-      "id": "homepanel_3",
+      "id": "homepanel_5",
       "injectionName": "reorder",
-      "inject": (c) => c.comp.__71121dd8c2837747a91ecf75da806c7amethod2(),
+      "inject": (c) => c.comp.__71121dd8c2837747a91ecf75da806c7amethod4(),
       "once": true
     }
   ]
 });this.__getStatic().__template.addLoop({
-                    anchorId: 'homepanel_2',
+                    anchorId: 'homepanel_4',
                     template: templ0,
                 simple:{data: "this.favorites",item:"fav"}}); }
     getClassName() {
@@ -9855,19 +9938,28 @@ System.HomePanel = class HomePanel extends System.Panel {
             onDrag: () => { },
         });
     }
-    __71121dd8c2837747a91ecf75da806c7amethod3() {
-        return this.currentUser?.Picture.Uri;
-    }
-    __71121dd8c2837747a91ecf75da806c7amethod4() {
-        return this.currentUser?.Firstname;
-    }
-    __71121dd8c2837747a91ecf75da806c7amethod5() {
-        return this.currentUser?.Lastname;
-    }
-    __71121dd8c2837747a91ecf75da806c7amethod1(fav) {
-        return fav;
+    __71121dd8c2837747a91ecf75da806c7amethod1() {
+        return t("Récents");
     }
     __71121dd8c2837747a91ecf75da806c7amethod2() {
+        return t("Mes favoris");
+    }
+    __71121dd8c2837747a91ecf75da806c7amethod5() {
+        return this.currentUser?.Picture.Uri;
+    }
+    __71121dd8c2837747a91ecf75da806c7amethod6() {
+        return this.currentUser?.Firstname;
+    }
+    __71121dd8c2837747a91ecf75da806c7amethod7() {
+        return this.currentUser?.Lastname;
+    }
+    __71121dd8c2837747a91ecf75da806c7amethod8() {
+        return t("Installer l'application");
+    }
+    __71121dd8c2837747a91ecf75da806c7amethod3(fav) {
+        return fav;
+    }
+    __71121dd8c2837747a91ecf75da806c7amethod4() {
         return this.reorderFav;
     }
 }
@@ -11001,14 +11093,15 @@ _.System.PwaButton=System.PwaButton;
 if(!window.customElements.get('rk-pwa-button')){window.customElements.define('rk-pwa-button', System.PwaButton);Aventus.WebComponentInstance.registerDefinition(System.PwaButton);}
 
 System.Os = class Os extends Aventus.WebComponent {
-    static get observedAttributes() {return ["desktop_list", "show_application_list", "active_desktop"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    static get observedAttributes() {return ["desktop_list", "show_application_list", "active_desktop", "lang"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'loading'() { return this.getBoolAttr('loading') }
     set 'loading'(val) { this.setBoolAttr('loading', val) }get 'ready'() { return this.getBoolAttr('ready') }
     set 'ready'(val) { this.setBoolAttr('ready', val) }get 'no_connection'() { return this.getBoolAttr('no_connection') }
     set 'no_connection'(val) { this.setBoolAttr('no_connection', val) }    get 'desktop_list'() { return this.getBoolProp('desktop_list') }
     set 'desktop_list'(val) { this.setBoolAttr('desktop_list', val) }get 'show_application_list'() { return this.getBoolProp('show_application_list') }
     set 'show_application_list'(val) { this.setBoolAttr('show_application_list', val) }get 'active_desktop'() { return this.getNumberProp('active_desktop') }
-    set 'active_desktop'(val) { this.setNumberAttr('active_desktop', val) }    get 'desktops'() {
+    set 'active_desktop'(val) { this.setNumberAttr('active_desktop', val) }get 'lang'() { return this.getStringProp('lang') }
+    set 'lang'(val) { this.setStringAttr('lang', val) }    get 'desktops'() {
 						return this.__watch["desktops"];
 					}
 					set 'desktops'(val) {
@@ -11036,6 +11129,8 @@ System.Os = class Os extends Aventus.WebComponent {
     }
 }));this.__addPropertyActions("active_desktop", ((target) => {
     target.onActiveDesktop();
+}));this.__addPropertyActions("lang", ((target) => {
+    target.setLocale(target.lang);
 })); }
     static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;width:100%}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:var(--border-radius-round);cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;width:40px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;display:none;height:50px;min-width:auto;position:absolute;right:10px;z-index:6}:host rk-loading{opacity:0;visibility:hidden}:host .background{background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:25% 25%;filter:brightness(0.8);inset:-20px;position:absolute;z-index:0}:host rk-notification-manager{bottom:60px}:host .no-connection{align-items:center;animation-duration:2s;animation-iteration-count:infinite;animation-name:blink;background-color:var(--warning);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);color:var(--text-color-warning);display:none;font-size:var(--font-size-md);gap:10px;padding:5px 15px;position:absolute;right:15px;top:15px;z-index:9999999}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:max-content;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:var(--border-radius-sm)}:host([desktop_list]) .add-desktop{display:block}:host([no_connection]) .no-connection{display:flex}@keyframes blink{0%{background-color:var(--warning);color:var(--text-color-warning)}1%{background-color:var(--text-color-warning);color:var(--warning)}50%{background-color:var(--text-color-warning);color:var(--warning)}51%{background-color:var(--warning);color:var(--text-color-warning)}100%{background-color:var(--warning);color:var(--text-color-warning)}}`;
     constructor() {            super();            System.Os.instance = this;            Lib.ApplicationManager.reloadData();this.desktopMoveLeft=this.desktopMoveLeft.bind(this)this.desktopMoveRight=this.desktopMoveRight.bind(this)this.desktopMoveValidate=this.desktopMoveValidate.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this)}
@@ -11110,9 +11205,9 @@ System.Os = class Os extends Aventus.WebComponent {
     getClassName() {
         return "Os";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('ready')) { this.attributeChangedCallback('ready', false, false); }if(!this.hasAttribute('no_connection')) { this.attributeChangedCallback('no_connection', false, false); }if(!this.hasAttribute('desktop_list')) { this.attributeChangedCallback('desktop_list', false, false); }if(!this.hasAttribute('show_application_list')) { this.attributeChangedCallback('show_application_list', false, false); }if(!this.hasAttribute('active_desktop')){ this['active_desktop'] = 0; } }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('ready')) { this.attributeChangedCallback('ready', false, false); }if(!this.hasAttribute('no_connection')) { this.attributeChangedCallback('no_connection', false, false); }if(!this.hasAttribute('desktop_list')) { this.attributeChangedCallback('desktop_list', false, false); }if(!this.hasAttribute('show_application_list')) { this.attributeChangedCallback('show_application_list', false, false); }if(!this.hasAttribute('active_desktop')){ this['active_desktop'] = 0; }if(!this.hasAttribute('lang')){ this['lang'] = "fr-FR"; } }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["desktops"] = []; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('activeDesktop');this.__upgradeProperty('loading');this.__upgradeProperty('ready');this.__upgradeProperty('no_connection');this.__upgradeProperty('desktop_list');this.__upgradeProperty('show_application_list');this.__upgradeProperty('active_desktop');this.__correctGetter('desktops'); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('activeDesktop');this.__upgradeProperty('loading');this.__upgradeProperty('ready');this.__upgradeProperty('no_connection');this.__upgradeProperty('desktop_list');this.__upgradeProperty('show_application_list');this.__upgradeProperty('active_desktop');this.__upgradeProperty('lang');this.__correctGetter('desktops'); }
     __listBoolProps() { return ["loading","ready","no_connection","desktop_list","show_application_list"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     onActiveDesktop() {
         this.style.setProperty("--_active-desktop", this.active_desktop + "");
@@ -11414,6 +11509,9 @@ System.Os = class Os extends Aventus.WebComponent {
         }, true);
     }
     async init() {
+        if (this.lang != Aventus.I18n.getLocale()) {
+            await Aventus.I18n.setLocale(this.lang);
+        }
         Aventus.DateConverter.converter = new Lib.DateConverter();
         Aventus.PressManager.setGlobalConfig({
             delayDblPress: 250,
@@ -11431,6 +11529,14 @@ System.Os = class Os extends Aventus.WebComponent {
         this.allowInstallApp();
         await this.systemLoading();
         Lib.PWA.init();
+    }
+    async setLocale(lang) {
+        if (this.lang != lang) {
+            this.lang = lang;
+        }
+        else {
+            return await Aventus.I18n.setLocale(lang);
+        }
     }
     postCreation() {
         super.postCreation();
@@ -11648,94 +11754,6 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
 }
 System.AppIcon.Namespace=`Core.System`;
 _.System.AppIcon=System.AppIcon;
-
-State.MoveApplication=class MoveApplication extends Aventus.State {
-    static state = "/application/move";
-    static shadowIcons = [];
-    providers = [];
-    selectedProvider;
-    _lastX = 0;
-    _lastY = 0;
-    get lastX() {
-        return this._lastX;
-    }
-    get lastY() {
-        return this._lastY;
-    }
-    /**
-     * @inheritdoc
-     */
-    get name() {
-        return State.MoveApplication.state;
-    }
-    constructor() {
-        super();
-        this.resetState = this.resetState.bind(this);
-    }
-    resetState() {
-        Lib.ShortcutManager.unsubscribe([Lib.SpecialTouch.Escape], this.resetState);
-        State.DesktopStateManager.getInstance().setState("/");
-    }
-    async activate(manager) {
-        let result = await super.activate(manager);
-        if (result) {
-            Lib.ShortcutManager.subscribe([Lib.SpecialTouch.Escape], this.resetState);
-        }
-        return result;
-    }
-    onActivate() {
-        for (let icon of State.MoveApplication.shadowIcons) {
-            icon.onMoveApplication(this, {});
-        }
-    }
-    onInactivate(nextState) {
-        for (let icon of State.MoveApplication.shadowIcons) {
-            icon.onStopMovingApplication();
-        }
-    }
-    registerProvider(provider) {
-        this.providers.push(provider);
-    }
-    onMove(icon, x, y) {
-        this._lastX = x;
-        this._lastY = y;
-        this.selectedProvider = undefined;
-        for (let provider of this.providers) {
-            if (provider.setAppPositionTemp(icon, x, y, this)) {
-                this.selectedProvider = provider;
-                break;
-            }
-        }
-        for (let provider of this.providers) {
-            if (provider != this.selectedProvider) {
-                provider.clearAppPositionTemp(this);
-            }
-        }
-    }
-    async onDrop(icon, x, y, reset) {
-        icon.style.width = '';
-        icon.style.height = '';
-        icon.style.top = '';
-        icon.style.left = '';
-        icon.style.zIndex = '';
-        icon.style.opacity = '';
-        icon.style.pointerEvents = '';
-        icon.style.position = '';
-        if (this.selectedProvider) {
-            await this.selectedProvider.setAppPosition(icon, x, y, this);
-        }
-        else {
-            reset();
-        }
-    }
-    onRemove(icon, x, y) {
-        for (let provider of this.providers) {
-            provider.removeAppPosition(icon, x, y, this);
-        }
-    }
-}
-State.MoveApplication.Namespace=`Core.State`;
-_.State.MoveApplication=State.MoveApplication;
 
 System.CoreAppIcon = class CoreAppIcon extends System.AppIcon {
     static __style = `:host{background-color:#7a7a7a}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #ffffff;flex-grow:1;max-height:100%;padding:15%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
@@ -12373,7 +12391,7 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="header">    <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_0"></mi-icon>    <div class="current-info" _id="calendar_1">        <div class="month-year touch hover">            <div class="month" _id="calendar_2"></div>            <div class="year" _id="calendar_3"></div>        </div>    </div>    <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_4"></mi-icon>    <div class="selectors">        <div class="month-select">            <div class="month-select-header">                <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_5"></mi-icon>                <div class="current-info" _id="calendar_6">                    <div class="temp-year touch hover" _id="calendar_7"></div>                </div>                <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_8"></mi-icon>            </div>            <div class="month-select-body" _id="calendar_9">                <div class="month-el touch hover" _id="calendar_10">Janv.</div>                <div class="month-el touch hover" _id="calendar_11">Févr.</div>                <div class="month-el touch hover" _id="calendar_12">Mars</div>                <div class="month-el touch hover" _id="calendar_13">Avr.</div>                <div class="month-el touch hover" _id="calendar_14">Mai</div>                <div class="month-el touch hover" _id="calendar_15">Juin</div>                <div class="month-el touch hover" _id="calendar_16">Juil.</div>                <div class="month-el touch hover" _id="calendar_17">Août</div>                <div class="month-el touch hover" _id="calendar_18">Sept.</div>                <div class="month-el touch hover" _id="calendar_19">Oct.</div>                <div class="month-el touch hover" _id="calendar_20">Nov.</div>                <div class="month-el touch hover" _id="calendar_21">Déc.</div>            </div>        </div>        <div class="year-select">            <div class="year-select-header">                <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_22"></mi-icon>                <div class="current-info">                    <div class="temp-year-range" _id="calendar_23"></div>                </div>                <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_24"></mi-icon>            </div>            <div class="year-select-body" _id="calendar_25">            </div>        </div>    </div></div><div class="body">    <div class="days-header">        <div class="day-header">Lu</div>        <div class="day-header">Ma</div>        <div class="day-header">Me</div>        <div class="day-header">Je</div>        <div class="day-header">Ve</div>        <div class="day-header">Sa</div>        <div class="day-header">Di</div>    </div>    <div class="days-body" _id="calendar_26">    </div></div><div class="hider" _id="calendar_27"></div>` }
+        blocks: { 'default':`<div class="header">    <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_0"></mi-icon>    <div class="current-info" _id="calendar_1">        <div class="month-year touch hover">            <div class="month" _id="calendar_2"></div>            <div class="year" _id="calendar_3"></div>        </div>    </div>    <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_4"></mi-icon>    <div class="selectors">        <div class="month-select">            <div class="month-select-header">                <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_5"></mi-icon>                <div class="current-info" _id="calendar_6">                    <div class="temp-year touch hover" _id="calendar_7"></div>                </div>                <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_8"></mi-icon>            </div>            <div class="month-select-body" _id="calendar_9">                <div class="month-el touch hover" _id="calendar_10"></div>                <div class="month-el touch hover" _id="calendar_11"></div>                <div class="month-el touch hover" _id="calendar_12"></div>                <div class="month-el touch hover" _id="calendar_13"></div>                <div class="month-el touch hover" _id="calendar_14"></div>                <div class="month-el touch hover" _id="calendar_15"></div>                <div class="month-el touch hover" _id="calendar_16"></div>                <div class="month-el touch hover" _id="calendar_17"></div>                <div class="month-el touch hover" _id="calendar_18"></div>                <div class="month-el touch hover" _id="calendar_19"></div>                <div class="month-el touch hover" _id="calendar_20"></div>                <div class="month-el touch hover" _id="calendar_21"></div>            </div>        </div>        <div class="year-select">            <div class="year-select-header">                <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_22"></mi-icon>                <div class="current-info">                    <div class="temp-year-range" _id="calendar_23"></div>                </div>                <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_24"></mi-icon>            </div>            <div class="year-select-body" _id="calendar_25">            </div>        </div>    </div></div><div class="body">    <div class="days-header">        <div class="day-header" _id="calendar_26"></div>        <div class="day-header" _id="calendar_27"></div>        <div class="day-header" _id="calendar_28"></div>        <div class="day-header" _id="calendar_29"></div>        <div class="day-header" _id="calendar_30"></div>        <div class="day-header" _id="calendar_31"></div>        <div class="day-header" _id="calendar_32"></div>    </div>    <div class="days-body" _id="calendar_33">    </div></div><div class="hider" _id="calendar_34"></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -12405,7 +12423,7 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
     {
       "name": "bodyEl",
       "ids": [
-        "calendar_26"
+        "calendar_33"
       ]
     }
   ],
@@ -12414,8 +12432,84 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
       "fct": (c) => `\r\n                        ${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method0())}\r\n                    `,
       "once": true
     },
+    "calendar_10°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method1())}.`,
+      "once": true
+    },
+    "calendar_11°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method2())}.`,
+      "once": true
+    },
+    "calendar_12°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method3())}`,
+      "once": true
+    },
+    "calendar_13°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method4())}.`,
+      "once": true
+    },
+    "calendar_14°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method5())}`,
+      "once": true
+    },
+    "calendar_15°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method6())}`,
+      "once": true
+    },
+    "calendar_16°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method7())}.`,
+      "once": true
+    },
+    "calendar_17°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method8())}`,
+      "once": true
+    },
+    "calendar_18°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method9())}.`,
+      "once": true
+    },
+    "calendar_19°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method10())}.`,
+      "once": true
+    },
+    "calendar_20°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method11())}.`,
+      "once": true
+    },
+    "calendar_21°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method12())}.`,
+      "once": true
+    },
     "calendar_23°@HTML": {
-      "fct": (c) => `\r\n                        ${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method1())}\r\n                    `,
+      "fct": (c) => `\r\n                        ${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method13())}\r\n                    `,
+      "once": true
+    },
+    "calendar_26°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method14())}`,
+      "once": true
+    },
+    "calendar_27°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method15())}`,
+      "once": true
+    },
+    "calendar_28°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method16())}`,
+      "once": true
+    },
+    "calendar_29°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method17())}`,
+      "once": true
+    },
+    "calendar_30°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method18())}`,
+      "once": true
+    },
+    "calendar_31°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method19())}`,
+      "once": true
+    },
+    "calendar_32°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method20())}`,
       "once": true
     }
   },
@@ -12501,7 +12595,7 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
       "onPress": (e, pressInstance, c) => { c.comp.nextYearGroupTemp(e, pressInstance); }
     },
     {
-      "id": "calendar_27",
+      "id": "calendar_34",
       "onPress": (e, pressInstance, c) => { c.comp.hideSelector(e, pressInstance); }
     }
   ]
@@ -12513,22 +12607,6 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["dateTemp"] = new Date();w["yearGroupPage"] = 0;w["yearGroupTxt"] = ""; }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('selector');this.__upgradeProperty('date');this.__upgradeProperty('show_selector');this.__correctGetter('dateTemp');this.__correctGetter('yearGroupPage');this.__correctGetter('yearGroupTxt'); }
     __listBoolProps() { return ["show_selector"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    monthsName() {
-        return [
-            'Janvier',
-            'Février',
-            'Mars',
-            'Avril',
-            'Mai',
-            'Juin',
-            'Juillet',
-            'Août',
-            'Septembre',
-            'Octobre',
-            'Novembre',
-            'Décembre'
-        ];
-    }
     nextMonth() {
         let date = this.date;
         let newDate = new Date();
@@ -12558,7 +12636,7 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
         Lib.DomTools.clearElement(this.bodyEl);
         let date = this.date;
         this.yearEl.innerHTML = date.getFullYear() + '';
-        this.monthEl.innerHTML = this.monthsName()[date.getMonth()];
+        this.monthEl.innerHTML = Lib.DateTools.getMonthName(date.getMonth());
         let startDate = Lib.DateTools.getStartWeek(Lib.DateTools.getStartMonth(date));
         let endDate = Lib.DateTools.getEndWeek(Lib.DateTools.getEndMonth(date));
         let i = 0;
@@ -12675,7 +12753,64 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
         return this.dateTemp.getFullYear();
     }
     __209c968d688f11ad02afc05e2a5220a2method1() {
+        return Lib.DateTools.getMonthName(0, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method2() {
+        return Lib.DateTools.getMonthName(1, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method3() {
+        return Lib.DateTools.getMonthName(2, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method4() {
+        return Lib.DateTools.getMonthName(3, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method5() {
+        return Lib.DateTools.getMonthName(4, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method6() {
+        return Lib.DateTools.getMonthName(5, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method7() {
+        return Lib.DateTools.getMonthName(6, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method8() {
+        return Lib.DateTools.getMonthName(7, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method9() {
+        return Lib.DateTools.getMonthName(8, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method10() {
+        return Lib.DateTools.getMonthName(9, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method11() {
+        return Lib.DateTools.getMonthName(10, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method12() {
+        return Lib.DateTools.getMonthName(11, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method13() {
         return this.yearGroupTxt;
+    }
+    __209c968d688f11ad02afc05e2a5220a2method14() {
+        return Lib.DateTools.getDayName(1, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method15() {
+        return Lib.DateTools.getDayName(2, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method16() {
+        return Lib.DateTools.getDayName(3, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method17() {
+        return Lib.DateTools.getDayName(4, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method18() {
+        return Lib.DateTools.getDayName(5, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method19() {
+        return Lib.DateTools.getDayName(6, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method20() {
+        return Lib.DateTools.getDayName(0, true);
     }
 }
 Components.Calendar.Namespace=`Core.Components`;
@@ -12730,30 +12865,7 @@ if(!window.customElements.get('rk-date-picker-calendar-day')){window.customEleme
 
 System.AddOnTime = class AddOnTime extends Aventus.WebComponent {
     get 'active'() { return this.getBoolAttr('active') }
-    set 'active'(val) { this.setBoolAttr('active', val) }    days = [
-        'Dim.',
-        'Lun.',
-        'Mar.',
-        'Mer.',
-        'Jeu.',
-        'Ven.',
-        'Sam.'
-    ];
-    months = [
-        'Janvier',
-        'Février',
-        'Mars',
-        'Avril',
-        'Mai',
-        'Juin',
-        'Juillet',
-        'Août',
-        'Septembre',
-        'Octobre',
-        'Novembre',
-        'Décembre'
-    ];
-    static __style = `:host{position:relative;height:var(--desktop-bottom-bar-element)}:host .display{align-items:center;border-radius:var(--border-radius-sm);cursor:pointer;display:flex;margin-right:10px;padding:0 10px;transition:background-color linear .2s;height:100%}:host .display .date{font-size:var(--font-size-sm)}:host .display .hour{font-size:var(--font-size-sm);margin-left:5px}:host .calendar{--calendar-background-color: var(--primary-color-opacity);bottom:calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element))/2 + 3px);box-shadow:var(--elevation-3);height:0;overflow:hidden;padding:0px 15px;position:absolute;right:10px;pointer-events:none;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s,padding var(--bezier-curve) .5s}:host([active]) .display{background-color:var(--lighter-active)}:host([active]) .calendar{bottom:calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element))/2 + 3px);height:var(--time-calendar-height);padding:15px;pointer-events:all}@media screen and (min-width: 1225px){:host .display:hover{background-color:var(--lighter-active)}}`;
+    set 'active'(val) { this.setBoolAttr('active', val) }    static __style = `:host{position:relative;height:var(--desktop-bottom-bar-element)}:host .display{align-items:center;border-radius:var(--border-radius-sm);cursor:pointer;display:flex;margin-right:10px;padding:0 10px;transition:background-color linear .2s;height:100%}:host .display .date{font-size:var(--font-size-sm)}:host .display .hour{font-size:var(--font-size-sm);margin-left:5px}:host .calendar{--calendar-background-color: var(--primary-color-opacity);bottom:calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element))/2 + 3px);box-shadow:var(--elevation-3);height:0;overflow:hidden;padding:0px 15px;position:absolute;right:10px;pointer-events:none;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s,padding var(--bezier-curve) .5s}:host([active]) .display{background-color:var(--lighter-active)}:host([active]) .calendar{bottom:calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element))/2 + 3px);height:var(--time-calendar-height);padding:15px;pointer-events:all}@media screen and (min-width: 1225px){:host .display:hover{background-color:var(--lighter-active)}}`;
     constructor() {
             super();
             this.classList.add("touch");
@@ -12827,8 +12939,8 @@ this.calculateCalendarSize=this.calculateCalendarSize.bind(this)}
         let hours = date.getHours();
         this.hour.innerHTML = this.prettyNumber(hours) + ":" + this.prettyNumber(minutes);
         if (force || (minutes == 0 && hours == 0)) {
-            let day = this.days[date.getDay()];
-            let month = this.months[date.getMonth()];
+            let day = Lib.DateTools.getDayName(date.getDay(), true) + ".";
+            let month = Lib.DateTools.getMonthName(date.getMonth());
             let nb = date.getDate();
             let txt = day + ' ' + this.prettyNumber(nb) + ' ' + month;
             this.date.innerHTML = txt;
@@ -14687,7 +14799,7 @@ System.NotificationBtn = class NotificationBtn extends Components.Button {
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "content": {
     "notificationbtn_0°@HTML": {
-      "fct": (c) => `Notifications ${c.print(c.comp.__e408074159161ac8cd828f4a9b06dfe2method0())}`
+      "fct": (c) => `${c.print(c.comp.__e408074159161ac8cd828f4a9b06dfe2method0())}`
     }
   }
 }); }
@@ -14737,7 +14849,7 @@ System.NotificationBtn = class NotificationBtn extends Components.Button {
         this.setValues();
     }
     __e408074159161ac8cd828f4a9b06dfe2method0() {
-        return this.hasNotification ? "activées" : "desactivées";
+        return this.hasNotification ? t("Notifications activées") : t("Notifications désactivées");
     }
 }
 System.NotificationBtn.Namespace=`Core.System`;
@@ -15499,6 +15611,93 @@ Components.SheetPreview.Namespace=`Core.Components`;
 Components.SheetPreview.Tag=`rk-sheet-preview`;
 _.Components.SheetPreview=Components.SheetPreview;
 if(!window.customElements.get('rk-sheet-preview')){window.customElements.define('rk-sheet-preview', Components.SheetPreview);Aventus.WebComponentInstance.registerDefinition(Components.SheetPreview);}
+
+const IconAction = class IconAction extends MaterialIcon.Icon {
+    static get observedAttributes() {return ["icon", "position", "delay", "delay_touch"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'position'() { return this.getStringProp('position') }
+    set 'position'(val) { this.setStringAttr('position', val) }get 'delay'() { return this.getNumberProp('delay') }
+    set 'delay'(val) { this.setNumberAttr('delay', val) }get 'delay_touch'() { return this.getNumberProp('delay_touch') }
+    set 'delay_touch'(val) { this.setNumberAttr('delay_touch', val) }    tooltip;
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("position", ((target) => {
+    if (target.tooltip) {
+        target.tooltip.position = target.position;
+    }
+}));this.__addPropertyActions("delay", ((target) => {
+    if (target.tooltip) {
+        target.tooltip.delay = target.delay;
+    }
+}));this.__addPropertyActions("delay_touch", ((target) => {
+    if (target.tooltip) {
+        target.tooltip.delay_touch = target.delay_touch;
+    }
+})); }
+    static __style = `:host{border-radius:var(--border-radius-sm);color:var(--blue);cursor:pointer;font-size:var(--font-size-md);padding:3px;position:relative;transition:background-color .2s linear}:host .hidden{display:none}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--lighter)}}`;
+    __getStatic() {
+        return IconAction;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(IconAction.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot _id="iconaction_1"></slot>` }, 
+        blocks: { 'default':`<div class="icon" _id="iconaction_0"></div><div class="hidden">    <slot _id="iconaction_1"></slot></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "iconEl",
+      "ids": [
+        "iconaction_0"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "eventName": "slotchange",
+      "id": "iconaction_1",
+      "fct": (e, c) => c.comp.onSlotChange(e)
+    }
+  ]
+}); }
+    getClassName() {
+        return "IconAction";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = "square"; }if(!this.hasAttribute('position')){ this['position'] = 'top'; }if(!this.hasAttribute('delay')){ this['delay'] = 700; }if(!this.hasAttribute('delay_touch')){ this['delay_touch'] = 700; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon');this.__upgradeProperty('position');this.__upgradeProperty('delay');this.__upgradeProperty('delay_touch'); }
+    onSlotChange() {
+        const content = this.innerHTML.trim();
+        if (content == "") {
+            if (this.tooltip) {
+                this.tooltip.remove();
+                this.tooltip = undefined;
+            }
+        }
+        else {
+            if (!this.tooltip) {
+                this.tooltip = new Components.Tooltip();
+                this.tooltip.position = this.position;
+                this.tooltip.delay = this.delay;
+                this.tooltip.delay_touch = this.delay_touch;
+                this.tooltip.use_absolute = true;
+                this.tooltip.no_caret = true;
+                this.tooltip.style.fontSize = "var(--font-size-sm)";
+                this.tooltip.style.color = "#efefef";
+                this.tooltip.style.backgroundColor = "#757575";
+                this.shadowRoot.appendChild(this.tooltip);
+            }
+            this.tooltip.innerHTML = content;
+        }
+    }
+}
+IconAction.Namespace=`Core`;
+IconAction.Tag=`rk-icon-action`;
+_.IconAction=IconAction;
+if(!window.customElements.get('rk-icon-action')){window.customElements.define('rk-icon-action', IconAction);Aventus.WebComponentInstance.registerDefinition(IconAction);}
 
 Components.Checkbox = class Checkbox extends Components.FormElement {
     static get observedAttributes() {return ["label", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -21458,6 +21657,14 @@ Data.Company.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"st
 Aventus.Converter.register(Data.Company.Fullname, Data.Company);
 _.Data.Company=Data.Company;
 
+Data.DataTypes.FileError=class FileError extends Aventus.GenericError {
+    static get Fullname() { return "Core.Data.DataTypes.FileError, Core"; }
+}
+Data.DataTypes.FileError.Namespace=`Core.Data.DataTypes`;
+Data.DataTypes.FileError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
+Aventus.Converter.register(Data.DataTypes.FileError.Fullname, Data.DataTypes.FileError);
+_.Data.DataTypes.FileError=Data.DataTypes.FileError;
+
 Data.Manifest=class Manifest extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.Manifest, Core"; }
     name;
@@ -21759,14 +21966,6 @@ RAM.GroupRAM=class GroupRAM extends RAM.RamHttp {
 }
 RAM.GroupRAM.Namespace=`Core.RAM`;
 _.RAM.GroupRAM=RAM.GroupRAM;
-
-Data.DataTypes.FileError=class FileError extends Aventus.GenericError {
-    static get Fullname() { return "Core.Data.DataTypes.FileError, Core"; }
-}
-Data.DataTypes.FileError.Namespace=`Core.Data.DataTypes`;
-Data.DataTypes.FileError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
-Aventus.Converter.register(Data.DataTypes.FileError.Fullname, Data.DataTypes.FileError);
-_.Data.DataTypes.FileError=Data.DataTypes.FileError;
 
 
 for(let key in _) { Core[key] = _[key] }

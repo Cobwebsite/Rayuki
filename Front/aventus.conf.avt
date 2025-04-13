@@ -12,6 +12,7 @@
                 "./libs/*",
                 "./states/*",
                 "./generated/*",
+                "./locales/*",
                 "./@default.wcs.avt"
             ],
             "outsideModule": [
@@ -51,6 +52,10 @@
                     "include": "none"
                 },
                 {
+                    "uri": "@AventusI18n",
+                    "include": "none"
+                },
+                {
                     "uri": "@local:MaterialIcon@Main",
                     "include": "none"
                 },
@@ -65,6 +70,15 @@
                 "live": false,
                 "prefix": "Front",
                 "srcBaseUrl": "https://github.com/Cobwebsite/Rayuki/tree/develop/Front"
+            },
+            "i18n": {
+                "autoRegister": false,
+                "locales": [
+                    "fr-FR",
+                    "de-DE",
+                    "en-GB"
+                ],
+                "fallback": "fr-FR"
             }
         },
         {
@@ -115,6 +129,9 @@
                     "uri": "@AventusSharp"
                 },
                 {
+                    "uri": "@AventusI18n"
+                },
+                {
                     "uri": "@local:Core@Main",
                     "include": "need"
                 }
@@ -160,6 +177,10 @@
                 },
                 {
                     "uri": "@AventusSharp",
+                    "include": "full"
+                },
+                {
+                    "uri": "@AventusI18n",
                     "include": "full"
                 },
                 {

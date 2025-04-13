@@ -25,7 +25,7 @@ Object.defineProperty(window, "AvInstance", {
 		}
 		return Map.prototype._defaultGet.call(this, key);
 	}
-})()
+})();
 
 var Aventus;
 (Aventus||(Aventus = {}));
@@ -549,43 +549,6 @@ let setValueToObject=function setValueToObject(path, obj, value) {
 }
 _.setValueToObject=setValueToObject;
 
-let Callback=class Callback {
-    callbacks = new Map();
-    /**
-     * Clear all callbacks
-     */
-    clear() {
-        this.callbacks.clear();
-    }
-    /**
-     * Add a callback
-     */
-    add(cb, scope = null) {
-        if (!this.callbacks.has(cb)) {
-            this.callbacks.set(cb, scope);
-        }
-    }
-    /**
-     * Remove a callback
-     */
-    remove(cb) {
-        this.callbacks.delete(cb);
-    }
-    /**
-     * Trigger all callbacks
-     */
-    trigger(...args) {
-        let result = [];
-        let cbs = [...this.callbacks];
-        for (let [cb, scope] of cbs) {
-            result.push(cb.apply(scope, args));
-        }
-        return result;
-    }
-}
-Callback.Namespace=`Aventus`;
-_.Callback=Callback;
-
 let Mutex=class Mutex {
     /**
      * Array to store functions waiting for the mutex to become available.
@@ -803,6 +766,43 @@ let NormalizedEvent=class NormalizedEvent {
 }
 NormalizedEvent.Namespace=`Aventus`;
 _.NormalizedEvent=NormalizedEvent;
+
+let Callback=class Callback {
+    callbacks = new Map();
+    /**
+     * Clear all callbacks
+     */
+    clear() {
+        this.callbacks.clear();
+    }
+    /**
+     * Add a callback
+     */
+    add(cb, scope = null) {
+        if (!this.callbacks.has(cb)) {
+            this.callbacks.set(cb, scope);
+        }
+    }
+    /**
+     * Remove a callback
+     */
+    remove(cb) {
+        this.callbacks.delete(cb);
+    }
+    /**
+     * Trigger all callbacks
+     */
+    trigger(...args) {
+        let result = [];
+        let cbs = [...this.callbacks];
+        for (let [cb, scope] of cbs) {
+            result.push(cb.apply(scope, args));
+        }
+        return result;
+    }
+}
+Callback.Namespace=`Aventus`;
+_.Callback=Callback;
 
 let compareObject=function compareObject(obj1, obj2) {
     if (Array.isArray(obj1)) {
@@ -6111,6 +6111,22 @@ if(!window.customElements.get('mi-icon')){window.customElements.define('mi-icon'
 
 for(let key in _) { MaterialIcon[key] = _[key] }
 })(MaterialIcon);
+
+(() => {
+	Object.defineProperty(window, "t", {
+		get() {return Aventus.I18n.t;}
+	});
+
+	Aventus.WebComponent.prototype.t = function(key, params = {}) {
+        const i18n = Aventus.I18n;
+        const localeKey = this.$type.replace(/\./g, '°') + "°" + key;
+        if(i18n.hasKey(localeKey)) {
+            return i18n.t(localeKey, params);
+        }
+        return i18n.t(key, params);
+	}
+
+})();
 
 var AventusSharp;
 (AventusSharp||(AventusSharp = {}));
