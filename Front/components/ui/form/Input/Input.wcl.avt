@@ -71,6 +71,14 @@ namespace Components {
             }
         }
 
+        protected override postCreation(): void {
+            super.postCreation();
+            this.setAttribute("tabindex", "1");
+            this.addEventListener("focus", () => {
+                this.inputEl.focus();
+            })
+        }
+
         //#endregion
 
     }

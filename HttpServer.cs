@@ -29,8 +29,8 @@ namespace Core
         public static readonly string BuildDate = "2025-01-09T09:22:14.701Z";
         public static bool resetStorage
         {
-            get => false;
-            // get => app.Environment.IsDevelopment();
+            // get => false;
+            get => app.Environment.IsDevelopment();
         }
 
         public static string wwwroot

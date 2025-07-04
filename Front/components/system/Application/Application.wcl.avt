@@ -161,6 +161,7 @@ namespace System {
          */
         @BindThis()
         public onContextMenuContent(contextMenu: ContextMenu, stop: () => void): void {
+            this.frame?.onContextMenuContent(contextMenu, stop);
             stop();
         }
 
@@ -185,6 +186,7 @@ namespace System {
                     this.saveAsFavorite();
                 }
             });
+            this.frame?.onContextMenuHeader(contextMenu, stop);
             stop();
         }
 

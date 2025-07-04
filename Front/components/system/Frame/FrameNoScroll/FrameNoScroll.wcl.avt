@@ -3,6 +3,7 @@ import type { Application } from "../../Application/Application.wcl.avt";
 import { Permission, PermissionWatcher, type IPermission, type IPermissionQuery, type PermissionQuery, type PermissionQueryCst } from "../../../../libs/Permission.lib.avt";
 import type { ApplicationState } from "../../../../states/ApplicationState.state.avt";
 import { ActionGuard, sleep, Watcher, type Enum } from "Aventus@Main:Aventus.package.avt";
+import type { ContextMenu } from "../../../ui/ContextMenu/ContextMenu.wcl.avt";
 
 namespace System {
     export abstract class FrameNoScroll extends Aventus.WebComponent implements Aventus.DefaultComponent, IPermission {
@@ -142,6 +143,23 @@ namespace System {
         }
         public onPermissionSet<T extends Enum>(allow: boolean, query: PermissionQueryCst<T>, value: Aventus.EnumValue<T>, additionalInfo?: string) {}
 
+        /**
+         * Use this function to add anything you want to display when user trigger the context menu on the content
+         */
+        @BindThis()
+        @InternalProtected()
+        public onContextMenuContent(contextMenu: ContextMenu, stop: () => void): void {
+
+        }
+
+        /**
+         * Use this function to add anything you want to display when user trigger the context menu on the header
+         */
+        @BindThis()
+        @InternalProtected()
+        public onContextMenuHeader(contextMenu: ContextMenu, stop: () => void): void {
+            
+        }
         //#endregion
     }
 }

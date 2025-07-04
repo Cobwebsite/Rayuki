@@ -89,6 +89,18 @@
 	color: var(--text-color);
 }
 
+:host([flat]) {
+	box-shadow: none;
+}
+
+:host([ghost]) {
+	background-color: transparent;
+}
+
+:host([ghost][outline]) {
+	border: none;
+}
+
 @include eachColor using ($color) {
 	:host([color="#{$color}"]) {
 		background-color: var(--#{$color});

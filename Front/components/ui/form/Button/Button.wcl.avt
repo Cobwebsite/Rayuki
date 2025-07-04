@@ -36,6 +36,12 @@ namespace Components {
 
         @Attribute()
         public disabled!: boolean;
+        
+        @Attribute()
+        public flat!: boolean;
+
+        @Attribute()
+        public ghost!: boolean;
         //#endregion
 
 
