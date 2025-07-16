@@ -20115,9 +20115,10 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
 });const templ1 = new Aventus.Template(this);templ1.setTemplate(`                    <div class="search">                        <rk-input placeholder="Recherche" _id="table_4"></rk-input>                    </div>                `);templ1.setActions({
   "events": [
     {
-      "eventName": "change",
+      "eventName": "onChange",
       "id": "table_4",
-      "fct": (e, c) => c.comp.globalFilter(e)
+      "fct": (c, ...args) => c.comp.globalFilter.apply(c.comp, ...args),
+      "isCallback": true
     }
   ]
 });templ0.addIf({
@@ -20152,11 +20153,12 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
       "id": "table_8",
       "injectionName": "value",
       "eventNames": [
-        "change"
+        "onChange"
       ],
       "inject": (c) => c.comp.__b5b6f5e196622f4341e5ecfc2e397e35method5(),
       "extract": (c, v) => c.comp.__b5b6f5e196622f4341e5ecfc2e397e35method6(v),
-      "once": true
+      "once": true,
+      "isCallback": true
     }
   ],
   "pressEvents": [

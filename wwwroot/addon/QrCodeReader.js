@@ -4,9 +4,18 @@ var QrCodeReader;
 const moduleName = `QrCodeReader`;
 const _ = {};
 
-const Sw = {};
-_.Sw = {};
+let Sw = {};
+_.Sw = QrCodeReader.Sw ?? {};
 let _n;
+var ErrorCode;
+(function (ErrorCode) {
+    ErrorCode[ErrorCode["Unknown"] = 0] = "Unknown";
+    ErrorCode[ErrorCode["QrScannerDestroy"] = 1] = "QrScannerDestroy";
+    ErrorCode[ErrorCode["CameraNotFound"] = 2] = "CameraNotFound";
+    ErrorCode[ErrorCode["NoFlashAvailable"] = 3] = "NoFlashAvailable";
+})(ErrorCode || (ErrorCode = {}));
+_.ErrorCode=ErrorCode;
+
 Sw.Matrix=class Matrix {
     data;
     width;
@@ -26,8 +35,8 @@ Sw.Matrix=class Matrix {
     }
 }
 Sw.Matrix.Namespace=`QrCodeReader.Sw`;
-
 _.Sw.Matrix=Sw.Matrix;
+
 (function (ModeByte) {
     ModeByte[ModeByte["Terminator"] = 0] = "Terminator";
     ModeByte[ModeByte["Numeric"] = 1] = "Numeric";
@@ -37,8 +46,8 @@ _.Sw.Matrix=Sw.Matrix;
     ModeByte[ModeByte["ECI"] = 7] = "ECI";
     ModeByte[ModeByte["StructuredAppend"] = 3] = "StructuredAppend";
 })(Sw.ModeByte || (Sw.ModeByte = {}));
-
 _.Sw.ModeByte=Sw.ModeByte;
+
 Sw.BitStream=class BitStream {
     bytes;
     byteOffset = 0;
@@ -84,13 +93,13 @@ Sw.BitStream=class BitStream {
     }
 }
 Sw.BitStream.Namespace=`QrCodeReader.Sw`;
-
 _.Sw.BitStream=Sw.BitStream;
+
 Sw.addOrSubtractGF=function addOrSubtractGF(a, b) {
     return a ^ b;
 }
-
 _.Sw.addOrSubtractGF=Sw.addOrSubtractGF;
+
 Sw.VERSIONS= [
     {
         infoBits: null,
@@ -1397,8 +1406,8 @@ Sw.VERSIONS= [
         ],
     },
 ];
-
 _.Sw.VERSIONS=Sw.VERSIONS;
+
 (function (Mode) {
     Mode["Numeric"] = "numeric";
     Mode["Alphanumeric"] = "alphanumeric";
@@ -1407,8 +1416,8 @@ _.Sw.VERSIONS=Sw.VERSIONS;
     Mode["ECI"] = "eci";
     Mode["StructuredAppend"] = "structuredappend";
 })(Sw.Mode || (Sw.Mode = {}));
-
 _.Sw.Mode=Sw.Mode;
+
 Sw.BitMatrix=class BitMatrix {
     static createEmpty(width, height) {
         return new Sw.BitMatrix(new Uint8ClampedArray(width * height), width);
@@ -1439,8 +1448,8 @@ Sw.BitMatrix=class BitMatrix {
     }
 }
 Sw.BitMatrix.Namespace=`QrCodeReader.Sw`;
-
 _.Sw.BitMatrix=Sw.BitMatrix;
+
 Sw.Locator=class Locator {
     static MAX_FINDERPATTERNS_TO_SEARCH = 5;
     static MIN_QUAD_RATIO = 0.5;
@@ -1802,8 +1811,8 @@ Sw.Locator=class Locator {
     }
 }
 Sw.Locator.Namespace=`QrCodeReader.Sw`;
-
 _.Sw.Locator=Sw.Locator;
+
 Sw.Exctractor=class Exctractor {
     static squareToQuadrilateral(p1, p2, p3, p4) {
         const dx3 = p1.x - p2.x + p3.x - p4.x;
@@ -1896,8 +1905,8 @@ Sw.Exctractor=class Exctractor {
     }
 }
 Sw.Exctractor.Namespace=`QrCodeReader.Sw`;
-
 _.Sw.Exctractor=Sw.Exctractor;
+
 Sw.GenericGFPoly=class GenericGFPoly {
     field;
     coefficients;
@@ -2022,8 +2031,8 @@ Sw.GenericGFPoly=class GenericGFPoly {
     }
 }
 Sw.GenericGFPoly.Namespace=`QrCodeReader.Sw`;
-
 _.Sw.GenericGFPoly=Sw.GenericGFPoly;
+
 Sw.GenericGF=class GenericGF {
     primitive;
     size;
@@ -2086,8 +2095,8 @@ Sw.GenericGF=class GenericGF {
     }
 }
 Sw.GenericGF.Namespace=`QrCodeReader.Sw`;
-
 _.Sw.GenericGF=Sw.GenericGF;
+
 Sw.Reedsolomon=class Reedsolomon {
     static runEuclideanAlgorithm(field, a, b, R) {
         if (a.degree() < b.degree()) {
@@ -2201,8 +2210,8 @@ Sw.Reedsolomon=class Reedsolomon {
     }
 }
 Sw.Reedsolomon.Namespace=`QrCodeReader.Sw`;
-
 _.Sw.Reedsolomon=Sw.Reedsolomon;
+
 Sw.DecodeData=class DecodeData {
     static AlphanumericCharacterCodes = [
         "0", "1", "2", "3", "4", "5", "6", "7", "8",
@@ -2397,8 +2406,8 @@ Sw.DecodeData=class DecodeData {
     }
 }
 Sw.DecodeData.Namespace=`QrCodeReader.Sw`;
-
 _.Sw.DecodeData=Sw.DecodeData;
+
 Sw.Decoder=class Decoder {
     static numBitsDiffering(x, y) {
         let z = x ^ y;
@@ -2686,8 +2695,8 @@ Sw.Decoder=class Decoder {
     }
 }
 Sw.Decoder.Namespace=`QrCodeReader.Sw`;
-
 _.Sw.Decoder=Sw.Decoder;
+
 Sw.Binarizer=class Binarizer {
     static REGION_SIZE = 8;
     static MIN_DYNAMIC_RANGE = 24;
@@ -2817,8 +2826,8 @@ Sw.Binarizer=class Binarizer {
     }
 }
 Sw.Binarizer.Namespace=`QrCodeReader.Sw`;
-
 _.Sw.Binarizer=Sw.Binarizer;
+
 Sw.QrCode=class QrCode {
     static defaultOptions = {
         inversionAttempts: "attemptBoth",
@@ -2882,8 +2891,8 @@ Sw.QrCode=class QrCode {
     }
 }
 Sw.QrCode.Namespace=`QrCodeReader.Sw`;
-
 _.Sw.QrCode=Sw.QrCode;
+
 Sw.WorkerDispatch=class WorkerDispatch {
     static inversionAttempts = 'dontInvert';
     static grayscaleWeights = {
@@ -2944,9 +2953,9 @@ Sw.WorkerDispatch=class WorkerDispatch {
     }
 }
 Sw.WorkerDispatch.Namespace=`QrCodeReader.Sw`;
-
 _.Sw.WorkerDispatch=Sw.WorkerDispatch;
-const createWorker=function createWorker() {
+
+let createWorker=function createWorker() {
     const sw = window['QrCodeReader'].Sw;
     const decode = Sw.WorkerDispatch.decode;
     let txt = `(() => {
@@ -2998,7 +3007,22 @@ const createWorker=function createWorker() {
     return new Worker(URL.createObjectURL(new Blob([txt])));
 }
 
-const QrScanner=class QrScanner {
+let ScannerError=class ScannerError extends Aventus.GenericError {
+}
+ScannerError.Namespace=`QrCodeReader`;
+_.ScannerError=ScannerError;
+
+let ResultWithError=class ResultWithError extends Aventus.ResultWithError {
+}
+ResultWithError.Namespace=`QrCodeReader`;
+_.ResultWithError=ResultWithError;
+
+let VoidWithError=class VoidWithError extends Aventus.VoidWithError {
+}
+VoidWithError.Namespace=`QrCodeReader`;
+_.VoidWithError=VoidWithError;
+
+let QrScanner=class QrScanner {
     static DEFAULT_CANVAS_SIZE = 400;
     static NO_QR_CODE_FOUND = 'No QR code found';
     static _disableBarcodeDetector = false;
@@ -3053,11 +3077,14 @@ const QrScanner=class QrScanner {
     _paused = false;
     _flashOn = false;
     _destroyed = false;
+    _usePolyfill = true;
+    _customLoadPolyfill;
+    _formats;
     constructor(video, onDecode, canvasSizeOrOnDecodeErrorOrOptions) {
         this.$video = video;
         this.$canvas = document.createElement('canvas');
         this._onDecode = onDecode;
-        const options = canvasSizeOrOnDecodeErrorOrOptions;
+        const options = canvasSizeOrOnDecodeErrorOrOptions ?? {};
         this._onDecodeError = options.onDecodeError || this._onDecodeError;
         this._preferredCamera = options.preferredCamera || this._preferredCamera;
         this._maxScansPerSecond = options.maxScansPerSecond || this._maxScansPerSecond;
@@ -3065,6 +3092,9 @@ const QrScanner=class QrScanner {
         this._onLoadedMetaData = this._onLoadedMetaData.bind(this);
         this._onVisibilityChange = this._onVisibilityChange.bind(this);
         this._updateOverlay = this._updateOverlay.bind(this);
+        this._usePolyfill = options.usePolyfill ?? true;
+        this._customLoadPolyfill = options.customLoadPolyfill;
+        this._formats = options.formats ?? ['qr_code'];
         video.disablePictureInPicture = true;
         video.playsInline = true;
         // Allow play() on iPhone without requiring a user gesture. Should not really be needed as camera stream
@@ -3143,7 +3173,7 @@ const QrScanner=class QrScanner {
         video.addEventListener('loadedmetadata', this._onLoadedMetaData);
         document.addEventListener('visibilitychange', this._onVisibilityChange);
         window.addEventListener('resize', this._updateOverlay);
-        this._qrEnginePromise = QrScanner.createQrEngine();
+        this._qrEnginePromise = QrScanner.createQrEngine(this._formats, this._usePolyfill, this._customLoadPolyfill);
     }
     async hasFlash() {
         let stream;
@@ -3181,22 +3211,25 @@ const QrScanner=class QrScanner {
         }
     }
     async turnFlashOn() {
+        const result = new VoidWithError();
         if (this._flashOn || this._destroyed)
-            return;
+            return result;
         this._flashOn = true;
         if (!this._active || this._paused)
-            return; // flash will be turned on later on .start()
+            return result; // flash will be turned on later on .start()
         try {
-            if (!await this.hasFlash())
-                throw 'No flash available';
+            if (!await this.hasFlash()) {
+                result.errors.push(new ScannerError(ErrorCode.NoFlashAvailable, 'No flash available'));
+            }
             await this.$video.srcObject.getVideoTracks()[0].applyConstraints({
                 advanced: [{ torch: true }],
             });
         }
         catch (e) {
             this._flashOn = false;
-            throw e;
+            result.errors.push(new ScannerError(ErrorCode.Unknown, e));
         }
+        return result;
     }
     async turnFlashOff() {
         if (!this._flashOn)
@@ -3215,26 +3248,30 @@ const QrScanner=class QrScanner {
         QrScanner._postWorkerMessage(this._qrEnginePromise, 'close');
     }
     async start() {
-        if (this._destroyed)
-            throw new Error('The QR scanner can not be started as it had been destroyed.');
-        if (this._active && !this._paused)
-            return;
+        const result = new VoidWithError();
+        if (this._destroyed) {
+            result.errors.push(new ScannerError(ErrorCode.QrScannerDestroy, 'The QR scanner can not be started as it had been destroyed.'));
+            return result;
+        }
+        if (this._active && !this._paused) {
+            return result;
+        }
         if (window.location.protocol !== 'https:') {
             console.warn('The camera stream is only accessible if the page is transferred via https.');
         }
         this._active = true;
         if (document.hidden)
-            return;
+            return result;
         this._paused = false;
         if (this.$video.srcObject) {
             await this.$video.play();
-            return;
+            return result;
         }
         try {
             const { stream, facingMode } = await this._getCameraStream();
             if (!this._active || this._paused) {
                 QrScanner._stopVideoStream(stream);
-                return;
+                return result;
             }
             this._setVideoMirror(facingMode);
             this.$video.srcObject = stream;
@@ -3246,10 +3283,16 @@ const QrScanner=class QrScanner {
         }
         catch (e) {
             if (this._paused)
-                return;
+                return result;
             this._active = false;
-            throw e;
+            if (e == "Camera not found") {
+                result.errors.push(new ScannerError(ErrorCode.CameraNotFound, 'No camera found'));
+            }
+            else {
+                result.errors.push(new ScannerError(ErrorCode.Unknown, e));
+            }
         }
+        return result;
     }
     stop() {
         this.pause();
@@ -3291,12 +3334,15 @@ const QrScanner=class QrScanner {
         let canvas = scanRegionOrOptions.canvas;
         let disallowCanvasResizing = scanRegionOrOptions.disallowCanvasResizing || false;
         let alsoTryWithoutScanRegion = scanRegionOrOptions.alsoTryWithoutScanRegion || false;
+        let formats = scanRegionOrOptions.formats;
+        let usePolyfill = scanRegionOrOptions.usePolyfill;
+        let customLoadPolyfill = scanRegionOrOptions.customLoadPolyfill;
         const gotExternalEngine = !!qrEngine;
         try {
             let image;
             let canvasContext;
             [qrEngine, image] = await Promise.all([
-                qrEngine || QrScanner.createQrEngine(),
+                qrEngine || QrScanner.createQrEngine(formats, usePolyfill, customLoadPolyfill),
                 QrScanner._loadImage(imageOrFileOrBlobOrUrl),
             ]);
             [canvas, canvasContext] = QrScanner._drawToCanvas(image, scanRegion, canvas, disallowCanvasResizing);
@@ -3333,7 +3379,7 @@ const QrScanner=class QrScanner {
                         qrEngineWorker.removeEventListener('error', onError);
                         clearTimeout(timeout);
                         const errorMessage = !error ? 'Unknown Error' : (error.message || error);
-                        reject('Scanner error: ' + errorMessage);
+                        reject(errorMessage);
                     };
                     qrEngineWorker.addEventListener('message', onMessage);
                     qrEngineWorker.addEventListener('error', onError);
@@ -3344,7 +3390,7 @@ const QrScanner=class QrScanner {
             }
             else {
                 detailedScanResult = await Promise.race([
-                    new Promise((resolve, reject) => window.setTimeout(() => reject('Scanner error: timeout'), 10000)),
+                    new Promise((resolve, reject) => window.setTimeout(() => reject('timeout'), 10000)),
                     (async () => {
                         try {
                             const [scanResult] = await qrEngine.detect(canvas);
@@ -3365,9 +3411,12 @@ const QrScanner=class QrScanner {
                                     canvas,
                                     disallowCanvasResizing,
                                     alsoTryWithoutScanRegion,
+                                    usePolyfill,
+                                    customLoadPolyfill,
+                                    formats
                                 });
                             }
-                            throw `Scanner error: ${errorMessage}`;
+                            throw `${errorMessage}`;
                         }
                     })(),
                 ]);
@@ -3382,7 +3431,10 @@ const QrScanner=class QrScanner {
                 qrEngine,
                 canvas,
                 disallowCanvasResizing,
-                alsoTryWithoutScanRegion: false
+                alsoTryWithoutScanRegion: false,
+                usePolyfill,
+                customLoadPolyfill,
+                formats
             });
             return detailedScanResult;
         }
@@ -3398,15 +3450,37 @@ const QrScanner=class QrScanner {
     setInversionMode(inversionMode) {
         QrScanner._postWorkerMessage(this._qrEnginePromise, 'inversionMode', inversionMode);
     }
-    static async createQrEngine() {
-        const useBarcodeDetector = !this._disableBarcodeDetector
-            && 'BarcodeDetector' in window
-            && BarcodeDetector.getSupportedFormats
-            && (await BarcodeDetector.getSupportedFormats()).includes('qr_code');
-        console.log("Create Engine");
-        console.log(useBarcodeDetector);
-        if (!useBarcodeDetector)
-            return createWorker();
+    static async createQrEngine(formats, usePolyfill, customLoadPolyfill) {
+        const checkBarcodeDetector = async () => {
+            const exist = !this._disableBarcodeDetector
+                && 'BarcodeDetector' in window
+                && BarcodeDetector.getSupportedFormats;
+            if (!exist)
+                return false;
+            const supportedFormats = await BarcodeDetector.getSupportedFormats();
+            formats = formats.filter(p => supportedFormats.includes(p));
+            if (formats.length == 0)
+                return false;
+            return true;
+        };
+        let useBarcodeDetector = await checkBarcodeDetector();
+        if (!useBarcodeDetector) {
+            if (usePolyfill) {
+                if (customLoadPolyfill) {
+                    await customLoadPolyfill();
+                }
+                else {
+                    await Aventus.ResourceLoader.loadInHead('https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.15/dist/index.js');
+                    await Aventus.ResourceLoader.loadInHead('https://cdn.jsdelivr.net/npm/@undecaf/barcode-detector-polyfill@0.9.22/dist/index.js');
+                    window['BarcodeDetector'] = barcodeDetectorPolyfill.BarcodeDetectorPolyfill;
+                    QrScanner.NO_QR_CODE_FOUND = "No QR code found";
+                }
+            }
+            useBarcodeDetector = await checkBarcodeDetector();
+            if (!useBarcodeDetector) {
+                return createWorker();
+            }
+        }
         // On Macs with an M1/M2 processor and macOS Ventura (macOS version 13), the BarcodeDetector is broken in
         const userAgentData = navigator.userAgentData;
         const isChromiumOnMacWithArmVentura = userAgentData
@@ -3418,7 +3492,7 @@ const QrScanner=class QrScanner {
                 .catch(() => true);
         if (isChromiumOnMacWithArmVentura)
             return createWorker();
-        return new BarcodeDetector({ formats: ['qr_code'] });
+        return new BarcodeDetector({ formats });
     }
     _onPlay() {
         this._scanRegion = this._calculateScanRegion(this.$video);
@@ -3553,7 +3627,6 @@ const QrScanner=class QrScanner {
             if (timeSinceLastScan < minimumTimeBetweenScans) {
                 await new Promise((resolve) => setTimeout(resolve, minimumTimeBetweenScans - timeSinceLastScan));
             }
-            // console.log('Scan rate:', Math.round(1000 / (Date.now() - this._lastScanTimestamp)));
             this._lastScanTimestamp = Date.now();
             let result;
             try {
@@ -3563,6 +3636,9 @@ const QrScanner=class QrScanner {
                     canvas: this.$canvas,
                     disallowCanvasResizing: false,
                     alsoTryWithoutScanRegion: false,
+                    usePolyfill: this._usePolyfill,
+                    customLoadPolyfill: this._customLoadPolyfill,
+                    formats: this._formats
                 });
             }
             catch (error) {
@@ -3571,7 +3647,7 @@ const QrScanner=class QrScanner {
                 this._onDecodeError(error);
             }
             if (QrScanner._disableBarcodeDetector && !(await this._qrEnginePromise instanceof Worker)) {
-                this._qrEnginePromise = QrScanner.createQrEngine();
+                this._qrEnginePromise = QrScanner.createQrEngine(this._formats, this._usePolyfill, this._customLoadPolyfill);
             }
             if (result) {
                 if (this._onDecode) {
@@ -3680,7 +3756,7 @@ const QrScanner=class QrScanner {
                 canvas.height = canvasHeight;
             }
         }
-        const context = canvas.getContext('2d', { alpha: false });
+        const context = canvas.getContext('2d', { alpha: false, willReadFrequently: true });
         context.imageSmoothingEnabled = false;
         context.drawImage(image, scanRegionX, scanRegionY, scanRegionWidth, scanRegionHeight, 0, 0, canvas.width, canvas.height);
         return [canvas, context];
@@ -3754,8 +3830,8 @@ const QrScanner=class QrScanner {
     }
 }
 QrScanner.Namespace=`QrCodeReader`;
-
 _.QrScanner=QrScanner;
+
 
 for(let key in _) { QrCodeReader[key] = _[key] }
 })(QrCodeReader);
