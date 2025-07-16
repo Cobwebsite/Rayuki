@@ -30,7 +30,6 @@ public class AtLeast : ValidationAttribute
 
     public override ValidationResult IsValid(object? value, ValidationContext context)
     {
-        Console.WriteLine(context.Action + " AtLeast");
         if (context.Action != StorableAction.Delete) return ValidationResult.Success;
 
         AppManager.Storage.Debug = true;
@@ -61,8 +60,6 @@ public class AtLeast : ValidationAttribute
                 }
                 if (resultWithError.Result is IList list)
                 {
-                    Console.WriteLine(list.Count + " obj");
-                    Console.WriteLine(nb + " reuqired");
                     if (list.Count - 1 >= nb)
                     {
                         string message = this.message ?? "Il doit y avoir au moins " + nb + " " + context.ReflectedType?.Name;

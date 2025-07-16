@@ -1,6 +1,10 @@
-import type { FormValidator } from "./Validators/FormValidator.lib.avt";
+import type { FormValidator } from "./Validators/Validator.lib.avt";
+
 
 namespace Components {
+
+    export type Constructor<T> = new (...args: any[]) => T;
+    
     @Storybook({
         export: 'public',
         group: 'Components/Form'
@@ -45,7 +49,16 @@ namespace Components {
         export: 'public',
         group: 'Components/Form'
     })
-    export type FormSchema<T> = { [K in keyof T]: FormPart<T[K]> };
+    export type FormSchema<T> = { [K in keyof T]: FormPart<T[K]> | FormPartValidateList<T[K]> };
+
+    @Storybook({
+        export: 'public',
+        group: 'Components/Form'
+    })
+    export type FormPartValidateList<T> = FormPartValidate<T> | Constructor<FormValidator<T>> | FormValidator<T> | (
+        Constructor<FormValidator<T>> |
+        FormValidator<T>
+    )[];
 
     @Storybook({
         export: 'public',
@@ -55,14 +68,7 @@ namespace Components {
         /**
          * A validation function for the form part.
          */
-        validate?:
-        FormPartValidate<T> |
-        (() => FormValidator<T>) |
-        FormValidator<T> |
-        (
-            (() => FormValidator<T>) |
-            FormValidator<T>
-        )[];
+        validate?: FormPartValidateList<T>;
         /**
          * Indicates whether validation should be performed on value change.
          */
@@ -86,7 +92,7 @@ namespace Components {
         export: 'public',
         group: 'Components/Form'
     })
-    export type FormPartValidate<T> = (value: T | undefined, globalValidation: () => Promise<void>) => FormValidateResult;
+    export type FormPartValidate<T> = (value: T | undefined,  name: string, globalValidation: () => Promise<void>) => FormValidateResult;
     @Storybook({
         export: 'public',
         group: 'Components/Form'
@@ -97,10 +103,10 @@ namespace Components {
         export: 'public',
         group: 'Components/Form'
     })
-    export type VirtualFormConfig = {
+    export type VirtualFormConfig<T> = {
         validate?: FormValidate,
         validateOnChange?: boolean,
-        handleValidateNoInputError?: (errors: { [key: string]: string[]; }) => any,
+        handleValidateNoInputError?: (errors: { [K in keyof T]?: string[]; }) => any,
         handleExecuteNoInputError?: (errors: Aventus.GenericError[]) => any;
     };
 }

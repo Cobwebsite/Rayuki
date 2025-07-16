@@ -250,6 +250,48 @@ let ElementExtension=class ElementExtension {
         return result;
     }
     /**
+     * Get element inside slot
+     */
+    static getNodesInSlot(element, slotName) {
+        let result = [];
+        if (element.shadowRoot) {
+            let slotEl;
+            if (slotName) {
+                slotEl = element.shadowRoot.querySelector('slot[name="' + slotName + '"]');
+            }
+            else {
+                slotEl = element.shadowRoot.querySelector("slot:not([name])");
+                if (!slotEl) {
+                    slotEl = element.shadowRoot.querySelector("slot");
+                }
+            }
+            while (true) {
+                if (!slotEl) {
+                    return result;
+                }
+                var listChild = Array.from(slotEl.assignedNodes());
+                if (!listChild) {
+                    return result;
+                }
+                let slotFound = false;
+                for (let i = 0; i < listChild.length; i++) {
+                    let child = listChild[i];
+                    if (listChild[i].nodeName == "SLOT") {
+                        slotEl = listChild[i];
+                        slotFound = true;
+                    }
+                    else if (child instanceof Node) {
+                        result.push(child);
+                    }
+                }
+                if (!slotFound) {
+                    return result;
+                }
+            }
+        }
+        return result;
+    }
+    /**
      * Get deeper element inside dom at the position X and Y
      */
     static getElementAtPosition(x, y, startFrom) {
@@ -3134,6 +3176,7 @@ let PressManager=class PressManager {
     pointersRecord = {};
     functionsBinded = {
         downAction: (e) => { },
+        downActionDelay: (e) => { },
         upAction: (e) => { },
         moveAction: (e) => { },
         childPressStart: (e) => { },
@@ -3238,6 +3281,7 @@ let PressManager=class PressManager {
     }
     bindAllFunction() {
         this.functionsBinded.downAction = this.downAction.bind(this);
+        this.functionsBinded.downActionDelay = this.downActionDelay.bind(this);
         this.functionsBinded.moveAction = this.moveAction.bind(this);
         this.functionsBinded.upAction = this.upAction.bind(this);
         this.functionsBinded.childPressStart = this.childPressStart.bind(this);
@@ -3247,7 +3291,7 @@ let PressManager=class PressManager {
     init() {
         this.bindAllFunction();
         this.element.addEventListener("pointerdown", this.functionsBinded.downAction);
-        this.element.addEventListener("touchstart", this.functionsBinded.downAction);
+        this.element.addEventListener("touchstart", this.functionsBinded.downActionDelay);
         this.element.addEventListener("trigger_pointer_pressstart", this.functionsBinded.childPressStart);
         this.element.addEventListener("trigger_pointer_pressend", this.functionsBinded.childPressEnd);
         this.element.addEventListener("trigger_pointer_pressmove", this.functionsBinded.childPressMove);
@@ -3303,6 +3347,7 @@ let PressManager=class PressManager {
     }
     genericDownAction(state, e) {
         this.downEventSaved = e;
+        this.startPosition = { x: e.pageX, y: e.pageY };
         if (this.options.onLongPress) {
             this.timeoutLongPress = setTimeout(() => {
                 if (!state.oneActionTriggered) {
@@ -3315,7 +3360,20 @@ let PressManager=class PressManager {
             }, this.delayLongPress);
         }
     }
+    pointerEventTriggered = false;
+    downActionDelay(ev) {
+        if (!this.pointerEventTriggered) {
+            this.downAction(ev);
+        }
+        else {
+            ev.stopImmediatePropagation();
+        }
+        setTimeout(() => {
+            this.pointerEventTriggered = false;
+        }, 0);
+    }
     downAction(ev) {
+        this.pointerEventTriggered = true;
         const isFirst = Object.values(this.pointersRecord).length == 0;
         if (!this.registerEvent(ev)) {
             if (this.stopPropagation()) {
@@ -3340,7 +3398,6 @@ let PressManager=class PressManager {
             this.state.oneActionTriggered = null;
             clearTimeout(this.timeoutDblPress);
         }
-        this.startPosition = { x: e.pageX, y: e.pageY };
         if (isFirst) {
             document.addEventListener("pointerup", this.functionsBinded.upAction);
             document.addEventListener("pointercancel", this.functionsBinded.upAction);
@@ -3479,6 +3536,14 @@ let PressManager=class PressManager {
         }
     }
     childPressEnd(e) {
+        this.unregisterEvent(e.detail.realEvent.event);
+        if (Object.values(this.pointersRecord).length == 0) {
+            document.removeEventListener("pointerup", this.functionsBinded.upAction);
+            document.removeEventListener("pointercancel", this.functionsBinded.upAction);
+            document.removeEventListener("touchend", this.functionsBinded.upAction);
+            document.removeEventListener("touchcancel", this.functionsBinded.upAction);
+            document.removeEventListener("pointermove", this.functionsBinded.moveAction);
+        }
         if (this.lastEmitEvent == e.detail.realEvent)
             return;
         this.genericUpAction(e.detail.state, e.detail.realEvent);
@@ -6338,10 +6403,16 @@ let WebComponent=class WebComponent extends HTMLElement {
         return ElementExtension.containsChild(this, el);
     }
     /**
-     * Get element inside slot
+     * Get elements inside slot
      */
     getElementsInSlot(slotName) {
         return ElementExtension.getElementsInSlot(this, slotName);
+    }
+    /**
+     * Get nodes inside slot
+     */
+    getNodesInSlot(slotName) {
+        return ElementExtension.getNodesInSlot(this, slotName);
     }
     /**
      * Get active element from the shadowroot or the document
@@ -18090,17 +18161,52 @@ const _ = {};
 
 let Data = {};
 _.Data = AventusSharp.Data ?? {};
+Data.CustomTableMembers = {};
+_.Data.CustomTableMembers = AventusSharp.Data?.CustomTableMembers ?? {};
 let Routes = {};
 _.Routes = AventusSharp.Routes ?? {};
 let WebSocket = {};
 _.WebSocket = AventusSharp.WebSocket ?? {};
-Data.CustomTableMembers = {};
-_.Data.CustomTableMembers = AventusSharp.Data?.CustomTableMembers ?? {};
 let Tools = {};
 _.Tools = AventusSharp.Tools ?? {};
 let RAM = {};
 _.RAM = AventusSharp.RAM ?? {};
 let _n;
+Data.CustomTableMembers.AventusFile=class AventusFile {
+    Uri;
+    Upload;
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    get $type() {
+        return this.constructor['Fullname'];
+    }
+    /**
+     * @inerhit
+     */
+    toJSON() {
+        let toAvoid = ['className', 'namespace'];
+        return Aventus.Json.classToJson(this, {
+            isValidKey: (key) => !toAvoid.includes(key),
+            beforeEnd: (result) => {
+                let resultTemp = {};
+                if (result.$type) {
+                    resultTemp.$type = result.$type;
+                    for (let key in result) {
+                        if (key != '$type') {
+                            resultTemp[key] = result[key];
+                        }
+                    }
+                    return resultTemp;
+                }
+                return result;
+            }
+        });
+    }
+}
+Data.CustomTableMembers.AventusFile.Namespace=`AventusSharp.Data.CustomTableMembers`;
+_.Data.CustomTableMembers.AventusFile=Data.CustomTableMembers.AventusFile;
+
 Data.SharpClass=class SharpClass {
     /**
      * The current namespace
@@ -18406,41 +18512,6 @@ Data.StorableTimestamp.Namespace=`AventusSharp.Data`;
 Data.StorableTimestamp.$schema={...(Data.Storable?.$schema ?? {}), "CreatedDate":"Date","UpdatedDate":"Date"};
 Aventus.Converter.register(Data.StorableTimestamp.Fullname, Data.StorableTimestamp);
 _.Data.StorableTimestamp=Data.StorableTimestamp;
-
-Data.CustomTableMembers.AventusFile=class AventusFile {
-    Uri;
-    Upload;
-    /**
-     * Get the unique type for the data. Define it as the namespace + class name
-     */
-    get $type() {
-        return this.constructor['Fullname'];
-    }
-    /**
-     * @inerhit
-     */
-    toJSON() {
-        let toAvoid = ['className', 'namespace'];
-        return Aventus.Json.classToJson(this, {
-            isValidKey: (key) => !toAvoid.includes(key),
-            beforeEnd: (result) => {
-                let resultTemp = {};
-                if (result.$type) {
-                    resultTemp.$type = result.$type;
-                    for (let key in result) {
-                        if (key != '$type') {
-                            resultTemp[key] = result[key];
-                        }
-                    }
-                    return resultTemp;
-                }
-                return result;
-            }
-        });
-    }
-}
-Data.CustomTableMembers.AventusFile.Namespace=`AventusSharp.Data.CustomTableMembers`;
-_.Data.CustomTableMembers.AventusFile=Data.CustomTableMembers.AventusFile;
 
 Data.Datetime=class Datetime extends Data.SharpClass {
     static get Fullname() { return "AventusSharp.Data.Datetime, AventusSharp"; }

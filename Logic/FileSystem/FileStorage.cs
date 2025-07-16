@@ -27,6 +27,10 @@ namespace Core.Logic.FileSystem
         }
 
         private string AppName { get; set; } = "";
+        public string rootDir
+        {
+            get => Path.GetFullPath(Path.Combine(Storage.rootFolder, AppName));
+        }
         private FileStorage()
         {
             AppName = "Core";

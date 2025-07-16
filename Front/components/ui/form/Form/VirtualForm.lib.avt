@@ -1,6 +1,6 @@
 import type { ApplicationQueryFctResult } from "../../../system/Application/ApplicationError.lib.avt";
-import type { FormPart, FormPartValidate, FormSchema, FormValidate, FormValidateResult, IFormElement, InternalForm, InternalFormPart, VirtualFormConfig } from "./FormType.lib.avt";
-import { isFormValidator, type FormValidator } from "./Validators/FormValidator.lib.avt";
+import type { Constructor, FormPart, FormPartValidate, FormSchema, FormValidate, FormValidateResult, IFormElement, InternalForm, InternalFormPart, VirtualFormConfig } from "./FormType.lib.avt";
+import { FormValidator } from "./Validators/Validator.lib.avt";
 
 namespace Components {
     @Storybook({
@@ -23,9 +23,9 @@ namespace Components {
             return this.__watcher.form;
         }
 
-        private _elements: { [key: string]: IFormElement[]; } = {};
+        private _elements: { [K in keyof T]?: IFormElement[]; } = {};
 
-        public get elements(): { [key: string]: IFormElement[]; } {
+        public get elements(): { [K in keyof T]?: IFormElement[]; } {
             return { ...this._elements };
         }
 
@@ -38,7 +38,33 @@ namespace Components {
 
         protected transformForm(form: FormSchema<T>): InternalForm<T> {
             const result = form as InternalForm<T>;
-            const createKey = (key: string) => {
+            const normalizePart = (part: FormSchema<T>[keyof T]) => {
+                let needTransform = true;
+                if(typeof part == 'object' && !Array.isArray(part)) {
+                    const keys = Object.keys(part);
+                    const keysAllows: (keyof FormPart)[] = ['validate', 'validateOnChange'];
+                    let isValid = true;
+                    for(let i = 0; i < keys.length; i++) {
+                        const allows = keysAllows as string[];
+                        if(!allows.includes(keys[i])) {
+                            isValid = false;
+                            break;
+                        }
+                    }
+                    if(isValid) {
+                        needTransform = false;
+                    }
+                }
+
+                if(needTransform) {
+                    return {
+                        validate: part
+                    } as FormPart<T[keyof T]>;
+                }
+                return part as FormPart<T[keyof T]>;
+            };
+            const createKey = (key: keyof T) => {
+                form[key] = normalizePart(form[key]);
                 this.transformFormPart(key, result[key]);
             };
             for(let key in result) {
@@ -46,30 +72,32 @@ namespace Components {
             }
             return result;
         }
-        protected transformFormPart(key: string, part: FormPart | undefined): void {
+        protected transformFormPart(key: keyof T, part: FormPart | undefined): void {
             if(!part) return;
 
             const realPart = part as InternalFormPart;
             realPart.onValidation = new Aventus.Callback();
             realPart.onValueChange = new Aventus.Callback();
             if(part.validate) {
-                const isValidate = (validate: FormPartValidate<T> | (() => FormValidator<T>) | FormValidator<T>): validate is FormPartValidate<any> => {
+                const isValidate = (validate: FormPartValidate<T> | Constructor<FormValidator<any>>): validate is FormPartValidate<any> => {
                     return validate.name == "validate";
                 };
                 let validate: FormPartValidate<any>;
                 if(Array.isArray(part.validate)) {
                     const fcts: FormPartValidate<any>[] = [];
                     for(let temp of part.validate) {
-                        let resultTemp = temp();
-                        if(isFormValidator(resultTemp)) {
-                            resultTemp = resultTemp();
+                        if(temp instanceof FormValidator) {
+                            fcts.push(temp.validate);
                         }
-                        fcts.push(resultTemp);
+                        else {
+                            let resultTemp = new temp();
+                            fcts.push(resultTemp.validate);
+                        }
                     }
-                    validate = async (value, globalFct) => {
+                    validate = async (value, name, globalFct) => {
                         let result: string[] = [];
                         for(let fct of fcts) {
-                            const temp = await fct(value, globalFct);
+                            const temp = await fct(value, name, globalFct);
                             if(temp === false) {
                                 result.push('Le champs n\'est pas valide');
                             }
@@ -85,14 +113,16 @@ namespace Components {
                         return result.length == 0 ? undefined : result;
                     };
                 }
+                else if(part.validate instanceof FormValidator) {
+                    validate = part.validate.validate;
+                }
                 else if(isValidate(part.validate)) {
                     validate = part.validate;
                 }
-                else if(isFormValidator(part.validate)) {
-                    validate = part.validate();
-                }
                 else {
-                    validate = part.validate()();
+                    let cst = part.validate;
+                    let resultTemp = new cst() as FormValidator<any>;
+                    validate = resultTemp.validate;
                 }
                 realPart.validate = validate;
             }
@@ -104,11 +134,12 @@ namespace Components {
                 this._elements[key] = [];
             }
             realPart.register = (el) => {
-                if(!this._elements[key].includes(el)) {
+                if(this._elements[key] && this._elements[key].includes(el)) {
                     this._elements[key].push(el);
                 }
             };
             realPart.unregister = (el) => {
+                if(!this._elements[key]) return;
                 const index = this._elements[key].indexOf(el);
                 if(index != -1) {
                     this._elements[key].splice(index, 1);
@@ -116,10 +147,10 @@ namespace Components {
             };
             realPart.value = {
                 get: () => {
-                    return Aventus.getValueFromObject(key, this.item);
+                    return Aventus.getValueFromObject(key as string, this.item);
                 },
                 set: (value: any) => {
-                    return Aventus.setValueToObject(key, this.item, value);
+                    return Aventus.setValueToObject(key as string, this.item, value);
                 }
             };
         }
@@ -127,12 +158,12 @@ namespace Components {
         public setForm(item: FormSchema<T>) {
             this.__watcher.form = this.transformForm(item);
         }
-        public addFormEntry(name: string, part: FormPart): void {
+        public addFormEntry(name: keyof T, part: FormPart): void {
             this.transformFormPart(name, part);
             let form = this.parts as any;
             form[name] = part;
         }
-        public removeFormEntry(name: string): void {
+        public removeFormEntry(name: keyof T): void {
             if(!this.parts) return;
             for(let key in this.parts) {
                 if(key == name) {
@@ -152,7 +183,7 @@ namespace Components {
             this.onItemChange.clear();
         }
 
-        public init(config: VirtualFormConfig): void {
+        public init(config: VirtualFormConfig<T>): void {
             this.globalValidation = config.validate;
             this.validateOnChange = config.validateOnChange;
             this.handleValidateNoInputError = config.handleValidateNoInputError;
@@ -169,8 +200,8 @@ namespace Components {
             this._validateOnChange = value;
         }
 
-        private _handleValidateNoInputError?: (errors: { [key: string]: string[]; }) => any;
-        public set handleValidateNoInputError(value: ((errors: { [key: string]: string[]; }) => any) | undefined) {
+        private _handleValidateNoInputError?: (errors: { [K in keyof T]?: string[]; }) => any;
+        public set handleValidateNoInputError(value: ((errors: { [K in keyof T]?: string[]; }) => any) | undefined) {
             this._handleValidateNoInputError = value;
         }
 
@@ -196,14 +227,14 @@ namespace Components {
                     formPart.onValueChange.trigger();
                     const validateOnChange = formPart.validateOnChange === undefined ? this._validateOnChange : formPart.validateOnChange;
                     if(validateOnChange) {
-                        this.validate(key);
+                        this.validate(key as keyof T);
                     }
                 }
                 this.onItemChange.trigger(action, key, value);
             }
         }
 
-        private async _validate(key: string | undefined): Promise<{ [key: string]: string[]; }> {
+        private async _validate(key: keyof T | undefined): Promise<{ [key: string]: string[]; }> {
             try {
                 if(!this.parts) return { "@general": ["Aucun formulaire trouvé"] };
 
@@ -228,12 +259,12 @@ namespace Components {
                         if(formPart.validate) {
                             const global = async () => {
                                 if(this._globalValidation) {
-                                    const result = await this._globalValidation(key, value);
+                                    const result = await this._globalValidation(key as string, value);
                                     resultToError(result);
                                 }
                             };
 
-                            let result = await formPart.validate(value, global);
+                            let result = await formPart.validate(value, key as string, global);
                             resultToError(result);
 
                             const proms = formPart.onValidation.trigger(errorsForm);
@@ -248,7 +279,7 @@ namespace Components {
                             // }
                         }
                         else if(this._globalValidation) {
-                            const result = await this._globalValidation(key, value);
+                            const result = await this._globalValidation(key as string, value);
                             resultToError(result);
                         }
                     }
@@ -266,9 +297,11 @@ namespace Components {
             }
         }
 
-        public async validate(key?: string): Promise<boolean> {
+        public async validate(key: keyof T): Promise<boolean>;
+        public async validate(): Promise<boolean>;
+        public async validate(key?: keyof T): Promise<boolean> {
             const result = await this._validate(key);
-            const unhandle: { [key: string]: string[]; } = {};
+            const unhandle: { [K in keyof T]?: string[]; } = {};
             let triggerUnhandle = false;
             for(let key in result) {
                 // si on ne trouve pas de formElement, on affiche un message

@@ -1,17 +1,28 @@
-import type { FormValidateResult } from "../FormType.lib.avt";
-import { formValidator, type FormValidator } from "./FormValidator.lib.avt";
+import { FormValidator } from "./Validator.lib.avt";
 
 namespace Components {
-    export function required<T = any>(msg?: string): FormValidator<T> {
-        if(!msg) {
-            msg = "Ce champs doit être rempli";
+
+    export class Required extends FormValidator<any> {
+        protected msg: string;
+
+        public constructor(msg?: string) {
+            super();
+            this.msg = msg ?? "Le champs {name} est requis";
         }
-        const fct: (value: T | undefined, globalValidation: () => Promise<void>) => FormValidateResult = (value, globalValidation) => {
-            if(value === undefined || value === '' || value === null) {
-                return msg;
+        /**
+         * @inheritdoc
+         */
+        public override validate(value: any | undefined, name: string, globalValidation: () => Promise<void>): string | boolean {
+            const txt = this.msg.replace(/\{ *name *\}/g, name);
+            if(value === undefined || value === null) {
+                return txt;
             }
+            if(typeof value == 'string' && value.trim() == "") {
+                return txt;
+            }
+
             return true;
-        };
-        return formValidator(fct);
+        }
+
     }
 }

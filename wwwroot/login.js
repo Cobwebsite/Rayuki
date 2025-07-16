@@ -360,6 +360,48 @@ let ElementExtension=class ElementExtension {
         return result;
     }
     /**
+     * Get element inside slot
+     */
+    static getNodesInSlot(element, slotName) {
+        let result = [];
+        if (element.shadowRoot) {
+            let slotEl;
+            if (slotName) {
+                slotEl = element.shadowRoot.querySelector('slot[name="' + slotName + '"]');
+            }
+            else {
+                slotEl = element.shadowRoot.querySelector("slot:not([name])");
+                if (!slotEl) {
+                    slotEl = element.shadowRoot.querySelector("slot");
+                }
+            }
+            while (true) {
+                if (!slotEl) {
+                    return result;
+                }
+                var listChild = Array.from(slotEl.assignedNodes());
+                if (!listChild) {
+                    return result;
+                }
+                let slotFound = false;
+                for (let i = 0; i < listChild.length; i++) {
+                    let child = listChild[i];
+                    if (listChild[i].nodeName == "SLOT") {
+                        slotEl = listChild[i];
+                        slotFound = true;
+                    }
+                    else if (child instanceof Node) {
+                        result.push(child);
+                    }
+                }
+                if (!slotFound) {
+                    return result;
+                }
+            }
+        }
+        return result;
+    }
+    /**
      * Get deeper element inside dom at the position X and Y
      */
     static getElementAtPosition(x, y, startFrom) {
@@ -2025,6 +2067,7 @@ let PressManager=class PressManager {
     pointersRecord = {};
     functionsBinded = {
         downAction: (e) => { },
+        downActionDelay: (e) => { },
         upAction: (e) => { },
         moveAction: (e) => { },
         childPressStart: (e) => { },
@@ -2129,6 +2172,7 @@ let PressManager=class PressManager {
     }
     bindAllFunction() {
         this.functionsBinded.downAction = this.downAction.bind(this);
+        this.functionsBinded.downActionDelay = this.downActionDelay.bind(this);
         this.functionsBinded.moveAction = this.moveAction.bind(this);
         this.functionsBinded.upAction = this.upAction.bind(this);
         this.functionsBinded.childPressStart = this.childPressStart.bind(this);
@@ -2138,7 +2182,7 @@ let PressManager=class PressManager {
     init() {
         this.bindAllFunction();
         this.element.addEventListener("pointerdown", this.functionsBinded.downAction);
-        this.element.addEventListener("touchstart", this.functionsBinded.downAction);
+        this.element.addEventListener("touchstart", this.functionsBinded.downActionDelay);
         this.element.addEventListener("trigger_pointer_pressstart", this.functionsBinded.childPressStart);
         this.element.addEventListener("trigger_pointer_pressend", this.functionsBinded.childPressEnd);
         this.element.addEventListener("trigger_pointer_pressmove", this.functionsBinded.childPressMove);
@@ -2194,6 +2238,7 @@ let PressManager=class PressManager {
     }
     genericDownAction(state, e) {
         this.downEventSaved = e;
+        this.startPosition = { x: e.pageX, y: e.pageY };
         if (this.options.onLongPress) {
             this.timeoutLongPress = setTimeout(() => {
                 if (!state.oneActionTriggered) {
@@ -2206,7 +2251,20 @@ let PressManager=class PressManager {
             }, this.delayLongPress);
         }
     }
+    pointerEventTriggered = false;
+    downActionDelay(ev) {
+        if (!this.pointerEventTriggered) {
+            this.downAction(ev);
+        }
+        else {
+            ev.stopImmediatePropagation();
+        }
+        setTimeout(() => {
+            this.pointerEventTriggered = false;
+        }, 0);
+    }
     downAction(ev) {
+        this.pointerEventTriggered = true;
         const isFirst = Object.values(this.pointersRecord).length == 0;
         if (!this.registerEvent(ev)) {
             if (this.stopPropagation()) {
@@ -2231,7 +2289,6 @@ let PressManager=class PressManager {
             this.state.oneActionTriggered = null;
             clearTimeout(this.timeoutDblPress);
         }
-        this.startPosition = { x: e.pageX, y: e.pageY };
         if (isFirst) {
             document.addEventListener("pointerup", this.functionsBinded.upAction);
             document.addEventListener("pointercancel", this.functionsBinded.upAction);
@@ -2370,6 +2427,14 @@ let PressManager=class PressManager {
         }
     }
     childPressEnd(e) {
+        this.unregisterEvent(e.detail.realEvent.event);
+        if (Object.values(this.pointersRecord).length == 0) {
+            document.removeEventListener("pointerup", this.functionsBinded.upAction);
+            document.removeEventListener("pointercancel", this.functionsBinded.upAction);
+            document.removeEventListener("touchend", this.functionsBinded.upAction);
+            document.removeEventListener("touchcancel", this.functionsBinded.upAction);
+            document.removeEventListener("pointermove", this.functionsBinded.moveAction);
+        }
         if (this.lastEmitEvent == e.detail.realEvent)
             return;
         this.genericUpAction(e.detail.state, e.detail.realEvent);
@@ -4599,10 +4664,16 @@ let WebComponent=class WebComponent extends HTMLElement {
         return ElementExtension.containsChild(this, el);
     }
     /**
-     * Get element inside slot
+     * Get elements inside slot
      */
     getElementsInSlot(slotName) {
         return ElementExtension.getElementsInSlot(this, slotName);
+    }
+    /**
+     * Get nodes inside slot
+     */
+    getNodesInSlot(slotName) {
+        return ElementExtension.getNodesInSlot(this, slotName);
     }
     /**
      * Get active element from the shadowroot or the document
@@ -7341,13 +7412,15 @@ Components.Button = class Button extends Aventus.WebComponent {
     set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
     set 'outline'(val) { this.setBoolAttr('outline', val) }get 'submit'() { return this.getBoolAttr('submit') }
     set 'submit'(val) { this.setBoolAttr('submit', val) }get 'disabled'() { return this.getBoolAttr('disabled') }
-    set 'disabled'(val) { this.setBoolAttr('disabled', val) }    get 'icon_before'() { return this.getStringProp('icon_before') }
+    set 'disabled'(val) { this.setBoolAttr('disabled', val) }get 'flat'() { return this.getBoolAttr('flat') }
+    set 'flat'(val) { this.setBoolAttr('flat', val) }get 'ghost'() { return this.getBoolAttr('ghost') }
+    set 'ghost'(val) { this.setBoolAttr('ghost', val) }    get 'icon_before'() { return this.getStringProp('icon_before') }
     set 'icon_before'(val) { this.setStringAttr('icon_before', val) }get 'icon_after'() { return this.getStringProp('icon_after') }
     set 'icon_after'(val) { this.setStringAttr('icon_after', val) }get 'icon'() { return this.getStringProp('icon') }
     set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
     target.icon_before = target.icon;
 })); }
-    static __style = `:host{--_button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--_button-color: var(--button-color, currentcolor);--_button-box-shadow: var(--button-box-shadow);--_button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--_button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--_button-box-shadow);color:var(--_button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--_button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
+    static __style = `:host{--_button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--_button-color: var(--button-color, currentcolor);--_button-box-shadow: var(--button-box-shadow);--_button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--_button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--_button-box-shadow);color:var(--_button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([flat]){box-shadow:none}:host([ghost]){background-color:rgba(0,0,0,0)}:host([ghost][outline]){border:none}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--_button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
     __getStatic() {
         return Button;
     }
@@ -7377,9 +7450,9 @@ Components.Button = class Button extends Aventus.WebComponent {
     getClassName() {
         return "Button";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('submit')) { this.attributeChangedCallback('submit', false, false); }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('icon_before')){ this['icon_before'] = undefined; }if(!this.hasAttribute('icon_after')){ this['icon_after'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('submit');this.__upgradeProperty('disabled');this.__upgradeProperty('icon_before');this.__upgradeProperty('icon_after');this.__upgradeProperty('icon'); }
-    __listBoolProps() { return ["outline","submit","disabled"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('submit')) { this.attributeChangedCallback('submit', false, false); }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('flat')) { this.attributeChangedCallback('flat', false, false); }if(!this.hasAttribute('ghost')) { this.attributeChangedCallback('ghost', false, false); }if(!this.hasAttribute('icon_before')){ this['icon_before'] = undefined; }if(!this.hasAttribute('icon_after')){ this['icon_after'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('submit');this.__upgradeProperty('disabled');this.__upgradeProperty('flat');this.__upgradeProperty('ghost');this.__upgradeProperty('icon_before');this.__upgradeProperty('icon_after');this.__upgradeProperty('icon'); }
+    __listBoolProps() { return ["outline","submit","disabled","flat","ghost"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     registerToForm() {
         if (!this.submit)
             return;

@@ -1,4 +1,4 @@
-import { NormalizedEvent, PressManager, type InternalPointerEvent } from "Aventus@Main:Aventus.package.avt";
+import { NormalizedEvent, PressManager } from "Aventus@Main:Aventus.package.avt";
 import { TouchRecord, Tracker } from "./Touch.lib.avt";
 
 namespace Components {

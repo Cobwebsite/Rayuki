@@ -27,8 +27,6 @@ let App = {};
 _.App = Core.App ?? {};
 let Components = {};
 _.Components = Core.Components ?? {};
-let Component = {};
-_.Component = Core.Component ?? {};
 let System = {};
 _.System = Core.System ?? {};
 Websocket.Routes = {};
@@ -834,11 +832,6 @@ Components.Img.Tag=`rk-img`;
 _.Components.Img=Components.Img;
 if(!window.customElements.get('rk-img')){window.customElements.define('rk-img', Components.Img);Aventus.WebComponentInstance.registerDefinition(Components.Img);}
 
-Component.isFormValidator=function isFormValidator(cb) {
-    return cb.name == "_formValidator";
-}
-_.Component.isFormValidator=Component.isFormValidator;
-
 Lib.Validator=class Validator {
     static email(txt) {
         if (!txt)
@@ -1295,6 +1288,78 @@ Data.PushRecord.Namespace=`Core.Data`;
 Data.PushRecord.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "UserId":"number","EndPoint":"string","P256dh":"string","Auth":"string"};
 Aventus.Converter.register(Data.PushRecord.Fullname, Data.PushRecord);
 _.Data.PushRecord=Data.PushRecord;
+
+Components.FormValidator=class FormValidator {
+    static async Test(validators, value, name, globalValidation) {
+        if (!Array.isArray(validators)) {
+            validators = [validators];
+        }
+        let result = [];
+        for (let validator of validators) {
+            let resultTemp = new validator();
+            const temp = await resultTemp.validate(value, name, globalValidation);
+            if (temp === false) {
+                result.push('Le champs n\'est pas valide');
+            }
+            else if (Array.isArray(temp)) {
+                for (let error of temp) {
+                    result.push(error);
+                }
+            }
+            else if (typeof temp == 'string') {
+                result.push(temp);
+            }
+        }
+        return result.length == 0 ? undefined : result;
+    }
+}
+Components.FormValidator.Namespace=`Core.Components`;
+_.Components.FormValidator=Components.FormValidator;
+
+Components.Required=class Required extends Components.FormValidator {
+    msg;
+    constructor(msg) {
+        super();
+        this.msg = msg ?? "Le champs {name} est requis";
+    }
+    /**
+     * @inheritdoc
+     */
+    validate(value, name, globalValidation) {
+        const txt = this.msg.replace(/\{ *name *\}/g, name);
+        if (value === undefined || value === null) {
+            return txt;
+        }
+        if (typeof value == 'string' && value.trim() == "") {
+            return txt;
+        }
+        return true;
+    }
+}
+Components.Required.Namespace=`Core.Components`;
+_.Components.Required=Components.Required;
+
+Components.Phone=class Phone extends Components.FormValidator {
+    msg;
+    constructor(msg) {
+        super();
+        this.msg = msg ?? "Veuillez saisir un téléphone valide";
+    }
+    /**
+     * @inheritdoc
+     */
+    validate(value, name, globalValidation) {
+        if (typeof value == "string" && value) {
+            if (Lib.Validator.phone(value)) {
+                return true;
+            }
+            return this.msg;
+        }
+        return true;
+    }
+}
+Components.Phone.Namespace=`Core.Components`;
+_.Components.Phone=Components.Phone;
 
 let Md5=class Md5 {
     static create(txt) {
@@ -1847,8 +1912,10 @@ Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
     get 'color'() { return this.getStringAttr('color') }
     set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
     set 'outline'(val) { this.setBoolAttr('outline', val) }get 'disabled'() { return this.getBoolAttr('disabled') }
-    set 'disabled'(val) { this.setBoolAttr('disabled', val) }    get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{--_button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--_button-color: var(--button-color, currentcolor);--_button-box-shadow: var(--button-box-shadow);--_button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--_button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--_button-box-shadow);color:var(--_button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--_button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}:host{--_button-padding: var(--button-padding, 0)}:host{aspect-ratio:1/1;height:36px;min-width:auto;border-radius:var(--border-radius-round)}:host .hider{border-radius:var(--border-radius-round)}:host .content .icon{--img-fill-color: var(--_button-color);height:100%;padding:0}`;
+    set 'disabled'(val) { this.setBoolAttr('disabled', val) }get 'flat'() { return this.getBoolAttr('flat') }
+    set 'flat'(val) { this.setBoolAttr('flat', val) }get 'ghost'() { return this.getBoolAttr('ghost') }
+    set 'ghost'(val) { this.setBoolAttr('ghost', val) }    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{--_button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--_button-color: var(--button-color, currentcolor);--_button-box-shadow: var(--button-box-shadow);--_button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--_button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--_button-box-shadow);color:var(--_button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([flat]){box-shadow:none}:host([ghost]){background-color:rgba(0,0,0,0)}:host([ghost][outline]){border:none}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--_button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}:host{--_button-padding: var(--button-padding, 0)}:host{aspect-ratio:1/1;height:36px;min-width:auto;border-radius:var(--border-radius-round)}:host .hider{border-radius:var(--border-radius-round)}:host .content .icon{--img-fill-color: var(--_button-color);height:100%;padding:0}`;
     __getStatic() {
         return ButtonIcon;
     }
@@ -1873,9 +1940,9 @@ Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
     getClassName() {
         return "ButtonIcon";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('disabled');this.__upgradeProperty('icon'); }
-    __listBoolProps() { return ["outline","disabled"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('flat')) { this.attributeChangedCallback('flat', false, false); }if(!this.hasAttribute('ghost')) { this.attributeChangedCallback('ghost', false, false); }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('disabled');this.__upgradeProperty('flat');this.__upgradeProperty('ghost');this.__upgradeProperty('icon'); }
+    __listBoolProps() { return ["outline","disabled","flat","ghost"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     __86a55d8d752358ce167fd0da93753a9emethod0() {
         return this.icon;
     }
@@ -7337,11 +7404,7 @@ System.FrameNoScroll = class FrameNoScroll extends Aventus.WebComponent {
     resetNavElement;
     __registerSignalsActions() { this.__signals["state"] = null; super.__registerSignalsActions();  }
     static __style = `:host{display:none;height:100%;width:100%;padding:0 5px}:host .opacity-wrapper{animation-delay:var(--local-frame-animation-delay, 0ms);animation-duration:200ms;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);display:none;height:100%;visibility:hidden;width:100%}:host([visible]){display:block}:host([visible]) .opacity-wrapper{display:block}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}`;
-    constructor() {
-            super();
-            new Permissions.PermissionWatcher(this);
-            this.addFadeIn();
-if (this.constructor == FrameNoScroll) { throw "can't instanciate an abstract class"; }}
+    constructor() {            super();            new Permissions.PermissionWatcher(this);            this.addFadeIn();if (this.constructor == FrameNoScroll) { throw "can't instanciate an abstract class"; }this.onContextMenuContent=this.onContextMenuContent.bind(this)this.onContextMenuHeader=this.onContextMenuHeader.bind(this)}
     __getStatic() {
         return FrameNoScroll;
     }
@@ -7421,6 +7484,10 @@ if (this.constructor == FrameNoScroll) { throw "can't instanciate an abstract cl
         return false;
     }
     onPermissionSet(allow, query, value, additionalInfo) { }
+    onContextMenuContent(contextMenu, stop) {
+    }
+    onContextMenuHeader(contextMenu, stop) {
+    }
 }
 System.FrameNoScroll.Namespace=`Core.System`;
 _.System.FrameNoScroll=System.FrameNoScroll;
@@ -8582,6 +8649,7 @@ System.Application = class Application extends Aventus.WebComponent {
     __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('frame');this.__correctGetter('navigator');this.__upgradeProperty('moving');this.__upgradeProperty('loading');this.__upgradeProperty('app_title');this.__upgradeProperty('full');this.__upgradeProperty('is_hidden');this.__correctGetter('is_desktop_active'); }
     __listBoolProps() { return ["moving","loading","full","is_hidden"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     onContextMenuContent(contextMenu, stop) {
+        this.frame?.onContextMenuContent(contextMenu, stop);
         stop();
     }
     onContextMenuHeader(contextMenu, stop) {
@@ -8601,6 +8669,7 @@ System.Application = class Application extends Aventus.WebComponent {
                 this.saveAsFavorite();
             }
         });
+        this.frame?.onContextMenuHeader(contextMenu, stop);
         stop();
     }
     bindContextMenu() {
@@ -13010,42 +13079,6 @@ System.AddOnTime.Tag=`rk-add-on-time`;
 _.System.AddOnTime=System.AddOnTime;
 if(!window.customElements.get('rk-add-on-time')){window.customElements.define('rk-add-on-time', System.AddOnTime);Aventus.WebComponentInstance.registerDefinition(System.AddOnTime);}
 
-Component.formValidator=function formValidator(cb) {
-    const _formValidator = () => {
-        return cb;
-    };
-    return _formValidator;
-}
-_.Component.formValidator=Component.formValidator;
-
-Components.required=function required(msg) {
-    if (!msg) {
-        msg = "Ce champs doit être rempli";
-    }
-    const fct = (value, globalValidation) => {
-        if (value === undefined || value === '' || value === null) {
-            return msg;
-        }
-        return true;
-    };
-    return Component.formValidator(fct);
-}
-_.Components.required=Components.required;
-
-Components.phone=function phone(msg) {
-    if (!msg) {
-        msg = "Veuillez saisir un téléphone valide";
-    }
-    const fct = (value, globalValidation) => {
-        if (value && typeof value == "string") {
-            return Lib.Validator.phone(value);
-        }
-        return true;
-    };
-    return Component.formValidator(fct);
-}
-_.Components.phone=Components.phone;
-
 Components.FormElement = class FormElement extends Aventus.WebComponent {
     get 'has_errors'() { return this.getBoolAttr('has_errors') }
     set 'has_errors'(val) { this.setBoolAttr('has_errors', val) }    get 'errors'() {
@@ -14563,13 +14596,15 @@ Components.Button = class Button extends Aventus.WebComponent {
     set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
     set 'outline'(val) { this.setBoolAttr('outline', val) }get 'submit'() { return this.getBoolAttr('submit') }
     set 'submit'(val) { this.setBoolAttr('submit', val) }get 'disabled'() { return this.getBoolAttr('disabled') }
-    set 'disabled'(val) { this.setBoolAttr('disabled', val) }    get 'icon_before'() { return this.getStringProp('icon_before') }
+    set 'disabled'(val) { this.setBoolAttr('disabled', val) }get 'flat'() { return this.getBoolAttr('flat') }
+    set 'flat'(val) { this.setBoolAttr('flat', val) }get 'ghost'() { return this.getBoolAttr('ghost') }
+    set 'ghost'(val) { this.setBoolAttr('ghost', val) }    get 'icon_before'() { return this.getStringProp('icon_before') }
     set 'icon_before'(val) { this.setStringAttr('icon_before', val) }get 'icon_after'() { return this.getStringProp('icon_after') }
     set 'icon_after'(val) { this.setStringAttr('icon_after', val) }get 'icon'() { return this.getStringProp('icon') }
     set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
     target.icon_before = target.icon;
 })); }
-    static __style = `:host{--_button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--_button-color: var(--button-color, currentcolor);--_button-box-shadow: var(--button-box-shadow);--_button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--_button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--_button-box-shadow);color:var(--_button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--_button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
+    static __style = `:host{--_button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--_button-color: var(--button-color, currentcolor);--_button-box-shadow: var(--button-box-shadow);--_button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--_button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--_button-box-shadow);color:var(--_button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([flat]){box-shadow:none}:host([ghost]){background-color:rgba(0,0,0,0)}:host([ghost][outline]){border:none}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--_button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
     __getStatic() {
         return Button;
     }
@@ -14599,9 +14634,9 @@ Components.Button = class Button extends Aventus.WebComponent {
     getClassName() {
         return "Button";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('submit')) { this.attributeChangedCallback('submit', false, false); }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('icon_before')){ this['icon_before'] = undefined; }if(!this.hasAttribute('icon_after')){ this['icon_after'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('submit');this.__upgradeProperty('disabled');this.__upgradeProperty('icon_before');this.__upgradeProperty('icon_after');this.__upgradeProperty('icon'); }
-    __listBoolProps() { return ["outline","submit","disabled"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('submit')) { this.attributeChangedCallback('submit', false, false); }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('flat')) { this.attributeChangedCallback('flat', false, false); }if(!this.hasAttribute('ghost')) { this.attributeChangedCallback('ghost', false, false); }if(!this.hasAttribute('icon_before')){ this['icon_before'] = undefined; }if(!this.hasAttribute('icon_after')){ this['icon_after'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('submit');this.__upgradeProperty('disabled');this.__upgradeProperty('flat');this.__upgradeProperty('ghost');this.__upgradeProperty('icon_before');this.__upgradeProperty('icon_after');this.__upgradeProperty('icon'); }
+    __listBoolProps() { return ["outline","submit","disabled","flat","ghost"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     registerToForm() {
         if (!this.submit)
             return;
@@ -15492,12 +15527,11 @@ Components.SheetPreview = class SheetPreview extends Aventus.WebComponent {
       "id": "sheetpreview_5",
       "injectionName": "value",
       "eventNames": [
-        "onChange"
+        "change"
       ],
       "inject": (c) => c.comp.__ef3ef2c620c645514a1d0f1099b9edaamethod1(),
       "extract": (c, v) => c.comp.__ef3ef2c620c645514a1d0f1099b9edaamethod2(v),
-      "once": true,
-      "isCallback": true
+      "once": true
     }
   ],
   "pressEvents": [
@@ -15831,10 +15865,9 @@ Components.CheckboxItem = class CheckboxItem extends Aventus.WebComponent {
   ],
   "events": [
     {
-      "eventName": "onChange",
+      "eventName": "change",
       "id": "checkboxitem_0",
-      "fct": (c, ...args) => c.comp.emitChange.apply(c.comp, ...args),
-      "isCallback": true
+      "fct": (e, c) => c.comp.emitChange(e)
     }
   ]
 }); }
@@ -16634,34 +16667,31 @@ Components.ColorPickerSelector = class ColorPickerSelector extends Aventus.WebCo
       "id": "colorpickerselector_3",
       "injectionName": "value",
       "eventNames": [
-        "onChange"
+        "change"
       ],
       "inject": (c) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method0(),
       "extract": (c, v) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method1(v),
-      "once": true,
-      "isCallback": true
+      "once": true
     },
     {
       "id": "colorpickerselector_4",
       "injectionName": "value",
       "eventNames": [
-        "onChange"
+        "change"
       ],
       "inject": (c) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method2(),
       "extract": (c, v) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method3(v),
-      "once": true,
-      "isCallback": true
+      "once": true
     },
     {
       "id": "colorpickerselector_5",
       "injectionName": "value",
       "eventNames": [
-        "onChange"
+        "change"
       ],
       "inject": (c) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method4(),
       "extract": (c, v) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method5(v),
-      "once": true,
-      "isCallback": true
+      "once": true
     }
   ]
 }); }
@@ -17386,7 +17416,32 @@ Components.VirtualForm=class VirtualForm {
     }
     transformForm(form) {
         const result = form;
+        const normalizePart = (part) => {
+            let needTransform = true;
+            if (typeof part == 'object' && !Array.isArray(part)) {
+                const keys = Object.keys(part);
+                const keysAllows = ['validate', 'validateOnChange'];
+                let isValid = true;
+                for (let i = 0; i < keys.length; i++) {
+                    const allows = keysAllows;
+                    if (!allows.includes(keys[i])) {
+                        isValid = false;
+                        break;
+                    }
+                }
+                if (isValid) {
+                    needTransform = false;
+                }
+            }
+            if (needTransform) {
+                return {
+                    validate: part
+                };
+            }
+            return part;
+        };
         const createKey = (key) => {
+            form[key] = normalizePart(form[key]);
             this.transformFormPart(key, result[key]);
         };
         for (let key in result) {
@@ -17408,16 +17463,18 @@ Components.VirtualForm=class VirtualForm {
             if (Array.isArray(part.validate)) {
                 const fcts = [];
                 for (let temp of part.validate) {
-                    let resultTemp = temp();
-                    if (Component.isFormValidator(resultTemp)) {
-                        resultTemp = resultTemp();
+                    if (temp instanceof Components.FormValidator) {
+                        fcts.push(temp.validate);
                     }
-                    fcts.push(resultTemp);
+                    else {
+                        let resultTemp = new temp();
+                        fcts.push(resultTemp.validate);
+                    }
                 }
-                validate = async (value, globalFct) => {
+                validate = async (value, name, globalFct) => {
                     let result = [];
                     for (let fct of fcts) {
-                        const temp = await fct(value, globalFct);
+                        const temp = await fct(value, name, globalFct);
                         if (temp === false) {
                             result.push('Le champs n\'est pas valide');
                         }
@@ -17433,14 +17490,16 @@ Components.VirtualForm=class VirtualForm {
                     return result.length == 0 ? undefined : result;
                 };
             }
+            else if (part.validate instanceof Components.FormValidator) {
+                validate = part.validate.validate;
+            }
             else if (isValidate(part.validate)) {
                 validate = part.validate;
             }
-            else if (Component.isFormValidator(part.validate)) {
-                validate = part.validate();
-            }
             else {
-                validate = part.validate()();
+                let cst = part.validate;
+                let resultTemp = new cst();
+                validate = resultTemp.validate;
             }
             realPart.validate = validate;
         }
@@ -17452,11 +17511,13 @@ Components.VirtualForm=class VirtualForm {
             this._elements[key] = [];
         }
         realPart.register = (el) => {
-            if (!this._elements[key].includes(el)) {
+            if (this._elements[key] && this._elements[key].includes(el)) {
                 this._elements[key].push(el);
             }
         };
         realPart.unregister = (el) => {
+            if (!this._elements[key])
+                return;
             const index = this._elements[key].indexOf(el);
             if (index != -1) {
                 this._elements[key].splice(index, 1);
@@ -17569,7 +17630,7 @@ Components.VirtualForm=class VirtualForm {
                                 resultToError(result);
                             }
                         };
-                        let result = await formPart.validate(value, global);
+                        let result = await formPart.validate(value, key, global);
                         resultToError(result);
                         const proms = formPart.onValidation.trigger(errorsForm);
                         // const errors2d = await Promise.all(proms);
@@ -17689,7 +17750,9 @@ State.ApplicationFormState=class ApplicationFormState extends State.ApplicationW
         addField("item");
     }
     validate(key) {
-        return this._form.validate(key);
+        if (key)
+            return this._form.validate(key);
+        return this._form.validate();
     }
     async execute(query) {
         const queryResult = await this._form.execute(query);
@@ -17895,19 +17958,27 @@ if (this.constructor == PopupForm) { throw "can't instanciate an abstract class"
 Components.PopupForm.Namespace=`Core.Components`;
 _.Components.PopupForm=Components.PopupForm;
 
-Components.email=function email(msg) {
-    if (!msg) {
-        msg = "Veuillez saisir un email valide";
+Components.Email=class Email extends Components.FormValidator {
+    msg;
+    constructor(msg) {
+        super();
+        this.msg = msg ?? "Merci de saisir un email valide";
     }
-    const fct = (value, globalValidation) => {
-        if (value && typeof value == "string") {
-            return Lib.Validator.email(value);
+    /**
+     * @inheritdoc
+     */
+    validate(value, name, globalValidation) {
+        if (typeof value == "string" && value) {
+            if (Lib.Validator.email(value)) {
+                return true;
+            }
+            return this.msg;
         }
         return true;
-    };
-    return Component.formValidator(fct);
+    }
 }
-_.Components.email=Components.email;
+Components.Email.Namespace=`Core.Components`;
+_.Components.Email=Components.Email;
 
 Components.Input = class Input extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "unit", "icon", "icon_position", "value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -18013,6 +18084,13 @@ Components.Input = class Input extends Components.FormElement {
         if (this.formPart) {
             this.formPart.value.set(this.value);
         }
+    }
+    postCreation() {
+        super.postCreation();
+        this.setAttribute("tabindex", "1");
+        this.addEventListener("focus", () => {
+            this.inputEl.focus();
+        });
     }
     __7b4688f1d13a935f88db2286094e0088method1() {
         return this.label;
@@ -18261,10 +18339,9 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
       "fct": (e, c) => c.comp.filter(e)
     },
     {
-      "eventName": "onOpen",
+      "eventName": "open",
       "id": "genericselect_6",
-      "fct": (c, ...args) => c.comp.syncCaret.apply(c.comp, ...args),
-      "isCallback": true
+      "fct": (e, c) => c.comp.syncCaret(e)
     }
   ],
   "pressEvents": [
@@ -19028,16 +19105,14 @@ Components.TwoColumnsSelect = class TwoColumnsSelect extends Components.FormElem
   },
   "events": [
     {
-      "eventName": "onChange",
+      "eventName": "change",
       "id": "twocolumnsselect_1",
-      "fct": (c, ...args) => c.comp.searchUnselect.apply(c.comp, ...args),
-      "isCallback": true
+      "fct": (e, c) => c.comp.searchUnselect(e)
     },
     {
-      "eventName": "onChange",
+      "eventName": "change",
       "id": "twocolumnsselect_8",
-      "fct": (c, ...args) => c.comp.searchSelect.apply(c.comp, ...args),
-      "isCallback": true
+      "fct": (e, c) => c.comp.searchSelect(e)
     }
   ],
   "pressEvents": [
@@ -20040,10 +20115,9 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
 });const templ1 = new Aventus.Template(this);templ1.setTemplate(`                    <div class="search">                        <rk-input placeholder="Recherche" _id="table_4"></rk-input>                    </div>                `);templ1.setActions({
   "events": [
     {
-      "eventName": "onChange",
+      "eventName": "change",
       "id": "table_4",
-      "fct": (c, ...args) => c.comp.globalFilter.apply(c.comp, ...args),
-      "isCallback": true
+      "fct": (e, c) => c.comp.globalFilter(e)
     }
   ]
 });templ0.addIf({
@@ -20078,12 +20152,11 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
       "id": "table_8",
       "injectionName": "value",
       "eventNames": [
-        "onChange"
+        "change"
       ],
       "inject": (c) => c.comp.__b5b6f5e196622f4341e5ecfc2e397e35method5(),
       "extract": (c, v) => c.comp.__b5b6f5e196622f4341e5ecfc2e397e35method6(v),
-      "once": true,
-      "isCallback": true
+      "once": true
     }
   ],
   "pressEvents": [
@@ -21250,10 +21323,9 @@ Components.TableCellCheckbox = class TableCellCheckbox extends Components.TableC
   ],
   "events": [
     {
-      "eventName": "onChange",
+      "eventName": "change",
       "id": "tablecellcheckbox_0",
-      "fct": (c, ...args) => c.comp.changed.apply(c.comp, ...args),
-      "isCallback": true
+      "fct": (e, c) => c.comp.changed(e)
     }
   ]
 }); }

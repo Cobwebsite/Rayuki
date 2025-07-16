@@ -1,14 +1,14 @@
-import type { FormPartValidate } from "../FormType.lib.avt";
+// import type { FormPartValidate } from "../FormType.lib.avt";
 
-namespace Component {
-    export type FormValidator<T> = () => FormPartValidate<T>;
-    export function formValidator<T>(cb: FormPartValidate<T>): FormValidator<T> {
-        const _formValidator = () => {
-            return cb;
-        };
-        return _formValidator;
-    }
-    export function isFormValidator(cb: Function): cb is FormValidator<any> {
-        return cb.name == "_formValidator";
-    }
-}
+// namespace Component {
+//     export type FormValidator<T> = () => FormPartValidate<T>;
+//     export function formValidator<T>(cb: FormPartValidate<T>): FormValidator<T> {
+//         const _formValidator = () => {
+//             return cb;
+//         };
+//         return _formValidator;
+//     }
+//     export function isFormValidator(cb: Function): cb is FormValidator<any> {
+//         return cb.name == "_formValidator";
+//     }
+// }

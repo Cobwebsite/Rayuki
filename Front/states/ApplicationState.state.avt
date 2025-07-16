@@ -184,7 +184,7 @@ namespace State {
         }
 
         protected abstract defineForm(): FormSchema<T>;
-        private defaultConfigureForm(): VirtualFormConfig {
+        private defaultConfigureForm(): VirtualFormConfig<T> {
             return {
                 handleValidateNoInputError: (errors) => {
                     this.application.alert({
@@ -197,15 +197,17 @@ namespace State {
                 }
             };
         }
-        protected abstract configureForm(config: VirtualFormConfig): VirtualFormConfig;
+        protected abstract configureForm(config: VirtualFormConfig<T>): VirtualFormConfig<T>;
 
         protected override syncField(addField: (field: keyof this) => void): void {
             super.syncField(addField);
             addField("item");
         }
 
-        public validate(key?: string): Promise<boolean> {
-            return this._form.validate(key);
+        public validate(key?: keyof T): Promise<boolean> {
+            if(key)
+                return this._form.validate(key);
+            return this._form.validate();
         }
 
         public async execute<X>(query: Aventus.Asyncable<ApplicationQueryFctResult<X>>): Promise<Awaited<X> | undefined> {
@@ -213,11 +215,11 @@ namespace State {
             return await this.application.parseErrors(queryResult);
         }
 
-        public addFormEntry(name: string, part: FormPart): void {
+        public addFormEntry(name: keyof T, part: FormPart): void {
             this._form.addFormEntry(name, part);
         }
 
-        public removeFormEntry(name: string): void {
+        public removeFormEntry(name: keyof T): void {
             this._form.removeFormEntry(name);
         }
 

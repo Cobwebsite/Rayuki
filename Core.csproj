@@ -15,7 +15,7 @@
     <PackageReference Include="MySql.Data" Version="8.3.0" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
     <PackageReference Include="PuppeteerSharp" Version="16.0.0" />
-    <PackageReference Include="Scriban" Version="5.9.1" />
+    <PackageReference Include="Scriban" Version="6.2.1" />
     <PackageReference Include="SkiaSharp" Version="2.88.8" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.8" />
     <PackageReference Include="SkiaSharp.Svg" Version="1.60.0" />
