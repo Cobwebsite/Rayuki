@@ -79,6 +79,7 @@ namespace System {
             new Aventus.DragAndDrop({
                 element: this,
                 offsetDrag: 20,
+                dragDirection: 'Y',
                 isDragEnable: () => apply,
                 correctPosition: (position) => {
                     position.x = 0;

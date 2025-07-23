@@ -359,7 +359,7 @@ namespace Components {
 
         public async setSortColumn(column: string, order: 'asc' | 'desc' | undefined): Promise<void> {
             if(!this.isFirstRender) {
-                let cell = this.header.cells[column];
+                let cell = this.header.cells.find(c => c.cellConfig.displayName == column || c.cellConfig.name == column);
                 if(!(cell instanceof TableCellHeader)) return;
 
                 cell.sort_direction = order;
@@ -450,7 +450,7 @@ namespace Components {
                 this.headerContainer.appendChild(this.header);
 
                 for(let column in this.sortColumns) {
-                    let cell = this.header.cells[column];
+                    let cell = this.header.cells.find(c => c.cellConfig.displayName == column || c.cellConfig.name == column);
                     if(!(cell instanceof TableCellHeader)) return;
 
                     cell.sort_direction = this.sortColumns[column];

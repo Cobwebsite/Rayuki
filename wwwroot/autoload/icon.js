@@ -199,6 +199,56 @@ for(let key in _) { Microspace[key] = _[key] }
 })(Microspace);
 
 
+var Minisales;
+(Minisales||(Minisales = {}));
+(function (Minisales) {
+const moduleName = `Minisales`;
+const _ = {};
+
+let System = {};
+_.System = Minisales.System ?? {};
+let _n;
+let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Minisales.AppInfo, Minisales"; }
+    static Version = 1;
+}
+AppInfo.Namespace=`Minisales`;
+AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
+Aventus.Converter.register(AppInfo.Fullname, AppInfo);
+_.AppInfo=AppInfo;
+
+System.AppIcon = class AppIcon extends Core.System.AppIcon {
+    static __style = `:host{background:#174499;background:radial-gradient(circle, rgb(23, 68, 153) 0%, rgb(12, 34, 71) 100%)}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #acf4d6;flex-grow:1;max-height:100%;padding:15%;pointer-events:none}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    __getStatic() {
+        return AppIcon;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(AppIcon.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-img src="/apps/Minisales/img/logo.png"></rk-img>` }
+    });
+}
+    getClassName() {
+        return "AppIcon";
+    }
+}
+System.AppIcon.Namespace=`Minisales.System`;
+System.AppIcon.Tag=`minisales-app-icon`;
+_.System.AppIcon=System.AppIcon;
+if(!window.customElements.get('minisales-app-icon')){window.customElements.define('minisales-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
+
+let Version= AppInfo.Version;
+_.Version=Version;
+
+
+for(let key in _) { Minisales[key] = _[key] }
+})(Minisales);
+
+
 var Projet;
 (Projet||(Projet = {}));
 (function (Projet) {

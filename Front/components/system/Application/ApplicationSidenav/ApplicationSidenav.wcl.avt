@@ -30,7 +30,6 @@ namespace System {
     @Storybook({
         export: 'protected'
     })
-    @OverrideView()
     export abstract class ApplicationSidenav extends Application implements Aventus.DefaultComponent, IPermission {
 
         //#region static

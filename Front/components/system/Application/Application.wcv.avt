@@ -8,14 +8,17 @@
             <rk-img src="/img/icons/angle-right.svg"></rk-img>
         </div>
     </div>
-    <div class="title">{{this.app_title}}</div>
+    <div class="title">{{ this.app_title }}</div>
     <div class="application-actions">
         <div class="btn green touch" @press="hide"></div>
         <div class="btn orange touch" @press="toggleFull"></div>
-        <div class="btn red touch"  @press="kill"></div>
+        <div class="btn red touch" @press="kill"></div>
     </div>
 </rk-context-menu-element>
-<rk-context-menu-element class="content" @element="contentEl"></rk-context-menu-element>
+<slot name="content">
+    <rk-context-menu-element class="content" @element="contentEl"></rk-context-menu-element>
+</slot>
 <rk-resize @element="resizeEl" min_width="200" min_height="200"></rk-resize>
 <rk-loading class="loading"></rk-loading>
 <rk-notification-manager @element="notificationManager"></rk-notification-manager>
+<slot name="after"></slot>

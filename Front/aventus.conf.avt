@@ -60,6 +60,10 @@
                     "include": "none"
                 },
                 {
+                    "uri": "@local:Lucide@Main",
+                    "include": "none"
+                },
+                {
                     "uri": "@local:Addon@Addon",
                     "include": "none"
                 }
@@ -185,6 +189,10 @@
                 },
                 {
                     "uri": "@local:MaterialIcon@Main",
+                    "include": "full"
+                },
+                {
+                    "uri": "@local:Lucide@Main",
                     "include": "full"
                 }
             ]

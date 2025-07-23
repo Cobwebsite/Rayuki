@@ -201,6 +201,14 @@ namespace Components {
             let listChild = this.getElementsInSlot() as (HTMLElement & Partial<IPositionable>)[];
             listChild = [...Object.values(this.contentsEl), ...listChild];
             const result: { [place: string]: (HTMLElement & Partial<IPositionable>); } = {};
+            let c = [...listChild];
+            for(let i = 0; i < 4; i++) {
+                for(let child of c) {
+                    const el = child.cloneNode(true) as any;
+                    listChild.push(el);
+                    child.parentElement?.appendChild(el);
+                }
+            }
             if(this.order_position) {
                 for(var i = 0; i < listChild.length; i++) {
                     var position = Number(listChild[i].position ?? listChild[i].getAttribute("position"));
@@ -246,21 +254,23 @@ namespace Components {
                 element: this.pageHider,
                 applyDrag: false,
                 stopPropagation: false,
+                dragDirection: 'X',
                 isDragEnable: () => !this.lock,
                 onStart: () => {
                     max = (this.pagesEl.length - 1) * this.offsetWidth * -1;
                     firstPosition = pageHider.offsetLeft;
                     canApply = false;
+                    stopProp = false;
                 },
                 onMove: (e, position) => {
-                    if(!stopProp && (position.y > 20 || position.y < -20)) {
-                        canApply = true;
-                    }
-                    if(!canApply && (position.x > 20 || position.x < -20)) {
-                        stopProp = true;
-                    }
+                    // if(!stopProp && (position.y > 20 || position.y < -20)) {
+                    //     canApply = true;
+                    // }
+                    // if(!canApply && (position.x > 20 || position.x < -20)) {
+                    //     stopProp = true;
+                    // }
 
-                    if(canApply) {
+                    // if(canApply) {
                         if(!this.allow_scroll_outside) {
                             if(position.x > 0) { position.x = 0; }
                             else if(position.x < max) { position.x = max; }
@@ -269,11 +279,12 @@ namespace Components {
                         lastPosition = position.x;
                         pageHider.style.left = position.x + 'px';
                         this.style.setProperty("--page-container-scroll", position.x + 'px');
-                    }
-
-                    if(stopProp) {
                         e.stopImmediatePropagation();
-                    }
+                    // }
+
+                    // if(stopProp) {
+                    //     e.stopImmediatePropagation();
+                    // }
 
                 },
                 onStop: () => {

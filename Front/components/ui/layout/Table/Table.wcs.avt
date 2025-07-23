@@ -1,6 +1,7 @@
 @import '@root/static/_functions.gs.avt';
 
 :host {
+	--_table-border-radius: var(--table-border-radius, var(--border-radius-sm));
 	--_table-background-color: var(--table-background-color, var(--secondary-color));
 	--_table-elevation: var(--table-elevation, var(--elevation-2));
 	--_table-row-header-height: var(--table-row-header-height, 50px);
@@ -23,7 +24,7 @@
 
 :host {
 	background-color: var(--_table-background-color);
-	border-radius: var(--border-radius-sm);
+	border-radius: var(--_table-border-radius);
 	box-shadow: var(--_table-elevation);
 	display: flex;
 	flex-direction: column;

@@ -1,45 +1,25 @@
-<rk-context-menu-element  class="header" @element="header">
-    <div class="background"></div>
-    <div class="navigation-actions">
-        <div class="action menu touch" @press="toggleSidenav">
-            <mi-icon icon="menu"></mi-icon>
-        </div>
-        <div class="previous action touch disable" @element="navigatePreviousEl" @press="navigatePrevious">
-            <rk-img src="/img/icons/angle-left.svg"></rk-img>
-        </div>
-        <div class="next action touch disable" @element="navigateNextEl" @press="navigateNext">
-            <rk-img src="/img/icons/angle-right.svg"></rk-img>
-        </div>
-    </div>
-    <div class="title">{{ this.app_title }}</div>
-    <div class="application-actions">
-        <div class="btn green touch" @press="hide"></div>
-        <div class="btn orange touch" @press="toggleFull"></div>
-        <div class="btn red touch" @press="kill"></div>
-    </div>
-</rk-context-menu-element >
-<rk-context-menu-element  class="content">
-    <div class="sidenav-hider" @press="closeSidenav"></div>
-    <div class="sidenav">
-        <rk-scrollable auto_hide @element="navEl">
-            for(let item of this.sidenavItems) {
-                if(item.can()) {
-                    <rk-link to="{{ item.route }}" active_pattern="{{ item.active }}" :allowTrigger="item.allowTrigger" class="sidenav-item">
-                        if(item.useMi) {
-                            <mi-icon icon="{{ item.icon }}"></mi-icon>
-                        }
-                        else {
-                            <rk-img src="{{ item.icon }}"></rk-img>
-                        }
-                        <span>{{ item.name }}</span>
-                    </rk-link>
+<block name="content">
+    <rk-context-menu-element class="content">
+        <div class="sidenav-hider" @press="closeSidenav"></div>
+        <div class="sidenav">
+            <rk-scrollable auto_hide @element="navEl">
+                for(let item of this.sidenavItems) {
+                    if(item.can()) {
+                        <rk-link to="{{ item.route }}" active_pattern="{{ item.active }}" :allowTrigger="item.allowTrigger" class="sidenav-item">
+                            if(item.useMi) {
+                                <mi-icon icon="{{ item.icon }}"></mi-icon>
+                            }
+                            else {
+                                <rk-img src="{{ item.icon }}"></rk-img>
+                            }
+                            <span>{{ item.name }}</span>
+                        </rk-link>
+                    }
                 }
-            }
-        </rk-scrollable>
-    </div>
-    <div class="container" @element="contentEl">
-    </div>
-</rk-context-menu-element >
-<rk-resize @element="resizeEl" min_width="200" min_height="200"></rk-resize>
-<rk-loading class="loading"></rk-loading>
-<rk-notification-manager @element="notificationManager"></rk-notification-manager>
+            </rk-scrollable>
+        </div>
+        <slot name="content">
+            <div class="container" @element="contentEl"></div>
+        </slot>
+    </rk-context-menu-element>
+</block>

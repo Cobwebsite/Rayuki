@@ -40,7 +40,6 @@ namespace Components {
                         if(!current) current = 'desc';
                         else if(current == 'desc') current = 'asc';
                         else if(current == 'asc') current = undefined;
-
                         this.row.table.setSortColumn(this.content, current);
                     }
                 }
