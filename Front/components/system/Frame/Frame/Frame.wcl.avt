@@ -1,8 +1,9 @@
-import type { Scrollable } from "../../ui/layout/Scrollable/Scrollable.wcl.avt";
-import { FrameNoScroll } from "./FrameNoScroll/FrameNoScroll.wcl.avt";
+import type { Scrollable } from "../../../ui/layout/Scrollable/Scrollable.wcl.avt";
+import { FrameGeneric } from "../FrameGeneric/FrameGeneric.wcl.avt";
+
 
 namespace System {
-    export abstract class Frame extends FrameNoScroll implements Aventus.DefaultComponent {
+    export abstract class Frame extends FrameGeneric implements Aventus.DefaultComponent {
         //#region static
 
         //#endregion

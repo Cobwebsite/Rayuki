@@ -1,0 +1,9 @@
+<div class="drag-icon" @element="dragEl">
+    <mi-icon icon="drag_indicator"></mi-icon>
+</div>
+<div class="icon-container">
+    <div class="hider"></div>
+    <div class="icon" @element="iconEl"></div>
+</div>
+<div class="text" title="{{ this.recent?.Name }}">{{ this.recent?.Name }}</div>
+<div class="line"></div>

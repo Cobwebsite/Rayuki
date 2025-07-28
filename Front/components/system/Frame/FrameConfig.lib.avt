@@ -1,0 +1,7 @@
+namespace System {
+    export type FrameConfig = {
+        title?: string;
+        isRecentable?: boolean;
+        recentName?: string;
+    };
+}

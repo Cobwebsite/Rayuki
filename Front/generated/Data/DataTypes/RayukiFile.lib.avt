@@ -1,6 +1,6 @@
 namespace Data.DataTypes {
 
-	export abstract class RayukiFile<T extends Aventus.IData> extends AventusSharp.Data.CustomTableMembers.AventusFile<T> {
+	export abstract class RayukiFile<T extends Aventus.IData> extends AventusSharp.Data.CustomTableMembers.AventusFile<T>  {
 
 	}
 

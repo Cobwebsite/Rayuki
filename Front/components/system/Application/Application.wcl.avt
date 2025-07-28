@@ -22,13 +22,17 @@ import type { ContextMenuElement } from "../../ui/ContextMenu/ContextMenuElement
 import type { NotificationManager } from "../../ui/popup/NotificationManager/NotificationManager.wcl.avt";
 import type { Notification, NotificationOptions } from "../../ui/popup/Notification/Notification.wcl.avt";
 import { ApplicationShortcut } from "./ApplicationShortcut.lib.avt";
-import type { FrameNoScroll } from "../Frame/FrameNoScroll/FrameNoScroll.wcl.avt";
+import type { FrameGeneric } from "../Frame/FrameGeneric/FrameGeneric.wcl.avt";
 import { MainRouter } from "../../../generated/Routes/MainRouter.lib.avt";
 import { TransactionManager } from "../../../libs/TransactionManager.lib.avt";
 import { CoreError, CoreErrorCode } from "../../../generated/Tools/CoreErrors.lib.avt";
 import { Permission, type IPermissionQuery } from "../../../libs/Permission.lib.avt";
 import { Favorite } from "../../../generated/Data/Favorite.data.avt";
 import { FavoriteRAM } from "../../../ram/Favorite.ram.avt";
+import { Recent } from "../../../generated/Data/Recent.data.avt";
+import { RecentRAM } from "../../../ram/Recent.ram.avt";
+import { Datetime } from "Aventus@Sharp:AventusSharp.Data.package.avt";
+import { RecentRouter } from "../../../generated/Websocket/Routes/RecentRouter.lib.avt";
 
 namespace System {
     @Storybook({
@@ -37,7 +41,7 @@ namespace System {
     export type ApplicationRoute = {
         route: string,
         scriptUrl: string,
-        render: () => new () => FrameNoScroll;
+        render: () => new () => FrameGeneric;
         permissions?: IPermissionQuery | IPermissionQuery[];
     };
     @Storybook({
@@ -114,8 +118,8 @@ namespace System {
         public is_desktop_active: boolean = false;
 
 
-        private __frame: FrameNoScroll | undefined;
-        public get frame(): FrameNoScroll | undefined {
+        private __frame: FrameGeneric | undefined;
+        public get frame(): FrameGeneric | undefined {
             return this.__frame;
         }
         protected allRoutes: { [key: string]: ApplicationRoute; } = {};
@@ -129,8 +133,8 @@ namespace System {
         @Internal()
         public mustRemoveApplicationHistory: boolean = true;
         private oneStateActive: boolean = false;
-        protected page404?: FrameNoScroll;
-        protected page405?: FrameNoScroll;
+        protected page404?: FrameGeneric;
+        protected page405?: FrameGeneric;
 
         protected sizeManager: ApplicationSize;
         protected isAnimating: boolean = false;
@@ -243,13 +247,13 @@ namespace System {
         /**
          * Adds a route asynchronously.
          */
-        protected addRouteAsync<T extends FrameNoScroll>(options: ApplicationRoute) {
+        protected addRouteAsync<T extends FrameGeneric>(options: ApplicationRoute) {
             this.allRoutes[options.route] = options;
         }
         /**
          * Adds a route.
          */
-        protected addRoute(route: string, frame: new () => FrameNoScroll, permissions?: IPermissionQuery | IPermissionQuery[]) {
+        protected addRoute(route: string, frame: new () => FrameGeneric, permissions?: IPermissionQuery | IPermissionQuery[]) {
             this.allRoutes[route] = {
                 route: route,
                 scriptUrl: '',
@@ -302,14 +306,14 @@ namespace System {
          * Determine if the frame should be destroyed when hiding
          * If not destroy you must be carefull with state refresh. This can be tricky
          */
-        protected shouldDestroyFrame(frame: FrameNoScroll): boolean {
+        protected shouldDestroyFrame(frame: FrameGeneric): boolean {
             return false;
         }
         /**
          * Initializes the route for a given path.
          */
         private initRoute(path: string) {
-            let element: FrameNoScroll | undefined;
+            let element: FrameGeneric | undefined;
             let allRoutes = this.allRoutes;
             this.navigator.subscribe(path, {
                 active: (currentState) => {
@@ -375,9 +379,14 @@ namespace System {
                             this.activeState = currentState;
                             await element.show(currentState);
 
-                            let titleTemp = element.pageTitle();
+                            let config = await element.configure();
+                            let titleTemp = config.title;
                             if(titleTemp !== undefined) {
                                 this.app_title = titleTemp;
+                            }
+
+                            if(config.isRecentable) {
+                                this.saveAsRecent(config.recentName, currentState);
                             }
 
                             this.onNewPage(oldUrl, oldPage, path, element);
@@ -416,7 +425,7 @@ namespace System {
         /**
          * Returns the frame class for 404 errors.
          */
-        protected error404(state?: Aventus.State): (new () => FrameNoScroll) {
+        protected error404(state?: Aventus.State): (new () => FrameGeneric) {
             return Frame404;
         }
 
@@ -442,14 +451,14 @@ namespace System {
         /**
          * Returns the frame class for "not allowed" errors.
          */
-        protected errorNotAllowed(state?: Aventus.State): (new () => FrameNoScroll) {
+        protected errorNotAllowed(state?: Aventus.State): (new () => FrameGeneric) {
             return FrameNotAllowed;
         }
 
         /**
          * Handles the transition to a new page.
          */
-        protected onNewPage(oldUrl: string, oldFrame: FrameNoScroll | undefined, newUrl: string, newFrame: FrameNoScroll) { }
+        protected onNewPage(oldUrl: string, oldFrame: FrameGeneric | undefined, newUrl: string, newFrame: FrameGeneric) { }
         /**
          * Gets the slugs of the current state.
          */
@@ -603,6 +612,24 @@ namespace System {
             await ApplicationManager.remove(appInfo);
         }
 
+        /**
+         * 
+         */
+        protected async saveAsRecent(name?: string, state?: Aventus.State | undefined) {
+            if(!state) {
+                state = this.navigator.getState();
+            }
+            if(state) {
+                let recent = new Recent();
+                recent.Name = name ?? this.app_title;
+                recent.TagName = this.tagName.toLowerCase();
+                recent.State = JSON.stringify(state);
+                recent.Datetime = new Datetime();
+                recent.Datetime.DateTime = new Date();
+                await this.execute(new RecentRouter().Save({ item: recent }));
+                debugger;
+            }
+        }
 
         //#endregion
 
@@ -984,19 +1011,22 @@ namespace System {
          * Executes a promise with a loading indicator and parses its result.
          */
         @BindThis()
-        public async executeWithLoading<X>(prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
-            const queryResult = await this.showLoading(prom);
+        public async executeWithLoading<X>(prom: Promise<ApplicationQueryFctResult<X>>, minDelay?: number): Promise<X | undefined> {
+            const queryResult = await this.showLoading(prom, minDelay);
             if(!queryResult) return undefined;
             return await this.parseErrors(queryResult);
         }
         /**
          * Shows a loading indicator while executing a function or promise.
+         * The loader will appear if the fct take more than 200ms
          */
         @BindThis()
-        public async showLoading<X>(fct: (() => Promise<X>) | Promise<X>): Promise<X | null> {
+        public async showLoading<X>(fct: (() => Promise<X>) | Promise<X>, minDelay?: number): Promise<X | null> {
             let timeout: number = 0;
+            if(!minDelay) {
+                minDelay = 2000;
+            }
             try {
-                const minDelay = 2000;
                 let start: Date | undefined;
                 timeout = setTimeout(() => {
                     start = new Date();
@@ -1100,11 +1130,12 @@ namespace System {
             fct: ((exec: <T, A extends any[]>(
                 fct: (...args: A) => Promise<ApplicationQueryFctResult<T>>,
                 ...args: A
-            ) => Promise<T | undefined>) => Promise<X>)
+            ) => Promise<T | undefined>) => Promise<X>),
+            minDelay?: number
         ): Promise<X | undefined> {
             const result = await this.showLoading(async () => {
                 return await this.txExec(fct);
-            });
+            }, minDelay);
             return result ?? undefined;
         }
         //#endregion

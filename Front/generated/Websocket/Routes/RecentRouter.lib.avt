@@ -1,0 +1,52 @@
+import { Recent } from '../../Data/Recent.data.avt';
+import { MainEndPoint } from '../MainEndPoint.lib.avt';
+
+namespace Websocket.Routes {
+
+	export type RecentRouter__Routes = {
+		Save: RecentRouter_Save,
+	} & AventusSharp.WebSocket.StorableWsRouter__Routes<Recent>;
+	export class RecentRouter<__Route extends RecentRouter__Routes = RecentRouter__Routes> extends AventusSharp.WebSocket.StorableWsRouter<Recent, __Route> {
+		
+		 protected override defineEvents(): Partial<__Route> {
+			return {
+				...super.defineEvents(),
+				Save: new RecentRouter_Save(this.endpoint, this.getPrefix, this.StorableName),
+			}
+		}
+		
+		public constructor(endpoint?: AventusSharp.WebSocket.EndPoint) {
+			super(endpoint ?? MainEndPoint.getInstance());
+		}
+
+		public async Save(body: { item: Recent } | FormData, options: AventusSharp.WebSocket.WsRouteSendOptions = {}): Promise<AventusSharp.ExtractResponse<RecentRouter_Save>> {
+			const info: AventusSharp.WebSocket.SocketSendMessageOptions = {
+				channel: `${this.getPrefix()}/${this.StorableName()}/Save`,
+				body: body,
+				...options,
+			};
+			return await this.endpoint.sendMessageAndWait<AventusSharp.ExtractResponse<RecentRouter_Save>>(info);
+		}
+
+		public StorableName() {
+			return "Recent";
+		}
+	}
+	 
+	export class RecentRouter_Save extends AventusSharp.WebSocket.WsEvent<Recent> {
+		
+		public StorableName: () => string;
+		public constructor(endpoint: AventusSharp.WebSocket.EndPoint, getPrefix: () => string, StorableName: () => string) {
+			super(endpoint, getPrefix);
+			this.StorableName = StorableName;
+		}
+		
+		/**
+		 * @inheritdoc
+		 */
+		protected override path(): string {
+			return `${this.getPrefix()}/${this.StorableName()}/Save`;
+		}
+	}
+
+}

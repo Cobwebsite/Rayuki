@@ -1,7 +1,7 @@
 import type { SizeList } from "../ApplicationSize.lib.avt";
 import { Scrollable } from "../../../ui/layout/Scrollable/Scrollable.wcl.avt";
 import { Application } from "../Application.wcl.avt";
-import type { FrameNoScroll } from "../../Frame/FrameNoScroll/FrameNoScroll.wcl.avt";
+import type { FrameGeneric } from "../../Frame/FrameGeneric/FrameGeneric.wcl.avt";
 import type { Link } from "../../../ui/Link/Link.wcl.avt";
 import { Permission, PermissionWatcher, type IPermission, type IPermissionQuery, type PermissionQueryCst } from "../../../../libs/Permission.lib.avt";
 
@@ -13,7 +13,7 @@ namespace System {
             /** Route that will display the frame */
             route: string,
             /** The frame to display when the route is triggerd */
-            frame: new () => FrameNoScroll,
+            frame: new () => FrameGeneric,
             /** The name inside the sidenav */
             name: string,
             /** The icon set before the sidenav */

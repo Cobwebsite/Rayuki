@@ -1,0 +1,40 @@
+import { Recent } from "../generated/Data/Recent.data.avt";
+import { RecentRouter } from "../generated/Websocket/Routes/RecentRouter.lib.avt";
+
+
+namespace Ram {
+
+    export class RecentRAM extends AventusSharp.RAM.RamWebSocket<Recent> implements Aventus.IRam {
+
+        /**
+         * Create a singleton to store data
+         */
+        public static getInstance(): RecentRAM {
+            return Aventus.Instance.get(RecentRAM);
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public override defineIndexKey(): keyof Recent {
+            return 'Id';
+        }
+        /**
+         * @inheritdoc
+         */
+        protected override getTypeForData(objJson: Aventus.KeysObject<Recent> | Recent): new () => Recent {
+            return Recent;
+        }
+
+        /**
+         * @inheritdoc
+         */
+        public override defineRoutes(): AventusSharp.WebSocket.StorableWsRouter<Recent> {
+            return new RecentRouter();
+        }
+
+
+        
+
+    }
+}

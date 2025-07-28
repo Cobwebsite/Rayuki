@@ -201,14 +201,6 @@ namespace Components {
             let listChild = this.getElementsInSlot() as (HTMLElement & Partial<IPositionable>)[];
             listChild = [...Object.values(this.contentsEl), ...listChild];
             const result: { [place: string]: (HTMLElement & Partial<IPositionable>); } = {};
-            let c = [...listChild];
-            for(let i = 0; i < 4; i++) {
-                for(let child of c) {
-                    const el = child.cloneNode(true) as any;
-                    listChild.push(el);
-                    child.parentElement?.appendChild(el);
-                }
-            }
             if(this.order_position) {
                 for(var i = 0; i < listChild.length; i++) {
                     var position = Number(listChild[i].position ?? listChild[i].getAttribute("position"));
@@ -253,7 +245,6 @@ namespace Components {
             new Aventus.DragAndDrop({
                 element: this.pageHider,
                 applyDrag: false,
-                stopPropagation: false,
                 dragDirection: 'X',
                 isDragEnable: () => !this.lock,
                 onStart: () => {

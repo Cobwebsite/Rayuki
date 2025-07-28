@@ -1,8 +1,8 @@
-import type { FrameNoScroll } from "../components/system/Frame/FrameNoScroll/FrameNoScroll.wcl.avt";
+import type { FrameGeneric } from "../components/system/Frame/FrameGeneric/FrameGeneric.wcl.avt";
 import { ApplicationFormState } from "./ApplicationState.state.avt";
 
 namespace State {
-    export abstract class CreateOrUpdate<T extends AventusSharp.Data.Storable, U extends FrameNoScroll = FrameNoScroll> extends ApplicationFormState<Partial<T>, U> implements Aventus.IState {
+    export abstract class CreateOrUpdate<T extends AventusSharp.Data.Storable, U extends FrameGeneric = FrameGeneric> extends ApplicationFormState<Partial<T>, U> implements Aventus.IState {
 
         private static _state: string = "";
         public static get state(): string {

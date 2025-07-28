@@ -4,7 +4,9 @@
             <div class="recent">
                 <div class="title">{{ t("Récents") }}</div>
                 <rk-scrollable class="scrollable recent-container" @element="recentContainer" floating_scroll>
-
+                    for(let recent of this.recents) { 
+                            <rk-recent-line :recent="recent"></rk-recent-line>
+                        }
                 </rk-scrollable>
             </div>
         </rk-col>

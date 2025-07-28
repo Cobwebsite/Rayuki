@@ -4,6 +4,7 @@ import { AppIcon } from "../components/system/AppIcon/AppIcon.wcl.avt";
     group: "Addons"
 })
 export type AddonsName = 'QrCodeReader' | 'QrCodeGenerator' | 'Univer';
+
 @Storybook({
     group: "Addons"
 })

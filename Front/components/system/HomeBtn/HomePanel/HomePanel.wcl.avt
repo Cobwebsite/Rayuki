@@ -11,6 +11,8 @@ import type { Favorite } from "../../../../generated/Data/Favorite.data.avt";
 import { FavoriteLine } from "../FavoriteLine/FavoriteLine.wcl.avt";
 import { NormalizedEvent, PressManager } from "Aventus@Main:Aventus.package.avt";
 import { NotificationManager } from "../../../../libs/NotificationManager.lib.avt";
+import type { Recent } from "../../../../generated/Data/Recent.data.avt";
+import { RecentRAM } from "../../../../ram/Recent.ram.avt";
 
 namespace System {
     export class HomePanel extends Panel implements Aventus.DefaultComponent {
@@ -41,6 +43,8 @@ namespace System {
         public favorites: Favorite[] = [];
         @Watch()
         public reorderFav: boolean = false;
+        @Watch()
+        public recents: Recent[] = [];
 
 
 
@@ -104,11 +108,16 @@ namespace System {
             ram.onCreated(this.loadData);
             ram.onUpdated((item) => this.loadData(item, true));
             ram.onDeleted(this.loadData);
+
+            let ram2 = RecentRAM.getInstance();
+            ram2.onCreated(this.loadData);
+            ram2.onUpdated((item) => this.loadData(item, true));
+            ram2.onDeleted(this.loadData);
             this.loadData();
         }
 
         @BindThis()
-        private async loadData(item?: Favorite, force?: boolean) {
+        private async loadData(item?: Favorite|Recent, force?: boolean) {
             let ram = FavoriteRAM.getInstance();
             const items = await Process.execute(this, ram.getListWithError());
             if(items) {
@@ -117,6 +126,16 @@ namespace System {
                     this.favorites = [];
                 }
                 this.favorites = items;
+            }
+
+            let ram2 = RecentRAM.getInstance();
+            const items2 = await Process.execute(this, ram2.getListWithError());
+            if(items2) {
+                items2.sort((a, b) => a.Datetime.DateTime.getTime() - b.Datetime.DateTime.getTime());
+                if(force) {
+                    this.recents = [];
+                }
+                this.recents = items2;
             }
         }
 

@@ -89,7 +89,7 @@ namespace Core.Logic
 
 
         #region Get int
-        protected ResultWithError<int> ParseToInt(ResultWithError<Settings> result)
+        protected ResultWithError<int> ParseToInt(ResultWithError<Settings> result, int? defaultValue = null)
         {
             ResultWithError<int> converted = new ResultWithError<int>
             {
@@ -102,24 +102,28 @@ namespace Core.Logic
             {
                 converted.Result = nb;
             }
-            else
+            else if (defaultValue == null)
             {
                 CoreError error = new CoreError(CoreErrorCode.ConversionFailed, "Can't parse to int");
                 converted.Errors.Add(error);
             }
+            else
+            {
+                converted.Result = (int)defaultValue;
+            }
             return converted;
         }
-        public ResultWithError<int> GetSettingsIntForUser(Enum _enum, HttpContext context)
+        public ResultWithError<int> GetSettingsIntForUser(Enum _enum, HttpContext context, int? defaultValue = null)
         {
-            return ParseToInt(GetSettingsForUser(_enum, context));
+            return ParseToInt(GetSettingsForUser(_enum, context), defaultValue);
         }
-        public ResultWithError<int> GetSettingsIntForUser(Enum _enum, User user)
+        public ResultWithError<int> GetSettingsIntForUser(Enum _enum, User user, int? defaultValue = null)
         {
-            return ParseToInt(GetSettingsForUser(_enum, user));
+            return ParseToInt(GetSettingsForUser(_enum, user), defaultValue);
         }
-        public ResultWithError<int> GetSettingsIntForUser(Enum _enum, int idUser)
+        public ResultWithError<int> GetSettingsIntForUser(Enum _enum, int idUser, int? defaultValue = null)
         {
-            return ParseToInt(GetSettingsForUser(_enum, idUser));
+            return ParseToInt(GetSettingsForUser(_enum, idUser), defaultValue);
         }
 
         #endregion
@@ -417,9 +421,9 @@ namespace Core.Logic
             return _GetGlobalSettings.SingleWithError();
         }
 
-        public ResultWithError<int> GetGlobalSettingsInt(Enum _enum)
+        public ResultWithError<int> GetGlobalSettingsInt(Enum _enum, int? defaultValue = null)
         {
-            return ParseToInt(GetGlobalSettings(_enum));
+            return ParseToInt(GetGlobalSettings(_enum), defaultValue);
         }
         public ResultWithError<double> GetGlobalSettingsDouble(Enum _enum)
         {

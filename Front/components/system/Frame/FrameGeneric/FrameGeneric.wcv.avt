@@ -1,0 +1,3 @@
+<div class="opacity-wrapper frame-content">
+    <slot></slot>
+</div>

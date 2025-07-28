@@ -1,5 +1,6 @@
 import type { IPermissionQuery } from "../../../../libs/Permission.lib.avt";
-import { Frame } from "../Frame.wcl.avt";
+import { Frame } from "../Frame/Frame.wcl.avt";
+import type { FrameConfig } from "../FrameConfig.lib.avt";
 
 namespace System {
     export class Frame404 extends Frame implements Aventus.DefaultComponent {
@@ -29,9 +30,10 @@ namespace System {
         /**
          * @inheritdoc
          */
-        public override pageTitle(): string {
-            return "Page not found";
+        public override configure(): FrameConfig {
+            return { title: "Page not found" };
         }
+
         /**
          * @inheritdoc
          */

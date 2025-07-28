@@ -1,0 +1,170 @@
+import type { ApplicationQueryFctResult } from "../../Application/ApplicationError.lib.avt";
+import type { Application } from "../../Application/Application.wcl.avt";
+import { PermissionWatcher, type IPermission, type IPermissionQuery, type PermissionQueryCst } from "../../../../libs/Permission.lib.avt";
+import type { ApplicationState } from "../../../../states/ApplicationState.state.avt";
+import { type Enum } from "Aventus@Main:Aventus.package.avt";
+import type { ContextMenu } from "../../../ui/ContextMenu/ContextMenu.wcl.avt";
+import { Recent } from "../../../../generated/Data/Recent.data.avt";
+import { RecentRAM } from "../../../../ram/Recent.ram.avt";
+import type { FrameConfig } from "../FrameConfig.lib.avt";
+
+namespace System {
+    export abstract class FrameGeneric extends Aventus.WebComponent implements Aventus.DefaultComponent, IPermission {
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Property()
+        private visible!: boolean;
+
+        //#endregion
+
+
+        //#region variables
+        @Signal()
+        protected state!: Aventus.State;
+        public application!: Application;
+
+        /** Only use to reset element inside the application router */
+        @Internal()
+        public resetNavElement!: () => void;
+        //#endregion
+
+
+        //#region constructor
+        constructor() {
+            super();
+            new PermissionWatcher(this);
+            this.addFadeIn();
+        }
+        //#endregion
+
+
+        //#region methods
+        protected addFadeIn() {
+            this.style.setProperty("--local-frame-animation-delay", "200ms");
+            this.addEventListener("animationend", (e) => {
+                if(e.animationName == "fadeIn") {
+                    this.style.removeProperty("--local-frame-animation-delay");
+                }
+            });
+        }
+
+        public abstract configure(): Aventus.Asyncable<FrameConfig>;
+
+        @Internal()
+        public async testPermissions(): Promise<boolean> {
+            let proms: Promise<boolean>[] = [];
+            let queries: IPermissionQuery[] = [];
+            let test = (query: IPermissionQuery) => {
+                queries.push(query);
+            };
+            this.definePermissions(test);
+            if(queries.length == 0) {
+                return true;
+            }
+
+            for(let query of queries) {
+                proms.push(can(query));
+            }
+
+            const perms = await Promise.all(proms);
+            for(let perm of perms) {
+                if(!perm) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        /**
+         * Define the permissions needed to access the frame
+         * If one permission is denied, the user can't access the frame.
+         */
+        public definePermissions(can: (permission: IPermissionQuery) => void): void {
+
+        }
+
+        /**
+         * Add custom check
+         * Return true if evrything is ok
+         * False will prevent showing
+         * string or state will redirect to the page
+         */
+        public allowState(state: Aventus.State): Aventus.Asyncable<boolean | ApplicationState | string> {
+            return true;
+        }
+        public async show(state: Aventus.State): Promise<void> {
+            this.state = state;
+            this.visible = true;
+            this.onShow();
+        }
+
+        public async hide(): Promise<void> {
+            this.visible = false;
+            this.onHide();
+        }
+        public abstract onShow();
+        public abstract onHide();
+
+
+        /**
+         * Define if the current state can be changed
+         * usefull to prevent change when editing data
+         */
+        public async askChange(newState: Aventus.State): Promise<boolean> {
+            return true;
+        }
+
+        /**
+         * Do action before application killed
+         */
+        public async beforeKill(prevent: () => void): Promise<void> {
+
+        }
+
+        /**
+         * Execute a query and get the result
+         * The errors will be handled by the application
+         */
+        public async execute<X>(prom: Promise<ApplicationQueryFctResult<X>>): Promise<X | undefined> {
+            return this.application.execute(prom);
+        }
+        /**
+         * Execute a query and get the result
+         * The errors will be handled by the application
+         * Show a loader if the request take more than 200ms
+         */
+        public async executeWithLoading<X>(prom: Promise<ApplicationQueryFctResult<X>>, minDelay?: number): Promise<X | undefined> {
+            return this.application.executeWithLoading(prom, minDelay);
+        }
+
+        public can<T extends Enum>(query: IPermissionQuery | PermissionQueryCst<T>, value?: Aventus.EnumValue<T>, additionalInfo?: string): boolean {
+            return false;
+        }
+        public onPermissionSet<T extends Enum>(allow: boolean, query: PermissionQueryCst<T>, value: Aventus.EnumValue<T>, additionalInfo?: string) { }
+
+        /**
+         * Use this function to add anything you want to display when user trigger the context menu on the content
+         */
+        @BindThis()
+        @InternalProtected()
+        public onContextMenuContent(contextMenu: ContextMenu, stop: () => void): void {
+
+        }
+
+        /**
+         * Use this function to add anything you want to display when user trigger the context menu on the header
+         */
+        @BindThis()
+        @InternalProtected()
+        public onContextMenuHeader(contextMenu: ContextMenu, stop: () => void): void {
+
+        }
+
+
+        //#endregion
+    }
+}

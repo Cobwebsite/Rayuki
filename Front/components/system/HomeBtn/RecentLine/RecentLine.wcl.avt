@@ -1,0 +1,100 @@
+import { PressManager } from "Aventus@Main:Aventus.package.avt";
+import { AppIconManager } from "../../../../libs/AppIconManager.lib.avt";
+import { Process } from "../../../../libs/Process.lib.avt";
+import type { ContextMenu, IContextMenu } from "../../../ui/ContextMenu/ContextMenu.wcl.avt";
+import { Os } from "../../Os/Os.wcl.avt";
+import type { Recent } from "../../../../generated/Data/Recent.data.avt";
+import { RecentRAM } from "../../../../ram/Recent.ram.avt";
+
+namespace System {
+	export class RecentLine extends Aventus.WebComponent implements Aventus.DefaultComponent, IContextMenu {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+        @Attribute()
+        public reorder!: boolean;
+        @Attribute()
+        public highlight_before!: boolean;
+        @Attribute()
+        public highlight_after!: boolean;
+        //#endregion
+
+
+        //#region variables
+        @ViewElement()
+        protected iconEl!: HTMLDivElement;
+        @ViewElement()
+        protected dragEl!: HTMLDivElement;
+
+        @Watch((target: RecentLine) => {
+            target.onSet();
+        })
+        @Injectable()
+        public recent?: Recent;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        /**
+         * @inheritdoc
+         */
+        public onContextMenu(contextMenu: ContextMenu, stop: () => void): void {
+            stop();
+        }
+        protected onSet() {
+            if(!this.recent) return;
+            const cst = AppIconManager.getIcon(this.recent.TagName);
+            if(!cst) return;
+            const icon = new cst();
+            this.iconEl.innerHTML = "";
+            this.iconEl.appendChild(icon);
+        }
+        protected async deleteFromRecent() {
+            if(!this.recent) return;
+
+            await Process.execute(this, RecentRAM.getInstance().deleteWithError(this.recent));
+        }
+        protected async open() {
+            if(!this.recent) {
+                this.remove();
+                return;
+            }
+            let desktop = Os.instance.activeDesktop;
+            const info = AppIconManager.reverseTagName(this.recent.TagName);
+            if(!info) {
+                this.deleteFromRecent();
+                this.remove();
+                return;
+            }
+            await desktop.loadApp(info.application);
+            const state = Aventus.Converter.transform<Aventus.State>(JSON.parse(this.recent.State));
+            const app = await desktop.openUrl(info.application, info.url, state);
+            
+        }
+
+        
+        protected addInteraction() {
+            new PressManager({
+                element: this,
+                onPress: () => {
+                    this.open();
+                }
+            });
+        }
+
+        protected override postCreation(): void {
+            this.addInteraction();
+        }
+        //#endregion
+
+	}
+}

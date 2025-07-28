@@ -1,5 +1,5 @@
 import type { ApplicationState } from "../../../../states/ApplicationState.state.avt";
-import { Frame } from "../Frame.wcl.avt";
+import { Frame } from "../Frame/Frame.wcl.avt";
 
 namespace System {
     export abstract class FrameState<T extends Aventus.State> extends Frame implements Aventus.DefaultComponent {
