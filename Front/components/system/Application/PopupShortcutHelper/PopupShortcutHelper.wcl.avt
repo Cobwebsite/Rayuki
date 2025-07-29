@@ -1,0 +1,71 @@
+import type { SpecialTouch } from "../../../../libs/ShortcutManager.lib.avt";
+import { Popup, type PopupInfo } from "../../../ui/popup/Popup/Popup.wcl.avt";
+import { PopupShortcutHelperKey } from "../PopupShortcutHelperKey/PopupShortcutHelperKey.wcl.avt";
+
+namespace System {
+    export class PopupShortcutHelper extends Popup<void> implements Aventus.DefaultComponent {
+
+        //#region static
+
+        //#endregion
+
+
+        //#region props
+
+        //#endregion
+
+
+        //#region variables
+        public cmds: [string, (string | SpecialTouch)[]][] = [];
+        public shortcuts: [string, (string | SpecialTouch)[]][] = [];
+
+        @ViewElement()
+        protected raccourciEl!: HTMLDivElement;
+        @ViewElement()
+        protected commandeEl!: HTMLDivElement;
+        //#endregion
+
+
+        //#region constructor
+
+        //#endregion
+
+
+        //#region methods
+        /**
+         * @inheritdoc
+         */
+        public override defaultOptions(): PopupInfo {
+            return {
+                title: t("Aide pour les raccourcis clavier"),
+				max_width: "1000px"
+            };
+        }
+        /**
+         * @inheritdoc
+         */
+        protected override cancel(): void {
+            this.resolve();
+        }
+
+        protected override postCreation(): void {
+            super.postCreation();
+            for(let shortcut of this.shortcuts) {
+                let el = new PopupShortcutHelperKey();
+                el.innerHTML = shortcut[0];
+                el.keys = shortcut[1];
+                this.raccourciEl.appendChild(el);
+            }
+            for(let cmd of this.cmds) {
+                let el = new PopupShortcutHelperKey();
+                el.innerHTML = cmd[0];
+                el.keys = cmd[1];
+                el.is_cmd = true;
+                this.raccourciEl.appendChild(el);
+            }
+        }
+
+        //#endregion
+
+    }
+}

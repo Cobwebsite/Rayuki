@@ -14,5 +14,14 @@ namespace Core.Routes
         {
             return DesktopDM.GetInstance().GetAllByUser(context.GetUserId());
         }
+
+        protected override ResultWithError<Desktop> DM_Create(HttpContext context, Desktop item)
+        {
+            ResultWithError<Desktop> result = new ResultWithError<Desktop>();
+            result.Run(() => context.setUserId(item));
+            result.Run(() => base.DM_Create(context, item));
+            return result;
+        }
+    
     }
 }

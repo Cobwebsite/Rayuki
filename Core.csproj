@@ -10,7 +10,9 @@
   <ItemGroup>
     <PackageReference Include="EnvDTE" Version="17.8.37221" />
     <PackageReference Include="File.TypeChecker" Version="4.1.1" />
+    <PackageReference Include="Google.Apis.Gmail.v1" Version="1.70.0.3833" />
     <PackageReference Include="HttpMultipartParser" Version="8.3.0" />
+    <PackageReference Include="MailKit" Version="4.13.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.20" />
     <PackageReference Include="MySql.Data" Version="8.3.0" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />

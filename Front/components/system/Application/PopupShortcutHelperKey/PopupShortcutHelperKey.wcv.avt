@@ -1,0 +1,10 @@
+<div class="cmd keys">
+    <div class="key">Ctrl</div>
+    <div class="key">K</div>
+</div>
+<div class="keys">
+    for(let key of this.keys) {
+        <div class="key">{{this.getKeyTxt(key)}}</div>
+    }
+</div>
+<div class="description"><slot></slot></div>

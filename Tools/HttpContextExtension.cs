@@ -1,4 +1,7 @@
-﻿namespace Core.Tools
+﻿using AventusSharp.Tools;
+using Core.Data;
+
+namespace Core.Tools
 {
     public static class HttpContextExtension
     {
@@ -26,13 +29,45 @@
             return context.Session.Get("superAdmin") != null ? true : false;
         }
 
-        public static void SetSuperAdmin(this HttpContext context, bool value) {
-            if(value) {
+        public static void SetSuperAdmin(this HttpContext context, bool value)
+        {
+            if (value)
+            {
                 context.Session.SetInt32("superAdmin", 1);
             }
-            else {
+            else
+            {
                 context.Session.Remove("superAdmin");
             }
+        }
+
+        public static VoidWithError setUserId(this HttpContext context, IUserable userable)
+        {
+            VoidWithError result = new VoidWithError();
+            int? userId = context.GetUserId();
+            if (userId == null)
+            {
+                return new()
+                {
+                    Errors = new List<GenericError>() { CoreError.NotLogin }
+                };
+            }
+            userable.UserId = (int)userId;
+            return result;
+        }
+        public static VoidWithError setUserId(this HttpContext context, IUserableOrNull userable)
+        {
+            VoidWithError result = new VoidWithError();
+            int? userId = context.GetUserId();
+            if (userId == null)
+            {
+                return new()
+                {
+                    Errors = new List<GenericError>() { CoreError.NotLogin }
+                };
+            }
+            userable.UserId = userId;
+            return result;
         }
     }
 }

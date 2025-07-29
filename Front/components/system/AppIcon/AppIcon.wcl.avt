@@ -6,6 +6,8 @@ import type { ContextMenu, IContextMenu } from "../../ui/ContextMenu/ContextMenu
 import type { IPositionable } from "../../ui/layout/PageCase/PageCase.wcl.avt";
 import { AppList } from "../AppList/AppList.wcl.avt";
 import { Addon, type AddonsName } from "../../../libs/Addon.lib.avt";
+import { DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.lib.avt";
+import { DesktopRouter } from "../../../generated/Websocket/Routes/DesktopRouter.lib.avt";
 
 namespace System {
 
@@ -87,13 +89,67 @@ namespace System {
         public onContextMenu(contextMenu: ContextMenu, stop: () => void): void {
             if(contextMenu.isTouch) {
                 contextMenu.addItem({
-                    text: "Organiser les applications",
+                    text: this.t("Organiser les applications"),
                     icon: "/img/icons/organize-app.svg",
                     priority: 1,
                     action: () => {
                         new MoveApplication().activate(DesktopStateManager.getInstance());
                     }
                 });
+            }
+
+            if(Os.instance.activeDesktop.bottomBar.applicationsContainer == this.parentElement) {
+                if(this.can_remove) {
+                    contextMenu.addItem({
+                        text: this.t("Détacher l'application"),
+                        materialIcon: "keep_off",
+                        priority: 1,
+                        action: async () => {
+                            let desktopIcon = new DesktopAppIcon();
+                            desktopIcon.Id = this.iconId;
+                            let result = await new DesktopRouter().RemoveDesktopIcon({
+                                icon: desktopIcon
+                            });
+                            if(result.success) {
+                                if(this.is_open) {
+                                    this.classList.add("remove-close");
+                                    this.can_remove = false;
+                                }
+                                else {
+                                    this.remove();
+                                }
+                            }
+                        }
+                    });
+                }
+                else {
+                    contextMenu.addItem({
+                        text: this.t("Attacher l'application"),
+                        materialIcon: "keep",
+                        priority: 1,
+                        action: async () => {
+                            let children = this.parentElement?.children ?? [];
+                            let no = Array.from(children).indexOf(this);
+                            if(no == -1) return;
+
+                            let desktopIcon = new DesktopAppIcon();
+                            desktopIcon.DesktopId = Os.instance.activeDesktop.desktop_id;
+                            desktopIcon.Position = no;
+                            desktopIcon.IconTag = this.tag;
+                            desktopIcon.Location = DesktopLocation.BottomBar;
+                            desktopIcon.Id = this.iconId;
+                            let result = await new DesktopRouter().SetDesktopIcon({
+                                icon: desktopIcon
+                            });
+                            if(result.success && result.result) {
+                                this.classList.remove("remove-close");
+                                this.iconId = result.result.Id;
+                                this.position = result.result.Position;
+                                this.can_remove = true;
+                            }
+                        }
+                    });
+                }
             }
         }
 

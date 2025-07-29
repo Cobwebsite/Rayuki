@@ -6,6 +6,7 @@ using Core.Websocket.Events;
 using Path = AventusSharp.WebSocket.Attributes.Path;
 using ListenOnBoot = AventusSharp.WebSocket.Attributes.ListenOnBoot;
 using Core.Websocket.Attributes;
+using AventusSharp.Tools;
 
 namespace Core.Websocket.Routes
 {
@@ -39,7 +40,7 @@ namespace Core.Websocket.Routes
         {
             if (icon.Id == 0)
             {
-                if(!icon.Create())
+                if (!icon.Create())
                 {
                     return null;
                 }
@@ -61,7 +62,7 @@ namespace Core.Websocket.Routes
         {
             return icon.Delete();
         }
-    
-        
+
+
     }
 }

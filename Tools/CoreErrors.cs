@@ -22,6 +22,8 @@ namespace Core.Tools
     [Export("Errors")]
     public class CoreError : GenericError<CoreErrorCode>
     {
+        [NoExport]
+        public static CoreError NotLogin = new CoreError(CoreErrorCode.NotLogin, "You aren't logged in"); 
         public CoreError(CoreErrorCode code, string message, [CallerFilePath] string callerPath = "", [CallerLineNumber] int callerNo = 0) : base(code, message, callerPath, callerNo)
         {
         }

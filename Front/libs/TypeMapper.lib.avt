@@ -1,5 +1,6 @@
-import type { Desktop } from "../generated/Data/Desktop.lib.avt";
+import { Desktop } from "../generated/Data/Desktop.lib.avt";
 
 namespace Data {
     export type DesktopData = Desktop;
+    export const DesktopClass = Desktop;
 }

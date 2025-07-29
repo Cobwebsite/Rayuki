@@ -1,0 +1,94 @@
+@import '@root/static/_functions.gs.avt';
+
+:host {
+	align-items: center;
+	display: flex;
+	gap: 0px;
+	padding: 10px 10px;
+    width: 300px;
+    flex-shrink: 0;
+
+	.keys {
+		align-items: center;
+		display: flex;
+		flex-shrink: 0;
+		flex-wrap: wrap;
+		gap: 3px;
+		justify-content: center;
+	}
+
+	.key {
+		-webkit-backface-visibility: hidden;
+		backface-visibility: hidden;
+		background-color: #fff;
+		border: 1px solid #e6e6e6;
+		border-color: #e6e6e6;
+		border-radius: 0.25rem;
+		box-shadow: 0 0 #d9d9d9, 0 0px #d9d9d9, 0 1px #d9d9d9, 0 2px #d9d9d9, 0 3px #d9d9d9, 0 4px #d9d9d9, 0 5px #d9d9d9, 2px 2.5px 4px #adb5bd, 0 -1px 2.5px #adb5bd;
+		color: #343a40;
+		display: inline-block;
+		font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+		font-size: inherit;
+		font-weight: 400;
+		line-height: inherit;
+		margin-bottom: 0.4375rem;
+		margin-left: 0.25rem;
+		margin-right: 0.25rem;
+		margin-top: 0.25rem;
+		padding: 0.1rem 0.4rem;
+		text-align: left;
+		transform: translate3d(0, 0, 5px);
+		transform-style: preserve-3d;
+		transition: all 0.25s cubic-bezier(0.2, 1, 0.2, 1);
+	}
+
+	.key::after {
+		border-color: #cccccc;
+		border-radius: 0.5rem;
+		border-style: solid;
+		border-width: 0.125rem;
+		bottom: -9px;
+		box-sizing: content-box;
+		content: '';
+		display: block;
+		left: -0.3125rem;
+		position: absolute;
+		right: -0.3125rem;
+		top: -3px;
+		transform: translate3d(0, 0, -3px);
+		transform-style: preserve-3d;
+		transition: all 0.25s cubic-bezier(0.2, 1, 0.2, 1);
+	}
+
+	.cmd {
+		display: none;
+        margin-right: 16px;
+	}
+    .description {
+        margin-left: 32px;
+    }
+}
+
+
+:host([is_cmd]) {
+	.cmd {
+		display: flex;
+	}
+}
+
+
+@include application-sm {
+    :host {
+        flex-direction: column;
+        width: 100%;
+    }
+    .cmd {
+        margin-left: 0;
+        margin-bottom: 8px;
+    }
+    .description {
+        width: 100%;
+        margin-top: 8px;
+        margin-left: 0;
+    }
+}

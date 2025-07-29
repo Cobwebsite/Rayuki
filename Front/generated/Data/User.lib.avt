@@ -21,4 +21,12 @@ namespace Data {
 		public static get Fullname(): string { return "Core.Data.UserPicture, Core"; }
 	}
 
+	export interface IUserable {
+		UserId: number;
+	}
+
+	export interface IUserableOrNull {
+		UserId?: number;
+	}
+
 }

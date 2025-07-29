@@ -33,9 +33,16 @@
     "Vendredi": "Vendredi",
     "Samedi": "Samedi",
     "Dimanche": "Dimanche",
+    "Aide pour les raccourcis clavier": "Aide pour les raccourcis clavier",
+    "Attacher l'application": "Attacher l'application",
+    "Déplacer l'application à droite": "Déplacer l'application à droite",
+    "Déplacer l'application à gauche": "Déplacer l'application à gauche",
+    "Détacher l'application": "Détacher l'application",
     "Installer l'application": "Installer l'application",
-    "Mes favoris": "Mes favorisⵌⵌ",
+    "Mes favoris": "Mes favoris",
     "Notifications activées": "Notifications activées",
     "Notifications désactivées": "Notifications désactivées",
+    "Organiser les applications": "Organiser les applications",
+    "Ouvrir l'aide des raccourcis clavier": "Ouvrir l'aide des raccourcis clavier",
     "Récents": "Récents"
 }

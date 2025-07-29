@@ -24,17 +24,9 @@ public class FavoriteRouter : StorableWsRouter<Favorite>
 
     protected override ResultWithError<Favorite> DM_Create(HttpContext context, Favorite item)
     {
-        int? userId = context.GetUserId();
-        if (userId == null)
-        {
-            return new()
-            {
-                Errors = new List<GenericError>() {
-                    new CoreError(CoreErrorCode.NotLogin, "You aren't logged in")
-                }
-            };
-        }
-        item.UserId = (int)userId;
-        return base.DM_Create(context, item);
+        ResultWithError<Favorite> result = new ResultWithError<Favorite>();
+        result.Run(() => context.setUserId(item)); 
+        result.Run(() => base.DM_Create(context, item)); 
+        return result;
     }
 }

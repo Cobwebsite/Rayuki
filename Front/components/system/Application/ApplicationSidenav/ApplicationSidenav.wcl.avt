@@ -157,6 +157,15 @@ namespace System {
         protected closeSidenav() {
             this.open_sidenav = false;
         }
+
+        protected override preventScrollContent() {
+            let ct = this.shadowRoot.querySelector(".content");
+            if(ct) {
+                ct.addEventListener("scroll", () => {
+                    ct.scrollLeft = 0;
+                });
+            }
+        }
         //#endregion
 
     }

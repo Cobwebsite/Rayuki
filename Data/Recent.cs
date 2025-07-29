@@ -3,7 +3,7 @@ using AventusSharp.Data.Attributes;
 
 namespace Core.Data;
 
-public class Recent : Storable<Recent>
+public class Recent : Storable<Recent>, IUserable
 {
     public string Name { get; set; }
     public string TagName { get; set; }

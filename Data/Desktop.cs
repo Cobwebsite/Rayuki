@@ -15,7 +15,7 @@ namespace Core.Data
         Stretch
 
     }
-    public class Desktop : Storable<Desktop>
+    public class Desktop : Storable<Desktop>, IUserableOrNull
     {
         public string Name { get; set; }
 

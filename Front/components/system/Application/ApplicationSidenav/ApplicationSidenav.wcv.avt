@@ -1,3 +1,14 @@
+<block name="navigation-actions">
+    <div class="action menu touch" @press="toggleSidenav">
+        <mi-icon icon="menu"></mi-icon>
+    </div>
+    <div class="previous action touch disable" @element="navigatePreviousEl" @press="navigatePrevious">
+        <rk-img src="/img/icons/angle-left.svg"></rk-img>
+    </div>
+    <div class="next action touch disable" @element="navigateNextEl" @press="navigateNext">
+        <rk-img src="/img/icons/angle-right.svg"></rk-img>
+    </div>
+</block>
 <block name="content">
     <rk-context-menu-element class="content">
         <div class="sidenav-hider" @press="closeSidenav"></div>

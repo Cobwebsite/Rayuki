@@ -2172,30 +2172,6 @@ Websocket.Routes.RecentRouter_Save=class RecentRouter_Save extends AventusSharp.
 Websocket.Routes.RecentRouter_Save.Namespace=`Core.Websocket.Routes`;
 _.Websocket.Routes.RecentRouter_Save=Websocket.Routes.RecentRouter_Save;
 
-Data.Favorite=class Favorite extends AventusSharp.Data.Storable {
-    static get Fullname() { return "Core.Data.Favorite, Core"; }
-    Name;
-    TagName;
-    State;
-    UserId;
-    Order;
-}
-Data.Favorite.Namespace=`Core.Data`;
-Data.Favorite.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","TagName":"string","State":"string","UserId":"number","Order":"number"};
-Aventus.Converter.register(Data.Favorite.Fullname, Data.Favorite);
-_.Data.Favorite=Data.Favorite;
-
-Websocket.Routes.FavoriteRouter=class FavoriteRouter extends AventusSharp.WebSocket.StorableWsRouter {
-    constructor(endpoint) {
-        super(endpoint ?? Websocket.MainEndPoint.getInstance());
-    }
-    StorableName() {
-        return "Favorite";
-    }
-}
-Websocket.Routes.FavoriteRouter.Namespace=`Core.Websocket.Routes`;
-_.Websocket.Routes.FavoriteRouter=Websocket.Routes.FavoriteRouter;
-
 Components.Tracker=class Tracker {
     velocityMultiplier = window.devicePixelRatio;
     updateTime = Date.now();
@@ -2612,36 +2588,6 @@ Data.DataTypes.RayukiFile=class RayukiFile extends AventusSharp.Data.CustomTable
 Data.DataTypes.RayukiFile.Namespace=`Core.Data.DataTypes`;
 _.Data.DataTypes.RayukiFile=Data.DataTypes.RayukiFile;
 
-let Addon=class Addon {
-    static dependances = {};
-    static need(application, addons) {
-        if (addons.length == 0)
-            return;
-        if (application instanceof System.AppIcon) {
-            let cst = application.constructor;
-            application = cst.Fullname.split(".")[0];
-        }
-        this.dependances[application] = addons;
-    }
-    static async loadForApp(application) {
-        if (!this.dependances[application])
-            return;
-        let proms = [];
-        for (let dep of this.dependances[application]) {
-            proms.push(this.load(dep));
-        }
-        await Promise.all(proms);
-    }
-    static async load(name) {
-        await Aventus.ResourceLoader.loadInHead({
-            url: "/addon/" + name + ".js?v=" + coreVersion,
-            type: "js"
-        });
-    }
-}
-Addon.Namespace=`Core`;
-_.Addon=Addon;
-
 State.DesktopStateManager=class DesktopStateManager extends Aventus.StateManager {
     /**
      * Get the instance of the StateManager
@@ -2674,6 +2620,76 @@ _.State.DesktopStateManager=State.DesktopStateManager;
     SpecialTouch[SpecialTouch["Enter"] = 17] = "Enter";
 })(Lib.SpecialTouch || (Lib.SpecialTouch = {}));
 _.Lib.SpecialTouch=Lib.SpecialTouch;
+
+System.PopupShortcutHelperKey = class PopupShortcutHelperKey extends Aventus.WebComponent {
+    get 'is_cmd'() { return this.getBoolAttr('is_cmd') }
+    set 'is_cmd'(val) { this.setBoolAttr('is_cmd', val) }    keys = [];
+    static __style = `:host{align-items:center;display:flex;gap:0px;padding:10px 10px;width:300px;flex-shrink:0}:host .keys{align-items:center;display:flex;flex-shrink:0;flex-wrap:wrap;gap:3px;justify-content:center}:host .key{-webkit-backface-visibility:hidden;backface-visibility:hidden;background-color:#fff;border:1px solid #e6e6e6;border-color:#e6e6e6;border-radius:.25rem;box-shadow:0 0 #d9d9d9,0 0px #d9d9d9,0 1px #d9d9d9,0 2px #d9d9d9,0 3px #d9d9d9,0 4px #d9d9d9,0 5px #d9d9d9,2px 2.5px 4px #adb5bd,0 -1px 2.5px #adb5bd;color:#343a40;display:inline-block;font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:inherit;font-weight:400;line-height:inherit;margin-bottom:.4375rem;margin-left:.25rem;margin-right:.25rem;margin-top:.25rem;padding:.1rem .4rem;text-align:left;transform:translate3d(0, 0, 5px);transform-style:preserve-3d;transition:all .25s cubic-bezier(0.2, 1, 0.2, 1)}:host .key::after{border-color:#ccc;border-radius:.5rem;border-style:solid;border-width:.125rem;bottom:-9px;box-sizing:content-box;content:"";display:block;left:-0.3125rem;position:absolute;right:-0.3125rem;top:-3px;transform:translate3d(0, 0, -3px);transform-style:preserve-3d;transition:all .25s cubic-bezier(0.2, 1, 0.2, 1)}:host .cmd{display:none;margin-right:16px}:host .description{margin-left:32px}:host([is_cmd]) .cmd{display:flex}@container application (max-width: 540px){:host{flex-direction:column;width:100%}.cmd{margin-left:0;margin-bottom:8px}.description{width:100%;margin-top:8px;margin-left:0}}`;
+    __getStatic() {
+        return PopupShortcutHelperKey;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(PopupShortcutHelperKey.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="cmd keys">    <div class="key">Ctrl</div>    <div class="key">K</div></div><div class="keys">    <template _id="popupshortcuthelperkey_0"></template></div><div class="description"><slot></slot></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <div class="key" _id="popupshortcuthelperkey_1"></div>    `);templ0.setActions({
+  "content": {
+    "popupshortcuthelperkey_1°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__4e2b702109b8c2b75cb7582349c759b5method1(c.data.key))}`,
+      "once": true
+    }
+  }
+});this.__getStatic().__template.addLoop({
+                    anchorId: 'popupshortcuthelperkey_0',
+                    template: templ0,
+                simple:{data: "this.keys",item:"key"}}); }
+    getClassName() {
+        return "PopupShortcutHelperKey";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('is_cmd')) { this.attributeChangedCallback('is_cmd', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('is_cmd'); }
+    __listBoolProps() { return ["is_cmd"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    getKeyTxt(key) {
+        const specialTouchTxt = {
+            [Lib.SpecialTouch.Alt]: "Alt",
+            [Lib.SpecialTouch.AltGraph]: "Alt Gr",
+            [Lib.SpecialTouch.ArrowDown]: "↓",
+            [Lib.SpecialTouch.ArrowLeft]: "←",
+            [Lib.SpecialTouch.ArrowRight]: "→",
+            [Lib.SpecialTouch.ArrowUp]: "↑",
+            [Lib.SpecialTouch.Backspace]: "Back",
+            [Lib.SpecialTouch.CapsLock]: "Caps",
+            [Lib.SpecialTouch.Control]: "Ctrl",
+            [Lib.SpecialTouch.Delete]: "Del",
+            [Lib.SpecialTouch.End]: "End",
+            [Lib.SpecialTouch.Enter]: "↵",
+            [Lib.SpecialTouch.Escape]: "Esc",
+            [Lib.SpecialTouch.Insert]: "Ins",
+            [Lib.SpecialTouch.PageDown]: "Pg dn",
+            [Lib.SpecialTouch.PageUp]: "Pg up",
+            [Lib.SpecialTouch.Shift]: "Shift",
+            [Lib.SpecialTouch.Tab]: "↹",
+        };
+        if (specialTouchTxt[key]) {
+            return specialTouchTxt[key];
+        }
+        return (key + '').toUpperCase();
+    }
+    __4e2b702109b8c2b75cb7582349c759b5method1(key) {
+        return this.getKeyTxt(key);
+    }
+}
+System.PopupShortcutHelperKey.Namespace=`Core.System`;
+System.PopupShortcutHelperKey.Tag=`rk-popup-shortcut-helper-key`;
+_.System.PopupShortcutHelperKey=System.PopupShortcutHelperKey;
+if(!window.customElements.get('rk-popup-shortcut-helper-key')){window.customElements.define('rk-popup-shortcut-helper-key', System.PopupShortcutHelperKey);Aventus.WebComponentInstance.registerDefinition(System.PopupShortcutHelperKey);}
 
 Components.ContextMenuSeparator = class ContextMenuSeparator extends Aventus.WebComponent {
     priority = 0;
@@ -3297,85 +3313,6 @@ Lib.ShortcutManager=class ShortcutManager {
 Lib.ShortcutManager.Namespace=`Core.Lib`;
 _.Lib.ShortcutManager=Lib.ShortcutManager;
 
-System.ApplicationShortcut=class ApplicationShortcut {
-    application;
-    cmds = [];
-    is_cmd = false;
-    constructor(application) {
-        this.application = application;
-        this.startCmd = this.startCmd.bind(this);
-        this.stopCmd = this.stopCmd.bind(this);
-        this.printState = this.printState.bind(this);
-    }
-    init() {
-        this.cmds = this.defineCmds();
-    }
-    /**
-     *  Defines the keyboard shortcuts for the application.
-     */
-    defaultShortcut() {
-        return [
-            [[Lib.SpecialTouch.Control, Lib.SpecialTouch.ArrowLeft], this.application.moveApplicationToLeft],
-            [[Lib.SpecialTouch.Control, Lib.SpecialTouch.ArrowRight], this.application.moveApplicationToRight],
-            [[Lib.SpecialTouch.Control, 'k'], this.startCmd],
-        ];
-    }
-    manageShortcut() {
-        let shortcuts = this.defaultShortcut();
-        let customShortcut = this.application.defineShortcut();
-        for (let shortcut of customShortcut) {
-            shortcuts.push(shortcut);
-        }
-        if (this.application.is_desktop_active) {
-            for (let shortcut of shortcuts) {
-                Lib.ShortcutManager.subscribe(shortcut[0], shortcut[1]);
-            }
-        }
-        else {
-            for (let shortcut of shortcuts) {
-                Lib.ShortcutManager.unsubscribe(shortcut[0], shortcut[1]);
-            }
-        }
-    }
-    defineCmds() {
-        return [
-            [['s'], this.runCmd(this.printState)],
-        ];
-    }
-    startCmd() {
-        for (let cmd of this.cmds) {
-            Lib.ShortcutManager.subscribe(cmd[0], cmd[1]);
-        }
-        this.is_cmd = true;
-        setTimeout(() => {
-            this.stopCmd();
-        }, 2000);
-    }
-    stopCmd() {
-        if (!this.is_cmd)
-            return;
-        this.is_cmd = false;
-        for (let cmd of this.cmds) {
-            Lib.ShortcutManager.unsubscribe(cmd[0], cmd[1]);
-        }
-    }
-    runCmd(fct) {
-        return () => {
-            try {
-                fct();
-            }
-            catch {
-            }
-            this.stopCmd();
-        };
-    }
-    printState() {
-        console.log(this.application.navigator.getState());
-    }
-}
-System.ApplicationShortcut.Namespace=`Core.System`;
-_.System.ApplicationShortcut=System.ApplicationShortcut;
-
 State.MoveApplication=class MoveApplication extends Aventus.State {
     static state = "/application/move";
     static shadowIcons = [];
@@ -3561,6 +3498,9 @@ Data.Desktop.Namespace=`Core.Data`;
 Data.Desktop.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","_Token":"string","Token":"string","UserId":"number","_Configuration":"DekstopConfiguration","Configuration":"DekstopConfiguration","Icons":"DesktopAppIcon[]","Applications":"Core.Data.ApplicationOpen[]"};
 Aventus.Converter.register(Data.Desktop.Fullname, Data.Desktop);
 _.Data.Desktop=Data.Desktop;
+
+Data.DesktopClass= Data.Desktop;
+_.Data.DesktopClass=Data.DesktopClass;
 
 Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRouter {
     constructor(router) {
@@ -5347,6 +5287,30 @@ Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRouter {
 }
 Routes.UserRouter.Namespace=`Core.Routes`;
 _.Routes.UserRouter=Routes.UserRouter;
+
+Data.Favorite=class Favorite extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.Favorite, Core"; }
+    Name;
+    TagName;
+    State;
+    UserId;
+    Order;
+}
+Data.Favorite.Namespace=`Core.Data`;
+Data.Favorite.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","TagName":"string","State":"string","UserId":"number","Order":"number"};
+Aventus.Converter.register(Data.Favorite.Fullname, Data.Favorite);
+_.Data.Favorite=Data.Favorite;
+
+Websocket.Routes.FavoriteRouter=class FavoriteRouter extends AventusSharp.WebSocket.StorableWsRouter {
+    constructor(endpoint) {
+        super(endpoint ?? Websocket.MainEndPoint.getInstance());
+    }
+    StorableName() {
+        return "Favorite";
+    }
+}
+Websocket.Routes.FavoriteRouter.Namespace=`Core.Websocket.Routes`;
+_.Websocket.Routes.FavoriteRouter=Websocket.Routes.FavoriteRouter;
 
 Permissions.ApplicationPermissionQuery=class ApplicationPermissionQuery extends Permissions.PermissionQuery {
     static get Fullname() { return "Core.Permissions.ApplicationPermissionQuery, Core"; }
@@ -8000,6 +7964,509 @@ System.ApplicationSize=class ApplicationSize {
 System.ApplicationSize.Namespace=`Core.System`;
 _.System.ApplicationSize=System.ApplicationSize;
 
+Components.GenericPopup = class GenericPopup extends Aventus.WebComponent {
+    get 'no_red_btn'() { return this.getBoolAttr('no_red_btn') }
+    set 'no_red_btn'(val) { this.setBoolAttr('no_red_btn', val) }get 'behind'() { return this.getBoolAttr('behind') }
+    set 'behind'(val) { this.setBoolAttr('behind', val) }get 'close_on_click'() { return this.getBoolAttr('close_on_click') }
+    set 'close_on_click'(val) { this.setBoolAttr('close_on_click', val) }    get 'info'() {
+						return this.__watch["info"];
+					}
+					set 'info'(val) {
+						this.__watch["info"] = val;
+					}    cb;
+    pressManagerClose;
+    pressManagerPopup;
+    application;
+    __registerWatchesActions() {
+    this.__addWatchesActions("info", ((target, action, path, value) => {
+    target.onOptionsChanged();
+}));    super.__registerWatchesActions();
+}
+    static __style = `:host{--_popup-background-color: var(--popup-background-color, var(--application-background-color, var(--primary-color-opacity)));--_popup-border-radius: var(--popup-border-radius, var(--application-border-radius, 10px));--_popup-header-background-color: var(--popup-header-background-color, var(--application-header-background-color, var(--darker-active)));--_popup-content-padding: var(--popup-content-padding, 15px)}:host{align-items:center;animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(48,48,48,.1);border-radius:var(--application-border-radius);display:flex;inset:0;justify-content:center;position:absolute;z-index:650}:host .popup{background-color:var(--_popup-background-color);border-radius:var(--_popup-border-radius);box-shadow:var(--elevation-5);container-name:application;container-type:normal;display:flex;flex-direction:column;max-height:calc(100% - 50px);max-width:calc(100% - 50px);width:fit-content}:host .popup .header{align-items:center;border-top-left-radius:var(--_popup-border-radius);border-top-right-radius:var(--_popup-border-radius);display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .popup .header .background{background-color:var(--_popup-header-background-color);inset:0;position:absolute;z-index:1}:host .popup .header .title{flex-grow:1;margin-left:15px;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .popup .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .popup .header .application-actions .btn{border-radius:var(--border-radius);height:15px;width:15px}:host .popup .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);max-height:calc(var(--app-height) - 50px - 30px);min-height:auto;min-width:auto;overflow:hidden;padding:var(--_popup-content-padding);width:100%;z-index:1}:host .popup.shake{animation-duration:.3s;animation-iteration-count:1;animation-name:shake;animation-timing-function:var(--bezier-curve)}:host(.fade-out){animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeOut;animation-timing-function:var(--bezier-curve)}:host([no_red_btn]) .popup .header .application-actions .btn{display:none}:host([behind]){z-index:550}@media screen and (min-width: 1225px){:host .popup .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .popup .header{height:40px}:host .popup .header .application-actions{gap:10px}:host .popup .header .application-actions .btn{height:20px;width:20px}:host .popup .content{height:calc(100% - 45px)}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}@keyframes fadeOut{0%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}@keyframes shake{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}`;
+    constructor() {            super();            this.info = this.defaultOptions();if (this.constructor == GenericPopup) { throw "can't instanciate an abstract class"; }this.cancel=this.cancel.bind(this)}
+    __getStatic() {
+        return GenericPopup;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(GenericPopup.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="popup" _id="genericpopup_0">    <div class="header">        <div class="background"></div>        <div class="title" _id="genericpopup_1"></div>        <div class="application-actions">            <div class="btn red touch" _id="genericpopup_2"></div>        </div>    </div>    <div class="content" _id="genericpopup_3">        <slot></slot>    </div></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "popupEl",
+      "ids": [
+        "genericpopup_0"
+      ]
+    },
+    {
+      "name": "contentEl",
+      "ids": [
+        "genericpopup_3"
+      ]
+    }
+  ],
+  "content": {
+    "genericpopup_1°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__cc26f54f9c039edaaa84e25490791589method0())}`,
+      "once": true
+    }
+  },
+  "pressEvents": [
+    {
+      "id": "genericpopup_2",
+      "onPress": (e, pressInstance, c) => { c.comp.cancel(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "GenericPopup";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('no_red_btn')) { this.attributeChangedCallback('no_red_btn', false, false); }if(!this.hasAttribute('behind')) { this.attributeChangedCallback('behind', false, false); }if(!this.hasAttribute('close_on_click')) { this.attributeChangedCallback('close_on_click', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["info"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('no_red_btn');this.__upgradeProperty('behind');this.__upgradeProperty('close_on_click');this.__correctGetter('info'); }
+    __listBoolProps() { return ["no_red_btn","behind","close_on_click"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    onContextMenu(contextMenu, stop) {
+        stop();
+    }
+    mergeInfo(info) {
+        this.info = { ...this.info, ...info };
+    }
+    init(cb) {
+        this.cb = cb;
+        Lib.ShortcutManager.subscribe(Lib.SpecialTouch.Escape, this.cancel);
+    }
+    onOptionsChanged() {
+        this.no_red_btn = this.info.hide_red_btn == true;
+        this.behind = this.info.behind == true;
+        this.close_on_click = this.info.close_on_click == true;
+        this.popupEl.style.maxWidth = this.info.max_width ?? '';
+        this.popupEl.style.maxHeight = this.info.max_height ?? '';
+        this.popupEl.style.minWidth = this.info.min_width ?? '';
+        this.popupEl.style.minHeight = this.info.min_height ?? '';
+    }
+    close() {
+        this.classList.add("fade-out");
+    }
+    addCloseWatcher() {
+        this.addEventListener("animationend", (e) => {
+            if (e.animationName == "fadeOut") {
+                this.remove();
+            }
+        });
+    }
+    resolve(response, no_close) {
+        Lib.ShortcutManager.unsubscribe(Lib.SpecialTouch.Escape, this.cancel);
+        if (this.cb) {
+            this.cb(response);
+        }
+        if (!no_close) {
+            this.close();
+        }
+    }
+    addPress() {
+        this.popupEl.addEventListener("animationend", (e) => {
+            if (e.animationName == "shake") {
+                this.popupEl.classList.remove("shake");
+            }
+        });
+        this.pressManagerClose = new Aventus.PressManager({
+            element: this,
+            onPress: (e) => {
+                if (this.close_on_click) {
+                    this.close();
+                }
+                else {
+                    this.popupEl.classList.add("shake");
+                }
+            }
+        });
+        // prevent close
+        this.pressManagerPopup = new Aventus.PressManager({
+            element: this.popupEl,
+            onPress: (e) => { }
+        });
+    }
+    postDestruction() {
+        this.pressManagerClose?.destroy();
+        this.pressManagerPopup?.destroy();
+    }
+    postCreation() {
+        this.addCloseWatcher();
+        this.addPress();
+        this.onOptionsChanged();
+    }
+    __cc26f54f9c039edaaa84e25490791589method0() {
+        return this.info.title;
+    }
+}
+Components.GenericPopup.Namespace=`Core.Components`;
+_.Components.GenericPopup=Components.GenericPopup;
+
+Components.Confirm = class Confirm extends Components.GenericPopup {
+    static __style = `:host .popup .body{align-items:center;display:flex;justify-content:center;line-height:1.5;padding:20px;padding-top:15px;text-align:center}:host .popup .action{align-items:center;display:flex;gap:20px;justify-content:center}`;
+    constructor() { super(); this.validate=this.validate.bind(this)this.cancel=this.cancel.bind(this) }
+    __getStatic() {
+        return Confirm;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Confirm.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-scrollable class="body" _id="confirm_0"></rk-scrollable><div class="action">    <rk-button color="red" _id="confirm_1"></rk-button>    <rk-button color="success" _id="confirm_2"></rk-button></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "confirm_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method0())}`,
+      "once": true
+    },
+    "confirm_1°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method1())}`,
+      "once": true
+    },
+    "confirm_2°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method2())}`,
+      "once": true
+    }
+  },
+  "pressEvents": [
+    {
+      "id": "confirm_1",
+      "onPress": (e, pressInstance, c) => { c.comp.cancel(e, pressInstance); }
+    },
+    {
+      "id": "confirm_2",
+      "onPress": (e, pressInstance, c) => { c.comp.validate(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "Confirm";
+    }
+    init(cb) {
+        super.init(cb);
+        this.addShortcuts();
+    }
+    close() {
+        super.close();
+        this.removeShortcuts();
+    }
+    defaultOptions() {
+        return {
+            title: "",
+            description: "",
+            true_txt: "Oui",
+            false_txt: "Non",
+        };
+    }
+    addShortcuts() {
+        Lib.ShortcutManager.subscribe(Lib.SpecialTouch.Enter, this.validate, { replaceTemp: true });
+        Lib.ShortcutManager.subscribe(Lib.SpecialTouch.Escape, this.cancel, { replaceTemp: true });
+    }
+    removeShortcuts() {
+        Lib.ShortcutManager.unsubscribe(Lib.SpecialTouch.Enter, this.validate);
+        Lib.ShortcutManager.unsubscribe(Lib.SpecialTouch.Escape, this.cancel);
+    }
+    validate() {
+        this.resolve(true);
+    }
+    cancel() {
+        this.resolve(false);
+    }
+    __caa2fd56843944180566fbe49a4bb311method0() {
+        return this.info.description;
+    }
+    __caa2fd56843944180566fbe49a4bb311method1() {
+        return this.info.false_txt;
+    }
+    __caa2fd56843944180566fbe49a4bb311method2() {
+        return this.info.true_txt;
+    }
+}
+Components.Confirm.Namespace=`Core.Components`;
+Components.Confirm.Tag=`rk-confirm`;
+_.Components.Confirm=Components.Confirm;
+if(!window.customElements.get('rk-confirm')){window.customElements.define('rk-confirm', Components.Confirm);Aventus.WebComponentInstance.registerDefinition(Components.Confirm);}
+
+Components.Alert = class Alert extends Components.GenericPopup {
+    static __style = `:host .popup .content .body{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - 36px - var(--_popup-content-padding) - var(--_popup-content-padding));align-items:center;display:flex;justify-content:center;line-height:1.5;max-height:calc(var(--app-height) - 50px - 30px - 36px - var(--_popup-content-padding) - var(--_popup-content-padding));padding:20px;padding-top:15px;text-align:center}:host .popup .content .action{align-items:center;display:flex;gap:20px;height:36px;justify-content:center}`;
+    __getStatic() {
+        return Alert;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Alert.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-scrollable class="body">    <p _id="alert_0"></p></rk-scrollable><div class="action">    <rk-button color="blue" _id="alert_1"></rk-button></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "alert_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__d0561a7aa91ff42b328166316d099970method0())}`,
+      "once": true
+    },
+    "alert_1°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__d0561a7aa91ff42b328166316d099970method1())}`,
+      "once": true
+    }
+  },
+  "events": [
+    {
+      "eventName": "click",
+      "id": "alert_1",
+      "fct": (e, c) => c.comp.validate(e)
+    }
+  ]
+}); }
+    getClassName() {
+        return "Alert";
+    }
+    defaultOptions() {
+        return {
+            title: "",
+            description: "",
+            btn_txt: "ok"
+        };
+    }
+    validate() {
+        this.resolve();
+    }
+    cancel() {
+        this.resolve();
+    }
+    __d0561a7aa91ff42b328166316d099970method0() {
+        return this.info.description;
+    }
+    __d0561a7aa91ff42b328166316d099970method1() {
+        return this.info.btn_txt;
+    }
+}
+Components.Alert.Namespace=`Core.Components`;
+Components.Alert.Tag=`rk-alert`;
+_.Components.Alert=Components.Alert;
+if(!window.customElements.get('rk-alert')){window.customElements.define('rk-alert', Components.Alert);Aventus.WebComponentInstance.registerDefinition(Components.Alert);}
+
+Components.Popup = class Popup extends Components.GenericPopup {
+    static __style = `:host .popup .content{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - var(--_popup-content-padding) - var(--_popup-content-padding));width:100%}`;
+    constructor() { super(); if (this.constructor == Popup) { throw "can't instanciate an abstract class"; } }
+    __getStatic() {
+        return Popup;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Popup.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="popup" _id="popup_0">    <div class="header">        <div class="background"></div>        <div class="title" _id="popup_1"></div>        <div class="application-actions">            <div class="btn red touch" _id="popup_2"></div>        </div>    </div>    <rk-scrollable class="content">        <slot></slot>    </rk-scrollable></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "popupEl",
+      "ids": [
+        "popup_0"
+      ]
+    }
+  ],
+  "content": {
+    "popup_1°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__c6b222033048639bf6ac58d471520fbamethod0())}`,
+      "once": true
+    }
+  },
+  "pressEvents": [
+    {
+      "id": "popup_2",
+      "onPress": (e, pressInstance, c) => { c.comp.cancel(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "Popup";
+    }
+    __c6b222033048639bf6ac58d471520fbamethod0() {
+        return this.info.title;
+    }
+}
+Components.Popup.Namespace=`Core.Components`;
+_.Components.Popup=Components.Popup;
+
+System.PopupShortcutHelper = class PopupShortcutHelper extends Components.Popup {
+    cmds = [];
+    shortcuts = [];
+    static __style = `:host .raccourci,:host .commande{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;width:100%}`;
+    __getStatic() {
+        return PopupShortcutHelper;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(PopupShortcutHelper.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="raccourci" _id="popupshortcuthelper_0"></div><div class="commande" _id="popupshortcuthelper_1"></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "raccourciEl",
+      "ids": [
+        "popupshortcuthelper_0"
+      ]
+    },
+    {
+      "name": "commandeEl",
+      "ids": [
+        "popupshortcuthelper_1"
+      ]
+    }
+  ]
+}); }
+    getClassName() {
+        return "PopupShortcutHelper";
+    }
+    defaultOptions() {
+        return {
+            title: t("Aide pour les raccourcis clavier"),
+            max_width: "1000px"
+        };
+    }
+    cancel() {
+        this.resolve();
+    }
+    postCreation() {
+        super.postCreation();
+        for (let shortcut of this.shortcuts) {
+            let el = new System.PopupShortcutHelperKey();
+            el.innerHTML = shortcut[0];
+            el.keys = shortcut[1];
+            this.raccourciEl.appendChild(el);
+        }
+        for (let cmd of this.cmds) {
+            let el = new System.PopupShortcutHelperKey();
+            el.innerHTML = cmd[0];
+            el.keys = cmd[1];
+            el.is_cmd = true;
+            this.raccourciEl.appendChild(el);
+        }
+    }
+}
+System.PopupShortcutHelper.Namespace=`Core.System`;
+System.PopupShortcutHelper.Tag=`rk-popup-shortcut-helper`;
+_.System.PopupShortcutHelper=System.PopupShortcutHelper;
+if(!window.customElements.get('rk-popup-shortcut-helper')){window.customElements.define('rk-popup-shortcut-helper', System.PopupShortcutHelper);Aventus.WebComponentInstance.registerDefinition(System.PopupShortcutHelper);}
+
+System.ApplicationShortcut=class ApplicationShortcut {
+    application;
+    cmds = [];
+    shortcuts = [];
+    is_cmd = false;
+    constructor(application) {
+        this.application = application;
+        this.startCmd = this.startCmd.bind(this);
+        this.stopCmd = this.stopCmd.bind(this);
+        this.printState = this.printState.bind(this);
+        this.showPopupHelp = this.showPopupHelp.bind(this);
+    }
+    init() {
+    }
+    /**
+     *  Defines the keyboard shortcuts for the application.
+     */
+    defaultShortcut() {
+        return [
+            [t("Déplacer l'application à gauche"), [Lib.SpecialTouch.Control, Lib.SpecialTouch.ArrowLeft], this.application.moveApplicationToLeft],
+            [t("Déplacer l'application à droite"), [Lib.SpecialTouch.Control, Lib.SpecialTouch.ArrowRight], this.application.moveApplicationToRight],
+            [t("Ouvrir l'aide des raccourcis clavier"), [Lib.SpecialTouch.Control, "h"], this.showPopupHelp],
+            ["", [Lib.SpecialTouch.Control, 'k'], this.startCmd],
+        ];
+    }
+    manageShortcut() {
+        this.cmds = this.defineCmds();
+        let shortcuts = this.defaultShortcut();
+        let customShortcut = this.application.defineShortcut();
+        for (let shortcut of customShortcut) {
+            shortcuts.push(shortcut);
+        }
+        this.shortcuts = shortcuts;
+        if (this.application.is_desktop_active) {
+            for (let shortcut of shortcuts) {
+                Lib.ShortcutManager.subscribe(shortcut[1], shortcut[2]);
+            }
+        }
+        else {
+            for (let shortcut of shortcuts) {
+                Lib.ShortcutManager.unsubscribe(shortcut[1], shortcut[2]);
+            }
+        }
+    }
+    defineCmds() {
+        return [
+            ["Print the state", ['s'], this.runCmd(this.printState)],
+        ];
+    }
+    startCmd() {
+        for (let cmd of this.cmds) {
+            Lib.ShortcutManager.subscribe(cmd[1], cmd[2]);
+        }
+        this.is_cmd = true;
+        setTimeout(() => {
+            this.stopCmd();
+        }, 2000);
+    }
+    stopCmd() {
+        if (!this.is_cmd)
+            return;
+        this.is_cmd = false;
+        for (let cmd of this.cmds) {
+            Lib.ShortcutManager.unsubscribe(cmd[1], cmd[2]);
+        }
+    }
+    runCmd(fct) {
+        return () => {
+            try {
+                fct();
+            }
+            catch {
+            }
+            this.stopCmd();
+        };
+    }
+    printState() {
+        console.log(this.application.navigator.getState());
+    }
+    showPopupHelp() {
+        let p = new System.PopupShortcutHelper();
+        p.shortcuts = this.shortcuts.filter(p => p[0] != "").map((p) => [p[0], p[1]]);
+        p.cmds = this.cmds.filter(p => p[0] != "").map((p) => [p[0], p[1]]);
+        this.application.popup(p);
+    }
+}
+System.ApplicationShortcut.Namespace=`Core.System`;
+_.System.ApplicationShortcut=System.ApplicationShortcut;
+
 System.Frame404 = class Frame404 extends System.Frame {
     get 'uri'() {
 						return this.__watch["uri"];
@@ -8278,353 +8745,6 @@ Lib.ApplicationManager=class ApplicationManager {
 Lib.ApplicationManager.Namespace=`Core.Lib`;
 _.Lib.ApplicationManager=Lib.ApplicationManager;
 
-Components.GenericPopup = class GenericPopup extends Aventus.WebComponent {
-    get 'no_red_btn'() { return this.getBoolAttr('no_red_btn') }
-    set 'no_red_btn'(val) { this.setBoolAttr('no_red_btn', val) }get 'behind'() { return this.getBoolAttr('behind') }
-    set 'behind'(val) { this.setBoolAttr('behind', val) }get 'close_on_click'() { return this.getBoolAttr('close_on_click') }
-    set 'close_on_click'(val) { this.setBoolAttr('close_on_click', val) }    get 'info'() {
-						return this.__watch["info"];
-					}
-					set 'info'(val) {
-						this.__watch["info"] = val;
-					}    cb;
-    pressManagerClose;
-    pressManagerPopup;
-    application;
-    __registerWatchesActions() {
-    this.__addWatchesActions("info", ((target, action, path, value) => {
-    target.onOptionsChanged();
-}));    super.__registerWatchesActions();
-}
-    static __style = `:host{--_popup-background-color: var(--popup-background-color, var(--application-background-color, var(--primary-color-opacity)));--_popup-border-radius: var(--popup-border-radius, var(--application-border-radius, 10px));--_popup-header-background-color: var(--popup-header-background-color, var(--application-header-background-color, var(--darker-active)));--_popup-content-padding: var(--popup-content-padding, 15px)}:host{align-items:center;animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(48,48,48,.1);border-radius:var(--application-border-radius);display:flex;inset:0;justify-content:center;position:absolute;z-index:650}:host .popup{background-color:var(--_popup-background-color);border-radius:var(--_popup-border-radius);box-shadow:var(--elevation-5);container-name:application;container-type:normal;display:flex;flex-direction:column;max-height:calc(100% - 50px);max-width:calc(100% - 50px);width:fit-content}:host .popup .header{align-items:center;border-top-left-radius:var(--_popup-border-radius);border-top-right-radius:var(--_popup-border-radius);display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .popup .header .background{background-color:var(--_popup-header-background-color);inset:0;position:absolute;z-index:1}:host .popup .header .title{flex-grow:1;margin-left:15px;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .popup .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .popup .header .application-actions .btn{border-radius:var(--border-radius);height:15px;width:15px}:host .popup .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);max-height:calc(var(--app-height) - 50px - 30px);min-height:auto;min-width:auto;overflow:hidden;padding:var(--_popup-content-padding);width:100%;z-index:1}:host .popup.shake{animation-duration:.3s;animation-iteration-count:1;animation-name:shake;animation-timing-function:var(--bezier-curve)}:host(.fade-out){animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeOut;animation-timing-function:var(--bezier-curve)}:host([no_red_btn]) .popup .header .application-actions .btn{display:none}:host([behind]){z-index:550}@media screen and (min-width: 1225px){:host .popup .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .popup .header{height:40px}:host .popup .header .application-actions{gap:10px}:host .popup .header .application-actions .btn{height:20px;width:20px}:host .popup .content{height:calc(100% - 45px)}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}@keyframes fadeOut{0%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}@keyframes shake{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}`;
-    constructor() {            super();            this.info = this.defaultOptions();if (this.constructor == GenericPopup) { throw "can't instanciate an abstract class"; }this.cancel=this.cancel.bind(this)}
-    __getStatic() {
-        return GenericPopup;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(GenericPopup.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="popup" _id="genericpopup_0">    <div class="header">        <div class="background"></div>        <div class="title" _id="genericpopup_1"></div>        <div class="application-actions">            <div class="btn red touch" _id="genericpopup_2"></div>        </div>    </div>    <div class="content" _id="genericpopup_3">        <slot></slot>    </div></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "popupEl",
-      "ids": [
-        "genericpopup_0"
-      ]
-    },
-    {
-      "name": "contentEl",
-      "ids": [
-        "genericpopup_3"
-      ]
-    }
-  ],
-  "content": {
-    "genericpopup_1°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__cc26f54f9c039edaaa84e25490791589method0())}`,
-      "once": true
-    }
-  },
-  "pressEvents": [
-    {
-      "id": "genericpopup_2",
-      "onPress": (e, pressInstance, c) => { c.comp.cancel(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "GenericPopup";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('no_red_btn')) { this.attributeChangedCallback('no_red_btn', false, false); }if(!this.hasAttribute('behind')) { this.attributeChangedCallback('behind', false, false); }if(!this.hasAttribute('close_on_click')) { this.attributeChangedCallback('close_on_click', false, false); } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["info"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('no_red_btn');this.__upgradeProperty('behind');this.__upgradeProperty('close_on_click');this.__correctGetter('info'); }
-    __listBoolProps() { return ["no_red_btn","behind","close_on_click"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    onContextMenu(contextMenu, stop) {
-        stop();
-    }
-    mergeInfo(info) {
-        this.info = { ...this.info, ...info };
-    }
-    init(cb) {
-        this.cb = cb;
-        Lib.ShortcutManager.subscribe(Lib.SpecialTouch.Escape, this.cancel);
-    }
-    onOptionsChanged() {
-        this.no_red_btn = this.info.hide_red_btn == true;
-        this.behind = this.info.behind == true;
-        this.close_on_click = this.info.close_on_click == true;
-        this.popupEl.style.maxWidth = this.info.max_width ?? '';
-        this.popupEl.style.maxHeight = this.info.max_height ?? '';
-        this.popupEl.style.minWidth = this.info.min_width ?? '';
-        this.popupEl.style.minHeight = this.info.min_height ?? '';
-    }
-    close() {
-        this.classList.add("fade-out");
-    }
-    addCloseWatcher() {
-        this.addEventListener("animationend", (e) => {
-            if (e.animationName == "fadeOut") {
-                this.remove();
-            }
-        });
-    }
-    resolve(response, no_close) {
-        Lib.ShortcutManager.unsubscribe(Lib.SpecialTouch.Escape, this.cancel);
-        if (this.cb) {
-            this.cb(response);
-        }
-        if (!no_close) {
-            this.close();
-        }
-    }
-    addPress() {
-        this.popupEl.addEventListener("animationend", (e) => {
-            if (e.animationName == "shake") {
-                this.popupEl.classList.remove("shake");
-            }
-        });
-        this.pressManagerClose = new Aventus.PressManager({
-            element: this,
-            onPress: (e) => {
-                if (this.close_on_click) {
-                    this.close();
-                }
-                else {
-                    this.popupEl.classList.add("shake");
-                }
-            }
-        });
-        // prevent close
-        this.pressManagerPopup = new Aventus.PressManager({
-            element: this.popupEl,
-            onPress: (e) => { }
-        });
-    }
-    postDestruction() {
-        this.pressManagerClose?.destroy();
-        this.pressManagerPopup?.destroy();
-    }
-    postCreation() {
-        this.addCloseWatcher();
-        this.addPress();
-        this.onOptionsChanged();
-    }
-    __cc26f54f9c039edaaa84e25490791589method0() {
-        return this.info.title;
-    }
-}
-Components.GenericPopup.Namespace=`Core.Components`;
-_.Components.GenericPopup=Components.GenericPopup;
-
-Components.Popup = class Popup extends Components.GenericPopup {
-    static __style = `:host .popup .content{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - var(--_popup-content-padding) - var(--_popup-content-padding));width:100%}`;
-    constructor() { super(); if (this.constructor == Popup) { throw "can't instanciate an abstract class"; } }
-    __getStatic() {
-        return Popup;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Popup.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="popup" _id="popup_0">    <div class="header">        <div class="background"></div>        <div class="title" _id="popup_1"></div>        <div class="application-actions">            <div class="btn red touch" _id="popup_2"></div>        </div>    </div>    <rk-scrollable class="content">        <slot></slot>    </rk-scrollable></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "popupEl",
-      "ids": [
-        "popup_0"
-      ]
-    }
-  ],
-  "content": {
-    "popup_1°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__c6b222033048639bf6ac58d471520fbamethod0())}`,
-      "once": true
-    }
-  },
-  "pressEvents": [
-    {
-      "id": "popup_2",
-      "onPress": (e, pressInstance, c) => { c.comp.cancel(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "Popup";
-    }
-    __c6b222033048639bf6ac58d471520fbamethod0() {
-        return this.info.title;
-    }
-}
-Components.Popup.Namespace=`Core.Components`;
-_.Components.Popup=Components.Popup;
-
-Components.Confirm = class Confirm extends Components.GenericPopup {
-    static __style = `:host .popup .body{align-items:center;display:flex;justify-content:center;line-height:1.5;padding:20px;padding-top:15px;text-align:center}:host .popup .action{align-items:center;display:flex;gap:20px;justify-content:center}`;
-    constructor() { super(); this.validate=this.validate.bind(this)this.cancel=this.cancel.bind(this) }
-    __getStatic() {
-        return Confirm;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Confirm.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-scrollable class="body" _id="confirm_0"></rk-scrollable><div class="action">    <rk-button color="red" _id="confirm_1"></rk-button>    <rk-button color="success" _id="confirm_2"></rk-button></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "confirm_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method0())}`,
-      "once": true
-    },
-    "confirm_1°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method1())}`,
-      "once": true
-    },
-    "confirm_2°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method2())}`,
-      "once": true
-    }
-  },
-  "pressEvents": [
-    {
-      "id": "confirm_1",
-      "onPress": (e, pressInstance, c) => { c.comp.cancel(e, pressInstance); }
-    },
-    {
-      "id": "confirm_2",
-      "onPress": (e, pressInstance, c) => { c.comp.validate(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "Confirm";
-    }
-    init(cb) {
-        super.init(cb);
-        this.addShortcuts();
-    }
-    close() {
-        super.close();
-        this.removeShortcuts();
-    }
-    defaultOptions() {
-        return {
-            title: "",
-            description: "",
-            true_txt: "Oui",
-            false_txt: "Non",
-        };
-    }
-    addShortcuts() {
-        Lib.ShortcutManager.subscribe(Lib.SpecialTouch.Enter, this.validate, { replaceTemp: true });
-        Lib.ShortcutManager.subscribe(Lib.SpecialTouch.Escape, this.cancel, { replaceTemp: true });
-    }
-    removeShortcuts() {
-        Lib.ShortcutManager.unsubscribe(Lib.SpecialTouch.Enter, this.validate);
-        Lib.ShortcutManager.unsubscribe(Lib.SpecialTouch.Escape, this.cancel);
-    }
-    validate() {
-        this.resolve(true);
-    }
-    cancel() {
-        this.resolve(false);
-    }
-    __caa2fd56843944180566fbe49a4bb311method0() {
-        return this.info.description;
-    }
-    __caa2fd56843944180566fbe49a4bb311method1() {
-        return this.info.false_txt;
-    }
-    __caa2fd56843944180566fbe49a4bb311method2() {
-        return this.info.true_txt;
-    }
-}
-Components.Confirm.Namespace=`Core.Components`;
-Components.Confirm.Tag=`rk-confirm`;
-_.Components.Confirm=Components.Confirm;
-if(!window.customElements.get('rk-confirm')){window.customElements.define('rk-confirm', Components.Confirm);Aventus.WebComponentInstance.registerDefinition(Components.Confirm);}
-
-Components.Alert = class Alert extends Components.GenericPopup {
-    static __style = `:host .popup .content .body{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - 36px - var(--_popup-content-padding) - var(--_popup-content-padding));align-items:center;display:flex;justify-content:center;line-height:1.5;max-height:calc(var(--app-height) - 50px - 30px - 36px - var(--_popup-content-padding) - var(--_popup-content-padding));padding:20px;padding-top:15px;text-align:center}:host .popup .content .action{align-items:center;display:flex;gap:20px;height:36px;justify-content:center}`;
-    __getStatic() {
-        return Alert;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Alert.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-scrollable class="body">    <p _id="alert_0"></p></rk-scrollable><div class="action">    <rk-button color="blue" _id="alert_1"></rk-button></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "alert_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__d0561a7aa91ff42b328166316d099970method0())}`,
-      "once": true
-    },
-    "alert_1°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__d0561a7aa91ff42b328166316d099970method1())}`,
-      "once": true
-    }
-  },
-  "events": [
-    {
-      "eventName": "click",
-      "id": "alert_1",
-      "fct": (e, c) => c.comp.validate(e)
-    }
-  ]
-}); }
-    getClassName() {
-        return "Alert";
-    }
-    defaultOptions() {
-        return {
-            title: "",
-            description: "",
-            btn_txt: "ok"
-        };
-    }
-    validate() {
-        this.resolve();
-    }
-    cancel() {
-        this.resolve();
-    }
-    __d0561a7aa91ff42b328166316d099970method0() {
-        return this.info.description;
-    }
-    __d0561a7aa91ff42b328166316d099970method1() {
-        return this.info.btn_txt;
-    }
-}
-Components.Alert.Namespace=`Core.Components`;
-Components.Alert.Tag=`rk-alert`;
-_.Components.Alert=Components.Alert;
-if(!window.customElements.get('rk-alert')){window.customElements.define('rk-alert', Components.Alert);Aventus.WebComponentInstance.registerDefinition(Components.Alert);}
-
 System.Application = class Application extends Aventus.WebComponent {
     static get observedAttributes() {return ["app_title", "full", "is_hidden"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'moving'() { return this.getBoolAttr('moving') }
@@ -8687,8 +8807,8 @@ System.Application = class Application extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        slots: { 'content':`<slot name="content">    <rk-context-menu-element class="content" _id="application_7"></rk-context-menu-element></slot>`,'after':`<slot name="after"></slot>` }, 
-        blocks: { 'default':`<rk-context-menu-element class="header" _id="application_0">    <div class="background"></div>    <div class="navigation-actions">        <div class="previous action touch disable" _id="application_1">            <rk-img src="/img/icons/angle-left.svg"></rk-img>        </div>        <div class="next action touch disable" _id="application_2">            <rk-img src="/img/icons/angle-right.svg"></rk-img>        </div>    </div>    <div class="title" _id="application_3"></div>    <div class="application-actions">        <div class="btn green touch" _id="application_4"></div>        <div class="btn orange touch" _id="application_5"></div>        <div class="btn red touch" _id="application_6"></div>    </div></rk-context-menu-element><slot name="content">    <rk-context-menu-element class="content" _id="application_7"></rk-context-menu-element></slot><rk-resize min_width="200" min_height="200" _id="application_8"></rk-resize><rk-loading class="loading"></rk-loading><rk-notification-manager _id="application_9"></rk-notification-manager><slot name="after"></slot>` }
+        slots: { 'navigation-actions':`<slot name="navigation-actions">            <div class="previous action touch disable" _id="application_1">                <rk-img src="/img/icons/angle-left.svg"></rk-img>            </div>            <div class="next action touch disable" _id="application_2">                <rk-img src="/img/icons/angle-right.svg"></rk-img>            </div>        </slot>`,'application-actions':`<slot name="application-actions">            <div class="btn green touch" _id="application_4"></div>            <div class="btn orange touch" _id="application_5"></div>            <div class="btn red touch" _id="application_6"></div>        </slot>`,'content':`<slot name="content">    <rk-context-menu-element class="content" _id="application_7"></rk-context-menu-element></slot>`,'after':`<slot name="after"></slot>` }, 
+        blocks: { 'default':`<rk-context-menu-element class="header" _id="application_0">    <div class="background"></div>    <div class="navigation-actions">        <slot name="navigation-actions">            <div class="previous action touch disable" _id="application_1">                <rk-img src="/img/icons/angle-left.svg"></rk-img>            </div>            <div class="next action touch disable" _id="application_2">                <rk-img src="/img/icons/angle-right.svg"></rk-img>            </div>        </slot>    </div>    <div class="title" _id="application_3"></div>    <div class="application-actions">        <slot name="application-actions">            <div class="btn green touch" _id="application_4"></div>            <div class="btn orange touch" _id="application_5"></div>            <div class="btn red touch" _id="application_6"></div>        </slot>    </div></rk-context-menu-element><slot name="content">    <rk-context-menu-element class="content" _id="application_7"></rk-context-menu-element></slot><rk-resize min_width="200" min_height="200" _id="application_8"></rk-resize><rk-loading class="loading"></rk-loading><rk-notification-manager _id="application_9"></rk-notification-manager><slot name="after"></slot>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -9492,6 +9612,12 @@ System.Application = class Application extends Aventus.WebComponent {
         this.options = options;
         this.setSizeInfo(this.sizeManager.load());
     }
+    preventScrollContent() {
+        this.contentEl.scrollLeft = 0;
+        this.contentEl.addEventListener("scroll", () => {
+            this.contentEl.scrollLeft = 0;
+        });
+    }
     postCreation() {
         this.register();
         this.addResize();
@@ -9499,6 +9625,7 @@ System.Application = class Application extends Aventus.WebComponent {
         this.addMoveDragAndDrop();
         this.watchTransition();
         this.bindContextMenu();
+        this.preventScrollContent();
     }
     postDestruction() {
         super.postDestruction();
@@ -10547,6 +10674,36 @@ System.BottomBar.Tag=`rk-bottom-bar`;
 _.System.BottomBar=System.BottomBar;
 if(!window.customElements.get('rk-bottom-bar')){window.customElements.define('rk-bottom-bar', System.BottomBar);Aventus.WebComponentInstance.registerDefinition(System.BottomBar);}
 
+let Addon=class Addon {
+    static dependances = {};
+    static need(application, addons) {
+        if (addons.length == 0)
+            return;
+        if (application instanceof System.AppIcon) {
+            let cst = application.constructor;
+            application = cst.Fullname.split(".")[0];
+        }
+        this.dependances[application] = addons;
+    }
+    static async loadForApp(application) {
+        if (!this.dependances[application])
+            return;
+        let proms = [];
+        for (let dep of this.dependances[application]) {
+            proms.push(this.load(dep));
+        }
+        await Promise.all(proms);
+    }
+    static async load(name) {
+        await Aventus.ResourceLoader.loadInHead({
+            url: "/addon/" + name + ".js?v=" + coreVersion,
+            type: "js"
+        });
+    }
+}
+Addon.Namespace=`Core`;
+_.Addon=Addon;
+
 RAM.DesktopRAM=class DesktopRAM extends RAM.RamHttp {
     /**
      * @inheritdoc
@@ -11338,7 +11495,8 @@ System.Os = class Os extends Aventus.WebComponent {
     get 'loading'() { return this.getBoolAttr('loading') }
     set 'loading'(val) { this.setBoolAttr('loading', val) }get 'ready'() { return this.getBoolAttr('ready') }
     set 'ready'(val) { this.setBoolAttr('ready', val) }get 'no_connection'() { return this.getBoolAttr('no_connection') }
-    set 'no_connection'(val) { this.setBoolAttr('no_connection', val) }    get 'desktop_list'() { return this.getBoolProp('desktop_list') }
+    set 'no_connection'(val) { this.setBoolAttr('no_connection', val) }get 'no_desktop_transition'() { return this.getBoolAttr('no_desktop_transition') }
+    set 'no_desktop_transition'(val) { this.setBoolAttr('no_desktop_transition', val) }    get 'desktop_list'() { return this.getBoolProp('desktop_list') }
     set 'desktop_list'(val) { this.setBoolAttr('desktop_list', val) }get 'show_application_list'() { return this.getBoolProp('show_application_list') }
     set 'show_application_list'(val) { this.setBoolAttr('show_application_list', val) }get 'active_desktop'() { return this.getNumberProp('active_desktop') }
     set 'active_desktop'(val) { this.setNumberAttr('active_desktop', val) }get 'lang'() { return this.getStringProp('lang') }
@@ -11373,8 +11531,8 @@ System.Os = class Os extends Aventus.WebComponent {
 }));this.__addPropertyActions("lang", ((target) => {
     target.setLocale(target.lang);
 })); }
-    static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;width:100%}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:var(--border-radius-round);cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;width:40px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;display:none;height:50px;min-width:auto;position:absolute;right:10px;z-index:6}:host rk-loading{opacity:0;visibility:hidden}:host .background{background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:25% 25%;filter:brightness(0.8);inset:-20px;position:absolute;z-index:0}:host rk-notification-manager{bottom:60px}:host .no-connection{align-items:center;animation-duration:2s;animation-iteration-count:infinite;animation-name:blink;background-color:var(--warning);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);color:var(--text-color-warning);display:none;font-size:var(--font-size-md);gap:10px;padding:5px 15px;position:absolute;right:15px;top:15px;z-index:9999999}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:max-content;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:var(--border-radius-sm)}:host([desktop_list]) .add-desktop{display:block}:host([no_connection]) .no-connection{display:flex}@keyframes blink{0%{background-color:var(--warning);color:var(--text-color-warning)}1%{background-color:var(--text-color-warning);color:var(--warning)}50%{background-color:var(--text-color-warning);color:var(--warning)}51%{background-color:var(--warning);color:var(--text-color-warning)}100%{background-color:var(--warning);color:var(--text-color-warning)}}`;
-    constructor() {            super();            System.Os.instance = this;            Lib.ApplicationManager.reloadData();this.desktopMoveLeft=this.desktopMoveLeft.bind(this)this.desktopMoveRight=this.desktopMoveRight.bind(this)this.desktopMoveValidate=this.desktopMoveValidate.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this)}
+    static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;width:100%;transition:margin .7s var(--bezier-curve)}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:var(--border-radius-round);cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;width:40px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;display:none;height:50px;min-width:auto;position:absolute;right:10px;z-index:6}:host rk-loading{opacity:0;visibility:hidden}:host .background{background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:25% 25%;filter:brightness(0.8);inset:-20px;position:absolute;z-index:0}:host rk-notification-manager{bottom:60px}:host .no-connection{align-items:center;animation-duration:2s;animation-iteration-count:infinite;animation-name:blink;background-color:var(--warning);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);color:var(--text-color-warning);display:none;font-size:var(--font-size-md);gap:10px;padding:5px 15px;position:absolute;right:15px;top:15px;z-index:9999999}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:max-content;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:var(--border-radius-sm)}:host([desktop_list]) .add-desktop{display:block}:host([no_desktop_transition]) .desktop-container .desktop-case{transition:none}:host([no_connection]) .no-connection{display:flex}@keyframes blink{0%{background-color:var(--warning);color:var(--text-color-warning)}1%{background-color:var(--text-color-warning);color:var(--warning)}50%{background-color:var(--text-color-warning);color:var(--warning)}51%{background-color:var(--warning);color:var(--text-color-warning)}100%{background-color:var(--warning);color:var(--text-color-warning)}}`;
+    constructor() {            super();            System.Os.instance = this;            Lib.ApplicationManager.reloadData();this.desktopMoveLeft=this.desktopMoveLeft.bind(this)this.desktopMoveRight=this.desktopMoveRight.bind(this)this.desktopMoveValidate=this.desktopMoveValidate.bind(this)this.desktopSelectNext=this.desktopSelectNext.bind(this)this.desktopSelectPrevious=this.desktopSelectPrevious.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this)}
     __getStatic() {
         return Os;
     }
@@ -11385,7 +11543,7 @@ System.Os = class Os extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="background"></div><rk-app-list _id="os_0"></rk-app-list><rk-loading text="Chargement du système" background></rk-loading><rk-scrollable y_scroll="false" disable _id="os_1">    <div class="desktop-container">        <template _id="os_2"></template>    </div></rk-scrollable><rk-button-icon class="add-desktop" icon="/img/icons/add.svg" color="blue"></rk-button-icon><rk-notification-manager _id="os_6"></rk-notification-manager><div class="no-connection">    <mi-icon icon="warning"></mi-icon>    <span>Hors-ligne</span></div>` }
+        blocks: { 'default':`<div class="background"></div><rk-app-list _id="os_0"></rk-app-list><rk-loading text="Chargement du système" background></rk-loading><rk-scrollable y_scroll="false" disable _id="os_1">    <div class="desktop-container">        <template _id="os_2"></template>    </div></rk-scrollable><rk-button-icon class="add-desktop" icon="/img/icons/add.svg" color="blue" _id="os_6"></rk-button-icon><rk-notification-manager _id="os_7"></rk-notification-manager><div class="no-connection">    <mi-icon icon="warning"></mi-icon>    <span>Hors-ligne</span></div>` }
     });
 }
     get desktopsEl () { var list = Array.from(this.shadowRoot.querySelectorAll('[_id="os_5"]')); return list; }    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -11405,8 +11563,14 @@ System.Os = class Os extends Aventus.WebComponent {
     {
       "name": "notificationManager",
       "ids": [
-        "os_6"
+        "os_7"
       ]
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "os_6",
+      "onPress": (e, pressInstance, c) => { c.comp.addDesktop(e, pressInstance); }
     }
   ]
 });const templ0 = new Aventus.Template(this);templ0.setTemplate(`             <div class="desktop-case">                <rk-img class="delete-desktop" src="/img/icons/close.svg" _id="os_3"></rk-img>                <div class="desktop-hider" _id="os_4"></div>                <rk-desktop _id="os_5"></rk-desktop>            </div>        `);templ0.setActions({
@@ -11446,10 +11610,10 @@ System.Os = class Os extends Aventus.WebComponent {
     getClassName() {
         return "Os";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('ready')) { this.attributeChangedCallback('ready', false, false); }if(!this.hasAttribute('no_connection')) { this.attributeChangedCallback('no_connection', false, false); }if(!this.hasAttribute('desktop_list')) { this.attributeChangedCallback('desktop_list', false, false); }if(!this.hasAttribute('show_application_list')) { this.attributeChangedCallback('show_application_list', false, false); }if(!this.hasAttribute('active_desktop')){ this['active_desktop'] = 0; }if(!this.hasAttribute('lang')){ this['lang'] = "fr-FR"; } }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('ready')) { this.attributeChangedCallback('ready', false, false); }if(!this.hasAttribute('no_connection')) { this.attributeChangedCallback('no_connection', false, false); }if(!this.hasAttribute('no_desktop_transition')) { this.attributeChangedCallback('no_desktop_transition', false, false); }if(!this.hasAttribute('desktop_list')) { this.attributeChangedCallback('desktop_list', false, false); }if(!this.hasAttribute('show_application_list')) { this.attributeChangedCallback('show_application_list', false, false); }if(!this.hasAttribute('active_desktop')){ this['active_desktop'] = 0; }if(!this.hasAttribute('lang')){ this['lang'] = "fr-FR"; } }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["desktops"] = []; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('activeDesktop');this.__upgradeProperty('loading');this.__upgradeProperty('ready');this.__upgradeProperty('no_connection');this.__upgradeProperty('desktop_list');this.__upgradeProperty('show_application_list');this.__upgradeProperty('active_desktop');this.__upgradeProperty('lang');this.__correctGetter('desktops'); }
-    __listBoolProps() { return ["loading","ready","no_connection","desktop_list","show_application_list"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('activeDesktop');this.__upgradeProperty('loading');this.__upgradeProperty('ready');this.__upgradeProperty('no_connection');this.__upgradeProperty('no_desktop_transition');this.__upgradeProperty('desktop_list');this.__upgradeProperty('show_application_list');this.__upgradeProperty('active_desktop');this.__upgradeProperty('lang');this.__correctGetter('desktops'); }
+    __listBoolProps() { return ["loading","ready","no_connection","no_desktop_transition","desktop_list","show_application_list"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     onActiveDesktop() {
         this.style.setProperty("--_active-desktop", this.active_desktop + "");
         if (this.activeDesktopEl) {
@@ -11481,6 +11645,18 @@ System.Os = class Os extends Aventus.WebComponent {
     desktopMoveValidate() {
         this.desktop_list = false;
     }
+    desktopSelectNext() {
+        if (this.active_desktop + 1 >= this.desktops.length) {
+            return;
+        }
+        this.active_desktop++;
+    }
+    desktopSelectPrevious() {
+        if (this.active_desktop - 1 < 0) {
+            return;
+        }
+        this.active_desktop--;
+    }
     onShowDesktopList() {
         if (this.isReady) {
             this.desktopContainerScroll.y_scroll = this.desktop_list;
@@ -11488,21 +11664,29 @@ System.Os = class Os extends Aventus.WebComponent {
         }
         State.DesktopStateManager.getInstance().setState("/");
         if (this.desktop_list) {
+            this.no_desktop_transition = true;
             Lib.ShortcutManager.subscribe([Lib.SpecialTouch.ArrowRight], this.desktopMoveRight);
             Lib.ShortcutManager.subscribe([Lib.SpecialTouch.ArrowLeft], this.desktopMoveLeft);
             Lib.ShortcutManager.subscribe([Lib.SpecialTouch.Enter], this.desktopMoveValidate);
             Lib.ShortcutManager.subscribe([Lib.SpecialTouch.Escape], this.desktopMoveValidate);
+            Lib.ShortcutManager.unsubscribe([Lib.SpecialTouch.ArrowRight, Lib.SpecialTouch.Shift], this.desktopSelectNext);
+            Lib.ShortcutManager.unsubscribe([Lib.SpecialTouch.ArrowLeft, Lib.SpecialTouch.Shift], this.desktopSelectPrevious);
         }
         else {
             Lib.ShortcutManager.unsubscribe([Lib.SpecialTouch.ArrowRight], this.desktopMoveRight);
             Lib.ShortcutManager.unsubscribe([Lib.SpecialTouch.ArrowLeft], this.desktopMoveLeft);
             Lib.ShortcutManager.unsubscribe([Lib.SpecialTouch.Enter], this.desktopMoveValidate);
             Lib.ShortcutManager.unsubscribe([Lib.SpecialTouch.Escape], this.desktopMoveValidate);
+            Lib.ShortcutManager.subscribe([Lib.SpecialTouch.ArrowRight, Lib.SpecialTouch.Shift], this.desktopSelectNext);
+            Lib.ShortcutManager.subscribe([Lib.SpecialTouch.ArrowLeft, Lib.SpecialTouch.Shift], this.desktopSelectPrevious);
+            setTimeout(() => {
+                this.no_desktop_transition = false;
+            }, 200);
         }
     }
     addSwitchDesktop() {
         Lib.ShortcutManager.subscribe([Lib.SpecialTouch.Shift, Lib.SpecialTouch.Tab], () => {
-            this.desktop_list = true;
+            this.desktop_list = !this.desktop_list;
         });
     }
     async deleteDesktop(e, instance) {
@@ -11543,6 +11727,11 @@ System.Os = class Os extends Aventus.WebComponent {
         RAM.DesktopRAM.getInstance().onCreated((el) => {
             this.desktops.push(el);
         });
+    }
+    async addDesktop() {
+        let newDesktop = new Data.DesktopClass();
+        newDesktop.Name = "New desktop";
+        await RAM.DesktopRAM.getInstance().createWithError(newDesktop);
     }
     async systemLoading() {
         const minDelay = 3000;
@@ -11960,13 +12149,66 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
     onContextMenu(contextMenu, stop) {
         if (contextMenu.isTouch) {
             contextMenu.addItem({
-                text: "Organiser les applications",
+                text: this.t("Organiser les applications"),
                 icon: "/img/icons/organize-app.svg",
                 priority: 1,
                 action: () => {
                     new State.MoveApplication().activate(State.DesktopStateManager.getInstance());
                 }
             });
+        }
+        if (System.Os.instance.activeDesktop.bottomBar.applicationsContainer == this.parentElement) {
+            if (this.can_remove) {
+                contextMenu.addItem({
+                    text: this.t("Détacher l'application"),
+                    materialIcon: "keep_off",
+                    priority: 1,
+                    action: async () => {
+                        let desktopIcon = new Data.DesktopAppIcon();
+                        desktopIcon.Id = this.iconId;
+                        let result = await new Websocket.Routes.DesktopRouter().RemoveDesktopIcon({
+                            icon: desktopIcon
+                        });
+                        if (result.success) {
+                            if (this.is_open) {
+                                this.classList.add("remove-close");
+                                this.can_remove = false;
+                            }
+                            else {
+                                this.remove();
+                            }
+                        }
+                    }
+                });
+            }
+            else {
+                contextMenu.addItem({
+                    text: this.t("Attacher l'application"),
+                    materialIcon: "keep",
+                    priority: 1,
+                    action: async () => {
+                        let children = this.parentElement?.children ?? [];
+                        let no = Array.from(children).indexOf(this);
+                        if (no == -1)
+                            return;
+                        let desktopIcon = new Data.DesktopAppIcon();
+                        desktopIcon.DesktopId = System.Os.instance.activeDesktop.desktop_id;
+                        desktopIcon.Position = no;
+                        desktopIcon.IconTag = this.tag;
+                        desktopIcon.Location = Data.DesktopLocation.BottomBar;
+                        desktopIcon.Id = this.iconId;
+                        let result = await new Websocket.Routes.DesktopRouter().SetDesktopIcon({
+                            icon: desktopIcon
+                        });
+                        if (result.success && result.result) {
+                            this.classList.remove("remove-close");
+                            this.iconId = result.result.Id;
+                            this.position = result.result.Position;
+                            this.can_remove = true;
+                        }
+                    }
+                });
+            }
         }
     }
     defineAddons() {
@@ -12221,73 +12463,97 @@ System.ApplicationSidenav = class ApplicationSidenav extends System.Application 
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        slots: { 'content':`<slot name="content">            <div class="container" _id="applicationsidenav_9"></div>        </slot>` }, 
-        blocks: { 'content':`    <rk-context-menu-element class="content">        <div class="sidenav-hider" _id="applicationsidenav_0"></div>        <div class="sidenav">            <rk-scrollable auto_hide _id="applicationsidenav_1">                <template _id="applicationsidenav_2"></template>            </rk-scrollable>        </div>        <slot name="content">            <div class="container" _id="applicationsidenav_9"></div>        </slot>    </rk-context-menu-element>` }
+        slots: { 'content':`<slot name="content">            <div class="container" _id="applicationsidenav_12"></div>        </slot>` }, 
+        blocks: { 'navigation-actions':`    <div class="action menu touch" _id="applicationsidenav_0">        <mi-icon icon="menu"></mi-icon>    </div>    <div class="previous action touch disable" _id="applicationsidenav_1">        <rk-img src="/img/icons/angle-left.svg"></rk-img>    </div>    <div class="next action touch disable" _id="applicationsidenav_2">        <rk-img src="/img/icons/angle-right.svg"></rk-img>    </div>`,'content':`    <rk-context-menu-element class="content">        <div class="sidenav-hider" _id="applicationsidenav_3"></div>        <div class="sidenav">            <rk-scrollable auto_hide _id="applicationsidenav_4">                <template _id="applicationsidenav_5"></template>            </rk-scrollable>        </div>        <slot name="content">            <div class="container" _id="applicationsidenav_12"></div>        </slot>    </rk-context-menu-element>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "elements": [
     {
-      "name": "navEl",
+      "name": "navigatePreviousEl",
       "ids": [
         "applicationsidenav_1"
       ]
     },
     {
+      "name": "navigateNextEl",
+      "ids": [
+        "applicationsidenav_2"
+      ]
+    },
+    {
+      "name": "navEl",
+      "ids": [
+        "applicationsidenav_4"
+      ]
+    },
+    {
       "name": "contentEl",
       "ids": [
-        "applicationsidenav_9"
+        "applicationsidenav_12"
       ]
     }
   ],
   "pressEvents": [
     {
       "id": "applicationsidenav_0",
+      "onPress": (e, pressInstance, c) => { c.comp.toggleSidenav(e, pressInstance); }
+    },
+    {
+      "id": "applicationsidenav_1",
+      "onPress": (e, pressInstance, c) => { c.comp.navigatePrevious(e, pressInstance); }
+    },
+    {
+      "id": "applicationsidenav_2",
+      "onPress": (e, pressInstance, c) => { c.comp.navigateNext(e, pressInstance); }
+    },
+    {
+      "id": "applicationsidenav_3",
       "onPress": (e, pressInstance, c) => { c.comp.closeSidenav(e, pressInstance); }
     }
   ]
-});const templ0 = new Aventus.Template(this);templ0.setTemplate(`                    <template _id="applicationsidenav_3"></template>                `);this.__getStatic().__template.addLoop({
-                    anchorId: 'applicationsidenav_2',
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`                    <template _id="applicationsidenav_6"></template>                `);this.__getStatic().__template.addLoop({
+                    anchorId: 'applicationsidenav_5',
                     template: templ0,
-                simple:{data: "this.sidenavItems",item:"item"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`                        <rk-link class="sidenav-item" _id="applicationsidenav_4">                            <template _id="applicationsidenav_5"></template>                            <span _id="applicationsidenav_8"></span>                        </rk-link>                    `);templ1.setActions({
+                simple:{data: "this.sidenavItems",item:"item"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`                        <rk-link class="sidenav-item" _id="applicationsidenav_7">                            <template _id="applicationsidenav_8"></template>                            <span _id="applicationsidenav_11"></span>                        </rk-link>                    `);templ1.setActions({
   "content": {
-    "applicationsidenav_4°to": {
+    "applicationsidenav_7°to": {
       "fct": (c) => `${c.print(c.comp.__329aeaa676518d6a506d6a6a068c8257method3(c.data.item))}`,
       "once": true
     },
-    "applicationsidenav_4°active_pattern": {
+    "applicationsidenav_7°active_pattern": {
       "fct": (c) => `${c.print(c.comp.__329aeaa676518d6a506d6a6a068c8257method4(c.data.item))}`,
       "once": true
     },
-    "applicationsidenav_8°@HTML": {
+    "applicationsidenav_11°@HTML": {
       "fct": (c) => `${c.print(c.comp.__329aeaa676518d6a506d6a6a068c8257method7(c.data.item))}`,
       "once": true
     }
   },
   "injection": [
     {
-      "id": "applicationsidenav_4",
+      "id": "applicationsidenav_7",
       "injectionName": "allowTrigger",
       "inject": (c) => c.comp.__329aeaa676518d6a506d6a6a068c8257method5(c.data.item),
       "once": true
     }
   ]
-});const templ2 = new Aventus.Template(this);templ2.setTemplate(`                                <mi-icon _id="applicationsidenav_6"></mi-icon>                            `);templ2.setActions({
+});const templ2 = new Aventus.Template(this);templ2.setTemplate(`                                <mi-icon _id="applicationsidenav_9"></mi-icon>                            `);templ2.setActions({
   "content": {
-    "applicationsidenav_6°icon": {
+    "applicationsidenav_9°icon": {
       "fct": (c) => `${c.print(c.comp.__329aeaa676518d6a506d6a6a068c8257method6(c.data.item))}`,
       "once": true
     }
   }
-});const templ3 = new Aventus.Template(this);templ3.setTemplate(`                                <rk-img _id="applicationsidenav_7"></rk-img>                            `);templ3.setActions({
+});const templ3 = new Aventus.Template(this);templ3.setTemplate(`                                <rk-img _id="applicationsidenav_10"></rk-img>                            `);templ3.setActions({
   "content": {
-    "applicationsidenav_7°src": {
+    "applicationsidenav_10°src": {
       "fct": (c) => `${c.print(c.comp.__329aeaa676518d6a506d6a6a068c8257method6(c.data.item))}`,
       "once": true
     }
   }
 });templ1.addIf({
-                    anchorId: 'applicationsidenav_5',
+                    anchorId: 'applicationsidenav_8',
                     parts: [{once: true,
                     condition: (c) => c.comp.__329aeaa676518d6a506d6a6a068c8257method2(c.data.item),
                     template: templ2
@@ -12296,7 +12562,7 @@ System.ApplicationSidenav = class ApplicationSidenav extends System.Application 
                     template: templ3
                 }]
             });templ0.addIf({
-                    anchorId: 'applicationsidenav_3',
+                    anchorId: 'applicationsidenav_6',
                     parts: [{once: true,
                     condition: (c) => c.comp.__329aeaa676518d6a506d6a6a068c8257method1(c.data.item),
                     template: templ1
@@ -12375,6 +12641,14 @@ System.ApplicationSidenav = class ApplicationSidenav extends System.Application 
     }
     closeSidenav() {
         this.open_sidenav = false;
+    }
+    preventScrollContent() {
+        let ct = this.shadowRoot.querySelector(".content");
+        if (ct) {
+            ct.addEventListener("scroll", () => {
+                ct.scrollLeft = 0;
+            });
+        }
     }
     __329aeaa676518d6a506d6a6a068c8257method3(item) {
         return item.route;

@@ -3,7 +3,7 @@ import { ApplicationRAM } from "../../../ram/Application.ram.avt";
 import { ContextMenu } from "../../ui/ContextMenu/ContextMenu.wcl.avt";
 import { ShortcutManager, SpecialTouch } from "../../../libs/ShortcutManager.lib.avt";
 import { DesktopRAM } from "../../../ram/Desktop.ram.avt";
-import type { DesktopData } from "../../../libs/TypeMapper.lib.avt";
+import { type DesktopData, DesktopClass } from "../../../libs/TypeMapper.lib.avt";
 import type { Desktop } from "../Desktop/Desktop.wcl.avt";
 import type { Scrollable } from "../../ui/layout/Scrollable/Scrollable.wcl.avt";
 import { Confirm, type ConfirmInfo } from "../../ui/popup/Confirm/Confirm.wcl.avt";
@@ -68,6 +68,9 @@ namespace System {
             target.setLocale(target.lang);
         })
         public override lang: string = "fr-FR";
+
+        @Attribute()
+        public no_desktop_transition!: boolean;
         //#endregion
 
 
@@ -143,6 +146,20 @@ namespace System {
         private desktopMoveValidate() {
             this.desktop_list = false;
         }
+        @BindThis()
+        private desktopSelectNext() {
+            if(this.active_desktop + 1 >= this.desktops.length) {
+                return;
+            }
+            this.active_desktop++;
+        }
+        @BindThis()
+        private desktopSelectPrevious() {
+            if(this.active_desktop - 1 < 0) {
+                return;
+            }
+            this.active_desktop--;
+        }
 
         private onShowDesktopList() {
             if(this.isReady) {
@@ -151,21 +168,29 @@ namespace System {
             }
             DesktopStateManager.getInstance().setState("/");
             if(this.desktop_list) {
+                this.no_desktop_transition = true;
                 ShortcutManager.subscribe([SpecialTouch.ArrowRight], this.desktopMoveRight);
                 ShortcutManager.subscribe([SpecialTouch.ArrowLeft], this.desktopMoveLeft);
                 ShortcutManager.subscribe([SpecialTouch.Enter], this.desktopMoveValidate);
                 ShortcutManager.subscribe([SpecialTouch.Escape], this.desktopMoveValidate);
+                ShortcutManager.unsubscribe([SpecialTouch.ArrowRight, SpecialTouch.Shift], this.desktopSelectNext);
+                ShortcutManager.unsubscribe([SpecialTouch.ArrowLeft, SpecialTouch.Shift], this.desktopSelectPrevious);
             }
             else {
                 ShortcutManager.unsubscribe([SpecialTouch.ArrowRight], this.desktopMoveRight);
                 ShortcutManager.unsubscribe([SpecialTouch.ArrowLeft], this.desktopMoveLeft);
                 ShortcutManager.unsubscribe([SpecialTouch.Enter], this.desktopMoveValidate);
                 ShortcutManager.unsubscribe([SpecialTouch.Escape], this.desktopMoveValidate);
+                ShortcutManager.subscribe([SpecialTouch.ArrowRight, SpecialTouch.Shift], this.desktopSelectNext);
+                ShortcutManager.subscribe([SpecialTouch.ArrowLeft, SpecialTouch.Shift], this.desktopSelectPrevious);
+                setTimeout(() => {
+                    this.no_desktop_transition = false;
+                }, 200)
             }
         }
         private addSwitchDesktop() {
             ShortcutManager.subscribe([SpecialTouch.Shift, SpecialTouch.Tab], () => {
-                this.desktop_list = true;
+                this.desktop_list = !this.desktop_list;
             });
         }
 
@@ -213,6 +238,12 @@ namespace System {
             DesktopRAM.getInstance().onCreated((el) => {
                 this.desktops.push(el);
             });
+        }
+
+        protected async addDesktop() {
+            let newDesktop = new DesktopClass();
+            newDesktop.Name = "New desktop";
+            await DesktopRAM.getInstance().createWithError(newDesktop);
         }
 
         //#endregion

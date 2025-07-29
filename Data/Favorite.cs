@@ -3,7 +3,7 @@ using AventusSharp.Data.Attributes;
 
 namespace Core.Data;
 
-public class Favorite : Storable<Favorite>
+public class Favorite : Storable<Favorite>, IUserable
 {
     public string Name { get; set; }
     public string TagName { get; set; }

@@ -50,7 +50,7 @@ namespace System {
 
         //#region variables
         @ViewElement()
-        protected bottomBar!: BottomBar;
+        public bottomBar!: BottomBar;
 
         @ViewElement()
         protected pageCaseEl!: PageCase;

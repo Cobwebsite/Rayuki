@@ -1,0 +1,6 @@
+<div class="raccourci" @element="raccourciEl">
+    
+</div>
+<div class="commande" @element="commandeEl">
+    
+</div>

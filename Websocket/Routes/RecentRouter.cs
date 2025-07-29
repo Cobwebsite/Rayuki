@@ -25,18 +25,10 @@ public class RecentRouter : StorableWsRouter<Recent>
 
     protected override ResultWithError<Recent> DM_Create(HttpContext context, Recent item)
     {
-        int? userId = context.GetUserId();
-        if (userId == null)
-        {
-            return new()
-            {
-                Errors = new List<GenericError>() {
-                    new CoreError(CoreErrorCode.NotLogin, "You aren't logged in")
-                }
-            };
-        }
-        item.UserId = (int)userId;
-        return base.DM_Create(context, item);
+        ResultWithError<Recent> result = new ResultWithError<Recent>();
+        result.Run(() => context.setUserId(item)); 
+        result.Execute(() => base.DM_Create(context, item)); 
+        return result;
     }
 
 
@@ -45,17 +37,9 @@ public class RecentRouter : StorableWsRouter<Recent>
     public virtual ResultWithError<Recent> Save(HttpContext context, Recent item)
     {
         item = OnReceive(item);
-        int? userId = context.GetUserId();
-        if (userId == null)
-        {
-            return new()
-            {
-                Errors = new List<GenericError>() {
-                    new CoreError(CoreErrorCode.NotLogin, "You aren't logged in")
-                }
-            };
-        }
-        item.UserId = (int)userId;
-        return RecentDM.GetInstance().SaveWithError(item);
+        ResultWithError<Recent> result = new ResultWithError<Recent>();
+        result.Run(() => context.setUserId(item)); 
+        result.Run(() => RecentDM.GetInstance().SaveWithError(item)); 
+        return result;
     }
 }

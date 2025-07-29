@@ -1,6 +1,7 @@
 using System.Net;
-using System.Net.Mail;
-
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
 namespace Core.Communications.Email;
 
 
@@ -9,30 +10,54 @@ public class Smtp
 
     public void Connect()
     {
-        SmtpClient mySmtpClient = new SmtpClient("my.smtp.exampleserver.net");
+        var message = new MimeMessage();
+        message.From.Add(new MailboxAddress("Maxime", "maxime.betrisey@cobwebsite.ch"));
+        message.To.Add(MailboxAddress.Parse("maxime.betrisey@hotmail.com"));
+        message.Subject = "Test SMTP avec MailKit";
 
-        mySmtpClient.UseDefaultCredentials = false;
-        mySmtpClient.Credentials = new NetworkCredential("username", "password");
+        // Partie texte HTML
+        var body = new TextPart("html")
+        {
+            Text = "<p>Bonjour, voici une pièce jointe.</p>"
+        };
 
-        // add from,to mailaddresses
-        MailAddress from = new MailAddress("test@example.com", "TestFromName");
-        MailAddress to = new MailAddress("test2@example.com", "TestToName");
-        MailMessage myMail = new MailMessage(from, to);
+        // Charger la pièce jointe
+        var attachment = new MimePart("application", "pdf")
+        {
+            Content = new MimeContent(File.OpenRead("chemin/vers/le/fichier.pdf")),
+            ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+            ContentTransferEncoding = ContentEncoding.Base64,
+            FileName = "fichier.pdf"
+        };
 
-        // add ReplyTo
-        MailAddress replyTo = new MailAddress("reply@example.com");
-        myMail.ReplyToList.Add(replyTo);
+        // Regrouper les parties
+        var multipart = new Multipart("mixed");
+        multipart.Add(body);
+        multipart.Add(attachment);
 
-        // set subject and encoding
-        myMail.Subject = "Test message";
-        myMail.SubjectEncoding = System.Text.Encoding.UTF8;
+        message.Body = multipart;
+       
+        // message.Body = new TextPart("html")
+        // {
+        //     Text = "<h1>Test 2</h1><p>Ceci est un test envoyé via MailKit sur le port 465.</p>"
+        // };
 
-        // set body-message and encoding
-        myMail.Body = "<b>Test Mail</b><br>using <b>HTML</b>.";
-        myMail.BodyEncoding = System.Text.Encoding.UTF8;
-        // text or html
-        myMail.IsBodyHtml = true;
+        using (var client = new SmtpClient())
+        {
+            try
+            {
+                client.Connect("elara.kreativmedia.ch", 465, SecureSocketOptions.SslOnConnect);
+                client.Authenticate("maxime.betrisey@cobwebsite.ch", "");
 
-        mySmtpClient.Send(myMail);
+                client.Send(message);
+                client.Disconnect(true);
+
+                Console.WriteLine("E-mail envoyé !");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erreur : " + ex.Message);
+            }
+        }
     }
 }

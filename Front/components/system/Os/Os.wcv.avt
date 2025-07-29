@@ -14,7 +14,7 @@
         }
     </div>
 </rk-scrollable>
-<rk-button-icon class="add-desktop" icon="/img/icons/add.svg" color="blue"></rk-button-icon>
+<rk-button-icon class="add-desktop" @press="addDesktop" icon="/img/icons/add.svg" color="blue"></rk-button-icon>
 <rk-notification-manager @element="notificationManager"></rk-notification-manager>
 
 <div class="no-connection">

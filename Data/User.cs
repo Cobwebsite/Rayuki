@@ -18,7 +18,7 @@ namespace Core.Data
 
         [Size(1, SizeEnum.Text), ValidatePassword]
         public string? Password { get; set; }
-        
+
         [Unique]
         public string Token { get; set; } = "";
         public UserPicture Picture { get; set; } = new UserPicture();
@@ -60,5 +60,16 @@ namespace Core.Data
         {
             return FileStorage.GetCore();
         }
+    }
+
+    [Export]
+    public interface IUserable
+    {
+        public int UserId { get; set; }
+    }
+    [Export]
+    public interface IUserableOrNull
+    {
+        public int? UserId { get; set; }
     }
 }

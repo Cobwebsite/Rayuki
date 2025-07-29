@@ -5035,7 +5035,7 @@ let GenericRam=class GenericRam {
                 let key = resultTemp.result;
                 if (this.records.has(key)) {
                     if (this.records.get(key) == item) {
-                        console.warn("You are updateing the same item. You should clone the object first to avoid weird effect");
+                        console.warn("You are updating the same item. You should clone the object first to avoid weird effect");
                     }
                     await this.beforeUpdateItem(item, fromList, action);
                     if (!action.success) {
@@ -5163,7 +5163,7 @@ let GenericRam=class GenericRam {
             return await this._delete(item, false);
         }
         let result = new ResultRamWithError();
-        result.errors.push(new RamError(RamErrorCode.noItemInsideRam, "can't update the item " + id + " because it wasn't found inside ram"));
+        result.errors.push(new RamError(RamErrorCode.noItemInsideRam, "can't delete the item " + id + " because it wasn't found inside ram"));
         return result;
     }
     async _delete(item, fromList) {
@@ -63393,7 +63393,6 @@ let I18nClass=class I18nClass {
                     }
                 }
                 this.__translations[lang] = items;
-                this.waitingFiles = [];
             });
         }
         this.locale = this.__translations[lang];

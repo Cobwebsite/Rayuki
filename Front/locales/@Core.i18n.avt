@@ -1,23 +1,58 @@
 {
+    "Aide pour les raccourcis clavier": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "Keyboard shortcuts help",
+        "fr-FR": "Aide pour les raccourcis clavier"
+    },
+    "Attacher l'application": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "Pin the app",
+        "fr-FR": "Attacher l'application"
+    },
+    "Déplacer l'application à droite": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "Move application to the right",
+        "fr-FR": "Déplacer l'application à droite"
+    },
+    "Déplacer l'application à gauche": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "Move application to the left",
+        "fr-FR": "Déplacer l'application à gauche"
+    },
+    "Détacher l'application": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "Unpin the app",
+        "fr-FR": "Détacher l'application"
+    },
     "Installer l'application": {
         "de-DE": "ⵌⵌ",
-        "en-GB": "ⵌⵌ",
+        "en-GB": "Installer l'application",
         "fr-FR": "Installer l'application"
     },
     "Mes favoris": {
         "de-DE": "ⵌⵌ",
-        "en-GB": "ⵌⵌ",
-        "fr-FR": "Mes favorisⵌⵌ"
+        "en-GB": "My favorites",
+        "fr-FR": "Mes favoris"
     },
     "Notifications activées": {
         "de-DE": "ⵌⵌ",
-        "en-GB": "ⵌⵌ",
+        "en-GB": "Notifications enable",
         "fr-FR": "Notifications activées"
     },
     "Notifications désactivées": {
         "de-DE": "ⵌⵌ",
-        "en-GB": "ⵌⵌ",
+        "en-GB": "Notifications disable",
         "fr-FR": "Notifications désactivées"
+    },
+    "Organiser les applications": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "Manage applications",
+        "fr-FR": "Organiser les applications"
+    },
+    "Ouvrir l'aide des raccourcis clavier": {
+        "de-DE": "ⵌⵌ",
+        "en-GB": "Open keyboard shortcuts helper",
+        "fr-FR": "Ouvrir l'aide des raccourcis clavier"
     },
     "Récents": {
         "de-DE": "ⵌⵌ",

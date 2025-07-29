@@ -20,6 +20,7 @@
 			height: 100%;
 			position: relative;
 			width: 100%;
+			transition: margin 0.7s var(--bezier-curve);
 
 			.delete-desktop {
 				--img-stroke-color: var(--red);
@@ -159,6 +160,14 @@
 
 	.add-desktop {
 		display: block;
+	}
+}
+
+:host([no_desktop_transition]) {
+	.desktop-container {
+		.desktop-case {
+			transition: none;
+		}
 	}
 }
 

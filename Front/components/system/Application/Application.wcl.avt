@@ -296,7 +296,7 @@ namespace System {
          *  Defines the keyboard shortcuts for the application.
         */
         @InternalProtected()
-        public defineShortcut(): [(string | SpecialTouch)[], cb: () => void][] {
+        public defineShortcut(): [string, (string | SpecialTouch)[], cb: () => void][] {
             return [];
         }
 
@@ -1174,6 +1174,13 @@ namespace System {
             this.setSizeInfo(this.sizeManager.load());
         }
 
+        protected preventScrollContent() {
+            this.contentEl.scrollLeft = 0;
+            this.contentEl.addEventListener("scroll", () => {
+                this.contentEl.scrollLeft = 0;
+            });
+        }
+
         /**
          * @inheritdoc
          */
@@ -1184,6 +1191,7 @@ namespace System {
             this.addMoveDragAndDrop();
             this.watchTransition();
             this.bindContextMenu();
+            this.preventScrollContent();
         }
 
         /**
@@ -1195,6 +1203,7 @@ namespace System {
             this.removeDesktopActive();
             this.removeApplicationHistory();
             this.sizeManager.remove();
+            
         }
 
         //#endregion

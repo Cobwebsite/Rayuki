@@ -1,7 +1,9 @@
+import { type IUserable } from './User.lib.avt';
+
 namespace Data {
 
 	@Convertible()
-	export class Recent extends AventusSharp.Data.Storable implements Aventus.IData {
+	export class Recent extends AventusSharp.Data.Storable implements IUserable, IUserable, Aventus.IData {
 		public static override get Fullname(): string { return "Core.Data.Recent, Core"; }
 		public Name!: string;
 		public TagName!: string;
