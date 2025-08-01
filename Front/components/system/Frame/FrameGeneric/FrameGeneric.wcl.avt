@@ -52,6 +52,11 @@ namespace System {
             });
         }
 
+
+        @Deprecated()
+        public pageTitle(): string | undefined {
+            return undefined;
+        }
         public abstract configure(): Aventus.Asyncable<FrameConfig>;
 
         @Internal()

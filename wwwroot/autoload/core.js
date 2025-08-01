@@ -7494,6 +7494,9 @@ System.FrameGeneric = class FrameGeneric extends Aventus.WebComponent {
             }
         });
     }
+    pageTitle() {
+        return undefined;
+    }
     async testPermissions() {
         let proms = [];
         let queries = [];
@@ -7983,7 +7986,10 @@ Components.GenericPopup = class GenericPopup extends Aventus.WebComponent {
 }));    super.__registerWatchesActions();
 }
     static __style = `:host{--_popup-background-color: var(--popup-background-color, var(--application-background-color, var(--primary-color-opacity)));--_popup-border-radius: var(--popup-border-radius, var(--application-border-radius, 10px));--_popup-header-background-color: var(--popup-header-background-color, var(--application-header-background-color, var(--darker-active)));--_popup-content-padding: var(--popup-content-padding, 15px)}:host{align-items:center;animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(48,48,48,.1);border-radius:var(--application-border-radius);display:flex;inset:0;justify-content:center;position:absolute;z-index:650}:host .popup{background-color:var(--_popup-background-color);border-radius:var(--_popup-border-radius);box-shadow:var(--elevation-5);container-name:application;container-type:normal;display:flex;flex-direction:column;max-height:calc(100% - 50px);max-width:calc(100% - 50px);width:fit-content}:host .popup .header{align-items:center;border-top-left-radius:var(--_popup-border-radius);border-top-right-radius:var(--_popup-border-radius);display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .popup .header .background{background-color:var(--_popup-header-background-color);inset:0;position:absolute;z-index:1}:host .popup .header .title{flex-grow:1;margin-left:15px;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .popup .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .popup .header .application-actions .btn{border-radius:var(--border-radius);height:15px;width:15px}:host .popup .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);max-height:calc(var(--app-height) - 50px - 30px);min-height:auto;min-width:auto;overflow:hidden;padding:var(--_popup-content-padding);width:100%;z-index:1}:host .popup.shake{animation-duration:.3s;animation-iteration-count:1;animation-name:shake;animation-timing-function:var(--bezier-curve)}:host(.fade-out){animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeOut;animation-timing-function:var(--bezier-curve)}:host([no_red_btn]) .popup .header .application-actions .btn{display:none}:host([behind]){z-index:550}@media screen and (min-width: 1225px){:host .popup .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .popup .header{height:40px}:host .popup .header .application-actions{gap:10px}:host .popup .header .application-actions .btn{height:20px;width:20px}:host .popup .content{height:calc(100% - 45px)}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}@keyframes fadeOut{0%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}@keyframes shake{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}`;
-    constructor() {            super();            this.info = this.defaultOptions();if (this.constructor == GenericPopup) { throw "can't instanciate an abstract class"; }this.cancel=this.cancel.bind(this)}
+    constructor() {
+            super();
+            this.info = this.defaultOptions();
+if (this.constructor == GenericPopup) { throw "can't instanciate an abstract class"; }this.cancel=this.cancel.bind(this)}
     __getStatic() {
         return GenericPopup;
     }
@@ -8503,6 +8509,9 @@ System.Frame404 = class Frame404 extends System.Frame {
     }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["uri"] = undefined; }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('uri'); }
+    pageTitle() {
+        throw new Error("Method not implemented.");
+    }
     configure() {
         return { title: "Page not found" };
     }
@@ -9046,13 +9055,22 @@ System.Application = class Application extends Aventus.WebComponent {
                         this.activePath = path;
                         this.activeState = currentState;
                         await element.show(currentState);
-                        let config = await element.configure();
-                        let titleTemp = config.title;
-                        if (titleTemp !== undefined) {
-                            this.app_title = titleTemp;
+                        if ('configure' in element) {
+                            let config = await element.configure();
+                            let titleTemp = config.title;
+                            if (titleTemp !== undefined) {
+                                this.app_title = titleTemp;
+                            }
+                            if (config.isRecentable) {
+                                this.saveAsRecent(config.recentName, currentState);
+                            }
                         }
-                        if (config.isRecentable) {
-                            this.saveAsRecent(config.recentName, currentState);
+                        else {
+                            let el = element;
+                            let titleTemp = el.pageTitle();
+                            if (titleTemp !== undefined) {
+                                this.app_title = titleTemp;
+                            }
                         }
                         this.onNewPage(oldUrl, oldPage, path, element);
                     }
@@ -12943,7 +12961,7 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
         target.dateTemp = target.date;
     }
 })); }
-    static __style = `:host{--_calendar-background-color: var(--calendar-background-color, white);--_calendar-background-color-case-hover: var(--calendar-background-color-case-hover, var(--lighter));--_calendar-background-color-case-active: var(--calendar-background-color-case-active, var(--lighter));--_calendar-background-color-selector: var(--calendar-background-color-selector, white);--_calendar-text-color-case: var(--calendar-text-color-case, var(--text-color));--_calendar-text-color-case-others: var(--calendar-text-color-case-others, var(--secondary-color));--_calendar-text-color-case-header: var(--calendar-text-color-case-header, var(--text-color-light));--_calendar-text-color-case-today: var(--calendar-text-color-case-today, var(--orange));--_calendar-case-size: var(--calendar-case-size, 30px);--_calendar-case-font-size: var(--calendar-case-font-size, var(--font-size, 16px));--_calendar-chevron-size: var(--calendar-chevron-size, calc(var(--_calendar-case-font-size) * 1.5));--_calendar-month-font-size: var(--calendar-month-font-size, calc(var(--_calendar-case-font-size) * 1.25));--_calendar-month-selector-height: var(--calendar-month-selector-height, var(--_calendar-case-size));--_calendar-year-selector-height: var(--calendar-year-selector-height, var(--_calendar-case-size));--_calendar-case-gap: var(--calendar-case-gap, 10px);--_calendar-row-gap: var(--calendar-row-gap, 5px)}:host{background-color:var(--_calendar-background-color);border-radius:var(--border-radius);box-shadow:var(--elevation-3);display:flex;flex-direction:column;padding:15px;position:relative;width:fit-content}:host .hover{transition:background-color .2s var(--bezier-curve)}:host .header{align-items:center;display:flex;flex-direction:row;justify-content:space-between;position:relative}:host .header .current-info{align-items:center;display:flex;flex-direction:row;flex-grow:1;font-size:var(--_calendar-month-font-size);justify-content:center}:host .header .current-info .month-year{align-items:center;border-radius:var(--border-radius-sm);display:flex;flex-direction:row;padding:5px 10px}:host .header .current-info .month-year .month{margin-right:5px}:host .header .chevron{align-items:center;border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-chevron-size);height:var(--_calendar-case-size);justify-content:center;text-align:center;width:var(--_calendar-case-size)}:host .header .selectors{background-color:var(--_calendar-background-color-selector);border-radius:var(--border-radius);box-shadow:var(--elevation-3);left:50%;opacity:0;padding:10px;pointer-events:none;position:absolute;top:calc(100% + 12px);transform:translateX(-50%);transition:opacity .2s var(--bezier-curve),visibility .2s var(--bezier-curve);visibility:hidden;width:100%;z-index:5}:host .header .selectors::after{border-bottom:10px solid var(--_calendar-background-color-selector);border-left:10px solid rgba(0,0,0,0);border-right:10px solid rgba(0,0,0,0);content:"";left:50%;position:absolute;top:-8px;transform:translateX(-50%)}:host .header .selectors .month-select{display:none;width:100%}:host .header .selectors .month-select .month-select-header{align-items:center;display:flex;margin-bottom:var(--_calendar-row-gap)}:host .header .selectors .month-select .month-select-header .current-info .temp-year{border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-month-font-size);padding:5px 10px}:host .header .selectors .month-select .month-select-body{display:flex;flex-wrap:wrap;font-size:var(--_calendar-case-font-size);gap:var(--_calendar-row-gap) var(--_calendar-case-gap);width:100%}:host .header .selectors .month-select .month-select-body .month-el{align-items:center;border-radius:var(--border-radius-sm);display:flex;height:var(--_calendar-month-selector-height);justify-content:center;width:calc((100% - var(--_calendar-case-gap)*2)/3)}:host .header .selectors .month-select .month-select-body .month-el.active{background-color:var(--_calendar-background-color-case-active)}:host .header .selectors .year-select{display:none;width:100%}:host .header .selectors .year-select .year-select-header{align-items:center;display:flex;margin-bottom:var(--_calendar-row-gap)}:host .header .selectors .year-select .year-select-header .current-info .temp-year-range{border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-month-font-size);padding:5px 10px}:host .header .selectors .year-select .year-select-body{display:flex;flex-wrap:wrap;font-size:var(--_calendar-case-font-size);gap:var(--_calendar-row-gap) var(--_calendar-case-gap);width:100%}:host .header .selectors .year-select .year-select-body .year-el{align-items:center;border-radius:var(--border-radius-sm);display:flex;height:var(--_calendar-year-selector-height);justify-content:center;width:calc((100% - var(--_calendar-case-gap)*2)/3)}:host .header .selectors .year-select .year-select-body .year-el.active{background-color:var(--_calendar-background-color-case-active)}:host .body{display:flex;flex-direction:column;margin-top:var(--_calendar-row-gap);gap:var(--_calendar-row-gap)}:host .body .days-header{color:var(--_calendar-text-color-case-header);display:flex;flex-direction:row;gap:10px}:host .body .days-header .day-header{align-items:center;display:flex;font-size:var(--_calendar-case-font-size);height:var(--_calendar-case-size);justify-content:center;width:var(--_calendar-case-size)}:host .body .days-body{display:flex;flex-direction:column;gap:var(--_calendar-row-gap)}:host .body .days-body .days-row{display:flex;flex-direction:row;gap:var(--_calendar-case-gap)}:host .hider{display:none;inset:0;position:absolute;z-index:1}:host([show_selector]) .hider{display:block}:host([show_selector]) .header .selectors{opacity:1;pointer-events:auto;visibility:visible}:host([selector=month]) .header .selectors .month-select{display:block}:host([selector=year]) .header .selectors .year-select{display:block}@media screen and (min-width: 1225px){:host .hover:hover{background-color:var(--_calendar-background-color-case-hover)}}`;
+    static __style = `:host{--_calendar-background-color: var(--calendar-background-color, white);--_calendar-background-color-case-hover: var(--calendar-background-color-case-hover, var(--lighter));--_calendar-background-color-case-active: var(--calendar-background-color-case-active, var(--lighter));--_calendar-background-color-selector: var(--calendar-background-color-selector, white);--_calendar-text-color-case: var(--calendar-text-color-case, var(--text-color));--_calendar-text-color-case-others: var(--calendar-text-color-case-others, var(--secondary-color));--_calendar-text-color-case-header: var(--calendar-text-color-case-header, var(--text-color-light));--_calendar-text-color-case-today: var(--calendar-text-color-case-today, var(--orange));--_calendar-case-size: var(--calendar-case-size, 30px);--_calendar-case-font-size: var(--calendar-case-font-size, calc(var(--font-size, 16px) * 0.9));--_calendar-chevron-size: var(--calendar-chevron-size, calc(var(--_calendar-case-font-size) * 1.5));--_calendar-month-font-size: var(--calendar-month-font-size, calc(var(--_calendar-case-font-size) * 1.25));--_calendar-month-selector-height: var(--calendar-month-selector-height, var(--_calendar-case-size));--_calendar-year-selector-height: var(--calendar-year-selector-height, var(--_calendar-case-size));--_calendar-case-gap: var(--calendar-case-gap, 10px);--_calendar-row-gap: var(--calendar-row-gap, 5px)}:host{background-color:var(--_calendar-background-color);border-radius:var(--border-radius);box-shadow:var(--elevation-3);display:flex;flex-direction:column;padding:15px;position:relative;width:fit-content}:host .hover{transition:background-color .2s var(--bezier-curve)}:host .header{align-items:center;display:flex;flex-direction:row;justify-content:space-between;position:relative}:host .header .current-info{align-items:center;display:flex;flex-direction:row;flex-grow:1;font-size:var(--_calendar-month-font-size);justify-content:center}:host .header .current-info .month-year{align-items:center;border-radius:var(--border-radius-sm);display:flex;flex-direction:row;padding:5px 10px}:host .header .current-info .month-year .month{margin-right:5px}:host .header .chevron{align-items:center;border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-chevron-size);height:var(--_calendar-case-size);justify-content:center;text-align:center;width:var(--_calendar-case-size)}:host .header .selectors{background-color:var(--_calendar-background-color-selector);border-radius:var(--border-radius);box-shadow:var(--elevation-3);left:50%;opacity:0;padding:10px;pointer-events:none;position:absolute;top:calc(100% + 12px);transform:translateX(-50%);transition:opacity .2s var(--bezier-curve),visibility .2s var(--bezier-curve);visibility:hidden;width:100%;z-index:5}:host .header .selectors::after{border-bottom:10px solid var(--_calendar-background-color-selector);border-left:10px solid rgba(0,0,0,0);border-right:10px solid rgba(0,0,0,0);content:"";left:50%;position:absolute;top:-8px;transform:translateX(-50%)}:host .header .selectors .month-select{display:none;width:100%}:host .header .selectors .month-select .month-select-header{align-items:center;display:flex;margin-bottom:var(--_calendar-row-gap)}:host .header .selectors .month-select .month-select-header .current-info .temp-year{border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-month-font-size);padding:5px 10px}:host .header .selectors .month-select .month-select-body{display:flex;flex-wrap:wrap;font-size:var(--_calendar-case-font-size);gap:var(--_calendar-row-gap) var(--_calendar-case-gap);width:100%}:host .header .selectors .month-select .month-select-body .month-el{align-items:center;border-radius:var(--border-radius-sm);display:flex;height:var(--_calendar-month-selector-height);justify-content:center;width:calc((100% - var(--_calendar-case-gap)*2)/3)}:host .header .selectors .month-select .month-select-body .month-el.active{background-color:var(--_calendar-background-color-case-active)}:host .header .selectors .year-select{display:none;width:100%}:host .header .selectors .year-select .year-select-header{align-items:center;display:flex;margin-bottom:var(--_calendar-row-gap)}:host .header .selectors .year-select .year-select-header .current-info .temp-year-range{border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-month-font-size);padding:5px 10px}:host .header .selectors .year-select .year-select-body{display:flex;flex-wrap:wrap;font-size:var(--_calendar-case-font-size);gap:var(--_calendar-row-gap) var(--_calendar-case-gap);width:100%}:host .header .selectors .year-select .year-select-body .year-el{align-items:center;border-radius:var(--border-radius-sm);display:flex;height:var(--_calendar-year-selector-height);justify-content:center;width:calc((100% - var(--_calendar-case-gap)*2)/3)}:host .header .selectors .year-select .year-select-body .year-el.active{background-color:var(--_calendar-background-color-case-active)}:host .body{display:flex;flex-direction:column;margin-top:var(--_calendar-row-gap);gap:var(--_calendar-row-gap)}:host .body .days-header{color:var(--_calendar-text-color-case-header);display:flex;flex-direction:row;gap:10px}:host .body .days-header .day-header{align-items:center;display:flex;font-size:var(--_calendar-case-font-size);height:var(--_calendar-case-size);justify-content:center;width:var(--_calendar-case-size)}:host .body .days-body{display:flex;flex-direction:column;gap:var(--_calendar-row-gap)}:host .body .days-body .days-row{display:flex;flex-direction:row;gap:var(--_calendar-case-gap)}:host .hider{display:none;inset:0;position:absolute;z-index:1}:host([show_selector]) .hider{display:block}:host([show_selector]) .header .selectors{opacity:1;pointer-events:auto;visibility:visible}:host([selector=month]) .header .selectors .month-select{display:block}:host([selector=year]) .header .selectors .year-select{display:block}@media screen and (min-width: 1225px){:host .hover:hover{background-color:var(--_calendar-background-color-case-hover)}}`;
     __getStatic() {
         return Calendar;
     }
@@ -13429,7 +13447,10 @@ if(!window.customElements.get('rk-date-picker-calendar-day')){window.customEleme
 System.AddOnTime = class AddOnTime extends Aventus.WebComponent {
     get 'active'() { return this.getBoolAttr('active') }
     set 'active'(val) { this.setBoolAttr('active', val) }    static __style = `:host{position:relative;height:var(--desktop-bottom-bar-element)}:host .display{align-items:center;border-radius:var(--border-radius-sm);cursor:pointer;display:flex;margin-right:10px;padding:0 10px;transition:background-color linear .2s;height:100%}:host .display .date{font-size:var(--font-size-sm)}:host .display .hour{font-size:var(--font-size-sm);margin-left:5px}:host .calendar{--calendar-background-color: var(--primary-color-opacity);bottom:calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element))/2 + 3px);box-shadow:var(--elevation-3);height:0;overflow:hidden;padding:0px 15px;position:absolute;right:10px;pointer-events:none;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s,padding var(--bezier-curve) .5s}:host([active]) .display{background-color:var(--lighter-active)}:host([active]) .calendar{bottom:calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element))/2 + 3px);height:var(--time-calendar-height);padding:15px;pointer-events:all}@media screen and (min-width: 1225px){:host .display:hover{background-color:var(--lighter-active)}}`;
-    constructor() {            super();            this.classList.add("touch");this.calculateCalendarSize=this.calculateCalendarSize.bind(this)}
+    constructor() {
+            super();
+            this.classList.add("touch");
+this.calculateCalendarSize=this.calculateCalendarSize.bind(this)}
     __getStatic() {
         return AddOnTime;
     }
@@ -13657,15 +13678,18 @@ Components.FormElement.Namespace=`Core.Components`;
 _.Components.FormElement=Components.FormElement;
 
 Components.Textarea = class Textarea extends Components.FormElement {
-    static get observedAttributes() {return ["label", "placeholder", "icon", "value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    static get observedAttributes() {return ["label", "placeholder", "icon", "value", "autogrow"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'resize'() { return this.getBoolAttr('resize') }
-    set 'resize'(val) { this.setBoolAttr('resize', val) }get 'autogrow'() { return this.getBoolAttr('autogrow') }
-    set 'autogrow'(val) { this.setBoolAttr('autogrow', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'resize'(val) { this.setBoolAttr('resize', val) }    get 'label'() { return this.getStringProp('label') }
     set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
     set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
     set 'icon'(val) { this.setStringAttr('icon', val) }get 'value'() { return this.getStringProp('value') }
-    set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
+    set 'value'(val) { this.setStringAttr('value', val) }get 'autogrow'() { return this.getBoolProp('autogrow') }
+    set 'autogrow'(val) { this.setBoolAttr('autogrow', val) }    resizeObserver;
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
     target.inputEl.value = target.value ?? "";
+}));this.__addPropertyActions("autogrow", ((target) => {
+    target.enableResizeObserver();
 })); }
     static __style = `:host{--_textarea-height: var(--textarea-height, 30px);--_textarea-background-color: var(--textarea-background-color, var(--form-element-background, white));--_textarea-icon-height: var(--textarea-icon-height, calc(var(--_textarea-height) / 2));--_textarea-error-logo-size: var(--textarea-error-logo-size, calc(var(--_textarea-height) / 2));--_textarea-font-size: var(--textarea-font-size, var(--form-element-font-size, 16px));--_textarea-font-size-label: var(--textarea-font-size-label, var(--form-element-font-size-label, calc(var(--_textarea-font-size) * 0.95)));--_textarea-input-border: var(--textarea-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_textarea-border-radius: var(--textarea-border-radius, var(--form-element-border-radius, 0));--_textarea-autogrow-max-height: var(--textarea-autogrow-max-height, none)}:host{min-width:100px;width:100%}:host label{cursor:pointer;display:none;font-size:var(--_textarea-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_textarea-background-color);border:var(--_textarea-input-border);border-radius:var(--_textarea-border-radius);display:flex;height:var(--_textarea-height);min-height:var(--_textarea-height);padding:0 10px;position:relative;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_textarea-icon-height);margin-right:10px}:host .input textarea{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-family:"Roboto",sans-serif;font-size:var(--_textarea-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px;resize:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_textarea-error-logo-size) - 5px);height:var(--_textarea-error-logo-size);justify-content:center;width:var(--_textarea-error-logo-size)}:host .input rk-resize{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([resize]) .input rk-resize{display:block}:host([autogrow]) .input{max-height:var(--_textarea-autogrow-max-height)}:host([autogrow]) .input textarea{overflow:auto;max-height:var(--_textarea-autogrow-max-height)}`;
     __getStatic() {
@@ -13748,11 +13772,17 @@ Components.Textarea = class Textarea extends Components.FormElement {
     getClassName() {
         return "Textarea";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('resize')) { this.attributeChangedCallback('resize', false, false); }if(!this.hasAttribute('autogrow')) { this.attributeChangedCallback('autogrow', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = ""; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('resize');this.__upgradeProperty('autogrow');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('value'); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('resize')) { this.attributeChangedCallback('resize', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = ""; }if(!this.hasAttribute('autogrow')) { this.attributeChangedCallback('autogrow', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('resize');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('value');this.__upgradeProperty('autogrow'); }
     __listBoolProps() { return ["resize","autogrow"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     removeErrors() {
         this.errors = [];
+    }
+    enableResizeObserver() {
+        if (this.autogrow)
+            this.resizeObserver.observe(this);
+        else
+            this.resizeObserver.unobserve(this);
     }
     calculateAutoGrow() {
         if (this.autogrow) {
@@ -13774,6 +13804,12 @@ Components.Textarea = class Textarea extends Components.FormElement {
         if (this.resize) {
             this.resizeEl.init(this.inputCont);
         }
+        this.resizeObserver = new Aventus.ResizeObserver(() => {
+            if (this.autogrow) {
+                this.calculateAutoGrow();
+            }
+        });
+        this.enableResizeObserver();
         this.calculateAutoGrow();
     }
     __1d98574e598563b66bef89b75eeea5admethod1() {
@@ -15570,7 +15606,14 @@ Components.Sheet = class Sheet extends Aventus.WebComponent {
     pageWrappers = [];
     settings;
     static __style = `:host{--_sheet-padding: var(--sheet-padding, 0)}:host .sheet{box-sizing:border-box;color:#000;display:flex;flex-direction:column;flex-shrink:0;margin:0;overflow:hidden;padding:var(--_sheet-padding);page-break-before:page;position:relative;user-select:text}:host .sheet .header,:host .sheet .footer{flex-grow:0;flex-shrink:0;width:100%}:host .sheet .body{flex-grow:1;overflow:hidden;width:100%}:host .sheet .body .body-wrapper{width:100%}@media screen{:host .sheet{background-color:#fff;box-shadow:0 .5mm 2mm rgba(0,0,0,.3)}}:host([format=A3][orientation=portrait]) .sheet{height:420mm;width:297mm}:host([format=A3][orientation=landscape]) .sheet{height:297mm;width:420mm}:host([format=A4][orientation=portrait]) .sheet{height:297mm;width:210mm}:host([format=A4][orientation=landscape]) .sheet{height:210mm;width:297mm}:host([format=A5][orientation=portrait]) .sheet{height:210mm;width:148mm}:host([format=A5][orientation=landscape]) .sheet{height:148mm;width:210mm}:host([format=letter][orientation=portrait]) .sheet{height:279mm;width:216mm}:host([format=letter][orientation=landscape]) .sheet{height:216mm;width:280mm}:host([format=legal][orientation=portrait]) .sheet{height:357mm;width:216mm}:host([format=legal][orientation=landscape]) .sheet{height:216mm;width:357mm}`;
-    constructor() {            super();            const settings = this.sheetSettings(this.defaultSettings());            this.settings = settings;            this.format = settings.format;            this.orientation = settings.orientation;            this.style.setProperty("--sheet-padding", settings.padding);if (this.constructor == Sheet) { throw "can't instanciate an abstract class"; }}
+    constructor() {
+            super();
+            const settings = this.sheetSettings(this.defaultSettings());
+            this.settings = settings;
+            this.format = settings.format;
+            this.orientation = settings.orientation;
+            this.style.setProperty("--sheet-padding", settings.padding);
+if (this.constructor == Sheet) { throw "can't instanciate an abstract class"; }}
     __getStatic() {
         return Sheet;
     }
@@ -15900,7 +15943,38 @@ Components.Sheet = class Sheet extends Aventus.WebComponent {
         };
         const widthTxt = this.orientation == 'portrait' ? sizes[this.format].width : sizes[this.format].height;
         const heightTxt = this.orientation == 'portrait' ? sizes[this.format].height : sizes[this.format].width;
-        const txt = `<!DOCTYPE html>            <html lang="en">            <head>                <meta charset="UTF-8">                <meta name="viewport" content="width=device-width, initial-scale=1.0">                <title>Document</title>                <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&amp;display=swap" rel="stylesheet" />                <style>                    html {                        -webkit-print-color-adjust: exact;                        print-color-adjust: exact;                    }                    html, body {                        margin: 0;                        padding: 0;                    }                    body {                        width: ${widthTxt};                        height:  ${heightTxt};                    }                    @page {                        size: ${sizeTxt};                        margin: 0;                    }                    ${fonts}                </style>                <style>${cssTxt}</style>            </head>            <body ${attributes.join(" ")}>                ${this.shadowRoot.innerHTML}            </body>            </html>`;
+        const txt = `<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Document</title>
+                <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&amp;display=swap" rel="stylesheet" />
+                <style>
+                    html {
+                        -webkit-print-color-adjust: exact;
+                        print-color-adjust: exact;
+                    }
+                    html, body {
+                        margin: 0;
+                        padding: 0;
+                    }
+                    body {
+                        width: ${widthTxt};
+                        height:  ${heightTxt};
+                    }
+                    @page {
+                        size: ${sizeTxt};
+                        margin: 0;
+                    }
+                    ${fonts}
+                </style>
+                <style>${cssTxt}</style>
+            </head>
+            <body ${attributes.join(" ")}>
+                ${this.shadowRoot.innerHTML}
+            </body>
+            </html>`;
         return txt;
     }
     async saveAs(name) {
@@ -17605,7 +17679,10 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
 }));    super.__registerWatchesActions();
 }
     static __style = `:host{--_datepicker-height: var(--input-height, 30px);--_datepicker-background-color: var(--input-background-color, var(--form-element-background, white));--_datepicker-icon-height: var(--input-icon-height, calc(var(--_datepicker-height) / 2));--_datepicker-error-logo-size: var(--input-error-logo-size, calc(var(--_datepicker-height) / 2));--_datepicker-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_datepicker-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_datepicker-font-size) * 0.95)));--_datepicker-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_datepicker-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_datepicker-font-size-label);margin-bottom:5px;margin-left:3px;cursor:pointer}:host .input{align-items:center;background-color:var(--_datepicker-background-color);border:var(--_datepicker-input-border);border-radius:var(--_datepicker-border-radius);display:flex;height:var(--_datepicker-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_datepicker-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_datepicker-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .close-icon{font-size:18px;flex-shrink:0;display:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_datepicker-error-logo-size) - 5px);height:var(--_datepicker-error-logo-size);justify-content:center;width:var(--_datepicker-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([show_close]:not([no_undefined])) .input .close-icon{display:inline-block}`;
-    constructor() {            super();            this.bindCalendar();        }
+    constructor() {
+            super();
+            this.bindCalendar();
+        }
     __getStatic() {
         return DatePicker;
     }
@@ -18325,7 +18402,13 @@ Components.PopupFormStorable = class PopupFormStorable extends Components.Generi
     }
     _form;
     static __style = ``;
-    constructor() {            super();            this._form = new Components.VirtualForm();            this._form.setForm(this.defineSchema());            this.onItemChange = this.onItemChange.bind(this);            this._form.onItemChange.add(this.onItemChange);if (this.constructor == PopupFormStorable) { throw "can't instanciate an abstract class"; }}
+    constructor() {
+            super();
+            this._form = new Components.VirtualForm();
+            this._form.setForm(this.defineSchema());
+            this.onItemChange = this.onItemChange.bind(this);
+            this._form.onItemChange.add(this.onItemChange);
+if (this.constructor == PopupFormStorable) { throw "can't instanciate an abstract class"; }}
     __getStatic() {
         return PopupFormStorable;
     }
@@ -18372,7 +18455,11 @@ Components.PopupForm = class PopupForm extends Components.GenericPopup {
     }
     _form;
     static __style = ``;
-    constructor() {            super();            this._form = new Components.VirtualForm();            this._form.setForm(this.defineSchema());if (this.constructor == PopupForm) { throw "can't instanciate an abstract class"; }}
+    constructor() {
+            super();
+            this._form = new Components.VirtualForm();
+            this._form.setForm(this.defineSchema());
+if (this.constructor == PopupForm) { throw "can't instanciate an abstract class"; }}
     __getStatic() {
         return PopupForm;
     }
@@ -18939,7 +19026,9 @@ Components.SelectData = class SelectData extends Components.GenericSelect {
     set 'txt_undefined'(val) { this.setStringAttr('txt_undefined', val) }    data = [];
     isInit = false;
     static __style = ``;
-    constructor() {            super();if (this.constructor == SelectData) { throw "can't instanciate an abstract class"; }this.subscribe=this.subscribe.bind(this)this.unsubscribe=this.unsubscribe.bind(this)this.onCreated=this.onCreated.bind(this)this.onDeleted=this.onDeleted.bind(this)this.onUpdated=this.onUpdated.bind(this)}
+    constructor() {
+            super();
+if (this.constructor == SelectData) { throw "can't instanciate an abstract class"; }this.subscribe=this.subscribe.bind(this)this.unsubscribe=this.unsubscribe.bind(this)this.onCreated=this.onCreated.bind(this)this.onDeleted=this.onDeleted.bind(this)this.onUpdated=this.onUpdated.bind(this)}
     __getStatic() {
         return SelectData;
     }
@@ -19154,7 +19243,11 @@ Components.SelectEnum = class SelectEnum extends Components.GenericSelect {
     get 'txt_undefined'() { return this.getStringAttr('txt_undefined') }
     set 'txt_undefined'(val) { this.setStringAttr('txt_undefined', val) }    enumEl;
     static __style = ``;
-    constructor() {            super();            this.enumEl = this.defineEnum();            this.createOptions();if (this.constructor == SelectEnum) { throw "can't instanciate an abstract class"; }}
+    constructor() {
+            super();
+            this.enumEl = this.defineEnum();
+            this.createOptions();
+if (this.constructor == SelectEnum) { throw "can't instanciate an abstract class"; }}
     __getStatic() {
         return SelectEnum;
     }
@@ -19797,7 +19890,10 @@ Components.TwoColumnsSelectData = class TwoColumnsSelectData extends Components.
     isInit = false;
     createOptionsDone = false;
     static __style = ``;
-    constructor() {            super();            this.createOptions();if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abstract class"; }this.subscribe=this.subscribe.bind(this)this.unsubscribe=this.unsubscribe.bind(this)this.onCreated=this.onCreated.bind(this)this.onDeleted=this.onDeleted.bind(this)this.onUpdated=this.onUpdated.bind(this)}
+    constructor() {
+            super();
+            this.createOptions();
+if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abstract class"; }this.subscribe=this.subscribe.bind(this)this.unsubscribe=this.unsubscribe.bind(this)this.onCreated=this.onCreated.bind(this)this.onDeleted=this.onDeleted.bind(this)this.onUpdated=this.onUpdated.bind(this)}
     __getStatic() {
         return TwoColumnsSelectData;
     }
@@ -20488,7 +20584,13 @@ Components.Table = class Table extends Aventus.WebComponent {
     }
 })); }
     static __style = `:host{--_table-border-radius: var(--table-border-radius, var(--border-radius-sm));--_table-background-color: var(--table-background-color, var(--secondary-color));--_table-elevation: var(--table-elevation, var(--elevation-2));--_table-row-header-height: var(--table-row-header-height, 50px);--_table-header-backgroud-color: var(--table-header-backgroud-color, var(--primary-color));--_table-header-color: var(--table-header-color, var(--text-color-reverse));--_table-footer-backgroud-color: var(--table-footer-backgroud-color, var(--primary-color));--_table-footer-color: var(--table-footer-color, var(--text-color-reverse));--_table-row-header-backgroud-color: var(--table-row-header-backgroud-color, var(--primary-color));--_table-row-header-color: var(--table-row-header-color, var(--text-color-reverse));--_table-border-color: var(--table-border-color, var(--secondary-color));--_table-row-header-vertical-border: var(--table-row-header-vertical-border, 1px solid var(--_table-border-color));--_table-row-header-horizontal-border: var(--table-row-header-horizontal-border, 1px solid var(--_table-border-color));--_table-last-row-border-bottom: var(--table-last-row-border-bottom, 1px solid var(--_table-border-color));--_table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-padding: var(--table-cell-padding, 10px);--local-table-cell-resize-display: none}:host{background-color:var(--_table-background-color);border-radius:var(--_table-border-radius);box-shadow:var(--_table-elevation);display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper{display:flex;flex-direction:column;height:100%;min-height:100%;width:100%}:host .style-wrapper .header{align-items:center;background-color:var(--_table-header-backgroud-color);color:var(--_table-header-color);display:flex;justify-content:space-between;min-height:0;padding:10px}:host .style-wrapper .header .title{align-items:center;display:flex;font-size:var(--font-size-md);height:30px;margin-left:5px}:host .style-wrapper .row-header{--scrollbar-color: transparent;--scrollbar-active-color: transparent;--scroller-width: 0;min-height:0;width:100%}:host .style-wrapper .body{display:flex;flex:1;flex-direction:column;min-height:0;position:relative;width:100%}:host .style-wrapper .body .loading{display:none}:host .style-wrapper .body .no-data{display:none;margin:15px}:host .style-wrapper .footer{align-items:center;background-color:var(--_table-footer-backgroud-color);color:var(--_table-footer-color);display:flex;gap:30px;justify-content:end;min-height:0;padding:10px}:host .style-wrapper .footer .items-per-page{align-items:center;display:flex}:host .style-wrapper .footer .items-per-page rk-input-number{margin-left:10px;min-width:auto;width:50px}:host .style-wrapper .footer .location{align-items:center;display:flex}:host .style-wrapper .footer .pagination{align-items:center;display:flex}:host .style-wrapper .footer .pagination .btn-previous,:host .style-wrapper .footer .pagination .btn-next{transition:background-color .2s var(--bezier-curve)}:host .style-wrapper rk-scrollable::part(content-wrapper){min-width:100%}:host([first_page]) .style-wrapper .footer .pagination .btn-previous{opacity:.5;pointer-events:none}:host([last_page]) .style-wrapper .footer .pagination .btn-next{opacity:.5;pointer-events:none}:host([col_resize]){--local-table-cell-resize-display: block}:host([grid]) .style-wrapper .row-header{display:none}:host([grid]) .style-wrapper .body{flex-direction:row}:host([grid]) .style-wrapper .body rk-scrollable::part(content-wrapper){display:flex;flex-wrap:wrap;gap:15px;justify-content:center;padding:15px}:host([loading]) .style-wrapper .body{min-height:200px}:host([loading]) .style-wrapper .body .loading{display:flex}:host([no_data]:not([loading])) .style-wrapper .body .no-data{display:flex}:host([no_data]:not([loading])) .style-wrapper .body .rows{display:none}@media screen and (min-width: 1225px){:host .style-wrapper .footer .pagination .touch:hover{background-color:var(--lighter);border-radius:var(--border-radius-sm)}}`;
-    constructor() {            super();            this.options = this.configure(this.defaultOptions());            this.normalizeSchema();            this.auto_hide_scroll = this.autoHideScroll();            this.style.display = 'none';if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
+    constructor() {
+            super();
+            this.options = this.configure(this.defaultOptions());
+            this.normalizeSchema();
+            this.auto_hide_scroll = this.autoHideScroll();
+            this.style.display = 'none';
+if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
     __getStatic() {
         return Table;
     }
@@ -21054,7 +21156,10 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
     target.updateGrid();
 })); }
     static __style = `:host{width:100%}:host .row-content{align-items:stretch;border-bottom:var(--_table-cell-horizontal-border);display:flex;flex-direction:row;width:100%}:host .row-content>*:last-child{border-right:none !important}:host .grid-content{display:none}:host(:last-child) .row-content{border-bottom:var(--_table-last-row-border-bottom)}:host([grid]){width:fit-content}:host([grid]) .row-content,:host([grid]) .grid-content{border:var(--_table-cell-vertical-border);border-radius:var(--border-radius-sm);flex-direction:column;padding:10px;width:fit-content}:host([grid][custom_grid]) .row-content{display:none}:host([grid][custom_grid]) .grid-content{display:flex}`;
-    constructor() {            super();            this.custom_grid = this.customGridTemplate();        }
+    constructor() {
+            super();
+            this.custom_grid = this.customGridTemplate();
+        }
     __getStatic() {
         return TableRow;
     }
@@ -21353,7 +21458,9 @@ Components.TableCellPicture = class TableCellPicture extends Components.TableCel
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<av-button color="danger" _id="tablecellpicture_0">Fermer</av-button><div class="img" _id="tablecellpicture_1">		<img loading="lazy" _id="tablecellpicture_2" />	</div>` }
+        blocks: { 'default':`<av-button color="danger" _id="tablecellpicture_0">Fermer</av-button><div class="img" _id="tablecellpicture_1">
+		<img loading="lazy" _id="tablecellpicture_2" />
+	</div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -21604,7 +21711,10 @@ if(!window.customElements.get('rk-table-row-header')){window.customElements.defi
 Components.TableCellEnum = class TableCellEnum extends Components.TableCell {
     enumEl;
     static __style = ``;
-    constructor() {            super();            this.enumEl = this.defineEnum();if (this.constructor == TableCellEnum) { throw "can't instanciate an abstract class"; }}
+    constructor() {
+            super();
+            this.enumEl = this.defineEnum();
+if (this.constructor == TableCellEnum) { throw "can't instanciate an abstract class"; }}
     __getStatic() {
         return TableCellEnum;
     }

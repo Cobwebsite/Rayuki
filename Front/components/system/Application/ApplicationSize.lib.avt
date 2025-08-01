@@ -83,6 +83,7 @@ namespace System {
         }
 
         public static getBasicSize(): ApplicationPositionSize {
+            // TODO add percent + fullscreen config
             let height = document.body.offsetHeight * 0.8;
             if(height < 500) {
                 height = document.body.offsetHeight;

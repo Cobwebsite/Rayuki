@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="33.1.0" />
     <PackageReference Include="EnvDTE" Version="17.8.37221" />
     <PackageReference Include="File.TypeChecker" Version="4.1.1" />
     <PackageReference Include="Google.Apis.Gmail.v1" Version="1.70.0.3833" />
@@ -39,14 +40,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="AventusSharp">
+    <!-- <Reference Include="AventusSharp">
       <HintPath>lib\AventusSharp.dll</HintPath>
-    </Reference>
+    </Reference> -->
     <Reference Include="WebPush">
       <HintPath>lib\WebPush.dll</HintPath>
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="D:\Aventus\AvenutsSharp\AvenutsSharp\AventusSharp.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Remove="_tools\**" />
@@ -81,7 +85,8 @@
 
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition=" '$(OS)' == 'Windows_NT' ">
-    <Exec Command="xcopy /F /R /Y /I &quot;$(ProjectDir)$(OutDir)$(AssemblyName).dll&quot; &quot;D:\Rayuki\Libs\RayukiCore\ &quot;" />
+    <Exec
+      Command="xcopy /F /R /Y /I &quot;$(ProjectDir)$(OutDir)$(AssemblyName).dll&quot; &quot;D:\Rayuki\Libs\RayukiCore\ &quot;" />
   </Target>
 
 </Project>

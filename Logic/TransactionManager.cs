@@ -18,7 +18,7 @@ namespace Core.Logic
     {
         private SemaphoreSlim locker = new SemaphoreSlim(1, 1);
         private string? guid;
-        private TransactionContext? context;
+        private DbTransactionContext? context;
         private string? sessionId;
         private System.Timers.Timer? timer;
 
@@ -55,7 +55,7 @@ namespace Core.Logic
             try
             {
                 locker.WaitAsync().GetAwaiter().GetResult();
-                ResultWithError<TransactionContext> transactionQuery = AppManager.Storage.BeginTransaction();
+                ResultWithError<DbTransactionContext> transactionQuery = AppManager.Storage.BeginTransaction();
                 if (!transactionQuery.Success || transactionQuery.Result == null)
                 {
                     result.Errors = transactionQuery.Errors;

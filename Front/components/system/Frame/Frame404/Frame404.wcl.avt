@@ -30,6 +30,12 @@ namespace System {
         /**
          * @inheritdoc
          */
+        public override pageTitle(): string | undefined {
+            throw new Error("Method not implemented.");
+        }
+        /**
+         * @inheritdoc
+         */
         public override configure(): FrameConfig {
             return { title: "Page not found" };
         }

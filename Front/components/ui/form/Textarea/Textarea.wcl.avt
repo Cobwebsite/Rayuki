@@ -1,3 +1,4 @@
+import { ResizeObserver } from "Aventus@Main:Aventus.package.avt";
 import type { Resize } from "../../Resize/Resize.wcl.avt";
 import { FormElement } from "../FormElement/FormElement.wcl.avt";
 
@@ -29,7 +30,9 @@ namespace Components {
         @Attribute()
         public resize!: boolean;
 
-        @Attribute()
+        @Property((target: Textarea) => {
+            target.enableResizeObserver();
+        })
         public autogrow!: boolean;
         //#endregion
 
@@ -42,6 +45,7 @@ namespace Components {
         @ViewElement()
         protected inputCont!: HTMLDivElement;
 
+        private resizeObserver!: ResizeObserver;
         //#endregion
 
 
@@ -58,6 +62,12 @@ namespace Components {
             this.errors = [];
         }
 
+        protected enableResizeObserver() {
+            if(this.autogrow)
+                this.resizeObserver.observe(this);
+            else
+                this.resizeObserver.unobserve(this);
+        }
         protected calculateAutoGrow() {
             if(this.autogrow) {
                 this.inputEl.style.height = 'auto';
@@ -83,6 +93,12 @@ namespace Components {
             if(this.resize) {
                 this.resizeEl.init(this.inputCont);
             }
+            this.resizeObserver = new ResizeObserver(() => {
+                if(this.autogrow) {
+                    this.calculateAutoGrow();
+                }
+            });
+            this.enableResizeObserver();
             this.calculateAutoGrow();
         }
 

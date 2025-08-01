@@ -63393,6 +63393,7 @@ let I18nClass=class I18nClass {
                     }
                 }
                 this.__translations[lang] = items;
+                this.waitingFiles = [];
             });
         }
         this.locale = this.__translations[lang];

@@ -10,7 +10,7 @@
 	--_calendar-text-color-case-header: var(--calendar-text-color-case-header, var(--text-color-light));
 	--_calendar-text-color-case-today: var(--calendar-text-color-case-today, var(--orange));
 	--_calendar-case-size: var(--calendar-case-size, 30px);
-	--_calendar-case-font-size: var(--calendar-case-font-size, var(--font-size, 16px));
+	--_calendar-case-font-size: var(--calendar-case-font-size, calc(var(--font-size, 16px) * 0.9));
 	--_calendar-chevron-size: var(--calendar-chevron-size, calc(var(--_calendar-case-font-size) * 1.5));
 	--_calendar-month-font-size: var(--calendar-month-font-size, calc(var(--_calendar-case-font-size) * 1.25));
 	--_calendar-month-selector-height: var(--calendar-month-selector-height, var(--_calendar-case-size));

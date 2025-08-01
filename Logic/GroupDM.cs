@@ -15,7 +15,7 @@ namespace Core.Logic
                 return groupsResult.Errors;
             }
 
-            VoidWithError groupBindings = Storage.RunInsideTransaction(() =>
+            VoidWithError groupBindings = RunInsideTransaction(() =>
             {
                 VoidWithError resultTemp = new();
                 foreach (Group group in groupsResult.Result)

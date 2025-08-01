@@ -16,7 +16,7 @@ namespace Core.Logic
 
         public ResultWithError<bool> EditPermission(List<PermissionGroup> created, List<PermissionGroup> updated, List<PermissionGroup> deleted)
         {
-            return Storage.RunInsideTransaction(() =>
+            return RunInsideTransaction(() =>
             {
                 ResultWithError<bool> result = new();
                 if (created.Count > 0)

@@ -379,15 +379,25 @@ namespace System {
                             this.activeState = currentState;
                             await element.show(currentState);
 
-                            let config = await element.configure();
-                            let titleTemp = config.title;
-                            if(titleTemp !== undefined) {
-                                this.app_title = titleTemp;
+                            if('configure' in element) {
+                                let config = await element.configure();
+                                let titleTemp = config.title;
+                                if(titleTemp !== undefined) {
+                                    this.app_title = titleTemp;
+                                }
+
+                                if(config.isRecentable) {
+                                    this.saveAsRecent(config.recentName, currentState);
+                                }
+                            }
+                            else {
+                                let el = element as any;
+                                let titleTemp = el.pageTitle();
+                                if(titleTemp !== undefined) {
+                                    this.app_title = titleTemp;
+                                }
                             }
 
-                            if(config.isRecentable) {
-                                this.saveAsRecent(config.recentName, currentState);
-                            }
 
                             this.onNewPage(oldUrl, oldPage, path, element);
                         } catch(e) {
@@ -1203,7 +1213,7 @@ namespace System {
             this.removeDesktopActive();
             this.removeApplicationHistory();
             this.sizeManager.remove();
-            
+
         }
 
         //#endregion
