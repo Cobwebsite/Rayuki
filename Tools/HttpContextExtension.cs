@@ -1,5 +1,6 @@
 ﻿using AventusSharp.Tools;
 using Core.Data;
+using Core.Logic;
 
 namespace Core.Tools
 {
@@ -68,6 +69,15 @@ namespace Core.Tools
             }
             userable.UserId = userId;
             return result;
+        }
+
+        public static bool Can(this HttpContext context, Enum value, string additionalInfo)
+        {
+            return PermissionDM.GetInstance().Can(context, value, additionalInfo);
+        }
+        public static bool Can(this HttpContext context, Enum value)
+        {
+            return PermissionDM.GetInstance().Can(context, value);
         }
     }
 }

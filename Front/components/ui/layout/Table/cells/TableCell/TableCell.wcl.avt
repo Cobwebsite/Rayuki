@@ -1,4 +1,4 @@
-import { Table, type TableSchema } from "../../Table.wcl.avt";
+import { Table, type TableSchema } from "../../Table/Table.wcl.avt";
 import { TableRow } from "../../rows/TableRow/TableRow.wcl.avt";
 
 namespace Components {

@@ -23,6 +23,7 @@ import { PWA } from "../../../libs/Pwa.lib.avt";
 import { Application } from "../Application/Application.wcl.avt";
 import { DateConverter } from "../../../libs/DateConverter.lib.avt";
 import { I18n } from "Aventus@I18n:Aventus.package.avt";
+import { CoreError, CoreErrorCode } from "../../../generated/Tools/CoreErrors.lib.avt";
 
 namespace System {
     export class Os extends Aventus.WebComponent implements Aventus.DefaultComponent {
@@ -185,7 +186,7 @@ namespace System {
                 ShortcutManager.subscribe([SpecialTouch.ArrowLeft, SpecialTouch.Shift], this.desktopSelectPrevious);
                 setTimeout(() => {
                     this.no_desktop_transition = false;
-                }, 200)
+                }, 200);
             }
         }
         private addSwitchDesktop() {
@@ -294,7 +295,10 @@ namespace System {
                 let lastX;
                 let lastY;
                 let timeoutContext;
-                Aventus.PressManager.setGlobalConfig({
+                Aventus.PressManager.configure({
+                    delayDblPress: 250,
+                    delayLongPress: 700,
+                    offsetDrag: 0,
                     onEvent: (e) => {
                         if(e.type == "pointerdown") {
                             lastX = startX = e.pageX;
@@ -485,10 +489,18 @@ namespace System {
             }
 
             Aventus.DateConverter.converter = new DateConverter();
-            Aventus.PressManager.setGlobalConfig({
+            Aventus.PressManager.configure({
                 delayDblPress: 250,
                 delayLongPress: 700,
                 offsetDrag: 0
+            });
+            Aventus.HttpRequest.configure({
+                responseMiddleware: (response, request) => {
+                    if(response.result?.status == 401) {
+                        response.errors.push(new CoreError(CoreErrorCode.NotAllowed, "Non autorisé"))
+                    }
+                    return response;
+                }
             });
             this.trapInOs();
             this.addResizeObserver();

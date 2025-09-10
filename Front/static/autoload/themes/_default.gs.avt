@@ -85,6 +85,8 @@
 	--application-background-color: var(--primary-color-opacity);
 	--popup-background-color: var(--primary-color);
 	--application-border-radius: var(--border-radius);
+
+	--popup-border-radius: var(--border-radius);
 	/*#endregion*/
 
 	/*#region form element*/

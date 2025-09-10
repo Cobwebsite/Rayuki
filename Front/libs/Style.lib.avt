@@ -43,8 +43,19 @@ export class Style {
         return result;
     }
 
-    public static lockVariable(el: HTMLElement, prop: string) {
-        let computed = getComputedStyle(el);
-        el.style.setProperty(prop, computed.getPropertyValue(prop.replace("--", "--_")))
+    public static lockVariable(el: HTMLElement, prop: string, source?: HTMLElement) {
+        if(!source) {
+            source = el;
+        }
+        const computed = getComputedStyle(source);
+        let value = computed.getPropertyValue(prop.replace("--", "--_"));
+        if(!value) {
+            value = computed.getPropertyValue(prop);
+        }
+        el.style.setProperty(prop, value);
+    }
+
+    public static unlockVariable(el: HTMLElement, prop: string) {
+        el.style.removeProperty(prop);
     }
 }

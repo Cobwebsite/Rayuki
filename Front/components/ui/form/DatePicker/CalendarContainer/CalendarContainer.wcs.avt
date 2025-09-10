@@ -1,10 +1,10 @@
 :host {
-	display: none;
+	display: block;
 	position: absolute;
 	z-index: 800;
 }
 
 
-:host([visible]) {
-	display: block;
+:host(:not([visible])) {
+	display: none;
 }

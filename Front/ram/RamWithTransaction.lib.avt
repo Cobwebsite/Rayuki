@@ -188,9 +188,9 @@ namespace RAM {
             new RamWithTransaction(this as unknown as RamWithTransactionInjector<T>);
         }
 
-        public complete(objects?: T | T[], error?: VoidWithError): RamCompletor<T> {
-            return new RamCompletor(objects, error);
-        }
+        // public complete(objects?: T | T[], error?: VoidWithError): RamCompletor<T> {
+        //     return new RamCompletor(objects, error);
+        // }
     }
 
     export abstract class RamWebSocket<T extends AventusSharp.Data.Storable> extends AventusSharp.RAM.RamWebSocket<T> {
@@ -200,8 +200,8 @@ namespace RAM {
             new RamWithTransaction(this as unknown as RamWithTransactionInjector<T>);
         }
 
-        public complete(objects?: T | T[], error?: VoidWithError): RamCompletor<T> {
-            return new RamCompletor(objects, error);
-        }
+        // public complete(objects?: T | T[], error?: VoidWithError): RamCompletor<T> {
+        //     return new RamCompletor(objects, error);
+        // }
     }
 }

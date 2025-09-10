@@ -1003,6 +1003,78 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:AventusSharp.Data.Storable`1.IsValid(AventusSharp.Data.StorableAction)">
+            <summary>
+            Apply the function ValidationRules to check if element is valid
+            </summary>
+            <param name="action">The type of action that you need to check</param>
+            <returns></returns>
+        </member>
+        <member name="M:AventusSharp.Data.Storable`1.ValidationRules(AventusSharp.Data.StorableAction)">
+            <summary>
+            Define custom rules you need to check for your object
+            </summary>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AventusSharp.Data.Storable`1.LoadDependances``1(System.Collections.Generic.List{`0},System.Func{`0,System.Int32},System.Action{`0,``0})">
+            <summary>
+            Allow to load the a real object from an id on the same element
+            </summary>
+            <typeparam name="Y"></typeparam>
+            <param name="from">Items to augment</param>
+            <param name="fct">The field with the int (Id of the element to load)</param>
+            <param name="set">Set to add the object to the item</param>
+            <returns></returns>
+        </member>
+        <member name="M:AventusSharp.Data.Storable`1.LoadDependances``1(AventusSharp.Tools.ResultWithError{System.Collections.Generic.List{`0}},System.Func{`0,System.Int32},System.Action{`0,``0})">
+            <summary>
+            Allow to load the a real object from an id on the same element
+            </summary>
+            <typeparam name="Y"></typeparam>
+            <param name="from">Items to augment</param>
+            <param name="fct">The field with the int (Id of the element to load)</param>
+            <param name="set">Set to add the object to the item</param>
+            <returns></returns>
+        </member>
+        <member name="M:AventusSharp.Data.Storable`1.LoadDependancesList``1(System.Collections.Generic.List{`0},System.Func{`0,System.Collections.Generic.List{System.Int32}},System.Action{`0,``0})">
+            <summary>
+            Allow to load the list of real object from a list of ids on the same element
+            </summary>
+            <typeparam name="Y"></typeparam>
+            <param name="from">Items to augment</param>
+            <param name="fct">The field with the List of int</param>
+            <param name="set">Set to add the object to the list</param>
+            <returns></returns>
+        </member>
+        <member name="M:AventusSharp.Data.Storable`1.LoadDependancesList``1(AventusSharp.Tools.ResultWithError{System.Collections.Generic.List{`0}},System.Func{`0,System.Collections.Generic.List{System.Int32}},System.Action{`0,``0})">
+            <summary>
+            Allow to load the list of real object from a list of ids on the same element
+            </summary>
+            <typeparam name="Y"></typeparam>
+            <param name="from">Items to augment</param>
+            <param name="fct">The field with the List of int</param>
+            <param name="set">Set to add the object to the list</param>
+            <returns></returns>
+        </member>
+        <member name="M:AventusSharp.Data.Storable`1.LoadReverseLink``1(System.Collections.Generic.List{`0},System.Linq.Expressions.Expression{System.Func{`0,System.Collections.Generic.List{``0}}})">
+            <summary>
+            Allow to load a member of type List marked ReverseLink
+            </summary>
+            <typeparam name="Y"></typeparam>
+            <param name="from">List of objects with the member</param>
+            <param name="expression">The member the need to be loaded</param>
+            <returns></returns>
+        </member>
+        <member name="M:AventusSharp.Data.Storable`1.LoadReverseLink``1(AventusSharp.Tools.ResultWithError{System.Collections.Generic.List{`0}},System.Linq.Expressions.Expression{System.Func{`0,System.Collections.Generic.List{``0}}})">
+            <summary>
+            Allow to load a member of type List marked ReverseLink
+            </summary>
+            <typeparam name="Y"></typeparam>
+            <param name="from">List of objects with the member</param>
+            <param name="expression">The member the need to be loaded</param>
+            <returns></returns>
+        </member>
         <member name="M:AventusSharp.Data.Storage.Default.DefaultDBStorage`1.CheckAutoCUDBeforeCreate``1(System.Collections.Generic.List{AventusSharp.Data.Storage.Default.TableMember.TableMemberInfoSql},``0)">
             <summary>
             Check auto CUD before insert item into DB
@@ -1234,6 +1306,12 @@
             <summary>
             Set to true to print route triggered
             </summary>
+        </member>
+        <member name="M:AventusSharp.Routes.StorableRouter`1.StorableName">
+            <summary>
+            Define the name of the object for the url
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:AventusSharp.Scheduler.Event.JobEndInfo">
             <summary>

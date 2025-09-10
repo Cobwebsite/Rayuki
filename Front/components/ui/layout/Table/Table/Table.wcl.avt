@@ -1,14 +1,14 @@
-import { TableRowHeader } from "./rows/TableRowHeader/TableRowHeader.wcl.avt";
-import { TableCell } from "./cells/TableCell/TableCell.wcl.avt";
-import { TableRow } from "./rows/TableRow/TableRow.wcl.avt";
-import { TableCellBoolean } from "./cells/TableCellBoolean.wc.avt";
-import { TableCellString } from "./cells/TableCellString.wc.avt";
-import { TableCellPicture } from "./cells/TableCellPicture.wc.avt";
-import { TableCellNumber } from "./cells/TableCellNumber.wc.avt";
-import { TableCellDate } from "./cells/TableCellDate.wc.avt";
-import { TableCellCheckbox } from "./cells/TableCellCheckbox/TableCellCheckbox.wcl.avt";
-import type { Scrollable } from "../Scrollable/Scrollable.wcl.avt";
-import { TableCellHeader } from "./cells/TableCellHeader/TableCellHeader.wcl.avt";
+import { TableRowHeader } from "../rows/TableRowHeader/TableRowHeader.wcl.avt";
+import { TableCell } from "../cells/TableCell/TableCell.wcl.avt";
+import { TableRow } from "../rows/TableRow/TableRow.wcl.avt";
+import { TableCellBoolean } from "../cells/TableCellBoolean.wc.avt";
+import { TableCellString } from "../cells/TableCellString.wc.avt";
+import { TableCellPicture } from "../cells/TableCellPicture.wc.avt";
+import { TableCellNumber } from "../cells/TableCellNumber.wc.avt";
+import { TableCellDate } from "../cells/TableCellDate.wc.avt";
+import { TableCellCheckbox } from "../cells/TableCellCheckbox/TableCellCheckbox.wcl.avt";
+import type { Scrollable } from "../../Scrollable/Scrollable.wcl.avt";
+import { TableCellHeader } from "../cells/TableCellHeader/TableCellHeader.wcl.avt";
 
 namespace Components {
     @Storybook({
@@ -624,7 +624,7 @@ namespace Components {
         }
         protected registerObserver() {
             this.resizeObserver = new Aventus.ResizeObserver(() => {
-                this.grid = (this.grid_breakpoint != undefined && this.offsetWidth <= this.grid_breakpoint);
+                this.grid = (this.grid_breakpoint != undefined && this.offsetHeight > 0 && this.offsetWidth > 0 && this.offsetWidth <= this.grid_breakpoint);
             });
             this.resizeObserver.observe(this);
         }

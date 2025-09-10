@@ -72,7 +72,7 @@ namespace State {
                     let noPrintErrors: Aventus.GenericError[] = [];
                     const elements = this._form.elements;
                     for(let error of ramResult.errors) {
-                        if(error.details) {
+                        if(Array.isArray(error.details)) {
                             let found = false;
                             for(let detail of error.details) {
                                 if(detail instanceof AventusSharp.Data.FieldErrorInfo) {

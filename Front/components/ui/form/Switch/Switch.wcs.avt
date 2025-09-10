@@ -20,11 +20,20 @@
 
 	.label:not(:empty) {
 		cursor: pointer;
+		display: inline-block;
 		font-size: var(--_switch-font-size-label);
 		margin-right: var(--_switch-margin-label);
 		transition: filter 0.3s var(--bezier-curve);
 		width: var(--_switch-label-width);
-		display: inline-block;
+	}
+
+	.label2:not(:empty) {
+		cursor: pointer;
+		display: none;
+		font-size: var(--_switch-font-size-label);
+		margin-left: var(--_switch-margin-label);
+		transition: filter 0.3s var(--bezier-curve);
+		width: var(--_switch-label-width);
 	}
 
 	.bar {
@@ -106,11 +115,17 @@
 
 }
 
-:host([label_end]) {
+:host([label_end]:not([label2])) {
 	.label:not(:empty) {
 		margin-left: var(--_switch-margin-label);
 		margin-right: 0px;
 		order: 2;
+	}
+}
+
+:host([label2]) {
+	.label2 {
+		display: inline-block;
 	}
 }
 

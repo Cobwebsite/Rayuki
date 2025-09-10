@@ -12,6 +12,7 @@ namespace Components {
         /**
          * @inheritdoc
          */
+        @BindThis()
         public override validate(value: any | undefined, name: string, globalValidation: () => Promise<void>): string | boolean {
             const txt = this.msg.replace(/\{ *name *\}/g, name);
             if(value === undefined || value === null) {

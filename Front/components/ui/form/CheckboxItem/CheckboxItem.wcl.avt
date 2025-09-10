@@ -30,6 +30,9 @@ namespace Components {
 
         @ViewElement()
         protected checkboxEl!: Checkbox;
+
+        @Internal()
+        public no_undefined!: boolean;
         //#endregion
 
 
@@ -46,7 +49,10 @@ namespace Components {
             if(value) {
                 this.onChange.trigger(this.value, this);
             }
-            else if(true) {
+            else if(!this.no_undefined) {
+                this.onChange.trigger(undefined, this);
+            }
+            else {
                 this.checked = true;
                 this.checkboxEl.checked = true;
             }

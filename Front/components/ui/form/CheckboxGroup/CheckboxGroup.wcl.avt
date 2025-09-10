@@ -16,6 +16,8 @@ namespace Components {
         //#region props
         @Property()
         public multiple!: boolean;
+        @Attribute()
+        public no_undefined!: boolean;
         //#endregion
 
 
@@ -28,6 +30,7 @@ namespace Components {
         protected options: CheckboxItem<T>[] = [];
 
         protected selectedOption?: CheckboxItem<T>;
+        private isLoading: boolean = false;
         //#endregion
 
 
@@ -38,23 +41,37 @@ namespace Components {
 
         //#region methods
         protected loadCheckbox() {
+            this.isLoading = true;
             const elements = this.getElementsInSlot();
             const options: CheckboxItem<T>[] = [];
+            let triggerChange = false;
             for(let element of elements) {
                 if(element instanceof CheckboxItem) {
                     options.push(element);
+                    if(this.value == undefined && this.no_undefined) {
+                        this.value = element.value;
+                        triggerChange = true;
+                    }
                     if(element.value == this.value) {
                         element.checked = true;
                         this.selectedOption = element;
                     }
                     element.onChange.remove(this.onChangeValue);
                     element.onChange.add(this.onChangeValue);
+                    element.no_undefined = this.no_undefined;
                 }
             }
             this.options = options;
-
+            this.isLoading = false;
+            if(triggerChange) {
+                this.onChange.trigger(this.value);
+                if(this.formPart) {
+                    this.formPart.value.set(this.value);
+                }
+            }
         }
         protected onValueSet() {
+            if(this.isLoading) return;
             // select
             let selected: CheckboxItem<T> | undefined = undefined;
             for(let option of this.options) {

@@ -1,5 +1,5 @@
 import { TableData } from "../TableData.wcl.avt";
-import type { TableOptions } from "../../Table.wcl.avt";
+import type { TableOptions } from "../../Table/Table.wcl.avt";
 import { TableRow } from "../../rows/TableRow/TableRow.wcl.avt";
 
 namespace Components {

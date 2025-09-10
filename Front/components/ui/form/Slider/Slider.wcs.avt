@@ -37,8 +37,8 @@
 	.input {
 		align-items: center;
 		display: flex;
-		width: 100%;
 		height: var(--_slider-height);
+		width: 100%;
 
 		.bar {
 			align-items: center;
@@ -88,7 +88,7 @@
 				box-shadow: var(--elevation-2);
 				font-size: var(--_slider-popup-font-size);
 				left: var(--local-slider-dot-percent);
-				opacity: 0;
+				opacity: 1;
 				padding: 5px 10px;
 				padding-bottom: 2px;
 				position: absolute;
@@ -96,7 +96,7 @@
 				transform: translateY(calc(-100% - 12px)) translateX(-50%);
 				transform-origin: center center;
 				transition: left var(--bezier-curve) 0.3s, opacity var(--bezier-curve) 0.3s, visibility var(--bezier-curve) 0.3s;
-				visibility: hidden;
+				visibility: visible;
 
 				&::after {
 					border-left: 6px solid transparent;
@@ -131,12 +131,12 @@
 	}
 }
 
-:host([popup_visible]) {
+:host(:not([popup_visible])) {
 	.input {
 		.bar {
 			.value {
-				opacity: 1;
-				visibility: visible;
+				opacity: 0;
+				visibility: hidden;
 			}
 		}
 	}

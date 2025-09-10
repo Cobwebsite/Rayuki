@@ -1,6 +1,6 @@
 import type { TableCell } from "../../cells/TableCell/TableCell.wcl.avt";
 import { TableCellString } from "../../cells/TableCellString.wc.avt";
-import type { SortColumns, Table, TableOptions, TableSchema, TableSchemaCellCst } from "../../Table.wcl.avt";
+import type { SortColumns, Table, TableOptions, TableSchema, TableSchemaCellCst } from "../../Table/Table.wcl.avt";
 
 namespace Components {
     @Storybook({

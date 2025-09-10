@@ -637,7 +637,6 @@ namespace System {
                 recent.Datetime = new Datetime();
                 recent.Datetime.DateTime = new Date();
                 await this.execute(new RecentRouter().Save({ item: recent }));
-                debugger;
             }
         }
 

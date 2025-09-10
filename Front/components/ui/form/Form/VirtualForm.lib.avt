@@ -134,7 +134,7 @@ namespace Components {
                 this._elements[key] = [];
             }
             realPart.register = (el) => {
-                if(this._elements[key] && this._elements[key].includes(el)) {
+                if(this._elements[key] && !this._elements[key].includes(el)) {
                     this._elements[key].push(el);
                 }
             };
@@ -325,7 +325,7 @@ namespace Components {
                 let noPrintErrors: Aventus.GenericError[] = [];
                 const elements = this.elements;
                 for(let error of queryResult.errors) {
-                    if(error.details) {
+                    if(Array.isArray(error.details)) {
                         let found = false;
                         for(let detail of error.details) {
                             if(detail instanceof AventusSharp.Data.FieldErrorInfo) {

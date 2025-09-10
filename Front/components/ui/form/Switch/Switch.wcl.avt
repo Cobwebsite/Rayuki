@@ -17,10 +17,12 @@ namespace Components {
         public label_end!: boolean;
         @Property()
         public label?: string;
-        
+        @Property()
+        public label2?: string;
+
 
         @Property((target: Switch) => {
-            
+
         })
         public disabled!: boolean;
 
@@ -48,7 +50,7 @@ namespace Components {
 
 
         //#region methods
-        
+
         /**
          * 
          */
@@ -58,6 +60,36 @@ namespace Components {
             this.onChange.trigger(this.checked);
             if(this.formPart) {
                 this.formPart.value.set(this.value);
+            }
+        }
+
+        /**
+         * 
+         */
+        protected setInactive() {
+            if(this.label2) {
+                if(this.checked) {
+                    this.checked = !this.checked;
+                    this.onChange.trigger(this.checked);
+                    if(this.formPart) {
+                        this.formPart.value.set(this.value);
+                    }
+                }
+            }
+            else {
+                this.toggleActive();
+            }
+        }
+        /**
+        * 
+        */
+        protected setActive() {
+            if(!this.checked) {
+                this.checked = !this.checked;
+                this.onChange.trigger(this.checked);
+                if(this.formPart) {
+                    this.formPart.value.set(this.value);
+                }
             }
         }
         //#endregion

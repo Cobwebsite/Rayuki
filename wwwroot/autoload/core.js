@@ -2,6 +2,7 @@
 var Core;
 (Core||(Core = {}));
 (function (Core) {
+const __as1 = (o, k, c) => { if (o[k] !== undefined) for (let w in o[k]) { c[w] = o[k][w] } o[k] = c; }
 const moduleName = `Core`;
 const _ = {};
 Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block;font-family:var(--font-family);-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none}:host .primary{background-color:var(--primary);color:var(--text-color-primary)}:host .text-primary{color:var(--primary)}:host .secondary{background-color:var(--secondary);color:var(--text-color-secondary)}:host .text-secondary{color:var(--secondary)}:host .green{background-color:var(--green);color:var(--text-color-green)}:host .text-green{color:var(--green)}:host .success{background-color:var(--success);color:var(--text-color-success)}:host .text-success{color:var(--success)}:host .red{background-color:var(--red);color:var(--text-color-red)}:host .text-red{color:var(--red)}:host .error{background-color:var(--error);color:var(--text-color-error)}:host .text-error{color:var(--error)}:host .orange{background-color:var(--orange);color:var(--text-color-orange)}:host .text-orange{color:var(--orange)}:host .warning{background-color:var(--warning);color:var(--text-color-warning)}:host .text-warning{color:var(--warning)}:host .blue{background-color:var(--blue);color:var(--text-color-blue)}:host .text-blue{color:var(--blue)}:host .information{background-color:var(--information);color:var(--text-color-information)}:host .text-information{color:var(--information)}:host .touch{cursor:pointer}:host .touch.disable,:host .touch.disabled{cursor:default}:host input::placeholder{overflow:visible}:host input,:host textarea,:host .text-select{-webkit-user-select:text;-khtml-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}:host *{box-sizing:border-box;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none}`)
@@ -92,7 +93,7 @@ Lib.Time=class Time {
     }
 }
 Lib.Time.Namespace=`Core.Lib`;
-_.Lib.Time=Lib.Time;
+__as1(_.Lib, 'Time', Lib.Time);
 
 let Colors= {
     'green': 'green',
@@ -106,7 +107,7 @@ let Colors= {
     'primary': 'primary',
     'secondary': 'secondary',
 };
-_.Colors=Colors;
+__as1(_, 'Colors', Colors);
 
 Lib.StringTools=class StringTools {
     static removeAccents(value) {
@@ -132,19 +133,19 @@ Lib.StringTools=class StringTools {
     }
 }
 Lib.StringTools.Namespace=`Core.Lib`;
-_.Lib.StringTools=Lib.StringTools;
+__as1(_.Lib, 'StringTools', Lib.StringTools);
 
 Lib.Plugin=class Plugin {
 }
 Lib.Plugin.Namespace=`Core.Lib`;
-_.Lib.Plugin=Lib.Plugin;
+__as1(_.Lib, 'Plugin', Lib.Plugin);
 
 Lib.PluginManager=class PluginManager {
     static register(plugin) {
     }
 }
 Lib.PluginManager.Namespace=`Core.Lib`;
-_.Lib.PluginManager=Lib.PluginManager;
+__as1(_.Lib, 'PluginManager', Lib.PluginManager);
 
 Websocket.Events.ApplicationTestEvent2=class ApplicationTestEvent2 extends AventusSharp.WebSocket.WsEvent {
     /**
@@ -155,13 +156,13 @@ Websocket.Events.ApplicationTestEvent2=class ApplicationTestEvent2 extends Avent
     }
 }
 Websocket.Events.ApplicationTestEvent2.Namespace=`Core.Websocket.Events`;
-_.Websocket.Events.ApplicationTestEvent2=Websocket.Events.ApplicationTestEvent2;
+__as1(_.Websocket.Events, 'ApplicationTestEvent2', Websocket.Events.ApplicationTestEvent2);
 
 (function (PdfErrorCode) {
     PdfErrorCode[PdfErrorCode["UnknowError"] = 0] = "UnknowError";
     PdfErrorCode[PdfErrorCode["NoNameProvided"] = 1] = "NoNameProvided";
 })(Errors.PdfErrorCode || (Errors.PdfErrorCode = {}));
-_.Errors.PdfErrorCode=Errors.PdfErrorCode;
+__as1(_.Errors, 'PdfErrorCode', Errors.PdfErrorCode);
 
 (function (ImageFileErrorCode) {
     ImageFileErrorCode[ImageFileErrorCode["UnknowError"] = 0] = "UnknowError";
@@ -169,17 +170,17 @@ _.Errors.PdfErrorCode=Errors.PdfErrorCode;
     ImageFileErrorCode[ImageFileErrorCode["FileNotSvg"] = 2] = "FileNotSvg";
     ImageFileErrorCode[ImageFileErrorCode["NoSize"] = 3] = "NoSize";
 })(Errors.ImageFileErrorCode || (Errors.ImageFileErrorCode = {}));
-_.Errors.ImageFileErrorCode=Errors.ImageFileErrorCode;
+__as1(_.Errors, 'ImageFileErrorCode', Errors.ImageFileErrorCode);
 
 (function (QuickAuthPermission) {
     QuickAuthPermission[QuickAuthPermission["Can"] = 0] = "Can";
 })(Permissions.QuickAuthPermission || (Permissions.QuickAuthPermission = {}));
-_.Permissions.QuickAuthPermission=Permissions.QuickAuthPermission;
+__as1(_.Permissions, 'QuickAuthPermission', Permissions.QuickAuthPermission);
 
 (function (UserSettings) {
     UserSettings[UserSettings["Lang"] = 0] = "Lang";
 })(Logic.UserSettings || (Logic.UserSettings = {}));
-_.Logic.UserSettings=Logic.UserSettings;
+__as1(_.Logic, 'UserSettings', Logic.UserSettings);
 
 (function (SsoCode) {
     SsoCode[SsoCode["TokenFailed"] = 0] = "TokenFailed";
@@ -189,26 +190,26 @@ _.Logic.UserSettings=Logic.UserSettings;
     SsoCode[SsoCode["PictureNotFound"] = 4] = "PictureNotFound";
     SsoCode[SsoCode["UserNotRegistered"] = 5] = "UserNotRegistered";
 })(Errors.SsoCode || (Errors.SsoCode = {}));
-_.Errors.SsoCode=Errors.SsoCode;
+__as1(_.Errors, 'SsoCode', Errors.SsoCode);
 
 (function (RecentParameters) {
     RecentParameters[RecentParameters["Number"] = 0] = "Number";
 })(Logic.RecentParameters || (Logic.RecentParameters = {}));
-_.Logic.RecentParameters=Logic.RecentParameters;
+__as1(_.Logic, 'RecentParameters', Logic.RecentParameters);
 
 (function (StorageErrorCode) {
     StorageErrorCode[StorageErrorCode["UnknowError"] = 0] = "UnknowError";
     StorageErrorCode[StorageErrorCode["NotAllowed"] = 1] = "NotAllowed";
     StorageErrorCode[StorageErrorCode["NotFound"] = 2] = "NotFound";
 })(Errors.StorageErrorCode || (Errors.StorageErrorCode = {}));
-_.Errors.StorageErrorCode=Errors.StorageErrorCode;
+__as1(_.Errors, 'StorageErrorCode', Errors.StorageErrorCode);
 
 (function (IsAllowedAction) {
     IsAllowedAction[IsAllowedAction["Read"] = 0] = "Read";
     IsAllowedAction[IsAllowedAction["Write"] = 1] = "Write";
     IsAllowedAction[IsAllowedAction["Delete"] = 2] = "Delete";
 })(Logic.FileSystem.IsAllowedAction || (Logic.FileSystem.IsAllowedAction = {}));
-_.Logic.FileSystem.IsAllowedAction=Logic.FileSystem.IsAllowedAction;
+__as1(_.Logic.FileSystem, 'IsAllowedAction', Logic.FileSystem.IsAllowedAction);
 
 Logic.FileSystem.FileDetails=class FileDetails extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Logic.FileSystem.FileDetails, Core"; }
@@ -221,12 +222,12 @@ Logic.FileSystem.FileDetails=class FileDetails extends AventusSharp.Data.SharpCl
 Logic.FileSystem.FileDetails.Namespace=`Core.Logic.FileSystem`;
 Logic.FileSystem.FileDetails.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "Name":"string","Size":"number","LastEdit":"Date","Extension":"string","IsDirectory":"boolean"};
 Aventus.Converter.register(Logic.FileSystem.FileDetails.Fullname, Logic.FileSystem.FileDetails);
-_.Logic.FileSystem.FileDetails=Logic.FileSystem.FileDetails;
+__as1(_.Logic.FileSystem, 'FileDetails', Logic.FileSystem.FileDetails);
 
 (function (DesktopErrorCode) {
     DesktopErrorCode[DesktopErrorCode["NoDefaultDesktop"] = 0] = "NoDefaultDesktop";
 })(Errors.DesktopErrorCode || (Errors.DesktopErrorCode = {}));
-_.Errors.DesktopErrorCode=Errors.DesktopErrorCode;
+__as1(_.Errors, 'DesktopErrorCode', Errors.DesktopErrorCode);
 
 Data.SystemInfo=class SystemInfo extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.SystemInfo, Core"; }
@@ -237,7 +238,7 @@ Data.SystemInfo=class SystemInfo extends AventusSharp.Data.SharpClass {
 Data.SystemInfo.Namespace=`Core.Data`;
 Data.SystemInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "TimeZone":"string","Version":"string","CompilationDate":"string"};
 Aventus.Converter.register(Data.SystemInfo.Fullname, Data.SystemInfo);
-_.Data.SystemInfo=Data.SystemInfo;
+__as1(_.Data, 'SystemInfo', Data.SystemInfo);
 
 Data.Settings=class Settings extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Settings, Core"; }
@@ -248,7 +249,7 @@ Data.Settings=class Settings extends AventusSharp.Data.Storable {
 Data.Settings.Namespace=`Core.Data`;
 Data.Settings.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Key":"string","Value":"string","UserId":"number"};
 Aventus.Converter.register(Data.Settings.Fullname, Data.Settings);
-_.Data.Settings=Data.Settings;
+__as1(_.Data, 'Settings', Data.Settings);
 
 Data.Plugin=class Plugin extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Plugin, Core"; }
@@ -258,7 +259,7 @@ Data.Plugin=class Plugin extends AventusSharp.Data.Storable {
 Data.Plugin.Namespace=`Core.Data`;
 Data.Plugin.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Version":"number"};
 Aventus.Converter.register(Data.Plugin.Fullname, Data.Plugin);
-_.Data.Plugin=Data.Plugin;
+__as1(_.Data, 'Plugin', Data.Plugin);
 
 Data.ManifestIcon=class ManifestIcon extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.ManifestIcon, Core"; }
@@ -270,13 +271,13 @@ Data.ManifestIcon=class ManifestIcon extends AventusSharp.Data.SharpClass {
 Data.ManifestIcon.Namespace=`Core.Data`;
 Data.ManifestIcon.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "src":"string","type":"string","sizes":"string","purpose":"string"};
 Aventus.Converter.register(Data.ManifestIcon.Fullname, Data.ManifestIcon);
-_.Data.ManifestIcon=Data.ManifestIcon;
+__as1(_.Data, 'ManifestIcon', Data.ManifestIcon);
 
 (function (FileErrorCode) {
     FileErrorCode[FileErrorCode["InvalidUri"] = 0] = "InvalidUri";
     FileErrorCode[FileErrorCode["DownloadFailed"] = 1] = "DownloadFailed";
 })(Data.DataTypes.FileErrorCode || (Data.DataTypes.FileErrorCode = {}));
-_.Data.DataTypes.FileErrorCode=Data.DataTypes.FileErrorCode;
+__as1(_.Data.DataTypes, 'FileErrorCode', Data.DataTypes.FileErrorCode);
 
 (function (AppErrorCode) {
     AppErrorCode[AppErrorCode["AppFileNotFound"] = 0] = "AppFileNotFound";
@@ -290,7 +291,7 @@ _.Data.DataTypes.FileErrorCode=Data.DataTypes.FileErrorCode;
     AppErrorCode[AppErrorCode["NotZipFile"] = 8] = "NotZipFile";
     AppErrorCode[AppErrorCode["NotInManagement"] = 9] = "NotInManagement";
 })(App.AppErrorCode || (App.AppErrorCode = {}));
-_.App.AppErrorCode=App.AppErrorCode;
+__as1(_.App, 'AppErrorCode', App.AppErrorCode);
 
 Components.UserProfilPicture = class UserProfilPicture extends Aventus.WebComponent {
     static get observedAttributes() {return ["uri"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -340,7 +341,7 @@ Components.UserProfilPicture = class UserProfilPicture extends Aventus.WebCompon
 }
 Components.UserProfilPicture.Namespace=`Core.Components`;
 Components.UserProfilPicture.Tag=`rk-user-profil-picture`;
-_.Components.UserProfilPicture=Components.UserProfilPicture;
+__as1(_.Components, 'UserProfilPicture', Components.UserProfilPicture);
 if(!window.customElements.get('rk-user-profil-picture')){window.customElements.define('rk-user-profil-picture', Components.UserProfilPicture);Aventus.WebComponentInstance.registerDefinition(Components.UserProfilPicture);}
 
 Components.Separator = class Separator extends Aventus.WebComponent {
@@ -365,7 +366,7 @@ Components.Separator = class Separator extends Aventus.WebComponent {
 }
 Components.Separator.Namespace=`Core.Components`;
 Components.Separator.Tag=`rk-separator`;
-_.Components.Separator=Components.Separator;
+__as1(_.Components, 'Separator', Components.Separator);
 if(!window.customElements.get('rk-separator')){window.customElements.define('rk-separator', Components.Separator);Aventus.WebComponentInstance.registerDefinition(Components.Separator);}
 
 Components.Row = class Row extends Aventus.WebComponent {
@@ -390,7 +391,7 @@ Components.Row = class Row extends Aventus.WebComponent {
 }
 Components.Row.Namespace=`Core.Components`;
 Components.Row.Tag=`rk-row`;
-_.Components.Row=Components.Row;
+__as1(_.Components, 'Row', Components.Row);
 if(!window.customElements.get('rk-row')){window.customElements.define('rk-row', Components.Row);Aventus.WebComponentInstance.registerDefinition(Components.Row);}
 
 Components.MenuSeparator = class MenuSeparator extends Aventus.WebComponent {
@@ -414,7 +415,7 @@ Components.MenuSeparator = class MenuSeparator extends Aventus.WebComponent {
 }
 Components.MenuSeparator.Namespace=`Core.Components`;
 Components.MenuSeparator.Tag=`rk-menu-separator`;
-_.Components.MenuSeparator=Components.MenuSeparator;
+__as1(_.Components, 'MenuSeparator', Components.MenuSeparator);
 if(!window.customElements.get('rk-menu-separator')){window.customElements.define('rk-menu-separator', Components.MenuSeparator);Aventus.WebComponentInstance.registerDefinition(Components.MenuSeparator);}
 
 Components.MenuItem = class MenuItem extends Aventus.WebComponent {
@@ -454,7 +455,7 @@ Components.MenuItem = class MenuItem extends Aventus.WebComponent {
 }
 Components.MenuItem.Namespace=`Core.Components`;
 Components.MenuItem.Tag=`rk-menu-item`;
-_.Components.MenuItem=Components.MenuItem;
+__as1(_.Components, 'MenuItem', Components.MenuItem);
 if(!window.customElements.get('rk-menu-item')){window.customElements.define('rk-menu-item', Components.MenuItem);Aventus.WebComponentInstance.registerDefinition(Components.MenuItem);}
 
 (function (MenuState) {
@@ -463,7 +464,7 @@ if(!window.customElements.get('rk-menu-item')){window.customElements.define('rk-
     MenuState[MenuState["Closing"] = 2] = "Closing";
     MenuState[MenuState["Close"] = 3] = "Close";
 })(Components.MenuState || (Components.MenuState = {}));
-_.Components.MenuState=Components.MenuState;
+__as1(_.Components, 'MenuState', Components.MenuState);
 
 Components.Col = class Col extends Aventus.WebComponent {
     get 'size'() { return this.getNumberAttr('size') }
@@ -509,7 +510,7 @@ Components.Col = class Col extends Aventus.WebComponent {
 }
 Components.Col.Namespace=`Core.Components`;
 Components.Col.Tag=`rk-col`;
-_.Components.Col=Components.Col;
+__as1(_.Components, 'Col', Components.Col);
 if(!window.customElements.get('rk-col')){window.customElements.define('rk-col', Components.Col);Aventus.WebComponentInstance.registerDefinition(Components.Col);}
 
 Components.CardTitle = class CardTitle extends Aventus.WebComponent {
@@ -534,7 +535,7 @@ Components.CardTitle = class CardTitle extends Aventus.WebComponent {
 }
 Components.CardTitle.Namespace=`Core.Components`;
 Components.CardTitle.Tag=`rk-card-title`;
-_.Components.CardTitle=Components.CardTitle;
+__as1(_.Components, 'CardTitle', Components.CardTitle);
 if(!window.customElements.get('rk-card-title')){window.customElements.define('rk-card-title', Components.CardTitle);Aventus.WebComponentInstance.registerDefinition(Components.CardTitle);}
 
 Components.Card = class Card extends Aventus.WebComponent {
@@ -563,7 +564,7 @@ Components.Card = class Card extends Aventus.WebComponent {
 }
 Components.Card.Namespace=`Core.Components`;
 Components.Card.Tag=`rk-card`;
-_.Components.Card=Components.Card;
+__as1(_.Components, 'Card', Components.Card);
 if(!window.customElements.get('rk-card')){window.customElements.define('rk-card', Components.Card);Aventus.WebComponentInstance.registerDefinition(Components.Card);}
 
 Components.BoxContainer = class BoxContainer extends Aventus.WebComponent {
@@ -595,7 +596,7 @@ Components.BoxContainer = class BoxContainer extends Aventus.WebComponent {
 }
 Components.BoxContainer.Namespace=`Core.Components`;
 Components.BoxContainer.Tag=`rk-box-container`;
-_.Components.BoxContainer=Components.BoxContainer;
+__as1(_.Components, 'BoxContainer', Components.BoxContainer);
 if(!window.customElements.get('rk-box-container')){window.customElements.define('rk-box-container', Components.BoxContainer);Aventus.WebComponentInstance.registerDefinition(Components.BoxContainer);}
 
 Components.ItemBox = class ItemBox extends Aventus.WebComponent {
@@ -620,7 +621,7 @@ Components.ItemBox = class ItemBox extends Aventus.WebComponent {
 }
 Components.ItemBox.Namespace=`Core.Components`;
 Components.ItemBox.Tag=`rk-item-box`;
-_.Components.ItemBox=Components.ItemBox;
+__as1(_.Components, 'ItemBox', Components.ItemBox);
 if(!window.customElements.get('rk-item-box')){window.customElements.define('rk-item-box', Components.ItemBox);Aventus.WebComponentInstance.registerDefinition(Components.ItemBox);}
 
 Components.InputFile = class InputFile extends Aventus.WebComponent {
@@ -645,7 +646,7 @@ Components.InputFile = class InputFile extends Aventus.WebComponent {
 }
 Components.InputFile.Namespace=`Core.Components`;
 Components.InputFile.Tag=`rk-input-file`;
-_.Components.InputFile=Components.InputFile;
+__as1(_.Components, 'InputFile', Components.InputFile);
 if(!window.customElements.get('rk-input-file')){window.customElements.define('rk-input-file', Components.InputFile);Aventus.WebComponentInstance.registerDefinition(Components.InputFile);}
 
 Components.Img = class Img extends Aventus.WebComponent {
@@ -839,7 +840,7 @@ Components.Img = class Img extends Aventus.WebComponent {
 }
 Components.Img.Namespace=`Core.Components`;
 Components.Img.Tag=`rk-img`;
-_.Components.Img=Components.Img;
+__as1(_.Components, 'Img', Components.Img);
 if(!window.customElements.get('rk-img')){window.customElements.define('rk-img', Components.Img);Aventus.WebComponentInstance.registerDefinition(Components.Img);}
 
 Lib.Validator=class Validator {
@@ -855,7 +856,7 @@ Lib.Validator=class Validator {
     }
 }
 Lib.Validator.Namespace=`Core.Lib`;
-_.Lib.Validator=Lib.Validator;
+__as1(_.Lib, 'Validator', Lib.Validator);
 
 Lib.Colors=class Colors {
     static get BLACK() { return new Lib.Color("#000000"); }
@@ -1008,7 +1009,7 @@ Lib.Colors=class Colors {
     static get REBECCAPURPLE() { return new Lib.Color("#663399"); }
 }
 Lib.Colors.Namespace=`Core.Lib`;
-_.Lib.Colors=Lib.Colors;
+__as1(_.Lib, 'Colors', Lib.Colors);
 
 Data.DataTypes.Pdf=class Pdf extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.DataTypes.Pdf, Core"; }
@@ -1019,7 +1020,7 @@ Data.DataTypes.Pdf=class Pdf extends AventusSharp.Data.SharpClass {
 Data.DataTypes.Pdf.Namespace=`Core.Data.DataTypes`;
 Data.DataTypes.Pdf.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "Name":"string","Html":"string","Debug":"boolean"};
 Aventus.Converter.register(Data.DataTypes.Pdf.Fullname, Data.DataTypes.Pdf);
-_.Data.DataTypes.Pdf=Data.DataTypes.Pdf;
+__as1(_.Data.DataTypes, 'Pdf', Data.DataTypes.Pdf);
 
 Lib.FontManager=class FontManager {
     static async loadedFonts() {
@@ -1256,7 +1257,7 @@ Lib.FontManager=class FontManager {
     }
 }
 Lib.FontManager.Namespace=`Core.Lib`;
-_.Lib.FontManager=Lib.FontManager;
+__as1(_.Lib, 'FontManager', Lib.FontManager);
 
 Components.SheetSplitter = class SheetSplitter extends Aventus.WebComponent {
     get 'copy'() { return this.getStringAttr('copy') }
@@ -1284,7 +1285,7 @@ Components.SheetSplitter = class SheetSplitter extends Aventus.WebComponent {
 }
 Components.SheetSplitter.Namespace=`Core.Components`;
 Components.SheetSplitter.Tag=`rk-sheet-splitter`;
-_.Components.SheetSplitter=Components.SheetSplitter;
+__as1(_.Components, 'SheetSplitter', Components.SheetSplitter);
 if(!window.customElements.get('rk-sheet-splitter')){window.customElements.define('rk-sheet-splitter', Components.SheetSplitter);Aventus.WebComponentInstance.registerDefinition(Components.SheetSplitter);}
 
 Data.PushRecord=class PushRecord extends AventusSharp.Data.Storable {
@@ -1297,7 +1298,7 @@ Data.PushRecord=class PushRecord extends AventusSharp.Data.Storable {
 Data.PushRecord.Namespace=`Core.Data`;
 Data.PushRecord.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "UserId":"number","EndPoint":"string","P256dh":"string","Auth":"string"};
 Aventus.Converter.register(Data.PushRecord.Fullname, Data.PushRecord);
-_.Data.PushRecord=Data.PushRecord;
+__as1(_.Data, 'PushRecord', Data.PushRecord);
 
 Components.FormValidator=class FormValidator {
     static async Test(validators, value, name, globalValidation) {
@@ -1324,13 +1325,14 @@ Components.FormValidator=class FormValidator {
     }
 }
 Components.FormValidator.Namespace=`Core.Components`;
-_.Components.FormValidator=Components.FormValidator;
+__as1(_.Components, 'FormValidator', Components.FormValidator);
 
-Components.Required=class Required extends Components.FormValidator {
+Components.Required=class Required extends _.Components.FormValidator {
     msg;
     constructor(msg) {
         super();
         this.msg = msg ?? "Le champs {name} est requis";
+        this.validate = this.validate.bind(this);
     }
     /**
      * @inheritdoc
@@ -1347,9 +1349,9 @@ Components.Required=class Required extends Components.FormValidator {
     }
 }
 Components.Required.Namespace=`Core.Components`;
-_.Components.Required=Components.Required;
+__as1(_.Components, 'Required', Components.Required);
 
-Components.Phone=class Phone extends Components.FormValidator {
+Components.Phone=class Phone extends _.Components.FormValidator {
     msg;
     constructor(msg) {
         super();
@@ -1369,7 +1371,7 @@ Components.Phone=class Phone extends Components.FormValidator {
     }
 }
 Components.Phone.Namespace=`Core.Components`;
-_.Components.Phone=Components.Phone;
+__as1(_.Components, 'Phone', Components.Phone);
 
 let Md5=class Md5 {
     static create(txt) {
@@ -1533,7 +1535,7 @@ let Md5=class Md5 {
     }
 }
 Md5.Namespace=`Core`;
-_.Md5=Md5;
+__as1(_, 'Md5', Md5);
 
 Lib.DateTools=class DateTools {
     static isSameDate(date1, date2) {
@@ -1707,7 +1709,7 @@ Lib.DateTools=class DateTools {
     }
 }
 Lib.DateTools.Namespace=`Core.Lib`;
-_.Lib.DateTools=Lib.DateTools;
+__as1(_.Lib, 'DateTools', Lib.DateTools);
 
 System.ApplicationBreakPoint=class ApplicationBreakPoint {
     static xs = 300;
@@ -1717,7 +1719,7 @@ System.ApplicationBreakPoint=class ApplicationBreakPoint {
     static xl = 1140;
 }
 System.ApplicationBreakPoint.Namespace=`Core.System`;
-_.System.ApplicationBreakPoint=System.ApplicationBreakPoint;
+__as1(_.System, 'ApplicationBreakPoint', System.ApplicationBreakPoint);
 
 Components.PwaPromptIos = class PwaPromptIos extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
@@ -1789,7 +1791,7 @@ Components.PwaPromptIos = class PwaPromptIos extends Aventus.WebComponent {
 }
 Components.PwaPromptIos.Namespace=`Core.Components`;
 Components.PwaPromptIos.Tag=`rk-pwa-prompt-ios`;
-_.Components.PwaPromptIos=Components.PwaPromptIos;
+__as1(_.Components, 'PwaPromptIos', Components.PwaPromptIos);
 if(!window.customElements.get('rk-pwa-prompt-ios')){window.customElements.define('rk-pwa-prompt-ios', Components.PwaPromptIos);Aventus.WebComponentInstance.registerDefinition(Components.PwaPromptIos);}
 
 Lib.DateConverter=class DateConverter extends Aventus.DateConverter {
@@ -1811,7 +1813,7 @@ Lib.DateConverter=class DateConverter extends Aventus.DateConverter {
     }
 }
 Lib.DateConverter.Namespace=`Core.Lib`;
-_.Lib.DateConverter=Lib.DateConverter;
+__as1(_.Lib, 'DateConverter', Lib.DateConverter);
 
 Lib.Pointer=class Pointer {
     static isTouch(e) {
@@ -1825,7 +1827,7 @@ Lib.Pointer=class Pointer {
     }
 }
 Lib.Pointer.Namespace=`Core.Lib`;
-_.Lib.Pointer=Lib.Pointer;
+__as1(_.Lib, 'Pointer', Lib.Pointer);
 
 Lib.Geometry=class Geometry {
     static getIntersectingRectangle(rect1, rect2) {
@@ -1851,7 +1853,7 @@ Lib.Geometry=class Geometry {
     }
 }
 Lib.Geometry.Namespace=`Core.Lib`;
-_.Lib.Geometry=Lib.Geometry;
+__as1(_.Lib, 'Geometry', Lib.Geometry);
 
 Websocket.Routes.DesktopRouter_RemoveDesktopIcon=class DesktopRouter_RemoveDesktopIcon extends AventusSharp.WebSocket.WsEvent {
     /**
@@ -1868,7 +1870,7 @@ Websocket.Routes.DesktopRouter_RemoveDesktopIcon=class DesktopRouter_RemoveDeskt
     }
 }
 Websocket.Routes.DesktopRouter_RemoveDesktopIcon.Namespace=`Core.Websocket.Routes`;
-_.Websocket.Routes.DesktopRouter_RemoveDesktopIcon=Websocket.Routes.DesktopRouter_RemoveDesktopIcon;
+__as1(_.Websocket.Routes, 'DesktopRouter_RemoveDesktopIcon', Websocket.Routes.DesktopRouter_RemoveDesktopIcon);
 
 Lib.ApplicationStateManager=class ApplicationStateManager extends Aventus.StateManager {
     application;
@@ -1892,7 +1894,7 @@ Lib.ApplicationStateManager=class ApplicationStateManager extends Aventus.StateM
     }
 }
 Lib.ApplicationStateManager.Namespace=`Core.Lib`;
-_.Lib.ApplicationStateManager=Lib.ApplicationStateManager;
+__as1(_.Lib, 'ApplicationStateManager', Lib.ApplicationStateManager);
 
 let Style=class Style {
     colors = ['green', 'success', 'red', 'error', 'orange', 'warning', 'blue', 'information', 'primary', 'secondary'];
@@ -1909,13 +1911,23 @@ let Style=class Style {
         }
         return result;
     }
-    static lockVariable(el, prop) {
-        let computed = getComputedStyle(el);
-        el.style.setProperty(prop, computed.getPropertyValue(prop.replace("--", "--_")));
+    static lockVariable(el, prop, source) {
+        if (!source) {
+            source = el;
+        }
+        const computed = getComputedStyle(source);
+        let value = computed.getPropertyValue(prop.replace("--", "--_"));
+        if (!value) {
+            value = computed.getPropertyValue(prop);
+        }
+        el.style.setProperty(prop, value);
+    }
+    static unlockVariable(el, prop) {
+        el.style.removeProperty(prop);
     }
 }
 Style.Namespace=`Core`;
-_.Style=Style;
+__as1(_, 'Style', Style);
 
 Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -1959,7 +1971,7 @@ Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
 }
 Components.ButtonIcon.Namespace=`Core.Components`;
 Components.ButtonIcon.Tag=`rk-button-icon`;
-_.Components.ButtonIcon=Components.ButtonIcon;
+__as1(_.Components, 'ButtonIcon', Components.ButtonIcon);
 if(!window.customElements.get('rk-button-icon')){window.customElements.define('rk-button-icon', Components.ButtonIcon);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIcon);}
 
 Components.ButtonIconMi = class ButtonIconMi extends Components.ButtonIcon {
@@ -1998,7 +2010,7 @@ Components.ButtonIconMi = class ButtonIconMi extends Components.ButtonIcon {
 }
 Components.ButtonIconMi.Namespace=`Core.Components`;
 Components.ButtonIconMi.Tag=`rk-button-icon-mi`;
-_.Components.ButtonIconMi=Components.ButtonIconMi;
+__as1(_.Components, 'ButtonIconMi', Components.ButtonIconMi);
 if(!window.customElements.get('rk-button-icon-mi')){window.customElements.define('rk-button-icon-mi', Components.ButtonIconMi);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIconMi);}
 
 (function (ResizeDirection) {
@@ -2011,7 +2023,7 @@ if(!window.customElements.get('rk-button-icon-mi')){window.customElements.define
     ResizeDirection[ResizeDirection["Right"] = 6] = "Right";
     ResizeDirection[ResizeDirection["TopRight"] = 7] = "TopRight";
 })(Components.ResizeDirection || (Components.ResizeDirection = {}));
-_.Components.ResizeDirection=Components.ResizeDirection;
+__as1(_.Components, 'ResizeDirection', Components.ResizeDirection);
 
 (function (LoginCode) {
     LoginCode[LoginCode["OK"] = 0] = "OK";
@@ -2019,7 +2031,7 @@ _.Components.ResizeDirection=Components.ResizeDirection;
     LoginCode[LoginCode["Unknown"] = 2] = "Unknown";
     LoginCode[LoginCode["NotConnected"] = 3] = "NotConnected";
 })(Errors.LoginCode || (Errors.LoginCode = {}));
-_.Errors.LoginCode=Errors.LoginCode;
+__as1(_.Errors, 'LoginCode', Errors.LoginCode);
 
 Errors.LoginError=class LoginError extends Aventus.GenericError {
     static get Fullname() { return "Core.Logic.LoginError, Core"; }
@@ -2027,12 +2039,12 @@ Errors.LoginError=class LoginError extends Aventus.GenericError {
 Errors.LoginError.Namespace=`Core.Errors`;
 Errors.LoginError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.LoginError.Fullname, Errors.LoginError);
-_.Errors.LoginError=Errors.LoginError;
+__as1(_.Errors, 'LoginError', Errors.LoginError);
 
 Lib.HttpRouter=class HttpRouter extends Aventus.HttpRouter {
 }
 Lib.HttpRouter.Namespace=`Core.Lib`;
-_.Lib.HttpRouter=Lib.HttpRouter;
+__as1(_.Lib, 'HttpRouter', Lib.HttpRouter);
 
 (function (CoreErrorCode) {
     CoreErrorCode[CoreErrorCode["NotImplemented"] = 0] = "NotImplemented";
@@ -2046,7 +2058,7 @@ _.Lib.HttpRouter=Lib.HttpRouter;
     CoreErrorCode[CoreErrorCode["UnknowError"] = 8] = "UnknowError";
     CoreErrorCode[CoreErrorCode["TransactionGuidMissmatch"] = 9] = "TransactionGuidMissmatch";
 })(Errors.CoreErrorCode || (Errors.CoreErrorCode = {}));
-_.Errors.CoreErrorCode=Errors.CoreErrorCode;
+__as1(_.Errors, 'CoreErrorCode', Errors.CoreErrorCode);
 
 Websocket.MainEndPoint=class MainEndPoint extends AventusSharp.WebSocket.EndPoint {
     /**
@@ -2060,7 +2072,7 @@ Websocket.MainEndPoint=class MainEndPoint extends AventusSharp.WebSocket.EndPoin
     }
 }
 Websocket.MainEndPoint.Namespace=`Core.Websocket`;
-_.Websocket.MainEndPoint=Websocket.MainEndPoint;
+__as1(_.Websocket, 'MainEndPoint', Websocket.MainEndPoint);
 
 _n = Websocket.Events.ApplicationTestEvent;
 Websocket.Events.ApplicationTestEvent=class ApplicationTestEvent extends AventusSharp.WebSocket.WsEvent {
@@ -2071,11 +2083,11 @@ Websocket.Events.ApplicationTestEvent=class ApplicationTestEvent extends Aventus
         return `${this.getPrefix()}Core.Websocket.Events.ApplicationTestEvent`;
     }
     constructor(endpoint, getPrefix) {
-        super(endpoint ?? Websocket.MainEndPoint.getInstance(), getPrefix);
+        super(endpoint ?? _.Websocket.MainEndPoint.getInstance(), getPrefix);
     }
 }
 Websocket.Events.ApplicationTestEvent.Namespace=`Core.Websocket.Events`;
-_.Websocket.Events.ApplicationTestEvent=Websocket.Events.ApplicationTestEvent;
+__as1(_.Websocket.Events, 'ApplicationTestEvent', Websocket.Events.ApplicationTestEvent);
 
 Object.assign(Websocket.Events.ApplicationTestEvent, _n);
 
@@ -2092,7 +2104,7 @@ Permissions.Tree.PermissionTreeItem=class PermissionTreeItem extends AventusShar
 Permissions.Tree.PermissionTreeItem.Namespace=`Core.Permissions.Tree`;
 Permissions.Tree.PermissionTreeItem.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "DisplayName":"string","Description":"string","EnumName":"string","Value":"Aventus.Enum","PermissionId":"number","Position":"number","Permissions":"PermissionTreeItem[]"};
 Aventus.Converter.register(Permissions.Tree.PermissionTreeItem.Fullname, Permissions.Tree.PermissionTreeItem);
-_.Permissions.Tree.PermissionTreeItem=Permissions.Tree.PermissionTreeItem;
+__as1(_.Permissions.Tree, 'PermissionTreeItem', Permissions.Tree.PermissionTreeItem);
 
 Data.Permission=class Permission extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Permission, Core"; }
@@ -2103,10 +2115,11 @@ Data.Permission=class Permission extends AventusSharp.Data.Storable {
 Data.Permission.Namespace=`Core.Data`;
 Data.Permission.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "EnumName":"string","AdditionalInfo":"string","EnumValue":"Aventus.Enum"};
 Aventus.Converter.register(Data.Permission.Fullname, Data.Permission);
-_.Data.Permission=Data.Permission;
+__as1(_.Data, 'Permission', Data.Permission);
 
 Data.PermissionUser=class PermissionUser extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.PermissionUser, Core"; }
+    _;
     Data;
     Permission;
     UserId;
@@ -2115,10 +2128,11 @@ Data.PermissionUser=class PermissionUser extends AventusSharp.Data.Storable {
 Data.PermissionUser.Namespace=`Core.Data`;
 Data.PermissionUser.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":"Core.Data.Permission","UserId":"number","Allow":"boolean"};
 Aventus.Converter.register(Data.PermissionUser.Fullname, Data.PermissionUser);
-_.Data.PermissionUser=Data.PermissionUser;
+__as1(_.Data, 'PermissionUser', Data.PermissionUser);
 
 Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.PermissionGroup, Core"; }
+    _;
     Data;
     Permission;
     GroupId;
@@ -2126,7 +2140,7 @@ Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
 Data.PermissionGroup.Namespace=`Core.Data`;
 Data.PermissionGroup.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Permission":"Core.Data.Permission","GroupId":"number"};
 Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
-_.Data.PermissionGroup=Data.PermissionGroup;
+__as1(_.Data, 'PermissionGroup', Data.PermissionGroup);
 
 Routes.Responses.LoginResult=class LoginResult extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Routes.Responses.LoginResult, Core"; }
@@ -2136,12 +2150,12 @@ Routes.Responses.LoginResult=class LoginResult extends AventusSharp.Data.SharpCl
 Routes.Responses.LoginResult.Namespace=`Core.Routes.Responses`;
 Routes.Responses.LoginResult.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "Success":"boolean","QuickAccess":"string"};
 Aventus.Converter.register(Routes.Responses.LoginResult.Fullname, Routes.Responses.LoginResult);
-_.Routes.Responses.LoginResult=Routes.Responses.LoginResult;
+__as1(_.Routes.Responses, 'LoginResult', Routes.Responses.LoginResult);
 
 (function (ApplicationPermission) {
     ApplicationPermission[ApplicationPermission["AllowAccess"] = 0] = "AllowAccess";
 })(Permissions.ApplicationPermission || (Permissions.ApplicationPermission = {}));
-_.Permissions.ApplicationPermission=Permissions.ApplicationPermission;
+__as1(_.Permissions, 'ApplicationPermission', Permissions.ApplicationPermission);
 
 Data.Recent=class Recent extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Recent, Core"; }
@@ -2154,7 +2168,7 @@ Data.Recent=class Recent extends AventusSharp.Data.Storable {
 Data.Recent.Namespace=`Core.Data`;
 Data.Recent.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","TagName":"string","State":"string","UserId":"number","Datetime":"AventusSharp.Data.Datetime"};
 Aventus.Converter.register(Data.Recent.Fullname, Data.Recent);
-_.Data.Recent=Data.Recent;
+__as1(_.Data, 'Recent', Data.Recent);
 
 Websocket.Routes.RecentRouter_Save=class RecentRouter_Save extends AventusSharp.WebSocket.WsEvent {
     StorableName;
@@ -2170,7 +2184,7 @@ Websocket.Routes.RecentRouter_Save=class RecentRouter_Save extends AventusSharp.
     }
 }
 Websocket.Routes.RecentRouter_Save.Namespace=`Core.Websocket.Routes`;
-_.Websocket.Routes.RecentRouter_Save=Websocket.Routes.RecentRouter_Save;
+__as1(_.Websocket.Routes, 'RecentRouter_Save', Websocket.Routes.RecentRouter_Save);
 
 Components.Tracker=class Tracker {
     velocityMultiplier = window.devicePixelRatio;
@@ -2210,7 +2224,7 @@ Components.Tracker=class Tracker {
     }
 }
 Components.Tracker.Namespace=`Core.Components`;
-_.Components.Tracker=Components.Tracker;
+__as1(_.Components, 'Tracker', Components.Tracker);
 
 System.Panel = class Panel extends Aventus.WebComponent {
     static __style = `:host{background-color:var(--primary-color-opacity);border-radius:var(--border-radius)}@media screen and (max-width: 768px){:host{background-color:var(--primary-color)}}@media screen and (max-width: 1224px){:host{border-radius:0px}}`;
@@ -2234,13 +2248,13 @@ System.Panel = class Panel extends Aventus.WebComponent {
 }
 System.Panel.Namespace=`Core.System`;
 System.Panel.Tag=`rk-panel`;
-_.System.Panel=System.Panel;
+__as1(_.System, 'Panel', System.Panel);
 if(!window.customElements.get('rk-panel')){window.customElements.define('rk-panel', System.Panel);Aventus.WebComponentInstance.registerDefinition(System.Panel);}
 
 (function (DesktopPermission) {
     DesktopPermission[DesktopPermission["CanHaveVirtualDesktop"] = 0] = "CanHaveVirtualDesktop";
 })(Permissions.DesktopPermission || (Permissions.DesktopPermission = {}));
-_.Permissions.DesktopPermission=Permissions.DesktopPermission;
+__as1(_.Permissions, 'DesktopPermission', Permissions.DesktopPermission);
 
 Permissions.PermissionMultiple=class PermissionMultiple extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Logic.PermissionMultiple, Core"; }
@@ -2250,7 +2264,7 @@ Permissions.PermissionMultiple=class PermissionMultiple extends AventusSharp.Dat
 Permissions.PermissionMultiple.Namespace=`Core.Permissions`;
 Permissions.PermissionMultiple.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "Query":"Core.Permissions.IPermissionQuery","Allow":"boolean"};
 Aventus.Converter.register(Permissions.PermissionMultiple.Fullname, Permissions.PermissionMultiple);
-_.Permissions.PermissionMultiple=Permissions.PermissionMultiple;
+__as1(_.Permissions, 'PermissionMultiple', Permissions.PermissionMultiple);
 
 System.DesktopActivableLogic=class DesktopActivableLogic {
     static findDeskstop(el, desktop) {
@@ -2271,7 +2285,7 @@ System.DesktopActivableLogic=class DesktopActivableLogic {
     }
 }
 System.DesktopActivableLogic.Namespace=`Core.System`;
-_.System.DesktopActivableLogic=System.DesktopActivableLogic;
+__as1(_.System, 'DesktopActivableLogic', System.DesktopActivableLogic);
 
 App.AppConfiguration=class AppConfiguration extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.App.AppConfiguration, Core"; }
@@ -2289,11 +2303,11 @@ Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter {
     }
 }
 Routes.CoreRouter.Namespace=`Core.Routes`;
-_.Routes.CoreRouter=Routes.CoreRouter;
+__as1(_.Routes, 'CoreRouter', Routes.CoreRouter);
 
 Routes.SystemInfoRouter=class SystemInfoRouter extends Aventus.HttpRoute {
     constructor(router) {
-        super(router ?? new Routes.CoreRouter());
+        super(router ?? new _.Routes.CoreRouter());
         this.GetSystemInfo = this.GetSystemInfo.bind(this);
     }
     async GetSystemInfo() {
@@ -2302,11 +2316,11 @@ Routes.SystemInfoRouter=class SystemInfoRouter extends Aventus.HttpRoute {
     }
 }
 Routes.SystemInfoRouter.Namespace=`Core.Routes`;
-_.Routes.SystemInfoRouter=Routes.SystemInfoRouter;
+__as1(_.Routes, 'SystemInfoRouter', Routes.SystemInfoRouter);
 
 Routes.PermissionUserRouter=class PermissionUserRouter extends Aventus.HttpRoute {
     constructor(router) {
-        super(router ?? new Routes.CoreRouter());
+        super(router ?? new _.Routes.CoreRouter());
         this.GetAllByUser = this.GetAllByUser.bind(this);
         this.EditPermission = this.EditPermission.bind(this);
         this.HasPermission = this.HasPermission.bind(this);
@@ -2328,11 +2342,11 @@ Routes.PermissionUserRouter=class PermissionUserRouter extends Aventus.HttpRoute
     }
 }
 Routes.PermissionUserRouter.Namespace=`Core.Routes`;
-_.Routes.PermissionUserRouter=Routes.PermissionUserRouter;
+__as1(_.Routes, 'PermissionUserRouter', Routes.PermissionUserRouter);
 
 Routes.PermissionGroupRouter=class PermissionGroupRouter extends Aventus.HttpRoute {
     constructor(router) {
-        super(router ?? new Routes.CoreRouter());
+        super(router ?? new _.Routes.CoreRouter());
         this.GetAllByGroup = this.GetAllByGroup.bind(this);
         this.EditPermission = this.EditPermission.bind(this);
         this.HasPermission = this.HasPermission.bind(this);
@@ -2354,11 +2368,11 @@ Routes.PermissionGroupRouter=class PermissionGroupRouter extends Aventus.HttpRou
     }
 }
 Routes.PermissionGroupRouter.Namespace=`Core.Routes`;
-_.Routes.PermissionGroupRouter=Routes.PermissionGroupRouter;
+__as1(_.Routes, 'PermissionGroupRouter', Routes.PermissionGroupRouter);
 
 Routes.PdfRouter=class PdfRouter extends Aventus.HttpRoute {
     constructor(router) {
-        super(router ?? new Routes.CoreRouter());
+        super(router ?? new _.Routes.CoreRouter());
         this.Generate = this.Generate.bind(this);
         this.Build = this.Build.bind(this);
     }
@@ -2374,12 +2388,12 @@ Routes.PdfRouter=class PdfRouter extends Aventus.HttpRoute {
     }
 }
 Routes.PdfRouter.Namespace=`Core.Routes`;
-_.Routes.PdfRouter=Routes.PdfRouter;
+__as1(_.Routes, 'PdfRouter', Routes.PdfRouter);
 
 Routes.PushRecordRouter=class PushRecordRouter extends Aventus.HttpRoute {
     getPrefix() { return "/push"; }
     constructor(router) {
-        super(router ?? new Routes.CoreRouter());
+        super(router ?? new _.Routes.CoreRouter());
         this.Get = this.Get.bind(this);
         this.CreateOrUpdate = this.CreateOrUpdate.bind(this);
         this.Destroy = this.Destroy.bind(this);
@@ -2401,11 +2415,11 @@ Routes.PushRecordRouter=class PushRecordRouter extends Aventus.HttpRoute {
     }
 }
 Routes.PushRecordRouter.Namespace=`Core.Routes`;
-_.Routes.PushRecordRouter=Routes.PushRecordRouter;
+__as1(_.Routes, 'PushRecordRouter', Routes.PushRecordRouter);
 
 Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
     constructor(router) {
-        super(router ?? new Routes.CoreRouter());
+        super(router ?? new _.Routes.CoreRouter());
         this.VapidPublicKey = this.VapidPublicKey.bind(this);
         this.SendNotification = this.SendNotification.bind(this);
         this.BeginTransaction = this.BeginTransaction.bind(this);
@@ -2442,7 +2456,7 @@ Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
     }
 }
 Routes.MainRouter.Namespace=`Core.Routes`;
-_.Routes.MainRouter=Routes.MainRouter;
+__as1(_.Routes, 'MainRouter', Routes.MainRouter);
 
 Data.ApplicationData=class ApplicationData extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.ApplicationData, Core"; }
@@ -2456,7 +2470,7 @@ Data.ApplicationData=class ApplicationData extends AventusSharp.Data.Storable {
 Data.ApplicationData.Namespace=`Core.Data`;
 Data.ApplicationData.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","DisplayName":"string","Version":"number","LogoClassName":"string","LogoTagName":"string","Extension":"string"};
 Aventus.Converter.register(Data.ApplicationData.Fullname, Data.ApplicationData);
-_.Data.ApplicationData=Data.ApplicationData;
+__as1(_.Data, 'ApplicationData', Data.ApplicationData);
 
 Components.PageCaseContainer = class PageCaseContainer extends Aventus.WebComponent {
     static __style = `:host{display:block;float:left;height:100%;box-sizing:border-box;border-right:5px #000}`;
@@ -2480,7 +2494,7 @@ Components.PageCaseContainer = class PageCaseContainer extends Aventus.WebCompon
 }
 Components.PageCaseContainer.Namespace=`Core.Components`;
 Components.PageCaseContainer.Tag=`rk-page-case-container`;
-_.Components.PageCaseContainer=Components.PageCaseContainer;
+__as1(_.Components, 'PageCaseContainer', Components.PageCaseContainer);
 if(!window.customElements.get('rk-page-case-container')){window.customElements.define('rk-page-case-container', Components.PageCaseContainer);Aventus.WebComponentInstance.registerDefinition(Components.PageCaseContainer);}
 
 Components.PageCaseSlot = class PageCaseSlot extends Aventus.WebComponent {
@@ -2509,7 +2523,7 @@ Components.PageCaseSlot = class PageCaseSlot extends Aventus.WebComponent {
 }
 Components.PageCaseSlot.Namespace=`Core.Components`;
 Components.PageCaseSlot.Tag=`rk-page-case-slot`;
-_.Components.PageCaseSlot=Components.PageCaseSlot;
+__as1(_.Components, 'PageCaseSlot', Components.PageCaseSlot);
 if(!window.customElements.get('rk-page-case-slot')){window.customElements.define('rk-page-case-slot', Components.PageCaseSlot);Aventus.WebComponentInstance.registerDefinition(Components.PageCaseSlot);}
 
 Data.ApplicationOpen=class ApplicationOpen extends AventusSharp.Data.SharpClass {
@@ -2523,7 +2537,7 @@ Data.ApplicationOpen=class ApplicationOpen extends AventusSharp.Data.SharpClass 
 Data.ApplicationOpen.Namespace=`Core.Data`;
 Data.ApplicationOpen.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "id":"string","applicationName":"string","number":"number","history":"string","isHidden":"boolean"};
 Aventus.Converter.register(Data.ApplicationOpen.Fullname, Data.ApplicationOpen);
-_.Data.ApplicationOpen=Data.ApplicationOpen;
+__as1(_.Data, 'ApplicationOpen', Data.ApplicationOpen);
 
 Data.ApplicationOpenInfo=class ApplicationOpenInfo extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.ApplicationOpenInfo, Core"; }
@@ -2533,7 +2547,7 @@ Data.ApplicationOpenInfo=class ApplicationOpenInfo extends AventusSharp.Data.Sha
 Data.ApplicationOpenInfo.Namespace=`Core.Data`;
 Data.ApplicationOpenInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "DesktopId":"number","Info":"ApplicationOpen"};
 Aventus.Converter.register(Data.ApplicationOpenInfo.Fullname, Data.ApplicationOpenInfo);
-_.Data.ApplicationOpenInfo=Data.ApplicationOpenInfo;
+__as1(_.Data, 'ApplicationOpenInfo', Data.ApplicationOpenInfo);
 
 Websocket.Routes.DesktopRouter_RemoveApp=class DesktopRouter_RemoveApp extends AventusSharp.WebSocket.WsEvent {
     /**
@@ -2550,7 +2564,7 @@ Websocket.Routes.DesktopRouter_RemoveApp=class DesktopRouter_RemoveApp extends A
     }
 }
 Websocket.Routes.DesktopRouter_RemoveApp.Namespace=`Core.Websocket.Routes`;
-_.Websocket.Routes.DesktopRouter_RemoveApp=Websocket.Routes.DesktopRouter_RemoveApp;
+__as1(_.Websocket.Routes, 'DesktopRouter_RemoveApp', Websocket.Routes.DesktopRouter_RemoveApp);
 
 Websocket.Routes.DesktopRouter_RegisterOpenApp=class DesktopRouter_RegisterOpenApp extends AventusSharp.WebSocket.WsEvent {
     /**
@@ -2567,26 +2581,26 @@ Websocket.Routes.DesktopRouter_RegisterOpenApp=class DesktopRouter_RegisterOpenA
     }
 }
 Websocket.Routes.DesktopRouter_RegisterOpenApp.Namespace=`Core.Websocket.Routes`;
-_.Websocket.Routes.DesktopRouter_RegisterOpenApp=Websocket.Routes.DesktopRouter_RegisterOpenApp;
+__as1(_.Websocket.Routes, 'DesktopRouter_RegisterOpenApp', Websocket.Routes.DesktopRouter_RegisterOpenApp);
 
 (function (DesktopLocation) {
     DesktopLocation[DesktopLocation["Desktop"] = 0] = "Desktop";
     DesktopLocation[DesktopLocation["BottomBar"] = 1] = "BottomBar";
     DesktopLocation[DesktopLocation["HomeFav"] = 2] = "HomeFav";
 })(Data.DesktopLocation || (Data.DesktopLocation = {}));
-_.Data.DesktopLocation=Data.DesktopLocation;
+__as1(_.Data, 'DesktopLocation', Data.DesktopLocation);
 
 (function (BackgroundSize) {
     BackgroundSize[BackgroundSize["Cover"] = 0] = "Cover";
     BackgroundSize[BackgroundSize["Contain"] = 1] = "Contain";
     BackgroundSize[BackgroundSize["Stretch"] = 2] = "Stretch";
 })(Data.BackgroundSize || (Data.BackgroundSize = {}));
-_.Data.BackgroundSize=Data.BackgroundSize;
+__as1(_.Data, 'BackgroundSize', Data.BackgroundSize);
 
 Data.DataTypes.RayukiFile=class RayukiFile extends AventusSharp.Data.CustomTableMembers.AventusFile {
 }
 Data.DataTypes.RayukiFile.Namespace=`Core.Data.DataTypes`;
-_.Data.DataTypes.RayukiFile=Data.DataTypes.RayukiFile;
+__as1(_.Data.DataTypes, 'RayukiFile', Data.DataTypes.RayukiFile);
 
 State.DesktopStateManager=class DesktopStateManager extends Aventus.StateManager {
     /**
@@ -2597,7 +2611,7 @@ State.DesktopStateManager=class DesktopStateManager extends Aventus.StateManager
     }
 }
 State.DesktopStateManager.Namespace=`Core.State`;
-_.State.DesktopStateManager=State.DesktopStateManager;
+__as1(_.State, 'DesktopStateManager', State.DesktopStateManager);
 
 (function (SpecialTouch) {
     SpecialTouch[SpecialTouch["Backspace"] = 0] = "Backspace";
@@ -2619,7 +2633,7 @@ _.State.DesktopStateManager=State.DesktopStateManager;
     SpecialTouch[SpecialTouch["ArrowDown"] = 16] = "ArrowDown";
     SpecialTouch[SpecialTouch["Enter"] = 17] = "Enter";
 })(Lib.SpecialTouch || (Lib.SpecialTouch = {}));
-_.Lib.SpecialTouch=Lib.SpecialTouch;
+__as1(_.Lib, 'SpecialTouch', Lib.SpecialTouch);
 
 System.PopupShortcutHelperKey = class PopupShortcutHelperKey extends Aventus.WebComponent {
     get 'is_cmd'() { return this.getBoolAttr('is_cmd') }
@@ -2688,7 +2702,7 @@ System.PopupShortcutHelperKey = class PopupShortcutHelperKey extends Aventus.Web
 }
 System.PopupShortcutHelperKey.Namespace=`Core.System`;
 System.PopupShortcutHelperKey.Tag=`rk-popup-shortcut-helper-key`;
-_.System.PopupShortcutHelperKey=System.PopupShortcutHelperKey;
+__as1(_.System, 'PopupShortcutHelperKey', System.PopupShortcutHelperKey);
 if(!window.customElements.get('rk-popup-shortcut-helper-key')){window.customElements.define('rk-popup-shortcut-helper-key', System.PopupShortcutHelperKey);Aventus.WebComponentInstance.registerDefinition(System.PopupShortcutHelperKey);}
 
 Components.ContextMenuSeparator = class ContextMenuSeparator extends Aventus.WebComponent {
@@ -2716,7 +2730,7 @@ Components.ContextMenuSeparator = class ContextMenuSeparator extends Aventus.Web
 }
 Components.ContextMenuSeparator.Namespace=`Core.Components`;
 Components.ContextMenuSeparator.Tag=`rk-context-menu-separator`;
-_.Components.ContextMenuSeparator=Components.ContextMenuSeparator;
+__as1(_.Components, 'ContextMenuSeparator', Components.ContextMenuSeparator);
 if(!window.customElements.get('rk-context-menu-separator')){window.customElements.define('rk-context-menu-separator', Components.ContextMenuSeparator);Aventus.WebComponentInstance.registerDefinition(Components.ContextMenuSeparator);}
 
 Components.Collapse = class Collapse extends Aventus.WebComponent {
@@ -2771,7 +2785,7 @@ Components.Collapse = class Collapse extends Aventus.WebComponent {
 }
 Components.Collapse.Namespace=`Core.Components`;
 Components.Collapse.Tag=`rk-collapse`;
-_.Components.Collapse=Components.Collapse;
+__as1(_.Components, 'Collapse', Components.Collapse);
 if(!window.customElements.get('rk-collapse')){window.customElements.define('rk-collapse', Components.Collapse);Aventus.WebComponentInstance.registerDefinition(Components.Collapse);}
 
 Components.ContextMenuItem = class ContextMenuItem extends Aventus.WebComponent {
@@ -2783,7 +2797,10 @@ Components.ContextMenuItem = class ContextMenuItem extends Aventus.WebComponent 
     menu;
     canBeRendered = () => true;
     static __style = `:host{align-items:center;border-radius:var(--border-radius-sm);cursor:pointer;display:flex;font-size:var(--font-size);margin:0 5px;padding:5px 10px;-webkit-tap-highlight-color:rgba(0,0,0,0);transition:background-color .2s linear}:host .title{margin-left:30px}:host .icon{display:none;font-size:var(--font-size-sm);margin-right:10px;width:20px}:host([icon]) .title{margin-left:0px}:host([icon]) .icon{display:inline-block}@media screen and (min-width: 1225px){:host{font-size:var(--font-size)}:host .icon{font-size:var(--font-size)}:host(:hover){background-color:var(--darker)}}`;
-    constructor() { super(); this.onPress=this.onPress.bind(this) }
+    constructor() {
+        super();
+        this.onPress = this.onPress.bind(this);
+    }
     __getStatic() {
         return ContextMenuItem;
     }
@@ -2835,7 +2852,7 @@ Components.ContextMenuItem = class ContextMenuItem extends Aventus.WebComponent 
 }
 Components.ContextMenuItem.Namespace=`Core.Components`;
 Components.ContextMenuItem.Tag=`rk-context-menu-item`;
-_.Components.ContextMenuItem=Components.ContextMenuItem;
+__as1(_.Components, 'ContextMenuItem', Components.ContextMenuItem);
 if(!window.customElements.get('rk-context-menu-item')){window.customElements.define('rk-context-menu-item', Components.ContextMenuItem);Aventus.WebComponentInstance.registerDefinition(Components.ContextMenuItem);}
 
 Components.ContextMenu = class ContextMenu extends Aventus.WebComponent {
@@ -2911,7 +2928,7 @@ Components.ContextMenu = class ContextMenu extends Aventus.WebComponent {
             }
         }
         // remove first separator
-        if (this._items[0] instanceof Components.ContextMenuSeparator) {
+        if (this._items[0] instanceof _.Components.ContextMenuSeparator) {
             this._items.splice(0, 1);
             if (this._items.length == 0) {
                 return;
@@ -2919,7 +2936,7 @@ Components.ContextMenu = class ContextMenu extends Aventus.WebComponent {
         }
         // remove last separator
         let lastIndex = this._items.length - 1;
-        if (this._items[lastIndex] instanceof Components.ContextMenuSeparator) {
+        if (this._items[lastIndex] instanceof _.Components.ContextMenuSeparator) {
             this._items.splice(lastIndex, 1);
             if (this._items.length == 0) {
                 return;
@@ -2990,8 +3007,8 @@ Components.ContextMenu = class ContextMenu extends Aventus.WebComponent {
     }
     addItem(item) {
         let converted;
-        if (!(item instanceof Components.ContextMenuItem)) {
-            let temp = new (item.type ?? Components.ContextMenuItem)();
+        if (!(item instanceof _.Components.ContextMenuItem)) {
+            let temp = new (item.type ?? _.Components.ContextMenuItem)();
             temp.priority = item.priority ?? 0;
             if (item.icon) {
                 temp.icon = item.icon;
@@ -3012,8 +3029,8 @@ Components.ContextMenu = class ContextMenu extends Aventus.WebComponent {
     }
     addSeparator(item) {
         let converted;
-        if (!(item instanceof Components.ContextMenuSeparator)) {
-            let temp = new Components.ContextMenuSeparator();
+        if (!(item instanceof _.Components.ContextMenuSeparator)) {
+            let temp = new _.Components.ContextMenuSeparator();
             temp.priority = item?.priority ?? 0;
             if (item?.canBeRendered)
                 temp.canBeRendered = item.canBeRendered;
@@ -3057,7 +3074,7 @@ Components.ContextMenu = class ContextMenu extends Aventus.WebComponent {
 }
 Components.ContextMenu.Namespace=`Core.Components`;
 Components.ContextMenu.Tag=`rk-context-menu`;
-_.Components.ContextMenu=Components.ContextMenu;
+__as1(_.Components, 'ContextMenu', Components.ContextMenu);
 if(!window.customElements.get('rk-context-menu')){window.customElements.define('rk-context-menu', Components.ContextMenu);Aventus.WebComponentInstance.registerDefinition(Components.ContextMenu);}
 
 System.Loading = class Loading extends Aventus.WebComponent {
@@ -3101,7 +3118,7 @@ System.Loading = class Loading extends Aventus.WebComponent {
 }
 System.Loading.Namespace=`Core.System`;
 System.Loading.Tag=`rk-loading`;
-_.System.Loading=System.Loading;
+__as1(_.System, 'Loading', System.Loading);
 if(!window.customElements.get('rk-loading')){window.customElements.define('rk-loading', System.Loading);Aventus.WebComponentInstance.registerDefinition(System.Loading);}
 
 Components.ContextMenuElement = class ContextMenuElement extends Aventus.WebComponent {
@@ -3128,7 +3145,7 @@ Components.ContextMenuElement = class ContextMenuElement extends Aventus.WebComp
 }
 Components.ContextMenuElement.Namespace=`Core.Components`;
 Components.ContextMenuElement.Tag=`rk-context-menu-element`;
-_.Components.ContextMenuElement=Components.ContextMenuElement;
+__as1(_.Components, 'ContextMenuElement', Components.ContextMenuElement);
 if(!window.customElements.get('rk-context-menu-element')){window.customElements.define('rk-context-menu-element', Components.ContextMenuElement);Aventus.WebComponentInstance.registerDefinition(Components.ContextMenuElement);}
 
 Lib.ShortcutManager=class ShortcutManager {
@@ -3311,7 +3328,7 @@ Lib.ShortcutManager=class ShortcutManager {
     }
 }
 Lib.ShortcutManager.Namespace=`Core.Lib`;
-_.Lib.ShortcutManager=Lib.ShortcutManager;
+__as1(_.Lib, 'ShortcutManager', Lib.ShortcutManager);
 
 State.MoveApplication=class MoveApplication extends Aventus.State {
     static state = "/application/move";
@@ -3338,7 +3355,7 @@ State.MoveApplication=class MoveApplication extends Aventus.State {
     }
     resetState() {
         Lib.ShortcutManager.unsubscribe([Lib.SpecialTouch.Escape], this.resetState);
-        State.DesktopStateManager.getInstance().setState("/");
+        _.State.DesktopStateManager.getInstance().setState("/");
     }
     async activate(manager) {
         let result = await super.activate(manager);
@@ -3399,44 +3416,44 @@ State.MoveApplication=class MoveApplication extends Aventus.State {
     }
 }
 State.MoveApplication.Namespace=`Core.State`;
-_.State.MoveApplication=State.MoveApplication;
+__as1(_.State, 'MoveApplication', State.MoveApplication);
 
-Data.DataTypes.ImageFile=class ImageFile extends Data.DataTypes.RayukiFile {
+Data.DataTypes.ImageFile=class ImageFile extends _.Data.DataTypes.RayukiFile {
 }
 Data.DataTypes.ImageFile.Namespace=`Core.Data.DataTypes`;
-_.Data.DataTypes.ImageFile=Data.DataTypes.ImageFile;
+__as1(_.Data.DataTypes, 'ImageFile', Data.DataTypes.ImageFile);
 
-Data.SsoLogo=class SsoLogo extends Data.DataTypes.ImageFile {
+Data.SsoLogo=class SsoLogo extends _.Data.DataTypes.ImageFile {
     static get Fullname() { return "Core.Data.SsoLogo, Core"; }
 }
 Data.SsoLogo.Namespace=`Core.Data`;
 Data.SsoLogo.$schema={...(Data.DataTypes.ImageFile?.$schema ?? {}), };
 Aventus.Converter.register(Data.SsoLogo.Fullname, Data.SsoLogo);
-_.Data.SsoLogo=Data.SsoLogo;
+__as1(_.Data, 'SsoLogo', Data.SsoLogo);
 
-Data.CompanyImage=class CompanyImage extends Data.DataTypes.ImageFile {
+Data.CompanyImage=class CompanyImage extends _.Data.DataTypes.ImageFile {
     static get Fullname() { return "Core.Data.CompanyImage, Core"; }
 }
 Data.CompanyImage.Namespace=`Core.Data`;
 Data.CompanyImage.$schema={...(Data.DataTypes.ImageFile?.$schema ?? {}), };
 Aventus.Converter.register(Data.CompanyImage.Fullname, Data.CompanyImage);
-_.Data.CompanyImage=Data.CompanyImage;
+__as1(_.Data, 'CompanyImage', Data.CompanyImage);
 
-Data.UserPicture=class UserPicture extends Data.DataTypes.ImageFile {
+Data.UserPicture=class UserPicture extends _.Data.DataTypes.ImageFile {
     static get Fullname() { return "Core.Data.UserPicture, Core"; }
 }
 Data.UserPicture.Namespace=`Core.Data`;
 Data.UserPicture.$schema={...(Data.DataTypes.ImageFile?.$schema ?? {}), };
 Aventus.Converter.register(Data.UserPicture.Fullname, Data.UserPicture);
-_.Data.UserPicture=Data.UserPicture;
+__as1(_.Data, 'UserPicture', Data.UserPicture);
 
-Data.DesktopBackground=class DesktopBackground extends Data.DataTypes.ImageFile {
+Data.DesktopBackground=class DesktopBackground extends _.Data.DataTypes.ImageFile {
     static get Fullname() { return "Core.Data.DesktopBackground, Core"; }
 }
 Data.DesktopBackground.Namespace=`Core.Data`;
 Data.DesktopBackground.$schema={...(Data.DataTypes.ImageFile?.$schema ?? {}), };
 Aventus.Converter.register(Data.DesktopBackground.Fullname, Data.DesktopBackground);
-_.Data.DesktopBackground=Data.DesktopBackground;
+__as1(_.Data, 'DesktopBackground', Data.DesktopBackground);
 
 Data.DekstopConfiguration=class DekstopConfiguration extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.DekstopConfiguration, Core"; }
@@ -3452,7 +3469,7 @@ Data.DekstopConfiguration=class DekstopConfiguration extends AventusSharp.Data.S
 Data.DekstopConfiguration.Namespace=`Core.Data`;
 Data.DekstopConfiguration.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Background":"DesktopBackground","BackgroundSize":"BackgroundSize","SyncDesktop":"boolean","SizeMobile":"number","SizeTablet":"number","SizeDesktop":"number","BackgroundColor":"string"};
 Aventus.Converter.register(Data.DekstopConfiguration.Fullname, Data.DekstopConfiguration);
-_.Data.DekstopConfiguration=Data.DekstopConfiguration;
+__as1(_.Data, 'DekstopConfiguration', Data.DekstopConfiguration);
 
 Data.DesktopAppIcon=class DesktopAppIcon extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.DesktopAppIcon, Core"; }
@@ -3464,7 +3481,7 @@ Data.DesktopAppIcon=class DesktopAppIcon extends AventusSharp.Data.Storable {
 Data.DesktopAppIcon.Namespace=`Core.Data`;
 Data.DesktopAppIcon.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Position":"number","DesktopId":"number","IconTag":"string","Location":"DesktopLocation"};
 Aventus.Converter.register(Data.DesktopAppIcon.Fullname, Data.DesktopAppIcon);
-_.Data.DesktopAppIcon=Data.DesktopAppIcon;
+__as1(_.Data, 'DesktopAppIcon', Data.DesktopAppIcon);
 
 Websocket.Routes.DesktopRouter_SetDesktopIcon=class DesktopRouter_SetDesktopIcon extends AventusSharp.WebSocket.WsEvent {
     /**
@@ -3481,7 +3498,7 @@ Websocket.Routes.DesktopRouter_SetDesktopIcon=class DesktopRouter_SetDesktopIcon
     }
 }
 Websocket.Routes.DesktopRouter_SetDesktopIcon.Namespace=`Core.Websocket.Routes`;
-_.Websocket.Routes.DesktopRouter_SetDesktopIcon=Websocket.Routes.DesktopRouter_SetDesktopIcon;
+__as1(_.Websocket.Routes, 'DesktopRouter_SetDesktopIcon', Websocket.Routes.DesktopRouter_SetDesktopIcon);
 
 Data.Desktop=class Desktop extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Desktop, Core"; }
@@ -3497,21 +3514,21 @@ Data.Desktop=class Desktop extends AventusSharp.Data.Storable {
 Data.Desktop.Namespace=`Core.Data`;
 Data.Desktop.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","_Token":"string","Token":"string","UserId":"number","_Configuration":"DekstopConfiguration","Configuration":"DekstopConfiguration","Icons":"DesktopAppIcon[]","Applications":"Core.Data.ApplicationOpen[]"};
 Aventus.Converter.register(Data.Desktop.Fullname, Data.Desktop);
-_.Data.Desktop=Data.Desktop;
+__as1(_.Data, 'Desktop', Data.Desktop);
 
-Data.DesktopClass= Data.Desktop;
-_.Data.DesktopClass=Data.DesktopClass;
+Data.DesktopClass= _.Data.Desktop;
+__as1(_.Data, 'DesktopClass', Data.DesktopClass);
 
 Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRouter {
     constructor(router) {
-        super(router ?? new Routes.CoreRouter());
+        super(router ?? new _.Routes.CoreRouter());
     }
     StorableName() {
         return "Desktop";
     }
 }
 Routes.DesktopRouter.Namespace=`Core.Routes`;
-_.Routes.DesktopRouter=Routes.DesktopRouter;
+__as1(_.Routes, 'DesktopRouter', Routes.DesktopRouter);
 
 Components.PageCase = class PageCase extends Aventus.WebComponent {
     static get observedAttributes() {return ["case_width", "case_height"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -3636,7 +3653,7 @@ Components.PageCase = class PageCase extends Aventus.WebComponent {
                 pageContainer.style.display = "";
             }
             else {
-                pageContainer = new Components.PageCaseContainer();
+                pageContainer = new _.Components.PageCaseContainer();
                 this.pageHider?.appendChild(pageContainer);
                 this.pagesEl.push(pageContainer);
             }
@@ -3658,7 +3675,7 @@ Components.PageCase = class PageCase extends Aventus.WebComponent {
                     el = this.casesEl[realCaseNumber];
                 }
                 else {
-                    el = new Components.PageCaseSlot();
+                    el = new _.Components.PageCaseSlot();
                     this.casesEl.push(el);
                 }
                 el.no = realPosition;
@@ -3853,12 +3870,12 @@ Components.PageCase = class PageCase extends Aventus.WebComponent {
 }
 Components.PageCase.Namespace=`Core.Components`;
 Components.PageCase.Tag=`rk-page-case`;
-_.Components.PageCase=Components.PageCase;
+__as1(_.Components, 'PageCase', Components.PageCase);
 if(!window.customElements.get('rk-page-case')){window.customElements.define('rk-page-case', Components.PageCase);Aventus.WebComponentInstance.registerDefinition(Components.PageCase);}
 
 Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
     constructor(router) {
-        super(router ?? new Routes.CoreRouter());
+        super(router ?? new _.Routes.CoreRouter());
         this.GetAll = this.GetAll.bind(this);
         this.ConfigureAppData = this.ConfigureAppData.bind(this);
         this.InstallDevApp = this.InstallDevApp.bind(this);
@@ -3896,7 +3913,7 @@ Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
     }
 }
 Routes.ApplicationRouter.Namespace=`Core.Routes`;
-_.Routes.ApplicationRouter=Routes.ApplicationRouter;
+__as1(_.Routes, 'ApplicationRouter', Routes.ApplicationRouter);
 
 RAM.ApplicationRAM=class ApplicationRAM extends Aventus.Ram {
     getAllDone = false;
@@ -3966,7 +3983,7 @@ RAM.ApplicationRAM=class ApplicationRAM extends Aventus.Ram {
     }
 }
 RAM.ApplicationRAM.Namespace=`Core.RAM`;
-_.RAM.ApplicationRAM=RAM.ApplicationRAM;
+__as1(_.RAM, 'ApplicationRAM', RAM.ApplicationRAM);
 
 System.AppList = class AppList extends Aventus.WebComponent {
     static get observedAttributes() {return ["show"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -3976,7 +3993,10 @@ System.AppList = class AppList extends Aventus.WebComponent {
     target.onShowChange();
 })); }
     static __style = `:host{--internal-app-list-case-border-radius: var(--app-list-case-border-radius, var(--app-icon-border-radius, 10px));--internal-app-list-case-border: var(--app-list-case-border, none);--internal-app-list-case-background-color: var(--app-list-case-background-color, transparent);--internal-app-list-case-border-selected: var(--app-list-case-border-selected, 2px solid red);--internal-app-list-case-background-color-selected: var(--app-list-case-background-color-selected, transparent)}:host{align-items:center;background-color:var(--lighter-active);display:flex;flex-direction:column;inset:0;position:absolute;top:100%;transition:top .5s var(--bezier-curve);z-index:5;height:100%}:host .search{align-items:center;display:flex;height:100px;justify-content:center;width:100%}:host .search input{background-color:var(--form-element-background);border:none;border-radius:var(--border-radius-round);box-shadow:var(--elevation-3);font-size:var(--form-element-font-size);line-height:var(--form-element-font-size);max-width:400px;outline:none;padding:10px 20px;width:calc(100% - 20px)}:host .app-list{--page-case-background: var(--internal-app-list-case-background-color);--page-case-background-active: var(--internal-app-list-case-background-color-selected);--page-case-border-active: var(--internal-app-list-case-border-selected);--page-case-border-radius: var(--internal-app-list-case-border-radius);flex-grow:1;max-width:1000px;width:100%;margin-top:50px}:host([show]){top:0}:host([no_transition]){transition:none}`;
-    constructor() { super(); this.closeAppList=this.closeAppList.bind(this) }
+    constructor() {
+        super();
+        this.closeAppList = this.closeAppList.bind(this);
+    }
     __getStatic() {
         return AppList;
     }
@@ -4007,7 +4027,7 @@ System.AppList = class AppList extends Aventus.WebComponent {
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('no_transition');this.__upgradeProperty('show'); }
     __listBoolProps() { return ["no_transition","show"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     closeAppList() {
-        System.Os.instance.show_application_list = false;
+        _.System.Os.instance.show_application_list = false;
     }
     onShowChange() {
         if (this.show) {
@@ -4055,7 +4075,7 @@ System.AppList = class AppList extends Aventus.WebComponent {
             onMove: (e, position) => {
                 if (position.y > 200) {
                     this.no_transition = false;
-                    System.Os.instance.show_application_list = false;
+                    _.System.Os.instance.show_application_list = false;
                     this.style.top = "";
                     this.style.left = "";
                     apply = false;
@@ -4075,7 +4095,7 @@ System.AppList = class AppList extends Aventus.WebComponent {
 }
 System.AppList.Namespace=`Core.System`;
 System.AppList.Tag=`rk-app-list`;
-_.System.AppList=System.AppList;
+__as1(_.System, 'AppList', System.AppList);
 if(!window.customElements.get('rk-app-list')){window.customElements.define('rk-app-list', System.AppList);Aventus.WebComponentInstance.registerDefinition(System.AppList);}
 
 Permissions.PermissionQuery=class PermissionQuery {
@@ -4089,15 +4109,15 @@ Permissions.PermissionQuery=class PermissionQuery {
     }
 }
 Permissions.PermissionQuery.Namespace=`Core.Permissions`;
-_.Permissions.PermissionQuery=Permissions.PermissionQuery;
+__as1(_.Permissions, 'PermissionQuery', Permissions.PermissionQuery);
 
-Permissions.DesktopPermissionQuery=class DesktopPermissionQuery extends Permissions.PermissionQuery {
+Permissions.DesktopPermissionQuery=class DesktopPermissionQuery extends _.Permissions.PermissionQuery {
     static get Fullname() { return "Core.Permissions.DesktopPermissionQuery, Core"; }
 }
 Permissions.DesktopPermissionQuery.Namespace=`Core.Permissions`;
 Permissions.DesktopPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
 Aventus.Converter.register(Permissions.DesktopPermissionQuery.Fullname, Permissions.DesktopPermissionQuery);
-_.Permissions.DesktopPermissionQuery=Permissions.DesktopPermissionQuery;
+__as1(_.Permissions, 'DesktopPermissionQuery', Permissions.DesktopPermissionQuery);
 
 Components.TouchRecord=class TouchRecord {
     _activeTouchID;
@@ -4231,7 +4251,7 @@ Components.TouchRecord=class TouchRecord {
     }
 }
 Components.TouchRecord.Namespace=`Core.Components`;
-_.Components.TouchRecord=Components.TouchRecord;
+__as1(_.Components, 'TouchRecord', Components.TouchRecord);
 
 Components.Scrollable = class Scrollable extends Aventus.WebComponent {
     static get observedAttributes() {return ["zoom"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -4335,7 +4355,18 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
     target.changeZoom();
 })); }
     static __style = `:host{--_scrollbar-container-color: var(--scrollbar-container-color, transparent);--_scrollbar-color: var(--scrollbar-color, #757575);--_scrollbar-active-color: var(--scrollbar-active-color, #858585);--_scrollbar-max-height: var(--scrollbar-max-height, 100%);--_scroller-width: var(--scroller-width, 6px);--_scroller-top: var(--scroller-top, 3px);--_scroller-bottom: var(--scroller-bottom, 3px);--_scroller-right: var(--scroller-right, 3px);--_scroller-left: var(--scroller-left, 3px);--_scrollbar-content-padding: var(--scrollbar-content-padding, 0);--_scrollbar-container-display: var(--scrollbar-container-display, inline-block)}:host{display:block;height:100%;min-height:inherit;min-width:inherit;overflow:hidden;position:relative;-webkit-user-drag:none;-khtml-user-drag:none;-moz-user-drag:none;-o-user-drag:none;width:100%}:host .scroll-main-container{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;position:relative;width:100%}:host .scroll-main-container .content-zoom{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;position:relative;transform-origin:0 0;width:100%;z-index:4}:host .scroll-main-container .content-zoom .content-hidder{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;overflow:hidden;position:relative;width:100%}:host .scroll-main-container .content-zoom .content-hidder .content-wrapper{display:var(--_scrollbar-container-display);height:100%;min-height:inherit;min-width:inherit;padding:var(--_scrollbar-content-padding);position:relative;width:100%}:host .scroll-main-container .scroller-wrapper .container-scroller{display:none;overflow:hidden;position:absolute;transition:transform .2s linear;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller{background-color:var(--_scrollbar-container-color);border-radius:var(--border-radius-sm)}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller .scroller{background-color:var(--_scrollbar-color);border-radius:var(--border-radius-sm);cursor:pointer;position:absolute;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .scroller.active{background-color:var(--_scrollbar-active-color)}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical{height:calc(100% - var(--_scroller-bottom)*2 - var(--_scroller-width));padding-left:var(--_scroller-left);right:var(--_scroller-right);top:var(--_scroller-bottom);transform:0;width:calc(var(--_scroller-width) + var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical.hide{transform:translateX(calc(var(--_scroller-width) + var(--_scroller-left)))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller .scroller{width:calc(100% - var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal{bottom:var(--_scroller-bottom);height:calc(var(--_scroller-width) + var(--_scroller-top));left:var(--_scroller-right);padding-top:var(--_scroller-top);transform:0;width:calc(100% - var(--_scroller-right)*2 - var(--_scroller-width))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal.hide{transform:translateY(calc(var(--_scroller-width) + var(--_scroller-top)))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller .scroller{height:calc(100% - var(--_scroller-top))}:host([y_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{height:auto}:host([x_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{width:auto}:host([y_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.vertical{display:block}:host([x_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.horizontal{display:block}:host([no_user_select]) .content-wrapper *{user-select:none}:host([no_user_select]) ::slotted{user-select:none}`;
-    constructor() {            super();            this.renderAnimation = this.createAnimation();            this.onWheel = this.onWheel.bind(this);            this.onTouchStart = this.onTouchStart.bind(this);            this.onTouchMovePointer = this.onTouchMovePointer.bind(this);            this.onTouchMove = this.onTouchMove.bind(this);            this.onTouchMovePointer = this.onTouchMovePointer.bind(this);            this.onTouchEnd = this.onTouchEnd.bind(this);            this.onTouchEndPointer = this.onTouchEndPointer.bind(this);            this.touchRecord = new Components.TouchRecord();        }
+    constructor() {
+        super();
+        this.renderAnimation = this.createAnimation();
+        this.onWheel = this.onWheel.bind(this);
+        this.onTouchStart = this.onTouchStart.bind(this);
+        this.onTouchMovePointer = this.onTouchMovePointer.bind(this);
+        this.onTouchMove = this.onTouchMove.bind(this);
+        this.onTouchMovePointer = this.onTouchMovePointer.bind(this);
+        this.onTouchEnd = this.onTouchEnd.bind(this);
+        this.onTouchEndPointer = this.onTouchEndPointer.bind(this);
+        this.touchRecord = new _.Components.TouchRecord();
+    }
     __getStatic() {
         return Scrollable;
     }
@@ -5098,7 +5129,7 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
 }
 Components.Scrollable.Namespace=`Core.Components`;
 Components.Scrollable.Tag=`rk-scrollable`;
-_.Components.Scrollable=Components.Scrollable;
+__as1(_.Components, 'Scrollable', Components.Scrollable);
 if(!window.customElements.get('rk-scrollable')){window.customElements.define('rk-scrollable', Components.Scrollable);Aventus.WebComponentInstance.registerDefinition(Components.Scrollable);}
 
 Components.Tabs = class Tabs extends Aventus.WebComponent {
@@ -5110,7 +5141,10 @@ Components.Tabs = class Tabs extends Aventus.WebComponent {
     activeHeader;
     elements = [];
     static __style = `:host{--_tabs-background-color: var(--tabs-background-color, #ffffff);--_tabs-header-background-color: var(--tabs-header-background-color, var(--darker-active, rgb(125, 125, 125)));--_tabs-header-background-color-active: var(--tabs-header-background-color-active, var(--_tabs-background-color));--_tabs-header-background-color-disabled: var(--tabs-header-background-color-disabled, var(--form-element-background-readonly));--_tabs-header-padding: var(--tabs-header-padding, 10px 10px);--_tabs-header-font-size: var(--tabs-header-font-size, calc(var(--font-size) * 0.855));--_tabs-body-padding: var(--tabs-body-padding, 10px 10px);--_tabs-spacing: var(--tabs-spacing, 5px);--_tabs-transition: var(--tabs-transition, background-color var(--bezier-curve) 0.2s);--_tabs-border-radius: var(--tabs-border-radius, var(--border-radius-sm, 0))}:host{display:flex;flex-direction:column;overflow:hidden;width:100%}:host .header .header-wrapper{align-items:center;display:flex;flex-direction:row;flex-wrap:nowrap;gap:var(--_tabs-spacing);padding-bottom:var(--_tabs-spacing)}:host .body{background-color:var(--_tabs-background-color);border-radius:var(--_tabs-border-radius);padding:var(--_tabs-body-padding);width:100%}:host([first_active]) .body{border-top-left-radius:0px}:host([last_active]) .body{border-top-right-radius:0px}:host([header_full_width]) .header .header-wrapper>*{flex-grow:1}`;
-    constructor() { super(); this.validateCorner=this.validateCorner.bind(this) }
+    constructor() {
+        super();
+        this.validateCorner = this.validateCorner.bind(this);
+    }
     __getStatic() {
         return Tabs;
     }
@@ -5167,7 +5201,7 @@ Components.Tabs = class Tabs extends Aventus.WebComponent {
         let first = null;
         for (let element of elements) {
             element.style.display = 'none';
-            if (element instanceof Components.Tab) {
+            if (element instanceof _.Components.Tab) {
                 this.tabs[element.label] = element;
                 let header = new (this.defineTabHeader())();
                 this.headerEl.appendChild(header);
@@ -5197,7 +5231,7 @@ Components.Tabs = class Tabs extends Aventus.WebComponent {
         this.validateCorner();
     }
     defineTabHeader() {
-        return Components.TabHeader;
+        return _.Components.TabHeader;
     }
     validateCorner() {
         this.first_active = this.headerScrollEl.x == 0 && this.activeHeader == this.headerEl.children[0];
@@ -5207,7 +5241,7 @@ Components.Tabs = class Tabs extends Aventus.WebComponent {
         if (typeof labelOrIndex == 'number') {
             if (this.headerEl.children.length > labelOrIndex) {
                 const header = this.headerEl.children[labelOrIndex];
-                if (header instanceof Components.TabHeader) {
+                if (header instanceof _.Components.TabHeader) {
                     this.displayActive(header);
                 }
             }
@@ -5229,7 +5263,7 @@ Components.Tabs = class Tabs extends Aventus.WebComponent {
 }
 Components.Tabs.Namespace=`Core.Components`;
 Components.Tabs.Tag=`rk-tabs`;
-_.Components.Tabs=Components.Tabs;
+__as1(_.Components, 'Tabs', Components.Tabs);
 if(!window.customElements.get('rk-tabs')){window.customElements.define('rk-tabs', Components.Tabs);Aventus.WebComponentInstance.registerDefinition(Components.Tabs);}
 
 Data.User=class User extends AventusSharp.Data.Storable {
@@ -5247,7 +5281,7 @@ Data.User=class User extends AventusSharp.Data.Storable {
 Data.User.Namespace=`Core.Data`;
 Data.User.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Firstname":"string","Lastname":"string","Username":"string","Password":"string","Token":"string","Picture":"UserPicture","IsSuperAdmin":"boolean","SsoProviderId":"number","QuickToken":"string"};
 Aventus.Converter.register(Data.User.Fullname, Data.User);
-_.Data.User=Data.User;
+__as1(_.Data, 'User', Data.User);
 
 Data.Group=class Group extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Group, Core"; }
@@ -5259,22 +5293,22 @@ Data.Group=class Group extends AventusSharp.Data.Storable {
 Data.Group.Namespace=`Core.Data`;
 Data.Group.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Description":"string","AssignationAuto":"boolean","Users":"Core.Data.User[]"};
 Aventus.Converter.register(Data.Group.Fullname, Data.Group);
-_.Data.Group=Data.Group;
+__as1(_.Data, 'Group', Data.Group);
 
 Routes.GroupRouter=class GroupRouter extends AventusSharp.Routes.StorableRouter {
     constructor(router) {
-        super(router ?? new Routes.CoreRouter());
+        super(router ?? new _.Routes.CoreRouter());
     }
     StorableName() {
         return "Group";
     }
 }
 Routes.GroupRouter.Namespace=`Core.Routes`;
-_.Routes.GroupRouter=Routes.GroupRouter;
+__as1(_.Routes, 'GroupRouter', Routes.GroupRouter);
 
 Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRouter {
     constructor(router) {
-        super(router ?? new Routes.CoreRouter());
+        super(router ?? new _.Routes.CoreRouter());
         this.GetConnected = this.GetConnected.bind(this);
     }
     async GetConnected() {
@@ -5286,7 +5320,7 @@ Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRouter {
     }
 }
 Routes.UserRouter.Namespace=`Core.Routes`;
-_.Routes.UserRouter=Routes.UserRouter;
+__as1(_.Routes, 'UserRouter', Routes.UserRouter);
 
 Data.Favorite=class Favorite extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Favorite, Core"; }
@@ -5299,30 +5333,30 @@ Data.Favorite=class Favorite extends AventusSharp.Data.Storable {
 Data.Favorite.Namespace=`Core.Data`;
 Data.Favorite.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","TagName":"string","State":"string","UserId":"number","Order":"number"};
 Aventus.Converter.register(Data.Favorite.Fullname, Data.Favorite);
-_.Data.Favorite=Data.Favorite;
+__as1(_.Data, 'Favorite', Data.Favorite);
 
 Websocket.Routes.FavoriteRouter=class FavoriteRouter extends AventusSharp.WebSocket.StorableWsRouter {
     constructor(endpoint) {
-        super(endpoint ?? Websocket.MainEndPoint.getInstance());
+        super(endpoint ?? _.Websocket.MainEndPoint.getInstance());
     }
     StorableName() {
         return "Favorite";
     }
 }
 Websocket.Routes.FavoriteRouter.Namespace=`Core.Websocket.Routes`;
-_.Websocket.Routes.FavoriteRouter=Websocket.Routes.FavoriteRouter;
+__as1(_.Websocket.Routes, 'FavoriteRouter', Websocket.Routes.FavoriteRouter);
 
-Permissions.ApplicationPermissionQuery=class ApplicationPermissionQuery extends Permissions.PermissionQuery {
+Permissions.ApplicationPermissionQuery=class ApplicationPermissionQuery extends _.Permissions.PermissionQuery {
     static get Fullname() { return "Core.Permissions.ApplicationPermissionQuery, Core"; }
 }
 Permissions.ApplicationPermissionQuery.Namespace=`Core.Permissions`;
 Permissions.ApplicationPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
 Aventus.Converter.register(Permissions.ApplicationPermissionQuery.Fullname, Permissions.ApplicationPermissionQuery);
-_.Permissions.ApplicationPermissionQuery=Permissions.ApplicationPermissionQuery;
+__as1(_.Permissions, 'ApplicationPermissionQuery', Permissions.ApplicationPermissionQuery);
 
 Routes.LoginRouter=class LoginRouter extends Aventus.HttpRoute {
     constructor(router) {
-        super(router ?? new Routes.CoreRouter());
+        super(router ?? new _.Routes.CoreRouter());
         this.LoginAction = this.LoginAction.bind(this);
         this.QuickLogin = this.QuickLogin.bind(this);
         this.LoginSso = this.LoginSso.bind(this);
@@ -5349,7 +5383,7 @@ Routes.LoginRouter=class LoginRouter extends Aventus.HttpRoute {
     }
 }
 Routes.LoginRouter.Namespace=`Core.Routes`;
-_.Routes.LoginRouter=Routes.LoginRouter;
+__as1(_.Routes, 'LoginRouter', Routes.LoginRouter);
 
 Permissions.Tree.PermissionTree=class PermissionTree extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Permissions.Tree.PermissionTree, Core"; }
@@ -5361,7 +5395,7 @@ Permissions.Tree.PermissionTree=class PermissionTree extends AventusSharp.Data.S
 Permissions.Tree.PermissionTree.Namespace=`Core.Permissions.Tree`;
 Permissions.Tree.PermissionTree.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "AppName":"string","IconTagName":"string","PermissionId":"number","Permissions":"PermissionTreeItem[]"};
 Aventus.Converter.register(Permissions.Tree.PermissionTree.Fullname, Permissions.Tree.PermissionTree);
-_.Permissions.Tree.PermissionTree=Permissions.Tree.PermissionTree;
+__as1(_.Permissions.Tree, 'PermissionTree', Permissions.Tree.PermissionTree);
 
 Permissions.PermissionForUser=class PermissionForUser extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Logic.PermissionForUser, Core"; }
@@ -5371,11 +5405,11 @@ Permissions.PermissionForUser=class PermissionForUser extends AventusSharp.Data.
 Permissions.PermissionForUser.Namespace=`Core.Permissions`;
 Permissions.PermissionForUser.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "permissionGroups":"Core.Data.PermissionGroup[]","permissionUsers":"Core.Data.PermissionUser[]"};
 Aventus.Converter.register(Permissions.PermissionForUser.Fullname, Permissions.PermissionForUser);
-_.Permissions.PermissionForUser=Permissions.PermissionForUser;
+__as1(_.Permissions, 'PermissionForUser', Permissions.PermissionForUser);
 
 Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
     constructor(router) {
-        super(router ?? new Routes.CoreRouter());
+        super(router ?? new _.Routes.CoreRouter());
         this.Get = this.Get.bind(this);
         this.Can = this.Can.bind(this);
         this.CanMultiple = this.CanMultiple.bind(this);
@@ -5407,7 +5441,7 @@ Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
     }
 }
 Routes.PermissionRouter.Namespace=`Core.Routes`;
-_.Routes.PermissionRouter=Routes.PermissionRouter;
+__as1(_.Routes, 'PermissionRouter', Routes.PermissionRouter);
 
 Permissions.Permission=class Permission {
     static saved = {};
@@ -5491,7 +5525,7 @@ Permissions.Permission=class Permission {
     }
 }
 Permissions.Permission.Namespace=`Core.Permissions`;
-_.Permissions.Permission=Permissions.Permission;
+__as1(_.Permissions, 'Permission', Permissions.Permission);
 
 _n = Websocket.Events.TransactionCancelledEvent;
 Websocket.Events.TransactionCancelledEvent=class TransactionCancelledEvent extends AventusSharp.WebSocket.WsEvent {
@@ -5502,11 +5536,11 @@ Websocket.Events.TransactionCancelledEvent=class TransactionCancelledEvent exten
         return `${this.getPrefix()}Core.Websocket.Events.TransactionCancelledEvent`;
     }
     constructor(endpoint, getPrefix) {
-        super(endpoint ?? Websocket.MainEndPoint.getInstance(), getPrefix);
+        super(endpoint ?? _.Websocket.MainEndPoint.getInstance(), getPrefix);
     }
 }
 Websocket.Events.TransactionCancelledEvent.Namespace=`Core.Websocket.Events`;
-_.Websocket.Events.TransactionCancelledEvent=Websocket.Events.TransactionCancelledEvent;
+__as1(_.Websocket.Events, 'TransactionCancelledEvent', Websocket.Events.TransactionCancelledEvent);
 
 Object.assign(Websocket.Events.TransactionCancelledEvent, _n);
 
@@ -5517,7 +5551,7 @@ Websocket.Events.TransactionCancelledEvent.Body=class Body extends AventusSharp.
 Websocket.Events.TransactionCancelledEvent.Body.Namespace=`Core.Websocket.Events.TransactionCancelledEvent`;
 Websocket.Events.TransactionCancelledEvent.Body.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "guid":"string"};
 Aventus.Converter.register(Websocket.Events.TransactionCancelledEvent.Body.Fullname, Websocket.Events.TransactionCancelledEvent.Body);
-_.Websocket.Events.TransactionCancelledEvent.Body=Websocket.Events.TransactionCancelledEvent.Body;
+__as1(_.Websocket.Events.TransactionCancelledEvent, 'Body', Websocket.Events.TransactionCancelledEvent.Body);
 
 Lib.Platform=class Platform {
     static onScreenChange = new Aventus.Callback();
@@ -5583,7 +5617,7 @@ Lib.Platform=class Platform {
     static onReconnect = new Aventus.Callback();
 }
 Lib.Platform.Namespace=`Core.Lib`;
-_.Lib.Platform=Lib.Platform;
+__as1(_.Lib, 'Platform', Lib.Platform);
 
 Components.Tooltip = class Tooltip extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
@@ -5601,7 +5635,12 @@ Components.Tooltip = class Tooltip extends Aventus.WebComponent {
     pressManager;
     screenMargin = 10;
     static __style = `:host{--local-tooltip-from-y: 0;--local-tooltip-from-x: 0;--local-tooltip-to-y: 0;--local-tooltip-to-x: 0;--local-offset-carret-x: 0px;--local-offset-carret-y: 0px;--_tooltip-background-color: var(--tooltip-background-color, var(--primary-color));--_tooltip-elevation: var(--tooltip-elevation, var(--elevation-4));--_tooltip-color: var(--tooltip-color, var(--text-color))}:host{background-color:var(--_tooltip-background-color);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-4);color:var(--_tooltip-color);opacity:0;padding:5px 15px;pointer-events:none;position:absolute;transition:.5s opacity var(--bezier-curve),.5s visibility var(--bezier-curve),.5s top var(--bezier-curve),.5s bottom var(--bezier-curve),.5s right var(--bezier-curve),.5s left var(--bezier-curve),.5s transform var(--bezier-curve);visibility:hidden;width:max-content;z-index:1}:host::after{content:"";position:absolute}:host([no_caret])::after{display:none}:host([visible]){opacity:1;visibility:visible}:host([position=bottom]){transform:translateX(-50%)}:host([position=bottom])::after{border-bottom:9px solid var(--_tooltip-background-color);border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);left:calc(50% + var(--local-offset-carret-x));top:-8px;transform:translateX(-50%)}:host([use_absolute][position=bottom]){left:var(--local-tooltip-from-x);max-height:calc(100% - var(--local-tooltip-to-y) - 10px);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=bottom]){top:var(--local-tooltip-to-y)}:host([position=bottom]:not([use_absolute])){bottom:0px;left:50%;transform:translateX(-50%) translateY(calc(100% - 10px))}:host([position=bottom][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(100% + 10px))}:host([no_caret][use_absolute][position=bottom]){top:calc(var(--local-tooltip-from-y) - 8px)}:host([no_caret][use_absolute][visible][position=bottom]){top:calc(var(--local-tooltip-to-y) - 8px)}:host([position=top]){transform:translateX(-50%)}:host([position=top])::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:9px solid var(--_tooltip-background-color);bottom:-8px;left:calc(50% + var(--local-offset-carret-x));transform:translateX(-50%)}:host([use_absolute][position=top]){bottom:var(--local-tooltip-from-y);left:var(--local-tooltip-from-x);max-height:calc(100% - var(--local-tooltip-to-y) - 10px)}:host([use_absolute][visible][position=top]){bottom:var(--local-tooltip-to-y)}:host([position=top]:not([use_absolute])){left:50%;top:0px;transform:translateX(-50%) translateY(calc(-100% + 10px))}:host([position=top][visible]:not([use_absolute])){transform:translateX(-50%) translateY(calc(-100% - 10px))}:host([no_caret][use_absolute][position=top]){bottom:calc(var(--local-tooltip-from-y) - 6px)}:host([no_caret][use_absolute][visible][position=top]){bottom:calc(var(--local-tooltip-to-y) - 6px)}:host([position=right]){transform:translateY(-50%)}:host([position=right])::after{border-bottom:6px solid rgba(0,0,0,0);border-right:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);left:-8px;top:calc(50% + var(--local-offset-carret-y));transform:translateY(-50%)}:host([use_absolute][position=right]){left:var(--local-tooltip-from-x);max-width:calc(100% - var(--local-tooltip-to-x) - 10px);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=right]){left:var(--local-tooltip-to-x)}:host([position=right]:not([use_absolute])){right:0;top:50%;transform:translateX(calc(100% - 10px)) translateY(-50%)}:host([visible][position=right]:not([use_absolute])){transform:translateX(calc(100% + 10px)) translateY(-50%)}:host([no_caret][use_absolute][position=right]){left:calc(var(--local-tooltip-from-x) - 6px)}:host([no_caret][use_absolute][visible][position=right]){left:calc(var(--local-tooltip-to-x) - 6px)}:host([position=left]){right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y);transform:translateY(-50%)}:host([position=left])::after{border-bottom:6px solid rgba(0,0,0,0);border-left:9px solid var(--_tooltip-background-color);border-top:6px solid rgba(0,0,0,0);right:-8px;top:calc(50% + var(--local-offset-carret-y));transform:translateY(-50%)}:host([use_absolute][position=left]){max-width:calc(100% - var(--local-tooltip-to-x) - 10px);right:var(--local-tooltip-from-x);top:var(--local-tooltip-from-y)}:host([use_absolute][visible][position=left]){right:var(--local-tooltip-to-x)}:host([position=left]:not([use_absolute])){left:0;top:50%;transform:translateX(calc(-100% + 10px)) translateY(-50%)}:host([visible][position=left]:not([use_absolute])){transform:translateX(calc(-100% - 10px)) translateY(-50%)}:host([no_caret][use_absolute][position=left]){right:calc(var(--local-tooltip-from-x) - 6px)}:host([no_caret][use_absolute][visible][position=left]){right:calc(var(--local-tooltip-to-x) - 6px)}:host([color=primary]){--_tooltip-background-color: var(--primary);--_tooltip-color: var(--text-color-primary)}:host([color=secondary]){--_tooltip-background-color: var(--secondary);--_tooltip-color: var(--text-color-secondary)}:host([color=green]){--_tooltip-background-color: var(--green);--_tooltip-color: var(--text-color-green)}:host([color=success]){--_tooltip-background-color: var(--success);--_tooltip-color: var(--text-color-success)}:host([color=red]){--_tooltip-background-color: var(--red);--_tooltip-color: var(--text-color-red)}:host([color=error]){--_tooltip-background-color: var(--error);--_tooltip-color: var(--text-color-error)}:host([color=orange]){--_tooltip-background-color: var(--orange);--_tooltip-color: var(--text-color-orange)}:host([color=warning]){--_tooltip-background-color: var(--warning);--_tooltip-color: var(--text-color-warning)}:host([color=blue]){--_tooltip-background-color: var(--blue);--_tooltip-color: var(--text-color-blue)}:host([color=information]){--_tooltip-background-color: var(--information);--_tooltip-color: var(--text-color-information)}`;
-    constructor() { super(); this.onMouseEnter=this.onMouseEnter.bind(this)this.onMouseLeave=this.onMouseLeave.bind(this)this.onTransitionEnd=this.onTransitionEnd.bind(this) }
+    constructor() {
+        super();
+        this.onMouseEnter = this.onMouseEnter.bind(this);
+        this.onMouseLeave = this.onMouseLeave.bind(this);
+        this.onTransitionEnd = this.onTransitionEnd.bind(this);
+    }
     __getStatic() {
         return Tooltip;
     }
@@ -5789,7 +5828,7 @@ Components.Tooltip = class Tooltip extends Aventus.WebComponent {
 }
 Components.Tooltip.Namespace=`Core.Components`;
 Components.Tooltip.Tag=`rk-tooltip`;
-_.Components.Tooltip=Components.Tooltip;
+__as1(_.Components, 'Tooltip', Components.Tooltip);
 if(!window.customElements.get('rk-tooltip')){window.customElements.define('rk-tooltip', Components.Tooltip);Aventus.WebComponentInstance.registerDefinition(Components.Tooltip);}
 
 Errors.CoreError=class CoreError extends Aventus.GenericError {
@@ -5798,7 +5837,7 @@ Errors.CoreError=class CoreError extends Aventus.GenericError {
 Errors.CoreError.Namespace=`Core.Errors`;
 Errors.CoreError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.CoreError.Fullname, Errors.CoreError);
-_.Errors.CoreError=Errors.CoreError;
+__as1(_.Errors, 'CoreError', Errors.CoreError);
 
 Lib.TransactionManager=class TransactionManager {
     static mainRouter;
@@ -5810,7 +5849,7 @@ Lib.TransactionManager=class TransactionManager {
     static init() {
         this.mainRouter = new Routes.MainRouter();
         this.mutex = new Aventus.Mutex();
-        Lib.Platform.onDisconnect.add(async () => {
+        _.Lib.Platform.onDisconnect.add(async () => {
             this.mutex.dispose();
             if (this.guid) {
                 this.guid = undefined;
@@ -5891,7 +5930,7 @@ Lib.TransactionManager=class TransactionManager {
     }
 }
 Lib.TransactionManager.Namespace=`Core.Lib`;
-_.Lib.TransactionManager=Lib.TransactionManager;
+__as1(_.Lib, 'TransactionManager', Lib.TransactionManager);
 
 RAM.RamWithTransaction=class RamWithTransaction {
     memoryUpdateDelete = new Map();
@@ -5955,111 +5994,27 @@ RAM.RamWithTransaction=class RamWithTransaction {
     }
 }
 RAM.RamWithTransaction.Namespace=`Core.RAM`;
-_.RAM.RamWithTransaction=RAM.RamWithTransaction;
-
-RAM.RamCompletor=class RamCompletor {
-    objects = [];
-    fields = [];
-    error;
-    constructor(objects, error) {
-        if (!objects) {
-            objects = [];
-        }
-        else if (!Array.isArray(objects)) {
-            objects = [objects];
-        }
-        this.objects = objects;
-        this.error = error;
-    }
-    add(field) {
-        this.fields.push(field);
-        return this;
-    }
-    async run() {
-        const objects = this.objects;
-        const fields = this.fields;
-        const result = new Aventus.VoidWithError();
-        if (objects.length == 0)
-            return result;
-        const listIds = {};
-        const mapRecords = {};
-        for (let field of fields) {
-            let objKey = field.obj;
-            let idKey = field.id;
-            listIds[objKey] = [];
-            mapRecords[objKey] = {};
-            for (let value of objects) {
-                if (value[idKey]) {
-                    const listId = listIds[objKey];
-                    const mapRecord = mapRecords[objKey];
-                    if (value[objKey])
-                        continue;
-                    if (!listId.includes(value[idKey]))
-                        listId.push(value[idKey]);
-                    if (!mapRecord[value[idKey]]) {
-                        mapRecord[value[idKey]] = [];
-                    }
-                    mapRecord[value[idKey]].push(value);
-                }
-            }
-        }
-        for (let field of fields) {
-            let objKey = field.obj;
-            if (!listIds[objKey] || !mapRecords[objKey])
-                continue;
-            const listId = listIds[objKey];
-            const mapRecord = mapRecords[objKey];
-            if (listId.length > 0) {
-                const ram = Aventus.Instance.get(field.ram);
-                const query = await ram.getByIdsWithError(listId);
-                if (query.success && query.result) {
-                    for (let item of query.result) {
-                        if (mapRecord[item.Id]) {
-                            for (let record of mapRecord[item.Id]) {
-                                record[objKey] = item;
-                            }
-                        }
-                    }
-                }
-                else {
-                    result.errors = [...result.errors, ...query.errors];
-                    if (this.error) {
-                        this.error.errors = [...this.error.errors, ...query.errors];
-                    }
-                }
-            }
-        }
-        return result;
-    }
-}
-RAM.RamCompletor.Namespace=`Core.RAM`;
-_.RAM.RamCompletor=RAM.RamCompletor;
+__as1(_.RAM, 'RamWithTransaction', RAM.RamWithTransaction);
 
 RAM.RamWebSocket=class RamWebSocket extends AventusSharp.RAM.RamWebSocket {
     constructor() {
         super();
         new RAM.RamWithTransaction(this);
     }
-    complete(objects, error) {
-        return new RAM.RamCompletor(objects, error);
-    }
 }
 RAM.RamWebSocket.Namespace=`Core.RAM`;
-_.RAM.RamWebSocket=RAM.RamWebSocket;
+__as1(_.RAM, 'RamWebSocket', RAM.RamWebSocket);
 
 RAM.RamHttp=class RamHttp extends AventusSharp.RAM.RamHttp {
     constructor() {
         super();
         new RAM.RamWithTransaction(this);
     }
-    complete(objects, error) {
-        return new RAM.RamCompletor(objects, error);
-    }
 }
 RAM.RamHttp.Namespace=`Core.RAM`;
-_.RAM.RamHttp=RAM.RamHttp;
+__as1(_.RAM, 'RamHttp', RAM.RamHttp);
 
-RAM.UserRAM=class UserRAM extends RAM.RamHttp {
+RAM.UserRAM=class UserRAM extends _.RAM.RamHttp {
     connectedUserId;
     /**
      * Create a singleton to store data
@@ -6118,7 +6073,7 @@ RAM.UserRAM=class UserRAM extends RAM.RamHttp {
     }
 }
 RAM.UserRAM.Namespace=`Core.RAM`;
-_.RAM.UserRAM=RAM.UserRAM;
+__as1(_.RAM, 'UserRAM', RAM.UserRAM);
 
 Lib.SessionManager=class SessionManager {
     static async logout() {
@@ -6144,7 +6099,7 @@ Lib.SessionManager=class SessionManager {
     }
 }
 Lib.SessionManager.Namespace=`Core.Lib`;
-_.Lib.SessionManager=Lib.SessionManager;
+__as1(_.Lib, 'SessionManager', Lib.SessionManager);
 
 Ram.FavoriteRAM=class FavoriteRAM extends AventusSharp.RAM.RamWebSocket {
     /**
@@ -6173,7 +6128,7 @@ Ram.FavoriteRAM=class FavoriteRAM extends AventusSharp.RAM.RamWebSocket {
     }
 }
 Ram.FavoriteRAM.Namespace=`Core.Ram`;
-_.Ram.FavoriteRAM=Ram.FavoriteRAM;
+__as1(_.Ram, 'FavoriteRAM', Ram.FavoriteRAM);
 
 Websocket.Routes.RecentRouter=class RecentRouter extends AventusSharp.WebSocket.StorableWsRouter {
     defineEvents() {
@@ -6183,7 +6138,7 @@ Websocket.Routes.RecentRouter=class RecentRouter extends AventusSharp.WebSocket.
         };
     }
     constructor(endpoint) {
-        super(endpoint ?? Websocket.MainEndPoint.getInstance());
+        super(endpoint ?? _.Websocket.MainEndPoint.getInstance());
     }
     async Save(body, options = {}) {
         const info = {
@@ -6198,7 +6153,7 @@ Websocket.Routes.RecentRouter=class RecentRouter extends AventusSharp.WebSocket.
     }
 }
 Websocket.Routes.RecentRouter.Namespace=`Core.Websocket.Routes`;
-_.Websocket.Routes.RecentRouter=Websocket.Routes.RecentRouter;
+__as1(_.Websocket.Routes, 'RecentRouter', Websocket.Routes.RecentRouter);
 
 Ram.RecentRAM=class RecentRAM extends AventusSharp.RAM.RamWebSocket {
     /**
@@ -6227,7 +6182,7 @@ Ram.RecentRAM=class RecentRAM extends AventusSharp.RAM.RamWebSocket {
     }
 }
 Ram.RecentRAM.Namespace=`Core.Ram`;
-_.Ram.RecentRAM=Ram.RecentRAM;
+__as1(_.Ram, 'RecentRAM', Ram.RecentRAM);
 
 Components.Resize = class Resize extends Aventus.WebComponent {
     get 'min_width'() { return this.getNumberAttr('min_width') }
@@ -6720,7 +6675,7 @@ Components.Resize = class Resize extends Aventus.WebComponent {
 }
 Components.Resize.Namespace=`Core.Components`;
 Components.Resize.Tag=`rk-resize`;
-_.Components.Resize=Components.Resize;
+__as1(_.Components, 'Resize', Components.Resize);
 if(!window.customElements.get('rk-resize')){window.customElements.define('rk-resize', Components.Resize);Aventus.WebComponentInstance.registerDefinition(Components.Resize);}
 
 Components.Notification = class Notification extends Aventus.WebComponent {
@@ -6841,7 +6796,7 @@ Components.Notification = class Notification extends Aventus.WebComponent {
 }
 Components.Notification.Namespace=`Core.Components`;
 Components.Notification.Tag=`rk-notification`;
-_.Components.Notification=Components.Notification;
+__as1(_.Components, 'Notification', Components.Notification);
 if(!window.customElements.get('rk-notification')){window.customElements.define('rk-notification', Components.Notification);Aventus.WebComponentInstance.registerDefinition(Components.Notification);}
 
 System.AppInstallPanel = class AppInstallPanel extends System.Panel {
@@ -6901,7 +6856,7 @@ System.AppInstallPanel = class AppInstallPanel extends System.Panel {
                     title: "Succès",
                     body: "Téléchargement terminé",
                 });
-                System.Os.instance.notify(notif);
+                _.System.Os.instance.notify(notif);
                 this.remove();
                 this.onClose.trigger();
             }
@@ -6911,7 +6866,7 @@ System.AppInstallPanel = class AppInstallPanel extends System.Panel {
                     title: "Erreurs",
                     body: "Il y a eu une erreur",
                 });
-                System.Os.instance.notify(notif);
+                _.System.Os.instance.notify(notif);
             }
         }
     }
@@ -6925,7 +6880,7 @@ System.AppInstallPanel = class AppInstallPanel extends System.Panel {
 }
 System.AppInstallPanel.Namespace=`Core.System`;
 System.AppInstallPanel.Tag=`rk-app-install-panel`;
-_.System.AppInstallPanel=System.AppInstallPanel;
+__as1(_.System, 'AppInstallPanel', System.AppInstallPanel);
 if(!window.customElements.get('rk-app-install-panel')){window.customElements.define('rk-app-install-panel', System.AppInstallPanel);Aventus.WebComponentInstance.registerDefinition(System.AppInstallPanel);}
 
 Components.NotificationManager = class NotificationManager extends Aventus.WebComponent {
@@ -6971,11 +6926,11 @@ Components.NotificationManager = class NotificationManager extends Aventus.WebCo
     __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('containerHeight');this.__upgradeProperty('gap'); }
     async notify(notification) {
         let realNotification;
-        if (notification instanceof Components.Notification) {
+        if (notification instanceof _.Components.Notification) {
             realNotification = notification;
         }
         else {
-            realNotification = Components.Notification.create(notification);
+            realNotification = _.Components.Notification.create(notification);
         }
         this.appendChild(realNotification);
         if (realNotification.position == "bottom") {
@@ -7292,7 +7247,7 @@ Components.NotificationManager = class NotificationManager extends Aventus.WebCo
 }
 Components.NotificationManager.Namespace=`Core.Components`;
 Components.NotificationManager.Tag=`rk-notification-manager`;
-_.Components.NotificationManager=Components.NotificationManager;
+__as1(_.Components, 'NotificationManager', Components.NotificationManager);
 if(!window.customElements.get('rk-notification-manager')){window.customElements.define('rk-notification-manager', Components.NotificationManager);Aventus.WebComponentInstance.registerDefinition(Components.NotificationManager);}
 
 Permissions.PermissionWatcher=class PermissionWatcher {
@@ -7340,7 +7295,7 @@ Permissions.PermissionWatcher=class PermissionWatcher {
     }
 }
 Permissions.PermissionWatcher.Namespace=`Core.Permissions`;
-_.Permissions.PermissionWatcher=Permissions.PermissionWatcher;
+__as1(_.Permissions, 'PermissionWatcher', Permissions.PermissionWatcher);
 
 State.ApplicationState=class ApplicationState extends Aventus.State {
     /**
@@ -7429,7 +7384,7 @@ State.ApplicationState=class ApplicationState extends Aventus.State {
 State.ApplicationState.Namespace=`Core.State`;
 State.ApplicationState.$schema={...(Aventus.State?.$schema ?? {}), "$type":"string","__manager":"Core.Lib.ApplicationStateManager","application":"Core.System.Application","frame":"T","__canSaveState":"boolean","delaySaveState":"number"};
 Aventus.Converter.register(State.ApplicationState.Fullname, State.ApplicationState);
-_.State.ApplicationState=State.ApplicationState;
+__as1(_.State, 'ApplicationState', State.ApplicationState);
 
 System.ApplicationHistoryConvert=class ApplicationHistoryConvert extends Aventus.ConverterTransform {
     manager;
@@ -7450,7 +7405,7 @@ System.ApplicationHistoryConvert=class ApplicationHistoryConvert extends Aventus
     }
 }
 System.ApplicationHistoryConvert.Namespace=`Core.System`;
-_.System.ApplicationHistoryConvert=System.ApplicationHistoryConvert;
+__as1(_.System, 'ApplicationHistoryConvert', System.ApplicationHistoryConvert);
 
 System.FrameGeneric = class FrameGeneric extends Aventus.WebComponent {
     static get observedAttributes() {return ["visible"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -7463,8 +7418,17 @@ System.FrameGeneric = class FrameGeneric extends Aventus.WebComponent {
 					}    application;
     resetNavElement;
     __registerSignalsActions() { this.__signals["state"] = null; super.__registerSignalsActions();  }
-    static __style = `:host{display:none;height:100%;width:100%;padding:0 5px}:host .opacity-wrapper{animation-delay:var(--local-frame-animation-delay, 0ms);animation-duration:200ms;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);display:none;height:100%;visibility:hidden;width:100%}:host([visible]){display:block}:host([visible]) .opacity-wrapper{display:block}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}`;
-    constructor() {            super();            new Permissions.PermissionWatcher(this);            this.addFadeIn();if (this.constructor == FrameGeneric) { throw "can't instanciate an abstract class"; }this.onContextMenuContent=this.onContextMenuContent.bind(this)this.onContextMenuHeader=this.onContextMenuHeader.bind(this)}
+    static __style = `:host{display:block;height:100%;width:100%;padding:0 5px}:host .opacity-wrapper{animation-delay:var(--local-frame-animation-delay, 0ms);animation-duration:200ms;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);display:block;height:100%;visibility:hidden;width:100%}:host(:not([visible])){display:none}:host(:not([visible])) .opacity-wrapper{display:none}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}`;
+    constructor() {
+        super();
+        new Permissions.PermissionWatcher(this);
+        this.addFadeIn();
+        if (this.constructor == FrameGeneric) {
+            throw "can't instanciate an abstract class";
+        }
+        this.onContextMenuContent = this.onContextMenuContent.bind(this);
+        this.onContextMenuHeader = this.onContextMenuHeader.bind(this);
+    }
     __getStatic() {
         return FrameGeneric;
     }
@@ -7553,7 +7517,7 @@ System.FrameGeneric = class FrameGeneric extends Aventus.WebComponent {
     }
 }
 System.FrameGeneric.Namespace=`Core.System`;
-_.System.FrameGeneric=System.FrameGeneric;
+__as1(_.System, 'FrameGeneric', System.FrameGeneric);
 
 State.ApplicationWatchState=class ApplicationWatchState extends State.ApplicationState {
     __watcher;
@@ -7571,7 +7535,7 @@ State.ApplicationWatchState=class ApplicationWatchState extends State.Applicatio
 State.ApplicationWatchState.Namespace=`Core.State`;
 State.ApplicationWatchState.$schema={...(State.ApplicationState?.$schema ?? {}), };
 Aventus.Converter.register(State.ApplicationWatchState.Fullname, State.ApplicationWatchState);
-_.State.ApplicationWatchState=State.ApplicationWatchState;
+__as1(_.State, 'ApplicationWatchState', State.ApplicationWatchState);
 
 State.ApplicationEmptyState=class ApplicationEmptyState extends State.ApplicationState {
     localName;
@@ -7595,7 +7559,12 @@ Aventus.Converter.register(State.ApplicationEmptyState.Fullname, State.Applicati
 
 System.FrameNoScroll = class FrameNoScroll extends System.FrameGeneric {
     static __style = ``;
-    constructor() { super(); if (this.constructor == FrameNoScroll) { throw "can't instanciate an abstract class"; } }
+    constructor() {
+        super();
+        if (this.constructor == FrameNoScroll) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return FrameNoScroll;
     }
@@ -7615,12 +7584,17 @@ System.FrameNoScroll = class FrameNoScroll extends System.FrameGeneric {
     }
 }
 System.FrameNoScroll.Namespace=`Core.System`;
-_.System.FrameNoScroll=System.FrameNoScroll;
+__as1(_.System, 'FrameNoScroll', System.FrameNoScroll);
 
 System.FrameStateNoScroll = class FrameStateNoScroll extends System.FrameNoScroll {
     state;
     static __style = ``;
-    constructor() { super(); if (this.constructor == FrameStateNoScroll) { throw "can't instanciate an abstract class"; } }
+    constructor() {
+        super();
+        if (this.constructor == FrameStateNoScroll) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return FrameStateNoScroll;
     }
@@ -7646,11 +7620,16 @@ System.FrameStateNoScroll = class FrameStateNoScroll extends System.FrameNoScrol
     }
 }
 System.FrameStateNoScroll.Namespace=`Core.System`;
-_.System.FrameStateNoScroll=System.FrameStateNoScroll;
+__as1(_.System, 'FrameStateNoScroll', System.FrameStateNoScroll);
 
 System.Frame = class Frame extends System.FrameGeneric {
     static __style = `:host .main-scroll{--scrollbar-content-padding: 0 15px}:host .main-scroll>*{--scrollbar-content-padding: 0}`;
-    constructor() { super(); if (this.constructor == Frame) { throw "can't instanciate an abstract class"; } }
+    constructor() {
+        super();
+        if (this.constructor == Frame) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return Frame;
     }
@@ -7680,12 +7659,17 @@ System.Frame = class Frame extends System.FrameGeneric {
     }
 }
 System.Frame.Namespace=`Core.System`;
-_.System.Frame=System.Frame;
+__as1(_.System, 'Frame', System.Frame);
 
 System.FrameState = class FrameState extends System.Frame {
     state;
     static __style = ``;
-    constructor() { super(); if (this.constructor == FrameState) { throw "can't instanciate an abstract class"; } }
+    constructor() {
+        super();
+        if (this.constructor == FrameState) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return FrameState;
     }
@@ -7711,7 +7695,7 @@ System.FrameState = class FrameState extends System.Frame {
     }
 }
 System.FrameState.Namespace=`Core.System`;
-_.System.FrameState=System.FrameState;
+__as1(_.System, 'FrameState', System.FrameState);
 
 System.FrameNotAllowed = class FrameNotAllowed extends System.Frame {
     static __style = `:host{background-color:var(--rayuki-color);color:#fff}:host .page-not-allowed{align-items:center;display:flex;flex-direction:column;justify-content:center;width:100%}:host .page-not-allowed rk-img{width:min(300px,100% - 50px)}:host .page-not-allowed h1{font-size:80px;letter-spacing:5px}:host .page-not-allowed p{font-size:30px}`;
@@ -7743,7 +7727,7 @@ System.FrameNotAllowed = class FrameNotAllowed extends System.Frame {
 }
 System.FrameNotAllowed.Namespace=`Core.System`;
 System.FrameNotAllowed.Tag=`rk-frame-not-allowed`;
-_.System.FrameNotAllowed=System.FrameNotAllowed;
+__as1(_.System, 'FrameNotAllowed', System.FrameNotAllowed);
 if(!window.customElements.get('rk-frame-not-allowed')){window.customElements.define('rk-frame-not-allowed', System.FrameNotAllowed);Aventus.WebComponentInstance.registerDefinition(System.FrameNotAllowed);}
 
 System.ApplicationHistory=class ApplicationHistory {
@@ -7832,7 +7816,7 @@ System.ApplicationHistory=class ApplicationHistory {
 System.ApplicationHistory.Namespace=`Core.System`;
 System.ApplicationHistory.$schema={"$type":"string","memory":"History[]","currentPosition":"number","nextAvailable":"boolean","previousAvailable":"boolean"};
 Aventus.Converter.register(System.ApplicationHistory.Fullname, System.ApplicationHistory);
-_.System.ApplicationHistory=System.ApplicationHistory;
+__as1(_.System, 'ApplicationHistory', System.ApplicationHistory);
 
 System.ApplicationSizeStorage=class ApplicationSizeStorage {
     memoryPrefered = {};
@@ -7965,7 +7949,7 @@ System.ApplicationSize=class ApplicationSize {
     }
 }
 System.ApplicationSize.Namespace=`Core.System`;
-_.System.ApplicationSize=System.ApplicationSize;
+__as1(_.System, 'ApplicationSize', System.ApplicationSize);
 
 Components.GenericPopup = class GenericPopup extends Aventus.WebComponent {
     get 'no_red_btn'() { return this.getBoolAttr('no_red_btn') }
@@ -7987,9 +7971,13 @@ Components.GenericPopup = class GenericPopup extends Aventus.WebComponent {
 }
     static __style = `:host{--_popup-background-color: var(--popup-background-color, var(--application-background-color, var(--primary-color-opacity)));--_popup-border-radius: var(--popup-border-radius, var(--application-border-radius, 10px));--_popup-header-background-color: var(--popup-header-background-color, var(--application-header-background-color, var(--darker-active)));--_popup-content-padding: var(--popup-content-padding, 15px)}:host{align-items:center;animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(48,48,48,.1);border-radius:var(--application-border-radius);display:flex;inset:0;justify-content:center;position:absolute;z-index:650}:host .popup{background-color:var(--_popup-background-color);border-radius:var(--_popup-border-radius);box-shadow:var(--elevation-5);container-name:application;container-type:normal;display:flex;flex-direction:column;max-height:calc(100% - 50px);max-width:calc(100% - 50px);width:fit-content}:host .popup .header{align-items:center;border-top-left-radius:var(--_popup-border-radius);border-top-right-radius:var(--_popup-border-radius);display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .popup .header .background{background-color:var(--_popup-header-background-color);inset:0;position:absolute;z-index:1}:host .popup .header .title{flex-grow:1;margin-left:15px;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .popup .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .popup .header .application-actions .btn{border-radius:var(--border-radius);height:15px;width:15px}:host .popup .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);max-height:calc(var(--app-height) - 50px - 30px);min-height:auto;min-width:auto;overflow:hidden;padding:var(--_popup-content-padding);width:100%;z-index:1}:host .popup.shake{animation-duration:.3s;animation-iteration-count:1;animation-name:shake;animation-timing-function:var(--bezier-curve)}:host(.fade-out){animation-duration:.5s;animation-fill-mode:forwards;animation-name:fadeOut;animation-timing-function:var(--bezier-curve)}:host([no_red_btn]) .popup .header .application-actions .btn{display:none}:host([behind]){z-index:550}@media screen and (min-width: 1225px){:host .popup .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .popup .header{height:40px}:host .popup .header .application-actions{gap:10px}:host .popup .header .application-actions .btn{height:20px;width:20px}:host .popup .content{height:calc(100% - 45px)}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}@keyframes fadeOut{0%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}@keyframes shake{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}`;
     constructor() {
-            super();
-            this.info = this.defaultOptions();
-if (this.constructor == GenericPopup) { throw "can't instanciate an abstract class"; }this.cancel=this.cancel.bind(this)}
+        super();
+        this.info = this.defaultOptions();
+        if (this.constructor == GenericPopup) {
+            throw "can't instanciate an abstract class";
+        }
+        this.cancel = this.cancel.bind(this);
+    }
     __getStatic() {
         return GenericPopup;
     }
@@ -8114,11 +8102,15 @@ if (this.constructor == GenericPopup) { throw "can't instanciate an abstract cla
     }
 }
 Components.GenericPopup.Namespace=`Core.Components`;
-_.Components.GenericPopup=Components.GenericPopup;
+__as1(_.Components, 'GenericPopup', Components.GenericPopup);
 
 Components.Confirm = class Confirm extends Components.GenericPopup {
     static __style = `:host .popup .body{align-items:center;display:flex;justify-content:center;line-height:1.5;padding:20px;padding-top:15px;text-align:center}:host .popup .action{align-items:center;display:flex;gap:20px;justify-content:center}`;
-    constructor() { super(); this.validate=this.validate.bind(this)this.cancel=this.cancel.bind(this) }
+    constructor() {
+        super();
+        this.validate = this.validate.bind(this);
+        this.cancel = this.cancel.bind(this);
+    }
     __getStatic() {
         return Confirm;
     }
@@ -8203,7 +8195,7 @@ Components.Confirm = class Confirm extends Components.GenericPopup {
 }
 Components.Confirm.Namespace=`Core.Components`;
 Components.Confirm.Tag=`rk-confirm`;
-_.Components.Confirm=Components.Confirm;
+__as1(_.Components, 'Confirm', Components.Confirm);
 if(!window.customElements.get('rk-confirm')){window.customElements.define('rk-confirm', Components.Confirm);Aventus.WebComponentInstance.registerDefinition(Components.Confirm);}
 
 Components.Alert = class Alert extends Components.GenericPopup {
@@ -8265,12 +8257,17 @@ Components.Alert = class Alert extends Components.GenericPopup {
 }
 Components.Alert.Namespace=`Core.Components`;
 Components.Alert.Tag=`rk-alert`;
-_.Components.Alert=Components.Alert;
+__as1(_.Components, 'Alert', Components.Alert);
 if(!window.customElements.get('rk-alert')){window.customElements.define('rk-alert', Components.Alert);Aventus.WebComponentInstance.registerDefinition(Components.Alert);}
 
 Components.Popup = class Popup extends Components.GenericPopup {
     static __style = `:host .popup .content{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - var(--_popup-content-padding) - var(--_popup-content-padding));width:100%}`;
-    constructor() { super(); if (this.constructor == Popup) { throw "can't instanciate an abstract class"; } }
+    constructor() {
+        super();
+        if (this.constructor == Popup) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return Popup;
     }
@@ -8315,7 +8312,7 @@ Components.Popup = class Popup extends Components.GenericPopup {
     }
 }
 Components.Popup.Namespace=`Core.Components`;
-_.Components.Popup=Components.Popup;
+__as1(_.Components, 'Popup', Components.Popup);
 
 System.PopupShortcutHelper = class PopupShortcutHelper extends Components.Popup {
     cmds = [];
@@ -8365,13 +8362,13 @@ System.PopupShortcutHelper = class PopupShortcutHelper extends Components.Popup 
     postCreation() {
         super.postCreation();
         for (let shortcut of this.shortcuts) {
-            let el = new System.PopupShortcutHelperKey();
+            let el = new _.System.PopupShortcutHelperKey();
             el.innerHTML = shortcut[0];
             el.keys = shortcut[1];
             this.raccourciEl.appendChild(el);
         }
         for (let cmd of this.cmds) {
-            let el = new System.PopupShortcutHelperKey();
+            let el = new _.System.PopupShortcutHelperKey();
             el.innerHTML = cmd[0];
             el.keys = cmd[1];
             el.is_cmd = true;
@@ -8381,7 +8378,7 @@ System.PopupShortcutHelper = class PopupShortcutHelper extends Components.Popup 
 }
 System.PopupShortcutHelper.Namespace=`Core.System`;
 System.PopupShortcutHelper.Tag=`rk-popup-shortcut-helper`;
-_.System.PopupShortcutHelper=System.PopupShortcutHelper;
+__as1(_.System, 'PopupShortcutHelper', System.PopupShortcutHelper);
 if(!window.customElements.get('rk-popup-shortcut-helper')){window.customElements.define('rk-popup-shortcut-helper', System.PopupShortcutHelper);Aventus.WebComponentInstance.registerDefinition(System.PopupShortcutHelper);}
 
 System.ApplicationShortcut=class ApplicationShortcut {
@@ -8464,14 +8461,14 @@ System.ApplicationShortcut=class ApplicationShortcut {
         console.log(this.application.navigator.getState());
     }
     showPopupHelp() {
-        let p = new System.PopupShortcutHelper();
+        let p = new _.System.PopupShortcutHelper();
         p.shortcuts = this.shortcuts.filter(p => p[0] != "").map((p) => [p[0], p[1]]);
         p.cmds = this.cmds.filter(p => p[0] != "").map((p) => [p[0], p[1]]);
         this.application.popup(p);
     }
 }
 System.ApplicationShortcut.Namespace=`Core.System`;
-_.System.ApplicationShortcut=System.ApplicationShortcut;
+__as1(_.System, 'ApplicationShortcut', System.ApplicationShortcut);
 
 System.Frame404 = class Frame404 extends System.Frame {
     get 'uri'() {
@@ -8528,7 +8525,7 @@ System.Frame404 = class Frame404 extends System.Frame {
 }
 System.Frame404.Namespace=`Core.System`;
 System.Frame404.Tag=`rk-frame-404`;
-_.System.Frame404=System.Frame404;
+__as1(_.System, 'Frame404', System.Frame404);
 if(!window.customElements.get('rk-frame-404')){window.customElements.define('rk-frame-404', System.Frame404);Aventus.WebComponentInstance.registerDefinition(System.Frame404);}
 
 Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocket.Router {
@@ -8542,7 +8539,7 @@ Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocke
         };
     }
     constructor(endpoint) {
-        super(endpoint ?? Websocket.MainEndPoint.getInstance());
+        super(endpoint ?? _.Websocket.MainEndPoint.getInstance());
     }
     async RegisterOpenApp(body, options = {}) {
         const info = {
@@ -8578,7 +8575,7 @@ Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocke
     }
 }
 Websocket.Routes.DesktopRouter.Namespace=`Core.Websocket.Routes`;
-_.Websocket.Routes.DesktopRouter=Websocket.Routes.DesktopRouter;
+__as1(_.Websocket.Routes, 'DesktopRouter', Websocket.Routes.DesktopRouter);
 
 Lib.ApplicationManager=class ApplicationManager {
     static waitingDelay = 1000;
@@ -8752,7 +8749,7 @@ Lib.ApplicationManager=class ApplicationManager {
     }
 }
 Lib.ApplicationManager.Namespace=`Core.Lib`;
-_.Lib.ApplicationManager=Lib.ApplicationManager;
+__as1(_.Lib, 'ApplicationManager', Lib.ApplicationManager);
 
 System.Application = class Application extends Aventus.WebComponent {
     static get observedAttributes() {return ["app_title", "full", "is_hidden"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -8804,8 +8801,39 @@ System.Application = class Application extends Aventus.WebComponent {
 }));this.__addPropertyActions("is_hidden", ((target) => {
     target.onIsHiddenChange();
 })); }
-    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{backdrop-filter:blur(2px);background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;pointer-events:none;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:var(--border-radius-round);height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);overflow:hidden;width:100%;z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host rk-notification-manager{top:35px}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){border-radius:0;--app-height: var(--os-height) !important;left:0 !important;top:0 !important;--app-width: var(--os-width) !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 40px)}:host rk-notification-manager{top:45px}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 40px)}:host rk-resize{display:none}:host rk-notification-manager{top:45px}:host([is_hidden]){left:0 !important;width:100% !important}}`;
-    constructor() {            super();            this.history = new System.ApplicationHistory();            this.sizeManager = new System.ApplicationSize(this);            this.canChangeState = this.canChangeState.bind(this);            this.navigator.canChangeState(this.canChangeState);            this.shortcutManager = new System.ApplicationShortcut(this);            this.shortcutManager.init();if (this.constructor == Application) { throw "can't instanciate an abstract class"; }this.onContextMenuContent=this.onContextMenuContent.bind(this)this.onContextMenuHeader=this.onContextMenuHeader.bind(this)this.validError404=this.validError404.bind(this)this.showErrorNotAllowed=this.showErrorNotAllowed.bind(this)this.saveApplicationHistory=this.saveApplicationHistory.bind(this)this.onResizeStart=this.onResizeStart.bind(this)this.onResizeStop=this.onResizeStop.bind(this)this.moveApplicationToLeft=this.moveApplicationToLeft.bind(this)this.moveApplicationToRight=this.moveApplicationToRight.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this)this.notify=this.notify.bind(this)this.popupErrors=this.popupErrors.bind(this)this.parseErrors=this.parseErrors.bind(this)this.execute=this.execute.bind(this)this.executeWithLoading=this.executeWithLoading.bind(this)this.showLoading=this.showLoading.bind(this)this.txExec=this.txExec.bind(this)this.txExecLoading=this.txExecLoading.bind(this)}
+    static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{backdrop-filter:blur(2px);background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;pointer-events:none;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:var(--border-radius-round);height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);overflow:hidden;width:100%;z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host rk-notification-manager{top:35px}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){--application-border-radius: 0;--app-height: var(--os-height) !important;left:0 !important;top:0 !important;--app-width: var(--os-width) !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 40px)}:host rk-notification-manager{top:45px}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 40px)}:host rk-resize{display:none}:host rk-notification-manager{top:45px}:host([is_hidden]){left:0 !important;width:100% !important}}`;
+    constructor() {
+        super();
+        this.history = new _.System.ApplicationHistory();
+        this.sizeManager = new _.System.ApplicationSize(this);
+        this.canChangeState = this.canChangeState.bind(this);
+        this.navigator.canChangeState(this.canChangeState);
+        this.shortcutManager = new _.System.ApplicationShortcut(this);
+        this.shortcutManager.init();
+        if (this.constructor == Application) {
+            throw "can't instanciate an abstract class";
+        }
+        this.onContextMenuContent = this.onContextMenuContent.bind(this);
+        this.onContextMenuHeader = this.onContextMenuHeader.bind(this);
+        this.validError404 = this.validError404.bind(this);
+        this.showErrorNotAllowed = this.showErrorNotAllowed.bind(this);
+        this.saveApplicationHistory = this.saveApplicationHistory.bind(this);
+        this.onResizeStart = this.onResizeStart.bind(this);
+        this.onResizeStop = this.onResizeStop.bind(this);
+        this.moveApplicationToLeft = this.moveApplicationToLeft.bind(this);
+        this.moveApplicationToRight = this.moveApplicationToRight.bind(this);
+        this.popup = this.popup.bind(this);
+        this.alert = this.alert.bind(this);
+        this.confirm = this.confirm.bind(this);
+        this.notify = this.notify.bind(this);
+        this.popupErrors = this.popupErrors.bind(this);
+        this.parseErrors = this.parseErrors.bind(this);
+        this.execute = this.execute.bind(this);
+        this.executeWithLoading = this.executeWithLoading.bind(this);
+        this.showLoading = this.showLoading.bind(this);
+        this.txExec = this.txExec.bind(this);
+        this.txExecLoading = this.txExecLoading.bind(this);
+    }
     __getStatic() {
         return Application;
     }
@@ -9102,7 +9130,7 @@ System.Application = class Application extends Aventus.WebComponent {
         }
     }
     error404(state) {
-        return System.Frame404;
+        return _.System.Frame404;
     }
     async showErrorNotAllowed() {
         let frameError = this.errorNotAllowed(this.navigator.getState());
@@ -9120,7 +9148,7 @@ System.Application = class Application extends Aventus.WebComponent {
         this.activePath = '';
     }
     errorNotAllowed(state) {
-        return System.FrameNotAllowed;
+        return _.System.FrameNotAllowed;
     }
     onNewPage(oldUrl, oldFrame, newUrl, newFrame) { }
     getSlugs() {
@@ -9244,7 +9272,6 @@ System.Application = class Application extends Aventus.WebComponent {
             recent.Datetime = new AventusSharp.Data.Datetime();
             recent.Datetime.DateTime = new Date();
             await this.execute(new Websocket.Routes.RecentRouter().Save({ item: recent }));
-            debugger;
         }
     }
     onResizeStart(direction) {
@@ -9265,7 +9292,7 @@ System.Application = class Application extends Aventus.WebComponent {
         });
     }
     resetSize() {
-        this.setSizeInfo(System.ApplicationSize.getBasicSize());
+        this.setSizeInfo(_.System.ApplicationSize.getBasicSize());
         this.saveSize();
     }
     checkIfSizeCorrect() {
@@ -9333,23 +9360,23 @@ System.Application = class Application extends Aventus.WebComponent {
         this.moveApplication({
             top: 5,
             left: 5,
-            height: System.Os.instance.offsetHeight - 10,
-            width: System.Os.instance.offsetWidth / 2 - 7,
+            height: _.System.Os.instance.offsetHeight - 10,
+            width: _.System.Os.instance.offsetWidth / 2 - 7,
         });
         this.saveSize();
     }
     moveApplicationToRight() {
         this.moveApplication({
             top: 5,
-            left: System.Os.instance.offsetWidth / 2 + 2,
-            height: System.Os.instance.offsetHeight - 10,
-            width: System.Os.instance.offsetWidth / 2 - 7,
+            left: _.System.Os.instance.offsetWidth / 2 + 2,
+            height: _.System.Os.instance.offsetHeight - 10,
+            width: _.System.Os.instance.offsetWidth / 2 - 7,
         });
         this.saveSize();
     }
     addMoveDragAndDrop() {
         let hasMove = false;
-        let desktopTemp = this.findParentByType(System.Desktop);
+        let desktopTemp = this.findParentByType(_.System.Desktop);
         if (!desktopTemp)
             return;
         let desktop = desktopTemp;
@@ -9621,10 +9648,10 @@ System.Application = class Application extends Aventus.WebComponent {
         });
     }
     setDesktopActive() {
-        System.DesktopActivableLogic.set(this);
+        _.System.DesktopActivableLogic.set(this);
     }
     removeDesktopActive() {
-        System.DesktopActivableLogic.remove(this);
+        _.System.DesktopActivableLogic.remove(this);
     }
     init(options) {
         this.options = options;
@@ -9657,7 +9684,7 @@ System.Application = class Application extends Aventus.WebComponent {
     }
 }
 System.Application.Namespace=`Core.System`;
-_.System.Application=System.Application;
+__as1(_.System, 'Application', System.Application);
 
 Components.Link = class Link extends Aventus.WebComponent {
     static get observedAttributes() {return ["to", "active_pattern", "active"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -9675,7 +9702,11 @@ Components.Link = class Link extends Aventus.WebComponent {
     target.onActiveChange();
 })); }
     static __style = ``;
-    constructor() { super(); this.setActive=this.setActive.bind(this)this.setInactive=this.setInactive.bind(this) }
+    constructor() {
+        super();
+        this.setActive = this.setActive.bind(this);
+        this.setInactive = this.setInactive.bind(this);
+    }
     __getStatic() {
         return Link;
     }
@@ -9747,7 +9778,7 @@ Components.Link = class Link extends Aventus.WebComponent {
 }
 Components.Link.Namespace=`Core.Components`;
 Components.Link.Tag=`rk-link`;
-_.Components.Link=Components.Link;
+__as1(_.Components, 'Link', Components.Link);
 if(!window.customElements.get('rk-link')){window.customElements.define('rk-link', Components.Link);Aventus.WebComponentInstance.registerDefinition(Components.Link);}
 
 Lib.Process=class Process {
@@ -9785,7 +9816,7 @@ Lib.Process=class Process {
     }
 }
 Lib.Process.Namespace=`Core.Lib`;
-_.Lib.Process=Lib.Process;
+__as1(_.Lib, 'Process', Lib.Process);
 
 Lib.AppIconManager=class AppIconManager {
     static loaded = [];
@@ -9856,7 +9887,7 @@ Lib.AppIconManager=class AppIconManager {
     }
 }
 Lib.AppIconManager.Namespace=`Core.Lib`;
-_.Lib.AppIconManager=Lib.AppIconManager;
+__as1(_.Lib, 'AppIconManager', Lib.AppIconManager);
 
 System.FavoriteLine = class FavoriteLine extends Aventus.WebComponent {
     get 'reorder'() { return this.getBoolAttr('reorder') }
@@ -9956,7 +9987,7 @@ System.FavoriteLine = class FavoriteLine extends Aventus.WebComponent {
             this.remove();
             return;
         }
-        let desktop = System.Os.instance.activeDesktop;
+        let desktop = _.System.Os.instance.activeDesktop;
         const info = Lib.AppIconManager.reverseTagName(this.favorite.TagName);
         if (!info) {
             this.deleteFromFavorite();
@@ -9975,7 +10006,7 @@ System.FavoriteLine = class FavoriteLine extends Aventus.WebComponent {
         }, 500);
     }
     reorderItems() {
-        this.findParentByType(System.HomePanel).startReorderFavorite();
+        this.findParentByType(_.System.HomePanel).startReorderFavorite();
     }
     addInteraction() {
         let lastHighLight = undefined;
@@ -10050,7 +10081,7 @@ System.FavoriteLine = class FavoriteLine extends Aventus.WebComponent {
                         container.insertBefore(this, lastHighLight);
                     }
                     clear();
-                    this.findParentByType(System.HomePanel).saveFavoriteOrder();
+                    this.findParentByType(_.System.HomePanel).saveFavoriteOrder();
                 }
             },
         });
@@ -10077,7 +10108,7 @@ System.FavoriteLine = class FavoriteLine extends Aventus.WebComponent {
 }
 System.FavoriteLine.Namespace=`Core.System`;
 System.FavoriteLine.Tag=`rk-favorite-line`;
-_.System.FavoriteLine=System.FavoriteLine;
+__as1(_.System, 'FavoriteLine', System.FavoriteLine);
 if(!window.customElements.get('rk-favorite-line')){window.customElements.define('rk-favorite-line', System.FavoriteLine);Aventus.WebComponentInstance.registerDefinition(System.FavoriteLine);}
 
 System.HomePanel = class HomePanel extends System.Panel {
@@ -10106,7 +10137,11 @@ System.HomePanel = class HomePanel extends System.Panel {
     this.__addWatchesActions("currentUser");this.__addWatchesActions("favorites");this.__addWatchesActions("reorderFav");this.__addWatchesActions("recents");    super.__registerWatchesActions();
 }
     static __style = `:host{box-shadow:var(--elevation-3);display:flex;flex-direction:column;left:-9px;position:absolute;width:min(500px,var(--os-width))}:host .content{flex-grow:1;max-height:calc(100% - 57px)}:host .content rk-row{height:100%}:host .content rk-row rk-col{height:100%}:host .content rk-row rk-col .title{font-weight:700;height:30px;padding:5px}:host .content rk-row rk-col .scrollable{--scroller-right: 0;height:calc(100% - 30px);width:100%}:host .content rk-row rk-col .recent{width:100%}:host .content rk-row rk-col .recent .recent-container *{background-color:var(--primary-color);border-radius:var(--border-radius-sm);margin:10px;overflow:hidden}:host .content rk-row rk-col .favoris{width:100%}:host .content rk-row rk-col .favoris .favoris-container .wrapper{display:flex;flex-direction:column;gap:5px}:host .footer{align-items:center;border-top:1px solid var(--lighter-active);display:flex;gap:10px;height:57px;justify-content:space-between;width:100%}:host .footer .person{align-items:center;border-radius:var(--border-radius-sm);display:flex;margin:10px 10px;padding:8px 10px;transition:background-color .2s var(--bezier-curve)}:host .footer .person .icon{height:30px;width:30px}:host .footer .person .name{margin-left:10px}:host .footer .person:hover{background-color:var(--lighter)}:host .footer .actions{align-items:center;display:flex;gap:10px;padding-right:10px}:host .footer .actions rk-pwa-button{background-color:var(--success);color:var(--text-color-success);height:36px;width:36px}:host .footer .actions rk-button,:host .footer .actions .btn{--button-padding: 0px 8px;--button-icon-stroke-color: var(--text-color-red);--button-icon-fill-color: transparent;--button-background-color: var(--red);--button-background-color-hover: transparent;border:none;box-shadow:var(--elevation-2);height:36px;margin:10px 0;min-width:auto;transition:background-color .5s var(--bezier-curve);width:36px}@media screen and (max-width: 768px){:host{left:-10px}:host .content rk-row{flex-direction:column}:host .content rk-row rk-col{height:50%;width:100%}}`;
-    constructor() { super(); this.loadData=this.loadData.bind(this)this.checkCancelState=this.checkCancelState.bind(this) }
+    constructor() {
+        super();
+        this.loadData = this.loadData.bind(this);
+        this.checkCancelState = this.checkCancelState.bind(this);
+    }
     __getStatic() {
         return HomePanel;
     }
@@ -10204,7 +10239,7 @@ System.HomePanel = class HomePanel extends System.Panel {
     async openProfil() {
         const canSettings = await can(new Permissions.ApplicationPermissionQuery(Permissions.ApplicationPermission.AllowAccess, "Settings"));
         if (canSettings) {
-            let desktop = this.findParentByType(System.Desktop);
+            let desktop = this.findParentByType(_.System.Desktop);
             if (desktop) {
                 desktop.openUrl("Settings", "/", "/profil");
                 this.btn.active = false;
@@ -10265,7 +10300,7 @@ System.HomePanel = class HomePanel extends System.Panel {
         let i = 0;
         const toSave = [];
         for (let child of children) {
-            if (child instanceof System.FavoriteLine) {
+            if (child instanceof _.System.FavoriteLine) {
                 if (child.favorite && child.favorite.Order != i) {
                     const clone = child.favorite.clone();
                     clone.Order = i;
@@ -10281,7 +10316,7 @@ System.HomePanel = class HomePanel extends System.Panel {
     stopReorderFavorite() {
         const children = Array.from(this.favorisContainer.children[0].children);
         for (let child of children) {
-            if (child instanceof System.FavoriteLine) {
+            if (child instanceof _.System.FavoriteLine) {
                 child.reorder = false;
             }
         }
@@ -10291,7 +10326,7 @@ System.HomePanel = class HomePanel extends System.Panel {
     startReorderFavorite() {
         const children = Array.from(this.favorisContainer.children[0].children);
         for (let child of children) {
-            if (child instanceof System.FavoriteLine) {
+            if (child instanceof _.System.FavoriteLine) {
                 child.reorder = true;
             }
         }
@@ -10305,7 +10340,7 @@ System.HomePanel = class HomePanel extends System.Panel {
         const el = instance.getElement();
         const parentNode = el.parentNode;
         if (el.classList.contains("drag-icon") && parentNode instanceof ShadowRoot) {
-            if (parentNode.host instanceof System.FavoriteLine) {
+            if (parentNode.host instanceof _.System.FavoriteLine) {
                 return;
             }
         }
@@ -10351,7 +10386,7 @@ System.HomePanel = class HomePanel extends System.Panel {
 }
 System.HomePanel.Namespace=`Core.System`;
 System.HomePanel.Tag=`rk-home-panel`;
-_.System.HomePanel=System.HomePanel;
+__as1(_.System, 'HomePanel', System.HomePanel);
 if(!window.customElements.get('rk-home-panel')){window.customElements.define('rk-home-panel', System.HomePanel);Aventus.WebComponentInstance.registerDefinition(System.HomePanel);}
 
 System.HomeBtn = class HomeBtn extends Aventus.WebComponent {
@@ -10401,7 +10436,7 @@ System.HomeBtn = class HomeBtn extends Aventus.WebComponent {
 }
 System.HomeBtn.Namespace=`Core.System`;
 System.HomeBtn.Tag=`rk-home-btn`;
-_.System.HomeBtn=System.HomeBtn;
+__as1(_.System, 'HomeBtn', System.HomeBtn);
 if(!window.customElements.get('rk-home-btn')){window.customElements.define('rk-home-btn', System.HomeBtn);Aventus.WebComponentInstance.registerDefinition(System.HomeBtn);}
 
 System.BottomBar = class BottomBar extends Aventus.WebComponent {
@@ -10412,7 +10447,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
 						this.__watch["permissions"] = val;
 					}    get desktop() {
         if (this.parentNode instanceof ShadowRoot) {
-            if (this.parentNode.host instanceof System.Desktop) {
+            if (this.parentNode.host instanceof _.System.Desktop) {
                 return this.parentNode.host;
             }
         }
@@ -10425,7 +10460,13 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
     this.__addWatchesActions("permissions");    super.__registerWatchesActions();
 }
     static __style = `:host{align-items:center;background-color:var(--primary-color-opacity);border-radius:var(--border-radius);bottom:10px;box-shadow:var(--elevation-3);color:var(--text-color);display:flex;font-size:var(--font-size);height:calc(var(--desktop-bottom-bar, 50px) + var(--safe-area-bottom));left:100px;outline:none;padding:0 10px;padding-bottom:var(--safe-area-bottom);position:absolute;transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s,transform 1s var(--bezier-curve);width:calc(100% - 200px);z-index:100}:host .section{align-items:center;display:flex;height:100%}:host .section .icon{--img-stroke-color: transparent;--img-fill-color: var(--text-color);border-radius:var(--border-radius-sm);cursor:pointer;margin:0 3px;max-height:var(--desktop-bottom-bar-element);max-width:var(--desktop-bottom-bar-element);padding:7px;transition:background-color .2s var(--bezier-curve)}:host .section rk-app-icon{margin:0 5px}:host .separator{background-color:var(--text-color);display:inline-block;height:50%;margin:0 13px;width:1px}:host .applications{flex-grow:1;gap:10px;position:relative}:host .applications .empty-icon{background-color:var(--darker-active);border-radius:var(--border-radius-sm);height:var(--desktop-bottom-bar-element);width:var(--desktop-bottom-bar-element)}:host .applications>*{height:var(--desktop-bottom-bar-element);width:var(--desktop-bottom-bar-element)}:host .nb-notifications{align-items:center;background-color:var(--text-color);border-radius:var(--border-radius-round);color:var(--primary-color-opacity);display:flex;font-size:14px;font-weight:bold;height:25px;justify-content:center;letter-spacing:-1px;padding-right:1px;width:25px}:host .safe-hider{bottom:0;height:var(--safe-area-bottom);left:0;position:absolute;width:100%}@media screen and (min-width: 1225px){:host .section .icon:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host{border-radius:0;border-bottom-left-radius:0;border-bottom-right-radius:0;bottom:0px;left:0px;width:100%}}@media screen and (max-width: 768px){:host .basic-action>*{display:none}:host .basic-action rk-home-btn{display:inline-block}:host .addons>*{display:none}:host .separator{display:none}}`;
-    constructor() { super(); this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this) }
+    constructor() {
+        super();
+        this.setAppPositionTemp = this.setAppPositionTemp.bind(this);
+        this.clearAppPositionTemp = this.clearAppPositionTemp.bind(this);
+        this.setAppPosition = this.setAppPosition.bind(this);
+        this.removeAppPosition = this.removeAppPosition.bind(this);
+    }
     __getStatic() {
         return BottomBar;
     }
@@ -10512,10 +10553,10 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
         });
     }
     showAppList() {
-        System.Os.instance.show_application_list = true;
+        _.System.Os.instance.show_application_list = true;
     }
     showDesktops() {
-        System.Os.instance.desktop_list = true;
+        _.System.Os.instance.desktop_list = true;
     }
     addFocus() {
         this.setAttribute("tabindex", "-1");
@@ -10529,11 +10570,11 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
         if (caseEl && this.shadowRoot.contains(caseEl)) {
             shadow.style.width = "";
             shadow.style.height = "";
-            if (caseEl instanceof System.HomeBtn) {
+            if (caseEl instanceof _.System.HomeBtn) {
                 if (!this.timeoutOverHome && !caseEl.active) {
                     this.timeoutOverHome = setTimeout(() => {
                         let caseEl = this.shadowRoot.elementFromPoint(state.lastX, state.lastY);
-                        if (caseEl instanceof System.HomeBtn) {
+                        if (caseEl instanceof _.System.HomeBtn) {
                             caseEl.active = true;
                         }
                     }, 2000);
@@ -10554,7 +10595,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
                 let found = false;
                 for (let i = 0; i < children.length; i++) {
                     let child = children[i];
-                    if (child instanceof System.AppIcon) {
+                    if (child instanceof _.System.AppIcon) {
                         if (x < rect.x + child.offsetLeft + (child.offsetWidth / 2)) {
                             this.applicationsContainer.insertBefore(this.emptyIcon, child);
                             found = true;
@@ -10573,7 +10614,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
     clearAppPositionTemp(state) {
         if (this.timeoutOverHome) {
             let caseEl = this.shadowRoot.elementFromPoint(state.lastX, state.lastY);
-            if (!(caseEl instanceof System.HomeBtn)) {
+            if (!(caseEl instanceof _.System.HomeBtn)) {
                 clearTimeout(this.timeoutOverHome);
                 this.timeoutOverHome = 0;
             }
@@ -10607,7 +10648,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
             no++;
             for (; no < children.length; no++) {
                 let child = children[no];
-                if (child instanceof System.AppIcon) {
+                if (child instanceof _.System.AppIcon) {
                     let desktopIcon = new Data.DesktopAppIcon();
                     desktopIcon.DesktopId = this.desktop.desktop_id;
                     desktopIcon.Position = no;
@@ -10638,7 +10679,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
                 icon.remove();
                 for (; no < children.length; no++) {
                     let child = children[no];
-                    if (child instanceof System.AppIcon) {
+                    if (child instanceof _.System.AppIcon) {
                         let desktopIcon = new Data.DesktopAppIcon();
                         desktopIcon.DesktopId = this.desktop.desktop_id;
                         desktopIcon.Position = no;
@@ -10673,10 +10714,10 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
         this.applicationsContainer.appendChild(el);
     }
     setDesktopActive() {
-        System.DesktopActivableLogic.set(this);
+        _.System.DesktopActivableLogic.set(this);
     }
     removeDesktopActive() {
-        System.DesktopActivableLogic.remove(this);
+        _.System.DesktopActivableLogic.remove(this);
     }
     postCreation() {
         this.getPermissions();
@@ -10689,7 +10730,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
 }
 System.BottomBar.Namespace=`Core.System`;
 System.BottomBar.Tag=`rk-bottom-bar`;
-_.System.BottomBar=System.BottomBar;
+__as1(_.System, 'BottomBar', System.BottomBar);
 if(!window.customElements.get('rk-bottom-bar')){window.customElements.define('rk-bottom-bar', System.BottomBar);Aventus.WebComponentInstance.registerDefinition(System.BottomBar);}
 
 let Addon=class Addon {
@@ -10720,9 +10761,9 @@ let Addon=class Addon {
     }
 }
 Addon.Namespace=`Core`;
-_.Addon=Addon;
+__as1(_, 'Addon', Addon);
 
-RAM.DesktopRAM=class DesktopRAM extends RAM.RamHttp {
+RAM.DesktopRAM=class DesktopRAM extends _.RAM.RamHttp {
     /**
      * @inheritdoc
      */
@@ -10755,7 +10796,7 @@ RAM.DesktopRAM=class DesktopRAM extends RAM.RamHttp {
     }
 }
 RAM.DesktopRAM.Namespace=`Core.RAM`;
-_.RAM.DesktopRAM=RAM.DesktopRAM;
+__as1(_.RAM, 'DesktopRAM', RAM.DesktopRAM);
 
 System.Desktop = class Desktop extends Aventus.WebComponent {
     static get observedAttributes() {return ["desktop_id"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -10782,7 +10823,13 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
     oldActiveCase;
     pressManagerStopMoveApp;
     static __style = `:host{--_desktop-background-color: var(--desktop-background-color, var(--primary-color))}:host{background-color:var(--_desktop-background-color);background-position:center;background-repeat:no-repeat;background-size:cover;flex-shrink:0;height:100%;overflow:hidden;position:relative;width:100%}:host .icons{--page-case-border-radius: var(--border-radius-sm);--page-case-border-active: 1px solid var(--darker-active);--page-case-background-active: var(--lighter-active);height:calc(100% - var(--desktop-bottom-bar) - 20px - var(--safe-area-bottom));transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s;width:100%;z-index:2}:host .debug{background-color:#f0f0f0;display:none;inset:0;overflow:auto;padding:10px;position:absolute;white-space:pre-wrap;z-index:1;touch-action:none;padding-bottom:100px}:host .app-container{transition:opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host .preview-auto-layout{background:hsla(0,0%,100%,.2);border:1px solid hsla(0,0%,100%,.3);border-radius:var(--application-border-radius);box-shadow:0 4px 30px rgba(0,0,0,.1);display:none;pointer-events:none;position:absolute;z-index:999;transition:width .2s linear,height .2s linear,top .2s linear,left .2s linear}:host([show_application_list])>*{opacity:0 !important;visibility:hidden !important}:host([background_size=Cover]){background-size:cover}:host([background_size=Contain]){background-size:contain}:host([background_size=Stretch]){background-size:100% 100%}`;
-    constructor() {            super();this.setAppPositionTemp=this.setAppPositionTemp.bind(this)this.clearAppPositionTemp=this.clearAppPositionTemp.bind(this)this.setAppPosition=this.setAppPosition.bind(this)this.removeAppPosition=this.removeAppPosition.bind(this)}
+    constructor() {
+        super();
+        this.setAppPositionTemp = this.setAppPositionTemp.bind(this);
+        this.clearAppPositionTemp = this.clearAppPositionTemp.bind(this);
+        this.setAppPosition = this.setAppPosition.bind(this);
+        this.removeAppPosition = this.removeAppPosition.bind(this);
+    }
     __getStatic() {
         return Desktop;
     }
@@ -10893,10 +10940,10 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             let notif = new Components.Notification();
             notif.subject = "Erreur";
             notif.innerHTML = "Vous n'êtes pas autorisé à ouvrir l'application " + application;
-            System.Os.instance.notify(notif);
+            _.System.Os.instance.notify(notif);
             return null;
         }
-        System.Os.instance.show_application_list = false;
+        _.System.Os.instance.show_application_list = false;
         await this.loadApp(application);
         let tagName = await Lib.AppIconManager.getTagName(application, componentUrl);
         let comp = Aventus.WebComponentInstance.create(tagName);
@@ -10928,7 +10975,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             let notif = new Components.Notification();
             notif.subject = "Erreur";
             notif.innerHTML = "Impossible de trouver l'application " + application + " sur " + componentUrl;
-            System.Os.instance.notify(notif);
+            _.System.Os.instance.notify(notif);
         }
         return null;
     }
@@ -10947,7 +10994,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             if (this.activableOrder[0] == this.applications[comp.$type][nb]) {
                 isFirst = true;
             }
-            else if (this.activableOrder[0] instanceof System.BottomBar && this.activableOrder[1] == this.applications[comp.$type][nb]) {
+            else if (this.activableOrder[0] instanceof _.System.BottomBar && this.activableOrder[1] == this.applications[comp.$type][nb]) {
                 isFirst = true;
             }
         }
@@ -10988,7 +11035,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             let notif = new Components.Notification();
             notif.subject = "Erreur";
             notif.innerHTML = "Vous n'êtes pas autorisé à ouvrir l'application " + appName;
-            System.Os.instance.notify(notif);
+            _.System.Os.instance.notify(notif);
             return;
         }
         await this.loadApp(appName);
@@ -11006,7 +11053,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
             comp.focus();
             comp.is_hidden = application.isHidden;
             this.appContainer.appendChild(comp);
-            await comp.setHistory(System.ApplicationHistory.fromText(comp.navigator, application.history));
+            await comp.setHistory(_.System.ApplicationHistory.fromText(comp.navigator, application.history));
             this.applications[comp.$type][i] = comp;
             this.manageAppBottomBar(comp.$type);
         }
@@ -11383,7 +11430,7 @@ System.Desktop = class Desktop extends Aventus.WebComponent {
 }
 System.Desktop.Namespace=`Core.System`;
 System.Desktop.Tag=`rk-desktop`;
-_.System.Desktop=System.Desktop;
+__as1(_.System, 'Desktop', System.Desktop);
 if(!window.customElements.get('rk-desktop')){window.customElements.define('rk-desktop', System.Desktop);Aventus.WebComponentInstance.registerDefinition(System.Desktop);}
 
 Lib.PWA=class PWA {
@@ -11394,7 +11441,7 @@ Lib.PWA=class PWA {
         return false;
     }
     static get isAvailableIOS() {
-        return Lib.Platform.isiOS && !Lib.Platform.isStandalone;
+        return _.Lib.Platform.isiOS && !_.Lib.Platform.isStandalone;
     }
     static e;
     static isInit = false;
@@ -11455,12 +11502,12 @@ Lib.PWA=class PWA {
     }
 }
 Lib.PWA.Namespace=`Core.Lib`;
-_.Lib.PWA=Lib.PWA;
+__as1(_.Lib, 'PWA', Lib.PWA);
 
 System.PwaButton = class PwaButton extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
     set 'visible'(val) { this.setBoolAttr('visible', val) }get 'downloading'() { return this.getBoolAttr('downloading') }
-    set 'downloading'(val) { this.setBoolAttr('downloading', val) }    static __style = `:host{align-items:center;background-color:var(--darker);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-2);display:none;height:30px;justify-content:center;padding:5px;width:30px}:host .download{display:inline-block}:host .sync{display:none}:host .rotate{animation-name:rotate;animation-duration:1.5s;animation-iteration-count:infinite;animation-timing-function:linear;animation-direction:reverse}:host([visible]){display:flex !important}:host([downloading]) .download{display:none}:host([downloading]) .sync{display:inline-block}@keyframes rotate{0%{transform:rotate(0)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}`;
+    set 'downloading'(val) { this.setBoolAttr('downloading', val) }    static __style = `:host{align-items:center;background-color:var(--darker);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-2);display:flex;height:30px;justify-content:center;padding:5px;width:30px}:host .download{display:inline-block}:host .sync{display:none}:host .rotate{animation-name:rotate;animation-duration:1.5s;animation-iteration-count:infinite;animation-timing-function:linear;animation-direction:reverse}:host(:not([visible])){display:none !important}:host([downloading]) .download{display:none}:host([downloading]) .sync{display:inline-block}@keyframes rotate{0%{transform:rotate(0)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}`;
     __getStatic() {
         return PwaButton;
     }
@@ -11505,7 +11552,7 @@ System.PwaButton = class PwaButton extends Aventus.WebComponent {
 }
 System.PwaButton.Namespace=`Core.System`;
 System.PwaButton.Tag=`rk-pwa-button`;
-_.System.PwaButton=System.PwaButton;
+__as1(_.System, 'PwaButton', System.PwaButton);
 if(!window.customElements.get('rk-pwa-button')){window.customElements.define('rk-pwa-button', System.PwaButton);Aventus.WebComponentInstance.registerDefinition(System.PwaButton);}
 
 System.Os = class Os extends Aventus.WebComponent {
@@ -11550,7 +11597,19 @@ System.Os = class Os extends Aventus.WebComponent {
     target.setLocale(target.lang);
 })); }
     static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;width:100%;transition:margin .7s var(--bezier-curve)}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:var(--border-radius-round);cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;width:40px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;display:none;height:50px;min-width:auto;position:absolute;right:10px;z-index:6}:host rk-loading{opacity:0;visibility:hidden}:host .background{background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:25% 25%;filter:brightness(0.8);inset:-20px;position:absolute;z-index:0}:host rk-notification-manager{bottom:60px}:host .no-connection{align-items:center;animation-duration:2s;animation-iteration-count:infinite;animation-name:blink;background-color:var(--warning);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);color:var(--text-color-warning);display:none;font-size:var(--font-size-md);gap:10px;padding:5px 15px;position:absolute;right:15px;top:15px;z-index:9999999}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:max-content;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:var(--border-radius-sm)}:host([desktop_list]) .add-desktop{display:block}:host([no_desktop_transition]) .desktop-container .desktop-case{transition:none}:host([no_connection]) .no-connection{display:flex}@keyframes blink{0%{background-color:var(--warning);color:var(--text-color-warning)}1%{background-color:var(--text-color-warning);color:var(--warning)}50%{background-color:var(--text-color-warning);color:var(--warning)}51%{background-color:var(--warning);color:var(--text-color-warning)}100%{background-color:var(--warning);color:var(--text-color-warning)}}`;
-    constructor() {            super();            System.Os.instance = this;            Lib.ApplicationManager.reloadData();this.desktopMoveLeft=this.desktopMoveLeft.bind(this)this.desktopMoveRight=this.desktopMoveRight.bind(this)this.desktopMoveValidate=this.desktopMoveValidate.bind(this)this.desktopSelectNext=this.desktopSelectNext.bind(this)this.desktopSelectPrevious=this.desktopSelectPrevious.bind(this)this.popup=this.popup.bind(this)this.alert=this.alert.bind(this)this.confirm=this.confirm.bind(this)}
+    constructor() {
+        super();
+        System.Os.instance = this;
+        Lib.ApplicationManager.reloadData();
+        this.desktopMoveLeft = this.desktopMoveLeft.bind(this);
+        this.desktopMoveRight = this.desktopMoveRight.bind(this);
+        this.desktopMoveValidate = this.desktopMoveValidate.bind(this);
+        this.desktopSelectNext = this.desktopSelectNext.bind(this);
+        this.desktopSelectPrevious = this.desktopSelectPrevious.bind(this);
+        this.popup = this.popup.bind(this);
+        this.alert = this.alert.bind(this);
+        this.confirm = this.confirm.bind(this);
+    }
     __getStatic() {
         return Os;
     }
@@ -11793,7 +11852,10 @@ System.Os = class Os extends Aventus.WebComponent {
             let lastX;
             let lastY;
             let timeoutContext;
-            Aventus.PressManager.setGlobalConfig({
+            Aventus.PressManager.configure({
+                delayDblPress: 250,
+                delayLongPress: 700,
+                offsetDrag: 0,
                 onEvent: (e) => {
                     if (e.type == "pointerdown") {
                         lastX = startX = e.pageX;
@@ -11855,7 +11917,7 @@ System.Os = class Os extends Aventus.WebComponent {
                 this._appInstallPanel = undefined;
             }
             else {
-                let panel = new System.AppInstallPanel();
+                let panel = new _.System.AppInstallPanel();
                 this._appInstallPanel = panel;
                 panel.onClose.add(() => {
                     this._appInstallPanel = undefined;
@@ -11942,14 +12004,14 @@ System.Os = class Os extends Aventus.WebComponent {
                 if (e.state._fileexplorer === 'back') {
                     window.history.forward();
                     let element = this.activeDesktopEl.activeElement;
-                    if (element instanceof System.Application) {
+                    if (element instanceof _.System.Application) {
                         element.navigatePrevious();
                     }
                 }
                 else if (e.state._fileexplorer === 'forward') {
                     window.history.back();
                     let element = this.activeDesktopEl.activeElement;
-                    if (element instanceof System.Application) {
+                    if (element instanceof _.System.Application) {
                         element.navigateNext();
                     }
                 }
@@ -11961,10 +12023,18 @@ System.Os = class Os extends Aventus.WebComponent {
             await Aventus.I18n.setLocale(this.lang);
         }
         Aventus.DateConverter.converter = new Lib.DateConverter();
-        Aventus.PressManager.setGlobalConfig({
+        Aventus.PressManager.configure({
             delayDblPress: 250,
             delayLongPress: 700,
             offsetDrag: 0
+        });
+        Aventus.HttpRequest.configure({
+            responseMiddleware: (response, request) => {
+                if (response.result?.status == 401) {
+                    response.errors.push(new Errors.CoreError(Errors.CoreErrorCode.NotAllowed, "Non autorisé"));
+                }
+                return response;
+            }
         });
         this.trapInOs();
         this.addResizeObserver();
@@ -12002,7 +12072,7 @@ System.Os = class Os extends Aventus.WebComponent {
 }
 System.Os.Namespace=`Core.System`;
 System.Os.Tag=`rk-os`;
-_.System.Os=System.Os;
+__as1(_.System, 'Os', System.Os);
 if(!window.customElements.get('rk-os')){window.customElements.define('rk-os', System.Os);Aventus.WebComponentInstance.registerDefinition(System.Os);}
 
 System.RecentLine = class RecentLine extends Aventus.WebComponent {
@@ -12087,7 +12157,7 @@ System.RecentLine = class RecentLine extends Aventus.WebComponent {
             this.remove();
             return;
         }
-        let desktop = System.Os.instance.activeDesktop;
+        let desktop = _.System.Os.instance.activeDesktop;
         const info = Lib.AppIconManager.reverseTagName(this.recent.TagName);
         if (!info) {
             this.deleteFromRecent();
@@ -12115,7 +12185,7 @@ System.RecentLine = class RecentLine extends Aventus.WebComponent {
 }
 System.RecentLine.Namespace=`Core.System`;
 System.RecentLine.Tag=`rk-recent-line`;
-_.System.RecentLine=System.RecentLine;
+__as1(_.System, 'RecentLine', System.RecentLine);
 if(!window.customElements.get('rk-recent-line')){window.customElements.define('rk-recent-line', System.RecentLine);Aventus.WebComponentInstance.registerDefinition(System.RecentLine);}
 
 System.AppIcon = class AppIcon extends Aventus.WebComponent {
@@ -12128,8 +12198,14 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
     dragAndDrop;
     moveApplicationState;
     iconId = 0;
-    static __style = `:host{align-items:center;background-color:#0c2247;border-radius:var(--border-radius-sm);box-shadow:var(--elevation-5);cursor:pointer;display:flex;height:var(--desktop-bottom-bar-element);justify-content:center;position:relative;transition:box-shadow var(--bezier-curve) .3s,transform var(--bezier-curve) .3s;width:var(--desktop-bottom-bar-element);-webkit-tap-highlight-color:rgba(0,0,0,0)}:host::after{background-color:var(--text-color);border-radius:var(--border-radius-sm);bottom:-7px;content:"";height:4px;opacity:0;position:absolute;transition:visibility var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s;visibility:hidden;width:4px}:host .remove{background-color:var(--primary-color);border-radius:var(--border-radius-round);display:none;height:20px;position:absolute;right:-10px;top:-10px;width:20px}:host .remove rk-img{--img-stroke-color: var(--text-color);height:100%;padding:0;width:100%}:host([shaking]){animation:shake linear .4s infinite}:host([shaking][can_remove]) .remove{display:block}:host([is_open]){transform:translateY(-3px)}:host([is_open])::after{visibility:visible;opacity:1}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--elevation-1)}}@keyframes shake{0%{transform:rotateZ(0) rotateX(-13deg)}25%{transform:rotateZ(2deg) rotateX(-13deg)}50%{transform:rotateZ(0) rotateX(-13deg)}75%{transform:rotateZ(-2deg) rotateX(-13deg)}100%{transform:rotateZ(0) rotateX(-13deg)}}`;
-    constructor() {            super();            this.classList.add("touch");if (this.constructor == AppIcon) { throw "can't instanciate an abstract class"; }}
+    static __style = `:host{align-items:center;background:#0c2247;background:radial-gradient(circle, #2655a7 0%, #0c2247 100%);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-5);cursor:pointer;display:flex;height:var(--desktop-bottom-bar-element);justify-content:center;position:relative;transition:box-shadow var(--bezier-curve) .3s,transform var(--bezier-curve) .3s;width:var(--desktop-bottom-bar-element);-webkit-tap-highlight-color:rgba(0,0,0,0)}:host::after{background-color:var(--text-color);border-radius:var(--border-radius-sm);bottom:-7px;content:"";height:4px;opacity:0;position:absolute;transition:visibility var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s;visibility:hidden;width:4px}:host .remove{background-color:var(--primary-color);border-radius:var(--border-radius-round);display:none;height:20px;position:absolute;right:-10px;top:-10px;width:20px}:host .remove rk-img{--img-stroke-color: var(--text-color);height:100%;padding:0;width:100%}:host([shaking]){animation:shake linear .4s infinite}:host([shaking][can_remove]) .remove{display:block}:host([is_open]){transform:translateY(-3px)}:host([is_open])::after{visibility:visible;opacity:1}@media screen and (min-width: 1225px){:host(:hover){box-shadow:var(--elevation-1)}}@keyframes shake{0%{transform:rotateZ(0) rotateX(-13deg)}25%{transform:rotateZ(2deg) rotateX(-13deg)}50%{transform:rotateZ(0) rotateX(-13deg)}75%{transform:rotateZ(-2deg) rotateX(-13deg)}100%{transform:rotateZ(0) rotateX(-13deg)}}`;
+    constructor() {
+        super();
+        this.classList.add("touch");
+        if (this.constructor == AppIcon) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return AppIcon;
     }
@@ -12175,7 +12251,7 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
                 }
             });
         }
-        if (System.Os.instance.activeDesktop.bottomBar.applicationsContainer == this.parentElement) {
+        if (_.System.Os.instance.activeDesktop.bottomBar.applicationsContainer == this.parentElement) {
             if (this.can_remove) {
                 contextMenu.addItem({
                     text: this.t("Détacher l'application"),
@@ -12210,7 +12286,7 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
                         if (no == -1)
                             return;
                         let desktopIcon = new Data.DesktopAppIcon();
-                        desktopIcon.DesktopId = System.Os.instance.activeDesktop.desktop_id;
+                        desktopIcon.DesktopId = _.System.Os.instance.activeDesktop.desktop_id;
                         desktopIcon.Position = no;
                         desktopIcon.IconTag = this.tag;
                         desktopIcon.Location = Data.DesktopLocation.BottomBar;
@@ -12245,10 +12321,10 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
         let cst = this.constructor;
         let application = cst.Fullname.split(".")[0];
         if (this.is_open) {
-            System.Os.instance.unHideApplication(application, this.componentUrl());
+            _.System.Os.instance.unHideApplication(application, this.componentUrl());
         }
         else {
-            System.Os.instance.openUrl(application, this.componentUrl(), this.state());
+            _.System.Os.instance.openUrl(application, this.componentUrl(), this.state());
         }
     }
     onMoveApplication(state, slugs) {
@@ -12302,7 +12378,7 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
         let reset = () => {
             parent?.appendChild(this);
         };
-        if (this.findParentByType(System.AppList)) {
+        if (this.findParentByType(_.System.AppList)) {
             createShadow = true;
         }
         this.pressManagerMove = new Aventus.PressManager({
@@ -12346,7 +12422,7 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
                 enable: createShadow,
                 transform: (el) => {
                     shadow = el;
-                    System.Os.instance.show_application_list = false;
+                    _.System.Os.instance.show_application_list = false;
                 }
             },
             onStop: (e) => {
@@ -12367,7 +12443,7 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
     }
 }
 System.AppIcon.Namespace=`Core.System`;
-_.System.AppIcon=System.AppIcon;
+__as1(_.System, 'AppIcon', System.AppIcon);
 
 System.CoreAppIcon = class CoreAppIcon extends System.AppIcon {
     static __style = `:host{background-color:#7a7a7a}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #ffffff;flex-grow:1;max-height:100%;padding:15%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
@@ -12392,7 +12468,7 @@ System.CoreAppIcon = class CoreAppIcon extends System.AppIcon {
 }
 System.CoreAppIcon.Namespace=`Core.System`;
 System.CoreAppIcon.Tag=`rk-core-app-icon`;
-_.System.CoreAppIcon=System.CoreAppIcon;
+__as1(_.System, 'CoreAppIcon', System.CoreAppIcon);
 if(!window.customElements.get('rk-core-app-icon')){window.customElements.define('rk-core-app-icon', System.CoreAppIcon);Aventus.WebComponentInstance.registerDefinition(System.CoreAppIcon);}
 
 System.AppIconInline = class AppIconInline extends Aventus.WebComponent {
@@ -12441,7 +12517,7 @@ System.AppIconInline = class AppIconInline extends Aventus.WebComponent {
         new Aventus.PressManager({
             element: this,
             onPress: () => {
-                if (this.iconEl.children.length > 0 && this.iconEl.children[0] instanceof System.AppIcon) {
+                if (this.iconEl.children.length > 0 && this.iconEl.children[0] instanceof _.System.AppIcon) {
                     this.iconEl.children[0].openApp();
                 }
             }
@@ -12453,7 +12529,7 @@ System.AppIconInline = class AppIconInline extends Aventus.WebComponent {
 }
 System.AppIconInline.Namespace=`Core.System`;
 System.AppIconInline.Tag=`rk-app-icon-inline`;
-_.System.AppIconInline=System.AppIconInline;
+__as1(_.System, 'AppIconInline', System.AppIconInline);
 if(!window.customElements.get('rk-app-icon-inline')){window.customElements.define('rk-app-icon-inline', System.AppIconInline);Aventus.WebComponentInstance.registerDefinition(System.AppIconInline);}
 
 System.ApplicationSidenav = class ApplicationSidenav extends System.Application {
@@ -12470,7 +12546,13 @@ System.ApplicationSidenav = class ApplicationSidenav extends System.Application 
     this.__addWatchesActions("sidenavItems");    super.__registerWatchesActions();
 }
     static __style = `:host{--_application-sidnav-sidenav-width: var(--application-sidnav-sidenav-width, 200px)}:host .header .navigation-actions .menu{align-items:center;border:1px solid var(--darker);border-radius:var(--border-radius-sm);display:none;height:24px;justify-content:center;transition:background-color var(--bezier-curve) .2s,border var(--bezier-curve) .2s;width:24px}:host .header .navigation-actions .menu mi-icon{font-size:18px}:host .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host .content .sidenav-hider{animation-duration:300ms;animation-fill-mode:forwards;animation-name:fadeIn;animation-timing-function:var(--bezier-curve);background-color:rgba(0,0,0,.2);display:none;inset:0;position:absolute;z-index:50}:host .content .sidenav{background-color:var(--secondary-color);box-shadow:var(--elevation-4);height:100%;transition:transform .3s var(--bezier-curve);width:var(--_application-sidnav-sidenav-width);z-index:50}:host .content .sidenav .sidenav-item{align-items:center;border-bottom:1px solid var(--lighter-active);cursor:pointer;display:flex;flex-wrap:nowrap;height:51px;padding:10px;transition:linear background-color .3s}:host .content .sidenav .sidenav-item rk-img{--img-fill-color: var(--text-color);flex-grow:0;flex-shrink:0;height:30px;width:30px}:host .content .sidenav .sidenav-item rk-img[src=""]{display:none}:host .content .sidenav .sidenav-item mi-icon{align-items:center;color:var(--text-color);display:flex;height:30px;justify-content:center;width:30px}:host .content .sidenav .sidenav-item span{color:var(--text-color);flex-grow:1;flex-shrink:0;margin-left:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:calc(100% - 45px)}:host .content .sidenav .sidenav-item rk-img[src=""]~span{margin-left:0}:host .content .sidenav .sidenav-item[active]{background-color:var(--lighter-active)}:host .content .container{flex-shrink:0;height:100%;transition:width .3s var(--bezier-curve),margin-left .3s var(--bezier-curve);width:calc(100% - var(--_application-sidnav-sidenav-width))}:host([open_sidenav]) .navigation-actions .menu{background-color:var(--darker-active) !important;color:var(--text-color-reverse) !important}:host([no_sidenav]) .header .navigation-actions .menu{display:none !important}:host([no_sidenav]) .content{display:flex;height:calc(100% - 30px);margin:0;position:relative;width:100%}:host([no_sidenav]) .content .sidenav{display:none}:host([no_sidenav]) .content .sidenav-hider{display:none !important}:host([no_sidenav]) .content .container{height:100%;width:100%}@media screen and (min-width: 1225px){:host .header .navigation-actions .menu:hover{background-color:var(--darker) !important;border:1px solid rgba(0,0,0,0)}:host .content .sidenav .sidenav-item:hover{background-color:var(--lighter-active)}}@media screen and (max-width: 1224px){:host .header .navigation-actions .menu{height:26px;width:26px}:host .header .navigation-actions .menu mi-icon{font-size:20px}:host .content{height:calc(100% - 40px)}}@media screen and (orientation: landscape){@container application (max-width: 300px){:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=xs]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=xs]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=xs]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 300px){:host([hide_menu_size=xs][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=xs][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 540px){:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=sm]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=sm]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=sm]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 540px){:host([hide_menu_size=sm][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=sm][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 720px){:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=md]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=md]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=md]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 720px){:host([hide_menu_size=md][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=md][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 960px){:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=lg]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=lg]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=lg]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 960px){:host([hide_menu_size=lg][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=lg][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 1140px){:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size=xl]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size=xl]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size=xl]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 1140px){:host([hide_menu_size=xl][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size=xl][open_sidenav]) .content .sidenav{transform:translateX(0%)}}}@media screen and (orientation: portrait){@container application (max-width: 300px){:host([hide_menu_size_portrait=xs]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size_portrait=xs]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size_portrait=xs]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size_portrait=xs]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size_portrait=xs]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 300px){:host([hide_menu_size_portrait=xs][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size_portrait=xs][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 540px){:host([hide_menu_size_portrait=sm]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size_portrait=sm]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size_portrait=sm]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size_portrait=sm]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size_portrait=sm]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 540px){:host([hide_menu_size_portrait=sm][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size_portrait=sm][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 720px){:host([hide_menu_size_portrait=md]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size_portrait=md]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size_portrait=md]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size_portrait=md]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size_portrait=md]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 720px){:host([hide_menu_size_portrait=md][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size_portrait=md][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 960px){:host([hide_menu_size_portrait=lg]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size_portrait=lg]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size_portrait=lg]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size_portrait=lg]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size_portrait=lg]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 960px){:host([hide_menu_size_portrait=lg][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size_portrait=lg][open_sidenav]) .content .sidenav{transform:translateX(0%)}}@container application (max-width: 1140px){:host([hide_menu_size_portrait=xl]:not([no_sidenav])) .header .navigation-actions .menu{display:flex}:host([hide_menu_size_portrait=xl]:not([no_sidenav])) .header .navigation-actions .previous,:host([hide_menu_size_portrait=xl]:not([no_sidenav])) .header .navigation-actions .next{display:none}:host([hide_menu_size_portrait=xl]:not([no_sidenav])) .content .sidenav{transform:translateX(calc(-100% - 20px))}:host([hide_menu_size_portrait=xl]:not([no_sidenav])) .content .container{margin-left:calc(var(--_application-sidnav-sidenav-width)*-1);width:100%}}@container application (max-width: 1140px){:host([hide_menu_size_portrait=xl][open_sidenav]) .content .sidenav-hider{display:block}:host([hide_menu_size_portrait=xl][open_sidenav]) .content .sidenav{transform:translateX(0%)}}}@keyframes fadeIn{0%{opacity:0;visibility:hidden}100%{visibility:100%;visibility:visible}}`;
-    constructor() {            super();            new Permissions.PermissionWatcher(this);if (this.constructor == ApplicationSidenav) { throw "can't instanciate an abstract class"; }}
+    constructor() {
+        super();
+        new Permissions.PermissionWatcher(this);
+        if (this.constructor == ApplicationSidenav) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return ApplicationSidenav;
     }
@@ -12691,7 +12773,7 @@ System.ApplicationSidenav = class ApplicationSidenav extends System.Application 
     }
 }
 System.ApplicationSidenav.Namespace=`Core.System`;
-_.System.ApplicationSidenav=System.ApplicationSidenav;
+__as1(_.System, 'ApplicationSidenav', System.ApplicationSidenav);
 
 Components.CalendarDay = class CalendarDay extends Aventus.WebComponent {
     get 'other'() { return this.getBoolAttr('other') }
@@ -12699,7 +12781,12 @@ Components.CalendarDay = class CalendarDay extends Aventus.WebComponent {
     set 'today'(val) { this.setBoolAttr('today', val) }    calendar;
     date = new Date();
     static __style = `:host{align-items:center;border-radius:var(--border-radius-sm);color:var(--_calendar-text-color-case);cursor:pointer;display:flex;font-size:var(--_calendar-case-font-size);height:var(--_calendar-case-size);justify-content:center;transition:color .2s var(--bezier-curve),background-color .2s var(--bezier-curve);width:var(--_calendar-case-size)}:host([other]){color:var(--_calendar-text-color-case-others)}:host([today]){color:var(--_calendar-text-color-case-today)}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--_calendar-background-color-case-hover)}}`;
-    constructor() { super(); if (this.constructor == CalendarDay) { throw "can't instanciate an abstract class"; } }
+    constructor() {
+        super();
+        if (this.constructor == CalendarDay) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return CalendarDay;
     }
@@ -12737,7 +12824,7 @@ Components.CalendarDay = class CalendarDay extends Aventus.WebComponent {
     }
 }
 Components.CalendarDay.Namespace=`Core.Components`;
-_.Components.CalendarDay=Components.CalendarDay;
+__as1(_.Components, 'CalendarDay', Components.CalendarDay);
 
 Components.CalendarDayDefault = class CalendarDayDefault extends Components.CalendarDay {
     static __style = ``;
@@ -12761,7 +12848,7 @@ Components.CalendarDayDefault = class CalendarDayDefault extends Components.Cale
 }
 Components.CalendarDayDefault.Namespace=`Core.Components`;
 Components.CalendarDayDefault.Tag=`rk-calendar-day-default`;
-_.Components.CalendarDayDefault=Components.CalendarDayDefault;
+__as1(_.Components, 'CalendarDayDefault', Components.CalendarDayDefault);
 if(!window.customElements.get('rk-calendar-day-default')){window.customElements.define('rk-calendar-day-default', Components.CalendarDayDefault);Aventus.WebComponentInstance.registerDefinition(Components.CalendarDayDefault);}
 
 Lib.DomTools=class DomTools {
@@ -12921,7 +13008,7 @@ customElements.define("${tagNb}", ${tagUnderNb});
     }
 }
 Lib.DomTools.Namespace=`Core.Lib`;
-_.Lib.DomTools=Lib.DomTools;
+__as1(_.Lib, 'DomTools', Lib.DomTools);
 
 Components.Calendar = class Calendar extends Aventus.WebComponent {
     static get observedAttributes() {return ["date", "show_selector"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -13205,7 +13292,7 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
         this.date = newDate;
     }
     defineCalendarDay() {
-        return Components.CalendarDayDefault;
+        return _.Components.CalendarDayDefault;
     }
     getCase(date) {
         return this.cases[Lib.DateTools.print(date)];
@@ -13396,13 +13483,16 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
 }
 Components.Calendar.Namespace=`Core.Components`;
 Components.Calendar.Tag=`rk-calendar`;
-_.Components.Calendar=Components.Calendar;
+__as1(_.Components, 'Calendar', Components.Calendar);
 if(!window.customElements.get('rk-calendar')){window.customElements.define('rk-calendar', Components.Calendar);Aventus.WebComponentInstance.registerDefinition(Components.Calendar);}
 
 Components.DatePickerCalendarDay = class DatePickerCalendarDay extends Components.CalendarDay {
     get 'selected'() { return this.getBoolAttr('selected') }
     set 'selected'(val) { this.setBoolAttr('selected', val) }    static __style = `:host([selected]){background-color:var(--primary-color)}`;
-    constructor() { super(); this.checkIfSelected=this.checkIfSelected.bind(this) }
+    constructor() {
+        super();
+        this.checkIfSelected = this.checkIfSelected.bind(this);
+    }
     __getStatic() {
         return DatePickerCalendarDay;
     }
@@ -13424,7 +13514,7 @@ Components.DatePickerCalendarDay = class DatePickerCalendarDay extends Component
     __listBoolProps() { return ["selected"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     init(dateDisplayed, dateDay, calendar) {
         super.init(dateDisplayed, dateDay, calendar);
-        if (calendar instanceof Components.DatePickerCalendar) {
+        if (calendar instanceof _.Components.DatePickerCalendar) {
             if (Lib.DateTools.isSameDate(calendar.picker.value, dateDay)) {
                 this.selected = true;
             }
@@ -13441,16 +13531,17 @@ Components.DatePickerCalendarDay = class DatePickerCalendarDay extends Component
 }
 Components.DatePickerCalendarDay.Namespace=`Core.Components`;
 Components.DatePickerCalendarDay.Tag=`rk-date-picker-calendar-day`;
-_.Components.DatePickerCalendarDay=Components.DatePickerCalendarDay;
+__as1(_.Components, 'DatePickerCalendarDay', Components.DatePickerCalendarDay);
 if(!window.customElements.get('rk-date-picker-calendar-day')){window.customElements.define('rk-date-picker-calendar-day', Components.DatePickerCalendarDay);Aventus.WebComponentInstance.registerDefinition(Components.DatePickerCalendarDay);}
 
 System.AddOnTime = class AddOnTime extends Aventus.WebComponent {
     get 'active'() { return this.getBoolAttr('active') }
     set 'active'(val) { this.setBoolAttr('active', val) }    static __style = `:host{position:relative;height:var(--desktop-bottom-bar-element)}:host .display{align-items:center;border-radius:var(--border-radius-sm);cursor:pointer;display:flex;margin-right:10px;padding:0 10px;transition:background-color linear .2s;height:100%}:host .display .date{font-size:var(--font-size-sm)}:host .display .hour{font-size:var(--font-size-sm);margin-left:5px}:host .calendar{--calendar-background-color: var(--primary-color-opacity);bottom:calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element))/2 + 3px);box-shadow:var(--elevation-3);height:0;overflow:hidden;padding:0px 15px;position:absolute;right:10px;pointer-events:none;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s,padding var(--bezier-curve) .5s}:host([active]) .display{background-color:var(--lighter-active)}:host([active]) .calendar{bottom:calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element))/2 + 3px);height:var(--time-calendar-height);padding:15px;pointer-events:all}@media screen and (min-width: 1225px){:host .display:hover{background-color:var(--lighter-active)}}`;
     constructor() {
-            super();
-            this.classList.add("touch");
-this.calculateCalendarSize=this.calculateCalendarSize.bind(this)}
+        super();
+        this.classList.add("touch");
+        this.calculateCalendarSize = this.calculateCalendarSize.bind(this);
+    }
     __getStatic() {
         return AddOnTime;
     }
@@ -13588,7 +13679,7 @@ this.calculateCalendarSize=this.calculateCalendarSize.bind(this)}
 }
 System.AddOnTime.Namespace=`Core.System`;
 System.AddOnTime.Tag=`rk-add-on-time`;
-_.System.AddOnTime=System.AddOnTime;
+__as1(_.System, 'AddOnTime', System.AddOnTime);
 if(!window.customElements.get('rk-add-on-time')){window.customElements.define('rk-add-on-time', System.AddOnTime);Aventus.WebComponentInstance.registerDefinition(System.AddOnTime);}
 
 Components.FormElement = class FormElement extends Aventus.WebComponent {
@@ -13619,7 +13710,14 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
 }));this.__addWatchesActions("value");    super.__registerWatchesActions();
 }
     static __style = ``;
-    constructor() { super(); if (this.constructor == FormElement) { throw "can't instanciate an abstract class"; }this.refreshValueFromForm=this.refreshValueFromForm.bind(this)this.onFormValidation=this.onFormValidation.bind(this) }
+    constructor() {
+        super();
+        if (this.constructor == FormElement) {
+            throw "can't instanciate an abstract class";
+        }
+        this.refreshValueFromForm = this.refreshValueFromForm.bind(this);
+        this.onFormValidation = this.onFormValidation.bind(this);
+    }
     __getStatic() {
         return FormElement;
     }
@@ -13675,7 +13773,7 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
     }
 }
 Components.FormElement.Namespace=`Core.Components`;
-_.Components.FormElement=Components.FormElement;
+__as1(_.Components, 'FormElement', Components.FormElement);
 
 Components.Textarea = class Textarea extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "icon", "value", "autogrow"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -13827,14 +13925,15 @@ Components.Textarea = class Textarea extends Components.FormElement {
 }
 Components.Textarea.Namespace=`Core.Components`;
 Components.Textarea.Tag=`rk-textarea`;
-_.Components.Textarea=Components.Textarea;
+__as1(_.Components, 'Textarea', Components.Textarea);
 if(!window.customElements.get('rk-textarea')){window.customElements.define('rk-textarea', Components.Textarea);Aventus.WebComponentInstance.registerDefinition(Components.Textarea);}
 
 Components.Switch = class Switch extends Components.FormElement {
-    static get observedAttributes() {return ["label", "disabled", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    static get observedAttributes() {return ["label", "label2", "disabled", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'label_end'() { return this.getBoolAttr('label_end') }
     set 'label_end'(val) { this.setBoolAttr('label_end', val) }    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }get 'disabled'() { return this.getBoolProp('disabled') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'label2'() { return this.getStringProp('label2') }
+    set 'label2'(val) { this.setStringAttr('label2', val) }get 'disabled'() { return this.getBoolProp('disabled') }
     set 'disabled'(val) { this.setBoolAttr('disabled', val) }get 'checked'() { return this.getBoolProp('checked') }
     set 'checked'(val) { this.setBoolAttr('checked', val) }    get 'value'() {
 						return this.__watch["value"];
@@ -13850,7 +13949,7 @@ Components.Switch = class Switch extends Components.FormElement {
 }));this.__addPropertyActions("checked", ((target) => {
     target.value = target.checked;
 })); }
-    static __style = `:host{--_switch-background-color: var(--switch-background-color, var(--form-element-background, white));--_switch-dot-size: var(--switch-dot-size, 20px);--_switch-dot-color: var(--switch-dot-color, var(--secondary-color));--_switch-active-dot-color: var(--switch-active-dot-color, var(--secondary-color-active));--_switch-active-background-color: var(--switch-active-background-color, var(--secondary-color));--_switch-font-size: var(--switch-font-size, var(--form-element-font-size, 16px));--_switch-font-size-label: var(--switch-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_switch-border-radius: var(--switch-border-radius, 10px);--_switch-margin-label: var(--switch-margin-label, 30px);--_switch-label-width: var(--switch-label-width, auto)}:host{align-items:center;display:flex;font-size:var(--_switch-font-size);min-height:var(--_switch-dot-size);width:100%}:host .label:not(:empty){cursor:pointer;font-size:var(--_switch-font-size-label);margin-right:var(--_switch-margin-label);transition:filter .3s var(--bezier-curve);width:var(--_switch-label-width);display:inline-block}:host .bar{align-items:center;background-color:var(--_switch-background-color);border-radius:var(--_switch-border-radius);cursor:pointer;display:flex;height:10px;position:relative;transition:filter .3s var(--bezier-curve);width:30px}:host .bar input{appearance:none;background-color:rgba(0,0,0,0);border:0;cursor:pointer;height:100%;left:0;margin:0;outline:none;padding:0;position:absolute;top:0;width:100%}:host .bar .bar-content{align-items:center;background-color:rgba(0,0,0,0);display:flex;height:100%;pointer-events:none;position:relative;width:100%}:host .bar .bar-content .dot{background-color:var(--_switch-dot-color);border-radius:var(--border-radius-round);box-shadow:none;cursor:pointer;height:var(--_switch-dot-size);left:0%;pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_switch-dot-size)}:host .bar .bar-content .bar-fill{background-color:var(--_switch-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:0%}:host .bar input:checked+.bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host .bar input:checked+.bar-content .bar-fill{width:100%}:host([label_end]) .label:not(:empty){margin-left:var(--_switch-margin-label);margin-right:0px;order:2}:host([checked]) .bar .bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host([checked]) .bar .bar-content .bar-fill{width:100%}:host([disabled]) .bar{cursor:not-allowed;filter:brightness(0.75)}:host([disabled]) .bar input{cursor:not-allowed}:host([disabled]) .bar .bar-content .dot{cursor:not-allowed}:host([disabled]) .label{cursor:default;filter:brightness(0.75)}`;
+    static __style = `:host{--_switch-background-color: var(--switch-background-color, var(--form-element-background, white));--_switch-dot-size: var(--switch-dot-size, 20px);--_switch-dot-color: var(--switch-dot-color, var(--secondary-color));--_switch-active-dot-color: var(--switch-active-dot-color, var(--secondary-color-active));--_switch-active-background-color: var(--switch-active-background-color, var(--secondary-color));--_switch-font-size: var(--switch-font-size, var(--form-element-font-size, 16px));--_switch-font-size-label: var(--switch-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_switch-border-radius: var(--switch-border-radius, 10px);--_switch-margin-label: var(--switch-margin-label, 30px);--_switch-label-width: var(--switch-label-width, auto)}:host{align-items:center;display:flex;font-size:var(--_switch-font-size);min-height:var(--_switch-dot-size);width:100%}:host .label:not(:empty){cursor:pointer;display:inline-block;font-size:var(--_switch-font-size-label);margin-right:var(--_switch-margin-label);transition:filter .3s var(--bezier-curve);width:var(--_switch-label-width)}:host .label2:not(:empty){cursor:pointer;display:none;font-size:var(--_switch-font-size-label);margin-left:var(--_switch-margin-label);transition:filter .3s var(--bezier-curve);width:var(--_switch-label-width)}:host .bar{align-items:center;background-color:var(--_switch-background-color);border-radius:var(--_switch-border-radius);cursor:pointer;display:flex;height:10px;position:relative;transition:filter .3s var(--bezier-curve);width:30px}:host .bar input{appearance:none;background-color:rgba(0,0,0,0);border:0;cursor:pointer;height:100%;left:0;margin:0;outline:none;padding:0;position:absolute;top:0;width:100%}:host .bar .bar-content{align-items:center;background-color:rgba(0,0,0,0);display:flex;height:100%;pointer-events:none;position:relative;width:100%}:host .bar .bar-content .dot{background-color:var(--_switch-dot-color);border-radius:var(--border-radius-round);box-shadow:none;cursor:pointer;height:var(--_switch-dot-size);left:0%;pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_switch-dot-size)}:host .bar .bar-content .bar-fill{background-color:var(--_switch-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:0%}:host .bar input:checked+.bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host .bar input:checked+.bar-content .bar-fill{width:100%}:host([label_end]:not([label2])) .label:not(:empty){margin-left:var(--_switch-margin-label);margin-right:0px;order:2}:host([label2]) .label2{display:inline-block}:host([checked]) .bar .bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host([checked]) .bar .bar-content .bar-fill{width:100%}:host([disabled]) .bar{cursor:not-allowed;filter:brightness(0.75)}:host([disabled]) .bar input{cursor:not-allowed}:host([disabled]) .bar .bar-content .dot{cursor:not-allowed}:host([disabled]) .label{cursor:default;filter:brightness(0.75)}`;
     __getStatic() {
         return Switch;
     }
@@ -13861,7 +13960,7 @@ Components.Switch = class Switch extends Components.FormElement {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="label" _id="switch_0"></div><div class="bar" _id="switch_1">    <div class="bar-content">        <div class="bar-fill"></div>        <div class="dot"></div>    </div></div>` }
+        blocks: { 'default':`<div class="label" _id="switch_0"></div><div class="bar" _id="switch_1">    <div class="bar-content">        <div class="bar-fill"></div>        <div class="dot"></div>    </div></div><div class="label2" _id="switch_2"></div>` }
     });
 }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -13869,25 +13968,33 @@ Components.Switch = class Switch extends Components.FormElement {
     "switch_0°@HTML": {
       "fct": (c) => `${c.print(c.comp.__0c8ab707a91de23d54bc9c39ebe1aeafmethod0())}`,
       "once": true
+    },
+    "switch_2°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__0c8ab707a91de23d54bc9c39ebe1aeafmethod1())}`,
+      "once": true
     }
   },
   "pressEvents": [
     {
       "id": "switch_0",
-      "onPress": (e, pressInstance, c) => { c.comp.toggleActive(e, pressInstance); }
+      "onPress": (e, pressInstance, c) => { c.comp.setInactive(e, pressInstance); }
     },
     {
       "id": "switch_1",
       "onPress": (e, pressInstance, c) => { c.comp.toggleActive(e, pressInstance); }
+    },
+    {
+      "id": "switch_2",
+      "onPress": (e, pressInstance, c) => { c.comp.setActive(e, pressInstance); }
     }
   ]
 }); }
     getClassName() {
         return "Switch";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label_end')) { this.attributeChangedCallback('label_end', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('checked')) { this.attributeChangedCallback('checked', false, false); } }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label_end')) { this.attributeChangedCallback('label_end', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('label2')){ this['label2'] = undefined; }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('checked')) { this.attributeChangedCallback('checked', false, false); } }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = false; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label_end');this.__upgradeProperty('label');this.__upgradeProperty('disabled');this.__upgradeProperty('checked');this.__correctGetter('value'); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label_end');this.__upgradeProperty('label');this.__upgradeProperty('label2');this.__upgradeProperty('disabled');this.__upgradeProperty('checked');this.__correctGetter('value'); }
     __listBoolProps() { return ["label_end","disabled","checked"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     toggleActive() {
         if (this.disabled)
@@ -13898,13 +14005,39 @@ Components.Switch = class Switch extends Components.FormElement {
             this.formPart.value.set(this.value);
         }
     }
+    setInactive() {
+        if (this.label2) {
+            if (this.checked) {
+                this.checked = !this.checked;
+                this.onChange.trigger(this.checked);
+                if (this.formPart) {
+                    this.formPart.value.set(this.value);
+                }
+            }
+        }
+        else {
+            this.toggleActive();
+        }
+    }
+    setActive() {
+        if (!this.checked) {
+            this.checked = !this.checked;
+            this.onChange.trigger(this.checked);
+            if (this.formPart) {
+                this.formPart.value.set(this.value);
+            }
+        }
+    }
     __0c8ab707a91de23d54bc9c39ebe1aeafmethod0() {
         return this.label;
+    }
+    __0c8ab707a91de23d54bc9c39ebe1aeafmethod1() {
+        return this.label2;
     }
 }
 Components.Switch.Namespace=`Core.Components`;
 Components.Switch.Tag=`rk-switch`;
-_.Components.Switch=Components.Switch;
+__as1(_.Components, 'Switch', Components.Switch);
 if(!window.customElements.get('rk-switch')){window.customElements.define('rk-switch', Components.Switch);Aventus.WebComponentInstance.registerDefinition(Components.Switch);}
 
 Components.Slider = class Slider extends Components.FormElement {
@@ -13929,7 +14062,7 @@ Components.Slider = class Slider extends Components.FormElement {
 }));this.__addPropertyActions("value", ((target) => {
     target.calculatePercent();
 })); }
-    static __style = `:host{--_slider-background-color: var(--slider-background-color, var(--form-element-background, white));--_slider-background-image: var(--slider-background-image, none);--_slider-background-position: var(--slider-background-position, 0 0);--_slider-background-size: var(--slider-background-size, auto);--_slider-active-background-color: var(--slider-active-background-color, var(--secondary-color-active));--_slider-dot-color: var(--slider-dot-color, var(--secondary-color));--_slider-dot-size: var(--slider-dot-size, var(--form-element-font-size, 16px));--_slider-popup-font-size: var(--slider-popup-font-size, var(--font-size-sm));--_slider-font-size-label: var(--slider-font-size-label, var(--form-element-font-size-label));--_slider-border-radius: var(--slider-border-radius, var(--form-element-border-radius));--_slider-bar-height: var(--slider-bar-height, 5px);--_slider-height: var(--slider-height, var(--input-height, 30px));--local-slider-dot-percent: 0%}:host{align-items:center;display:flex;flex-direction:column;justify-content:center;min-width:100px;width:100%}:host label{cursor:pointer;display:none;flex-shrink:0;font-size:var(--_slider-font-size-label);margin-bottom:5px;margin-left:3px;width:100%}:host .input{align-items:center;display:flex;width:100%;height:var(--_slider-height)}:host .input .bar{align-items:center;background-color:var(--_slider-background-color);background-image:var(--_slider-background-image);background-position:var(--_slider-background-position);background-size:var(--_slider-background-size);border-radius:var(--_slider-border-radius);cursor:pointer;display:flex;flex-direction:row;flex-shrink:0;height:var(--_slider-bar-height);position:relative;width:100%}:host .input .bar .bar-fill{background-color:var(--_slider-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:var(--local-slider-dot-percent)}:host .input .bar .dot{background-color:var(--_slider-dot-color);border-radius:var(--border-radius-round);box-shadow:var(--elevation-2);cursor:pointer;height:var(--_slider-dot-size);left:var(--local-slider-dot-percent);pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_slider-dot-size);z-index:10}:host .input .bar .value{background-color:var(--_slider-dot-color);border-radius:var(--_slider-border-radius);box-shadow:var(--elevation-2);font-size:var(--_slider-popup-font-size);left:var(--local-slider-dot-percent);opacity:0;padding:5px 10px;padding-bottom:2px;position:absolute;top:0;transform:translateY(calc(-100% - 12px)) translateX(-50%);transform-origin:center center;transition:left var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s;visibility:hidden}:host .input .bar .value::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:8px solid var(--_slider-dot-color);bottom:-7px;content:"";left:50%;position:absolute;transform:translateX(-50%)}:host([no_transition]) .input .bar .bar-fill{transition:none}:host([no_transition]) .input .bar .dot{transition:none}:host([no_transition]) .input .bar .value{transition:opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s}:host([popup_visible]) .input .bar .value{opacity:1;visibility:visible}:host([label]:not([label=""])) label{display:flex}`;
+    static __style = `:host{--_slider-background-color: var(--slider-background-color, var(--form-element-background, white));--_slider-background-image: var(--slider-background-image, none);--_slider-background-position: var(--slider-background-position, 0 0);--_slider-background-size: var(--slider-background-size, auto);--_slider-active-background-color: var(--slider-active-background-color, var(--secondary-color-active));--_slider-dot-color: var(--slider-dot-color, var(--secondary-color));--_slider-dot-size: var(--slider-dot-size, var(--form-element-font-size, 16px));--_slider-popup-font-size: var(--slider-popup-font-size, var(--font-size-sm));--_slider-font-size-label: var(--slider-font-size-label, var(--form-element-font-size-label));--_slider-border-radius: var(--slider-border-radius, var(--form-element-border-radius));--_slider-bar-height: var(--slider-bar-height, 5px);--_slider-height: var(--slider-height, var(--input-height, 30px));--local-slider-dot-percent: 0%}:host{align-items:center;display:flex;flex-direction:column;justify-content:center;min-width:100px;width:100%}:host label{cursor:pointer;display:none;flex-shrink:0;font-size:var(--_slider-font-size-label);margin-bottom:5px;margin-left:3px;width:100%}:host .input{align-items:center;display:flex;height:var(--_slider-height);width:100%}:host .input .bar{align-items:center;background-color:var(--_slider-background-color);background-image:var(--_slider-background-image);background-position:var(--_slider-background-position);background-size:var(--_slider-background-size);border-radius:var(--_slider-border-radius);cursor:pointer;display:flex;flex-direction:row;flex-shrink:0;height:var(--_slider-bar-height);position:relative;width:100%}:host .input .bar .bar-fill{background-color:var(--_slider-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:var(--local-slider-dot-percent)}:host .input .bar .dot{background-color:var(--_slider-dot-color);border-radius:var(--border-radius-round);box-shadow:var(--elevation-2);cursor:pointer;height:var(--_slider-dot-size);left:var(--local-slider-dot-percent);pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_slider-dot-size);z-index:10}:host .input .bar .value{background-color:var(--_slider-dot-color);border-radius:var(--_slider-border-radius);box-shadow:var(--elevation-2);font-size:var(--_slider-popup-font-size);left:var(--local-slider-dot-percent);opacity:1;padding:5px 10px;padding-bottom:2px;position:absolute;top:0;transform:translateY(calc(-100% - 12px)) translateX(-50%);transform-origin:center center;transition:left var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s;visibility:visible}:host .input .bar .value::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:8px solid var(--_slider-dot-color);bottom:-7px;content:"";left:50%;position:absolute;transform:translateX(-50%)}:host([no_transition]) .input .bar .bar-fill{transition:none}:host([no_transition]) .input .bar .dot{transition:none}:host([no_transition]) .input .bar .value{transition:opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s}:host(:not([popup_visible])) .input .bar .value{opacity:0;visibility:hidden}:host([label]:not([label=""])) label{display:flex}`;
     __getStatic() {
         return Slider;
     }
@@ -13985,7 +14118,7 @@ Components.Slider = class Slider extends Components.FormElement {
             offsetDrag: 0,
             stopPropagation: false,
             onPointerDown: (e) => {
-                Components.Scrollable.lock(this);
+                _.Components.Scrollable.lock(this);
                 this.no_transition = true;
                 if (this.popup == "onMove") {
                     clearTimeout(this.timerPopup);
@@ -14005,7 +14138,7 @@ Components.Slider = class Slider extends Components.FormElement {
                 this.calculateValue();
             },
             onPointerUp: () => {
-                Components.Scrollable.unlock(this);
+                _.Components.Scrollable.unlock(this);
                 this.no_transition = false;
                 if (this.popup == "onMove") {
                     this.timerPopup = setTimeout(() => {
@@ -14116,7 +14249,7 @@ Components.Slider = class Slider extends Components.FormElement {
 }
 Components.Slider.Namespace=`Core.Components`;
 Components.Slider.Tag=`rk-slider`;
-_.Components.Slider=Components.Slider;
+__as1(_.Components, 'Slider', Components.Slider);
 if(!window.customElements.get('rk-slider')){window.customElements.define('rk-slider', Components.Slider);Aventus.WebComponentInstance.registerDefinition(Components.Slider);}
 
 Components.InputNumber = class InputNumber extends Components.FormElement {
@@ -14332,7 +14465,7 @@ Components.InputNumber = class InputNumber extends Components.FormElement {
 }
 Components.InputNumber.Namespace=`Core.Components`;
 Components.InputNumber.Tag=`rk-input-number`;
-_.Components.InputNumber=Components.InputNumber;
+__as1(_.Components, 'InputNumber', Components.InputNumber);
 if(!window.customElements.get('rk-input-number')){window.customElements.define('rk-input-number', Components.InputNumber);Aventus.WebComponentInstance.registerDefinition(Components.InputNumber);}
 
 Components.InputImage = class InputImage extends Components.FormElement {
@@ -14492,7 +14625,7 @@ Components.InputImage = class InputImage extends Components.FormElement {
 }
 Components.InputImage.Namespace=`Core.Components`;
 Components.InputImage.Tag=`rk-input-image`;
-_.Components.InputImage=Components.InputImage;
+__as1(_.Components, 'InputImage', Components.InputImage);
 if(!window.customElements.get('rk-input-image')){window.customElements.define('rk-input-image', Components.InputImage);Aventus.WebComponentInstance.registerDefinition(Components.InputImage);}
 
 Components.InputDate = class InputDate extends Components.FormElement {
@@ -14948,7 +15081,7 @@ Components.InputDate = class InputDate extends Components.FormElement {
 }
 Components.InputDate.Namespace=`Core.Components`;
 Components.InputDate.Tag=`rk-input-date`;
-_.Components.InputDate=Components.InputDate;
+__as1(_.Components, 'InputDate', Components.InputDate);
 if(!window.customElements.get('rk-input-date')){window.customElements.define('rk-input-date', Components.InputDate);Aventus.WebComponentInstance.registerDefinition(Components.InputDate);}
 
 Components.InlineText = class InlineText extends Components.FormElement {
@@ -15066,7 +15199,7 @@ Components.InlineText = class InlineText extends Components.FormElement {
 }
 Components.InlineText.Namespace=`Core.Components`;
 Components.InlineText.Tag=`rk-inline-text`;
-_.Components.InlineText=Components.InlineText;
+__as1(_.Components, 'InlineText', Components.InlineText);
 if(!window.customElements.get('rk-inline-text')){window.customElements.define('rk-inline-text', Components.InlineText);Aventus.WebComponentInstance.registerDefinition(Components.InlineText);}
 
 Components.Form = class Form extends Aventus.WebComponent {
@@ -15114,7 +15247,7 @@ Components.Form = class Form extends Aventus.WebComponent {
 }
 Components.Form.Namespace=`Core.Components`;
 Components.Form.Tag=`rk-form`;
-_.Components.Form=Components.Form;
+__as1(_.Components, 'Form', Components.Form);
 if(!window.customElements.get('rk-form')){window.customElements.define('rk-form', Components.Form);Aventus.WebComponentInstance.registerDefinition(Components.Form);}
 
 Components.Button = class Button extends Aventus.WebComponent {
@@ -15167,7 +15300,7 @@ Components.Button = class Button extends Aventus.WebComponent {
     registerToForm() {
         if (!this.submit)
             return;
-        const parent = this.findParentByType(Components.Form);
+        const parent = this.findParentByType(_.Components.Form);
         if (parent) {
             parent.registerSubmit(this);
         }
@@ -15184,7 +15317,7 @@ Components.Button = class Button extends Aventus.WebComponent {
 }
 Components.Button.Namespace=`Core.Components`;
 Components.Button.Tag=`rk-button`;
-_.Components.Button=Components.Button;
+__as1(_.Components, 'Button', Components.Button);
 if(!window.customElements.get('rk-button')){window.customElements.define('rk-button', Components.Button);Aventus.WebComponentInstance.registerDefinition(Components.Button);}
 
 Lib.NotificationManager=class NotificationManager {
@@ -15224,7 +15357,7 @@ Lib.NotificationManager=class NotificationManager {
                 this.subscription = subscription;
                 const router = new Routes.PushRecordRouter();
                 let record = this.subToRecord(subscription);
-                this.record = await Lib.Process.execute(System.Os.instance, router.Get({ record: record }));
+                this.record = await _.Lib.Process.execute(System.Os.instance, router.Get({ record: record }));
                 if (!this.record) {
                     await this.subscription.unsubscribe();
                     this.subscription = undefined;
@@ -15267,7 +15400,7 @@ Lib.NotificationManager=class NotificationManager {
             }
             if (record) {
                 const router = new Routes.PushRecordRouter();
-                this.record = await Lib.Process.execute(System.Os.instance, router.CreateOrUpdate({ record: record }));
+                this.record = await _.Lib.Process.execute(System.Os.instance, router.CreateOrUpdate({ record: record }));
                 this.hasNotification = true;
             }
         }
@@ -15286,7 +15419,7 @@ Lib.NotificationManager=class NotificationManager {
             await this.subscription.unsubscribe();
             this.subscription = undefined;
             const router = new Routes.PushRecordRouter();
-            if (await Lib.Process.execute(System.Os.instance, router.Destroy({ record: this.record }))) {
+            if (await _.Lib.Process.execute(System.Os.instance, router.Destroy({ record: this.record }))) {
                 this.record = undefined;
                 this.hasNotification = false;
             }
@@ -15318,18 +15451,18 @@ Lib.NotificationManager=class NotificationManager {
     }
 }
 Lib.NotificationManager.Namespace=`Core.Lib`;
-_.Lib.NotificationManager=Lib.NotificationManager;
+__as1(_.Lib, 'NotificationManager', Lib.NotificationManager);
 
 Lib.ServiceWorker=class ServiceWorker {
     static getInstance() {
         return AvInstance.get(Lib.ServiceWorker);
     }
     async init(registration) {
-        await Lib.NotificationManager.getInstance().init(registration);
+        await _.Lib.NotificationManager.getInstance().init(registration);
     }
 }
 Lib.ServiceWorker.Namespace=`Core.Lib`;
-_.Lib.ServiceWorker=Lib.ServiceWorker;
+__as1(_.Lib, 'ServiceWorker', Lib.ServiceWorker);
 
 System.NotificationBtn = class NotificationBtn extends Components.Button {
     get 'loading'() { return this.getBoolAttr('loading') }
@@ -15344,7 +15477,10 @@ System.NotificationBtn = class NotificationBtn extends Components.Button {
         return Lib.NotificationManager.getInstance().isLoading;
     }
     static __style = `:host(:not([is_init])){display:none}:host([loading]) rk-img{animation-name:rotate;animation-timing-function:linear;animation-duration:1s;animation-iteration-count:infinite}@keyframes rotate{0%{transform:rotate(0deg)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}`;
-    constructor() { super(); this.setValues=this.setValues.bind(this) }
+    constructor() {
+        super();
+        this.setValues = this.setValues.bind(this);
+    }
     __getStatic() {
         return NotificationBtn;
     }
@@ -15416,7 +15552,7 @@ System.NotificationBtn = class NotificationBtn extends Components.Button {
 }
 System.NotificationBtn.Namespace=`Core.System`;
 System.NotificationBtn.Tag=`rk-notification-btn`;
-_.System.NotificationBtn=System.NotificationBtn;
+__as1(_.System, 'NotificationBtn', System.NotificationBtn);
 if(!window.customElements.get('rk-notification-btn')){window.customElements.define('rk-notification-btn', System.NotificationBtn);Aventus.WebComponentInstance.registerDefinition(System.NotificationBtn);}
 
 Lib.FileSaver=class FileSaver {
@@ -15572,7 +15708,7 @@ Lib.FileSaver=class FileSaver {
     }
 }
 Lib.FileSaver.Namespace=`Core.Lib`;
-_.Lib.FileSaver=Lib.FileSaver;
+__as1(_.Lib, 'FileSaver', Lib.FileSaver);
 
 Components.Sheet = class Sheet extends Aventus.WebComponent {
     get 'format'() { return this.getStringAttr('format') }
@@ -15607,13 +15743,16 @@ Components.Sheet = class Sheet extends Aventus.WebComponent {
     settings;
     static __style = `:host{--_sheet-padding: var(--sheet-padding, 0)}:host .sheet{box-sizing:border-box;color:#000;display:flex;flex-direction:column;flex-shrink:0;margin:0;overflow:hidden;padding:var(--_sheet-padding);page-break-before:page;position:relative;user-select:text}:host .sheet .header,:host .sheet .footer{flex-grow:0;flex-shrink:0;width:100%}:host .sheet .body{flex-grow:1;overflow:hidden;width:100%}:host .sheet .body .body-wrapper{width:100%}@media screen{:host .sheet{background-color:#fff;box-shadow:0 .5mm 2mm rgba(0,0,0,.3)}}:host([format=A3][orientation=portrait]) .sheet{height:420mm;width:297mm}:host([format=A3][orientation=landscape]) .sheet{height:297mm;width:420mm}:host([format=A4][orientation=portrait]) .sheet{height:297mm;width:210mm}:host([format=A4][orientation=landscape]) .sheet{height:210mm;width:297mm}:host([format=A5][orientation=portrait]) .sheet{height:210mm;width:148mm}:host([format=A5][orientation=landscape]) .sheet{height:148mm;width:210mm}:host([format=letter][orientation=portrait]) .sheet{height:279mm;width:216mm}:host([format=letter][orientation=landscape]) .sheet{height:216mm;width:280mm}:host([format=legal][orientation=portrait]) .sheet{height:357mm;width:216mm}:host([format=legal][orientation=landscape]) .sheet{height:216mm;width:357mm}`;
     constructor() {
-            super();
-            const settings = this.sheetSettings(this.defaultSettings());
-            this.settings = settings;
-            this.format = settings.format;
-            this.orientation = settings.orientation;
-            this.style.setProperty("--sheet-padding", settings.padding);
-if (this.constructor == Sheet) { throw "can't instanciate an abstract class"; }}
+        super();
+        const settings = this.sheetSettings(this.defaultSettings());
+        this.settings = settings;
+        this.format = settings.format;
+        this.orientation = settings.orientation;
+        this.style.setProperty("--sheet-padding", settings.padding);
+        if (this.constructor == Sheet) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return Sheet;
     }
@@ -15758,7 +15897,7 @@ if (this.constructor == Sheet) { throw "can't instanciate an abstract class"; }}
         let hasNewPageG = false;
         for (let i = 0; i < children.length; i++) {
             const child = children[i];
-            if (child instanceof Components.SheetSplitter) {
+            if (child instanceof _.Components.SheetSplitter) {
                 lastSplitter = child;
                 lastIndex = i;
                 continue;
@@ -15999,7 +16138,7 @@ if (this.constructor == Sheet) { throw "can't instanciate an abstract class"; }}
     static pxToMm(px) { return px / 3.7795275591; }
 }
 Components.Sheet.Namespace=`Core.Components`;
-_.Components.Sheet=Components.Sheet;
+__as1(_.Components, 'Sheet', Components.Sheet);
 
 Components.SheetPreview = class SheetPreview extends Aventus.WebComponent {
     static get observedAttributes() {return ["filename"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -16054,11 +16193,12 @@ Components.SheetPreview = class SheetPreview extends Aventus.WebComponent {
       "id": "sheetpreview_5",
       "injectionName": "value",
       "eventNames": [
-        "change"
+        "onChange"
       ],
       "inject": (c) => c.comp.__ef3ef2c620c645514a1d0f1099b9edaamethod1(),
       "extract": (c, v) => c.comp.__ef3ef2c620c645514a1d0f1099b9edaamethod2(v),
-      "once": true
+      "once": true,
+      "isCallback": true
     }
   ],
   "pressEvents": [
@@ -16115,7 +16255,7 @@ Components.SheetPreview = class SheetPreview extends Aventus.WebComponent {
     }
     async print() {
         let el = this.getElementsInSlot()[0];
-        if (el instanceof Components.Sheet) {
+        if (el instanceof _.Components.Sheet) {
             let execLoading = async (fct) => {
                 this.loading = true;
                 try {
@@ -16149,7 +16289,7 @@ Components.SheetPreview = class SheetPreview extends Aventus.WebComponent {
     }
     save() {
         let el = this.getElementsInSlot()[0];
-        if (el instanceof Components.Sheet) {
+        if (el instanceof _.Components.Sheet) {
             el.saveAs((this.filename ?? "doucment") + ".html");
         }
     }
@@ -16170,7 +16310,7 @@ Components.SheetPreview = class SheetPreview extends Aventus.WebComponent {
 }
 Components.SheetPreview.Namespace=`Core.Components`;
 Components.SheetPreview.Tag=`rk-sheet-preview`;
-_.Components.SheetPreview=Components.SheetPreview;
+__as1(_.Components, 'SheetPreview', Components.SheetPreview);
 if(!window.customElements.get('rk-sheet-preview')){window.customElements.define('rk-sheet-preview', Components.SheetPreview);Aventus.WebComponentInstance.registerDefinition(Components.SheetPreview);}
 
 const IconAction = class IconAction extends MaterialIcon.Icon {
@@ -16257,7 +16397,7 @@ const IconAction = class IconAction extends MaterialIcon.Icon {
 }
 IconAction.Namespace=`Core`;
 IconAction.Tag=`rk-icon-action`;
-_.IconAction=IconAction;
+__as1(_, 'IconAction', IconAction);
 if(!window.customElements.get('rk-icon-action')){window.customElements.define('rk-icon-action', IconAction);Aventus.WebComponentInstance.registerDefinition(IconAction);}
 
 Components.Checkbox = class Checkbox extends Components.FormElement {
@@ -16330,7 +16470,7 @@ Components.Checkbox = class Checkbox extends Components.FormElement {
 }
 Components.Checkbox.Namespace=`Core.Components`;
 Components.Checkbox.Tag=`rk-checkbox`;
-_.Components.Checkbox=Components.Checkbox;
+__as1(_.Components, 'Checkbox', Components.Checkbox);
 if(!window.customElements.get('rk-checkbox')){window.customElements.define('rk-checkbox', Components.Checkbox);Aventus.WebComponentInstance.registerDefinition(Components.Checkbox);}
 
 Components.CheckboxItem = class CheckboxItem extends Aventus.WebComponent {
@@ -16343,7 +16483,8 @@ Components.CheckboxItem = class CheckboxItem extends Aventus.WebComponent {
 					}
 					set 'value'(val) {
 						this.__watch["value"] = val;
-					}    onChange = new Aventus.Callback();
+					}    no_undefined;
+    onChange = new Aventus.Callback();
     __registerWatchesActions() {
     this.__addWatchesActions("value");    super.__registerWatchesActions();
 }
@@ -16392,9 +16533,10 @@ Components.CheckboxItem = class CheckboxItem extends Aventus.WebComponent {
   ],
   "events": [
     {
-      "eventName": "change",
+      "eventName": "onChange",
       "id": "checkboxitem_0",
-      "fct": (e, c) => c.comp.emitChange(e)
+      "fct": (c, ...args) => c.comp.emitChange.apply(c.comp, ...args),
+      "isCallback": true
     }
   ]
 }); }
@@ -16409,7 +16551,10 @@ Components.CheckboxItem = class CheckboxItem extends Aventus.WebComponent {
         if (value) {
             this.onChange.trigger(this.value, this);
         }
-        else if (true) {
+        else if (!this.no_undefined) {
+            this.onChange.trigger(undefined, this);
+        }
+        else {
             this.checked = true;
             this.checkboxEl.checked = true;
         }
@@ -16426,12 +16571,13 @@ Components.CheckboxItem = class CheckboxItem extends Aventus.WebComponent {
 }
 Components.CheckboxItem.Namespace=`Core.Components`;
 Components.CheckboxItem.Tag=`rk-checkbox-item`;
-_.Components.CheckboxItem=Components.CheckboxItem;
+__as1(_.Components, 'CheckboxItem', Components.CheckboxItem);
 if(!window.customElements.get('rk-checkbox-item')){window.customElements.define('rk-checkbox-item', Components.CheckboxItem);Aventus.WebComponentInstance.registerDefinition(Components.CheckboxItem);}
 
 Components.CheckboxGroup = class CheckboxGroup extends Components.FormElement {
     static get observedAttributes() {return ["multiple"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'multiple'() { return this.getBoolProp('multiple') }
+    get 'no_undefined'() { return this.getBoolAttr('no_undefined') }
+    set 'no_undefined'(val) { this.setBoolAttr('no_undefined', val) }    get 'multiple'() { return this.getBoolProp('multiple') }
     set 'multiple'(val) { this.setBoolAttr('multiple', val) }    get 'value'() {
 						return this.__watch["value"];
 					}
@@ -16439,13 +16585,17 @@ Components.CheckboxGroup = class CheckboxGroup extends Components.FormElement {
 						this.__watch["value"] = val;
 					}    options = [];
     selectedOption;
+    isLoading = false;
     __registerWatchesActions() {
     this.__addWatchesActions("value", ((target) => {
     target.onValueSet();
 }));    super.__registerWatchesActions();
 }
     static __style = `:host{display:flex;flex-direction:column;gap:3px}`;
-    constructor() { super(); this.onChangeValue=this.onChangeValue.bind(this) }
+    constructor() {
+        super();
+        this.onChangeValue = this.onChangeValue.bind(this);
+    }
     __getStatic() {
         return CheckboxGroup;
     }
@@ -16463,27 +16613,43 @@ Components.CheckboxGroup = class CheckboxGroup extends Components.FormElement {
     getClassName() {
         return "CheckboxGroup";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('multiple')) { this.attributeChangedCallback('multiple', false, false); } }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('no_undefined')) { this.attributeChangedCallback('no_undefined', false, false); }if(!this.hasAttribute('multiple')) { this.attributeChangedCallback('multiple', false, false); } }
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('multiple');this.__correctGetter('value'); }
-    __listBoolProps() { return ["multiple"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('no_undefined');this.__upgradeProperty('multiple');this.__correctGetter('value'); }
+    __listBoolProps() { return ["no_undefined","multiple"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     loadCheckbox() {
+        this.isLoading = true;
         const elements = this.getElementsInSlot();
         const options = [];
+        let triggerChange = false;
         for (let element of elements) {
-            if (element instanceof Components.CheckboxItem) {
+            if (element instanceof _.Components.CheckboxItem) {
                 options.push(element);
+                if (this.value == undefined && this.no_undefined) {
+                    this.value = element.value;
+                    triggerChange = true;
+                }
                 if (element.value == this.value) {
                     element.checked = true;
                     this.selectedOption = element;
                 }
                 element.onChange.remove(this.onChangeValue);
                 element.onChange.add(this.onChangeValue);
+                element.no_undefined = this.no_undefined;
             }
         }
         this.options = options;
+        this.isLoading = false;
+        if (triggerChange) {
+            this.onChange.trigger(this.value);
+            if (this.formPart) {
+                this.formPart.value.set(this.value);
+            }
+        }
     }
     onValueSet() {
+        if (this.isLoading)
+            return;
         // select
         let selected = undefined;
         for (let option of this.options) {
@@ -16514,7 +16680,7 @@ Components.CheckboxGroup = class CheckboxGroup extends Components.FormElement {
 }
 Components.CheckboxGroup.Namespace=`Core.Components`;
 Components.CheckboxGroup.Tag=`rk-checkbox-group`;
-_.Components.CheckboxGroup=Components.CheckboxGroup;
+__as1(_.Components, 'CheckboxGroup', Components.CheckboxGroup);
 if(!window.customElements.get('rk-checkbox-group')){window.customElements.define('rk-checkbox-group', Components.CheckboxGroup);Aventus.WebComponentInstance.registerDefinition(Components.CheckboxGroup);}
 
 Lib.Color=class Color {
@@ -16546,7 +16712,7 @@ Lib.Color=class Color {
         else if (/^hsva?\(\s*\d{1,3}\s*,\s*\d{1,3}%?\s*,\s*\d{1,3}%?\s*(,\s*(0|1|0?\.\d+))?\s*\)$/.test(treatedColor)) {
             return treatedColor.startsWith("hsva") ? Lib.Color.types.hsva : Lib.Color.types.hsv;
         }
-        else if (Object.hasOwn(Lib.Colors, colorString.toUpperCase())) {
+        else if (Object.hasOwn(_.Lib.Colors, colorString.toUpperCase())) {
             return Lib.Color.types.static;
         }
         else {
@@ -16787,7 +16953,7 @@ Lib.Color=class Color {
         let colorType = Lib.Color.getColorType(colorString);
         if (colorType !== -1) {
             if (colorType === Lib.Color.types.static) {
-                let staticColor = Lib.Colors[colorString.toUpperCase()];
+                let staticColor = _.Lib.Colors[colorString.toUpperCase()];
                 if (staticColor instanceof Lib.Color) {
                     currentColor = staticColor.currentColor;
                 }
@@ -16822,7 +16988,7 @@ Lib.Color=class Color {
         let colorType = Lib.Color.getColorType(colorString);
         if (colorType !== -1) {
             if (colorType === Lib.Color.types.static) {
-                let staticColor = Lib.Colors[colorString.toUpperCase()];
+                let staticColor = _.Lib.Colors[colorString.toUpperCase()];
                 if (staticColor instanceof Lib.Color) {
                     this.currentColor = staticColor.currentColor;
                 }
@@ -17093,7 +17259,7 @@ Lib.Color=class Color {
     }
 }
 Lib.Color.Namespace=`Core.Lib`;
-_.Lib.Color=Lib.Color;
+__as1(_.Lib, 'Color', Lib.Color);
 
 Components.ColorPickerSelector = class ColorPickerSelector extends Aventus.WebComponent {
     static get observedAttributes() {return ["color"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -17148,7 +17314,13 @@ Components.ColorPickerSelector = class ColorPickerSelector extends Aventus.WebCo
     }
 })); }
     static __style = `:host{--_color-picker-selector-area-width: var(--color-picker-selector-area-width, 200px);--_color-picker-selector-panel-width: var(--color-picker-selector-panel-width, 200px);--_color-picker-selector-background-color: var(--color-picker-selector-background-color, white);--_color-picker-selector-border-radius: var(--color-picker-selector-border-radius, var(--border-radius-sm))}:host{background-color:var(--_color-picker-selector-background-color);border-radius:var(--_color-picker-selector-border-radius);box-shadow:var(--elevation-2);width:max(var(--_color-picker-selector-area-width),var(--_color-picker-selector-panel-width));z-index:800}:host .style-wrapper{display:flex;flex-direction:column;width:100%}:host .style-wrapper .color-area{aspect-ratio:1/.5;background-image:linear-gradient(rgba(0, 0, 0, 0), #000),linear-gradient(90deg, #fff, var(--_color-picker-selector-area-color));border-top-left-radius:var(--_color-picker-selector-border-radius);border-top-right-radius:var(--_color-picker-selector-border-radius);cursor:pointer;margin:0 auto;position:relative;width:var(--_color-picker-selector-area-width)}:host .style-wrapper .color-area .area-dot{background-color:var(--_color-picker-selector-color-opacity);border:2px solid #fff;border-radius:var(--border-radius-round);height:10px;left:0;position:absolute;top:0;transform:translate(-50%, -50%);width:10px}:host .style-wrapper .color-panel{margin:0 auto;padding:15px;width:var(--_color-picker-selector-panel-width)}:host .style-wrapper .color-panel .color-hue{margin-bottom:5px;width:100%}:host .style-wrapper .color-panel .color-hue rk-slider{--slider-background-image: linear-gradient(to right, red 0, #ff0 16.66%, #0f0 33.33%, #0ff 50%, #00f 66.66%, #f0f 83.33%, red 100%);--slider-active-background-color: transparent;--slider-background-color: transparent;--slider-dot-color: var(--_color-picker-selector-area-color);--slider-bar-height: 8px;min-width:auto;width:100%}:host .style-wrapper .color-panel .color-alpha{display:none;margin-top:5px;position:relative}:host .style-wrapper .color-panel .color-alpha rk-slider{--slider-background-color: transparent;--slider-active-background-color: transparent;--slider-bar-height: 8px;min-width:auto;position:relative;width:100%;z-index:2}:host .style-wrapper .color-panel .color-alpha .bar{background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--_color-picker-selector-border-radius);inset:0;position:absolute;width:100%;z-index:1}:host .style-wrapper .color-panel .color-alpha .bar-color{background-image:linear-gradient(90deg, rgba(0, 0, 0, 0), var(--_color-picker-selector-color-opacity));border-radius:var(--_color-picker-selector-border-radius);inset:0;position:absolute;width:100%;z-index:2}:host .style-wrapper .color-panel .color-alpha .dot{background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--border-radius-round);inset:0;position:absolute;z-index:1}:host .style-wrapper .color-panel .color-alpha .dot-color{background-color:var(--_color-picker-selector-color);border-radius:var(--border-radius-round);inset:0;position:absolute;z-index:2}:host .style-wrapper .color-panel .color-result{align-items:center;display:flex;flex-direction:row;gap:10px;justify-content:center;margin-top:20px}:host .style-wrapper .color-panel .color-result .color-preview{background-image:repeating-linear-gradient(45deg, #aaa 25%, transparent 25%, transparent 75%, #aaa 75%, #aaa),repeating-linear-gradient(45deg, #aaa 25%, #fff 25%, #fff 75%, #aaa 75%, #aaa);background-position:0 0,2px 2px;background-size:4px 4px;border-radius:var(--border-radius-round);flex-shrink:0;height:25px;overflow:hidden;position:relative;width:25px}:host .style-wrapper .color-panel .color-result .color-preview::after{background-color:var(--_color-picker-selector-color);content:"";inset:0;position:absolute}:host .style-wrapper .color-panel .color-result .color-text{display:none;width:calc(100% - 35px)}:host .style-wrapper .color-panel .color-result .color-text rk-input{--input-height: 25px;min-width:auto;width:100%}:host .style-wrapper .color-panel .color-preset:not(:empty){align-items:center;display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:20px;width:100%}:host .style-wrapper .color-panel .color-preset:not(:empty) .preset{border-radius:var(--border-radius-round);flex-shrink:0;height:20px;width:20px}:host([direction=horizontal]){width:fit-content}:host([direction=horizontal]) .style-wrapper{display:flex;flex-direction:row}:host([direction=horizontal]) .style-wrapper .color-area{aspect-ratio:auto;border-bottom-left-radius:var(--_color-picker-selector-border-radius);border-top-right-radius:0}:host([opacity]) .style-wrapper .color-panel .color-alpha{display:block}:host([show_text_value]) .style-wrapper .color-panel .color-result .color-text{display:block}`;
-    constructor() {            super();            this._color = new Lib.Color("#FFFFFF");            this._color.onColorChange.add(() => {                this.applyColorChange();            });        }
+    constructor() {
+        super();
+        this._color = new Lib.Color("#FFFFFF");
+        this._color.onColorChange.add(() => {
+            this.applyColorChange();
+        });
+    }
     __getStatic() {
         return ColorPickerSelector;
     }
@@ -17194,31 +17366,34 @@ Components.ColorPickerSelector = class ColorPickerSelector extends Aventus.WebCo
       "id": "colorpickerselector_3",
       "injectionName": "value",
       "eventNames": [
-        "change"
+        "onChange"
       ],
       "inject": (c) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method0(),
       "extract": (c, v) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method1(v),
-      "once": true
+      "once": true,
+      "isCallback": true
     },
     {
       "id": "colorpickerselector_4",
       "injectionName": "value",
       "eventNames": [
-        "change"
+        "onChange"
       ],
       "inject": (c) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method2(),
       "extract": (c, v) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method3(v),
-      "once": true
+      "once": true,
+      "isCallback": true
     },
     {
       "id": "colorpickerselector_5",
       "injectionName": "value",
       "eventNames": [
-        "change"
+        "onChange"
       ],
       "inject": (c) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method4(),
       "extract": (c, v) => c.comp.__8e40e5b3dc0703a294a7003ba5b4bc48method5(v),
-      "once": true
+      "once": true,
+      "isCallback": true
     }
   ]
 }); }
@@ -17377,7 +17552,7 @@ Components.ColorPickerSelector = class ColorPickerSelector extends Aventus.WebCo
 }
 Components.ColorPickerSelector.Namespace=`Core.Components`;
 Components.ColorPickerSelector.Tag=`rk-color-picker-selector`;
-_.Components.ColorPickerSelector=Components.ColorPickerSelector;
+__as1(_.Components, 'ColorPickerSelector', Components.ColorPickerSelector);
 if(!window.customElements.get('rk-color-picker-selector')){window.customElements.define('rk-color-picker-selector', Components.ColorPickerSelector);Aventus.WebComponentInstance.registerDefinition(Components.ColorPickerSelector);}
 
 Components.ColorPicker = class ColorPicker extends Components.FormElement {
@@ -17624,7 +17799,7 @@ Components.ColorPicker = class ColorPicker extends Components.FormElement {
 }
 Components.ColorPicker.Namespace=`Core.Components`;
 Components.ColorPicker.Tag=`rk-color-picker`;
-_.Components.ColorPicker=Components.ColorPicker;
+__as1(_.Components, 'ColorPicker', Components.ColorPicker);
 if(!window.customElements.get('rk-color-picker')){window.customElements.define('rk-color-picker', Components.ColorPicker);Aventus.WebComponentInstance.registerDefinition(Components.ColorPicker);}
 
 Components.DatePickerCalendar = class DatePickerCalendar extends Components.Calendar {
@@ -17647,12 +17822,12 @@ Components.DatePickerCalendar = class DatePickerCalendar extends Components.Cale
         return "DatePickerCalendar";
     }
     defineCalendarDay() {
-        return Components.DatePickerCalendarDay;
+        return _.Components.DatePickerCalendarDay;
     }
 }
 Components.DatePickerCalendar.Namespace=`Core.Components`;
 Components.DatePickerCalendar.Tag=`rk-date-picker-calendar`;
-_.Components.DatePickerCalendar=Components.DatePickerCalendar;
+__as1(_.Components, 'DatePickerCalendar', Components.DatePickerCalendar);
 if(!window.customElements.get('rk-date-picker-calendar')){window.customElements.define('rk-date-picker-calendar', Components.DatePickerCalendar);Aventus.WebComponentInstance.registerDefinition(Components.DatePickerCalendar);}
 
 Components.DatePicker = class DatePicker extends Components.FormElement {
@@ -17680,9 +17855,9 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
 }
     static __style = `:host{--_datepicker-height: var(--input-height, 30px);--_datepicker-background-color: var(--input-background-color, var(--form-element-background, white));--_datepicker-icon-height: var(--input-icon-height, calc(var(--_datepicker-height) / 2));--_datepicker-error-logo-size: var(--input-error-logo-size, calc(var(--_datepicker-height) / 2));--_datepicker-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_datepicker-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_datepicker-font-size) * 0.95)));--_datepicker-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_datepicker-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_datepicker-font-size-label);margin-bottom:5px;margin-left:3px;cursor:pointer}:host .input{align-items:center;background-color:var(--_datepicker-background-color);border:var(--_datepicker-input-border);border-radius:var(--_datepicker-border-radius);display:flex;height:var(--_datepicker-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_datepicker-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_datepicker-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .close-icon{font-size:18px;flex-shrink:0;display:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_datepicker-error-logo-size) - 5px);height:var(--_datepicker-error-logo-size);justify-content:center;width:var(--_datepicker-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([show_close]:not([no_undefined])) .input .close-icon{display:inline-block}`;
     constructor() {
-            super();
-            this.bindCalendar();
-        }
+        super();
+        this.bindCalendar();
+    }
     __getStatic() {
         return DatePicker;
     }
@@ -17762,7 +17937,7 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('year_format');this.__upgradeProperty('month_format');this.__upgradeProperty('day_format');this.__upgradeProperty('locale');this.__upgradeProperty('time_zone');this.__upgradeProperty('hide_on_select');this.__upgradeProperty('show_close');this.__upgradeProperty('no_undefined');this.__upgradeProperty('label');this.__upgradeProperty('icon');this.__correctGetter('value'); }
     __listBoolProps() { return ["hide_on_select","show_close","no_undefined"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     defineCalendar() {
-        return Components.DatePickerCalendar;
+        return _.Components.DatePickerCalendar;
     }
     renderDate() {
         if (!this.value) {
@@ -17851,13 +18026,13 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
 }
 Components.DatePicker.Namespace=`Core.Components`;
 Components.DatePicker.Tag=`rk-date-picker`;
-_.Components.DatePicker=Components.DatePicker;
+__as1(_.Components, 'DatePicker', Components.DatePicker);
 if(!window.customElements.get('rk-date-picker')){window.customElements.define('rk-date-picker', Components.DatePicker);Aventus.WebComponentInstance.registerDefinition(Components.DatePicker);}
 
 Components.CalendarContainer = class CalendarContainer extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
     set 'visible'(val) { this.setBoolAttr('visible', val) }    picker;
-    static __style = `:host{display:none;position:absolute;z-index:800}:host([visible]){display:block}`;
+    static __style = `:host{display:block;position:absolute;z-index:800}:host(:not([visible])){display:none}`;
     __getStatic() {
         return CalendarContainer;
     }
@@ -17917,7 +18092,7 @@ Components.CalendarContainer = class CalendarContainer extends Aventus.WebCompon
 }
 Components.CalendarContainer.Namespace=`Core.Components`;
 Components.CalendarContainer.Tag=`rk-calendar-container`;
-_.Components.CalendarContainer=Components.CalendarContainer;
+__as1(_.Components, 'CalendarContainer', Components.CalendarContainer);
 if(!window.customElements.get('rk-calendar-container')){window.customElements.define('rk-calendar-container', Components.CalendarContainer);Aventus.WebComponentInstance.registerDefinition(Components.CalendarContainer);}
 
 Components.VirtualForm=class VirtualForm {
@@ -17990,7 +18165,7 @@ Components.VirtualForm=class VirtualForm {
             if (Array.isArray(part.validate)) {
                 const fcts = [];
                 for (let temp of part.validate) {
-                    if (temp instanceof Components.FormValidator) {
+                    if (temp instanceof _.Components.FormValidator) {
                         fcts.push(temp.validate);
                     }
                     else {
@@ -18017,7 +18192,7 @@ Components.VirtualForm=class VirtualForm {
                     return result.length == 0 ? undefined : result;
                 };
             }
-            else if (part.validate instanceof Components.FormValidator) {
+            else if (part.validate instanceof _.Components.FormValidator) {
                 validate = part.validate.validate;
             }
             else if (isValidate(part.validate)) {
@@ -18038,7 +18213,7 @@ Components.VirtualForm=class VirtualForm {
             this._elements[key] = [];
         }
         realPart.register = (el) => {
-            if (this._elements[key] && this._elements[key].includes(el)) {
+            if (this._elements[key] && !this._elements[key].includes(el)) {
                 this._elements[key].push(el);
             }
         };
@@ -18204,7 +18379,7 @@ Components.VirtualForm=class VirtualForm {
             let noPrintErrors = [];
             const elements = this.elements;
             for (let error of queryResult.errors) {
-                if (error.details) {
+                if (Array.isArray(error.details)) {
                     let found = false;
                     for (let detail of error.details) {
                         if (detail instanceof AventusSharp.Data.FieldErrorInfo) {
@@ -18232,7 +18407,7 @@ Components.VirtualForm=class VirtualForm {
     }
 }
 Components.VirtualForm.Namespace=`Core.Components`;
-_.Components.VirtualForm=Components.VirtualForm;
+__as1(_.Components, 'VirtualForm', Components.VirtualForm);
 
 State.ApplicationFormState=class ApplicationFormState extends State.ApplicationWatchState {
     _form;
@@ -18295,9 +18470,9 @@ State.ApplicationFormState=class ApplicationFormState extends State.ApplicationW
 State.ApplicationFormState.Namespace=`Core.State`;
 State.ApplicationFormState.$schema={...(State.ApplicationWatchState?.$schema ?? {}), "_form":"Core.Components.VirtualForm","form":"Core.Components.InternalForm"};
 Aventus.Converter.register(State.ApplicationFormState.Fullname, State.ApplicationFormState);
-_.State.ApplicationFormState=State.ApplicationFormState;
+__as1(_.State, 'ApplicationFormState', State.ApplicationFormState);
 
-State.CreateOrUpdate=class CreateOrUpdate extends State.ApplicationFormState {
+State.CreateOrUpdate=class CreateOrUpdate extends _.State.ApplicationFormState {
     static _state = "";
     static get state() {
         if (this._state == "") {
@@ -18351,7 +18526,7 @@ State.CreateOrUpdate=class CreateOrUpdate extends State.ApplicationFormState {
                 let noPrintErrors = [];
                 const elements = this._form.elements;
                 for (let error of ramResult.errors) {
-                    if (error.details) {
+                    if (Array.isArray(error.details)) {
                         let found = false;
                         for (let detail of error.details) {
                             if (detail instanceof AventusSharp.Data.FieldErrorInfo) {
@@ -18388,7 +18563,7 @@ State.CreateOrUpdate=class CreateOrUpdate extends State.ApplicationFormState {
 State.CreateOrUpdate.Namespace=`Core.State`;
 State.CreateOrUpdate.$schema={...(State.ApplicationFormState?.$schema ?? {}), "item":"T","name":"string"};
 Aventus.Converter.register(State.CreateOrUpdate.Fullname, State.CreateOrUpdate);
-_.State.CreateOrUpdate=State.CreateOrUpdate;
+__as1(_.State, 'CreateOrUpdate', State.CreateOrUpdate);
 
 Components.PopupFormStorable = class PopupFormStorable extends Components.GenericPopup {
     get item() {
@@ -18403,12 +18578,15 @@ Components.PopupFormStorable = class PopupFormStorable extends Components.Generi
     _form;
     static __style = ``;
     constructor() {
-            super();
-            this._form = new Components.VirtualForm();
-            this._form.setForm(this.defineSchema());
-            this.onItemChange = this.onItemChange.bind(this);
-            this._form.onItemChange.add(this.onItemChange);
-if (this.constructor == PopupFormStorable) { throw "can't instanciate an abstract class"; }}
+        super();
+        this._form = new _.Components.VirtualForm();
+        this._form.setForm(this.defineSchema());
+        this.onItemChange = this.onItemChange.bind(this);
+        this._form.onItemChange.add(this.onItemChange);
+        if (this.constructor == PopupFormStorable) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return PopupFormStorable;
     }
@@ -18441,7 +18619,7 @@ if (this.constructor == PopupFormStorable) { throw "can't instanciate an abstrac
     }
 }
 Components.PopupFormStorable.Namespace=`Core.Components`;
-_.Components.PopupFormStorable=Components.PopupFormStorable;
+__as1(_.Components, 'PopupFormStorable', Components.PopupFormStorable);
 
 Components.PopupForm = class PopupForm extends Components.GenericPopup {
     get item() {
@@ -18456,10 +18634,13 @@ Components.PopupForm = class PopupForm extends Components.GenericPopup {
     _form;
     static __style = ``;
     constructor() {
-            super();
-            this._form = new Components.VirtualForm();
-            this._form.setForm(this.defineSchema());
-if (this.constructor == PopupForm) { throw "can't instanciate an abstract class"; }}
+        super();
+        this._form = new _.Components.VirtualForm();
+        this._form.setForm(this.defineSchema());
+        if (this.constructor == PopupForm) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return PopupForm;
     }
@@ -18483,9 +18664,9 @@ if (this.constructor == PopupForm) { throw "can't instanciate an abstract class"
     }
 }
 Components.PopupForm.Namespace=`Core.Components`;
-_.Components.PopupForm=Components.PopupForm;
+__as1(_.Components, 'PopupForm', Components.PopupForm);
 
-Components.Email=class Email extends Components.FormValidator {
+Components.Email=class Email extends _.Components.FormValidator {
     msg;
     constructor(msg) {
         super();
@@ -18505,7 +18686,7 @@ Components.Email=class Email extends Components.FormValidator {
     }
 }
 Components.Email.Namespace=`Core.Components`;
-_.Components.Email=Components.Email;
+__as1(_.Components, 'Email', Components.Email);
 
 Components.Input = class Input extends Components.FormElement {
     static get observedAttributes() {return ["label", "placeholder", "unit", "icon", "icon_position", "value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -18637,7 +18818,7 @@ Components.Input = class Input extends Components.FormElement {
 }
 Components.Input.Namespace=`Core.Components`;
 Components.Input.Tag=`rk-input`;
-_.Components.Input=Components.Input;
+__as1(_.Components, 'Input', Components.Input);
 if(!window.customElements.get('rk-input')){window.customElements.define('rk-input', Components.Input);Aventus.WebComponentInstance.registerDefinition(Components.Input);}
 
 Components.Password = class Password extends Components.Input {
@@ -18700,7 +18881,7 @@ Components.Password = class Password extends Components.Input {
 }
 Components.Password.Namespace=`Core.Components`;
 Components.Password.Tag=`rk-password`;
-_.Components.Password=Components.Password;
+__as1(_.Components, 'Password', Components.Password);
 if(!window.customElements.get('rk-password')){window.customElements.define('rk-password', Components.Password);Aventus.WebComponentInstance.registerDefinition(Components.Password);}
 
 Components.OptionsContainer = class OptionsContainer extends Aventus.WebComponent {
@@ -18776,7 +18957,7 @@ Components.OptionsContainer = class OptionsContainer extends Aventus.WebComponen
 }
 Components.OptionsContainer.Namespace=`Core.Components`;
 Components.OptionsContainer.Tag=`rk-options-container`;
-_.Components.OptionsContainer=Components.OptionsContainer;
+__as1(_.Components, 'OptionsContainer', Components.OptionsContainer);
 if(!window.customElements.get('rk-options-container')){window.customElements.define('rk-options-container', Components.OptionsContainer);Aventus.WebComponentInstance.registerDefinition(Components.OptionsContainer);}
 
 Components.GenericSelect = class GenericSelect extends Components.FormElement {
@@ -18815,7 +18996,12 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
     }
 })); }
     static __style = `:host{--_select-height: var(--select-height, 30px);--_select-background-color: var(--select-background-color, var(--form-element-background, white));--_select-icon-height: var(--select-icon-height, calc(var(--_select-height) / 2));--_select-error-logo-size: var(--select-error-logo-size, calc(var(--_select-height) / 2));--_select-font-size: var(--select-font-size, var(--form-element-font-size, 16px));--_select-font-size-label: var(--select-font-size-label, var(--form-element-font-size-label, calc(var(--_select-font-size) * 0.95)));--_select-select-border: var(--select-select-border, var(--form-element-border, 1px solid var(--lighter-active)));--_generic-select-border-radius: var(--generic-select-border-radius, var(--form-element-border-radius, 0));--_select-caret-height: var(--select-caret-height, calc(var(--_select-height) / 2));--_select-caret-color: var(--select-caret-color, var(--form-element-color))}:host{min-width:100px;width:100%}:host label{cursor:pointer;display:none;font-size:var(--_select-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_select-background-color);border:var(--_select-select-border);border-radius:var(--_generic-select-border-radius);cursor:pointer;display:flex;height:var(--_select-height);padding:0 10px;width:100%}:host .input .icon{display:none;height:var(--_select-icon-height);margin-right:10px}:host .input rk-img.caret{--img-fill-color: var(--_select-caret-color);--img-stroke-width: 0;aspect-ratio:1;flex-grow:0;flex-shrink:0;height:var(--_select-caret-height);transform:rotate(-90deg);transition:transform .5s var(--bezier-curve)}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_select-font-size);height:100%;margin:0;opacity:1;outline:none;padding:5px 0;padding-right:10px;-webkit-text-fill-color:var(--text-color);width:100%}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_select-error-logo-size) - 5px);height:var(--_select-error-logo-size);justify-content:center;width:var(--_select-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host .hidden{display:none}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([open]) .input .caret{transform:rotate(-270deg)}`;
-    constructor() { super(); if (this.constructor == GenericSelect) { throw "can't instanciate an abstract class"; } }
+    constructor() {
+        super();
+        if (this.constructor == GenericSelect) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return GenericSelect;
     }
@@ -18866,9 +19052,10 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
       "fct": (e, c) => c.comp.filter(e)
     },
     {
-      "eventName": "open",
+      "eventName": "onOpen",
       "id": "genericselect_6",
-      "fct": (e, c) => c.comp.syncCaret(e)
+      "fct": (c, ...args) => c.comp.syncCaret.apply(c.comp, ...args),
+      "isCallback": true
     }
   ],
   "pressEvents": [
@@ -18938,7 +19125,7 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
     loadElementsFromSlot() {
         let elements = this.getElementsInSlot();
         for (let element of elements) {
-            if (element instanceof Components.GenericOption) {
+            if (element instanceof _.Components.GenericOption) {
                 this.options.push(element);
                 element.init(this);
                 this.optionsContainer.appendChild(element);
@@ -19018,7 +19205,7 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
     }
 }
 Components.GenericSelect.Namespace=`Core.Components`;
-_.Components.GenericSelect=Components.GenericSelect;
+__as1(_.Components, 'GenericSelect', Components.GenericSelect);
 
 Components.SelectData = class SelectData extends Components.GenericSelect {
     get 'loading'() { return this.getBoolAttr('loading') }
@@ -19027,8 +19214,16 @@ Components.SelectData = class SelectData extends Components.GenericSelect {
     isInit = false;
     static __style = ``;
     constructor() {
-            super();
-if (this.constructor == SelectData) { throw "can't instanciate an abstract class"; }this.subscribe=this.subscribe.bind(this)this.unsubscribe=this.unsubscribe.bind(this)this.onCreated=this.onCreated.bind(this)this.onDeleted=this.onDeleted.bind(this)this.onUpdated=this.onUpdated.bind(this)}
+        super();
+        if (this.constructor == SelectData) {
+            throw "can't instanciate an abstract class";
+        }
+        this.subscribe = this.subscribe.bind(this);
+        this.unsubscribe = this.unsubscribe.bind(this);
+        this.onCreated = this.onCreated.bind(this);
+        this.onDeleted = this.onDeleted.bind(this);
+        this.onUpdated = this.onUpdated.bind(this);
+    }
     __getStatic() {
         return SelectData;
     }
@@ -19067,7 +19262,7 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
         return option.getText();
     }
     defineOption() {
-        return Components.OptionData;
+        return _.Components.OptionData;
     }
     getOption() {
         const cst = this.defineOption();
@@ -19165,7 +19360,7 @@ if (this.constructor == SelectData) { throw "can't instanciate an abstract class
     }
 }
 Components.SelectData.Namespace=`Core.Components`;
-_.Components.SelectData=Components.SelectData;
+__as1(_.Components, 'SelectData', Components.SelectData);
 
 Components.GenericOption = class GenericOption extends Aventus.WebComponent {
     value;
@@ -19210,7 +19405,7 @@ Components.GenericOption = class GenericOption extends Aventus.WebComponent {
 }
 Components.GenericOption.Namespace=`Core.Components`;
 Components.GenericOption.Tag=`rk-generic-option`;
-_.Components.GenericOption=Components.GenericOption;
+__as1(_.Components, 'GenericOption', Components.GenericOption);
 if(!window.customElements.get('rk-generic-option')){window.customElements.define('rk-generic-option', Components.GenericOption);Aventus.WebComponentInstance.registerDefinition(Components.GenericOption);}
 
 Components.OptionEnum = class OptionEnum extends Components.GenericOption {
@@ -19236,7 +19431,7 @@ Components.OptionEnum = class OptionEnum extends Components.GenericOption {
 }
 Components.OptionEnum.Namespace=`Core.Components`;
 Components.OptionEnum.Tag=`rk-option-enum`;
-_.Components.OptionEnum=Components.OptionEnum;
+__as1(_.Components, 'OptionEnum', Components.OptionEnum);
 if(!window.customElements.get('rk-option-enum')){window.customElements.define('rk-option-enum', Components.OptionEnum);Aventus.WebComponentInstance.registerDefinition(Components.OptionEnum);}
 
 Components.SelectEnum = class SelectEnum extends Components.GenericSelect {
@@ -19244,10 +19439,13 @@ Components.SelectEnum = class SelectEnum extends Components.GenericSelect {
     set 'txt_undefined'(val) { this.setStringAttr('txt_undefined', val) }    enumEl;
     static __style = ``;
     constructor() {
-            super();
-            this.enumEl = this.defineEnum();
-            this.createOptions();
-if (this.constructor == SelectEnum) { throw "can't instanciate an abstract class"; }}
+        super();
+        this.enumEl = this.defineEnum();
+        this.createOptions();
+        if (this.constructor == SelectEnum) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return SelectEnum;
     }
@@ -19275,7 +19473,7 @@ if (this.constructor == SelectEnum) { throw "can't instanciate an abstract class
     }
     createOptions() {
         if (this.txt_undefined !== undefined) {
-            let option = new Components.OptionEnum();
+            let option = new _.Components.OptionEnum();
             option.value = undefined;
             option.innerHTML = this.txt_undefined === "" ? "&nbsp;" : this.txt_undefined;
             this.appendChild(option);
@@ -19284,7 +19482,7 @@ if (this.constructor == SelectEnum) { throw "can't instanciate an abstract class
         for (let key in _enum) {
             if (!key.match(/^\d*$/)) {
                 let val = _enum[key];
-                let option = new Components.OptionEnum();
+                let option = new _.Components.OptionEnum();
                 option.value = val;
                 option.innerHTML = this.getEnumName(val);
                 this.appendChild(option);
@@ -19296,7 +19494,7 @@ if (this.constructor == SelectEnum) { throw "can't instanciate an abstract class
     }
 }
 Components.SelectEnum.Namespace=`Core.Components`;
-_.Components.SelectEnum=Components.SelectEnum;
+__as1(_.Components, 'SelectEnum', Components.SelectEnum);
 
 Components.Option = class Option extends Components.GenericOption {
     static get observedAttributes() {return ["value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -19324,7 +19522,7 @@ Components.Option = class Option extends Components.GenericOption {
 }
 Components.Option.Namespace=`Core.Components`;
 Components.Option.Tag=`rk-option`;
-_.Components.Option=Components.Option;
+__as1(_.Components, 'Option', Components.Option);
 if(!window.customElements.get('rk-option')){window.customElements.define('rk-option', Components.Option);Aventus.WebComponentInstance.registerDefinition(Components.Option);}
 
 Components.Select = class Select extends Components.GenericSelect {
@@ -19362,7 +19560,7 @@ Components.Select = class Select extends Components.GenericSelect {
 }
 Components.Select.Namespace=`Core.Components`;
 Components.Select.Tag=`rk-select`;
-_.Components.Select=Components.Select;
+__as1(_.Components, 'Select', Components.Select);
 if(!window.customElements.get('rk-select')){window.customElements.define('rk-select', Components.Select);Aventus.WebComponentInstance.registerDefinition(Components.Select);}
 
 Components.ItemBoxSelect = class ItemBoxSelect extends Components.FormElement {
@@ -19451,7 +19649,7 @@ Components.ItemBoxSelect = class ItemBoxSelect extends Components.FormElement {
 }
 Components.ItemBoxSelect.Namespace=`Core.Components`;
 Components.ItemBoxSelect.Tag=`rk-item-box-select`;
-_.Components.ItemBoxSelect=Components.ItemBoxSelect;
+__as1(_.Components, 'ItemBoxSelect', Components.ItemBoxSelect);
 if(!window.customElements.get('rk-item-box-select')){window.customElements.define('rk-item-box-select', Components.ItemBoxSelect);Aventus.WebComponentInstance.registerDefinition(Components.ItemBoxSelect);}
 
 Components.ItemBoxOption = class ItemBoxOption extends Components.ItemBox {
@@ -19480,7 +19678,7 @@ Components.ItemBoxOption = class ItemBoxOption extends Components.ItemBox {
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('selected');this.__upgradeProperty('value'); }
     __listBoolProps() { return ["selected"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     register() {
-        this.select = this.findParentByType(Components.ItemBoxSelect);
+        this.select = this.findParentByType(_.Components.ItemBoxSelect);
         if (this.select) {
             this.select.register(this);
         }
@@ -19505,7 +19703,7 @@ Components.ItemBoxOption = class ItemBoxOption extends Components.ItemBox {
 }
 Components.ItemBoxOption.Namespace=`Core.Components`;
 Components.ItemBoxOption.Tag=`rk-item-box-option`;
-_.Components.ItemBoxOption=Components.ItemBoxOption;
+__as1(_.Components, 'ItemBoxOption', Components.ItemBoxOption);
 if(!window.customElements.get('rk-item-box-option')){window.customElements.define('rk-item-box-option', Components.ItemBoxOption);Aventus.WebComponentInstance.registerDefinition(Components.ItemBoxOption);}
 
 Components.OptionData = class OptionData extends Components.GenericOption {
@@ -19544,7 +19742,7 @@ Components.OptionData = class OptionData extends Components.GenericOption {
 }
 Components.OptionData.Namespace=`Core.Components`;
 Components.OptionData.Tag=`rk-option-data`;
-_.Components.OptionData=Components.OptionData;
+__as1(_.Components, 'OptionData', Components.OptionData);
 if(!window.customElements.get('rk-option-data')){window.customElements.define('rk-option-data', Components.OptionData);Aventus.WebComponentInstance.registerDefinition(Components.OptionData);}
 
 Components.TwoColumnsSelect = class TwoColumnsSelect extends Components.FormElement {
@@ -19570,7 +19768,12 @@ Components.TwoColumnsSelect = class TwoColumnsSelect extends Components.FormElem
 }));    super.__registerWatchesActions();
 }
     static __style = `:host{display:flex;flex-direction:column;width:100%}:host .wrapper{align-items:center;display:flex;height:100%;width:100%}:host .wrapper .col{background-color:#fff;border-radius:var(--border-radius-sm);box-shadow:var(--elevation-1);display:flex;flex-direction:column;flex-grow:1;height:100%;padding:15px;width:100%}:host .wrapper .col .title{font-size:calc(var(--font-size)*.85);margin-bottom:10px;margin-left:3px}:host .wrapper .col .title:empty{display:none}:host .wrapper .col .search{display:none;margin-bottom:15px}:host .wrapper .action{display:flex;flex-direction:column;flex-grow:0;flex-shrink:0;gap:5px;padding:10px}:host .wrapper .action .btn{align-items:center;background-color:#fff;border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);cursor:pointer;display:flex;justify-content:center;transition:box-shadow .3s var(--bezier-curve),background-color .3s var(--bezier-curve)}:host .wrapper .action .btn mi-icon{font-size:var(--font-size-md);padding:2px}:host .wrapper .action .btn[disable=true]{color:var(--text-color-disable);cursor:not-allowed}:host .wrapper .action .btn:hover{background-color:var(--lighter);box-shadow:var(--elevation-1)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host .hidden{display:none}:host([has_errors]) .errors{display:block}:host([column]) .wrapper{flex-direction:column}:host([column]) .wrapper .action{flex-direction:row}:host([column]) .wrapper .action .btn mi-icon{transform:rotate(90deg)}:host([searchable_unselect]) .wrapper .col .search-unselect{display:inline-block}:host([searchable_select]) .wrapper .col .search-select{display:inline-block}`;
-    constructor() { super(); if (this.constructor == TwoColumnsSelect) { throw "can't instanciate an abstract class"; } }
+    constructor() {
+        super();
+        if (this.constructor == TwoColumnsSelect) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return TwoColumnsSelect;
     }
@@ -19632,14 +19835,16 @@ Components.TwoColumnsSelect = class TwoColumnsSelect extends Components.FormElem
   },
   "events": [
     {
-      "eventName": "change",
+      "eventName": "onChange",
       "id": "twocolumnsselect_1",
-      "fct": (e, c) => c.comp.searchUnselect(e)
+      "fct": (c, ...args) => c.comp.searchUnselect.apply(c.comp, ...args),
+      "isCallback": true
     },
     {
-      "eventName": "change",
+      "eventName": "onChange",
       "id": "twocolumnsselect_8",
-      "fct": (e, c) => c.comp.searchSelect(e)
+      "fct": (c, ...args) => c.comp.searchSelect.apply(c.comp, ...args),
+      "isCallback": true
     }
   ],
   "pressEvents": [
@@ -19713,7 +19918,7 @@ Components.TwoColumnsSelect = class TwoColumnsSelect extends Components.FormElem
     loadElementsFromSlot() {
         let elements = this.getElementsInSlot();
         for (let element of elements) {
-            if (element instanceof Components.TwoColumnsOption) {
+            if (element instanceof _.Components.TwoColumnsOption) {
                 element.init(this);
                 this.unselectOptionsCont.appendChild(element);
             }
@@ -19745,7 +19950,6 @@ Components.TwoColumnsSelect = class TwoColumnsSelect extends Components.FormElem
         this.changeValue();
     }
     selectHighlighted() {
-        debugger;
         for (let optionUnselected of this.optionsUnselected) {
             if (optionUnselected.highlight) {
                 this.selectOptionsCont.appendChild(optionUnselected);
@@ -19807,7 +20011,7 @@ Components.TwoColumnsSelect = class TwoColumnsSelect extends Components.FormElem
     }
 }
 Components.TwoColumnsSelect.Namespace=`Core.Components`;
-_.Components.TwoColumnsSelect=Components.TwoColumnsSelect;
+__as1(_.Components, 'TwoColumnsSelect', Components.TwoColumnsSelect);
 
 Components.TwoColumnsOption = class TwoColumnsOption extends Aventus.WebComponent {
     get 'highlight'() { return this.getBoolAttr('highlight') }
@@ -19856,7 +20060,7 @@ Components.TwoColumnsOption = class TwoColumnsOption extends Aventus.WebComponen
 }
 Components.TwoColumnsOption.Namespace=`Core.Components`;
 Components.TwoColumnsOption.Tag=`rk-two-columns-option`;
-_.Components.TwoColumnsOption=Components.TwoColumnsOption;
+__as1(_.Components, 'TwoColumnsOption', Components.TwoColumnsOption);
 if(!window.customElements.get('rk-two-columns-option')){window.customElements.define('rk-two-columns-option', Components.TwoColumnsOption);Aventus.WebComponentInstance.registerDefinition(Components.TwoColumnsOption);}
 
 Components.TwoColumnsOptionData = class TwoColumnsOptionData extends Components.TwoColumnsOption {
@@ -19881,7 +20085,7 @@ Components.TwoColumnsOptionData = class TwoColumnsOptionData extends Components.
 }
 Components.TwoColumnsOptionData.Namespace=`Core.Components`;
 Components.TwoColumnsOptionData.Tag=`rk-two-columns-option-data`;
-_.Components.TwoColumnsOptionData=Components.TwoColumnsOptionData;
+__as1(_.Components, 'TwoColumnsOptionData', Components.TwoColumnsOptionData);
 if(!window.customElements.get('rk-two-columns-option-data')){window.customElements.define('rk-two-columns-option-data', Components.TwoColumnsOptionData);Aventus.WebComponentInstance.registerDefinition(Components.TwoColumnsOptionData);}
 
 Components.TwoColumnsSelectData = class TwoColumnsSelectData extends Components.TwoColumnsSelect {
@@ -19891,9 +20095,17 @@ Components.TwoColumnsSelectData = class TwoColumnsSelectData extends Components.
     createOptionsDone = false;
     static __style = ``;
     constructor() {
-            super();
-            this.createOptions();
-if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abstract class"; }this.subscribe=this.subscribe.bind(this)this.unsubscribe=this.unsubscribe.bind(this)this.onCreated=this.onCreated.bind(this)this.onDeleted=this.onDeleted.bind(this)this.onUpdated=this.onUpdated.bind(this)}
+        super();
+        this.createOptions();
+        if (this.constructor == TwoColumnsSelectData) {
+            throw "can't instanciate an abstract class";
+        }
+        this.subscribe = this.subscribe.bind(this);
+        this.unsubscribe = this.unsubscribe.bind(this);
+        this.onCreated = this.onCreated.bind(this);
+        this.onDeleted = this.onDeleted.bind(this);
+        this.onUpdated = this.onUpdated.bind(this);
+    }
     __getStatic() {
         return TwoColumnsSelectData;
     }
@@ -19930,7 +20142,7 @@ if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abst
         this.loading = true;
         this.data = await this.loadData();
         for (let item of this.data) {
-            let option = new Components.TwoColumnsOptionData();
+            let option = new _.Components.TwoColumnsOptionData();
             option.value = await this.optionValue(item);
             option.innerHTML = await this.optionText(item);
             this.appendChild(option);
@@ -19955,7 +20167,7 @@ if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abst
     }
     async onCreated(item) {
         this.data.push(item);
-        let option = new Components.TwoColumnsOptionData();
+        let option = new _.Components.TwoColumnsOptionData();
         option.value = await this.optionValue(item);
         option.innerHTML = await this.optionText(item);
         this.appendChild(option);
@@ -20011,7 +20223,7 @@ if (this.constructor == TwoColumnsSelectData) { throw "can't instanciate an abst
     }
 }
 Components.TwoColumnsSelectData.Namespace=`Core.Components`;
-_.Components.TwoColumnsSelectData=Components.TwoColumnsSelectData;
+__as1(_.Components, 'TwoColumnsSelectData', Components.TwoColumnsSelectData);
 
 Components.Menu = class Menu extends Aventus.WebComponent {
     static get observedAttributes() {return ["position"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -20382,7 +20594,7 @@ Components.Menu = class Menu extends Aventus.WebComponent {
 }
 Components.Menu.Namespace=`Core.Components`;
 Components.Menu.Tag=`rk-menu`;
-_.Components.Menu=Components.Menu;
+__as1(_.Components, 'Menu', Components.Menu);
 if(!window.customElements.get('rk-menu')){window.customElements.define('rk-menu', Components.Menu);Aventus.WebComponentInstance.registerDefinition(Components.Menu);}
 
 Components.ButtonIconMenu = class ButtonIconMenu extends Components.ButtonIcon {
@@ -20422,7 +20634,7 @@ Components.ButtonIconMenu = class ButtonIconMenu extends Components.ButtonIcon {
     __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('open'); }
     __listBoolProps() { return ["open"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     stateMenuToOpen(state) {
-        if (state == Components.MenuState.Open || state == Components.MenuState.Opening) {
+        if (state == _.Components.MenuState.Open || state == _.Components.MenuState.Opening) {
             return true;
         }
         return false;
@@ -20444,7 +20656,7 @@ Components.ButtonIconMenu = class ButtonIconMenu extends Components.ButtonIcon {
         new Aventus.PressManager({
             element: this,
             onPress: () => {
-                if (this.menu && this.menu.state == Components.MenuState.Close) {
+                if (this.menu && this.menu.state == _.Components.MenuState.Close) {
                     this.menu.show(this.getBoundingClientRect());
                 }
             }
@@ -20452,15 +20664,15 @@ Components.ButtonIconMenu = class ButtonIconMenu extends Components.ButtonIcon {
         let elements = this.getElementsInSlot();
         const menuItems = [];
         for (let element of elements) {
-            if (element instanceof Components.Menu) {
+            if (element instanceof _.Components.Menu) {
                 this.menu = element;
                 element.parentNode?.removeChild(element);
             }
-            else if (element instanceof Components.MenuItem) {
+            else if (element instanceof _.Components.MenuItem) {
                 menuItems.push(element);
                 element.parentNode?.removeChild(element);
             }
-            else if (element instanceof Components.MenuSeparator) {
+            else if (element instanceof _.Components.MenuSeparator) {
                 menuItems.push(element);
                 element.parentNode?.removeChild(element);
             }
@@ -20469,7 +20681,7 @@ Components.ButtonIconMenu = class ButtonIconMenu extends Components.ButtonIcon {
             }
         }
         if (!this.menu) {
-            let menu = new Components.Menu();
+            let menu = new _.Components.Menu();
             this.menu = menu;
             for (let item of menuItems) {
                 menu.appendChild(item);
@@ -20488,7 +20700,7 @@ Components.ButtonIconMenu = class ButtonIconMenu extends Components.ButtonIcon {
 }
 Components.ButtonIconMenu.Namespace=`Core.Components`;
 Components.ButtonIconMenu.Tag=`rk-button-icon-menu`;
-_.Components.ButtonIconMenu=Components.ButtonIconMenu;
+__as1(_.Components, 'ButtonIconMenu', Components.ButtonIconMenu);
 if(!window.customElements.get('rk-button-icon-menu')){window.customElements.define('rk-button-icon-menu', Components.ButtonIconMenu);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIconMenu);}
 
 Components.Table = class Table extends Aventus.WebComponent {
@@ -20585,12 +20797,15 @@ Components.Table = class Table extends Aventus.WebComponent {
 })); }
     static __style = `:host{--_table-border-radius: var(--table-border-radius, var(--border-radius-sm));--_table-background-color: var(--table-background-color, var(--secondary-color));--_table-elevation: var(--table-elevation, var(--elevation-2));--_table-row-header-height: var(--table-row-header-height, 50px);--_table-header-backgroud-color: var(--table-header-backgroud-color, var(--primary-color));--_table-header-color: var(--table-header-color, var(--text-color-reverse));--_table-footer-backgroud-color: var(--table-footer-backgroud-color, var(--primary-color));--_table-footer-color: var(--table-footer-color, var(--text-color-reverse));--_table-row-header-backgroud-color: var(--table-row-header-backgroud-color, var(--primary-color));--_table-row-header-color: var(--table-row-header-color, var(--text-color-reverse));--_table-border-color: var(--table-border-color, var(--secondary-color));--_table-row-header-vertical-border: var(--table-row-header-vertical-border, 1px solid var(--_table-border-color));--_table-row-header-horizontal-border: var(--table-row-header-horizontal-border, 1px solid var(--_table-border-color));--_table-last-row-border-bottom: var(--table-last-row-border-bottom, 1px solid var(--_table-border-color));--_table-cell-vertical-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-horizontal-border: var(--table-cell-vertical-border, 1px solid var(--_table-border-color));--_table-cell-padding: var(--table-cell-padding, 10px);--local-table-cell-resize-display: none}:host{background-color:var(--_table-background-color);border-radius:var(--_table-border-radius);box-shadow:var(--_table-elevation);display:flex;flex-direction:column;height:100%;overflow:hidden;width:100%}:host .style-wrapper{display:flex;flex-direction:column;height:100%;min-height:100%;width:100%}:host .style-wrapper .header{align-items:center;background-color:var(--_table-header-backgroud-color);color:var(--_table-header-color);display:flex;justify-content:space-between;min-height:0;padding:10px}:host .style-wrapper .header .title{align-items:center;display:flex;font-size:var(--font-size-md);height:30px;margin-left:5px}:host .style-wrapper .row-header{--scrollbar-color: transparent;--scrollbar-active-color: transparent;--scroller-width: 0;min-height:0;width:100%}:host .style-wrapper .body{display:flex;flex:1;flex-direction:column;min-height:0;position:relative;width:100%}:host .style-wrapper .body .loading{display:none}:host .style-wrapper .body .no-data{display:none;margin:15px}:host .style-wrapper .footer{align-items:center;background-color:var(--_table-footer-backgroud-color);color:var(--_table-footer-color);display:flex;gap:30px;justify-content:end;min-height:0;padding:10px}:host .style-wrapper .footer .items-per-page{align-items:center;display:flex}:host .style-wrapper .footer .items-per-page rk-input-number{margin-left:10px;min-width:auto;width:50px}:host .style-wrapper .footer .location{align-items:center;display:flex}:host .style-wrapper .footer .pagination{align-items:center;display:flex}:host .style-wrapper .footer .pagination .btn-previous,:host .style-wrapper .footer .pagination .btn-next{transition:background-color .2s var(--bezier-curve)}:host .style-wrapper rk-scrollable::part(content-wrapper){min-width:100%}:host([first_page]) .style-wrapper .footer .pagination .btn-previous{opacity:.5;pointer-events:none}:host([last_page]) .style-wrapper .footer .pagination .btn-next{opacity:.5;pointer-events:none}:host([col_resize]){--local-table-cell-resize-display: block}:host([grid]) .style-wrapper .row-header{display:none}:host([grid]) .style-wrapper .body{flex-direction:row}:host([grid]) .style-wrapper .body rk-scrollable::part(content-wrapper){display:flex;flex-wrap:wrap;gap:15px;justify-content:center;padding:15px}:host([loading]) .style-wrapper .body{min-height:200px}:host([loading]) .style-wrapper .body .loading{display:flex}:host([no_data]:not([loading])) .style-wrapper .body .no-data{display:flex}:host([no_data]:not([loading])) .style-wrapper .body .rows{display:none}@media screen and (min-width: 1225px){:host .style-wrapper .footer .pagination .touch:hover{background-color:var(--lighter);border-radius:var(--border-radius-sm)}}`;
     constructor() {
-            super();
-            this.options = this.configure(this.defaultOptions());
-            this.normalizeSchema();
-            this.auto_hide_scroll = this.autoHideScroll();
-            this.style.display = 'none';
-if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
+        super();
+        this.options = this.configure(this.defaultOptions());
+        this.normalizeSchema();
+        this.auto_hide_scroll = this.autoHideScroll();
+        this.style.display = 'none';
+        if (this.constructor == Table) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return Table;
     }
@@ -20642,9 +20857,10 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
 });const templ1 = new Aventus.Template(this);templ1.setTemplate(`                    <div class="search">                        <rk-input placeholder="Recherche" _id="table_4"></rk-input>                    </div>                `);templ1.setActions({
   "events": [
     {
-      "eventName": "change",
+      "eventName": "onChange",
       "id": "table_4",
-      "fct": (e, c) => c.comp.globalFilter(e)
+      "fct": (c, ...args) => c.comp.globalFilter.apply(c.comp, ...args),
+      "isCallback": true
     }
   ]
 });templ0.addIf({
@@ -20679,11 +20895,12 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
       "id": "table_8",
       "injectionName": "value",
       "eventNames": [
-        "change"
+        "onChange"
       ],
       "inject": (c) => c.comp.__b5b6f5e196622f4341e5ecfc2e397e35method5(),
       "extract": (c, v) => c.comp.__b5b6f5e196622f4341e5ecfc2e397e35method6(v),
-      "once": true
+      "once": true,
+      "isCallback": true
     }
   ],
   "pressEvents": [
@@ -20788,17 +21005,17 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
     normalizeSchemaCell(cellConfig) {
         if (!cellConfig.cell) {
             if (cellConfig.type == "boolean")
-                cellConfig.cell = Components.TableCellBoolean;
+                cellConfig.cell = _.Components.TableCellBoolean;
             else if (cellConfig.type == "date")
-                cellConfig.cell = Components.TableCellDate;
+                cellConfig.cell = _.Components.TableCellDate;
             else if (cellConfig.type == "number")
-                cellConfig.cell = Components.TableCellNumber;
+                cellConfig.cell = _.Components.TableCellNumber;
             else if (cellConfig.type == "picture")
-                cellConfig.cell = Components.TableCellPicture;
+                cellConfig.cell = _.Components.TableCellPicture;
             else if (cellConfig.type == "string")
-                cellConfig.cell = Components.TableCellString;
+                cellConfig.cell = _.Components.TableCellString;
             else if (cellConfig.type == "custom")
-                cellConfig.cell = Components.TableCellString;
+                cellConfig.cell = _.Components.TableCellString;
         }
     }
     normalizeSchema() {
@@ -20821,7 +21038,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
                 displayName: "",
                 name: "",
                 type: "custom",
-                cell: Components.TableCellCheckbox,
+                cell: _.Components.TableCellCheckbox,
                 width: 50,
                 sortable: false
             });
@@ -20837,8 +21054,8 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
         return {
             schema: [],
             selectable: false,
-            header: Components.TableRowHeader,
-            row: Components.TableRow,
+            header: _.Components.TableRowHeader,
+            row: _.Components.TableRow,
             sortable: true,
             title: '',
             globalSearch: false,
@@ -20857,7 +21074,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
     async setSortColumn(column, order) {
         if (!this.isFirstRender) {
             let cell = this.header.cells.find(c => c.cellConfig.displayName == column || c.cellConfig.name == column);
-            if (!(cell instanceof Components.TableCellHeader))
+            if (!(cell instanceof _.Components.TableCellHeader))
                 return;
             cell.sort_direction = order;
         }
@@ -20941,7 +21158,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
             this.headerContainer.appendChild(this.header);
             for (let column in this.sortColumns) {
                 let cell = this.header.cells.find(c => c.cellConfig.displayName == column || c.cellConfig.name == column);
-                if (!(cell instanceof Components.TableCellHeader))
+                if (!(cell instanceof _.Components.TableCellHeader))
                     return;
                 cell.sort_direction = this.sortColumns[column];
             }
@@ -21087,7 +21304,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
     }
     registerObserver() {
         this.resizeObserver = new Aventus.ResizeObserver(() => {
-            this.grid = (this.grid_breakpoint != undefined && this.offsetWidth <= this.grid_breakpoint);
+            this.grid = (this.grid_breakpoint != undefined && this.offsetHeight > 0 && this.offsetWidth > 0 && this.offsetWidth <= this.grid_breakpoint);
         });
         this.resizeObserver.observe(this);
     }
@@ -21139,7 +21356,7 @@ if (this.constructor == Table) { throw "can't instanciate an abstract class"; }}
     }
 }
 Components.Table.Namespace=`Core.Components`;
-_.Components.Table=Components.Table;
+__as1(_.Components, 'Table', Components.Table);
 
 Components.TableRow = class TableRow extends Aventus.WebComponent {
     static get observedAttributes() {return ["grid"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -21157,9 +21374,9 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
 })); }
     static __style = `:host{width:100%}:host .row-content{align-items:stretch;border-bottom:var(--_table-cell-horizontal-border);display:flex;flex-direction:row;width:100%}:host .row-content>*:last-child{border-right:none !important}:host .grid-content{display:none}:host(:last-child) .row-content{border-bottom:var(--_table-last-row-border-bottom)}:host([grid]){width:fit-content}:host([grid]) .row-content,:host([grid]) .grid-content{border:var(--_table-cell-vertical-border);border-radius:var(--border-radius-sm);flex-direction:column;padding:10px;width:fit-content}:host([grid][custom_grid]) .row-content{display:none}:host([grid][custom_grid]) .grid-content{display:flex}`;
     constructor() {
-            super();
-            this.custom_grid = this.customGridTemplate();
-        }
+        super();
+        this.custom_grid = this.customGridTemplate();
+    }
     __getStatic() {
         return TableRow;
     }
@@ -21194,7 +21411,7 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
         return false;
     }
     getCell(cellConfig) {
-        return cellConfig.cell ?? Components.TableCellString;
+        return cellConfig.cell ?? _.Components.TableCellString;
     }
     async addCellOption(cell, cellConfig, data) {
     }
@@ -21265,13 +21482,16 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
 }
 Components.TableRow.Namespace=`Core.Components`;
 Components.TableRow.Tag=`rk-table-row`;
-_.Components.TableRow=Components.TableRow;
+__as1(_.Components, 'TableRow', Components.TableRow);
 if(!window.customElements.get('rk-table-row')){window.customElements.define('rk-table-row', Components.TableRow);Aventus.WebComponentInstance.registerDefinition(Components.TableRow);}
 
 Components.TableRowData = class TableRowData extends Components.TableRow {
     ram;
     static __style = ``;
-    constructor() { super(); this.onUpdated=this.onUpdated.bind(this) }
+    constructor() {
+        super();
+        this.onUpdated = this.onUpdated.bind(this);
+    }
     __getStatic() {
         return TableRowData;
     }
@@ -21291,7 +21511,7 @@ Components.TableRowData = class TableRowData extends Components.TableRow {
     }
     async init(options, data) {
         super.init(options, data);
-        if (this.table instanceof Components.TableData) {
+        if (this.table instanceof _.Components.TableData) {
             this.ram = this.table.defineRAM();
             this.ram.onUpdated(this.onUpdated);
         }
@@ -21313,7 +21533,7 @@ Components.TableRowData = class TableRowData extends Components.TableRow {
 }
 Components.TableRowData.Namespace=`Core.Components`;
 Components.TableRowData.Tag=`rk-table-row-data`;
-_.Components.TableRowData=Components.TableRowData;
+__as1(_.Components, 'TableRowData', Components.TableRowData);
 if(!window.customElements.get('rk-table-row-data')){window.customElements.define('rk-table-row-data', Components.TableRowData);Aventus.WebComponentInstance.registerDefinition(Components.TableRowData);}
 
 Components.TableCell = class TableCell extends Aventus.WebComponent {
@@ -21332,7 +21552,12 @@ Components.TableCell = class TableCell extends Aventus.WebComponent {
     data;
     cellConfig;
     static __style = `:host{align-items:center;border-right:var(--_table-cell-vertical-border);display:flex;flex-shrink:0;justify-content:center;padding:var(--_table-cell-padding);position:relative;text-align:center}:host .resize{background-color:rgba(0,0,0,0);bottom:0;cursor:col-resize;display:var(--local-table-cell-resize-display);position:absolute;right:0;top:0;width:5px}:host(:nth-child(1)){flex-grow:var(--_table-cell-weight-1, 1);min-width:var(--_table-cell-min-width-1, auto);width:var(--_table-cell-width-1, calc(100% / var(--_table-nb-column)))}:host(:nth-child(2)){flex-grow:var(--_table-cell-weight-2, 1);min-width:var(--_table-cell-min-width-2, auto);width:var(--_table-cell-width-2, calc(100% / var(--_table-nb-column)))}:host(:nth-child(3)){flex-grow:var(--_table-cell-weight-3, 1);min-width:var(--_table-cell-min-width-3, auto);width:var(--_table-cell-width-3, calc(100% / var(--_table-nb-column)))}:host(:nth-child(4)){flex-grow:var(--_table-cell-weight-4, 1);min-width:var(--_table-cell-min-width-4, auto);width:var(--_table-cell-width-4, calc(100% / var(--_table-nb-column)))}:host(:nth-child(5)){flex-grow:var(--_table-cell-weight-5, 1);min-width:var(--_table-cell-min-width-5, auto);width:var(--_table-cell-width-5, calc(100% / var(--_table-nb-column)))}:host(:nth-child(6)){flex-grow:var(--_table-cell-weight-6, 1);min-width:var(--_table-cell-min-width-6, auto);width:var(--_table-cell-width-6, calc(100% / var(--_table-nb-column)))}:host(:nth-child(7)){flex-grow:var(--_table-cell-weight-7, 1);min-width:var(--_table-cell-min-width-7, auto);width:var(--_table-cell-width-7, calc(100% / var(--_table-nb-column)))}:host(:nth-child(8)){flex-grow:var(--_table-cell-weight-8, 1);min-width:var(--_table-cell-min-width-8, auto);width:var(--_table-cell-width-8, calc(100% / var(--_table-nb-column)))}:host(:nth-child(9)){flex-grow:var(--_table-cell-weight-9, 1);min-width:var(--_table-cell-min-width-9, auto);width:var(--_table-cell-width-9, calc(100% / var(--_table-nb-column)))}:host(:nth-child(10)){flex-grow:var(--_table-cell-weight-10, 1);min-width:var(--_table-cell-min-width-10, auto);width:var(--_table-cell-width-10, calc(100% / var(--_table-nb-column)))}:host(:nth-child(11)){flex-grow:var(--_table-cell-weight-11, 1);min-width:var(--_table-cell-min-width-11, auto);width:var(--_table-cell-width-11, calc(100% / var(--_table-nb-column)))}:host(:nth-child(12)){flex-grow:var(--_table-cell-weight-12, 1);min-width:var(--_table-cell-min-width-12, auto);width:var(--_table-cell-width-12, calc(100% / var(--_table-nb-column)))}:host(:nth-child(13)){flex-grow:var(--_table-cell-weight-13, 1);min-width:var(--_table-cell-min-width-13, auto);width:var(--_table-cell-width-13, calc(100% / var(--_table-nb-column)))}:host(:nth-child(14)){flex-grow:var(--_table-cell-weight-14, 1);min-width:var(--_table-cell-min-width-14, auto);width:var(--_table-cell-width-14, calc(100% / var(--_table-nb-column)))}:host(:nth-child(15)){flex-grow:var(--_table-cell-weight-15, 1);min-width:var(--_table-cell-min-width-15, auto);width:var(--_table-cell-width-15, calc(100% / var(--_table-nb-column)))}:host(:nth-child(16)){flex-grow:var(--_table-cell-weight-16, 1);min-width:var(--_table-cell-min-width-16, auto);width:var(--_table-cell-width-16, calc(100% / var(--_table-nb-column)))}:host(:nth-child(17)){flex-grow:var(--_table-cell-weight-17, 1);min-width:var(--_table-cell-min-width-17, auto);width:var(--_table-cell-width-17, calc(100% / var(--_table-nb-column)))}:host(:nth-child(18)){flex-grow:var(--_table-cell-weight-18, 1);min-width:var(--_table-cell-min-width-18, auto);width:var(--_table-cell-width-18, calc(100% / var(--_table-nb-column)))}:host(:nth-child(19)){flex-grow:var(--_table-cell-weight-19, 1);min-width:var(--_table-cell-min-width-19, auto);width:var(--_table-cell-width-19, calc(100% / var(--_table-nb-column)))}:host(:nth-child(20)){flex-grow:var(--_table-cell-weight-20, 1);min-width:var(--_table-cell-min-width-20, auto);width:var(--_table-cell-width-20, calc(100% / var(--_table-nb-column)))}:host([grid]){align-items:flex-start;border-right:none;flex-direction:column;justify-content:flex-start;margin-top:10px;padding:0}:host([grid]) .label{color:var(--text-color-light);font-size:var(--font-size-sm);margin-bottom:4px}:host([grid]) .content{margin-left:5px}:host([grid]) .resize{display:none}:host([grid]:first-child){margin-top:0}`;
-    constructor() { super(); if (this.constructor == TableCell) { throw "can't instanciate an abstract class"; } }
+    constructor() {
+        super();
+        if (this.constructor == TableCell) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return TableCell;
     }
@@ -21412,7 +21637,7 @@ Components.TableCell = class TableCell extends Aventus.WebComponent {
     }
 }
 Components.TableCell.Namespace=`Core.Components`;
-_.Components.TableCell=Components.TableCell;
+__as1(_.Components, 'TableCell', Components.TableCell);
 
 Components.TableCellString = class TableCellString extends Components.TableCell {
     static __style = ``;
@@ -21439,7 +21664,7 @@ Components.TableCellString = class TableCellString extends Components.TableCell 
 }
 Components.TableCellString.Namespace=`Core.Components`;
 Components.TableCellString.Tag=`rk-table-cell-string`;
-_.Components.TableCellString=Components.TableCellString;
+__as1(_.Components, 'TableCellString', Components.TableCellString);
 if(!window.customElements.get('rk-table-cell-string')){window.customElements.define('rk-table-cell-string', Components.TableCellString);Aventus.WebComponentInstance.registerDefinition(Components.TableCellString);}
 
 Components.TableCellPicture = class TableCellPicture extends Components.TableCell {
@@ -21516,7 +21741,7 @@ Components.TableCellPicture = class TableCellPicture extends Components.TableCel
 }
 Components.TableCellPicture.Namespace=`Core.Components`;
 Components.TableCellPicture.Tag=`rk-table-cell-picture`;
-_.Components.TableCellPicture=Components.TableCellPicture;
+__as1(_.Components, 'TableCellPicture', Components.TableCellPicture);
 if(!window.customElements.get('rk-table-cell-picture')){window.customElements.define('rk-table-cell-picture', Components.TableCellPicture);Aventus.WebComponentInstance.registerDefinition(Components.TableCellPicture);}
 
 Components.TableCellNumber = class TableCellNumber extends Components.TableCell {
@@ -21552,7 +21777,7 @@ Components.TableCellNumber = class TableCellNumber extends Components.TableCell 
 }
 Components.TableCellNumber.Namespace=`Core.Components`;
 Components.TableCellNumber.Tag=`rk-table-cell-number`;
-_.Components.TableCellNumber=Components.TableCellNumber;
+__as1(_.Components, 'TableCellNumber', Components.TableCellNumber);
 if(!window.customElements.get('rk-table-cell-number')){window.customElements.define('rk-table-cell-number', Components.TableCellNumber);Aventus.WebComponentInstance.registerDefinition(Components.TableCellNumber);}
 
 Components.TableCellHeader = class TableCellHeader extends Components.TableCell {
@@ -21615,7 +21840,7 @@ Components.TableCellHeader = class TableCellHeader extends Components.TableCell 
 }
 Components.TableCellHeader.Namespace=`Core.Components`;
 Components.TableCellHeader.Tag=`rk-table-cell-header`;
-_.Components.TableCellHeader=Components.TableCellHeader;
+__as1(_.Components, 'TableCellHeader', Components.TableCellHeader);
 if(!window.customElements.get('rk-table-cell-header')){window.customElements.define('rk-table-cell-header', Components.TableCellHeader);Aventus.WebComponentInstance.registerDefinition(Components.TableCellHeader);}
 
 Components.TableDataCellHeaderAction = class TableDataCellHeaderAction extends Components.TableCellHeader {
@@ -21650,7 +21875,7 @@ Components.TableDataCellHeaderAction = class TableDataCellHeaderAction extends C
         new Aventus.PressManager({
             element: this.addEl,
             onPress: () => {
-                if (this.table instanceof Components.TableData) {
+                if (this.table instanceof _.Components.TableData) {
                     this.table.newData();
                 }
             }
@@ -21661,7 +21886,7 @@ Components.TableDataCellHeaderAction = class TableDataCellHeaderAction extends C
 }
 Components.TableDataCellHeaderAction.Namespace=`Core.Components`;
 Components.TableDataCellHeaderAction.Tag=`rk-table-data-cell-header-action`;
-_.Components.TableDataCellHeaderAction=Components.TableDataCellHeaderAction;
+__as1(_.Components, 'TableDataCellHeaderAction', Components.TableDataCellHeaderAction);
 if(!window.customElements.get('rk-table-data-cell-header-action')){window.customElements.define('rk-table-data-cell-header-action', Components.TableDataCellHeaderAction);Aventus.WebComponentInstance.registerDefinition(Components.TableDataCellHeaderAction);}
 
 Components.TableRowHeader = class TableRowHeader extends Components.TableRow {
@@ -21687,7 +21912,7 @@ Components.TableRowHeader = class TableRowHeader extends Components.TableRow {
         await cell.setContent(cellConfig.displayName, data);
     }
     async addCellOption(cell, cellConfig, data) {
-        if (cell instanceof Components.TableCellHeader) {
+        if (cell instanceof _.Components.TableCellHeader) {
             if (cellConfig.sortable !== undefined) {
                 cell.sortable = cellConfig.sortable;
             }
@@ -21697,7 +21922,7 @@ Components.TableRowHeader = class TableRowHeader extends Components.TableRow {
         }
     }
     getCell(cellConfig) {
-        return cellConfig.cellHeader ?? Components.TableCellHeader;
+        return cellConfig.cellHeader ?? _.Components.TableCellHeader;
     }
     async init(options, data) {
         await super.init(options, data);
@@ -21705,16 +21930,19 @@ Components.TableRowHeader = class TableRowHeader extends Components.TableRow {
 }
 Components.TableRowHeader.Namespace=`Core.Components`;
 Components.TableRowHeader.Tag=`rk-table-row-header`;
-_.Components.TableRowHeader=Components.TableRowHeader;
+__as1(_.Components, 'TableRowHeader', Components.TableRowHeader);
 if(!window.customElements.get('rk-table-row-header')){window.customElements.define('rk-table-row-header', Components.TableRowHeader);Aventus.WebComponentInstance.registerDefinition(Components.TableRowHeader);}
 
 Components.TableCellEnum = class TableCellEnum extends Components.TableCell {
     enumEl;
     static __style = ``;
     constructor() {
-            super();
-            this.enumEl = this.defineEnum();
-if (this.constructor == TableCellEnum) { throw "can't instanciate an abstract class"; }}
+        super();
+        this.enumEl = this.defineEnum();
+        if (this.constructor == TableCellEnum) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return TableCellEnum;
     }
@@ -21748,7 +21976,7 @@ if (this.constructor == TableCellEnum) { throw "can't instanciate an abstract cl
     }
 }
 Components.TableCellEnum.Namespace=`Core.Components`;
-_.Components.TableCellEnum=Components.TableCellEnum;
+__as1(_.Components, 'TableCellEnum', Components.TableCellEnum);
 
 Components.TableCellDate = class TableCellDate extends Components.TableCell {
     static __style = ``;
@@ -21793,7 +22021,7 @@ Components.TableCellDate = class TableCellDate extends Components.TableCell {
 }
 Components.TableCellDate.Namespace=`Core.Components`;
 Components.TableCellDate.Tag=`rk-table-cell-date`;
-_.Components.TableCellDate=Components.TableCellDate;
+__as1(_.Components, 'TableCellDate', Components.TableCellDate);
 if(!window.customElements.get('rk-table-cell-date')){window.customElements.define('rk-table-cell-date', Components.TableCellDate);Aventus.WebComponentInstance.registerDefinition(Components.TableCellDate);}
 
 Components.TableCellCustom = class TableCellCustom extends Components.TableCell {
@@ -21821,7 +22049,7 @@ Components.TableCellCustom = class TableCellCustom extends Components.TableCell 
 }
 Components.TableCellCustom.Namespace=`Core.Components`;
 Components.TableCellCustom.Tag=`rk-table-cell-custom`;
-_.Components.TableCellCustom=Components.TableCellCustom;
+__as1(_.Components, 'TableCellCustom', Components.TableCellCustom);
 if(!window.customElements.get('rk-table-cell-custom')){window.customElements.define('rk-table-cell-custom', Components.TableCellCustom);Aventus.WebComponentInstance.registerDefinition(Components.TableCellCustom);}
 
 Components.TableCellCheckbox = class TableCellCheckbox extends Components.TableCell {
@@ -21850,9 +22078,10 @@ Components.TableCellCheckbox = class TableCellCheckbox extends Components.TableC
   ],
   "events": [
     {
-      "eventName": "change",
+      "eventName": "onChange",
       "id": "tablecellcheckbox_0",
-      "fct": (e, c) => c.comp.changed(e)
+      "fct": (c, ...args) => c.comp.changed.apply(c.comp, ...args),
+      "isCallback": true
     }
   ]
 }); }
@@ -21875,7 +22104,7 @@ Components.TableCellCheckbox = class TableCellCheckbox extends Components.TableC
 }
 Components.TableCellCheckbox.Namespace=`Core.Components`;
 Components.TableCellCheckbox.Tag=`rk-table-cell-checkbox`;
-_.Components.TableCellCheckbox=Components.TableCellCheckbox;
+__as1(_.Components, 'TableCellCheckbox', Components.TableCellCheckbox);
 if(!window.customElements.get('rk-table-cell-checkbox')){window.customElements.define('rk-table-cell-checkbox', Components.TableCellCheckbox);Aventus.WebComponentInstance.registerDefinition(Components.TableCellCheckbox);}
 
 Components.TableCellBoolean = class TableCellBoolean extends Components.TableCell {
@@ -21910,7 +22139,7 @@ Components.TableCellBoolean = class TableCellBoolean extends Components.TableCel
 }
 Components.TableCellBoolean.Namespace=`Core.Components`;
 Components.TableCellBoolean.Tag=`rk-table-cell-boolean`;
-_.Components.TableCellBoolean=Components.TableCellBoolean;
+__as1(_.Components, 'TableCellBoolean', Components.TableCellBoolean);
 if(!window.customElements.get('rk-table-cell-boolean')){window.customElements.define('rk-table-cell-boolean', Components.TableCellBoolean);Aventus.WebComponentInstance.registerDefinition(Components.TableCellBoolean);}
 
 Components.TableCellAction = class TableCellAction extends Components.TableCell {
@@ -21940,7 +22169,7 @@ Components.TableCellAction = class TableCellAction extends Components.TableCell 
 }
 Components.TableCellAction.Namespace=`Core.Components`;
 Components.TableCellAction.Tag=`rk-table-cell-action`;
-_.Components.TableCellAction=Components.TableCellAction;
+__as1(_.Components, 'TableCellAction', Components.TableCellAction);
 if(!window.customElements.get('rk-table-cell-action')){window.customElements.define('rk-table-cell-action', Components.TableCellAction);Aventus.WebComponentInstance.registerDefinition(Components.TableCellAction);}
 
 Components.TableData = class TableData extends Components.Table {
@@ -21948,7 +22177,15 @@ Components.TableData = class TableData extends Components.Table {
     set 'add_btn'(val) { this.setBoolAttr('add_btn', val) }    application;
     ram;
     static __style = `:host{position:relative}:host .add-btn{bottom:10px;display:none;position:absolute;right:10px;z-index:10;box-shadow:var(--elevation-4)}:host([grid][add_btn]) .add-btn{display:block}`;
-    constructor() { super(); if (this.constructor == TableData) { throw "can't instanciate an abstract class"; }this.onCreatedData=this.onCreatedData.bind(this)this.onUpdatedData=this.onUpdatedData.bind(this)this.onDeletedData=this.onDeletedData.bind(this) }
+    constructor() {
+        super();
+        if (this.constructor == TableData) {
+            throw "can't instanciate an abstract class";
+        }
+        this.onCreatedData = this.onCreatedData.bind(this);
+        this.onUpdatedData = this.onUpdatedData.bind(this);
+        this.onDeletedData = this.onDeletedData.bind(this);
+    }
     __getStatic() {
         return TableData;
     }
@@ -22038,7 +22275,7 @@ Components.TableData = class TableData extends Components.Table {
     }
     normalizeSchemaCell(cellConfig) {
         super.normalizeSchemaCell(cellConfig);
-        if (cellConfig.cellHeader == Components.TableDataCellHeaderAction) {
+        if (cellConfig.cellHeader == _.Components.TableDataCellHeaderAction) {
             this.add_btn = true;
         }
     }
@@ -22048,7 +22285,7 @@ Components.TableData = class TableData extends Components.Table {
             showLoading: true,
             delayLoading: 0
         };
-        result.row = Components.TableRowData;
+        result.row = _.Components.TableRowData;
         return result;
     }
     postCreation() {
@@ -22063,7 +22300,7 @@ Components.TableData = class TableData extends Components.Table {
     }
 }
 Components.TableData.Namespace=`Core.Components`;
-_.Components.TableData=Components.TableData;
+__as1(_.Components, 'TableData', Components.TableData);
 
 Components.TableDataCellAction = class TableDataCellAction extends Components.TableCellAction {
     static __style = `:host{justify-content:flex-end;padding:0 7px}:host mi-icon{border-radius:var(--border-radius-sm);color:var(--blue);cursor:pointer;font-size:var(--font-size-md);margin:0 2px;padding:3px;transition:background-color .2s linear}:host mi-icon.delete{color:var(--red)}:host mi-icon:hover{background-color:var(--lighter)}:host([grid]){align-items:center;margin-top:0;width:100%}`;
@@ -22096,19 +22333,19 @@ Components.TableDataCellAction = class TableDataCellAction extends Components.Ta
         return "TableDataCellAction";
     }
     editData() {
-        if (this.table instanceof Components.TableData) {
+        if (this.table instanceof _.Components.TableData) {
             this.table.editData(this.data);
         }
     }
     deleteData() {
-        if (this.table instanceof Components.TableData) {
+        if (this.table instanceof _.Components.TableData) {
             this.table.deleteData(this.data);
         }
     }
 }
 Components.TableDataCellAction.Namespace=`Core.Components`;
 Components.TableDataCellAction.Tag=`rk-table-data-cell-action`;
-_.Components.TableDataCellAction=Components.TableDataCellAction;
+__as1(_.Components, 'TableDataCellAction', Components.TableDataCellAction);
 if(!window.customElements.get('rk-table-data-cell-action')){window.customElements.define('rk-table-data-cell-action', Components.TableDataCellAction);Aventus.WebComponentInstance.registerDefinition(Components.TableDataCellAction);}
 
 Components.TabHeader = class TabHeader extends Aventus.WebComponent {
@@ -22188,7 +22425,7 @@ Components.TabHeader = class TabHeader extends Aventus.WebComponent {
 }
 Components.TabHeader.Namespace=`Core.Components`;
 Components.TabHeader.Tag=`rk-tab-header`;
-_.Components.TabHeader=Components.TabHeader;
+__as1(_.Components, 'TabHeader', Components.TabHeader);
 if(!window.customElements.get('rk-tab-header')){window.customElements.define('rk-tab-header', Components.TabHeader);Aventus.WebComponentInstance.registerDefinition(Components.TabHeader);}
 
 Components.Tab = class Tab extends Aventus.WebComponent {
@@ -22233,7 +22470,7 @@ Components.Tab = class Tab extends Aventus.WebComponent {
 }
 Components.Tab.Namespace=`Core.Components`;
 Components.Tab.Tag=`rk-tab`;
-_.Components.Tab=Components.Tab;
+__as1(_.Components, 'Tab', Components.Tab);
 if(!window.customElements.get('rk-tab')){window.customElements.define('rk-tab', Components.Tab);Aventus.WebComponentInstance.registerDefinition(Components.Tab);}
 
 App.AppError=class AppError extends Aventus.GenericError {
@@ -22242,7 +22479,7 @@ App.AppError=class AppError extends Aventus.GenericError {
 App.AppError.Namespace=`Core.App`;
 App.AppError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(App.AppError.Fullname, App.AppError);
-_.App.AppError=App.AppError;
+__as1(_.App, 'AppError', App.AppError);
 
 Data.Company=class Company extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Company, Core"; }
@@ -22254,7 +22491,7 @@ Data.Company=class Company extends AventusSharp.Data.Storable {
 Data.Company.Namespace=`Core.Data`;
 Data.Company.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Logo":"CompanyImage","Version":"number","SiteUrl":"string"};
 Aventus.Converter.register(Data.Company.Fullname, Data.Company);
-_.Data.Company=Data.Company;
+__as1(_.Data, 'Company', Data.Company);
 
 Data.DataTypes.FileError=class FileError extends Aventus.GenericError {
     static get Fullname() { return "Core.Data.DataTypes.FileError, Core"; }
@@ -22262,7 +22499,7 @@ Data.DataTypes.FileError=class FileError extends Aventus.GenericError {
 Data.DataTypes.FileError.Namespace=`Core.Data.DataTypes`;
 Data.DataTypes.FileError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Data.DataTypes.FileError.Fullname, Data.DataTypes.FileError);
-_.Data.DataTypes.FileError=Data.DataTypes.FileError;
+__as1(_.Data.DataTypes, 'FileError', Data.DataTypes.FileError);
 
 Data.Manifest=class Manifest extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.Manifest, Core"; }
@@ -22279,11 +22516,11 @@ Data.Manifest=class Manifest extends AventusSharp.Data.SharpClass {
 Data.Manifest.Namespace=`Core.Data`;
 Data.Manifest.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "name":"string","short_name":"string","icons":"ManifestIcon[]","theme_color":"string","background_color":"string","display":"string","orientation":"string","scope":"string","start_url":"string"};
 Aventus.Converter.register(Data.Manifest.Fullname, Data.Manifest);
-_.Data.Manifest=Data.Manifest;
+__as1(_.Data, 'Manifest', Data.Manifest);
 
 Routes.CompanyRouter=class CompanyRouter extends Aventus.HttpRoute {
     constructor(router) {
-        super(router ?? new Routes.CoreRouter());
+        super(router ?? new _.Routes.CoreRouter());
         this.GetMain = this.GetMain.bind(this);
         this.Update = this.Update.bind(this);
         this.ReadManifest = this.ReadManifest.bind(this);
@@ -22309,7 +22546,7 @@ Routes.CompanyRouter=class CompanyRouter extends Aventus.HttpRoute {
     }
 }
 Routes.CompanyRouter.Namespace=`Core.Routes`;
-_.Routes.CompanyRouter=Routes.CompanyRouter;
+__as1(_.Routes, 'CompanyRouter', Routes.CompanyRouter);
 
 Data.SsoProvider=class SsoProvider extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.SsoProvider, Core"; }
@@ -22328,18 +22565,18 @@ Data.SsoProvider=class SsoProvider extends AventusSharp.Data.Storable {
 Data.SsoProvider.Namespace=`Core.Data`;
 Data.SsoProvider.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Logo":"SsoLogo","ClientId":"string","ClientSecret":"string","AuthorizationEndpoint":"string","TokenEndpoint":"string","UserInfoEndpoint":"string","UserIdentifier":"string","UserName":"string","UserPicture":"string","AutoCreateUser":"boolean"};
 Aventus.Converter.register(Data.SsoProvider.Fullname, Data.SsoProvider);
-_.Data.SsoProvider=Data.SsoProvider;
+__as1(_.Data, 'SsoProvider', Data.SsoProvider);
 
 Routes.SsoProviderRouter=class SsoProviderRouter extends AventusSharp.Routes.StorableRouter {
     constructor(router) {
-        super(router ?? new Routes.CoreRouter());
+        super(router ?? new _.Routes.CoreRouter());
     }
     StorableName() {
         return "SsoProvider";
     }
 }
 Routes.SsoProviderRouter.Namespace=`Core.Routes`;
-_.Routes.SsoProviderRouter=Routes.SsoProviderRouter;
+__as1(_.Routes, 'SsoProviderRouter', Routes.SsoProviderRouter);
 
 RAM.SsoProviderRAM=class SsoProviderRAM extends AventusSharp.RAM.RamHttp {
     /**
@@ -22368,7 +22605,7 @@ RAM.SsoProviderRAM=class SsoProviderRAM extends AventusSharp.RAM.RamHttp {
     }
 }
 RAM.SsoProviderRAM.Namespace=`Core.RAM`;
-_.RAM.SsoProviderRAM=RAM.SsoProviderRAM;
+__as1(_.RAM, 'SsoProviderRAM', RAM.SsoProviderRAM);
 
 Errors.DesktopError=class DesktopError extends Aventus.GenericError {
     static get Fullname() { return "Core.Logic.DesktopError, Core"; }
@@ -22376,7 +22613,7 @@ Errors.DesktopError=class DesktopError extends Aventus.GenericError {
 Errors.DesktopError.Namespace=`Core.Errors`;
 Errors.DesktopError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.DesktopError.Fullname, Errors.DesktopError);
-_.Errors.DesktopError=Errors.DesktopError;
+__as1(_.Errors, 'DesktopError', Errors.DesktopError);
 
 Errors.StorageError=class StorageError extends Aventus.GenericError {
     static get Fullname() { return "Core.Logic.FileSystem.StorageError, Core"; }
@@ -22384,7 +22621,7 @@ Errors.StorageError=class StorageError extends Aventus.GenericError {
 Errors.StorageError.Namespace=`Core.Errors`;
 Errors.StorageError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.StorageError.Fullname, Errors.StorageError);
-_.Errors.StorageError=Errors.StorageError;
+__as1(_.Errors, 'StorageError', Errors.StorageError);
 
 Errors.SsoError=class SsoError extends Aventus.GenericError {
     static get Fullname() { return "Core.Logic.SsoError, Core"; }
@@ -22392,15 +22629,15 @@ Errors.SsoError=class SsoError extends Aventus.GenericError {
 Errors.SsoError.Namespace=`Core.Errors`;
 Errors.SsoError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.SsoError.Fullname, Errors.SsoError);
-_.Errors.SsoError=Errors.SsoError;
+__as1(_.Errors, 'SsoError', Errors.SsoError);
 
-Permissions.QuickAuthPermissionQuery=class QuickAuthPermissionQuery extends Permissions.PermissionQuery {
+Permissions.QuickAuthPermissionQuery=class QuickAuthPermissionQuery extends _.Permissions.PermissionQuery {
     static get Fullname() { return "Core.Permissions.QuickAuthPermissionQuery, Core"; }
 }
 Permissions.QuickAuthPermissionQuery.Namespace=`Core.Permissions`;
 Permissions.QuickAuthPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
 Aventus.Converter.register(Permissions.QuickAuthPermissionQuery.Fullname, Permissions.QuickAuthPermissionQuery);
-_.Permissions.QuickAuthPermissionQuery=Permissions.QuickAuthPermissionQuery;
+__as1(_.Permissions, 'QuickAuthPermissionQuery', Permissions.QuickAuthPermissionQuery);
 
 Errors.ImageFileError=class ImageFileError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.ImageFileError, Core"; }
@@ -22408,7 +22645,7 @@ Errors.ImageFileError=class ImageFileError extends Aventus.GenericError {
 Errors.ImageFileError.Namespace=`Core.Errors`;
 Errors.ImageFileError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.ImageFileError.Fullname, Errors.ImageFileError);
-_.Errors.ImageFileError=Errors.ImageFileError;
+__as1(_.Errors, 'ImageFileError', Errors.ImageFileError);
 
 Tools.ResultWithImageFileError=class ResultWithImageFileError extends AventusSharp.Tools.ResultWithError {
     static get Fullname() { return "Core.Tools.ResultWithImageFileError, Core"; }
@@ -22416,7 +22653,7 @@ Tools.ResultWithImageFileError=class ResultWithImageFileError extends AventusSha
 Tools.ResultWithImageFileError.Namespace=`Core.Tools`;
 Tools.ResultWithImageFileError.$schema={...(AventusSharp.Tools.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.ResultWithImageFileError.Fullname, Tools.ResultWithImageFileError);
-_.Tools.ResultWithImageFileError=Tools.ResultWithImageFileError;
+__as1(_.Tools, 'ResultWithImageFileError', Tools.ResultWithImageFileError);
 
 Tools.VoidWithImageFileError=class VoidWithImageFileError extends AventusSharp.Tools.VoidWithError {
     static get Fullname() { return "Core.Tools.VoidWithImageFileError, Core"; }
@@ -22424,7 +22661,7 @@ Tools.VoidWithImageFileError=class VoidWithImageFileError extends AventusSharp.T
 Tools.VoidWithImageFileError.Namespace=`Core.Tools`;
 Tools.VoidWithImageFileError.$schema={...(AventusSharp.Tools.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.VoidWithImageFileError.Fullname, Tools.VoidWithImageFileError);
-_.Tools.VoidWithImageFileError=Tools.VoidWithImageFileError;
+__as1(_.Tools, 'VoidWithImageFileError', Tools.VoidWithImageFileError);
 
 Errors.PdfError=class PdfError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.PdfError, Core"; }
@@ -22432,7 +22669,7 @@ Errors.PdfError=class PdfError extends Aventus.GenericError {
 Errors.PdfError.Namespace=`Core.Errors`;
 Errors.PdfError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.PdfError.Fullname, Errors.PdfError);
-_.Errors.PdfError=Errors.PdfError;
+__as1(_.Errors, 'PdfError', Errors.PdfError);
 
 Tools.ResultWithPdfError=class ResultWithPdfError extends AventusSharp.Tools.ResultWithError {
     static get Fullname() { return "Core.Tools.ResultWithPdfError, Core"; }
@@ -22440,7 +22677,7 @@ Tools.ResultWithPdfError=class ResultWithPdfError extends AventusSharp.Tools.Res
 Tools.ResultWithPdfError.Namespace=`Core.Tools`;
 Tools.ResultWithPdfError.$schema={...(AventusSharp.Tools.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.ResultWithPdfError.Fullname, Tools.ResultWithPdfError);
-_.Tools.ResultWithPdfError=Tools.ResultWithPdfError;
+__as1(_.Tools, 'ResultWithPdfError', Tools.ResultWithPdfError);
 
 Tools.VoidWithPdfError=class VoidWithPdfError extends AventusSharp.Tools.VoidWithError {
     static get Fullname() { return "Core.Tools.VoidWithPdfError, Core"; }
@@ -22448,7 +22685,7 @@ Tools.VoidWithPdfError=class VoidWithPdfError extends AventusSharp.Tools.VoidWit
 Tools.VoidWithPdfError.Namespace=`Core.Tools`;
 Tools.VoidWithPdfError.$schema={...(AventusSharp.Tools.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.VoidWithPdfError.Fullname, Tools.VoidWithPdfError);
-_.Tools.VoidWithPdfError=Tools.VoidWithPdfError;
+__as1(_.Tools, 'VoidWithPdfError', Tools.VoidWithPdfError);
 
 Websocket.Events.ApplicationTestEvent.Body=class Body extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Websocket.Events.ApplicationTestEvent+Body, Core"; }
@@ -22458,7 +22695,7 @@ Websocket.Events.ApplicationTestEvent.Body=class Body extends AventusSharp.Data.
 Websocket.Events.ApplicationTestEvent.Body.Namespace=`Core.Websocket.Events.ApplicationTestEvent`;
 Websocket.Events.ApplicationTestEvent.Body.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "id":"number","name":"string"};
 Aventus.Converter.register(Websocket.Events.ApplicationTestEvent.Body.Fullname, Websocket.Events.ApplicationTestEvent.Body);
-_.Websocket.Events.ApplicationTestEvent.Body=Websocket.Events.ApplicationTestEvent.Body;
+__as1(_.Websocket.Events.ApplicationTestEvent, 'Body', Websocket.Events.ApplicationTestEvent.Body);
 
 Lib.NumberTools=class NumberTools {
     static pretty(nb) {
@@ -22522,9 +22759,9 @@ Lib.NumberTools=class NumberTools {
     }
 }
 Lib.NumberTools.Namespace=`Core.Lib`;
-_.Lib.NumberTools=Lib.NumberTools;
+__as1(_.Lib, 'NumberTools', Lib.NumberTools);
 
-RAM.GroupRAM=class GroupRAM extends RAM.RamHttp {
+RAM.GroupRAM=class GroupRAM extends _.RAM.RamHttp {
     /**
      * Create a singleton to store data
      */
@@ -22564,7 +22801,85 @@ RAM.GroupRAM=class GroupRAM extends RAM.RamHttp {
     }
 }
 RAM.GroupRAM.Namespace=`Core.RAM`;
-_.RAM.GroupRAM=RAM.GroupRAM;
+__as1(_.RAM, 'GroupRAM', RAM.GroupRAM);
+
+RAM.RamCompletor=class RamCompletor {
+    objects = [];
+    fields = [];
+    error;
+    constructor(objects, error) {
+        if (!objects) {
+            objects = [];
+        }
+        else if (!Array.isArray(objects)) {
+            objects = [objects];
+        }
+        this.objects = objects;
+        this.error = error;
+    }
+    add(field) {
+        this.fields.push(field);
+        return this;
+    }
+    async run() {
+        const objects = this.objects;
+        const fields = this.fields;
+        const result = new Aventus.VoidWithError();
+        if (objects.length == 0)
+            return result;
+        const listIds = {};
+        const mapRecords = {};
+        for (let field of fields) {
+            let objKey = field.obj;
+            let idKey = field.id;
+            listIds[objKey] = [];
+            mapRecords[objKey] = {};
+            for (let value of objects) {
+                if (value[idKey]) {
+                    const listId = listIds[objKey];
+                    const mapRecord = mapRecords[objKey];
+                    if (value[objKey])
+                        continue;
+                    if (!listId.includes(value[idKey]))
+                        listId.push(value[idKey]);
+                    if (!mapRecord[value[idKey]]) {
+                        mapRecord[value[idKey]] = [];
+                    }
+                    mapRecord[value[idKey]].push(value);
+                }
+            }
+        }
+        for (let field of fields) {
+            let objKey = field.obj;
+            if (!listIds[objKey] || !mapRecords[objKey])
+                continue;
+            const listId = listIds[objKey];
+            const mapRecord = mapRecords[objKey];
+            if (listId.length > 0) {
+                const ram = Aventus.Instance.get(field.ram);
+                const query = await ram.getByIdsWithError(listId);
+                if (query.success && query.result) {
+                    for (let item of query.result) {
+                        if (mapRecord[item.Id]) {
+                            for (let record of mapRecord[item.Id]) {
+                                record[objKey] = item;
+                            }
+                        }
+                    }
+                }
+                else {
+                    result.errors = [...result.errors, ...query.errors];
+                    if (this.error) {
+                        this.error.errors = [...this.error.errors, ...query.errors];
+                    }
+                }
+            }
+        }
+        return result;
+    }
+}
+RAM.RamCompletor.Namespace=`Core.RAM`;
+__as1(_.RAM, 'RamCompletor', RAM.RamCompletor);
 
 
 for(let key in _) { Core[key] = _[key] }

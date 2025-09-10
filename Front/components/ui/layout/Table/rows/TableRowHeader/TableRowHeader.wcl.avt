@@ -1,6 +1,6 @@
 import { TableCellHeader } from "../../cells/TableCellHeader/TableCellHeader.wcl.avt";
 import type { TableCell } from "../../cells/TableCell/TableCell.wcl.avt";
-import type { TableOptions, TableSchema } from "../../Table.wcl.avt";
+import type { TableOptions, TableSchema } from "../../Table/Table.wcl.avt";
 import { TableRow } from "../TableRow/TableRow.wcl.avt";
 
 namespace Components {

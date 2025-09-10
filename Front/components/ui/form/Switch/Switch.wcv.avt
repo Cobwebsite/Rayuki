@@ -1,7 +1,8 @@
-<div class="label" @press="toggleActive">{{this.label}}</div>
+<div class="label" @press="setInactive">{{this.label}}</div>
 <div class="bar" @press="toggleActive">
     <div class="bar-content">
         <div class="bar-fill"></div>
         <div class="dot"></div>
     </div>
 </div>
+<div class="label2" @press="setActive">{{this.label2}}</div>

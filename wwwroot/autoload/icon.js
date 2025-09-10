@@ -52,6 +52,7 @@ for(let key in _) { Donnee[key] = _[key] }
 var Employes;
 (Employes||(Employes = {}));
 (function (Employes) {
+const __as1 = (o, k, c) => { if (o[k] !== undefined) for (let w in o[k]) { c[w] = o[k][w] } o[k] = c; }
 const moduleName = `Employes`;
 const _ = {};
 
@@ -60,15 +61,18 @@ _.System = Employes.System ?? {};
 let _n;
 let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Employes.AppInfo, Employes"; }
+    /**
+     * No de version de l'application
+     */
     static Version = 1;
 }
 AppInfo.Namespace=`Employes`;
 AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
 Aventus.Converter.register(AppInfo.Fullname, AppInfo);
-_.AppInfo=AppInfo;
+__as1(_, 'AppInfo', AppInfo);
 
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
-    static __style = `:host{background-color:#f39800}:host rk-img{--img-stroke-color: transparent;--img-fill-color: white;max-height:100%;flex-grow:1;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    static __style = `:host{background:radial-gradient(circle, #e9bc6f 0%, #c88004 100%)}:host rk-img{--img-stroke-color: transparent;--img-fill-color: white;max-height:100%;flex-grow:1;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
     __getStatic() {
         return AppIcon;
     }
@@ -88,11 +92,11 @@ System.AppIcon = class AppIcon extends Core.System.AppIcon {
 }
 System.AppIcon.Namespace=`Employes.System`;
 System.AppIcon.Tag=`employes-app-icon`;
-_.System.AppIcon=System.AppIcon;
+__as1(_.System, 'AppIcon', System.AppIcon);
 if(!window.customElements.get('employes-app-icon')){window.customElements.define('employes-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
 
 let Version= AppInfo.Version;
-_.Version=Version;
+__as1(_, 'Version', Version);
 
 
 for(let key in _) { Employes[key] = _[key] }
@@ -102,6 +106,7 @@ for(let key in _) { Employes[key] = _[key] }
 var Horaire;
 (Horaire||(Horaire = {}));
 (function (Horaire) {
+const __as1 = (o, k, c) => { if (o[k] !== undefined) for (let w in o[k]) { c[w] = o[k][w] } o[k] = c; }
 const moduleName = `Horaire`;
 const _ = {};
 
@@ -115,10 +120,10 @@ let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
 AppInfo.Namespace=`Horaire`;
 AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
 Aventus.Converter.register(AppInfo.Fullname, AppInfo);
-_.AppInfo=AppInfo;
+__as1(_, 'AppInfo', AppInfo);
 
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
-    static __style = `:host{background-color:#d2ac4c}:host rk-img{--img-fill-color: transparent;--img-stroke-color: white;flex-grow:1;max-height:100%;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    static __style = `:host rk-img{--img-stroke-color: white;--img-fill-color: transparent;max-height:100%;flex-grow:1;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
     __getStatic() {
         return AppIcon;
     }
@@ -138,11 +143,11 @@ System.AppIcon = class AppIcon extends Core.System.AppIcon {
 }
 System.AppIcon.Namespace=`Horaire.System`;
 System.AppIcon.Tag=`horaire-app-icon`;
-_.System.AppIcon=System.AppIcon;
+__as1(_.System, 'AppIcon', System.AppIcon);
 if(!window.customElements.get('horaire-app-icon')){window.customElements.define('horaire-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
 
 let Version= AppInfo.Version;
-_.Version=Version;
+__as1(_, 'Version', Version);
 
 
 for(let key in _) { Horaire[key] = _[key] }
@@ -197,56 +202,6 @@ _.Version=Version;
 
 for(let key in _) { Microspace[key] = _[key] }
 })(Microspace);
-
-
-var Minisales;
-(Minisales||(Minisales = {}));
-(function (Minisales) {
-const moduleName = `Minisales`;
-const _ = {};
-
-let System = {};
-_.System = Minisales.System ?? {};
-let _n;
-let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
-    static get Fullname() { return "Minisales.AppInfo, Minisales"; }
-    static Version = 1;
-}
-AppInfo.Namespace=`Minisales`;
-AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
-Aventus.Converter.register(AppInfo.Fullname, AppInfo);
-_.AppInfo=AppInfo;
-
-System.AppIcon = class AppIcon extends Core.System.AppIcon {
-    static __style = `:host{background:#174499;background:radial-gradient(circle, rgb(23, 68, 153) 0%, rgb(12, 34, 71) 100%)}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #acf4d6;flex-grow:1;max-height:100%;padding:15%;pointer-events:none}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
-    __getStatic() {
-        return AppIcon;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(AppIcon.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-img src="/apps/Minisales/img/logo.png"></rk-img>` }
-    });
-}
-    getClassName() {
-        return "AppIcon";
-    }
-}
-System.AppIcon.Namespace=`Minisales.System`;
-System.AppIcon.Tag=`minisales-app-icon`;
-_.System.AppIcon=System.AppIcon;
-if(!window.customElements.get('minisales-app-icon')){window.customElements.define('minisales-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
-
-let Version= AppInfo.Version;
-_.Version=Version;
-
-
-for(let key in _) { Minisales[key] = _[key] }
-})(Minisales);
 
 
 var Projet;
@@ -307,6 +262,7 @@ for(let key in _) { Projet[key] = _[key] }
 var Settings;
 (Settings||(Settings = {}));
 (function (Settings) {
+const __as1 = (o, k, c) => { if (o[k] !== undefined) for (let w in o[k]) { c[w] = o[k][w] } o[k] = c; }
 const moduleName = `Settings`;
 const _ = {};
 
@@ -320,7 +276,7 @@ let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
 AppInfo.Namespace=`Settings`;
 AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
 Aventus.Converter.register(AppInfo.Fullname, AppInfo);
-_.AppInfo=AppInfo;
+__as1(_, 'AppInfo', AppInfo);
 
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
     static __style = `:host{background-color:#7a7a7a}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #ffffff;flex-grow:1;max-height:100%;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
@@ -343,11 +299,11 @@ System.AppIcon = class AppIcon extends Core.System.AppIcon {
 }
 System.AppIcon.Namespace=`Settings.System`;
 System.AppIcon.Tag=`settings-app-icon`;
-_.System.AppIcon=System.AppIcon;
+__as1(_.System, 'AppIcon', System.AppIcon);
 if(!window.customElements.get('settings-app-icon')){window.customElements.define('settings-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
 
 let Version= AppInfo.Version;
-_.Version=Version;
+__as1(_, 'Version', Version);
 
 
 for(let key in _) { Settings[key] = _[key] }

@@ -3,7 +3,7 @@
 	background-color: var(--darker);
 	border-radius: var(--border-radius-sm);
 	box-shadow: var(--elevation-2);
-	display: none;
+	display: flex;
 	height: 30px;
 	justify-content: center;
 	padding: 5px;
@@ -25,8 +25,8 @@
 	}
 }
 
-:host([visible]) {
-	display: flex !important;
+:host(:not([visible])) {
+	display: none !important;
 }
 
 :host([downloading]) {

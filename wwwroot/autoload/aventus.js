@@ -1,35 +1,37 @@
-Object.defineProperty(window, "AvInstance", {
-	get() {return Aventus.Instance;}
-});
+if(!Object.hasOwn(window, "AvInstance")) {
+	Object.defineProperty(window, "AvInstance", {
+		get() {return Aventus.Instance;}
+	});
 
-(() => {
-	Map.prototype._defaultHas = Map.prototype.has;
-	Map.prototype._defaultSet = Map.prototype.set;
-	Map.prototype._defaultGet = Map.prototype.get;
-	Map.prototype.has = function(key) {
-		if(Aventus.Watcher?.is(key)) {
-			return Map.prototype._defaultHas.call(this,key.getTarget())
+	(() => {
+		Map.prototype._defaultHas = Map.prototype.has;
+		Map.prototype._defaultSet = Map.prototype.set;
+		Map.prototype._defaultGet = Map.prototype.get;
+		Map.prototype.has = function(key) {
+			if(Aventus.Watcher?.is(key)) {
+				return Map.prototype._defaultHas.call(this,key.getTarget())
+			}
+			return Map.prototype._defaultHas.call(this,key);
 		}
-		return Map.prototype._defaultHas.call(this,key);
-	}
 
-	Map.prototype.set = function(key, value) {
-		if(Aventus.Watcher?.is(key)) {
-			return Map.prototype._defaultSet.call(this, key.getTarget(), value)
+		Map.prototype.set = function(key, value) {
+			if(Aventus.Watcher?.is(key)) {
+				return Map.prototype._defaultSet.call(this, key.getTarget(), value)
+			}
+			return Map.prototype._defaultSet.call(this, key, value);
 		}
-		return Map.prototype._defaultSet.call(this, key, value);
-	}
-	Map.prototype.get = function(key) {
-		if(Aventus.Watcher?.is(key)) {
-			return Map.prototype._defaultGet.call(this, key.getTarget())
+		Map.prototype.get = function(key) {
+			if(Aventus.Watcher?.is(key)) {
+				return Map.prototype._defaultGet.call(this, key.getTarget())
+			}
+			return Map.prototype._defaultGet.call(this, key);
 		}
-		return Map.prototype._defaultGet.call(this, key);
-	}
-})();
-
+	})();
+}
 var Aventus;
 (Aventus||(Aventus = {}));
 (function (Aventus) {
+const __as1 = (o, k, c) => { if (o[k] !== undefined) for (let w in o[k]) { c[w] = o[k][w] } o[k] = c; }
 const moduleName = `Aventus`;
 const _ = {};
 
@@ -37,21 +39,10 @@ const _ = {};
 let _n;
 let ElementExtension=class ElementExtension {
     /**
-     * Find a parent by tagname if exist Static.findParentByTag(this, "av-img")
+     * Find a parent by custom check
      */
-    static findParentByTag(element, tagname, untilNode) {
+    static findParent(element, check, untilNode) {
         let el = element;
-        if (Array.isArray(tagname)) {
-            for (let i = 0; i < tagname.length; i++) {
-                tagname[i] = tagname[i].toLowerCase();
-            }
-        }
-        else {
-            tagname = [tagname.toLowerCase()];
-        }
-        let checkFunc = (el) => {
-            return tagname.indexOf((el.nodeName || el.tagName).toLowerCase()) != -1;
-        };
         if (el) {
             if (el instanceof ShadowRoot) {
                 el = el.host;
@@ -61,7 +52,7 @@ let ElementExtension=class ElementExtension {
             }
         }
         while (el) {
-            if (checkFunc(el)) {
+            if (check(el)) {
                 return el;
             }
             if (el instanceof ShadowRoot) {
@@ -77,97 +68,11 @@ let ElementExtension=class ElementExtension {
         return null;
     }
     /**
-     * Find a parent by class name if exist Static.findParentByClass(this, "my-class-img") = querySelector('.my-class-img')
+     * Find a list of parent by custom check
      */
-    static findParentByClass(element, classname, untilNode) {
-        let el = element;
-        if (!Array.isArray(classname)) {
-            classname = [classname];
-        }
-        if (el) {
-            if (el instanceof ShadowRoot) {
-                el = el.host;
-            }
-            else {
-                el = el.parentNode;
-            }
-        }
-        while (el) {
-            for (let classnameTemp of classname) {
-                if (el['classList'] && el['classList'].contains(classnameTemp)) {
-                    return el;
-                }
-            }
-            if (el instanceof ShadowRoot) {
-                el = el.host;
-            }
-            else {
-                el = el.parentNode;
-            }
-            if (el == untilNode) {
-                break;
-            }
-        }
-        return null;
-    }
-    /**
-     * Find a parent by type if exist Static.findParentyType(this, Aventus.Img)
-     */
-    static findParentByType(element, type, untilNode) {
-        let el = element;
-        let checkFunc = (el) => {
-            return false;
-        };
-        if (typeof type == "function" && type['prototype']['constructor']) {
-            checkFunc = (el) => {
-                if (el instanceof type) {
-                    return true;
-                }
-                return false;
-            };
-        }
-        else {
-            console.error("you must provide a class inside this function");
-            return null;
-        }
-        if (el) {
-            if (el instanceof ShadowRoot) {
-                el = el.host;
-            }
-            else {
-                el = el.parentNode;
-            }
-        }
-        while (el) {
-            if (checkFunc(el)) {
-                return el;
-            }
-            if (el instanceof ShadowRoot) {
-                el = el.host;
-            }
-            else {
-                el = el.parentNode;
-            }
-            if (el == untilNode) {
-                break;
-            }
-        }
-        return null;
-    }
-    /**
-     * Find list of parents by tagname
-     */
-    static findParents(element, tagname, untilNode) {
-        let el = element;
-        if (Array.isArray(tagname)) {
-            for (let i = 0; i < tagname.length; i++) {
-                tagname[i] = tagname[i].toLowerCase();
-            }
-        }
-        else {
-            tagname = [tagname.toLowerCase()];
-        }
+    static findParents(element, check, untilNode) {
         let result = [];
+        let el = element;
         if (el) {
             if (el instanceof ShadowRoot) {
                 el = el.host;
@@ -177,7 +82,7 @@ let ElementExtension=class ElementExtension {
             }
         }
         while (el) {
-            if (tagname.indexOf((el.nodeName || el['tagName']).toLowerCase()) != -1) {
+            if (check(el)) {
                 result.push(el);
             }
             if (el instanceof ShadowRoot) {
@@ -191,6 +96,83 @@ let ElementExtension=class ElementExtension {
             }
         }
         return result;
+    }
+    /**
+     * Find a parent by tagname if exist Static.findParentByTag(this, "av-img")
+     */
+    static findParentByTag(element, tagname, untilNode) {
+        if (Array.isArray(tagname)) {
+            for (let i = 0; i < tagname.length; i++) {
+                tagname[i] = tagname[i].toLowerCase();
+            }
+        }
+        else {
+            tagname = [tagname.toLowerCase()];
+        }
+        const checkFunc = (el) => {
+            return tagname.indexOf((el.nodeName || el.tagName).toLowerCase()) != -1;
+        };
+        return this.findParent(element, checkFunc, untilNode);
+    }
+    /**
+     * Find a parent by class name if exist Static.findParentByClass(this, "my-class-img") = querySelector('.my-class-img')
+     */
+    static findParentByClass(element, classname, untilNode) {
+        if (!Array.isArray(classname)) {
+            classname = [classname];
+        }
+        const check = (el) => {
+            for (let classnameTemp of classname) {
+                if (el['classList'] && el['classList'].contains(classnameTemp)) {
+                    return true;
+                }
+            }
+            return false;
+        };
+        return this.findParent(element, check, untilNode);
+    }
+    static findParentByType(element, types, untilNode) {
+        if (!Array.isArray(types)) {
+            types = [types];
+        }
+        let isValid = true;
+        for (let type of types) {
+            if (typeof type == "function" && type['prototype']['constructor'])
+                continue;
+            isValid = false;
+        }
+        if (isValid) {
+            let checkFunc = (el) => {
+                for (let type of types) {
+                    const t = type;
+                    if (el instanceof t) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+            return this.findParent(element, checkFunc, untilNode);
+        }
+        console.error("you must provide a class inside this function");
+        return null;
+    }
+    /**
+     * Find list of parents by tagname
+     */
+    static findParentsByTag(element, tagname, untilNode) {
+        let el = element;
+        if (Array.isArray(tagname)) {
+            for (let i = 0; i < tagname.length; i++) {
+                tagname[i] = tagname[i].toLowerCase();
+            }
+        }
+        else {
+            tagname = [tagname.toLowerCase()];
+        }
+        let check = (el) => {
+            return tagname.indexOf((el.nodeName || el['tagName']).toLowerCase()) != -1;
+        };
+        return this.findParents(element, check, untilNode);
     }
     /**
      * Check if element contains a child
@@ -330,7 +312,7 @@ let ElementExtension=class ElementExtension {
     }
 }
 ElementExtension.Namespace=`Aventus`;
-_.ElementExtension=ElementExtension;
+__as1(_, 'ElementExtension', ElementExtension);
 
 let DateConverter=class DateConverter {
     static __converter = new DateConverter();
@@ -354,13 +336,13 @@ let DateConverter=class DateConverter {
     }
 }
 DateConverter.Namespace=`Aventus`;
-_.DateConverter=DateConverter;
+__as1(_, 'DateConverter', DateConverter);
 
 var HttpErrorCode;
 (function (HttpErrorCode) {
     HttpErrorCode[HttpErrorCode["unknow"] = 0] = "unknow";
 })(HttpErrorCode || (HttpErrorCode = {}));
-_.HttpErrorCode=HttpErrorCode;
+__as1(_, 'HttpErrorCode', HttpErrorCode);
 
 var HttpMethod;
 (function (HttpMethod) {
@@ -370,7 +352,7 @@ var HttpMethod;
     HttpMethod["PUT"] = "PUT";
     HttpMethod["OPTION"] = "OPTION";
 })(HttpMethod || (HttpMethod = {}));
-_.HttpMethod=HttpMethod;
+__as1(_, 'HttpMethod', HttpMethod);
 
 let getValueFromObject=function getValueFromObject(path, obj) {
     if (path === undefined) {
@@ -400,7 +382,7 @@ let getValueFromObject=function getValueFromObject(path, obj) {
     }
     return val(splitted[splitted.length - 1]);
 }
-_.getValueFromObject=getValueFromObject;
+__as1(_, 'getValueFromObject', getValueFromObject);
 
 var WatchAction;
 (function (WatchAction) {
@@ -408,7 +390,7 @@ var WatchAction;
     WatchAction[WatchAction["UPDATED"] = 1] = "UPDATED";
     WatchAction[WatchAction["DELETED"] = 2] = "DELETED";
 })(WatchAction || (WatchAction = {}));
-_.WatchAction=WatchAction;
+__as1(_, 'WatchAction', WatchAction);
 
 let Signal=class Signal {
     __subscribes = [];
@@ -451,7 +433,7 @@ let Signal=class Signal {
     }
 }
 Signal.Namespace=`Aventus`;
-_.Signal=Signal;
+__as1(_, 'Signal', Signal);
 
 let CallbackGroup=class CallbackGroup {
     callbacks = {};
@@ -499,7 +481,7 @@ let CallbackGroup=class CallbackGroup {
     }
 }
 CallbackGroup.Namespace=`Aventus`;
-_.CallbackGroup=CallbackGroup;
+__as1(_, 'CallbackGroup', CallbackGroup);
 
 let Callback=class Callback {
     callbacks = new Map();
@@ -536,7 +518,7 @@ let Callback=class Callback {
     }
 }
 Callback.Namespace=`Aventus`;
-_.Callback=Callback;
+__as1(_, 'Callback', Callback);
 
 let NormalizedEvent=class NormalizedEvent {
     _event;
@@ -615,13 +597,13 @@ let NormalizedEvent=class NormalizedEvent {
     }
 }
 NormalizedEvent.Namespace=`Aventus`;
-_.NormalizedEvent=NormalizedEvent;
+__as1(_, 'NormalizedEvent', NormalizedEvent);
 
 let DragElementLeftTopType= [HTMLElement, SVGSVGElement];
-_.DragElementLeftTopType=DragElementLeftTopType;
+__as1(_, 'DragElementLeftTopType', DragElementLeftTopType);
 
 let DragElementXYType= [SVGGElement, SVGRectElement, SVGEllipseElement, SVGTextElement];
-_.DragElementXYType=DragElementXYType;
+__as1(_, 'DragElementXYType', DragElementXYType);
 
 let Instance=class Instance {
     static elements = new Map();
@@ -648,7 +630,7 @@ let Instance=class Instance {
     }
 }
 Instance.Namespace=`Aventus`;
-_.Instance=Instance;
+__as1(_, 'Instance', Instance);
 
 var RamErrorCode;
 (function (RamErrorCode) {
@@ -656,7 +638,7 @@ var RamErrorCode;
     RamErrorCode[RamErrorCode["noId"] = 1] = "noId";
     RamErrorCode[RamErrorCode["noItemInsideRam"] = 2] = "noItemInsideRam";
 })(RamErrorCode || (RamErrorCode = {}));
-_.RamErrorCode=RamErrorCode;
+__as1(_, 'RamErrorCode', RamErrorCode);
 
 let ActionGuard=class ActionGuard {
     /**
@@ -665,33 +647,15 @@ let ActionGuard=class ActionGuard {
      * @private
      */
     runningAction = new Map();
-    /**
-     * Executes an action uniquely based on the specified keys.
-     * @template T
-     * @param {any[]} keys The keys associated with the action.
-     * @param {() => Promise<T>} action The action to execute.
-     * @returns {Promise<T>} A promise that resolves with the result of the action.
-     * @example
-     *
-     *
-     * const actionGuard = new Aventus.ActionGuard();
-     *
-     *
-     * const keys = ["key1", "key2"];
-     *
-     *
-     * const action = async () => {
-     *
-     *     await new Promise(resolve => setTimeout(resolve, 1000));
-     *     return "Action executed";
-     * };
-     *
-     *
-     * await actionGuard.run(keys, action)
-     *
-     */
     run(keys, action) {
         return new Promise(async (resolve) => {
+            if (typeof keys == 'function') {
+                action = keys;
+                keys = [];
+            }
+            if (!action) {
+                throw "No action inside the Mutex.run";
+            }
             let actions = undefined;
             let runningKeys = Array.from(this.runningAction.keys());
             for (let runningKey of runningKeys) {
@@ -730,7 +694,7 @@ let ActionGuard=class ActionGuard {
     }
 }
 ActionGuard.Namespace=`Aventus`;
-_.ActionGuard=ActionGuard;
+__as1(_, 'ActionGuard', ActionGuard);
 
 let Mutex=class Mutex {
     /**
@@ -810,6 +774,7 @@ let Mutex=class Mutex {
             result = cb.apply(null, []);
         }
         catch (e) {
+            console.error(e);
         }
         await this.release();
         return result;
@@ -827,6 +792,7 @@ let Mutex=class Mutex {
             result = await cb.apply(null, []);
         }
         catch (e) {
+            console.error(e);
         }
         await this.release();
         return result;
@@ -844,6 +810,7 @@ let Mutex=class Mutex {
                 result = cb.apply(null, []);
             }
             catch (e) {
+                console.error(e);
             }
             await this.releaseOnlyLast();
         }
@@ -862,6 +829,7 @@ let Mutex=class Mutex {
                 result = await cb.apply(null, []);
             }
             catch (e) {
+                console.error(e);
             }
             await this.releaseOnlyLast();
         }
@@ -869,7 +837,7 @@ let Mutex=class Mutex {
     }
 }
 Mutex.Namespace=`Aventus`;
-_.Mutex=Mutex;
+__as1(_, 'Mutex', Mutex);
 
 let setValueToObject=function setValueToObject(path, obj, value) {
     path = path.replace(/\[(.*?)\]/g, '.$1');
@@ -896,12 +864,12 @@ let setValueToObject=function setValueToObject(path, obj, value) {
         obj[splitted[splitted.length - 1]] = value;
     }
 }
-_.setValueToObject=setValueToObject;
+__as1(_, 'setValueToObject', setValueToObject);
 
 let isClass=function isClass(v) {
     return typeof v === 'function' && /^\s*class\s+/.test(v.toString());
 }
-_.isClass=isClass;
+__as1(_, 'isClass', isClass);
 
 let isSubclassOf=function isSubclassOf(subClass, superClass) {
     if (typeof subClass !== 'function' || typeof superClass !== 'function')
@@ -914,18 +882,18 @@ let isSubclassOf=function isSubclassOf(subClass, superClass) {
     }
     return false;
 }
-_.isSubclassOf=isSubclassOf;
+__as1(_, 'isSubclassOf', isSubclassOf);
 
 let sleep=function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-_.sleep=sleep;
+__as1(_, 'sleep', sleep);
 
 let uuidv4=function uuidv4() {
     let uid = '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, c => (Number(c) ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> Number(c) / 4).toString(16));
     return uid;
 }
-_.uuidv4=uuidv4;
+__as1(_, 'uuidv4', uuidv4);
 
 let Style=class Style {
     static instance;
@@ -952,14 +920,14 @@ let Style=class Style {
         if (!document.head.querySelector(`style[data-name="${name}"]`)) {
             const styleNode = document.createElement('style');
             styleNode.setAttribute(`data-name`, name);
-            styleNode.innerHTML = Aventus.Style.getAsString(name);
+            styleNode.innerHTML = Style.getAsString(name);
             document.getElementsByTagName('head')[0].appendChild(styleNode);
         }
     }
     static refreshHead(name) {
         const styleNode = document.head.querySelector(`style[data-name="${name}"]`);
         if (styleNode) {
-            styleNode.innerHTML = Aventus.Style.getAsString(name);
+            styleNode.innerHTML = Style.getAsString(name);
         }
     }
     static getInstance() {
@@ -1020,7 +988,7 @@ let Style=class Style {
     }
 }
 Style.Namespace=`Aventus`;
-_.Style=Style;
+__as1(_, 'Style', Style);
 
 let ResourceLoader=class ResourceLoader {
     static headerLoaded = {};
@@ -1190,19 +1158,7 @@ let ResourceLoader=class ResourceLoader {
     }
 }
 ResourceLoader.Namespace=`Aventus`;
-_.ResourceLoader=ResourceLoader;
-
-let Async=function Async(el) {
-    return new Promise((resolve) => {
-        if (el instanceof Promise) {
-            el.then(resolve);
-        }
-        else {
-            resolve(el);
-        }
-    });
-}
-_.Async=Async;
+__as1(_, 'ResourceLoader', ResourceLoader);
 
 let Effect=class Effect {
     callbacks = [];
@@ -1317,7 +1273,7 @@ let Effect=class Effect {
     }
 }
 Effect.Namespace=`Aventus`;
-_.Effect=Effect;
+__as1(_, 'Effect', Effect);
 
 let Computed=class Computed extends Effect {
     _value;
@@ -1357,7 +1313,7 @@ let Computed=class Computed extends Effect {
     }
 }
 Computed.Namespace=`Aventus`;
-_.Computed=Computed;
+__as1(_, 'Computed', Computed);
 
 let Watcher=class Watcher {
     constructor() { }
@@ -2196,7 +2152,7 @@ let Watcher=class Watcher {
     }
 }
 Watcher.Namespace=`Aventus`;
-_.Watcher=Watcher;
+__as1(_, 'Watcher', Watcher);
 
 let EffectNoRecomputed=class EffectNoRecomputed extends Effect {
     init() {
@@ -2212,7 +2168,7 @@ let EffectNoRecomputed=class EffectNoRecomputed extends Effect {
     }
 }
 EffectNoRecomputed.Namespace=`Aventus`;
-_.EffectNoRecomputed=EffectNoRecomputed;
+__as1(_, 'EffectNoRecomputed', EffectNoRecomputed);
 
 let ComputedNoRecomputed=class ComputedNoRecomputed extends Computed {
     init() {
@@ -2230,7 +2186,7 @@ let ComputedNoRecomputed=class ComputedNoRecomputed extends Computed {
     run() { }
 }
 ComputedNoRecomputed.Namespace=`Aventus`;
-_.ComputedNoRecomputed=ComputedNoRecomputed;
+__as1(_, 'ComputedNoRecomputed', ComputedNoRecomputed);
 
 let compareObject=function compareObject(obj1, obj2) {
     if (Array.isArray(obj1)) {
@@ -2315,7 +2271,19 @@ let compareObject=function compareObject(obj1, obj2) {
         return obj1 === obj2;
     }
 }
-_.compareObject=compareObject;
+__as1(_, 'compareObject', compareObject);
+
+let Async=function Async(el) {
+    return new Promise((resolve) => {
+        if (el instanceof Promise) {
+            el.then(resolve);
+        }
+        else {
+            resolve(el);
+        }
+    });
+}
+__as1(_, 'Async', Async);
 
 let Json=class Json {
     /**
@@ -2404,7 +2372,7 @@ let Json=class Json {
     }
 }
 Json.Namespace=`Aventus`;
-_.Json=Json;
+__as1(_, 'Json', Json);
 
 let Data=class Data {
     /**
@@ -2454,7 +2422,7 @@ let Data=class Data {
     }
 }
 Data.Namespace=`Aventus`;
-_.Data=Data;
+__as1(_, 'Data', Data);
 
 let ConverterTransform=class ConverterTransform {
     transform(data) {
@@ -2514,6 +2482,9 @@ let ConverterTransform=class ConverterTransform {
                             }
                             else if (obj[key] instanceof Map) {
                                 let map = new Map();
+                                if ("$type" in value && value['$type'] == "Aventus.Map") {
+                                    value = value.values;
+                                }
                                 for (const keyValue of value) {
                                     map.set(this.transformLoop(keyValue[0]), this.transformLoop(keyValue[1]));
                                 }
@@ -2584,7 +2555,7 @@ let ConverterTransform=class ConverterTransform {
     }
 }
 ConverterTransform.Namespace=`Aventus`;
-_.ConverterTransform=ConverterTransform;
+__as1(_, 'ConverterTransform', ConverterTransform);
 
 let Converter=class Converter {
     /**
@@ -2654,7 +2625,7 @@ let Converter=class Converter {
     }
 }
 Converter.Namespace=`Aventus`;
-_.Converter=Converter;
+__as1(_, 'Converter', Converter);
 
 let GenericError=class GenericError {
     /**
@@ -2667,7 +2638,6 @@ let GenericError=class GenericError {
     message;
     /**
      * Additional details related to the error.
-     * @type {any[]}
      */
     details = [];
     /**
@@ -2681,17 +2651,17 @@ let GenericError=class GenericError {
     }
 }
 GenericError.Namespace=`Aventus`;
-_.GenericError=GenericError;
+__as1(_, 'GenericError', GenericError);
 
 let RamError=class RamError extends GenericError {
 }
 RamError.Namespace=`Aventus`;
-_.RamError=RamError;
+__as1(_, 'RamError', RamError);
 
 let HttpError=class HttpError extends GenericError {
 }
 HttpError.Namespace=`Aventus`;
-_.HttpError=HttpError;
+__as1(_, 'HttpError', HttpError);
 
 let VoidWithError=class VoidWithError {
     /**
@@ -2742,12 +2712,12 @@ let VoidWithError=class VoidWithError {
     }
 }
 VoidWithError.Namespace=`Aventus`;
-_.VoidWithError=VoidWithError;
+__as1(_, 'VoidWithError', VoidWithError);
 
 let VoidRamWithError=class VoidRamWithError extends VoidWithError {
 }
 VoidRamWithError.Namespace=`Aventus`;
-_.VoidRamWithError=VoidRamWithError;
+__as1(_, 'VoidRamWithError', VoidRamWithError);
 
 let ResultWithError=class ResultWithError extends VoidWithError {
     /**
@@ -2767,14 +2737,18 @@ let ResultWithError=class ResultWithError extends VoidWithError {
     }
 }
 ResultWithError.Namespace=`Aventus`;
-_.ResultWithError=ResultWithError;
+__as1(_, 'ResultWithError', ResultWithError);
 
 let ResultRamWithError=class ResultRamWithError extends ResultWithError {
 }
 ResultRamWithError.Namespace=`Aventus`;
-_.ResultRamWithError=ResultRamWithError;
+__as1(_, 'ResultRamWithError', ResultRamWithError);
 
 let HttpRequest=class HttpRequest {
+    static options;
+    static configure(options) {
+        this.options = options;
+    }
     request;
     url;
     constructor(url, method = HttpMethod.GET, body) {
@@ -2883,14 +2857,32 @@ let HttpRequest=class HttpRequest {
         }
         this.request.headers.push([name, value]);
     }
-    async query(router) {
+    setCredentials(credentials) {
+        this.request.credentials = credentials;
+    }
+    async _query(router) {
         let result = new ResultWithError();
         try {
-            const fullUrl = router ? router.options.url + this.url : this.url;
+            const isFull = this.url.match("https?://");
+            if (!this.url.startsWith("/") && !isFull) {
+                this.url = "/" + this.url;
+            }
+            if (HttpRequest.options?.beforeSend) {
+                const beforeSendResult = await HttpRequest.options.beforeSend(this);
+                result.errors = beforeSendResult.errors;
+            }
+            const fullUrl = isFull ? this.url : router ? router.options.url + this.url : this.url;
             result.result = await fetch(fullUrl, this.request);
         }
         catch (e) {
             result.errors.push(new HttpError(HttpErrorCode.unknow, e));
+        }
+        return result;
+    }
+    async query(router) {
+        let result = await this._query(router);
+        if (HttpRequest.options?.responseMiddleware) {
+            result = await HttpRequest.options.responseMiddleware(result, this);
         }
         return result;
     }
@@ -2985,7 +2977,7 @@ let HttpRequest=class HttpRequest {
     }
 }
 HttpRequest.Namespace=`Aventus`;
-_.HttpRequest=HttpRequest;
+__as1(_, 'HttpRequest', HttpRequest);
 
 let HttpRouter=class HttpRouter {
     options;
@@ -3017,7 +3009,7 @@ let HttpRouter=class HttpRouter {
     }
 }
 HttpRouter.Namespace=`Aventus`;
-_.HttpRouter=HttpRouter;
+__as1(_, 'HttpRouter', HttpRouter);
 
 let HttpRoute=class HttpRoute {
     router;
@@ -3029,7 +3021,7 @@ let HttpRoute=class HttpRoute {
     }
 }
 HttpRoute.Namespace=`Aventus`;
-_.HttpRoute=HttpRoute;
+__as1(_, 'HttpRoute', HttpRoute);
 
 let StorableRoute=class StorableRoute extends HttpRoute {
     async GetAll() {
@@ -3056,7 +3048,7 @@ let StorableRoute=class StorableRoute extends HttpRoute {
     }
 }
 StorableRoute.Namespace=`Aventus`;
-_.StorableRoute=StorableRoute;
+__as1(_, 'StorableRoute', StorableRoute);
 
 let Animation=class Animation {
     /**
@@ -3144,7 +3136,7 @@ let Animation=class Animation {
     }
 }
 Animation.Namespace=`Aventus`;
-_.Animation=Animation;
+__as1(_, 'Animation', Animation);
 
 let PressManager=class PressManager {
     static globalConfig = {
@@ -3152,7 +3144,7 @@ let PressManager=class PressManager {
         delayLongPress: 700,
         offsetDrag: 20
     };
-    static setGlobalConfig(options) {
+    static configure(options) {
         this.globalConfig = options;
     }
     static create(options) {
@@ -3604,17 +3596,20 @@ let PressManager=class PressManager {
     destroy() {
         if (this.element) {
             this.element.removeEventListener("pointerdown", this.functionsBinded.downAction);
+            this.element.removeEventListener("touchstart", this.functionsBinded.downActionDelay);
             this.element.removeEventListener("trigger_pointer_pressstart", this.functionsBinded.childPressStart);
             this.element.removeEventListener("trigger_pointer_pressend", this.functionsBinded.childPressEnd);
             this.element.removeEventListener("trigger_pointer_pressmove", this.functionsBinded.childPressMove);
             document.removeEventListener("pointerup", this.functionsBinded.upAction);
             document.removeEventListener("pointercancel", this.functionsBinded.upAction);
+            document.removeEventListener("touchend", this.functionsBinded.upAction);
+            document.removeEventListener("touchcancel", this.functionsBinded.upAction);
             document.removeEventListener("pointermove", this.functionsBinded.moveAction);
         }
     }
 }
 PressManager.Namespace=`Aventus`;
-_.PressManager=PressManager;
+__as1(_, 'PressManager', PressManager);
 
 let DragAndDrop=class DragAndDrop {
     /**
@@ -4177,7 +4172,7 @@ let DragAndDrop=class DragAndDrop {
     }
 }
 DragAndDrop.Namespace=`Aventus`;
-_.DragAndDrop=DragAndDrop;
+__as1(_, 'DragAndDrop', DragAndDrop);
 
 let ResizeObserver=class ResizeObserver {
     callback;
@@ -4307,7 +4302,7 @@ let ResizeObserver=class ResizeObserver {
     }
 }
 ResizeObserver.Namespace=`Aventus`;
-_.ResizeObserver=ResizeObserver;
+__as1(_, 'ResizeObserver', ResizeObserver);
 
 let Uri=class Uri {
     static prepare(uri) {
@@ -4385,7 +4380,7 @@ let Uri=class Uri {
     }
 }
 Uri.Namespace=`Aventus`;
-_.Uri=Uri;
+__as1(_, 'Uri', Uri);
 
 let GenericRam=class GenericRam {
     /**
@@ -4412,6 +4407,40 @@ let GenericRam=class GenericRam {
         if (this.constructor == GenericRam) {
             throw "can't instanciate an abstract class";
         }
+        this.getIdWithError = this.getIdWithError.bind(this);
+        this.getId = this.getId.bind(this);
+        this.save = this.save.bind(this);
+        this.saveWithError = this.saveWithError.bind(this);
+        this.onCreated = this.onCreated.bind(this);
+        this.offCreated = this.offCreated.bind(this);
+        this.onUpdated = this.onUpdated.bind(this);
+        this.offUpdated = this.offUpdated.bind(this);
+        this.onDeleted = this.onDeleted.bind(this);
+        this.offDeleted = this.offDeleted.bind(this);
+        this.get = this.get.bind(this);
+        this.getWithError = this.getWithError.bind(this);
+        this.getById = this.getById.bind(this);
+        this.getByIdWithError = this.getByIdWithError.bind(this);
+        this.getByIds = this.getByIds.bind(this);
+        this.getByIdsWithError = this.getByIdsWithError.bind(this);
+        this.getAll = this.getAll.bind(this);
+        this.getAllWithError = this.getAllWithError.bind(this);
+        this.getList = this.getList.bind(this);
+        this.getListWithError = this.getListWithError.bind(this);
+        this.createList = this.createList.bind(this);
+        this.createListWithError = this.createListWithError.bind(this);
+        this.create = this.create.bind(this);
+        this.createWithError = this.createWithError.bind(this);
+        this.updateList = this.updateList.bind(this);
+        this.updateListWithError = this.updateListWithError.bind(this);
+        this.update = this.update.bind(this);
+        this.updateWithError = this.updateWithError.bind(this);
+        this.deleteList = this.deleteList.bind(this);
+        this.deleteListWithError = this.deleteListWithError.bind(this);
+        this.delete = this.delete.bind(this);
+        this.deleteWithError = this.deleteWithError.bind(this);
+        this.deleteById = this.deleteById.bind(this);
+        this.deleteByIdWithError = this.deleteByIdWithError.bind(this);
     }
     /**
      * Get item id
@@ -5225,12 +5254,12 @@ let GenericRam=class GenericRam {
     async afterDeleteList(result) { }
 }
 GenericRam.Namespace=`Aventus`;
-_.GenericRam=GenericRam;
+__as1(_, 'GenericRam', GenericRam);
 
 let Ram=class Ram extends GenericRam {
 }
 Ram.Namespace=`Aventus`;
-_.Ram=Ram;
+__as1(_, 'Ram', Ram);
 
 let State=class State {
     /**
@@ -5255,7 +5284,7 @@ let State=class State {
     }
 }
 State.Namespace=`Aventus`;
-_.State=State;
+__as1(_, 'State', State);
 
 let EmptyState=class EmptyState extends State {
     localName;
@@ -5271,7 +5300,7 @@ let EmptyState=class EmptyState extends State {
     }
 }
 EmptyState.Namespace=`Aventus`;
-_.EmptyState=EmptyState;
+__as1(_, 'EmptyState', EmptyState);
 
 let StateManager=class StateManager {
     subscribers = {};
@@ -5581,7 +5610,7 @@ let StateManager=class StateManager {
     }
 }
 StateManager.Namespace=`Aventus`;
-_.StateManager=StateManager;
+__as1(_, 'StateManager', StateManager);
 
 let Template=class Template {
     static validatePath(path, pathToCheck) {
@@ -5719,7 +5748,7 @@ let Template=class Template {
     }
 }
 Template.Namespace=`Aventus`;
-_.Template=Template;
+__as1(_, 'Template', Template);
 
 let WebComponent=class WebComponent extends HTMLElement {
     /**
@@ -6422,8 +6451,20 @@ let WebComponent=class WebComponent extends HTMLElement {
     /**
      * Find list of parents by tagname
      */
-    findParents(tagname, untilNode) {
-        return ElementExtension.findParents(this, tagname, untilNode);
+    findParentsByTag(tagname, untilNode) {
+        return ElementExtension.findParentsByTag(this, tagname, untilNode);
+    }
+    /**
+     * Find list of parents by custom check
+     */
+    findParents(tagname, check, untilNode) {
+        return ElementExtension.findParents(this, check, untilNode);
+    }
+    /**
+     * Find list of parents by custom check
+     */
+    findParent(tagname, check, untilNode) {
+        return ElementExtension.findParent(this, check, untilNode);
     }
     /**
      * Check if element contains a child
@@ -6451,7 +6492,7 @@ let WebComponent=class WebComponent extends HTMLElement {
     }
 }
 WebComponent.Namespace=`Aventus`;
-_.WebComponent=WebComponent;
+__as1(_, 'WebComponent', WebComponent);
 
 let WebComponentInstance=class WebComponentInstance {
     static __allDefinitions = [];
@@ -6524,7 +6565,7 @@ let WebComponentInstance=class WebComponentInstance {
     }
 }
 WebComponentInstance.Namespace=`Aventus`;
-_.WebComponentInstance=WebComponentInstance;
+__as1(_, 'WebComponentInstance', WebComponentInstance);
 
 let TemplateContext=class TemplateContext {
     data = {};
@@ -6730,7 +6771,7 @@ let TemplateContext=class TemplateContext {
     }
 }
 TemplateContext.Namespace=`Aventus`;
-_.TemplateContext=TemplateContext;
+__as1(_, 'TemplateContext', TemplateContext);
 
 let TemplateInstance=class TemplateInstance {
     context;
@@ -7427,7 +7468,7 @@ let TemplateInstance=class TemplateInstance {
     }
 }
 TemplateInstance.Namespace=`Aventus`;
-_.TemplateInstance=TemplateInstance;
+__as1(_, 'TemplateInstance', TemplateInstance);
 
 
 for(let key in _) { Aventus[key] = _[key] }
@@ -7436,6 +7477,7 @@ for(let key in _) { Aventus[key] = _[key] }
 var Lucide;
 (Lucide||(Lucide = {}));
 (function (Lucide) {
+const __as1 = (o, k, c) => { if (o[k] !== undefined) for (let w in o[k]) { c[w] = o[k][w] } o[k] = c; }
 const moduleName = `Lucide`;
 const _ = {};
 
@@ -7443,7 +7485,12 @@ const _ = {};
 let _n;
 const AbstractIcon = class AbstractIcon extends Aventus.WebComponent {
     static __style = `:host{--_lucide-icon-stroke-width: var(--lucide-icon-stroke-width, 2)}:host svg{stroke-width:var(--_lucide-icon-stroke-width);height:100%;width:100%}`;
-    constructor() { super(); if (this.constructor == AbstractIcon) { throw "can't instanciate an abstract class"; } }
+    constructor() {
+        super();
+        if (this.constructor == AbstractIcon) {
+            throw "can't instanciate an abstract class";
+        }
+    }
     __getStatic() {
         return AbstractIcon;
     }
@@ -52728,6 +52775,7 @@ for(let key in _) { Lucide[key] = _[key] }
 var MaterialIcon;
 (MaterialIcon||(MaterialIcon = {}));
 (function (MaterialIcon) {
+const __as1 = (o, k, c) => { if (o[k] !== undefined) for (let w in o[k]) { c[w] = o[k][w] } o[k] = c; }
 const moduleName = `MaterialIcon`;
 const _ = {};
 
@@ -63333,17 +63381,20 @@ for(let key in _) { MaterialIcon[key] = _[key] }
 })(MaterialIcon);
 
 (() => {
-	Object.defineProperty(window, "t", {
-		get() {return Aventus.I18n.t;}
-	});
+    if(!Object.hasOwn(window, "t")) {
 
-	Aventus.WebComponent.prototype.t = function(key, params = {}) {
-        const i18n = Aventus.I18n;
-        const localeKey = this.$type.replace(/\./g, '°') + "°" + key;
-        if(i18n.hasKey(localeKey)) {
-            return i18n.t(localeKey, params);
+        Object.defineProperty(window, "t", {
+            get() {return Aventus.I18n.t;}
+        });
+
+        Aventus.WebComponent.prototype.t = function(key, params = {}) {
+            const i18n = Aventus.I18n;
+            const localeKey = this.$type.replace(/\./g, '°') + "°" + key;
+            if(i18n.hasKey(localeKey)) {
+                return i18n.t(localeKey, params);
+            }
+            return i18n.t(key, params);
         }
-        return i18n.t(key, params);
 	}
 
 })();
@@ -63352,6 +63403,7 @@ for(let key in _) { MaterialIcon[key] = _[key] }
 var Aventus;
 (Aventus||(Aventus = {}));
 (function (Aventus) {
+const __as1 = (o, k, c) => { if (o[k] !== undefined) for (let w in o[k]) { c[w] = o[k][w] } o[k] = c; }
 const moduleName = `Aventus`;
 const _ = {};
 
@@ -63393,7 +63445,6 @@ let I18nClass=class I18nClass {
                     }
                 }
                 this.__translations[lang] = items;
-                this.waitingFiles = [];
             });
         }
         this.locale = this.__translations[lang];
@@ -63465,10 +63516,10 @@ let I18nClass=class I18nClass {
     }
 }
 I18nClass.Namespace=`Aventus`;
-_.I18nClass=I18nClass;
+__as1(_, 'I18nClass', I18nClass);
 
 let I18n= Aventus.Instance.get(I18nClass);
-_.I18n=I18n;
+__as1(_, 'I18n', I18n);
 
 
 for(let key in _) { Aventus[key] = _[key] }
@@ -63477,6 +63528,7 @@ for(let key in _) { Aventus[key] = _[key] }
 var AventusSharp;
 (AventusSharp||(AventusSharp = {}));
 (function (AventusSharp) {
+const __as1 = (o, k, c) => { if (o[k] !== undefined) for (let w in o[k]) { c[w] = o[k][w] } o[k] = c; }
 const moduleName = `AventusSharp`;
 const _ = {};
 
@@ -63526,7 +63578,7 @@ Data.CustomTableMembers.AventusFile=class AventusFile {
     }
 }
 Data.CustomTableMembers.AventusFile.Namespace=`AventusSharp.Data.CustomTableMembers`;
-_.Data.CustomTableMembers.AventusFile=Data.CustomTableMembers.AventusFile;
+__as1(_.Data.CustomTableMembers, 'AventusFile', Data.CustomTableMembers.AventusFile);
 
 Data.SharpClass=class SharpClass {
     /**
@@ -63577,25 +63629,25 @@ Data.SharpClass=class SharpClass {
     }
 }
 Data.SharpClass.Namespace=`AventusSharp.Data`;
-_.Data.SharpClass=Data.SharpClass;
+__as1(_.Data, 'SharpClass', Data.SharpClass);
 
-Data.Date=class Date extends Data.SharpClass {
+Data.Date=class Date extends _.Data.SharpClass {
     static get Fullname() { return "AventusSharp.Data.Date, AventusSharp"; }
     DateTime;
 }
 Data.Date.Namespace=`AventusSharp.Data`;
 Data.Date.$schema={...(Data.SharpClass?.$schema ?? {}), "DateTime":"AventusSharp.RealDate"};
 Aventus.Converter.register(Data.Date.Fullname, Data.Date);
-_.Data.Date=Data.Date;
+__as1(_.Data, 'Date', Data.Date);
 
-Data.FieldErrorInfo=class FieldErrorInfo extends Data.SharpClass {
+Data.FieldErrorInfo=class FieldErrorInfo extends _.Data.SharpClass {
     static get Fullname() { return "AventusSharp.Data.FieldErrorInfo, AventusSharp"; }
     Name;
 }
 Data.FieldErrorInfo.Namespace=`AventusSharp.Data`;
 Data.FieldErrorInfo.$schema={...(Data.SharpClass?.$schema ?? {}), "Name":"string"};
 Aventus.Converter.register(Data.FieldErrorInfo.Fullname, Data.FieldErrorInfo);
-_.Data.FieldErrorInfo=Data.FieldErrorInfo;
+__as1(_.Data, 'FieldErrorInfo', Data.FieldErrorInfo);
 
 (function (DataErrorCode) {
     DataErrorCode[DataErrorCode["DefaultDMGenericType"] = 0] = "DefaultDMGenericType";
@@ -63638,7 +63690,7 @@ _.Data.FieldErrorInfo=Data.FieldErrorInfo;
     DataErrorCode[DataErrorCode["ErrorCreatingReverseQuery"] = 37] = "ErrorCreatingReverseQuery";
     DataErrorCode[DataErrorCode["LinkNotSet"] = 38] = "LinkNotSet";
 })(Data.DataErrorCode || (Data.DataErrorCode = {}));
-_.Data.DataErrorCode=Data.DataErrorCode;
+__as1(_.Data, 'DataErrorCode', Data.DataErrorCode);
 
 Data.DataError=class DataError extends Aventus.GenericError {
     static get Fullname() { return "AventusSharp.Data.DataError, AventusSharp"; }
@@ -63646,7 +63698,7 @@ Data.DataError=class DataError extends Aventus.GenericError {
 Data.DataError.Namespace=`AventusSharp.Data`;
 Data.DataError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Data.DataError.Fullname, Data.DataError);
-_.Data.DataError=Data.DataError;
+__as1(_.Data, 'DataError', Data.DataError);
 
 (function (RouteErrorCode) {
     RouteErrorCode[RouteErrorCode["UnknowError"] = 0] = "UnknowError";
@@ -63656,7 +63708,7 @@ _.Data.DataError=Data.DataError;
     RouteErrorCode[RouteErrorCode["CantCreateFolders"] = 4] = "CantCreateFolders";
     RouteErrorCode[RouteErrorCode["RouteAlreadyExist"] = 5] = "RouteAlreadyExist";
 })(Routes.RouteErrorCode || (Routes.RouteErrorCode = {}));
-_.Routes.RouteErrorCode=Routes.RouteErrorCode;
+__as1(_.Routes, 'RouteErrorCode', Routes.RouteErrorCode);
 
 Routes.RouteError=class RouteError extends Aventus.GenericError {
     static get Fullname() { return "AventusSharp.Routes.RouteError, AventusSharp"; }
@@ -63664,7 +63716,7 @@ Routes.RouteError=class RouteError extends Aventus.GenericError {
 Routes.RouteError.Namespace=`AventusSharp.Routes`;
 Routes.RouteError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Routes.RouteError.Fullname, Routes.RouteError);
-_.Routes.RouteError=Routes.RouteError;
+__as1(_.Routes, 'RouteError', Routes.RouteError);
 
 WebSocket.Socket=class Socket {
     static Debug = false;
@@ -63760,7 +63812,7 @@ WebSocket.Socket=class Socket {
     }
 }
 WebSocket.Socket.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.Socket=WebSocket.Socket;
+__as1(_.WebSocket, 'Socket', WebSocket.Socket);
 
 (function (SocketErrorCode) {
     SocketErrorCode[SocketErrorCode["socketClosed"] = 0] = "socketClosed";
@@ -63768,12 +63820,12 @@ _.WebSocket.Socket=WebSocket.Socket;
     SocketErrorCode[SocketErrorCode["differentChannel"] = 2] = "differentChannel";
     SocketErrorCode[SocketErrorCode["unknow"] = 3] = "unknow";
 })(WebSocket.SocketErrorCode || (WebSocket.SocketErrorCode = {}));
-_.WebSocket.SocketErrorCode=WebSocket.SocketErrorCode;
+__as1(_.WebSocket, 'SocketErrorCode', WebSocket.SocketErrorCode);
 
 WebSocket.SocketError=class SocketError extends Aventus.GenericError {
 }
 WebSocket.SocketError.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.SocketError=WebSocket.SocketError;
+__as1(_.WebSocket, 'SocketError', WebSocket.SocketError);
 
 (function (WsErrorCode) {
     WsErrorCode[WsErrorCode["UnknowError"] = 0] = "UnknowError";
@@ -63785,7 +63837,7 @@ _.WebSocket.SocketError=WebSocket.SocketError;
     WsErrorCode[WsErrorCode["NoEndPoint"] = 6] = "NoEndPoint";
     WsErrorCode[WsErrorCode["NoPath"] = 7] = "NoPath";
 })(WebSocket.WsErrorCode || (WebSocket.WsErrorCode = {}));
-_.WebSocket.WsErrorCode=WebSocket.WsErrorCode;
+__as1(_.WebSocket, 'WsErrorCode', WebSocket.WsErrorCode);
 
 WebSocket.WsError=class WsError extends Aventus.GenericError {
     static get Fullname() { return "AventusSharp.WebSocket.WsError, AventusSharp"; }
@@ -63793,7 +63845,7 @@ WebSocket.WsError=class WsError extends Aventus.GenericError {
 WebSocket.WsError.Namespace=`AventusSharp.WebSocket`;
 WebSocket.WsError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(WebSocket.WsError.Fullname, WebSocket.WsError);
-_.WebSocket.WsError=WebSocket.WsError;
+__as1(_.WebSocket, 'WsError', WebSocket.WsError);
 
 Data.Storable=class Storable extends Aventus.Data {
     Id = 0;
@@ -63823,7 +63875,7 @@ Data.Storable=class Storable extends Aventus.Data {
 Data.Storable.Namespace=`AventusSharp.Data`;
 Data.Storable.$schema={...(Aventus.Data?.$schema ?? {}), "Id":"number"};
 Aventus.Converter.register(Data.Storable.Fullname, Data.Storable);
-_.Data.Storable=Data.Storable;
+__as1(_.Data, 'Storable', Data.Storable);
 
 Data.StorableTimestamp=class StorableTimestamp extends Data.Storable {
     CreatedDate = new Date();
@@ -63832,16 +63884,16 @@ Data.StorableTimestamp=class StorableTimestamp extends Data.Storable {
 Data.StorableTimestamp.Namespace=`AventusSharp.Data`;
 Data.StorableTimestamp.$schema={...(Data.Storable?.$schema ?? {}), "CreatedDate":"Date","UpdatedDate":"Date"};
 Aventus.Converter.register(Data.StorableTimestamp.Fullname, Data.StorableTimestamp);
-_.Data.StorableTimestamp=Data.StorableTimestamp;
+__as1(_.Data, 'StorableTimestamp', Data.StorableTimestamp);
 
-Data.Datetime=class Datetime extends Data.SharpClass {
+Data.Datetime=class Datetime extends _.Data.SharpClass {
     static get Fullname() { return "AventusSharp.Data.Datetime, AventusSharp"; }
     DateTime;
 }
 Data.Datetime.Namespace=`AventusSharp.Data`;
 Data.Datetime.$schema={...(Data.SharpClass?.$schema ?? {}), "DateTime":"AventusSharp.RealDate"};
 Aventus.Converter.register(Data.Datetime.Fullname, Data.Datetime);
-_.Data.Datetime=Data.Datetime;
+__as1(_.Data, 'Datetime', Data.Datetime);
 
 Tools.VoidWithError=class VoidWithError extends Aventus.VoidWithError {
     static get Fullname() { return "AventusSharp.Tools.VoidWithError, AventusSharp"; }
@@ -63849,7 +63901,7 @@ Tools.VoidWithError=class VoidWithError extends Aventus.VoidWithError {
 Tools.VoidWithError.Namespace=`AventusSharp.Tools`;
 Tools.VoidWithError.$schema={...(Aventus.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.VoidWithError.Fullname, Tools.VoidWithError);
-_.Tools.VoidWithError=Tools.VoidWithError;
+__as1(_.Tools, 'VoidWithError', Tools.VoidWithError);
 
 WebSocket.VoidWithWsError=class VoidWithWsError extends Tools.VoidWithError {
     static get Fullname() { return "AventusSharp.WebSocket.VoidWithWsError, AventusSharp"; }
@@ -63857,7 +63909,7 @@ WebSocket.VoidWithWsError=class VoidWithWsError extends Tools.VoidWithError {
 WebSocket.VoidWithWsError.Namespace=`AventusSharp.WebSocket`;
 WebSocket.VoidWithWsError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(WebSocket.VoidWithWsError.Fullname, WebSocket.VoidWithWsError);
-_.WebSocket.VoidWithWsError=WebSocket.VoidWithWsError;
+__as1(_.WebSocket, 'VoidWithWsError', WebSocket.VoidWithWsError);
 
 Routes.VoidWithRouteError=class VoidWithRouteError extends Tools.VoidWithError {
     static get Fullname() { return "AventusSharp.Routes.VoidWithRouteError, AventusSharp"; }
@@ -63865,7 +63917,7 @@ Routes.VoidWithRouteError=class VoidWithRouteError extends Tools.VoidWithError {
 Routes.VoidWithRouteError.Namespace=`AventusSharp.Routes`;
 Routes.VoidWithRouteError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(Routes.VoidWithRouteError.Fullname, Routes.VoidWithRouteError);
-_.Routes.VoidWithRouteError=Routes.VoidWithRouteError;
+__as1(_.Routes, 'VoidWithRouteError', Routes.VoidWithRouteError);
 
 Data.VoidWithDataError=class VoidWithDataError extends Tools.VoidWithError {
     static get Fullname() { return "AventusSharp.Data.VoidWithDataError, AventusSharp"; }
@@ -63873,7 +63925,7 @@ Data.VoidWithDataError=class VoidWithDataError extends Tools.VoidWithError {
 Data.VoidWithDataError.Namespace=`AventusSharp.Data`;
 Data.VoidWithDataError.$schema={...(Tools.VoidWithError?.$schema ?? {}), };
 Aventus.Converter.register(Data.VoidWithDataError.Fullname, Data.VoidWithDataError);
-_.Data.VoidWithDataError=Data.VoidWithDataError;
+__as1(_.Data, 'VoidWithDataError', Data.VoidWithDataError);
 
 Tools.ResultWithError=class ResultWithError extends Aventus.ResultWithError {
     static get Fullname() { return "AventusSharp.Tools.ResultWithError, AventusSharp"; }
@@ -63881,7 +63933,7 @@ Tools.ResultWithError=class ResultWithError extends Aventus.ResultWithError {
 Tools.ResultWithError.Namespace=`AventusSharp.Tools`;
 Tools.ResultWithError.$schema={...(Aventus.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(Tools.ResultWithError.Fullname, Tools.ResultWithError);
-_.Tools.ResultWithError=Tools.ResultWithError;
+__as1(_.Tools, 'ResultWithError', Tools.ResultWithError);
 
 WebSocket.ResultWithWsError=class ResultWithWsError extends Tools.ResultWithError {
     static get Fullname() { return "AventusSharp.WebSocket.ResultWithWsError, AventusSharp"; }
@@ -63889,7 +63941,7 @@ WebSocket.ResultWithWsError=class ResultWithWsError extends Tools.ResultWithErro
 WebSocket.ResultWithWsError.Namespace=`AventusSharp.WebSocket`;
 WebSocket.ResultWithWsError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(WebSocket.ResultWithWsError.Fullname, WebSocket.ResultWithWsError);
-_.WebSocket.ResultWithWsError=WebSocket.ResultWithWsError;
+__as1(_.WebSocket, 'ResultWithWsError', WebSocket.ResultWithWsError);
 
 Routes.ResultWithRouteError=class ResultWithRouteError extends Tools.ResultWithError {
     static get Fullname() { return "AventusSharp.Routes.ResultWithRouteError, AventusSharp"; }
@@ -63897,7 +63949,7 @@ Routes.ResultWithRouteError=class ResultWithRouteError extends Tools.ResultWithE
 Routes.ResultWithRouteError.Namespace=`AventusSharp.Routes`;
 Routes.ResultWithRouteError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(Routes.ResultWithRouteError.Fullname, Routes.ResultWithRouteError);
-_.Routes.ResultWithRouteError=Routes.ResultWithRouteError;
+__as1(_.Routes, 'ResultWithRouteError', Routes.ResultWithRouteError);
 
 Data.ResultWithDataError=class ResultWithDataError extends Tools.ResultWithError {
     static get Fullname() { return "AventusSharp.Data.ResultWithDataError, AventusSharp"; }
@@ -63905,7 +63957,7 @@ Data.ResultWithDataError=class ResultWithDataError extends Tools.ResultWithError
 Data.ResultWithDataError.Namespace=`AventusSharp.Data`;
 Data.ResultWithDataError.$schema={...(Tools.ResultWithError?.$schema ?? {}), };
 Aventus.Converter.register(Data.ResultWithDataError.Fullname, Data.ResultWithDataError);
-_.Data.ResultWithDataError=Data.ResultWithDataError;
+__as1(_.Data, 'ResultWithDataError', Data.ResultWithDataError);
 
 Routes.StorableRouter=class StorableRouter extends Aventus.HttpRoute {
     constructor(router) {
@@ -63964,147 +64016,7 @@ Routes.StorableRouter=class StorableRouter extends Aventus.HttpRoute {
     }
 }
 Routes.StorableRouter.Namespace=`AventusSharp.Routes`;
-_.Routes.StorableRouter=Routes.StorableRouter;
-
-RAM.RamHttp=class RamHttp extends Aventus.Ram {
-    getAllDone = false;
-    routes;
-    constructor() {
-        super();
-        this.routes = this.defineRoutes();
-    }
-    async beforeGetAll(result) {
-        if (!this.getAllDone) {
-            let response = await this.routes.GetAll();
-            if (response.success && response.result) {
-                for (let item of response.result) {
-                    let resultTemp = new Aventus.ResultRamWithError();
-                    await this.addOrUpdateData(item, resultTemp);
-                    if (!resultTemp.success) {
-                        result.errors = [...result.errors, ...resultTemp.errors];
-                    }
-                }
-                this.getAllDone = true;
-            }
-            else {
-                result.errors = [...result.errors, ...response.errors];
-            }
-        }
-    }
-    async beforeGetById(id, result) {
-        if (this.records.has(id)) {
-            return;
-        }
-        else {
-            let response = await this.routes.GetById(id);
-            if (response.success && response.result) {
-                let resultTemp = new Aventus.ResultRamWithError();
-                await this.addOrUpdateData(response.result, resultTemp);
-                if (!resultTemp.success) {
-                    result.errors = [...result.errors, ...resultTemp.errors];
-                }
-                else {
-                    result.result = resultTemp.result;
-                }
-            }
-            else {
-                result.errors = [...result.errors, ...response.errors];
-            }
-        }
-    }
-    async beforeGetByIds(ids, result) {
-        let missingIds = [];
-        for (let id of ids) {
-            if (!this.records.has(id)) {
-                missingIds.push(id);
-            }
-        }
-        if (missingIds.length > 0) {
-            result.result = [];
-            let response = await this.routes.GetByIds({ ids: missingIds });
-            if (response.success && response.result) {
-                for (let item of response.result) {
-                    let resultTemp = new Aventus.ResultRamWithError();
-                    await this.addOrUpdateData(item, resultTemp);
-                    if (!resultTemp.success || !resultTemp.result) {
-                        result.errors = [...result.errors, ...resultTemp.errors];
-                    }
-                    else if (!result.result.includes(resultTemp.result)) {
-                        result.result.push(resultTemp.result);
-                    }
-                }
-            }
-            else {
-                result.errors = [...result.errors, ...response.errors];
-            }
-        }
-    }
-    async beforeCreateItem(item, fromList, result) {
-        if (fromList) {
-            return;
-        }
-        let response = await this.routes.Create({ item });
-        if (response.success && response.result) {
-            result.result = this.getObjectForRam(response.result);
-        }
-        else {
-            result.errors = [...result.errors, ...response.errors];
-        }
-    }
-    async beforeCreateList(list, result) {
-        let response = await this.routes.CreateMany({ list });
-        if (response.success && response.result) {
-            result.result = [];
-            for (let element of response.result) {
-                result.result.push(this.getObjectForRam(element));
-            }
-        }
-        else {
-            result.errors = [...result.errors, ...response.errors];
-        }
-    }
-    async beforeUpdateItem(item, fromList, result) {
-        if (fromList) {
-            return;
-        }
-        let response = await this.routes.Update(item.Id, { item });
-        if (response.success && response.result) {
-            result.result = this.getObjectForRam(response.result);
-        }
-        else {
-            result.errors = [...result.errors, ...response.errors];
-        }
-    }
-    async beforeUpdateList(list, result) {
-        let response = await this.routes.UpdateMany({ list });
-        if (response.success && response.result) {
-            result.result = [];
-            for (let element of response.result) {
-                result.result.push(this.getObjectForRam(element));
-            }
-        }
-        else {
-            result.errors = [...result.errors, ...response.errors];
-        }
-    }
-    async beforeDeleteItem(item, fromList, result) {
-        if (fromList) {
-            return;
-        }
-        let response = await this.routes.Delete(item.Id);
-        if (!response.success) {
-            result.errors = [...result.errors, ...response.errors];
-        }
-    }
-    async beforeDeleteList(list, result) {
-        let response = await this.routes.DeleteMany({ ids: list.map(t => t.Id) });
-        if (!response.success) {
-            result.errors = [...result.errors, ...response.errors];
-        }
-    }
-}
-RAM.RamHttp.Namespace=`AventusSharp.RAM`;
-_.RAM.RamHttp=RAM.RamHttp;
+__as1(_.Routes, 'StorableRouter', Routes.StorableRouter);
 
 WebSocket.Connection=class Connection {
     static Debug = false;
@@ -64225,7 +64137,7 @@ WebSocket.Connection=class Connection {
                     this.openCallback = (isOpen) => {
                         resolve(isOpen);
                     };
-                    this.socket = WebSocket.Socket.getInstance(url, this);
+                    this.socket = _.WebSocket.Socket.getInstance(url, this);
                     this.socket.onOpen.add(this._onOpen);
                     this.socket.onClose.add(this._onClose);
                     this.socket.onError.add(this._onError);
@@ -64258,7 +64170,7 @@ WebSocket.Connection=class Connection {
         if (!this.socket || this.socket.readyState != 1) {
             let isOpen = await this.open();
             if (!isOpen) {
-                result.errors.push(new WebSocket.SocketError(WebSocket.SocketErrorCode.socketClosed, "Socket not ready ! Please ensure that it is open and ready to send message"));
+                result.errors.push(new _.WebSocket.SocketError(_.WebSocket.SocketErrorCode.socketClosed, "Socket not ready ! Please ensure that it is open and ready to send message"));
                 this.log('Socket not ready ! Please ensure that it is open and ready to send message');
                 if (this.options.allowSendBeforeOpen) {
                     this.memoryBeforeOpen.push(options);
@@ -64287,11 +64199,11 @@ WebSocket.Connection=class Connection {
                 this.socket.send(JSON.stringify(message));
             }
             catch (e) {
-                result.errors.push(new WebSocket.SocketError(WebSocket.SocketErrorCode.unknow, e));
+                result.errors.push(new _.WebSocket.SocketError(_.WebSocket.SocketErrorCode.unknow, e));
             }
         }
         else {
-            result.errors.push(new WebSocket.SocketError(WebSocket.SocketErrorCode.socketClosed, "Socket not ready ! Please ensure that it is open and ready to send message"));
+            result.errors.push(new _.WebSocket.SocketError(_.WebSocket.SocketErrorCode.socketClosed, "Socket not ready ! Please ensure that it is open and ready to send message"));
             this.log('Socket not ready ! Please ensure that it is open and ready to send message');
             if (this.options.allowSendBeforeOpen) {
                 this.memoryBeforeOpen.push(options);
@@ -64315,7 +64227,7 @@ WebSocket.Connection=class Connection {
                 this.waitingList[_uid] = (channel, data) => {
                     clearTimeout(timeoutInfo);
                     if (channel.toLowerCase() != options.channel.toLowerCase()) {
-                        result.errors.push(new WebSocket.SocketError(WebSocket.SocketErrorCode.differentChannel, `We sent a message on ${options.channel} but we receive on ${channel}`));
+                        result.errors.push(new _.WebSocket.SocketError(_.WebSocket.SocketErrorCode.differentChannel, `We sent a message on ${options.channel} but we receive on ${channel}`));
                         resolve(result);
                     }
                     else {
@@ -64336,7 +64248,7 @@ WebSocket.Connection=class Connection {
                 if (options.timeout !== undefined) {
                     timeoutInfo = setTimeout(() => {
                         delete this.waitingList[_uid];
-                        result.errors.push(new WebSocket.SocketError(WebSocket.SocketErrorCode.timeout, "No message received after " + options.timeout + "ms"));
+                        result.errors.push(new _.WebSocket.SocketError(_.WebSocket.SocketErrorCode.timeout, "No message received after " + options.timeout + "ms"));
                         resolve(result);
                     }, options.timeout);
                 }
@@ -64349,7 +64261,7 @@ WebSocket.Connection=class Connection {
                 }
             }
             catch (e) {
-                result.errors.push(new WebSocket.SocketError(WebSocket.SocketErrorCode.unknow, e));
+                result.errors.push(new _.WebSocket.SocketError(_.WebSocket.SocketErrorCode.unknow, e));
                 resolve(result);
             }
         });
@@ -64496,9 +64408,9 @@ WebSocket.Connection=class Connection {
     }
 }
 WebSocket.Connection.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.Connection=WebSocket.Connection;
+__as1(_.WebSocket, 'Connection', WebSocket.Connection);
 
-WebSocket.EndPoint=class EndPoint extends WebSocket.Connection {
+WebSocket.EndPoint=class EndPoint extends _.WebSocket.Connection {
     /**
      * Create a singleton
      */
@@ -64525,7 +64437,7 @@ WebSocket.EndPoint=class EndPoint extends WebSocket.Connection {
     ;
 }
 WebSocket.EndPoint.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.EndPoint=WebSocket.EndPoint;
+__as1(_.WebSocket, 'EndPoint', WebSocket.EndPoint);
 
 WebSocket.WsEvent=class WsEvent {
     endpoint;
@@ -64537,7 +64449,7 @@ WebSocket.WsEvent=class WsEvent {
     }
     getPrefix;
     constructor(endpoint, getPrefix) {
-        this.endpoint = endpoint ?? WebSocket.EndPoint.getInstance();
+        this.endpoint = endpoint ?? _.WebSocket.EndPoint.getInstance();
         this.getPrefix = getPrefix ?? (() => "");
         this.onEvent = this.onEvent.bind(this);
     }
@@ -64585,9 +64497,9 @@ WebSocket.WsEvent=class WsEvent {
     }
 }
 WebSocket.WsEvent.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.WsEvent=WebSocket.WsEvent;
+__as1(_.WebSocket, 'WsEvent', WebSocket.WsEvent);
 
-WebSocket.StorableWsRouter_GetAll=class StorableWsRouter_GetAll extends WebSocket.WsEvent {
+WebSocket.StorableWsRouter_GetAll=class StorableWsRouter_GetAll extends _.WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -64601,9 +64513,9 @@ WebSocket.StorableWsRouter_GetAll=class StorableWsRouter_GetAll extends WebSocke
     }
 }
 WebSocket.StorableWsRouter_GetAll.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.StorableWsRouter_GetAll=WebSocket.StorableWsRouter_GetAll;
+__as1(_.WebSocket, 'StorableWsRouter_GetAll', WebSocket.StorableWsRouter_GetAll);
 
-WebSocket.StorableWsRouter_Create=class StorableWsRouter_Create extends WebSocket.WsEvent {
+WebSocket.StorableWsRouter_Create=class StorableWsRouter_Create extends _.WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -64617,9 +64529,9 @@ WebSocket.StorableWsRouter_Create=class StorableWsRouter_Create extends WebSocke
     }
 }
 WebSocket.StorableWsRouter_Create.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.StorableWsRouter_Create=WebSocket.StorableWsRouter_Create;
+__as1(_.WebSocket, 'StorableWsRouter_Create', WebSocket.StorableWsRouter_Create);
 
-WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends WebSocket.WsEvent {
+WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends _.WebSocket.WsEvent {
     /**
      * @inheritdoc
      */
@@ -64633,9 +64545,9 @@ WebSocket.StorableWsRoute_CreateMany=class StorableWsRoute_CreateMany extends We
     }
 }
 WebSocket.StorableWsRoute_CreateMany.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.StorableWsRoute_CreateMany=WebSocket.StorableWsRoute_CreateMany;
+__as1(_.WebSocket, 'StorableWsRoute_CreateMany', WebSocket.StorableWsRoute_CreateMany);
 
-WebSocket.StorableWsRouter_GetById=class StorableWsRouter_GetById extends WebSocket.WsEvent {
+WebSocket.StorableWsRouter_GetById=class StorableWsRouter_GetById extends _.WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -64649,9 +64561,9 @@ WebSocket.StorableWsRouter_GetById=class StorableWsRouter_GetById extends WebSoc
     }
 }
 WebSocket.StorableWsRouter_GetById.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.StorableWsRouter_GetById=WebSocket.StorableWsRouter_GetById;
+__as1(_.WebSocket, 'StorableWsRouter_GetById', WebSocket.StorableWsRouter_GetById);
 
-WebSocket.StorableWsRouter_GetByIds=class StorableWsRouter_GetByIds extends WebSocket.WsEvent {
+WebSocket.StorableWsRouter_GetByIds=class StorableWsRouter_GetByIds extends _.WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -64665,9 +64577,9 @@ WebSocket.StorableWsRouter_GetByIds=class StorableWsRouter_GetByIds extends WebS
     }
 }
 WebSocket.StorableWsRouter_GetByIds.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.StorableWsRouter_GetByIds=WebSocket.StorableWsRouter_GetByIds;
+__as1(_.WebSocket, 'StorableWsRouter_GetByIds', WebSocket.StorableWsRouter_GetByIds);
 
-WebSocket.StorableWsRouter_Update=class StorableWsRouter_Update extends WebSocket.WsEvent {
+WebSocket.StorableWsRouter_Update=class StorableWsRouter_Update extends _.WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -64681,9 +64593,9 @@ WebSocket.StorableWsRouter_Update=class StorableWsRouter_Update extends WebSocke
     }
 }
 WebSocket.StorableWsRouter_Update.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.StorableWsRouter_Update=WebSocket.StorableWsRouter_Update;
+__as1(_.WebSocket, 'StorableWsRouter_Update', WebSocket.StorableWsRouter_Update);
 
-WebSocket.StorableWsRoute_UpdateMany=class StorableWsRoute_UpdateMany extends WebSocket.WsEvent {
+WebSocket.StorableWsRoute_UpdateMany=class StorableWsRoute_UpdateMany extends _.WebSocket.WsEvent {
     /**
      * @inheritdoc
      */
@@ -64697,9 +64609,9 @@ WebSocket.StorableWsRoute_UpdateMany=class StorableWsRoute_UpdateMany extends We
     }
 }
 WebSocket.StorableWsRoute_UpdateMany.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.StorableWsRoute_UpdateMany=WebSocket.StorableWsRoute_UpdateMany;
+__as1(_.WebSocket, 'StorableWsRoute_UpdateMany', WebSocket.StorableWsRoute_UpdateMany);
 
-WebSocket.StorableWsRouter_Delete=class StorableWsRouter_Delete extends WebSocket.WsEvent {
+WebSocket.StorableWsRouter_Delete=class StorableWsRouter_Delete extends _.WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -64713,9 +64625,9 @@ WebSocket.StorableWsRouter_Delete=class StorableWsRouter_Delete extends WebSocke
     }
 }
 WebSocket.StorableWsRouter_Delete.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.StorableWsRouter_Delete=WebSocket.StorableWsRouter_Delete;
+__as1(_.WebSocket, 'StorableWsRouter_Delete', WebSocket.StorableWsRouter_Delete);
 
-WebSocket.StorableWsRoute_DeleteMany=class StorableWsRoute_DeleteMany extends WebSocket.WsEvent {
+WebSocket.StorableWsRoute_DeleteMany=class StorableWsRoute_DeleteMany extends _.WebSocket.WsEvent {
     /**
      * @inheritdoc
      */
@@ -64729,13 +64641,13 @@ WebSocket.StorableWsRoute_DeleteMany=class StorableWsRoute_DeleteMany extends We
     }
 }
 WebSocket.StorableWsRoute_DeleteMany.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.StorableWsRoute_DeleteMany=WebSocket.StorableWsRoute_DeleteMany;
+__as1(_.WebSocket, 'StorableWsRoute_DeleteMany', WebSocket.StorableWsRoute_DeleteMany);
 
 WebSocket.Router=class Router {
     endpoint;
     events;
     constructor(endpoint) {
-        this.endpoint = endpoint ?? WebSocket.EndPoint.getInstance();
+        this.endpoint = endpoint ?? _.WebSocket.EndPoint.getInstance();
         this.events = this.defineEvents();
         for (let key in this.events) {
             this.events[key].init();
@@ -64749,9 +64661,9 @@ WebSocket.Router=class Router {
     }
 }
 WebSocket.Router.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.Router=WebSocket.Router;
+__as1(_.WebSocket, 'Router', WebSocket.Router);
 
-WebSocket.StorableWsRouter=class StorableWsRouter extends WebSocket.Router {
+WebSocket.StorableWsRouter=class StorableWsRouter extends _.WebSocket.Router {
     defineEvents() {
         return {
             ...super.defineEvents(),
@@ -64837,7 +64749,228 @@ WebSocket.StorableWsRouter=class StorableWsRouter extends WebSocket.Router {
     }
 }
 WebSocket.StorableWsRouter.Namespace=`AventusSharp.WebSocket`;
-_.WebSocket.StorableWsRouter=WebSocket.StorableWsRouter;
+__as1(_.WebSocket, 'StorableWsRouter', WebSocket.StorableWsRouter);
+
+RAM.RamCompletor=class RamCompletor {
+    objects = [];
+    fields = [];
+    error;
+    constructor(objects, error) {
+        if (!objects) {
+            objects = [];
+        }
+        else if (!Array.isArray(objects)) {
+            objects = [objects];
+        }
+        this.objects = objects;
+        this.error = error;
+    }
+    add(field) {
+        this.fields.push(field);
+        return this;
+    }
+    async run() {
+        const objects = this.objects;
+        const fields = this.fields;
+        const result = new Aventus.VoidWithError();
+        if (objects.length == 0)
+            return result;
+        const listIds = {};
+        const mapRecords = {};
+        for (let field of fields) {
+            let objKey = field.obj;
+            let idKey = field.id;
+            listIds[objKey] = [];
+            mapRecords[objKey] = {};
+            for (let value of objects) {
+                if (value[idKey]) {
+                    const listId = listIds[objKey];
+                    const mapRecord = mapRecords[objKey];
+                    if (value[objKey])
+                        continue;
+                    if (!listId.includes(value[idKey]))
+                        listId.push(value[idKey]);
+                    if (!mapRecord[value[idKey]]) {
+                        mapRecord[value[idKey]] = [];
+                    }
+                    mapRecord[value[idKey]].push(value);
+                }
+            }
+        }
+        for (let field of fields) {
+            let objKey = field.obj;
+            if (!listIds[objKey] || !mapRecords[objKey])
+                continue;
+            const listId = listIds[objKey];
+            const mapRecord = mapRecords[objKey];
+            if (listId.length > 0) {
+                const ram = Aventus.Instance.get(field.ram);
+                const query = await ram.getByIdsWithError(listId);
+                if (query.success && query.result) {
+                    for (let item of query.result) {
+                        if (mapRecord[item.Id]) {
+                            for (let record of mapRecord[item.Id]) {
+                                record[objKey] = item;
+                            }
+                        }
+                    }
+                }
+                else {
+                    result.errors = [...result.errors, ...query.errors];
+                    if (this.error) {
+                        this.error.errors = [...this.error.errors, ...query.errors];
+                    }
+                }
+            }
+        }
+        return result;
+    }
+}
+RAM.RamCompletor.Namespace=`AventusSharp.RAM`;
+__as1(_.RAM, 'RamCompletor', RAM.RamCompletor);
+
+RAM.RamHttp=class RamHttp extends Aventus.Ram {
+    getAllDone = false;
+    routes;
+    constructor() {
+        super();
+        this.routes = this.defineRoutes();
+    }
+    async beforeGetAll(result) {
+        if (!this.getAllDone) {
+            let response = await this.routes.GetAll();
+            if (response.success && response.result) {
+                for (let item of response.result) {
+                    let resultTemp = new Aventus.ResultRamWithError();
+                    await this.addOrUpdateData(item, resultTemp);
+                    if (!resultTemp.success) {
+                        result.errors = [...result.errors, ...resultTemp.errors];
+                    }
+                }
+                this.getAllDone = true;
+            }
+            else {
+                result.errors = [...result.errors, ...response.errors];
+            }
+        }
+    }
+    async beforeGetById(id, result) {
+        if (this.records.has(id)) {
+            return;
+        }
+        else {
+            let response = await this.routes.GetById(id);
+            if (response.success && response.result) {
+                let resultTemp = new Aventus.ResultRamWithError();
+                await this.addOrUpdateData(response.result, resultTemp);
+                if (!resultTemp.success) {
+                    result.errors = [...result.errors, ...resultTemp.errors];
+                }
+                else {
+                    result.result = resultTemp.result;
+                }
+            }
+            else {
+                result.errors = [...result.errors, ...response.errors];
+            }
+        }
+    }
+    async beforeGetByIds(ids, result) {
+        let missingIds = [];
+        for (let id of ids) {
+            if (!this.records.has(id)) {
+                missingIds.push(id);
+            }
+        }
+        if (missingIds.length > 0) {
+            result.result = [];
+            let response = await this.routes.GetByIds({ ids: missingIds });
+            if (response.success && response.result) {
+                for (let item of response.result) {
+                    let resultTemp = new Aventus.ResultRamWithError();
+                    await this.addOrUpdateData(item, resultTemp);
+                    if (!resultTemp.success || !resultTemp.result) {
+                        result.errors = [...result.errors, ...resultTemp.errors];
+                    }
+                    else if (!result.result.includes(resultTemp.result)) {
+                        result.result.push(resultTemp.result);
+                    }
+                }
+            }
+            else {
+                result.errors = [...result.errors, ...response.errors];
+            }
+        }
+    }
+    complete(objects, error) {
+        return new _.RAM.RamCompletor(objects, error);
+    }
+    async beforeCreateItem(item, fromList, result) {
+        if (fromList) {
+            return;
+        }
+        let response = await this.routes.Create({ item });
+        if (response.success && response.result) {
+            result.result = this.getObjectForRam(response.result);
+        }
+        else {
+            result.errors = [...result.errors, ...response.errors];
+        }
+    }
+    async beforeCreateList(list, result) {
+        let response = await this.routes.CreateMany({ list });
+        if (response.success && response.result) {
+            result.result = [];
+            for (let element of response.result) {
+                result.result.push(this.getObjectForRam(element));
+            }
+        }
+        else {
+            result.errors = [...result.errors, ...response.errors];
+        }
+    }
+    async beforeUpdateItem(item, fromList, result) {
+        if (fromList) {
+            return;
+        }
+        let response = await this.routes.Update(item.Id, { item });
+        if (response.success && response.result) {
+            result.result = this.getObjectForRam(response.result);
+        }
+        else {
+            result.errors = [...result.errors, ...response.errors];
+        }
+    }
+    async beforeUpdateList(list, result) {
+        let response = await this.routes.UpdateMany({ list });
+        if (response.success && response.result) {
+            result.result = [];
+            for (let element of response.result) {
+                result.result.push(this.getObjectForRam(element));
+            }
+        }
+        else {
+            result.errors = [...result.errors, ...response.errors];
+        }
+    }
+    async beforeDeleteItem(item, fromList, result) {
+        if (fromList) {
+            return;
+        }
+        let response = await this.routes.Delete(item.Id);
+        if (!response.success) {
+            result.errors = [...result.errors, ...response.errors];
+        }
+    }
+    async beforeDeleteList(list, result) {
+        let response = await this.routes.DeleteMany({ ids: list.map(t => t.Id) });
+        if (!response.success) {
+            result.errors = [...result.errors, ...response.errors];
+        }
+    }
+}
+RAM.RamHttp.Namespace=`AventusSharp.RAM`;
+__as1(_.RAM, 'RamHttp', RAM.RamHttp);
 
 RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
     getAllDone = false;
@@ -64933,6 +65066,9 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
             Delete: true,
             DeleteMany: true,
         };
+    }
+    complete(objects, error) {
+        return new _.RAM.RamCompletor(objects, error);
     }
     async otherGetAll(items, params, uid) {
         if (uid && this.otherGetAllLocked[uid])
@@ -65185,7 +65321,7 @@ RAM.RamWebSocket=class RamWebSocket extends Aventus.Ram {
     }
 }
 RAM.RamWebSocket.Namespace=`AventusSharp.RAM`;
-_.RAM.RamWebSocket=RAM.RamWebSocket;
+__as1(_.RAM, 'RamWebSocket', RAM.RamWebSocket);
 
 
 for(let key in _) { AventusSharp[key] = _[key] }

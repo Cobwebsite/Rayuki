@@ -179,7 +179,7 @@ namespace Core
             app.Use(async (context, next) =>
             {
                 RouterResolve? routerResolve = await RouterMiddleware.Resolve(context);
-                context.Items.Add("routerResolve", routerResolve);
+                context.Items["routerResolve"] = routerResolve;
                 await LoginMiddleware(context, next, routerResolve);
             });
 
