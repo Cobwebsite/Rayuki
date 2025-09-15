@@ -4,6 +4,7 @@ namespace Data {
 
 	@Convertible()
 	export class Company extends AventusSharp.Data.Storable implements Aventus.IData {
+		/** Fullname of the class */
 		public static override get Fullname(): string { return "Core.Data.Company, Core"; }
 		public Name: string = "";
 		public Logo: CompanyImage = new CompanyImage();
@@ -13,6 +14,7 @@ namespace Data {
 
 	@Convertible()
 	export class CompanyImage extends ImageFile<Company>  {
+		/** Fullname of the class */
 		public static get Fullname(): string { return "Core.Data.CompanyImage, Core"; }
 	}
 

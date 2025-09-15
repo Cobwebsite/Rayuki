@@ -15,6 +15,7 @@ namespace Core.Data
         public string orientation { get; set; }
         public string scope { get; set; }
         public string start_url { get; set; }
+        public int version { get; set; } = 1;
 
     }
 

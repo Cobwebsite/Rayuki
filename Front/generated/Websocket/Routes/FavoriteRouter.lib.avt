@@ -9,6 +9,7 @@ namespace Websocket.Routes {
 			super(endpoint ?? MainEndPoint.getInstance());
 		}
 
+		/** @inheritdoc */
 		public StorableName() {
 			return "Favorite";
 		}

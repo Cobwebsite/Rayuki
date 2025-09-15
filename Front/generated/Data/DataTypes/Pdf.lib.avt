@@ -2,6 +2,7 @@ namespace Data.DataTypes {
 
 	@Convertible()
 	export class Pdf extends AventusSharp.Data.SharpClass  {
+		/** Fullname of the class */
 		public static get Fullname(): string { return "Core.Data.DataTypes.Pdf, Core"; }
 		public Name: string = "";
 		public Html: string = "";

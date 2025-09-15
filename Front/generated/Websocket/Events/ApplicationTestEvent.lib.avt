@@ -4,6 +4,7 @@ namespace Websocket.Events.ApplicationTestEvent {
 
 	@Convertible()
 	export class Body extends AventusSharp.Data.SharpClass  {
+		/** Fullname of the class */
 		public static get Fullname(): string { return "Core.Websocket.Events.ApplicationTestEvent+Body, Core"; }
 		public id!: number;
 		public name!: string;

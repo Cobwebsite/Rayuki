@@ -5,7 +5,7 @@
         {
             "name": "Main",
             "hideWarnings": true,
-            "disabled": false,
+            "disabled": true,
             "src": [
                 "./components/*",
                 "./ram/*",
@@ -147,13 +147,24 @@
         },
         {
             "name": "ConfigureApp",
-            "disabled": true,
+            "hideWarnings": true,
+            "disabled": false,
             "src": [
                 "./apps/configureApp/*",
-                "./generated/*"
+                "./components/*",
+                "./ram/*",
+                "./libs/*",
+                "./states/*",
+                "./generated/*",
+                "./locales/*",
+                "./@default.wcs.avt"
+            ],
+            "outsideModule": [
+                "./global/*"
             ],
             "compile": [
                 {
+                    "input": "./apps/configureApp/",
                     "output": "../wwwroot/configureApp.js"
                 }
             ],
@@ -163,6 +174,15 @@
                 },
                 {
                     "uri": "@AventusSharp"
+                },
+                {
+                    "uri": "@AventusI18n"
+                },
+                {
+                    "uri": "@local:MaterialIcon@Main"
+                },
+                {
+                    "uri": "@local:Lucide@Main"
                 },
                 {
                     "uri": "&:Main"

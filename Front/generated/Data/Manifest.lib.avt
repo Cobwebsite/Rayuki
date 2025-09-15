@@ -2,6 +2,7 @@ namespace Data {
 
 	@Convertible()
 	export class Manifest extends AventusSharp.Data.SharpClass  {
+		/** Fullname of the class */
 		public static get Fullname(): string { return "Core.Data.Manifest, Core"; }
 		public name!: string;
 		public short_name!: string;
@@ -16,6 +17,7 @@ namespace Data {
 
 	@Convertible()
 	export class ManifestIcon extends AventusSharp.Data.SharpClass  {
+		/** Fullname of the class */
 		public static get Fullname(): string { return "Core.Data.ManifestIcon, Core"; }
 		public src!: string;
 		public type!: string;

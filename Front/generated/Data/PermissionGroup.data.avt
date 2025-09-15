@@ -4,6 +4,7 @@ namespace Data {
 
 	@Convertible()
 	export class PermissionGroup extends AventusSharp.Data.Storable implements Aventus.IData {
+		/** Fullname of the class */
 		public static override get Fullname(): string { return "Core.Data.PermissionGroup, Core"; }
 		public Permission!: Permission;
 		public GroupId!: number;

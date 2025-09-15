@@ -7,12 +7,12 @@
 	cursor: pointer;
 	display: flex;
 	font-size: var(--_calendar-case-font-size);
-	height: var(--_calendar-case-size);
+	height: var(--_calendar-case-height);
 	justify-content: center;
 	transition:
 		color 0.2s var(--bezier-curve),
 		background-color 0.2s var(--bezier-curve);
-	width: var(--_calendar-case-size);
+	width: var(--_calendar-case-width);
 }
 
 

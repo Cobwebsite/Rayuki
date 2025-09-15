@@ -1,7 +1,8 @@
-import { ConfigureAppType } from "../ConfigureApp.wcl.avt";
+import { Table, type TableOptions } from "../../../../components/ui/layout/Table/Table/Table.wcl.avt";
+import type { ConfigureAppType } from "../ConfigureApp.wcl.avt";
 import { ConfigureAppTableInstalledAction } from "./ConfigureAppTableInstalledAction/ConfigureAppTableInstalledAction.wc.avt";
 
-export class ConfigureAppTableInstalled extends Core.Components.Table<ConfigureAppType> implements Aventus.DefaultComponent {
+export class ConfigureAppTableInstalled extends Table<ConfigureAppType> implements Aventus.DefaultComponent {
 
     //#region static
 
@@ -27,7 +28,7 @@ export class ConfigureAppTableInstalled extends Core.Components.Table<ConfigureA
     /**
      * @inheritdoc
      */
-    protected override configure(options: Core.Components.TableOptions<ConfigureAppType>) {
+    protected override configure(options: TableOptions<ConfigureAppType>) {
         options.schema = [{
             displayName: "Nom",
             name: "name",

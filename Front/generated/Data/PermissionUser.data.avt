@@ -4,6 +4,7 @@ namespace Data {
 
 	@Convertible()
 	export class PermissionUser extends AventusSharp.Data.Storable implements Aventus.IData {
+		/** Fullname of the class */
 		public static override get Fullname(): string { return "Core.Data.PermissionUser, Core"; }
 		public Permission!: Permission;
 		public UserId!: number;

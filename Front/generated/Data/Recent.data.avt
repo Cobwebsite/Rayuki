@@ -4,6 +4,7 @@ namespace Data {
 
 	@Convertible()
 	export class Recent extends AventusSharp.Data.Storable implements IUserable, IUserable, Aventus.IData {
+		/** Fullname of the class */
 		public static override get Fullname(): string { return "Core.Data.Recent, Core"; }
 		public Name!: string;
 		public TagName!: string;

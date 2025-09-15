@@ -2,6 +2,7 @@ namespace Logic.FileSystem {
 
 	@Convertible()
 	export class FileDetails extends AventusSharp.Data.SharpClass  {
+		/** Fullname of the class */
 		public static get Fullname(): string { return "Core.Logic.FileSystem.FileDetails, Core"; }
 		public Name!: string;
 		public Size!: number;

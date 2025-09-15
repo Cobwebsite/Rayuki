@@ -1,8 +1,9 @@
-import { GeneratedRouter } from "../../../generated/GeneratedRouter.lib.avt";
-import { ConfigureAppType } from "../ConfigureApp.wcl.avt";
+import { Table, type TableOptions } from "../../../../components/ui/layout/Table/Table/Table.wcl.avt";
+import { ApplicationRouter } from "../../../../generated/Routes/ApplicationRouter.lib.avt";
+import type { ConfigureAppType } from "../ConfigureApp.wcl.avt";
 import { ConfigureAppTableAllAppsAction } from "./ConfigureAppTableAllAppsAction/ConfigureAppTableAllAppsAction.wc.avt";
 
-export class ConfigureAppTableAllApps extends Core.Components.Table<ConfigureAppType> implements Aventus.DefaultComponent {
+export class ConfigureAppTableAllApps extends Table<ConfigureAppType> implements Aventus.DefaultComponent {
 
     //#region static
 
@@ -26,7 +27,7 @@ export class ConfigureAppTableAllApps extends Core.Components.Table<ConfigureApp
 
     //#region methods
     public async install(appName: string) {
-        let query = await new GeneratedRouter().routes.Application.InstallDevApp({
+        let query = await new ApplicationRouter().InstallDevApp({
             container: this.container,
             app: appName
         });
@@ -39,7 +40,7 @@ export class ConfigureAppTableAllApps extends Core.Components.Table<ConfigureApp
     /**
      * @inheritdoc
      */
-    protected override configure(options: Core.Components.TableOptions<{ name: string; }>) {
+    protected override configure(options: TableOptions<{ name: string; }>) {
         options.schema = [{
             displayName: "Nom",
             name: "name",

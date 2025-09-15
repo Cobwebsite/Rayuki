@@ -1,43 +1,49 @@
 <script>
-	import { ConfigureAppTableAllApps } from "../ConfigureAppTableAllApps.wcl.avt";
-import { ConfigureAppType } from "../../ConfigureApp.wcl.avt";
+import { ConfigureAppTableAllApps } from "../ConfigureAppTableAllApps.wcl.avt";
+import { TableCell } from "../../../../../components/ui/layout/Table/cells/TableCell/TableCell.wcl.avt";
+import type { ConfigureAppType } from "../../ConfigureApp.wcl.avt";
 
-	export class ConfigureAppTableAllAppsAction extends Core.Components.TableCell<never, ConfigureAppType> implements Aventus.DefaultComponent {
-	
-	    private name: string = "";
-	
-	    /**
-	     * @inheritdoc
-	     */
-	    public override setContent(data: any, rowData: ConfigureAppType) {
-	        this.name = rowData.name;
-	    }
+export class ConfigureAppTableAllAppsAction extends TableCell<never, ConfigureAppType> implements Aventus.DefaultComponent {
+    /**
+     * @inheritdoc
+     */
+    public override sortAsc(cell: this): number {
+        return 0;
+    }
 
-	    private async install() {
-	        if(this.table instanceof ConfigureAppTableAllApps) {
-	            let isInstalled = await this.table.install(this.name);
-	            if(isInstalled) {
-	                this.row?.remove();
-	            }
-				else {
-					alert("Quelque chose ne s'est pas bien passée, vérifier que l'application choisie a déjà été compilée");
-				}
-	        }
-	    }
-	}
-	
-	
+    private name: string = "";
+
+    /**
+     * @inheritdoc
+     */
+    public override setContent(data: any, rowData: ConfigureAppType) {
+        this.name = rowData.name;
+    }
+
+    private async install() {
+        if(this.table instanceof ConfigureAppTableAllApps) {
+            let isInstalled = await this.table.install(this.name);
+            if(isInstalled) {
+                this.row?.remove();
+            }
+            else {
+                alert("Quelque chose ne s'est pas bien passée, vérifier que l'application choisie a déjà été compilée");
+            }
+        }
+    }
+}
+
+
 </script>
 
-<template>	
-	<rk-button @press="install">Installer</rk-button>
+<template>
+    <rk-button @press="install">Installer</rk-button>
 </template>
 
-<style>	
-		:host {
-			rk-button {
-				background-color: var(--success);
-			}
-		}
-	
+<style>
+    :host {
+    		rk-button {
+    			background-color: var(--success);
+    		}
+    	}
 </style>

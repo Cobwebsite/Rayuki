@@ -1,6 +1,7 @@
 import { ConfigureAppTableInstalled } from "./ConfigureAppTableInstalled/ConfigureAppTableInstalled.wcl.avt";
-import { GeneratedRouter } from "../../generated/GeneratedRouter.lib.avt";
 import { ConfigureAppTableAllApps } from "./ConfigureAppTableAllApps/ConfigureAppTableAllApps.wcl.avt";
+import { ApplicationRouter } from "../../../generated/Routes/ApplicationRouter.lib.avt";
+import { MainRouter } from "../../../generated/Routes/MainRouter.lib.avt";
 
 export type ConfigureAppType = {
     name: string;
@@ -34,7 +35,7 @@ export class ConfigureApp extends Aventus.WebComponent implements Aventus.Defaul
 
     //#region methods
     public async load() {
-        let query = await new GeneratedRouter().routes.Application.ConfigureAppData();
+        let query = await new ApplicationRouter().ConfigureAppData();
         if(query.result) {
             let appInstalled: ConfigureAppType[] = [];
             for(const app of query.result.appsInstalled) {
@@ -70,7 +71,7 @@ export class ConfigureApp extends Aventus.WebComponent implements Aventus.Defaul
      * 
      */
     protected async reboot() {
-        await new GeneratedRouter().routes.Restart();
+        await new MainRouter().Restart();
         await Aventus.sleep(2000);
         location.reload();
     }

@@ -4,6 +4,7 @@ namespace Data {
 
 	@Convertible()
 	export class Favorite extends AventusSharp.Data.Storable implements IUserable, IUserable, Aventus.IData {
+		/** Fullname of the class */
 		public static override get Fullname(): string { return "Core.Data.Favorite, Core"; }
 		public Name!: string;
 		public TagName!: string;

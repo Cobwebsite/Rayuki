@@ -4,6 +4,7 @@ namespace Data {
 
 	@Convertible()
 	export class Group extends AventusSharp.Data.Storable implements Aventus.IData {
+		/** Fullname of the class */
 		public static override get Fullname(): string { return "Core.Data.Group, Core"; }
 		public Name: string = "";
 		public Description: string = "";

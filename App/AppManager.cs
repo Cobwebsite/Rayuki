@@ -19,6 +19,7 @@ using AventusSharp.Tools.Attributes;
 using Core.Tools;
 using IRouter = AventusSharp.Routes.IRouter;
 using Core.Permissions;
+using System.Text.RegularExpressions;
 
 namespace Core.App
 {
@@ -438,86 +439,153 @@ namespace Core.App
             return result;
         }
 
+
         public static async Task<VoidWithError> LoadApp(string appName)
         {
             VoidWithError result = new VoidWithError();
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "apps", appName, appName + ".dll");
-            if (File.Exists(path))
+            string appsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "apps");
+            string dir = Path.Combine(appsDir, appName);
+            string dllPath = Path.Combine(dir, appName + ".dll");
+            if (File.Exists(dllPath))
             {
                 try
                 {
-                    Assembly dll = AppLoader.LoadFromAssemblyPath(path);
-                    if (dll.FullName != null)
+                    MigrationLogic migrationLogic = new MigrationLogic();
+                    VoidWithError initMigration = migrationLogic.Init();
+                    if (!initMigration.Success)
                     {
+                        result.Errors = initMigration.Errors;
+                        return result;
+                    }
 
-                        Type[] theList = dll.GetTypes();
-                        List<Type> wsEndPoints = new List<Type>();
-                        List<Type> wsRoutes = new List<Type>();
-                        List<Type> httpRouters = new List<Type>();
-                        Type? appFile = null;
-                        List<RayukiApp> newApps = new();
-                        foreach (Type theType in theList)
+                    string migrationPath = Path.Combine(dir, "migrations");
+                    if (Directory.Exists(migrationPath))
+                    {
+                        string[] migrationFiles = Directory.GetFiles(migrationPath);
+                        foreach (string migrationFile in migrationFiles)
                         {
-                            if (theType.Namespace != null)
+                            string fullMigrationPath = Path.Combine(migrationPath, migrationFile);
+                            migrationLogic.RunGlobal(fullMigrationPath, fullMigrationPath.Replace(appsDir, ""));
+                        }
+                    }
+
+                    string path = Path.Combine(dir, appName + ".dll");
+                    if (File.Exists(path))
+                    {
+                        try
+                        {
+                            Console.WriteLine("loading " + path);
+                            Assembly dll = AppLoader.LoadFromAssemblyPath(path);
+
+                            if (dll.FullName != null)
                             {
-                                Type[] interfaces = theType.GetInterfaces();
-                                if (interfaces.Contains(typeof(IWsEndPoint)))
+
+                                Type[] theList = dll.GetTypes();
+                                List<Type> wsEndPoints = new List<Type>();
+                                List<Type> wsRoutes = new List<Type>();
+                                List<Type> httpRouters = new List<Type>();
+                                List<Type> permissions = new List<Type>();
+                                Type? appFile = null;
+                                RayukiApp? appInstance = null;
+                                foreach (Type theType in theList)
                                 {
-                                    wsEndPoints.Add(theType);
-                                }
-                                else if (interfaces.Contains(typeof(IWsRouter)))
-                                {
-                                    wsRoutes.Add(theType);
-                                }
-                                if (interfaces.Contains(typeof(IRouter)))
-                                {
-                                    httpRouters.Add(theType);
-                                }
-                                else if (theType.IsSubclassOf(typeof(RayukiApp)))
-                                {
-                                    if (appFile != null)
+                                    if (theType.Namespace != null)
                                     {
-                                        result.Errors.Add(new AppError(AppErrorCode.MoreThanOneAppFileFound, "The app " + appName + " can't have 2 RayukiApp file"));
-                                    }
-                                    else
-                                    {
-                                        appFile = theType;
-                                        object? o = Activator.CreateInstance(theType);
-                                        if (o is RayukiApp newAppFile)
+                                        Type[] interfaces = theType.GetInterfaces();
+                                        if (interfaces.Contains(typeof(IWsEndPoint)))
                                         {
-                                            newApps.Add(newAppFile);
-                                            allApps.Add(newAppFile);
+                                            wsEndPoints.Add(theType);
+                                        }
+                                        else if (interfaces.Contains(typeof(IWsRouter)))
+                                        {
+                                            wsRoutes.Add(theType);
+                                        }
+                                        if (interfaces.Contains(typeof(IRouter)))
+                                        {
+                                            httpRouters.Add(theType);
+                                        }
+                                        else if (theType.IsSubclassOf(typeof(RayukiApp)))
+                                        {
+                                            if (appFile != null)
+                                            {
+                                                result.Errors.Add(new AppError(AppErrorCode.MoreThanOneAppFileFound, "The app " + appName + " can't have 2 RayukiApp file"));
+                                            }
+                                            else
+                                            {
+                                                appFile = theType;
+                                                object? o = Activator.CreateInstance(theType);
+                                                if (o is RayukiApp newAppFile)
+                                                {
+                                                    appInstance = newAppFile;
+                                                    allApps.Add(newAppFile);
+                                                }
+                                            }
+
+                                        }
+                                        else if (interfaces.Contains(typeof(IPermissionQuery)))
+                                        {
+                                            permissions.Add(theType);
                                         }
                                     }
-
                                 }
-                            }
-                        }
-
-                        if (appFile != null && result.Success)
-                        {
-                            apps.Add(appFile, dll);
-                            WebSocketMiddleware.Register(wsEndPoints, wsRoutes);
-                            RouterMiddleware.Register(httpRouters);
-                            VoidWithError resultTemp = await DataMainManager.Init(GetDlls());
-                            result.Errors.AddRange(resultTemp.Errors);
-                            foreach (RayukiApp newApp in newApps)
-                            {
-                                VoidWithError registerResult = ApplicationDM.GetInstance().RegisterApplication(newApp);
-                                if (!registerResult.Success)
+                                if (appFile != null)
                                 {
-                                    result.Errors.AddRange(registerResult.Errors);
+                                    if (appInstance != null)
+                                    {
+                                        appInstance.permissions = permissions;
+                                    }
+                                    apps.Add(appFile, dll);
+                                    WebSocketMiddleware.Register(wsEndPoints, wsRoutes);
+                                    RouterMiddleware.Register(httpRouters);
+
+                                    if (appInstance != null)
+                                    {
+                                        Migrator? migrator = appInstance.DefineMigrator();
+                                        if (migrator != null)
+                                        {
+                                            string name = appInstance.GetType().Assembly.GetName().Name ?? "";
+                                            int? oldVersion = migrationLogic.appMigrations.ContainsKey(name) ? migrationLogic.appMigrations[name] : null;
+                                            VoidWithError migrationResult = migrator.Run(oldVersion, appInstance.Version());
+                                            if (!migrationResult.Success)
+                                            {
+                                                result.Errors = migrationResult.Errors;
+                                                return result;
+                                            }
+                                        }
+
+                                        VoidWithError resultTemp = await DataMainManager.Init(GetDlls());
+                                        if (!resultTemp.Success)
+                                        {
+                                            result.Errors.AddRange(resultTemp.Errors);
+                                            return result;
+                                        }
+
+                                        PermissionDM.GetInstance().Register(appInstance.permissions);
+                                        VoidWithError registerResult = ApplicationDM.GetInstance().RegisterApplication(appInstance);
+                                        if (!registerResult.Success)
+                                        {
+                                            result.Errors.AddRange(registerResult.Errors);
+                                        }
+
+                                        VoidWithError iconResult = ApplicationDM.GetInstance().ReloadIconFile();
+                                        if (!iconResult.Success)
+                                        {
+                                            result.Errors.AddRange(iconResult.Errors);
+                                        }
+
+                                        result.Errors.AddRange(resultTemp.Errors);
+                                    }
+                                }
+                                else
+                                {
+                                    result.Errors.Add(new AppError(AppErrorCode.NoAppFileFound, "The app " + appName + " must have a RayukiApp file"));
                                 }
                             }
-                            VoidWithError iconResult = ApplicationDM.GetInstance().ReloadIconFile();
-                            if (!iconResult.Success)
-                            {
-                                result.Errors.AddRange(iconResult.Errors);
-                            }
                         }
-                        else
+                        catch (Exception e)
                         {
-                            result.Errors.Add(new AppError(AppErrorCode.NoAppFileFound, "The app " + appName + " must have a RayukiApp file"));
+                            result.Errors.Add(new AppError(AppErrorCode.UnknowError, e));
+                            Console.WriteLine(e);
                         }
                     }
                 }
@@ -528,7 +596,7 @@ namespace Core.App
             }
             else
             {
-                result.Errors.Add(new AppError(AppErrorCode.AppFileNotFound, "Can't found the file " + path));
+                result.Errors.Add(new AppError(AppErrorCode.AppFileNotFound, "Can't found the file " + dllPath));
             }
             return result;
         }
@@ -578,7 +646,15 @@ namespace Core.App
             {
                 await app.OnStop();
             }
+            if (!Directory.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "apps")))
+            {
+                Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "apps"));
+            }
             File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "apps", "todel.json"), JsonConvert.SerializeObject(waitingUnloadApps));
+            if (!Directory.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins")))
+            {
+                Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins"));
+            }
             File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins", "todel.json"), JsonConvert.SerializeObject(waitingUnloadPlugins));
         }
 
@@ -602,21 +678,38 @@ namespace Core.App
             return false;
         }
 
-        public static VoidWithError InstallApp(HttpFile file)
+        public static async Task<VoidWithError> InstallApp(HttpFile file)
         {
             VoidWithError result = new VoidWithError();
             try
             {
-                if (!HttpServer.IsAppManagement)
-                {
-                    result.Errors.Add(new AppError(AppErrorCode.NotInManagement, "The mode is wrong"));
-                    return result;
-                }
+                // if (!HttpServer.IsAppManagement)
+                // {
+                //     result.Errors.Add(new AppError(AppErrorCode.NotInManagement, "The mode is wrong"));
+                //     return result;
+                // }
                 using FileStream fileStream = File.OpenRead(file.FilePath);
                 IFileType fileType = FileTypeValidator.GetFileType(fileStream);
                 if (FileTypeValidator.IsArchive(fileStream) && fileType.Extension == "zip")
                 {
-                    ZipFile.ExtractToDirectory(fileStream, AppDomain.CurrentDomain.BaseDirectory, true);
+                    ZipArchive f = ZipFile.OpenRead(file.FilePath);
+                    Regex regex = new Regex("^apps\\/\\S+?\\/$");
+                    string appName = "";
+                    foreach (ZipArchiveEntry entry in f.Entries)
+                    {
+                        if (regex.IsMatch(entry.FullName))
+                        {
+                            appName = entry.FullName.Replace("apps/", "").Replace("/", "");
+                        }
+                    }
+
+                    if (appName != "")
+                    {
+                        ZipFile.ExtractToDirectory(fileStream, AppDomain.CurrentDomain.BaseDirectory, true);
+                        VoidWithError resultLoading = await LoadApp(appName);
+                        result.Errors.AddRange(resultLoading.Errors);
+                    }
+
                 }
                 else
                 {

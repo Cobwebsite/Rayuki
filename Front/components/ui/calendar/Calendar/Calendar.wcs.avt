@@ -10,11 +10,13 @@
 	--_calendar-text-color-case-header: var(--calendar-text-color-case-header, var(--text-color-light));
 	--_calendar-text-color-case-today: var(--calendar-text-color-case-today, var(--orange));
 	--_calendar-case-size: var(--calendar-case-size, 30px);
+	--_calendar-case-width: var(--calendar-case-width, var(--_calendar-case-size));
+	--_calendar-case-height: var(--calendar-case-height, var(--_calendar-case-size));
 	--_calendar-case-font-size: var(--calendar-case-font-size, calc(var(--font-size, 16px) * 0.9));
 	--_calendar-chevron-size: var(--calendar-chevron-size, calc(var(--_calendar-case-font-size) * 1.5));
 	--_calendar-month-font-size: var(--calendar-month-font-size, calc(var(--_calendar-case-font-size) * 1.25));
-	--_calendar-month-selector-height: var(--calendar-month-selector-height, var(--_calendar-case-size));
-	--_calendar-year-selector-height: var(--calendar-year-selector-height, var(--_calendar-case-size));
+	--_calendar-month-selector-height: var(--calendar-month-selector-height, var(--_calendar-case-height));
+	--_calendar-year-selector-height: var(--calendar-year-selector-height, var(--_calendar-case-height));
 	--_calendar-case-gap: var(--calendar-case-gap, 10px);
 	--_calendar-row-gap: var(--calendar-row-gap, 5px);
 }
@@ -67,10 +69,10 @@
 			border-radius: var(--border-radius-sm);
 			display: flex;
 			font-size: var(--_calendar-chevron-size);
-			height: var(--_calendar-case-size);
+			height: var(--_calendar-case-height);
 			justify-content: center;
 			text-align: center;
-			width: var(--_calendar-case-size);
+			width: var(--_calendar-case-width);
 		}
 
 		.selectors {
@@ -202,9 +204,9 @@
 				align-items: center;
 				display: flex;
 				font-size: var(--_calendar-case-font-size);
-				height: var(--_calendar-case-size);
+				height: var(--_calendar-case-height);
 				justify-content: center;
-				width: var(--_calendar-case-size);
+				width: var(--_calendar-case-width);
 			}
 		}
 

@@ -7,6 +7,7 @@ namespace Routes {
 		public constructor(router?: Aventus.HttpRouter) {
 			super(router ?? new CoreRouter());
 		}
+		/** @inheritdoc */
 		public StorableName() {
 			return "SsoProvider";
 		}

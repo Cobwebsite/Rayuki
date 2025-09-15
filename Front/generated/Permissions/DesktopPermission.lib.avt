@@ -8,6 +8,7 @@ namespace Permissions {
 
 	@Convertible()
 	export class DesktopPermissionQuery extends PermissionQuery<typeof DesktopPermission>  {
+		/** Fullname of the class */
 		public static get Fullname(): string { return "Core.Permissions.DesktopPermissionQuery, Core"; }
 	}
 

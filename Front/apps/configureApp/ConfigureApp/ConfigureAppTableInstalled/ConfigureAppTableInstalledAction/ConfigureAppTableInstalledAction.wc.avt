@@ -1,39 +1,51 @@
 <script>
-	import { ConfigureAppType } from "../../ConfigureApp.wcl.avt";
-	import { GeneratedRouter } from "../../../../generated/GeneratedRouter.lib.avt";
+import type { Button } from "../../../../../components/ui/form/Button/Button.wcl.avt";
+import { TableCell } from "../../../../../components/ui/layout/Table/cells/TableCell/TableCell.wcl.avt";
+import { ApplicationRouter } from "../../../../../generated/Routes/ApplicationRouter.lib.avt";
+import type { ConfigureAppType } from "../../ConfigureApp.wcl.avt";
 
-	export class ConfigureAppTableInstalledAction extends Core.Components.TableCell<never, ConfigureAppType> implements Aventus.DefaultComponent {
-	
-	    private appName: string = "";
 
-	    /**
-	     * @inheritdoc
-	     */
-	    public override setContent(data: any, rowData: ConfigureAppType) {
-	        this.appName = rowData.name;
-	    }
 
-	    private async uninstall() {
-	        let query = await new GeneratedRouter().routes.Application.UninstallDevApp({
-	            app: this.appName
-	        });
-	        this.row?.remove();
-	    }
-	}
-	
-	
-	
+export class ConfigureAppTableInstalledAction extends TableCell<never, ConfigureAppType> implements Aventus.DefaultComponent {
+    /**
+     * @inheritdoc
+     */
+    public override sortAsc(cell: this): number {
+        return 0;
+    }
+
+    private appName: string = "";
+
+    @ViewElement()
+    protected btnEl!: Button;
+
+    /**
+     * @inheritdoc
+     */
+    public override setContent(data: any, rowData: ConfigureAppType) {
+        this.appName = rowData.name;
+    }
+
+    private async uninstall() {
+        let query = await new ApplicationRouter().UninstallDevApp({
+            app: this.appName
+        });
+        this.row?.remove();
+    }
+}
+
+
+
 </script>
 
-<template>	
-	<rk-button @press="uninstall">Désinstaller</rk-button>
+<template>
+    <rk-button @press="uninstall" @element="btnEl">Désinstaller</rk-button>
 </template>
 
-<style>	
-		:host {
-			rk-button {
-				background-color: var(--red);
-			}
-		}
-	
+<style>
+    :host {
+    	rk-button {
+    		background-color: var(--red);
+    	}
+    }
 </style>

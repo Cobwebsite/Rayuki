@@ -28,6 +28,7 @@ namespace Websocket.Routes {
 			return await this.endpoint.sendMessageAndWait<AventusSharp.ExtractResponse<RecentRouter_Save>>(info);
 		}
 
+		/** @inheritdoc */
 		public StorableName() {
 			return "Recent";
 		}

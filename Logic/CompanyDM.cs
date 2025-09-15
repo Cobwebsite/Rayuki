@@ -10,6 +10,7 @@ using SkiaSharp;
 
 namespace Core.Logic
 {
+
     public class CompanyDM : DatabaseDM<CompanyDM, Company>
     {
         protected async override Task<VoidWithError> Initialize()

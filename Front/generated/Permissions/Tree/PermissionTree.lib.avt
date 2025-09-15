@@ -2,6 +2,7 @@ namespace Permissions.Tree {
 
 	@Convertible()
 	export class PermissionTree extends AventusSharp.Data.SharpClass  {
+		/** Fullname of the class */
 		public static get Fullname(): string { return "Core.Permissions.Tree.PermissionTree, Core"; }
 		public AppName!: string;
 		public IconTagName!: string;
@@ -11,6 +12,7 @@ namespace Permissions.Tree {
 
 	@Convertible()
 	export class PermissionTreeItem extends AventusSharp.Data.SharpClass  {
+		/** Fullname of the class */
 		public static get Fullname(): string { return "Core.Permissions.Tree.PermissionTreeItem, Core"; }
 		public DisplayName: string = "";
 		public Description: string = "";

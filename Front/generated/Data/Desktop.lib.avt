@@ -12,6 +12,7 @@ namespace Data {
 
 	@Convertible()
 	export class Desktop extends AventusSharp.Data.Storable implements IUserableOrNull, IUserableOrNull, Aventus.IData {
+		/** Fullname of the class */
 		public static override get Fullname(): string { return "Core.Data.Desktop, Core"; }
 		public Name!: string;
 		private _Token!: string;
@@ -25,6 +26,7 @@ namespace Data {
 
 	@Convertible()
 	export class DekstopConfiguration extends AventusSharp.Data.Storable implements Aventus.IData {
+		/** Fullname of the class */
 		public static override get Fullname(): string { return "Core.Data.DekstopConfiguration, Core"; }
 		public Background!: DesktopBackground;
 		public BackgroundSize: BackgroundSize = BackgroundSize.Cover;
@@ -43,11 +45,13 @@ namespace Data {
 
 	@Convertible()
 	export class DesktopBackground extends ImageFile<DekstopConfiguration>  {
+		/** Fullname of the class */
 		public static get Fullname(): string { return "Core.Data.DesktopBackground, Core"; }
 	}
 
 	@Convertible()
 	export class DesktopAppIcon extends AventusSharp.Data.Storable implements Aventus.IData {
+		/** Fullname of the class */
 		public static override get Fullname(): string { return "Core.Data.DesktopAppIcon, Core"; }
 		public Position!: number;
 		public DesktopId!: number;

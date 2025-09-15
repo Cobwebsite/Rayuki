@@ -96,9 +96,9 @@ namespace Core.Routes
 
 
         [Post, Path("/installApp")]
-        public VoidWithError InstallApp(HttpFile file)
+        public async Task<VoidWithError> InstallApp(HttpFile file)
         {
-            return AppManager.InstallApp(file);
+            return await AppManager.InstallApp(file);
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Errors {
 
 	@Convertible()
 	export class CoreError extends Aventus.GenericError<typeof CoreErrorCode>  {
+		/** Fullname of the class */
 		public static get Fullname(): string { return "Core.Tools.CoreError, Core"; }
 	}
 

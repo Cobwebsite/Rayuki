@@ -2,6 +2,7 @@ namespace Data {
 
 	@Convertible()
 	export class SystemInfo extends AventusSharp.Data.SharpClass  {
+		/** Fullname of the class */
 		public static get Fullname(): string { return "Core.Data.SystemInfo, Core"; }
 		public TimeZone!: string;
 		public Version!: string;
