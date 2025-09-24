@@ -6,6 +6,8 @@ const __as1 = (o, k, c) => { if (o[k] !== undefined) for (let w in o[k]) { c[w] 
 const moduleName = `Core`;
 const _ = {};
 Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block;font-family:var(--font-family);-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none}:host .primary{background-color:var(--primary);color:var(--text-color-primary)}:host .text-primary{color:var(--primary)}:host .secondary{background-color:var(--secondary);color:var(--text-color-secondary)}:host .text-secondary{color:var(--secondary)}:host .green{background-color:var(--green);color:var(--text-color-green)}:host .text-green{color:var(--green)}:host .success{background-color:var(--success);color:var(--text-color-success)}:host .text-success{color:var(--success)}:host .red{background-color:var(--red);color:var(--text-color-red)}:host .text-red{color:var(--red)}:host .error{background-color:var(--error);color:var(--text-color-error)}:host .text-error{color:var(--error)}:host .orange{background-color:var(--orange);color:var(--text-color-orange)}:host .text-orange{color:var(--orange)}:host .warning{background-color:var(--warning);color:var(--text-color-warning)}:host .text-warning{color:var(--warning)}:host .blue{background-color:var(--blue);color:var(--text-color-blue)}:host .text-blue{color:var(--blue)}:host .information{background-color:var(--information);color:var(--text-color-information)}:host .text-information{color:var(--information)}:host .touch{cursor:pointer}:host .touch.disable,:host .touch.disabled{cursor:default}:host input::placeholder{overflow:visible}:host input,:host textarea,:host .text-select{-webkit-user-select:text;-khtml-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}:host *{box-sizing:border-box;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none}`)
+let Permissions = {};
+_.Permissions = Core.Permissions ?? {};
 let Lib = {};
 _.Lib = Core.Lib ?? {};
 let Websocket = {};
@@ -14,8 +16,6 @@ Websocket.Events = {};
 _.Websocket.Events = Core.Websocket?.Events ?? {};
 let Errors = {};
 _.Errors = Core.Errors ?? {};
-let Permissions = {};
-_.Permissions = Core.Permissions ?? {};
 let Logic = {};
 _.Logic = Core.Logic ?? {};
 Logic.FileSystem = {};
@@ -44,13 +44,16 @@ let RAM = {};
 _.RAM = Core.RAM ?? {};
 Websocket.Events.TransactionCancelledEvent = {};
 _.Websocket.Events.TransactionCancelledEvent = Core.Websocket?.Events?.TransactionCancelledEvent ?? {};
-let Ram = {};
-_.Ram = Core.Ram ?? {};
 let Tools = {};
 _.Tools = Core.Tools ?? {};
 Websocket.Events.ApplicationTestEvent = {};
 _.Websocket.Events.ApplicationTestEvent = Core.Websocket?.Events?.ApplicationTestEvent ?? {};
 let _n;
+(function (OsPermission) {
+    OsPermission[OsPermission["ConnectAs"] = 0] = "ConnectAs";
+})(Permissions.OsPermission || (Permissions.OsPermission = {}));
+__as1(_.Permissions, 'OsPermission', Permissions.OsPermission);
+
 Lib.Time=class Time {
     static cbEachMinute = new Map();
     static cbEachMinuteFirst = new Map();
@@ -197,6 +200,10 @@ __as1(_.Errors, 'SsoCode', Errors.SsoCode);
 })(Logic.RecentParameters || (Logic.RecentParameters = {}));
 __as1(_.Logic, 'RecentParameters', Logic.RecentParameters);
 
+(function (GlobalParameters) {
+})(Logic.GlobalParameters || (Logic.GlobalParameters = {}));
+__as1(_.Logic, 'GlobalParameters', Logic.GlobalParameters);
+
 (function (StorageErrorCode) {
     StorageErrorCode[StorageErrorCode["UnknowError"] = 0] = "UnknowError";
     StorageErrorCode[StorageErrorCode["NotAllowed"] = 1] = "NotAllowed";
@@ -233,10 +240,14 @@ Data.SystemInfo=class SystemInfo extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.SystemInfo, Core"; }
     TimeZone;
     Version;
-    CompilationDate;
+    BuildDate;
+    AutoLogin;
+    IsDev;
+    NbAppInDev;
+    ResetStorage;
 }
 Data.SystemInfo.Namespace=`Core.Data`;
-Data.SystemInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "TimeZone":"string","Version":"string","CompilationDate":"string"};
+Data.SystemInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "TimeZone":"string","Version":"string","BuildDate":"string","AutoLogin":"boolean","IsDev":"boolean","NbAppInDev":"number","ResetStorage":"boolean"};
 Aventus.Converter.register(Data.SystemInfo.Fullname, Data.SystemInfo);
 __as1(_.Data, 'SystemInfo', Data.SystemInfo);
 
@@ -2306,6 +2317,7 @@ Routes.CoreRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'CoreRouter', Routes.CoreRouter);
 
 Routes.SystemInfoRouter=class SystemInfoRouter extends Aventus.HttpRoute {
+    getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
         this.GetSystemInfo = this.GetSystemInfo.bind(this);
@@ -2319,6 +2331,7 @@ Routes.SystemInfoRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'SystemInfoRouter', Routes.SystemInfoRouter);
 
 Routes.PermissionUserRouter=class PermissionUserRouter extends Aventus.HttpRoute {
+    getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
         this.GetAllByUser = this.GetAllByUser.bind(this);
@@ -2345,6 +2358,7 @@ Routes.PermissionUserRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'PermissionUserRouter', Routes.PermissionUserRouter);
 
 Routes.PermissionGroupRouter=class PermissionGroupRouter extends Aventus.HttpRoute {
+    getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
         this.GetAllByGroup = this.GetAllByGroup.bind(this);
@@ -2371,6 +2385,7 @@ Routes.PermissionGroupRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'PermissionGroupRouter', Routes.PermissionGroupRouter);
 
 Routes.PdfRouter=class PdfRouter extends Aventus.HttpRoute {
+    getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
         this.Generate = this.Generate.bind(this);
@@ -3520,6 +3535,7 @@ Data.DesktopClass= _.Data.Desktop;
 __as1(_.Data, 'DesktopClass', Data.DesktopClass);
 
 Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRouter {
+    getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
     }
@@ -3529,6 +3545,64 @@ Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRou
 }
 Routes.DesktopRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'DesktopRouter', Routes.DesktopRouter);
+
+Data.User=class User extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.User, Core"; }
+    Firstname = "";
+    Lastname = "";
+    Username = "";
+    Password = undefined;
+    Token = "";
+    Picture = new Data.UserPicture();
+    IsSuperAdmin = false;
+    SsoProviderId = undefined;
+    QuickToken = undefined;
+}
+Data.User.Namespace=`Core.Data`;
+Data.User.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Firstname":"string","Lastname":"string","Username":"string","Password":"string","Token":"string","Picture":"UserPicture","IsSuperAdmin":"boolean","SsoProviderId":"number","QuickToken":"string"};
+Aventus.Converter.register(Data.User.Fullname, Data.User);
+__as1(_.Data, 'User', Data.User);
+
+Data.Group=class Group extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.Group, Core"; }
+    Name = "";
+    Description = "";
+    AssignationAuto = false;
+    Users = [];
+}
+Data.Group.Namespace=`Core.Data`;
+Data.Group.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Description":"string","AssignationAuto":"boolean","Users":"Core.Data.User[]"};
+Aventus.Converter.register(Data.Group.Fullname, Data.Group);
+__as1(_.Data, 'Group', Data.Group);
+
+Routes.GroupRouter=class GroupRouter extends AventusSharp.Routes.StorableRouter {
+    getPrefix() { return "/Core"; }
+    constructor(router) {
+        super(router ?? new _.Routes.CoreRouter());
+    }
+    StorableName() {
+        return "Group";
+    }
+}
+Routes.GroupRouter.Namespace=`Core.Routes`;
+__as1(_.Routes, 'GroupRouter', Routes.GroupRouter);
+
+Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRouter {
+    getPrefix() { return "/Core"; }
+    constructor(router) {
+        super(router ?? new _.Routes.CoreRouter());
+        this.GetConnected = this.GetConnected.bind(this);
+    }
+    async GetConnected() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/getconnected`, Aventus.HttpMethod.GET);
+        return await request.queryJSON(this.router);
+    }
+    StorableName() {
+        return "User";
+    }
+}
+Routes.UserRouter.Namespace=`Core.Routes`;
+__as1(_.Routes, 'UserRouter', Routes.UserRouter);
 
 Components.PageCase = class PageCase extends Aventus.WebComponent {
     static get observedAttributes() {return ["case_width", "case_height"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -3874,6 +3948,7 @@ __as1(_.Components, 'PageCase', Components.PageCase);
 if(!window.customElements.get('rk-page-case')){window.customElements.define('rk-page-case', Components.PageCase);Aventus.WebComponentInstance.registerDefinition(Components.PageCase);}
 
 Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
+    getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
         this.GetAll = this.GetAll.bind(this);
@@ -5266,62 +5341,6 @@ Components.Tabs.Tag=`rk-tabs`;
 __as1(_.Components, 'Tabs', Components.Tabs);
 if(!window.customElements.get('rk-tabs')){window.customElements.define('rk-tabs', Components.Tabs);Aventus.WebComponentInstance.registerDefinition(Components.Tabs);}
 
-Data.User=class User extends AventusSharp.Data.Storable {
-    static get Fullname() { return "Core.Data.User, Core"; }
-    Firstname = "";
-    Lastname = "";
-    Username = "";
-    Password = undefined;
-    Token = "";
-    Picture = new Data.UserPicture();
-    IsSuperAdmin = false;
-    SsoProviderId = undefined;
-    QuickToken = undefined;
-}
-Data.User.Namespace=`Core.Data`;
-Data.User.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Firstname":"string","Lastname":"string","Username":"string","Password":"string","Token":"string","Picture":"UserPicture","IsSuperAdmin":"boolean","SsoProviderId":"number","QuickToken":"string"};
-Aventus.Converter.register(Data.User.Fullname, Data.User);
-__as1(_.Data, 'User', Data.User);
-
-Data.Group=class Group extends AventusSharp.Data.Storable {
-    static get Fullname() { return "Core.Data.Group, Core"; }
-    Name = "";
-    Description = "";
-    AssignationAuto = false;
-    Users = [];
-}
-Data.Group.Namespace=`Core.Data`;
-Data.Group.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","Description":"string","AssignationAuto":"boolean","Users":"Core.Data.User[]"};
-Aventus.Converter.register(Data.Group.Fullname, Data.Group);
-__as1(_.Data, 'Group', Data.Group);
-
-Routes.GroupRouter=class GroupRouter extends AventusSharp.Routes.StorableRouter {
-    constructor(router) {
-        super(router ?? new _.Routes.CoreRouter());
-    }
-    StorableName() {
-        return "Group";
-    }
-}
-Routes.GroupRouter.Namespace=`Core.Routes`;
-__as1(_.Routes, 'GroupRouter', Routes.GroupRouter);
-
-Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRouter {
-    constructor(router) {
-        super(router ?? new _.Routes.CoreRouter());
-        this.GetConnected = this.GetConnected.bind(this);
-    }
-    async GetConnected() {
-        const request = new Aventus.HttpRequest(`${this.getPrefix()}/getconnected`, Aventus.HttpMethod.GET);
-        return await request.queryJSON(this.router);
-    }
-    StorableName() {
-        return "User";
-    }
-}
-Routes.UserRouter.Namespace=`Core.Routes`;
-__as1(_.Routes, 'UserRouter', Routes.UserRouter);
-
 Data.Favorite=class Favorite extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Favorite, Core"; }
     Name;
@@ -5361,6 +5380,8 @@ Routes.LoginRouter=class LoginRouter extends Aventus.HttpRoute {
         this.QuickLogin = this.QuickLogin.bind(this);
         this.LoginSso = this.LoginSso.bind(this);
         this.Logout = this.Logout.bind(this);
+        this.ConnectAs = this.ConnectAs.bind(this);
+        this.DisconnectFrom = this.DisconnectFrom.bind(this);
     }
     async LoginAction(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/login`, Aventus.HttpMethod.POST);
@@ -5380,6 +5401,15 @@ Routes.LoginRouter=class LoginRouter extends Aventus.HttpRoute {
     async Logout() {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/logout`, Aventus.HttpMethod.POST);
         return await request.queryVoid(this.router);
+    }
+    async ConnectAs(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/connectas`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async DisconnectFrom() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/disconnectfrom`, Aventus.HttpMethod.POST);
+        return await request.queryJSON(this.router);
     }
 }
 Routes.LoginRouter.Namespace=`Core.Routes`;
@@ -5408,6 +5438,7 @@ Aventus.Converter.register(Permissions.PermissionForUser.Fullname, Permissions.P
 __as1(_.Permissions, 'PermissionForUser', Permissions.PermissionForUser);
 
 Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
+    getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
         this.Get = this.Get.bind(this);
@@ -6101,12 +6132,12 @@ Lib.SessionManager=class SessionManager {
 Lib.SessionManager.Namespace=`Core.Lib`;
 __as1(_.Lib, 'SessionManager', Lib.SessionManager);
 
-Ram.FavoriteRAM=class FavoriteRAM extends AventusSharp.RAM.RamWebSocket {
+RAM.FavoriteRAM=class FavoriteRAM extends AventusSharp.RAM.RamWebSocket {
     /**
      * Create a singleton to store data
      */
     static getInstance() {
-        return Aventus.Instance.get(Ram.FavoriteRAM);
+        return Aventus.Instance.get(RAM.FavoriteRAM);
     }
     /**
      * @inheritdoc
@@ -6127,8 +6158,8 @@ Ram.FavoriteRAM=class FavoriteRAM extends AventusSharp.RAM.RamWebSocket {
         return new Websocket.Routes.FavoriteRouter();
     }
 }
-Ram.FavoriteRAM.Namespace=`Core.Ram`;
-__as1(_.Ram, 'FavoriteRAM', Ram.FavoriteRAM);
+RAM.FavoriteRAM.Namespace=`Core.RAM`;
+__as1(_.RAM, 'FavoriteRAM', RAM.FavoriteRAM);
 
 Websocket.Routes.RecentRouter=class RecentRouter extends AventusSharp.WebSocket.StorableWsRouter {
     defineEvents() {
@@ -6155,12 +6186,12 @@ Websocket.Routes.RecentRouter=class RecentRouter extends AventusSharp.WebSocket.
 Websocket.Routes.RecentRouter.Namespace=`Core.Websocket.Routes`;
 __as1(_.Websocket.Routes, 'RecentRouter', Websocket.Routes.RecentRouter);
 
-Ram.RecentRAM=class RecentRAM extends AventusSharp.RAM.RamWebSocket {
+RAM.RecentRAM=class RecentRAM extends AventusSharp.RAM.RamWebSocket {
     /**
      * Create a singleton to store data
      */
     static getInstance() {
-        return Aventus.Instance.get(Ram.RecentRAM);
+        return Aventus.Instance.get(RAM.RecentRAM);
     }
     /**
      * @inheritdoc
@@ -6181,8 +6212,8 @@ Ram.RecentRAM=class RecentRAM extends AventusSharp.RAM.RamWebSocket {
         return new Websocket.Routes.RecentRouter();
     }
 }
-Ram.RecentRAM.Namespace=`Core.Ram`;
-__as1(_.Ram, 'RecentRAM', Ram.RecentRAM);
+RAM.RecentRAM.Namespace=`Core.RAM`;
+__as1(_.RAM, 'RecentRAM', RAM.RecentRAM);
 
 Components.Resize = class Resize extends Aventus.WebComponent {
     get 'min_width'() { return this.getNumberAttr('min_width') }
@@ -7487,14 +7518,17 @@ System.FrameGeneric = class FrameGeneric extends Aventus.WebComponent {
     allowState(state) {
         return true;
     }
+    loadData(state) {
+        return true;
+    }
     async show(state) {
         this.state = state;
         this.visible = true;
-        this.onShow();
+        await this.onShow();
     }
     async hide() {
         this.visible = false;
-        this.onHide();
+        await this.onHide();
     }
     async askChange(newState) {
         return true;
@@ -7612,6 +7646,9 @@ System.FrameStateNoScroll = class FrameStateNoScroll extends System.FrameNoScrol
     getClassName() {
         return "FrameStateNoScroll";
     }
+    loadData(state) {
+        return super.loadData(state);
+    }
     allowState(state) {
         if (state instanceof this.getState()) {
             return true;
@@ -7686,6 +7723,9 @@ System.FrameState = class FrameState extends System.Frame {
 }
     getClassName() {
         return "FrameState";
+    }
+    loadData(state) {
+        return super.loadData(state);
     }
     allowState(state) {
         if (state instanceof this.getState()) {
@@ -9067,6 +9107,14 @@ System.Application = class Application extends Aventus.WebComponent {
                             this.replaceState(canResult);
                             return;
                         }
+                        const loadDataResult = await element.loadData(currentState);
+                        if (loadDataResult !== true) {
+                            if (loadDataResult === false) {
+                                return;
+                            }
+                            this.replaceState(loadDataResult);
+                            return;
+                        }
                         if (this.__frame && this.__frame != element) {
                             await this.__frame.hide();
                             if (this.shouldDestroyFrame(this.__frame)) {
@@ -9493,7 +9541,7 @@ System.Application = class Application extends Aventus.WebComponent {
             favorite.Name = this.app_title;
             favorite.TagName = this.tagName.toLowerCase();
             favorite.State = JSON.stringify(state);
-            await this.execute(Ram.FavoriteRAM.getInstance().createWithError(favorite));
+            await this.execute(RAM.FavoriteRAM.getInstance().createWithError(favorite));
         }
     }
     popup(p) {
@@ -9980,7 +10028,7 @@ System.FavoriteLine = class FavoriteLine extends Aventus.WebComponent {
     async deleteFromFavorite() {
         if (!this.favorite)
             return;
-        await Lib.Process.execute(this, Ram.FavoriteRAM.getInstance().deleteWithError(this.favorite));
+        await Lib.Process.execute(this, RAM.FavoriteRAM.getInstance().deleteWithError(this.favorite));
     }
     async open() {
         if (!this.favorite) {
@@ -10001,7 +10049,7 @@ System.FavoriteLine = class FavoriteLine extends Aventus.WebComponent {
             if (app && this.favorite && app.app_title != this.favorite.Name) {
                 const clone = this.favorite.clone();
                 clone.Name = app.app_title;
-                Lib.Process.execute(this, Ram.FavoriteRAM.getInstance().updateWithError(clone));
+                Lib.Process.execute(this, RAM.FavoriteRAM.getInstance().updateWithError(clone));
             }
         }, 500);
     }
@@ -10265,18 +10313,18 @@ System.HomePanel = class HomePanel extends System.Panel {
         this.currentUser = await Lib.SessionManager.getUser();
     }
     async initRam() {
-        let ram = Ram.FavoriteRAM.getInstance();
+        let ram = RAM.FavoriteRAM.getInstance();
         ram.onCreated(this.loadData);
         ram.onUpdated((item) => this.loadData(item, true));
         ram.onDeleted(this.loadData);
-        let ram2 = Ram.RecentRAM.getInstance();
+        let ram2 = RAM.RecentRAM.getInstance();
         ram2.onCreated(this.loadData);
         ram2.onUpdated((item) => this.loadData(item, true));
         ram2.onDeleted(this.loadData);
         this.loadData();
     }
     async loadData(item, force) {
-        let ram = Ram.FavoriteRAM.getInstance();
+        let ram = RAM.FavoriteRAM.getInstance();
         const items = await Lib.Process.execute(this, ram.getListWithError());
         if (items) {
             items.sort((a, b) => a.Order - b.Order);
@@ -10285,7 +10333,7 @@ System.HomePanel = class HomePanel extends System.Panel {
             }
             this.favorites = items;
         }
-        let ram2 = Ram.RecentRAM.getInstance();
+        let ram2 = RAM.RecentRAM.getInstance();
         const items2 = await Lib.Process.execute(this, ram2.getListWithError());
         if (items2) {
             items2.sort((a, b) => a.Datetime.DateTime.getTime() - b.Datetime.DateTime.getTime());
@@ -10310,7 +10358,7 @@ System.HomePanel = class HomePanel extends System.Panel {
             }
         }
         if (toSave.length > 0) {
-            Ram.FavoriteRAM.getInstance().updateListWithError(toSave);
+            RAM.FavoriteRAM.getInstance().updateListWithError(toSave);
         }
     }
     stopReorderFavorite() {
@@ -11561,7 +11609,8 @@ System.Os = class Os extends Aventus.WebComponent {
     set 'loading'(val) { this.setBoolAttr('loading', val) }get 'ready'() { return this.getBoolAttr('ready') }
     set 'ready'(val) { this.setBoolAttr('ready', val) }get 'no_connection'() { return this.getBoolAttr('no_connection') }
     set 'no_connection'(val) { this.setBoolAttr('no_connection', val) }get 'no_desktop_transition'() { return this.getBoolAttr('no_desktop_transition') }
-    set 'no_desktop_transition'(val) { this.setBoolAttr('no_desktop_transition', val) }    get 'desktop_list'() { return this.getBoolProp('desktop_list') }
+    set 'no_desktop_transition'(val) { this.setBoolAttr('no_desktop_transition', val) }get 'temp_connect'() { return this.getBoolAttr('temp_connect') }
+    set 'temp_connect'(val) { this.setBoolAttr('temp_connect', val) }    get 'desktop_list'() { return this.getBoolProp('desktop_list') }
     set 'desktop_list'(val) { this.setBoolAttr('desktop_list', val) }get 'show_application_list'() { return this.getBoolProp('show_application_list') }
     set 'show_application_list'(val) { this.setBoolAttr('show_application_list', val) }get 'active_desktop'() { return this.getNumberProp('active_desktop') }
     set 'active_desktop'(val) { this.setNumberAttr('active_desktop', val) }get 'lang'() { return this.getStringProp('lang') }
@@ -11570,6 +11619,11 @@ System.Os = class Os extends Aventus.WebComponent {
 					}
 					set 'desktops'(val) {
 						this.__watch["desktops"] = val;
+					}get 'currentUser'() {
+						return this.__watch["currentUser"];
+					}
+					set 'currentUser'(val) {
+						this.__watch["currentUser"] = val;
 					}    static instance;
     static get version() {
         return coreVersion;
@@ -11581,7 +11635,7 @@ System.Os = class Os extends Aventus.WebComponent {
     contextMenuCst = Components.ContextMenu;
     _appInstallPanel;
     __registerWatchesActions() {
-    this.__addWatchesActions("desktops");    super.__registerWatchesActions();
+    this.__addWatchesActions("desktops");this.__addWatchesActions("currentUser");    super.__registerWatchesActions();
 }
     __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("desktop_list", ((target) => {
     target.onShowDesktopList();
@@ -11596,7 +11650,7 @@ System.Os = class Os extends Aventus.WebComponent {
 }));this.__addPropertyActions("lang", ((target) => {
     target.setLocale(target.lang);
 })); }
-    static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;width:100%;transition:margin .7s var(--bezier-curve)}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:var(--border-radius-round);cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;width:40px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;display:none;height:50px;min-width:auto;position:absolute;right:10px;z-index:6}:host rk-loading{opacity:0;visibility:hidden}:host .background{background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:25% 25%;filter:brightness(0.8);inset:-20px;position:absolute;z-index:0}:host rk-notification-manager{bottom:60px}:host .no-connection{align-items:center;animation-duration:2s;animation-iteration-count:infinite;animation-name:blink;background-color:var(--warning);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);color:var(--text-color-warning);display:none;font-size:var(--font-size-md);gap:10px;padding:5px 15px;position:absolute;right:15px;top:15px;z-index:9999999}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:max-content;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:var(--border-radius-sm)}:host([desktop_list]) .add-desktop{display:block}:host([no_desktop_transition]) .desktop-container .desktop-case{transition:none}:host([no_connection]) .no-connection{display:flex}@keyframes blink{0%{background-color:var(--warning);color:var(--text-color-warning)}1%{background-color:var(--text-color-warning);color:var(--warning)}50%{background-color:var(--text-color-warning);color:var(--warning)}51%{background-color:var(--warning);color:var(--text-color-warning)}100%{background-color:var(--warning);color:var(--text-color-warning)}}`;
+    static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;transition:margin .7s var(--bezier-curve);width:100%}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:var(--border-radius-round);cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;width:40px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;display:none;height:50px;min-width:auto;position:absolute;right:10px;z-index:6}:host rk-loading{opacity:0;visibility:hidden}:host .background{background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:25% 25%;filter:brightness(0.8);inset:-20px;position:absolute;z-index:0}:host rk-notification-manager{bottom:60px}:host .no-connection{align-items:center;animation-duration:2s;animation-iteration-count:infinite;animation-name:blink;background-color:var(--warning);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);color:var(--text-color-warning);display:none;font-size:var(--font-size-md);gap:10px;padding:5px 15px;position:absolute;right:15px;top:15px;z-index:9999999}:host .temp-connect{align-items:center;background-color:var(--information);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);color:var(--text-color-information);display:none;font-size:var(--font-size-sm);gap:20px;justify-content:center;left:50%;padding:5px 15px;position:absolute;top:10px;transform:translateX(-50%);z-index:9999999}:host .temp-connect .quit{text-decoration:underline;cursor:pointer}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:max-content;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:var(--border-radius-sm)}:host([desktop_list]) .add-desktop{display:block}:host([no_desktop_transition]) .desktop-container .desktop-case{transition:none}:host([no_connection]) .no-connection{display:flex}:host([temp_connect]) .temp-connect{display:flex}@keyframes blink{0%{background-color:var(--warning);color:var(--text-color-warning)}1%{background-color:var(--text-color-warning);color:var(--warning)}50%{background-color:var(--text-color-warning);color:var(--warning)}51%{background-color:var(--warning);color:var(--text-color-warning)}100%{background-color:var(--warning);color:var(--text-color-warning)}}`;
     constructor() {
         super();
         System.Os.instance = this;
@@ -11620,7 +11674,7 @@ System.Os = class Os extends Aventus.WebComponent {
     }
     __getHtml() {
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="background"></div><rk-app-list _id="os_0"></rk-app-list><rk-loading text="Chargement du système" background></rk-loading><rk-scrollable y_scroll="false" disable _id="os_1">    <div class="desktop-container">        <template _id="os_2"></template>    </div></rk-scrollable><rk-button-icon class="add-desktop" icon="/img/icons/add.svg" color="blue" _id="os_6"></rk-button-icon><rk-notification-manager _id="os_7"></rk-notification-manager><div class="no-connection">    <mi-icon icon="warning"></mi-icon>    <span>Hors-ligne</span></div>` }
+        blocks: { 'default':`<div class="background"></div><rk-app-list _id="os_0"></rk-app-list><rk-loading text="Chargement du système" background></rk-loading><rk-scrollable y_scroll="false" disable _id="os_1">    <div class="desktop-container">        <template _id="os_2"></template>    </div></rk-scrollable><rk-button-icon class="add-desktop" icon="/img/icons/add.svg" color="blue" _id="os_6"></rk-button-icon><rk-notification-manager _id="os_7"></rk-notification-manager><div class="no-connection">    <mi-icon icon="warning"></mi-icon>    <span>Hors-ligne</span></div><div class="temp-connect">    <span _id="os_8"></span>    <span class="quit" _id="os_9">Quitter</span></div>` }
     });
 }
     get desktopsEl () { var list = Array.from(this.shadowRoot.querySelectorAll('[_id="os_5"]')); return list; }    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
@@ -11644,10 +11698,19 @@ System.Os = class Os extends Aventus.WebComponent {
       ]
     }
   ],
+  "content": {
+    "os_8°@HTML": {
+      "fct": (c) => `Temporaire: ${c.print(c.comp.__1ce90dbdb85fa41f02d47acb05511f03method4())} ${c.print(c.comp.__1ce90dbdb85fa41f02d47acb05511f03method5())}`
+    }
+  },
   "pressEvents": [
     {
       "id": "os_6",
       "onPress": (e, pressInstance, c) => { c.comp.addDesktop(e, pressInstance); }
+    },
+    {
+      "id": "os_9",
+      "onPress": (e, pressInstance, c) => { c.comp.quitTemp(e, pressInstance); }
     }
   ]
 });const templ0 = new Aventus.Template(this);templ0.setTemplate(`             <div class="desktop-case">                <rk-img class="delete-desktop" src="/img/icons/close.svg" _id="os_3"></rk-img>                <div class="desktop-hider" _id="os_4"></div>                <rk-desktop _id="os_5"></rk-desktop>            </div>        `);templ0.setActions({
@@ -11687,10 +11750,10 @@ System.Os = class Os extends Aventus.WebComponent {
     getClassName() {
         return "Os";
     }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('ready')) { this.attributeChangedCallback('ready', false, false); }if(!this.hasAttribute('no_connection')) { this.attributeChangedCallback('no_connection', false, false); }if(!this.hasAttribute('no_desktop_transition')) { this.attributeChangedCallback('no_desktop_transition', false, false); }if(!this.hasAttribute('desktop_list')) { this.attributeChangedCallback('desktop_list', false, false); }if(!this.hasAttribute('show_application_list')) { this.attributeChangedCallback('show_application_list', false, false); }if(!this.hasAttribute('active_desktop')){ this['active_desktop'] = 0; }if(!this.hasAttribute('lang')){ this['lang'] = "fr-FR"; } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["desktops"] = []; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('activeDesktop');this.__upgradeProperty('loading');this.__upgradeProperty('ready');this.__upgradeProperty('no_connection');this.__upgradeProperty('no_desktop_transition');this.__upgradeProperty('desktop_list');this.__upgradeProperty('show_application_list');this.__upgradeProperty('active_desktop');this.__upgradeProperty('lang');this.__correctGetter('desktops'); }
-    __listBoolProps() { return ["loading","ready","no_connection","no_desktop_transition","desktop_list","show_application_list"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('ready')) { this.attributeChangedCallback('ready', false, false); }if(!this.hasAttribute('no_connection')) { this.attributeChangedCallback('no_connection', false, false); }if(!this.hasAttribute('no_desktop_transition')) { this.attributeChangedCallback('no_desktop_transition', false, false); }if(!this.hasAttribute('temp_connect')) { this.attributeChangedCallback('temp_connect', false, false); }if(!this.hasAttribute('desktop_list')) { this.attributeChangedCallback('desktop_list', false, false); }if(!this.hasAttribute('show_application_list')) { this.attributeChangedCallback('show_application_list', false, false); }if(!this.hasAttribute('active_desktop')){ this['active_desktop'] = 0; }if(!this.hasAttribute('lang')){ this['lang'] = "fr-FR"; } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["desktops"] = [];w["currentUser"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('activeDesktop');this.__upgradeProperty('loading');this.__upgradeProperty('ready');this.__upgradeProperty('no_connection');this.__upgradeProperty('no_desktop_transition');this.__upgradeProperty('temp_connect');this.__upgradeProperty('desktop_list');this.__upgradeProperty('show_application_list');this.__upgradeProperty('active_desktop');this.__upgradeProperty('lang');this.__correctGetter('desktops');this.__correctGetter('currentUser'); }
+    __listBoolProps() { return ["loading","ready","no_connection","no_desktop_transition","temp_connect","desktop_list","show_application_list"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
     onActiveDesktop() {
         this.style.setProperty("--_active-desktop", this.active_desktop + "");
         if (this.activeDesktopEl) {
@@ -11817,6 +11880,7 @@ System.Os = class Os extends Aventus.WebComponent {
             start = new Date();
             this.loading = true;
         }, 200);
+        this.currentUser = await Lib.SessionManager.getUser();
         await RAM.ApplicationRAM.getInstance().getAll();
         await this.syncDesktopData();
         clearTimeout(timeout);
@@ -12056,6 +12120,12 @@ System.Os = class Os extends Aventus.WebComponent {
             return await Aventus.I18n.setLocale(lang);
         }
     }
+    async quitTemp() {
+        const result = await new Routes.LoginRouter().DisconnectFrom();
+        if (result.result?.Success) {
+            location.reload();
+        }
+    }
     postCreation() {
         super.postCreation();
         this.init();
@@ -12065,6 +12135,12 @@ System.Os = class Os extends Aventus.WebComponent {
     }
     __1ce90dbdb85fa41f02d47acb05511f03method3(index) {
         return index;
+    }
+    __1ce90dbdb85fa41f02d47acb05511f03method4() {
+        return this.currentUser?.Firstname;
+    }
+    __1ce90dbdb85fa41f02d47acb05511f03method5() {
+        return this.currentUser?.Lastname;
     }
     __1ce90dbdb85fa41f02d47acb05511f03method1(index) {
         return { 'desktop': this.desktops[index] };
@@ -12150,7 +12226,7 @@ System.RecentLine = class RecentLine extends Aventus.WebComponent {
     async deleteFromRecent() {
         if (!this.recent)
             return;
-        await Lib.Process.execute(this, Ram.RecentRAM.getInstance().deleteWithError(this.recent));
+        await Lib.Process.execute(this, RAM.RecentRAM.getInstance().deleteWithError(this.recent));
     }
     async open() {
         if (!this.recent) {
@@ -19273,6 +19349,9 @@ Components.SelectData = class SelectData extends Components.GenericSelect {
     async createOptions() {
         this.loading = true;
         this.data = await this.loadData();
+        for (let child of this.children) {
+            child.remove();
+        }
         if (this.txt_undefined !== undefined) {
             let option = this.getOption();
             await option.setItem(undefined);
@@ -21136,7 +21215,7 @@ Components.Table = class Table extends Aventus.WebComponent {
             await this.render();
         }
     }
-    firstRender() {
+    async firstRender() {
         if (this.isFirstRender) {
             this.isFirstRender = false;
             for (let i = 0; i < this.options.schema.length; i++) {
@@ -21153,7 +21232,7 @@ Components.Table = class Table extends Aventus.WebComponent {
             this.styleWrapper?.style.setProperty("--_table-nb-column", nbCol + "");
             this.header = new this.options.header();
             this.header.table = this;
-            this.header.init(this.options);
+            await this.header.init(this.options);
             this.headerContainer.innerHTML = "";
             this.headerContainer.appendChild(this.header);
             for (let column in this.sortColumns) {
@@ -21170,7 +21249,7 @@ Components.Table = class Table extends Aventus.WebComponent {
             return;
         }
         let isFirst = this.isFirstRender;
-        this.firstRender();
+        await this.firstRender();
         this.hadGlobalSearch = false;
         if (!onlySort) {
             let newRowsFiltered = [];
@@ -21182,7 +21261,7 @@ Components.Table = class Table extends Aventus.WebComponent {
                         let row = new this.options.row();
                         row.table = this;
                         row.grid = this.grid;
-                        row.init(this.options, item);
+                        await row.init(this.options, item);
                         this.rows.set(item, row);
                         rowItem = row;
                     }
@@ -21510,7 +21589,7 @@ Components.TableRowData = class TableRowData extends Components.TableRow {
         return "TableRowData";
     }
     async init(options, data) {
-        super.init(options, data);
+        await super.init(options, data);
         if (this.table instanceof _.Components.TableData) {
             this.ram = this.table.defineRAM();
             this.ram.onUpdated(this.onUpdated);
@@ -22512,13 +22591,15 @@ Data.Manifest=class Manifest extends AventusSharp.Data.SharpClass {
     orientation;
     scope;
     start_url;
+    version = 1;
 }
 Data.Manifest.Namespace=`Core.Data`;
-Data.Manifest.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "name":"string","short_name":"string","icons":"ManifestIcon[]","theme_color":"string","background_color":"string","display":"string","orientation":"string","scope":"string","start_url":"string"};
+Data.Manifest.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "name":"string","short_name":"string","icons":"ManifestIcon[]","theme_color":"string","background_color":"string","display":"string","orientation":"string","scope":"string","start_url":"string","version":"number"};
 Aventus.Converter.register(Data.Manifest.Fullname, Data.Manifest);
 __as1(_.Data, 'Manifest', Data.Manifest);
 
 Routes.CompanyRouter=class CompanyRouter extends Aventus.HttpRoute {
+    getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
         this.GetMain = this.GetMain.bind(this);
@@ -22568,6 +22649,7 @@ Aventus.Converter.register(Data.SsoProvider.Fullname, Data.SsoProvider);
 __as1(_.Data, 'SsoProvider', Data.SsoProvider);
 
 Routes.SsoProviderRouter=class SsoProviderRouter extends AventusSharp.Routes.StorableRouter {
+    getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
     }
@@ -22880,6 +22962,14 @@ RAM.RamCompletor=class RamCompletor {
 }
 RAM.RamCompletor.Namespace=`Core.RAM`;
 __as1(_.RAM, 'RamCompletor', RAM.RamCompletor);
+
+Permissions.OsPermissionQuery=class OsPermissionQuery extends _.Permissions.PermissionQuery {
+    static get Fullname() { return "Core.Permissions.OsPermissionQuery, Core"; }
+}
+Permissions.OsPermissionQuery.Namespace=`Core.Permissions`;
+Permissions.OsPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
+Aventus.Converter.register(Permissions.OsPermissionQuery.Fullname, Permissions.OsPermissionQuery);
+__as1(_.Permissions, 'OsPermissionQuery', Permissions.OsPermissionQuery);
 
 
 for(let key in _) { Core[key] = _[key] }

@@ -32,7 +32,6 @@ public class AtLeast : ValidationAttribute
     {
         if (context.Action != StorableAction.Delete) return ValidationResult.Success;
 
-        AppManager.Storage.Debug = true;
         if (query == null && context.TableInfo.DM != null && context.ReflectedType != null)
         {
             MethodInfo? m = GetType().GetMethod("LoadQuery", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -55,7 +54,6 @@ public class AtLeast : ValidationAttribute
                 {
                     ValidationResult validationResult = new ValidationResult();
                     validationResult.Errors.AddRange(resultWithError.Errors);
-                    AppManager.Storage.Debug = false;
                     return validationResult;
                 }
                 if (resultWithError.Result is IList list)
@@ -63,14 +61,12 @@ public class AtLeast : ValidationAttribute
                     if (list.Count - 1 >= nb)
                     {
                         string message = this.message ?? "Il doit y avoir au moins " + nb + " " + context.ReflectedType?.Name;
-                        AppManager.Storage.Debug = false;
                         return new ValidationResult(message, context.FieldName);
                     }
                 }
             }
         }
 
-        AppManager.Storage.Debug = false;
         return ValidationResult.Success;
     }
 

@@ -6,6 +6,7 @@ using AventusSharp.Routes;
 
 namespace Core.Routes
 {
+    [Prefix("Core")]
     public class CompanyRouter : Router
     {
         public Company GetMain()

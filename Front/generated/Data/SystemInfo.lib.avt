@@ -6,7 +6,11 @@ namespace Data {
 		public static get Fullname(): string { return "Core.Data.SystemInfo, Core"; }
 		public TimeZone!: string;
 		public Version!: string;
-		public CompilationDate!: string;
+		public BuildDate!: string;
+		public AutoLogin!: boolean;
+		public IsDev!: boolean;
+		public NbAppInDev!: number;
+		public ResetStorage!: boolean;
 	}
 
 }

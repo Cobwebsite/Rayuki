@@ -21,3 +21,8 @@
     <mi-icon icon="warning"></mi-icon>
     <span>Hors-ligne</span>
 </div>
+
+<div class="temp-connect">
+    <span>Temporaire: {{ this.currentUser?.Firstname }} {{ this.currentUser?.Lastname }}</span>
+    <span class="quit" @press="quitTemp">Quitter</span>
+</div>

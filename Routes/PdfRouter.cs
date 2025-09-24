@@ -6,6 +6,7 @@ using Core.Data.DataTypes;
 
 namespace Core.Routes
 {
+    [Prefix("Core")]
     public class PdfRouter : Router
     {
         [Post]
@@ -18,7 +19,8 @@ namespace Core.Routes
         public async Task<ByteResponse> Build(Pdf pdf)
         {
             ResultWithError<byte[]> build = await pdf.Build();
-            if(!build.Success) {
+            if (!build.Success)
+            {
                 build.Print();
             }
             return new ByteResponse(build.Result ?? [], "application/pdf");

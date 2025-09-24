@@ -5,7 +5,7 @@
         {
             "name": "Main",
             "hideWarnings": true,
-            "disabled": true,
+            "disabled": false,
             "src": [
                 "./components/*",
                 "./ram/*",
@@ -42,36 +42,29 @@
                     "./states/*"
                 ]
             },
-            "dependances": [
-                {
-                    "uri": "@Aventus",
+            "dependances": {
+                "Aventus@Main": {
                     "include": "none"
                 },
-                {
-                    "uri": "@AventusSharp",
+                "Aventus@Sharp": {
                     "include": "none"
                 },
-                {
-                    "uri": "@AventusI18n",
+                "Aventus@I18n": {
                     "include": "none"
                 },
-                {
-                    "uri": "@local:MaterialIcon@Main",
+                "MaterialIcon": {
+                    "version": "1.0.0",
                     "include": "none"
                 },
-                {
-                    "uri": "@local:Lucide@Main",
+                "Lucide": {
+                    "version": "1.0.0",
                     "include": "none"
                 },
-                {
-                    "uri": "@local:Addon@Addon",
-                    "include": "none"
-                },
-                {
-					"uri": "@local:Lucide@Main",
-                    "include": "none"
-				}
-            ],
+                "Addon@Addon": {
+                    "include": "none",
+                    "isLocal": true
+                }
+            },
             "stories": {
                 "output": "../../Storybook",
                 "format": "manual",
@@ -102,25 +95,25 @@
                     "package": "../../../Libs/RayukiCore/Addon.package.avt"
                 }
             ],
-            "dependances": [
-                {
-                    "uri": "https://store.aventusjs.com/libs/QrCodeReader/1_0_0/QrCodeReader@Main.package.avt",
+            "dependances": {
+                "QrCodeReader": {
+                    "version": "1.0.0",
                     "include": "full"
                 },
-                {
-                    "uri": "https://store.aventusjs.com/libs/QrCodeGenerator/1_0_0/QrCodeGenerator@Main.package.avt",
+                "QrCodeGenerator": {
+                    "version": "1.0.0",
                     "include": "full"
                 },
-                {
-                    "uri": "@local:Univer@Main.package.avt",
+                "Univer": {
+                    "version": "1.0.0",
                     "include": "full"
                 }
-            ]
+            }
         },
         {
             "name": "Login",
             "hideWarnings": true,
-            "disabled": false,
+            "disabled": true,
             "src": [
                 "./apps/login/*"
             ],
@@ -129,26 +122,20 @@
                     "output": "../wwwroot/login.js"
                 }
             ],
-            "dependances": [
-                {
-                    "uri": "@Aventus"
-                },
-                {
-                    "uri": "@AventusSharp"
-                },
-                {
-                    "uri": "@AventusI18n"
-                },
-                {
-                    "uri": "@local:Core@Main",
+            "dependances": {
+                "Aventus@Main": {},
+                "Aventus@Sharp": {},
+                "Aventus@I18n": {},
+                "Core@Main": {
+                    "isLocal": true,
                     "include": "need"
                 }
-            ]
+            }
         },
         {
             "name": "ConfigureApp",
             "hideWarnings": true,
-            "disabled": false,
+            "disabled": true,
             "src": [
                 "./apps/configureApp/*",
                 "./components/*",
@@ -168,26 +155,20 @@
                     "output": "../wwwroot/configureApp.js"
                 }
             ],
-            "dependances": [
-                {
-                    "uri": "@Aventus"
+            "dependances": {
+                "Aventus@Main": {},
+                "Aventus@Sharp": {},
+                "Aventus@I18n": {},
+                "MaterialIcon": {
+                    "version": "1.0.0"
                 },
-                {
-                    "uri": "@AventusSharp"
+                "Lucide": {
+                    "version": "1.0.0"
                 },
-                {
-                    "uri": "@AventusI18n"
-                },
-                {
-                    "uri": "@local:MaterialIcon@Main"
-                },
-                {
-                    "uri": "@local:Lucide@Main"
-                },
-                {
-                    "uri": "&:Main"
+                "Core:Main": {
+                    "isLocal": true
                 }
-            ]
+            }
         },
         {
             "name": "Aventus",
@@ -198,28 +179,25 @@
                     "compressed": false
                 }
             ],
-            "dependances": [
-                {
-                    "uri": "@Aventus",
+            "dependances": {
+                "Aventus@Main": {
                     "include": "full"
                 },
-                {
-                    "uri": "@AventusSharp",
+                "Aventus@Sharp": {
                     "include": "full"
                 },
-                {
-                    "uri": "@AventusI18n",
+                "Aventus@I18n": {
                     "include": "full"
                 },
-                {
-                    "uri": "@local:MaterialIcon@Main",
+                "MaterialIcon": {
+                    "version": "1.0.0",
                     "include": "full"
                 },
-                {
-                    "uri": "@local:Lucide@Main",
+                "Lucide": {
+                    "version": "1.0.0",
                     "include": "full"
                 }
-            ]
+            }
         }
     ],
     "static": [

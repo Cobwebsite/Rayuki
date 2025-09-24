@@ -36,6 +36,21 @@ namespace Routes {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/logout`, Aventus.HttpMethod.POST);
 			return await request.queryVoid(this.router);
 		}
+
+		@BindThis()
+		public async ConnectAs(body: { userId: number } | FormData): Promise<AventusSharp.Tools.ResultWithError<LoginResult | LoginResult>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/connectas`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = LoginResult | LoginResult;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async DisconnectFrom(): Promise<AventusSharp.Tools.ResultWithError<LoginResult | LoginResult | LoginResult>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/disconnectfrom`, Aventus.HttpMethod.POST);
+			type TypeResult = LoginResult | LoginResult | LoginResult;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
 	}
 
 }

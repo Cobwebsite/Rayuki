@@ -12,6 +12,7 @@ using AventusSharp.Tools;
 
 namespace Core.Routes
 {
+    [Prefix("Core")]
     public class ApplicationRouter : Router
     {
         [Get, Path("/application")]

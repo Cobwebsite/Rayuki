@@ -39,6 +39,6 @@
     </script>
 </head>
 <body>
-    <rk-os lang="{{ lang }}"></rk-os>
+    <rk-os lang="{{ lang }}" temp_connect="{{ is_temp_conn }}"></rk-os>
 </body>
 </html>

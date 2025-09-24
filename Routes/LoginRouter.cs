@@ -5,12 +5,14 @@ using AventusSharp.Tools;
 using AventusSharp.Tools.Attributes;
 using Core.Data;
 using Core.Logic;
+using Core.Permissions;
 using Core.Routes.Attributes;
 using Core.Routes.Responses;
 using Core.Tools;
 using Path = AventusSharp.Routes.Attributes.Path;
 
 namespace Core.Routes;
+
 public class LoginRouter : Router
 {
     [Get, Path("/login")]
@@ -137,5 +139,80 @@ public class LoginRouter : Router
     {
         context.Disconnect();
     }
+
+
+    [Post, Permission<OsPermission>(OsPermission.ConnectAs)]
+    public ResultWithError<LoginResult> ConnectAs(int userId, HttpContext context)
+    {
+        ResultWithError<LoginResult> res = new();
+        int? oldUserId = context.GetUserId();
+        if (oldUserId == null)
+        {
+            res.Errors.Add(CoreError.NotLogin);
+            return res;
+        }
+
+        ResultWithError<User> result = User.GetByIdWithError(userId);
+        LoginResult loginResult = new LoginResult();
+        if (result.Success && result.Result != null)
+        {
+            if (context.GetPreviousConnected() == null)
+            {
+                context.SetPreviousConnected(oldUserId);
+            }
+            context.SetConnected(result.Result.Id);
+            context.SetSuperAdmin(result.Result.IsSuperAdmin);
+        }
+        else
+        {
+            res.Errors.AddRange(result.Errors);
+        }
+
+        loginResult.Success = res.Success;
+        if (res.Success)
+        {
+            res.Result = loginResult;
+        }
+        return res;
+    }
+
+    [Post]
+    public ResultWithError<LoginResult> DisconnectFrom(HttpContext context)
+    {
+        ResultWithError<LoginResult> res = new();
+        int? userId = context.GetUserId();
+        if (userId == null)
+        {
+            res.Errors.Add(CoreError.NotLogin);
+            return res;
+        }
+        int? oldUserId = context.GetPreviousConnected();
+        if (oldUserId == null)
+        {
+            res.Errors.Add(CoreError.NotLogin);
+            return res;
+        }
+
+        ResultWithError<User> result = User.GetByIdWithError((int)oldUserId);
+        LoginResult loginResult = new LoginResult();
+        if (result.Success && result.Result != null)
+        {
+            context.SetPreviousConnected(null);
+            context.SetConnected(result.Result.Id);
+            context.SetSuperAdmin(result.Result.IsSuperAdmin);
+        }
+        else
+        {
+            res.Errors.AddRange(result.Errors);
+        }
+
+        loginResult.Success = res.Success;
+        if (res.Success)
+        {
+            res.Result = loginResult;
+        }
+        return res;
+    }
+
 }
 

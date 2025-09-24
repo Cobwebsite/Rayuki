@@ -31,7 +31,7 @@ namespace Components {
 
         //#region methods
         public override async init(options: TableOptions<T>, data: T): Promise<void> {
-            super.init(options, data);
+            await super.init(options, data);
 
             if(this.table instanceof TableData) {
                 this.ram = this.table.defineRAM();

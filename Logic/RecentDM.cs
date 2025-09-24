@@ -66,7 +66,6 @@ public class RecentDM : DatabaseDM<RecentDM, Recent>
     protected VoidWithError LimitTo(int userId)
     {
         VoidWithError result = new();
-        AppManager.Storage.Debug = true;
         ResultWithError<List<Recent>> query = Recent
                                                     .StartQuery()
                                                     .Field(p => p.Id)
@@ -74,7 +73,6 @@ public class RecentDM : DatabaseDM<RecentDM, Recent>
                                                     .Sort(p => p.Datetime, Sort.DESC)
                                                     .Offset(NbRecents)
                                                     .RunWithError();
-        AppManager.Storage.Debug = false;
 
         if (query.Success && query.Result != null)
         {

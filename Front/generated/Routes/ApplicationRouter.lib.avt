@@ -5,6 +5,7 @@ import { CoreRouter } from '../CoreRouter.lib.avt';
 namespace Routes {
 
 	export class ApplicationRouter extends Aventus.HttpRoute {
+		public override getPrefix(): string { return "/Core"; }
 		public constructor(router?: Aventus.HttpRouter) {
 			super(router ?? new CoreRouter());
 		}

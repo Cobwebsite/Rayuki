@@ -18,7 +18,7 @@ namespace Core.Data
     {
         protected override string DefineDirectory(Company instance)
         {
-            return Path.Combine(FileStorage.rootFolder, "Core", "company");
+            return Path.Combine(HttpServer.wwwroot, "company");
         }
 
         protected override ImageSize? DefineMaxSize()

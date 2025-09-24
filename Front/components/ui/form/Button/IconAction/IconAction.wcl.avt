@@ -1,4 +1,4 @@
-import { Icon, type IconType } from "MaterialIcon@Main:MaterialIcon.package.avt";
+import { Icon, type IconType } from "MaterialIcon:MaterialIcon.package.avt";
 import { Tooltip } from "../../../popup/Tooltip/Tooltip.wcl.avt";
 
 @OverrideView()

@@ -1,5 +1,37 @@
 ﻿namespace Core
 {
+    public class GeneralConfig
+    {
+        public static GeneralConfig? LoadFromEnv()
+        {
+            GeneralConfig config = new GeneralConfig();
+
+            string? nbAppInDev = Environment.GetEnvironmentVariable("NbAppInDev");
+            if (!string.IsNullOrEmpty(nbAppInDev))
+            {
+                config.NbAppInDev = int.Parse(nbAppInDev);
+            }
+
+            string? resetStorage = Environment.GetEnvironmentVariable("ResetStorage");
+            if (!string.IsNullOrEmpty(resetStorage))
+            {
+                config.ResetStorage = bool.Parse(resetStorage);
+            }
+
+            string? autoLogin = Environment.GetEnvironmentVariable("AutoLogin");
+            if (!string.IsNullOrEmpty(autoLogin))
+            {
+                config.AutoLogin = bool.Parse(autoLogin);
+            }
+           
+
+            return config;
+        }
+        
+        public int NbAppInDev { get; set; } = 0;
+        public bool ResetStorage { get; set; } = false;
+        public bool AutoLogin { get; set; } = false;
+    }
     public class DatabaseConfig
     {
         public static DatabaseConfig? LoadFromEnv()

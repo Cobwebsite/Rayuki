@@ -6500,7 +6500,7 @@ const Icon = class Icon extends Aventus.WebComponent {
 }
 Icon.Namespace=`MaterialIcon`;
 Icon.Tag=`mi-icon`;
-_.Icon=Icon;
+__as1(_, 'Icon', Icon);
 if(!window.customElements.get('mi-icon')){window.customElements.define('mi-icon', Icon);Aventus.WebComponentInstance.registerDefinition(Icon);}
 
 

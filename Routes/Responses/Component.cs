@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using IRouter = AventusSharp.Routes.IRouter;
 
-namespace Core.Routes
+namespace Core.Routes.Responses
 {
     public class Component : IResponse
     {

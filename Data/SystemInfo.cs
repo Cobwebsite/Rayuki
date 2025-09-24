@@ -10,6 +10,10 @@ namespace Core.Data
 
         public string Version { get; set; }
 
-        public string CompilationDate { get; set; }
+        public string BuildDate { get; set; }
+        public bool AutoLogin { get; set; }
+        public bool IsDev { get; set; }
+        public int NbAppInDev { get; set; }
+        public bool ResetStorage { get; set; }
     }
 }

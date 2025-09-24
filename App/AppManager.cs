@@ -50,7 +50,7 @@ namespace Core.App
             {
                 result.Run(() => DestroyElements(LoadElement.App));
                 result.Run(() => DestroyElements(LoadElement.Plugin));
-                DatabaseConfig config = HttpServer.Config;
+                DatabaseConfig config = HttpServer.DatabaseConfig;
                 MySQLStorage storage = new(new StorageCredentials(
                    host: config.Host,
                    database: config.Name,
@@ -63,7 +63,7 @@ namespace Core.App
                 {
                     return connectAction;
                 }
-                if (HttpServer.resetStorage)
+                if (HttpServer.ResetStorage)
                     storage.ResetStorage();
                 Storage = storage;
                 RouterMiddleware.Configure((config) =>

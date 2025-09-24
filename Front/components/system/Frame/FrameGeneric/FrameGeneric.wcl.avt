@@ -101,18 +101,27 @@ namespace System {
         public allowState(state: Aventus.State): Aventus.Asyncable<boolean | ApplicationState | string> {
             return true;
         }
+        /**
+         * Add function to load data
+         * Return true if evrything is ok
+         * False will prevent showing
+         * string or state will redirect to the page
+         */
+        public loadData(state: Aventus.State): Aventus.Asyncable<boolean | ApplicationState | string> {
+            return true;
+        }
         public async show(state: Aventus.State): Promise<void> {
             this.state = state;
             this.visible = true;
-            this.onShow();
+            await this.onShow();
         }
 
         public async hide(): Promise<void> {
             this.visible = false;
-            this.onHide();
+            await this.onHide();
         }
-        public abstract onShow();
-        public abstract onHide();
+        public abstract onShow(): Aventus.Asyncable<void>;
+        public abstract onHide(): Aventus.Asyncable<void>;
 
 
         /**

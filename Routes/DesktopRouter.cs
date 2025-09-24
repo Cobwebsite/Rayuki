@@ -1,4 +1,5 @@
 ﻿using AventusSharp.Routes;
+using AventusSharp.Routes.Attributes;
 using AventusSharp.Tools;
 using AventusSharp.Tools.Attributes;
 using Core.Data;
@@ -7,6 +8,7 @@ using Core.Tools;
 
 namespace Core.Routes
 {
+    [Prefix("Core")]
     public class DesktopRouter : StorableRouter<Desktop>
     {
         [NoExport]

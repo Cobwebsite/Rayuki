@@ -8,6 +8,7 @@ using Path = AventusSharp.Routes.Attributes.Path;
 
 namespace Core.Routes
 {
+    [Prefix("Core")]
      public class PermissionGroupRouter : Router
     {
         [Post, Path("/permissiongroup/bygroup")]

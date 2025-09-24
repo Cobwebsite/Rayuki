@@ -361,6 +361,14 @@ namespace System {
                                 this.replaceState(canResult);
                                 return;
                             }
+                            const loadDataResult = await element.loadData(currentState);
+                            if(loadDataResult !== true) {
+                                if(loadDataResult === false) {
+                                    return;
+                                }
+                                this.replaceState(loadDataResult);
+                                return;
+                            }
                             if(this.__frame && this.__frame != element) {
                                 await this.__frame.hide();
                                 if(this.shouldDestroyFrame(this.__frame)) {

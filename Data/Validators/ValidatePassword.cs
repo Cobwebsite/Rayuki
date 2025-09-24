@@ -7,6 +7,14 @@ namespace Core.Data.Validators
     {
         public override ValidationResult IsValid(object? value, ValidationContext context)
         {
+            if(value == null)  return ValidationResult.Success;
+
+
+            if (value is string txt)
+            {
+                
+            }
+
             return ValidationResult.Success;
         }
     }

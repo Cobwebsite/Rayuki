@@ -2,7 +2,7 @@ import { Favorite } from "../generated/Data/Favorite.data.avt";
 import { FavoriteRouter } from "../generated/Websocket/Routes/FavoriteRouter.lib.avt";
 
 
-namespace Ram {
+namespace RAM {
 
     export class FavoriteRAM extends AventusSharp.RAM.RamWebSocket<Favorite> implements Aventus.IRam {
 

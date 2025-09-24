@@ -7510,7 +7510,7 @@ const AbstractIcon = class AbstractIcon extends Aventus.WebComponent {
     }
 }
 AbstractIcon.Namespace=`Lucide`;
-_.AbstractIcon=AbstractIcon;
+__as1(_, 'AbstractIcon', AbstractIcon);
 
 const AArrowDown = class AArrowDown extends AbstractIcon {
     static __style = ``;
@@ -7533,7 +7533,7 @@ const AArrowDown = class AArrowDown extends AbstractIcon {
 }
 AArrowDown.Namespace=`Lucide`;
 AArrowDown.Tag=`lucide-a-arrow-down`;
-_.AArrowDown=AArrowDown;
+__as1(_, 'AArrowDown', AArrowDown);
 if(!window.customElements.get('lucide-a-arrow-down')){window.customElements.define('lucide-a-arrow-down', AArrowDown);Aventus.WebComponentInstance.registerDefinition(AArrowDown);}
 
 const AArrowUp = class AArrowUp extends AbstractIcon {
@@ -7557,7 +7557,7 @@ const AArrowUp = class AArrowUp extends AbstractIcon {
 }
 AArrowUp.Namespace=`Lucide`;
 AArrowUp.Tag=`lucide-a-arrow-up`;
-_.AArrowUp=AArrowUp;
+__as1(_, 'AArrowUp', AArrowUp);
 if(!window.customElements.get('lucide-a-arrow-up')){window.customElements.define('lucide-a-arrow-up', AArrowUp);Aventus.WebComponentInstance.registerDefinition(AArrowUp);}
 
 const Accessibility = class Accessibility extends AbstractIcon {
@@ -7581,7 +7581,7 @@ const Accessibility = class Accessibility extends AbstractIcon {
 }
 Accessibility.Namespace=`Lucide`;
 Accessibility.Tag=`lucide-accessibility`;
-_.Accessibility=Accessibility;
+__as1(_, 'Accessibility', Accessibility);
 if(!window.customElements.get('lucide-accessibility')){window.customElements.define('lucide-accessibility', Accessibility);Aventus.WebComponentInstance.registerDefinition(Accessibility);}
 
 const Activity = class Activity extends AbstractIcon {
@@ -7605,7 +7605,7 @@ const Activity = class Activity extends AbstractIcon {
 }
 Activity.Namespace=`Lucide`;
 Activity.Tag=`lucide-activity`;
-_.Activity=Activity;
+__as1(_, 'Activity', Activity);
 if(!window.customElements.get('lucide-activity')){window.customElements.define('lucide-activity', Activity);Aventus.WebComponentInstance.registerDefinition(Activity);}
 
 const ActivitySquare = class ActivitySquare extends AbstractIcon {
@@ -7629,7 +7629,7 @@ const ActivitySquare = class ActivitySquare extends AbstractIcon {
 }
 ActivitySquare.Namespace=`Lucide`;
 ActivitySquare.Tag=`lucide-activity-square`;
-_.ActivitySquare=ActivitySquare;
+__as1(_, 'ActivitySquare', ActivitySquare);
 if(!window.customElements.get('lucide-activity-square')){window.customElements.define('lucide-activity-square', ActivitySquare);Aventus.WebComponentInstance.registerDefinition(ActivitySquare);}
 
 const Airplay = class Airplay extends AbstractIcon {
@@ -7653,7 +7653,7 @@ const Airplay = class Airplay extends AbstractIcon {
 }
 Airplay.Namespace=`Lucide`;
 Airplay.Tag=`lucide-airplay`;
-_.Airplay=Airplay;
+__as1(_, 'Airplay', Airplay);
 if(!window.customElements.get('lucide-airplay')){window.customElements.define('lucide-airplay', Airplay);Aventus.WebComponentInstance.registerDefinition(Airplay);}
 
 const AirVent = class AirVent extends AbstractIcon {
@@ -7677,7 +7677,7 @@ const AirVent = class AirVent extends AbstractIcon {
 }
 AirVent.Namespace=`Lucide`;
 AirVent.Tag=`lucide-air-vent`;
-_.AirVent=AirVent;
+__as1(_, 'AirVent', AirVent);
 if(!window.customElements.get('lucide-air-vent')){window.customElements.define('lucide-air-vent', AirVent);Aventus.WebComponentInstance.registerDefinition(AirVent);}
 
 const ALargeSmall = class ALargeSmall extends AbstractIcon {
@@ -7701,7 +7701,7 @@ const ALargeSmall = class ALargeSmall extends AbstractIcon {
 }
 ALargeSmall.Namespace=`Lucide`;
 ALargeSmall.Tag=`lucide-a-large-small`;
-_.ALargeSmall=ALargeSmall;
+__as1(_, 'ALargeSmall', ALargeSmall);
 if(!window.customElements.get('lucide-a-large-small')){window.customElements.define('lucide-a-large-small', ALargeSmall);Aventus.WebComponentInstance.registerDefinition(ALargeSmall);}
 
 const AlarmCheck = class AlarmCheck extends AbstractIcon {
@@ -7725,7 +7725,7 @@ const AlarmCheck = class AlarmCheck extends AbstractIcon {
 }
 AlarmCheck.Namespace=`Lucide`;
 AlarmCheck.Tag=`lucide-alarm-check`;
-_.AlarmCheck=AlarmCheck;
+__as1(_, 'AlarmCheck', AlarmCheck);
 if(!window.customElements.get('lucide-alarm-check')){window.customElements.define('lucide-alarm-check', AlarmCheck);Aventus.WebComponentInstance.registerDefinition(AlarmCheck);}
 
 const AlarmClock = class AlarmClock extends AbstractIcon {
@@ -7749,7 +7749,7 @@ const AlarmClock = class AlarmClock extends AbstractIcon {
 }
 AlarmClock.Namespace=`Lucide`;
 AlarmClock.Tag=`lucide-alarm-clock`;
-_.AlarmClock=AlarmClock;
+__as1(_, 'AlarmClock', AlarmClock);
 if(!window.customElements.get('lucide-alarm-clock')){window.customElements.define('lucide-alarm-clock', AlarmClock);Aventus.WebComponentInstance.registerDefinition(AlarmClock);}
 
 const AlarmClockCheck = class AlarmClockCheck extends AbstractIcon {
@@ -7773,7 +7773,7 @@ const AlarmClockCheck = class AlarmClockCheck extends AbstractIcon {
 }
 AlarmClockCheck.Namespace=`Lucide`;
 AlarmClockCheck.Tag=`lucide-alarm-clock-check`;
-_.AlarmClockCheck=AlarmClockCheck;
+__as1(_, 'AlarmClockCheck', AlarmClockCheck);
 if(!window.customElements.get('lucide-alarm-clock-check')){window.customElements.define('lucide-alarm-clock-check', AlarmClockCheck);Aventus.WebComponentInstance.registerDefinition(AlarmClockCheck);}
 
 const AlarmClockMinus = class AlarmClockMinus extends AbstractIcon {
@@ -7797,7 +7797,7 @@ const AlarmClockMinus = class AlarmClockMinus extends AbstractIcon {
 }
 AlarmClockMinus.Namespace=`Lucide`;
 AlarmClockMinus.Tag=`lucide-alarm-clock-minus`;
-_.AlarmClockMinus=AlarmClockMinus;
+__as1(_, 'AlarmClockMinus', AlarmClockMinus);
 if(!window.customElements.get('lucide-alarm-clock-minus')){window.customElements.define('lucide-alarm-clock-minus', AlarmClockMinus);Aventus.WebComponentInstance.registerDefinition(AlarmClockMinus);}
 
 const AlarmClockOff = class AlarmClockOff extends AbstractIcon {
@@ -7821,7 +7821,7 @@ const AlarmClockOff = class AlarmClockOff extends AbstractIcon {
 }
 AlarmClockOff.Namespace=`Lucide`;
 AlarmClockOff.Tag=`lucide-alarm-clock-off`;
-_.AlarmClockOff=AlarmClockOff;
+__as1(_, 'AlarmClockOff', AlarmClockOff);
 if(!window.customElements.get('lucide-alarm-clock-off')){window.customElements.define('lucide-alarm-clock-off', AlarmClockOff);Aventus.WebComponentInstance.registerDefinition(AlarmClockOff);}
 
 const AlarmClockPlus = class AlarmClockPlus extends AbstractIcon {
@@ -7845,7 +7845,7 @@ const AlarmClockPlus = class AlarmClockPlus extends AbstractIcon {
 }
 AlarmClockPlus.Namespace=`Lucide`;
 AlarmClockPlus.Tag=`lucide-alarm-clock-plus`;
-_.AlarmClockPlus=AlarmClockPlus;
+__as1(_, 'AlarmClockPlus', AlarmClockPlus);
 if(!window.customElements.get('lucide-alarm-clock-plus')){window.customElements.define('lucide-alarm-clock-plus', AlarmClockPlus);Aventus.WebComponentInstance.registerDefinition(AlarmClockPlus);}
 
 const AlarmMinus = class AlarmMinus extends AbstractIcon {
@@ -7869,7 +7869,7 @@ const AlarmMinus = class AlarmMinus extends AbstractIcon {
 }
 AlarmMinus.Namespace=`Lucide`;
 AlarmMinus.Tag=`lucide-alarm-minus`;
-_.AlarmMinus=AlarmMinus;
+__as1(_, 'AlarmMinus', AlarmMinus);
 if(!window.customElements.get('lucide-alarm-minus')){window.customElements.define('lucide-alarm-minus', AlarmMinus);Aventus.WebComponentInstance.registerDefinition(AlarmMinus);}
 
 const AlarmPlus = class AlarmPlus extends AbstractIcon {
@@ -7893,7 +7893,7 @@ const AlarmPlus = class AlarmPlus extends AbstractIcon {
 }
 AlarmPlus.Namespace=`Lucide`;
 AlarmPlus.Tag=`lucide-alarm-plus`;
-_.AlarmPlus=AlarmPlus;
+__as1(_, 'AlarmPlus', AlarmPlus);
 if(!window.customElements.get('lucide-alarm-plus')){window.customElements.define('lucide-alarm-plus', AlarmPlus);Aventus.WebComponentInstance.registerDefinition(AlarmPlus);}
 
 const AlarmSmoke = class AlarmSmoke extends AbstractIcon {
@@ -7917,7 +7917,7 @@ const AlarmSmoke = class AlarmSmoke extends AbstractIcon {
 }
 AlarmSmoke.Namespace=`Lucide`;
 AlarmSmoke.Tag=`lucide-alarm-smoke`;
-_.AlarmSmoke=AlarmSmoke;
+__as1(_, 'AlarmSmoke', AlarmSmoke);
 if(!window.customElements.get('lucide-alarm-smoke')){window.customElements.define('lucide-alarm-smoke', AlarmSmoke);Aventus.WebComponentInstance.registerDefinition(AlarmSmoke);}
 
 const Album = class Album extends AbstractIcon {
@@ -7941,7 +7941,7 @@ const Album = class Album extends AbstractIcon {
 }
 Album.Namespace=`Lucide`;
 Album.Tag=`lucide-album`;
-_.Album=Album;
+__as1(_, 'Album', Album);
 if(!window.customElements.get('lucide-album')){window.customElements.define('lucide-album', Album);Aventus.WebComponentInstance.registerDefinition(Album);}
 
 const AlertCircle = class AlertCircle extends AbstractIcon {
@@ -7965,7 +7965,7 @@ const AlertCircle = class AlertCircle extends AbstractIcon {
 }
 AlertCircle.Namespace=`Lucide`;
 AlertCircle.Tag=`lucide-alert-circle`;
-_.AlertCircle=AlertCircle;
+__as1(_, 'AlertCircle', AlertCircle);
 if(!window.customElements.get('lucide-alert-circle')){window.customElements.define('lucide-alert-circle', AlertCircle);Aventus.WebComponentInstance.registerDefinition(AlertCircle);}
 
 const AlertOctagon = class AlertOctagon extends AbstractIcon {
@@ -7989,7 +7989,7 @@ const AlertOctagon = class AlertOctagon extends AbstractIcon {
 }
 AlertOctagon.Namespace=`Lucide`;
 AlertOctagon.Tag=`lucide-alert-octagon`;
-_.AlertOctagon=AlertOctagon;
+__as1(_, 'AlertOctagon', AlertOctagon);
 if(!window.customElements.get('lucide-alert-octagon')){window.customElements.define('lucide-alert-octagon', AlertOctagon);Aventus.WebComponentInstance.registerDefinition(AlertOctagon);}
 
 const AlertTriangle = class AlertTriangle extends AbstractIcon {
@@ -8013,7 +8013,7 @@ const AlertTriangle = class AlertTriangle extends AbstractIcon {
 }
 AlertTriangle.Namespace=`Lucide`;
 AlertTriangle.Tag=`lucide-alert-triangle`;
-_.AlertTriangle=AlertTriangle;
+__as1(_, 'AlertTriangle', AlertTriangle);
 if(!window.customElements.get('lucide-alert-triangle')){window.customElements.define('lucide-alert-triangle', AlertTriangle);Aventus.WebComponentInstance.registerDefinition(AlertTriangle);}
 
 const AlignCenter = class AlignCenter extends AbstractIcon {
@@ -8037,7 +8037,7 @@ const AlignCenter = class AlignCenter extends AbstractIcon {
 }
 AlignCenter.Namespace=`Lucide`;
 AlignCenter.Tag=`lucide-align-center`;
-_.AlignCenter=AlignCenter;
+__as1(_, 'AlignCenter', AlignCenter);
 if(!window.customElements.get('lucide-align-center')){window.customElements.define('lucide-align-center', AlignCenter);Aventus.WebComponentInstance.registerDefinition(AlignCenter);}
 
 const AlignCenterHorizontal = class AlignCenterHorizontal extends AbstractIcon {
@@ -8061,7 +8061,7 @@ const AlignCenterHorizontal = class AlignCenterHorizontal extends AbstractIcon {
 }
 AlignCenterHorizontal.Namespace=`Lucide`;
 AlignCenterHorizontal.Tag=`lucide-align-center-horizontal`;
-_.AlignCenterHorizontal=AlignCenterHorizontal;
+__as1(_, 'AlignCenterHorizontal', AlignCenterHorizontal);
 if(!window.customElements.get('lucide-align-center-horizontal')){window.customElements.define('lucide-align-center-horizontal', AlignCenterHorizontal);Aventus.WebComponentInstance.registerDefinition(AlignCenterHorizontal);}
 
 const AlignCenterVertical = class AlignCenterVertical extends AbstractIcon {
@@ -8085,7 +8085,7 @@ const AlignCenterVertical = class AlignCenterVertical extends AbstractIcon {
 }
 AlignCenterVertical.Namespace=`Lucide`;
 AlignCenterVertical.Tag=`lucide-align-center-vertical`;
-_.AlignCenterVertical=AlignCenterVertical;
+__as1(_, 'AlignCenterVertical', AlignCenterVertical);
 if(!window.customElements.get('lucide-align-center-vertical')){window.customElements.define('lucide-align-center-vertical', AlignCenterVertical);Aventus.WebComponentInstance.registerDefinition(AlignCenterVertical);}
 
 const AlignEndHorizontal = class AlignEndHorizontal extends AbstractIcon {
@@ -8109,7 +8109,7 @@ const AlignEndHorizontal = class AlignEndHorizontal extends AbstractIcon {
 }
 AlignEndHorizontal.Namespace=`Lucide`;
 AlignEndHorizontal.Tag=`lucide-align-end-horizontal`;
-_.AlignEndHorizontal=AlignEndHorizontal;
+__as1(_, 'AlignEndHorizontal', AlignEndHorizontal);
 if(!window.customElements.get('lucide-align-end-horizontal')){window.customElements.define('lucide-align-end-horizontal', AlignEndHorizontal);Aventus.WebComponentInstance.registerDefinition(AlignEndHorizontal);}
 
 const AlignEndVertical = class AlignEndVertical extends AbstractIcon {
@@ -8133,7 +8133,7 @@ const AlignEndVertical = class AlignEndVertical extends AbstractIcon {
 }
 AlignEndVertical.Namespace=`Lucide`;
 AlignEndVertical.Tag=`lucide-align-end-vertical`;
-_.AlignEndVertical=AlignEndVertical;
+__as1(_, 'AlignEndVertical', AlignEndVertical);
 if(!window.customElements.get('lucide-align-end-vertical')){window.customElements.define('lucide-align-end-vertical', AlignEndVertical);Aventus.WebComponentInstance.registerDefinition(AlignEndVertical);}
 
 const AlignHorizontalDistributeCenter = class AlignHorizontalDistributeCenter extends AbstractIcon {
@@ -8157,7 +8157,7 @@ const AlignHorizontalDistributeCenter = class AlignHorizontalDistributeCenter ex
 }
 AlignHorizontalDistributeCenter.Namespace=`Lucide`;
 AlignHorizontalDistributeCenter.Tag=`lucide-align-horizontal-distribute-center`;
-_.AlignHorizontalDistributeCenter=AlignHorizontalDistributeCenter;
+__as1(_, 'AlignHorizontalDistributeCenter', AlignHorizontalDistributeCenter);
 if(!window.customElements.get('lucide-align-horizontal-distribute-center')){window.customElements.define('lucide-align-horizontal-distribute-center', AlignHorizontalDistributeCenter);Aventus.WebComponentInstance.registerDefinition(AlignHorizontalDistributeCenter);}
 
 const AlignHorizontalDistributeEnd = class AlignHorizontalDistributeEnd extends AbstractIcon {
@@ -8181,7 +8181,7 @@ const AlignHorizontalDistributeEnd = class AlignHorizontalDistributeEnd extends 
 }
 AlignHorizontalDistributeEnd.Namespace=`Lucide`;
 AlignHorizontalDistributeEnd.Tag=`lucide-align-horizontal-distribute-end`;
-_.AlignHorizontalDistributeEnd=AlignHorizontalDistributeEnd;
+__as1(_, 'AlignHorizontalDistributeEnd', AlignHorizontalDistributeEnd);
 if(!window.customElements.get('lucide-align-horizontal-distribute-end')){window.customElements.define('lucide-align-horizontal-distribute-end', AlignHorizontalDistributeEnd);Aventus.WebComponentInstance.registerDefinition(AlignHorizontalDistributeEnd);}
 
 const AlignHorizontalDistributeStart = class AlignHorizontalDistributeStart extends AbstractIcon {
@@ -8205,7 +8205,7 @@ const AlignHorizontalDistributeStart = class AlignHorizontalDistributeStart exte
 }
 AlignHorizontalDistributeStart.Namespace=`Lucide`;
 AlignHorizontalDistributeStart.Tag=`lucide-align-horizontal-distribute-start`;
-_.AlignHorizontalDistributeStart=AlignHorizontalDistributeStart;
+__as1(_, 'AlignHorizontalDistributeStart', AlignHorizontalDistributeStart);
 if(!window.customElements.get('lucide-align-horizontal-distribute-start')){window.customElements.define('lucide-align-horizontal-distribute-start', AlignHorizontalDistributeStart);Aventus.WebComponentInstance.registerDefinition(AlignHorizontalDistributeStart);}
 
 const AlignHorizontalJustifyCenter = class AlignHorizontalJustifyCenter extends AbstractIcon {
@@ -8229,7 +8229,7 @@ const AlignHorizontalJustifyCenter = class AlignHorizontalJustifyCenter extends 
 }
 AlignHorizontalJustifyCenter.Namespace=`Lucide`;
 AlignHorizontalJustifyCenter.Tag=`lucide-align-horizontal-justify-center`;
-_.AlignHorizontalJustifyCenter=AlignHorizontalJustifyCenter;
+__as1(_, 'AlignHorizontalJustifyCenter', AlignHorizontalJustifyCenter);
 if(!window.customElements.get('lucide-align-horizontal-justify-center')){window.customElements.define('lucide-align-horizontal-justify-center', AlignHorizontalJustifyCenter);Aventus.WebComponentInstance.registerDefinition(AlignHorizontalJustifyCenter);}
 
 const AlignHorizontalJustifyEnd = class AlignHorizontalJustifyEnd extends AbstractIcon {
@@ -8253,7 +8253,7 @@ const AlignHorizontalJustifyEnd = class AlignHorizontalJustifyEnd extends Abstra
 }
 AlignHorizontalJustifyEnd.Namespace=`Lucide`;
 AlignHorizontalJustifyEnd.Tag=`lucide-align-horizontal-justify-end`;
-_.AlignHorizontalJustifyEnd=AlignHorizontalJustifyEnd;
+__as1(_, 'AlignHorizontalJustifyEnd', AlignHorizontalJustifyEnd);
 if(!window.customElements.get('lucide-align-horizontal-justify-end')){window.customElements.define('lucide-align-horizontal-justify-end', AlignHorizontalJustifyEnd);Aventus.WebComponentInstance.registerDefinition(AlignHorizontalJustifyEnd);}
 
 const AlignHorizontalJustifyStart = class AlignHorizontalJustifyStart extends AbstractIcon {
@@ -8277,7 +8277,7 @@ const AlignHorizontalJustifyStart = class AlignHorizontalJustifyStart extends Ab
 }
 AlignHorizontalJustifyStart.Namespace=`Lucide`;
 AlignHorizontalJustifyStart.Tag=`lucide-align-horizontal-justify-start`;
-_.AlignHorizontalJustifyStart=AlignHorizontalJustifyStart;
+__as1(_, 'AlignHorizontalJustifyStart', AlignHorizontalJustifyStart);
 if(!window.customElements.get('lucide-align-horizontal-justify-start')){window.customElements.define('lucide-align-horizontal-justify-start', AlignHorizontalJustifyStart);Aventus.WebComponentInstance.registerDefinition(AlignHorizontalJustifyStart);}
 
 const AlignHorizontalSpaceAround = class AlignHorizontalSpaceAround extends AbstractIcon {
@@ -8301,7 +8301,7 @@ const AlignHorizontalSpaceAround = class AlignHorizontalSpaceAround extends Abst
 }
 AlignHorizontalSpaceAround.Namespace=`Lucide`;
 AlignHorizontalSpaceAround.Tag=`lucide-align-horizontal-space-around`;
-_.AlignHorizontalSpaceAround=AlignHorizontalSpaceAround;
+__as1(_, 'AlignHorizontalSpaceAround', AlignHorizontalSpaceAround);
 if(!window.customElements.get('lucide-align-horizontal-space-around')){window.customElements.define('lucide-align-horizontal-space-around', AlignHorizontalSpaceAround);Aventus.WebComponentInstance.registerDefinition(AlignHorizontalSpaceAround);}
 
 const AlignHorizontalSpaceBetween = class AlignHorizontalSpaceBetween extends AbstractIcon {
@@ -8325,7 +8325,7 @@ const AlignHorizontalSpaceBetween = class AlignHorizontalSpaceBetween extends Ab
 }
 AlignHorizontalSpaceBetween.Namespace=`Lucide`;
 AlignHorizontalSpaceBetween.Tag=`lucide-align-horizontal-space-between`;
-_.AlignHorizontalSpaceBetween=AlignHorizontalSpaceBetween;
+__as1(_, 'AlignHorizontalSpaceBetween', AlignHorizontalSpaceBetween);
 if(!window.customElements.get('lucide-align-horizontal-space-between')){window.customElements.define('lucide-align-horizontal-space-between', AlignHorizontalSpaceBetween);Aventus.WebComponentInstance.registerDefinition(AlignHorizontalSpaceBetween);}
 
 const AlignJustify = class AlignJustify extends AbstractIcon {
@@ -8349,7 +8349,7 @@ const AlignJustify = class AlignJustify extends AbstractIcon {
 }
 AlignJustify.Namespace=`Lucide`;
 AlignJustify.Tag=`lucide-align-justify`;
-_.AlignJustify=AlignJustify;
+__as1(_, 'AlignJustify', AlignJustify);
 if(!window.customElements.get('lucide-align-justify')){window.customElements.define('lucide-align-justify', AlignJustify);Aventus.WebComponentInstance.registerDefinition(AlignJustify);}
 
 const AlignLeft = class AlignLeft extends AbstractIcon {
@@ -8373,7 +8373,7 @@ const AlignLeft = class AlignLeft extends AbstractIcon {
 }
 AlignLeft.Namespace=`Lucide`;
 AlignLeft.Tag=`lucide-align-left`;
-_.AlignLeft=AlignLeft;
+__as1(_, 'AlignLeft', AlignLeft);
 if(!window.customElements.get('lucide-align-left')){window.customElements.define('lucide-align-left', AlignLeft);Aventus.WebComponentInstance.registerDefinition(AlignLeft);}
 
 const AlignRight = class AlignRight extends AbstractIcon {
@@ -8397,7 +8397,7 @@ const AlignRight = class AlignRight extends AbstractIcon {
 }
 AlignRight.Namespace=`Lucide`;
 AlignRight.Tag=`lucide-align-right`;
-_.AlignRight=AlignRight;
+__as1(_, 'AlignRight', AlignRight);
 if(!window.customElements.get('lucide-align-right')){window.customElements.define('lucide-align-right', AlignRight);Aventus.WebComponentInstance.registerDefinition(AlignRight);}
 
 const AlignStartHorizontal = class AlignStartHorizontal extends AbstractIcon {
@@ -8421,7 +8421,7 @@ const AlignStartHorizontal = class AlignStartHorizontal extends AbstractIcon {
 }
 AlignStartHorizontal.Namespace=`Lucide`;
 AlignStartHorizontal.Tag=`lucide-align-start-horizontal`;
-_.AlignStartHorizontal=AlignStartHorizontal;
+__as1(_, 'AlignStartHorizontal', AlignStartHorizontal);
 if(!window.customElements.get('lucide-align-start-horizontal')){window.customElements.define('lucide-align-start-horizontal', AlignStartHorizontal);Aventus.WebComponentInstance.registerDefinition(AlignStartHorizontal);}
 
 const AlignStartVertical = class AlignStartVertical extends AbstractIcon {
@@ -8445,7 +8445,7 @@ const AlignStartVertical = class AlignStartVertical extends AbstractIcon {
 }
 AlignStartVertical.Namespace=`Lucide`;
 AlignStartVertical.Tag=`lucide-align-start-vertical`;
-_.AlignStartVertical=AlignStartVertical;
+__as1(_, 'AlignStartVertical', AlignStartVertical);
 if(!window.customElements.get('lucide-align-start-vertical')){window.customElements.define('lucide-align-start-vertical', AlignStartVertical);Aventus.WebComponentInstance.registerDefinition(AlignStartVertical);}
 
 const AlignVerticalDistributeCenter = class AlignVerticalDistributeCenter extends AbstractIcon {
@@ -8469,7 +8469,7 @@ const AlignVerticalDistributeCenter = class AlignVerticalDistributeCenter extend
 }
 AlignVerticalDistributeCenter.Namespace=`Lucide`;
 AlignVerticalDistributeCenter.Tag=`lucide-align-vertical-distribute-center`;
-_.AlignVerticalDistributeCenter=AlignVerticalDistributeCenter;
+__as1(_, 'AlignVerticalDistributeCenter', AlignVerticalDistributeCenter);
 if(!window.customElements.get('lucide-align-vertical-distribute-center')){window.customElements.define('lucide-align-vertical-distribute-center', AlignVerticalDistributeCenter);Aventus.WebComponentInstance.registerDefinition(AlignVerticalDistributeCenter);}
 
 const AlignVerticalDistributeEnd = class AlignVerticalDistributeEnd extends AbstractIcon {
@@ -8493,7 +8493,7 @@ const AlignVerticalDistributeEnd = class AlignVerticalDistributeEnd extends Abst
 }
 AlignVerticalDistributeEnd.Namespace=`Lucide`;
 AlignVerticalDistributeEnd.Tag=`lucide-align-vertical-distribute-end`;
-_.AlignVerticalDistributeEnd=AlignVerticalDistributeEnd;
+__as1(_, 'AlignVerticalDistributeEnd', AlignVerticalDistributeEnd);
 if(!window.customElements.get('lucide-align-vertical-distribute-end')){window.customElements.define('lucide-align-vertical-distribute-end', AlignVerticalDistributeEnd);Aventus.WebComponentInstance.registerDefinition(AlignVerticalDistributeEnd);}
 
 const AlignVerticalDistributeStart = class AlignVerticalDistributeStart extends AbstractIcon {
@@ -8517,7 +8517,7 @@ const AlignVerticalDistributeStart = class AlignVerticalDistributeStart extends 
 }
 AlignVerticalDistributeStart.Namespace=`Lucide`;
 AlignVerticalDistributeStart.Tag=`lucide-align-vertical-distribute-start`;
-_.AlignVerticalDistributeStart=AlignVerticalDistributeStart;
+__as1(_, 'AlignVerticalDistributeStart', AlignVerticalDistributeStart);
 if(!window.customElements.get('lucide-align-vertical-distribute-start')){window.customElements.define('lucide-align-vertical-distribute-start', AlignVerticalDistributeStart);Aventus.WebComponentInstance.registerDefinition(AlignVerticalDistributeStart);}
 
 const AlignVerticalJustifyCenter = class AlignVerticalJustifyCenter extends AbstractIcon {
@@ -8541,7 +8541,7 @@ const AlignVerticalJustifyCenter = class AlignVerticalJustifyCenter extends Abst
 }
 AlignVerticalJustifyCenter.Namespace=`Lucide`;
 AlignVerticalJustifyCenter.Tag=`lucide-align-vertical-justify-center`;
-_.AlignVerticalJustifyCenter=AlignVerticalJustifyCenter;
+__as1(_, 'AlignVerticalJustifyCenter', AlignVerticalJustifyCenter);
 if(!window.customElements.get('lucide-align-vertical-justify-center')){window.customElements.define('lucide-align-vertical-justify-center', AlignVerticalJustifyCenter);Aventus.WebComponentInstance.registerDefinition(AlignVerticalJustifyCenter);}
 
 const AlignVerticalJustifyEnd = class AlignVerticalJustifyEnd extends AbstractIcon {
@@ -8565,7 +8565,7 @@ const AlignVerticalJustifyEnd = class AlignVerticalJustifyEnd extends AbstractIc
 }
 AlignVerticalJustifyEnd.Namespace=`Lucide`;
 AlignVerticalJustifyEnd.Tag=`lucide-align-vertical-justify-end`;
-_.AlignVerticalJustifyEnd=AlignVerticalJustifyEnd;
+__as1(_, 'AlignVerticalJustifyEnd', AlignVerticalJustifyEnd);
 if(!window.customElements.get('lucide-align-vertical-justify-end')){window.customElements.define('lucide-align-vertical-justify-end', AlignVerticalJustifyEnd);Aventus.WebComponentInstance.registerDefinition(AlignVerticalJustifyEnd);}
 
 const AlignVerticalJustifyStart = class AlignVerticalJustifyStart extends AbstractIcon {
@@ -8589,7 +8589,7 @@ const AlignVerticalJustifyStart = class AlignVerticalJustifyStart extends Abstra
 }
 AlignVerticalJustifyStart.Namespace=`Lucide`;
 AlignVerticalJustifyStart.Tag=`lucide-align-vertical-justify-start`;
-_.AlignVerticalJustifyStart=AlignVerticalJustifyStart;
+__as1(_, 'AlignVerticalJustifyStart', AlignVerticalJustifyStart);
 if(!window.customElements.get('lucide-align-vertical-justify-start')){window.customElements.define('lucide-align-vertical-justify-start', AlignVerticalJustifyStart);Aventus.WebComponentInstance.registerDefinition(AlignVerticalJustifyStart);}
 
 const AlignVerticalSpaceAround = class AlignVerticalSpaceAround extends AbstractIcon {
@@ -8613,7 +8613,7 @@ const AlignVerticalSpaceAround = class AlignVerticalSpaceAround extends Abstract
 }
 AlignVerticalSpaceAround.Namespace=`Lucide`;
 AlignVerticalSpaceAround.Tag=`lucide-align-vertical-space-around`;
-_.AlignVerticalSpaceAround=AlignVerticalSpaceAround;
+__as1(_, 'AlignVerticalSpaceAround', AlignVerticalSpaceAround);
 if(!window.customElements.get('lucide-align-vertical-space-around')){window.customElements.define('lucide-align-vertical-space-around', AlignVerticalSpaceAround);Aventus.WebComponentInstance.registerDefinition(AlignVerticalSpaceAround);}
 
 const AlignVerticalSpaceBetween = class AlignVerticalSpaceBetween extends AbstractIcon {
@@ -8637,7 +8637,7 @@ const AlignVerticalSpaceBetween = class AlignVerticalSpaceBetween extends Abstra
 }
 AlignVerticalSpaceBetween.Namespace=`Lucide`;
 AlignVerticalSpaceBetween.Tag=`lucide-align-vertical-space-between`;
-_.AlignVerticalSpaceBetween=AlignVerticalSpaceBetween;
+__as1(_, 'AlignVerticalSpaceBetween', AlignVerticalSpaceBetween);
 if(!window.customElements.get('lucide-align-vertical-space-between')){window.customElements.define('lucide-align-vertical-space-between', AlignVerticalSpaceBetween);Aventus.WebComponentInstance.registerDefinition(AlignVerticalSpaceBetween);}
 
 const Ambulance = class Ambulance extends AbstractIcon {
@@ -8661,7 +8661,7 @@ const Ambulance = class Ambulance extends AbstractIcon {
 }
 Ambulance.Namespace=`Lucide`;
 Ambulance.Tag=`lucide-ambulance`;
-_.Ambulance=Ambulance;
+__as1(_, 'Ambulance', Ambulance);
 if(!window.customElements.get('lucide-ambulance')){window.customElements.define('lucide-ambulance', Ambulance);Aventus.WebComponentInstance.registerDefinition(Ambulance);}
 
 const Ampersand = class Ampersand extends AbstractIcon {
@@ -8685,7 +8685,7 @@ const Ampersand = class Ampersand extends AbstractIcon {
 }
 Ampersand.Namespace=`Lucide`;
 Ampersand.Tag=`lucide-ampersand`;
-_.Ampersand=Ampersand;
+__as1(_, 'Ampersand', Ampersand);
 if(!window.customElements.get('lucide-ampersand')){window.customElements.define('lucide-ampersand', Ampersand);Aventus.WebComponentInstance.registerDefinition(Ampersand);}
 
 const Ampersands = class Ampersands extends AbstractIcon {
@@ -8709,7 +8709,7 @@ const Ampersands = class Ampersands extends AbstractIcon {
 }
 Ampersands.Namespace=`Lucide`;
 Ampersands.Tag=`lucide-ampersands`;
-_.Ampersands=Ampersands;
+__as1(_, 'Ampersands', Ampersands);
 if(!window.customElements.get('lucide-ampersands')){window.customElements.define('lucide-ampersands', Ampersands);Aventus.WebComponentInstance.registerDefinition(Ampersands);}
 
 const Amphora = class Amphora extends AbstractIcon {
@@ -8733,7 +8733,7 @@ const Amphora = class Amphora extends AbstractIcon {
 }
 Amphora.Namespace=`Lucide`;
 Amphora.Tag=`lucide-amphora`;
-_.Amphora=Amphora;
+__as1(_, 'Amphora', Amphora);
 if(!window.customElements.get('lucide-amphora')){window.customElements.define('lucide-amphora', Amphora);Aventus.WebComponentInstance.registerDefinition(Amphora);}
 
 const Anchor = class Anchor extends AbstractIcon {
@@ -8757,7 +8757,7 @@ const Anchor = class Anchor extends AbstractIcon {
 }
 Anchor.Namespace=`Lucide`;
 Anchor.Tag=`lucide-anchor`;
-_.Anchor=Anchor;
+__as1(_, 'Anchor', Anchor);
 if(!window.customElements.get('lucide-anchor')){window.customElements.define('lucide-anchor', Anchor);Aventus.WebComponentInstance.registerDefinition(Anchor);}
 
 const Angry = class Angry extends AbstractIcon {
@@ -8781,7 +8781,7 @@ const Angry = class Angry extends AbstractIcon {
 }
 Angry.Namespace=`Lucide`;
 Angry.Tag=`lucide-angry`;
-_.Angry=Angry;
+__as1(_, 'Angry', Angry);
 if(!window.customElements.get('lucide-angry')){window.customElements.define('lucide-angry', Angry);Aventus.WebComponentInstance.registerDefinition(Angry);}
 
 const Annoyed = class Annoyed extends AbstractIcon {
@@ -8805,7 +8805,7 @@ const Annoyed = class Annoyed extends AbstractIcon {
 }
 Annoyed.Namespace=`Lucide`;
 Annoyed.Tag=`lucide-annoyed`;
-_.Annoyed=Annoyed;
+__as1(_, 'Annoyed', Annoyed);
 if(!window.customElements.get('lucide-annoyed')){window.customElements.define('lucide-annoyed', Annoyed);Aventus.WebComponentInstance.registerDefinition(Annoyed);}
 
 const Antenna = class Antenna extends AbstractIcon {
@@ -8829,7 +8829,7 @@ const Antenna = class Antenna extends AbstractIcon {
 }
 Antenna.Namespace=`Lucide`;
 Antenna.Tag=`lucide-antenna`;
-_.Antenna=Antenna;
+__as1(_, 'Antenna', Antenna);
 if(!window.customElements.get('lucide-antenna')){window.customElements.define('lucide-antenna', Antenna);Aventus.WebComponentInstance.registerDefinition(Antenna);}
 
 const Anvil = class Anvil extends AbstractIcon {
@@ -8853,7 +8853,7 @@ const Anvil = class Anvil extends AbstractIcon {
 }
 Anvil.Namespace=`Lucide`;
 Anvil.Tag=`lucide-anvil`;
-_.Anvil=Anvil;
+__as1(_, 'Anvil', Anvil);
 if(!window.customElements.get('lucide-anvil')){window.customElements.define('lucide-anvil', Anvil);Aventus.WebComponentInstance.registerDefinition(Anvil);}
 
 const Aperture = class Aperture extends AbstractIcon {
@@ -8877,7 +8877,7 @@ const Aperture = class Aperture extends AbstractIcon {
 }
 Aperture.Namespace=`Lucide`;
 Aperture.Tag=`lucide-aperture`;
-_.Aperture=Aperture;
+__as1(_, 'Aperture', Aperture);
 if(!window.customElements.get('lucide-aperture')){window.customElements.define('lucide-aperture', Aperture);Aventus.WebComponentInstance.registerDefinition(Aperture);}
 
 const Apple = class Apple extends AbstractIcon {
@@ -8901,7 +8901,7 @@ const Apple = class Apple extends AbstractIcon {
 }
 Apple.Namespace=`Lucide`;
 Apple.Tag=`lucide-apple`;
-_.Apple=Apple;
+__as1(_, 'Apple', Apple);
 if(!window.customElements.get('lucide-apple')){window.customElements.define('lucide-apple', Apple);Aventus.WebComponentInstance.registerDefinition(Apple);}
 
 const AppWindow = class AppWindow extends AbstractIcon {
@@ -8925,7 +8925,7 @@ const AppWindow = class AppWindow extends AbstractIcon {
 }
 AppWindow.Namespace=`Lucide`;
 AppWindow.Tag=`lucide-app-window`;
-_.AppWindow=AppWindow;
+__as1(_, 'AppWindow', AppWindow);
 if(!window.customElements.get('lucide-app-window')){window.customElements.define('lucide-app-window', AppWindow);Aventus.WebComponentInstance.registerDefinition(AppWindow);}
 
 const AppWindowMac = class AppWindowMac extends AbstractIcon {
@@ -8949,7 +8949,7 @@ const AppWindowMac = class AppWindowMac extends AbstractIcon {
 }
 AppWindowMac.Namespace=`Lucide`;
 AppWindowMac.Tag=`lucide-app-window-mac`;
-_.AppWindowMac=AppWindowMac;
+__as1(_, 'AppWindowMac', AppWindowMac);
 if(!window.customElements.get('lucide-app-window-mac')){window.customElements.define('lucide-app-window-mac', AppWindowMac);Aventus.WebComponentInstance.registerDefinition(AppWindowMac);}
 
 const Archive = class Archive extends AbstractIcon {
@@ -8973,7 +8973,7 @@ const Archive = class Archive extends AbstractIcon {
 }
 Archive.Namespace=`Lucide`;
 Archive.Tag=`lucide-archive`;
-_.Archive=Archive;
+__as1(_, 'Archive', Archive);
 if(!window.customElements.get('lucide-archive')){window.customElements.define('lucide-archive', Archive);Aventus.WebComponentInstance.registerDefinition(Archive);}
 
 const ArchiveRestore = class ArchiveRestore extends AbstractIcon {
@@ -8997,7 +8997,7 @@ const ArchiveRestore = class ArchiveRestore extends AbstractIcon {
 }
 ArchiveRestore.Namespace=`Lucide`;
 ArchiveRestore.Tag=`lucide-archive-restore`;
-_.ArchiveRestore=ArchiveRestore;
+__as1(_, 'ArchiveRestore', ArchiveRestore);
 if(!window.customElements.get('lucide-archive-restore')){window.customElements.define('lucide-archive-restore', ArchiveRestore);Aventus.WebComponentInstance.registerDefinition(ArchiveRestore);}
 
 const ArchiveX = class ArchiveX extends AbstractIcon {
@@ -9021,7 +9021,7 @@ const ArchiveX = class ArchiveX extends AbstractIcon {
 }
 ArchiveX.Namespace=`Lucide`;
 ArchiveX.Tag=`lucide-archive-x`;
-_.ArchiveX=ArchiveX;
+__as1(_, 'ArchiveX', ArchiveX);
 if(!window.customElements.get('lucide-archive-x')){window.customElements.define('lucide-archive-x', ArchiveX);Aventus.WebComponentInstance.registerDefinition(ArchiveX);}
 
 const AreaChart = class AreaChart extends AbstractIcon {
@@ -9045,7 +9045,7 @@ const AreaChart = class AreaChart extends AbstractIcon {
 }
 AreaChart.Namespace=`Lucide`;
 AreaChart.Tag=`lucide-area-chart`;
-_.AreaChart=AreaChart;
+__as1(_, 'AreaChart', AreaChart);
 if(!window.customElements.get('lucide-area-chart')){window.customElements.define('lucide-area-chart', AreaChart);Aventus.WebComponentInstance.registerDefinition(AreaChart);}
 
 const Armchair = class Armchair extends AbstractIcon {
@@ -9069,7 +9069,7 @@ const Armchair = class Armchair extends AbstractIcon {
 }
 Armchair.Namespace=`Lucide`;
 Armchair.Tag=`lucide-armchair`;
-_.Armchair=Armchair;
+__as1(_, 'Armchair', Armchair);
 if(!window.customElements.get('lucide-armchair')){window.customElements.define('lucide-armchair', Armchair);Aventus.WebComponentInstance.registerDefinition(Armchair);}
 
 const ArrowBigDown = class ArrowBigDown extends AbstractIcon {
@@ -9093,7 +9093,7 @@ const ArrowBigDown = class ArrowBigDown extends AbstractIcon {
 }
 ArrowBigDown.Namespace=`Lucide`;
 ArrowBigDown.Tag=`lucide-arrow-big-down`;
-_.ArrowBigDown=ArrowBigDown;
+__as1(_, 'ArrowBigDown', ArrowBigDown);
 if(!window.customElements.get('lucide-arrow-big-down')){window.customElements.define('lucide-arrow-big-down', ArrowBigDown);Aventus.WebComponentInstance.registerDefinition(ArrowBigDown);}
 
 const ArrowBigDownDash = class ArrowBigDownDash extends AbstractIcon {
@@ -9117,7 +9117,7 @@ const ArrowBigDownDash = class ArrowBigDownDash extends AbstractIcon {
 }
 ArrowBigDownDash.Namespace=`Lucide`;
 ArrowBigDownDash.Tag=`lucide-arrow-big-down-dash`;
-_.ArrowBigDownDash=ArrowBigDownDash;
+__as1(_, 'ArrowBigDownDash', ArrowBigDownDash);
 if(!window.customElements.get('lucide-arrow-big-down-dash')){window.customElements.define('lucide-arrow-big-down-dash', ArrowBigDownDash);Aventus.WebComponentInstance.registerDefinition(ArrowBigDownDash);}
 
 const ArrowBigLeft = class ArrowBigLeft extends AbstractIcon {
@@ -9141,7 +9141,7 @@ const ArrowBigLeft = class ArrowBigLeft extends AbstractIcon {
 }
 ArrowBigLeft.Namespace=`Lucide`;
 ArrowBigLeft.Tag=`lucide-arrow-big-left`;
-_.ArrowBigLeft=ArrowBigLeft;
+__as1(_, 'ArrowBigLeft', ArrowBigLeft);
 if(!window.customElements.get('lucide-arrow-big-left')){window.customElements.define('lucide-arrow-big-left', ArrowBigLeft);Aventus.WebComponentInstance.registerDefinition(ArrowBigLeft);}
 
 const ArrowBigLeftDash = class ArrowBigLeftDash extends AbstractIcon {
@@ -9165,7 +9165,7 @@ const ArrowBigLeftDash = class ArrowBigLeftDash extends AbstractIcon {
 }
 ArrowBigLeftDash.Namespace=`Lucide`;
 ArrowBigLeftDash.Tag=`lucide-arrow-big-left-dash`;
-_.ArrowBigLeftDash=ArrowBigLeftDash;
+__as1(_, 'ArrowBigLeftDash', ArrowBigLeftDash);
 if(!window.customElements.get('lucide-arrow-big-left-dash')){window.customElements.define('lucide-arrow-big-left-dash', ArrowBigLeftDash);Aventus.WebComponentInstance.registerDefinition(ArrowBigLeftDash);}
 
 const ArrowBigRight = class ArrowBigRight extends AbstractIcon {
@@ -9189,7 +9189,7 @@ const ArrowBigRight = class ArrowBigRight extends AbstractIcon {
 }
 ArrowBigRight.Namespace=`Lucide`;
 ArrowBigRight.Tag=`lucide-arrow-big-right`;
-_.ArrowBigRight=ArrowBigRight;
+__as1(_, 'ArrowBigRight', ArrowBigRight);
 if(!window.customElements.get('lucide-arrow-big-right')){window.customElements.define('lucide-arrow-big-right', ArrowBigRight);Aventus.WebComponentInstance.registerDefinition(ArrowBigRight);}
 
 const ArrowBigRightDash = class ArrowBigRightDash extends AbstractIcon {
@@ -9213,7 +9213,7 @@ const ArrowBigRightDash = class ArrowBigRightDash extends AbstractIcon {
 }
 ArrowBigRightDash.Namespace=`Lucide`;
 ArrowBigRightDash.Tag=`lucide-arrow-big-right-dash`;
-_.ArrowBigRightDash=ArrowBigRightDash;
+__as1(_, 'ArrowBigRightDash', ArrowBigRightDash);
 if(!window.customElements.get('lucide-arrow-big-right-dash')){window.customElements.define('lucide-arrow-big-right-dash', ArrowBigRightDash);Aventus.WebComponentInstance.registerDefinition(ArrowBigRightDash);}
 
 const ArrowBigUp = class ArrowBigUp extends AbstractIcon {
@@ -9237,7 +9237,7 @@ const ArrowBigUp = class ArrowBigUp extends AbstractIcon {
 }
 ArrowBigUp.Namespace=`Lucide`;
 ArrowBigUp.Tag=`lucide-arrow-big-up`;
-_.ArrowBigUp=ArrowBigUp;
+__as1(_, 'ArrowBigUp', ArrowBigUp);
 if(!window.customElements.get('lucide-arrow-big-up')){window.customElements.define('lucide-arrow-big-up', ArrowBigUp);Aventus.WebComponentInstance.registerDefinition(ArrowBigUp);}
 
 const ArrowBigUpDash = class ArrowBigUpDash extends AbstractIcon {
@@ -9261,7 +9261,7 @@ const ArrowBigUpDash = class ArrowBigUpDash extends AbstractIcon {
 }
 ArrowBigUpDash.Namespace=`Lucide`;
 ArrowBigUpDash.Tag=`lucide-arrow-big-up-dash`;
-_.ArrowBigUpDash=ArrowBigUpDash;
+__as1(_, 'ArrowBigUpDash', ArrowBigUpDash);
 if(!window.customElements.get('lucide-arrow-big-up-dash')){window.customElements.define('lucide-arrow-big-up-dash', ArrowBigUpDash);Aventus.WebComponentInstance.registerDefinition(ArrowBigUpDash);}
 
 const ArrowDown = class ArrowDown extends AbstractIcon {
@@ -9285,7 +9285,7 @@ const ArrowDown = class ArrowDown extends AbstractIcon {
 }
 ArrowDown.Namespace=`Lucide`;
 ArrowDown.Tag=`lucide-arrow-down`;
-_.ArrowDown=ArrowDown;
+__as1(_, 'ArrowDown', ArrowDown);
 if(!window.customElements.get('lucide-arrow-down')){window.customElements.define('lucide-arrow-down', ArrowDown);Aventus.WebComponentInstance.registerDefinition(ArrowDown);}
 
 const ArrowDown01 = class ArrowDown01 extends AbstractIcon {
@@ -9309,7 +9309,7 @@ const ArrowDown01 = class ArrowDown01 extends AbstractIcon {
 }
 ArrowDown01.Namespace=`Lucide`;
 ArrowDown01.Tag=`lucide-arrow-down-01`;
-_.ArrowDown01=ArrowDown01;
+__as1(_, 'ArrowDown01', ArrowDown01);
 if(!window.customElements.get('lucide-arrow-down-01')){window.customElements.define('lucide-arrow-down-01', ArrowDown01);Aventus.WebComponentInstance.registerDefinition(ArrowDown01);}
 
 const ArrowDown10 = class ArrowDown10 extends AbstractIcon {
@@ -9333,7 +9333,7 @@ const ArrowDown10 = class ArrowDown10 extends AbstractIcon {
 }
 ArrowDown10.Namespace=`Lucide`;
 ArrowDown10.Tag=`lucide-arrow-down-10`;
-_.ArrowDown10=ArrowDown10;
+__as1(_, 'ArrowDown10', ArrowDown10);
 if(!window.customElements.get('lucide-arrow-down-10')){window.customElements.define('lucide-arrow-down-10', ArrowDown10);Aventus.WebComponentInstance.registerDefinition(ArrowDown10);}
 
 const ArrowDownAz = class ArrowDownAz extends AbstractIcon {
@@ -9357,7 +9357,7 @@ const ArrowDownAz = class ArrowDownAz extends AbstractIcon {
 }
 ArrowDownAz.Namespace=`Lucide`;
 ArrowDownAz.Tag=`lucide-arrow-down-az`;
-_.ArrowDownAz=ArrowDownAz;
+__as1(_, 'ArrowDownAz', ArrowDownAz);
 if(!window.customElements.get('lucide-arrow-down-az')){window.customElements.define('lucide-arrow-down-az', ArrowDownAz);Aventus.WebComponentInstance.registerDefinition(ArrowDownAz);}
 
 const ArrowDownCircle = class ArrowDownCircle extends AbstractIcon {
@@ -9381,7 +9381,7 @@ const ArrowDownCircle = class ArrowDownCircle extends AbstractIcon {
 }
 ArrowDownCircle.Namespace=`Lucide`;
 ArrowDownCircle.Tag=`lucide-arrow-down-circle`;
-_.ArrowDownCircle=ArrowDownCircle;
+__as1(_, 'ArrowDownCircle', ArrowDownCircle);
 if(!window.customElements.get('lucide-arrow-down-circle')){window.customElements.define('lucide-arrow-down-circle', ArrowDownCircle);Aventus.WebComponentInstance.registerDefinition(ArrowDownCircle);}
 
 const ArrowDownFromLine = class ArrowDownFromLine extends AbstractIcon {
@@ -9405,7 +9405,7 @@ const ArrowDownFromLine = class ArrowDownFromLine extends AbstractIcon {
 }
 ArrowDownFromLine.Namespace=`Lucide`;
 ArrowDownFromLine.Tag=`lucide-arrow-down-from-line`;
-_.ArrowDownFromLine=ArrowDownFromLine;
+__as1(_, 'ArrowDownFromLine', ArrowDownFromLine);
 if(!window.customElements.get('lucide-arrow-down-from-line')){window.customElements.define('lucide-arrow-down-from-line', ArrowDownFromLine);Aventus.WebComponentInstance.registerDefinition(ArrowDownFromLine);}
 
 const ArrowDownLeft = class ArrowDownLeft extends AbstractIcon {
@@ -9429,7 +9429,7 @@ const ArrowDownLeft = class ArrowDownLeft extends AbstractIcon {
 }
 ArrowDownLeft.Namespace=`Lucide`;
 ArrowDownLeft.Tag=`lucide-arrow-down-left`;
-_.ArrowDownLeft=ArrowDownLeft;
+__as1(_, 'ArrowDownLeft', ArrowDownLeft);
 if(!window.customElements.get('lucide-arrow-down-left')){window.customElements.define('lucide-arrow-down-left', ArrowDownLeft);Aventus.WebComponentInstance.registerDefinition(ArrowDownLeft);}
 
 const ArrowDownLeftFromCircle = class ArrowDownLeftFromCircle extends AbstractIcon {
@@ -9453,7 +9453,7 @@ const ArrowDownLeftFromCircle = class ArrowDownLeftFromCircle extends AbstractIc
 }
 ArrowDownLeftFromCircle.Namespace=`Lucide`;
 ArrowDownLeftFromCircle.Tag=`lucide-arrow-down-left-from-circle`;
-_.ArrowDownLeftFromCircle=ArrowDownLeftFromCircle;
+__as1(_, 'ArrowDownLeftFromCircle', ArrowDownLeftFromCircle);
 if(!window.customElements.get('lucide-arrow-down-left-from-circle')){window.customElements.define('lucide-arrow-down-left-from-circle', ArrowDownLeftFromCircle);Aventus.WebComponentInstance.registerDefinition(ArrowDownLeftFromCircle);}
 
 const ArrowDownLeftFromSquare = class ArrowDownLeftFromSquare extends AbstractIcon {
@@ -9477,7 +9477,7 @@ const ArrowDownLeftFromSquare = class ArrowDownLeftFromSquare extends AbstractIc
 }
 ArrowDownLeftFromSquare.Namespace=`Lucide`;
 ArrowDownLeftFromSquare.Tag=`lucide-arrow-down-left-from-square`;
-_.ArrowDownLeftFromSquare=ArrowDownLeftFromSquare;
+__as1(_, 'ArrowDownLeftFromSquare', ArrowDownLeftFromSquare);
 if(!window.customElements.get('lucide-arrow-down-left-from-square')){window.customElements.define('lucide-arrow-down-left-from-square', ArrowDownLeftFromSquare);Aventus.WebComponentInstance.registerDefinition(ArrowDownLeftFromSquare);}
 
 const ArrowDownLeftSquare = class ArrowDownLeftSquare extends AbstractIcon {
@@ -9501,7 +9501,7 @@ const ArrowDownLeftSquare = class ArrowDownLeftSquare extends AbstractIcon {
 }
 ArrowDownLeftSquare.Namespace=`Lucide`;
 ArrowDownLeftSquare.Tag=`lucide-arrow-down-left-square`;
-_.ArrowDownLeftSquare=ArrowDownLeftSquare;
+__as1(_, 'ArrowDownLeftSquare', ArrowDownLeftSquare);
 if(!window.customElements.get('lucide-arrow-down-left-square')){window.customElements.define('lucide-arrow-down-left-square', ArrowDownLeftSquare);Aventus.WebComponentInstance.registerDefinition(ArrowDownLeftSquare);}
 
 const ArrowDownNarrowWide = class ArrowDownNarrowWide extends AbstractIcon {
@@ -9525,7 +9525,7 @@ const ArrowDownNarrowWide = class ArrowDownNarrowWide extends AbstractIcon {
 }
 ArrowDownNarrowWide.Namespace=`Lucide`;
 ArrowDownNarrowWide.Tag=`lucide-arrow-down-narrow-wide`;
-_.ArrowDownNarrowWide=ArrowDownNarrowWide;
+__as1(_, 'ArrowDownNarrowWide', ArrowDownNarrowWide);
 if(!window.customElements.get('lucide-arrow-down-narrow-wide')){window.customElements.define('lucide-arrow-down-narrow-wide', ArrowDownNarrowWide);Aventus.WebComponentInstance.registerDefinition(ArrowDownNarrowWide);}
 
 const ArrowDownRight = class ArrowDownRight extends AbstractIcon {
@@ -9549,7 +9549,7 @@ const ArrowDownRight = class ArrowDownRight extends AbstractIcon {
 }
 ArrowDownRight.Namespace=`Lucide`;
 ArrowDownRight.Tag=`lucide-arrow-down-right`;
-_.ArrowDownRight=ArrowDownRight;
+__as1(_, 'ArrowDownRight', ArrowDownRight);
 if(!window.customElements.get('lucide-arrow-down-right')){window.customElements.define('lucide-arrow-down-right', ArrowDownRight);Aventus.WebComponentInstance.registerDefinition(ArrowDownRight);}
 
 const ArrowDownRightFromCircle = class ArrowDownRightFromCircle extends AbstractIcon {
@@ -9573,7 +9573,7 @@ const ArrowDownRightFromCircle = class ArrowDownRightFromCircle extends Abstract
 }
 ArrowDownRightFromCircle.Namespace=`Lucide`;
 ArrowDownRightFromCircle.Tag=`lucide-arrow-down-right-from-circle`;
-_.ArrowDownRightFromCircle=ArrowDownRightFromCircle;
+__as1(_, 'ArrowDownRightFromCircle', ArrowDownRightFromCircle);
 if(!window.customElements.get('lucide-arrow-down-right-from-circle')){window.customElements.define('lucide-arrow-down-right-from-circle', ArrowDownRightFromCircle);Aventus.WebComponentInstance.registerDefinition(ArrowDownRightFromCircle);}
 
 const ArrowDownRightFromSquare = class ArrowDownRightFromSquare extends AbstractIcon {
@@ -9597,7 +9597,7 @@ const ArrowDownRightFromSquare = class ArrowDownRightFromSquare extends Abstract
 }
 ArrowDownRightFromSquare.Namespace=`Lucide`;
 ArrowDownRightFromSquare.Tag=`lucide-arrow-down-right-from-square`;
-_.ArrowDownRightFromSquare=ArrowDownRightFromSquare;
+__as1(_, 'ArrowDownRightFromSquare', ArrowDownRightFromSquare);
 if(!window.customElements.get('lucide-arrow-down-right-from-square')){window.customElements.define('lucide-arrow-down-right-from-square', ArrowDownRightFromSquare);Aventus.WebComponentInstance.registerDefinition(ArrowDownRightFromSquare);}
 
 const ArrowDownRightSquare = class ArrowDownRightSquare extends AbstractIcon {
@@ -9621,7 +9621,7 @@ const ArrowDownRightSquare = class ArrowDownRightSquare extends AbstractIcon {
 }
 ArrowDownRightSquare.Namespace=`Lucide`;
 ArrowDownRightSquare.Tag=`lucide-arrow-down-right-square`;
-_.ArrowDownRightSquare=ArrowDownRightSquare;
+__as1(_, 'ArrowDownRightSquare', ArrowDownRightSquare);
 if(!window.customElements.get('lucide-arrow-down-right-square')){window.customElements.define('lucide-arrow-down-right-square', ArrowDownRightSquare);Aventus.WebComponentInstance.registerDefinition(ArrowDownRightSquare);}
 
 const ArrowDownSquare = class ArrowDownSquare extends AbstractIcon {
@@ -9645,7 +9645,7 @@ const ArrowDownSquare = class ArrowDownSquare extends AbstractIcon {
 }
 ArrowDownSquare.Namespace=`Lucide`;
 ArrowDownSquare.Tag=`lucide-arrow-down-square`;
-_.ArrowDownSquare=ArrowDownSquare;
+__as1(_, 'ArrowDownSquare', ArrowDownSquare);
 if(!window.customElements.get('lucide-arrow-down-square')){window.customElements.define('lucide-arrow-down-square', ArrowDownSquare);Aventus.WebComponentInstance.registerDefinition(ArrowDownSquare);}
 
 const ArrowDownToDot = class ArrowDownToDot extends AbstractIcon {
@@ -9669,7 +9669,7 @@ const ArrowDownToDot = class ArrowDownToDot extends AbstractIcon {
 }
 ArrowDownToDot.Namespace=`Lucide`;
 ArrowDownToDot.Tag=`lucide-arrow-down-to-dot`;
-_.ArrowDownToDot=ArrowDownToDot;
+__as1(_, 'ArrowDownToDot', ArrowDownToDot);
 if(!window.customElements.get('lucide-arrow-down-to-dot')){window.customElements.define('lucide-arrow-down-to-dot', ArrowDownToDot);Aventus.WebComponentInstance.registerDefinition(ArrowDownToDot);}
 
 const ArrowDownToLine = class ArrowDownToLine extends AbstractIcon {
@@ -9693,7 +9693,7 @@ const ArrowDownToLine = class ArrowDownToLine extends AbstractIcon {
 }
 ArrowDownToLine.Namespace=`Lucide`;
 ArrowDownToLine.Tag=`lucide-arrow-down-to-line`;
-_.ArrowDownToLine=ArrowDownToLine;
+__as1(_, 'ArrowDownToLine', ArrowDownToLine);
 if(!window.customElements.get('lucide-arrow-down-to-line')){window.customElements.define('lucide-arrow-down-to-line', ArrowDownToLine);Aventus.WebComponentInstance.registerDefinition(ArrowDownToLine);}
 
 const ArrowDownUp = class ArrowDownUp extends AbstractIcon {
@@ -9717,7 +9717,7 @@ const ArrowDownUp = class ArrowDownUp extends AbstractIcon {
 }
 ArrowDownUp.Namespace=`Lucide`;
 ArrowDownUp.Tag=`lucide-arrow-down-up`;
-_.ArrowDownUp=ArrowDownUp;
+__as1(_, 'ArrowDownUp', ArrowDownUp);
 if(!window.customElements.get('lucide-arrow-down-up')){window.customElements.define('lucide-arrow-down-up', ArrowDownUp);Aventus.WebComponentInstance.registerDefinition(ArrowDownUp);}
 
 const ArrowDownWideNarrow = class ArrowDownWideNarrow extends AbstractIcon {
@@ -9741,7 +9741,7 @@ const ArrowDownWideNarrow = class ArrowDownWideNarrow extends AbstractIcon {
 }
 ArrowDownWideNarrow.Namespace=`Lucide`;
 ArrowDownWideNarrow.Tag=`lucide-arrow-down-wide-narrow`;
-_.ArrowDownWideNarrow=ArrowDownWideNarrow;
+__as1(_, 'ArrowDownWideNarrow', ArrowDownWideNarrow);
 if(!window.customElements.get('lucide-arrow-down-wide-narrow')){window.customElements.define('lucide-arrow-down-wide-narrow', ArrowDownWideNarrow);Aventus.WebComponentInstance.registerDefinition(ArrowDownWideNarrow);}
 
 const ArrowDownZa = class ArrowDownZa extends AbstractIcon {
@@ -9765,7 +9765,7 @@ const ArrowDownZa = class ArrowDownZa extends AbstractIcon {
 }
 ArrowDownZa.Namespace=`Lucide`;
 ArrowDownZa.Tag=`lucide-arrow-down-za`;
-_.ArrowDownZa=ArrowDownZa;
+__as1(_, 'ArrowDownZa', ArrowDownZa);
 if(!window.customElements.get('lucide-arrow-down-za')){window.customElements.define('lucide-arrow-down-za', ArrowDownZa);Aventus.WebComponentInstance.registerDefinition(ArrowDownZa);}
 
 const ArrowLeft = class ArrowLeft extends AbstractIcon {
@@ -9789,7 +9789,7 @@ const ArrowLeft = class ArrowLeft extends AbstractIcon {
 }
 ArrowLeft.Namespace=`Lucide`;
 ArrowLeft.Tag=`lucide-arrow-left`;
-_.ArrowLeft=ArrowLeft;
+__as1(_, 'ArrowLeft', ArrowLeft);
 if(!window.customElements.get('lucide-arrow-left')){window.customElements.define('lucide-arrow-left', ArrowLeft);Aventus.WebComponentInstance.registerDefinition(ArrowLeft);}
 
 const ArrowLeftCircle = class ArrowLeftCircle extends AbstractIcon {
@@ -9813,7 +9813,7 @@ const ArrowLeftCircle = class ArrowLeftCircle extends AbstractIcon {
 }
 ArrowLeftCircle.Namespace=`Lucide`;
 ArrowLeftCircle.Tag=`lucide-arrow-left-circle`;
-_.ArrowLeftCircle=ArrowLeftCircle;
+__as1(_, 'ArrowLeftCircle', ArrowLeftCircle);
 if(!window.customElements.get('lucide-arrow-left-circle')){window.customElements.define('lucide-arrow-left-circle', ArrowLeftCircle);Aventus.WebComponentInstance.registerDefinition(ArrowLeftCircle);}
 
 const ArrowLeftFromLine = class ArrowLeftFromLine extends AbstractIcon {
@@ -9837,7 +9837,7 @@ const ArrowLeftFromLine = class ArrowLeftFromLine extends AbstractIcon {
 }
 ArrowLeftFromLine.Namespace=`Lucide`;
 ArrowLeftFromLine.Tag=`lucide-arrow-left-from-line`;
-_.ArrowLeftFromLine=ArrowLeftFromLine;
+__as1(_, 'ArrowLeftFromLine', ArrowLeftFromLine);
 if(!window.customElements.get('lucide-arrow-left-from-line')){window.customElements.define('lucide-arrow-left-from-line', ArrowLeftFromLine);Aventus.WebComponentInstance.registerDefinition(ArrowLeftFromLine);}
 
 const ArrowLeftRight = class ArrowLeftRight extends AbstractIcon {
@@ -9861,7 +9861,7 @@ const ArrowLeftRight = class ArrowLeftRight extends AbstractIcon {
 }
 ArrowLeftRight.Namespace=`Lucide`;
 ArrowLeftRight.Tag=`lucide-arrow-left-right`;
-_.ArrowLeftRight=ArrowLeftRight;
+__as1(_, 'ArrowLeftRight', ArrowLeftRight);
 if(!window.customElements.get('lucide-arrow-left-right')){window.customElements.define('lucide-arrow-left-right', ArrowLeftRight);Aventus.WebComponentInstance.registerDefinition(ArrowLeftRight);}
 
 const ArrowLeftSquare = class ArrowLeftSquare extends AbstractIcon {
@@ -9885,7 +9885,7 @@ const ArrowLeftSquare = class ArrowLeftSquare extends AbstractIcon {
 }
 ArrowLeftSquare.Namespace=`Lucide`;
 ArrowLeftSquare.Tag=`lucide-arrow-left-square`;
-_.ArrowLeftSquare=ArrowLeftSquare;
+__as1(_, 'ArrowLeftSquare', ArrowLeftSquare);
 if(!window.customElements.get('lucide-arrow-left-square')){window.customElements.define('lucide-arrow-left-square', ArrowLeftSquare);Aventus.WebComponentInstance.registerDefinition(ArrowLeftSquare);}
 
 const ArrowLeftToLine = class ArrowLeftToLine extends AbstractIcon {
@@ -9909,7 +9909,7 @@ const ArrowLeftToLine = class ArrowLeftToLine extends AbstractIcon {
 }
 ArrowLeftToLine.Namespace=`Lucide`;
 ArrowLeftToLine.Tag=`lucide-arrow-left-to-line`;
-_.ArrowLeftToLine=ArrowLeftToLine;
+__as1(_, 'ArrowLeftToLine', ArrowLeftToLine);
 if(!window.customElements.get('lucide-arrow-left-to-line')){window.customElements.define('lucide-arrow-left-to-line', ArrowLeftToLine);Aventus.WebComponentInstance.registerDefinition(ArrowLeftToLine);}
 
 const ArrowRight = class ArrowRight extends AbstractIcon {
@@ -9933,7 +9933,7 @@ const ArrowRight = class ArrowRight extends AbstractIcon {
 }
 ArrowRight.Namespace=`Lucide`;
 ArrowRight.Tag=`lucide-arrow-right`;
-_.ArrowRight=ArrowRight;
+__as1(_, 'ArrowRight', ArrowRight);
 if(!window.customElements.get('lucide-arrow-right')){window.customElements.define('lucide-arrow-right', ArrowRight);Aventus.WebComponentInstance.registerDefinition(ArrowRight);}
 
 const ArrowRightCircle = class ArrowRightCircle extends AbstractIcon {
@@ -9957,7 +9957,7 @@ const ArrowRightCircle = class ArrowRightCircle extends AbstractIcon {
 }
 ArrowRightCircle.Namespace=`Lucide`;
 ArrowRightCircle.Tag=`lucide-arrow-right-circle`;
-_.ArrowRightCircle=ArrowRightCircle;
+__as1(_, 'ArrowRightCircle', ArrowRightCircle);
 if(!window.customElements.get('lucide-arrow-right-circle')){window.customElements.define('lucide-arrow-right-circle', ArrowRightCircle);Aventus.WebComponentInstance.registerDefinition(ArrowRightCircle);}
 
 const ArrowRightFromLine = class ArrowRightFromLine extends AbstractIcon {
@@ -9981,7 +9981,7 @@ const ArrowRightFromLine = class ArrowRightFromLine extends AbstractIcon {
 }
 ArrowRightFromLine.Namespace=`Lucide`;
 ArrowRightFromLine.Tag=`lucide-arrow-right-from-line`;
-_.ArrowRightFromLine=ArrowRightFromLine;
+__as1(_, 'ArrowRightFromLine', ArrowRightFromLine);
 if(!window.customElements.get('lucide-arrow-right-from-line')){window.customElements.define('lucide-arrow-right-from-line', ArrowRightFromLine);Aventus.WebComponentInstance.registerDefinition(ArrowRightFromLine);}
 
 const ArrowRightLeft = class ArrowRightLeft extends AbstractIcon {
@@ -10005,7 +10005,7 @@ const ArrowRightLeft = class ArrowRightLeft extends AbstractIcon {
 }
 ArrowRightLeft.Namespace=`Lucide`;
 ArrowRightLeft.Tag=`lucide-arrow-right-left`;
-_.ArrowRightLeft=ArrowRightLeft;
+__as1(_, 'ArrowRightLeft', ArrowRightLeft);
 if(!window.customElements.get('lucide-arrow-right-left')){window.customElements.define('lucide-arrow-right-left', ArrowRightLeft);Aventus.WebComponentInstance.registerDefinition(ArrowRightLeft);}
 
 const ArrowRightSquare = class ArrowRightSquare extends AbstractIcon {
@@ -10029,7 +10029,7 @@ const ArrowRightSquare = class ArrowRightSquare extends AbstractIcon {
 }
 ArrowRightSquare.Namespace=`Lucide`;
 ArrowRightSquare.Tag=`lucide-arrow-right-square`;
-_.ArrowRightSquare=ArrowRightSquare;
+__as1(_, 'ArrowRightSquare', ArrowRightSquare);
 if(!window.customElements.get('lucide-arrow-right-square')){window.customElements.define('lucide-arrow-right-square', ArrowRightSquare);Aventus.WebComponentInstance.registerDefinition(ArrowRightSquare);}
 
 const ArrowRightToLine = class ArrowRightToLine extends AbstractIcon {
@@ -10053,7 +10053,7 @@ const ArrowRightToLine = class ArrowRightToLine extends AbstractIcon {
 }
 ArrowRightToLine.Namespace=`Lucide`;
 ArrowRightToLine.Tag=`lucide-arrow-right-to-line`;
-_.ArrowRightToLine=ArrowRightToLine;
+__as1(_, 'ArrowRightToLine', ArrowRightToLine);
 if(!window.customElements.get('lucide-arrow-right-to-line')){window.customElements.define('lucide-arrow-right-to-line', ArrowRightToLine);Aventus.WebComponentInstance.registerDefinition(ArrowRightToLine);}
 
 const ArrowsUpFromLine = class ArrowsUpFromLine extends AbstractIcon {
@@ -10077,7 +10077,7 @@ const ArrowsUpFromLine = class ArrowsUpFromLine extends AbstractIcon {
 }
 ArrowsUpFromLine.Namespace=`Lucide`;
 ArrowsUpFromLine.Tag=`lucide-arrows-up-from-line`;
-_.ArrowsUpFromLine=ArrowsUpFromLine;
+__as1(_, 'ArrowsUpFromLine', ArrowsUpFromLine);
 if(!window.customElements.get('lucide-arrows-up-from-line')){window.customElements.define('lucide-arrows-up-from-line', ArrowsUpFromLine);Aventus.WebComponentInstance.registerDefinition(ArrowsUpFromLine);}
 
 const ArrowUp = class ArrowUp extends AbstractIcon {
@@ -10101,7 +10101,7 @@ const ArrowUp = class ArrowUp extends AbstractIcon {
 }
 ArrowUp.Namespace=`Lucide`;
 ArrowUp.Tag=`lucide-arrow-up`;
-_.ArrowUp=ArrowUp;
+__as1(_, 'ArrowUp', ArrowUp);
 if(!window.customElements.get('lucide-arrow-up')){window.customElements.define('lucide-arrow-up', ArrowUp);Aventus.WebComponentInstance.registerDefinition(ArrowUp);}
 
 const ArrowUp01 = class ArrowUp01 extends AbstractIcon {
@@ -10125,7 +10125,7 @@ const ArrowUp01 = class ArrowUp01 extends AbstractIcon {
 }
 ArrowUp01.Namespace=`Lucide`;
 ArrowUp01.Tag=`lucide-arrow-up-01`;
-_.ArrowUp01=ArrowUp01;
+__as1(_, 'ArrowUp01', ArrowUp01);
 if(!window.customElements.get('lucide-arrow-up-01')){window.customElements.define('lucide-arrow-up-01', ArrowUp01);Aventus.WebComponentInstance.registerDefinition(ArrowUp01);}
 
 const ArrowUp10 = class ArrowUp10 extends AbstractIcon {
@@ -10149,7 +10149,7 @@ const ArrowUp10 = class ArrowUp10 extends AbstractIcon {
 }
 ArrowUp10.Namespace=`Lucide`;
 ArrowUp10.Tag=`lucide-arrow-up-10`;
-_.ArrowUp10=ArrowUp10;
+__as1(_, 'ArrowUp10', ArrowUp10);
 if(!window.customElements.get('lucide-arrow-up-10')){window.customElements.define('lucide-arrow-up-10', ArrowUp10);Aventus.WebComponentInstance.registerDefinition(ArrowUp10);}
 
 const ArrowUpAz = class ArrowUpAz extends AbstractIcon {
@@ -10173,7 +10173,7 @@ const ArrowUpAz = class ArrowUpAz extends AbstractIcon {
 }
 ArrowUpAz.Namespace=`Lucide`;
 ArrowUpAz.Tag=`lucide-arrow-up-az`;
-_.ArrowUpAz=ArrowUpAz;
+__as1(_, 'ArrowUpAz', ArrowUpAz);
 if(!window.customElements.get('lucide-arrow-up-az')){window.customElements.define('lucide-arrow-up-az', ArrowUpAz);Aventus.WebComponentInstance.registerDefinition(ArrowUpAz);}
 
 const ArrowUpCircle = class ArrowUpCircle extends AbstractIcon {
@@ -10197,7 +10197,7 @@ const ArrowUpCircle = class ArrowUpCircle extends AbstractIcon {
 }
 ArrowUpCircle.Namespace=`Lucide`;
 ArrowUpCircle.Tag=`lucide-arrow-up-circle`;
-_.ArrowUpCircle=ArrowUpCircle;
+__as1(_, 'ArrowUpCircle', ArrowUpCircle);
 if(!window.customElements.get('lucide-arrow-up-circle')){window.customElements.define('lucide-arrow-up-circle', ArrowUpCircle);Aventus.WebComponentInstance.registerDefinition(ArrowUpCircle);}
 
 const ArrowUpDown = class ArrowUpDown extends AbstractIcon {
@@ -10221,7 +10221,7 @@ const ArrowUpDown = class ArrowUpDown extends AbstractIcon {
 }
 ArrowUpDown.Namespace=`Lucide`;
 ArrowUpDown.Tag=`lucide-arrow-up-down`;
-_.ArrowUpDown=ArrowUpDown;
+__as1(_, 'ArrowUpDown', ArrowUpDown);
 if(!window.customElements.get('lucide-arrow-up-down')){window.customElements.define('lucide-arrow-up-down', ArrowUpDown);Aventus.WebComponentInstance.registerDefinition(ArrowUpDown);}
 
 const ArrowUpFromDot = class ArrowUpFromDot extends AbstractIcon {
@@ -10245,7 +10245,7 @@ const ArrowUpFromDot = class ArrowUpFromDot extends AbstractIcon {
 }
 ArrowUpFromDot.Namespace=`Lucide`;
 ArrowUpFromDot.Tag=`lucide-arrow-up-from-dot`;
-_.ArrowUpFromDot=ArrowUpFromDot;
+__as1(_, 'ArrowUpFromDot', ArrowUpFromDot);
 if(!window.customElements.get('lucide-arrow-up-from-dot')){window.customElements.define('lucide-arrow-up-from-dot', ArrowUpFromDot);Aventus.WebComponentInstance.registerDefinition(ArrowUpFromDot);}
 
 const ArrowUpFromLine = class ArrowUpFromLine extends AbstractIcon {
@@ -10269,7 +10269,7 @@ const ArrowUpFromLine = class ArrowUpFromLine extends AbstractIcon {
 }
 ArrowUpFromLine.Namespace=`Lucide`;
 ArrowUpFromLine.Tag=`lucide-arrow-up-from-line`;
-_.ArrowUpFromLine=ArrowUpFromLine;
+__as1(_, 'ArrowUpFromLine', ArrowUpFromLine);
 if(!window.customElements.get('lucide-arrow-up-from-line')){window.customElements.define('lucide-arrow-up-from-line', ArrowUpFromLine);Aventus.WebComponentInstance.registerDefinition(ArrowUpFromLine);}
 
 const ArrowUpLeft = class ArrowUpLeft extends AbstractIcon {
@@ -10293,7 +10293,7 @@ const ArrowUpLeft = class ArrowUpLeft extends AbstractIcon {
 }
 ArrowUpLeft.Namespace=`Lucide`;
 ArrowUpLeft.Tag=`lucide-arrow-up-left`;
-_.ArrowUpLeft=ArrowUpLeft;
+__as1(_, 'ArrowUpLeft', ArrowUpLeft);
 if(!window.customElements.get('lucide-arrow-up-left')){window.customElements.define('lucide-arrow-up-left', ArrowUpLeft);Aventus.WebComponentInstance.registerDefinition(ArrowUpLeft);}
 
 const ArrowUpLeftFromCircle = class ArrowUpLeftFromCircle extends AbstractIcon {
@@ -10317,7 +10317,7 @@ const ArrowUpLeftFromCircle = class ArrowUpLeftFromCircle extends AbstractIcon {
 }
 ArrowUpLeftFromCircle.Namespace=`Lucide`;
 ArrowUpLeftFromCircle.Tag=`lucide-arrow-up-left-from-circle`;
-_.ArrowUpLeftFromCircle=ArrowUpLeftFromCircle;
+__as1(_, 'ArrowUpLeftFromCircle', ArrowUpLeftFromCircle);
 if(!window.customElements.get('lucide-arrow-up-left-from-circle')){window.customElements.define('lucide-arrow-up-left-from-circle', ArrowUpLeftFromCircle);Aventus.WebComponentInstance.registerDefinition(ArrowUpLeftFromCircle);}
 
 const ArrowUpLeftFromSquare = class ArrowUpLeftFromSquare extends AbstractIcon {
@@ -10341,7 +10341,7 @@ const ArrowUpLeftFromSquare = class ArrowUpLeftFromSquare extends AbstractIcon {
 }
 ArrowUpLeftFromSquare.Namespace=`Lucide`;
 ArrowUpLeftFromSquare.Tag=`lucide-arrow-up-left-from-square`;
-_.ArrowUpLeftFromSquare=ArrowUpLeftFromSquare;
+__as1(_, 'ArrowUpLeftFromSquare', ArrowUpLeftFromSquare);
 if(!window.customElements.get('lucide-arrow-up-left-from-square')){window.customElements.define('lucide-arrow-up-left-from-square', ArrowUpLeftFromSquare);Aventus.WebComponentInstance.registerDefinition(ArrowUpLeftFromSquare);}
 
 const ArrowUpLeftSquare = class ArrowUpLeftSquare extends AbstractIcon {
@@ -10365,7 +10365,7 @@ const ArrowUpLeftSquare = class ArrowUpLeftSquare extends AbstractIcon {
 }
 ArrowUpLeftSquare.Namespace=`Lucide`;
 ArrowUpLeftSquare.Tag=`lucide-arrow-up-left-square`;
-_.ArrowUpLeftSquare=ArrowUpLeftSquare;
+__as1(_, 'ArrowUpLeftSquare', ArrowUpLeftSquare);
 if(!window.customElements.get('lucide-arrow-up-left-square')){window.customElements.define('lucide-arrow-up-left-square', ArrowUpLeftSquare);Aventus.WebComponentInstance.registerDefinition(ArrowUpLeftSquare);}
 
 const ArrowUpNarrowWide = class ArrowUpNarrowWide extends AbstractIcon {
@@ -10389,7 +10389,7 @@ const ArrowUpNarrowWide = class ArrowUpNarrowWide extends AbstractIcon {
 }
 ArrowUpNarrowWide.Namespace=`Lucide`;
 ArrowUpNarrowWide.Tag=`lucide-arrow-up-narrow-wide`;
-_.ArrowUpNarrowWide=ArrowUpNarrowWide;
+__as1(_, 'ArrowUpNarrowWide', ArrowUpNarrowWide);
 if(!window.customElements.get('lucide-arrow-up-narrow-wide')){window.customElements.define('lucide-arrow-up-narrow-wide', ArrowUpNarrowWide);Aventus.WebComponentInstance.registerDefinition(ArrowUpNarrowWide);}
 
 const ArrowUpRight = class ArrowUpRight extends AbstractIcon {
@@ -10413,7 +10413,7 @@ const ArrowUpRight = class ArrowUpRight extends AbstractIcon {
 }
 ArrowUpRight.Namespace=`Lucide`;
 ArrowUpRight.Tag=`lucide-arrow-up-right`;
-_.ArrowUpRight=ArrowUpRight;
+__as1(_, 'ArrowUpRight', ArrowUpRight);
 if(!window.customElements.get('lucide-arrow-up-right')){window.customElements.define('lucide-arrow-up-right', ArrowUpRight);Aventus.WebComponentInstance.registerDefinition(ArrowUpRight);}
 
 const ArrowUpRightFromCircle = class ArrowUpRightFromCircle extends AbstractIcon {
@@ -10437,7 +10437,7 @@ const ArrowUpRightFromCircle = class ArrowUpRightFromCircle extends AbstractIcon
 }
 ArrowUpRightFromCircle.Namespace=`Lucide`;
 ArrowUpRightFromCircle.Tag=`lucide-arrow-up-right-from-circle`;
-_.ArrowUpRightFromCircle=ArrowUpRightFromCircle;
+__as1(_, 'ArrowUpRightFromCircle', ArrowUpRightFromCircle);
 if(!window.customElements.get('lucide-arrow-up-right-from-circle')){window.customElements.define('lucide-arrow-up-right-from-circle', ArrowUpRightFromCircle);Aventus.WebComponentInstance.registerDefinition(ArrowUpRightFromCircle);}
 
 const ArrowUpRightFromSquare = class ArrowUpRightFromSquare extends AbstractIcon {
@@ -10461,7 +10461,7 @@ const ArrowUpRightFromSquare = class ArrowUpRightFromSquare extends AbstractIcon
 }
 ArrowUpRightFromSquare.Namespace=`Lucide`;
 ArrowUpRightFromSquare.Tag=`lucide-arrow-up-right-from-square`;
-_.ArrowUpRightFromSquare=ArrowUpRightFromSquare;
+__as1(_, 'ArrowUpRightFromSquare', ArrowUpRightFromSquare);
 if(!window.customElements.get('lucide-arrow-up-right-from-square')){window.customElements.define('lucide-arrow-up-right-from-square', ArrowUpRightFromSquare);Aventus.WebComponentInstance.registerDefinition(ArrowUpRightFromSquare);}
 
 const ArrowUpRightSquare = class ArrowUpRightSquare extends AbstractIcon {
@@ -10485,7 +10485,7 @@ const ArrowUpRightSquare = class ArrowUpRightSquare extends AbstractIcon {
 }
 ArrowUpRightSquare.Namespace=`Lucide`;
 ArrowUpRightSquare.Tag=`lucide-arrow-up-right-square`;
-_.ArrowUpRightSquare=ArrowUpRightSquare;
+__as1(_, 'ArrowUpRightSquare', ArrowUpRightSquare);
 if(!window.customElements.get('lucide-arrow-up-right-square')){window.customElements.define('lucide-arrow-up-right-square', ArrowUpRightSquare);Aventus.WebComponentInstance.registerDefinition(ArrowUpRightSquare);}
 
 const ArrowUpSquare = class ArrowUpSquare extends AbstractIcon {
@@ -10509,7 +10509,7 @@ const ArrowUpSquare = class ArrowUpSquare extends AbstractIcon {
 }
 ArrowUpSquare.Namespace=`Lucide`;
 ArrowUpSquare.Tag=`lucide-arrow-up-square`;
-_.ArrowUpSquare=ArrowUpSquare;
+__as1(_, 'ArrowUpSquare', ArrowUpSquare);
 if(!window.customElements.get('lucide-arrow-up-square')){window.customElements.define('lucide-arrow-up-square', ArrowUpSquare);Aventus.WebComponentInstance.registerDefinition(ArrowUpSquare);}
 
 const ArrowUpToLine = class ArrowUpToLine extends AbstractIcon {
@@ -10533,7 +10533,7 @@ const ArrowUpToLine = class ArrowUpToLine extends AbstractIcon {
 }
 ArrowUpToLine.Namespace=`Lucide`;
 ArrowUpToLine.Tag=`lucide-arrow-up-to-line`;
-_.ArrowUpToLine=ArrowUpToLine;
+__as1(_, 'ArrowUpToLine', ArrowUpToLine);
 if(!window.customElements.get('lucide-arrow-up-to-line')){window.customElements.define('lucide-arrow-up-to-line', ArrowUpToLine);Aventus.WebComponentInstance.registerDefinition(ArrowUpToLine);}
 
 const ArrowUpWideNarrow = class ArrowUpWideNarrow extends AbstractIcon {
@@ -10557,7 +10557,7 @@ const ArrowUpWideNarrow = class ArrowUpWideNarrow extends AbstractIcon {
 }
 ArrowUpWideNarrow.Namespace=`Lucide`;
 ArrowUpWideNarrow.Tag=`lucide-arrow-up-wide-narrow`;
-_.ArrowUpWideNarrow=ArrowUpWideNarrow;
+__as1(_, 'ArrowUpWideNarrow', ArrowUpWideNarrow);
 if(!window.customElements.get('lucide-arrow-up-wide-narrow')){window.customElements.define('lucide-arrow-up-wide-narrow', ArrowUpWideNarrow);Aventus.WebComponentInstance.registerDefinition(ArrowUpWideNarrow);}
 
 const ArrowUpZa = class ArrowUpZa extends AbstractIcon {
@@ -10581,7 +10581,7 @@ const ArrowUpZa = class ArrowUpZa extends AbstractIcon {
 }
 ArrowUpZa.Namespace=`Lucide`;
 ArrowUpZa.Tag=`lucide-arrow-up-za`;
-_.ArrowUpZa=ArrowUpZa;
+__as1(_, 'ArrowUpZa', ArrowUpZa);
 if(!window.customElements.get('lucide-arrow-up-za')){window.customElements.define('lucide-arrow-up-za', ArrowUpZa);Aventus.WebComponentInstance.registerDefinition(ArrowUpZa);}
 
 const Asterisk = class Asterisk extends AbstractIcon {
@@ -10605,7 +10605,7 @@ const Asterisk = class Asterisk extends AbstractIcon {
 }
 Asterisk.Namespace=`Lucide`;
 Asterisk.Tag=`lucide-asterisk`;
-_.Asterisk=Asterisk;
+__as1(_, 'Asterisk', Asterisk);
 if(!window.customElements.get('lucide-asterisk')){window.customElements.define('lucide-asterisk', Asterisk);Aventus.WebComponentInstance.registerDefinition(Asterisk);}
 
 const AsteriskSquare = class AsteriskSquare extends AbstractIcon {
@@ -10629,7 +10629,7 @@ const AsteriskSquare = class AsteriskSquare extends AbstractIcon {
 }
 AsteriskSquare.Namespace=`Lucide`;
 AsteriskSquare.Tag=`lucide-asterisk-square`;
-_.AsteriskSquare=AsteriskSquare;
+__as1(_, 'AsteriskSquare', AsteriskSquare);
 if(!window.customElements.get('lucide-asterisk-square')){window.customElements.define('lucide-asterisk-square', AsteriskSquare);Aventus.WebComponentInstance.registerDefinition(AsteriskSquare);}
 
 const Atom = class Atom extends AbstractIcon {
@@ -10653,7 +10653,7 @@ const Atom = class Atom extends AbstractIcon {
 }
 Atom.Namespace=`Lucide`;
 Atom.Tag=`lucide-atom`;
-_.Atom=Atom;
+__as1(_, 'Atom', Atom);
 if(!window.customElements.get('lucide-atom')){window.customElements.define('lucide-atom', Atom);Aventus.WebComponentInstance.registerDefinition(Atom);}
 
 const AtSign = class AtSign extends AbstractIcon {
@@ -10677,7 +10677,7 @@ const AtSign = class AtSign extends AbstractIcon {
 }
 AtSign.Namespace=`Lucide`;
 AtSign.Tag=`lucide-at-sign`;
-_.AtSign=AtSign;
+__as1(_, 'AtSign', AtSign);
 if(!window.customElements.get('lucide-at-sign')){window.customElements.define('lucide-at-sign', AtSign);Aventus.WebComponentInstance.registerDefinition(AtSign);}
 
 const AudioLines = class AudioLines extends AbstractIcon {
@@ -10701,7 +10701,7 @@ const AudioLines = class AudioLines extends AbstractIcon {
 }
 AudioLines.Namespace=`Lucide`;
 AudioLines.Tag=`lucide-audio-lines`;
-_.AudioLines=AudioLines;
+__as1(_, 'AudioLines', AudioLines);
 if(!window.customElements.get('lucide-audio-lines')){window.customElements.define('lucide-audio-lines', AudioLines);Aventus.WebComponentInstance.registerDefinition(AudioLines);}
 
 const AudioWaveform = class AudioWaveform extends AbstractIcon {
@@ -10725,7 +10725,7 @@ const AudioWaveform = class AudioWaveform extends AbstractIcon {
 }
 AudioWaveform.Namespace=`Lucide`;
 AudioWaveform.Tag=`lucide-audio-waveform`;
-_.AudioWaveform=AudioWaveform;
+__as1(_, 'AudioWaveform', AudioWaveform);
 if(!window.customElements.get('lucide-audio-waveform')){window.customElements.define('lucide-audio-waveform', AudioWaveform);Aventus.WebComponentInstance.registerDefinition(AudioWaveform);}
 
 const Award = class Award extends AbstractIcon {
@@ -10749,7 +10749,7 @@ const Award = class Award extends AbstractIcon {
 }
 Award.Namespace=`Lucide`;
 Award.Tag=`lucide-award`;
-_.Award=Award;
+__as1(_, 'Award', Award);
 if(!window.customElements.get('lucide-award')){window.customElements.define('lucide-award', Award);Aventus.WebComponentInstance.registerDefinition(Award);}
 
 const Axe = class Axe extends AbstractIcon {
@@ -10773,7 +10773,7 @@ const Axe = class Axe extends AbstractIcon {
 }
 Axe.Namespace=`Lucide`;
 Axe.Tag=`lucide-axe`;
-_.Axe=Axe;
+__as1(_, 'Axe', Axe);
 if(!window.customElements.get('lucide-axe')){window.customElements.define('lucide-axe', Axe);Aventus.WebComponentInstance.registerDefinition(Axe);}
 
 const Axis3d = class Axis3d extends AbstractIcon {
@@ -10797,7 +10797,7 @@ const Axis3d = class Axis3d extends AbstractIcon {
 }
 Axis3d.Namespace=`Lucide`;
 Axis3d.Tag=`lucide-axis-3d`;
-_.Axis3d=Axis3d;
+__as1(_, 'Axis3d', Axis3d);
 if(!window.customElements.get('lucide-axis-3d')){window.customElements.define('lucide-axis-3d', Axis3d);Aventus.WebComponentInstance.registerDefinition(Axis3d);}
 
 const Baby = class Baby extends AbstractIcon {
@@ -10821,7 +10821,7 @@ const Baby = class Baby extends AbstractIcon {
 }
 Baby.Namespace=`Lucide`;
 Baby.Tag=`lucide-baby`;
-_.Baby=Baby;
+__as1(_, 'Baby', Baby);
 if(!window.customElements.get('lucide-baby')){window.customElements.define('lucide-baby', Baby);Aventus.WebComponentInstance.registerDefinition(Baby);}
 
 const Backpack = class Backpack extends AbstractIcon {
@@ -10845,7 +10845,7 @@ const Backpack = class Backpack extends AbstractIcon {
 }
 Backpack.Namespace=`Lucide`;
 Backpack.Tag=`lucide-backpack`;
-_.Backpack=Backpack;
+__as1(_, 'Backpack', Backpack);
 if(!window.customElements.get('lucide-backpack')){window.customElements.define('lucide-backpack', Backpack);Aventus.WebComponentInstance.registerDefinition(Backpack);}
 
 const Badge = class Badge extends AbstractIcon {
@@ -10869,7 +10869,7 @@ const Badge = class Badge extends AbstractIcon {
 }
 Badge.Namespace=`Lucide`;
 Badge.Tag=`lucide-badge`;
-_.Badge=Badge;
+__as1(_, 'Badge', Badge);
 if(!window.customElements.get('lucide-badge')){window.customElements.define('lucide-badge', Badge);Aventus.WebComponentInstance.registerDefinition(Badge);}
 
 const BadgeAlert = class BadgeAlert extends AbstractIcon {
@@ -10893,7 +10893,7 @@ const BadgeAlert = class BadgeAlert extends AbstractIcon {
 }
 BadgeAlert.Namespace=`Lucide`;
 BadgeAlert.Tag=`lucide-badge-alert`;
-_.BadgeAlert=BadgeAlert;
+__as1(_, 'BadgeAlert', BadgeAlert);
 if(!window.customElements.get('lucide-badge-alert')){window.customElements.define('lucide-badge-alert', BadgeAlert);Aventus.WebComponentInstance.registerDefinition(BadgeAlert);}
 
 const BadgeCent = class BadgeCent extends AbstractIcon {
@@ -10917,7 +10917,7 @@ const BadgeCent = class BadgeCent extends AbstractIcon {
 }
 BadgeCent.Namespace=`Lucide`;
 BadgeCent.Tag=`lucide-badge-cent`;
-_.BadgeCent=BadgeCent;
+__as1(_, 'BadgeCent', BadgeCent);
 if(!window.customElements.get('lucide-badge-cent')){window.customElements.define('lucide-badge-cent', BadgeCent);Aventus.WebComponentInstance.registerDefinition(BadgeCent);}
 
 const BadgeCheck = class BadgeCheck extends AbstractIcon {
@@ -10941,7 +10941,7 @@ const BadgeCheck = class BadgeCheck extends AbstractIcon {
 }
 BadgeCheck.Namespace=`Lucide`;
 BadgeCheck.Tag=`lucide-badge-check`;
-_.BadgeCheck=BadgeCheck;
+__as1(_, 'BadgeCheck', BadgeCheck);
 if(!window.customElements.get('lucide-badge-check')){window.customElements.define('lucide-badge-check', BadgeCheck);Aventus.WebComponentInstance.registerDefinition(BadgeCheck);}
 
 const BadgeDollarSign = class BadgeDollarSign extends AbstractIcon {
@@ -10965,7 +10965,7 @@ const BadgeDollarSign = class BadgeDollarSign extends AbstractIcon {
 }
 BadgeDollarSign.Namespace=`Lucide`;
 BadgeDollarSign.Tag=`lucide-badge-dollar-sign`;
-_.BadgeDollarSign=BadgeDollarSign;
+__as1(_, 'BadgeDollarSign', BadgeDollarSign);
 if(!window.customElements.get('lucide-badge-dollar-sign')){window.customElements.define('lucide-badge-dollar-sign', BadgeDollarSign);Aventus.WebComponentInstance.registerDefinition(BadgeDollarSign);}
 
 const BadgeEuro = class BadgeEuro extends AbstractIcon {
@@ -10989,7 +10989,7 @@ const BadgeEuro = class BadgeEuro extends AbstractIcon {
 }
 BadgeEuro.Namespace=`Lucide`;
 BadgeEuro.Tag=`lucide-badge-euro`;
-_.BadgeEuro=BadgeEuro;
+__as1(_, 'BadgeEuro', BadgeEuro);
 if(!window.customElements.get('lucide-badge-euro')){window.customElements.define('lucide-badge-euro', BadgeEuro);Aventus.WebComponentInstance.registerDefinition(BadgeEuro);}
 
 const BadgeHelp = class BadgeHelp extends AbstractIcon {
@@ -11013,7 +11013,7 @@ const BadgeHelp = class BadgeHelp extends AbstractIcon {
 }
 BadgeHelp.Namespace=`Lucide`;
 BadgeHelp.Tag=`lucide-badge-help`;
-_.BadgeHelp=BadgeHelp;
+__as1(_, 'BadgeHelp', BadgeHelp);
 if(!window.customElements.get('lucide-badge-help')){window.customElements.define('lucide-badge-help', BadgeHelp);Aventus.WebComponentInstance.registerDefinition(BadgeHelp);}
 
 const BadgeIndianRupee = class BadgeIndianRupee extends AbstractIcon {
@@ -11037,7 +11037,7 @@ const BadgeIndianRupee = class BadgeIndianRupee extends AbstractIcon {
 }
 BadgeIndianRupee.Namespace=`Lucide`;
 BadgeIndianRupee.Tag=`lucide-badge-indian-rupee`;
-_.BadgeIndianRupee=BadgeIndianRupee;
+__as1(_, 'BadgeIndianRupee', BadgeIndianRupee);
 if(!window.customElements.get('lucide-badge-indian-rupee')){window.customElements.define('lucide-badge-indian-rupee', BadgeIndianRupee);Aventus.WebComponentInstance.registerDefinition(BadgeIndianRupee);}
 
 const BadgeInfo = class BadgeInfo extends AbstractIcon {
@@ -11061,7 +11061,7 @@ const BadgeInfo = class BadgeInfo extends AbstractIcon {
 }
 BadgeInfo.Namespace=`Lucide`;
 BadgeInfo.Tag=`lucide-badge-info`;
-_.BadgeInfo=BadgeInfo;
+__as1(_, 'BadgeInfo', BadgeInfo);
 if(!window.customElements.get('lucide-badge-info')){window.customElements.define('lucide-badge-info', BadgeInfo);Aventus.WebComponentInstance.registerDefinition(BadgeInfo);}
 
 const BadgeJapaneseYen = class BadgeJapaneseYen extends AbstractIcon {
@@ -11085,7 +11085,7 @@ const BadgeJapaneseYen = class BadgeJapaneseYen extends AbstractIcon {
 }
 BadgeJapaneseYen.Namespace=`Lucide`;
 BadgeJapaneseYen.Tag=`lucide-badge-japanese-yen`;
-_.BadgeJapaneseYen=BadgeJapaneseYen;
+__as1(_, 'BadgeJapaneseYen', BadgeJapaneseYen);
 if(!window.customElements.get('lucide-badge-japanese-yen')){window.customElements.define('lucide-badge-japanese-yen', BadgeJapaneseYen);Aventus.WebComponentInstance.registerDefinition(BadgeJapaneseYen);}
 
 const BadgeMinus = class BadgeMinus extends AbstractIcon {
@@ -11109,7 +11109,7 @@ const BadgeMinus = class BadgeMinus extends AbstractIcon {
 }
 BadgeMinus.Namespace=`Lucide`;
 BadgeMinus.Tag=`lucide-badge-minus`;
-_.BadgeMinus=BadgeMinus;
+__as1(_, 'BadgeMinus', BadgeMinus);
 if(!window.customElements.get('lucide-badge-minus')){window.customElements.define('lucide-badge-minus', BadgeMinus);Aventus.WebComponentInstance.registerDefinition(BadgeMinus);}
 
 const BadgePercent = class BadgePercent extends AbstractIcon {
@@ -11133,7 +11133,7 @@ const BadgePercent = class BadgePercent extends AbstractIcon {
 }
 BadgePercent.Namespace=`Lucide`;
 BadgePercent.Tag=`lucide-badge-percent`;
-_.BadgePercent=BadgePercent;
+__as1(_, 'BadgePercent', BadgePercent);
 if(!window.customElements.get('lucide-badge-percent')){window.customElements.define('lucide-badge-percent', BadgePercent);Aventus.WebComponentInstance.registerDefinition(BadgePercent);}
 
 const BadgePlus = class BadgePlus extends AbstractIcon {
@@ -11157,7 +11157,7 @@ const BadgePlus = class BadgePlus extends AbstractIcon {
 }
 BadgePlus.Namespace=`Lucide`;
 BadgePlus.Tag=`lucide-badge-plus`;
-_.BadgePlus=BadgePlus;
+__as1(_, 'BadgePlus', BadgePlus);
 if(!window.customElements.get('lucide-badge-plus')){window.customElements.define('lucide-badge-plus', BadgePlus);Aventus.WebComponentInstance.registerDefinition(BadgePlus);}
 
 const BadgePoundSterling = class BadgePoundSterling extends AbstractIcon {
@@ -11181,7 +11181,7 @@ const BadgePoundSterling = class BadgePoundSterling extends AbstractIcon {
 }
 BadgePoundSterling.Namespace=`Lucide`;
 BadgePoundSterling.Tag=`lucide-badge-pound-sterling`;
-_.BadgePoundSterling=BadgePoundSterling;
+__as1(_, 'BadgePoundSterling', BadgePoundSterling);
 if(!window.customElements.get('lucide-badge-pound-sterling')){window.customElements.define('lucide-badge-pound-sterling', BadgePoundSterling);Aventus.WebComponentInstance.registerDefinition(BadgePoundSterling);}
 
 const BadgeQuestionMark = class BadgeQuestionMark extends AbstractIcon {
@@ -11205,7 +11205,7 @@ const BadgeQuestionMark = class BadgeQuestionMark extends AbstractIcon {
 }
 BadgeQuestionMark.Namespace=`Lucide`;
 BadgeQuestionMark.Tag=`lucide-badge-question-mark`;
-_.BadgeQuestionMark=BadgeQuestionMark;
+__as1(_, 'BadgeQuestionMark', BadgeQuestionMark);
 if(!window.customElements.get('lucide-badge-question-mark')){window.customElements.define('lucide-badge-question-mark', BadgeQuestionMark);Aventus.WebComponentInstance.registerDefinition(BadgeQuestionMark);}
 
 const BadgeRussianRuble = class BadgeRussianRuble extends AbstractIcon {
@@ -11229,7 +11229,7 @@ const BadgeRussianRuble = class BadgeRussianRuble extends AbstractIcon {
 }
 BadgeRussianRuble.Namespace=`Lucide`;
 BadgeRussianRuble.Tag=`lucide-badge-russian-ruble`;
-_.BadgeRussianRuble=BadgeRussianRuble;
+__as1(_, 'BadgeRussianRuble', BadgeRussianRuble);
 if(!window.customElements.get('lucide-badge-russian-ruble')){window.customElements.define('lucide-badge-russian-ruble', BadgeRussianRuble);Aventus.WebComponentInstance.registerDefinition(BadgeRussianRuble);}
 
 const BadgeSwissFranc = class BadgeSwissFranc extends AbstractIcon {
@@ -11253,7 +11253,7 @@ const BadgeSwissFranc = class BadgeSwissFranc extends AbstractIcon {
 }
 BadgeSwissFranc.Namespace=`Lucide`;
 BadgeSwissFranc.Tag=`lucide-badge-swiss-franc`;
-_.BadgeSwissFranc=BadgeSwissFranc;
+__as1(_, 'BadgeSwissFranc', BadgeSwissFranc);
 if(!window.customElements.get('lucide-badge-swiss-franc')){window.customElements.define('lucide-badge-swiss-franc', BadgeSwissFranc);Aventus.WebComponentInstance.registerDefinition(BadgeSwissFranc);}
 
 const BadgeX = class BadgeX extends AbstractIcon {
@@ -11277,7 +11277,7 @@ const BadgeX = class BadgeX extends AbstractIcon {
 }
 BadgeX.Namespace=`Lucide`;
 BadgeX.Tag=`lucide-badge-x`;
-_.BadgeX=BadgeX;
+__as1(_, 'BadgeX', BadgeX);
 if(!window.customElements.get('lucide-badge-x')){window.customElements.define('lucide-badge-x', BadgeX);Aventus.WebComponentInstance.registerDefinition(BadgeX);}
 
 const BaggageClaim = class BaggageClaim extends AbstractIcon {
@@ -11301,7 +11301,7 @@ const BaggageClaim = class BaggageClaim extends AbstractIcon {
 }
 BaggageClaim.Namespace=`Lucide`;
 BaggageClaim.Tag=`lucide-baggage-claim`;
-_.BaggageClaim=BaggageClaim;
+__as1(_, 'BaggageClaim', BaggageClaim);
 if(!window.customElements.get('lucide-baggage-claim')){window.customElements.define('lucide-baggage-claim', BaggageClaim);Aventus.WebComponentInstance.registerDefinition(BaggageClaim);}
 
 const Ban = class Ban extends AbstractIcon {
@@ -11325,7 +11325,7 @@ const Ban = class Ban extends AbstractIcon {
 }
 Ban.Namespace=`Lucide`;
 Ban.Tag=`lucide-ban`;
-_.Ban=Ban;
+__as1(_, 'Ban', Ban);
 if(!window.customElements.get('lucide-ban')){window.customElements.define('lucide-ban', Ban);Aventus.WebComponentInstance.registerDefinition(Ban);}
 
 const Banana = class Banana extends AbstractIcon {
@@ -11349,7 +11349,7 @@ const Banana = class Banana extends AbstractIcon {
 }
 Banana.Namespace=`Lucide`;
 Banana.Tag=`lucide-banana`;
-_.Banana=Banana;
+__as1(_, 'Banana', Banana);
 if(!window.customElements.get('lucide-banana')){window.customElements.define('lucide-banana', Banana);Aventus.WebComponentInstance.registerDefinition(Banana);}
 
 const Bandage = class Bandage extends AbstractIcon {
@@ -11373,7 +11373,7 @@ const Bandage = class Bandage extends AbstractIcon {
 }
 Bandage.Namespace=`Lucide`;
 Bandage.Tag=`lucide-bandage`;
-_.Bandage=Bandage;
+__as1(_, 'Bandage', Bandage);
 if(!window.customElements.get('lucide-bandage')){window.customElements.define('lucide-bandage', Bandage);Aventus.WebComponentInstance.registerDefinition(Bandage);}
 
 const Banknote = class Banknote extends AbstractIcon {
@@ -11397,7 +11397,7 @@ const Banknote = class Banknote extends AbstractIcon {
 }
 Banknote.Namespace=`Lucide`;
 Banknote.Tag=`lucide-banknote`;
-_.Banknote=Banknote;
+__as1(_, 'Banknote', Banknote);
 if(!window.customElements.get('lucide-banknote')){window.customElements.define('lucide-banknote', Banknote);Aventus.WebComponentInstance.registerDefinition(Banknote);}
 
 const BanknoteArrowDown = class BanknoteArrowDown extends AbstractIcon {
@@ -11421,7 +11421,7 @@ const BanknoteArrowDown = class BanknoteArrowDown extends AbstractIcon {
 }
 BanknoteArrowDown.Namespace=`Lucide`;
 BanknoteArrowDown.Tag=`lucide-banknote-arrow-down`;
-_.BanknoteArrowDown=BanknoteArrowDown;
+__as1(_, 'BanknoteArrowDown', BanknoteArrowDown);
 if(!window.customElements.get('lucide-banknote-arrow-down')){window.customElements.define('lucide-banknote-arrow-down', BanknoteArrowDown);Aventus.WebComponentInstance.registerDefinition(BanknoteArrowDown);}
 
 const BanknoteArrowUp = class BanknoteArrowUp extends AbstractIcon {
@@ -11445,7 +11445,7 @@ const BanknoteArrowUp = class BanknoteArrowUp extends AbstractIcon {
 }
 BanknoteArrowUp.Namespace=`Lucide`;
 BanknoteArrowUp.Tag=`lucide-banknote-arrow-up`;
-_.BanknoteArrowUp=BanknoteArrowUp;
+__as1(_, 'BanknoteArrowUp', BanknoteArrowUp);
 if(!window.customElements.get('lucide-banknote-arrow-up')){window.customElements.define('lucide-banknote-arrow-up', BanknoteArrowUp);Aventus.WebComponentInstance.registerDefinition(BanknoteArrowUp);}
 
 const BanknoteX = class BanknoteX extends AbstractIcon {
@@ -11469,7 +11469,7 @@ const BanknoteX = class BanknoteX extends AbstractIcon {
 }
 BanknoteX.Namespace=`Lucide`;
 BanknoteX.Tag=`lucide-banknote-x`;
-_.BanknoteX=BanknoteX;
+__as1(_, 'BanknoteX', BanknoteX);
 if(!window.customElements.get('lucide-banknote-x')){window.customElements.define('lucide-banknote-x', BanknoteX);Aventus.WebComponentInstance.registerDefinition(BanknoteX);}
 
 const BarChart = class BarChart extends AbstractIcon {
@@ -11493,7 +11493,7 @@ const BarChart = class BarChart extends AbstractIcon {
 }
 BarChart.Namespace=`Lucide`;
 BarChart.Tag=`lucide-bar-chart`;
-_.BarChart=BarChart;
+__as1(_, 'BarChart', BarChart);
 if(!window.customElements.get('lucide-bar-chart')){window.customElements.define('lucide-bar-chart', BarChart);Aventus.WebComponentInstance.registerDefinition(BarChart);}
 
 const BarChart2 = class BarChart2 extends AbstractIcon {
@@ -11517,7 +11517,7 @@ const BarChart2 = class BarChart2 extends AbstractIcon {
 }
 BarChart2.Namespace=`Lucide`;
 BarChart2.Tag=`lucide-bar-chart-2`;
-_.BarChart2=BarChart2;
+__as1(_, 'BarChart2', BarChart2);
 if(!window.customElements.get('lucide-bar-chart-2')){window.customElements.define('lucide-bar-chart-2', BarChart2);Aventus.WebComponentInstance.registerDefinition(BarChart2);}
 
 const BarChart3 = class BarChart3 extends AbstractIcon {
@@ -11541,7 +11541,7 @@ const BarChart3 = class BarChart3 extends AbstractIcon {
 }
 BarChart3.Namespace=`Lucide`;
 BarChart3.Tag=`lucide-bar-chart-3`;
-_.BarChart3=BarChart3;
+__as1(_, 'BarChart3', BarChart3);
 if(!window.customElements.get('lucide-bar-chart-3')){window.customElements.define('lucide-bar-chart-3', BarChart3);Aventus.WebComponentInstance.registerDefinition(BarChart3);}
 
 const BarChart4 = class BarChart4 extends AbstractIcon {
@@ -11565,7 +11565,7 @@ const BarChart4 = class BarChart4 extends AbstractIcon {
 }
 BarChart4.Namespace=`Lucide`;
 BarChart4.Tag=`lucide-bar-chart-4`;
-_.BarChart4=BarChart4;
+__as1(_, 'BarChart4', BarChart4);
 if(!window.customElements.get('lucide-bar-chart-4')){window.customElements.define('lucide-bar-chart-4', BarChart4);Aventus.WebComponentInstance.registerDefinition(BarChart4);}
 
 const BarChartBig = class BarChartBig extends AbstractIcon {
@@ -11589,7 +11589,7 @@ const BarChartBig = class BarChartBig extends AbstractIcon {
 }
 BarChartBig.Namespace=`Lucide`;
 BarChartBig.Tag=`lucide-bar-chart-big`;
-_.BarChartBig=BarChartBig;
+__as1(_, 'BarChartBig', BarChartBig);
 if(!window.customElements.get('lucide-bar-chart-big')){window.customElements.define('lucide-bar-chart-big', BarChartBig);Aventus.WebComponentInstance.registerDefinition(BarChartBig);}
 
 const BarChartHorizontal = class BarChartHorizontal extends AbstractIcon {
@@ -11613,7 +11613,7 @@ const BarChartHorizontal = class BarChartHorizontal extends AbstractIcon {
 }
 BarChartHorizontal.Namespace=`Lucide`;
 BarChartHorizontal.Tag=`lucide-bar-chart-horizontal`;
-_.BarChartHorizontal=BarChartHorizontal;
+__as1(_, 'BarChartHorizontal', BarChartHorizontal);
 if(!window.customElements.get('lucide-bar-chart-horizontal')){window.customElements.define('lucide-bar-chart-horizontal', BarChartHorizontal);Aventus.WebComponentInstance.registerDefinition(BarChartHorizontal);}
 
 const BarChartHorizontalBig = class BarChartHorizontalBig extends AbstractIcon {
@@ -11637,7 +11637,7 @@ const BarChartHorizontalBig = class BarChartHorizontalBig extends AbstractIcon {
 }
 BarChartHorizontalBig.Namespace=`Lucide`;
 BarChartHorizontalBig.Tag=`lucide-bar-chart-horizontal-big`;
-_.BarChartHorizontalBig=BarChartHorizontalBig;
+__as1(_, 'BarChartHorizontalBig', BarChartHorizontalBig);
 if(!window.customElements.get('lucide-bar-chart-horizontal-big')){window.customElements.define('lucide-bar-chart-horizontal-big', BarChartHorizontalBig);Aventus.WebComponentInstance.registerDefinition(BarChartHorizontalBig);}
 
 const Barcode = class Barcode extends AbstractIcon {
@@ -11661,7 +11661,7 @@ const Barcode = class Barcode extends AbstractIcon {
 }
 Barcode.Namespace=`Lucide`;
 Barcode.Tag=`lucide-barcode`;
-_.Barcode=Barcode;
+__as1(_, 'Barcode', Barcode);
 if(!window.customElements.get('lucide-barcode')){window.customElements.define('lucide-barcode', Barcode);Aventus.WebComponentInstance.registerDefinition(Barcode);}
 
 const Barrel = class Barrel extends AbstractIcon {
@@ -11685,7 +11685,7 @@ const Barrel = class Barrel extends AbstractIcon {
 }
 Barrel.Namespace=`Lucide`;
 Barrel.Tag=`lucide-barrel`;
-_.Barrel=Barrel;
+__as1(_, 'Barrel', Barrel);
 if(!window.customElements.get('lucide-barrel')){window.customElements.define('lucide-barrel', Barrel);Aventus.WebComponentInstance.registerDefinition(Barrel);}
 
 const Baseline = class Baseline extends AbstractIcon {
@@ -11709,7 +11709,7 @@ const Baseline = class Baseline extends AbstractIcon {
 }
 Baseline.Namespace=`Lucide`;
 Baseline.Tag=`lucide-baseline`;
-_.Baseline=Baseline;
+__as1(_, 'Baseline', Baseline);
 if(!window.customElements.get('lucide-baseline')){window.customElements.define('lucide-baseline', Baseline);Aventus.WebComponentInstance.registerDefinition(Baseline);}
 
 const Bath = class Bath extends AbstractIcon {
@@ -11733,7 +11733,7 @@ const Bath = class Bath extends AbstractIcon {
 }
 Bath.Namespace=`Lucide`;
 Bath.Tag=`lucide-bath`;
-_.Bath=Bath;
+__as1(_, 'Bath', Bath);
 if(!window.customElements.get('lucide-bath')){window.customElements.define('lucide-bath', Bath);Aventus.WebComponentInstance.registerDefinition(Bath);}
 
 const Battery = class Battery extends AbstractIcon {
@@ -11757,7 +11757,7 @@ const Battery = class Battery extends AbstractIcon {
 }
 Battery.Namespace=`Lucide`;
 Battery.Tag=`lucide-battery`;
-_.Battery=Battery;
+__as1(_, 'Battery', Battery);
 if(!window.customElements.get('lucide-battery')){window.customElements.define('lucide-battery', Battery);Aventus.WebComponentInstance.registerDefinition(Battery);}
 
 const BatteryCharging = class BatteryCharging extends AbstractIcon {
@@ -11781,7 +11781,7 @@ const BatteryCharging = class BatteryCharging extends AbstractIcon {
 }
 BatteryCharging.Namespace=`Lucide`;
 BatteryCharging.Tag=`lucide-battery-charging`;
-_.BatteryCharging=BatteryCharging;
+__as1(_, 'BatteryCharging', BatteryCharging);
 if(!window.customElements.get('lucide-battery-charging')){window.customElements.define('lucide-battery-charging', BatteryCharging);Aventus.WebComponentInstance.registerDefinition(BatteryCharging);}
 
 const BatteryFull = class BatteryFull extends AbstractIcon {
@@ -11805,7 +11805,7 @@ const BatteryFull = class BatteryFull extends AbstractIcon {
 }
 BatteryFull.Namespace=`Lucide`;
 BatteryFull.Tag=`lucide-battery-full`;
-_.BatteryFull=BatteryFull;
+__as1(_, 'BatteryFull', BatteryFull);
 if(!window.customElements.get('lucide-battery-full')){window.customElements.define('lucide-battery-full', BatteryFull);Aventus.WebComponentInstance.registerDefinition(BatteryFull);}
 
 const BatteryLow = class BatteryLow extends AbstractIcon {
@@ -11829,7 +11829,7 @@ const BatteryLow = class BatteryLow extends AbstractIcon {
 }
 BatteryLow.Namespace=`Lucide`;
 BatteryLow.Tag=`lucide-battery-low`;
-_.BatteryLow=BatteryLow;
+__as1(_, 'BatteryLow', BatteryLow);
 if(!window.customElements.get('lucide-battery-low')){window.customElements.define('lucide-battery-low', BatteryLow);Aventus.WebComponentInstance.registerDefinition(BatteryLow);}
 
 const BatteryMedium = class BatteryMedium extends AbstractIcon {
@@ -11853,7 +11853,7 @@ const BatteryMedium = class BatteryMedium extends AbstractIcon {
 }
 BatteryMedium.Namespace=`Lucide`;
 BatteryMedium.Tag=`lucide-battery-medium`;
-_.BatteryMedium=BatteryMedium;
+__as1(_, 'BatteryMedium', BatteryMedium);
 if(!window.customElements.get('lucide-battery-medium')){window.customElements.define('lucide-battery-medium', BatteryMedium);Aventus.WebComponentInstance.registerDefinition(BatteryMedium);}
 
 const BatteryPlus = class BatteryPlus extends AbstractIcon {
@@ -11877,7 +11877,7 @@ const BatteryPlus = class BatteryPlus extends AbstractIcon {
 }
 BatteryPlus.Namespace=`Lucide`;
 BatteryPlus.Tag=`lucide-battery-plus`;
-_.BatteryPlus=BatteryPlus;
+__as1(_, 'BatteryPlus', BatteryPlus);
 if(!window.customElements.get('lucide-battery-plus')){window.customElements.define('lucide-battery-plus', BatteryPlus);Aventus.WebComponentInstance.registerDefinition(BatteryPlus);}
 
 const BatteryWarning = class BatteryWarning extends AbstractIcon {
@@ -11901,7 +11901,7 @@ const BatteryWarning = class BatteryWarning extends AbstractIcon {
 }
 BatteryWarning.Namespace=`Lucide`;
 BatteryWarning.Tag=`lucide-battery-warning`;
-_.BatteryWarning=BatteryWarning;
+__as1(_, 'BatteryWarning', BatteryWarning);
 if(!window.customElements.get('lucide-battery-warning')){window.customElements.define('lucide-battery-warning', BatteryWarning);Aventus.WebComponentInstance.registerDefinition(BatteryWarning);}
 
 const Beaker = class Beaker extends AbstractIcon {
@@ -11925,7 +11925,7 @@ const Beaker = class Beaker extends AbstractIcon {
 }
 Beaker.Namespace=`Lucide`;
 Beaker.Tag=`lucide-beaker`;
-_.Beaker=Beaker;
+__as1(_, 'Beaker', Beaker);
 if(!window.customElements.get('lucide-beaker')){window.customElements.define('lucide-beaker', Beaker);Aventus.WebComponentInstance.registerDefinition(Beaker);}
 
 const Bean = class Bean extends AbstractIcon {
@@ -11949,7 +11949,7 @@ const Bean = class Bean extends AbstractIcon {
 }
 Bean.Namespace=`Lucide`;
 Bean.Tag=`lucide-bean`;
-_.Bean=Bean;
+__as1(_, 'Bean', Bean);
 if(!window.customElements.get('lucide-bean')){window.customElements.define('lucide-bean', Bean);Aventus.WebComponentInstance.registerDefinition(Bean);}
 
 const BeanOff = class BeanOff extends AbstractIcon {
@@ -11973,7 +11973,7 @@ const BeanOff = class BeanOff extends AbstractIcon {
 }
 BeanOff.Namespace=`Lucide`;
 BeanOff.Tag=`lucide-bean-off`;
-_.BeanOff=BeanOff;
+__as1(_, 'BeanOff', BeanOff);
 if(!window.customElements.get('lucide-bean-off')){window.customElements.define('lucide-bean-off', BeanOff);Aventus.WebComponentInstance.registerDefinition(BeanOff);}
 
 const Bed = class Bed extends AbstractIcon {
@@ -11997,7 +11997,7 @@ const Bed = class Bed extends AbstractIcon {
 }
 Bed.Namespace=`Lucide`;
 Bed.Tag=`lucide-bed`;
-_.Bed=Bed;
+__as1(_, 'Bed', Bed);
 if(!window.customElements.get('lucide-bed')){window.customElements.define('lucide-bed', Bed);Aventus.WebComponentInstance.registerDefinition(Bed);}
 
 const BedDouble = class BedDouble extends AbstractIcon {
@@ -12021,7 +12021,7 @@ const BedDouble = class BedDouble extends AbstractIcon {
 }
 BedDouble.Namespace=`Lucide`;
 BedDouble.Tag=`lucide-bed-double`;
-_.BedDouble=BedDouble;
+__as1(_, 'BedDouble', BedDouble);
 if(!window.customElements.get('lucide-bed-double')){window.customElements.define('lucide-bed-double', BedDouble);Aventus.WebComponentInstance.registerDefinition(BedDouble);}
 
 const BedSingle = class BedSingle extends AbstractIcon {
@@ -12045,7 +12045,7 @@ const BedSingle = class BedSingle extends AbstractIcon {
 }
 BedSingle.Namespace=`Lucide`;
 BedSingle.Tag=`lucide-bed-single`;
-_.BedSingle=BedSingle;
+__as1(_, 'BedSingle', BedSingle);
 if(!window.customElements.get('lucide-bed-single')){window.customElements.define('lucide-bed-single', BedSingle);Aventus.WebComponentInstance.registerDefinition(BedSingle);}
 
 const Beef = class Beef extends AbstractIcon {
@@ -12069,7 +12069,7 @@ const Beef = class Beef extends AbstractIcon {
 }
 Beef.Namespace=`Lucide`;
 Beef.Tag=`lucide-beef`;
-_.Beef=Beef;
+__as1(_, 'Beef', Beef);
 if(!window.customElements.get('lucide-beef')){window.customElements.define('lucide-beef', Beef);Aventus.WebComponentInstance.registerDefinition(Beef);}
 
 const Beer = class Beer extends AbstractIcon {
@@ -12093,7 +12093,7 @@ const Beer = class Beer extends AbstractIcon {
 }
 Beer.Namespace=`Lucide`;
 Beer.Tag=`lucide-beer`;
-_.Beer=Beer;
+__as1(_, 'Beer', Beer);
 if(!window.customElements.get('lucide-beer')){window.customElements.define('lucide-beer', Beer);Aventus.WebComponentInstance.registerDefinition(Beer);}
 
 const BeerOff = class BeerOff extends AbstractIcon {
@@ -12117,7 +12117,7 @@ const BeerOff = class BeerOff extends AbstractIcon {
 }
 BeerOff.Namespace=`Lucide`;
 BeerOff.Tag=`lucide-beer-off`;
-_.BeerOff=BeerOff;
+__as1(_, 'BeerOff', BeerOff);
 if(!window.customElements.get('lucide-beer-off')){window.customElements.define('lucide-beer-off', BeerOff);Aventus.WebComponentInstance.registerDefinition(BeerOff);}
 
 const Bell = class Bell extends AbstractIcon {
@@ -12141,7 +12141,7 @@ const Bell = class Bell extends AbstractIcon {
 }
 Bell.Namespace=`Lucide`;
 Bell.Tag=`lucide-bell`;
-_.Bell=Bell;
+__as1(_, 'Bell', Bell);
 if(!window.customElements.get('lucide-bell')){window.customElements.define('lucide-bell', Bell);Aventus.WebComponentInstance.registerDefinition(Bell);}
 
 const BellDot = class BellDot extends AbstractIcon {
@@ -12165,7 +12165,7 @@ const BellDot = class BellDot extends AbstractIcon {
 }
 BellDot.Namespace=`Lucide`;
 BellDot.Tag=`lucide-bell-dot`;
-_.BellDot=BellDot;
+__as1(_, 'BellDot', BellDot);
 if(!window.customElements.get('lucide-bell-dot')){window.customElements.define('lucide-bell-dot', BellDot);Aventus.WebComponentInstance.registerDefinition(BellDot);}
 
 const BellElectric = class BellElectric extends AbstractIcon {
@@ -12189,7 +12189,7 @@ const BellElectric = class BellElectric extends AbstractIcon {
 }
 BellElectric.Namespace=`Lucide`;
 BellElectric.Tag=`lucide-bell-electric`;
-_.BellElectric=BellElectric;
+__as1(_, 'BellElectric', BellElectric);
 if(!window.customElements.get('lucide-bell-electric')){window.customElements.define('lucide-bell-electric', BellElectric);Aventus.WebComponentInstance.registerDefinition(BellElectric);}
 
 const BellMinus = class BellMinus extends AbstractIcon {
@@ -12213,7 +12213,7 @@ const BellMinus = class BellMinus extends AbstractIcon {
 }
 BellMinus.Namespace=`Lucide`;
 BellMinus.Tag=`lucide-bell-minus`;
-_.BellMinus=BellMinus;
+__as1(_, 'BellMinus', BellMinus);
 if(!window.customElements.get('lucide-bell-minus')){window.customElements.define('lucide-bell-minus', BellMinus);Aventus.WebComponentInstance.registerDefinition(BellMinus);}
 
 const BellOff = class BellOff extends AbstractIcon {
@@ -12237,7 +12237,7 @@ const BellOff = class BellOff extends AbstractIcon {
 }
 BellOff.Namespace=`Lucide`;
 BellOff.Tag=`lucide-bell-off`;
-_.BellOff=BellOff;
+__as1(_, 'BellOff', BellOff);
 if(!window.customElements.get('lucide-bell-off')){window.customElements.define('lucide-bell-off', BellOff);Aventus.WebComponentInstance.registerDefinition(BellOff);}
 
 const BellPlus = class BellPlus extends AbstractIcon {
@@ -12261,7 +12261,7 @@ const BellPlus = class BellPlus extends AbstractIcon {
 }
 BellPlus.Namespace=`Lucide`;
 BellPlus.Tag=`lucide-bell-plus`;
-_.BellPlus=BellPlus;
+__as1(_, 'BellPlus', BellPlus);
 if(!window.customElements.get('lucide-bell-plus')){window.customElements.define('lucide-bell-plus', BellPlus);Aventus.WebComponentInstance.registerDefinition(BellPlus);}
 
 const BellRing = class BellRing extends AbstractIcon {
@@ -12285,7 +12285,7 @@ const BellRing = class BellRing extends AbstractIcon {
 }
 BellRing.Namespace=`Lucide`;
 BellRing.Tag=`lucide-bell-ring`;
-_.BellRing=BellRing;
+__as1(_, 'BellRing', BellRing);
 if(!window.customElements.get('lucide-bell-ring')){window.customElements.define('lucide-bell-ring', BellRing);Aventus.WebComponentInstance.registerDefinition(BellRing);}
 
 const BetweenHorizonalEnd = class BetweenHorizonalEnd extends AbstractIcon {
@@ -12309,7 +12309,7 @@ const BetweenHorizonalEnd = class BetweenHorizonalEnd extends AbstractIcon {
 }
 BetweenHorizonalEnd.Namespace=`Lucide`;
 BetweenHorizonalEnd.Tag=`lucide-between-horizonal-end`;
-_.BetweenHorizonalEnd=BetweenHorizonalEnd;
+__as1(_, 'BetweenHorizonalEnd', BetweenHorizonalEnd);
 if(!window.customElements.get('lucide-between-horizonal-end')){window.customElements.define('lucide-between-horizonal-end', BetweenHorizonalEnd);Aventus.WebComponentInstance.registerDefinition(BetweenHorizonalEnd);}
 
 const BetweenHorizonalStart = class BetweenHorizonalStart extends AbstractIcon {
@@ -12333,7 +12333,7 @@ const BetweenHorizonalStart = class BetweenHorizonalStart extends AbstractIcon {
 }
 BetweenHorizonalStart.Namespace=`Lucide`;
 BetweenHorizonalStart.Tag=`lucide-between-horizonal-start`;
-_.BetweenHorizonalStart=BetweenHorizonalStart;
+__as1(_, 'BetweenHorizonalStart', BetweenHorizonalStart);
 if(!window.customElements.get('lucide-between-horizonal-start')){window.customElements.define('lucide-between-horizonal-start', BetweenHorizonalStart);Aventus.WebComponentInstance.registerDefinition(BetweenHorizonalStart);}
 
 const BetweenHorizontalEnd = class BetweenHorizontalEnd extends AbstractIcon {
@@ -12357,7 +12357,7 @@ const BetweenHorizontalEnd = class BetweenHorizontalEnd extends AbstractIcon {
 }
 BetweenHorizontalEnd.Namespace=`Lucide`;
 BetweenHorizontalEnd.Tag=`lucide-between-horizontal-end`;
-_.BetweenHorizontalEnd=BetweenHorizontalEnd;
+__as1(_, 'BetweenHorizontalEnd', BetweenHorizontalEnd);
 if(!window.customElements.get('lucide-between-horizontal-end')){window.customElements.define('lucide-between-horizontal-end', BetweenHorizontalEnd);Aventus.WebComponentInstance.registerDefinition(BetweenHorizontalEnd);}
 
 const BetweenHorizontalStart = class BetweenHorizontalStart extends AbstractIcon {
@@ -12381,7 +12381,7 @@ const BetweenHorizontalStart = class BetweenHorizontalStart extends AbstractIcon
 }
 BetweenHorizontalStart.Namespace=`Lucide`;
 BetweenHorizontalStart.Tag=`lucide-between-horizontal-start`;
-_.BetweenHorizontalStart=BetweenHorizontalStart;
+__as1(_, 'BetweenHorizontalStart', BetweenHorizontalStart);
 if(!window.customElements.get('lucide-between-horizontal-start')){window.customElements.define('lucide-between-horizontal-start', BetweenHorizontalStart);Aventus.WebComponentInstance.registerDefinition(BetweenHorizontalStart);}
 
 const BetweenVerticalEnd = class BetweenVerticalEnd extends AbstractIcon {
@@ -12405,7 +12405,7 @@ const BetweenVerticalEnd = class BetweenVerticalEnd extends AbstractIcon {
 }
 BetweenVerticalEnd.Namespace=`Lucide`;
 BetweenVerticalEnd.Tag=`lucide-between-vertical-end`;
-_.BetweenVerticalEnd=BetweenVerticalEnd;
+__as1(_, 'BetweenVerticalEnd', BetweenVerticalEnd);
 if(!window.customElements.get('lucide-between-vertical-end')){window.customElements.define('lucide-between-vertical-end', BetweenVerticalEnd);Aventus.WebComponentInstance.registerDefinition(BetweenVerticalEnd);}
 
 const BetweenVerticalStart = class BetweenVerticalStart extends AbstractIcon {
@@ -12429,7 +12429,7 @@ const BetweenVerticalStart = class BetweenVerticalStart extends AbstractIcon {
 }
 BetweenVerticalStart.Namespace=`Lucide`;
 BetweenVerticalStart.Tag=`lucide-between-vertical-start`;
-_.BetweenVerticalStart=BetweenVerticalStart;
+__as1(_, 'BetweenVerticalStart', BetweenVerticalStart);
 if(!window.customElements.get('lucide-between-vertical-start')){window.customElements.define('lucide-between-vertical-start', BetweenVerticalStart);Aventus.WebComponentInstance.registerDefinition(BetweenVerticalStart);}
 
 const BicepsFlexed = class BicepsFlexed extends AbstractIcon {
@@ -12453,7 +12453,7 @@ const BicepsFlexed = class BicepsFlexed extends AbstractIcon {
 }
 BicepsFlexed.Namespace=`Lucide`;
 BicepsFlexed.Tag=`lucide-biceps-flexed`;
-_.BicepsFlexed=BicepsFlexed;
+__as1(_, 'BicepsFlexed', BicepsFlexed);
 if(!window.customElements.get('lucide-biceps-flexed')){window.customElements.define('lucide-biceps-flexed', BicepsFlexed);Aventus.WebComponentInstance.registerDefinition(BicepsFlexed);}
 
 const Bike = class Bike extends AbstractIcon {
@@ -12477,7 +12477,7 @@ const Bike = class Bike extends AbstractIcon {
 }
 Bike.Namespace=`Lucide`;
 Bike.Tag=`lucide-bike`;
-_.Bike=Bike;
+__as1(_, 'Bike', Bike);
 if(!window.customElements.get('lucide-bike')){window.customElements.define('lucide-bike', Bike);Aventus.WebComponentInstance.registerDefinition(Bike);}
 
 const Binary = class Binary extends AbstractIcon {
@@ -12501,7 +12501,7 @@ const Binary = class Binary extends AbstractIcon {
 }
 Binary.Namespace=`Lucide`;
 Binary.Tag=`lucide-binary`;
-_.Binary=Binary;
+__as1(_, 'Binary', Binary);
 if(!window.customElements.get('lucide-binary')){window.customElements.define('lucide-binary', Binary);Aventus.WebComponentInstance.registerDefinition(Binary);}
 
 const Binoculars = class Binoculars extends AbstractIcon {
@@ -12525,7 +12525,7 @@ const Binoculars = class Binoculars extends AbstractIcon {
 }
 Binoculars.Namespace=`Lucide`;
 Binoculars.Tag=`lucide-binoculars`;
-_.Binoculars=Binoculars;
+__as1(_, 'Binoculars', Binoculars);
 if(!window.customElements.get('lucide-binoculars')){window.customElements.define('lucide-binoculars', Binoculars);Aventus.WebComponentInstance.registerDefinition(Binoculars);}
 
 const Biohazard = class Biohazard extends AbstractIcon {
@@ -12549,7 +12549,7 @@ const Biohazard = class Biohazard extends AbstractIcon {
 }
 Biohazard.Namespace=`Lucide`;
 Biohazard.Tag=`lucide-biohazard`;
-_.Biohazard=Biohazard;
+__as1(_, 'Biohazard', Biohazard);
 if(!window.customElements.get('lucide-biohazard')){window.customElements.define('lucide-biohazard', Biohazard);Aventus.WebComponentInstance.registerDefinition(Biohazard);}
 
 const Bird = class Bird extends AbstractIcon {
@@ -12573,7 +12573,7 @@ const Bird = class Bird extends AbstractIcon {
 }
 Bird.Namespace=`Lucide`;
 Bird.Tag=`lucide-bird`;
-_.Bird=Bird;
+__as1(_, 'Bird', Bird);
 if(!window.customElements.get('lucide-bird')){window.customElements.define('lucide-bird', Bird);Aventus.WebComponentInstance.registerDefinition(Bird);}
 
 const Bitcoin = class Bitcoin extends AbstractIcon {
@@ -12597,7 +12597,7 @@ const Bitcoin = class Bitcoin extends AbstractIcon {
 }
 Bitcoin.Namespace=`Lucide`;
 Bitcoin.Tag=`lucide-bitcoin`;
-_.Bitcoin=Bitcoin;
+__as1(_, 'Bitcoin', Bitcoin);
 if(!window.customElements.get('lucide-bitcoin')){window.customElements.define('lucide-bitcoin', Bitcoin);Aventus.WebComponentInstance.registerDefinition(Bitcoin);}
 
 const Blend = class Blend extends AbstractIcon {
@@ -12621,7 +12621,7 @@ const Blend = class Blend extends AbstractIcon {
 }
 Blend.Namespace=`Lucide`;
 Blend.Tag=`lucide-blend`;
-_.Blend=Blend;
+__as1(_, 'Blend', Blend);
 if(!window.customElements.get('lucide-blend')){window.customElements.define('lucide-blend', Blend);Aventus.WebComponentInstance.registerDefinition(Blend);}
 
 const Blinds = class Blinds extends AbstractIcon {
@@ -12645,7 +12645,7 @@ const Blinds = class Blinds extends AbstractIcon {
 }
 Blinds.Namespace=`Lucide`;
 Blinds.Tag=`lucide-blinds`;
-_.Blinds=Blinds;
+__as1(_, 'Blinds', Blinds);
 if(!window.customElements.get('lucide-blinds')){window.customElements.define('lucide-blinds', Blinds);Aventus.WebComponentInstance.registerDefinition(Blinds);}
 
 const Blocks = class Blocks extends AbstractIcon {
@@ -12669,7 +12669,7 @@ const Blocks = class Blocks extends AbstractIcon {
 }
 Blocks.Namespace=`Lucide`;
 Blocks.Tag=`lucide-blocks`;
-_.Blocks=Blocks;
+__as1(_, 'Blocks', Blocks);
 if(!window.customElements.get('lucide-blocks')){window.customElements.define('lucide-blocks', Blocks);Aventus.WebComponentInstance.registerDefinition(Blocks);}
 
 const Bluetooth = class Bluetooth extends AbstractIcon {
@@ -12693,7 +12693,7 @@ const Bluetooth = class Bluetooth extends AbstractIcon {
 }
 Bluetooth.Namespace=`Lucide`;
 Bluetooth.Tag=`lucide-bluetooth`;
-_.Bluetooth=Bluetooth;
+__as1(_, 'Bluetooth', Bluetooth);
 if(!window.customElements.get('lucide-bluetooth')){window.customElements.define('lucide-bluetooth', Bluetooth);Aventus.WebComponentInstance.registerDefinition(Bluetooth);}
 
 const BluetoothConnected = class BluetoothConnected extends AbstractIcon {
@@ -12717,7 +12717,7 @@ const BluetoothConnected = class BluetoothConnected extends AbstractIcon {
 }
 BluetoothConnected.Namespace=`Lucide`;
 BluetoothConnected.Tag=`lucide-bluetooth-connected`;
-_.BluetoothConnected=BluetoothConnected;
+__as1(_, 'BluetoothConnected', BluetoothConnected);
 if(!window.customElements.get('lucide-bluetooth-connected')){window.customElements.define('lucide-bluetooth-connected', BluetoothConnected);Aventus.WebComponentInstance.registerDefinition(BluetoothConnected);}
 
 const BluetoothOff = class BluetoothOff extends AbstractIcon {
@@ -12741,7 +12741,7 @@ const BluetoothOff = class BluetoothOff extends AbstractIcon {
 }
 BluetoothOff.Namespace=`Lucide`;
 BluetoothOff.Tag=`lucide-bluetooth-off`;
-_.BluetoothOff=BluetoothOff;
+__as1(_, 'BluetoothOff', BluetoothOff);
 if(!window.customElements.get('lucide-bluetooth-off')){window.customElements.define('lucide-bluetooth-off', BluetoothOff);Aventus.WebComponentInstance.registerDefinition(BluetoothOff);}
 
 const BluetoothSearching = class BluetoothSearching extends AbstractIcon {
@@ -12765,7 +12765,7 @@ const BluetoothSearching = class BluetoothSearching extends AbstractIcon {
 }
 BluetoothSearching.Namespace=`Lucide`;
 BluetoothSearching.Tag=`lucide-bluetooth-searching`;
-_.BluetoothSearching=BluetoothSearching;
+__as1(_, 'BluetoothSearching', BluetoothSearching);
 if(!window.customElements.get('lucide-bluetooth-searching')){window.customElements.define('lucide-bluetooth-searching', BluetoothSearching);Aventus.WebComponentInstance.registerDefinition(BluetoothSearching);}
 
 const Bold = class Bold extends AbstractIcon {
@@ -12789,7 +12789,7 @@ const Bold = class Bold extends AbstractIcon {
 }
 Bold.Namespace=`Lucide`;
 Bold.Tag=`lucide-bold`;
-_.Bold=Bold;
+__as1(_, 'Bold', Bold);
 if(!window.customElements.get('lucide-bold')){window.customElements.define('lucide-bold', Bold);Aventus.WebComponentInstance.registerDefinition(Bold);}
 
 const Bolt = class Bolt extends AbstractIcon {
@@ -12813,7 +12813,7 @@ const Bolt = class Bolt extends AbstractIcon {
 }
 Bolt.Namespace=`Lucide`;
 Bolt.Tag=`lucide-bolt`;
-_.Bolt=Bolt;
+__as1(_, 'Bolt', Bolt);
 if(!window.customElements.get('lucide-bolt')){window.customElements.define('lucide-bolt', Bolt);Aventus.WebComponentInstance.registerDefinition(Bolt);}
 
 const Bomb = class Bomb extends AbstractIcon {
@@ -12837,7 +12837,7 @@ const Bomb = class Bomb extends AbstractIcon {
 }
 Bomb.Namespace=`Lucide`;
 Bomb.Tag=`lucide-bomb`;
-_.Bomb=Bomb;
+__as1(_, 'Bomb', Bomb);
 if(!window.customElements.get('lucide-bomb')){window.customElements.define('lucide-bomb', Bomb);Aventus.WebComponentInstance.registerDefinition(Bomb);}
 
 const Bone = class Bone extends AbstractIcon {
@@ -12861,7 +12861,7 @@ const Bone = class Bone extends AbstractIcon {
 }
 Bone.Namespace=`Lucide`;
 Bone.Tag=`lucide-bone`;
-_.Bone=Bone;
+__as1(_, 'Bone', Bone);
 if(!window.customElements.get('lucide-bone')){window.customElements.define('lucide-bone', Bone);Aventus.WebComponentInstance.registerDefinition(Bone);}
 
 const Book = class Book extends AbstractIcon {
@@ -12885,7 +12885,7 @@ const Book = class Book extends AbstractIcon {
 }
 Book.Namespace=`Lucide`;
 Book.Tag=`lucide-book`;
-_.Book=Book;
+__as1(_, 'Book', Book);
 if(!window.customElements.get('lucide-book')){window.customElements.define('lucide-book', Book);Aventus.WebComponentInstance.registerDefinition(Book);}
 
 const BookA = class BookA extends AbstractIcon {
@@ -12909,7 +12909,7 @@ const BookA = class BookA extends AbstractIcon {
 }
 BookA.Namespace=`Lucide`;
 BookA.Tag=`lucide-book-a`;
-_.BookA=BookA;
+__as1(_, 'BookA', BookA);
 if(!window.customElements.get('lucide-book-a')){window.customElements.define('lucide-book-a', BookA);Aventus.WebComponentInstance.registerDefinition(BookA);}
 
 const BookAlert = class BookAlert extends AbstractIcon {
@@ -12933,7 +12933,7 @@ const BookAlert = class BookAlert extends AbstractIcon {
 }
 BookAlert.Namespace=`Lucide`;
 BookAlert.Tag=`lucide-book-alert`;
-_.BookAlert=BookAlert;
+__as1(_, 'BookAlert', BookAlert);
 if(!window.customElements.get('lucide-book-alert')){window.customElements.define('lucide-book-alert', BookAlert);Aventus.WebComponentInstance.registerDefinition(BookAlert);}
 
 const BookAudio = class BookAudio extends AbstractIcon {
@@ -12957,7 +12957,7 @@ const BookAudio = class BookAudio extends AbstractIcon {
 }
 BookAudio.Namespace=`Lucide`;
 BookAudio.Tag=`lucide-book-audio`;
-_.BookAudio=BookAudio;
+__as1(_, 'BookAudio', BookAudio);
 if(!window.customElements.get('lucide-book-audio')){window.customElements.define('lucide-book-audio', BookAudio);Aventus.WebComponentInstance.registerDefinition(BookAudio);}
 
 const BookCheck = class BookCheck extends AbstractIcon {
@@ -12981,7 +12981,7 @@ const BookCheck = class BookCheck extends AbstractIcon {
 }
 BookCheck.Namespace=`Lucide`;
 BookCheck.Tag=`lucide-book-check`;
-_.BookCheck=BookCheck;
+__as1(_, 'BookCheck', BookCheck);
 if(!window.customElements.get('lucide-book-check')){window.customElements.define('lucide-book-check', BookCheck);Aventus.WebComponentInstance.registerDefinition(BookCheck);}
 
 const BookCopy = class BookCopy extends AbstractIcon {
@@ -13005,7 +13005,7 @@ const BookCopy = class BookCopy extends AbstractIcon {
 }
 BookCopy.Namespace=`Lucide`;
 BookCopy.Tag=`lucide-book-copy`;
-_.BookCopy=BookCopy;
+__as1(_, 'BookCopy', BookCopy);
 if(!window.customElements.get('lucide-book-copy')){window.customElements.define('lucide-book-copy', BookCopy);Aventus.WebComponentInstance.registerDefinition(BookCopy);}
 
 const BookDashed = class BookDashed extends AbstractIcon {
@@ -13029,7 +13029,7 @@ const BookDashed = class BookDashed extends AbstractIcon {
 }
 BookDashed.Namespace=`Lucide`;
 BookDashed.Tag=`lucide-book-dashed`;
-_.BookDashed=BookDashed;
+__as1(_, 'BookDashed', BookDashed);
 if(!window.customElements.get('lucide-book-dashed')){window.customElements.define('lucide-book-dashed', BookDashed);Aventus.WebComponentInstance.registerDefinition(BookDashed);}
 
 const BookDown = class BookDown extends AbstractIcon {
@@ -13053,7 +13053,7 @@ const BookDown = class BookDown extends AbstractIcon {
 }
 BookDown.Namespace=`Lucide`;
 BookDown.Tag=`lucide-book-down`;
-_.BookDown=BookDown;
+__as1(_, 'BookDown', BookDown);
 if(!window.customElements.get('lucide-book-down')){window.customElements.define('lucide-book-down', BookDown);Aventus.WebComponentInstance.registerDefinition(BookDown);}
 
 const BookHeadphones = class BookHeadphones extends AbstractIcon {
@@ -13077,7 +13077,7 @@ const BookHeadphones = class BookHeadphones extends AbstractIcon {
 }
 BookHeadphones.Namespace=`Lucide`;
 BookHeadphones.Tag=`lucide-book-headphones`;
-_.BookHeadphones=BookHeadphones;
+__as1(_, 'BookHeadphones', BookHeadphones);
 if(!window.customElements.get('lucide-book-headphones')){window.customElements.define('lucide-book-headphones', BookHeadphones);Aventus.WebComponentInstance.registerDefinition(BookHeadphones);}
 
 const BookHeart = class BookHeart extends AbstractIcon {
@@ -13101,7 +13101,7 @@ const BookHeart = class BookHeart extends AbstractIcon {
 }
 BookHeart.Namespace=`Lucide`;
 BookHeart.Tag=`lucide-book-heart`;
-_.BookHeart=BookHeart;
+__as1(_, 'BookHeart', BookHeart);
 if(!window.customElements.get('lucide-book-heart')){window.customElements.define('lucide-book-heart', BookHeart);Aventus.WebComponentInstance.registerDefinition(BookHeart);}
 
 const BookImage = class BookImage extends AbstractIcon {
@@ -13125,7 +13125,7 @@ const BookImage = class BookImage extends AbstractIcon {
 }
 BookImage.Namespace=`Lucide`;
 BookImage.Tag=`lucide-book-image`;
-_.BookImage=BookImage;
+__as1(_, 'BookImage', BookImage);
 if(!window.customElements.get('lucide-book-image')){window.customElements.define('lucide-book-image', BookImage);Aventus.WebComponentInstance.registerDefinition(BookImage);}
 
 const BookKey = class BookKey extends AbstractIcon {
@@ -13149,7 +13149,7 @@ const BookKey = class BookKey extends AbstractIcon {
 }
 BookKey.Namespace=`Lucide`;
 BookKey.Tag=`lucide-book-key`;
-_.BookKey=BookKey;
+__as1(_, 'BookKey', BookKey);
 if(!window.customElements.get('lucide-book-key')){window.customElements.define('lucide-book-key', BookKey);Aventus.WebComponentInstance.registerDefinition(BookKey);}
 
 const BookLock = class BookLock extends AbstractIcon {
@@ -13173,7 +13173,7 @@ const BookLock = class BookLock extends AbstractIcon {
 }
 BookLock.Namespace=`Lucide`;
 BookLock.Tag=`lucide-book-lock`;
-_.BookLock=BookLock;
+__as1(_, 'BookLock', BookLock);
 if(!window.customElements.get('lucide-book-lock')){window.customElements.define('lucide-book-lock', BookLock);Aventus.WebComponentInstance.registerDefinition(BookLock);}
 
 const Bookmark = class Bookmark extends AbstractIcon {
@@ -13197,7 +13197,7 @@ const Bookmark = class Bookmark extends AbstractIcon {
 }
 Bookmark.Namespace=`Lucide`;
 Bookmark.Tag=`lucide-bookmark`;
-_.Bookmark=Bookmark;
+__as1(_, 'Bookmark', Bookmark);
 if(!window.customElements.get('lucide-bookmark')){window.customElements.define('lucide-bookmark', Bookmark);Aventus.WebComponentInstance.registerDefinition(Bookmark);}
 
 const BookmarkCheck = class BookmarkCheck extends AbstractIcon {
@@ -13221,7 +13221,7 @@ const BookmarkCheck = class BookmarkCheck extends AbstractIcon {
 }
 BookmarkCheck.Namespace=`Lucide`;
 BookmarkCheck.Tag=`lucide-bookmark-check`;
-_.BookmarkCheck=BookmarkCheck;
+__as1(_, 'BookmarkCheck', BookmarkCheck);
 if(!window.customElements.get('lucide-bookmark-check')){window.customElements.define('lucide-bookmark-check', BookmarkCheck);Aventus.WebComponentInstance.registerDefinition(BookmarkCheck);}
 
 const BookMarked = class BookMarked extends AbstractIcon {
@@ -13245,7 +13245,7 @@ const BookMarked = class BookMarked extends AbstractIcon {
 }
 BookMarked.Namespace=`Lucide`;
 BookMarked.Tag=`lucide-book-marked`;
-_.BookMarked=BookMarked;
+__as1(_, 'BookMarked', BookMarked);
 if(!window.customElements.get('lucide-book-marked')){window.customElements.define('lucide-book-marked', BookMarked);Aventus.WebComponentInstance.registerDefinition(BookMarked);}
 
 const BookmarkMinus = class BookmarkMinus extends AbstractIcon {
@@ -13269,7 +13269,7 @@ const BookmarkMinus = class BookmarkMinus extends AbstractIcon {
 }
 BookmarkMinus.Namespace=`Lucide`;
 BookmarkMinus.Tag=`lucide-bookmark-minus`;
-_.BookmarkMinus=BookmarkMinus;
+__as1(_, 'BookmarkMinus', BookmarkMinus);
 if(!window.customElements.get('lucide-bookmark-minus')){window.customElements.define('lucide-bookmark-minus', BookmarkMinus);Aventus.WebComponentInstance.registerDefinition(BookmarkMinus);}
 
 const BookmarkPlus = class BookmarkPlus extends AbstractIcon {
@@ -13293,7 +13293,7 @@ const BookmarkPlus = class BookmarkPlus extends AbstractIcon {
 }
 BookmarkPlus.Namespace=`Lucide`;
 BookmarkPlus.Tag=`lucide-bookmark-plus`;
-_.BookmarkPlus=BookmarkPlus;
+__as1(_, 'BookmarkPlus', BookmarkPlus);
 if(!window.customElements.get('lucide-bookmark-plus')){window.customElements.define('lucide-bookmark-plus', BookmarkPlus);Aventus.WebComponentInstance.registerDefinition(BookmarkPlus);}
 
 const BookmarkX = class BookmarkX extends AbstractIcon {
@@ -13317,7 +13317,7 @@ const BookmarkX = class BookmarkX extends AbstractIcon {
 }
 BookmarkX.Namespace=`Lucide`;
 BookmarkX.Tag=`lucide-bookmark-x`;
-_.BookmarkX=BookmarkX;
+__as1(_, 'BookmarkX', BookmarkX);
 if(!window.customElements.get('lucide-bookmark-x')){window.customElements.define('lucide-bookmark-x', BookmarkX);Aventus.WebComponentInstance.registerDefinition(BookmarkX);}
 
 const BookMinus = class BookMinus extends AbstractIcon {
@@ -13341,7 +13341,7 @@ const BookMinus = class BookMinus extends AbstractIcon {
 }
 BookMinus.Namespace=`Lucide`;
 BookMinus.Tag=`lucide-book-minus`;
-_.BookMinus=BookMinus;
+__as1(_, 'BookMinus', BookMinus);
 if(!window.customElements.get('lucide-book-minus')){window.customElements.define('lucide-book-minus', BookMinus);Aventus.WebComponentInstance.registerDefinition(BookMinus);}
 
 const BookOpen = class BookOpen extends AbstractIcon {
@@ -13365,7 +13365,7 @@ const BookOpen = class BookOpen extends AbstractIcon {
 }
 BookOpen.Namespace=`Lucide`;
 BookOpen.Tag=`lucide-book-open`;
-_.BookOpen=BookOpen;
+__as1(_, 'BookOpen', BookOpen);
 if(!window.customElements.get('lucide-book-open')){window.customElements.define('lucide-book-open', BookOpen);Aventus.WebComponentInstance.registerDefinition(BookOpen);}
 
 const BookOpenCheck = class BookOpenCheck extends AbstractIcon {
@@ -13389,7 +13389,7 @@ const BookOpenCheck = class BookOpenCheck extends AbstractIcon {
 }
 BookOpenCheck.Namespace=`Lucide`;
 BookOpenCheck.Tag=`lucide-book-open-check`;
-_.BookOpenCheck=BookOpenCheck;
+__as1(_, 'BookOpenCheck', BookOpenCheck);
 if(!window.customElements.get('lucide-book-open-check')){window.customElements.define('lucide-book-open-check', BookOpenCheck);Aventus.WebComponentInstance.registerDefinition(BookOpenCheck);}
 
 const BookOpenText = class BookOpenText extends AbstractIcon {
@@ -13413,7 +13413,7 @@ const BookOpenText = class BookOpenText extends AbstractIcon {
 }
 BookOpenText.Namespace=`Lucide`;
 BookOpenText.Tag=`lucide-book-open-text`;
-_.BookOpenText=BookOpenText;
+__as1(_, 'BookOpenText', BookOpenText);
 if(!window.customElements.get('lucide-book-open-text')){window.customElements.define('lucide-book-open-text', BookOpenText);Aventus.WebComponentInstance.registerDefinition(BookOpenText);}
 
 const BookPlus = class BookPlus extends AbstractIcon {
@@ -13437,7 +13437,7 @@ const BookPlus = class BookPlus extends AbstractIcon {
 }
 BookPlus.Namespace=`Lucide`;
 BookPlus.Tag=`lucide-book-plus`;
-_.BookPlus=BookPlus;
+__as1(_, 'BookPlus', BookPlus);
 if(!window.customElements.get('lucide-book-plus')){window.customElements.define('lucide-book-plus', BookPlus);Aventus.WebComponentInstance.registerDefinition(BookPlus);}
 
 const BookTemplate = class BookTemplate extends AbstractIcon {
@@ -13461,7 +13461,7 @@ const BookTemplate = class BookTemplate extends AbstractIcon {
 }
 BookTemplate.Namespace=`Lucide`;
 BookTemplate.Tag=`lucide-book-template`;
-_.BookTemplate=BookTemplate;
+__as1(_, 'BookTemplate', BookTemplate);
 if(!window.customElements.get('lucide-book-template')){window.customElements.define('lucide-book-template', BookTemplate);Aventus.WebComponentInstance.registerDefinition(BookTemplate);}
 
 const BookText = class BookText extends AbstractIcon {
@@ -13485,7 +13485,7 @@ const BookText = class BookText extends AbstractIcon {
 }
 BookText.Namespace=`Lucide`;
 BookText.Tag=`lucide-book-text`;
-_.BookText=BookText;
+__as1(_, 'BookText', BookText);
 if(!window.customElements.get('lucide-book-text')){window.customElements.define('lucide-book-text', BookText);Aventus.WebComponentInstance.registerDefinition(BookText);}
 
 const BookType = class BookType extends AbstractIcon {
@@ -13509,7 +13509,7 @@ const BookType = class BookType extends AbstractIcon {
 }
 BookType.Namespace=`Lucide`;
 BookType.Tag=`lucide-book-type`;
-_.BookType=BookType;
+__as1(_, 'BookType', BookType);
 if(!window.customElements.get('lucide-book-type')){window.customElements.define('lucide-book-type', BookType);Aventus.WebComponentInstance.registerDefinition(BookType);}
 
 const BookUp = class BookUp extends AbstractIcon {
@@ -13533,7 +13533,7 @@ const BookUp = class BookUp extends AbstractIcon {
 }
 BookUp.Namespace=`Lucide`;
 BookUp.Tag=`lucide-book-up`;
-_.BookUp=BookUp;
+__as1(_, 'BookUp', BookUp);
 if(!window.customElements.get('lucide-book-up')){window.customElements.define('lucide-book-up', BookUp);Aventus.WebComponentInstance.registerDefinition(BookUp);}
 
 const BookUp2 = class BookUp2 extends AbstractIcon {
@@ -13557,7 +13557,7 @@ const BookUp2 = class BookUp2 extends AbstractIcon {
 }
 BookUp2.Namespace=`Lucide`;
 BookUp2.Tag=`lucide-book-up-2`;
-_.BookUp2=BookUp2;
+__as1(_, 'BookUp2', BookUp2);
 if(!window.customElements.get('lucide-book-up-2')){window.customElements.define('lucide-book-up-2', BookUp2);Aventus.WebComponentInstance.registerDefinition(BookUp2);}
 
 const BookUser = class BookUser extends AbstractIcon {
@@ -13581,7 +13581,7 @@ const BookUser = class BookUser extends AbstractIcon {
 }
 BookUser.Namespace=`Lucide`;
 BookUser.Tag=`lucide-book-user`;
-_.BookUser=BookUser;
+__as1(_, 'BookUser', BookUser);
 if(!window.customElements.get('lucide-book-user')){window.customElements.define('lucide-book-user', BookUser);Aventus.WebComponentInstance.registerDefinition(BookUser);}
 
 const BookX = class BookX extends AbstractIcon {
@@ -13605,7 +13605,7 @@ const BookX = class BookX extends AbstractIcon {
 }
 BookX.Namespace=`Lucide`;
 BookX.Tag=`lucide-book-x`;
-_.BookX=BookX;
+__as1(_, 'BookX', BookX);
 if(!window.customElements.get('lucide-book-x')){window.customElements.define('lucide-book-x', BookX);Aventus.WebComponentInstance.registerDefinition(BookX);}
 
 const BoomBox = class BoomBox extends AbstractIcon {
@@ -13629,7 +13629,7 @@ const BoomBox = class BoomBox extends AbstractIcon {
 }
 BoomBox.Namespace=`Lucide`;
 BoomBox.Tag=`lucide-boom-box`;
-_.BoomBox=BoomBox;
+__as1(_, 'BoomBox', BoomBox);
 if(!window.customElements.get('lucide-boom-box')){window.customElements.define('lucide-boom-box', BoomBox);Aventus.WebComponentInstance.registerDefinition(BoomBox);}
 
 const Bot = class Bot extends AbstractIcon {
@@ -13653,7 +13653,7 @@ const Bot = class Bot extends AbstractIcon {
 }
 Bot.Namespace=`Lucide`;
 Bot.Tag=`lucide-bot`;
-_.Bot=Bot;
+__as1(_, 'Bot', Bot);
 if(!window.customElements.get('lucide-bot')){window.customElements.define('lucide-bot', Bot);Aventus.WebComponentInstance.registerDefinition(Bot);}
 
 const BotMessageSquare = class BotMessageSquare extends AbstractIcon {
@@ -13677,7 +13677,7 @@ const BotMessageSquare = class BotMessageSquare extends AbstractIcon {
 }
 BotMessageSquare.Namespace=`Lucide`;
 BotMessageSquare.Tag=`lucide-bot-message-square`;
-_.BotMessageSquare=BotMessageSquare;
+__as1(_, 'BotMessageSquare', BotMessageSquare);
 if(!window.customElements.get('lucide-bot-message-square')){window.customElements.define('lucide-bot-message-square', BotMessageSquare);Aventus.WebComponentInstance.registerDefinition(BotMessageSquare);}
 
 const BotOff = class BotOff extends AbstractIcon {
@@ -13701,7 +13701,7 @@ const BotOff = class BotOff extends AbstractIcon {
 }
 BotOff.Namespace=`Lucide`;
 BotOff.Tag=`lucide-bot-off`;
-_.BotOff=BotOff;
+__as1(_, 'BotOff', BotOff);
 if(!window.customElements.get('lucide-bot-off')){window.customElements.define('lucide-bot-off', BotOff);Aventus.WebComponentInstance.registerDefinition(BotOff);}
 
 const BottleWine = class BottleWine extends AbstractIcon {
@@ -13725,7 +13725,7 @@ const BottleWine = class BottleWine extends AbstractIcon {
 }
 BottleWine.Namespace=`Lucide`;
 BottleWine.Tag=`lucide-bottle-wine`;
-_.BottleWine=BottleWine;
+__as1(_, 'BottleWine', BottleWine);
 if(!window.customElements.get('lucide-bottle-wine')){window.customElements.define('lucide-bottle-wine', BottleWine);Aventus.WebComponentInstance.registerDefinition(BottleWine);}
 
 const BowArrow = class BowArrow extends AbstractIcon {
@@ -13749,7 +13749,7 @@ const BowArrow = class BowArrow extends AbstractIcon {
 }
 BowArrow.Namespace=`Lucide`;
 BowArrow.Tag=`lucide-bow-arrow`;
-_.BowArrow=BowArrow;
+__as1(_, 'BowArrow', BowArrow);
 if(!window.customElements.get('lucide-bow-arrow')){window.customElements.define('lucide-bow-arrow', BowArrow);Aventus.WebComponentInstance.registerDefinition(BowArrow);}
 
 const Box = class Box extends AbstractIcon {
@@ -13773,7 +13773,7 @@ const Box = class Box extends AbstractIcon {
 }
 Box.Namespace=`Lucide`;
 Box.Tag=`lucide-box`;
-_.Box=Box;
+__as1(_, 'Box', Box);
 if(!window.customElements.get('lucide-box')){window.customElements.define('lucide-box', Box);Aventus.WebComponentInstance.registerDefinition(Box);}
 
 const Boxes = class Boxes extends AbstractIcon {
@@ -13797,7 +13797,7 @@ const Boxes = class Boxes extends AbstractIcon {
 }
 Boxes.Namespace=`Lucide`;
 Boxes.Tag=`lucide-boxes`;
-_.Boxes=Boxes;
+__as1(_, 'Boxes', Boxes);
 if(!window.customElements.get('lucide-boxes')){window.customElements.define('lucide-boxes', Boxes);Aventus.WebComponentInstance.registerDefinition(Boxes);}
 
 const BoxSelect = class BoxSelect extends AbstractIcon {
@@ -13821,7 +13821,7 @@ const BoxSelect = class BoxSelect extends AbstractIcon {
 }
 BoxSelect.Namespace=`Lucide`;
 BoxSelect.Tag=`lucide-box-select`;
-_.BoxSelect=BoxSelect;
+__as1(_, 'BoxSelect', BoxSelect);
 if(!window.customElements.get('lucide-box-select')){window.customElements.define('lucide-box-select', BoxSelect);Aventus.WebComponentInstance.registerDefinition(BoxSelect);}
 
 const Braces = class Braces extends AbstractIcon {
@@ -13845,7 +13845,7 @@ const Braces = class Braces extends AbstractIcon {
 }
 Braces.Namespace=`Lucide`;
 Braces.Tag=`lucide-braces`;
-_.Braces=Braces;
+__as1(_, 'Braces', Braces);
 if(!window.customElements.get('lucide-braces')){window.customElements.define('lucide-braces', Braces);Aventus.WebComponentInstance.registerDefinition(Braces);}
 
 const Brackets = class Brackets extends AbstractIcon {
@@ -13869,7 +13869,7 @@ const Brackets = class Brackets extends AbstractIcon {
 }
 Brackets.Namespace=`Lucide`;
 Brackets.Tag=`lucide-brackets`;
-_.Brackets=Brackets;
+__as1(_, 'Brackets', Brackets);
 if(!window.customElements.get('lucide-brackets')){window.customElements.define('lucide-brackets', Brackets);Aventus.WebComponentInstance.registerDefinition(Brackets);}
 
 const Brain = class Brain extends AbstractIcon {
@@ -13893,7 +13893,7 @@ const Brain = class Brain extends AbstractIcon {
 }
 Brain.Namespace=`Lucide`;
 Brain.Tag=`lucide-brain`;
-_.Brain=Brain;
+__as1(_, 'Brain', Brain);
 if(!window.customElements.get('lucide-brain')){window.customElements.define('lucide-brain', Brain);Aventus.WebComponentInstance.registerDefinition(Brain);}
 
 const BrainCircuit = class BrainCircuit extends AbstractIcon {
@@ -13917,7 +13917,7 @@ const BrainCircuit = class BrainCircuit extends AbstractIcon {
 }
 BrainCircuit.Namespace=`Lucide`;
 BrainCircuit.Tag=`lucide-brain-circuit`;
-_.BrainCircuit=BrainCircuit;
+__as1(_, 'BrainCircuit', BrainCircuit);
 if(!window.customElements.get('lucide-brain-circuit')){window.customElements.define('lucide-brain-circuit', BrainCircuit);Aventus.WebComponentInstance.registerDefinition(BrainCircuit);}
 
 const BrainCog = class BrainCog extends AbstractIcon {
@@ -13941,7 +13941,7 @@ const BrainCog = class BrainCog extends AbstractIcon {
 }
 BrainCog.Namespace=`Lucide`;
 BrainCog.Tag=`lucide-brain-cog`;
-_.BrainCog=BrainCog;
+__as1(_, 'BrainCog', BrainCog);
 if(!window.customElements.get('lucide-brain-cog')){window.customElements.define('lucide-brain-cog', BrainCog);Aventus.WebComponentInstance.registerDefinition(BrainCog);}
 
 const BrickWall = class BrickWall extends AbstractIcon {
@@ -13965,7 +13965,7 @@ const BrickWall = class BrickWall extends AbstractIcon {
 }
 BrickWall.Namespace=`Lucide`;
 BrickWall.Tag=`lucide-brick-wall`;
-_.BrickWall=BrickWall;
+__as1(_, 'BrickWall', BrickWall);
 if(!window.customElements.get('lucide-brick-wall')){window.customElements.define('lucide-brick-wall', BrickWall);Aventus.WebComponentInstance.registerDefinition(BrickWall);}
 
 const BrickWallFire = class BrickWallFire extends AbstractIcon {
@@ -13989,7 +13989,7 @@ const BrickWallFire = class BrickWallFire extends AbstractIcon {
 }
 BrickWallFire.Namespace=`Lucide`;
 BrickWallFire.Tag=`lucide-brick-wall-fire`;
-_.BrickWallFire=BrickWallFire;
+__as1(_, 'BrickWallFire', BrickWallFire);
 if(!window.customElements.get('lucide-brick-wall-fire')){window.customElements.define('lucide-brick-wall-fire', BrickWallFire);Aventus.WebComponentInstance.registerDefinition(BrickWallFire);}
 
 const Briefcase = class Briefcase extends AbstractIcon {
@@ -14013,7 +14013,7 @@ const Briefcase = class Briefcase extends AbstractIcon {
 }
 Briefcase.Namespace=`Lucide`;
 Briefcase.Tag=`lucide-briefcase`;
-_.Briefcase=Briefcase;
+__as1(_, 'Briefcase', Briefcase);
 if(!window.customElements.get('lucide-briefcase')){window.customElements.define('lucide-briefcase', Briefcase);Aventus.WebComponentInstance.registerDefinition(Briefcase);}
 
 const BriefcaseBusiness = class BriefcaseBusiness extends AbstractIcon {
@@ -14037,7 +14037,7 @@ const BriefcaseBusiness = class BriefcaseBusiness extends AbstractIcon {
 }
 BriefcaseBusiness.Namespace=`Lucide`;
 BriefcaseBusiness.Tag=`lucide-briefcase-business`;
-_.BriefcaseBusiness=BriefcaseBusiness;
+__as1(_, 'BriefcaseBusiness', BriefcaseBusiness);
 if(!window.customElements.get('lucide-briefcase-business')){window.customElements.define('lucide-briefcase-business', BriefcaseBusiness);Aventus.WebComponentInstance.registerDefinition(BriefcaseBusiness);}
 
 const BriefcaseConveyorBelt = class BriefcaseConveyorBelt extends AbstractIcon {
@@ -14061,7 +14061,7 @@ const BriefcaseConveyorBelt = class BriefcaseConveyorBelt extends AbstractIcon {
 }
 BriefcaseConveyorBelt.Namespace=`Lucide`;
 BriefcaseConveyorBelt.Tag=`lucide-briefcase-conveyor-belt`;
-_.BriefcaseConveyorBelt=BriefcaseConveyorBelt;
+__as1(_, 'BriefcaseConveyorBelt', BriefcaseConveyorBelt);
 if(!window.customElements.get('lucide-briefcase-conveyor-belt')){window.customElements.define('lucide-briefcase-conveyor-belt', BriefcaseConveyorBelt);Aventus.WebComponentInstance.registerDefinition(BriefcaseConveyorBelt);}
 
 const BriefcaseMedical = class BriefcaseMedical extends AbstractIcon {
@@ -14085,7 +14085,7 @@ const BriefcaseMedical = class BriefcaseMedical extends AbstractIcon {
 }
 BriefcaseMedical.Namespace=`Lucide`;
 BriefcaseMedical.Tag=`lucide-briefcase-medical`;
-_.BriefcaseMedical=BriefcaseMedical;
+__as1(_, 'BriefcaseMedical', BriefcaseMedical);
 if(!window.customElements.get('lucide-briefcase-medical')){window.customElements.define('lucide-briefcase-medical', BriefcaseMedical);Aventus.WebComponentInstance.registerDefinition(BriefcaseMedical);}
 
 const BringToFront = class BringToFront extends AbstractIcon {
@@ -14109,7 +14109,7 @@ const BringToFront = class BringToFront extends AbstractIcon {
 }
 BringToFront.Namespace=`Lucide`;
 BringToFront.Tag=`lucide-bring-to-front`;
-_.BringToFront=BringToFront;
+__as1(_, 'BringToFront', BringToFront);
 if(!window.customElements.get('lucide-bring-to-front')){window.customElements.define('lucide-bring-to-front', BringToFront);Aventus.WebComponentInstance.registerDefinition(BringToFront);}
 
 const Brush = class Brush extends AbstractIcon {
@@ -14133,7 +14133,7 @@ const Brush = class Brush extends AbstractIcon {
 }
 Brush.Namespace=`Lucide`;
 Brush.Tag=`lucide-brush`;
-_.Brush=Brush;
+__as1(_, 'Brush', Brush);
 if(!window.customElements.get('lucide-brush')){window.customElements.define('lucide-brush', Brush);Aventus.WebComponentInstance.registerDefinition(Brush);}
 
 const BrushCleaning = class BrushCleaning extends AbstractIcon {
@@ -14157,7 +14157,7 @@ const BrushCleaning = class BrushCleaning extends AbstractIcon {
 }
 BrushCleaning.Namespace=`Lucide`;
 BrushCleaning.Tag=`lucide-brush-cleaning`;
-_.BrushCleaning=BrushCleaning;
+__as1(_, 'BrushCleaning', BrushCleaning);
 if(!window.customElements.get('lucide-brush-cleaning')){window.customElements.define('lucide-brush-cleaning', BrushCleaning);Aventus.WebComponentInstance.registerDefinition(BrushCleaning);}
 
 const Bubbles = class Bubbles extends AbstractIcon {
@@ -14181,7 +14181,7 @@ const Bubbles = class Bubbles extends AbstractIcon {
 }
 Bubbles.Namespace=`Lucide`;
 Bubbles.Tag=`lucide-bubbles`;
-_.Bubbles=Bubbles;
+__as1(_, 'Bubbles', Bubbles);
 if(!window.customElements.get('lucide-bubbles')){window.customElements.define('lucide-bubbles', Bubbles);Aventus.WebComponentInstance.registerDefinition(Bubbles);}
 
 const Bug = class Bug extends AbstractIcon {
@@ -14205,7 +14205,7 @@ const Bug = class Bug extends AbstractIcon {
 }
 Bug.Namespace=`Lucide`;
 Bug.Tag=`lucide-bug`;
-_.Bug=Bug;
+__as1(_, 'Bug', Bug);
 if(!window.customElements.get('lucide-bug')){window.customElements.define('lucide-bug', Bug);Aventus.WebComponentInstance.registerDefinition(Bug);}
 
 const BugOff = class BugOff extends AbstractIcon {
@@ -14229,7 +14229,7 @@ const BugOff = class BugOff extends AbstractIcon {
 }
 BugOff.Namespace=`Lucide`;
 BugOff.Tag=`lucide-bug-off`;
-_.BugOff=BugOff;
+__as1(_, 'BugOff', BugOff);
 if(!window.customElements.get('lucide-bug-off')){window.customElements.define('lucide-bug-off', BugOff);Aventus.WebComponentInstance.registerDefinition(BugOff);}
 
 const BugPlay = class BugPlay extends AbstractIcon {
@@ -14253,7 +14253,7 @@ const BugPlay = class BugPlay extends AbstractIcon {
 }
 BugPlay.Namespace=`Lucide`;
 BugPlay.Tag=`lucide-bug-play`;
-_.BugPlay=BugPlay;
+__as1(_, 'BugPlay', BugPlay);
 if(!window.customElements.get('lucide-bug-play')){window.customElements.define('lucide-bug-play', BugPlay);Aventus.WebComponentInstance.registerDefinition(BugPlay);}
 
 const Building = class Building extends AbstractIcon {
@@ -14277,7 +14277,7 @@ const Building = class Building extends AbstractIcon {
 }
 Building.Namespace=`Lucide`;
 Building.Tag=`lucide-building`;
-_.Building=Building;
+__as1(_, 'Building', Building);
 if(!window.customElements.get('lucide-building')){window.customElements.define('lucide-building', Building);Aventus.WebComponentInstance.registerDefinition(Building);}
 
 const Building2 = class Building2 extends AbstractIcon {
@@ -14301,7 +14301,7 @@ const Building2 = class Building2 extends AbstractIcon {
 }
 Building2.Namespace=`Lucide`;
 Building2.Tag=`lucide-building-2`;
-_.Building2=Building2;
+__as1(_, 'Building2', Building2);
 if(!window.customElements.get('lucide-building-2')){window.customElements.define('lucide-building-2', Building2);Aventus.WebComponentInstance.registerDefinition(Building2);}
 
 const Bus = class Bus extends AbstractIcon {
@@ -14325,7 +14325,7 @@ const Bus = class Bus extends AbstractIcon {
 }
 Bus.Namespace=`Lucide`;
 Bus.Tag=`lucide-bus`;
-_.Bus=Bus;
+__as1(_, 'Bus', Bus);
 if(!window.customElements.get('lucide-bus')){window.customElements.define('lucide-bus', Bus);Aventus.WebComponentInstance.registerDefinition(Bus);}
 
 const BusFront = class BusFront extends AbstractIcon {
@@ -14349,7 +14349,7 @@ const BusFront = class BusFront extends AbstractIcon {
 }
 BusFront.Namespace=`Lucide`;
 BusFront.Tag=`lucide-bus-front`;
-_.BusFront=BusFront;
+__as1(_, 'BusFront', BusFront);
 if(!window.customElements.get('lucide-bus-front')){window.customElements.define('lucide-bus-front', BusFront);Aventus.WebComponentInstance.registerDefinition(BusFront);}
 
 const Cable = class Cable extends AbstractIcon {
@@ -14373,7 +14373,7 @@ const Cable = class Cable extends AbstractIcon {
 }
 Cable.Namespace=`Lucide`;
 Cable.Tag=`lucide-cable`;
-_.Cable=Cable;
+__as1(_, 'Cable', Cable);
 if(!window.customElements.get('lucide-cable')){window.customElements.define('lucide-cable', Cable);Aventus.WebComponentInstance.registerDefinition(Cable);}
 
 const CableCar = class CableCar extends AbstractIcon {
@@ -14397,7 +14397,7 @@ const CableCar = class CableCar extends AbstractIcon {
 }
 CableCar.Namespace=`Lucide`;
 CableCar.Tag=`lucide-cable-car`;
-_.CableCar=CableCar;
+__as1(_, 'CableCar', CableCar);
 if(!window.customElements.get('lucide-cable-car')){window.customElements.define('lucide-cable-car', CableCar);Aventus.WebComponentInstance.registerDefinition(CableCar);}
 
 const Cake = class Cake extends AbstractIcon {
@@ -14421,7 +14421,7 @@ const Cake = class Cake extends AbstractIcon {
 }
 Cake.Namespace=`Lucide`;
 Cake.Tag=`lucide-cake`;
-_.Cake=Cake;
+__as1(_, 'Cake', Cake);
 if(!window.customElements.get('lucide-cake')){window.customElements.define('lucide-cake', Cake);Aventus.WebComponentInstance.registerDefinition(Cake);}
 
 const CakeSlice = class CakeSlice extends AbstractIcon {
@@ -14445,7 +14445,7 @@ const CakeSlice = class CakeSlice extends AbstractIcon {
 }
 CakeSlice.Namespace=`Lucide`;
 CakeSlice.Tag=`lucide-cake-slice`;
-_.CakeSlice=CakeSlice;
+__as1(_, 'CakeSlice', CakeSlice);
 if(!window.customElements.get('lucide-cake-slice')){window.customElements.define('lucide-cake-slice', CakeSlice);Aventus.WebComponentInstance.registerDefinition(CakeSlice);}
 
 const Calculator = class Calculator extends AbstractIcon {
@@ -14469,7 +14469,7 @@ const Calculator = class Calculator extends AbstractIcon {
 }
 Calculator.Namespace=`Lucide`;
 Calculator.Tag=`lucide-calculator`;
-_.Calculator=Calculator;
+__as1(_, 'Calculator', Calculator);
 if(!window.customElements.get('lucide-calculator')){window.customElements.define('lucide-calculator', Calculator);Aventus.WebComponentInstance.registerDefinition(Calculator);}
 
 const Calendar = class Calendar extends AbstractIcon {
@@ -14493,7 +14493,7 @@ const Calendar = class Calendar extends AbstractIcon {
 }
 Calendar.Namespace=`Lucide`;
 Calendar.Tag=`lucide-calendar`;
-_.Calendar=Calendar;
+__as1(_, 'Calendar', Calendar);
 if(!window.customElements.get('lucide-calendar')){window.customElements.define('lucide-calendar', Calendar);Aventus.WebComponentInstance.registerDefinition(Calendar);}
 
 const Calendar1 = class Calendar1 extends AbstractIcon {
@@ -14517,7 +14517,7 @@ const Calendar1 = class Calendar1 extends AbstractIcon {
 }
 Calendar1.Namespace=`Lucide`;
 Calendar1.Tag=`lucide-calendar-1`;
-_.Calendar1=Calendar1;
+__as1(_, 'Calendar1', Calendar1);
 if(!window.customElements.get('lucide-calendar-1')){window.customElements.define('lucide-calendar-1', Calendar1);Aventus.WebComponentInstance.registerDefinition(Calendar1);}
 
 const CalendarArrowDown = class CalendarArrowDown extends AbstractIcon {
@@ -14541,7 +14541,7 @@ const CalendarArrowDown = class CalendarArrowDown extends AbstractIcon {
 }
 CalendarArrowDown.Namespace=`Lucide`;
 CalendarArrowDown.Tag=`lucide-calendar-arrow-down`;
-_.CalendarArrowDown=CalendarArrowDown;
+__as1(_, 'CalendarArrowDown', CalendarArrowDown);
 if(!window.customElements.get('lucide-calendar-arrow-down')){window.customElements.define('lucide-calendar-arrow-down', CalendarArrowDown);Aventus.WebComponentInstance.registerDefinition(CalendarArrowDown);}
 
 const CalendarArrowUp = class CalendarArrowUp extends AbstractIcon {
@@ -14565,7 +14565,7 @@ const CalendarArrowUp = class CalendarArrowUp extends AbstractIcon {
 }
 CalendarArrowUp.Namespace=`Lucide`;
 CalendarArrowUp.Tag=`lucide-calendar-arrow-up`;
-_.CalendarArrowUp=CalendarArrowUp;
+__as1(_, 'CalendarArrowUp', CalendarArrowUp);
 if(!window.customElements.get('lucide-calendar-arrow-up')){window.customElements.define('lucide-calendar-arrow-up', CalendarArrowUp);Aventus.WebComponentInstance.registerDefinition(CalendarArrowUp);}
 
 const CalendarCheck = class CalendarCheck extends AbstractIcon {
@@ -14589,7 +14589,7 @@ const CalendarCheck = class CalendarCheck extends AbstractIcon {
 }
 CalendarCheck.Namespace=`Lucide`;
 CalendarCheck.Tag=`lucide-calendar-check`;
-_.CalendarCheck=CalendarCheck;
+__as1(_, 'CalendarCheck', CalendarCheck);
 if(!window.customElements.get('lucide-calendar-check')){window.customElements.define('lucide-calendar-check', CalendarCheck);Aventus.WebComponentInstance.registerDefinition(CalendarCheck);}
 
 const CalendarCheck2 = class CalendarCheck2 extends AbstractIcon {
@@ -14613,7 +14613,7 @@ const CalendarCheck2 = class CalendarCheck2 extends AbstractIcon {
 }
 CalendarCheck2.Namespace=`Lucide`;
 CalendarCheck2.Tag=`lucide-calendar-check-2`;
-_.CalendarCheck2=CalendarCheck2;
+__as1(_, 'CalendarCheck2', CalendarCheck2);
 if(!window.customElements.get('lucide-calendar-check-2')){window.customElements.define('lucide-calendar-check-2', CalendarCheck2);Aventus.WebComponentInstance.registerDefinition(CalendarCheck2);}
 
 const CalendarClock = class CalendarClock extends AbstractIcon {
@@ -14637,7 +14637,7 @@ const CalendarClock = class CalendarClock extends AbstractIcon {
 }
 CalendarClock.Namespace=`Lucide`;
 CalendarClock.Tag=`lucide-calendar-clock`;
-_.CalendarClock=CalendarClock;
+__as1(_, 'CalendarClock', CalendarClock);
 if(!window.customElements.get('lucide-calendar-clock')){window.customElements.define('lucide-calendar-clock', CalendarClock);Aventus.WebComponentInstance.registerDefinition(CalendarClock);}
 
 const CalendarCog = class CalendarCog extends AbstractIcon {
@@ -14661,7 +14661,7 @@ const CalendarCog = class CalendarCog extends AbstractIcon {
 }
 CalendarCog.Namespace=`Lucide`;
 CalendarCog.Tag=`lucide-calendar-cog`;
-_.CalendarCog=CalendarCog;
+__as1(_, 'CalendarCog', CalendarCog);
 if(!window.customElements.get('lucide-calendar-cog')){window.customElements.define('lucide-calendar-cog', CalendarCog);Aventus.WebComponentInstance.registerDefinition(CalendarCog);}
 
 const CalendarDays = class CalendarDays extends AbstractIcon {
@@ -14685,7 +14685,7 @@ const CalendarDays = class CalendarDays extends AbstractIcon {
 }
 CalendarDays.Namespace=`Lucide`;
 CalendarDays.Tag=`lucide-calendar-days`;
-_.CalendarDays=CalendarDays;
+__as1(_, 'CalendarDays', CalendarDays);
 if(!window.customElements.get('lucide-calendar-days')){window.customElements.define('lucide-calendar-days', CalendarDays);Aventus.WebComponentInstance.registerDefinition(CalendarDays);}
 
 const CalendarFold = class CalendarFold extends AbstractIcon {
@@ -14709,7 +14709,7 @@ const CalendarFold = class CalendarFold extends AbstractIcon {
 }
 CalendarFold.Namespace=`Lucide`;
 CalendarFold.Tag=`lucide-calendar-fold`;
-_.CalendarFold=CalendarFold;
+__as1(_, 'CalendarFold', CalendarFold);
 if(!window.customElements.get('lucide-calendar-fold')){window.customElements.define('lucide-calendar-fold', CalendarFold);Aventus.WebComponentInstance.registerDefinition(CalendarFold);}
 
 const CalendarHeart = class CalendarHeart extends AbstractIcon {
@@ -14733,7 +14733,7 @@ const CalendarHeart = class CalendarHeart extends AbstractIcon {
 }
 CalendarHeart.Namespace=`Lucide`;
 CalendarHeart.Tag=`lucide-calendar-heart`;
-_.CalendarHeart=CalendarHeart;
+__as1(_, 'CalendarHeart', CalendarHeart);
 if(!window.customElements.get('lucide-calendar-heart')){window.customElements.define('lucide-calendar-heart', CalendarHeart);Aventus.WebComponentInstance.registerDefinition(CalendarHeart);}
 
 const CalendarMinus = class CalendarMinus extends AbstractIcon {
@@ -14757,7 +14757,7 @@ const CalendarMinus = class CalendarMinus extends AbstractIcon {
 }
 CalendarMinus.Namespace=`Lucide`;
 CalendarMinus.Tag=`lucide-calendar-minus`;
-_.CalendarMinus=CalendarMinus;
+__as1(_, 'CalendarMinus', CalendarMinus);
 if(!window.customElements.get('lucide-calendar-minus')){window.customElements.define('lucide-calendar-minus', CalendarMinus);Aventus.WebComponentInstance.registerDefinition(CalendarMinus);}
 
 const CalendarMinus2 = class CalendarMinus2 extends AbstractIcon {
@@ -14781,7 +14781,7 @@ const CalendarMinus2 = class CalendarMinus2 extends AbstractIcon {
 }
 CalendarMinus2.Namespace=`Lucide`;
 CalendarMinus2.Tag=`lucide-calendar-minus-2`;
-_.CalendarMinus2=CalendarMinus2;
+__as1(_, 'CalendarMinus2', CalendarMinus2);
 if(!window.customElements.get('lucide-calendar-minus-2')){window.customElements.define('lucide-calendar-minus-2', CalendarMinus2);Aventus.WebComponentInstance.registerDefinition(CalendarMinus2);}
 
 const CalendarOff = class CalendarOff extends AbstractIcon {
@@ -14805,7 +14805,7 @@ const CalendarOff = class CalendarOff extends AbstractIcon {
 }
 CalendarOff.Namespace=`Lucide`;
 CalendarOff.Tag=`lucide-calendar-off`;
-_.CalendarOff=CalendarOff;
+__as1(_, 'CalendarOff', CalendarOff);
 if(!window.customElements.get('lucide-calendar-off')){window.customElements.define('lucide-calendar-off', CalendarOff);Aventus.WebComponentInstance.registerDefinition(CalendarOff);}
 
 const CalendarPlus = class CalendarPlus extends AbstractIcon {
@@ -14829,7 +14829,7 @@ const CalendarPlus = class CalendarPlus extends AbstractIcon {
 }
 CalendarPlus.Namespace=`Lucide`;
 CalendarPlus.Tag=`lucide-calendar-plus`;
-_.CalendarPlus=CalendarPlus;
+__as1(_, 'CalendarPlus', CalendarPlus);
 if(!window.customElements.get('lucide-calendar-plus')){window.customElements.define('lucide-calendar-plus', CalendarPlus);Aventus.WebComponentInstance.registerDefinition(CalendarPlus);}
 
 const CalendarPlus2 = class CalendarPlus2 extends AbstractIcon {
@@ -14853,7 +14853,7 @@ const CalendarPlus2 = class CalendarPlus2 extends AbstractIcon {
 }
 CalendarPlus2.Namespace=`Lucide`;
 CalendarPlus2.Tag=`lucide-calendar-plus-2`;
-_.CalendarPlus2=CalendarPlus2;
+__as1(_, 'CalendarPlus2', CalendarPlus2);
 if(!window.customElements.get('lucide-calendar-plus-2')){window.customElements.define('lucide-calendar-plus-2', CalendarPlus2);Aventus.WebComponentInstance.registerDefinition(CalendarPlus2);}
 
 const CalendarRange = class CalendarRange extends AbstractIcon {
@@ -14877,7 +14877,7 @@ const CalendarRange = class CalendarRange extends AbstractIcon {
 }
 CalendarRange.Namespace=`Lucide`;
 CalendarRange.Tag=`lucide-calendar-range`;
-_.CalendarRange=CalendarRange;
+__as1(_, 'CalendarRange', CalendarRange);
 if(!window.customElements.get('lucide-calendar-range')){window.customElements.define('lucide-calendar-range', CalendarRange);Aventus.WebComponentInstance.registerDefinition(CalendarRange);}
 
 const CalendarSearch = class CalendarSearch extends AbstractIcon {
@@ -14901,7 +14901,7 @@ const CalendarSearch = class CalendarSearch extends AbstractIcon {
 }
 CalendarSearch.Namespace=`Lucide`;
 CalendarSearch.Tag=`lucide-calendar-search`;
-_.CalendarSearch=CalendarSearch;
+__as1(_, 'CalendarSearch', CalendarSearch);
 if(!window.customElements.get('lucide-calendar-search')){window.customElements.define('lucide-calendar-search', CalendarSearch);Aventus.WebComponentInstance.registerDefinition(CalendarSearch);}
 
 const CalendarSync = class CalendarSync extends AbstractIcon {
@@ -14925,7 +14925,7 @@ const CalendarSync = class CalendarSync extends AbstractIcon {
 }
 CalendarSync.Namespace=`Lucide`;
 CalendarSync.Tag=`lucide-calendar-sync`;
-_.CalendarSync=CalendarSync;
+__as1(_, 'CalendarSync', CalendarSync);
 if(!window.customElements.get('lucide-calendar-sync')){window.customElements.define('lucide-calendar-sync', CalendarSync);Aventus.WebComponentInstance.registerDefinition(CalendarSync);}
 
 const CalendarX = class CalendarX extends AbstractIcon {
@@ -14949,7 +14949,7 @@ const CalendarX = class CalendarX extends AbstractIcon {
 }
 CalendarX.Namespace=`Lucide`;
 CalendarX.Tag=`lucide-calendar-x`;
-_.CalendarX=CalendarX;
+__as1(_, 'CalendarX', CalendarX);
 if(!window.customElements.get('lucide-calendar-x')){window.customElements.define('lucide-calendar-x', CalendarX);Aventus.WebComponentInstance.registerDefinition(CalendarX);}
 
 const CalendarX2 = class CalendarX2 extends AbstractIcon {
@@ -14973,7 +14973,7 @@ const CalendarX2 = class CalendarX2 extends AbstractIcon {
 }
 CalendarX2.Namespace=`Lucide`;
 CalendarX2.Tag=`lucide-calendar-x-2`;
-_.CalendarX2=CalendarX2;
+__as1(_, 'CalendarX2', CalendarX2);
 if(!window.customElements.get('lucide-calendar-x-2')){window.customElements.define('lucide-calendar-x-2', CalendarX2);Aventus.WebComponentInstance.registerDefinition(CalendarX2);}
 
 const Camera = class Camera extends AbstractIcon {
@@ -14997,7 +14997,7 @@ const Camera = class Camera extends AbstractIcon {
 }
 Camera.Namespace=`Lucide`;
 Camera.Tag=`lucide-camera`;
-_.Camera=Camera;
+__as1(_, 'Camera', Camera);
 if(!window.customElements.get('lucide-camera')){window.customElements.define('lucide-camera', Camera);Aventus.WebComponentInstance.registerDefinition(Camera);}
 
 const CameraOff = class CameraOff extends AbstractIcon {
@@ -15021,7 +15021,7 @@ const CameraOff = class CameraOff extends AbstractIcon {
 }
 CameraOff.Namespace=`Lucide`;
 CameraOff.Tag=`lucide-camera-off`;
-_.CameraOff=CameraOff;
+__as1(_, 'CameraOff', CameraOff);
 if(!window.customElements.get('lucide-camera-off')){window.customElements.define('lucide-camera-off', CameraOff);Aventus.WebComponentInstance.registerDefinition(CameraOff);}
 
 const CandlestickChart = class CandlestickChart extends AbstractIcon {
@@ -15045,7 +15045,7 @@ const CandlestickChart = class CandlestickChart extends AbstractIcon {
 }
 CandlestickChart.Namespace=`Lucide`;
 CandlestickChart.Tag=`lucide-candlestick-chart`;
-_.CandlestickChart=CandlestickChart;
+__as1(_, 'CandlestickChart', CandlestickChart);
 if(!window.customElements.get('lucide-candlestick-chart')){window.customElements.define('lucide-candlestick-chart', CandlestickChart);Aventus.WebComponentInstance.registerDefinition(CandlestickChart);}
 
 const Candy = class Candy extends AbstractIcon {
@@ -15069,7 +15069,7 @@ const Candy = class Candy extends AbstractIcon {
 }
 Candy.Namespace=`Lucide`;
 Candy.Tag=`lucide-candy`;
-_.Candy=Candy;
+__as1(_, 'Candy', Candy);
 if(!window.customElements.get('lucide-candy')){window.customElements.define('lucide-candy', Candy);Aventus.WebComponentInstance.registerDefinition(Candy);}
 
 const CandyCane = class CandyCane extends AbstractIcon {
@@ -15093,7 +15093,7 @@ const CandyCane = class CandyCane extends AbstractIcon {
 }
 CandyCane.Namespace=`Lucide`;
 CandyCane.Tag=`lucide-candy-cane`;
-_.CandyCane=CandyCane;
+__as1(_, 'CandyCane', CandyCane);
 if(!window.customElements.get('lucide-candy-cane')){window.customElements.define('lucide-candy-cane', CandyCane);Aventus.WebComponentInstance.registerDefinition(CandyCane);}
 
 const CandyOff = class CandyOff extends AbstractIcon {
@@ -15117,7 +15117,7 @@ const CandyOff = class CandyOff extends AbstractIcon {
 }
 CandyOff.Namespace=`Lucide`;
 CandyOff.Tag=`lucide-candy-off`;
-_.CandyOff=CandyOff;
+__as1(_, 'CandyOff', CandyOff);
 if(!window.customElements.get('lucide-candy-off')){window.customElements.define('lucide-candy-off', CandyOff);Aventus.WebComponentInstance.registerDefinition(CandyOff);}
 
 const Cannabis = class Cannabis extends AbstractIcon {
@@ -15141,7 +15141,7 @@ const Cannabis = class Cannabis extends AbstractIcon {
 }
 Cannabis.Namespace=`Lucide`;
 Cannabis.Tag=`lucide-cannabis`;
-_.Cannabis=Cannabis;
+__as1(_, 'Cannabis', Cannabis);
 if(!window.customElements.get('lucide-cannabis')){window.customElements.define('lucide-cannabis', Cannabis);Aventus.WebComponentInstance.registerDefinition(Cannabis);}
 
 const Captions = class Captions extends AbstractIcon {
@@ -15165,7 +15165,7 @@ const Captions = class Captions extends AbstractIcon {
 }
 Captions.Namespace=`Lucide`;
 Captions.Tag=`lucide-captions`;
-_.Captions=Captions;
+__as1(_, 'Captions', Captions);
 if(!window.customElements.get('lucide-captions')){window.customElements.define('lucide-captions', Captions);Aventus.WebComponentInstance.registerDefinition(Captions);}
 
 const CaptionsOff = class CaptionsOff extends AbstractIcon {
@@ -15189,7 +15189,7 @@ const CaptionsOff = class CaptionsOff extends AbstractIcon {
 }
 CaptionsOff.Namespace=`Lucide`;
 CaptionsOff.Tag=`lucide-captions-off`;
-_.CaptionsOff=CaptionsOff;
+__as1(_, 'CaptionsOff', CaptionsOff);
 if(!window.customElements.get('lucide-captions-off')){window.customElements.define('lucide-captions-off', CaptionsOff);Aventus.WebComponentInstance.registerDefinition(CaptionsOff);}
 
 const Car = class Car extends AbstractIcon {
@@ -15213,7 +15213,7 @@ const Car = class Car extends AbstractIcon {
 }
 Car.Namespace=`Lucide`;
 Car.Tag=`lucide-car`;
-_.Car=Car;
+__as1(_, 'Car', Car);
 if(!window.customElements.get('lucide-car')){window.customElements.define('lucide-car', Car);Aventus.WebComponentInstance.registerDefinition(Car);}
 
 const Caravan = class Caravan extends AbstractIcon {
@@ -15237,7 +15237,7 @@ const Caravan = class Caravan extends AbstractIcon {
 }
 Caravan.Namespace=`Lucide`;
 Caravan.Tag=`lucide-caravan`;
-_.Caravan=Caravan;
+__as1(_, 'Caravan', Caravan);
 if(!window.customElements.get('lucide-caravan')){window.customElements.define('lucide-caravan', Caravan);Aventus.WebComponentInstance.registerDefinition(Caravan);}
 
 const CardSim = class CardSim extends AbstractIcon {
@@ -15261,7 +15261,7 @@ const CardSim = class CardSim extends AbstractIcon {
 }
 CardSim.Namespace=`Lucide`;
 CardSim.Tag=`lucide-card-sim`;
-_.CardSim=CardSim;
+__as1(_, 'CardSim', CardSim);
 if(!window.customElements.get('lucide-card-sim')){window.customElements.define('lucide-card-sim', CardSim);Aventus.WebComponentInstance.registerDefinition(CardSim);}
 
 const CarFront = class CarFront extends AbstractIcon {
@@ -15285,7 +15285,7 @@ const CarFront = class CarFront extends AbstractIcon {
 }
 CarFront.Namespace=`Lucide`;
 CarFront.Tag=`lucide-car-front`;
-_.CarFront=CarFront;
+__as1(_, 'CarFront', CarFront);
 if(!window.customElements.get('lucide-car-front')){window.customElements.define('lucide-car-front', CarFront);Aventus.WebComponentInstance.registerDefinition(CarFront);}
 
 const Carrot = class Carrot extends AbstractIcon {
@@ -15309,7 +15309,7 @@ const Carrot = class Carrot extends AbstractIcon {
 }
 Carrot.Namespace=`Lucide`;
 Carrot.Tag=`lucide-carrot`;
-_.Carrot=Carrot;
+__as1(_, 'Carrot', Carrot);
 if(!window.customElements.get('lucide-carrot')){window.customElements.define('lucide-carrot', Carrot);Aventus.WebComponentInstance.registerDefinition(Carrot);}
 
 const CarTaxiFront = class CarTaxiFront extends AbstractIcon {
@@ -15333,7 +15333,7 @@ const CarTaxiFront = class CarTaxiFront extends AbstractIcon {
 }
 CarTaxiFront.Namespace=`Lucide`;
 CarTaxiFront.Tag=`lucide-car-taxi-front`;
-_.CarTaxiFront=CarTaxiFront;
+__as1(_, 'CarTaxiFront', CarTaxiFront);
 if(!window.customElements.get('lucide-car-taxi-front')){window.customElements.define('lucide-car-taxi-front', CarTaxiFront);Aventus.WebComponentInstance.registerDefinition(CarTaxiFront);}
 
 const CaseLower = class CaseLower extends AbstractIcon {
@@ -15357,7 +15357,7 @@ const CaseLower = class CaseLower extends AbstractIcon {
 }
 CaseLower.Namespace=`Lucide`;
 CaseLower.Tag=`lucide-case-lower`;
-_.CaseLower=CaseLower;
+__as1(_, 'CaseLower', CaseLower);
 if(!window.customElements.get('lucide-case-lower')){window.customElements.define('lucide-case-lower', CaseLower);Aventus.WebComponentInstance.registerDefinition(CaseLower);}
 
 const CaseSensitive = class CaseSensitive extends AbstractIcon {
@@ -15381,7 +15381,7 @@ const CaseSensitive = class CaseSensitive extends AbstractIcon {
 }
 CaseSensitive.Namespace=`Lucide`;
 CaseSensitive.Tag=`lucide-case-sensitive`;
-_.CaseSensitive=CaseSensitive;
+__as1(_, 'CaseSensitive', CaseSensitive);
 if(!window.customElements.get('lucide-case-sensitive')){window.customElements.define('lucide-case-sensitive', CaseSensitive);Aventus.WebComponentInstance.registerDefinition(CaseSensitive);}
 
 const CaseUpper = class CaseUpper extends AbstractIcon {
@@ -15405,7 +15405,7 @@ const CaseUpper = class CaseUpper extends AbstractIcon {
 }
 CaseUpper.Namespace=`Lucide`;
 CaseUpper.Tag=`lucide-case-upper`;
-_.CaseUpper=CaseUpper;
+__as1(_, 'CaseUpper', CaseUpper);
 if(!window.customElements.get('lucide-case-upper')){window.customElements.define('lucide-case-upper', CaseUpper);Aventus.WebComponentInstance.registerDefinition(CaseUpper);}
 
 const CassetteTape = class CassetteTape extends AbstractIcon {
@@ -15429,7 +15429,7 @@ const CassetteTape = class CassetteTape extends AbstractIcon {
 }
 CassetteTape.Namespace=`Lucide`;
 CassetteTape.Tag=`lucide-cassette-tape`;
-_.CassetteTape=CassetteTape;
+__as1(_, 'CassetteTape', CassetteTape);
 if(!window.customElements.get('lucide-cassette-tape')){window.customElements.define('lucide-cassette-tape', CassetteTape);Aventus.WebComponentInstance.registerDefinition(CassetteTape);}
 
 const Cast = class Cast extends AbstractIcon {
@@ -15453,7 +15453,7 @@ const Cast = class Cast extends AbstractIcon {
 }
 Cast.Namespace=`Lucide`;
 Cast.Tag=`lucide-cast`;
-_.Cast=Cast;
+__as1(_, 'Cast', Cast);
 if(!window.customElements.get('lucide-cast')){window.customElements.define('lucide-cast', Cast);Aventus.WebComponentInstance.registerDefinition(Cast);}
 
 const Castle = class Castle extends AbstractIcon {
@@ -15477,7 +15477,7 @@ const Castle = class Castle extends AbstractIcon {
 }
 Castle.Namespace=`Lucide`;
 Castle.Tag=`lucide-castle`;
-_.Castle=Castle;
+__as1(_, 'Castle', Castle);
 if(!window.customElements.get('lucide-castle')){window.customElements.define('lucide-castle', Castle);Aventus.WebComponentInstance.registerDefinition(Castle);}
 
 const Cat = class Cat extends AbstractIcon {
@@ -15501,7 +15501,7 @@ const Cat = class Cat extends AbstractIcon {
 }
 Cat.Namespace=`Lucide`;
 Cat.Tag=`lucide-cat`;
-_.Cat=Cat;
+__as1(_, 'Cat', Cat);
 if(!window.customElements.get('lucide-cat')){window.customElements.define('lucide-cat', Cat);Aventus.WebComponentInstance.registerDefinition(Cat);}
 
 const Cctv = class Cctv extends AbstractIcon {
@@ -15525,7 +15525,7 @@ const Cctv = class Cctv extends AbstractIcon {
 }
 Cctv.Namespace=`Lucide`;
 Cctv.Tag=`lucide-cctv`;
-_.Cctv=Cctv;
+__as1(_, 'Cctv', Cctv);
 if(!window.customElements.get('lucide-cctv')){window.customElements.define('lucide-cctv', Cctv);Aventus.WebComponentInstance.registerDefinition(Cctv);}
 
 const ChartArea = class ChartArea extends AbstractIcon {
@@ -15549,7 +15549,7 @@ const ChartArea = class ChartArea extends AbstractIcon {
 }
 ChartArea.Namespace=`Lucide`;
 ChartArea.Tag=`lucide-chart-area`;
-_.ChartArea=ChartArea;
+__as1(_, 'ChartArea', ChartArea);
 if(!window.customElements.get('lucide-chart-area')){window.customElements.define('lucide-chart-area', ChartArea);Aventus.WebComponentInstance.registerDefinition(ChartArea);}
 
 const ChartBar = class ChartBar extends AbstractIcon {
@@ -15573,7 +15573,7 @@ const ChartBar = class ChartBar extends AbstractIcon {
 }
 ChartBar.Namespace=`Lucide`;
 ChartBar.Tag=`lucide-chart-bar`;
-_.ChartBar=ChartBar;
+__as1(_, 'ChartBar', ChartBar);
 if(!window.customElements.get('lucide-chart-bar')){window.customElements.define('lucide-chart-bar', ChartBar);Aventus.WebComponentInstance.registerDefinition(ChartBar);}
 
 const ChartBarBig = class ChartBarBig extends AbstractIcon {
@@ -15597,7 +15597,7 @@ const ChartBarBig = class ChartBarBig extends AbstractIcon {
 }
 ChartBarBig.Namespace=`Lucide`;
 ChartBarBig.Tag=`lucide-chart-bar-big`;
-_.ChartBarBig=ChartBarBig;
+__as1(_, 'ChartBarBig', ChartBarBig);
 if(!window.customElements.get('lucide-chart-bar-big')){window.customElements.define('lucide-chart-bar-big', ChartBarBig);Aventus.WebComponentInstance.registerDefinition(ChartBarBig);}
 
 const ChartBarDecreasing = class ChartBarDecreasing extends AbstractIcon {
@@ -15621,7 +15621,7 @@ const ChartBarDecreasing = class ChartBarDecreasing extends AbstractIcon {
 }
 ChartBarDecreasing.Namespace=`Lucide`;
 ChartBarDecreasing.Tag=`lucide-chart-bar-decreasing`;
-_.ChartBarDecreasing=ChartBarDecreasing;
+__as1(_, 'ChartBarDecreasing', ChartBarDecreasing);
 if(!window.customElements.get('lucide-chart-bar-decreasing')){window.customElements.define('lucide-chart-bar-decreasing', ChartBarDecreasing);Aventus.WebComponentInstance.registerDefinition(ChartBarDecreasing);}
 
 const ChartBarIncreasing = class ChartBarIncreasing extends AbstractIcon {
@@ -15645,7 +15645,7 @@ const ChartBarIncreasing = class ChartBarIncreasing extends AbstractIcon {
 }
 ChartBarIncreasing.Namespace=`Lucide`;
 ChartBarIncreasing.Tag=`lucide-chart-bar-increasing`;
-_.ChartBarIncreasing=ChartBarIncreasing;
+__as1(_, 'ChartBarIncreasing', ChartBarIncreasing);
 if(!window.customElements.get('lucide-chart-bar-increasing')){window.customElements.define('lucide-chart-bar-increasing', ChartBarIncreasing);Aventus.WebComponentInstance.registerDefinition(ChartBarIncreasing);}
 
 const ChartBarStacked = class ChartBarStacked extends AbstractIcon {
@@ -15669,7 +15669,7 @@ const ChartBarStacked = class ChartBarStacked extends AbstractIcon {
 }
 ChartBarStacked.Namespace=`Lucide`;
 ChartBarStacked.Tag=`lucide-chart-bar-stacked`;
-_.ChartBarStacked=ChartBarStacked;
+__as1(_, 'ChartBarStacked', ChartBarStacked);
 if(!window.customElements.get('lucide-chart-bar-stacked')){window.customElements.define('lucide-chart-bar-stacked', ChartBarStacked);Aventus.WebComponentInstance.registerDefinition(ChartBarStacked);}
 
 const ChartCandlestick = class ChartCandlestick extends AbstractIcon {
@@ -15693,7 +15693,7 @@ const ChartCandlestick = class ChartCandlestick extends AbstractIcon {
 }
 ChartCandlestick.Namespace=`Lucide`;
 ChartCandlestick.Tag=`lucide-chart-candlestick`;
-_.ChartCandlestick=ChartCandlestick;
+__as1(_, 'ChartCandlestick', ChartCandlestick);
 if(!window.customElements.get('lucide-chart-candlestick')){window.customElements.define('lucide-chart-candlestick', ChartCandlestick);Aventus.WebComponentInstance.registerDefinition(ChartCandlestick);}
 
 const ChartColumn = class ChartColumn extends AbstractIcon {
@@ -15717,7 +15717,7 @@ const ChartColumn = class ChartColumn extends AbstractIcon {
 }
 ChartColumn.Namespace=`Lucide`;
 ChartColumn.Tag=`lucide-chart-column`;
-_.ChartColumn=ChartColumn;
+__as1(_, 'ChartColumn', ChartColumn);
 if(!window.customElements.get('lucide-chart-column')){window.customElements.define('lucide-chart-column', ChartColumn);Aventus.WebComponentInstance.registerDefinition(ChartColumn);}
 
 const ChartColumnBig = class ChartColumnBig extends AbstractIcon {
@@ -15741,7 +15741,7 @@ const ChartColumnBig = class ChartColumnBig extends AbstractIcon {
 }
 ChartColumnBig.Namespace=`Lucide`;
 ChartColumnBig.Tag=`lucide-chart-column-big`;
-_.ChartColumnBig=ChartColumnBig;
+__as1(_, 'ChartColumnBig', ChartColumnBig);
 if(!window.customElements.get('lucide-chart-column-big')){window.customElements.define('lucide-chart-column-big', ChartColumnBig);Aventus.WebComponentInstance.registerDefinition(ChartColumnBig);}
 
 const ChartColumnDecreasing = class ChartColumnDecreasing extends AbstractIcon {
@@ -15765,7 +15765,7 @@ const ChartColumnDecreasing = class ChartColumnDecreasing extends AbstractIcon {
 }
 ChartColumnDecreasing.Namespace=`Lucide`;
 ChartColumnDecreasing.Tag=`lucide-chart-column-decreasing`;
-_.ChartColumnDecreasing=ChartColumnDecreasing;
+__as1(_, 'ChartColumnDecreasing', ChartColumnDecreasing);
 if(!window.customElements.get('lucide-chart-column-decreasing')){window.customElements.define('lucide-chart-column-decreasing', ChartColumnDecreasing);Aventus.WebComponentInstance.registerDefinition(ChartColumnDecreasing);}
 
 const ChartColumnIncreasing = class ChartColumnIncreasing extends AbstractIcon {
@@ -15789,7 +15789,7 @@ const ChartColumnIncreasing = class ChartColumnIncreasing extends AbstractIcon {
 }
 ChartColumnIncreasing.Namespace=`Lucide`;
 ChartColumnIncreasing.Tag=`lucide-chart-column-increasing`;
-_.ChartColumnIncreasing=ChartColumnIncreasing;
+__as1(_, 'ChartColumnIncreasing', ChartColumnIncreasing);
 if(!window.customElements.get('lucide-chart-column-increasing')){window.customElements.define('lucide-chart-column-increasing', ChartColumnIncreasing);Aventus.WebComponentInstance.registerDefinition(ChartColumnIncreasing);}
 
 const ChartColumnStacked = class ChartColumnStacked extends AbstractIcon {
@@ -15813,7 +15813,7 @@ const ChartColumnStacked = class ChartColumnStacked extends AbstractIcon {
 }
 ChartColumnStacked.Namespace=`Lucide`;
 ChartColumnStacked.Tag=`lucide-chart-column-stacked`;
-_.ChartColumnStacked=ChartColumnStacked;
+__as1(_, 'ChartColumnStacked', ChartColumnStacked);
 if(!window.customElements.get('lucide-chart-column-stacked')){window.customElements.define('lucide-chart-column-stacked', ChartColumnStacked);Aventus.WebComponentInstance.registerDefinition(ChartColumnStacked);}
 
 const ChartGantt = class ChartGantt extends AbstractIcon {
@@ -15837,7 +15837,7 @@ const ChartGantt = class ChartGantt extends AbstractIcon {
 }
 ChartGantt.Namespace=`Lucide`;
 ChartGantt.Tag=`lucide-chart-gantt`;
-_.ChartGantt=ChartGantt;
+__as1(_, 'ChartGantt', ChartGantt);
 if(!window.customElements.get('lucide-chart-gantt')){window.customElements.define('lucide-chart-gantt', ChartGantt);Aventus.WebComponentInstance.registerDefinition(ChartGantt);}
 
 const ChartLine = class ChartLine extends AbstractIcon {
@@ -15861,7 +15861,7 @@ const ChartLine = class ChartLine extends AbstractIcon {
 }
 ChartLine.Namespace=`Lucide`;
 ChartLine.Tag=`lucide-chart-line`;
-_.ChartLine=ChartLine;
+__as1(_, 'ChartLine', ChartLine);
 if(!window.customElements.get('lucide-chart-line')){window.customElements.define('lucide-chart-line', ChartLine);Aventus.WebComponentInstance.registerDefinition(ChartLine);}
 
 const ChartNetwork = class ChartNetwork extends AbstractIcon {
@@ -15885,7 +15885,7 @@ const ChartNetwork = class ChartNetwork extends AbstractIcon {
 }
 ChartNetwork.Namespace=`Lucide`;
 ChartNetwork.Tag=`lucide-chart-network`;
-_.ChartNetwork=ChartNetwork;
+__as1(_, 'ChartNetwork', ChartNetwork);
 if(!window.customElements.get('lucide-chart-network')){window.customElements.define('lucide-chart-network', ChartNetwork);Aventus.WebComponentInstance.registerDefinition(ChartNetwork);}
 
 const ChartNoAxesColumn = class ChartNoAxesColumn extends AbstractIcon {
@@ -15909,7 +15909,7 @@ const ChartNoAxesColumn = class ChartNoAxesColumn extends AbstractIcon {
 }
 ChartNoAxesColumn.Namespace=`Lucide`;
 ChartNoAxesColumn.Tag=`lucide-chart-no-axes-column`;
-_.ChartNoAxesColumn=ChartNoAxesColumn;
+__as1(_, 'ChartNoAxesColumn', ChartNoAxesColumn);
 if(!window.customElements.get('lucide-chart-no-axes-column')){window.customElements.define('lucide-chart-no-axes-column', ChartNoAxesColumn);Aventus.WebComponentInstance.registerDefinition(ChartNoAxesColumn);}
 
 const ChartNoAxesColumnDecreasing = class ChartNoAxesColumnDecreasing extends AbstractIcon {
@@ -15933,7 +15933,7 @@ const ChartNoAxesColumnDecreasing = class ChartNoAxesColumnDecreasing extends Ab
 }
 ChartNoAxesColumnDecreasing.Namespace=`Lucide`;
 ChartNoAxesColumnDecreasing.Tag=`lucide-chart-no-axes-column-decreasing`;
-_.ChartNoAxesColumnDecreasing=ChartNoAxesColumnDecreasing;
+__as1(_, 'ChartNoAxesColumnDecreasing', ChartNoAxesColumnDecreasing);
 if(!window.customElements.get('lucide-chart-no-axes-column-decreasing')){window.customElements.define('lucide-chart-no-axes-column-decreasing', ChartNoAxesColumnDecreasing);Aventus.WebComponentInstance.registerDefinition(ChartNoAxesColumnDecreasing);}
 
 const ChartNoAxesColumnIncreasing = class ChartNoAxesColumnIncreasing extends AbstractIcon {
@@ -15957,7 +15957,7 @@ const ChartNoAxesColumnIncreasing = class ChartNoAxesColumnIncreasing extends Ab
 }
 ChartNoAxesColumnIncreasing.Namespace=`Lucide`;
 ChartNoAxesColumnIncreasing.Tag=`lucide-chart-no-axes-column-increasing`;
-_.ChartNoAxesColumnIncreasing=ChartNoAxesColumnIncreasing;
+__as1(_, 'ChartNoAxesColumnIncreasing', ChartNoAxesColumnIncreasing);
 if(!window.customElements.get('lucide-chart-no-axes-column-increasing')){window.customElements.define('lucide-chart-no-axes-column-increasing', ChartNoAxesColumnIncreasing);Aventus.WebComponentInstance.registerDefinition(ChartNoAxesColumnIncreasing);}
 
 const ChartNoAxesCombined = class ChartNoAxesCombined extends AbstractIcon {
@@ -15981,7 +15981,7 @@ const ChartNoAxesCombined = class ChartNoAxesCombined extends AbstractIcon {
 }
 ChartNoAxesCombined.Namespace=`Lucide`;
 ChartNoAxesCombined.Tag=`lucide-chart-no-axes-combined`;
-_.ChartNoAxesCombined=ChartNoAxesCombined;
+__as1(_, 'ChartNoAxesCombined', ChartNoAxesCombined);
 if(!window.customElements.get('lucide-chart-no-axes-combined')){window.customElements.define('lucide-chart-no-axes-combined', ChartNoAxesCombined);Aventus.WebComponentInstance.registerDefinition(ChartNoAxesCombined);}
 
 const ChartNoAxesGantt = class ChartNoAxesGantt extends AbstractIcon {
@@ -16005,7 +16005,7 @@ const ChartNoAxesGantt = class ChartNoAxesGantt extends AbstractIcon {
 }
 ChartNoAxesGantt.Namespace=`Lucide`;
 ChartNoAxesGantt.Tag=`lucide-chart-no-axes-gantt`;
-_.ChartNoAxesGantt=ChartNoAxesGantt;
+__as1(_, 'ChartNoAxesGantt', ChartNoAxesGantt);
 if(!window.customElements.get('lucide-chart-no-axes-gantt')){window.customElements.define('lucide-chart-no-axes-gantt', ChartNoAxesGantt);Aventus.WebComponentInstance.registerDefinition(ChartNoAxesGantt);}
 
 const ChartPie = class ChartPie extends AbstractIcon {
@@ -16029,7 +16029,7 @@ const ChartPie = class ChartPie extends AbstractIcon {
 }
 ChartPie.Namespace=`Lucide`;
 ChartPie.Tag=`lucide-chart-pie`;
-_.ChartPie=ChartPie;
+__as1(_, 'ChartPie', ChartPie);
 if(!window.customElements.get('lucide-chart-pie')){window.customElements.define('lucide-chart-pie', ChartPie);Aventus.WebComponentInstance.registerDefinition(ChartPie);}
 
 const ChartScatter = class ChartScatter extends AbstractIcon {
@@ -16053,7 +16053,7 @@ const ChartScatter = class ChartScatter extends AbstractIcon {
 }
 ChartScatter.Namespace=`Lucide`;
 ChartScatter.Tag=`lucide-chart-scatter`;
-_.ChartScatter=ChartScatter;
+__as1(_, 'ChartScatter', ChartScatter);
 if(!window.customElements.get('lucide-chart-scatter')){window.customElements.define('lucide-chart-scatter', ChartScatter);Aventus.WebComponentInstance.registerDefinition(ChartScatter);}
 
 const ChartSpline = class ChartSpline extends AbstractIcon {
@@ -16077,7 +16077,7 @@ const ChartSpline = class ChartSpline extends AbstractIcon {
 }
 ChartSpline.Namespace=`Lucide`;
 ChartSpline.Tag=`lucide-chart-spline`;
-_.ChartSpline=ChartSpline;
+__as1(_, 'ChartSpline', ChartSpline);
 if(!window.customElements.get('lucide-chart-spline')){window.customElements.define('lucide-chart-spline', ChartSpline);Aventus.WebComponentInstance.registerDefinition(ChartSpline);}
 
 const Check = class Check extends AbstractIcon {
@@ -16101,7 +16101,7 @@ const Check = class Check extends AbstractIcon {
 }
 Check.Namespace=`Lucide`;
 Check.Tag=`lucide-check`;
-_.Check=Check;
+__as1(_, 'Check', Check);
 if(!window.customElements.get('lucide-check')){window.customElements.define('lucide-check', Check);Aventus.WebComponentInstance.registerDefinition(Check);}
 
 const CheckCheck = class CheckCheck extends AbstractIcon {
@@ -16125,7 +16125,7 @@ const CheckCheck = class CheckCheck extends AbstractIcon {
 }
 CheckCheck.Namespace=`Lucide`;
 CheckCheck.Tag=`lucide-check-check`;
-_.CheckCheck=CheckCheck;
+__as1(_, 'CheckCheck', CheckCheck);
 if(!window.customElements.get('lucide-check-check')){window.customElements.define('lucide-check-check', CheckCheck);Aventus.WebComponentInstance.registerDefinition(CheckCheck);}
 
 const CheckCircle = class CheckCircle extends AbstractIcon {
@@ -16149,7 +16149,7 @@ const CheckCircle = class CheckCircle extends AbstractIcon {
 }
 CheckCircle.Namespace=`Lucide`;
 CheckCircle.Tag=`lucide-check-circle`;
-_.CheckCircle=CheckCircle;
+__as1(_, 'CheckCircle', CheckCircle);
 if(!window.customElements.get('lucide-check-circle')){window.customElements.define('lucide-check-circle', CheckCircle);Aventus.WebComponentInstance.registerDefinition(CheckCircle);}
 
 const CheckCircle2 = class CheckCircle2 extends AbstractIcon {
@@ -16173,7 +16173,7 @@ const CheckCircle2 = class CheckCircle2 extends AbstractIcon {
 }
 CheckCircle2.Namespace=`Lucide`;
 CheckCircle2.Tag=`lucide-check-circle-2`;
-_.CheckCircle2=CheckCircle2;
+__as1(_, 'CheckCircle2', CheckCircle2);
 if(!window.customElements.get('lucide-check-circle-2')){window.customElements.define('lucide-check-circle-2', CheckCircle2);Aventus.WebComponentInstance.registerDefinition(CheckCircle2);}
 
 const CheckLine = class CheckLine extends AbstractIcon {
@@ -16197,7 +16197,7 @@ const CheckLine = class CheckLine extends AbstractIcon {
 }
 CheckLine.Namespace=`Lucide`;
 CheckLine.Tag=`lucide-check-line`;
-_.CheckLine=CheckLine;
+__as1(_, 'CheckLine', CheckLine);
 if(!window.customElements.get('lucide-check-line')){window.customElements.define('lucide-check-line', CheckLine);Aventus.WebComponentInstance.registerDefinition(CheckLine);}
 
 const CheckSquare = class CheckSquare extends AbstractIcon {
@@ -16221,7 +16221,7 @@ const CheckSquare = class CheckSquare extends AbstractIcon {
 }
 CheckSquare.Namespace=`Lucide`;
 CheckSquare.Tag=`lucide-check-square`;
-_.CheckSquare=CheckSquare;
+__as1(_, 'CheckSquare', CheckSquare);
 if(!window.customElements.get('lucide-check-square')){window.customElements.define('lucide-check-square', CheckSquare);Aventus.WebComponentInstance.registerDefinition(CheckSquare);}
 
 const CheckSquare2 = class CheckSquare2 extends AbstractIcon {
@@ -16245,7 +16245,7 @@ const CheckSquare2 = class CheckSquare2 extends AbstractIcon {
 }
 CheckSquare2.Namespace=`Lucide`;
 CheckSquare2.Tag=`lucide-check-square-2`;
-_.CheckSquare2=CheckSquare2;
+__as1(_, 'CheckSquare2', CheckSquare2);
 if(!window.customElements.get('lucide-check-square-2')){window.customElements.define('lucide-check-square-2', CheckSquare2);Aventus.WebComponentInstance.registerDefinition(CheckSquare2);}
 
 const ChefHat = class ChefHat extends AbstractIcon {
@@ -16269,7 +16269,7 @@ const ChefHat = class ChefHat extends AbstractIcon {
 }
 ChefHat.Namespace=`Lucide`;
 ChefHat.Tag=`lucide-chef-hat`;
-_.ChefHat=ChefHat;
+__as1(_, 'ChefHat', ChefHat);
 if(!window.customElements.get('lucide-chef-hat')){window.customElements.define('lucide-chef-hat', ChefHat);Aventus.WebComponentInstance.registerDefinition(ChefHat);}
 
 const Cherry = class Cherry extends AbstractIcon {
@@ -16293,7 +16293,7 @@ const Cherry = class Cherry extends AbstractIcon {
 }
 Cherry.Namespace=`Lucide`;
 Cherry.Tag=`lucide-cherry`;
-_.Cherry=Cherry;
+__as1(_, 'Cherry', Cherry);
 if(!window.customElements.get('lucide-cherry')){window.customElements.define('lucide-cherry', Cherry);Aventus.WebComponentInstance.registerDefinition(Cherry);}
 
 const ChevronDown = class ChevronDown extends AbstractIcon {
@@ -16317,7 +16317,7 @@ const ChevronDown = class ChevronDown extends AbstractIcon {
 }
 ChevronDown.Namespace=`Lucide`;
 ChevronDown.Tag=`lucide-chevron-down`;
-_.ChevronDown=ChevronDown;
+__as1(_, 'ChevronDown', ChevronDown);
 if(!window.customElements.get('lucide-chevron-down')){window.customElements.define('lucide-chevron-down', ChevronDown);Aventus.WebComponentInstance.registerDefinition(ChevronDown);}
 
 const ChevronDownCircle = class ChevronDownCircle extends AbstractIcon {
@@ -16341,7 +16341,7 @@ const ChevronDownCircle = class ChevronDownCircle extends AbstractIcon {
 }
 ChevronDownCircle.Namespace=`Lucide`;
 ChevronDownCircle.Tag=`lucide-chevron-down-circle`;
-_.ChevronDownCircle=ChevronDownCircle;
+__as1(_, 'ChevronDownCircle', ChevronDownCircle);
 if(!window.customElements.get('lucide-chevron-down-circle')){window.customElements.define('lucide-chevron-down-circle', ChevronDownCircle);Aventus.WebComponentInstance.registerDefinition(ChevronDownCircle);}
 
 const ChevronDownSquare = class ChevronDownSquare extends AbstractIcon {
@@ -16365,7 +16365,7 @@ const ChevronDownSquare = class ChevronDownSquare extends AbstractIcon {
 }
 ChevronDownSquare.Namespace=`Lucide`;
 ChevronDownSquare.Tag=`lucide-chevron-down-square`;
-_.ChevronDownSquare=ChevronDownSquare;
+__as1(_, 'ChevronDownSquare', ChevronDownSquare);
 if(!window.customElements.get('lucide-chevron-down-square')){window.customElements.define('lucide-chevron-down-square', ChevronDownSquare);Aventus.WebComponentInstance.registerDefinition(ChevronDownSquare);}
 
 const ChevronFirst = class ChevronFirst extends AbstractIcon {
@@ -16389,7 +16389,7 @@ const ChevronFirst = class ChevronFirst extends AbstractIcon {
 }
 ChevronFirst.Namespace=`Lucide`;
 ChevronFirst.Tag=`lucide-chevron-first`;
-_.ChevronFirst=ChevronFirst;
+__as1(_, 'ChevronFirst', ChevronFirst);
 if(!window.customElements.get('lucide-chevron-first')){window.customElements.define('lucide-chevron-first', ChevronFirst);Aventus.WebComponentInstance.registerDefinition(ChevronFirst);}
 
 const ChevronLast = class ChevronLast extends AbstractIcon {
@@ -16413,7 +16413,7 @@ const ChevronLast = class ChevronLast extends AbstractIcon {
 }
 ChevronLast.Namespace=`Lucide`;
 ChevronLast.Tag=`lucide-chevron-last`;
-_.ChevronLast=ChevronLast;
+__as1(_, 'ChevronLast', ChevronLast);
 if(!window.customElements.get('lucide-chevron-last')){window.customElements.define('lucide-chevron-last', ChevronLast);Aventus.WebComponentInstance.registerDefinition(ChevronLast);}
 
 const ChevronLeft = class ChevronLeft extends AbstractIcon {
@@ -16437,7 +16437,7 @@ const ChevronLeft = class ChevronLeft extends AbstractIcon {
 }
 ChevronLeft.Namespace=`Lucide`;
 ChevronLeft.Tag=`lucide-chevron-left`;
-_.ChevronLeft=ChevronLeft;
+__as1(_, 'ChevronLeft', ChevronLeft);
 if(!window.customElements.get('lucide-chevron-left')){window.customElements.define('lucide-chevron-left', ChevronLeft);Aventus.WebComponentInstance.registerDefinition(ChevronLeft);}
 
 const ChevronLeftCircle = class ChevronLeftCircle extends AbstractIcon {
@@ -16461,7 +16461,7 @@ const ChevronLeftCircle = class ChevronLeftCircle extends AbstractIcon {
 }
 ChevronLeftCircle.Namespace=`Lucide`;
 ChevronLeftCircle.Tag=`lucide-chevron-left-circle`;
-_.ChevronLeftCircle=ChevronLeftCircle;
+__as1(_, 'ChevronLeftCircle', ChevronLeftCircle);
 if(!window.customElements.get('lucide-chevron-left-circle')){window.customElements.define('lucide-chevron-left-circle', ChevronLeftCircle);Aventus.WebComponentInstance.registerDefinition(ChevronLeftCircle);}
 
 const ChevronLeftSquare = class ChevronLeftSquare extends AbstractIcon {
@@ -16485,7 +16485,7 @@ const ChevronLeftSquare = class ChevronLeftSquare extends AbstractIcon {
 }
 ChevronLeftSquare.Namespace=`Lucide`;
 ChevronLeftSquare.Tag=`lucide-chevron-left-square`;
-_.ChevronLeftSquare=ChevronLeftSquare;
+__as1(_, 'ChevronLeftSquare', ChevronLeftSquare);
 if(!window.customElements.get('lucide-chevron-left-square')){window.customElements.define('lucide-chevron-left-square', ChevronLeftSquare);Aventus.WebComponentInstance.registerDefinition(ChevronLeftSquare);}
 
 const ChevronRight = class ChevronRight extends AbstractIcon {
@@ -16509,7 +16509,7 @@ const ChevronRight = class ChevronRight extends AbstractIcon {
 }
 ChevronRight.Namespace=`Lucide`;
 ChevronRight.Tag=`lucide-chevron-right`;
-_.ChevronRight=ChevronRight;
+__as1(_, 'ChevronRight', ChevronRight);
 if(!window.customElements.get('lucide-chevron-right')){window.customElements.define('lucide-chevron-right', ChevronRight);Aventus.WebComponentInstance.registerDefinition(ChevronRight);}
 
 const ChevronRightCircle = class ChevronRightCircle extends AbstractIcon {
@@ -16533,7 +16533,7 @@ const ChevronRightCircle = class ChevronRightCircle extends AbstractIcon {
 }
 ChevronRightCircle.Namespace=`Lucide`;
 ChevronRightCircle.Tag=`lucide-chevron-right-circle`;
-_.ChevronRightCircle=ChevronRightCircle;
+__as1(_, 'ChevronRightCircle', ChevronRightCircle);
 if(!window.customElements.get('lucide-chevron-right-circle')){window.customElements.define('lucide-chevron-right-circle', ChevronRightCircle);Aventus.WebComponentInstance.registerDefinition(ChevronRightCircle);}
 
 const ChevronRightSquare = class ChevronRightSquare extends AbstractIcon {
@@ -16557,7 +16557,7 @@ const ChevronRightSquare = class ChevronRightSquare extends AbstractIcon {
 }
 ChevronRightSquare.Namespace=`Lucide`;
 ChevronRightSquare.Tag=`lucide-chevron-right-square`;
-_.ChevronRightSquare=ChevronRightSquare;
+__as1(_, 'ChevronRightSquare', ChevronRightSquare);
 if(!window.customElements.get('lucide-chevron-right-square')){window.customElements.define('lucide-chevron-right-square', ChevronRightSquare);Aventus.WebComponentInstance.registerDefinition(ChevronRightSquare);}
 
 const ChevronsDown = class ChevronsDown extends AbstractIcon {
@@ -16581,7 +16581,7 @@ const ChevronsDown = class ChevronsDown extends AbstractIcon {
 }
 ChevronsDown.Namespace=`Lucide`;
 ChevronsDown.Tag=`lucide-chevrons-down`;
-_.ChevronsDown=ChevronsDown;
+__as1(_, 'ChevronsDown', ChevronsDown);
 if(!window.customElements.get('lucide-chevrons-down')){window.customElements.define('lucide-chevrons-down', ChevronsDown);Aventus.WebComponentInstance.registerDefinition(ChevronsDown);}
 
 const ChevronsDownUp = class ChevronsDownUp extends AbstractIcon {
@@ -16605,7 +16605,7 @@ const ChevronsDownUp = class ChevronsDownUp extends AbstractIcon {
 }
 ChevronsDownUp.Namespace=`Lucide`;
 ChevronsDownUp.Tag=`lucide-chevrons-down-up`;
-_.ChevronsDownUp=ChevronsDownUp;
+__as1(_, 'ChevronsDownUp', ChevronsDownUp);
 if(!window.customElements.get('lucide-chevrons-down-up')){window.customElements.define('lucide-chevrons-down-up', ChevronsDownUp);Aventus.WebComponentInstance.registerDefinition(ChevronsDownUp);}
 
 const ChevronsLeft = class ChevronsLeft extends AbstractIcon {
@@ -16629,7 +16629,7 @@ const ChevronsLeft = class ChevronsLeft extends AbstractIcon {
 }
 ChevronsLeft.Namespace=`Lucide`;
 ChevronsLeft.Tag=`lucide-chevrons-left`;
-_.ChevronsLeft=ChevronsLeft;
+__as1(_, 'ChevronsLeft', ChevronsLeft);
 if(!window.customElements.get('lucide-chevrons-left')){window.customElements.define('lucide-chevrons-left', ChevronsLeft);Aventus.WebComponentInstance.registerDefinition(ChevronsLeft);}
 
 const ChevronsLeftRight = class ChevronsLeftRight extends AbstractIcon {
@@ -16653,7 +16653,7 @@ const ChevronsLeftRight = class ChevronsLeftRight extends AbstractIcon {
 }
 ChevronsLeftRight.Namespace=`Lucide`;
 ChevronsLeftRight.Tag=`lucide-chevrons-left-right`;
-_.ChevronsLeftRight=ChevronsLeftRight;
+__as1(_, 'ChevronsLeftRight', ChevronsLeftRight);
 if(!window.customElements.get('lucide-chevrons-left-right')){window.customElements.define('lucide-chevrons-left-right', ChevronsLeftRight);Aventus.WebComponentInstance.registerDefinition(ChevronsLeftRight);}
 
 const ChevronsLeftRightEllipsis = class ChevronsLeftRightEllipsis extends AbstractIcon {
@@ -16677,7 +16677,7 @@ const ChevronsLeftRightEllipsis = class ChevronsLeftRightEllipsis extends Abstra
 }
 ChevronsLeftRightEllipsis.Namespace=`Lucide`;
 ChevronsLeftRightEllipsis.Tag=`lucide-chevrons-left-right-ellipsis`;
-_.ChevronsLeftRightEllipsis=ChevronsLeftRightEllipsis;
+__as1(_, 'ChevronsLeftRightEllipsis', ChevronsLeftRightEllipsis);
 if(!window.customElements.get('lucide-chevrons-left-right-ellipsis')){window.customElements.define('lucide-chevrons-left-right-ellipsis', ChevronsLeftRightEllipsis);Aventus.WebComponentInstance.registerDefinition(ChevronsLeftRightEllipsis);}
 
 const ChevronsRight = class ChevronsRight extends AbstractIcon {
@@ -16701,7 +16701,7 @@ const ChevronsRight = class ChevronsRight extends AbstractIcon {
 }
 ChevronsRight.Namespace=`Lucide`;
 ChevronsRight.Tag=`lucide-chevrons-right`;
-_.ChevronsRight=ChevronsRight;
+__as1(_, 'ChevronsRight', ChevronsRight);
 if(!window.customElements.get('lucide-chevrons-right')){window.customElements.define('lucide-chevrons-right', ChevronsRight);Aventus.WebComponentInstance.registerDefinition(ChevronsRight);}
 
 const ChevronsRightLeft = class ChevronsRightLeft extends AbstractIcon {
@@ -16725,7 +16725,7 @@ const ChevronsRightLeft = class ChevronsRightLeft extends AbstractIcon {
 }
 ChevronsRightLeft.Namespace=`Lucide`;
 ChevronsRightLeft.Tag=`lucide-chevrons-right-left`;
-_.ChevronsRightLeft=ChevronsRightLeft;
+__as1(_, 'ChevronsRightLeft', ChevronsRightLeft);
 if(!window.customElements.get('lucide-chevrons-right-left')){window.customElements.define('lucide-chevrons-right-left', ChevronsRightLeft);Aventus.WebComponentInstance.registerDefinition(ChevronsRightLeft);}
 
 const ChevronsUp = class ChevronsUp extends AbstractIcon {
@@ -16749,7 +16749,7 @@ const ChevronsUp = class ChevronsUp extends AbstractIcon {
 }
 ChevronsUp.Namespace=`Lucide`;
 ChevronsUp.Tag=`lucide-chevrons-up`;
-_.ChevronsUp=ChevronsUp;
+__as1(_, 'ChevronsUp', ChevronsUp);
 if(!window.customElements.get('lucide-chevrons-up')){window.customElements.define('lucide-chevrons-up', ChevronsUp);Aventus.WebComponentInstance.registerDefinition(ChevronsUp);}
 
 const ChevronsUpDown = class ChevronsUpDown extends AbstractIcon {
@@ -16773,7 +16773,7 @@ const ChevronsUpDown = class ChevronsUpDown extends AbstractIcon {
 }
 ChevronsUpDown.Namespace=`Lucide`;
 ChevronsUpDown.Tag=`lucide-chevrons-up-down`;
-_.ChevronsUpDown=ChevronsUpDown;
+__as1(_, 'ChevronsUpDown', ChevronsUpDown);
 if(!window.customElements.get('lucide-chevrons-up-down')){window.customElements.define('lucide-chevrons-up-down', ChevronsUpDown);Aventus.WebComponentInstance.registerDefinition(ChevronsUpDown);}
 
 const ChevronUp = class ChevronUp extends AbstractIcon {
@@ -16797,7 +16797,7 @@ const ChevronUp = class ChevronUp extends AbstractIcon {
 }
 ChevronUp.Namespace=`Lucide`;
 ChevronUp.Tag=`lucide-chevron-up`;
-_.ChevronUp=ChevronUp;
+__as1(_, 'ChevronUp', ChevronUp);
 if(!window.customElements.get('lucide-chevron-up')){window.customElements.define('lucide-chevron-up', ChevronUp);Aventus.WebComponentInstance.registerDefinition(ChevronUp);}
 
 const ChevronUpCircle = class ChevronUpCircle extends AbstractIcon {
@@ -16821,7 +16821,7 @@ const ChevronUpCircle = class ChevronUpCircle extends AbstractIcon {
 }
 ChevronUpCircle.Namespace=`Lucide`;
 ChevronUpCircle.Tag=`lucide-chevron-up-circle`;
-_.ChevronUpCircle=ChevronUpCircle;
+__as1(_, 'ChevronUpCircle', ChevronUpCircle);
 if(!window.customElements.get('lucide-chevron-up-circle')){window.customElements.define('lucide-chevron-up-circle', ChevronUpCircle);Aventus.WebComponentInstance.registerDefinition(ChevronUpCircle);}
 
 const ChevronUpSquare = class ChevronUpSquare extends AbstractIcon {
@@ -16845,7 +16845,7 @@ const ChevronUpSquare = class ChevronUpSquare extends AbstractIcon {
 }
 ChevronUpSquare.Namespace=`Lucide`;
 ChevronUpSquare.Tag=`lucide-chevron-up-square`;
-_.ChevronUpSquare=ChevronUpSquare;
+__as1(_, 'ChevronUpSquare', ChevronUpSquare);
 if(!window.customElements.get('lucide-chevron-up-square')){window.customElements.define('lucide-chevron-up-square', ChevronUpSquare);Aventus.WebComponentInstance.registerDefinition(ChevronUpSquare);}
 
 const Chrome = class Chrome extends AbstractIcon {
@@ -16869,7 +16869,7 @@ const Chrome = class Chrome extends AbstractIcon {
 }
 Chrome.Namespace=`Lucide`;
 Chrome.Tag=`lucide-chrome`;
-_.Chrome=Chrome;
+__as1(_, 'Chrome', Chrome);
 if(!window.customElements.get('lucide-chrome')){window.customElements.define('lucide-chrome', Chrome);Aventus.WebComponentInstance.registerDefinition(Chrome);}
 
 const Church = class Church extends AbstractIcon {
@@ -16893,7 +16893,7 @@ const Church = class Church extends AbstractIcon {
 }
 Church.Namespace=`Lucide`;
 Church.Tag=`lucide-church`;
-_.Church=Church;
+__as1(_, 'Church', Church);
 if(!window.customElements.get('lucide-church')){window.customElements.define('lucide-church', Church);Aventus.WebComponentInstance.registerDefinition(Church);}
 
 const Cigarette = class Cigarette extends AbstractIcon {
@@ -16917,7 +16917,7 @@ const Cigarette = class Cigarette extends AbstractIcon {
 }
 Cigarette.Namespace=`Lucide`;
 Cigarette.Tag=`lucide-cigarette`;
-_.Cigarette=Cigarette;
+__as1(_, 'Cigarette', Cigarette);
 if(!window.customElements.get('lucide-cigarette')){window.customElements.define('lucide-cigarette', Cigarette);Aventus.WebComponentInstance.registerDefinition(Cigarette);}
 
 const CigaretteOff = class CigaretteOff extends AbstractIcon {
@@ -16941,7 +16941,7 @@ const CigaretteOff = class CigaretteOff extends AbstractIcon {
 }
 CigaretteOff.Namespace=`Lucide`;
 CigaretteOff.Tag=`lucide-cigarette-off`;
-_.CigaretteOff=CigaretteOff;
+__as1(_, 'CigaretteOff', CigaretteOff);
 if(!window.customElements.get('lucide-cigarette-off')){window.customElements.define('lucide-cigarette-off', CigaretteOff);Aventus.WebComponentInstance.registerDefinition(CigaretteOff);}
 
 const Circle = class Circle extends AbstractIcon {
@@ -16965,7 +16965,7 @@ const Circle = class Circle extends AbstractIcon {
 }
 Circle.Namespace=`Lucide`;
 Circle.Tag=`lucide-circle`;
-_.Circle=Circle;
+__as1(_, 'Circle', Circle);
 if(!window.customElements.get('lucide-circle')){window.customElements.define('lucide-circle', Circle);Aventus.WebComponentInstance.registerDefinition(Circle);}
 
 const CircleAlert = class CircleAlert extends AbstractIcon {
@@ -16989,7 +16989,7 @@ const CircleAlert = class CircleAlert extends AbstractIcon {
 }
 CircleAlert.Namespace=`Lucide`;
 CircleAlert.Tag=`lucide-circle-alert`;
-_.CircleAlert=CircleAlert;
+__as1(_, 'CircleAlert', CircleAlert);
 if(!window.customElements.get('lucide-circle-alert')){window.customElements.define('lucide-circle-alert', CircleAlert);Aventus.WebComponentInstance.registerDefinition(CircleAlert);}
 
 const CircleArrowDown = class CircleArrowDown extends AbstractIcon {
@@ -17013,7 +17013,7 @@ const CircleArrowDown = class CircleArrowDown extends AbstractIcon {
 }
 CircleArrowDown.Namespace=`Lucide`;
 CircleArrowDown.Tag=`lucide-circle-arrow-down`;
-_.CircleArrowDown=CircleArrowDown;
+__as1(_, 'CircleArrowDown', CircleArrowDown);
 if(!window.customElements.get('lucide-circle-arrow-down')){window.customElements.define('lucide-circle-arrow-down', CircleArrowDown);Aventus.WebComponentInstance.registerDefinition(CircleArrowDown);}
 
 const CircleArrowLeft = class CircleArrowLeft extends AbstractIcon {
@@ -17037,7 +17037,7 @@ const CircleArrowLeft = class CircleArrowLeft extends AbstractIcon {
 }
 CircleArrowLeft.Namespace=`Lucide`;
 CircleArrowLeft.Tag=`lucide-circle-arrow-left`;
-_.CircleArrowLeft=CircleArrowLeft;
+__as1(_, 'CircleArrowLeft', CircleArrowLeft);
 if(!window.customElements.get('lucide-circle-arrow-left')){window.customElements.define('lucide-circle-arrow-left', CircleArrowLeft);Aventus.WebComponentInstance.registerDefinition(CircleArrowLeft);}
 
 const CircleArrowOutDownLeft = class CircleArrowOutDownLeft extends AbstractIcon {
@@ -17061,7 +17061,7 @@ const CircleArrowOutDownLeft = class CircleArrowOutDownLeft extends AbstractIcon
 }
 CircleArrowOutDownLeft.Namespace=`Lucide`;
 CircleArrowOutDownLeft.Tag=`lucide-circle-arrow-out-down-left`;
-_.CircleArrowOutDownLeft=CircleArrowOutDownLeft;
+__as1(_, 'CircleArrowOutDownLeft', CircleArrowOutDownLeft);
 if(!window.customElements.get('lucide-circle-arrow-out-down-left')){window.customElements.define('lucide-circle-arrow-out-down-left', CircleArrowOutDownLeft);Aventus.WebComponentInstance.registerDefinition(CircleArrowOutDownLeft);}
 
 const CircleArrowOutDownRight = class CircleArrowOutDownRight extends AbstractIcon {
@@ -17085,7 +17085,7 @@ const CircleArrowOutDownRight = class CircleArrowOutDownRight extends AbstractIc
 }
 CircleArrowOutDownRight.Namespace=`Lucide`;
 CircleArrowOutDownRight.Tag=`lucide-circle-arrow-out-down-right`;
-_.CircleArrowOutDownRight=CircleArrowOutDownRight;
+__as1(_, 'CircleArrowOutDownRight', CircleArrowOutDownRight);
 if(!window.customElements.get('lucide-circle-arrow-out-down-right')){window.customElements.define('lucide-circle-arrow-out-down-right', CircleArrowOutDownRight);Aventus.WebComponentInstance.registerDefinition(CircleArrowOutDownRight);}
 
 const CircleArrowOutUpLeft = class CircleArrowOutUpLeft extends AbstractIcon {
@@ -17109,7 +17109,7 @@ const CircleArrowOutUpLeft = class CircleArrowOutUpLeft extends AbstractIcon {
 }
 CircleArrowOutUpLeft.Namespace=`Lucide`;
 CircleArrowOutUpLeft.Tag=`lucide-circle-arrow-out-up-left`;
-_.CircleArrowOutUpLeft=CircleArrowOutUpLeft;
+__as1(_, 'CircleArrowOutUpLeft', CircleArrowOutUpLeft);
 if(!window.customElements.get('lucide-circle-arrow-out-up-left')){window.customElements.define('lucide-circle-arrow-out-up-left', CircleArrowOutUpLeft);Aventus.WebComponentInstance.registerDefinition(CircleArrowOutUpLeft);}
 
 const CircleArrowOutUpRight = class CircleArrowOutUpRight extends AbstractIcon {
@@ -17133,7 +17133,7 @@ const CircleArrowOutUpRight = class CircleArrowOutUpRight extends AbstractIcon {
 }
 CircleArrowOutUpRight.Namespace=`Lucide`;
 CircleArrowOutUpRight.Tag=`lucide-circle-arrow-out-up-right`;
-_.CircleArrowOutUpRight=CircleArrowOutUpRight;
+__as1(_, 'CircleArrowOutUpRight', CircleArrowOutUpRight);
 if(!window.customElements.get('lucide-circle-arrow-out-up-right')){window.customElements.define('lucide-circle-arrow-out-up-right', CircleArrowOutUpRight);Aventus.WebComponentInstance.registerDefinition(CircleArrowOutUpRight);}
 
 const CircleArrowRight = class CircleArrowRight extends AbstractIcon {
@@ -17157,7 +17157,7 @@ const CircleArrowRight = class CircleArrowRight extends AbstractIcon {
 }
 CircleArrowRight.Namespace=`Lucide`;
 CircleArrowRight.Tag=`lucide-circle-arrow-right`;
-_.CircleArrowRight=CircleArrowRight;
+__as1(_, 'CircleArrowRight', CircleArrowRight);
 if(!window.customElements.get('lucide-circle-arrow-right')){window.customElements.define('lucide-circle-arrow-right', CircleArrowRight);Aventus.WebComponentInstance.registerDefinition(CircleArrowRight);}
 
 const CircleArrowUp = class CircleArrowUp extends AbstractIcon {
@@ -17181,7 +17181,7 @@ const CircleArrowUp = class CircleArrowUp extends AbstractIcon {
 }
 CircleArrowUp.Namespace=`Lucide`;
 CircleArrowUp.Tag=`lucide-circle-arrow-up`;
-_.CircleArrowUp=CircleArrowUp;
+__as1(_, 'CircleArrowUp', CircleArrowUp);
 if(!window.customElements.get('lucide-circle-arrow-up')){window.customElements.define('lucide-circle-arrow-up', CircleArrowUp);Aventus.WebComponentInstance.registerDefinition(CircleArrowUp);}
 
 const CircleCheck = class CircleCheck extends AbstractIcon {
@@ -17205,7 +17205,7 @@ const CircleCheck = class CircleCheck extends AbstractIcon {
 }
 CircleCheck.Namespace=`Lucide`;
 CircleCheck.Tag=`lucide-circle-check`;
-_.CircleCheck=CircleCheck;
+__as1(_, 'CircleCheck', CircleCheck);
 if(!window.customElements.get('lucide-circle-check')){window.customElements.define('lucide-circle-check', CircleCheck);Aventus.WebComponentInstance.registerDefinition(CircleCheck);}
 
 const CircleCheckBig = class CircleCheckBig extends AbstractIcon {
@@ -17229,7 +17229,7 @@ const CircleCheckBig = class CircleCheckBig extends AbstractIcon {
 }
 CircleCheckBig.Namespace=`Lucide`;
 CircleCheckBig.Tag=`lucide-circle-check-big`;
-_.CircleCheckBig=CircleCheckBig;
+__as1(_, 'CircleCheckBig', CircleCheckBig);
 if(!window.customElements.get('lucide-circle-check-big')){window.customElements.define('lucide-circle-check-big', CircleCheckBig);Aventus.WebComponentInstance.registerDefinition(CircleCheckBig);}
 
 const CircleChevronDown = class CircleChevronDown extends AbstractIcon {
@@ -17253,7 +17253,7 @@ const CircleChevronDown = class CircleChevronDown extends AbstractIcon {
 }
 CircleChevronDown.Namespace=`Lucide`;
 CircleChevronDown.Tag=`lucide-circle-chevron-down`;
-_.CircleChevronDown=CircleChevronDown;
+__as1(_, 'CircleChevronDown', CircleChevronDown);
 if(!window.customElements.get('lucide-circle-chevron-down')){window.customElements.define('lucide-circle-chevron-down', CircleChevronDown);Aventus.WebComponentInstance.registerDefinition(CircleChevronDown);}
 
 const CircleChevronLeft = class CircleChevronLeft extends AbstractIcon {
@@ -17277,7 +17277,7 @@ const CircleChevronLeft = class CircleChevronLeft extends AbstractIcon {
 }
 CircleChevronLeft.Namespace=`Lucide`;
 CircleChevronLeft.Tag=`lucide-circle-chevron-left`;
-_.CircleChevronLeft=CircleChevronLeft;
+__as1(_, 'CircleChevronLeft', CircleChevronLeft);
 if(!window.customElements.get('lucide-circle-chevron-left')){window.customElements.define('lucide-circle-chevron-left', CircleChevronLeft);Aventus.WebComponentInstance.registerDefinition(CircleChevronLeft);}
 
 const CircleChevronRight = class CircleChevronRight extends AbstractIcon {
@@ -17301,7 +17301,7 @@ const CircleChevronRight = class CircleChevronRight extends AbstractIcon {
 }
 CircleChevronRight.Namespace=`Lucide`;
 CircleChevronRight.Tag=`lucide-circle-chevron-right`;
-_.CircleChevronRight=CircleChevronRight;
+__as1(_, 'CircleChevronRight', CircleChevronRight);
 if(!window.customElements.get('lucide-circle-chevron-right')){window.customElements.define('lucide-circle-chevron-right', CircleChevronRight);Aventus.WebComponentInstance.registerDefinition(CircleChevronRight);}
 
 const CircleChevronUp = class CircleChevronUp extends AbstractIcon {
@@ -17325,7 +17325,7 @@ const CircleChevronUp = class CircleChevronUp extends AbstractIcon {
 }
 CircleChevronUp.Namespace=`Lucide`;
 CircleChevronUp.Tag=`lucide-circle-chevron-up`;
-_.CircleChevronUp=CircleChevronUp;
+__as1(_, 'CircleChevronUp', CircleChevronUp);
 if(!window.customElements.get('lucide-circle-chevron-up')){window.customElements.define('lucide-circle-chevron-up', CircleChevronUp);Aventus.WebComponentInstance.registerDefinition(CircleChevronUp);}
 
 const CircleDashed = class CircleDashed extends AbstractIcon {
@@ -17349,7 +17349,7 @@ const CircleDashed = class CircleDashed extends AbstractIcon {
 }
 CircleDashed.Namespace=`Lucide`;
 CircleDashed.Tag=`lucide-circle-dashed`;
-_.CircleDashed=CircleDashed;
+__as1(_, 'CircleDashed', CircleDashed);
 if(!window.customElements.get('lucide-circle-dashed')){window.customElements.define('lucide-circle-dashed', CircleDashed);Aventus.WebComponentInstance.registerDefinition(CircleDashed);}
 
 const CircleDivide = class CircleDivide extends AbstractIcon {
@@ -17373,7 +17373,7 @@ const CircleDivide = class CircleDivide extends AbstractIcon {
 }
 CircleDivide.Namespace=`Lucide`;
 CircleDivide.Tag=`lucide-circle-divide`;
-_.CircleDivide=CircleDivide;
+__as1(_, 'CircleDivide', CircleDivide);
 if(!window.customElements.get('lucide-circle-divide')){window.customElements.define('lucide-circle-divide', CircleDivide);Aventus.WebComponentInstance.registerDefinition(CircleDivide);}
 
 const CircleDollarSign = class CircleDollarSign extends AbstractIcon {
@@ -17397,7 +17397,7 @@ const CircleDollarSign = class CircleDollarSign extends AbstractIcon {
 }
 CircleDollarSign.Namespace=`Lucide`;
 CircleDollarSign.Tag=`lucide-circle-dollar-sign`;
-_.CircleDollarSign=CircleDollarSign;
+__as1(_, 'CircleDollarSign', CircleDollarSign);
 if(!window.customElements.get('lucide-circle-dollar-sign')){window.customElements.define('lucide-circle-dollar-sign', CircleDollarSign);Aventus.WebComponentInstance.registerDefinition(CircleDollarSign);}
 
 const CircleDot = class CircleDot extends AbstractIcon {
@@ -17421,7 +17421,7 @@ const CircleDot = class CircleDot extends AbstractIcon {
 }
 CircleDot.Namespace=`Lucide`;
 CircleDot.Tag=`lucide-circle-dot`;
-_.CircleDot=CircleDot;
+__as1(_, 'CircleDot', CircleDot);
 if(!window.customElements.get('lucide-circle-dot')){window.customElements.define('lucide-circle-dot', CircleDot);Aventus.WebComponentInstance.registerDefinition(CircleDot);}
 
 const CircleDotDashed = class CircleDotDashed extends AbstractIcon {
@@ -17445,7 +17445,7 @@ const CircleDotDashed = class CircleDotDashed extends AbstractIcon {
 }
 CircleDotDashed.Namespace=`Lucide`;
 CircleDotDashed.Tag=`lucide-circle-dot-dashed`;
-_.CircleDotDashed=CircleDotDashed;
+__as1(_, 'CircleDotDashed', CircleDotDashed);
 if(!window.customElements.get('lucide-circle-dot-dashed')){window.customElements.define('lucide-circle-dot-dashed', CircleDotDashed);Aventus.WebComponentInstance.registerDefinition(CircleDotDashed);}
 
 const CircleEllipsis = class CircleEllipsis extends AbstractIcon {
@@ -17469,7 +17469,7 @@ const CircleEllipsis = class CircleEllipsis extends AbstractIcon {
 }
 CircleEllipsis.Namespace=`Lucide`;
 CircleEllipsis.Tag=`lucide-circle-ellipsis`;
-_.CircleEllipsis=CircleEllipsis;
+__as1(_, 'CircleEllipsis', CircleEllipsis);
 if(!window.customElements.get('lucide-circle-ellipsis')){window.customElements.define('lucide-circle-ellipsis', CircleEllipsis);Aventus.WebComponentInstance.registerDefinition(CircleEllipsis);}
 
 const CircleEqual = class CircleEqual extends AbstractIcon {
@@ -17493,7 +17493,7 @@ const CircleEqual = class CircleEqual extends AbstractIcon {
 }
 CircleEqual.Namespace=`Lucide`;
 CircleEqual.Tag=`lucide-circle-equal`;
-_.CircleEqual=CircleEqual;
+__as1(_, 'CircleEqual', CircleEqual);
 if(!window.customElements.get('lucide-circle-equal')){window.customElements.define('lucide-circle-equal', CircleEqual);Aventus.WebComponentInstance.registerDefinition(CircleEqual);}
 
 const CircleFadingArrowUp = class CircleFadingArrowUp extends AbstractIcon {
@@ -17517,7 +17517,7 @@ const CircleFadingArrowUp = class CircleFadingArrowUp extends AbstractIcon {
 }
 CircleFadingArrowUp.Namespace=`Lucide`;
 CircleFadingArrowUp.Tag=`lucide-circle-fading-arrow-up`;
-_.CircleFadingArrowUp=CircleFadingArrowUp;
+__as1(_, 'CircleFadingArrowUp', CircleFadingArrowUp);
 if(!window.customElements.get('lucide-circle-fading-arrow-up')){window.customElements.define('lucide-circle-fading-arrow-up', CircleFadingArrowUp);Aventus.WebComponentInstance.registerDefinition(CircleFadingArrowUp);}
 
 const CircleFadingPlus = class CircleFadingPlus extends AbstractIcon {
@@ -17541,7 +17541,7 @@ const CircleFadingPlus = class CircleFadingPlus extends AbstractIcon {
 }
 CircleFadingPlus.Namespace=`Lucide`;
 CircleFadingPlus.Tag=`lucide-circle-fading-plus`;
-_.CircleFadingPlus=CircleFadingPlus;
+__as1(_, 'CircleFadingPlus', CircleFadingPlus);
 if(!window.customElements.get('lucide-circle-fading-plus')){window.customElements.define('lucide-circle-fading-plus', CircleFadingPlus);Aventus.WebComponentInstance.registerDefinition(CircleFadingPlus);}
 
 const CircleGauge = class CircleGauge extends AbstractIcon {
@@ -17565,7 +17565,7 @@ const CircleGauge = class CircleGauge extends AbstractIcon {
 }
 CircleGauge.Namespace=`Lucide`;
 CircleGauge.Tag=`lucide-circle-gauge`;
-_.CircleGauge=CircleGauge;
+__as1(_, 'CircleGauge', CircleGauge);
 if(!window.customElements.get('lucide-circle-gauge')){window.customElements.define('lucide-circle-gauge', CircleGauge);Aventus.WebComponentInstance.registerDefinition(CircleGauge);}
 
 const CircleHelp = class CircleHelp extends AbstractIcon {
@@ -17589,7 +17589,7 @@ const CircleHelp = class CircleHelp extends AbstractIcon {
 }
 CircleHelp.Namespace=`Lucide`;
 CircleHelp.Tag=`lucide-circle-help`;
-_.CircleHelp=CircleHelp;
+__as1(_, 'CircleHelp', CircleHelp);
 if(!window.customElements.get('lucide-circle-help')){window.customElements.define('lucide-circle-help', CircleHelp);Aventus.WebComponentInstance.registerDefinition(CircleHelp);}
 
 const CircleMinus = class CircleMinus extends AbstractIcon {
@@ -17613,7 +17613,7 @@ const CircleMinus = class CircleMinus extends AbstractIcon {
 }
 CircleMinus.Namespace=`Lucide`;
 CircleMinus.Tag=`lucide-circle-minus`;
-_.CircleMinus=CircleMinus;
+__as1(_, 'CircleMinus', CircleMinus);
 if(!window.customElements.get('lucide-circle-minus')){window.customElements.define('lucide-circle-minus', CircleMinus);Aventus.WebComponentInstance.registerDefinition(CircleMinus);}
 
 const CircleOff = class CircleOff extends AbstractIcon {
@@ -17637,7 +17637,7 @@ const CircleOff = class CircleOff extends AbstractIcon {
 }
 CircleOff.Namespace=`Lucide`;
 CircleOff.Tag=`lucide-circle-off`;
-_.CircleOff=CircleOff;
+__as1(_, 'CircleOff', CircleOff);
 if(!window.customElements.get('lucide-circle-off')){window.customElements.define('lucide-circle-off', CircleOff);Aventus.WebComponentInstance.registerDefinition(CircleOff);}
 
 const CircleParking = class CircleParking extends AbstractIcon {
@@ -17661,7 +17661,7 @@ const CircleParking = class CircleParking extends AbstractIcon {
 }
 CircleParking.Namespace=`Lucide`;
 CircleParking.Tag=`lucide-circle-parking`;
-_.CircleParking=CircleParking;
+__as1(_, 'CircleParking', CircleParking);
 if(!window.customElements.get('lucide-circle-parking')){window.customElements.define('lucide-circle-parking', CircleParking);Aventus.WebComponentInstance.registerDefinition(CircleParking);}
 
 const CircleParkingOff = class CircleParkingOff extends AbstractIcon {
@@ -17685,7 +17685,7 @@ const CircleParkingOff = class CircleParkingOff extends AbstractIcon {
 }
 CircleParkingOff.Namespace=`Lucide`;
 CircleParkingOff.Tag=`lucide-circle-parking-off`;
-_.CircleParkingOff=CircleParkingOff;
+__as1(_, 'CircleParkingOff', CircleParkingOff);
 if(!window.customElements.get('lucide-circle-parking-off')){window.customElements.define('lucide-circle-parking-off', CircleParkingOff);Aventus.WebComponentInstance.registerDefinition(CircleParkingOff);}
 
 const CirclePause = class CirclePause extends AbstractIcon {
@@ -17709,7 +17709,7 @@ const CirclePause = class CirclePause extends AbstractIcon {
 }
 CirclePause.Namespace=`Lucide`;
 CirclePause.Tag=`lucide-circle-pause`;
-_.CirclePause=CirclePause;
+__as1(_, 'CirclePause', CirclePause);
 if(!window.customElements.get('lucide-circle-pause')){window.customElements.define('lucide-circle-pause', CirclePause);Aventus.WebComponentInstance.registerDefinition(CirclePause);}
 
 const CirclePercent = class CirclePercent extends AbstractIcon {
@@ -17733,7 +17733,7 @@ const CirclePercent = class CirclePercent extends AbstractIcon {
 }
 CirclePercent.Namespace=`Lucide`;
 CirclePercent.Tag=`lucide-circle-percent`;
-_.CirclePercent=CirclePercent;
+__as1(_, 'CirclePercent', CirclePercent);
 if(!window.customElements.get('lucide-circle-percent')){window.customElements.define('lucide-circle-percent', CirclePercent);Aventus.WebComponentInstance.registerDefinition(CirclePercent);}
 
 const CirclePlay = class CirclePlay extends AbstractIcon {
@@ -17757,7 +17757,7 @@ const CirclePlay = class CirclePlay extends AbstractIcon {
 }
 CirclePlay.Namespace=`Lucide`;
 CirclePlay.Tag=`lucide-circle-play`;
-_.CirclePlay=CirclePlay;
+__as1(_, 'CirclePlay', CirclePlay);
 if(!window.customElements.get('lucide-circle-play')){window.customElements.define('lucide-circle-play', CirclePlay);Aventus.WebComponentInstance.registerDefinition(CirclePlay);}
 
 const CirclePlus = class CirclePlus extends AbstractIcon {
@@ -17781,7 +17781,7 @@ const CirclePlus = class CirclePlus extends AbstractIcon {
 }
 CirclePlus.Namespace=`Lucide`;
 CirclePlus.Tag=`lucide-circle-plus`;
-_.CirclePlus=CirclePlus;
+__as1(_, 'CirclePlus', CirclePlus);
 if(!window.customElements.get('lucide-circle-plus')){window.customElements.define('lucide-circle-plus', CirclePlus);Aventus.WebComponentInstance.registerDefinition(CirclePlus);}
 
 const CirclePoundSterling = class CirclePoundSterling extends AbstractIcon {
@@ -17805,7 +17805,7 @@ const CirclePoundSterling = class CirclePoundSterling extends AbstractIcon {
 }
 CirclePoundSterling.Namespace=`Lucide`;
 CirclePoundSterling.Tag=`lucide-circle-pound-sterling`;
-_.CirclePoundSterling=CirclePoundSterling;
+__as1(_, 'CirclePoundSterling', CirclePoundSterling);
 if(!window.customElements.get('lucide-circle-pound-sterling')){window.customElements.define('lucide-circle-pound-sterling', CirclePoundSterling);Aventus.WebComponentInstance.registerDefinition(CirclePoundSterling);}
 
 const CirclePower = class CirclePower extends AbstractIcon {
@@ -17829,7 +17829,7 @@ const CirclePower = class CirclePower extends AbstractIcon {
 }
 CirclePower.Namespace=`Lucide`;
 CirclePower.Tag=`lucide-circle-power`;
-_.CirclePower=CirclePower;
+__as1(_, 'CirclePower', CirclePower);
 if(!window.customElements.get('lucide-circle-power')){window.customElements.define('lucide-circle-power', CirclePower);Aventus.WebComponentInstance.registerDefinition(CirclePower);}
 
 const CircleQuestionMark = class CircleQuestionMark extends AbstractIcon {
@@ -17853,7 +17853,7 @@ const CircleQuestionMark = class CircleQuestionMark extends AbstractIcon {
 }
 CircleQuestionMark.Namespace=`Lucide`;
 CircleQuestionMark.Tag=`lucide-circle-question-mark`;
-_.CircleQuestionMark=CircleQuestionMark;
+__as1(_, 'CircleQuestionMark', CircleQuestionMark);
 if(!window.customElements.get('lucide-circle-question-mark')){window.customElements.define('lucide-circle-question-mark', CircleQuestionMark);Aventus.WebComponentInstance.registerDefinition(CircleQuestionMark);}
 
 const CircleSlash = class CircleSlash extends AbstractIcon {
@@ -17877,7 +17877,7 @@ const CircleSlash = class CircleSlash extends AbstractIcon {
 }
 CircleSlash.Namespace=`Lucide`;
 CircleSlash.Tag=`lucide-circle-slash`;
-_.CircleSlash=CircleSlash;
+__as1(_, 'CircleSlash', CircleSlash);
 if(!window.customElements.get('lucide-circle-slash')){window.customElements.define('lucide-circle-slash', CircleSlash);Aventus.WebComponentInstance.registerDefinition(CircleSlash);}
 
 const CircleSlash2 = class CircleSlash2 extends AbstractIcon {
@@ -17901,7 +17901,7 @@ const CircleSlash2 = class CircleSlash2 extends AbstractIcon {
 }
 CircleSlash2.Namespace=`Lucide`;
 CircleSlash2.Tag=`lucide-circle-slash-2`;
-_.CircleSlash2=CircleSlash2;
+__as1(_, 'CircleSlash2', CircleSlash2);
 if(!window.customElements.get('lucide-circle-slash-2')){window.customElements.define('lucide-circle-slash-2', CircleSlash2);Aventus.WebComponentInstance.registerDefinition(CircleSlash2);}
 
 const CircleSlashed = class CircleSlashed extends AbstractIcon {
@@ -17925,7 +17925,7 @@ const CircleSlashed = class CircleSlashed extends AbstractIcon {
 }
 CircleSlashed.Namespace=`Lucide`;
 CircleSlashed.Tag=`lucide-circle-slashed`;
-_.CircleSlashed=CircleSlashed;
+__as1(_, 'CircleSlashed', CircleSlashed);
 if(!window.customElements.get('lucide-circle-slashed')){window.customElements.define('lucide-circle-slashed', CircleSlashed);Aventus.WebComponentInstance.registerDefinition(CircleSlashed);}
 
 const CircleSmall = class CircleSmall extends AbstractIcon {
@@ -17949,7 +17949,7 @@ const CircleSmall = class CircleSmall extends AbstractIcon {
 }
 CircleSmall.Namespace=`Lucide`;
 CircleSmall.Tag=`lucide-circle-small`;
-_.CircleSmall=CircleSmall;
+__as1(_, 'CircleSmall', CircleSmall);
 if(!window.customElements.get('lucide-circle-small')){window.customElements.define('lucide-circle-small', CircleSmall);Aventus.WebComponentInstance.registerDefinition(CircleSmall);}
 
 const CircleStop = class CircleStop extends AbstractIcon {
@@ -17973,7 +17973,7 @@ const CircleStop = class CircleStop extends AbstractIcon {
 }
 CircleStop.Namespace=`Lucide`;
 CircleStop.Tag=`lucide-circle-stop`;
-_.CircleStop=CircleStop;
+__as1(_, 'CircleStop', CircleStop);
 if(!window.customElements.get('lucide-circle-stop')){window.customElements.define('lucide-circle-stop', CircleStop);Aventus.WebComponentInstance.registerDefinition(CircleStop);}
 
 const CircleUser = class CircleUser extends AbstractIcon {
@@ -17997,7 +17997,7 @@ const CircleUser = class CircleUser extends AbstractIcon {
 }
 CircleUser.Namespace=`Lucide`;
 CircleUser.Tag=`lucide-circle-user`;
-_.CircleUser=CircleUser;
+__as1(_, 'CircleUser', CircleUser);
 if(!window.customElements.get('lucide-circle-user')){window.customElements.define('lucide-circle-user', CircleUser);Aventus.WebComponentInstance.registerDefinition(CircleUser);}
 
 const CircleUserRound = class CircleUserRound extends AbstractIcon {
@@ -18021,7 +18021,7 @@ const CircleUserRound = class CircleUserRound extends AbstractIcon {
 }
 CircleUserRound.Namespace=`Lucide`;
 CircleUserRound.Tag=`lucide-circle-user-round`;
-_.CircleUserRound=CircleUserRound;
+__as1(_, 'CircleUserRound', CircleUserRound);
 if(!window.customElements.get('lucide-circle-user-round')){window.customElements.define('lucide-circle-user-round', CircleUserRound);Aventus.WebComponentInstance.registerDefinition(CircleUserRound);}
 
 const CircleX = class CircleX extends AbstractIcon {
@@ -18045,7 +18045,7 @@ const CircleX = class CircleX extends AbstractIcon {
 }
 CircleX.Namespace=`Lucide`;
 CircleX.Tag=`lucide-circle-x`;
-_.CircleX=CircleX;
+__as1(_, 'CircleX', CircleX);
 if(!window.customElements.get('lucide-circle-x')){window.customElements.define('lucide-circle-x', CircleX);Aventus.WebComponentInstance.registerDefinition(CircleX);}
 
 const CircuitBoard = class CircuitBoard extends AbstractIcon {
@@ -18069,7 +18069,7 @@ const CircuitBoard = class CircuitBoard extends AbstractIcon {
 }
 CircuitBoard.Namespace=`Lucide`;
 CircuitBoard.Tag=`lucide-circuit-board`;
-_.CircuitBoard=CircuitBoard;
+__as1(_, 'CircuitBoard', CircuitBoard);
 if(!window.customElements.get('lucide-circuit-board')){window.customElements.define('lucide-circuit-board', CircuitBoard);Aventus.WebComponentInstance.registerDefinition(CircuitBoard);}
 
 const Citrus = class Citrus extends AbstractIcon {
@@ -18093,7 +18093,7 @@ const Citrus = class Citrus extends AbstractIcon {
 }
 Citrus.Namespace=`Lucide`;
 Citrus.Tag=`lucide-citrus`;
-_.Citrus=Citrus;
+__as1(_, 'Citrus', Citrus);
 if(!window.customElements.get('lucide-citrus')){window.customElements.define('lucide-citrus', Citrus);Aventus.WebComponentInstance.registerDefinition(Citrus);}
 
 const Clapperboard = class Clapperboard extends AbstractIcon {
@@ -18117,7 +18117,7 @@ const Clapperboard = class Clapperboard extends AbstractIcon {
 }
 Clapperboard.Namespace=`Lucide`;
 Clapperboard.Tag=`lucide-clapperboard`;
-_.Clapperboard=Clapperboard;
+__as1(_, 'Clapperboard', Clapperboard);
 if(!window.customElements.get('lucide-clapperboard')){window.customElements.define('lucide-clapperboard', Clapperboard);Aventus.WebComponentInstance.registerDefinition(Clapperboard);}
 
 const Clipboard = class Clipboard extends AbstractIcon {
@@ -18141,7 +18141,7 @@ const Clipboard = class Clipboard extends AbstractIcon {
 }
 Clipboard.Namespace=`Lucide`;
 Clipboard.Tag=`lucide-clipboard`;
-_.Clipboard=Clipboard;
+__as1(_, 'Clipboard', Clipboard);
 if(!window.customElements.get('lucide-clipboard')){window.customElements.define('lucide-clipboard', Clipboard);Aventus.WebComponentInstance.registerDefinition(Clipboard);}
 
 const ClipboardCheck = class ClipboardCheck extends AbstractIcon {
@@ -18165,7 +18165,7 @@ const ClipboardCheck = class ClipboardCheck extends AbstractIcon {
 }
 ClipboardCheck.Namespace=`Lucide`;
 ClipboardCheck.Tag=`lucide-clipboard-check`;
-_.ClipboardCheck=ClipboardCheck;
+__as1(_, 'ClipboardCheck', ClipboardCheck);
 if(!window.customElements.get('lucide-clipboard-check')){window.customElements.define('lucide-clipboard-check', ClipboardCheck);Aventus.WebComponentInstance.registerDefinition(ClipboardCheck);}
 
 const ClipboardCopy = class ClipboardCopy extends AbstractIcon {
@@ -18189,7 +18189,7 @@ const ClipboardCopy = class ClipboardCopy extends AbstractIcon {
 }
 ClipboardCopy.Namespace=`Lucide`;
 ClipboardCopy.Tag=`lucide-clipboard-copy`;
-_.ClipboardCopy=ClipboardCopy;
+__as1(_, 'ClipboardCopy', ClipboardCopy);
 if(!window.customElements.get('lucide-clipboard-copy')){window.customElements.define('lucide-clipboard-copy', ClipboardCopy);Aventus.WebComponentInstance.registerDefinition(ClipboardCopy);}
 
 const ClipboardEdit = class ClipboardEdit extends AbstractIcon {
@@ -18213,7 +18213,7 @@ const ClipboardEdit = class ClipboardEdit extends AbstractIcon {
 }
 ClipboardEdit.Namespace=`Lucide`;
 ClipboardEdit.Tag=`lucide-clipboard-edit`;
-_.ClipboardEdit=ClipboardEdit;
+__as1(_, 'ClipboardEdit', ClipboardEdit);
 if(!window.customElements.get('lucide-clipboard-edit')){window.customElements.define('lucide-clipboard-edit', ClipboardEdit);Aventus.WebComponentInstance.registerDefinition(ClipboardEdit);}
 
 const ClipboardList = class ClipboardList extends AbstractIcon {
@@ -18237,7 +18237,7 @@ const ClipboardList = class ClipboardList extends AbstractIcon {
 }
 ClipboardList.Namespace=`Lucide`;
 ClipboardList.Tag=`lucide-clipboard-list`;
-_.ClipboardList=ClipboardList;
+__as1(_, 'ClipboardList', ClipboardList);
 if(!window.customElements.get('lucide-clipboard-list')){window.customElements.define('lucide-clipboard-list', ClipboardList);Aventus.WebComponentInstance.registerDefinition(ClipboardList);}
 
 const ClipboardMinus = class ClipboardMinus extends AbstractIcon {
@@ -18261,7 +18261,7 @@ const ClipboardMinus = class ClipboardMinus extends AbstractIcon {
 }
 ClipboardMinus.Namespace=`Lucide`;
 ClipboardMinus.Tag=`lucide-clipboard-minus`;
-_.ClipboardMinus=ClipboardMinus;
+__as1(_, 'ClipboardMinus', ClipboardMinus);
 if(!window.customElements.get('lucide-clipboard-minus')){window.customElements.define('lucide-clipboard-minus', ClipboardMinus);Aventus.WebComponentInstance.registerDefinition(ClipboardMinus);}
 
 const ClipboardPaste = class ClipboardPaste extends AbstractIcon {
@@ -18285,7 +18285,7 @@ const ClipboardPaste = class ClipboardPaste extends AbstractIcon {
 }
 ClipboardPaste.Namespace=`Lucide`;
 ClipboardPaste.Tag=`lucide-clipboard-paste`;
-_.ClipboardPaste=ClipboardPaste;
+__as1(_, 'ClipboardPaste', ClipboardPaste);
 if(!window.customElements.get('lucide-clipboard-paste')){window.customElements.define('lucide-clipboard-paste', ClipboardPaste);Aventus.WebComponentInstance.registerDefinition(ClipboardPaste);}
 
 const ClipboardPen = class ClipboardPen extends AbstractIcon {
@@ -18309,7 +18309,7 @@ const ClipboardPen = class ClipboardPen extends AbstractIcon {
 }
 ClipboardPen.Namespace=`Lucide`;
 ClipboardPen.Tag=`lucide-clipboard-pen`;
-_.ClipboardPen=ClipboardPen;
+__as1(_, 'ClipboardPen', ClipboardPen);
 if(!window.customElements.get('lucide-clipboard-pen')){window.customElements.define('lucide-clipboard-pen', ClipboardPen);Aventus.WebComponentInstance.registerDefinition(ClipboardPen);}
 
 const ClipboardPenLine = class ClipboardPenLine extends AbstractIcon {
@@ -18333,7 +18333,7 @@ const ClipboardPenLine = class ClipboardPenLine extends AbstractIcon {
 }
 ClipboardPenLine.Namespace=`Lucide`;
 ClipboardPenLine.Tag=`lucide-clipboard-pen-line`;
-_.ClipboardPenLine=ClipboardPenLine;
+__as1(_, 'ClipboardPenLine', ClipboardPenLine);
 if(!window.customElements.get('lucide-clipboard-pen-line')){window.customElements.define('lucide-clipboard-pen-line', ClipboardPenLine);Aventus.WebComponentInstance.registerDefinition(ClipboardPenLine);}
 
 const ClipboardPlus = class ClipboardPlus extends AbstractIcon {
@@ -18357,7 +18357,7 @@ const ClipboardPlus = class ClipboardPlus extends AbstractIcon {
 }
 ClipboardPlus.Namespace=`Lucide`;
 ClipboardPlus.Tag=`lucide-clipboard-plus`;
-_.ClipboardPlus=ClipboardPlus;
+__as1(_, 'ClipboardPlus', ClipboardPlus);
 if(!window.customElements.get('lucide-clipboard-plus')){window.customElements.define('lucide-clipboard-plus', ClipboardPlus);Aventus.WebComponentInstance.registerDefinition(ClipboardPlus);}
 
 const ClipboardSignature = class ClipboardSignature extends AbstractIcon {
@@ -18381,7 +18381,7 @@ const ClipboardSignature = class ClipboardSignature extends AbstractIcon {
 }
 ClipboardSignature.Namespace=`Lucide`;
 ClipboardSignature.Tag=`lucide-clipboard-signature`;
-_.ClipboardSignature=ClipboardSignature;
+__as1(_, 'ClipboardSignature', ClipboardSignature);
 if(!window.customElements.get('lucide-clipboard-signature')){window.customElements.define('lucide-clipboard-signature', ClipboardSignature);Aventus.WebComponentInstance.registerDefinition(ClipboardSignature);}
 
 const ClipboardType = class ClipboardType extends AbstractIcon {
@@ -18405,7 +18405,7 @@ const ClipboardType = class ClipboardType extends AbstractIcon {
 }
 ClipboardType.Namespace=`Lucide`;
 ClipboardType.Tag=`lucide-clipboard-type`;
-_.ClipboardType=ClipboardType;
+__as1(_, 'ClipboardType', ClipboardType);
 if(!window.customElements.get('lucide-clipboard-type')){window.customElements.define('lucide-clipboard-type', ClipboardType);Aventus.WebComponentInstance.registerDefinition(ClipboardType);}
 
 const ClipboardX = class ClipboardX extends AbstractIcon {
@@ -18429,7 +18429,7 @@ const ClipboardX = class ClipboardX extends AbstractIcon {
 }
 ClipboardX.Namespace=`Lucide`;
 ClipboardX.Tag=`lucide-clipboard-x`;
-_.ClipboardX=ClipboardX;
+__as1(_, 'ClipboardX', ClipboardX);
 if(!window.customElements.get('lucide-clipboard-x')){window.customElements.define('lucide-clipboard-x', ClipboardX);Aventus.WebComponentInstance.registerDefinition(ClipboardX);}
 
 const Clock = class Clock extends AbstractIcon {
@@ -18453,7 +18453,7 @@ const Clock = class Clock extends AbstractIcon {
 }
 Clock.Namespace=`Lucide`;
 Clock.Tag=`lucide-clock`;
-_.Clock=Clock;
+__as1(_, 'Clock', Clock);
 if(!window.customElements.get('lucide-clock')){window.customElements.define('lucide-clock', Clock);Aventus.WebComponentInstance.registerDefinition(Clock);}
 
 const Clock1 = class Clock1 extends AbstractIcon {
@@ -18477,7 +18477,7 @@ const Clock1 = class Clock1 extends AbstractIcon {
 }
 Clock1.Namespace=`Lucide`;
 Clock1.Tag=`lucide-clock-1`;
-_.Clock1=Clock1;
+__as1(_, 'Clock1', Clock1);
 if(!window.customElements.get('lucide-clock-1')){window.customElements.define('lucide-clock-1', Clock1);Aventus.WebComponentInstance.registerDefinition(Clock1);}
 
 const Clock10 = class Clock10 extends AbstractIcon {
@@ -18501,7 +18501,7 @@ const Clock10 = class Clock10 extends AbstractIcon {
 }
 Clock10.Namespace=`Lucide`;
 Clock10.Tag=`lucide-clock-10`;
-_.Clock10=Clock10;
+__as1(_, 'Clock10', Clock10);
 if(!window.customElements.get('lucide-clock-10')){window.customElements.define('lucide-clock-10', Clock10);Aventus.WebComponentInstance.registerDefinition(Clock10);}
 
 const Clock11 = class Clock11 extends AbstractIcon {
@@ -18525,7 +18525,7 @@ const Clock11 = class Clock11 extends AbstractIcon {
 }
 Clock11.Namespace=`Lucide`;
 Clock11.Tag=`lucide-clock-11`;
-_.Clock11=Clock11;
+__as1(_, 'Clock11', Clock11);
 if(!window.customElements.get('lucide-clock-11')){window.customElements.define('lucide-clock-11', Clock11);Aventus.WebComponentInstance.registerDefinition(Clock11);}
 
 const Clock12 = class Clock12 extends AbstractIcon {
@@ -18549,7 +18549,7 @@ const Clock12 = class Clock12 extends AbstractIcon {
 }
 Clock12.Namespace=`Lucide`;
 Clock12.Tag=`lucide-clock-12`;
-_.Clock12=Clock12;
+__as1(_, 'Clock12', Clock12);
 if(!window.customElements.get('lucide-clock-12')){window.customElements.define('lucide-clock-12', Clock12);Aventus.WebComponentInstance.registerDefinition(Clock12);}
 
 const Clock2 = class Clock2 extends AbstractIcon {
@@ -18573,7 +18573,7 @@ const Clock2 = class Clock2 extends AbstractIcon {
 }
 Clock2.Namespace=`Lucide`;
 Clock2.Tag=`lucide-clock-2`;
-_.Clock2=Clock2;
+__as1(_, 'Clock2', Clock2);
 if(!window.customElements.get('lucide-clock-2')){window.customElements.define('lucide-clock-2', Clock2);Aventus.WebComponentInstance.registerDefinition(Clock2);}
 
 const Clock3 = class Clock3 extends AbstractIcon {
@@ -18597,7 +18597,7 @@ const Clock3 = class Clock3 extends AbstractIcon {
 }
 Clock3.Namespace=`Lucide`;
 Clock3.Tag=`lucide-clock-3`;
-_.Clock3=Clock3;
+__as1(_, 'Clock3', Clock3);
 if(!window.customElements.get('lucide-clock-3')){window.customElements.define('lucide-clock-3', Clock3);Aventus.WebComponentInstance.registerDefinition(Clock3);}
 
 const Clock4 = class Clock4 extends AbstractIcon {
@@ -18621,7 +18621,7 @@ const Clock4 = class Clock4 extends AbstractIcon {
 }
 Clock4.Namespace=`Lucide`;
 Clock4.Tag=`lucide-clock-4`;
-_.Clock4=Clock4;
+__as1(_, 'Clock4', Clock4);
 if(!window.customElements.get('lucide-clock-4')){window.customElements.define('lucide-clock-4', Clock4);Aventus.WebComponentInstance.registerDefinition(Clock4);}
 
 const Clock5 = class Clock5 extends AbstractIcon {
@@ -18645,7 +18645,7 @@ const Clock5 = class Clock5 extends AbstractIcon {
 }
 Clock5.Namespace=`Lucide`;
 Clock5.Tag=`lucide-clock-5`;
-_.Clock5=Clock5;
+__as1(_, 'Clock5', Clock5);
 if(!window.customElements.get('lucide-clock-5')){window.customElements.define('lucide-clock-5', Clock5);Aventus.WebComponentInstance.registerDefinition(Clock5);}
 
 const Clock6 = class Clock6 extends AbstractIcon {
@@ -18669,7 +18669,7 @@ const Clock6 = class Clock6 extends AbstractIcon {
 }
 Clock6.Namespace=`Lucide`;
 Clock6.Tag=`lucide-clock-6`;
-_.Clock6=Clock6;
+__as1(_, 'Clock6', Clock6);
 if(!window.customElements.get('lucide-clock-6')){window.customElements.define('lucide-clock-6', Clock6);Aventus.WebComponentInstance.registerDefinition(Clock6);}
 
 const Clock7 = class Clock7 extends AbstractIcon {
@@ -18693,7 +18693,7 @@ const Clock7 = class Clock7 extends AbstractIcon {
 }
 Clock7.Namespace=`Lucide`;
 Clock7.Tag=`lucide-clock-7`;
-_.Clock7=Clock7;
+__as1(_, 'Clock7', Clock7);
 if(!window.customElements.get('lucide-clock-7')){window.customElements.define('lucide-clock-7', Clock7);Aventus.WebComponentInstance.registerDefinition(Clock7);}
 
 const Clock8 = class Clock8 extends AbstractIcon {
@@ -18717,7 +18717,7 @@ const Clock8 = class Clock8 extends AbstractIcon {
 }
 Clock8.Namespace=`Lucide`;
 Clock8.Tag=`lucide-clock-8`;
-_.Clock8=Clock8;
+__as1(_, 'Clock8', Clock8);
 if(!window.customElements.get('lucide-clock-8')){window.customElements.define('lucide-clock-8', Clock8);Aventus.WebComponentInstance.registerDefinition(Clock8);}
 
 const Clock9 = class Clock9 extends AbstractIcon {
@@ -18741,7 +18741,7 @@ const Clock9 = class Clock9 extends AbstractIcon {
 }
 Clock9.Namespace=`Lucide`;
 Clock9.Tag=`lucide-clock-9`;
-_.Clock9=Clock9;
+__as1(_, 'Clock9', Clock9);
 if(!window.customElements.get('lucide-clock-9')){window.customElements.define('lucide-clock-9', Clock9);Aventus.WebComponentInstance.registerDefinition(Clock9);}
 
 const ClockAlert = class ClockAlert extends AbstractIcon {
@@ -18765,7 +18765,7 @@ const ClockAlert = class ClockAlert extends AbstractIcon {
 }
 ClockAlert.Namespace=`Lucide`;
 ClockAlert.Tag=`lucide-clock-alert`;
-_.ClockAlert=ClockAlert;
+__as1(_, 'ClockAlert', ClockAlert);
 if(!window.customElements.get('lucide-clock-alert')){window.customElements.define('lucide-clock-alert', ClockAlert);Aventus.WebComponentInstance.registerDefinition(ClockAlert);}
 
 const ClockArrowDown = class ClockArrowDown extends AbstractIcon {
@@ -18789,7 +18789,7 @@ const ClockArrowDown = class ClockArrowDown extends AbstractIcon {
 }
 ClockArrowDown.Namespace=`Lucide`;
 ClockArrowDown.Tag=`lucide-clock-arrow-down`;
-_.ClockArrowDown=ClockArrowDown;
+__as1(_, 'ClockArrowDown', ClockArrowDown);
 if(!window.customElements.get('lucide-clock-arrow-down')){window.customElements.define('lucide-clock-arrow-down', ClockArrowDown);Aventus.WebComponentInstance.registerDefinition(ClockArrowDown);}
 
 const ClockArrowUp = class ClockArrowUp extends AbstractIcon {
@@ -18813,7 +18813,7 @@ const ClockArrowUp = class ClockArrowUp extends AbstractIcon {
 }
 ClockArrowUp.Namespace=`Lucide`;
 ClockArrowUp.Tag=`lucide-clock-arrow-up`;
-_.ClockArrowUp=ClockArrowUp;
+__as1(_, 'ClockArrowUp', ClockArrowUp);
 if(!window.customElements.get('lucide-clock-arrow-up')){window.customElements.define('lucide-clock-arrow-up', ClockArrowUp);Aventus.WebComponentInstance.registerDefinition(ClockArrowUp);}
 
 const ClockFading = class ClockFading extends AbstractIcon {
@@ -18837,7 +18837,7 @@ const ClockFading = class ClockFading extends AbstractIcon {
 }
 ClockFading.Namespace=`Lucide`;
 ClockFading.Tag=`lucide-clock-fading`;
-_.ClockFading=ClockFading;
+__as1(_, 'ClockFading', ClockFading);
 if(!window.customElements.get('lucide-clock-fading')){window.customElements.define('lucide-clock-fading', ClockFading);Aventus.WebComponentInstance.registerDefinition(ClockFading);}
 
 const ClockPlus = class ClockPlus extends AbstractIcon {
@@ -18861,7 +18861,7 @@ const ClockPlus = class ClockPlus extends AbstractIcon {
 }
 ClockPlus.Namespace=`Lucide`;
 ClockPlus.Tag=`lucide-clock-plus`;
-_.ClockPlus=ClockPlus;
+__as1(_, 'ClockPlus', ClockPlus);
 if(!window.customElements.get('lucide-clock-plus')){window.customElements.define('lucide-clock-plus', ClockPlus);Aventus.WebComponentInstance.registerDefinition(ClockPlus);}
 
 const Cloud = class Cloud extends AbstractIcon {
@@ -18885,7 +18885,7 @@ const Cloud = class Cloud extends AbstractIcon {
 }
 Cloud.Namespace=`Lucide`;
 Cloud.Tag=`lucide-cloud`;
-_.Cloud=Cloud;
+__as1(_, 'Cloud', Cloud);
 if(!window.customElements.get('lucide-cloud')){window.customElements.define('lucide-cloud', Cloud);Aventus.WebComponentInstance.registerDefinition(Cloud);}
 
 const CloudAlert = class CloudAlert extends AbstractIcon {
@@ -18909,7 +18909,7 @@ const CloudAlert = class CloudAlert extends AbstractIcon {
 }
 CloudAlert.Namespace=`Lucide`;
 CloudAlert.Tag=`lucide-cloud-alert`;
-_.CloudAlert=CloudAlert;
+__as1(_, 'CloudAlert', CloudAlert);
 if(!window.customElements.get('lucide-cloud-alert')){window.customElements.define('lucide-cloud-alert', CloudAlert);Aventus.WebComponentInstance.registerDefinition(CloudAlert);}
 
 const CloudCheck = class CloudCheck extends AbstractIcon {
@@ -18933,7 +18933,7 @@ const CloudCheck = class CloudCheck extends AbstractIcon {
 }
 CloudCheck.Namespace=`Lucide`;
 CloudCheck.Tag=`lucide-cloud-check`;
-_.CloudCheck=CloudCheck;
+__as1(_, 'CloudCheck', CloudCheck);
 if(!window.customElements.get('lucide-cloud-check')){window.customElements.define('lucide-cloud-check', CloudCheck);Aventus.WebComponentInstance.registerDefinition(CloudCheck);}
 
 const CloudCog = class CloudCog extends AbstractIcon {
@@ -18957,7 +18957,7 @@ const CloudCog = class CloudCog extends AbstractIcon {
 }
 CloudCog.Namespace=`Lucide`;
 CloudCog.Tag=`lucide-cloud-cog`;
-_.CloudCog=CloudCog;
+__as1(_, 'CloudCog', CloudCog);
 if(!window.customElements.get('lucide-cloud-cog')){window.customElements.define('lucide-cloud-cog', CloudCog);Aventus.WebComponentInstance.registerDefinition(CloudCog);}
 
 const CloudDownload = class CloudDownload extends AbstractIcon {
@@ -18981,7 +18981,7 @@ const CloudDownload = class CloudDownload extends AbstractIcon {
 }
 CloudDownload.Namespace=`Lucide`;
 CloudDownload.Tag=`lucide-cloud-download`;
-_.CloudDownload=CloudDownload;
+__as1(_, 'CloudDownload', CloudDownload);
 if(!window.customElements.get('lucide-cloud-download')){window.customElements.define('lucide-cloud-download', CloudDownload);Aventus.WebComponentInstance.registerDefinition(CloudDownload);}
 
 const CloudDrizzle = class CloudDrizzle extends AbstractIcon {
@@ -19005,7 +19005,7 @@ const CloudDrizzle = class CloudDrizzle extends AbstractIcon {
 }
 CloudDrizzle.Namespace=`Lucide`;
 CloudDrizzle.Tag=`lucide-cloud-drizzle`;
-_.CloudDrizzle=CloudDrizzle;
+__as1(_, 'CloudDrizzle', CloudDrizzle);
 if(!window.customElements.get('lucide-cloud-drizzle')){window.customElements.define('lucide-cloud-drizzle', CloudDrizzle);Aventus.WebComponentInstance.registerDefinition(CloudDrizzle);}
 
 const CloudFog = class CloudFog extends AbstractIcon {
@@ -19029,7 +19029,7 @@ const CloudFog = class CloudFog extends AbstractIcon {
 }
 CloudFog.Namespace=`Lucide`;
 CloudFog.Tag=`lucide-cloud-fog`;
-_.CloudFog=CloudFog;
+__as1(_, 'CloudFog', CloudFog);
 if(!window.customElements.get('lucide-cloud-fog')){window.customElements.define('lucide-cloud-fog', CloudFog);Aventus.WebComponentInstance.registerDefinition(CloudFog);}
 
 const CloudHail = class CloudHail extends AbstractIcon {
@@ -19053,7 +19053,7 @@ const CloudHail = class CloudHail extends AbstractIcon {
 }
 CloudHail.Namespace=`Lucide`;
 CloudHail.Tag=`lucide-cloud-hail`;
-_.CloudHail=CloudHail;
+__as1(_, 'CloudHail', CloudHail);
 if(!window.customElements.get('lucide-cloud-hail')){window.customElements.define('lucide-cloud-hail', CloudHail);Aventus.WebComponentInstance.registerDefinition(CloudHail);}
 
 const CloudLightning = class CloudLightning extends AbstractIcon {
@@ -19077,7 +19077,7 @@ const CloudLightning = class CloudLightning extends AbstractIcon {
 }
 CloudLightning.Namespace=`Lucide`;
 CloudLightning.Tag=`lucide-cloud-lightning`;
-_.CloudLightning=CloudLightning;
+__as1(_, 'CloudLightning', CloudLightning);
 if(!window.customElements.get('lucide-cloud-lightning')){window.customElements.define('lucide-cloud-lightning', CloudLightning);Aventus.WebComponentInstance.registerDefinition(CloudLightning);}
 
 const CloudMoon = class CloudMoon extends AbstractIcon {
@@ -19101,7 +19101,7 @@ const CloudMoon = class CloudMoon extends AbstractIcon {
 }
 CloudMoon.Namespace=`Lucide`;
 CloudMoon.Tag=`lucide-cloud-moon`;
-_.CloudMoon=CloudMoon;
+__as1(_, 'CloudMoon', CloudMoon);
 if(!window.customElements.get('lucide-cloud-moon')){window.customElements.define('lucide-cloud-moon', CloudMoon);Aventus.WebComponentInstance.registerDefinition(CloudMoon);}
 
 const CloudMoonRain = class CloudMoonRain extends AbstractIcon {
@@ -19125,7 +19125,7 @@ const CloudMoonRain = class CloudMoonRain extends AbstractIcon {
 }
 CloudMoonRain.Namespace=`Lucide`;
 CloudMoonRain.Tag=`lucide-cloud-moon-rain`;
-_.CloudMoonRain=CloudMoonRain;
+__as1(_, 'CloudMoonRain', CloudMoonRain);
 if(!window.customElements.get('lucide-cloud-moon-rain')){window.customElements.define('lucide-cloud-moon-rain', CloudMoonRain);Aventus.WebComponentInstance.registerDefinition(CloudMoonRain);}
 
 const CloudOff = class CloudOff extends AbstractIcon {
@@ -19149,7 +19149,7 @@ const CloudOff = class CloudOff extends AbstractIcon {
 }
 CloudOff.Namespace=`Lucide`;
 CloudOff.Tag=`lucide-cloud-off`;
-_.CloudOff=CloudOff;
+__as1(_, 'CloudOff', CloudOff);
 if(!window.customElements.get('lucide-cloud-off')){window.customElements.define('lucide-cloud-off', CloudOff);Aventus.WebComponentInstance.registerDefinition(CloudOff);}
 
 const CloudRain = class CloudRain extends AbstractIcon {
@@ -19173,7 +19173,7 @@ const CloudRain = class CloudRain extends AbstractIcon {
 }
 CloudRain.Namespace=`Lucide`;
 CloudRain.Tag=`lucide-cloud-rain`;
-_.CloudRain=CloudRain;
+__as1(_, 'CloudRain', CloudRain);
 if(!window.customElements.get('lucide-cloud-rain')){window.customElements.define('lucide-cloud-rain', CloudRain);Aventus.WebComponentInstance.registerDefinition(CloudRain);}
 
 const CloudRainWind = class CloudRainWind extends AbstractIcon {
@@ -19197,7 +19197,7 @@ const CloudRainWind = class CloudRainWind extends AbstractIcon {
 }
 CloudRainWind.Namespace=`Lucide`;
 CloudRainWind.Tag=`lucide-cloud-rain-wind`;
-_.CloudRainWind=CloudRainWind;
+__as1(_, 'CloudRainWind', CloudRainWind);
 if(!window.customElements.get('lucide-cloud-rain-wind')){window.customElements.define('lucide-cloud-rain-wind', CloudRainWind);Aventus.WebComponentInstance.registerDefinition(CloudRainWind);}
 
 const CloudSnow = class CloudSnow extends AbstractIcon {
@@ -19221,7 +19221,7 @@ const CloudSnow = class CloudSnow extends AbstractIcon {
 }
 CloudSnow.Namespace=`Lucide`;
 CloudSnow.Tag=`lucide-cloud-snow`;
-_.CloudSnow=CloudSnow;
+__as1(_, 'CloudSnow', CloudSnow);
 if(!window.customElements.get('lucide-cloud-snow')){window.customElements.define('lucide-cloud-snow', CloudSnow);Aventus.WebComponentInstance.registerDefinition(CloudSnow);}
 
 const CloudSun = class CloudSun extends AbstractIcon {
@@ -19245,7 +19245,7 @@ const CloudSun = class CloudSun extends AbstractIcon {
 }
 CloudSun.Namespace=`Lucide`;
 CloudSun.Tag=`lucide-cloud-sun`;
-_.CloudSun=CloudSun;
+__as1(_, 'CloudSun', CloudSun);
 if(!window.customElements.get('lucide-cloud-sun')){window.customElements.define('lucide-cloud-sun', CloudSun);Aventus.WebComponentInstance.registerDefinition(CloudSun);}
 
 const CloudSunRain = class CloudSunRain extends AbstractIcon {
@@ -19269,7 +19269,7 @@ const CloudSunRain = class CloudSunRain extends AbstractIcon {
 }
 CloudSunRain.Namespace=`Lucide`;
 CloudSunRain.Tag=`lucide-cloud-sun-rain`;
-_.CloudSunRain=CloudSunRain;
+__as1(_, 'CloudSunRain', CloudSunRain);
 if(!window.customElements.get('lucide-cloud-sun-rain')){window.customElements.define('lucide-cloud-sun-rain', CloudSunRain);Aventus.WebComponentInstance.registerDefinition(CloudSunRain);}
 
 const CloudUpload = class CloudUpload extends AbstractIcon {
@@ -19293,7 +19293,7 @@ const CloudUpload = class CloudUpload extends AbstractIcon {
 }
 CloudUpload.Namespace=`Lucide`;
 CloudUpload.Tag=`lucide-cloud-upload`;
-_.CloudUpload=CloudUpload;
+__as1(_, 'CloudUpload', CloudUpload);
 if(!window.customElements.get('lucide-cloud-upload')){window.customElements.define('lucide-cloud-upload', CloudUpload);Aventus.WebComponentInstance.registerDefinition(CloudUpload);}
 
 const Cloudy = class Cloudy extends AbstractIcon {
@@ -19317,7 +19317,7 @@ const Cloudy = class Cloudy extends AbstractIcon {
 }
 Cloudy.Namespace=`Lucide`;
 Cloudy.Tag=`lucide-cloudy`;
-_.Cloudy=Cloudy;
+__as1(_, 'Cloudy', Cloudy);
 if(!window.customElements.get('lucide-cloudy')){window.customElements.define('lucide-cloudy', Cloudy);Aventus.WebComponentInstance.registerDefinition(Cloudy);}
 
 const Clover = class Clover extends AbstractIcon {
@@ -19341,7 +19341,7 @@ const Clover = class Clover extends AbstractIcon {
 }
 Clover.Namespace=`Lucide`;
 Clover.Tag=`lucide-clover`;
-_.Clover=Clover;
+__as1(_, 'Clover', Clover);
 if(!window.customElements.get('lucide-clover')){window.customElements.define('lucide-clover', Clover);Aventus.WebComponentInstance.registerDefinition(Clover);}
 
 const Club = class Club extends AbstractIcon {
@@ -19365,7 +19365,7 @@ const Club = class Club extends AbstractIcon {
 }
 Club.Namespace=`Lucide`;
 Club.Tag=`lucide-club`;
-_.Club=Club;
+__as1(_, 'Club', Club);
 if(!window.customElements.get('lucide-club')){window.customElements.define('lucide-club', Club);Aventus.WebComponentInstance.registerDefinition(Club);}
 
 const Code = class Code extends AbstractIcon {
@@ -19389,7 +19389,7 @@ const Code = class Code extends AbstractIcon {
 }
 Code.Namespace=`Lucide`;
 Code.Tag=`lucide-code`;
-_.Code=Code;
+__as1(_, 'Code', Code);
 if(!window.customElements.get('lucide-code')){window.customElements.define('lucide-code', Code);Aventus.WebComponentInstance.registerDefinition(Code);}
 
 const Code2 = class Code2 extends AbstractIcon {
@@ -19413,7 +19413,7 @@ const Code2 = class Code2 extends AbstractIcon {
 }
 Code2.Namespace=`Lucide`;
 Code2.Tag=`lucide-code-2`;
-_.Code2=Code2;
+__as1(_, 'Code2', Code2);
 if(!window.customElements.get('lucide-code-2')){window.customElements.define('lucide-code-2', Code2);Aventus.WebComponentInstance.registerDefinition(Code2);}
 
 const Codepen = class Codepen extends AbstractIcon {
@@ -19437,7 +19437,7 @@ const Codepen = class Codepen extends AbstractIcon {
 }
 Codepen.Namespace=`Lucide`;
 Codepen.Tag=`lucide-codepen`;
-_.Codepen=Codepen;
+__as1(_, 'Codepen', Codepen);
 if(!window.customElements.get('lucide-codepen')){window.customElements.define('lucide-codepen', Codepen);Aventus.WebComponentInstance.registerDefinition(Codepen);}
 
 const Codesandbox = class Codesandbox extends AbstractIcon {
@@ -19461,7 +19461,7 @@ const Codesandbox = class Codesandbox extends AbstractIcon {
 }
 Codesandbox.Namespace=`Lucide`;
 Codesandbox.Tag=`lucide-codesandbox`;
-_.Codesandbox=Codesandbox;
+__as1(_, 'Codesandbox', Codesandbox);
 if(!window.customElements.get('lucide-codesandbox')){window.customElements.define('lucide-codesandbox', Codesandbox);Aventus.WebComponentInstance.registerDefinition(Codesandbox);}
 
 const CodeSquare = class CodeSquare extends AbstractIcon {
@@ -19485,7 +19485,7 @@ const CodeSquare = class CodeSquare extends AbstractIcon {
 }
 CodeSquare.Namespace=`Lucide`;
 CodeSquare.Tag=`lucide-code-square`;
-_.CodeSquare=CodeSquare;
+__as1(_, 'CodeSquare', CodeSquare);
 if(!window.customElements.get('lucide-code-square')){window.customElements.define('lucide-code-square', CodeSquare);Aventus.WebComponentInstance.registerDefinition(CodeSquare);}
 
 const CodeXml = class CodeXml extends AbstractIcon {
@@ -19509,7 +19509,7 @@ const CodeXml = class CodeXml extends AbstractIcon {
 }
 CodeXml.Namespace=`Lucide`;
 CodeXml.Tag=`lucide-code-xml`;
-_.CodeXml=CodeXml;
+__as1(_, 'CodeXml', CodeXml);
 if(!window.customElements.get('lucide-code-xml')){window.customElements.define('lucide-code-xml', CodeXml);Aventus.WebComponentInstance.registerDefinition(CodeXml);}
 
 const Coffee = class Coffee extends AbstractIcon {
@@ -19533,7 +19533,7 @@ const Coffee = class Coffee extends AbstractIcon {
 }
 Coffee.Namespace=`Lucide`;
 Coffee.Tag=`lucide-coffee`;
-_.Coffee=Coffee;
+__as1(_, 'Coffee', Coffee);
 if(!window.customElements.get('lucide-coffee')){window.customElements.define('lucide-coffee', Coffee);Aventus.WebComponentInstance.registerDefinition(Coffee);}
 
 const Cog = class Cog extends AbstractIcon {
@@ -19557,7 +19557,7 @@ const Cog = class Cog extends AbstractIcon {
 }
 Cog.Namespace=`Lucide`;
 Cog.Tag=`lucide-cog`;
-_.Cog=Cog;
+__as1(_, 'Cog', Cog);
 if(!window.customElements.get('lucide-cog')){window.customElements.define('lucide-cog', Cog);Aventus.WebComponentInstance.registerDefinition(Cog);}
 
 const Coins = class Coins extends AbstractIcon {
@@ -19581,7 +19581,7 @@ const Coins = class Coins extends AbstractIcon {
 }
 Coins.Namespace=`Lucide`;
 Coins.Tag=`lucide-coins`;
-_.Coins=Coins;
+__as1(_, 'Coins', Coins);
 if(!window.customElements.get('lucide-coins')){window.customElements.define('lucide-coins', Coins);Aventus.WebComponentInstance.registerDefinition(Coins);}
 
 const Columns = class Columns extends AbstractIcon {
@@ -19605,7 +19605,7 @@ const Columns = class Columns extends AbstractIcon {
 }
 Columns.Namespace=`Lucide`;
 Columns.Tag=`lucide-columns`;
-_.Columns=Columns;
+__as1(_, 'Columns', Columns);
 if(!window.customElements.get('lucide-columns')){window.customElements.define('lucide-columns', Columns);Aventus.WebComponentInstance.registerDefinition(Columns);}
 
 const Columns2 = class Columns2 extends AbstractIcon {
@@ -19629,7 +19629,7 @@ const Columns2 = class Columns2 extends AbstractIcon {
 }
 Columns2.Namespace=`Lucide`;
 Columns2.Tag=`lucide-columns-2`;
-_.Columns2=Columns2;
+__as1(_, 'Columns2', Columns2);
 if(!window.customElements.get('lucide-columns-2')){window.customElements.define('lucide-columns-2', Columns2);Aventus.WebComponentInstance.registerDefinition(Columns2);}
 
 const Columns3 = class Columns3 extends AbstractIcon {
@@ -19653,7 +19653,7 @@ const Columns3 = class Columns3 extends AbstractIcon {
 }
 Columns3.Namespace=`Lucide`;
 Columns3.Tag=`lucide-columns-3`;
-_.Columns3=Columns3;
+__as1(_, 'Columns3', Columns3);
 if(!window.customElements.get('lucide-columns-3')){window.customElements.define('lucide-columns-3', Columns3);Aventus.WebComponentInstance.registerDefinition(Columns3);}
 
 const Columns3Cog = class Columns3Cog extends AbstractIcon {
@@ -19677,7 +19677,7 @@ const Columns3Cog = class Columns3Cog extends AbstractIcon {
 }
 Columns3Cog.Namespace=`Lucide`;
 Columns3Cog.Tag=`lucide-columns-3-cog`;
-_.Columns3Cog=Columns3Cog;
+__as1(_, 'Columns3Cog', Columns3Cog);
 if(!window.customElements.get('lucide-columns-3-cog')){window.customElements.define('lucide-columns-3-cog', Columns3Cog);Aventus.WebComponentInstance.registerDefinition(Columns3Cog);}
 
 const Columns4 = class Columns4 extends AbstractIcon {
@@ -19701,7 +19701,7 @@ const Columns4 = class Columns4 extends AbstractIcon {
 }
 Columns4.Namespace=`Lucide`;
 Columns4.Tag=`lucide-columns-4`;
-_.Columns4=Columns4;
+__as1(_, 'Columns4', Columns4);
 if(!window.customElements.get('lucide-columns-4')){window.customElements.define('lucide-columns-4', Columns4);Aventus.WebComponentInstance.registerDefinition(Columns4);}
 
 const ColumnsSettings = class ColumnsSettings extends AbstractIcon {
@@ -19725,7 +19725,7 @@ const ColumnsSettings = class ColumnsSettings extends AbstractIcon {
 }
 ColumnsSettings.Namespace=`Lucide`;
 ColumnsSettings.Tag=`lucide-columns-settings`;
-_.ColumnsSettings=ColumnsSettings;
+__as1(_, 'ColumnsSettings', ColumnsSettings);
 if(!window.customElements.get('lucide-columns-settings')){window.customElements.define('lucide-columns-settings', ColumnsSettings);Aventus.WebComponentInstance.registerDefinition(ColumnsSettings);}
 
 const Combine = class Combine extends AbstractIcon {
@@ -19749,7 +19749,7 @@ const Combine = class Combine extends AbstractIcon {
 }
 Combine.Namespace=`Lucide`;
 Combine.Tag=`lucide-combine`;
-_.Combine=Combine;
+__as1(_, 'Combine', Combine);
 if(!window.customElements.get('lucide-combine')){window.customElements.define('lucide-combine', Combine);Aventus.WebComponentInstance.registerDefinition(Combine);}
 
 const Command = class Command extends AbstractIcon {
@@ -19773,7 +19773,7 @@ const Command = class Command extends AbstractIcon {
 }
 Command.Namespace=`Lucide`;
 Command.Tag=`lucide-command`;
-_.Command=Command;
+__as1(_, 'Command', Command);
 if(!window.customElements.get('lucide-command')){window.customElements.define('lucide-command', Command);Aventus.WebComponentInstance.registerDefinition(Command);}
 
 const Compass = class Compass extends AbstractIcon {
@@ -19797,7 +19797,7 @@ const Compass = class Compass extends AbstractIcon {
 }
 Compass.Namespace=`Lucide`;
 Compass.Tag=`lucide-compass`;
-_.Compass=Compass;
+__as1(_, 'Compass', Compass);
 if(!window.customElements.get('lucide-compass')){window.customElements.define('lucide-compass', Compass);Aventus.WebComponentInstance.registerDefinition(Compass);}
 
 const Component = class Component extends AbstractIcon {
@@ -19821,7 +19821,7 @@ const Component = class Component extends AbstractIcon {
 }
 Component.Namespace=`Lucide`;
 Component.Tag=`lucide-component`;
-_.Component=Component;
+__as1(_, 'Component', Component);
 if(!window.customElements.get('lucide-component')){window.customElements.define('lucide-component', Component);Aventus.WebComponentInstance.registerDefinition(Component);}
 
 const Computer = class Computer extends AbstractIcon {
@@ -19845,7 +19845,7 @@ const Computer = class Computer extends AbstractIcon {
 }
 Computer.Namespace=`Lucide`;
 Computer.Tag=`lucide-computer`;
-_.Computer=Computer;
+__as1(_, 'Computer', Computer);
 if(!window.customElements.get('lucide-computer')){window.customElements.define('lucide-computer', Computer);Aventus.WebComponentInstance.registerDefinition(Computer);}
 
 const ConciergeBell = class ConciergeBell extends AbstractIcon {
@@ -19869,7 +19869,7 @@ const ConciergeBell = class ConciergeBell extends AbstractIcon {
 }
 ConciergeBell.Namespace=`Lucide`;
 ConciergeBell.Tag=`lucide-concierge-bell`;
-_.ConciergeBell=ConciergeBell;
+__as1(_, 'ConciergeBell', ConciergeBell);
 if(!window.customElements.get('lucide-concierge-bell')){window.customElements.define('lucide-concierge-bell', ConciergeBell);Aventus.WebComponentInstance.registerDefinition(ConciergeBell);}
 
 const Cone = class Cone extends AbstractIcon {
@@ -19893,7 +19893,7 @@ const Cone = class Cone extends AbstractIcon {
 }
 Cone.Namespace=`Lucide`;
 Cone.Tag=`lucide-cone`;
-_.Cone=Cone;
+__as1(_, 'Cone', Cone);
 if(!window.customElements.get('lucide-cone')){window.customElements.define('lucide-cone', Cone);Aventus.WebComponentInstance.registerDefinition(Cone);}
 
 const Construction = class Construction extends AbstractIcon {
@@ -19917,7 +19917,7 @@ const Construction = class Construction extends AbstractIcon {
 }
 Construction.Namespace=`Lucide`;
 Construction.Tag=`lucide-construction`;
-_.Construction=Construction;
+__as1(_, 'Construction', Construction);
 if(!window.customElements.get('lucide-construction')){window.customElements.define('lucide-construction', Construction);Aventus.WebComponentInstance.registerDefinition(Construction);}
 
 const Contact = class Contact extends AbstractIcon {
@@ -19941,7 +19941,7 @@ const Contact = class Contact extends AbstractIcon {
 }
 Contact.Namespace=`Lucide`;
 Contact.Tag=`lucide-contact`;
-_.Contact=Contact;
+__as1(_, 'Contact', Contact);
 if(!window.customElements.get('lucide-contact')){window.customElements.define('lucide-contact', Contact);Aventus.WebComponentInstance.registerDefinition(Contact);}
 
 const Contact2 = class Contact2 extends AbstractIcon {
@@ -19965,7 +19965,7 @@ const Contact2 = class Contact2 extends AbstractIcon {
 }
 Contact2.Namespace=`Lucide`;
 Contact2.Tag=`lucide-contact-2`;
-_.Contact2=Contact2;
+__as1(_, 'Contact2', Contact2);
 if(!window.customElements.get('lucide-contact-2')){window.customElements.define('lucide-contact-2', Contact2);Aventus.WebComponentInstance.registerDefinition(Contact2);}
 
 const ContactRound = class ContactRound extends AbstractIcon {
@@ -19989,7 +19989,7 @@ const ContactRound = class ContactRound extends AbstractIcon {
 }
 ContactRound.Namespace=`Lucide`;
 ContactRound.Tag=`lucide-contact-round`;
-_.ContactRound=ContactRound;
+__as1(_, 'ContactRound', ContactRound);
 if(!window.customElements.get('lucide-contact-round')){window.customElements.define('lucide-contact-round', ContactRound);Aventus.WebComponentInstance.registerDefinition(ContactRound);}
 
 const Container = class Container extends AbstractIcon {
@@ -20013,7 +20013,7 @@ const Container = class Container extends AbstractIcon {
 }
 Container.Namespace=`Lucide`;
 Container.Tag=`lucide-container`;
-_.Container=Container;
+__as1(_, 'Container', Container);
 if(!window.customElements.get('lucide-container')){window.customElements.define('lucide-container', Container);Aventus.WebComponentInstance.registerDefinition(Container);}
 
 const Contrast = class Contrast extends AbstractIcon {
@@ -20037,7 +20037,7 @@ const Contrast = class Contrast extends AbstractIcon {
 }
 Contrast.Namespace=`Lucide`;
 Contrast.Tag=`lucide-contrast`;
-_.Contrast=Contrast;
+__as1(_, 'Contrast', Contrast);
 if(!window.customElements.get('lucide-contrast')){window.customElements.define('lucide-contrast', Contrast);Aventus.WebComponentInstance.registerDefinition(Contrast);}
 
 const Cookie = class Cookie extends AbstractIcon {
@@ -20061,7 +20061,7 @@ const Cookie = class Cookie extends AbstractIcon {
 }
 Cookie.Namespace=`Lucide`;
 Cookie.Tag=`lucide-cookie`;
-_.Cookie=Cookie;
+__as1(_, 'Cookie', Cookie);
 if(!window.customElements.get('lucide-cookie')){window.customElements.define('lucide-cookie', Cookie);Aventus.WebComponentInstance.registerDefinition(Cookie);}
 
 const CookingPot = class CookingPot extends AbstractIcon {
@@ -20085,7 +20085,7 @@ const CookingPot = class CookingPot extends AbstractIcon {
 }
 CookingPot.Namespace=`Lucide`;
 CookingPot.Tag=`lucide-cooking-pot`;
-_.CookingPot=CookingPot;
+__as1(_, 'CookingPot', CookingPot);
 if(!window.customElements.get('lucide-cooking-pot')){window.customElements.define('lucide-cooking-pot', CookingPot);Aventus.WebComponentInstance.registerDefinition(CookingPot);}
 
 const Copy = class Copy extends AbstractIcon {
@@ -20109,7 +20109,7 @@ const Copy = class Copy extends AbstractIcon {
 }
 Copy.Namespace=`Lucide`;
 Copy.Tag=`lucide-copy`;
-_.Copy=Copy;
+__as1(_, 'Copy', Copy);
 if(!window.customElements.get('lucide-copy')){window.customElements.define('lucide-copy', Copy);Aventus.WebComponentInstance.registerDefinition(Copy);}
 
 const CopyCheck = class CopyCheck extends AbstractIcon {
@@ -20133,7 +20133,7 @@ const CopyCheck = class CopyCheck extends AbstractIcon {
 }
 CopyCheck.Namespace=`Lucide`;
 CopyCheck.Tag=`lucide-copy-check`;
-_.CopyCheck=CopyCheck;
+__as1(_, 'CopyCheck', CopyCheck);
 if(!window.customElements.get('lucide-copy-check')){window.customElements.define('lucide-copy-check', CopyCheck);Aventus.WebComponentInstance.registerDefinition(CopyCheck);}
 
 const Copyleft = class Copyleft extends AbstractIcon {
@@ -20157,7 +20157,7 @@ const Copyleft = class Copyleft extends AbstractIcon {
 }
 Copyleft.Namespace=`Lucide`;
 Copyleft.Tag=`lucide-copyleft`;
-_.Copyleft=Copyleft;
+__as1(_, 'Copyleft', Copyleft);
 if(!window.customElements.get('lucide-copyleft')){window.customElements.define('lucide-copyleft', Copyleft);Aventus.WebComponentInstance.registerDefinition(Copyleft);}
 
 const CopyMinus = class CopyMinus extends AbstractIcon {
@@ -20181,7 +20181,7 @@ const CopyMinus = class CopyMinus extends AbstractIcon {
 }
 CopyMinus.Namespace=`Lucide`;
 CopyMinus.Tag=`lucide-copy-minus`;
-_.CopyMinus=CopyMinus;
+__as1(_, 'CopyMinus', CopyMinus);
 if(!window.customElements.get('lucide-copy-minus')){window.customElements.define('lucide-copy-minus', CopyMinus);Aventus.WebComponentInstance.registerDefinition(CopyMinus);}
 
 const CopyPlus = class CopyPlus extends AbstractIcon {
@@ -20205,7 +20205,7 @@ const CopyPlus = class CopyPlus extends AbstractIcon {
 }
 CopyPlus.Namespace=`Lucide`;
 CopyPlus.Tag=`lucide-copy-plus`;
-_.CopyPlus=CopyPlus;
+__as1(_, 'CopyPlus', CopyPlus);
 if(!window.customElements.get('lucide-copy-plus')){window.customElements.define('lucide-copy-plus', CopyPlus);Aventus.WebComponentInstance.registerDefinition(CopyPlus);}
 
 const Copyright = class Copyright extends AbstractIcon {
@@ -20229,7 +20229,7 @@ const Copyright = class Copyright extends AbstractIcon {
 }
 Copyright.Namespace=`Lucide`;
 Copyright.Tag=`lucide-copyright`;
-_.Copyright=Copyright;
+__as1(_, 'Copyright', Copyright);
 if(!window.customElements.get('lucide-copyright')){window.customElements.define('lucide-copyright', Copyright);Aventus.WebComponentInstance.registerDefinition(Copyright);}
 
 const CopySlash = class CopySlash extends AbstractIcon {
@@ -20253,7 +20253,7 @@ const CopySlash = class CopySlash extends AbstractIcon {
 }
 CopySlash.Namespace=`Lucide`;
 CopySlash.Tag=`lucide-copy-slash`;
-_.CopySlash=CopySlash;
+__as1(_, 'CopySlash', CopySlash);
 if(!window.customElements.get('lucide-copy-slash')){window.customElements.define('lucide-copy-slash', CopySlash);Aventus.WebComponentInstance.registerDefinition(CopySlash);}
 
 const CopyX = class CopyX extends AbstractIcon {
@@ -20277,7 +20277,7 @@ const CopyX = class CopyX extends AbstractIcon {
 }
 CopyX.Namespace=`Lucide`;
 CopyX.Tag=`lucide-copy-x`;
-_.CopyX=CopyX;
+__as1(_, 'CopyX', CopyX);
 if(!window.customElements.get('lucide-copy-x')){window.customElements.define('lucide-copy-x', CopyX);Aventus.WebComponentInstance.registerDefinition(CopyX);}
 
 const CornerDownLeft = class CornerDownLeft extends AbstractIcon {
@@ -20301,7 +20301,7 @@ const CornerDownLeft = class CornerDownLeft extends AbstractIcon {
 }
 CornerDownLeft.Namespace=`Lucide`;
 CornerDownLeft.Tag=`lucide-corner-down-left`;
-_.CornerDownLeft=CornerDownLeft;
+__as1(_, 'CornerDownLeft', CornerDownLeft);
 if(!window.customElements.get('lucide-corner-down-left')){window.customElements.define('lucide-corner-down-left', CornerDownLeft);Aventus.WebComponentInstance.registerDefinition(CornerDownLeft);}
 
 const CornerDownRight = class CornerDownRight extends AbstractIcon {
@@ -20325,7 +20325,7 @@ const CornerDownRight = class CornerDownRight extends AbstractIcon {
 }
 CornerDownRight.Namespace=`Lucide`;
 CornerDownRight.Tag=`lucide-corner-down-right`;
-_.CornerDownRight=CornerDownRight;
+__as1(_, 'CornerDownRight', CornerDownRight);
 if(!window.customElements.get('lucide-corner-down-right')){window.customElements.define('lucide-corner-down-right', CornerDownRight);Aventus.WebComponentInstance.registerDefinition(CornerDownRight);}
 
 const CornerLeftDown = class CornerLeftDown extends AbstractIcon {
@@ -20349,7 +20349,7 @@ const CornerLeftDown = class CornerLeftDown extends AbstractIcon {
 }
 CornerLeftDown.Namespace=`Lucide`;
 CornerLeftDown.Tag=`lucide-corner-left-down`;
-_.CornerLeftDown=CornerLeftDown;
+__as1(_, 'CornerLeftDown', CornerLeftDown);
 if(!window.customElements.get('lucide-corner-left-down')){window.customElements.define('lucide-corner-left-down', CornerLeftDown);Aventus.WebComponentInstance.registerDefinition(CornerLeftDown);}
 
 const CornerLeftUp = class CornerLeftUp extends AbstractIcon {
@@ -20373,7 +20373,7 @@ const CornerLeftUp = class CornerLeftUp extends AbstractIcon {
 }
 CornerLeftUp.Namespace=`Lucide`;
 CornerLeftUp.Tag=`lucide-corner-left-up`;
-_.CornerLeftUp=CornerLeftUp;
+__as1(_, 'CornerLeftUp', CornerLeftUp);
 if(!window.customElements.get('lucide-corner-left-up')){window.customElements.define('lucide-corner-left-up', CornerLeftUp);Aventus.WebComponentInstance.registerDefinition(CornerLeftUp);}
 
 const CornerRightDown = class CornerRightDown extends AbstractIcon {
@@ -20397,7 +20397,7 @@ const CornerRightDown = class CornerRightDown extends AbstractIcon {
 }
 CornerRightDown.Namespace=`Lucide`;
 CornerRightDown.Tag=`lucide-corner-right-down`;
-_.CornerRightDown=CornerRightDown;
+__as1(_, 'CornerRightDown', CornerRightDown);
 if(!window.customElements.get('lucide-corner-right-down')){window.customElements.define('lucide-corner-right-down', CornerRightDown);Aventus.WebComponentInstance.registerDefinition(CornerRightDown);}
 
 const CornerRightUp = class CornerRightUp extends AbstractIcon {
@@ -20421,7 +20421,7 @@ const CornerRightUp = class CornerRightUp extends AbstractIcon {
 }
 CornerRightUp.Namespace=`Lucide`;
 CornerRightUp.Tag=`lucide-corner-right-up`;
-_.CornerRightUp=CornerRightUp;
+__as1(_, 'CornerRightUp', CornerRightUp);
 if(!window.customElements.get('lucide-corner-right-up')){window.customElements.define('lucide-corner-right-up', CornerRightUp);Aventus.WebComponentInstance.registerDefinition(CornerRightUp);}
 
 const CornerUpLeft = class CornerUpLeft extends AbstractIcon {
@@ -20445,7 +20445,7 @@ const CornerUpLeft = class CornerUpLeft extends AbstractIcon {
 }
 CornerUpLeft.Namespace=`Lucide`;
 CornerUpLeft.Tag=`lucide-corner-up-left`;
-_.CornerUpLeft=CornerUpLeft;
+__as1(_, 'CornerUpLeft', CornerUpLeft);
 if(!window.customElements.get('lucide-corner-up-left')){window.customElements.define('lucide-corner-up-left', CornerUpLeft);Aventus.WebComponentInstance.registerDefinition(CornerUpLeft);}
 
 const CornerUpRight = class CornerUpRight extends AbstractIcon {
@@ -20469,7 +20469,7 @@ const CornerUpRight = class CornerUpRight extends AbstractIcon {
 }
 CornerUpRight.Namespace=`Lucide`;
 CornerUpRight.Tag=`lucide-corner-up-right`;
-_.CornerUpRight=CornerUpRight;
+__as1(_, 'CornerUpRight', CornerUpRight);
 if(!window.customElements.get('lucide-corner-up-right')){window.customElements.define('lucide-corner-up-right', CornerUpRight);Aventus.WebComponentInstance.registerDefinition(CornerUpRight);}
 
 const Cpu = class Cpu extends AbstractIcon {
@@ -20493,7 +20493,7 @@ const Cpu = class Cpu extends AbstractIcon {
 }
 Cpu.Namespace=`Lucide`;
 Cpu.Tag=`lucide-cpu`;
-_.Cpu=Cpu;
+__as1(_, 'Cpu', Cpu);
 if(!window.customElements.get('lucide-cpu')){window.customElements.define('lucide-cpu', Cpu);Aventus.WebComponentInstance.registerDefinition(Cpu);}
 
 const CreativeCommons = class CreativeCommons extends AbstractIcon {
@@ -20517,7 +20517,7 @@ const CreativeCommons = class CreativeCommons extends AbstractIcon {
 }
 CreativeCommons.Namespace=`Lucide`;
 CreativeCommons.Tag=`lucide-creative-commons`;
-_.CreativeCommons=CreativeCommons;
+__as1(_, 'CreativeCommons', CreativeCommons);
 if(!window.customElements.get('lucide-creative-commons')){window.customElements.define('lucide-creative-commons', CreativeCommons);Aventus.WebComponentInstance.registerDefinition(CreativeCommons);}
 
 const CreditCard = class CreditCard extends AbstractIcon {
@@ -20541,7 +20541,7 @@ const CreditCard = class CreditCard extends AbstractIcon {
 }
 CreditCard.Namespace=`Lucide`;
 CreditCard.Tag=`lucide-credit-card`;
-_.CreditCard=CreditCard;
+__as1(_, 'CreditCard', CreditCard);
 if(!window.customElements.get('lucide-credit-card')){window.customElements.define('lucide-credit-card', CreditCard);Aventus.WebComponentInstance.registerDefinition(CreditCard);}
 
 const Croissant = class Croissant extends AbstractIcon {
@@ -20565,7 +20565,7 @@ const Croissant = class Croissant extends AbstractIcon {
 }
 Croissant.Namespace=`Lucide`;
 Croissant.Tag=`lucide-croissant`;
-_.Croissant=Croissant;
+__as1(_, 'Croissant', Croissant);
 if(!window.customElements.get('lucide-croissant')){window.customElements.define('lucide-croissant', Croissant);Aventus.WebComponentInstance.registerDefinition(Croissant);}
 
 const Crop = class Crop extends AbstractIcon {
@@ -20589,7 +20589,7 @@ const Crop = class Crop extends AbstractIcon {
 }
 Crop.Namespace=`Lucide`;
 Crop.Tag=`lucide-crop`;
-_.Crop=Crop;
+__as1(_, 'Crop', Crop);
 if(!window.customElements.get('lucide-crop')){window.customElements.define('lucide-crop', Crop);Aventus.WebComponentInstance.registerDefinition(Crop);}
 
 const Cross = class Cross extends AbstractIcon {
@@ -20613,7 +20613,7 @@ const Cross = class Cross extends AbstractIcon {
 }
 Cross.Namespace=`Lucide`;
 Cross.Tag=`lucide-cross`;
-_.Cross=Cross;
+__as1(_, 'Cross', Cross);
 if(!window.customElements.get('lucide-cross')){window.customElements.define('lucide-cross', Cross);Aventus.WebComponentInstance.registerDefinition(Cross);}
 
 const Crosshair = class Crosshair extends AbstractIcon {
@@ -20637,7 +20637,7 @@ const Crosshair = class Crosshair extends AbstractIcon {
 }
 Crosshair.Namespace=`Lucide`;
 Crosshair.Tag=`lucide-crosshair`;
-_.Crosshair=Crosshair;
+__as1(_, 'Crosshair', Crosshair);
 if(!window.customElements.get('lucide-crosshair')){window.customElements.define('lucide-crosshair', Crosshair);Aventus.WebComponentInstance.registerDefinition(Crosshair);}
 
 const Crown = class Crown extends AbstractIcon {
@@ -20661,7 +20661,7 @@ const Crown = class Crown extends AbstractIcon {
 }
 Crown.Namespace=`Lucide`;
 Crown.Tag=`lucide-crown`;
-_.Crown=Crown;
+__as1(_, 'Crown', Crown);
 if(!window.customElements.get('lucide-crown')){window.customElements.define('lucide-crown', Crown);Aventus.WebComponentInstance.registerDefinition(Crown);}
 
 const Cuboid = class Cuboid extends AbstractIcon {
@@ -20685,7 +20685,7 @@ const Cuboid = class Cuboid extends AbstractIcon {
 }
 Cuboid.Namespace=`Lucide`;
 Cuboid.Tag=`lucide-cuboid`;
-_.Cuboid=Cuboid;
+__as1(_, 'Cuboid', Cuboid);
 if(!window.customElements.get('lucide-cuboid')){window.customElements.define('lucide-cuboid', Cuboid);Aventus.WebComponentInstance.registerDefinition(Cuboid);}
 
 const CupSoda = class CupSoda extends AbstractIcon {
@@ -20709,7 +20709,7 @@ const CupSoda = class CupSoda extends AbstractIcon {
 }
 CupSoda.Namespace=`Lucide`;
 CupSoda.Tag=`lucide-cup-soda`;
-_.CupSoda=CupSoda;
+__as1(_, 'CupSoda', CupSoda);
 if(!window.customElements.get('lucide-cup-soda')){window.customElements.define('lucide-cup-soda', CupSoda);Aventus.WebComponentInstance.registerDefinition(CupSoda);}
 
 const CurlyBraces = class CurlyBraces extends AbstractIcon {
@@ -20733,7 +20733,7 @@ const CurlyBraces = class CurlyBraces extends AbstractIcon {
 }
 CurlyBraces.Namespace=`Lucide`;
 CurlyBraces.Tag=`lucide-curly-braces`;
-_.CurlyBraces=CurlyBraces;
+__as1(_, 'CurlyBraces', CurlyBraces);
 if(!window.customElements.get('lucide-curly-braces')){window.customElements.define('lucide-curly-braces', CurlyBraces);Aventus.WebComponentInstance.registerDefinition(CurlyBraces);}
 
 const Currency = class Currency extends AbstractIcon {
@@ -20757,7 +20757,7 @@ const Currency = class Currency extends AbstractIcon {
 }
 Currency.Namespace=`Lucide`;
 Currency.Tag=`lucide-currency`;
-_.Currency=Currency;
+__as1(_, 'Currency', Currency);
 if(!window.customElements.get('lucide-currency')){window.customElements.define('lucide-currency', Currency);Aventus.WebComponentInstance.registerDefinition(Currency);}
 
 const Cylinder = class Cylinder extends AbstractIcon {
@@ -20781,7 +20781,7 @@ const Cylinder = class Cylinder extends AbstractIcon {
 }
 Cylinder.Namespace=`Lucide`;
 Cylinder.Tag=`lucide-cylinder`;
-_.Cylinder=Cylinder;
+__as1(_, 'Cylinder', Cylinder);
 if(!window.customElements.get('lucide-cylinder')){window.customElements.define('lucide-cylinder', Cylinder);Aventus.WebComponentInstance.registerDefinition(Cylinder);}
 
 const Dam = class Dam extends AbstractIcon {
@@ -20805,7 +20805,7 @@ const Dam = class Dam extends AbstractIcon {
 }
 Dam.Namespace=`Lucide`;
 Dam.Tag=`lucide-dam`;
-_.Dam=Dam;
+__as1(_, 'Dam', Dam);
 if(!window.customElements.get('lucide-dam')){window.customElements.define('lucide-dam', Dam);Aventus.WebComponentInstance.registerDefinition(Dam);}
 
 const Database = class Database extends AbstractIcon {
@@ -20829,7 +20829,7 @@ const Database = class Database extends AbstractIcon {
 }
 Database.Namespace=`Lucide`;
 Database.Tag=`lucide-database`;
-_.Database=Database;
+__as1(_, 'Database', Database);
 if(!window.customElements.get('lucide-database')){window.customElements.define('lucide-database', Database);Aventus.WebComponentInstance.registerDefinition(Database);}
 
 const DatabaseBackup = class DatabaseBackup extends AbstractIcon {
@@ -20853,7 +20853,7 @@ const DatabaseBackup = class DatabaseBackup extends AbstractIcon {
 }
 DatabaseBackup.Namespace=`Lucide`;
 DatabaseBackup.Tag=`lucide-database-backup`;
-_.DatabaseBackup=DatabaseBackup;
+__as1(_, 'DatabaseBackup', DatabaseBackup);
 if(!window.customElements.get('lucide-database-backup')){window.customElements.define('lucide-database-backup', DatabaseBackup);Aventus.WebComponentInstance.registerDefinition(DatabaseBackup);}
 
 const DatabaseZap = class DatabaseZap extends AbstractIcon {
@@ -20877,7 +20877,7 @@ const DatabaseZap = class DatabaseZap extends AbstractIcon {
 }
 DatabaseZap.Namespace=`Lucide`;
 DatabaseZap.Tag=`lucide-database-zap`;
-_.DatabaseZap=DatabaseZap;
+__as1(_, 'DatabaseZap', DatabaseZap);
 if(!window.customElements.get('lucide-database-zap')){window.customElements.define('lucide-database-zap', DatabaseZap);Aventus.WebComponentInstance.registerDefinition(DatabaseZap);}
 
 const DecimalsArrowLeft = class DecimalsArrowLeft extends AbstractIcon {
@@ -20901,7 +20901,7 @@ const DecimalsArrowLeft = class DecimalsArrowLeft extends AbstractIcon {
 }
 DecimalsArrowLeft.Namespace=`Lucide`;
 DecimalsArrowLeft.Tag=`lucide-decimals-arrow-left`;
-_.DecimalsArrowLeft=DecimalsArrowLeft;
+__as1(_, 'DecimalsArrowLeft', DecimalsArrowLeft);
 if(!window.customElements.get('lucide-decimals-arrow-left')){window.customElements.define('lucide-decimals-arrow-left', DecimalsArrowLeft);Aventus.WebComponentInstance.registerDefinition(DecimalsArrowLeft);}
 
 const DecimalsArrowRight = class DecimalsArrowRight extends AbstractIcon {
@@ -20925,7 +20925,7 @@ const DecimalsArrowRight = class DecimalsArrowRight extends AbstractIcon {
 }
 DecimalsArrowRight.Namespace=`Lucide`;
 DecimalsArrowRight.Tag=`lucide-decimals-arrow-right`;
-_.DecimalsArrowRight=DecimalsArrowRight;
+__as1(_, 'DecimalsArrowRight', DecimalsArrowRight);
 if(!window.customElements.get('lucide-decimals-arrow-right')){window.customElements.define('lucide-decimals-arrow-right', DecimalsArrowRight);Aventus.WebComponentInstance.registerDefinition(DecimalsArrowRight);}
 
 const Delete = class Delete extends AbstractIcon {
@@ -20949,7 +20949,7 @@ const Delete = class Delete extends AbstractIcon {
 }
 Delete.Namespace=`Lucide`;
 Delete.Tag=`lucide-delete`;
-_.Delete=Delete;
+__as1(_, 'Delete', Delete);
 if(!window.customElements.get('lucide-delete')){window.customElements.define('lucide-delete', Delete);Aventus.WebComponentInstance.registerDefinition(Delete);}
 
 const Dessert = class Dessert extends AbstractIcon {
@@ -20973,7 +20973,7 @@ const Dessert = class Dessert extends AbstractIcon {
 }
 Dessert.Namespace=`Lucide`;
 Dessert.Tag=`lucide-dessert`;
-_.Dessert=Dessert;
+__as1(_, 'Dessert', Dessert);
 if(!window.customElements.get('lucide-dessert')){window.customElements.define('lucide-dessert', Dessert);Aventus.WebComponentInstance.registerDefinition(Dessert);}
 
 const Diameter = class Diameter extends AbstractIcon {
@@ -20997,7 +20997,7 @@ const Diameter = class Diameter extends AbstractIcon {
 }
 Diameter.Namespace=`Lucide`;
 Diameter.Tag=`lucide-diameter`;
-_.Diameter=Diameter;
+__as1(_, 'Diameter', Diameter);
 if(!window.customElements.get('lucide-diameter')){window.customElements.define('lucide-diameter', Diameter);Aventus.WebComponentInstance.registerDefinition(Diameter);}
 
 const Diamond = class Diamond extends AbstractIcon {
@@ -21021,7 +21021,7 @@ const Diamond = class Diamond extends AbstractIcon {
 }
 Diamond.Namespace=`Lucide`;
 Diamond.Tag=`lucide-diamond`;
-_.Diamond=Diamond;
+__as1(_, 'Diamond', Diamond);
 if(!window.customElements.get('lucide-diamond')){window.customElements.define('lucide-diamond', Diamond);Aventus.WebComponentInstance.registerDefinition(Diamond);}
 
 const DiamondMinus = class DiamondMinus extends AbstractIcon {
@@ -21045,7 +21045,7 @@ const DiamondMinus = class DiamondMinus extends AbstractIcon {
 }
 DiamondMinus.Namespace=`Lucide`;
 DiamondMinus.Tag=`lucide-diamond-minus`;
-_.DiamondMinus=DiamondMinus;
+__as1(_, 'DiamondMinus', DiamondMinus);
 if(!window.customElements.get('lucide-diamond-minus')){window.customElements.define('lucide-diamond-minus', DiamondMinus);Aventus.WebComponentInstance.registerDefinition(DiamondMinus);}
 
 const DiamondPercent = class DiamondPercent extends AbstractIcon {
@@ -21069,7 +21069,7 @@ const DiamondPercent = class DiamondPercent extends AbstractIcon {
 }
 DiamondPercent.Namespace=`Lucide`;
 DiamondPercent.Tag=`lucide-diamond-percent`;
-_.DiamondPercent=DiamondPercent;
+__as1(_, 'DiamondPercent', DiamondPercent);
 if(!window.customElements.get('lucide-diamond-percent')){window.customElements.define('lucide-diamond-percent', DiamondPercent);Aventus.WebComponentInstance.registerDefinition(DiamondPercent);}
 
 const DiamondPlus = class DiamondPlus extends AbstractIcon {
@@ -21093,7 +21093,7 @@ const DiamondPlus = class DiamondPlus extends AbstractIcon {
 }
 DiamondPlus.Namespace=`Lucide`;
 DiamondPlus.Tag=`lucide-diamond-plus`;
-_.DiamondPlus=DiamondPlus;
+__as1(_, 'DiamondPlus', DiamondPlus);
 if(!window.customElements.get('lucide-diamond-plus')){window.customElements.define('lucide-diamond-plus', DiamondPlus);Aventus.WebComponentInstance.registerDefinition(DiamondPlus);}
 
 const Dice1 = class Dice1 extends AbstractIcon {
@@ -21117,7 +21117,7 @@ const Dice1 = class Dice1 extends AbstractIcon {
 }
 Dice1.Namespace=`Lucide`;
 Dice1.Tag=`lucide-dice-1`;
-_.Dice1=Dice1;
+__as1(_, 'Dice1', Dice1);
 if(!window.customElements.get('lucide-dice-1')){window.customElements.define('lucide-dice-1', Dice1);Aventus.WebComponentInstance.registerDefinition(Dice1);}
 
 const Dice2 = class Dice2 extends AbstractIcon {
@@ -21141,7 +21141,7 @@ const Dice2 = class Dice2 extends AbstractIcon {
 }
 Dice2.Namespace=`Lucide`;
 Dice2.Tag=`lucide-dice-2`;
-_.Dice2=Dice2;
+__as1(_, 'Dice2', Dice2);
 if(!window.customElements.get('lucide-dice-2')){window.customElements.define('lucide-dice-2', Dice2);Aventus.WebComponentInstance.registerDefinition(Dice2);}
 
 const Dice3 = class Dice3 extends AbstractIcon {
@@ -21165,7 +21165,7 @@ const Dice3 = class Dice3 extends AbstractIcon {
 }
 Dice3.Namespace=`Lucide`;
 Dice3.Tag=`lucide-dice-3`;
-_.Dice3=Dice3;
+__as1(_, 'Dice3', Dice3);
 if(!window.customElements.get('lucide-dice-3')){window.customElements.define('lucide-dice-3', Dice3);Aventus.WebComponentInstance.registerDefinition(Dice3);}
 
 const Dice4 = class Dice4 extends AbstractIcon {
@@ -21189,7 +21189,7 @@ const Dice4 = class Dice4 extends AbstractIcon {
 }
 Dice4.Namespace=`Lucide`;
 Dice4.Tag=`lucide-dice-4`;
-_.Dice4=Dice4;
+__as1(_, 'Dice4', Dice4);
 if(!window.customElements.get('lucide-dice-4')){window.customElements.define('lucide-dice-4', Dice4);Aventus.WebComponentInstance.registerDefinition(Dice4);}
 
 const Dice5 = class Dice5 extends AbstractIcon {
@@ -21213,7 +21213,7 @@ const Dice5 = class Dice5 extends AbstractIcon {
 }
 Dice5.Namespace=`Lucide`;
 Dice5.Tag=`lucide-dice-5`;
-_.Dice5=Dice5;
+__as1(_, 'Dice5', Dice5);
 if(!window.customElements.get('lucide-dice-5')){window.customElements.define('lucide-dice-5', Dice5);Aventus.WebComponentInstance.registerDefinition(Dice5);}
 
 const Dice6 = class Dice6 extends AbstractIcon {
@@ -21237,7 +21237,7 @@ const Dice6 = class Dice6 extends AbstractIcon {
 }
 Dice6.Namespace=`Lucide`;
 Dice6.Tag=`lucide-dice-6`;
-_.Dice6=Dice6;
+__as1(_, 'Dice6', Dice6);
 if(!window.customElements.get('lucide-dice-6')){window.customElements.define('lucide-dice-6', Dice6);Aventus.WebComponentInstance.registerDefinition(Dice6);}
 
 const Dices = class Dices extends AbstractIcon {
@@ -21261,7 +21261,7 @@ const Dices = class Dices extends AbstractIcon {
 }
 Dices.Namespace=`Lucide`;
 Dices.Tag=`lucide-dices`;
-_.Dices=Dices;
+__as1(_, 'Dices', Dices);
 if(!window.customElements.get('lucide-dices')){window.customElements.define('lucide-dices', Dices);Aventus.WebComponentInstance.registerDefinition(Dices);}
 
 const Diff = class Diff extends AbstractIcon {
@@ -21285,7 +21285,7 @@ const Diff = class Diff extends AbstractIcon {
 }
 Diff.Namespace=`Lucide`;
 Diff.Tag=`lucide-diff`;
-_.Diff=Diff;
+__as1(_, 'Diff', Diff);
 if(!window.customElements.get('lucide-diff')){window.customElements.define('lucide-diff', Diff);Aventus.WebComponentInstance.registerDefinition(Diff);}
 
 const Disc = class Disc extends AbstractIcon {
@@ -21309,7 +21309,7 @@ const Disc = class Disc extends AbstractIcon {
 }
 Disc.Namespace=`Lucide`;
 Disc.Tag=`lucide-disc`;
-_.Disc=Disc;
+__as1(_, 'Disc', Disc);
 if(!window.customElements.get('lucide-disc')){window.customElements.define('lucide-disc', Disc);Aventus.WebComponentInstance.registerDefinition(Disc);}
 
 const Disc2 = class Disc2 extends AbstractIcon {
@@ -21333,7 +21333,7 @@ const Disc2 = class Disc2 extends AbstractIcon {
 }
 Disc2.Namespace=`Lucide`;
 Disc2.Tag=`lucide-disc-2`;
-_.Disc2=Disc2;
+__as1(_, 'Disc2', Disc2);
 if(!window.customElements.get('lucide-disc-2')){window.customElements.define('lucide-disc-2', Disc2);Aventus.WebComponentInstance.registerDefinition(Disc2);}
 
 const Disc3 = class Disc3 extends AbstractIcon {
@@ -21357,7 +21357,7 @@ const Disc3 = class Disc3 extends AbstractIcon {
 }
 Disc3.Namespace=`Lucide`;
 Disc3.Tag=`lucide-disc-3`;
-_.Disc3=Disc3;
+__as1(_, 'Disc3', Disc3);
 if(!window.customElements.get('lucide-disc-3')){window.customElements.define('lucide-disc-3', Disc3);Aventus.WebComponentInstance.registerDefinition(Disc3);}
 
 const DiscAlbum = class DiscAlbum extends AbstractIcon {
@@ -21381,7 +21381,7 @@ const DiscAlbum = class DiscAlbum extends AbstractIcon {
 }
 DiscAlbum.Namespace=`Lucide`;
 DiscAlbum.Tag=`lucide-disc-album`;
-_.DiscAlbum=DiscAlbum;
+__as1(_, 'DiscAlbum', DiscAlbum);
 if(!window.customElements.get('lucide-disc-album')){window.customElements.define('lucide-disc-album', DiscAlbum);Aventus.WebComponentInstance.registerDefinition(DiscAlbum);}
 
 const Divide = class Divide extends AbstractIcon {
@@ -21405,7 +21405,7 @@ const Divide = class Divide extends AbstractIcon {
 }
 Divide.Namespace=`Lucide`;
 Divide.Tag=`lucide-divide`;
-_.Divide=Divide;
+__as1(_, 'Divide', Divide);
 if(!window.customElements.get('lucide-divide')){window.customElements.define('lucide-divide', Divide);Aventus.WebComponentInstance.registerDefinition(Divide);}
 
 const DivideCircle = class DivideCircle extends AbstractIcon {
@@ -21429,7 +21429,7 @@ const DivideCircle = class DivideCircle extends AbstractIcon {
 }
 DivideCircle.Namespace=`Lucide`;
 DivideCircle.Tag=`lucide-divide-circle`;
-_.DivideCircle=DivideCircle;
+__as1(_, 'DivideCircle', DivideCircle);
 if(!window.customElements.get('lucide-divide-circle')){window.customElements.define('lucide-divide-circle', DivideCircle);Aventus.WebComponentInstance.registerDefinition(DivideCircle);}
 
 const DivideSquare = class DivideSquare extends AbstractIcon {
@@ -21453,7 +21453,7 @@ const DivideSquare = class DivideSquare extends AbstractIcon {
 }
 DivideSquare.Namespace=`Lucide`;
 DivideSquare.Tag=`lucide-divide-square`;
-_.DivideSquare=DivideSquare;
+__as1(_, 'DivideSquare', DivideSquare);
 if(!window.customElements.get('lucide-divide-square')){window.customElements.define('lucide-divide-square', DivideSquare);Aventus.WebComponentInstance.registerDefinition(DivideSquare);}
 
 const Dna = class Dna extends AbstractIcon {
@@ -21477,7 +21477,7 @@ const Dna = class Dna extends AbstractIcon {
 }
 Dna.Namespace=`Lucide`;
 Dna.Tag=`lucide-dna`;
-_.Dna=Dna;
+__as1(_, 'Dna', Dna);
 if(!window.customElements.get('lucide-dna')){window.customElements.define('lucide-dna', Dna);Aventus.WebComponentInstance.registerDefinition(Dna);}
 
 const DnaOff = class DnaOff extends AbstractIcon {
@@ -21501,7 +21501,7 @@ const DnaOff = class DnaOff extends AbstractIcon {
 }
 DnaOff.Namespace=`Lucide`;
 DnaOff.Tag=`lucide-dna-off`;
-_.DnaOff=DnaOff;
+__as1(_, 'DnaOff', DnaOff);
 if(!window.customElements.get('lucide-dna-off')){window.customElements.define('lucide-dna-off', DnaOff);Aventus.WebComponentInstance.registerDefinition(DnaOff);}
 
 const Dock = class Dock extends AbstractIcon {
@@ -21525,7 +21525,7 @@ const Dock = class Dock extends AbstractIcon {
 }
 Dock.Namespace=`Lucide`;
 Dock.Tag=`lucide-dock`;
-_.Dock=Dock;
+__as1(_, 'Dock', Dock);
 if(!window.customElements.get('lucide-dock')){window.customElements.define('lucide-dock', Dock);Aventus.WebComponentInstance.registerDefinition(Dock);}
 
 const Dog = class Dog extends AbstractIcon {
@@ -21549,7 +21549,7 @@ const Dog = class Dog extends AbstractIcon {
 }
 Dog.Namespace=`Lucide`;
 Dog.Tag=`lucide-dog`;
-_.Dog=Dog;
+__as1(_, 'Dog', Dog);
 if(!window.customElements.get('lucide-dog')){window.customElements.define('lucide-dog', Dog);Aventus.WebComponentInstance.registerDefinition(Dog);}
 
 const DollarSign = class DollarSign extends AbstractIcon {
@@ -21573,7 +21573,7 @@ const DollarSign = class DollarSign extends AbstractIcon {
 }
 DollarSign.Namespace=`Lucide`;
 DollarSign.Tag=`lucide-dollar-sign`;
-_.DollarSign=DollarSign;
+__as1(_, 'DollarSign', DollarSign);
 if(!window.customElements.get('lucide-dollar-sign')){window.customElements.define('lucide-dollar-sign', DollarSign);Aventus.WebComponentInstance.registerDefinition(DollarSign);}
 
 const Donut = class Donut extends AbstractIcon {
@@ -21597,7 +21597,7 @@ const Donut = class Donut extends AbstractIcon {
 }
 Donut.Namespace=`Lucide`;
 Donut.Tag=`lucide-donut`;
-_.Donut=Donut;
+__as1(_, 'Donut', Donut);
 if(!window.customElements.get('lucide-donut')){window.customElements.define('lucide-donut', Donut);Aventus.WebComponentInstance.registerDefinition(Donut);}
 
 const DoorClosed = class DoorClosed extends AbstractIcon {
@@ -21621,7 +21621,7 @@ const DoorClosed = class DoorClosed extends AbstractIcon {
 }
 DoorClosed.Namespace=`Lucide`;
 DoorClosed.Tag=`lucide-door-closed`;
-_.DoorClosed=DoorClosed;
+__as1(_, 'DoorClosed', DoorClosed);
 if(!window.customElements.get('lucide-door-closed')){window.customElements.define('lucide-door-closed', DoorClosed);Aventus.WebComponentInstance.registerDefinition(DoorClosed);}
 
 const DoorClosedLocked = class DoorClosedLocked extends AbstractIcon {
@@ -21645,7 +21645,7 @@ const DoorClosedLocked = class DoorClosedLocked extends AbstractIcon {
 }
 DoorClosedLocked.Namespace=`Lucide`;
 DoorClosedLocked.Tag=`lucide-door-closed-locked`;
-_.DoorClosedLocked=DoorClosedLocked;
+__as1(_, 'DoorClosedLocked', DoorClosedLocked);
 if(!window.customElements.get('lucide-door-closed-locked')){window.customElements.define('lucide-door-closed-locked', DoorClosedLocked);Aventus.WebComponentInstance.registerDefinition(DoorClosedLocked);}
 
 const DoorOpen = class DoorOpen extends AbstractIcon {
@@ -21669,7 +21669,7 @@ const DoorOpen = class DoorOpen extends AbstractIcon {
 }
 DoorOpen.Namespace=`Lucide`;
 DoorOpen.Tag=`lucide-door-open`;
-_.DoorOpen=DoorOpen;
+__as1(_, 'DoorOpen', DoorOpen);
 if(!window.customElements.get('lucide-door-open')){window.customElements.define('lucide-door-open', DoorOpen);Aventus.WebComponentInstance.registerDefinition(DoorOpen);}
 
 const Dot = class Dot extends AbstractIcon {
@@ -21693,7 +21693,7 @@ const Dot = class Dot extends AbstractIcon {
 }
 Dot.Namespace=`Lucide`;
 Dot.Tag=`lucide-dot`;
-_.Dot=Dot;
+__as1(_, 'Dot', Dot);
 if(!window.customElements.get('lucide-dot')){window.customElements.define('lucide-dot', Dot);Aventus.WebComponentInstance.registerDefinition(Dot);}
 
 const DotSquare = class DotSquare extends AbstractIcon {
@@ -21717,7 +21717,7 @@ const DotSquare = class DotSquare extends AbstractIcon {
 }
 DotSquare.Namespace=`Lucide`;
 DotSquare.Tag=`lucide-dot-square`;
-_.DotSquare=DotSquare;
+__as1(_, 'DotSquare', DotSquare);
 if(!window.customElements.get('lucide-dot-square')){window.customElements.define('lucide-dot-square', DotSquare);Aventus.WebComponentInstance.registerDefinition(DotSquare);}
 
 const Download = class Download extends AbstractIcon {
@@ -21741,7 +21741,7 @@ const Download = class Download extends AbstractIcon {
 }
 Download.Namespace=`Lucide`;
 Download.Tag=`lucide-download`;
-_.Download=Download;
+__as1(_, 'Download', Download);
 if(!window.customElements.get('lucide-download')){window.customElements.define('lucide-download', Download);Aventus.WebComponentInstance.registerDefinition(Download);}
 
 const DownloadCloud = class DownloadCloud extends AbstractIcon {
@@ -21765,7 +21765,7 @@ const DownloadCloud = class DownloadCloud extends AbstractIcon {
 }
 DownloadCloud.Namespace=`Lucide`;
 DownloadCloud.Tag=`lucide-download-cloud`;
-_.DownloadCloud=DownloadCloud;
+__as1(_, 'DownloadCloud', DownloadCloud);
 if(!window.customElements.get('lucide-download-cloud')){window.customElements.define('lucide-download-cloud', DownloadCloud);Aventus.WebComponentInstance.registerDefinition(DownloadCloud);}
 
 const DraftingCompass = class DraftingCompass extends AbstractIcon {
@@ -21789,7 +21789,7 @@ const DraftingCompass = class DraftingCompass extends AbstractIcon {
 }
 DraftingCompass.Namespace=`Lucide`;
 DraftingCompass.Tag=`lucide-drafting-compass`;
-_.DraftingCompass=DraftingCompass;
+__as1(_, 'DraftingCompass', DraftingCompass);
 if(!window.customElements.get('lucide-drafting-compass')){window.customElements.define('lucide-drafting-compass', DraftingCompass);Aventus.WebComponentInstance.registerDefinition(DraftingCompass);}
 
 const Drama = class Drama extends AbstractIcon {
@@ -21813,7 +21813,7 @@ const Drama = class Drama extends AbstractIcon {
 }
 Drama.Namespace=`Lucide`;
 Drama.Tag=`lucide-drama`;
-_.Drama=Drama;
+__as1(_, 'Drama', Drama);
 if(!window.customElements.get('lucide-drama')){window.customElements.define('lucide-drama', Drama);Aventus.WebComponentInstance.registerDefinition(Drama);}
 
 const Dribbble = class Dribbble extends AbstractIcon {
@@ -21837,7 +21837,7 @@ const Dribbble = class Dribbble extends AbstractIcon {
 }
 Dribbble.Namespace=`Lucide`;
 Dribbble.Tag=`lucide-dribbble`;
-_.Dribbble=Dribbble;
+__as1(_, 'Dribbble', Dribbble);
 if(!window.customElements.get('lucide-dribbble')){window.customElements.define('lucide-dribbble', Dribbble);Aventus.WebComponentInstance.registerDefinition(Dribbble);}
 
 const Drill = class Drill extends AbstractIcon {
@@ -21861,7 +21861,7 @@ const Drill = class Drill extends AbstractIcon {
 }
 Drill.Namespace=`Lucide`;
 Drill.Tag=`lucide-drill`;
-_.Drill=Drill;
+__as1(_, 'Drill', Drill);
 if(!window.customElements.get('lucide-drill')){window.customElements.define('lucide-drill', Drill);Aventus.WebComponentInstance.registerDefinition(Drill);}
 
 const Drone = class Drone extends AbstractIcon {
@@ -21885,7 +21885,7 @@ const Drone = class Drone extends AbstractIcon {
 }
 Drone.Namespace=`Lucide`;
 Drone.Tag=`lucide-drone`;
-_.Drone=Drone;
+__as1(_, 'Drone', Drone);
 if(!window.customElements.get('lucide-drone')){window.customElements.define('lucide-drone', Drone);Aventus.WebComponentInstance.registerDefinition(Drone);}
 
 const Droplet = class Droplet extends AbstractIcon {
@@ -21909,7 +21909,7 @@ const Droplet = class Droplet extends AbstractIcon {
 }
 Droplet.Namespace=`Lucide`;
 Droplet.Tag=`lucide-droplet`;
-_.Droplet=Droplet;
+__as1(_, 'Droplet', Droplet);
 if(!window.customElements.get('lucide-droplet')){window.customElements.define('lucide-droplet', Droplet);Aventus.WebComponentInstance.registerDefinition(Droplet);}
 
 const DropletOff = class DropletOff extends AbstractIcon {
@@ -21933,7 +21933,7 @@ const DropletOff = class DropletOff extends AbstractIcon {
 }
 DropletOff.Namespace=`Lucide`;
 DropletOff.Tag=`lucide-droplet-off`;
-_.DropletOff=DropletOff;
+__as1(_, 'DropletOff', DropletOff);
 if(!window.customElements.get('lucide-droplet-off')){window.customElements.define('lucide-droplet-off', DropletOff);Aventus.WebComponentInstance.registerDefinition(DropletOff);}
 
 const Droplets = class Droplets extends AbstractIcon {
@@ -21957,7 +21957,7 @@ const Droplets = class Droplets extends AbstractIcon {
 }
 Droplets.Namespace=`Lucide`;
 Droplets.Tag=`lucide-droplets`;
-_.Droplets=Droplets;
+__as1(_, 'Droplets', Droplets);
 if(!window.customElements.get('lucide-droplets')){window.customElements.define('lucide-droplets', Droplets);Aventus.WebComponentInstance.registerDefinition(Droplets);}
 
 const Drum = class Drum extends AbstractIcon {
@@ -21981,7 +21981,7 @@ const Drum = class Drum extends AbstractIcon {
 }
 Drum.Namespace=`Lucide`;
 Drum.Tag=`lucide-drum`;
-_.Drum=Drum;
+__as1(_, 'Drum', Drum);
 if(!window.customElements.get('lucide-drum')){window.customElements.define('lucide-drum', Drum);Aventus.WebComponentInstance.registerDefinition(Drum);}
 
 const Drumstick = class Drumstick extends AbstractIcon {
@@ -22005,7 +22005,7 @@ const Drumstick = class Drumstick extends AbstractIcon {
 }
 Drumstick.Namespace=`Lucide`;
 Drumstick.Tag=`lucide-drumstick`;
-_.Drumstick=Drumstick;
+__as1(_, 'Drumstick', Drumstick);
 if(!window.customElements.get('lucide-drumstick')){window.customElements.define('lucide-drumstick', Drumstick);Aventus.WebComponentInstance.registerDefinition(Drumstick);}
 
 const Dumbbell = class Dumbbell extends AbstractIcon {
@@ -22029,7 +22029,7 @@ const Dumbbell = class Dumbbell extends AbstractIcon {
 }
 Dumbbell.Namespace=`Lucide`;
 Dumbbell.Tag=`lucide-dumbbell`;
-_.Dumbbell=Dumbbell;
+__as1(_, 'Dumbbell', Dumbbell);
 if(!window.customElements.get('lucide-dumbbell')){window.customElements.define('lucide-dumbbell', Dumbbell);Aventus.WebComponentInstance.registerDefinition(Dumbbell);}
 
 const Ear = class Ear extends AbstractIcon {
@@ -22053,7 +22053,7 @@ const Ear = class Ear extends AbstractIcon {
 }
 Ear.Namespace=`Lucide`;
 Ear.Tag=`lucide-ear`;
-_.Ear=Ear;
+__as1(_, 'Ear', Ear);
 if(!window.customElements.get('lucide-ear')){window.customElements.define('lucide-ear', Ear);Aventus.WebComponentInstance.registerDefinition(Ear);}
 
 const EarOff = class EarOff extends AbstractIcon {
@@ -22077,7 +22077,7 @@ const EarOff = class EarOff extends AbstractIcon {
 }
 EarOff.Namespace=`Lucide`;
 EarOff.Tag=`lucide-ear-off`;
-_.EarOff=EarOff;
+__as1(_, 'EarOff', EarOff);
 if(!window.customElements.get('lucide-ear-off')){window.customElements.define('lucide-ear-off', EarOff);Aventus.WebComponentInstance.registerDefinition(EarOff);}
 
 const Earth = class Earth extends AbstractIcon {
@@ -22101,7 +22101,7 @@ const Earth = class Earth extends AbstractIcon {
 }
 Earth.Namespace=`Lucide`;
 Earth.Tag=`lucide-earth`;
-_.Earth=Earth;
+__as1(_, 'Earth', Earth);
 if(!window.customElements.get('lucide-earth')){window.customElements.define('lucide-earth', Earth);Aventus.WebComponentInstance.registerDefinition(Earth);}
 
 const EarthLock = class EarthLock extends AbstractIcon {
@@ -22125,7 +22125,7 @@ const EarthLock = class EarthLock extends AbstractIcon {
 }
 EarthLock.Namespace=`Lucide`;
 EarthLock.Tag=`lucide-earth-lock`;
-_.EarthLock=EarthLock;
+__as1(_, 'EarthLock', EarthLock);
 if(!window.customElements.get('lucide-earth-lock')){window.customElements.define('lucide-earth-lock', EarthLock);Aventus.WebComponentInstance.registerDefinition(EarthLock);}
 
 const Eclipse = class Eclipse extends AbstractIcon {
@@ -22149,7 +22149,7 @@ const Eclipse = class Eclipse extends AbstractIcon {
 }
 Eclipse.Namespace=`Lucide`;
 Eclipse.Tag=`lucide-eclipse`;
-_.Eclipse=Eclipse;
+__as1(_, 'Eclipse', Eclipse);
 if(!window.customElements.get('lucide-eclipse')){window.customElements.define('lucide-eclipse', Eclipse);Aventus.WebComponentInstance.registerDefinition(Eclipse);}
 
 const Edit = class Edit extends AbstractIcon {
@@ -22173,7 +22173,7 @@ const Edit = class Edit extends AbstractIcon {
 }
 Edit.Namespace=`Lucide`;
 Edit.Tag=`lucide-edit`;
-_.Edit=Edit;
+__as1(_, 'Edit', Edit);
 if(!window.customElements.get('lucide-edit')){window.customElements.define('lucide-edit', Edit);Aventus.WebComponentInstance.registerDefinition(Edit);}
 
 const Edit2 = class Edit2 extends AbstractIcon {
@@ -22197,7 +22197,7 @@ const Edit2 = class Edit2 extends AbstractIcon {
 }
 Edit2.Namespace=`Lucide`;
 Edit2.Tag=`lucide-edit-2`;
-_.Edit2=Edit2;
+__as1(_, 'Edit2', Edit2);
 if(!window.customElements.get('lucide-edit-2')){window.customElements.define('lucide-edit-2', Edit2);Aventus.WebComponentInstance.registerDefinition(Edit2);}
 
 const Edit3 = class Edit3 extends AbstractIcon {
@@ -22221,7 +22221,7 @@ const Edit3 = class Edit3 extends AbstractIcon {
 }
 Edit3.Namespace=`Lucide`;
 Edit3.Tag=`lucide-edit-3`;
-_.Edit3=Edit3;
+__as1(_, 'Edit3', Edit3);
 if(!window.customElements.get('lucide-edit-3')){window.customElements.define('lucide-edit-3', Edit3);Aventus.WebComponentInstance.registerDefinition(Edit3);}
 
 const Egg = class Egg extends AbstractIcon {
@@ -22245,7 +22245,7 @@ const Egg = class Egg extends AbstractIcon {
 }
 Egg.Namespace=`Lucide`;
 Egg.Tag=`lucide-egg`;
-_.Egg=Egg;
+__as1(_, 'Egg', Egg);
 if(!window.customElements.get('lucide-egg')){window.customElements.define('lucide-egg', Egg);Aventus.WebComponentInstance.registerDefinition(Egg);}
 
 const EggFried = class EggFried extends AbstractIcon {
@@ -22269,7 +22269,7 @@ const EggFried = class EggFried extends AbstractIcon {
 }
 EggFried.Namespace=`Lucide`;
 EggFried.Tag=`lucide-egg-fried`;
-_.EggFried=EggFried;
+__as1(_, 'EggFried', EggFried);
 if(!window.customElements.get('lucide-egg-fried')){window.customElements.define('lucide-egg-fried', EggFried);Aventus.WebComponentInstance.registerDefinition(EggFried);}
 
 const EggOff = class EggOff extends AbstractIcon {
@@ -22293,7 +22293,7 @@ const EggOff = class EggOff extends AbstractIcon {
 }
 EggOff.Namespace=`Lucide`;
 EggOff.Tag=`lucide-egg-off`;
-_.EggOff=EggOff;
+__as1(_, 'EggOff', EggOff);
 if(!window.customElements.get('lucide-egg-off')){window.customElements.define('lucide-egg-off', EggOff);Aventus.WebComponentInstance.registerDefinition(EggOff);}
 
 const Ellipsis = class Ellipsis extends AbstractIcon {
@@ -22317,7 +22317,7 @@ const Ellipsis = class Ellipsis extends AbstractIcon {
 }
 Ellipsis.Namespace=`Lucide`;
 Ellipsis.Tag=`lucide-ellipsis`;
-_.Ellipsis=Ellipsis;
+__as1(_, 'Ellipsis', Ellipsis);
 if(!window.customElements.get('lucide-ellipsis')){window.customElements.define('lucide-ellipsis', Ellipsis);Aventus.WebComponentInstance.registerDefinition(Ellipsis);}
 
 const EllipsisVertical = class EllipsisVertical extends AbstractIcon {
@@ -22341,7 +22341,7 @@ const EllipsisVertical = class EllipsisVertical extends AbstractIcon {
 }
 EllipsisVertical.Namespace=`Lucide`;
 EllipsisVertical.Tag=`lucide-ellipsis-vertical`;
-_.EllipsisVertical=EllipsisVertical;
+__as1(_, 'EllipsisVertical', EllipsisVertical);
 if(!window.customElements.get('lucide-ellipsis-vertical')){window.customElements.define('lucide-ellipsis-vertical', EllipsisVertical);Aventus.WebComponentInstance.registerDefinition(EllipsisVertical);}
 
 const Equal = class Equal extends AbstractIcon {
@@ -22365,7 +22365,7 @@ const Equal = class Equal extends AbstractIcon {
 }
 Equal.Namespace=`Lucide`;
 Equal.Tag=`lucide-equal`;
-_.Equal=Equal;
+__as1(_, 'Equal', Equal);
 if(!window.customElements.get('lucide-equal')){window.customElements.define('lucide-equal', Equal);Aventus.WebComponentInstance.registerDefinition(Equal);}
 
 const EqualApproximately = class EqualApproximately extends AbstractIcon {
@@ -22389,7 +22389,7 @@ const EqualApproximately = class EqualApproximately extends AbstractIcon {
 }
 EqualApproximately.Namespace=`Lucide`;
 EqualApproximately.Tag=`lucide-equal-approximately`;
-_.EqualApproximately=EqualApproximately;
+__as1(_, 'EqualApproximately', EqualApproximately);
 if(!window.customElements.get('lucide-equal-approximately')){window.customElements.define('lucide-equal-approximately', EqualApproximately);Aventus.WebComponentInstance.registerDefinition(EqualApproximately);}
 
 const EqualNot = class EqualNot extends AbstractIcon {
@@ -22413,7 +22413,7 @@ const EqualNot = class EqualNot extends AbstractIcon {
 }
 EqualNot.Namespace=`Lucide`;
 EqualNot.Tag=`lucide-equal-not`;
-_.EqualNot=EqualNot;
+__as1(_, 'EqualNot', EqualNot);
 if(!window.customElements.get('lucide-equal-not')){window.customElements.define('lucide-equal-not', EqualNot);Aventus.WebComponentInstance.registerDefinition(EqualNot);}
 
 const EqualSquare = class EqualSquare extends AbstractIcon {
@@ -22437,7 +22437,7 @@ const EqualSquare = class EqualSquare extends AbstractIcon {
 }
 EqualSquare.Namespace=`Lucide`;
 EqualSquare.Tag=`lucide-equal-square`;
-_.EqualSquare=EqualSquare;
+__as1(_, 'EqualSquare', EqualSquare);
 if(!window.customElements.get('lucide-equal-square')){window.customElements.define('lucide-equal-square', EqualSquare);Aventus.WebComponentInstance.registerDefinition(EqualSquare);}
 
 const Eraser = class Eraser extends AbstractIcon {
@@ -22461,7 +22461,7 @@ const Eraser = class Eraser extends AbstractIcon {
 }
 Eraser.Namespace=`Lucide`;
 Eraser.Tag=`lucide-eraser`;
-_.Eraser=Eraser;
+__as1(_, 'Eraser', Eraser);
 if(!window.customElements.get('lucide-eraser')){window.customElements.define('lucide-eraser', Eraser);Aventus.WebComponentInstance.registerDefinition(Eraser);}
 
 const EthernetPort = class EthernetPort extends AbstractIcon {
@@ -22485,7 +22485,7 @@ const EthernetPort = class EthernetPort extends AbstractIcon {
 }
 EthernetPort.Namespace=`Lucide`;
 EthernetPort.Tag=`lucide-ethernet-port`;
-_.EthernetPort=EthernetPort;
+__as1(_, 'EthernetPort', EthernetPort);
 if(!window.customElements.get('lucide-ethernet-port')){window.customElements.define('lucide-ethernet-port', EthernetPort);Aventus.WebComponentInstance.registerDefinition(EthernetPort);}
 
 const Euro = class Euro extends AbstractIcon {
@@ -22509,7 +22509,7 @@ const Euro = class Euro extends AbstractIcon {
 }
 Euro.Namespace=`Lucide`;
 Euro.Tag=`lucide-euro`;
-_.Euro=Euro;
+__as1(_, 'Euro', Euro);
 if(!window.customElements.get('lucide-euro')){window.customElements.define('lucide-euro', Euro);Aventus.WebComponentInstance.registerDefinition(Euro);}
 
 const Expand = class Expand extends AbstractIcon {
@@ -22533,7 +22533,7 @@ const Expand = class Expand extends AbstractIcon {
 }
 Expand.Namespace=`Lucide`;
 Expand.Tag=`lucide-expand`;
-_.Expand=Expand;
+__as1(_, 'Expand', Expand);
 if(!window.customElements.get('lucide-expand')){window.customElements.define('lucide-expand', Expand);Aventus.WebComponentInstance.registerDefinition(Expand);}
 
 const ExternalLink = class ExternalLink extends AbstractIcon {
@@ -22557,7 +22557,7 @@ const ExternalLink = class ExternalLink extends AbstractIcon {
 }
 ExternalLink.Namespace=`Lucide`;
 ExternalLink.Tag=`lucide-external-link`;
-_.ExternalLink=ExternalLink;
+__as1(_, 'ExternalLink', ExternalLink);
 if(!window.customElements.get('lucide-external-link')){window.customElements.define('lucide-external-link', ExternalLink);Aventus.WebComponentInstance.registerDefinition(ExternalLink);}
 
 const Eye = class Eye extends AbstractIcon {
@@ -22581,7 +22581,7 @@ const Eye = class Eye extends AbstractIcon {
 }
 Eye.Namespace=`Lucide`;
 Eye.Tag=`lucide-eye`;
-_.Eye=Eye;
+__as1(_, 'Eye', Eye);
 if(!window.customElements.get('lucide-eye')){window.customElements.define('lucide-eye', Eye);Aventus.WebComponentInstance.registerDefinition(Eye);}
 
 const EyeClosed = class EyeClosed extends AbstractIcon {
@@ -22605,7 +22605,7 @@ const EyeClosed = class EyeClosed extends AbstractIcon {
 }
 EyeClosed.Namespace=`Lucide`;
 EyeClosed.Tag=`lucide-eye-closed`;
-_.EyeClosed=EyeClosed;
+__as1(_, 'EyeClosed', EyeClosed);
 if(!window.customElements.get('lucide-eye-closed')){window.customElements.define('lucide-eye-closed', EyeClosed);Aventus.WebComponentInstance.registerDefinition(EyeClosed);}
 
 const EyeOff = class EyeOff extends AbstractIcon {
@@ -22629,7 +22629,7 @@ const EyeOff = class EyeOff extends AbstractIcon {
 }
 EyeOff.Namespace=`Lucide`;
 EyeOff.Tag=`lucide-eye-off`;
-_.EyeOff=EyeOff;
+__as1(_, 'EyeOff', EyeOff);
 if(!window.customElements.get('lucide-eye-off')){window.customElements.define('lucide-eye-off', EyeOff);Aventus.WebComponentInstance.registerDefinition(EyeOff);}
 
 const Facebook = class Facebook extends AbstractIcon {
@@ -22653,7 +22653,7 @@ const Facebook = class Facebook extends AbstractIcon {
 }
 Facebook.Namespace=`Lucide`;
 Facebook.Tag=`lucide-facebook`;
-_.Facebook=Facebook;
+__as1(_, 'Facebook', Facebook);
 if(!window.customElements.get('lucide-facebook')){window.customElements.define('lucide-facebook', Facebook);Aventus.WebComponentInstance.registerDefinition(Facebook);}
 
 const Factory = class Factory extends AbstractIcon {
@@ -22677,7 +22677,7 @@ const Factory = class Factory extends AbstractIcon {
 }
 Factory.Namespace=`Lucide`;
 Factory.Tag=`lucide-factory`;
-_.Factory=Factory;
+__as1(_, 'Factory', Factory);
 if(!window.customElements.get('lucide-factory')){window.customElements.define('lucide-factory', Factory);Aventus.WebComponentInstance.registerDefinition(Factory);}
 
 const Fan = class Fan extends AbstractIcon {
@@ -22701,7 +22701,7 @@ const Fan = class Fan extends AbstractIcon {
 }
 Fan.Namespace=`Lucide`;
 Fan.Tag=`lucide-fan`;
-_.Fan=Fan;
+__as1(_, 'Fan', Fan);
 if(!window.customElements.get('lucide-fan')){window.customElements.define('lucide-fan', Fan);Aventus.WebComponentInstance.registerDefinition(Fan);}
 
 const FastForward = class FastForward extends AbstractIcon {
@@ -22725,7 +22725,7 @@ const FastForward = class FastForward extends AbstractIcon {
 }
 FastForward.Namespace=`Lucide`;
 FastForward.Tag=`lucide-fast-forward`;
-_.FastForward=FastForward;
+__as1(_, 'FastForward', FastForward);
 if(!window.customElements.get('lucide-fast-forward')){window.customElements.define('lucide-fast-forward', FastForward);Aventus.WebComponentInstance.registerDefinition(FastForward);}
 
 const Feather = class Feather extends AbstractIcon {
@@ -22749,7 +22749,7 @@ const Feather = class Feather extends AbstractIcon {
 }
 Feather.Namespace=`Lucide`;
 Feather.Tag=`lucide-feather`;
-_.Feather=Feather;
+__as1(_, 'Feather', Feather);
 if(!window.customElements.get('lucide-feather')){window.customElements.define('lucide-feather', Feather);Aventus.WebComponentInstance.registerDefinition(Feather);}
 
 const Fence = class Fence extends AbstractIcon {
@@ -22773,7 +22773,7 @@ const Fence = class Fence extends AbstractIcon {
 }
 Fence.Namespace=`Lucide`;
 Fence.Tag=`lucide-fence`;
-_.Fence=Fence;
+__as1(_, 'Fence', Fence);
 if(!window.customElements.get('lucide-fence')){window.customElements.define('lucide-fence', Fence);Aventus.WebComponentInstance.registerDefinition(Fence);}
 
 const FerrisWheel = class FerrisWheel extends AbstractIcon {
@@ -22797,7 +22797,7 @@ const FerrisWheel = class FerrisWheel extends AbstractIcon {
 }
 FerrisWheel.Namespace=`Lucide`;
 FerrisWheel.Tag=`lucide-ferris-wheel`;
-_.FerrisWheel=FerrisWheel;
+__as1(_, 'FerrisWheel', FerrisWheel);
 if(!window.customElements.get('lucide-ferris-wheel')){window.customElements.define('lucide-ferris-wheel', FerrisWheel);Aventus.WebComponentInstance.registerDefinition(FerrisWheel);}
 
 const Figma = class Figma extends AbstractIcon {
@@ -22821,7 +22821,7 @@ const Figma = class Figma extends AbstractIcon {
 }
 Figma.Namespace=`Lucide`;
 Figma.Tag=`lucide-figma`;
-_.Figma=Figma;
+__as1(_, 'Figma', Figma);
 if(!window.customElements.get('lucide-figma')){window.customElements.define('lucide-figma', Figma);Aventus.WebComponentInstance.registerDefinition(Figma);}
 
 const File = class File extends AbstractIcon {
@@ -22845,7 +22845,7 @@ const File = class File extends AbstractIcon {
 }
 File.Namespace=`Lucide`;
 File.Tag=`lucide-file`;
-_.File=File;
+__as1(_, 'File', File);
 if(!window.customElements.get('lucide-file')){window.customElements.define('lucide-file', File);Aventus.WebComponentInstance.registerDefinition(File);}
 
 const FileArchive = class FileArchive extends AbstractIcon {
@@ -22869,7 +22869,7 @@ const FileArchive = class FileArchive extends AbstractIcon {
 }
 FileArchive.Namespace=`Lucide`;
 FileArchive.Tag=`lucide-file-archive`;
-_.FileArchive=FileArchive;
+__as1(_, 'FileArchive', FileArchive);
 if(!window.customElements.get('lucide-file-archive')){window.customElements.define('lucide-file-archive', FileArchive);Aventus.WebComponentInstance.registerDefinition(FileArchive);}
 
 const FileAudio = class FileAudio extends AbstractIcon {
@@ -22893,7 +22893,7 @@ const FileAudio = class FileAudio extends AbstractIcon {
 }
 FileAudio.Namespace=`Lucide`;
 FileAudio.Tag=`lucide-file-audio`;
-_.FileAudio=FileAudio;
+__as1(_, 'FileAudio', FileAudio);
 if(!window.customElements.get('lucide-file-audio')){window.customElements.define('lucide-file-audio', FileAudio);Aventus.WebComponentInstance.registerDefinition(FileAudio);}
 
 const FileAudio2 = class FileAudio2 extends AbstractIcon {
@@ -22917,7 +22917,7 @@ const FileAudio2 = class FileAudio2 extends AbstractIcon {
 }
 FileAudio2.Namespace=`Lucide`;
 FileAudio2.Tag=`lucide-file-audio-2`;
-_.FileAudio2=FileAudio2;
+__as1(_, 'FileAudio2', FileAudio2);
 if(!window.customElements.get('lucide-file-audio-2')){window.customElements.define('lucide-file-audio-2', FileAudio2);Aventus.WebComponentInstance.registerDefinition(FileAudio2);}
 
 const FileAxis3d = class FileAxis3d extends AbstractIcon {
@@ -22941,7 +22941,7 @@ const FileAxis3d = class FileAxis3d extends AbstractIcon {
 }
 FileAxis3d.Namespace=`Lucide`;
 FileAxis3d.Tag=`lucide-file-axis-3d`;
-_.FileAxis3d=FileAxis3d;
+__as1(_, 'FileAxis3d', FileAxis3d);
 if(!window.customElements.get('lucide-file-axis-3d')){window.customElements.define('lucide-file-axis-3d', FileAxis3d);Aventus.WebComponentInstance.registerDefinition(FileAxis3d);}
 
 const FileBadge = class FileBadge extends AbstractIcon {
@@ -22965,7 +22965,7 @@ const FileBadge = class FileBadge extends AbstractIcon {
 }
 FileBadge.Namespace=`Lucide`;
 FileBadge.Tag=`lucide-file-badge`;
-_.FileBadge=FileBadge;
+__as1(_, 'FileBadge', FileBadge);
 if(!window.customElements.get('lucide-file-badge')){window.customElements.define('lucide-file-badge', FileBadge);Aventus.WebComponentInstance.registerDefinition(FileBadge);}
 
 const FileBadge2 = class FileBadge2 extends AbstractIcon {
@@ -22989,7 +22989,7 @@ const FileBadge2 = class FileBadge2 extends AbstractIcon {
 }
 FileBadge2.Namespace=`Lucide`;
 FileBadge2.Tag=`lucide-file-badge-2`;
-_.FileBadge2=FileBadge2;
+__as1(_, 'FileBadge2', FileBadge2);
 if(!window.customElements.get('lucide-file-badge-2')){window.customElements.define('lucide-file-badge-2', FileBadge2);Aventus.WebComponentInstance.registerDefinition(FileBadge2);}
 
 const FileBarChart = class FileBarChart extends AbstractIcon {
@@ -23013,7 +23013,7 @@ const FileBarChart = class FileBarChart extends AbstractIcon {
 }
 FileBarChart.Namespace=`Lucide`;
 FileBarChart.Tag=`lucide-file-bar-chart`;
-_.FileBarChart=FileBarChart;
+__as1(_, 'FileBarChart', FileBarChart);
 if(!window.customElements.get('lucide-file-bar-chart')){window.customElements.define('lucide-file-bar-chart', FileBarChart);Aventus.WebComponentInstance.registerDefinition(FileBarChart);}
 
 const FileBarChart2 = class FileBarChart2 extends AbstractIcon {
@@ -23037,7 +23037,7 @@ const FileBarChart2 = class FileBarChart2 extends AbstractIcon {
 }
 FileBarChart2.Namespace=`Lucide`;
 FileBarChart2.Tag=`lucide-file-bar-chart-2`;
-_.FileBarChart2=FileBarChart2;
+__as1(_, 'FileBarChart2', FileBarChart2);
 if(!window.customElements.get('lucide-file-bar-chart-2')){window.customElements.define('lucide-file-bar-chart-2', FileBarChart2);Aventus.WebComponentInstance.registerDefinition(FileBarChart2);}
 
 const FileBox = class FileBox extends AbstractIcon {
@@ -23061,7 +23061,7 @@ const FileBox = class FileBox extends AbstractIcon {
 }
 FileBox.Namespace=`Lucide`;
 FileBox.Tag=`lucide-file-box`;
-_.FileBox=FileBox;
+__as1(_, 'FileBox', FileBox);
 if(!window.customElements.get('lucide-file-box')){window.customElements.define('lucide-file-box', FileBox);Aventus.WebComponentInstance.registerDefinition(FileBox);}
 
 const FileChartColumn = class FileChartColumn extends AbstractIcon {
@@ -23085,7 +23085,7 @@ const FileChartColumn = class FileChartColumn extends AbstractIcon {
 }
 FileChartColumn.Namespace=`Lucide`;
 FileChartColumn.Tag=`lucide-file-chart-column`;
-_.FileChartColumn=FileChartColumn;
+__as1(_, 'FileChartColumn', FileChartColumn);
 if(!window.customElements.get('lucide-file-chart-column')){window.customElements.define('lucide-file-chart-column', FileChartColumn);Aventus.WebComponentInstance.registerDefinition(FileChartColumn);}
 
 const FileChartColumnIncreasing = class FileChartColumnIncreasing extends AbstractIcon {
@@ -23109,7 +23109,7 @@ const FileChartColumnIncreasing = class FileChartColumnIncreasing extends Abstra
 }
 FileChartColumnIncreasing.Namespace=`Lucide`;
 FileChartColumnIncreasing.Tag=`lucide-file-chart-column-increasing`;
-_.FileChartColumnIncreasing=FileChartColumnIncreasing;
+__as1(_, 'FileChartColumnIncreasing', FileChartColumnIncreasing);
 if(!window.customElements.get('lucide-file-chart-column-increasing')){window.customElements.define('lucide-file-chart-column-increasing', FileChartColumnIncreasing);Aventus.WebComponentInstance.registerDefinition(FileChartColumnIncreasing);}
 
 const FileChartLine = class FileChartLine extends AbstractIcon {
@@ -23133,7 +23133,7 @@ const FileChartLine = class FileChartLine extends AbstractIcon {
 }
 FileChartLine.Namespace=`Lucide`;
 FileChartLine.Tag=`lucide-file-chart-line`;
-_.FileChartLine=FileChartLine;
+__as1(_, 'FileChartLine', FileChartLine);
 if(!window.customElements.get('lucide-file-chart-line')){window.customElements.define('lucide-file-chart-line', FileChartLine);Aventus.WebComponentInstance.registerDefinition(FileChartLine);}
 
 const FileChartPie = class FileChartPie extends AbstractIcon {
@@ -23157,7 +23157,7 @@ const FileChartPie = class FileChartPie extends AbstractIcon {
 }
 FileChartPie.Namespace=`Lucide`;
 FileChartPie.Tag=`lucide-file-chart-pie`;
-_.FileChartPie=FileChartPie;
+__as1(_, 'FileChartPie', FileChartPie);
 if(!window.customElements.get('lucide-file-chart-pie')){window.customElements.define('lucide-file-chart-pie', FileChartPie);Aventus.WebComponentInstance.registerDefinition(FileChartPie);}
 
 const FileCheck = class FileCheck extends AbstractIcon {
@@ -23181,7 +23181,7 @@ const FileCheck = class FileCheck extends AbstractIcon {
 }
 FileCheck.Namespace=`Lucide`;
 FileCheck.Tag=`lucide-file-check`;
-_.FileCheck=FileCheck;
+__as1(_, 'FileCheck', FileCheck);
 if(!window.customElements.get('lucide-file-check')){window.customElements.define('lucide-file-check', FileCheck);Aventus.WebComponentInstance.registerDefinition(FileCheck);}
 
 const FileCheck2 = class FileCheck2 extends AbstractIcon {
@@ -23205,7 +23205,7 @@ const FileCheck2 = class FileCheck2 extends AbstractIcon {
 }
 FileCheck2.Namespace=`Lucide`;
 FileCheck2.Tag=`lucide-file-check-2`;
-_.FileCheck2=FileCheck2;
+__as1(_, 'FileCheck2', FileCheck2);
 if(!window.customElements.get('lucide-file-check-2')){window.customElements.define('lucide-file-check-2', FileCheck2);Aventus.WebComponentInstance.registerDefinition(FileCheck2);}
 
 const FileClock = class FileClock extends AbstractIcon {
@@ -23229,7 +23229,7 @@ const FileClock = class FileClock extends AbstractIcon {
 }
 FileClock.Namespace=`Lucide`;
 FileClock.Tag=`lucide-file-clock`;
-_.FileClock=FileClock;
+__as1(_, 'FileClock', FileClock);
 if(!window.customElements.get('lucide-file-clock')){window.customElements.define('lucide-file-clock', FileClock);Aventus.WebComponentInstance.registerDefinition(FileClock);}
 
 const FileCode = class FileCode extends AbstractIcon {
@@ -23253,7 +23253,7 @@ const FileCode = class FileCode extends AbstractIcon {
 }
 FileCode.Namespace=`Lucide`;
 FileCode.Tag=`lucide-file-code`;
-_.FileCode=FileCode;
+__as1(_, 'FileCode', FileCode);
 if(!window.customElements.get('lucide-file-code')){window.customElements.define('lucide-file-code', FileCode);Aventus.WebComponentInstance.registerDefinition(FileCode);}
 
 const FileCode2 = class FileCode2 extends AbstractIcon {
@@ -23277,7 +23277,7 @@ const FileCode2 = class FileCode2 extends AbstractIcon {
 }
 FileCode2.Namespace=`Lucide`;
 FileCode2.Tag=`lucide-file-code-2`;
-_.FileCode2=FileCode2;
+__as1(_, 'FileCode2', FileCode2);
 if(!window.customElements.get('lucide-file-code-2')){window.customElements.define('lucide-file-code-2', FileCode2);Aventus.WebComponentInstance.registerDefinition(FileCode2);}
 
 const FileCog = class FileCog extends AbstractIcon {
@@ -23301,7 +23301,7 @@ const FileCog = class FileCog extends AbstractIcon {
 }
 FileCog.Namespace=`Lucide`;
 FileCog.Tag=`lucide-file-cog`;
-_.FileCog=FileCog;
+__as1(_, 'FileCog', FileCog);
 if(!window.customElements.get('lucide-file-cog')){window.customElements.define('lucide-file-cog', FileCog);Aventus.WebComponentInstance.registerDefinition(FileCog);}
 
 const FileCog2 = class FileCog2 extends AbstractIcon {
@@ -23325,7 +23325,7 @@ const FileCog2 = class FileCog2 extends AbstractIcon {
 }
 FileCog2.Namespace=`Lucide`;
 FileCog2.Tag=`lucide-file-cog-2`;
-_.FileCog2=FileCog2;
+__as1(_, 'FileCog2', FileCog2);
 if(!window.customElements.get('lucide-file-cog-2')){window.customElements.define('lucide-file-cog-2', FileCog2);Aventus.WebComponentInstance.registerDefinition(FileCog2);}
 
 const FileDiff = class FileDiff extends AbstractIcon {
@@ -23349,7 +23349,7 @@ const FileDiff = class FileDiff extends AbstractIcon {
 }
 FileDiff.Namespace=`Lucide`;
 FileDiff.Tag=`lucide-file-diff`;
-_.FileDiff=FileDiff;
+__as1(_, 'FileDiff', FileDiff);
 if(!window.customElements.get('lucide-file-diff')){window.customElements.define('lucide-file-diff', FileDiff);Aventus.WebComponentInstance.registerDefinition(FileDiff);}
 
 const FileDigit = class FileDigit extends AbstractIcon {
@@ -23373,7 +23373,7 @@ const FileDigit = class FileDigit extends AbstractIcon {
 }
 FileDigit.Namespace=`Lucide`;
 FileDigit.Tag=`lucide-file-digit`;
-_.FileDigit=FileDigit;
+__as1(_, 'FileDigit', FileDigit);
 if(!window.customElements.get('lucide-file-digit')){window.customElements.define('lucide-file-digit', FileDigit);Aventus.WebComponentInstance.registerDefinition(FileDigit);}
 
 const FileDown = class FileDown extends AbstractIcon {
@@ -23397,7 +23397,7 @@ const FileDown = class FileDown extends AbstractIcon {
 }
 FileDown.Namespace=`Lucide`;
 FileDown.Tag=`lucide-file-down`;
-_.FileDown=FileDown;
+__as1(_, 'FileDown', FileDown);
 if(!window.customElements.get('lucide-file-down')){window.customElements.define('lucide-file-down', FileDown);Aventus.WebComponentInstance.registerDefinition(FileDown);}
 
 const FileEdit = class FileEdit extends AbstractIcon {
@@ -23421,7 +23421,7 @@ const FileEdit = class FileEdit extends AbstractIcon {
 }
 FileEdit.Namespace=`Lucide`;
 FileEdit.Tag=`lucide-file-edit`;
-_.FileEdit=FileEdit;
+__as1(_, 'FileEdit', FileEdit);
 if(!window.customElements.get('lucide-file-edit')){window.customElements.define('lucide-file-edit', FileEdit);Aventus.WebComponentInstance.registerDefinition(FileEdit);}
 
 const FileHeart = class FileHeart extends AbstractIcon {
@@ -23445,7 +23445,7 @@ const FileHeart = class FileHeart extends AbstractIcon {
 }
 FileHeart.Namespace=`Lucide`;
 FileHeart.Tag=`lucide-file-heart`;
-_.FileHeart=FileHeart;
+__as1(_, 'FileHeart', FileHeart);
 if(!window.customElements.get('lucide-file-heart')){window.customElements.define('lucide-file-heart', FileHeart);Aventus.WebComponentInstance.registerDefinition(FileHeart);}
 
 const FileImage = class FileImage extends AbstractIcon {
@@ -23469,7 +23469,7 @@ const FileImage = class FileImage extends AbstractIcon {
 }
 FileImage.Namespace=`Lucide`;
 FileImage.Tag=`lucide-file-image`;
-_.FileImage=FileImage;
+__as1(_, 'FileImage', FileImage);
 if(!window.customElements.get('lucide-file-image')){window.customElements.define('lucide-file-image', FileImage);Aventus.WebComponentInstance.registerDefinition(FileImage);}
 
 const FileInput = class FileInput extends AbstractIcon {
@@ -23493,7 +23493,7 @@ const FileInput = class FileInput extends AbstractIcon {
 }
 FileInput.Namespace=`Lucide`;
 FileInput.Tag=`lucide-file-input`;
-_.FileInput=FileInput;
+__as1(_, 'FileInput', FileInput);
 if(!window.customElements.get('lucide-file-input')){window.customElements.define('lucide-file-input', FileInput);Aventus.WebComponentInstance.registerDefinition(FileInput);}
 
 const FileJson = class FileJson extends AbstractIcon {
@@ -23517,7 +23517,7 @@ const FileJson = class FileJson extends AbstractIcon {
 }
 FileJson.Namespace=`Lucide`;
 FileJson.Tag=`lucide-file-json`;
-_.FileJson=FileJson;
+__as1(_, 'FileJson', FileJson);
 if(!window.customElements.get('lucide-file-json')){window.customElements.define('lucide-file-json', FileJson);Aventus.WebComponentInstance.registerDefinition(FileJson);}
 
 const FileJson2 = class FileJson2 extends AbstractIcon {
@@ -23541,7 +23541,7 @@ const FileJson2 = class FileJson2 extends AbstractIcon {
 }
 FileJson2.Namespace=`Lucide`;
 FileJson2.Tag=`lucide-file-json-2`;
-_.FileJson2=FileJson2;
+__as1(_, 'FileJson2', FileJson2);
 if(!window.customElements.get('lucide-file-json-2')){window.customElements.define('lucide-file-json-2', FileJson2);Aventus.WebComponentInstance.registerDefinition(FileJson2);}
 
 const FileKey = class FileKey extends AbstractIcon {
@@ -23565,7 +23565,7 @@ const FileKey = class FileKey extends AbstractIcon {
 }
 FileKey.Namespace=`Lucide`;
 FileKey.Tag=`lucide-file-key`;
-_.FileKey=FileKey;
+__as1(_, 'FileKey', FileKey);
 if(!window.customElements.get('lucide-file-key')){window.customElements.define('lucide-file-key', FileKey);Aventus.WebComponentInstance.registerDefinition(FileKey);}
 
 const FileKey2 = class FileKey2 extends AbstractIcon {
@@ -23589,7 +23589,7 @@ const FileKey2 = class FileKey2 extends AbstractIcon {
 }
 FileKey2.Namespace=`Lucide`;
 FileKey2.Tag=`lucide-file-key-2`;
-_.FileKey2=FileKey2;
+__as1(_, 'FileKey2', FileKey2);
 if(!window.customElements.get('lucide-file-key-2')){window.customElements.define('lucide-file-key-2', FileKey2);Aventus.WebComponentInstance.registerDefinition(FileKey2);}
 
 const FileLineChart = class FileLineChart extends AbstractIcon {
@@ -23613,7 +23613,7 @@ const FileLineChart = class FileLineChart extends AbstractIcon {
 }
 FileLineChart.Namespace=`Lucide`;
 FileLineChart.Tag=`lucide-file-line-chart`;
-_.FileLineChart=FileLineChart;
+__as1(_, 'FileLineChart', FileLineChart);
 if(!window.customElements.get('lucide-file-line-chart')){window.customElements.define('lucide-file-line-chart', FileLineChart);Aventus.WebComponentInstance.registerDefinition(FileLineChart);}
 
 const FileLock = class FileLock extends AbstractIcon {
@@ -23637,7 +23637,7 @@ const FileLock = class FileLock extends AbstractIcon {
 }
 FileLock.Namespace=`Lucide`;
 FileLock.Tag=`lucide-file-lock`;
-_.FileLock=FileLock;
+__as1(_, 'FileLock', FileLock);
 if(!window.customElements.get('lucide-file-lock')){window.customElements.define('lucide-file-lock', FileLock);Aventus.WebComponentInstance.registerDefinition(FileLock);}
 
 const FileLock2 = class FileLock2 extends AbstractIcon {
@@ -23661,7 +23661,7 @@ const FileLock2 = class FileLock2 extends AbstractIcon {
 }
 FileLock2.Namespace=`Lucide`;
 FileLock2.Tag=`lucide-file-lock-2`;
-_.FileLock2=FileLock2;
+__as1(_, 'FileLock2', FileLock2);
 if(!window.customElements.get('lucide-file-lock-2')){window.customElements.define('lucide-file-lock-2', FileLock2);Aventus.WebComponentInstance.registerDefinition(FileLock2);}
 
 const FileMinus = class FileMinus extends AbstractIcon {
@@ -23685,7 +23685,7 @@ const FileMinus = class FileMinus extends AbstractIcon {
 }
 FileMinus.Namespace=`Lucide`;
 FileMinus.Tag=`lucide-file-minus`;
-_.FileMinus=FileMinus;
+__as1(_, 'FileMinus', FileMinus);
 if(!window.customElements.get('lucide-file-minus')){window.customElements.define('lucide-file-minus', FileMinus);Aventus.WebComponentInstance.registerDefinition(FileMinus);}
 
 const FileMinus2 = class FileMinus2 extends AbstractIcon {
@@ -23709,7 +23709,7 @@ const FileMinus2 = class FileMinus2 extends AbstractIcon {
 }
 FileMinus2.Namespace=`Lucide`;
 FileMinus2.Tag=`lucide-file-minus-2`;
-_.FileMinus2=FileMinus2;
+__as1(_, 'FileMinus2', FileMinus2);
 if(!window.customElements.get('lucide-file-minus-2')){window.customElements.define('lucide-file-minus-2', FileMinus2);Aventus.WebComponentInstance.registerDefinition(FileMinus2);}
 
 const FileMusic = class FileMusic extends AbstractIcon {
@@ -23733,7 +23733,7 @@ const FileMusic = class FileMusic extends AbstractIcon {
 }
 FileMusic.Namespace=`Lucide`;
 FileMusic.Tag=`lucide-file-music`;
-_.FileMusic=FileMusic;
+__as1(_, 'FileMusic', FileMusic);
 if(!window.customElements.get('lucide-file-music')){window.customElements.define('lucide-file-music', FileMusic);Aventus.WebComponentInstance.registerDefinition(FileMusic);}
 
 const FileOutput = class FileOutput extends AbstractIcon {
@@ -23757,7 +23757,7 @@ const FileOutput = class FileOutput extends AbstractIcon {
 }
 FileOutput.Namespace=`Lucide`;
 FileOutput.Tag=`lucide-file-output`;
-_.FileOutput=FileOutput;
+__as1(_, 'FileOutput', FileOutput);
 if(!window.customElements.get('lucide-file-output')){window.customElements.define('lucide-file-output', FileOutput);Aventus.WebComponentInstance.registerDefinition(FileOutput);}
 
 const FilePen = class FilePen extends AbstractIcon {
@@ -23781,7 +23781,7 @@ const FilePen = class FilePen extends AbstractIcon {
 }
 FilePen.Namespace=`Lucide`;
 FilePen.Tag=`lucide-file-pen`;
-_.FilePen=FilePen;
+__as1(_, 'FilePen', FilePen);
 if(!window.customElements.get('lucide-file-pen')){window.customElements.define('lucide-file-pen', FilePen);Aventus.WebComponentInstance.registerDefinition(FilePen);}
 
 const FilePenLine = class FilePenLine extends AbstractIcon {
@@ -23805,7 +23805,7 @@ const FilePenLine = class FilePenLine extends AbstractIcon {
 }
 FilePenLine.Namespace=`Lucide`;
 FilePenLine.Tag=`lucide-file-pen-line`;
-_.FilePenLine=FilePenLine;
+__as1(_, 'FilePenLine', FilePenLine);
 if(!window.customElements.get('lucide-file-pen-line')){window.customElements.define('lucide-file-pen-line', FilePenLine);Aventus.WebComponentInstance.registerDefinition(FilePenLine);}
 
 const FilePieChart = class FilePieChart extends AbstractIcon {
@@ -23829,7 +23829,7 @@ const FilePieChart = class FilePieChart extends AbstractIcon {
 }
 FilePieChart.Namespace=`Lucide`;
 FilePieChart.Tag=`lucide-file-pie-chart`;
-_.FilePieChart=FilePieChart;
+__as1(_, 'FilePieChart', FilePieChart);
 if(!window.customElements.get('lucide-file-pie-chart')){window.customElements.define('lucide-file-pie-chart', FilePieChart);Aventus.WebComponentInstance.registerDefinition(FilePieChart);}
 
 const FilePlus = class FilePlus extends AbstractIcon {
@@ -23853,7 +23853,7 @@ const FilePlus = class FilePlus extends AbstractIcon {
 }
 FilePlus.Namespace=`Lucide`;
 FilePlus.Tag=`lucide-file-plus`;
-_.FilePlus=FilePlus;
+__as1(_, 'FilePlus', FilePlus);
 if(!window.customElements.get('lucide-file-plus')){window.customElements.define('lucide-file-plus', FilePlus);Aventus.WebComponentInstance.registerDefinition(FilePlus);}
 
 const FilePlus2 = class FilePlus2 extends AbstractIcon {
@@ -23877,7 +23877,7 @@ const FilePlus2 = class FilePlus2 extends AbstractIcon {
 }
 FilePlus2.Namespace=`Lucide`;
 FilePlus2.Tag=`lucide-file-plus-2`;
-_.FilePlus2=FilePlus2;
+__as1(_, 'FilePlus2', FilePlus2);
 if(!window.customElements.get('lucide-file-plus-2')){window.customElements.define('lucide-file-plus-2', FilePlus2);Aventus.WebComponentInstance.registerDefinition(FilePlus2);}
 
 const FileQuestion = class FileQuestion extends AbstractIcon {
@@ -23901,7 +23901,7 @@ const FileQuestion = class FileQuestion extends AbstractIcon {
 }
 FileQuestion.Namespace=`Lucide`;
 FileQuestion.Tag=`lucide-file-question`;
-_.FileQuestion=FileQuestion;
+__as1(_, 'FileQuestion', FileQuestion);
 if(!window.customElements.get('lucide-file-question')){window.customElements.define('lucide-file-question', FileQuestion);Aventus.WebComponentInstance.registerDefinition(FileQuestion);}
 
 const FileQuestionMark = class FileQuestionMark extends AbstractIcon {
@@ -23925,7 +23925,7 @@ const FileQuestionMark = class FileQuestionMark extends AbstractIcon {
 }
 FileQuestionMark.Namespace=`Lucide`;
 FileQuestionMark.Tag=`lucide-file-question-mark`;
-_.FileQuestionMark=FileQuestionMark;
+__as1(_, 'FileQuestionMark', FileQuestionMark);
 if(!window.customElements.get('lucide-file-question-mark')){window.customElements.define('lucide-file-question-mark', FileQuestionMark);Aventus.WebComponentInstance.registerDefinition(FileQuestionMark);}
 
 const Files = class Files extends AbstractIcon {
@@ -23949,7 +23949,7 @@ const Files = class Files extends AbstractIcon {
 }
 Files.Namespace=`Lucide`;
 Files.Tag=`lucide-files`;
-_.Files=Files;
+__as1(_, 'Files', Files);
 if(!window.customElements.get('lucide-files')){window.customElements.define('lucide-files', Files);Aventus.WebComponentInstance.registerDefinition(Files);}
 
 const FileScan = class FileScan extends AbstractIcon {
@@ -23973,7 +23973,7 @@ const FileScan = class FileScan extends AbstractIcon {
 }
 FileScan.Namespace=`Lucide`;
 FileScan.Tag=`lucide-file-scan`;
-_.FileScan=FileScan;
+__as1(_, 'FileScan', FileScan);
 if(!window.customElements.get('lucide-file-scan')){window.customElements.define('lucide-file-scan', FileScan);Aventus.WebComponentInstance.registerDefinition(FileScan);}
 
 const FileSearch = class FileSearch extends AbstractIcon {
@@ -23997,7 +23997,7 @@ const FileSearch = class FileSearch extends AbstractIcon {
 }
 FileSearch.Namespace=`Lucide`;
 FileSearch.Tag=`lucide-file-search`;
-_.FileSearch=FileSearch;
+__as1(_, 'FileSearch', FileSearch);
 if(!window.customElements.get('lucide-file-search')){window.customElements.define('lucide-file-search', FileSearch);Aventus.WebComponentInstance.registerDefinition(FileSearch);}
 
 const FileSearch2 = class FileSearch2 extends AbstractIcon {
@@ -24021,7 +24021,7 @@ const FileSearch2 = class FileSearch2 extends AbstractIcon {
 }
 FileSearch2.Namespace=`Lucide`;
 FileSearch2.Tag=`lucide-file-search-2`;
-_.FileSearch2=FileSearch2;
+__as1(_, 'FileSearch2', FileSearch2);
 if(!window.customElements.get('lucide-file-search-2')){window.customElements.define('lucide-file-search-2', FileSearch2);Aventus.WebComponentInstance.registerDefinition(FileSearch2);}
 
 const FileSignature = class FileSignature extends AbstractIcon {
@@ -24045,7 +24045,7 @@ const FileSignature = class FileSignature extends AbstractIcon {
 }
 FileSignature.Namespace=`Lucide`;
 FileSignature.Tag=`lucide-file-signature`;
-_.FileSignature=FileSignature;
+__as1(_, 'FileSignature', FileSignature);
 if(!window.customElements.get('lucide-file-signature')){window.customElements.define('lucide-file-signature', FileSignature);Aventus.WebComponentInstance.registerDefinition(FileSignature);}
 
 const FileSliders = class FileSliders extends AbstractIcon {
@@ -24069,7 +24069,7 @@ const FileSliders = class FileSliders extends AbstractIcon {
 }
 FileSliders.Namespace=`Lucide`;
 FileSliders.Tag=`lucide-file-sliders`;
-_.FileSliders=FileSliders;
+__as1(_, 'FileSliders', FileSliders);
 if(!window.customElements.get('lucide-file-sliders')){window.customElements.define('lucide-file-sliders', FileSliders);Aventus.WebComponentInstance.registerDefinition(FileSliders);}
 
 const FileSpreadsheet = class FileSpreadsheet extends AbstractIcon {
@@ -24093,7 +24093,7 @@ const FileSpreadsheet = class FileSpreadsheet extends AbstractIcon {
 }
 FileSpreadsheet.Namespace=`Lucide`;
 FileSpreadsheet.Tag=`lucide-file-spreadsheet`;
-_.FileSpreadsheet=FileSpreadsheet;
+__as1(_, 'FileSpreadsheet', FileSpreadsheet);
 if(!window.customElements.get('lucide-file-spreadsheet')){window.customElements.define('lucide-file-spreadsheet', FileSpreadsheet);Aventus.WebComponentInstance.registerDefinition(FileSpreadsheet);}
 
 const FileStack = class FileStack extends AbstractIcon {
@@ -24117,7 +24117,7 @@ const FileStack = class FileStack extends AbstractIcon {
 }
 FileStack.Namespace=`Lucide`;
 FileStack.Tag=`lucide-file-stack`;
-_.FileStack=FileStack;
+__as1(_, 'FileStack', FileStack);
 if(!window.customElements.get('lucide-file-stack')){window.customElements.define('lucide-file-stack', FileStack);Aventus.WebComponentInstance.registerDefinition(FileStack);}
 
 const FileSymlink = class FileSymlink extends AbstractIcon {
@@ -24141,7 +24141,7 @@ const FileSymlink = class FileSymlink extends AbstractIcon {
 }
 FileSymlink.Namespace=`Lucide`;
 FileSymlink.Tag=`lucide-file-symlink`;
-_.FileSymlink=FileSymlink;
+__as1(_, 'FileSymlink', FileSymlink);
 if(!window.customElements.get('lucide-file-symlink')){window.customElements.define('lucide-file-symlink', FileSymlink);Aventus.WebComponentInstance.registerDefinition(FileSymlink);}
 
 const FileTerminal = class FileTerminal extends AbstractIcon {
@@ -24165,7 +24165,7 @@ const FileTerminal = class FileTerminal extends AbstractIcon {
 }
 FileTerminal.Namespace=`Lucide`;
 FileTerminal.Tag=`lucide-file-terminal`;
-_.FileTerminal=FileTerminal;
+__as1(_, 'FileTerminal', FileTerminal);
 if(!window.customElements.get('lucide-file-terminal')){window.customElements.define('lucide-file-terminal', FileTerminal);Aventus.WebComponentInstance.registerDefinition(FileTerminal);}
 
 const FileText = class FileText extends AbstractIcon {
@@ -24189,7 +24189,7 @@ const FileText = class FileText extends AbstractIcon {
 }
 FileText.Namespace=`Lucide`;
 FileText.Tag=`lucide-file-text`;
-_.FileText=FileText;
+__as1(_, 'FileText', FileText);
 if(!window.customElements.get('lucide-file-text')){window.customElements.define('lucide-file-text', FileText);Aventus.WebComponentInstance.registerDefinition(FileText);}
 
 const FileType = class FileType extends AbstractIcon {
@@ -24213,7 +24213,7 @@ const FileType = class FileType extends AbstractIcon {
 }
 FileType.Namespace=`Lucide`;
 FileType.Tag=`lucide-file-type`;
-_.FileType=FileType;
+__as1(_, 'FileType', FileType);
 if(!window.customElements.get('lucide-file-type')){window.customElements.define('lucide-file-type', FileType);Aventus.WebComponentInstance.registerDefinition(FileType);}
 
 const FileType2 = class FileType2 extends AbstractIcon {
@@ -24237,7 +24237,7 @@ const FileType2 = class FileType2 extends AbstractIcon {
 }
 FileType2.Namespace=`Lucide`;
 FileType2.Tag=`lucide-file-type-2`;
-_.FileType2=FileType2;
+__as1(_, 'FileType2', FileType2);
 if(!window.customElements.get('lucide-file-type-2')){window.customElements.define('lucide-file-type-2', FileType2);Aventus.WebComponentInstance.registerDefinition(FileType2);}
 
 const FileUp = class FileUp extends AbstractIcon {
@@ -24261,7 +24261,7 @@ const FileUp = class FileUp extends AbstractIcon {
 }
 FileUp.Namespace=`Lucide`;
 FileUp.Tag=`lucide-file-up`;
-_.FileUp=FileUp;
+__as1(_, 'FileUp', FileUp);
 if(!window.customElements.get('lucide-file-up')){window.customElements.define('lucide-file-up', FileUp);Aventus.WebComponentInstance.registerDefinition(FileUp);}
 
 const FileUser = class FileUser extends AbstractIcon {
@@ -24285,7 +24285,7 @@ const FileUser = class FileUser extends AbstractIcon {
 }
 FileUser.Namespace=`Lucide`;
 FileUser.Tag=`lucide-file-user`;
-_.FileUser=FileUser;
+__as1(_, 'FileUser', FileUser);
 if(!window.customElements.get('lucide-file-user')){window.customElements.define('lucide-file-user', FileUser);Aventus.WebComponentInstance.registerDefinition(FileUser);}
 
 const FileVideo = class FileVideo extends AbstractIcon {
@@ -24309,7 +24309,7 @@ const FileVideo = class FileVideo extends AbstractIcon {
 }
 FileVideo.Namespace=`Lucide`;
 FileVideo.Tag=`lucide-file-video`;
-_.FileVideo=FileVideo;
+__as1(_, 'FileVideo', FileVideo);
 if(!window.customElements.get('lucide-file-video')){window.customElements.define('lucide-file-video', FileVideo);Aventus.WebComponentInstance.registerDefinition(FileVideo);}
 
 const FileVideo2 = class FileVideo2 extends AbstractIcon {
@@ -24333,7 +24333,7 @@ const FileVideo2 = class FileVideo2 extends AbstractIcon {
 }
 FileVideo2.Namespace=`Lucide`;
 FileVideo2.Tag=`lucide-file-video-2`;
-_.FileVideo2=FileVideo2;
+__as1(_, 'FileVideo2', FileVideo2);
 if(!window.customElements.get('lucide-file-video-2')){window.customElements.define('lucide-file-video-2', FileVideo2);Aventus.WebComponentInstance.registerDefinition(FileVideo2);}
 
 const FileVolume = class FileVolume extends AbstractIcon {
@@ -24357,7 +24357,7 @@ const FileVolume = class FileVolume extends AbstractIcon {
 }
 FileVolume.Namespace=`Lucide`;
 FileVolume.Tag=`lucide-file-volume`;
-_.FileVolume=FileVolume;
+__as1(_, 'FileVolume', FileVolume);
 if(!window.customElements.get('lucide-file-volume')){window.customElements.define('lucide-file-volume', FileVolume);Aventus.WebComponentInstance.registerDefinition(FileVolume);}
 
 const FileVolume2 = class FileVolume2 extends AbstractIcon {
@@ -24381,7 +24381,7 @@ const FileVolume2 = class FileVolume2 extends AbstractIcon {
 }
 FileVolume2.Namespace=`Lucide`;
 FileVolume2.Tag=`lucide-file-volume-2`;
-_.FileVolume2=FileVolume2;
+__as1(_, 'FileVolume2', FileVolume2);
 if(!window.customElements.get('lucide-file-volume-2')){window.customElements.define('lucide-file-volume-2', FileVolume2);Aventus.WebComponentInstance.registerDefinition(FileVolume2);}
 
 const FileWarning = class FileWarning extends AbstractIcon {
@@ -24405,7 +24405,7 @@ const FileWarning = class FileWarning extends AbstractIcon {
 }
 FileWarning.Namespace=`Lucide`;
 FileWarning.Tag=`lucide-file-warning`;
-_.FileWarning=FileWarning;
+__as1(_, 'FileWarning', FileWarning);
 if(!window.customElements.get('lucide-file-warning')){window.customElements.define('lucide-file-warning', FileWarning);Aventus.WebComponentInstance.registerDefinition(FileWarning);}
 
 const FileX = class FileX extends AbstractIcon {
@@ -24429,7 +24429,7 @@ const FileX = class FileX extends AbstractIcon {
 }
 FileX.Namespace=`Lucide`;
 FileX.Tag=`lucide-file-x`;
-_.FileX=FileX;
+__as1(_, 'FileX', FileX);
 if(!window.customElements.get('lucide-file-x')){window.customElements.define('lucide-file-x', FileX);Aventus.WebComponentInstance.registerDefinition(FileX);}
 
 const FileX2 = class FileX2 extends AbstractIcon {
@@ -24453,7 +24453,7 @@ const FileX2 = class FileX2 extends AbstractIcon {
 }
 FileX2.Namespace=`Lucide`;
 FileX2.Tag=`lucide-file-x-2`;
-_.FileX2=FileX2;
+__as1(_, 'FileX2', FileX2);
 if(!window.customElements.get('lucide-file-x-2')){window.customElements.define('lucide-file-x-2', FileX2);Aventus.WebComponentInstance.registerDefinition(FileX2);}
 
 const Film = class Film extends AbstractIcon {
@@ -24477,7 +24477,7 @@ const Film = class Film extends AbstractIcon {
 }
 Film.Namespace=`Lucide`;
 Film.Tag=`lucide-film`;
-_.Film=Film;
+__as1(_, 'Film', Film);
 if(!window.customElements.get('lucide-film')){window.customElements.define('lucide-film', Film);Aventus.WebComponentInstance.registerDefinition(Film);}
 
 const Filter = class Filter extends AbstractIcon {
@@ -24501,7 +24501,7 @@ const Filter = class Filter extends AbstractIcon {
 }
 Filter.Namespace=`Lucide`;
 Filter.Tag=`lucide-filter`;
-_.Filter=Filter;
+__as1(_, 'Filter', Filter);
 if(!window.customElements.get('lucide-filter')){window.customElements.define('lucide-filter', Filter);Aventus.WebComponentInstance.registerDefinition(Filter);}
 
 const FilterX = class FilterX extends AbstractIcon {
@@ -24525,7 +24525,7 @@ const FilterX = class FilterX extends AbstractIcon {
 }
 FilterX.Namespace=`Lucide`;
 FilterX.Tag=`lucide-filter-x`;
-_.FilterX=FilterX;
+__as1(_, 'FilterX', FilterX);
 if(!window.customElements.get('lucide-filter-x')){window.customElements.define('lucide-filter-x', FilterX);Aventus.WebComponentInstance.registerDefinition(FilterX);}
 
 const Fingerprint = class Fingerprint extends AbstractIcon {
@@ -24549,7 +24549,7 @@ const Fingerprint = class Fingerprint extends AbstractIcon {
 }
 Fingerprint.Namespace=`Lucide`;
 Fingerprint.Tag=`lucide-fingerprint`;
-_.Fingerprint=Fingerprint;
+__as1(_, 'Fingerprint', Fingerprint);
 if(!window.customElements.get('lucide-fingerprint')){window.customElements.define('lucide-fingerprint', Fingerprint);Aventus.WebComponentInstance.registerDefinition(Fingerprint);}
 
 const FireExtinguisher = class FireExtinguisher extends AbstractIcon {
@@ -24573,7 +24573,7 @@ const FireExtinguisher = class FireExtinguisher extends AbstractIcon {
 }
 FireExtinguisher.Namespace=`Lucide`;
 FireExtinguisher.Tag=`lucide-fire-extinguisher`;
-_.FireExtinguisher=FireExtinguisher;
+__as1(_, 'FireExtinguisher', FireExtinguisher);
 if(!window.customElements.get('lucide-fire-extinguisher')){window.customElements.define('lucide-fire-extinguisher', FireExtinguisher);Aventus.WebComponentInstance.registerDefinition(FireExtinguisher);}
 
 const Fish = class Fish extends AbstractIcon {
@@ -24597,7 +24597,7 @@ const Fish = class Fish extends AbstractIcon {
 }
 Fish.Namespace=`Lucide`;
 Fish.Tag=`lucide-fish`;
-_.Fish=Fish;
+__as1(_, 'Fish', Fish);
 if(!window.customElements.get('lucide-fish')){window.customElements.define('lucide-fish', Fish);Aventus.WebComponentInstance.registerDefinition(Fish);}
 
 const FishOff = class FishOff extends AbstractIcon {
@@ -24621,7 +24621,7 @@ const FishOff = class FishOff extends AbstractIcon {
 }
 FishOff.Namespace=`Lucide`;
 FishOff.Tag=`lucide-fish-off`;
-_.FishOff=FishOff;
+__as1(_, 'FishOff', FishOff);
 if(!window.customElements.get('lucide-fish-off')){window.customElements.define('lucide-fish-off', FishOff);Aventus.WebComponentInstance.registerDefinition(FishOff);}
 
 const FishSymbol = class FishSymbol extends AbstractIcon {
@@ -24645,7 +24645,7 @@ const FishSymbol = class FishSymbol extends AbstractIcon {
 }
 FishSymbol.Namespace=`Lucide`;
 FishSymbol.Tag=`lucide-fish-symbol`;
-_.FishSymbol=FishSymbol;
+__as1(_, 'FishSymbol', FishSymbol);
 if(!window.customElements.get('lucide-fish-symbol')){window.customElements.define('lucide-fish-symbol', FishSymbol);Aventus.WebComponentInstance.registerDefinition(FishSymbol);}
 
 const Flag = class Flag extends AbstractIcon {
@@ -24669,7 +24669,7 @@ const Flag = class Flag extends AbstractIcon {
 }
 Flag.Namespace=`Lucide`;
 Flag.Tag=`lucide-flag`;
-_.Flag=Flag;
+__as1(_, 'Flag', Flag);
 if(!window.customElements.get('lucide-flag')){window.customElements.define('lucide-flag', Flag);Aventus.WebComponentInstance.registerDefinition(Flag);}
 
 const FlagOff = class FlagOff extends AbstractIcon {
@@ -24693,7 +24693,7 @@ const FlagOff = class FlagOff extends AbstractIcon {
 }
 FlagOff.Namespace=`Lucide`;
 FlagOff.Tag=`lucide-flag-off`;
-_.FlagOff=FlagOff;
+__as1(_, 'FlagOff', FlagOff);
 if(!window.customElements.get('lucide-flag-off')){window.customElements.define('lucide-flag-off', FlagOff);Aventus.WebComponentInstance.registerDefinition(FlagOff);}
 
 const FlagTriangleLeft = class FlagTriangleLeft extends AbstractIcon {
@@ -24717,7 +24717,7 @@ const FlagTriangleLeft = class FlagTriangleLeft extends AbstractIcon {
 }
 FlagTriangleLeft.Namespace=`Lucide`;
 FlagTriangleLeft.Tag=`lucide-flag-triangle-left`;
-_.FlagTriangleLeft=FlagTriangleLeft;
+__as1(_, 'FlagTriangleLeft', FlagTriangleLeft);
 if(!window.customElements.get('lucide-flag-triangle-left')){window.customElements.define('lucide-flag-triangle-left', FlagTriangleLeft);Aventus.WebComponentInstance.registerDefinition(FlagTriangleLeft);}
 
 const FlagTriangleRight = class FlagTriangleRight extends AbstractIcon {
@@ -24741,7 +24741,7 @@ const FlagTriangleRight = class FlagTriangleRight extends AbstractIcon {
 }
 FlagTriangleRight.Namespace=`Lucide`;
 FlagTriangleRight.Tag=`lucide-flag-triangle-right`;
-_.FlagTriangleRight=FlagTriangleRight;
+__as1(_, 'FlagTriangleRight', FlagTriangleRight);
 if(!window.customElements.get('lucide-flag-triangle-right')){window.customElements.define('lucide-flag-triangle-right', FlagTriangleRight);Aventus.WebComponentInstance.registerDefinition(FlagTriangleRight);}
 
 const Flame = class Flame extends AbstractIcon {
@@ -24765,7 +24765,7 @@ const Flame = class Flame extends AbstractIcon {
 }
 Flame.Namespace=`Lucide`;
 Flame.Tag=`lucide-flame`;
-_.Flame=Flame;
+__as1(_, 'Flame', Flame);
 if(!window.customElements.get('lucide-flame')){window.customElements.define('lucide-flame', Flame);Aventus.WebComponentInstance.registerDefinition(Flame);}
 
 const FlameKindling = class FlameKindling extends AbstractIcon {
@@ -24789,7 +24789,7 @@ const FlameKindling = class FlameKindling extends AbstractIcon {
 }
 FlameKindling.Namespace=`Lucide`;
 FlameKindling.Tag=`lucide-flame-kindling`;
-_.FlameKindling=FlameKindling;
+__as1(_, 'FlameKindling', FlameKindling);
 if(!window.customElements.get('lucide-flame-kindling')){window.customElements.define('lucide-flame-kindling', FlameKindling);Aventus.WebComponentInstance.registerDefinition(FlameKindling);}
 
 const Flashlight = class Flashlight extends AbstractIcon {
@@ -24813,7 +24813,7 @@ const Flashlight = class Flashlight extends AbstractIcon {
 }
 Flashlight.Namespace=`Lucide`;
 Flashlight.Tag=`lucide-flashlight`;
-_.Flashlight=Flashlight;
+__as1(_, 'Flashlight', Flashlight);
 if(!window.customElements.get('lucide-flashlight')){window.customElements.define('lucide-flashlight', Flashlight);Aventus.WebComponentInstance.registerDefinition(Flashlight);}
 
 const FlashlightOff = class FlashlightOff extends AbstractIcon {
@@ -24837,7 +24837,7 @@ const FlashlightOff = class FlashlightOff extends AbstractIcon {
 }
 FlashlightOff.Namespace=`Lucide`;
 FlashlightOff.Tag=`lucide-flashlight-off`;
-_.FlashlightOff=FlashlightOff;
+__as1(_, 'FlashlightOff', FlashlightOff);
 if(!window.customElements.get('lucide-flashlight-off')){window.customElements.define('lucide-flashlight-off', FlashlightOff);Aventus.WebComponentInstance.registerDefinition(FlashlightOff);}
 
 const FlaskConical = class FlaskConical extends AbstractIcon {
@@ -24861,7 +24861,7 @@ const FlaskConical = class FlaskConical extends AbstractIcon {
 }
 FlaskConical.Namespace=`Lucide`;
 FlaskConical.Tag=`lucide-flask-conical`;
-_.FlaskConical=FlaskConical;
+__as1(_, 'FlaskConical', FlaskConical);
 if(!window.customElements.get('lucide-flask-conical')){window.customElements.define('lucide-flask-conical', FlaskConical);Aventus.WebComponentInstance.registerDefinition(FlaskConical);}
 
 const FlaskConicalOff = class FlaskConicalOff extends AbstractIcon {
@@ -24885,7 +24885,7 @@ const FlaskConicalOff = class FlaskConicalOff extends AbstractIcon {
 }
 FlaskConicalOff.Namespace=`Lucide`;
 FlaskConicalOff.Tag=`lucide-flask-conical-off`;
-_.FlaskConicalOff=FlaskConicalOff;
+__as1(_, 'FlaskConicalOff', FlaskConicalOff);
 if(!window.customElements.get('lucide-flask-conical-off')){window.customElements.define('lucide-flask-conical-off', FlaskConicalOff);Aventus.WebComponentInstance.registerDefinition(FlaskConicalOff);}
 
 const FlaskRound = class FlaskRound extends AbstractIcon {
@@ -24909,7 +24909,7 @@ const FlaskRound = class FlaskRound extends AbstractIcon {
 }
 FlaskRound.Namespace=`Lucide`;
 FlaskRound.Tag=`lucide-flask-round`;
-_.FlaskRound=FlaskRound;
+__as1(_, 'FlaskRound', FlaskRound);
 if(!window.customElements.get('lucide-flask-round')){window.customElements.define('lucide-flask-round', FlaskRound);Aventus.WebComponentInstance.registerDefinition(FlaskRound);}
 
 const FlipHorizontal = class FlipHorizontal extends AbstractIcon {
@@ -24933,7 +24933,7 @@ const FlipHorizontal = class FlipHorizontal extends AbstractIcon {
 }
 FlipHorizontal.Namespace=`Lucide`;
 FlipHorizontal.Tag=`lucide-flip-horizontal`;
-_.FlipHorizontal=FlipHorizontal;
+__as1(_, 'FlipHorizontal', FlipHorizontal);
 if(!window.customElements.get('lucide-flip-horizontal')){window.customElements.define('lucide-flip-horizontal', FlipHorizontal);Aventus.WebComponentInstance.registerDefinition(FlipHorizontal);}
 
 const FlipHorizontal2 = class FlipHorizontal2 extends AbstractIcon {
@@ -24957,7 +24957,7 @@ const FlipHorizontal2 = class FlipHorizontal2 extends AbstractIcon {
 }
 FlipHorizontal2.Namespace=`Lucide`;
 FlipHorizontal2.Tag=`lucide-flip-horizontal-2`;
-_.FlipHorizontal2=FlipHorizontal2;
+__as1(_, 'FlipHorizontal2', FlipHorizontal2);
 if(!window.customElements.get('lucide-flip-horizontal-2')){window.customElements.define('lucide-flip-horizontal-2', FlipHorizontal2);Aventus.WebComponentInstance.registerDefinition(FlipHorizontal2);}
 
 const FlipVertical = class FlipVertical extends AbstractIcon {
@@ -24981,7 +24981,7 @@ const FlipVertical = class FlipVertical extends AbstractIcon {
 }
 FlipVertical.Namespace=`Lucide`;
 FlipVertical.Tag=`lucide-flip-vertical`;
-_.FlipVertical=FlipVertical;
+__as1(_, 'FlipVertical', FlipVertical);
 if(!window.customElements.get('lucide-flip-vertical')){window.customElements.define('lucide-flip-vertical', FlipVertical);Aventus.WebComponentInstance.registerDefinition(FlipVertical);}
 
 const FlipVertical2 = class FlipVertical2 extends AbstractIcon {
@@ -25005,7 +25005,7 @@ const FlipVertical2 = class FlipVertical2 extends AbstractIcon {
 }
 FlipVertical2.Namespace=`Lucide`;
 FlipVertical2.Tag=`lucide-flip-vertical-2`;
-_.FlipVertical2=FlipVertical2;
+__as1(_, 'FlipVertical2', FlipVertical2);
 if(!window.customElements.get('lucide-flip-vertical-2')){window.customElements.define('lucide-flip-vertical-2', FlipVertical2);Aventus.WebComponentInstance.registerDefinition(FlipVertical2);}
 
 const Flower = class Flower extends AbstractIcon {
@@ -25029,7 +25029,7 @@ const Flower = class Flower extends AbstractIcon {
 }
 Flower.Namespace=`Lucide`;
 Flower.Tag=`lucide-flower`;
-_.Flower=Flower;
+__as1(_, 'Flower', Flower);
 if(!window.customElements.get('lucide-flower')){window.customElements.define('lucide-flower', Flower);Aventus.WebComponentInstance.registerDefinition(Flower);}
 
 const Flower2 = class Flower2 extends AbstractIcon {
@@ -25053,7 +25053,7 @@ const Flower2 = class Flower2 extends AbstractIcon {
 }
 Flower2.Namespace=`Lucide`;
 Flower2.Tag=`lucide-flower-2`;
-_.Flower2=Flower2;
+__as1(_, 'Flower2', Flower2);
 if(!window.customElements.get('lucide-flower-2')){window.customElements.define('lucide-flower-2', Flower2);Aventus.WebComponentInstance.registerDefinition(Flower2);}
 
 const Focus = class Focus extends AbstractIcon {
@@ -25077,7 +25077,7 @@ const Focus = class Focus extends AbstractIcon {
 }
 Focus.Namespace=`Lucide`;
 Focus.Tag=`lucide-focus`;
-_.Focus=Focus;
+__as1(_, 'Focus', Focus);
 if(!window.customElements.get('lucide-focus')){window.customElements.define('lucide-focus', Focus);Aventus.WebComponentInstance.registerDefinition(Focus);}
 
 const Folder = class Folder extends AbstractIcon {
@@ -25101,7 +25101,7 @@ const Folder = class Folder extends AbstractIcon {
 }
 Folder.Namespace=`Lucide`;
 Folder.Tag=`lucide-folder`;
-_.Folder=Folder;
+__as1(_, 'Folder', Folder);
 if(!window.customElements.get('lucide-folder')){window.customElements.define('lucide-folder', Folder);Aventus.WebComponentInstance.registerDefinition(Folder);}
 
 const FolderArchive = class FolderArchive extends AbstractIcon {
@@ -25125,7 +25125,7 @@ const FolderArchive = class FolderArchive extends AbstractIcon {
 }
 FolderArchive.Namespace=`Lucide`;
 FolderArchive.Tag=`lucide-folder-archive`;
-_.FolderArchive=FolderArchive;
+__as1(_, 'FolderArchive', FolderArchive);
 if(!window.customElements.get('lucide-folder-archive')){window.customElements.define('lucide-folder-archive', FolderArchive);Aventus.WebComponentInstance.registerDefinition(FolderArchive);}
 
 const FolderCheck = class FolderCheck extends AbstractIcon {
@@ -25149,7 +25149,7 @@ const FolderCheck = class FolderCheck extends AbstractIcon {
 }
 FolderCheck.Namespace=`Lucide`;
 FolderCheck.Tag=`lucide-folder-check`;
-_.FolderCheck=FolderCheck;
+__as1(_, 'FolderCheck', FolderCheck);
 if(!window.customElements.get('lucide-folder-check')){window.customElements.define('lucide-folder-check', FolderCheck);Aventus.WebComponentInstance.registerDefinition(FolderCheck);}
 
 const FolderClock = class FolderClock extends AbstractIcon {
@@ -25173,7 +25173,7 @@ const FolderClock = class FolderClock extends AbstractIcon {
 }
 FolderClock.Namespace=`Lucide`;
 FolderClock.Tag=`lucide-folder-clock`;
-_.FolderClock=FolderClock;
+__as1(_, 'FolderClock', FolderClock);
 if(!window.customElements.get('lucide-folder-clock')){window.customElements.define('lucide-folder-clock', FolderClock);Aventus.WebComponentInstance.registerDefinition(FolderClock);}
 
 const FolderClosed = class FolderClosed extends AbstractIcon {
@@ -25197,7 +25197,7 @@ const FolderClosed = class FolderClosed extends AbstractIcon {
 }
 FolderClosed.Namespace=`Lucide`;
 FolderClosed.Tag=`lucide-folder-closed`;
-_.FolderClosed=FolderClosed;
+__as1(_, 'FolderClosed', FolderClosed);
 if(!window.customElements.get('lucide-folder-closed')){window.customElements.define('lucide-folder-closed', FolderClosed);Aventus.WebComponentInstance.registerDefinition(FolderClosed);}
 
 const FolderCode = class FolderCode extends AbstractIcon {
@@ -25221,7 +25221,7 @@ const FolderCode = class FolderCode extends AbstractIcon {
 }
 FolderCode.Namespace=`Lucide`;
 FolderCode.Tag=`lucide-folder-code`;
-_.FolderCode=FolderCode;
+__as1(_, 'FolderCode', FolderCode);
 if(!window.customElements.get('lucide-folder-code')){window.customElements.define('lucide-folder-code', FolderCode);Aventus.WebComponentInstance.registerDefinition(FolderCode);}
 
 const FolderCog = class FolderCog extends AbstractIcon {
@@ -25245,7 +25245,7 @@ const FolderCog = class FolderCog extends AbstractIcon {
 }
 FolderCog.Namespace=`Lucide`;
 FolderCog.Tag=`lucide-folder-cog`;
-_.FolderCog=FolderCog;
+__as1(_, 'FolderCog', FolderCog);
 if(!window.customElements.get('lucide-folder-cog')){window.customElements.define('lucide-folder-cog', FolderCog);Aventus.WebComponentInstance.registerDefinition(FolderCog);}
 
 const FolderCog2 = class FolderCog2 extends AbstractIcon {
@@ -25269,7 +25269,7 @@ const FolderCog2 = class FolderCog2 extends AbstractIcon {
 }
 FolderCog2.Namespace=`Lucide`;
 FolderCog2.Tag=`lucide-folder-cog-2`;
-_.FolderCog2=FolderCog2;
+__as1(_, 'FolderCog2', FolderCog2);
 if(!window.customElements.get('lucide-folder-cog-2')){window.customElements.define('lucide-folder-cog-2', FolderCog2);Aventus.WebComponentInstance.registerDefinition(FolderCog2);}
 
 const FolderDot = class FolderDot extends AbstractIcon {
@@ -25293,7 +25293,7 @@ const FolderDot = class FolderDot extends AbstractIcon {
 }
 FolderDot.Namespace=`Lucide`;
 FolderDot.Tag=`lucide-folder-dot`;
-_.FolderDot=FolderDot;
+__as1(_, 'FolderDot', FolderDot);
 if(!window.customElements.get('lucide-folder-dot')){window.customElements.define('lucide-folder-dot', FolderDot);Aventus.WebComponentInstance.registerDefinition(FolderDot);}
 
 const FolderDown = class FolderDown extends AbstractIcon {
@@ -25317,7 +25317,7 @@ const FolderDown = class FolderDown extends AbstractIcon {
 }
 FolderDown.Namespace=`Lucide`;
 FolderDown.Tag=`lucide-folder-down`;
-_.FolderDown=FolderDown;
+__as1(_, 'FolderDown', FolderDown);
 if(!window.customElements.get('lucide-folder-down')){window.customElements.define('lucide-folder-down', FolderDown);Aventus.WebComponentInstance.registerDefinition(FolderDown);}
 
 const FolderEdit = class FolderEdit extends AbstractIcon {
@@ -25341,7 +25341,7 @@ const FolderEdit = class FolderEdit extends AbstractIcon {
 }
 FolderEdit.Namespace=`Lucide`;
 FolderEdit.Tag=`lucide-folder-edit`;
-_.FolderEdit=FolderEdit;
+__as1(_, 'FolderEdit', FolderEdit);
 if(!window.customElements.get('lucide-folder-edit')){window.customElements.define('lucide-folder-edit', FolderEdit);Aventus.WebComponentInstance.registerDefinition(FolderEdit);}
 
 const FolderGit = class FolderGit extends AbstractIcon {
@@ -25365,7 +25365,7 @@ const FolderGit = class FolderGit extends AbstractIcon {
 }
 FolderGit.Namespace=`Lucide`;
 FolderGit.Tag=`lucide-folder-git`;
-_.FolderGit=FolderGit;
+__as1(_, 'FolderGit', FolderGit);
 if(!window.customElements.get('lucide-folder-git')){window.customElements.define('lucide-folder-git', FolderGit);Aventus.WebComponentInstance.registerDefinition(FolderGit);}
 
 const FolderGit2 = class FolderGit2 extends AbstractIcon {
@@ -25389,7 +25389,7 @@ const FolderGit2 = class FolderGit2 extends AbstractIcon {
 }
 FolderGit2.Namespace=`Lucide`;
 FolderGit2.Tag=`lucide-folder-git-2`;
-_.FolderGit2=FolderGit2;
+__as1(_, 'FolderGit2', FolderGit2);
 if(!window.customElements.get('lucide-folder-git-2')){window.customElements.define('lucide-folder-git-2', FolderGit2);Aventus.WebComponentInstance.registerDefinition(FolderGit2);}
 
 const FolderHeart = class FolderHeart extends AbstractIcon {
@@ -25413,7 +25413,7 @@ const FolderHeart = class FolderHeart extends AbstractIcon {
 }
 FolderHeart.Namespace=`Lucide`;
 FolderHeart.Tag=`lucide-folder-heart`;
-_.FolderHeart=FolderHeart;
+__as1(_, 'FolderHeart', FolderHeart);
 if(!window.customElements.get('lucide-folder-heart')){window.customElements.define('lucide-folder-heart', FolderHeart);Aventus.WebComponentInstance.registerDefinition(FolderHeart);}
 
 const FolderInput = class FolderInput extends AbstractIcon {
@@ -25437,7 +25437,7 @@ const FolderInput = class FolderInput extends AbstractIcon {
 }
 FolderInput.Namespace=`Lucide`;
 FolderInput.Tag=`lucide-folder-input`;
-_.FolderInput=FolderInput;
+__as1(_, 'FolderInput', FolderInput);
 if(!window.customElements.get('lucide-folder-input')){window.customElements.define('lucide-folder-input', FolderInput);Aventus.WebComponentInstance.registerDefinition(FolderInput);}
 
 const FolderKanban = class FolderKanban extends AbstractIcon {
@@ -25461,7 +25461,7 @@ const FolderKanban = class FolderKanban extends AbstractIcon {
 }
 FolderKanban.Namespace=`Lucide`;
 FolderKanban.Tag=`lucide-folder-kanban`;
-_.FolderKanban=FolderKanban;
+__as1(_, 'FolderKanban', FolderKanban);
 if(!window.customElements.get('lucide-folder-kanban')){window.customElements.define('lucide-folder-kanban', FolderKanban);Aventus.WebComponentInstance.registerDefinition(FolderKanban);}
 
 const FolderKey = class FolderKey extends AbstractIcon {
@@ -25485,7 +25485,7 @@ const FolderKey = class FolderKey extends AbstractIcon {
 }
 FolderKey.Namespace=`Lucide`;
 FolderKey.Tag=`lucide-folder-key`;
-_.FolderKey=FolderKey;
+__as1(_, 'FolderKey', FolderKey);
 if(!window.customElements.get('lucide-folder-key')){window.customElements.define('lucide-folder-key', FolderKey);Aventus.WebComponentInstance.registerDefinition(FolderKey);}
 
 const FolderLock = class FolderLock extends AbstractIcon {
@@ -25509,7 +25509,7 @@ const FolderLock = class FolderLock extends AbstractIcon {
 }
 FolderLock.Namespace=`Lucide`;
 FolderLock.Tag=`lucide-folder-lock`;
-_.FolderLock=FolderLock;
+__as1(_, 'FolderLock', FolderLock);
 if(!window.customElements.get('lucide-folder-lock')){window.customElements.define('lucide-folder-lock', FolderLock);Aventus.WebComponentInstance.registerDefinition(FolderLock);}
 
 const FolderMinus = class FolderMinus extends AbstractIcon {
@@ -25533,7 +25533,7 @@ const FolderMinus = class FolderMinus extends AbstractIcon {
 }
 FolderMinus.Namespace=`Lucide`;
 FolderMinus.Tag=`lucide-folder-minus`;
-_.FolderMinus=FolderMinus;
+__as1(_, 'FolderMinus', FolderMinus);
 if(!window.customElements.get('lucide-folder-minus')){window.customElements.define('lucide-folder-minus', FolderMinus);Aventus.WebComponentInstance.registerDefinition(FolderMinus);}
 
 const FolderOpen = class FolderOpen extends AbstractIcon {
@@ -25557,7 +25557,7 @@ const FolderOpen = class FolderOpen extends AbstractIcon {
 }
 FolderOpen.Namespace=`Lucide`;
 FolderOpen.Tag=`lucide-folder-open`;
-_.FolderOpen=FolderOpen;
+__as1(_, 'FolderOpen', FolderOpen);
 if(!window.customElements.get('lucide-folder-open')){window.customElements.define('lucide-folder-open', FolderOpen);Aventus.WebComponentInstance.registerDefinition(FolderOpen);}
 
 const FolderOpenDot = class FolderOpenDot extends AbstractIcon {
@@ -25581,7 +25581,7 @@ const FolderOpenDot = class FolderOpenDot extends AbstractIcon {
 }
 FolderOpenDot.Namespace=`Lucide`;
 FolderOpenDot.Tag=`lucide-folder-open-dot`;
-_.FolderOpenDot=FolderOpenDot;
+__as1(_, 'FolderOpenDot', FolderOpenDot);
 if(!window.customElements.get('lucide-folder-open-dot')){window.customElements.define('lucide-folder-open-dot', FolderOpenDot);Aventus.WebComponentInstance.registerDefinition(FolderOpenDot);}
 
 const FolderOutput = class FolderOutput extends AbstractIcon {
@@ -25605,7 +25605,7 @@ const FolderOutput = class FolderOutput extends AbstractIcon {
 }
 FolderOutput.Namespace=`Lucide`;
 FolderOutput.Tag=`lucide-folder-output`;
-_.FolderOutput=FolderOutput;
+__as1(_, 'FolderOutput', FolderOutput);
 if(!window.customElements.get('lucide-folder-output')){window.customElements.define('lucide-folder-output', FolderOutput);Aventus.WebComponentInstance.registerDefinition(FolderOutput);}
 
 const FolderPen = class FolderPen extends AbstractIcon {
@@ -25629,7 +25629,7 @@ const FolderPen = class FolderPen extends AbstractIcon {
 }
 FolderPen.Namespace=`Lucide`;
 FolderPen.Tag=`lucide-folder-pen`;
-_.FolderPen=FolderPen;
+__as1(_, 'FolderPen', FolderPen);
 if(!window.customElements.get('lucide-folder-pen')){window.customElements.define('lucide-folder-pen', FolderPen);Aventus.WebComponentInstance.registerDefinition(FolderPen);}
 
 const FolderPlus = class FolderPlus extends AbstractIcon {
@@ -25653,7 +25653,7 @@ const FolderPlus = class FolderPlus extends AbstractIcon {
 }
 FolderPlus.Namespace=`Lucide`;
 FolderPlus.Tag=`lucide-folder-plus`;
-_.FolderPlus=FolderPlus;
+__as1(_, 'FolderPlus', FolderPlus);
 if(!window.customElements.get('lucide-folder-plus')){window.customElements.define('lucide-folder-plus', FolderPlus);Aventus.WebComponentInstance.registerDefinition(FolderPlus);}
 
 const FolderRoot = class FolderRoot extends AbstractIcon {
@@ -25677,7 +25677,7 @@ const FolderRoot = class FolderRoot extends AbstractIcon {
 }
 FolderRoot.Namespace=`Lucide`;
 FolderRoot.Tag=`lucide-folder-root`;
-_.FolderRoot=FolderRoot;
+__as1(_, 'FolderRoot', FolderRoot);
 if(!window.customElements.get('lucide-folder-root')){window.customElements.define('lucide-folder-root', FolderRoot);Aventus.WebComponentInstance.registerDefinition(FolderRoot);}
 
 const Folders = class Folders extends AbstractIcon {
@@ -25701,7 +25701,7 @@ const Folders = class Folders extends AbstractIcon {
 }
 Folders.Namespace=`Lucide`;
 Folders.Tag=`lucide-folders`;
-_.Folders=Folders;
+__as1(_, 'Folders', Folders);
 if(!window.customElements.get('lucide-folders')){window.customElements.define('lucide-folders', Folders);Aventus.WebComponentInstance.registerDefinition(Folders);}
 
 const FolderSearch = class FolderSearch extends AbstractIcon {
@@ -25725,7 +25725,7 @@ const FolderSearch = class FolderSearch extends AbstractIcon {
 }
 FolderSearch.Namespace=`Lucide`;
 FolderSearch.Tag=`lucide-folder-search`;
-_.FolderSearch=FolderSearch;
+__as1(_, 'FolderSearch', FolderSearch);
 if(!window.customElements.get('lucide-folder-search')){window.customElements.define('lucide-folder-search', FolderSearch);Aventus.WebComponentInstance.registerDefinition(FolderSearch);}
 
 const FolderSearch2 = class FolderSearch2 extends AbstractIcon {
@@ -25749,7 +25749,7 @@ const FolderSearch2 = class FolderSearch2 extends AbstractIcon {
 }
 FolderSearch2.Namespace=`Lucide`;
 FolderSearch2.Tag=`lucide-folder-search-2`;
-_.FolderSearch2=FolderSearch2;
+__as1(_, 'FolderSearch2', FolderSearch2);
 if(!window.customElements.get('lucide-folder-search-2')){window.customElements.define('lucide-folder-search-2', FolderSearch2);Aventus.WebComponentInstance.registerDefinition(FolderSearch2);}
 
 const FolderSymlink = class FolderSymlink extends AbstractIcon {
@@ -25773,7 +25773,7 @@ const FolderSymlink = class FolderSymlink extends AbstractIcon {
 }
 FolderSymlink.Namespace=`Lucide`;
 FolderSymlink.Tag=`lucide-folder-symlink`;
-_.FolderSymlink=FolderSymlink;
+__as1(_, 'FolderSymlink', FolderSymlink);
 if(!window.customElements.get('lucide-folder-symlink')){window.customElements.define('lucide-folder-symlink', FolderSymlink);Aventus.WebComponentInstance.registerDefinition(FolderSymlink);}
 
 const FolderSync = class FolderSync extends AbstractIcon {
@@ -25797,7 +25797,7 @@ const FolderSync = class FolderSync extends AbstractIcon {
 }
 FolderSync.Namespace=`Lucide`;
 FolderSync.Tag=`lucide-folder-sync`;
-_.FolderSync=FolderSync;
+__as1(_, 'FolderSync', FolderSync);
 if(!window.customElements.get('lucide-folder-sync')){window.customElements.define('lucide-folder-sync', FolderSync);Aventus.WebComponentInstance.registerDefinition(FolderSync);}
 
 const FolderTree = class FolderTree extends AbstractIcon {
@@ -25821,7 +25821,7 @@ const FolderTree = class FolderTree extends AbstractIcon {
 }
 FolderTree.Namespace=`Lucide`;
 FolderTree.Tag=`lucide-folder-tree`;
-_.FolderTree=FolderTree;
+__as1(_, 'FolderTree', FolderTree);
 if(!window.customElements.get('lucide-folder-tree')){window.customElements.define('lucide-folder-tree', FolderTree);Aventus.WebComponentInstance.registerDefinition(FolderTree);}
 
 const FolderUp = class FolderUp extends AbstractIcon {
@@ -25845,7 +25845,7 @@ const FolderUp = class FolderUp extends AbstractIcon {
 }
 FolderUp.Namespace=`Lucide`;
 FolderUp.Tag=`lucide-folder-up`;
-_.FolderUp=FolderUp;
+__as1(_, 'FolderUp', FolderUp);
 if(!window.customElements.get('lucide-folder-up')){window.customElements.define('lucide-folder-up', FolderUp);Aventus.WebComponentInstance.registerDefinition(FolderUp);}
 
 const FolderX = class FolderX extends AbstractIcon {
@@ -25869,7 +25869,7 @@ const FolderX = class FolderX extends AbstractIcon {
 }
 FolderX.Namespace=`Lucide`;
 FolderX.Tag=`lucide-folder-x`;
-_.FolderX=FolderX;
+__as1(_, 'FolderX', FolderX);
 if(!window.customElements.get('lucide-folder-x')){window.customElements.define('lucide-folder-x', FolderX);Aventus.WebComponentInstance.registerDefinition(FolderX);}
 
 const FoldHorizontal = class FoldHorizontal extends AbstractIcon {
@@ -25893,7 +25893,7 @@ const FoldHorizontal = class FoldHorizontal extends AbstractIcon {
 }
 FoldHorizontal.Namespace=`Lucide`;
 FoldHorizontal.Tag=`lucide-fold-horizontal`;
-_.FoldHorizontal=FoldHorizontal;
+__as1(_, 'FoldHorizontal', FoldHorizontal);
 if(!window.customElements.get('lucide-fold-horizontal')){window.customElements.define('lucide-fold-horizontal', FoldHorizontal);Aventus.WebComponentInstance.registerDefinition(FoldHorizontal);}
 
 const FoldVertical = class FoldVertical extends AbstractIcon {
@@ -25917,7 +25917,7 @@ const FoldVertical = class FoldVertical extends AbstractIcon {
 }
 FoldVertical.Namespace=`Lucide`;
 FoldVertical.Tag=`lucide-fold-vertical`;
-_.FoldVertical=FoldVertical;
+__as1(_, 'FoldVertical', FoldVertical);
 if(!window.customElements.get('lucide-fold-vertical')){window.customElements.define('lucide-fold-vertical', FoldVertical);Aventus.WebComponentInstance.registerDefinition(FoldVertical);}
 
 const Footprints = class Footprints extends AbstractIcon {
@@ -25941,7 +25941,7 @@ const Footprints = class Footprints extends AbstractIcon {
 }
 Footprints.Namespace=`Lucide`;
 Footprints.Tag=`lucide-footprints`;
-_.Footprints=Footprints;
+__as1(_, 'Footprints', Footprints);
 if(!window.customElements.get('lucide-footprints')){window.customElements.define('lucide-footprints', Footprints);Aventus.WebComponentInstance.registerDefinition(Footprints);}
 
 const ForkKnife = class ForkKnife extends AbstractIcon {
@@ -25965,7 +25965,7 @@ const ForkKnife = class ForkKnife extends AbstractIcon {
 }
 ForkKnife.Namespace=`Lucide`;
 ForkKnife.Tag=`lucide-fork-knife`;
-_.ForkKnife=ForkKnife;
+__as1(_, 'ForkKnife', ForkKnife);
 if(!window.customElements.get('lucide-fork-knife')){window.customElements.define('lucide-fork-knife', ForkKnife);Aventus.WebComponentInstance.registerDefinition(ForkKnife);}
 
 const ForkKnifeCrossed = class ForkKnifeCrossed extends AbstractIcon {
@@ -25989,7 +25989,7 @@ const ForkKnifeCrossed = class ForkKnifeCrossed extends AbstractIcon {
 }
 ForkKnifeCrossed.Namespace=`Lucide`;
 ForkKnifeCrossed.Tag=`lucide-fork-knife-crossed`;
-_.ForkKnifeCrossed=ForkKnifeCrossed;
+__as1(_, 'ForkKnifeCrossed', ForkKnifeCrossed);
 if(!window.customElements.get('lucide-fork-knife-crossed')){window.customElements.define('lucide-fork-knife-crossed', ForkKnifeCrossed);Aventus.WebComponentInstance.registerDefinition(ForkKnifeCrossed);}
 
 const Forklift = class Forklift extends AbstractIcon {
@@ -26013,7 +26013,7 @@ const Forklift = class Forklift extends AbstractIcon {
 }
 Forklift.Namespace=`Lucide`;
 Forklift.Tag=`lucide-forklift`;
-_.Forklift=Forklift;
+__as1(_, 'Forklift', Forklift);
 if(!window.customElements.get('lucide-forklift')){window.customElements.define('lucide-forklift', Forklift);Aventus.WebComponentInstance.registerDefinition(Forklift);}
 
 const FormInput = class FormInput extends AbstractIcon {
@@ -26037,7 +26037,7 @@ const FormInput = class FormInput extends AbstractIcon {
 }
 FormInput.Namespace=`Lucide`;
 FormInput.Tag=`lucide-form-input`;
-_.FormInput=FormInput;
+__as1(_, 'FormInput', FormInput);
 if(!window.customElements.get('lucide-form-input')){window.customElements.define('lucide-form-input', FormInput);Aventus.WebComponentInstance.registerDefinition(FormInput);}
 
 const Forward = class Forward extends AbstractIcon {
@@ -26061,7 +26061,7 @@ const Forward = class Forward extends AbstractIcon {
 }
 Forward.Namespace=`Lucide`;
 Forward.Tag=`lucide-forward`;
-_.Forward=Forward;
+__as1(_, 'Forward', Forward);
 if(!window.customElements.get('lucide-forward')){window.customElements.define('lucide-forward', Forward);Aventus.WebComponentInstance.registerDefinition(Forward);}
 
 const Frame = class Frame extends AbstractIcon {
@@ -26085,7 +26085,7 @@ const Frame = class Frame extends AbstractIcon {
 }
 Frame.Namespace=`Lucide`;
 Frame.Tag=`lucide-frame`;
-_.Frame=Frame;
+__as1(_, 'Frame', Frame);
 if(!window.customElements.get('lucide-frame')){window.customElements.define('lucide-frame', Frame);Aventus.WebComponentInstance.registerDefinition(Frame);}
 
 const Framer = class Framer extends AbstractIcon {
@@ -26109,7 +26109,7 @@ const Framer = class Framer extends AbstractIcon {
 }
 Framer.Namespace=`Lucide`;
 Framer.Tag=`lucide-framer`;
-_.Framer=Framer;
+__as1(_, 'Framer', Framer);
 if(!window.customElements.get('lucide-framer')){window.customElements.define('lucide-framer', Framer);Aventus.WebComponentInstance.registerDefinition(Framer);}
 
 const Frown = class Frown extends AbstractIcon {
@@ -26133,7 +26133,7 @@ const Frown = class Frown extends AbstractIcon {
 }
 Frown.Namespace=`Lucide`;
 Frown.Tag=`lucide-frown`;
-_.Frown=Frown;
+__as1(_, 'Frown', Frown);
 if(!window.customElements.get('lucide-frown')){window.customElements.define('lucide-frown', Frown);Aventus.WebComponentInstance.registerDefinition(Frown);}
 
 const Fuel = class Fuel extends AbstractIcon {
@@ -26157,7 +26157,7 @@ const Fuel = class Fuel extends AbstractIcon {
 }
 Fuel.Namespace=`Lucide`;
 Fuel.Tag=`lucide-fuel`;
-_.Fuel=Fuel;
+__as1(_, 'Fuel', Fuel);
 if(!window.customElements.get('lucide-fuel')){window.customElements.define('lucide-fuel', Fuel);Aventus.WebComponentInstance.registerDefinition(Fuel);}
 
 const Fullscreen = class Fullscreen extends AbstractIcon {
@@ -26181,7 +26181,7 @@ const Fullscreen = class Fullscreen extends AbstractIcon {
 }
 Fullscreen.Namespace=`Lucide`;
 Fullscreen.Tag=`lucide-fullscreen`;
-_.Fullscreen=Fullscreen;
+__as1(_, 'Fullscreen', Fullscreen);
 if(!window.customElements.get('lucide-fullscreen')){window.customElements.define('lucide-fullscreen', Fullscreen);Aventus.WebComponentInstance.registerDefinition(Fullscreen);}
 
 const FunctionSquare = class FunctionSquare extends AbstractIcon {
@@ -26205,7 +26205,7 @@ const FunctionSquare = class FunctionSquare extends AbstractIcon {
 }
 FunctionSquare.Namespace=`Lucide`;
 FunctionSquare.Tag=`lucide-function-square`;
-_.FunctionSquare=FunctionSquare;
+__as1(_, 'FunctionSquare', FunctionSquare);
 if(!window.customElements.get('lucide-function-square')){window.customElements.define('lucide-function-square', FunctionSquare);Aventus.WebComponentInstance.registerDefinition(FunctionSquare);}
 
 const Funnel = class Funnel extends AbstractIcon {
@@ -26229,7 +26229,7 @@ const Funnel = class Funnel extends AbstractIcon {
 }
 Funnel.Namespace=`Lucide`;
 Funnel.Tag=`lucide-funnel`;
-_.Funnel=Funnel;
+__as1(_, 'Funnel', Funnel);
 if(!window.customElements.get('lucide-funnel')){window.customElements.define('lucide-funnel', Funnel);Aventus.WebComponentInstance.registerDefinition(Funnel);}
 
 const FunnelPlus = class FunnelPlus extends AbstractIcon {
@@ -26253,7 +26253,7 @@ const FunnelPlus = class FunnelPlus extends AbstractIcon {
 }
 FunnelPlus.Namespace=`Lucide`;
 FunnelPlus.Tag=`lucide-funnel-plus`;
-_.FunnelPlus=FunnelPlus;
+__as1(_, 'FunnelPlus', FunnelPlus);
 if(!window.customElements.get('lucide-funnel-plus')){window.customElements.define('lucide-funnel-plus', FunnelPlus);Aventus.WebComponentInstance.registerDefinition(FunnelPlus);}
 
 const FunnelX = class FunnelX extends AbstractIcon {
@@ -26277,7 +26277,7 @@ const FunnelX = class FunnelX extends AbstractIcon {
 }
 FunnelX.Namespace=`Lucide`;
 FunnelX.Tag=`lucide-funnel-x`;
-_.FunnelX=FunnelX;
+__as1(_, 'FunnelX', FunnelX);
 if(!window.customElements.get('lucide-funnel-x')){window.customElements.define('lucide-funnel-x', FunnelX);Aventus.WebComponentInstance.registerDefinition(FunnelX);}
 
 const GalleryHorizontal = class GalleryHorizontal extends AbstractIcon {
@@ -26301,7 +26301,7 @@ const GalleryHorizontal = class GalleryHorizontal extends AbstractIcon {
 }
 GalleryHorizontal.Namespace=`Lucide`;
 GalleryHorizontal.Tag=`lucide-gallery-horizontal`;
-_.GalleryHorizontal=GalleryHorizontal;
+__as1(_, 'GalleryHorizontal', GalleryHorizontal);
 if(!window.customElements.get('lucide-gallery-horizontal')){window.customElements.define('lucide-gallery-horizontal', GalleryHorizontal);Aventus.WebComponentInstance.registerDefinition(GalleryHorizontal);}
 
 const GalleryHorizontalEnd = class GalleryHorizontalEnd extends AbstractIcon {
@@ -26325,7 +26325,7 @@ const GalleryHorizontalEnd = class GalleryHorizontalEnd extends AbstractIcon {
 }
 GalleryHorizontalEnd.Namespace=`Lucide`;
 GalleryHorizontalEnd.Tag=`lucide-gallery-horizontal-end`;
-_.GalleryHorizontalEnd=GalleryHorizontalEnd;
+__as1(_, 'GalleryHorizontalEnd', GalleryHorizontalEnd);
 if(!window.customElements.get('lucide-gallery-horizontal-end')){window.customElements.define('lucide-gallery-horizontal-end', GalleryHorizontalEnd);Aventus.WebComponentInstance.registerDefinition(GalleryHorizontalEnd);}
 
 const GalleryThumbnails = class GalleryThumbnails extends AbstractIcon {
@@ -26349,7 +26349,7 @@ const GalleryThumbnails = class GalleryThumbnails extends AbstractIcon {
 }
 GalleryThumbnails.Namespace=`Lucide`;
 GalleryThumbnails.Tag=`lucide-gallery-thumbnails`;
-_.GalleryThumbnails=GalleryThumbnails;
+__as1(_, 'GalleryThumbnails', GalleryThumbnails);
 if(!window.customElements.get('lucide-gallery-thumbnails')){window.customElements.define('lucide-gallery-thumbnails', GalleryThumbnails);Aventus.WebComponentInstance.registerDefinition(GalleryThumbnails);}
 
 const GalleryVertical = class GalleryVertical extends AbstractIcon {
@@ -26373,7 +26373,7 @@ const GalleryVertical = class GalleryVertical extends AbstractIcon {
 }
 GalleryVertical.Namespace=`Lucide`;
 GalleryVertical.Tag=`lucide-gallery-vertical`;
-_.GalleryVertical=GalleryVertical;
+__as1(_, 'GalleryVertical', GalleryVertical);
 if(!window.customElements.get('lucide-gallery-vertical')){window.customElements.define('lucide-gallery-vertical', GalleryVertical);Aventus.WebComponentInstance.registerDefinition(GalleryVertical);}
 
 const GalleryVerticalEnd = class GalleryVerticalEnd extends AbstractIcon {
@@ -26397,7 +26397,7 @@ const GalleryVerticalEnd = class GalleryVerticalEnd extends AbstractIcon {
 }
 GalleryVerticalEnd.Namespace=`Lucide`;
 GalleryVerticalEnd.Tag=`lucide-gallery-vertical-end`;
-_.GalleryVerticalEnd=GalleryVerticalEnd;
+__as1(_, 'GalleryVerticalEnd', GalleryVerticalEnd);
 if(!window.customElements.get('lucide-gallery-vertical-end')){window.customElements.define('lucide-gallery-vertical-end', GalleryVerticalEnd);Aventus.WebComponentInstance.registerDefinition(GalleryVerticalEnd);}
 
 const Gamepad = class Gamepad extends AbstractIcon {
@@ -26421,7 +26421,7 @@ const Gamepad = class Gamepad extends AbstractIcon {
 }
 Gamepad.Namespace=`Lucide`;
 Gamepad.Tag=`lucide-gamepad`;
-_.Gamepad=Gamepad;
+__as1(_, 'Gamepad', Gamepad);
 if(!window.customElements.get('lucide-gamepad')){window.customElements.define('lucide-gamepad', Gamepad);Aventus.WebComponentInstance.registerDefinition(Gamepad);}
 
 const Gamepad2 = class Gamepad2 extends AbstractIcon {
@@ -26445,7 +26445,7 @@ const Gamepad2 = class Gamepad2 extends AbstractIcon {
 }
 Gamepad2.Namespace=`Lucide`;
 Gamepad2.Tag=`lucide-gamepad-2`;
-_.Gamepad2=Gamepad2;
+__as1(_, 'Gamepad2', Gamepad2);
 if(!window.customElements.get('lucide-gamepad-2')){window.customElements.define('lucide-gamepad-2', Gamepad2);Aventus.WebComponentInstance.registerDefinition(Gamepad2);}
 
 const GanttChart = class GanttChart extends AbstractIcon {
@@ -26469,7 +26469,7 @@ const GanttChart = class GanttChart extends AbstractIcon {
 }
 GanttChart.Namespace=`Lucide`;
 GanttChart.Tag=`lucide-gantt-chart`;
-_.GanttChart=GanttChart;
+__as1(_, 'GanttChart', GanttChart);
 if(!window.customElements.get('lucide-gantt-chart')){window.customElements.define('lucide-gantt-chart', GanttChart);Aventus.WebComponentInstance.registerDefinition(GanttChart);}
 
 const GanttChartSquare = class GanttChartSquare extends AbstractIcon {
@@ -26493,7 +26493,7 @@ const GanttChartSquare = class GanttChartSquare extends AbstractIcon {
 }
 GanttChartSquare.Namespace=`Lucide`;
 GanttChartSquare.Tag=`lucide-gantt-chart-square`;
-_.GanttChartSquare=GanttChartSquare;
+__as1(_, 'GanttChartSquare', GanttChartSquare);
 if(!window.customElements.get('lucide-gantt-chart-square')){window.customElements.define('lucide-gantt-chart-square', GanttChartSquare);Aventus.WebComponentInstance.registerDefinition(GanttChartSquare);}
 
 const Gauge = class Gauge extends AbstractIcon {
@@ -26517,7 +26517,7 @@ const Gauge = class Gauge extends AbstractIcon {
 }
 Gauge.Namespace=`Lucide`;
 Gauge.Tag=`lucide-gauge`;
-_.Gauge=Gauge;
+__as1(_, 'Gauge', Gauge);
 if(!window.customElements.get('lucide-gauge')){window.customElements.define('lucide-gauge', Gauge);Aventus.WebComponentInstance.registerDefinition(Gauge);}
 
 const GaugeCircle = class GaugeCircle extends AbstractIcon {
@@ -26541,7 +26541,7 @@ const GaugeCircle = class GaugeCircle extends AbstractIcon {
 }
 GaugeCircle.Namespace=`Lucide`;
 GaugeCircle.Tag=`lucide-gauge-circle`;
-_.GaugeCircle=GaugeCircle;
+__as1(_, 'GaugeCircle', GaugeCircle);
 if(!window.customElements.get('lucide-gauge-circle')){window.customElements.define('lucide-gauge-circle', GaugeCircle);Aventus.WebComponentInstance.registerDefinition(GaugeCircle);}
 
 const Gavel = class Gavel extends AbstractIcon {
@@ -26565,7 +26565,7 @@ const Gavel = class Gavel extends AbstractIcon {
 }
 Gavel.Namespace=`Lucide`;
 Gavel.Tag=`lucide-gavel`;
-_.Gavel=Gavel;
+__as1(_, 'Gavel', Gavel);
 if(!window.customElements.get('lucide-gavel')){window.customElements.define('lucide-gavel', Gavel);Aventus.WebComponentInstance.registerDefinition(Gavel);}
 
 const Gem = class Gem extends AbstractIcon {
@@ -26589,7 +26589,7 @@ const Gem = class Gem extends AbstractIcon {
 }
 Gem.Namespace=`Lucide`;
 Gem.Tag=`lucide-gem`;
-_.Gem=Gem;
+__as1(_, 'Gem', Gem);
 if(!window.customElements.get('lucide-gem')){window.customElements.define('lucide-gem', Gem);Aventus.WebComponentInstance.registerDefinition(Gem);}
 
 const GeorgianLari = class GeorgianLari extends AbstractIcon {
@@ -26613,7 +26613,7 @@ const GeorgianLari = class GeorgianLari extends AbstractIcon {
 }
 GeorgianLari.Namespace=`Lucide`;
 GeorgianLari.Tag=`lucide-georgian-lari`;
-_.GeorgianLari=GeorgianLari;
+__as1(_, 'GeorgianLari', GeorgianLari);
 if(!window.customElements.get('lucide-georgian-lari')){window.customElements.define('lucide-georgian-lari', GeorgianLari);Aventus.WebComponentInstance.registerDefinition(GeorgianLari);}
 
 const Ghost = class Ghost extends AbstractIcon {
@@ -26637,7 +26637,7 @@ const Ghost = class Ghost extends AbstractIcon {
 }
 Ghost.Namespace=`Lucide`;
 Ghost.Tag=`lucide-ghost`;
-_.Ghost=Ghost;
+__as1(_, 'Ghost', Ghost);
 if(!window.customElements.get('lucide-ghost')){window.customElements.define('lucide-ghost', Ghost);Aventus.WebComponentInstance.registerDefinition(Ghost);}
 
 const Gift = class Gift extends AbstractIcon {
@@ -26661,7 +26661,7 @@ const Gift = class Gift extends AbstractIcon {
 }
 Gift.Namespace=`Lucide`;
 Gift.Tag=`lucide-gift`;
-_.Gift=Gift;
+__as1(_, 'Gift', Gift);
 if(!window.customElements.get('lucide-gift')){window.customElements.define('lucide-gift', Gift);Aventus.WebComponentInstance.registerDefinition(Gift);}
 
 const GitBranch = class GitBranch extends AbstractIcon {
@@ -26685,7 +26685,7 @@ const GitBranch = class GitBranch extends AbstractIcon {
 }
 GitBranch.Namespace=`Lucide`;
 GitBranch.Tag=`lucide-git-branch`;
-_.GitBranch=GitBranch;
+__as1(_, 'GitBranch', GitBranch);
 if(!window.customElements.get('lucide-git-branch')){window.customElements.define('lucide-git-branch', GitBranch);Aventus.WebComponentInstance.registerDefinition(GitBranch);}
 
 const GitBranchPlus = class GitBranchPlus extends AbstractIcon {
@@ -26709,7 +26709,7 @@ const GitBranchPlus = class GitBranchPlus extends AbstractIcon {
 }
 GitBranchPlus.Namespace=`Lucide`;
 GitBranchPlus.Tag=`lucide-git-branch-plus`;
-_.GitBranchPlus=GitBranchPlus;
+__as1(_, 'GitBranchPlus', GitBranchPlus);
 if(!window.customElements.get('lucide-git-branch-plus')){window.customElements.define('lucide-git-branch-plus', GitBranchPlus);Aventus.WebComponentInstance.registerDefinition(GitBranchPlus);}
 
 const GitCommit = class GitCommit extends AbstractIcon {
@@ -26733,7 +26733,7 @@ const GitCommit = class GitCommit extends AbstractIcon {
 }
 GitCommit.Namespace=`Lucide`;
 GitCommit.Tag=`lucide-git-commit`;
-_.GitCommit=GitCommit;
+__as1(_, 'GitCommit', GitCommit);
 if(!window.customElements.get('lucide-git-commit')){window.customElements.define('lucide-git-commit', GitCommit);Aventus.WebComponentInstance.registerDefinition(GitCommit);}
 
 const GitCommitHorizontal = class GitCommitHorizontal extends AbstractIcon {
@@ -26757,7 +26757,7 @@ const GitCommitHorizontal = class GitCommitHorizontal extends AbstractIcon {
 }
 GitCommitHorizontal.Namespace=`Lucide`;
 GitCommitHorizontal.Tag=`lucide-git-commit-horizontal`;
-_.GitCommitHorizontal=GitCommitHorizontal;
+__as1(_, 'GitCommitHorizontal', GitCommitHorizontal);
 if(!window.customElements.get('lucide-git-commit-horizontal')){window.customElements.define('lucide-git-commit-horizontal', GitCommitHorizontal);Aventus.WebComponentInstance.registerDefinition(GitCommitHorizontal);}
 
 const GitCommitVertical = class GitCommitVertical extends AbstractIcon {
@@ -26781,7 +26781,7 @@ const GitCommitVertical = class GitCommitVertical extends AbstractIcon {
 }
 GitCommitVertical.Namespace=`Lucide`;
 GitCommitVertical.Tag=`lucide-git-commit-vertical`;
-_.GitCommitVertical=GitCommitVertical;
+__as1(_, 'GitCommitVertical', GitCommitVertical);
 if(!window.customElements.get('lucide-git-commit-vertical')){window.customElements.define('lucide-git-commit-vertical', GitCommitVertical);Aventus.WebComponentInstance.registerDefinition(GitCommitVertical);}
 
 const GitCompare = class GitCompare extends AbstractIcon {
@@ -26805,7 +26805,7 @@ const GitCompare = class GitCompare extends AbstractIcon {
 }
 GitCompare.Namespace=`Lucide`;
 GitCompare.Tag=`lucide-git-compare`;
-_.GitCompare=GitCompare;
+__as1(_, 'GitCompare', GitCompare);
 if(!window.customElements.get('lucide-git-compare')){window.customElements.define('lucide-git-compare', GitCompare);Aventus.WebComponentInstance.registerDefinition(GitCompare);}
 
 const GitCompareArrows = class GitCompareArrows extends AbstractIcon {
@@ -26829,7 +26829,7 @@ const GitCompareArrows = class GitCompareArrows extends AbstractIcon {
 }
 GitCompareArrows.Namespace=`Lucide`;
 GitCompareArrows.Tag=`lucide-git-compare-arrows`;
-_.GitCompareArrows=GitCompareArrows;
+__as1(_, 'GitCompareArrows', GitCompareArrows);
 if(!window.customElements.get('lucide-git-compare-arrows')){window.customElements.define('lucide-git-compare-arrows', GitCompareArrows);Aventus.WebComponentInstance.registerDefinition(GitCompareArrows);}
 
 const GitFork = class GitFork extends AbstractIcon {
@@ -26853,7 +26853,7 @@ const GitFork = class GitFork extends AbstractIcon {
 }
 GitFork.Namespace=`Lucide`;
 GitFork.Tag=`lucide-git-fork`;
-_.GitFork=GitFork;
+__as1(_, 'GitFork', GitFork);
 if(!window.customElements.get('lucide-git-fork')){window.customElements.define('lucide-git-fork', GitFork);Aventus.WebComponentInstance.registerDefinition(GitFork);}
 
 const GitGraph = class GitGraph extends AbstractIcon {
@@ -26877,7 +26877,7 @@ const GitGraph = class GitGraph extends AbstractIcon {
 }
 GitGraph.Namespace=`Lucide`;
 GitGraph.Tag=`lucide-git-graph`;
-_.GitGraph=GitGraph;
+__as1(_, 'GitGraph', GitGraph);
 if(!window.customElements.get('lucide-git-graph')){window.customElements.define('lucide-git-graph', GitGraph);Aventus.WebComponentInstance.registerDefinition(GitGraph);}
 
 const Github = class Github extends AbstractIcon {
@@ -26901,7 +26901,7 @@ const Github = class Github extends AbstractIcon {
 }
 Github.Namespace=`Lucide`;
 Github.Tag=`lucide-github`;
-_.Github=Github;
+__as1(_, 'Github', Github);
 if(!window.customElements.get('lucide-github')){window.customElements.define('lucide-github', Github);Aventus.WebComponentInstance.registerDefinition(Github);}
 
 const Gitlab = class Gitlab extends AbstractIcon {
@@ -26925,7 +26925,7 @@ const Gitlab = class Gitlab extends AbstractIcon {
 }
 Gitlab.Namespace=`Lucide`;
 Gitlab.Tag=`lucide-gitlab`;
-_.Gitlab=Gitlab;
+__as1(_, 'Gitlab', Gitlab);
 if(!window.customElements.get('lucide-gitlab')){window.customElements.define('lucide-gitlab', Gitlab);Aventus.WebComponentInstance.registerDefinition(Gitlab);}
 
 const GitMerge = class GitMerge extends AbstractIcon {
@@ -26949,7 +26949,7 @@ const GitMerge = class GitMerge extends AbstractIcon {
 }
 GitMerge.Namespace=`Lucide`;
 GitMerge.Tag=`lucide-git-merge`;
-_.GitMerge=GitMerge;
+__as1(_, 'GitMerge', GitMerge);
 if(!window.customElements.get('lucide-git-merge')){window.customElements.define('lucide-git-merge', GitMerge);Aventus.WebComponentInstance.registerDefinition(GitMerge);}
 
 const GitPullRequest = class GitPullRequest extends AbstractIcon {
@@ -26973,7 +26973,7 @@ const GitPullRequest = class GitPullRequest extends AbstractIcon {
 }
 GitPullRequest.Namespace=`Lucide`;
 GitPullRequest.Tag=`lucide-git-pull-request`;
-_.GitPullRequest=GitPullRequest;
+__as1(_, 'GitPullRequest', GitPullRequest);
 if(!window.customElements.get('lucide-git-pull-request')){window.customElements.define('lucide-git-pull-request', GitPullRequest);Aventus.WebComponentInstance.registerDefinition(GitPullRequest);}
 
 const GitPullRequestArrow = class GitPullRequestArrow extends AbstractIcon {
@@ -26997,7 +26997,7 @@ const GitPullRequestArrow = class GitPullRequestArrow extends AbstractIcon {
 }
 GitPullRequestArrow.Namespace=`Lucide`;
 GitPullRequestArrow.Tag=`lucide-git-pull-request-arrow`;
-_.GitPullRequestArrow=GitPullRequestArrow;
+__as1(_, 'GitPullRequestArrow', GitPullRequestArrow);
 if(!window.customElements.get('lucide-git-pull-request-arrow')){window.customElements.define('lucide-git-pull-request-arrow', GitPullRequestArrow);Aventus.WebComponentInstance.registerDefinition(GitPullRequestArrow);}
 
 const GitPullRequestClosed = class GitPullRequestClosed extends AbstractIcon {
@@ -27021,7 +27021,7 @@ const GitPullRequestClosed = class GitPullRequestClosed extends AbstractIcon {
 }
 GitPullRequestClosed.Namespace=`Lucide`;
 GitPullRequestClosed.Tag=`lucide-git-pull-request-closed`;
-_.GitPullRequestClosed=GitPullRequestClosed;
+__as1(_, 'GitPullRequestClosed', GitPullRequestClosed);
 if(!window.customElements.get('lucide-git-pull-request-closed')){window.customElements.define('lucide-git-pull-request-closed', GitPullRequestClosed);Aventus.WebComponentInstance.registerDefinition(GitPullRequestClosed);}
 
 const GitPullRequestCreate = class GitPullRequestCreate extends AbstractIcon {
@@ -27045,7 +27045,7 @@ const GitPullRequestCreate = class GitPullRequestCreate extends AbstractIcon {
 }
 GitPullRequestCreate.Namespace=`Lucide`;
 GitPullRequestCreate.Tag=`lucide-git-pull-request-create`;
-_.GitPullRequestCreate=GitPullRequestCreate;
+__as1(_, 'GitPullRequestCreate', GitPullRequestCreate);
 if(!window.customElements.get('lucide-git-pull-request-create')){window.customElements.define('lucide-git-pull-request-create', GitPullRequestCreate);Aventus.WebComponentInstance.registerDefinition(GitPullRequestCreate);}
 
 const GitPullRequestCreateArrow = class GitPullRequestCreateArrow extends AbstractIcon {
@@ -27069,7 +27069,7 @@ const GitPullRequestCreateArrow = class GitPullRequestCreateArrow extends Abstra
 }
 GitPullRequestCreateArrow.Namespace=`Lucide`;
 GitPullRequestCreateArrow.Tag=`lucide-git-pull-request-create-arrow`;
-_.GitPullRequestCreateArrow=GitPullRequestCreateArrow;
+__as1(_, 'GitPullRequestCreateArrow', GitPullRequestCreateArrow);
 if(!window.customElements.get('lucide-git-pull-request-create-arrow')){window.customElements.define('lucide-git-pull-request-create-arrow', GitPullRequestCreateArrow);Aventus.WebComponentInstance.registerDefinition(GitPullRequestCreateArrow);}
 
 const GitPullRequestDraft = class GitPullRequestDraft extends AbstractIcon {
@@ -27093,7 +27093,7 @@ const GitPullRequestDraft = class GitPullRequestDraft extends AbstractIcon {
 }
 GitPullRequestDraft.Namespace=`Lucide`;
 GitPullRequestDraft.Tag=`lucide-git-pull-request-draft`;
-_.GitPullRequestDraft=GitPullRequestDraft;
+__as1(_, 'GitPullRequestDraft', GitPullRequestDraft);
 if(!window.customElements.get('lucide-git-pull-request-draft')){window.customElements.define('lucide-git-pull-request-draft', GitPullRequestDraft);Aventus.WebComponentInstance.registerDefinition(GitPullRequestDraft);}
 
 const Glasses = class Glasses extends AbstractIcon {
@@ -27117,7 +27117,7 @@ const Glasses = class Glasses extends AbstractIcon {
 }
 Glasses.Namespace=`Lucide`;
 Glasses.Tag=`lucide-glasses`;
-_.Glasses=Glasses;
+__as1(_, 'Glasses', Glasses);
 if(!window.customElements.get('lucide-glasses')){window.customElements.define('lucide-glasses', Glasses);Aventus.WebComponentInstance.registerDefinition(Glasses);}
 
 const GlassWater = class GlassWater extends AbstractIcon {
@@ -27141,7 +27141,7 @@ const GlassWater = class GlassWater extends AbstractIcon {
 }
 GlassWater.Namespace=`Lucide`;
 GlassWater.Tag=`lucide-glass-water`;
-_.GlassWater=GlassWater;
+__as1(_, 'GlassWater', GlassWater);
 if(!window.customElements.get('lucide-glass-water')){window.customElements.define('lucide-glass-water', GlassWater);Aventus.WebComponentInstance.registerDefinition(GlassWater);}
 
 const Globe = class Globe extends AbstractIcon {
@@ -27165,7 +27165,7 @@ const Globe = class Globe extends AbstractIcon {
 }
 Globe.Namespace=`Lucide`;
 Globe.Tag=`lucide-globe`;
-_.Globe=Globe;
+__as1(_, 'Globe', Globe);
 if(!window.customElements.get('lucide-globe')){window.customElements.define('lucide-globe', Globe);Aventus.WebComponentInstance.registerDefinition(Globe);}
 
 const Globe2 = class Globe2 extends AbstractIcon {
@@ -27189,7 +27189,7 @@ const Globe2 = class Globe2 extends AbstractIcon {
 }
 Globe2.Namespace=`Lucide`;
 Globe2.Tag=`lucide-globe-2`;
-_.Globe2=Globe2;
+__as1(_, 'Globe2', Globe2);
 if(!window.customElements.get('lucide-globe-2')){window.customElements.define('lucide-globe-2', Globe2);Aventus.WebComponentInstance.registerDefinition(Globe2);}
 
 const GlobeLock = class GlobeLock extends AbstractIcon {
@@ -27213,7 +27213,7 @@ const GlobeLock = class GlobeLock extends AbstractIcon {
 }
 GlobeLock.Namespace=`Lucide`;
 GlobeLock.Tag=`lucide-globe-lock`;
-_.GlobeLock=GlobeLock;
+__as1(_, 'GlobeLock', GlobeLock);
 if(!window.customElements.get('lucide-globe-lock')){window.customElements.define('lucide-globe-lock', GlobeLock);Aventus.WebComponentInstance.registerDefinition(GlobeLock);}
 
 const Goal = class Goal extends AbstractIcon {
@@ -27237,7 +27237,7 @@ const Goal = class Goal extends AbstractIcon {
 }
 Goal.Namespace=`Lucide`;
 Goal.Tag=`lucide-goal`;
-_.Goal=Goal;
+__as1(_, 'Goal', Goal);
 if(!window.customElements.get('lucide-goal')){window.customElements.define('lucide-goal', Goal);Aventus.WebComponentInstance.registerDefinition(Goal);}
 
 const Gpu = class Gpu extends AbstractIcon {
@@ -27261,7 +27261,7 @@ const Gpu = class Gpu extends AbstractIcon {
 }
 Gpu.Namespace=`Lucide`;
 Gpu.Tag=`lucide-gpu`;
-_.Gpu=Gpu;
+__as1(_, 'Gpu', Gpu);
 if(!window.customElements.get('lucide-gpu')){window.customElements.define('lucide-gpu', Gpu);Aventus.WebComponentInstance.registerDefinition(Gpu);}
 
 const Grab = class Grab extends AbstractIcon {
@@ -27285,7 +27285,7 @@ const Grab = class Grab extends AbstractIcon {
 }
 Grab.Namespace=`Lucide`;
 Grab.Tag=`lucide-grab`;
-_.Grab=Grab;
+__as1(_, 'Grab', Grab);
 if(!window.customElements.get('lucide-grab')){window.customElements.define('lucide-grab', Grab);Aventus.WebComponentInstance.registerDefinition(Grab);}
 
 const GraduationCap = class GraduationCap extends AbstractIcon {
@@ -27309,7 +27309,7 @@ const GraduationCap = class GraduationCap extends AbstractIcon {
 }
 GraduationCap.Namespace=`Lucide`;
 GraduationCap.Tag=`lucide-graduation-cap`;
-_.GraduationCap=GraduationCap;
+__as1(_, 'GraduationCap', GraduationCap);
 if(!window.customElements.get('lucide-graduation-cap')){window.customElements.define('lucide-graduation-cap', GraduationCap);Aventus.WebComponentInstance.registerDefinition(GraduationCap);}
 
 const Grape = class Grape extends AbstractIcon {
@@ -27333,7 +27333,7 @@ const Grape = class Grape extends AbstractIcon {
 }
 Grape.Namespace=`Lucide`;
 Grape.Tag=`lucide-grape`;
-_.Grape=Grape;
+__as1(_, 'Grape', Grape);
 if(!window.customElements.get('lucide-grape')){window.customElements.define('lucide-grape', Grape);Aventus.WebComponentInstance.registerDefinition(Grape);}
 
 const Grid = class Grid extends AbstractIcon {
@@ -27357,7 +27357,7 @@ const Grid = class Grid extends AbstractIcon {
 }
 Grid.Namespace=`Lucide`;
 Grid.Tag=`lucide-grid`;
-_.Grid=Grid;
+__as1(_, 'Grid', Grid);
 if(!window.customElements.get('lucide-grid')){window.customElements.define('lucide-grid', Grid);Aventus.WebComponentInstance.registerDefinition(Grid);}
 
 const Grid2x2 = class Grid2x2 extends AbstractIcon {
@@ -27381,7 +27381,7 @@ const Grid2x2 = class Grid2x2 extends AbstractIcon {
 }
 Grid2x2.Namespace=`Lucide`;
 Grid2x2.Tag=`lucide-grid-2x-2`;
-_.Grid2x2=Grid2x2;
+__as1(_, 'Grid2x2', Grid2x2);
 if(!window.customElements.get('lucide-grid-2x-2')){window.customElements.define('lucide-grid-2x-2', Grid2x2);Aventus.WebComponentInstance.registerDefinition(Grid2x2);}
 
 const Grid2x2Check = class Grid2x2Check extends AbstractIcon {
@@ -27405,7 +27405,7 @@ const Grid2x2Check = class Grid2x2Check extends AbstractIcon {
 }
 Grid2x2Check.Namespace=`Lucide`;
 Grid2x2Check.Tag=`lucide-grid-2x-2-check`;
-_.Grid2x2Check=Grid2x2Check;
+__as1(_, 'Grid2x2Check', Grid2x2Check);
 if(!window.customElements.get('lucide-grid-2x-2-check')){window.customElements.define('lucide-grid-2x-2-check', Grid2x2Check);Aventus.WebComponentInstance.registerDefinition(Grid2x2Check);}
 
 const Grid2x2Plus = class Grid2x2Plus extends AbstractIcon {
@@ -27429,7 +27429,7 @@ const Grid2x2Plus = class Grid2x2Plus extends AbstractIcon {
 }
 Grid2x2Plus.Namespace=`Lucide`;
 Grid2x2Plus.Tag=`lucide-grid-2x-2-plus`;
-_.Grid2x2Plus=Grid2x2Plus;
+__as1(_, 'Grid2x2Plus', Grid2x2Plus);
 if(!window.customElements.get('lucide-grid-2x-2-plus')){window.customElements.define('lucide-grid-2x-2-plus', Grid2x2Plus);Aventus.WebComponentInstance.registerDefinition(Grid2x2Plus);}
 
 const Grid2x2X = class Grid2x2X extends AbstractIcon {
@@ -27453,7 +27453,7 @@ const Grid2x2X = class Grid2x2X extends AbstractIcon {
 }
 Grid2x2X.Namespace=`Lucide`;
 Grid2x2X.Tag=`lucide-grid-2x-2-x`;
-_.Grid2x2X=Grid2x2X;
+__as1(_, 'Grid2x2X', Grid2x2X);
 if(!window.customElements.get('lucide-grid-2x-2-x')){window.customElements.define('lucide-grid-2x-2-x', Grid2x2X);Aventus.WebComponentInstance.registerDefinition(Grid2x2X);}
 
 const Grid3x2 = class Grid3x2 extends AbstractIcon {
@@ -27477,7 +27477,7 @@ const Grid3x2 = class Grid3x2 extends AbstractIcon {
 }
 Grid3x2.Namespace=`Lucide`;
 Grid3x2.Tag=`lucide-grid-3x-2`;
-_.Grid3x2=Grid3x2;
+__as1(_, 'Grid3x2', Grid3x2);
 if(!window.customElements.get('lucide-grid-3x-2')){window.customElements.define('lucide-grid-3x-2', Grid3x2);Aventus.WebComponentInstance.registerDefinition(Grid3x2);}
 
 const Grid3x3 = class Grid3x3 extends AbstractIcon {
@@ -27501,7 +27501,7 @@ const Grid3x3 = class Grid3x3 extends AbstractIcon {
 }
 Grid3x3.Namespace=`Lucide`;
 Grid3x3.Tag=`lucide-grid-3x-3`;
-_.Grid3x3=Grid3x3;
+__as1(_, 'Grid3x3', Grid3x3);
 if(!window.customElements.get('lucide-grid-3x-3')){window.customElements.define('lucide-grid-3x-3', Grid3x3);Aventus.WebComponentInstance.registerDefinition(Grid3x3);}
 
 const Grip = class Grip extends AbstractIcon {
@@ -27525,7 +27525,7 @@ const Grip = class Grip extends AbstractIcon {
 }
 Grip.Namespace=`Lucide`;
 Grip.Tag=`lucide-grip`;
-_.Grip=Grip;
+__as1(_, 'Grip', Grip);
 if(!window.customElements.get('lucide-grip')){window.customElements.define('lucide-grip', Grip);Aventus.WebComponentInstance.registerDefinition(Grip);}
 
 const GripHorizontal = class GripHorizontal extends AbstractIcon {
@@ -27549,7 +27549,7 @@ const GripHorizontal = class GripHorizontal extends AbstractIcon {
 }
 GripHorizontal.Namespace=`Lucide`;
 GripHorizontal.Tag=`lucide-grip-horizontal`;
-_.GripHorizontal=GripHorizontal;
+__as1(_, 'GripHorizontal', GripHorizontal);
 if(!window.customElements.get('lucide-grip-horizontal')){window.customElements.define('lucide-grip-horizontal', GripHorizontal);Aventus.WebComponentInstance.registerDefinition(GripHorizontal);}
 
 const GripVertical = class GripVertical extends AbstractIcon {
@@ -27573,7 +27573,7 @@ const GripVertical = class GripVertical extends AbstractIcon {
 }
 GripVertical.Namespace=`Lucide`;
 GripVertical.Tag=`lucide-grip-vertical`;
-_.GripVertical=GripVertical;
+__as1(_, 'GripVertical', GripVertical);
 if(!window.customElements.get('lucide-grip-vertical')){window.customElements.define('lucide-grip-vertical', GripVertical);Aventus.WebComponentInstance.registerDefinition(GripVertical);}
 
 const Group = class Group extends AbstractIcon {
@@ -27597,7 +27597,7 @@ const Group = class Group extends AbstractIcon {
 }
 Group.Namespace=`Lucide`;
 Group.Tag=`lucide-group`;
-_.Group=Group;
+__as1(_, 'Group', Group);
 if(!window.customElements.get('lucide-group')){window.customElements.define('lucide-group', Group);Aventus.WebComponentInstance.registerDefinition(Group);}
 
 const Guitar = class Guitar extends AbstractIcon {
@@ -27621,7 +27621,7 @@ const Guitar = class Guitar extends AbstractIcon {
 }
 Guitar.Namespace=`Lucide`;
 Guitar.Tag=`lucide-guitar`;
-_.Guitar=Guitar;
+__as1(_, 'Guitar', Guitar);
 if(!window.customElements.get('lucide-guitar')){window.customElements.define('lucide-guitar', Guitar);Aventus.WebComponentInstance.registerDefinition(Guitar);}
 
 const Ham = class Ham extends AbstractIcon {
@@ -27645,7 +27645,7 @@ const Ham = class Ham extends AbstractIcon {
 }
 Ham.Namespace=`Lucide`;
 Ham.Tag=`lucide-ham`;
-_.Ham=Ham;
+__as1(_, 'Ham', Ham);
 if(!window.customElements.get('lucide-ham')){window.customElements.define('lucide-ham', Ham);Aventus.WebComponentInstance.registerDefinition(Ham);}
 
 const Hamburger = class Hamburger extends AbstractIcon {
@@ -27669,7 +27669,7 @@ const Hamburger = class Hamburger extends AbstractIcon {
 }
 Hamburger.Namespace=`Lucide`;
 Hamburger.Tag=`lucide-hamburger`;
-_.Hamburger=Hamburger;
+__as1(_, 'Hamburger', Hamburger);
 if(!window.customElements.get('lucide-hamburger')){window.customElements.define('lucide-hamburger', Hamburger);Aventus.WebComponentInstance.registerDefinition(Hamburger);}
 
 const Hammer = class Hammer extends AbstractIcon {
@@ -27693,7 +27693,7 @@ const Hammer = class Hammer extends AbstractIcon {
 }
 Hammer.Namespace=`Lucide`;
 Hammer.Tag=`lucide-hammer`;
-_.Hammer=Hammer;
+__as1(_, 'Hammer', Hammer);
 if(!window.customElements.get('lucide-hammer')){window.customElements.define('lucide-hammer', Hammer);Aventus.WebComponentInstance.registerDefinition(Hammer);}
 
 const Hand = class Hand extends AbstractIcon {
@@ -27717,7 +27717,7 @@ const Hand = class Hand extends AbstractIcon {
 }
 Hand.Namespace=`Lucide`;
 Hand.Tag=`lucide-hand`;
-_.Hand=Hand;
+__as1(_, 'Hand', Hand);
 if(!window.customElements.get('lucide-hand')){window.customElements.define('lucide-hand', Hand);Aventus.WebComponentInstance.registerDefinition(Hand);}
 
 const HandCoins = class HandCoins extends AbstractIcon {
@@ -27741,7 +27741,7 @@ const HandCoins = class HandCoins extends AbstractIcon {
 }
 HandCoins.Namespace=`Lucide`;
 HandCoins.Tag=`lucide-hand-coins`;
-_.HandCoins=HandCoins;
+__as1(_, 'HandCoins', HandCoins);
 if(!window.customElements.get('lucide-hand-coins')){window.customElements.define('lucide-hand-coins', HandCoins);Aventus.WebComponentInstance.registerDefinition(HandCoins);}
 
 const HandHeart = class HandHeart extends AbstractIcon {
@@ -27765,7 +27765,7 @@ const HandHeart = class HandHeart extends AbstractIcon {
 }
 HandHeart.Namespace=`Lucide`;
 HandHeart.Tag=`lucide-hand-heart`;
-_.HandHeart=HandHeart;
+__as1(_, 'HandHeart', HandHeart);
 if(!window.customElements.get('lucide-hand-heart')){window.customElements.define('lucide-hand-heart', HandHeart);Aventus.WebComponentInstance.registerDefinition(HandHeart);}
 
 const HandHelping = class HandHelping extends AbstractIcon {
@@ -27789,7 +27789,7 @@ const HandHelping = class HandHelping extends AbstractIcon {
 }
 HandHelping.Namespace=`Lucide`;
 HandHelping.Tag=`lucide-hand-helping`;
-_.HandHelping=HandHelping;
+__as1(_, 'HandHelping', HandHelping);
 if(!window.customElements.get('lucide-hand-helping')){window.customElements.define('lucide-hand-helping', HandHelping);Aventus.WebComponentInstance.registerDefinition(HandHelping);}
 
 const HandMetal = class HandMetal extends AbstractIcon {
@@ -27813,7 +27813,7 @@ const HandMetal = class HandMetal extends AbstractIcon {
 }
 HandMetal.Namespace=`Lucide`;
 HandMetal.Tag=`lucide-hand-metal`;
-_.HandMetal=HandMetal;
+__as1(_, 'HandMetal', HandMetal);
 if(!window.customElements.get('lucide-hand-metal')){window.customElements.define('lucide-hand-metal', HandMetal);Aventus.WebComponentInstance.registerDefinition(HandMetal);}
 
 const HandPlatter = class HandPlatter extends AbstractIcon {
@@ -27837,7 +27837,7 @@ const HandPlatter = class HandPlatter extends AbstractIcon {
 }
 HandPlatter.Namespace=`Lucide`;
 HandPlatter.Tag=`lucide-hand-platter`;
-_.HandPlatter=HandPlatter;
+__as1(_, 'HandPlatter', HandPlatter);
 if(!window.customElements.get('lucide-hand-platter')){window.customElements.define('lucide-hand-platter', HandPlatter);Aventus.WebComponentInstance.registerDefinition(HandPlatter);}
 
 const Handshake = class Handshake extends AbstractIcon {
@@ -27861,7 +27861,7 @@ const Handshake = class Handshake extends AbstractIcon {
 }
 Handshake.Namespace=`Lucide`;
 Handshake.Tag=`lucide-handshake`;
-_.Handshake=Handshake;
+__as1(_, 'Handshake', Handshake);
 if(!window.customElements.get('lucide-handshake')){window.customElements.define('lucide-handshake', Handshake);Aventus.WebComponentInstance.registerDefinition(Handshake);}
 
 const HardDrive = class HardDrive extends AbstractIcon {
@@ -27885,7 +27885,7 @@ const HardDrive = class HardDrive extends AbstractIcon {
 }
 HardDrive.Namespace=`Lucide`;
 HardDrive.Tag=`lucide-hard-drive`;
-_.HardDrive=HardDrive;
+__as1(_, 'HardDrive', HardDrive);
 if(!window.customElements.get('lucide-hard-drive')){window.customElements.define('lucide-hard-drive', HardDrive);Aventus.WebComponentInstance.registerDefinition(HardDrive);}
 
 const HardDriveDownload = class HardDriveDownload extends AbstractIcon {
@@ -27909,7 +27909,7 @@ const HardDriveDownload = class HardDriveDownload extends AbstractIcon {
 }
 HardDriveDownload.Namespace=`Lucide`;
 HardDriveDownload.Tag=`lucide-hard-drive-download`;
-_.HardDriveDownload=HardDriveDownload;
+__as1(_, 'HardDriveDownload', HardDriveDownload);
 if(!window.customElements.get('lucide-hard-drive-download')){window.customElements.define('lucide-hard-drive-download', HardDriveDownload);Aventus.WebComponentInstance.registerDefinition(HardDriveDownload);}
 
 const HardDriveUpload = class HardDriveUpload extends AbstractIcon {
@@ -27933,7 +27933,7 @@ const HardDriveUpload = class HardDriveUpload extends AbstractIcon {
 }
 HardDriveUpload.Namespace=`Lucide`;
 HardDriveUpload.Tag=`lucide-hard-drive-upload`;
-_.HardDriveUpload=HardDriveUpload;
+__as1(_, 'HardDriveUpload', HardDriveUpload);
 if(!window.customElements.get('lucide-hard-drive-upload')){window.customElements.define('lucide-hard-drive-upload', HardDriveUpload);Aventus.WebComponentInstance.registerDefinition(HardDriveUpload);}
 
 const HardHat = class HardHat extends AbstractIcon {
@@ -27957,7 +27957,7 @@ const HardHat = class HardHat extends AbstractIcon {
 }
 HardHat.Namespace=`Lucide`;
 HardHat.Tag=`lucide-hard-hat`;
-_.HardHat=HardHat;
+__as1(_, 'HardHat', HardHat);
 if(!window.customElements.get('lucide-hard-hat')){window.customElements.define('lucide-hard-hat', HardHat);Aventus.WebComponentInstance.registerDefinition(HardHat);}
 
 const Hash = class Hash extends AbstractIcon {
@@ -27981,7 +27981,7 @@ const Hash = class Hash extends AbstractIcon {
 }
 Hash.Namespace=`Lucide`;
 Hash.Tag=`lucide-hash`;
-_.Hash=Hash;
+__as1(_, 'Hash', Hash);
 if(!window.customElements.get('lucide-hash')){window.customElements.define('lucide-hash', Hash);Aventus.WebComponentInstance.registerDefinition(Hash);}
 
 const Haze = class Haze extends AbstractIcon {
@@ -28005,7 +28005,7 @@ const Haze = class Haze extends AbstractIcon {
 }
 Haze.Namespace=`Lucide`;
 Haze.Tag=`lucide-haze`;
-_.Haze=Haze;
+__as1(_, 'Haze', Haze);
 if(!window.customElements.get('lucide-haze')){window.customElements.define('lucide-haze', Haze);Aventus.WebComponentInstance.registerDefinition(Haze);}
 
 const HdmiPort = class HdmiPort extends AbstractIcon {
@@ -28029,7 +28029,7 @@ const HdmiPort = class HdmiPort extends AbstractIcon {
 }
 HdmiPort.Namespace=`Lucide`;
 HdmiPort.Tag=`lucide-hdmi-port`;
-_.HdmiPort=HdmiPort;
+__as1(_, 'HdmiPort', HdmiPort);
 if(!window.customElements.get('lucide-hdmi-port')){window.customElements.define('lucide-hdmi-port', HdmiPort);Aventus.WebComponentInstance.registerDefinition(HdmiPort);}
 
 const Heading = class Heading extends AbstractIcon {
@@ -28053,7 +28053,7 @@ const Heading = class Heading extends AbstractIcon {
 }
 Heading.Namespace=`Lucide`;
 Heading.Tag=`lucide-heading`;
-_.Heading=Heading;
+__as1(_, 'Heading', Heading);
 if(!window.customElements.get('lucide-heading')){window.customElements.define('lucide-heading', Heading);Aventus.WebComponentInstance.registerDefinition(Heading);}
 
 const Heading1 = class Heading1 extends AbstractIcon {
@@ -28077,7 +28077,7 @@ const Heading1 = class Heading1 extends AbstractIcon {
 }
 Heading1.Namespace=`Lucide`;
 Heading1.Tag=`lucide-heading-1`;
-_.Heading1=Heading1;
+__as1(_, 'Heading1', Heading1);
 if(!window.customElements.get('lucide-heading-1')){window.customElements.define('lucide-heading-1', Heading1);Aventus.WebComponentInstance.registerDefinition(Heading1);}
 
 const Heading2 = class Heading2 extends AbstractIcon {
@@ -28101,7 +28101,7 @@ const Heading2 = class Heading2 extends AbstractIcon {
 }
 Heading2.Namespace=`Lucide`;
 Heading2.Tag=`lucide-heading-2`;
-_.Heading2=Heading2;
+__as1(_, 'Heading2', Heading2);
 if(!window.customElements.get('lucide-heading-2')){window.customElements.define('lucide-heading-2', Heading2);Aventus.WebComponentInstance.registerDefinition(Heading2);}
 
 const Heading3 = class Heading3 extends AbstractIcon {
@@ -28125,7 +28125,7 @@ const Heading3 = class Heading3 extends AbstractIcon {
 }
 Heading3.Namespace=`Lucide`;
 Heading3.Tag=`lucide-heading-3`;
-_.Heading3=Heading3;
+__as1(_, 'Heading3', Heading3);
 if(!window.customElements.get('lucide-heading-3')){window.customElements.define('lucide-heading-3', Heading3);Aventus.WebComponentInstance.registerDefinition(Heading3);}
 
 const Heading4 = class Heading4 extends AbstractIcon {
@@ -28149,7 +28149,7 @@ const Heading4 = class Heading4 extends AbstractIcon {
 }
 Heading4.Namespace=`Lucide`;
 Heading4.Tag=`lucide-heading-4`;
-_.Heading4=Heading4;
+__as1(_, 'Heading4', Heading4);
 if(!window.customElements.get('lucide-heading-4')){window.customElements.define('lucide-heading-4', Heading4);Aventus.WebComponentInstance.registerDefinition(Heading4);}
 
 const Heading5 = class Heading5 extends AbstractIcon {
@@ -28173,7 +28173,7 @@ const Heading5 = class Heading5 extends AbstractIcon {
 }
 Heading5.Namespace=`Lucide`;
 Heading5.Tag=`lucide-heading-5`;
-_.Heading5=Heading5;
+__as1(_, 'Heading5', Heading5);
 if(!window.customElements.get('lucide-heading-5')){window.customElements.define('lucide-heading-5', Heading5);Aventus.WebComponentInstance.registerDefinition(Heading5);}
 
 const Heading6 = class Heading6 extends AbstractIcon {
@@ -28197,7 +28197,7 @@ const Heading6 = class Heading6 extends AbstractIcon {
 }
 Heading6.Namespace=`Lucide`;
 Heading6.Tag=`lucide-heading-6`;
-_.Heading6=Heading6;
+__as1(_, 'Heading6', Heading6);
 if(!window.customElements.get('lucide-heading-6')){window.customElements.define('lucide-heading-6', Heading6);Aventus.WebComponentInstance.registerDefinition(Heading6);}
 
 const HeadphoneOff = class HeadphoneOff extends AbstractIcon {
@@ -28221,7 +28221,7 @@ const HeadphoneOff = class HeadphoneOff extends AbstractIcon {
 }
 HeadphoneOff.Namespace=`Lucide`;
 HeadphoneOff.Tag=`lucide-headphone-off`;
-_.HeadphoneOff=HeadphoneOff;
+__as1(_, 'HeadphoneOff', HeadphoneOff);
 if(!window.customElements.get('lucide-headphone-off')){window.customElements.define('lucide-headphone-off', HeadphoneOff);Aventus.WebComponentInstance.registerDefinition(HeadphoneOff);}
 
 const Headphones = class Headphones extends AbstractIcon {
@@ -28245,7 +28245,7 @@ const Headphones = class Headphones extends AbstractIcon {
 }
 Headphones.Namespace=`Lucide`;
 Headphones.Tag=`lucide-headphones`;
-_.Headphones=Headphones;
+__as1(_, 'Headphones', Headphones);
 if(!window.customElements.get('lucide-headphones')){window.customElements.define('lucide-headphones', Headphones);Aventus.WebComponentInstance.registerDefinition(Headphones);}
 
 const Headset = class Headset extends AbstractIcon {
@@ -28269,7 +28269,7 @@ const Headset = class Headset extends AbstractIcon {
 }
 Headset.Namespace=`Lucide`;
 Headset.Tag=`lucide-headset`;
-_.Headset=Headset;
+__as1(_, 'Headset', Headset);
 if(!window.customElements.get('lucide-headset')){window.customElements.define('lucide-headset', Headset);Aventus.WebComponentInstance.registerDefinition(Headset);}
 
 const Heart = class Heart extends AbstractIcon {
@@ -28293,7 +28293,7 @@ const Heart = class Heart extends AbstractIcon {
 }
 Heart.Namespace=`Lucide`;
 Heart.Tag=`lucide-heart`;
-_.Heart=Heart;
+__as1(_, 'Heart', Heart);
 if(!window.customElements.get('lucide-heart')){window.customElements.define('lucide-heart', Heart);Aventus.WebComponentInstance.registerDefinition(Heart);}
 
 const HeartCrack = class HeartCrack extends AbstractIcon {
@@ -28317,7 +28317,7 @@ const HeartCrack = class HeartCrack extends AbstractIcon {
 }
 HeartCrack.Namespace=`Lucide`;
 HeartCrack.Tag=`lucide-heart-crack`;
-_.HeartCrack=HeartCrack;
+__as1(_, 'HeartCrack', HeartCrack);
 if(!window.customElements.get('lucide-heart-crack')){window.customElements.define('lucide-heart-crack', HeartCrack);Aventus.WebComponentInstance.registerDefinition(HeartCrack);}
 
 const HeartHandshake = class HeartHandshake extends AbstractIcon {
@@ -28341,7 +28341,7 @@ const HeartHandshake = class HeartHandshake extends AbstractIcon {
 }
 HeartHandshake.Namespace=`Lucide`;
 HeartHandshake.Tag=`lucide-heart-handshake`;
-_.HeartHandshake=HeartHandshake;
+__as1(_, 'HeartHandshake', HeartHandshake);
 if(!window.customElements.get('lucide-heart-handshake')){window.customElements.define('lucide-heart-handshake', HeartHandshake);Aventus.WebComponentInstance.registerDefinition(HeartHandshake);}
 
 const HeartMinus = class HeartMinus extends AbstractIcon {
@@ -28365,7 +28365,7 @@ const HeartMinus = class HeartMinus extends AbstractIcon {
 }
 HeartMinus.Namespace=`Lucide`;
 HeartMinus.Tag=`lucide-heart-minus`;
-_.HeartMinus=HeartMinus;
+__as1(_, 'HeartMinus', HeartMinus);
 if(!window.customElements.get('lucide-heart-minus')){window.customElements.define('lucide-heart-minus', HeartMinus);Aventus.WebComponentInstance.registerDefinition(HeartMinus);}
 
 const HeartOff = class HeartOff extends AbstractIcon {
@@ -28389,7 +28389,7 @@ const HeartOff = class HeartOff extends AbstractIcon {
 }
 HeartOff.Namespace=`Lucide`;
 HeartOff.Tag=`lucide-heart-off`;
-_.HeartOff=HeartOff;
+__as1(_, 'HeartOff', HeartOff);
 if(!window.customElements.get('lucide-heart-off')){window.customElements.define('lucide-heart-off', HeartOff);Aventus.WebComponentInstance.registerDefinition(HeartOff);}
 
 const HeartPlus = class HeartPlus extends AbstractIcon {
@@ -28413,7 +28413,7 @@ const HeartPlus = class HeartPlus extends AbstractIcon {
 }
 HeartPlus.Namespace=`Lucide`;
 HeartPlus.Tag=`lucide-heart-plus`;
-_.HeartPlus=HeartPlus;
+__as1(_, 'HeartPlus', HeartPlus);
 if(!window.customElements.get('lucide-heart-plus')){window.customElements.define('lucide-heart-plus', HeartPlus);Aventus.WebComponentInstance.registerDefinition(HeartPlus);}
 
 const HeartPulse = class HeartPulse extends AbstractIcon {
@@ -28437,7 +28437,7 @@ const HeartPulse = class HeartPulse extends AbstractIcon {
 }
 HeartPulse.Namespace=`Lucide`;
 HeartPulse.Tag=`lucide-heart-pulse`;
-_.HeartPulse=HeartPulse;
+__as1(_, 'HeartPulse', HeartPulse);
 if(!window.customElements.get('lucide-heart-pulse')){window.customElements.define('lucide-heart-pulse', HeartPulse);Aventus.WebComponentInstance.registerDefinition(HeartPulse);}
 
 const Heater = class Heater extends AbstractIcon {
@@ -28461,7 +28461,7 @@ const Heater = class Heater extends AbstractIcon {
 }
 Heater.Namespace=`Lucide`;
 Heater.Tag=`lucide-heater`;
-_.Heater=Heater;
+__as1(_, 'Heater', Heater);
 if(!window.customElements.get('lucide-heater')){window.customElements.define('lucide-heater', Heater);Aventus.WebComponentInstance.registerDefinition(Heater);}
 
 const HelpCircle = class HelpCircle extends AbstractIcon {
@@ -28485,7 +28485,7 @@ const HelpCircle = class HelpCircle extends AbstractIcon {
 }
 HelpCircle.Namespace=`Lucide`;
 HelpCircle.Tag=`lucide-help-circle`;
-_.HelpCircle=HelpCircle;
+__as1(_, 'HelpCircle', HelpCircle);
 if(!window.customElements.get('lucide-help-circle')){window.customElements.define('lucide-help-circle', HelpCircle);Aventus.WebComponentInstance.registerDefinition(HelpCircle);}
 
 const HelpingHand = class HelpingHand extends AbstractIcon {
@@ -28509,7 +28509,7 @@ const HelpingHand = class HelpingHand extends AbstractIcon {
 }
 HelpingHand.Namespace=`Lucide`;
 HelpingHand.Tag=`lucide-helping-hand`;
-_.HelpingHand=HelpingHand;
+__as1(_, 'HelpingHand', HelpingHand);
 if(!window.customElements.get('lucide-helping-hand')){window.customElements.define('lucide-helping-hand', HelpingHand);Aventus.WebComponentInstance.registerDefinition(HelpingHand);}
 
 const Hexagon = class Hexagon extends AbstractIcon {
@@ -28533,7 +28533,7 @@ const Hexagon = class Hexagon extends AbstractIcon {
 }
 Hexagon.Namespace=`Lucide`;
 Hexagon.Tag=`lucide-hexagon`;
-_.Hexagon=Hexagon;
+__as1(_, 'Hexagon', Hexagon);
 if(!window.customElements.get('lucide-hexagon')){window.customElements.define('lucide-hexagon', Hexagon);Aventus.WebComponentInstance.registerDefinition(Hexagon);}
 
 const Highlighter = class Highlighter extends AbstractIcon {
@@ -28557,7 +28557,7 @@ const Highlighter = class Highlighter extends AbstractIcon {
 }
 Highlighter.Namespace=`Lucide`;
 Highlighter.Tag=`lucide-highlighter`;
-_.Highlighter=Highlighter;
+__as1(_, 'Highlighter', Highlighter);
 if(!window.customElements.get('lucide-highlighter')){window.customElements.define('lucide-highlighter', Highlighter);Aventus.WebComponentInstance.registerDefinition(Highlighter);}
 
 const History = class History extends AbstractIcon {
@@ -28581,7 +28581,7 @@ const History = class History extends AbstractIcon {
 }
 History.Namespace=`Lucide`;
 History.Tag=`lucide-history`;
-_.History=History;
+__as1(_, 'History', History);
 if(!window.customElements.get('lucide-history')){window.customElements.define('lucide-history', History);Aventus.WebComponentInstance.registerDefinition(History);}
 
 const Home = class Home extends AbstractIcon {
@@ -28605,7 +28605,7 @@ const Home = class Home extends AbstractIcon {
 }
 Home.Namespace=`Lucide`;
 Home.Tag=`lucide-home`;
-_.Home=Home;
+__as1(_, 'Home', Home);
 if(!window.customElements.get('lucide-home')){window.customElements.define('lucide-home', Home);Aventus.WebComponentInstance.registerDefinition(Home);}
 
 const Hop = class Hop extends AbstractIcon {
@@ -28629,7 +28629,7 @@ const Hop = class Hop extends AbstractIcon {
 }
 Hop.Namespace=`Lucide`;
 Hop.Tag=`lucide-hop`;
-_.Hop=Hop;
+__as1(_, 'Hop', Hop);
 if(!window.customElements.get('lucide-hop')){window.customElements.define('lucide-hop', Hop);Aventus.WebComponentInstance.registerDefinition(Hop);}
 
 const HopOff = class HopOff extends AbstractIcon {
@@ -28653,7 +28653,7 @@ const HopOff = class HopOff extends AbstractIcon {
 }
 HopOff.Namespace=`Lucide`;
 HopOff.Tag=`lucide-hop-off`;
-_.HopOff=HopOff;
+__as1(_, 'HopOff', HopOff);
 if(!window.customElements.get('lucide-hop-off')){window.customElements.define('lucide-hop-off', HopOff);Aventus.WebComponentInstance.registerDefinition(HopOff);}
 
 const Hospital = class Hospital extends AbstractIcon {
@@ -28677,7 +28677,7 @@ const Hospital = class Hospital extends AbstractIcon {
 }
 Hospital.Namespace=`Lucide`;
 Hospital.Tag=`lucide-hospital`;
-_.Hospital=Hospital;
+__as1(_, 'Hospital', Hospital);
 if(!window.customElements.get('lucide-hospital')){window.customElements.define('lucide-hospital', Hospital);Aventus.WebComponentInstance.registerDefinition(Hospital);}
 
 const Hotel = class Hotel extends AbstractIcon {
@@ -28701,7 +28701,7 @@ const Hotel = class Hotel extends AbstractIcon {
 }
 Hotel.Namespace=`Lucide`;
 Hotel.Tag=`lucide-hotel`;
-_.Hotel=Hotel;
+__as1(_, 'Hotel', Hotel);
 if(!window.customElements.get('lucide-hotel')){window.customElements.define('lucide-hotel', Hotel);Aventus.WebComponentInstance.registerDefinition(Hotel);}
 
 const Hourglass = class Hourglass extends AbstractIcon {
@@ -28725,7 +28725,7 @@ const Hourglass = class Hourglass extends AbstractIcon {
 }
 Hourglass.Namespace=`Lucide`;
 Hourglass.Tag=`lucide-hourglass`;
-_.Hourglass=Hourglass;
+__as1(_, 'Hourglass', Hourglass);
 if(!window.customElements.get('lucide-hourglass')){window.customElements.define('lucide-hourglass', Hourglass);Aventus.WebComponentInstance.registerDefinition(Hourglass);}
 
 const House = class House extends AbstractIcon {
@@ -28749,7 +28749,7 @@ const House = class House extends AbstractIcon {
 }
 House.Namespace=`Lucide`;
 House.Tag=`lucide-house`;
-_.House=House;
+__as1(_, 'House', House);
 if(!window.customElements.get('lucide-house')){window.customElements.define('lucide-house', House);Aventus.WebComponentInstance.registerDefinition(House);}
 
 const HousePlug = class HousePlug extends AbstractIcon {
@@ -28773,7 +28773,7 @@ const HousePlug = class HousePlug extends AbstractIcon {
 }
 HousePlug.Namespace=`Lucide`;
 HousePlug.Tag=`lucide-house-plug`;
-_.HousePlug=HousePlug;
+__as1(_, 'HousePlug', HousePlug);
 if(!window.customElements.get('lucide-house-plug')){window.customElements.define('lucide-house-plug', HousePlug);Aventus.WebComponentInstance.registerDefinition(HousePlug);}
 
 const HousePlus = class HousePlus extends AbstractIcon {
@@ -28797,7 +28797,7 @@ const HousePlus = class HousePlus extends AbstractIcon {
 }
 HousePlus.Namespace=`Lucide`;
 HousePlus.Tag=`lucide-house-plus`;
-_.HousePlus=HousePlus;
+__as1(_, 'HousePlus', HousePlus);
 if(!window.customElements.get('lucide-house-plus')){window.customElements.define('lucide-house-plus', HousePlus);Aventus.WebComponentInstance.registerDefinition(HousePlus);}
 
 const HouseWifi = class HouseWifi extends AbstractIcon {
@@ -28821,7 +28821,7 @@ const HouseWifi = class HouseWifi extends AbstractIcon {
 }
 HouseWifi.Namespace=`Lucide`;
 HouseWifi.Tag=`lucide-house-wifi`;
-_.HouseWifi=HouseWifi;
+__as1(_, 'HouseWifi', HouseWifi);
 if(!window.customElements.get('lucide-house-wifi')){window.customElements.define('lucide-house-wifi', HouseWifi);Aventus.WebComponentInstance.registerDefinition(HouseWifi);}
 
 const IceCream = class IceCream extends AbstractIcon {
@@ -28845,7 +28845,7 @@ const IceCream = class IceCream extends AbstractIcon {
 }
 IceCream.Namespace=`Lucide`;
 IceCream.Tag=`lucide-ice-cream`;
-_.IceCream=IceCream;
+__as1(_, 'IceCream', IceCream);
 if(!window.customElements.get('lucide-ice-cream')){window.customElements.define('lucide-ice-cream', IceCream);Aventus.WebComponentInstance.registerDefinition(IceCream);}
 
 const IceCream2 = class IceCream2 extends AbstractIcon {
@@ -28869,7 +28869,7 @@ const IceCream2 = class IceCream2 extends AbstractIcon {
 }
 IceCream2.Namespace=`Lucide`;
 IceCream2.Tag=`lucide-ice-cream-2`;
-_.IceCream2=IceCream2;
+__as1(_, 'IceCream2', IceCream2);
 if(!window.customElements.get('lucide-ice-cream-2')){window.customElements.define('lucide-ice-cream-2', IceCream2);Aventus.WebComponentInstance.registerDefinition(IceCream2);}
 
 const IceCreamBowl = class IceCreamBowl extends AbstractIcon {
@@ -28893,7 +28893,7 @@ const IceCreamBowl = class IceCreamBowl extends AbstractIcon {
 }
 IceCreamBowl.Namespace=`Lucide`;
 IceCreamBowl.Tag=`lucide-ice-cream-bowl`;
-_.IceCreamBowl=IceCreamBowl;
+__as1(_, 'IceCreamBowl', IceCreamBowl);
 if(!window.customElements.get('lucide-ice-cream-bowl')){window.customElements.define('lucide-ice-cream-bowl', IceCreamBowl);Aventus.WebComponentInstance.registerDefinition(IceCreamBowl);}
 
 const IceCreamCone = class IceCreamCone extends AbstractIcon {
@@ -28917,7 +28917,7 @@ const IceCreamCone = class IceCreamCone extends AbstractIcon {
 }
 IceCreamCone.Namespace=`Lucide`;
 IceCreamCone.Tag=`lucide-ice-cream-cone`;
-_.IceCreamCone=IceCreamCone;
+__as1(_, 'IceCreamCone', IceCreamCone);
 if(!window.customElements.get('lucide-ice-cream-cone')){window.customElements.define('lucide-ice-cream-cone', IceCreamCone);Aventus.WebComponentInstance.registerDefinition(IceCreamCone);}
 
 const IdCard = class IdCard extends AbstractIcon {
@@ -28941,7 +28941,7 @@ const IdCard = class IdCard extends AbstractIcon {
 }
 IdCard.Namespace=`Lucide`;
 IdCard.Tag=`lucide-id-card`;
-_.IdCard=IdCard;
+__as1(_, 'IdCard', IdCard);
 if(!window.customElements.get('lucide-id-card')){window.customElements.define('lucide-id-card', IdCard);Aventus.WebComponentInstance.registerDefinition(IdCard);}
 
 const IdCardLanyard = class IdCardLanyard extends AbstractIcon {
@@ -28965,7 +28965,7 @@ const IdCardLanyard = class IdCardLanyard extends AbstractIcon {
 }
 IdCardLanyard.Namespace=`Lucide`;
 IdCardLanyard.Tag=`lucide-id-card-lanyard`;
-_.IdCardLanyard=IdCardLanyard;
+__as1(_, 'IdCardLanyard', IdCardLanyard);
 if(!window.customElements.get('lucide-id-card-lanyard')){window.customElements.define('lucide-id-card-lanyard', IdCardLanyard);Aventus.WebComponentInstance.registerDefinition(IdCardLanyard);}
 
 const Image = class Image extends AbstractIcon {
@@ -28989,7 +28989,7 @@ const Image = class Image extends AbstractIcon {
 }
 Image.Namespace=`Lucide`;
 Image.Tag=`lucide-image`;
-_.Image=Image;
+__as1(_, 'Image', Image);
 if(!window.customElements.get('lucide-image')){window.customElements.define('lucide-image', Image);Aventus.WebComponentInstance.registerDefinition(Image);}
 
 const ImageDown = class ImageDown extends AbstractIcon {
@@ -29013,7 +29013,7 @@ const ImageDown = class ImageDown extends AbstractIcon {
 }
 ImageDown.Namespace=`Lucide`;
 ImageDown.Tag=`lucide-image-down`;
-_.ImageDown=ImageDown;
+__as1(_, 'ImageDown', ImageDown);
 if(!window.customElements.get('lucide-image-down')){window.customElements.define('lucide-image-down', ImageDown);Aventus.WebComponentInstance.registerDefinition(ImageDown);}
 
 const ImageMinus = class ImageMinus extends AbstractIcon {
@@ -29037,7 +29037,7 @@ const ImageMinus = class ImageMinus extends AbstractIcon {
 }
 ImageMinus.Namespace=`Lucide`;
 ImageMinus.Tag=`lucide-image-minus`;
-_.ImageMinus=ImageMinus;
+__as1(_, 'ImageMinus', ImageMinus);
 if(!window.customElements.get('lucide-image-minus')){window.customElements.define('lucide-image-minus', ImageMinus);Aventus.WebComponentInstance.registerDefinition(ImageMinus);}
 
 const ImageOff = class ImageOff extends AbstractIcon {
@@ -29061,7 +29061,7 @@ const ImageOff = class ImageOff extends AbstractIcon {
 }
 ImageOff.Namespace=`Lucide`;
 ImageOff.Tag=`lucide-image-off`;
-_.ImageOff=ImageOff;
+__as1(_, 'ImageOff', ImageOff);
 if(!window.customElements.get('lucide-image-off')){window.customElements.define('lucide-image-off', ImageOff);Aventus.WebComponentInstance.registerDefinition(ImageOff);}
 
 const ImagePlay = class ImagePlay extends AbstractIcon {
@@ -29085,7 +29085,7 @@ const ImagePlay = class ImagePlay extends AbstractIcon {
 }
 ImagePlay.Namespace=`Lucide`;
 ImagePlay.Tag=`lucide-image-play`;
-_.ImagePlay=ImagePlay;
+__as1(_, 'ImagePlay', ImagePlay);
 if(!window.customElements.get('lucide-image-play')){window.customElements.define('lucide-image-play', ImagePlay);Aventus.WebComponentInstance.registerDefinition(ImagePlay);}
 
 const ImagePlus = class ImagePlus extends AbstractIcon {
@@ -29109,7 +29109,7 @@ const ImagePlus = class ImagePlus extends AbstractIcon {
 }
 ImagePlus.Namespace=`Lucide`;
 ImagePlus.Tag=`lucide-image-plus`;
-_.ImagePlus=ImagePlus;
+__as1(_, 'ImagePlus', ImagePlus);
 if(!window.customElements.get('lucide-image-plus')){window.customElements.define('lucide-image-plus', ImagePlus);Aventus.WebComponentInstance.registerDefinition(ImagePlus);}
 
 const Images = class Images extends AbstractIcon {
@@ -29133,7 +29133,7 @@ const Images = class Images extends AbstractIcon {
 }
 Images.Namespace=`Lucide`;
 Images.Tag=`lucide-images`;
-_.Images=Images;
+__as1(_, 'Images', Images);
 if(!window.customElements.get('lucide-images')){window.customElements.define('lucide-images', Images);Aventus.WebComponentInstance.registerDefinition(Images);}
 
 const ImageUp = class ImageUp extends AbstractIcon {
@@ -29157,7 +29157,7 @@ const ImageUp = class ImageUp extends AbstractIcon {
 }
 ImageUp.Namespace=`Lucide`;
 ImageUp.Tag=`lucide-image-up`;
-_.ImageUp=ImageUp;
+__as1(_, 'ImageUp', ImageUp);
 if(!window.customElements.get('lucide-image-up')){window.customElements.define('lucide-image-up', ImageUp);Aventus.WebComponentInstance.registerDefinition(ImageUp);}
 
 const ImageUpscale = class ImageUpscale extends AbstractIcon {
@@ -29181,7 +29181,7 @@ const ImageUpscale = class ImageUpscale extends AbstractIcon {
 }
 ImageUpscale.Namespace=`Lucide`;
 ImageUpscale.Tag=`lucide-image-upscale`;
-_.ImageUpscale=ImageUpscale;
+__as1(_, 'ImageUpscale', ImageUpscale);
 if(!window.customElements.get('lucide-image-upscale')){window.customElements.define('lucide-image-upscale', ImageUpscale);Aventus.WebComponentInstance.registerDefinition(ImageUpscale);}
 
 const Import = class Import extends AbstractIcon {
@@ -29205,7 +29205,7 @@ const Import = class Import extends AbstractIcon {
 }
 Import.Namespace=`Lucide`;
 Import.Tag=`lucide-import`;
-_.Import=Import;
+__as1(_, 'Import', Import);
 if(!window.customElements.get('lucide-import')){window.customElements.define('lucide-import', Import);Aventus.WebComponentInstance.registerDefinition(Import);}
 
 const Inbox = class Inbox extends AbstractIcon {
@@ -29229,7 +29229,7 @@ const Inbox = class Inbox extends AbstractIcon {
 }
 Inbox.Namespace=`Lucide`;
 Inbox.Tag=`lucide-inbox`;
-_.Inbox=Inbox;
+__as1(_, 'Inbox', Inbox);
 if(!window.customElements.get('lucide-inbox')){window.customElements.define('lucide-inbox', Inbox);Aventus.WebComponentInstance.registerDefinition(Inbox);}
 
 const Indent = class Indent extends AbstractIcon {
@@ -29253,7 +29253,7 @@ const Indent = class Indent extends AbstractIcon {
 }
 Indent.Namespace=`Lucide`;
 Indent.Tag=`lucide-indent`;
-_.Indent=Indent;
+__as1(_, 'Indent', Indent);
 if(!window.customElements.get('lucide-indent')){window.customElements.define('lucide-indent', Indent);Aventus.WebComponentInstance.registerDefinition(Indent);}
 
 const IndentDecrease = class IndentDecrease extends AbstractIcon {
@@ -29277,7 +29277,7 @@ const IndentDecrease = class IndentDecrease extends AbstractIcon {
 }
 IndentDecrease.Namespace=`Lucide`;
 IndentDecrease.Tag=`lucide-indent-decrease`;
-_.IndentDecrease=IndentDecrease;
+__as1(_, 'IndentDecrease', IndentDecrease);
 if(!window.customElements.get('lucide-indent-decrease')){window.customElements.define('lucide-indent-decrease', IndentDecrease);Aventus.WebComponentInstance.registerDefinition(IndentDecrease);}
 
 const IndentIncrease = class IndentIncrease extends AbstractIcon {
@@ -29301,7 +29301,7 @@ const IndentIncrease = class IndentIncrease extends AbstractIcon {
 }
 IndentIncrease.Namespace=`Lucide`;
 IndentIncrease.Tag=`lucide-indent-increase`;
-_.IndentIncrease=IndentIncrease;
+__as1(_, 'IndentIncrease', IndentIncrease);
 if(!window.customElements.get('lucide-indent-increase')){window.customElements.define('lucide-indent-increase', IndentIncrease);Aventus.WebComponentInstance.registerDefinition(IndentIncrease);}
 
 const IndianRupee = class IndianRupee extends AbstractIcon {
@@ -29325,7 +29325,7 @@ const IndianRupee = class IndianRupee extends AbstractIcon {
 }
 IndianRupee.Namespace=`Lucide`;
 IndianRupee.Tag=`lucide-indian-rupee`;
-_.IndianRupee=IndianRupee;
+__as1(_, 'IndianRupee', IndianRupee);
 if(!window.customElements.get('lucide-indian-rupee')){window.customElements.define('lucide-indian-rupee', IndianRupee);Aventus.WebComponentInstance.registerDefinition(IndianRupee);}
 
 const Infinity = class Infinity extends AbstractIcon {
@@ -29349,7 +29349,7 @@ const Infinity = class Infinity extends AbstractIcon {
 }
 Infinity.Namespace=`Lucide`;
 Infinity.Tag=`lucide-infinity`;
-_.Infinity=Infinity;
+__as1(_, 'Infinity', Infinity);
 if(!window.customElements.get('lucide-infinity')){window.customElements.define('lucide-infinity', Infinity);Aventus.WebComponentInstance.registerDefinition(Infinity);}
 
 const Info = class Info extends AbstractIcon {
@@ -29373,7 +29373,7 @@ const Info = class Info extends AbstractIcon {
 }
 Info.Namespace=`Lucide`;
 Info.Tag=`lucide-info`;
-_.Info=Info;
+__as1(_, 'Info', Info);
 if(!window.customElements.get('lucide-info')){window.customElements.define('lucide-info', Info);Aventus.WebComponentInstance.registerDefinition(Info);}
 
 const Inspect = class Inspect extends AbstractIcon {
@@ -29397,7 +29397,7 @@ const Inspect = class Inspect extends AbstractIcon {
 }
 Inspect.Namespace=`Lucide`;
 Inspect.Tag=`lucide-inspect`;
-_.Inspect=Inspect;
+__as1(_, 'Inspect', Inspect);
 if(!window.customElements.get('lucide-inspect')){window.customElements.define('lucide-inspect', Inspect);Aventus.WebComponentInstance.registerDefinition(Inspect);}
 
 const InspectionPanel = class InspectionPanel extends AbstractIcon {
@@ -29421,7 +29421,7 @@ const InspectionPanel = class InspectionPanel extends AbstractIcon {
 }
 InspectionPanel.Namespace=`Lucide`;
 InspectionPanel.Tag=`lucide-inspection-panel`;
-_.InspectionPanel=InspectionPanel;
+__as1(_, 'InspectionPanel', InspectionPanel);
 if(!window.customElements.get('lucide-inspection-panel')){window.customElements.define('lucide-inspection-panel', InspectionPanel);Aventus.WebComponentInstance.registerDefinition(InspectionPanel);}
 
 const Instagram = class Instagram extends AbstractIcon {
@@ -29445,7 +29445,7 @@ const Instagram = class Instagram extends AbstractIcon {
 }
 Instagram.Namespace=`Lucide`;
 Instagram.Tag=`lucide-instagram`;
-_.Instagram=Instagram;
+__as1(_, 'Instagram', Instagram);
 if(!window.customElements.get('lucide-instagram')){window.customElements.define('lucide-instagram', Instagram);Aventus.WebComponentInstance.registerDefinition(Instagram);}
 
 const Italic = class Italic extends AbstractIcon {
@@ -29469,7 +29469,7 @@ const Italic = class Italic extends AbstractIcon {
 }
 Italic.Namespace=`Lucide`;
 Italic.Tag=`lucide-italic`;
-_.Italic=Italic;
+__as1(_, 'Italic', Italic);
 if(!window.customElements.get('lucide-italic')){window.customElements.define('lucide-italic', Italic);Aventus.WebComponentInstance.registerDefinition(Italic);}
 
 const IterationCcw = class IterationCcw extends AbstractIcon {
@@ -29493,7 +29493,7 @@ const IterationCcw = class IterationCcw extends AbstractIcon {
 }
 IterationCcw.Namespace=`Lucide`;
 IterationCcw.Tag=`lucide-iteration-ccw`;
-_.IterationCcw=IterationCcw;
+__as1(_, 'IterationCcw', IterationCcw);
 if(!window.customElements.get('lucide-iteration-ccw')){window.customElements.define('lucide-iteration-ccw', IterationCcw);Aventus.WebComponentInstance.registerDefinition(IterationCcw);}
 
 const IterationCw = class IterationCw extends AbstractIcon {
@@ -29517,7 +29517,7 @@ const IterationCw = class IterationCw extends AbstractIcon {
 }
 IterationCw.Namespace=`Lucide`;
 IterationCw.Tag=`lucide-iteration-cw`;
-_.IterationCw=IterationCw;
+__as1(_, 'IterationCw', IterationCw);
 if(!window.customElements.get('lucide-iteration-cw')){window.customElements.define('lucide-iteration-cw', IterationCw);Aventus.WebComponentInstance.registerDefinition(IterationCw);}
 
 const JapaneseYen = class JapaneseYen extends AbstractIcon {
@@ -29541,7 +29541,7 @@ const JapaneseYen = class JapaneseYen extends AbstractIcon {
 }
 JapaneseYen.Namespace=`Lucide`;
 JapaneseYen.Tag=`lucide-japanese-yen`;
-_.JapaneseYen=JapaneseYen;
+__as1(_, 'JapaneseYen', JapaneseYen);
 if(!window.customElements.get('lucide-japanese-yen')){window.customElements.define('lucide-japanese-yen', JapaneseYen);Aventus.WebComponentInstance.registerDefinition(JapaneseYen);}
 
 const Joystick = class Joystick extends AbstractIcon {
@@ -29565,7 +29565,7 @@ const Joystick = class Joystick extends AbstractIcon {
 }
 Joystick.Namespace=`Lucide`;
 Joystick.Tag=`lucide-joystick`;
-_.Joystick=Joystick;
+__as1(_, 'Joystick', Joystick);
 if(!window.customElements.get('lucide-joystick')){window.customElements.define('lucide-joystick', Joystick);Aventus.WebComponentInstance.registerDefinition(Joystick);}
 
 const Kanban = class Kanban extends AbstractIcon {
@@ -29589,7 +29589,7 @@ const Kanban = class Kanban extends AbstractIcon {
 }
 Kanban.Namespace=`Lucide`;
 Kanban.Tag=`lucide-kanban`;
-_.Kanban=Kanban;
+__as1(_, 'Kanban', Kanban);
 if(!window.customElements.get('lucide-kanban')){window.customElements.define('lucide-kanban', Kanban);Aventus.WebComponentInstance.registerDefinition(Kanban);}
 
 const KanbanSquare = class KanbanSquare extends AbstractIcon {
@@ -29613,7 +29613,7 @@ const KanbanSquare = class KanbanSquare extends AbstractIcon {
 }
 KanbanSquare.Namespace=`Lucide`;
 KanbanSquare.Tag=`lucide-kanban-square`;
-_.KanbanSquare=KanbanSquare;
+__as1(_, 'KanbanSquare', KanbanSquare);
 if(!window.customElements.get('lucide-kanban-square')){window.customElements.define('lucide-kanban-square', KanbanSquare);Aventus.WebComponentInstance.registerDefinition(KanbanSquare);}
 
 const KanbanSquareDashed = class KanbanSquareDashed extends AbstractIcon {
@@ -29637,7 +29637,7 @@ const KanbanSquareDashed = class KanbanSquareDashed extends AbstractIcon {
 }
 KanbanSquareDashed.Namespace=`Lucide`;
 KanbanSquareDashed.Tag=`lucide-kanban-square-dashed`;
-_.KanbanSquareDashed=KanbanSquareDashed;
+__as1(_, 'KanbanSquareDashed', KanbanSquareDashed);
 if(!window.customElements.get('lucide-kanban-square-dashed')){window.customElements.define('lucide-kanban-square-dashed', KanbanSquareDashed);Aventus.WebComponentInstance.registerDefinition(KanbanSquareDashed);}
 
 const Key = class Key extends AbstractIcon {
@@ -29661,7 +29661,7 @@ const Key = class Key extends AbstractIcon {
 }
 Key.Namespace=`Lucide`;
 Key.Tag=`lucide-key`;
-_.Key=Key;
+__as1(_, 'Key', Key);
 if(!window.customElements.get('lucide-key')){window.customElements.define('lucide-key', Key);Aventus.WebComponentInstance.registerDefinition(Key);}
 
 const Keyboard = class Keyboard extends AbstractIcon {
@@ -29685,7 +29685,7 @@ const Keyboard = class Keyboard extends AbstractIcon {
 }
 Keyboard.Namespace=`Lucide`;
 Keyboard.Tag=`lucide-keyboard`;
-_.Keyboard=Keyboard;
+__as1(_, 'Keyboard', Keyboard);
 if(!window.customElements.get('lucide-keyboard')){window.customElements.define('lucide-keyboard', Keyboard);Aventus.WebComponentInstance.registerDefinition(Keyboard);}
 
 const KeyboardMusic = class KeyboardMusic extends AbstractIcon {
@@ -29709,7 +29709,7 @@ const KeyboardMusic = class KeyboardMusic extends AbstractIcon {
 }
 KeyboardMusic.Namespace=`Lucide`;
 KeyboardMusic.Tag=`lucide-keyboard-music`;
-_.KeyboardMusic=KeyboardMusic;
+__as1(_, 'KeyboardMusic', KeyboardMusic);
 if(!window.customElements.get('lucide-keyboard-music')){window.customElements.define('lucide-keyboard-music', KeyboardMusic);Aventus.WebComponentInstance.registerDefinition(KeyboardMusic);}
 
 const KeyboardOff = class KeyboardOff extends AbstractIcon {
@@ -29733,7 +29733,7 @@ const KeyboardOff = class KeyboardOff extends AbstractIcon {
 }
 KeyboardOff.Namespace=`Lucide`;
 KeyboardOff.Tag=`lucide-keyboard-off`;
-_.KeyboardOff=KeyboardOff;
+__as1(_, 'KeyboardOff', KeyboardOff);
 if(!window.customElements.get('lucide-keyboard-off')){window.customElements.define('lucide-keyboard-off', KeyboardOff);Aventus.WebComponentInstance.registerDefinition(KeyboardOff);}
 
 const KeyRound = class KeyRound extends AbstractIcon {
@@ -29757,7 +29757,7 @@ const KeyRound = class KeyRound extends AbstractIcon {
 }
 KeyRound.Namespace=`Lucide`;
 KeyRound.Tag=`lucide-key-round`;
-_.KeyRound=KeyRound;
+__as1(_, 'KeyRound', KeyRound);
 if(!window.customElements.get('lucide-key-round')){window.customElements.define('lucide-key-round', KeyRound);Aventus.WebComponentInstance.registerDefinition(KeyRound);}
 
 const KeySquare = class KeySquare extends AbstractIcon {
@@ -29781,7 +29781,7 @@ const KeySquare = class KeySquare extends AbstractIcon {
 }
 KeySquare.Namespace=`Lucide`;
 KeySquare.Tag=`lucide-key-square`;
-_.KeySquare=KeySquare;
+__as1(_, 'KeySquare', KeySquare);
 if(!window.customElements.get('lucide-key-square')){window.customElements.define('lucide-key-square', KeySquare);Aventus.WebComponentInstance.registerDefinition(KeySquare);}
 
 const Lamp = class Lamp extends AbstractIcon {
@@ -29805,7 +29805,7 @@ const Lamp = class Lamp extends AbstractIcon {
 }
 Lamp.Namespace=`Lucide`;
 Lamp.Tag=`lucide-lamp`;
-_.Lamp=Lamp;
+__as1(_, 'Lamp', Lamp);
 if(!window.customElements.get('lucide-lamp')){window.customElements.define('lucide-lamp', Lamp);Aventus.WebComponentInstance.registerDefinition(Lamp);}
 
 const LampCeiling = class LampCeiling extends AbstractIcon {
@@ -29829,7 +29829,7 @@ const LampCeiling = class LampCeiling extends AbstractIcon {
 }
 LampCeiling.Namespace=`Lucide`;
 LampCeiling.Tag=`lucide-lamp-ceiling`;
-_.LampCeiling=LampCeiling;
+__as1(_, 'LampCeiling', LampCeiling);
 if(!window.customElements.get('lucide-lamp-ceiling')){window.customElements.define('lucide-lamp-ceiling', LampCeiling);Aventus.WebComponentInstance.registerDefinition(LampCeiling);}
 
 const LampDesk = class LampDesk extends AbstractIcon {
@@ -29853,7 +29853,7 @@ const LampDesk = class LampDesk extends AbstractIcon {
 }
 LampDesk.Namespace=`Lucide`;
 LampDesk.Tag=`lucide-lamp-desk`;
-_.LampDesk=LampDesk;
+__as1(_, 'LampDesk', LampDesk);
 if(!window.customElements.get('lucide-lamp-desk')){window.customElements.define('lucide-lamp-desk', LampDesk);Aventus.WebComponentInstance.registerDefinition(LampDesk);}
 
 const LampFloor = class LampFloor extends AbstractIcon {
@@ -29877,7 +29877,7 @@ const LampFloor = class LampFloor extends AbstractIcon {
 }
 LampFloor.Namespace=`Lucide`;
 LampFloor.Tag=`lucide-lamp-floor`;
-_.LampFloor=LampFloor;
+__as1(_, 'LampFloor', LampFloor);
 if(!window.customElements.get('lucide-lamp-floor')){window.customElements.define('lucide-lamp-floor', LampFloor);Aventus.WebComponentInstance.registerDefinition(LampFloor);}
 
 const LampWallDown = class LampWallDown extends AbstractIcon {
@@ -29901,7 +29901,7 @@ const LampWallDown = class LampWallDown extends AbstractIcon {
 }
 LampWallDown.Namespace=`Lucide`;
 LampWallDown.Tag=`lucide-lamp-wall-down`;
-_.LampWallDown=LampWallDown;
+__as1(_, 'LampWallDown', LampWallDown);
 if(!window.customElements.get('lucide-lamp-wall-down')){window.customElements.define('lucide-lamp-wall-down', LampWallDown);Aventus.WebComponentInstance.registerDefinition(LampWallDown);}
 
 const LampWallUp = class LampWallUp extends AbstractIcon {
@@ -29925,7 +29925,7 @@ const LampWallUp = class LampWallUp extends AbstractIcon {
 }
 LampWallUp.Namespace=`Lucide`;
 LampWallUp.Tag=`lucide-lamp-wall-up`;
-_.LampWallUp=LampWallUp;
+__as1(_, 'LampWallUp', LampWallUp);
 if(!window.customElements.get('lucide-lamp-wall-up')){window.customElements.define('lucide-lamp-wall-up', LampWallUp);Aventus.WebComponentInstance.registerDefinition(LampWallUp);}
 
 const Landmark = class Landmark extends AbstractIcon {
@@ -29949,7 +29949,7 @@ const Landmark = class Landmark extends AbstractIcon {
 }
 Landmark.Namespace=`Lucide`;
 Landmark.Tag=`lucide-landmark`;
-_.Landmark=Landmark;
+__as1(_, 'Landmark', Landmark);
 if(!window.customElements.get('lucide-landmark')){window.customElements.define('lucide-landmark', Landmark);Aventus.WebComponentInstance.registerDefinition(Landmark);}
 
 const LandPlot = class LandPlot extends AbstractIcon {
@@ -29973,7 +29973,7 @@ const LandPlot = class LandPlot extends AbstractIcon {
 }
 LandPlot.Namespace=`Lucide`;
 LandPlot.Tag=`lucide-land-plot`;
-_.LandPlot=LandPlot;
+__as1(_, 'LandPlot', LandPlot);
 if(!window.customElements.get('lucide-land-plot')){window.customElements.define('lucide-land-plot', LandPlot);Aventus.WebComponentInstance.registerDefinition(LandPlot);}
 
 const Languages = class Languages extends AbstractIcon {
@@ -29997,7 +29997,7 @@ const Languages = class Languages extends AbstractIcon {
 }
 Languages.Namespace=`Lucide`;
 Languages.Tag=`lucide-languages`;
-_.Languages=Languages;
+__as1(_, 'Languages', Languages);
 if(!window.customElements.get('lucide-languages')){window.customElements.define('lucide-languages', Languages);Aventus.WebComponentInstance.registerDefinition(Languages);}
 
 const Laptop = class Laptop extends AbstractIcon {
@@ -30021,7 +30021,7 @@ const Laptop = class Laptop extends AbstractIcon {
 }
 Laptop.Namespace=`Lucide`;
 Laptop.Tag=`lucide-laptop`;
-_.Laptop=Laptop;
+__as1(_, 'Laptop', Laptop);
 if(!window.customElements.get('lucide-laptop')){window.customElements.define('lucide-laptop', Laptop);Aventus.WebComponentInstance.registerDefinition(Laptop);}
 
 const Laptop2 = class Laptop2 extends AbstractIcon {
@@ -30045,7 +30045,7 @@ const Laptop2 = class Laptop2 extends AbstractIcon {
 }
 Laptop2.Namespace=`Lucide`;
 Laptop2.Tag=`lucide-laptop-2`;
-_.Laptop2=Laptop2;
+__as1(_, 'Laptop2', Laptop2);
 if(!window.customElements.get('lucide-laptop-2')){window.customElements.define('lucide-laptop-2', Laptop2);Aventus.WebComponentInstance.registerDefinition(Laptop2);}
 
 const LaptopMinimal = class LaptopMinimal extends AbstractIcon {
@@ -30069,7 +30069,7 @@ const LaptopMinimal = class LaptopMinimal extends AbstractIcon {
 }
 LaptopMinimal.Namespace=`Lucide`;
 LaptopMinimal.Tag=`lucide-laptop-minimal`;
-_.LaptopMinimal=LaptopMinimal;
+__as1(_, 'LaptopMinimal', LaptopMinimal);
 if(!window.customElements.get('lucide-laptop-minimal')){window.customElements.define('lucide-laptop-minimal', LaptopMinimal);Aventus.WebComponentInstance.registerDefinition(LaptopMinimal);}
 
 const LaptopMinimalCheck = class LaptopMinimalCheck extends AbstractIcon {
@@ -30093,7 +30093,7 @@ const LaptopMinimalCheck = class LaptopMinimalCheck extends AbstractIcon {
 }
 LaptopMinimalCheck.Namespace=`Lucide`;
 LaptopMinimalCheck.Tag=`lucide-laptop-minimal-check`;
-_.LaptopMinimalCheck=LaptopMinimalCheck;
+__as1(_, 'LaptopMinimalCheck', LaptopMinimalCheck);
 if(!window.customElements.get('lucide-laptop-minimal-check')){window.customElements.define('lucide-laptop-minimal-check', LaptopMinimalCheck);Aventus.WebComponentInstance.registerDefinition(LaptopMinimalCheck);}
 
 const Lasso = class Lasso extends AbstractIcon {
@@ -30117,7 +30117,7 @@ const Lasso = class Lasso extends AbstractIcon {
 }
 Lasso.Namespace=`Lucide`;
 Lasso.Tag=`lucide-lasso`;
-_.Lasso=Lasso;
+__as1(_, 'Lasso', Lasso);
 if(!window.customElements.get('lucide-lasso')){window.customElements.define('lucide-lasso', Lasso);Aventus.WebComponentInstance.registerDefinition(Lasso);}
 
 const LassoSelect = class LassoSelect extends AbstractIcon {
@@ -30141,7 +30141,7 @@ const LassoSelect = class LassoSelect extends AbstractIcon {
 }
 LassoSelect.Namespace=`Lucide`;
 LassoSelect.Tag=`lucide-lasso-select`;
-_.LassoSelect=LassoSelect;
+__as1(_, 'LassoSelect', LassoSelect);
 if(!window.customElements.get('lucide-lasso-select')){window.customElements.define('lucide-lasso-select', LassoSelect);Aventus.WebComponentInstance.registerDefinition(LassoSelect);}
 
 const Laugh = class Laugh extends AbstractIcon {
@@ -30165,7 +30165,7 @@ const Laugh = class Laugh extends AbstractIcon {
 }
 Laugh.Namespace=`Lucide`;
 Laugh.Tag=`lucide-laugh`;
-_.Laugh=Laugh;
+__as1(_, 'Laugh', Laugh);
 if(!window.customElements.get('lucide-laugh')){window.customElements.define('lucide-laugh', Laugh);Aventus.WebComponentInstance.registerDefinition(Laugh);}
 
 const Layers = class Layers extends AbstractIcon {
@@ -30189,7 +30189,7 @@ const Layers = class Layers extends AbstractIcon {
 }
 Layers.Namespace=`Lucide`;
 Layers.Tag=`lucide-layers`;
-_.Layers=Layers;
+__as1(_, 'Layers', Layers);
 if(!window.customElements.get('lucide-layers')){window.customElements.define('lucide-layers', Layers);Aventus.WebComponentInstance.registerDefinition(Layers);}
 
 const Layers2 = class Layers2 extends AbstractIcon {
@@ -30213,7 +30213,7 @@ const Layers2 = class Layers2 extends AbstractIcon {
 }
 Layers2.Namespace=`Lucide`;
 Layers2.Tag=`lucide-layers-2`;
-_.Layers2=Layers2;
+__as1(_, 'Layers2', Layers2);
 if(!window.customElements.get('lucide-layers-2')){window.customElements.define('lucide-layers-2', Layers2);Aventus.WebComponentInstance.registerDefinition(Layers2);}
 
 const Layers3 = class Layers3 extends AbstractIcon {
@@ -30237,7 +30237,7 @@ const Layers3 = class Layers3 extends AbstractIcon {
 }
 Layers3.Namespace=`Lucide`;
 Layers3.Tag=`lucide-layers-3`;
-_.Layers3=Layers3;
+__as1(_, 'Layers3', Layers3);
 if(!window.customElements.get('lucide-layers-3')){window.customElements.define('lucide-layers-3', Layers3);Aventus.WebComponentInstance.registerDefinition(Layers3);}
 
 const Layout = class Layout extends AbstractIcon {
@@ -30261,7 +30261,7 @@ const Layout = class Layout extends AbstractIcon {
 }
 Layout.Namespace=`Lucide`;
 Layout.Tag=`lucide-layout`;
-_.Layout=Layout;
+__as1(_, 'Layout', Layout);
 if(!window.customElements.get('lucide-layout')){window.customElements.define('lucide-layout', Layout);Aventus.WebComponentInstance.registerDefinition(Layout);}
 
 const LayoutDashboard = class LayoutDashboard extends AbstractIcon {
@@ -30285,7 +30285,7 @@ const LayoutDashboard = class LayoutDashboard extends AbstractIcon {
 }
 LayoutDashboard.Namespace=`Lucide`;
 LayoutDashboard.Tag=`lucide-layout-dashboard`;
-_.LayoutDashboard=LayoutDashboard;
+__as1(_, 'LayoutDashboard', LayoutDashboard);
 if(!window.customElements.get('lucide-layout-dashboard')){window.customElements.define('lucide-layout-dashboard', LayoutDashboard);Aventus.WebComponentInstance.registerDefinition(LayoutDashboard);}
 
 const LayoutGrid = class LayoutGrid extends AbstractIcon {
@@ -30309,7 +30309,7 @@ const LayoutGrid = class LayoutGrid extends AbstractIcon {
 }
 LayoutGrid.Namespace=`Lucide`;
 LayoutGrid.Tag=`lucide-layout-grid`;
-_.LayoutGrid=LayoutGrid;
+__as1(_, 'LayoutGrid', LayoutGrid);
 if(!window.customElements.get('lucide-layout-grid')){window.customElements.define('lucide-layout-grid', LayoutGrid);Aventus.WebComponentInstance.registerDefinition(LayoutGrid);}
 
 const LayoutList = class LayoutList extends AbstractIcon {
@@ -30333,7 +30333,7 @@ const LayoutList = class LayoutList extends AbstractIcon {
 }
 LayoutList.Namespace=`Lucide`;
 LayoutList.Tag=`lucide-layout-list`;
-_.LayoutList=LayoutList;
+__as1(_, 'LayoutList', LayoutList);
 if(!window.customElements.get('lucide-layout-list')){window.customElements.define('lucide-layout-list', LayoutList);Aventus.WebComponentInstance.registerDefinition(LayoutList);}
 
 const LayoutPanelLeft = class LayoutPanelLeft extends AbstractIcon {
@@ -30357,7 +30357,7 @@ const LayoutPanelLeft = class LayoutPanelLeft extends AbstractIcon {
 }
 LayoutPanelLeft.Namespace=`Lucide`;
 LayoutPanelLeft.Tag=`lucide-layout-panel-left`;
-_.LayoutPanelLeft=LayoutPanelLeft;
+__as1(_, 'LayoutPanelLeft', LayoutPanelLeft);
 if(!window.customElements.get('lucide-layout-panel-left')){window.customElements.define('lucide-layout-panel-left', LayoutPanelLeft);Aventus.WebComponentInstance.registerDefinition(LayoutPanelLeft);}
 
 const LayoutPanelTop = class LayoutPanelTop extends AbstractIcon {
@@ -30381,7 +30381,7 @@ const LayoutPanelTop = class LayoutPanelTop extends AbstractIcon {
 }
 LayoutPanelTop.Namespace=`Lucide`;
 LayoutPanelTop.Tag=`lucide-layout-panel-top`;
-_.LayoutPanelTop=LayoutPanelTop;
+__as1(_, 'LayoutPanelTop', LayoutPanelTop);
 if(!window.customElements.get('lucide-layout-panel-top')){window.customElements.define('lucide-layout-panel-top', LayoutPanelTop);Aventus.WebComponentInstance.registerDefinition(LayoutPanelTop);}
 
 const LayoutTemplate = class LayoutTemplate extends AbstractIcon {
@@ -30405,7 +30405,7 @@ const LayoutTemplate = class LayoutTemplate extends AbstractIcon {
 }
 LayoutTemplate.Namespace=`Lucide`;
 LayoutTemplate.Tag=`lucide-layout-template`;
-_.LayoutTemplate=LayoutTemplate;
+__as1(_, 'LayoutTemplate', LayoutTemplate);
 if(!window.customElements.get('lucide-layout-template')){window.customElements.define('lucide-layout-template', LayoutTemplate);Aventus.WebComponentInstance.registerDefinition(LayoutTemplate);}
 
 const Leaf = class Leaf extends AbstractIcon {
@@ -30429,7 +30429,7 @@ const Leaf = class Leaf extends AbstractIcon {
 }
 Leaf.Namespace=`Lucide`;
 Leaf.Tag=`lucide-leaf`;
-_.Leaf=Leaf;
+__as1(_, 'Leaf', Leaf);
 if(!window.customElements.get('lucide-leaf')){window.customElements.define('lucide-leaf', Leaf);Aventus.WebComponentInstance.registerDefinition(Leaf);}
 
 const LeafyGreen = class LeafyGreen extends AbstractIcon {
@@ -30453,7 +30453,7 @@ const LeafyGreen = class LeafyGreen extends AbstractIcon {
 }
 LeafyGreen.Namespace=`Lucide`;
 LeafyGreen.Tag=`lucide-leafy-green`;
-_.LeafyGreen=LeafyGreen;
+__as1(_, 'LeafyGreen', LeafyGreen);
 if(!window.customElements.get('lucide-leafy-green')){window.customElements.define('lucide-leafy-green', LeafyGreen);Aventus.WebComponentInstance.registerDefinition(LeafyGreen);}
 
 const Lectern = class Lectern extends AbstractIcon {
@@ -30477,7 +30477,7 @@ const Lectern = class Lectern extends AbstractIcon {
 }
 Lectern.Namespace=`Lucide`;
 Lectern.Tag=`lucide-lectern`;
-_.Lectern=Lectern;
+__as1(_, 'Lectern', Lectern);
 if(!window.customElements.get('lucide-lectern')){window.customElements.define('lucide-lectern', Lectern);Aventus.WebComponentInstance.registerDefinition(Lectern);}
 
 const LetterText = class LetterText extends AbstractIcon {
@@ -30501,7 +30501,7 @@ const LetterText = class LetterText extends AbstractIcon {
 }
 LetterText.Namespace=`Lucide`;
 LetterText.Tag=`lucide-letter-text`;
-_.LetterText=LetterText;
+__as1(_, 'LetterText', LetterText);
 if(!window.customElements.get('lucide-letter-text')){window.customElements.define('lucide-letter-text', LetterText);Aventus.WebComponentInstance.registerDefinition(LetterText);}
 
 const Library = class Library extends AbstractIcon {
@@ -30525,7 +30525,7 @@ const Library = class Library extends AbstractIcon {
 }
 Library.Namespace=`Lucide`;
 Library.Tag=`lucide-library`;
-_.Library=Library;
+__as1(_, 'Library', Library);
 if(!window.customElements.get('lucide-library')){window.customElements.define('lucide-library', Library);Aventus.WebComponentInstance.registerDefinition(Library);}
 
 const LibraryBig = class LibraryBig extends AbstractIcon {
@@ -30549,7 +30549,7 @@ const LibraryBig = class LibraryBig extends AbstractIcon {
 }
 LibraryBig.Namespace=`Lucide`;
 LibraryBig.Tag=`lucide-library-big`;
-_.LibraryBig=LibraryBig;
+__as1(_, 'LibraryBig', LibraryBig);
 if(!window.customElements.get('lucide-library-big')){window.customElements.define('lucide-library-big', LibraryBig);Aventus.WebComponentInstance.registerDefinition(LibraryBig);}
 
 const LibrarySquare = class LibrarySquare extends AbstractIcon {
@@ -30573,7 +30573,7 @@ const LibrarySquare = class LibrarySquare extends AbstractIcon {
 }
 LibrarySquare.Namespace=`Lucide`;
 LibrarySquare.Tag=`lucide-library-square`;
-_.LibrarySquare=LibrarySquare;
+__as1(_, 'LibrarySquare', LibrarySquare);
 if(!window.customElements.get('lucide-library-square')){window.customElements.define('lucide-library-square', LibrarySquare);Aventus.WebComponentInstance.registerDefinition(LibrarySquare);}
 
 const LifeBuoy = class LifeBuoy extends AbstractIcon {
@@ -30597,7 +30597,7 @@ const LifeBuoy = class LifeBuoy extends AbstractIcon {
 }
 LifeBuoy.Namespace=`Lucide`;
 LifeBuoy.Tag=`lucide-life-buoy`;
-_.LifeBuoy=LifeBuoy;
+__as1(_, 'LifeBuoy', LifeBuoy);
 if(!window.customElements.get('lucide-life-buoy')){window.customElements.define('lucide-life-buoy', LifeBuoy);Aventus.WebComponentInstance.registerDefinition(LifeBuoy);}
 
 const Ligature = class Ligature extends AbstractIcon {
@@ -30621,7 +30621,7 @@ const Ligature = class Ligature extends AbstractIcon {
 }
 Ligature.Namespace=`Lucide`;
 Ligature.Tag=`lucide-ligature`;
-_.Ligature=Ligature;
+__as1(_, 'Ligature', Ligature);
 if(!window.customElements.get('lucide-ligature')){window.customElements.define('lucide-ligature', Ligature);Aventus.WebComponentInstance.registerDefinition(Ligature);}
 
 const Lightbulb = class Lightbulb extends AbstractIcon {
@@ -30645,7 +30645,7 @@ const Lightbulb = class Lightbulb extends AbstractIcon {
 }
 Lightbulb.Namespace=`Lucide`;
 Lightbulb.Tag=`lucide-lightbulb`;
-_.Lightbulb=Lightbulb;
+__as1(_, 'Lightbulb', Lightbulb);
 if(!window.customElements.get('lucide-lightbulb')){window.customElements.define('lucide-lightbulb', Lightbulb);Aventus.WebComponentInstance.registerDefinition(Lightbulb);}
 
 const LightbulbOff = class LightbulbOff extends AbstractIcon {
@@ -30669,7 +30669,7 @@ const LightbulbOff = class LightbulbOff extends AbstractIcon {
 }
 LightbulbOff.Namespace=`Lucide`;
 LightbulbOff.Tag=`lucide-lightbulb-off`;
-_.LightbulbOff=LightbulbOff;
+__as1(_, 'LightbulbOff', LightbulbOff);
 if(!window.customElements.get('lucide-lightbulb-off')){window.customElements.define('lucide-lightbulb-off', LightbulbOff);Aventus.WebComponentInstance.registerDefinition(LightbulbOff);}
 
 const LineChart = class LineChart extends AbstractIcon {
@@ -30693,7 +30693,7 @@ const LineChart = class LineChart extends AbstractIcon {
 }
 LineChart.Namespace=`Lucide`;
 LineChart.Tag=`lucide-line-chart`;
-_.LineChart=LineChart;
+__as1(_, 'LineChart', LineChart);
 if(!window.customElements.get('lucide-line-chart')){window.customElements.define('lucide-line-chart', LineChart);Aventus.WebComponentInstance.registerDefinition(LineChart);}
 
 const LineSquiggle = class LineSquiggle extends AbstractIcon {
@@ -30717,7 +30717,7 @@ const LineSquiggle = class LineSquiggle extends AbstractIcon {
 }
 LineSquiggle.Namespace=`Lucide`;
 LineSquiggle.Tag=`lucide-line-squiggle`;
-_.LineSquiggle=LineSquiggle;
+__as1(_, 'LineSquiggle', LineSquiggle);
 if(!window.customElements.get('lucide-line-squiggle')){window.customElements.define('lucide-line-squiggle', LineSquiggle);Aventus.WebComponentInstance.registerDefinition(LineSquiggle);}
 
 const Link = class Link extends AbstractIcon {
@@ -30741,7 +30741,7 @@ const Link = class Link extends AbstractIcon {
 }
 Link.Namespace=`Lucide`;
 Link.Tag=`lucide-link`;
-_.Link=Link;
+__as1(_, 'Link', Link);
 if(!window.customElements.get('lucide-link')){window.customElements.define('lucide-link', Link);Aventus.WebComponentInstance.registerDefinition(Link);}
 
 const Link2 = class Link2 extends AbstractIcon {
@@ -30765,7 +30765,7 @@ const Link2 = class Link2 extends AbstractIcon {
 }
 Link2.Namespace=`Lucide`;
 Link2.Tag=`lucide-link-2`;
-_.Link2=Link2;
+__as1(_, 'Link2', Link2);
 if(!window.customElements.get('lucide-link-2')){window.customElements.define('lucide-link-2', Link2);Aventus.WebComponentInstance.registerDefinition(Link2);}
 
 const Link2Off = class Link2Off extends AbstractIcon {
@@ -30789,7 +30789,7 @@ const Link2Off = class Link2Off extends AbstractIcon {
 }
 Link2Off.Namespace=`Lucide`;
 Link2Off.Tag=`lucide-link-2-off`;
-_.Link2Off=Link2Off;
+__as1(_, 'Link2Off', Link2Off);
 if(!window.customElements.get('lucide-link-2-off')){window.customElements.define('lucide-link-2-off', Link2Off);Aventus.WebComponentInstance.registerDefinition(Link2Off);}
 
 const Linkedin = class Linkedin extends AbstractIcon {
@@ -30813,7 +30813,7 @@ const Linkedin = class Linkedin extends AbstractIcon {
 }
 Linkedin.Namespace=`Lucide`;
 Linkedin.Tag=`lucide-linkedin`;
-_.Linkedin=Linkedin;
+__as1(_, 'Linkedin', Linkedin);
 if(!window.customElements.get('lucide-linkedin')){window.customElements.define('lucide-linkedin', Linkedin);Aventus.WebComponentInstance.registerDefinition(Linkedin);}
 
 const List = class List extends AbstractIcon {
@@ -30837,7 +30837,7 @@ const List = class List extends AbstractIcon {
 }
 List.Namespace=`Lucide`;
 List.Tag=`lucide-list`;
-_.List=List;
+__as1(_, 'List', List);
 if(!window.customElements.get('lucide-list')){window.customElements.define('lucide-list', List);Aventus.WebComponentInstance.registerDefinition(List);}
 
 const ListCheck = class ListCheck extends AbstractIcon {
@@ -30861,7 +30861,7 @@ const ListCheck = class ListCheck extends AbstractIcon {
 }
 ListCheck.Namespace=`Lucide`;
 ListCheck.Tag=`lucide-list-check`;
-_.ListCheck=ListCheck;
+__as1(_, 'ListCheck', ListCheck);
 if(!window.customElements.get('lucide-list-check')){window.customElements.define('lucide-list-check', ListCheck);Aventus.WebComponentInstance.registerDefinition(ListCheck);}
 
 const ListChecks = class ListChecks extends AbstractIcon {
@@ -30885,7 +30885,7 @@ const ListChecks = class ListChecks extends AbstractIcon {
 }
 ListChecks.Namespace=`Lucide`;
 ListChecks.Tag=`lucide-list-checks`;
-_.ListChecks=ListChecks;
+__as1(_, 'ListChecks', ListChecks);
 if(!window.customElements.get('lucide-list-checks')){window.customElements.define('lucide-list-checks', ListChecks);Aventus.WebComponentInstance.registerDefinition(ListChecks);}
 
 const ListCollapse = class ListCollapse extends AbstractIcon {
@@ -30909,7 +30909,7 @@ const ListCollapse = class ListCollapse extends AbstractIcon {
 }
 ListCollapse.Namespace=`Lucide`;
 ListCollapse.Tag=`lucide-list-collapse`;
-_.ListCollapse=ListCollapse;
+__as1(_, 'ListCollapse', ListCollapse);
 if(!window.customElements.get('lucide-list-collapse')){window.customElements.define('lucide-list-collapse', ListCollapse);Aventus.WebComponentInstance.registerDefinition(ListCollapse);}
 
 const ListEnd = class ListEnd extends AbstractIcon {
@@ -30933,7 +30933,7 @@ const ListEnd = class ListEnd extends AbstractIcon {
 }
 ListEnd.Namespace=`Lucide`;
 ListEnd.Tag=`lucide-list-end`;
-_.ListEnd=ListEnd;
+__as1(_, 'ListEnd', ListEnd);
 if(!window.customElements.get('lucide-list-end')){window.customElements.define('lucide-list-end', ListEnd);Aventus.WebComponentInstance.registerDefinition(ListEnd);}
 
 const ListFilter = class ListFilter extends AbstractIcon {
@@ -30957,7 +30957,7 @@ const ListFilter = class ListFilter extends AbstractIcon {
 }
 ListFilter.Namespace=`Lucide`;
 ListFilter.Tag=`lucide-list-filter`;
-_.ListFilter=ListFilter;
+__as1(_, 'ListFilter', ListFilter);
 if(!window.customElements.get('lucide-list-filter')){window.customElements.define('lucide-list-filter', ListFilter);Aventus.WebComponentInstance.registerDefinition(ListFilter);}
 
 const ListFilterPlus = class ListFilterPlus extends AbstractIcon {
@@ -30981,7 +30981,7 @@ const ListFilterPlus = class ListFilterPlus extends AbstractIcon {
 }
 ListFilterPlus.Namespace=`Lucide`;
 ListFilterPlus.Tag=`lucide-list-filter-plus`;
-_.ListFilterPlus=ListFilterPlus;
+__as1(_, 'ListFilterPlus', ListFilterPlus);
 if(!window.customElements.get('lucide-list-filter-plus')){window.customElements.define('lucide-list-filter-plus', ListFilterPlus);Aventus.WebComponentInstance.registerDefinition(ListFilterPlus);}
 
 const ListMinus = class ListMinus extends AbstractIcon {
@@ -31005,7 +31005,7 @@ const ListMinus = class ListMinus extends AbstractIcon {
 }
 ListMinus.Namespace=`Lucide`;
 ListMinus.Tag=`lucide-list-minus`;
-_.ListMinus=ListMinus;
+__as1(_, 'ListMinus', ListMinus);
 if(!window.customElements.get('lucide-list-minus')){window.customElements.define('lucide-list-minus', ListMinus);Aventus.WebComponentInstance.registerDefinition(ListMinus);}
 
 const ListMusic = class ListMusic extends AbstractIcon {
@@ -31029,7 +31029,7 @@ const ListMusic = class ListMusic extends AbstractIcon {
 }
 ListMusic.Namespace=`Lucide`;
 ListMusic.Tag=`lucide-list-music`;
-_.ListMusic=ListMusic;
+__as1(_, 'ListMusic', ListMusic);
 if(!window.customElements.get('lucide-list-music')){window.customElements.define('lucide-list-music', ListMusic);Aventus.WebComponentInstance.registerDefinition(ListMusic);}
 
 const ListOrdered = class ListOrdered extends AbstractIcon {
@@ -31053,7 +31053,7 @@ const ListOrdered = class ListOrdered extends AbstractIcon {
 }
 ListOrdered.Namespace=`Lucide`;
 ListOrdered.Tag=`lucide-list-ordered`;
-_.ListOrdered=ListOrdered;
+__as1(_, 'ListOrdered', ListOrdered);
 if(!window.customElements.get('lucide-list-ordered')){window.customElements.define('lucide-list-ordered', ListOrdered);Aventus.WebComponentInstance.registerDefinition(ListOrdered);}
 
 const ListPlus = class ListPlus extends AbstractIcon {
@@ -31077,7 +31077,7 @@ const ListPlus = class ListPlus extends AbstractIcon {
 }
 ListPlus.Namespace=`Lucide`;
 ListPlus.Tag=`lucide-list-plus`;
-_.ListPlus=ListPlus;
+__as1(_, 'ListPlus', ListPlus);
 if(!window.customElements.get('lucide-list-plus')){window.customElements.define('lucide-list-plus', ListPlus);Aventus.WebComponentInstance.registerDefinition(ListPlus);}
 
 const ListRestart = class ListRestart extends AbstractIcon {
@@ -31101,7 +31101,7 @@ const ListRestart = class ListRestart extends AbstractIcon {
 }
 ListRestart.Namespace=`Lucide`;
 ListRestart.Tag=`lucide-list-restart`;
-_.ListRestart=ListRestart;
+__as1(_, 'ListRestart', ListRestart);
 if(!window.customElements.get('lucide-list-restart')){window.customElements.define('lucide-list-restart', ListRestart);Aventus.WebComponentInstance.registerDefinition(ListRestart);}
 
 const ListStart = class ListStart extends AbstractIcon {
@@ -31125,7 +31125,7 @@ const ListStart = class ListStart extends AbstractIcon {
 }
 ListStart.Namespace=`Lucide`;
 ListStart.Tag=`lucide-list-start`;
-_.ListStart=ListStart;
+__as1(_, 'ListStart', ListStart);
 if(!window.customElements.get('lucide-list-start')){window.customElements.define('lucide-list-start', ListStart);Aventus.WebComponentInstance.registerDefinition(ListStart);}
 
 const ListTodo = class ListTodo extends AbstractIcon {
@@ -31149,7 +31149,7 @@ const ListTodo = class ListTodo extends AbstractIcon {
 }
 ListTodo.Namespace=`Lucide`;
 ListTodo.Tag=`lucide-list-todo`;
-_.ListTodo=ListTodo;
+__as1(_, 'ListTodo', ListTodo);
 if(!window.customElements.get('lucide-list-todo')){window.customElements.define('lucide-list-todo', ListTodo);Aventus.WebComponentInstance.registerDefinition(ListTodo);}
 
 const ListTree = class ListTree extends AbstractIcon {
@@ -31173,7 +31173,7 @@ const ListTree = class ListTree extends AbstractIcon {
 }
 ListTree.Namespace=`Lucide`;
 ListTree.Tag=`lucide-list-tree`;
-_.ListTree=ListTree;
+__as1(_, 'ListTree', ListTree);
 if(!window.customElements.get('lucide-list-tree')){window.customElements.define('lucide-list-tree', ListTree);Aventus.WebComponentInstance.registerDefinition(ListTree);}
 
 const ListVideo = class ListVideo extends AbstractIcon {
@@ -31197,7 +31197,7 @@ const ListVideo = class ListVideo extends AbstractIcon {
 }
 ListVideo.Namespace=`Lucide`;
 ListVideo.Tag=`lucide-list-video`;
-_.ListVideo=ListVideo;
+__as1(_, 'ListVideo', ListVideo);
 if(!window.customElements.get('lucide-list-video')){window.customElements.define('lucide-list-video', ListVideo);Aventus.WebComponentInstance.registerDefinition(ListVideo);}
 
 const ListX = class ListX extends AbstractIcon {
@@ -31221,7 +31221,7 @@ const ListX = class ListX extends AbstractIcon {
 }
 ListX.Namespace=`Lucide`;
 ListX.Tag=`lucide-list-x`;
-_.ListX=ListX;
+__as1(_, 'ListX', ListX);
 if(!window.customElements.get('lucide-list-x')){window.customElements.define('lucide-list-x', ListX);Aventus.WebComponentInstance.registerDefinition(ListX);}
 
 const Loader = class Loader extends AbstractIcon {
@@ -31245,7 +31245,7 @@ const Loader = class Loader extends AbstractIcon {
 }
 Loader.Namespace=`Lucide`;
 Loader.Tag=`lucide-loader`;
-_.Loader=Loader;
+__as1(_, 'Loader', Loader);
 if(!window.customElements.get('lucide-loader')){window.customElements.define('lucide-loader', Loader);Aventus.WebComponentInstance.registerDefinition(Loader);}
 
 const Loader2 = class Loader2 extends AbstractIcon {
@@ -31269,7 +31269,7 @@ const Loader2 = class Loader2 extends AbstractIcon {
 }
 Loader2.Namespace=`Lucide`;
 Loader2.Tag=`lucide-loader-2`;
-_.Loader2=Loader2;
+__as1(_, 'Loader2', Loader2);
 if(!window.customElements.get('lucide-loader-2')){window.customElements.define('lucide-loader-2', Loader2);Aventus.WebComponentInstance.registerDefinition(Loader2);}
 
 const LoaderCircle = class LoaderCircle extends AbstractIcon {
@@ -31293,7 +31293,7 @@ const LoaderCircle = class LoaderCircle extends AbstractIcon {
 }
 LoaderCircle.Namespace=`Lucide`;
 LoaderCircle.Tag=`lucide-loader-circle`;
-_.LoaderCircle=LoaderCircle;
+__as1(_, 'LoaderCircle', LoaderCircle);
 if(!window.customElements.get('lucide-loader-circle')){window.customElements.define('lucide-loader-circle', LoaderCircle);Aventus.WebComponentInstance.registerDefinition(LoaderCircle);}
 
 const LoaderPinwheel = class LoaderPinwheel extends AbstractIcon {
@@ -31317,7 +31317,7 @@ const LoaderPinwheel = class LoaderPinwheel extends AbstractIcon {
 }
 LoaderPinwheel.Namespace=`Lucide`;
 LoaderPinwheel.Tag=`lucide-loader-pinwheel`;
-_.LoaderPinwheel=LoaderPinwheel;
+__as1(_, 'LoaderPinwheel', LoaderPinwheel);
 if(!window.customElements.get('lucide-loader-pinwheel')){window.customElements.define('lucide-loader-pinwheel', LoaderPinwheel);Aventus.WebComponentInstance.registerDefinition(LoaderPinwheel);}
 
 const Locate = class Locate extends AbstractIcon {
@@ -31341,7 +31341,7 @@ const Locate = class Locate extends AbstractIcon {
 }
 Locate.Namespace=`Lucide`;
 Locate.Tag=`lucide-locate`;
-_.Locate=Locate;
+__as1(_, 'Locate', Locate);
 if(!window.customElements.get('lucide-locate')){window.customElements.define('lucide-locate', Locate);Aventus.WebComponentInstance.registerDefinition(Locate);}
 
 const LocateFixed = class LocateFixed extends AbstractIcon {
@@ -31365,7 +31365,7 @@ const LocateFixed = class LocateFixed extends AbstractIcon {
 }
 LocateFixed.Namespace=`Lucide`;
 LocateFixed.Tag=`lucide-locate-fixed`;
-_.LocateFixed=LocateFixed;
+__as1(_, 'LocateFixed', LocateFixed);
 if(!window.customElements.get('lucide-locate-fixed')){window.customElements.define('lucide-locate-fixed', LocateFixed);Aventus.WebComponentInstance.registerDefinition(LocateFixed);}
 
 const LocateOff = class LocateOff extends AbstractIcon {
@@ -31389,7 +31389,7 @@ const LocateOff = class LocateOff extends AbstractIcon {
 }
 LocateOff.Namespace=`Lucide`;
 LocateOff.Tag=`lucide-locate-off`;
-_.LocateOff=LocateOff;
+__as1(_, 'LocateOff', LocateOff);
 if(!window.customElements.get('lucide-locate-off')){window.customElements.define('lucide-locate-off', LocateOff);Aventus.WebComponentInstance.registerDefinition(LocateOff);}
 
 const LocationEdit = class LocationEdit extends AbstractIcon {
@@ -31413,7 +31413,7 @@ const LocationEdit = class LocationEdit extends AbstractIcon {
 }
 LocationEdit.Namespace=`Lucide`;
 LocationEdit.Tag=`lucide-location-edit`;
-_.LocationEdit=LocationEdit;
+__as1(_, 'LocationEdit', LocationEdit);
 if(!window.customElements.get('lucide-location-edit')){window.customElements.define('lucide-location-edit', LocationEdit);Aventus.WebComponentInstance.registerDefinition(LocationEdit);}
 
 const Lock = class Lock extends AbstractIcon {
@@ -31437,7 +31437,7 @@ const Lock = class Lock extends AbstractIcon {
 }
 Lock.Namespace=`Lucide`;
 Lock.Tag=`lucide-lock`;
-_.Lock=Lock;
+__as1(_, 'Lock', Lock);
 if(!window.customElements.get('lucide-lock')){window.customElements.define('lucide-lock', Lock);Aventus.WebComponentInstance.registerDefinition(Lock);}
 
 const LockKeyhole = class LockKeyhole extends AbstractIcon {
@@ -31461,7 +31461,7 @@ const LockKeyhole = class LockKeyhole extends AbstractIcon {
 }
 LockKeyhole.Namespace=`Lucide`;
 LockKeyhole.Tag=`lucide-lock-keyhole`;
-_.LockKeyhole=LockKeyhole;
+__as1(_, 'LockKeyhole', LockKeyhole);
 if(!window.customElements.get('lucide-lock-keyhole')){window.customElements.define('lucide-lock-keyhole', LockKeyhole);Aventus.WebComponentInstance.registerDefinition(LockKeyhole);}
 
 const LockKeyholeOpen = class LockKeyholeOpen extends AbstractIcon {
@@ -31485,7 +31485,7 @@ const LockKeyholeOpen = class LockKeyholeOpen extends AbstractIcon {
 }
 LockKeyholeOpen.Namespace=`Lucide`;
 LockKeyholeOpen.Tag=`lucide-lock-keyhole-open`;
-_.LockKeyholeOpen=LockKeyholeOpen;
+__as1(_, 'LockKeyholeOpen', LockKeyholeOpen);
 if(!window.customElements.get('lucide-lock-keyhole-open')){window.customElements.define('lucide-lock-keyhole-open', LockKeyholeOpen);Aventus.WebComponentInstance.registerDefinition(LockKeyholeOpen);}
 
 const LockOpen = class LockOpen extends AbstractIcon {
@@ -31509,7 +31509,7 @@ const LockOpen = class LockOpen extends AbstractIcon {
 }
 LockOpen.Namespace=`Lucide`;
 LockOpen.Tag=`lucide-lock-open`;
-_.LockOpen=LockOpen;
+__as1(_, 'LockOpen', LockOpen);
 if(!window.customElements.get('lucide-lock-open')){window.customElements.define('lucide-lock-open', LockOpen);Aventus.WebComponentInstance.registerDefinition(LockOpen);}
 
 const LogIn = class LogIn extends AbstractIcon {
@@ -31533,7 +31533,7 @@ const LogIn = class LogIn extends AbstractIcon {
 }
 LogIn.Namespace=`Lucide`;
 LogIn.Tag=`lucide-log-in`;
-_.LogIn=LogIn;
+__as1(_, 'LogIn', LogIn);
 if(!window.customElements.get('lucide-log-in')){window.customElements.define('lucide-log-in', LogIn);Aventus.WebComponentInstance.registerDefinition(LogIn);}
 
 const LogOut = class LogOut extends AbstractIcon {
@@ -31557,7 +31557,7 @@ const LogOut = class LogOut extends AbstractIcon {
 }
 LogOut.Namespace=`Lucide`;
 LogOut.Tag=`lucide-log-out`;
-_.LogOut=LogOut;
+__as1(_, 'LogOut', LogOut);
 if(!window.customElements.get('lucide-log-out')){window.customElements.define('lucide-log-out', LogOut);Aventus.WebComponentInstance.registerDefinition(LogOut);}
 
 const Logs = class Logs extends AbstractIcon {
@@ -31581,7 +31581,7 @@ const Logs = class Logs extends AbstractIcon {
 }
 Logs.Namespace=`Lucide`;
 Logs.Tag=`lucide-logs`;
-_.Logs=Logs;
+__as1(_, 'Logs', Logs);
 if(!window.customElements.get('lucide-logs')){window.customElements.define('lucide-logs', Logs);Aventus.WebComponentInstance.registerDefinition(Logs);}
 
 const Lollipop = class Lollipop extends AbstractIcon {
@@ -31605,7 +31605,7 @@ const Lollipop = class Lollipop extends AbstractIcon {
 }
 Lollipop.Namespace=`Lucide`;
 Lollipop.Tag=`lucide-lollipop`;
-_.Lollipop=Lollipop;
+__as1(_, 'Lollipop', Lollipop);
 if(!window.customElements.get('lucide-lollipop')){window.customElements.define('lucide-lollipop', Lollipop);Aventus.WebComponentInstance.registerDefinition(Lollipop);}
 
 const Luggage = class Luggage extends AbstractIcon {
@@ -31629,7 +31629,7 @@ const Luggage = class Luggage extends AbstractIcon {
 }
 Luggage.Namespace=`Lucide`;
 Luggage.Tag=`lucide-luggage`;
-_.Luggage=Luggage;
+__as1(_, 'Luggage', Luggage);
 if(!window.customElements.get('lucide-luggage')){window.customElements.define('lucide-luggage', Luggage);Aventus.WebComponentInstance.registerDefinition(Luggage);}
 
 const Magnet = class Magnet extends AbstractIcon {
@@ -31653,7 +31653,7 @@ const Magnet = class Magnet extends AbstractIcon {
 }
 Magnet.Namespace=`Lucide`;
 Magnet.Tag=`lucide-magnet`;
-_.Magnet=Magnet;
+__as1(_, 'Magnet', Magnet);
 if(!window.customElements.get('lucide-magnet')){window.customElements.define('lucide-magnet', Magnet);Aventus.WebComponentInstance.registerDefinition(Magnet);}
 
 const Mail = class Mail extends AbstractIcon {
@@ -31677,7 +31677,7 @@ const Mail = class Mail extends AbstractIcon {
 }
 Mail.Namespace=`Lucide`;
 Mail.Tag=`lucide-mail`;
-_.Mail=Mail;
+__as1(_, 'Mail', Mail);
 if(!window.customElements.get('lucide-mail')){window.customElements.define('lucide-mail', Mail);Aventus.WebComponentInstance.registerDefinition(Mail);}
 
 const Mailbox = class Mailbox extends AbstractIcon {
@@ -31701,7 +31701,7 @@ const Mailbox = class Mailbox extends AbstractIcon {
 }
 Mailbox.Namespace=`Lucide`;
 Mailbox.Tag=`lucide-mailbox`;
-_.Mailbox=Mailbox;
+__as1(_, 'Mailbox', Mailbox);
 if(!window.customElements.get('lucide-mailbox')){window.customElements.define('lucide-mailbox', Mailbox);Aventus.WebComponentInstance.registerDefinition(Mailbox);}
 
 const MailCheck = class MailCheck extends AbstractIcon {
@@ -31725,7 +31725,7 @@ const MailCheck = class MailCheck extends AbstractIcon {
 }
 MailCheck.Namespace=`Lucide`;
 MailCheck.Tag=`lucide-mail-check`;
-_.MailCheck=MailCheck;
+__as1(_, 'MailCheck', MailCheck);
 if(!window.customElements.get('lucide-mail-check')){window.customElements.define('lucide-mail-check', MailCheck);Aventus.WebComponentInstance.registerDefinition(MailCheck);}
 
 const MailMinus = class MailMinus extends AbstractIcon {
@@ -31749,7 +31749,7 @@ const MailMinus = class MailMinus extends AbstractIcon {
 }
 MailMinus.Namespace=`Lucide`;
 MailMinus.Tag=`lucide-mail-minus`;
-_.MailMinus=MailMinus;
+__as1(_, 'MailMinus', MailMinus);
 if(!window.customElements.get('lucide-mail-minus')){window.customElements.define('lucide-mail-minus', MailMinus);Aventus.WebComponentInstance.registerDefinition(MailMinus);}
 
 const MailOpen = class MailOpen extends AbstractIcon {
@@ -31773,7 +31773,7 @@ const MailOpen = class MailOpen extends AbstractIcon {
 }
 MailOpen.Namespace=`Lucide`;
 MailOpen.Tag=`lucide-mail-open`;
-_.MailOpen=MailOpen;
+__as1(_, 'MailOpen', MailOpen);
 if(!window.customElements.get('lucide-mail-open')){window.customElements.define('lucide-mail-open', MailOpen);Aventus.WebComponentInstance.registerDefinition(MailOpen);}
 
 const MailPlus = class MailPlus extends AbstractIcon {
@@ -31797,7 +31797,7 @@ const MailPlus = class MailPlus extends AbstractIcon {
 }
 MailPlus.Namespace=`Lucide`;
 MailPlus.Tag=`lucide-mail-plus`;
-_.MailPlus=MailPlus;
+__as1(_, 'MailPlus', MailPlus);
 if(!window.customElements.get('lucide-mail-plus')){window.customElements.define('lucide-mail-plus', MailPlus);Aventus.WebComponentInstance.registerDefinition(MailPlus);}
 
 const MailQuestion = class MailQuestion extends AbstractIcon {
@@ -31821,7 +31821,7 @@ const MailQuestion = class MailQuestion extends AbstractIcon {
 }
 MailQuestion.Namespace=`Lucide`;
 MailQuestion.Tag=`lucide-mail-question`;
-_.MailQuestion=MailQuestion;
+__as1(_, 'MailQuestion', MailQuestion);
 if(!window.customElements.get('lucide-mail-question')){window.customElements.define('lucide-mail-question', MailQuestion);Aventus.WebComponentInstance.registerDefinition(MailQuestion);}
 
 const MailQuestionMark = class MailQuestionMark extends AbstractIcon {
@@ -31845,7 +31845,7 @@ const MailQuestionMark = class MailQuestionMark extends AbstractIcon {
 }
 MailQuestionMark.Namespace=`Lucide`;
 MailQuestionMark.Tag=`lucide-mail-question-mark`;
-_.MailQuestionMark=MailQuestionMark;
+__as1(_, 'MailQuestionMark', MailQuestionMark);
 if(!window.customElements.get('lucide-mail-question-mark')){window.customElements.define('lucide-mail-question-mark', MailQuestionMark);Aventus.WebComponentInstance.registerDefinition(MailQuestionMark);}
 
 const Mails = class Mails extends AbstractIcon {
@@ -31869,7 +31869,7 @@ const Mails = class Mails extends AbstractIcon {
 }
 Mails.Namespace=`Lucide`;
 Mails.Tag=`lucide-mails`;
-_.Mails=Mails;
+__as1(_, 'Mails', Mails);
 if(!window.customElements.get('lucide-mails')){window.customElements.define('lucide-mails', Mails);Aventus.WebComponentInstance.registerDefinition(Mails);}
 
 const MailSearch = class MailSearch extends AbstractIcon {
@@ -31893,7 +31893,7 @@ const MailSearch = class MailSearch extends AbstractIcon {
 }
 MailSearch.Namespace=`Lucide`;
 MailSearch.Tag=`lucide-mail-search`;
-_.MailSearch=MailSearch;
+__as1(_, 'MailSearch', MailSearch);
 if(!window.customElements.get('lucide-mail-search')){window.customElements.define('lucide-mail-search', MailSearch);Aventus.WebComponentInstance.registerDefinition(MailSearch);}
 
 const MailWarning = class MailWarning extends AbstractIcon {
@@ -31917,7 +31917,7 @@ const MailWarning = class MailWarning extends AbstractIcon {
 }
 MailWarning.Namespace=`Lucide`;
 MailWarning.Tag=`lucide-mail-warning`;
-_.MailWarning=MailWarning;
+__as1(_, 'MailWarning', MailWarning);
 if(!window.customElements.get('lucide-mail-warning')){window.customElements.define('lucide-mail-warning', MailWarning);Aventus.WebComponentInstance.registerDefinition(MailWarning);}
 
 const MailX = class MailX extends AbstractIcon {
@@ -31941,7 +31941,7 @@ const MailX = class MailX extends AbstractIcon {
 }
 MailX.Namespace=`Lucide`;
 MailX.Tag=`lucide-mail-x`;
-_.MailX=MailX;
+__as1(_, 'MailX', MailX);
 if(!window.customElements.get('lucide-mail-x')){window.customElements.define('lucide-mail-x', MailX);Aventus.WebComponentInstance.registerDefinition(MailX);}
 
 const Map = class Map extends AbstractIcon {
@@ -31965,7 +31965,7 @@ const Map = class Map extends AbstractIcon {
 }
 Map.Namespace=`Lucide`;
 Map.Tag=`lucide-map`;
-_.Map=Map;
+__as1(_, 'Map', Map);
 if(!window.customElements.get('lucide-map')){window.customElements.define('lucide-map', Map);Aventus.WebComponentInstance.registerDefinition(Map);}
 
 const MapPin = class MapPin extends AbstractIcon {
@@ -31989,7 +31989,7 @@ const MapPin = class MapPin extends AbstractIcon {
 }
 MapPin.Namespace=`Lucide`;
 MapPin.Tag=`lucide-map-pin`;
-_.MapPin=MapPin;
+__as1(_, 'MapPin', MapPin);
 if(!window.customElements.get('lucide-map-pin')){window.customElements.define('lucide-map-pin', MapPin);Aventus.WebComponentInstance.registerDefinition(MapPin);}
 
 const MapPinCheck = class MapPinCheck extends AbstractIcon {
@@ -32013,7 +32013,7 @@ const MapPinCheck = class MapPinCheck extends AbstractIcon {
 }
 MapPinCheck.Namespace=`Lucide`;
 MapPinCheck.Tag=`lucide-map-pin-check`;
-_.MapPinCheck=MapPinCheck;
+__as1(_, 'MapPinCheck', MapPinCheck);
 if(!window.customElements.get('lucide-map-pin-check')){window.customElements.define('lucide-map-pin-check', MapPinCheck);Aventus.WebComponentInstance.registerDefinition(MapPinCheck);}
 
 const MapPinCheckInside = class MapPinCheckInside extends AbstractIcon {
@@ -32037,7 +32037,7 @@ const MapPinCheckInside = class MapPinCheckInside extends AbstractIcon {
 }
 MapPinCheckInside.Namespace=`Lucide`;
 MapPinCheckInside.Tag=`lucide-map-pin-check-inside`;
-_.MapPinCheckInside=MapPinCheckInside;
+__as1(_, 'MapPinCheckInside', MapPinCheckInside);
 if(!window.customElements.get('lucide-map-pin-check-inside')){window.customElements.define('lucide-map-pin-check-inside', MapPinCheckInside);Aventus.WebComponentInstance.registerDefinition(MapPinCheckInside);}
 
 const MapPinHouse = class MapPinHouse extends AbstractIcon {
@@ -32061,7 +32061,7 @@ const MapPinHouse = class MapPinHouse extends AbstractIcon {
 }
 MapPinHouse.Namespace=`Lucide`;
 MapPinHouse.Tag=`lucide-map-pin-house`;
-_.MapPinHouse=MapPinHouse;
+__as1(_, 'MapPinHouse', MapPinHouse);
 if(!window.customElements.get('lucide-map-pin-house')){window.customElements.define('lucide-map-pin-house', MapPinHouse);Aventus.WebComponentInstance.registerDefinition(MapPinHouse);}
 
 const MapPinMinus = class MapPinMinus extends AbstractIcon {
@@ -32085,7 +32085,7 @@ const MapPinMinus = class MapPinMinus extends AbstractIcon {
 }
 MapPinMinus.Namespace=`Lucide`;
 MapPinMinus.Tag=`lucide-map-pin-minus`;
-_.MapPinMinus=MapPinMinus;
+__as1(_, 'MapPinMinus', MapPinMinus);
 if(!window.customElements.get('lucide-map-pin-minus')){window.customElements.define('lucide-map-pin-minus', MapPinMinus);Aventus.WebComponentInstance.registerDefinition(MapPinMinus);}
 
 const MapPinMinusInside = class MapPinMinusInside extends AbstractIcon {
@@ -32109,7 +32109,7 @@ const MapPinMinusInside = class MapPinMinusInside extends AbstractIcon {
 }
 MapPinMinusInside.Namespace=`Lucide`;
 MapPinMinusInside.Tag=`lucide-map-pin-minus-inside`;
-_.MapPinMinusInside=MapPinMinusInside;
+__as1(_, 'MapPinMinusInside', MapPinMinusInside);
 if(!window.customElements.get('lucide-map-pin-minus-inside')){window.customElements.define('lucide-map-pin-minus-inside', MapPinMinusInside);Aventus.WebComponentInstance.registerDefinition(MapPinMinusInside);}
 
 const MapPinned = class MapPinned extends AbstractIcon {
@@ -32133,7 +32133,7 @@ const MapPinned = class MapPinned extends AbstractIcon {
 }
 MapPinned.Namespace=`Lucide`;
 MapPinned.Tag=`lucide-map-pinned`;
-_.MapPinned=MapPinned;
+__as1(_, 'MapPinned', MapPinned);
 if(!window.customElements.get('lucide-map-pinned')){window.customElements.define('lucide-map-pinned', MapPinned);Aventus.WebComponentInstance.registerDefinition(MapPinned);}
 
 const MapPinOff = class MapPinOff extends AbstractIcon {
@@ -32157,7 +32157,7 @@ const MapPinOff = class MapPinOff extends AbstractIcon {
 }
 MapPinOff.Namespace=`Lucide`;
 MapPinOff.Tag=`lucide-map-pin-off`;
-_.MapPinOff=MapPinOff;
+__as1(_, 'MapPinOff', MapPinOff);
 if(!window.customElements.get('lucide-map-pin-off')){window.customElements.define('lucide-map-pin-off', MapPinOff);Aventus.WebComponentInstance.registerDefinition(MapPinOff);}
 
 const MapPinPlus = class MapPinPlus extends AbstractIcon {
@@ -32181,7 +32181,7 @@ const MapPinPlus = class MapPinPlus extends AbstractIcon {
 }
 MapPinPlus.Namespace=`Lucide`;
 MapPinPlus.Tag=`lucide-map-pin-plus`;
-_.MapPinPlus=MapPinPlus;
+__as1(_, 'MapPinPlus', MapPinPlus);
 if(!window.customElements.get('lucide-map-pin-plus')){window.customElements.define('lucide-map-pin-plus', MapPinPlus);Aventus.WebComponentInstance.registerDefinition(MapPinPlus);}
 
 const MapPinPlusInside = class MapPinPlusInside extends AbstractIcon {
@@ -32205,7 +32205,7 @@ const MapPinPlusInside = class MapPinPlusInside extends AbstractIcon {
 }
 MapPinPlusInside.Namespace=`Lucide`;
 MapPinPlusInside.Tag=`lucide-map-pin-plus-inside`;
-_.MapPinPlusInside=MapPinPlusInside;
+__as1(_, 'MapPinPlusInside', MapPinPlusInside);
 if(!window.customElements.get('lucide-map-pin-plus-inside')){window.customElements.define('lucide-map-pin-plus-inside', MapPinPlusInside);Aventus.WebComponentInstance.registerDefinition(MapPinPlusInside);}
 
 const MapPinX = class MapPinX extends AbstractIcon {
@@ -32229,7 +32229,7 @@ const MapPinX = class MapPinX extends AbstractIcon {
 }
 MapPinX.Namespace=`Lucide`;
 MapPinX.Tag=`lucide-map-pin-x`;
-_.MapPinX=MapPinX;
+__as1(_, 'MapPinX', MapPinX);
 if(!window.customElements.get('lucide-map-pin-x')){window.customElements.define('lucide-map-pin-x', MapPinX);Aventus.WebComponentInstance.registerDefinition(MapPinX);}
 
 const MapPinXInside = class MapPinXInside extends AbstractIcon {
@@ -32253,7 +32253,7 @@ const MapPinXInside = class MapPinXInside extends AbstractIcon {
 }
 MapPinXInside.Namespace=`Lucide`;
 MapPinXInside.Tag=`lucide-map-pin-x-inside`;
-_.MapPinXInside=MapPinXInside;
+__as1(_, 'MapPinXInside', MapPinXInside);
 if(!window.customElements.get('lucide-map-pin-x-inside')){window.customElements.define('lucide-map-pin-x-inside', MapPinXInside);Aventus.WebComponentInstance.registerDefinition(MapPinXInside);}
 
 const MapPlus = class MapPlus extends AbstractIcon {
@@ -32277,7 +32277,7 @@ const MapPlus = class MapPlus extends AbstractIcon {
 }
 MapPlus.Namespace=`Lucide`;
 MapPlus.Tag=`lucide-map-plus`;
-_.MapPlus=MapPlus;
+__as1(_, 'MapPlus', MapPlus);
 if(!window.customElements.get('lucide-map-plus')){window.customElements.define('lucide-map-plus', MapPlus);Aventus.WebComponentInstance.registerDefinition(MapPlus);}
 
 const Mars = class Mars extends AbstractIcon {
@@ -32301,7 +32301,7 @@ const Mars = class Mars extends AbstractIcon {
 }
 Mars.Namespace=`Lucide`;
 Mars.Tag=`lucide-mars`;
-_.Mars=Mars;
+__as1(_, 'Mars', Mars);
 if(!window.customElements.get('lucide-mars')){window.customElements.define('lucide-mars', Mars);Aventus.WebComponentInstance.registerDefinition(Mars);}
 
 const MarsStroke = class MarsStroke extends AbstractIcon {
@@ -32325,7 +32325,7 @@ const MarsStroke = class MarsStroke extends AbstractIcon {
 }
 MarsStroke.Namespace=`Lucide`;
 MarsStroke.Tag=`lucide-mars-stroke`;
-_.MarsStroke=MarsStroke;
+__as1(_, 'MarsStroke', MarsStroke);
 if(!window.customElements.get('lucide-mars-stroke')){window.customElements.define('lucide-mars-stroke', MarsStroke);Aventus.WebComponentInstance.registerDefinition(MarsStroke);}
 
 const Martini = class Martini extends AbstractIcon {
@@ -32349,7 +32349,7 @@ const Martini = class Martini extends AbstractIcon {
 }
 Martini.Namespace=`Lucide`;
 Martini.Tag=`lucide-martini`;
-_.Martini=Martini;
+__as1(_, 'Martini', Martini);
 if(!window.customElements.get('lucide-martini')){window.customElements.define('lucide-martini', Martini);Aventus.WebComponentInstance.registerDefinition(Martini);}
 
 const Maximize = class Maximize extends AbstractIcon {
@@ -32373,7 +32373,7 @@ const Maximize = class Maximize extends AbstractIcon {
 }
 Maximize.Namespace=`Lucide`;
 Maximize.Tag=`lucide-maximize`;
-_.Maximize=Maximize;
+__as1(_, 'Maximize', Maximize);
 if(!window.customElements.get('lucide-maximize')){window.customElements.define('lucide-maximize', Maximize);Aventus.WebComponentInstance.registerDefinition(Maximize);}
 
 const Maximize2 = class Maximize2 extends AbstractIcon {
@@ -32397,7 +32397,7 @@ const Maximize2 = class Maximize2 extends AbstractIcon {
 }
 Maximize2.Namespace=`Lucide`;
 Maximize2.Tag=`lucide-maximize-2`;
-_.Maximize2=Maximize2;
+__as1(_, 'Maximize2', Maximize2);
 if(!window.customElements.get('lucide-maximize-2')){window.customElements.define('lucide-maximize-2', Maximize2);Aventus.WebComponentInstance.registerDefinition(Maximize2);}
 
 const Medal = class Medal extends AbstractIcon {
@@ -32421,7 +32421,7 @@ const Medal = class Medal extends AbstractIcon {
 }
 Medal.Namespace=`Lucide`;
 Medal.Tag=`lucide-medal`;
-_.Medal=Medal;
+__as1(_, 'Medal', Medal);
 if(!window.customElements.get('lucide-medal')){window.customElements.define('lucide-medal', Medal);Aventus.WebComponentInstance.registerDefinition(Medal);}
 
 const Megaphone = class Megaphone extends AbstractIcon {
@@ -32445,7 +32445,7 @@ const Megaphone = class Megaphone extends AbstractIcon {
 }
 Megaphone.Namespace=`Lucide`;
 Megaphone.Tag=`lucide-megaphone`;
-_.Megaphone=Megaphone;
+__as1(_, 'Megaphone', Megaphone);
 if(!window.customElements.get('lucide-megaphone')){window.customElements.define('lucide-megaphone', Megaphone);Aventus.WebComponentInstance.registerDefinition(Megaphone);}
 
 const MegaphoneOff = class MegaphoneOff extends AbstractIcon {
@@ -32469,7 +32469,7 @@ const MegaphoneOff = class MegaphoneOff extends AbstractIcon {
 }
 MegaphoneOff.Namespace=`Lucide`;
 MegaphoneOff.Tag=`lucide-megaphone-off`;
-_.MegaphoneOff=MegaphoneOff;
+__as1(_, 'MegaphoneOff', MegaphoneOff);
 if(!window.customElements.get('lucide-megaphone-off')){window.customElements.define('lucide-megaphone-off', MegaphoneOff);Aventus.WebComponentInstance.registerDefinition(MegaphoneOff);}
 
 const Meh = class Meh extends AbstractIcon {
@@ -32493,7 +32493,7 @@ const Meh = class Meh extends AbstractIcon {
 }
 Meh.Namespace=`Lucide`;
 Meh.Tag=`lucide-meh`;
-_.Meh=Meh;
+__as1(_, 'Meh', Meh);
 if(!window.customElements.get('lucide-meh')){window.customElements.define('lucide-meh', Meh);Aventus.WebComponentInstance.registerDefinition(Meh);}
 
 const MemoryStick = class MemoryStick extends AbstractIcon {
@@ -32517,7 +32517,7 @@ const MemoryStick = class MemoryStick extends AbstractIcon {
 }
 MemoryStick.Namespace=`Lucide`;
 MemoryStick.Tag=`lucide-memory-stick`;
-_.MemoryStick=MemoryStick;
+__as1(_, 'MemoryStick', MemoryStick);
 if(!window.customElements.get('lucide-memory-stick')){window.customElements.define('lucide-memory-stick', MemoryStick);Aventus.WebComponentInstance.registerDefinition(MemoryStick);}
 
 const Menu = class Menu extends AbstractIcon {
@@ -32541,7 +32541,7 @@ const Menu = class Menu extends AbstractIcon {
 }
 Menu.Namespace=`Lucide`;
 Menu.Tag=`lucide-menu`;
-_.Menu=Menu;
+__as1(_, 'Menu', Menu);
 if(!window.customElements.get('lucide-menu')){window.customElements.define('lucide-menu', Menu);Aventus.WebComponentInstance.registerDefinition(Menu);}
 
 const MenuSquare = class MenuSquare extends AbstractIcon {
@@ -32565,7 +32565,7 @@ const MenuSquare = class MenuSquare extends AbstractIcon {
 }
 MenuSquare.Namespace=`Lucide`;
 MenuSquare.Tag=`lucide-menu-square`;
-_.MenuSquare=MenuSquare;
+__as1(_, 'MenuSquare', MenuSquare);
 if(!window.customElements.get('lucide-menu-square')){window.customElements.define('lucide-menu-square', MenuSquare);Aventus.WebComponentInstance.registerDefinition(MenuSquare);}
 
 const Merge = class Merge extends AbstractIcon {
@@ -32589,7 +32589,7 @@ const Merge = class Merge extends AbstractIcon {
 }
 Merge.Namespace=`Lucide`;
 Merge.Tag=`lucide-merge`;
-_.Merge=Merge;
+__as1(_, 'Merge', Merge);
 if(!window.customElements.get('lucide-merge')){window.customElements.define('lucide-merge', Merge);Aventus.WebComponentInstance.registerDefinition(Merge);}
 
 const MessageCircle = class MessageCircle extends AbstractIcon {
@@ -32613,7 +32613,7 @@ const MessageCircle = class MessageCircle extends AbstractIcon {
 }
 MessageCircle.Namespace=`Lucide`;
 MessageCircle.Tag=`lucide-message-circle`;
-_.MessageCircle=MessageCircle;
+__as1(_, 'MessageCircle', MessageCircle);
 if(!window.customElements.get('lucide-message-circle')){window.customElements.define('lucide-message-circle', MessageCircle);Aventus.WebComponentInstance.registerDefinition(MessageCircle);}
 
 const MessageCircleCode = class MessageCircleCode extends AbstractIcon {
@@ -32637,7 +32637,7 @@ const MessageCircleCode = class MessageCircleCode extends AbstractIcon {
 }
 MessageCircleCode.Namespace=`Lucide`;
 MessageCircleCode.Tag=`lucide-message-circle-code`;
-_.MessageCircleCode=MessageCircleCode;
+__as1(_, 'MessageCircleCode', MessageCircleCode);
 if(!window.customElements.get('lucide-message-circle-code')){window.customElements.define('lucide-message-circle-code', MessageCircleCode);Aventus.WebComponentInstance.registerDefinition(MessageCircleCode);}
 
 const MessageCircleDashed = class MessageCircleDashed extends AbstractIcon {
@@ -32661,7 +32661,7 @@ const MessageCircleDashed = class MessageCircleDashed extends AbstractIcon {
 }
 MessageCircleDashed.Namespace=`Lucide`;
 MessageCircleDashed.Tag=`lucide-message-circle-dashed`;
-_.MessageCircleDashed=MessageCircleDashed;
+__as1(_, 'MessageCircleDashed', MessageCircleDashed);
 if(!window.customElements.get('lucide-message-circle-dashed')){window.customElements.define('lucide-message-circle-dashed', MessageCircleDashed);Aventus.WebComponentInstance.registerDefinition(MessageCircleDashed);}
 
 const MessageCircleHeart = class MessageCircleHeart extends AbstractIcon {
@@ -32685,7 +32685,7 @@ const MessageCircleHeart = class MessageCircleHeart extends AbstractIcon {
 }
 MessageCircleHeart.Namespace=`Lucide`;
 MessageCircleHeart.Tag=`lucide-message-circle-heart`;
-_.MessageCircleHeart=MessageCircleHeart;
+__as1(_, 'MessageCircleHeart', MessageCircleHeart);
 if(!window.customElements.get('lucide-message-circle-heart')){window.customElements.define('lucide-message-circle-heart', MessageCircleHeart);Aventus.WebComponentInstance.registerDefinition(MessageCircleHeart);}
 
 const MessageCircleMore = class MessageCircleMore extends AbstractIcon {
@@ -32709,7 +32709,7 @@ const MessageCircleMore = class MessageCircleMore extends AbstractIcon {
 }
 MessageCircleMore.Namespace=`Lucide`;
 MessageCircleMore.Tag=`lucide-message-circle-more`;
-_.MessageCircleMore=MessageCircleMore;
+__as1(_, 'MessageCircleMore', MessageCircleMore);
 if(!window.customElements.get('lucide-message-circle-more')){window.customElements.define('lucide-message-circle-more', MessageCircleMore);Aventus.WebComponentInstance.registerDefinition(MessageCircleMore);}
 
 const MessageCircleOff = class MessageCircleOff extends AbstractIcon {
@@ -32733,7 +32733,7 @@ const MessageCircleOff = class MessageCircleOff extends AbstractIcon {
 }
 MessageCircleOff.Namespace=`Lucide`;
 MessageCircleOff.Tag=`lucide-message-circle-off`;
-_.MessageCircleOff=MessageCircleOff;
+__as1(_, 'MessageCircleOff', MessageCircleOff);
 if(!window.customElements.get('lucide-message-circle-off')){window.customElements.define('lucide-message-circle-off', MessageCircleOff);Aventus.WebComponentInstance.registerDefinition(MessageCircleOff);}
 
 const MessageCirclePlus = class MessageCirclePlus extends AbstractIcon {
@@ -32757,7 +32757,7 @@ const MessageCirclePlus = class MessageCirclePlus extends AbstractIcon {
 }
 MessageCirclePlus.Namespace=`Lucide`;
 MessageCirclePlus.Tag=`lucide-message-circle-plus`;
-_.MessageCirclePlus=MessageCirclePlus;
+__as1(_, 'MessageCirclePlus', MessageCirclePlus);
 if(!window.customElements.get('lucide-message-circle-plus')){window.customElements.define('lucide-message-circle-plus', MessageCirclePlus);Aventus.WebComponentInstance.registerDefinition(MessageCirclePlus);}
 
 const MessageCircleQuestion = class MessageCircleQuestion extends AbstractIcon {
@@ -32781,7 +32781,7 @@ const MessageCircleQuestion = class MessageCircleQuestion extends AbstractIcon {
 }
 MessageCircleQuestion.Namespace=`Lucide`;
 MessageCircleQuestion.Tag=`lucide-message-circle-question`;
-_.MessageCircleQuestion=MessageCircleQuestion;
+__as1(_, 'MessageCircleQuestion', MessageCircleQuestion);
 if(!window.customElements.get('lucide-message-circle-question')){window.customElements.define('lucide-message-circle-question', MessageCircleQuestion);Aventus.WebComponentInstance.registerDefinition(MessageCircleQuestion);}
 
 const MessageCircleQuestionMark = class MessageCircleQuestionMark extends AbstractIcon {
@@ -32805,7 +32805,7 @@ const MessageCircleQuestionMark = class MessageCircleQuestionMark extends Abstra
 }
 MessageCircleQuestionMark.Namespace=`Lucide`;
 MessageCircleQuestionMark.Tag=`lucide-message-circle-question-mark`;
-_.MessageCircleQuestionMark=MessageCircleQuestionMark;
+__as1(_, 'MessageCircleQuestionMark', MessageCircleQuestionMark);
 if(!window.customElements.get('lucide-message-circle-question-mark')){window.customElements.define('lucide-message-circle-question-mark', MessageCircleQuestionMark);Aventus.WebComponentInstance.registerDefinition(MessageCircleQuestionMark);}
 
 const MessageCircleReply = class MessageCircleReply extends AbstractIcon {
@@ -32829,7 +32829,7 @@ const MessageCircleReply = class MessageCircleReply extends AbstractIcon {
 }
 MessageCircleReply.Namespace=`Lucide`;
 MessageCircleReply.Tag=`lucide-message-circle-reply`;
-_.MessageCircleReply=MessageCircleReply;
+__as1(_, 'MessageCircleReply', MessageCircleReply);
 if(!window.customElements.get('lucide-message-circle-reply')){window.customElements.define('lucide-message-circle-reply', MessageCircleReply);Aventus.WebComponentInstance.registerDefinition(MessageCircleReply);}
 
 const MessageCircleWarning = class MessageCircleWarning extends AbstractIcon {
@@ -32853,7 +32853,7 @@ const MessageCircleWarning = class MessageCircleWarning extends AbstractIcon {
 }
 MessageCircleWarning.Namespace=`Lucide`;
 MessageCircleWarning.Tag=`lucide-message-circle-warning`;
-_.MessageCircleWarning=MessageCircleWarning;
+__as1(_, 'MessageCircleWarning', MessageCircleWarning);
 if(!window.customElements.get('lucide-message-circle-warning')){window.customElements.define('lucide-message-circle-warning', MessageCircleWarning);Aventus.WebComponentInstance.registerDefinition(MessageCircleWarning);}
 
 const MessageCircleX = class MessageCircleX extends AbstractIcon {
@@ -32877,7 +32877,7 @@ const MessageCircleX = class MessageCircleX extends AbstractIcon {
 }
 MessageCircleX.Namespace=`Lucide`;
 MessageCircleX.Tag=`lucide-message-circle-x`;
-_.MessageCircleX=MessageCircleX;
+__as1(_, 'MessageCircleX', MessageCircleX);
 if(!window.customElements.get('lucide-message-circle-x')){window.customElements.define('lucide-message-circle-x', MessageCircleX);Aventus.WebComponentInstance.registerDefinition(MessageCircleX);}
 
 const MessageSquare = class MessageSquare extends AbstractIcon {
@@ -32901,7 +32901,7 @@ const MessageSquare = class MessageSquare extends AbstractIcon {
 }
 MessageSquare.Namespace=`Lucide`;
 MessageSquare.Tag=`lucide-message-square`;
-_.MessageSquare=MessageSquare;
+__as1(_, 'MessageSquare', MessageSquare);
 if(!window.customElements.get('lucide-message-square')){window.customElements.define('lucide-message-square', MessageSquare);Aventus.WebComponentInstance.registerDefinition(MessageSquare);}
 
 const MessageSquareCode = class MessageSquareCode extends AbstractIcon {
@@ -32925,7 +32925,7 @@ const MessageSquareCode = class MessageSquareCode extends AbstractIcon {
 }
 MessageSquareCode.Namespace=`Lucide`;
 MessageSquareCode.Tag=`lucide-message-square-code`;
-_.MessageSquareCode=MessageSquareCode;
+__as1(_, 'MessageSquareCode', MessageSquareCode);
 if(!window.customElements.get('lucide-message-square-code')){window.customElements.define('lucide-message-square-code', MessageSquareCode);Aventus.WebComponentInstance.registerDefinition(MessageSquareCode);}
 
 const MessageSquareDashed = class MessageSquareDashed extends AbstractIcon {
@@ -32949,7 +32949,7 @@ const MessageSquareDashed = class MessageSquareDashed extends AbstractIcon {
 }
 MessageSquareDashed.Namespace=`Lucide`;
 MessageSquareDashed.Tag=`lucide-message-square-dashed`;
-_.MessageSquareDashed=MessageSquareDashed;
+__as1(_, 'MessageSquareDashed', MessageSquareDashed);
 if(!window.customElements.get('lucide-message-square-dashed')){window.customElements.define('lucide-message-square-dashed', MessageSquareDashed);Aventus.WebComponentInstance.registerDefinition(MessageSquareDashed);}
 
 const MessageSquareDiff = class MessageSquareDiff extends AbstractIcon {
@@ -32973,7 +32973,7 @@ const MessageSquareDiff = class MessageSquareDiff extends AbstractIcon {
 }
 MessageSquareDiff.Namespace=`Lucide`;
 MessageSquareDiff.Tag=`lucide-message-square-diff`;
-_.MessageSquareDiff=MessageSquareDiff;
+__as1(_, 'MessageSquareDiff', MessageSquareDiff);
 if(!window.customElements.get('lucide-message-square-diff')){window.customElements.define('lucide-message-square-diff', MessageSquareDiff);Aventus.WebComponentInstance.registerDefinition(MessageSquareDiff);}
 
 const MessageSquareDot = class MessageSquareDot extends AbstractIcon {
@@ -32997,7 +32997,7 @@ const MessageSquareDot = class MessageSquareDot extends AbstractIcon {
 }
 MessageSquareDot.Namespace=`Lucide`;
 MessageSquareDot.Tag=`lucide-message-square-dot`;
-_.MessageSquareDot=MessageSquareDot;
+__as1(_, 'MessageSquareDot', MessageSquareDot);
 if(!window.customElements.get('lucide-message-square-dot')){window.customElements.define('lucide-message-square-dot', MessageSquareDot);Aventus.WebComponentInstance.registerDefinition(MessageSquareDot);}
 
 const MessageSquareHeart = class MessageSquareHeart extends AbstractIcon {
@@ -33021,7 +33021,7 @@ const MessageSquareHeart = class MessageSquareHeart extends AbstractIcon {
 }
 MessageSquareHeart.Namespace=`Lucide`;
 MessageSquareHeart.Tag=`lucide-message-square-heart`;
-_.MessageSquareHeart=MessageSquareHeart;
+__as1(_, 'MessageSquareHeart', MessageSquareHeart);
 if(!window.customElements.get('lucide-message-square-heart')){window.customElements.define('lucide-message-square-heart', MessageSquareHeart);Aventus.WebComponentInstance.registerDefinition(MessageSquareHeart);}
 
 const MessageSquareLock = class MessageSquareLock extends AbstractIcon {
@@ -33045,7 +33045,7 @@ const MessageSquareLock = class MessageSquareLock extends AbstractIcon {
 }
 MessageSquareLock.Namespace=`Lucide`;
 MessageSquareLock.Tag=`lucide-message-square-lock`;
-_.MessageSquareLock=MessageSquareLock;
+__as1(_, 'MessageSquareLock', MessageSquareLock);
 if(!window.customElements.get('lucide-message-square-lock')){window.customElements.define('lucide-message-square-lock', MessageSquareLock);Aventus.WebComponentInstance.registerDefinition(MessageSquareLock);}
 
 const MessageSquareMore = class MessageSquareMore extends AbstractIcon {
@@ -33069,7 +33069,7 @@ const MessageSquareMore = class MessageSquareMore extends AbstractIcon {
 }
 MessageSquareMore.Namespace=`Lucide`;
 MessageSquareMore.Tag=`lucide-message-square-more`;
-_.MessageSquareMore=MessageSquareMore;
+__as1(_, 'MessageSquareMore', MessageSquareMore);
 if(!window.customElements.get('lucide-message-square-more')){window.customElements.define('lucide-message-square-more', MessageSquareMore);Aventus.WebComponentInstance.registerDefinition(MessageSquareMore);}
 
 const MessageSquareOff = class MessageSquareOff extends AbstractIcon {
@@ -33093,7 +33093,7 @@ const MessageSquareOff = class MessageSquareOff extends AbstractIcon {
 }
 MessageSquareOff.Namespace=`Lucide`;
 MessageSquareOff.Tag=`lucide-message-square-off`;
-_.MessageSquareOff=MessageSquareOff;
+__as1(_, 'MessageSquareOff', MessageSquareOff);
 if(!window.customElements.get('lucide-message-square-off')){window.customElements.define('lucide-message-square-off', MessageSquareOff);Aventus.WebComponentInstance.registerDefinition(MessageSquareOff);}
 
 const MessageSquarePlus = class MessageSquarePlus extends AbstractIcon {
@@ -33117,7 +33117,7 @@ const MessageSquarePlus = class MessageSquarePlus extends AbstractIcon {
 }
 MessageSquarePlus.Namespace=`Lucide`;
 MessageSquarePlus.Tag=`lucide-message-square-plus`;
-_.MessageSquarePlus=MessageSquarePlus;
+__as1(_, 'MessageSquarePlus', MessageSquarePlus);
 if(!window.customElements.get('lucide-message-square-plus')){window.customElements.define('lucide-message-square-plus', MessageSquarePlus);Aventus.WebComponentInstance.registerDefinition(MessageSquarePlus);}
 
 const MessageSquareQuote = class MessageSquareQuote extends AbstractIcon {
@@ -33141,7 +33141,7 @@ const MessageSquareQuote = class MessageSquareQuote extends AbstractIcon {
 }
 MessageSquareQuote.Namespace=`Lucide`;
 MessageSquareQuote.Tag=`lucide-message-square-quote`;
-_.MessageSquareQuote=MessageSquareQuote;
+__as1(_, 'MessageSquareQuote', MessageSquareQuote);
 if(!window.customElements.get('lucide-message-square-quote')){window.customElements.define('lucide-message-square-quote', MessageSquareQuote);Aventus.WebComponentInstance.registerDefinition(MessageSquareQuote);}
 
 const MessageSquareReply = class MessageSquareReply extends AbstractIcon {
@@ -33165,7 +33165,7 @@ const MessageSquareReply = class MessageSquareReply extends AbstractIcon {
 }
 MessageSquareReply.Namespace=`Lucide`;
 MessageSquareReply.Tag=`lucide-message-square-reply`;
-_.MessageSquareReply=MessageSquareReply;
+__as1(_, 'MessageSquareReply', MessageSquareReply);
 if(!window.customElements.get('lucide-message-square-reply')){window.customElements.define('lucide-message-square-reply', MessageSquareReply);Aventus.WebComponentInstance.registerDefinition(MessageSquareReply);}
 
 const MessageSquareShare = class MessageSquareShare extends AbstractIcon {
@@ -33189,7 +33189,7 @@ const MessageSquareShare = class MessageSquareShare extends AbstractIcon {
 }
 MessageSquareShare.Namespace=`Lucide`;
 MessageSquareShare.Tag=`lucide-message-square-share`;
-_.MessageSquareShare=MessageSquareShare;
+__as1(_, 'MessageSquareShare', MessageSquareShare);
 if(!window.customElements.get('lucide-message-square-share')){window.customElements.define('lucide-message-square-share', MessageSquareShare);Aventus.WebComponentInstance.registerDefinition(MessageSquareShare);}
 
 const MessageSquareText = class MessageSquareText extends AbstractIcon {
@@ -33213,7 +33213,7 @@ const MessageSquareText = class MessageSquareText extends AbstractIcon {
 }
 MessageSquareText.Namespace=`Lucide`;
 MessageSquareText.Tag=`lucide-message-square-text`;
-_.MessageSquareText=MessageSquareText;
+__as1(_, 'MessageSquareText', MessageSquareText);
 if(!window.customElements.get('lucide-message-square-text')){window.customElements.define('lucide-message-square-text', MessageSquareText);Aventus.WebComponentInstance.registerDefinition(MessageSquareText);}
 
 const MessageSquareWarning = class MessageSquareWarning extends AbstractIcon {
@@ -33237,7 +33237,7 @@ const MessageSquareWarning = class MessageSquareWarning extends AbstractIcon {
 }
 MessageSquareWarning.Namespace=`Lucide`;
 MessageSquareWarning.Tag=`lucide-message-square-warning`;
-_.MessageSquareWarning=MessageSquareWarning;
+__as1(_, 'MessageSquareWarning', MessageSquareWarning);
 if(!window.customElements.get('lucide-message-square-warning')){window.customElements.define('lucide-message-square-warning', MessageSquareWarning);Aventus.WebComponentInstance.registerDefinition(MessageSquareWarning);}
 
 const MessageSquareX = class MessageSquareX extends AbstractIcon {
@@ -33261,7 +33261,7 @@ const MessageSquareX = class MessageSquareX extends AbstractIcon {
 }
 MessageSquareX.Namespace=`Lucide`;
 MessageSquareX.Tag=`lucide-message-square-x`;
-_.MessageSquareX=MessageSquareX;
+__as1(_, 'MessageSquareX', MessageSquareX);
 if(!window.customElements.get('lucide-message-square-x')){window.customElements.define('lucide-message-square-x', MessageSquareX);Aventus.WebComponentInstance.registerDefinition(MessageSquareX);}
 
 const MessagesSquare = class MessagesSquare extends AbstractIcon {
@@ -33285,7 +33285,7 @@ const MessagesSquare = class MessagesSquare extends AbstractIcon {
 }
 MessagesSquare.Namespace=`Lucide`;
 MessagesSquare.Tag=`lucide-messages-square`;
-_.MessagesSquare=MessagesSquare;
+__as1(_, 'MessagesSquare', MessagesSquare);
 if(!window.customElements.get('lucide-messages-square')){window.customElements.define('lucide-messages-square', MessagesSquare);Aventus.WebComponentInstance.registerDefinition(MessagesSquare);}
 
 const Mic = class Mic extends AbstractIcon {
@@ -33309,7 +33309,7 @@ const Mic = class Mic extends AbstractIcon {
 }
 Mic.Namespace=`Lucide`;
 Mic.Tag=`lucide-mic`;
-_.Mic=Mic;
+__as1(_, 'Mic', Mic);
 if(!window.customElements.get('lucide-mic')){window.customElements.define('lucide-mic', Mic);Aventus.WebComponentInstance.registerDefinition(Mic);}
 
 const Mic2 = class Mic2 extends AbstractIcon {
@@ -33333,7 +33333,7 @@ const Mic2 = class Mic2 extends AbstractIcon {
 }
 Mic2.Namespace=`Lucide`;
 Mic2.Tag=`lucide-mic-2`;
-_.Mic2=Mic2;
+__as1(_, 'Mic2', Mic2);
 if(!window.customElements.get('lucide-mic-2')){window.customElements.define('lucide-mic-2', Mic2);Aventus.WebComponentInstance.registerDefinition(Mic2);}
 
 const MicOff = class MicOff extends AbstractIcon {
@@ -33357,7 +33357,7 @@ const MicOff = class MicOff extends AbstractIcon {
 }
 MicOff.Namespace=`Lucide`;
 MicOff.Tag=`lucide-mic-off`;
-_.MicOff=MicOff;
+__as1(_, 'MicOff', MicOff);
 if(!window.customElements.get('lucide-mic-off')){window.customElements.define('lucide-mic-off', MicOff);Aventus.WebComponentInstance.registerDefinition(MicOff);}
 
 const Microchip = class Microchip extends AbstractIcon {
@@ -33381,7 +33381,7 @@ const Microchip = class Microchip extends AbstractIcon {
 }
 Microchip.Namespace=`Lucide`;
 Microchip.Tag=`lucide-microchip`;
-_.Microchip=Microchip;
+__as1(_, 'Microchip', Microchip);
 if(!window.customElements.get('lucide-microchip')){window.customElements.define('lucide-microchip', Microchip);Aventus.WebComponentInstance.registerDefinition(Microchip);}
 
 const Microscope = class Microscope extends AbstractIcon {
@@ -33405,7 +33405,7 @@ const Microscope = class Microscope extends AbstractIcon {
 }
 Microscope.Namespace=`Lucide`;
 Microscope.Tag=`lucide-microscope`;
-_.Microscope=Microscope;
+__as1(_, 'Microscope', Microscope);
 if(!window.customElements.get('lucide-microscope')){window.customElements.define('lucide-microscope', Microscope);Aventus.WebComponentInstance.registerDefinition(Microscope);}
 
 const Microwave = class Microwave extends AbstractIcon {
@@ -33429,7 +33429,7 @@ const Microwave = class Microwave extends AbstractIcon {
 }
 Microwave.Namespace=`Lucide`;
 Microwave.Tag=`lucide-microwave`;
-_.Microwave=Microwave;
+__as1(_, 'Microwave', Microwave);
 if(!window.customElements.get('lucide-microwave')){window.customElements.define('lucide-microwave', Microwave);Aventus.WebComponentInstance.registerDefinition(Microwave);}
 
 const MicVocal = class MicVocal extends AbstractIcon {
@@ -33453,7 +33453,7 @@ const MicVocal = class MicVocal extends AbstractIcon {
 }
 MicVocal.Namespace=`Lucide`;
 MicVocal.Tag=`lucide-mic-vocal`;
-_.MicVocal=MicVocal;
+__as1(_, 'MicVocal', MicVocal);
 if(!window.customElements.get('lucide-mic-vocal')){window.customElements.define('lucide-mic-vocal', MicVocal);Aventus.WebComponentInstance.registerDefinition(MicVocal);}
 
 const Milestone = class Milestone extends AbstractIcon {
@@ -33477,7 +33477,7 @@ const Milestone = class Milestone extends AbstractIcon {
 }
 Milestone.Namespace=`Lucide`;
 Milestone.Tag=`lucide-milestone`;
-_.Milestone=Milestone;
+__as1(_, 'Milestone', Milestone);
 if(!window.customElements.get('lucide-milestone')){window.customElements.define('lucide-milestone', Milestone);Aventus.WebComponentInstance.registerDefinition(Milestone);}
 
 const Milk = class Milk extends AbstractIcon {
@@ -33501,7 +33501,7 @@ const Milk = class Milk extends AbstractIcon {
 }
 Milk.Namespace=`Lucide`;
 Milk.Tag=`lucide-milk`;
-_.Milk=Milk;
+__as1(_, 'Milk', Milk);
 if(!window.customElements.get('lucide-milk')){window.customElements.define('lucide-milk', Milk);Aventus.WebComponentInstance.registerDefinition(Milk);}
 
 const MilkOff = class MilkOff extends AbstractIcon {
@@ -33525,7 +33525,7 @@ const MilkOff = class MilkOff extends AbstractIcon {
 }
 MilkOff.Namespace=`Lucide`;
 MilkOff.Tag=`lucide-milk-off`;
-_.MilkOff=MilkOff;
+__as1(_, 'MilkOff', MilkOff);
 if(!window.customElements.get('lucide-milk-off')){window.customElements.define('lucide-milk-off', MilkOff);Aventus.WebComponentInstance.registerDefinition(MilkOff);}
 
 const Minimize = class Minimize extends AbstractIcon {
@@ -33549,7 +33549,7 @@ const Minimize = class Minimize extends AbstractIcon {
 }
 Minimize.Namespace=`Lucide`;
 Minimize.Tag=`lucide-minimize`;
-_.Minimize=Minimize;
+__as1(_, 'Minimize', Minimize);
 if(!window.customElements.get('lucide-minimize')){window.customElements.define('lucide-minimize', Minimize);Aventus.WebComponentInstance.registerDefinition(Minimize);}
 
 const Minimize2 = class Minimize2 extends AbstractIcon {
@@ -33573,7 +33573,7 @@ const Minimize2 = class Minimize2 extends AbstractIcon {
 }
 Minimize2.Namespace=`Lucide`;
 Minimize2.Tag=`lucide-minimize-2`;
-_.Minimize2=Minimize2;
+__as1(_, 'Minimize2', Minimize2);
 if(!window.customElements.get('lucide-minimize-2')){window.customElements.define('lucide-minimize-2', Minimize2);Aventus.WebComponentInstance.registerDefinition(Minimize2);}
 
 const Minus = class Minus extends AbstractIcon {
@@ -33597,7 +33597,7 @@ const Minus = class Minus extends AbstractIcon {
 }
 Minus.Namespace=`Lucide`;
 Minus.Tag=`lucide-minus`;
-_.Minus=Minus;
+__as1(_, 'Minus', Minus);
 if(!window.customElements.get('lucide-minus')){window.customElements.define('lucide-minus', Minus);Aventus.WebComponentInstance.registerDefinition(Minus);}
 
 const MinusCircle = class MinusCircle extends AbstractIcon {
@@ -33621,7 +33621,7 @@ const MinusCircle = class MinusCircle extends AbstractIcon {
 }
 MinusCircle.Namespace=`Lucide`;
 MinusCircle.Tag=`lucide-minus-circle`;
-_.MinusCircle=MinusCircle;
+__as1(_, 'MinusCircle', MinusCircle);
 if(!window.customElements.get('lucide-minus-circle')){window.customElements.define('lucide-minus-circle', MinusCircle);Aventus.WebComponentInstance.registerDefinition(MinusCircle);}
 
 const MinusSquare = class MinusSquare extends AbstractIcon {
@@ -33645,7 +33645,7 @@ const MinusSquare = class MinusSquare extends AbstractIcon {
 }
 MinusSquare.Namespace=`Lucide`;
 MinusSquare.Tag=`lucide-minus-square`;
-_.MinusSquare=MinusSquare;
+__as1(_, 'MinusSquare', MinusSquare);
 if(!window.customElements.get('lucide-minus-square')){window.customElements.define('lucide-minus-square', MinusSquare);Aventus.WebComponentInstance.registerDefinition(MinusSquare);}
 
 const Monitor = class Monitor extends AbstractIcon {
@@ -33669,7 +33669,7 @@ const Monitor = class Monitor extends AbstractIcon {
 }
 Monitor.Namespace=`Lucide`;
 Monitor.Tag=`lucide-monitor`;
-_.Monitor=Monitor;
+__as1(_, 'Monitor', Monitor);
 if(!window.customElements.get('lucide-monitor')){window.customElements.define('lucide-monitor', Monitor);Aventus.WebComponentInstance.registerDefinition(Monitor);}
 
 const MonitorCheck = class MonitorCheck extends AbstractIcon {
@@ -33693,7 +33693,7 @@ const MonitorCheck = class MonitorCheck extends AbstractIcon {
 }
 MonitorCheck.Namespace=`Lucide`;
 MonitorCheck.Tag=`lucide-monitor-check`;
-_.MonitorCheck=MonitorCheck;
+__as1(_, 'MonitorCheck', MonitorCheck);
 if(!window.customElements.get('lucide-monitor-check')){window.customElements.define('lucide-monitor-check', MonitorCheck);Aventus.WebComponentInstance.registerDefinition(MonitorCheck);}
 
 const MonitorCog = class MonitorCog extends AbstractIcon {
@@ -33717,7 +33717,7 @@ const MonitorCog = class MonitorCog extends AbstractIcon {
 }
 MonitorCog.Namespace=`Lucide`;
 MonitorCog.Tag=`lucide-monitor-cog`;
-_.MonitorCog=MonitorCog;
+__as1(_, 'MonitorCog', MonitorCog);
 if(!window.customElements.get('lucide-monitor-cog')){window.customElements.define('lucide-monitor-cog', MonitorCog);Aventus.WebComponentInstance.registerDefinition(MonitorCog);}
 
 const MonitorDot = class MonitorDot extends AbstractIcon {
@@ -33741,7 +33741,7 @@ const MonitorDot = class MonitorDot extends AbstractIcon {
 }
 MonitorDot.Namespace=`Lucide`;
 MonitorDot.Tag=`lucide-monitor-dot`;
-_.MonitorDot=MonitorDot;
+__as1(_, 'MonitorDot', MonitorDot);
 if(!window.customElements.get('lucide-monitor-dot')){window.customElements.define('lucide-monitor-dot', MonitorDot);Aventus.WebComponentInstance.registerDefinition(MonitorDot);}
 
 const MonitorDown = class MonitorDown extends AbstractIcon {
@@ -33765,7 +33765,7 @@ const MonitorDown = class MonitorDown extends AbstractIcon {
 }
 MonitorDown.Namespace=`Lucide`;
 MonitorDown.Tag=`lucide-monitor-down`;
-_.MonitorDown=MonitorDown;
+__as1(_, 'MonitorDown', MonitorDown);
 if(!window.customElements.get('lucide-monitor-down')){window.customElements.define('lucide-monitor-down', MonitorDown);Aventus.WebComponentInstance.registerDefinition(MonitorDown);}
 
 const MonitorOff = class MonitorOff extends AbstractIcon {
@@ -33789,7 +33789,7 @@ const MonitorOff = class MonitorOff extends AbstractIcon {
 }
 MonitorOff.Namespace=`Lucide`;
 MonitorOff.Tag=`lucide-monitor-off`;
-_.MonitorOff=MonitorOff;
+__as1(_, 'MonitorOff', MonitorOff);
 if(!window.customElements.get('lucide-monitor-off')){window.customElements.define('lucide-monitor-off', MonitorOff);Aventus.WebComponentInstance.registerDefinition(MonitorOff);}
 
 const MonitorPause = class MonitorPause extends AbstractIcon {
@@ -33813,7 +33813,7 @@ const MonitorPause = class MonitorPause extends AbstractIcon {
 }
 MonitorPause.Namespace=`Lucide`;
 MonitorPause.Tag=`lucide-monitor-pause`;
-_.MonitorPause=MonitorPause;
+__as1(_, 'MonitorPause', MonitorPause);
 if(!window.customElements.get('lucide-monitor-pause')){window.customElements.define('lucide-monitor-pause', MonitorPause);Aventus.WebComponentInstance.registerDefinition(MonitorPause);}
 
 const MonitorPlay = class MonitorPlay extends AbstractIcon {
@@ -33837,7 +33837,7 @@ const MonitorPlay = class MonitorPlay extends AbstractIcon {
 }
 MonitorPlay.Namespace=`Lucide`;
 MonitorPlay.Tag=`lucide-monitor-play`;
-_.MonitorPlay=MonitorPlay;
+__as1(_, 'MonitorPlay', MonitorPlay);
 if(!window.customElements.get('lucide-monitor-play')){window.customElements.define('lucide-monitor-play', MonitorPlay);Aventus.WebComponentInstance.registerDefinition(MonitorPlay);}
 
 const MonitorSmartphone = class MonitorSmartphone extends AbstractIcon {
@@ -33861,7 +33861,7 @@ const MonitorSmartphone = class MonitorSmartphone extends AbstractIcon {
 }
 MonitorSmartphone.Namespace=`Lucide`;
 MonitorSmartphone.Tag=`lucide-monitor-smartphone`;
-_.MonitorSmartphone=MonitorSmartphone;
+__as1(_, 'MonitorSmartphone', MonitorSmartphone);
 if(!window.customElements.get('lucide-monitor-smartphone')){window.customElements.define('lucide-monitor-smartphone', MonitorSmartphone);Aventus.WebComponentInstance.registerDefinition(MonitorSmartphone);}
 
 const MonitorSpeaker = class MonitorSpeaker extends AbstractIcon {
@@ -33885,7 +33885,7 @@ const MonitorSpeaker = class MonitorSpeaker extends AbstractIcon {
 }
 MonitorSpeaker.Namespace=`Lucide`;
 MonitorSpeaker.Tag=`lucide-monitor-speaker`;
-_.MonitorSpeaker=MonitorSpeaker;
+__as1(_, 'MonitorSpeaker', MonitorSpeaker);
 if(!window.customElements.get('lucide-monitor-speaker')){window.customElements.define('lucide-monitor-speaker', MonitorSpeaker);Aventus.WebComponentInstance.registerDefinition(MonitorSpeaker);}
 
 const MonitorStop = class MonitorStop extends AbstractIcon {
@@ -33909,7 +33909,7 @@ const MonitorStop = class MonitorStop extends AbstractIcon {
 }
 MonitorStop.Namespace=`Lucide`;
 MonitorStop.Tag=`lucide-monitor-stop`;
-_.MonitorStop=MonitorStop;
+__as1(_, 'MonitorStop', MonitorStop);
 if(!window.customElements.get('lucide-monitor-stop')){window.customElements.define('lucide-monitor-stop', MonitorStop);Aventus.WebComponentInstance.registerDefinition(MonitorStop);}
 
 const MonitorUp = class MonitorUp extends AbstractIcon {
@@ -33933,7 +33933,7 @@ const MonitorUp = class MonitorUp extends AbstractIcon {
 }
 MonitorUp.Namespace=`Lucide`;
 MonitorUp.Tag=`lucide-monitor-up`;
-_.MonitorUp=MonitorUp;
+__as1(_, 'MonitorUp', MonitorUp);
 if(!window.customElements.get('lucide-monitor-up')){window.customElements.define('lucide-monitor-up', MonitorUp);Aventus.WebComponentInstance.registerDefinition(MonitorUp);}
 
 const MonitorX = class MonitorX extends AbstractIcon {
@@ -33957,7 +33957,7 @@ const MonitorX = class MonitorX extends AbstractIcon {
 }
 MonitorX.Namespace=`Lucide`;
 MonitorX.Tag=`lucide-monitor-x`;
-_.MonitorX=MonitorX;
+__as1(_, 'MonitorX', MonitorX);
 if(!window.customElements.get('lucide-monitor-x')){window.customElements.define('lucide-monitor-x', MonitorX);Aventus.WebComponentInstance.registerDefinition(MonitorX);}
 
 const Moon = class Moon extends AbstractIcon {
@@ -33981,7 +33981,7 @@ const Moon = class Moon extends AbstractIcon {
 }
 Moon.Namespace=`Lucide`;
 Moon.Tag=`lucide-moon`;
-_.Moon=Moon;
+__as1(_, 'Moon', Moon);
 if(!window.customElements.get('lucide-moon')){window.customElements.define('lucide-moon', Moon);Aventus.WebComponentInstance.registerDefinition(Moon);}
 
 const MoonStar = class MoonStar extends AbstractIcon {
@@ -34005,7 +34005,7 @@ const MoonStar = class MoonStar extends AbstractIcon {
 }
 MoonStar.Namespace=`Lucide`;
 MoonStar.Tag=`lucide-moon-star`;
-_.MoonStar=MoonStar;
+__as1(_, 'MoonStar', MoonStar);
 if(!window.customElements.get('lucide-moon-star')){window.customElements.define('lucide-moon-star', MoonStar);Aventus.WebComponentInstance.registerDefinition(MoonStar);}
 
 const MoreHorizontal = class MoreHorizontal extends AbstractIcon {
@@ -34029,7 +34029,7 @@ const MoreHorizontal = class MoreHorizontal extends AbstractIcon {
 }
 MoreHorizontal.Namespace=`Lucide`;
 MoreHorizontal.Tag=`lucide-more-horizontal`;
-_.MoreHorizontal=MoreHorizontal;
+__as1(_, 'MoreHorizontal', MoreHorizontal);
 if(!window.customElements.get('lucide-more-horizontal')){window.customElements.define('lucide-more-horizontal', MoreHorizontal);Aventus.WebComponentInstance.registerDefinition(MoreHorizontal);}
 
 const MoreVertical = class MoreVertical extends AbstractIcon {
@@ -34053,7 +34053,7 @@ const MoreVertical = class MoreVertical extends AbstractIcon {
 }
 MoreVertical.Namespace=`Lucide`;
 MoreVertical.Tag=`lucide-more-vertical`;
-_.MoreVertical=MoreVertical;
+__as1(_, 'MoreVertical', MoreVertical);
 if(!window.customElements.get('lucide-more-vertical')){window.customElements.define('lucide-more-vertical', MoreVertical);Aventus.WebComponentInstance.registerDefinition(MoreVertical);}
 
 const Mountain = class Mountain extends AbstractIcon {
@@ -34077,7 +34077,7 @@ const Mountain = class Mountain extends AbstractIcon {
 }
 Mountain.Namespace=`Lucide`;
 Mountain.Tag=`lucide-mountain`;
-_.Mountain=Mountain;
+__as1(_, 'Mountain', Mountain);
 if(!window.customElements.get('lucide-mountain')){window.customElements.define('lucide-mountain', Mountain);Aventus.WebComponentInstance.registerDefinition(Mountain);}
 
 const MountainSnow = class MountainSnow extends AbstractIcon {
@@ -34101,7 +34101,7 @@ const MountainSnow = class MountainSnow extends AbstractIcon {
 }
 MountainSnow.Namespace=`Lucide`;
 MountainSnow.Tag=`lucide-mountain-snow`;
-_.MountainSnow=MountainSnow;
+__as1(_, 'MountainSnow', MountainSnow);
 if(!window.customElements.get('lucide-mountain-snow')){window.customElements.define('lucide-mountain-snow', MountainSnow);Aventus.WebComponentInstance.registerDefinition(MountainSnow);}
 
 const Mouse = class Mouse extends AbstractIcon {
@@ -34125,7 +34125,7 @@ const Mouse = class Mouse extends AbstractIcon {
 }
 Mouse.Namespace=`Lucide`;
 Mouse.Tag=`lucide-mouse`;
-_.Mouse=Mouse;
+__as1(_, 'Mouse', Mouse);
 if(!window.customElements.get('lucide-mouse')){window.customElements.define('lucide-mouse', Mouse);Aventus.WebComponentInstance.registerDefinition(Mouse);}
 
 const MouseOff = class MouseOff extends AbstractIcon {
@@ -34149,7 +34149,7 @@ const MouseOff = class MouseOff extends AbstractIcon {
 }
 MouseOff.Namespace=`Lucide`;
 MouseOff.Tag=`lucide-mouse-off`;
-_.MouseOff=MouseOff;
+__as1(_, 'MouseOff', MouseOff);
 if(!window.customElements.get('lucide-mouse-off')){window.customElements.define('lucide-mouse-off', MouseOff);Aventus.WebComponentInstance.registerDefinition(MouseOff);}
 
 const MousePointer = class MousePointer extends AbstractIcon {
@@ -34173,7 +34173,7 @@ const MousePointer = class MousePointer extends AbstractIcon {
 }
 MousePointer.Namespace=`Lucide`;
 MousePointer.Tag=`lucide-mouse-pointer`;
-_.MousePointer=MousePointer;
+__as1(_, 'MousePointer', MousePointer);
 if(!window.customElements.get('lucide-mouse-pointer')){window.customElements.define('lucide-mouse-pointer', MousePointer);Aventus.WebComponentInstance.registerDefinition(MousePointer);}
 
 const MousePointer2 = class MousePointer2 extends AbstractIcon {
@@ -34197,7 +34197,7 @@ const MousePointer2 = class MousePointer2 extends AbstractIcon {
 }
 MousePointer2.Namespace=`Lucide`;
 MousePointer2.Tag=`lucide-mouse-pointer-2`;
-_.MousePointer2=MousePointer2;
+__as1(_, 'MousePointer2', MousePointer2);
 if(!window.customElements.get('lucide-mouse-pointer-2')){window.customElements.define('lucide-mouse-pointer-2', MousePointer2);Aventus.WebComponentInstance.registerDefinition(MousePointer2);}
 
 const MousePointerBan = class MousePointerBan extends AbstractIcon {
@@ -34221,7 +34221,7 @@ const MousePointerBan = class MousePointerBan extends AbstractIcon {
 }
 MousePointerBan.Namespace=`Lucide`;
 MousePointerBan.Tag=`lucide-mouse-pointer-ban`;
-_.MousePointerBan=MousePointerBan;
+__as1(_, 'MousePointerBan', MousePointerBan);
 if(!window.customElements.get('lucide-mouse-pointer-ban')){window.customElements.define('lucide-mouse-pointer-ban', MousePointerBan);Aventus.WebComponentInstance.registerDefinition(MousePointerBan);}
 
 const MousePointerClick = class MousePointerClick extends AbstractIcon {
@@ -34245,7 +34245,7 @@ const MousePointerClick = class MousePointerClick extends AbstractIcon {
 }
 MousePointerClick.Namespace=`Lucide`;
 MousePointerClick.Tag=`lucide-mouse-pointer-click`;
-_.MousePointerClick=MousePointerClick;
+__as1(_, 'MousePointerClick', MousePointerClick);
 if(!window.customElements.get('lucide-mouse-pointer-click')){window.customElements.define('lucide-mouse-pointer-click', MousePointerClick);Aventus.WebComponentInstance.registerDefinition(MousePointerClick);}
 
 const MousePointerSquareDashed = class MousePointerSquareDashed extends AbstractIcon {
@@ -34269,7 +34269,7 @@ const MousePointerSquareDashed = class MousePointerSquareDashed extends Abstract
 }
 MousePointerSquareDashed.Namespace=`Lucide`;
 MousePointerSquareDashed.Tag=`lucide-mouse-pointer-square-dashed`;
-_.MousePointerSquareDashed=MousePointerSquareDashed;
+__as1(_, 'MousePointerSquareDashed', MousePointerSquareDashed);
 if(!window.customElements.get('lucide-mouse-pointer-square-dashed')){window.customElements.define('lucide-mouse-pointer-square-dashed', MousePointerSquareDashed);Aventus.WebComponentInstance.registerDefinition(MousePointerSquareDashed);}
 
 const Move = class Move extends AbstractIcon {
@@ -34293,7 +34293,7 @@ const Move = class Move extends AbstractIcon {
 }
 Move.Namespace=`Lucide`;
 Move.Tag=`lucide-move`;
-_.Move=Move;
+__as1(_, 'Move', Move);
 if(!window.customElements.get('lucide-move')){window.customElements.define('lucide-move', Move);Aventus.WebComponentInstance.registerDefinition(Move);}
 
 const Move3d = class Move3d extends AbstractIcon {
@@ -34317,7 +34317,7 @@ const Move3d = class Move3d extends AbstractIcon {
 }
 Move3d.Namespace=`Lucide`;
 Move3d.Tag=`lucide-move-3d`;
-_.Move3d=Move3d;
+__as1(_, 'Move3d', Move3d);
 if(!window.customElements.get('lucide-move-3d')){window.customElements.define('lucide-move-3d', Move3d);Aventus.WebComponentInstance.registerDefinition(Move3d);}
 
 const MoveDiagonal = class MoveDiagonal extends AbstractIcon {
@@ -34341,7 +34341,7 @@ const MoveDiagonal = class MoveDiagonal extends AbstractIcon {
 }
 MoveDiagonal.Namespace=`Lucide`;
 MoveDiagonal.Tag=`lucide-move-diagonal`;
-_.MoveDiagonal=MoveDiagonal;
+__as1(_, 'MoveDiagonal', MoveDiagonal);
 if(!window.customElements.get('lucide-move-diagonal')){window.customElements.define('lucide-move-diagonal', MoveDiagonal);Aventus.WebComponentInstance.registerDefinition(MoveDiagonal);}
 
 const MoveDiagonal2 = class MoveDiagonal2 extends AbstractIcon {
@@ -34365,7 +34365,7 @@ const MoveDiagonal2 = class MoveDiagonal2 extends AbstractIcon {
 }
 MoveDiagonal2.Namespace=`Lucide`;
 MoveDiagonal2.Tag=`lucide-move-diagonal-2`;
-_.MoveDiagonal2=MoveDiagonal2;
+__as1(_, 'MoveDiagonal2', MoveDiagonal2);
 if(!window.customElements.get('lucide-move-diagonal-2')){window.customElements.define('lucide-move-diagonal-2', MoveDiagonal2);Aventus.WebComponentInstance.registerDefinition(MoveDiagonal2);}
 
 const MoveDown = class MoveDown extends AbstractIcon {
@@ -34389,7 +34389,7 @@ const MoveDown = class MoveDown extends AbstractIcon {
 }
 MoveDown.Namespace=`Lucide`;
 MoveDown.Tag=`lucide-move-down`;
-_.MoveDown=MoveDown;
+__as1(_, 'MoveDown', MoveDown);
 if(!window.customElements.get('lucide-move-down')){window.customElements.define('lucide-move-down', MoveDown);Aventus.WebComponentInstance.registerDefinition(MoveDown);}
 
 const MoveDownLeft = class MoveDownLeft extends AbstractIcon {
@@ -34413,7 +34413,7 @@ const MoveDownLeft = class MoveDownLeft extends AbstractIcon {
 }
 MoveDownLeft.Namespace=`Lucide`;
 MoveDownLeft.Tag=`lucide-move-down-left`;
-_.MoveDownLeft=MoveDownLeft;
+__as1(_, 'MoveDownLeft', MoveDownLeft);
 if(!window.customElements.get('lucide-move-down-left')){window.customElements.define('lucide-move-down-left', MoveDownLeft);Aventus.WebComponentInstance.registerDefinition(MoveDownLeft);}
 
 const MoveDownRight = class MoveDownRight extends AbstractIcon {
@@ -34437,7 +34437,7 @@ const MoveDownRight = class MoveDownRight extends AbstractIcon {
 }
 MoveDownRight.Namespace=`Lucide`;
 MoveDownRight.Tag=`lucide-move-down-right`;
-_.MoveDownRight=MoveDownRight;
+__as1(_, 'MoveDownRight', MoveDownRight);
 if(!window.customElements.get('lucide-move-down-right')){window.customElements.define('lucide-move-down-right', MoveDownRight);Aventus.WebComponentInstance.registerDefinition(MoveDownRight);}
 
 const MoveHorizontal = class MoveHorizontal extends AbstractIcon {
@@ -34461,7 +34461,7 @@ const MoveHorizontal = class MoveHorizontal extends AbstractIcon {
 }
 MoveHorizontal.Namespace=`Lucide`;
 MoveHorizontal.Tag=`lucide-move-horizontal`;
-_.MoveHorizontal=MoveHorizontal;
+__as1(_, 'MoveHorizontal', MoveHorizontal);
 if(!window.customElements.get('lucide-move-horizontal')){window.customElements.define('lucide-move-horizontal', MoveHorizontal);Aventus.WebComponentInstance.registerDefinition(MoveHorizontal);}
 
 const MoveLeft = class MoveLeft extends AbstractIcon {
@@ -34485,7 +34485,7 @@ const MoveLeft = class MoveLeft extends AbstractIcon {
 }
 MoveLeft.Namespace=`Lucide`;
 MoveLeft.Tag=`lucide-move-left`;
-_.MoveLeft=MoveLeft;
+__as1(_, 'MoveLeft', MoveLeft);
 if(!window.customElements.get('lucide-move-left')){window.customElements.define('lucide-move-left', MoveLeft);Aventus.WebComponentInstance.registerDefinition(MoveLeft);}
 
 const MoveRight = class MoveRight extends AbstractIcon {
@@ -34509,7 +34509,7 @@ const MoveRight = class MoveRight extends AbstractIcon {
 }
 MoveRight.Namespace=`Lucide`;
 MoveRight.Tag=`lucide-move-right`;
-_.MoveRight=MoveRight;
+__as1(_, 'MoveRight', MoveRight);
 if(!window.customElements.get('lucide-move-right')){window.customElements.define('lucide-move-right', MoveRight);Aventus.WebComponentInstance.registerDefinition(MoveRight);}
 
 const MoveUp = class MoveUp extends AbstractIcon {
@@ -34533,7 +34533,7 @@ const MoveUp = class MoveUp extends AbstractIcon {
 }
 MoveUp.Namespace=`Lucide`;
 MoveUp.Tag=`lucide-move-up`;
-_.MoveUp=MoveUp;
+__as1(_, 'MoveUp', MoveUp);
 if(!window.customElements.get('lucide-move-up')){window.customElements.define('lucide-move-up', MoveUp);Aventus.WebComponentInstance.registerDefinition(MoveUp);}
 
 const MoveUpLeft = class MoveUpLeft extends AbstractIcon {
@@ -34557,7 +34557,7 @@ const MoveUpLeft = class MoveUpLeft extends AbstractIcon {
 }
 MoveUpLeft.Namespace=`Lucide`;
 MoveUpLeft.Tag=`lucide-move-up-left`;
-_.MoveUpLeft=MoveUpLeft;
+__as1(_, 'MoveUpLeft', MoveUpLeft);
 if(!window.customElements.get('lucide-move-up-left')){window.customElements.define('lucide-move-up-left', MoveUpLeft);Aventus.WebComponentInstance.registerDefinition(MoveUpLeft);}
 
 const MoveUpRight = class MoveUpRight extends AbstractIcon {
@@ -34581,7 +34581,7 @@ const MoveUpRight = class MoveUpRight extends AbstractIcon {
 }
 MoveUpRight.Namespace=`Lucide`;
 MoveUpRight.Tag=`lucide-move-up-right`;
-_.MoveUpRight=MoveUpRight;
+__as1(_, 'MoveUpRight', MoveUpRight);
 if(!window.customElements.get('lucide-move-up-right')){window.customElements.define('lucide-move-up-right', MoveUpRight);Aventus.WebComponentInstance.registerDefinition(MoveUpRight);}
 
 const MoveVertical = class MoveVertical extends AbstractIcon {
@@ -34605,7 +34605,7 @@ const MoveVertical = class MoveVertical extends AbstractIcon {
 }
 MoveVertical.Namespace=`Lucide`;
 MoveVertical.Tag=`lucide-move-vertical`;
-_.MoveVertical=MoveVertical;
+__as1(_, 'MoveVertical', MoveVertical);
 if(!window.customElements.get('lucide-move-vertical')){window.customElements.define('lucide-move-vertical', MoveVertical);Aventus.WebComponentInstance.registerDefinition(MoveVertical);}
 
 const MSquare = class MSquare extends AbstractIcon {
@@ -34629,7 +34629,7 @@ const MSquare = class MSquare extends AbstractIcon {
 }
 MSquare.Namespace=`Lucide`;
 MSquare.Tag=`lucide-m-square`;
-_.MSquare=MSquare;
+__as1(_, 'MSquare', MSquare);
 if(!window.customElements.get('lucide-m-square')){window.customElements.define('lucide-m-square', MSquare);Aventus.WebComponentInstance.registerDefinition(MSquare);}
 
 const Music = class Music extends AbstractIcon {
@@ -34653,7 +34653,7 @@ const Music = class Music extends AbstractIcon {
 }
 Music.Namespace=`Lucide`;
 Music.Tag=`lucide-music`;
-_.Music=Music;
+__as1(_, 'Music', Music);
 if(!window.customElements.get('lucide-music')){window.customElements.define('lucide-music', Music);Aventus.WebComponentInstance.registerDefinition(Music);}
 
 const Music2 = class Music2 extends AbstractIcon {
@@ -34677,7 +34677,7 @@ const Music2 = class Music2 extends AbstractIcon {
 }
 Music2.Namespace=`Lucide`;
 Music2.Tag=`lucide-music-2`;
-_.Music2=Music2;
+__as1(_, 'Music2', Music2);
 if(!window.customElements.get('lucide-music-2')){window.customElements.define('lucide-music-2', Music2);Aventus.WebComponentInstance.registerDefinition(Music2);}
 
 const Music3 = class Music3 extends AbstractIcon {
@@ -34701,7 +34701,7 @@ const Music3 = class Music3 extends AbstractIcon {
 }
 Music3.Namespace=`Lucide`;
 Music3.Tag=`lucide-music-3`;
-_.Music3=Music3;
+__as1(_, 'Music3', Music3);
 if(!window.customElements.get('lucide-music-3')){window.customElements.define('lucide-music-3', Music3);Aventus.WebComponentInstance.registerDefinition(Music3);}
 
 const Music4 = class Music4 extends AbstractIcon {
@@ -34725,7 +34725,7 @@ const Music4 = class Music4 extends AbstractIcon {
 }
 Music4.Namespace=`Lucide`;
 Music4.Tag=`lucide-music-4`;
-_.Music4=Music4;
+__as1(_, 'Music4', Music4);
 if(!window.customElements.get('lucide-music-4')){window.customElements.define('lucide-music-4', Music4);Aventus.WebComponentInstance.registerDefinition(Music4);}
 
 const Navigation = class Navigation extends AbstractIcon {
@@ -34749,7 +34749,7 @@ const Navigation = class Navigation extends AbstractIcon {
 }
 Navigation.Namespace=`Lucide`;
 Navigation.Tag=`lucide-navigation`;
-_.Navigation=Navigation;
+__as1(_, 'Navigation', Navigation);
 if(!window.customElements.get('lucide-navigation')){window.customElements.define('lucide-navigation', Navigation);Aventus.WebComponentInstance.registerDefinition(Navigation);}
 
 const Navigation2 = class Navigation2 extends AbstractIcon {
@@ -34773,7 +34773,7 @@ const Navigation2 = class Navigation2 extends AbstractIcon {
 }
 Navigation2.Namespace=`Lucide`;
 Navigation2.Tag=`lucide-navigation-2`;
-_.Navigation2=Navigation2;
+__as1(_, 'Navigation2', Navigation2);
 if(!window.customElements.get('lucide-navigation-2')){window.customElements.define('lucide-navigation-2', Navigation2);Aventus.WebComponentInstance.registerDefinition(Navigation2);}
 
 const Navigation2Off = class Navigation2Off extends AbstractIcon {
@@ -34797,7 +34797,7 @@ const Navigation2Off = class Navigation2Off extends AbstractIcon {
 }
 Navigation2Off.Namespace=`Lucide`;
 Navigation2Off.Tag=`lucide-navigation-2-off`;
-_.Navigation2Off=Navigation2Off;
+__as1(_, 'Navigation2Off', Navigation2Off);
 if(!window.customElements.get('lucide-navigation-2-off')){window.customElements.define('lucide-navigation-2-off', Navigation2Off);Aventus.WebComponentInstance.registerDefinition(Navigation2Off);}
 
 const NavigationOff = class NavigationOff extends AbstractIcon {
@@ -34821,7 +34821,7 @@ const NavigationOff = class NavigationOff extends AbstractIcon {
 }
 NavigationOff.Namespace=`Lucide`;
 NavigationOff.Tag=`lucide-navigation-off`;
-_.NavigationOff=NavigationOff;
+__as1(_, 'NavigationOff', NavigationOff);
 if(!window.customElements.get('lucide-navigation-off')){window.customElements.define('lucide-navigation-off', NavigationOff);Aventus.WebComponentInstance.registerDefinition(NavigationOff);}
 
 const Network = class Network extends AbstractIcon {
@@ -34845,7 +34845,7 @@ const Network = class Network extends AbstractIcon {
 }
 Network.Namespace=`Lucide`;
 Network.Tag=`lucide-network`;
-_.Network=Network;
+__as1(_, 'Network', Network);
 if(!window.customElements.get('lucide-network')){window.customElements.define('lucide-network', Network);Aventus.WebComponentInstance.registerDefinition(Network);}
 
 const Newspaper = class Newspaper extends AbstractIcon {
@@ -34869,7 +34869,7 @@ const Newspaper = class Newspaper extends AbstractIcon {
 }
 Newspaper.Namespace=`Lucide`;
 Newspaper.Tag=`lucide-newspaper`;
-_.Newspaper=Newspaper;
+__as1(_, 'Newspaper', Newspaper);
 if(!window.customElements.get('lucide-newspaper')){window.customElements.define('lucide-newspaper', Newspaper);Aventus.WebComponentInstance.registerDefinition(Newspaper);}
 
 const Nfc = class Nfc extends AbstractIcon {
@@ -34893,7 +34893,7 @@ const Nfc = class Nfc extends AbstractIcon {
 }
 Nfc.Namespace=`Lucide`;
 Nfc.Tag=`lucide-nfc`;
-_.Nfc=Nfc;
+__as1(_, 'Nfc', Nfc);
 if(!window.customElements.get('lucide-nfc')){window.customElements.define('lucide-nfc', Nfc);Aventus.WebComponentInstance.registerDefinition(Nfc);}
 
 const NonBinary = class NonBinary extends AbstractIcon {
@@ -34917,7 +34917,7 @@ const NonBinary = class NonBinary extends AbstractIcon {
 }
 NonBinary.Namespace=`Lucide`;
 NonBinary.Tag=`lucide-non-binary`;
-_.NonBinary=NonBinary;
+__as1(_, 'NonBinary', NonBinary);
 if(!window.customElements.get('lucide-non-binary')){window.customElements.define('lucide-non-binary', NonBinary);Aventus.WebComponentInstance.registerDefinition(NonBinary);}
 
 const Notebook = class Notebook extends AbstractIcon {
@@ -34941,7 +34941,7 @@ const Notebook = class Notebook extends AbstractIcon {
 }
 Notebook.Namespace=`Lucide`;
 Notebook.Tag=`lucide-notebook`;
-_.Notebook=Notebook;
+__as1(_, 'Notebook', Notebook);
 if(!window.customElements.get('lucide-notebook')){window.customElements.define('lucide-notebook', Notebook);Aventus.WebComponentInstance.registerDefinition(Notebook);}
 
 const NotebookPen = class NotebookPen extends AbstractIcon {
@@ -34965,7 +34965,7 @@ const NotebookPen = class NotebookPen extends AbstractIcon {
 }
 NotebookPen.Namespace=`Lucide`;
 NotebookPen.Tag=`lucide-notebook-pen`;
-_.NotebookPen=NotebookPen;
+__as1(_, 'NotebookPen', NotebookPen);
 if(!window.customElements.get('lucide-notebook-pen')){window.customElements.define('lucide-notebook-pen', NotebookPen);Aventus.WebComponentInstance.registerDefinition(NotebookPen);}
 
 const NotebookTabs = class NotebookTabs extends AbstractIcon {
@@ -34989,7 +34989,7 @@ const NotebookTabs = class NotebookTabs extends AbstractIcon {
 }
 NotebookTabs.Namespace=`Lucide`;
 NotebookTabs.Tag=`lucide-notebook-tabs`;
-_.NotebookTabs=NotebookTabs;
+__as1(_, 'NotebookTabs', NotebookTabs);
 if(!window.customElements.get('lucide-notebook-tabs')){window.customElements.define('lucide-notebook-tabs', NotebookTabs);Aventus.WebComponentInstance.registerDefinition(NotebookTabs);}
 
 const NotebookText = class NotebookText extends AbstractIcon {
@@ -35013,7 +35013,7 @@ const NotebookText = class NotebookText extends AbstractIcon {
 }
 NotebookText.Namespace=`Lucide`;
 NotebookText.Tag=`lucide-notebook-text`;
-_.NotebookText=NotebookText;
+__as1(_, 'NotebookText', NotebookText);
 if(!window.customElements.get('lucide-notebook-text')){window.customElements.define('lucide-notebook-text', NotebookText);Aventus.WebComponentInstance.registerDefinition(NotebookText);}
 
 const NotepadText = class NotepadText extends AbstractIcon {
@@ -35037,7 +35037,7 @@ const NotepadText = class NotepadText extends AbstractIcon {
 }
 NotepadText.Namespace=`Lucide`;
 NotepadText.Tag=`lucide-notepad-text`;
-_.NotepadText=NotepadText;
+__as1(_, 'NotepadText', NotepadText);
 if(!window.customElements.get('lucide-notepad-text')){window.customElements.define('lucide-notepad-text', NotepadText);Aventus.WebComponentInstance.registerDefinition(NotepadText);}
 
 const NotepadTextDashed = class NotepadTextDashed extends AbstractIcon {
@@ -35061,7 +35061,7 @@ const NotepadTextDashed = class NotepadTextDashed extends AbstractIcon {
 }
 NotepadTextDashed.Namespace=`Lucide`;
 NotepadTextDashed.Tag=`lucide-notepad-text-dashed`;
-_.NotepadTextDashed=NotepadTextDashed;
+__as1(_, 'NotepadTextDashed', NotepadTextDashed);
 if(!window.customElements.get('lucide-notepad-text-dashed')){window.customElements.define('lucide-notepad-text-dashed', NotepadTextDashed);Aventus.WebComponentInstance.registerDefinition(NotepadTextDashed);}
 
 const Nut = class Nut extends AbstractIcon {
@@ -35085,7 +35085,7 @@ const Nut = class Nut extends AbstractIcon {
 }
 Nut.Namespace=`Lucide`;
 Nut.Tag=`lucide-nut`;
-_.Nut=Nut;
+__as1(_, 'Nut', Nut);
 if(!window.customElements.get('lucide-nut')){window.customElements.define('lucide-nut', Nut);Aventus.WebComponentInstance.registerDefinition(Nut);}
 
 const NutOff = class NutOff extends AbstractIcon {
@@ -35109,7 +35109,7 @@ const NutOff = class NutOff extends AbstractIcon {
 }
 NutOff.Namespace=`Lucide`;
 NutOff.Tag=`lucide-nut-off`;
-_.NutOff=NutOff;
+__as1(_, 'NutOff', NutOff);
 if(!window.customElements.get('lucide-nut-off')){window.customElements.define('lucide-nut-off', NutOff);Aventus.WebComponentInstance.registerDefinition(NutOff);}
 
 const Octagon = class Octagon extends AbstractIcon {
@@ -35133,7 +35133,7 @@ const Octagon = class Octagon extends AbstractIcon {
 }
 Octagon.Namespace=`Lucide`;
 Octagon.Tag=`lucide-octagon`;
-_.Octagon=Octagon;
+__as1(_, 'Octagon', Octagon);
 if(!window.customElements.get('lucide-octagon')){window.customElements.define('lucide-octagon', Octagon);Aventus.WebComponentInstance.registerDefinition(Octagon);}
 
 const OctagonAlert = class OctagonAlert extends AbstractIcon {
@@ -35157,7 +35157,7 @@ const OctagonAlert = class OctagonAlert extends AbstractIcon {
 }
 OctagonAlert.Namespace=`Lucide`;
 OctagonAlert.Tag=`lucide-octagon-alert`;
-_.OctagonAlert=OctagonAlert;
+__as1(_, 'OctagonAlert', OctagonAlert);
 if(!window.customElements.get('lucide-octagon-alert')){window.customElements.define('lucide-octagon-alert', OctagonAlert);Aventus.WebComponentInstance.registerDefinition(OctagonAlert);}
 
 const OctagonMinus = class OctagonMinus extends AbstractIcon {
@@ -35181,7 +35181,7 @@ const OctagonMinus = class OctagonMinus extends AbstractIcon {
 }
 OctagonMinus.Namespace=`Lucide`;
 OctagonMinus.Tag=`lucide-octagon-minus`;
-_.OctagonMinus=OctagonMinus;
+__as1(_, 'OctagonMinus', OctagonMinus);
 if(!window.customElements.get('lucide-octagon-minus')){window.customElements.define('lucide-octagon-minus', OctagonMinus);Aventus.WebComponentInstance.registerDefinition(OctagonMinus);}
 
 const OctagonPause = class OctagonPause extends AbstractIcon {
@@ -35205,7 +35205,7 @@ const OctagonPause = class OctagonPause extends AbstractIcon {
 }
 OctagonPause.Namespace=`Lucide`;
 OctagonPause.Tag=`lucide-octagon-pause`;
-_.OctagonPause=OctagonPause;
+__as1(_, 'OctagonPause', OctagonPause);
 if(!window.customElements.get('lucide-octagon-pause')){window.customElements.define('lucide-octagon-pause', OctagonPause);Aventus.WebComponentInstance.registerDefinition(OctagonPause);}
 
 const OctagonX = class OctagonX extends AbstractIcon {
@@ -35229,7 +35229,7 @@ const OctagonX = class OctagonX extends AbstractIcon {
 }
 OctagonX.Namespace=`Lucide`;
 OctagonX.Tag=`lucide-octagon-x`;
-_.OctagonX=OctagonX;
+__as1(_, 'OctagonX', OctagonX);
 if(!window.customElements.get('lucide-octagon-x')){window.customElements.define('lucide-octagon-x', OctagonX);Aventus.WebComponentInstance.registerDefinition(OctagonX);}
 
 const Omega = class Omega extends AbstractIcon {
@@ -35253,7 +35253,7 @@ const Omega = class Omega extends AbstractIcon {
 }
 Omega.Namespace=`Lucide`;
 Omega.Tag=`lucide-omega`;
-_.Omega=Omega;
+__as1(_, 'Omega', Omega);
 if(!window.customElements.get('lucide-omega')){window.customElements.define('lucide-omega', Omega);Aventus.WebComponentInstance.registerDefinition(Omega);}
 
 const Option = class Option extends AbstractIcon {
@@ -35277,7 +35277,7 @@ const Option = class Option extends AbstractIcon {
 }
 Option.Namespace=`Lucide`;
 Option.Tag=`lucide-option`;
-_.Option=Option;
+__as1(_, 'Option', Option);
 if(!window.customElements.get('lucide-option')){window.customElements.define('lucide-option', Option);Aventus.WebComponentInstance.registerDefinition(Option);}
 
 const Orbit = class Orbit extends AbstractIcon {
@@ -35301,7 +35301,7 @@ const Orbit = class Orbit extends AbstractIcon {
 }
 Orbit.Namespace=`Lucide`;
 Orbit.Tag=`lucide-orbit`;
-_.Orbit=Orbit;
+__as1(_, 'Orbit', Orbit);
 if(!window.customElements.get('lucide-orbit')){window.customElements.define('lucide-orbit', Orbit);Aventus.WebComponentInstance.registerDefinition(Orbit);}
 
 const Origami = class Origami extends AbstractIcon {
@@ -35325,7 +35325,7 @@ const Origami = class Origami extends AbstractIcon {
 }
 Origami.Namespace=`Lucide`;
 Origami.Tag=`lucide-origami`;
-_.Origami=Origami;
+__as1(_, 'Origami', Origami);
 if(!window.customElements.get('lucide-origami')){window.customElements.define('lucide-origami', Origami);Aventus.WebComponentInstance.registerDefinition(Origami);}
 
 const Outdent = class Outdent extends AbstractIcon {
@@ -35349,7 +35349,7 @@ const Outdent = class Outdent extends AbstractIcon {
 }
 Outdent.Namespace=`Lucide`;
 Outdent.Tag=`lucide-outdent`;
-_.Outdent=Outdent;
+__as1(_, 'Outdent', Outdent);
 if(!window.customElements.get('lucide-outdent')){window.customElements.define('lucide-outdent', Outdent);Aventus.WebComponentInstance.registerDefinition(Outdent);}
 
 const Package = class Package extends AbstractIcon {
@@ -35373,7 +35373,7 @@ const Package = class Package extends AbstractIcon {
 }
 Package.Namespace=`Lucide`;
 Package.Tag=`lucide-package`;
-_.Package=Package;
+__as1(_, 'Package', Package);
 if(!window.customElements.get('lucide-package')){window.customElements.define('lucide-package', Package);Aventus.WebComponentInstance.registerDefinition(Package);}
 
 const Package2 = class Package2 extends AbstractIcon {
@@ -35397,7 +35397,7 @@ const Package2 = class Package2 extends AbstractIcon {
 }
 Package2.Namespace=`Lucide`;
 Package2.Tag=`lucide-package-2`;
-_.Package2=Package2;
+__as1(_, 'Package2', Package2);
 if(!window.customElements.get('lucide-package-2')){window.customElements.define('lucide-package-2', Package2);Aventus.WebComponentInstance.registerDefinition(Package2);}
 
 const PackageCheck = class PackageCheck extends AbstractIcon {
@@ -35421,7 +35421,7 @@ const PackageCheck = class PackageCheck extends AbstractIcon {
 }
 PackageCheck.Namespace=`Lucide`;
 PackageCheck.Tag=`lucide-package-check`;
-_.PackageCheck=PackageCheck;
+__as1(_, 'PackageCheck', PackageCheck);
 if(!window.customElements.get('lucide-package-check')){window.customElements.define('lucide-package-check', PackageCheck);Aventus.WebComponentInstance.registerDefinition(PackageCheck);}
 
 const PackageMinus = class PackageMinus extends AbstractIcon {
@@ -35445,7 +35445,7 @@ const PackageMinus = class PackageMinus extends AbstractIcon {
 }
 PackageMinus.Namespace=`Lucide`;
 PackageMinus.Tag=`lucide-package-minus`;
-_.PackageMinus=PackageMinus;
+__as1(_, 'PackageMinus', PackageMinus);
 if(!window.customElements.get('lucide-package-minus')){window.customElements.define('lucide-package-minus', PackageMinus);Aventus.WebComponentInstance.registerDefinition(PackageMinus);}
 
 const PackageOpen = class PackageOpen extends AbstractIcon {
@@ -35469,7 +35469,7 @@ const PackageOpen = class PackageOpen extends AbstractIcon {
 }
 PackageOpen.Namespace=`Lucide`;
 PackageOpen.Tag=`lucide-package-open`;
-_.PackageOpen=PackageOpen;
+__as1(_, 'PackageOpen', PackageOpen);
 if(!window.customElements.get('lucide-package-open')){window.customElements.define('lucide-package-open', PackageOpen);Aventus.WebComponentInstance.registerDefinition(PackageOpen);}
 
 const PackagePlus = class PackagePlus extends AbstractIcon {
@@ -35493,7 +35493,7 @@ const PackagePlus = class PackagePlus extends AbstractIcon {
 }
 PackagePlus.Namespace=`Lucide`;
 PackagePlus.Tag=`lucide-package-plus`;
-_.PackagePlus=PackagePlus;
+__as1(_, 'PackagePlus', PackagePlus);
 if(!window.customElements.get('lucide-package-plus')){window.customElements.define('lucide-package-plus', PackagePlus);Aventus.WebComponentInstance.registerDefinition(PackagePlus);}
 
 const PackageSearch = class PackageSearch extends AbstractIcon {
@@ -35517,7 +35517,7 @@ const PackageSearch = class PackageSearch extends AbstractIcon {
 }
 PackageSearch.Namespace=`Lucide`;
 PackageSearch.Tag=`lucide-package-search`;
-_.PackageSearch=PackageSearch;
+__as1(_, 'PackageSearch', PackageSearch);
 if(!window.customElements.get('lucide-package-search')){window.customElements.define('lucide-package-search', PackageSearch);Aventus.WebComponentInstance.registerDefinition(PackageSearch);}
 
 const PackageX = class PackageX extends AbstractIcon {
@@ -35541,7 +35541,7 @@ const PackageX = class PackageX extends AbstractIcon {
 }
 PackageX.Namespace=`Lucide`;
 PackageX.Tag=`lucide-package-x`;
-_.PackageX=PackageX;
+__as1(_, 'PackageX', PackageX);
 if(!window.customElements.get('lucide-package-x')){window.customElements.define('lucide-package-x', PackageX);Aventus.WebComponentInstance.registerDefinition(PackageX);}
 
 const Paintbrush = class Paintbrush extends AbstractIcon {
@@ -35565,7 +35565,7 @@ const Paintbrush = class Paintbrush extends AbstractIcon {
 }
 Paintbrush.Namespace=`Lucide`;
 Paintbrush.Tag=`lucide-paintbrush`;
-_.Paintbrush=Paintbrush;
+__as1(_, 'Paintbrush', Paintbrush);
 if(!window.customElements.get('lucide-paintbrush')){window.customElements.define('lucide-paintbrush', Paintbrush);Aventus.WebComponentInstance.registerDefinition(Paintbrush);}
 
 const Paintbrush2 = class Paintbrush2 extends AbstractIcon {
@@ -35589,7 +35589,7 @@ const Paintbrush2 = class Paintbrush2 extends AbstractIcon {
 }
 Paintbrush2.Namespace=`Lucide`;
 Paintbrush2.Tag=`lucide-paintbrush-2`;
-_.Paintbrush2=Paintbrush2;
+__as1(_, 'Paintbrush2', Paintbrush2);
 if(!window.customElements.get('lucide-paintbrush-2')){window.customElements.define('lucide-paintbrush-2', Paintbrush2);Aventus.WebComponentInstance.registerDefinition(Paintbrush2);}
 
 const PaintbrushVertical = class PaintbrushVertical extends AbstractIcon {
@@ -35613,7 +35613,7 @@ const PaintbrushVertical = class PaintbrushVertical extends AbstractIcon {
 }
 PaintbrushVertical.Namespace=`Lucide`;
 PaintbrushVertical.Tag=`lucide-paintbrush-vertical`;
-_.PaintbrushVertical=PaintbrushVertical;
+__as1(_, 'PaintbrushVertical', PaintbrushVertical);
 if(!window.customElements.get('lucide-paintbrush-vertical')){window.customElements.define('lucide-paintbrush-vertical', PaintbrushVertical);Aventus.WebComponentInstance.registerDefinition(PaintbrushVertical);}
 
 const PaintBucket = class PaintBucket extends AbstractIcon {
@@ -35637,7 +35637,7 @@ const PaintBucket = class PaintBucket extends AbstractIcon {
 }
 PaintBucket.Namespace=`Lucide`;
 PaintBucket.Tag=`lucide-paint-bucket`;
-_.PaintBucket=PaintBucket;
+__as1(_, 'PaintBucket', PaintBucket);
 if(!window.customElements.get('lucide-paint-bucket')){window.customElements.define('lucide-paint-bucket', PaintBucket);Aventus.WebComponentInstance.registerDefinition(PaintBucket);}
 
 const PaintRoller = class PaintRoller extends AbstractIcon {
@@ -35661,7 +35661,7 @@ const PaintRoller = class PaintRoller extends AbstractIcon {
 }
 PaintRoller.Namespace=`Lucide`;
 PaintRoller.Tag=`lucide-paint-roller`;
-_.PaintRoller=PaintRoller;
+__as1(_, 'PaintRoller', PaintRoller);
 if(!window.customElements.get('lucide-paint-roller')){window.customElements.define('lucide-paint-roller', PaintRoller);Aventus.WebComponentInstance.registerDefinition(PaintRoller);}
 
 const Palette = class Palette extends AbstractIcon {
@@ -35685,7 +35685,7 @@ const Palette = class Palette extends AbstractIcon {
 }
 Palette.Namespace=`Lucide`;
 Palette.Tag=`lucide-palette`;
-_.Palette=Palette;
+__as1(_, 'Palette', Palette);
 if(!window.customElements.get('lucide-palette')){window.customElements.define('lucide-palette', Palette);Aventus.WebComponentInstance.registerDefinition(Palette);}
 
 const Palmtree = class Palmtree extends AbstractIcon {
@@ -35709,7 +35709,7 @@ const Palmtree = class Palmtree extends AbstractIcon {
 }
 Palmtree.Namespace=`Lucide`;
 Palmtree.Tag=`lucide-palmtree`;
-_.Palmtree=Palmtree;
+__as1(_, 'Palmtree', Palmtree);
 if(!window.customElements.get('lucide-palmtree')){window.customElements.define('lucide-palmtree', Palmtree);Aventus.WebComponentInstance.registerDefinition(Palmtree);}
 
 const Panda = class Panda extends AbstractIcon {
@@ -35733,7 +35733,7 @@ const Panda = class Panda extends AbstractIcon {
 }
 Panda.Namespace=`Lucide`;
 Panda.Tag=`lucide-panda`;
-_.Panda=Panda;
+__as1(_, 'Panda', Panda);
 if(!window.customElements.get('lucide-panda')){window.customElements.define('lucide-panda', Panda);Aventus.WebComponentInstance.registerDefinition(Panda);}
 
 const PanelBottom = class PanelBottom extends AbstractIcon {
@@ -35757,7 +35757,7 @@ const PanelBottom = class PanelBottom extends AbstractIcon {
 }
 PanelBottom.Namespace=`Lucide`;
 PanelBottom.Tag=`lucide-panel-bottom`;
-_.PanelBottom=PanelBottom;
+__as1(_, 'PanelBottom', PanelBottom);
 if(!window.customElements.get('lucide-panel-bottom')){window.customElements.define('lucide-panel-bottom', PanelBottom);Aventus.WebComponentInstance.registerDefinition(PanelBottom);}
 
 const PanelBottomClose = class PanelBottomClose extends AbstractIcon {
@@ -35781,7 +35781,7 @@ const PanelBottomClose = class PanelBottomClose extends AbstractIcon {
 }
 PanelBottomClose.Namespace=`Lucide`;
 PanelBottomClose.Tag=`lucide-panel-bottom-close`;
-_.PanelBottomClose=PanelBottomClose;
+__as1(_, 'PanelBottomClose', PanelBottomClose);
 if(!window.customElements.get('lucide-panel-bottom-close')){window.customElements.define('lucide-panel-bottom-close', PanelBottomClose);Aventus.WebComponentInstance.registerDefinition(PanelBottomClose);}
 
 const PanelBottomDashed = class PanelBottomDashed extends AbstractIcon {
@@ -35805,7 +35805,7 @@ const PanelBottomDashed = class PanelBottomDashed extends AbstractIcon {
 }
 PanelBottomDashed.Namespace=`Lucide`;
 PanelBottomDashed.Tag=`lucide-panel-bottom-dashed`;
-_.PanelBottomDashed=PanelBottomDashed;
+__as1(_, 'PanelBottomDashed', PanelBottomDashed);
 if(!window.customElements.get('lucide-panel-bottom-dashed')){window.customElements.define('lucide-panel-bottom-dashed', PanelBottomDashed);Aventus.WebComponentInstance.registerDefinition(PanelBottomDashed);}
 
 const PanelBottomInactive = class PanelBottomInactive extends AbstractIcon {
@@ -35829,7 +35829,7 @@ const PanelBottomInactive = class PanelBottomInactive extends AbstractIcon {
 }
 PanelBottomInactive.Namespace=`Lucide`;
 PanelBottomInactive.Tag=`lucide-panel-bottom-inactive`;
-_.PanelBottomInactive=PanelBottomInactive;
+__as1(_, 'PanelBottomInactive', PanelBottomInactive);
 if(!window.customElements.get('lucide-panel-bottom-inactive')){window.customElements.define('lucide-panel-bottom-inactive', PanelBottomInactive);Aventus.WebComponentInstance.registerDefinition(PanelBottomInactive);}
 
 const PanelBottomOpen = class PanelBottomOpen extends AbstractIcon {
@@ -35853,7 +35853,7 @@ const PanelBottomOpen = class PanelBottomOpen extends AbstractIcon {
 }
 PanelBottomOpen.Namespace=`Lucide`;
 PanelBottomOpen.Tag=`lucide-panel-bottom-open`;
-_.PanelBottomOpen=PanelBottomOpen;
+__as1(_, 'PanelBottomOpen', PanelBottomOpen);
 if(!window.customElements.get('lucide-panel-bottom-open')){window.customElements.define('lucide-panel-bottom-open', PanelBottomOpen);Aventus.WebComponentInstance.registerDefinition(PanelBottomOpen);}
 
 const PanelLeft = class PanelLeft extends AbstractIcon {
@@ -35877,7 +35877,7 @@ const PanelLeft = class PanelLeft extends AbstractIcon {
 }
 PanelLeft.Namespace=`Lucide`;
 PanelLeft.Tag=`lucide-panel-left`;
-_.PanelLeft=PanelLeft;
+__as1(_, 'PanelLeft', PanelLeft);
 if(!window.customElements.get('lucide-panel-left')){window.customElements.define('lucide-panel-left', PanelLeft);Aventus.WebComponentInstance.registerDefinition(PanelLeft);}
 
 const PanelLeftClose = class PanelLeftClose extends AbstractIcon {
@@ -35901,7 +35901,7 @@ const PanelLeftClose = class PanelLeftClose extends AbstractIcon {
 }
 PanelLeftClose.Namespace=`Lucide`;
 PanelLeftClose.Tag=`lucide-panel-left-close`;
-_.PanelLeftClose=PanelLeftClose;
+__as1(_, 'PanelLeftClose', PanelLeftClose);
 if(!window.customElements.get('lucide-panel-left-close')){window.customElements.define('lucide-panel-left-close', PanelLeftClose);Aventus.WebComponentInstance.registerDefinition(PanelLeftClose);}
 
 const PanelLeftDashed = class PanelLeftDashed extends AbstractIcon {
@@ -35925,7 +35925,7 @@ const PanelLeftDashed = class PanelLeftDashed extends AbstractIcon {
 }
 PanelLeftDashed.Namespace=`Lucide`;
 PanelLeftDashed.Tag=`lucide-panel-left-dashed`;
-_.PanelLeftDashed=PanelLeftDashed;
+__as1(_, 'PanelLeftDashed', PanelLeftDashed);
 if(!window.customElements.get('lucide-panel-left-dashed')){window.customElements.define('lucide-panel-left-dashed', PanelLeftDashed);Aventus.WebComponentInstance.registerDefinition(PanelLeftDashed);}
 
 const PanelLeftInactive = class PanelLeftInactive extends AbstractIcon {
@@ -35949,7 +35949,7 @@ const PanelLeftInactive = class PanelLeftInactive extends AbstractIcon {
 }
 PanelLeftInactive.Namespace=`Lucide`;
 PanelLeftInactive.Tag=`lucide-panel-left-inactive`;
-_.PanelLeftInactive=PanelLeftInactive;
+__as1(_, 'PanelLeftInactive', PanelLeftInactive);
 if(!window.customElements.get('lucide-panel-left-inactive')){window.customElements.define('lucide-panel-left-inactive', PanelLeftInactive);Aventus.WebComponentInstance.registerDefinition(PanelLeftInactive);}
 
 const PanelLeftOpen = class PanelLeftOpen extends AbstractIcon {
@@ -35973,7 +35973,7 @@ const PanelLeftOpen = class PanelLeftOpen extends AbstractIcon {
 }
 PanelLeftOpen.Namespace=`Lucide`;
 PanelLeftOpen.Tag=`lucide-panel-left-open`;
-_.PanelLeftOpen=PanelLeftOpen;
+__as1(_, 'PanelLeftOpen', PanelLeftOpen);
 if(!window.customElements.get('lucide-panel-left-open')){window.customElements.define('lucide-panel-left-open', PanelLeftOpen);Aventus.WebComponentInstance.registerDefinition(PanelLeftOpen);}
 
 const PanelRight = class PanelRight extends AbstractIcon {
@@ -35997,7 +35997,7 @@ const PanelRight = class PanelRight extends AbstractIcon {
 }
 PanelRight.Namespace=`Lucide`;
 PanelRight.Tag=`lucide-panel-right`;
-_.PanelRight=PanelRight;
+__as1(_, 'PanelRight', PanelRight);
 if(!window.customElements.get('lucide-panel-right')){window.customElements.define('lucide-panel-right', PanelRight);Aventus.WebComponentInstance.registerDefinition(PanelRight);}
 
 const PanelRightClose = class PanelRightClose extends AbstractIcon {
@@ -36021,7 +36021,7 @@ const PanelRightClose = class PanelRightClose extends AbstractIcon {
 }
 PanelRightClose.Namespace=`Lucide`;
 PanelRightClose.Tag=`lucide-panel-right-close`;
-_.PanelRightClose=PanelRightClose;
+__as1(_, 'PanelRightClose', PanelRightClose);
 if(!window.customElements.get('lucide-panel-right-close')){window.customElements.define('lucide-panel-right-close', PanelRightClose);Aventus.WebComponentInstance.registerDefinition(PanelRightClose);}
 
 const PanelRightDashed = class PanelRightDashed extends AbstractIcon {
@@ -36045,7 +36045,7 @@ const PanelRightDashed = class PanelRightDashed extends AbstractIcon {
 }
 PanelRightDashed.Namespace=`Lucide`;
 PanelRightDashed.Tag=`lucide-panel-right-dashed`;
-_.PanelRightDashed=PanelRightDashed;
+__as1(_, 'PanelRightDashed', PanelRightDashed);
 if(!window.customElements.get('lucide-panel-right-dashed')){window.customElements.define('lucide-panel-right-dashed', PanelRightDashed);Aventus.WebComponentInstance.registerDefinition(PanelRightDashed);}
 
 const PanelRightInactive = class PanelRightInactive extends AbstractIcon {
@@ -36069,7 +36069,7 @@ const PanelRightInactive = class PanelRightInactive extends AbstractIcon {
 }
 PanelRightInactive.Namespace=`Lucide`;
 PanelRightInactive.Tag=`lucide-panel-right-inactive`;
-_.PanelRightInactive=PanelRightInactive;
+__as1(_, 'PanelRightInactive', PanelRightInactive);
 if(!window.customElements.get('lucide-panel-right-inactive')){window.customElements.define('lucide-panel-right-inactive', PanelRightInactive);Aventus.WebComponentInstance.registerDefinition(PanelRightInactive);}
 
 const PanelRightOpen = class PanelRightOpen extends AbstractIcon {
@@ -36093,7 +36093,7 @@ const PanelRightOpen = class PanelRightOpen extends AbstractIcon {
 }
 PanelRightOpen.Namespace=`Lucide`;
 PanelRightOpen.Tag=`lucide-panel-right-open`;
-_.PanelRightOpen=PanelRightOpen;
+__as1(_, 'PanelRightOpen', PanelRightOpen);
 if(!window.customElements.get('lucide-panel-right-open')){window.customElements.define('lucide-panel-right-open', PanelRightOpen);Aventus.WebComponentInstance.registerDefinition(PanelRightOpen);}
 
 const PanelsLeftBottom = class PanelsLeftBottom extends AbstractIcon {
@@ -36117,7 +36117,7 @@ const PanelsLeftBottom = class PanelsLeftBottom extends AbstractIcon {
 }
 PanelsLeftBottom.Namespace=`Lucide`;
 PanelsLeftBottom.Tag=`lucide-panels-left-bottom`;
-_.PanelsLeftBottom=PanelsLeftBottom;
+__as1(_, 'PanelsLeftBottom', PanelsLeftBottom);
 if(!window.customElements.get('lucide-panels-left-bottom')){window.customElements.define('lucide-panels-left-bottom', PanelsLeftBottom);Aventus.WebComponentInstance.registerDefinition(PanelsLeftBottom);}
 
 const PanelsLeftRight = class PanelsLeftRight extends AbstractIcon {
@@ -36141,7 +36141,7 @@ const PanelsLeftRight = class PanelsLeftRight extends AbstractIcon {
 }
 PanelsLeftRight.Namespace=`Lucide`;
 PanelsLeftRight.Tag=`lucide-panels-left-right`;
-_.PanelsLeftRight=PanelsLeftRight;
+__as1(_, 'PanelsLeftRight', PanelsLeftRight);
 if(!window.customElements.get('lucide-panels-left-right')){window.customElements.define('lucide-panels-left-right', PanelsLeftRight);Aventus.WebComponentInstance.registerDefinition(PanelsLeftRight);}
 
 const PanelsRightBottom = class PanelsRightBottom extends AbstractIcon {
@@ -36165,7 +36165,7 @@ const PanelsRightBottom = class PanelsRightBottom extends AbstractIcon {
 }
 PanelsRightBottom.Namespace=`Lucide`;
 PanelsRightBottom.Tag=`lucide-panels-right-bottom`;
-_.PanelsRightBottom=PanelsRightBottom;
+__as1(_, 'PanelsRightBottom', PanelsRightBottom);
 if(!window.customElements.get('lucide-panels-right-bottom')){window.customElements.define('lucide-panels-right-bottom', PanelsRightBottom);Aventus.WebComponentInstance.registerDefinition(PanelsRightBottom);}
 
 const PanelsTopBottom = class PanelsTopBottom extends AbstractIcon {
@@ -36189,7 +36189,7 @@ const PanelsTopBottom = class PanelsTopBottom extends AbstractIcon {
 }
 PanelsTopBottom.Namespace=`Lucide`;
 PanelsTopBottom.Tag=`lucide-panels-top-bottom`;
-_.PanelsTopBottom=PanelsTopBottom;
+__as1(_, 'PanelsTopBottom', PanelsTopBottom);
 if(!window.customElements.get('lucide-panels-top-bottom')){window.customElements.define('lucide-panels-top-bottom', PanelsTopBottom);Aventus.WebComponentInstance.registerDefinition(PanelsTopBottom);}
 
 const PanelsTopLeft = class PanelsTopLeft extends AbstractIcon {
@@ -36213,7 +36213,7 @@ const PanelsTopLeft = class PanelsTopLeft extends AbstractIcon {
 }
 PanelsTopLeft.Namespace=`Lucide`;
 PanelsTopLeft.Tag=`lucide-panels-top-left`;
-_.PanelsTopLeft=PanelsTopLeft;
+__as1(_, 'PanelsTopLeft', PanelsTopLeft);
 if(!window.customElements.get('lucide-panels-top-left')){window.customElements.define('lucide-panels-top-left', PanelsTopLeft);Aventus.WebComponentInstance.registerDefinition(PanelsTopLeft);}
 
 const PanelTop = class PanelTop extends AbstractIcon {
@@ -36237,7 +36237,7 @@ const PanelTop = class PanelTop extends AbstractIcon {
 }
 PanelTop.Namespace=`Lucide`;
 PanelTop.Tag=`lucide-panel-top`;
-_.PanelTop=PanelTop;
+__as1(_, 'PanelTop', PanelTop);
 if(!window.customElements.get('lucide-panel-top')){window.customElements.define('lucide-panel-top', PanelTop);Aventus.WebComponentInstance.registerDefinition(PanelTop);}
 
 const PanelTopClose = class PanelTopClose extends AbstractIcon {
@@ -36261,7 +36261,7 @@ const PanelTopClose = class PanelTopClose extends AbstractIcon {
 }
 PanelTopClose.Namespace=`Lucide`;
 PanelTopClose.Tag=`lucide-panel-top-close`;
-_.PanelTopClose=PanelTopClose;
+__as1(_, 'PanelTopClose', PanelTopClose);
 if(!window.customElements.get('lucide-panel-top-close')){window.customElements.define('lucide-panel-top-close', PanelTopClose);Aventus.WebComponentInstance.registerDefinition(PanelTopClose);}
 
 const PanelTopDashed = class PanelTopDashed extends AbstractIcon {
@@ -36285,7 +36285,7 @@ const PanelTopDashed = class PanelTopDashed extends AbstractIcon {
 }
 PanelTopDashed.Namespace=`Lucide`;
 PanelTopDashed.Tag=`lucide-panel-top-dashed`;
-_.PanelTopDashed=PanelTopDashed;
+__as1(_, 'PanelTopDashed', PanelTopDashed);
 if(!window.customElements.get('lucide-panel-top-dashed')){window.customElements.define('lucide-panel-top-dashed', PanelTopDashed);Aventus.WebComponentInstance.registerDefinition(PanelTopDashed);}
 
 const PanelTopInactive = class PanelTopInactive extends AbstractIcon {
@@ -36309,7 +36309,7 @@ const PanelTopInactive = class PanelTopInactive extends AbstractIcon {
 }
 PanelTopInactive.Namespace=`Lucide`;
 PanelTopInactive.Tag=`lucide-panel-top-inactive`;
-_.PanelTopInactive=PanelTopInactive;
+__as1(_, 'PanelTopInactive', PanelTopInactive);
 if(!window.customElements.get('lucide-panel-top-inactive')){window.customElements.define('lucide-panel-top-inactive', PanelTopInactive);Aventus.WebComponentInstance.registerDefinition(PanelTopInactive);}
 
 const PanelTopOpen = class PanelTopOpen extends AbstractIcon {
@@ -36333,7 +36333,7 @@ const PanelTopOpen = class PanelTopOpen extends AbstractIcon {
 }
 PanelTopOpen.Namespace=`Lucide`;
 PanelTopOpen.Tag=`lucide-panel-top-open`;
-_.PanelTopOpen=PanelTopOpen;
+__as1(_, 'PanelTopOpen', PanelTopOpen);
 if(!window.customElements.get('lucide-panel-top-open')){window.customElements.define('lucide-panel-top-open', PanelTopOpen);Aventus.WebComponentInstance.registerDefinition(PanelTopOpen);}
 
 const Paperclip = class Paperclip extends AbstractIcon {
@@ -36357,7 +36357,7 @@ const Paperclip = class Paperclip extends AbstractIcon {
 }
 Paperclip.Namespace=`Lucide`;
 Paperclip.Tag=`lucide-paperclip`;
-_.Paperclip=Paperclip;
+__as1(_, 'Paperclip', Paperclip);
 if(!window.customElements.get('lucide-paperclip')){window.customElements.define('lucide-paperclip', Paperclip);Aventus.WebComponentInstance.registerDefinition(Paperclip);}
 
 const Parentheses = class Parentheses extends AbstractIcon {
@@ -36381,7 +36381,7 @@ const Parentheses = class Parentheses extends AbstractIcon {
 }
 Parentheses.Namespace=`Lucide`;
 Parentheses.Tag=`lucide-parentheses`;
-_.Parentheses=Parentheses;
+__as1(_, 'Parentheses', Parentheses);
 if(!window.customElements.get('lucide-parentheses')){window.customElements.define('lucide-parentheses', Parentheses);Aventus.WebComponentInstance.registerDefinition(Parentheses);}
 
 const ParkingCircle = class ParkingCircle extends AbstractIcon {
@@ -36405,7 +36405,7 @@ const ParkingCircle = class ParkingCircle extends AbstractIcon {
 }
 ParkingCircle.Namespace=`Lucide`;
 ParkingCircle.Tag=`lucide-parking-circle`;
-_.ParkingCircle=ParkingCircle;
+__as1(_, 'ParkingCircle', ParkingCircle);
 if(!window.customElements.get('lucide-parking-circle')){window.customElements.define('lucide-parking-circle', ParkingCircle);Aventus.WebComponentInstance.registerDefinition(ParkingCircle);}
 
 const ParkingCircleOff = class ParkingCircleOff extends AbstractIcon {
@@ -36429,7 +36429,7 @@ const ParkingCircleOff = class ParkingCircleOff extends AbstractIcon {
 }
 ParkingCircleOff.Namespace=`Lucide`;
 ParkingCircleOff.Tag=`lucide-parking-circle-off`;
-_.ParkingCircleOff=ParkingCircleOff;
+__as1(_, 'ParkingCircleOff', ParkingCircleOff);
 if(!window.customElements.get('lucide-parking-circle-off')){window.customElements.define('lucide-parking-circle-off', ParkingCircleOff);Aventus.WebComponentInstance.registerDefinition(ParkingCircleOff);}
 
 const ParkingMeter = class ParkingMeter extends AbstractIcon {
@@ -36453,7 +36453,7 @@ const ParkingMeter = class ParkingMeter extends AbstractIcon {
 }
 ParkingMeter.Namespace=`Lucide`;
 ParkingMeter.Tag=`lucide-parking-meter`;
-_.ParkingMeter=ParkingMeter;
+__as1(_, 'ParkingMeter', ParkingMeter);
 if(!window.customElements.get('lucide-parking-meter')){window.customElements.define('lucide-parking-meter', ParkingMeter);Aventus.WebComponentInstance.registerDefinition(ParkingMeter);}
 
 const ParkingSquare = class ParkingSquare extends AbstractIcon {
@@ -36477,7 +36477,7 @@ const ParkingSquare = class ParkingSquare extends AbstractIcon {
 }
 ParkingSquare.Namespace=`Lucide`;
 ParkingSquare.Tag=`lucide-parking-square`;
-_.ParkingSquare=ParkingSquare;
+__as1(_, 'ParkingSquare', ParkingSquare);
 if(!window.customElements.get('lucide-parking-square')){window.customElements.define('lucide-parking-square', ParkingSquare);Aventus.WebComponentInstance.registerDefinition(ParkingSquare);}
 
 const ParkingSquareOff = class ParkingSquareOff extends AbstractIcon {
@@ -36501,7 +36501,7 @@ const ParkingSquareOff = class ParkingSquareOff extends AbstractIcon {
 }
 ParkingSquareOff.Namespace=`Lucide`;
 ParkingSquareOff.Tag=`lucide-parking-square-off`;
-_.ParkingSquareOff=ParkingSquareOff;
+__as1(_, 'ParkingSquareOff', ParkingSquareOff);
 if(!window.customElements.get('lucide-parking-square-off')){window.customElements.define('lucide-parking-square-off', ParkingSquareOff);Aventus.WebComponentInstance.registerDefinition(ParkingSquareOff);}
 
 const PartyPopper = class PartyPopper extends AbstractIcon {
@@ -36525,7 +36525,7 @@ const PartyPopper = class PartyPopper extends AbstractIcon {
 }
 PartyPopper.Namespace=`Lucide`;
 PartyPopper.Tag=`lucide-party-popper`;
-_.PartyPopper=PartyPopper;
+__as1(_, 'PartyPopper', PartyPopper);
 if(!window.customElements.get('lucide-party-popper')){window.customElements.define('lucide-party-popper', PartyPopper);Aventus.WebComponentInstance.registerDefinition(PartyPopper);}
 
 const Pause = class Pause extends AbstractIcon {
@@ -36549,7 +36549,7 @@ const Pause = class Pause extends AbstractIcon {
 }
 Pause.Namespace=`Lucide`;
 Pause.Tag=`lucide-pause`;
-_.Pause=Pause;
+__as1(_, 'Pause', Pause);
 if(!window.customElements.get('lucide-pause')){window.customElements.define('lucide-pause', Pause);Aventus.WebComponentInstance.registerDefinition(Pause);}
 
 const PauseCircle = class PauseCircle extends AbstractIcon {
@@ -36573,7 +36573,7 @@ const PauseCircle = class PauseCircle extends AbstractIcon {
 }
 PauseCircle.Namespace=`Lucide`;
 PauseCircle.Tag=`lucide-pause-circle`;
-_.PauseCircle=PauseCircle;
+__as1(_, 'PauseCircle', PauseCircle);
 if(!window.customElements.get('lucide-pause-circle')){window.customElements.define('lucide-pause-circle', PauseCircle);Aventus.WebComponentInstance.registerDefinition(PauseCircle);}
 
 const PauseOctagon = class PauseOctagon extends AbstractIcon {
@@ -36597,7 +36597,7 @@ const PauseOctagon = class PauseOctagon extends AbstractIcon {
 }
 PauseOctagon.Namespace=`Lucide`;
 PauseOctagon.Tag=`lucide-pause-octagon`;
-_.PauseOctagon=PauseOctagon;
+__as1(_, 'PauseOctagon', PauseOctagon);
 if(!window.customElements.get('lucide-pause-octagon')){window.customElements.define('lucide-pause-octagon', PauseOctagon);Aventus.WebComponentInstance.registerDefinition(PauseOctagon);}
 
 const PawPrint = class PawPrint extends AbstractIcon {
@@ -36621,7 +36621,7 @@ const PawPrint = class PawPrint extends AbstractIcon {
 }
 PawPrint.Namespace=`Lucide`;
 PawPrint.Tag=`lucide-paw-print`;
-_.PawPrint=PawPrint;
+__as1(_, 'PawPrint', PawPrint);
 if(!window.customElements.get('lucide-paw-print')){window.customElements.define('lucide-paw-print', PawPrint);Aventus.WebComponentInstance.registerDefinition(PawPrint);}
 
 const PcCase = class PcCase extends AbstractIcon {
@@ -36645,7 +36645,7 @@ const PcCase = class PcCase extends AbstractIcon {
 }
 PcCase.Namespace=`Lucide`;
 PcCase.Tag=`lucide-pc-case`;
-_.PcCase=PcCase;
+__as1(_, 'PcCase', PcCase);
 if(!window.customElements.get('lucide-pc-case')){window.customElements.define('lucide-pc-case', PcCase);Aventus.WebComponentInstance.registerDefinition(PcCase);}
 
 const Pen = class Pen extends AbstractIcon {
@@ -36669,7 +36669,7 @@ const Pen = class Pen extends AbstractIcon {
 }
 Pen.Namespace=`Lucide`;
 Pen.Tag=`lucide-pen`;
-_.Pen=Pen;
+__as1(_, 'Pen', Pen);
 if(!window.customElements.get('lucide-pen')){window.customElements.define('lucide-pen', Pen);Aventus.WebComponentInstance.registerDefinition(Pen);}
 
 const PenBox = class PenBox extends AbstractIcon {
@@ -36693,7 +36693,7 @@ const PenBox = class PenBox extends AbstractIcon {
 }
 PenBox.Namespace=`Lucide`;
 PenBox.Tag=`lucide-pen-box`;
-_.PenBox=PenBox;
+__as1(_, 'PenBox', PenBox);
 if(!window.customElements.get('lucide-pen-box')){window.customElements.define('lucide-pen-box', PenBox);Aventus.WebComponentInstance.registerDefinition(PenBox);}
 
 const Pencil = class Pencil extends AbstractIcon {
@@ -36717,7 +36717,7 @@ const Pencil = class Pencil extends AbstractIcon {
 }
 Pencil.Namespace=`Lucide`;
 Pencil.Tag=`lucide-pencil`;
-_.Pencil=Pencil;
+__as1(_, 'Pencil', Pencil);
 if(!window.customElements.get('lucide-pencil')){window.customElements.define('lucide-pencil', Pencil);Aventus.WebComponentInstance.registerDefinition(Pencil);}
 
 const PencilLine = class PencilLine extends AbstractIcon {
@@ -36741,7 +36741,7 @@ const PencilLine = class PencilLine extends AbstractIcon {
 }
 PencilLine.Namespace=`Lucide`;
 PencilLine.Tag=`lucide-pencil-line`;
-_.PencilLine=PencilLine;
+__as1(_, 'PencilLine', PencilLine);
 if(!window.customElements.get('lucide-pencil-line')){window.customElements.define('lucide-pencil-line', PencilLine);Aventus.WebComponentInstance.registerDefinition(PencilLine);}
 
 const PencilOff = class PencilOff extends AbstractIcon {
@@ -36765,7 +36765,7 @@ const PencilOff = class PencilOff extends AbstractIcon {
 }
 PencilOff.Namespace=`Lucide`;
 PencilOff.Tag=`lucide-pencil-off`;
-_.PencilOff=PencilOff;
+__as1(_, 'PencilOff', PencilOff);
 if(!window.customElements.get('lucide-pencil-off')){window.customElements.define('lucide-pencil-off', PencilOff);Aventus.WebComponentInstance.registerDefinition(PencilOff);}
 
 const PencilRuler = class PencilRuler extends AbstractIcon {
@@ -36789,7 +36789,7 @@ const PencilRuler = class PencilRuler extends AbstractIcon {
 }
 PencilRuler.Namespace=`Lucide`;
 PencilRuler.Tag=`lucide-pencil-ruler`;
-_.PencilRuler=PencilRuler;
+__as1(_, 'PencilRuler', PencilRuler);
 if(!window.customElements.get('lucide-pencil-ruler')){window.customElements.define('lucide-pencil-ruler', PencilRuler);Aventus.WebComponentInstance.registerDefinition(PencilRuler);}
 
 const PenLine = class PenLine extends AbstractIcon {
@@ -36813,7 +36813,7 @@ const PenLine = class PenLine extends AbstractIcon {
 }
 PenLine.Namespace=`Lucide`;
 PenLine.Tag=`lucide-pen-line`;
-_.PenLine=PenLine;
+__as1(_, 'PenLine', PenLine);
 if(!window.customElements.get('lucide-pen-line')){window.customElements.define('lucide-pen-line', PenLine);Aventus.WebComponentInstance.registerDefinition(PenLine);}
 
 const PenOff = class PenOff extends AbstractIcon {
@@ -36837,7 +36837,7 @@ const PenOff = class PenOff extends AbstractIcon {
 }
 PenOff.Namespace=`Lucide`;
 PenOff.Tag=`lucide-pen-off`;
-_.PenOff=PenOff;
+__as1(_, 'PenOff', PenOff);
 if(!window.customElements.get('lucide-pen-off')){window.customElements.define('lucide-pen-off', PenOff);Aventus.WebComponentInstance.registerDefinition(PenOff);}
 
 const PenSquare = class PenSquare extends AbstractIcon {
@@ -36861,7 +36861,7 @@ const PenSquare = class PenSquare extends AbstractIcon {
 }
 PenSquare.Namespace=`Lucide`;
 PenSquare.Tag=`lucide-pen-square`;
-_.PenSquare=PenSquare;
+__as1(_, 'PenSquare', PenSquare);
 if(!window.customElements.get('lucide-pen-square')){window.customElements.define('lucide-pen-square', PenSquare);Aventus.WebComponentInstance.registerDefinition(PenSquare);}
 
 const Pentagon = class Pentagon extends AbstractIcon {
@@ -36885,7 +36885,7 @@ const Pentagon = class Pentagon extends AbstractIcon {
 }
 Pentagon.Namespace=`Lucide`;
 Pentagon.Tag=`lucide-pentagon`;
-_.Pentagon=Pentagon;
+__as1(_, 'Pentagon', Pentagon);
 if(!window.customElements.get('lucide-pentagon')){window.customElements.define('lucide-pentagon', Pentagon);Aventus.WebComponentInstance.registerDefinition(Pentagon);}
 
 const PenTool = class PenTool extends AbstractIcon {
@@ -36909,7 +36909,7 @@ const PenTool = class PenTool extends AbstractIcon {
 }
 PenTool.Namespace=`Lucide`;
 PenTool.Tag=`lucide-pen-tool`;
-_.PenTool=PenTool;
+__as1(_, 'PenTool', PenTool);
 if(!window.customElements.get('lucide-pen-tool')){window.customElements.define('lucide-pen-tool', PenTool);Aventus.WebComponentInstance.registerDefinition(PenTool);}
 
 const Percent = class Percent extends AbstractIcon {
@@ -36933,7 +36933,7 @@ const Percent = class Percent extends AbstractIcon {
 }
 Percent.Namespace=`Lucide`;
 Percent.Tag=`lucide-percent`;
-_.Percent=Percent;
+__as1(_, 'Percent', Percent);
 if(!window.customElements.get('lucide-percent')){window.customElements.define('lucide-percent', Percent);Aventus.WebComponentInstance.registerDefinition(Percent);}
 
 const PercentCircle = class PercentCircle extends AbstractIcon {
@@ -36957,7 +36957,7 @@ const PercentCircle = class PercentCircle extends AbstractIcon {
 }
 PercentCircle.Namespace=`Lucide`;
 PercentCircle.Tag=`lucide-percent-circle`;
-_.PercentCircle=PercentCircle;
+__as1(_, 'PercentCircle', PercentCircle);
 if(!window.customElements.get('lucide-percent-circle')){window.customElements.define('lucide-percent-circle', PercentCircle);Aventus.WebComponentInstance.registerDefinition(PercentCircle);}
 
 const PercentDiamond = class PercentDiamond extends AbstractIcon {
@@ -36981,7 +36981,7 @@ const PercentDiamond = class PercentDiamond extends AbstractIcon {
 }
 PercentDiamond.Namespace=`Lucide`;
 PercentDiamond.Tag=`lucide-percent-diamond`;
-_.PercentDiamond=PercentDiamond;
+__as1(_, 'PercentDiamond', PercentDiamond);
 if(!window.customElements.get('lucide-percent-diamond')){window.customElements.define('lucide-percent-diamond', PercentDiamond);Aventus.WebComponentInstance.registerDefinition(PercentDiamond);}
 
 const PercentSquare = class PercentSquare extends AbstractIcon {
@@ -37005,7 +37005,7 @@ const PercentSquare = class PercentSquare extends AbstractIcon {
 }
 PercentSquare.Namespace=`Lucide`;
 PercentSquare.Tag=`lucide-percent-square`;
-_.PercentSquare=PercentSquare;
+__as1(_, 'PercentSquare', PercentSquare);
 if(!window.customElements.get('lucide-percent-square')){window.customElements.define('lucide-percent-square', PercentSquare);Aventus.WebComponentInstance.registerDefinition(PercentSquare);}
 
 const PersonStanding = class PersonStanding extends AbstractIcon {
@@ -37029,7 +37029,7 @@ const PersonStanding = class PersonStanding extends AbstractIcon {
 }
 PersonStanding.Namespace=`Lucide`;
 PersonStanding.Tag=`lucide-person-standing`;
-_.PersonStanding=PersonStanding;
+__as1(_, 'PersonStanding', PersonStanding);
 if(!window.customElements.get('lucide-person-standing')){window.customElements.define('lucide-person-standing', PersonStanding);Aventus.WebComponentInstance.registerDefinition(PersonStanding);}
 
 const PhilippinePeso = class PhilippinePeso extends AbstractIcon {
@@ -37053,7 +37053,7 @@ const PhilippinePeso = class PhilippinePeso extends AbstractIcon {
 }
 PhilippinePeso.Namespace=`Lucide`;
 PhilippinePeso.Tag=`lucide-philippine-peso`;
-_.PhilippinePeso=PhilippinePeso;
+__as1(_, 'PhilippinePeso', PhilippinePeso);
 if(!window.customElements.get('lucide-philippine-peso')){window.customElements.define('lucide-philippine-peso', PhilippinePeso);Aventus.WebComponentInstance.registerDefinition(PhilippinePeso);}
 
 const Phone = class Phone extends AbstractIcon {
@@ -37077,7 +37077,7 @@ const Phone = class Phone extends AbstractIcon {
 }
 Phone.Namespace=`Lucide`;
 Phone.Tag=`lucide-phone`;
-_.Phone=Phone;
+__as1(_, 'Phone', Phone);
 if(!window.customElements.get('lucide-phone')){window.customElements.define('lucide-phone', Phone);Aventus.WebComponentInstance.registerDefinition(Phone);}
 
 const PhoneCall = class PhoneCall extends AbstractIcon {
@@ -37101,7 +37101,7 @@ const PhoneCall = class PhoneCall extends AbstractIcon {
 }
 PhoneCall.Namespace=`Lucide`;
 PhoneCall.Tag=`lucide-phone-call`;
-_.PhoneCall=PhoneCall;
+__as1(_, 'PhoneCall', PhoneCall);
 if(!window.customElements.get('lucide-phone-call')){window.customElements.define('lucide-phone-call', PhoneCall);Aventus.WebComponentInstance.registerDefinition(PhoneCall);}
 
 const PhoneForwarded = class PhoneForwarded extends AbstractIcon {
@@ -37125,7 +37125,7 @@ const PhoneForwarded = class PhoneForwarded extends AbstractIcon {
 }
 PhoneForwarded.Namespace=`Lucide`;
 PhoneForwarded.Tag=`lucide-phone-forwarded`;
-_.PhoneForwarded=PhoneForwarded;
+__as1(_, 'PhoneForwarded', PhoneForwarded);
 if(!window.customElements.get('lucide-phone-forwarded')){window.customElements.define('lucide-phone-forwarded', PhoneForwarded);Aventus.WebComponentInstance.registerDefinition(PhoneForwarded);}
 
 const PhoneIncoming = class PhoneIncoming extends AbstractIcon {
@@ -37149,7 +37149,7 @@ const PhoneIncoming = class PhoneIncoming extends AbstractIcon {
 }
 PhoneIncoming.Namespace=`Lucide`;
 PhoneIncoming.Tag=`lucide-phone-incoming`;
-_.PhoneIncoming=PhoneIncoming;
+__as1(_, 'PhoneIncoming', PhoneIncoming);
 if(!window.customElements.get('lucide-phone-incoming')){window.customElements.define('lucide-phone-incoming', PhoneIncoming);Aventus.WebComponentInstance.registerDefinition(PhoneIncoming);}
 
 const PhoneMissed = class PhoneMissed extends AbstractIcon {
@@ -37173,7 +37173,7 @@ const PhoneMissed = class PhoneMissed extends AbstractIcon {
 }
 PhoneMissed.Namespace=`Lucide`;
 PhoneMissed.Tag=`lucide-phone-missed`;
-_.PhoneMissed=PhoneMissed;
+__as1(_, 'PhoneMissed', PhoneMissed);
 if(!window.customElements.get('lucide-phone-missed')){window.customElements.define('lucide-phone-missed', PhoneMissed);Aventus.WebComponentInstance.registerDefinition(PhoneMissed);}
 
 const PhoneOff = class PhoneOff extends AbstractIcon {
@@ -37197,7 +37197,7 @@ const PhoneOff = class PhoneOff extends AbstractIcon {
 }
 PhoneOff.Namespace=`Lucide`;
 PhoneOff.Tag=`lucide-phone-off`;
-_.PhoneOff=PhoneOff;
+__as1(_, 'PhoneOff', PhoneOff);
 if(!window.customElements.get('lucide-phone-off')){window.customElements.define('lucide-phone-off', PhoneOff);Aventus.WebComponentInstance.registerDefinition(PhoneOff);}
 
 const PhoneOutgoing = class PhoneOutgoing extends AbstractIcon {
@@ -37221,7 +37221,7 @@ const PhoneOutgoing = class PhoneOutgoing extends AbstractIcon {
 }
 PhoneOutgoing.Namespace=`Lucide`;
 PhoneOutgoing.Tag=`lucide-phone-outgoing`;
-_.PhoneOutgoing=PhoneOutgoing;
+__as1(_, 'PhoneOutgoing', PhoneOutgoing);
 if(!window.customElements.get('lucide-phone-outgoing')){window.customElements.define('lucide-phone-outgoing', PhoneOutgoing);Aventus.WebComponentInstance.registerDefinition(PhoneOutgoing);}
 
 const Pi = class Pi extends AbstractIcon {
@@ -37245,7 +37245,7 @@ const Pi = class Pi extends AbstractIcon {
 }
 Pi.Namespace=`Lucide`;
 Pi.Tag=`lucide-pi`;
-_.Pi=Pi;
+__as1(_, 'Pi', Pi);
 if(!window.customElements.get('lucide-pi')){window.customElements.define('lucide-pi', Pi);Aventus.WebComponentInstance.registerDefinition(Pi);}
 
 const Piano = class Piano extends AbstractIcon {
@@ -37269,7 +37269,7 @@ const Piano = class Piano extends AbstractIcon {
 }
 Piano.Namespace=`Lucide`;
 Piano.Tag=`lucide-piano`;
-_.Piano=Piano;
+__as1(_, 'Piano', Piano);
 if(!window.customElements.get('lucide-piano')){window.customElements.define('lucide-piano', Piano);Aventus.WebComponentInstance.registerDefinition(Piano);}
 
 const Pickaxe = class Pickaxe extends AbstractIcon {
@@ -37293,7 +37293,7 @@ const Pickaxe = class Pickaxe extends AbstractIcon {
 }
 Pickaxe.Namespace=`Lucide`;
 Pickaxe.Tag=`lucide-pickaxe`;
-_.Pickaxe=Pickaxe;
+__as1(_, 'Pickaxe', Pickaxe);
 if(!window.customElements.get('lucide-pickaxe')){window.customElements.define('lucide-pickaxe', Pickaxe);Aventus.WebComponentInstance.registerDefinition(Pickaxe);}
 
 const PictureInPicture = class PictureInPicture extends AbstractIcon {
@@ -37317,7 +37317,7 @@ const PictureInPicture = class PictureInPicture extends AbstractIcon {
 }
 PictureInPicture.Namespace=`Lucide`;
 PictureInPicture.Tag=`lucide-picture-in-picture`;
-_.PictureInPicture=PictureInPicture;
+__as1(_, 'PictureInPicture', PictureInPicture);
 if(!window.customElements.get('lucide-picture-in-picture')){window.customElements.define('lucide-picture-in-picture', PictureInPicture);Aventus.WebComponentInstance.registerDefinition(PictureInPicture);}
 
 const PictureInPicture2 = class PictureInPicture2 extends AbstractIcon {
@@ -37341,7 +37341,7 @@ const PictureInPicture2 = class PictureInPicture2 extends AbstractIcon {
 }
 PictureInPicture2.Namespace=`Lucide`;
 PictureInPicture2.Tag=`lucide-picture-in-picture-2`;
-_.PictureInPicture2=PictureInPicture2;
+__as1(_, 'PictureInPicture2', PictureInPicture2);
 if(!window.customElements.get('lucide-picture-in-picture-2')){window.customElements.define('lucide-picture-in-picture-2', PictureInPicture2);Aventus.WebComponentInstance.registerDefinition(PictureInPicture2);}
 
 const PieChart = class PieChart extends AbstractIcon {
@@ -37365,7 +37365,7 @@ const PieChart = class PieChart extends AbstractIcon {
 }
 PieChart.Namespace=`Lucide`;
 PieChart.Tag=`lucide-pie-chart`;
-_.PieChart=PieChart;
+__as1(_, 'PieChart', PieChart);
 if(!window.customElements.get('lucide-pie-chart')){window.customElements.define('lucide-pie-chart', PieChart);Aventus.WebComponentInstance.registerDefinition(PieChart);}
 
 const PiggyBank = class PiggyBank extends AbstractIcon {
@@ -37389,7 +37389,7 @@ const PiggyBank = class PiggyBank extends AbstractIcon {
 }
 PiggyBank.Namespace=`Lucide`;
 PiggyBank.Tag=`lucide-piggy-bank`;
-_.PiggyBank=PiggyBank;
+__as1(_, 'PiggyBank', PiggyBank);
 if(!window.customElements.get('lucide-piggy-bank')){window.customElements.define('lucide-piggy-bank', PiggyBank);Aventus.WebComponentInstance.registerDefinition(PiggyBank);}
 
 const Pilcrow = class Pilcrow extends AbstractIcon {
@@ -37413,7 +37413,7 @@ const Pilcrow = class Pilcrow extends AbstractIcon {
 }
 Pilcrow.Namespace=`Lucide`;
 Pilcrow.Tag=`lucide-pilcrow`;
-_.Pilcrow=Pilcrow;
+__as1(_, 'Pilcrow', Pilcrow);
 if(!window.customElements.get('lucide-pilcrow')){window.customElements.define('lucide-pilcrow', Pilcrow);Aventus.WebComponentInstance.registerDefinition(Pilcrow);}
 
 const PilcrowLeft = class PilcrowLeft extends AbstractIcon {
@@ -37437,7 +37437,7 @@ const PilcrowLeft = class PilcrowLeft extends AbstractIcon {
 }
 PilcrowLeft.Namespace=`Lucide`;
 PilcrowLeft.Tag=`lucide-pilcrow-left`;
-_.PilcrowLeft=PilcrowLeft;
+__as1(_, 'PilcrowLeft', PilcrowLeft);
 if(!window.customElements.get('lucide-pilcrow-left')){window.customElements.define('lucide-pilcrow-left', PilcrowLeft);Aventus.WebComponentInstance.registerDefinition(PilcrowLeft);}
 
 const PilcrowRight = class PilcrowRight extends AbstractIcon {
@@ -37461,7 +37461,7 @@ const PilcrowRight = class PilcrowRight extends AbstractIcon {
 }
 PilcrowRight.Namespace=`Lucide`;
 PilcrowRight.Tag=`lucide-pilcrow-right`;
-_.PilcrowRight=PilcrowRight;
+__as1(_, 'PilcrowRight', PilcrowRight);
 if(!window.customElements.get('lucide-pilcrow-right')){window.customElements.define('lucide-pilcrow-right', PilcrowRight);Aventus.WebComponentInstance.registerDefinition(PilcrowRight);}
 
 const PilcrowSquare = class PilcrowSquare extends AbstractIcon {
@@ -37485,7 +37485,7 @@ const PilcrowSquare = class PilcrowSquare extends AbstractIcon {
 }
 PilcrowSquare.Namespace=`Lucide`;
 PilcrowSquare.Tag=`lucide-pilcrow-square`;
-_.PilcrowSquare=PilcrowSquare;
+__as1(_, 'PilcrowSquare', PilcrowSquare);
 if(!window.customElements.get('lucide-pilcrow-square')){window.customElements.define('lucide-pilcrow-square', PilcrowSquare);Aventus.WebComponentInstance.registerDefinition(PilcrowSquare);}
 
 const Pill = class Pill extends AbstractIcon {
@@ -37509,7 +37509,7 @@ const Pill = class Pill extends AbstractIcon {
 }
 Pill.Namespace=`Lucide`;
 Pill.Tag=`lucide-pill`;
-_.Pill=Pill;
+__as1(_, 'Pill', Pill);
 if(!window.customElements.get('lucide-pill')){window.customElements.define('lucide-pill', Pill);Aventus.WebComponentInstance.registerDefinition(Pill);}
 
 const PillBottle = class PillBottle extends AbstractIcon {
@@ -37533,7 +37533,7 @@ const PillBottle = class PillBottle extends AbstractIcon {
 }
 PillBottle.Namespace=`Lucide`;
 PillBottle.Tag=`lucide-pill-bottle`;
-_.PillBottle=PillBottle;
+__as1(_, 'PillBottle', PillBottle);
 if(!window.customElements.get('lucide-pill-bottle')){window.customElements.define('lucide-pill-bottle', PillBottle);Aventus.WebComponentInstance.registerDefinition(PillBottle);}
 
 const Pin = class Pin extends AbstractIcon {
@@ -37557,7 +37557,7 @@ const Pin = class Pin extends AbstractIcon {
 }
 Pin.Namespace=`Lucide`;
 Pin.Tag=`lucide-pin`;
-_.Pin=Pin;
+__as1(_, 'Pin', Pin);
 if(!window.customElements.get('lucide-pin')){window.customElements.define('lucide-pin', Pin);Aventus.WebComponentInstance.registerDefinition(Pin);}
 
 const PinOff = class PinOff extends AbstractIcon {
@@ -37581,7 +37581,7 @@ const PinOff = class PinOff extends AbstractIcon {
 }
 PinOff.Namespace=`Lucide`;
 PinOff.Tag=`lucide-pin-off`;
-_.PinOff=PinOff;
+__as1(_, 'PinOff', PinOff);
 if(!window.customElements.get('lucide-pin-off')){window.customElements.define('lucide-pin-off', PinOff);Aventus.WebComponentInstance.registerDefinition(PinOff);}
 
 const Pipette = class Pipette extends AbstractIcon {
@@ -37605,7 +37605,7 @@ const Pipette = class Pipette extends AbstractIcon {
 }
 Pipette.Namespace=`Lucide`;
 Pipette.Tag=`lucide-pipette`;
-_.Pipette=Pipette;
+__as1(_, 'Pipette', Pipette);
 if(!window.customElements.get('lucide-pipette')){window.customElements.define('lucide-pipette', Pipette);Aventus.WebComponentInstance.registerDefinition(Pipette);}
 
 const PiSquare = class PiSquare extends AbstractIcon {
@@ -37629,7 +37629,7 @@ const PiSquare = class PiSquare extends AbstractIcon {
 }
 PiSquare.Namespace=`Lucide`;
 PiSquare.Tag=`lucide-pi-square`;
-_.PiSquare=PiSquare;
+__as1(_, 'PiSquare', PiSquare);
 if(!window.customElements.get('lucide-pi-square')){window.customElements.define('lucide-pi-square', PiSquare);Aventus.WebComponentInstance.registerDefinition(PiSquare);}
 
 const Pizza = class Pizza extends AbstractIcon {
@@ -37653,7 +37653,7 @@ const Pizza = class Pizza extends AbstractIcon {
 }
 Pizza.Namespace=`Lucide`;
 Pizza.Tag=`lucide-pizza`;
-_.Pizza=Pizza;
+__as1(_, 'Pizza', Pizza);
 if(!window.customElements.get('lucide-pizza')){window.customElements.define('lucide-pizza', Pizza);Aventus.WebComponentInstance.registerDefinition(Pizza);}
 
 const Plane = class Plane extends AbstractIcon {
@@ -37677,7 +37677,7 @@ const Plane = class Plane extends AbstractIcon {
 }
 Plane.Namespace=`Lucide`;
 Plane.Tag=`lucide-plane`;
-_.Plane=Plane;
+__as1(_, 'Plane', Plane);
 if(!window.customElements.get('lucide-plane')){window.customElements.define('lucide-plane', Plane);Aventus.WebComponentInstance.registerDefinition(Plane);}
 
 const PlaneLanding = class PlaneLanding extends AbstractIcon {
@@ -37701,7 +37701,7 @@ const PlaneLanding = class PlaneLanding extends AbstractIcon {
 }
 PlaneLanding.Namespace=`Lucide`;
 PlaneLanding.Tag=`lucide-plane-landing`;
-_.PlaneLanding=PlaneLanding;
+__as1(_, 'PlaneLanding', PlaneLanding);
 if(!window.customElements.get('lucide-plane-landing')){window.customElements.define('lucide-plane-landing', PlaneLanding);Aventus.WebComponentInstance.registerDefinition(PlaneLanding);}
 
 const PlaneTakeoff = class PlaneTakeoff extends AbstractIcon {
@@ -37725,7 +37725,7 @@ const PlaneTakeoff = class PlaneTakeoff extends AbstractIcon {
 }
 PlaneTakeoff.Namespace=`Lucide`;
 PlaneTakeoff.Tag=`lucide-plane-takeoff`;
-_.PlaneTakeoff=PlaneTakeoff;
+__as1(_, 'PlaneTakeoff', PlaneTakeoff);
 if(!window.customElements.get('lucide-plane-takeoff')){window.customElements.define('lucide-plane-takeoff', PlaneTakeoff);Aventus.WebComponentInstance.registerDefinition(PlaneTakeoff);}
 
 const Play = class Play extends AbstractIcon {
@@ -37749,7 +37749,7 @@ const Play = class Play extends AbstractIcon {
 }
 Play.Namespace=`Lucide`;
 Play.Tag=`lucide-play`;
-_.Play=Play;
+__as1(_, 'Play', Play);
 if(!window.customElements.get('lucide-play')){window.customElements.define('lucide-play', Play);Aventus.WebComponentInstance.registerDefinition(Play);}
 
 const PlayCircle = class PlayCircle extends AbstractIcon {
@@ -37773,7 +37773,7 @@ const PlayCircle = class PlayCircle extends AbstractIcon {
 }
 PlayCircle.Namespace=`Lucide`;
 PlayCircle.Tag=`lucide-play-circle`;
-_.PlayCircle=PlayCircle;
+__as1(_, 'PlayCircle', PlayCircle);
 if(!window.customElements.get('lucide-play-circle')){window.customElements.define('lucide-play-circle', PlayCircle);Aventus.WebComponentInstance.registerDefinition(PlayCircle);}
 
 const PlaySquare = class PlaySquare extends AbstractIcon {
@@ -37797,7 +37797,7 @@ const PlaySquare = class PlaySquare extends AbstractIcon {
 }
 PlaySquare.Namespace=`Lucide`;
 PlaySquare.Tag=`lucide-play-square`;
-_.PlaySquare=PlaySquare;
+__as1(_, 'PlaySquare', PlaySquare);
 if(!window.customElements.get('lucide-play-square')){window.customElements.define('lucide-play-square', PlaySquare);Aventus.WebComponentInstance.registerDefinition(PlaySquare);}
 
 const Plug = class Plug extends AbstractIcon {
@@ -37821,7 +37821,7 @@ const Plug = class Plug extends AbstractIcon {
 }
 Plug.Namespace=`Lucide`;
 Plug.Tag=`lucide-plug`;
-_.Plug=Plug;
+__as1(_, 'Plug', Plug);
 if(!window.customElements.get('lucide-plug')){window.customElements.define('lucide-plug', Plug);Aventus.WebComponentInstance.registerDefinition(Plug);}
 
 const Plug2 = class Plug2 extends AbstractIcon {
@@ -37845,7 +37845,7 @@ const Plug2 = class Plug2 extends AbstractIcon {
 }
 Plug2.Namespace=`Lucide`;
 Plug2.Tag=`lucide-plug-2`;
-_.Plug2=Plug2;
+__as1(_, 'Plug2', Plug2);
 if(!window.customElements.get('lucide-plug-2')){window.customElements.define('lucide-plug-2', Plug2);Aventus.WebComponentInstance.registerDefinition(Plug2);}
 
 const PlugZap = class PlugZap extends AbstractIcon {
@@ -37869,7 +37869,7 @@ const PlugZap = class PlugZap extends AbstractIcon {
 }
 PlugZap.Namespace=`Lucide`;
 PlugZap.Tag=`lucide-plug-zap`;
-_.PlugZap=PlugZap;
+__as1(_, 'PlugZap', PlugZap);
 if(!window.customElements.get('lucide-plug-zap')){window.customElements.define('lucide-plug-zap', PlugZap);Aventus.WebComponentInstance.registerDefinition(PlugZap);}
 
 const PlugZap2 = class PlugZap2 extends AbstractIcon {
@@ -37893,7 +37893,7 @@ const PlugZap2 = class PlugZap2 extends AbstractIcon {
 }
 PlugZap2.Namespace=`Lucide`;
 PlugZap2.Tag=`lucide-plug-zap-2`;
-_.PlugZap2=PlugZap2;
+__as1(_, 'PlugZap2', PlugZap2);
 if(!window.customElements.get('lucide-plug-zap-2')){window.customElements.define('lucide-plug-zap-2', PlugZap2);Aventus.WebComponentInstance.registerDefinition(PlugZap2);}
 
 const Plus = class Plus extends AbstractIcon {
@@ -37917,7 +37917,7 @@ const Plus = class Plus extends AbstractIcon {
 }
 Plus.Namespace=`Lucide`;
 Plus.Tag=`lucide-plus`;
-_.Plus=Plus;
+__as1(_, 'Plus', Plus);
 if(!window.customElements.get('lucide-plus')){window.customElements.define('lucide-plus', Plus);Aventus.WebComponentInstance.registerDefinition(Plus);}
 
 const PlusCircle = class PlusCircle extends AbstractIcon {
@@ -37941,7 +37941,7 @@ const PlusCircle = class PlusCircle extends AbstractIcon {
 }
 PlusCircle.Namespace=`Lucide`;
 PlusCircle.Tag=`lucide-plus-circle`;
-_.PlusCircle=PlusCircle;
+__as1(_, 'PlusCircle', PlusCircle);
 if(!window.customElements.get('lucide-plus-circle')){window.customElements.define('lucide-plus-circle', PlusCircle);Aventus.WebComponentInstance.registerDefinition(PlusCircle);}
 
 const PlusSquare = class PlusSquare extends AbstractIcon {
@@ -37965,7 +37965,7 @@ const PlusSquare = class PlusSquare extends AbstractIcon {
 }
 PlusSquare.Namespace=`Lucide`;
 PlusSquare.Tag=`lucide-plus-square`;
-_.PlusSquare=PlusSquare;
+__as1(_, 'PlusSquare', PlusSquare);
 if(!window.customElements.get('lucide-plus-square')){window.customElements.define('lucide-plus-square', PlusSquare);Aventus.WebComponentInstance.registerDefinition(PlusSquare);}
 
 const Pocket = class Pocket extends AbstractIcon {
@@ -37989,7 +37989,7 @@ const Pocket = class Pocket extends AbstractIcon {
 }
 Pocket.Namespace=`Lucide`;
 Pocket.Tag=`lucide-pocket`;
-_.Pocket=Pocket;
+__as1(_, 'Pocket', Pocket);
 if(!window.customElements.get('lucide-pocket')){window.customElements.define('lucide-pocket', Pocket);Aventus.WebComponentInstance.registerDefinition(Pocket);}
 
 const PocketKnife = class PocketKnife extends AbstractIcon {
@@ -38013,7 +38013,7 @@ const PocketKnife = class PocketKnife extends AbstractIcon {
 }
 PocketKnife.Namespace=`Lucide`;
 PocketKnife.Tag=`lucide-pocket-knife`;
-_.PocketKnife=PocketKnife;
+__as1(_, 'PocketKnife', PocketKnife);
 if(!window.customElements.get('lucide-pocket-knife')){window.customElements.define('lucide-pocket-knife', PocketKnife);Aventus.WebComponentInstance.registerDefinition(PocketKnife);}
 
 const Podcast = class Podcast extends AbstractIcon {
@@ -38037,7 +38037,7 @@ const Podcast = class Podcast extends AbstractIcon {
 }
 Podcast.Namespace=`Lucide`;
 Podcast.Tag=`lucide-podcast`;
-_.Podcast=Podcast;
+__as1(_, 'Podcast', Podcast);
 if(!window.customElements.get('lucide-podcast')){window.customElements.define('lucide-podcast', Podcast);Aventus.WebComponentInstance.registerDefinition(Podcast);}
 
 const Pointer = class Pointer extends AbstractIcon {
@@ -38061,7 +38061,7 @@ const Pointer = class Pointer extends AbstractIcon {
 }
 Pointer.Namespace=`Lucide`;
 Pointer.Tag=`lucide-pointer`;
-_.Pointer=Pointer;
+__as1(_, 'Pointer', Pointer);
 if(!window.customElements.get('lucide-pointer')){window.customElements.define('lucide-pointer', Pointer);Aventus.WebComponentInstance.registerDefinition(Pointer);}
 
 const PointerOff = class PointerOff extends AbstractIcon {
@@ -38085,7 +38085,7 @@ const PointerOff = class PointerOff extends AbstractIcon {
 }
 PointerOff.Namespace=`Lucide`;
 PointerOff.Tag=`lucide-pointer-off`;
-_.PointerOff=PointerOff;
+__as1(_, 'PointerOff', PointerOff);
 if(!window.customElements.get('lucide-pointer-off')){window.customElements.define('lucide-pointer-off', PointerOff);Aventus.WebComponentInstance.registerDefinition(PointerOff);}
 
 const Popcorn = class Popcorn extends AbstractIcon {
@@ -38109,7 +38109,7 @@ const Popcorn = class Popcorn extends AbstractIcon {
 }
 Popcorn.Namespace=`Lucide`;
 Popcorn.Tag=`lucide-popcorn`;
-_.Popcorn=Popcorn;
+__as1(_, 'Popcorn', Popcorn);
 if(!window.customElements.get('lucide-popcorn')){window.customElements.define('lucide-popcorn', Popcorn);Aventus.WebComponentInstance.registerDefinition(Popcorn);}
 
 const Popsicle = class Popsicle extends AbstractIcon {
@@ -38133,7 +38133,7 @@ const Popsicle = class Popsicle extends AbstractIcon {
 }
 Popsicle.Namespace=`Lucide`;
 Popsicle.Tag=`lucide-popsicle`;
-_.Popsicle=Popsicle;
+__as1(_, 'Popsicle', Popsicle);
 if(!window.customElements.get('lucide-popsicle')){window.customElements.define('lucide-popsicle', Popsicle);Aventus.WebComponentInstance.registerDefinition(Popsicle);}
 
 const PoundSterling = class PoundSterling extends AbstractIcon {
@@ -38157,7 +38157,7 @@ const PoundSterling = class PoundSterling extends AbstractIcon {
 }
 PoundSterling.Namespace=`Lucide`;
 PoundSterling.Tag=`lucide-pound-sterling`;
-_.PoundSterling=PoundSterling;
+__as1(_, 'PoundSterling', PoundSterling);
 if(!window.customElements.get('lucide-pound-sterling')){window.customElements.define('lucide-pound-sterling', PoundSterling);Aventus.WebComponentInstance.registerDefinition(PoundSterling);}
 
 const Power = class Power extends AbstractIcon {
@@ -38181,7 +38181,7 @@ const Power = class Power extends AbstractIcon {
 }
 Power.Namespace=`Lucide`;
 Power.Tag=`lucide-power`;
-_.Power=Power;
+__as1(_, 'Power', Power);
 if(!window.customElements.get('lucide-power')){window.customElements.define('lucide-power', Power);Aventus.WebComponentInstance.registerDefinition(Power);}
 
 const PowerCircle = class PowerCircle extends AbstractIcon {
@@ -38205,7 +38205,7 @@ const PowerCircle = class PowerCircle extends AbstractIcon {
 }
 PowerCircle.Namespace=`Lucide`;
 PowerCircle.Tag=`lucide-power-circle`;
-_.PowerCircle=PowerCircle;
+__as1(_, 'PowerCircle', PowerCircle);
 if(!window.customElements.get('lucide-power-circle')){window.customElements.define('lucide-power-circle', PowerCircle);Aventus.WebComponentInstance.registerDefinition(PowerCircle);}
 
 const PowerOff = class PowerOff extends AbstractIcon {
@@ -38229,7 +38229,7 @@ const PowerOff = class PowerOff extends AbstractIcon {
 }
 PowerOff.Namespace=`Lucide`;
 PowerOff.Tag=`lucide-power-off`;
-_.PowerOff=PowerOff;
+__as1(_, 'PowerOff', PowerOff);
 if(!window.customElements.get('lucide-power-off')){window.customElements.define('lucide-power-off', PowerOff);Aventus.WebComponentInstance.registerDefinition(PowerOff);}
 
 const PowerSquare = class PowerSquare extends AbstractIcon {
@@ -38253,7 +38253,7 @@ const PowerSquare = class PowerSquare extends AbstractIcon {
 }
 PowerSquare.Namespace=`Lucide`;
 PowerSquare.Tag=`lucide-power-square`;
-_.PowerSquare=PowerSquare;
+__as1(_, 'PowerSquare', PowerSquare);
 if(!window.customElements.get('lucide-power-square')){window.customElements.define('lucide-power-square', PowerSquare);Aventus.WebComponentInstance.registerDefinition(PowerSquare);}
 
 const Presentation = class Presentation extends AbstractIcon {
@@ -38277,7 +38277,7 @@ const Presentation = class Presentation extends AbstractIcon {
 }
 Presentation.Namespace=`Lucide`;
 Presentation.Tag=`lucide-presentation`;
-_.Presentation=Presentation;
+__as1(_, 'Presentation', Presentation);
 if(!window.customElements.get('lucide-presentation')){window.customElements.define('lucide-presentation', Presentation);Aventus.WebComponentInstance.registerDefinition(Presentation);}
 
 const Printer = class Printer extends AbstractIcon {
@@ -38301,7 +38301,7 @@ const Printer = class Printer extends AbstractIcon {
 }
 Printer.Namespace=`Lucide`;
 Printer.Tag=`lucide-printer`;
-_.Printer=Printer;
+__as1(_, 'Printer', Printer);
 if(!window.customElements.get('lucide-printer')){window.customElements.define('lucide-printer', Printer);Aventus.WebComponentInstance.registerDefinition(Printer);}
 
 const PrinterCheck = class PrinterCheck extends AbstractIcon {
@@ -38325,7 +38325,7 @@ const PrinterCheck = class PrinterCheck extends AbstractIcon {
 }
 PrinterCheck.Namespace=`Lucide`;
 PrinterCheck.Tag=`lucide-printer-check`;
-_.PrinterCheck=PrinterCheck;
+__as1(_, 'PrinterCheck', PrinterCheck);
 if(!window.customElements.get('lucide-printer-check')){window.customElements.define('lucide-printer-check', PrinterCheck);Aventus.WebComponentInstance.registerDefinition(PrinterCheck);}
 
 const Projector = class Projector extends AbstractIcon {
@@ -38349,7 +38349,7 @@ const Projector = class Projector extends AbstractIcon {
 }
 Projector.Namespace=`Lucide`;
 Projector.Tag=`lucide-projector`;
-_.Projector=Projector;
+__as1(_, 'Projector', Projector);
 if(!window.customElements.get('lucide-projector')){window.customElements.define('lucide-projector', Projector);Aventus.WebComponentInstance.registerDefinition(Projector);}
 
 const Proportions = class Proportions extends AbstractIcon {
@@ -38373,7 +38373,7 @@ const Proportions = class Proportions extends AbstractIcon {
 }
 Proportions.Namespace=`Lucide`;
 Proportions.Tag=`lucide-proportions`;
-_.Proportions=Proportions;
+__as1(_, 'Proportions', Proportions);
 if(!window.customElements.get('lucide-proportions')){window.customElements.define('lucide-proportions', Proportions);Aventus.WebComponentInstance.registerDefinition(Proportions);}
 
 const Puzzle = class Puzzle extends AbstractIcon {
@@ -38397,7 +38397,7 @@ const Puzzle = class Puzzle extends AbstractIcon {
 }
 Puzzle.Namespace=`Lucide`;
 Puzzle.Tag=`lucide-puzzle`;
-_.Puzzle=Puzzle;
+__as1(_, 'Puzzle', Puzzle);
 if(!window.customElements.get('lucide-puzzle')){window.customElements.define('lucide-puzzle', Puzzle);Aventus.WebComponentInstance.registerDefinition(Puzzle);}
 
 const Pyramid = class Pyramid extends AbstractIcon {
@@ -38421,7 +38421,7 @@ const Pyramid = class Pyramid extends AbstractIcon {
 }
 Pyramid.Namespace=`Lucide`;
 Pyramid.Tag=`lucide-pyramid`;
-_.Pyramid=Pyramid;
+__as1(_, 'Pyramid', Pyramid);
 if(!window.customElements.get('lucide-pyramid')){window.customElements.define('lucide-pyramid', Pyramid);Aventus.WebComponentInstance.registerDefinition(Pyramid);}
 
 const QrCode = class QrCode extends AbstractIcon {
@@ -38445,7 +38445,7 @@ const QrCode = class QrCode extends AbstractIcon {
 }
 QrCode.Namespace=`Lucide`;
 QrCode.Tag=`lucide-qr-code`;
-_.QrCode=QrCode;
+__as1(_, 'QrCode', QrCode);
 if(!window.customElements.get('lucide-qr-code')){window.customElements.define('lucide-qr-code', QrCode);Aventus.WebComponentInstance.registerDefinition(QrCode);}
 
 const Quote = class Quote extends AbstractIcon {
@@ -38469,7 +38469,7 @@ const Quote = class Quote extends AbstractIcon {
 }
 Quote.Namespace=`Lucide`;
 Quote.Tag=`lucide-quote`;
-_.Quote=Quote;
+__as1(_, 'Quote', Quote);
 if(!window.customElements.get('lucide-quote')){window.customElements.define('lucide-quote', Quote);Aventus.WebComponentInstance.registerDefinition(Quote);}
 
 const Rabbit = class Rabbit extends AbstractIcon {
@@ -38493,7 +38493,7 @@ const Rabbit = class Rabbit extends AbstractIcon {
 }
 Rabbit.Namespace=`Lucide`;
 Rabbit.Tag=`lucide-rabbit`;
-_.Rabbit=Rabbit;
+__as1(_, 'Rabbit', Rabbit);
 if(!window.customElements.get('lucide-rabbit')){window.customElements.define('lucide-rabbit', Rabbit);Aventus.WebComponentInstance.registerDefinition(Rabbit);}
 
 const Radar = class Radar extends AbstractIcon {
@@ -38517,7 +38517,7 @@ const Radar = class Radar extends AbstractIcon {
 }
 Radar.Namespace=`Lucide`;
 Radar.Tag=`lucide-radar`;
-_.Radar=Radar;
+__as1(_, 'Radar', Radar);
 if(!window.customElements.get('lucide-radar')){window.customElements.define('lucide-radar', Radar);Aventus.WebComponentInstance.registerDefinition(Radar);}
 
 const Radiation = class Radiation extends AbstractIcon {
@@ -38541,7 +38541,7 @@ const Radiation = class Radiation extends AbstractIcon {
 }
 Radiation.Namespace=`Lucide`;
 Radiation.Tag=`lucide-radiation`;
-_.Radiation=Radiation;
+__as1(_, 'Radiation', Radiation);
 if(!window.customElements.get('lucide-radiation')){window.customElements.define('lucide-radiation', Radiation);Aventus.WebComponentInstance.registerDefinition(Radiation);}
 
 const Radical = class Radical extends AbstractIcon {
@@ -38565,7 +38565,7 @@ const Radical = class Radical extends AbstractIcon {
 }
 Radical.Namespace=`Lucide`;
 Radical.Tag=`lucide-radical`;
-_.Radical=Radical;
+__as1(_, 'Radical', Radical);
 if(!window.customElements.get('lucide-radical')){window.customElements.define('lucide-radical', Radical);Aventus.WebComponentInstance.registerDefinition(Radical);}
 
 const Radio = class Radio extends AbstractIcon {
@@ -38589,7 +38589,7 @@ const Radio = class Radio extends AbstractIcon {
 }
 Radio.Namespace=`Lucide`;
 Radio.Tag=`lucide-radio`;
-_.Radio=Radio;
+__as1(_, 'Radio', Radio);
 if(!window.customElements.get('lucide-radio')){window.customElements.define('lucide-radio', Radio);Aventus.WebComponentInstance.registerDefinition(Radio);}
 
 const RadioReceiver = class RadioReceiver extends AbstractIcon {
@@ -38613,7 +38613,7 @@ const RadioReceiver = class RadioReceiver extends AbstractIcon {
 }
 RadioReceiver.Namespace=`Lucide`;
 RadioReceiver.Tag=`lucide-radio-receiver`;
-_.RadioReceiver=RadioReceiver;
+__as1(_, 'RadioReceiver', RadioReceiver);
 if(!window.customElements.get('lucide-radio-receiver')){window.customElements.define('lucide-radio-receiver', RadioReceiver);Aventus.WebComponentInstance.registerDefinition(RadioReceiver);}
 
 const RadioTower = class RadioTower extends AbstractIcon {
@@ -38637,7 +38637,7 @@ const RadioTower = class RadioTower extends AbstractIcon {
 }
 RadioTower.Namespace=`Lucide`;
 RadioTower.Tag=`lucide-radio-tower`;
-_.RadioTower=RadioTower;
+__as1(_, 'RadioTower', RadioTower);
 if(!window.customElements.get('lucide-radio-tower')){window.customElements.define('lucide-radio-tower', RadioTower);Aventus.WebComponentInstance.registerDefinition(RadioTower);}
 
 const Radius = class Radius extends AbstractIcon {
@@ -38661,7 +38661,7 @@ const Radius = class Radius extends AbstractIcon {
 }
 Radius.Namespace=`Lucide`;
 Radius.Tag=`lucide-radius`;
-_.Radius=Radius;
+__as1(_, 'Radius', Radius);
 if(!window.customElements.get('lucide-radius')){window.customElements.define('lucide-radius', Radius);Aventus.WebComponentInstance.registerDefinition(Radius);}
 
 const RailSymbol = class RailSymbol extends AbstractIcon {
@@ -38685,7 +38685,7 @@ const RailSymbol = class RailSymbol extends AbstractIcon {
 }
 RailSymbol.Namespace=`Lucide`;
 RailSymbol.Tag=`lucide-rail-symbol`;
-_.RailSymbol=RailSymbol;
+__as1(_, 'RailSymbol', RailSymbol);
 if(!window.customElements.get('lucide-rail-symbol')){window.customElements.define('lucide-rail-symbol', RailSymbol);Aventus.WebComponentInstance.registerDefinition(RailSymbol);}
 
 const Rainbow = class Rainbow extends AbstractIcon {
@@ -38709,7 +38709,7 @@ const Rainbow = class Rainbow extends AbstractIcon {
 }
 Rainbow.Namespace=`Lucide`;
 Rainbow.Tag=`lucide-rainbow`;
-_.Rainbow=Rainbow;
+__as1(_, 'Rainbow', Rainbow);
 if(!window.customElements.get('lucide-rainbow')){window.customElements.define('lucide-rainbow', Rainbow);Aventus.WebComponentInstance.registerDefinition(Rainbow);}
 
 const Rat = class Rat extends AbstractIcon {
@@ -38733,7 +38733,7 @@ const Rat = class Rat extends AbstractIcon {
 }
 Rat.Namespace=`Lucide`;
 Rat.Tag=`lucide-rat`;
-_.Rat=Rat;
+__as1(_, 'Rat', Rat);
 if(!window.customElements.get('lucide-rat')){window.customElements.define('lucide-rat', Rat);Aventus.WebComponentInstance.registerDefinition(Rat);}
 
 const Ratio = class Ratio extends AbstractIcon {
@@ -38757,7 +38757,7 @@ const Ratio = class Ratio extends AbstractIcon {
 }
 Ratio.Namespace=`Lucide`;
 Ratio.Tag=`lucide-ratio`;
-_.Ratio=Ratio;
+__as1(_, 'Ratio', Ratio);
 if(!window.customElements.get('lucide-ratio')){window.customElements.define('lucide-ratio', Ratio);Aventus.WebComponentInstance.registerDefinition(Ratio);}
 
 const Receipt = class Receipt extends AbstractIcon {
@@ -38781,7 +38781,7 @@ const Receipt = class Receipt extends AbstractIcon {
 }
 Receipt.Namespace=`Lucide`;
 Receipt.Tag=`lucide-receipt`;
-_.Receipt=Receipt;
+__as1(_, 'Receipt', Receipt);
 if(!window.customElements.get('lucide-receipt')){window.customElements.define('lucide-receipt', Receipt);Aventus.WebComponentInstance.registerDefinition(Receipt);}
 
 const ReceiptCent = class ReceiptCent extends AbstractIcon {
@@ -38805,7 +38805,7 @@ const ReceiptCent = class ReceiptCent extends AbstractIcon {
 }
 ReceiptCent.Namespace=`Lucide`;
 ReceiptCent.Tag=`lucide-receipt-cent`;
-_.ReceiptCent=ReceiptCent;
+__as1(_, 'ReceiptCent', ReceiptCent);
 if(!window.customElements.get('lucide-receipt-cent')){window.customElements.define('lucide-receipt-cent', ReceiptCent);Aventus.WebComponentInstance.registerDefinition(ReceiptCent);}
 
 const ReceiptEuro = class ReceiptEuro extends AbstractIcon {
@@ -38829,7 +38829,7 @@ const ReceiptEuro = class ReceiptEuro extends AbstractIcon {
 }
 ReceiptEuro.Namespace=`Lucide`;
 ReceiptEuro.Tag=`lucide-receipt-euro`;
-_.ReceiptEuro=ReceiptEuro;
+__as1(_, 'ReceiptEuro', ReceiptEuro);
 if(!window.customElements.get('lucide-receipt-euro')){window.customElements.define('lucide-receipt-euro', ReceiptEuro);Aventus.WebComponentInstance.registerDefinition(ReceiptEuro);}
 
 const ReceiptIndianRupee = class ReceiptIndianRupee extends AbstractIcon {
@@ -38853,7 +38853,7 @@ const ReceiptIndianRupee = class ReceiptIndianRupee extends AbstractIcon {
 }
 ReceiptIndianRupee.Namespace=`Lucide`;
 ReceiptIndianRupee.Tag=`lucide-receipt-indian-rupee`;
-_.ReceiptIndianRupee=ReceiptIndianRupee;
+__as1(_, 'ReceiptIndianRupee', ReceiptIndianRupee);
 if(!window.customElements.get('lucide-receipt-indian-rupee')){window.customElements.define('lucide-receipt-indian-rupee', ReceiptIndianRupee);Aventus.WebComponentInstance.registerDefinition(ReceiptIndianRupee);}
 
 const ReceiptJapaneseYen = class ReceiptJapaneseYen extends AbstractIcon {
@@ -38877,7 +38877,7 @@ const ReceiptJapaneseYen = class ReceiptJapaneseYen extends AbstractIcon {
 }
 ReceiptJapaneseYen.Namespace=`Lucide`;
 ReceiptJapaneseYen.Tag=`lucide-receipt-japanese-yen`;
-_.ReceiptJapaneseYen=ReceiptJapaneseYen;
+__as1(_, 'ReceiptJapaneseYen', ReceiptJapaneseYen);
 if(!window.customElements.get('lucide-receipt-japanese-yen')){window.customElements.define('lucide-receipt-japanese-yen', ReceiptJapaneseYen);Aventus.WebComponentInstance.registerDefinition(ReceiptJapaneseYen);}
 
 const ReceiptPoundSterling = class ReceiptPoundSterling extends AbstractIcon {
@@ -38901,7 +38901,7 @@ const ReceiptPoundSterling = class ReceiptPoundSterling extends AbstractIcon {
 }
 ReceiptPoundSterling.Namespace=`Lucide`;
 ReceiptPoundSterling.Tag=`lucide-receipt-pound-sterling`;
-_.ReceiptPoundSterling=ReceiptPoundSterling;
+__as1(_, 'ReceiptPoundSterling', ReceiptPoundSterling);
 if(!window.customElements.get('lucide-receipt-pound-sterling')){window.customElements.define('lucide-receipt-pound-sterling', ReceiptPoundSterling);Aventus.WebComponentInstance.registerDefinition(ReceiptPoundSterling);}
 
 const ReceiptRussianRuble = class ReceiptRussianRuble extends AbstractIcon {
@@ -38925,7 +38925,7 @@ const ReceiptRussianRuble = class ReceiptRussianRuble extends AbstractIcon {
 }
 ReceiptRussianRuble.Namespace=`Lucide`;
 ReceiptRussianRuble.Tag=`lucide-receipt-russian-ruble`;
-_.ReceiptRussianRuble=ReceiptRussianRuble;
+__as1(_, 'ReceiptRussianRuble', ReceiptRussianRuble);
 if(!window.customElements.get('lucide-receipt-russian-ruble')){window.customElements.define('lucide-receipt-russian-ruble', ReceiptRussianRuble);Aventus.WebComponentInstance.registerDefinition(ReceiptRussianRuble);}
 
 const ReceiptSwissFranc = class ReceiptSwissFranc extends AbstractIcon {
@@ -38949,7 +38949,7 @@ const ReceiptSwissFranc = class ReceiptSwissFranc extends AbstractIcon {
 }
 ReceiptSwissFranc.Namespace=`Lucide`;
 ReceiptSwissFranc.Tag=`lucide-receipt-swiss-franc`;
-_.ReceiptSwissFranc=ReceiptSwissFranc;
+__as1(_, 'ReceiptSwissFranc', ReceiptSwissFranc);
 if(!window.customElements.get('lucide-receipt-swiss-franc')){window.customElements.define('lucide-receipt-swiss-franc', ReceiptSwissFranc);Aventus.WebComponentInstance.registerDefinition(ReceiptSwissFranc);}
 
 const ReceiptText = class ReceiptText extends AbstractIcon {
@@ -38973,7 +38973,7 @@ const ReceiptText = class ReceiptText extends AbstractIcon {
 }
 ReceiptText.Namespace=`Lucide`;
 ReceiptText.Tag=`lucide-receipt-text`;
-_.ReceiptText=ReceiptText;
+__as1(_, 'ReceiptText', ReceiptText);
 if(!window.customElements.get('lucide-receipt-text')){window.customElements.define('lucide-receipt-text', ReceiptText);Aventus.WebComponentInstance.registerDefinition(ReceiptText);}
 
 const RectangleCircle = class RectangleCircle extends AbstractIcon {
@@ -38997,7 +38997,7 @@ const RectangleCircle = class RectangleCircle extends AbstractIcon {
 }
 RectangleCircle.Namespace=`Lucide`;
 RectangleCircle.Tag=`lucide-rectangle-circle`;
-_.RectangleCircle=RectangleCircle;
+__as1(_, 'RectangleCircle', RectangleCircle);
 if(!window.customElements.get('lucide-rectangle-circle')){window.customElements.define('lucide-rectangle-circle', RectangleCircle);Aventus.WebComponentInstance.registerDefinition(RectangleCircle);}
 
 const RectangleEllipsis = class RectangleEllipsis extends AbstractIcon {
@@ -39021,7 +39021,7 @@ const RectangleEllipsis = class RectangleEllipsis extends AbstractIcon {
 }
 RectangleEllipsis.Namespace=`Lucide`;
 RectangleEllipsis.Tag=`lucide-rectangle-ellipsis`;
-_.RectangleEllipsis=RectangleEllipsis;
+__as1(_, 'RectangleEllipsis', RectangleEllipsis);
 if(!window.customElements.get('lucide-rectangle-ellipsis')){window.customElements.define('lucide-rectangle-ellipsis', RectangleEllipsis);Aventus.WebComponentInstance.registerDefinition(RectangleEllipsis);}
 
 const RectangleGoggles = class RectangleGoggles extends AbstractIcon {
@@ -39045,7 +39045,7 @@ const RectangleGoggles = class RectangleGoggles extends AbstractIcon {
 }
 RectangleGoggles.Namespace=`Lucide`;
 RectangleGoggles.Tag=`lucide-rectangle-goggles`;
-_.RectangleGoggles=RectangleGoggles;
+__as1(_, 'RectangleGoggles', RectangleGoggles);
 if(!window.customElements.get('lucide-rectangle-goggles')){window.customElements.define('lucide-rectangle-goggles', RectangleGoggles);Aventus.WebComponentInstance.registerDefinition(RectangleGoggles);}
 
 const RectangleHorizontal = class RectangleHorizontal extends AbstractIcon {
@@ -39069,7 +39069,7 @@ const RectangleHorizontal = class RectangleHorizontal extends AbstractIcon {
 }
 RectangleHorizontal.Namespace=`Lucide`;
 RectangleHorizontal.Tag=`lucide-rectangle-horizontal`;
-_.RectangleHorizontal=RectangleHorizontal;
+__as1(_, 'RectangleHorizontal', RectangleHorizontal);
 if(!window.customElements.get('lucide-rectangle-horizontal')){window.customElements.define('lucide-rectangle-horizontal', RectangleHorizontal);Aventus.WebComponentInstance.registerDefinition(RectangleHorizontal);}
 
 const RectangleVertical = class RectangleVertical extends AbstractIcon {
@@ -39093,7 +39093,7 @@ const RectangleVertical = class RectangleVertical extends AbstractIcon {
 }
 RectangleVertical.Namespace=`Lucide`;
 RectangleVertical.Tag=`lucide-rectangle-vertical`;
-_.RectangleVertical=RectangleVertical;
+__as1(_, 'RectangleVertical', RectangleVertical);
 if(!window.customElements.get('lucide-rectangle-vertical')){window.customElements.define('lucide-rectangle-vertical', RectangleVertical);Aventus.WebComponentInstance.registerDefinition(RectangleVertical);}
 
 const Recycle = class Recycle extends AbstractIcon {
@@ -39117,7 +39117,7 @@ const Recycle = class Recycle extends AbstractIcon {
 }
 Recycle.Namespace=`Lucide`;
 Recycle.Tag=`lucide-recycle`;
-_.Recycle=Recycle;
+__as1(_, 'Recycle', Recycle);
 if(!window.customElements.get('lucide-recycle')){window.customElements.define('lucide-recycle', Recycle);Aventus.WebComponentInstance.registerDefinition(Recycle);}
 
 const Redo = class Redo extends AbstractIcon {
@@ -39141,7 +39141,7 @@ const Redo = class Redo extends AbstractIcon {
 }
 Redo.Namespace=`Lucide`;
 Redo.Tag=`lucide-redo`;
-_.Redo=Redo;
+__as1(_, 'Redo', Redo);
 if(!window.customElements.get('lucide-redo')){window.customElements.define('lucide-redo', Redo);Aventus.WebComponentInstance.registerDefinition(Redo);}
 
 const Redo2 = class Redo2 extends AbstractIcon {
@@ -39165,7 +39165,7 @@ const Redo2 = class Redo2 extends AbstractIcon {
 }
 Redo2.Namespace=`Lucide`;
 Redo2.Tag=`lucide-redo-2`;
-_.Redo2=Redo2;
+__as1(_, 'Redo2', Redo2);
 if(!window.customElements.get('lucide-redo-2')){window.customElements.define('lucide-redo-2', Redo2);Aventus.WebComponentInstance.registerDefinition(Redo2);}
 
 const RedoDot = class RedoDot extends AbstractIcon {
@@ -39189,7 +39189,7 @@ const RedoDot = class RedoDot extends AbstractIcon {
 }
 RedoDot.Namespace=`Lucide`;
 RedoDot.Tag=`lucide-redo-dot`;
-_.RedoDot=RedoDot;
+__as1(_, 'RedoDot', RedoDot);
 if(!window.customElements.get('lucide-redo-dot')){window.customElements.define('lucide-redo-dot', RedoDot);Aventus.WebComponentInstance.registerDefinition(RedoDot);}
 
 const RefreshCcw = class RefreshCcw extends AbstractIcon {
@@ -39213,7 +39213,7 @@ const RefreshCcw = class RefreshCcw extends AbstractIcon {
 }
 RefreshCcw.Namespace=`Lucide`;
 RefreshCcw.Tag=`lucide-refresh-ccw`;
-_.RefreshCcw=RefreshCcw;
+__as1(_, 'RefreshCcw', RefreshCcw);
 if(!window.customElements.get('lucide-refresh-ccw')){window.customElements.define('lucide-refresh-ccw', RefreshCcw);Aventus.WebComponentInstance.registerDefinition(RefreshCcw);}
 
 const RefreshCcwDot = class RefreshCcwDot extends AbstractIcon {
@@ -39237,7 +39237,7 @@ const RefreshCcwDot = class RefreshCcwDot extends AbstractIcon {
 }
 RefreshCcwDot.Namespace=`Lucide`;
 RefreshCcwDot.Tag=`lucide-refresh-ccw-dot`;
-_.RefreshCcwDot=RefreshCcwDot;
+__as1(_, 'RefreshCcwDot', RefreshCcwDot);
 if(!window.customElements.get('lucide-refresh-ccw-dot')){window.customElements.define('lucide-refresh-ccw-dot', RefreshCcwDot);Aventus.WebComponentInstance.registerDefinition(RefreshCcwDot);}
 
 const RefreshCw = class RefreshCw extends AbstractIcon {
@@ -39261,7 +39261,7 @@ const RefreshCw = class RefreshCw extends AbstractIcon {
 }
 RefreshCw.Namespace=`Lucide`;
 RefreshCw.Tag=`lucide-refresh-cw`;
-_.RefreshCw=RefreshCw;
+__as1(_, 'RefreshCw', RefreshCw);
 if(!window.customElements.get('lucide-refresh-cw')){window.customElements.define('lucide-refresh-cw', RefreshCw);Aventus.WebComponentInstance.registerDefinition(RefreshCw);}
 
 const RefreshCwOff = class RefreshCwOff extends AbstractIcon {
@@ -39285,7 +39285,7 @@ const RefreshCwOff = class RefreshCwOff extends AbstractIcon {
 }
 RefreshCwOff.Namespace=`Lucide`;
 RefreshCwOff.Tag=`lucide-refresh-cw-off`;
-_.RefreshCwOff=RefreshCwOff;
+__as1(_, 'RefreshCwOff', RefreshCwOff);
 if(!window.customElements.get('lucide-refresh-cw-off')){window.customElements.define('lucide-refresh-cw-off', RefreshCwOff);Aventus.WebComponentInstance.registerDefinition(RefreshCwOff);}
 
 const Refrigerator = class Refrigerator extends AbstractIcon {
@@ -39309,7 +39309,7 @@ const Refrigerator = class Refrigerator extends AbstractIcon {
 }
 Refrigerator.Namespace=`Lucide`;
 Refrigerator.Tag=`lucide-refrigerator`;
-_.Refrigerator=Refrigerator;
+__as1(_, 'Refrigerator', Refrigerator);
 if(!window.customElements.get('lucide-refrigerator')){window.customElements.define('lucide-refrigerator', Refrigerator);Aventus.WebComponentInstance.registerDefinition(Refrigerator);}
 
 const Regex = class Regex extends AbstractIcon {
@@ -39333,7 +39333,7 @@ const Regex = class Regex extends AbstractIcon {
 }
 Regex.Namespace=`Lucide`;
 Regex.Tag=`lucide-regex`;
-_.Regex=Regex;
+__as1(_, 'Regex', Regex);
 if(!window.customElements.get('lucide-regex')){window.customElements.define('lucide-regex', Regex);Aventus.WebComponentInstance.registerDefinition(Regex);}
 
 const RemoveFormatting = class RemoveFormatting extends AbstractIcon {
@@ -39357,7 +39357,7 @@ const RemoveFormatting = class RemoveFormatting extends AbstractIcon {
 }
 RemoveFormatting.Namespace=`Lucide`;
 RemoveFormatting.Tag=`lucide-remove-formatting`;
-_.RemoveFormatting=RemoveFormatting;
+__as1(_, 'RemoveFormatting', RemoveFormatting);
 if(!window.customElements.get('lucide-remove-formatting')){window.customElements.define('lucide-remove-formatting', RemoveFormatting);Aventus.WebComponentInstance.registerDefinition(RemoveFormatting);}
 
 const Repeat = class Repeat extends AbstractIcon {
@@ -39381,7 +39381,7 @@ const Repeat = class Repeat extends AbstractIcon {
 }
 Repeat.Namespace=`Lucide`;
 Repeat.Tag=`lucide-repeat`;
-_.Repeat=Repeat;
+__as1(_, 'Repeat', Repeat);
 if(!window.customElements.get('lucide-repeat')){window.customElements.define('lucide-repeat', Repeat);Aventus.WebComponentInstance.registerDefinition(Repeat);}
 
 const Repeat1 = class Repeat1 extends AbstractIcon {
@@ -39405,7 +39405,7 @@ const Repeat1 = class Repeat1 extends AbstractIcon {
 }
 Repeat1.Namespace=`Lucide`;
 Repeat1.Tag=`lucide-repeat-1`;
-_.Repeat1=Repeat1;
+__as1(_, 'Repeat1', Repeat1);
 if(!window.customElements.get('lucide-repeat-1')){window.customElements.define('lucide-repeat-1', Repeat1);Aventus.WebComponentInstance.registerDefinition(Repeat1);}
 
 const Repeat2 = class Repeat2 extends AbstractIcon {
@@ -39429,7 +39429,7 @@ const Repeat2 = class Repeat2 extends AbstractIcon {
 }
 Repeat2.Namespace=`Lucide`;
 Repeat2.Tag=`lucide-repeat-2`;
-_.Repeat2=Repeat2;
+__as1(_, 'Repeat2', Repeat2);
 if(!window.customElements.get('lucide-repeat-2')){window.customElements.define('lucide-repeat-2', Repeat2);Aventus.WebComponentInstance.registerDefinition(Repeat2);}
 
 const Replace = class Replace extends AbstractIcon {
@@ -39453,7 +39453,7 @@ const Replace = class Replace extends AbstractIcon {
 }
 Replace.Namespace=`Lucide`;
 Replace.Tag=`lucide-replace`;
-_.Replace=Replace;
+__as1(_, 'Replace', Replace);
 if(!window.customElements.get('lucide-replace')){window.customElements.define('lucide-replace', Replace);Aventus.WebComponentInstance.registerDefinition(Replace);}
 
 const ReplaceAll = class ReplaceAll extends AbstractIcon {
@@ -39477,7 +39477,7 @@ const ReplaceAll = class ReplaceAll extends AbstractIcon {
 }
 ReplaceAll.Namespace=`Lucide`;
 ReplaceAll.Tag=`lucide-replace-all`;
-_.ReplaceAll=ReplaceAll;
+__as1(_, 'ReplaceAll', ReplaceAll);
 if(!window.customElements.get('lucide-replace-all')){window.customElements.define('lucide-replace-all', ReplaceAll);Aventus.WebComponentInstance.registerDefinition(ReplaceAll);}
 
 const Reply = class Reply extends AbstractIcon {
@@ -39501,7 +39501,7 @@ const Reply = class Reply extends AbstractIcon {
 }
 Reply.Namespace=`Lucide`;
 Reply.Tag=`lucide-reply`;
-_.Reply=Reply;
+__as1(_, 'Reply', Reply);
 if(!window.customElements.get('lucide-reply')){window.customElements.define('lucide-reply', Reply);Aventus.WebComponentInstance.registerDefinition(Reply);}
 
 const ReplyAll = class ReplyAll extends AbstractIcon {
@@ -39525,7 +39525,7 @@ const ReplyAll = class ReplyAll extends AbstractIcon {
 }
 ReplyAll.Namespace=`Lucide`;
 ReplyAll.Tag=`lucide-reply-all`;
-_.ReplyAll=ReplyAll;
+__as1(_, 'ReplyAll', ReplyAll);
 if(!window.customElements.get('lucide-reply-all')){window.customElements.define('lucide-reply-all', ReplyAll);Aventus.WebComponentInstance.registerDefinition(ReplyAll);}
 
 const Rewind = class Rewind extends AbstractIcon {
@@ -39549,7 +39549,7 @@ const Rewind = class Rewind extends AbstractIcon {
 }
 Rewind.Namespace=`Lucide`;
 Rewind.Tag=`lucide-rewind`;
-_.Rewind=Rewind;
+__as1(_, 'Rewind', Rewind);
 if(!window.customElements.get('lucide-rewind')){window.customElements.define('lucide-rewind', Rewind);Aventus.WebComponentInstance.registerDefinition(Rewind);}
 
 const Ribbon = class Ribbon extends AbstractIcon {
@@ -39573,7 +39573,7 @@ const Ribbon = class Ribbon extends AbstractIcon {
 }
 Ribbon.Namespace=`Lucide`;
 Ribbon.Tag=`lucide-ribbon`;
-_.Ribbon=Ribbon;
+__as1(_, 'Ribbon', Ribbon);
 if(!window.customElements.get('lucide-ribbon')){window.customElements.define('lucide-ribbon', Ribbon);Aventus.WebComponentInstance.registerDefinition(Ribbon);}
 
 const Rocket = class Rocket extends AbstractIcon {
@@ -39597,7 +39597,7 @@ const Rocket = class Rocket extends AbstractIcon {
 }
 Rocket.Namespace=`Lucide`;
 Rocket.Tag=`lucide-rocket`;
-_.Rocket=Rocket;
+__as1(_, 'Rocket', Rocket);
 if(!window.customElements.get('lucide-rocket')){window.customElements.define('lucide-rocket', Rocket);Aventus.WebComponentInstance.registerDefinition(Rocket);}
 
 const RockingChair = class RockingChair extends AbstractIcon {
@@ -39621,7 +39621,7 @@ const RockingChair = class RockingChair extends AbstractIcon {
 }
 RockingChair.Namespace=`Lucide`;
 RockingChair.Tag=`lucide-rocking-chair`;
-_.RockingChair=RockingChair;
+__as1(_, 'RockingChair', RockingChair);
 if(!window.customElements.get('lucide-rocking-chair')){window.customElements.define('lucide-rocking-chair', RockingChair);Aventus.WebComponentInstance.registerDefinition(RockingChair);}
 
 const RollerCoaster = class RollerCoaster extends AbstractIcon {
@@ -39645,7 +39645,7 @@ const RollerCoaster = class RollerCoaster extends AbstractIcon {
 }
 RollerCoaster.Namespace=`Lucide`;
 RollerCoaster.Tag=`lucide-roller-coaster`;
-_.RollerCoaster=RollerCoaster;
+__as1(_, 'RollerCoaster', RollerCoaster);
 if(!window.customElements.get('lucide-roller-coaster')){window.customElements.define('lucide-roller-coaster', RollerCoaster);Aventus.WebComponentInstance.registerDefinition(RollerCoaster);}
 
 const Rotate3d = class Rotate3d extends AbstractIcon {
@@ -39669,7 +39669,7 @@ const Rotate3d = class Rotate3d extends AbstractIcon {
 }
 Rotate3d.Namespace=`Lucide`;
 Rotate3d.Tag=`lucide-rotate-3d`;
-_.Rotate3d=Rotate3d;
+__as1(_, 'Rotate3d', Rotate3d);
 if(!window.customElements.get('lucide-rotate-3d')){window.customElements.define('lucide-rotate-3d', Rotate3d);Aventus.WebComponentInstance.registerDefinition(Rotate3d);}
 
 const RotateCcw = class RotateCcw extends AbstractIcon {
@@ -39693,7 +39693,7 @@ const RotateCcw = class RotateCcw extends AbstractIcon {
 }
 RotateCcw.Namespace=`Lucide`;
 RotateCcw.Tag=`lucide-rotate-ccw`;
-_.RotateCcw=RotateCcw;
+__as1(_, 'RotateCcw', RotateCcw);
 if(!window.customElements.get('lucide-rotate-ccw')){window.customElements.define('lucide-rotate-ccw', RotateCcw);Aventus.WebComponentInstance.registerDefinition(RotateCcw);}
 
 const RotateCcwKey = class RotateCcwKey extends AbstractIcon {
@@ -39717,7 +39717,7 @@ const RotateCcwKey = class RotateCcwKey extends AbstractIcon {
 }
 RotateCcwKey.Namespace=`Lucide`;
 RotateCcwKey.Tag=`lucide-rotate-ccw-key`;
-_.RotateCcwKey=RotateCcwKey;
+__as1(_, 'RotateCcwKey', RotateCcwKey);
 if(!window.customElements.get('lucide-rotate-ccw-key')){window.customElements.define('lucide-rotate-ccw-key', RotateCcwKey);Aventus.WebComponentInstance.registerDefinition(RotateCcwKey);}
 
 const RotateCcwSquare = class RotateCcwSquare extends AbstractIcon {
@@ -39741,7 +39741,7 @@ const RotateCcwSquare = class RotateCcwSquare extends AbstractIcon {
 }
 RotateCcwSquare.Namespace=`Lucide`;
 RotateCcwSquare.Tag=`lucide-rotate-ccw-square`;
-_.RotateCcwSquare=RotateCcwSquare;
+__as1(_, 'RotateCcwSquare', RotateCcwSquare);
 if(!window.customElements.get('lucide-rotate-ccw-square')){window.customElements.define('lucide-rotate-ccw-square', RotateCcwSquare);Aventus.WebComponentInstance.registerDefinition(RotateCcwSquare);}
 
 const RotateCw = class RotateCw extends AbstractIcon {
@@ -39765,7 +39765,7 @@ const RotateCw = class RotateCw extends AbstractIcon {
 }
 RotateCw.Namespace=`Lucide`;
 RotateCw.Tag=`lucide-rotate-cw`;
-_.RotateCw=RotateCw;
+__as1(_, 'RotateCw', RotateCw);
 if(!window.customElements.get('lucide-rotate-cw')){window.customElements.define('lucide-rotate-cw', RotateCw);Aventus.WebComponentInstance.registerDefinition(RotateCw);}
 
 const RotateCwSquare = class RotateCwSquare extends AbstractIcon {
@@ -39789,7 +39789,7 @@ const RotateCwSquare = class RotateCwSquare extends AbstractIcon {
 }
 RotateCwSquare.Namespace=`Lucide`;
 RotateCwSquare.Tag=`lucide-rotate-cw-square`;
-_.RotateCwSquare=RotateCwSquare;
+__as1(_, 'RotateCwSquare', RotateCwSquare);
 if(!window.customElements.get('lucide-rotate-cw-square')){window.customElements.define('lucide-rotate-cw-square', RotateCwSquare);Aventus.WebComponentInstance.registerDefinition(RotateCwSquare);}
 
 const Route = class Route extends AbstractIcon {
@@ -39813,7 +39813,7 @@ const Route = class Route extends AbstractIcon {
 }
 Route.Namespace=`Lucide`;
 Route.Tag=`lucide-route`;
-_.Route=Route;
+__as1(_, 'Route', Route);
 if(!window.customElements.get('lucide-route')){window.customElements.define('lucide-route', Route);Aventus.WebComponentInstance.registerDefinition(Route);}
 
 const RouteOff = class RouteOff extends AbstractIcon {
@@ -39837,7 +39837,7 @@ const RouteOff = class RouteOff extends AbstractIcon {
 }
 RouteOff.Namespace=`Lucide`;
 RouteOff.Tag=`lucide-route-off`;
-_.RouteOff=RouteOff;
+__as1(_, 'RouteOff', RouteOff);
 if(!window.customElements.get('lucide-route-off')){window.customElements.define('lucide-route-off', RouteOff);Aventus.WebComponentInstance.registerDefinition(RouteOff);}
 
 const Router = class Router extends AbstractIcon {
@@ -39861,7 +39861,7 @@ const Router = class Router extends AbstractIcon {
 }
 Router.Namespace=`Lucide`;
 Router.Tag=`lucide-router`;
-_.Router=Router;
+__as1(_, 'Router', Router);
 if(!window.customElements.get('lucide-router')){window.customElements.define('lucide-router', Router);Aventus.WebComponentInstance.registerDefinition(Router);}
 
 const Rows = class Rows extends AbstractIcon {
@@ -39885,7 +39885,7 @@ const Rows = class Rows extends AbstractIcon {
 }
 Rows.Namespace=`Lucide`;
 Rows.Tag=`lucide-rows`;
-_.Rows=Rows;
+__as1(_, 'Rows', Rows);
 if(!window.customElements.get('lucide-rows')){window.customElements.define('lucide-rows', Rows);Aventus.WebComponentInstance.registerDefinition(Rows);}
 
 const Rows2 = class Rows2 extends AbstractIcon {
@@ -39909,7 +39909,7 @@ const Rows2 = class Rows2 extends AbstractIcon {
 }
 Rows2.Namespace=`Lucide`;
 Rows2.Tag=`lucide-rows-2`;
-_.Rows2=Rows2;
+__as1(_, 'Rows2', Rows2);
 if(!window.customElements.get('lucide-rows-2')){window.customElements.define('lucide-rows-2', Rows2);Aventus.WebComponentInstance.registerDefinition(Rows2);}
 
 const Rows3 = class Rows3 extends AbstractIcon {
@@ -39933,7 +39933,7 @@ const Rows3 = class Rows3 extends AbstractIcon {
 }
 Rows3.Namespace=`Lucide`;
 Rows3.Tag=`lucide-rows-3`;
-_.Rows3=Rows3;
+__as1(_, 'Rows3', Rows3);
 if(!window.customElements.get('lucide-rows-3')){window.customElements.define('lucide-rows-3', Rows3);Aventus.WebComponentInstance.registerDefinition(Rows3);}
 
 const Rows4 = class Rows4 extends AbstractIcon {
@@ -39957,7 +39957,7 @@ const Rows4 = class Rows4 extends AbstractIcon {
 }
 Rows4.Namespace=`Lucide`;
 Rows4.Tag=`lucide-rows-4`;
-_.Rows4=Rows4;
+__as1(_, 'Rows4', Rows4);
 if(!window.customElements.get('lucide-rows-4')){window.customElements.define('lucide-rows-4', Rows4);Aventus.WebComponentInstance.registerDefinition(Rows4);}
 
 const Rss = class Rss extends AbstractIcon {
@@ -39981,7 +39981,7 @@ const Rss = class Rss extends AbstractIcon {
 }
 Rss.Namespace=`Lucide`;
 Rss.Tag=`lucide-rss`;
-_.Rss=Rss;
+__as1(_, 'Rss', Rss);
 if(!window.customElements.get('lucide-rss')){window.customElements.define('lucide-rss', Rss);Aventus.WebComponentInstance.registerDefinition(Rss);}
 
 const Ruler = class Ruler extends AbstractIcon {
@@ -40005,7 +40005,7 @@ const Ruler = class Ruler extends AbstractIcon {
 }
 Ruler.Namespace=`Lucide`;
 Ruler.Tag=`lucide-ruler`;
-_.Ruler=Ruler;
+__as1(_, 'Ruler', Ruler);
 if(!window.customElements.get('lucide-ruler')){window.customElements.define('lucide-ruler', Ruler);Aventus.WebComponentInstance.registerDefinition(Ruler);}
 
 const RulerDimensionLine = class RulerDimensionLine extends AbstractIcon {
@@ -40029,7 +40029,7 @@ const RulerDimensionLine = class RulerDimensionLine extends AbstractIcon {
 }
 RulerDimensionLine.Namespace=`Lucide`;
 RulerDimensionLine.Tag=`lucide-ruler-dimension-line`;
-_.RulerDimensionLine=RulerDimensionLine;
+__as1(_, 'RulerDimensionLine', RulerDimensionLine);
 if(!window.customElements.get('lucide-ruler-dimension-line')){window.customElements.define('lucide-ruler-dimension-line', RulerDimensionLine);Aventus.WebComponentInstance.registerDefinition(RulerDimensionLine);}
 
 const RussianRuble = class RussianRuble extends AbstractIcon {
@@ -40053,7 +40053,7 @@ const RussianRuble = class RussianRuble extends AbstractIcon {
 }
 RussianRuble.Namespace=`Lucide`;
 RussianRuble.Tag=`lucide-russian-ruble`;
-_.RussianRuble=RussianRuble;
+__as1(_, 'RussianRuble', RussianRuble);
 if(!window.customElements.get('lucide-russian-ruble')){window.customElements.define('lucide-russian-ruble', RussianRuble);Aventus.WebComponentInstance.registerDefinition(RussianRuble);}
 
 const Sailboat = class Sailboat extends AbstractIcon {
@@ -40077,7 +40077,7 @@ const Sailboat = class Sailboat extends AbstractIcon {
 }
 Sailboat.Namespace=`Lucide`;
 Sailboat.Tag=`lucide-sailboat`;
-_.Sailboat=Sailboat;
+__as1(_, 'Sailboat', Sailboat);
 if(!window.customElements.get('lucide-sailboat')){window.customElements.define('lucide-sailboat', Sailboat);Aventus.WebComponentInstance.registerDefinition(Sailboat);}
 
 const Salad = class Salad extends AbstractIcon {
@@ -40101,7 +40101,7 @@ const Salad = class Salad extends AbstractIcon {
 }
 Salad.Namespace=`Lucide`;
 Salad.Tag=`lucide-salad`;
-_.Salad=Salad;
+__as1(_, 'Salad', Salad);
 if(!window.customElements.get('lucide-salad')){window.customElements.define('lucide-salad', Salad);Aventus.WebComponentInstance.registerDefinition(Salad);}
 
 const Sandwich = class Sandwich extends AbstractIcon {
@@ -40125,7 +40125,7 @@ const Sandwich = class Sandwich extends AbstractIcon {
 }
 Sandwich.Namespace=`Lucide`;
 Sandwich.Tag=`lucide-sandwich`;
-_.Sandwich=Sandwich;
+__as1(_, 'Sandwich', Sandwich);
 if(!window.customElements.get('lucide-sandwich')){window.customElements.define('lucide-sandwich', Sandwich);Aventus.WebComponentInstance.registerDefinition(Sandwich);}
 
 const Satellite = class Satellite extends AbstractIcon {
@@ -40149,7 +40149,7 @@ const Satellite = class Satellite extends AbstractIcon {
 }
 Satellite.Namespace=`Lucide`;
 Satellite.Tag=`lucide-satellite`;
-_.Satellite=Satellite;
+__as1(_, 'Satellite', Satellite);
 if(!window.customElements.get('lucide-satellite')){window.customElements.define('lucide-satellite', Satellite);Aventus.WebComponentInstance.registerDefinition(Satellite);}
 
 const SatelliteDish = class SatelliteDish extends AbstractIcon {
@@ -40173,7 +40173,7 @@ const SatelliteDish = class SatelliteDish extends AbstractIcon {
 }
 SatelliteDish.Namespace=`Lucide`;
 SatelliteDish.Tag=`lucide-satellite-dish`;
-_.SatelliteDish=SatelliteDish;
+__as1(_, 'SatelliteDish', SatelliteDish);
 if(!window.customElements.get('lucide-satellite-dish')){window.customElements.define('lucide-satellite-dish', SatelliteDish);Aventus.WebComponentInstance.registerDefinition(SatelliteDish);}
 
 const SaudiRiyal = class SaudiRiyal extends AbstractIcon {
@@ -40197,7 +40197,7 @@ const SaudiRiyal = class SaudiRiyal extends AbstractIcon {
 }
 SaudiRiyal.Namespace=`Lucide`;
 SaudiRiyal.Tag=`lucide-saudi-riyal`;
-_.SaudiRiyal=SaudiRiyal;
+__as1(_, 'SaudiRiyal', SaudiRiyal);
 if(!window.customElements.get('lucide-saudi-riyal')){window.customElements.define('lucide-saudi-riyal', SaudiRiyal);Aventus.WebComponentInstance.registerDefinition(SaudiRiyal);}
 
 const Save = class Save extends AbstractIcon {
@@ -40221,7 +40221,7 @@ const Save = class Save extends AbstractIcon {
 }
 Save.Namespace=`Lucide`;
 Save.Tag=`lucide-save`;
-_.Save=Save;
+__as1(_, 'Save', Save);
 if(!window.customElements.get('lucide-save')){window.customElements.define('lucide-save', Save);Aventus.WebComponentInstance.registerDefinition(Save);}
 
 const SaveAll = class SaveAll extends AbstractIcon {
@@ -40245,7 +40245,7 @@ const SaveAll = class SaveAll extends AbstractIcon {
 }
 SaveAll.Namespace=`Lucide`;
 SaveAll.Tag=`lucide-save-all`;
-_.SaveAll=SaveAll;
+__as1(_, 'SaveAll', SaveAll);
 if(!window.customElements.get('lucide-save-all')){window.customElements.define('lucide-save-all', SaveAll);Aventus.WebComponentInstance.registerDefinition(SaveAll);}
 
 const SaveOff = class SaveOff extends AbstractIcon {
@@ -40269,7 +40269,7 @@ const SaveOff = class SaveOff extends AbstractIcon {
 }
 SaveOff.Namespace=`Lucide`;
 SaveOff.Tag=`lucide-save-off`;
-_.SaveOff=SaveOff;
+__as1(_, 'SaveOff', SaveOff);
 if(!window.customElements.get('lucide-save-off')){window.customElements.define('lucide-save-off', SaveOff);Aventus.WebComponentInstance.registerDefinition(SaveOff);}
 
 const Scale = class Scale extends AbstractIcon {
@@ -40293,7 +40293,7 @@ const Scale = class Scale extends AbstractIcon {
 }
 Scale.Namespace=`Lucide`;
 Scale.Tag=`lucide-scale`;
-_.Scale=Scale;
+__as1(_, 'Scale', Scale);
 if(!window.customElements.get('lucide-scale')){window.customElements.define('lucide-scale', Scale);Aventus.WebComponentInstance.registerDefinition(Scale);}
 
 const Scale3d = class Scale3d extends AbstractIcon {
@@ -40317,7 +40317,7 @@ const Scale3d = class Scale3d extends AbstractIcon {
 }
 Scale3d.Namespace=`Lucide`;
 Scale3d.Tag=`lucide-scale-3d`;
-_.Scale3d=Scale3d;
+__as1(_, 'Scale3d', Scale3d);
 if(!window.customElements.get('lucide-scale-3d')){window.customElements.define('lucide-scale-3d', Scale3d);Aventus.WebComponentInstance.registerDefinition(Scale3d);}
 
 const Scaling = class Scaling extends AbstractIcon {
@@ -40341,7 +40341,7 @@ const Scaling = class Scaling extends AbstractIcon {
 }
 Scaling.Namespace=`Lucide`;
 Scaling.Tag=`lucide-scaling`;
-_.Scaling=Scaling;
+__as1(_, 'Scaling', Scaling);
 if(!window.customElements.get('lucide-scaling')){window.customElements.define('lucide-scaling', Scaling);Aventus.WebComponentInstance.registerDefinition(Scaling);}
 
 const Scan = class Scan extends AbstractIcon {
@@ -40365,7 +40365,7 @@ const Scan = class Scan extends AbstractIcon {
 }
 Scan.Namespace=`Lucide`;
 Scan.Tag=`lucide-scan`;
-_.Scan=Scan;
+__as1(_, 'Scan', Scan);
 if(!window.customElements.get('lucide-scan')){window.customElements.define('lucide-scan', Scan);Aventus.WebComponentInstance.registerDefinition(Scan);}
 
 const ScanBarcode = class ScanBarcode extends AbstractIcon {
@@ -40389,7 +40389,7 @@ const ScanBarcode = class ScanBarcode extends AbstractIcon {
 }
 ScanBarcode.Namespace=`Lucide`;
 ScanBarcode.Tag=`lucide-scan-barcode`;
-_.ScanBarcode=ScanBarcode;
+__as1(_, 'ScanBarcode', ScanBarcode);
 if(!window.customElements.get('lucide-scan-barcode')){window.customElements.define('lucide-scan-barcode', ScanBarcode);Aventus.WebComponentInstance.registerDefinition(ScanBarcode);}
 
 const ScanEye = class ScanEye extends AbstractIcon {
@@ -40413,7 +40413,7 @@ const ScanEye = class ScanEye extends AbstractIcon {
 }
 ScanEye.Namespace=`Lucide`;
 ScanEye.Tag=`lucide-scan-eye`;
-_.ScanEye=ScanEye;
+__as1(_, 'ScanEye', ScanEye);
 if(!window.customElements.get('lucide-scan-eye')){window.customElements.define('lucide-scan-eye', ScanEye);Aventus.WebComponentInstance.registerDefinition(ScanEye);}
 
 const ScanFace = class ScanFace extends AbstractIcon {
@@ -40437,7 +40437,7 @@ const ScanFace = class ScanFace extends AbstractIcon {
 }
 ScanFace.Namespace=`Lucide`;
 ScanFace.Tag=`lucide-scan-face`;
-_.ScanFace=ScanFace;
+__as1(_, 'ScanFace', ScanFace);
 if(!window.customElements.get('lucide-scan-face')){window.customElements.define('lucide-scan-face', ScanFace);Aventus.WebComponentInstance.registerDefinition(ScanFace);}
 
 const ScanHeart = class ScanHeart extends AbstractIcon {
@@ -40461,7 +40461,7 @@ const ScanHeart = class ScanHeart extends AbstractIcon {
 }
 ScanHeart.Namespace=`Lucide`;
 ScanHeart.Tag=`lucide-scan-heart`;
-_.ScanHeart=ScanHeart;
+__as1(_, 'ScanHeart', ScanHeart);
 if(!window.customElements.get('lucide-scan-heart')){window.customElements.define('lucide-scan-heart', ScanHeart);Aventus.WebComponentInstance.registerDefinition(ScanHeart);}
 
 const ScanLine = class ScanLine extends AbstractIcon {
@@ -40485,7 +40485,7 @@ const ScanLine = class ScanLine extends AbstractIcon {
 }
 ScanLine.Namespace=`Lucide`;
 ScanLine.Tag=`lucide-scan-line`;
-_.ScanLine=ScanLine;
+__as1(_, 'ScanLine', ScanLine);
 if(!window.customElements.get('lucide-scan-line')){window.customElements.define('lucide-scan-line', ScanLine);Aventus.WebComponentInstance.registerDefinition(ScanLine);}
 
 const ScanQrCode = class ScanQrCode extends AbstractIcon {
@@ -40509,7 +40509,7 @@ const ScanQrCode = class ScanQrCode extends AbstractIcon {
 }
 ScanQrCode.Namespace=`Lucide`;
 ScanQrCode.Tag=`lucide-scan-qr-code`;
-_.ScanQrCode=ScanQrCode;
+__as1(_, 'ScanQrCode', ScanQrCode);
 if(!window.customElements.get('lucide-scan-qr-code')){window.customElements.define('lucide-scan-qr-code', ScanQrCode);Aventus.WebComponentInstance.registerDefinition(ScanQrCode);}
 
 const ScanSearch = class ScanSearch extends AbstractIcon {
@@ -40533,7 +40533,7 @@ const ScanSearch = class ScanSearch extends AbstractIcon {
 }
 ScanSearch.Namespace=`Lucide`;
 ScanSearch.Tag=`lucide-scan-search`;
-_.ScanSearch=ScanSearch;
+__as1(_, 'ScanSearch', ScanSearch);
 if(!window.customElements.get('lucide-scan-search')){window.customElements.define('lucide-scan-search', ScanSearch);Aventus.WebComponentInstance.registerDefinition(ScanSearch);}
 
 const ScanText = class ScanText extends AbstractIcon {
@@ -40557,7 +40557,7 @@ const ScanText = class ScanText extends AbstractIcon {
 }
 ScanText.Namespace=`Lucide`;
 ScanText.Tag=`lucide-scan-text`;
-_.ScanText=ScanText;
+__as1(_, 'ScanText', ScanText);
 if(!window.customElements.get('lucide-scan-text')){window.customElements.define('lucide-scan-text', ScanText);Aventus.WebComponentInstance.registerDefinition(ScanText);}
 
 const ScatterChart = class ScatterChart extends AbstractIcon {
@@ -40581,7 +40581,7 @@ const ScatterChart = class ScatterChart extends AbstractIcon {
 }
 ScatterChart.Namespace=`Lucide`;
 ScatterChart.Tag=`lucide-scatter-chart`;
-_.ScatterChart=ScatterChart;
+__as1(_, 'ScatterChart', ScatterChart);
 if(!window.customElements.get('lucide-scatter-chart')){window.customElements.define('lucide-scatter-chart', ScatterChart);Aventus.WebComponentInstance.registerDefinition(ScatterChart);}
 
 const School = class School extends AbstractIcon {
@@ -40605,7 +40605,7 @@ const School = class School extends AbstractIcon {
 }
 School.Namespace=`Lucide`;
 School.Tag=`lucide-school`;
-_.School=School;
+__as1(_, 'School', School);
 if(!window.customElements.get('lucide-school')){window.customElements.define('lucide-school', School);Aventus.WebComponentInstance.registerDefinition(School);}
 
 const School2 = class School2 extends AbstractIcon {
@@ -40629,7 +40629,7 @@ const School2 = class School2 extends AbstractIcon {
 }
 School2.Namespace=`Lucide`;
 School2.Tag=`lucide-school-2`;
-_.School2=School2;
+__as1(_, 'School2', School2);
 if(!window.customElements.get('lucide-school-2')){window.customElements.define('lucide-school-2', School2);Aventus.WebComponentInstance.registerDefinition(School2);}
 
 const Scissors = class Scissors extends AbstractIcon {
@@ -40653,7 +40653,7 @@ const Scissors = class Scissors extends AbstractIcon {
 }
 Scissors.Namespace=`Lucide`;
 Scissors.Tag=`lucide-scissors`;
-_.Scissors=Scissors;
+__as1(_, 'Scissors', Scissors);
 if(!window.customElements.get('lucide-scissors')){window.customElements.define('lucide-scissors', Scissors);Aventus.WebComponentInstance.registerDefinition(Scissors);}
 
 const ScissorsLineDashed = class ScissorsLineDashed extends AbstractIcon {
@@ -40677,7 +40677,7 @@ const ScissorsLineDashed = class ScissorsLineDashed extends AbstractIcon {
 }
 ScissorsLineDashed.Namespace=`Lucide`;
 ScissorsLineDashed.Tag=`lucide-scissors-line-dashed`;
-_.ScissorsLineDashed=ScissorsLineDashed;
+__as1(_, 'ScissorsLineDashed', ScissorsLineDashed);
 if(!window.customElements.get('lucide-scissors-line-dashed')){window.customElements.define('lucide-scissors-line-dashed', ScissorsLineDashed);Aventus.WebComponentInstance.registerDefinition(ScissorsLineDashed);}
 
 const ScissorsSquare = class ScissorsSquare extends AbstractIcon {
@@ -40701,7 +40701,7 @@ const ScissorsSquare = class ScissorsSquare extends AbstractIcon {
 }
 ScissorsSquare.Namespace=`Lucide`;
 ScissorsSquare.Tag=`lucide-scissors-square`;
-_.ScissorsSquare=ScissorsSquare;
+__as1(_, 'ScissorsSquare', ScissorsSquare);
 if(!window.customElements.get('lucide-scissors-square')){window.customElements.define('lucide-scissors-square', ScissorsSquare);Aventus.WebComponentInstance.registerDefinition(ScissorsSquare);}
 
 const ScissorsSquareDashedBottom = class ScissorsSquareDashedBottom extends AbstractIcon {
@@ -40725,7 +40725,7 @@ const ScissorsSquareDashedBottom = class ScissorsSquareDashedBottom extends Abst
 }
 ScissorsSquareDashedBottom.Namespace=`Lucide`;
 ScissorsSquareDashedBottom.Tag=`lucide-scissors-square-dashed-bottom`;
-_.ScissorsSquareDashedBottom=ScissorsSquareDashedBottom;
+__as1(_, 'ScissorsSquareDashedBottom', ScissorsSquareDashedBottom);
 if(!window.customElements.get('lucide-scissors-square-dashed-bottom')){window.customElements.define('lucide-scissors-square-dashed-bottom', ScissorsSquareDashedBottom);Aventus.WebComponentInstance.registerDefinition(ScissorsSquareDashedBottom);}
 
 const ScreenShare = class ScreenShare extends AbstractIcon {
@@ -40749,7 +40749,7 @@ const ScreenShare = class ScreenShare extends AbstractIcon {
 }
 ScreenShare.Namespace=`Lucide`;
 ScreenShare.Tag=`lucide-screen-share`;
-_.ScreenShare=ScreenShare;
+__as1(_, 'ScreenShare', ScreenShare);
 if(!window.customElements.get('lucide-screen-share')){window.customElements.define('lucide-screen-share', ScreenShare);Aventus.WebComponentInstance.registerDefinition(ScreenShare);}
 
 const ScreenShareOff = class ScreenShareOff extends AbstractIcon {
@@ -40773,7 +40773,7 @@ const ScreenShareOff = class ScreenShareOff extends AbstractIcon {
 }
 ScreenShareOff.Namespace=`Lucide`;
 ScreenShareOff.Tag=`lucide-screen-share-off`;
-_.ScreenShareOff=ScreenShareOff;
+__as1(_, 'ScreenShareOff', ScreenShareOff);
 if(!window.customElements.get('lucide-screen-share-off')){window.customElements.define('lucide-screen-share-off', ScreenShareOff);Aventus.WebComponentInstance.registerDefinition(ScreenShareOff);}
 
 const Scroll = class Scroll extends AbstractIcon {
@@ -40797,7 +40797,7 @@ const Scroll = class Scroll extends AbstractIcon {
 }
 Scroll.Namespace=`Lucide`;
 Scroll.Tag=`lucide-scroll`;
-_.Scroll=Scroll;
+__as1(_, 'Scroll', Scroll);
 if(!window.customElements.get('lucide-scroll')){window.customElements.define('lucide-scroll', Scroll);Aventus.WebComponentInstance.registerDefinition(Scroll);}
 
 const ScrollText = class ScrollText extends AbstractIcon {
@@ -40821,7 +40821,7 @@ const ScrollText = class ScrollText extends AbstractIcon {
 }
 ScrollText.Namespace=`Lucide`;
 ScrollText.Tag=`lucide-scroll-text`;
-_.ScrollText=ScrollText;
+__as1(_, 'ScrollText', ScrollText);
 if(!window.customElements.get('lucide-scroll-text')){window.customElements.define('lucide-scroll-text', ScrollText);Aventus.WebComponentInstance.registerDefinition(ScrollText);}
 
 const Search = class Search extends AbstractIcon {
@@ -40845,7 +40845,7 @@ const Search = class Search extends AbstractIcon {
 }
 Search.Namespace=`Lucide`;
 Search.Tag=`lucide-search`;
-_.Search=Search;
+__as1(_, 'Search', Search);
 if(!window.customElements.get('lucide-search')){window.customElements.define('lucide-search', Search);Aventus.WebComponentInstance.registerDefinition(Search);}
 
 const SearchCheck = class SearchCheck extends AbstractIcon {
@@ -40869,7 +40869,7 @@ const SearchCheck = class SearchCheck extends AbstractIcon {
 }
 SearchCheck.Namespace=`Lucide`;
 SearchCheck.Tag=`lucide-search-check`;
-_.SearchCheck=SearchCheck;
+__as1(_, 'SearchCheck', SearchCheck);
 if(!window.customElements.get('lucide-search-check')){window.customElements.define('lucide-search-check', SearchCheck);Aventus.WebComponentInstance.registerDefinition(SearchCheck);}
 
 const SearchCode = class SearchCode extends AbstractIcon {
@@ -40893,7 +40893,7 @@ const SearchCode = class SearchCode extends AbstractIcon {
 }
 SearchCode.Namespace=`Lucide`;
 SearchCode.Tag=`lucide-search-code`;
-_.SearchCode=SearchCode;
+__as1(_, 'SearchCode', SearchCode);
 if(!window.customElements.get('lucide-search-code')){window.customElements.define('lucide-search-code', SearchCode);Aventus.WebComponentInstance.registerDefinition(SearchCode);}
 
 const SearchSlash = class SearchSlash extends AbstractIcon {
@@ -40917,7 +40917,7 @@ const SearchSlash = class SearchSlash extends AbstractIcon {
 }
 SearchSlash.Namespace=`Lucide`;
 SearchSlash.Tag=`lucide-search-slash`;
-_.SearchSlash=SearchSlash;
+__as1(_, 'SearchSlash', SearchSlash);
 if(!window.customElements.get('lucide-search-slash')){window.customElements.define('lucide-search-slash', SearchSlash);Aventus.WebComponentInstance.registerDefinition(SearchSlash);}
 
 const SearchX = class SearchX extends AbstractIcon {
@@ -40941,7 +40941,7 @@ const SearchX = class SearchX extends AbstractIcon {
 }
 SearchX.Namespace=`Lucide`;
 SearchX.Tag=`lucide-search-x`;
-_.SearchX=SearchX;
+__as1(_, 'SearchX', SearchX);
 if(!window.customElements.get('lucide-search-x')){window.customElements.define('lucide-search-x', SearchX);Aventus.WebComponentInstance.registerDefinition(SearchX);}
 
 const Section = class Section extends AbstractIcon {
@@ -40965,7 +40965,7 @@ const Section = class Section extends AbstractIcon {
 }
 Section.Namespace=`Lucide`;
 Section.Tag=`lucide-section`;
-_.Section=Section;
+__as1(_, 'Section', Section);
 if(!window.customElements.get('lucide-section')){window.customElements.define('lucide-section', Section);Aventus.WebComponentInstance.registerDefinition(Section);}
 
 const Send = class Send extends AbstractIcon {
@@ -40989,7 +40989,7 @@ const Send = class Send extends AbstractIcon {
 }
 Send.Namespace=`Lucide`;
 Send.Tag=`lucide-send`;
-_.Send=Send;
+__as1(_, 'Send', Send);
 if(!window.customElements.get('lucide-send')){window.customElements.define('lucide-send', Send);Aventus.WebComponentInstance.registerDefinition(Send);}
 
 const SendHorizonal = class SendHorizonal extends AbstractIcon {
@@ -41013,7 +41013,7 @@ const SendHorizonal = class SendHorizonal extends AbstractIcon {
 }
 SendHorizonal.Namespace=`Lucide`;
 SendHorizonal.Tag=`lucide-send-horizonal`;
-_.SendHorizonal=SendHorizonal;
+__as1(_, 'SendHorizonal', SendHorizonal);
 if(!window.customElements.get('lucide-send-horizonal')){window.customElements.define('lucide-send-horizonal', SendHorizonal);Aventus.WebComponentInstance.registerDefinition(SendHorizonal);}
 
 const SendHorizontal = class SendHorizontal extends AbstractIcon {
@@ -41037,7 +41037,7 @@ const SendHorizontal = class SendHorizontal extends AbstractIcon {
 }
 SendHorizontal.Namespace=`Lucide`;
 SendHorizontal.Tag=`lucide-send-horizontal`;
-_.SendHorizontal=SendHorizontal;
+__as1(_, 'SendHorizontal', SendHorizontal);
 if(!window.customElements.get('lucide-send-horizontal')){window.customElements.define('lucide-send-horizontal', SendHorizontal);Aventus.WebComponentInstance.registerDefinition(SendHorizontal);}
 
 const SendToBack = class SendToBack extends AbstractIcon {
@@ -41061,7 +41061,7 @@ const SendToBack = class SendToBack extends AbstractIcon {
 }
 SendToBack.Namespace=`Lucide`;
 SendToBack.Tag=`lucide-send-to-back`;
-_.SendToBack=SendToBack;
+__as1(_, 'SendToBack', SendToBack);
 if(!window.customElements.get('lucide-send-to-back')){window.customElements.define('lucide-send-to-back', SendToBack);Aventus.WebComponentInstance.registerDefinition(SendToBack);}
 
 const SeparatorHorizontal = class SeparatorHorizontal extends AbstractIcon {
@@ -41085,7 +41085,7 @@ const SeparatorHorizontal = class SeparatorHorizontal extends AbstractIcon {
 }
 SeparatorHorizontal.Namespace=`Lucide`;
 SeparatorHorizontal.Tag=`lucide-separator-horizontal`;
-_.SeparatorHorizontal=SeparatorHorizontal;
+__as1(_, 'SeparatorHorizontal', SeparatorHorizontal);
 if(!window.customElements.get('lucide-separator-horizontal')){window.customElements.define('lucide-separator-horizontal', SeparatorHorizontal);Aventus.WebComponentInstance.registerDefinition(SeparatorHorizontal);}
 
 const SeparatorVertical = class SeparatorVertical extends AbstractIcon {
@@ -41109,7 +41109,7 @@ const SeparatorVertical = class SeparatorVertical extends AbstractIcon {
 }
 SeparatorVertical.Namespace=`Lucide`;
 SeparatorVertical.Tag=`lucide-separator-vertical`;
-_.SeparatorVertical=SeparatorVertical;
+__as1(_, 'SeparatorVertical', SeparatorVertical);
 if(!window.customElements.get('lucide-separator-vertical')){window.customElements.define('lucide-separator-vertical', SeparatorVertical);Aventus.WebComponentInstance.registerDefinition(SeparatorVertical);}
 
 const Server = class Server extends AbstractIcon {
@@ -41133,7 +41133,7 @@ const Server = class Server extends AbstractIcon {
 }
 Server.Namespace=`Lucide`;
 Server.Tag=`lucide-server`;
-_.Server=Server;
+__as1(_, 'Server', Server);
 if(!window.customElements.get('lucide-server')){window.customElements.define('lucide-server', Server);Aventus.WebComponentInstance.registerDefinition(Server);}
 
 const ServerCog = class ServerCog extends AbstractIcon {
@@ -41157,7 +41157,7 @@ const ServerCog = class ServerCog extends AbstractIcon {
 }
 ServerCog.Namespace=`Lucide`;
 ServerCog.Tag=`lucide-server-cog`;
-_.ServerCog=ServerCog;
+__as1(_, 'ServerCog', ServerCog);
 if(!window.customElements.get('lucide-server-cog')){window.customElements.define('lucide-server-cog', ServerCog);Aventus.WebComponentInstance.registerDefinition(ServerCog);}
 
 const ServerCrash = class ServerCrash extends AbstractIcon {
@@ -41181,7 +41181,7 @@ const ServerCrash = class ServerCrash extends AbstractIcon {
 }
 ServerCrash.Namespace=`Lucide`;
 ServerCrash.Tag=`lucide-server-crash`;
-_.ServerCrash=ServerCrash;
+__as1(_, 'ServerCrash', ServerCrash);
 if(!window.customElements.get('lucide-server-crash')){window.customElements.define('lucide-server-crash', ServerCrash);Aventus.WebComponentInstance.registerDefinition(ServerCrash);}
 
 const ServerOff = class ServerOff extends AbstractIcon {
@@ -41205,7 +41205,7 @@ const ServerOff = class ServerOff extends AbstractIcon {
 }
 ServerOff.Namespace=`Lucide`;
 ServerOff.Tag=`lucide-server-off`;
-_.ServerOff=ServerOff;
+__as1(_, 'ServerOff', ServerOff);
 if(!window.customElements.get('lucide-server-off')){window.customElements.define('lucide-server-off', ServerOff);Aventus.WebComponentInstance.registerDefinition(ServerOff);}
 
 const Settings = class Settings extends AbstractIcon {
@@ -41229,7 +41229,7 @@ const Settings = class Settings extends AbstractIcon {
 }
 Settings.Namespace=`Lucide`;
 Settings.Tag=`lucide-settings`;
-_.Settings=Settings;
+__as1(_, 'Settings', Settings);
 if(!window.customElements.get('lucide-settings')){window.customElements.define('lucide-settings', Settings);Aventus.WebComponentInstance.registerDefinition(Settings);}
 
 const Settings2 = class Settings2 extends AbstractIcon {
@@ -41253,7 +41253,7 @@ const Settings2 = class Settings2 extends AbstractIcon {
 }
 Settings2.Namespace=`Lucide`;
 Settings2.Tag=`lucide-settings-2`;
-_.Settings2=Settings2;
+__as1(_, 'Settings2', Settings2);
 if(!window.customElements.get('lucide-settings-2')){window.customElements.define('lucide-settings-2', Settings2);Aventus.WebComponentInstance.registerDefinition(Settings2);}
 
 const Shapes = class Shapes extends AbstractIcon {
@@ -41277,7 +41277,7 @@ const Shapes = class Shapes extends AbstractIcon {
 }
 Shapes.Namespace=`Lucide`;
 Shapes.Tag=`lucide-shapes`;
-_.Shapes=Shapes;
+__as1(_, 'Shapes', Shapes);
 if(!window.customElements.get('lucide-shapes')){window.customElements.define('lucide-shapes', Shapes);Aventus.WebComponentInstance.registerDefinition(Shapes);}
 
 const Share = class Share extends AbstractIcon {
@@ -41301,7 +41301,7 @@ const Share = class Share extends AbstractIcon {
 }
 Share.Namespace=`Lucide`;
 Share.Tag=`lucide-share`;
-_.Share=Share;
+__as1(_, 'Share', Share);
 if(!window.customElements.get('lucide-share')){window.customElements.define('lucide-share', Share);Aventus.WebComponentInstance.registerDefinition(Share);}
 
 const Share2 = class Share2 extends AbstractIcon {
@@ -41325,7 +41325,7 @@ const Share2 = class Share2 extends AbstractIcon {
 }
 Share2.Namespace=`Lucide`;
 Share2.Tag=`lucide-share-2`;
-_.Share2=Share2;
+__as1(_, 'Share2', Share2);
 if(!window.customElements.get('lucide-share-2')){window.customElements.define('lucide-share-2', Share2);Aventus.WebComponentInstance.registerDefinition(Share2);}
 
 const Sheet = class Sheet extends AbstractIcon {
@@ -41349,7 +41349,7 @@ const Sheet = class Sheet extends AbstractIcon {
 }
 Sheet.Namespace=`Lucide`;
 Sheet.Tag=`lucide-sheet`;
-_.Sheet=Sheet;
+__as1(_, 'Sheet', Sheet);
 if(!window.customElements.get('lucide-sheet')){window.customElements.define('lucide-sheet', Sheet);Aventus.WebComponentInstance.registerDefinition(Sheet);}
 
 const Shell = class Shell extends AbstractIcon {
@@ -41373,7 +41373,7 @@ const Shell = class Shell extends AbstractIcon {
 }
 Shell.Namespace=`Lucide`;
 Shell.Tag=`lucide-shell`;
-_.Shell=Shell;
+__as1(_, 'Shell', Shell);
 if(!window.customElements.get('lucide-shell')){window.customElements.define('lucide-shell', Shell);Aventus.WebComponentInstance.registerDefinition(Shell);}
 
 const Shield = class Shield extends AbstractIcon {
@@ -41397,7 +41397,7 @@ const Shield = class Shield extends AbstractIcon {
 }
 Shield.Namespace=`Lucide`;
 Shield.Tag=`lucide-shield`;
-_.Shield=Shield;
+__as1(_, 'Shield', Shield);
 if(!window.customElements.get('lucide-shield')){window.customElements.define('lucide-shield', Shield);Aventus.WebComponentInstance.registerDefinition(Shield);}
 
 const ShieldAlert = class ShieldAlert extends AbstractIcon {
@@ -41421,7 +41421,7 @@ const ShieldAlert = class ShieldAlert extends AbstractIcon {
 }
 ShieldAlert.Namespace=`Lucide`;
 ShieldAlert.Tag=`lucide-shield-alert`;
-_.ShieldAlert=ShieldAlert;
+__as1(_, 'ShieldAlert', ShieldAlert);
 if(!window.customElements.get('lucide-shield-alert')){window.customElements.define('lucide-shield-alert', ShieldAlert);Aventus.WebComponentInstance.registerDefinition(ShieldAlert);}
 
 const ShieldBan = class ShieldBan extends AbstractIcon {
@@ -41445,7 +41445,7 @@ const ShieldBan = class ShieldBan extends AbstractIcon {
 }
 ShieldBan.Namespace=`Lucide`;
 ShieldBan.Tag=`lucide-shield-ban`;
-_.ShieldBan=ShieldBan;
+__as1(_, 'ShieldBan', ShieldBan);
 if(!window.customElements.get('lucide-shield-ban')){window.customElements.define('lucide-shield-ban', ShieldBan);Aventus.WebComponentInstance.registerDefinition(ShieldBan);}
 
 const ShieldCheck = class ShieldCheck extends AbstractIcon {
@@ -41469,7 +41469,7 @@ const ShieldCheck = class ShieldCheck extends AbstractIcon {
 }
 ShieldCheck.Namespace=`Lucide`;
 ShieldCheck.Tag=`lucide-shield-check`;
-_.ShieldCheck=ShieldCheck;
+__as1(_, 'ShieldCheck', ShieldCheck);
 if(!window.customElements.get('lucide-shield-check')){window.customElements.define('lucide-shield-check', ShieldCheck);Aventus.WebComponentInstance.registerDefinition(ShieldCheck);}
 
 const ShieldClose = class ShieldClose extends AbstractIcon {
@@ -41493,7 +41493,7 @@ const ShieldClose = class ShieldClose extends AbstractIcon {
 }
 ShieldClose.Namespace=`Lucide`;
 ShieldClose.Tag=`lucide-shield-close`;
-_.ShieldClose=ShieldClose;
+__as1(_, 'ShieldClose', ShieldClose);
 if(!window.customElements.get('lucide-shield-close')){window.customElements.define('lucide-shield-close', ShieldClose);Aventus.WebComponentInstance.registerDefinition(ShieldClose);}
 
 const ShieldEllipsis = class ShieldEllipsis extends AbstractIcon {
@@ -41517,7 +41517,7 @@ const ShieldEllipsis = class ShieldEllipsis extends AbstractIcon {
 }
 ShieldEllipsis.Namespace=`Lucide`;
 ShieldEllipsis.Tag=`lucide-shield-ellipsis`;
-_.ShieldEllipsis=ShieldEllipsis;
+__as1(_, 'ShieldEllipsis', ShieldEllipsis);
 if(!window.customElements.get('lucide-shield-ellipsis')){window.customElements.define('lucide-shield-ellipsis', ShieldEllipsis);Aventus.WebComponentInstance.registerDefinition(ShieldEllipsis);}
 
 const ShieldHalf = class ShieldHalf extends AbstractIcon {
@@ -41541,7 +41541,7 @@ const ShieldHalf = class ShieldHalf extends AbstractIcon {
 }
 ShieldHalf.Namespace=`Lucide`;
 ShieldHalf.Tag=`lucide-shield-half`;
-_.ShieldHalf=ShieldHalf;
+__as1(_, 'ShieldHalf', ShieldHalf);
 if(!window.customElements.get('lucide-shield-half')){window.customElements.define('lucide-shield-half', ShieldHalf);Aventus.WebComponentInstance.registerDefinition(ShieldHalf);}
 
 const ShieldMinus = class ShieldMinus extends AbstractIcon {
@@ -41565,7 +41565,7 @@ const ShieldMinus = class ShieldMinus extends AbstractIcon {
 }
 ShieldMinus.Namespace=`Lucide`;
 ShieldMinus.Tag=`lucide-shield-minus`;
-_.ShieldMinus=ShieldMinus;
+__as1(_, 'ShieldMinus', ShieldMinus);
 if(!window.customElements.get('lucide-shield-minus')){window.customElements.define('lucide-shield-minus', ShieldMinus);Aventus.WebComponentInstance.registerDefinition(ShieldMinus);}
 
 const ShieldOff = class ShieldOff extends AbstractIcon {
@@ -41589,7 +41589,7 @@ const ShieldOff = class ShieldOff extends AbstractIcon {
 }
 ShieldOff.Namespace=`Lucide`;
 ShieldOff.Tag=`lucide-shield-off`;
-_.ShieldOff=ShieldOff;
+__as1(_, 'ShieldOff', ShieldOff);
 if(!window.customElements.get('lucide-shield-off')){window.customElements.define('lucide-shield-off', ShieldOff);Aventus.WebComponentInstance.registerDefinition(ShieldOff);}
 
 const ShieldPlus = class ShieldPlus extends AbstractIcon {
@@ -41613,7 +41613,7 @@ const ShieldPlus = class ShieldPlus extends AbstractIcon {
 }
 ShieldPlus.Namespace=`Lucide`;
 ShieldPlus.Tag=`lucide-shield-plus`;
-_.ShieldPlus=ShieldPlus;
+__as1(_, 'ShieldPlus', ShieldPlus);
 if(!window.customElements.get('lucide-shield-plus')){window.customElements.define('lucide-shield-plus', ShieldPlus);Aventus.WebComponentInstance.registerDefinition(ShieldPlus);}
 
 const ShieldQuestion = class ShieldQuestion extends AbstractIcon {
@@ -41637,7 +41637,7 @@ const ShieldQuestion = class ShieldQuestion extends AbstractIcon {
 }
 ShieldQuestion.Namespace=`Lucide`;
 ShieldQuestion.Tag=`lucide-shield-question`;
-_.ShieldQuestion=ShieldQuestion;
+__as1(_, 'ShieldQuestion', ShieldQuestion);
 if(!window.customElements.get('lucide-shield-question')){window.customElements.define('lucide-shield-question', ShieldQuestion);Aventus.WebComponentInstance.registerDefinition(ShieldQuestion);}
 
 const ShieldQuestionMark = class ShieldQuestionMark extends AbstractIcon {
@@ -41661,7 +41661,7 @@ const ShieldQuestionMark = class ShieldQuestionMark extends AbstractIcon {
 }
 ShieldQuestionMark.Namespace=`Lucide`;
 ShieldQuestionMark.Tag=`lucide-shield-question-mark`;
-_.ShieldQuestionMark=ShieldQuestionMark;
+__as1(_, 'ShieldQuestionMark', ShieldQuestionMark);
 if(!window.customElements.get('lucide-shield-question-mark')){window.customElements.define('lucide-shield-question-mark', ShieldQuestionMark);Aventus.WebComponentInstance.registerDefinition(ShieldQuestionMark);}
 
 const ShieldUser = class ShieldUser extends AbstractIcon {
@@ -41685,7 +41685,7 @@ const ShieldUser = class ShieldUser extends AbstractIcon {
 }
 ShieldUser.Namespace=`Lucide`;
 ShieldUser.Tag=`lucide-shield-user`;
-_.ShieldUser=ShieldUser;
+__as1(_, 'ShieldUser', ShieldUser);
 if(!window.customElements.get('lucide-shield-user')){window.customElements.define('lucide-shield-user', ShieldUser);Aventus.WebComponentInstance.registerDefinition(ShieldUser);}
 
 const ShieldX = class ShieldX extends AbstractIcon {
@@ -41709,7 +41709,7 @@ const ShieldX = class ShieldX extends AbstractIcon {
 }
 ShieldX.Namespace=`Lucide`;
 ShieldX.Tag=`lucide-shield-x`;
-_.ShieldX=ShieldX;
+__as1(_, 'ShieldX', ShieldX);
 if(!window.customElements.get('lucide-shield-x')){window.customElements.define('lucide-shield-x', ShieldX);Aventus.WebComponentInstance.registerDefinition(ShieldX);}
 
 const Ship = class Ship extends AbstractIcon {
@@ -41733,7 +41733,7 @@ const Ship = class Ship extends AbstractIcon {
 }
 Ship.Namespace=`Lucide`;
 Ship.Tag=`lucide-ship`;
-_.Ship=Ship;
+__as1(_, 'Ship', Ship);
 if(!window.customElements.get('lucide-ship')){window.customElements.define('lucide-ship', Ship);Aventus.WebComponentInstance.registerDefinition(Ship);}
 
 const ShipWheel = class ShipWheel extends AbstractIcon {
@@ -41757,7 +41757,7 @@ const ShipWheel = class ShipWheel extends AbstractIcon {
 }
 ShipWheel.Namespace=`Lucide`;
 ShipWheel.Tag=`lucide-ship-wheel`;
-_.ShipWheel=ShipWheel;
+__as1(_, 'ShipWheel', ShipWheel);
 if(!window.customElements.get('lucide-ship-wheel')){window.customElements.define('lucide-ship-wheel', ShipWheel);Aventus.WebComponentInstance.registerDefinition(ShipWheel);}
 
 const Shirt = class Shirt extends AbstractIcon {
@@ -41781,7 +41781,7 @@ const Shirt = class Shirt extends AbstractIcon {
 }
 Shirt.Namespace=`Lucide`;
 Shirt.Tag=`lucide-shirt`;
-_.Shirt=Shirt;
+__as1(_, 'Shirt', Shirt);
 if(!window.customElements.get('lucide-shirt')){window.customElements.define('lucide-shirt', Shirt);Aventus.WebComponentInstance.registerDefinition(Shirt);}
 
 const ShoppingBag = class ShoppingBag extends AbstractIcon {
@@ -41805,7 +41805,7 @@ const ShoppingBag = class ShoppingBag extends AbstractIcon {
 }
 ShoppingBag.Namespace=`Lucide`;
 ShoppingBag.Tag=`lucide-shopping-bag`;
-_.ShoppingBag=ShoppingBag;
+__as1(_, 'ShoppingBag', ShoppingBag);
 if(!window.customElements.get('lucide-shopping-bag')){window.customElements.define('lucide-shopping-bag', ShoppingBag);Aventus.WebComponentInstance.registerDefinition(ShoppingBag);}
 
 const ShoppingBasket = class ShoppingBasket extends AbstractIcon {
@@ -41829,7 +41829,7 @@ const ShoppingBasket = class ShoppingBasket extends AbstractIcon {
 }
 ShoppingBasket.Namespace=`Lucide`;
 ShoppingBasket.Tag=`lucide-shopping-basket`;
-_.ShoppingBasket=ShoppingBasket;
+__as1(_, 'ShoppingBasket', ShoppingBasket);
 if(!window.customElements.get('lucide-shopping-basket')){window.customElements.define('lucide-shopping-basket', ShoppingBasket);Aventus.WebComponentInstance.registerDefinition(ShoppingBasket);}
 
 const ShoppingCart = class ShoppingCart extends AbstractIcon {
@@ -41853,7 +41853,7 @@ const ShoppingCart = class ShoppingCart extends AbstractIcon {
 }
 ShoppingCart.Namespace=`Lucide`;
 ShoppingCart.Tag=`lucide-shopping-cart`;
-_.ShoppingCart=ShoppingCart;
+__as1(_, 'ShoppingCart', ShoppingCart);
 if(!window.customElements.get('lucide-shopping-cart')){window.customElements.define('lucide-shopping-cart', ShoppingCart);Aventus.WebComponentInstance.registerDefinition(ShoppingCart);}
 
 const Shovel = class Shovel extends AbstractIcon {
@@ -41877,7 +41877,7 @@ const Shovel = class Shovel extends AbstractIcon {
 }
 Shovel.Namespace=`Lucide`;
 Shovel.Tag=`lucide-shovel`;
-_.Shovel=Shovel;
+__as1(_, 'Shovel', Shovel);
 if(!window.customElements.get('lucide-shovel')){window.customElements.define('lucide-shovel', Shovel);Aventus.WebComponentInstance.registerDefinition(Shovel);}
 
 const ShowerHead = class ShowerHead extends AbstractIcon {
@@ -41901,7 +41901,7 @@ const ShowerHead = class ShowerHead extends AbstractIcon {
 }
 ShowerHead.Namespace=`Lucide`;
 ShowerHead.Tag=`lucide-shower-head`;
-_.ShowerHead=ShowerHead;
+__as1(_, 'ShowerHead', ShowerHead);
 if(!window.customElements.get('lucide-shower-head')){window.customElements.define('lucide-shower-head', ShowerHead);Aventus.WebComponentInstance.registerDefinition(ShowerHead);}
 
 const Shredder = class Shredder extends AbstractIcon {
@@ -41925,7 +41925,7 @@ const Shredder = class Shredder extends AbstractIcon {
 }
 Shredder.Namespace=`Lucide`;
 Shredder.Tag=`lucide-shredder`;
-_.Shredder=Shredder;
+__as1(_, 'Shredder', Shredder);
 if(!window.customElements.get('lucide-shredder')){window.customElements.define('lucide-shredder', Shredder);Aventus.WebComponentInstance.registerDefinition(Shredder);}
 
 const Shrimp = class Shrimp extends AbstractIcon {
@@ -41949,7 +41949,7 @@ const Shrimp = class Shrimp extends AbstractIcon {
 }
 Shrimp.Namespace=`Lucide`;
 Shrimp.Tag=`lucide-shrimp`;
-_.Shrimp=Shrimp;
+__as1(_, 'Shrimp', Shrimp);
 if(!window.customElements.get('lucide-shrimp')){window.customElements.define('lucide-shrimp', Shrimp);Aventus.WebComponentInstance.registerDefinition(Shrimp);}
 
 const Shrink = class Shrink extends AbstractIcon {
@@ -41973,7 +41973,7 @@ const Shrink = class Shrink extends AbstractIcon {
 }
 Shrink.Namespace=`Lucide`;
 Shrink.Tag=`lucide-shrink`;
-_.Shrink=Shrink;
+__as1(_, 'Shrink', Shrink);
 if(!window.customElements.get('lucide-shrink')){window.customElements.define('lucide-shrink', Shrink);Aventus.WebComponentInstance.registerDefinition(Shrink);}
 
 const Shrub = class Shrub extends AbstractIcon {
@@ -41997,7 +41997,7 @@ const Shrub = class Shrub extends AbstractIcon {
 }
 Shrub.Namespace=`Lucide`;
 Shrub.Tag=`lucide-shrub`;
-_.Shrub=Shrub;
+__as1(_, 'Shrub', Shrub);
 if(!window.customElements.get('lucide-shrub')){window.customElements.define('lucide-shrub', Shrub);Aventus.WebComponentInstance.registerDefinition(Shrub);}
 
 const Shuffle = class Shuffle extends AbstractIcon {
@@ -42021,7 +42021,7 @@ const Shuffle = class Shuffle extends AbstractIcon {
 }
 Shuffle.Namespace=`Lucide`;
 Shuffle.Tag=`lucide-shuffle`;
-_.Shuffle=Shuffle;
+__as1(_, 'Shuffle', Shuffle);
 if(!window.customElements.get('lucide-shuffle')){window.customElements.define('lucide-shuffle', Shuffle);Aventus.WebComponentInstance.registerDefinition(Shuffle);}
 
 const Sidebar = class Sidebar extends AbstractIcon {
@@ -42045,7 +42045,7 @@ const Sidebar = class Sidebar extends AbstractIcon {
 }
 Sidebar.Namespace=`Lucide`;
 Sidebar.Tag=`lucide-sidebar`;
-_.Sidebar=Sidebar;
+__as1(_, 'Sidebar', Sidebar);
 if(!window.customElements.get('lucide-sidebar')){window.customElements.define('lucide-sidebar', Sidebar);Aventus.WebComponentInstance.registerDefinition(Sidebar);}
 
 const SidebarClose = class SidebarClose extends AbstractIcon {
@@ -42069,7 +42069,7 @@ const SidebarClose = class SidebarClose extends AbstractIcon {
 }
 SidebarClose.Namespace=`Lucide`;
 SidebarClose.Tag=`lucide-sidebar-close`;
-_.SidebarClose=SidebarClose;
+__as1(_, 'SidebarClose', SidebarClose);
 if(!window.customElements.get('lucide-sidebar-close')){window.customElements.define('lucide-sidebar-close', SidebarClose);Aventus.WebComponentInstance.registerDefinition(SidebarClose);}
 
 const SidebarOpen = class SidebarOpen extends AbstractIcon {
@@ -42093,7 +42093,7 @@ const SidebarOpen = class SidebarOpen extends AbstractIcon {
 }
 SidebarOpen.Namespace=`Lucide`;
 SidebarOpen.Tag=`lucide-sidebar-open`;
-_.SidebarOpen=SidebarOpen;
+__as1(_, 'SidebarOpen', SidebarOpen);
 if(!window.customElements.get('lucide-sidebar-open')){window.customElements.define('lucide-sidebar-open', SidebarOpen);Aventus.WebComponentInstance.registerDefinition(SidebarOpen);}
 
 const Sigma = class Sigma extends AbstractIcon {
@@ -42117,7 +42117,7 @@ const Sigma = class Sigma extends AbstractIcon {
 }
 Sigma.Namespace=`Lucide`;
 Sigma.Tag=`lucide-sigma`;
-_.Sigma=Sigma;
+__as1(_, 'Sigma', Sigma);
 if(!window.customElements.get('lucide-sigma')){window.customElements.define('lucide-sigma', Sigma);Aventus.WebComponentInstance.registerDefinition(Sigma);}
 
 const SigmaSquare = class SigmaSquare extends AbstractIcon {
@@ -42141,7 +42141,7 @@ const SigmaSquare = class SigmaSquare extends AbstractIcon {
 }
 SigmaSquare.Namespace=`Lucide`;
 SigmaSquare.Tag=`lucide-sigma-square`;
-_.SigmaSquare=SigmaSquare;
+__as1(_, 'SigmaSquare', SigmaSquare);
 if(!window.customElements.get('lucide-sigma-square')){window.customElements.define('lucide-sigma-square', SigmaSquare);Aventus.WebComponentInstance.registerDefinition(SigmaSquare);}
 
 const Signal = class Signal extends AbstractIcon {
@@ -42165,7 +42165,7 @@ const Signal = class Signal extends AbstractIcon {
 }
 Signal.Namespace=`Lucide`;
 Signal.Tag=`lucide-signal`;
-_.Signal=Signal;
+__as1(_, 'Signal', Signal);
 if(!window.customElements.get('lucide-signal')){window.customElements.define('lucide-signal', Signal);Aventus.WebComponentInstance.registerDefinition(Signal);}
 
 const SignalHigh = class SignalHigh extends AbstractIcon {
@@ -42189,7 +42189,7 @@ const SignalHigh = class SignalHigh extends AbstractIcon {
 }
 SignalHigh.Namespace=`Lucide`;
 SignalHigh.Tag=`lucide-signal-high`;
-_.SignalHigh=SignalHigh;
+__as1(_, 'SignalHigh', SignalHigh);
 if(!window.customElements.get('lucide-signal-high')){window.customElements.define('lucide-signal-high', SignalHigh);Aventus.WebComponentInstance.registerDefinition(SignalHigh);}
 
 const SignalLow = class SignalLow extends AbstractIcon {
@@ -42213,7 +42213,7 @@ const SignalLow = class SignalLow extends AbstractIcon {
 }
 SignalLow.Namespace=`Lucide`;
 SignalLow.Tag=`lucide-signal-low`;
-_.SignalLow=SignalLow;
+__as1(_, 'SignalLow', SignalLow);
 if(!window.customElements.get('lucide-signal-low')){window.customElements.define('lucide-signal-low', SignalLow);Aventus.WebComponentInstance.registerDefinition(SignalLow);}
 
 const SignalMedium = class SignalMedium extends AbstractIcon {
@@ -42237,7 +42237,7 @@ const SignalMedium = class SignalMedium extends AbstractIcon {
 }
 SignalMedium.Namespace=`Lucide`;
 SignalMedium.Tag=`lucide-signal-medium`;
-_.SignalMedium=SignalMedium;
+__as1(_, 'SignalMedium', SignalMedium);
 if(!window.customElements.get('lucide-signal-medium')){window.customElements.define('lucide-signal-medium', SignalMedium);Aventus.WebComponentInstance.registerDefinition(SignalMedium);}
 
 const SignalZero = class SignalZero extends AbstractIcon {
@@ -42261,7 +42261,7 @@ const SignalZero = class SignalZero extends AbstractIcon {
 }
 SignalZero.Namespace=`Lucide`;
 SignalZero.Tag=`lucide-signal-zero`;
-_.SignalZero=SignalZero;
+__as1(_, 'SignalZero', SignalZero);
 if(!window.customElements.get('lucide-signal-zero')){window.customElements.define('lucide-signal-zero', SignalZero);Aventus.WebComponentInstance.registerDefinition(SignalZero);}
 
 const Signature = class Signature extends AbstractIcon {
@@ -42285,7 +42285,7 @@ const Signature = class Signature extends AbstractIcon {
 }
 Signature.Namespace=`Lucide`;
 Signature.Tag=`lucide-signature`;
-_.Signature=Signature;
+__as1(_, 'Signature', Signature);
 if(!window.customElements.get('lucide-signature')){window.customElements.define('lucide-signature', Signature);Aventus.WebComponentInstance.registerDefinition(Signature);}
 
 const Signpost = class Signpost extends AbstractIcon {
@@ -42309,7 +42309,7 @@ const Signpost = class Signpost extends AbstractIcon {
 }
 Signpost.Namespace=`Lucide`;
 Signpost.Tag=`lucide-signpost`;
-_.Signpost=Signpost;
+__as1(_, 'Signpost', Signpost);
 if(!window.customElements.get('lucide-signpost')){window.customElements.define('lucide-signpost', Signpost);Aventus.WebComponentInstance.registerDefinition(Signpost);}
 
 const SignpostBig = class SignpostBig extends AbstractIcon {
@@ -42333,7 +42333,7 @@ const SignpostBig = class SignpostBig extends AbstractIcon {
 }
 SignpostBig.Namespace=`Lucide`;
 SignpostBig.Tag=`lucide-signpost-big`;
-_.SignpostBig=SignpostBig;
+__as1(_, 'SignpostBig', SignpostBig);
 if(!window.customElements.get('lucide-signpost-big')){window.customElements.define('lucide-signpost-big', SignpostBig);Aventus.WebComponentInstance.registerDefinition(SignpostBig);}
 
 const Siren = class Siren extends AbstractIcon {
@@ -42357,7 +42357,7 @@ const Siren = class Siren extends AbstractIcon {
 }
 Siren.Namespace=`Lucide`;
 Siren.Tag=`lucide-siren`;
-_.Siren=Siren;
+__as1(_, 'Siren', Siren);
 if(!window.customElements.get('lucide-siren')){window.customElements.define('lucide-siren', Siren);Aventus.WebComponentInstance.registerDefinition(Siren);}
 
 const SkipBack = class SkipBack extends AbstractIcon {
@@ -42381,7 +42381,7 @@ const SkipBack = class SkipBack extends AbstractIcon {
 }
 SkipBack.Namespace=`Lucide`;
 SkipBack.Tag=`lucide-skip-back`;
-_.SkipBack=SkipBack;
+__as1(_, 'SkipBack', SkipBack);
 if(!window.customElements.get('lucide-skip-back')){window.customElements.define('lucide-skip-back', SkipBack);Aventus.WebComponentInstance.registerDefinition(SkipBack);}
 
 const SkipForward = class SkipForward extends AbstractIcon {
@@ -42405,7 +42405,7 @@ const SkipForward = class SkipForward extends AbstractIcon {
 }
 SkipForward.Namespace=`Lucide`;
 SkipForward.Tag=`lucide-skip-forward`;
-_.SkipForward=SkipForward;
+__as1(_, 'SkipForward', SkipForward);
 if(!window.customElements.get('lucide-skip-forward')){window.customElements.define('lucide-skip-forward', SkipForward);Aventus.WebComponentInstance.registerDefinition(SkipForward);}
 
 const Skull = class Skull extends AbstractIcon {
@@ -42429,7 +42429,7 @@ const Skull = class Skull extends AbstractIcon {
 }
 Skull.Namespace=`Lucide`;
 Skull.Tag=`lucide-skull`;
-_.Skull=Skull;
+__as1(_, 'Skull', Skull);
 if(!window.customElements.get('lucide-skull')){window.customElements.define('lucide-skull', Skull);Aventus.WebComponentInstance.registerDefinition(Skull);}
 
 const Slack = class Slack extends AbstractIcon {
@@ -42453,7 +42453,7 @@ const Slack = class Slack extends AbstractIcon {
 }
 Slack.Namespace=`Lucide`;
 Slack.Tag=`lucide-slack`;
-_.Slack=Slack;
+__as1(_, 'Slack', Slack);
 if(!window.customElements.get('lucide-slack')){window.customElements.define('lucide-slack', Slack);Aventus.WebComponentInstance.registerDefinition(Slack);}
 
 const Slash = class Slash extends AbstractIcon {
@@ -42477,7 +42477,7 @@ const Slash = class Slash extends AbstractIcon {
 }
 Slash.Namespace=`Lucide`;
 Slash.Tag=`lucide-slash`;
-_.Slash=Slash;
+__as1(_, 'Slash', Slash);
 if(!window.customElements.get('lucide-slash')){window.customElements.define('lucide-slash', Slash);Aventus.WebComponentInstance.registerDefinition(Slash);}
 
 const SlashSquare = class SlashSquare extends AbstractIcon {
@@ -42501,7 +42501,7 @@ const SlashSquare = class SlashSquare extends AbstractIcon {
 }
 SlashSquare.Namespace=`Lucide`;
 SlashSquare.Tag=`lucide-slash-square`;
-_.SlashSquare=SlashSquare;
+__as1(_, 'SlashSquare', SlashSquare);
 if(!window.customElements.get('lucide-slash-square')){window.customElements.define('lucide-slash-square', SlashSquare);Aventus.WebComponentInstance.registerDefinition(SlashSquare);}
 
 const Slice = class Slice extends AbstractIcon {
@@ -42525,7 +42525,7 @@ const Slice = class Slice extends AbstractIcon {
 }
 Slice.Namespace=`Lucide`;
 Slice.Tag=`lucide-slice`;
-_.Slice=Slice;
+__as1(_, 'Slice', Slice);
 if(!window.customElements.get('lucide-slice')){window.customElements.define('lucide-slice', Slice);Aventus.WebComponentInstance.registerDefinition(Slice);}
 
 const Sliders = class Sliders extends AbstractIcon {
@@ -42549,7 +42549,7 @@ const Sliders = class Sliders extends AbstractIcon {
 }
 Sliders.Namespace=`Lucide`;
 Sliders.Tag=`lucide-sliders`;
-_.Sliders=Sliders;
+__as1(_, 'Sliders', Sliders);
 if(!window.customElements.get('lucide-sliders')){window.customElements.define('lucide-sliders', Sliders);Aventus.WebComponentInstance.registerDefinition(Sliders);}
 
 const SlidersHorizontal = class SlidersHorizontal extends AbstractIcon {
@@ -42573,7 +42573,7 @@ const SlidersHorizontal = class SlidersHorizontal extends AbstractIcon {
 }
 SlidersHorizontal.Namespace=`Lucide`;
 SlidersHorizontal.Tag=`lucide-sliders-horizontal`;
-_.SlidersHorizontal=SlidersHorizontal;
+__as1(_, 'SlidersHorizontal', SlidersHorizontal);
 if(!window.customElements.get('lucide-sliders-horizontal')){window.customElements.define('lucide-sliders-horizontal', SlidersHorizontal);Aventus.WebComponentInstance.registerDefinition(SlidersHorizontal);}
 
 const SlidersVertical = class SlidersVertical extends AbstractIcon {
@@ -42597,7 +42597,7 @@ const SlidersVertical = class SlidersVertical extends AbstractIcon {
 }
 SlidersVertical.Namespace=`Lucide`;
 SlidersVertical.Tag=`lucide-sliders-vertical`;
-_.SlidersVertical=SlidersVertical;
+__as1(_, 'SlidersVertical', SlidersVertical);
 if(!window.customElements.get('lucide-sliders-vertical')){window.customElements.define('lucide-sliders-vertical', SlidersVertical);Aventus.WebComponentInstance.registerDefinition(SlidersVertical);}
 
 const Smartphone = class Smartphone extends AbstractIcon {
@@ -42621,7 +42621,7 @@ const Smartphone = class Smartphone extends AbstractIcon {
 }
 Smartphone.Namespace=`Lucide`;
 Smartphone.Tag=`lucide-smartphone`;
-_.Smartphone=Smartphone;
+__as1(_, 'Smartphone', Smartphone);
 if(!window.customElements.get('lucide-smartphone')){window.customElements.define('lucide-smartphone', Smartphone);Aventus.WebComponentInstance.registerDefinition(Smartphone);}
 
 const SmartphoneCharging = class SmartphoneCharging extends AbstractIcon {
@@ -42645,7 +42645,7 @@ const SmartphoneCharging = class SmartphoneCharging extends AbstractIcon {
 }
 SmartphoneCharging.Namespace=`Lucide`;
 SmartphoneCharging.Tag=`lucide-smartphone-charging`;
-_.SmartphoneCharging=SmartphoneCharging;
+__as1(_, 'SmartphoneCharging', SmartphoneCharging);
 if(!window.customElements.get('lucide-smartphone-charging')){window.customElements.define('lucide-smartphone-charging', SmartphoneCharging);Aventus.WebComponentInstance.registerDefinition(SmartphoneCharging);}
 
 const SmartphoneNfc = class SmartphoneNfc extends AbstractIcon {
@@ -42669,7 +42669,7 @@ const SmartphoneNfc = class SmartphoneNfc extends AbstractIcon {
 }
 SmartphoneNfc.Namespace=`Lucide`;
 SmartphoneNfc.Tag=`lucide-smartphone-nfc`;
-_.SmartphoneNfc=SmartphoneNfc;
+__as1(_, 'SmartphoneNfc', SmartphoneNfc);
 if(!window.customElements.get('lucide-smartphone-nfc')){window.customElements.define('lucide-smartphone-nfc', SmartphoneNfc);Aventus.WebComponentInstance.registerDefinition(SmartphoneNfc);}
 
 const Smile = class Smile extends AbstractIcon {
@@ -42693,7 +42693,7 @@ const Smile = class Smile extends AbstractIcon {
 }
 Smile.Namespace=`Lucide`;
 Smile.Tag=`lucide-smile`;
-_.Smile=Smile;
+__as1(_, 'Smile', Smile);
 if(!window.customElements.get('lucide-smile')){window.customElements.define('lucide-smile', Smile);Aventus.WebComponentInstance.registerDefinition(Smile);}
 
 const SmilePlus = class SmilePlus extends AbstractIcon {
@@ -42717,7 +42717,7 @@ const SmilePlus = class SmilePlus extends AbstractIcon {
 }
 SmilePlus.Namespace=`Lucide`;
 SmilePlus.Tag=`lucide-smile-plus`;
-_.SmilePlus=SmilePlus;
+__as1(_, 'SmilePlus', SmilePlus);
 if(!window.customElements.get('lucide-smile-plus')){window.customElements.define('lucide-smile-plus', SmilePlus);Aventus.WebComponentInstance.registerDefinition(SmilePlus);}
 
 const Snail = class Snail extends AbstractIcon {
@@ -42741,7 +42741,7 @@ const Snail = class Snail extends AbstractIcon {
 }
 Snail.Namespace=`Lucide`;
 Snail.Tag=`lucide-snail`;
-_.Snail=Snail;
+__as1(_, 'Snail', Snail);
 if(!window.customElements.get('lucide-snail')){window.customElements.define('lucide-snail', Snail);Aventus.WebComponentInstance.registerDefinition(Snail);}
 
 const Snowflake = class Snowflake extends AbstractIcon {
@@ -42765,7 +42765,7 @@ const Snowflake = class Snowflake extends AbstractIcon {
 }
 Snowflake.Namespace=`Lucide`;
 Snowflake.Tag=`lucide-snowflake`;
-_.Snowflake=Snowflake;
+__as1(_, 'Snowflake', Snowflake);
 if(!window.customElements.get('lucide-snowflake')){window.customElements.define('lucide-snowflake', Snowflake);Aventus.WebComponentInstance.registerDefinition(Snowflake);}
 
 const SoapDispenserDroplet = class SoapDispenserDroplet extends AbstractIcon {
@@ -42789,7 +42789,7 @@ const SoapDispenserDroplet = class SoapDispenserDroplet extends AbstractIcon {
 }
 SoapDispenserDroplet.Namespace=`Lucide`;
 SoapDispenserDroplet.Tag=`lucide-soap-dispenser-droplet`;
-_.SoapDispenserDroplet=SoapDispenserDroplet;
+__as1(_, 'SoapDispenserDroplet', SoapDispenserDroplet);
 if(!window.customElements.get('lucide-soap-dispenser-droplet')){window.customElements.define('lucide-soap-dispenser-droplet', SoapDispenserDroplet);Aventus.WebComponentInstance.registerDefinition(SoapDispenserDroplet);}
 
 const Sofa = class Sofa extends AbstractIcon {
@@ -42813,7 +42813,7 @@ const Sofa = class Sofa extends AbstractIcon {
 }
 Sofa.Namespace=`Lucide`;
 Sofa.Tag=`lucide-sofa`;
-_.Sofa=Sofa;
+__as1(_, 'Sofa', Sofa);
 if(!window.customElements.get('lucide-sofa')){window.customElements.define('lucide-sofa', Sofa);Aventus.WebComponentInstance.registerDefinition(Sofa);}
 
 const SortAsc = class SortAsc extends AbstractIcon {
@@ -42837,7 +42837,7 @@ const SortAsc = class SortAsc extends AbstractIcon {
 }
 SortAsc.Namespace=`Lucide`;
 SortAsc.Tag=`lucide-sort-asc`;
-_.SortAsc=SortAsc;
+__as1(_, 'SortAsc', SortAsc);
 if(!window.customElements.get('lucide-sort-asc')){window.customElements.define('lucide-sort-asc', SortAsc);Aventus.WebComponentInstance.registerDefinition(SortAsc);}
 
 const SortDesc = class SortDesc extends AbstractIcon {
@@ -42861,7 +42861,7 @@ const SortDesc = class SortDesc extends AbstractIcon {
 }
 SortDesc.Namespace=`Lucide`;
 SortDesc.Tag=`lucide-sort-desc`;
-_.SortDesc=SortDesc;
+__as1(_, 'SortDesc', SortDesc);
 if(!window.customElements.get('lucide-sort-desc')){window.customElements.define('lucide-sort-desc', SortDesc);Aventus.WebComponentInstance.registerDefinition(SortDesc);}
 
 const Soup = class Soup extends AbstractIcon {
@@ -42885,7 +42885,7 @@ const Soup = class Soup extends AbstractIcon {
 }
 Soup.Namespace=`Lucide`;
 Soup.Tag=`lucide-soup`;
-_.Soup=Soup;
+__as1(_, 'Soup', Soup);
 if(!window.customElements.get('lucide-soup')){window.customElements.define('lucide-soup', Soup);Aventus.WebComponentInstance.registerDefinition(Soup);}
 
 const Space = class Space extends AbstractIcon {
@@ -42909,7 +42909,7 @@ const Space = class Space extends AbstractIcon {
 }
 Space.Namespace=`Lucide`;
 Space.Tag=`lucide-space`;
-_.Space=Space;
+__as1(_, 'Space', Space);
 if(!window.customElements.get('lucide-space')){window.customElements.define('lucide-space', Space);Aventus.WebComponentInstance.registerDefinition(Space);}
 
 const Spade = class Spade extends AbstractIcon {
@@ -42933,7 +42933,7 @@ const Spade = class Spade extends AbstractIcon {
 }
 Spade.Namespace=`Lucide`;
 Spade.Tag=`lucide-spade`;
-_.Spade=Spade;
+__as1(_, 'Spade', Spade);
 if(!window.customElements.get('lucide-spade')){window.customElements.define('lucide-spade', Spade);Aventus.WebComponentInstance.registerDefinition(Spade);}
 
 const Sparkle = class Sparkle extends AbstractIcon {
@@ -42957,7 +42957,7 @@ const Sparkle = class Sparkle extends AbstractIcon {
 }
 Sparkle.Namespace=`Lucide`;
 Sparkle.Tag=`lucide-sparkle`;
-_.Sparkle=Sparkle;
+__as1(_, 'Sparkle', Sparkle);
 if(!window.customElements.get('lucide-sparkle')){window.customElements.define('lucide-sparkle', Sparkle);Aventus.WebComponentInstance.registerDefinition(Sparkle);}
 
 const Sparkles = class Sparkles extends AbstractIcon {
@@ -42981,7 +42981,7 @@ const Sparkles = class Sparkles extends AbstractIcon {
 }
 Sparkles.Namespace=`Lucide`;
 Sparkles.Tag=`lucide-sparkles`;
-_.Sparkles=Sparkles;
+__as1(_, 'Sparkles', Sparkles);
 if(!window.customElements.get('lucide-sparkles')){window.customElements.define('lucide-sparkles', Sparkles);Aventus.WebComponentInstance.registerDefinition(Sparkles);}
 
 const Speaker = class Speaker extends AbstractIcon {
@@ -43005,7 +43005,7 @@ const Speaker = class Speaker extends AbstractIcon {
 }
 Speaker.Namespace=`Lucide`;
 Speaker.Tag=`lucide-speaker`;
-_.Speaker=Speaker;
+__as1(_, 'Speaker', Speaker);
 if(!window.customElements.get('lucide-speaker')){window.customElements.define('lucide-speaker', Speaker);Aventus.WebComponentInstance.registerDefinition(Speaker);}
 
 const Speech = class Speech extends AbstractIcon {
@@ -43029,7 +43029,7 @@ const Speech = class Speech extends AbstractIcon {
 }
 Speech.Namespace=`Lucide`;
 Speech.Tag=`lucide-speech`;
-_.Speech=Speech;
+__as1(_, 'Speech', Speech);
 if(!window.customElements.get('lucide-speech')){window.customElements.define('lucide-speech', Speech);Aventus.WebComponentInstance.registerDefinition(Speech);}
 
 const SpellCheck = class SpellCheck extends AbstractIcon {
@@ -43053,7 +43053,7 @@ const SpellCheck = class SpellCheck extends AbstractIcon {
 }
 SpellCheck.Namespace=`Lucide`;
 SpellCheck.Tag=`lucide-spell-check`;
-_.SpellCheck=SpellCheck;
+__as1(_, 'SpellCheck', SpellCheck);
 if(!window.customElements.get('lucide-spell-check')){window.customElements.define('lucide-spell-check', SpellCheck);Aventus.WebComponentInstance.registerDefinition(SpellCheck);}
 
 const SpellCheck2 = class SpellCheck2 extends AbstractIcon {
@@ -43077,7 +43077,7 @@ const SpellCheck2 = class SpellCheck2 extends AbstractIcon {
 }
 SpellCheck2.Namespace=`Lucide`;
 SpellCheck2.Tag=`lucide-spell-check-2`;
-_.SpellCheck2=SpellCheck2;
+__as1(_, 'SpellCheck2', SpellCheck2);
 if(!window.customElements.get('lucide-spell-check-2')){window.customElements.define('lucide-spell-check-2', SpellCheck2);Aventus.WebComponentInstance.registerDefinition(SpellCheck2);}
 
 const Spline = class Spline extends AbstractIcon {
@@ -43101,7 +43101,7 @@ const Spline = class Spline extends AbstractIcon {
 }
 Spline.Namespace=`Lucide`;
 Spline.Tag=`lucide-spline`;
-_.Spline=Spline;
+__as1(_, 'Spline', Spline);
 if(!window.customElements.get('lucide-spline')){window.customElements.define('lucide-spline', Spline);Aventus.WebComponentInstance.registerDefinition(Spline);}
 
 const SplinePointer = class SplinePointer extends AbstractIcon {
@@ -43125,7 +43125,7 @@ const SplinePointer = class SplinePointer extends AbstractIcon {
 }
 SplinePointer.Namespace=`Lucide`;
 SplinePointer.Tag=`lucide-spline-pointer`;
-_.SplinePointer=SplinePointer;
+__as1(_, 'SplinePointer', SplinePointer);
 if(!window.customElements.get('lucide-spline-pointer')){window.customElements.define('lucide-spline-pointer', SplinePointer);Aventus.WebComponentInstance.registerDefinition(SplinePointer);}
 
 const Split = class Split extends AbstractIcon {
@@ -43149,7 +43149,7 @@ const Split = class Split extends AbstractIcon {
 }
 Split.Namespace=`Lucide`;
 Split.Tag=`lucide-split`;
-_.Split=Split;
+__as1(_, 'Split', Split);
 if(!window.customElements.get('lucide-split')){window.customElements.define('lucide-split', Split);Aventus.WebComponentInstance.registerDefinition(Split);}
 
 const SplitSquareHorizontal = class SplitSquareHorizontal extends AbstractIcon {
@@ -43173,7 +43173,7 @@ const SplitSquareHorizontal = class SplitSquareHorizontal extends AbstractIcon {
 }
 SplitSquareHorizontal.Namespace=`Lucide`;
 SplitSquareHorizontal.Tag=`lucide-split-square-horizontal`;
-_.SplitSquareHorizontal=SplitSquareHorizontal;
+__as1(_, 'SplitSquareHorizontal', SplitSquareHorizontal);
 if(!window.customElements.get('lucide-split-square-horizontal')){window.customElements.define('lucide-split-square-horizontal', SplitSquareHorizontal);Aventus.WebComponentInstance.registerDefinition(SplitSquareHorizontal);}
 
 const SplitSquareVertical = class SplitSquareVertical extends AbstractIcon {
@@ -43197,7 +43197,7 @@ const SplitSquareVertical = class SplitSquareVertical extends AbstractIcon {
 }
 SplitSquareVertical.Namespace=`Lucide`;
 SplitSquareVertical.Tag=`lucide-split-square-vertical`;
-_.SplitSquareVertical=SplitSquareVertical;
+__as1(_, 'SplitSquareVertical', SplitSquareVertical);
 if(!window.customElements.get('lucide-split-square-vertical')){window.customElements.define('lucide-split-square-vertical', SplitSquareVertical);Aventus.WebComponentInstance.registerDefinition(SplitSquareVertical);}
 
 const Spool = class Spool extends AbstractIcon {
@@ -43221,7 +43221,7 @@ const Spool = class Spool extends AbstractIcon {
 }
 Spool.Namespace=`Lucide`;
 Spool.Tag=`lucide-spool`;
-_.Spool=Spool;
+__as1(_, 'Spool', Spool);
 if(!window.customElements.get('lucide-spool')){window.customElements.define('lucide-spool', Spool);Aventus.WebComponentInstance.registerDefinition(Spool);}
 
 const SprayCan = class SprayCan extends AbstractIcon {
@@ -43245,7 +43245,7 @@ const SprayCan = class SprayCan extends AbstractIcon {
 }
 SprayCan.Namespace=`Lucide`;
 SprayCan.Tag=`lucide-spray-can`;
-_.SprayCan=SprayCan;
+__as1(_, 'SprayCan', SprayCan);
 if(!window.customElements.get('lucide-spray-can')){window.customElements.define('lucide-spray-can', SprayCan);Aventus.WebComponentInstance.registerDefinition(SprayCan);}
 
 const Sprout = class Sprout extends AbstractIcon {
@@ -43269,7 +43269,7 @@ const Sprout = class Sprout extends AbstractIcon {
 }
 Sprout.Namespace=`Lucide`;
 Sprout.Tag=`lucide-sprout`;
-_.Sprout=Sprout;
+__as1(_, 'Sprout', Sprout);
 if(!window.customElements.get('lucide-sprout')){window.customElements.define('lucide-sprout', Sprout);Aventus.WebComponentInstance.registerDefinition(Sprout);}
 
 const Square = class Square extends AbstractIcon {
@@ -43293,7 +43293,7 @@ const Square = class Square extends AbstractIcon {
 }
 Square.Namespace=`Lucide`;
 Square.Tag=`lucide-square`;
-_.Square=Square;
+__as1(_, 'Square', Square);
 if(!window.customElements.get('lucide-square')){window.customElements.define('lucide-square', Square);Aventus.WebComponentInstance.registerDefinition(Square);}
 
 const SquareActivity = class SquareActivity extends AbstractIcon {
@@ -43317,7 +43317,7 @@ const SquareActivity = class SquareActivity extends AbstractIcon {
 }
 SquareActivity.Namespace=`Lucide`;
 SquareActivity.Tag=`lucide-square-activity`;
-_.SquareActivity=SquareActivity;
+__as1(_, 'SquareActivity', SquareActivity);
 if(!window.customElements.get('lucide-square-activity')){window.customElements.define('lucide-square-activity', SquareActivity);Aventus.WebComponentInstance.registerDefinition(SquareActivity);}
 
 const SquareArrowDown = class SquareArrowDown extends AbstractIcon {
@@ -43341,7 +43341,7 @@ const SquareArrowDown = class SquareArrowDown extends AbstractIcon {
 }
 SquareArrowDown.Namespace=`Lucide`;
 SquareArrowDown.Tag=`lucide-square-arrow-down`;
-_.SquareArrowDown=SquareArrowDown;
+__as1(_, 'SquareArrowDown', SquareArrowDown);
 if(!window.customElements.get('lucide-square-arrow-down')){window.customElements.define('lucide-square-arrow-down', SquareArrowDown);Aventus.WebComponentInstance.registerDefinition(SquareArrowDown);}
 
 const SquareArrowDownLeft = class SquareArrowDownLeft extends AbstractIcon {
@@ -43365,7 +43365,7 @@ const SquareArrowDownLeft = class SquareArrowDownLeft extends AbstractIcon {
 }
 SquareArrowDownLeft.Namespace=`Lucide`;
 SquareArrowDownLeft.Tag=`lucide-square-arrow-down-left`;
-_.SquareArrowDownLeft=SquareArrowDownLeft;
+__as1(_, 'SquareArrowDownLeft', SquareArrowDownLeft);
 if(!window.customElements.get('lucide-square-arrow-down-left')){window.customElements.define('lucide-square-arrow-down-left', SquareArrowDownLeft);Aventus.WebComponentInstance.registerDefinition(SquareArrowDownLeft);}
 
 const SquareArrowDownRight = class SquareArrowDownRight extends AbstractIcon {
@@ -43389,7 +43389,7 @@ const SquareArrowDownRight = class SquareArrowDownRight extends AbstractIcon {
 }
 SquareArrowDownRight.Namespace=`Lucide`;
 SquareArrowDownRight.Tag=`lucide-square-arrow-down-right`;
-_.SquareArrowDownRight=SquareArrowDownRight;
+__as1(_, 'SquareArrowDownRight', SquareArrowDownRight);
 if(!window.customElements.get('lucide-square-arrow-down-right')){window.customElements.define('lucide-square-arrow-down-right', SquareArrowDownRight);Aventus.WebComponentInstance.registerDefinition(SquareArrowDownRight);}
 
 const SquareArrowLeft = class SquareArrowLeft extends AbstractIcon {
@@ -43413,7 +43413,7 @@ const SquareArrowLeft = class SquareArrowLeft extends AbstractIcon {
 }
 SquareArrowLeft.Namespace=`Lucide`;
 SquareArrowLeft.Tag=`lucide-square-arrow-left`;
-_.SquareArrowLeft=SquareArrowLeft;
+__as1(_, 'SquareArrowLeft', SquareArrowLeft);
 if(!window.customElements.get('lucide-square-arrow-left')){window.customElements.define('lucide-square-arrow-left', SquareArrowLeft);Aventus.WebComponentInstance.registerDefinition(SquareArrowLeft);}
 
 const SquareArrowOutDownLeft = class SquareArrowOutDownLeft extends AbstractIcon {
@@ -43437,7 +43437,7 @@ const SquareArrowOutDownLeft = class SquareArrowOutDownLeft extends AbstractIcon
 }
 SquareArrowOutDownLeft.Namespace=`Lucide`;
 SquareArrowOutDownLeft.Tag=`lucide-square-arrow-out-down-left`;
-_.SquareArrowOutDownLeft=SquareArrowOutDownLeft;
+__as1(_, 'SquareArrowOutDownLeft', SquareArrowOutDownLeft);
 if(!window.customElements.get('lucide-square-arrow-out-down-left')){window.customElements.define('lucide-square-arrow-out-down-left', SquareArrowOutDownLeft);Aventus.WebComponentInstance.registerDefinition(SquareArrowOutDownLeft);}
 
 const SquareArrowOutDownRight = class SquareArrowOutDownRight extends AbstractIcon {
@@ -43461,7 +43461,7 @@ const SquareArrowOutDownRight = class SquareArrowOutDownRight extends AbstractIc
 }
 SquareArrowOutDownRight.Namespace=`Lucide`;
 SquareArrowOutDownRight.Tag=`lucide-square-arrow-out-down-right`;
-_.SquareArrowOutDownRight=SquareArrowOutDownRight;
+__as1(_, 'SquareArrowOutDownRight', SquareArrowOutDownRight);
 if(!window.customElements.get('lucide-square-arrow-out-down-right')){window.customElements.define('lucide-square-arrow-out-down-right', SquareArrowOutDownRight);Aventus.WebComponentInstance.registerDefinition(SquareArrowOutDownRight);}
 
 const SquareArrowOutUpLeft = class SquareArrowOutUpLeft extends AbstractIcon {
@@ -43485,7 +43485,7 @@ const SquareArrowOutUpLeft = class SquareArrowOutUpLeft extends AbstractIcon {
 }
 SquareArrowOutUpLeft.Namespace=`Lucide`;
 SquareArrowOutUpLeft.Tag=`lucide-square-arrow-out-up-left`;
-_.SquareArrowOutUpLeft=SquareArrowOutUpLeft;
+__as1(_, 'SquareArrowOutUpLeft', SquareArrowOutUpLeft);
 if(!window.customElements.get('lucide-square-arrow-out-up-left')){window.customElements.define('lucide-square-arrow-out-up-left', SquareArrowOutUpLeft);Aventus.WebComponentInstance.registerDefinition(SquareArrowOutUpLeft);}
 
 const SquareArrowOutUpRight = class SquareArrowOutUpRight extends AbstractIcon {
@@ -43509,7 +43509,7 @@ const SquareArrowOutUpRight = class SquareArrowOutUpRight extends AbstractIcon {
 }
 SquareArrowOutUpRight.Namespace=`Lucide`;
 SquareArrowOutUpRight.Tag=`lucide-square-arrow-out-up-right`;
-_.SquareArrowOutUpRight=SquareArrowOutUpRight;
+__as1(_, 'SquareArrowOutUpRight', SquareArrowOutUpRight);
 if(!window.customElements.get('lucide-square-arrow-out-up-right')){window.customElements.define('lucide-square-arrow-out-up-right', SquareArrowOutUpRight);Aventus.WebComponentInstance.registerDefinition(SquareArrowOutUpRight);}
 
 const SquareArrowRight = class SquareArrowRight extends AbstractIcon {
@@ -43533,7 +43533,7 @@ const SquareArrowRight = class SquareArrowRight extends AbstractIcon {
 }
 SquareArrowRight.Namespace=`Lucide`;
 SquareArrowRight.Tag=`lucide-square-arrow-right`;
-_.SquareArrowRight=SquareArrowRight;
+__as1(_, 'SquareArrowRight', SquareArrowRight);
 if(!window.customElements.get('lucide-square-arrow-right')){window.customElements.define('lucide-square-arrow-right', SquareArrowRight);Aventus.WebComponentInstance.registerDefinition(SquareArrowRight);}
 
 const SquareArrowUp = class SquareArrowUp extends AbstractIcon {
@@ -43557,7 +43557,7 @@ const SquareArrowUp = class SquareArrowUp extends AbstractIcon {
 }
 SquareArrowUp.Namespace=`Lucide`;
 SquareArrowUp.Tag=`lucide-square-arrow-up`;
-_.SquareArrowUp=SquareArrowUp;
+__as1(_, 'SquareArrowUp', SquareArrowUp);
 if(!window.customElements.get('lucide-square-arrow-up')){window.customElements.define('lucide-square-arrow-up', SquareArrowUp);Aventus.WebComponentInstance.registerDefinition(SquareArrowUp);}
 
 const SquareArrowUpLeft = class SquareArrowUpLeft extends AbstractIcon {
@@ -43581,7 +43581,7 @@ const SquareArrowUpLeft = class SquareArrowUpLeft extends AbstractIcon {
 }
 SquareArrowUpLeft.Namespace=`Lucide`;
 SquareArrowUpLeft.Tag=`lucide-square-arrow-up-left`;
-_.SquareArrowUpLeft=SquareArrowUpLeft;
+__as1(_, 'SquareArrowUpLeft', SquareArrowUpLeft);
 if(!window.customElements.get('lucide-square-arrow-up-left')){window.customElements.define('lucide-square-arrow-up-left', SquareArrowUpLeft);Aventus.WebComponentInstance.registerDefinition(SquareArrowUpLeft);}
 
 const SquareArrowUpRight = class SquareArrowUpRight extends AbstractIcon {
@@ -43605,7 +43605,7 @@ const SquareArrowUpRight = class SquareArrowUpRight extends AbstractIcon {
 }
 SquareArrowUpRight.Namespace=`Lucide`;
 SquareArrowUpRight.Tag=`lucide-square-arrow-up-right`;
-_.SquareArrowUpRight=SquareArrowUpRight;
+__as1(_, 'SquareArrowUpRight', SquareArrowUpRight);
 if(!window.customElements.get('lucide-square-arrow-up-right')){window.customElements.define('lucide-square-arrow-up-right', SquareArrowUpRight);Aventus.WebComponentInstance.registerDefinition(SquareArrowUpRight);}
 
 const SquareAsterisk = class SquareAsterisk extends AbstractIcon {
@@ -43629,7 +43629,7 @@ const SquareAsterisk = class SquareAsterisk extends AbstractIcon {
 }
 SquareAsterisk.Namespace=`Lucide`;
 SquareAsterisk.Tag=`lucide-square-asterisk`;
-_.SquareAsterisk=SquareAsterisk;
+__as1(_, 'SquareAsterisk', SquareAsterisk);
 if(!window.customElements.get('lucide-square-asterisk')){window.customElements.define('lucide-square-asterisk', SquareAsterisk);Aventus.WebComponentInstance.registerDefinition(SquareAsterisk);}
 
 const SquareBottomDashedScissors = class SquareBottomDashedScissors extends AbstractIcon {
@@ -43653,7 +43653,7 @@ const SquareBottomDashedScissors = class SquareBottomDashedScissors extends Abst
 }
 SquareBottomDashedScissors.Namespace=`Lucide`;
 SquareBottomDashedScissors.Tag=`lucide-square-bottom-dashed-scissors`;
-_.SquareBottomDashedScissors=SquareBottomDashedScissors;
+__as1(_, 'SquareBottomDashedScissors', SquareBottomDashedScissors);
 if(!window.customElements.get('lucide-square-bottom-dashed-scissors')){window.customElements.define('lucide-square-bottom-dashed-scissors', SquareBottomDashedScissors);Aventus.WebComponentInstance.registerDefinition(SquareBottomDashedScissors);}
 
 const SquareChartGantt = class SquareChartGantt extends AbstractIcon {
@@ -43677,7 +43677,7 @@ const SquareChartGantt = class SquareChartGantt extends AbstractIcon {
 }
 SquareChartGantt.Namespace=`Lucide`;
 SquareChartGantt.Tag=`lucide-square-chart-gantt`;
-_.SquareChartGantt=SquareChartGantt;
+__as1(_, 'SquareChartGantt', SquareChartGantt);
 if(!window.customElements.get('lucide-square-chart-gantt')){window.customElements.define('lucide-square-chart-gantt', SquareChartGantt);Aventus.WebComponentInstance.registerDefinition(SquareChartGantt);}
 
 const SquareCheck = class SquareCheck extends AbstractIcon {
@@ -43701,7 +43701,7 @@ const SquareCheck = class SquareCheck extends AbstractIcon {
 }
 SquareCheck.Namespace=`Lucide`;
 SquareCheck.Tag=`lucide-square-check`;
-_.SquareCheck=SquareCheck;
+__as1(_, 'SquareCheck', SquareCheck);
 if(!window.customElements.get('lucide-square-check')){window.customElements.define('lucide-square-check', SquareCheck);Aventus.WebComponentInstance.registerDefinition(SquareCheck);}
 
 const SquareCheckBig = class SquareCheckBig extends AbstractIcon {
@@ -43725,7 +43725,7 @@ const SquareCheckBig = class SquareCheckBig extends AbstractIcon {
 }
 SquareCheckBig.Namespace=`Lucide`;
 SquareCheckBig.Tag=`lucide-square-check-big`;
-_.SquareCheckBig=SquareCheckBig;
+__as1(_, 'SquareCheckBig', SquareCheckBig);
 if(!window.customElements.get('lucide-square-check-big')){window.customElements.define('lucide-square-check-big', SquareCheckBig);Aventus.WebComponentInstance.registerDefinition(SquareCheckBig);}
 
 const SquareChevronDown = class SquareChevronDown extends AbstractIcon {
@@ -43749,7 +43749,7 @@ const SquareChevronDown = class SquareChevronDown extends AbstractIcon {
 }
 SquareChevronDown.Namespace=`Lucide`;
 SquareChevronDown.Tag=`lucide-square-chevron-down`;
-_.SquareChevronDown=SquareChevronDown;
+__as1(_, 'SquareChevronDown', SquareChevronDown);
 if(!window.customElements.get('lucide-square-chevron-down')){window.customElements.define('lucide-square-chevron-down', SquareChevronDown);Aventus.WebComponentInstance.registerDefinition(SquareChevronDown);}
 
 const SquareChevronLeft = class SquareChevronLeft extends AbstractIcon {
@@ -43773,7 +43773,7 @@ const SquareChevronLeft = class SquareChevronLeft extends AbstractIcon {
 }
 SquareChevronLeft.Namespace=`Lucide`;
 SquareChevronLeft.Tag=`lucide-square-chevron-left`;
-_.SquareChevronLeft=SquareChevronLeft;
+__as1(_, 'SquareChevronLeft', SquareChevronLeft);
 if(!window.customElements.get('lucide-square-chevron-left')){window.customElements.define('lucide-square-chevron-left', SquareChevronLeft);Aventus.WebComponentInstance.registerDefinition(SquareChevronLeft);}
 
 const SquareChevronRight = class SquareChevronRight extends AbstractIcon {
@@ -43797,7 +43797,7 @@ const SquareChevronRight = class SquareChevronRight extends AbstractIcon {
 }
 SquareChevronRight.Namespace=`Lucide`;
 SquareChevronRight.Tag=`lucide-square-chevron-right`;
-_.SquareChevronRight=SquareChevronRight;
+__as1(_, 'SquareChevronRight', SquareChevronRight);
 if(!window.customElements.get('lucide-square-chevron-right')){window.customElements.define('lucide-square-chevron-right', SquareChevronRight);Aventus.WebComponentInstance.registerDefinition(SquareChevronRight);}
 
 const SquareChevronUp = class SquareChevronUp extends AbstractIcon {
@@ -43821,7 +43821,7 @@ const SquareChevronUp = class SquareChevronUp extends AbstractIcon {
 }
 SquareChevronUp.Namespace=`Lucide`;
 SquareChevronUp.Tag=`lucide-square-chevron-up`;
-_.SquareChevronUp=SquareChevronUp;
+__as1(_, 'SquareChevronUp', SquareChevronUp);
 if(!window.customElements.get('lucide-square-chevron-up')){window.customElements.define('lucide-square-chevron-up', SquareChevronUp);Aventus.WebComponentInstance.registerDefinition(SquareChevronUp);}
 
 const SquareCode = class SquareCode extends AbstractIcon {
@@ -43845,7 +43845,7 @@ const SquareCode = class SquareCode extends AbstractIcon {
 }
 SquareCode.Namespace=`Lucide`;
 SquareCode.Tag=`lucide-square-code`;
-_.SquareCode=SquareCode;
+__as1(_, 'SquareCode', SquareCode);
 if(!window.customElements.get('lucide-square-code')){window.customElements.define('lucide-square-code', SquareCode);Aventus.WebComponentInstance.registerDefinition(SquareCode);}
 
 const SquareDashed = class SquareDashed extends AbstractIcon {
@@ -43869,7 +43869,7 @@ const SquareDashed = class SquareDashed extends AbstractIcon {
 }
 SquareDashed.Namespace=`Lucide`;
 SquareDashed.Tag=`lucide-square-dashed`;
-_.SquareDashed=SquareDashed;
+__as1(_, 'SquareDashed', SquareDashed);
 if(!window.customElements.get('lucide-square-dashed')){window.customElements.define('lucide-square-dashed', SquareDashed);Aventus.WebComponentInstance.registerDefinition(SquareDashed);}
 
 const SquareDashedBottom = class SquareDashedBottom extends AbstractIcon {
@@ -43893,7 +43893,7 @@ const SquareDashedBottom = class SquareDashedBottom extends AbstractIcon {
 }
 SquareDashedBottom.Namespace=`Lucide`;
 SquareDashedBottom.Tag=`lucide-square-dashed-bottom`;
-_.SquareDashedBottom=SquareDashedBottom;
+__as1(_, 'SquareDashedBottom', SquareDashedBottom);
 if(!window.customElements.get('lucide-square-dashed-bottom')){window.customElements.define('lucide-square-dashed-bottom', SquareDashedBottom);Aventus.WebComponentInstance.registerDefinition(SquareDashedBottom);}
 
 const SquareDashedBottomCode = class SquareDashedBottomCode extends AbstractIcon {
@@ -43917,7 +43917,7 @@ const SquareDashedBottomCode = class SquareDashedBottomCode extends AbstractIcon
 }
 SquareDashedBottomCode.Namespace=`Lucide`;
 SquareDashedBottomCode.Tag=`lucide-square-dashed-bottom-code`;
-_.SquareDashedBottomCode=SquareDashedBottomCode;
+__as1(_, 'SquareDashedBottomCode', SquareDashedBottomCode);
 if(!window.customElements.get('lucide-square-dashed-bottom-code')){window.customElements.define('lucide-square-dashed-bottom-code', SquareDashedBottomCode);Aventus.WebComponentInstance.registerDefinition(SquareDashedBottomCode);}
 
 const SquareDashedKanban = class SquareDashedKanban extends AbstractIcon {
@@ -43941,7 +43941,7 @@ const SquareDashedKanban = class SquareDashedKanban extends AbstractIcon {
 }
 SquareDashedKanban.Namespace=`Lucide`;
 SquareDashedKanban.Tag=`lucide-square-dashed-kanban`;
-_.SquareDashedKanban=SquareDashedKanban;
+__as1(_, 'SquareDashedKanban', SquareDashedKanban);
 if(!window.customElements.get('lucide-square-dashed-kanban')){window.customElements.define('lucide-square-dashed-kanban', SquareDashedKanban);Aventus.WebComponentInstance.registerDefinition(SquareDashedKanban);}
 
 const SquareDashedMousePointer = class SquareDashedMousePointer extends AbstractIcon {
@@ -43965,7 +43965,7 @@ const SquareDashedMousePointer = class SquareDashedMousePointer extends Abstract
 }
 SquareDashedMousePointer.Namespace=`Lucide`;
 SquareDashedMousePointer.Tag=`lucide-square-dashed-mouse-pointer`;
-_.SquareDashedMousePointer=SquareDashedMousePointer;
+__as1(_, 'SquareDashedMousePointer', SquareDashedMousePointer);
 if(!window.customElements.get('lucide-square-dashed-mouse-pointer')){window.customElements.define('lucide-square-dashed-mouse-pointer', SquareDashedMousePointer);Aventus.WebComponentInstance.registerDefinition(SquareDashedMousePointer);}
 
 const SquareDashedTopSolid = class SquareDashedTopSolid extends AbstractIcon {
@@ -43989,7 +43989,7 @@ const SquareDashedTopSolid = class SquareDashedTopSolid extends AbstractIcon {
 }
 SquareDashedTopSolid.Namespace=`Lucide`;
 SquareDashedTopSolid.Tag=`lucide-square-dashed-top-solid`;
-_.SquareDashedTopSolid=SquareDashedTopSolid;
+__as1(_, 'SquareDashedTopSolid', SquareDashedTopSolid);
 if(!window.customElements.get('lucide-square-dashed-top-solid')){window.customElements.define('lucide-square-dashed-top-solid', SquareDashedTopSolid);Aventus.WebComponentInstance.registerDefinition(SquareDashedTopSolid);}
 
 const SquareDivide = class SquareDivide extends AbstractIcon {
@@ -44013,7 +44013,7 @@ const SquareDivide = class SquareDivide extends AbstractIcon {
 }
 SquareDivide.Namespace=`Lucide`;
 SquareDivide.Tag=`lucide-square-divide`;
-_.SquareDivide=SquareDivide;
+__as1(_, 'SquareDivide', SquareDivide);
 if(!window.customElements.get('lucide-square-divide')){window.customElements.define('lucide-square-divide', SquareDivide);Aventus.WebComponentInstance.registerDefinition(SquareDivide);}
 
 const SquareDot = class SquareDot extends AbstractIcon {
@@ -44037,7 +44037,7 @@ const SquareDot = class SquareDot extends AbstractIcon {
 }
 SquareDot.Namespace=`Lucide`;
 SquareDot.Tag=`lucide-square-dot`;
-_.SquareDot=SquareDot;
+__as1(_, 'SquareDot', SquareDot);
 if(!window.customElements.get('lucide-square-dot')){window.customElements.define('lucide-square-dot', SquareDot);Aventus.WebComponentInstance.registerDefinition(SquareDot);}
 
 const SquareEqual = class SquareEqual extends AbstractIcon {
@@ -44061,7 +44061,7 @@ const SquareEqual = class SquareEqual extends AbstractIcon {
 }
 SquareEqual.Namespace=`Lucide`;
 SquareEqual.Tag=`lucide-square-equal`;
-_.SquareEqual=SquareEqual;
+__as1(_, 'SquareEqual', SquareEqual);
 if(!window.customElements.get('lucide-square-equal')){window.customElements.define('lucide-square-equal', SquareEqual);Aventus.WebComponentInstance.registerDefinition(SquareEqual);}
 
 const SquareFunction = class SquareFunction extends AbstractIcon {
@@ -44085,7 +44085,7 @@ const SquareFunction = class SquareFunction extends AbstractIcon {
 }
 SquareFunction.Namespace=`Lucide`;
 SquareFunction.Tag=`lucide-square-function`;
-_.SquareFunction=SquareFunction;
+__as1(_, 'SquareFunction', SquareFunction);
 if(!window.customElements.get('lucide-square-function')){window.customElements.define('lucide-square-function', SquareFunction);Aventus.WebComponentInstance.registerDefinition(SquareFunction);}
 
 const SquareGanttChart = class SquareGanttChart extends AbstractIcon {
@@ -44109,7 +44109,7 @@ const SquareGanttChart = class SquareGanttChart extends AbstractIcon {
 }
 SquareGanttChart.Namespace=`Lucide`;
 SquareGanttChart.Tag=`lucide-square-gantt-chart`;
-_.SquareGanttChart=SquareGanttChart;
+__as1(_, 'SquareGanttChart', SquareGanttChart);
 if(!window.customElements.get('lucide-square-gantt-chart')){window.customElements.define('lucide-square-gantt-chart', SquareGanttChart);Aventus.WebComponentInstance.registerDefinition(SquareGanttChart);}
 
 const SquareKanban = class SquareKanban extends AbstractIcon {
@@ -44133,7 +44133,7 @@ const SquareKanban = class SquareKanban extends AbstractIcon {
 }
 SquareKanban.Namespace=`Lucide`;
 SquareKanban.Tag=`lucide-square-kanban`;
-_.SquareKanban=SquareKanban;
+__as1(_, 'SquareKanban', SquareKanban);
 if(!window.customElements.get('lucide-square-kanban')){window.customElements.define('lucide-square-kanban', SquareKanban);Aventus.WebComponentInstance.registerDefinition(SquareKanban);}
 
 const SquareLibrary = class SquareLibrary extends AbstractIcon {
@@ -44157,7 +44157,7 @@ const SquareLibrary = class SquareLibrary extends AbstractIcon {
 }
 SquareLibrary.Namespace=`Lucide`;
 SquareLibrary.Tag=`lucide-square-library`;
-_.SquareLibrary=SquareLibrary;
+__as1(_, 'SquareLibrary', SquareLibrary);
 if(!window.customElements.get('lucide-square-library')){window.customElements.define('lucide-square-library', SquareLibrary);Aventus.WebComponentInstance.registerDefinition(SquareLibrary);}
 
 const SquareM = class SquareM extends AbstractIcon {
@@ -44181,7 +44181,7 @@ const SquareM = class SquareM extends AbstractIcon {
 }
 SquareM.Namespace=`Lucide`;
 SquareM.Tag=`lucide-square-m`;
-_.SquareM=SquareM;
+__as1(_, 'SquareM', SquareM);
 if(!window.customElements.get('lucide-square-m')){window.customElements.define('lucide-square-m', SquareM);Aventus.WebComponentInstance.registerDefinition(SquareM);}
 
 const SquareMenu = class SquareMenu extends AbstractIcon {
@@ -44205,7 +44205,7 @@ const SquareMenu = class SquareMenu extends AbstractIcon {
 }
 SquareMenu.Namespace=`Lucide`;
 SquareMenu.Tag=`lucide-square-menu`;
-_.SquareMenu=SquareMenu;
+__as1(_, 'SquareMenu', SquareMenu);
 if(!window.customElements.get('lucide-square-menu')){window.customElements.define('lucide-square-menu', SquareMenu);Aventus.WebComponentInstance.registerDefinition(SquareMenu);}
 
 const SquareMinus = class SquareMinus extends AbstractIcon {
@@ -44229,7 +44229,7 @@ const SquareMinus = class SquareMinus extends AbstractIcon {
 }
 SquareMinus.Namespace=`Lucide`;
 SquareMinus.Tag=`lucide-square-minus`;
-_.SquareMinus=SquareMinus;
+__as1(_, 'SquareMinus', SquareMinus);
 if(!window.customElements.get('lucide-square-minus')){window.customElements.define('lucide-square-minus', SquareMinus);Aventus.WebComponentInstance.registerDefinition(SquareMinus);}
 
 const SquareMousePointer = class SquareMousePointer extends AbstractIcon {
@@ -44253,7 +44253,7 @@ const SquareMousePointer = class SquareMousePointer extends AbstractIcon {
 }
 SquareMousePointer.Namespace=`Lucide`;
 SquareMousePointer.Tag=`lucide-square-mouse-pointer`;
-_.SquareMousePointer=SquareMousePointer;
+__as1(_, 'SquareMousePointer', SquareMousePointer);
 if(!window.customElements.get('lucide-square-mouse-pointer')){window.customElements.define('lucide-square-mouse-pointer', SquareMousePointer);Aventus.WebComponentInstance.registerDefinition(SquareMousePointer);}
 
 const SquareParking = class SquareParking extends AbstractIcon {
@@ -44277,7 +44277,7 @@ const SquareParking = class SquareParking extends AbstractIcon {
 }
 SquareParking.Namespace=`Lucide`;
 SquareParking.Tag=`lucide-square-parking`;
-_.SquareParking=SquareParking;
+__as1(_, 'SquareParking', SquareParking);
 if(!window.customElements.get('lucide-square-parking')){window.customElements.define('lucide-square-parking', SquareParking);Aventus.WebComponentInstance.registerDefinition(SquareParking);}
 
 const SquareParkingOff = class SquareParkingOff extends AbstractIcon {
@@ -44301,7 +44301,7 @@ const SquareParkingOff = class SquareParkingOff extends AbstractIcon {
 }
 SquareParkingOff.Namespace=`Lucide`;
 SquareParkingOff.Tag=`lucide-square-parking-off`;
-_.SquareParkingOff=SquareParkingOff;
+__as1(_, 'SquareParkingOff', SquareParkingOff);
 if(!window.customElements.get('lucide-square-parking-off')){window.customElements.define('lucide-square-parking-off', SquareParkingOff);Aventus.WebComponentInstance.registerDefinition(SquareParkingOff);}
 
 const SquarePen = class SquarePen extends AbstractIcon {
@@ -44325,7 +44325,7 @@ const SquarePen = class SquarePen extends AbstractIcon {
 }
 SquarePen.Namespace=`Lucide`;
 SquarePen.Tag=`lucide-square-pen`;
-_.SquarePen=SquarePen;
+__as1(_, 'SquarePen', SquarePen);
 if(!window.customElements.get('lucide-square-pen')){window.customElements.define('lucide-square-pen', SquarePen);Aventus.WebComponentInstance.registerDefinition(SquarePen);}
 
 const SquarePercent = class SquarePercent extends AbstractIcon {
@@ -44349,7 +44349,7 @@ const SquarePercent = class SquarePercent extends AbstractIcon {
 }
 SquarePercent.Namespace=`Lucide`;
 SquarePercent.Tag=`lucide-square-percent`;
-_.SquarePercent=SquarePercent;
+__as1(_, 'SquarePercent', SquarePercent);
 if(!window.customElements.get('lucide-square-percent')){window.customElements.define('lucide-square-percent', SquarePercent);Aventus.WebComponentInstance.registerDefinition(SquarePercent);}
 
 const SquarePi = class SquarePi extends AbstractIcon {
@@ -44373,7 +44373,7 @@ const SquarePi = class SquarePi extends AbstractIcon {
 }
 SquarePi.Namespace=`Lucide`;
 SquarePi.Tag=`lucide-square-pi`;
-_.SquarePi=SquarePi;
+__as1(_, 'SquarePi', SquarePi);
 if(!window.customElements.get('lucide-square-pi')){window.customElements.define('lucide-square-pi', SquarePi);Aventus.WebComponentInstance.registerDefinition(SquarePi);}
 
 const SquarePilcrow = class SquarePilcrow extends AbstractIcon {
@@ -44397,7 +44397,7 @@ const SquarePilcrow = class SquarePilcrow extends AbstractIcon {
 }
 SquarePilcrow.Namespace=`Lucide`;
 SquarePilcrow.Tag=`lucide-square-pilcrow`;
-_.SquarePilcrow=SquarePilcrow;
+__as1(_, 'SquarePilcrow', SquarePilcrow);
 if(!window.customElements.get('lucide-square-pilcrow')){window.customElements.define('lucide-square-pilcrow', SquarePilcrow);Aventus.WebComponentInstance.registerDefinition(SquarePilcrow);}
 
 const SquarePlay = class SquarePlay extends AbstractIcon {
@@ -44421,7 +44421,7 @@ const SquarePlay = class SquarePlay extends AbstractIcon {
 }
 SquarePlay.Namespace=`Lucide`;
 SquarePlay.Tag=`lucide-square-play`;
-_.SquarePlay=SquarePlay;
+__as1(_, 'SquarePlay', SquarePlay);
 if(!window.customElements.get('lucide-square-play')){window.customElements.define('lucide-square-play', SquarePlay);Aventus.WebComponentInstance.registerDefinition(SquarePlay);}
 
 const SquarePlus = class SquarePlus extends AbstractIcon {
@@ -44445,7 +44445,7 @@ const SquarePlus = class SquarePlus extends AbstractIcon {
 }
 SquarePlus.Namespace=`Lucide`;
 SquarePlus.Tag=`lucide-square-plus`;
-_.SquarePlus=SquarePlus;
+__as1(_, 'SquarePlus', SquarePlus);
 if(!window.customElements.get('lucide-square-plus')){window.customElements.define('lucide-square-plus', SquarePlus);Aventus.WebComponentInstance.registerDefinition(SquarePlus);}
 
 const SquarePower = class SquarePower extends AbstractIcon {
@@ -44469,7 +44469,7 @@ const SquarePower = class SquarePower extends AbstractIcon {
 }
 SquarePower.Namespace=`Lucide`;
 SquarePower.Tag=`lucide-square-power`;
-_.SquarePower=SquarePower;
+__as1(_, 'SquarePower', SquarePower);
 if(!window.customElements.get('lucide-square-power')){window.customElements.define('lucide-square-power', SquarePower);Aventus.WebComponentInstance.registerDefinition(SquarePower);}
 
 const SquareRadical = class SquareRadical extends AbstractIcon {
@@ -44493,7 +44493,7 @@ const SquareRadical = class SquareRadical extends AbstractIcon {
 }
 SquareRadical.Namespace=`Lucide`;
 SquareRadical.Tag=`lucide-square-radical`;
-_.SquareRadical=SquareRadical;
+__as1(_, 'SquareRadical', SquareRadical);
 if(!window.customElements.get('lucide-square-radical')){window.customElements.define('lucide-square-radical', SquareRadical);Aventus.WebComponentInstance.registerDefinition(SquareRadical);}
 
 const SquareRoundCorner = class SquareRoundCorner extends AbstractIcon {
@@ -44517,7 +44517,7 @@ const SquareRoundCorner = class SquareRoundCorner extends AbstractIcon {
 }
 SquareRoundCorner.Namespace=`Lucide`;
 SquareRoundCorner.Tag=`lucide-square-round-corner`;
-_.SquareRoundCorner=SquareRoundCorner;
+__as1(_, 'SquareRoundCorner', SquareRoundCorner);
 if(!window.customElements.get('lucide-square-round-corner')){window.customElements.define('lucide-square-round-corner', SquareRoundCorner);Aventus.WebComponentInstance.registerDefinition(SquareRoundCorner);}
 
 const SquareScissors = class SquareScissors extends AbstractIcon {
@@ -44541,7 +44541,7 @@ const SquareScissors = class SquareScissors extends AbstractIcon {
 }
 SquareScissors.Namespace=`Lucide`;
 SquareScissors.Tag=`lucide-square-scissors`;
-_.SquareScissors=SquareScissors;
+__as1(_, 'SquareScissors', SquareScissors);
 if(!window.customElements.get('lucide-square-scissors')){window.customElements.define('lucide-square-scissors', SquareScissors);Aventus.WebComponentInstance.registerDefinition(SquareScissors);}
 
 const SquaresExclude = class SquaresExclude extends AbstractIcon {
@@ -44565,7 +44565,7 @@ const SquaresExclude = class SquaresExclude extends AbstractIcon {
 }
 SquaresExclude.Namespace=`Lucide`;
 SquaresExclude.Tag=`lucide-squares-exclude`;
-_.SquaresExclude=SquaresExclude;
+__as1(_, 'SquaresExclude', SquaresExclude);
 if(!window.customElements.get('lucide-squares-exclude')){window.customElements.define('lucide-squares-exclude', SquaresExclude);Aventus.WebComponentInstance.registerDefinition(SquaresExclude);}
 
 const SquareSigma = class SquareSigma extends AbstractIcon {
@@ -44589,7 +44589,7 @@ const SquareSigma = class SquareSigma extends AbstractIcon {
 }
 SquareSigma.Namespace=`Lucide`;
 SquareSigma.Tag=`lucide-square-sigma`;
-_.SquareSigma=SquareSigma;
+__as1(_, 'SquareSigma', SquareSigma);
 if(!window.customElements.get('lucide-square-sigma')){window.customElements.define('lucide-square-sigma', SquareSigma);Aventus.WebComponentInstance.registerDefinition(SquareSigma);}
 
 const SquaresIntersect = class SquaresIntersect extends AbstractIcon {
@@ -44613,7 +44613,7 @@ const SquaresIntersect = class SquaresIntersect extends AbstractIcon {
 }
 SquaresIntersect.Namespace=`Lucide`;
 SquaresIntersect.Tag=`lucide-squares-intersect`;
-_.SquaresIntersect=SquaresIntersect;
+__as1(_, 'SquaresIntersect', SquaresIntersect);
 if(!window.customElements.get('lucide-squares-intersect')){window.customElements.define('lucide-squares-intersect', SquaresIntersect);Aventus.WebComponentInstance.registerDefinition(SquaresIntersect);}
 
 const SquareSlash = class SquareSlash extends AbstractIcon {
@@ -44637,7 +44637,7 @@ const SquareSlash = class SquareSlash extends AbstractIcon {
 }
 SquareSlash.Namespace=`Lucide`;
 SquareSlash.Tag=`lucide-square-slash`;
-_.SquareSlash=SquareSlash;
+__as1(_, 'SquareSlash', SquareSlash);
 if(!window.customElements.get('lucide-square-slash')){window.customElements.define('lucide-square-slash', SquareSlash);Aventus.WebComponentInstance.registerDefinition(SquareSlash);}
 
 const SquareSplitHorizontal = class SquareSplitHorizontal extends AbstractIcon {
@@ -44661,7 +44661,7 @@ const SquareSplitHorizontal = class SquareSplitHorizontal extends AbstractIcon {
 }
 SquareSplitHorizontal.Namespace=`Lucide`;
 SquareSplitHorizontal.Tag=`lucide-square-split-horizontal`;
-_.SquareSplitHorizontal=SquareSplitHorizontal;
+__as1(_, 'SquareSplitHorizontal', SquareSplitHorizontal);
 if(!window.customElements.get('lucide-square-split-horizontal')){window.customElements.define('lucide-square-split-horizontal', SquareSplitHorizontal);Aventus.WebComponentInstance.registerDefinition(SquareSplitHorizontal);}
 
 const SquareSplitVertical = class SquareSplitVertical extends AbstractIcon {
@@ -44685,7 +44685,7 @@ const SquareSplitVertical = class SquareSplitVertical extends AbstractIcon {
 }
 SquareSplitVertical.Namespace=`Lucide`;
 SquareSplitVertical.Tag=`lucide-square-split-vertical`;
-_.SquareSplitVertical=SquareSplitVertical;
+__as1(_, 'SquareSplitVertical', SquareSplitVertical);
 if(!window.customElements.get('lucide-square-split-vertical')){window.customElements.define('lucide-square-split-vertical', SquareSplitVertical);Aventus.WebComponentInstance.registerDefinition(SquareSplitVertical);}
 
 const SquareSquare = class SquareSquare extends AbstractIcon {
@@ -44709,7 +44709,7 @@ const SquareSquare = class SquareSquare extends AbstractIcon {
 }
 SquareSquare.Namespace=`Lucide`;
 SquareSquare.Tag=`lucide-square-square`;
-_.SquareSquare=SquareSquare;
+__as1(_, 'SquareSquare', SquareSquare);
 if(!window.customElements.get('lucide-square-square')){window.customElements.define('lucide-square-square', SquareSquare);Aventus.WebComponentInstance.registerDefinition(SquareSquare);}
 
 const SquaresSubtract = class SquaresSubtract extends AbstractIcon {
@@ -44733,7 +44733,7 @@ const SquaresSubtract = class SquaresSubtract extends AbstractIcon {
 }
 SquaresSubtract.Namespace=`Lucide`;
 SquaresSubtract.Tag=`lucide-squares-subtract`;
-_.SquaresSubtract=SquaresSubtract;
+__as1(_, 'SquaresSubtract', SquaresSubtract);
 if(!window.customElements.get('lucide-squares-subtract')){window.customElements.define('lucide-squares-subtract', SquaresSubtract);Aventus.WebComponentInstance.registerDefinition(SquaresSubtract);}
 
 const SquareStack = class SquareStack extends AbstractIcon {
@@ -44757,7 +44757,7 @@ const SquareStack = class SquareStack extends AbstractIcon {
 }
 SquareStack.Namespace=`Lucide`;
 SquareStack.Tag=`lucide-square-stack`;
-_.SquareStack=SquareStack;
+__as1(_, 'SquareStack', SquareStack);
 if(!window.customElements.get('lucide-square-stack')){window.customElements.define('lucide-square-stack', SquareStack);Aventus.WebComponentInstance.registerDefinition(SquareStack);}
 
 const SquaresUnite = class SquaresUnite extends AbstractIcon {
@@ -44781,7 +44781,7 @@ const SquaresUnite = class SquaresUnite extends AbstractIcon {
 }
 SquaresUnite.Namespace=`Lucide`;
 SquaresUnite.Tag=`lucide-squares-unite`;
-_.SquaresUnite=SquaresUnite;
+__as1(_, 'SquaresUnite', SquaresUnite);
 if(!window.customElements.get('lucide-squares-unite')){window.customElements.define('lucide-squares-unite', SquaresUnite);Aventus.WebComponentInstance.registerDefinition(SquaresUnite);}
 
 const SquareTerminal = class SquareTerminal extends AbstractIcon {
@@ -44805,7 +44805,7 @@ const SquareTerminal = class SquareTerminal extends AbstractIcon {
 }
 SquareTerminal.Namespace=`Lucide`;
 SquareTerminal.Tag=`lucide-square-terminal`;
-_.SquareTerminal=SquareTerminal;
+__as1(_, 'SquareTerminal', SquareTerminal);
 if(!window.customElements.get('lucide-square-terminal')){window.customElements.define('lucide-square-terminal', SquareTerminal);Aventus.WebComponentInstance.registerDefinition(SquareTerminal);}
 
 const SquareUser = class SquareUser extends AbstractIcon {
@@ -44829,7 +44829,7 @@ const SquareUser = class SquareUser extends AbstractIcon {
 }
 SquareUser.Namespace=`Lucide`;
 SquareUser.Tag=`lucide-square-user`;
-_.SquareUser=SquareUser;
+__as1(_, 'SquareUser', SquareUser);
 if(!window.customElements.get('lucide-square-user')){window.customElements.define('lucide-square-user', SquareUser);Aventus.WebComponentInstance.registerDefinition(SquareUser);}
 
 const SquareUserRound = class SquareUserRound extends AbstractIcon {
@@ -44853,7 +44853,7 @@ const SquareUserRound = class SquareUserRound extends AbstractIcon {
 }
 SquareUserRound.Namespace=`Lucide`;
 SquareUserRound.Tag=`lucide-square-user-round`;
-_.SquareUserRound=SquareUserRound;
+__as1(_, 'SquareUserRound', SquareUserRound);
 if(!window.customElements.get('lucide-square-user-round')){window.customElements.define('lucide-square-user-round', SquareUserRound);Aventus.WebComponentInstance.registerDefinition(SquareUserRound);}
 
 const SquareX = class SquareX extends AbstractIcon {
@@ -44877,7 +44877,7 @@ const SquareX = class SquareX extends AbstractIcon {
 }
 SquareX.Namespace=`Lucide`;
 SquareX.Tag=`lucide-square-x`;
-_.SquareX=SquareX;
+__as1(_, 'SquareX', SquareX);
 if(!window.customElements.get('lucide-square-x')){window.customElements.define('lucide-square-x', SquareX);Aventus.WebComponentInstance.registerDefinition(SquareX);}
 
 const Squircle = class Squircle extends AbstractIcon {
@@ -44901,7 +44901,7 @@ const Squircle = class Squircle extends AbstractIcon {
 }
 Squircle.Namespace=`Lucide`;
 Squircle.Tag=`lucide-squircle`;
-_.Squircle=Squircle;
+__as1(_, 'Squircle', Squircle);
 if(!window.customElements.get('lucide-squircle')){window.customElements.define('lucide-squircle', Squircle);Aventus.WebComponentInstance.registerDefinition(Squircle);}
 
 const SquircleDashed = class SquircleDashed extends AbstractIcon {
@@ -44925,7 +44925,7 @@ const SquircleDashed = class SquircleDashed extends AbstractIcon {
 }
 SquircleDashed.Namespace=`Lucide`;
 SquircleDashed.Tag=`lucide-squircle-dashed`;
-_.SquircleDashed=SquircleDashed;
+__as1(_, 'SquircleDashed', SquircleDashed);
 if(!window.customElements.get('lucide-squircle-dashed')){window.customElements.define('lucide-squircle-dashed', SquircleDashed);Aventus.WebComponentInstance.registerDefinition(SquircleDashed);}
 
 const Squirrel = class Squirrel extends AbstractIcon {
@@ -44949,7 +44949,7 @@ const Squirrel = class Squirrel extends AbstractIcon {
 }
 Squirrel.Namespace=`Lucide`;
 Squirrel.Tag=`lucide-squirrel`;
-_.Squirrel=Squirrel;
+__as1(_, 'Squirrel', Squirrel);
 if(!window.customElements.get('lucide-squirrel')){window.customElements.define('lucide-squirrel', Squirrel);Aventus.WebComponentInstance.registerDefinition(Squirrel);}
 
 const Stamp = class Stamp extends AbstractIcon {
@@ -44973,7 +44973,7 @@ const Stamp = class Stamp extends AbstractIcon {
 }
 Stamp.Namespace=`Lucide`;
 Stamp.Tag=`lucide-stamp`;
-_.Stamp=Stamp;
+__as1(_, 'Stamp', Stamp);
 if(!window.customElements.get('lucide-stamp')){window.customElements.define('lucide-stamp', Stamp);Aventus.WebComponentInstance.registerDefinition(Stamp);}
 
 const Star = class Star extends AbstractIcon {
@@ -44997,7 +44997,7 @@ const Star = class Star extends AbstractIcon {
 }
 Star.Namespace=`Lucide`;
 Star.Tag=`lucide-star`;
-_.Star=Star;
+__as1(_, 'Star', Star);
 if(!window.customElements.get('lucide-star')){window.customElements.define('lucide-star', Star);Aventus.WebComponentInstance.registerDefinition(Star);}
 
 const StarHalf = class StarHalf extends AbstractIcon {
@@ -45021,7 +45021,7 @@ const StarHalf = class StarHalf extends AbstractIcon {
 }
 StarHalf.Namespace=`Lucide`;
 StarHalf.Tag=`lucide-star-half`;
-_.StarHalf=StarHalf;
+__as1(_, 'StarHalf', StarHalf);
 if(!window.customElements.get('lucide-star-half')){window.customElements.define('lucide-star-half', StarHalf);Aventus.WebComponentInstance.registerDefinition(StarHalf);}
 
 const StarOff = class StarOff extends AbstractIcon {
@@ -45045,7 +45045,7 @@ const StarOff = class StarOff extends AbstractIcon {
 }
 StarOff.Namespace=`Lucide`;
 StarOff.Tag=`lucide-star-off`;
-_.StarOff=StarOff;
+__as1(_, 'StarOff', StarOff);
 if(!window.customElements.get('lucide-star-off')){window.customElements.define('lucide-star-off', StarOff);Aventus.WebComponentInstance.registerDefinition(StarOff);}
 
 const Stars = class Stars extends AbstractIcon {
@@ -45069,7 +45069,7 @@ const Stars = class Stars extends AbstractIcon {
 }
 Stars.Namespace=`Lucide`;
 Stars.Tag=`lucide-stars`;
-_.Stars=Stars;
+__as1(_, 'Stars', Stars);
 if(!window.customElements.get('lucide-stars')){window.customElements.define('lucide-stars', Stars);Aventus.WebComponentInstance.registerDefinition(Stars);}
 
 const StepBack = class StepBack extends AbstractIcon {
@@ -45093,7 +45093,7 @@ const StepBack = class StepBack extends AbstractIcon {
 }
 StepBack.Namespace=`Lucide`;
 StepBack.Tag=`lucide-step-back`;
-_.StepBack=StepBack;
+__as1(_, 'StepBack', StepBack);
 if(!window.customElements.get('lucide-step-back')){window.customElements.define('lucide-step-back', StepBack);Aventus.WebComponentInstance.registerDefinition(StepBack);}
 
 const StepForward = class StepForward extends AbstractIcon {
@@ -45117,7 +45117,7 @@ const StepForward = class StepForward extends AbstractIcon {
 }
 StepForward.Namespace=`Lucide`;
 StepForward.Tag=`lucide-step-forward`;
-_.StepForward=StepForward;
+__as1(_, 'StepForward', StepForward);
 if(!window.customElements.get('lucide-step-forward')){window.customElements.define('lucide-step-forward', StepForward);Aventus.WebComponentInstance.registerDefinition(StepForward);}
 
 const Stethoscope = class Stethoscope extends AbstractIcon {
@@ -45141,7 +45141,7 @@ const Stethoscope = class Stethoscope extends AbstractIcon {
 }
 Stethoscope.Namespace=`Lucide`;
 Stethoscope.Tag=`lucide-stethoscope`;
-_.Stethoscope=Stethoscope;
+__as1(_, 'Stethoscope', Stethoscope);
 if(!window.customElements.get('lucide-stethoscope')){window.customElements.define('lucide-stethoscope', Stethoscope);Aventus.WebComponentInstance.registerDefinition(Stethoscope);}
 
 const Sticker = class Sticker extends AbstractIcon {
@@ -45165,7 +45165,7 @@ const Sticker = class Sticker extends AbstractIcon {
 }
 Sticker.Namespace=`Lucide`;
 Sticker.Tag=`lucide-sticker`;
-_.Sticker=Sticker;
+__as1(_, 'Sticker', Sticker);
 if(!window.customElements.get('lucide-sticker')){window.customElements.define('lucide-sticker', Sticker);Aventus.WebComponentInstance.registerDefinition(Sticker);}
 
 const StickyNote = class StickyNote extends AbstractIcon {
@@ -45189,7 +45189,7 @@ const StickyNote = class StickyNote extends AbstractIcon {
 }
 StickyNote.Namespace=`Lucide`;
 StickyNote.Tag=`lucide-sticky-note`;
-_.StickyNote=StickyNote;
+__as1(_, 'StickyNote', StickyNote);
 if(!window.customElements.get('lucide-sticky-note')){window.customElements.define('lucide-sticky-note', StickyNote);Aventus.WebComponentInstance.registerDefinition(StickyNote);}
 
 const StopCircle = class StopCircle extends AbstractIcon {
@@ -45213,7 +45213,7 @@ const StopCircle = class StopCircle extends AbstractIcon {
 }
 StopCircle.Namespace=`Lucide`;
 StopCircle.Tag=`lucide-stop-circle`;
-_.StopCircle=StopCircle;
+__as1(_, 'StopCircle', StopCircle);
 if(!window.customElements.get('lucide-stop-circle')){window.customElements.define('lucide-stop-circle', StopCircle);Aventus.WebComponentInstance.registerDefinition(StopCircle);}
 
 const Store = class Store extends AbstractIcon {
@@ -45237,7 +45237,7 @@ const Store = class Store extends AbstractIcon {
 }
 Store.Namespace=`Lucide`;
 Store.Tag=`lucide-store`;
-_.Store=Store;
+__as1(_, 'Store', Store);
 if(!window.customElements.get('lucide-store')){window.customElements.define('lucide-store', Store);Aventus.WebComponentInstance.registerDefinition(Store);}
 
 const StretchHorizontal = class StretchHorizontal extends AbstractIcon {
@@ -45261,7 +45261,7 @@ const StretchHorizontal = class StretchHorizontal extends AbstractIcon {
 }
 StretchHorizontal.Namespace=`Lucide`;
 StretchHorizontal.Tag=`lucide-stretch-horizontal`;
-_.StretchHorizontal=StretchHorizontal;
+__as1(_, 'StretchHorizontal', StretchHorizontal);
 if(!window.customElements.get('lucide-stretch-horizontal')){window.customElements.define('lucide-stretch-horizontal', StretchHorizontal);Aventus.WebComponentInstance.registerDefinition(StretchHorizontal);}
 
 const StretchVertical = class StretchVertical extends AbstractIcon {
@@ -45285,7 +45285,7 @@ const StretchVertical = class StretchVertical extends AbstractIcon {
 }
 StretchVertical.Namespace=`Lucide`;
 StretchVertical.Tag=`lucide-stretch-vertical`;
-_.StretchVertical=StretchVertical;
+__as1(_, 'StretchVertical', StretchVertical);
 if(!window.customElements.get('lucide-stretch-vertical')){window.customElements.define('lucide-stretch-vertical', StretchVertical);Aventus.WebComponentInstance.registerDefinition(StretchVertical);}
 
 const Strikethrough = class Strikethrough extends AbstractIcon {
@@ -45309,7 +45309,7 @@ const Strikethrough = class Strikethrough extends AbstractIcon {
 }
 Strikethrough.Namespace=`Lucide`;
 Strikethrough.Tag=`lucide-strikethrough`;
-_.Strikethrough=Strikethrough;
+__as1(_, 'Strikethrough', Strikethrough);
 if(!window.customElements.get('lucide-strikethrough')){window.customElements.define('lucide-strikethrough', Strikethrough);Aventus.WebComponentInstance.registerDefinition(Strikethrough);}
 
 const Subscript = class Subscript extends AbstractIcon {
@@ -45333,7 +45333,7 @@ const Subscript = class Subscript extends AbstractIcon {
 }
 Subscript.Namespace=`Lucide`;
 Subscript.Tag=`lucide-subscript`;
-_.Subscript=Subscript;
+__as1(_, 'Subscript', Subscript);
 if(!window.customElements.get('lucide-subscript')){window.customElements.define('lucide-subscript', Subscript);Aventus.WebComponentInstance.registerDefinition(Subscript);}
 
 const Subtitles = class Subtitles extends AbstractIcon {
@@ -45357,7 +45357,7 @@ const Subtitles = class Subtitles extends AbstractIcon {
 }
 Subtitles.Namespace=`Lucide`;
 Subtitles.Tag=`lucide-subtitles`;
-_.Subtitles=Subtitles;
+__as1(_, 'Subtitles', Subtitles);
 if(!window.customElements.get('lucide-subtitles')){window.customElements.define('lucide-subtitles', Subtitles);Aventus.WebComponentInstance.registerDefinition(Subtitles);}
 
 const Sun = class Sun extends AbstractIcon {
@@ -45381,7 +45381,7 @@ const Sun = class Sun extends AbstractIcon {
 }
 Sun.Namespace=`Lucide`;
 Sun.Tag=`lucide-sun`;
-_.Sun=Sun;
+__as1(_, 'Sun', Sun);
 if(!window.customElements.get('lucide-sun')){window.customElements.define('lucide-sun', Sun);Aventus.WebComponentInstance.registerDefinition(Sun);}
 
 const SunDim = class SunDim extends AbstractIcon {
@@ -45405,7 +45405,7 @@ const SunDim = class SunDim extends AbstractIcon {
 }
 SunDim.Namespace=`Lucide`;
 SunDim.Tag=`lucide-sun-dim`;
-_.SunDim=SunDim;
+__as1(_, 'SunDim', SunDim);
 if(!window.customElements.get('lucide-sun-dim')){window.customElements.define('lucide-sun-dim', SunDim);Aventus.WebComponentInstance.registerDefinition(SunDim);}
 
 const SunMedium = class SunMedium extends AbstractIcon {
@@ -45429,7 +45429,7 @@ const SunMedium = class SunMedium extends AbstractIcon {
 }
 SunMedium.Namespace=`Lucide`;
 SunMedium.Tag=`lucide-sun-medium`;
-_.SunMedium=SunMedium;
+__as1(_, 'SunMedium', SunMedium);
 if(!window.customElements.get('lucide-sun-medium')){window.customElements.define('lucide-sun-medium', SunMedium);Aventus.WebComponentInstance.registerDefinition(SunMedium);}
 
 const SunMoon = class SunMoon extends AbstractIcon {
@@ -45453,7 +45453,7 @@ const SunMoon = class SunMoon extends AbstractIcon {
 }
 SunMoon.Namespace=`Lucide`;
 SunMoon.Tag=`lucide-sun-moon`;
-_.SunMoon=SunMoon;
+__as1(_, 'SunMoon', SunMoon);
 if(!window.customElements.get('lucide-sun-moon')){window.customElements.define('lucide-sun-moon', SunMoon);Aventus.WebComponentInstance.registerDefinition(SunMoon);}
 
 const Sunrise = class Sunrise extends AbstractIcon {
@@ -45477,7 +45477,7 @@ const Sunrise = class Sunrise extends AbstractIcon {
 }
 Sunrise.Namespace=`Lucide`;
 Sunrise.Tag=`lucide-sunrise`;
-_.Sunrise=Sunrise;
+__as1(_, 'Sunrise', Sunrise);
 if(!window.customElements.get('lucide-sunrise')){window.customElements.define('lucide-sunrise', Sunrise);Aventus.WebComponentInstance.registerDefinition(Sunrise);}
 
 const Sunset = class Sunset extends AbstractIcon {
@@ -45501,7 +45501,7 @@ const Sunset = class Sunset extends AbstractIcon {
 }
 Sunset.Namespace=`Lucide`;
 Sunset.Tag=`lucide-sunset`;
-_.Sunset=Sunset;
+__as1(_, 'Sunset', Sunset);
 if(!window.customElements.get('lucide-sunset')){window.customElements.define('lucide-sunset', Sunset);Aventus.WebComponentInstance.registerDefinition(Sunset);}
 
 const SunSnow = class SunSnow extends AbstractIcon {
@@ -45525,7 +45525,7 @@ const SunSnow = class SunSnow extends AbstractIcon {
 }
 SunSnow.Namespace=`Lucide`;
 SunSnow.Tag=`lucide-sun-snow`;
-_.SunSnow=SunSnow;
+__as1(_, 'SunSnow', SunSnow);
 if(!window.customElements.get('lucide-sun-snow')){window.customElements.define('lucide-sun-snow', SunSnow);Aventus.WebComponentInstance.registerDefinition(SunSnow);}
 
 const Superscript = class Superscript extends AbstractIcon {
@@ -45549,7 +45549,7 @@ const Superscript = class Superscript extends AbstractIcon {
 }
 Superscript.Namespace=`Lucide`;
 Superscript.Tag=`lucide-superscript`;
-_.Superscript=Superscript;
+__as1(_, 'Superscript', Superscript);
 if(!window.customElements.get('lucide-superscript')){window.customElements.define('lucide-superscript', Superscript);Aventus.WebComponentInstance.registerDefinition(Superscript);}
 
 const SwatchBook = class SwatchBook extends AbstractIcon {
@@ -45573,7 +45573,7 @@ const SwatchBook = class SwatchBook extends AbstractIcon {
 }
 SwatchBook.Namespace=`Lucide`;
 SwatchBook.Tag=`lucide-swatch-book`;
-_.SwatchBook=SwatchBook;
+__as1(_, 'SwatchBook', SwatchBook);
 if(!window.customElements.get('lucide-swatch-book')){window.customElements.define('lucide-swatch-book', SwatchBook);Aventus.WebComponentInstance.registerDefinition(SwatchBook);}
 
 const SwissFranc = class SwissFranc extends AbstractIcon {
@@ -45597,7 +45597,7 @@ const SwissFranc = class SwissFranc extends AbstractIcon {
 }
 SwissFranc.Namespace=`Lucide`;
 SwissFranc.Tag=`lucide-swiss-franc`;
-_.SwissFranc=SwissFranc;
+__as1(_, 'SwissFranc', SwissFranc);
 if(!window.customElements.get('lucide-swiss-franc')){window.customElements.define('lucide-swiss-franc', SwissFranc);Aventus.WebComponentInstance.registerDefinition(SwissFranc);}
 
 const SwitchCamera = class SwitchCamera extends AbstractIcon {
@@ -45621,7 +45621,7 @@ const SwitchCamera = class SwitchCamera extends AbstractIcon {
 }
 SwitchCamera.Namespace=`Lucide`;
 SwitchCamera.Tag=`lucide-switch-camera`;
-_.SwitchCamera=SwitchCamera;
+__as1(_, 'SwitchCamera', SwitchCamera);
 if(!window.customElements.get('lucide-switch-camera')){window.customElements.define('lucide-switch-camera', SwitchCamera);Aventus.WebComponentInstance.registerDefinition(SwitchCamera);}
 
 const Sword = class Sword extends AbstractIcon {
@@ -45645,7 +45645,7 @@ const Sword = class Sword extends AbstractIcon {
 }
 Sword.Namespace=`Lucide`;
 Sword.Tag=`lucide-sword`;
-_.Sword=Sword;
+__as1(_, 'Sword', Sword);
 if(!window.customElements.get('lucide-sword')){window.customElements.define('lucide-sword', Sword);Aventus.WebComponentInstance.registerDefinition(Sword);}
 
 const Swords = class Swords extends AbstractIcon {
@@ -45669,7 +45669,7 @@ const Swords = class Swords extends AbstractIcon {
 }
 Swords.Namespace=`Lucide`;
 Swords.Tag=`lucide-swords`;
-_.Swords=Swords;
+__as1(_, 'Swords', Swords);
 if(!window.customElements.get('lucide-swords')){window.customElements.define('lucide-swords', Swords);Aventus.WebComponentInstance.registerDefinition(Swords);}
 
 const Syringe = class Syringe extends AbstractIcon {
@@ -45693,7 +45693,7 @@ const Syringe = class Syringe extends AbstractIcon {
 }
 Syringe.Namespace=`Lucide`;
 Syringe.Tag=`lucide-syringe`;
-_.Syringe=Syringe;
+__as1(_, 'Syringe', Syringe);
 if(!window.customElements.get('lucide-syringe')){window.customElements.define('lucide-syringe', Syringe);Aventus.WebComponentInstance.registerDefinition(Syringe);}
 
 const Table = class Table extends AbstractIcon {
@@ -45717,7 +45717,7 @@ const Table = class Table extends AbstractIcon {
 }
 Table.Namespace=`Lucide`;
 Table.Tag=`lucide-table`;
-_.Table=Table;
+__as1(_, 'Table', Table);
 if(!window.customElements.get('lucide-table')){window.customElements.define('lucide-table', Table);Aventus.WebComponentInstance.registerDefinition(Table);}
 
 const Table2 = class Table2 extends AbstractIcon {
@@ -45741,7 +45741,7 @@ const Table2 = class Table2 extends AbstractIcon {
 }
 Table2.Namespace=`Lucide`;
 Table2.Tag=`lucide-table-2`;
-_.Table2=Table2;
+__as1(_, 'Table2', Table2);
 if(!window.customElements.get('lucide-table-2')){window.customElements.define('lucide-table-2', Table2);Aventus.WebComponentInstance.registerDefinition(Table2);}
 
 const TableCellsMerge = class TableCellsMerge extends AbstractIcon {
@@ -45765,7 +45765,7 @@ const TableCellsMerge = class TableCellsMerge extends AbstractIcon {
 }
 TableCellsMerge.Namespace=`Lucide`;
 TableCellsMerge.Tag=`lucide-table-cells-merge`;
-_.TableCellsMerge=TableCellsMerge;
+__as1(_, 'TableCellsMerge', TableCellsMerge);
 if(!window.customElements.get('lucide-table-cells-merge')){window.customElements.define('lucide-table-cells-merge', TableCellsMerge);Aventus.WebComponentInstance.registerDefinition(TableCellsMerge);}
 
 const TableCellsSplit = class TableCellsSplit extends AbstractIcon {
@@ -45789,7 +45789,7 @@ const TableCellsSplit = class TableCellsSplit extends AbstractIcon {
 }
 TableCellsSplit.Namespace=`Lucide`;
 TableCellsSplit.Tag=`lucide-table-cells-split`;
-_.TableCellsSplit=TableCellsSplit;
+__as1(_, 'TableCellsSplit', TableCellsSplit);
 if(!window.customElements.get('lucide-table-cells-split')){window.customElements.define('lucide-table-cells-split', TableCellsSplit);Aventus.WebComponentInstance.registerDefinition(TableCellsSplit);}
 
 const TableColumnsSplit = class TableColumnsSplit extends AbstractIcon {
@@ -45813,7 +45813,7 @@ const TableColumnsSplit = class TableColumnsSplit extends AbstractIcon {
 }
 TableColumnsSplit.Namespace=`Lucide`;
 TableColumnsSplit.Tag=`lucide-table-columns-split`;
-_.TableColumnsSplit=TableColumnsSplit;
+__as1(_, 'TableColumnsSplit', TableColumnsSplit);
 if(!window.customElements.get('lucide-table-columns-split')){window.customElements.define('lucide-table-columns-split', TableColumnsSplit);Aventus.WebComponentInstance.registerDefinition(TableColumnsSplit);}
 
 const TableConfig = class TableConfig extends AbstractIcon {
@@ -45837,7 +45837,7 @@ const TableConfig = class TableConfig extends AbstractIcon {
 }
 TableConfig.Namespace=`Lucide`;
 TableConfig.Tag=`lucide-table-config`;
-_.TableConfig=TableConfig;
+__as1(_, 'TableConfig', TableConfig);
 if(!window.customElements.get('lucide-table-config')){window.customElements.define('lucide-table-config', TableConfig);Aventus.WebComponentInstance.registerDefinition(TableConfig);}
 
 const TableOfContents = class TableOfContents extends AbstractIcon {
@@ -45861,7 +45861,7 @@ const TableOfContents = class TableOfContents extends AbstractIcon {
 }
 TableOfContents.Namespace=`Lucide`;
 TableOfContents.Tag=`lucide-table-of-contents`;
-_.TableOfContents=TableOfContents;
+__as1(_, 'TableOfContents', TableOfContents);
 if(!window.customElements.get('lucide-table-of-contents')){window.customElements.define('lucide-table-of-contents', TableOfContents);Aventus.WebComponentInstance.registerDefinition(TableOfContents);}
 
 const TableProperties = class TableProperties extends AbstractIcon {
@@ -45885,7 +45885,7 @@ const TableProperties = class TableProperties extends AbstractIcon {
 }
 TableProperties.Namespace=`Lucide`;
 TableProperties.Tag=`lucide-table-properties`;
-_.TableProperties=TableProperties;
+__as1(_, 'TableProperties', TableProperties);
 if(!window.customElements.get('lucide-table-properties')){window.customElements.define('lucide-table-properties', TableProperties);Aventus.WebComponentInstance.registerDefinition(TableProperties);}
 
 const TableRowsSplit = class TableRowsSplit extends AbstractIcon {
@@ -45909,7 +45909,7 @@ const TableRowsSplit = class TableRowsSplit extends AbstractIcon {
 }
 TableRowsSplit.Namespace=`Lucide`;
 TableRowsSplit.Tag=`lucide-table-rows-split`;
-_.TableRowsSplit=TableRowsSplit;
+__as1(_, 'TableRowsSplit', TableRowsSplit);
 if(!window.customElements.get('lucide-table-rows-split')){window.customElements.define('lucide-table-rows-split', TableRowsSplit);Aventus.WebComponentInstance.registerDefinition(TableRowsSplit);}
 
 const Tablet = class Tablet extends AbstractIcon {
@@ -45933,7 +45933,7 @@ const Tablet = class Tablet extends AbstractIcon {
 }
 Tablet.Namespace=`Lucide`;
 Tablet.Tag=`lucide-tablet`;
-_.Tablet=Tablet;
+__as1(_, 'Tablet', Tablet);
 if(!window.customElements.get('lucide-tablet')){window.customElements.define('lucide-tablet', Tablet);Aventus.WebComponentInstance.registerDefinition(Tablet);}
 
 const Tablets = class Tablets extends AbstractIcon {
@@ -45957,7 +45957,7 @@ const Tablets = class Tablets extends AbstractIcon {
 }
 Tablets.Namespace=`Lucide`;
 Tablets.Tag=`lucide-tablets`;
-_.Tablets=Tablets;
+__as1(_, 'Tablets', Tablets);
 if(!window.customElements.get('lucide-tablets')){window.customElements.define('lucide-tablets', Tablets);Aventus.WebComponentInstance.registerDefinition(Tablets);}
 
 const TabletSmartphone = class TabletSmartphone extends AbstractIcon {
@@ -45981,7 +45981,7 @@ const TabletSmartphone = class TabletSmartphone extends AbstractIcon {
 }
 TabletSmartphone.Namespace=`Lucide`;
 TabletSmartphone.Tag=`lucide-tablet-smartphone`;
-_.TabletSmartphone=TabletSmartphone;
+__as1(_, 'TabletSmartphone', TabletSmartphone);
 if(!window.customElements.get('lucide-tablet-smartphone')){window.customElements.define('lucide-tablet-smartphone', TabletSmartphone);Aventus.WebComponentInstance.registerDefinition(TabletSmartphone);}
 
 const Tag = class Tag extends AbstractIcon {
@@ -46005,7 +46005,7 @@ const Tag = class Tag extends AbstractIcon {
 }
 Tag.Namespace=`Lucide`;
 Tag.Tag=`lucide-tag`;
-_.Tag=Tag;
+__as1(_, 'Tag', Tag);
 if(!window.customElements.get('lucide-tag')){window.customElements.define('lucide-tag', Tag);Aventus.WebComponentInstance.registerDefinition(Tag);}
 
 const Tags = class Tags extends AbstractIcon {
@@ -46029,7 +46029,7 @@ const Tags = class Tags extends AbstractIcon {
 }
 Tags.Namespace=`Lucide`;
 Tags.Tag=`lucide-tags`;
-_.Tags=Tags;
+__as1(_, 'Tags', Tags);
 if(!window.customElements.get('lucide-tags')){window.customElements.define('lucide-tags', Tags);Aventus.WebComponentInstance.registerDefinition(Tags);}
 
 const Tally1 = class Tally1 extends AbstractIcon {
@@ -46053,7 +46053,7 @@ const Tally1 = class Tally1 extends AbstractIcon {
 }
 Tally1.Namespace=`Lucide`;
 Tally1.Tag=`lucide-tally-1`;
-_.Tally1=Tally1;
+__as1(_, 'Tally1', Tally1);
 if(!window.customElements.get('lucide-tally-1')){window.customElements.define('lucide-tally-1', Tally1);Aventus.WebComponentInstance.registerDefinition(Tally1);}
 
 const Tally2 = class Tally2 extends AbstractIcon {
@@ -46077,7 +46077,7 @@ const Tally2 = class Tally2 extends AbstractIcon {
 }
 Tally2.Namespace=`Lucide`;
 Tally2.Tag=`lucide-tally-2`;
-_.Tally2=Tally2;
+__as1(_, 'Tally2', Tally2);
 if(!window.customElements.get('lucide-tally-2')){window.customElements.define('lucide-tally-2', Tally2);Aventus.WebComponentInstance.registerDefinition(Tally2);}
 
 const Tally3 = class Tally3 extends AbstractIcon {
@@ -46101,7 +46101,7 @@ const Tally3 = class Tally3 extends AbstractIcon {
 }
 Tally3.Namespace=`Lucide`;
 Tally3.Tag=`lucide-tally-3`;
-_.Tally3=Tally3;
+__as1(_, 'Tally3', Tally3);
 if(!window.customElements.get('lucide-tally-3')){window.customElements.define('lucide-tally-3', Tally3);Aventus.WebComponentInstance.registerDefinition(Tally3);}
 
 const Tally4 = class Tally4 extends AbstractIcon {
@@ -46125,7 +46125,7 @@ const Tally4 = class Tally4 extends AbstractIcon {
 }
 Tally4.Namespace=`Lucide`;
 Tally4.Tag=`lucide-tally-4`;
-_.Tally4=Tally4;
+__as1(_, 'Tally4', Tally4);
 if(!window.customElements.get('lucide-tally-4')){window.customElements.define('lucide-tally-4', Tally4);Aventus.WebComponentInstance.registerDefinition(Tally4);}
 
 const Tally5 = class Tally5 extends AbstractIcon {
@@ -46149,7 +46149,7 @@ const Tally5 = class Tally5 extends AbstractIcon {
 }
 Tally5.Namespace=`Lucide`;
 Tally5.Tag=`lucide-tally-5`;
-_.Tally5=Tally5;
+__as1(_, 'Tally5', Tally5);
 if(!window.customElements.get('lucide-tally-5')){window.customElements.define('lucide-tally-5', Tally5);Aventus.WebComponentInstance.registerDefinition(Tally5);}
 
 const Tangent = class Tangent extends AbstractIcon {
@@ -46173,7 +46173,7 @@ const Tangent = class Tangent extends AbstractIcon {
 }
 Tangent.Namespace=`Lucide`;
 Tangent.Tag=`lucide-tangent`;
-_.Tangent=Tangent;
+__as1(_, 'Tangent', Tangent);
 if(!window.customElements.get('lucide-tangent')){window.customElements.define('lucide-tangent', Tangent);Aventus.WebComponentInstance.registerDefinition(Tangent);}
 
 const Target = class Target extends AbstractIcon {
@@ -46197,7 +46197,7 @@ const Target = class Target extends AbstractIcon {
 }
 Target.Namespace=`Lucide`;
 Target.Tag=`lucide-target`;
-_.Target=Target;
+__as1(_, 'Target', Target);
 if(!window.customElements.get('lucide-target')){window.customElements.define('lucide-target', Target);Aventus.WebComponentInstance.registerDefinition(Target);}
 
 const Telescope = class Telescope extends AbstractIcon {
@@ -46221,7 +46221,7 @@ const Telescope = class Telescope extends AbstractIcon {
 }
 Telescope.Namespace=`Lucide`;
 Telescope.Tag=`lucide-telescope`;
-_.Telescope=Telescope;
+__as1(_, 'Telescope', Telescope);
 if(!window.customElements.get('lucide-telescope')){window.customElements.define('lucide-telescope', Telescope);Aventus.WebComponentInstance.registerDefinition(Telescope);}
 
 const Tent = class Tent extends AbstractIcon {
@@ -46245,7 +46245,7 @@ const Tent = class Tent extends AbstractIcon {
 }
 Tent.Namespace=`Lucide`;
 Tent.Tag=`lucide-tent`;
-_.Tent=Tent;
+__as1(_, 'Tent', Tent);
 if(!window.customElements.get('lucide-tent')){window.customElements.define('lucide-tent', Tent);Aventus.WebComponentInstance.registerDefinition(Tent);}
 
 const TentTree = class TentTree extends AbstractIcon {
@@ -46269,7 +46269,7 @@ const TentTree = class TentTree extends AbstractIcon {
 }
 TentTree.Namespace=`Lucide`;
 TentTree.Tag=`lucide-tent-tree`;
-_.TentTree=TentTree;
+__as1(_, 'TentTree', TentTree);
 if(!window.customElements.get('lucide-tent-tree')){window.customElements.define('lucide-tent-tree', TentTree);Aventus.WebComponentInstance.registerDefinition(TentTree);}
 
 const Terminal = class Terminal extends AbstractIcon {
@@ -46293,7 +46293,7 @@ const Terminal = class Terminal extends AbstractIcon {
 }
 Terminal.Namespace=`Lucide`;
 Terminal.Tag=`lucide-terminal`;
-_.Terminal=Terminal;
+__as1(_, 'Terminal', Terminal);
 if(!window.customElements.get('lucide-terminal')){window.customElements.define('lucide-terminal', Terminal);Aventus.WebComponentInstance.registerDefinition(Terminal);}
 
 const TerminalSquare = class TerminalSquare extends AbstractIcon {
@@ -46317,7 +46317,7 @@ const TerminalSquare = class TerminalSquare extends AbstractIcon {
 }
 TerminalSquare.Namespace=`Lucide`;
 TerminalSquare.Tag=`lucide-terminal-square`;
-_.TerminalSquare=TerminalSquare;
+__as1(_, 'TerminalSquare', TerminalSquare);
 if(!window.customElements.get('lucide-terminal-square')){window.customElements.define('lucide-terminal-square', TerminalSquare);Aventus.WebComponentInstance.registerDefinition(TerminalSquare);}
 
 const TestTube = class TestTube extends AbstractIcon {
@@ -46341,7 +46341,7 @@ const TestTube = class TestTube extends AbstractIcon {
 }
 TestTube.Namespace=`Lucide`;
 TestTube.Tag=`lucide-test-tube`;
-_.TestTube=TestTube;
+__as1(_, 'TestTube', TestTube);
 if(!window.customElements.get('lucide-test-tube')){window.customElements.define('lucide-test-tube', TestTube);Aventus.WebComponentInstance.registerDefinition(TestTube);}
 
 const TestTube2 = class TestTube2 extends AbstractIcon {
@@ -46365,7 +46365,7 @@ const TestTube2 = class TestTube2 extends AbstractIcon {
 }
 TestTube2.Namespace=`Lucide`;
 TestTube2.Tag=`lucide-test-tube-2`;
-_.TestTube2=TestTube2;
+__as1(_, 'TestTube2', TestTube2);
 if(!window.customElements.get('lucide-test-tube-2')){window.customElements.define('lucide-test-tube-2', TestTube2);Aventus.WebComponentInstance.registerDefinition(TestTube2);}
 
 const TestTubeDiagonal = class TestTubeDiagonal extends AbstractIcon {
@@ -46389,7 +46389,7 @@ const TestTubeDiagonal = class TestTubeDiagonal extends AbstractIcon {
 }
 TestTubeDiagonal.Namespace=`Lucide`;
 TestTubeDiagonal.Tag=`lucide-test-tube-diagonal`;
-_.TestTubeDiagonal=TestTubeDiagonal;
+__as1(_, 'TestTubeDiagonal', TestTubeDiagonal);
 if(!window.customElements.get('lucide-test-tube-diagonal')){window.customElements.define('lucide-test-tube-diagonal', TestTubeDiagonal);Aventus.WebComponentInstance.registerDefinition(TestTubeDiagonal);}
 
 const TestTubes = class TestTubes extends AbstractIcon {
@@ -46413,7 +46413,7 @@ const TestTubes = class TestTubes extends AbstractIcon {
 }
 TestTubes.Namespace=`Lucide`;
 TestTubes.Tag=`lucide-test-tubes`;
-_.TestTubes=TestTubes;
+__as1(_, 'TestTubes', TestTubes);
 if(!window.customElements.get('lucide-test-tubes')){window.customElements.define('lucide-test-tubes', TestTubes);Aventus.WebComponentInstance.registerDefinition(TestTubes);}
 
 const Text = class Text extends AbstractIcon {
@@ -46437,7 +46437,7 @@ const Text = class Text extends AbstractIcon {
 }
 Text.Namespace=`Lucide`;
 Text.Tag=`lucide-text`;
-_.Text=Text;
+__as1(_, 'Text', Text);
 if(!window.customElements.get('lucide-text')){window.customElements.define('lucide-text', Text);Aventus.WebComponentInstance.registerDefinition(Text);}
 
 const TextCursor = class TextCursor extends AbstractIcon {
@@ -46461,7 +46461,7 @@ const TextCursor = class TextCursor extends AbstractIcon {
 }
 TextCursor.Namespace=`Lucide`;
 TextCursor.Tag=`lucide-text-cursor`;
-_.TextCursor=TextCursor;
+__as1(_, 'TextCursor', TextCursor);
 if(!window.customElements.get('lucide-text-cursor')){window.customElements.define('lucide-text-cursor', TextCursor);Aventus.WebComponentInstance.registerDefinition(TextCursor);}
 
 const TextCursorInput = class TextCursorInput extends AbstractIcon {
@@ -46485,7 +46485,7 @@ const TextCursorInput = class TextCursorInput extends AbstractIcon {
 }
 TextCursorInput.Namespace=`Lucide`;
 TextCursorInput.Tag=`lucide-text-cursor-input`;
-_.TextCursorInput=TextCursorInput;
+__as1(_, 'TextCursorInput', TextCursorInput);
 if(!window.customElements.get('lucide-text-cursor-input')){window.customElements.define('lucide-text-cursor-input', TextCursorInput);Aventus.WebComponentInstance.registerDefinition(TextCursorInput);}
 
 const TextQuote = class TextQuote extends AbstractIcon {
@@ -46509,7 +46509,7 @@ const TextQuote = class TextQuote extends AbstractIcon {
 }
 TextQuote.Namespace=`Lucide`;
 TextQuote.Tag=`lucide-text-quote`;
-_.TextQuote=TextQuote;
+__as1(_, 'TextQuote', TextQuote);
 if(!window.customElements.get('lucide-text-quote')){window.customElements.define('lucide-text-quote', TextQuote);Aventus.WebComponentInstance.registerDefinition(TextQuote);}
 
 const TextSearch = class TextSearch extends AbstractIcon {
@@ -46533,7 +46533,7 @@ const TextSearch = class TextSearch extends AbstractIcon {
 }
 TextSearch.Namespace=`Lucide`;
 TextSearch.Tag=`lucide-text-search`;
-_.TextSearch=TextSearch;
+__as1(_, 'TextSearch', TextSearch);
 if(!window.customElements.get('lucide-text-search')){window.customElements.define('lucide-text-search', TextSearch);Aventus.WebComponentInstance.registerDefinition(TextSearch);}
 
 const TextSelect = class TextSelect extends AbstractIcon {
@@ -46557,7 +46557,7 @@ const TextSelect = class TextSelect extends AbstractIcon {
 }
 TextSelect.Namespace=`Lucide`;
 TextSelect.Tag=`lucide-text-select`;
-_.TextSelect=TextSelect;
+__as1(_, 'TextSelect', TextSelect);
 if(!window.customElements.get('lucide-text-select')){window.customElements.define('lucide-text-select', TextSelect);Aventus.WebComponentInstance.registerDefinition(TextSelect);}
 
 const TextSelection = class TextSelection extends AbstractIcon {
@@ -46581,7 +46581,7 @@ const TextSelection = class TextSelection extends AbstractIcon {
 }
 TextSelection.Namespace=`Lucide`;
 TextSelection.Tag=`lucide-text-selection`;
-_.TextSelection=TextSelection;
+__as1(_, 'TextSelection', TextSelection);
 if(!window.customElements.get('lucide-text-selection')){window.customElements.define('lucide-text-selection', TextSelection);Aventus.WebComponentInstance.registerDefinition(TextSelection);}
 
 const Theater = class Theater extends AbstractIcon {
@@ -46605,7 +46605,7 @@ const Theater = class Theater extends AbstractIcon {
 }
 Theater.Namespace=`Lucide`;
 Theater.Tag=`lucide-theater`;
-_.Theater=Theater;
+__as1(_, 'Theater', Theater);
 if(!window.customElements.get('lucide-theater')){window.customElements.define('lucide-theater', Theater);Aventus.WebComponentInstance.registerDefinition(Theater);}
 
 const Thermometer = class Thermometer extends AbstractIcon {
@@ -46629,7 +46629,7 @@ const Thermometer = class Thermometer extends AbstractIcon {
 }
 Thermometer.Namespace=`Lucide`;
 Thermometer.Tag=`lucide-thermometer`;
-_.Thermometer=Thermometer;
+__as1(_, 'Thermometer', Thermometer);
 if(!window.customElements.get('lucide-thermometer')){window.customElements.define('lucide-thermometer', Thermometer);Aventus.WebComponentInstance.registerDefinition(Thermometer);}
 
 const ThermometerSnowflake = class ThermometerSnowflake extends AbstractIcon {
@@ -46653,7 +46653,7 @@ const ThermometerSnowflake = class ThermometerSnowflake extends AbstractIcon {
 }
 ThermometerSnowflake.Namespace=`Lucide`;
 ThermometerSnowflake.Tag=`lucide-thermometer-snowflake`;
-_.ThermometerSnowflake=ThermometerSnowflake;
+__as1(_, 'ThermometerSnowflake', ThermometerSnowflake);
 if(!window.customElements.get('lucide-thermometer-snowflake')){window.customElements.define('lucide-thermometer-snowflake', ThermometerSnowflake);Aventus.WebComponentInstance.registerDefinition(ThermometerSnowflake);}
 
 const ThermometerSun = class ThermometerSun extends AbstractIcon {
@@ -46677,7 +46677,7 @@ const ThermometerSun = class ThermometerSun extends AbstractIcon {
 }
 ThermometerSun.Namespace=`Lucide`;
 ThermometerSun.Tag=`lucide-thermometer-sun`;
-_.ThermometerSun=ThermometerSun;
+__as1(_, 'ThermometerSun', ThermometerSun);
 if(!window.customElements.get('lucide-thermometer-sun')){window.customElements.define('lucide-thermometer-sun', ThermometerSun);Aventus.WebComponentInstance.registerDefinition(ThermometerSun);}
 
 const ThumbsDown = class ThumbsDown extends AbstractIcon {
@@ -46701,7 +46701,7 @@ const ThumbsDown = class ThumbsDown extends AbstractIcon {
 }
 ThumbsDown.Namespace=`Lucide`;
 ThumbsDown.Tag=`lucide-thumbs-down`;
-_.ThumbsDown=ThumbsDown;
+__as1(_, 'ThumbsDown', ThumbsDown);
 if(!window.customElements.get('lucide-thumbs-down')){window.customElements.define('lucide-thumbs-down', ThumbsDown);Aventus.WebComponentInstance.registerDefinition(ThumbsDown);}
 
 const ThumbsUp = class ThumbsUp extends AbstractIcon {
@@ -46725,7 +46725,7 @@ const ThumbsUp = class ThumbsUp extends AbstractIcon {
 }
 ThumbsUp.Namespace=`Lucide`;
 ThumbsUp.Tag=`lucide-thumbs-up`;
-_.ThumbsUp=ThumbsUp;
+__as1(_, 'ThumbsUp', ThumbsUp);
 if(!window.customElements.get('lucide-thumbs-up')){window.customElements.define('lucide-thumbs-up', ThumbsUp);Aventus.WebComponentInstance.registerDefinition(ThumbsUp);}
 
 const Ticket = class Ticket extends AbstractIcon {
@@ -46749,7 +46749,7 @@ const Ticket = class Ticket extends AbstractIcon {
 }
 Ticket.Namespace=`Lucide`;
 Ticket.Tag=`lucide-ticket`;
-_.Ticket=Ticket;
+__as1(_, 'Ticket', Ticket);
 if(!window.customElements.get('lucide-ticket')){window.customElements.define('lucide-ticket', Ticket);Aventus.WebComponentInstance.registerDefinition(Ticket);}
 
 const TicketCheck = class TicketCheck extends AbstractIcon {
@@ -46773,7 +46773,7 @@ const TicketCheck = class TicketCheck extends AbstractIcon {
 }
 TicketCheck.Namespace=`Lucide`;
 TicketCheck.Tag=`lucide-ticket-check`;
-_.TicketCheck=TicketCheck;
+__as1(_, 'TicketCheck', TicketCheck);
 if(!window.customElements.get('lucide-ticket-check')){window.customElements.define('lucide-ticket-check', TicketCheck);Aventus.WebComponentInstance.registerDefinition(TicketCheck);}
 
 const TicketMinus = class TicketMinus extends AbstractIcon {
@@ -46797,7 +46797,7 @@ const TicketMinus = class TicketMinus extends AbstractIcon {
 }
 TicketMinus.Namespace=`Lucide`;
 TicketMinus.Tag=`lucide-ticket-minus`;
-_.TicketMinus=TicketMinus;
+__as1(_, 'TicketMinus', TicketMinus);
 if(!window.customElements.get('lucide-ticket-minus')){window.customElements.define('lucide-ticket-minus', TicketMinus);Aventus.WebComponentInstance.registerDefinition(TicketMinus);}
 
 const TicketPercent = class TicketPercent extends AbstractIcon {
@@ -46821,7 +46821,7 @@ const TicketPercent = class TicketPercent extends AbstractIcon {
 }
 TicketPercent.Namespace=`Lucide`;
 TicketPercent.Tag=`lucide-ticket-percent`;
-_.TicketPercent=TicketPercent;
+__as1(_, 'TicketPercent', TicketPercent);
 if(!window.customElements.get('lucide-ticket-percent')){window.customElements.define('lucide-ticket-percent', TicketPercent);Aventus.WebComponentInstance.registerDefinition(TicketPercent);}
 
 const TicketPlus = class TicketPlus extends AbstractIcon {
@@ -46845,7 +46845,7 @@ const TicketPlus = class TicketPlus extends AbstractIcon {
 }
 TicketPlus.Namespace=`Lucide`;
 TicketPlus.Tag=`lucide-ticket-plus`;
-_.TicketPlus=TicketPlus;
+__as1(_, 'TicketPlus', TicketPlus);
 if(!window.customElements.get('lucide-ticket-plus')){window.customElements.define('lucide-ticket-plus', TicketPlus);Aventus.WebComponentInstance.registerDefinition(TicketPlus);}
 
 const Tickets = class Tickets extends AbstractIcon {
@@ -46869,7 +46869,7 @@ const Tickets = class Tickets extends AbstractIcon {
 }
 Tickets.Namespace=`Lucide`;
 Tickets.Tag=`lucide-tickets`;
-_.Tickets=Tickets;
+__as1(_, 'Tickets', Tickets);
 if(!window.customElements.get('lucide-tickets')){window.customElements.define('lucide-tickets', Tickets);Aventus.WebComponentInstance.registerDefinition(Tickets);}
 
 const TicketSlash = class TicketSlash extends AbstractIcon {
@@ -46893,7 +46893,7 @@ const TicketSlash = class TicketSlash extends AbstractIcon {
 }
 TicketSlash.Namespace=`Lucide`;
 TicketSlash.Tag=`lucide-ticket-slash`;
-_.TicketSlash=TicketSlash;
+__as1(_, 'TicketSlash', TicketSlash);
 if(!window.customElements.get('lucide-ticket-slash')){window.customElements.define('lucide-ticket-slash', TicketSlash);Aventus.WebComponentInstance.registerDefinition(TicketSlash);}
 
 const TicketsPlane = class TicketsPlane extends AbstractIcon {
@@ -46917,7 +46917,7 @@ const TicketsPlane = class TicketsPlane extends AbstractIcon {
 }
 TicketsPlane.Namespace=`Lucide`;
 TicketsPlane.Tag=`lucide-tickets-plane`;
-_.TicketsPlane=TicketsPlane;
+__as1(_, 'TicketsPlane', TicketsPlane);
 if(!window.customElements.get('lucide-tickets-plane')){window.customElements.define('lucide-tickets-plane', TicketsPlane);Aventus.WebComponentInstance.registerDefinition(TicketsPlane);}
 
 const TicketX = class TicketX extends AbstractIcon {
@@ -46941,7 +46941,7 @@ const TicketX = class TicketX extends AbstractIcon {
 }
 TicketX.Namespace=`Lucide`;
 TicketX.Tag=`lucide-ticket-x`;
-_.TicketX=TicketX;
+__as1(_, 'TicketX', TicketX);
 if(!window.customElements.get('lucide-ticket-x')){window.customElements.define('lucide-ticket-x', TicketX);Aventus.WebComponentInstance.registerDefinition(TicketX);}
 
 const Timer = class Timer extends AbstractIcon {
@@ -46965,7 +46965,7 @@ const Timer = class Timer extends AbstractIcon {
 }
 Timer.Namespace=`Lucide`;
 Timer.Tag=`lucide-timer`;
-_.Timer=Timer;
+__as1(_, 'Timer', Timer);
 if(!window.customElements.get('lucide-timer')){window.customElements.define('lucide-timer', Timer);Aventus.WebComponentInstance.registerDefinition(Timer);}
 
 const TimerOff = class TimerOff extends AbstractIcon {
@@ -46989,7 +46989,7 @@ const TimerOff = class TimerOff extends AbstractIcon {
 }
 TimerOff.Namespace=`Lucide`;
 TimerOff.Tag=`lucide-timer-off`;
-_.TimerOff=TimerOff;
+__as1(_, 'TimerOff', TimerOff);
 if(!window.customElements.get('lucide-timer-off')){window.customElements.define('lucide-timer-off', TimerOff);Aventus.WebComponentInstance.registerDefinition(TimerOff);}
 
 const TimerReset = class TimerReset extends AbstractIcon {
@@ -47013,7 +47013,7 @@ const TimerReset = class TimerReset extends AbstractIcon {
 }
 TimerReset.Namespace=`Lucide`;
 TimerReset.Tag=`lucide-timer-reset`;
-_.TimerReset=TimerReset;
+__as1(_, 'TimerReset', TimerReset);
 if(!window.customElements.get('lucide-timer-reset')){window.customElements.define('lucide-timer-reset', TimerReset);Aventus.WebComponentInstance.registerDefinition(TimerReset);}
 
 const ToggleLeft = class ToggleLeft extends AbstractIcon {
@@ -47037,7 +47037,7 @@ const ToggleLeft = class ToggleLeft extends AbstractIcon {
 }
 ToggleLeft.Namespace=`Lucide`;
 ToggleLeft.Tag=`lucide-toggle-left`;
-_.ToggleLeft=ToggleLeft;
+__as1(_, 'ToggleLeft', ToggleLeft);
 if(!window.customElements.get('lucide-toggle-left')){window.customElements.define('lucide-toggle-left', ToggleLeft);Aventus.WebComponentInstance.registerDefinition(ToggleLeft);}
 
 const ToggleRight = class ToggleRight extends AbstractIcon {
@@ -47061,7 +47061,7 @@ const ToggleRight = class ToggleRight extends AbstractIcon {
 }
 ToggleRight.Namespace=`Lucide`;
 ToggleRight.Tag=`lucide-toggle-right`;
-_.ToggleRight=ToggleRight;
+__as1(_, 'ToggleRight', ToggleRight);
 if(!window.customElements.get('lucide-toggle-right')){window.customElements.define('lucide-toggle-right', ToggleRight);Aventus.WebComponentInstance.registerDefinition(ToggleRight);}
 
 const Toilet = class Toilet extends AbstractIcon {
@@ -47085,7 +47085,7 @@ const Toilet = class Toilet extends AbstractIcon {
 }
 Toilet.Namespace=`Lucide`;
 Toilet.Tag=`lucide-toilet`;
-_.Toilet=Toilet;
+__as1(_, 'Toilet', Toilet);
 if(!window.customElements.get('lucide-toilet')){window.customElements.define('lucide-toilet', Toilet);Aventus.WebComponentInstance.registerDefinition(Toilet);}
 
 const ToolCase = class ToolCase extends AbstractIcon {
@@ -47109,7 +47109,7 @@ const ToolCase = class ToolCase extends AbstractIcon {
 }
 ToolCase.Namespace=`Lucide`;
 ToolCase.Tag=`lucide-tool-case`;
-_.ToolCase=ToolCase;
+__as1(_, 'ToolCase', ToolCase);
 if(!window.customElements.get('lucide-tool-case')){window.customElements.define('lucide-tool-case', ToolCase);Aventus.WebComponentInstance.registerDefinition(ToolCase);}
 
 const Tornado = class Tornado extends AbstractIcon {
@@ -47133,7 +47133,7 @@ const Tornado = class Tornado extends AbstractIcon {
 }
 Tornado.Namespace=`Lucide`;
 Tornado.Tag=`lucide-tornado`;
-_.Tornado=Tornado;
+__as1(_, 'Tornado', Tornado);
 if(!window.customElements.get('lucide-tornado')){window.customElements.define('lucide-tornado', Tornado);Aventus.WebComponentInstance.registerDefinition(Tornado);}
 
 const Torus = class Torus extends AbstractIcon {
@@ -47157,7 +47157,7 @@ const Torus = class Torus extends AbstractIcon {
 }
 Torus.Namespace=`Lucide`;
 Torus.Tag=`lucide-torus`;
-_.Torus=Torus;
+__as1(_, 'Torus', Torus);
 if(!window.customElements.get('lucide-torus')){window.customElements.define('lucide-torus', Torus);Aventus.WebComponentInstance.registerDefinition(Torus);}
 
 const Touchpad = class Touchpad extends AbstractIcon {
@@ -47181,7 +47181,7 @@ const Touchpad = class Touchpad extends AbstractIcon {
 }
 Touchpad.Namespace=`Lucide`;
 Touchpad.Tag=`lucide-touchpad`;
-_.Touchpad=Touchpad;
+__as1(_, 'Touchpad', Touchpad);
 if(!window.customElements.get('lucide-touchpad')){window.customElements.define('lucide-touchpad', Touchpad);Aventus.WebComponentInstance.registerDefinition(Touchpad);}
 
 const TouchpadOff = class TouchpadOff extends AbstractIcon {
@@ -47205,7 +47205,7 @@ const TouchpadOff = class TouchpadOff extends AbstractIcon {
 }
 TouchpadOff.Namespace=`Lucide`;
 TouchpadOff.Tag=`lucide-touchpad-off`;
-_.TouchpadOff=TouchpadOff;
+__as1(_, 'TouchpadOff', TouchpadOff);
 if(!window.customElements.get('lucide-touchpad-off')){window.customElements.define('lucide-touchpad-off', TouchpadOff);Aventus.WebComponentInstance.registerDefinition(TouchpadOff);}
 
 const TowerControl = class TowerControl extends AbstractIcon {
@@ -47229,7 +47229,7 @@ const TowerControl = class TowerControl extends AbstractIcon {
 }
 TowerControl.Namespace=`Lucide`;
 TowerControl.Tag=`lucide-tower-control`;
-_.TowerControl=TowerControl;
+__as1(_, 'TowerControl', TowerControl);
 if(!window.customElements.get('lucide-tower-control')){window.customElements.define('lucide-tower-control', TowerControl);Aventus.WebComponentInstance.registerDefinition(TowerControl);}
 
 const ToyBrick = class ToyBrick extends AbstractIcon {
@@ -47253,7 +47253,7 @@ const ToyBrick = class ToyBrick extends AbstractIcon {
 }
 ToyBrick.Namespace=`Lucide`;
 ToyBrick.Tag=`lucide-toy-brick`;
-_.ToyBrick=ToyBrick;
+__as1(_, 'ToyBrick', ToyBrick);
 if(!window.customElements.get('lucide-toy-brick')){window.customElements.define('lucide-toy-brick', ToyBrick);Aventus.WebComponentInstance.registerDefinition(ToyBrick);}
 
 const Tractor = class Tractor extends AbstractIcon {
@@ -47277,7 +47277,7 @@ const Tractor = class Tractor extends AbstractIcon {
 }
 Tractor.Namespace=`Lucide`;
 Tractor.Tag=`lucide-tractor`;
-_.Tractor=Tractor;
+__as1(_, 'Tractor', Tractor);
 if(!window.customElements.get('lucide-tractor')){window.customElements.define('lucide-tractor', Tractor);Aventus.WebComponentInstance.registerDefinition(Tractor);}
 
 const TrafficCone = class TrafficCone extends AbstractIcon {
@@ -47301,7 +47301,7 @@ const TrafficCone = class TrafficCone extends AbstractIcon {
 }
 TrafficCone.Namespace=`Lucide`;
 TrafficCone.Tag=`lucide-traffic-cone`;
-_.TrafficCone=TrafficCone;
+__as1(_, 'TrafficCone', TrafficCone);
 if(!window.customElements.get('lucide-traffic-cone')){window.customElements.define('lucide-traffic-cone', TrafficCone);Aventus.WebComponentInstance.registerDefinition(TrafficCone);}
 
 const Train = class Train extends AbstractIcon {
@@ -47325,7 +47325,7 @@ const Train = class Train extends AbstractIcon {
 }
 Train.Namespace=`Lucide`;
 Train.Tag=`lucide-train`;
-_.Train=Train;
+__as1(_, 'Train', Train);
 if(!window.customElements.get('lucide-train')){window.customElements.define('lucide-train', Train);Aventus.WebComponentInstance.registerDefinition(Train);}
 
 const TrainFront = class TrainFront extends AbstractIcon {
@@ -47349,7 +47349,7 @@ const TrainFront = class TrainFront extends AbstractIcon {
 }
 TrainFront.Namespace=`Lucide`;
 TrainFront.Tag=`lucide-train-front`;
-_.TrainFront=TrainFront;
+__as1(_, 'TrainFront', TrainFront);
 if(!window.customElements.get('lucide-train-front')){window.customElements.define('lucide-train-front', TrainFront);Aventus.WebComponentInstance.registerDefinition(TrainFront);}
 
 const TrainFrontTunnel = class TrainFrontTunnel extends AbstractIcon {
@@ -47373,7 +47373,7 @@ const TrainFrontTunnel = class TrainFrontTunnel extends AbstractIcon {
 }
 TrainFrontTunnel.Namespace=`Lucide`;
 TrainFrontTunnel.Tag=`lucide-train-front-tunnel`;
-_.TrainFrontTunnel=TrainFrontTunnel;
+__as1(_, 'TrainFrontTunnel', TrainFrontTunnel);
 if(!window.customElements.get('lucide-train-front-tunnel')){window.customElements.define('lucide-train-front-tunnel', TrainFrontTunnel);Aventus.WebComponentInstance.registerDefinition(TrainFrontTunnel);}
 
 const TrainTrack = class TrainTrack extends AbstractIcon {
@@ -47397,7 +47397,7 @@ const TrainTrack = class TrainTrack extends AbstractIcon {
 }
 TrainTrack.Namespace=`Lucide`;
 TrainTrack.Tag=`lucide-train-track`;
-_.TrainTrack=TrainTrack;
+__as1(_, 'TrainTrack', TrainTrack);
 if(!window.customElements.get('lucide-train-track')){window.customElements.define('lucide-train-track', TrainTrack);Aventus.WebComponentInstance.registerDefinition(TrainTrack);}
 
 const TramFront = class TramFront extends AbstractIcon {
@@ -47421,7 +47421,7 @@ const TramFront = class TramFront extends AbstractIcon {
 }
 TramFront.Namespace=`Lucide`;
 TramFront.Tag=`lucide-tram-front`;
-_.TramFront=TramFront;
+__as1(_, 'TramFront', TramFront);
 if(!window.customElements.get('lucide-tram-front')){window.customElements.define('lucide-tram-front', TramFront);Aventus.WebComponentInstance.registerDefinition(TramFront);}
 
 const Transgender = class Transgender extends AbstractIcon {
@@ -47445,7 +47445,7 @@ const Transgender = class Transgender extends AbstractIcon {
 }
 Transgender.Namespace=`Lucide`;
 Transgender.Tag=`lucide-transgender`;
-_.Transgender=Transgender;
+__as1(_, 'Transgender', Transgender);
 if(!window.customElements.get('lucide-transgender')){window.customElements.define('lucide-transgender', Transgender);Aventus.WebComponentInstance.registerDefinition(Transgender);}
 
 const Trash = class Trash extends AbstractIcon {
@@ -47469,7 +47469,7 @@ const Trash = class Trash extends AbstractIcon {
 }
 Trash.Namespace=`Lucide`;
 Trash.Tag=`lucide-trash`;
-_.Trash=Trash;
+__as1(_, 'Trash', Trash);
 if(!window.customElements.get('lucide-trash')){window.customElements.define('lucide-trash', Trash);Aventus.WebComponentInstance.registerDefinition(Trash);}
 
 const Trash2 = class Trash2 extends AbstractIcon {
@@ -47493,7 +47493,7 @@ const Trash2 = class Trash2 extends AbstractIcon {
 }
 Trash2.Namespace=`Lucide`;
 Trash2.Tag=`lucide-trash-2`;
-_.Trash2=Trash2;
+__as1(_, 'Trash2', Trash2);
 if(!window.customElements.get('lucide-trash-2')){window.customElements.define('lucide-trash-2', Trash2);Aventus.WebComponentInstance.registerDefinition(Trash2);}
 
 const TreeDeciduous = class TreeDeciduous extends AbstractIcon {
@@ -47517,7 +47517,7 @@ const TreeDeciduous = class TreeDeciduous extends AbstractIcon {
 }
 TreeDeciduous.Namespace=`Lucide`;
 TreeDeciduous.Tag=`lucide-tree-deciduous`;
-_.TreeDeciduous=TreeDeciduous;
+__as1(_, 'TreeDeciduous', TreeDeciduous);
 if(!window.customElements.get('lucide-tree-deciduous')){window.customElements.define('lucide-tree-deciduous', TreeDeciduous);Aventus.WebComponentInstance.registerDefinition(TreeDeciduous);}
 
 const TreePalm = class TreePalm extends AbstractIcon {
@@ -47541,7 +47541,7 @@ const TreePalm = class TreePalm extends AbstractIcon {
 }
 TreePalm.Namespace=`Lucide`;
 TreePalm.Tag=`lucide-tree-palm`;
-_.TreePalm=TreePalm;
+__as1(_, 'TreePalm', TreePalm);
 if(!window.customElements.get('lucide-tree-palm')){window.customElements.define('lucide-tree-palm', TreePalm);Aventus.WebComponentInstance.registerDefinition(TreePalm);}
 
 const TreePine = class TreePine extends AbstractIcon {
@@ -47565,7 +47565,7 @@ const TreePine = class TreePine extends AbstractIcon {
 }
 TreePine.Namespace=`Lucide`;
 TreePine.Tag=`lucide-tree-pine`;
-_.TreePine=TreePine;
+__as1(_, 'TreePine', TreePine);
 if(!window.customElements.get('lucide-tree-pine')){window.customElements.define('lucide-tree-pine', TreePine);Aventus.WebComponentInstance.registerDefinition(TreePine);}
 
 const Trees = class Trees extends AbstractIcon {
@@ -47589,7 +47589,7 @@ const Trees = class Trees extends AbstractIcon {
 }
 Trees.Namespace=`Lucide`;
 Trees.Tag=`lucide-trees`;
-_.Trees=Trees;
+__as1(_, 'Trees', Trees);
 if(!window.customElements.get('lucide-trees')){window.customElements.define('lucide-trees', Trees);Aventus.WebComponentInstance.registerDefinition(Trees);}
 
 const Trello = class Trello extends AbstractIcon {
@@ -47613,7 +47613,7 @@ const Trello = class Trello extends AbstractIcon {
 }
 Trello.Namespace=`Lucide`;
 Trello.Tag=`lucide-trello`;
-_.Trello=Trello;
+__as1(_, 'Trello', Trello);
 if(!window.customElements.get('lucide-trello')){window.customElements.define('lucide-trello', Trello);Aventus.WebComponentInstance.registerDefinition(Trello);}
 
 const TrendingDown = class TrendingDown extends AbstractIcon {
@@ -47637,7 +47637,7 @@ const TrendingDown = class TrendingDown extends AbstractIcon {
 }
 TrendingDown.Namespace=`Lucide`;
 TrendingDown.Tag=`lucide-trending-down`;
-_.TrendingDown=TrendingDown;
+__as1(_, 'TrendingDown', TrendingDown);
 if(!window.customElements.get('lucide-trending-down')){window.customElements.define('lucide-trending-down', TrendingDown);Aventus.WebComponentInstance.registerDefinition(TrendingDown);}
 
 const TrendingUp = class TrendingUp extends AbstractIcon {
@@ -47661,7 +47661,7 @@ const TrendingUp = class TrendingUp extends AbstractIcon {
 }
 TrendingUp.Namespace=`Lucide`;
 TrendingUp.Tag=`lucide-trending-up`;
-_.TrendingUp=TrendingUp;
+__as1(_, 'TrendingUp', TrendingUp);
 if(!window.customElements.get('lucide-trending-up')){window.customElements.define('lucide-trending-up', TrendingUp);Aventus.WebComponentInstance.registerDefinition(TrendingUp);}
 
 const TrendingUpDown = class TrendingUpDown extends AbstractIcon {
@@ -47685,7 +47685,7 @@ const TrendingUpDown = class TrendingUpDown extends AbstractIcon {
 }
 TrendingUpDown.Namespace=`Lucide`;
 TrendingUpDown.Tag=`lucide-trending-up-down`;
-_.TrendingUpDown=TrendingUpDown;
+__as1(_, 'TrendingUpDown', TrendingUpDown);
 if(!window.customElements.get('lucide-trending-up-down')){window.customElements.define('lucide-trending-up-down', TrendingUpDown);Aventus.WebComponentInstance.registerDefinition(TrendingUpDown);}
 
 const Triangle = class Triangle extends AbstractIcon {
@@ -47709,7 +47709,7 @@ const Triangle = class Triangle extends AbstractIcon {
 }
 Triangle.Namespace=`Lucide`;
 Triangle.Tag=`lucide-triangle`;
-_.Triangle=Triangle;
+__as1(_, 'Triangle', Triangle);
 if(!window.customElements.get('lucide-triangle')){window.customElements.define('lucide-triangle', Triangle);Aventus.WebComponentInstance.registerDefinition(Triangle);}
 
 const TriangleAlert = class TriangleAlert extends AbstractIcon {
@@ -47733,7 +47733,7 @@ const TriangleAlert = class TriangleAlert extends AbstractIcon {
 }
 TriangleAlert.Namespace=`Lucide`;
 TriangleAlert.Tag=`lucide-triangle-alert`;
-_.TriangleAlert=TriangleAlert;
+__as1(_, 'TriangleAlert', TriangleAlert);
 if(!window.customElements.get('lucide-triangle-alert')){window.customElements.define('lucide-triangle-alert', TriangleAlert);Aventus.WebComponentInstance.registerDefinition(TriangleAlert);}
 
 const TriangleDashed = class TriangleDashed extends AbstractIcon {
@@ -47757,7 +47757,7 @@ const TriangleDashed = class TriangleDashed extends AbstractIcon {
 }
 TriangleDashed.Namespace=`Lucide`;
 TriangleDashed.Tag=`lucide-triangle-dashed`;
-_.TriangleDashed=TriangleDashed;
+__as1(_, 'TriangleDashed', TriangleDashed);
 if(!window.customElements.get('lucide-triangle-dashed')){window.customElements.define('lucide-triangle-dashed', TriangleDashed);Aventus.WebComponentInstance.registerDefinition(TriangleDashed);}
 
 const TriangleRight = class TriangleRight extends AbstractIcon {
@@ -47781,7 +47781,7 @@ const TriangleRight = class TriangleRight extends AbstractIcon {
 }
 TriangleRight.Namespace=`Lucide`;
 TriangleRight.Tag=`lucide-triangle-right`;
-_.TriangleRight=TriangleRight;
+__as1(_, 'TriangleRight', TriangleRight);
 if(!window.customElements.get('lucide-triangle-right')){window.customElements.define('lucide-triangle-right', TriangleRight);Aventus.WebComponentInstance.registerDefinition(TriangleRight);}
 
 const Trophy = class Trophy extends AbstractIcon {
@@ -47805,7 +47805,7 @@ const Trophy = class Trophy extends AbstractIcon {
 }
 Trophy.Namespace=`Lucide`;
 Trophy.Tag=`lucide-trophy`;
-_.Trophy=Trophy;
+__as1(_, 'Trophy', Trophy);
 if(!window.customElements.get('lucide-trophy')){window.customElements.define('lucide-trophy', Trophy);Aventus.WebComponentInstance.registerDefinition(Trophy);}
 
 const Truck = class Truck extends AbstractIcon {
@@ -47829,7 +47829,7 @@ const Truck = class Truck extends AbstractIcon {
 }
 Truck.Namespace=`Lucide`;
 Truck.Tag=`lucide-truck`;
-_.Truck=Truck;
+__as1(_, 'Truck', Truck);
 if(!window.customElements.get('lucide-truck')){window.customElements.define('lucide-truck', Truck);Aventus.WebComponentInstance.registerDefinition(Truck);}
 
 const TruckElectric = class TruckElectric extends AbstractIcon {
@@ -47853,7 +47853,7 @@ const TruckElectric = class TruckElectric extends AbstractIcon {
 }
 TruckElectric.Namespace=`Lucide`;
 TruckElectric.Tag=`lucide-truck-electric`;
-_.TruckElectric=TruckElectric;
+__as1(_, 'TruckElectric', TruckElectric);
 if(!window.customElements.get('lucide-truck-electric')){window.customElements.define('lucide-truck-electric', TruckElectric);Aventus.WebComponentInstance.registerDefinition(TruckElectric);}
 
 const Turtle = class Turtle extends AbstractIcon {
@@ -47877,7 +47877,7 @@ const Turtle = class Turtle extends AbstractIcon {
 }
 Turtle.Namespace=`Lucide`;
 Turtle.Tag=`lucide-turtle`;
-_.Turtle=Turtle;
+__as1(_, 'Turtle', Turtle);
 if(!window.customElements.get('lucide-turtle')){window.customElements.define('lucide-turtle', Turtle);Aventus.WebComponentInstance.registerDefinition(Turtle);}
 
 const Tv = class Tv extends AbstractIcon {
@@ -47901,7 +47901,7 @@ const Tv = class Tv extends AbstractIcon {
 }
 Tv.Namespace=`Lucide`;
 Tv.Tag=`lucide-tv`;
-_.Tv=Tv;
+__as1(_, 'Tv', Tv);
 if(!window.customElements.get('lucide-tv')){window.customElements.define('lucide-tv', Tv);Aventus.WebComponentInstance.registerDefinition(Tv);}
 
 const Tv2 = class Tv2 extends AbstractIcon {
@@ -47925,7 +47925,7 @@ const Tv2 = class Tv2 extends AbstractIcon {
 }
 Tv2.Namespace=`Lucide`;
 Tv2.Tag=`lucide-tv-2`;
-_.Tv2=Tv2;
+__as1(_, 'Tv2', Tv2);
 if(!window.customElements.get('lucide-tv-2')){window.customElements.define('lucide-tv-2', Tv2);Aventus.WebComponentInstance.registerDefinition(Tv2);}
 
 const TvMinimal = class TvMinimal extends AbstractIcon {
@@ -47949,7 +47949,7 @@ const TvMinimal = class TvMinimal extends AbstractIcon {
 }
 TvMinimal.Namespace=`Lucide`;
 TvMinimal.Tag=`lucide-tv-minimal`;
-_.TvMinimal=TvMinimal;
+__as1(_, 'TvMinimal', TvMinimal);
 if(!window.customElements.get('lucide-tv-minimal')){window.customElements.define('lucide-tv-minimal', TvMinimal);Aventus.WebComponentInstance.registerDefinition(TvMinimal);}
 
 const TvMinimalPlay = class TvMinimalPlay extends AbstractIcon {
@@ -47973,7 +47973,7 @@ const TvMinimalPlay = class TvMinimalPlay extends AbstractIcon {
 }
 TvMinimalPlay.Namespace=`Lucide`;
 TvMinimalPlay.Tag=`lucide-tv-minimal-play`;
-_.TvMinimalPlay=TvMinimalPlay;
+__as1(_, 'TvMinimalPlay', TvMinimalPlay);
 if(!window.customElements.get('lucide-tv-minimal-play')){window.customElements.define('lucide-tv-minimal-play', TvMinimalPlay);Aventus.WebComponentInstance.registerDefinition(TvMinimalPlay);}
 
 const Twitch = class Twitch extends AbstractIcon {
@@ -47997,7 +47997,7 @@ const Twitch = class Twitch extends AbstractIcon {
 }
 Twitch.Namespace=`Lucide`;
 Twitch.Tag=`lucide-twitch`;
-_.Twitch=Twitch;
+__as1(_, 'Twitch', Twitch);
 if(!window.customElements.get('lucide-twitch')){window.customElements.define('lucide-twitch', Twitch);Aventus.WebComponentInstance.registerDefinition(Twitch);}
 
 const Twitter = class Twitter extends AbstractIcon {
@@ -48021,7 +48021,7 @@ const Twitter = class Twitter extends AbstractIcon {
 }
 Twitter.Namespace=`Lucide`;
 Twitter.Tag=`lucide-twitter`;
-_.Twitter=Twitter;
+__as1(_, 'Twitter', Twitter);
 if(!window.customElements.get('lucide-twitter')){window.customElements.define('lucide-twitter', Twitter);Aventus.WebComponentInstance.registerDefinition(Twitter);}
 
 const Type = class Type extends AbstractIcon {
@@ -48045,7 +48045,7 @@ const Type = class Type extends AbstractIcon {
 }
 Type.Namespace=`Lucide`;
 Type.Tag=`lucide-type`;
-_.Type=Type;
+__as1(_, 'Type', Type);
 if(!window.customElements.get('lucide-type')){window.customElements.define('lucide-type', Type);Aventus.WebComponentInstance.registerDefinition(Type);}
 
 const TypeOutline = class TypeOutline extends AbstractIcon {
@@ -48069,7 +48069,7 @@ const TypeOutline = class TypeOutline extends AbstractIcon {
 }
 TypeOutline.Namespace=`Lucide`;
 TypeOutline.Tag=`lucide-type-outline`;
-_.TypeOutline=TypeOutline;
+__as1(_, 'TypeOutline', TypeOutline);
 if(!window.customElements.get('lucide-type-outline')){window.customElements.define('lucide-type-outline', TypeOutline);Aventus.WebComponentInstance.registerDefinition(TypeOutline);}
 
 const Umbrella = class Umbrella extends AbstractIcon {
@@ -48093,7 +48093,7 @@ const Umbrella = class Umbrella extends AbstractIcon {
 }
 Umbrella.Namespace=`Lucide`;
 Umbrella.Tag=`lucide-umbrella`;
-_.Umbrella=Umbrella;
+__as1(_, 'Umbrella', Umbrella);
 if(!window.customElements.get('lucide-umbrella')){window.customElements.define('lucide-umbrella', Umbrella);Aventus.WebComponentInstance.registerDefinition(Umbrella);}
 
 const UmbrellaOff = class UmbrellaOff extends AbstractIcon {
@@ -48117,7 +48117,7 @@ const UmbrellaOff = class UmbrellaOff extends AbstractIcon {
 }
 UmbrellaOff.Namespace=`Lucide`;
 UmbrellaOff.Tag=`lucide-umbrella-off`;
-_.UmbrellaOff=UmbrellaOff;
+__as1(_, 'UmbrellaOff', UmbrellaOff);
 if(!window.customElements.get('lucide-umbrella-off')){window.customElements.define('lucide-umbrella-off', UmbrellaOff);Aventus.WebComponentInstance.registerDefinition(UmbrellaOff);}
 
 const Underline = class Underline extends AbstractIcon {
@@ -48141,7 +48141,7 @@ const Underline = class Underline extends AbstractIcon {
 }
 Underline.Namespace=`Lucide`;
 Underline.Tag=`lucide-underline`;
-_.Underline=Underline;
+__as1(_, 'Underline', Underline);
 if(!window.customElements.get('lucide-underline')){window.customElements.define('lucide-underline', Underline);Aventus.WebComponentInstance.registerDefinition(Underline);}
 
 const Undo = class Undo extends AbstractIcon {
@@ -48165,7 +48165,7 @@ const Undo = class Undo extends AbstractIcon {
 }
 Undo.Namespace=`Lucide`;
 Undo.Tag=`lucide-undo`;
-_.Undo=Undo;
+__as1(_, 'Undo', Undo);
 if(!window.customElements.get('lucide-undo')){window.customElements.define('lucide-undo', Undo);Aventus.WebComponentInstance.registerDefinition(Undo);}
 
 const Undo2 = class Undo2 extends AbstractIcon {
@@ -48189,7 +48189,7 @@ const Undo2 = class Undo2 extends AbstractIcon {
 }
 Undo2.Namespace=`Lucide`;
 Undo2.Tag=`lucide-undo-2`;
-_.Undo2=Undo2;
+__as1(_, 'Undo2', Undo2);
 if(!window.customElements.get('lucide-undo-2')){window.customElements.define('lucide-undo-2', Undo2);Aventus.WebComponentInstance.registerDefinition(Undo2);}
 
 const UndoDot = class UndoDot extends AbstractIcon {
@@ -48213,7 +48213,7 @@ const UndoDot = class UndoDot extends AbstractIcon {
 }
 UndoDot.Namespace=`Lucide`;
 UndoDot.Tag=`lucide-undo-dot`;
-_.UndoDot=UndoDot;
+__as1(_, 'UndoDot', UndoDot);
 if(!window.customElements.get('lucide-undo-dot')){window.customElements.define('lucide-undo-dot', UndoDot);Aventus.WebComponentInstance.registerDefinition(UndoDot);}
 
 const UnfoldHorizontal = class UnfoldHorizontal extends AbstractIcon {
@@ -48237,7 +48237,7 @@ const UnfoldHorizontal = class UnfoldHorizontal extends AbstractIcon {
 }
 UnfoldHorizontal.Namespace=`Lucide`;
 UnfoldHorizontal.Tag=`lucide-unfold-horizontal`;
-_.UnfoldHorizontal=UnfoldHorizontal;
+__as1(_, 'UnfoldHorizontal', UnfoldHorizontal);
 if(!window.customElements.get('lucide-unfold-horizontal')){window.customElements.define('lucide-unfold-horizontal', UnfoldHorizontal);Aventus.WebComponentInstance.registerDefinition(UnfoldHorizontal);}
 
 const UnfoldVertical = class UnfoldVertical extends AbstractIcon {
@@ -48261,7 +48261,7 @@ const UnfoldVertical = class UnfoldVertical extends AbstractIcon {
 }
 UnfoldVertical.Namespace=`Lucide`;
 UnfoldVertical.Tag=`lucide-unfold-vertical`;
-_.UnfoldVertical=UnfoldVertical;
+__as1(_, 'UnfoldVertical', UnfoldVertical);
 if(!window.customElements.get('lucide-unfold-vertical')){window.customElements.define('lucide-unfold-vertical', UnfoldVertical);Aventus.WebComponentInstance.registerDefinition(UnfoldVertical);}
 
 const Ungroup = class Ungroup extends AbstractIcon {
@@ -48285,7 +48285,7 @@ const Ungroup = class Ungroup extends AbstractIcon {
 }
 Ungroup.Namespace=`Lucide`;
 Ungroup.Tag=`lucide-ungroup`;
-_.Ungroup=Ungroup;
+__as1(_, 'Ungroup', Ungroup);
 if(!window.customElements.get('lucide-ungroup')){window.customElements.define('lucide-ungroup', Ungroup);Aventus.WebComponentInstance.registerDefinition(Ungroup);}
 
 const University = class University extends AbstractIcon {
@@ -48309,7 +48309,7 @@ const University = class University extends AbstractIcon {
 }
 University.Namespace=`Lucide`;
 University.Tag=`lucide-university`;
-_.University=University;
+__as1(_, 'University', University);
 if(!window.customElements.get('lucide-university')){window.customElements.define('lucide-university', University);Aventus.WebComponentInstance.registerDefinition(University);}
 
 const Unlink = class Unlink extends AbstractIcon {
@@ -48333,7 +48333,7 @@ const Unlink = class Unlink extends AbstractIcon {
 }
 Unlink.Namespace=`Lucide`;
 Unlink.Tag=`lucide-unlink`;
-_.Unlink=Unlink;
+__as1(_, 'Unlink', Unlink);
 if(!window.customElements.get('lucide-unlink')){window.customElements.define('lucide-unlink', Unlink);Aventus.WebComponentInstance.registerDefinition(Unlink);}
 
 const Unlink2 = class Unlink2 extends AbstractIcon {
@@ -48357,7 +48357,7 @@ const Unlink2 = class Unlink2 extends AbstractIcon {
 }
 Unlink2.Namespace=`Lucide`;
 Unlink2.Tag=`lucide-unlink-2`;
-_.Unlink2=Unlink2;
+__as1(_, 'Unlink2', Unlink2);
 if(!window.customElements.get('lucide-unlink-2')){window.customElements.define('lucide-unlink-2', Unlink2);Aventus.WebComponentInstance.registerDefinition(Unlink2);}
 
 const Unlock = class Unlock extends AbstractIcon {
@@ -48381,7 +48381,7 @@ const Unlock = class Unlock extends AbstractIcon {
 }
 Unlock.Namespace=`Lucide`;
 Unlock.Tag=`lucide-unlock`;
-_.Unlock=Unlock;
+__as1(_, 'Unlock', Unlock);
 if(!window.customElements.get('lucide-unlock')){window.customElements.define('lucide-unlock', Unlock);Aventus.WebComponentInstance.registerDefinition(Unlock);}
 
 const UnlockKeyhole = class UnlockKeyhole extends AbstractIcon {
@@ -48405,7 +48405,7 @@ const UnlockKeyhole = class UnlockKeyhole extends AbstractIcon {
 }
 UnlockKeyhole.Namespace=`Lucide`;
 UnlockKeyhole.Tag=`lucide-unlock-keyhole`;
-_.UnlockKeyhole=UnlockKeyhole;
+__as1(_, 'UnlockKeyhole', UnlockKeyhole);
 if(!window.customElements.get('lucide-unlock-keyhole')){window.customElements.define('lucide-unlock-keyhole', UnlockKeyhole);Aventus.WebComponentInstance.registerDefinition(UnlockKeyhole);}
 
 const Unplug = class Unplug extends AbstractIcon {
@@ -48429,7 +48429,7 @@ const Unplug = class Unplug extends AbstractIcon {
 }
 Unplug.Namespace=`Lucide`;
 Unplug.Tag=`lucide-unplug`;
-_.Unplug=Unplug;
+__as1(_, 'Unplug', Unplug);
 if(!window.customElements.get('lucide-unplug')){window.customElements.define('lucide-unplug', Unplug);Aventus.WebComponentInstance.registerDefinition(Unplug);}
 
 const Upload = class Upload extends AbstractIcon {
@@ -48453,7 +48453,7 @@ const Upload = class Upload extends AbstractIcon {
 }
 Upload.Namespace=`Lucide`;
 Upload.Tag=`lucide-upload`;
-_.Upload=Upload;
+__as1(_, 'Upload', Upload);
 if(!window.customElements.get('lucide-upload')){window.customElements.define('lucide-upload', Upload);Aventus.WebComponentInstance.registerDefinition(Upload);}
 
 const UploadCloud = class UploadCloud extends AbstractIcon {
@@ -48477,7 +48477,7 @@ const UploadCloud = class UploadCloud extends AbstractIcon {
 }
 UploadCloud.Namespace=`Lucide`;
 UploadCloud.Tag=`lucide-upload-cloud`;
-_.UploadCloud=UploadCloud;
+__as1(_, 'UploadCloud', UploadCloud);
 if(!window.customElements.get('lucide-upload-cloud')){window.customElements.define('lucide-upload-cloud', UploadCloud);Aventus.WebComponentInstance.registerDefinition(UploadCloud);}
 
 const Usb = class Usb extends AbstractIcon {
@@ -48501,7 +48501,7 @@ const Usb = class Usb extends AbstractIcon {
 }
 Usb.Namespace=`Lucide`;
 Usb.Tag=`lucide-usb`;
-_.Usb=Usb;
+__as1(_, 'Usb', Usb);
 if(!window.customElements.get('lucide-usb')){window.customElements.define('lucide-usb', Usb);Aventus.WebComponentInstance.registerDefinition(Usb);}
 
 const User = class User extends AbstractIcon {
@@ -48525,7 +48525,7 @@ const User = class User extends AbstractIcon {
 }
 User.Namespace=`Lucide`;
 User.Tag=`lucide-user`;
-_.User=User;
+__as1(_, 'User', User);
 if(!window.customElements.get('lucide-user')){window.customElements.define('lucide-user', User);Aventus.WebComponentInstance.registerDefinition(User);}
 
 const User2 = class User2 extends AbstractIcon {
@@ -48549,7 +48549,7 @@ const User2 = class User2 extends AbstractIcon {
 }
 User2.Namespace=`Lucide`;
 User2.Tag=`lucide-user-2`;
-_.User2=User2;
+__as1(_, 'User2', User2);
 if(!window.customElements.get('lucide-user-2')){window.customElements.define('lucide-user-2', User2);Aventus.WebComponentInstance.registerDefinition(User2);}
 
 const UserCheck = class UserCheck extends AbstractIcon {
@@ -48573,7 +48573,7 @@ const UserCheck = class UserCheck extends AbstractIcon {
 }
 UserCheck.Namespace=`Lucide`;
 UserCheck.Tag=`lucide-user-check`;
-_.UserCheck=UserCheck;
+__as1(_, 'UserCheck', UserCheck);
 if(!window.customElements.get('lucide-user-check')){window.customElements.define('lucide-user-check', UserCheck);Aventus.WebComponentInstance.registerDefinition(UserCheck);}
 
 const UserCheck2 = class UserCheck2 extends AbstractIcon {
@@ -48597,7 +48597,7 @@ const UserCheck2 = class UserCheck2 extends AbstractIcon {
 }
 UserCheck2.Namespace=`Lucide`;
 UserCheck2.Tag=`lucide-user-check-2`;
-_.UserCheck2=UserCheck2;
+__as1(_, 'UserCheck2', UserCheck2);
 if(!window.customElements.get('lucide-user-check-2')){window.customElements.define('lucide-user-check-2', UserCheck2);Aventus.WebComponentInstance.registerDefinition(UserCheck2);}
 
 const UserCircle = class UserCircle extends AbstractIcon {
@@ -48621,7 +48621,7 @@ const UserCircle = class UserCircle extends AbstractIcon {
 }
 UserCircle.Namespace=`Lucide`;
 UserCircle.Tag=`lucide-user-circle`;
-_.UserCircle=UserCircle;
+__as1(_, 'UserCircle', UserCircle);
 if(!window.customElements.get('lucide-user-circle')){window.customElements.define('lucide-user-circle', UserCircle);Aventus.WebComponentInstance.registerDefinition(UserCircle);}
 
 const UserCircle2 = class UserCircle2 extends AbstractIcon {
@@ -48645,7 +48645,7 @@ const UserCircle2 = class UserCircle2 extends AbstractIcon {
 }
 UserCircle2.Namespace=`Lucide`;
 UserCircle2.Tag=`lucide-user-circle-2`;
-_.UserCircle2=UserCircle2;
+__as1(_, 'UserCircle2', UserCircle2);
 if(!window.customElements.get('lucide-user-circle-2')){window.customElements.define('lucide-user-circle-2', UserCircle2);Aventus.WebComponentInstance.registerDefinition(UserCircle2);}
 
 const UserCog = class UserCog extends AbstractIcon {
@@ -48669,7 +48669,7 @@ const UserCog = class UserCog extends AbstractIcon {
 }
 UserCog.Namespace=`Lucide`;
 UserCog.Tag=`lucide-user-cog`;
-_.UserCog=UserCog;
+__as1(_, 'UserCog', UserCog);
 if(!window.customElements.get('lucide-user-cog')){window.customElements.define('lucide-user-cog', UserCog);Aventus.WebComponentInstance.registerDefinition(UserCog);}
 
 const UserCog2 = class UserCog2 extends AbstractIcon {
@@ -48693,7 +48693,7 @@ const UserCog2 = class UserCog2 extends AbstractIcon {
 }
 UserCog2.Namespace=`Lucide`;
 UserCog2.Tag=`lucide-user-cog-2`;
-_.UserCog2=UserCog2;
+__as1(_, 'UserCog2', UserCog2);
 if(!window.customElements.get('lucide-user-cog-2')){window.customElements.define('lucide-user-cog-2', UserCog2);Aventus.WebComponentInstance.registerDefinition(UserCog2);}
 
 const UserLock = class UserLock extends AbstractIcon {
@@ -48717,7 +48717,7 @@ const UserLock = class UserLock extends AbstractIcon {
 }
 UserLock.Namespace=`Lucide`;
 UserLock.Tag=`lucide-user-lock`;
-_.UserLock=UserLock;
+__as1(_, 'UserLock', UserLock);
 if(!window.customElements.get('lucide-user-lock')){window.customElements.define('lucide-user-lock', UserLock);Aventus.WebComponentInstance.registerDefinition(UserLock);}
 
 const UserMinus = class UserMinus extends AbstractIcon {
@@ -48741,7 +48741,7 @@ const UserMinus = class UserMinus extends AbstractIcon {
 }
 UserMinus.Namespace=`Lucide`;
 UserMinus.Tag=`lucide-user-minus`;
-_.UserMinus=UserMinus;
+__as1(_, 'UserMinus', UserMinus);
 if(!window.customElements.get('lucide-user-minus')){window.customElements.define('lucide-user-minus', UserMinus);Aventus.WebComponentInstance.registerDefinition(UserMinus);}
 
 const UserMinus2 = class UserMinus2 extends AbstractIcon {
@@ -48765,7 +48765,7 @@ const UserMinus2 = class UserMinus2 extends AbstractIcon {
 }
 UserMinus2.Namespace=`Lucide`;
 UserMinus2.Tag=`lucide-user-minus-2`;
-_.UserMinus2=UserMinus2;
+__as1(_, 'UserMinus2', UserMinus2);
 if(!window.customElements.get('lucide-user-minus-2')){window.customElements.define('lucide-user-minus-2', UserMinus2);Aventus.WebComponentInstance.registerDefinition(UserMinus2);}
 
 const UserPen = class UserPen extends AbstractIcon {
@@ -48789,7 +48789,7 @@ const UserPen = class UserPen extends AbstractIcon {
 }
 UserPen.Namespace=`Lucide`;
 UserPen.Tag=`lucide-user-pen`;
-_.UserPen=UserPen;
+__as1(_, 'UserPen', UserPen);
 if(!window.customElements.get('lucide-user-pen')){window.customElements.define('lucide-user-pen', UserPen);Aventus.WebComponentInstance.registerDefinition(UserPen);}
 
 const UserPlus = class UserPlus extends AbstractIcon {
@@ -48813,7 +48813,7 @@ const UserPlus = class UserPlus extends AbstractIcon {
 }
 UserPlus.Namespace=`Lucide`;
 UserPlus.Tag=`lucide-user-plus`;
-_.UserPlus=UserPlus;
+__as1(_, 'UserPlus', UserPlus);
 if(!window.customElements.get('lucide-user-plus')){window.customElements.define('lucide-user-plus', UserPlus);Aventus.WebComponentInstance.registerDefinition(UserPlus);}
 
 const UserPlus2 = class UserPlus2 extends AbstractIcon {
@@ -48837,7 +48837,7 @@ const UserPlus2 = class UserPlus2 extends AbstractIcon {
 }
 UserPlus2.Namespace=`Lucide`;
 UserPlus2.Tag=`lucide-user-plus-2`;
-_.UserPlus2=UserPlus2;
+__as1(_, 'UserPlus2', UserPlus2);
 if(!window.customElements.get('lucide-user-plus-2')){window.customElements.define('lucide-user-plus-2', UserPlus2);Aventus.WebComponentInstance.registerDefinition(UserPlus2);}
 
 const UserRound = class UserRound extends AbstractIcon {
@@ -48861,7 +48861,7 @@ const UserRound = class UserRound extends AbstractIcon {
 }
 UserRound.Namespace=`Lucide`;
 UserRound.Tag=`lucide-user-round`;
-_.UserRound=UserRound;
+__as1(_, 'UserRound', UserRound);
 if(!window.customElements.get('lucide-user-round')){window.customElements.define('lucide-user-round', UserRound);Aventus.WebComponentInstance.registerDefinition(UserRound);}
 
 const UserRoundCheck = class UserRoundCheck extends AbstractIcon {
@@ -48885,7 +48885,7 @@ const UserRoundCheck = class UserRoundCheck extends AbstractIcon {
 }
 UserRoundCheck.Namespace=`Lucide`;
 UserRoundCheck.Tag=`lucide-user-round-check`;
-_.UserRoundCheck=UserRoundCheck;
+__as1(_, 'UserRoundCheck', UserRoundCheck);
 if(!window.customElements.get('lucide-user-round-check')){window.customElements.define('lucide-user-round-check', UserRoundCheck);Aventus.WebComponentInstance.registerDefinition(UserRoundCheck);}
 
 const UserRoundCog = class UserRoundCog extends AbstractIcon {
@@ -48909,7 +48909,7 @@ const UserRoundCog = class UserRoundCog extends AbstractIcon {
 }
 UserRoundCog.Namespace=`Lucide`;
 UserRoundCog.Tag=`lucide-user-round-cog`;
-_.UserRoundCog=UserRoundCog;
+__as1(_, 'UserRoundCog', UserRoundCog);
 if(!window.customElements.get('lucide-user-round-cog')){window.customElements.define('lucide-user-round-cog', UserRoundCog);Aventus.WebComponentInstance.registerDefinition(UserRoundCog);}
 
 const UserRoundMinus = class UserRoundMinus extends AbstractIcon {
@@ -48933,7 +48933,7 @@ const UserRoundMinus = class UserRoundMinus extends AbstractIcon {
 }
 UserRoundMinus.Namespace=`Lucide`;
 UserRoundMinus.Tag=`lucide-user-round-minus`;
-_.UserRoundMinus=UserRoundMinus;
+__as1(_, 'UserRoundMinus', UserRoundMinus);
 if(!window.customElements.get('lucide-user-round-minus')){window.customElements.define('lucide-user-round-minus', UserRoundMinus);Aventus.WebComponentInstance.registerDefinition(UserRoundMinus);}
 
 const UserRoundPen = class UserRoundPen extends AbstractIcon {
@@ -48957,7 +48957,7 @@ const UserRoundPen = class UserRoundPen extends AbstractIcon {
 }
 UserRoundPen.Namespace=`Lucide`;
 UserRoundPen.Tag=`lucide-user-round-pen`;
-_.UserRoundPen=UserRoundPen;
+__as1(_, 'UserRoundPen', UserRoundPen);
 if(!window.customElements.get('lucide-user-round-pen')){window.customElements.define('lucide-user-round-pen', UserRoundPen);Aventus.WebComponentInstance.registerDefinition(UserRoundPen);}
 
 const UserRoundPlus = class UserRoundPlus extends AbstractIcon {
@@ -48981,7 +48981,7 @@ const UserRoundPlus = class UserRoundPlus extends AbstractIcon {
 }
 UserRoundPlus.Namespace=`Lucide`;
 UserRoundPlus.Tag=`lucide-user-round-plus`;
-_.UserRoundPlus=UserRoundPlus;
+__as1(_, 'UserRoundPlus', UserRoundPlus);
 if(!window.customElements.get('lucide-user-round-plus')){window.customElements.define('lucide-user-round-plus', UserRoundPlus);Aventus.WebComponentInstance.registerDefinition(UserRoundPlus);}
 
 const UserRoundSearch = class UserRoundSearch extends AbstractIcon {
@@ -49005,7 +49005,7 @@ const UserRoundSearch = class UserRoundSearch extends AbstractIcon {
 }
 UserRoundSearch.Namespace=`Lucide`;
 UserRoundSearch.Tag=`lucide-user-round-search`;
-_.UserRoundSearch=UserRoundSearch;
+__as1(_, 'UserRoundSearch', UserRoundSearch);
 if(!window.customElements.get('lucide-user-round-search')){window.customElements.define('lucide-user-round-search', UserRoundSearch);Aventus.WebComponentInstance.registerDefinition(UserRoundSearch);}
 
 const UserRoundX = class UserRoundX extends AbstractIcon {
@@ -49029,7 +49029,7 @@ const UserRoundX = class UserRoundX extends AbstractIcon {
 }
 UserRoundX.Namespace=`Lucide`;
 UserRoundX.Tag=`lucide-user-round-x`;
-_.UserRoundX=UserRoundX;
+__as1(_, 'UserRoundX', UserRoundX);
 if(!window.customElements.get('lucide-user-round-x')){window.customElements.define('lucide-user-round-x', UserRoundX);Aventus.WebComponentInstance.registerDefinition(UserRoundX);}
 
 const Users = class Users extends AbstractIcon {
@@ -49053,7 +49053,7 @@ const Users = class Users extends AbstractIcon {
 }
 Users.Namespace=`Lucide`;
 Users.Tag=`lucide-users`;
-_.Users=Users;
+__as1(_, 'Users', Users);
 if(!window.customElements.get('lucide-users')){window.customElements.define('lucide-users', Users);Aventus.WebComponentInstance.registerDefinition(Users);}
 
 const Users2 = class Users2 extends AbstractIcon {
@@ -49077,7 +49077,7 @@ const Users2 = class Users2 extends AbstractIcon {
 }
 Users2.Namespace=`Lucide`;
 Users2.Tag=`lucide-users-2`;
-_.Users2=Users2;
+__as1(_, 'Users2', Users2);
 if(!window.customElements.get('lucide-users-2')){window.customElements.define('lucide-users-2', Users2);Aventus.WebComponentInstance.registerDefinition(Users2);}
 
 const UserSearch = class UserSearch extends AbstractIcon {
@@ -49101,7 +49101,7 @@ const UserSearch = class UserSearch extends AbstractIcon {
 }
 UserSearch.Namespace=`Lucide`;
 UserSearch.Tag=`lucide-user-search`;
-_.UserSearch=UserSearch;
+__as1(_, 'UserSearch', UserSearch);
 if(!window.customElements.get('lucide-user-search')){window.customElements.define('lucide-user-search', UserSearch);Aventus.WebComponentInstance.registerDefinition(UserSearch);}
 
 const UserSquare = class UserSquare extends AbstractIcon {
@@ -49125,7 +49125,7 @@ const UserSquare = class UserSquare extends AbstractIcon {
 }
 UserSquare.Namespace=`Lucide`;
 UserSquare.Tag=`lucide-user-square`;
-_.UserSquare=UserSquare;
+__as1(_, 'UserSquare', UserSquare);
 if(!window.customElements.get('lucide-user-square')){window.customElements.define('lucide-user-square', UserSquare);Aventus.WebComponentInstance.registerDefinition(UserSquare);}
 
 const UserSquare2 = class UserSquare2 extends AbstractIcon {
@@ -49149,7 +49149,7 @@ const UserSquare2 = class UserSquare2 extends AbstractIcon {
 }
 UserSquare2.Namespace=`Lucide`;
 UserSquare2.Tag=`lucide-user-square-2`;
-_.UserSquare2=UserSquare2;
+__as1(_, 'UserSquare2', UserSquare2);
 if(!window.customElements.get('lucide-user-square-2')){window.customElements.define('lucide-user-square-2', UserSquare2);Aventus.WebComponentInstance.registerDefinition(UserSquare2);}
 
 const UsersRound = class UsersRound extends AbstractIcon {
@@ -49173,7 +49173,7 @@ const UsersRound = class UsersRound extends AbstractIcon {
 }
 UsersRound.Namespace=`Lucide`;
 UsersRound.Tag=`lucide-users-round`;
-_.UsersRound=UsersRound;
+__as1(_, 'UsersRound', UsersRound);
 if(!window.customElements.get('lucide-users-round')){window.customElements.define('lucide-users-round', UsersRound);Aventus.WebComponentInstance.registerDefinition(UsersRound);}
 
 const UserX = class UserX extends AbstractIcon {
@@ -49197,7 +49197,7 @@ const UserX = class UserX extends AbstractIcon {
 }
 UserX.Namespace=`Lucide`;
 UserX.Tag=`lucide-user-x`;
-_.UserX=UserX;
+__as1(_, 'UserX', UserX);
 if(!window.customElements.get('lucide-user-x')){window.customElements.define('lucide-user-x', UserX);Aventus.WebComponentInstance.registerDefinition(UserX);}
 
 const UserX2 = class UserX2 extends AbstractIcon {
@@ -49221,7 +49221,7 @@ const UserX2 = class UserX2 extends AbstractIcon {
 }
 UserX2.Namespace=`Lucide`;
 UserX2.Tag=`lucide-user-x-2`;
-_.UserX2=UserX2;
+__as1(_, 'UserX2', UserX2);
 if(!window.customElements.get('lucide-user-x-2')){window.customElements.define('lucide-user-x-2', UserX2);Aventus.WebComponentInstance.registerDefinition(UserX2);}
 
 const Utensils = class Utensils extends AbstractIcon {
@@ -49245,7 +49245,7 @@ const Utensils = class Utensils extends AbstractIcon {
 }
 Utensils.Namespace=`Lucide`;
 Utensils.Tag=`lucide-utensils`;
-_.Utensils=Utensils;
+__as1(_, 'Utensils', Utensils);
 if(!window.customElements.get('lucide-utensils')){window.customElements.define('lucide-utensils', Utensils);Aventus.WebComponentInstance.registerDefinition(Utensils);}
 
 const UtensilsCrossed = class UtensilsCrossed extends AbstractIcon {
@@ -49269,7 +49269,7 @@ const UtensilsCrossed = class UtensilsCrossed extends AbstractIcon {
 }
 UtensilsCrossed.Namespace=`Lucide`;
 UtensilsCrossed.Tag=`lucide-utensils-crossed`;
-_.UtensilsCrossed=UtensilsCrossed;
+__as1(_, 'UtensilsCrossed', UtensilsCrossed);
 if(!window.customElements.get('lucide-utensils-crossed')){window.customElements.define('lucide-utensils-crossed', UtensilsCrossed);Aventus.WebComponentInstance.registerDefinition(UtensilsCrossed);}
 
 const UtilityPole = class UtilityPole extends AbstractIcon {
@@ -49293,7 +49293,7 @@ const UtilityPole = class UtilityPole extends AbstractIcon {
 }
 UtilityPole.Namespace=`Lucide`;
 UtilityPole.Tag=`lucide-utility-pole`;
-_.UtilityPole=UtilityPole;
+__as1(_, 'UtilityPole', UtilityPole);
 if(!window.customElements.get('lucide-utility-pole')){window.customElements.define('lucide-utility-pole', UtilityPole);Aventus.WebComponentInstance.registerDefinition(UtilityPole);}
 
 const Variable = class Variable extends AbstractIcon {
@@ -49317,7 +49317,7 @@ const Variable = class Variable extends AbstractIcon {
 }
 Variable.Namespace=`Lucide`;
 Variable.Tag=`lucide-variable`;
-_.Variable=Variable;
+__as1(_, 'Variable', Variable);
 if(!window.customElements.get('lucide-variable')){window.customElements.define('lucide-variable', Variable);Aventus.WebComponentInstance.registerDefinition(Variable);}
 
 const Vault = class Vault extends AbstractIcon {
@@ -49341,7 +49341,7 @@ const Vault = class Vault extends AbstractIcon {
 }
 Vault.Namespace=`Lucide`;
 Vault.Tag=`lucide-vault`;
-_.Vault=Vault;
+__as1(_, 'Vault', Vault);
 if(!window.customElements.get('lucide-vault')){window.customElements.define('lucide-vault', Vault);Aventus.WebComponentInstance.registerDefinition(Vault);}
 
 const VectorSquare = class VectorSquare extends AbstractIcon {
@@ -49365,7 +49365,7 @@ const VectorSquare = class VectorSquare extends AbstractIcon {
 }
 VectorSquare.Namespace=`Lucide`;
 VectorSquare.Tag=`lucide-vector-square`;
-_.VectorSquare=VectorSquare;
+__as1(_, 'VectorSquare', VectorSquare);
 if(!window.customElements.get('lucide-vector-square')){window.customElements.define('lucide-vector-square', VectorSquare);Aventus.WebComponentInstance.registerDefinition(VectorSquare);}
 
 const Vegan = class Vegan extends AbstractIcon {
@@ -49389,7 +49389,7 @@ const Vegan = class Vegan extends AbstractIcon {
 }
 Vegan.Namespace=`Lucide`;
 Vegan.Tag=`lucide-vegan`;
-_.Vegan=Vegan;
+__as1(_, 'Vegan', Vegan);
 if(!window.customElements.get('lucide-vegan')){window.customElements.define('lucide-vegan', Vegan);Aventus.WebComponentInstance.registerDefinition(Vegan);}
 
 const VenetianMask = class VenetianMask extends AbstractIcon {
@@ -49413,7 +49413,7 @@ const VenetianMask = class VenetianMask extends AbstractIcon {
 }
 VenetianMask.Namespace=`Lucide`;
 VenetianMask.Tag=`lucide-venetian-mask`;
-_.VenetianMask=VenetianMask;
+__as1(_, 'VenetianMask', VenetianMask);
 if(!window.customElements.get('lucide-venetian-mask')){window.customElements.define('lucide-venetian-mask', VenetianMask);Aventus.WebComponentInstance.registerDefinition(VenetianMask);}
 
 const Venus = class Venus extends AbstractIcon {
@@ -49437,7 +49437,7 @@ const Venus = class Venus extends AbstractIcon {
 }
 Venus.Namespace=`Lucide`;
 Venus.Tag=`lucide-venus`;
-_.Venus=Venus;
+__as1(_, 'Venus', Venus);
 if(!window.customElements.get('lucide-venus')){window.customElements.define('lucide-venus', Venus);Aventus.WebComponentInstance.registerDefinition(Venus);}
 
 const VenusAndMars = class VenusAndMars extends AbstractIcon {
@@ -49461,7 +49461,7 @@ const VenusAndMars = class VenusAndMars extends AbstractIcon {
 }
 VenusAndMars.Namespace=`Lucide`;
 VenusAndMars.Tag=`lucide-venus-and-mars`;
-_.VenusAndMars=VenusAndMars;
+__as1(_, 'VenusAndMars', VenusAndMars);
 if(!window.customElements.get('lucide-venus-and-mars')){window.customElements.define('lucide-venus-and-mars', VenusAndMars);Aventus.WebComponentInstance.registerDefinition(VenusAndMars);}
 
 const Verified = class Verified extends AbstractIcon {
@@ -49485,7 +49485,7 @@ const Verified = class Verified extends AbstractIcon {
 }
 Verified.Namespace=`Lucide`;
 Verified.Tag=`lucide-verified`;
-_.Verified=Verified;
+__as1(_, 'Verified', Verified);
 if(!window.customElements.get('lucide-verified')){window.customElements.define('lucide-verified', Verified);Aventus.WebComponentInstance.registerDefinition(Verified);}
 
 const Vibrate = class Vibrate extends AbstractIcon {
@@ -49509,7 +49509,7 @@ const Vibrate = class Vibrate extends AbstractIcon {
 }
 Vibrate.Namespace=`Lucide`;
 Vibrate.Tag=`lucide-vibrate`;
-_.Vibrate=Vibrate;
+__as1(_, 'Vibrate', Vibrate);
 if(!window.customElements.get('lucide-vibrate')){window.customElements.define('lucide-vibrate', Vibrate);Aventus.WebComponentInstance.registerDefinition(Vibrate);}
 
 const VibrateOff = class VibrateOff extends AbstractIcon {
@@ -49533,7 +49533,7 @@ const VibrateOff = class VibrateOff extends AbstractIcon {
 }
 VibrateOff.Namespace=`Lucide`;
 VibrateOff.Tag=`lucide-vibrate-off`;
-_.VibrateOff=VibrateOff;
+__as1(_, 'VibrateOff', VibrateOff);
 if(!window.customElements.get('lucide-vibrate-off')){window.customElements.define('lucide-vibrate-off', VibrateOff);Aventus.WebComponentInstance.registerDefinition(VibrateOff);}
 
 const Video = class Video extends AbstractIcon {
@@ -49557,7 +49557,7 @@ const Video = class Video extends AbstractIcon {
 }
 Video.Namespace=`Lucide`;
 Video.Tag=`lucide-video`;
-_.Video=Video;
+__as1(_, 'Video', Video);
 if(!window.customElements.get('lucide-video')){window.customElements.define('lucide-video', Video);Aventus.WebComponentInstance.registerDefinition(Video);}
 
 const VideoOff = class VideoOff extends AbstractIcon {
@@ -49581,7 +49581,7 @@ const VideoOff = class VideoOff extends AbstractIcon {
 }
 VideoOff.Namespace=`Lucide`;
 VideoOff.Tag=`lucide-video-off`;
-_.VideoOff=VideoOff;
+__as1(_, 'VideoOff', VideoOff);
 if(!window.customElements.get('lucide-video-off')){window.customElements.define('lucide-video-off', VideoOff);Aventus.WebComponentInstance.registerDefinition(VideoOff);}
 
 const Videotape = class Videotape extends AbstractIcon {
@@ -49605,7 +49605,7 @@ const Videotape = class Videotape extends AbstractIcon {
 }
 Videotape.Namespace=`Lucide`;
 Videotape.Tag=`lucide-videotape`;
-_.Videotape=Videotape;
+__as1(_, 'Videotape', Videotape);
 if(!window.customElements.get('lucide-videotape')){window.customElements.define('lucide-videotape', Videotape);Aventus.WebComponentInstance.registerDefinition(Videotape);}
 
 const View = class View extends AbstractIcon {
@@ -49629,7 +49629,7 @@ const View = class View extends AbstractIcon {
 }
 View.Namespace=`Lucide`;
 View.Tag=`lucide-view`;
-_.View=View;
+__as1(_, 'View', View);
 if(!window.customElements.get('lucide-view')){window.customElements.define('lucide-view', View);Aventus.WebComponentInstance.registerDefinition(View);}
 
 const Voicemail = class Voicemail extends AbstractIcon {
@@ -49653,7 +49653,7 @@ const Voicemail = class Voicemail extends AbstractIcon {
 }
 Voicemail.Namespace=`Lucide`;
 Voicemail.Tag=`lucide-voicemail`;
-_.Voicemail=Voicemail;
+__as1(_, 'Voicemail', Voicemail);
 if(!window.customElements.get('lucide-voicemail')){window.customElements.define('lucide-voicemail', Voicemail);Aventus.WebComponentInstance.registerDefinition(Voicemail);}
 
 const Volleyball = class Volleyball extends AbstractIcon {
@@ -49677,7 +49677,7 @@ const Volleyball = class Volleyball extends AbstractIcon {
 }
 Volleyball.Namespace=`Lucide`;
 Volleyball.Tag=`lucide-volleyball`;
-_.Volleyball=Volleyball;
+__as1(_, 'Volleyball', Volleyball);
 if(!window.customElements.get('lucide-volleyball')){window.customElements.define('lucide-volleyball', Volleyball);Aventus.WebComponentInstance.registerDefinition(Volleyball);}
 
 const Volume = class Volume extends AbstractIcon {
@@ -49701,7 +49701,7 @@ const Volume = class Volume extends AbstractIcon {
 }
 Volume.Namespace=`Lucide`;
 Volume.Tag=`lucide-volume`;
-_.Volume=Volume;
+__as1(_, 'Volume', Volume);
 if(!window.customElements.get('lucide-volume')){window.customElements.define('lucide-volume', Volume);Aventus.WebComponentInstance.registerDefinition(Volume);}
 
 const Volume1 = class Volume1 extends AbstractIcon {
@@ -49725,7 +49725,7 @@ const Volume1 = class Volume1 extends AbstractIcon {
 }
 Volume1.Namespace=`Lucide`;
 Volume1.Tag=`lucide-volume-1`;
-_.Volume1=Volume1;
+__as1(_, 'Volume1', Volume1);
 if(!window.customElements.get('lucide-volume-1')){window.customElements.define('lucide-volume-1', Volume1);Aventus.WebComponentInstance.registerDefinition(Volume1);}
 
 const Volume2 = class Volume2 extends AbstractIcon {
@@ -49749,7 +49749,7 @@ const Volume2 = class Volume2 extends AbstractIcon {
 }
 Volume2.Namespace=`Lucide`;
 Volume2.Tag=`lucide-volume-2`;
-_.Volume2=Volume2;
+__as1(_, 'Volume2', Volume2);
 if(!window.customElements.get('lucide-volume-2')){window.customElements.define('lucide-volume-2', Volume2);Aventus.WebComponentInstance.registerDefinition(Volume2);}
 
 const VolumeOff = class VolumeOff extends AbstractIcon {
@@ -49773,7 +49773,7 @@ const VolumeOff = class VolumeOff extends AbstractIcon {
 }
 VolumeOff.Namespace=`Lucide`;
 VolumeOff.Tag=`lucide-volume-off`;
-_.VolumeOff=VolumeOff;
+__as1(_, 'VolumeOff', VolumeOff);
 if(!window.customElements.get('lucide-volume-off')){window.customElements.define('lucide-volume-off', VolumeOff);Aventus.WebComponentInstance.registerDefinition(VolumeOff);}
 
 const VolumeX = class VolumeX extends AbstractIcon {
@@ -49797,7 +49797,7 @@ const VolumeX = class VolumeX extends AbstractIcon {
 }
 VolumeX.Namespace=`Lucide`;
 VolumeX.Tag=`lucide-volume-x`;
-_.VolumeX=VolumeX;
+__as1(_, 'VolumeX', VolumeX);
 if(!window.customElements.get('lucide-volume-x')){window.customElements.define('lucide-volume-x', VolumeX);Aventus.WebComponentInstance.registerDefinition(VolumeX);}
 
 const Vote = class Vote extends AbstractIcon {
@@ -49821,7 +49821,7 @@ const Vote = class Vote extends AbstractIcon {
 }
 Vote.Namespace=`Lucide`;
 Vote.Tag=`lucide-vote`;
-_.Vote=Vote;
+__as1(_, 'Vote', Vote);
 if(!window.customElements.get('lucide-vote')){window.customElements.define('lucide-vote', Vote);Aventus.WebComponentInstance.registerDefinition(Vote);}
 
 const Wallet = class Wallet extends AbstractIcon {
@@ -49845,7 +49845,7 @@ const Wallet = class Wallet extends AbstractIcon {
 }
 Wallet.Namespace=`Lucide`;
 Wallet.Tag=`lucide-wallet`;
-_.Wallet=Wallet;
+__as1(_, 'Wallet', Wallet);
 if(!window.customElements.get('lucide-wallet')){window.customElements.define('lucide-wallet', Wallet);Aventus.WebComponentInstance.registerDefinition(Wallet);}
 
 const Wallet2 = class Wallet2 extends AbstractIcon {
@@ -49869,7 +49869,7 @@ const Wallet2 = class Wallet2 extends AbstractIcon {
 }
 Wallet2.Namespace=`Lucide`;
 Wallet2.Tag=`lucide-wallet-2`;
-_.Wallet2=Wallet2;
+__as1(_, 'Wallet2', Wallet2);
 if(!window.customElements.get('lucide-wallet-2')){window.customElements.define('lucide-wallet-2', Wallet2);Aventus.WebComponentInstance.registerDefinition(Wallet2);}
 
 const WalletCards = class WalletCards extends AbstractIcon {
@@ -49893,7 +49893,7 @@ const WalletCards = class WalletCards extends AbstractIcon {
 }
 WalletCards.Namespace=`Lucide`;
 WalletCards.Tag=`lucide-wallet-cards`;
-_.WalletCards=WalletCards;
+__as1(_, 'WalletCards', WalletCards);
 if(!window.customElements.get('lucide-wallet-cards')){window.customElements.define('lucide-wallet-cards', WalletCards);Aventus.WebComponentInstance.registerDefinition(WalletCards);}
 
 const WalletMinimal = class WalletMinimal extends AbstractIcon {
@@ -49917,7 +49917,7 @@ const WalletMinimal = class WalletMinimal extends AbstractIcon {
 }
 WalletMinimal.Namespace=`Lucide`;
 WalletMinimal.Tag=`lucide-wallet-minimal`;
-_.WalletMinimal=WalletMinimal;
+__as1(_, 'WalletMinimal', WalletMinimal);
 if(!window.customElements.get('lucide-wallet-minimal')){window.customElements.define('lucide-wallet-minimal', WalletMinimal);Aventus.WebComponentInstance.registerDefinition(WalletMinimal);}
 
 const Wallpaper = class Wallpaper extends AbstractIcon {
@@ -49941,7 +49941,7 @@ const Wallpaper = class Wallpaper extends AbstractIcon {
 }
 Wallpaper.Namespace=`Lucide`;
 Wallpaper.Tag=`lucide-wallpaper`;
-_.Wallpaper=Wallpaper;
+__as1(_, 'Wallpaper', Wallpaper);
 if(!window.customElements.get('lucide-wallpaper')){window.customElements.define('lucide-wallpaper', Wallpaper);Aventus.WebComponentInstance.registerDefinition(Wallpaper);}
 
 const Wand = class Wand extends AbstractIcon {
@@ -49965,7 +49965,7 @@ const Wand = class Wand extends AbstractIcon {
 }
 Wand.Namespace=`Lucide`;
 Wand.Tag=`lucide-wand`;
-_.Wand=Wand;
+__as1(_, 'Wand', Wand);
 if(!window.customElements.get('lucide-wand')){window.customElements.define('lucide-wand', Wand);Aventus.WebComponentInstance.registerDefinition(Wand);}
 
 const Wand2 = class Wand2 extends AbstractIcon {
@@ -49989,7 +49989,7 @@ const Wand2 = class Wand2 extends AbstractIcon {
 }
 Wand2.Namespace=`Lucide`;
 Wand2.Tag=`lucide-wand-2`;
-_.Wand2=Wand2;
+__as1(_, 'Wand2', Wand2);
 if(!window.customElements.get('lucide-wand-2')){window.customElements.define('lucide-wand-2', Wand2);Aventus.WebComponentInstance.registerDefinition(Wand2);}
 
 const WandSparkles = class WandSparkles extends AbstractIcon {
@@ -50013,7 +50013,7 @@ const WandSparkles = class WandSparkles extends AbstractIcon {
 }
 WandSparkles.Namespace=`Lucide`;
 WandSparkles.Tag=`lucide-wand-sparkles`;
-_.WandSparkles=WandSparkles;
+__as1(_, 'WandSparkles', WandSparkles);
 if(!window.customElements.get('lucide-wand-sparkles')){window.customElements.define('lucide-wand-sparkles', WandSparkles);Aventus.WebComponentInstance.registerDefinition(WandSparkles);}
 
 const Warehouse = class Warehouse extends AbstractIcon {
@@ -50037,7 +50037,7 @@ const Warehouse = class Warehouse extends AbstractIcon {
 }
 Warehouse.Namespace=`Lucide`;
 Warehouse.Tag=`lucide-warehouse`;
-_.Warehouse=Warehouse;
+__as1(_, 'Warehouse', Warehouse);
 if(!window.customElements.get('lucide-warehouse')){window.customElements.define('lucide-warehouse', Warehouse);Aventus.WebComponentInstance.registerDefinition(Warehouse);}
 
 const WashingMachine = class WashingMachine extends AbstractIcon {
@@ -50061,7 +50061,7 @@ const WashingMachine = class WashingMachine extends AbstractIcon {
 }
 WashingMachine.Namespace=`Lucide`;
 WashingMachine.Tag=`lucide-washing-machine`;
-_.WashingMachine=WashingMachine;
+__as1(_, 'WashingMachine', WashingMachine);
 if(!window.customElements.get('lucide-washing-machine')){window.customElements.define('lucide-washing-machine', WashingMachine);Aventus.WebComponentInstance.registerDefinition(WashingMachine);}
 
 const Watch = class Watch extends AbstractIcon {
@@ -50085,7 +50085,7 @@ const Watch = class Watch extends AbstractIcon {
 }
 Watch.Namespace=`Lucide`;
 Watch.Tag=`lucide-watch`;
-_.Watch=Watch;
+__as1(_, 'Watch', Watch);
 if(!window.customElements.get('lucide-watch')){window.customElements.define('lucide-watch', Watch);Aventus.WebComponentInstance.registerDefinition(Watch);}
 
 const Waves = class Waves extends AbstractIcon {
@@ -50109,7 +50109,7 @@ const Waves = class Waves extends AbstractIcon {
 }
 Waves.Namespace=`Lucide`;
 Waves.Tag=`lucide-waves`;
-_.Waves=Waves;
+__as1(_, 'Waves', Waves);
 if(!window.customElements.get('lucide-waves')){window.customElements.define('lucide-waves', Waves);Aventus.WebComponentInstance.registerDefinition(Waves);}
 
 const WavesLadder = class WavesLadder extends AbstractIcon {
@@ -50133,7 +50133,7 @@ const WavesLadder = class WavesLadder extends AbstractIcon {
 }
 WavesLadder.Namespace=`Lucide`;
 WavesLadder.Tag=`lucide-waves-ladder`;
-_.WavesLadder=WavesLadder;
+__as1(_, 'WavesLadder', WavesLadder);
 if(!window.customElements.get('lucide-waves-ladder')){window.customElements.define('lucide-waves-ladder', WavesLadder);Aventus.WebComponentInstance.registerDefinition(WavesLadder);}
 
 const Waypoints = class Waypoints extends AbstractIcon {
@@ -50157,7 +50157,7 @@ const Waypoints = class Waypoints extends AbstractIcon {
 }
 Waypoints.Namespace=`Lucide`;
 Waypoints.Tag=`lucide-waypoints`;
-_.Waypoints=Waypoints;
+__as1(_, 'Waypoints', Waypoints);
 if(!window.customElements.get('lucide-waypoints')){window.customElements.define('lucide-waypoints', Waypoints);Aventus.WebComponentInstance.registerDefinition(Waypoints);}
 
 const Webcam = class Webcam extends AbstractIcon {
@@ -50181,7 +50181,7 @@ const Webcam = class Webcam extends AbstractIcon {
 }
 Webcam.Namespace=`Lucide`;
 Webcam.Tag=`lucide-webcam`;
-_.Webcam=Webcam;
+__as1(_, 'Webcam', Webcam);
 if(!window.customElements.get('lucide-webcam')){window.customElements.define('lucide-webcam', Webcam);Aventus.WebComponentInstance.registerDefinition(Webcam);}
 
 const Webhook = class Webhook extends AbstractIcon {
@@ -50205,7 +50205,7 @@ const Webhook = class Webhook extends AbstractIcon {
 }
 Webhook.Namespace=`Lucide`;
 Webhook.Tag=`lucide-webhook`;
-_.Webhook=Webhook;
+__as1(_, 'Webhook', Webhook);
 if(!window.customElements.get('lucide-webhook')){window.customElements.define('lucide-webhook', Webhook);Aventus.WebComponentInstance.registerDefinition(Webhook);}
 
 const WebhookOff = class WebhookOff extends AbstractIcon {
@@ -50229,7 +50229,7 @@ const WebhookOff = class WebhookOff extends AbstractIcon {
 }
 WebhookOff.Namespace=`Lucide`;
 WebhookOff.Tag=`lucide-webhook-off`;
-_.WebhookOff=WebhookOff;
+__as1(_, 'WebhookOff', WebhookOff);
 if(!window.customElements.get('lucide-webhook-off')){window.customElements.define('lucide-webhook-off', WebhookOff);Aventus.WebComponentInstance.registerDefinition(WebhookOff);}
 
 const Weight = class Weight extends AbstractIcon {
@@ -50253,7 +50253,7 @@ const Weight = class Weight extends AbstractIcon {
 }
 Weight.Namespace=`Lucide`;
 Weight.Tag=`lucide-weight`;
-_.Weight=Weight;
+__as1(_, 'Weight', Weight);
 if(!window.customElements.get('lucide-weight')){window.customElements.define('lucide-weight', Weight);Aventus.WebComponentInstance.registerDefinition(Weight);}
 
 const Wheat = class Wheat extends AbstractIcon {
@@ -50277,7 +50277,7 @@ const Wheat = class Wheat extends AbstractIcon {
 }
 Wheat.Namespace=`Lucide`;
 Wheat.Tag=`lucide-wheat`;
-_.Wheat=Wheat;
+__as1(_, 'Wheat', Wheat);
 if(!window.customElements.get('lucide-wheat')){window.customElements.define('lucide-wheat', Wheat);Aventus.WebComponentInstance.registerDefinition(Wheat);}
 
 const WheatOff = class WheatOff extends AbstractIcon {
@@ -50301,7 +50301,7 @@ const WheatOff = class WheatOff extends AbstractIcon {
 }
 WheatOff.Namespace=`Lucide`;
 WheatOff.Tag=`lucide-wheat-off`;
-_.WheatOff=WheatOff;
+__as1(_, 'WheatOff', WheatOff);
 if(!window.customElements.get('lucide-wheat-off')){window.customElements.define('lucide-wheat-off', WheatOff);Aventus.WebComponentInstance.registerDefinition(WheatOff);}
 
 const WholeWord = class WholeWord extends AbstractIcon {
@@ -50325,7 +50325,7 @@ const WholeWord = class WholeWord extends AbstractIcon {
 }
 WholeWord.Namespace=`Lucide`;
 WholeWord.Tag=`lucide-whole-word`;
-_.WholeWord=WholeWord;
+__as1(_, 'WholeWord', WholeWord);
 if(!window.customElements.get('lucide-whole-word')){window.customElements.define('lucide-whole-word', WholeWord);Aventus.WebComponentInstance.registerDefinition(WholeWord);}
 
 const Wifi = class Wifi extends AbstractIcon {
@@ -50349,7 +50349,7 @@ const Wifi = class Wifi extends AbstractIcon {
 }
 Wifi.Namespace=`Lucide`;
 Wifi.Tag=`lucide-wifi`;
-_.Wifi=Wifi;
+__as1(_, 'Wifi', Wifi);
 if(!window.customElements.get('lucide-wifi')){window.customElements.define('lucide-wifi', Wifi);Aventus.WebComponentInstance.registerDefinition(Wifi);}
 
 const WifiCog = class WifiCog extends AbstractIcon {
@@ -50373,7 +50373,7 @@ const WifiCog = class WifiCog extends AbstractIcon {
 }
 WifiCog.Namespace=`Lucide`;
 WifiCog.Tag=`lucide-wifi-cog`;
-_.WifiCog=WifiCog;
+__as1(_, 'WifiCog', WifiCog);
 if(!window.customElements.get('lucide-wifi-cog')){window.customElements.define('lucide-wifi-cog', WifiCog);Aventus.WebComponentInstance.registerDefinition(WifiCog);}
 
 const WifiHigh = class WifiHigh extends AbstractIcon {
@@ -50397,7 +50397,7 @@ const WifiHigh = class WifiHigh extends AbstractIcon {
 }
 WifiHigh.Namespace=`Lucide`;
 WifiHigh.Tag=`lucide-wifi-high`;
-_.WifiHigh=WifiHigh;
+__as1(_, 'WifiHigh', WifiHigh);
 if(!window.customElements.get('lucide-wifi-high')){window.customElements.define('lucide-wifi-high', WifiHigh);Aventus.WebComponentInstance.registerDefinition(WifiHigh);}
 
 const WifiLow = class WifiLow extends AbstractIcon {
@@ -50421,7 +50421,7 @@ const WifiLow = class WifiLow extends AbstractIcon {
 }
 WifiLow.Namespace=`Lucide`;
 WifiLow.Tag=`lucide-wifi-low`;
-_.WifiLow=WifiLow;
+__as1(_, 'WifiLow', WifiLow);
 if(!window.customElements.get('lucide-wifi-low')){window.customElements.define('lucide-wifi-low', WifiLow);Aventus.WebComponentInstance.registerDefinition(WifiLow);}
 
 const WifiOff = class WifiOff extends AbstractIcon {
@@ -50445,7 +50445,7 @@ const WifiOff = class WifiOff extends AbstractIcon {
 }
 WifiOff.Namespace=`Lucide`;
 WifiOff.Tag=`lucide-wifi-off`;
-_.WifiOff=WifiOff;
+__as1(_, 'WifiOff', WifiOff);
 if(!window.customElements.get('lucide-wifi-off')){window.customElements.define('lucide-wifi-off', WifiOff);Aventus.WebComponentInstance.registerDefinition(WifiOff);}
 
 const WifiPen = class WifiPen extends AbstractIcon {
@@ -50469,7 +50469,7 @@ const WifiPen = class WifiPen extends AbstractIcon {
 }
 WifiPen.Namespace=`Lucide`;
 WifiPen.Tag=`lucide-wifi-pen`;
-_.WifiPen=WifiPen;
+__as1(_, 'WifiPen', WifiPen);
 if(!window.customElements.get('lucide-wifi-pen')){window.customElements.define('lucide-wifi-pen', WifiPen);Aventus.WebComponentInstance.registerDefinition(WifiPen);}
 
 const WifiZero = class WifiZero extends AbstractIcon {
@@ -50493,7 +50493,7 @@ const WifiZero = class WifiZero extends AbstractIcon {
 }
 WifiZero.Namespace=`Lucide`;
 WifiZero.Tag=`lucide-wifi-zero`;
-_.WifiZero=WifiZero;
+__as1(_, 'WifiZero', WifiZero);
 if(!window.customElements.get('lucide-wifi-zero')){window.customElements.define('lucide-wifi-zero', WifiZero);Aventus.WebComponentInstance.registerDefinition(WifiZero);}
 
 const Wind = class Wind extends AbstractIcon {
@@ -50517,7 +50517,7 @@ const Wind = class Wind extends AbstractIcon {
 }
 Wind.Namespace=`Lucide`;
 Wind.Tag=`lucide-wind`;
-_.Wind=Wind;
+__as1(_, 'Wind', Wind);
 if(!window.customElements.get('lucide-wind')){window.customElements.define('lucide-wind', Wind);Aventus.WebComponentInstance.registerDefinition(Wind);}
 
 const WindArrowDown = class WindArrowDown extends AbstractIcon {
@@ -50541,7 +50541,7 @@ const WindArrowDown = class WindArrowDown extends AbstractIcon {
 }
 WindArrowDown.Namespace=`Lucide`;
 WindArrowDown.Tag=`lucide-wind-arrow-down`;
-_.WindArrowDown=WindArrowDown;
+__as1(_, 'WindArrowDown', WindArrowDown);
 if(!window.customElements.get('lucide-wind-arrow-down')){window.customElements.define('lucide-wind-arrow-down', WindArrowDown);Aventus.WebComponentInstance.registerDefinition(WindArrowDown);}
 
 const Wine = class Wine extends AbstractIcon {
@@ -50565,7 +50565,7 @@ const Wine = class Wine extends AbstractIcon {
 }
 Wine.Namespace=`Lucide`;
 Wine.Tag=`lucide-wine`;
-_.Wine=Wine;
+__as1(_, 'Wine', Wine);
 if(!window.customElements.get('lucide-wine')){window.customElements.define('lucide-wine', Wine);Aventus.WebComponentInstance.registerDefinition(Wine);}
 
 const WineOff = class WineOff extends AbstractIcon {
@@ -50589,7 +50589,7 @@ const WineOff = class WineOff extends AbstractIcon {
 }
 WineOff.Namespace=`Lucide`;
 WineOff.Tag=`lucide-wine-off`;
-_.WineOff=WineOff;
+__as1(_, 'WineOff', WineOff);
 if(!window.customElements.get('lucide-wine-off')){window.customElements.define('lucide-wine-off', WineOff);Aventus.WebComponentInstance.registerDefinition(WineOff);}
 
 const Workflow = class Workflow extends AbstractIcon {
@@ -50613,7 +50613,7 @@ const Workflow = class Workflow extends AbstractIcon {
 }
 Workflow.Namespace=`Lucide`;
 Workflow.Tag=`lucide-workflow`;
-_.Workflow=Workflow;
+__as1(_, 'Workflow', Workflow);
 if(!window.customElements.get('lucide-workflow')){window.customElements.define('lucide-workflow', Workflow);Aventus.WebComponentInstance.registerDefinition(Workflow);}
 
 const Worm = class Worm extends AbstractIcon {
@@ -50637,7 +50637,7 @@ const Worm = class Worm extends AbstractIcon {
 }
 Worm.Namespace=`Lucide`;
 Worm.Tag=`lucide-worm`;
-_.Worm=Worm;
+__as1(_, 'Worm', Worm);
 if(!window.customElements.get('lucide-worm')){window.customElements.define('lucide-worm', Worm);Aventus.WebComponentInstance.registerDefinition(Worm);}
 
 const WrapText = class WrapText extends AbstractIcon {
@@ -50661,7 +50661,7 @@ const WrapText = class WrapText extends AbstractIcon {
 }
 WrapText.Namespace=`Lucide`;
 WrapText.Tag=`lucide-wrap-text`;
-_.WrapText=WrapText;
+__as1(_, 'WrapText', WrapText);
 if(!window.customElements.get('lucide-wrap-text')){window.customElements.define('lucide-wrap-text', WrapText);Aventus.WebComponentInstance.registerDefinition(WrapText);}
 
 const Wrench = class Wrench extends AbstractIcon {
@@ -50685,7 +50685,7 @@ const Wrench = class Wrench extends AbstractIcon {
 }
 Wrench.Namespace=`Lucide`;
 Wrench.Tag=`lucide-wrench`;
-_.Wrench=Wrench;
+__as1(_, 'Wrench', Wrench);
 if(!window.customElements.get('lucide-wrench')){window.customElements.define('lucide-wrench', Wrench);Aventus.WebComponentInstance.registerDefinition(Wrench);}
 
 const X = class X extends AbstractIcon {
@@ -50709,7 +50709,7 @@ const X = class X extends AbstractIcon {
 }
 X.Namespace=`Lucide`;
 X.Tag=`lucide-x`;
-_.X=X;
+__as1(_, 'X', X);
 if(!window.customElements.get('lucide-x')){window.customElements.define('lucide-x', X);Aventus.WebComponentInstance.registerDefinition(X);}
 
 const XCircle = class XCircle extends AbstractIcon {
@@ -50733,7 +50733,7 @@ const XCircle = class XCircle extends AbstractIcon {
 }
 XCircle.Namespace=`Lucide`;
 XCircle.Tag=`lucide-x-circle`;
-_.XCircle=XCircle;
+__as1(_, 'XCircle', XCircle);
 if(!window.customElements.get('lucide-x-circle')){window.customElements.define('lucide-x-circle', XCircle);Aventus.WebComponentInstance.registerDefinition(XCircle);}
 
 const XOctagon = class XOctagon extends AbstractIcon {
@@ -50757,7 +50757,7 @@ const XOctagon = class XOctagon extends AbstractIcon {
 }
 XOctagon.Namespace=`Lucide`;
 XOctagon.Tag=`lucide-x-octagon`;
-_.XOctagon=XOctagon;
+__as1(_, 'XOctagon', XOctagon);
 if(!window.customElements.get('lucide-x-octagon')){window.customElements.define('lucide-x-octagon', XOctagon);Aventus.WebComponentInstance.registerDefinition(XOctagon);}
 
 const XSquare = class XSquare extends AbstractIcon {
@@ -50781,7 +50781,7 @@ const XSquare = class XSquare extends AbstractIcon {
 }
 XSquare.Namespace=`Lucide`;
 XSquare.Tag=`lucide-x-square`;
-_.XSquare=XSquare;
+__as1(_, 'XSquare', XSquare);
 if(!window.customElements.get('lucide-x-square')){window.customElements.define('lucide-x-square', XSquare);Aventus.WebComponentInstance.registerDefinition(XSquare);}
 
 const Youtube = class Youtube extends AbstractIcon {
@@ -50805,7 +50805,7 @@ const Youtube = class Youtube extends AbstractIcon {
 }
 Youtube.Namespace=`Lucide`;
 Youtube.Tag=`lucide-youtube`;
-_.Youtube=Youtube;
+__as1(_, 'Youtube', Youtube);
 if(!window.customElements.get('lucide-youtube')){window.customElements.define('lucide-youtube', Youtube);Aventus.WebComponentInstance.registerDefinition(Youtube);}
 
 const Zap = class Zap extends AbstractIcon {
@@ -50829,7 +50829,7 @@ const Zap = class Zap extends AbstractIcon {
 }
 Zap.Namespace=`Lucide`;
 Zap.Tag=`lucide-zap`;
-_.Zap=Zap;
+__as1(_, 'Zap', Zap);
 if(!window.customElements.get('lucide-zap')){window.customElements.define('lucide-zap', Zap);Aventus.WebComponentInstance.registerDefinition(Zap);}
 
 const ZapOff = class ZapOff extends AbstractIcon {
@@ -50853,7 +50853,7 @@ const ZapOff = class ZapOff extends AbstractIcon {
 }
 ZapOff.Namespace=`Lucide`;
 ZapOff.Tag=`lucide-zap-off`;
-_.ZapOff=ZapOff;
+__as1(_, 'ZapOff', ZapOff);
 if(!window.customElements.get('lucide-zap-off')){window.customElements.define('lucide-zap-off', ZapOff);Aventus.WebComponentInstance.registerDefinition(ZapOff);}
 
 const ZoomIn = class ZoomIn extends AbstractIcon {
@@ -50877,7 +50877,7 @@ const ZoomIn = class ZoomIn extends AbstractIcon {
 }
 ZoomIn.Namespace=`Lucide`;
 ZoomIn.Tag=`lucide-zoom-in`;
-_.ZoomIn=ZoomIn;
+__as1(_, 'ZoomIn', ZoomIn);
 if(!window.customElements.get('lucide-zoom-in')){window.customElements.define('lucide-zoom-in', ZoomIn);Aventus.WebComponentInstance.registerDefinition(ZoomIn);}
 
 const ZoomOut = class ZoomOut extends AbstractIcon {
@@ -50901,7 +50901,7 @@ const ZoomOut = class ZoomOut extends AbstractIcon {
 }
 ZoomOut.Namespace=`Lucide`;
 ZoomOut.Tag=`lucide-zoom-out`;
-_.ZoomOut=ZoomOut;
+__as1(_, 'ZoomOut', ZoomOut);
 if(!window.customElements.get('lucide-zoom-out')){window.customElements.define('lucide-zoom-out', ZoomOut);Aventus.WebComponentInstance.registerDefinition(ZoomOut);}
 
 let Icons= {
@@ -52728,7 +52728,7 @@ let Icons= {
     'ZoomIn': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" part="svg" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line><line x1="11" x2="11" y1="8" y2="14"></line><line x1="8" x2="14" y1="11" y2="11"></line></svg>',
     'ZoomOut': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" part="svg" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line><line x1="8" x2="14" y1="11" y2="11"></line></svg>'
 };
-_.Icons=Icons;
+__as1(_, 'Icons', Icons);
 
 const LucideIcon = class LucideIcon extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -52765,7 +52765,7 @@ const LucideIcon = class LucideIcon extends Aventus.WebComponent {
 }
 LucideIcon.Namespace=`Lucide`;
 LucideIcon.Tag=`lucide-icon`;
-_.LucideIcon=LucideIcon;
+__as1(_, 'LucideIcon', LucideIcon);
 if(!window.customElements.get('lucide-icon')){window.customElements.define('lucide-icon', LucideIcon);Aventus.WebComponentInstance.registerDefinition(LucideIcon);}
 
 
@@ -56277,7 +56277,7 @@ let IconList= {
     'zoom_out': 'zoom_out',
     'zoom_out_map': 'zoom_out_map'
 };
-_.IconList=IconList;
+__as1(_, 'IconList', IconList);
 
 let IconMeta= {
     '10k': ["10000", "10K", "alphabet", "character", "digit", "display", "font", "letters", "numbers", "pixel", "pixels", "resolution", "symbol", "text", "type", "video", "10k"],
@@ -59775,7 +59775,7 @@ let IconMeta= {
     'zoom_out': ["find", "glass", "look", "magnify", "magnifying", "minus", "negative", "out", "scale", "search", "see", "size", "small", "smaller", "zoom", "zoom out"],
     'zoom_out_map': ["arrow", "arrows", "center", "destination", "location", "maps", "middle", "move", "out", "place", "stop", "zoom", "zoom out map"]
 };
-_.IconMeta=IconMeta;
+__as1(_, 'IconMeta', IconMeta);
 
 let IconMetaFr= {
     '10k': ["10000", "10K", "alphabet", "caractère", "chiffre", "affichage", "police", "lettres", "chiffres", "pixel", "pixels", "résolution", "symbole", "texte", "type", "vidéo", "10k"],
@@ -63273,7 +63273,7 @@ let IconMetaFr= {
     'zoom_out': ["trouver", "verre", "regarder", "agrandir", "grossissant", "moins", "négatif", "sortir", "échelle", "recherche", "voir", "taille", "petit", "plus petit", "zoom", "dézoomer"],
     'zoom_out_map': ["flèche", "flèches", "centre", "destination", "emplacement", "cartes", "milieu", "déplacer", "sortir", "lieu", "arrêter", "zoom", "Agrandir la carte"]
 };
-_.IconMetaFr=IconMetaFr;
+__as1(_, 'IconMetaFr', IconMetaFr);
 
 const Icon = class Icon extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon", "type", "fill"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -63373,7 +63373,7 @@ const Icon = class Icon extends Aventus.WebComponent {
 }
 Icon.Namespace=`MaterialIcon`;
 Icon.Tag=`mi-icon`;
-_.Icon=Icon;
+__as1(_, 'Icon', Icon);
 if(!window.customElements.get('mi-icon')){window.customElements.define('mi-icon', Icon);Aventus.WebComponentInstance.registerDefinition(Icon);}
 
 

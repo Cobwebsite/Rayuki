@@ -425,7 +425,7 @@ namespace Components {
             }
         }
 
-        protected firstRender() {
+        protected async firstRender() {
             if(this.isFirstRender) {
                 this.isFirstRender = false;
                 for(let i = 0; i < this.options.schema.length; i++) {
@@ -444,7 +444,7 @@ namespace Components {
 
                 this.header = new this.options.header();
                 this.header.table = this;
-                this.header.init(this.options);
+                await this.header.init(this.options);
 
                 this.headerContainer.innerHTML = "";
                 this.headerContainer.appendChild(this.header);
@@ -464,7 +464,7 @@ namespace Components {
                 return;
             }
             let isFirst = this.isFirstRender;
-            this.firstRender();
+            await this.firstRender();
 
             this.hadGlobalSearch = false;
 
@@ -480,7 +480,7 @@ namespace Components {
                             let row = new this.options.row();
                             row.table = this;
                             row.grid = this.grid;
-                            row.init(this.options, item);
+                            await row.init(this.options, item);
                             this.rows.set(item, row);
                             rowItem = row;
                         }

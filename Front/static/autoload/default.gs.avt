@@ -31,13 +31,13 @@ body.interaction {
 	touch-action: none;
 	-webkit-touch-callout: text;
 	/* iOS Safari */
-	-webkit-user-select: none;
+	-webkit-user-select: text;
 	/* Safari */
-	-khtml-user-select: none;
+	-khtml-user-select: text;
 	/* Konqueror HTML */
-	-moz-user-select: none;
+	-moz-user-select: text;
 	/* Old versions of Firefox */
-	-ms-user-select: none;
+	-ms-user-select: text;
 	/* Internet Explorer/Edge */
-	user-select: none;
+	user-select: text;
 }

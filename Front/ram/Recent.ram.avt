@@ -2,7 +2,7 @@ import { Recent } from "../generated/Data/Recent.data.avt";
 import { RecentRouter } from "../generated/Websocket/Routes/RecentRouter.lib.avt";
 
 
-namespace Ram {
+namespace RAM {
 
     export class RecentRAM extends AventusSharp.RAM.RamWebSocket<Recent> implements Aventus.IRam {
 

@@ -23,14 +23,15 @@ namespace Core
         private static bool RayukiReady;
         private static bool ServerReady;
 
-
-        public static readonly int nbAppInDev = 2;
-        public static readonly string Version = "1.0.18";
-        public static readonly string BuildDate = "2025-09-15T20:31:41.341Z";
-        public static bool resetStorage
+        public static int NbAppInDev
         {
-            // get => false;
-            get => app.Environment.IsDevelopment();
+            get => GeneralConfig.NbAppInDev;
+        }
+        public static readonly string Version = "1.0.18";
+        public static readonly string BuildDate = "2025-09-16T16:54:57.667Z";
+        public static bool ResetStorage
+        {
+            get => GeneralConfig.ResetStorage;
         }
 
         public static string wwwroot
@@ -39,8 +40,12 @@ namespace Core
         }
         public static bool IsDev
         {
-            // get => false;
             get => app.Environment.IsDevelopment();
+        }
+
+        public static bool AutoLogin
+        {
+            get => GeneralConfig.AutoLogin;
         }
 
         public static bool IsAppManagement
@@ -48,7 +53,25 @@ namespace Core
             get => Environment.GetEnvironmentVariable("APP_MANAGEMENT") == "true";
         }
 
-        public static DatabaseConfig Config
+        public static GeneralConfig GeneralConfig
+        {
+            get
+            {
+                GeneralConfig? result = app.Configuration.Get<GeneralConfig>();
+                if (result != null)
+                {
+                    return result;
+                }
+                result = GeneralConfig.LoadFromEnv();
+                if (result != null)
+                {
+                    return result;
+                }
+
+                return new GeneralConfig();
+            }
+        }
+        public static DatabaseConfig DatabaseConfig
         {
             get
             {
@@ -68,7 +91,6 @@ namespace Core
                 return new DatabaseConfig();
             }
         }
-
         public static DefaultUserConfig DefaultUser
         {
             get
@@ -350,7 +372,7 @@ namespace Core
             }
             if (context.Request.Path != "/login")
             {
-                if (IsDev)
+                if (AutoLogin)
                 {
                     User? user = UserDM.GetInstance().GetById(1);
 

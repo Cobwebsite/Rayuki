@@ -13,6 +13,7 @@ namespace Data {
 		public orientation!: string;
 		public scope!: string;
 		public start_url!: string;
+		public version: number = 1;
 	}
 
 	@Convertible()

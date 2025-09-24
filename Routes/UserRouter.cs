@@ -1,4 +1,5 @@
 ﻿using AventusSharp.Routes;
+using AventusSharp.Routes.Attributes;
 using AventusSharp.Tools;
 using Core.Data;
 using Core.Logic;
@@ -7,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace Core.Routes
 {
+    [Prefix("Core")]
     public class UserRouter : StorableRouter<User>
     {
         // public override ResultWithError<List<User>> GetAll(HttpContext context)
@@ -31,5 +33,7 @@ namespace Core.Routes
         {
             return UserDM.GetInstance().GetConnected(context.GetUserId());
         }
+
+        
     }
 }

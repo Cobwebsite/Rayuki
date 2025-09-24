@@ -15,11 +15,27 @@ namespace Core.Tools
         {
             return context.Session.GetInt32("userId");
         }
-
         public static void SetConnected(this HttpContext context, int userId)
         {
             context.Session.SetInt32("userId", userId);
         }
+        public static void SetPreviousConnected(this HttpContext context, int? userId)
+        {
+            if (userId == null)
+            {
+                context.Session.Remove("previousUserId");
+            }
+            else
+            {
+                context.Session.SetInt32("previousUserId", (int)userId);
+            }
+        }
+
+        public static int? GetPreviousConnected(this HttpContext context)
+        {
+            return context.Session.GetInt32("previousUserId");
+        }
+
         public static void Disconnect(this HttpContext context)
         {
             context.Session.Remove("userId");

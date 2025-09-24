@@ -12,6 +12,7 @@ using Path = AventusSharp.Routes.Attributes.Path;
 
 namespace Core.Routes
 {
+    [Prefix("Core")]
     public class PermissionRouter : Router
     {
         [Post]
