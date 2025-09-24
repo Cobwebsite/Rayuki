@@ -588,12 +588,17 @@ namespace Components {
             if(reload && this.isReady)
                 await this.filterData();
         }
-        public async removeFilter<U extends keyof T>(name: U, action: (value: T[U]) => boolean, reload: boolean = true): Promise<void> {
+        public async removeFilter<U extends keyof T>(name: U, action?: (value: T[U]) => boolean, reload: boolean = true): Promise<void> {
             let nameTxt = name as string;
             if(this.filters[nameTxt]) {
-                let index = this.filters[nameTxt].indexOf(action);
-                if(index != -1) {
-                    this.filters[nameTxt].splice(index, 1);
+                if(action) {
+                    let index = this.filters[nameTxt].indexOf(action);
+                    if(index != -1) {
+                        this.filters[nameTxt].splice(index, 1);
+                    }
+                }
+                else {
+                    delete this.filters[nameTxt];
                 }
             }
             if(reload && this.isReady)

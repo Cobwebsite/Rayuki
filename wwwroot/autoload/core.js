@@ -21354,9 +21354,14 @@ Components.Table = class Table extends Aventus.WebComponent {
     async removeFilter(name, action, reload = true) {
         let nameTxt = name;
         if (this.filters[nameTxt]) {
-            let index = this.filters[nameTxt].indexOf(action);
-            if (index != -1) {
-                this.filters[nameTxt].splice(index, 1);
+            if (action) {
+                let index = this.filters[nameTxt].indexOf(action);
+                if (index != -1) {
+                    this.filters[nameTxt].splice(index, 1);
+                }
+            }
+            else {
+                delete this.filters[nameTxt];
             }
         }
         if (reload && this.isReady)
