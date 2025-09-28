@@ -113,9 +113,16 @@
         {
             "name": "Login",
             "hideWarnings": true,
-            "disabled": true,
+            "disabled": false,
             "src": [
-                "./apps/login/*"
+                "./apps/login/*",
+                "./components/*",
+                "./ram/*",
+                "./libs/*",
+                "./states/*",
+                "./generated/*",
+                "./locales/*",
+                "./@default.wcs.avt"
             ],
             "compile": [
                 {

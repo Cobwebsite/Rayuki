@@ -6,7 +6,8 @@ $size-breakpoints: (
 	"sm": 540,
 	"md": 720,
 	"lg": 960,
-	"xl": 1140
+	"xl": 1140,
+	"xxl": 1360,
 );
 
 $colors: (
@@ -127,6 +128,14 @@ $colors: (
 
 @mixin application-xl {
 	$sizeTemp: map-get($map: $size-breakpoints, $key: "xl");
+
+	@container application (max-width: #{$sizeTemp+'px'}) {
+		@content;
+	}
+}
+
+@mixin application-xxl {
+	$sizeTemp: map-get($map: $size-breakpoints, $key: "xxl");
 
 	@container application (max-width: #{$sizeTemp+'px'}) {
 		@content;

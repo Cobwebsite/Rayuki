@@ -1,6 +1,7 @@
 using System.Text;
 using AventusSharp.Data.CustomTableMembers;
 using AventusSharp.Tools;
+using Core.App;
 using Path = System.IO.Path;
 
 namespace Core.Logic.FileSystem
@@ -27,21 +28,36 @@ namespace Core.Logic.FileSystem
         }
 
         private string AppName { get; set; } = "";
+        private bool? IsApp { get; set; }
         public string rootDir
         {
-            get => Path.GetFullPath(Path.Combine(Storage.rootFolder, AppName));
+            get
+            {
+                if (IsApp == true)
+                {
+                    return Path.GetFullPath(Path.Combine(Storage.rootFolder, "apps", AppName));
+                }
+                else if (IsApp == false)
+                {
+                    return Path.GetFullPath(Path.Combine(Storage.rootFolder, "plugins", AppName));
+                }
+                return Path.GetFullPath(Storage.rootFolder);
+
+            }
         }
         private FileStorage()
         {
             AppName = "Core";
         }
-        private FileStorage(string appName)
+        private FileStorage(string appName, bool? isApp = null)
         {
             AppName = appName;
+            IsApp = isApp;
         }
         private FileStorage(Type type)
         {
             AppName = type.Assembly.GetName().Name ?? "";
+            IsApp = type.BaseType == typeof(RayukiApp);
         }
 
         protected VoidWithError CheckPath(string uri)

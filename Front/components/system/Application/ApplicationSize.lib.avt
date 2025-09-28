@@ -2,7 +2,7 @@ import type { Application } from "./Application.wcl.avt";
 
 namespace System {
 
-    export type SizeList = "xs" | "sm" | "md" | "lg" | "xl";
+    export type SizeList = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 
     export type ApplicationPositionSize = {
         top: number;

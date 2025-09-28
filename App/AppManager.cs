@@ -131,9 +131,9 @@ namespace Core.App
                         }
                         return urlPattern;
                     };
-                    //config.PrintRoute = true;
-                    //config.PrintTrigger = true;
-                    //config.PrintQuery = true;
+                    // config.PrintRoute = true;
+                    // config.PrintTrigger = true;
+                    // config.PrintQuery = true;
                 });
 
                 WebSocketMiddleware.Register(Assembly.GetExecutingAssembly());

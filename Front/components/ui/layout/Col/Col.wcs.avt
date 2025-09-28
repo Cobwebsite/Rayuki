@@ -10,8 +10,8 @@
     justify-content: center;
 }
 
-$sizes: 300, 540, 720, 960, 1140;
-$labels: xs, sm, md, lg, xl;
+$sizes: 300, 540, 720, 960, 1140, 1360;
+$labels: xs, sm, md, lg, xl, xxl;
 
 
 @for $i from 0 through 12 {

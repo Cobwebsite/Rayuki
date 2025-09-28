@@ -10,6 +10,7 @@ namespace System {
         public static md: number = 720;
         public static lg: number = 960;
         public static xl: number = 1140;
+        public static xxl: number = 1360;
     }
 }
 

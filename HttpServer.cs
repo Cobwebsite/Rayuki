@@ -28,7 +28,7 @@ namespace Core
             get => GeneralConfig.NbAppInDev;
         }
         public static readonly string Version = "1.0.18";
-        public static readonly string BuildDate = "2025-09-16T16:54:57.667Z";
+        public static readonly string BuildDate = "2025-09-28T21:21:58.994Z";
         public static bool ResetStorage
         {
             get => GeneralConfig.ResetStorage;
