@@ -5,7 +5,8 @@ namespace Core.Permissions;
 
 public enum OsPermission
 {
-    ConnectAs
+    ConnectAs,
+    ReorderApps
 }
 
 [Export]
@@ -14,7 +15,7 @@ public class OsPermissionQuery : PermissionQuery<OsPermission>
 
     public override PermissionDescription<OsPermission>? Description()
     {
-        return null;
+        return new OsPermissionDescription();
     }
 }
 public class OsPermissionDescription : PermissionDescription<OsPermission>
@@ -25,8 +26,15 @@ public class OsPermissionDescription : PermissionDescription<OsPermission>
                 {
                     OsPermission.ConnectAs,
                     new PermissionDescriptionItem() {
-                        DisplayName = "Connect as",
-                        Description = "Allow user to connect as another user"
+                        DisplayName = "Connect en tant que",
+                        Description = "Permet à l'utilisateur de se connecter en tant que"
+                    }
+                },
+                {
+                    OsPermission.ReorderApps,
+                    new PermissionDescriptionItem() {
+                        DisplayName = "Réorganisation des apps",
+                        Description = "Permet à l'utilisateur de réorganiser l'ordre d'apparition des applications"
                     }
                 }
             };

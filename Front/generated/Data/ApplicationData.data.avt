@@ -7,6 +7,7 @@ namespace Data {
 		public Name: string = "";
 		public DisplayName: string = "";
 		public Version: number = 0;
+		public Order: number = 0;
 		public LogoClassName: string = "";
 		public LogoTagName: string = "";
 		public Extension!: string;

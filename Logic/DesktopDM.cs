@@ -25,6 +25,7 @@ namespace Core.Logic
             CreateDefaultDesktop();
 
             PermissionDM.GetInstance().RegisterPermissions<DesktopPermission, DesktopPermissionDescription>();
+            PermissionDM.GetInstance().RegisterPermissions<OsPermission, OsPermissionDescription>();
             return result;
         }
 

@@ -146,8 +146,11 @@ namespace Core.Logic
             }
 
             ResultWithError<List<ApplicationData>> apps = ApplicationData.WhereWithError(a => allowedApps.Contains(a.Name));
-
-            return apps.Result ?? new List<ApplicationData>();
+            if (apps.Result != null)
+            {
+                return apps.Result.OrderBy(p => p.Order).ToList();
+            }
+            return new List<ApplicationData>();
         }
     }
 }

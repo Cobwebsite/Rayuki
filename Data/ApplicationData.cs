@@ -16,6 +16,7 @@ namespace Core.Data
         public string Name { get; set; } = "";
         public string DisplayName { get; set; } = "";
         public int Version { get; set; } = 0;
+        public int Order { get; set; } = 0;
 
         public string LogoClassName { get; set; } = "";
 

@@ -3,7 +3,8 @@ import { PermissionQuery } from '../../libs/Permission.lib.avt';
 namespace Permissions {
 
 	export enum OsPermission {
-		ConnectAs
+		ConnectAs,
+		ReorderApps
 	}
 
 	@Convertible()
