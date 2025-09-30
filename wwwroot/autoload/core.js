@@ -177,6 +177,7 @@ __as1(_.Permissions, 'QuickAuthPermission', Permissions.QuickAuthPermission);
 
 (function (OsPermission) {
     OsPermission[OsPermission["ConnectAs"] = 0] = "ConnectAs";
+    OsPermission[OsPermission["ReorderApps"] = 1] = "ReorderApps";
 })(Permissions.OsPermission || (Permissions.OsPermission = {}));
 __as1(_.Permissions, 'OsPermission', Permissions.OsPermission);
 
@@ -2479,12 +2480,13 @@ Data.ApplicationData=class ApplicationData extends AventusSharp.Data.Storable {
     Name = "";
     DisplayName = "";
     Version = 0;
+    Order = 0;
     LogoClassName = "";
     LogoTagName = "";
     Extension;
 }
 Data.ApplicationData.Namespace=`Core.Data`;
-Data.ApplicationData.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","DisplayName":"string","Version":"number","LogoClassName":"string","LogoTagName":"string","Extension":"string"};
+Data.ApplicationData.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","DisplayName":"string","Version":"number","Order":"number","LogoClassName":"string","LogoTagName":"string","Extension":"string"};
 Aventus.Converter.register(Data.ApplicationData.Fullname, Data.ApplicationData);
 __as1(_.Data, 'ApplicationData', Data.ApplicationData);
 
@@ -3958,6 +3960,7 @@ Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
         this.UninstallDevApp = this.UninstallDevApp.bind(this);
         this.UninstallDevPlugin = this.UninstallDevPlugin.bind(this);
         this.InstallApp = this.InstallApp.bind(this);
+        this.ReorderApps = this.ReorderApps.bind(this);
     }
     async GetAll() {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/application`, Aventus.HttpMethod.GET);
@@ -3984,6 +3987,11 @@ Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
     }
     async InstallApp(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/installApp`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryVoid(this.router);
+    }
+    async ReorderApps(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/reorderapps`, Aventus.HttpMethod.POST);
         request.setBody(body);
         return await request.queryVoid(this.router);
     }
@@ -4115,7 +4123,7 @@ System.AppList = class AppList extends Aventus.WebComponent {
     }
     async loadApps() {
         let apps = await RAM.ApplicationRAM.getInstance().getList();
-        apps.sort((a, b) => a.Name < b.Name ? -1 : 1);
+        apps.sort(p => p.Order);
         for (let app of apps) {
             let icon = Aventus.WebComponentInstance.create(app.LogoTagName);
             if (icon) {

@@ -201,7 +201,6 @@ namespace Core.Logic
     ""theme_color"": ""#dcdcdc"",
     ""background_color"": ""#ffffff"",
     ""display"": ""standalone"",
-    ""orientation"": ""portrait"",
     ""scope"": ""/"",
     ""start_url"": ""/pwa/loading.html""
 }";

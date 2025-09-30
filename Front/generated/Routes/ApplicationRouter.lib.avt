@@ -51,6 +51,13 @@ namespace Routes {
 			request.setBody(body);
 			return await request.queryVoid(this.router);
 		}
+
+		@BindThis()
+		public async ReorderApps(body: { apps: ApplicationData[] } | FormData): Promise<AventusSharp.Tools.VoidWithError> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/reorderapps`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			return await request.queryVoid(this.router);
+		}
 	}
 
 }

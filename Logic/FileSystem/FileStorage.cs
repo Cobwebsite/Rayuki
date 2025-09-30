@@ -29,35 +29,36 @@ namespace Core.Logic.FileSystem
 
         private string AppName { get; set; } = "";
         private bool? IsApp { get; set; }
+        private bool IsCore { get; set; }
         public string rootDir
         {
             get
             {
+                if (IsCore)
+                    return Path.GetFullPath(Path.Combine(Storage.rootFolder, "Core"));
                 if (IsApp == true)
-                {
                     return Path.GetFullPath(Path.Combine(Storage.rootFolder, "apps", AppName));
-                }
-                else if (IsApp == false)
-                {
+                if (IsApp == false)
                     return Path.GetFullPath(Path.Combine(Storage.rootFolder, "plugins", AppName));
-                }
                 return Path.GetFullPath(Storage.rootFolder);
 
             }
         }
         private FileStorage()
         {
-            AppName = "Core";
+            IsCore = true;
         }
         private FileStorage(string appName, bool? isApp = null)
         {
             AppName = appName;
             IsApp = isApp;
+            IsCore = false;
         }
         private FileStorage(Type type)
         {
             AppName = type.Assembly.GetName().Name ?? "";
             IsApp = type.BaseType == typeof(RayukiApp);
+            IsCore = false;
         }
 
         protected VoidWithError CheckPath(string uri)
@@ -69,8 +70,8 @@ namespace Core.Logic.FileSystem
                 {
                     uri = uri.Substring(1);
                 }
-                string appUri = Path.GetFullPath(Path.Combine(Storage.rootFolder, AppName));
-                string fullPath = Path.GetFullPath(Path.Combine(Storage.rootFolder, AppName, uri));
+                string appUri = Path.GetFullPath(rootDir);
+                string fullPath = Path.GetFullPath(Path.Combine(rootDir, uri));
                 if (!fullPath.StartsWith(appUri))
                 {
                     result.Errors.Add(new StorageError(StorageErrorCode.NotAllowed, "Vous ne pouvez pas travailler sur un fichier hors de l'application"));
@@ -86,8 +87,24 @@ namespace Core.Logic.FileSystem
             {
                 uri = uri.Substring(1);
             }
+            if (Storage.IsFullPath(uri))
+            {
+                return uri;
+            }
+            if (IsCore)
+            {
+                return Path.Combine("Core", uri);
+            }
             if (!string.IsNullOrEmpty(AppName))
             {
+                if (IsApp == true)
+                {
+                    return Path.Combine("apps", AppName, uri);
+                }
+                else if (IsApp == false)
+                {
+                    return Path.Combine("plugins", AppName, uri);
+                }
                 return Path.Combine(AppName, uri);
             }
             return uri;
@@ -261,7 +278,7 @@ namespace Core.Logic.FileSystem
             if (!result.Success)
                 return result;
 
-            uri = Path.GetFullPath(Path.Combine(rootFolder, uri));
+            uri = GetFullPath(uri);
             // check exist
             if (!File.Exists(uri))
             {
@@ -295,6 +312,37 @@ namespace Core.Logic.FileSystem
             return result;
         }
 
+        private static VoidWithError CheckDirBeforeWrite(string uri)
+        {
+            VoidWithError result = new VoidWithError();
+            string? directory = Path.GetDirectoryName(uri);
+            if (!string.IsNullOrEmpty(directory))
+            {
+                result.Run(() => CreateDir(directory));
+            }
+            return result;
+        }
+        public static bool IsFullPath(string uri)
+        {
+            string uriTemp = uri;
+            if (!uriTemp.StartsWith(Path.DirectorySeparatorChar))
+            {
+                uriTemp = Path.DirectorySeparatorChar + uriTemp;
+            }
+            if (uriTemp.StartsWith(rootFolder)) return true;
+            return false;
+        }
+        private static string GetFullPath(string uri)
+        {
+            string uriTemp = uri;
+            if (!uriTemp.StartsWith(Path.DirectorySeparatorChar))
+            {
+                uriTemp = Path.DirectorySeparatorChar + uriTemp;
+            }
+            if (uriTemp.StartsWith(rootFolder)) return uriTemp;
+            return Path.GetFullPath(Path.Combine(rootFolder, uri));
+        }
+
         public static ResultWithError<bool> Set(string uri, byte[] bytes)
         {
             uri = CorrectUri(uri);
@@ -304,10 +352,12 @@ namespace Core.Logic.FileSystem
             if (!result.Success)
                 return result;
 
-            uri = Path.GetFullPath(Path.Combine(rootFolder, uri));
+            uri = GetFullPath(uri);
             try
             {
-                File.WriteAllBytesAsync(uri, bytes).GetAwaiter().GetResult();
+                result.Run(() => CheckDirBeforeWrite(uri));
+                if (result.Success)
+                    File.WriteAllBytesAsync(uri, bytes).GetAwaiter().GetResult();
             }
             catch (Exception e)
             {
@@ -330,7 +380,7 @@ namespace Core.Logic.FileSystem
             if (!result.Success)
                 return result;
 
-            uri = Path.GetFullPath(Path.Combine(rootFolder, uri));
+            uri = GetFullPath(uri);
             try
             {
                 result.Execute(() =>
@@ -342,7 +392,9 @@ namespace Core.Logic.FileSystem
                         resultTemp.Result = true;
                         return resultTemp;
                     }
-
+                    resultTemp.Run(() => CheckDirBeforeWrite(uri));
+                    if (!resultTemp.Success)
+                        return resultTemp;
                     return file.Upload.MoveWithError(uri).ToGeneric();
                 });
             }
@@ -356,7 +408,7 @@ namespace Core.Logic.FileSystem
         public static ResultWithError<bool> Delete(string uri)
         {
             uri = CorrectUri(uri);
-            uri = Path.GetFullPath(Path.Combine(rootFolder, uri));
+            uri = GetFullPath(uri);
             if (Directory.Exists(uri))
             {
                 return DeleteDir(uri);
@@ -375,7 +427,7 @@ namespace Core.Logic.FileSystem
             if (!result.Success)
                 return result;
 
-            uri = Path.GetFullPath(Path.Combine(rootFolder, uri));
+            uri = GetFullPath(uri);
             // check exist
             if (File.Exists(uri))
             {
@@ -403,7 +455,7 @@ namespace Core.Logic.FileSystem
             if (!result.Success)
                 return result;
 
-            uri = Path.GetFullPath(Path.Combine(rootFolder, uri));
+            uri = GetFullPath(uri);
             toUri = Path.GetFullPath(Path.Combine(rootFolder, toUri));
             // check exist
             if (File.Exists(uri))
@@ -429,7 +481,7 @@ namespace Core.Logic.FileSystem
             if (!result.Success)
                 return result;
 
-            uri = Path.GetFullPath(Path.Combine(rootFolder, uri));
+            uri = GetFullPath(uri);
             result.Result = File.Exists(uri);
 
             return result;
@@ -446,7 +498,7 @@ namespace Core.Logic.FileSystem
 
             try
             {
-                uri = Path.GetFullPath(Path.Combine(rootFolder, uri));
+                uri = GetFullPath(uri);
                 Directory.CreateDirectory(uri);
             }
             catch (Exception e)
@@ -467,7 +519,7 @@ namespace Core.Logic.FileSystem
             if (!result.Success)
                 return result;
 
-            uri = Path.GetFullPath(Path.Combine(rootFolder, uri));
+            uri = GetFullPath(uri);
             // check exist
             if (Directory.Exists(uri))
             {
@@ -495,7 +547,7 @@ namespace Core.Logic.FileSystem
 
             try
             {
-                uri = Path.GetFullPath(Path.Combine(rootFolder, uri));
+                uri = GetFullPath(uri);
                 result.Result = FileDetails.Create(uri);
             }
             catch (Exception e)
@@ -517,7 +569,7 @@ namespace Core.Logic.FileSystem
 
             try
             {
-                string fullUri = Path.GetFullPath(Path.Combine(rootFolder, uri));
+                string fullUri = GetFullPath(uri);
                 if (Directory.Exists(fullUri))
                 {
 
@@ -555,7 +607,7 @@ namespace Core.Logic.FileSystem
         protected static ResultWithError<bool> IsAllowed(string uri, IsAllowedAction action)
         {
             ResultWithError<bool> result = new ResultWithError<bool>();
-            string fullPath = Path.GetFullPath(Path.Combine(rootFolder, uri));
+            string fullPath = GetFullPath(uri);
             if (!fullPath.StartsWith(rootFolder))
             {
                 // error

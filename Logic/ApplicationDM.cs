@@ -116,7 +116,7 @@ namespace Core.Logic
 
             if (isSuperAdmin)
             {
-                return ApplicationData.GetAll();
+                return ApplicationData.GetAll().OrderBy(p => p.Order).ToList();
             }
             List<string> allowedApps = new List<string>();
             string name = ApplicationPermission.AllowAccess.GetFullName();

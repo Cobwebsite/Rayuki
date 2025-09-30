@@ -1,25 +1,25 @@
 
-var Horaire;
-(Horaire||(Horaire = {}));
-(function (Horaire) {
+var CarteCommande;
+(CarteCommande||(CarteCommande = {}));
+(function (CarteCommande) {
 const __as1 = (o, k, c) => { if (o[k] !== undefined) for (let w in o[k]) { c[w] = o[k][w] } o[k] = c; }
-const moduleName = `Horaire`;
+const moduleName = `CarteCommande`;
 const _ = {};
 
 let System = {};
-_.System = Horaire.System ?? {};
+_.System = CarteCommande.System ?? {};
 let _n;
 let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
-    static get Fullname() { return "Horaire.AppInfo, Horaire"; }
-    static Version = 1;
+    static get Fullname() { return "CarteCommande.AppInfo, CarteCommande"; }
+    static Version = 5;
 }
-AppInfo.Namespace=`Horaire`;
+AppInfo.Namespace=`CarteCommande`;
 AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
 Aventus.Converter.register(AppInfo.Fullname, AppInfo);
 __as1(_, 'AppInfo', AppInfo);
 
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
-    static __style = `:host rk-img{--img-stroke-color: white;--img-fill-color: transparent;max-height:100%;flex-grow:1;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    static __style = `:host{background:#b76633;background:radial-gradient(circle, #dfa37e 0%, #b76633 100%)}:host rk-img{--img-stroke-color: white;--img-fill-color: transparent;max-height:100%;flex-grow:1;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
     __getStatic() {
         return AppIcon;
     }
@@ -30,47 +30,50 @@ System.AppIcon = class AppIcon extends Core.System.AppIcon {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-img src="/apps/Horaire/img/logo.svg"></rk-img>` }
+        blocks: { 'default':`<rk-img src="/apps/CarteCommande/img/logo.svg"></rk-img>` }
     });
 }
     getClassName() {
         return "AppIcon";
     }
+    state() {
+        return "/";
+    }
 }
-System.AppIcon.Namespace=`Horaire.System`;
-System.AppIcon.Tag=`horaire-app-icon`;
+System.AppIcon.Namespace=`CarteCommande.System`;
+System.AppIcon.Tag=`carte-commande-app-icon`;
 __as1(_.System, 'AppIcon', System.AppIcon);
-if(!window.customElements.get('horaire-app-icon')){window.customElements.define('horaire-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
+if(!window.customElements.get('carte-commande-app-icon')){window.customElements.define('carte-commande-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
 
 let Version= AppInfo.Version;
 __as1(_, 'Version', Version);
 
 
-for(let key in _) { Horaire[key] = _[key] }
-})(Horaire);
+for(let key in _) { CarteCommande[key] = _[key] }
+})(CarteCommande);
 
 
-var Light;
-(Light||(Light = {}));
-(function (Light) {
+var Cave;
+(Cave||(Cave = {}));
+(function (Cave) {
 const __as1 = (o, k, c) => { if (o[k] !== undefined) for (let w in o[k]) { c[w] = o[k][w] } o[k] = c; }
-const moduleName = `Light`;
+const moduleName = `Cave`;
 const _ = {};
 
 let System = {};
-_.System = Light.System ?? {};
+_.System = Cave.System ?? {};
 let _n;
 let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
-    static get Fullname() { return "Light.AppInfo, Light"; }
-    static Version = 1;
+    static get Fullname() { return "Cave.AppInfo, Cave"; }
+    static Version = 6;
 }
-AppInfo.Namespace=`Light`;
+AppInfo.Namespace=`Cave`;
 AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
 Aventus.Converter.register(AppInfo.Fullname, AppInfo);
 __as1(_, 'AppInfo', AppInfo);
 
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
-    static __style = `:host rk-img{--img-stroke-color: transparent;--img-fill-color: white;max-height:100%;flex-grow:1;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    static __style = `:host{background:#6d071a;background:radial-gradient(circle, #da3c59 0%, #6d071a 100%)}:host rk-img{--img-stroke-color: transparent;--img-fill-color: white;flex-grow:1;height:100%;max-height:100%;padding:20%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
     __getStatic() {
         return AppIcon;
     }
@@ -81,78 +84,27 @@ System.AppIcon = class AppIcon extends Core.System.AppIcon {
     }
     __getHtml() {super.__getHtml();
     this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-img src="/apps/Light/img/logo.svg"></rk-img>` }
+        blocks: { 'default':`<rk-img src="/apps/Cave/img/configuration.svg"></rk-img>` }
     });
 }
     getClassName() {
         return "AppIcon";
     }
+    state() {
+        return "/cepage";
+    }
 }
-System.AppIcon.Namespace=`Light.System`;
-System.AppIcon.Tag=`light-app-icon`;
+System.AppIcon.Namespace=`Cave.System`;
+System.AppIcon.Tag=`cave-app-icon`;
 __as1(_.System, 'AppIcon', System.AppIcon);
-if(!window.customElements.get('light-app-icon')){window.customElements.define('light-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
+if(!window.customElements.get('cave-app-icon')){window.customElements.define('cave-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
 
 let Version= AppInfo.Version;
 __as1(_, 'Version', Version);
 
 
-for(let key in _) { Light[key] = _[key] }
-})(Light);
-
-
-var Minisales;
-(Minisales||(Minisales = {}));
-(function (Minisales) {
-const __as1 = (o, k, c) => { if (o[k] !== undefined) for (let w in o[k]) { c[w] = o[k][w] } o[k] = c; }
-const moduleName = `Minisales`;
-const _ = {};
-
-let System = {};
-_.System = Minisales.System ?? {};
-let _n;
-let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
-    static get Fullname() { return "Minisales.AppInfo, Minisales"; }
-    static Version = 1;
-}
-AppInfo.Namespace=`Minisales`;
-AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
-Aventus.Converter.register(AppInfo.Fullname, AppInfo);
-__as1(_, 'AppInfo', AppInfo);
-
-System.AppIcon = class AppIcon extends Core.System.AppIcon {
-    static __style = `:host{background:#174499;background:radial-gradient(circle, rgb(23, 68, 153) 0%, rgb(12, 34, 71) 100%)}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #acf4d6;flex-grow:1;max-height:100%;padding:15%;pointer-events:none}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
-    __getStatic() {
-        return AppIcon;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(AppIcon.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-img src="/apps/Minisales/img/logo.png"></rk-img>` }
-    });
-}
-    getClassName() {
-        return "AppIcon";
-    }
-    defineAddons() {
-        return ["QrCodeGenerator"];
-    }
-}
-System.AppIcon.Namespace=`Minisales.System`;
-System.AppIcon.Tag=`minisales-app-icon`;
-__as1(_.System, 'AppIcon', System.AppIcon);
-if(!window.customElements.get('minisales-app-icon')){window.customElements.define('minisales-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
-
-let Version= AppInfo.Version;
-__as1(_, 'Version', Version);
-
-
-for(let key in _) { Minisales[key] = _[key] }
-})(Minisales);
+for(let key in _) { Cave[key] = _[key] }
+})(Cave);
 
 
 var Settings;
@@ -175,7 +127,7 @@ Aventus.Converter.register(AppInfo.Fullname, AppInfo);
 __as1(_, 'AppInfo', AppInfo);
 
 System.AppIcon = class AppIcon extends Core.System.AppIcon {
-    static __style = `:host{background-color:#7a7a7a}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #ffffff;flex-grow:1;max-height:100%;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    static __style = `:host{background:#7a7a7a;background:radial-gradient(circle, #a9a9a9 0%, #666666 100%)}:host rk-img{--img-stroke-color: transparent;--img-fill-color: #ffffff;flex-grow:1;max-height:100%;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
     __getStatic() {
         return AppIcon;
     }
@@ -204,4 +156,55 @@ __as1(_, 'Version', Version);
 
 for(let key in _) { Settings[key] = _[key] }
 })(Settings);
+
+
+var Suivi;
+(Suivi||(Suivi = {}));
+(function (Suivi) {
+const __as1 = (o, k, c) => { if (o[k] !== undefined) for (let w in o[k]) { c[w] = o[k][w] } o[k] = c; }
+const moduleName = `Suivi`;
+const _ = {};
+
+let System = {};
+_.System = Suivi.System ?? {};
+let _n;
+let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Suivi.AppInfo, Suivi"; }
+    static Version = 6;
+}
+AppInfo.Namespace=`Suivi`;
+AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
+Aventus.Converter.register(AppInfo.Fullname, AppInfo);
+__as1(_, 'AppInfo', AppInfo);
+
+System.AppIcon = class AppIcon extends Core.System.AppIcon {
+    static __style = `:host{background:#6d071a;background:radial-gradient(circle, #da3c59 0%, #6d071a 100%)}:host rk-img{--img-stroke-color: transparent;--img-fill-color: white;flex-grow:1;max-height:100%;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    __getStatic() {
+        return AppIcon;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(AppIcon.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-img src="/apps/Suivi/img/logo.svg"></rk-img>` }
+    });
+}
+    getClassName() {
+        return "AppIcon";
+    }
+}
+System.AppIcon.Namespace=`Suivi.System`;
+System.AppIcon.Tag=`suivi-app-icon`;
+__as1(_.System, 'AppIcon', System.AppIcon);
+if(!window.customElements.get('suivi-app-icon')){window.customElements.define('suivi-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
+
+let Version= AppInfo.Version;
+__as1(_, 'Version', Version);
+
+
+for(let key in _) { Suivi[key] = _[key] }
+})(Suivi);
 

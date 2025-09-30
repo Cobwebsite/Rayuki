@@ -54,7 +54,7 @@ namespace System {
         }
         private async loadApps() {
             let apps = await ApplicationRAM.getInstance().getList();
-            apps.sort((a, b) => a.Name < b.Name ? -1 : 1);
+            apps.sort(p => p.Order);
 
             for(let app of apps) {
                 let icon = Aventus.WebComponentInstance.create<AppIcon>(app.LogoTagName);

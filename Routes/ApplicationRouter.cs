@@ -9,6 +9,9 @@ using Core.Tools;
 using AventusSharp.Data;
 using AventusSharp.Routes.Request;
 using AventusSharp.Tools;
+using Core.Routes.Attributes;
+using Core.Permissions;
+using AventusSharp.Data.Storage.Mssql.Queries;
 
 namespace Core.Routes
 {
@@ -100,6 +103,21 @@ namespace Core.Routes
         public async Task<VoidWithError> InstallApp(HttpFile file)
         {
             return await AppManager.InstallApp(file);
+        }
+
+
+        [Post, Permission<OsPermission>(OsPermission.ReorderApps)]
+        public VoidWithError ReorderApps(List<ApplicationData> apps)
+        {
+            return ApplicationDM.GetInstance().RunInsideTransaction(() =>
+            {
+                VoidWithError result = new VoidWithError();
+                foreach (ApplicationData app in apps)
+                {
+                    result.Run(() => ApplicationData.StartUpdate().Field(p => p.Order).Where(p => p.Id == app.Id).RunWithError(app));
+                }
+                return result;
+            });
         }
     }
 }

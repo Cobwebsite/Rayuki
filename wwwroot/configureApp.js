@@ -6669,12 +6669,13 @@ Data.ApplicationData=class ApplicationData extends AventusSharp.Data.Storable {
     Name = "";
     DisplayName = "";
     Version = 0;
+    Order = 0;
     LogoClassName = "";
     LogoTagName = "";
     Extension;
 }
 Data.ApplicationData.Namespace=`Core.Data`;
-Data.ApplicationData.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","DisplayName":"string","Version":"number","LogoClassName":"string","LogoTagName":"string","Extension":"string"};
+Data.ApplicationData.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"string","DisplayName":"string","Version":"number","Order":"number","LogoClassName":"string","LogoTagName":"string","Extension":"string"};
 Aventus.Converter.register(Data.ApplicationData.Fullname, Data.ApplicationData);
 __as1(_.Data, 'ApplicationData', Data.ApplicationData);
 
@@ -9092,7 +9093,7 @@ Components.Table = class Table extends Aventus.WebComponent {
             await this.render();
         }
     }
-    firstRender() {
+    async firstRender() {
         if (this.isFirstRender) {
             this.isFirstRender = false;
             for (let i = 0; i < this.options.schema.length; i++) {
@@ -9109,7 +9110,7 @@ Components.Table = class Table extends Aventus.WebComponent {
             this.styleWrapper?.style.setProperty("--_table-nb-column", nbCol + "");
             this.header = new this.options.header();
             this.header.table = this;
-            this.header.init(this.options);
+            await this.header.init(this.options);
             this.headerContainer.innerHTML = "";
             this.headerContainer.appendChild(this.header);
             for (let column in this.sortColumns) {
@@ -9126,7 +9127,7 @@ Components.Table = class Table extends Aventus.WebComponent {
             return;
         }
         let isFirst = this.isFirstRender;
-        this.firstRender();
+        await this.firstRender();
         this.hadGlobalSearch = false;
         if (!onlySort) {
             let newRowsFiltered = [];
@@ -9138,7 +9139,7 @@ Components.Table = class Table extends Aventus.WebComponent {
                         let row = new this.options.row();
                         row.table = this;
                         row.grid = this.grid;
-                        row.init(this.options, item);
+                        await row.init(this.options, item);
                         this.rows.set(item, row);
                         rowItem = row;
                     }
@@ -9231,9 +9232,14 @@ Components.Table = class Table extends Aventus.WebComponent {
     async removeFilter(name, action, reload = true) {
         let nameTxt = name;
         if (this.filters[nameTxt]) {
-            let index = this.filters[nameTxt].indexOf(action);
-            if (index != -1) {
-                this.filters[nameTxt].splice(index, 1);
+            if (action) {
+                let index = this.filters[nameTxt].indexOf(action);
+                if (index != -1) {
+                    this.filters[nameTxt].splice(index, 1);
+                }
+            }
+            else {
+                delete this.filters[nameTxt];
             }
         }
         if (reload && this.isReady)
@@ -9385,6 +9391,7 @@ __as1(_.Components, 'Button', Components.Button);
 if(!window.customElements.get('rk-button')){window.customElements.define('rk-button', Components.Button);Aventus.WebComponentInstance.registerDefinition(Components.Button);}
 
 Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
+    getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
         this.GetAll = this.GetAll.bind(this);
@@ -9393,6 +9400,7 @@ Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
         this.UninstallDevApp = this.UninstallDevApp.bind(this);
         this.UninstallDevPlugin = this.UninstallDevPlugin.bind(this);
         this.InstallApp = this.InstallApp.bind(this);
+        this.ReorderApps = this.ReorderApps.bind(this);
     }
     async GetAll() {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/application`, Aventus.HttpMethod.GET);
@@ -9419,6 +9427,11 @@ Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
     }
     async InstallApp(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/installApp`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryVoid(this.router);
+    }
+    async ReorderApps(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/reorderapps`, Aventus.HttpMethod.POST);
         request.setBody(body);
         return await request.queryVoid(this.router);
     }

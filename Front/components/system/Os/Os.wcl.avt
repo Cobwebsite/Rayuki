@@ -264,7 +264,7 @@ namespace System {
                 start = new Date();
                 this.loading = true;
             }, 200);
-            this.currentUser = await SessionManager.getUser()
+            this.currentUser = await SessionManager.getUser();
             await ApplicationRAM.getInstance().getAll();
             await this.syncDesktopData();
             clearTimeout(timeout);

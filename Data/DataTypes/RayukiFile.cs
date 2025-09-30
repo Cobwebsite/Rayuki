@@ -33,6 +33,8 @@ public abstract class RayukiFile<T> : AventusFile<T> where T : IStorable
     {
         ResultWithError<bool> result;
         FileStorage? storage = DefineStorage(instance);
+        Console.WriteLine("Part 1 " + DefineDirectory(instance));
+        Console.WriteLine("Part 2 " + DefineFileName(instance, Upload));
         string savePath = Path.Combine(DefineDirectory(instance), DefineFileName(instance, Upload));
         if (storage != null)
         {
