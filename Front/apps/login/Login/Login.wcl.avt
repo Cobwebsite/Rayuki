@@ -1,5 +1,6 @@
 import type { NormalizedEvent } from "Aventus@Main:Aventus.package.avt";
 import type { SsoLogo } from "Core@Main:Core.Data.package.avt";
+import { LoginRouter } from "Core@Main:Core.Routes.package.avt";
 
 export class Login extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
@@ -184,6 +185,149 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
                 localStorage.removeItem("quick_access_token");
             }
         }
+    }
+
+    protected async webauthnLogin() {
+
+        const response = await new LoginRouter().LoginWebAuthnChallenge();
+        if(!response.success || !response.result) return;
+
+        const challenge = response.result.Challenge;
+
+        // Start verify process
+        const assertion = await navigator.credentials.get({
+            publicKey: {
+                challenge: this.base64ToArrayBuffer(challenge),
+                allowCredentials: [],
+                userVerification: "required",
+                timeout: 60000,
+            },
+        });
+
+        if(!(assertion instanceof PublicKeyCredential)) return;
+        const assertionResponse = assertion.response;
+        if(!(assertionResponse instanceof AuthenticatorAssertionResponse)) return;
+
+
+        const request = new VerifyRequest();
+        request.Id = assertion.id;
+        request.RawId = this.arrayBufferToBase64(assertion.rawId);
+        request.Type = assertion.type;
+        request.ClientDataJSON = this.arrayBufferToBase64(assertionResponse.clientDataJSON);
+        request.AuthenticatorData = this.arrayBufferToBase64(assertionResponse.authenticatorData);
+        request.Signature = this.arrayBufferToBase64(assertionResponse.signature);
+        request.UserHandle = assertionResponse.userHandle ? this.arrayBufferToBase64(assertionResponse.userHandle) : undefined;
+
+        const verifyResponse = await new LoginRouter().LoginWebAuthn({
+            assertion: request
+        });
+
+        if(verifyResponse.success && verifyResponse.result?.Success) {
+            window.location.pathname = "/";
+        }
+        else {
+            for(let error of verifyResponse.errors) {
+                if(error instanceof Core.Errors.LoginError) {
+                    if(error.code == Core.Errors.LoginCode.WrongCredentials) {
+                        this.error = "Les informations fournies sont erronées";
+                    }
+                    else {
+                        this.error = error.message;
+                    }
+                }
+                else {
+                    this.error = error.message;
+                }
+            }
+        }
+    }
+
+        /**
+     * 
+     */
+    protected async register() {
+        const response = await new WebAuthnRouter().GetRegisterChallenge();
+        if(!response.success || !response.result) {
+            return;
+        }
+        const challenge = response.result.Challenge;
+        const user = {
+            id: response.result.UserId + '',
+        };
+
+        const name = "test";
+
+        const credential = await navigator.credentials.create({
+            publicKey: {
+                // Server challenge
+                challenge: this.base64ToArrayBuffer(challenge),
+                // Relying Party
+                rp: {
+                    name: "Biometric Example"
+                },
+                // User info
+                user: {
+                    id: Uint8Array.from(user.id, (c) => c.charCodeAt(0)),
+                    name: name,
+                    displayName: name,
+                },
+                // Public key info
+                pubKeyCredParams: [
+                    {
+                        type: "public-key",
+                        alg: -7, // -7 = "ES256" as registered in the IANA COSE Algorithms registry
+                    },
+                ],
+                // Authenticator info
+                authenticatorSelection: {
+                    authenticatorAttachment: "platform", // Use built-in fingerprint sensor
+                    userVerification: "required",
+                },
+                timeout: 60000,
+            },
+        });
+
+        if(!(credential instanceof PublicKeyCredential)) return;
+        const credentialResponse = credential.response;
+        if(!(credentialResponse instanceof AuthenticatorAttestationResponse)) return;
+
+
+        const authCredential = new WebAuthnCredential();
+        authCredential.Id = credential.id;
+        authCredential.RawId = this.arrayBufferToBase64(credential.rawId);
+        authCredential.Type = credential.type;
+        authCredential.ClientDataJSON = this.arrayBufferToBase64(credentialResponse.clientDataJSON);
+        authCredential.AttestationObject = this.arrayBufferToBase64(credentialResponse.attestationObject);
+        authCredential.Name = name;
+
+        const responseRegister = await new WebAuthnRouter().Register({
+            credential: authCredential
+        });
+
+        if(responseRegister.success) {
+            alert("success");
+        }
+    }
+
+    protected base64ToArrayBuffer(base64: string) {
+        const binaryString = atob(base64.replace(/-/g, "+").replace(/_/g, "/"));
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for(let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes.buffer;
+    }
+    protected arrayBufferToBase64(buffer: ArrayBuffer) {
+        const bytes = new Uint8Array(buffer);
+        let binary = "";
+        for(let i = 0; i < bytes.byteLength; i++) {
+            binary += String.fromCharCode(bytes[i]);
+        }
+        return btoa(binary)
+            .replace(/\+/g, "-")
+            .replace(/\//g, "_")
+            .replace(/=+$/, "");
     }
 
     protected override postCreation(): void {

@@ -133,6 +133,28 @@ public class LoginRouter : Router
         return new Redirect("/login");
     }
 
+    [Path("/login/webauthn/register"), Public]
+    public ResultWithError<GetVerifyChallengeResponse> LoginWebAuthnChallenge()
+    {
+        return WebAuthnLogic.GetVerifyChallenge();
+
+    }
+    [Post, Path("/login/webauthn"), Public]
+    public ResultWithError<bool> LoginWebAuthn(HttpContext context, VerifyRequest assertion)
+    {
+        ResultWithError<bool> result = new();
+
+        WebAuthnCredentials? credentials = result.Execute(() => WebAuthnLogic.Verify(assertion));
+        if (credentials != null)
+        {
+            User? user = User.GetById(credentials.UserId);
+            context.SetConnected(credentials.UserId);
+            context.SetSuperAdmin(user?.IsSuperAdmin ?? false);
+        }
+
+        result.Result = result.Success;
+        return result;
+    }
 
     [Post, Path("/logout")]
     public void Logout(HttpContext context)
@@ -213,6 +235,7 @@ public class LoginRouter : Router
         }
         return res;
     }
+
 
 }
 
