@@ -78,7 +78,7 @@ namespace Core.Logic
         }
 
 
-        private IQueryBuilder<Permission>? CreateIfNotExistQuery = null;
+        private QueryBuilderPrepared<Permission>? CreateIfNotExistQuery = null;
         public ResultWithError<Permission> CreateIfNotExist(Permission permission)
         {
             ResultWithError<Permission> result = new();
@@ -86,7 +86,7 @@ namespace Core.Logic
             {
                 CreateIfNotExistQuery = CreateQuery<Permission>().WhereWithParameters(a => a.EnumName == permission.EnumName && a.AdditionalInfo == permission.AdditionalInfo);
             }
-            ResultWithError<Permission> queryResult = CreateIfNotExistQuery.Prepare(permission).SingleWithError();
+            ResultWithError<Permission> queryResult = CreateIfNotExistQuery.New().Prepare(permission).SingleWithError();
             if (!queryResult.Success)
             {
                 result.Errors.AddRange(queryResult.Errors);
@@ -137,8 +137,8 @@ namespace Core.Logic
             return result;
         }
 
-        private IQueryBuilder<PermissionUser> CanQueryUser;
-        private IExistBuilder<PermissionGroup> CanQueryGroup;
+        private QueryBuilderPrepared<PermissionUser> CanQueryUser;
+        private ExistBuilderPrepared<PermissionGroup> CanQueryGroup;
         public bool Can(int idUser, Enum value, string additionalInfo, bool isSuperAdmin)
         {
             if (isSuperAdmin)
@@ -158,9 +158,14 @@ namespace Core.Logic
             {
                 CanQueryUser = PermissionUser.StartQuery().WhereWithParameters(pu => pu.Permission.Id == idPerm && pu.UserId == idUser);
             }
-            CanQueryUser.SetVariable("idUser", idUser);
-            CanQueryUser.SetVariable("idPerm", idPerm);
-            ResultWithError<PermissionUser> canUser = CanQueryUser.SingleWithError();
+            ResultWithError<PermissionUser> canUser = CanQueryUser
+                .New()
+                .SetVariables((add) =>
+                {
+                    add("idUser", idUser);
+                    add("idPerm", idPerm);
+                })
+                .SingleWithError();
 
             if (canUser.Result != null)
             {
@@ -175,9 +180,11 @@ namespace Core.Logic
             }
             if (groups.Count > 0)
             {
-                CanQueryGroup.SetVariable("idPerm", idPerm);
-                CanQueryGroup.SetVariable("groups", groups);
-                ResultWithError<bool> canGroup = CanQueryGroup.RunWithError();
+                ResultWithError<bool> canGroup = CanQueryGroup.New().SetVariables((add) =>
+                {
+                    add("idPerm", idPerm);
+                    add("groups", groups);
+                }).RunWithError();
                 if (canGroup.Result)
                 {
                     return true;

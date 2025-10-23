@@ -14,7 +14,7 @@ public enum RecentParameters
 public class RecentDM : DatabaseDM<RecentDM, Recent>
 {
 
-    protected IQueryBuilder<Recent>? getAllForUserQuery;
+    protected QueryBuilderPrepared<Recent>? getAllForUserQuery;
     public ResultWithError<List<Recent>> GetAllForUser(int? userId)
     {
         if (userId == null)
@@ -27,7 +27,7 @@ public class RecentDM : DatabaseDM<RecentDM, Recent>
         {
             getAllForUserQuery = CreateQuery<Recent>().WhereWithParameters(p => p.UserId == id);
         }
-        return getAllForUserQuery.Prepare(id).RunWithError();
+        return getAllForUserQuery.New().Prepare(id).RunWithError();
     }
 
 

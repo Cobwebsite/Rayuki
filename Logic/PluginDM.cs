@@ -12,7 +12,7 @@ namespace Core.Logic
 {
     public class PluginDM : DatabaseDM<PluginDM, Plugin>
     {
-        private IQueryBuilder<Plugin>? CreateIfNotExistQuery = null;
+        private QueryBuilderPrepared<Plugin>? CreateIfNotExistQuery = null;
 
         public VoidWithError RegisterPlugin(RayukiPlugin rayukiPlugin)
         {
@@ -48,7 +48,7 @@ namespace Core.Logic
             {
                 CreateIfNotExistQuery = CreateQuery<Plugin>().WhereWithParameters(a => a.Name == plugin.Name);
             }
-            ResultWithError<Plugin> queryResult = CreateIfNotExistQuery.Prepare(plugin).SingleWithError();
+            ResultWithError<Plugin> queryResult = CreateIfNotExistQuery.New().Prepare(plugin).SingleWithError();
             if (!queryResult.Success && queryResult.Errors.Count > 0)
             {
                 result.Errors.AddRange(queryResult.Errors);

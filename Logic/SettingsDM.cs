@@ -29,7 +29,7 @@ namespace Core.Logic
             _instance = _SettingsDM.GetInstance();
         }
 
-        private IQueryBuilder<Settings>? _GetSettingsForUser;
+        private QueryBuilderPrepared<Settings>? _GetSettingsForUser;
 
         #region Get for user
 
@@ -56,8 +56,7 @@ namespace Core.Logic
             {
                 _GetSettingsForUser = _instance.CreateQuery<Settings>().WhereWithParameters(p => p.Key == Key && p.UserId == idUser);
             }
-            _GetSettingsForUser.Prepare(Key, idUser);
-            return _GetSettingsForUser.SingleWithError();
+            return _GetSettingsForUser.New().Prepare(Key, idUser).SingleWithError();
         }
         #endregion
 
@@ -409,7 +408,7 @@ namespace Core.Logic
         #endregion
 
         #region Get global
-        private IQueryBuilder<Settings>? _GetGlobalSettings;
+        private QueryBuilderPrepared<Settings>? _GetGlobalSettings;
         public ResultWithError<Settings> GetGlobalSettings(Enum _enum)
         {
             string Key = _enum.GetFullName();
@@ -417,8 +416,7 @@ namespace Core.Logic
             {
                 _GetGlobalSettings = _instance.CreateQuery<Settings>().WhereWithParameters(p => p.Key == Key && p.UserId == null);
             }
-            _GetGlobalSettings.Prepare(Key);
-            return _GetGlobalSettings.SingleWithError();
+            return _GetGlobalSettings.New().Prepare(Key).SingleWithError();
         }
 
         public ResultWithError<int> GetGlobalSettingsInt(Enum _enum, int? defaultValue = null)
@@ -490,8 +488,8 @@ namespace Core.Logic
         #endregion
 
         #region Delete for user
-        private IDeleteBuilder<Settings>? _DeleteAllSettingsForUser;
-        private IDeleteBuilder<Settings>? _DeleteSettingsForUser;
+        private DeleteBuilderPrepared<Settings>? _DeleteAllSettingsForUser;
+        private DeleteBuilderPrepared<Settings>? _DeleteSettingsForUser;
         public ResultWithError<List<Settings>> DeleteSettingsForUser(Enum _enum, HttpContext context)
         {
             int? userId = context.GetUserId();
@@ -514,8 +512,7 @@ namespace Core.Logic
             {
                 _DeleteSettingsForUser = _instance.CreateDelete<Settings>().WhereWithParameters(p => p.Key == Key && p.UserId == idUser);
             }
-            _DeleteSettingsForUser.Prepare(Key, idUser);
-            return _DeleteSettingsForUser.RunWithError();
+            return _DeleteSettingsForUser.New().Prepare(Key, idUser).RunWithError();
         }
 
         public ResultWithError<List<Settings>> DeleteAllSettingsForUser(HttpContext context)
@@ -539,8 +536,7 @@ namespace Core.Logic
             {
                 _DeleteAllSettingsForUser = _instance.CreateDelete<Settings>().WhereWithParameters(p => p.UserId == idUser);
             }
-            _DeleteAllSettingsForUser.Prepare(idUser);
-            return _DeleteAllSettingsForUser.RunWithError();
+            return _DeleteAllSettingsForUser.New().Prepare(idUser).RunWithError();
         }
 
         #endregion

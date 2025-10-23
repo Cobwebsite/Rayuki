@@ -12,7 +12,7 @@ namespace Core.Logic
 {
     public class ApplicationDM : DatabaseDM<ApplicationDM, ApplicationData>
     {
-        private IQueryBuilder<ApplicationData>? CreateIfNotExistQuery = null;
+        private QueryBuilderPrepared<ApplicationData>? CreateIfNotExistQuery = null;
 
         public VoidWithError RegisterApplication(RayukiApp app)
         {
@@ -68,7 +68,7 @@ namespace Core.Logic
             {
                 CreateIfNotExistQuery = CreateQuery<ApplicationData>().WhereWithParameters(a => a.Name == application.Name);
             }
-            ResultWithError<ApplicationData> queryResult = CreateIfNotExistQuery.Prepare(application).SingleWithError();
+            ResultWithError<ApplicationData> queryResult = CreateIfNotExistQuery.New().Prepare(application).SingleWithError();
             if (!queryResult.Success && queryResult.Errors.Count > 0)
             {
                 result.Errors.AddRange(queryResult.Errors);
