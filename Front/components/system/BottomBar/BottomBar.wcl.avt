@@ -7,7 +7,7 @@ import { HomeBtn } from "../HomeBtn/HomeBtn.wcl.avt";
 import { DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.lib.avt";
 import { DesktopActivableLogic, type IDesktopActivable } from "../Desktop/IActivable.lib.avt";
 import { DesktopRouter } from "../../../generated/Websocket/Routes/DesktopRouter.lib.avt";
-import { DesktopPermission, DesktopPermissionQuery } from "../../../generated/Permissions/DesktopPermission.lib.avt";
+import { OsPermission, OsPermissionQuery } from "../../../generated/Permissions/OsPermission.lib.avt";
 
 namespace System {
     export class BottomBar extends Aventus.WebComponent implements Aventus.DefaultComponent, MoveApplicationProvider, IDesktopActivable {
@@ -56,7 +56,7 @@ namespace System {
 
         //#region methods
         protected async getPermissions() {
-            this.permissions.CanHaveVirtualDesktop = await can(new DesktopPermissionQuery(DesktopPermission.CanHaveVirtualDesktop));
+            this.permissions.CanHaveVirtualDesktop = await can(new OsPermissionQuery(OsPermission.CanHaveVirtualDesktop));
         }
         protected addSwipe() {
             let enable = true;

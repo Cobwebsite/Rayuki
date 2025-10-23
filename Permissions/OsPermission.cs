@@ -6,7 +6,10 @@ namespace Core.Permissions;
 public enum OsPermission
 {
     ConnectAs,
-    ReorderApps
+    ReorderApps,
+    QuickAuth,
+    CanHaveVirtualDesktop,
+    PassKey,
 }
 
 [Export]
@@ -35,6 +38,20 @@ public class OsPermissionDescription : PermissionDescription<OsPermission>
                     new PermissionDescriptionItem() {
                         DisplayName = "Réorganisation des apps",
                         Description = "Permet à l'utilisateur de réorganiser l'ordre d'apparition des applications"
+                    }
+                },
+                {
+                    OsPermission.QuickAuth,
+                    new PermissionDescriptionItem() {
+                        DisplayName = "Autorisation des connexions permanentes",
+                        Description = "Permet à l'utilisateur de rester connecter de manière permanente"
+                    }
+                },
+                {
+                    OsPermission.CanHaveVirtualDesktop,
+                    new PermissionDescriptionItem() {
+                        DisplayName = "Gestion de bureaux multiples",
+                        Description = "Permet de gérer des bureaux virtuels"
                     }
                 }
             };

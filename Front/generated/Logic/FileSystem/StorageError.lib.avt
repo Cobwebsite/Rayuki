@@ -9,7 +9,7 @@ namespace Errors {
 	@Convertible()
 	export class StorageError extends Aventus.GenericError<typeof StorageErrorCode>  {
 		/** Fullname of the class */
-		public static get Fullname(): string { return "Core.Logic.FileSystem.StorageError, Core"; }
+		public static override get Fullname(): string { return "Core.Logic.FileSystem.StorageError, Core"; }
 	}
 
 }

@@ -8,7 +8,7 @@ namespace Errors {
 	@Convertible()
 	export class PdfError extends Aventus.GenericError<typeof PdfErrorCode>  {
 		/** Fullname of the class */
-		public static get Fullname(): string { return "Core.Tools.PdfError, Core"; }
+		public static override get Fullname(): string { return "Core.Tools.PdfError, Core"; }
 	}
 
 }

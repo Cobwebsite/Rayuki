@@ -12,7 +12,7 @@ namespace Errors {
 	@Convertible()
 	export class SsoError extends Aventus.GenericError<typeof SsoCode>  {
 		/** Fullname of the class */
-		public static get Fullname(): string { return "Core.Logic.SsoError, Core"; }
+		public static override get Fullname(): string { return "Core.Logic.SsoError, Core"; }
 	}
 
 }

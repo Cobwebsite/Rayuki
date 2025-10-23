@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 using AventusSharp.Tools;
 using Core.Data;
+using Core.Permissions;
 using Core.Routes;
 using Core.Tools;
 using Microsoft.AspNetCore.Authentication;
@@ -104,11 +105,31 @@ public static class WebAuthnLogic
     {
         ResultWithError<WebAuthnCredentials> result = WebAuthnCredentials.SingleWithError(p => p.CredentialId == assertion.Id);
 
-        if (result.Result == null  || !VerifySignature(assertion, result.Result.PublicKey))
+        if (result.Result == null || !VerifySignature(assertion, result.Result.PublicKey))
         {
             result.Errors.Add(new GenericError(400, "Invalid signature"));
         }
-        
+
+        if (result.Success && result.Result != null)
+        {
+            ResultWithError<int> resultQuery = SettingsDM.GetInstance().GetGlobalSettingsInt(OsPermission.PassKey);
+            // pas autorisé
+            if (resultQuery.Result == 0)
+            {
+                result.Errors.Add(new GenericError(400, "PassKey not activated"));
+                result.Result = null;
+            }
+            // utiliseur / groupe
+            else if (resultQuery.Result == 1)
+            {
+                if (!PermissionDM.GetInstance().Can(result.Result.UserId, OsPermission.QuickAuth))
+                {
+                    result.Errors.Add(new GenericError(403, "PassKey not allowed"));
+                    result.Result = null;
+                }
+            }
+        }
+
         return result;
     }
 

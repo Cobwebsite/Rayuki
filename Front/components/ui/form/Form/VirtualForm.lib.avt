@@ -1,3 +1,4 @@
+import { isClass } from "Aventus@Main:Aventus.package.avt";
 import type { ApplicationQueryFctResult } from "../../../system/Application/ApplicationError.lib.avt";
 import type { Constructor, FormPart, FormPartValidate, FormSchema, FormValidate, FormValidateResult, IFormElement, InternalForm, InternalFormPart, VirtualFormConfig } from "./FormType.lib.avt";
 import { FormValidator } from "./Validators/Validator.lib.avt";
@@ -79,8 +80,8 @@ namespace Components {
             realPart.onValidation = new Aventus.Callback();
             realPart.onValueChange = new Aventus.Callback();
             if(part.validate) {
-                const isValidate = (validate: FormPartValidate<T> | Constructor<FormValidator<any>>): validate is FormPartValidate<any> => {
-                    return validate.name == "validate";
+                const isConstructor = (validate: FormPartValidate<T> | Constructor<FormValidator<any>>): validate is Constructor<FormValidator<any>> => {
+                    return isClass(validate);
                 };
                 let validate: FormPartValidate<any>;
                 if(Array.isArray(part.validate)) {
@@ -116,13 +117,13 @@ namespace Components {
                 else if(part.validate instanceof FormValidator) {
                     validate = part.validate.validate;
                 }
-                else if(isValidate(part.validate)) {
-                    validate = part.validate;
-                }
-                else {
+                else if(isConstructor(part.validate)) {
                     let cst = part.validate;
                     let resultTemp = new cst() as FormValidator<any>;
                     validate = resultTemp.validate;
+                }
+                else {
+                    validate = part.validate;
                 }
                 realPart.validate = validate;
             }

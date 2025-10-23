@@ -4,7 +4,10 @@ namespace Permissions {
 
 	export enum OsPermission {
 		ConnectAs,
-		ReorderApps
+		ReorderApps,
+		QuickAuth,
+		CanHaveVirtualDesktop,
+		PassKey
 	}
 
 	@Convertible()

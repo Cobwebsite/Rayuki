@@ -25,6 +25,9 @@ public class LoginRouter : Router
             .Field(p => p.Name)
             .Field(p => p.Logo)
             .Run();
+        int? passKeyResult = SettingsDM.GetInstance().GetGlobalSettingsInt(OsPermission.PassKey).Result;
+        bool passKey = passKeyResult == 1 || passKeyResult == 2;
+
         string error = context.Session.GetString("login_error") ?? "";
         context.Session.Remove("login_error");
         return new ViewDynamic("login", new
@@ -34,7 +37,8 @@ public class LoginRouter : Router
             company_version = company.Version,
             version = HttpServer.Version,
             sso = Newtonsoft.Json.JsonConvert.SerializeObject(providers).Replace("\"", "&avquot;"),
-            error = error
+            error,
+            passKey
         });
     }
 

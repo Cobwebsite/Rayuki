@@ -16,7 +16,7 @@ namespace App {
 	@Convertible()
 	export class AppError extends Aventus.GenericError<typeof AppErrorCode>  {
 		/** Fullname of the class */
-		public static get Fullname(): string { return "Core.App.AppError, Core"; }
+		public static override get Fullname(): string { return "Core.App.AppError, Core"; }
 	}
 
 }

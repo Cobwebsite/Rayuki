@@ -155,7 +155,12 @@ namespace System {
             return this.application.executeWithLoading(prom, minDelay);
         }
 
+        /**
+         * Use this method to check permission though a Watcher
+         * If you need to check the current value of the permission use : Permission.can instead of this function
+         */
         public can<T extends Enum>(query: IPermissionQuery | PermissionQueryCst<T>, value?: Aventus.EnumValue<T>, additionalInfo?: string): boolean {
+            // this method is overrided by PermissionWatcher
             return false;
         }
         public onPermissionSet<T extends Enum>(allow: boolean, query: PermissionQueryCst<T>, value: Aventus.EnumValue<T>, additionalInfo?: string) { }

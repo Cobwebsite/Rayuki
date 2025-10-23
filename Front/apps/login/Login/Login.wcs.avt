@@ -72,17 +72,32 @@
 					border-bottom-right-radius: 3px;
 				}
 
-				.sso-providers {
+				.others {
 					align-items: center;
 					display: flex;
 					gap: 10px;
 					justify-content: center;
 					margin-top: 15px;
+
+					.sso-providers {
+						align-items: center;
+						display: flex;
+						gap: 10px;
+						justify-content: center;
+					}
+
+					.sso-providers[hide="true"] {
+						display: none;
+					}
+
+					.pass-key {
+						color: white;
+						display: flex;
+						position: relative;
+						cursor: pointer;
+					}
 				}
 
-				.sso-providers[hide="true"] {
-					display: none;
-				}
 			}
 
 			.btn-login {
@@ -157,6 +172,18 @@
 			display: none;
 			font-size: 13px;
 			margin-top: 20px;
+		}
+	}
+}
+
+:host(:not([pass_key])) {
+	.login-container {
+		.body {
+			.field-container {
+				.others {
+					// display: none;
+				}
+			}
 		}
 	}
 }

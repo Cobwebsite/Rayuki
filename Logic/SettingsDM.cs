@@ -411,6 +411,7 @@ namespace Core.Logic
         private QueryBuilderPrepared<Settings>? _GetGlobalSettings;
         public ResultWithError<Settings> GetGlobalSettings(Enum _enum)
         {
+            AppManager.Storage.Debug = true;
             string Key = _enum.GetFullName();
             if (_GetGlobalSettings == null)
             {

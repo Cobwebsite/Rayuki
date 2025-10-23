@@ -316,6 +316,7 @@ namespace System {
                                 let diffX = startX - lastX;
                                 let diffY = startY - lastY;
                                 if(diffX * diffX + diffY * diffY < 200) {
+                                    if(window.getSelection) { window.getSelection()?.removeAllRanges(); }
                                     const menu = new this.contextMenuCst();
                                     menu.init(e.pageX, e.pageY, true, this);
                                 }

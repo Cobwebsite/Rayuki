@@ -106,14 +106,14 @@ namespace Core.Logic
 
         public User? QuickLogin(string token)
         {
-            ResultWithError<int> resultQuery = SettingsDM.GetInstance().GetGlobalSettingsInt(QuickAuthPermission.Can);
+            ResultWithError<int> resultQuery = SettingsDM.GetInstance().GetGlobalSettingsInt(OsPermission.QuickAuth);
             if (resultQuery.Result == 0) return null;
             User? user = Single(p => p.QuickToken == token);
 
             if (resultQuery.Result == 1) return user;
             if (resultQuery.Result == 2 && user != null)
             {
-                if (PermissionDM.GetInstance().Can(user.Id, QuickAuthPermission.Can))
+                if (PermissionDM.GetInstance().Can(user.Id, OsPermission.QuickAuth))
                 {
                     return user;
                 }

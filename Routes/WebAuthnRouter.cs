@@ -13,20 +13,51 @@ namespace Core.Routes;
 [Prefix("Core/WebAuthn")]
 public class WebAuthnRouter : Router
 {
+    public ResultWithError<List<WebAuthnCredentialsPublic>> GetByUser(HttpContext context)
+    {
+        ResultWithError<List<WebAuthnCredentialsPublic>> result = new();
+        int id = (int)context.GetUserId()!;
+        ResultWithError<List<WebAuthnCredentials>> query = WebAuthnCredentials.WhereWithError(p => p.UserId == id);
+
+        if (query.Result != null && query.Success)
+        {
+            result.Result = query.Result.Select(p => new WebAuthnCredentialsPublic(p)).ToList();
+        }
+        else
+        {
+            result.Errors = query.Errors;
+        }
+        return result;
+    }
+    public ResultWithError<List<WebAuthnCredentialsPublic>> Delete(HttpContext context, int authId)
+    {
+        ResultWithError<List<WebAuthnCredentialsPublic>> result = new();
+        WebAuthnCredentials? auth = result.Execute(() => WebAuthnCredentials.GetByIdWithError(authId));
+        if (auth != null)
+        {
+            result.Run(auth.DeleteWithError);
+        }
+        if (result.Success) return GetByUser(context);
+        return result;
+    }
+
     public ResultWithError<GetRegisterChallengeResponse> GetRegisterChallenge(HttpContext context)
     {
         return WebAuthnLogic.GetRegisterChallenge(context);
     }
 
-    public ResultWithError<bool> Register(HttpContext context, RegisterRequest credential)
+    public ResultWithError<List<WebAuthnCredentialsPublic>> Register(HttpContext context, RegisterRequest credential)
     {
-        return WebAuthnLogic.Register(context, credential);
+        ResultWithError<List<WebAuthnCredentialsPublic>> result = new();
+        bool? isOk = result.Execute(() => WebAuthnLogic.Register(context, credential));
+        if(isOk == true) return GetByUser(context); 
+        return result;
     }
 
     public ResultWithError<GetVerifyChallengeResponse> GetVerifyChallenge()
     {
         return WebAuthnLogic.GetVerifyChallenge();
-        
+
     }
 
     public ResultWithError<bool> Verify(HttpContext context, VerifyRequest assertion)
@@ -84,5 +115,5 @@ public class VerifyRequest
     public required string ClientDataJSON { get; set; }
     public required string AuthenticatorData { get; set; }
     public required string Signature { get; set; }
-    public required string UserHandle { get; set; }
+    public required string? UserHandle { get; set; }
 }

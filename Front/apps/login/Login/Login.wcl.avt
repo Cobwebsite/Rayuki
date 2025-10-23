@@ -1,6 +1,7 @@
 import type { NormalizedEvent } from "Aventus@Main:Aventus.package.avt";
 import type { SsoLogo } from "Core@Main:Core.Data.package.avt";
 import { LoginRouter } from "Core@Main:Core.Routes.package.avt";
+import { VerifyRequest } from "../../../generated/Routes/WebAuthnRouter.lib.avt";
 
 export class Login extends Aventus.WebComponent implements Aventus.DefaultComponent {
 
@@ -14,6 +15,9 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
     public error: string = "";
     @Attribute()
     private loading!: boolean;
+    @Attribute()
+    public pass_key!: boolean;
+
 
     @Property()
     public company?: string;
@@ -198,7 +202,6 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
         const assertion = await navigator.credentials.get({
             publicKey: {
                 challenge: this.base64ToArrayBuffer(challenge),
-                allowCredentials: [],
                 userVerification: "required",
                 timeout: 60000,
             },
@@ -222,7 +225,7 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
             assertion: request
         });
 
-        if(verifyResponse.success && verifyResponse.result?.Success) {
+        if(verifyResponse.success && verifyResponse.result) {
             window.location.pathname = "/";
         }
         else {
@@ -239,73 +242,6 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
                     this.error = error.message;
                 }
             }
-        }
-    }
-
-        /**
-     * 
-     */
-    protected async register() {
-        const response = await new WebAuthnRouter().GetRegisterChallenge();
-        if(!response.success || !response.result) {
-            return;
-        }
-        const challenge = response.result.Challenge;
-        const user = {
-            id: response.result.UserId + '',
-        };
-
-        const name = "test";
-
-        const credential = await navigator.credentials.create({
-            publicKey: {
-                // Server challenge
-                challenge: this.base64ToArrayBuffer(challenge),
-                // Relying Party
-                rp: {
-                    name: "Biometric Example"
-                },
-                // User info
-                user: {
-                    id: Uint8Array.from(user.id, (c) => c.charCodeAt(0)),
-                    name: name,
-                    displayName: name,
-                },
-                // Public key info
-                pubKeyCredParams: [
-                    {
-                        type: "public-key",
-                        alg: -7, // -7 = "ES256" as registered in the IANA COSE Algorithms registry
-                    },
-                ],
-                // Authenticator info
-                authenticatorSelection: {
-                    authenticatorAttachment: "platform", // Use built-in fingerprint sensor
-                    userVerification: "required",
-                },
-                timeout: 60000,
-            },
-        });
-
-        if(!(credential instanceof PublicKeyCredential)) return;
-        const credentialResponse = credential.response;
-        if(!(credentialResponse instanceof AuthenticatorAttestationResponse)) return;
-
-
-        const authCredential = new WebAuthnCredential();
-        authCredential.Id = credential.id;
-        authCredential.RawId = this.arrayBufferToBase64(credential.rawId);
-        authCredential.Type = credential.type;
-        authCredential.ClientDataJSON = this.arrayBufferToBase64(credentialResponse.clientDataJSON);
-        authCredential.AttestationObject = this.arrayBufferToBase64(credentialResponse.attestationObject);
-        authCredential.Name = name;
-
-        const responseRegister = await new WebAuthnRouter().Register({
-            credential: authCredential
-        });
-
-        if(responseRegister.success) {
-            alert("success");
         }
     }
 

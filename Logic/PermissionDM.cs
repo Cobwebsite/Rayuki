@@ -24,7 +24,7 @@ namespace Core.Logic
         {
             VoidWithError result = await base.Initialize();
 
-            RegisterPermissions<QuickAuthPermission, QuickAuthPermissionDescription>();
+            RegisterPermissions<OsPermission, OsPermissionDescription>();
             return result;
         }
 
@@ -378,7 +378,7 @@ namespace Core.Logic
         public bool AllowQuickLogin(int idUser, out string? token)
         {
             token = null;
-            ResultWithError<int> result = SettingsDM.GetInstance().GetGlobalSettingsInt(QuickAuthPermission.Can);
+            ResultWithError<int> result = SettingsDM.GetInstance().GetGlobalSettingsInt(OsPermission.QuickAuth);
             if (result.Result == 0) return false;
             if (result.Result == 1)
             {
@@ -388,7 +388,7 @@ namespace Core.Logic
             }
             if (result.Result == 2)
             {
-                if (Can(idUser, QuickAuthPermission.Can))
+                if (Can(idUser, OsPermission.QuickAuth))
                 {
                     ResultWithError<string> resultToken = UserDM.GetInstance().GetQuickToken(idUser);
                     token = resultToken.Result;

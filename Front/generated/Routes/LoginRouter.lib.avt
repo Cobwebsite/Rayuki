@@ -1,4 +1,5 @@
 import { LoginResult } from './Responses/LoginResult.lib.avt';
+import { GetVerifyChallengeResponse, VerifyRequest } from './WebAuthnRouter.lib.avt';
 import { CoreRouter } from '../CoreRouter.lib.avt';
 
 namespace Routes {
@@ -28,6 +29,21 @@ namespace Routes {
 			const request = new Aventus.HttpRequest(`${this.getPrefix()}/login/sso`, Aventus.HttpMethod.POST);
 			request.setBody(body);
 			type TypeResult = string | string;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async LoginWebAuthnChallenge(): Promise<AventusSharp.Tools.ResultWithError<GetVerifyChallengeResponse>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/login/webauthn/register`, Aventus.HttpMethod.GET);
+			type TypeResult = GetVerifyChallengeResponse;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async LoginWebAuthn(body: { assertion: VerifyRequest } | FormData): Promise<AventusSharp.Tools.ResultWithError<boolean>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/login/webauthn`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = boolean;
 			return await request.queryJSON<TypeResult>(this.router);
 		}
 
