@@ -1,0 +1,15 @@
+import { PermissionQuery } from '../../libs/Permission.lib.avt';
+
+namespace Permissions {
+
+	export enum OsGlobalPermission {
+
+	}
+
+	@Convertible()
+	export class OsGlobalPermissionQuery extends PermissionQuery<typeof OsGlobalPermission>  {
+		/** Fullname of the class */
+		public static get Fullname(): string { return "Core.Permissions.OsGlobalPermissionQuery, Core"; }
+	}
+
+}

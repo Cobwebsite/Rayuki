@@ -605,33 +605,6 @@ __as1(_, 'DragElementLeftTopType', DragElementLeftTopType);
 let DragElementXYType= [SVGGElement, SVGRectElement, SVGEllipseElement, SVGTextElement];
 __as1(_, 'DragElementXYType', DragElementXYType);
 
-let Instance=class Instance {
-    static elements = new Map();
-    static get(type) {
-        let result = this.elements.get(type);
-        if (!result) {
-            let cst = type.prototype['constructor'];
-            result = new cst();
-            this.elements.set(type, result);
-        }
-        return result;
-    }
-    static set(el) {
-        let cst = el.constructor;
-        if (this.elements.get(cst)) {
-            return false;
-        }
-        this.elements.set(cst, el);
-        return true;
-    }
-    static destroy(el) {
-        let cst = el.constructor;
-        return this.elements.delete(cst);
-    }
-}
-Instance.Namespace=`Aventus`;
-__as1(_, 'Instance', Instance);
-
 var RamErrorCode;
 (function (RamErrorCode) {
     RamErrorCode[RamErrorCode["unknow"] = 0] = "unknow";
@@ -1345,6 +1318,9 @@ let Watcher=class Watcher {
                 for (let key in reservedName) {
                     delete data[key];
                 }
+                for (let key in data) {
+                    clearReservedNames(data[key]);
+                }
             }
         };
         const setProxyPath = (newProxy, newPath) => {
@@ -1684,11 +1660,13 @@ let Watcher=class Watcher {
                                     el = replaceByAlias(target, el, target.length + '', receiver, false, out);
                                     target.push(el);
                                     const dones = [];
+                                    const dones2 = [];
                                     if (out.otherRoot) {
                                         dones.push(out.otherRoot);
+                                        dones2.push(out.otherRoot);
                                     }
                                     trigger('CREATED', target, receiver, receiver[index], "[" + (index) + "]", dones);
-                                    trigger('UPDATED', target, receiver, target.length, "length", dones);
+                                    trigger('UPDATED', target, receiver, target.length, "length", dones2);
                                     return index;
                                 };
                             }
@@ -1760,13 +1738,16 @@ let Watcher=class Watcher {
                                 result = (key, value) => {
                                     const out = {};
                                     let dones = [];
+                                    let dones2 = [];
                                     key = Watcher.extract(key);
                                     value = replaceByAlias(target, value, key + '', receiver, false, out);
-                                    if (out.otherRoot)
+                                    if (out.otherRoot) {
                                         dones.push(out.otherRoot);
+                                        dones2.push(out.otherRoot);
+                                    }
                                     let result = target.set(key, value);
                                     trigger('CREATED', target, receiver, receiver.get(key), key + '', dones);
-                                    trigger('UPDATED', target, receiver, target.size, "size", dones);
+                                    trigger('UPDATED', target, receiver, target.size, "size", dones2);
                                     return result;
                                 };
                             }
@@ -2285,145 +2266,6 @@ let Async=function Async(el) {
 }
 __as1(_, 'Async', Async);
 
-let Json=class Json {
-    /**
-     * Converts a JavaScript class instance to a JSON object.
-     * @template T - The type of the object to convert.
-     * @param {T} obj - The object to convert to JSON.
-     * @param {JsonToOptions} [options] - Options for JSON conversion.
-     * @returns {{ [key: string | number]: any; }} Returns the JSON representation of the object.
-     */
-    static classToJson(obj, options) {
-        const realOptions = {
-            isValidKey: options?.isValidKey ?? (() => true),
-            replaceKey: options?.replaceKey ?? ((key) => key),
-            transformValue: options?.transformValue ?? ((key, value) => value),
-            beforeEnd: options?.beforeEnd ?? ((res) => res)
-        };
-        return this.__classToJson(obj, realOptions);
-    }
-    static __classToJson(obj, options) {
-        let result = {};
-        let descriptors = Object.getOwnPropertyDescriptors(obj);
-        for (let key in descriptors) {
-            if (options.isValidKey(key))
-                result[options.replaceKey(key)] = options.transformValue(key, descriptors[key].value);
-        }
-        let cst = obj.constructor;
-        while (cst.prototype && cst != Object.prototype) {
-            let descriptorsClass = Object.getOwnPropertyDescriptors(cst.prototype);
-            for (let key in descriptorsClass) {
-                if (options.isValidKey(key)) {
-                    let descriptor = descriptorsClass[key];
-                    if (descriptor?.get) {
-                        result[options.replaceKey(key)] = options.transformValue(key, obj[key]);
-                    }
-                }
-            }
-            cst = Object.getPrototypeOf(cst);
-        }
-        result = options.beforeEnd(result);
-        return result;
-    }
-    /**
-    * Converts a JSON object to a JavaScript class instance.
-    * @template T - The type of the object to convert.
-    * @param {T} obj - The object to populate with JSON data.
-    * @param {*} data - The JSON data to populate the object with.
-    * @param {JsonFromOptions} [options] - Options for JSON deserialization.
-    * @returns {T} Returns the populated object.
-    */
-    static classFromJson(obj, data, options) {
-        let realOptions = {
-            transformValue: options?.transformValue ?? ((key, value) => value),
-            replaceUndefined: options?.replaceUndefined ?? false,
-            replaceUndefinedWithKey: options?.replaceUndefinedWithKey ?? false,
-        };
-        return this.__classFromJson(obj, data, realOptions);
-    }
-    static __classFromJson(obj, data, options) {
-        let props = Object.getOwnPropertyNames(obj);
-        for (let prop of props) {
-            let propUpperFirst = prop[0].toUpperCase() + prop.slice(1);
-            let value = data[prop] === undefined ? data[propUpperFirst] : data[prop];
-            if (value !== undefined || options.replaceUndefined || (options.replaceUndefinedWithKey && (Object.hasOwn(data, prop) || Object.hasOwn(data, propUpperFirst)))) {
-                let propInfo = Object.getOwnPropertyDescriptor(obj, prop);
-                if (propInfo?.writable) {
-                    obj[prop] = options.transformValue(prop, value);
-                }
-            }
-        }
-        let cstTemp = obj.constructor;
-        while (cstTemp.prototype && cstTemp != Object.prototype) {
-            props = Object.getOwnPropertyNames(cstTemp.prototype);
-            for (let prop of props) {
-                let propUpperFirst = prop[0].toUpperCase() + prop.slice(1);
-                let value = data[prop] === undefined ? data[propUpperFirst] : data[prop];
-                if (value !== undefined || options.replaceUndefined || (options.replaceUndefinedWithKey && (Object.hasOwn(data, prop) || Object.hasOwn(data, propUpperFirst)))) {
-                    let propInfo = Object.getOwnPropertyDescriptor(cstTemp.prototype, prop);
-                    if (propInfo?.set) {
-                        obj[prop] = options.transformValue(prop, value);
-                    }
-                }
-            }
-            cstTemp = Object.getPrototypeOf(cstTemp);
-        }
-        return obj;
-    }
-}
-Json.Namespace=`Aventus`;
-__as1(_, 'Json', Json);
-
-let Data=class Data {
-    /**
-     * The schema for the class
-     */
-    static $schema;
-    /**
-     * The current namespace
-     */
-    static Namespace = "";
-    /**
-     * Get the unique type for the data. Define it as the namespace + class name
-     */
-    static get Fullname() { return this.Namespace + "." + this.name; }
-    /**
-     * The current namespace
-     */
-    get namespace() {
-        return this.constructor['Namespace'];
-    }
-    /**
-     * Get the unique type for the data. Define it as the namespace + class name
-     */
-    get $type() {
-        return this.constructor['Fullname'];
-    }
-    /**
-     * Get the name of the class
-     */
-    get className() {
-        return this.constructor.name;
-    }
-    /**
-     * Get a JSON for the current object
-     */
-    toJSON() {
-        let toAvoid = ['className', 'namespace'];
-        return Json.classToJson(this, {
-            isValidKey: (key) => !toAvoid.includes(key)
-        });
-    }
-    /**
-     * Clone the object by transforming a parsed JSON string back into the original type
-     */
-    clone() {
-        return Converter.transform(JSON.parse(JSON.stringify(this)));
-    }
-}
-Data.Namespace=`Aventus`;
-__as1(_, 'Data', Data);
-
 let ConverterTransform=class ConverterTransform {
     transform(data) {
         return this.transformLoop(data);
@@ -2627,7 +2469,158 @@ let Converter=class Converter {
 Converter.Namespace=`Aventus`;
 __as1(_, 'Converter', Converter);
 
-let GenericError=class GenericError {
+let clone=function clone(item) {
+    return Converter.transform(JSON.parse(JSON.stringify(item)));
+}
+__as1(_, 'clone', clone);
+
+let Json=class Json {
+    /**
+     * Converts a JavaScript class instance to a JSON object.
+     * @template T - The type of the object to convert.
+     * @param {T} obj - The object to convert to JSON.
+     * @param {JsonToOptions} [options] - Options for JSON conversion.
+     * @returns {{ [key: string | number]: any; }} Returns the JSON representation of the object.
+     */
+    static classToJson(obj, options) {
+        const realOptions = {
+            isValidKey: options?.isValidKey ?? (() => true),
+            replaceKey: options?.replaceKey ?? ((key) => key),
+            transformValue: options?.transformValue ?? ((key, value) => value),
+            beforeEnd: options?.beforeEnd ?? ((res) => res)
+        };
+        return this.__classToJson(obj, realOptions);
+    }
+    static __classToJson(obj, options) {
+        let result = {};
+        let descriptors = Object.getOwnPropertyDescriptors(obj);
+        for (let key in descriptors) {
+            if (options.isValidKey(key))
+                result[options.replaceKey(key)] = options.transformValue(key, descriptors[key].value);
+        }
+        let cst = obj.constructor;
+        while (cst.prototype && cst != Object.prototype) {
+            let descriptorsClass = Object.getOwnPropertyDescriptors(cst.prototype);
+            for (let key in descriptorsClass) {
+                if (options.isValidKey(key)) {
+                    let descriptor = descriptorsClass[key];
+                    if (descriptor?.get) {
+                        result[options.replaceKey(key)] = options.transformValue(key, obj[key]);
+                    }
+                }
+            }
+            cst = Object.getPrototypeOf(cst);
+        }
+        result = options.beforeEnd(result);
+        return result;
+    }
+    /**
+    * Converts a JSON object to a JavaScript class instance.
+    * @template T - The type of the object to convert.
+    * @param {T} obj - The object to populate with JSON data.
+    * @param {*} data - The JSON data to populate the object with.
+    * @param {JsonFromOptions} [options] - Options for JSON deserialization.
+    * @returns {T} Returns the populated object.
+    */
+    static classFromJson(obj, data, options) {
+        let realOptions = {
+            transformValue: options?.transformValue ?? ((key, value) => value),
+            replaceUndefined: options?.replaceUndefined ?? false,
+            replaceUndefinedWithKey: options?.replaceUndefinedWithKey ?? false,
+        };
+        return this.__classFromJson(obj, data, realOptions);
+    }
+    static __classFromJson(obj, data, options) {
+        let props = Object.getOwnPropertyNames(obj);
+        for (let prop of props) {
+            let propUpperFirst = prop[0].toUpperCase() + prop.slice(1);
+            let value = data[prop] === undefined ? data[propUpperFirst] : data[prop];
+            if (value !== undefined || options.replaceUndefined || (options.replaceUndefinedWithKey && (Object.hasOwn(data, prop) || Object.hasOwn(data, propUpperFirst)))) {
+                let propInfo = Object.getOwnPropertyDescriptor(obj, prop);
+                if (propInfo?.writable) {
+                    obj[prop] = options.transformValue(prop, value);
+                }
+            }
+        }
+        let cstTemp = obj.constructor;
+        while (cstTemp.prototype && cstTemp != Object.prototype) {
+            props = Object.getOwnPropertyNames(cstTemp.prototype);
+            for (let prop of props) {
+                let propUpperFirst = prop[0].toUpperCase() + prop.slice(1);
+                let value = data[prop] === undefined ? data[propUpperFirst] : data[prop];
+                if (value !== undefined || options.replaceUndefined || (options.replaceUndefinedWithKey && (Object.hasOwn(data, prop) || Object.hasOwn(data, propUpperFirst)))) {
+                    let propInfo = Object.getOwnPropertyDescriptor(cstTemp.prototype, prop);
+                    if (propInfo?.set) {
+                        obj[prop] = options.transformValue(prop, value);
+                    }
+                }
+            }
+            cstTemp = Object.getPrototypeOf(cstTemp);
+        }
+        return obj;
+    }
+}
+Json.Namespace=`Aventus`;
+__as1(_, 'Json', Json);
+
+let Data=// @Dependances([{ type: Aventus.Converter, strong: true }, { type: Converter, strong: true }])
+class Data {
+    static converter = new Converter();
+    /**
+     * The schema for the class
+     */
+    static $schema;
+    /**
+     * The current namespace
+     */
+    static Namespace = "";
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    static get Fullname() { return this.Namespace + "." + this.name; }
+    /**
+     * The current namespace
+     */
+    get namespace() {
+        return this.constructor['Namespace'];
+    }
+    /**
+     * Get the unique type for the data. Define it as the namespace + class name
+     */
+    get $type() {
+        return this.constructor['Fullname'];
+    }
+    /**
+     * Get the name of the class
+     */
+    get className() {
+        return this.constructor.name;
+    }
+    /**
+     * Get a JSON for the current object
+     */
+    toJSON() {
+        let toAvoid = ['className', 'namespace'];
+        return Json.classToJson(this, {
+            isValidKey: (key) => !toAvoid.includes(key)
+        });
+    }
+    /**
+     * Clone the object by transforming a parsed JSON string back into the original type
+     */
+    clone() {
+        return Converter.transform(JSON.parse(JSON.stringify(this)));
+    }
+}
+Data.Namespace=`Aventus`;
+Data.$schema={"namespace":"string","$type":"string","className":"string"};
+Converter.register(Data.Fullname, Data);
+__as1(_, 'Data', Data);
+
+let GenericError=// @Dependances([{ type: Aventus.Converter, strong: true }, { type: Converter, strong: true }])
+class GenericError {
+    static converter = new Converter();
+    static get Fullname() { return "Aventus.GenericError"; }
     /**
      * Code for the error
      */
@@ -2651,16 +2644,22 @@ let GenericError=class GenericError {
     }
 }
 GenericError.Namespace=`Aventus`;
+GenericError.$schema={"code":"Aventus.EnumValue","message":"string"};
+Converter.register(GenericError.Fullname, GenericError);
 __as1(_, 'GenericError', GenericError);
 
 let RamError=class RamError extends GenericError {
 }
 RamError.Namespace=`Aventus`;
+RamError.$schema={...(GenericError?.$schema ?? {}), };
+Converter.register(RamError.Fullname, RamError);
 __as1(_, 'RamError', RamError);
 
 let HttpError=class HttpError extends GenericError {
 }
 HttpError.Namespace=`Aventus`;
+HttpError.$schema={...(GenericError?.$schema ?? {}), };
+Converter.register(HttpError.Fullname, HttpError);
 __as1(_, 'HttpError', HttpError);
 
 let VoidWithError=class VoidWithError {
@@ -2751,9 +2750,11 @@ let HttpRequest=class HttpRequest {
     }
     request;
     url;
-    constructor(url, method = HttpMethod.GET, body) {
+    methodSpoofing = false;
+    constructor(url, method = HttpMethod.GET, body, methodSpoofing = false) {
         this.url = url;
         this.request = {};
+        this.methodSpoofing = methodSpoofing;
         this.setMethod(method);
         this.prepareBody(body);
     }
@@ -2768,6 +2769,12 @@ let HttpRequest=class HttpRequest {
     }
     setMethod(method) {
         this.request.method = method;
+    }
+    /**
+     * Replace method Put/Delete by _method:"put" inside a form
+     */
+    enableMethodSpoofing() {
+        this.methodSpoofing = true;
     }
     objectToFormData(obj, formData, parentKey) {
         formData = formData || new FormData();
@@ -2848,6 +2855,20 @@ let HttpRequest=class HttpRequest {
             else {
                 this.request.body = JSON.stringify(data, this.jsonReplacer);
                 this.setHeader("Content-Type", "Application/json");
+            }
+        }
+        if (this.methodSpoofing) {
+            if (this.request.method?.toUpperCase() == Aventus.HttpMethod.PUT) {
+                if (this.request.body instanceof FormData) {
+                    this.request.body.append("_method", Aventus.HttpMethod.PUT);
+                    this.request.method = Aventus.HttpMethod.POST;
+                }
+            }
+            else if (this.request.method?.toUpperCase() == Aventus.HttpMethod.DELETE) {
+                if (this.request.body instanceof FormData) {
+                    this.request.body.append("_method", Aventus.HttpMethod.DELETE);
+                    this.request.method = Aventus.HttpMethod.POST;
+                }
             }
         }
     }
@@ -4182,6 +4203,33 @@ let DragAndDrop=class DragAndDrop {
 DragAndDrop.Namespace=`Aventus`;
 __as1(_, 'DragAndDrop', DragAndDrop);
 
+let Instance=class Instance {
+    static elements = new Map();
+    static get(type) {
+        let result = this.elements.get(type);
+        if (!result) {
+            let cst = type.prototype['constructor'];
+            result = new cst();
+            this.elements.set(type, result);
+        }
+        return result;
+    }
+    static set(el) {
+        let cst = el.constructor;
+        if (this.elements.get(cst)) {
+            return false;
+        }
+        this.elements.set(cst, el);
+        return true;
+    }
+    static destroy(el) {
+        let cst = el.constructor;
+        return this.elements.delete(cst);
+    }
+}
+Instance.Namespace=`Aventus`;
+__as1(_, 'Instance', Instance);
+
 let ResizeObserver=class ResizeObserver {
     callback;
     targets;
@@ -4391,6 +4439,7 @@ Uri.Namespace=`Aventus`;
 __as1(_, 'Uri', Uri);
 
 let GenericRam=class GenericRam {
+    static info = new Map([]);
     /**
      * The current namespace
      */
@@ -4411,10 +4460,12 @@ let GenericRam=class GenericRam {
      */
     records = new Map();
     actionGuard = new ActionGuard();
+    ramMapping = {};
     constructor() {
         if (this.constructor == GenericRam) {
             throw "can't instanciate an abstract class";
         }
+        // RamManager.check();
         this.getIdWithError = this.getIdWithError.bind(this);
         this.getId = this.getId.bind(this);
         this.save = this.save.bind(this);
@@ -4588,6 +4639,12 @@ let GenericRam=class GenericRam {
         };
     }
     /**
+     * Define all the types you ram is capable of
+     */
+    ramForTypes() {
+        return [this.getTypeForData({})];
+    }
+    /**
      * Transform the object into the object stored inside Ram
      */
     getObjectForRam(objJson) {
@@ -4596,6 +4653,31 @@ let GenericRam=class GenericRam {
         this.mergeObject(item, objJson);
         return item;
     }
+    //     onCreated: (item: any) => void;
+    //     onUpdated: (item: any) => void;
+    //     onDeleted: (item: any) => void;
+    // }> = new Map();
+    // private linkInfo: { [key: string | number]: { [id: string | number]: U[]; }; } = {};
+    // private linkRamItem(item: U) {
+    //     for(let key in this.ramMapping) {
+    //         this.linkRamItemByKey(item, key);
+    // private linkRamItemByKey(item: U, key: string) {
+    //     if(key in item) {
+    //         if(mapping.asArray) {
+    //             if(Array.isArray(item[key])) {
+    //                 console.error(key + " in type " + item + " must be an array");
+    //             const id = mapping.ram.getId(item[key]);
+    //             if(!this.linkFct.has(mapping.ram)) {
+    //                     onCreated: (item) => {
+    //                     onUpdated: (item) => {
+    //                     onDeleted: (item) => {
+    //                 this.linkFct.set(mapping.ram, fcts);
+    //                 mapping.ram.onCreated(fcts.onCreated);
+    //                 mapping.ram.onUpdated(fcts.onUpdated);
+    //                 mapping.ram.onDeleted(fcts.onDeleted);
+    //             if(!this.linkInfo[key])
+    //             if(!this.linkInfo[key][id])
+    //             this.linkInfo[key][id].push(item);
     /**
      * Add element inside Ram or update it. The instance inside the ram is unique and ll never be replaced
      */
@@ -4608,8 +4690,10 @@ let GenericRam=class GenericRam {
                 if (this.records.has(id)) {
                     let uniqueRecord = this.records.get(id);
                     await this.beforeRecordSet(uniqueRecord);
+                    // this.unlinkRamItem(uniqueRecord);
                     this.mergeObject(uniqueRecord, item);
                     await this.afterRecordSet(uniqueRecord);
+                    // this.linkRamItem(uniqueRecord);
                     resultTemp = 'updated';
                 }
                 else {
@@ -4617,6 +4701,7 @@ let GenericRam=class GenericRam {
                     await this.beforeRecordSet(realObject);
                     this.records.set(id, realObject);
                     await this.afterRecordSet(realObject);
+                    // this.linkRamItem(realObject);
                     resultTemp = 'created';
                 }
                 result.result = this.records.get(id);
@@ -4850,7 +4935,6 @@ let GenericRam=class GenericRam {
         }
         return new Map();
     }
-    ;
     /**
      * Get all elements inside the Ram
      */
@@ -4866,7 +4950,6 @@ let GenericRam=class GenericRam {
             return action;
         });
     }
-    ;
     /**
      * Trigger before getting all items inside Ram
      */
@@ -63697,6 +63780,9 @@ __as1(_.Data, 'FieldErrorInfo', Data.FieldErrorInfo);
     DataErrorCode[DataErrorCode["ReverseLinkNotExist"] = 36] = "ReverseLinkNotExist";
     DataErrorCode[DataErrorCode["ErrorCreatingReverseQuery"] = 37] = "ErrorCreatingReverseQuery";
     DataErrorCode[DataErrorCode["LinkNotSet"] = 38] = "LinkNotSet";
+    DataErrorCode[DataErrorCode["MultipleProvidersNotSet"] = 39] = "MultipleProvidersNotSet";
+    DataErrorCode[DataErrorCode["FileNotFound"] = 40] = "FileNotFound";
+    DataErrorCode[DataErrorCode["PyramidNotFound"] = 41] = "PyramidNotFound";
 })(Data.DataErrorCode || (Data.DataErrorCode = {}));
 __as1(_.Data, 'DataErrorCode', Data.DataErrorCode);
 
@@ -63833,6 +63919,8 @@ __as1(_.WebSocket, 'SocketErrorCode', WebSocket.SocketErrorCode);
 WebSocket.SocketError=class SocketError extends Aventus.GenericError {
 }
 WebSocket.SocketError.Namespace=`AventusSharp.WebSocket`;
+WebSocket.SocketError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
+Aventus.Converter.register(WebSocket.SocketError.Fullname, WebSocket.SocketError);
 __as1(_.WebSocket, 'SocketError', WebSocket.SocketError);
 
 (function (WsErrorCode) {

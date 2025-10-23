@@ -14,6 +14,8 @@ Websocket.Events = {};
 _.Websocket.Events = Core.Websocket?.Events ?? {};
 let Errors = {};
 _.Errors = Core.Errors ?? {};
+let Routes = {};
+_.Routes = Core.Routes ?? {};
 let Permissions = {};
 _.Permissions = Core.Permissions ?? {};
 let Logic = {};
@@ -34,8 +36,6 @@ Websocket.Routes = {};
 _.Websocket.Routes = Core.Websocket?.Routes ?? {};
 Permissions.Tree = {};
 _.Permissions.Tree = Core.Permissions?.Tree ?? {};
-let Routes = {};
-_.Routes = Core.Routes ?? {};
 Routes.Responses = {};
 _.Routes.Responses = Core.Routes?.Responses ?? {};
 let State = {};
@@ -170,16 +170,33 @@ __as1(_.Errors, 'PdfErrorCode', Errors.PdfErrorCode);
 })(Errors.ImageFileErrorCode || (Errors.ImageFileErrorCode = {}));
 __as1(_.Errors, 'ImageFileErrorCode', Errors.ImageFileErrorCode);
 
-(function (QuickAuthPermission) {
-    QuickAuthPermission[QuickAuthPermission["Can"] = 0] = "Can";
-})(Permissions.QuickAuthPermission || (Permissions.QuickAuthPermission = {}));
-__as1(_.Permissions, 'QuickAuthPermission', Permissions.QuickAuthPermission);
+Routes.RegisterRequest=class RegisterRequest extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Core.Routes.RegisterRequest, Core"; }
+    Id;
+    RawId;
+    Name;
+    Type;
+    ClientDataJSON;
+    AttestationObject;
+}
+Routes.RegisterRequest.Namespace=`Core.Routes`;
+Routes.RegisterRequest.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "Id":"string","RawId":"string","Name":"string","Type":"string","ClientDataJSON":"string","AttestationObject":"string"};
+Aventus.Converter.register(Routes.RegisterRequest.Fullname, Routes.RegisterRequest);
+__as1(_.Routes, 'RegisterRequest', Routes.RegisterRequest);
 
-(function (OsPermission) {
-    OsPermission[OsPermission["ConnectAs"] = 0] = "ConnectAs";
-    OsPermission[OsPermission["ReorderApps"] = 1] = "ReorderApps";
-})(Permissions.OsPermission || (Permissions.OsPermission = {}));
-__as1(_.Permissions, 'OsPermission', Permissions.OsPermission);
+Routes.GetRegisterChallengeResponse=class GetRegisterChallengeResponse extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Core.Routes.GetRegisterChallengeResponse, Core"; }
+    Challenge;
+    UserId;
+}
+Routes.GetRegisterChallengeResponse.Namespace=`Core.Routes`;
+Routes.GetRegisterChallengeResponse.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "Challenge":"string","UserId":"number"};
+Aventus.Converter.register(Routes.GetRegisterChallengeResponse.Fullname, Routes.GetRegisterChallengeResponse);
+__as1(_.Routes, 'GetRegisterChallengeResponse', Routes.GetRegisterChallengeResponse);
+
+(function (OsGlobalPermission) {
+})(Permissions.OsGlobalPermission || (Permissions.OsGlobalPermission = {}));
+__as1(_.Permissions, 'OsGlobalPermission', Permissions.OsGlobalPermission);
 
 (function (UserSettings) {
     UserSettings[UserSettings["Lang"] = 0] = "Lang";
@@ -236,6 +253,28 @@ __as1(_.Logic.FileSystem, 'FileDetails', Logic.FileSystem.FileDetails);
     DesktopErrorCode[DesktopErrorCode["NoDefaultDesktop"] = 0] = "NoDefaultDesktop";
 })(Errors.DesktopErrorCode || (Errors.DesktopErrorCode = {}));
 __as1(_.Errors, 'DesktopErrorCode', Errors.DesktopErrorCode);
+
+Data.WebAuthnCredentialsPublic=class WebAuthnCredentialsPublic extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Core.Data.WebAuthnCredentialsPublic, Core"; }
+    Id;
+    Name;
+}
+Data.WebAuthnCredentialsPublic.Namespace=`Core.Data`;
+Data.WebAuthnCredentialsPublic.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "Id":"number","Name":"string"};
+Aventus.Converter.register(Data.WebAuthnCredentialsPublic.Fullname, Data.WebAuthnCredentialsPublic);
+__as1(_.Data, 'WebAuthnCredentialsPublic', Data.WebAuthnCredentialsPublic);
+
+Data.WebAuthnCredentials=class WebAuthnCredentials extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.WebAuthnCredentials, Core"; }
+    CredentialId;
+    Name;
+    PublicKey;
+    UserId;
+}
+Data.WebAuthnCredentials.Namespace=`Core.Data`;
+Data.WebAuthnCredentials.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "CredentialId":"string","Name":"string","PublicKey":"string","UserId":"number"};
+Aventus.Converter.register(Data.WebAuthnCredentials.Fullname, Data.WebAuthnCredentials);
+__as1(_.Data, 'WebAuthnCredentials', Data.WebAuthnCredentials);
 
 Data.SystemInfo=class SystemInfo extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.SystemInfo, Core"; }
@@ -2155,6 +2194,31 @@ Data.PermissionGroup.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "P
 Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
 __as1(_.Data, 'PermissionGroup', Data.PermissionGroup);
 
+Routes.VerifyRequest=class VerifyRequest extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Core.Routes.VerifyRequest, Core"; }
+    Id;
+    RawId;
+    Type;
+    ClientDataJSON;
+    AuthenticatorData;
+    Signature;
+    UserHandle = undefined;
+}
+Routes.VerifyRequest.Namespace=`Core.Routes`;
+Routes.VerifyRequest.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "Id":"string","RawId":"string","Type":"string","ClientDataJSON":"string","AuthenticatorData":"string","Signature":"string","UserHandle":"string"};
+Aventus.Converter.register(Routes.VerifyRequest.Fullname, Routes.VerifyRequest);
+__as1(_.Routes, 'VerifyRequest', Routes.VerifyRequest);
+
+Routes.GetVerifyChallengeResponse=class GetVerifyChallengeResponse extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Core.Routes.GetVerifyChallengeResponse, Core"; }
+    Challenge;
+    Ids = undefined;
+}
+Routes.GetVerifyChallengeResponse.Namespace=`Core.Routes`;
+Routes.GetVerifyChallengeResponse.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "Challenge":"string","Ids":"string"};
+Aventus.Converter.register(Routes.GetVerifyChallengeResponse.Fullname, Routes.GetVerifyChallengeResponse);
+__as1(_.Routes, 'GetVerifyChallengeResponse', Routes.GetVerifyChallengeResponse);
+
 Routes.Responses.LoginResult=class LoginResult extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Routes.Responses.LoginResult, Core"; }
     Success;
@@ -2264,10 +2328,14 @@ System.Panel.Tag=`rk-panel`;
 __as1(_.System, 'Panel', System.Panel);
 if(!window.customElements.get('rk-panel')){window.customElements.define('rk-panel', System.Panel);Aventus.WebComponentInstance.registerDefinition(System.Panel);}
 
-(function (DesktopPermission) {
-    DesktopPermission[DesktopPermission["CanHaveVirtualDesktop"] = 0] = "CanHaveVirtualDesktop";
-})(Permissions.DesktopPermission || (Permissions.DesktopPermission = {}));
-__as1(_.Permissions, 'DesktopPermission', Permissions.DesktopPermission);
+(function (OsPermission) {
+    OsPermission[OsPermission["ConnectAs"] = 0] = "ConnectAs";
+    OsPermission[OsPermission["ReorderApps"] = 1] = "ReorderApps";
+    OsPermission[OsPermission["QuickAuth"] = 2] = "QuickAuth";
+    OsPermission[OsPermission["CanHaveVirtualDesktop"] = 3] = "CanHaveVirtualDesktop";
+    OsPermission[OsPermission["PassKey"] = 4] = "PassKey";
+})(Permissions.OsPermission || (Permissions.OsPermission = {}));
+__as1(_.Permissions, 'OsPermission', Permissions.OsPermission);
 
 Permissions.PermissionMultiple=class PermissionMultiple extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Logic.PermissionMultiple, Core"; }
@@ -4195,13 +4263,13 @@ Permissions.PermissionQuery=class PermissionQuery {
 Permissions.PermissionQuery.Namespace=`Core.Permissions`;
 __as1(_.Permissions, 'PermissionQuery', Permissions.PermissionQuery);
 
-Permissions.DesktopPermissionQuery=class DesktopPermissionQuery extends _.Permissions.PermissionQuery {
-    static get Fullname() { return "Core.Permissions.DesktopPermissionQuery, Core"; }
+Permissions.OsPermissionQuery=class OsPermissionQuery extends _.Permissions.PermissionQuery {
+    static get Fullname() { return "Core.Permissions.OsPermissionQuery, Core"; }
 }
-Permissions.DesktopPermissionQuery.Namespace=`Core.Permissions`;
-Permissions.DesktopPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
-Aventus.Converter.register(Permissions.DesktopPermissionQuery.Fullname, Permissions.DesktopPermissionQuery);
-__as1(_.Permissions, 'DesktopPermissionQuery', Permissions.DesktopPermissionQuery);
+Permissions.OsPermissionQuery.Namespace=`Core.Permissions`;
+Permissions.OsPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
+Aventus.Converter.register(Permissions.OsPermissionQuery.Fullname, Permissions.OsPermissionQuery);
+__as1(_.Permissions, 'OsPermissionQuery', Permissions.OsPermissionQuery);
 
 Components.TouchRecord=class TouchRecord {
     _activeTouchID;
@@ -5388,6 +5456,8 @@ Routes.LoginRouter=class LoginRouter extends Aventus.HttpRoute {
         this.LoginAction = this.LoginAction.bind(this);
         this.QuickLogin = this.QuickLogin.bind(this);
         this.LoginSso = this.LoginSso.bind(this);
+        this.LoginWebAuthnChallenge = this.LoginWebAuthnChallenge.bind(this);
+        this.LoginWebAuthn = this.LoginWebAuthn.bind(this);
         this.Logout = this.Logout.bind(this);
         this.ConnectAs = this.ConnectAs.bind(this);
         this.DisconnectFrom = this.DisconnectFrom.bind(this);
@@ -5404,6 +5474,15 @@ Routes.LoginRouter=class LoginRouter extends Aventus.HttpRoute {
     }
     async LoginSso(body) {
         const request = new Aventus.HttpRequest(`${this.getPrefix()}/login/sso`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async LoginWebAuthnChallenge() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/login/webauthn/register`, Aventus.HttpMethod.GET);
+        return await request.queryJSON(this.router);
+    }
+    async LoginWebAuthn(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/login/webauthn`, Aventus.HttpMethod.POST);
         request.setBody(body);
         return await request.queryJSON(this.router);
     }
@@ -7551,6 +7630,7 @@ System.FrameGeneric = class FrameGeneric extends Aventus.WebComponent {
         return this.application.executeWithLoading(prom, minDelay);
     }
     can(query, value, additionalInfo) {
+        // this method is overrided by PermissionWatcher
         return false;
     }
     onPermissionSet(allow, query, value, additionalInfo) { }
@@ -10579,7 +10659,7 @@ System.BottomBar = class BottomBar extends Aventus.WebComponent {
     __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["permissions"] = {                CanHaveVirtualDesktop: false            }; }
     __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('desktop');this.__correctGetter('permissions'); }
     async getPermissions() {
-        this.permissions.CanHaveVirtualDesktop = await can(new Permissions.DesktopPermissionQuery(Permissions.DesktopPermission.CanHaveVirtualDesktop));
+        this.permissions.CanHaveVirtualDesktop = await can(new Permissions.OsPermissionQuery(Permissions.OsPermission.CanHaveVirtualDesktop));
     }
     addSwipe() {
         let enable = true;
@@ -11659,7 +11739,7 @@ System.Os = class Os extends Aventus.WebComponent {
 }));this.__addPropertyActions("lang", ((target) => {
     target.setLocale(target.lang);
 })); }
-    static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;transition:margin .7s var(--bezier-curve);width:100%}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:var(--border-radius-round);cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;width:40px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;display:none;height:50px;min-width:auto;position:absolute;right:10px;z-index:6}:host rk-loading{opacity:0;visibility:hidden}:host .background{background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:25% 25%;filter:brightness(0.8);inset:-20px;position:absolute;z-index:0}:host rk-notification-manager{bottom:60px}:host .no-connection{align-items:center;animation-duration:2s;animation-iteration-count:infinite;animation-name:blink;background-color:var(--warning);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);color:var(--text-color-warning);display:none;font-size:var(--font-size-md);gap:10px;padding:5px 15px;position:absolute;right:15px;top:15px;z-index:9999999}:host .temp-connect{align-items:center;background-color:var(--information);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);color:var(--text-color-information);display:none;font-size:var(--font-size-sm);gap:20px;justify-content:center;left:50%;padding:5px 15px;position:absolute;top:10px;transform:translateX(-50%);z-index:9999999}:host .temp-connect .quit{text-decoration:underline;cursor:pointer}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:max-content;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:var(--border-radius-sm)}:host([desktop_list]) .add-desktop{display:block}:host([no_desktop_transition]) .desktop-container .desktop-case{transition:none}:host([no_connection]) .no-connection{display:flex}:host([temp_connect]) .temp-connect{display:flex}@keyframes blink{0%{background-color:var(--warning);color:var(--text-color-warning)}1%{background-color:var(--text-color-warning);color:var(--warning)}50%{background-color:var(--text-color-warning);color:var(--warning)}51%{background-color:var(--warning);color:var(--text-color-warning)}100%{background-color:var(--warning);color:var(--text-color-warning)}}`;
+    static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;transition:margin .7s var(--bezier-curve);width:100%}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:var(--border-radius-round);cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;width:40px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;display:none;height:50px;min-width:auto;position:absolute;right:10px;z-index:6}:host rk-loading{opacity:0;visibility:hidden}:host .background{background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:25% 25%;filter:brightness(0.8);inset:-20px;position:absolute;z-index:0}:host rk-notification-manager{bottom:60px}:host .no-connection{align-items:center;animation-duration:2s;animation-iteration-count:infinite;animation-name:blink;background-color:var(--warning);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);color:var(--text-color-warning);display:none;font-size:var(--font-size-md);gap:10px;padding:5px 15px;pointer-events:none;position:absolute;right:15px;top:15px;z-index:9999999}:host .temp-connect{align-items:center;background-color:var(--information);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);color:var(--text-color-information);display:none;font-size:var(--font-size-sm);gap:20px;justify-content:center;left:50%;padding:5px 15px;position:absolute;top:10px;transform:translateX(-50%);z-index:9999999}:host .temp-connect .quit{cursor:pointer;text-decoration:underline}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:max-content;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:var(--border-radius-sm)}:host([desktop_list]) .add-desktop{display:block}:host([no_desktop_transition]) .desktop-container .desktop-case{transition:none}:host([no_connection]) .no-connection{display:flex}:host([temp_connect]) .temp-connect{display:flex}@keyframes blink{0%{background-color:var(--warning);color:var(--text-color-warning)}1%{background-color:var(--text-color-warning);color:var(--warning)}50%{background-color:var(--text-color-warning);color:var(--warning)}51%{background-color:var(--warning);color:var(--text-color-warning)}100%{background-color:var(--warning);color:var(--text-color-warning)}}`;
     constructor() {
         super();
         System.Os.instance = this;
@@ -11937,6 +12017,9 @@ System.Os = class Os extends Aventus.WebComponent {
                             let diffX = startX - lastX;
                             let diffY = startY - lastY;
                             if (diffX * diffX + diffY * diffY < 200) {
+                                if (window.getSelection) {
+                                    window.getSelection()?.removeAllRanges();
+                                }
                                 const menu = new this.contextMenuCst();
                                 menu.init(e.pageX, e.pageY, true, this);
                             }
@@ -18243,8 +18326,8 @@ Components.VirtualForm=class VirtualForm {
         realPart.onValidation = new Aventus.Callback();
         realPart.onValueChange = new Aventus.Callback();
         if (part.validate) {
-            const isValidate = (validate) => {
-                return validate.name == "validate";
+            const isConstructor = (validate) => {
+                return Aventus.isClass(validate);
             };
             let validate;
             if (Array.isArray(part.validate)) {
@@ -18280,13 +18363,13 @@ Components.VirtualForm=class VirtualForm {
             else if (part.validate instanceof _.Components.FormValidator) {
                 validate = part.validate.validate;
             }
-            else if (isValidate(part.validate)) {
-                validate = part.validate;
-            }
-            else {
+            else if (isConstructor(part.validate)) {
                 let cst = part.validate;
                 let resultTemp = new cst();
                 validate = resultTemp.validate;
+            }
+            else {
+                validate = part.validate;
             }
             realPart.validate = validate;
         }
@@ -22727,21 +22810,55 @@ Errors.SsoError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.SsoError.Fullname, Errors.SsoError);
 __as1(_.Errors, 'SsoError', Errors.SsoError);
 
-Permissions.OsPermissionQuery=class OsPermissionQuery extends _.Permissions.PermissionQuery {
-    static get Fullname() { return "Core.Permissions.OsPermissionQuery, Core"; }
+Permissions.OsGlobalPermissionQuery=class OsGlobalPermissionQuery extends _.Permissions.PermissionQuery {
+    static get Fullname() { return "Core.Permissions.OsGlobalPermissionQuery, Core"; }
 }
-Permissions.OsPermissionQuery.Namespace=`Core.Permissions`;
-Permissions.OsPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
-Aventus.Converter.register(Permissions.OsPermissionQuery.Fullname, Permissions.OsPermissionQuery);
-__as1(_.Permissions, 'OsPermissionQuery', Permissions.OsPermissionQuery);
+Permissions.OsGlobalPermissionQuery.Namespace=`Core.Permissions`;
+Permissions.OsGlobalPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
+Aventus.Converter.register(Permissions.OsGlobalPermissionQuery.Fullname, Permissions.OsGlobalPermissionQuery);
+__as1(_.Permissions, 'OsGlobalPermissionQuery', Permissions.OsGlobalPermissionQuery);
 
-Permissions.QuickAuthPermissionQuery=class QuickAuthPermissionQuery extends _.Permissions.PermissionQuery {
-    static get Fullname() { return "Core.Permissions.QuickAuthPermissionQuery, Core"; }
+Routes.WebAuthnRouter=class WebAuthnRouter extends Aventus.HttpRoute {
+    getPrefix() { return "/Core/WebAuthn"; }
+    constructor(router) {
+        super(router ?? new _.Routes.CoreRouter());
+        this.GetByUser = this.GetByUser.bind(this);
+        this.Delete = this.Delete.bind(this);
+        this.GetRegisterChallenge = this.GetRegisterChallenge.bind(this);
+        this.Register = this.Register.bind(this);
+        this.GetVerifyChallenge = this.GetVerifyChallenge.bind(this);
+        this.Verify = this.Verify.bind(this);
+    }
+    async GetByUser() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/getbyuser`, Aventus.HttpMethod.GET);
+        return await request.queryJSON(this.router);
+    }
+    async Delete(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/delete`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async GetRegisterChallenge() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/getregisterchallenge`, Aventus.HttpMethod.GET);
+        return await request.queryJSON(this.router);
+    }
+    async Register(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/register`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
+    async GetVerifyChallenge() {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/getverifychallenge`, Aventus.HttpMethod.GET);
+        return await request.queryJSON(this.router);
+    }
+    async Verify(body) {
+        const request = new Aventus.HttpRequest(`${this.getPrefix()}/verify`, Aventus.HttpMethod.POST);
+        request.setBody(body);
+        return await request.queryJSON(this.router);
+    }
 }
-Permissions.QuickAuthPermissionQuery.Namespace=`Core.Permissions`;
-Permissions.QuickAuthPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema ?? {}), };
-Aventus.Converter.register(Permissions.QuickAuthPermissionQuery.Fullname, Permissions.QuickAuthPermissionQuery);
-__as1(_.Permissions, 'QuickAuthPermissionQuery', Permissions.QuickAuthPermissionQuery);
+Routes.WebAuthnRouter.Namespace=`Core.Routes`;
+__as1(_.Routes, 'WebAuthnRouter', Routes.WebAuthnRouter);
 
 Errors.ImageFileError=class ImageFileError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.ImageFileError, Core"; }

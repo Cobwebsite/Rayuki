@@ -107,6 +107,60 @@ for(let key in _) { Cave[key] = _[key] }
 })(Cave);
 
 
+var Employes;
+(Employes||(Employes = {}));
+(function (Employes) {
+const __as1 = (o, k, c) => { if (o[k] !== undefined) for (let w in o[k]) { c[w] = o[k][w] } o[k] = c; }
+const moduleName = `Employes`;
+const _ = {};
+
+let System = {};
+_.System = Employes.System ?? {};
+let _n;
+let AppInfo=class AppInfo extends AventusSharp.Data.SharpClass {
+    static get Fullname() { return "Employes.AppInfo, Employes"; }
+    /**
+     * No de version de l'application
+     */
+    static Version = 1;
+}
+AppInfo.Namespace=`Employes`;
+AppInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), };
+Aventus.Converter.register(AppInfo.Fullname, AppInfo);
+__as1(_, 'AppInfo', AppInfo);
+
+System.AppIcon = class AppIcon extends Core.System.AppIcon {
+    static __style = `:host{background:radial-gradient(circle, #e9bc6f 0%, #c88004 100%)}:host rk-img{--img-stroke-color: transparent;--img-fill-color: white;max-height:100%;flex-grow:1;padding:10%}@media screen and (max-width: 768px){:host rk-img{padding:7px}}`;
+    __getStatic() {
+        return AppIcon;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(AppIcon.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-img src="/apps/Employes/img/logo.svg"></rk-img>` }
+    });
+}
+    getClassName() {
+        return "AppIcon";
+    }
+}
+System.AppIcon.Namespace=`Employes.System`;
+System.AppIcon.Tag=`employes-app-icon`;
+__as1(_.System, 'AppIcon', System.AppIcon);
+if(!window.customElements.get('employes-app-icon')){window.customElements.define('employes-app-icon', System.AppIcon);Aventus.WebComponentInstance.registerDefinition(System.AppIcon);}
+
+let Version= AppInfo.Version;
+__as1(_, 'Version', Version);
+
+
+for(let key in _) { Employes[key] = _[key] }
+})(Employes);
+
+
 var Settings;
 (Settings||(Settings = {}));
 (function (Settings) {

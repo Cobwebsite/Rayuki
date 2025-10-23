@@ -1,0 +1,98 @@
+import { WebAuthnCredentialsPublic } from '../Data/WebAuthnCredentials.lib.avt';
+import { CoreRouter } from '../CoreRouter.lib.avt';
+
+namespace Routes {
+
+	export class WebAuthnRouter extends Aventus.HttpRoute {
+		public override getPrefix(): string { return "/Core/WebAuthn"; }
+		public constructor(router?: Aventus.HttpRouter) {
+			super(router ?? new CoreRouter());
+		}
+		@BindThis()
+		public async GetByUser(): Promise<AventusSharp.Tools.ResultWithError<WebAuthnCredentialsPublic[]>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/getbyuser`, Aventus.HttpMethod.GET);
+			type TypeResult = WebAuthnCredentialsPublic[];
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async Delete(body: { authId: number } | FormData): Promise<AventusSharp.Tools.ResultWithError<WebAuthnCredentialsPublic[] | WebAuthnCredentialsPublic[]>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/delete`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = WebAuthnCredentialsPublic[] | WebAuthnCredentialsPublic[];
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async GetRegisterChallenge(): Promise<AventusSharp.Tools.ResultWithError<GetRegisterChallengeResponse>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/getregisterchallenge`, Aventus.HttpMethod.GET);
+			type TypeResult = GetRegisterChallengeResponse;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async Register(body: { credential: RegisterRequest } | FormData): Promise<AventusSharp.Tools.ResultWithError<WebAuthnCredentialsPublic[] | WebAuthnCredentialsPublic[]>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/register`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = WebAuthnCredentialsPublic[] | WebAuthnCredentialsPublic[];
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async GetVerifyChallenge(): Promise<AventusSharp.Tools.ResultWithError<GetVerifyChallengeResponse>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/getverifychallenge`, Aventus.HttpMethod.GET);
+			type TypeResult = GetVerifyChallengeResponse;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+
+		@BindThis()
+		public async Verify(body: { assertion: VerifyRequest } | FormData): Promise<AventusSharp.Tools.ResultWithError<boolean>> {
+			const request = new Aventus.HttpRequest(`${this.getPrefix()}/verify`, Aventus.HttpMethod.POST);
+			request.setBody(body);
+			type TypeResult = boolean;
+			return await request.queryJSON<TypeResult>(this.router);
+		}
+	}
+
+	@Convertible()
+	export class GetRegisterChallengeResponse extends AventusSharp.Data.SharpClass  {
+		/** Fullname of the class */
+		public static get Fullname(): string { return "Core.Routes.GetRegisterChallengeResponse, Core"; }
+		public Challenge!: string;
+		public UserId!: number;
+	}
+
+	@Convertible()
+	export class RegisterRequest extends AventusSharp.Data.SharpClass  {
+		/** Fullname of the class */
+		public static get Fullname(): string { return "Core.Routes.RegisterRequest, Core"; }
+		public Id!: string;
+		public RawId!: string;
+		public Name!: string;
+		public Type!: string;
+		public ClientDataJSON!: string;
+		public AttestationObject!: string;
+	}
+
+	@Convertible()
+	export class GetVerifyChallengeResponse extends AventusSharp.Data.SharpClass  {
+		/** Fullname of the class */
+		public static get Fullname(): string { return "Core.Routes.GetVerifyChallengeResponse, Core"; }
+		public Challenge!: string;
+		public Ids?: string = undefined;
+	}
+
+	@Convertible()
+	export class VerifyRequest extends AventusSharp.Data.SharpClass  {
+		/** Fullname of the class */
+		public static get Fullname(): string { return "Core.Routes.VerifyRequest, Core"; }
+		public Id!: string;
+		public RawId!: string;
+		public Type!: string;
+		public ClientDataJSON!: string;
+		public AuthenticatorData!: string;
+		public Signature!: string;
+		public UserHandle?: string = undefined;
+	}
+
+}

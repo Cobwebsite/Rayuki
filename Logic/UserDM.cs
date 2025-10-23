@@ -65,7 +65,7 @@ namespace Core.Logic
 
             t.Where(u => u.Id == user.Id);
 
-            return t.RunWithErrorSingle(user).ToGeneric();
+            return t.SingleWithError(user).ToGeneric();
         }
 
 

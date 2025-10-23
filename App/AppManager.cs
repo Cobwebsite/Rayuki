@@ -193,6 +193,7 @@ namespace Core.App
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 result.Errors.Add(new AppError(AppErrorCode.UnknowError, e));
             }
             return result;

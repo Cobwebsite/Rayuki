@@ -41,17 +41,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="AventusSharp">
+    <!-- <Reference Include="AventusSharp">
       <HintPath>lib\AventusSharp.dll</HintPath>
-    </Reference>
+    </Reference> -->
     <Reference Include="WebPush">
       <HintPath>lib\WebPush.dll</HintPath>
     </Reference>
   </ItemGroup>
 
-  <!-- <ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="D:\Aventus\AvenutsSharp\AvenutsSharp\AventusSharp.csproj" />
-  </ItemGroup> -->
+  </ItemGroup>
 
   <ItemGroup>
     <Content Remove="_tools\**" />
