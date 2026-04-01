@@ -13,11 +13,11 @@ namespace Core.Routes;
 [Prefix("Core/WebAuthn")]
 public class WebAuthnRouter : Router
 {
-    public ResultWithError<List<WebAuthnCredentialsPublic>> GetByUser(HttpContext context)
+    public async Task<ResultWithError<List<WebAuthnCredentialsPublic>>> GetByUser(HttpContext context)
     {
         ResultWithError<List<WebAuthnCredentialsPublic>> result = new();
         int id = (int)context.GetUserId()!;
-        ResultWithError<List<WebAuthnCredentials>> query = WebAuthnCredentials.WhereWithError(p => p.UserId == id);
+        ResultWithError<List<WebAuthnCredentials>> query =await WebAuthnCredentials.WhereWithError(p => p.UserId == id);
 
         if (query.Result != null && query.Success)
         {
@@ -29,15 +29,15 @@ public class WebAuthnRouter : Router
         }
         return result;
     }
-    public ResultWithError<List<WebAuthnCredentialsPublic>> Delete(HttpContext context, int authId)
+    public async Task<ResultWithError<List<WebAuthnCredentialsPublic>>> Delete(HttpContext context, int authId)
     {
         ResultWithError<List<WebAuthnCredentialsPublic>> result = new();
-        WebAuthnCredentials? auth = result.Execute(() => WebAuthnCredentials.GetByIdWithError(authId));
+        WebAuthnCredentials? auth = await result.ExtractAsync<WebAuthnCredentials>(async () => await WebAuthnCredentials.GetByIdWithError(authId));
         if (auth != null)
         {
-            result.Run(auth.DeleteWithError);
+            await result.RunAsync(auth.DeleteWithError);
         }
-        if (result.Success) return GetByUser(context);
+        if (result.Success) return await GetByUser(context);
         return result;
     }
 
@@ -46,25 +46,25 @@ public class WebAuthnRouter : Router
         return WebAuthnLogic.GetRegisterChallenge(context);
     }
 
-    public ResultWithError<List<WebAuthnCredentialsPublic>> Register(HttpContext context, RegisterRequest credential)
+    public async Task<ResultWithError<List<WebAuthnCredentialsPublic>>> Register(HttpContext context, RegisterRequest credential)
     {
         ResultWithError<List<WebAuthnCredentialsPublic>> result = new();
-        bool? isOk = result.Execute(() => WebAuthnLogic.Register(context, credential));
-        if(isOk == true) return GetByUser(context); 
+        bool? isOk = await result.ExtractAsync<bool>(async () => await WebAuthnLogic.Register(context, credential));
+        if(isOk == true) return await GetByUser(context); 
         return result;
     }
 
-    public ResultWithError<GetVerifyChallengeResponse> GetVerifyChallenge()
+    public async Task<ResultWithError<GetVerifyChallengeResponse>> GetVerifyChallenge()
     {
-        return WebAuthnLogic.GetVerifyChallenge();
+        return await WebAuthnLogic.GetVerifyChallenge();
 
     }
 
-    public ResultWithError<bool> Verify(HttpContext context, VerifyRequest assertion)
+    public async Task<ResultWithError<bool>> Verify(HttpContext context, VerifyRequest assertion)
     {
         ResultWithError<bool> result = new();
 
-        WebAuthnCredentials? credentials = result.Execute(() => WebAuthnLogic.Verify(assertion));
+        WebAuthnCredentials? credentials = await result.ExtractAsync<WebAuthnCredentials>(async () => await WebAuthnLogic.Verify(assertion));
         if (credentials != null)
         {
             if (credentials.UserId != context.GetUserId())

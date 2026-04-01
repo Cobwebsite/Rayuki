@@ -49,13 +49,13 @@ namespace Core.Logic
         /// <param name="httpContext">The HTTP context containing the session information.</param>
         /// <param name="ms">The duration in milliseconds before the transaction is automatically cancelled.</param>
         /// <returns>A ResultWithError object containing the transaction GUID if successful, or errors if not.</returns>
-        public ResultWithError<string> Begin(HttpContext httpContext, int ms)
+        public async Task<ResultWithError<string>> Begin(HttpContext httpContext, int ms)
         {
             ResultWithError<string> result = new ResultWithError<string>();
             try
             {
                 locker.WaitAsync().GetAwaiter().GetResult();
-                ResultWithError<DbTransactionContext> transactionQuery = AppManager.Storage.BeginTransaction();
+                ResultWithError<DbTransactionContext> transactionQuery = await AppManager.Storage.BeginTransaction();
                 if (!transactionQuery.Success || transactionQuery.Result == null)
                 {
                     result.Errors = transactionQuery.Errors;
@@ -83,7 +83,7 @@ namespace Core.Logic
                             tcs = null;
                         }
                         // trop de temps on annule la transaction
-                        transactionQuery.Result.Rollback();
+                        await transactionQuery.Result.Rollback();
 
                         WebSocketConnection? connection = WebSocketMiddleware.GetConnection<MainEndPoint>(localSession);
                         if (connection != null)
@@ -110,7 +110,7 @@ namespace Core.Logic
         /// </summary>
         /// <param name="guid">The unique identifier of the transaction to be committed.</param>
         /// <returns>A VoidWithError object indicating success or containing errors if the commit failed.</returns>
-        public VoidWithError Commit(string guid)
+        public async Task<VoidWithError> Commit(string guid)
         {
             VoidWithError result = new VoidWithError();
             if (guid == this.guid)
@@ -121,7 +121,7 @@ namespace Core.Logic
                 }
                 if (context != null)
                 {
-                    result.Run(context.Commit);
+                    await result.RunAsync(context.Commit);
                     context = null;
                 }
                 if (tcs != null)
@@ -147,7 +147,7 @@ namespace Core.Logic
         /// </summary>
         /// <param name="guid">The unique identifier of the transaction to be rolled back.</param>
         /// <returns>A VoidWithError object indicating success or containing errors if the rollback failed.</returns>
-        public VoidWithError Rollback(string guid)
+        public async Task<VoidWithError> Rollback(string guid)
         {
             VoidWithError result = new VoidWithError();
             if (guid == this.guid)
@@ -158,7 +158,7 @@ namespace Core.Logic
                 }
                 if (context != null)
                 {
-                    result.Run(context.Rollback);
+                    await result.RunAsync(context.Rollback);
                     context = null;
                 }
                 if (tcs != null)

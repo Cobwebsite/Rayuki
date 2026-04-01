@@ -16,34 +16,34 @@ namespace Core.Routes
     public class PermissionRouter : Router
     {
         [Post]
-        public ResultWithError<Permission> Get(IPermissionQuery permissionQuery)
+        public async Task<ResultWithError<Permission>> Get(IPermissionQuery permissionQuery)
         {
             string name = permissionQuery.value.GetFullName();
             string additionalInfo = permissionQuery.additionalInfo;
-            return PermissionDM.GetInstance().SingleWithError(p => p.EnumName == name && p.AdditionalInfo == additionalInfo);
+            return await PermissionDM.GetInstance().SingleWithError(p => p.EnumName == name && p.AdditionalInfo == additionalInfo);
         }
         [Post]
-        public bool Can(HttpContext context, IPermissionQuery permissionQuery)
+        public async Task<bool> Can(HttpContext context, IPermissionQuery permissionQuery)
         {
-            return PermissionDM.GetInstance().Can(context, permissionQuery.value, permissionQuery.additionalInfo);
+            return await PermissionDM.GetInstance().Can(context, permissionQuery.value, permissionQuery.additionalInfo);
         }
 
         [Post]
-        public List<PermissionMultiple> CanMultiple(HttpContext context, List<IPermissionQuery> queries)
+        public async Task<List<PermissionMultiple>> CanMultiple(HttpContext context, List<IPermissionQuery> queries)
         {
-            return PermissionDM.GetInstance().CanMultiple(context, queries);
+            return await PermissionDM.GetInstance().CanMultiple(context, queries);
         }
 
         [Get]
-        public List<PermissionTree> GetPermissionsTree()
+        public async Task<List<PermissionTree>> GetPermissionsTree()
         {
-            return PermissionDM.GetInstance().GetPermissionsTree();
+            return await PermissionDM.GetInstance().GetPermissionsTree();
         }
 
         [Get, Path("/permissions/GetPermissionsForUser/{idUser}")]
-        public PermissionForUser GetPermissionsForUser(int idUser)
+        public async Task<PermissionForUser> GetPermissionsForUser(int idUser)
         {
-            return PermissionDM.GetInstance().GetPermissionsForUser(idUser);
+            return await PermissionDM.GetInstance().GetPermissionsForUser(idUser);
         }
     }
 

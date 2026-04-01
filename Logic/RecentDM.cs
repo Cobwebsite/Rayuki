@@ -15,7 +15,7 @@ public class RecentDM : DatabaseDM<RecentDM, Recent>
 {
 
     protected QueryBuilderPrepared<Recent>? getAllForUserQuery;
-    public ResultWithError<List<Recent>> GetAllForUser(int? userId)
+    public async Task<ResultWithError<List<Recent>>> GetAllForUser(int? userId)
     {
         if (userId == null)
         {
@@ -27,35 +27,35 @@ public class RecentDM : DatabaseDM<RecentDM, Recent>
         {
             getAllForUserQuery = CreateQuery<Recent>().WhereWithParameters(p => p.UserId == id);
         }
-        return getAllForUserQuery.New().Prepare(id).RunWithError();
+        return await getAllForUserQuery.New().Prepare(id).RunWithError();
     }
 
 
-    protected override List<GenericError> AfterCreateWithError<X>(List<X> values, ResultWithError<List<X>> result)
+    protected override async Task<List<GenericError>> AfterCreateWithError<X>(List<X> values, ResultWithError<List<X>> result)
     {
-        List<GenericError> errors = base.AfterCreateWithError(values, result);
+        List<GenericError> errors = await base.AfterCreateWithError(values, result);
         List<int> ids = values.GroupBy(x => x.UserId).Select(p => p.Key).ToList();
         foreach (int id in ids)
         {
-            errors.AddRange(LimitTo(id).Errors);
+            errors.AddRange((await LimitTo(id)).Errors);
         }
         return errors;
     }
 
     private int NbRecents { get; set; } = 20;
-    public void Load()
+    public async Task Load()
     {
-        var settings = SettingsDM.GetInstance().GetGlobalSettingsInt(RecentParameters.Number, 20);
+        var settings = await SettingsDM.GetInstance().GetGlobalSettingsInt(RecentParameters.Number, 20);
         if (settings.Success)
         {
             NbRecents = settings.Result;
         }
     }
 
-    public VoidWithError ChangeRecentParametersNumber(int nb)
+    public async Task<VoidWithError> ChangeRecentParametersNumber(int nb)
     {
         VoidWithError result = new();
-        result.Run(() => SettingsDM.GetInstance().SaveGlobalSettingsInt(RecentParameters.Number, nb));
+        await result.RunAsync(() => SettingsDM.GetInstance().SaveGlobalSettingsInt(RecentParameters.Number, nb));
         if (result.Success)
         {
             NbRecents = nb;
@@ -63,10 +63,10 @@ public class RecentDM : DatabaseDM<RecentDM, Recent>
         return result;
     }
 
-    protected VoidWithError LimitTo(int userId)
+    protected async Task<VoidWithError> LimitTo(int userId)
     {
         VoidWithError result = new();
-        ResultWithError<List<Recent>> query = Recent
+        ResultWithError<List<Recent>> query = await Recent
                                                     .StartQuery()
                                                     .Field(p => p.Id)
                                                     .Where(p => p.UserId == userId)
@@ -76,7 +76,7 @@ public class RecentDM : DatabaseDM<RecentDM, Recent>
 
         if (query.Success && query.Result != null)
         {
-            result.Run(() => Recent.DeleteWithError(query.Result));
+            await result.RunAsync(() => Recent.DeleteWithError(query.Result));
         }
         else
         {
@@ -85,10 +85,10 @@ public class RecentDM : DatabaseDM<RecentDM, Recent>
         return result;
     }
 
-    public ResultWithError<Recent> SaveWithError(Recent recent)
+    public async Task<ResultWithError<Recent>> SaveWithError(Recent recent)
     {
         ResultWithError<Recent> result = new();
-        ResultWithError<Recent> query = Recent
+        ResultWithError<Recent> query = await Recent
                             .StartQuery()
                             .Where(p => p.UserId == recent.UserId && p.Name == recent.Name && p.TagName == recent.TagName)
                             .SingleWithError();
@@ -98,14 +98,14 @@ public class RecentDM : DatabaseDM<RecentDM, Recent>
         }
         if (query.Result == null)
         {
-            List<GenericError> errors = recent.CreateWithError();
+            List<GenericError> errors = await recent.CreateWithError();
             result.Errors = errors;
             if (result.Success) result.Result = recent;
         }
         else
         {
             query.Result.Datetime = recent.Datetime;
-            List<GenericError> errors = query.Result.UpdateWithError();
+            List<GenericError> errors = await query.Result.UpdateWithError();
             if (result.Success) result.Result = query.Result;
         }
         return result;

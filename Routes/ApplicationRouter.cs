@@ -19,9 +19,9 @@ namespace Core.Routes
     public class ApplicationRouter : Router
     {
         [Get, Path("/application")]
-        public List<ApplicationData> GetAll(HttpContext context)
+        public async Task<List<ApplicationData>> GetAll(HttpContext context)
         {
-            return ApplicationDM.GetInstance().GetAllAllowed(context.GetUserId(), context.IsSuperAdmin());
+            return await ApplicationDM.GetInstance().GetAllAllowed(context.GetUserId(), context.IsSuperAdmin());
         }
 
 
@@ -107,14 +107,14 @@ namespace Core.Routes
 
 
         [Post, Permission<OsPermission>(OsPermission.ReorderApps)]
-        public VoidWithError ReorderApps(List<ApplicationData> apps)
+        public async Task<VoidWithError> ReorderApps(List<ApplicationData> apps)
         {
-            return ApplicationDM.GetInstance().RunInsideTransaction(() =>
+            return await ApplicationDM.GetInstance().RunInsideTransaction(async () =>
             {
                 VoidWithError result = new VoidWithError();
                 foreach (ApplicationData app in apps)
                 {
-                    result.Run(() => ApplicationData.StartUpdate().Field(p => p.Order).Where(p => p.Id == app.Id).RunWithError(app));
+                    await result.RunAsync(() => ApplicationData.StartUpdate().Field(p => p.Order).Where(p => p.Id == app.Id).RunWithError(app));
                 }
                 return result;
             });

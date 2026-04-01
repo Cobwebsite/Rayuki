@@ -32,14 +32,14 @@ namespace Core.Data
         [Unique]
         public string? QuickToken { get; set; }
 
-        public bool Can(Enum value, string additionalInfo)
+        public async Task<bool> Can(Enum value, string additionalInfo)
         {
-            return PermissionDM.GetInstance().Can(Id, value, additionalInfo, IsSuperAdmin);
+            return await PermissionDM.GetInstance().Can(Id, value, additionalInfo, IsSuperAdmin);
         }
 
-        public Settings? GetSettings(Enum @enum)
+        public async Task<Settings?> GetSettings(Enum @enum)
         {
-            return SettingsDM.GetInstance().GetSettingsForUser(@enum, Id).Result;
+            return (await SettingsDM.GetInstance().GetSettingsForUser(@enum, Id)).Result;
         }
     }
 

@@ -12,21 +12,21 @@ namespace Core.Routes
      public class PermissionGroupRouter : Router
     {
         [Post, Path("/permissiongroup/bygroup")]
-        public ResultWithError<List<PermissionGroup>> GetAllByGroup(int groupId)
+        public async Task<ResultWithError<List<PermissionGroup>>> GetAllByGroup(int groupId)
         {
-            return PermissionGroupDM.GetInstance().GetAllByGroup(groupId);
+            return await PermissionGroupDM.GetInstance().GetAllByGroup(groupId);
         }
 
         [Post, Path("/permissiongroup/editpermission")]
-        public ResultWithError<bool> EditPermission(List<PermissionGroup> created, List<PermissionGroup> updated, List<PermissionGroup> deleted)
+        public async Task<ResultWithError<bool>> EditPermission(List<PermissionGroup> created, List<PermissionGroup> updated, List<PermissionGroup> deleted)
         {
-            return PermissionGroupDM.GetInstance().EditPermission(created, updated, deleted);
+            return await PermissionGroupDM.GetInstance().EditPermission(created, updated, deleted);
         }
 
         [Post, Path("/permissiongroup/haspermission")]
-        public ResultWithError<PermissionGroup> HasPermission(int idGroup, IPermissionQuery permissionQuery)
+        public async Task<ResultWithError<PermissionGroup>> HasPermission(int idGroup, IPermissionQuery permissionQuery)
         {
-            return PermissionGroupDM.GetInstance().HasPermissionGroup(idGroup, permissionQuery.value, permissionQuery.additionalInfo);
+            return await PermissionGroupDM.GetInstance().HasPermissionGroup(idGroup, permissionQuery.value, permissionQuery.additionalInfo);
         }
     }
 }

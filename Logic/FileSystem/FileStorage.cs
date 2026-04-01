@@ -383,7 +383,7 @@ namespace Core.Logic.FileSystem
             uri = GetFullPath(uri);
             try
             {
-                result.Execute(() =>
+                result.Run(() =>
                 {
                     ResultWithError<bool> resultTemp = new ResultWithError<bool>();
 

@@ -15,9 +15,9 @@ namespace Core.Routes
         // {
         //     return UserDM.GetInstance().WhereWithError(p => p.IsSuperAdmin == false);
         // }
-        protected override ResultWithError<User> DM_Update(HttpContext context, User item)
+        protected override async Task<ResultWithError<User>> DM_Update(HttpContext context, User item)
         {
-            return UserDM.GetInstance().UpdateBasicInfo(item);
+            return await UserDM.GetInstance().UpdateBasicInfo(item);
         }
 
 
@@ -29,9 +29,9 @@ namespace Core.Routes
         }
 
 
-        public ResultWithError<User> GetConnected(HttpContext context)
+        public async Task<ResultWithError<User>> GetConnected(HttpContext context)
         {
-            return UserDM.GetInstance().GetConnected(context.GetUserId());
+            return await UserDM.GetInstance().GetConnected(context.GetUserId());
         }
 
         

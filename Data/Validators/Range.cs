@@ -20,24 +20,24 @@ namespace Core.Data.Validators
         }
 
 
-        public override ValidationResult IsValid(object? value, ValidationContext context)
+        public override Task<ValidationResult> IsValid(object? value, ValidationContext context)
         {
-            if (value == null) return ValidationResult.Success;
+            if (value == null) return Task.FromResult(ValidationResult.Success);
             if (value is float nb)
             {
                 if (nb >= min && nb <= max)
                 {
-                    return ValidationResult.Success;
+                    return Task.FromResult(ValidationResult.Success);
                 }
             }
             else if (value is int nb2)
             {
                 if (nb2 >= min && nb2 <= max)
                 {
-                    return ValidationResult.Success;
+                    return Task.FromResult(ValidationResult.Success);
                 }
             }
-            return new ValidationResult("Le nombre doit être compris entre " + min + " et " + max, context.FieldName);
+            return Task.FromResult(new ValidationResult("Le nombre doit être compris entre " + min + " et " + max, context.FieldName));
         }
     }
 }

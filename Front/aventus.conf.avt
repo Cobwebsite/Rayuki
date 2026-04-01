@@ -86,7 +86,7 @@
             "module": "Addon",
             "name": "Addon",
             "hideWarnings": true,
-            "disabled": true,
+            "disabled": false,
             "src": [
                 "./addon/*"
             ],

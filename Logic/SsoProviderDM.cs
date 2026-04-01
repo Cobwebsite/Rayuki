@@ -33,7 +33,7 @@ namespace Core.Logic
         public async Task<ResultWithError<User>> Login(int ssoId, string code)
         {
             ResultWithError<User> result = new();
-            ResultWithError<SsoProvider> providerQuery = SsoProvider.GetByIdWithError(ssoId);
+            ResultWithError<SsoProvider> providerQuery = await SsoProvider.GetByIdWithError(ssoId);
             if (!providerQuery.Success || providerQuery.Result == null)
             {
                 result.Errors = providerQuery.Errors;
@@ -60,7 +60,7 @@ namespace Core.Logic
                 return result;
             }
 
-            ResultWithError<User> identifyResult = Identify(provider, userInfo.Result);
+            ResultWithError<User> identifyResult = await Identify(provider, userInfo.Result);
 
             if (!identifyResult.Success || identifyResult.Result == null)
             {
@@ -162,16 +162,16 @@ namespace Core.Logic
             // return JsonSerializer.Deserialize<GithubUser>(jsonResponse);
         }
 
-        private ResultWithError<User> Identify(SsoProvider provider, SsoUserInfo userInfo)
+        private async Task<ResultWithError<User>> Identify(SsoProvider provider, SsoUserInfo userInfo)
         {
-            ResultWithError<User> result = User.SingleWithError(p => p.Username == userInfo.Identifier);
+            ResultWithError<User> result = await User.SingleWithError(p => p.Username == userInfo.Identifier);
             if (result.Success && result.Result != null)
             {
 
                 if (result.Result.Picture.Uri == "" && !string.IsNullOrEmpty(userInfo.Picture))
                 {
                     result.Run(() => result.Result.Picture.Download(result.Result, userInfo.Picture));
-                    result.Run(() => result.Result.UpdateWithError());
+                    await result.RunAsync(() => result.Result.UpdateWithError());
                 }
 
                 return result;
@@ -187,14 +187,14 @@ namespace Core.Logic
                     Password = null,
                     SsoProviderId = provider.Id
                 };
-                result.Errors = user.CreateWithError();
+                result.Errors = await user.CreateWithError();
                 if (result.Success)
                 {
                     result.Result = user;
                     if (result.Result.Picture.Uri == "" && !string.IsNullOrEmpty(userInfo.Picture))
                     {
                         result.Run(() => result.Result.Picture.Download(result.Result, userInfo.Picture));
-                        result.Run(() => result.Result.UpdateWithError());
+                        await result.RunAsync(() => result.Result.UpdateWithError());
                     }
                 }
                 return result;

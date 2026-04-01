@@ -24,38 +24,38 @@ namespace Core.Logic
         {
             VoidWithError result = await base.Initialize();
 
-            RegisterPermissions<OsPermission, OsPermissionDescription>();
+            await RegisterPermissions<OsPermission, OsPermissionDescription>();
             return result;
         }
 
-        public void Register(List<Type> types)
+        public async Task Register(List<Type> types)
         {
             foreach (Type type in types)
             {
                 object? o = Activator.CreateInstance(type);
                 if (o is IPermissionQuery permission)
                 {
-                    RegisterPermissions(permission.enumType, permission.Description());
+                    await RegisterPermissions(permission.enumType, permission.Description());
                 }
             }
         }
-        public void RegisterPermissions<T>() where T : Enum
+        public async Task RegisterPermissions<T>() where T : Enum
         {
-            RegisterPermissions(typeof(T), null);
+            await RegisterPermissions(typeof(T), null);
         }
-        public void RegisterPermissions<T, U>() where T : Enum where U : PermissionDescription<T>
+        public async Task RegisterPermissions<T, U>() where T : Enum where U : PermissionDescription<T>
         {
             object? description = Activator.CreateInstance(typeof(U));
             if (description is PermissionDescription<T> descriptionCasted)
             {
-                RegisterPermissions(typeof(T), descriptionCasted);
+                await RegisterPermissions(typeof(T), descriptionCasted);
             }
             else
             {
-                RegisterPermissions(typeof(T), null);
+                await RegisterPermissions(typeof(T), null);
             }
         }
-        internal void RegisterPermissions(Type type, PermissionDescription? description)
+        internal async Task RegisterPermissions(Type type, PermissionDescription? description)
         {
             Array values = Enum.GetValues(type);
             List<Permission> permissions = new List<Permission>();
@@ -64,7 +64,7 @@ namespace Core.Logic
                 if (value is Enum @enum)
                 {
                     string name = @enum.GetFullName();
-                    ResultWithError<Permission> result = CreateIfNotExist(new Permission()
+                    ResultWithError<Permission> result = await CreateIfNotExist(new Permission()
                     {
                         EnumName = name
                     });
@@ -79,14 +79,14 @@ namespace Core.Logic
 
 
         private QueryBuilderPrepared<Permission>? CreateIfNotExistQuery = null;
-        public ResultWithError<Permission> CreateIfNotExist(Permission permission)
+        public async Task<ResultWithError<Permission>> CreateIfNotExist(Permission permission)
         {
             ResultWithError<Permission> result = new();
             if (CreateIfNotExistQuery == null)
             {
                 CreateIfNotExistQuery = CreateQuery<Permission>().WhereWithParameters(a => a.EnumName == permission.EnumName && a.AdditionalInfo == permission.AdditionalInfo);
             }
-            ResultWithError<Permission> queryResult = CreateIfNotExistQuery.New().Prepare(permission).SingleWithError();
+            ResultWithError<Permission> queryResult = await CreateIfNotExistQuery.New().Prepare(permission).SingleWithError();
             if (!queryResult.Success)
             {
                 result.Errors.AddRange(queryResult.Errors);
@@ -97,7 +97,7 @@ namespace Core.Logic
                 return queryResult;
             }
 
-            ResultWithError<Permission> createResult = CreateWithError(permission);
+            ResultWithError<Permission> createResult = await CreateWithError(permission);
             if (!createResult.Success)
             {
                 result.Errors.AddRange(createResult.Errors);
@@ -105,25 +105,25 @@ namespace Core.Logic
             return createResult;
         }
 
-        public bool Can(HttpContext context, Enum value)
+        public async Task<bool> Can(HttpContext context, Enum value)
         {
-            return Can(context, value, "");
+            return await Can(context, value, "");
         }
-        public bool Can(HttpContext context, Enum value, string additionalInfo)
+        public async Task<bool> Can(HttpContext context, Enum value, string additionalInfo)
         {
             if (context.IsConnected())
             {
-                return Can(context.GetUserId() ?? 0, value, additionalInfo, context.IsSuperAdmin());
+                return await Can(context.GetUserId() ?? 0, value, additionalInfo, context.IsSuperAdmin());
             }
             return false;
         }
-        public bool Can(int idUser, Enum value)
+        public async Task<bool> Can(int idUser, Enum value)
         {
-            bool isSuperAdmin = UserDM.GetInstance().GetById(idUser)?.IsSuperAdmin == true;
-            return Can(idUser, value, "", isSuperAdmin);
+            bool isSuperAdmin = (await UserDM.GetInstance().GetById(idUser))?.IsSuperAdmin == true;
+            return await Can(idUser, value, "", isSuperAdmin);
         }
 
-        public List<PermissionMultiple> CanMultiple(HttpContext context, List<IPermissionQuery> queries)
+        public async Task<List<PermissionMultiple>> CanMultiple(HttpContext context, List<IPermissionQuery> queries)
         {
             List<PermissionMultiple> result = new();
             foreach (IPermissionQuery query in queries)
@@ -131,7 +131,7 @@ namespace Core.Logic
                 result.Add(new PermissionMultiple()
                 {
                     Query = query,
-                    Allow = Can(context, query.value, query.additionalInfo)
+                    Allow = await Can(context, query.value, query.additionalInfo)
                 });
             }
             return result;
@@ -139,14 +139,14 @@ namespace Core.Logic
 
         private QueryBuilderPrepared<PermissionUser> CanQueryUser;
         private ExistBuilderPrepared<PermissionGroup> CanQueryGroup;
-        public bool Can(int idUser, Enum value, string additionalInfo, bool isSuperAdmin)
+        public async Task<bool> Can(int idUser, Enum value, string additionalInfo, bool isSuperAdmin)
         {
             if (isSuperAdmin)
             {
                 return true;
             }
             string name = value.GetFullName();
-            Permission? perm = Single(p => p.EnumName == name && p.AdditionalInfo == additionalInfo);
+            Permission? perm = await Single(p => p.EnumName == name && p.AdditionalInfo == additionalInfo);
 
             if (perm == null)
             {
@@ -158,7 +158,7 @@ namespace Core.Logic
             {
                 CanQueryUser = PermissionUser.StartQuery().WhereWithParameters(pu => pu.Permission.Id == idPerm && pu.UserId == idUser);
             }
-            ResultWithError<PermissionUser> canUser = CanQueryUser
+            ResultWithError<PermissionUser> canUser = await CanQueryUser
                 .New()
                 .SetVariables((add) =>
                 {
@@ -172,7 +172,7 @@ namespace Core.Logic
                 return canUser.Result.Allow;
             }
 
-            List<int> groups = Group.Where(p => p.Users.Contains(new User() { Id = idUser })).Select(p => p.Id).ToList();
+            List<int> groups = (await Group.Where(p => p.Users.Contains(new User() { Id = idUser }))).Select(p => p.Id).ToList();
 
             if (CanQueryGroup == null)
             {
@@ -180,7 +180,7 @@ namespace Core.Logic
             }
             if (groups.Count > 0)
             {
-                ResultWithError<bool> canGroup = CanQueryGroup.New().SetVariables((add) =>
+                ResultWithError<bool> canGroup = await CanQueryGroup.New().SetVariables((add) =>
                 {
                     add("idPerm", idPerm);
                     add("groups", groups);
@@ -266,7 +266,7 @@ namespace Core.Logic
             }
             return result;
         }
-        public List<PermissionTree> GetPermissionsTree()
+        public async Task<List<PermissionTree>> GetPermissionsTree()
         {
             foreach (string appName in NeedReorder)
             {
@@ -276,7 +276,7 @@ namespace Core.Logic
                 {
                     OrderPermissionsTreeLoop(pair.Value, result, FlatPermissionsTree[appName], new());
                 }
-                CreatePermissionTree(appName, result);
+                await CreatePermissionTree(appName, result);
             }
             foreach (KeyValuePair<string, PermissionTree> pair in PermissionTrees)
             {
@@ -311,7 +311,7 @@ namespace Core.Logic
             return result.Count;
         }
 
-        private void CreatePermissionTree(string appName, List<PermissionDescriptionItem> result)
+        private async Task CreatePermissionTree(string appName, List<PermissionDescriptionItem> result)
         {
             string name = ApplicationPermission.AllowAccess.GetFullName();
 
@@ -320,14 +320,14 @@ namespace Core.Logic
             int permissionId = 0;
             if (appName != "Système")
             {
-                ApplicationData? app = ApplicationDM.GetInstance().Single(p => p.Name == appName);
+                ApplicationData? app = await ApplicationDM.GetInstance().Single(p => p.Name == appName);
                 if (app == null)
                 {
                     return;
                 }
                 displayName = app.DisplayName;
                 logoTagName = app.LogoTagName;
-                Permission? permission = Single(p => p.EnumName == name && p.AdditionalInfo == appName);
+                Permission? permission = await Single(p => p.EnumName == name && p.AdditionalInfo == appName);
                 if (permission == null)
                 {
                     return;
@@ -366,32 +366,33 @@ namespace Core.Logic
         }
         #endregion
 
-        public PermissionForUser GetPermissionsForUser(int idUser)
+        public async Task<PermissionForUser> GetPermissionsForUser(int idUser)
         {
-            List<PermissionUser> permissionUsers = PermissionUser.Where(p => p.UserId == idUser);
-            List<int> groups = Group.Where(p => p.Users.Contains(new User() { Id = idUser })).Select(p => p.Id).ToList();
-            List<PermissionGroup> permissionGroups = PermissionGroup.Where(p => groups.Contains(p.GroupId));
+            List<PermissionUser> permissionUsers = await PermissionUser.Where(p => p.UserId == idUser);
+            List<int> groups = (await Group.Where(p => p.Users.Contains(new User() { Id = idUser }))).Select(p => p.Id).ToList();
+            List<PermissionGroup> permissionGroups = await PermissionGroup.Where(p => groups.Contains(p.GroupId));
 
             return new PermissionForUser(permissionGroups, permissionUsers);
         }
 
-        public bool AllowQuickLogin(int idUser, out string? token)
+        public async Task<bool> AllowQuickLogin(int idUser, List<string> token)
         {
-            token = null;
-            ResultWithError<int> result = SettingsDM.GetInstance().GetGlobalSettingsInt(OsPermission.QuickAuth);
+            ResultWithError<int> result = await SettingsDM.GetInstance().GetGlobalSettingsInt(OsPermission.QuickAuth);
             if (result.Result == 0) return false;
             if (result.Result == 1)
             {
-                ResultWithError<string> resultToken = UserDM.GetInstance().GetQuickToken(idUser);
-                token = resultToken.Result;
+                ResultWithError<string> resultToken = await UserDM.GetInstance().GetQuickToken(idUser);
+                if (resultToken.Result != null)
+                    token.Add(resultToken.Result);
                 return true;
             }
             if (result.Result == 2)
             {
-                if (Can(idUser, OsPermission.QuickAuth))
+                if (await Can(idUser, OsPermission.QuickAuth))
                 {
-                    ResultWithError<string> resultToken = UserDM.GetInstance().GetQuickToken(idUser);
-                    token = resultToken.Result;
+                    ResultWithError<string> resultToken = await UserDM.GetInstance().GetQuickToken(idUser);
+                    if (resultToken.Result != null)
+                        token.Add(resultToken.Result);
                     return true;
                 }
             }

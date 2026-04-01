@@ -14,7 +14,7 @@ namespace Core.Logic
     {
         private QueryBuilderPrepared<ApplicationData>? CreateIfNotExistQuery = null;
 
-        public VoidWithError RegisterApplication(RayukiApp app)
+        public async Task<VoidWithError> RegisterApplication(RayukiApp app)
         {
             VoidWithError result = new VoidWithError();
             string? name = app.GetType().Assembly.GetName().Name;
@@ -51,9 +51,9 @@ namespace Core.Logic
             application.LogoClassName = logoFullClassName;
             application.LogoTagName = logoTagName;
 
-            result = CreateIfNotExist(application);
+            result = await CreateIfNotExist(application);
 
-            PermissionDM.GetInstance().CreateIfNotExist(new Permission()
+            await PermissionDM.GetInstance().CreateIfNotExist(new Permission()
             {
                 AdditionalInfo = application.Name,
                 EnumValue = ApplicationPermission.AllowAccess
@@ -61,14 +61,14 @@ namespace Core.Logic
             PermissionDM.GetInstance().RegisterAppPermissionTree(application.Name);
             return result;
         }
-        public VoidWithError CreateIfNotExist(ApplicationData application)
+        public async Task<VoidWithError> CreateIfNotExist(ApplicationData application)
         {
             VoidWithError result = new();
             if (CreateIfNotExistQuery == null)
             {
                 CreateIfNotExistQuery = CreateQuery<ApplicationData>().WhereWithParameters(a => a.Name == application.Name);
             }
-            ResultWithError<ApplicationData> queryResult = CreateIfNotExistQuery.New().Prepare(application).SingleWithError();
+            ResultWithError<ApplicationData> queryResult = await CreateIfNotExistQuery.New().Prepare(application).SingleWithError();
             if (!queryResult.Success && queryResult.Errors.Count > 0)
             {
                 result.Errors.AddRange(queryResult.Errors);
@@ -79,20 +79,20 @@ namespace Core.Logic
                 if (queryResult.Result.Version != application.Version)
                 {
                     queryResult.Result.Version = application.Version;
-                    result.Run(() => UpdateWithError(queryResult.Result));
+                    await result.RunAsync(() => UpdateWithError(queryResult.Result));
                 }
             }
             else {
-                    result.Run(() => CreateWithError(application));
+                    await result.RunAsync(() => CreateWithError(application));
             }
             return result;
         }
 
 
-        public VoidWithError ReloadIconFile()
+        public async Task<VoidWithError> ReloadIconFile()
         {
             VoidWithError result = new VoidWithError();
-            List<ApplicationData> apps = GetAll<ApplicationData>();
+            List<ApplicationData> apps = await GetAll<ApplicationData>();
             string fileContent = "";
             foreach (ApplicationData app in apps)
             {
@@ -110,17 +110,17 @@ namespace Core.Logic
             return result;
         }
 
-        public List<ApplicationData> GetAllAllowed(int? userId, bool isSuperAdmin)
+        public async Task<List<ApplicationData>> GetAllAllowed(int? userId, bool isSuperAdmin)
         {
             if (userId == null) return new List<ApplicationData>();
 
             if (isSuperAdmin)
             {
-                return ApplicationData.GetAll().OrderBy(p => p.Order).ToList();
+                return (await ApplicationData.GetAll()).OrderBy(p => p.Order).ToList();
             }
             List<string> allowedApps = new List<string>();
             string name = ApplicationPermission.AllowAccess.GetFullName();
-            List<PermissionUser> allowed = PermissionUser.Where(p => p.Permission.EnumName == name && p.UserId == userId);
+            List<PermissionUser> allowed = await PermissionUser.Where(p => p.Permission.EnumName == name && p.UserId == userId);
 
             foreach (PermissionUser permission in allowed)
             {
@@ -128,10 +128,10 @@ namespace Core.Logic
             }
 
             int realId = (int)userId;
-            List<int> groups = Group.Where(p => p.Users.Contains(new User() { Id = realId })).Select(p => p.Id).ToList();
+            List<int> groups = (await Group.Where(p => p.Users.Contains(new User() { Id = realId }))).Select(p => p.Id).ToList();
             if (groups.Count > 0)
             {
-                List<PermissionGroup> allowedInGroup = PermissionGroup
+                List<PermissionGroup> allowedInGroup = await PermissionGroup
                     .StartQuery()
                     .Where(pu => pu.Permission.EnumName == name && groups.Contains(pu.GroupId))
                     .Run();
@@ -145,7 +145,7 @@ namespace Core.Logic
                 }
             }
 
-            ResultWithError<List<ApplicationData>> apps = ApplicationData.WhereWithError(a => allowedApps.Contains(a.Name));
+            ResultWithError<List<ApplicationData>> apps = await ApplicationData.WhereWithError(a => allowedApps.Contains(a.Name));
             if (apps.Result != null)
             {
                 return apps.Result.OrderBy(p => p.Order).ToList();

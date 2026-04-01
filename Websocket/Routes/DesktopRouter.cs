@@ -36,18 +36,18 @@ namespace Core.Websocket.Routes
         [Path("/desktop/SetDesktopIcon")]
         [ListenOnBoot]
         [UserBroadcast]
-        public DesktopAppIcon? SetDesktopIcon(DesktopAppIcon icon)
+        public async Task<DesktopAppIcon?> SetDesktopIcon(DesktopAppIcon icon)
         {
             if (icon.Id == 0)
             {
-                if (!icon.Create())
+                if (!await icon.Create())
                 {
                     return null;
                 }
             }
             else
             {
-                if (!icon.Update())
+                if (!await icon.Update())
                 {
                     return null;
                 }
@@ -58,9 +58,9 @@ namespace Core.Websocket.Routes
         [Path("/desktop/RemoveDesktopIcon")]
         [ListenOnBoot]
         [UserBroadcast]
-        public bool RemoveDesktopIcon(DesktopAppIcon icon)
+        public async Task<bool> RemoveDesktopIcon(DesktopAppIcon icon)
         {
-            return icon.Delete();
+            return await icon.Delete();
         }
 
 

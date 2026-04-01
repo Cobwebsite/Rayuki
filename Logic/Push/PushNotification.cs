@@ -59,10 +59,10 @@ public class PushNotification
         }
     }
 
-    public static void SendMsg(PushRecord record, Notification notification)
+    public static async Task SendMsg(PushRecord record, Notification notification)
     {
         var sub = new PushSubscription(record.EndPoint, record.P256dh, record.Auth);
-        notification.Complete();
+        await notification.Complete();
         webPush.SendNotification(sub, JsonConvert.SerializeObject(notification));
     }
 }
@@ -80,20 +80,20 @@ public class Notification
         Body = body;
     }
 
-    public void Complete()
+    public async Task Complete()
     {
         if (defaultValues == null)
         {
-            Company company = CompanyDM.GetInstance().GetMain();
+            Company company = await CompanyDM.GetInstance().GetMain();
             defaultValues = new Notification("");
             defaultValues.Title = company.Name;
             defaultValues.Icon = company.SiteUrl + company.Logo.Uri;
             defaultValues.Badge = company.SiteUrl + "/pwa/icons/logo-96.png";
         }
 
-        if(string.IsNullOrWhiteSpace(Title)) Title = defaultValues.Title;
-        if(string.IsNullOrWhiteSpace(Icon)) Icon = defaultValues.Icon;
-        if(string.IsNullOrWhiteSpace(Badge)) Badge = defaultValues.Badge;
+        if (string.IsNullOrWhiteSpace(Title)) Title = defaultValues.Title;
+        if (string.IsNullOrWhiteSpace(Icon)) Icon = defaultValues.Icon;
+        if (string.IsNullOrWhiteSpace(Badge)) Badge = defaultValues.Badge;
     }
 
 

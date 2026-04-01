@@ -21,7 +21,7 @@ namespace Core.Routes.Attributes
             {
                 await next();
             }
-            else if (!context.Can(value))
+            else if (!await context.Can(value))
             {
                 context.Response.StatusCode = 401;
             }

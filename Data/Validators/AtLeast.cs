@@ -28,9 +28,9 @@ public class AtLeast : ValidationAttribute
         this.message = message;
     }
 
-    public override ValidationResult IsValid(object? value, ValidationContext context)
+    public override Task<ValidationResult> IsValid(object? value, ValidationContext context)
     {
-        if (context.Action != StorableAction.Delete) return ValidationResult.Success;
+        if (context.Action != StorableAction.Delete) return Task.FromResult(ValidationResult.Success);
 
         if (query == null && context.TableInfo.DM != null && context.ReflectedType != null)
         {
@@ -54,20 +54,20 @@ public class AtLeast : ValidationAttribute
                 {
                     ValidationResult validationResult = new ValidationResult();
                     validationResult.Errors.AddRange(resultWithError.Errors);
-                    return validationResult;
+                    return Task.FromResult(validationResult);
                 }
                 if (resultWithError.Result is IList list)
                 {
                     if (list.Count - 1 >= nb)
                     {
                         string message = this.message ?? "Il doit y avoir au moins " + nb + " " + context.ReflectedType?.Name;
-                        return new ValidationResult(message, context.FieldName);
+                        return Task.FromResult(new ValidationResult(message, context.FieldName));
                     }
                 }
             }
         }
 
-        return ValidationResult.Success;
+        return Task.FromResult(ValidationResult.Success);
     }
 
     private void LoadQuery<T>(IGenericDM dm, Type type, ValidationContext context, T? value)

@@ -10,7 +10,7 @@ public class FavoriteDM : DatabaseDM<FavoriteDM, Favorite>
 {
 
     protected QueryBuilderPrepared<Favorite>? getAllForUserQuery;
-    public ResultWithError<List<Favorite>> GetAllForUser(int? userId)
+    public async Task<ResultWithError<List<Favorite>>> GetAllForUser(int? userId)
     {
         if (userId == null)
         {
@@ -22,6 +22,6 @@ public class FavoriteDM : DatabaseDM<FavoriteDM, Favorite>
         {
             getAllForUserQuery = CreateQuery<Favorite>().WhereWithParameters(p => p.UserId == id);
         }
-        return getAllForUserQuery.New().Prepare(id).RunWithError();
+        return await getAllForUserQuery.New().Prepare(id).RunWithError();
     }
 }

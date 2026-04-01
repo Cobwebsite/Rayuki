@@ -8,30 +8,30 @@ namespace Core.Logic
     public class PermissionGroupDM : DatabaseDM<PermissionGroupDM, PermissionGroup>
     {
 
-        public ResultWithError<List<PermissionGroup>> GetAllByGroup(int groupId)
+        public async Task<ResultWithError<List<PermissionGroup>>> GetAllByGroup(int groupId)
         {
-            return WhereWithError(p => p.GroupId == groupId);
+            return await WhereWithError(p => p.GroupId == groupId);
         }
 
 
-        public ResultWithError<bool> EditPermission(List<PermissionGroup> created, List<PermissionGroup> updated, List<PermissionGroup> deleted)
+        public async Task<ResultWithError<bool>> EditPermission(List<PermissionGroup> created, List<PermissionGroup> updated, List<PermissionGroup> deleted)
         {
-            return RunInsideTransaction(() =>
+            return await RunInsideTransaction(async () =>
             {
                 ResultWithError<bool> result = new();
                 if (created.Count > 0)
                 {
-                    ResultWithError<List<PermissionGroup>> resultTemp = CreateWithError(created);
+                    ResultWithError<List<PermissionGroup>> resultTemp = await CreateWithError(created);
                     result.Errors.AddRange(resultTemp.Errors);
                 }
                 if (updated.Count > 0)
                 {
-                    ResultWithError<List<PermissionGroup>> resultTemp = UpdateWithError(updated);
+                    ResultWithError<List<PermissionGroup>> resultTemp = await UpdateWithError(updated);
                     result.Errors.AddRange(resultTemp.Errors);
                 }
                 if (deleted.Count > 0)
                 {
-                    ResultWithError<List<PermissionGroup>> resultTemp = DeleteWithError(deleted);
+                    ResultWithError<List<PermissionGroup>> resultTemp = await DeleteWithError(deleted);
                     result.Errors.AddRange(resultTemp.Errors);
                 }
                 result.Result = result.Success;
@@ -39,10 +39,10 @@ namespace Core.Logic
             });
         }
 
-        public ResultWithError<PermissionGroup> HasPermissionGroup(int groupId, Enum @enum, string additionalInfo)
+        public async Task<ResultWithError<PermissionGroup>> HasPermissionGroup(int groupId, Enum @enum, string additionalInfo)
         {
             string name = @enum.GetFullName();
-            return SingleWithError(p => p.GroupId == groupId && p.Permission.EnumName == name && p.Permission.AdditionalInfo == additionalInfo);
+            return await SingleWithError(p => p.GroupId == groupId && p.Permission.EnumName == name && p.Permission.AdditionalInfo == additionalInfo);
         }
     }
 }

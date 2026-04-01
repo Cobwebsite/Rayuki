@@ -9,15 +9,15 @@ namespace Core.Routes
     [Prefix("Core")]
     public class CompanyRouter : Router
     {
-        public Company GetMain()
+        public async Task<Company> GetMain()
         {
-            return CompanyDM.GetInstance().GetMain();
+            return await CompanyDM.GetInstance().GetMain();
         }
 
         [Put]
-        public virtual ResultWithError<Company> Update(Company item)
+        public virtual async Task<ResultWithError<Company>> Update(Company item)
         {
-            ResultWithError<Company> result = Company.UpdateWithError(item);
+            ResultWithError<Company> result = await Company.UpdateWithError(item);
             return result;
         }
 
@@ -27,9 +27,9 @@ namespace Core.Routes
         }
 
         [Post]
-        public void SaveManifest(Manifest manifest)
+        public async Task SaveManifest(Manifest manifest)
         {
-            CompanyDM.GetInstance().SaveManifest(manifest);
+            await CompanyDM.GetInstance().SaveManifest(manifest);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Core.Logic
     {
         private QueryBuilderPrepared<Plugin>? CreateIfNotExistQuery = null;
 
-        public VoidWithError RegisterPlugin(RayukiPlugin rayukiPlugin)
+        public async Task<VoidWithError> RegisterPlugin(RayukiPlugin rayukiPlugin)
         {
             VoidWithError result = new VoidWithError();
             string? name = rayukiPlugin.GetType().Assembly.GetName().Name;
@@ -36,19 +36,19 @@ namespace Core.Logic
                 return result;
             }
 
-            result = CreateIfNotExist(plugin);
+            result = await CreateIfNotExist(plugin);
 
-            
+
             return result;
         }
-        public VoidWithError CreateIfNotExist(Plugin plugin)
+        public async Task<VoidWithError> CreateIfNotExist(Plugin plugin)
         {
             VoidWithError result = new();
             if (CreateIfNotExistQuery == null)
             {
                 CreateIfNotExistQuery = CreateQuery<Plugin>().WhereWithParameters(a => a.Name == plugin.Name);
             }
-            ResultWithError<Plugin> queryResult = CreateIfNotExistQuery.New().Prepare(plugin).SingleWithError();
+            ResultWithError<Plugin> queryResult = await CreateIfNotExistQuery.New().Prepare(plugin).SingleWithError();
             if (!queryResult.Success && queryResult.Errors.Count > 0)
             {
                 result.Errors.AddRange(queryResult.Errors);
@@ -59,11 +59,12 @@ namespace Core.Logic
                 if (queryResult.Result.Version != plugin.Version)
                 {
                     queryResult.Result.Version = plugin.Version;
-                    result.Run(() => UpdateWithError(queryResult.Result));
+                    await result.RunAsync(() => UpdateWithError(queryResult.Result));
                 }
             }
-            else {
-                    result.Run(() => CreateWithError(plugin));
+            else
+            {
+                await result.RunAsync(() => CreateWithError(plugin));
             }
             return result;
         }

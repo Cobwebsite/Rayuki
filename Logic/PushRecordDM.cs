@@ -7,17 +7,17 @@ namespace Core.Logic;
 
 public class PushRecordDM : DatabaseDM<PushRecordDM, PushRecord>
 {
-    public ResultWithError<PushRecord> Get(PushRecord record, int userId)
+    public async Task<ResultWithError<PushRecord>> Get(PushRecord record, int userId)
     {
-        return SingleWithError(p => p.EndPoint == record.EndPoint && p.UserId == userId);
+        return await SingleWithError(p => p.EndPoint == record.EndPoint && p.UserId == userId);
     }
-    public ResultWithError<PushRecord> CreateOrUpdate(PushRecord record)
+    public async Task<ResultWithError<PushRecord>> CreateOrUpdate(PushRecord record)
     {
         ResultWithError<PushRecord> result = new();
         PushRecord? dataToSave = null;
-        result.Run(() =>
+        await result.RunAsync(async () =>
         {
-            ResultWithError<PushRecord> temp = SingleWithError(p => p.EndPoint == record.EndPoint);
+            ResultWithError<PushRecord> temp = await SingleWithError(p => p.EndPoint == record.EndPoint);
             if (temp.Success)
             {
                 if (temp.Result != null)
@@ -34,12 +34,12 @@ public class PushRecordDM : DatabaseDM<PushRecordDM, PushRecord>
             }
             return temp;
         });
-        result.Execute(() =>
+        await result.ExtractAsync<PushRecord>(async () =>
         {
             ResultWithError<PushRecord> result = new();
             if (dataToSave != null)
             {
-                result.Errors = dataToSave.Id != 0 ? dataToSave.UpdateWithError() : dataToSave.CreateWithError();
+                result.Errors = dataToSave.Id != 0 ? await dataToSave.UpdateWithError() : await dataToSave.CreateWithError();
             }
             return result;
         });
@@ -51,16 +51,16 @@ public class PushRecordDM : DatabaseDM<PushRecordDM, PushRecord>
         return result;
     }
 
-    public ResultWithError<bool> Destroy(PushRecord record, int userId)
+    public async Task<ResultWithError<bool>> Destroy(PushRecord record, int userId)
     {
         ResultWithError<bool> result = new();
 
-        ResultWithError<PushRecord> query = SingleWithError(p => p.EndPoint == record.EndPoint);
+        ResultWithError<PushRecord> query = await SingleWithError(p => p.EndPoint == record.EndPoint);
         if (query.Success)
         {
             if (query.Result != null && query.Result.UserId == userId)
             {
-                result.Run(() => DeleteWithError(record));
+                await result.RunAsync(() => DeleteWithError(record));
             }
         }
         result.Result = result.Success;
@@ -68,15 +68,15 @@ public class PushRecordDM : DatabaseDM<PushRecordDM, PushRecord>
     }
 
 
-    public VoidWithError NotifyAll()
+    public async Task<VoidWithError> NotifyAll()
     {
         Console.WriteLine("start");
         VoidWithError result = new();
-        List<PushRecord> list = GetAll();
+        List<PushRecord> list = await GetAll();
         Notification notif = new Notification("salut");
         foreach (PushRecord item in list)
         {
-            PushNotification.SendMsg(item, notif);
+            await PushNotification.SendMsg(item, notif);
         }
         Console.WriteLine("done");
         return result;

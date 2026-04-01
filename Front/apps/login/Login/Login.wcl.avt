@@ -15,7 +15,7 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
     public error: string = "";
     @Attribute()
     private loading!: boolean;
-    @Attribute()
+    @Property()
     public pass_key!: boolean;
 
 
@@ -192,56 +192,60 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
     }
 
     protected async webauthnLogin() {
+        try {
+            const response = await new LoginRouter().LoginWebAuthnChallenge();
+            if(!response.success || !response.result) return;
 
-        const response = await new LoginRouter().LoginWebAuthnChallenge();
-        if(!response.success || !response.result) return;
+            const challenge = response.result.Challenge;
 
-        const challenge = response.result.Challenge;
+            // Start verify process
+            const assertion = await navigator.credentials.get({
+                publicKey: {
+                    challenge: this.base64ToArrayBuffer(challenge),
+                    userVerification: "required",
+                    timeout: 60000,
+                },
+            });
 
-        // Start verify process
-        const assertion = await navigator.credentials.get({
-            publicKey: {
-                challenge: this.base64ToArrayBuffer(challenge),
-                userVerification: "required",
-                timeout: 60000,
-            },
-        });
-
-        if(!(assertion instanceof PublicKeyCredential)) return;
-        const assertionResponse = assertion.response;
-        if(!(assertionResponse instanceof AuthenticatorAssertionResponse)) return;
+            if(!(assertion instanceof PublicKeyCredential)) return;
+            const assertionResponse = assertion.response;
+            if(!(assertionResponse instanceof AuthenticatorAssertionResponse)) return;
 
 
-        const request = new VerifyRequest();
-        request.Id = assertion.id;
-        request.RawId = this.arrayBufferToBase64(assertion.rawId);
-        request.Type = assertion.type;
-        request.ClientDataJSON = this.arrayBufferToBase64(assertionResponse.clientDataJSON);
-        request.AuthenticatorData = this.arrayBufferToBase64(assertionResponse.authenticatorData);
-        request.Signature = this.arrayBufferToBase64(assertionResponse.signature);
-        request.UserHandle = assertionResponse.userHandle ? this.arrayBufferToBase64(assertionResponse.userHandle) : undefined;
+            const request = new VerifyRequest();
+            request.Id = assertion.id;
+            request.RawId = this.arrayBufferToBase64(assertion.rawId);
+            request.Type = assertion.type;
+            request.ClientDataJSON = this.arrayBufferToBase64(assertionResponse.clientDataJSON);
+            request.AuthenticatorData = this.arrayBufferToBase64(assertionResponse.authenticatorData);
+            request.Signature = this.arrayBufferToBase64(assertionResponse.signature);
+            request.UserHandle = assertionResponse.userHandle ? this.arrayBufferToBase64(assertionResponse.userHandle) : undefined;
 
-        const verifyResponse = await new LoginRouter().LoginWebAuthn({
-            assertion: request
-        });
+            const verifyResponse = await new LoginRouter().LoginWebAuthn({
+                assertion: request
+            });
 
-        if(verifyResponse.success && verifyResponse.result) {
-            window.location.pathname = "/";
-        }
-        else {
-            for(let error of verifyResponse.errors) {
-                if(error instanceof Core.Errors.LoginError) {
-                    if(error.code == Core.Errors.LoginCode.WrongCredentials) {
-                        this.error = "Les informations fournies sont erronées";
+            if(verifyResponse.success && verifyResponse.result) {
+                window.location.pathname = "/";
+            }
+            else {
+                for(let error of verifyResponse.errors) {
+                    if(error instanceof Core.Errors.LoginError) {
+                        if(error.code == Core.Errors.LoginCode.WrongCredentials) {
+                            this.error = "Les informations fournies sont erronées";
+                        }
+                        else {
+                            this.error = error.message;
+                        }
                     }
                     else {
                         this.error = error.message;
                     }
                 }
-                else {
-                    this.error = error.message;
-                }
             }
+        } catch(e) {
+            console.error(e);
+            this.error = "Impossible de se connecter via une clé d'authentification"
         }
     }
 
@@ -268,6 +272,10 @@ export class Login extends Aventus.WebComponent implements Aventus.DefaultCompon
 
     protected override postCreation(): void {
         super.postCreation();
+
+        if(!navigator.credentials) {
+            this.pass_key = false;
+        }
         //this.moving3d();
         this.quickAccessLogin();
         this.appendChild(this.usernameEl);

@@ -34,7 +34,7 @@ public static class WebAuthnLogic
         return result;
     }
 
-    public static ResultWithError<bool> Register(HttpContext context, RegisterRequest credential)
+    public static async Task<ResultWithError<bool>> Register(HttpContext context, RegisterRequest credential)
     {
         ResultWithError<bool> result = new ResultWithError<bool>();
         int? id = context.GetUserId();
@@ -60,13 +60,13 @@ public static class WebAuthnLogic
             PublicKey = publicKey,
             UserId = (int)id
         };
-        result.Run(cred.CreateWithError);
+       await result.RunAsync(cred.CreateWithError);
 
         return new ResultWithError<bool>() { Result = true };
     }
 
 
-    public static ResultWithError<GetVerifyChallengeResponse> GetVerifyChallenge(int? userId = null)
+    public static async Task<ResultWithError<GetVerifyChallengeResponse>> GetVerifyChallenge(int? userId = null)
     {
         ResultWithError<GetVerifyChallengeResponse> result = new();
         byte[] challenge = new byte[32];
@@ -82,7 +82,7 @@ public static class WebAuthnLogic
         }
         else
         {
-            ResultWithError<List<WebAuthnCredentials>> credentials = WebAuthnCredentials.WhereWithError(p => p.UserId == userId);
+            ResultWithError<List<WebAuthnCredentials>> credentials = await WebAuthnCredentials.WhereWithError(p => p.UserId == userId);
             result.Errors = credentials.Errors;
             if (credentials.Result != null)
             {
@@ -101,9 +101,9 @@ public static class WebAuthnLogic
         return result;
     }
 
-    public static ResultWithError<WebAuthnCredentials> Verify(VerifyRequest assertion)
+    public static async Task<ResultWithError<WebAuthnCredentials>> Verify(VerifyRequest assertion)
     {
-        ResultWithError<WebAuthnCredentials> result = WebAuthnCredentials.SingleWithError(p => p.CredentialId == assertion.Id);
+        ResultWithError<WebAuthnCredentials> result = await WebAuthnCredentials.SingleWithError(p => p.CredentialId == assertion.Id);
 
         if (result.Result == null || !VerifySignature(assertion, result.Result.PublicKey))
         {
@@ -112,7 +112,7 @@ public static class WebAuthnLogic
 
         if (result.Success && result.Result != null)
         {
-            ResultWithError<int> resultQuery = SettingsDM.GetInstance().GetGlobalSettingsInt(OsPermission.PassKey);
+            ResultWithError<int> resultQuery = await SettingsDM.GetInstance().GetGlobalSettingsInt(OsPermission.PassKey);
             // pas autorisé
             if (resultQuery.Result == 0)
             {
@@ -122,7 +122,7 @@ public static class WebAuthnLogic
             // utiliseur / groupe
             else if (resultQuery.Result == 1)
             {
-                if (!PermissionDM.GetInstance().Can(result.Result.UserId, OsPermission.QuickAuth))
+                if (!await PermissionDM.GetInstance().Can(result.Result.UserId, OsPermission.QuickAuth))
                 {
                     result.Errors.Add(new GenericError(403, "PassKey not allowed"));
                     result.Result = null;

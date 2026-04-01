@@ -22,16 +22,16 @@ namespace Core.Logic
         protected async override Task<VoidWithError> Initialize()
         {
             VoidWithError result = await base.Initialize();
-            CreateDefaultDesktop();
+            await CreateDefaultDesktop();
             return result;
         }
 
-        private void CreateDefaultDesktop()
+        private async Task CreateDefaultDesktop()
         {
-            List<Desktop> desktops = Desktop.Where(p => p.UserId == null);
+            List<Desktop> desktops = await Desktop.Where(p => p.UserId == null);
             if (desktops.Count == 0)
             {
-                new Desktop()
+                await new Desktop()
                 {
                     Name = "Bureau par défault",
                     UserId = null,
@@ -44,13 +44,13 @@ namespace Core.Logic
             return Path.Combine(FileStorage.rootFolder, "Core", "desktops", desktop.Token);
         }
 
-        private ResultWithError<Desktop> CreateDesktopForUser(int userId)
+        private async Task<ResultWithError<Desktop>> CreateDesktopForUser(int userId)
         {
             ResultWithError<Desktop> result = new();
-            List<Desktop> desktops = Desktop.Where(p => p.UserId == null);
+            List<Desktop> desktops = await Desktop.Where(p => p.UserId == null);
             if (desktops.Count > 0)
             {
-                ResultWithError<User> userQuery = User.GetByIdWithError(userId);
+                ResultWithError<User> userQuery = await User.GetByIdWithError(userId);
                 if(!userQuery.Success || userQuery.Result == null) {
                     result.Errors = userQuery.Errors;
                     return result;
@@ -62,7 +62,7 @@ namespace Core.Logic
                     Name = "Bureau " + u.Firstname + " " + u.Lastname,
                     Configuration = new DekstopConfiguration()
                 };
-                List<GenericError> errors = d.CreateWithError();
+                List<GenericError> errors = await d.CreateWithError();
                 if (errors.Count > 0)
                 {
                     result.Errors = errors;
@@ -88,9 +88,9 @@ namespace Core.Logic
             return result;
         }
 
-        public List<DesktopAppIcon> GetDesktopIcons(int id)
+        public async Task<List<DesktopAppIcon>> GetDesktopIcons(int id)
         {
-            List<DesktopAppIcon> result = DesktopAppIcon.Where(p => p.DesktopId == id).OrderBy(p => p.Position).ToList();
+            List<DesktopAppIcon> result = (await DesktopAppIcon.Where(p => p.DesktopId == id)).OrderBy(p => p.Position).ToList();
             return result;
 
         }
@@ -139,14 +139,14 @@ namespace Core.Logic
             }
 
         }
-        public ResultWithError<List<Desktop>> GetAllByUser(int? id)
+        public async Task<ResultWithError<List<Desktop>>> GetAllByUser(int? id)
         {
             ResultWithError<List<Desktop>> result = new();
             if (id == null)
             {
                 return result;
             }
-            ResultWithError<List<Desktop>> resultWithData = Desktop.WhereWithError(p => p.UserId == id);
+            ResultWithError<List<Desktop>> resultWithData = await Desktop.WhereWithError(p => p.UserId == id);
             if (!resultWithData.Success || resultWithData.Result?.Count > 0)
             {
                 result.Errors = resultWithData.Errors.Select(p => (GenericError)p).ToList();
@@ -154,7 +154,7 @@ namespace Core.Logic
                 return result;
             }
 
-            ResultWithError<Desktop> resultNewDesktop = CreateDesktopForUser((int)id);
+            ResultWithError<Desktop> resultNewDesktop = await CreateDesktopForUser((int)id);
             result.Errors = resultNewDesktop.Errors;
             if (resultNewDesktop.Result != null)
             {
@@ -164,9 +164,9 @@ namespace Core.Logic
         }
 
 
-        protected override List<GenericError> BeforeCreateWithError<X>(List<X> values)
+        protected override async Task<List<GenericError>> BeforeCreateWithError<X>(List<X> values)
         {
-            List<GenericError> result = base.BeforeCreateWithError(values);
+            List<GenericError> result = await base.BeforeCreateWithError(values);
             foreach (X value in values)
             {
                 value.Token = Guid.NewGuid().ToString().Replace("-", "");
@@ -175,9 +175,9 @@ namespace Core.Logic
         }
 
 
-        protected override List<GenericError> BeforeUpdateWithError<X>(List<X> values)
+        protected override async Task<List<GenericError>> BeforeUpdateWithError<X>(List<X> values)
         {
-            List<GenericError> result = base.BeforeUpdateWithError(values);
+            List<GenericError> result = await base.BeforeUpdateWithError(values);
             foreach (X value in values)
             {
                 if (!value.Configuration.SyncDesktop && openApplications.ContainsKey(value.Id))

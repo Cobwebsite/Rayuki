@@ -46,10 +46,10 @@ namespace Core.Logic
         }
 
 
-        public static ResultWithError<User> Login(string username, string password)
+        public static async Task<ResultWithError<User>> Login(string username, string password)
         {
             ResultWithError<User> result = new();
-            ResultWithError<User> userQuery = User.SingleWithError(user => user.Username == username);
+            ResultWithError<User> userQuery = await User.SingleWithError(user => user.Username == username);
             if (!userQuery.Success)
             {
                 result.Errors.AddRange(userQuery.Errors);

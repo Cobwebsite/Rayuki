@@ -18,10 +18,10 @@ namespace Core.Migrations
 
         protected MySQLStorage Storage { get => AppManager.Storage; }
 
-        public VoidWithError Run(int? oldVersion, int currentVersion) {
-            return AppManager.Storage.RunInsideTransaction(() =>
+        public async Task<VoidWithError> Run(int? oldVersion, int currentVersion) {
+            return await AppManager.Storage.RunInsideTransaction(async () =>
             {
-                return RunMigration(oldVersion, currentVersion);
+                return await RunMigration(oldVersion, currentVersion);
             });
         }
         /// <summary>
@@ -30,6 +30,6 @@ namespace Core.Migrations
         /// </summary>
         /// <param name="oldVersion"></param>
         /// <returns></returns>
-        protected abstract VoidWithError RunMigration(int? oldVersion, int currentVersion);
+        protected abstract Task<VoidWithError> RunMigration(int? oldVersion, int currentVersion);
     }
 }

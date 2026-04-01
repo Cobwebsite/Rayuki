@@ -24,7 +24,7 @@ public class CoreSeeder : Seeder
         return 1;
     }
 
-    protected VoidWithError CreateGroupe(int version)
+    protected async Task<VoidWithError> CreateGroupe(int version)
     {
         VoidWithError result = new VoidWithError();
         if (loadDev)
@@ -32,18 +32,18 @@ public class CoreSeeder : Seeder
             List<Group> items = new List<Group>() {
                     new Group() { Name = "Utilisateur", AssignationAuto = true },
                 };
-            result.Errors = Group.CreateWithError(items).Errors;
+            result.Errors = (await Group.CreateWithError(items)).Errors;
         }
         return result;
     }
 
-    protected VoidWithError CreateDefaultAdmin()
+    protected async Task<VoidWithError> CreateDefaultAdmin()
     {
         VoidWithError result = new VoidWithError();
-        if (!User.Exist(u => u.IsSuperAdmin))
+        if (!await User.Exist(u => u.IsSuperAdmin))
         {
             DefaultUserConfig defaultUser = HttpServer.DefaultUser;
-            new User()
+            await new User()
             {
                 Firstname = defaultUser.Firstname,
                 Lastname = defaultUser.Lastname,
@@ -56,12 +56,12 @@ public class CoreSeeder : Seeder
 
     }
 
-    protected override VoidWithError LoadVersion(int version)
+    protected override async Task<VoidWithError> LoadVersion(int version)
     {
         loadingVersion = version;
-        VoidWithError result = new VoidWithError()
-            .Run(() => CreateGroupe(version))
-            .Run(CreateDefaultAdmin);
+        VoidWithError result = new VoidWithError();
+        await result.RunAsync(() => CreateGroupe(version));
+        await result.RunAsync(CreateDefaultAdmin);
 
         // load dev only once
         if (loadDev) loadDev = false;

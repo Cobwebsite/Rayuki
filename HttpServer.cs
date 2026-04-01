@@ -40,7 +40,8 @@ namespace Core
         }
         public static bool IsDev
         {
-            get => app.Environment.IsDevelopment();
+            get => true;
+            // get => app.Environment.IsDevelopment();
         }
 
         public static bool AutoLogin
@@ -263,11 +264,11 @@ namespace Core
         }
 
 
-        public static Dictionary<string, List<string>> GetAutoLoad()
+        public static async Task<Dictionary<string, List<string>>> GetAutoLoad()
         {
             if (IsDev)
             {
-                ApplicationDM.GetInstance().ReloadIconFile();
+                await ApplicationDM.GetInstance().ReloadIconFile();
             }
             Dictionary<string, List<string>> result = new()
             {
@@ -374,7 +375,7 @@ namespace Core
             {
                 if (AutoLogin)
                 {
-                    User? user = UserDM.GetInstance().GetById(1);
+                    User? user = await UserDM.GetInstance().GetById(1);
 
                     if (user != null)
                     {

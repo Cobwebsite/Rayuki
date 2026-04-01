@@ -5,9 +5,9 @@ namespace Core.Data.Validators
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class ValidatePassword : ValidationAttribute
     {
-        public override ValidationResult IsValid(object? value, ValidationContext context)
+        public override Task<ValidationResult> IsValid(object? value, ValidationContext context)
         {
-            if(value == null)  return ValidationResult.Success;
+            if(value == null)  return Task.FromResult(ValidationResult.Success);
 
 
             if (value is string txt)
@@ -15,7 +15,7 @@ namespace Core.Data.Validators
                 
             }
 
-            return ValidationResult.Success;
+            return Task.FromResult(ValidationResult.Success);
         }
     }
 }

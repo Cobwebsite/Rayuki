@@ -18,28 +18,28 @@ public class RecentRouter : StorableWsRouter<Recent>
         return RecentDM.GetInstance();
     }
 
-    protected override ResultWithError<List<Recent>> DM_GetAll(HttpContext context)
+    protected override async Task<ResultWithError<List<Recent>>> DM_GetAll(HttpContext context)
     {
-        return RecentDM.GetInstance().GetAllForUser(context.GetUserId());
+        return await RecentDM.GetInstance().GetAllForUser(context.GetUserId());
     }
 
-    protected override ResultWithError<Recent> DM_Create(HttpContext context, Recent item)
+    protected override async Task<ResultWithError<Recent>> DM_Create(HttpContext context, Recent item)
     {
         ResultWithError<Recent> result = new ResultWithError<Recent>();
         result.Run(() => context.setUserId(item)); 
-        result.Execute(() => base.DM_Create(context, item)); 
+        await result.RunAsync(() => base.DM_Create(context, item)); 
         return result;
     }
 
 
     [Path("/[StorableName]/Save")]
     [Broadcast]
-    public virtual ResultWithError<Recent> Save(HttpContext context, Recent item)
+    public virtual async Task<ResultWithError<Recent>> Save(HttpContext context, Recent item)
     {
         item = OnReceive(item);
         ResultWithError<Recent> result = new ResultWithError<Recent>();
         result.Run(() => context.setUserId(item)); 
-        result.Run(() => RecentDM.GetInstance().SaveWithError(item)); 
+        await result.RunAsync(() => RecentDM.GetInstance().SaveWithError(item)); 
         return result;
     }
 }

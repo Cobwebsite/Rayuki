@@ -22,9 +22,9 @@ namespace Core.Logic
             return Path.Combine(FileStorage.rootFolder, "Core", "users", user.Token);
         }
 
-        protected override void BeforeCreate<X>(List<X> values)
+        protected override async Task BeforeCreate<X>(List<X> values)
         {
-            base.BeforeCreate(values);
+            await base.BeforeCreate(values);
             foreach (X value in values)
             {
                 if (string.IsNullOrEmpty(value.Token))
@@ -34,15 +34,15 @@ namespace Core.Logic
                 PasswordManager.HashPassword(value);
             }
         }
-        protected override List<GenericError> AfterCreateWithError<X>(List<X> values, ResultWithError<List<X>> result)
+        protected override async Task<List<GenericError>> AfterCreateWithError<X>(List<X> values, ResultWithError<List<X>> result)
         {
-            List<GenericError> baseResult = base.AfterCreateWithError(values, result);
+            List<GenericError> baseResult = await base.AfterCreateWithError(values, result);
 
-            GroupDM.GetInstance().AssignDefaultGroup(values);
+            await GroupDM.GetInstance().AssignDefaultGroup(values);
             return baseResult;
         }
 
-        public ResultWithError<User> UpdateBasicInfo(User user)
+        public async Task<ResultWithError<User>> UpdateBasicInfo(User user)
         {
             ResultWithError<User> result = new ResultWithError<User>();
             if (result.Errors.Count > 0)
@@ -65,11 +65,11 @@ namespace Core.Logic
 
             t.Where(u => u.Id == user.Id);
 
-            return t.SingleWithError(user).ToGeneric();
+            return (await t.SingleWithError(user)).ToGeneric();
         }
 
 
-        public ResultWithError<User> GetConnected(int? id)
+        public async Task<ResultWithError<User>> GetConnected(int? id)
         {
             if (id == null)
             {
@@ -77,7 +77,7 @@ namespace Core.Logic
                 result.Errors.Add(new LoginError(LoginCode.NotConnected, "You aren't connected"));
                 return result;
             }
-            ResultWithError<User> queryUser = GetByIdWithError((int)id).ToGeneric();
+            ResultWithError<User> queryUser = (await GetByIdWithError((int)id)).ToGeneric();
             if (queryUser.Success && queryUser.Result != null)
             {
                 queryUser.Result.Password = "";
@@ -85,10 +85,10 @@ namespace Core.Logic
             return queryUser;
         }
 
-        public ResultWithError<string> GetQuickToken(int id)
+        public async Task<ResultWithError<string>> GetQuickToken(int id)
         {
             ResultWithError<string> result = new();
-            ResultWithError<User> userQuery = GetByIdWithError(id);
+            ResultWithError<User> userQuery = await GetByIdWithError(id);
             if (!userQuery.Success || userQuery.Result == null)
             {
                 result.Errors = userQuery.Errors;
@@ -98,22 +98,22 @@ namespace Core.Logic
             if (string.IsNullOrEmpty(userQuery.Result.QuickToken))
             {
                 userQuery.Result.QuickToken = Guid.NewGuid().ToString().Replace("-", "");
-                userQuery.Result.Update();
+                await userQuery.Result.Update();
             }
             result.Result = userQuery.Result.QuickToken;
             return result;
         }
 
-        public User? QuickLogin(string token)
+        public async Task<User?> QuickLogin(string token)
         {
-            ResultWithError<int> resultQuery = SettingsDM.GetInstance().GetGlobalSettingsInt(OsPermission.QuickAuth);
+            ResultWithError<int> resultQuery = await SettingsDM.GetInstance().GetGlobalSettingsInt(OsPermission.QuickAuth);
             if (resultQuery.Result == 0) return null;
-            User? user = Single(p => p.QuickToken == token);
+            User? user = await Single(p => p.QuickToken == token);
 
             if (resultQuery.Result == 1) return user;
             if (resultQuery.Result == 2 && user != null)
             {
-                if (PermissionDM.GetInstance().Can(user.Id, OsPermission.QuickAuth))
+                if (await PermissionDM.GetInstance().Can(user.Id, OsPermission.QuickAuth))
                 {
                     return user;
                 }

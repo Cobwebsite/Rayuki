@@ -51,7 +51,7 @@ namespace Core.Data
         }
 
         [NotInDB]
-        public List<DesktopAppIcon> Icons { get => DesktopDM.GetInstance().GetDesktopIcons(Id); }
+        public List<DesktopAppIcon> Icons { get => DesktopDM.GetInstance().GetDesktopIcons(Id).GetAwaiter().GetResult(); }
 
         [NotInDB]
         public List<ApplicationOpen> Applications { get => DesktopDM.GetInstance().GetOpenApps(Id); }

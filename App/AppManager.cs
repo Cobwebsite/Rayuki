@@ -58,13 +58,13 @@ namespace Core.App
                    password: config.Password
                 ));
 
-                VoidWithError connectAction = storage.ConnectWithError();
+                VoidWithError connectAction = await storage.ConnectWithError();
                 if (!connectAction.Success)
                 {
                     return connectAction;
                 }
                 if (HttpServer.ResetStorage)
-                    storage.ResetStorage();
+                    await storage.ResetStorage();
                 Storage = storage;
                 RouterMiddleware.Configure((config) =>
                 {
@@ -139,8 +139,8 @@ namespace Core.App
                 WebSocketMiddleware.Register(Assembly.GetExecutingAssembly());
                 RouterMiddleware.Register(Assembly.GetExecutingAssembly());
 
-                result.Run(() => LoadElements(LoadElement.Plugin));
-                result.Run(() => LoadElements(LoadElement.App));
+                await result.RunAsync(() => LoadElements(LoadElement.Plugin));
+                await result.RunAsync(() => LoadElements(LoadElement.App));
 
                 DataMainManager.Configure(config =>
                 {
@@ -167,8 +167,8 @@ namespace Core.App
                 }
                 foreach (RayukiPlugin allPlugin in allPlugins)
                 {
-                    PermissionDM.GetInstance().Register(allPlugin.permissions);
-                    VoidWithError registerResult = PluginDM.GetInstance().RegisterPlugin(allPlugin);
+                    await PermissionDM.GetInstance().Register(allPlugin.permissions);
+                    VoidWithError registerResult = await PluginDM.GetInstance().RegisterPlugin(allPlugin);
                     if (!registerResult.Success)
                     {
                         result.Errors.AddRange(registerResult.Errors);
@@ -176,14 +176,14 @@ namespace Core.App
                 }
                 foreach (RayukiApp appFile in allApps)
                 {
-                    PermissionDM.GetInstance().Register(appFile.permissions);
-                    VoidWithError registerResult = ApplicationDM.GetInstance().RegisterApplication(appFile);
+                    await PermissionDM.GetInstance().Register(appFile.permissions);
+                    VoidWithError registerResult = await ApplicationDM.GetInstance().RegisterApplication(appFile);
                     if (!registerResult.Success)
                     {
                         result.Errors.AddRange(registerResult.Errors);
                     }
                 }
-                VoidWithError iconResult = ApplicationDM.GetInstance().ReloadIconFile();
+                VoidWithError iconResult = await ApplicationDM.GetInstance().ReloadIconFile();
                 if (!iconResult.Success)
                 {
                     result.Errors.AddRange(iconResult.Errors);
@@ -239,7 +239,7 @@ namespace Core.App
             return error;
         }
 
-        public static VoidWithError LoadElements(LoadElement element)
+        public static async Task<VoidWithError> LoadElements(LoadElement element)
         {
             VoidWithError result = new VoidWithError();
 
@@ -261,7 +261,7 @@ namespace Core.App
 
                 // init migration (maybe add sort)
                 MigrationLogic migrationLogic = new MigrationLogic();
-                VoidWithError initMigration = migrationLogic.Init();
+                VoidWithError initMigration = await migrationLogic.Init();
                 if (!initMigration.Success)
                 {
                     result.Errors = initMigration.Errors;
@@ -279,7 +279,7 @@ namespace Core.App
                         foreach (string migrationFile in migrationFiles)
                         {
                             string fullMigrationPath = Path.Combine(migrationPath, migrationFile);
-                            migrationLogic.RunGlobal(fullMigrationPath, fullMigrationPath.Replace(appsDir, ""));
+                            await migrationLogic.RunGlobal(fullMigrationPath, fullMigrationPath.Replace(appsDir, ""));
                         }
                     }
 
@@ -409,7 +409,7 @@ namespace Core.App
                     {
                         string name = plugin.GetType().Assembly.GetName().Name ?? "";
                         int? oldVersion = migrationLogic.appMigrations.ContainsKey(name) ? migrationLogic.appMigrations[name] : null;
-                        VoidWithError migrationResult = migrator.Run(oldVersion, plugin.Version());
+                        VoidWithError migrationResult = await migrator.Run(oldVersion, plugin.Version());
                         if (!migrationResult.Success)
                         {
                             result.Errors = migrationResult.Errors;
@@ -426,7 +426,7 @@ namespace Core.App
                     {
                         string name = app.GetType().Assembly.GetName().Name ?? "";
                         int? oldVersion = migrationLogic.appMigrations.ContainsKey(name) ? migrationLogic.appMigrations[name] : null;
-                        VoidWithError migrationResult = migrator.Run(oldVersion, app.Version());
+                        VoidWithError migrationResult = await migrator.Run(oldVersion, app.Version());
                         if (!migrationResult.Success)
                         {
                             result.Errors = migrationResult.Errors;
@@ -452,7 +452,7 @@ namespace Core.App
                 try
                 {
                     MigrationLogic migrationLogic = new MigrationLogic();
-                    VoidWithError initMigration = migrationLogic.Init();
+                    VoidWithError initMigration = await migrationLogic.Init();
                     if (!initMigration.Success)
                     {
                         result.Errors = initMigration.Errors;
@@ -466,7 +466,7 @@ namespace Core.App
                         foreach (string migrationFile in migrationFiles)
                         {
                             string fullMigrationPath = Path.Combine(migrationPath, migrationFile);
-                            migrationLogic.RunGlobal(fullMigrationPath, fullMigrationPath.Replace(appsDir, ""));
+                            await migrationLogic.RunGlobal(fullMigrationPath, fullMigrationPath.Replace(appsDir, ""));
                         }
                     }
 
@@ -546,7 +546,7 @@ namespace Core.App
                                         {
                                             string name = appInstance.GetType().Assembly.GetName().Name ?? "";
                                             int? oldVersion = migrationLogic.appMigrations.ContainsKey(name) ? migrationLogic.appMigrations[name] : null;
-                                            VoidWithError migrationResult = migrator.Run(oldVersion, appInstance.Version());
+                                            VoidWithError migrationResult = await migrator.Run(oldVersion, appInstance.Version());
                                             if (!migrationResult.Success)
                                             {
                                                 result.Errors = migrationResult.Errors;
@@ -561,14 +561,14 @@ namespace Core.App
                                             return result;
                                         }
 
-                                        PermissionDM.GetInstance().Register(appInstance.permissions);
-                                        VoidWithError registerResult = ApplicationDM.GetInstance().RegisterApplication(appInstance);
+                                        await PermissionDM.GetInstance().Register(appInstance.permissions);
+                                        VoidWithError registerResult = await ApplicationDM.GetInstance().RegisterApplication(appInstance);
                                         if (!registerResult.Success)
                                         {
                                             result.Errors.AddRange(registerResult.Errors);
                                         }
 
-                                        VoidWithError iconResult = ApplicationDM.GetInstance().ReloadIconFile();
+                                        VoidWithError iconResult = await ApplicationDM.GetInstance().ReloadIconFile();
                                         if (!iconResult.Success)
                                         {
                                             result.Errors.AddRange(iconResult.Errors);
@@ -624,7 +624,7 @@ namespace Core.App
         public static async Task OnStart()
         {
             CoreSeeder coreSeeder = new CoreSeeder();
-            coreSeeder.Run();
+            await coreSeeder.Run();
             foreach (RayukiPlugin plugin in allPlugins)
             {
                 await plugin.OnStart();
@@ -632,7 +632,7 @@ namespace Core.App
             foreach (RayukiApp app in allApps)
             {
                 Seeder? seeder = app.DefineSeeder();
-                if (seeder != null) seeder.Run();
+                if (seeder != null) await seeder.Run();
                 await app.OnStart();
             }
         }

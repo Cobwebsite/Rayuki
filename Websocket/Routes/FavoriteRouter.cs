@@ -17,16 +17,16 @@ public class FavoriteRouter : StorableWsRouter<Favorite>
         return FavoriteDM.GetInstance();
     }
 
-    protected override ResultWithError<List<Favorite>> DM_GetAll(HttpContext context)
+    protected override async Task<ResultWithError<List<Favorite>>> DM_GetAll(HttpContext context)
     {
-        return FavoriteDM.GetInstance().GetAllForUser(context.GetUserId());
+        return await FavoriteDM.GetInstance().GetAllForUser(context.GetUserId());
     }
 
-    protected override ResultWithError<Favorite> DM_Create(HttpContext context, Favorite item)
+    protected override async Task<ResultWithError<Favorite>> DM_Create(HttpContext context, Favorite item)
     {
         ResultWithError<Favorite> result = new ResultWithError<Favorite>();
         result.Run(() => context.setUserId(item)); 
-        result.Run(() => base.DM_Create(context, item)); 
+        await result.RunAsync(() => base.DM_Create(context, item)); 
         return result;
     }
 }

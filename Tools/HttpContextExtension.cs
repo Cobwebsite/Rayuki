@@ -87,13 +87,13 @@ namespace Core.Tools
             return result;
         }
 
-        public static bool Can(this HttpContext context, Enum value, string additionalInfo)
+        public static async Task<bool> Can(this HttpContext context, Enum value, string additionalInfo)
         {
-            return PermissionDM.GetInstance().Can(context, value, additionalInfo);
+            return await PermissionDM.GetInstance().Can(context, value, additionalInfo);
         }
-        public static bool Can(this HttpContext context, Enum value)
+        public static async Task<bool> Can(this HttpContext context, Enum value)
         {
-            return PermissionDM.GetInstance().Can(context, value);
+            return await PermissionDM.GetInstance().Can(context, value);
         }
     }
 }

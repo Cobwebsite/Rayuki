@@ -12,16 +12,16 @@ namespace Core.Routes
     public class DesktopRouter : StorableRouter<Desktop>
     {
         [NoExport]
-        public override ResultWithError<List<Desktop>> GetAll(HttpContext context)
+        public override async Task<ResultWithError<List<Desktop>>> GetAll(HttpContext context)
         {
-            return DesktopDM.GetInstance().GetAllByUser(context.GetUserId());
+            return await DesktopDM.GetInstance().GetAllByUser(context.GetUserId());
         }
 
-        protected override ResultWithError<Desktop> DM_Create(HttpContext context, Desktop item)
+        protected override async Task<ResultWithError<Desktop>> DM_Create(HttpContext context, Desktop item)
         {
             ResultWithError<Desktop> result = new ResultWithError<Desktop>();
             result.Run(() => context.setUserId(item));
-            result.Run(() => base.DM_Create(context, item));
+            await result.RunAsync(() => base.DM_Create(context, item));
             return result;
         }
     

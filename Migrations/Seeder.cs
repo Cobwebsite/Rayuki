@@ -17,13 +17,13 @@ namespace Core.Migrations
         }
         protected abstract int DefineVersion();
 
-        internal void Run()
+        internal async Task Run()
         {
             string? name = GetType().Assembly.GetName().Name;
             if (name == null) return;
             int versionLocal = DefineVersion();
             int versionDb;
-            List<SeederMemory> seeders = SeederMemory.Where(p => p.Name == name);
+            List<SeederMemory> seeders = await SeederMemory.Where(p => p.Name == name);
 
             SeederMemory seeder = seeders.Count == 0 ? new SeederMemory() { Name = name } : seeders[0];
             versionDb = seeders.Count == 0 ? 0 : seeders[0].Version;
@@ -31,7 +31,7 @@ namespace Core.Migrations
 
             for (; versionDb <= versionLocal; versionDb++)
             {
-                VoidWithError resultTemp = _LoadVersion(versionDb, seeder);
+                VoidWithError resultTemp = await _LoadVersion(versionDb, seeder);
                 if (!resultTemp.Success)
                 {
                     resultTemp.Print();
@@ -40,11 +40,11 @@ namespace Core.Migrations
             }
         }
 
-        private VoidWithError _LoadVersion(int version, SeederMemory seeder)
+        private async Task<VoidWithError> _LoadVersion(int version, SeederMemory seeder)
         {
-            return AppManager.Storage.RunInsideTransaction(() =>
+            return await AppManager.Storage.RunInsideTransaction(async () =>
             {
-                VoidWithError voidWithError = LoadVersion(version);
+                VoidWithError voidWithError = await LoadVersion(version);
                 if (!voidWithError.Success)
                 {
                     voidWithError.Errors.Insert(0, new CoreError(CoreErrorCode.SeederError, "The seeder for the app " + GetType().Assembly.GetName().Name +" failed for version "+version));
@@ -55,11 +55,11 @@ namespace Core.Migrations
 
                 if (seeder.Id != 0)
                 {
-                    voidWithError.Errors = seeder.UpdateWithError();
+                    voidWithError.Errors = await seeder.UpdateWithError();
                 }
                 else
                 {
-                    voidWithError.Errors = seeder.CreateWithError();
+                    voidWithError.Errors = await seeder.CreateWithError();
                 }
 
                 return voidWithError;
@@ -72,6 +72,6 @@ namespace Core.Migrations
         /// </summary>
         /// <param name="version"></param>
         /// <returns></returns>
-        protected abstract VoidWithError LoadVersion(int version);
+        protected abstract Task<VoidWithError> LoadVersion(int version);
     }
 }

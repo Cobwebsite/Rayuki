@@ -344,57 +344,6 @@ __as1(_.Data.DataTypes, 'FileErrorCode', Data.DataTypes.FileErrorCode);
 })(App.AppErrorCode || (App.AppErrorCode = {}));
 __as1(_.App, 'AppErrorCode', App.AppErrorCode);
 
-Components.UserProfilPicture = class UserProfilPicture extends Aventus.WebComponent {
-    static get observedAttributes() {return ["uri"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'uri'() { return this.getStringProp('uri') }
-    set 'uri'(val) { this.setStringAttr('uri', val) }    static __style = `:host{border-radius:var(--border-radius-round);flex-shrink:0;height:100px;overflow:hidden;width:100px}:host rk-img{height:100%;width:100%}:host .bg-default{align-items:center;background-color:var(--secondary-color);border-radius:var(--border-radius-round);box-shadow:var(--elevation-4);color:var(--text-color-reverse);display:flex;flex-shrink:0;height:100%;justify-content:center;width:100%}:host .bg-default svg{fill:var(--text-color-reverse);height:70%;width:70%}`;
-    __getStatic() {
-        return UserProfilPicture;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(UserProfilPicture.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<template _id="userprofilpicture_0"></template>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();const templ0 = new Aventus.Template(this);templ0.setTemplate(`    <rk-img _id="userprofilpicture_1"></rk-img>`);templ0.setActions({
-  "content": {
-    "userprofilpicture_1°src": {
-      "fct": (c) => `${c.print(c.comp.__4c9a0566bd04f8ca158657ccaa880d94method1())}`,
-      "once": true
-    }
-  }
-});const templ1 = new Aventus.Template(this);templ1.setTemplate(`    <div class="bg-default">        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"></path></svg>    </div>`);this.__getStatic().__template.addIf({
-                    anchorId: 'userprofilpicture_0',
-                    parts: [{once: true,
-                    condition: (c) => c.comp.__4c9a0566bd04f8ca158657ccaa880d94method0(),
-                    template: templ0
-                },{once: true,
-                    condition: (c) => true,
-                    template: templ1
-                }]
-            }); }
-    getClassName() {
-        return "UserProfilPicture";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('uri')){ this['uri'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('uri'); }
-    __4c9a0566bd04f8ca158657ccaa880d94method1() {
-        return this.uri;
-    }
-    __4c9a0566bd04f8ca158657ccaa880d94method0() {
-        return this.uri;
-    }
-}
-Components.UserProfilPicture.Namespace=`Core.Components`;
-Components.UserProfilPicture.Tag=`rk-user-profil-picture`;
-__as1(_.Components, 'UserProfilPicture', Components.UserProfilPicture);
-if(!window.customElements.get('rk-user-profil-picture')){window.customElements.define('rk-user-profil-picture', Components.UserProfilPicture);Aventus.WebComponentInstance.registerDefinition(Components.UserProfilPicture);}
-
 Components.Separator = class Separator extends Aventus.WebComponent {
     static __style = `:host{--_separator-color: var(--separator-color, var(--text-color))}:host{background:linear-gradient(90deg, transparent 0%, var(--_separator-color) 50%, transparent 100%);height:1px;margin:20px auto;width:100%;display:flex}`;
     __getStatic() {
@@ -420,31 +369,6 @@ Components.Separator.Tag=`rk-separator`;
 __as1(_.Components, 'Separator', Components.Separator);
 if(!window.customElements.get('rk-separator')){window.customElements.define('rk-separator', Components.Separator);Aventus.WebComponentInstance.registerDefinition(Components.Separator);}
 
-Components.Row = class Row extends Aventus.WebComponent {
-    static __style = `:host{display:flex;width:100%;flex-wrap:wrap;container-type:inline-size}`;
-    __getStatic() {
-        return Row;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Row.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "Row";
-    }
-}
-Components.Row.Namespace=`Core.Components`;
-Components.Row.Tag=`rk-row`;
-__as1(_.Components, 'Row', Components.Row);
-if(!window.customElements.get('rk-row')){window.customElements.define('rk-row', Components.Row);Aventus.WebComponentInstance.registerDefinition(Components.Row);}
-
 Components.MenuSeparator = class MenuSeparator extends Aventus.WebComponent {
     static __style = `:host{margin:5px 0px;background-color:var(--text-color);height:1px}`;
     __getStatic() {
@@ -469,46 +393,6 @@ Components.MenuSeparator.Tag=`rk-menu-separator`;
 __as1(_.Components, 'MenuSeparator', Components.MenuSeparator);
 if(!window.customElements.get('rk-menu-separator')){window.customElements.define('rk-menu-separator', Components.MenuSeparator);Aventus.WebComponentInstance.registerDefinition(Components.MenuSeparator);}
 
-Components.MenuItem = class MenuItem extends Aventus.WebComponent {
-    static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{align-items:center;border-radius:var(--border-radius-sm);cursor:pointer;display:flex;font-size:var(--font-size);margin:0 5px;padding:5px 10px;-webkit-tap-highlight-color:rgba(0,0,0,0);transition:background-color .2s linear}:host .title{margin-left:30px}:host .icon{display:none;font-size:var(--font-size-sm);margin-right:10px;width:20px}:host([icon]) .title{margin-left:0px}:host([icon]) .icon{display:inline-block}@media screen and (min-width: 1225px){:host{font-size:var(--font-size)}:host .icon{font-size:var(--font-size)}:host(:hover){background-color:var(--darker)}}`;
-    __getStatic() {
-        return MenuItem;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(MenuItem.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<rk-img class="icon" _id="menuitem_0"></rk-img><div class="title">    <slot></slot></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "menuitem_0°src": {
-      "fct": (c) => `${c.print(c.comp.__d02c0c7e8b84b9fd639369f589dd9b6fmethod0())}`,
-      "once": true
-    }
-  }
-}); }
-    getClassName() {
-        return "MenuItem";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = ""; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon'); }
-    __d02c0c7e8b84b9fd639369f589dd9b6fmethod0() {
-        return this.icon;
-    }
-}
-Components.MenuItem.Namespace=`Core.Components`;
-Components.MenuItem.Tag=`rk-menu-item`;
-__as1(_.Components, 'MenuItem', Components.MenuItem);
-if(!window.customElements.get('rk-menu-item')){window.customElements.define('rk-menu-item', Components.MenuItem);Aventus.WebComponentInstance.registerDefinition(Components.MenuItem);}
-
 (function (MenuState) {
     MenuState[MenuState["Opening"] = 0] = "Opening";
     MenuState[MenuState["Open"] = 1] = "Open";
@@ -516,53 +400,6 @@ if(!window.customElements.get('rk-menu-item')){window.customElements.define('rk-
     MenuState[MenuState["Close"] = 3] = "Close";
 })(Components.MenuState || (Components.MenuState = {}));
 __as1(_.Components, 'MenuState', Components.MenuState);
-
-Components.Col = class Col extends Aventus.WebComponent {
-    get 'size'() { return this.getNumberAttr('size') }
-    set 'size'(val) { this.setNumberAttr('size', val) }get 'size_xs'() { return this.getNumberAttr('size_xs') }
-    set 'size_xs'(val) { this.setNumberAttr('size_xs', val) }get 'size_sm'() { return this.getNumberAttr('size_sm') }
-    set 'size_sm'(val) { this.setNumberAttr('size_sm', val) }get 'size_md'() { return this.getNumberAttr('size_md') }
-    set 'size_md'(val) { this.setNumberAttr('size_md', val) }get 'size_lg'() { return this.getNumberAttr('size_lg') }
-    set 'size_lg'(val) { this.setNumberAttr('size_lg', val) }get 'size_xl'() { return this.getNumberAttr('size_xl') }
-    set 'size_xl'(val) { this.setNumberAttr('size_xl', val) }get 'offset'() { return this.getNumberAttr('offset') }
-    set 'offset'(val) { this.setNumberAttr('offset', val) }get 'offset_xs'() { return this.getNumberAttr('offset_xs') }
-    set 'offset_xs'(val) { this.setNumberAttr('offset_xs', val) }get 'offset_sm'() { return this.getNumberAttr('offset_sm') }
-    set 'offset_sm'(val) { this.setNumberAttr('offset_sm', val) }get 'offset_md'() { return this.getNumberAttr('offset_md') }
-    set 'offset_md'(val) { this.setNumberAttr('offset_md', val) }get 'offset_lg'() { return this.getNumberAttr('offset_lg') }
-    set 'offset_lg'(val) { this.setNumberAttr('offset_lg', val) }get 'offset_xl'() { return this.getNumberAttr('offset_xl') }
-    set 'offset_xl'(val) { this.setNumberAttr('offset_xl', val) }get 'offset_right'() { return this.getNumberAttr('offset_right') }
-    set 'offset_right'(val) { this.setNumberAttr('offset_right', val) }get 'offset_right_xs'() { return this.getNumberAttr('offset_right_xs') }
-    set 'offset_right_xs'(val) { this.setNumberAttr('offset_right_xs', val) }get 'offset_right_sm'() { return this.getNumberAttr('offset_right_sm') }
-    set 'offset_right_sm'(val) { this.setNumberAttr('offset_right_sm', val) }get 'offset_right_md'() { return this.getNumberAttr('offset_right_md') }
-    set 'offset_right_md'(val) { this.setNumberAttr('offset_right_md', val) }get 'offset_right_lg'() { return this.getNumberAttr('offset_right_lg') }
-    set 'offset_right_lg'(val) { this.setNumberAttr('offset_right_lg', val) }get 'offset_right_xl'() { return this.getNumberAttr('offset_right_xl') }
-    set 'offset_right_xl'(val) { this.setNumberAttr('offset_right_xl', val) }get 'center'() { return this.getBoolAttr('center') }
-    set 'center'(val) { this.setBoolAttr('center', val) }    static __style = `:host{--internal-col-padding:var(--col-padding, 8px)}:host{padding:var(--internal-col-padding)}:host([center]){justify-content:center}:host([size="0"]){display:flex;width:0%}:host([offset="0"]){margin-left:0%}:host([offset_right="0"]){margin-right:0%}:host([size="1"]){display:flex;width:8.3333333333%}:host([offset="1"]){margin-left:8.3333333333%}:host([offset_right="1"]){margin-right:8.3333333333%}:host([size="2"]){display:flex;width:16.6666666667%}:host([offset="2"]){margin-left:16.6666666667%}:host([offset_right="2"]){margin-right:16.6666666667%}:host([size="3"]){display:flex;width:25%}:host([offset="3"]){margin-left:25%}:host([offset_right="3"]){margin-right:25%}:host([size="4"]){display:flex;width:33.3333333333%}:host([offset="4"]){margin-left:33.3333333333%}:host([offset_right="4"]){margin-right:33.3333333333%}:host([size="5"]){display:flex;width:41.6666666667%}:host([offset="5"]){margin-left:41.6666666667%}:host([offset_right="5"]){margin-right:41.6666666667%}:host([size="6"]){display:flex;width:50%}:host([offset="6"]){margin-left:50%}:host([offset_right="6"]){margin-right:50%}:host([size="7"]){display:flex;width:58.3333333333%}:host([offset="7"]){margin-left:58.3333333333%}:host([offset_right="7"]){margin-right:58.3333333333%}:host([size="8"]){display:flex;width:66.6666666667%}:host([offset="8"]){margin-left:66.6666666667%}:host([offset_right="8"]){margin-right:66.6666666667%}:host([size="9"]){display:flex;width:75%}:host([offset="9"]){margin-left:75%}:host([offset_right="9"]){margin-right:75%}:host([size="10"]){display:flex;width:83.3333333333%}:host([offset="10"]){margin-left:83.3333333333%}:host([offset_right="10"]){margin-right:83.3333333333%}:host([size="11"]){display:flex;width:91.6666666667%}:host([offset="11"]){margin-left:91.6666666667%}:host([offset_right="11"]){margin-right:91.6666666667%}:host([size="12"]){display:flex;width:100%}:host([offset="12"]){margin-left:100%}:host([offset_right="12"]){margin-right:100%}@container application (min-width: 300px){:host([size_xs="0"]){display:flex;width:0%}:host([offset_xs="0"]){margin-left:0%}:host([offset_right_xs="0"]){margin-right:0%}:host([size_xs="0"]){display:none}:host([size_xs="1"]){display:flex;width:8.3333333333%}:host([offset_xs="1"]){margin-left:8.3333333333%}:host([offset_right_xs="1"]){margin-right:8.3333333333%}:host([size_xs="2"]){display:flex;width:16.6666666667%}:host([offset_xs="2"]){margin-left:16.6666666667%}:host([offset_right_xs="2"]){margin-right:16.6666666667%}:host([size_xs="3"]){display:flex;width:25%}:host([offset_xs="3"]){margin-left:25%}:host([offset_right_xs="3"]){margin-right:25%}:host([size_xs="4"]){display:flex;width:33.3333333333%}:host([offset_xs="4"]){margin-left:33.3333333333%}:host([offset_right_xs="4"]){margin-right:33.3333333333%}:host([size_xs="5"]){display:flex;width:41.6666666667%}:host([offset_xs="5"]){margin-left:41.6666666667%}:host([offset_right_xs="5"]){margin-right:41.6666666667%}:host([size_xs="6"]){display:flex;width:50%}:host([offset_xs="6"]){margin-left:50%}:host([offset_right_xs="6"]){margin-right:50%}:host([size_xs="7"]){display:flex;width:58.3333333333%}:host([offset_xs="7"]){margin-left:58.3333333333%}:host([offset_right_xs="7"]){margin-right:58.3333333333%}:host([size_xs="8"]){display:flex;width:66.6666666667%}:host([offset_xs="8"]){margin-left:66.6666666667%}:host([offset_right_xs="8"]){margin-right:66.6666666667%}:host([size_xs="9"]){display:flex;width:75%}:host([offset_xs="9"]){margin-left:75%}:host([offset_right_xs="9"]){margin-right:75%}:host([size_xs="10"]){display:flex;width:83.3333333333%}:host([offset_xs="10"]){margin-left:83.3333333333%}:host([offset_right_xs="10"]){margin-right:83.3333333333%}:host([size_xs="11"]){display:flex;width:91.6666666667%}:host([offset_xs="11"]){margin-left:91.6666666667%}:host([offset_right_xs="11"]){margin-right:91.6666666667%}:host([size_xs="12"]){display:flex;width:100%}:host([offset_xs="12"]){margin-left:100%}:host([offset_right_xs="12"]){margin-right:100%}}@container application (min-width: 540px){:host([size_sm="0"]){display:flex;width:0%}:host([offset_sm="0"]){margin-left:0%}:host([offset_right_sm="0"]){margin-right:0%}:host([size_sm="0"]){display:none}:host([size_sm="1"]){display:flex;width:8.3333333333%}:host([offset_sm="1"]){margin-left:8.3333333333%}:host([offset_right_sm="1"]){margin-right:8.3333333333%}:host([size_sm="2"]){display:flex;width:16.6666666667%}:host([offset_sm="2"]){margin-left:16.6666666667%}:host([offset_right_sm="2"]){margin-right:16.6666666667%}:host([size_sm="3"]){display:flex;width:25%}:host([offset_sm="3"]){margin-left:25%}:host([offset_right_sm="3"]){margin-right:25%}:host([size_sm="4"]){display:flex;width:33.3333333333%}:host([offset_sm="4"]){margin-left:33.3333333333%}:host([offset_right_sm="4"]){margin-right:33.3333333333%}:host([size_sm="5"]){display:flex;width:41.6666666667%}:host([offset_sm="5"]){margin-left:41.6666666667%}:host([offset_right_sm="5"]){margin-right:41.6666666667%}:host([size_sm="6"]){display:flex;width:50%}:host([offset_sm="6"]){margin-left:50%}:host([offset_right_sm="6"]){margin-right:50%}:host([size_sm="7"]){display:flex;width:58.3333333333%}:host([offset_sm="7"]){margin-left:58.3333333333%}:host([offset_right_sm="7"]){margin-right:58.3333333333%}:host([size_sm="8"]){display:flex;width:66.6666666667%}:host([offset_sm="8"]){margin-left:66.6666666667%}:host([offset_right_sm="8"]){margin-right:66.6666666667%}:host([size_sm="9"]){display:flex;width:75%}:host([offset_sm="9"]){margin-left:75%}:host([offset_right_sm="9"]){margin-right:75%}:host([size_sm="10"]){display:flex;width:83.3333333333%}:host([offset_sm="10"]){margin-left:83.3333333333%}:host([offset_right_sm="10"]){margin-right:83.3333333333%}:host([size_sm="11"]){display:flex;width:91.6666666667%}:host([offset_sm="11"]){margin-left:91.6666666667%}:host([offset_right_sm="11"]){margin-right:91.6666666667%}:host([size_sm="12"]){display:flex;width:100%}:host([offset_sm="12"]){margin-left:100%}:host([offset_right_sm="12"]){margin-right:100%}}@container application (min-width: 720px){:host([size_md="0"]){display:flex;width:0%}:host([offset_md="0"]){margin-left:0%}:host([offset_right_md="0"]){margin-right:0%}:host([size_md="0"]){display:none}:host([size_md="1"]){display:flex;width:8.3333333333%}:host([offset_md="1"]){margin-left:8.3333333333%}:host([offset_right_md="1"]){margin-right:8.3333333333%}:host([size_md="2"]){display:flex;width:16.6666666667%}:host([offset_md="2"]){margin-left:16.6666666667%}:host([offset_right_md="2"]){margin-right:16.6666666667%}:host([size_md="3"]){display:flex;width:25%}:host([offset_md="3"]){margin-left:25%}:host([offset_right_md="3"]){margin-right:25%}:host([size_md="4"]){display:flex;width:33.3333333333%}:host([offset_md="4"]){margin-left:33.3333333333%}:host([offset_right_md="4"]){margin-right:33.3333333333%}:host([size_md="5"]){display:flex;width:41.6666666667%}:host([offset_md="5"]){margin-left:41.6666666667%}:host([offset_right_md="5"]){margin-right:41.6666666667%}:host([size_md="6"]){display:flex;width:50%}:host([offset_md="6"]){margin-left:50%}:host([offset_right_md="6"]){margin-right:50%}:host([size_md="7"]){display:flex;width:58.3333333333%}:host([offset_md="7"]){margin-left:58.3333333333%}:host([offset_right_md="7"]){margin-right:58.3333333333%}:host([size_md="8"]){display:flex;width:66.6666666667%}:host([offset_md="8"]){margin-left:66.6666666667%}:host([offset_right_md="8"]){margin-right:66.6666666667%}:host([size_md="9"]){display:flex;width:75%}:host([offset_md="9"]){margin-left:75%}:host([offset_right_md="9"]){margin-right:75%}:host([size_md="10"]){display:flex;width:83.3333333333%}:host([offset_md="10"]){margin-left:83.3333333333%}:host([offset_right_md="10"]){margin-right:83.3333333333%}:host([size_md="11"]){display:flex;width:91.6666666667%}:host([offset_md="11"]){margin-left:91.6666666667%}:host([offset_right_md="11"]){margin-right:91.6666666667%}:host([size_md="12"]){display:flex;width:100%}:host([offset_md="12"]){margin-left:100%}:host([offset_right_md="12"]){margin-right:100%}}@container application (min-width: 960px){:host([size_lg="0"]){display:flex;width:0%}:host([offset_lg="0"]){margin-left:0%}:host([offset_right_lg="0"]){margin-right:0%}:host([size_lg="0"]){display:none}:host([size_lg="1"]){display:flex;width:8.3333333333%}:host([offset_lg="1"]){margin-left:8.3333333333%}:host([offset_right_lg="1"]){margin-right:8.3333333333%}:host([size_lg="2"]){display:flex;width:16.6666666667%}:host([offset_lg="2"]){margin-left:16.6666666667%}:host([offset_right_lg="2"]){margin-right:16.6666666667%}:host([size_lg="3"]){display:flex;width:25%}:host([offset_lg="3"]){margin-left:25%}:host([offset_right_lg="3"]){margin-right:25%}:host([size_lg="4"]){display:flex;width:33.3333333333%}:host([offset_lg="4"]){margin-left:33.3333333333%}:host([offset_right_lg="4"]){margin-right:33.3333333333%}:host([size_lg="5"]){display:flex;width:41.6666666667%}:host([offset_lg="5"]){margin-left:41.6666666667%}:host([offset_right_lg="5"]){margin-right:41.6666666667%}:host([size_lg="6"]){display:flex;width:50%}:host([offset_lg="6"]){margin-left:50%}:host([offset_right_lg="6"]){margin-right:50%}:host([size_lg="7"]){display:flex;width:58.3333333333%}:host([offset_lg="7"]){margin-left:58.3333333333%}:host([offset_right_lg="7"]){margin-right:58.3333333333%}:host([size_lg="8"]){display:flex;width:66.6666666667%}:host([offset_lg="8"]){margin-left:66.6666666667%}:host([offset_right_lg="8"]){margin-right:66.6666666667%}:host([size_lg="9"]){display:flex;width:75%}:host([offset_lg="9"]){margin-left:75%}:host([offset_right_lg="9"]){margin-right:75%}:host([size_lg="10"]){display:flex;width:83.3333333333%}:host([offset_lg="10"]){margin-left:83.3333333333%}:host([offset_right_lg="10"]){margin-right:83.3333333333%}:host([size_lg="11"]){display:flex;width:91.6666666667%}:host([offset_lg="11"]){margin-left:91.6666666667%}:host([offset_right_lg="11"]){margin-right:91.6666666667%}:host([size_lg="12"]){display:flex;width:100%}:host([offset_lg="12"]){margin-left:100%}:host([offset_right_lg="12"]){margin-right:100%}}@container application (min-width: 1140px){:host([size_xl="0"]){display:flex;width:0%}:host([offset_xl="0"]){margin-left:0%}:host([offset_right_xl="0"]){margin-right:0%}:host([size_xl="0"]){display:none}:host([size_xl="1"]){display:flex;width:8.3333333333%}:host([offset_xl="1"]){margin-left:8.3333333333%}:host([offset_right_xl="1"]){margin-right:8.3333333333%}:host([size_xl="2"]){display:flex;width:16.6666666667%}:host([offset_xl="2"]){margin-left:16.6666666667%}:host([offset_right_xl="2"]){margin-right:16.6666666667%}:host([size_xl="3"]){display:flex;width:25%}:host([offset_xl="3"]){margin-left:25%}:host([offset_right_xl="3"]){margin-right:25%}:host([size_xl="4"]){display:flex;width:33.3333333333%}:host([offset_xl="4"]){margin-left:33.3333333333%}:host([offset_right_xl="4"]){margin-right:33.3333333333%}:host([size_xl="5"]){display:flex;width:41.6666666667%}:host([offset_xl="5"]){margin-left:41.6666666667%}:host([offset_right_xl="5"]){margin-right:41.6666666667%}:host([size_xl="6"]){display:flex;width:50%}:host([offset_xl="6"]){margin-left:50%}:host([offset_right_xl="6"]){margin-right:50%}:host([size_xl="7"]){display:flex;width:58.3333333333%}:host([offset_xl="7"]){margin-left:58.3333333333%}:host([offset_right_xl="7"]){margin-right:58.3333333333%}:host([size_xl="8"]){display:flex;width:66.6666666667%}:host([offset_xl="8"]){margin-left:66.6666666667%}:host([offset_right_xl="8"]){margin-right:66.6666666667%}:host([size_xl="9"]){display:flex;width:75%}:host([offset_xl="9"]){margin-left:75%}:host([offset_right_xl="9"]){margin-right:75%}:host([size_xl="10"]){display:flex;width:83.3333333333%}:host([offset_xl="10"]){margin-left:83.3333333333%}:host([offset_right_xl="10"]){margin-right:83.3333333333%}:host([size_xl="11"]){display:flex;width:91.6666666667%}:host([offset_xl="11"]){margin-left:91.6666666667%}:host([offset_right_xl="11"]){margin-right:91.6666666667%}:host([size_xl="12"]){display:flex;width:100%}:host([offset_xl="12"]){margin-left:100%}:host([offset_right_xl="12"]){margin-right:100%}}@container application (min-width: 1360px){:host([size_xxl="0"]){display:flex;width:0%}:host([offset_xxl="0"]){margin-left:0%}:host([offset_right_xxl="0"]){margin-right:0%}:host([size_xxl="0"]){display:none}:host([size_xxl="1"]){display:flex;width:8.3333333333%}:host([offset_xxl="1"]){margin-left:8.3333333333%}:host([offset_right_xxl="1"]){margin-right:8.3333333333%}:host([size_xxl="2"]){display:flex;width:16.6666666667%}:host([offset_xxl="2"]){margin-left:16.6666666667%}:host([offset_right_xxl="2"]){margin-right:16.6666666667%}:host([size_xxl="3"]){display:flex;width:25%}:host([offset_xxl="3"]){margin-left:25%}:host([offset_right_xxl="3"]){margin-right:25%}:host([size_xxl="4"]){display:flex;width:33.3333333333%}:host([offset_xxl="4"]){margin-left:33.3333333333%}:host([offset_right_xxl="4"]){margin-right:33.3333333333%}:host([size_xxl="5"]){display:flex;width:41.6666666667%}:host([offset_xxl="5"]){margin-left:41.6666666667%}:host([offset_right_xxl="5"]){margin-right:41.6666666667%}:host([size_xxl="6"]){display:flex;width:50%}:host([offset_xxl="6"]){margin-left:50%}:host([offset_right_xxl="6"]){margin-right:50%}:host([size_xxl="7"]){display:flex;width:58.3333333333%}:host([offset_xxl="7"]){margin-left:58.3333333333%}:host([offset_right_xxl="7"]){margin-right:58.3333333333%}:host([size_xxl="8"]){display:flex;width:66.6666666667%}:host([offset_xxl="8"]){margin-left:66.6666666667%}:host([offset_right_xxl="8"]){margin-right:66.6666666667%}:host([size_xxl="9"]){display:flex;width:75%}:host([offset_xxl="9"]){margin-left:75%}:host([offset_right_xxl="9"]){margin-right:75%}:host([size_xxl="10"]){display:flex;width:83.3333333333%}:host([offset_xxl="10"]){margin-left:83.3333333333%}:host([offset_right_xxl="10"]){margin-right:83.3333333333%}:host([size_xxl="11"]){display:flex;width:91.6666666667%}:host([offset_xxl="11"]){margin-left:91.6666666667%}:host([offset_right_xxl="11"]){margin-right:91.6666666667%}:host([size_xxl="12"]){display:flex;width:100%}:host([offset_xxl="12"]){margin-left:100%}:host([offset_right_xxl="12"]){margin-right:100%}}`;
-    __getStatic() {
-        return Col;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Col.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "Col";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('size')){ this['size'] = undefined; }if(!this.hasAttribute('size_xs')){ this['size_xs'] = undefined; }if(!this.hasAttribute('size_sm')){ this['size_sm'] = undefined; }if(!this.hasAttribute('size_md')){ this['size_md'] = undefined; }if(!this.hasAttribute('size_lg')){ this['size_lg'] = undefined; }if(!this.hasAttribute('size_xl')){ this['size_xl'] = undefined; }if(!this.hasAttribute('offset')){ this['offset'] = undefined; }if(!this.hasAttribute('offset_xs')){ this['offset_xs'] = undefined; }if(!this.hasAttribute('offset_sm')){ this['offset_sm'] = undefined; }if(!this.hasAttribute('offset_md')){ this['offset_md'] = undefined; }if(!this.hasAttribute('offset_lg')){ this['offset_lg'] = undefined; }if(!this.hasAttribute('offset_xl')){ this['offset_xl'] = undefined; }if(!this.hasAttribute('offset_right')){ this['offset_right'] = undefined; }if(!this.hasAttribute('offset_right_xs')){ this['offset_right_xs'] = undefined; }if(!this.hasAttribute('offset_right_sm')){ this['offset_right_sm'] = undefined; }if(!this.hasAttribute('offset_right_md')){ this['offset_right_md'] = undefined; }if(!this.hasAttribute('offset_right_lg')){ this['offset_right_lg'] = undefined; }if(!this.hasAttribute('offset_right_xl')){ this['offset_right_xl'] = undefined; }if(!this.hasAttribute('center')) { this.attributeChangedCallback('center', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('size');this.__upgradeProperty('size_xs');this.__upgradeProperty('size_sm');this.__upgradeProperty('size_md');this.__upgradeProperty('size_lg');this.__upgradeProperty('size_xl');this.__upgradeProperty('offset');this.__upgradeProperty('offset_xs');this.__upgradeProperty('offset_sm');this.__upgradeProperty('offset_md');this.__upgradeProperty('offset_lg');this.__upgradeProperty('offset_xl');this.__upgradeProperty('offset_right');this.__upgradeProperty('offset_right_xs');this.__upgradeProperty('offset_right_sm');this.__upgradeProperty('offset_right_md');this.__upgradeProperty('offset_right_lg');this.__upgradeProperty('offset_right_xl');this.__upgradeProperty('center'); }
-    __listBoolProps() { return ["center"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-}
-Components.Col.Namespace=`Core.Components`;
-Components.Col.Tag=`rk-col`;
-__as1(_.Components, 'Col', Components.Col);
-if(!window.customElements.get('rk-col')){window.customElements.define('rk-col', Components.Col);Aventus.WebComponentInstance.registerDefinition(Components.Col);}
 
 Components.CardTitle = class CardTitle extends Aventus.WebComponent {
     static __style = `:host{font-size:var(--font-size);height:22px;margin:0;margin-bottom:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;font-weight:bold}`;
@@ -699,200 +536,6 @@ Components.InputFile.Namespace=`Core.Components`;
 Components.InputFile.Tag=`rk-input-file`;
 __as1(_.Components, 'InputFile', Components.InputFile);
 if(!window.customElements.get('rk-input-file')){window.customElements.define('rk-input-file', Components.InputFile);Aventus.WebComponentInstance.registerDefinition(Components.InputFile);}
-
-Components.Img = class Img extends Aventus.WebComponent {
-    static get observedAttributes() {return ["src", "mode"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'cache'() { return this.getBoolAttr('cache') }
-    set 'cache'(val) { this.setBoolAttr('cache', val) }    get 'src'() { return this.getStringProp('src') }
-    set 'src'(val) { this.setStringAttr('src', val) }get 'mode'() { return this.getStringProp('mode') }
-    set 'mode'(val) { this.setStringAttr('mode', val) }    isCalculing;
-    maxCalculateSize = 10;
-    ratio = 1;
-    resizeObserver;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("src", ((target) => {
-    target.onSrcChanged();
-}));this.__addPropertyActions("mode", ((target) => {
-    if (target.src != "") {
-        target.calculateSize();
-    }
-})); }
-    static __style = `:host{--_img-color: var(--img-color);--_img-stroke-color: var(--img-stroke-color, var(--_img-color));--_img-fill-color: var(--img-fill-color, var(--_img-color));--_img-color-transition: var(--img-color-transition, none);--_img-stroke-width: var(--img-stroke-width, 1px)}:host{display:inline-block;font-size:0;overflow:hidden}:host *{box-sizing:border-box}:host img{opacity:0;transition:filter .3s linear}:host .svg{display:none;height:100%;width:100%}:host .svg svg{height:100%;width:100%}:host mi-icon{display:none;font-size:inherit;height:100%;width:100%}:host([src$=".svg"]) img{display:none}:host([src$=".svg"]) .svg{display:flex}:host([src$=".svg"]) .svg svg{fill:var(--_img-fill-color);stroke:var(--_img-stroke-color);stroke-width:var(--_img-stroke-width);transition:var(--_img-color-transition)}:host([src$=".svg"]) mi-icon{display:none}:host([src^=mi-]){font-size:inherit}:host([src^=mi-]) img{display:none}:host([src^=mi-]) .svg{display:none}:host([src^=mi-]) mi-icon{align-items:center;display:flex;justify-content:center}:host([display_bigger]) img{cursor:pointer}:host([display_bigger]) img:hover{filter:brightness(50%)}`;
-    __getStatic() {
-        return Img;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Img.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<img _id="img_0" /><div class="svg" _id="img_1"></div><mi-icon _id="img_2"></mi-icon>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "imgEl",
-      "ids": [
-        "img_0"
-      ]
-    },
-    {
-      "name": "svgEl",
-      "ids": [
-        "img_1"
-      ]
-    },
-    {
-      "name": "iconEl",
-      "ids": [
-        "img_2"
-      ]
-    }
-  ]
-}); }
-    getClassName() {
-        return "Img";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('cache')) { this.attributeChangedCallback('cache', false, false); }if(!this.hasAttribute('src')){ this['src'] = undefined; }if(!this.hasAttribute('mode')){ this['mode'] = "contains"; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('cache');this.__upgradeProperty('src');this.__upgradeProperty('mode'); }
-    __listBoolProps() { return ["cache"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    calculateSize(attempt = 0) {
-        if (this.isCalculing || !this.imgEl || !this.svgEl) {
-            return;
-        }
-        if (this.src == "") {
-            return;
-        }
-        this.isCalculing = true;
-        if (getComputedStyle(this).display == 'none') {
-            return;
-        }
-        if (attempt == this.maxCalculateSize) {
-            this.isCalculing = false;
-            return;
-        }
-        let element = this.imgEl;
-        if (this.src?.endsWith(".svg")) {
-            element = this.svgEl;
-        }
-        else if (this.src?.startsWith("mi-")) {
-            element = this.iconEl;
-        }
-        this.style.width = '';
-        this.style.height = '';
-        element.style.width = '';
-        element.style.height = '';
-        if (element.offsetWidth == 0 && element.offsetHeight == 0) {
-            setTimeout(() => {
-                this.isCalculing = false;
-                this.calculateSize(attempt + 1);
-            }, 100);
-            return;
-        }
-        let style = getComputedStyle(this);
-        let addedY = Number(style.paddingTop.replace("px", "")) + Number(style.paddingBottom.replace("px", "")) + Number(style.borderTopWidth.replace("px", "")) + Number(style.borderBottomWidth.replace("px", ""));
-        let addedX = Number(style.paddingLeft.replace("px", "")) + Number(style.paddingRight.replace("px", "")) + Number(style.borderLeftWidth.replace("px", "")) + Number(style.borderRightWidth.replace("px", ""));
-        let availableHeight = this.offsetHeight - addedY;
-        let availableWidth = this.offsetWidth - addedX;
-        let sameWidth = (element.offsetWidth == availableWidth);
-        let sameHeight = (element.offsetHeight == availableHeight);
-        this.ratio = element.offsetWidth / element.offsetHeight;
-        if (sameWidth && !sameHeight) {
-            // height is set
-            element.style.width = (availableHeight * this.ratio) + 'px';
-            element.style.height = availableHeight + 'px';
-        }
-        else if (!sameWidth && sameHeight) {
-            // width is set
-            element.style.width = availableWidth + 'px';
-            element.style.height = (availableWidth / this.ratio) + 'px';
-        }
-        else if (!sameWidth && !sameHeight) {
-            if (this.mode == "stretch") {
-                element.style.width = '100%';
-                element.style.height = '100%';
-            }
-            else if (this.mode == "contains") {
-                // suppose this height is max
-                let newWidth = (availableHeight * this.ratio);
-                if (newWidth <= availableWidth) {
-                    //we can apply this value
-                    element.style.width = newWidth + 'px';
-                    element.style.height = availableHeight + 'px';
-                }
-                else {
-                    element.style.width = availableWidth + 'px';
-                    element.style.height = (availableWidth / this.ratio) + 'px';
-                }
-            }
-            else if (this.mode == "cover") {
-                // suppose this height is min
-                let newWidth = (availableHeight * this.ratio);
-                if (newWidth >= availableWidth) {
-                    //we can apply this value
-                    element.style.width = newWidth + 'px';
-                    element.style.height = availableHeight + 'px';
-                }
-                else {
-                    element.style.width = availableWidth + 'px';
-                    element.style.height = (availableWidth / this.ratio) + 'px';
-                }
-            }
-        }
-        //center img
-        let diffTop = (this.offsetHeight - element.offsetHeight - addedY) / 2;
-        let diffLeft = (this.offsetWidth - element.offsetWidth - addedX) / 2;
-        element.style.transform = "translate(" + diffLeft + "px, " + diffTop + "px)";
-        element.style.opacity = '1';
-        this.isCalculing = false;
-    }
-    async onSrcChanged() {
-        if (!this.src || !this.svgEl || !this.imgEl || !this.iconEl) {
-            return;
-        }
-        if (this.src.endsWith(".svg")) {
-            let svgContent = await Aventus.ResourceLoader.load(this.src);
-            this.svgEl.innerHTML = svgContent;
-            this.calculateSize();
-        }
-        else if (this.src.startsWith("mi-")) {
-            this.iconEl.icon = this.src.replace("mi-", "");
-            this.calculateSize();
-        }
-        else if (this.cache) {
-            let base64 = await Aventus.ResourceLoader.load({
-                url: this.src,
-                type: 'img'
-            });
-            this.imgEl.setAttribute("src", base64);
-            this.calculateSize();
-        }
-        else {
-            this.imgEl.setAttribute("src", this.src);
-            this.calculateSize();
-        }
-    }
-    postDestruction() {
-        super.postDestruction();
-        this.resizeObserver?.disconnect();
-        this.resizeObserver = undefined;
-    }
-    postCreation() {
-        this.resizeObserver = new Aventus.ResizeObserver({
-            fps: 10,
-            callback: () => {
-                this.calculateSize();
-            }
-        });
-        this.resizeObserver.observe(this);
-    }
-}
-Components.Img.Namespace=`Core.Components`;
-Components.Img.Tag=`rk-img`;
-__as1(_.Components, 'Img', Components.Img);
-if(!window.customElements.get('rk-img')){window.customElements.define('rk-img', Components.Img);Aventus.WebComponentInstance.registerDefinition(Components.Img);}
 
 Lib.Validator=class Validator {
     static email(txt) {
@@ -1339,90 +982,51 @@ Components.SheetSplitter.Tag=`rk-sheet-splitter`;
 __as1(_.Components, 'SheetSplitter', Components.SheetSplitter);
 if(!window.customElements.get('rk-sheet-splitter')){window.customElements.define('rk-sheet-splitter', Components.SheetSplitter);Aventus.WebComponentInstance.registerDefinition(Components.SheetSplitter);}
 
-Data.PushRecord=class PushRecord extends AventusSharp.Data.Storable {
-    static get Fullname() { return "Core.Data.PushRecord, Core"; }
-    UserId;
-    EndPoint;
-    P256dh;
-    Auth;
+System.ApplicationBreakPoint=class ApplicationBreakPoint {
+    static xs = 300;
+    static sm = 540;
+    static md = 720;
+    static lg = 960;
+    static xl = 1140;
+    static xxl = 1360;
 }
-Data.PushRecord.Namespace=`Core.Data`;
-Data.PushRecord.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "UserId":"number","EndPoint":"string","P256dh":"string","Auth":"string"};
-Aventus.Converter.register(Data.PushRecord.Fullname, Data.PushRecord);
-__as1(_.Data, 'PushRecord', Data.PushRecord);
+System.ApplicationBreakPoint.Namespace=`Core.System`;
+__as1(_.System, 'ApplicationBreakPoint', System.ApplicationBreakPoint);
 
-Components.FormValidator=class FormValidator {
-    static async Test(validators, value, name, globalValidation) {
-        if (!Array.isArray(validators)) {
-            validators = [validators];
+Lib.DateConverter=class DateConverter extends Aventus.DateConverter {
+    isStringDate(txt) {
+        return /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})$/.exec(txt) !== null;
+    }
+    fromString(txt) {
+        return new Date(txt);
+    }
+    toString(date) {
+        if (date.getFullYear() < 100) {
+            return "0001-01-01T00:00:00";
         }
-        let result = [];
-        for (let validator of validators) {
-            let resultTemp = new validator();
-            const temp = await resultTemp.validate(value, name, globalValidation);
-            if (temp === false) {
-                result.push('Le champs n\'est pas valide');
-            }
-            else if (Array.isArray(temp)) {
-                for (let error of temp) {
-                    result.push(error);
-                }
-            }
-            else if (typeof temp == 'string') {
-                result.push(temp);
-            }
-        }
-        return result.length == 0 ? undefined : result;
+        const offset = date.getTimezoneOffset() * 60000;
+        const iso = new Date(date.getTime() - offset).toISOString();
+        const isoSplit = iso.split(".");
+        isoSplit.pop();
+        return isoSplit.join(".");
     }
 }
-Components.FormValidator.Namespace=`Core.Components`;
-__as1(_.Components, 'FormValidator', Components.FormValidator);
+Lib.DateConverter.Namespace=`Core.Lib`;
+__as1(_.Lib, 'DateConverter', Lib.DateConverter);
 
-Components.Required=class Required extends _.Components.FormValidator {
-    msg;
-    constructor(msg) {
-        super();
-        this.msg = msg ?? "Le champs {name} est requis";
-        this.validate = this.validate.bind(this);
-    }
-    /**
-     * @inheritdoc
-     */
-    validate(value, name, globalValidation) {
-        const txt = this.msg.replace(/\{ *name *\}/g, name);
-        if (value === undefined || value === null) {
-            return txt;
+Lib.Pointer=class Pointer {
+    static isTouch(e) {
+        if ('TouchEvent' in window && e instanceof TouchEvent) {
+            return true;
         }
-        if (typeof value == 'string' && value.trim() == "") {
-            return txt;
+        if (e instanceof PointerEvent && (e.pointerType == "touch" || e.pointerType == "pen")) {
+            return true;
         }
-        return true;
+        return false;
     }
 }
-Components.Required.Namespace=`Core.Components`;
-__as1(_.Components, 'Required', Components.Required);
-
-Components.Phone=class Phone extends _.Components.FormValidator {
-    msg;
-    constructor(msg) {
-        super();
-        this.msg = msg ?? "Veuillez saisir un téléphone valide";
-    }
-    /**
-     * @inheritdoc
-     */
-    validate(value, name, globalValidation) {
-        if (typeof value == "string" && value) {
-            if (Lib.Validator.phone(value)) {
-                return true;
-            }
-            return this.msg;
-        }
-        return true;
-    }
-}
-Components.Phone.Namespace=`Core.Components`;
-__as1(_.Components, 'Phone', Components.Phone);
+Lib.Pointer.Namespace=`Core.Lib`;
+__as1(_.Lib, 'Pointer', Lib.Pointer);
 
 let Md5=class Md5 {
     static create(txt) {
@@ -1762,17 +1366,6 @@ Lib.DateTools=class DateTools {
 Lib.DateTools.Namespace=`Core.Lib`;
 __as1(_.Lib, 'DateTools', Lib.DateTools);
 
-System.ApplicationBreakPoint=class ApplicationBreakPoint {
-    static xs = 300;
-    static sm = 540;
-    static md = 720;
-    static lg = 960;
-    static xl = 1140;
-    static xxl = 1360;
-}
-System.ApplicationBreakPoint.Namespace=`Core.System`;
-__as1(_.System, 'ApplicationBreakPoint', System.ApplicationBreakPoint);
-
 Components.PwaPromptIos = class PwaPromptIos extends Aventus.WebComponent {
     get 'visible'() { return this.getBoolAttr('visible') }
     set 'visible'(val) { this.setBoolAttr('visible', val) }    static get isStandalone() {
@@ -1846,40 +1439,162 @@ Components.PwaPromptIos.Tag=`rk-pwa-prompt-ios`;
 __as1(_.Components, 'PwaPromptIos', Components.PwaPromptIos);
 if(!window.customElements.get('rk-pwa-prompt-ios')){window.customElements.define('rk-pwa-prompt-ios', Components.PwaPromptIos);Aventus.WebComponentInstance.registerDefinition(Components.PwaPromptIos);}
 
-Lib.DateConverter=class DateConverter extends Aventus.DateConverter {
-    isStringDate(txt) {
-        return /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})$/.exec(txt) !== null;
-    }
-    fromString(txt) {
-        return new Date(txt);
-    }
-    toString(date) {
-        if (date.getFullYear() < 100) {
-            return "0001-01-01T00:00:00";
-        }
-        const offset = date.getTimezoneOffset() * 60000;
-        const iso = new Date(date.getTime() - offset).toISOString();
-        const isoSplit = iso.split(".");
-        isoSplit.pop();
-        return isoSplit.join(".");
-    }
+Data.PushRecord=class PushRecord extends AventusSharp.Data.Storable {
+    static get Fullname() { return "Core.Data.PushRecord, Core"; }
+    UserId;
+    EndPoint;
+    P256dh;
+    Auth;
 }
-Lib.DateConverter.Namespace=`Core.Lib`;
-__as1(_.Lib, 'DateConverter', Lib.DateConverter);
+Data.PushRecord.Namespace=`Core.Data`;
+Data.PushRecord.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "UserId":"number","EndPoint":"string","P256dh":"string","Auth":"string"};
+Aventus.Converter.register(Data.PushRecord.Fullname, Data.PushRecord);
+__as1(_.Data, 'PushRecord', Data.PushRecord);
 
-Lib.Pointer=class Pointer {
-    static isTouch(e) {
-        if ('TouchEvent' in window && e instanceof TouchEvent) {
-            return true;
-        }
-        if (e instanceof PointerEvent && (e.pointerType == "touch" || e.pointerType == "pen")) {
-            return true;
-        }
-        return false;
+Components.Col = class Col extends Aventus.WebComponent {
+    get 'size'() { return this.getNumberAttr('size') }
+    set 'size'(val) { this.setNumberAttr('size', val) }get 'size_xs'() { return this.getNumberAttr('size_xs') }
+    set 'size_xs'(val) { this.setNumberAttr('size_xs', val) }get 'size_sm'() { return this.getNumberAttr('size_sm') }
+    set 'size_sm'(val) { this.setNumberAttr('size_sm', val) }get 'size_md'() { return this.getNumberAttr('size_md') }
+    set 'size_md'(val) { this.setNumberAttr('size_md', val) }get 'size_lg'() { return this.getNumberAttr('size_lg') }
+    set 'size_lg'(val) { this.setNumberAttr('size_lg', val) }get 'size_xl'() { return this.getNumberAttr('size_xl') }
+    set 'size_xl'(val) { this.setNumberAttr('size_xl', val) }get 'offset'() { return this.getNumberAttr('offset') }
+    set 'offset'(val) { this.setNumberAttr('offset', val) }get 'offset_xs'() { return this.getNumberAttr('offset_xs') }
+    set 'offset_xs'(val) { this.setNumberAttr('offset_xs', val) }get 'offset_sm'() { return this.getNumberAttr('offset_sm') }
+    set 'offset_sm'(val) { this.setNumberAttr('offset_sm', val) }get 'offset_md'() { return this.getNumberAttr('offset_md') }
+    set 'offset_md'(val) { this.setNumberAttr('offset_md', val) }get 'offset_lg'() { return this.getNumberAttr('offset_lg') }
+    set 'offset_lg'(val) { this.setNumberAttr('offset_lg', val) }get 'offset_xl'() { return this.getNumberAttr('offset_xl') }
+    set 'offset_xl'(val) { this.setNumberAttr('offset_xl', val) }get 'offset_right'() { return this.getNumberAttr('offset_right') }
+    set 'offset_right'(val) { this.setNumberAttr('offset_right', val) }get 'offset_right_xs'() { return this.getNumberAttr('offset_right_xs') }
+    set 'offset_right_xs'(val) { this.setNumberAttr('offset_right_xs', val) }get 'offset_right_sm'() { return this.getNumberAttr('offset_right_sm') }
+    set 'offset_right_sm'(val) { this.setNumberAttr('offset_right_sm', val) }get 'offset_right_md'() { return this.getNumberAttr('offset_right_md') }
+    set 'offset_right_md'(val) { this.setNumberAttr('offset_right_md', val) }get 'offset_right_lg'() { return this.getNumberAttr('offset_right_lg') }
+    set 'offset_right_lg'(val) { this.setNumberAttr('offset_right_lg', val) }get 'offset_right_xl'() { return this.getNumberAttr('offset_right_xl') }
+    set 'offset_right_xl'(val) { this.setNumberAttr('offset_right_xl', val) }get 'center'() { return this.getBoolAttr('center') }
+    set 'center'(val) { this.setBoolAttr('center', val) }    static __style = `:host{--internal-col-padding:var(--col-padding, 8px)}:host{padding:var(--internal-col-padding)}:host([center]){justify-content:center}:host([size="0"]){display:flex;width:0%}:host([offset="0"]){margin-left:0%}:host([offset_right="0"]){margin-right:0%}:host([size="1"]){display:flex;width:8.3333333333%}:host([offset="1"]){margin-left:8.3333333333%}:host([offset_right="1"]){margin-right:8.3333333333%}:host([size="2"]){display:flex;width:16.6666666667%}:host([offset="2"]){margin-left:16.6666666667%}:host([offset_right="2"]){margin-right:16.6666666667%}:host([size="3"]){display:flex;width:25%}:host([offset="3"]){margin-left:25%}:host([offset_right="3"]){margin-right:25%}:host([size="4"]){display:flex;width:33.3333333333%}:host([offset="4"]){margin-left:33.3333333333%}:host([offset_right="4"]){margin-right:33.3333333333%}:host([size="5"]){display:flex;width:41.6666666667%}:host([offset="5"]){margin-left:41.6666666667%}:host([offset_right="5"]){margin-right:41.6666666667%}:host([size="6"]){display:flex;width:50%}:host([offset="6"]){margin-left:50%}:host([offset_right="6"]){margin-right:50%}:host([size="7"]){display:flex;width:58.3333333333%}:host([offset="7"]){margin-left:58.3333333333%}:host([offset_right="7"]){margin-right:58.3333333333%}:host([size="8"]){display:flex;width:66.6666666667%}:host([offset="8"]){margin-left:66.6666666667%}:host([offset_right="8"]){margin-right:66.6666666667%}:host([size="9"]){display:flex;width:75%}:host([offset="9"]){margin-left:75%}:host([offset_right="9"]){margin-right:75%}:host([size="10"]){display:flex;width:83.3333333333%}:host([offset="10"]){margin-left:83.3333333333%}:host([offset_right="10"]){margin-right:83.3333333333%}:host([size="11"]){display:flex;width:91.6666666667%}:host([offset="11"]){margin-left:91.6666666667%}:host([offset_right="11"]){margin-right:91.6666666667%}:host([size="12"]){display:flex;width:100%}:host([offset="12"]){margin-left:100%}:host([offset_right="12"]){margin-right:100%}@container application (min-width: 300px){:host([size_xs="0"]){display:flex;width:0%}:host([offset_xs="0"]){margin-left:0%}:host([offset_right_xs="0"]){margin-right:0%}:host([size_xs="0"]){display:none}:host([size_xs="1"]){display:flex;width:8.3333333333%}:host([offset_xs="1"]){margin-left:8.3333333333%}:host([offset_right_xs="1"]){margin-right:8.3333333333%}:host([size_xs="2"]){display:flex;width:16.6666666667%}:host([offset_xs="2"]){margin-left:16.6666666667%}:host([offset_right_xs="2"]){margin-right:16.6666666667%}:host([size_xs="3"]){display:flex;width:25%}:host([offset_xs="3"]){margin-left:25%}:host([offset_right_xs="3"]){margin-right:25%}:host([size_xs="4"]){display:flex;width:33.3333333333%}:host([offset_xs="4"]){margin-left:33.3333333333%}:host([offset_right_xs="4"]){margin-right:33.3333333333%}:host([size_xs="5"]){display:flex;width:41.6666666667%}:host([offset_xs="5"]){margin-left:41.6666666667%}:host([offset_right_xs="5"]){margin-right:41.6666666667%}:host([size_xs="6"]){display:flex;width:50%}:host([offset_xs="6"]){margin-left:50%}:host([offset_right_xs="6"]){margin-right:50%}:host([size_xs="7"]){display:flex;width:58.3333333333%}:host([offset_xs="7"]){margin-left:58.3333333333%}:host([offset_right_xs="7"]){margin-right:58.3333333333%}:host([size_xs="8"]){display:flex;width:66.6666666667%}:host([offset_xs="8"]){margin-left:66.6666666667%}:host([offset_right_xs="8"]){margin-right:66.6666666667%}:host([size_xs="9"]){display:flex;width:75%}:host([offset_xs="9"]){margin-left:75%}:host([offset_right_xs="9"]){margin-right:75%}:host([size_xs="10"]){display:flex;width:83.3333333333%}:host([offset_xs="10"]){margin-left:83.3333333333%}:host([offset_right_xs="10"]){margin-right:83.3333333333%}:host([size_xs="11"]){display:flex;width:91.6666666667%}:host([offset_xs="11"]){margin-left:91.6666666667%}:host([offset_right_xs="11"]){margin-right:91.6666666667%}:host([size_xs="12"]){display:flex;width:100%}:host([offset_xs="12"]){margin-left:100%}:host([offset_right_xs="12"]){margin-right:100%}}@container application (min-width: 540px){:host([size_sm="0"]){display:flex;width:0%}:host([offset_sm="0"]){margin-left:0%}:host([offset_right_sm="0"]){margin-right:0%}:host([size_sm="0"]){display:none}:host([size_sm="1"]){display:flex;width:8.3333333333%}:host([offset_sm="1"]){margin-left:8.3333333333%}:host([offset_right_sm="1"]){margin-right:8.3333333333%}:host([size_sm="2"]){display:flex;width:16.6666666667%}:host([offset_sm="2"]){margin-left:16.6666666667%}:host([offset_right_sm="2"]){margin-right:16.6666666667%}:host([size_sm="3"]){display:flex;width:25%}:host([offset_sm="3"]){margin-left:25%}:host([offset_right_sm="3"]){margin-right:25%}:host([size_sm="4"]){display:flex;width:33.3333333333%}:host([offset_sm="4"]){margin-left:33.3333333333%}:host([offset_right_sm="4"]){margin-right:33.3333333333%}:host([size_sm="5"]){display:flex;width:41.6666666667%}:host([offset_sm="5"]){margin-left:41.6666666667%}:host([offset_right_sm="5"]){margin-right:41.6666666667%}:host([size_sm="6"]){display:flex;width:50%}:host([offset_sm="6"]){margin-left:50%}:host([offset_right_sm="6"]){margin-right:50%}:host([size_sm="7"]){display:flex;width:58.3333333333%}:host([offset_sm="7"]){margin-left:58.3333333333%}:host([offset_right_sm="7"]){margin-right:58.3333333333%}:host([size_sm="8"]){display:flex;width:66.6666666667%}:host([offset_sm="8"]){margin-left:66.6666666667%}:host([offset_right_sm="8"]){margin-right:66.6666666667%}:host([size_sm="9"]){display:flex;width:75%}:host([offset_sm="9"]){margin-left:75%}:host([offset_right_sm="9"]){margin-right:75%}:host([size_sm="10"]){display:flex;width:83.3333333333%}:host([offset_sm="10"]){margin-left:83.3333333333%}:host([offset_right_sm="10"]){margin-right:83.3333333333%}:host([size_sm="11"]){display:flex;width:91.6666666667%}:host([offset_sm="11"]){margin-left:91.6666666667%}:host([offset_right_sm="11"]){margin-right:91.6666666667%}:host([size_sm="12"]){display:flex;width:100%}:host([offset_sm="12"]){margin-left:100%}:host([offset_right_sm="12"]){margin-right:100%}}@container application (min-width: 720px){:host([size_md="0"]){display:flex;width:0%}:host([offset_md="0"]){margin-left:0%}:host([offset_right_md="0"]){margin-right:0%}:host([size_md="0"]){display:none}:host([size_md="1"]){display:flex;width:8.3333333333%}:host([offset_md="1"]){margin-left:8.3333333333%}:host([offset_right_md="1"]){margin-right:8.3333333333%}:host([size_md="2"]){display:flex;width:16.6666666667%}:host([offset_md="2"]){margin-left:16.6666666667%}:host([offset_right_md="2"]){margin-right:16.6666666667%}:host([size_md="3"]){display:flex;width:25%}:host([offset_md="3"]){margin-left:25%}:host([offset_right_md="3"]){margin-right:25%}:host([size_md="4"]){display:flex;width:33.3333333333%}:host([offset_md="4"]){margin-left:33.3333333333%}:host([offset_right_md="4"]){margin-right:33.3333333333%}:host([size_md="5"]){display:flex;width:41.6666666667%}:host([offset_md="5"]){margin-left:41.6666666667%}:host([offset_right_md="5"]){margin-right:41.6666666667%}:host([size_md="6"]){display:flex;width:50%}:host([offset_md="6"]){margin-left:50%}:host([offset_right_md="6"]){margin-right:50%}:host([size_md="7"]){display:flex;width:58.3333333333%}:host([offset_md="7"]){margin-left:58.3333333333%}:host([offset_right_md="7"]){margin-right:58.3333333333%}:host([size_md="8"]){display:flex;width:66.6666666667%}:host([offset_md="8"]){margin-left:66.6666666667%}:host([offset_right_md="8"]){margin-right:66.6666666667%}:host([size_md="9"]){display:flex;width:75%}:host([offset_md="9"]){margin-left:75%}:host([offset_right_md="9"]){margin-right:75%}:host([size_md="10"]){display:flex;width:83.3333333333%}:host([offset_md="10"]){margin-left:83.3333333333%}:host([offset_right_md="10"]){margin-right:83.3333333333%}:host([size_md="11"]){display:flex;width:91.6666666667%}:host([offset_md="11"]){margin-left:91.6666666667%}:host([offset_right_md="11"]){margin-right:91.6666666667%}:host([size_md="12"]){display:flex;width:100%}:host([offset_md="12"]){margin-left:100%}:host([offset_right_md="12"]){margin-right:100%}}@container application (min-width: 960px){:host([size_lg="0"]){display:flex;width:0%}:host([offset_lg="0"]){margin-left:0%}:host([offset_right_lg="0"]){margin-right:0%}:host([size_lg="0"]){display:none}:host([size_lg="1"]){display:flex;width:8.3333333333%}:host([offset_lg="1"]){margin-left:8.3333333333%}:host([offset_right_lg="1"]){margin-right:8.3333333333%}:host([size_lg="2"]){display:flex;width:16.6666666667%}:host([offset_lg="2"]){margin-left:16.6666666667%}:host([offset_right_lg="2"]){margin-right:16.6666666667%}:host([size_lg="3"]){display:flex;width:25%}:host([offset_lg="3"]){margin-left:25%}:host([offset_right_lg="3"]){margin-right:25%}:host([size_lg="4"]){display:flex;width:33.3333333333%}:host([offset_lg="4"]){margin-left:33.3333333333%}:host([offset_right_lg="4"]){margin-right:33.3333333333%}:host([size_lg="5"]){display:flex;width:41.6666666667%}:host([offset_lg="5"]){margin-left:41.6666666667%}:host([offset_right_lg="5"]){margin-right:41.6666666667%}:host([size_lg="6"]){display:flex;width:50%}:host([offset_lg="6"]){margin-left:50%}:host([offset_right_lg="6"]){margin-right:50%}:host([size_lg="7"]){display:flex;width:58.3333333333%}:host([offset_lg="7"]){margin-left:58.3333333333%}:host([offset_right_lg="7"]){margin-right:58.3333333333%}:host([size_lg="8"]){display:flex;width:66.6666666667%}:host([offset_lg="8"]){margin-left:66.6666666667%}:host([offset_right_lg="8"]){margin-right:66.6666666667%}:host([size_lg="9"]){display:flex;width:75%}:host([offset_lg="9"]){margin-left:75%}:host([offset_right_lg="9"]){margin-right:75%}:host([size_lg="10"]){display:flex;width:83.3333333333%}:host([offset_lg="10"]){margin-left:83.3333333333%}:host([offset_right_lg="10"]){margin-right:83.3333333333%}:host([size_lg="11"]){display:flex;width:91.6666666667%}:host([offset_lg="11"]){margin-left:91.6666666667%}:host([offset_right_lg="11"]){margin-right:91.6666666667%}:host([size_lg="12"]){display:flex;width:100%}:host([offset_lg="12"]){margin-left:100%}:host([offset_right_lg="12"]){margin-right:100%}}@container application (min-width: 1140px){:host([size_xl="0"]){display:flex;width:0%}:host([offset_xl="0"]){margin-left:0%}:host([offset_right_xl="0"]){margin-right:0%}:host([size_xl="0"]){display:none}:host([size_xl="1"]){display:flex;width:8.3333333333%}:host([offset_xl="1"]){margin-left:8.3333333333%}:host([offset_right_xl="1"]){margin-right:8.3333333333%}:host([size_xl="2"]){display:flex;width:16.6666666667%}:host([offset_xl="2"]){margin-left:16.6666666667%}:host([offset_right_xl="2"]){margin-right:16.6666666667%}:host([size_xl="3"]){display:flex;width:25%}:host([offset_xl="3"]){margin-left:25%}:host([offset_right_xl="3"]){margin-right:25%}:host([size_xl="4"]){display:flex;width:33.3333333333%}:host([offset_xl="4"]){margin-left:33.3333333333%}:host([offset_right_xl="4"]){margin-right:33.3333333333%}:host([size_xl="5"]){display:flex;width:41.6666666667%}:host([offset_xl="5"]){margin-left:41.6666666667%}:host([offset_right_xl="5"]){margin-right:41.6666666667%}:host([size_xl="6"]){display:flex;width:50%}:host([offset_xl="6"]){margin-left:50%}:host([offset_right_xl="6"]){margin-right:50%}:host([size_xl="7"]){display:flex;width:58.3333333333%}:host([offset_xl="7"]){margin-left:58.3333333333%}:host([offset_right_xl="7"]){margin-right:58.3333333333%}:host([size_xl="8"]){display:flex;width:66.6666666667%}:host([offset_xl="8"]){margin-left:66.6666666667%}:host([offset_right_xl="8"]){margin-right:66.6666666667%}:host([size_xl="9"]){display:flex;width:75%}:host([offset_xl="9"]){margin-left:75%}:host([offset_right_xl="9"]){margin-right:75%}:host([size_xl="10"]){display:flex;width:83.3333333333%}:host([offset_xl="10"]){margin-left:83.3333333333%}:host([offset_right_xl="10"]){margin-right:83.3333333333%}:host([size_xl="11"]){display:flex;width:91.6666666667%}:host([offset_xl="11"]){margin-left:91.6666666667%}:host([offset_right_xl="11"]){margin-right:91.6666666667%}:host([size_xl="12"]){display:flex;width:100%}:host([offset_xl="12"]){margin-left:100%}:host([offset_right_xl="12"]){margin-right:100%}}@container application (min-width: 1360px){:host([size_xxl="0"]){display:flex;width:0%}:host([offset_xxl="0"]){margin-left:0%}:host([offset_right_xxl="0"]){margin-right:0%}:host([size_xxl="0"]){display:none}:host([size_xxl="1"]){display:flex;width:8.3333333333%}:host([offset_xxl="1"]){margin-left:8.3333333333%}:host([offset_right_xxl="1"]){margin-right:8.3333333333%}:host([size_xxl="2"]){display:flex;width:16.6666666667%}:host([offset_xxl="2"]){margin-left:16.6666666667%}:host([offset_right_xxl="2"]){margin-right:16.6666666667%}:host([size_xxl="3"]){display:flex;width:25%}:host([offset_xxl="3"]){margin-left:25%}:host([offset_right_xxl="3"]){margin-right:25%}:host([size_xxl="4"]){display:flex;width:33.3333333333%}:host([offset_xxl="4"]){margin-left:33.3333333333%}:host([offset_right_xxl="4"]){margin-right:33.3333333333%}:host([size_xxl="5"]){display:flex;width:41.6666666667%}:host([offset_xxl="5"]){margin-left:41.6666666667%}:host([offset_right_xxl="5"]){margin-right:41.6666666667%}:host([size_xxl="6"]){display:flex;width:50%}:host([offset_xxl="6"]){margin-left:50%}:host([offset_right_xxl="6"]){margin-right:50%}:host([size_xxl="7"]){display:flex;width:58.3333333333%}:host([offset_xxl="7"]){margin-left:58.3333333333%}:host([offset_right_xxl="7"]){margin-right:58.3333333333%}:host([size_xxl="8"]){display:flex;width:66.6666666667%}:host([offset_xxl="8"]){margin-left:66.6666666667%}:host([offset_right_xxl="8"]){margin-right:66.6666666667%}:host([size_xxl="9"]){display:flex;width:75%}:host([offset_xxl="9"]){margin-left:75%}:host([offset_right_xxl="9"]){margin-right:75%}:host([size_xxl="10"]){display:flex;width:83.3333333333%}:host([offset_xxl="10"]){margin-left:83.3333333333%}:host([offset_right_xxl="10"]){margin-right:83.3333333333%}:host([size_xxl="11"]){display:flex;width:91.6666666667%}:host([offset_xxl="11"]){margin-left:91.6666666667%}:host([offset_right_xxl="11"]){margin-right:91.6666666667%}:host([size_xxl="12"]){display:flex;width:100%}:host([offset_xxl="12"]){margin-left:100%}:host([offset_right_xxl="12"]){margin-right:100%}}`;
+    __getStatic() {
+        return Col;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Col.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "Col";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('size')){ this['size'] = undefined; }if(!this.hasAttribute('size_xs')){ this['size_xs'] = undefined; }if(!this.hasAttribute('size_sm')){ this['size_sm'] = undefined; }if(!this.hasAttribute('size_md')){ this['size_md'] = undefined; }if(!this.hasAttribute('size_lg')){ this['size_lg'] = undefined; }if(!this.hasAttribute('size_xl')){ this['size_xl'] = undefined; }if(!this.hasAttribute('offset')){ this['offset'] = undefined; }if(!this.hasAttribute('offset_xs')){ this['offset_xs'] = undefined; }if(!this.hasAttribute('offset_sm')){ this['offset_sm'] = undefined; }if(!this.hasAttribute('offset_md')){ this['offset_md'] = undefined; }if(!this.hasAttribute('offset_lg')){ this['offset_lg'] = undefined; }if(!this.hasAttribute('offset_xl')){ this['offset_xl'] = undefined; }if(!this.hasAttribute('offset_right')){ this['offset_right'] = undefined; }if(!this.hasAttribute('offset_right_xs')){ this['offset_right_xs'] = undefined; }if(!this.hasAttribute('offset_right_sm')){ this['offset_right_sm'] = undefined; }if(!this.hasAttribute('offset_right_md')){ this['offset_right_md'] = undefined; }if(!this.hasAttribute('offset_right_lg')){ this['offset_right_lg'] = undefined; }if(!this.hasAttribute('offset_right_xl')){ this['offset_right_xl'] = undefined; }if(!this.hasAttribute('center')) { this.attributeChangedCallback('center', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('size');this.__upgradeProperty('size_xs');this.__upgradeProperty('size_sm');this.__upgradeProperty('size_md');this.__upgradeProperty('size_lg');this.__upgradeProperty('size_xl');this.__upgradeProperty('offset');this.__upgradeProperty('offset_xs');this.__upgradeProperty('offset_sm');this.__upgradeProperty('offset_md');this.__upgradeProperty('offset_lg');this.__upgradeProperty('offset_xl');this.__upgradeProperty('offset_right');this.__upgradeProperty('offset_right_xs');this.__upgradeProperty('offset_right_sm');this.__upgradeProperty('offset_right_md');this.__upgradeProperty('offset_right_lg');this.__upgradeProperty('offset_right_xl');this.__upgradeProperty('center'); }
+    __listBoolProps() { return ["center"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+}
+Components.Col.Namespace=`Core.Components`;
+Components.Col.Tag=`rk-col`;
+__as1(_.Components, 'Col', Components.Col);
+if(!window.customElements.get('rk-col')){window.customElements.define('rk-col', Components.Col);Aventus.WebComponentInstance.registerDefinition(Components.Col);}
+
+Components.Row = class Row extends Aventus.WebComponent {
+    static __style = `:host{display:flex;width:100%;flex-wrap:wrap;container-type:inline-size}`;
+    __getStatic() {
+        return Row;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Row.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "Row";
     }
 }
-Lib.Pointer.Namespace=`Core.Lib`;
-__as1(_.Lib, 'Pointer', Lib.Pointer);
+Components.Row.Namespace=`Core.Components`;
+Components.Row.Tag=`rk-row`;
+__as1(_.Components, 'Row', Components.Row);
+if(!window.customElements.get('rk-row')){window.customElements.define('rk-row', Components.Row);Aventus.WebComponentInstance.registerDefinition(Components.Row);}
+
+Components.FormValidator=class FormValidator {
+    static async Test(validators, value, name, globalValidation) {
+        if (!Array.isArray(validators)) {
+            validators = [validators];
+        }
+        let result = [];
+        for (let validator of validators) {
+            let resultTemp = new validator();
+            const temp = await resultTemp.validate(value, name, globalValidation);
+            if (temp === false) {
+                result.push('Le champs n\'est pas valide');
+            }
+            else if (Array.isArray(temp)) {
+                for (let error of temp) {
+                    result.push(error);
+                }
+            }
+            else if (typeof temp == 'string') {
+                result.push(temp);
+            }
+        }
+        return result.length == 0 ? undefined : result;
+    }
+}
+Components.FormValidator.Namespace=`Core.Components`;
+__as1(_.Components, 'FormValidator', Components.FormValidator);
+
+Components.Required=class Required extends _.Components.FormValidator {
+    msg;
+    constructor(msg) {
+        super();
+        this.msg = msg ?? "Le champs {name} est requis";
+        this.validate = this.validate.bind(this);
+    }
+    /**
+     * @inheritdoc
+     */
+    validate(value, name, globalValidation) {
+        const txt = this.msg.replace(/\{ *name *\}/g, name);
+        if (value === undefined || value === null) {
+            return txt;
+        }
+        if (typeof value == 'string' && value.trim() == "") {
+            return txt;
+        }
+        return true;
+    }
+}
+Components.Required.Namespace=`Core.Components`;
+__as1(_.Components, 'Required', Components.Required);
+
+Components.Phone=class Phone extends _.Components.FormValidator {
+    msg;
+    constructor(msg) {
+        super();
+        this.msg = msg ?? "Veuillez saisir un téléphone valide";
+    }
+    /**
+     * @inheritdoc
+     */
+    validate(value, name, globalValidation) {
+        if (typeof value == "string" && value) {
+            if (Lib.Validator.phone(value)) {
+                return true;
+            }
+            return this.msg;
+        }
+        return true;
+    }
+}
+Components.Phone.Namespace=`Core.Components`;
+__as1(_.Components, 'Phone', Components.Phone);
 
 Lib.Geometry=class Geometry {
     static getIntersectingRectangle(rect1, rect2) {
@@ -1980,90 +1695,6 @@ let Style=class Style {
 }
 Style.Namespace=`Core`;
 __as1(_, 'Style', Style);
-
-Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
-    static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'color'() { return this.getStringAttr('color') }
-    set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
-    set 'outline'(val) { this.setBoolAttr('outline', val) }get 'disabled'() { return this.getBoolAttr('disabled') }
-    set 'disabled'(val) { this.setBoolAttr('disabled', val) }get 'flat'() { return this.getBoolAttr('flat') }
-    set 'flat'(val) { this.setBoolAttr('flat', val) }get 'ghost'() { return this.getBoolAttr('ghost') }
-    set 'ghost'(val) { this.setBoolAttr('ghost', val) }    get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{--_button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--_button-color: var(--button-color, currentcolor);--_button-box-shadow: var(--button-box-shadow);--_button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--_button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--_button-box-shadow);color:var(--_button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([flat]){box-shadow:none}:host([ghost]){background-color:rgba(0,0,0,0)}:host([ghost][outline]){border:none}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--_button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}:host{--_button-padding: var(--button-padding, 0);--_button-icon-font-size: var(--button-icon-font-size, inherit)}:host{aspect-ratio:1/1;height:36px;min-width:auto;border-radius:var(--border-radius-round)}:host .hider{border-radius:var(--border-radius-round)}:host .content .icon{--img-fill-color: var(--_button-color);height:100%;padding:0;font-size:var(--_button-icon-font-size)}`;
-    __getStatic() {
-        return ButtonIcon;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(ButtonIcon.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="hider"></div><div class="content">    <rk-img class="icon" _id="buttonicon_0"></rk-img></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "buttonicon_0°src": {
-      "fct": (c) => `${c.print(c.comp.__86a55d8d752358ce167fd0da93753a9emethod0())}`,
-      "once": true
-    }
-  }
-}); }
-    getClassName() {
-        return "ButtonIcon";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('flat')) { this.attributeChangedCallback('flat', false, false); }if(!this.hasAttribute('ghost')) { this.attributeChangedCallback('ghost', false, false); }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('disabled');this.__upgradeProperty('flat');this.__upgradeProperty('ghost');this.__upgradeProperty('icon'); }
-    __listBoolProps() { return ["outline","disabled","flat","ghost"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    __86a55d8d752358ce167fd0da93753a9emethod0() {
-        return this.icon;
-    }
-}
-Components.ButtonIcon.Namespace=`Core.Components`;
-Components.ButtonIcon.Tag=`rk-button-icon`;
-__as1(_.Components, 'ButtonIcon', Components.ButtonIcon);
-if(!window.customElements.get('rk-button-icon')){window.customElements.define('rk-button-icon', Components.ButtonIcon);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIcon);}
-
-Components.ButtonIconMi = class ButtonIconMi extends Components.ButtonIcon {
-    static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host .content .icon{height:auto;padding:0;font-size:inherit}`;
-    __getStatic() {
-        return ButtonIconMi;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(ButtonIconMi.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="hider"></div><div class="content">    <mi-icon class="icon" _id="buttoniconmi_0"></mi-icon></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "buttoniconmi_0°icon": {
-      "fct": (c) => `${c.print(c.comp.__6bf11e2b799d6cfde945f27815605c6bmethod0())}`,
-      "once": true
-    }
-  }
-}); }
-    getClassName() {
-        return "ButtonIconMi";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = "square"; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon'); }
-    __6bf11e2b799d6cfde945f27815605c6bmethod0() {
-        return this.icon;
-    }
-}
-Components.ButtonIconMi.Namespace=`Core.Components`;
-Components.ButtonIconMi.Tag=`rk-button-icon-mi`;
-__as1(_.Components, 'ButtonIconMi', Components.ButtonIconMi);
-if(!window.customElements.get('rk-button-icon-mi')){window.customElements.define('rk-button-icon-mi', Components.ButtonIconMi);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIconMi);}
 
 (function (ResizeDirection) {
     ResizeDirection[ResizeDirection["Top"] = 0] = "Top";
@@ -2262,46 +1893,6 @@ Websocket.Routes.RecentRouter_Save=class RecentRouter_Save extends AventusSharp.
 }
 Websocket.Routes.RecentRouter_Save.Namespace=`Core.Websocket.Routes`;
 __as1(_.Websocket.Routes, 'RecentRouter_Save', Websocket.Routes.RecentRouter_Save);
-
-Components.Tracker=class Tracker {
-    velocityMultiplier = window.devicePixelRatio;
-    updateTime = Date.now();
-    delta = { x: 0, y: 0 };
-    velocity = { x: 0, y: 0 };
-    lastPosition = { x: 0, y: 0 };
-    constructor(touch) {
-        this.lastPosition = this.getPosition(touch);
-    }
-    update(touch) {
-        const { velocity, updateTime, lastPosition, } = this;
-        const now = Date.now();
-        const position = this.getPosition(touch);
-        const delta = {
-            x: -(position.x - lastPosition.x),
-            y: -(position.y - lastPosition.y),
-        };
-        const duration = (now - updateTime) || 16.7;
-        const vx = delta.x / duration * 16.7;
-        const vy = delta.y / duration * 16.7;
-        velocity.x = vx * this.velocityMultiplier;
-        velocity.y = vy * this.velocityMultiplier;
-        this.delta = delta;
-        this.updateTime = now;
-        this.lastPosition = position;
-    }
-    getPointerData(evt) {
-        return evt.touches ? evt.touches[evt.touches.length - 1] : evt;
-    }
-    getPosition(evt) {
-        const data = this.getPointerData(evt);
-        return {
-            x: data.clientX,
-            y: data.clientY,
-        };
-    }
-}
-Components.Tracker.Namespace=`Core.Components`;
-__as1(_.Components, 'Tracker', Components.Tracker);
 
 System.Panel = class Panel extends Aventus.WebComponent {
     static __style = `:host{background-color:var(--primary-color-opacity);border-radius:var(--border-radius)}@media screen and (max-width: 768px){:host{background-color:var(--primary-color)}}@media screen and (max-width: 1224px){:host{border-radius:0px}}`;
@@ -2791,6 +2382,415 @@ System.PopupShortcutHelperKey.Tag=`rk-popup-shortcut-helper-key`;
 __as1(_.System, 'PopupShortcutHelperKey', System.PopupShortcutHelperKey);
 if(!window.customElements.get('rk-popup-shortcut-helper-key')){window.customElements.define('rk-popup-shortcut-helper-key', System.PopupShortcutHelperKey);Aventus.WebComponentInstance.registerDefinition(System.PopupShortcutHelperKey);}
 
+Components.Tracker=class Tracker {
+    velocityMultiplier = window.devicePixelRatio;
+    updateTime = Date.now();
+    delta = { x: 0, y: 0 };
+    velocity = { x: 0, y: 0 };
+    lastPosition = { x: 0, y: 0 };
+    constructor(touch) {
+        this.lastPosition = this.getPosition(touch);
+    }
+    update(touch) {
+        const { velocity, updateTime, lastPosition, } = this;
+        const now = Date.now();
+        const position = this.getPosition(touch);
+        const delta = {
+            x: -(position.x - lastPosition.x),
+            y: -(position.y - lastPosition.y),
+        };
+        const duration = (now - updateTime) || 16.7;
+        const vx = delta.x / duration * 16.7;
+        const vy = delta.y / duration * 16.7;
+        velocity.x = vx * this.velocityMultiplier;
+        velocity.y = vy * this.velocityMultiplier;
+        this.delta = delta;
+        this.updateTime = now;
+        this.lastPosition = position;
+    }
+    getPointerData(evt) {
+        return evt.touches ? evt.touches[evt.touches.length - 1] : evt;
+    }
+    getPosition(evt) {
+        const data = this.getPointerData(evt);
+        return {
+            x: data.clientX,
+            y: data.clientY,
+        };
+    }
+}
+Components.Tracker.Namespace=`Core.Components`;
+__as1(_.Components, 'Tracker', Components.Tracker);
+
+Components.Img = class Img extends Aventus.WebComponent {
+    static get observedAttributes() {return ["src", "mode"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'cache'() { return this.getBoolAttr('cache') }
+    set 'cache'(val) { this.setBoolAttr('cache', val) }    get 'src'() { return this.getStringProp('src') }
+    set 'src'(val) { this.setStringAttr('src', val) }get 'mode'() { return this.getStringProp('mode') }
+    set 'mode'(val) { this.setStringAttr('mode', val) }    isCalculing;
+    maxCalculateSize = 10;
+    ratio = 1;
+    resizeObserver;
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("src", ((target) => {
+    target.onSrcChanged();
+}));this.__addPropertyActions("mode", ((target) => {
+    if (target.src != "") {
+        target.calculateSize();
+    }
+})); }
+    static __style = `:host{--_img-color: var(--img-color);--_img-stroke-color: var(--img-stroke-color, var(--_img-color));--_img-fill-color: var(--img-fill-color, var(--_img-color));--_img-color-transition: var(--img-color-transition, none);--_img-stroke-width: var(--img-stroke-width, 1px)}:host{display:inline-block;font-size:0;overflow:hidden}:host *{box-sizing:border-box}:host img{opacity:0;transition:filter .3s linear}:host .svg{display:none;height:100%;width:100%}:host .svg svg{height:100%;width:100%}:host mi-icon{display:none;font-size:inherit;height:100%;width:100%}:host([src$=".svg"]) img{display:none}:host([src$=".svg"]) .svg{display:flex}:host([src$=".svg"]) .svg svg{fill:var(--_img-fill-color);stroke:var(--_img-stroke-color);stroke-width:var(--_img-stroke-width);transition:var(--_img-color-transition)}:host([src$=".svg"]) mi-icon{display:none}:host([src^=mi-]){font-size:inherit}:host([src^=mi-]) img{display:none}:host([src^=mi-]) .svg{display:none}:host([src^=mi-]) mi-icon{align-items:center;display:flex;justify-content:center}:host([display_bigger]) img{cursor:pointer}:host([display_bigger]) img:hover{filter:brightness(50%)}`;
+    __getStatic() {
+        return Img;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Img.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<img _id="img_0" /><div class="svg" _id="img_1"></div><mi-icon _id="img_2"></mi-icon>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "imgEl",
+      "ids": [
+        "img_0"
+      ]
+    },
+    {
+      "name": "svgEl",
+      "ids": [
+        "img_1"
+      ]
+    },
+    {
+      "name": "iconEl",
+      "ids": [
+        "img_2"
+      ]
+    }
+  ]
+}); }
+    getClassName() {
+        return "Img";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('cache')) { this.attributeChangedCallback('cache', false, false); }if(!this.hasAttribute('src')){ this['src'] = undefined; }if(!this.hasAttribute('mode')){ this['mode'] = "contains"; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('cache');this.__upgradeProperty('src');this.__upgradeProperty('mode'); }
+    __listBoolProps() { return ["cache"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    calculateSize(attempt = 0) {
+        if (this.isCalculing || !this.imgEl || !this.svgEl) {
+            return;
+        }
+        if (this.src == "") {
+            return;
+        }
+        this.isCalculing = true;
+        if (getComputedStyle(this).display == 'none') {
+            return;
+        }
+        if (attempt == this.maxCalculateSize) {
+            this.isCalculing = false;
+            return;
+        }
+        let element = this.imgEl;
+        if (this.src?.endsWith(".svg")) {
+            element = this.svgEl;
+        }
+        else if (this.src?.startsWith("mi-")) {
+            element = this.iconEl;
+        }
+        this.style.width = '';
+        this.style.height = '';
+        element.style.width = '';
+        element.style.height = '';
+        if (element.offsetWidth == 0 && element.offsetHeight == 0) {
+            setTimeout(() => {
+                this.isCalculing = false;
+                this.calculateSize(attempt + 1);
+            }, 100);
+            return;
+        }
+        let style = getComputedStyle(this);
+        let addedY = Number(style.paddingTop.replace("px", "")) + Number(style.paddingBottom.replace("px", "")) + Number(style.borderTopWidth.replace("px", "")) + Number(style.borderBottomWidth.replace("px", ""));
+        let addedX = Number(style.paddingLeft.replace("px", "")) + Number(style.paddingRight.replace("px", "")) + Number(style.borderLeftWidth.replace("px", "")) + Number(style.borderRightWidth.replace("px", ""));
+        let availableHeight = this.offsetHeight - addedY;
+        let availableWidth = this.offsetWidth - addedX;
+        let sameWidth = (element.offsetWidth == availableWidth);
+        let sameHeight = (element.offsetHeight == availableHeight);
+        this.ratio = element.offsetWidth / element.offsetHeight;
+        if (sameWidth && !sameHeight) {
+            // height is set
+            element.style.width = (availableHeight * this.ratio) + 'px';
+            element.style.height = availableHeight + 'px';
+        }
+        else if (!sameWidth && sameHeight) {
+            // width is set
+            element.style.width = availableWidth + 'px';
+            element.style.height = (availableWidth / this.ratio) + 'px';
+        }
+        else if (!sameWidth && !sameHeight) {
+            if (this.mode == "stretch") {
+                element.style.width = '100%';
+                element.style.height = '100%';
+            }
+            else if (this.mode == "contains") {
+                // suppose this height is max
+                let newWidth = (availableHeight * this.ratio);
+                if (newWidth <= availableWidth) {
+                    //we can apply this value
+                    element.style.width = newWidth + 'px';
+                    element.style.height = availableHeight + 'px';
+                }
+                else {
+                    element.style.width = availableWidth + 'px';
+                    element.style.height = (availableWidth / this.ratio) + 'px';
+                }
+            }
+            else if (this.mode == "cover") {
+                // suppose this height is min
+                let newWidth = (availableHeight * this.ratio);
+                if (newWidth >= availableWidth) {
+                    //we can apply this value
+                    element.style.width = newWidth + 'px';
+                    element.style.height = availableHeight + 'px';
+                }
+                else {
+                    element.style.width = availableWidth + 'px';
+                    element.style.height = (availableWidth / this.ratio) + 'px';
+                }
+            }
+        }
+        //center img
+        let diffTop = (this.offsetHeight - element.offsetHeight - addedY) / 2;
+        let diffLeft = (this.offsetWidth - element.offsetWidth - addedX) / 2;
+        element.style.transform = "translate(" + diffLeft + "px, " + diffTop + "px)";
+        element.style.opacity = '1';
+        this.isCalculing = false;
+    }
+    async onSrcChanged() {
+        if (!this.src || !this.svgEl || !this.imgEl || !this.iconEl) {
+            return;
+        }
+        if (this.src.endsWith(".svg")) {
+            let svgContent = await Aventus.ResourceLoader.load(this.src);
+            this.svgEl.innerHTML = svgContent;
+            this.calculateSize();
+        }
+        else if (this.src.startsWith("mi-")) {
+            this.iconEl.icon = this.src.replace("mi-", "");
+            this.calculateSize();
+        }
+        else if (this.cache) {
+            let base64 = await Aventus.ResourceLoader.load({
+                url: this.src,
+                type: 'img'
+            });
+            this.imgEl.setAttribute("src", base64);
+            this.calculateSize();
+        }
+        else {
+            this.imgEl.setAttribute("src", this.src);
+            this.calculateSize();
+        }
+    }
+    postDestruction() {
+        super.postDestruction();
+        this.resizeObserver?.disconnect();
+        this.resizeObserver = undefined;
+    }
+    postCreation() {
+        this.resizeObserver = new Aventus.ResizeObserver({
+            fps: 10,
+            callback: () => {
+                this.calculateSize();
+            }
+        });
+        this.resizeObserver.observe(this);
+    }
+}
+Components.Img.Namespace=`Core.Components`;
+Components.Img.Tag=`rk-img`;
+__as1(_.Components, 'Img', Components.Img);
+if(!window.customElements.get('rk-img')){window.customElements.define('rk-img', Components.Img);Aventus.WebComponentInstance.registerDefinition(Components.Img);}
+
+Components.MenuItem = class MenuItem extends Aventus.WebComponent {
+    static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{align-items:center;border-radius:var(--border-radius-sm);cursor:pointer;display:flex;font-size:var(--font-size);margin:0 5px;padding:5px 10px;-webkit-tap-highlight-color:rgba(0,0,0,0);transition:background-color .2s linear}:host .title{margin-left:30px}:host .icon{display:none;font-size:var(--font-size-sm);margin-right:10px;width:20px}:host([icon]) .title{margin-left:0px}:host([icon]) .icon{display:inline-block}@media screen and (min-width: 1225px){:host{font-size:var(--font-size)}:host .icon{font-size:var(--font-size)}:host(:hover){background-color:var(--darker)}}`;
+    __getStatic() {
+        return MenuItem;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(MenuItem.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<rk-img class="icon" _id="menuitem_0"></rk-img><div class="title">    <slot></slot></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "menuitem_0°src": {
+      "fct": (c) => `${c.print(c.comp.__d02c0c7e8b84b9fd639369f589dd9b6fmethod0())}`,
+      "once": true
+    }
+  }
+}); }
+    getClassName() {
+        return "MenuItem";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = ""; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon'); }
+    __d02c0c7e8b84b9fd639369f589dd9b6fmethod0() {
+        return this.icon;
+    }
+}
+Components.MenuItem.Namespace=`Core.Components`;
+Components.MenuItem.Tag=`rk-menu-item`;
+__as1(_.Components, 'MenuItem', Components.MenuItem);
+if(!window.customElements.get('rk-menu-item')){window.customElements.define('rk-menu-item', Components.MenuItem);Aventus.WebComponentInstance.registerDefinition(Components.MenuItem);}
+
+Components.ButtonIcon = class ButtonIcon extends Aventus.WebComponent {
+    static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'color'() { return this.getStringAttr('color') }
+    set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
+    set 'outline'(val) { this.setBoolAttr('outline', val) }get 'disabled'() { return this.getBoolAttr('disabled') }
+    set 'disabled'(val) { this.setBoolAttr('disabled', val) }get 'flat'() { return this.getBoolAttr('flat') }
+    set 'flat'(val) { this.setBoolAttr('flat', val) }get 'ghost'() { return this.getBoolAttr('ghost') }
+    set 'ghost'(val) { this.setBoolAttr('ghost', val) }    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host{--_button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--_button-color: var(--button-color, currentcolor);--_button-box-shadow: var(--button-box-shadow);--_button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--_button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--_button-box-shadow);color:var(--_button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([flat]){box-shadow:none}:host([ghost]){background-color:rgba(0,0,0,0)}:host([ghost][outline]){border:none}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--_button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}:host{--_button-padding: var(--button-padding, 0);--_button-icon-font-size: var(--button-icon-font-size, inherit)}:host{aspect-ratio:1/1;height:36px;min-width:auto;border-radius:var(--border-radius-round)}:host .hider{border-radius:var(--border-radius-round)}:host .content .icon{--img-fill-color: var(--_button-color);height:100%;padding:0;font-size:var(--_button-icon-font-size)}`;
+    __getStatic() {
+        return ButtonIcon;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(ButtonIcon.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="hider"></div><div class="content">    <rk-img class="icon" _id="buttonicon_0"></rk-img></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "buttonicon_0°src": {
+      "fct": (c) => `${c.print(c.comp.__86a55d8d752358ce167fd0da93753a9emethod0())}`,
+      "once": true
+    }
+  }
+}); }
+    getClassName() {
+        return "ButtonIcon";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('flat')) { this.attributeChangedCallback('flat', false, false); }if(!this.hasAttribute('ghost')) { this.attributeChangedCallback('ghost', false, false); }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('disabled');this.__upgradeProperty('flat');this.__upgradeProperty('ghost');this.__upgradeProperty('icon'); }
+    __listBoolProps() { return ["outline","disabled","flat","ghost"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    __86a55d8d752358ce167fd0da93753a9emethod0() {
+        return this.icon;
+    }
+}
+Components.ButtonIcon.Namespace=`Core.Components`;
+Components.ButtonIcon.Tag=`rk-button-icon`;
+__as1(_.Components, 'ButtonIcon', Components.ButtonIcon);
+if(!window.customElements.get('rk-button-icon')){window.customElements.define('rk-button-icon', Components.ButtonIcon);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIcon);}
+
+Components.ButtonIconMi = class ButtonIconMi extends Components.ButtonIcon {
+    static get observedAttributes() {return ["icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    static __style = `:host .content .icon{height:auto;padding:0;font-size:inherit}`;
+    __getStatic() {
+        return ButtonIconMi;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(ButtonIconMi.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="hider"></div><div class="content">    <mi-icon class="icon" _id="buttoniconmi_0"></mi-icon></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "buttoniconmi_0°icon": {
+      "fct": (c) => `${c.print(c.comp.__6bf11e2b799d6cfde945f27815605c6bmethod0())}`,
+      "once": true
+    }
+  }
+}); }
+    getClassName() {
+        return "ButtonIconMi";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = "square"; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon'); }
+    __6bf11e2b799d6cfde945f27815605c6bmethod0() {
+        return this.icon;
+    }
+}
+Components.ButtonIconMi.Namespace=`Core.Components`;
+Components.ButtonIconMi.Tag=`rk-button-icon-mi`;
+__as1(_.Components, 'ButtonIconMi', Components.ButtonIconMi);
+if(!window.customElements.get('rk-button-icon-mi')){window.customElements.define('rk-button-icon-mi', Components.ButtonIconMi);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIconMi);}
+
+Components.UserProfilPicture = class UserProfilPicture extends Aventus.WebComponent {
+    static get observedAttributes() {return ["uri"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'uri'() { return this.getStringProp('uri') }
+    set 'uri'(val) { this.setStringAttr('uri', val) }    static __style = `:host{border-radius:var(--border-radius-round);flex-shrink:0;height:100px;overflow:hidden;width:100px}:host rk-img{height:100%;width:100%}:host .bg-default{align-items:center;background-color:var(--secondary-color);border-radius:var(--border-radius-round);box-shadow:var(--elevation-4);color:var(--text-color-reverse);display:flex;flex-shrink:0;height:100%;justify-content:center;width:100%}:host .bg-default svg{fill:var(--text-color-reverse);height:70%;width:70%}`;
+    __getStatic() {
+        return UserProfilPicture;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(UserProfilPicture.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<template _id="userprofilpicture_0"></template>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();const templ0 = new Aventus.Template(this);templ0.setTemplate(`    <rk-img _id="userprofilpicture_1"></rk-img>`);templ0.setActions({
+  "content": {
+    "userprofilpicture_1°src": {
+      "fct": (c) => `${c.print(c.comp.__4c9a0566bd04f8ca158657ccaa880d94method1())}`,
+      "once": true
+    }
+  }
+});const templ1 = new Aventus.Template(this);templ1.setTemplate(`    <div class="bg-default">        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"></path></svg>    </div>`);this.__getStatic().__template.addIf({
+                    anchorId: 'userprofilpicture_0',
+                    parts: [{once: true,
+                    condition: (c) => c.comp.__4c9a0566bd04f8ca158657ccaa880d94method0(),
+                    template: templ0
+                },{once: true,
+                    condition: (c) => true,
+                    template: templ1
+                }]
+            }); }
+    getClassName() {
+        return "UserProfilPicture";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('uri')){ this['uri'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('uri'); }
+    __4c9a0566bd04f8ca158657ccaa880d94method1() {
+        return this.uri;
+    }
+    __4c9a0566bd04f8ca158657ccaa880d94method0() {
+        return this.uri;
+    }
+}
+Components.UserProfilPicture.Namespace=`Core.Components`;
+Components.UserProfilPicture.Tag=`rk-user-profil-picture`;
+__as1(_.Components, 'UserProfilPicture', Components.UserProfilPicture);
+if(!window.customElements.get('rk-user-profil-picture')){window.customElements.define('rk-user-profil-picture', Components.UserProfilPicture);Aventus.WebComponentInstance.registerDefinition(Components.UserProfilPicture);}
+
 Components.ContextMenuSeparator = class ContextMenuSeparator extends Aventus.WebComponent {
     priority = 0;
     menu;
@@ -2940,6 +2940,1153 @@ Components.ContextMenuItem.Namespace=`Core.Components`;
 Components.ContextMenuItem.Tag=`rk-context-menu-item`;
 __as1(_.Components, 'ContextMenuItem', Components.ContextMenuItem);
 if(!window.customElements.get('rk-context-menu-item')){window.customElements.define('rk-context-menu-item', Components.ContextMenuItem);Aventus.WebComponentInstance.registerDefinition(Components.ContextMenuItem);}
+
+Components.TouchRecord=class TouchRecord {
+    _activeTouchID;
+    _touchList = {};
+    get _primitiveValue() {
+        return { x: 0, y: 0 };
+    }
+    isActive() {
+        return this._activeTouchID !== undefined;
+    }
+    getDelta() {
+        const tracker = this._getActiveTracker();
+        if (!tracker) {
+            return this._primitiveValue;
+        }
+        return { ...tracker.delta };
+    }
+    getVelocity() {
+        const tracker = this._getActiveTracker();
+        if (!tracker) {
+            return this._primitiveValue;
+        }
+        return { ...tracker.velocity };
+    }
+    getNbOfTouches() {
+        return Object.values(this._touchList).length;
+    }
+    getTouches() {
+        return Object.values(this._touchList);
+    }
+    getEasingDistance(damping) {
+        const deAcceleration = 1 - damping;
+        let distance = {
+            x: 0,
+            y: 0,
+        };
+        const vel = this.getVelocity();
+        Object.keys(vel).forEach(dir => {
+            let v = Math.abs(vel[dir]) <= 10 ? 0 : vel[dir];
+            while (v !== 0) {
+                distance[dir] += v;
+                v = (v * deAcceleration) | 0;
+            }
+        });
+        return distance;
+    }
+    track(evt) {
+        if ('TouchEvent' in window && evt instanceof TouchEvent) {
+            const { targetTouches, } = evt;
+            Array.from(targetTouches).forEach(touch => {
+                this._add(touch);
+            });
+        }
+        else {
+            this._add(evt);
+        }
+        return this._touchList;
+    }
+    update(evt) {
+        if ('TouchEvent' in window && evt instanceof TouchEvent) {
+            const { touches, changedTouches, } = evt;
+            Array.from(touches).forEach(touch => {
+                this._renew(touch);
+            });
+            this._setActiveID(changedTouches);
+        }
+        else if (evt instanceof PointerEvent) {
+            this._renew(evt);
+            this._setActiveID(evt);
+        }
+        return this._touchList;
+    }
+    release(evt) {
+        if ('TouchEvent' in window && evt instanceof TouchEvent) {
+            Array.from(evt.changedTouches).forEach(touch => {
+                this._delete(touch);
+            });
+        }
+        else {
+            this._delete(evt);
+        }
+    }
+    _getIdentifier(touch) {
+        if ('Touch' in window && touch instanceof Touch)
+            return touch.identifier;
+        if (touch instanceof PointerEvent)
+            return touch.pointerId;
+        return touch.button;
+    }
+    _add(touch) {
+        if (this._has(touch)) {
+            this._delete(touch);
+        }
+        const tracker = new Components.Tracker(touch);
+        const identifier = this._getIdentifier(touch);
+        this._touchList[identifier] = tracker;
+    }
+    _renew(touch) {
+        if (!this._has(touch)) {
+            return;
+        }
+        const identifier = this._getIdentifier(touch);
+        const tracker = this._touchList[identifier];
+        tracker.update(touch);
+    }
+    _delete(touch) {
+        const identifier = this._getIdentifier(touch);
+        delete this._touchList[identifier];
+        if (this._activeTouchID == identifier) {
+            this._activeTouchID = undefined;
+        }
+    }
+    _has(touch) {
+        const identifier = this._getIdentifier(touch);
+        return this._touchList.hasOwnProperty(identifier);
+    }
+    _setActiveID(touches) {
+        if (touches instanceof PointerEvent || touches instanceof MouseEvent) {
+            this._activeTouchID = this._getIdentifier(touches);
+        }
+        else {
+            this._activeTouchID = touches[touches.length - 1].identifier;
+        }
+    }
+    _getActiveTracker() {
+        const { _touchList, _activeTouchID, } = this;
+        if (_activeTouchID !== undefined) {
+            return _touchList[_activeTouchID];
+        }
+        return undefined;
+    }
+}
+Components.TouchRecord.Namespace=`Core.Components`;
+__as1(_.Components, 'TouchRecord', Components.TouchRecord);
+
+Components.Scrollable = class Scrollable extends Aventus.WebComponent {
+    static get observedAttributes() {return ["zoom"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'min_zoom'() { return this.getNumberAttr('min_zoom') }
+    set 'min_zoom'(val) { this.setNumberAttr('min_zoom', val) }get 'max_zoom'() { return this.getNumberAttr('max_zoom') }
+    set 'max_zoom'(val) { this.setNumberAttr('max_zoom', val) }get 'y_scroll_visible'() { return this.getBoolAttr('y_scroll_visible') }
+    set 'y_scroll_visible'(val) { this.setBoolAttr('y_scroll_visible', val) }get 'x_scroll_visible'() { return this.getBoolAttr('x_scroll_visible') }
+    set 'x_scroll_visible'(val) { this.setBoolAttr('x_scroll_visible', val) }get 'floating_scroll'() { return this.getBoolAttr('floating_scroll') }
+    set 'floating_scroll'(val) { this.setBoolAttr('floating_scroll', val) }get 'x_scroll'() { return this.getBoolAttr('x_scroll') }
+    set 'x_scroll'(val) { this.setBoolAttr('x_scroll', val) }get 'y_scroll'() { return this.getBoolAttr('y_scroll') }
+    set 'y_scroll'(val) { this.setBoolAttr('y_scroll', val) }get 'auto_hide'() { return this.getBoolAttr('auto_hide') }
+    set 'auto_hide'(val) { this.setBoolAttr('auto_hide', val) }get 'break'() { return this.getNumberAttr('break') }
+    set 'break'(val) { this.setNumberAttr('break', val) }get 'disable'() { return this.getBoolAttr('disable') }
+    set 'disable'(val) { this.setBoolAttr('disable', val) }get 'no_user_select'() { return this.getBoolAttr('no_user_select') }
+    set 'no_user_select'(val) { this.setBoolAttr('no_user_select', val) }get 'mouse_drag'() { return this.getBoolAttr('mouse_drag') }
+    set 'mouse_drag'(val) { this.setBoolAttr('mouse_drag', val) }get 'pinch'() { return this.getBoolAttr('pinch') }
+    set 'pinch'(val) { this.setBoolAttr('pinch', val) }    get 'zoom'() { return this.getNumberProp('zoom') }
+    set 'zoom'(val) { this.setNumberAttr('zoom', val) }    observer;
+    display = { x: 0, y: 0 };
+    max = {
+        x: 0,
+        y: 0
+    };
+    margin = {
+        x: 0,
+        y: 0
+    };
+    position = {
+        x: 0,
+        y: 0
+    };
+    momentum = { x: 0, y: 0 };
+    contentWrapperSize = { x: 0, y: 0 };
+    scroller = {
+        x: () => {
+            if (!this.horizontalScroller) {
+                throw 'can\'t find the horizontalScroller';
+            }
+            return this.horizontalScroller;
+        },
+        y: () => {
+            if (!this.verticalScroller) {
+                throw 'can\'t find the verticalScroller';
+            }
+            return this.verticalScroller;
+        }
+    };
+    scrollerContainer = {
+        x: () => {
+            if (!this.horizontalScrollerContainer) {
+                throw 'can\'t find the horizontalScrollerContainer';
+            }
+            return this.horizontalScrollerContainer;
+        },
+        y: () => {
+            if (!this.verticalScrollerContainer) {
+                throw 'can\'t find the verticalScrollerContainer';
+            }
+            return this.verticalScrollerContainer;
+        }
+    };
+    hideDelay = { x: 0, y: 0 };
+    touchRecord;
+    pointerCount = 0;
+    loadedOnce = false;
+    savedPercent;
+    isDragScroller = false;
+    cachedSvg;
+    previousMidPoint;
+    previousDistance;
+    startTranslate = { x: 0, y: 0 };
+    get x() {
+        return this.position.x;
+    }
+    get y() {
+        return this.position.y;
+    }
+    get xMax() {
+        return this.max.x;
+    }
+    get yMax() {
+        return this.max.y;
+    }
+    onScrollChange = new Aventus.Callback();
+    onZoomChange = new Aventus.Callback();
+    renderAnimation;
+    autoScrollInterval = {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+    };
+    autoScrollSpeed = {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+    };
+    pressManager;
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("zoom", ((target) => {
+    target.changeZoom();
+})); }
+    static __style = `:host{--_scrollbar-container-color: var(--scrollbar-container-color, transparent);--_scrollbar-color: var(--scrollbar-color, #757575);--_scrollbar-active-color: var(--scrollbar-active-color, #858585);--_scrollbar-max-height: var(--scrollbar-max-height, 100%);--_scroller-width: var(--scroller-width, 6px);--_scroller-top: var(--scroller-top, 3px);--_scroller-bottom: var(--scroller-bottom, 3px);--_scroller-right: var(--scroller-right, 3px);--_scroller-left: var(--scroller-left, 3px);--_scrollbar-content-padding: var(--scrollbar-content-padding, 0);--_scrollbar-container-display: var(--scrollbar-container-display, inline-block)}:host{display:block;height:100%;min-height:inherit;min-width:inherit;overflow:hidden;position:relative;-webkit-user-drag:none;-khtml-user-drag:none;-moz-user-drag:none;-o-user-drag:none;width:100%}:host .scroll-main-container{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;position:relative;width:100%}:host .scroll-main-container .content-zoom{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;position:relative;transform-origin:0 0;width:100%;z-index:4}:host .scroll-main-container .content-zoom .content-hidder{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;overflow:hidden;position:relative;width:100%}:host .scroll-main-container .content-zoom .content-hidder .content-wrapper{display:var(--_scrollbar-container-display);height:100%;min-height:inherit;min-width:inherit;padding:var(--_scrollbar-content-padding);position:relative;width:100%}:host .scroll-main-container .scroller-wrapper .container-scroller{display:none;overflow:hidden;position:absolute;transition:transform .2s linear;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller{background-color:var(--_scrollbar-container-color);border-radius:var(--border-radius-sm)}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller .scroller{background-color:var(--_scrollbar-color);border-radius:var(--border-radius-sm);cursor:pointer;position:absolute;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .scroller.active{background-color:var(--_scrollbar-active-color)}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical{height:calc(100% - var(--_scroller-bottom)*2 - var(--_scroller-width));padding-left:var(--_scroller-left);right:var(--_scroller-right);top:var(--_scroller-bottom);transform:0;width:calc(var(--_scroller-width) + var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical.hide{transform:translateX(calc(var(--_scroller-width) + var(--_scroller-left)))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller .scroller{width:calc(100% - var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal{bottom:var(--_scroller-bottom);height:calc(var(--_scroller-width) + var(--_scroller-top));left:var(--_scroller-right);padding-top:var(--_scroller-top);transform:0;width:calc(100% - var(--_scroller-right)*2 - var(--_scroller-width))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal.hide{transform:translateY(calc(var(--_scroller-width) + var(--_scroller-top)))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller .scroller{height:calc(100% - var(--_scroller-top))}:host([y_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{height:auto}:host([x_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{width:auto}:host([y_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.vertical{display:block}:host([x_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.horizontal{display:block}:host([no_user_select]) .content-wrapper *{user-select:none}:host([no_user_select]) ::slotted{user-select:none}`;
+    constructor() {
+        super();
+        this.renderAnimation = this.createAnimation();
+        this.onWheel = this.onWheel.bind(this);
+        this.onTouchStart = this.onTouchStart.bind(this);
+        this.onTouchMovePointer = this.onTouchMovePointer.bind(this);
+        this.onTouchMove = this.onTouchMove.bind(this);
+        this.onTouchMovePointer = this.onTouchMovePointer.bind(this);
+        this.onTouchEnd = this.onTouchEnd.bind(this);
+        this.onTouchEndPointer = this.onTouchEndPointer.bind(this);
+        this.touchRecord = new _.Components.TouchRecord();
+    }
+    __getStatic() {
+        return Scrollable;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Scrollable.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="scroll-main-container" _id="scrollable_0">    <div class="content-zoom" _id="scrollable_1">        <div class="content-hidder" _id="scrollable_2">            <div class="content-wrapper" part="content-wrapper" _id="scrollable_3">                <slot></slot>            </div>        </div>    </div>    <div class="scroller-wrapper">        <div class="container-scroller vertical" _id="scrollable_4">            <div class="shadow-scroller">                <div class="scroller" _id="scrollable_5"></div>            </div>        </div>        <div class="container-scroller horizontal" _id="scrollable_6">            <div class="shadow-scroller">                <div class="scroller" _id="scrollable_7"></div>            </div>        </div>    </div></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "mainContainer",
+      "ids": [
+        "scrollable_0"
+      ]
+    },
+    {
+      "name": "contentZoom",
+      "ids": [
+        "scrollable_1"
+      ]
+    },
+    {
+      "name": "contentHidder",
+      "ids": [
+        "scrollable_2"
+      ]
+    },
+    {
+      "name": "contentWrapper",
+      "ids": [
+        "scrollable_3"
+      ]
+    },
+    {
+      "name": "verticalScrollerContainer",
+      "ids": [
+        "scrollable_4"
+      ]
+    },
+    {
+      "name": "verticalScroller",
+      "ids": [
+        "scrollable_5"
+      ]
+    },
+    {
+      "name": "horizontalScrollerContainer",
+      "ids": [
+        "scrollable_6"
+      ]
+    },
+    {
+      "name": "horizontalScroller",
+      "ids": [
+        "scrollable_7"
+      ]
+    }
+  ]
+}); }
+    getClassName() {
+        return "Scrollable";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('min_zoom')){ this['min_zoom'] = 1; }if(!this.hasAttribute('max_zoom')){ this['max_zoom'] = undefined; }if(!this.hasAttribute('y_scroll_visible')) { this.attributeChangedCallback('y_scroll_visible', false, false); }if(!this.hasAttribute('x_scroll_visible')) { this.attributeChangedCallback('x_scroll_visible', false, false); }if(!this.hasAttribute('floating_scroll')) { this.attributeChangedCallback('floating_scroll', false, false); }if(!this.hasAttribute('x_scroll')) { this.attributeChangedCallback('x_scroll', false, false); }if(!this.hasAttribute('y_scroll')) {this.setAttribute('y_scroll' ,'true'); }if(!this.hasAttribute('auto_hide')) { this.attributeChangedCallback('auto_hide', false, false); }if(!this.hasAttribute('break')){ this['break'] = 0.1; }if(!this.hasAttribute('disable')) { this.attributeChangedCallback('disable', false, false); }if(!this.hasAttribute('no_user_select')) { this.attributeChangedCallback('no_user_select', false, false); }if(!this.hasAttribute('mouse_drag')) { this.attributeChangedCallback('mouse_drag', false, false); }if(!this.hasAttribute('pinch')) { this.attributeChangedCallback('pinch', false, false); }if(!this.hasAttribute('zoom')){ this['zoom'] = 1; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('x');this.__correctGetter('y');this.__correctGetter('xMax');this.__correctGetter('yMax');this.__upgradeProperty('min_zoom');this.__upgradeProperty('max_zoom');this.__upgradeProperty('y_scroll_visible');this.__upgradeProperty('x_scroll_visible');this.__upgradeProperty('floating_scroll');this.__upgradeProperty('x_scroll');this.__upgradeProperty('y_scroll');this.__upgradeProperty('auto_hide');this.__upgradeProperty('break');this.__upgradeProperty('disable');this.__upgradeProperty('no_user_select');this.__upgradeProperty('mouse_drag');this.__upgradeProperty('pinch');this.__upgradeProperty('zoom'); }
+    __listBoolProps() { return ["y_scroll_visible","x_scroll_visible","floating_scroll","x_scroll","y_scroll","auto_hide","disable","no_user_select","mouse_drag","pinch"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    createAnimation() {
+        return new Aventus.Animation({
+            fps: 60,
+            animate: () => {
+                const nextX = this.nextPosition('x');
+                const nextY = this.nextPosition('y');
+                this.momentum.x = nextX.momentum;
+                this.momentum.y = nextY.momentum;
+                this.scrollDirection('x', nextX.position);
+                this.scrollDirection('y', nextY.position);
+                if (!this.momentum.x && !this.momentum.y) {
+                    this.renderAnimation.stop();
+                }
+            },
+            stopped: () => {
+                if (this.momentum.x || this.momentum.y) {
+                    this.renderAnimation.start();
+                }
+            }
+        });
+    }
+    nextPosition(direction) {
+        const current = this.position[direction];
+        const remain = this.momentum[direction];
+        let result = {
+            momentum: 0,
+            position: 0,
+        };
+        if (Math.abs(remain) <= 0.1) {
+            result.position = current + remain;
+        }
+        else {
+            const _break = this.pointerCount > 0 ? 0.5 : this.break;
+            let nextMomentum = remain * (1 - _break);
+            nextMomentum |= 0;
+            result.momentum = nextMomentum;
+            result.position = current + remain - nextMomentum;
+        }
+        let correctPosition = this.correctScrollValue(result.position, direction);
+        if (correctPosition != result.position) {
+            result.position = correctPosition;
+            result.momentum = 0;
+        }
+        return result;
+    }
+    scrollDirection(direction, value) {
+        const max = this.max[direction];
+        if (max != 0) {
+            this.position[direction] = this.correctScrollValue(value, direction);
+        }
+        else {
+            this.position[direction] = 0;
+        }
+        let container = this.scrollerContainer[direction]();
+        let scroller = this.scroller[direction]();
+        if (this.auto_hide) {
+            container.classList.remove("hide");
+            clearTimeout(this.hideDelay[direction]);
+            this.hideDelay[direction] = setTimeout(() => {
+                container.classList.add("hide");
+            }, 1000);
+        }
+        let containerSize = direction == 'y' ? container.offsetHeight : container.offsetWidth;
+        if (this.contentWrapperSize[direction] != 0) {
+            let scrollPosition = this.position[direction] / this.contentWrapperSize[direction] * containerSize;
+            scroller.style.transform = `translate${direction.toUpperCase()}(${scrollPosition}px)`;
+            this.contentWrapper.style.transform = `translate3d(${-1 * this.x}px, ${-1 * this.y}px, 0)`;
+        }
+        this.triggerScrollChange();
+    }
+    scrollDirectionPercent(direction, percent) {
+        const max = this.max[direction];
+        this.scrollDirection(direction, max * percent / 100);
+    }
+    correctScrollValue(value, direction) {
+        if (value < 0) {
+            value = 0;
+        }
+        else if (value > this.max[direction]) {
+            value = this.max[direction];
+        }
+        return value;
+    }
+    triggerScrollChange() {
+        this.onScrollChange.trigger(this.x, this.y);
+    }
+    scrollToPosition(x, y) {
+        this.scrollDirection('x', x);
+        this.scrollDirection('y', y);
+    }
+    scrollX(x) {
+        this.scrollDirection('x', x);
+    }
+    scrollXPercent(x) {
+        this.scrollDirectionPercent('x', x);
+    }
+    scrollY(y) {
+        this.scrollDirection('y', y);
+    }
+    scrollYPercent(y) {
+        this.scrollDirectionPercent('y', y);
+    }
+    startAutoScrollRight() {
+        if (!this.autoScrollInterval.right) {
+            this.stopAutoScrollLeft();
+            this.autoScrollInterval.right = setInterval(() => {
+                if (this.x == this.max.x) {
+                    this.stopAutoScrollRight();
+                    return;
+                }
+                this.addDelta({
+                    x: this.autoScrollSpeed.right,
+                    y: 0
+                });
+            }, 100);
+        }
+    }
+    autoScrollRight(percent = 50) {
+        let slow = this.max.x * 1 / 100;
+        let fast = this.max.x * 10 / 100;
+        this.autoScrollSpeed.right = (fast - slow) * (percent / 100) + slow;
+        this.startAutoScrollRight();
+    }
+    stopAutoScrollRight() {
+        if (this.autoScrollInterval.right) {
+            clearInterval(this.autoScrollInterval.right);
+            this.autoScrollInterval.right = 0;
+        }
+    }
+    startAutoScrollLeft() {
+        if (!this.autoScrollInterval.left) {
+            this.stopAutoScrollRight();
+            this.autoScrollInterval.left = setInterval(() => {
+                if (this.x == 0) {
+                    this.stopAutoScrollLeft();
+                    return;
+                }
+                this.addDelta({
+                    x: this.autoScrollSpeed.left * -1,
+                    y: 0
+                });
+            }, 100);
+        }
+    }
+    autoScrollLeft(percent = 50) {
+        let slow = this.max.x * 1 / 100;
+        let fast = this.max.x * 10 / 100;
+        this.autoScrollSpeed.left = (fast - slow) * (percent / 100) + slow;
+        this.startAutoScrollLeft();
+    }
+    stopAutoScrollLeft() {
+        if (this.autoScrollInterval.left) {
+            clearInterval(this.autoScrollInterval.left);
+            this.autoScrollInterval.left = 0;
+        }
+    }
+    startAutoScrollTop() {
+        if (!this.autoScrollInterval.top) {
+            this.stopAutoScrollBottom();
+            this.autoScrollInterval.top = setInterval(() => {
+                if (this.y == 0) {
+                    this.stopAutoScrollTop();
+                    return;
+                }
+                this.addDelta({
+                    x: 0,
+                    y: this.autoScrollSpeed.top * -1
+                });
+            }, 100);
+        }
+    }
+    autoScrollTop(percent = 50) {
+        let slow = this.max.y * 1 / 100;
+        let fast = this.max.y * 10 / 100;
+        this.autoScrollSpeed.top = (fast - slow) * (percent / 100) + slow;
+        this.startAutoScrollTop();
+    }
+    stopAutoScrollTop() {
+        if (this.autoScrollInterval.top) {
+            clearInterval(this.autoScrollInterval.top);
+            this.autoScrollInterval.top = 0;
+        }
+    }
+    startAutoScrollBottom() {
+        if (!this.autoScrollInterval.bottom) {
+            this.stopAutoScrollTop();
+            this.autoScrollInterval.bottom = setInterval(() => {
+                if (this.y == this.max.y) {
+                    this.stopAutoScrollBottom();
+                    return;
+                }
+                this.addDelta({
+                    x: 0,
+                    y: this.autoScrollSpeed.bottom
+                });
+            }, 100);
+        }
+    }
+    autoScrollBottom(percent = 50) {
+        let slow = this.max.y * 1 / 100;
+        let fast = this.max.y * 10 / 100;
+        this.autoScrollSpeed.bottom = (fast - slow) * (percent / 100) + slow;
+        this.startAutoScrollBottom();
+    }
+    stopAutoScrollBottom() {
+        if (this.autoScrollInterval.bottom) {
+            clearInterval(this.autoScrollInterval.bottom);
+            this.autoScrollInterval.bottom = 0;
+        }
+    }
+    createMatrix() {
+        if (!this.cachedSvg) {
+            this.cachedSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        }
+        return this.cachedSvg.createSVGMatrix();
+    }
+    getMidPoint(a, b) {
+        return {
+            x: (a.lastPosition.x + b.lastPosition.x) / 2,
+            y: (a.lastPosition.y + b.lastPosition.y) / 2,
+        };
+    }
+    getDistance(a, b) {
+        return Math.sqrt((b.lastPosition.x - a.lastPosition.x) ** 2 + (b.lastPosition.y - a.lastPosition.y) ** 2);
+    }
+    zoomOnPoint(clientX, clientY, newZoom) {
+        let targetCoordinates = this.getBoundingClientRect();
+        let mousePositionRelativeToTarget = {
+            x: targetCoordinates.x - clientX,
+            y: targetCoordinates.y - clientY
+        };
+        let oldScale = this.zoom;
+        let newScale;
+        if (this.max_zoom > 0) {
+            newScale = Math.max(this.min_zoom, Math.min(this.max_zoom, newZoom));
+        }
+        else {
+            newScale = Math.max(this.min_zoom, newZoom);
+        }
+        let scaleDiff = newScale / oldScale;
+        const matrix = this.createMatrix()
+            .translate(this.x, this.y)
+            .translate(mousePositionRelativeToTarget.x, mousePositionRelativeToTarget.y)
+            .scale(scaleDiff)
+            .translate(-mousePositionRelativeToTarget.x, -mousePositionRelativeToTarget.y)
+            .scale(this.zoom);
+        const newZoomFinal = matrix.a || 1;
+        const newX = matrix.e || 0;
+        const newY = matrix.f || 0;
+        this.zoom = newZoomFinal;
+        this.onZoomChange.trigger(newZoomFinal);
+        this.scrollDirection('x', newX);
+        this.scrollDirection('y', newY);
+    }
+    pinchAction() {
+        const touches = this.touchRecord.getTouches();
+        if (touches.length == 2) {
+            const newMidpoint = this.getMidPoint(touches[0], touches[1]);
+            const prevMidpoint = this.previousMidPoint ?? newMidpoint;
+            const positioningElRect = this.getBoundingClientRect();
+            const originX = (positioningElRect.left + this.x - this.startTranslate.x) - prevMidpoint.x;
+            const originY = (positioningElRect.top + this.y - this.startTranslate.y) - prevMidpoint.y;
+            const newDistance = this.getDistance(touches[0], touches[1]);
+            const prevDistance = this.previousDistance;
+            let scaleDiff = prevDistance ? newDistance / prevDistance : 1;
+            const panX = prevMidpoint.x - newMidpoint.x;
+            const panY = prevMidpoint.y - newMidpoint.y;
+            let oldScale = this.zoom;
+            let newScale;
+            if (this.max_zoom > 0) {
+                newScale = Math.max(this.min_zoom, Math.min(this.max_zoom, oldScale * scaleDiff));
+            }
+            else {
+                newScale = Math.max(this.min_zoom, oldScale * scaleDiff);
+            }
+            scaleDiff = newScale / oldScale;
+            const matrix = this.createMatrix()
+                .translate(panX, panY)
+                .translate(originX, originY)
+                .translate(this.x, this.y)
+                .scale(scaleDiff)
+                .translate(-originX, -originY)
+                .scale(this.zoom);
+            const newZoom = matrix.a || 1;
+            const newX = matrix.e || 0;
+            const newY = matrix.f || 0;
+            this.zoom = newZoom;
+            this.onZoomChange.trigger(newZoom);
+            this.scrollDirection('x', newX);
+            this.scrollDirection('y', newY);
+            this.previousMidPoint = newMidpoint;
+            this.previousDistance = newDistance;
+        }
+        return null;
+    }
+    addAction() {
+        this.addEventListener("wheel", this.onWheel, { passive: false });
+        this.pressManager = new Aventus.PressManager({
+            element: this,
+            offsetDrag: 0,
+            onPressStart: (e) => {
+                this.touchRecord.track(e.event);
+                this.pointerCount = this.touchRecord.getNbOfTouches();
+            },
+            onPressEnd: (e) => {
+                this.touchRecord.release(e.event);
+                this.pointerCount = this.touchRecord.getNbOfTouches();
+            },
+            onDragStart: (e) => {
+                if (!this.pinch && !this.x_scroll_visible && !this.y_scroll_visible) {
+                    return false;
+                }
+                return this.onTouchStartPointer(e);
+            },
+            onDrag: (e) => {
+                this.onTouchMovePointer(e);
+            },
+            onDragEnd: (e) => {
+                this.onTouchEndPointer(e);
+            }
+        });
+        // this.addEventListener("touchstart", this.onTouchStart);
+        // this.addEventListener("trigger_pointer_pressstart", this.onTouchStartPointer);
+        if (this.mouse_drag) {
+            // this.addEventListener("mousedown", this.onTouchStart);
+        }
+        this.addScrollDrag('x');
+        this.addScrollDrag('y');
+    }
+    addActionMove() {
+        // document.body.addEventListener("touchmove", this.onTouchMove);
+        // document.body.addEventListener("trigger_pointer_pressmove", this.onTouchMovePointer);
+        // document.body.addEventListener("touchcancel", this.onTouchEnd);
+        // document.body.addEventListener("touchend", this.onTouchEnd);
+        // document.body.addEventListener("trigger_pointer_pressend", this.onTouchEndPointer);
+        if (this.mouse_drag) {
+            // document.body.addEventListener("mousemove", this.onTouchMove);
+            // document.body.addEventListener("mouseup", this.onTouchEnd);
+        }
+    }
+    removeActionMove() {
+        // document.body.removeEventListener("touchmove", this.onTouchMove);
+        // document.body.removeEventListener("trigger_pointer_pressmove", this.onTouchMovePointer);
+        // document.body.removeEventListener("touchcancel", this.onTouchEnd);
+        // document.body.removeEventListener("touchend", this.onTouchEnd);
+        // document.body.removeEventListener("trigger_pointer_pressend", this.onTouchEndPointer);
+        // document.body.removeEventListener("mousemove", this.onTouchMove);
+        // document.body.removeEventListener("mouseup", this.onTouchEnd);
+    }
+    addScrollDrag(direction) {
+        let scroller = this.scroller[direction]();
+        let startPosition = 0;
+        new Aventus.DragAndDrop({
+            element: scroller,
+            applyDrag: false,
+            usePercent: true,
+            offsetDrag: 0,
+            isDragEnable: () => !this.disable,
+            onStart: (e) => {
+                this.isDragScroller = true;
+                this.no_user_select = true;
+                scroller.classList.add("active");
+                startPosition = this.position[direction];
+            },
+            onMove: (e, position) => {
+                let delta = position[direction] / 100 * this.contentWrapperSize[direction];
+                let value = startPosition + delta;
+                this.scrollDirection(direction, value);
+            },
+            onStop: () => {
+                this.no_user_select = false;
+                scroller.classList.remove("active");
+                this.isDragScroller = false;
+            }
+        });
+    }
+    shouldStopPropagation(e, delta) {
+        if (!this.y_scroll && this.x_scroll) {
+            if ((delta.x > 0 && this.x != this.max.x) ||
+                (delta.x <= 0 && this.x != 0)) {
+                e.stopPropagation();
+            }
+        }
+        else {
+            if ((delta.y > 0 && this.y != this.max.y) ||
+                (delta.y <= 0 && this.y != 0)) {
+                e.stopPropagation();
+            }
+        }
+    }
+    addDelta(delta) {
+        if (this.disable) {
+            return;
+        }
+        this.momentum.x += delta.x;
+        this.momentum.y += delta.y;
+        this.renderAnimation?.start();
+    }
+    onWheel(e) {
+        if (e.ctrlKey) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (this.pinch) {
+                let factor = 0.9;
+                if (e.deltaY < 0) {
+                    factor = 1.1;
+                }
+                this.zoomOnPoint(e.clientX, e.clientY, this.zoom * factor);
+            }
+            return;
+        }
+        const DELTA_MODE = [1.0, 28.0, 500.0];
+        const mode = DELTA_MODE[e.deltaMode] || DELTA_MODE[0];
+        let newValue = {
+            x: 0,
+            y: e.deltaY * mode,
+        };
+        if (!this.y_scroll && this.x_scroll) {
+            newValue = {
+                x: e.deltaY * mode,
+                y: 0,
+            };
+        }
+        else if (this.x_scroll && e.altKey) {
+            newValue = {
+                x: e.deltaY * mode,
+                y: 0,
+            };
+        }
+        this.shouldStopPropagation(e, newValue);
+        this.addDelta(newValue);
+    }
+    onTouchStartPointer(e) {
+        const ev = e.event;
+        if ('TouchEvent' in window && ev instanceof TouchEvent) {
+            this.onTouchStart(ev);
+            return true;
+        }
+        else if (ev instanceof PointerEvent) {
+            if (this.mouse_drag || ev.pointerType == "touch") {
+                this.onTouchStart(ev);
+                return true;
+            }
+        }
+        return false;
+    }
+    onTouchStart(e) {
+        if (this.isDragScroller)
+            return;
+        this.touchRecord.track(e);
+        this.momentum = {
+            x: 0,
+            y: 0
+        };
+        if (this.pointerCount === 0) {
+            this.addActionMove();
+        }
+        this.pointerCount = this.touchRecord.getNbOfTouches();
+        if (this.pinch && this.pointerCount == 2) {
+            this.startTranslate = { x: this.x, y: this.y };
+        }
+    }
+    onTouchMovePointer(e) {
+        const ev = e.event;
+        if ('TouchEvent' in window && ev instanceof TouchEvent) {
+            this.onTouchMove(ev);
+        }
+        else if (ev instanceof PointerEvent) {
+            if (this.mouse_drag || ev.pointerType == "touch") {
+                this.onTouchMove(ev);
+            }
+        }
+    }
+    onTouchMove(e) {
+        if (this.isDragScroller)
+            return;
+        this.touchRecord.update(e);
+        if (this.pinch && this.pointerCount == 2) {
+            // zoom
+            e.stopPropagation();
+            this.renderAnimation?.stop();
+            this.pinchAction();
+        }
+        else {
+            const delta = this.touchRecord.getDelta();
+            this.shouldStopPropagation(e, delta);
+            this.addDelta(delta);
+        }
+    }
+    onTouchEndPointer(e) {
+        const ev = e.event;
+        if ('TouchEvent' in window && ev instanceof TouchEvent) {
+            this.onTouchEnd(ev);
+        }
+        else if (ev instanceof PointerEvent) {
+            if (this.mouse_drag || ev.pointerType == "touch") {
+                this.onTouchEnd(ev);
+            }
+        }
+    }
+    onTouchEnd(e) {
+        if (this.isDragScroller)
+            return;
+        const delta = this.touchRecord.getEasingDistance(this.break);
+        this.shouldStopPropagation(e, delta);
+        this.addDelta(delta);
+        this.touchRecord.release(e);
+        this.pointerCount = this.touchRecord.getNbOfTouches();
+        if (this.pointerCount === 0) {
+            this.removeActionMove();
+        }
+        if (this.pointerCount < 2) {
+            this.previousMidPoint = undefined;
+            this.previousDistance = undefined;
+        }
+    }
+    calculateRealSize() {
+        if (!this.contentZoom || !this.mainContainer || !this.contentWrapper) {
+            return false;
+        }
+        const currentOffsetWidth = this.contentZoom.offsetWidth;
+        const currentOffsetHeight = this.contentZoom.offsetHeight;
+        let hasChanged = false;
+        if (this.contentWrapper.offsetWidth != this.contentWrapperSize.x || this.contentWrapper.offsetHeight != this.contentWrapperSize.y)
+            hasChanged = true;
+        this.contentWrapperSize.x = this.contentWrapper.offsetWidth;
+        this.contentWrapperSize.y = this.contentWrapper.offsetHeight;
+        if (this.zoom < 1) {
+            // scale the container for zoom
+            this.contentZoom.style.width = this.mainContainer.offsetWidth / this.zoom + 'px';
+            this.contentZoom.style.height = this.mainContainer.offsetHeight / this.zoom + 'px';
+            this.contentZoom.style.maxHeight = this.mainContainer.offsetHeight / this.zoom + 'px';
+            if (currentOffsetHeight != this.display.y || currentOffsetWidth != this.display.x)
+                hasChanged = true;
+            this.display.y = currentOffsetHeight;
+            this.display.x = currentOffsetWidth;
+        }
+        else {
+            const newX = currentOffsetWidth / this.zoom;
+            const newY = currentOffsetHeight / this.zoom;
+            if (newY != this.display.y || newX != this.display.x)
+                hasChanged = true;
+            this.display.y = newY;
+            this.display.x = newX;
+            this.contentZoom.style.width = '';
+            this.contentZoom.style.height = '';
+            this.contentZoom.style.maxHeight = '';
+        }
+        return hasChanged;
+    }
+    calculatePositionScrollerContainer(direction) {
+        if (direction == 'y') {
+            this.calculatePositionScrollerContainerY();
+        }
+        else {
+            this.calculatePositionScrollerContainerX();
+        }
+    }
+    calculatePositionScrollerContainerY() {
+        const leftMissing = this.mainContainer.offsetWidth - this.verticalScrollerContainer.offsetLeft;
+        if (leftMissing > 0 && this.y_scroll_visible && !this.floating_scroll) {
+            this.contentHidder.style.width = 'calc(100% - ' + leftMissing + 'px)';
+            this.contentHidder.style.marginRight = leftMissing + 'px';
+            this.margin.x = leftMissing;
+        }
+        else {
+            this.contentHidder.style.width = '';
+            this.contentHidder.style.marginRight = '';
+            this.margin.x = 0;
+        }
+    }
+    calculatePositionScrollerContainerX() {
+        const topMissing = this.mainContainer.offsetHeight - this.horizontalScrollerContainer.offsetTop;
+        if (topMissing > 0 && this.x_scroll_visible && !this.floating_scroll) {
+            this.contentHidder.style.height = 'calc(100% - ' + topMissing + 'px)';
+            this.contentHidder.style.marginBottom = topMissing + 'px';
+            this.margin.y = topMissing;
+        }
+        else {
+            this.contentHidder.style.height = '';
+            this.contentHidder.style.marginBottom = '';
+            this.margin.y = 0;
+        }
+    }
+    calculateSizeScroller(direction) {
+        const scrollerSize = ((this.display[direction] - this.margin[direction]) / this.contentWrapperSize[direction] * 100);
+        if (direction == "y") {
+            this.scroller[direction]().style.height = scrollerSize + '%';
+        }
+        else {
+            this.scroller[direction]().style.width = scrollerSize + '%';
+        }
+        let maxScrollContent = this.contentWrapperSize[direction] - this.display[direction];
+        if (maxScrollContent < 0) {
+            maxScrollContent = 0;
+        }
+        this.max[direction] = maxScrollContent + this.margin[direction];
+    }
+    changeZoom() {
+        this.contentZoom.style.transform = 'scale(' + this.zoom + ')';
+        this.dimensionRefreshed(true);
+    }
+    dimensionRefreshed(force = false) {
+        if (this.contentWrapper.offsetHeight > 0 && this.contentWrapper.offsetWidth > 0) {
+            this.loadedOnce = true;
+            if (this.savedPercent) {
+                this.position.x = this.contentWrapper.offsetWidth * this.savedPercent.x;
+                this.position.y = this.contentWrapper.offsetHeight * this.savedPercent.y;
+                this.savedPercent = undefined;
+            }
+        }
+        else if (this.loadedOnce) {
+            this.savedPercent = {
+                x: this.position.x / this.contentWrapperSize.x,
+                y: this.position.y / this.contentWrapperSize.y
+            };
+        }
+        if (!this.calculateRealSize() && !force) {
+            return;
+        }
+        if (this.contentWrapperSize.y - this.display.y > 0) {
+            if (!this.y_scroll_visible) {
+                this.y_scroll_visible = true;
+                this.calculatePositionScrollerContainer('y');
+            }
+            this.calculateSizeScroller('y');
+            this.scrollDirection('y', this.y);
+        }
+        else if (this.y_scroll_visible) {
+            this.y_scroll_visible = false;
+            this.calculatePositionScrollerContainer('y');
+            this.calculateSizeScroller('y');
+            this.scrollDirection('y', 0);
+        }
+        if (this.contentWrapperSize.x - this.display.x > 0) {
+            if (!this.x_scroll_visible) {
+                this.x_scroll_visible = true;
+                this.calculatePositionScrollerContainer('x');
+            }
+            this.calculateSizeScroller('x');
+            this.scrollDirection('x', this.x);
+        }
+        else if (this.x_scroll_visible) {
+            this.x_scroll_visible = false;
+            this.calculatePositionScrollerContainer('x');
+            this.calculateSizeScroller('x');
+            this.scrollDirection('x', 0);
+        }
+    }
+    createResizeObserver() {
+        let inProgress = false;
+        return new Aventus.ResizeObserver({
+            callback: entries => {
+                if (inProgress) {
+                    return;
+                }
+                inProgress = true;
+                this.dimensionRefreshed();
+                inProgress = false;
+            },
+            fps: 30
+        });
+    }
+    addResizeObserver() {
+        if (this.observer == undefined) {
+            this.observer = this.createResizeObserver();
+        }
+        this.observer.observe(this.contentWrapper);
+        this.observer.observe(this);
+    }
+    postCreation() {
+        this.dimensionRefreshed();
+        this.addResizeObserver();
+        this.addAction();
+    }
+    static lock(element) {
+        const container = element.findParentByType(Components.Scrollable);
+        if (container) {
+            container.disable = true;
+        }
+    }
+    static unlock(element) {
+        const container = element.findParentByType(Components.Scrollable);
+        if (container) {
+            container.disable = false;
+        }
+    }
+}
+Components.Scrollable.Namespace=`Core.Components`;
+Components.Scrollable.Tag=`rk-scrollable`;
+__as1(_.Components, 'Scrollable', Components.Scrollable);
+if(!window.customElements.get('rk-scrollable')){window.customElements.define('rk-scrollable', Components.Scrollable);Aventus.WebComponentInstance.registerDefinition(Components.Scrollable);}
+
+Components.Tabs = class Tabs extends Aventus.WebComponent {
+    static get observedAttributes() {return ["header_full_width"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'first_active'() { return this.getBoolAttr('first_active') }
+    set 'first_active'(val) { this.setBoolAttr('first_active', val) }get 'last_active'() { return this.getBoolAttr('last_active') }
+    set 'last_active'(val) { this.setBoolAttr('last_active', val) }    get 'header_full_width'() { return this.getBoolProp('header_full_width') }
+    set 'header_full_width'(val) { this.setBoolAttr('header_full_width', val) }    tabs = {};
+    activeHeader;
+    elements = [];
+    static __style = `:host{--_tabs-background-color: var(--tabs-background-color, #ffffff);--_tabs-header-background-color: var(--tabs-header-background-color, var(--darker-active, rgb(125, 125, 125)));--_tabs-header-background-color-active: var(--tabs-header-background-color-active, var(--_tabs-background-color));--_tabs-header-background-color-disabled: var(--tabs-header-background-color-disabled, var(--form-element-background-readonly));--_tabs-header-padding: var(--tabs-header-padding, 10px 10px);--_tabs-header-font-size: var(--tabs-header-font-size, calc(var(--font-size) * 0.855));--_tabs-body-padding: var(--tabs-body-padding, 10px 10px);--_tabs-spacing: var(--tabs-spacing, 5px);--_tabs-transition: var(--tabs-transition, background-color var(--bezier-curve) 0.2s);--_tabs-border-radius: var(--tabs-border-radius, var(--border-radius-sm, 0))}:host{display:flex;flex-direction:column;overflow:hidden;width:100%}:host .header .header-wrapper{align-items:center;display:flex;flex-direction:row;flex-wrap:nowrap;gap:var(--_tabs-spacing);padding-bottom:var(--_tabs-spacing)}:host .body{background-color:var(--_tabs-background-color);border-radius:var(--_tabs-border-radius);padding:var(--_tabs-body-padding);width:100%}:host([first_active]) .body{border-top-left-radius:0px}:host([last_active]) .body{border-top-right-radius:0px}:host([header_full_width]) .header .header-wrapper>*{flex-grow:1}`;
+    constructor() {
+        super();
+        this.validateCorner = this.validateCorner.bind(this);
+    }
+    __getStatic() {
+        return Tabs;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Tabs.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<rk-scrollable y_scroll="false" class="header" floating_scroll auto_hide _id="tabs_0">    <div class="header-wrapper" _id="tabs_1"></div></rk-scrollable><div class="body" _id="tabs_2">    <slot></slot></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "headerScrollEl",
+      "ids": [
+        "tabs_0"
+      ]
+    },
+    {
+      "name": "headerEl",
+      "ids": [
+        "tabs_1"
+      ]
+    },
+    {
+      "name": "bodyEl",
+      "ids": [
+        "tabs_2"
+      ]
+    }
+  ],
+  "injection": [
+    {
+      "id": "tabs_0",
+      "injectionName": "x_scroll",
+      "inject": (c) => c.comp.__83b521fae0adf34c398cd02a022cfc5fmethod0(),
+      "once": true
+    }
+  ]
+}); }
+    getClassName() {
+        return "Tabs";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('first_active')) { this.attributeChangedCallback('first_active', false, false); }if(!this.hasAttribute('last_active')) { this.attributeChangedCallback('last_active', false, false); }if(!this.hasAttribute('header_full_width')) { this.attributeChangedCallback('header_full_width', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('first_active');this.__upgradeProperty('last_active');this.__upgradeProperty('header_full_width'); }
+    __listBoolProps() { return ["first_active","last_active","header_full_width"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    loadTabs() {
+        // let elements = this.elements;
+        let elements = this.getElementsInSlot();
+        let first = null;
+        for (let element of elements) {
+            element.style.display = 'none';
+            if (element instanceof _.Components.Tab) {
+                this.tabs[element.label] = element;
+                let header = new (this.defineTabHeader())();
+                this.headerEl.appendChild(header);
+                header.init(element, this);
+                if (first == null) {
+                    first = header;
+                }
+                else if (!first.tab.selected && element.selected) {
+                    first = header;
+                }
+            }
+        }
+        if (first) {
+            this.displayActive(first);
+        }
+    }
+    displayActive(tabHeader) {
+        if (this.activeHeader) {
+            this.activeHeader.active = false;
+            this.activeHeader.tab.selected = false;
+            this.activeHeader.tab.style.display = 'none';
+        }
+        this.activeHeader = tabHeader;
+        this.activeHeader.active = true;
+        this.activeHeader.tab.style.display = '';
+        this.activeHeader.tab.selected = true;
+        this.validateCorner();
+    }
+    defineTabHeader() {
+        return _.Components.TabHeader;
+    }
+    validateCorner() {
+        this.first_active = this.headerScrollEl.x == 0 && this.activeHeader == this.headerEl.children[0];
+        this.last_active = this.headerScrollEl['contentWrapper'].offsetWidth >= this.offsetWidth && this.headerScrollEl.x == this.headerScrollEl['max'].x && this.activeHeader == this.headerEl.children[this.headerEl.children.length - 1];
+    }
+    setActive(labelOrIndex) {
+        if (typeof labelOrIndex == 'number') {
+            if (this.headerEl.children.length > labelOrIndex) {
+                const header = this.headerEl.children[labelOrIndex];
+                if (header instanceof _.Components.TabHeader) {
+                    this.displayActive(header);
+                }
+            }
+        }
+        else {
+            const header = this.tabs[labelOrIndex].tabHeader;
+            if (header)
+                this.displayActive(header);
+        }
+    }
+    postCreation() {
+        super.postCreation();
+        this.headerScrollEl.onScrollChange.add(this.validateCorner);
+        this.loadTabs();
+    }
+    __83b521fae0adf34c398cd02a022cfc5fmethod0() {
+        return !this.header_full_width;
+    }
+}
+Components.Tabs.Namespace=`Core.Components`;
+Components.Tabs.Tag=`rk-tabs`;
+__as1(_.Components, 'Tabs', Components.Tabs);
+if(!window.customElements.get('rk-tabs')){window.customElements.define('rk-tabs', Components.Tabs);Aventus.WebComponentInstance.registerDefinition(Components.Tabs);}
 
 Components.ContextMenu = class ContextMenu extends Aventus.WebComponent {
     static instance;
@@ -4271,1153 +5418,6 @@ Permissions.OsPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema 
 Aventus.Converter.register(Permissions.OsPermissionQuery.Fullname, Permissions.OsPermissionQuery);
 __as1(_.Permissions, 'OsPermissionQuery', Permissions.OsPermissionQuery);
 
-Components.TouchRecord=class TouchRecord {
-    _activeTouchID;
-    _touchList = {};
-    get _primitiveValue() {
-        return { x: 0, y: 0 };
-    }
-    isActive() {
-        return this._activeTouchID !== undefined;
-    }
-    getDelta() {
-        const tracker = this._getActiveTracker();
-        if (!tracker) {
-            return this._primitiveValue;
-        }
-        return { ...tracker.delta };
-    }
-    getVelocity() {
-        const tracker = this._getActiveTracker();
-        if (!tracker) {
-            return this._primitiveValue;
-        }
-        return { ...tracker.velocity };
-    }
-    getNbOfTouches() {
-        return Object.values(this._touchList).length;
-    }
-    getTouches() {
-        return Object.values(this._touchList);
-    }
-    getEasingDistance(damping) {
-        const deAcceleration = 1 - damping;
-        let distance = {
-            x: 0,
-            y: 0,
-        };
-        const vel = this.getVelocity();
-        Object.keys(vel).forEach(dir => {
-            let v = Math.abs(vel[dir]) <= 10 ? 0 : vel[dir];
-            while (v !== 0) {
-                distance[dir] += v;
-                v = (v * deAcceleration) | 0;
-            }
-        });
-        return distance;
-    }
-    track(evt) {
-        if ('TouchEvent' in window && evt instanceof TouchEvent) {
-            const { targetTouches, } = evt;
-            Array.from(targetTouches).forEach(touch => {
-                this._add(touch);
-            });
-        }
-        else {
-            this._add(evt);
-        }
-        return this._touchList;
-    }
-    update(evt) {
-        if ('TouchEvent' in window && evt instanceof TouchEvent) {
-            const { touches, changedTouches, } = evt;
-            Array.from(touches).forEach(touch => {
-                this._renew(touch);
-            });
-            this._setActiveID(changedTouches);
-        }
-        else if (evt instanceof PointerEvent) {
-            this._renew(evt);
-            this._setActiveID(evt);
-        }
-        return this._touchList;
-    }
-    release(evt) {
-        if ('TouchEvent' in window && evt instanceof TouchEvent) {
-            Array.from(evt.changedTouches).forEach(touch => {
-                this._delete(touch);
-            });
-        }
-        else {
-            this._delete(evt);
-        }
-    }
-    _getIdentifier(touch) {
-        if ('Touch' in window && touch instanceof Touch)
-            return touch.identifier;
-        if (touch instanceof PointerEvent)
-            return touch.pointerId;
-        return touch.button;
-    }
-    _add(touch) {
-        if (this._has(touch)) {
-            this._delete(touch);
-        }
-        const tracker = new Components.Tracker(touch);
-        const identifier = this._getIdentifier(touch);
-        this._touchList[identifier] = tracker;
-    }
-    _renew(touch) {
-        if (!this._has(touch)) {
-            return;
-        }
-        const identifier = this._getIdentifier(touch);
-        const tracker = this._touchList[identifier];
-        tracker.update(touch);
-    }
-    _delete(touch) {
-        const identifier = this._getIdentifier(touch);
-        delete this._touchList[identifier];
-        if (this._activeTouchID == identifier) {
-            this._activeTouchID = undefined;
-        }
-    }
-    _has(touch) {
-        const identifier = this._getIdentifier(touch);
-        return this._touchList.hasOwnProperty(identifier);
-    }
-    _setActiveID(touches) {
-        if (touches instanceof PointerEvent || touches instanceof MouseEvent) {
-            this._activeTouchID = this._getIdentifier(touches);
-        }
-        else {
-            this._activeTouchID = touches[touches.length - 1].identifier;
-        }
-    }
-    _getActiveTracker() {
-        const { _touchList, _activeTouchID, } = this;
-        if (_activeTouchID !== undefined) {
-            return _touchList[_activeTouchID];
-        }
-        return undefined;
-    }
-}
-Components.TouchRecord.Namespace=`Core.Components`;
-__as1(_.Components, 'TouchRecord', Components.TouchRecord);
-
-Components.Scrollable = class Scrollable extends Aventus.WebComponent {
-    static get observedAttributes() {return ["zoom"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'min_zoom'() { return this.getNumberAttr('min_zoom') }
-    set 'min_zoom'(val) { this.setNumberAttr('min_zoom', val) }get 'max_zoom'() { return this.getNumberAttr('max_zoom') }
-    set 'max_zoom'(val) { this.setNumberAttr('max_zoom', val) }get 'y_scroll_visible'() { return this.getBoolAttr('y_scroll_visible') }
-    set 'y_scroll_visible'(val) { this.setBoolAttr('y_scroll_visible', val) }get 'x_scroll_visible'() { return this.getBoolAttr('x_scroll_visible') }
-    set 'x_scroll_visible'(val) { this.setBoolAttr('x_scroll_visible', val) }get 'floating_scroll'() { return this.getBoolAttr('floating_scroll') }
-    set 'floating_scroll'(val) { this.setBoolAttr('floating_scroll', val) }get 'x_scroll'() { return this.getBoolAttr('x_scroll') }
-    set 'x_scroll'(val) { this.setBoolAttr('x_scroll', val) }get 'y_scroll'() { return this.getBoolAttr('y_scroll') }
-    set 'y_scroll'(val) { this.setBoolAttr('y_scroll', val) }get 'auto_hide'() { return this.getBoolAttr('auto_hide') }
-    set 'auto_hide'(val) { this.setBoolAttr('auto_hide', val) }get 'break'() { return this.getNumberAttr('break') }
-    set 'break'(val) { this.setNumberAttr('break', val) }get 'disable'() { return this.getBoolAttr('disable') }
-    set 'disable'(val) { this.setBoolAttr('disable', val) }get 'no_user_select'() { return this.getBoolAttr('no_user_select') }
-    set 'no_user_select'(val) { this.setBoolAttr('no_user_select', val) }get 'mouse_drag'() { return this.getBoolAttr('mouse_drag') }
-    set 'mouse_drag'(val) { this.setBoolAttr('mouse_drag', val) }get 'pinch'() { return this.getBoolAttr('pinch') }
-    set 'pinch'(val) { this.setBoolAttr('pinch', val) }    get 'zoom'() { return this.getNumberProp('zoom') }
-    set 'zoom'(val) { this.setNumberAttr('zoom', val) }    observer;
-    display = { x: 0, y: 0 };
-    max = {
-        x: 0,
-        y: 0
-    };
-    margin = {
-        x: 0,
-        y: 0
-    };
-    position = {
-        x: 0,
-        y: 0
-    };
-    momentum = { x: 0, y: 0 };
-    contentWrapperSize = { x: 0, y: 0 };
-    scroller = {
-        x: () => {
-            if (!this.horizontalScroller) {
-                throw 'can\'t find the horizontalScroller';
-            }
-            return this.horizontalScroller;
-        },
-        y: () => {
-            if (!this.verticalScroller) {
-                throw 'can\'t find the verticalScroller';
-            }
-            return this.verticalScroller;
-        }
-    };
-    scrollerContainer = {
-        x: () => {
-            if (!this.horizontalScrollerContainer) {
-                throw 'can\'t find the horizontalScrollerContainer';
-            }
-            return this.horizontalScrollerContainer;
-        },
-        y: () => {
-            if (!this.verticalScrollerContainer) {
-                throw 'can\'t find the verticalScrollerContainer';
-            }
-            return this.verticalScrollerContainer;
-        }
-    };
-    hideDelay = { x: 0, y: 0 };
-    touchRecord;
-    pointerCount = 0;
-    loadedOnce = false;
-    savedPercent;
-    isDragScroller = false;
-    cachedSvg;
-    previousMidPoint;
-    previousDistance;
-    startTranslate = { x: 0, y: 0 };
-    get x() {
-        return this.position.x;
-    }
-    get y() {
-        return this.position.y;
-    }
-    get xMax() {
-        return this.max.x;
-    }
-    get yMax() {
-        return this.max.y;
-    }
-    onScrollChange = new Aventus.Callback();
-    onZoomChange = new Aventus.Callback();
-    renderAnimation;
-    autoScrollInterval = {
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-    };
-    autoScrollSpeed = {
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-    };
-    pressManager;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("zoom", ((target) => {
-    target.changeZoom();
-})); }
-    static __style = `:host{--_scrollbar-container-color: var(--scrollbar-container-color, transparent);--_scrollbar-color: var(--scrollbar-color, #757575);--_scrollbar-active-color: var(--scrollbar-active-color, #858585);--_scrollbar-max-height: var(--scrollbar-max-height, 100%);--_scroller-width: var(--scroller-width, 6px);--_scroller-top: var(--scroller-top, 3px);--_scroller-bottom: var(--scroller-bottom, 3px);--_scroller-right: var(--scroller-right, 3px);--_scroller-left: var(--scroller-left, 3px);--_scrollbar-content-padding: var(--scrollbar-content-padding, 0);--_scrollbar-container-display: var(--scrollbar-container-display, inline-block)}:host{display:block;height:100%;min-height:inherit;min-width:inherit;overflow:hidden;position:relative;-webkit-user-drag:none;-khtml-user-drag:none;-moz-user-drag:none;-o-user-drag:none;width:100%}:host .scroll-main-container{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;position:relative;width:100%}:host .scroll-main-container .content-zoom{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;position:relative;transform-origin:0 0;width:100%;z-index:4}:host .scroll-main-container .content-zoom .content-hidder{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;overflow:hidden;position:relative;width:100%}:host .scroll-main-container .content-zoom .content-hidder .content-wrapper{display:var(--_scrollbar-container-display);height:100%;min-height:inherit;min-width:inherit;padding:var(--_scrollbar-content-padding);position:relative;width:100%}:host .scroll-main-container .scroller-wrapper .container-scroller{display:none;overflow:hidden;position:absolute;transition:transform .2s linear;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller{background-color:var(--_scrollbar-container-color);border-radius:var(--border-radius-sm)}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller .scroller{background-color:var(--_scrollbar-color);border-radius:var(--border-radius-sm);cursor:pointer;position:absolute;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .scroller.active{background-color:var(--_scrollbar-active-color)}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical{height:calc(100% - var(--_scroller-bottom)*2 - var(--_scroller-width));padding-left:var(--_scroller-left);right:var(--_scroller-right);top:var(--_scroller-bottom);transform:0;width:calc(var(--_scroller-width) + var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical.hide{transform:translateX(calc(var(--_scroller-width) + var(--_scroller-left)))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller .scroller{width:calc(100% - var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal{bottom:var(--_scroller-bottom);height:calc(var(--_scroller-width) + var(--_scroller-top));left:var(--_scroller-right);padding-top:var(--_scroller-top);transform:0;width:calc(100% - var(--_scroller-right)*2 - var(--_scroller-width))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal.hide{transform:translateY(calc(var(--_scroller-width) + var(--_scroller-top)))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller .scroller{height:calc(100% - var(--_scroller-top))}:host([y_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{height:auto}:host([x_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{width:auto}:host([y_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.vertical{display:block}:host([x_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.horizontal{display:block}:host([no_user_select]) .content-wrapper *{user-select:none}:host([no_user_select]) ::slotted{user-select:none}`;
-    constructor() {
-        super();
-        this.renderAnimation = this.createAnimation();
-        this.onWheel = this.onWheel.bind(this);
-        this.onTouchStart = this.onTouchStart.bind(this);
-        this.onTouchMovePointer = this.onTouchMovePointer.bind(this);
-        this.onTouchMove = this.onTouchMove.bind(this);
-        this.onTouchMovePointer = this.onTouchMovePointer.bind(this);
-        this.onTouchEnd = this.onTouchEnd.bind(this);
-        this.onTouchEndPointer = this.onTouchEndPointer.bind(this);
-        this.touchRecord = new _.Components.TouchRecord();
-    }
-    __getStatic() {
-        return Scrollable;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Scrollable.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="scroll-main-container" _id="scrollable_0">    <div class="content-zoom" _id="scrollable_1">        <div class="content-hidder" _id="scrollable_2">            <div class="content-wrapper" part="content-wrapper" _id="scrollable_3">                <slot></slot>            </div>        </div>    </div>    <div class="scroller-wrapper">        <div class="container-scroller vertical" _id="scrollable_4">            <div class="shadow-scroller">                <div class="scroller" _id="scrollable_5"></div>            </div>        </div>        <div class="container-scroller horizontal" _id="scrollable_6">            <div class="shadow-scroller">                <div class="scroller" _id="scrollable_7"></div>            </div>        </div>    </div></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "mainContainer",
-      "ids": [
-        "scrollable_0"
-      ]
-    },
-    {
-      "name": "contentZoom",
-      "ids": [
-        "scrollable_1"
-      ]
-    },
-    {
-      "name": "contentHidder",
-      "ids": [
-        "scrollable_2"
-      ]
-    },
-    {
-      "name": "contentWrapper",
-      "ids": [
-        "scrollable_3"
-      ]
-    },
-    {
-      "name": "verticalScrollerContainer",
-      "ids": [
-        "scrollable_4"
-      ]
-    },
-    {
-      "name": "verticalScroller",
-      "ids": [
-        "scrollable_5"
-      ]
-    },
-    {
-      "name": "horizontalScrollerContainer",
-      "ids": [
-        "scrollable_6"
-      ]
-    },
-    {
-      "name": "horizontalScroller",
-      "ids": [
-        "scrollable_7"
-      ]
-    }
-  ]
-}); }
-    getClassName() {
-        return "Scrollable";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('min_zoom')){ this['min_zoom'] = 1; }if(!this.hasAttribute('max_zoom')){ this['max_zoom'] = undefined; }if(!this.hasAttribute('y_scroll_visible')) { this.attributeChangedCallback('y_scroll_visible', false, false); }if(!this.hasAttribute('x_scroll_visible')) { this.attributeChangedCallback('x_scroll_visible', false, false); }if(!this.hasAttribute('floating_scroll')) { this.attributeChangedCallback('floating_scroll', false, false); }if(!this.hasAttribute('x_scroll')) { this.attributeChangedCallback('x_scroll', false, false); }if(!this.hasAttribute('y_scroll')) {this.setAttribute('y_scroll' ,'true'); }if(!this.hasAttribute('auto_hide')) { this.attributeChangedCallback('auto_hide', false, false); }if(!this.hasAttribute('break')){ this['break'] = 0.1; }if(!this.hasAttribute('disable')) { this.attributeChangedCallback('disable', false, false); }if(!this.hasAttribute('no_user_select')) { this.attributeChangedCallback('no_user_select', false, false); }if(!this.hasAttribute('mouse_drag')) { this.attributeChangedCallback('mouse_drag', false, false); }if(!this.hasAttribute('pinch')) { this.attributeChangedCallback('pinch', false, false); }if(!this.hasAttribute('zoom')){ this['zoom'] = 1; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('x');this.__correctGetter('y');this.__correctGetter('xMax');this.__correctGetter('yMax');this.__upgradeProperty('min_zoom');this.__upgradeProperty('max_zoom');this.__upgradeProperty('y_scroll_visible');this.__upgradeProperty('x_scroll_visible');this.__upgradeProperty('floating_scroll');this.__upgradeProperty('x_scroll');this.__upgradeProperty('y_scroll');this.__upgradeProperty('auto_hide');this.__upgradeProperty('break');this.__upgradeProperty('disable');this.__upgradeProperty('no_user_select');this.__upgradeProperty('mouse_drag');this.__upgradeProperty('pinch');this.__upgradeProperty('zoom'); }
-    __listBoolProps() { return ["y_scroll_visible","x_scroll_visible","floating_scroll","x_scroll","y_scroll","auto_hide","disable","no_user_select","mouse_drag","pinch"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    createAnimation() {
-        return new Aventus.Animation({
-            fps: 60,
-            animate: () => {
-                const nextX = this.nextPosition('x');
-                const nextY = this.nextPosition('y');
-                this.momentum.x = nextX.momentum;
-                this.momentum.y = nextY.momentum;
-                this.scrollDirection('x', nextX.position);
-                this.scrollDirection('y', nextY.position);
-                if (!this.momentum.x && !this.momentum.y) {
-                    this.renderAnimation.stop();
-                }
-            },
-            stopped: () => {
-                if (this.momentum.x || this.momentum.y) {
-                    this.renderAnimation.start();
-                }
-            }
-        });
-    }
-    nextPosition(direction) {
-        const current = this.position[direction];
-        const remain = this.momentum[direction];
-        let result = {
-            momentum: 0,
-            position: 0,
-        };
-        if (Math.abs(remain) <= 0.1) {
-            result.position = current + remain;
-        }
-        else {
-            const _break = this.pointerCount > 0 ? 0.5 : this.break;
-            let nextMomentum = remain * (1 - _break);
-            nextMomentum |= 0;
-            result.momentum = nextMomentum;
-            result.position = current + remain - nextMomentum;
-        }
-        let correctPosition = this.correctScrollValue(result.position, direction);
-        if (correctPosition != result.position) {
-            result.position = correctPosition;
-            result.momentum = 0;
-        }
-        return result;
-    }
-    scrollDirection(direction, value) {
-        const max = this.max[direction];
-        if (max != 0) {
-            this.position[direction] = this.correctScrollValue(value, direction);
-        }
-        else {
-            this.position[direction] = 0;
-        }
-        let container = this.scrollerContainer[direction]();
-        let scroller = this.scroller[direction]();
-        if (this.auto_hide) {
-            container.classList.remove("hide");
-            clearTimeout(this.hideDelay[direction]);
-            this.hideDelay[direction] = setTimeout(() => {
-                container.classList.add("hide");
-            }, 1000);
-        }
-        let containerSize = direction == 'y' ? container.offsetHeight : container.offsetWidth;
-        if (this.contentWrapperSize[direction] != 0) {
-            let scrollPosition = this.position[direction] / this.contentWrapperSize[direction] * containerSize;
-            scroller.style.transform = `translate${direction.toUpperCase()}(${scrollPosition}px)`;
-            this.contentWrapper.style.transform = `translate3d(${-1 * this.x}px, ${-1 * this.y}px, 0)`;
-        }
-        this.triggerScrollChange();
-    }
-    scrollDirectionPercent(direction, percent) {
-        const max = this.max[direction];
-        this.scrollDirection(direction, max * percent / 100);
-    }
-    correctScrollValue(value, direction) {
-        if (value < 0) {
-            value = 0;
-        }
-        else if (value > this.max[direction]) {
-            value = this.max[direction];
-        }
-        return value;
-    }
-    triggerScrollChange() {
-        this.onScrollChange.trigger(this.x, this.y);
-    }
-    scrollToPosition(x, y) {
-        this.scrollDirection('x', x);
-        this.scrollDirection('y', y);
-    }
-    scrollX(x) {
-        this.scrollDirection('x', x);
-    }
-    scrollXPercent(x) {
-        this.scrollDirectionPercent('x', x);
-    }
-    scrollY(y) {
-        this.scrollDirection('y', y);
-    }
-    scrollYPercent(y) {
-        this.scrollDirectionPercent('y', y);
-    }
-    startAutoScrollRight() {
-        if (!this.autoScrollInterval.right) {
-            this.stopAutoScrollLeft();
-            this.autoScrollInterval.right = setInterval(() => {
-                if (this.x == this.max.x) {
-                    this.stopAutoScrollRight();
-                    return;
-                }
-                this.addDelta({
-                    x: this.autoScrollSpeed.right,
-                    y: 0
-                });
-            }, 100);
-        }
-    }
-    autoScrollRight(percent = 50) {
-        let slow = this.max.x * 1 / 100;
-        let fast = this.max.x * 10 / 100;
-        this.autoScrollSpeed.right = (fast - slow) * (percent / 100) + slow;
-        this.startAutoScrollRight();
-    }
-    stopAutoScrollRight() {
-        if (this.autoScrollInterval.right) {
-            clearInterval(this.autoScrollInterval.right);
-            this.autoScrollInterval.right = 0;
-        }
-    }
-    startAutoScrollLeft() {
-        if (!this.autoScrollInterval.left) {
-            this.stopAutoScrollRight();
-            this.autoScrollInterval.left = setInterval(() => {
-                if (this.x == 0) {
-                    this.stopAutoScrollLeft();
-                    return;
-                }
-                this.addDelta({
-                    x: this.autoScrollSpeed.left * -1,
-                    y: 0
-                });
-            }, 100);
-        }
-    }
-    autoScrollLeft(percent = 50) {
-        let slow = this.max.x * 1 / 100;
-        let fast = this.max.x * 10 / 100;
-        this.autoScrollSpeed.left = (fast - slow) * (percent / 100) + slow;
-        this.startAutoScrollLeft();
-    }
-    stopAutoScrollLeft() {
-        if (this.autoScrollInterval.left) {
-            clearInterval(this.autoScrollInterval.left);
-            this.autoScrollInterval.left = 0;
-        }
-    }
-    startAutoScrollTop() {
-        if (!this.autoScrollInterval.top) {
-            this.stopAutoScrollBottom();
-            this.autoScrollInterval.top = setInterval(() => {
-                if (this.y == 0) {
-                    this.stopAutoScrollTop();
-                    return;
-                }
-                this.addDelta({
-                    x: 0,
-                    y: this.autoScrollSpeed.top * -1
-                });
-            }, 100);
-        }
-    }
-    autoScrollTop(percent = 50) {
-        let slow = this.max.y * 1 / 100;
-        let fast = this.max.y * 10 / 100;
-        this.autoScrollSpeed.top = (fast - slow) * (percent / 100) + slow;
-        this.startAutoScrollTop();
-    }
-    stopAutoScrollTop() {
-        if (this.autoScrollInterval.top) {
-            clearInterval(this.autoScrollInterval.top);
-            this.autoScrollInterval.top = 0;
-        }
-    }
-    startAutoScrollBottom() {
-        if (!this.autoScrollInterval.bottom) {
-            this.stopAutoScrollTop();
-            this.autoScrollInterval.bottom = setInterval(() => {
-                if (this.y == this.max.y) {
-                    this.stopAutoScrollBottom();
-                    return;
-                }
-                this.addDelta({
-                    x: 0,
-                    y: this.autoScrollSpeed.bottom
-                });
-            }, 100);
-        }
-    }
-    autoScrollBottom(percent = 50) {
-        let slow = this.max.y * 1 / 100;
-        let fast = this.max.y * 10 / 100;
-        this.autoScrollSpeed.bottom = (fast - slow) * (percent / 100) + slow;
-        this.startAutoScrollBottom();
-    }
-    stopAutoScrollBottom() {
-        if (this.autoScrollInterval.bottom) {
-            clearInterval(this.autoScrollInterval.bottom);
-            this.autoScrollInterval.bottom = 0;
-        }
-    }
-    createMatrix() {
-        if (!this.cachedSvg) {
-            this.cachedSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        }
-        return this.cachedSvg.createSVGMatrix();
-    }
-    getMidPoint(a, b) {
-        return {
-            x: (a.lastPosition.x + b.lastPosition.x) / 2,
-            y: (a.lastPosition.y + b.lastPosition.y) / 2,
-        };
-    }
-    getDistance(a, b) {
-        return Math.sqrt((b.lastPosition.x - a.lastPosition.x) ** 2 + (b.lastPosition.y - a.lastPosition.y) ** 2);
-    }
-    zoomOnPoint(clientX, clientY, newZoom) {
-        let targetCoordinates = this.getBoundingClientRect();
-        let mousePositionRelativeToTarget = {
-            x: targetCoordinates.x - clientX,
-            y: targetCoordinates.y - clientY
-        };
-        let oldScale = this.zoom;
-        let newScale;
-        if (this.max_zoom > 0) {
-            newScale = Math.max(this.min_zoom, Math.min(this.max_zoom, newZoom));
-        }
-        else {
-            newScale = Math.max(this.min_zoom, newZoom);
-        }
-        let scaleDiff = newScale / oldScale;
-        const matrix = this.createMatrix()
-            .translate(this.x, this.y)
-            .translate(mousePositionRelativeToTarget.x, mousePositionRelativeToTarget.y)
-            .scale(scaleDiff)
-            .translate(-mousePositionRelativeToTarget.x, -mousePositionRelativeToTarget.y)
-            .scale(this.zoom);
-        const newZoomFinal = matrix.a || 1;
-        const newX = matrix.e || 0;
-        const newY = matrix.f || 0;
-        this.zoom = newZoomFinal;
-        this.onZoomChange.trigger(newZoomFinal);
-        this.scrollDirection('x', newX);
-        this.scrollDirection('y', newY);
-    }
-    pinchAction() {
-        const touches = this.touchRecord.getTouches();
-        if (touches.length == 2) {
-            const newMidpoint = this.getMidPoint(touches[0], touches[1]);
-            const prevMidpoint = this.previousMidPoint ?? newMidpoint;
-            const positioningElRect = this.getBoundingClientRect();
-            const originX = (positioningElRect.left + this.x - this.startTranslate.x) - prevMidpoint.x;
-            const originY = (positioningElRect.top + this.y - this.startTranslate.y) - prevMidpoint.y;
-            const newDistance = this.getDistance(touches[0], touches[1]);
-            const prevDistance = this.previousDistance;
-            let scaleDiff = prevDistance ? newDistance / prevDistance : 1;
-            const panX = prevMidpoint.x - newMidpoint.x;
-            const panY = prevMidpoint.y - newMidpoint.y;
-            let oldScale = this.zoom;
-            let newScale;
-            if (this.max_zoom > 0) {
-                newScale = Math.max(this.min_zoom, Math.min(this.max_zoom, oldScale * scaleDiff));
-            }
-            else {
-                newScale = Math.max(this.min_zoom, oldScale * scaleDiff);
-            }
-            scaleDiff = newScale / oldScale;
-            const matrix = this.createMatrix()
-                .translate(panX, panY)
-                .translate(originX, originY)
-                .translate(this.x, this.y)
-                .scale(scaleDiff)
-                .translate(-originX, -originY)
-                .scale(this.zoom);
-            const newZoom = matrix.a || 1;
-            const newX = matrix.e || 0;
-            const newY = matrix.f || 0;
-            this.zoom = newZoom;
-            this.onZoomChange.trigger(newZoom);
-            this.scrollDirection('x', newX);
-            this.scrollDirection('y', newY);
-            this.previousMidPoint = newMidpoint;
-            this.previousDistance = newDistance;
-        }
-        return null;
-    }
-    addAction() {
-        this.addEventListener("wheel", this.onWheel, { passive: false });
-        this.pressManager = new Aventus.PressManager({
-            element: this,
-            offsetDrag: 0,
-            onPressStart: (e) => {
-                this.touchRecord.track(e.event);
-                this.pointerCount = this.touchRecord.getNbOfTouches();
-            },
-            onPressEnd: (e) => {
-                this.touchRecord.release(e.event);
-                this.pointerCount = this.touchRecord.getNbOfTouches();
-            },
-            onDragStart: (e) => {
-                if (!this.pinch && !this.x_scroll_visible && !this.y_scroll_visible) {
-                    return false;
-                }
-                return this.onTouchStartPointer(e);
-            },
-            onDrag: (e) => {
-                this.onTouchMovePointer(e);
-            },
-            onDragEnd: (e) => {
-                this.onTouchEndPointer(e);
-            }
-        });
-        // this.addEventListener("touchstart", this.onTouchStart);
-        // this.addEventListener("trigger_pointer_pressstart", this.onTouchStartPointer);
-        if (this.mouse_drag) {
-            // this.addEventListener("mousedown", this.onTouchStart);
-        }
-        this.addScrollDrag('x');
-        this.addScrollDrag('y');
-    }
-    addActionMove() {
-        // document.body.addEventListener("touchmove", this.onTouchMove);
-        // document.body.addEventListener("trigger_pointer_pressmove", this.onTouchMovePointer);
-        // document.body.addEventListener("touchcancel", this.onTouchEnd);
-        // document.body.addEventListener("touchend", this.onTouchEnd);
-        // document.body.addEventListener("trigger_pointer_pressend", this.onTouchEndPointer);
-        if (this.mouse_drag) {
-            // document.body.addEventListener("mousemove", this.onTouchMove);
-            // document.body.addEventListener("mouseup", this.onTouchEnd);
-        }
-    }
-    removeActionMove() {
-        // document.body.removeEventListener("touchmove", this.onTouchMove);
-        // document.body.removeEventListener("trigger_pointer_pressmove", this.onTouchMovePointer);
-        // document.body.removeEventListener("touchcancel", this.onTouchEnd);
-        // document.body.removeEventListener("touchend", this.onTouchEnd);
-        // document.body.removeEventListener("trigger_pointer_pressend", this.onTouchEndPointer);
-        // document.body.removeEventListener("mousemove", this.onTouchMove);
-        // document.body.removeEventListener("mouseup", this.onTouchEnd);
-    }
-    addScrollDrag(direction) {
-        let scroller = this.scroller[direction]();
-        let startPosition = 0;
-        new Aventus.DragAndDrop({
-            element: scroller,
-            applyDrag: false,
-            usePercent: true,
-            offsetDrag: 0,
-            isDragEnable: () => !this.disable,
-            onStart: (e) => {
-                this.isDragScroller = true;
-                this.no_user_select = true;
-                scroller.classList.add("active");
-                startPosition = this.position[direction];
-            },
-            onMove: (e, position) => {
-                let delta = position[direction] / 100 * this.contentWrapperSize[direction];
-                let value = startPosition + delta;
-                this.scrollDirection(direction, value);
-            },
-            onStop: () => {
-                this.no_user_select = false;
-                scroller.classList.remove("active");
-                this.isDragScroller = false;
-            }
-        });
-    }
-    shouldStopPropagation(e, delta) {
-        if (!this.y_scroll && this.x_scroll) {
-            if ((delta.x > 0 && this.x != this.max.x) ||
-                (delta.x <= 0 && this.x != 0)) {
-                e.stopPropagation();
-            }
-        }
-        else {
-            if ((delta.y > 0 && this.y != this.max.y) ||
-                (delta.y <= 0 && this.y != 0)) {
-                e.stopPropagation();
-            }
-        }
-    }
-    addDelta(delta) {
-        if (this.disable) {
-            return;
-        }
-        this.momentum.x += delta.x;
-        this.momentum.y += delta.y;
-        this.renderAnimation?.start();
-    }
-    onWheel(e) {
-        if (e.ctrlKey) {
-            e.preventDefault();
-            e.stopPropagation();
-            if (this.pinch) {
-                let factor = 0.9;
-                if (e.deltaY < 0) {
-                    factor = 1.1;
-                }
-                this.zoomOnPoint(e.clientX, e.clientY, this.zoom * factor);
-            }
-            return;
-        }
-        const DELTA_MODE = [1.0, 28.0, 500.0];
-        const mode = DELTA_MODE[e.deltaMode] || DELTA_MODE[0];
-        let newValue = {
-            x: 0,
-            y: e.deltaY * mode,
-        };
-        if (!this.y_scroll && this.x_scroll) {
-            newValue = {
-                x: e.deltaY * mode,
-                y: 0,
-            };
-        }
-        else if (this.x_scroll && e.altKey) {
-            newValue = {
-                x: e.deltaY * mode,
-                y: 0,
-            };
-        }
-        this.shouldStopPropagation(e, newValue);
-        this.addDelta(newValue);
-    }
-    onTouchStartPointer(e) {
-        const ev = e.event;
-        if ('TouchEvent' in window && ev instanceof TouchEvent) {
-            this.onTouchStart(ev);
-            return true;
-        }
-        else if (ev instanceof PointerEvent) {
-            if (this.mouse_drag || ev.pointerType == "touch") {
-                this.onTouchStart(ev);
-                return true;
-            }
-        }
-        return false;
-    }
-    onTouchStart(e) {
-        if (this.isDragScroller)
-            return;
-        this.touchRecord.track(e);
-        this.momentum = {
-            x: 0,
-            y: 0
-        };
-        if (this.pointerCount === 0) {
-            this.addActionMove();
-        }
-        this.pointerCount = this.touchRecord.getNbOfTouches();
-        if (this.pinch && this.pointerCount == 2) {
-            this.startTranslate = { x: this.x, y: this.y };
-        }
-    }
-    onTouchMovePointer(e) {
-        const ev = e.event;
-        if ('TouchEvent' in window && ev instanceof TouchEvent) {
-            this.onTouchMove(ev);
-        }
-        else if (ev instanceof PointerEvent) {
-            if (this.mouse_drag || ev.pointerType == "touch") {
-                this.onTouchMove(ev);
-            }
-        }
-    }
-    onTouchMove(e) {
-        if (this.isDragScroller)
-            return;
-        this.touchRecord.update(e);
-        if (this.pinch && this.pointerCount == 2) {
-            // zoom
-            e.stopPropagation();
-            this.renderAnimation?.stop();
-            this.pinchAction();
-        }
-        else {
-            const delta = this.touchRecord.getDelta();
-            this.shouldStopPropagation(e, delta);
-            this.addDelta(delta);
-        }
-    }
-    onTouchEndPointer(e) {
-        const ev = e.event;
-        if ('TouchEvent' in window && ev instanceof TouchEvent) {
-            this.onTouchEnd(ev);
-        }
-        else if (ev instanceof PointerEvent) {
-            if (this.mouse_drag || ev.pointerType == "touch") {
-                this.onTouchEnd(ev);
-            }
-        }
-    }
-    onTouchEnd(e) {
-        if (this.isDragScroller)
-            return;
-        const delta = this.touchRecord.getEasingDistance(this.break);
-        this.shouldStopPropagation(e, delta);
-        this.addDelta(delta);
-        this.touchRecord.release(e);
-        this.pointerCount = this.touchRecord.getNbOfTouches();
-        if (this.pointerCount === 0) {
-            this.removeActionMove();
-        }
-        if (this.pointerCount < 2) {
-            this.previousMidPoint = undefined;
-            this.previousDistance = undefined;
-        }
-    }
-    calculateRealSize() {
-        if (!this.contentZoom || !this.mainContainer || !this.contentWrapper) {
-            return false;
-        }
-        const currentOffsetWidth = this.contentZoom.offsetWidth;
-        const currentOffsetHeight = this.contentZoom.offsetHeight;
-        let hasChanged = false;
-        if (this.contentWrapper.offsetWidth != this.contentWrapperSize.x || this.contentWrapper.offsetHeight != this.contentWrapperSize.y)
-            hasChanged = true;
-        this.contentWrapperSize.x = this.contentWrapper.offsetWidth;
-        this.contentWrapperSize.y = this.contentWrapper.offsetHeight;
-        if (this.zoom < 1) {
-            // scale the container for zoom
-            this.contentZoom.style.width = this.mainContainer.offsetWidth / this.zoom + 'px';
-            this.contentZoom.style.height = this.mainContainer.offsetHeight / this.zoom + 'px';
-            this.contentZoom.style.maxHeight = this.mainContainer.offsetHeight / this.zoom + 'px';
-            if (currentOffsetHeight != this.display.y || currentOffsetWidth != this.display.x)
-                hasChanged = true;
-            this.display.y = currentOffsetHeight;
-            this.display.x = currentOffsetWidth;
-        }
-        else {
-            const newX = currentOffsetWidth / this.zoom;
-            const newY = currentOffsetHeight / this.zoom;
-            if (newY != this.display.y || newX != this.display.x)
-                hasChanged = true;
-            this.display.y = newY;
-            this.display.x = newX;
-            this.contentZoom.style.width = '';
-            this.contentZoom.style.height = '';
-            this.contentZoom.style.maxHeight = '';
-        }
-        return hasChanged;
-    }
-    calculatePositionScrollerContainer(direction) {
-        if (direction == 'y') {
-            this.calculatePositionScrollerContainerY();
-        }
-        else {
-            this.calculatePositionScrollerContainerX();
-        }
-    }
-    calculatePositionScrollerContainerY() {
-        const leftMissing = this.mainContainer.offsetWidth - this.verticalScrollerContainer.offsetLeft;
-        if (leftMissing > 0 && this.y_scroll_visible && !this.floating_scroll) {
-            this.contentHidder.style.width = 'calc(100% - ' + leftMissing + 'px)';
-            this.contentHidder.style.marginRight = leftMissing + 'px';
-            this.margin.x = leftMissing;
-        }
-        else {
-            this.contentHidder.style.width = '';
-            this.contentHidder.style.marginRight = '';
-            this.margin.x = 0;
-        }
-    }
-    calculatePositionScrollerContainerX() {
-        const topMissing = this.mainContainer.offsetHeight - this.horizontalScrollerContainer.offsetTop;
-        if (topMissing > 0 && this.x_scroll_visible && !this.floating_scroll) {
-            this.contentHidder.style.height = 'calc(100% - ' + topMissing + 'px)';
-            this.contentHidder.style.marginBottom = topMissing + 'px';
-            this.margin.y = topMissing;
-        }
-        else {
-            this.contentHidder.style.height = '';
-            this.contentHidder.style.marginBottom = '';
-            this.margin.y = 0;
-        }
-    }
-    calculateSizeScroller(direction) {
-        const scrollerSize = ((this.display[direction] - this.margin[direction]) / this.contentWrapperSize[direction] * 100);
-        if (direction == "y") {
-            this.scroller[direction]().style.height = scrollerSize + '%';
-        }
-        else {
-            this.scroller[direction]().style.width = scrollerSize + '%';
-        }
-        let maxScrollContent = this.contentWrapperSize[direction] - this.display[direction];
-        if (maxScrollContent < 0) {
-            maxScrollContent = 0;
-        }
-        this.max[direction] = maxScrollContent + this.margin[direction];
-    }
-    changeZoom() {
-        this.contentZoom.style.transform = 'scale(' + this.zoom + ')';
-        this.dimensionRefreshed(true);
-    }
-    dimensionRefreshed(force = false) {
-        if (this.contentWrapper.offsetHeight > 0 && this.contentWrapper.offsetWidth > 0) {
-            this.loadedOnce = true;
-            if (this.savedPercent) {
-                this.position.x = this.contentWrapper.offsetWidth * this.savedPercent.x;
-                this.position.y = this.contentWrapper.offsetHeight * this.savedPercent.y;
-                this.savedPercent = undefined;
-            }
-        }
-        else if (this.loadedOnce) {
-            this.savedPercent = {
-                x: this.position.x / this.contentWrapperSize.x,
-                y: this.position.y / this.contentWrapperSize.y
-            };
-        }
-        if (!this.calculateRealSize() && !force) {
-            return;
-        }
-        if (this.contentWrapperSize.y - this.display.y > 0) {
-            if (!this.y_scroll_visible) {
-                this.y_scroll_visible = true;
-                this.calculatePositionScrollerContainer('y');
-            }
-            this.calculateSizeScroller('y');
-            this.scrollDirection('y', this.y);
-        }
-        else if (this.y_scroll_visible) {
-            this.y_scroll_visible = false;
-            this.calculatePositionScrollerContainer('y');
-            this.calculateSizeScroller('y');
-            this.scrollDirection('y', 0);
-        }
-        if (this.contentWrapperSize.x - this.display.x > 0) {
-            if (!this.x_scroll_visible) {
-                this.x_scroll_visible = true;
-                this.calculatePositionScrollerContainer('x');
-            }
-            this.calculateSizeScroller('x');
-            this.scrollDirection('x', this.x);
-        }
-        else if (this.x_scroll_visible) {
-            this.x_scroll_visible = false;
-            this.calculatePositionScrollerContainer('x');
-            this.calculateSizeScroller('x');
-            this.scrollDirection('x', 0);
-        }
-    }
-    createResizeObserver() {
-        let inProgress = false;
-        return new Aventus.ResizeObserver({
-            callback: entries => {
-                if (inProgress) {
-                    return;
-                }
-                inProgress = true;
-                this.dimensionRefreshed();
-                inProgress = false;
-            },
-            fps: 30
-        });
-    }
-    addResizeObserver() {
-        if (this.observer == undefined) {
-            this.observer = this.createResizeObserver();
-        }
-        this.observer.observe(this.contentWrapper);
-        this.observer.observe(this);
-    }
-    postCreation() {
-        this.dimensionRefreshed();
-        this.addResizeObserver();
-        this.addAction();
-    }
-    static lock(element) {
-        const container = element.findParentByType(Components.Scrollable);
-        if (container) {
-            container.disable = true;
-        }
-    }
-    static unlock(element) {
-        const container = element.findParentByType(Components.Scrollable);
-        if (container) {
-            container.disable = false;
-        }
-    }
-}
-Components.Scrollable.Namespace=`Core.Components`;
-Components.Scrollable.Tag=`rk-scrollable`;
-__as1(_.Components, 'Scrollable', Components.Scrollable);
-if(!window.customElements.get('rk-scrollable')){window.customElements.define('rk-scrollable', Components.Scrollable);Aventus.WebComponentInstance.registerDefinition(Components.Scrollable);}
-
-Components.Tabs = class Tabs extends Aventus.WebComponent {
-    static get observedAttributes() {return ["header_full_width"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'first_active'() { return this.getBoolAttr('first_active') }
-    set 'first_active'(val) { this.setBoolAttr('first_active', val) }get 'last_active'() { return this.getBoolAttr('last_active') }
-    set 'last_active'(val) { this.setBoolAttr('last_active', val) }    get 'header_full_width'() { return this.getBoolProp('header_full_width') }
-    set 'header_full_width'(val) { this.setBoolAttr('header_full_width', val) }    tabs = {};
-    activeHeader;
-    elements = [];
-    static __style = `:host{--_tabs-background-color: var(--tabs-background-color, #ffffff);--_tabs-header-background-color: var(--tabs-header-background-color, var(--darker-active, rgb(125, 125, 125)));--_tabs-header-background-color-active: var(--tabs-header-background-color-active, var(--_tabs-background-color));--_tabs-header-background-color-disabled: var(--tabs-header-background-color-disabled, var(--form-element-background-readonly));--_tabs-header-padding: var(--tabs-header-padding, 10px 10px);--_tabs-header-font-size: var(--tabs-header-font-size, calc(var(--font-size) * 0.855));--_tabs-body-padding: var(--tabs-body-padding, 10px 10px);--_tabs-spacing: var(--tabs-spacing, 5px);--_tabs-transition: var(--tabs-transition, background-color var(--bezier-curve) 0.2s);--_tabs-border-radius: var(--tabs-border-radius, var(--border-radius-sm, 0))}:host{display:flex;flex-direction:column;overflow:hidden;width:100%}:host .header .header-wrapper{align-items:center;display:flex;flex-direction:row;flex-wrap:nowrap;gap:var(--_tabs-spacing);padding-bottom:var(--_tabs-spacing)}:host .body{background-color:var(--_tabs-background-color);border-radius:var(--_tabs-border-radius);padding:var(--_tabs-body-padding);width:100%}:host([first_active]) .body{border-top-left-radius:0px}:host([last_active]) .body{border-top-right-radius:0px}:host([header_full_width]) .header .header-wrapper>*{flex-grow:1}`;
-    constructor() {
-        super();
-        this.validateCorner = this.validateCorner.bind(this);
-    }
-    __getStatic() {
-        return Tabs;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Tabs.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<rk-scrollable y_scroll="false" class="header" floating_scroll auto_hide _id="tabs_0">    <div class="header-wrapper" _id="tabs_1"></div></rk-scrollable><div class="body" _id="tabs_2">    <slot></slot></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "headerScrollEl",
-      "ids": [
-        "tabs_0"
-      ]
-    },
-    {
-      "name": "headerEl",
-      "ids": [
-        "tabs_1"
-      ]
-    },
-    {
-      "name": "bodyEl",
-      "ids": [
-        "tabs_2"
-      ]
-    }
-  ],
-  "injection": [
-    {
-      "id": "tabs_0",
-      "injectionName": "x_scroll",
-      "inject": (c) => c.comp.__83b521fae0adf34c398cd02a022cfc5fmethod0(),
-      "once": true
-    }
-  ]
-}); }
-    getClassName() {
-        return "Tabs";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('first_active')) { this.attributeChangedCallback('first_active', false, false); }if(!this.hasAttribute('last_active')) { this.attributeChangedCallback('last_active', false, false); }if(!this.hasAttribute('header_full_width')) { this.attributeChangedCallback('header_full_width', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('first_active');this.__upgradeProperty('last_active');this.__upgradeProperty('header_full_width'); }
-    __listBoolProps() { return ["first_active","last_active","header_full_width"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    loadTabs() {
-        // let elements = this.elements;
-        let elements = this.getElementsInSlot();
-        let first = null;
-        for (let element of elements) {
-            element.style.display = 'none';
-            if (element instanceof _.Components.Tab) {
-                this.tabs[element.label] = element;
-                let header = new (this.defineTabHeader())();
-                this.headerEl.appendChild(header);
-                header.init(element, this);
-                if (first == null) {
-                    first = header;
-                }
-                else if (!first.tab.selected && element.selected) {
-                    first = header;
-                }
-            }
-        }
-        if (first) {
-            this.displayActive(first);
-        }
-    }
-    displayActive(tabHeader) {
-        if (this.activeHeader) {
-            this.activeHeader.active = false;
-            this.activeHeader.tab.selected = false;
-            this.activeHeader.tab.style.display = 'none';
-        }
-        this.activeHeader = tabHeader;
-        this.activeHeader.active = true;
-        this.activeHeader.tab.style.display = '';
-        this.activeHeader.tab.selected = true;
-        this.validateCorner();
-    }
-    defineTabHeader() {
-        return _.Components.TabHeader;
-    }
-    validateCorner() {
-        this.first_active = this.headerScrollEl.x == 0 && this.activeHeader == this.headerEl.children[0];
-        this.last_active = this.headerScrollEl['contentWrapper'].offsetWidth >= this.offsetWidth && this.headerScrollEl.x == this.headerScrollEl['max'].x && this.activeHeader == this.headerEl.children[this.headerEl.children.length - 1];
-    }
-    setActive(labelOrIndex) {
-        if (typeof labelOrIndex == 'number') {
-            if (this.headerEl.children.length > labelOrIndex) {
-                const header = this.headerEl.children[labelOrIndex];
-                if (header instanceof _.Components.TabHeader) {
-                    this.displayActive(header);
-                }
-            }
-        }
-        else {
-            const header = this.tabs[labelOrIndex].tabHeader;
-            if (header)
-                this.displayActive(header);
-        }
-    }
-    postCreation() {
-        super.postCreation();
-        this.headerScrollEl.onScrollChange.add(this.validateCorner);
-        this.loadTabs();
-    }
-    __83b521fae0adf34c398cd02a022cfc5fmethod0() {
-        return !this.header_full_width;
-    }
-}
-Components.Tabs.Namespace=`Core.Components`;
-Components.Tabs.Tag=`rk-tabs`;
-__as1(_.Components, 'Tabs', Components.Tabs);
-if(!window.customElements.get('rk-tabs')){window.customElements.define('rk-tabs', Components.Tabs);Aventus.WebComponentInstance.registerDefinition(Components.Tabs);}
-
 Data.Favorite=class Favorite extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Favorite, Core"; }
     Name;
@@ -5949,6 +5949,93 @@ Components.Tooltip.Namespace=`Core.Components`;
 Components.Tooltip.Tag=`rk-tooltip`;
 __as1(_.Components, 'Tooltip', Components.Tooltip);
 if(!window.customElements.get('rk-tooltip')){window.customElements.define('rk-tooltip', Components.Tooltip);Aventus.WebComponentInstance.registerDefinition(Components.Tooltip);}
+
+const IconAction = class IconAction extends MaterialIcon.Icon {
+    static get observedAttributes() {return ["icon", "position", "delay", "delay_touch"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'position'() { return this.getStringProp('position') }
+    set 'position'(val) { this.setStringAttr('position', val) }get 'delay'() { return this.getNumberProp('delay') }
+    set 'delay'(val) { this.setNumberAttr('delay', val) }get 'delay_touch'() { return this.getNumberProp('delay_touch') }
+    set 'delay_touch'(val) { this.setNumberAttr('delay_touch', val) }    tooltip;
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("position", ((target) => {
+    if (target.tooltip) {
+        target.tooltip.position = target.position;
+    }
+}));this.__addPropertyActions("delay", ((target) => {
+    if (target.tooltip) {
+        target.tooltip.delay = target.delay;
+    }
+}));this.__addPropertyActions("delay_touch", ((target) => {
+    if (target.tooltip) {
+        target.tooltip.delay_touch = target.delay_touch;
+    }
+})); }
+    static __style = `:host{border-radius:var(--border-radius-sm);color:var(--blue);cursor:pointer;font-size:var(--font-size-md);padding:3px;position:relative;transition:background-color .2s linear}:host .hidden{display:none}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--lighter)}}`;
+    __getStatic() {
+        return IconAction;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(IconAction.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot _id="iconaction_1"></slot>` }, 
+        blocks: { 'default':`<div class="icon" _id="iconaction_0"></div><div class="hidden">    <slot _id="iconaction_1"></slot></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "iconEl",
+      "ids": [
+        "iconaction_0"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "eventName": "slotchange",
+      "id": "iconaction_1",
+      "fct": (e, c) => c.comp.onSlotChange(e)
+    }
+  ]
+}); }
+    getClassName() {
+        return "IconAction";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = "square"; }if(!this.hasAttribute('position')){ this['position'] = 'top'; }if(!this.hasAttribute('delay')){ this['delay'] = 700; }if(!this.hasAttribute('delay_touch')){ this['delay_touch'] = 700; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon');this.__upgradeProperty('position');this.__upgradeProperty('delay');this.__upgradeProperty('delay_touch'); }
+    onSlotChange() {
+        const content = this.innerHTML.trim();
+        if (content == "") {
+            if (this.tooltip) {
+                this.tooltip.remove();
+                this.tooltip = undefined;
+            }
+        }
+        else {
+            if (!this.tooltip) {
+                this.tooltip = new Components.Tooltip();
+                this.tooltip.position = this.position;
+                this.tooltip.delay = this.delay;
+                this.tooltip.delay_touch = this.delay_touch;
+                this.tooltip.use_absolute = true;
+                this.tooltip.no_caret = true;
+                this.tooltip.style.fontSize = "var(--font-size-sm)";
+                this.tooltip.style.color = "#efefef";
+                this.tooltip.style.backgroundColor = "#757575";
+                this.shadowRoot.appendChild(this.tooltip);
+            }
+            this.tooltip.innerHTML = content;
+        }
+    }
+}
+IconAction.Namespace=`Core`;
+IconAction.Tag=`rk-icon-action`;
+__as1(_, 'IconAction', IconAction);
+if(!window.customElements.get('rk-icon-action')){window.customElements.define('rk-icon-action', IconAction);Aventus.WebComponentInstance.registerDefinition(IconAction);}
 
 Errors.CoreError=class CoreError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.CoreError, Core"; }
@@ -6917,90 +7004,6 @@ Components.Notification.Namespace=`Core.Components`;
 Components.Notification.Tag=`rk-notification`;
 __as1(_.Components, 'Notification', Components.Notification);
 if(!window.customElements.get('rk-notification')){window.customElements.define('rk-notification', Components.Notification);Aventus.WebComponentInstance.registerDefinition(Components.Notification);}
-
-System.AppInstallPanel = class AppInstallPanel extends System.Panel {
-    onClose = new Aventus.Callback();
-    static __style = `:host{align-items:center;bottom:70px;display:flex;flex-direction:column;justify-content:center;left:50%;padding:20px 45px;position:absolute;transform:translateX(-50%);z-index:999999}:host label{display:block;font-size:var(--font-size-sm);margin-bottom:15px}:host .cross{cursor:pointer;position:absolute;right:5px;top:5px}:host .cross mi-icon{font-size:18px}`;
-    __getStatic() {
-        return AppInstallPanel;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(AppInstallPanel.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<label>Téléchargement de l'application</label><rk-button _id="appinstallpanel_0">Téléverser</rk-button><div class="cross" _id="appinstallpanel_1">    <mi-icon icon="close"></mi-icon></div><input style="display:none" type="file" accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed" _id="appinstallpanel_2" />` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "inputFileEl",
-      "ids": [
-        "appinstallpanel_2"
-      ]
-    }
-  ],
-  "events": [
-    {
-      "eventName": "change",
-      "id": "appinstallpanel_2",
-      "fct": (e, c) => c.comp.updateFile(e)
-    }
-  ],
-  "pressEvents": [
-    {
-      "id": "appinstallpanel_0",
-      "onPress": (e, pressInstance, c) => { c.comp.clickFile(e, pressInstance); }
-    },
-    {
-      "id": "appinstallpanel_1",
-      "onPress": (e, pressInstance, c) => { c.comp.close(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "AppInstallPanel";
-    }
-    async updateFile() {
-        if (this.inputFileEl.files && this.inputFileEl.files.length > 0) {
-            const result = await new Routes.ApplicationRouter().InstallApp({
-                file: this.inputFileEl.files[0]
-            });
-            if (result.success) {
-                let notif = Components.Notification.create({
-                    color: "success",
-                    title: "Succès",
-                    body: "Téléchargement terminé",
-                });
-                _.System.Os.instance.notify(notif);
-                this.remove();
-                this.onClose.trigger();
-            }
-            else {
-                let notif = Components.Notification.create({
-                    color: "error",
-                    title: "Erreurs",
-                    body: "Il y a eu une erreur",
-                });
-                _.System.Os.instance.notify(notif);
-            }
-        }
-    }
-    close() {
-        this.remove();
-        this.onClose.trigger();
-    }
-    clickFile() {
-        this.inputFileEl.click();
-    }
-}
-System.AppInstallPanel.Namespace=`Core.System`;
-System.AppInstallPanel.Tag=`rk-app-install-panel`;
-__as1(_.System, 'AppInstallPanel', System.AppInstallPanel);
-if(!window.customElements.get('rk-app-install-panel')){window.customElements.define('rk-app-install-panel', System.AppInstallPanel);Aventus.WebComponentInstance.registerDefinition(System.AppInstallPanel);}
 
 Components.NotificationManager = class NotificationManager extends Aventus.WebComponent {
     get 'gap'() { return this.getNumberAttr('gap') }
@@ -8233,162 +8236,6 @@ Components.GenericPopup = class GenericPopup extends Aventus.WebComponent {
 Components.GenericPopup.Namespace=`Core.Components`;
 __as1(_.Components, 'GenericPopup', Components.GenericPopup);
 
-Components.Confirm = class Confirm extends Components.GenericPopup {
-    static __style = `:host .popup .body{align-items:center;display:flex;justify-content:center;line-height:1.5;padding:20px;padding-top:15px;text-align:center}:host .popup .action{align-items:center;display:flex;gap:20px;justify-content:center}`;
-    constructor() {
-        super();
-        this.validate = this.validate.bind(this);
-        this.cancel = this.cancel.bind(this);
-    }
-    __getStatic() {
-        return Confirm;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Confirm.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-scrollable class="body" _id="confirm_0"></rk-scrollable><div class="action">    <rk-button color="red" _id="confirm_1"></rk-button>    <rk-button color="success" _id="confirm_2"></rk-button></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "confirm_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method0())}`,
-      "once": true
-    },
-    "confirm_1°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method1())}`,
-      "once": true
-    },
-    "confirm_2°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method2())}`,
-      "once": true
-    }
-  },
-  "pressEvents": [
-    {
-      "id": "confirm_1",
-      "onPress": (e, pressInstance, c) => { c.comp.cancel(e, pressInstance); }
-    },
-    {
-      "id": "confirm_2",
-      "onPress": (e, pressInstance, c) => { c.comp.validate(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "Confirm";
-    }
-    init(cb) {
-        super.init(cb);
-        this.addShortcuts();
-    }
-    close() {
-        super.close();
-        this.removeShortcuts();
-    }
-    defaultOptions() {
-        return {
-            title: "",
-            description: "",
-            true_txt: "Oui",
-            false_txt: "Non",
-        };
-    }
-    addShortcuts() {
-        Lib.ShortcutManager.subscribe(Lib.SpecialTouch.Enter, this.validate, { replaceTemp: true });
-        Lib.ShortcutManager.subscribe(Lib.SpecialTouch.Escape, this.cancel, { replaceTemp: true });
-    }
-    removeShortcuts() {
-        Lib.ShortcutManager.unsubscribe(Lib.SpecialTouch.Enter, this.validate);
-        Lib.ShortcutManager.unsubscribe(Lib.SpecialTouch.Escape, this.cancel);
-    }
-    validate() {
-        this.resolve(true);
-    }
-    cancel() {
-        this.resolve(false);
-    }
-    __caa2fd56843944180566fbe49a4bb311method0() {
-        return this.info.description;
-    }
-    __caa2fd56843944180566fbe49a4bb311method1() {
-        return this.info.false_txt;
-    }
-    __caa2fd56843944180566fbe49a4bb311method2() {
-        return this.info.true_txt;
-    }
-}
-Components.Confirm.Namespace=`Core.Components`;
-Components.Confirm.Tag=`rk-confirm`;
-__as1(_.Components, 'Confirm', Components.Confirm);
-if(!window.customElements.get('rk-confirm')){window.customElements.define('rk-confirm', Components.Confirm);Aventus.WebComponentInstance.registerDefinition(Components.Confirm);}
-
-Components.Alert = class Alert extends Components.GenericPopup {
-    static __style = `:host .popup .content .body{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - 36px - var(--_popup-content-padding) - var(--_popup-content-padding));align-items:center;display:flex;justify-content:center;line-height:1.5;max-height:calc(var(--app-height) - 50px - 30px - 36px - var(--_popup-content-padding) - var(--_popup-content-padding));padding:20px;padding-top:15px;text-align:center}:host .popup .content .action{align-items:center;display:flex;gap:20px;height:36px;justify-content:center}`;
-    __getStatic() {
-        return Alert;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Alert.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-scrollable class="body">    <p _id="alert_0"></p></rk-scrollable><div class="action">    <rk-button color="blue" _id="alert_1"></rk-button></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "alert_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__d0561a7aa91ff42b328166316d099970method0())}`,
-      "once": true
-    },
-    "alert_1°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__d0561a7aa91ff42b328166316d099970method1())}`,
-      "once": true
-    }
-  },
-  "events": [
-    {
-      "eventName": "click",
-      "id": "alert_1",
-      "fct": (e, c) => c.comp.validate(e)
-    }
-  ]
-}); }
-    getClassName() {
-        return "Alert";
-    }
-    defaultOptions() {
-        return {
-            title: "",
-            description: "",
-            btn_txt: "ok"
-        };
-    }
-    validate() {
-        this.resolve();
-    }
-    cancel() {
-        this.resolve();
-    }
-    __d0561a7aa91ff42b328166316d099970method0() {
-        return this.info.description;
-    }
-    __d0561a7aa91ff42b328166316d099970method1() {
-        return this.info.btn_txt;
-    }
-}
-Components.Alert.Namespace=`Core.Components`;
-Components.Alert.Tag=`rk-alert`;
-__as1(_.Components, 'Alert', Components.Alert);
-if(!window.customElements.get('rk-alert')){window.customElements.define('rk-alert', Components.Alert);Aventus.WebComponentInstance.registerDefinition(Components.Alert);}
-
 Components.Popup = class Popup extends Components.GenericPopup {
     static __style = `:host .popup .content{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - var(--_popup-content-padding) - var(--_popup-content-padding));width:100%}`;
     constructor() {
@@ -8879,6 +8726,2042 @@ Lib.ApplicationManager=class ApplicationManager {
 }
 Lib.ApplicationManager.Namespace=`Core.Lib`;
 __as1(_.Lib, 'ApplicationManager', Lib.ApplicationManager);
+
+Components.FormElement = class FormElement extends Aventus.WebComponent {
+    get 'has_errors'() { return this.getBoolAttr('has_errors') }
+    set 'has_errors'(val) { this.setBoolAttr('has_errors', val) }    get 'errors'() {
+						return this.__watch["errors"];
+					}
+					set 'errors'(val) {
+						this.__watch["errors"] = val;
+					}get 'value'() {
+						return this.__watch["value"];
+					}
+					set 'value'(val) {
+						this.__watch["value"] = val;
+					}    _formPart;
+    get formPart() {
+        return this._formPart;
+    }
+    set formPart(value) {
+        this.unlinkFormPart();
+        this._formPart = value;
+        this.linkFormPart();
+    }
+    onChange = new Aventus.Callback();
+    __registerWatchesActions() {
+    this.__addWatchesActions("errors", ((target) => {
+    target.has_errors = target.errors.length > 0;
+}));this.__addWatchesActions("value");    super.__registerWatchesActions();
+}
+    static __style = ``;
+    constructor() {
+        super();
+        if (this.constructor == FormElement) {
+            throw "can't instanciate an abstract class";
+        }
+        this.refreshValueFromForm = this.refreshValueFromForm.bind(this);
+        this.onFormValidation = this.onFormValidation.bind(this);
+    }
+    __getStatic() {
+        return FormElement;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(FormElement.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "FormElement";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('has_errors')) { this.attributeChangedCallback('has_errors', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["errors"] = [];w["value"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('formPart');this.__upgradeProperty('has_errors');this.__correctGetter('errors');this.__correctGetter('value'); }
+    __listBoolProps() { return ["has_errors"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    refreshValueFromForm() {
+        if (this._formPart) {
+            this.errors = [];
+            this.value = this._formPart.value.get();
+        }
+    }
+    unlinkFormPart() {
+        if (this._formPart) {
+            this._formPart.unregister(this);
+            this._formPart.onValueChange.remove(this.refreshValueFromForm);
+            this._formPart.onValidation.remove(this.onFormValidation);
+        }
+    }
+    linkFormPart() {
+        if (this._formPart) {
+            this._formPart.register(this);
+            this._formPart.onValueChange.add(this.refreshValueFromForm);
+            this._formPart.onValidation.add(this.onFormValidation);
+            this.refreshValueFromForm();
+        }
+        else {
+            this.value = undefined;
+        }
+    }
+    onFormValidation(errors) {
+        this.errors = errors;
+        return this.errors;
+    }
+    postDestruction() {
+        super.postDestruction();
+        this.unlinkFormPart();
+    }
+}
+Components.FormElement.Namespace=`Core.Components`;
+__as1(_.Components, 'FormElement', Components.FormElement);
+
+Components.Textarea = class Textarea extends Components.FormElement {
+    static get observedAttributes() {return ["label", "placeholder", "icon", "value", "autogrow"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'resize'() { return this.getBoolAttr('resize') }
+    set 'resize'(val) { this.setBoolAttr('resize', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
+    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'value'() { return this.getStringProp('value') }
+    set 'value'(val) { this.setStringAttr('value', val) }get 'autogrow'() { return this.getBoolProp('autogrow') }
+    set 'autogrow'(val) { this.setBoolAttr('autogrow', val) }    resizeObserver;
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
+    target.inputEl.value = target.value ?? "";
+}));this.__addPropertyActions("autogrow", ((target) => {
+    target.enableResizeObserver();
+})); }
+    static __style = `:host{--_textarea-height: var(--textarea-height, 30px);--_textarea-background-color: var(--textarea-background-color, var(--form-element-background, white));--_textarea-icon-height: var(--textarea-icon-height, calc(var(--_textarea-height) / 2));--_textarea-error-logo-size: var(--textarea-error-logo-size, calc(var(--_textarea-height) / 2));--_textarea-font-size: var(--textarea-font-size, var(--form-element-font-size, 16px));--_textarea-font-size-label: var(--textarea-font-size-label, var(--form-element-font-size-label, calc(var(--_textarea-font-size) * 0.95)));--_textarea-input-border: var(--textarea-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_textarea-border-radius: var(--textarea-border-radius, var(--form-element-border-radius, 0));--_textarea-autogrow-max-height: var(--textarea-autogrow-max-height, none)}:host{min-width:100px;width:100%}:host label{cursor:pointer;display:none;font-size:var(--_textarea-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_textarea-background-color);border:var(--_textarea-input-border);border-radius:var(--_textarea-border-radius);display:flex;height:var(--_textarea-height);min-height:var(--_textarea-height);padding:0 10px;position:relative;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_textarea-icon-height);margin-right:10px}:host .input textarea{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-family:"Roboto",sans-serif;font-size:var(--_textarea-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px;resize:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_textarea-error-logo-size) - 5px);height:var(--_textarea-error-logo-size);justify-content:center;width:var(--_textarea-error-logo-size)}:host .input rk-resize{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([resize]) .input rk-resize{display:block}:host([autogrow]) .input{max-height:var(--_textarea-autogrow-max-height)}:host([autogrow]) .input textarea{overflow:auto;max-height:var(--_textarea-autogrow-max-height)}`;
+    __getStatic() {
+        return Textarea;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Textarea.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<label for="input" _id="textarea_0"></label><div class="input" _id="textarea_1">    <rk-img class="icon" _id="textarea_2"></rk-img>    <textarea rows="1" id="input" _id="textarea_3"></textarea>    <div class="error-logo">!</div>    <rk-resize _id="textarea_4"></rk-resize></div><div class="errors">    <template _id="textarea_5"></template></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "inputCont",
+      "ids": [
+        "textarea_1"
+      ]
+    },
+    {
+      "name": "inputEl",
+      "ids": [
+        "textarea_3"
+      ]
+    },
+    {
+      "name": "resizeEl",
+      "ids": [
+        "textarea_4"
+      ]
+    }
+  ],
+  "content": {
+    "textarea_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__1d98574e598563b66bef89b75eeea5admethod1())}`,
+      "once": true
+    },
+    "textarea_2°src": {
+      "fct": (c) => `${c.print(c.comp.__1d98574e598563b66bef89b75eeea5admethod2())}`,
+      "once": true
+    },
+    "textarea_3°placeholder": {
+      "fct": (c) => `${c.print(c.comp.__1d98574e598563b66bef89b75eeea5admethod3())}`,
+      "once": true
+    }
+  },
+  "events": [
+    {
+      "eventName": "focus",
+      "id": "textarea_3",
+      "fct": (e, c) => c.comp.removeErrors(e)
+    },
+    {
+      "eventName": "input",
+      "id": "textarea_3",
+      "fct": (e, c) => c.comp.onValueChange(e)
+    }
+  ]
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <template _id="textarea_6"></template>    `);this.__getStatic().__template.addLoop({
+                    anchorId: 'textarea_5',
+                    template: templ0,
+                simple:{data: "this.errors",item:"error"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`            <div _id="textarea_7"></div>        `);templ1.setActions({
+  "content": {
+    "textarea_7°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__1d98574e598563b66bef89b75eeea5admethod4(c.data.error))}`,
+      "once": true
+    }
+  }
+});templ0.addIf({
+                    anchorId: 'textarea_6',
+                    parts: [{once: true,
+                    condition: (c) => true,
+                    template: templ1
+                }]
+            }); }
+    getClassName() {
+        return "Textarea";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('resize')) { this.attributeChangedCallback('resize', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = ""; }if(!this.hasAttribute('autogrow')) { this.attributeChangedCallback('autogrow', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('resize');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('value');this.__upgradeProperty('autogrow'); }
+    __listBoolProps() { return ["resize","autogrow"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    removeErrors() {
+        this.errors = [];
+    }
+    enableResizeObserver() {
+        if (this.autogrow)
+            this.resizeObserver.observe(this);
+        else
+            this.resizeObserver.unobserve(this);
+    }
+    calculateAutoGrow() {
+        if (this.autogrow) {
+            this.inputEl.style.height = 'auto';
+            let h = this.inputEl.scrollHeight + 'px';
+            this.inputEl.style.height = h;
+            this.inputCont.style.height = h;
+        }
+    }
+    onValueChange() {
+        this.calculateAutoGrow();
+        this.value = this.inputEl.value;
+        this.onChange.trigger(this.value);
+        if (this.formPart) {
+            this.formPart.value.set(this.value);
+        }
+    }
+    postCreation() {
+        if (this.resize) {
+            this.resizeEl.init(this.inputCont);
+        }
+        this.resizeObserver = new Aventus.ResizeObserver(() => {
+            if (this.autogrow) {
+                this.calculateAutoGrow();
+            }
+        });
+        this.enableResizeObserver();
+        this.calculateAutoGrow();
+    }
+    __1d98574e598563b66bef89b75eeea5admethod1() {
+        return this.label;
+    }
+    __1d98574e598563b66bef89b75eeea5admethod2() {
+        return this.icon;
+    }
+    __1d98574e598563b66bef89b75eeea5admethod3() {
+        return this.placeholder;
+    }
+    __1d98574e598563b66bef89b75eeea5admethod4(error) {
+        return error;
+    }
+}
+Components.Textarea.Namespace=`Core.Components`;
+Components.Textarea.Tag=`rk-textarea`;
+__as1(_.Components, 'Textarea', Components.Textarea);
+if(!window.customElements.get('rk-textarea')){window.customElements.define('rk-textarea', Components.Textarea);Aventus.WebComponentInstance.registerDefinition(Components.Textarea);}
+
+Components.Switch = class Switch extends Components.FormElement {
+    static get observedAttributes() {return ["label", "label2", "disabled", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'label_end'() { return this.getBoolAttr('label_end') }
+    set 'label_end'(val) { this.setBoolAttr('label_end', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'label2'() { return this.getStringProp('label2') }
+    set 'label2'(val) { this.setStringAttr('label2', val) }get 'disabled'() { return this.getBoolProp('disabled') }
+    set 'disabled'(val) { this.setBoolAttr('disabled', val) }get 'checked'() { return this.getBoolProp('checked') }
+    set 'checked'(val) { this.setBoolAttr('checked', val) }    get 'value'() {
+						return this.__watch["value"];
+					}
+					set 'value'(val) {
+						this.__watch["value"] = val;
+					}    __registerWatchesActions() {
+    this.__addWatchesActions("value", ((target) => {
+    target.checked = target.value;
+}));    super.__registerWatchesActions();
+}
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("disabled", ((target) => {
+}));this.__addPropertyActions("checked", ((target) => {
+    target.value = target.checked;
+})); }
+    static __style = `:host{--_switch-background-color: var(--switch-background-color, var(--form-element-background, white));--_switch-dot-size: var(--switch-dot-size, 20px);--_switch-dot-color: var(--switch-dot-color, var(--secondary-color));--_switch-active-dot-color: var(--switch-active-dot-color, var(--secondary-color-active));--_switch-active-background-color: var(--switch-active-background-color, var(--secondary-color));--_switch-font-size: var(--switch-font-size, var(--form-element-font-size, 16px));--_switch-font-size-label: var(--switch-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_switch-border-radius: var(--switch-border-radius, 10px);--_switch-margin-label: var(--switch-margin-label, 30px);--_switch-label-width: var(--switch-label-width, auto)}:host{align-items:center;display:flex;font-size:var(--_switch-font-size);min-height:var(--_switch-dot-size);width:100%}:host .label:not(:empty){cursor:pointer;display:inline-block;font-size:var(--_switch-font-size-label);margin-right:var(--_switch-margin-label);transition:filter .3s var(--bezier-curve);width:var(--_switch-label-width)}:host .label2:not(:empty){cursor:pointer;display:none;font-size:var(--_switch-font-size-label);margin-left:var(--_switch-margin-label);transition:filter .3s var(--bezier-curve);width:var(--_switch-label-width)}:host .bar{align-items:center;background-color:var(--_switch-background-color);border-radius:var(--_switch-border-radius);cursor:pointer;display:flex;height:10px;position:relative;transition:filter .3s var(--bezier-curve);width:30px}:host .bar input{appearance:none;background-color:rgba(0,0,0,0);border:0;cursor:pointer;height:100%;left:0;margin:0;outline:none;padding:0;position:absolute;top:0;width:100%}:host .bar .bar-content{align-items:center;background-color:rgba(0,0,0,0);display:flex;height:100%;pointer-events:none;position:relative;width:100%}:host .bar .bar-content .dot{background-color:var(--_switch-dot-color);border-radius:var(--border-radius-round);box-shadow:none;cursor:pointer;height:var(--_switch-dot-size);left:0%;pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_switch-dot-size)}:host .bar .bar-content .bar-fill{background-color:var(--_switch-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:0%}:host .bar input:checked+.bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host .bar input:checked+.bar-content .bar-fill{width:100%}:host([label_end]:not([label2])) .label:not(:empty){margin-left:var(--_switch-margin-label);margin-right:0px;order:2}:host([label2]) .label2{display:inline-block}:host([checked]) .bar .bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host([checked]) .bar .bar-content .bar-fill{width:100%}:host([disabled]) .bar{cursor:not-allowed;filter:brightness(0.75)}:host([disabled]) .bar input{cursor:not-allowed}:host([disabled]) .bar .bar-content .dot{cursor:not-allowed}:host([disabled]) .label{cursor:default;filter:brightness(0.75)}`;
+    __getStatic() {
+        return Switch;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Switch.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="label" _id="switch_0"></div><div class="bar" _id="switch_1">    <div class="bar-content">        <div class="bar-fill"></div>        <div class="dot"></div>    </div></div><div class="label2" _id="switch_2"></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "switch_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__0c8ab707a91de23d54bc9c39ebe1aeafmethod0())}`,
+      "once": true
+    },
+    "switch_2°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__0c8ab707a91de23d54bc9c39ebe1aeafmethod1())}`,
+      "once": true
+    }
+  },
+  "pressEvents": [
+    {
+      "id": "switch_0",
+      "onPress": (e, pressInstance, c) => { c.comp.setInactive(e, pressInstance); }
+    },
+    {
+      "id": "switch_1",
+      "onPress": (e, pressInstance, c) => { c.comp.toggleActive(e, pressInstance); }
+    },
+    {
+      "id": "switch_2",
+      "onPress": (e, pressInstance, c) => { c.comp.setActive(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "Switch";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label_end')) { this.attributeChangedCallback('label_end', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('label2')){ this['label2'] = undefined; }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('checked')) { this.attributeChangedCallback('checked', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = false; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label_end');this.__upgradeProperty('label');this.__upgradeProperty('label2');this.__upgradeProperty('disabled');this.__upgradeProperty('checked');this.__correctGetter('value'); }
+    __listBoolProps() { return ["label_end","disabled","checked"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    toggleActive() {
+        if (this.disabled)
+            return;
+        this.checked = !this.checked;
+        this.onChange.trigger(this.checked);
+        if (this.formPart) {
+            this.formPart.value.set(this.value);
+        }
+    }
+    setInactive() {
+        if (this.label2) {
+            if (this.checked) {
+                this.checked = !this.checked;
+                this.onChange.trigger(this.checked);
+                if (this.formPart) {
+                    this.formPart.value.set(this.value);
+                }
+            }
+        }
+        else {
+            this.toggleActive();
+        }
+    }
+    setActive() {
+        if (!this.checked) {
+            this.checked = !this.checked;
+            this.onChange.trigger(this.checked);
+            if (this.formPart) {
+                this.formPart.value.set(this.value);
+            }
+        }
+    }
+    __0c8ab707a91de23d54bc9c39ebe1aeafmethod0() {
+        return this.label;
+    }
+    __0c8ab707a91de23d54bc9c39ebe1aeafmethod1() {
+        return this.label2;
+    }
+}
+Components.Switch.Namespace=`Core.Components`;
+Components.Switch.Tag=`rk-switch`;
+__as1(_.Components, 'Switch', Components.Switch);
+if(!window.customElements.get('rk-switch')){window.customElements.define('rk-switch', Components.Switch);Aventus.WebComponentInstance.registerDefinition(Components.Switch);}
+
+Components.InputNumber = class InputNumber extends Components.FormElement {
+    static get observedAttributes() {return ["label", "placeholder", "icon", "min", "max", "unit", "round"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'readonly'() { return this.getBoolAttr('readonly') }
+    set 'readonly'(val) { this.setBoolAttr('readonly', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
+    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'min'() { return this.getNumberProp('min') }
+    set 'min'(val) { this.setNumberAttr('min', val) }get 'max'() { return this.getNumberProp('max') }
+    set 'max'(val) { this.setNumberAttr('max', val) }get 'unit'() { return this.getStringProp('unit') }
+    set 'unit'(val) { this.setStringAttr('unit', val) }get 'round'() { return this.getStringProp('round') }
+    set 'round'(val) { this.setStringAttr('round', val) }    get 'value'() {
+						return this.__watch["value"];
+					}
+					set 'value'(val) {
+						this.__watch["value"] = val;
+					}    errorsTxt = {};
+    defaultErrorsTxt = {
+        notNumber: "Le nombre n'est pas valide",
+        lowerThanMin: "Le nombre n'est pas plus grand que " + this.min,
+        biggerThanMax: "Le nombre n'est pas plus petit que " + this.max,
+    };
+    roundFactor = undefined;
+    __registerWatchesActions() {
+    this.__addWatchesActions("value", ((target) => {
+    target.inputEl.value = target.value !== undefined ? target.value + '' : '';
+    if (target.value !== undefined)
+        target.value = target._round(target.value);
+}));    super.__registerWatchesActions();
+}
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("round", ((target) => {
+    target.setRoundFactor();
+})); }
+    static __style = `:host{--_input-number-height: var(--input-number-height, 30px);--_input-number-background-color: var(--input-number-background-color, var(--form-element-background, white));--_input-number-icon-height: var(--input-number-icon-height, calc(var(--_input-number-height) / 2));--_input-number-error-logo-size: var(--input-number-error-logo-size, calc(var(--_input-number-height) / 2));--_input-number-font-size: var(--input-number-font-size, var(--form-element-font-size, 16px));--_input-number-font-size-label: var(--input-number-font-size-label, var(--form-element-font-size-label, calc(var(--_input-number-font-size) * 0.95)));--_input-number-input-border: var(--input-number-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-number-border-radius: var(--input-number-border-radius, var(--form-element-border-radius, 0));--_input-number-unit-background-color: var(--input-number-unit-background-color, var(--secondary-color));--_input-number-unit-color: var(--input-number-unit-color, var(--text-color-secondary));--_input-number-readonly-background-color: var(--input-number-readonly-background-color, var(--form-element-background-readonly, var(--_input-number-background-color)));--_input-number-readonly-border: var(--input-number-readonly-border, var(--form-element-border-readonly, var(--_input-number-input-border)))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-number-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-number-background-color);border:var(--_input-number-input-border);border-radius:var(--_input-number-border-radius);display:flex;height:var(--_input-number-height);overflow:hidden;padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-number-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-number-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-number-error-logo-size) - 5px);height:var(--_input-number-error-logo-size);justify-content:center;width:var(--_input-number-error-logo-size)}:host .input .unit{align-items:center;background-color:var(--_input-number-unit-background-color);color:var(--_input-number-unit-color);display:flex;font-size:14px;height:100%;justify-content:center;margin-right:-10px;padding-left:10px;padding-right:10px}:host .input .unit:empty{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:0 10px}:host .errors>div{margin:5px 0}:host .errors>div:first-child{margin-top:10px}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .input .unit{margin-right:-25px;padding-right:30px}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([readonly]){pointer-events:none}:host([readonly]) .input{background-color:var(--_input-readonly-background-color);border:var(--_input-readonly-border)}`;
+    __getStatic() {
+        return InputNumber;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(InputNumber.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'append':`<slot name="append">        <span class="unit" _id="inputnumber_3"></span>    </slot>` }, 
+        blocks: { 'default':`<label for="input" _id="inputnumber_0"></label><div class="input">    <rk-img class="icon" _id="inputnumber_1"></rk-img>    <input inputmode="numeric" pattern="[0-9]*" autocomplete="off" id="input" _id="inputnumber_2" />    <slot name="append">        <span class="unit" _id="inputnumber_3"></span>    </slot>    <div class="error-logo">!</div></div><div class="errors">    <template _id="inputnumber_4"></template></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "inputEl",
+      "ids": [
+        "inputnumber_2"
+      ]
+    }
+  ],
+  "content": {
+    "inputnumber_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method1())}`,
+      "once": true
+    },
+    "inputnumber_1°src": {
+      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method2())}`,
+      "once": true
+    },
+    "inputnumber_2°placeholder": {
+      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method3())}`,
+      "once": true
+    },
+    "inputnumber_3°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method4())}`,
+      "once": true
+    }
+  },
+  "events": [
+    {
+      "eventName": "focus",
+      "id": "inputnumber_2",
+      "fct": (e, c) => c.comp.removeErrors(e)
+    },
+    {
+      "eventName": "input",
+      "id": "inputnumber_2",
+      "fct": (e, c) => c.comp.onValueChange(e)
+    },
+    {
+      "eventName": "blur",
+      "id": "inputnumber_2",
+      "fct": (e, c) => c.comp.validate(e)
+    }
+  ]
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <div _id="inputnumber_5"></div>    `);templ0.setActions({
+  "content": {
+    "inputnumber_5°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method5(c.data.error))}`,
+      "once": true
+    }
+  }
+});this.__getStatic().__template.addLoop({
+                    anchorId: 'inputnumber_4',
+                    template: templ0,
+                simple:{data: "this.errors",item:"error"}}); }
+    getClassName() {
+        return "InputNumber";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('readonly')) { this.attributeChangedCallback('readonly', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('min')){ this['min'] = undefined; }if(!this.hasAttribute('max')){ this['max'] = undefined; }if(!this.hasAttribute('unit')){ this['unit'] = undefined; }if(!this.hasAttribute('round')){ this['round'] = undefined; } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('readonly');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('min');this.__upgradeProperty('max');this.__upgradeProperty('unit');this.__upgradeProperty('round');this.__correctGetter('value'); }
+    __listBoolProps() { return ["readonly"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    setRoundFactor() {
+        if (this.round) {
+            let nb = Number(this.round);
+            if (!isNaN(nb)) {
+                this.roundFactor = Math.pow(10, nb);
+                return;
+            }
+        }
+        this.roundFactor = undefined;
+    }
+    removeErrors() {
+        this.errors = [];
+    }
+    isNullNumber() {
+        if (this.inputEl.value === '')
+            return true;
+        let valueTemp = Number(this.inputEl.value);
+        if (!this.inputEl.value || isNaN(valueTemp)) {
+            return false;
+        }
+        return true;
+    }
+    isBiggerThanMin() {
+        if (this.value === undefined)
+            return true;
+        if (this.min != 0 || this.hasAttribute("min")) {
+            return this.value >= this.min;
+        }
+        return true;
+    }
+    isLowerThanMax() {
+        if (this.value === undefined)
+            return true;
+        if (this.max != 0 || this.hasAttribute("max")) {
+            return this.value <= this.max;
+        }
+        return true;
+    }
+    localValidation() {
+        let errors = [];
+        if (!this.isNullNumber()) {
+            const txt = this.errorsTxt.notNumber ?? this.defaultErrorsTxt.notNumber;
+            errors.push(txt);
+        }
+        else if (!this.isBiggerThanMin()) {
+            const txt = this.errorsTxt.lowerThanMin ?? this.defaultErrorsTxt.lowerThanMin;
+            errors.push(txt);
+        }
+        else if (!this.isLowerThanMax()) {
+            const txt = this.errorsTxt.biggerThanMax ?? this.defaultErrorsTxt.biggerThanMax;
+            errors.push(txt);
+        }
+        return errors;
+    }
+    onFormValidation(errors) {
+        errors = [...this.localValidation(), ...errors];
+        return super.onFormValidation(errors);
+    }
+    _round(nb) {
+        if (this.roundFactor) {
+            return Math.round(nb * this.roundFactor) / this.roundFactor;
+        }
+        return nb;
+    }
+    async validate() {
+        if (!this.formPart) {
+            this.errors = this.localValidation();
+            return this.errors.length == 0;
+        }
+        return await this.formPart.test();
+    }
+    onValueChange() {
+        if (!this.isNullNumber()) {
+            return;
+        }
+        if (this.inputEl.value === '') {
+            this.value = undefined;
+        }
+        else {
+            this.value = Number(this.inputEl.value);
+        }
+        this.onChange.trigger(this.value);
+        if (this.formPart) {
+            this.formPart.value.set(this.value);
+        }
+    }
+    __181298e531eab1a15f907371f4223808method1() {
+        return this.label;
+    }
+    __181298e531eab1a15f907371f4223808method2() {
+        return this.icon;
+    }
+    __181298e531eab1a15f907371f4223808method3() {
+        return this.placeholder;
+    }
+    __181298e531eab1a15f907371f4223808method4() {
+        return this.unit;
+    }
+    __181298e531eab1a15f907371f4223808method5(error) {
+        return error;
+    }
+}
+Components.InputNumber.Namespace=`Core.Components`;
+Components.InputNumber.Tag=`rk-input-number`;
+__as1(_.Components, 'InputNumber', Components.InputNumber);
+if(!window.customElements.get('rk-input-number')){window.customElements.define('rk-input-number', Components.InputNumber);Aventus.WebComponentInstance.registerDefinition(Components.InputNumber);}
+
+Components.InputImage = class InputImage extends Components.FormElement {
+    static get observedAttributes() {return ["label", "default_preview", "no_default_preview"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'deletable'() { return this.getBoolAttr('deletable') }
+    set 'deletable'(val) { this.setBoolAttr('deletable', val) }get 'show_delete'() { return this.getBoolAttr('show_delete') }
+    set 'show_delete'(val) { this.setBoolAttr('show_delete', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'default_preview'() { return this.getStringProp('default_preview') }
+    set 'default_preview'(val) { this.setStringAttr('default_preview', val) }get 'no_default_preview'() { return this.getBoolProp('no_default_preview') }
+    set 'no_default_preview'(val) { this.setBoolAttr('no_default_preview', val) }    get 'value'() {
+						return this.__watch["value"];
+					}
+					set 'value'(val) {
+						this.__watch["value"] = val;
+					}get 'previewUri'() {
+						return this.__watch["previewUri"];
+					}
+					set 'previewUri'(val) {
+						this.__watch["previewUri"] = val;
+					}    __registerWatchesActions() {
+    this.__addWatchesActions("value", ((target) => {
+    target.setPreview();
+}));this.__addWatchesActions("previewUri");    super.__registerWatchesActions();
+}
+    static __style = `:host{--_input-image-height: var(--input-image-height, 30px);--_input-image-font-size-label: var(--input-image-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)))}:host label{cursor:pointer;display:none;font-size:var(--_input-image-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;display:flex;height:var(--_input-image-height);padding:0 10px;width:100%}:host .input .preview{aspect-ratio:1;height:100%;position:relative}:host .input .preview .remove{background-color:var(--red);color:var(--text-color-red);border-radius:50px;box-shadow:var(--elevation-3);cursor:pointer;display:none;font-size:var(--font-size-sm);padding:2px;position:absolute;right:0;top:0;transform:translate(50%, -50%)}:host .input .preview rk-img{height:100%;width:100%}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([label]:not([label=""])) label{display:flex}:host([has_errors]) .errors{display:block}:host([show_delete]) .input .preview .remove{display:inline-block}`;
+    __getStatic() {
+        return InputImage;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(InputImage.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<label for="input" _id="inputimage_0"></label><div class="input">    <div class="preview" _id="inputimage_1">        <rk-img _id="inputimage_2"></rk-img>        <mi-icon icon="close" class="remove" _id="inputimage_3"></mi-icon>    </div>    <input id="input" type="file" style="display:none" accept="image/png, image/gif, image/jpeg, image/webp, .svg" _id="inputimage_4" /></div><div class="errors">    <template _id="inputimage_5"></template></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "previewEl",
+      "ids": [
+        "inputimage_1"
+      ]
+    },
+    {
+      "name": "inputFileEl",
+      "ids": [
+        "inputimage_4"
+      ]
+    }
+  ],
+  "content": {
+    "inputimage_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__c66fe4df2e94c01dbd0ac78b58c03d92method1())}`,
+      "once": true
+    },
+    "inputimage_2°src": {
+      "fct": (c) => `${c.print(c.comp.__c66fe4df2e94c01dbd0ac78b58c03d92method2())}`,
+      "once": true
+    }
+  },
+  "events": [
+    {
+      "eventName": "change",
+      "id": "inputimage_4",
+      "fct": (e, c) => c.comp.updateFile(e)
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "inputimage_1",
+      "onPress": (e, pressInstance, c) => { c.comp.clickFile(e, pressInstance); }
+    },
+    {
+      "id": "inputimage_3",
+      "onPress": (e, pressInstance, c) => { c.comp.deleteFile(e, pressInstance); }
+    }
+  ]
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <template _id="inputimage_6"></template>    `);this.__getStatic().__template.addLoop({
+                    anchorId: 'inputimage_5',
+                    template: templ0,
+                simple:{data: "this.errors",item:"error"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`            <div _id="inputimage_7"></div>        `);templ1.setActions({
+  "content": {
+    "inputimage_7°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__c66fe4df2e94c01dbd0ac78b58c03d92method3(c.data.error))}`,
+      "once": true
+    }
+  }
+});templ0.addIf({
+                    anchorId: 'inputimage_6',
+                    parts: [{once: true,
+                    condition: (c) => true,
+                    template: templ1
+                }]
+            }); }
+    getClassName() {
+        return "InputImage";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('deletable')) {this.setAttribute('deletable' ,'true'); }if(!this.hasAttribute('show_delete')) { this.attributeChangedCallback('show_delete', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('default_preview')){ this['default_preview'] = "/img/icons/default_img.svg"; }if(!this.hasAttribute('no_default_preview')) { this.attributeChangedCallback('no_default_preview', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined;w["previewUri"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('deletable');this.__upgradeProperty('show_delete');this.__upgradeProperty('label');this.__upgradeProperty('default_preview');this.__upgradeProperty('no_default_preview');this.__correctGetter('value');this.__correctGetter('previewUri'); }
+    __listBoolProps() { return ["deletable","show_delete","no_default_preview"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    setPreview() {
+        if (!this.value?.Uri) {
+            this.previewUri = this.no_default_preview ? '' : this.default_preview;
+        }
+        else {
+            this.previewUri = this.value.Uri;
+            if (this.deletable) {
+                this.show_delete = true;
+            }
+        }
+    }
+    updateFile() {
+        if (!this.value)
+            return;
+        this.errors = [];
+        if (this.inputFileEl.files && this.inputFileEl.files.length > 0) {
+            this.value.Upload = this.inputFileEl.files[0];
+            this.previewUri = URL.createObjectURL(this.inputFileEl.files[0]);
+            if (this.deletable) {
+                this.show_delete = true;
+            }
+        }
+        else {
+            this.value.Upload = undefined;
+            this.previewUri = this.default_preview;
+            this.show_delete = false;
+        }
+        this.onChange.trigger(this.value);
+        if (this.formPart) {
+            this.formPart.value.set(this.value);
+        }
+    }
+    deleteFile() {
+        this.inputFileEl.value = '';
+        this.updateFile();
+    }
+    clickFile() {
+        this.errors = [];
+        this.inputFileEl.click();
+    }
+    postCreation() {
+        this.setPreview();
+    }
+    __c66fe4df2e94c01dbd0ac78b58c03d92method1() {
+        return this.label;
+    }
+    __c66fe4df2e94c01dbd0ac78b58c03d92method2() {
+        return this.previewUri;
+    }
+    __c66fe4df2e94c01dbd0ac78b58c03d92method3(error) {
+        return error;
+    }
+}
+Components.InputImage.Namespace=`Core.Components`;
+Components.InputImage.Tag=`rk-input-image`;
+__as1(_.Components, 'InputImage', Components.InputImage);
+if(!window.customElements.get('rk-input-image')){window.customElements.define('rk-input-image', Components.InputImage);Aventus.WebComponentInstance.registerDefinition(Components.InputImage);}
+
+Components.InputDate = class InputDate extends Components.FormElement {
+    static get observedAttributes() {return ["label", "placeholder", "icon", "icon_position", "time"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'year_format'() { return this.getStringAttr('year_format') }
+    set 'year_format'(val) { this.setStringAttr('year_format', val) }get 'month_format'() { return this.getStringAttr('month_format') }
+    set 'month_format'(val) { this.setStringAttr('month_format', val) }get 'day_format'() { return this.getStringAttr('day_format') }
+    set 'day_format'(val) { this.setStringAttr('day_format', val) }get 'locale'() { return this.getStringAttr('locale') }
+    set 'locale'(val) { this.setStringAttr('locale', val) }get 'time_zone'() { return this.getStringAttr('time_zone') }
+    set 'time_zone'(val) { this.setStringAttr('time_zone', val) }get 'is_focus'() { return this.getBoolAttr('is_focus') }
+    set 'is_focus'(val) { this.setBoolAttr('is_focus', val) }get 'clearable'() { return this.getBoolAttr('clearable') }
+    set 'clearable'(val) { this.setBoolAttr('clearable', val) }get 'show_clear_icon'() { return this.getBoolAttr('show_clear_icon') }
+    set 'show_clear_icon'(val) { this.setBoolAttr('show_clear_icon', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
+    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'icon_position'() { return this.getStringProp('icon_position') }
+    set 'icon_position'(val) { this.setStringAttr('icon_position', val) }get 'time'() { return this.getBoolProp('time') }
+    set 'time'(val) { this.setBoolAttr('time', val) }    get 'value'() {
+						return this.__watch["value"];
+					}
+					set 'value'(val) {
+						this.__watch["value"] = val;
+					}    __registerWatchesActions() {
+    this.__addWatchesActions("value", ((target) => {
+    target.setValueToInputs();
+}));    super.__registerWatchesActions();
+}
+    static __style = `:host{--_input-date-height: var(--input-date-height, 30px);--_input-date-background-color: var(--input-date-background-color, var(--form-element-background, white));--_input-date-icon-height: var(--input-date-icon-height, calc(var(--_input-date-height) / 2));--_input-date-error-logo-size: var(--input-date-error-logo-size, calc(var(--_input-date-height) / 2));--_input-date-font-size: var(--input-date-font-size, var(--form-element-font-size, 16px));--_input-date-font-size-label: var(--input-date-font-size-label, var(--form-element-font-size-label, calc(var(--_input-date-font-size) * 0.95)));--_input-date-input-border: var(--input-date-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-date-border-radius: var(--input-date-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{cursor:pointer;display:none;font-size:var(--_input-date-font-size-label);margin-bottom:5px;margin-left:3px;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .input{align-items:center;background-color:var(--_input-date-background-color);border:var(--_input-date-input-border);border-radius:var(--_input-date-border-radius);display:flex;height:var(--_input-date-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-date-icon-height);margin-right:10px}:host .input .edit{align-items:center;display:flex;display:none;flex-grow:1;height:100%}:host .input .edit input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;font-size:var(--_input-date-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;text-align:center;width:20px}:host .input .edit .year-input{width:38px}:host .input .edit span{color:var(--text-color);font-size:var(--_input-date-font-size);height:100%;padding:5px 0;text-align:center}:host .input .visual{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-date-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;width:20px}:host .input .clear-icon{display:none;flex-shrink:0;font-size:18px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-date-error-logo-size) - 5px);height:var(--_input-date-error-logo-size);justify-content:center;width:var(--_input-date-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([icon_position=right]) .input .icon{margin-right:0px;order:2}:host([icon_position=right]) .input .input{order:1}:host([icon_position=right]) .input .error-logo{margin-left:10px;order:3}:host([label]:not([label=""])) label{display:flex}:host(:not([time])) .input .edit .time{display:none}:host([is_focus]) .input .edit{display:flex}:host([is_focus]) .input .visual{display:none}:host([show_clear_icon]) .input .clear-icon{display:inline-block}`;
+    __getStatic() {
+        return InputDate;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(InputDate.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'prepend':`<slot name="prepend">        <rk-img class="icon" _id="inputdate_1"></rk-img>    </slot>`,'append':`<slot name="append"></slot>` }, 
+        blocks: { 'default':`<label for="input" _id="inputdate_0"></label><div class="input">    <slot name="prepend">        <rk-img class="icon" _id="inputdate_1"></rk-img>    </slot>    <input class="visual" readonly _id="inputdate_2" />    <div class="edit">        <input autocomplete="off" inputmode="numeric" pattern="[0-9]*" placeholder="xx" _id="inputdate_3" />        <span>.</span>        <input autocomplete="off" inputmode="numeric" pattern="[0-9]*" placeholder="xx" _id="inputdate_4" />        <span>.</span>        <input class="year-input" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="xxxx" _id="inputdate_5" />        <span class="time">&nbsp;</span>        <input class="time" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="xx" _id="inputdate_6" />        <span class="time">:</span>        <input class="time" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="xx" _id="inputdate_7" />    </div>    <slot name="append"></slot>    <mi-icon class="clear-icon touch" icon="close" tabindex="-1" _id="inputdate_8"></mi-icon>    <div class="error-logo">!</div></div><div class="errors">    <template _id="inputdate_9"></template></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "iconEl",
+      "ids": [
+        "inputdate_1"
+      ]
+    },
+    {
+      "name": "dayEl",
+      "ids": [
+        "inputdate_3"
+      ]
+    },
+    {
+      "name": "monthEl",
+      "ids": [
+        "inputdate_4"
+      ]
+    },
+    {
+      "name": "yearEl",
+      "ids": [
+        "inputdate_5"
+      ]
+    },
+    {
+      "name": "hourEl",
+      "ids": [
+        "inputdate_6"
+      ]
+    },
+    {
+      "name": "minuteEl",
+      "ids": [
+        "inputdate_7"
+      ]
+    }
+  ],
+  "content": {
+    "inputdate_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method1())}`,
+      "once": true
+    },
+    "inputdate_1°src": {
+      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method2())}`,
+      "once": true
+    },
+    "inputdate_2°value": {
+      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method3())}`,
+      "once": true
+    }
+  },
+  "events": [
+    {
+      "eventName": "focus",
+      "id": "inputdate_3",
+      "fct": (e, c) => c.comp.selectContent(e)
+    },
+    {
+      "eventName": "keydown",
+      "id": "inputdate_3",
+      "fct": (e, c) => c.comp.triggerPoint(e)
+    },
+    {
+      "eventName": "keyup",
+      "id": "inputdate_3",
+      "fct": (e, c) => c.comp.validateLength2(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "inputdate_4",
+      "fct": (e, c) => c.comp.selectContent(e)
+    },
+    {
+      "eventName": "keydown",
+      "id": "inputdate_4",
+      "fct": (e, c) => c.comp.triggerPoint(e)
+    },
+    {
+      "eventName": "keyup",
+      "id": "inputdate_4",
+      "fct": (e, c) => c.comp.validateLength2(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "inputdate_5",
+      "fct": (e, c) => c.comp.selectContent(e)
+    },
+    {
+      "eventName": "keydown",
+      "id": "inputdate_5",
+      "fct": (e, c) => c.comp.triggerSpace(e)
+    },
+    {
+      "eventName": "keyup",
+      "id": "inputdate_5",
+      "fct": (e, c) => c.comp.validateLength4(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "inputdate_6",
+      "fct": (e, c) => c.comp.selectContent(e)
+    },
+    {
+      "eventName": "keydown",
+      "id": "inputdate_6",
+      "fct": (e, c) => c.comp.triggerSemiCol(e)
+    },
+    {
+      "eventName": "keyup",
+      "id": "inputdate_6",
+      "fct": (e, c) => c.comp.validateLength2(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "inputdate_7",
+      "fct": (e, c) => c.comp.selectContent(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "inputdate_8",
+      "fct": (e, c) => c.comp.preventFocus(e)
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "inputdate_8",
+      "onPress": (e, pressInstance, c) => { c.comp.clearValue(e, pressInstance); }
+    }
+  ]
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`         <div _id="inputdate_10"></div>    `);templ0.setActions({
+  "content": {
+    "inputdate_10°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method4(c.data.error))}`,
+      "once": true
+    }
+  }
+});this.__getStatic().__template.addLoop({
+                    anchorId: 'inputdate_9',
+                    template: templ0,
+                simple:{data: "this.errors",item:"error"}}); }
+    getClassName() {
+        return "InputDate";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('year_format')){ this['year_format'] = "2-digit"; }if(!this.hasAttribute('month_format')){ this['month_format'] = "short"; }if(!this.hasAttribute('day_format')){ this['day_format'] = "2-digit"; }if(!this.hasAttribute('locale')){ this['locale'] = undefined; }if(!this.hasAttribute('time_zone')){ this['time_zone'] = undefined; }if(!this.hasAttribute('is_focus')) { this.attributeChangedCallback('is_focus', false, false); }if(!this.hasAttribute('clearable')) {this.setAttribute('clearable' ,'true'); }if(!this.hasAttribute('show_clear_icon')) { this.attributeChangedCallback('show_clear_icon', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('icon_position')){ this['icon_position'] = undefined; }if(!this.hasAttribute('time')) { this.attributeChangedCallback('time', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('year_format');this.__upgradeProperty('month_format');this.__upgradeProperty('day_format');this.__upgradeProperty('locale');this.__upgradeProperty('time_zone');this.__upgradeProperty('is_focus');this.__upgradeProperty('clearable');this.__upgradeProperty('show_clear_icon');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('icon_position');this.__upgradeProperty('time');this.__correctGetter('value'); }
+    __listBoolProps() { return ["is_focus","clearable","show_clear_icon","time"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    selectContent(e) {
+        e.currentTarget.select();
+    }
+    setValueToInputs() {
+        if (this.value) {
+            const pretty = (nb) => {
+                if (nb < 10) {
+                    return '0' + nb;
+                }
+                return nb + '';
+            };
+            this.dayEl.value = pretty(this.value.getDate());
+            this.monthEl.value = pretty(this.value.getMonth() + 1);
+            this.yearEl.value = pretty(this.value.getFullYear());
+            this.hourEl.value = pretty(this.value.getHours());
+            this.minuteEl.value = pretty(this.value.getMinutes());
+        }
+        else {
+            this.dayEl.value = '';
+            this.monthEl.value = '';
+            this.yearEl.value = '';
+            this.hourEl.value = '';
+            this.minuteEl.value = '';
+        }
+        this.show_clear_icon = this.clearable && this.value !== undefined;
+    }
+    displayVisualDate() {
+        if (!this.value)
+            return "";
+        if (this.time) {
+            return this.value.toLocaleDateString(this.locale, {
+                year: this.year_format,
+                month: this.month_format,
+                day: this.day_format,
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZone: this.time_zone,
+            });
+        }
+        else {
+            return this.value.toLocaleDateString(this.locale, {
+                year: this.year_format,
+                month: this.month_format,
+                day: this.day_format,
+                timeZone: this.time_zone,
+            });
+        }
+    }
+    clearValue() {
+        this.value = undefined;
+        if (this.is_focus) {
+            this.dayEl.focus();
+            this.setValueToInputs();
+        }
+    }
+    localValidation() {
+        let errors = [];
+        let dayValue = this.dayEl.value;
+        let monthValue = this.monthEl.value;
+        let yearValue = this.yearEl.value;
+        let hourValue = this.hourEl.value;
+        let minuteValue = this.minuteEl.value;
+        if (!dayValue && !monthValue && !yearValue && !hourValue && !minuteValue) {
+            return [];
+        }
+        if (!monthValue) {
+            const txt = 'Le mois est obligatoire';
+            errors.push(txt);
+        }
+        else {
+            let nb = Number(monthValue);
+            if (isNaN(nb)) {
+                const txt = 'Le mois doit être un nombre';
+                errors.push(txt);
+            }
+            else if (nb < 1 || nb > 12) {
+                const txt = 'Le mois mois est compris entre 1 et 12';
+                errors.push(txt);
+            }
+        }
+        if (!yearValue) {
+            const txt = 'L\'année est obligatoire';
+            errors.push(txt);
+        }
+        else {
+            let nb = Number(yearValue);
+            if (isNaN(nb)) {
+                const txt = 'L\'année doit être un nombre';
+                errors.push(txt);
+            }
+            else if (nb < 0) {
+                const txt = 'L\'année doit être un nombre positif';
+                errors.push(txt);
+            }
+        }
+        if (!dayValue) {
+            const txt = 'Le jour est obligatoire';
+            errors.push(txt);
+        }
+        else if (errors.length == 0) {
+            let max = new Date(Number(yearValue), Number(monthValue), 0).getDate();
+            let nb = Number(dayValue);
+            if (isNaN(nb)) {
+                const txt = 'Le jour doit être un nombre';
+                errors.push(txt);
+            }
+            else if (nb < 1 || nb > max) {
+                const txt = 'Le jour est compris entre 1 et $max'.replace("$max", max + '');
+                errors.push(txt);
+            }
+        }
+        if (hourValue) {
+            let nb = Number(hourValue);
+            if (isNaN(nb)) {
+                const txt = 'L\'heure doit être un nombre';
+                errors.push(txt);
+            }
+            else if (nb < 0 || nb > 23) {
+                const txt = 'L\'heure doit est comprise entre 1 et 23';
+                errors.push(txt);
+            }
+        }
+        if (minuteValue) {
+            let nb = Number(minuteValue);
+            if (isNaN(nb)) {
+                const txt = 'La minute doit être un nombre';
+                errors.push(txt);
+            }
+            else if (nb < 0 || nb > 59) {
+                const txt = 'La minute doite est comprise entre 1 et 59';
+                errors.push(txt);
+            }
+        }
+        return errors;
+    }
+    async validate() {
+        if (!this.formPart) {
+            this.errors = this.localValidation();
+            return this.errors.length == 0;
+        }
+        return await this.formPart.test();
+    }
+    async onValueChange() {
+        let localValidations = this.localValidation();
+        if (localValidations.length == 0) {
+            let dayValue = this.dayEl.value;
+            let monthValue = this.monthEl.value;
+            let yearValue = this.yearEl.value;
+            let hourValue = this.hourEl.value;
+            let minuteValue = this.minuteEl.value;
+            let result = undefined;
+            if (!dayValue && !monthValue && !yearValue && !hourValue && !minuteValue) {
+            }
+            else {
+                let date = new Date(Number(yearValue), Number(monthValue) - 1, Number(dayValue), 0, 0, 0, 0);
+                if (this.time) {
+                    if (hourValue) {
+                        date.setHours(Number(hourValue));
+                    }
+                    if (minuteValue) {
+                        date.setMinutes(Number(minuteValue));
+                    }
+                }
+                result = date;
+            }
+            const isSame = this.time ? Lib.DateTools.isSameDateTime(this.value, result) : Lib.DateTools.isSameDate(this.value, result);
+            if (!isSame) {
+                this.value = result;
+                this.onChange.trigger(this.value);
+                if (this.formPart) {
+                    this.formPart.value.set(this.value);
+                }
+            }
+            this.is_focus = false;
+        }
+        else {
+            this.errors = localValidations;
+        }
+    }
+    addBlurEvents() {
+        const elements = [this, this.dayEl, this.monthEl, this.yearEl, this.hourEl, this.minuteEl];
+        let blurTimeout = 0;
+        let blur = () => {
+            blurTimeout = setTimeout(() => {
+                this.onValueChange();
+            }, 100);
+        };
+        for (let element of elements) {
+            element.addEventListener("focus", () => {
+                this.errors = [];
+                this.is_focus = true;
+                clearTimeout(blurTimeout);
+            });
+            element.addEventListener("blur", () => {
+                blur();
+            });
+        }
+        this.addEventListener("focus", () => {
+            setTimeout(() => {
+                this.dayEl.focus();
+            });
+        });
+    }
+    triggerPoint(e) {
+        this.triggerChar(e, '.');
+    }
+    triggerSpace(e) {
+        this.triggerChar(e, ' ');
+    }
+    triggerSemiCol(e) {
+        this.triggerChar(e, ':');
+    }
+    triggerChar(e, char) {
+        if (e.key == char) {
+            e.preventDefault();
+            let el = e.target;
+            let nextInput = el.nextElementSibling?.nextElementSibling;
+            if (nextInput) {
+                nextInput.focus();
+            }
+        }
+    }
+    validateLength2(e) {
+        this.validateLength(e, 2);
+    }
+    validateLength4(e) {
+        this.validateLength(e, 4);
+    }
+    validateLength(e, length) {
+        if (e.key == 'Tab') {
+            return;
+        }
+        let el = e.target;
+        if (el.value.length == length) {
+            let nextInput = el.nextElementSibling?.nextElementSibling;
+            if (nextInput) {
+                nextInput.focus();
+            }
+        }
+    }
+    preventFocus(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    postCreation() {
+        super.postCreation();
+        this.setAttribute("tabindex", "-1");
+        this.addBlurEvents();
+    }
+    __85f0c0fbb346d55c45d594cadd252d33method1() {
+        return this.label;
+    }
+    __85f0c0fbb346d55c45d594cadd252d33method2() {
+        return this.icon;
+    }
+    __85f0c0fbb346d55c45d594cadd252d33method3() {
+        return this.displayVisualDate();
+    }
+    __85f0c0fbb346d55c45d594cadd252d33method4(error) {
+        return error;
+    }
+}
+Components.InputDate.Namespace=`Core.Components`;
+Components.InputDate.Tag=`rk-input-date`;
+__as1(_.Components, 'InputDate', Components.InputDate);
+if(!window.customElements.get('rk-input-date')){window.customElements.define('rk-input-date', Components.InputDate);Aventus.WebComponentInstance.registerDefinition(Components.InputDate);}
+
+Components.InlineText = class InlineText extends Components.FormElement {
+    get 'is_editing'() { return this.getBoolAttr('is_editing') }
+    set 'is_editing'(val) { this.setBoolAttr('is_editing', val) }    textBeforeEdit;
+    onIsEditChange = new Aventus.Callback();
+    static __style = `:host input{background-color:rgba(0,0,0,0);border:none;box-shadow:none;display:none;font-family:inherit;font-size:inherit;font-weight:inherit;margin:0;min-width:0;outline:none;padding:0;width:100%}:host([is_editing]) .display{display:none}:host([is_editing]) input{display:block}`;
+    __getStatic() {
+        return InlineText;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(InlineText.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="display" _id="inlinetext_0"></div><input autocomplete="off" _id="inlinetext_1" />` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "inputEl",
+      "ids": [
+        "inlinetext_1"
+      ]
+    }
+  ],
+  "content": {
+    "inlinetext_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__ff6c4988ad15a0c9578e9eb608a555dbmethod0())}`,
+      "once": true
+    }
+  },
+  "injection": [
+    {
+      "id": "inlinetext_1",
+      "injectionName": "value",
+      "inject": (c) => c.comp.__ff6c4988ad15a0c9578e9eb608a555dbmethod1(),
+      "once": true
+    }
+  ],
+  "events": [
+    {
+      "eventName": "blur",
+      "id": "inlinetext_1",
+      "fct": (e, c) => c.comp.validateChange(e)
+    },
+    {
+      "eventName": "focus",
+      "id": "inlinetext_1",
+      "fct": (e, c) => c.comp.removeErrors(e)
+    },
+    {
+      "eventName": "input",
+      "id": "inlinetext_1",
+      "fct": (e, c) => c.comp.onValueChange(e)
+    },
+    {
+      "eventName": "keyup",
+      "id": "inlinetext_1",
+      "fct": (e, c) => c.comp.checkEnter(e)
+    }
+  ]
+}); }
+    getClassName() {
+        return "InlineText";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('is_editing')) { this.attributeChangedCallback('is_editing', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('is_editing'); }
+    __listBoolProps() { return ["is_editing"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    removeErrors() {
+        this.errors = [];
+    }
+    onValueChange() {
+        this.value = this.inputEl.value;
+        this.onChange.trigger(this.value);
+        if (this.formPart) {
+            this.formPart.value.set(this.value);
+        }
+    }
+    edit() {
+        this.textBeforeEdit = this.value;
+        this.is_editing = true;
+        this.onIsEditChange.trigger(this.is_editing);
+        this.inputEl.focus();
+        this.inputEl.select();
+    }
+    cancel() {
+        this.value = this.textBeforeEdit;
+    }
+    validateChange() {
+        this.is_editing = false;
+        this.onIsEditChange.trigger(this.is_editing);
+    }
+    checkEnter(e) {
+        if (e.key == "Enter") {
+            this.inputEl.blur();
+        }
+        else if (e.key == "Escape") {
+            this.cancel();
+            this.inputEl.blur();
+        }
+    }
+    postCreation() {
+        super.postCreation();
+    }
+    __ff6c4988ad15a0c9578e9eb608a555dbmethod0() {
+        return this.value;
+    }
+    __ff6c4988ad15a0c9578e9eb608a555dbmethod1() {
+        return this.value;
+    }
+}
+Components.InlineText.Namespace=`Core.Components`;
+Components.InlineText.Tag=`rk-inline-text`;
+__as1(_.Components, 'InlineText', Components.InlineText);
+if(!window.customElements.get('rk-inline-text')){window.customElements.define('rk-inline-text', Components.InlineText);Aventus.WebComponentInstance.registerDefinition(Components.InlineText);}
+
+Components.Input = class Input extends Components.FormElement {
+    static get observedAttributes() {return ["label", "placeholder", "unit", "icon", "icon_position", "value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'readonly'() { return this.getBoolAttr('readonly') }
+    set 'readonly'(val) { this.setBoolAttr('readonly', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
+    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'unit'() { return this.getStringProp('unit') }
+    set 'unit'(val) { this.setStringAttr('unit', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }get 'icon_position'() { return this.getStringProp('icon_position') }
+    set 'icon_position'(val) { this.setStringAttr('icon_position', val) }get 'value'() { return this.getStringProp('value') }
+    set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
+    target.inputEl.value = target.value ?? "";
+})); }
+    static __style = `:host{--_input-height: var(--input-height, 30px);--_input-background-color: var(--input-background-color, var(--form-element-background, white));--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0));--_input-readonly-background-color: var(--input-readonly-background-color, var(--form-element-background-readonly, var(--_input-background-color)));--_input-readonly-border: var(--input-readonly-border, var(--form-element-border-readonly, var(--_input-input-border)));--_input-unit-background-color: var(--input-unit-background-color, var(--secondary-color));--_input-unit-color: var(--input-unit-color, var(--text-color-secondary))}:host{min-width:100px;width:100%}:host label{cursor:pointer;display:none;font-size:var(--_input-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-background-color);border:var(--_input-input-border);border-radius:var(--_input-border-radius);display:flex;height:var(--_input-height);overflow:hidden;padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-error-logo-size) - 5px);height:var(--_input-error-logo-size);justify-content:center;width:var(--_input-error-logo-size)}:host .input .unit{align-items:center;background-color:var(--_input-unit-background-color);color:var(--_input-unit-color);display:flex;font-size:14px;height:100%;justify-content:center;margin-right:-10px;padding-left:10px;padding-right:10px}:host .input .unit:empty{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .input .unit{margin-right:-25px;padding-right:30px}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([icon_position=right]) .input .icon{margin-right:0px;order:2}:host([icon_position=right]) .input .input{order:1}:host([icon_position=right]) .input .error-logo{margin-left:10px;order:3}:host([label]:not([label=""])) label{display:flex}:host([readonly]){pointer-events:none}:host([readonly]) .input{background-color:var(--_input-readonly-background-color);border:var(--_input-readonly-border)}`;
+    __getStatic() {
+        return Input;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Input.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'prepend':`<slot name="prepend">        <rk-img class="icon" _id="input_1"></rk-img>    </slot>`,'append':`<slot name="append">        <span class="unit" _id="input_3"></span>    </slot>` }, 
+        blocks: { 'default':`<label for="input" _id="input_0"></label><div class="input">    <slot name="prepend">        <rk-img class="icon" _id="input_1"></rk-img>    </slot>    <input autocomplete="off" id="input" _id="input_2" />    <slot name="append">        <span class="unit" _id="input_3"></span>    </slot>    <div class="error-logo">!</div></div><div class="errors">    <template _id="input_4"></template></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "iconEl",
+      "ids": [
+        "input_1"
+      ]
+    },
+    {
+      "name": "inputEl",
+      "ids": [
+        "input_2"
+      ]
+    }
+  ],
+  "content": {
+    "input_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method1())}`,
+      "once": true
+    },
+    "input_1°src": {
+      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method2())}`,
+      "once": true
+    },
+    "input_2°placeholder": {
+      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method3())}`,
+      "once": true
+    },
+    "input_3°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method4())}`,
+      "once": true
+    }
+  },
+  "events": [
+    {
+      "eventName": "focus",
+      "id": "input_2",
+      "fct": (e, c) => c.comp.removeErrors(e)
+    },
+    {
+      "eventName": "input",
+      "id": "input_2",
+      "fct": (e, c) => c.comp.onValueChange(e)
+    }
+  ]
+});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <template _id="input_5"></template>    `);this.__getStatic().__template.addLoop({
+                    anchorId: 'input_4',
+                    template: templ0,
+                simple:{data: "this.errors",item:"error"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`            <div _id="input_6"></div>        `);templ1.setActions({
+  "content": {
+    "input_6°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method5(c.data.error))}`,
+      "once": true
+    }
+  }
+});templ0.addIf({
+                    anchorId: 'input_5',
+                    parts: [{once: true,
+                    condition: (c) => true,
+                    template: templ1
+                }]
+            }); }
+    getClassName() {
+        return "Input";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('readonly')) { this.attributeChangedCallback('readonly', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('unit')){ this['unit'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('icon_position')){ this['icon_position'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = ""; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('readonly');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('unit');this.__upgradeProperty('icon');this.__upgradeProperty('icon_position');this.__upgradeProperty('value'); }
+    __listBoolProps() { return ["readonly"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    removeErrors() {
+        this.errors = [];
+    }
+    onValueChange() {
+        this.value = this.inputEl.value;
+        this.onChange.trigger(this.value);
+        if (this.formPart) {
+            this.formPart.value.set(this.value);
+        }
+    }
+    postCreation() {
+        super.postCreation();
+        this.setAttribute("tabindex", "1");
+        this.addEventListener("focus", () => {
+            this.inputEl.focus();
+        });
+    }
+    __7b4688f1d13a935f88db2286094e0088method1() {
+        return this.label;
+    }
+    __7b4688f1d13a935f88db2286094e0088method2() {
+        return this.icon;
+    }
+    __7b4688f1d13a935f88db2286094e0088method3() {
+        return this.placeholder;
+    }
+    __7b4688f1d13a935f88db2286094e0088method4() {
+        return this.unit;
+    }
+    __7b4688f1d13a935f88db2286094e0088method5(error) {
+        return error;
+    }
+}
+Components.Input.Namespace=`Core.Components`;
+Components.Input.Tag=`rk-input`;
+__as1(_.Components, 'Input', Components.Input);
+if(!window.customElements.get('rk-input')){window.customElements.define('rk-input', Components.Input);Aventus.WebComponentInstance.registerDefinition(Components.Input);}
+
+Components.Password = class Password extends Components.Input {
+    static get observedAttributes() {return ["visible", "icon_position"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'visible'() { return this.getBoolProp('visible') }
+    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'icon_position'() { return this.getStringProp('icon_position') }
+    set 'icon_position'(val) { this.setStringAttr('icon_position', val) }    pressIcon;
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("visible", ((target) => {
+    target.updateIcon();
+})); }
+    static __style = `:host .input .icon{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}`;
+    __getStatic() {
+        return Password;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Password.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "Password";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('icon_position')){ this['icon_position'] = "right"; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('icon_position'); }
+    __listBoolProps() { return ["visible"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    toggleVisible() {
+        this.visible = !this.visible;
+    }
+    updateIcon() {
+        if (this.visible) {
+            this.inputEl.type = "input";
+            this.icon = "mi-visibility_off";
+        }
+        else {
+            this.inputEl.type = "password";
+            this.icon = "mi-visibility";
+        }
+    }
+    postCreation() {
+        super.postCreation();
+        if (this.iconEl) {
+            this.pressIcon = new Aventus.PressManager({
+                element: this.iconEl,
+                onPress: () => {
+                    this.toggleVisible();
+                }
+            });
+        }
+    }
+    postDestruction() {
+        super.postDestruction();
+        this.pressIcon?.destroy();
+    }
+}
+Components.Password.Namespace=`Core.Components`;
+Components.Password.Tag=`rk-password`;
+__as1(_.Components, 'Password', Components.Password);
+if(!window.customElements.get('rk-password')){window.customElements.define('rk-password', Components.Password);Aventus.WebComponentInstance.registerDefinition(Components.Password);}
+
+Components.Checkbox = class Checkbox extends Components.FormElement {
+    static get observedAttributes() {return ["label", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'left_label'() { return this.getBoolAttr('left_label') }
+    set 'left_label'(val) { this.setBoolAttr('left_label', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'checked'() { return this.getBoolProp('checked') }
+    set 'checked'(val) { this.setBoolAttr('checked', val) }    get 'value'() {
+						return this.__watch["value"];
+					}
+					set 'value'(val) {
+						this.__watch["value"] = val;
+					}    __registerWatchesActions() {
+    this.__addWatchesActions("value", ((target) => {
+    target.checked = target.value;
+}));    super.__registerWatchesActions();
+}
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("checked", ((target) => {
+    target.value = target.checked;
+})); }
+    static __style = `:host{--_checkbox-size: var(--checkbox-size, 18px);--_checkbox-height: var(--checkbox-height, var(--_checkbox-size));--_checkbox-width: var(--checkbox-width, var(--_checkbox-size));--_checkbox-border-radius: var(--checkbox-border-radius, var(--form-element-border-radius));--_checkbox-border: var(--checkbox-border, var(--form-element-border));--_checkbox-border-active: var(--checkbox-border-active, var(--form-element-border-active, var(--_checkbox-border)));--_checkbox-background: var(--checkbox-background, var(--form-element-background, white));--_checkbox-background-active: var(--checkbox-background-active, var(--form-element-background-active, white));--_checkbox-tick-color: var(--checkbox-tick-color, var(--_checkbox-background));--_checkbox-tick-size: var(--checkbox-tick-size, 2px);--_checkbox-tick-padding: var(--checkbox-tick-padding, 10%);--_checkbox-font-size-label: var(--checkbox-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_checkbox-margin-label: var(--checkbox-margin-label, 5px)}:host{align-items:center;display:flex}:host .label:not(:empty){cursor:pointer;font-size:var(--_checkbox-font-size-label);margin-left:var(--_checkbox-margin-label)}:host .square{background-color:var(--_checkbox-background);border:var(--_checkbox-border);border-radius:var(--_checkbox-border-radius);cursor:pointer;flex-shrink:0;height:var(--_checkbox-height);position:relative;transition:border .4s var(--bezier-curve),background-color .4s var(--bezier-curve);width:var(--_checkbox-width);display:flex;align-items:center;justify-content:center}:host .square rk-img{--img-stroke-color: var(--_checkbox-tick-color);--img-stroke-width: var(--_checkbox-tick-size);height:calc(100% - var(--_checkbox-tick-padding));opacity:0;visibility:hidden;width:calc(100% - var(--_checkbox-tick-padding))}:host([checked]) .square{background-color:var(--_checkbox-background-active);border:var(--_checkbox-border-active)}:host([checked]) .square rk-img{opacity:1;visibility:visible}:host([checked]) .square rk-img::part(tick){animation:dash .3s linear forwards;animation-delay:.2s;stroke-dasharray:100;stroke-dashoffset:100}:host([left_label]) .label:not(:empty){margin-left:0;margin-right:var(--_checkbox-margin-label);order:1}:host([left_label]) .square{order:2}@keyframes dash{to{stroke-dashoffset:70}}`;
+    __getStatic() {
+        return Checkbox;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Checkbox.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="square">    <rk-img src="/img/icons/tick.svg"></rk-img></div><div class="label" _id="checkbox_0"></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "checkbox_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__ab411575f51bcaf15868d94c774ac9c3method0())}`,
+      "once": true
+    }
+  }
+}); }
+    getClassName() {
+        return "Checkbox";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('left_label')) { this.attributeChangedCallback('left_label', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('checked')) { this.attributeChangedCallback('checked', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = false; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('left_label');this.__upgradeProperty('label');this.__upgradeProperty('checked');this.__correctGetter('value'); }
+    __listBoolProps() { return ["left_label","checked"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    removeErrors() {
+        this.errors = [];
+    }
+    postCreation() {
+        super.postCreation();
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => {
+                this.removeErrors();
+                this.checked = !this.checked;
+                this.onChange.trigger(this.checked);
+                if (this.formPart) {
+                    this.formPart.value.set(this.value);
+                }
+            }
+        });
+    }
+    __ab411575f51bcaf15868d94c774ac9c3method0() {
+        return this.label;
+    }
+}
+Components.Checkbox.Namespace=`Core.Components`;
+Components.Checkbox.Tag=`rk-checkbox`;
+__as1(_.Components, 'Checkbox', Components.Checkbox);
+if(!window.customElements.get('rk-checkbox')){window.customElements.define('rk-checkbox', Components.Checkbox);Aventus.WebComponentInstance.registerDefinition(Components.Checkbox);}
+
+Components.CheckboxItem = class CheckboxItem extends Aventus.WebComponent {
+    static get observedAttributes() {return ["label", "left_label", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'left_label'() { return this.getBoolProp('left_label') }
+    set 'left_label'(val) { this.setBoolAttr('left_label', val) }get 'checked'() { return this.getBoolProp('checked') }
+    set 'checked'(val) { this.setBoolAttr('checked', val) }    get 'value'() {
+						return this.__watch["value"];
+					}
+					set 'value'(val) {
+						this.__watch["value"] = val;
+					}    no_undefined;
+    onChange = new Aventus.Callback();
+    __registerWatchesActions() {
+    this.__addWatchesActions("value");    super.__registerWatchesActions();
+}
+    static __style = ``;
+    __getStatic() {
+        return CheckboxItem;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(CheckboxItem.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-checkbox _id="checkboxitem_0"></rk-checkbox>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "checkboxEl",
+      "ids": [
+        "checkboxitem_0"
+      ]
+    }
+  ],
+  "injection": [
+    {
+      "id": "checkboxitem_0",
+      "injectionName": "label",
+      "inject": (c) => c.comp.__74b5b98629e22543504865a0c2970880method0(),
+      "once": true
+    },
+    {
+      "id": "checkboxitem_0",
+      "injectionName": "checked",
+      "inject": (c) => c.comp.__74b5b98629e22543504865a0c2970880method1(),
+      "once": true
+    },
+    {
+      "id": "checkboxitem_0",
+      "injectionName": "left_label",
+      "inject": (c) => c.comp.__74b5b98629e22543504865a0c2970880method2(),
+      "once": true
+    }
+  ],
+  "events": [
+    {
+      "eventName": "onChange",
+      "id": "checkboxitem_0",
+      "fct": (c, ...args) => c.comp.emitChange.apply(c.comp, ...args),
+      "isCallback": true
+    }
+  ]
+}); }
+    getClassName() {
+        return "CheckboxItem";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('left_label')) { this.attributeChangedCallback('left_label', false, false); }if(!this.hasAttribute('checked')) { this.attributeChangedCallback('checked', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label');this.__upgradeProperty('left_label');this.__upgradeProperty('checked');this.__correctGetter('value'); }
+    __listBoolProps() { return ["left_label","checked"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    emitChange(value) {
+        if (value) {
+            this.onChange.trigger(this.value, this);
+        }
+        else if (!this.no_undefined) {
+            this.onChange.trigger(undefined, this);
+        }
+        else {
+            this.checked = true;
+            this.checkboxEl.checked = true;
+        }
+    }
+    __74b5b98629e22543504865a0c2970880method0() {
+        return this.label;
+    }
+    __74b5b98629e22543504865a0c2970880method1() {
+        return this.checked;
+    }
+    __74b5b98629e22543504865a0c2970880method2() {
+        return this.left_label;
+    }
+}
+Components.CheckboxItem.Namespace=`Core.Components`;
+Components.CheckboxItem.Tag=`rk-checkbox-item`;
+__as1(_.Components, 'CheckboxItem', Components.CheckboxItem);
+if(!window.customElements.get('rk-checkbox-item')){window.customElements.define('rk-checkbox-item', Components.CheckboxItem);Aventus.WebComponentInstance.registerDefinition(Components.CheckboxItem);}
+
+Components.Form = class Form extends Aventus.WebComponent {
+    elements = [];
+    onSubmit = new Aventus.Callback();
+    static __style = `:host{padding:15px;width:100%}`;
+    __getStatic() {
+        return Form;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Form.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "Form";
+    }
+    registerFormElement(element) {
+        if (!this.elements.includes(element)) {
+            this.elements.push(element);
+        }
+    }
+    registerSubmit(element) {
+        new Aventus.PressManager({
+            element,
+            onPress: () => {
+                this.submit();
+            }
+        });
+    }
+    async submit() {
+        if (await this.validate()) {
+            this.onSubmit.trigger();
+        }
+    }
+    async validate() {
+        return false;
+    }
+}
+Components.Form.Namespace=`Core.Components`;
+Components.Form.Tag=`rk-form`;
+__as1(_.Components, 'Form', Components.Form);
+if(!window.customElements.get('rk-form')){window.customElements.define('rk-form', Components.Form);Aventus.WebComponentInstance.registerDefinition(Components.Form);}
+
+Components.Button = class Button extends Aventus.WebComponent {
+    static get observedAttributes() {return ["icon_before", "icon_after", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'color'() { return this.getStringAttr('color') }
+    set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
+    set 'outline'(val) { this.setBoolAttr('outline', val) }get 'submit'() { return this.getBoolAttr('submit') }
+    set 'submit'(val) { this.setBoolAttr('submit', val) }get 'disabled'() { return this.getBoolAttr('disabled') }
+    set 'disabled'(val) { this.setBoolAttr('disabled', val) }get 'flat'() { return this.getBoolAttr('flat') }
+    set 'flat'(val) { this.setBoolAttr('flat', val) }get 'ghost'() { return this.getBoolAttr('ghost') }
+    set 'ghost'(val) { this.setBoolAttr('ghost', val) }    get 'icon_before'() { return this.getStringProp('icon_before') }
+    set 'icon_before'(val) { this.setStringAttr('icon_before', val) }get 'icon_after'() { return this.getStringProp('icon_after') }
+    set 'icon_after'(val) { this.setStringAttr('icon_after', val) }get 'icon'() { return this.getStringProp('icon') }
+    set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
+    target.icon_before = target.icon;
+})); }
+    static __style = `:host{--_button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--_button-color: var(--button-color, currentcolor);--_button-box-shadow: var(--button-box-shadow);--_button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--_button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--_button-box-shadow);color:var(--_button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([flat]){box-shadow:none}:host([ghost]){background-color:rgba(0,0,0,0)}:host([ghost][outline]){border:none}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--_button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
+    __getStatic() {
+        return Button;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Button.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<div class="hider"></div><div class="content">    <rk-img class="icon-before" _id="button_0"></rk-img>    <slot></slot>    <rk-img class="icon-after" _id="button_1"></rk-img></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "button_0°src": {
+      "fct": (c) => `${c.print(c.comp.__e17753be66eb8c36ad73f4b01845474bmethod0())}`,
+      "once": true
+    },
+    "button_1°src": {
+      "fct": (c) => `${c.print(c.comp.__e17753be66eb8c36ad73f4b01845474bmethod1())}`,
+      "once": true
+    }
+  }
+}); }
+    getClassName() {
+        return "Button";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('submit')) { this.attributeChangedCallback('submit', false, false); }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('flat')) { this.attributeChangedCallback('flat', false, false); }if(!this.hasAttribute('ghost')) { this.attributeChangedCallback('ghost', false, false); }if(!this.hasAttribute('icon_before')){ this['icon_before'] = undefined; }if(!this.hasAttribute('icon_after')){ this['icon_after'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('submit');this.__upgradeProperty('disabled');this.__upgradeProperty('flat');this.__upgradeProperty('ghost');this.__upgradeProperty('icon_before');this.__upgradeProperty('icon_after');this.__upgradeProperty('icon'); }
+    __listBoolProps() { return ["outline","submit","disabled","flat","ghost"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    registerToForm() {
+        if (!this.submit)
+            return;
+        const parent = this.findParentByType(_.Components.Form);
+        if (parent) {
+            parent.registerSubmit(this);
+        }
+    }
+    postCreation() {
+        this.registerToForm();
+    }
+    __e17753be66eb8c36ad73f4b01845474bmethod0() {
+        return this.icon_before;
+    }
+    __e17753be66eb8c36ad73f4b01845474bmethod1() {
+        return this.icon_after;
+    }
+}
+Components.Button.Namespace=`Core.Components`;
+Components.Button.Tag=`rk-button`;
+__as1(_.Components, 'Button', Components.Button);
+if(!window.customElements.get('rk-button')){window.customElements.define('rk-button', Components.Button);Aventus.WebComponentInstance.registerDefinition(Components.Button);}
+
+System.AppInstallPanel = class AppInstallPanel extends System.Panel {
+    onClose = new Aventus.Callback();
+    static __style = `:host{align-items:center;bottom:70px;display:flex;flex-direction:column;justify-content:center;left:50%;padding:20px 45px;position:absolute;transform:translateX(-50%);z-index:999999}:host label{display:block;font-size:var(--font-size-sm);margin-bottom:15px}:host .cross{cursor:pointer;position:absolute;right:5px;top:5px}:host .cross mi-icon{font-size:18px}`;
+    __getStatic() {
+        return AppInstallPanel;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(AppInstallPanel.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<label>Téléchargement de l'application</label><rk-button _id="appinstallpanel_0">Téléverser</rk-button><div class="cross" _id="appinstallpanel_1">    <mi-icon icon="close"></mi-icon></div><input style="display:none" type="file" accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed" _id="appinstallpanel_2" />` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "inputFileEl",
+      "ids": [
+        "appinstallpanel_2"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "eventName": "change",
+      "id": "appinstallpanel_2",
+      "fct": (e, c) => c.comp.updateFile(e)
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "appinstallpanel_0",
+      "onPress": (e, pressInstance, c) => { c.comp.clickFile(e, pressInstance); }
+    },
+    {
+      "id": "appinstallpanel_1",
+      "onPress": (e, pressInstance, c) => { c.comp.close(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "AppInstallPanel";
+    }
+    async updateFile() {
+        if (this.inputFileEl.files && this.inputFileEl.files.length > 0) {
+            const result = await new Routes.ApplicationRouter().InstallApp({
+                file: this.inputFileEl.files[0]
+            });
+            if (result.success) {
+                let notif = Components.Notification.create({
+                    color: "success",
+                    title: "Succès",
+                    body: "Téléchargement terminé",
+                });
+                _.System.Os.instance.notify(notif);
+                this.remove();
+                this.onClose.trigger();
+            }
+            else {
+                let notif = Components.Notification.create({
+                    color: "error",
+                    title: "Erreurs",
+                    body: "Il y a eu une erreur",
+                });
+                _.System.Os.instance.notify(notif);
+            }
+        }
+    }
+    close() {
+        this.remove();
+        this.onClose.trigger();
+    }
+    clickFile() {
+        this.inputFileEl.click();
+    }
+}
+System.AppInstallPanel.Namespace=`Core.System`;
+System.AppInstallPanel.Tag=`rk-app-install-panel`;
+__as1(_.System, 'AppInstallPanel', System.AppInstallPanel);
+if(!window.customElements.get('rk-app-install-panel')){window.customElements.define('rk-app-install-panel', System.AppInstallPanel);Aventus.WebComponentInstance.registerDefinition(System.AppInstallPanel);}
+
+Components.Confirm = class Confirm extends Components.GenericPopup {
+    static __style = `:host .popup .body{align-items:center;display:flex;justify-content:center;line-height:1.5;padding:20px;padding-top:15px;text-align:center}:host .popup .action{align-items:center;display:flex;gap:20px;justify-content:center}`;
+    constructor() {
+        super();
+        this.validate = this.validate.bind(this);
+        this.cancel = this.cancel.bind(this);
+    }
+    __getStatic() {
+        return Confirm;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Confirm.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-scrollable class="body" _id="confirm_0"></rk-scrollable><div class="action">    <rk-button color="red" _id="confirm_1"></rk-button>    <rk-button color="success" _id="confirm_2"></rk-button></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "confirm_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method0())}`,
+      "once": true
+    },
+    "confirm_1°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method1())}`,
+      "once": true
+    },
+    "confirm_2°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__caa2fd56843944180566fbe49a4bb311method2())}`,
+      "once": true
+    }
+  },
+  "pressEvents": [
+    {
+      "id": "confirm_1",
+      "onPress": (e, pressInstance, c) => { c.comp.cancel(e, pressInstance); }
+    },
+    {
+      "id": "confirm_2",
+      "onPress": (e, pressInstance, c) => { c.comp.validate(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "Confirm";
+    }
+    init(cb) {
+        super.init(cb);
+        this.addShortcuts();
+    }
+    close() {
+        super.close();
+        this.removeShortcuts();
+    }
+    defaultOptions() {
+        return {
+            title: "",
+            description: "",
+            true_txt: "Oui",
+            false_txt: "Non",
+        };
+    }
+    addShortcuts() {
+        Lib.ShortcutManager.subscribe(Lib.SpecialTouch.Enter, this.validate, { replaceTemp: true });
+        Lib.ShortcutManager.subscribe(Lib.SpecialTouch.Escape, this.cancel, { replaceTemp: true });
+    }
+    removeShortcuts() {
+        Lib.ShortcutManager.unsubscribe(Lib.SpecialTouch.Enter, this.validate);
+        Lib.ShortcutManager.unsubscribe(Lib.SpecialTouch.Escape, this.cancel);
+    }
+    validate() {
+        this.resolve(true);
+    }
+    cancel() {
+        this.resolve(false);
+    }
+    __caa2fd56843944180566fbe49a4bb311method0() {
+        return this.info.description;
+    }
+    __caa2fd56843944180566fbe49a4bb311method1() {
+        return this.info.false_txt;
+    }
+    __caa2fd56843944180566fbe49a4bb311method2() {
+        return this.info.true_txt;
+    }
+}
+Components.Confirm.Namespace=`Core.Components`;
+Components.Confirm.Tag=`rk-confirm`;
+__as1(_.Components, 'Confirm', Components.Confirm);
+if(!window.customElements.get('rk-confirm')){window.customElements.define('rk-confirm', Components.Confirm);Aventus.WebComponentInstance.registerDefinition(Components.Confirm);}
+
+Components.Alert = class Alert extends Components.GenericPopup {
+    static __style = `:host .popup .content .body{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - 36px - var(--_popup-content-padding) - var(--_popup-content-padding));align-items:center;display:flex;justify-content:center;line-height:1.5;max-height:calc(var(--app-height) - 50px - 30px - 36px - var(--_popup-content-padding) - var(--_popup-content-padding));padding:20px;padding-top:15px;text-align:center}:host .popup .content .action{align-items:center;display:flex;gap:20px;height:36px;justify-content:center}`;
+    __getStatic() {
+        return Alert;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Alert.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-scrollable class="body">    <p _id="alert_0"></p></rk-scrollable><div class="action">    <rk-button color="blue" _id="alert_1"></rk-button></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "alert_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__d0561a7aa91ff42b328166316d099970method0())}`,
+      "once": true
+    },
+    "alert_1°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__d0561a7aa91ff42b328166316d099970method1())}`,
+      "once": true
+    }
+  },
+  "events": [
+    {
+      "eventName": "click",
+      "id": "alert_1",
+      "fct": (e, c) => c.comp.validate(e)
+    }
+  ]
+}); }
+    getClassName() {
+        return "Alert";
+    }
+    defaultOptions() {
+        return {
+            title: "",
+            description: "",
+            btn_txt: "ok"
+        };
+    }
+    validate() {
+        this.resolve();
+    }
+    cancel() {
+        this.resolve();
+    }
+    __d0561a7aa91ff42b328166316d099970method0() {
+        return this.info.description;
+    }
+    __d0561a7aa91ff42b328166316d099970method1() {
+        return this.info.btn_txt;
+    }
+}
+Components.Alert.Namespace=`Core.Components`;
+Components.Alert.Tag=`rk-alert`;
+__as1(_.Components, 'Alert', Components.Alert);
+if(!window.customElements.get('rk-alert')){window.customElements.define('rk-alert', Components.Alert);Aventus.WebComponentInstance.registerDefinition(Components.Alert);}
 
 System.Application = class Application extends Aventus.WebComponent {
     static get observedAttributes() {return ["app_title", "full", "is_hidden"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -10026,6 +11909,119 @@ Lib.AppIconManager=class AppIconManager {
 Lib.AppIconManager.Namespace=`Core.Lib`;
 __as1(_.Lib, 'AppIconManager', Lib.AppIconManager);
 
+System.RecentLine = class RecentLine extends Aventus.WebComponent {
+    get 'reorder'() { return this.getBoolAttr('reorder') }
+    set 'reorder'(val) { this.setBoolAttr('reorder', val) }get 'highlight_before'() { return this.getBoolAttr('highlight_before') }
+    set 'highlight_before'(val) { this.setBoolAttr('highlight_before', val) }get 'highlight_after'() { return this.getBoolAttr('highlight_after') }
+    set 'highlight_after'(val) { this.setBoolAttr('highlight_after', val) }    get 'recent'() {
+						return this.__watch["recent"];
+					}
+					set 'recent'(val) {
+						this.__watch["recent"] = val;
+					}    __registerWatchesActions() {
+    this.__addWatchesActions("recent", ((target) => {
+    target.onSet();
+}));    super.__registerWatchesActions();
+}
+    static __style = `:host{align-items:center;background-color:var(--lighter);border-radius:var(--border-radius-sm);cursor:pointer;display:flex;overflow:hidden;padding:5px;position:relative;transition:background-color .2s var(--bezier-curve)}:host .drag-icon{align-items:center;cursor:grab;display:flex;opacity:0;overflow:hidden;transition:width .5s var(--bezier-curve),opacity .5s var(--bezier-curve),visibility .5s var(--bezier-curve);visibility:hidden;width:0}:host .icon-container{height:30px;margin-right:10px;position:relative;width:30px}:host .icon-container .hider{inset:0;position:absolute}:host .icon-container .icon{height:100%;width:100%}:host .icon-container .icon *{animation:none !important;box-shadow:none !important;height:100% !important;pointer-events:none;width:100% !important}:host .text{flex-grow:1;flex-wrap:nowrap;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}:host .line{display:none}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--lighter-active)}}:host([reorder]) .drag-icon{opacity:1;visibility:visible;width:24px}:host([highlight_after]) .line{background-color:var(--red);bottom:-1px;display:block;height:2px;left:0;position:absolute;width:100%}:host([highlight_before]:first-child) .line{background-color:var(--red);display:block;height:2px;left:0;position:absolute;top:-1px;width:100%}`;
+    __getStatic() {
+        return RecentLine;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(RecentLine.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="drag-icon" _id="recentline_0">    <mi-icon icon="drag_indicator"></mi-icon></div><div class="icon-container">    <div class="hider"></div>    <div class="icon" _id="recentline_1"></div></div><div class="text" _id="recentline_2"></div><div class="line"></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "dragEl",
+      "ids": [
+        "recentline_0"
+      ]
+    },
+    {
+      "name": "iconEl",
+      "ids": [
+        "recentline_1"
+      ]
+    }
+  ],
+  "content": {
+    "recentline_2°title": {
+      "fct": (c) => `${c.print(c.comp.__ad18ea75a445ca541d86bfa0d13d0544method0())}`
+    },
+    "recentline_2°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__ad18ea75a445ca541d86bfa0d13d0544method0())}`
+    }
+  }
+}); }
+    getClassName() {
+        return "RecentLine";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('reorder')) { this.attributeChangedCallback('reorder', false, false); }if(!this.hasAttribute('highlight_before')) { this.attributeChangedCallback('highlight_before', false, false); }if(!this.hasAttribute('highlight_after')) { this.attributeChangedCallback('highlight_after', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["recent"] = undefined; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('reorder');this.__upgradeProperty('highlight_before');this.__upgradeProperty('highlight_after');this.__correctGetter('recent'); }
+    __listBoolProps() { return ["reorder","highlight_before","highlight_after"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    onContextMenu(contextMenu, stop) {
+        stop();
+    }
+    onSet() {
+        if (!this.recent)
+            return;
+        const cst = Lib.AppIconManager.getIcon(this.recent.TagName);
+        if (!cst)
+            return;
+        const icon = new cst();
+        this.iconEl.innerHTML = "";
+        this.iconEl.appendChild(icon);
+    }
+    async deleteFromRecent() {
+        if (!this.recent)
+            return;
+        await Lib.Process.execute(this, RAM.RecentRAM.getInstance().deleteWithError(this.recent));
+    }
+    async open() {
+        if (!this.recent) {
+            this.remove();
+            return;
+        }
+        let desktop = _.System.Os.instance.activeDesktop;
+        const info = Lib.AppIconManager.reverseTagName(this.recent.TagName);
+        if (!info) {
+            this.deleteFromRecent();
+            this.remove();
+            return;
+        }
+        await desktop.loadApp(info.application);
+        const state = Aventus.Converter.transform(JSON.parse(this.recent.State));
+        const app = await desktop.openUrl(info.application, info.url, state);
+    }
+    addInteraction() {
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => {
+                this.open();
+            }
+        });
+    }
+    postCreation() {
+        this.addInteraction();
+    }
+    __ad18ea75a445ca541d86bfa0d13d0544method0() {
+        return this.recent?.Name;
+    }
+}
+System.RecentLine.Namespace=`Core.System`;
+System.RecentLine.Tag=`rk-recent-line`;
+__as1(_.System, 'RecentLine', System.RecentLine);
+if(!window.customElements.get('rk-recent-line')){window.customElements.define('rk-recent-line', System.RecentLine);Aventus.WebComponentInstance.registerDefinition(System.RecentLine);}
+
 System.FavoriteLine = class FavoriteLine extends Aventus.WebComponent {
     get 'reorder'() { return this.getBoolAttr('reorder') }
     set 'reorder'(val) { this.setBoolAttr('reorder', val) }get 'highlight_before'() { return this.getBoolAttr('highlight_before') }
@@ -10247,6 +12243,363 @@ System.FavoriteLine.Namespace=`Core.System`;
 System.FavoriteLine.Tag=`rk-favorite-line`;
 __as1(_.System, 'FavoriteLine', System.FavoriteLine);
 if(!window.customElements.get('rk-favorite-line')){window.customElements.define('rk-favorite-line', System.FavoriteLine);Aventus.WebComponentInstance.registerDefinition(System.FavoriteLine);}
+
+Lib.NotificationManager=class NotificationManager {
+    static getInstance() {
+        return Aventus.Instance.get(Lib.NotificationManager);
+    }
+    sw;
+    record;
+    subscription;
+    watcher;
+    constructor() {
+        this.watcher = Aventus.Watcher.get({});
+    }
+    get hasNotification() {
+        return this.watcher['enable'] ?? false;
+    }
+    set hasNotification(value) {
+        this.watcher['enable'] = value;
+    }
+    get isLoading() {
+        return this.watcher['isLoading'] ?? false;
+    }
+    set isLoading(value) {
+        this.watcher['isLoading'] = value;
+    }
+    get isInit() {
+        return this.watcher['isInit'] ?? false;
+    }
+    set isInit(value) {
+        this.watcher['isInit'] = value;
+    }
+    async init(sw) {
+        this.sw = sw;
+        try {
+            let subscription = await this.sw.pushManager.getSubscription();
+            if (subscription) {
+                this.subscription = subscription;
+                const router = new Routes.PushRecordRouter();
+                let record = this.subToRecord(subscription);
+                this.record = await _.Lib.Process.execute(System.Os.instance, router.Get({ record: record }));
+                if (!this.record) {
+                    await this.subscription.unsubscribe();
+                    this.subscription = undefined;
+                }
+                else {
+                    this.hasNotification = true;
+                }
+            }
+            this.isInit = true;
+        }
+        catch (e) {
+            console.error(e);
+        }
+    }
+    async subscribe() {
+        if (!this.sw)
+            return;
+        if (this.record)
+            return;
+        this.isLoading = true;
+        let record = null;
+        try {
+            let subscription = await this.sw.pushManager.getSubscription();
+            if (subscription) {
+                record = this.subToRecord(subscription);
+                this.subscription = subscription;
+            }
+            else {
+                const response = await new Routes.MainRouter().VapidPublicKey();
+                if (response.success && response.result) {
+                    const vapidPublicKey = response.result;
+                    const convertedVapidKey = this.urlBase64ToUint8Array(vapidPublicKey);
+                    const subscription = await this.sw.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: convertedVapidKey
+                    });
+                    record = this.subToRecord(subscription);
+                    this.subscription = subscription;
+                }
+            }
+            if (record) {
+                const router = new Routes.PushRecordRouter();
+                this.record = await _.Lib.Process.execute(System.Os.instance, router.CreateOrUpdate({ record: record }));
+                this.hasNotification = true;
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
+        this.isLoading = false;
+    }
+    async unsubscribe() {
+        if (!this.record)
+            return;
+        if (!this.subscription)
+            return;
+        this.isLoading = true;
+        try {
+            await this.subscription.unsubscribe();
+            this.subscription = undefined;
+            const router = new Routes.PushRecordRouter();
+            if (await _.Lib.Process.execute(System.Os.instance, router.Destroy({ record: this.record }))) {
+                this.record = undefined;
+                this.hasNotification = false;
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
+        this.isLoading = false;
+    }
+    urlBase64ToUint8Array(base64String) {
+        var padding = '='.repeat((4 - base64String.length % 4) % 4);
+        var base64 = (base64String + padding)
+            .replace(/\-/g, '+')
+            .replace(/_/g, '/');
+        var rawData = window.atob(base64);
+        var outputArray = new Uint8Array(rawData.length);
+        for (var i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+    }
+    subToRecord(sub) {
+        const result = new Data.PushRecord();
+        const json = sub.toJSON();
+        result.EndPoint = sub.endpoint;
+        result.Auth = json.keys?.auth ?? '';
+        result.P256dh = json.keys?.p256dh ?? '';
+        return result;
+    }
+}
+Lib.NotificationManager.Namespace=`Core.Lib`;
+__as1(_.Lib, 'NotificationManager', Lib.NotificationManager);
+
+Lib.ServiceWorker=class ServiceWorker {
+    static getInstance() {
+        return AvInstance.get(Lib.ServiceWorker);
+    }
+    async init(registration) {
+        await _.Lib.NotificationManager.getInstance().init(registration);
+    }
+}
+Lib.ServiceWorker.Namespace=`Core.Lib`;
+__as1(_.Lib, 'ServiceWorker', Lib.ServiceWorker);
+
+System.NotificationBtn = class NotificationBtn extends Components.Button {
+    get 'loading'() { return this.getBoolAttr('loading') }
+    set 'loading'(val) { this.setBoolAttr('loading', val) }get 'is_init'() { return this.getBoolAttr('is_init') }
+    set 'is_init'(val) { this.setBoolAttr('is_init', val) }    get hasNotification() {
+        return Lib.NotificationManager.getInstance().hasNotification;
+    }
+    get isNotificationInit() {
+        return Lib.NotificationManager.getInstance().isInit;
+    }
+    get isNotificationLoading() {
+        return Lib.NotificationManager.getInstance().isLoading;
+    }
+    static __style = `:host(:not([is_init])){display:none}:host([loading]) rk-img{animation-name:rotate;animation-timing-function:linear;animation-duration:1s;animation-iteration-count:infinite}@keyframes rotate{0%{transform:rotate(0deg)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}`;
+    constructor() {
+        super();
+        this.setValues = this.setValues.bind(this);
+    }
+    __getStatic() {
+        return NotificationBtn;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(NotificationBtn.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<rk-tooltip position="top" delay="1000" use_absolute _id="notificationbtn_0"></rk-tooltip>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "content": {
+    "notificationbtn_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__e408074159161ac8cd828f4a9b06dfe2method0())}`
+    }
+  }
+}); }
+    getClassName() {
+        return "NotificationBtn";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('is_init')) { this.attributeChangedCallback('is_init', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('hasNotification');this.__correctGetter('isNotificationInit');this.__correctGetter('isNotificationLoading');this.__upgradeProperty('loading');this.__upgradeProperty('is_init'); }
+    __listBoolProps() { return ["loading","is_init"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    async toggleNotification() {
+        if (this.isNotificationLoading)
+            return;
+        if (this.hasNotification) {
+            await Lib.NotificationManager.getInstance().unsubscribe();
+        }
+        else {
+            await Lib.NotificationManager.getInstance().subscribe();
+        }
+    }
+    setValues() {
+        if (this.isNotificationLoading) {
+            this.icon = "mi-progress_activity";
+            this.loading = true;
+        }
+        else {
+            this.loading = false;
+            if (this.hasNotification) {
+                this.color = "blue";
+                this.icon = "mi-notifications";
+            }
+            else {
+                this.color = "red";
+                this.icon = "mi-notifications_off";
+            }
+        }
+    }
+    postCreation() {
+        super.postCreation();
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => {
+                this.toggleNotification();
+            }
+        });
+        Aventus.Watcher.watch(() => [this.hasNotification, this.isNotificationLoading], () => this.setValues());
+        Aventus.Watcher.effect(() => this.is_init = this.isNotificationInit);
+        this.setValues();
+    }
+    __e408074159161ac8cd828f4a9b06dfe2method0() {
+        return this.hasNotification ? t("Notifications activées") : t("Notifications désactivées");
+    }
+}
+System.NotificationBtn.Namespace=`Core.System`;
+System.NotificationBtn.Tag=`rk-notification-btn`;
+__as1(_.System, 'NotificationBtn', System.NotificationBtn);
+if(!window.customElements.get('rk-notification-btn')){window.customElements.define('rk-notification-btn', System.NotificationBtn);Aventus.WebComponentInstance.registerDefinition(System.NotificationBtn);}
+
+Lib.PWA=class PWA {
+    static get isAvailable() {
+        if (window['deferredPrompt']) {
+            return true;
+        }
+        return false;
+    }
+    static get isAvailableIOS() {
+        return _.Lib.Platform.isiOS && !_.Lib.Platform.isStandalone;
+    }
+    static e;
+    static isInit = false;
+    static startInstall;
+    static onInit = new Aventus.Callback();
+    static onDownloading = new Aventus.Callback();
+    static onDownloaded = new Aventus.Callback();
+    static async init() {
+        if (this.isInit) {
+            return;
+        }
+        if (!this.e && Lib.PWA.isAvailable) {
+            this.e = window['deferredPrompt'];
+            let result = this.onInit.trigger();
+            this.isInit = true;
+        }
+        else if (Lib.PWA.isAvailableIOS) {
+            let result = this.onInit.trigger();
+            this.isInit = true;
+        }
+        // if(Platform.isStandalone && Platform.device == "pc") {
+        //     const notification = Notification.create({
+        //     })
+        //     Os.instance.notify(notification);
+        if (this.isInit) {
+            window.addEventListener('appinstalled', async (evt) => {
+                let now = new Date();
+                let start = this.startInstall ?? new Date();
+                let diffMs = now.getTime() - start.getTime();
+                if (diffMs < 3000) {
+                    await Aventus.sleep(3000 - diffMs);
+                }
+                this.onDownloaded.trigger();
+            });
+        }
+    }
+    static addOnInit(cb) {
+        if (this.isInit) {
+            cb();
+        }
+        else {
+            this.onInit.add(cb);
+        }
+    }
+    static async download() {
+        if (this.isAvailable && this.e) {
+            this.e.prompt();
+            const choiceResult = await this.e.userChoice;
+            if (choiceResult.outcome === 'accepted') {
+                this.startInstall = new Date();
+                this.onDownloading.trigger();
+            }
+        }
+        else if (this.isAvailableIOS) {
+            let pwaios = new Components.PwaPromptIos();
+            document.body.appendChild(pwaios);
+        }
+    }
+}
+Lib.PWA.Namespace=`Core.Lib`;
+__as1(_.Lib, 'PWA', Lib.PWA);
+
+System.PwaButton = class PwaButton extends Aventus.WebComponent {
+    get 'visible'() { return this.getBoolAttr('visible') }
+    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'downloading'() { return this.getBoolAttr('downloading') }
+    set 'downloading'(val) { this.setBoolAttr('downloading', val) }    static __style = `:host{align-items:center;background-color:var(--darker);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-2);display:flex;height:30px;justify-content:center;padding:5px;width:30px}:host .download{display:inline-block}:host .sync{display:none}:host .rotate{animation-name:rotate;animation-duration:1.5s;animation-iteration-count:infinite;animation-timing-function:linear;animation-direction:reverse}:host(:not([visible])){display:none !important}:host([downloading]) .download{display:none}:host([downloading]) .sync{display:inline-block}@keyframes rotate{0%{transform:rotate(0)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}`;
+    __getStatic() {
+        return PwaButton;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(PwaButton.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<mi-icon icon="download" class="download"></mi-icon><mi-icon icon="sync" class="sync rotate"></mi-icon><slot></slot>` }
+    });
+}
+    getClassName() {
+        return "PwaButton";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('downloading')) { this.attributeChangedCallback('downloading', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('downloading'); }
+    __listBoolProps() { return ["visible","downloading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    async init() {
+        Lib.PWA.addOnInit(async () => {
+            this.visible = true;
+            new Aventus.PressManager({
+                element: this,
+                onPress: () => {
+                    Lib.PWA.download();
+                }
+            });
+        });
+        Lib.PWA.onDownloading.add(async () => {
+            this.downloading = true;
+        });
+        Lib.PWA.onDownloaded.add(async () => {
+            this.remove();
+        });
+    }
+    postCreation() {
+        this.classList.add("touch");
+        this.init();
+    }
+}
+System.PwaButton.Namespace=`Core.System`;
+System.PwaButton.Tag=`rk-pwa-button`;
+__as1(_.System, 'PwaButton', System.PwaButton);
+if(!window.customElements.get('rk-pwa-button')){window.customElements.define('rk-pwa-button', System.PwaButton);Aventus.WebComponentInstance.registerDefinition(System.PwaButton);}
 
 System.HomePanel = class HomePanel extends System.Panel {
     get 'currentUser'() {
@@ -10575,6 +12928,913 @@ System.HomeBtn.Namespace=`Core.System`;
 System.HomeBtn.Tag=`rk-home-btn`;
 __as1(_.System, 'HomeBtn', System.HomeBtn);
 if(!window.customElements.get('rk-home-btn')){window.customElements.define('rk-home-btn', System.HomeBtn);Aventus.WebComponentInstance.registerDefinition(System.HomeBtn);}
+
+Components.CalendarDay = class CalendarDay extends Aventus.WebComponent {
+    get 'other'() { return this.getBoolAttr('other') }
+    set 'other'(val) { this.setBoolAttr('other', val) }get 'today'() { return this.getBoolAttr('today') }
+    set 'today'(val) { this.setBoolAttr('today', val) }    calendar;
+    date = new Date();
+    static __style = `:host{align-items:center;border-radius:var(--border-radius-sm);color:var(--_calendar-text-color-case);cursor:pointer;display:flex;font-size:var(--_calendar-case-font-size);height:var(--_calendar-case-height);justify-content:center;transition:color .2s var(--bezier-curve),background-color .2s var(--bezier-curve);width:var(--_calendar-case-width)}:host([other]){color:var(--_calendar-text-color-case-others)}:host([today]){color:var(--_calendar-text-color-case-today)}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--_calendar-background-color-case-hover)}}`;
+    constructor() {
+        super();
+        if (this.constructor == CalendarDay) {
+            throw "can't instanciate an abstract class";
+        }
+    }
+    __getStatic() {
+        return CalendarDay;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(CalendarDay.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "CalendarDay";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('other')) { this.attributeChangedCallback('other', false, false); }if(!this.hasAttribute('today')) { this.attributeChangedCallback('today', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('other');this.__upgradeProperty('today'); }
+    __listBoolProps() { return ["other","today"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    init(dateDisplayed, dateDay, calendar) {
+        this.shadowRoot.innerHTML = dateDay.getDate() + '';
+        this.other = dateDisplayed.getMonth() != dateDay.getMonth();
+        this.calendar = calendar;
+        this.date.setTime(dateDay.getTime());
+        this.today = Lib.DateTools.isSameDate(new Date(), dateDay);
+    }
+    postCreation() {
+        new Aventus.PressManager({
+            element: this,
+            onPress: () => {
+                this.calendar.onDateClicked.trigger(this.date, this);
+            }
+        });
+    }
+}
+Components.CalendarDay.Namespace=`Core.Components`;
+__as1(_.Components, 'CalendarDay', Components.CalendarDay);
+
+Components.CalendarDayDefault = class CalendarDayDefault extends Components.CalendarDay {
+    static __style = ``;
+    __getStatic() {
+        return CalendarDayDefault;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(CalendarDayDefault.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'default':`<slot></slot>` }, 
+        blocks: { 'default':`<slot></slot>` }
+    });
+}
+    getClassName() {
+        return "CalendarDayDefault";
+    }
+}
+Components.CalendarDayDefault.Namespace=`Core.Components`;
+Components.CalendarDayDefault.Tag=`rk-calendar-day-default`;
+__as1(_.Components, 'CalendarDayDefault', Components.CalendarDayDefault);
+if(!window.customElements.get('rk-calendar-day-default')){window.customElements.define('rk-calendar-day-default', Components.CalendarDayDefault);Aventus.WebComponentInstance.registerDefinition(Components.CalendarDayDefault);}
+
+Lib.DomTools=class DomTools {
+    static clearElement(element) {
+        const children = Array.from(element.children);
+        for (let child of children) {
+            child.remove();
+        }
+    }
+    static async exportAsRawComponent(elements, getAttrs) {
+        const result = { js: '', html: '' };
+        let loaded = new Map();
+        const createComponent = (wc, content) => {
+            const type = wc.constructor;
+            const loadedPart = loaded.get(type);
+            if (!loadedPart) {
+                const tagUnder = wc.tag.replace(/-/g, '_');
+                result.js += `class ${tagUnder} extends HTMLElement {
+    constructor() {
+        super();
+        let template = document.createElement('template');
+        template.innerHTML = this.getText();
+
+        const shadowRoot = this.attachShadow({ mode: "open" });
+        const style = new CSSStyleSheet();
+        style.replaceSync(this.getStyle());
+        shadowRoot.adoptedStyleSheets = [style];
+        shadowRoot.appendChild(template.content.cloneNode(true));
+    }
+
+    getText() {
+        return \`${content}\`;
+    }
+
+    getStyle() {
+        return \`${this.rawStyle(wc)}\`;
+    }
+}
+customElements.define("${wc.tag}", ${tagUnder});
+`;
+                loaded.set(type, [Md5.create(content)]);
+                return wc.tag;
+            }
+            else {
+                let hash = Md5.create(content);
+                let index = loadedPart.indexOf(hash);
+                if (index == 0) {
+                    return wc.tag;
+                }
+                else if (index > 0) {
+                    return wc.tag + '-' + index;
+                }
+                else {
+                    const tagUnder = wc.tag.replace(/-/g, '_');
+                    const tagUnderNb = tagUnder + '_' + loadedPart.length;
+                    const tagNb = wc.tag + '-' + loadedPart.length;
+                    result.js += `class ${tagUnderNb} extends ${tagUnder} {
+    getText() {
+        return \`${content}\`;
+    }
+}
+customElements.define("${tagNb}", ${tagUnderNb});
+`;
+                    loadedPart.push(hash);
+                    return tagNb;
+                }
+            }
+        };
+        const imgMemory = {};
+        const urlToBase64 = (url) => {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    const response = await fetch(url);
+                    const blob = await response.blob();
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(blob);
+                }
+                catch (e) {
+                    reject(e);
+                }
+            });
+        };
+        const _getAttrs = (element) => {
+            const attrs = [];
+            for (let attr of element.attributes) {
+                if (attr.value === undefined) {
+                    attrs.push(attr.name);
+                }
+                else {
+                    attrs.push(attr.name + "=\"" + attr.value + "\"");
+                }
+            }
+            return attrs.join(" ");
+        };
+        const attrs = getAttrs ? (async (element) => await getAttrs(element, _getAttrs)) : _getAttrs;
+        const load = async (element) => {
+            let tag = element.tagName.toLowerCase();
+            if (element instanceof Aventus.WebComponent) {
+                let txt = '';
+                for (let child of element.shadowRoot.childNodes) {
+                    if (child instanceof Element)
+                        txt += await load(child);
+                    else
+                        txt += child.textContent;
+                }
+                tag = createComponent(element, txt);
+            }
+            let content = '';
+            for (let child of element.childNodes) {
+                if (child instanceof Element)
+                    content += await load(child);
+                else
+                    content += child.textContent;
+            }
+            if (element instanceof HTMLImageElement) {
+                if (element.src && !element.src.startsWith("data:")) {
+                    if (!imgMemory[element.src]) {
+                        imgMemory[element.src] = await urlToBase64(element.src);
+                    }
+                    element.src = imgMemory[element.src];
+                }
+            }
+            let attributes = await attrs(element);
+            if (attributes.length > 0) {
+                attributes = ' ' + attributes;
+            }
+            return `<${tag}${attributes}>${content}</${tag}>`;
+        };
+        for (let element of elements) {
+            result.html += await load(element);
+        }
+        return result;
+    }
+    static rawStyle(element) {
+        const type = element.constructor;
+        let stylesheets = type['__styleSheets'];
+        let cssTxt = "";
+        for (let name in stylesheets) {
+            cssTxt += Aventus.Style.sheetToString(stylesheets[name]);
+        }
+        return cssTxt;
+        // const regexVariables = /var\((--.*?)[,|\)]/g;
+        // let m: RegExpExecArray | null = null;
+        // let computedStyle: CSSStyleDeclaration | null = null;
+        // while((m = regexVariables.exec(cssTxt)) !== null) {
+        //     if(m[1] == '--col-padding') {
+        //     if(m.index === regexVariables.lastIndex) {
+        //     if(cssVarValue[m[1]]) continue;
+        //     if(!computedStyle) {
+        //         computedStyle = getComputedStyle(element);
+        //     let v = computedStyle.getPropertyValue(m[1]);
+        //     if(v) {
+        // for(let key in cssVarValue) {
+        // if(cssVarTxt)
+    }
+}
+Lib.DomTools.Namespace=`Core.Lib`;
+__as1(_.Lib, 'DomTools', Lib.DomTools);
+
+Components.Calendar = class Calendar extends Aventus.WebComponent {
+    static get observedAttributes() {return ["date", "show_selector"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'selector'() { return this.getStringAttr('selector') }
+    set 'selector'(val) { this.setStringAttr('selector', val) }    get 'date'() { return this.getDateProp('date') }
+    set 'date'(val) { this.setDateAttr('date', val) }get 'show_selector'() { return this.getBoolProp('show_selector') }
+    set 'show_selector'(val) { this.setBoolAttr('show_selector', val) }    get 'dateTemp'() {
+						return this.__watch["dateTemp"];
+					}
+					set 'dateTemp'(val) {
+						this.__watch["dateTemp"] = val;
+					}get 'yearGroupPage'() {
+						return this.__watch["yearGroupPage"];
+					}
+					set 'yearGroupPage'(val) {
+						this.__watch["yearGroupPage"] = val;
+					}get 'yearGroupTxt'() {
+						return this.__watch["yearGroupTxt"];
+					}
+					set 'yearGroupTxt'(val) {
+						this.__watch["yearGroupTxt"] = val;
+					}    cases = {};
+    onDateClicked = new Aventus.Callback();
+    onDateChanged = new Aventus.Callback();
+    __registerWatchesActions() {
+    this.__addWatchesActions("dateTemp", ((target) => {
+    target.renderDatesTemp();
+    target.printYearRange();
+}));this.__addWatchesActions("yearGroupPage", ((target) => {
+    target.printYearRange();
+}));this.__addWatchesActions("yearGroupTxt");    super.__registerWatchesActions();
+}
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("date", ((target) => {
+    target.renderDates();
+}));this.__addPropertyActions("show_selector", ((target) => {
+    if (target.show_selector) {
+        target.dateTemp = target.date;
+    }
+})); }
+    static __style = `:host{--_calendar-background-color: var(--calendar-background-color, white);--_calendar-background-color-case-hover: var(--calendar-background-color-case-hover, var(--lighter));--_calendar-background-color-case-active: var(--calendar-background-color-case-active, var(--lighter));--_calendar-background-color-selector: var(--calendar-background-color-selector, white);--_calendar-text-color-case: var(--calendar-text-color-case, var(--text-color));--_calendar-text-color-case-others: var(--calendar-text-color-case-others, var(--secondary-color));--_calendar-text-color-case-header: var(--calendar-text-color-case-header, var(--text-color-light));--_calendar-text-color-case-today: var(--calendar-text-color-case-today, var(--orange));--_calendar-case-size: var(--calendar-case-size, 30px);--_calendar-case-width: var(--calendar-case-width, var(--_calendar-case-size));--_calendar-case-height: var(--calendar-case-height, var(--_calendar-case-size));--_calendar-case-font-size: var(--calendar-case-font-size, calc(var(--font-size, 16px) * 0.9));--_calendar-chevron-size: var(--calendar-chevron-size, calc(var(--_calendar-case-font-size) * 1.5));--_calendar-month-font-size: var(--calendar-month-font-size, calc(var(--_calendar-case-font-size) * 1.25));--_calendar-month-selector-height: var(--calendar-month-selector-height, var(--_calendar-case-height));--_calendar-year-selector-height: var(--calendar-year-selector-height, var(--_calendar-case-height));--_calendar-case-gap: var(--calendar-case-gap, 10px);--_calendar-row-gap: var(--calendar-row-gap, 5px)}:host{background-color:var(--_calendar-background-color);border-radius:var(--border-radius);box-shadow:var(--elevation-3);display:flex;flex-direction:column;padding:15px;position:relative;width:fit-content}:host .hover{transition:background-color .2s var(--bezier-curve)}:host .header{align-items:center;display:flex;flex-direction:row;justify-content:space-between;position:relative}:host .header .current-info{align-items:center;display:flex;flex-direction:row;flex-grow:1;font-size:var(--_calendar-month-font-size);justify-content:center}:host .header .current-info .month-year{align-items:center;border-radius:var(--border-radius-sm);display:flex;flex-direction:row;padding:5px 10px}:host .header .current-info .month-year .month{margin-right:5px}:host .header .chevron{align-items:center;border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-chevron-size);height:var(--_calendar-case-height);justify-content:center;text-align:center;width:var(--_calendar-case-width)}:host .header .selectors{background-color:var(--_calendar-background-color-selector);border-radius:var(--border-radius);box-shadow:var(--elevation-3);left:50%;opacity:0;padding:10px;pointer-events:none;position:absolute;top:calc(100% + 12px);transform:translateX(-50%);transition:opacity .2s var(--bezier-curve),visibility .2s var(--bezier-curve);visibility:hidden;width:100%;z-index:5}:host .header .selectors::after{border-bottom:10px solid var(--_calendar-background-color-selector);border-left:10px solid rgba(0,0,0,0);border-right:10px solid rgba(0,0,0,0);content:"";left:50%;position:absolute;top:-8px;transform:translateX(-50%)}:host .header .selectors .month-select{display:none;width:100%}:host .header .selectors .month-select .month-select-header{align-items:center;display:flex;margin-bottom:var(--_calendar-row-gap)}:host .header .selectors .month-select .month-select-header .current-info .temp-year{border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-month-font-size);padding:5px 10px}:host .header .selectors .month-select .month-select-body{display:flex;flex-wrap:wrap;font-size:var(--_calendar-case-font-size);gap:var(--_calendar-row-gap) var(--_calendar-case-gap);width:100%}:host .header .selectors .month-select .month-select-body .month-el{align-items:center;border-radius:var(--border-radius-sm);display:flex;height:var(--_calendar-month-selector-height);justify-content:center;width:calc((100% - var(--_calendar-case-gap)*2)/3)}:host .header .selectors .month-select .month-select-body .month-el.active{background-color:var(--_calendar-background-color-case-active)}:host .header .selectors .year-select{display:none;width:100%}:host .header .selectors .year-select .year-select-header{align-items:center;display:flex;margin-bottom:var(--_calendar-row-gap)}:host .header .selectors .year-select .year-select-header .current-info .temp-year-range{border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-month-font-size);padding:5px 10px}:host .header .selectors .year-select .year-select-body{display:flex;flex-wrap:wrap;font-size:var(--_calendar-case-font-size);gap:var(--_calendar-row-gap) var(--_calendar-case-gap);width:100%}:host .header .selectors .year-select .year-select-body .year-el{align-items:center;border-radius:var(--border-radius-sm);display:flex;height:var(--_calendar-year-selector-height);justify-content:center;width:calc((100% - var(--_calendar-case-gap)*2)/3)}:host .header .selectors .year-select .year-select-body .year-el.active{background-color:var(--_calendar-background-color-case-active)}:host .body{display:flex;flex-direction:column;margin-top:var(--_calendar-row-gap);gap:var(--_calendar-row-gap)}:host .body .days-header{color:var(--_calendar-text-color-case-header);display:flex;flex-direction:row;gap:10px}:host .body .days-header .day-header{align-items:center;display:flex;font-size:var(--_calendar-case-font-size);height:var(--_calendar-case-height);justify-content:center;width:var(--_calendar-case-width)}:host .body .days-body{display:flex;flex-direction:column;gap:var(--_calendar-row-gap)}:host .body .days-body .days-row{display:flex;flex-direction:row;gap:var(--_calendar-case-gap)}:host .hider{display:none;inset:0;position:absolute;z-index:1}:host([show_selector]) .hider{display:block}:host([show_selector]) .header .selectors{opacity:1;pointer-events:auto;visibility:visible}:host([selector=month]) .header .selectors .month-select{display:block}:host([selector=year]) .header .selectors .year-select{display:block}@media screen and (min-width: 1225px){:host .hover:hover{background-color:var(--_calendar-background-color-case-hover)}}`;
+    __getStatic() {
+        return Calendar;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Calendar.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="header">    <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_0"></mi-icon>    <div class="current-info" _id="calendar_1">        <div class="month-year touch hover">            <div class="month" _id="calendar_2"></div>            <div class="year" _id="calendar_3"></div>        </div>    </div>    <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_4"></mi-icon>    <div class="selectors">        <div class="month-select">            <div class="month-select-header">                <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_5"></mi-icon>                <div class="current-info" _id="calendar_6">                    <div class="temp-year touch hover" _id="calendar_7"></div>                </div>                <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_8"></mi-icon>            </div>            <div class="month-select-body" _id="calendar_9">                <div class="month-el touch hover" _id="calendar_10"></div>                <div class="month-el touch hover" _id="calendar_11"></div>                <div class="month-el touch hover" _id="calendar_12"></div>                <div class="month-el touch hover" _id="calendar_13"></div>                <div class="month-el touch hover" _id="calendar_14"></div>                <div class="month-el touch hover" _id="calendar_15"></div>                <div class="month-el touch hover" _id="calendar_16"></div>                <div class="month-el touch hover" _id="calendar_17"></div>                <div class="month-el touch hover" _id="calendar_18"></div>                <div class="month-el touch hover" _id="calendar_19"></div>                <div class="month-el touch hover" _id="calendar_20"></div>                <div class="month-el touch hover" _id="calendar_21"></div>            </div>        </div>        <div class="year-select">            <div class="year-select-header">                <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_22"></mi-icon>                <div class="current-info">                    <div class="temp-year-range" _id="calendar_23"></div>                </div>                <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_24"></mi-icon>            </div>            <div class="year-select-body" _id="calendar_25">            </div>        </div>    </div></div><div class="body">    <div class="days-header">        <div class="day-header" _id="calendar_26"></div>        <div class="day-header" _id="calendar_27"></div>        <div class="day-header" _id="calendar_28"></div>        <div class="day-header" _id="calendar_29"></div>        <div class="day-header" _id="calendar_30"></div>        <div class="day-header" _id="calendar_31"></div>        <div class="day-header" _id="calendar_32"></div>    </div>    <div class="days-body" _id="calendar_33">    </div></div><div class="hider" _id="calendar_34"></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "monthEl",
+      "ids": [
+        "calendar_2"
+      ]
+    },
+    {
+      "name": "yearEl",
+      "ids": [
+        "calendar_3"
+      ]
+    },
+    {
+      "name": "bodyMonthEl",
+      "ids": [
+        "calendar_9"
+      ]
+    },
+    {
+      "name": "bodyYearEl",
+      "ids": [
+        "calendar_25"
+      ]
+    },
+    {
+      "name": "bodyEl",
+      "ids": [
+        "calendar_33"
+      ]
+    }
+  ],
+  "content": {
+    "calendar_7°@HTML": {
+      "fct": (c) => `\r\n                        ${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method0())}\r\n                    `,
+      "once": true
+    },
+    "calendar_10°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method1())}.`,
+      "once": true
+    },
+    "calendar_11°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method2())}.`,
+      "once": true
+    },
+    "calendar_12°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method3())}`,
+      "once": true
+    },
+    "calendar_13°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method4())}.`,
+      "once": true
+    },
+    "calendar_14°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method5())}`,
+      "once": true
+    },
+    "calendar_15°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method6())}`,
+      "once": true
+    },
+    "calendar_16°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method7())}.`,
+      "once": true
+    },
+    "calendar_17°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method8())}`,
+      "once": true
+    },
+    "calendar_18°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method9())}.`,
+      "once": true
+    },
+    "calendar_19°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method10())}.`,
+      "once": true
+    },
+    "calendar_20°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method11())}.`,
+      "once": true
+    },
+    "calendar_21°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method12())}.`,
+      "once": true
+    },
+    "calendar_23°@HTML": {
+      "fct": (c) => `\r\n                        ${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method13())}\r\n                    `,
+      "once": true
+    },
+    "calendar_26°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method14())}`,
+      "once": true
+    },
+    "calendar_27°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method15())}`,
+      "once": true
+    },
+    "calendar_28°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method16())}`,
+      "once": true
+    },
+    "calendar_29°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method17())}`,
+      "once": true
+    },
+    "calendar_30°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method18())}`,
+      "once": true
+    },
+    "calendar_31°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method19())}`,
+      "once": true
+    },
+    "calendar_32°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method20())}`,
+      "once": true
+    }
+  },
+  "pressEvents": [
+    {
+      "id": "calendar_0",
+      "onPress": (e, pressInstance, c) => { c.comp.previousMonth(e, pressInstance); }
+    },
+    {
+      "id": "calendar_1",
+      "onPress": (e, pressInstance, c) => { c.comp.showMonthSelect(e, pressInstance); }
+    },
+    {
+      "id": "calendar_4",
+      "onPress": (e, pressInstance, c) => { c.comp.nextMonth(e, pressInstance); }
+    },
+    {
+      "id": "calendar_5",
+      "onPress": (e, pressInstance, c) => { c.comp.previousYearTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_6",
+      "onPress": (e, pressInstance, c) => { c.comp.showYearSelect(e, pressInstance); }
+    },
+    {
+      "id": "calendar_8",
+      "onPress": (e, pressInstance, c) => { c.comp.nextMonthYearTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_10",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_11",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_12",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_13",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_14",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_15",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_16",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_17",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_18",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_19",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_20",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_21",
+      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_22",
+      "onPress": (e, pressInstance, c) => { c.comp.previousYearGroupTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_24",
+      "onPress": (e, pressInstance, c) => { c.comp.nextYearGroupTemp(e, pressInstance); }
+    },
+    {
+      "id": "calendar_34",
+      "onPress": (e, pressInstance, c) => { c.comp.hideSelector(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "Calendar";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('selector')){ this['selector'] = 'month'; }if(!this.hasAttribute('date')){ this['date'] = new Date(); }if(!this.hasAttribute('show_selector')) { this.attributeChangedCallback('show_selector', false, false); } }
+    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["dateTemp"] = new Date();w["yearGroupPage"] = 0;w["yearGroupTxt"] = ""; }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('selector');this.__upgradeProperty('date');this.__upgradeProperty('show_selector');this.__correctGetter('dateTemp');this.__correctGetter('yearGroupPage');this.__correctGetter('yearGroupTxt'); }
+    __listBoolProps() { return ["show_selector"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    nextMonth() {
+        let date = this.date;
+        let newDate = new Date();
+        newDate.setTime(date.getTime());
+        newDate.setDate(1);
+        newDate.setMonth(newDate.getMonth() + 1);
+        this.date = newDate;
+    }
+    previousMonth() {
+        let date = this.date;
+        let newDate = new Date();
+        newDate.setTime(date.getTime());
+        newDate.setDate(1);
+        newDate.setMonth(newDate.getMonth() - 1);
+        this.date = newDate;
+    }
+    defineCalendarDay() {
+        return _.Components.CalendarDayDefault;
+    }
+    getCase(date) {
+        return this.cases[Lib.DateTools.print(date)];
+    }
+    renderDates() {
+        if (!this.isConnected)
+            return;
+        this.cases = {};
+        Lib.DomTools.clearElement(this.bodyEl);
+        let date = this.date;
+        this.yearEl.innerHTML = date.getFullYear() + '';
+        this.monthEl.innerHTML = Lib.DateTools.getMonthName(date.getMonth());
+        let startDate = Lib.DateTools.getStartWeek(Lib.DateTools.getStartMonth(date));
+        let endDate = Lib.DateTools.getEndWeek(Lib.DateTools.getEndMonth(date));
+        let i = 0;
+        let row = document.createElement("div");
+        row.classList.add("days-row");
+        let CaseCst = this.defineCalendarDay();
+        while (startDate < endDate) {
+            let caseEl = new CaseCst();
+            this.cases[Lib.DateTools.print(startDate)] = caseEl;
+            caseEl.init(date, startDate, this);
+            row.appendChild(caseEl);
+            startDate.setDate(startDate.getDate() + 1);
+            i++;
+            if (i == 7) {
+                i = 0;
+                this.bodyEl.appendChild(row);
+                row = document.createElement("div");
+                row.classList.add("days-row");
+            }
+        }
+        this.onDateChanged.trigger(this.date);
+    }
+    renderDatesTemp() {
+        let el = this.bodyMonthEl.querySelector(".active");
+        if (el) {
+            el.classList.remove("active");
+        }
+        if (this.dateTemp.getFullYear() == this.date.getFullYear())
+            this.bodyMonthEl.children[this.dateTemp.getMonth()].classList.add("active");
+        let now = new Date();
+        this.yearGroupPage = Math.ceil((this.dateTemp.getFullYear() - now.getFullYear() - 5) / 12);
+    }
+    showMonthSelect() {
+        this.selector = 'month';
+        this.show_selector = true;
+    }
+    showYearSelect() {
+        this.selector = 'year';
+        this.show_selector = true;
+    }
+    hideSelector() {
+        this.show_selector = false;
+    }
+    selectMonthTemp(e, instance) {
+        let children = Array.from(this.bodyMonthEl.children);
+        let index = children.indexOf(instance.getElement());
+        if (index != -1) {
+            let date = this.date;
+            let newDate = new Date();
+            newDate.setTime(date.getTime());
+            newDate.setDate(1);
+            newDate.setMonth(index);
+            newDate.setFullYear(this.dateTemp.getFullYear());
+            this.date = newDate;
+        }
+        this.hideSelector();
+    }
+    previousYearTemp() {
+        let date = this.dateTemp ?? new Date();
+        let newDate = new Date();
+        newDate.setTime(date.getTime());
+        newDate.setDate(1);
+        newDate.setFullYear(newDate.getFullYear() - 1);
+        this.dateTemp = newDate;
+    }
+    nextMonthYearTemp() {
+        let date = this.dateTemp ?? new Date();
+        let newDate = new Date();
+        newDate.setTime(date.getTime());
+        newDate.setDate(1);
+        newDate.setFullYear(newDate.getFullYear() + 1);
+        this.dateTemp = newDate;
+    }
+    previousYearGroupTemp() {
+        this.yearGroupPage--;
+    }
+    nextYearGroupTemp() {
+        this.yearGroupPage++;
+    }
+    printYearRange() {
+        let currentYear = new Date().getFullYear();
+        let basicRangeStart = (currentYear + this.yearGroupPage * 12) - 6;
+        let basicRangeEnd = (currentYear + this.yearGroupPage * 12) + 6;
+        this.yearGroupTxt = `${basicRangeStart} - ${basicRangeEnd - 1}`;
+        this.bodyYearEl.innerHTML = "";
+        for (let i = basicRangeStart; i < basicRangeEnd; i++) {
+            this.createYearCase(i);
+        }
+    }
+    createYearCase(year) {
+        let div = document.createElement("div");
+        div.classList.add("year-el");
+        div.classList.add("touch");
+        div.classList.add("hover");
+        div.innerHTML = year + '';
+        if (year == this.dateTemp.getFullYear()) {
+            div.classList.add("active");
+        }
+        div.addEventListener("click", (e) => {
+            let newDate = new Date();
+            newDate.setTime(this.dateTemp.getTime());
+            newDate.setFullYear(year);
+            this.dateTemp = newDate;
+            this.showMonthSelect();
+        });
+        this.bodyYearEl.appendChild(div);
+    }
+    postDisonnect() {
+        this.show_selector = false;
+    }
+    postCreation() {
+    }
+    __209c968d688f11ad02afc05e2a5220a2method0() {
+        return this.dateTemp.getFullYear();
+    }
+    __209c968d688f11ad02afc05e2a5220a2method1() {
+        return Lib.DateTools.getMonthName(0, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method2() {
+        return Lib.DateTools.getMonthName(1, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method3() {
+        return Lib.DateTools.getMonthName(2, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method4() {
+        return Lib.DateTools.getMonthName(3, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method5() {
+        return Lib.DateTools.getMonthName(4, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method6() {
+        return Lib.DateTools.getMonthName(5, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method7() {
+        return Lib.DateTools.getMonthName(6, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method8() {
+        return Lib.DateTools.getMonthName(7, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method9() {
+        return Lib.DateTools.getMonthName(8, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method10() {
+        return Lib.DateTools.getMonthName(9, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method11() {
+        return Lib.DateTools.getMonthName(10, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method12() {
+        return Lib.DateTools.getMonthName(11, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method13() {
+        return this.yearGroupTxt;
+    }
+    __209c968d688f11ad02afc05e2a5220a2method14() {
+        return Lib.DateTools.getDayName(1, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method15() {
+        return Lib.DateTools.getDayName(2, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method16() {
+        return Lib.DateTools.getDayName(3, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method17() {
+        return Lib.DateTools.getDayName(4, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method18() {
+        return Lib.DateTools.getDayName(5, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method19() {
+        return Lib.DateTools.getDayName(6, true);
+    }
+    __209c968d688f11ad02afc05e2a5220a2method20() {
+        return Lib.DateTools.getDayName(0, true);
+    }
+}
+Components.Calendar.Namespace=`Core.Components`;
+Components.Calendar.Tag=`rk-calendar`;
+__as1(_.Components, 'Calendar', Components.Calendar);
+if(!window.customElements.get('rk-calendar')){window.customElements.define('rk-calendar', Components.Calendar);Aventus.WebComponentInstance.registerDefinition(Components.Calendar);}
+
+Components.DatePickerCalendarDay = class DatePickerCalendarDay extends Components.CalendarDay {
+    get 'selected'() { return this.getBoolAttr('selected') }
+    set 'selected'(val) { this.setBoolAttr('selected', val) }    static __style = `:host([selected]){background-color:var(--primary-color)}`;
+    constructor() {
+        super();
+        this.checkIfSelected = this.checkIfSelected.bind(this);
+    }
+    __getStatic() {
+        return DatePickerCalendarDay;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(DatePickerCalendarDay.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`` }
+    });
+}
+    getClassName() {
+        return "DatePickerCalendarDay";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('selected')) { this.attributeChangedCallback('selected', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('selected'); }
+    __listBoolProps() { return ["selected"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    init(dateDisplayed, dateDay, calendar) {
+        super.init(dateDisplayed, dateDay, calendar);
+        if (calendar instanceof _.Components.DatePickerCalendar) {
+            if (Lib.DateTools.isSameDate(calendar.picker.value, dateDay)) {
+                this.selected = true;
+            }
+            calendar.onDateClicked.add(this.checkIfSelected);
+        }
+    }
+    checkIfSelected(date, element) {
+        this.selected = element == this;
+    }
+    postDestruction() {
+        super.postDestruction();
+        this.calendar.onDateClicked.remove(this.checkIfSelected);
+    }
+}
+Components.DatePickerCalendarDay.Namespace=`Core.Components`;
+Components.DatePickerCalendarDay.Tag=`rk-date-picker-calendar-day`;
+__as1(_.Components, 'DatePickerCalendarDay', Components.DatePickerCalendarDay);
+if(!window.customElements.get('rk-date-picker-calendar-day')){window.customElements.define('rk-date-picker-calendar-day', Components.DatePickerCalendarDay);Aventus.WebComponentInstance.registerDefinition(Components.DatePickerCalendarDay);}
+
+System.AddOnTime = class AddOnTime extends Aventus.WebComponent {
+    get 'active'() { return this.getBoolAttr('active') }
+    set 'active'(val) { this.setBoolAttr('active', val) }    static __style = `:host{position:relative;height:var(--desktop-bottom-bar-element)}:host .display{align-items:center;border-radius:var(--border-radius-sm);cursor:pointer;display:flex;margin-right:10px;padding:0 10px;transition:background-color linear .2s;height:100%}:host .display .date{font-size:var(--font-size-sm)}:host .display .hour{font-size:var(--font-size-sm);margin-left:5px}:host .calendar{--calendar-background-color: var(--primary-color-opacity);bottom:calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element))/2 + 3px);box-shadow:var(--elevation-3);height:0;overflow:hidden;padding:0px 15px;position:absolute;right:10px;pointer-events:none;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s,padding var(--bezier-curve) .5s}:host([active]) .display{background-color:var(--lighter-active)}:host([active]) .calendar{bottom:calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element))/2 + 3px);height:var(--time-calendar-height);padding:15px;pointer-events:all}@media screen and (min-width: 1225px){:host .display:hover{background-color:var(--lighter-active)}}`;
+    constructor() {
+        super();
+        this.classList.add("touch");
+        this.calculateCalendarSize = this.calculateCalendarSize.bind(this);
+    }
+    __getStatic() {
+        return AddOnTime;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(AddOnTime.__style);
+        return arrStyle;
+    }
+    __getHtml() {
+    this.__getStatic().__template.setHTML({
+        blocks: { 'default':`<div class="display" _id="addontime_0">    <div class="date" _id="addontime_1"></div>    <div class="hour" _id="addontime_2"></div></div><rk-calendar class="calendar" _id="addontime_3"></rk-calendar>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "date",
+      "ids": [
+        "addontime_1"
+      ]
+    },
+    {
+      "name": "hour",
+      "ids": [
+        "addontime_2"
+      ]
+    },
+    {
+      "name": "calendarEl",
+      "ids": [
+        "addontime_3"
+      ]
+    }
+  ],
+  "pressEvents": [
+    {
+      "id": "addontime_0",
+      "onPress": (e, pressInstance, c) => { c.comp.toggleActive(e, pressInstance); }
+    }
+  ]
+}); }
+    getClassName() {
+        return "AddOnTime";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('active'); }
+    __listBoolProps() { return ["active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    firstLoading() {
+        let missingSec = 60 - new Date().getSeconds();
+        if (missingSec == 0) {
+            this.displayDate(true);
+            this.normalLoading();
+        }
+        else {
+            this.displayDate(true);
+            setTimeout(() => {
+                this.normalLoading();
+            }, missingSec * 1000);
+        }
+    }
+    displayDate(force = false) {
+        if (!this.hour || !this.date) {
+            return;
+        }
+        let date = new Date();
+        let minutes = date.getMinutes();
+        let hours = date.getHours();
+        this.hour.innerHTML = this.prettyNumber(hours) + ":" + this.prettyNumber(minutes);
+        if (force || (minutes == 0 && hours == 0)) {
+            let day = Lib.DateTools.getDayName(date.getDay(), true) + ".";
+            let month = Lib.DateTools.getMonthName(date.getMonth());
+            let nb = date.getDate();
+            let txt = day + ' ' + this.prettyNumber(nb) + ' ' + month;
+            this.date.innerHTML = txt;
+        }
+    }
+    prettyNumber(nb) {
+        if (nb < 10) {
+            return '0' + nb;
+        }
+        return nb + '';
+    }
+    normalLoading() {
+        setInterval(() => {
+            this.displayDate();
+        }, 1000 * 60);
+    }
+    calculateCalendarSize() {
+        if (!this.active) {
+            this.calendarEl.style.transition = 'none';
+            setTimeout(() => {
+                this.calendarEl.style.left = '100000px';
+                this.calendarEl.style.height = 'auto';
+                setTimeout(() => {
+                    let height = this.calendarEl.offsetHeight + 30;
+                    this.calendarEl.style.left = '';
+                    this.calendarEl.style.height = '';
+                    this.calendarEl.style.setProperty("--time-calendar-height", height + 'px');
+                    setTimeout(() => {
+                        this.calendarEl.style.transition = '';
+                    }, 50);
+                }, 50);
+            }, 50);
+        }
+        else {
+            this.calendarEl.style.setProperty("--time-calendar-height", this.calendarEl.offsetHeight + 'px');
+        }
+    }
+    bindCalendarSize() {
+        this.calendarEl.onDateChanged.add(this.calculateCalendarSize);
+        this.calculateCalendarSize();
+        this.calendarEl.addEventListener("transitionstart", () => {
+        });
+        this.calendarEl.addEventListener("transitionend", () => {
+            if (this.active) {
+                this.calendarEl.style.height = 'auto';
+            }
+        });
+    }
+    toggleActive() {
+        if (this.active) {
+            this.calendarEl.style.height = '';
+            setTimeout(() => {
+                this.active = false;
+            }, 10);
+        }
+        else {
+            this.active = true;
+        }
+    }
+    postCreation() {
+        this.firstLoading();
+        this.bindCalendarSize();
+    }
+}
+System.AddOnTime.Namespace=`Core.System`;
+System.AddOnTime.Tag=`rk-add-on-time`;
+__as1(_.System, 'AddOnTime', System.AddOnTime);
+if(!window.customElements.get('rk-add-on-time')){window.customElements.define('rk-add-on-time', System.AddOnTime);Aventus.WebComponentInstance.registerDefinition(System.AddOnTime);}
 
 System.BottomBar = class BottomBar extends Aventus.WebComponent {
     get 'permissions'() {
@@ -11570,128 +14830,6 @@ System.Desktop.Tag=`rk-desktop`;
 __as1(_.System, 'Desktop', System.Desktop);
 if(!window.customElements.get('rk-desktop')){window.customElements.define('rk-desktop', System.Desktop);Aventus.WebComponentInstance.registerDefinition(System.Desktop);}
 
-Lib.PWA=class PWA {
-    static get isAvailable() {
-        if (window['deferredPrompt']) {
-            return true;
-        }
-        return false;
-    }
-    static get isAvailableIOS() {
-        return _.Lib.Platform.isiOS && !_.Lib.Platform.isStandalone;
-    }
-    static e;
-    static isInit = false;
-    static startInstall;
-    static onInit = new Aventus.Callback();
-    static onDownloading = new Aventus.Callback();
-    static onDownloaded = new Aventus.Callback();
-    static async init() {
-        if (this.isInit) {
-            return;
-        }
-        if (!this.e && Lib.PWA.isAvailable) {
-            this.e = window['deferredPrompt'];
-            let result = this.onInit.trigger();
-            this.isInit = true;
-        }
-        else if (Lib.PWA.isAvailableIOS) {
-            let result = this.onInit.trigger();
-            this.isInit = true;
-        }
-        // if(Platform.isStandalone && Platform.device == "pc") {
-        //     const notification = Notification.create({
-        //     })
-        //     Os.instance.notify(notification);
-        if (this.isInit) {
-            window.addEventListener('appinstalled', async (evt) => {
-                let now = new Date();
-                let start = this.startInstall ?? new Date();
-                let diffMs = now.getTime() - start.getTime();
-                if (diffMs < 3000) {
-                    await Aventus.sleep(3000 - diffMs);
-                }
-                this.onDownloaded.trigger();
-            });
-        }
-    }
-    static addOnInit(cb) {
-        if (this.isInit) {
-            cb();
-        }
-        else {
-            this.onInit.add(cb);
-        }
-    }
-    static async download() {
-        if (this.isAvailable && this.e) {
-            this.e.prompt();
-            const choiceResult = await this.e.userChoice;
-            if (choiceResult.outcome === 'accepted') {
-                this.startInstall = new Date();
-                this.onDownloading.trigger();
-            }
-        }
-        else if (this.isAvailableIOS) {
-            let pwaios = new Components.PwaPromptIos();
-            document.body.appendChild(pwaios);
-        }
-    }
-}
-Lib.PWA.Namespace=`Core.Lib`;
-__as1(_.Lib, 'PWA', Lib.PWA);
-
-System.PwaButton = class PwaButton extends Aventus.WebComponent {
-    get 'visible'() { return this.getBoolAttr('visible') }
-    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'downloading'() { return this.getBoolAttr('downloading') }
-    set 'downloading'(val) { this.setBoolAttr('downloading', val) }    static __style = `:host{align-items:center;background-color:var(--darker);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-2);display:flex;height:30px;justify-content:center;padding:5px;width:30px}:host .download{display:inline-block}:host .sync{display:none}:host .rotate{animation-name:rotate;animation-duration:1.5s;animation-iteration-count:infinite;animation-timing-function:linear;animation-direction:reverse}:host(:not([visible])){display:none !important}:host([downloading]) .download{display:none}:host([downloading]) .sync{display:inline-block}@keyframes rotate{0%{transform:rotate(0)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}`;
-    __getStatic() {
-        return PwaButton;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(PwaButton.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<mi-icon icon="download" class="download"></mi-icon><mi-icon icon="sync" class="sync rotate"></mi-icon><slot></slot>` }
-    });
-}
-    getClassName() {
-        return "PwaButton";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('downloading')) { this.attributeChangedCallback('downloading', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('downloading'); }
-    __listBoolProps() { return ["visible","downloading"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    async init() {
-        Lib.PWA.addOnInit(async () => {
-            this.visible = true;
-            new Aventus.PressManager({
-                element: this,
-                onPress: () => {
-                    Lib.PWA.download();
-                }
-            });
-        });
-        Lib.PWA.onDownloading.add(async () => {
-            this.downloading = true;
-        });
-        Lib.PWA.onDownloaded.add(async () => {
-            this.remove();
-        });
-    }
-    postCreation() {
-        this.classList.add("touch");
-        this.init();
-    }
-}
-System.PwaButton.Namespace=`Core.System`;
-System.PwaButton.Tag=`rk-pwa-button`;
-__as1(_.System, 'PwaButton', System.PwaButton);
-if(!window.customElements.get('rk-pwa-button')){window.customElements.define('rk-pwa-button', System.PwaButton);Aventus.WebComponentInstance.registerDefinition(System.PwaButton);}
-
 System.Os = class Os extends Aventus.WebComponent {
     static get observedAttributes() {return ["desktop_list", "show_application_list", "active_desktop", "lang"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'loading'() { return this.getBoolAttr('loading') }
@@ -12242,119 +15380,6 @@ System.Os.Namespace=`Core.System`;
 System.Os.Tag=`rk-os`;
 __as1(_.System, 'Os', System.Os);
 if(!window.customElements.get('rk-os')){window.customElements.define('rk-os', System.Os);Aventus.WebComponentInstance.registerDefinition(System.Os);}
-
-System.RecentLine = class RecentLine extends Aventus.WebComponent {
-    get 'reorder'() { return this.getBoolAttr('reorder') }
-    set 'reorder'(val) { this.setBoolAttr('reorder', val) }get 'highlight_before'() { return this.getBoolAttr('highlight_before') }
-    set 'highlight_before'(val) { this.setBoolAttr('highlight_before', val) }get 'highlight_after'() { return this.getBoolAttr('highlight_after') }
-    set 'highlight_after'(val) { this.setBoolAttr('highlight_after', val) }    get 'recent'() {
-						return this.__watch["recent"];
-					}
-					set 'recent'(val) {
-						this.__watch["recent"] = val;
-					}    __registerWatchesActions() {
-    this.__addWatchesActions("recent", ((target) => {
-    target.onSet();
-}));    super.__registerWatchesActions();
-}
-    static __style = `:host{align-items:center;background-color:var(--lighter);border-radius:var(--border-radius-sm);cursor:pointer;display:flex;overflow:hidden;padding:5px;position:relative;transition:background-color .2s var(--bezier-curve)}:host .drag-icon{align-items:center;cursor:grab;display:flex;opacity:0;overflow:hidden;transition:width .5s var(--bezier-curve),opacity .5s var(--bezier-curve),visibility .5s var(--bezier-curve);visibility:hidden;width:0}:host .icon-container{height:30px;margin-right:10px;position:relative;width:30px}:host .icon-container .hider{inset:0;position:absolute}:host .icon-container .icon{height:100%;width:100%}:host .icon-container .icon *{animation:none !important;box-shadow:none !important;height:100% !important;pointer-events:none;width:100% !important}:host .text{flex-grow:1;flex-wrap:nowrap;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}:host .line{display:none}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--lighter-active)}}:host([reorder]) .drag-icon{opacity:1;visibility:visible;width:24px}:host([highlight_after]) .line{background-color:var(--red);bottom:-1px;display:block;height:2px;left:0;position:absolute;width:100%}:host([highlight_before]:first-child) .line{background-color:var(--red);display:block;height:2px;left:0;position:absolute;top:-1px;width:100%}`;
-    __getStatic() {
-        return RecentLine;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(RecentLine.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="drag-icon" _id="recentline_0">    <mi-icon icon="drag_indicator"></mi-icon></div><div class="icon-container">    <div class="hider"></div>    <div class="icon" _id="recentline_1"></div></div><div class="text" _id="recentline_2"></div><div class="line"></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "dragEl",
-      "ids": [
-        "recentline_0"
-      ]
-    },
-    {
-      "name": "iconEl",
-      "ids": [
-        "recentline_1"
-      ]
-    }
-  ],
-  "content": {
-    "recentline_2°title": {
-      "fct": (c) => `${c.print(c.comp.__ad18ea75a445ca541d86bfa0d13d0544method0())}`
-    },
-    "recentline_2°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__ad18ea75a445ca541d86bfa0d13d0544method0())}`
-    }
-  }
-}); }
-    getClassName() {
-        return "RecentLine";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('reorder')) { this.attributeChangedCallback('reorder', false, false); }if(!this.hasAttribute('highlight_before')) { this.attributeChangedCallback('highlight_before', false, false); }if(!this.hasAttribute('highlight_after')) { this.attributeChangedCallback('highlight_after', false, false); } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["recent"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('reorder');this.__upgradeProperty('highlight_before');this.__upgradeProperty('highlight_after');this.__correctGetter('recent'); }
-    __listBoolProps() { return ["reorder","highlight_before","highlight_after"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    onContextMenu(contextMenu, stop) {
-        stop();
-    }
-    onSet() {
-        if (!this.recent)
-            return;
-        const cst = Lib.AppIconManager.getIcon(this.recent.TagName);
-        if (!cst)
-            return;
-        const icon = new cst();
-        this.iconEl.innerHTML = "";
-        this.iconEl.appendChild(icon);
-    }
-    async deleteFromRecent() {
-        if (!this.recent)
-            return;
-        await Lib.Process.execute(this, RAM.RecentRAM.getInstance().deleteWithError(this.recent));
-    }
-    async open() {
-        if (!this.recent) {
-            this.remove();
-            return;
-        }
-        let desktop = _.System.Os.instance.activeDesktop;
-        const info = Lib.AppIconManager.reverseTagName(this.recent.TagName);
-        if (!info) {
-            this.deleteFromRecent();
-            this.remove();
-            return;
-        }
-        await desktop.loadApp(info.application);
-        const state = Aventus.Converter.transform(JSON.parse(this.recent.State));
-        const app = await desktop.openUrl(info.application, info.url, state);
-    }
-    addInteraction() {
-        new Aventus.PressManager({
-            element: this,
-            onPress: () => {
-                this.open();
-            }
-        });
-    }
-    postCreation() {
-        this.addInteraction();
-    }
-    __ad18ea75a445ca541d86bfa0d13d0544method0() {
-        return this.recent?.Name;
-    }
-}
-System.RecentLine.Namespace=`Core.System`;
-System.RecentLine.Tag=`rk-recent-line`;
-__as1(_.System, 'RecentLine', System.RecentLine);
-if(!window.customElements.get('rk-recent-line')){window.customElements.define('rk-recent-line', System.RecentLine);Aventus.WebComponentInstance.registerDefinition(System.RecentLine);}
 
 System.AppIcon = class AppIcon extends Aventus.WebComponent {
     get 'shaking'() { return this.getBoolAttr('shaking') }
@@ -12943,2786 +15968,6 @@ System.ApplicationSidenav = class ApplicationSidenav extends System.Application 
 System.ApplicationSidenav.Namespace=`Core.System`;
 __as1(_.System, 'ApplicationSidenav', System.ApplicationSidenav);
 
-Components.CalendarDay = class CalendarDay extends Aventus.WebComponent {
-    get 'other'() { return this.getBoolAttr('other') }
-    set 'other'(val) { this.setBoolAttr('other', val) }get 'today'() { return this.getBoolAttr('today') }
-    set 'today'(val) { this.setBoolAttr('today', val) }    calendar;
-    date = new Date();
-    static __style = `:host{align-items:center;border-radius:var(--border-radius-sm);color:var(--_calendar-text-color-case);cursor:pointer;display:flex;font-size:var(--_calendar-case-font-size);height:var(--_calendar-case-height);justify-content:center;transition:color .2s var(--bezier-curve),background-color .2s var(--bezier-curve);width:var(--_calendar-case-width)}:host([other]){color:var(--_calendar-text-color-case-others)}:host([today]){color:var(--_calendar-text-color-case-today)}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--_calendar-background-color-case-hover)}}`;
-    constructor() {
-        super();
-        if (this.constructor == CalendarDay) {
-            throw "can't instanciate an abstract class";
-        }
-    }
-    __getStatic() {
-        return CalendarDay;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(CalendarDay.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "CalendarDay";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('other')) { this.attributeChangedCallback('other', false, false); }if(!this.hasAttribute('today')) { this.attributeChangedCallback('today', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('other');this.__upgradeProperty('today'); }
-    __listBoolProps() { return ["other","today"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    init(dateDisplayed, dateDay, calendar) {
-        this.shadowRoot.innerHTML = dateDay.getDate() + '';
-        this.other = dateDisplayed.getMonth() != dateDay.getMonth();
-        this.calendar = calendar;
-        this.date.setTime(dateDay.getTime());
-        this.today = Lib.DateTools.isSameDate(new Date(), dateDay);
-    }
-    postCreation() {
-        new Aventus.PressManager({
-            element: this,
-            onPress: () => {
-                this.calendar.onDateClicked.trigger(this.date, this);
-            }
-        });
-    }
-}
-Components.CalendarDay.Namespace=`Core.Components`;
-__as1(_.Components, 'CalendarDay', Components.CalendarDay);
-
-Components.CalendarDayDefault = class CalendarDayDefault extends Components.CalendarDay {
-    static __style = ``;
-    __getStatic() {
-        return CalendarDayDefault;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(CalendarDayDefault.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "CalendarDayDefault";
-    }
-}
-Components.CalendarDayDefault.Namespace=`Core.Components`;
-Components.CalendarDayDefault.Tag=`rk-calendar-day-default`;
-__as1(_.Components, 'CalendarDayDefault', Components.CalendarDayDefault);
-if(!window.customElements.get('rk-calendar-day-default')){window.customElements.define('rk-calendar-day-default', Components.CalendarDayDefault);Aventus.WebComponentInstance.registerDefinition(Components.CalendarDayDefault);}
-
-Lib.DomTools=class DomTools {
-    static clearElement(element) {
-        const children = Array.from(element.children);
-        for (let child of children) {
-            child.remove();
-        }
-    }
-    static async exportAsRawComponent(elements, getAttrs) {
-        const result = { js: '', html: '' };
-        let loaded = new Map();
-        const createComponent = (wc, content) => {
-            const type = wc.constructor;
-            const loadedPart = loaded.get(type);
-            if (!loadedPart) {
-                const tagUnder = wc.tag.replace(/-/g, '_');
-                result.js += `class ${tagUnder} extends HTMLElement {
-    constructor() {
-        super();
-        let template = document.createElement('template');
-        template.innerHTML = this.getText();
-
-        const shadowRoot = this.attachShadow({ mode: "open" });
-        const style = new CSSStyleSheet();
-        style.replaceSync(this.getStyle());
-        shadowRoot.adoptedStyleSheets = [style];
-        shadowRoot.appendChild(template.content.cloneNode(true));
-    }
-
-    getText() {
-        return \`${content}\`;
-    }
-
-    getStyle() {
-        return \`${this.rawStyle(wc)}\`;
-    }
-}
-customElements.define("${wc.tag}", ${tagUnder});
-`;
-                loaded.set(type, [Md5.create(content)]);
-                return wc.tag;
-            }
-            else {
-                let hash = Md5.create(content);
-                let index = loadedPart.indexOf(hash);
-                if (index == 0) {
-                    return wc.tag;
-                }
-                else if (index > 0) {
-                    return wc.tag + '-' + index;
-                }
-                else {
-                    const tagUnder = wc.tag.replace(/-/g, '_');
-                    const tagUnderNb = tagUnder + '_' + loadedPart.length;
-                    const tagNb = wc.tag + '-' + loadedPart.length;
-                    result.js += `class ${tagUnderNb} extends ${tagUnder} {
-    getText() {
-        return \`${content}\`;
-    }
-}
-customElements.define("${tagNb}", ${tagUnderNb});
-`;
-                    loadedPart.push(hash);
-                    return tagNb;
-                }
-            }
-        };
-        const imgMemory = {};
-        const urlToBase64 = (url) => {
-            return new Promise(async (resolve, reject) => {
-                try {
-                    const response = await fetch(url);
-                    const blob = await response.blob();
-                    const reader = new FileReader();
-                    reader.onloadend = () => resolve(reader.result);
-                    reader.onerror = reject;
-                    reader.readAsDataURL(blob);
-                }
-                catch (e) {
-                    reject(e);
-                }
-            });
-        };
-        const _getAttrs = (element) => {
-            const attrs = [];
-            for (let attr of element.attributes) {
-                if (attr.value === undefined) {
-                    attrs.push(attr.name);
-                }
-                else {
-                    attrs.push(attr.name + "=\"" + attr.value + "\"");
-                }
-            }
-            return attrs.join(" ");
-        };
-        const attrs = getAttrs ? (async (element) => await getAttrs(element, _getAttrs)) : _getAttrs;
-        const load = async (element) => {
-            let tag = element.tagName.toLowerCase();
-            if (element instanceof Aventus.WebComponent) {
-                let txt = '';
-                for (let child of element.shadowRoot.childNodes) {
-                    if (child instanceof Element)
-                        txt += await load(child);
-                    else
-                        txt += child.textContent;
-                }
-                tag = createComponent(element, txt);
-            }
-            let content = '';
-            for (let child of element.childNodes) {
-                if (child instanceof Element)
-                    content += await load(child);
-                else
-                    content += child.textContent;
-            }
-            if (element instanceof HTMLImageElement) {
-                if (element.src && !element.src.startsWith("data:")) {
-                    if (!imgMemory[element.src]) {
-                        imgMemory[element.src] = await urlToBase64(element.src);
-                    }
-                    element.src = imgMemory[element.src];
-                }
-            }
-            let attributes = await attrs(element);
-            if (attributes.length > 0) {
-                attributes = ' ' + attributes;
-            }
-            return `<${tag}${attributes}>${content}</${tag}>`;
-        };
-        for (let element of elements) {
-            result.html += await load(element);
-        }
-        return result;
-    }
-    static rawStyle(element) {
-        const type = element.constructor;
-        let stylesheets = type['__styleSheets'];
-        let cssTxt = "";
-        for (let name in stylesheets) {
-            cssTxt += Aventus.Style.sheetToString(stylesheets[name]);
-        }
-        return cssTxt;
-        // const regexVariables = /var\((--.*?)[,|\)]/g;
-        // let m: RegExpExecArray | null = null;
-        // let computedStyle: CSSStyleDeclaration | null = null;
-        // while((m = regexVariables.exec(cssTxt)) !== null) {
-        //     if(m[1] == '--col-padding') {
-        //     if(m.index === regexVariables.lastIndex) {
-        //     if(cssVarValue[m[1]]) continue;
-        //     if(!computedStyle) {
-        //         computedStyle = getComputedStyle(element);
-        //     let v = computedStyle.getPropertyValue(m[1]);
-        //     if(v) {
-        // for(let key in cssVarValue) {
-        // if(cssVarTxt)
-    }
-}
-Lib.DomTools.Namespace=`Core.Lib`;
-__as1(_.Lib, 'DomTools', Lib.DomTools);
-
-Components.Calendar = class Calendar extends Aventus.WebComponent {
-    static get observedAttributes() {return ["date", "show_selector"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'selector'() { return this.getStringAttr('selector') }
-    set 'selector'(val) { this.setStringAttr('selector', val) }    get 'date'() { return this.getDateProp('date') }
-    set 'date'(val) { this.setDateAttr('date', val) }get 'show_selector'() { return this.getBoolProp('show_selector') }
-    set 'show_selector'(val) { this.setBoolAttr('show_selector', val) }    get 'dateTemp'() {
-						return this.__watch["dateTemp"];
-					}
-					set 'dateTemp'(val) {
-						this.__watch["dateTemp"] = val;
-					}get 'yearGroupPage'() {
-						return this.__watch["yearGroupPage"];
-					}
-					set 'yearGroupPage'(val) {
-						this.__watch["yearGroupPage"] = val;
-					}get 'yearGroupTxt'() {
-						return this.__watch["yearGroupTxt"];
-					}
-					set 'yearGroupTxt'(val) {
-						this.__watch["yearGroupTxt"] = val;
-					}    cases = {};
-    onDateClicked = new Aventus.Callback();
-    onDateChanged = new Aventus.Callback();
-    __registerWatchesActions() {
-    this.__addWatchesActions("dateTemp", ((target) => {
-    target.renderDatesTemp();
-    target.printYearRange();
-}));this.__addWatchesActions("yearGroupPage", ((target) => {
-    target.printYearRange();
-}));this.__addWatchesActions("yearGroupTxt");    super.__registerWatchesActions();
-}
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("date", ((target) => {
-    target.renderDates();
-}));this.__addPropertyActions("show_selector", ((target) => {
-    if (target.show_selector) {
-        target.dateTemp = target.date;
-    }
-})); }
-    static __style = `:host{--_calendar-background-color: var(--calendar-background-color, white);--_calendar-background-color-case-hover: var(--calendar-background-color-case-hover, var(--lighter));--_calendar-background-color-case-active: var(--calendar-background-color-case-active, var(--lighter));--_calendar-background-color-selector: var(--calendar-background-color-selector, white);--_calendar-text-color-case: var(--calendar-text-color-case, var(--text-color));--_calendar-text-color-case-others: var(--calendar-text-color-case-others, var(--secondary-color));--_calendar-text-color-case-header: var(--calendar-text-color-case-header, var(--text-color-light));--_calendar-text-color-case-today: var(--calendar-text-color-case-today, var(--orange));--_calendar-case-size: var(--calendar-case-size, 30px);--_calendar-case-width: var(--calendar-case-width, var(--_calendar-case-size));--_calendar-case-height: var(--calendar-case-height, var(--_calendar-case-size));--_calendar-case-font-size: var(--calendar-case-font-size, calc(var(--font-size, 16px) * 0.9));--_calendar-chevron-size: var(--calendar-chevron-size, calc(var(--_calendar-case-font-size) * 1.5));--_calendar-month-font-size: var(--calendar-month-font-size, calc(var(--_calendar-case-font-size) * 1.25));--_calendar-month-selector-height: var(--calendar-month-selector-height, var(--_calendar-case-height));--_calendar-year-selector-height: var(--calendar-year-selector-height, var(--_calendar-case-height));--_calendar-case-gap: var(--calendar-case-gap, 10px);--_calendar-row-gap: var(--calendar-row-gap, 5px)}:host{background-color:var(--_calendar-background-color);border-radius:var(--border-radius);box-shadow:var(--elevation-3);display:flex;flex-direction:column;padding:15px;position:relative;width:fit-content}:host .hover{transition:background-color .2s var(--bezier-curve)}:host .header{align-items:center;display:flex;flex-direction:row;justify-content:space-between;position:relative}:host .header .current-info{align-items:center;display:flex;flex-direction:row;flex-grow:1;font-size:var(--_calendar-month-font-size);justify-content:center}:host .header .current-info .month-year{align-items:center;border-radius:var(--border-radius-sm);display:flex;flex-direction:row;padding:5px 10px}:host .header .current-info .month-year .month{margin-right:5px}:host .header .chevron{align-items:center;border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-chevron-size);height:var(--_calendar-case-height);justify-content:center;text-align:center;width:var(--_calendar-case-width)}:host .header .selectors{background-color:var(--_calendar-background-color-selector);border-radius:var(--border-radius);box-shadow:var(--elevation-3);left:50%;opacity:0;padding:10px;pointer-events:none;position:absolute;top:calc(100% + 12px);transform:translateX(-50%);transition:opacity .2s var(--bezier-curve),visibility .2s var(--bezier-curve);visibility:hidden;width:100%;z-index:5}:host .header .selectors::after{border-bottom:10px solid var(--_calendar-background-color-selector);border-left:10px solid rgba(0,0,0,0);border-right:10px solid rgba(0,0,0,0);content:"";left:50%;position:absolute;top:-8px;transform:translateX(-50%)}:host .header .selectors .month-select{display:none;width:100%}:host .header .selectors .month-select .month-select-header{align-items:center;display:flex;margin-bottom:var(--_calendar-row-gap)}:host .header .selectors .month-select .month-select-header .current-info .temp-year{border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-month-font-size);padding:5px 10px}:host .header .selectors .month-select .month-select-body{display:flex;flex-wrap:wrap;font-size:var(--_calendar-case-font-size);gap:var(--_calendar-row-gap) var(--_calendar-case-gap);width:100%}:host .header .selectors .month-select .month-select-body .month-el{align-items:center;border-radius:var(--border-radius-sm);display:flex;height:var(--_calendar-month-selector-height);justify-content:center;width:calc((100% - var(--_calendar-case-gap)*2)/3)}:host .header .selectors .month-select .month-select-body .month-el.active{background-color:var(--_calendar-background-color-case-active)}:host .header .selectors .year-select{display:none;width:100%}:host .header .selectors .year-select .year-select-header{align-items:center;display:flex;margin-bottom:var(--_calendar-row-gap)}:host .header .selectors .year-select .year-select-header .current-info .temp-year-range{border-radius:var(--border-radius-sm);display:flex;font-size:var(--_calendar-month-font-size);padding:5px 10px}:host .header .selectors .year-select .year-select-body{display:flex;flex-wrap:wrap;font-size:var(--_calendar-case-font-size);gap:var(--_calendar-row-gap) var(--_calendar-case-gap);width:100%}:host .header .selectors .year-select .year-select-body .year-el{align-items:center;border-radius:var(--border-radius-sm);display:flex;height:var(--_calendar-year-selector-height);justify-content:center;width:calc((100% - var(--_calendar-case-gap)*2)/3)}:host .header .selectors .year-select .year-select-body .year-el.active{background-color:var(--_calendar-background-color-case-active)}:host .body{display:flex;flex-direction:column;margin-top:var(--_calendar-row-gap);gap:var(--_calendar-row-gap)}:host .body .days-header{color:var(--_calendar-text-color-case-header);display:flex;flex-direction:row;gap:10px}:host .body .days-header .day-header{align-items:center;display:flex;font-size:var(--_calendar-case-font-size);height:var(--_calendar-case-height);justify-content:center;width:var(--_calendar-case-width)}:host .body .days-body{display:flex;flex-direction:column;gap:var(--_calendar-row-gap)}:host .body .days-body .days-row{display:flex;flex-direction:row;gap:var(--_calendar-case-gap)}:host .hider{display:none;inset:0;position:absolute;z-index:1}:host([show_selector]) .hider{display:block}:host([show_selector]) .header .selectors{opacity:1;pointer-events:auto;visibility:visible}:host([selector=month]) .header .selectors .month-select{display:block}:host([selector=year]) .header .selectors .year-select{display:block}@media screen and (min-width: 1225px){:host .hover:hover{background-color:var(--_calendar-background-color-case-hover)}}`;
-    __getStatic() {
-        return Calendar;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Calendar.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="header">    <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_0"></mi-icon>    <div class="current-info" _id="calendar_1">        <div class="month-year touch hover">            <div class="month" _id="calendar_2"></div>            <div class="year" _id="calendar_3"></div>        </div>    </div>    <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_4"></mi-icon>    <div class="selectors">        <div class="month-select">            <div class="month-select-header">                <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_5"></mi-icon>                <div class="current-info" _id="calendar_6">                    <div class="temp-year touch hover" _id="calendar_7"></div>                </div>                <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_8"></mi-icon>            </div>            <div class="month-select-body" _id="calendar_9">                <div class="month-el touch hover" _id="calendar_10"></div>                <div class="month-el touch hover" _id="calendar_11"></div>                <div class="month-el touch hover" _id="calendar_12"></div>                <div class="month-el touch hover" _id="calendar_13"></div>                <div class="month-el touch hover" _id="calendar_14"></div>                <div class="month-el touch hover" _id="calendar_15"></div>                <div class="month-el touch hover" _id="calendar_16"></div>                <div class="month-el touch hover" _id="calendar_17"></div>                <div class="month-el touch hover" _id="calendar_18"></div>                <div class="month-el touch hover" _id="calendar_19"></div>                <div class="month-el touch hover" _id="calendar_20"></div>                <div class="month-el touch hover" _id="calendar_21"></div>            </div>        </div>        <div class="year-select">            <div class="year-select-header">                <mi-icon icon="chevron_left" class="chevron touch hover" _id="calendar_22"></mi-icon>                <div class="current-info">                    <div class="temp-year-range" _id="calendar_23"></div>                </div>                <mi-icon icon="chevron_right" class="chevron touch hover" _id="calendar_24"></mi-icon>            </div>            <div class="year-select-body" _id="calendar_25">            </div>        </div>    </div></div><div class="body">    <div class="days-header">        <div class="day-header" _id="calendar_26"></div>        <div class="day-header" _id="calendar_27"></div>        <div class="day-header" _id="calendar_28"></div>        <div class="day-header" _id="calendar_29"></div>        <div class="day-header" _id="calendar_30"></div>        <div class="day-header" _id="calendar_31"></div>        <div class="day-header" _id="calendar_32"></div>    </div>    <div class="days-body" _id="calendar_33">    </div></div><div class="hider" _id="calendar_34"></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "monthEl",
-      "ids": [
-        "calendar_2"
-      ]
-    },
-    {
-      "name": "yearEl",
-      "ids": [
-        "calendar_3"
-      ]
-    },
-    {
-      "name": "bodyMonthEl",
-      "ids": [
-        "calendar_9"
-      ]
-    },
-    {
-      "name": "bodyYearEl",
-      "ids": [
-        "calendar_25"
-      ]
-    },
-    {
-      "name": "bodyEl",
-      "ids": [
-        "calendar_33"
-      ]
-    }
-  ],
-  "content": {
-    "calendar_7°@HTML": {
-      "fct": (c) => `\r\n                        ${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method0())}\r\n                    `,
-      "once": true
-    },
-    "calendar_10°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method1())}.`,
-      "once": true
-    },
-    "calendar_11°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method2())}.`,
-      "once": true
-    },
-    "calendar_12°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method3())}`,
-      "once": true
-    },
-    "calendar_13°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method4())}.`,
-      "once": true
-    },
-    "calendar_14°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method5())}`,
-      "once": true
-    },
-    "calendar_15°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method6())}`,
-      "once": true
-    },
-    "calendar_16°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method7())}.`,
-      "once": true
-    },
-    "calendar_17°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method8())}`,
-      "once": true
-    },
-    "calendar_18°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method9())}.`,
-      "once": true
-    },
-    "calendar_19°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method10())}.`,
-      "once": true
-    },
-    "calendar_20°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method11())}.`,
-      "once": true
-    },
-    "calendar_21°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method12())}.`,
-      "once": true
-    },
-    "calendar_23°@HTML": {
-      "fct": (c) => `\r\n                        ${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method13())}\r\n                    `,
-      "once": true
-    },
-    "calendar_26°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method14())}`,
-      "once": true
-    },
-    "calendar_27°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method15())}`,
-      "once": true
-    },
-    "calendar_28°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method16())}`,
-      "once": true
-    },
-    "calendar_29°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method17())}`,
-      "once": true
-    },
-    "calendar_30°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method18())}`,
-      "once": true
-    },
-    "calendar_31°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method19())}`,
-      "once": true
-    },
-    "calendar_32°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__209c968d688f11ad02afc05e2a5220a2method20())}`,
-      "once": true
-    }
-  },
-  "pressEvents": [
-    {
-      "id": "calendar_0",
-      "onPress": (e, pressInstance, c) => { c.comp.previousMonth(e, pressInstance); }
-    },
-    {
-      "id": "calendar_1",
-      "onPress": (e, pressInstance, c) => { c.comp.showMonthSelect(e, pressInstance); }
-    },
-    {
-      "id": "calendar_4",
-      "onPress": (e, pressInstance, c) => { c.comp.nextMonth(e, pressInstance); }
-    },
-    {
-      "id": "calendar_5",
-      "onPress": (e, pressInstance, c) => { c.comp.previousYearTemp(e, pressInstance); }
-    },
-    {
-      "id": "calendar_6",
-      "onPress": (e, pressInstance, c) => { c.comp.showYearSelect(e, pressInstance); }
-    },
-    {
-      "id": "calendar_8",
-      "onPress": (e, pressInstance, c) => { c.comp.nextMonthYearTemp(e, pressInstance); }
-    },
-    {
-      "id": "calendar_10",
-      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
-    },
-    {
-      "id": "calendar_11",
-      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
-    },
-    {
-      "id": "calendar_12",
-      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
-    },
-    {
-      "id": "calendar_13",
-      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
-    },
-    {
-      "id": "calendar_14",
-      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
-    },
-    {
-      "id": "calendar_15",
-      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
-    },
-    {
-      "id": "calendar_16",
-      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
-    },
-    {
-      "id": "calendar_17",
-      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
-    },
-    {
-      "id": "calendar_18",
-      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
-    },
-    {
-      "id": "calendar_19",
-      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
-    },
-    {
-      "id": "calendar_20",
-      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
-    },
-    {
-      "id": "calendar_21",
-      "onPress": (e, pressInstance, c) => { c.comp.selectMonthTemp(e, pressInstance); }
-    },
-    {
-      "id": "calendar_22",
-      "onPress": (e, pressInstance, c) => { c.comp.previousYearGroupTemp(e, pressInstance); }
-    },
-    {
-      "id": "calendar_24",
-      "onPress": (e, pressInstance, c) => { c.comp.nextYearGroupTemp(e, pressInstance); }
-    },
-    {
-      "id": "calendar_34",
-      "onPress": (e, pressInstance, c) => { c.comp.hideSelector(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "Calendar";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('selector')){ this['selector'] = 'month'; }if(!this.hasAttribute('date')){ this['date'] = new Date(); }if(!this.hasAttribute('show_selector')) { this.attributeChangedCallback('show_selector', false, false); } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["dateTemp"] = new Date();w["yearGroupPage"] = 0;w["yearGroupTxt"] = ""; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('selector');this.__upgradeProperty('date');this.__upgradeProperty('show_selector');this.__correctGetter('dateTemp');this.__correctGetter('yearGroupPage');this.__correctGetter('yearGroupTxt'); }
-    __listBoolProps() { return ["show_selector"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    nextMonth() {
-        let date = this.date;
-        let newDate = new Date();
-        newDate.setTime(date.getTime());
-        newDate.setDate(1);
-        newDate.setMonth(newDate.getMonth() + 1);
-        this.date = newDate;
-    }
-    previousMonth() {
-        let date = this.date;
-        let newDate = new Date();
-        newDate.setTime(date.getTime());
-        newDate.setDate(1);
-        newDate.setMonth(newDate.getMonth() - 1);
-        this.date = newDate;
-    }
-    defineCalendarDay() {
-        return _.Components.CalendarDayDefault;
-    }
-    getCase(date) {
-        return this.cases[Lib.DateTools.print(date)];
-    }
-    renderDates() {
-        if (!this.isConnected)
-            return;
-        this.cases = {};
-        Lib.DomTools.clearElement(this.bodyEl);
-        let date = this.date;
-        this.yearEl.innerHTML = date.getFullYear() + '';
-        this.monthEl.innerHTML = Lib.DateTools.getMonthName(date.getMonth());
-        let startDate = Lib.DateTools.getStartWeek(Lib.DateTools.getStartMonth(date));
-        let endDate = Lib.DateTools.getEndWeek(Lib.DateTools.getEndMonth(date));
-        let i = 0;
-        let row = document.createElement("div");
-        row.classList.add("days-row");
-        let CaseCst = this.defineCalendarDay();
-        while (startDate < endDate) {
-            let caseEl = new CaseCst();
-            this.cases[Lib.DateTools.print(startDate)] = caseEl;
-            caseEl.init(date, startDate, this);
-            row.appendChild(caseEl);
-            startDate.setDate(startDate.getDate() + 1);
-            i++;
-            if (i == 7) {
-                i = 0;
-                this.bodyEl.appendChild(row);
-                row = document.createElement("div");
-                row.classList.add("days-row");
-            }
-        }
-        this.onDateChanged.trigger(this.date);
-    }
-    renderDatesTemp() {
-        let el = this.bodyMonthEl.querySelector(".active");
-        if (el) {
-            el.classList.remove("active");
-        }
-        if (this.dateTemp.getFullYear() == this.date.getFullYear())
-            this.bodyMonthEl.children[this.dateTemp.getMonth()].classList.add("active");
-        let now = new Date();
-        this.yearGroupPage = Math.ceil((this.dateTemp.getFullYear() - now.getFullYear() - 5) / 12);
-    }
-    showMonthSelect() {
-        this.selector = 'month';
-        this.show_selector = true;
-    }
-    showYearSelect() {
-        this.selector = 'year';
-        this.show_selector = true;
-    }
-    hideSelector() {
-        this.show_selector = false;
-    }
-    selectMonthTemp(e, instance) {
-        let children = Array.from(this.bodyMonthEl.children);
-        let index = children.indexOf(instance.getElement());
-        if (index != -1) {
-            let date = this.date;
-            let newDate = new Date();
-            newDate.setTime(date.getTime());
-            newDate.setDate(1);
-            newDate.setMonth(index);
-            newDate.setFullYear(this.dateTemp.getFullYear());
-            this.date = newDate;
-        }
-        this.hideSelector();
-    }
-    previousYearTemp() {
-        let date = this.dateTemp ?? new Date();
-        let newDate = new Date();
-        newDate.setTime(date.getTime());
-        newDate.setDate(1);
-        newDate.setFullYear(newDate.getFullYear() - 1);
-        this.dateTemp = newDate;
-    }
-    nextMonthYearTemp() {
-        let date = this.dateTemp ?? new Date();
-        let newDate = new Date();
-        newDate.setTime(date.getTime());
-        newDate.setDate(1);
-        newDate.setFullYear(newDate.getFullYear() + 1);
-        this.dateTemp = newDate;
-    }
-    previousYearGroupTemp() {
-        this.yearGroupPage--;
-    }
-    nextYearGroupTemp() {
-        this.yearGroupPage++;
-    }
-    printYearRange() {
-        let currentYear = new Date().getFullYear();
-        let basicRangeStart = (currentYear + this.yearGroupPage * 12) - 6;
-        let basicRangeEnd = (currentYear + this.yearGroupPage * 12) + 6;
-        this.yearGroupTxt = `${basicRangeStart} - ${basicRangeEnd - 1}`;
-        this.bodyYearEl.innerHTML = "";
-        for (let i = basicRangeStart; i < basicRangeEnd; i++) {
-            this.createYearCase(i);
-        }
-    }
-    createYearCase(year) {
-        let div = document.createElement("div");
-        div.classList.add("year-el");
-        div.classList.add("touch");
-        div.classList.add("hover");
-        div.innerHTML = year + '';
-        if (year == this.dateTemp.getFullYear()) {
-            div.classList.add("active");
-        }
-        div.addEventListener("click", (e) => {
-            let newDate = new Date();
-            newDate.setTime(this.dateTemp.getTime());
-            newDate.setFullYear(year);
-            this.dateTemp = newDate;
-            this.showMonthSelect();
-        });
-        this.bodyYearEl.appendChild(div);
-    }
-    postDisonnect() {
-        this.show_selector = false;
-    }
-    postCreation() {
-    }
-    __209c968d688f11ad02afc05e2a5220a2method0() {
-        return this.dateTemp.getFullYear();
-    }
-    __209c968d688f11ad02afc05e2a5220a2method1() {
-        return Lib.DateTools.getMonthName(0, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method2() {
-        return Lib.DateTools.getMonthName(1, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method3() {
-        return Lib.DateTools.getMonthName(2, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method4() {
-        return Lib.DateTools.getMonthName(3, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method5() {
-        return Lib.DateTools.getMonthName(4, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method6() {
-        return Lib.DateTools.getMonthName(5, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method7() {
-        return Lib.DateTools.getMonthName(6, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method8() {
-        return Lib.DateTools.getMonthName(7, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method9() {
-        return Lib.DateTools.getMonthName(8, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method10() {
-        return Lib.DateTools.getMonthName(9, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method11() {
-        return Lib.DateTools.getMonthName(10, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method12() {
-        return Lib.DateTools.getMonthName(11, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method13() {
-        return this.yearGroupTxt;
-    }
-    __209c968d688f11ad02afc05e2a5220a2method14() {
-        return Lib.DateTools.getDayName(1, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method15() {
-        return Lib.DateTools.getDayName(2, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method16() {
-        return Lib.DateTools.getDayName(3, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method17() {
-        return Lib.DateTools.getDayName(4, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method18() {
-        return Lib.DateTools.getDayName(5, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method19() {
-        return Lib.DateTools.getDayName(6, true);
-    }
-    __209c968d688f11ad02afc05e2a5220a2method20() {
-        return Lib.DateTools.getDayName(0, true);
-    }
-}
-Components.Calendar.Namespace=`Core.Components`;
-Components.Calendar.Tag=`rk-calendar`;
-__as1(_.Components, 'Calendar', Components.Calendar);
-if(!window.customElements.get('rk-calendar')){window.customElements.define('rk-calendar', Components.Calendar);Aventus.WebComponentInstance.registerDefinition(Components.Calendar);}
-
-Components.DatePickerCalendarDay = class DatePickerCalendarDay extends Components.CalendarDay {
-    get 'selected'() { return this.getBoolAttr('selected') }
-    set 'selected'(val) { this.setBoolAttr('selected', val) }    static __style = `:host([selected]){background-color:var(--primary-color)}`;
-    constructor() {
-        super();
-        this.checkIfSelected = this.checkIfSelected.bind(this);
-    }
-    __getStatic() {
-        return DatePickerCalendarDay;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(DatePickerCalendarDay.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`` }
-    });
-}
-    getClassName() {
-        return "DatePickerCalendarDay";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('selected')) { this.attributeChangedCallback('selected', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('selected'); }
-    __listBoolProps() { return ["selected"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    init(dateDisplayed, dateDay, calendar) {
-        super.init(dateDisplayed, dateDay, calendar);
-        if (calendar instanceof _.Components.DatePickerCalendar) {
-            if (Lib.DateTools.isSameDate(calendar.picker.value, dateDay)) {
-                this.selected = true;
-            }
-            calendar.onDateClicked.add(this.checkIfSelected);
-        }
-    }
-    checkIfSelected(date, element) {
-        this.selected = element == this;
-    }
-    postDestruction() {
-        super.postDestruction();
-        this.calendar.onDateClicked.remove(this.checkIfSelected);
-    }
-}
-Components.DatePickerCalendarDay.Namespace=`Core.Components`;
-Components.DatePickerCalendarDay.Tag=`rk-date-picker-calendar-day`;
-__as1(_.Components, 'DatePickerCalendarDay', Components.DatePickerCalendarDay);
-if(!window.customElements.get('rk-date-picker-calendar-day')){window.customElements.define('rk-date-picker-calendar-day', Components.DatePickerCalendarDay);Aventus.WebComponentInstance.registerDefinition(Components.DatePickerCalendarDay);}
-
-System.AddOnTime = class AddOnTime extends Aventus.WebComponent {
-    get 'active'() { return this.getBoolAttr('active') }
-    set 'active'(val) { this.setBoolAttr('active', val) }    static __style = `:host{position:relative;height:var(--desktop-bottom-bar-element)}:host .display{align-items:center;border-radius:var(--border-radius-sm);cursor:pointer;display:flex;margin-right:10px;padding:0 10px;transition:background-color linear .2s;height:100%}:host .display .date{font-size:var(--font-size-sm)}:host .display .hour{font-size:var(--font-size-sm);margin-left:5px}:host .calendar{--calendar-background-color: var(--primary-color-opacity);bottom:calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element))/2 + 3px);box-shadow:var(--elevation-3);height:0;overflow:hidden;padding:0px 15px;position:absolute;right:10px;pointer-events:none;transition:bottom var(--bezier-curve) .5s,height var(--bezier-curve) .5s,padding var(--bezier-curve) .5s}:host([active]) .display{background-color:var(--lighter-active)}:host([active]) .calendar{bottom:calc(100% + (var(--desktop-bottom-bar) - var(--desktop-bottom-bar-element))/2 + 3px);height:var(--time-calendar-height);padding:15px;pointer-events:all}@media screen and (min-width: 1225px){:host .display:hover{background-color:var(--lighter-active)}}`;
-    constructor() {
-        super();
-        this.classList.add("touch");
-        this.calculateCalendarSize = this.calculateCalendarSize.bind(this);
-    }
-    __getStatic() {
-        return AddOnTime;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(AddOnTime.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="display" _id="addontime_0">    <div class="date" _id="addontime_1"></div>    <div class="hour" _id="addontime_2"></div></div><rk-calendar class="calendar" _id="addontime_3"></rk-calendar>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "date",
-      "ids": [
-        "addontime_1"
-      ]
-    },
-    {
-      "name": "hour",
-      "ids": [
-        "addontime_2"
-      ]
-    },
-    {
-      "name": "calendarEl",
-      "ids": [
-        "addontime_3"
-      ]
-    }
-  ],
-  "pressEvents": [
-    {
-      "id": "addontime_0",
-      "onPress": (e, pressInstance, c) => { c.comp.toggleActive(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "AddOnTime";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('active')) { this.attributeChangedCallback('active', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('active'); }
-    __listBoolProps() { return ["active"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    firstLoading() {
-        let missingSec = 60 - new Date().getSeconds();
-        if (missingSec == 0) {
-            this.displayDate(true);
-            this.normalLoading();
-        }
-        else {
-            this.displayDate(true);
-            setTimeout(() => {
-                this.normalLoading();
-            }, missingSec * 1000);
-        }
-    }
-    displayDate(force = false) {
-        if (!this.hour || !this.date) {
-            return;
-        }
-        let date = new Date();
-        let minutes = date.getMinutes();
-        let hours = date.getHours();
-        this.hour.innerHTML = this.prettyNumber(hours) + ":" + this.prettyNumber(minutes);
-        if (force || (minutes == 0 && hours == 0)) {
-            let day = Lib.DateTools.getDayName(date.getDay(), true) + ".";
-            let month = Lib.DateTools.getMonthName(date.getMonth());
-            let nb = date.getDate();
-            let txt = day + ' ' + this.prettyNumber(nb) + ' ' + month;
-            this.date.innerHTML = txt;
-        }
-    }
-    prettyNumber(nb) {
-        if (nb < 10) {
-            return '0' + nb;
-        }
-        return nb + '';
-    }
-    normalLoading() {
-        setInterval(() => {
-            this.displayDate();
-        }, 1000 * 60);
-    }
-    calculateCalendarSize() {
-        if (!this.active) {
-            this.calendarEl.style.transition = 'none';
-            setTimeout(() => {
-                this.calendarEl.style.left = '100000px';
-                this.calendarEl.style.height = 'auto';
-                setTimeout(() => {
-                    let height = this.calendarEl.offsetHeight + 30;
-                    this.calendarEl.style.left = '';
-                    this.calendarEl.style.height = '';
-                    this.calendarEl.style.setProperty("--time-calendar-height", height + 'px');
-                    setTimeout(() => {
-                        this.calendarEl.style.transition = '';
-                    }, 50);
-                }, 50);
-            }, 50);
-        }
-        else {
-            this.calendarEl.style.setProperty("--time-calendar-height", this.calendarEl.offsetHeight + 'px');
-        }
-    }
-    bindCalendarSize() {
-        this.calendarEl.onDateChanged.add(this.calculateCalendarSize);
-        this.calculateCalendarSize();
-        this.calendarEl.addEventListener("transitionstart", () => {
-        });
-        this.calendarEl.addEventListener("transitionend", () => {
-            if (this.active) {
-                this.calendarEl.style.height = 'auto';
-            }
-        });
-    }
-    toggleActive() {
-        if (this.active) {
-            this.calendarEl.style.height = '';
-            setTimeout(() => {
-                this.active = false;
-            }, 10);
-        }
-        else {
-            this.active = true;
-        }
-    }
-    postCreation() {
-        this.firstLoading();
-        this.bindCalendarSize();
-    }
-}
-System.AddOnTime.Namespace=`Core.System`;
-System.AddOnTime.Tag=`rk-add-on-time`;
-__as1(_.System, 'AddOnTime', System.AddOnTime);
-if(!window.customElements.get('rk-add-on-time')){window.customElements.define('rk-add-on-time', System.AddOnTime);Aventus.WebComponentInstance.registerDefinition(System.AddOnTime);}
-
-Components.FormElement = class FormElement extends Aventus.WebComponent {
-    get 'has_errors'() { return this.getBoolAttr('has_errors') }
-    set 'has_errors'(val) { this.setBoolAttr('has_errors', val) }    get 'errors'() {
-						return this.__watch["errors"];
-					}
-					set 'errors'(val) {
-						this.__watch["errors"] = val;
-					}get 'value'() {
-						return this.__watch["value"];
-					}
-					set 'value'(val) {
-						this.__watch["value"] = val;
-					}    _formPart;
-    get formPart() {
-        return this._formPart;
-    }
-    set formPart(value) {
-        this.unlinkFormPart();
-        this._formPart = value;
-        this.linkFormPart();
-    }
-    onChange = new Aventus.Callback();
-    __registerWatchesActions() {
-    this.__addWatchesActions("errors", ((target) => {
-    target.has_errors = target.errors.length > 0;
-}));this.__addWatchesActions("value");    super.__registerWatchesActions();
-}
-    static __style = ``;
-    constructor() {
-        super();
-        if (this.constructor == FormElement) {
-            throw "can't instanciate an abstract class";
-        }
-        this.refreshValueFromForm = this.refreshValueFromForm.bind(this);
-        this.onFormValidation = this.onFormValidation.bind(this);
-    }
-    __getStatic() {
-        return FormElement;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(FormElement.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "FormElement";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('has_errors')) { this.attributeChangedCallback('has_errors', false, false); } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["errors"] = [];w["value"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('formPart');this.__upgradeProperty('has_errors');this.__correctGetter('errors');this.__correctGetter('value'); }
-    __listBoolProps() { return ["has_errors"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    refreshValueFromForm() {
-        if (this._formPart) {
-            this.errors = [];
-            this.value = this._formPart.value.get();
-        }
-    }
-    unlinkFormPart() {
-        if (this._formPart) {
-            this._formPart.unregister(this);
-            this._formPart.onValueChange.remove(this.refreshValueFromForm);
-            this._formPart.onValidation.remove(this.onFormValidation);
-        }
-    }
-    linkFormPart() {
-        if (this._formPart) {
-            this._formPart.register(this);
-            this._formPart.onValueChange.add(this.refreshValueFromForm);
-            this._formPart.onValidation.add(this.onFormValidation);
-            this.refreshValueFromForm();
-        }
-        else {
-            this.value = undefined;
-        }
-    }
-    onFormValidation(errors) {
-        this.errors = errors;
-        return this.errors;
-    }
-    postDestruction() {
-        super.postDestruction();
-        this.unlinkFormPart();
-    }
-}
-Components.FormElement.Namespace=`Core.Components`;
-__as1(_.Components, 'FormElement', Components.FormElement);
-
-Components.Textarea = class Textarea extends Components.FormElement {
-    static get observedAttributes() {return ["label", "placeholder", "icon", "value", "autogrow"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'resize'() { return this.getBoolAttr('resize') }
-    set 'resize'(val) { this.setBoolAttr('resize', val) }    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
-    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }get 'value'() { return this.getStringProp('value') }
-    set 'value'(val) { this.setStringAttr('value', val) }get 'autogrow'() { return this.getBoolProp('autogrow') }
-    set 'autogrow'(val) { this.setBoolAttr('autogrow', val) }    resizeObserver;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
-    target.inputEl.value = target.value ?? "";
-}));this.__addPropertyActions("autogrow", ((target) => {
-    target.enableResizeObserver();
-})); }
-    static __style = `:host{--_textarea-height: var(--textarea-height, 30px);--_textarea-background-color: var(--textarea-background-color, var(--form-element-background, white));--_textarea-icon-height: var(--textarea-icon-height, calc(var(--_textarea-height) / 2));--_textarea-error-logo-size: var(--textarea-error-logo-size, calc(var(--_textarea-height) / 2));--_textarea-font-size: var(--textarea-font-size, var(--form-element-font-size, 16px));--_textarea-font-size-label: var(--textarea-font-size-label, var(--form-element-font-size-label, calc(var(--_textarea-font-size) * 0.95)));--_textarea-input-border: var(--textarea-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_textarea-border-radius: var(--textarea-border-radius, var(--form-element-border-radius, 0));--_textarea-autogrow-max-height: var(--textarea-autogrow-max-height, none)}:host{min-width:100px;width:100%}:host label{cursor:pointer;display:none;font-size:var(--_textarea-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_textarea-background-color);border:var(--_textarea-input-border);border-radius:var(--_textarea-border-radius);display:flex;height:var(--_textarea-height);min-height:var(--_textarea-height);padding:0 10px;position:relative;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_textarea-icon-height);margin-right:10px}:host .input textarea{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-family:"Roboto",sans-serif;font-size:var(--_textarea-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px;resize:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_textarea-error-logo-size) - 5px);height:var(--_textarea-error-logo-size);justify-content:center;width:var(--_textarea-error-logo-size)}:host .input rk-resize{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([resize]) .input rk-resize{display:block}:host([autogrow]) .input{max-height:var(--_textarea-autogrow-max-height)}:host([autogrow]) .input textarea{overflow:auto;max-height:var(--_textarea-autogrow-max-height)}`;
-    __getStatic() {
-        return Textarea;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Textarea.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<label for="input" _id="textarea_0"></label><div class="input" _id="textarea_1">    <rk-img class="icon" _id="textarea_2"></rk-img>    <textarea rows="1" id="input" _id="textarea_3"></textarea>    <div class="error-logo">!</div>    <rk-resize _id="textarea_4"></rk-resize></div><div class="errors">    <template _id="textarea_5"></template></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "inputCont",
-      "ids": [
-        "textarea_1"
-      ]
-    },
-    {
-      "name": "inputEl",
-      "ids": [
-        "textarea_3"
-      ]
-    },
-    {
-      "name": "resizeEl",
-      "ids": [
-        "textarea_4"
-      ]
-    }
-  ],
-  "content": {
-    "textarea_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__1d98574e598563b66bef89b75eeea5admethod1())}`,
-      "once": true
-    },
-    "textarea_2°src": {
-      "fct": (c) => `${c.print(c.comp.__1d98574e598563b66bef89b75eeea5admethod2())}`,
-      "once": true
-    },
-    "textarea_3°placeholder": {
-      "fct": (c) => `${c.print(c.comp.__1d98574e598563b66bef89b75eeea5admethod3())}`,
-      "once": true
-    }
-  },
-  "events": [
-    {
-      "eventName": "focus",
-      "id": "textarea_3",
-      "fct": (e, c) => c.comp.removeErrors(e)
-    },
-    {
-      "eventName": "input",
-      "id": "textarea_3",
-      "fct": (e, c) => c.comp.onValueChange(e)
-    }
-  ]
-});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <template _id="textarea_6"></template>    `);this.__getStatic().__template.addLoop({
-                    anchorId: 'textarea_5',
-                    template: templ0,
-                simple:{data: "this.errors",item:"error"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`            <div _id="textarea_7"></div>        `);templ1.setActions({
-  "content": {
-    "textarea_7°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__1d98574e598563b66bef89b75eeea5admethod4(c.data.error))}`,
-      "once": true
-    }
-  }
-});templ0.addIf({
-                    anchorId: 'textarea_6',
-                    parts: [{once: true,
-                    condition: (c) => true,
-                    template: templ1
-                }]
-            }); }
-    getClassName() {
-        return "Textarea";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('resize')) { this.attributeChangedCallback('resize', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = ""; }if(!this.hasAttribute('autogrow')) { this.attributeChangedCallback('autogrow', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('resize');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('value');this.__upgradeProperty('autogrow'); }
-    __listBoolProps() { return ["resize","autogrow"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    removeErrors() {
-        this.errors = [];
-    }
-    enableResizeObserver() {
-        if (this.autogrow)
-            this.resizeObserver.observe(this);
-        else
-            this.resizeObserver.unobserve(this);
-    }
-    calculateAutoGrow() {
-        if (this.autogrow) {
-            this.inputEl.style.height = 'auto';
-            let h = this.inputEl.scrollHeight + 'px';
-            this.inputEl.style.height = h;
-            this.inputCont.style.height = h;
-        }
-    }
-    onValueChange() {
-        this.calculateAutoGrow();
-        this.value = this.inputEl.value;
-        this.onChange.trigger(this.value);
-        if (this.formPart) {
-            this.formPart.value.set(this.value);
-        }
-    }
-    postCreation() {
-        if (this.resize) {
-            this.resizeEl.init(this.inputCont);
-        }
-        this.resizeObserver = new Aventus.ResizeObserver(() => {
-            if (this.autogrow) {
-                this.calculateAutoGrow();
-            }
-        });
-        this.enableResizeObserver();
-        this.calculateAutoGrow();
-    }
-    __1d98574e598563b66bef89b75eeea5admethod1() {
-        return this.label;
-    }
-    __1d98574e598563b66bef89b75eeea5admethod2() {
-        return this.icon;
-    }
-    __1d98574e598563b66bef89b75eeea5admethod3() {
-        return this.placeholder;
-    }
-    __1d98574e598563b66bef89b75eeea5admethod4(error) {
-        return error;
-    }
-}
-Components.Textarea.Namespace=`Core.Components`;
-Components.Textarea.Tag=`rk-textarea`;
-__as1(_.Components, 'Textarea', Components.Textarea);
-if(!window.customElements.get('rk-textarea')){window.customElements.define('rk-textarea', Components.Textarea);Aventus.WebComponentInstance.registerDefinition(Components.Textarea);}
-
-Components.Switch = class Switch extends Components.FormElement {
-    static get observedAttributes() {return ["label", "label2", "disabled", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'label_end'() { return this.getBoolAttr('label_end') }
-    set 'label_end'(val) { this.setBoolAttr('label_end', val) }    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }get 'label2'() { return this.getStringProp('label2') }
-    set 'label2'(val) { this.setStringAttr('label2', val) }get 'disabled'() { return this.getBoolProp('disabled') }
-    set 'disabled'(val) { this.setBoolAttr('disabled', val) }get 'checked'() { return this.getBoolProp('checked') }
-    set 'checked'(val) { this.setBoolAttr('checked', val) }    get 'value'() {
-						return this.__watch["value"];
-					}
-					set 'value'(val) {
-						this.__watch["value"] = val;
-					}    __registerWatchesActions() {
-    this.__addWatchesActions("value", ((target) => {
-    target.checked = target.value;
-}));    super.__registerWatchesActions();
-}
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("disabled", ((target) => {
-}));this.__addPropertyActions("checked", ((target) => {
-    target.value = target.checked;
-})); }
-    static __style = `:host{--_switch-background-color: var(--switch-background-color, var(--form-element-background, white));--_switch-dot-size: var(--switch-dot-size, 20px);--_switch-dot-color: var(--switch-dot-color, var(--secondary-color));--_switch-active-dot-color: var(--switch-active-dot-color, var(--secondary-color-active));--_switch-active-background-color: var(--switch-active-background-color, var(--secondary-color));--_switch-font-size: var(--switch-font-size, var(--form-element-font-size, 16px));--_switch-font-size-label: var(--switch-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_switch-border-radius: var(--switch-border-radius, 10px);--_switch-margin-label: var(--switch-margin-label, 30px);--_switch-label-width: var(--switch-label-width, auto)}:host{align-items:center;display:flex;font-size:var(--_switch-font-size);min-height:var(--_switch-dot-size);width:100%}:host .label:not(:empty){cursor:pointer;display:inline-block;font-size:var(--_switch-font-size-label);margin-right:var(--_switch-margin-label);transition:filter .3s var(--bezier-curve);width:var(--_switch-label-width)}:host .label2:not(:empty){cursor:pointer;display:none;font-size:var(--_switch-font-size-label);margin-left:var(--_switch-margin-label);transition:filter .3s var(--bezier-curve);width:var(--_switch-label-width)}:host .bar{align-items:center;background-color:var(--_switch-background-color);border-radius:var(--_switch-border-radius);cursor:pointer;display:flex;height:10px;position:relative;transition:filter .3s var(--bezier-curve);width:30px}:host .bar input{appearance:none;background-color:rgba(0,0,0,0);border:0;cursor:pointer;height:100%;left:0;margin:0;outline:none;padding:0;position:absolute;top:0;width:100%}:host .bar .bar-content{align-items:center;background-color:rgba(0,0,0,0);display:flex;height:100%;pointer-events:none;position:relative;width:100%}:host .bar .bar-content .dot{background-color:var(--_switch-dot-color);border-radius:var(--border-radius-round);box-shadow:none;cursor:pointer;height:var(--_switch-dot-size);left:0%;pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_switch-dot-size)}:host .bar .bar-content .bar-fill{background-color:var(--_switch-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:0%}:host .bar input:checked+.bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host .bar input:checked+.bar-content .bar-fill{width:100%}:host([label_end]:not([label2])) .label:not(:empty){margin-left:var(--_switch-margin-label);margin-right:0px;order:2}:host([label2]) .label2{display:inline-block}:host([checked]) .bar .bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host([checked]) .bar .bar-content .bar-fill{width:100%}:host([disabled]) .bar{cursor:not-allowed;filter:brightness(0.75)}:host([disabled]) .bar input{cursor:not-allowed}:host([disabled]) .bar .bar-content .dot{cursor:not-allowed}:host([disabled]) .label{cursor:default;filter:brightness(0.75)}`;
-    __getStatic() {
-        return Switch;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Switch.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="label" _id="switch_0"></div><div class="bar" _id="switch_1">    <div class="bar-content">        <div class="bar-fill"></div>        <div class="dot"></div>    </div></div><div class="label2" _id="switch_2"></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "switch_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__0c8ab707a91de23d54bc9c39ebe1aeafmethod0())}`,
-      "once": true
-    },
-    "switch_2°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__0c8ab707a91de23d54bc9c39ebe1aeafmethod1())}`,
-      "once": true
-    }
-  },
-  "pressEvents": [
-    {
-      "id": "switch_0",
-      "onPress": (e, pressInstance, c) => { c.comp.setInactive(e, pressInstance); }
-    },
-    {
-      "id": "switch_1",
-      "onPress": (e, pressInstance, c) => { c.comp.toggleActive(e, pressInstance); }
-    },
-    {
-      "id": "switch_2",
-      "onPress": (e, pressInstance, c) => { c.comp.setActive(e, pressInstance); }
-    }
-  ]
-}); }
-    getClassName() {
-        return "Switch";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label_end')) { this.attributeChangedCallback('label_end', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('label2')){ this['label2'] = undefined; }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('checked')) { this.attributeChangedCallback('checked', false, false); } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = false; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label_end');this.__upgradeProperty('label');this.__upgradeProperty('label2');this.__upgradeProperty('disabled');this.__upgradeProperty('checked');this.__correctGetter('value'); }
-    __listBoolProps() { return ["label_end","disabled","checked"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    toggleActive() {
-        if (this.disabled)
-            return;
-        this.checked = !this.checked;
-        this.onChange.trigger(this.checked);
-        if (this.formPart) {
-            this.formPart.value.set(this.value);
-        }
-    }
-    setInactive() {
-        if (this.label2) {
-            if (this.checked) {
-                this.checked = !this.checked;
-                this.onChange.trigger(this.checked);
-                if (this.formPart) {
-                    this.formPart.value.set(this.value);
-                }
-            }
-        }
-        else {
-            this.toggleActive();
-        }
-    }
-    setActive() {
-        if (!this.checked) {
-            this.checked = !this.checked;
-            this.onChange.trigger(this.checked);
-            if (this.formPart) {
-                this.formPart.value.set(this.value);
-            }
-        }
-    }
-    __0c8ab707a91de23d54bc9c39ebe1aeafmethod0() {
-        return this.label;
-    }
-    __0c8ab707a91de23d54bc9c39ebe1aeafmethod1() {
-        return this.label2;
-    }
-}
-Components.Switch.Namespace=`Core.Components`;
-Components.Switch.Tag=`rk-switch`;
-__as1(_.Components, 'Switch', Components.Switch);
-if(!window.customElements.get('rk-switch')){window.customElements.define('rk-switch', Components.Switch);Aventus.WebComponentInstance.registerDefinition(Components.Switch);}
-
-Components.Slider = class Slider extends Components.FormElement {
-    static get observedAttributes() {return ["label", "min", "max", "value", "step"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'popup'() { return this.getStringAttr('popup') }
-    set 'popup'(val) { this.setStringAttr('popup', val) }get 'no_transition'() { return this.getBoolAttr('no_transition') }
-    set 'no_transition'(val) { this.setBoolAttr('no_transition', val) }get 'popup_visible'() { return this.getBoolAttr('popup_visible') }
-    set 'popup_visible'(val) { this.setBoolAttr('popup_visible', val) }    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }get 'min'() { return this.getNumberProp('min') }
-    set 'min'(val) { this.setNumberAttr('min', val) }get 'max'() { return this.getNumberProp('max') }
-    set 'max'(val) { this.setNumberAttr('max', val) }get 'value'() { return this.getNumberProp('value') }
-    set 'value'(val) { this.setNumberAttr('value', val) }get 'step'() { return this.getNumberProp('step') }
-    set 'step'(val) { this.setNumberAttr('step', val) }    currentPercent = 0;
-    timerPopup = 0;
-    onDragStart = new Aventus.Callback();
-    onDragStop = new Aventus.Callback();
-    onValidateValue = new Aventus.Callback();
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("min", ((target) => {
-    target.calculatePercent();
-}));this.__addPropertyActions("max", ((target) => {
-    target.calculatePercent();
-}));this.__addPropertyActions("value", ((target) => {
-    target.calculatePercent();
-})); }
-    static __style = `:host{--_slider-background-color: var(--slider-background-color, var(--form-element-background, white));--_slider-background-image: var(--slider-background-image, none);--_slider-background-position: var(--slider-background-position, 0 0);--_slider-background-size: var(--slider-background-size, auto);--_slider-active-background-color: var(--slider-active-background-color, var(--secondary-color-active));--_slider-dot-color: var(--slider-dot-color, var(--secondary-color));--_slider-dot-size: var(--slider-dot-size, var(--form-element-font-size, 16px));--_slider-popup-font-size: var(--slider-popup-font-size, var(--font-size-sm));--_slider-font-size-label: var(--slider-font-size-label, var(--form-element-font-size-label));--_slider-border-radius: var(--slider-border-radius, var(--form-element-border-radius));--_slider-bar-height: var(--slider-bar-height, 5px);--_slider-height: var(--slider-height, var(--input-height, 30px));--local-slider-dot-percent: 0%}:host{align-items:center;display:flex;flex-direction:column;justify-content:center;min-width:100px;width:100%}:host label{cursor:pointer;display:none;flex-shrink:0;font-size:var(--_slider-font-size-label);margin-bottom:5px;margin-left:3px;width:100%}:host .input{align-items:center;display:flex;height:var(--_slider-height);width:100%}:host .input .bar{align-items:center;background-color:var(--_slider-background-color);background-image:var(--_slider-background-image);background-position:var(--_slider-background-position);background-size:var(--_slider-background-size);border-radius:var(--_slider-border-radius);cursor:pointer;display:flex;flex-direction:row;flex-shrink:0;height:var(--_slider-bar-height);position:relative;width:100%}:host .input .bar .bar-fill{background-color:var(--_slider-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:var(--local-slider-dot-percent)}:host .input .bar .dot{background-color:var(--_slider-dot-color);border-radius:var(--border-radius-round);box-shadow:var(--elevation-2);cursor:pointer;height:var(--_slider-dot-size);left:var(--local-slider-dot-percent);pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_slider-dot-size);z-index:10}:host .input .bar .value{background-color:var(--_slider-dot-color);border-radius:var(--_slider-border-radius);box-shadow:var(--elevation-2);font-size:var(--_slider-popup-font-size);left:var(--local-slider-dot-percent);opacity:1;padding:5px 10px;padding-bottom:2px;position:absolute;top:0;transform:translateY(calc(-100% - 12px)) translateX(-50%);transform-origin:center center;transition:left var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s;visibility:visible}:host .input .bar .value::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:8px solid var(--_slider-dot-color);bottom:-7px;content:"";left:50%;position:absolute;transform:translateX(-50%)}:host([no_transition]) .input .bar .bar-fill{transition:none}:host([no_transition]) .input .bar .dot{transition:none}:host([no_transition]) .input .bar .value{transition:opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s}:host(:not([popup_visible])) .input .bar .value{opacity:0;visibility:hidden}:host([label]:not([label=""])) label{display:flex}`;
-    __getStatic() {
-        return Slider;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Slider.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        slots: { 'dot':`<slot name="dot"></slot>`,'bar':`<slot name="bar"></slot>` }, 
-        blocks: { 'default':`<label for="element" class="label" _id="slider_0"></label><div class="input">    <div class="bar" _id="slider_1">        <div class="value" part="popup" _id="slider_2"></div>        <div class="bar-fill">        </div>        <div class="dot" _id="slider_3">            <slot name="dot"></slot>        </div>        <slot name="bar"></slot>    </div></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "barEl",
-      "ids": [
-        "slider_1"
-      ]
-    },
-    {
-      "name": "dotEl",
-      "ids": [
-        "slider_3"
-      ]
-    }
-  ],
-  "content": {
-    "slider_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__2a6eb0eb8efd251816e4040a1af5645dmethod0())}`,
-      "once": true
-    },
-    "slider_2°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__2a6eb0eb8efd251816e4040a1af5645dmethod1())}`,
-      "once": true
-    }
-  }
-}); }
-    getClassName() {
-        return "Slider";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('popup')){ this['popup'] = 'never'; }if(!this.hasAttribute('no_transition')) { this.attributeChangedCallback('no_transition', false, false); }if(!this.hasAttribute('popup_visible')) { this.attributeChangedCallback('popup_visible', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('min')){ this['min'] = 0; }if(!this.hasAttribute('max')){ this['max'] = 100; }if(!this.hasAttribute('value')){ this['value'] = 0; }if(!this.hasAttribute('step')){ this['step'] = 1; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('popup');this.__upgradeProperty('no_transition');this.__upgradeProperty('popup_visible');this.__upgradeProperty('label');this.__upgradeProperty('min');this.__upgradeProperty('max');this.__upgradeProperty('value');this.__upgradeProperty('step'); }
-    __listBoolProps() { return ["no_transition","popup_visible"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    addMoveDot() {
-        let startX = 0;
-        let currentPosition = 0;
-        new Aventus.DragAndDrop({
-            element: this.dotEl,
-            applyDrag: false,
-            offsetDrag: 0,
-            stopPropagation: false,
-            onPointerDown: (e) => {
-                _.Components.Scrollable.lock(this);
-                this.no_transition = true;
-                if (this.popup == "onMove") {
-                    clearTimeout(this.timerPopup);
-                    this.popup_visible = true;
-                }
-                this.onDragStart.trigger();
-            },
-            onStart: (e) => {
-                startX = e.pageX;
-                currentPosition = this.dotEl.offsetLeft;
-            },
-            onMove: (e) => {
-                let diff = startX - e.pageX;
-                let newPosition = currentPosition - diff;
-                let percent = newPosition / this.offsetWidth * 100;
-                this.setPercent(percent);
-                this.calculateValue();
-            },
-            onPointerUp: () => {
-                _.Components.Scrollable.unlock(this);
-                this.no_transition = false;
-                if (this.popup == "onMove") {
-                    this.timerPopup = setTimeout(() => {
-                        this.popup_visible = false;
-                    }, 1000);
-                }
-                this.onDragStop.trigger();
-            }
-        });
-    }
-    addClickBar() {
-        new Aventus.PressManager({
-            element: this.barEl,
-            onPress: (e) => {
-                let left = this.getBoundingClientRect().left;
-                let newPosition = e.pageX - left;
-                let percent = newPosition / this.offsetWidth * 100;
-                this.setPercent(percent);
-                this.calculateValue();
-                if (this.popup == "onMove") {
-                    clearTimeout(this.timerPopup);
-                    this.timerPopup = setTimeout(() => {
-                        this.popup_visible = false;
-                    }, 1000);
-                    this.popup_visible = true;
-                }
-            }
-        });
-    }
-    calculatePercent(value) {
-        if (!this.isConnected)
-            return;
-        if (value === undefined) {
-            value = this.value;
-        }
-        let range = this.max - this.min;
-        let percent = (value - this.min) / range * 100;
-        this.setPercent(percent);
-    }
-    calculateValue(emit = true) {
-        let range = this.max - this.min;
-        let value = (range * this.currentPercent / 100) + this.min;
-        let diff = value % this.step;
-        if (diff > this.step / 2) {
-            value += (this.step - diff);
-        }
-        else {
-            value -= diff;
-        }
-        let result = this.onValidateValue.trigger(value);
-        if (result.length > 0) {
-            if (result[0] != value) {
-                // we correct the value so apply percent
-                this.calculatePercent(result[0]);
-                value = result[0];
-            }
-        }
-        if (value != this.value) {
-            this.value = value;
-            if (emit) {
-                this.onChange.trigger(value);
-                if (this.formPart) {
-                    this.formPart.value.set(this.value);
-                }
-            }
-        }
-    }
-    setPercent(percent) {
-        if (percent < 0) {
-            percent = 0;
-        }
-        else if (percent > 100) {
-            percent = 100;
-        }
-        // correct step
-        let range = this.max - this.min;
-        let value = (range * percent / 100) + this.min;
-        let diff = value % this.step;
-        if (diff > this.step / 2) {
-            value += (this.step - diff);
-        }
-        else {
-            value -= diff;
-        }
-        percent = (value - this.min) / range * 100;
-        this.currentPercent = percent;
-        this.style.setProperty("--local-slider-dot-percent", percent + "%");
-    }
-    removeErrors() {
-        this.errors = [];
-    }
-    postCreation() {
-        super.postCreation();
-        this.addMoveDot();
-        this.addClickBar();
-        this.calculatePercent();
-        this.calculateValue(false);
-        if (this.popup == 'always') {
-            this.popup_visible = true;
-        }
-    }
-    __2a6eb0eb8efd251816e4040a1af5645dmethod0() {
-        return this.label;
-    }
-    __2a6eb0eb8efd251816e4040a1af5645dmethod1() {
-        return this.value;
-    }
-}
-Components.Slider.Namespace=`Core.Components`;
-Components.Slider.Tag=`rk-slider`;
-__as1(_.Components, 'Slider', Components.Slider);
-if(!window.customElements.get('rk-slider')){window.customElements.define('rk-slider', Components.Slider);Aventus.WebComponentInstance.registerDefinition(Components.Slider);}
-
-Components.InputNumber = class InputNumber extends Components.FormElement {
-    static get observedAttributes() {return ["label", "placeholder", "icon", "min", "max", "unit", "round"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'readonly'() { return this.getBoolAttr('readonly') }
-    set 'readonly'(val) { this.setBoolAttr('readonly', val) }    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
-    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }get 'min'() { return this.getNumberProp('min') }
-    set 'min'(val) { this.setNumberAttr('min', val) }get 'max'() { return this.getNumberProp('max') }
-    set 'max'(val) { this.setNumberAttr('max', val) }get 'unit'() { return this.getStringProp('unit') }
-    set 'unit'(val) { this.setStringAttr('unit', val) }get 'round'() { return this.getStringProp('round') }
-    set 'round'(val) { this.setStringAttr('round', val) }    get 'value'() {
-						return this.__watch["value"];
-					}
-					set 'value'(val) {
-						this.__watch["value"] = val;
-					}    errorsTxt = {};
-    defaultErrorsTxt = {
-        notNumber: "Le nombre n'est pas valide",
-        lowerThanMin: "Le nombre n'est pas plus grand que " + this.min,
-        biggerThanMax: "Le nombre n'est pas plus petit que " + this.max,
-    };
-    roundFactor = undefined;
-    __registerWatchesActions() {
-    this.__addWatchesActions("value", ((target) => {
-    target.inputEl.value = target.value !== undefined ? target.value + '' : '';
-    if (target.value !== undefined)
-        target.value = target._round(target.value);
-}));    super.__registerWatchesActions();
-}
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("round", ((target) => {
-    target.setRoundFactor();
-})); }
-    static __style = `:host{--_input-number-height: var(--input-number-height, 30px);--_input-number-background-color: var(--input-number-background-color, var(--form-element-background, white));--_input-number-icon-height: var(--input-number-icon-height, calc(var(--_input-number-height) / 2));--_input-number-error-logo-size: var(--input-number-error-logo-size, calc(var(--_input-number-height) / 2));--_input-number-font-size: var(--input-number-font-size, var(--form-element-font-size, 16px));--_input-number-font-size-label: var(--input-number-font-size-label, var(--form-element-font-size-label, calc(var(--_input-number-font-size) * 0.95)));--_input-number-input-border: var(--input-number-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-number-border-radius: var(--input-number-border-radius, var(--form-element-border-radius, 0));--_input-number-unit-background-color: var(--input-number-unit-background-color, var(--secondary-color));--_input-number-unit-color: var(--input-number-unit-color, var(--text-color-secondary));--_input-number-readonly-background-color: var(--input-number-readonly-background-color, var(--form-element-background-readonly, var(--_input-number-background-color)));--_input-number-readonly-border: var(--input-number-readonly-border, var(--form-element-border-readonly, var(--_input-number-input-border)))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-number-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-number-background-color);border:var(--_input-number-input-border);border-radius:var(--_input-number-border-radius);display:flex;height:var(--_input-number-height);overflow:hidden;padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-number-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-number-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-number-error-logo-size) - 5px);height:var(--_input-number-error-logo-size);justify-content:center;width:var(--_input-number-error-logo-size)}:host .input .unit{align-items:center;background-color:var(--_input-number-unit-background-color);color:var(--_input-number-unit-color);display:flex;font-size:14px;height:100%;justify-content:center;margin-right:-10px;padding-left:10px;padding-right:10px}:host .input .unit:empty{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:0 10px}:host .errors>div{margin:5px 0}:host .errors>div:first-child{margin-top:10px}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .input .unit{margin-right:-25px;padding-right:30px}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([readonly]){pointer-events:none}:host([readonly]) .input{background-color:var(--_input-readonly-background-color);border:var(--_input-readonly-border)}`;
-    __getStatic() {
-        return InputNumber;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(InputNumber.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        slots: { 'append':`<slot name="append">        <span class="unit" _id="inputnumber_3"></span>    </slot>` }, 
-        blocks: { 'default':`<label for="input" _id="inputnumber_0"></label><div class="input">    <rk-img class="icon" _id="inputnumber_1"></rk-img>    <input inputmode="numeric" pattern="[0-9]*" autocomplete="off" id="input" _id="inputnumber_2" />    <slot name="append">        <span class="unit" _id="inputnumber_3"></span>    </slot>    <div class="error-logo">!</div></div><div class="errors">    <template _id="inputnumber_4"></template></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "inputEl",
-      "ids": [
-        "inputnumber_2"
-      ]
-    }
-  ],
-  "content": {
-    "inputnumber_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method1())}`,
-      "once": true
-    },
-    "inputnumber_1°src": {
-      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method2())}`,
-      "once": true
-    },
-    "inputnumber_2°placeholder": {
-      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method3())}`,
-      "once": true
-    },
-    "inputnumber_3°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method4())}`,
-      "once": true
-    }
-  },
-  "events": [
-    {
-      "eventName": "focus",
-      "id": "inputnumber_2",
-      "fct": (e, c) => c.comp.removeErrors(e)
-    },
-    {
-      "eventName": "input",
-      "id": "inputnumber_2",
-      "fct": (e, c) => c.comp.onValueChange(e)
-    },
-    {
-      "eventName": "blur",
-      "id": "inputnumber_2",
-      "fct": (e, c) => c.comp.validate(e)
-    }
-  ]
-});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <div _id="inputnumber_5"></div>    `);templ0.setActions({
-  "content": {
-    "inputnumber_5°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__181298e531eab1a15f907371f4223808method5(c.data.error))}`,
-      "once": true
-    }
-  }
-});this.__getStatic().__template.addLoop({
-                    anchorId: 'inputnumber_4',
-                    template: templ0,
-                simple:{data: "this.errors",item:"error"}}); }
-    getClassName() {
-        return "InputNumber";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('readonly')) { this.attributeChangedCallback('readonly', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('min')){ this['min'] = undefined; }if(!this.hasAttribute('max')){ this['max'] = undefined; }if(!this.hasAttribute('unit')){ this['unit'] = undefined; }if(!this.hasAttribute('round')){ this['round'] = undefined; } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('readonly');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('min');this.__upgradeProperty('max');this.__upgradeProperty('unit');this.__upgradeProperty('round');this.__correctGetter('value'); }
-    __listBoolProps() { return ["readonly"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    setRoundFactor() {
-        if (this.round) {
-            let nb = Number(this.round);
-            if (!isNaN(nb)) {
-                this.roundFactor = Math.pow(10, nb);
-                return;
-            }
-        }
-        this.roundFactor = undefined;
-    }
-    removeErrors() {
-        this.errors = [];
-    }
-    isNullNumber() {
-        if (this.inputEl.value === '')
-            return true;
-        let valueTemp = Number(this.inputEl.value);
-        if (!this.inputEl.value || isNaN(valueTemp)) {
-            return false;
-        }
-        return true;
-    }
-    isBiggerThanMin() {
-        if (this.value === undefined)
-            return true;
-        if (this.min != 0 || this.hasAttribute("min")) {
-            return this.value >= this.min;
-        }
-        return true;
-    }
-    isLowerThanMax() {
-        if (this.value === undefined)
-            return true;
-        if (this.max != 0 || this.hasAttribute("max")) {
-            return this.value <= this.max;
-        }
-        return true;
-    }
-    localValidation() {
-        let errors = [];
-        if (!this.isNullNumber()) {
-            const txt = this.errorsTxt.notNumber ?? this.defaultErrorsTxt.notNumber;
-            errors.push(txt);
-        }
-        else if (!this.isBiggerThanMin()) {
-            const txt = this.errorsTxt.lowerThanMin ?? this.defaultErrorsTxt.lowerThanMin;
-            errors.push(txt);
-        }
-        else if (!this.isLowerThanMax()) {
-            const txt = this.errorsTxt.biggerThanMax ?? this.defaultErrorsTxt.biggerThanMax;
-            errors.push(txt);
-        }
-        return errors;
-    }
-    onFormValidation(errors) {
-        errors = [...this.localValidation(), ...errors];
-        return super.onFormValidation(errors);
-    }
-    _round(nb) {
-        if (this.roundFactor) {
-            return Math.round(nb * this.roundFactor) / this.roundFactor;
-        }
-        return nb;
-    }
-    async validate() {
-        if (!this.formPart) {
-            this.errors = this.localValidation();
-            return this.errors.length == 0;
-        }
-        return await this.formPart.test();
-    }
-    onValueChange() {
-        if (!this.isNullNumber()) {
-            return;
-        }
-        if (this.inputEl.value === '') {
-            this.value = undefined;
-        }
-        else {
-            this.value = Number(this.inputEl.value);
-        }
-        this.onChange.trigger(this.value);
-        if (this.formPart) {
-            this.formPart.value.set(this.value);
-        }
-    }
-    __181298e531eab1a15f907371f4223808method1() {
-        return this.label;
-    }
-    __181298e531eab1a15f907371f4223808method2() {
-        return this.icon;
-    }
-    __181298e531eab1a15f907371f4223808method3() {
-        return this.placeholder;
-    }
-    __181298e531eab1a15f907371f4223808method4() {
-        return this.unit;
-    }
-    __181298e531eab1a15f907371f4223808method5(error) {
-        return error;
-    }
-}
-Components.InputNumber.Namespace=`Core.Components`;
-Components.InputNumber.Tag=`rk-input-number`;
-__as1(_.Components, 'InputNumber', Components.InputNumber);
-if(!window.customElements.get('rk-input-number')){window.customElements.define('rk-input-number', Components.InputNumber);Aventus.WebComponentInstance.registerDefinition(Components.InputNumber);}
-
-Components.InputImage = class InputImage extends Components.FormElement {
-    static get observedAttributes() {return ["label", "default_preview", "no_default_preview"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'deletable'() { return this.getBoolAttr('deletable') }
-    set 'deletable'(val) { this.setBoolAttr('deletable', val) }get 'show_delete'() { return this.getBoolAttr('show_delete') }
-    set 'show_delete'(val) { this.setBoolAttr('show_delete', val) }    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }get 'default_preview'() { return this.getStringProp('default_preview') }
-    set 'default_preview'(val) { this.setStringAttr('default_preview', val) }get 'no_default_preview'() { return this.getBoolProp('no_default_preview') }
-    set 'no_default_preview'(val) { this.setBoolAttr('no_default_preview', val) }    get 'value'() {
-						return this.__watch["value"];
-					}
-					set 'value'(val) {
-						this.__watch["value"] = val;
-					}get 'previewUri'() {
-						return this.__watch["previewUri"];
-					}
-					set 'previewUri'(val) {
-						this.__watch["previewUri"] = val;
-					}    __registerWatchesActions() {
-    this.__addWatchesActions("value", ((target) => {
-    target.setPreview();
-}));this.__addWatchesActions("previewUri");    super.__registerWatchesActions();
-}
-    static __style = `:host{--_input-image-height: var(--input-image-height, 30px);--_input-image-font-size-label: var(--input-image-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)))}:host label{cursor:pointer;display:none;font-size:var(--_input-image-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;display:flex;height:var(--_input-image-height);padding:0 10px;width:100%}:host .input .preview{aspect-ratio:1;height:100%;position:relative}:host .input .preview .remove{background-color:var(--red);color:var(--text-color-red);border-radius:50px;box-shadow:var(--elevation-3);cursor:pointer;display:none;font-size:var(--font-size-sm);padding:2px;position:absolute;right:0;top:0;transform:translate(50%, -50%)}:host .input .preview rk-img{height:100%;width:100%}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([label]:not([label=""])) label{display:flex}:host([has_errors]) .errors{display:block}:host([show_delete]) .input .preview .remove{display:inline-block}`;
-    __getStatic() {
-        return InputImage;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(InputImage.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<label for="input" _id="inputimage_0"></label><div class="input">    <div class="preview" _id="inputimage_1">        <rk-img _id="inputimage_2"></rk-img>        <mi-icon icon="close" class="remove" _id="inputimage_3"></mi-icon>    </div>    <input id="input" type="file" style="display:none" accept="image/png, image/gif, image/jpeg, image/webp, .svg" _id="inputimage_4" /></div><div class="errors">    <template _id="inputimage_5"></template></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "previewEl",
-      "ids": [
-        "inputimage_1"
-      ]
-    },
-    {
-      "name": "inputFileEl",
-      "ids": [
-        "inputimage_4"
-      ]
-    }
-  ],
-  "content": {
-    "inputimage_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__c66fe4df2e94c01dbd0ac78b58c03d92method1())}`,
-      "once": true
-    },
-    "inputimage_2°src": {
-      "fct": (c) => `${c.print(c.comp.__c66fe4df2e94c01dbd0ac78b58c03d92method2())}`,
-      "once": true
-    }
-  },
-  "events": [
-    {
-      "eventName": "change",
-      "id": "inputimage_4",
-      "fct": (e, c) => c.comp.updateFile(e)
-    }
-  ],
-  "pressEvents": [
-    {
-      "id": "inputimage_1",
-      "onPress": (e, pressInstance, c) => { c.comp.clickFile(e, pressInstance); }
-    },
-    {
-      "id": "inputimage_3",
-      "onPress": (e, pressInstance, c) => { c.comp.deleteFile(e, pressInstance); }
-    }
-  ]
-});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <template _id="inputimage_6"></template>    `);this.__getStatic().__template.addLoop({
-                    anchorId: 'inputimage_5',
-                    template: templ0,
-                simple:{data: "this.errors",item:"error"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`            <div _id="inputimage_7"></div>        `);templ1.setActions({
-  "content": {
-    "inputimage_7°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__c66fe4df2e94c01dbd0ac78b58c03d92method3(c.data.error))}`,
-      "once": true
-    }
-  }
-});templ0.addIf({
-                    anchorId: 'inputimage_6',
-                    parts: [{once: true,
-                    condition: (c) => true,
-                    template: templ1
-                }]
-            }); }
-    getClassName() {
-        return "InputImage";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('deletable')) {this.setAttribute('deletable' ,'true'); }if(!this.hasAttribute('show_delete')) { this.attributeChangedCallback('show_delete', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('default_preview')){ this['default_preview'] = "/img/icons/default_img.svg"; }if(!this.hasAttribute('no_default_preview')) { this.attributeChangedCallback('no_default_preview', false, false); } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined;w["previewUri"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('deletable');this.__upgradeProperty('show_delete');this.__upgradeProperty('label');this.__upgradeProperty('default_preview');this.__upgradeProperty('no_default_preview');this.__correctGetter('value');this.__correctGetter('previewUri'); }
-    __listBoolProps() { return ["deletable","show_delete","no_default_preview"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    setPreview() {
-        if (!this.value?.Uri) {
-            this.previewUri = this.no_default_preview ? '' : this.default_preview;
-        }
-        else {
-            this.previewUri = this.value.Uri;
-            if (this.deletable) {
-                this.show_delete = true;
-            }
-        }
-    }
-    updateFile() {
-        if (!this.value)
-            return;
-        this.errors = [];
-        if (this.inputFileEl.files && this.inputFileEl.files.length > 0) {
-            this.value.Upload = this.inputFileEl.files[0];
-            this.previewUri = URL.createObjectURL(this.inputFileEl.files[0]);
-            if (this.deletable) {
-                this.show_delete = true;
-            }
-        }
-        else {
-            this.value.Upload = undefined;
-            this.previewUri = this.default_preview;
-            this.show_delete = false;
-        }
-        this.onChange.trigger(this.value);
-        if (this.formPart) {
-            this.formPart.value.set(this.value);
-        }
-    }
-    deleteFile() {
-        this.inputFileEl.value = '';
-        this.updateFile();
-    }
-    clickFile() {
-        this.errors = [];
-        this.inputFileEl.click();
-    }
-    postCreation() {
-        this.setPreview();
-    }
-    __c66fe4df2e94c01dbd0ac78b58c03d92method1() {
-        return this.label;
-    }
-    __c66fe4df2e94c01dbd0ac78b58c03d92method2() {
-        return this.previewUri;
-    }
-    __c66fe4df2e94c01dbd0ac78b58c03d92method3(error) {
-        return error;
-    }
-}
-Components.InputImage.Namespace=`Core.Components`;
-Components.InputImage.Tag=`rk-input-image`;
-__as1(_.Components, 'InputImage', Components.InputImage);
-if(!window.customElements.get('rk-input-image')){window.customElements.define('rk-input-image', Components.InputImage);Aventus.WebComponentInstance.registerDefinition(Components.InputImage);}
-
-Components.InputDate = class InputDate extends Components.FormElement {
-    static get observedAttributes() {return ["label", "placeholder", "icon", "icon_position", "time"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'year_format'() { return this.getStringAttr('year_format') }
-    set 'year_format'(val) { this.setStringAttr('year_format', val) }get 'month_format'() { return this.getStringAttr('month_format') }
-    set 'month_format'(val) { this.setStringAttr('month_format', val) }get 'day_format'() { return this.getStringAttr('day_format') }
-    set 'day_format'(val) { this.setStringAttr('day_format', val) }get 'locale'() { return this.getStringAttr('locale') }
-    set 'locale'(val) { this.setStringAttr('locale', val) }get 'time_zone'() { return this.getStringAttr('time_zone') }
-    set 'time_zone'(val) { this.setStringAttr('time_zone', val) }get 'is_focus'() { return this.getBoolAttr('is_focus') }
-    set 'is_focus'(val) { this.setBoolAttr('is_focus', val) }get 'clearable'() { return this.getBoolAttr('clearable') }
-    set 'clearable'(val) { this.setBoolAttr('clearable', val) }get 'show_clear_icon'() { return this.getBoolAttr('show_clear_icon') }
-    set 'show_clear_icon'(val) { this.setBoolAttr('show_clear_icon', val) }    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
-    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }get 'icon_position'() { return this.getStringProp('icon_position') }
-    set 'icon_position'(val) { this.setStringAttr('icon_position', val) }get 'time'() { return this.getBoolProp('time') }
-    set 'time'(val) { this.setBoolAttr('time', val) }    get 'value'() {
-						return this.__watch["value"];
-					}
-					set 'value'(val) {
-						this.__watch["value"] = val;
-					}    __registerWatchesActions() {
-    this.__addWatchesActions("value", ((target) => {
-    target.setValueToInputs();
-}));    super.__registerWatchesActions();
-}
-    static __style = `:host{--_input-date-height: var(--input-date-height, 30px);--_input-date-background-color: var(--input-date-background-color, var(--form-element-background, white));--_input-date-icon-height: var(--input-date-icon-height, calc(var(--_input-date-height) / 2));--_input-date-error-logo-size: var(--input-date-error-logo-size, calc(var(--_input-date-height) / 2));--_input-date-font-size: var(--input-date-font-size, var(--form-element-font-size, 16px));--_input-date-font-size-label: var(--input-date-font-size-label, var(--form-element-font-size-label, calc(var(--_input-date-font-size) * 0.95)));--_input-date-input-border: var(--input-date-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-date-border-radius: var(--input-date-border-radius, var(--form-element-border-radius, 0))}:host{min-width:100px;width:100%}:host label{cursor:pointer;display:none;font-size:var(--_input-date-font-size-label);margin-bottom:5px;margin-left:3px;-webkit-tap-highlight-color:rgba(0,0,0,0)}:host .input{align-items:center;background-color:var(--_input-date-background-color);border:var(--_input-date-input-border);border-radius:var(--_input-date-border-radius);display:flex;height:var(--_input-date-height);padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-date-icon-height);margin-right:10px}:host .input .edit{align-items:center;display:flex;display:none;flex-grow:1;height:100%}:host .input .edit input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;font-size:var(--_input-date-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;text-align:center;width:20px}:host .input .edit .year-input{width:38px}:host .input .edit span{color:var(--text-color);font-size:var(--_input-date-font-size);height:100%;padding:5px 0;text-align:center}:host .input .visual{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-date-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;width:20px}:host .input .clear-icon{display:none;flex-shrink:0;font-size:18px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-date-error-logo-size) - 5px);height:var(--_input-date-error-logo-size);justify-content:center;width:var(--_input-date-error-logo-size)}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([icon_position=right]) .input .icon{margin-right:0px;order:2}:host([icon_position=right]) .input .input{order:1}:host([icon_position=right]) .input .error-logo{margin-left:10px;order:3}:host([label]:not([label=""])) label{display:flex}:host(:not([time])) .input .edit .time{display:none}:host([is_focus]) .input .edit{display:flex}:host([is_focus]) .input .visual{display:none}:host([show_clear_icon]) .input .clear-icon{display:inline-block}`;
-    __getStatic() {
-        return InputDate;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(InputDate.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        slots: { 'prepend':`<slot name="prepend">        <rk-img class="icon" _id="inputdate_1"></rk-img>    </slot>`,'append':`<slot name="append"></slot>` }, 
-        blocks: { 'default':`<label for="input" _id="inputdate_0"></label><div class="input">    <slot name="prepend">        <rk-img class="icon" _id="inputdate_1"></rk-img>    </slot>    <input class="visual" readonly _id="inputdate_2" />    <div class="edit">        <input autocomplete="off" inputmode="numeric" pattern="[0-9]*" placeholder="xx" _id="inputdate_3" />        <span>.</span>        <input autocomplete="off" inputmode="numeric" pattern="[0-9]*" placeholder="xx" _id="inputdate_4" />        <span>.</span>        <input class="year-input" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="xxxx" _id="inputdate_5" />        <span class="time">&nbsp;</span>        <input class="time" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="xx" _id="inputdate_6" />        <span class="time">:</span>        <input class="time" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="xx" _id="inputdate_7" />    </div>    <slot name="append"></slot>    <mi-icon class="clear-icon touch" icon="close" tabindex="-1" _id="inputdate_8"></mi-icon>    <div class="error-logo">!</div></div><div class="errors">    <template _id="inputdate_9"></template></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "iconEl",
-      "ids": [
-        "inputdate_1"
-      ]
-    },
-    {
-      "name": "dayEl",
-      "ids": [
-        "inputdate_3"
-      ]
-    },
-    {
-      "name": "monthEl",
-      "ids": [
-        "inputdate_4"
-      ]
-    },
-    {
-      "name": "yearEl",
-      "ids": [
-        "inputdate_5"
-      ]
-    },
-    {
-      "name": "hourEl",
-      "ids": [
-        "inputdate_6"
-      ]
-    },
-    {
-      "name": "minuteEl",
-      "ids": [
-        "inputdate_7"
-      ]
-    }
-  ],
-  "content": {
-    "inputdate_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method1())}`,
-      "once": true
-    },
-    "inputdate_1°src": {
-      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method2())}`,
-      "once": true
-    },
-    "inputdate_2°value": {
-      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method3())}`,
-      "once": true
-    }
-  },
-  "events": [
-    {
-      "eventName": "focus",
-      "id": "inputdate_3",
-      "fct": (e, c) => c.comp.selectContent(e)
-    },
-    {
-      "eventName": "keydown",
-      "id": "inputdate_3",
-      "fct": (e, c) => c.comp.triggerPoint(e)
-    },
-    {
-      "eventName": "keyup",
-      "id": "inputdate_3",
-      "fct": (e, c) => c.comp.validateLength2(e)
-    },
-    {
-      "eventName": "focus",
-      "id": "inputdate_4",
-      "fct": (e, c) => c.comp.selectContent(e)
-    },
-    {
-      "eventName": "keydown",
-      "id": "inputdate_4",
-      "fct": (e, c) => c.comp.triggerPoint(e)
-    },
-    {
-      "eventName": "keyup",
-      "id": "inputdate_4",
-      "fct": (e, c) => c.comp.validateLength2(e)
-    },
-    {
-      "eventName": "focus",
-      "id": "inputdate_5",
-      "fct": (e, c) => c.comp.selectContent(e)
-    },
-    {
-      "eventName": "keydown",
-      "id": "inputdate_5",
-      "fct": (e, c) => c.comp.triggerSpace(e)
-    },
-    {
-      "eventName": "keyup",
-      "id": "inputdate_5",
-      "fct": (e, c) => c.comp.validateLength4(e)
-    },
-    {
-      "eventName": "focus",
-      "id": "inputdate_6",
-      "fct": (e, c) => c.comp.selectContent(e)
-    },
-    {
-      "eventName": "keydown",
-      "id": "inputdate_6",
-      "fct": (e, c) => c.comp.triggerSemiCol(e)
-    },
-    {
-      "eventName": "keyup",
-      "id": "inputdate_6",
-      "fct": (e, c) => c.comp.validateLength2(e)
-    },
-    {
-      "eventName": "focus",
-      "id": "inputdate_7",
-      "fct": (e, c) => c.comp.selectContent(e)
-    },
-    {
-      "eventName": "focus",
-      "id": "inputdate_8",
-      "fct": (e, c) => c.comp.preventFocus(e)
-    }
-  ],
-  "pressEvents": [
-    {
-      "id": "inputdate_8",
-      "onPress": (e, pressInstance, c) => { c.comp.clearValue(e, pressInstance); }
-    }
-  ]
-});const templ0 = new Aventus.Template(this);templ0.setTemplate(`         <div _id="inputdate_10"></div>    `);templ0.setActions({
-  "content": {
-    "inputdate_10°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__85f0c0fbb346d55c45d594cadd252d33method4(c.data.error))}`,
-      "once": true
-    }
-  }
-});this.__getStatic().__template.addLoop({
-                    anchorId: 'inputdate_9',
-                    template: templ0,
-                simple:{data: "this.errors",item:"error"}}); }
-    getClassName() {
-        return "InputDate";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('year_format')){ this['year_format'] = "2-digit"; }if(!this.hasAttribute('month_format')){ this['month_format'] = "short"; }if(!this.hasAttribute('day_format')){ this['day_format'] = "2-digit"; }if(!this.hasAttribute('locale')){ this['locale'] = undefined; }if(!this.hasAttribute('time_zone')){ this['time_zone'] = undefined; }if(!this.hasAttribute('is_focus')) { this.attributeChangedCallback('is_focus', false, false); }if(!this.hasAttribute('clearable')) {this.setAttribute('clearable' ,'true'); }if(!this.hasAttribute('show_clear_icon')) { this.attributeChangedCallback('show_clear_icon', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('icon_position')){ this['icon_position'] = undefined; }if(!this.hasAttribute('time')) { this.attributeChangedCallback('time', false, false); } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('year_format');this.__upgradeProperty('month_format');this.__upgradeProperty('day_format');this.__upgradeProperty('locale');this.__upgradeProperty('time_zone');this.__upgradeProperty('is_focus');this.__upgradeProperty('clearable');this.__upgradeProperty('show_clear_icon');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('icon');this.__upgradeProperty('icon_position');this.__upgradeProperty('time');this.__correctGetter('value'); }
-    __listBoolProps() { return ["is_focus","clearable","show_clear_icon","time"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    selectContent(e) {
-        e.currentTarget.select();
-    }
-    setValueToInputs() {
-        if (this.value) {
-            const pretty = (nb) => {
-                if (nb < 10) {
-                    return '0' + nb;
-                }
-                return nb + '';
-            };
-            this.dayEl.value = pretty(this.value.getDate());
-            this.monthEl.value = pretty(this.value.getMonth() + 1);
-            this.yearEl.value = pretty(this.value.getFullYear());
-            this.hourEl.value = pretty(this.value.getHours());
-            this.minuteEl.value = pretty(this.value.getMinutes());
-        }
-        else {
-            this.dayEl.value = '';
-            this.monthEl.value = '';
-            this.yearEl.value = '';
-            this.hourEl.value = '';
-            this.minuteEl.value = '';
-        }
-        this.show_clear_icon = this.clearable && this.value !== undefined;
-    }
-    displayVisualDate() {
-        if (!this.value)
-            return "";
-        if (this.time) {
-            return this.value.toLocaleDateString(this.locale, {
-                year: this.year_format,
-                month: this.month_format,
-                day: this.day_format,
-                hour: '2-digit',
-                minute: '2-digit',
-                timeZone: this.time_zone,
-            });
-        }
-        else {
-            return this.value.toLocaleDateString(this.locale, {
-                year: this.year_format,
-                month: this.month_format,
-                day: this.day_format,
-                timeZone: this.time_zone,
-            });
-        }
-    }
-    clearValue() {
-        this.value = undefined;
-        if (this.is_focus) {
-            this.dayEl.focus();
-            this.setValueToInputs();
-        }
-    }
-    localValidation() {
-        let errors = [];
-        let dayValue = this.dayEl.value;
-        let monthValue = this.monthEl.value;
-        let yearValue = this.yearEl.value;
-        let hourValue = this.hourEl.value;
-        let minuteValue = this.minuteEl.value;
-        if (!dayValue && !monthValue && !yearValue && !hourValue && !minuteValue) {
-            return [];
-        }
-        if (!monthValue) {
-            const txt = 'Le mois est obligatoire';
-            errors.push(txt);
-        }
-        else {
-            let nb = Number(monthValue);
-            if (isNaN(nb)) {
-                const txt = 'Le mois doit être un nombre';
-                errors.push(txt);
-            }
-            else if (nb < 1 || nb > 12) {
-                const txt = 'Le mois mois est compris entre 1 et 12';
-                errors.push(txt);
-            }
-        }
-        if (!yearValue) {
-            const txt = 'L\'année est obligatoire';
-            errors.push(txt);
-        }
-        else {
-            let nb = Number(yearValue);
-            if (isNaN(nb)) {
-                const txt = 'L\'année doit être un nombre';
-                errors.push(txt);
-            }
-            else if (nb < 0) {
-                const txt = 'L\'année doit être un nombre positif';
-                errors.push(txt);
-            }
-        }
-        if (!dayValue) {
-            const txt = 'Le jour est obligatoire';
-            errors.push(txt);
-        }
-        else if (errors.length == 0) {
-            let max = new Date(Number(yearValue), Number(monthValue), 0).getDate();
-            let nb = Number(dayValue);
-            if (isNaN(nb)) {
-                const txt = 'Le jour doit être un nombre';
-                errors.push(txt);
-            }
-            else if (nb < 1 || nb > max) {
-                const txt = 'Le jour est compris entre 1 et $max'.replace("$max", max + '');
-                errors.push(txt);
-            }
-        }
-        if (hourValue) {
-            let nb = Number(hourValue);
-            if (isNaN(nb)) {
-                const txt = 'L\'heure doit être un nombre';
-                errors.push(txt);
-            }
-            else if (nb < 0 || nb > 23) {
-                const txt = 'L\'heure doit est comprise entre 1 et 23';
-                errors.push(txt);
-            }
-        }
-        if (minuteValue) {
-            let nb = Number(minuteValue);
-            if (isNaN(nb)) {
-                const txt = 'La minute doit être un nombre';
-                errors.push(txt);
-            }
-            else if (nb < 0 || nb > 59) {
-                const txt = 'La minute doite est comprise entre 1 et 59';
-                errors.push(txt);
-            }
-        }
-        return errors;
-    }
-    async validate() {
-        if (!this.formPart) {
-            this.errors = this.localValidation();
-            return this.errors.length == 0;
-        }
-        return await this.formPart.test();
-    }
-    async onValueChange() {
-        let localValidations = this.localValidation();
-        if (localValidations.length == 0) {
-            let dayValue = this.dayEl.value;
-            let monthValue = this.monthEl.value;
-            let yearValue = this.yearEl.value;
-            let hourValue = this.hourEl.value;
-            let minuteValue = this.minuteEl.value;
-            let result = undefined;
-            if (!dayValue && !monthValue && !yearValue && !hourValue && !minuteValue) {
-            }
-            else {
-                let date = new Date(Number(yearValue), Number(monthValue) - 1, Number(dayValue), 0, 0, 0, 0);
-                if (this.time) {
-                    if (hourValue) {
-                        date.setHours(Number(hourValue));
-                    }
-                    if (minuteValue) {
-                        date.setMinutes(Number(minuteValue));
-                    }
-                }
-                result = date;
-            }
-            const isSame = this.time ? Lib.DateTools.isSameDateTime(this.value, result) : Lib.DateTools.isSameDate(this.value, result);
-            if (!isSame) {
-                this.value = result;
-                this.onChange.trigger(this.value);
-                if (this.formPart) {
-                    this.formPart.value.set(this.value);
-                }
-            }
-            this.is_focus = false;
-        }
-        else {
-            this.errors = localValidations;
-        }
-    }
-    addBlurEvents() {
-        const elements = [this, this.dayEl, this.monthEl, this.yearEl, this.hourEl, this.minuteEl];
-        let blurTimeout = 0;
-        let blur = () => {
-            blurTimeout = setTimeout(() => {
-                this.onValueChange();
-            }, 100);
-        };
-        for (let element of elements) {
-            element.addEventListener("focus", () => {
-                this.errors = [];
-                this.is_focus = true;
-                clearTimeout(blurTimeout);
-            });
-            element.addEventListener("blur", () => {
-                blur();
-            });
-        }
-        this.addEventListener("focus", () => {
-            setTimeout(() => {
-                this.dayEl.focus();
-            });
-        });
-    }
-    triggerPoint(e) {
-        this.triggerChar(e, '.');
-    }
-    triggerSpace(e) {
-        this.triggerChar(e, ' ');
-    }
-    triggerSemiCol(e) {
-        this.triggerChar(e, ':');
-    }
-    triggerChar(e, char) {
-        if (e.key == char) {
-            e.preventDefault();
-            let el = e.target;
-            let nextInput = el.nextElementSibling?.nextElementSibling;
-            if (nextInput) {
-                nextInput.focus();
-            }
-        }
-    }
-    validateLength2(e) {
-        this.validateLength(e, 2);
-    }
-    validateLength4(e) {
-        this.validateLength(e, 4);
-    }
-    validateLength(e, length) {
-        if (e.key == 'Tab') {
-            return;
-        }
-        let el = e.target;
-        if (el.value.length == length) {
-            let nextInput = el.nextElementSibling?.nextElementSibling;
-            if (nextInput) {
-                nextInput.focus();
-            }
-        }
-    }
-    preventFocus(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
-    postCreation() {
-        super.postCreation();
-        this.setAttribute("tabindex", "-1");
-        this.addBlurEvents();
-    }
-    __85f0c0fbb346d55c45d594cadd252d33method1() {
-        return this.label;
-    }
-    __85f0c0fbb346d55c45d594cadd252d33method2() {
-        return this.icon;
-    }
-    __85f0c0fbb346d55c45d594cadd252d33method3() {
-        return this.displayVisualDate();
-    }
-    __85f0c0fbb346d55c45d594cadd252d33method4(error) {
-        return error;
-    }
-}
-Components.InputDate.Namespace=`Core.Components`;
-Components.InputDate.Tag=`rk-input-date`;
-__as1(_.Components, 'InputDate', Components.InputDate);
-if(!window.customElements.get('rk-input-date')){window.customElements.define('rk-input-date', Components.InputDate);Aventus.WebComponentInstance.registerDefinition(Components.InputDate);}
-
-Components.InlineText = class InlineText extends Components.FormElement {
-    get 'is_editing'() { return this.getBoolAttr('is_editing') }
-    set 'is_editing'(val) { this.setBoolAttr('is_editing', val) }    textBeforeEdit;
-    onIsEditChange = new Aventus.Callback();
-    static __style = `:host input{background-color:rgba(0,0,0,0);border:none;box-shadow:none;display:none;font-family:inherit;font-size:inherit;font-weight:inherit;margin:0;min-width:0;outline:none;padding:0;width:100%}:host([is_editing]) .display{display:none}:host([is_editing]) input{display:block}`;
-    __getStatic() {
-        return InlineText;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(InlineText.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="display" _id="inlinetext_0"></div><input autocomplete="off" _id="inlinetext_1" />` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "inputEl",
-      "ids": [
-        "inlinetext_1"
-      ]
-    }
-  ],
-  "content": {
-    "inlinetext_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__ff6c4988ad15a0c9578e9eb608a555dbmethod0())}`,
-      "once": true
-    }
-  },
-  "injection": [
-    {
-      "id": "inlinetext_1",
-      "injectionName": "value",
-      "inject": (c) => c.comp.__ff6c4988ad15a0c9578e9eb608a555dbmethod1(),
-      "once": true
-    }
-  ],
-  "events": [
-    {
-      "eventName": "blur",
-      "id": "inlinetext_1",
-      "fct": (e, c) => c.comp.validateChange(e)
-    },
-    {
-      "eventName": "focus",
-      "id": "inlinetext_1",
-      "fct": (e, c) => c.comp.removeErrors(e)
-    },
-    {
-      "eventName": "input",
-      "id": "inlinetext_1",
-      "fct": (e, c) => c.comp.onValueChange(e)
-    },
-    {
-      "eventName": "keyup",
-      "id": "inlinetext_1",
-      "fct": (e, c) => c.comp.checkEnter(e)
-    }
-  ]
-}); }
-    getClassName() {
-        return "InlineText";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('is_editing')) { this.attributeChangedCallback('is_editing', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('is_editing'); }
-    __listBoolProps() { return ["is_editing"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    removeErrors() {
-        this.errors = [];
-    }
-    onValueChange() {
-        this.value = this.inputEl.value;
-        this.onChange.trigger(this.value);
-        if (this.formPart) {
-            this.formPart.value.set(this.value);
-        }
-    }
-    edit() {
-        this.textBeforeEdit = this.value;
-        this.is_editing = true;
-        this.onIsEditChange.trigger(this.is_editing);
-        this.inputEl.focus();
-        this.inputEl.select();
-    }
-    cancel() {
-        this.value = this.textBeforeEdit;
-    }
-    validateChange() {
-        this.is_editing = false;
-        this.onIsEditChange.trigger(this.is_editing);
-    }
-    checkEnter(e) {
-        if (e.key == "Enter") {
-            this.inputEl.blur();
-        }
-        else if (e.key == "Escape") {
-            this.cancel();
-            this.inputEl.blur();
-        }
-    }
-    postCreation() {
-        super.postCreation();
-    }
-    __ff6c4988ad15a0c9578e9eb608a555dbmethod0() {
-        return this.value;
-    }
-    __ff6c4988ad15a0c9578e9eb608a555dbmethod1() {
-        return this.value;
-    }
-}
-Components.InlineText.Namespace=`Core.Components`;
-Components.InlineText.Tag=`rk-inline-text`;
-__as1(_.Components, 'InlineText', Components.InlineText);
-if(!window.customElements.get('rk-inline-text')){window.customElements.define('rk-inline-text', Components.InlineText);Aventus.WebComponentInstance.registerDefinition(Components.InlineText);}
-
-Components.Form = class Form extends Aventus.WebComponent {
-    elements = [];
-    onSubmit = new Aventus.Callback();
-    static __style = `:host{padding:15px;width:100%}`;
-    __getStatic() {
-        return Form;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Form.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "Form";
-    }
-    registerFormElement(element) {
-        if (!this.elements.includes(element)) {
-            this.elements.push(element);
-        }
-    }
-    registerSubmit(element) {
-        new Aventus.PressManager({
-            element,
-            onPress: () => {
-                this.submit();
-            }
-        });
-    }
-    async submit() {
-        if (await this.validate()) {
-            this.onSubmit.trigger();
-        }
-    }
-    async validate() {
-        return false;
-    }
-}
-Components.Form.Namespace=`Core.Components`;
-Components.Form.Tag=`rk-form`;
-__as1(_.Components, 'Form', Components.Form);
-if(!window.customElements.get('rk-form')){window.customElements.define('rk-form', Components.Form);Aventus.WebComponentInstance.registerDefinition(Components.Form);}
-
-Components.Button = class Button extends Aventus.WebComponent {
-    static get observedAttributes() {return ["icon_before", "icon_after", "icon"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'color'() { return this.getStringAttr('color') }
-    set 'color'(val) { this.setStringAttr('color', val) }get 'outline'() { return this.getBoolAttr('outline') }
-    set 'outline'(val) { this.setBoolAttr('outline', val) }get 'submit'() { return this.getBoolAttr('submit') }
-    set 'submit'(val) { this.setBoolAttr('submit', val) }get 'disabled'() { return this.getBoolAttr('disabled') }
-    set 'disabled'(val) { this.setBoolAttr('disabled', val) }get 'flat'() { return this.getBoolAttr('flat') }
-    set 'flat'(val) { this.setBoolAttr('flat', val) }get 'ghost'() { return this.getBoolAttr('ghost') }
-    set 'ghost'(val) { this.setBoolAttr('ghost', val) }    get 'icon_before'() { return this.getStringProp('icon_before') }
-    set 'icon_before'(val) { this.setStringAttr('icon_before', val) }get 'icon_after'() { return this.getStringProp('icon_after') }
-    set 'icon_after'(val) { this.setStringAttr('icon_after', val) }get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
-    target.icon_before = target.icon;
-})); }
-    static __style = `:host{--_button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--_button-color: var(--button-color, currentcolor);--_button-box-shadow: var(--button-box-shadow);--_button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--_button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--_button-box-shadow);color:var(--_button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([flat]){box-shadow:none}:host([ghost]){background-color:rgba(0,0,0,0)}:host([ghost][outline]){border:none}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--_button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
-    __getStatic() {
-        return Button;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Button.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<div class="hider"></div><div class="content">    <rk-img class="icon-before" _id="button_0"></rk-img>    <slot></slot>    <rk-img class="icon-after" _id="button_1"></rk-img></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "button_0°src": {
-      "fct": (c) => `${c.print(c.comp.__e17753be66eb8c36ad73f4b01845474bmethod0())}`,
-      "once": true
-    },
-    "button_1°src": {
-      "fct": (c) => `${c.print(c.comp.__e17753be66eb8c36ad73f4b01845474bmethod1())}`,
-      "once": true
-    }
-  }
-}); }
-    getClassName() {
-        return "Button";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('color')){ this['color'] = undefined; }if(!this.hasAttribute('outline')) { this.attributeChangedCallback('outline', false, false); }if(!this.hasAttribute('submit')) { this.attributeChangedCallback('submit', false, false); }if(!this.hasAttribute('disabled')) { this.attributeChangedCallback('disabled', false, false); }if(!this.hasAttribute('flat')) { this.attributeChangedCallback('flat', false, false); }if(!this.hasAttribute('ghost')) { this.attributeChangedCallback('ghost', false, false); }if(!this.hasAttribute('icon_before')){ this['icon_before'] = undefined; }if(!this.hasAttribute('icon_after')){ this['icon_after'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('color');this.__upgradeProperty('outline');this.__upgradeProperty('submit');this.__upgradeProperty('disabled');this.__upgradeProperty('flat');this.__upgradeProperty('ghost');this.__upgradeProperty('icon_before');this.__upgradeProperty('icon_after');this.__upgradeProperty('icon'); }
-    __listBoolProps() { return ["outline","submit","disabled","flat","ghost"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    registerToForm() {
-        if (!this.submit)
-            return;
-        const parent = this.findParentByType(_.Components.Form);
-        if (parent) {
-            parent.registerSubmit(this);
-        }
-    }
-    postCreation() {
-        this.registerToForm();
-    }
-    __e17753be66eb8c36ad73f4b01845474bmethod0() {
-        return this.icon_before;
-    }
-    __e17753be66eb8c36ad73f4b01845474bmethod1() {
-        return this.icon_after;
-    }
-}
-Components.Button.Namespace=`Core.Components`;
-Components.Button.Tag=`rk-button`;
-__as1(_.Components, 'Button', Components.Button);
-if(!window.customElements.get('rk-button')){window.customElements.define('rk-button', Components.Button);Aventus.WebComponentInstance.registerDefinition(Components.Button);}
-
-Lib.NotificationManager=class NotificationManager {
-    static getInstance() {
-        return Aventus.Instance.get(Lib.NotificationManager);
-    }
-    sw;
-    record;
-    subscription;
-    watcher;
-    constructor() {
-        this.watcher = Aventus.Watcher.get({});
-    }
-    get hasNotification() {
-        return this.watcher['enable'] ?? false;
-    }
-    set hasNotification(value) {
-        this.watcher['enable'] = value;
-    }
-    get isLoading() {
-        return this.watcher['isLoading'] ?? false;
-    }
-    set isLoading(value) {
-        this.watcher['isLoading'] = value;
-    }
-    get isInit() {
-        return this.watcher['isInit'] ?? false;
-    }
-    set isInit(value) {
-        this.watcher['isInit'] = value;
-    }
-    async init(sw) {
-        this.sw = sw;
-        try {
-            let subscription = await this.sw.pushManager.getSubscription();
-            if (subscription) {
-                this.subscription = subscription;
-                const router = new Routes.PushRecordRouter();
-                let record = this.subToRecord(subscription);
-                this.record = await _.Lib.Process.execute(System.Os.instance, router.Get({ record: record }));
-                if (!this.record) {
-                    await this.subscription.unsubscribe();
-                    this.subscription = undefined;
-                }
-                else {
-                    this.hasNotification = true;
-                }
-            }
-            this.isInit = true;
-        }
-        catch (e) {
-            console.error(e);
-        }
-    }
-    async subscribe() {
-        if (!this.sw)
-            return;
-        if (this.record)
-            return;
-        this.isLoading = true;
-        let record = null;
-        try {
-            let subscription = await this.sw.pushManager.getSubscription();
-            if (subscription) {
-                record = this.subToRecord(subscription);
-                this.subscription = subscription;
-            }
-            else {
-                const response = await new Routes.MainRouter().VapidPublicKey();
-                if (response.success && response.result) {
-                    const vapidPublicKey = response.result;
-                    const convertedVapidKey = this.urlBase64ToUint8Array(vapidPublicKey);
-                    const subscription = await this.sw.pushManager.subscribe({
-                        userVisibleOnly: true,
-                        applicationServerKey: convertedVapidKey
-                    });
-                    record = this.subToRecord(subscription);
-                    this.subscription = subscription;
-                }
-            }
-            if (record) {
-                const router = new Routes.PushRecordRouter();
-                this.record = await _.Lib.Process.execute(System.Os.instance, router.CreateOrUpdate({ record: record }));
-                this.hasNotification = true;
-            }
-        }
-        catch (e) {
-            console.error(e);
-        }
-        this.isLoading = false;
-    }
-    async unsubscribe() {
-        if (!this.record)
-            return;
-        if (!this.subscription)
-            return;
-        this.isLoading = true;
-        try {
-            await this.subscription.unsubscribe();
-            this.subscription = undefined;
-            const router = new Routes.PushRecordRouter();
-            if (await _.Lib.Process.execute(System.Os.instance, router.Destroy({ record: this.record }))) {
-                this.record = undefined;
-                this.hasNotification = false;
-            }
-        }
-        catch (e) {
-            console.error(e);
-        }
-        this.isLoading = false;
-    }
-    urlBase64ToUint8Array(base64String) {
-        var padding = '='.repeat((4 - base64String.length % 4) % 4);
-        var base64 = (base64String + padding)
-            .replace(/\-/g, '+')
-            .replace(/_/g, '/');
-        var rawData = window.atob(base64);
-        var outputArray = new Uint8Array(rawData.length);
-        for (var i = 0; i < rawData.length; ++i) {
-            outputArray[i] = rawData.charCodeAt(i);
-        }
-        return outputArray;
-    }
-    subToRecord(sub) {
-        const result = new Data.PushRecord();
-        const json = sub.toJSON();
-        result.EndPoint = sub.endpoint;
-        result.Auth = json.keys?.auth ?? '';
-        result.P256dh = json.keys?.p256dh ?? '';
-        return result;
-    }
-}
-Lib.NotificationManager.Namespace=`Core.Lib`;
-__as1(_.Lib, 'NotificationManager', Lib.NotificationManager);
-
-Lib.ServiceWorker=class ServiceWorker {
-    static getInstance() {
-        return AvInstance.get(Lib.ServiceWorker);
-    }
-    async init(registration) {
-        await _.Lib.NotificationManager.getInstance().init(registration);
-    }
-}
-Lib.ServiceWorker.Namespace=`Core.Lib`;
-__as1(_.Lib, 'ServiceWorker', Lib.ServiceWorker);
-
-System.NotificationBtn = class NotificationBtn extends Components.Button {
-    get 'loading'() { return this.getBoolAttr('loading') }
-    set 'loading'(val) { this.setBoolAttr('loading', val) }get 'is_init'() { return this.getBoolAttr('is_init') }
-    set 'is_init'(val) { this.setBoolAttr('is_init', val) }    get hasNotification() {
-        return Lib.NotificationManager.getInstance().hasNotification;
-    }
-    get isNotificationInit() {
-        return Lib.NotificationManager.getInstance().isInit;
-    }
-    get isNotificationLoading() {
-        return Lib.NotificationManager.getInstance().isLoading;
-    }
-    static __style = `:host(:not([is_init])){display:none}:host([loading]) rk-img{animation-name:rotate;animation-timing-function:linear;animation-duration:1s;animation-iteration-count:infinite}@keyframes rotate{0%{transform:rotate(0deg)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}`;
-    constructor() {
-        super();
-        this.setValues = this.setValues.bind(this);
-    }
-    __getStatic() {
-        return NotificationBtn;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(NotificationBtn.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-tooltip position="top" delay="1000" use_absolute _id="notificationbtn_0"></rk-tooltip>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "notificationbtn_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__e408074159161ac8cd828f4a9b06dfe2method0())}`
-    }
-  }
-}); }
-    getClassName() {
-        return "NotificationBtn";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('loading')) { this.attributeChangedCallback('loading', false, false); }if(!this.hasAttribute('is_init')) { this.attributeChangedCallback('is_init', false, false); } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__correctGetter('hasNotification');this.__correctGetter('isNotificationInit');this.__correctGetter('isNotificationLoading');this.__upgradeProperty('loading');this.__upgradeProperty('is_init'); }
-    __listBoolProps() { return ["loading","is_init"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    async toggleNotification() {
-        if (this.isNotificationLoading)
-            return;
-        if (this.hasNotification) {
-            await Lib.NotificationManager.getInstance().unsubscribe();
-        }
-        else {
-            await Lib.NotificationManager.getInstance().subscribe();
-        }
-    }
-    setValues() {
-        if (this.isNotificationLoading) {
-            this.icon = "mi-progress_activity";
-            this.loading = true;
-        }
-        else {
-            this.loading = false;
-            if (this.hasNotification) {
-                this.color = "blue";
-                this.icon = "mi-notifications";
-            }
-            else {
-                this.color = "red";
-                this.icon = "mi-notifications_off";
-            }
-        }
-    }
-    postCreation() {
-        super.postCreation();
-        new Aventus.PressManager({
-            element: this,
-            onPress: () => {
-                this.toggleNotification();
-            }
-        });
-        Aventus.Watcher.watch(() => [this.hasNotification, this.isNotificationLoading], () => this.setValues());
-        Aventus.Watcher.effect(() => this.is_init = this.isNotificationInit);
-        this.setValues();
-    }
-    __e408074159161ac8cd828f4a9b06dfe2method0() {
-        return this.hasNotification ? t("Notifications activées") : t("Notifications désactivées");
-    }
-}
-System.NotificationBtn.Namespace=`Core.System`;
-System.NotificationBtn.Tag=`rk-notification-btn`;
-__as1(_.System, 'NotificationBtn', System.NotificationBtn);
-if(!window.customElements.get('rk-notification-btn')){window.customElements.define('rk-notification-btn', System.NotificationBtn);Aventus.WebComponentInstance.registerDefinition(System.NotificationBtn);}
-
 Lib.FileSaver=class FileSaver {
     static bom(blob, opts) {
         if (typeof opts === 'undefined')
@@ -16308,6 +16553,218 @@ Components.Sheet = class Sheet extends Aventus.WebComponent {
 Components.Sheet.Namespace=`Core.Components`;
 __as1(_.Components, 'Sheet', Components.Sheet);
 
+Components.Slider = class Slider extends Components.FormElement {
+    static get observedAttributes() {return ["label", "min", "max", "value", "step"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
+    get 'popup'() { return this.getStringAttr('popup') }
+    set 'popup'(val) { this.setStringAttr('popup', val) }get 'no_transition'() { return this.getBoolAttr('no_transition') }
+    set 'no_transition'(val) { this.setBoolAttr('no_transition', val) }get 'popup_visible'() { return this.getBoolAttr('popup_visible') }
+    set 'popup_visible'(val) { this.setBoolAttr('popup_visible', val) }    get 'label'() { return this.getStringProp('label') }
+    set 'label'(val) { this.setStringAttr('label', val) }get 'min'() { return this.getNumberProp('min') }
+    set 'min'(val) { this.setNumberAttr('min', val) }get 'max'() { return this.getNumberProp('max') }
+    set 'max'(val) { this.setNumberAttr('max', val) }get 'value'() { return this.getNumberProp('value') }
+    set 'value'(val) { this.setNumberAttr('value', val) }get 'step'() { return this.getNumberProp('step') }
+    set 'step'(val) { this.setNumberAttr('step', val) }    currentPercent = 0;
+    timerPopup = 0;
+    onDragStart = new Aventus.Callback();
+    onDragStop = new Aventus.Callback();
+    onValidateValue = new Aventus.Callback();
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("min", ((target) => {
+    target.calculatePercent();
+}));this.__addPropertyActions("max", ((target) => {
+    target.calculatePercent();
+}));this.__addPropertyActions("value", ((target) => {
+    target.calculatePercent();
+})); }
+    static __style = `:host{--_slider-background-color: var(--slider-background-color, var(--form-element-background, white));--_slider-background-image: var(--slider-background-image, none);--_slider-background-position: var(--slider-background-position, 0 0);--_slider-background-size: var(--slider-background-size, auto);--_slider-active-background-color: var(--slider-active-background-color, var(--secondary-color-active));--_slider-dot-color: var(--slider-dot-color, var(--secondary-color));--_slider-dot-size: var(--slider-dot-size, var(--form-element-font-size, 16px));--_slider-popup-font-size: var(--slider-popup-font-size, var(--font-size-sm));--_slider-font-size-label: var(--slider-font-size-label, var(--form-element-font-size-label));--_slider-border-radius: var(--slider-border-radius, var(--form-element-border-radius));--_slider-bar-height: var(--slider-bar-height, 5px);--_slider-height: var(--slider-height, var(--input-height, 30px));--local-slider-dot-percent: 0%}:host{align-items:center;display:flex;flex-direction:column;justify-content:center;min-width:100px;width:100%}:host label{cursor:pointer;display:none;flex-shrink:0;font-size:var(--_slider-font-size-label);margin-bottom:5px;margin-left:3px;width:100%}:host .input{align-items:center;display:flex;height:var(--_slider-height);width:100%}:host .input .bar{align-items:center;background-color:var(--_slider-background-color);background-image:var(--_slider-background-image);background-position:var(--_slider-background-position);background-size:var(--_slider-background-size);border-radius:var(--_slider-border-radius);cursor:pointer;display:flex;flex-direction:row;flex-shrink:0;height:var(--_slider-bar-height);position:relative;width:100%}:host .input .bar .bar-fill{background-color:var(--_slider-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:var(--local-slider-dot-percent)}:host .input .bar .dot{background-color:var(--_slider-dot-color);border-radius:var(--border-radius-round);box-shadow:var(--elevation-2);cursor:pointer;height:var(--_slider-dot-size);left:var(--local-slider-dot-percent);pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_slider-dot-size);z-index:10}:host .input .bar .value{background-color:var(--_slider-dot-color);border-radius:var(--_slider-border-radius);box-shadow:var(--elevation-2);font-size:var(--_slider-popup-font-size);left:var(--local-slider-dot-percent);opacity:1;padding:5px 10px;padding-bottom:2px;position:absolute;top:0;transform:translateY(calc(-100% - 12px)) translateX(-50%);transform-origin:center center;transition:left var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s;visibility:visible}:host .input .bar .value::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:8px solid var(--_slider-dot-color);bottom:-7px;content:"";left:50%;position:absolute;transform:translateX(-50%)}:host([no_transition]) .input .bar .bar-fill{transition:none}:host([no_transition]) .input .bar .dot{transition:none}:host([no_transition]) .input .bar .value{transition:opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s}:host(:not([popup_visible])) .input .bar .value{opacity:0;visibility:hidden}:host([label]:not([label=""])) label{display:flex}`;
+    __getStatic() {
+        return Slider;
+    }
+    __getStyle() {
+        let arrStyle = super.__getStyle();
+        arrStyle.push(Slider.__style);
+        return arrStyle;
+    }
+    __getHtml() {super.__getHtml();
+    this.__getStatic().__template.setHTML({
+        slots: { 'dot':`<slot name="dot"></slot>`,'bar':`<slot name="bar"></slot>` }, 
+        blocks: { 'default':`<label for="element" class="label" _id="slider_0"></label><div class="input">    <div class="bar" _id="slider_1">        <div class="value" part="popup" _id="slider_2"></div>        <div class="bar-fill">        </div>        <div class="dot" _id="slider_3">            <slot name="dot"></slot>        </div>        <slot name="bar"></slot>    </div></div>` }
+    });
+}
+    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
+  "elements": [
+    {
+      "name": "barEl",
+      "ids": [
+        "slider_1"
+      ]
+    },
+    {
+      "name": "dotEl",
+      "ids": [
+        "slider_3"
+      ]
+    }
+  ],
+  "content": {
+    "slider_0°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__2a6eb0eb8efd251816e4040a1af5645dmethod0())}`,
+      "once": true
+    },
+    "slider_2°@HTML": {
+      "fct": (c) => `${c.print(c.comp.__2a6eb0eb8efd251816e4040a1af5645dmethod1())}`,
+      "once": true
+    }
+  }
+}); }
+    getClassName() {
+        return "Slider";
+    }
+    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('popup')){ this['popup'] = 'never'; }if(!this.hasAttribute('no_transition')) { this.attributeChangedCallback('no_transition', false, false); }if(!this.hasAttribute('popup_visible')) { this.attributeChangedCallback('popup_visible', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('min')){ this['min'] = 0; }if(!this.hasAttribute('max')){ this['max'] = 100; }if(!this.hasAttribute('value')){ this['value'] = 0; }if(!this.hasAttribute('step')){ this['step'] = 1; } }
+    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('popup');this.__upgradeProperty('no_transition');this.__upgradeProperty('popup_visible');this.__upgradeProperty('label');this.__upgradeProperty('min');this.__upgradeProperty('max');this.__upgradeProperty('value');this.__upgradeProperty('step'); }
+    __listBoolProps() { return ["no_transition","popup_visible"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
+    addMoveDot() {
+        let startX = 0;
+        let currentPosition = 0;
+        new Aventus.DragAndDrop({
+            element: this.dotEl,
+            applyDrag: false,
+            offsetDrag: 0,
+            stopPropagation: false,
+            onPointerDown: (e) => {
+                _.Components.Scrollable.lock(this);
+                this.no_transition = true;
+                if (this.popup == "onMove") {
+                    clearTimeout(this.timerPopup);
+                    this.popup_visible = true;
+                }
+                this.onDragStart.trigger();
+            },
+            onStart: (e) => {
+                startX = e.pageX;
+                currentPosition = this.dotEl.offsetLeft;
+            },
+            onMove: (e) => {
+                let diff = startX - e.pageX;
+                let newPosition = currentPosition - diff;
+                let percent = newPosition / this.offsetWidth * 100;
+                this.setPercent(percent);
+                this.calculateValue();
+            },
+            onPointerUp: () => {
+                _.Components.Scrollable.unlock(this);
+                this.no_transition = false;
+                if (this.popup == "onMove") {
+                    this.timerPopup = setTimeout(() => {
+                        this.popup_visible = false;
+                    }, 1000);
+                }
+                this.onDragStop.trigger();
+            }
+        });
+    }
+    addClickBar() {
+        new Aventus.PressManager({
+            element: this.barEl,
+            onPress: (e) => {
+                let left = this.getBoundingClientRect().left;
+                let newPosition = e.pageX - left;
+                let percent = newPosition / this.offsetWidth * 100;
+                this.setPercent(percent);
+                this.calculateValue();
+                if (this.popup == "onMove") {
+                    clearTimeout(this.timerPopup);
+                    this.timerPopup = setTimeout(() => {
+                        this.popup_visible = false;
+                    }, 1000);
+                    this.popup_visible = true;
+                }
+            }
+        });
+    }
+    calculatePercent(value) {
+        if (!this.isConnected)
+            return;
+        if (value === undefined) {
+            value = this.value;
+        }
+        let range = this.max - this.min;
+        let percent = (value - this.min) / range * 100;
+        this.setPercent(percent);
+    }
+    calculateValue(emit = true) {
+        let range = this.max - this.min;
+        let value = (range * this.currentPercent / 100) + this.min;
+        let diff = value % this.step;
+        if (diff > this.step / 2) {
+            value += (this.step - diff);
+        }
+        else {
+            value -= diff;
+        }
+        let result = this.onValidateValue.trigger(value);
+        if (result.length > 0) {
+            if (result[0] != value) {
+                // we correct the value so apply percent
+                this.calculatePercent(result[0]);
+                value = result[0];
+            }
+        }
+        if (value != this.value) {
+            this.value = value;
+            if (emit) {
+                this.onChange.trigger(value);
+                if (this.formPart) {
+                    this.formPart.value.set(this.value);
+                }
+            }
+        }
+    }
+    setPercent(percent) {
+        if (percent < 0) {
+            percent = 0;
+        }
+        else if (percent > 100) {
+            percent = 100;
+        }
+        // correct step
+        let range = this.max - this.min;
+        let value = (range * percent / 100) + this.min;
+        let diff = value % this.step;
+        if (diff > this.step / 2) {
+            value += (this.step - diff);
+        }
+        else {
+            value -= diff;
+        }
+        percent = (value - this.min) / range * 100;
+        this.currentPercent = percent;
+        this.style.setProperty("--local-slider-dot-percent", percent + "%");
+    }
+    removeErrors() {
+        this.errors = [];
+    }
+    postCreation() {
+        super.postCreation();
+        this.addMoveDot();
+        this.addClickBar();
+        this.calculatePercent();
+        this.calculateValue(false);
+        if (this.popup == 'always') {
+            this.popup_visible = true;
+        }
+    }
+    __2a6eb0eb8efd251816e4040a1af5645dmethod0() {
+        return this.label;
+    }
+    __2a6eb0eb8efd251816e4040a1af5645dmethod1() {
+        return this.value;
+    }
+}
+Components.Slider.Namespace=`Core.Components`;
+Components.Slider.Tag=`rk-slider`;
+__as1(_.Components, 'Slider', Components.Slider);
+if(!window.customElements.get('rk-slider')){window.customElements.define('rk-slider', Components.Slider);Aventus.WebComponentInstance.registerDefinition(Components.Slider);}
+
 Components.SheetPreview = class SheetPreview extends Aventus.WebComponent {
     static get observedAttributes() {return ["filename"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'loading'() { return this.getBoolAttr('loading') }
@@ -16480,267 +16937,6 @@ Components.SheetPreview.Namespace=`Core.Components`;
 Components.SheetPreview.Tag=`rk-sheet-preview`;
 __as1(_.Components, 'SheetPreview', Components.SheetPreview);
 if(!window.customElements.get('rk-sheet-preview')){window.customElements.define('rk-sheet-preview', Components.SheetPreview);Aventus.WebComponentInstance.registerDefinition(Components.SheetPreview);}
-
-const IconAction = class IconAction extends MaterialIcon.Icon {
-    static get observedAttributes() {return ["icon", "position", "delay", "delay_touch"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }get 'position'() { return this.getStringProp('position') }
-    set 'position'(val) { this.setStringAttr('position', val) }get 'delay'() { return this.getNumberProp('delay') }
-    set 'delay'(val) { this.setNumberAttr('delay', val) }get 'delay_touch'() { return this.getNumberProp('delay_touch') }
-    set 'delay_touch'(val) { this.setNumberAttr('delay_touch', val) }    tooltip;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("position", ((target) => {
-    if (target.tooltip) {
-        target.tooltip.position = target.position;
-    }
-}));this.__addPropertyActions("delay", ((target) => {
-    if (target.tooltip) {
-        target.tooltip.delay = target.delay;
-    }
-}));this.__addPropertyActions("delay_touch", ((target) => {
-    if (target.tooltip) {
-        target.tooltip.delay_touch = target.delay_touch;
-    }
-})); }
-    static __style = `:host{border-radius:var(--border-radius-sm);color:var(--blue);cursor:pointer;font-size:var(--font-size-md);padding:3px;position:relative;transition:background-color .2s linear}:host .hidden{display:none}@media screen and (min-width: 1225px){:host(:hover){background-color:var(--lighter)}}`;
-    __getStatic() {
-        return IconAction;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(IconAction.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot _id="iconaction_1"></slot>` }, 
-        blocks: { 'default':`<div class="icon" _id="iconaction_0"></div><div class="hidden">    <slot _id="iconaction_1"></slot></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "iconEl",
-      "ids": [
-        "iconaction_0"
-      ]
-    }
-  ],
-  "events": [
-    {
-      "eventName": "slotchange",
-      "id": "iconaction_1",
-      "fct": (e, c) => c.comp.onSlotChange(e)
-    }
-  ]
-}); }
-    getClassName() {
-        return "IconAction";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('icon')){ this['icon'] = "square"; }if(!this.hasAttribute('position')){ this['position'] = 'top'; }if(!this.hasAttribute('delay')){ this['delay'] = 700; }if(!this.hasAttribute('delay_touch')){ this['delay_touch'] = 700; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('icon');this.__upgradeProperty('position');this.__upgradeProperty('delay');this.__upgradeProperty('delay_touch'); }
-    onSlotChange() {
-        const content = this.innerHTML.trim();
-        if (content == "") {
-            if (this.tooltip) {
-                this.tooltip.remove();
-                this.tooltip = undefined;
-            }
-        }
-        else {
-            if (!this.tooltip) {
-                this.tooltip = new Components.Tooltip();
-                this.tooltip.position = this.position;
-                this.tooltip.delay = this.delay;
-                this.tooltip.delay_touch = this.delay_touch;
-                this.tooltip.use_absolute = true;
-                this.tooltip.no_caret = true;
-                this.tooltip.style.fontSize = "var(--font-size-sm)";
-                this.tooltip.style.color = "#efefef";
-                this.tooltip.style.backgroundColor = "#757575";
-                this.shadowRoot.appendChild(this.tooltip);
-            }
-            this.tooltip.innerHTML = content;
-        }
-    }
-}
-IconAction.Namespace=`Core`;
-IconAction.Tag=`rk-icon-action`;
-__as1(_, 'IconAction', IconAction);
-if(!window.customElements.get('rk-icon-action')){window.customElements.define('rk-icon-action', IconAction);Aventus.WebComponentInstance.registerDefinition(IconAction);}
-
-Components.Checkbox = class Checkbox extends Components.FormElement {
-    static get observedAttributes() {return ["label", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'left_label'() { return this.getBoolAttr('left_label') }
-    set 'left_label'(val) { this.setBoolAttr('left_label', val) }    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }get 'checked'() { return this.getBoolProp('checked') }
-    set 'checked'(val) { this.setBoolAttr('checked', val) }    get 'value'() {
-						return this.__watch["value"];
-					}
-					set 'value'(val) {
-						this.__watch["value"] = val;
-					}    __registerWatchesActions() {
-    this.__addWatchesActions("value", ((target) => {
-    target.checked = target.value;
-}));    super.__registerWatchesActions();
-}
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("checked", ((target) => {
-    target.value = target.checked;
-})); }
-    static __style = `:host{--_checkbox-size: var(--checkbox-size, 18px);--_checkbox-height: var(--checkbox-height, var(--_checkbox-size));--_checkbox-width: var(--checkbox-width, var(--_checkbox-size));--_checkbox-border-radius: var(--checkbox-border-radius, var(--form-element-border-radius));--_checkbox-border: var(--checkbox-border, var(--form-element-border));--_checkbox-border-active: var(--checkbox-border-active, var(--form-element-border-active, var(--_checkbox-border)));--_checkbox-background: var(--checkbox-background, var(--form-element-background, white));--_checkbox-background-active: var(--checkbox-background-active, var(--form-element-background-active, white));--_checkbox-tick-color: var(--checkbox-tick-color, var(--_checkbox-background));--_checkbox-tick-size: var(--checkbox-tick-size, 2px);--_checkbox-tick-padding: var(--checkbox-tick-padding, 10%);--_checkbox-font-size-label: var(--checkbox-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_checkbox-margin-label: var(--checkbox-margin-label, 5px)}:host{align-items:center;display:flex}:host .label:not(:empty){cursor:pointer;font-size:var(--_checkbox-font-size-label);margin-left:var(--_checkbox-margin-label)}:host .square{background-color:var(--_checkbox-background);border:var(--_checkbox-border);border-radius:var(--_checkbox-border-radius);cursor:pointer;flex-shrink:0;height:var(--_checkbox-height);position:relative;transition:border .4s var(--bezier-curve),background-color .4s var(--bezier-curve);width:var(--_checkbox-width);display:flex;align-items:center;justify-content:center}:host .square rk-img{--img-stroke-color: var(--_checkbox-tick-color);--img-stroke-width: var(--_checkbox-tick-size);height:calc(100% - var(--_checkbox-tick-padding));opacity:0;visibility:hidden;width:calc(100% - var(--_checkbox-tick-padding))}:host([checked]) .square{background-color:var(--_checkbox-background-active);border:var(--_checkbox-border-active)}:host([checked]) .square rk-img{opacity:1;visibility:visible}:host([checked]) .square rk-img::part(tick){animation:dash .3s linear forwards;animation-delay:.2s;stroke-dasharray:100;stroke-dashoffset:100}:host([left_label]) .label:not(:empty){margin-left:0;margin-right:var(--_checkbox-margin-label);order:1}:host([left_label]) .square{order:2}@keyframes dash{to{stroke-dashoffset:70}}`;
-    __getStatic() {
-        return Checkbox;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Checkbox.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<div class="square">    <rk-img src="/img/icons/tick.svg"></rk-img></div><div class="label" _id="checkbox_0"></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "content": {
-    "checkbox_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__ab411575f51bcaf15868d94c774ac9c3method0())}`,
-      "once": true
-    }
-  }
-}); }
-    getClassName() {
-        return "Checkbox";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('left_label')) { this.attributeChangedCallback('left_label', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('checked')) { this.attributeChangedCallback('checked', false, false); } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = false; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('left_label');this.__upgradeProperty('label');this.__upgradeProperty('checked');this.__correctGetter('value'); }
-    __listBoolProps() { return ["left_label","checked"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    removeErrors() {
-        this.errors = [];
-    }
-    postCreation() {
-        super.postCreation();
-        new Aventus.PressManager({
-            element: this,
-            onPress: () => {
-                this.removeErrors();
-                this.checked = !this.checked;
-                this.onChange.trigger(this.checked);
-                if (this.formPart) {
-                    this.formPart.value.set(this.value);
-                }
-            }
-        });
-    }
-    __ab411575f51bcaf15868d94c774ac9c3method0() {
-        return this.label;
-    }
-}
-Components.Checkbox.Namespace=`Core.Components`;
-Components.Checkbox.Tag=`rk-checkbox`;
-__as1(_.Components, 'Checkbox', Components.Checkbox);
-if(!window.customElements.get('rk-checkbox')){window.customElements.define('rk-checkbox', Components.Checkbox);Aventus.WebComponentInstance.registerDefinition(Components.Checkbox);}
-
-Components.CheckboxItem = class CheckboxItem extends Aventus.WebComponent {
-    static get observedAttributes() {return ["label", "left_label", "checked"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }get 'left_label'() { return this.getBoolProp('left_label') }
-    set 'left_label'(val) { this.setBoolAttr('left_label', val) }get 'checked'() { return this.getBoolProp('checked') }
-    set 'checked'(val) { this.setBoolAttr('checked', val) }    get 'value'() {
-						return this.__watch["value"];
-					}
-					set 'value'(val) {
-						this.__watch["value"] = val;
-					}    no_undefined;
-    onChange = new Aventus.Callback();
-    __registerWatchesActions() {
-    this.__addWatchesActions("value");    super.__registerWatchesActions();
-}
-    static __style = ``;
-    __getStatic() {
-        return CheckboxItem;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(CheckboxItem.__style);
-        return arrStyle;
-    }
-    __getHtml() {
-    this.__getStatic().__template.setHTML({
-        blocks: { 'default':`<rk-checkbox _id="checkboxitem_0"></rk-checkbox>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "checkboxEl",
-      "ids": [
-        "checkboxitem_0"
-      ]
-    }
-  ],
-  "injection": [
-    {
-      "id": "checkboxitem_0",
-      "injectionName": "label",
-      "inject": (c) => c.comp.__74b5b98629e22543504865a0c2970880method0(),
-      "once": true
-    },
-    {
-      "id": "checkboxitem_0",
-      "injectionName": "checked",
-      "inject": (c) => c.comp.__74b5b98629e22543504865a0c2970880method1(),
-      "once": true
-    },
-    {
-      "id": "checkboxitem_0",
-      "injectionName": "left_label",
-      "inject": (c) => c.comp.__74b5b98629e22543504865a0c2970880method2(),
-      "once": true
-    }
-  ],
-  "events": [
-    {
-      "eventName": "onChange",
-      "id": "checkboxitem_0",
-      "fct": (c, ...args) => c.comp.emitChange.apply(c.comp, ...args),
-      "isCallback": true
-    }
-  ]
-}); }
-    getClassName() {
-        return "CheckboxItem";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('left_label')) { this.attributeChangedCallback('left_label', false, false); }if(!this.hasAttribute('checked')) { this.attributeChangedCallback('checked', false, false); } }
-    __defaultValuesWatch(w) { super.__defaultValuesWatch(w); w["value"] = undefined; }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('label');this.__upgradeProperty('left_label');this.__upgradeProperty('checked');this.__correctGetter('value'); }
-    __listBoolProps() { return ["left_label","checked"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    emitChange(value) {
-        if (value) {
-            this.onChange.trigger(this.value, this);
-        }
-        else if (!this.no_undefined) {
-            this.onChange.trigger(undefined, this);
-        }
-        else {
-            this.checked = true;
-            this.checkboxEl.checked = true;
-        }
-    }
-    __74b5b98629e22543504865a0c2970880method0() {
-        return this.label;
-    }
-    __74b5b98629e22543504865a0c2970880method1() {
-        return this.checked;
-    }
-    __74b5b98629e22543504865a0c2970880method2() {
-        return this.left_label;
-    }
-}
-Components.CheckboxItem.Namespace=`Core.Components`;
-Components.CheckboxItem.Tag=`rk-checkbox-item`;
-__as1(_.Components, 'CheckboxItem', Components.CheckboxItem);
-if(!window.customElements.get('rk-checkbox-item')){window.customElements.define('rk-checkbox-item', Components.CheckboxItem);Aventus.WebComponentInstance.registerDefinition(Components.CheckboxItem);}
 
 Components.CheckboxGroup = class CheckboxGroup extends Components.FormElement {
     static get observedAttributes() {return ["multiple"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -18855,202 +19051,6 @@ Components.Email=class Email extends _.Components.FormValidator {
 }
 Components.Email.Namespace=`Core.Components`;
 __as1(_.Components, 'Email', Components.Email);
-
-Components.Input = class Input extends Components.FormElement {
-    static get observedAttributes() {return ["label", "placeholder", "unit", "icon", "icon_position", "value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'readonly'() { return this.getBoolAttr('readonly') }
-    set 'readonly'(val) { this.setBoolAttr('readonly', val) }    get 'label'() { return this.getStringProp('label') }
-    set 'label'(val) { this.setStringAttr('label', val) }get 'placeholder'() { return this.getStringProp('placeholder') }
-    set 'placeholder'(val) { this.setStringAttr('placeholder', val) }get 'unit'() { return this.getStringProp('unit') }
-    set 'unit'(val) { this.setStringAttr('unit', val) }get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }get 'icon_position'() { return this.getStringProp('icon_position') }
-    set 'icon_position'(val) { this.setStringAttr('icon_position', val) }get 'value'() { return this.getStringProp('value') }
-    set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
-    target.inputEl.value = target.value ?? "";
-})); }
-    static __style = `:host{--_input-height: var(--input-height, 30px);--_input-background-color: var(--input-background-color, var(--form-element-background, white));--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0));--_input-readonly-background-color: var(--input-readonly-background-color, var(--form-element-background-readonly, var(--_input-background-color)));--_input-readonly-border: var(--input-readonly-border, var(--form-element-border-readonly, var(--_input-input-border)));--_input-unit-background-color: var(--input-unit-background-color, var(--secondary-color));--_input-unit-color: var(--input-unit-color, var(--text-color-secondary))}:host{min-width:100px;width:100%}:host label{cursor:pointer;display:none;font-size:var(--_input-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-background-color);border:var(--_input-input-border);border-radius:var(--_input-border-radius);display:flex;height:var(--_input-height);overflow:hidden;padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-error-logo-size) - 5px);height:var(--_input-error-logo-size);justify-content:center;width:var(--_input-error-logo-size)}:host .input .unit{align-items:center;background-color:var(--_input-unit-background-color);color:var(--_input-unit-color);display:flex;font-size:14px;height:100%;justify-content:center;margin-right:-10px;padding-left:10px;padding-right:10px}:host .input .unit:empty{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .input .unit{margin-right:-25px;padding-right:30px}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([icon_position=right]) .input .icon{margin-right:0px;order:2}:host([icon_position=right]) .input .input{order:1}:host([icon_position=right]) .input .error-logo{margin-left:10px;order:3}:host([label]:not([label=""])) label{display:flex}:host([readonly]){pointer-events:none}:host([readonly]) .input{background-color:var(--_input-readonly-background-color);border:var(--_input-readonly-border)}`;
-    __getStatic() {
-        return Input;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Input.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        slots: { 'prepend':`<slot name="prepend">        <rk-img class="icon" _id="input_1"></rk-img>    </slot>`,'append':`<slot name="append">        <span class="unit" _id="input_3"></span>    </slot>` }, 
-        blocks: { 'default':`<label for="input" _id="input_0"></label><div class="input">    <slot name="prepend">        <rk-img class="icon" _id="input_1"></rk-img>    </slot>    <input autocomplete="off" id="input" _id="input_2" />    <slot name="append">        <span class="unit" _id="input_3"></span>    </slot>    <div class="error-logo">!</div></div><div class="errors">    <template _id="input_4"></template></div>` }
-    });
-}
-    __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
-  "elements": [
-    {
-      "name": "iconEl",
-      "ids": [
-        "input_1"
-      ]
-    },
-    {
-      "name": "inputEl",
-      "ids": [
-        "input_2"
-      ]
-    }
-  ],
-  "content": {
-    "input_0°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method1())}`,
-      "once": true
-    },
-    "input_1°src": {
-      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method2())}`,
-      "once": true
-    },
-    "input_2°placeholder": {
-      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method3())}`,
-      "once": true
-    },
-    "input_3°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method4())}`,
-      "once": true
-    }
-  },
-  "events": [
-    {
-      "eventName": "focus",
-      "id": "input_2",
-      "fct": (e, c) => c.comp.removeErrors(e)
-    },
-    {
-      "eventName": "input",
-      "id": "input_2",
-      "fct": (e, c) => c.comp.onValueChange(e)
-    }
-  ]
-});const templ0 = new Aventus.Template(this);templ0.setTemplate(`        <template _id="input_5"></template>    `);this.__getStatic().__template.addLoop({
-                    anchorId: 'input_4',
-                    template: templ0,
-                simple:{data: "this.errors",item:"error"}});const templ1 = new Aventus.Template(this);templ1.setTemplate(`            <div _id="input_6"></div>        `);templ1.setActions({
-  "content": {
-    "input_6°@HTML": {
-      "fct": (c) => `${c.print(c.comp.__7b4688f1d13a935f88db2286094e0088method5(c.data.error))}`,
-      "once": true
-    }
-  }
-});templ0.addIf({
-                    anchorId: 'input_5',
-                    parts: [{once: true,
-                    condition: (c) => true,
-                    template: templ1
-                }]
-            }); }
-    getClassName() {
-        return "Input";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('readonly')) { this.attributeChangedCallback('readonly', false, false); }if(!this.hasAttribute('label')){ this['label'] = undefined; }if(!this.hasAttribute('placeholder')){ this['placeholder'] = undefined; }if(!this.hasAttribute('unit')){ this['unit'] = undefined; }if(!this.hasAttribute('icon')){ this['icon'] = undefined; }if(!this.hasAttribute('icon_position')){ this['icon_position'] = undefined; }if(!this.hasAttribute('value')){ this['value'] = ""; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('readonly');this.__upgradeProperty('label');this.__upgradeProperty('placeholder');this.__upgradeProperty('unit');this.__upgradeProperty('icon');this.__upgradeProperty('icon_position');this.__upgradeProperty('value'); }
-    __listBoolProps() { return ["readonly"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    removeErrors() {
-        this.errors = [];
-    }
-    onValueChange() {
-        this.value = this.inputEl.value;
-        this.onChange.trigger(this.value);
-        if (this.formPart) {
-            this.formPart.value.set(this.value);
-        }
-    }
-    postCreation() {
-        super.postCreation();
-        this.setAttribute("tabindex", "1");
-        this.addEventListener("focus", () => {
-            this.inputEl.focus();
-        });
-    }
-    __7b4688f1d13a935f88db2286094e0088method1() {
-        return this.label;
-    }
-    __7b4688f1d13a935f88db2286094e0088method2() {
-        return this.icon;
-    }
-    __7b4688f1d13a935f88db2286094e0088method3() {
-        return this.placeholder;
-    }
-    __7b4688f1d13a935f88db2286094e0088method4() {
-        return this.unit;
-    }
-    __7b4688f1d13a935f88db2286094e0088method5(error) {
-        return error;
-    }
-}
-Components.Input.Namespace=`Core.Components`;
-Components.Input.Tag=`rk-input`;
-__as1(_.Components, 'Input', Components.Input);
-if(!window.customElements.get('rk-input')){window.customElements.define('rk-input', Components.Input);Aventus.WebComponentInstance.registerDefinition(Components.Input);}
-
-Components.Password = class Password extends Components.Input {
-    static get observedAttributes() {return ["visible", "icon_position"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
-    get 'visible'() { return this.getBoolProp('visible') }
-    set 'visible'(val) { this.setBoolAttr('visible', val) }get 'icon_position'() { return this.getStringProp('icon_position') }
-    set 'icon_position'(val) { this.setStringAttr('icon_position', val) }    pressIcon;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("visible", ((target) => {
-    target.updateIcon();
-})); }
-    static __style = `:host .input .icon{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}`;
-    __getStatic() {
-        return Password;
-    }
-    __getStyle() {
-        let arrStyle = super.__getStyle();
-        arrStyle.push(Password.__style);
-        return arrStyle;
-    }
-    __getHtml() {super.__getHtml();
-    this.__getStatic().__template.setHTML({
-        slots: { 'default':`<slot></slot>` }, 
-        blocks: { 'default':`<slot></slot>` }
-    });
-}
-    getClassName() {
-        return "Password";
-    }
-    __defaultValues() { super.__defaultValues(); if(!this.hasAttribute('visible')) { this.attributeChangedCallback('visible', false, false); }if(!this.hasAttribute('icon_position')){ this['icon_position'] = "right"; } }
-    __upgradeAttributes() { super.__upgradeAttributes(); this.__upgradeProperty('visible');this.__upgradeProperty('icon_position'); }
-    __listBoolProps() { return ["visible"].concat(super.__listBoolProps()).filter((v, i, a) => a.indexOf(v) === i); }
-    toggleVisible() {
-        this.visible = !this.visible;
-    }
-    updateIcon() {
-        if (this.visible) {
-            this.inputEl.type = "input";
-            this.icon = "mi-visibility_off";
-        }
-        else {
-            this.inputEl.type = "password";
-            this.icon = "mi-visibility";
-        }
-    }
-    postCreation() {
-        super.postCreation();
-        if (this.iconEl) {
-            this.pressIcon = new Aventus.PressManager({
-                element: this.iconEl,
-                onPress: () => {
-                    this.toggleVisible();
-                }
-            });
-        }
-    }
-    postDestruction() {
-        super.postDestruction();
-        this.pressIcon?.destroy();
-    }
-}
-Components.Password.Namespace=`Core.Components`;
-Components.Password.Tag=`rk-password`;
-__as1(_.Components, 'Password', Components.Password);
-if(!window.customElements.get('rk-password')){window.customElements.define('rk-password', Components.Password);Aventus.WebComponentInstance.registerDefinition(Components.Password);}
 
 Components.OptionsContainer = class OptionsContainer extends Aventus.WebComponent {
     get 'open'() { return this.getBoolAttr('open') }

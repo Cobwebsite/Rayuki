@@ -25,11 +25,11 @@ namespace Core.Routes
         //     return new View("test");
         // }
         [Get, Path("/")]
-        public IResponse Home(HttpContext context)
+        public async Task<IResponse> Home(HttpContext context)
         {
-            Company company = CompanyDM.GetInstance().GetMain();
-            Dictionary<string, List<string>> autoLoad = HttpServer.GetAutoLoad();
-            string lang = SettingsDM.GetInstance().GetSettingsStringForUser(UserSettings.Lang, context).Result ?? "fr-FR";
+            Company company = await CompanyDM.GetInstance().GetMain();
+            Dictionary<string, List<string>> autoLoad = await HttpServer.GetAutoLoad();
+            string lang = (await SettingsDM.GetInstance().GetSettingsStringForUser(UserSettings.Lang, context)).Result ?? "fr-FR";
             return new ViewDynamic("index", new
             {
                 title = company.Name,
@@ -92,27 +92,27 @@ namespace Core.Routes
         //     this.subs.Add(subscription);
         // }
         [Get, Path("/sendNotification")]
-        public void SendNotification()
+        public async Task SendNotification()
         {
-            PushRecordDM.GetInstance().NotifyAll();
+            await PushRecordDM.GetInstance().NotifyAll();
         }
 
         [Post, Path("/core/transaction/begin")]
-        public ResultWithError<string> BeginTransaction(HttpContext context, int ms)
+        public async Task<ResultWithError<string>> BeginTransaction(HttpContext context, int ms)
         {
-            return HttpServer.TransactionManager.Begin(context, ms);
+            return await HttpServer.TransactionManager.Begin(context, ms);
         }
 
         [Post, Path("/core/transaction/commit")]
-        public VoidWithError CommitTransaction(string guid)
+        public async Task<VoidWithError> CommitTransaction(string guid)
         {
-            return HttpServer.TransactionManager.Commit(guid);
+            return await HttpServer.TransactionManager.Commit(guid);
         }
 
         [Post, Path("/core/transaction/rollback")]
-        public VoidWithError RollbackTransaction(string guid)
+        public async Task<VoidWithError> RollbackTransaction(string guid)
         {
-            return HttpServer.TransactionManager.Rollback(guid);
+            return await HttpServer.TransactionManager.Rollback(guid);
         }
 
         [Get, Path("/restart")]

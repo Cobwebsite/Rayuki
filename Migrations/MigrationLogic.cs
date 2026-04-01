@@ -17,42 +17,43 @@ namespace Core.Migrations
 
         public Dictionary<string, int> appMigrations { get; private set; } = new Dictionary<string, int>();
         public List<string> globalMigrations { get; private set; } = new List<string>();
-        private VoidWithError CheckTableApp()
+        private async Task<VoidWithError> CheckTableApp()
         {
             VoidWithError result = new();
-            ResultWithError<bool> tableExist = Storage.TableExist(tableName);
+            ResultWithError<bool> tableExist = await Storage.TableExist(tableName);
             if (tableExist.Success && !tableExist.Result)
             {
                 string create = "CREATE TABLE `" + tableName + "` (`Id` int NOT NULL AUTO_INCREMENT, `Name` varchar(255) NOT NULL, `Version` int NOT NULL, CONSTRAINT `PK_" + tableName + "` PRIMARY KEY (`Id`))";
-                return Storage.Execute(create);
+                return await Storage.Execute(create);
             }
             result.Errors.AddRange(tableExist.Errors);
             return result;
         }
-        private VoidWithError CheckTableGlobal()
+        private async Task<VoidWithError> CheckTableGlobal()
         {
             VoidWithError result = new();
-            ResultWithError<bool> tableExist = Storage.TableExist(tableNameGlobal);
+            ResultWithError<bool> tableExist = await Storage.TableExist(tableNameGlobal);
             if (tableExist.Success && !tableExist.Result)
             {
                 string create = "CREATE TABLE `" + tableNameGlobal + "` (`Id` int NOT NULL AUTO_INCREMENT, `Name` TEXT NOT NULL, CONSTRAINT `PK_" + tableNameGlobal + "` PRIMARY KEY (`Id`))";
-                return Storage.Execute(create);
+                return await Storage.Execute(create);
             }
             result.Errors.AddRange(tableExist.Errors);
             return result;
         }
 
 
-        public VoidWithError Init()
+        public async Task<VoidWithError> Init()
         {
-            return new VoidWithError()
-               .Run(CheckTableApp)
-               .Run(CheckTableGlobal)
-               .Run(LoadApp)
-               .Run(LoadGlobal);
+            var result = new VoidWithError();
+            await result.RunAsync(CheckTableApp);
+            await result.RunAsync(CheckTableGlobal);
+            await result.RunAsync(LoadApp);
+            await result.RunAsync(LoadGlobal);
+            return result;
         }
 
-        public VoidWithError RunGlobal(string filePath, string name)
+        public async Task<VoidWithError> RunGlobal(string filePath, string name)
         {
             VoidWithError result = new VoidWithError();
             
@@ -63,13 +64,13 @@ namespace Core.Migrations
                 try
                 {
                     string content = File.ReadAllText(filePath);
-                    VoidWithError execResult = Storage.Execute(content);
+                    VoidWithError execResult = await Storage.Execute(content);
                     if (execResult.Success)
                     {
                         ResultWithDataError<DbCommand> cmdQuery = Storage.CreateCmd("INSERT INTO " + tableNameGlobal + " (Name) VALUES (@Name)");
                         if (cmdQuery.Success && cmdQuery.Result != null)
                         {
-                            result = Storage.Execute(cmdQuery.Result, parameters: new() { { "@Name", name } });
+                            result = await Storage.Execute(cmdQuery.Result, parameters: new() { { "@Name", name } });
                         }
                         else
                         {
@@ -85,10 +86,10 @@ namespace Core.Migrations
             return result;
         }
 
-        public List<GenericError> LoadApp()
+        public async Task<List<GenericError>> LoadApp()
         {
             string query = "SELECT * FROM " + tableName;
-            ResultWithError<List<Dictionary<string, string?>>> queryResult = Storage.Query(query);
+            ResultWithError<List<Dictionary<string, string?>>> queryResult = await Storage.Query(query);
             if (!queryResult.Success || queryResult.Result == null)
             {
                 return queryResult.Errors;
@@ -121,10 +122,10 @@ namespace Core.Migrations
             return new List<GenericError>();
         }
 
-        public List<GenericError> LoadGlobal()
+        public async Task<List<GenericError>> LoadGlobal()
         {
             string query = "SELECT * FROM " + tableNameGlobal;
-            ResultWithError<List<Dictionary<string, string?>>> queryResult = Storage.Query(query);
+            ResultWithError<List<Dictionary<string, string?>>> queryResult = await Storage.Query(query);
             if (!queryResult.Success || queryResult.Result == null)
             {
                 return queryResult.Errors;

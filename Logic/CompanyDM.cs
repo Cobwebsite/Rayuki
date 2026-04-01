@@ -16,7 +16,7 @@ namespace Core.Logic
         protected async override Task<VoidWithError> Initialize()
         {
             VoidWithError result = await base.Initialize();
-            ResultWithError<bool> existQuery = Company.ExistWithError(p => true);
+            ResultWithError<bool> existQuery = await Company.ExistWithError(p => true);
             if (!existQuery.Success)
             {
                 result.Errors = existQuery.Errors;
@@ -25,7 +25,7 @@ namespace Core.Logic
 
             if (!existQuery.Result)
             {
-                result.Run(() => new Company()
+                await result.RunAsync(() => new Company()
                 {
                     Name = "Rayuki",
                     Logo = new CompanyImage() { Uri = "/img/logo.svg" },
@@ -56,9 +56,9 @@ namespace Core.Logic
             return result;
         }
 
-        protected override List<GenericError> BeforeUpdateWithError<X>(List<X> values)
+        protected override async Task<List<GenericError>> BeforeUpdateWithError<X>(List<X> values)
         {
-            List<GenericError> result = base.BeforeUpdateWithError(values);
+            List<GenericError> result = await base.BeforeUpdateWithError(values);
             if (result.Count > 0) return result;
 
             foreach (X value in values)
@@ -116,9 +116,9 @@ namespace Core.Logic
             return result;
         }
 
-        public Company GetMain()
+        public async Task<Company> GetMain()
         {
-            List<Company> companies = Company.GetAll();
+            List<Company> companies = await Company.GetAll();
             if (companies.Count > 0)
             {
                 return companies[0];
@@ -136,7 +136,7 @@ namespace Core.Logic
             string manifestJson = File.ReadAllText(Path.Combine(HttpServer.wwwroot, "pwa", "custom", "manifest.json"));
             return JsonConvert.DeserializeObject<Manifest>(manifestJson);
         }
-        public void SaveManifest(Manifest manifest)
+        public async Task SaveManifest(Manifest manifest)
         {
             string manifestJson = JsonConvert.SerializeObject(manifest, new JsonSerializerSettings()
             {
@@ -145,7 +145,7 @@ namespace Core.Logic
             });
             File.WriteAllText(Path.Combine(HttpServer.wwwroot, "pwa", "custom", "manifest.json"), manifestJson);
             // increase version with update
-            GetMain().Update();
+            await (await GetMain()).Update();
         }
 
 

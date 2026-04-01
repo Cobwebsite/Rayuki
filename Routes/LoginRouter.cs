@@ -16,16 +16,16 @@ namespace Core.Routes;
 public class LoginRouter : Router
 {
     [Get, Path("/login")]
-    public IResponse Login(HttpContext context)
+    public async Task<IResponse> Login(HttpContext context)
     {
-        Company company = CompanyDM.GetInstance().GetMain();
-        List<SsoProvider> providers = SsoProvider
+        Company company = await CompanyDM.GetInstance().GetMain();
+        List<SsoProvider> providers = await SsoProvider
             .StartQuery()
             .Field(p => p.Id)
             .Field(p => p.Name)
             .Field(p => p.Logo)
             .Run();
-        int? passKeyResult = SettingsDM.GetInstance().GetGlobalSettingsInt(OsPermission.PassKey).Result;
+        int? passKeyResult = (await SettingsDM.GetInstance().GetGlobalSettingsInt(OsPermission.PassKey)).Result;
         bool passKey = passKeyResult == 1 || passKeyResult == 2;
 
         string error = context.Session.GetString("login_error") ?? "";
@@ -43,20 +43,20 @@ public class LoginRouter : Router
     }
 
     [Post, Path("/login")]
-    public ResultWithError<LoginResult> LoginAction(string username, string password, HttpContext context)
+    public async Task<ResultWithError<LoginResult>> LoginAction(string username, string password, HttpContext context)
     {
-        ResultWithError<User> result = PasswordManager.Login(username, password);
+        ResultWithError<User> result = await PasswordManager.Login(username, password);
         ResultWithError<LoginResult> res = new();
         LoginResult loginResult = new LoginResult();
         if (result.Success && result.Result != null)
         {
             context.SetConnected(result.Result.Id);
             context.SetSuperAdmin(result.Result.IsSuperAdmin);
-            string? quickToken;
-            if (PermissionDM.GetInstance().AllowQuickLogin(result.Result.Id, out quickToken))
+            List<string> quickToken = new List<string>();
+            if (await PermissionDM.GetInstance().AllowQuickLogin(result.Result.Id, quickToken))
             {
-                loginResult.QuickAccess = quickToken;
-                context.Response.Cookies.Append("quickToken", quickToken ?? "");
+                loginResult.QuickAccess = quickToken[0];
+                context.Response.Cookies.Append("quickToken", quickToken.Count > 0 ? quickToken[0] : "");
             }
         }
         else
@@ -73,9 +73,9 @@ public class LoginRouter : Router
     }
 
     [Post, Path("/login/quick"), Public]
-    public ResultWithError<bool> QuickLogin(HttpContext context, string token)
+    public async Task<ResultWithError<bool>> QuickLogin(HttpContext context, string token)
     {
-        User? user = UserDM.GetInstance().QuickLogin(token);
+        User? user = await UserDM.GetInstance().QuickLogin(token);
         if (user != null)
         {
             context.SetConnected(user.Id);
@@ -86,10 +86,10 @@ public class LoginRouter : Router
     }
 
     [Post, Path("/login/sso")]
-    public ResultWithError<string> LoginSso(HttpContext context, int ssoId)
+    public async Task<ResultWithError<string>> LoginSso(HttpContext context, int ssoId)
     {
         ResultWithError<string> result = new();
-        ResultWithError<SsoProvider> providerQuery = SsoProvider.GetByIdWithError(ssoId);
+        ResultWithError<SsoProvider> providerQuery = await SsoProvider.GetByIdWithError(ssoId);
         if (!providerQuery.Success || providerQuery.Result == null)
         {
             result.Errors = providerQuery.Errors;
@@ -138,20 +138,20 @@ public class LoginRouter : Router
     }
 
     [Path("/login/webauthn/register"), Public]
-    public ResultWithError<GetVerifyChallengeResponse> LoginWebAuthnChallenge()
+    public async Task<ResultWithError<GetVerifyChallengeResponse>> LoginWebAuthnChallenge()
     {
-        return WebAuthnLogic.GetVerifyChallenge();
+        return await WebAuthnLogic.GetVerifyChallenge();
 
     }
     [Post, Path("/login/webauthn"), Public]
-    public ResultWithError<bool> LoginWebAuthn(HttpContext context, VerifyRequest assertion)
+    public async Task<ResultWithError<bool>> LoginWebAuthn(HttpContext context, VerifyRequest assertion)
     {
         ResultWithError<bool> result = new();
 
-        WebAuthnCredentials? credentials = result.Execute(() => WebAuthnLogic.Verify(assertion));
+        WebAuthnCredentials? credentials = await result.ExtractAsync<WebAuthnCredentials>(async () => await WebAuthnLogic.Verify(assertion));
         if (credentials != null)
         {
-            User? user = User.GetById(credentials.UserId);
+            User? user = await User.GetById(credentials.UserId);
             context.SetConnected(credentials.UserId);
             context.SetSuperAdmin(user?.IsSuperAdmin ?? false);
         }
@@ -168,7 +168,7 @@ public class LoginRouter : Router
 
 
     [Post, Permission<OsPermission>(OsPermission.ConnectAs)]
-    public ResultWithError<LoginResult> ConnectAs(int userId, HttpContext context)
+    public async Task<ResultWithError<LoginResult>> ConnectAs(int userId, HttpContext context)
     {
         ResultWithError<LoginResult> res = new();
         int? oldUserId = context.GetUserId();
@@ -178,7 +178,7 @@ public class LoginRouter : Router
             return res;
         }
 
-        ResultWithError<User> result = User.GetByIdWithError(userId);
+        ResultWithError<User> result = await User.GetByIdWithError(userId);
         LoginResult loginResult = new LoginResult();
         if (result.Success && result.Result != null)
         {
@@ -203,7 +203,7 @@ public class LoginRouter : Router
     }
 
     [Post]
-    public ResultWithError<LoginResult> DisconnectFrom(HttpContext context)
+    public async Task<ResultWithError<LoginResult>> DisconnectFrom(HttpContext context)
     {
         ResultWithError<LoginResult> res = new();
         int? userId = context.GetUserId();
@@ -219,7 +219,7 @@ public class LoginRouter : Router
             return res;
         }
 
-        ResultWithError<User> result = User.GetByIdWithError((int)oldUserId);
+        ResultWithError<User> result = await User.GetByIdWithError((int)oldUserId);
         LoginResult loginResult = new LoginResult();
         if (result.Success && result.Result != null)
         {
