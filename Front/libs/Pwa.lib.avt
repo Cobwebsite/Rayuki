@@ -15,7 +15,7 @@ namespace Lib {
     })
     export class PWA {
         public static get isAvailable(): boolean {
-            if(window['deferredPrompt']) {
+            if((window as any)['deferredPrompt']) {
                 return true;
             }
             return false;
@@ -38,7 +38,7 @@ namespace Lib {
                 return;
             }
             if(!this.e && PWA.isAvailable) {
-                this.e = window['deferredPrompt'];
+                this.e = (window as any)['deferredPrompt'];
                 let result = this.onInit.trigger();
                 this.isInit = true;
             }

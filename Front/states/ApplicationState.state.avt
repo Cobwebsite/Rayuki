@@ -49,7 +49,7 @@ namespace State {
 
         public constructor() {
             super();
-            this.$type = this.constructor['Fullname'];
+            this.$type = (this.constructor as any)['Fullname'];
         }
 
         public setManager(manager: ApplicationStateManager) {

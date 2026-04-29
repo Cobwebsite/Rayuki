@@ -23,7 +23,7 @@ namespace State {
 
         public constructor(item?: T) {
             super();
-            this.constructor['_state'] = this.genericState();
+            (this.constructor as any)['_state'] = this.genericState();
             this.item = item ?? this.newElement();
         }
 
@@ -54,7 +54,7 @@ namespace State {
 
             let result: T | undefined;
             const validationResult = await this.validate();
-            
+
             if(validationResult === true) {
                 let ramResult: Aventus.ResultRamWithError<Aventus.RamItem<T>> | null;
                 if(this.item.Id == 0) {
@@ -76,8 +76,9 @@ namespace State {
                             let found = false;
                             for(let detail of error.details) {
                                 if(detail instanceof AventusSharp.Data.FieldErrorInfo) {
-                                    if(elements[detail.Name]) {
-                                        for(const element of elements[detail.Name]) {
+                                    const els = elements[detail.Name as keyof T];
+                                    if(els) {
+                                        for(const element of els) {
                                             element.errors.push(error.message);
                                         }
                                         found = true;

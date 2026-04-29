@@ -7,7 +7,7 @@ namespace Lib {
     })
     export type ExportAsRawResult = {
         txt: string,
-        loaded: (new (...args) => WebComponent)[];
+        loaded: (new (...args: any[]) => WebComponent)[];
     };
     @Storybook({
         export: 'protected'
@@ -84,7 +84,7 @@ customElements.define("${tagNb}", ${tagUnderNb});
 
             const imgMemory: { [url: string]: string; } = {};
 
-            const urlToBase64 = (url) => {
+            const urlToBase64 = (url: string) => {
                 return new Promise<string>(async (resolve, reject) => {
                     try {
                         const response = await fetch(url);
@@ -147,7 +147,7 @@ customElements.define("${tagNb}", ${tagUnderNb});
                         element.src = imgMemory[element.src];
                     }
                 }
-                
+
                 let attributes = await attrs(element);
                 if(attributes.length > 0) {
                     attributes = ' ' + attributes;

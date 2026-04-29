@@ -111,7 +111,7 @@ namespace Permissions {
         public additionalInfo?: string;
 
         public constructor(value: Aventus.EnumValue<T>, additionalInfo?: string) {
-            this.$type = this.constructor['Fullname'];
+            this.$type = (this.constructor as any)['Fullname'];
             this.value = value;
             this.additionalInfo = additionalInfo;
         }

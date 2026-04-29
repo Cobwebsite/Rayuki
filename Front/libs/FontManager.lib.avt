@@ -9,7 +9,7 @@ namespace Lib {
             const result: FontFace[] = [];
             for(let font of fonts) {
                 if(font.status == 'loaded') {
-                    if(!font['__src']) {
+                    if(!(font as any)['__src']) {
                         let hasLoaded = await this.findFontInsideStylesheet(font);
                         if(hasLoaded) {
                             result.push(font);
@@ -26,7 +26,7 @@ namespace Lib {
             return result;
         }
 
-        private static urlToBase64(url): Promise<string> {
+        private static urlToBase64(url: string): Promise<string> {
             return new Promise<string>(async (resolve, reject) => {
                 try {
                     const response = await fetch(url);
@@ -85,12 +85,13 @@ namespace Lib {
 
 
             let txt = '';
-            for(let font of fonts) {
+            for(let _font of fonts) {
+                const font: any = _font;
                 let txtFont: string[] = ['@font-face {'];
                 txtFont.push("font-family: " + font.family + ";");
                 let src = font['__src'];
                 if(src.startsWith("/")) {
-                    src = location.protocol+'//'+location.host + src
+                    src = location.protocol + '//' + location.host + src;
                 }
                 txtFont.push("src: url(\"" + src + "\");");
                 for(let prop in props) {
@@ -147,7 +148,8 @@ namespace Lib {
 
 
             let txt = '';
-            for(let font of fonts) {
+            for(let _font of fonts) {
+                const font: any = _font;
                 let txtFont: string[] = ['@font-face {'];
                 txtFont.push("font-family: " + font.family + ";");
                 txtFont.push("src: url(\"" + await this.urlToBase64(font['__src']) + "\");");
@@ -217,11 +219,12 @@ namespace Lib {
                                 'fontStretch': 'normal'
                             };
                             let isSame = true;
-                            for(let otherCompare in otherCompares) {
+                            for(let _otherCompare in otherCompares) {
+                                const otherCompare = _otherCompare as keyof typeof otherCompares;
                                 let vOther = otherCompares[otherCompare];
                                 let v = rule.style.getPropertyValue(otherCompare.replace(/[A-Z]/g, match => '-' + match.toLowerCase()));
-                                if(v != font[vOther]) {
-                                    if(v != '' || defaultValue[otherCompare] != font[vOther]) {
+                                if(v != (font as any)[vOther]) {
+                                    if(v != '' || defaultValue[otherCompare] != (font as any)[vOther]) {
                                         isSame = false;
                                         break;
                                     }
@@ -231,7 +234,7 @@ namespace Lib {
 
                             let resultMatch = /url\(['|"]?(.*?)['|"]?\)/g.exec(rule.style.cssText);
                             if(resultMatch) {
-                                font['__src'] = resultMatch[1];
+                                (font as any)['__src'] = resultMatch[1];
                                 return true;
                             }
 

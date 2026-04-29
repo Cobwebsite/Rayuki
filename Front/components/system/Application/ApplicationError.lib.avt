@@ -6,7 +6,7 @@ namespace System {
     @Storybook({
         export: 'protected'
     })
-    export type ApplicationQueryFct<X> = (...args) => Promise<ApplicationQueryFctResult<X>>;
+    export type ApplicationQueryFct<X> = (...args: any[]) => Promise<ApplicationQueryFctResult<X>>;
     @Storybook({
         export: 'protected'
     })
@@ -18,7 +18,7 @@ namespace System {
     @Storybook({
         export: 'protected'
     })
-    export type ApplicationQueryResult<X extends (...args) => any> = GetErrorValue<GetPromiseResult<X>>;
+    export type ApplicationQueryResult<X extends (...args: any[]) => any> = GetErrorValue<GetPromiseResult<X>>;
     @Storybook({
         export: 'protected'
     })

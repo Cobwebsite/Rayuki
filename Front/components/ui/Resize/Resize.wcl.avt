@@ -146,8 +146,8 @@ namespace Components {
             if(!this.right) {
                 return;
             }
-            let width;
-            let startX;
+            let width: number;
+            let startX: number;
             let direction = ResizeDirection.Right;
             new Aventus.DragAndDrop({
                 element: this.right,
@@ -181,9 +181,9 @@ namespace Components {
             if(!this.left) {
                 return;
             }
-            let width;
-            let left;
-            let startX;
+            let width: number;
+            let left: number;
+            let startX: number;
             let direction = ResizeDirection.Left;
             new Aventus.DragAndDrop({
                 element: this.left,
@@ -219,8 +219,8 @@ namespace Components {
             if(!this.bottom) {
                 return;
             }
-            let height;
-            let startY;
+            let height: number;
+            let startY: number;
             let direction = ResizeDirection.Bottom;
             new Aventus.DragAndDrop({
                 element: this.bottom,
@@ -253,11 +253,11 @@ namespace Components {
             if(!this.bottom_left) {
                 return;
             }
-            let height;
-            let width;
-            let left;
-            let startX;
-            let startY;
+            let height: number;
+            let width: number;
+            let left: number;
+            let startX: number;
+            let startY: number;
             let direction = ResizeDirection.BottomLeft;
             new Aventus.DragAndDrop({
                 element: this.bottom_left,
@@ -300,10 +300,10 @@ namespace Components {
             if(!this.bottom_right) {
                 return;
             }
-            let height;
-            let width;
-            let startX;
-            let startY;
+            let height: number;
+            let width: number;
+            let startX: number;
+            let startY: number;
             let direction = ResizeDirection.BottomRight;
             new Aventus.DragAndDrop({
                 element: this.bottom_right,
@@ -345,9 +345,9 @@ namespace Components {
             if(!this.top) {
                 return;
             }
-            let height;
-            let top;
-            let startY;
+            let height: number;
+            let top: number;
+            let startY: number;
             let direction = ResizeDirection.Top;
             new Aventus.DragAndDrop({
                 element: this.top,
@@ -383,12 +383,12 @@ namespace Components {
             if(!this.top_left) {
                 return;
             }
-            let height;
-            let top;
-            let width;
-            let left;
-            let startX;
-            let startY;
+            let height: number;
+            let top: number;
+            let width: number;
+            let left: number;
+            let startX: number;
+            let startY: number;
             let direction = ResizeDirection.TopLeft;
             new Aventus.DragAndDrop({
                 element: this.top_left,
@@ -434,11 +434,11 @@ namespace Components {
             if(!this.top_right) {
                 return;
             }
-            let height;
-            let top;
-            let width;
-            let startX;
-            let startY;
+            let height: number;
+            let top: number;
+            let width: number;
+            let startX: number;
+            let startY: number;
             let direction = ResizeDirection.TopRight;
             new Aventus.DragAndDrop({
                 element: this.top_right,

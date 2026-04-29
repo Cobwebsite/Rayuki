@@ -1,7 +1,7 @@
 import type { AppIcon } from "../components/system/AppIcon/AppIcon.wcl.avt";
 
 namespace Lib {
-    type AppIconCst = (new (...args) => AppIcon);
+    type AppIconCst = (new (...args: any[]) => AppIcon);
 
     @Storybook({
         export: 'protected'

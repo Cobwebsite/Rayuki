@@ -3,7 +3,7 @@ namespace Lib {
         export: 'protected'
     })
     export abstract class Plugin {
-        public abstract init();
+        public abstract init(): void;
     }
     @Storybook({
         export: 'protected'

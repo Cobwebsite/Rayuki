@@ -104,7 +104,7 @@ namespace System {
             return this.activeDesktopEl;
         }
 
-        private contextMenuCst: new (...args) => ContextMenu = ContextMenu;
+        private contextMenuCst: new (...args: any[]) => ContextMenu = ContextMenu;
         //#endregion
 
 
@@ -299,11 +299,11 @@ namespace System {
             });
 
             if(Platform.isiOS) {
-                let startX;
-                let startY;
-                let lastX;
-                let lastY;
-                let timeoutContext;
+                let startX: number;
+                let startY: number;
+                let lastX: number;
+                let lastY: number;
+                let timeoutContext: number;
                 Aventus.PressManager.configure({
                     delayDblPress: 250,
                     delayLongPress: 700,
@@ -340,7 +340,7 @@ namespace System {
                 document.body.scrollLeft = 0;
             });
         }
-        public setContextMenu(contextMenuCst: new (...args) => ContextMenu) {
+        public setContextMenu(contextMenuCst: new (...args: any[]) => ContextMenu) {
             this.contextMenuCst = contextMenuCst;
         }
         public setDefaultContextMenu() {

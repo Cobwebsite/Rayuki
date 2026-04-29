@@ -526,7 +526,7 @@
             <inheritdoc />
             </summary>
         </member>
-        <member name="M:AventusSharp.Data.Manager.GenericDM`2.RunInsideTransaction``1(``0,System.Func{AventusSharp.Tools.ResultWithError{``0}})">
+        <member name="M:AventusSharp.Data.Manager.GenericDM`2.RunInsideTransaction``1(``0,System.Func{System.Threading.Tasks.Task{AventusSharp.Tools.ResultWithError{``0}}})">
             <summary>
             Run a function inside a transaction that ll be commit if no error otherwise rollback
             </summary>
@@ -535,7 +535,7 @@
             <param name="action"></param>
             <returns></returns>
         </member>
-        <member name="M:AventusSharp.Data.Manager.GenericDM`2.RunInsideTransaction``1(System.Func{AventusSharp.Tools.ResultWithError{``0}})">
+        <member name="M:AventusSharp.Data.Manager.GenericDM`2.RunInsideTransaction``1(System.Func{System.Threading.Tasks.Task{AventusSharp.Tools.ResultWithError{``0}}})">
             <summary>
             Run a function inside a transaction that ll be commit if no error otherwise rollback
             </summary>
@@ -543,7 +543,7 @@
             <param name="action"></param>
             <returns></returns>
         </member>
-        <member name="M:AventusSharp.Data.Manager.GenericDM`2.RunInsideTransaction(System.Func{AventusSharp.Tools.VoidWithError})">
+        <member name="M:AventusSharp.Data.Manager.GenericDM`2.RunInsideTransaction(System.Func{System.Threading.Tasks.Task{AventusSharp.Tools.VoidWithError}})">
             <summary>
             Run a function inside a transaction that ll be commit if no error otherwise rollback
             </summary>
@@ -713,6 +713,14 @@
             Adds a condition to the query using the provided expression.
             </summary>
             <param name="func">The condition to apply to the query.</param>
+            <returns>The current query builder instance for method chaining.</returns>
+        </member>
+        <member name="M:AventusSharp.Data.Manager.IQueryBuilder`1.Where(System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            Adds a condition to the query using one search string and multiple fields
+            </summary>
+            <param name="search">The text to search to the query.</param>
+            <param name="fields">The fields to search for the query.</param>
             <returns>The current query builder instance for method chaining.</returns>
         </member>
         <member name="M:AventusSharp.Data.Manager.IQueryBuilder`1.WhereWithParameters(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
@@ -1287,7 +1295,7 @@
             <param name="data"></param>
             <returns></returns>
         </member>
-        <member name="M:AventusSharp.Data.Storage.Default.DefaultDBStorage`1.RunInsideTransaction``1(``0,System.Func{AventusSharp.Tools.ResultWithError{``0}})">
+        <member name="M:AventusSharp.Data.Storage.Default.DefaultDBStorage`1.RunInsideTransaction``1(``0,System.Func{System.Threading.Tasks.Task{AventusSharp.Tools.ResultWithError{``0}}})">
             <summary>
             Run a function inside a transaction that ll be commit if no error otherwise rollback
             </summary>
@@ -1296,7 +1304,7 @@
             <param name="action"></param>
             <returns></returns>
         </member>
-        <member name="M:AventusSharp.Data.Storage.Default.DefaultDBStorage`1.RunInsideTransaction``1(System.Func{AventusSharp.Tools.ResultWithError{``0}})">
+        <member name="M:AventusSharp.Data.Storage.Default.DefaultDBStorage`1.RunInsideTransaction``1(System.Func{System.Threading.Tasks.Task{AventusSharp.Tools.ResultWithError{``0}}})">
             <summary>
             Run a function inside a transaction that ll be commit if no error otherwise rollback
             </summary>
@@ -1304,7 +1312,7 @@
             <param name="action"></param>
             <returns></returns>
         </member>
-        <member name="M:AventusSharp.Data.Storage.Default.DefaultDBStorage`1.RunInsideTransaction(System.Func{AventusSharp.Tools.VoidWithError})">
+        <member name="M:AventusSharp.Data.Storage.Default.DefaultDBStorage`1.RunInsideTransaction(System.Func{System.Threading.Tasks.Task{AventusSharp.Tools.VoidWithError}})">
             <summary>
             Run a function inside a transaction that ll be commit if no error otherwise rollback
             </summary>
@@ -2251,6 +2259,120 @@
             <param name="hours">The hours (0 through 23).</param>
             <param name="minutes">The minutes (0 through 59).</param>
             <param name="seconds">The seconds (0 through 59).</param>
+        </member>
+        <member name="P:AventusSharp.SSE.SSEConfig.JSONSettings">
+            <summary>
+            Define how the object must be converted from/to json
+            </summary>
+        </member>
+        <member name="P:AventusSharp.SSE.SSEConfig.PrintRoute">
+            <summary>
+            Set to true to list all route on startup
+            </summary>
+        </member>
+        <member name="P:AventusSharp.SSE.SSEConfig.PrintTrigger">
+            <summary>
+            Set to true to print route triggered
+            </summary>
+        </member>
+        <member name="T:AventusSharp.SSE.SSEConnection">
+            <summary>
+            Class that represent a connection SSE between Client and Server
+            </summary>
+        </member>
+        <member name="M:AventusSharp.SSE.SSEConnection.GetContext">
+            <summary>
+            get context of the request
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AventusSharp.SSE.SSEConnection.#ctor(Microsoft.AspNetCore.Http.HttpContext,AventusSharp.SSE.SSEEndPoint)">
+            <summary>
+            default constructor
+            </summary>
+            <param name="context">context of request HTTP</param>
+            <param name="instance">Instance of SSEInstance (parent)</param>
+        </member>
+        <member name="M:AventusSharp.SSE.SSEConnection.Send(System.String,System.String)">
+            <summary>
+            Send a msg though this connection
+            </summary>
+            <param name="eventName">Event name</param>
+            <param name="data">string to send</param>
+            <returns></returns>
+        </member>
+        <member name="M:AventusSharp.SSE.SSEConnection.Send(System.String,Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Send a msg though this connection
+            </summary>
+            <param name="eventName">Event name</param>
+            <param name="o">Object to send</param>
+            <returns></returns>
+        </member>
+        <member name="M:AventusSharp.SSE.SSEConnection.Send(System.String,System.Object)">
+            <summary>
+            Send a msg though this connection
+            </summary>
+            <param name="eventName"></param>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AventusSharp.SSE.SSEEndPoint.Use(System.Func{AventusSharp.SSE.SSEConnection,System.String,System.Threading.Tasks.Task{System.Boolean}})">
+            <summary>
+            Add action when a request go though this SSE instance
+            </summary>
+            <param name="action"></param>
+        </member>
+        <member name="M:AventusSharp.SSE.SSEEndPoint.CanOpenConnection(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            define if the connection can be open
+            exemple if authentification needed, return false if not login
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AventusSharp.SSE.SSEEndPoint.StartNewInstance(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Start a new connection SSE between server and client
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AventusSharp.SSE.SSEEndPoint.RemoveInstance(AventusSharp.SSE.SSEConnection)">
+            <summary>
+            Remove connection of SSE 
+            </summary>
+            <param name="connection"></param>
+        </member>
+        <member name="M:AventusSharp.SSE.SSEEndPoint.Broadcast(System.String,Newtonsoft.Json.Linq.JObject,System.Collections.Generic.List{AventusSharp.SSE.SSEConnection},System.Collections.Generic.List{AventusSharp.SSE.SSEConnection})">
+            <summary>
+            Dispatch a message to all active connections
+            </summary>
+            <param name="eventName"></param>
+            <param name="o"></param>
+            <param name="connections"></param>
+            <param name="omit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AventusSharp.SSE.SSEEndPoint.Broadcast(System.String,System.String,System.Collections.Generic.List{AventusSharp.SSE.SSEConnection},System.Collections.Generic.List{AventusSharp.SSE.SSEConnection})">
+            <summary>
+            Dispatch a message to all active connections
+            </summary>
+            <param name="eventName"></param>
+            <param name="data"></param>
+            <param name="connections"></param>
+            <param name="omit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AventusSharp.SSE.SSEEndPoint.Broadcast(System.String,System.Object,System.Collections.Generic.List{AventusSharp.SSE.SSEConnection},System.Collections.Generic.List{AventusSharp.SSE.SSEConnection})">
+            <summary>
+            Dispatch a message to all active connections
+            </summary>
+            <param name="eventName"></param>
+            <param name="obj"></param>
+            <param name="connections"></param>
+            <param name="omit"></param>
+            <returns></returns>
         </member>
         <member name="T:AventusSharp.Tools.Attributes.FctName">
             <summary>

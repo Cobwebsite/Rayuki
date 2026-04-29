@@ -37,16 +37,19 @@ const _ = {};
 
 
 let _n;
-let isClass=function isClass(v) {
+let isClass="use strict";
+function isClass(v) {
     return typeof v === 'function' && /^\s*class\s+/.test(v.toString());
 }
 __as1(_, 'isClass', isClass);
 
-let sleep=function sleep(ms) {
+let sleep="use strict";
+function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 __as1(_, 'sleep', sleep);
 
+"use strict";
 var RamErrorCode;
 (function (RamErrorCode) {
     RamErrorCode[RamErrorCode["unknow"] = 0] = "unknow";
@@ -55,13 +58,31 @@ var RamErrorCode;
 })(RamErrorCode || (RamErrorCode = {}));
 __as1(_, 'RamErrorCode', RamErrorCode);
 
-let uuidv4=function uuidv4() {
+let KeysObject="use strict";
+__as1(_, 'KeysObject', KeysObject);
+
+let RamSubscribers="use strict";
+
+let IRamData="use strict";
+__as1(_, 'IRamData', IRamData);
+
+let IRam="use strict";
+__as1(_, 'IRam', IRam);
+
+let AnimationOptionsInternal="use strict";
+
+let AnimationOptions="use strict";
+__as1(_, 'AnimationOptions', AnimationOptions);
+
+let uuidv4="use strict";
+function uuidv4() {
     let uid = '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, c => (Number(c) ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> Number(c) / 4).toString(16));
     return uid;
 }
 __as1(_, 'uuidv4', uuidv4);
 
-let ActionGuard=class ActionGuard {
+let ActionGuard="use strict";
+class ActionGuard {
     /**
      * Map to store actions that are currently running.
      * @type {Map<any[], ((res: any) => void)[]>}
@@ -117,12 +138,25 @@ let ActionGuard=class ActionGuard {
 ActionGuard.Namespace=`Aventus`;
 __as1(_, 'ActionGuard', ActionGuard);
 
+let ResizeObserverOptions="use strict";
+__as1(_, 'ResizeObserverOptions', ResizeObserverOptions);
+
+let WindowResizeObserver="use strict";
+
+let ResourceLoaderOptions="use strict";
+__as1(_, 'ResourceLoaderOptions', ResourceLoaderOptions);
+
+let ResourceLoaderHeadOptions="use strict";
+__as1(_, 'ResourceLoaderHeadOptions', ResourceLoaderHeadOptions);
+
+"use strict";
 var HttpErrorCode;
 (function (HttpErrorCode) {
     HttpErrorCode[HttpErrorCode["unknow"] = 0] = "unknow";
 })(HttpErrorCode || (HttpErrorCode = {}));
 __as1(_, 'HttpErrorCode', HttpErrorCode);
 
+"use strict";
 var HttpMethod;
 (function (HttpMethod) {
     HttpMethod["GET"] = "GET";
@@ -133,13 +167,37 @@ var HttpMethod;
 })(HttpMethod || (HttpMethod = {}));
 __as1(_, 'HttpMethod', HttpMethod);
 
+let Enum="use strict";
+__as1(_, 'Enum', Enum);
+
+let EnumValue="use strict";
+__as1(_, 'EnumValue', EnumValue);
+
+let HttpRouterOptions="use strict";
+__as1(_, 'HttpRouterOptions', HttpRouterOptions);
+
 let DragElementXYType= [SVGGElement, SVGRectElement, SVGEllipseElement, SVGTextElement];
 __as1(_, 'DragElementXYType', DragElementXYType);
 
 let DragElementLeftTopType= [HTMLElement, SVGSVGElement];
 __as1(_, 'DragElementLeftTopType', DragElementLeftTopType);
 
-let DateConverter=class DateConverter {
+let Coordinate="use strict";
+
+let TargetableElement="use strict";
+
+let ContainerElement="use strict";
+
+let AnyElement="use strict";
+
+let DragElementLeftTop="use strict";
+__as1(_, 'DragElementLeftTop', DragElementLeftTop);
+
+let DragElementXY="use strict";
+__as1(_, 'DragElementXY', DragElementXY);
+
+let DateConverter="use strict";
+class DateConverter {
     static __converter = new DateConverter();
     static get converter() {
         return this.__converter;
@@ -163,7 +221,22 @@ let DateConverter=class DateConverter {
 DateConverter.Namespace=`Aventus`;
 __as1(_, 'DateConverter', DateConverter);
 
-let ElementExtension=class ElementExtension {
+let ClassCopyOptions="use strict";
+__as1(_, 'ClassCopyOptions', ClassCopyOptions);
+
+let SchemaType="use strict";
+
+let IData="use strict";
+__as1(_, 'IData', IData);
+
+let JsonFromOptions="use strict";
+__as1(_, 'JsonFromOptions', JsonFromOptions);
+
+let JsonToOptions="use strict";
+__as1(_, 'JsonToOptions', JsonToOptions);
+
+let ElementExtension="use strict";
+class ElementExtension {
     /**
      * Find a parent by custom check
      */
@@ -236,7 +309,10 @@ let ElementExtension=class ElementExtension {
             tagname = [tagname.toLowerCase()];
         }
         const checkFunc = (el) => {
-            return tagname.indexOf((el.nodeName || el.tagName).toLowerCase()) != -1;
+            if (el instanceof Element) {
+                return tagname.indexOf((el.nodeName || el.tagName).toLowerCase()) != -1;
+            }
+            return tagname.indexOf(el.nodeName.toLowerCase()) != -1;
         };
         return this.findParent(element, checkFunc, untilNode);
     }
@@ -249,7 +325,7 @@ let ElementExtension=class ElementExtension {
         }
         const check = (el) => {
             for (let classnameTemp of classname) {
-                if (el['classList'] && el['classList'].contains(classnameTemp)) {
+                if (el instanceof Element && el['classList'].contains(classnameTemp)) {
                     return true;
                 }
             }
@@ -296,7 +372,10 @@ let ElementExtension=class ElementExtension {
             tagname = [tagname.toLowerCase()];
         }
         let check = (el) => {
-            return tagname.indexOf((el.nodeName || el['tagName']).toLowerCase()) != -1;
+            if (el instanceof Element) {
+                return tagname.indexOf((el.nodeName || el.tagName).toLowerCase()) != -1;
+            }
+            return tagname.indexOf(el.nodeName.toLowerCase()) != -1;
         };
         return this.findParents(element, check, untilNode);
     }
@@ -304,8 +383,8 @@ let ElementExtension=class ElementExtension {
      * Check if element contains a child
      */
     static containsChild(element, child) {
-        var rootScope = element.getRootNode();
-        var elScope = child.getRootNode();
+        let rootScope = element.getRootNode();
+        let elScope = child.getRootNode();
         while (elScope != rootScope) {
             if (!elScope['host']) {
                 return false;
@@ -403,7 +482,7 @@ let ElementExtension=class ElementExtension {
      * Get deeper element inside dom at the position X and Y
      */
     static getElementAtPosition(x, y, startFrom) {
-        var _realTarget = (el, i = 0) => {
+        const _realTarget = (el, i = 0) => {
             if (i == 50) {
                 debugger;
             }
@@ -440,7 +519,14 @@ let ElementExtension=class ElementExtension {
 ElementExtension.Namespace=`Aventus`;
 __as1(_, 'ElementExtension', ElementExtension);
 
-let Style=class Style {
+let InstanceCst="use strict";
+__as1(_, 'InstanceCst', InstanceCst);
+
+let InstanceCst2="use strict";
+__as1(_, 'InstanceCst2', InstanceCst2);
+
+let Style="use strict";
+class Style {
     static instance;
     static noAnimation;
     static defaultStyleSheets = {
@@ -535,7 +621,18 @@ let Style=class Style {
 Style.Namespace=`Aventus`;
 __as1(_, 'Style', Style);
 
-let setValueToObject=function setValueToObject(path, obj, value) {
+let ActionBindings="use strict";
+
+let ActionInjection="use strict";
+
+let ActionEventCallback="use strict";
+
+let ActionEventListener="use strict";
+
+let ContextEdit="use strict";
+
+let setValueToObject="use strict";
+function setValueToObject(path, obj, value) {
     path = path.replace(/\[(.*?)\]/g, '.$1');
     const val = (key) => {
         if (obj instanceof Map) {
@@ -562,7 +659,16 @@ let setValueToObject=function setValueToObject(path, obj, value) {
 }
 __as1(_, 'setValueToObject', setValueToObject);
 
-let Mutex=class Mutex {
+let If="use strict";
+
+let LoopSimple="use strict";
+
+let LoopFct="use strict";
+
+let TemplateHTML="use strict";
+
+let Mutex="use strict";
+class Mutex {
     /**
      * Array to store functions waiting for the mutex to become available.
      * @type {((run: boolean) => void)[]}
@@ -705,7 +811,58 @@ let Mutex=class Mutex {
 Mutex.Namespace=`Aventus`;
 __as1(_, 'Mutex', Mutex);
 
-let NormalizedEvent=class NormalizedEvent {
+let UriParams="use strict";
+__as1(_, 'UriParams', UriParams);
+
+let Asyncable="use strict";
+__as1(_, 'Asyncable', Asyncable);
+
+let UriParamsValue="use strict";
+__as1(_, 'UriParamsValue', UriParamsValue);
+
+let PressManagerState="use strict";
+__as1(_, 'PressManagerState', PressManagerState);
+
+let Callback="use strict";
+class Callback {
+    callbacks = new Map();
+    /**
+     * Clear all callbacks
+     */
+    clear() {
+        this.callbacks.clear();
+    }
+    /**
+     * Add a callback
+     */
+    add(cb, scope = null) {
+        if (!this.callbacks.has(cb)) {
+            this.callbacks.set(cb, scope);
+        }
+    }
+    /**
+     * Remove a callback
+     */
+    remove(cb) {
+        this.callbacks.delete(cb);
+    }
+    /**
+     * Trigger all callbacks
+     */
+    trigger(...args) {
+        let result = [];
+        let cbs = [...this.callbacks];
+        for (let [cb, scope] of cbs) {
+            result.push(cb.apply(scope, args));
+        }
+        return result;
+    }
+}
+Callback.Namespace=`Aventus`;
+__as1(_, 'Callback', Callback);
+
+let NormalizedEvent="use strict";
+class NormalizedEvent {
     _event;
     get event() {
         return this._event;
@@ -784,44 +941,16 @@ let NormalizedEvent=class NormalizedEvent {
 NormalizedEvent.Namespace=`Aventus`;
 __as1(_, 'NormalizedEvent', NormalizedEvent);
 
-let Callback=class Callback {
-    callbacks = new Map();
-    /**
-     * Clear all callbacks
-     */
-    clear() {
-        this.callbacks.clear();
-    }
-    /**
-     * Add a callback
-     */
-    add(cb, scope = null) {
-        if (!this.callbacks.has(cb)) {
-            this.callbacks.set(cb, scope);
-        }
-    }
-    /**
-     * Remove a callback
-     */
-    remove(cb) {
-        this.callbacks.delete(cb);
-    }
-    /**
-     * Trigger all callbacks
-     */
-    trigger(...args) {
-        let result = [];
-        let cbs = [...this.callbacks];
-        for (let [cb, scope] of cbs) {
-            result.push(cb.apply(scope, args));
-        }
-        return result;
-    }
-}
-Callback.Namespace=`Aventus`;
-__as1(_, 'Callback', Callback);
+let InternalCustomFunction="use strict";
+__as1(_, 'InternalCustomFunction', InternalCustomFunction);
 
-let compareObject=function compareObject(obj1, obj2) {
+let InternalPointerEvent="use strict";
+__as1(_, 'InternalPointerEvent', InternalPointerEvent);
+
+let IsNotVoid="use strict";
+
+let compareObject="use strict";
+function compareObject(obj1, obj2) {
     if (Array.isArray(obj1)) {
         if (!Array.isArray(obj2)) {
             return false;
@@ -906,7 +1035,8 @@ let compareObject=function compareObject(obj1, obj2) {
 }
 __as1(_, 'compareObject', compareObject);
 
-let getValueFromObject=function getValueFromObject(path, obj) {
+let getValueFromObject="use strict";
+function getValueFromObject(path, obj) {
     if (path === undefined) {
         path = '';
     }
@@ -936,6 +1066,7 @@ let getValueFromObject=function getValueFromObject(path, obj) {
 }
 __as1(_, 'getValueFromObject', getValueFromObject);
 
+"use strict";
 var WatchAction;
 (function (WatchAction) {
     WatchAction[WatchAction["CREATED"] = 0] = "CREATED";
@@ -944,7 +1075,10 @@ var WatchAction;
 })(WatchAction || (WatchAction = {}));
 __as1(_, 'WatchAction', WatchAction);
 
-let Effect=class Effect {
+let WatcherFunctionInternal="use strict";
+
+let Effect="use strict";
+class Effect {
     callbacks = [];
     isInit = false;
     isDestroy = false;
@@ -1059,7 +1193,22 @@ let Effect=class Effect {
 Effect.Namespace=`Aventus`;
 __as1(_, 'Effect', Effect);
 
-let Signal=class Signal {
+let WatcherFunction="use strict";
+__as1(_, 'WatcherFunction', WatcherFunction);
+
+let WatcherAllowed="use strict";
+
+let WatcherChange="use strict";
+__as1(_, 'WatcherChange', WatcherChange);
+
+let DefaultComponent="use strict";
+__as1(_, 'DefaultComponent', DefaultComponent);
+
+let EffectReceiver="use strict";
+__as1(_, 'EffectReceiver', EffectReceiver);
+
+let Signal="use strict";
+class Signal {
     __subscribes = [];
     _value;
     _onChange;
@@ -1102,7 +1251,8 @@ let Signal=class Signal {
 Signal.Namespace=`Aventus`;
 __as1(_, 'Signal', Signal);
 
-let Computed=class Computed extends Effect {
+let Computed="use strict";
+class Computed extends Effect {
     _value;
     __path = "*";
     get value() {
@@ -1142,7 +1292,8 @@ let Computed=class Computed extends Effect {
 Computed.Namespace=`Aventus`;
 __as1(_, 'Computed', Computed);
 
-let Watcher=class Watcher {
+let Watcher="use strict";
+class Watcher {
     constructor() { }
     ;
     static __reservedName = {
@@ -1265,7 +1416,7 @@ let Watcher=class Watcher {
                         let newProp = splitted.pop();
                         let newReceiver = getValueFromObject(splitted.join("."), realProxy);
                         if (newReceiver.getTarget(false) == target)
-                            trigger(type, target, newReceiver, value, newProp, dones);
+                            trigger(type, target, newReceiver, value, newProp ?? '', dones);
                     });
                     internalAliases[fullInternalPath] = {
                         unbind: () => {
@@ -1989,7 +2140,8 @@ let Watcher=class Watcher {
 Watcher.Namespace=`Aventus`;
 __as1(_, 'Watcher', Watcher);
 
-let ComputedNoRecomputed=class ComputedNoRecomputed extends Computed {
+let ComputedNoRecomputed="use strict";
+class ComputedNoRecomputed extends Computed {
     init() {
         this.isInit = true;
         Watcher._registering.push(this);
@@ -2007,7 +2159,11 @@ let ComputedNoRecomputed=class ComputedNoRecomputed extends Computed {
 ComputedNoRecomputed.Namespace=`Aventus`;
 __as1(_, 'ComputedNoRecomputed', ComputedNoRecomputed);
 
-let PressManager=class PressManager {
+let PressManagerOptions="use strict";
+__as1(_, 'PressManagerOptions', PressManagerOptions);
+
+let PressManager="use strict";
+class PressManager {
     static globalConfig = {
         delayDblPress: 250,
         delayLongPress: 700,
@@ -2240,7 +2396,8 @@ let PressManager=class PressManager {
         }
     }
     pointerEventTriggered = false;
-    downActionDelay(ev) {
+    downActionDelay(_ev) {
+        const ev = _ev;
         if (!this.pointerEventTriggered) {
             this.downAction(ev);
         }
@@ -2251,7 +2408,8 @@ let PressManager=class PressManager {
             this.pointerEventTriggered = false;
         }, 0);
     }
-    downAction(ev) {
+    downAction(_ev) {
+        const ev = _ev;
         this.pointerEventTriggered = true;
         const isFirst = Object.values(this.pointersRecord).length == 0;
         if (!this.registerEvent(ev)) {
@@ -2339,7 +2497,8 @@ let PressManager=class PressManager {
             }
         }
     }
-    upAction(ev) {
+    upAction(_ev) {
+        const ev = _ev;
         if (!this.unregisterEvent(ev)) {
             if (this.stopPropagation()) {
                 ev.stopImmediatePropagation();
@@ -2397,7 +2556,8 @@ let PressManager=class PressManager {
             }
         }
     }
-    moveAction(ev) {
+    moveAction(_ev) {
+        const ev = _ev;
         const e = new NormalizedEvent(ev);
         if (this.options.onEvent) {
             this.options.onEvent(e);
@@ -2412,7 +2572,8 @@ let PressManager=class PressManager {
         //     this.emitTriggerFunctionParent("pressmove", e);
         this.emitTriggerFunction("pressmove", e);
     }
-    childPressStart(e) {
+    childPressStart(_e) {
+        const e = _e;
         if (this.lastEmitEvent == e.detail.realEvent)
             return;
         this.genericDownAction(e.detail.state, e.detail.realEvent);
@@ -2420,7 +2581,8 @@ let PressManager=class PressManager {
             this.options.onPressStart(e.detail.realEvent, this);
         }
     }
-    childPressEnd(e) {
+    childPressEnd(_e) {
+        const e = _e;
         this.unregisterEvent(e.detail.realEvent.event);
         if (Object.values(this.pointersRecord).length == 0) {
             document.removeEventListener("pointerup", this.functionsBinded.upAction);
@@ -2436,7 +2598,8 @@ let PressManager=class PressManager {
             this.options.onPressEnd(e.detail.realEvent, this);
         }
     }
-    childPressMove(e) {
+    childPressMove(_e) {
+        const e = _e;
         if (this.lastEmitEvent == e.detail.realEvent)
             return;
         this.genericMoveAction(e.detail.state, e.detail.realEvent);
@@ -2480,7 +2643,74 @@ let PressManager=class PressManager {
 PressManager.Namespace=`Aventus`;
 __as1(_, 'PressManager', PressManager);
 
-let Uri=class Uri {
+let StateSlug="use strict";
+__as1(_, 'StateSlug', StateSlug);
+
+let IState="use strict";
+__as1(_, 'IState', IState);
+
+let State="use strict";
+class State {
+    /**
+     * Activate a custom state inside a specific manager
+     * It ll be a generic state with no information inside exept name
+     */
+    static async activate(stateName, manager) {
+        return await manager.setState(stateName);
+    }
+    /**
+     * Activate this state inside a specific manager
+     */
+    async activate(manager) {
+        return await manager.setState(this);
+    }
+    onActivate() {
+    }
+    onInactivate(nextState) {
+    }
+    async askChange(state, nextState) {
+        return true;
+    }
+}
+State.Namespace=`Aventus`;
+__as1(_, 'State', State);
+
+let EmptyState="use strict";
+class EmptyState extends State {
+    localName;
+    constructor(stateName) {
+        super();
+        this.localName = stateName;
+    }
+    /**
+     * @inheritdoc
+     */
+    get name() {
+        return this.localName;
+    }
+}
+EmptyState.Namespace=`Aventus`;
+__as1(_, 'EmptyState', EmptyState);
+
+let StateAskChangeFct="use strict";
+
+let StateInactivationFct="use strict";
+
+let StateActivationFct="use strict";
+
+let Subscriber="use strict";
+
+let StateAction="use strict";
+__as1(_, 'StateAction', StateAction);
+
+let IStateManager="use strict";
+__as1(_, 'IStateManager', IStateManager);
+
+let PreparedUri="use strict";
+__as1(_, 'PreparedUri', PreparedUri);
+
+let Uri="use strict";
+class Uri {
     static prepare(uri) {
         let params = [];
         let i = 0;
@@ -2558,48 +2788,8 @@ let Uri=class Uri {
 Uri.Namespace=`Aventus`;
 __as1(_, 'Uri', Uri);
 
-let State=class State {
-    /**
-     * Activate a custom state inside a specific manager
-     * It ll be a generic state with no information inside exept name
-     */
-    static async activate(stateName, manager) {
-        return await manager.setState(stateName);
-    }
-    /**
-     * Activate this state inside a specific manager
-     */
-    async activate(manager) {
-        return await manager.setState(this);
-    }
-    onActivate() {
-    }
-    onInactivate(nextState) {
-    }
-    async askChange(state, nextState) {
-        return true;
-    }
-}
-State.Namespace=`Aventus`;
-__as1(_, 'State', State);
-
-let EmptyState=class EmptyState extends State {
-    localName;
-    constructor(stateName) {
-        super();
-        this.localName = stateName;
-    }
-    /**
-     * @inheritdoc
-     */
-    get name() {
-        return this.localName;
-    }
-}
-EmptyState.Namespace=`Aventus`;
-__as1(_, 'EmptyState', EmptyState);
-
-let StateManager=class StateManager {
+let StateManager="use strict";
+class StateManager {
     subscribers = {};
     static canBeActivate(statePattern, stateName) {
         let stateInfo = Uri.prepare(statePattern);
@@ -2909,213 +3099,12 @@ let StateManager=class StateManager {
 StateManager.Namespace=`Aventus`;
 __as1(_, 'StateManager', StateManager);
 
-let TemplateContext=class TemplateContext {
-    data = {};
-    comp;
-    computeds = [];
-    watch;
-    registry;
-    isDestroyed = false;
-    constructor(component, data = {}, parentContext, registry) {
-        this.comp = component;
-        this.registry = registry;
-        this.watch = Watcher.get({});
-        let that = this;
-        for (let key in data) {
-            if (data[key].__isProxy) {
-                Object.defineProperty(this.data, key, {
-                    get() {
-                        return data[key];
-                    }
-                });
-            }
-            else {
-                this.watch[key] = data[key];
-                Object.defineProperty(this.data, key, {
-                    get() {
-                        return that.watch[key];
-                    }
-                });
-            }
-        }
-        if (parentContext) {
-            const descriptors = Object.getOwnPropertyDescriptors(parentContext.data);
-            for (let name in descriptors) {
-                Object.defineProperty(this.data, name, {
-                    get() {
-                        return parentContext.data[name];
-                    }
-                });
-            }
-        }
-    }
-    print(value) {
-        return value == null ? "" : value + "";
-    }
-    registerIndex() {
-        let name = "index";
-        let i = 0;
-        let fullName = name + i;
-        while (this.watch[fullName] !== undefined) {
-            i++;
-            fullName = name + i;
-        }
-        return fullName;
-    }
-    registerLoop(dataName, _indexValue, _indexName, indexName, itemName, onThis) {
-        this.watch[_indexName] = _indexValue;
-        let getItems;
-        let mustBeRecomputed = /if|switch|\?|\[.+?\]/g.test(dataName);
-        let _class = mustBeRecomputed ? Computed : ComputedNoRecomputed;
-        if (!onThis) {
-            getItems = new _class(() => {
-                return getValueFromObject(dataName, this.data);
-            });
-        }
-        else {
-            dataName = dataName.replace(/^this\./, '');
-            getItems = new _class(() => {
-                return getValueFromObject(dataName, this.comp);
-            });
-        }
-        let getIndex = new ComputedNoRecomputed(() => {
-            let items = getItems.value;
-            if (!items)
-                throw 'impossible';
-            let keys = Object.keys(items);
-            let index = keys[_getIndex.value];
-            if (/^[0-9]+$/g.test(index))
-                return Number(index);
-            return index;
-        });
-        let getItem = new ComputedNoRecomputed(() => {
-            let items = getItems.value;
-            if (!items)
-                throw 'impossible';
-            let keys = Object.keys(items);
-            let index = keys[_getIndex.value];
-            let element = items[index];
-            if (element === undefined && (Array.isArray(items) || !items)) {
-                if (this.registry) {
-                    let indexNb = Number(_getIndex.value);
-                    if (!isNaN(indexNb)) {
-                        this.registry.templates[indexNb].destructor();
-                        this.registry.templates.splice(indexNb, 1);
-                        for (let i = indexNb; i < this.registry.templates.length; i++) {
-                            this.registry.templates[i].context.decreaseIndex(_indexName);
-                        }
-                    }
-                }
-            }
-            return element;
-        });
-        let _getIndex = new ComputedNoRecomputed(() => {
-            return this.watch[_indexName];
-        });
-        this.computeds.push(getIndex);
-        this.computeds.push(getItem);
-        this.computeds.push(_getIndex);
-        if (itemName) {
-            Object.defineProperty(this.data, itemName, {
-                get() {
-                    return getItem.value;
-                }
-            });
-        }
-        if (indexName) {
-            Object.defineProperty(this.data, indexName, {
-                get() {
-                    return getIndex.value;
-                }
-            });
-        }
-    }
-    updateIndex(newIndex, _indexName) {
-        // let items: any[] | {};
-        // if(!dataName.startsWith("this.")) {
-        //     let comp = new Computed(() => {
-        //         return getValueFromObject(dataName, this.data);
-        //     });
-        //     fullName = dataName.replace(/^this\./, '');
-        //     items = getValueFromObject(fullName, this.comp);
-        // if(Array.isArray(items)) {
-        //     let regex = new RegExp("^(" + fullName.replace(/\./g, "\\.") + ")\\[(\\d+?)\\]");
-        //     for(let computed of computeds) {
-        //         for(let cb of computed.callbacks) {
-        //             cb.path = cb.path.replace(regex, "$1[" + newIndex + "]");
-        //     let oldKey = Object.keys(items)[this.watch[_indexName]]
-        //     let newKey = Object.keys(items)[newIndex]
-        //     let regex = new RegExp("^(" + fullName.replace(/\./g, "\\.") + "\\.)(" + oldKey + ")($|\\.)");
-        //     for (let computed of computeds) {
-        //         for (let cb of computed.callbacks) {
-        //             cb.path = cb.path.replace(regex, "$1" + newKey + "$3")
-        this.watch[_indexName] = newIndex;
-    }
-    increaseIndex(_indexName) {
-        this.updateIndex(this.watch[_indexName] + 1, _indexName);
-    }
-    decreaseIndex(_indexName) {
-        this.updateIndex(this.watch[_indexName] - 1, _indexName);
-    }
-    destructor() {
-        this.isDestroyed = true;
-        for (let computed of this.computeds) {
-            computed.destroy();
-        }
-        this.computeds = [];
-    }
-    registerWatch(name, value) {
-        let that = this;
-        that.watch[name] = value;
-        Object.defineProperty(that.data, name, {
-            get() {
-                return that.watch[name];
-            }
-        });
-    }
-    updateWatch(name, value, dones) {
-        if (Watcher.is(this.watch[name])) {
-            this.watch[name].__injectedDones(dones);
-        }
-        this.watch[name] = value;
-    }
-    normalizePath(path) {
-        path = path.replace(/^this\./, '');
-        const regex = /\[(.*?)\]/g;
-        let m;
-        while ((m = regex.exec(path)) !== null) {
-            if (m.index === regex.lastIndex) {
-                regex.lastIndex++;
-            }
-            let name = m[1];
-            let result = getValueFromObject(name, this.data);
-            if (result !== undefined) {
-                path = path.replace(m[0], `[${result}]`);
-            }
-        }
-        return path;
-    }
-    getValueFromItem(name) {
-        if (!name)
-            return undefined;
-        let result = getValueFromObject(name, this.data);
-        if (result !== undefined) {
-            return result;
-        }
-        result = getValueFromObject(name, this.comp);
-        if (result !== undefined) {
-            return result;
-        }
-        return undefined;
-    }
-    setValueToItem(name, value) {
-        setValueToObject(name, this.comp, value);
-    }
-}
-TemplateContext.Namespace=`Aventus`;
-__as1(_, 'TemplateContext', TemplateContext);
+let Loop="use strict";
 
-let TemplateInstance=class TemplateInstance {
+let ActionEvent="use strict";
+
+let TemplateInstance="use strict";
+class TemplateInstance {
     context;
     content;
     actions;
@@ -3273,6 +3262,10 @@ let TemplateInstance=class TemplateInstance {
         if (event.isCallback) {
             for (let el of this._components[event.id]) {
                 let cb = getValueFromObject(event.eventName, el);
+                if (!cb && el.tagName.includes('-')) {
+                    customElements.upgrade(el);
+                    cb = getValueFromObject(event.eventName, el);
+                }
                 cb?.add((...args) => {
                     try {
                         return event.fct(this.context, args);
@@ -3302,11 +3295,12 @@ let TemplateInstance=class TemplateInstance {
             let clone = {};
             for (let temp in event) {
                 if (temp != 'id') {
-                    if (event[temp] instanceof Function) {
-                        clone[temp] = (e, pressInstance) => { event[temp](e, pressInstance, this.context); };
+                    const ev = event;
+                    if (ev[temp] instanceof Function) {
+                        clone[temp] = (e, pressInstance) => { ev[temp](e, pressInstance, this.context); };
                     }
                     else {
-                        clone[temp] = event[temp];
+                        clone[temp] = ev[temp];
                     }
                 }
             }
@@ -3420,6 +3414,7 @@ let TemplateInstance=class TemplateInstance {
         });
         this.firstRenderCb.push(() => {
             for (const el of this._components[injection.id]) {
+                customElements.upgrade(el);
                 el[injection.injectionName] = computed.value;
             }
         });
@@ -3455,6 +3450,7 @@ let TemplateInstance=class TemplateInstance {
         });
         this.firstRenderCb.push(() => {
             for (const el of this._components[binding.id]) {
+                customElements.upgrade(el);
                 el[binding.injectionName] = computed.value;
             }
         });
@@ -3463,6 +3459,10 @@ let TemplateInstance=class TemplateInstance {
                 for (var el of this._components[binding.id]) {
                     for (let fct of binding.eventNames) {
                         let cb = getValueFromObject(fct, el);
+                        if (!cb && el.tagName.includes('-')) {
+                            customElements.upgrade(el);
+                            cb = getValueFromObject(binding.injectionName, el);
+                        }
                         cb?.add((value) => {
                             let valueToSet = getValueFromObject(binding.injectionName, el);
                             isLocalChange = true;
@@ -3476,6 +3476,7 @@ let TemplateInstance=class TemplateInstance {
         else {
             this.firstRenderCb.push(() => {
                 for (var el of this._components[binding.id]) {
+                    customElements.upgrade(el);
                     for (let fct of binding.eventNames) {
                         el.addEventListener(fct, (e) => {
                             let valueToSet = getValueFromObject(binding.injectionName, e.target);
@@ -3812,7 +3813,221 @@ let TemplateInstance=class TemplateInstance {
 TemplateInstance.Namespace=`Aventus`;
 __as1(_, 'TemplateInstance', TemplateInstance);
 
-let Template=class Template {
+let LoopRegistery="use strict";
+
+let TemplateContext="use strict";
+class TemplateContext {
+    data = {};
+    comp;
+    computeds = [];
+    watch;
+    registry;
+    isDestroyed = false;
+    constructor(component, data = {}, parentContext, registry) {
+        this.comp = component;
+        this.registry = registry;
+        this.watch = Watcher.get({});
+        let that = this;
+        for (let key in data) {
+            if (data[key].__isProxy) {
+                Object.defineProperty(this.data, key, {
+                    get() {
+                        return data[key];
+                    }
+                });
+            }
+            else {
+                this.watch[key] = data[key];
+                Object.defineProperty(this.data, key, {
+                    get() {
+                        return that.watch[key];
+                    }
+                });
+            }
+        }
+        if (parentContext) {
+            const descriptors = Object.getOwnPropertyDescriptors(parentContext.data);
+            for (let name in descriptors) {
+                Object.defineProperty(this.data, name, {
+                    get() {
+                        return parentContext.data[name];
+                    }
+                });
+            }
+        }
+    }
+    print(value) {
+        return value == null ? "" : value + "";
+    }
+    registerIndex() {
+        let name = "index";
+        let i = 0;
+        let fullName = name + i;
+        while (this.watch[fullName] !== undefined) {
+            i++;
+            fullName = name + i;
+        }
+        return fullName;
+    }
+    registerLoop(dataName, _indexValue, _indexName, indexName, itemName, onThis) {
+        this.watch[_indexName] = _indexValue;
+        let getItems;
+        let mustBeRecomputed = /if|switch|\?|\[.+?\]/g.test(dataName);
+        let _class = mustBeRecomputed ? Computed : ComputedNoRecomputed;
+        if (!onThis) {
+            getItems = new _class(() => {
+                return getValueFromObject(dataName, this.data);
+            });
+        }
+        else {
+            dataName = dataName.replace(/^this\./, '');
+            getItems = new _class(() => {
+                return getValueFromObject(dataName, this.comp);
+            });
+        }
+        let getIndex = new ComputedNoRecomputed(() => {
+            let items = getItems.value;
+            if (!items)
+                throw 'impossible';
+            let keys = Object.keys(items);
+            let index = keys[_getIndex.value];
+            if (/^[0-9]+$/g.test(index))
+                return Number(index);
+            return index;
+        });
+        let getItem = new ComputedNoRecomputed(() => {
+            let items = getItems.value;
+            if (!items)
+                throw 'impossible';
+            let keys = Object.keys(items);
+            let index = keys[_getIndex.value];
+            let element = items[index];
+            if (element === undefined && (Array.isArray(items) || !items)) {
+                if (this.registry) {
+                    let indexNb = Number(_getIndex.value);
+                    if (!isNaN(indexNb)) {
+                        this.registry.templates[indexNb].destructor();
+                        this.registry.templates.splice(indexNb, 1);
+                        for (let i = indexNb; i < this.registry.templates.length; i++) {
+                            this.registry.templates[i].context.decreaseIndex(_indexName);
+                        }
+                    }
+                }
+            }
+            return element;
+        });
+        let _getIndex = new ComputedNoRecomputed(() => {
+            return this.watch[_indexName];
+        });
+        this.computeds.push(getIndex);
+        this.computeds.push(getItem);
+        this.computeds.push(_getIndex);
+        if (itemName) {
+            Object.defineProperty(this.data, itemName, {
+                get() {
+                    return getItem.value;
+                }
+            });
+        }
+        if (indexName) {
+            Object.defineProperty(this.data, indexName, {
+                get() {
+                    return getIndex.value;
+                }
+            });
+        }
+    }
+    updateIndex(newIndex, _indexName) {
+        // let items: any[] | {};
+        // if(!dataName.startsWith("this.")) {
+        //     let comp = new Computed(() => {
+        //         return getValueFromObject(dataName, this.data);
+        //     });
+        //     fullName = dataName.replace(/^this\./, '');
+        //     items = getValueFromObject(fullName, this.comp);
+        // if(Array.isArray(items)) {
+        //     let regex = new RegExp("^(" + fullName.replace(/\./g, "\\.") + ")\\[(\\d+?)\\]");
+        //     for(let computed of computeds) {
+        //         for(let cb of computed.callbacks) {
+        //             cb.path = cb.path.replace(regex, "$1[" + newIndex + "]");
+        //     let oldKey = Object.keys(items)[this.watch[_indexName]]
+        //     let newKey = Object.keys(items)[newIndex]
+        //     let regex = new RegExp("^(" + fullName.replace(/\./g, "\\.") + "\\.)(" + oldKey + ")($|\\.)");
+        //     for (let computed of computeds) {
+        //         for (let cb of computed.callbacks) {
+        //             cb.path = cb.path.replace(regex, "$1" + newKey + "$3")
+        this.watch[_indexName] = newIndex;
+    }
+    increaseIndex(_indexName) {
+        this.updateIndex(this.watch[_indexName] + 1, _indexName);
+    }
+    decreaseIndex(_indexName) {
+        this.updateIndex(this.watch[_indexName] - 1, _indexName);
+    }
+    destructor() {
+        this.isDestroyed = true;
+        for (let computed of this.computeds) {
+            computed.destroy();
+        }
+        this.computeds = [];
+    }
+    registerWatch(name, value) {
+        let that = this;
+        that.watch[name] = value;
+        Object.defineProperty(that.data, name, {
+            get() {
+                return that.watch[name];
+            }
+        });
+    }
+    updateWatch(name, value, dones) {
+        if (Watcher.is(this.watch[name])) {
+            this.watch[name].__injectedDones(dones);
+        }
+        this.watch[name] = value;
+    }
+    normalizePath(path) {
+        path = path.replace(/^this\./, '');
+        const regex = /\[(.*?)\]/g;
+        let m;
+        while ((m = regex.exec(path)) !== null) {
+            if (m.index === regex.lastIndex) {
+                regex.lastIndex++;
+            }
+            let name = m[1];
+            let result = getValueFromObject(name, this.data);
+            if (result !== undefined) {
+                path = path.replace(m[0], `[${result}]`);
+            }
+        }
+        return path;
+    }
+    getValueFromItem(name) {
+        if (!name)
+            return undefined;
+        let result = getValueFromObject(name, this.data);
+        if (result !== undefined) {
+            return result;
+        }
+        result = getValueFromObject(name, this.comp);
+        if (result !== undefined) {
+            return result;
+        }
+        return undefined;
+    }
+    setValueToItem(name, value) {
+        setValueToObject(name, this.comp, value);
+    }
+}
+TemplateContext.Namespace=`Aventus`;
+__as1(_, 'TemplateContext', TemplateContext);
+
+let ActionChange="use strict";
+
+let Actions="use strict";
+
+let Template="use strict";
+class Template {
     static validatePath(path, pathToCheck) {
         if (pathToCheck.startsWith(path)) {
             return true;
@@ -3950,7 +4165,8 @@ let Template=class Template {
 Template.Namespace=`Aventus`;
 __as1(_, 'Template', Template);
 
-let Instance=class Instance {
+let Instance="use strict";
+class Instance {
     static elements = new Map();
     static get(type) {
         let result = this.elements.get(type);
@@ -3977,7 +4193,8 @@ let Instance=class Instance {
 Instance.Namespace=`Aventus`;
 __as1(_, 'Instance', Instance);
 
-let WebComponent=class WebComponent extends HTMLElement {
+let WebComponent="use strict";
+class WebComponent extends HTMLElement {
     /**
      * Add attributes informations
      */
@@ -4269,7 +4486,7 @@ let WebComponent=class WebComponent extends HTMLElement {
     }
     disconnectedCallback() {
         setTimeout(() => {
-            this.postDisonnect();
+            this.postDisconnect();
         });
     }
     __onReadyCb = [];
@@ -4309,36 +4526,38 @@ let WebComponent=class WebComponent extends HTMLElement {
     }
     __upgradeProperty(prop) {
         let boolProps = this.__listBoolProps();
+        const t = this;
         if (boolProps.indexOf(prop) != -1) {
             if (this.hasAttribute(prop) && (this.getAttribute(prop) === "true" || this.getAttribute(prop) === "")) {
                 let value = this.getAttribute(prop);
-                delete this[prop];
-                this[prop] = value;
+                delete t[prop];
+                t[prop] = value;
             }
             else {
                 this.removeAttribute(prop);
-                delete this[prop];
-                this[prop] = false;
+                delete t[prop];
+                t[prop] = false;
             }
         }
         else {
             if (this.hasAttribute(prop)) {
                 let value = this.getAttribute(prop);
-                delete this[prop];
-                this[prop] = value;
+                delete t[prop];
+                t[prop] = value;
             }
             else if (Object.hasOwn(this, prop)) {
-                const value = this[prop];
-                delete this[prop];
-                this[prop] = value;
+                const value = t[prop];
+                delete t[prop];
+                t[prop] = value;
             }
         }
     }
     __correctGetter(prop) {
         if (Object.hasOwn(this, prop)) {
-            const value = this[prop];
-            delete this[prop];
-            this[prop] = value;
+            const t = this;
+            const value = t[prop];
+            delete t[prop];
+            t[prop] = value;
         }
     }
     __getStateManager(managerClass) {
@@ -4610,7 +4829,7 @@ let WebComponent=class WebComponent extends HTMLElement {
                 },
                 onChange() {
                     for (let fct of this.__subscribes) {
-                        fct(WatchAction.UPDATED, name, that[name]);
+                        fct(WatchAction.UPDATED, name, that[name], []);
                     }
                 },
                 __path: name
@@ -4656,7 +4875,7 @@ let WebComponent=class WebComponent extends HTMLElement {
     /**
     * Function triggered each time the component is removed from the DOM
     */
-    postDisonnect() { }
+    postDisconnect() { }
     /**
      * Find a parent by tagname if exist
      */
@@ -4721,7 +4940,8 @@ let WebComponent=class WebComponent extends HTMLElement {
 WebComponent.Namespace=`Aventus`;
 __as1(_, 'WebComponent', WebComponent);
 
-let WebComponentInstance=class WebComponentInstance {
+let WebComponentInstance="use strict";
+class WebComponentInstance {
     static __allDefinitions = [];
     static __allInstances = [];
     /**
@@ -4794,7 +5014,8 @@ let WebComponentInstance=class WebComponentInstance {
 WebComponentInstance.Namespace=`Aventus`;
 __as1(_, 'WebComponentInstance', WebComponentInstance);
 
-let Json=class Json {
+let Json="use strict";
+class Json {
     /**
      * Converts a JavaScript class instance to a JSON object.
      * @template T - The type of the object to convert.
@@ -4825,7 +5046,8 @@ let Json=class Json {
                 if (options.isValidKey(key)) {
                     let descriptor = descriptorsClass[key];
                     if (descriptor?.get) {
-                        result[options.replaceKey(key)] = options.transformValue(key, obj[key]);
+                        const o = obj;
+                        result[options.replaceKey(key)] = options.transformValue(key, o[key]);
                     }
                 }
             }
@@ -4858,7 +5080,8 @@ let Json=class Json {
             if (value !== undefined || options.replaceUndefined || (options.replaceUndefinedWithKey && (Object.hasOwn(data, prop) || Object.hasOwn(data, propUpperFirst)))) {
                 let propInfo = Object.getOwnPropertyDescriptor(obj, prop);
                 if (propInfo?.writable) {
-                    obj[prop] = options.transformValue(prop, value);
+                    const o = obj;
+                    o[prop] = options.transformValue(prop, value);
                 }
             }
         }
@@ -4871,7 +5094,8 @@ let Json=class Json {
                 if (value !== undefined || options.replaceUndefined || (options.replaceUndefinedWithKey && (Object.hasOwn(data, prop) || Object.hasOwn(data, propUpperFirst)))) {
                     let propInfo = Object.getOwnPropertyDescriptor(cstTemp.prototype, prop);
                     if (propInfo?.set) {
-                        obj[prop] = options.transformValue(prop, value);
+                        const o = obj;
+                        o[prop] = options.transformValue(prop, value);
                     }
                 }
             }
@@ -4883,7 +5107,14 @@ let Json=class Json {
 Json.Namespace=`Aventus`;
 __as1(_, 'Json', Json);
 
-let ConverterTransform=class ConverterTransform {
+let Schema="use strict";
+__as1(_, 'Schema', Schema);
+
+let IConverterTransform="use strict";
+__as1(_, 'IConverterTransform', IConverterTransform);
+
+let ConverterTransform="use strict";
+class ConverterTransform {
     transform(data) {
         return this.transformLoop(data);
     }
@@ -4995,8 +5226,11 @@ let ConverterTransform=class ConverterTransform {
         for (let prop of props) {
             let propInfo = Object.getOwnPropertyDescriptor(target, prop);
             if (propInfo?.writable) {
-                if (options.isValidKey(prop))
-                    target[options.replaceKey(prop)] = options.transformValue(prop, src[prop]);
+                if (options.isValidKey(prop)) {
+                    const _target = target;
+                    const _src = src;
+                    _target[options.replaceKey(prop)] = options.transformValue(prop, _src[prop]);
+                }
             }
         }
         let cstTemp = target.constructor;
@@ -5005,8 +5239,11 @@ let ConverterTransform=class ConverterTransform {
             for (let prop of props) {
                 let propInfo = Object.getOwnPropertyDescriptor(cstTemp.prototype, prop);
                 if (propInfo?.set && propInfo.get) {
-                    if (options.isValidKey(prop))
-                        target[options.replaceKey(prop)] = options.transformValue(prop, src[prop]);
+                    if (options.isValidKey(prop)) {
+                        const _target = target;
+                        const _src = src;
+                        _target[options.replaceKey(prop)] = options.transformValue(prop, _src[prop]);
+                    }
                 }
             }
             cstTemp = Object.getPrototypeOf(cstTemp);
@@ -5016,7 +5253,8 @@ let ConverterTransform=class ConverterTransform {
 ConverterTransform.Namespace=`Aventus`;
 __as1(_, 'ConverterTransform', ConverterTransform);
 
-let Converter=class Converter {
+let Converter="use strict";
+class Converter {
     /**
     * Map storing information about registered types.
     */
@@ -5086,7 +5324,8 @@ let Converter=class Converter {
 Converter.Namespace=`Aventus`;
 __as1(_, 'Converter', Converter);
 
-let Data=// @Dependances([{ type: Aventus.Converter, strong: true }, { type: Converter, strong: true }])
+let Data="use strict";
+// @Dependances([{ type: Aventus.Converter, strong: true }, { type: Converter, strong: true }])
 class Data {
     static converter = new Converter();
     /**
@@ -5140,7 +5379,19 @@ Data.$schema={"namespace":"string","$type":"string","className":"string"};
 Converter.register(Data.Fullname, Data);
 __as1(_, 'Data', Data);
 
-let DragAndDrop=class DragAndDrop {
+let DragElement="use strict";
+__as1(_, 'DragElement', DragElement);
+
+let DragAndDropOptionsShadow="use strict";
+__as1(_, 'DragAndDropOptionsShadow', DragAndDropOptionsShadow);
+
+let DragAndDropOptions="use strict";
+__as1(_, 'DragAndDropOptions', DragAndDropOptions);
+
+let DragAndDropOptionsInternal="use strict";
+
+let DragAndDrop="use strict";
+class DragAndDrop {
     /**
      * Default offset before drag element
      */
@@ -5257,7 +5508,8 @@ let DragAndDrop=class DragAndDrop {
     }
     defaultMerge(options, name) {
         if (options[name] !== void 0) {
-            this.options[name] = options[name];
+            const opts = this.options;
+            opts[name] = options[name];
         }
     }
     positionShadowRelativeToElement = { x: 0, y: 0 };
@@ -5711,7 +5963,8 @@ let DragAndDrop=class DragAndDrop {
 DragAndDrop.Namespace=`Aventus`;
 __as1(_, 'DragAndDrop', DragAndDrop);
 
-let GenericError=// @Dependances([{ type: Aventus.Converter, strong: true }, { type: Converter, strong: true }])
+let GenericError="use strict";
+// @Dependances([{ type: Aventus.Converter, strong: true }, { type: Converter, strong: true }])
 class GenericError {
     static converter = new Converter();
     static get Fullname() { return "Aventus.GenericError"; }
@@ -5730,11 +5983,16 @@ class GenericError {
     /**
      * Creates a new instance of GenericError.
      * @param {EnumValue<T>} code - The error code.
-     * @param {string} message - The error message.
+     * @param {string | Error | unknown} message - The error message.
      */
     constructor(code, message) {
         this.code = code;
-        this.message = message + '';
+        if (message instanceof Error) {
+            this.message = message.message;
+        }
+        else {
+            this.message = message + '';
+        }
     }
 }
 GenericError.Namespace=`Aventus`;
@@ -5742,7 +6000,9 @@ GenericError.$schema={"code":"Aventus.EnumValue","message":"string"};
 Converter.register(GenericError.Fullname, GenericError);
 __as1(_, 'GenericError', GenericError);
 
-let VoidWithError=class VoidWithError {
+let VoidWithError="use strict";
+class VoidWithError {
+    static get Fullname() { return "Aventus.VoidWithError"; }
     /**
      * Determine if the action is a success
      */
@@ -5789,11 +6049,59 @@ let VoidWithError=class VoidWithError {
         }
         return false;
     }
+    run(fct) {
+        if (this.success) {
+            let result = fct();
+            if (!Array.isArray(result)) {
+                result = result.errors;
+            }
+            if (result.length > 0) {
+                this.errors = [...this.errors, ...result];
+            }
+        }
+        return this;
+    }
+    async runAsync(fct) {
+        if (this.success) {
+            let result = await fct();
+            if (!Array.isArray(result)) {
+                result = result.errors;
+            }
+            if (result.length > 0) {
+                this.errors = [...this.errors, ...result];
+            }
+        }
+        return this;
+    }
+    extract(fct) {
+        if (this.success) {
+            let result = fct();
+            if (result.success && result.result) {
+                return result.result;
+            }
+            this.errors = [...this.errors, ...result.errors];
+        }
+        return undefined;
+    }
+    async extractAsync(fct) {
+        if (this.success) {
+            let result = await fct();
+            if (result.success && result.result) {
+                return result.result;
+            }
+            this.errors = [...this.errors, ...result.errors];
+        }
+        return undefined;
+    }
 }
 VoidWithError.Namespace=`Aventus`;
+VoidWithError.$schema={"success":"boolean","errors":"T[]"};
+Converter.register(VoidWithError.Fullname, VoidWithError);
 __as1(_, 'VoidWithError', VoidWithError);
 
-let ResultWithError=class ResultWithError extends VoidWithError {
+let ResultWithError="use strict";
+class ResultWithError extends VoidWithError {
+    static get Fullname() { return "Aventus.ResultWithError"; }
     /**
       * The result value of the action.
       * @type {U | undefined}
@@ -5809,18 +6117,58 @@ let ResultWithError=class ResultWithError extends VoidWithError {
         result.result = this.result;
         return result;
     }
+    run(fct) {
+        if (this.success) {
+            let result = fct();
+            if (!Array.isArray(result)) {
+                result = result.errors;
+            }
+            if (result.length > 0) {
+                this.errors = [...this.errors, ...result];
+            }
+            if (result instanceof ResultWithError && result.success && result.result) {
+                this.result = result.result;
+            }
+        }
+        return this;
+    }
+    async runAsync(fct) {
+        if (this.success) {
+            let result = await fct();
+            if (!Array.isArray(result)) {
+                result = result.errors;
+            }
+            if (result.length > 0) {
+                this.errors = [...this.errors, ...result];
+            }
+            if (result instanceof ResultWithError && result.success && result.result) {
+                this.result = result.result;
+            }
+        }
+        return this;
+    }
 }
 ResultWithError.Namespace=`Aventus`;
+ResultWithError.$schema={...(VoidWithError?.$schema ?? {}), };
+Converter.register(ResultWithError.Fullname, ResultWithError);
 __as1(_, 'ResultWithError', ResultWithError);
 
-let HttpError=class HttpError extends GenericError {
+let ExtractFromError="use strict";
+__as1(_, 'ExtractFromError', ExtractFromError);
+
+let HttpRequestOptions="use strict";
+__as1(_, 'HttpRequestOptions', HttpRequestOptions);
+
+let HttpError="use strict";
+class HttpError extends GenericError {
 }
 HttpError.Namespace=`Aventus`;
 HttpError.$schema={...(GenericError?.$schema ?? {}), };
 Converter.register(HttpError.Fullname, HttpError);
 __as1(_, 'HttpError', HttpError);
 
-let HttpRequest=class HttpRequest {
+let HttpRequest="use strict";
+class HttpRequest {
     static options;
     static configure(options) {
         this.options = options;
@@ -5893,8 +6241,9 @@ let HttpRequest=class HttpRequest {
         return formData;
     }
     jsonReplacer(key, value) {
-        if (this[key] instanceof Date) {
-            return DateConverter.converter.toString(this[key]);
+        const t = this;
+        if (t[key] instanceof Date) {
+            return DateConverter.converter.toString(t[key]);
         }
         return value;
     }
@@ -6077,13 +6426,18 @@ let HttpRequest=class HttpRequest {
 HttpRequest.Namespace=`Aventus`;
 __as1(_, 'HttpRequest', HttpRequest);
 
-let HttpRouter=class HttpRouter {
+let HttpRouter="use strict";
+class HttpRouter {
+    static options;
+    static configure(options) {
+        this.options = options;
+    }
     options;
     constructor() {
         this.options = this.defineOptions(this.defaultOptionsValue());
     }
     defaultOptionsValue() {
-        return {
+        return HttpRouter.options ?? {
             url: location.protocol + "//" + location.host
         };
     }
@@ -6109,7 +6463,8 @@ let HttpRouter=class HttpRouter {
 HttpRouter.Namespace=`Aventus`;
 __as1(_, 'HttpRouter', HttpRouter);
 
-let HttpRoute=class HttpRoute {
+let HttpRoute="use strict";
+class HttpRoute {
     router;
     constructor(router) {
         this.router = router ?? new HttpRouter();
@@ -6121,7 +6476,8 @@ let HttpRoute=class HttpRoute {
 HttpRoute.Namespace=`Aventus`;
 __as1(_, 'HttpRoute', HttpRoute);
 
-let ResourceLoader=class ResourceLoader {
+let ResourceLoader="use strict";
+class ResourceLoader {
     static headerLoaded = {};
     static headerWaiting = {};
     /**
@@ -6291,7 +6647,8 @@ let ResourceLoader=class ResourceLoader {
 ResourceLoader.Namespace=`Aventus`;
 __as1(_, 'ResourceLoader', ResourceLoader);
 
-let ResizeObserver=class ResizeObserver {
+let ResizeObserver="use strict";
+class ResizeObserver {
     callback;
     targets;
     fpsInterval = -1;
@@ -6306,7 +6663,8 @@ let ResizeObserver=class ResizeObserver {
                 let allClasses = [];
                 for (let j = 0; j < entries.length; j++) {
                     let entry = entries[j];
-                    let index = entry.target['sourceIndex'];
+                    const target = entry.target;
+                    let index = target['sourceIndex'];
                     if (ResizeObserver.resizeObserverClassByObject[index]) {
                         for (let i = 0; i < ResizeObserver.resizeObserverClassByObject[index].length; i++) {
                             let classTemp = ResizeObserver.resizeObserverClassByObject[index][i];
@@ -6350,33 +6708,35 @@ let ResizeObserver=class ResizeObserver {
      * Observe size changing for the element
      */
     observe(target) {
-        if (!target["sourceIndex"]) {
-            target["sourceIndex"] = Math.random().toString(36);
-            this.targets.push(target);
-            ResizeObserver.getUniqueInstance().observe(target);
+        const _target = target;
+        if (!_target["sourceIndex"]) {
+            _target["sourceIndex"] = Math.random().toString(36);
+            this.targets.push(_target);
+            ResizeObserver.getUniqueInstance().observe(_target);
         }
-        if (!ResizeObserver.resizeObserverClassByObject[target["sourceIndex"]]) {
-            ResizeObserver.resizeObserverClassByObject[target["sourceIndex"]] = [];
+        if (!ResizeObserver.resizeObserverClassByObject[_target["sourceIndex"]]) {
+            ResizeObserver.resizeObserverClassByObject[_target["sourceIndex"]] = [];
         }
-        if (ResizeObserver.resizeObserverClassByObject[target["sourceIndex"]].indexOf(this) == -1) {
-            ResizeObserver.resizeObserverClassByObject[target["sourceIndex"]].push(this);
+        if (ResizeObserver.resizeObserverClassByObject[_target["sourceIndex"]].indexOf(this) == -1) {
+            ResizeObserver.resizeObserverClassByObject[_target["sourceIndex"]].push(this);
         }
     }
     /**
      * Stop observing size changing for the element
      */
     unobserve(target) {
+        const _target = target;
         for (let i = 0; this.targets.length; i++) {
             let tempTarget = this.targets[i];
-            if (tempTarget == target) {
-                let position = ResizeObserver.resizeObserverClassByObject[target['sourceIndex']].indexOf(this);
+            if (tempTarget == _target) {
+                let position = ResizeObserver.resizeObserverClassByObject[_target['sourceIndex']].indexOf(this);
                 if (position != -1) {
-                    ResizeObserver.resizeObserverClassByObject[target['sourceIndex']].splice(position, 1);
+                    ResizeObserver.resizeObserverClassByObject[_target['sourceIndex']].splice(position, 1);
                 }
-                if (ResizeObserver.resizeObserverClassByObject[target['sourceIndex']].length == 0) {
-                    delete ResizeObserver.resizeObserverClassByObject[target['sourceIndex']];
+                if (ResizeObserver.resizeObserverClassByObject[_target['sourceIndex']].length == 0) {
+                    delete ResizeObserver.resizeObserverClassByObject[_target['sourceIndex']];
                 }
-                ResizeObserver.getUniqueInstance().unobserve(target);
+                ResizeObserver.getUniqueInstance().unobserve(_target);
                 this.targets.splice(i, 1);
                 return;
             }
@@ -6391,7 +6751,8 @@ let ResizeObserver=class ResizeObserver {
         }
     }
     entryChanged(entry) {
-        let index = entry.target.sourceIndex;
+        const _target = entry.target;
+        let index = _target.sourceIndex;
         this.entriesChangedEvent[index] = entry;
     }
     triggerCb() {
@@ -6414,14 +6775,15 @@ let ResizeObserver=class ResizeObserver {
         this.entriesChangedEvent = {};
         this.willTrigger = false;
         setTimeout(() => {
-            this.callback(changed);
+            this.callback(changed, ResizeObserver.uniqueInstance);
         }, 0);
     }
 }
 ResizeObserver.Namespace=`Aventus`;
 __as1(_, 'ResizeObserver', ResizeObserver);
 
-let Animation=class Animation {
+let Animation="use strict";
+class Animation {
     /**
      * Default FPS for all Animation if not set inside options
      */
@@ -6509,24 +6871,38 @@ let Animation=class Animation {
 Animation.Namespace=`Aventus`;
 __as1(_, 'Animation', Animation);
 
-let RamError=class RamError extends GenericError {
+let RamError="use strict";
+class RamError extends GenericError {
 }
 RamError.Namespace=`Aventus`;
 RamError.$schema={...(GenericError?.$schema ?? {}), };
 Converter.register(RamError.Fullname, RamError);
 __as1(_, 'RamError', RamError);
 
-let VoidRamWithError=class VoidRamWithError extends VoidWithError {
+let VoidRamWithError="use strict";
+class VoidRamWithError extends VoidWithError {
 }
 VoidRamWithError.Namespace=`Aventus`;
+VoidRamWithError.$schema={...(VoidWithError?.$schema ?? {}), };
+Converter.register(VoidRamWithError.Fullname, VoidRamWithError);
 __as1(_, 'VoidRamWithError', VoidRamWithError);
 
-let ResultRamWithError=class ResultRamWithError extends ResultWithError {
+let ResultRamWithError="use strict";
+class ResultRamWithError extends ResultWithError {
 }
 ResultRamWithError.Namespace=`Aventus`;
+ResultRamWithError.$schema={...(ResultWithError?.$schema ?? {}), };
+Converter.register(ResultRamWithError.Fullname, ResultRamWithError);
 __as1(_, 'ResultRamWithError', ResultRamWithError);
 
-let GenericRam=class GenericRam {
+let IRamAction="use strict";
+__as1(_, 'IRamAction', IRamAction);
+
+let RamItem="use strict";
+__as1(_, 'RamItem', RamItem);
+
+let GenericRam="use strict";
+class GenericRam {
     static info = new Map([]);
     /**
      * The current namespace
@@ -7435,7 +7811,8 @@ let GenericRam=class GenericRam {
 GenericRam.Namespace=`Aventus`;
 __as1(_, 'GenericRam', GenericRam);
 
-let Ram=class Ram extends GenericRam {
+let Ram="use strict";
+class Ram extends GenericRam {
 }
 Ram.Namespace=`Aventus`;
 __as1(_, 'Ram', Ram);
@@ -7580,7 +7957,19 @@ for(let key in _) { MaterialIcon[key] = _[key] }
             get() {return Aventus.I18n.t;}
         });
 
+        Object.defineProperty(window, "tDyn", {
+            get() {return Aventus.I18n.t;}
+        });
+
         Aventus.WebComponent.prototype.t = function(key, params = {}) {
+            const i18n = Aventus.I18n;
+            const localeKey = this.$type.replace(/\./g, '°') + "°" + key;
+            if(i18n.hasKey(localeKey)) {
+                return i18n.t(localeKey, params);
+            }
+            return i18n.t(key, params);
+        }
+        Aventus.WebComponent.prototype.tDyn = function(key, params = {}) {
             const i18n = Aventus.I18n;
             const localeKey = this.$type.replace(/\./g, '°') + "°" + key;
             if(i18n.hasKey(localeKey)) {
@@ -7602,10 +7991,14 @@ const _ = {};
 
 
 let _n;
-let I18nClass=class I18nClass {
+let I18nClass="use strict";
+class I18nClass {
     constructor() { this.t = this.t.bind(this); }
     currentLocale = "en-GB";
+    availableLocales = [];
+    fallback = "en-GB";
     langMutex = new Aventus.ActionGuard();
+    onLocaleChange = new Aventus.Callback();
     watcher = Aventus.Watcher.get({
         locale: {}
     });
@@ -7619,7 +8012,12 @@ let I18nClass=class I18nClass {
     waitingFiles = [];
     __translations = {};
     async setLocale(lang) {
+        if (!this.availableLocales.includes(lang)) {
+            throw `The locale ${lang} can't be found inside the locales : ${this.availableLocales.join(", ")}`;
+        }
+        let oldLocale = this.currentLocale;
         this.currentLocale = lang;
+        localStorage.setItem("AventusI18nLang", lang);
         if (!this.__translations[lang]) {
             await this.langMutex.run([""], async () => {
                 const proms = [];
@@ -7641,6 +8039,7 @@ let I18nClass=class I18nClass {
             });
         }
         this.locale = this.__translations[lang];
+        this.onLocaleChange.trigger(oldLocale, lang);
     }
     getLocale() {
         return this.currentLocale;
@@ -7658,11 +8057,39 @@ let I18nClass=class I18nClass {
             }
         }
     }
+    registerLocales(locales) {
+        this.availableLocales = locales;
+    }
+    registerFallback(fallback) {
+        if (!this.availableLocales.includes(fallback)) {
+            throw `The fallback ${fallback} can't be found inside the locales : ${this.availableLocales.join(", ")}`;
+        }
+        this.fallback = fallback;
+        const userLang = localStorage.getItem("AventusI18nLang") ?? navigator.language;
+        if (this.availableLocales.includes(userLang)) {
+            this.currentLocale = userLang;
+            return;
+        }
+        let prefix = userLang.split("-")[0];
+        if (this.availableLocales.includes(prefix)) {
+            this.currentLocale = prefix;
+            return;
+        }
+        this.currentLocale = this.fallback;
+        this.onLocaleChange.trigger(this.currentLocale, this.currentLocale);
+    }
     registerFileTimeout = 0;
-    registerFile(file) {
+    registerFile(file, options) {
         if (this.files.includes(file))
             return;
         this.waitingFiles.push(file);
+        options = options ?? {};
+        if (options.load === false)
+            return;
+        if (options.delay === false) {
+            this.loadFileDelay();
+            return;
+        }
         clearTimeout(this.registerFileTimeout);
         this.registerFileTimeout = setTimeout(() => {
             this.loadFileDelay();
@@ -7693,6 +8120,9 @@ let I18nClass=class I18nClass {
             this.waitingFiles = [];
         });
     }
+    init() {
+        return this.loadFileDelay();
+    }
     hasKey(key) {
         return this.locale[key] !== undefined;
     }
@@ -7702,7 +8132,7 @@ let I18nClass=class I18nClass {
             translation = key;
         }
         for (let key in params) {
-            let regex = new RegExp("\\{ *" + key + " *\\}", "g");
+            let regex = new RegExp("(?<!\\\\)\\{ *" + key + " *\\}", "g");
             translation = translation.replace(regex, params[key]);
         }
         return translation;
@@ -8841,7 +9271,7 @@ RAM.RamHttp=class RamHttp extends Aventus.Ram {
         if (fromList) {
             return;
         }
-        let response = await this.routes.Create({ item });
+        let response = await this.routes.Create({ request: item });
         if (response.success && response.result) {
             result.result = this.getObjectForRam(response.result);
         }
@@ -8865,7 +9295,7 @@ RAM.RamHttp=class RamHttp extends Aventus.Ram {
         if (fromList) {
             return;
         }
-        let response = await this.routes.Update(item.Id, { item });
+        let response = await this.routes.Update(item.Id, { request: item });
         if (response.success && response.result) {
             result.result = this.getObjectForRam(response.result);
         }
@@ -9385,7 +9815,8 @@ _.Data = Core.Data ?? {};
 Data.DataTypes = {};
 _.Data.DataTypes = Core.Data?.DataTypes ?? {};
 let _n;
-Routes.VerifyRequest=class VerifyRequest extends AventusSharp.Data.SharpClass {
+Routes.VerifyRequest="use strict";
+class VerifyRequest extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Routes.VerifyRequest, Core"; }
     Id;
     RawId;
@@ -9400,7 +9831,8 @@ Routes.VerifyRequest.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), 
 Aventus.Converter.register(Routes.VerifyRequest.Fullname, Routes.VerifyRequest);
 __as1(_.Routes, 'VerifyRequest', Routes.VerifyRequest);
 
-Routes.GetVerifyChallengeResponse=class GetVerifyChallengeResponse extends AventusSharp.Data.SharpClass {
+Routes.GetVerifyChallengeResponse="use strict";
+class GetVerifyChallengeResponse extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Routes.GetVerifyChallengeResponse, Core"; }
     Challenge;
     Ids = undefined;
@@ -9410,7 +9842,8 @@ Routes.GetVerifyChallengeResponse.$schema={...(AventusSharp.Data.SharpClass?.$sc
 Aventus.Converter.register(Routes.GetVerifyChallengeResponse.Fullname, Routes.GetVerifyChallengeResponse);
 __as1(_.Routes, 'GetVerifyChallengeResponse', Routes.GetVerifyChallengeResponse);
 
-Routes.Responses.LoginResult=class LoginResult extends AventusSharp.Data.SharpClass {
+Routes.Responses.LoginResult="use strict";
+class LoginResult extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Routes.Responses.LoginResult, Core"; }
     Success;
     QuickAccess = undefined;
@@ -9420,7 +9853,8 @@ Routes.Responses.LoginResult.$schema={...(AventusSharp.Data.SharpClass?.$schema 
 Aventus.Converter.register(Routes.Responses.LoginResult.Fullname, Routes.Responses.LoginResult);
 __as1(_.Routes.Responses, 'LoginResult', Routes.Responses.LoginResult);
 
-Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter {
+Routes.CoreRouter="use strict";
+class CoreRouter extends Aventus.HttpRouter {
     defineOptions(options) {
         options.url = location.protocol + "//" + location.host + "";
         return options;
@@ -9429,7 +9863,8 @@ Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter {
 Routes.CoreRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'CoreRouter', Routes.CoreRouter);
 
-Data.SsoProvider=class SsoProvider extends AventusSharp.Data.Storable {
+Data.SsoProvider="use strict";
+class SsoProvider extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.SsoProvider, Core"; }
     Name;
     Logo;
@@ -9448,17 +9883,20 @@ Data.SsoProvider.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name"
 Aventus.Converter.register(Data.SsoProvider.Fullname, Data.SsoProvider);
 __as1(_.Data, 'SsoProvider', Data.SsoProvider);
 
-Data.DataTypes.RayukiFile=class RayukiFile extends AventusSharp.Data.CustomTableMembers.AventusFile {
+Data.DataTypes.RayukiFile="use strict";
+class RayukiFile extends AventusSharp.Data.CustomTableMembers.AventusFile {
 }
 Data.DataTypes.RayukiFile.Namespace=`Core.Data.DataTypes`;
 __as1(_.Data.DataTypes, 'RayukiFile', Data.DataTypes.RayukiFile);
 
-Data.DataTypes.ImageFile=class ImageFile extends _.Data.DataTypes.RayukiFile {
+Data.DataTypes.ImageFile="use strict";
+class ImageFile extends _.Data.DataTypes.RayukiFile {
 }
 Data.DataTypes.ImageFile.Namespace=`Core.Data.DataTypes`;
 __as1(_.Data.DataTypes, 'ImageFile', Data.DataTypes.ImageFile);
 
-Data.SsoLogo=class SsoLogo extends _.Data.DataTypes.ImageFile {
+Data.SsoLogo="use strict";
+class SsoLogo extends _.Data.DataTypes.ImageFile {
     static get Fullname() { return "Core.Data.SsoLogo, Core"; }
 }
 Data.SsoLogo.Namespace=`Core.Data`;
@@ -9466,7 +9904,8 @@ Data.SsoLogo.$schema={...(Data.DataTypes.ImageFile?.$schema ?? {}), };
 Aventus.Converter.register(Data.SsoLogo.Fullname, Data.SsoLogo);
 __as1(_.Data, 'SsoLogo', Data.SsoLogo);
 
-Routes.LoginRouter=class LoginRouter extends Aventus.HttpRoute {
+Routes.LoginRouter="use strict";
+class LoginRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
         this.LoginAction = this.LoginAction.bind(this);
@@ -9530,6 +9969,10 @@ const __as1 = (o, k, c) => { if (o[k] !== undefined) for (let w in o[k]) { c[w] 
 const moduleName = `Core`;
 const _ = {};
 Aventus.Style.store("@default", `:host{--img-fill-color: var(--text-color);box-sizing:border-box;display:inline-block;font-family:var(--font-family);-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none}:host .primary{background-color:var(--primary);color:var(--text-color-primary)}:host .text-primary{color:var(--primary)}:host .secondary{background-color:var(--secondary);color:var(--text-color-secondary)}:host .text-secondary{color:var(--secondary)}:host .green{background-color:var(--green);color:var(--text-color-green)}:host .text-green{color:var(--green)}:host .success{background-color:var(--success);color:var(--text-color-success)}:host .text-success{color:var(--success)}:host .red{background-color:var(--red);color:var(--text-color-red)}:host .text-red{color:var(--red)}:host .error{background-color:var(--error);color:var(--text-color-error)}:host .text-error{color:var(--error)}:host .orange{background-color:var(--orange);color:var(--text-color-orange)}:host .text-orange{color:var(--orange)}:host .warning{background-color:var(--warning);color:var(--text-color-warning)}:host .text-warning{color:var(--warning)}:host .blue{background-color:var(--blue);color:var(--text-color-blue)}:host .text-blue{color:var(--blue)}:host .information{background-color:var(--information);color:var(--text-color-information)}:host .text-information{color:var(--information)}:host .touch{cursor:pointer}:host .touch.disable,:host .touch.disabled{cursor:default}:host input::placeholder{overflow:visible}:host input,:host textarea,:host .text-select{-webkit-user-select:text;-khtml-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}:host *{box-sizing:border-box;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none}`)
+let State = {};
+_.State = Core.State ?? {};
+let RAM = {};
+_.RAM = Core.RAM ?? {};
 let Lib = {};
 _.Lib = Core.Lib ?? {};
 let Websocket = {};
@@ -9562,18 +10005,24 @@ Permissions.Tree = {};
 _.Permissions.Tree = Core.Permissions?.Tree ?? {};
 Routes.Responses = {};
 _.Routes.Responses = Core.Routes?.Responses ?? {};
-let State = {};
-_.State = Core.State ?? {};
 Websocket.Events.TransactionCancelledEvent = {};
 _.Websocket.Events.TransactionCancelledEvent = Core.Websocket?.Events?.TransactionCancelledEvent ?? {};
-let RAM = {};
-_.RAM = Core.RAM ?? {};
 let Tools = {};
 _.Tools = Core.Tools ?? {};
 Websocket.Events.ApplicationTestEvent = {};
 _.Websocket.Events.ApplicationTestEvent = Core.Websocket?.Events?.ApplicationTestEvent ?? {};
 let _n;
-Lib.Time=class Time {
+State.Fields="use strict";
+__as1(_.State, 'Fields', State.Fields);
+
+RAM.KeysOfType="use strict";
+
+RAM.NumberKeys="use strict";
+
+RAM.GroupMethod="use strict";
+
+Lib.Time="use strict";
+class Time {
     static cbEachMinute = new Map();
     static cbEachMinuteFirst = new Map();
     static runEachMinute(cb, runOnCall = true) {
@@ -9631,7 +10080,8 @@ let Colors= {
 };
 __as1(_, 'Colors', Colors);
 
-Lib.StringTools=class StringTools {
+Lib.StringTools="use strict";
+class StringTools {
     static removeAccents(value) {
         return value
             .replace(/[áàãâä]/gi, "a")
@@ -9657,19 +10107,28 @@ Lib.StringTools=class StringTools {
 Lib.StringTools.Namespace=`Core.Lib`;
 __as1(_.Lib, 'StringTools', Lib.StringTools);
 
-Lib.Plugin=class Plugin {
+Lib.Plugin="use strict";
+class Plugin {
 }
 Lib.Plugin.Namespace=`Core.Lib`;
 __as1(_.Lib, 'Plugin', Lib.Plugin);
 
-Lib.PluginManager=class PluginManager {
+Lib.PluginManager="use strict";
+class PluginManager {
     static register(plugin) {
     }
 }
 Lib.PluginManager.Namespace=`Core.Lib`;
 __as1(_.Lib, 'PluginManager', Lib.PluginManager);
 
-Websocket.Events.ApplicationTestEvent2=class ApplicationTestEvent2 extends AventusSharp.WebSocket.WsEvent {
+Lib.PriceOptions="use strict";
+__as1(_.Lib, 'PriceOptions', Lib.PriceOptions);
+
+Lib.ExportAsRawResult="use strict";
+__as1(_.Lib, 'ExportAsRawResult', Lib.ExportAsRawResult);
+
+Websocket.Events.ApplicationTestEvent2="use strict";
+class ApplicationTestEvent2 extends AventusSharp.WebSocket.WsEvent {
     /**
      * @inheritdoc
      */
@@ -9680,12 +10139,14 @@ Websocket.Events.ApplicationTestEvent2=class ApplicationTestEvent2 extends Avent
 Websocket.Events.ApplicationTestEvent2.Namespace=`Core.Websocket.Events`;
 __as1(_.Websocket.Events, 'ApplicationTestEvent2', Websocket.Events.ApplicationTestEvent2);
 
+var PdfErrorCode;
 (function (PdfErrorCode) {
     PdfErrorCode[PdfErrorCode["UnknowError"] = 0] = "UnknowError";
     PdfErrorCode[PdfErrorCode["NoNameProvided"] = 1] = "NoNameProvided";
 })(Errors.PdfErrorCode || (Errors.PdfErrorCode = {}));
 __as1(_.Errors, 'PdfErrorCode', Errors.PdfErrorCode);
 
+var ImageFileErrorCode;
 (function (ImageFileErrorCode) {
     ImageFileErrorCode[ImageFileErrorCode["UnknowError"] = 0] = "UnknowError";
     ImageFileErrorCode[ImageFileErrorCode["NotValidImage"] = 1] = "NotValidImage";
@@ -9694,7 +10155,8 @@ __as1(_.Errors, 'PdfErrorCode', Errors.PdfErrorCode);
 })(Errors.ImageFileErrorCode || (Errors.ImageFileErrorCode = {}));
 __as1(_.Errors, 'ImageFileErrorCode', Errors.ImageFileErrorCode);
 
-Routes.RegisterRequest=class RegisterRequest extends AventusSharp.Data.SharpClass {
+Routes.RegisterRequest="use strict";
+class RegisterRequest extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Routes.RegisterRequest, Core"; }
     Id;
     RawId;
@@ -9708,7 +10170,8 @@ Routes.RegisterRequest.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {})
 Aventus.Converter.register(Routes.RegisterRequest.Fullname, Routes.RegisterRequest);
 __as1(_.Routes, 'RegisterRequest', Routes.RegisterRequest);
 
-Routes.GetRegisterChallengeResponse=class GetRegisterChallengeResponse extends AventusSharp.Data.SharpClass {
+Routes.GetRegisterChallengeResponse="use strict";
+class GetRegisterChallengeResponse extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Routes.GetRegisterChallengeResponse, Core"; }
     Challenge;
     UserId;
@@ -9718,15 +10181,18 @@ Routes.GetRegisterChallengeResponse.$schema={...(AventusSharp.Data.SharpClass?.$
 Aventus.Converter.register(Routes.GetRegisterChallengeResponse.Fullname, Routes.GetRegisterChallengeResponse);
 __as1(_.Routes, 'GetRegisterChallengeResponse', Routes.GetRegisterChallengeResponse);
 
+var OsGlobalPermission;
 (function (OsGlobalPermission) {
 })(Permissions.OsGlobalPermission || (Permissions.OsGlobalPermission = {}));
 __as1(_.Permissions, 'OsGlobalPermission', Permissions.OsGlobalPermission);
 
+var UserSettings;
 (function (UserSettings) {
     UserSettings[UserSettings["Lang"] = 0] = "Lang";
 })(Logic.UserSettings || (Logic.UserSettings = {}));
 __as1(_.Logic, 'UserSettings', Logic.UserSettings);
 
+var SsoCode;
 (function (SsoCode) {
     SsoCode[SsoCode["TokenFailed"] = 0] = "TokenFailed";
     SsoCode[SsoCode["UserInfoFailed"] = 1] = "UserInfoFailed";
@@ -9737,15 +10203,18 @@ __as1(_.Logic, 'UserSettings', Logic.UserSettings);
 })(Errors.SsoCode || (Errors.SsoCode = {}));
 __as1(_.Errors, 'SsoCode', Errors.SsoCode);
 
+var RecentParameters;
 (function (RecentParameters) {
     RecentParameters[RecentParameters["Number"] = 0] = "Number";
 })(Logic.RecentParameters || (Logic.RecentParameters = {}));
 __as1(_.Logic, 'RecentParameters', Logic.RecentParameters);
 
+var GlobalParameters;
 (function (GlobalParameters) {
 })(Logic.GlobalParameters || (Logic.GlobalParameters = {}));
 __as1(_.Logic, 'GlobalParameters', Logic.GlobalParameters);
 
+var StorageErrorCode;
 (function (StorageErrorCode) {
     StorageErrorCode[StorageErrorCode["UnknowError"] = 0] = "UnknowError";
     StorageErrorCode[StorageErrorCode["NotAllowed"] = 1] = "NotAllowed";
@@ -9753,6 +10222,7 @@ __as1(_.Logic, 'GlobalParameters', Logic.GlobalParameters);
 })(Errors.StorageErrorCode || (Errors.StorageErrorCode = {}));
 __as1(_.Errors, 'StorageErrorCode', Errors.StorageErrorCode);
 
+var IsAllowedAction;
 (function (IsAllowedAction) {
     IsAllowedAction[IsAllowedAction["Read"] = 0] = "Read";
     IsAllowedAction[IsAllowedAction["Write"] = 1] = "Write";
@@ -9760,7 +10230,8 @@ __as1(_.Errors, 'StorageErrorCode', Errors.StorageErrorCode);
 })(Logic.FileSystem.IsAllowedAction || (Logic.FileSystem.IsAllowedAction = {}));
 __as1(_.Logic.FileSystem, 'IsAllowedAction', Logic.FileSystem.IsAllowedAction);
 
-Logic.FileSystem.FileDetails=class FileDetails extends AventusSharp.Data.SharpClass {
+Logic.FileSystem.FileDetails="use strict";
+class FileDetails extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Logic.FileSystem.FileDetails, Core"; }
     Name;
     Size;
@@ -9773,12 +10244,14 @@ Logic.FileSystem.FileDetails.$schema={...(AventusSharp.Data.SharpClass?.$schema 
 Aventus.Converter.register(Logic.FileSystem.FileDetails.Fullname, Logic.FileSystem.FileDetails);
 __as1(_.Logic.FileSystem, 'FileDetails', Logic.FileSystem.FileDetails);
 
+var DesktopErrorCode;
 (function (DesktopErrorCode) {
     DesktopErrorCode[DesktopErrorCode["NoDefaultDesktop"] = 0] = "NoDefaultDesktop";
 })(Errors.DesktopErrorCode || (Errors.DesktopErrorCode = {}));
 __as1(_.Errors, 'DesktopErrorCode', Errors.DesktopErrorCode);
 
-Data.WebAuthnCredentialsPublic=class WebAuthnCredentialsPublic extends AventusSharp.Data.SharpClass {
+Data.WebAuthnCredentialsPublic="use strict";
+class WebAuthnCredentialsPublic extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.WebAuthnCredentialsPublic, Core"; }
     Id;
     Name;
@@ -9788,7 +10261,8 @@ Data.WebAuthnCredentialsPublic.$schema={...(AventusSharp.Data.SharpClass?.$schem
 Aventus.Converter.register(Data.WebAuthnCredentialsPublic.Fullname, Data.WebAuthnCredentialsPublic);
 __as1(_.Data, 'WebAuthnCredentialsPublic', Data.WebAuthnCredentialsPublic);
 
-Data.WebAuthnCredentials=class WebAuthnCredentials extends AventusSharp.Data.Storable {
+Data.WebAuthnCredentials="use strict";
+class WebAuthnCredentials extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.WebAuthnCredentials, Core"; }
     CredentialId;
     Name;
@@ -9800,7 +10274,8 @@ Data.WebAuthnCredentials.$schema={...(AventusSharp.Data.Storable?.$schema ?? {})
 Aventus.Converter.register(Data.WebAuthnCredentials.Fullname, Data.WebAuthnCredentials);
 __as1(_.Data, 'WebAuthnCredentials', Data.WebAuthnCredentials);
 
-Data.SystemInfo=class SystemInfo extends AventusSharp.Data.SharpClass {
+Data.SystemInfo="use strict";
+class SystemInfo extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.SystemInfo, Core"; }
     TimeZone;
     Version;
@@ -9815,7 +10290,8 @@ Data.SystemInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "Time
 Aventus.Converter.register(Data.SystemInfo.Fullname, Data.SystemInfo);
 __as1(_.Data, 'SystemInfo', Data.SystemInfo);
 
-Data.Settings=class Settings extends AventusSharp.Data.Storable {
+Data.Settings="use strict";
+class Settings extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Settings, Core"; }
     Key;
     Value;
@@ -9826,7 +10302,8 @@ Data.Settings.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Key":"st
 Aventus.Converter.register(Data.Settings.Fullname, Data.Settings);
 __as1(_.Data, 'Settings', Data.Settings);
 
-Data.Plugin=class Plugin extends AventusSharp.Data.Storable {
+Data.Plugin="use strict";
+class Plugin extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Plugin, Core"; }
     Name = "";
     Version = 0;
@@ -9836,7 +10313,8 @@ Data.Plugin.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"str
 Aventus.Converter.register(Data.Plugin.Fullname, Data.Plugin);
 __as1(_.Data, 'Plugin', Data.Plugin);
 
-Data.ManifestIcon=class ManifestIcon extends AventusSharp.Data.SharpClass {
+Data.ManifestIcon="use strict";
+class ManifestIcon extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.ManifestIcon, Core"; }
     src;
     type;
@@ -9848,12 +10326,14 @@ Data.ManifestIcon.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "sr
 Aventus.Converter.register(Data.ManifestIcon.Fullname, Data.ManifestIcon);
 __as1(_.Data, 'ManifestIcon', Data.ManifestIcon);
 
+var FileErrorCode;
 (function (FileErrorCode) {
     FileErrorCode[FileErrorCode["InvalidUri"] = 0] = "InvalidUri";
     FileErrorCode[FileErrorCode["DownloadFailed"] = 1] = "DownloadFailed";
 })(Data.DataTypes.FileErrorCode || (Data.DataTypes.FileErrorCode = {}));
 __as1(_.Data.DataTypes, 'FileErrorCode', Data.DataTypes.FileErrorCode);
 
+var AppErrorCode;
 (function (AppErrorCode) {
     AppErrorCode[AppErrorCode["AppFileNotFound"] = 0] = "AppFileNotFound";
     AppErrorCode[AppErrorCode["MoreThanOneAppFileFound"] = 1] = "MoreThanOneAppFileFound";
@@ -9867,6 +10347,26 @@ __as1(_.Data.DataTypes, 'FileErrorCode', Data.DataTypes.FileErrorCode);
     AppErrorCode[AppErrorCode["NotInManagement"] = 9] = "NotInManagement";
 })(App.AppErrorCode || (App.AppErrorCode = {}));
 __as1(_.App, 'AppErrorCode', App.AppErrorCode);
+
+Components.TableCellBooleanType="use strict";
+
+Components.SortColumns="use strict";
+__as1(_.Components, 'SortColumns', Components.SortColumns);
+
+Components.FilterDataAction="use strict";
+__as1(_.Components, 'FilterDataAction', Components.FilterDataAction);
+
+Components.Key="use strict";
+__as1(_.Components, 'Key', Components.Key);
+
+Components.TableSchemaCellContent="use strict";
+__as1(_.Components, 'TableSchemaCellContent', Components.TableSchemaCellContent);
+
+Components.TableSchemaCellCst="use strict";
+__as1(_.Components, 'TableSchemaCellCst', Components.TableSchemaCellCst);
+
+Components.TableCellType="use strict";
+__as1(_.Components, 'TableCellType', Components.TableCellType);
 
 Components.Separator = class Separator extends Aventus.WebComponent {
     static __style = `:host{--_separator-color: var(--separator-color, var(--text-color))}:host{background:linear-gradient(90deg, transparent 0%, var(--_separator-color) 50%, transparent 100%);height:1px;margin:20px auto;width:100%;display:flex}`;
@@ -9917,6 +10417,11 @@ Components.MenuSeparator.Tag=`rk-menu-separator`;
 __as1(_.Components, 'MenuSeparator', Components.MenuSeparator);
 if(!window.customElements.get('rk-menu-separator')){window.customElements.define('rk-menu-separator', Components.MenuSeparator);Aventus.WebComponentInstance.registerDefinition(Components.MenuSeparator);}
 
+Components.MenuPositionInfo="use strict";
+
+Components.MenuPositionResult="use strict";
+
+var MenuState;
 (function (MenuState) {
     MenuState[MenuState["Opening"] = 0] = "Opening";
     MenuState[MenuState["Open"] = 1] = "Open";
@@ -9979,10 +10484,14 @@ Components.Card.Tag=`rk-card`;
 __as1(_.Components, 'Card', Components.Card);
 if(!window.customElements.get('rk-card')){window.customElements.define('rk-card', Components.Card);Aventus.WebComponentInstance.registerDefinition(Components.Card);}
 
+Components.ExtractTypeTwoColumnsOptions="use strict";
+__as1(_.Components, 'ExtractTypeTwoColumnsOptions', Components.ExtractTypeTwoColumnsOptions);
+
 Components.BoxContainer = class BoxContainer extends Aventus.WebComponent {
     static get observedAttributes() {return ["space"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'space'() { return this.getNumberProp('space') }
-    set 'space'(val) { this.setNumberAttr('space', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("space", ((target) => {
+    set 'space'(val) { this.setNumberAttr('space', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("space", ("use strict";
+(target) => {
     target.style.setProperty("--item-box-margin", target.space + 'px');
 })); }
     static __style = `:host{--_item-box-box-width: var(--item-box-box-width, auto);--_item-box-box-height: var(--item-box-box-height, 100%);--_item-box-box-padding: var(--item-box-box-padding, 0 10px);--_item-box-border-radius: var(--item-box-border-radius, 4px);--_item-box-border-color: var(--item-box-border-color, var(--secondary-color, #afafaf))}:host{align-items:center;box-sizing:border-box;display:flex;flex-direction:row;justify-content:center}:host ::slotted(*){border:1px solid var(--_item-box-border-color);border-radius:var(--border-radius-sm);width:var(--_item-box-box-width);max-height:var(--_item-box-box-height);max-width:var(--_item-box-box-width);padding:var(--_item-box-box-padding)}:host ::slotted(*:first-child){margin-left:0}:host ::slotted(*:last-child){margin-right:0}:host([space="0"]){border:1px solid var(--_item-box-border-color);border-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*){border:none;border-radius:0px;border-right:1px solid var(--_item-box-border-color)}:host([space="0"]) ::slotted(*:first-child){border-bottom-left-radius:var(--_item-box-border-radius);border-top-left-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*:last-child){border-bottom-right-radius:var(--_item-box-border-radius);border-right:none;border-top-right-radius:var(--_item-box-border-radius)}`;
@@ -10036,6 +10545,9 @@ Components.ItemBox.Tag=`rk-item-box`;
 __as1(_.Components, 'ItemBox', Components.ItemBox);
 if(!window.customElements.get('rk-item-box')){window.customElements.define('rk-item-box', Components.ItemBox);Aventus.WebComponentInstance.registerDefinition(Components.ItemBox);}
 
+Components.ExtractTypeOption="use strict";
+__as1(_.Components, 'ExtractTypeOption', Components.ExtractTypeOption);
+
 Components.InputFile = class InputFile extends Aventus.WebComponent {
     static __style = ``;
     __getStatic() {
@@ -10061,7 +10573,8 @@ Components.InputFile.Tag=`rk-input-file`;
 __as1(_.Components, 'InputFile', Components.InputFile);
 if(!window.customElements.get('rk-input-file')){window.customElements.define('rk-input-file', Components.InputFile);Aventus.WebComponentInstance.registerDefinition(Components.InputFile);}
 
-Lib.Validator=class Validator {
+Lib.Validator="use strict";
+class Validator {
     static email(txt) {
         if (!txt)
             return false;
@@ -10076,7 +10589,29 @@ Lib.Validator=class Validator {
 Lib.Validator.Namespace=`Core.Lib`;
 __as1(_.Lib, 'Validator', Lib.Validator);
 
-Lib.Colors=class Colors {
+Components.Constructor="use strict";
+__as1(_.Components, 'Constructor', Components.Constructor);
+
+Lib.HSVAColor="use strict";
+__as1(_.Lib, 'HSVAColor', Lib.HSVAColor);
+
+Lib.HSVColor="use strict";
+__as1(_.Lib, 'HSVColor', Lib.HSVColor);
+
+Lib.HSLAColor="use strict";
+__as1(_.Lib, 'HSLAColor', Lib.HSLAColor);
+
+Lib.HSLColor="use strict";
+__as1(_.Lib, 'HSLColor', Lib.HSLColor);
+
+Lib.RGBColor="use strict";
+__as1(_.Lib, 'RGBColor', Lib.RGBColor);
+
+Lib.RGBAColor="use strict";
+__as1(_.Lib, 'RGBAColor', Lib.RGBAColor);
+
+Lib.Colors="use strict";
+class Colors {
     static get BLACK() { return new Lib.Color("#000000"); }
     static get SILVER() { return new Lib.Color("#c0c0c0"); }
     static get GRAY() { return new Lib.Color("#808080"); }
@@ -10229,7 +10764,8 @@ Lib.Colors=class Colors {
 Lib.Colors.Namespace=`Core.Lib`;
 __as1(_.Lib, 'Colors', Lib.Colors);
 
-Data.DataTypes.Pdf=class Pdf extends AventusSharp.Data.SharpClass {
+Data.DataTypes.Pdf="use strict";
+class Pdf extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.DataTypes.Pdf, Core"; }
     Name = "";
     Html = "";
@@ -10240,7 +10776,11 @@ Data.DataTypes.Pdf.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "N
 Aventus.Converter.register(Data.DataTypes.Pdf.Fullname, Data.DataTypes.Pdf);
 __as1(_.Data.DataTypes, 'Pdf', Data.DataTypes.Pdf);
 
-Lib.FontManager=class FontManager {
+Lib.FileSaverOption="use strict";
+__as1(_.Lib, 'FileSaverOption', Lib.FileSaverOption);
+
+Lib.FontManager="use strict";
+class FontManager {
     static async loadedFonts() {
         let fonts = Array.from(document.fonts);
         const result = [];
@@ -10318,7 +10858,8 @@ Lib.FontManager=class FontManager {
             }
         };
         let txt = '';
-        for (let font of fonts) {
+        for (let _font of fonts) {
+            const font = _font;
             let txtFont = ['@font-face {'];
             txtFont.push("font-family: " + font.family + ";");
             let src = font['__src'];
@@ -10377,7 +10918,8 @@ Lib.FontManager=class FontManager {
             }
         };
         let txt = '';
-        for (let font of fonts) {
+        for (let _font of fonts) {
+            const font = _font;
             let txtFont = ['@font-face {'];
             txtFont.push("font-family: " + font.family + ";");
             txtFont.push("src: url(\"" + await this.urlToBase64(font['__src']) + "\");");
@@ -10447,7 +10989,8 @@ Lib.FontManager=class FontManager {
                             'fontStretch': 'normal'
                         };
                         let isSame = true;
-                        for (let otherCompare in otherCompares) {
+                        for (let _otherCompare in otherCompares) {
+                            const otherCompare = _otherCompare;
                             let vOther = otherCompares[otherCompare];
                             let v = rule.style.getPropertyValue(otherCompare.replace(/[A-Z]/g, match => '-' + match.toLowerCase()));
                             if (v != font[vOther]) {
@@ -10506,7 +11049,35 @@ Components.SheetSplitter.Tag=`rk-sheet-splitter`;
 __as1(_.Components, 'SheetSplitter', Components.SheetSplitter);
 if(!window.customElements.get('rk-sheet-splitter')){window.customElements.define('rk-sheet-splitter', Components.SheetSplitter);Aventus.WebComponentInstance.registerDefinition(Components.SheetSplitter);}
 
-System.ApplicationBreakPoint=class ApplicationBreakPoint {
+Components.ISheetElement="use strict";
+__as1(_.Components, 'ISheetElement', Components.ISheetElement);
+
+Components.SheetOrientation="use strict";
+__as1(_.Components, 'SheetOrientation', Components.SheetOrientation);
+
+Components.SheetFormat="use strict";
+__as1(_.Components, 'SheetFormat', Components.SheetFormat);
+
+Components.SheetSettings="use strict";
+__as1(_.Components, 'SheetSettings', Components.SheetSettings);
+
+System.SizeList="use strict";
+__as1(_.System, 'SizeList', System.SizeList);
+
+System.GetArgs="use strict";
+__as1(_.System, 'GetArgs', System.GetArgs);
+
+System.GetPromiseResult="use strict";
+__as1(_.System, 'GetPromiseResult', System.GetPromiseResult);
+
+System.GetErrorValue="use strict";
+__as1(_.System, 'GetErrorValue', System.GetErrorValue);
+
+System.ApplicationQueryResult="use strict";
+__as1(_.System, 'ApplicationQueryResult', System.ApplicationQueryResult);
+
+System.ApplicationBreakPoint="use strict";
+class ApplicationBreakPoint {
     static xs = 300;
     static sm = 540;
     static md = 720;
@@ -10517,7 +11088,8 @@ System.ApplicationBreakPoint=class ApplicationBreakPoint {
 System.ApplicationBreakPoint.Namespace=`Core.System`;
 __as1(_.System, 'ApplicationBreakPoint', System.ApplicationBreakPoint);
 
-Lib.DateConverter=class DateConverter extends Aventus.DateConverter {
+Lib.DateConverter="use strict";
+class DateConverter extends Aventus.DateConverter {
     isStringDate(txt) {
         return /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})$/.exec(txt) !== null;
     }
@@ -10538,7 +11110,8 @@ Lib.DateConverter=class DateConverter extends Aventus.DateConverter {
 Lib.DateConverter.Namespace=`Core.Lib`;
 __as1(_.Lib, 'DateConverter', Lib.DateConverter);
 
-Lib.Pointer=class Pointer {
+Lib.Pointer="use strict";
+class Pointer {
     static isTouch(e) {
         if ('TouchEvent' in window && e instanceof TouchEvent) {
             return true;
@@ -10552,7 +11125,11 @@ Lib.Pointer=class Pointer {
 Lib.Pointer.Namespace=`Core.Lib`;
 __as1(_.Lib, 'Pointer', Lib.Pointer);
 
-let Md5=class Md5 {
+let AddonsName="use strict";
+__as1(_, 'AddonsName', AddonsName);
+
+let Md5="use strict";
+class Md5 {
     static create(txt) {
         return this.rstr2hex(this.rstr_md5(this.str2rstr_utf8(txt)));
     }
@@ -10716,7 +11293,8 @@ let Md5=class Md5 {
 Md5.Namespace=`Core`;
 __as1(_, 'Md5', Md5);
 
-Lib.DateTools=class DateTools {
+Lib.DateTools="use strict";
+class DateTools {
     static isSameDate(date1, date2) {
         if (date1 == null && date2 == null)
             return true;
@@ -10963,7 +11541,10 @@ Components.PwaPromptIos.Tag=`rk-pwa-prompt-ios`;
 __as1(_.Components, 'PwaPromptIos', Components.PwaPromptIos);
 if(!window.customElements.get('rk-pwa-prompt-ios')){window.customElements.define('rk-pwa-prompt-ios', Components.PwaPromptIos);Aventus.WebComponentInstance.registerDefinition(Components.PwaPromptIos);}
 
-Data.PushRecord=class PushRecord extends AventusSharp.Data.Storable {
+Lib.BeforeInstallPromptEvent="use strict";
+
+Data.PushRecord="use strict";
+class PushRecord extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.PushRecord, Core"; }
     UserId;
     EndPoint;
@@ -11047,7 +11628,13 @@ Components.Row.Tag=`rk-row`;
 __as1(_.Components, 'Row', Components.Row);
 if(!window.customElements.get('rk-row')){window.customElements.define('rk-row', Components.Row);Aventus.WebComponentInstance.registerDefinition(Components.Row);}
 
-Lib.Geometry=class Geometry {
+Lib.AppIconCst="use strict";
+
+Lib.Rectangle="use strict";
+__as1(_.Lib, 'Rectangle', Lib.Rectangle);
+
+Lib.Geometry="use strict";
+class Geometry {
     static getIntersectingRectangle(rect1, rect2) {
         const [r1, r2] = [rect1, rect2].map(r => {
             return {
@@ -11073,7 +11660,8 @@ Lib.Geometry=class Geometry {
 Lib.Geometry.Namespace=`Core.Lib`;
 __as1(_.Lib, 'Geometry', Lib.Geometry);
 
-Websocket.Routes.DesktopRouter_RemoveDesktopIcon=class DesktopRouter_RemoveDesktopIcon extends AventusSharp.WebSocket.WsEvent {
+Websocket.Routes.DesktopRouter_RemoveDesktopIcon="use strict";
+class DesktopRouter_RemoveDesktopIcon extends AventusSharp.WebSocket.WsEvent {
     /**
      * @inheritdoc
      */
@@ -11090,7 +11678,29 @@ Websocket.Routes.DesktopRouter_RemoveDesktopIcon=class DesktopRouter_RemoveDeskt
 Websocket.Routes.DesktopRouter_RemoveDesktopIcon.Namespace=`Core.Websocket.Routes`;
 __as1(_.Websocket.Routes, 'DesktopRouter_RemoveDesktopIcon', Websocket.Routes.DesktopRouter_RemoveDesktopIcon);
 
-Lib.ApplicationStateManager=class ApplicationStateManager extends Aventus.StateManager {
+Components.PopupInfo="use strict";
+__as1(_.Components, 'PopupInfo', Components.PopupInfo);
+
+Components.ConfirmInfo="use strict";
+__as1(_.Components, 'ConfirmInfo', Components.ConfirmInfo);
+
+Components.AlertInfo="use strict";
+__as1(_.Components, 'AlertInfo', Components.AlertInfo);
+
+System.ApplicationPositionSize="use strict";
+__as1(_.System, 'ApplicationPositionSize', System.ApplicationPositionSize);
+
+System.History="use strict";
+__as1(_.System, 'History', System.History);
+
+System.ApplicationInitOptions="use strict";
+__as1(_.System, 'ApplicationInitOptions', System.ApplicationInitOptions);
+
+State.Field="use strict";
+__as1(_.State, 'Field', State.Field);
+
+Lib.ApplicationStateManager="use strict";
+class ApplicationStateManager extends Aventus.StateManager {
     application;
     constructor(application) {
         super();
@@ -11114,6 +11724,16 @@ Lib.ApplicationStateManager=class ApplicationStateManager extends Aventus.StateM
 Lib.ApplicationStateManager.Namespace=`Core.Lib`;
 __as1(_.Lib, 'ApplicationStateManager', Lib.ApplicationStateManager);
 
+System.FrameConfig="use strict";
+__as1(_.System, 'FrameConfig', System.FrameConfig);
+
+Components.NotificationPosition="use strict";
+__as1(_.Components, 'NotificationPosition', Components.NotificationPosition);
+
+Components.ResizeConfig="use strict";
+__as1(_.Components, 'ResizeConfig', Components.ResizeConfig);
+
+var ResizeDirection;
 (function (ResizeDirection) {
     ResizeDirection[ResizeDirection["Top"] = 0] = "Top";
     ResizeDirection[ResizeDirection["TopLeft"] = 1] = "TopLeft";
@@ -11126,6 +11746,16 @@ __as1(_.Lib, 'ApplicationStateManager', Lib.ApplicationStateManager);
 })(Components.ResizeDirection || (Components.ResizeDirection = {}));
 __as1(_.Components, 'ResizeDirection', Components.ResizeDirection);
 
+System.ApplicationQueryFctResult="use strict";
+__as1(_.System, 'ApplicationQueryFctResult', System.ApplicationQueryFctResult);
+
+System.ApplicationQueryFct="use strict";
+__as1(_.System, 'ApplicationQueryFct', System.ApplicationQueryFct);
+
+System.ExecType="use strict";
+__as1(_.System, 'ExecType', System.ExecType);
+
+var LoginCode;
 (function (LoginCode) {
     LoginCode[LoginCode["OK"] = 0] = "OK";
     LoginCode[LoginCode["WrongCredentials"] = 1] = "WrongCredentials";
@@ -11134,7 +11764,8 @@ __as1(_.Components, 'ResizeDirection', Components.ResizeDirection);
 })(Errors.LoginCode || (Errors.LoginCode = {}));
 __as1(_.Errors, 'LoginCode', Errors.LoginCode);
 
-Errors.LoginError=class LoginError extends Aventus.GenericError {
+Errors.LoginError="use strict";
+class LoginError extends Aventus.GenericError {
     static get Fullname() { return "Core.Logic.LoginError, Core"; }
 }
 Errors.LoginError.Namespace=`Core.Errors`;
@@ -11142,11 +11773,13 @@ Errors.LoginError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.LoginError.Fullname, Errors.LoginError);
 __as1(_.Errors, 'LoginError', Errors.LoginError);
 
-Lib.HttpRouter=class HttpRouter extends Aventus.HttpRouter {
+Lib.HttpRouter="use strict";
+class HttpRouter extends Aventus.HttpRouter {
 }
 Lib.HttpRouter.Namespace=`Core.Lib`;
 __as1(_.Lib, 'HttpRouter', Lib.HttpRouter);
 
+var CoreErrorCode;
 (function (CoreErrorCode) {
     CoreErrorCode[CoreErrorCode["NotImplemented"] = 0] = "NotImplemented";
     CoreErrorCode[CoreErrorCode["NotAvailable"] = 1] = "NotAvailable";
@@ -11161,7 +11794,12 @@ __as1(_.Lib, 'HttpRouter', Lib.HttpRouter);
 })(Errors.CoreErrorCode || (Errors.CoreErrorCode = {}));
 __as1(_.Errors, 'CoreErrorCode', Errors.CoreErrorCode);
 
-Permissions.Tree.PermissionTreeItem=class PermissionTreeItem extends AventusSharp.Data.SharpClass {
+RAM.RamWithTransactionInjector="use strict";
+
+RAM.UserMethod="use strict";
+
+Permissions.Tree.PermissionTreeItem="use strict";
+class PermissionTreeItem extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Permissions.Tree.PermissionTreeItem, Core"; }
     DisplayName = "";
     Description = "";
@@ -11176,7 +11814,8 @@ Permissions.Tree.PermissionTreeItem.$schema={...(AventusSharp.Data.SharpClass?.$
 Aventus.Converter.register(Permissions.Tree.PermissionTreeItem.Fullname, Permissions.Tree.PermissionTreeItem);
 __as1(_.Permissions.Tree, 'PermissionTreeItem', Permissions.Tree.PermissionTreeItem);
 
-Data.Permission=class Permission extends AventusSharp.Data.Storable {
+Data.Permission="use strict";
+class Permission extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Permission, Core"; }
     EnumName;
     AdditionalInfo = "";
@@ -11187,7 +11826,8 @@ Data.Permission.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "EnumNa
 Aventus.Converter.register(Data.Permission.Fullname, Data.Permission);
 __as1(_.Data, 'Permission', Data.Permission);
 
-Data.PermissionUser=class PermissionUser extends AventusSharp.Data.Storable {
+Data.PermissionUser="use strict";
+class PermissionUser extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.PermissionUser, Core"; }
     _;
     Data;
@@ -11200,7 +11840,8 @@ Data.PermissionUser.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Pe
 Aventus.Converter.register(Data.PermissionUser.Fullname, Data.PermissionUser);
 __as1(_.Data, 'PermissionUser', Data.PermissionUser);
 
-Data.PermissionGroup=class PermissionGroup extends AventusSharp.Data.Storable {
+Data.PermissionGroup="use strict";
+class PermissionGroup extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.PermissionGroup, Core"; }
     _;
     Data;
@@ -11212,7 +11853,8 @@ Data.PermissionGroup.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "P
 Aventus.Converter.register(Data.PermissionGroup.Fullname, Data.PermissionGroup);
 __as1(_.Data, 'PermissionGroup', Data.PermissionGroup);
 
-Routes.GetVerifyChallengeResponse=class GetVerifyChallengeResponse extends AventusSharp.Data.SharpClass {
+Routes.GetVerifyChallengeResponse="use strict";
+class GetVerifyChallengeResponse extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Routes.GetVerifyChallengeResponse, Core"; }
     Challenge;
     Ids = undefined;
@@ -11222,7 +11864,8 @@ Routes.GetVerifyChallengeResponse.$schema={...(AventusSharp.Data.SharpClass?.$sc
 Aventus.Converter.register(Routes.GetVerifyChallengeResponse.Fullname, Routes.GetVerifyChallengeResponse);
 __as1(_.Routes, 'GetVerifyChallengeResponse', Routes.GetVerifyChallengeResponse);
 
-Routes.Responses.LoginResult=class LoginResult extends AventusSharp.Data.SharpClass {
+Routes.Responses.LoginResult="use strict";
+class LoginResult extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Routes.Responses.LoginResult, Core"; }
     Success;
     QuickAccess = undefined;
@@ -11232,12 +11875,17 @@ Routes.Responses.LoginResult.$schema={...(AventusSharp.Data.SharpClass?.$schema 
 Aventus.Converter.register(Routes.Responses.LoginResult.Fullname, Routes.Responses.LoginResult);
 __as1(_.Routes.Responses, 'LoginResult', Routes.Responses.LoginResult);
 
+var ApplicationPermission;
 (function (ApplicationPermission) {
     ApplicationPermission[ApplicationPermission["AllowAccess"] = 0] = "AllowAccess";
 })(Permissions.ApplicationPermission || (Permissions.ApplicationPermission = {}));
 __as1(_.Permissions, 'ApplicationPermission', Permissions.ApplicationPermission);
 
-Data.Recent=class Recent extends AventusSharp.Data.Storable {
+Data.IUserable="use strict";
+__as1(_.Data, 'IUserable', Data.IUserable);
+
+Data.Recent="use strict";
+class Recent extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Recent, Core"; }
     Name;
     TagName;
@@ -11250,7 +11898,8 @@ Data.Recent.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"str
 Aventus.Converter.register(Data.Recent.Fullname, Data.Recent);
 __as1(_.Data, 'Recent', Data.Recent);
 
-Websocket.Routes.RecentRouter_Save=class RecentRouter_Save extends AventusSharp.WebSocket.WsEvent {
+Websocket.Routes.RecentRouter_Save="use strict";
+class RecentRouter_Save extends AventusSharp.WebSocket.WsEvent {
     StorableName;
     constructor(endpoint, getPrefix, StorableName) {
         super(endpoint, getPrefix);
@@ -11291,6 +11940,7 @@ System.Panel.Tag=`rk-panel`;
 __as1(_.System, 'Panel', System.Panel);
 if(!window.customElements.get('rk-panel')){window.customElements.define('rk-panel', System.Panel);Aventus.WebComponentInstance.registerDefinition(System.Panel);}
 
+var OsPermission;
 (function (OsPermission) {
     OsPermission[OsPermission["ConnectAs"] = 0] = "ConnectAs";
     OsPermission[OsPermission["ReorderApps"] = 1] = "ReorderApps";
@@ -11300,7 +11950,11 @@ if(!window.customElements.get('rk-panel')){window.customElements.define('rk-pane
 })(Permissions.OsPermission || (Permissions.OsPermission = {}));
 __as1(_.Permissions, 'OsPermission', Permissions.OsPermission);
 
-Permissions.PermissionMultiple=class PermissionMultiple extends AventusSharp.Data.SharpClass {
+Permissions.IPermissionQuery="use strict";
+__as1(_.Permissions, 'IPermissionQuery', Permissions.IPermissionQuery);
+
+Permissions.PermissionMultiple="use strict";
+class PermissionMultiple extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Logic.PermissionMultiple, Core"; }
     Query;
     Allow;
@@ -11310,7 +11964,11 @@ Permissions.PermissionMultiple.$schema={...(AventusSharp.Data.SharpClass?.$schem
 Aventus.Converter.register(Permissions.PermissionMultiple.Fullname, Permissions.PermissionMultiple);
 __as1(_.Permissions, 'PermissionMultiple', Permissions.PermissionMultiple);
 
-System.DesktopActivableLogic=class DesktopActivableLogic {
+System.IDesktopActivable="use strict";
+__as1(_.System, 'IDesktopActivable', System.IDesktopActivable);
+
+System.DesktopActivableLogic="use strict";
+class DesktopActivableLogic {
     static findDeskstop(el, desktop) {
         if (desktop) {
             return desktop;
@@ -11331,7 +11989,8 @@ System.DesktopActivableLogic=class DesktopActivableLogic {
 System.DesktopActivableLogic.Namespace=`Core.System`;
 __as1(_.System, 'DesktopActivableLogic', System.DesktopActivableLogic);
 
-App.AppConfiguration=class AppConfiguration extends AventusSharp.Data.SharpClass {
+App.AppConfiguration="use strict";
+class AppConfiguration extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.App.AppConfiguration, Core"; }
     appsInstalled = [];
     allApps = new Map();
@@ -11340,7 +11999,8 @@ App.AppConfiguration.Namespace=`Core.App`;
 App.AppConfiguration.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "appsInstalled":"string[]","allApps":"Map"};
 Aventus.Converter.register(App.AppConfiguration.Fullname, App.AppConfiguration);
 
-Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter {
+Routes.CoreRouter="use strict";
+class CoreRouter extends Aventus.HttpRouter {
     defineOptions(options) {
         options.url = location.protocol + "//" + location.host + "";
         return options;
@@ -11349,7 +12009,8 @@ Routes.CoreRouter=class CoreRouter extends Aventus.HttpRouter {
 Routes.CoreRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'CoreRouter', Routes.CoreRouter);
 
-Routes.SystemInfoRouter=class SystemInfoRouter extends Aventus.HttpRoute {
+Routes.SystemInfoRouter="use strict";
+class SystemInfoRouter extends Aventus.HttpRoute {
     getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
@@ -11363,7 +12024,8 @@ Routes.SystemInfoRouter=class SystemInfoRouter extends Aventus.HttpRoute {
 Routes.SystemInfoRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'SystemInfoRouter', Routes.SystemInfoRouter);
 
-Routes.PermissionUserRouter=class PermissionUserRouter extends Aventus.HttpRoute {
+Routes.PermissionUserRouter="use strict";
+class PermissionUserRouter extends Aventus.HttpRoute {
     getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
@@ -11390,7 +12052,8 @@ Routes.PermissionUserRouter=class PermissionUserRouter extends Aventus.HttpRoute
 Routes.PermissionUserRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'PermissionUserRouter', Routes.PermissionUserRouter);
 
-Routes.PermissionGroupRouter=class PermissionGroupRouter extends Aventus.HttpRoute {
+Routes.PermissionGroupRouter="use strict";
+class PermissionGroupRouter extends Aventus.HttpRoute {
     getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
@@ -11417,7 +12080,8 @@ Routes.PermissionGroupRouter=class PermissionGroupRouter extends Aventus.HttpRou
 Routes.PermissionGroupRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'PermissionGroupRouter', Routes.PermissionGroupRouter);
 
-Routes.PdfRouter=class PdfRouter extends Aventus.HttpRoute {
+Routes.PdfRouter="use strict";
+class PdfRouter extends Aventus.HttpRoute {
     getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
@@ -11438,7 +12102,8 @@ Routes.PdfRouter=class PdfRouter extends Aventus.HttpRoute {
 Routes.PdfRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'PdfRouter', Routes.PdfRouter);
 
-Routes.PushRecordRouter=class PushRecordRouter extends Aventus.HttpRoute {
+Routes.PushRecordRouter="use strict";
+class PushRecordRouter extends Aventus.HttpRoute {
     getPrefix() { return "/push"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
@@ -11465,7 +12130,8 @@ Routes.PushRecordRouter=class PushRecordRouter extends Aventus.HttpRoute {
 Routes.PushRecordRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'PushRecordRouter', Routes.PushRecordRouter);
 
-Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
+Routes.MainRouter="use strict";
+class MainRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
         this.VapidPublicKey = this.VapidPublicKey.bind(this);
@@ -11506,7 +12172,8 @@ Routes.MainRouter=class MainRouter extends Aventus.HttpRoute {
 Routes.MainRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'MainRouter', Routes.MainRouter);
 
-Data.ApplicationData=class ApplicationData extends AventusSharp.Data.Storable {
+Data.ApplicationData="use strict";
+class ApplicationData extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.ApplicationData, Core"; }
     Name = "";
     DisplayName = "";
@@ -11575,7 +12242,8 @@ Components.PageCaseSlot.Tag=`rk-page-case-slot`;
 __as1(_.Components, 'PageCaseSlot', Components.PageCaseSlot);
 if(!window.customElements.get('rk-page-case-slot')){window.customElements.define('rk-page-case-slot', Components.PageCaseSlot);Aventus.WebComponentInstance.registerDefinition(Components.PageCaseSlot);}
 
-Data.ApplicationOpen=class ApplicationOpen extends AventusSharp.Data.SharpClass {
+Data.ApplicationOpen="use strict";
+class ApplicationOpen extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.ApplicationOpen, Core"; }
     id;
     applicationName;
@@ -11588,7 +12256,8 @@ Data.ApplicationOpen.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), 
 Aventus.Converter.register(Data.ApplicationOpen.Fullname, Data.ApplicationOpen);
 __as1(_.Data, 'ApplicationOpen', Data.ApplicationOpen);
 
-Data.ApplicationOpenInfo=class ApplicationOpenInfo extends AventusSharp.Data.SharpClass {
+Data.ApplicationOpenInfo="use strict";
+class ApplicationOpenInfo extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.ApplicationOpenInfo, Core"; }
     DesktopId;
     Info;
@@ -11598,7 +12267,8 @@ Data.ApplicationOpenInfo.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {
 Aventus.Converter.register(Data.ApplicationOpenInfo.Fullname, Data.ApplicationOpenInfo);
 __as1(_.Data, 'ApplicationOpenInfo', Data.ApplicationOpenInfo);
 
-Websocket.Routes.DesktopRouter_RemoveApp=class DesktopRouter_RemoveApp extends AventusSharp.WebSocket.WsEvent {
+Websocket.Routes.DesktopRouter_RemoveApp="use strict";
+class DesktopRouter_RemoveApp extends AventusSharp.WebSocket.WsEvent {
     /**
      * @inheritdoc
      */
@@ -11615,7 +12285,8 @@ Websocket.Routes.DesktopRouter_RemoveApp=class DesktopRouter_RemoveApp extends A
 Websocket.Routes.DesktopRouter_RemoveApp.Namespace=`Core.Websocket.Routes`;
 __as1(_.Websocket.Routes, 'DesktopRouter_RemoveApp', Websocket.Routes.DesktopRouter_RemoveApp);
 
-Websocket.Routes.DesktopRouter_RegisterOpenApp=class DesktopRouter_RegisterOpenApp extends AventusSharp.WebSocket.WsEvent {
+Websocket.Routes.DesktopRouter_RegisterOpenApp="use strict";
+class DesktopRouter_RegisterOpenApp extends AventusSharp.WebSocket.WsEvent {
     /**
      * @inheritdoc
      */
@@ -11632,6 +12303,7 @@ Websocket.Routes.DesktopRouter_RegisterOpenApp=class DesktopRouter_RegisterOpenA
 Websocket.Routes.DesktopRouter_RegisterOpenApp.Namespace=`Core.Websocket.Routes`;
 __as1(_.Websocket.Routes, 'DesktopRouter_RegisterOpenApp', Websocket.Routes.DesktopRouter_RegisterOpenApp);
 
+var DesktopLocation;
 (function (DesktopLocation) {
     DesktopLocation[DesktopLocation["Desktop"] = 0] = "Desktop";
     DesktopLocation[DesktopLocation["BottomBar"] = 1] = "BottomBar";
@@ -11639,6 +12311,7 @@ __as1(_.Websocket.Routes, 'DesktopRouter_RegisterOpenApp', Websocket.Routes.Desk
 })(Data.DesktopLocation || (Data.DesktopLocation = {}));
 __as1(_.Data, 'DesktopLocation', Data.DesktopLocation);
 
+var BackgroundSize;
 (function (BackgroundSize) {
     BackgroundSize[BackgroundSize["Cover"] = 0] = "Cover";
     BackgroundSize[BackgroundSize["Contain"] = 1] = "Contain";
@@ -11646,12 +12319,17 @@ __as1(_.Data, 'DesktopLocation', Data.DesktopLocation);
 })(Data.BackgroundSize || (Data.BackgroundSize = {}));
 __as1(_.Data, 'BackgroundSize', Data.BackgroundSize);
 
-Data.DataTypes.RayukiFile=class RayukiFile extends AventusSharp.Data.CustomTableMembers.AventusFile {
+Data.DataTypes.RayukiFile="use strict";
+class RayukiFile extends AventusSharp.Data.CustomTableMembers.AventusFile {
 }
 Data.DataTypes.RayukiFile.Namespace=`Core.Data.DataTypes`;
 __as1(_.Data.DataTypes, 'RayukiFile', Data.DataTypes.RayukiFile);
 
-State.DesktopStateManager=class DesktopStateManager extends Aventus.StateManager {
+Data.IUserableOrNull="use strict";
+__as1(_.Data, 'IUserableOrNull', Data.IUserableOrNull);
+
+State.DesktopStateManager="use strict";
+class DesktopStateManager extends Aventus.StateManager {
     /**
      * Get the instance of the StateManager
      */
@@ -11662,6 +12340,7 @@ State.DesktopStateManager=class DesktopStateManager extends Aventus.StateManager
 State.DesktopStateManager.Namespace=`Core.State`;
 __as1(_.State, 'DesktopStateManager', State.DesktopStateManager);
 
+var SpecialTouch;
 (function (SpecialTouch) {
     SpecialTouch[SpecialTouch["Backspace"] = 0] = "Backspace";
     SpecialTouch[SpecialTouch["Insert"] = 1] = "Insert";
@@ -11754,7 +12433,17 @@ System.PopupShortcutHelperKey.Tag=`rk-popup-shortcut-helper-key`;
 __as1(_.System, 'PopupShortcutHelperKey', System.PopupShortcutHelperKey);
 if(!window.customElements.get('rk-popup-shortcut-helper-key')){window.customElements.define('rk-popup-shortcut-helper-key', System.PopupShortcutHelperKey);Aventus.WebComponentInstance.registerDefinition(System.PopupShortcutHelperKey);}
 
-Components.Tracker=class Tracker {
+Lib.ShortcutManagerOptions="use strict";
+__as1(_.Lib, 'ShortcutManagerOptions', Lib.ShortcutManagerOptions);
+
+State.MoveApplicationProvider="use strict";
+__as1(_.State, 'MoveApplicationProvider', State.MoveApplicationProvider);
+
+Components.IPositionable="use strict";
+__as1(_.Components, 'IPositionable', Components.IPositionable);
+
+Components.Tracker="use strict";
+class Tracker {
     velocityMultiplier = window.devicePixelRatio;
     updateTime = Date.now();
     delta = { x: 0, y: 0 };
@@ -11877,7 +12566,17 @@ Components.Collapse.Tag=`rk-collapse`;
 __as1(_.Components, 'Collapse', Components.Collapse);
 if(!window.customElements.get('rk-collapse')){window.customElements.define('rk-collapse', Components.Collapse);Aventus.WebComponentInstance.registerDefinition(Components.Collapse);}
 
-Components.FormValidator=class FormValidator {
+Components.FormValidateResult="use strict";
+__as1(_.Components, 'FormValidateResult', Components.FormValidateResult);
+
+Components.FormValidate="use strict";
+__as1(_.Components, 'FormValidate', Components.FormValidate);
+
+Components.VirtualFormConfig="use strict";
+__as1(_.Components, 'VirtualFormConfig', Components.VirtualFormConfig);
+
+Components.FormValidator="use strict";
+class FormValidator {
     static async Test(validators, value, name, globalValidation) {
         if (!Array.isArray(validators)) {
             validators = [validators];
@@ -11904,7 +12603,8 @@ Components.FormValidator=class FormValidator {
 Components.FormValidator.Namespace=`Core.Components`;
 __as1(_.Components, 'FormValidator', Components.FormValidator);
 
-Components.Required=class Required extends _.Components.FormValidator {
+Components.Required="use strict";
+class Required extends _.Components.FormValidator {
     msg;
     constructor(msg) {
         super();
@@ -11928,7 +12628,8 @@ Components.Required=class Required extends _.Components.FormValidator {
 Components.Required.Namespace=`Core.Components`;
 __as1(_.Components, 'Required', Components.Required);
 
-Components.Phone=class Phone extends _.Components.FormValidator {
+Components.Phone="use strict";
+class Phone extends _.Components.FormValidator {
     msg;
     constructor(msg) {
         super();
@@ -11950,7 +12651,8 @@ Components.Phone=class Phone extends _.Components.FormValidator {
 Components.Phone.Namespace=`Core.Components`;
 __as1(_.Components, 'Phone', Components.Phone);
 
-Websocket.MainEndPoint=class MainEndPoint extends AventusSharp.WebSocket.EndPoint {
+Websocket.MainEndPoint="use strict";
+class MainEndPoint extends AventusSharp.WebSocket.EndPoint {
     /**
      * Create a singleton
      */
@@ -11965,7 +12667,8 @@ Websocket.MainEndPoint.Namespace=`Core.Websocket`;
 __as1(_.Websocket, 'MainEndPoint', Websocket.MainEndPoint);
 
 _n = Websocket.Events.ApplicationTestEvent;
-Websocket.Events.ApplicationTestEvent=class ApplicationTestEvent extends AventusSharp.WebSocket.WsEvent {
+Websocket.Events.ApplicationTestEvent="use strict";
+class ApplicationTestEvent extends AventusSharp.WebSocket.WsEvent {
     /**
      * @inheritdoc
      */
@@ -11982,7 +12685,8 @@ __as1(_.Websocket.Events, 'ApplicationTestEvent', Websocket.Events.ApplicationTe
 Object.assign(Websocket.Events.ApplicationTestEvent, _n);
 
 _n = Websocket.Events.TransactionCancelledEvent;
-Websocket.Events.TransactionCancelledEvent=class TransactionCancelledEvent extends AventusSharp.WebSocket.WsEvent {
+Websocket.Events.TransactionCancelledEvent="use strict";
+class TransactionCancelledEvent extends AventusSharp.WebSocket.WsEvent {
     /**
      * @inheritdoc
      */
@@ -11998,7 +12702,8 @@ __as1(_.Websocket.Events, 'TransactionCancelledEvent', Websocket.Events.Transact
 
 Object.assign(Websocket.Events.TransactionCancelledEvent, _n);
 
-Websocket.Events.TransactionCancelledEvent.Body=class Body extends AventusSharp.Data.SharpClass {
+Websocket.Events.TransactionCancelledEvent.Body="use strict";
+class Body extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Websocket.Events.TransactionCancelledEvent+Body, Core"; }
     guid;
 }
@@ -12007,7 +12712,14 @@ Websocket.Events.TransactionCancelledEvent.Body.$schema={...(AventusSharp.Data.S
 Aventus.Converter.register(Websocket.Events.TransactionCancelledEvent.Body.Fullname, Websocket.Events.TransactionCancelledEvent.Body);
 __as1(_.Websocket.Events.TransactionCancelledEvent, 'Body', Websocket.Events.TransactionCancelledEvent.Body);
 
-let Style=class Style {
+Lib.DeviceType="use strict";
+__as1(_.Lib, 'DeviceType', Lib.DeviceType);
+
+let ColorsType="use strict";
+__as1(_, 'ColorsType', ColorsType);
+
+let Style="use strict";
+class Style {
     colors = ['green', 'success', 'red', 'error', 'orange', 'warning', 'blue', 'information', 'primary', 'secondary'];
     static async getTheme(appName) {
         let url = appName ? `/apps/${appName}/default.css` : `/autoload/default.css`;
@@ -12049,9 +12761,11 @@ Components.Img = class Img extends Aventus.WebComponent {
     maxCalculateSize = 10;
     ratio = 1;
     resizeObserver;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("src", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("src", ("use strict";
+(target) => {
     target.onSrcChanged();
-}));this.__addPropertyActions("mode", ((target) => {
+}));this.__addPropertyActions("mode", ("use strict";
+(target) => {
     if (target.src != "") {
         target.calculateSize();
     }
@@ -12409,7 +13123,8 @@ Components.UserProfilPicture.Tag=`rk-user-profil-picture`;
 __as1(_.Components, 'UserProfilPicture', Components.UserProfilPicture);
 if(!window.customElements.get('rk-user-profil-picture')){window.customElements.define('rk-user-profil-picture', Components.UserProfilPicture);Aventus.WebComponentInstance.registerDefinition(Components.UserProfilPicture);}
 
-Routes.VerifyRequest=class VerifyRequest extends AventusSharp.Data.SharpClass {
+Routes.VerifyRequest="use strict";
+class VerifyRequest extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Routes.VerifyRequest, Core"; }
     Id;
     RawId;
@@ -12427,7 +13142,8 @@ __as1(_.Routes, 'VerifyRequest', Routes.VerifyRequest);
 const Blur = class Blur extends Aventus.WebComponent {
     static get observedAttributes() {return ["src"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'src'() { return this.getStringProp('src') }
-    set 'src'(val) { this.setStringAttr('src', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("src", ((target) => {
+    set 'src'(val) { this.setStringAttr('src', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("src", ("use strict";
+(target) => {
     target.effectEl.style.backgroundImage = "url('" + target.src + "')";
 })); }
     static __style = `:host{--internal-blur-size: var(--blur-size, 4px)}:host{height:100%;left:0;position:absolute;top:0;width:100%}:host .effect{background-color:hsla(0,0%,100%,.3);background-position:center center;background-repeat:no-repeat;background-size:cover;filter:blur(var(--internal-blur-size));height:calc(100% + var(--internal-blur-size)*4);left:calc(var(--internal-blur-size)*-2);position:absolute;top:calc(var(--internal-blur-size)*-2);width:calc(100% + var(--internal-blur-size)*4)}`;
@@ -12465,7 +13181,8 @@ Blur.Tag=`rk-blur`;
 __as1(_, 'Blur', Blur);
 if(!window.customElements.get('rk-blur')){window.customElements.define('rk-blur', Blur);Aventus.WebComponentInstance.registerDefinition(Blur);}
 
-Lib.Platform=class Platform {
+Lib.Platform="use strict";
+class Platform {
     static onScreenChange = new Aventus.Callback();
     static init() {
         let currentDevice = this.device;
@@ -12750,15 +13467,18 @@ const IconAction = class IconAction extends MaterialIcon.Icon {
     set 'position'(val) { this.setStringAttr('position', val) }get 'delay'() { return this.getNumberProp('delay') }
     set 'delay'(val) { this.setNumberAttr('delay', val) }get 'delay_touch'() { return this.getNumberProp('delay_touch') }
     set 'delay_touch'(val) { this.setNumberAttr('delay_touch', val) }    tooltip;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("position", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("position", ("use strict";
+(target) => {
     if (target.tooltip) {
         target.tooltip.position = target.position;
     }
-}));this.__addPropertyActions("delay", ((target) => {
+}));this.__addPropertyActions("delay", ("use strict";
+(target) => {
     if (target.tooltip) {
         target.tooltip.delay = target.delay;
     }
-}));this.__addPropertyActions("delay_touch", ((target) => {
+}));this.__addPropertyActions("delay_touch", ("use strict";
+(target) => {
     if (target.tooltip) {
         target.tooltip.delay_touch = target.delay_touch;
     }
@@ -12897,6 +13617,18 @@ SsoOption.Tag=`rk-sso-option`;
 __as1(_, 'SsoOption', SsoOption);
 if(!window.customElements.get('rk-sso-option')){window.customElements.define('rk-sso-option', SsoOption);Aventus.WebComponentInstance.registerDefinition(SsoOption);}
 
+Components.FormPartValidate="use strict";
+__as1(_.Components, 'FormPartValidate', Components.FormPartValidate);
+
+Components.InternalFormPart="use strict";
+__as1(_.Components, 'InternalFormPart', Components.InternalFormPart);
+
+Components.InternalForm="use strict";
+__as1(_.Components, 'InternalForm', Components.InternalForm);
+
+Components.IFormElement="use strict";
+__as1(_.Components, 'IFormElement', Components.IFormElement);
+
 Components.FormElement = class FormElement extends Aventus.WebComponent {
     get 'has_errors'() { return this.getBoolAttr('has_errors') }
     set 'has_errors'(val) { this.setBoolAttr('has_errors', val) }    get 'errors'() {
@@ -12920,7 +13652,8 @@ Components.FormElement = class FormElement extends Aventus.WebComponent {
     }
     onChange = new Aventus.Callback();
     __registerWatchesActions() {
-    this.__addWatchesActions("errors", ((target) => {
+    this.__addWatchesActions("errors", ("use strict";
+(target) => {
     target.has_errors = target.errors.length > 0;
 }));this.__addWatchesActions("value");    super.__registerWatchesActions();
 }
@@ -13003,12 +13736,15 @@ Components.Switch = class Switch extends Components.FormElement {
 					set 'value'(val) {
 						this.__watch["value"] = val;
 					}    __registerWatchesActions() {
-    this.__addWatchesActions("value", ((target) => {
+    this.__addWatchesActions("value", ("use strict";
+(target) => {
     target.checked = target.value;
 }));    super.__registerWatchesActions();
 }
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("disabled", ((target) => {
-}));this.__addPropertyActions("checked", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("disabled", ("use strict";
+(target) => {
+}));this.__addPropertyActions("checked", ("use strict";
+(target) => {
     target.value = target.checked;
 })); }
     static __style = `:host{--_switch-background-color: var(--switch-background-color, var(--form-element-background, white));--_switch-dot-size: var(--switch-dot-size, 20px);--_switch-dot-color: var(--switch-dot-color, var(--secondary-color));--_switch-active-dot-color: var(--switch-active-dot-color, var(--secondary-color-active));--_switch-active-background-color: var(--switch-active-background-color, var(--secondary-color));--_switch-font-size: var(--switch-font-size, var(--form-element-font-size, 16px));--_switch-font-size-label: var(--switch-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_switch-border-radius: var(--switch-border-radius, 10px);--_switch-margin-label: var(--switch-margin-label, 30px);--_switch-label-width: var(--switch-label-width, auto)}:host{align-items:center;display:flex;font-size:var(--_switch-font-size);min-height:var(--_switch-dot-size);width:100%}:host .label:not(:empty){cursor:pointer;display:inline-block;font-size:var(--_switch-font-size-label);margin-right:var(--_switch-margin-label);transition:filter .3s var(--bezier-curve);width:var(--_switch-label-width)}:host .label2:not(:empty){cursor:pointer;display:none;font-size:var(--_switch-font-size-label);margin-left:var(--_switch-margin-label);transition:filter .3s var(--bezier-curve);width:var(--_switch-label-width)}:host .bar{align-items:center;background-color:var(--_switch-background-color);border-radius:var(--_switch-border-radius);cursor:pointer;display:flex;height:10px;position:relative;transition:filter .3s var(--bezier-curve);width:30px}:host .bar input{appearance:none;background-color:rgba(0,0,0,0);border:0;cursor:pointer;height:100%;left:0;margin:0;outline:none;padding:0;position:absolute;top:0;width:100%}:host .bar .bar-content{align-items:center;background-color:rgba(0,0,0,0);display:flex;height:100%;pointer-events:none;position:relative;width:100%}:host .bar .bar-content .dot{background-color:var(--_switch-dot-color);border-radius:var(--border-radius-round);box-shadow:none;cursor:pointer;height:var(--_switch-dot-size);left:0%;pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_switch-dot-size)}:host .bar .bar-content .bar-fill{background-color:var(--_switch-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:0%}:host .bar input:checked+.bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host .bar input:checked+.bar-content .bar-fill{width:100%}:host([label_end]:not([label2])) .label:not(:empty){margin-left:var(--_switch-margin-label);margin-right:0px;order:2}:host([label2]) .label2{display:inline-block}:host([checked]) .bar .bar-content .dot{background-color:var(--_switch-active-dot-color);box-shadow:0 0 5px var(--emphasize);left:100%}:host([checked]) .bar .bar-content .bar-fill{width:100%}:host([disabled]) .bar{cursor:not-allowed;filter:brightness(0.75)}:host([disabled]) .bar input{cursor:not-allowed}:host([disabled]) .bar .bar-content .dot{cursor:not-allowed}:host([disabled]) .label{cursor:default;filter:brightness(0.75)}`;
@@ -13125,13 +13861,15 @@ Components.InputNumber = class InputNumber extends Components.FormElement {
     };
     roundFactor = undefined;
     __registerWatchesActions() {
-    this.__addWatchesActions("value", ((target) => {
+    this.__addWatchesActions("value", ("use strict";
+(target) => {
     target.inputEl.value = target.value !== undefined ? target.value + '' : '';
     if (target.value !== undefined)
         target.value = target._round(target.value);
 }));    super.__registerWatchesActions();
 }
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("round", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("round", ("use strict";
+(target) => {
     target.setRoundFactor();
 })); }
     static __style = `:host{--_input-number-height: var(--input-number-height, 30px);--_input-number-background-color: var(--input-number-background-color, var(--form-element-background, white));--_input-number-icon-height: var(--input-number-icon-height, calc(var(--_input-number-height) / 2));--_input-number-error-logo-size: var(--input-number-error-logo-size, calc(var(--_input-number-height) / 2));--_input-number-font-size: var(--input-number-font-size, var(--form-element-font-size, 16px));--_input-number-font-size-label: var(--input-number-font-size-label, var(--form-element-font-size-label, calc(var(--_input-number-font-size) * 0.95)));--_input-number-input-border: var(--input-number-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-number-border-radius: var(--input-number-border-radius, var(--form-element-border-radius, 0));--_input-number-unit-background-color: var(--input-number-unit-background-color, var(--secondary-color));--_input-number-unit-color: var(--input-number-unit-color, var(--text-color-secondary));--_input-number-readonly-background-color: var(--input-number-readonly-background-color, var(--form-element-background-readonly, var(--_input-number-background-color)));--_input-number-readonly-border: var(--input-number-readonly-border, var(--form-element-border-readonly, var(--_input-number-input-border)))}:host{min-width:100px;width:100%}:host label{display:none;font-size:var(--_input-number-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-number-background-color);border:var(--_input-number-input-border);border-radius:var(--_input-number-border-radius);display:flex;height:var(--_input-number-height);overflow:hidden;padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-number-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-number-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-number-error-logo-size) - 5px);height:var(--_input-number-error-logo-size);justify-content:center;width:var(--_input-number-error-logo-size)}:host .input .unit{align-items:center;background-color:var(--_input-number-unit-background-color);color:var(--_input-number-unit-color);display:flex;font-size:14px;height:100%;justify-content:center;margin-right:-10px;padding-left:10px;padding-right:10px}:host .input .unit:empty{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:0 10px}:host .errors>div{margin:5px 0}:host .errors>div:first-child{margin-top:10px}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .input .unit{margin-right:-25px;padding-right:30px}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([readonly]){pointer-events:none}:host([readonly]) .input{background-color:var(--_input-readonly-background-color);border:var(--_input-readonly-border)}`;
@@ -13339,7 +14077,8 @@ Components.InputDate = class InputDate extends Components.FormElement {
 					set 'value'(val) {
 						this.__watch["value"] = val;
 					}    __registerWatchesActions() {
-    this.__addWatchesActions("value", ((target) => {
+    this.__addWatchesActions("value", ("use strict";
+(target) => {
     target.setValueToInputs();
 }));    super.__registerWatchesActions();
 }
@@ -13901,7 +14640,8 @@ Components.Input = class Input extends Components.FormElement {
     set 'unit'(val) { this.setStringAttr('unit', val) }get 'icon'() { return this.getStringProp('icon') }
     set 'icon'(val) { this.setStringAttr('icon', val) }get 'icon_position'() { return this.getStringProp('icon_position') }
     set 'icon_position'(val) { this.setStringAttr('icon_position', val) }get 'value'() { return this.getStringProp('value') }
-    set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
+    set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ("use strict";
+(target) => {
     target.inputEl.value = target.value ?? "";
 })); }
     static __style = `:host{--_input-height: var(--input-height, 30px);--_input-background-color: var(--input-background-color, var(--form-element-background, white));--_input-icon-height: var(--input-icon-height, calc(var(--_input-height) / 2));--_input-error-logo-size: var(--input-error-logo-size, calc(var(--_input-height) / 2));--_input-font-size: var(--input-font-size, var(--form-element-font-size, 16px));--_input-font-size-label: var(--input-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_input-input-border: var(--input-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_input-border-radius: var(--input-border-radius, var(--form-element-border-radius, 0));--_input-readonly-background-color: var(--input-readonly-background-color, var(--form-element-background-readonly, var(--_input-background-color)));--_input-readonly-border: var(--input-readonly-border, var(--form-element-border-readonly, var(--_input-input-border)));--_input-unit-background-color: var(--input-unit-background-color, var(--secondary-color));--_input-unit-color: var(--input-unit-color, var(--text-color-secondary))}:host{min-width:100px;width:100%}:host label{cursor:pointer;display:none;font-size:var(--_input-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_input-background-color);border:var(--_input-input-border);border-radius:var(--_input-border-radius);display:flex;height:var(--_input-height);overflow:hidden;padding:0 10px;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_input-icon-height);margin-right:10px}:host .input input{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-size:var(--_input-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_input-error-logo-size) - 5px);height:var(--_input-error-logo-size);justify-content:center;width:var(--_input-error-logo-size)}:host .input .unit{align-items:center;background-color:var(--_input-unit-background-color);color:var(--_input-unit-color);display:flex;font-size:14px;height:100%;justify-content:center;margin-right:-10px;padding-left:10px;padding-right:10px}:host .input .unit:empty{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .input .unit{margin-right:-25px;padding-right:30px}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([icon_position=right]) .input .icon{margin-right:0px;order:2}:host([icon_position=right]) .input .input{order:1}:host([icon_position=right]) .input .error-logo{margin-left:10px;order:3}:host([label]:not([label=""])) label{display:flex}:host([readonly]){pointer-events:none}:host([readonly]) .input{background-color:var(--_input-readonly-background-color);border:var(--_input-readonly-border)}`;
@@ -14030,7 +14770,8 @@ Components.Password = class Password extends Components.Input {
     get 'visible'() { return this.getBoolProp('visible') }
     set 'visible'(val) { this.setBoolAttr('visible', val) }get 'icon_position'() { return this.getStringProp('icon_position') }
     set 'icon_position'(val) { this.setStringAttr('icon_position', val) }    pressIcon;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("visible", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("visible", ("use strict";
+(target) => {
     target.updateIcon();
 })); }
     static __style = `:host .input .icon{cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}`;
@@ -14099,11 +14840,13 @@ Components.Checkbox = class Checkbox extends Components.FormElement {
 					set 'value'(val) {
 						this.__watch["value"] = val;
 					}    __registerWatchesActions() {
-    this.__addWatchesActions("value", ((target) => {
+    this.__addWatchesActions("value", ("use strict";
+(target) => {
     target.checked = target.value;
 }));    super.__registerWatchesActions();
 }
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("checked", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("checked", ("use strict";
+(target) => {
     target.value = target.checked;
 })); }
     static __style = `:host{--_checkbox-size: var(--checkbox-size, 18px);--_checkbox-height: var(--checkbox-height, var(--_checkbox-size));--_checkbox-width: var(--checkbox-width, var(--_checkbox-size));--_checkbox-border-radius: var(--checkbox-border-radius, var(--form-element-border-radius));--_checkbox-border: var(--checkbox-border, var(--form-element-border));--_checkbox-border-active: var(--checkbox-border-active, var(--form-element-border-active, var(--_checkbox-border)));--_checkbox-background: var(--checkbox-background, var(--form-element-background, white));--_checkbox-background-active: var(--checkbox-background-active, var(--form-element-background-active, white));--_checkbox-tick-color: var(--checkbox-tick-color, var(--_checkbox-background));--_checkbox-tick-size: var(--checkbox-tick-size, 2px);--_checkbox-tick-padding: var(--checkbox-tick-padding, 10%);--_checkbox-font-size-label: var(--checkbox-font-size-label, var(--form-element-font-size-label, calc(var(--_input-font-size) * 0.95)));--_checkbox-margin-label: var(--checkbox-margin-label, 5px)}:host{align-items:center;display:flex}:host .label:not(:empty){cursor:pointer;font-size:var(--_checkbox-font-size-label);margin-left:var(--_checkbox-margin-label)}:host .square{background-color:var(--_checkbox-background);border:var(--_checkbox-border);border-radius:var(--_checkbox-border-radius);cursor:pointer;flex-shrink:0;height:var(--_checkbox-height);position:relative;transition:border .4s var(--bezier-curve),background-color .4s var(--bezier-curve);width:var(--_checkbox-width);display:flex;align-items:center;justify-content:center}:host .square rk-img{--img-stroke-color: var(--_checkbox-tick-color);--img-stroke-width: var(--_checkbox-tick-size);height:calc(100% - var(--_checkbox-tick-padding));opacity:0;visibility:hidden;width:calc(100% - var(--_checkbox-tick-padding))}:host([checked]) .square{background-color:var(--_checkbox-background-active);border:var(--_checkbox-border-active)}:host([checked]) .square rk-img{opacity:1;visibility:visible}:host([checked]) .square rk-img::part(tick){animation:dash .3s linear forwards;animation-delay:.2s;stroke-dasharray:100;stroke-dashoffset:100}:host([left_label]) .label:not(:empty){margin-left:0;margin-right:var(--_checkbox-margin-label);order:1}:host([left_label]) .square{order:2}@keyframes dash{to{stroke-dashoffset:70}}`;
@@ -14321,7 +15064,8 @@ Components.Button = class Button extends Aventus.WebComponent {
     set 'ghost'(val) { this.setBoolAttr('ghost', val) }    get 'icon_before'() { return this.getStringProp('icon_before') }
     set 'icon_before'(val) { this.setStringAttr('icon_before', val) }get 'icon_after'() { return this.getStringProp('icon_after') }
     set 'icon_after'(val) { this.setStringAttr('icon_after', val) }get 'icon'() { return this.getStringProp('icon') }
-    set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ((target) => {
+    set 'icon'(val) { this.setStringAttr('icon', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("icon", ("use strict";
+(target) => {
     target.icon_before = target.icon;
 })); }
     static __style = `:host{--_button-background-color: var(--button-background-color);--_button-background-color-hover: var(--button-background-color-hover, var(--darker));--_button-color: var(--button-color, currentcolor);--_button-box-shadow: var(--button-box-shadow);--_button-box-shadow-hover: var(--button-box-shadow-hover);--_button-border-radius: var(--button-border-radius, var(--border-radius-sm, 5px));--_button-padding: var(--button-padding, 0 16px);--_button-icon-fill-color: var(--button-icon-fill-color, --_button-color);--_button-icon-stroke-color: var(--button-icon-stroke-color, transparent);--_button-icon-margin: var(--button-icon-margin, 10px);--_button-background-color-disable: var(--button-background-color-disable, var(--disable-color));--_button-color-disable: var(--button-color-disable, var(--text-disable))}:host{background-color:var(--_button-background-color);border-radius:var(--_button-border-radius);box-shadow:var(--_button-box-shadow);color:var(--_button-color);cursor:pointer;height:36px;position:relative}:host .hider{background-color:var(--_button-background-color-hover);border-radius:var(--_button-border-radius);inset:0;opacity:0;position:absolute;transition:opacity .3s var(--bezier-curve),visibility .3s var(--bezier-curve);visibility:hidden;z-index:1}:host .content{align-items:center;display:flex;height:100%;justify-content:center;padding:var(--_button-padding);position:relative;z-index:2}:host .content .icon-before,:host .content .icon-after{--img-stroke-color: var(--_button-icon-stroke-color);--img-fill-color: var(--_button-icon-fill-color);display:none;height:100%;padding:10px 0}:host([disabled]){background-color:var(--_button-background-color-disable) !important;box-shadow:none;color:var(--_button-color-disable);cursor:not-allowed}:host([icon_before]) .icon-before{display:block;margin-right:var(--_button-icon-margin)}:host([icon_after]) .icon-after{display:block;margin-left:var(--_button-icon-margin)}:host([icon]) .icon-before{margin-right:0px}:host([outline]){background-color:rgba(0,0,0,0);border:1px solid var(--button-background-color);color:var(--text-color)}:host([flat]){box-shadow:none}:host([ghost]){background-color:rgba(0,0,0,0)}:host([ghost][outline]){border:none}:host([color=primary]){background-color:var(--primary);color:var(--text-color-primary)}:host([outline][color=primary]){background-color:rgba(0,0,0,0);border:1px solid var(--primary);color:var(--text-color)}:host([color=secondary]){background-color:var(--secondary);color:var(--text-color-secondary)}:host([outline][color=secondary]){background-color:rgba(0,0,0,0);border:1px solid var(--secondary);color:var(--text-color)}:host([color=green]){background-color:var(--green);color:var(--text-color-green)}:host([outline][color=green]){background-color:rgba(0,0,0,0);border:1px solid var(--green);color:var(--text-color)}:host([color=success]){background-color:var(--success);color:var(--text-color-success)}:host([outline][color=success]){background-color:rgba(0,0,0,0);border:1px solid var(--success);color:var(--text-color)}:host([color=red]){background-color:var(--red);color:var(--text-color-red)}:host([outline][color=red]){background-color:rgba(0,0,0,0);border:1px solid var(--red);color:var(--text-color)}:host([color=error]){background-color:var(--error);color:var(--text-color-error)}:host([outline][color=error]){background-color:rgba(0,0,0,0);border:1px solid var(--error);color:var(--text-color)}:host([color=orange]){background-color:var(--orange);color:var(--text-color-orange)}:host([outline][color=orange]){background-color:rgba(0,0,0,0);border:1px solid var(--orange);color:var(--text-color)}:host([color=warning]){background-color:var(--warning);color:var(--text-color-warning)}:host([outline][color=warning]){background-color:rgba(0,0,0,0);border:1px solid var(--warning);color:var(--text-color)}:host([color=blue]){background-color:var(--blue);color:var(--text-color-blue)}:host([outline][color=blue]){background-color:rgba(0,0,0,0);border:1px solid var(--blue);color:var(--text-color)}:host([color=information]){background-color:var(--information);color:var(--text-color-information)}:host([outline][color=information]){background-color:rgba(0,0,0,0);border:1px solid var(--information);color:var(--text-color)}@media screen and (min-width: 1225px){:host(:not([disabled]):hover){box-shadow:var(--_button-box-shadow-hover)}:host(:not([disabled]):hover) .hider{opacity:1;visibility:visible}}`;
@@ -14396,7 +15140,8 @@ const Login = class Login extends Aventus.WebComponent {
 					}    __registerWatchesActions() {
     this.__addWatchesActions("ssoProviders");    super.__registerWatchesActions();
 }
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("sso", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("sso", ("use strict";
+(target) => {
     if (target.sso) {
         try {
             target.ssoProviders = JSON.parse(target.sso);
@@ -14799,7 +15544,14 @@ Components.ContextMenuItem.Tag=`rk-context-menu-item`;
 __as1(_.Components, 'ContextMenuItem', Components.ContextMenuItem);
 if(!window.customElements.get('rk-context-menu-item')){window.customElements.define('rk-context-menu-item', Components.ContextMenuItem);Aventus.WebComponentInstance.registerDefinition(Components.ContextMenuItem);}
 
-Components.TouchRecord=class TouchRecord {
+Components.ContextMenuSeparatorOption="use strict";
+__as1(_.Components, 'ContextMenuSeparatorOption', Components.ContextMenuSeparatorOption);
+
+Components.ContextMenuItemOption="use strict";
+__as1(_.Components, 'ContextMenuItemOption', Components.ContextMenuItemOption);
+
+Components.TouchRecord="use strict";
+class TouchRecord {
     _activeTouchID;
     _touchList = {};
     get _primitiveValue() {
@@ -14835,7 +15587,8 @@ Components.TouchRecord=class TouchRecord {
             y: 0,
         };
         const vel = this.getVelocity();
-        Object.keys(vel).forEach(dir => {
+        Object.keys(vel).forEach(_dir => {
+            const dir = _dir;
             let v = Math.abs(vel[dir]) <= 10 ? 0 : vel[dir];
             while (v !== 0) {
                 distance[dir] += v;
@@ -15031,7 +15784,8 @@ Components.Scrollable = class Scrollable extends Aventus.WebComponent {
         bottom: 0,
     };
     pressManager;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("zoom", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("zoom", ("use strict";
+(target) => {
     target.changeZoom();
 })); }
     static __style = `:host{--_scrollbar-container-color: var(--scrollbar-container-color, transparent);--_scrollbar-color: var(--scrollbar-color, #757575);--_scrollbar-active-color: var(--scrollbar-active-color, #858585);--_scrollbar-max-height: var(--scrollbar-max-height, 100%);--_scroller-width: var(--scroller-width, 6px);--_scroller-top: var(--scroller-top, 3px);--_scroller-bottom: var(--scroller-bottom, 3px);--_scroller-right: var(--scroller-right, 3px);--_scroller-left: var(--scroller-left, 3px);--_scrollbar-content-padding: var(--scrollbar-content-padding, 0);--_scrollbar-container-display: var(--scrollbar-container-display, inline-block)}:host{display:block;height:100%;min-height:inherit;min-width:inherit;overflow:hidden;position:relative;-webkit-user-drag:none;-khtml-user-drag:none;-moz-user-drag:none;-o-user-drag:none;width:100%}:host .scroll-main-container{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;position:relative;width:100%}:host .scroll-main-container .content-zoom{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;position:relative;transform-origin:0 0;width:100%;z-index:4}:host .scroll-main-container .content-zoom .content-hidder{display:block;height:100%;max-height:var(--_scrollbar-max-height);min-height:inherit;min-width:inherit;overflow:hidden;position:relative;width:100%}:host .scroll-main-container .content-zoom .content-hidder .content-wrapper{display:var(--_scrollbar-container-display);height:100%;min-height:inherit;min-width:inherit;padding:var(--_scrollbar-content-padding);position:relative;width:100%}:host .scroll-main-container .scroller-wrapper .container-scroller{display:none;overflow:hidden;position:absolute;transition:transform .2s linear;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller{background-color:var(--_scrollbar-container-color);border-radius:var(--border-radius-sm)}:host .scroll-main-container .scroller-wrapper .container-scroller .shadow-scroller .scroller{background-color:var(--_scrollbar-color);border-radius:var(--border-radius-sm);cursor:pointer;position:absolute;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:none;z-index:5}:host .scroll-main-container .scroller-wrapper .container-scroller .scroller.active{background-color:var(--_scrollbar-active-color)}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical{height:calc(100% - var(--_scroller-bottom)*2 - var(--_scroller-width));padding-left:var(--_scroller-left);right:var(--_scroller-right);top:var(--_scroller-bottom);transform:0;width:calc(var(--_scroller-width) + var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical.hide{transform:translateX(calc(var(--_scroller-width) + var(--_scroller-left)))}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.vertical .shadow-scroller .scroller{width:calc(100% - var(--_scroller-left))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal{bottom:var(--_scroller-bottom);height:calc(var(--_scroller-width) + var(--_scroller-top));left:var(--_scroller-right);padding-top:var(--_scroller-top);transform:0;width:calc(100% - var(--_scroller-right)*2 - var(--_scroller-width))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal.hide{transform:translateY(calc(var(--_scroller-width) + var(--_scroller-top)))}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller{height:100%}:host .scroll-main-container .scroller-wrapper .container-scroller.horizontal .shadow-scroller .scroller{height:calc(100% - var(--_scroller-top))}:host([y_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{height:auto}:host([x_scroll]) .scroll-main-container .content-zoom .content-hidder .content-wrapper{width:auto}:host([y_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.vertical{display:block}:host([x_scroll_visible]) .scroll-main-container .scroller-wrapper .container-scroller.horizontal{display:block}:host([no_user_select]) .content-wrapper *{user-select:none}:host([no_user_select]) ::slotted{user-select:none}`;
@@ -16168,6 +16922,9 @@ Components.ContextMenu.Tag=`rk-context-menu`;
 __as1(_.Components, 'ContextMenu', Components.ContextMenu);
 if(!window.customElements.get('rk-context-menu')){window.customElements.define('rk-context-menu', Components.ContextMenu);Aventus.WebComponentInstance.registerDefinition(Components.ContextMenu);}
 
+Components.IContextMenu="use strict";
+__as1(_.Components, 'IContextMenu', Components.IContextMenu);
+
 System.Loading = class Loading extends Aventus.WebComponent {
     static get observedAttributes() {return ["text"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'background'() { return this.getBoolAttr('background') }
@@ -16239,7 +16996,8 @@ Components.ContextMenuElement.Tag=`rk-context-menu-element`;
 __as1(_.Components, 'ContextMenuElement', Components.ContextMenuElement);
 if(!window.customElements.get('rk-context-menu-element')){window.customElements.define('rk-context-menu-element', Components.ContextMenuElement);Aventus.WebComponentInstance.registerDefinition(Components.ContextMenuElement);}
 
-Lib.ShortcutManager=class ShortcutManager {
+Lib.ShortcutManager="use strict";
+class ShortcutManager {
     static memory = {};
     static autoPrevents = [];
     static isInit = false;
@@ -16421,7 +17179,8 @@ Lib.ShortcutManager=class ShortcutManager {
 Lib.ShortcutManager.Namespace=`Core.Lib`;
 __as1(_.Lib, 'ShortcutManager', Lib.ShortcutManager);
 
-State.MoveApplication=class MoveApplication extends Aventus.State {
+State.MoveApplication="use strict";
+class MoveApplication extends Aventus.State {
     static state = "/application/move";
     static shadowIcons = [];
     providers = [];
@@ -16509,12 +17268,14 @@ State.MoveApplication=class MoveApplication extends Aventus.State {
 State.MoveApplication.Namespace=`Core.State`;
 __as1(_.State, 'MoveApplication', State.MoveApplication);
 
-Data.DataTypes.ImageFile=class ImageFile extends _.Data.DataTypes.RayukiFile {
+Data.DataTypes.ImageFile="use strict";
+class ImageFile extends _.Data.DataTypes.RayukiFile {
 }
 Data.DataTypes.ImageFile.Namespace=`Core.Data.DataTypes`;
 __as1(_.Data.DataTypes, 'ImageFile', Data.DataTypes.ImageFile);
 
-Data.SsoLogo=class SsoLogo extends _.Data.DataTypes.ImageFile {
+Data.SsoLogo="use strict";
+class SsoLogo extends _.Data.DataTypes.ImageFile {
     static get Fullname() { return "Core.Data.SsoLogo, Core"; }
 }
 Data.SsoLogo.Namespace=`Core.Data`;
@@ -16522,7 +17283,8 @@ Data.SsoLogo.$schema={...(Data.DataTypes.ImageFile?.$schema ?? {}), };
 Aventus.Converter.register(Data.SsoLogo.Fullname, Data.SsoLogo);
 __as1(_.Data, 'SsoLogo', Data.SsoLogo);
 
-Data.CompanyImage=class CompanyImage extends _.Data.DataTypes.ImageFile {
+Data.CompanyImage="use strict";
+class CompanyImage extends _.Data.DataTypes.ImageFile {
     static get Fullname() { return "Core.Data.CompanyImage, Core"; }
 }
 Data.CompanyImage.Namespace=`Core.Data`;
@@ -16548,7 +17310,8 @@ Components.InputImage = class InputImage extends Components.FormElement {
 					set 'previewUri'(val) {
 						this.__watch["previewUri"] = val;
 					}    __registerWatchesActions() {
-    this.__addWatchesActions("value", ((target) => {
+    this.__addWatchesActions("value", ("use strict";
+(target) => {
     target.setPreview();
 }));this.__addWatchesActions("previewUri");    super.__registerWatchesActions();
 }
@@ -16690,7 +17453,8 @@ Components.InputImage.Tag=`rk-input-image`;
 __as1(_.Components, 'InputImage', Components.InputImage);
 if(!window.customElements.get('rk-input-image')){window.customElements.define('rk-input-image', Components.InputImage);Aventus.WebComponentInstance.registerDefinition(Components.InputImage);}
 
-Data.UserPicture=class UserPicture extends _.Data.DataTypes.ImageFile {
+Data.UserPicture="use strict";
+class UserPicture extends _.Data.DataTypes.ImageFile {
     static get Fullname() { return "Core.Data.UserPicture, Core"; }
 }
 Data.UserPicture.Namespace=`Core.Data`;
@@ -16698,7 +17462,8 @@ Data.UserPicture.$schema={...(Data.DataTypes.ImageFile?.$schema ?? {}), };
 Aventus.Converter.register(Data.UserPicture.Fullname, Data.UserPicture);
 __as1(_.Data, 'UserPicture', Data.UserPicture);
 
-Data.DesktopBackground=class DesktopBackground extends _.Data.DataTypes.ImageFile {
+Data.DesktopBackground="use strict";
+class DesktopBackground extends _.Data.DataTypes.ImageFile {
     static get Fullname() { return "Core.Data.DesktopBackground, Core"; }
 }
 Data.DesktopBackground.Namespace=`Core.Data`;
@@ -16706,7 +17471,8 @@ Data.DesktopBackground.$schema={...(Data.DataTypes.ImageFile?.$schema ?? {}), };
 Aventus.Converter.register(Data.DesktopBackground.Fullname, Data.DesktopBackground);
 __as1(_.Data, 'DesktopBackground', Data.DesktopBackground);
 
-Data.DekstopConfiguration=class DekstopConfiguration extends AventusSharp.Data.Storable {
+Data.DekstopConfiguration="use strict";
+class DekstopConfiguration extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.DekstopConfiguration, Core"; }
     Background;
     Data;
@@ -16722,7 +17488,8 @@ Data.DekstopConfiguration.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}
 Aventus.Converter.register(Data.DekstopConfiguration.Fullname, Data.DekstopConfiguration);
 __as1(_.Data, 'DekstopConfiguration', Data.DekstopConfiguration);
 
-Data.DesktopAppIcon=class DesktopAppIcon extends AventusSharp.Data.Storable {
+Data.DesktopAppIcon="use strict";
+class DesktopAppIcon extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.DesktopAppIcon, Core"; }
     Position;
     DesktopId;
@@ -16734,7 +17501,8 @@ Data.DesktopAppIcon.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Po
 Aventus.Converter.register(Data.DesktopAppIcon.Fullname, Data.DesktopAppIcon);
 __as1(_.Data, 'DesktopAppIcon', Data.DesktopAppIcon);
 
-Websocket.Routes.DesktopRouter_SetDesktopIcon=class DesktopRouter_SetDesktopIcon extends AventusSharp.WebSocket.WsEvent {
+Websocket.Routes.DesktopRouter_SetDesktopIcon="use strict";
+class DesktopRouter_SetDesktopIcon extends AventusSharp.WebSocket.WsEvent {
     /**
      * @inheritdoc
      */
@@ -16751,7 +17519,8 @@ Websocket.Routes.DesktopRouter_SetDesktopIcon=class DesktopRouter_SetDesktopIcon
 Websocket.Routes.DesktopRouter_SetDesktopIcon.Namespace=`Core.Websocket.Routes`;
 __as1(_.Websocket.Routes, 'DesktopRouter_SetDesktopIcon', Websocket.Routes.DesktopRouter_SetDesktopIcon);
 
-Data.Desktop=class Desktop extends AventusSharp.Data.Storable {
+Data.Desktop="use strict";
+class Desktop extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Desktop, Core"; }
     Name;
     _Token;
@@ -16770,7 +17539,8 @@ __as1(_.Data, 'Desktop', Data.Desktop);
 Data.DesktopClass= _.Data.Desktop;
 __as1(_.Data, 'DesktopClass', Data.DesktopClass);
 
-Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRouter {
+Routes.DesktopRouter="use strict";
+class DesktopRouter extends AventusSharp.Routes.StorableRouter {
     getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
@@ -16782,7 +17552,11 @@ Routes.DesktopRouter=class DesktopRouter extends AventusSharp.Routes.StorableRou
 Routes.DesktopRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'DesktopRouter', Routes.DesktopRouter);
 
-Data.User=class User extends AventusSharp.Data.Storable {
+Data.DesktopData="use strict";
+__as1(_.Data, 'DesktopData', Data.DesktopData);
+
+Data.User="use strict";
+class User extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.User, Core"; }
     Firstname = "";
     Lastname = "";
@@ -16799,7 +17573,8 @@ Data.User.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Firstname":"
 Aventus.Converter.register(Data.User.Fullname, Data.User);
 __as1(_.Data, 'User', Data.User);
 
-Data.Group=class Group extends AventusSharp.Data.Storable {
+Data.Group="use strict";
+class Group extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Group, Core"; }
     Name = "";
     Description = "";
@@ -16811,7 +17586,11 @@ Data.Group.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"stri
 Aventus.Converter.register(Data.Group.Fullname, Data.Group);
 __as1(_.Data, 'Group', Data.Group);
 
-Routes.GroupRouter=class GroupRouter extends AventusSharp.Routes.StorableRouter {
+RAM.GroupExtended="use strict";
+__as1(_.RAM, 'GroupExtended', RAM.GroupExtended);
+
+Routes.GroupRouter="use strict";
+class GroupRouter extends AventusSharp.Routes.StorableRouter {
     getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
@@ -16823,7 +17602,8 @@ Routes.GroupRouter=class GroupRouter extends AventusSharp.Routes.StorableRouter 
 Routes.GroupRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'GroupRouter', Routes.GroupRouter);
 
-Routes.UserRouter=class UserRouter extends AventusSharp.Routes.StorableRouter {
+Routes.UserRouter="use strict";
+class UserRouter extends AventusSharp.Routes.StorableRouter {
     getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
@@ -16859,12 +17639,14 @@ Components.PageCase = class PageCase extends Aventus.WebComponent {
     currentPageNumber = 0;
     resizeObserver;
     allow_resize = true;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("case_width", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("case_width", ("use strict";
+(target) => {
     target.style.setProperty("--local-page-case-width", target.case_width + 'px');
     if (target.inverse) {
         target.calculateGrid();
     }
-}));this.__addPropertyActions("case_height", ((target) => {
+}));this.__addPropertyActions("case_height", ("use strict";
+(target) => {
     target.style.setProperty("--local-page-case-height", target.case_height + 'px');
     if (target.inverse) {
         target.calculateGrid();
@@ -17183,7 +17965,8 @@ Components.PageCase.Tag=`rk-page-case`;
 __as1(_.Components, 'PageCase', Components.PageCase);
 if(!window.customElements.get('rk-page-case')){window.customElements.define('rk-page-case', Components.PageCase);Aventus.WebComponentInstance.registerDefinition(Components.PageCase);}
 
-Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
+Routes.ApplicationRouter="use strict";
+class ApplicationRouter extends Aventus.HttpRoute {
     getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
@@ -17232,7 +18015,8 @@ Routes.ApplicationRouter=class ApplicationRouter extends Aventus.HttpRoute {
 Routes.ApplicationRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'ApplicationRouter', Routes.ApplicationRouter);
 
-RAM.ApplicationRAM=class ApplicationRAM extends Aventus.Ram {
+RAM.ApplicationRAM="use strict";
+class ApplicationRAM extends Aventus.Ram {
     getAllDone = false;
     /**
      * Create a singleton to store data
@@ -17306,7 +18090,8 @@ System.AppList = class AppList extends Aventus.WebComponent {
     static get observedAttributes() {return ["show"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'no_transition'() { return this.getBoolAttr('no_transition') }
     set 'no_transition'(val) { this.setBoolAttr('no_transition', val) }    get 'show'() { return this.getBoolProp('show') }
-    set 'show'(val) { this.setBoolAttr('show', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("show", ((target) => {
+    set 'show'(val) { this.setBoolAttr('show', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("show", ("use strict";
+(target) => {
     target.onShowChange();
 })); }
     static __style = `:host{--internal-app-list-case-border-radius: var(--app-list-case-border-radius, var(--app-icon-border-radius, 10px));--internal-app-list-case-border: var(--app-list-case-border, none);--internal-app-list-case-background-color: var(--app-list-case-background-color, transparent);--internal-app-list-case-border-selected: var(--app-list-case-border-selected, 2px solid red);--internal-app-list-case-background-color-selected: var(--app-list-case-background-color-selected, transparent)}:host{align-items:center;background-color:var(--lighter-active);display:flex;flex-direction:column;inset:0;position:absolute;top:100%;transition:top .5s var(--bezier-curve);z-index:5;height:100%}:host .search{align-items:center;display:flex;height:100px;justify-content:center;width:100%}:host .search input{background-color:var(--form-element-background);border:none;border-radius:var(--border-radius-round);box-shadow:var(--elevation-3);font-size:var(--form-element-font-size);line-height:var(--form-element-font-size);max-width:400px;outline:none;padding:10px 20px;width:calc(100% - 20px)}:host .app-list{--page-case-background: var(--internal-app-list-case-background-color);--page-case-background-active: var(--internal-app-list-case-background-color-selected);--page-case-border-active: var(--internal-app-list-case-border-selected);--page-case-border-radius: var(--internal-app-list-case-border-radius);flex-grow:1;max-width:1000px;width:100%;margin-top:50px}:host([show]){top:0}:host([no_transition]){transition:none}`;
@@ -17415,7 +18200,8 @@ System.AppList.Tag=`rk-app-list`;
 __as1(_.System, 'AppList', System.AppList);
 if(!window.customElements.get('rk-app-list')){window.customElements.define('rk-app-list', System.AppList);Aventus.WebComponentInstance.registerDefinition(System.AppList);}
 
-Permissions.PermissionQuery=class PermissionQuery {
+Permissions.PermissionQuery="use strict";
+class PermissionQuery {
     $type;
     value;
     additionalInfo;
@@ -17428,7 +18214,11 @@ Permissions.PermissionQuery=class PermissionQuery {
 Permissions.PermissionQuery.Namespace=`Core.Permissions`;
 __as1(_.Permissions, 'PermissionQuery', Permissions.PermissionQuery);
 
-Permissions.OsPermissionQuery=class OsPermissionQuery extends _.Permissions.PermissionQuery {
+Permissions.PermissionQueryCst="use strict";
+__as1(_.Permissions, 'PermissionQueryCst', Permissions.PermissionQueryCst);
+
+Permissions.OsPermissionQuery="use strict";
+class OsPermissionQuery extends _.Permissions.PermissionQuery {
     static get Fullname() { return "Core.Permissions.OsPermissionQuery, Core"; }
 }
 Permissions.OsPermissionQuery.Namespace=`Core.Permissions`;
@@ -17436,7 +18226,8 @@ Permissions.OsPermissionQuery.$schema={...(Permissions.PermissionQuery?.$schema 
 Aventus.Converter.register(Permissions.OsPermissionQuery.Fullname, Permissions.OsPermissionQuery);
 __as1(_.Permissions, 'OsPermissionQuery', Permissions.OsPermissionQuery);
 
-Data.Favorite=class Favorite extends AventusSharp.Data.Storable {
+Data.Favorite="use strict";
+class Favorite extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Favorite, Core"; }
     Name;
     TagName;
@@ -17449,7 +18240,8 @@ Data.Favorite.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"s
 Aventus.Converter.register(Data.Favorite.Fullname, Data.Favorite);
 __as1(_.Data, 'Favorite', Data.Favorite);
 
-Websocket.Routes.FavoriteRouter=class FavoriteRouter extends AventusSharp.WebSocket.StorableWsRouter {
+Websocket.Routes.FavoriteRouter="use strict";
+class FavoriteRouter extends AventusSharp.WebSocket.StorableWsRouter {
     constructor(endpoint) {
         super(endpoint ?? _.Websocket.MainEndPoint.getInstance());
     }
@@ -17460,7 +18252,8 @@ Websocket.Routes.FavoriteRouter=class FavoriteRouter extends AventusSharp.WebSoc
 Websocket.Routes.FavoriteRouter.Namespace=`Core.Websocket.Routes`;
 __as1(_.Websocket.Routes, 'FavoriteRouter', Websocket.Routes.FavoriteRouter);
 
-Permissions.ApplicationPermissionQuery=class ApplicationPermissionQuery extends _.Permissions.PermissionQuery {
+Permissions.ApplicationPermissionQuery="use strict";
+class ApplicationPermissionQuery extends _.Permissions.PermissionQuery {
     static get Fullname() { return "Core.Permissions.ApplicationPermissionQuery, Core"; }
 }
 Permissions.ApplicationPermissionQuery.Namespace=`Core.Permissions`;
@@ -17468,7 +18261,8 @@ Permissions.ApplicationPermissionQuery.$schema={...(Permissions.PermissionQuery?
 Aventus.Converter.register(Permissions.ApplicationPermissionQuery.Fullname, Permissions.ApplicationPermissionQuery);
 __as1(_.Permissions, 'ApplicationPermissionQuery', Permissions.ApplicationPermissionQuery);
 
-Routes.LoginRouter=class LoginRouter extends Aventus.HttpRoute {
+Routes.LoginRouter="use strict";
+class LoginRouter extends Aventus.HttpRoute {
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
         this.LoginAction = this.LoginAction.bind(this);
@@ -17521,7 +18315,8 @@ Routes.LoginRouter=class LoginRouter extends Aventus.HttpRoute {
 Routes.LoginRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'LoginRouter', Routes.LoginRouter);
 
-Permissions.Tree.PermissionTree=class PermissionTree extends AventusSharp.Data.SharpClass {
+Permissions.Tree.PermissionTree="use strict";
+class PermissionTree extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Permissions.Tree.PermissionTree, Core"; }
     AppName;
     IconTagName;
@@ -17533,7 +18328,8 @@ Permissions.Tree.PermissionTree.$schema={...(AventusSharp.Data.SharpClass?.$sche
 Aventus.Converter.register(Permissions.Tree.PermissionTree.Fullname, Permissions.Tree.PermissionTree);
 __as1(_.Permissions.Tree, 'PermissionTree', Permissions.Tree.PermissionTree);
 
-Permissions.PermissionForUser=class PermissionForUser extends AventusSharp.Data.SharpClass {
+Permissions.PermissionForUser="use strict";
+class PermissionForUser extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Logic.PermissionForUser, Core"; }
     permissionGroups = [];
     permissionUsers = [];
@@ -17543,7 +18339,8 @@ Permissions.PermissionForUser.$schema={...(AventusSharp.Data.SharpClass?.$schema
 Aventus.Converter.register(Permissions.PermissionForUser.Fullname, Permissions.PermissionForUser);
 __as1(_.Permissions, 'PermissionForUser', Permissions.PermissionForUser);
 
-Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
+Routes.PermissionRouter="use strict";
+class PermissionRouter extends Aventus.HttpRoute {
     getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
@@ -17580,7 +18377,8 @@ Routes.PermissionRouter=class PermissionRouter extends Aventus.HttpRoute {
 Routes.PermissionRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'PermissionRouter', Routes.PermissionRouter);
 
-Permissions.Permission=class Permission {
+Permissions.Permission="use strict";
+class Permission {
     static saved = {};
     static waitings = [];
     static cbs = {};
@@ -17664,7 +18462,11 @@ Permissions.Permission=class Permission {
 Permissions.Permission.Namespace=`Core.Permissions`;
 __as1(_.Permissions, 'Permission', Permissions.Permission);
 
-Errors.CoreError=class CoreError extends Aventus.GenericError {
+RAM.UserExtended="use strict";
+__as1(_.RAM, 'UserExtended', RAM.UserExtended);
+
+Errors.CoreError="use strict";
+class CoreError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.CoreError, Core"; }
 }
 Errors.CoreError.Namespace=`Core.Errors`;
@@ -17672,7 +18474,8 @@ Errors.CoreError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.CoreError.Fullname, Errors.CoreError);
 __as1(_.Errors, 'CoreError', Errors.CoreError);
 
-Lib.TransactionManager=class TransactionManager {
+Lib.TransactionManager="use strict";
+class TransactionManager {
     static mainRouter;
     static mutex;
     static cancelEvent;
@@ -17765,7 +18568,8 @@ Lib.TransactionManager=class TransactionManager {
 Lib.TransactionManager.Namespace=`Core.Lib`;
 __as1(_.Lib, 'TransactionManager', Lib.TransactionManager);
 
-RAM.RamWithTransaction=class RamWithTransaction {
+RAM.RamWithTransaction="use strict";
+class RamWithTransaction {
     memoryUpdateDelete = new Map();
     memoryCreate = new Map();
     memoryId = [];
@@ -17829,7 +18633,8 @@ RAM.RamWithTransaction=class RamWithTransaction {
 RAM.RamWithTransaction.Namespace=`Core.RAM`;
 __as1(_.RAM, 'RamWithTransaction', RAM.RamWithTransaction);
 
-RAM.RamWebSocket=class RamWebSocket extends AventusSharp.RAM.RamWebSocket {
+RAM.RamWebSocket="use strict";
+class RamWebSocket extends AventusSharp.RAM.RamWebSocket {
     constructor() {
         super();
         new RAM.RamWithTransaction(this);
@@ -17838,7 +18643,8 @@ RAM.RamWebSocket=class RamWebSocket extends AventusSharp.RAM.RamWebSocket {
 RAM.RamWebSocket.Namespace=`Core.RAM`;
 __as1(_.RAM, 'RamWebSocket', RAM.RamWebSocket);
 
-RAM.RamHttp=class RamHttp extends AventusSharp.RAM.RamHttp {
+RAM.RamHttp="use strict";
+class RamHttp extends AventusSharp.RAM.RamHttp {
     constructor() {
         super();
         new RAM.RamWithTransaction(this);
@@ -17847,7 +18653,8 @@ RAM.RamHttp=class RamHttp extends AventusSharp.RAM.RamHttp {
 RAM.RamHttp.Namespace=`Core.RAM`;
 __as1(_.RAM, 'RamHttp', RAM.RamHttp);
 
-RAM.UserRAM=class UserRAM extends _.RAM.RamHttp {
+RAM.UserRAM="use strict";
+class UserRAM extends _.RAM.RamHttp {
     connectedUserId;
     /**
      * Create a singleton to store data
@@ -17908,7 +18715,8 @@ RAM.UserRAM=class UserRAM extends _.RAM.RamHttp {
 RAM.UserRAM.Namespace=`Core.RAM`;
 __as1(_.RAM, 'UserRAM', RAM.UserRAM);
 
-Lib.SessionManager=class SessionManager {
+Lib.SessionManager="use strict";
+class SessionManager {
     static async logout() {
         try {
             await new Routes.LoginRouter().Logout();
@@ -17934,7 +18742,8 @@ Lib.SessionManager=class SessionManager {
 Lib.SessionManager.Namespace=`Core.Lib`;
 __as1(_.Lib, 'SessionManager', Lib.SessionManager);
 
-RAM.FavoriteRAM=class FavoriteRAM extends AventusSharp.RAM.RamWebSocket {
+RAM.FavoriteRAM="use strict";
+class FavoriteRAM extends AventusSharp.RAM.RamWebSocket {
     /**
      * Create a singleton to store data
      */
@@ -17963,7 +18772,11 @@ RAM.FavoriteRAM=class FavoriteRAM extends AventusSharp.RAM.RamWebSocket {
 RAM.FavoriteRAM.Namespace=`Core.RAM`;
 __as1(_.RAM, 'FavoriteRAM', RAM.FavoriteRAM);
 
-Websocket.Routes.RecentRouter=class RecentRouter extends AventusSharp.WebSocket.StorableWsRouter {
+Websocket.Routes.RecentRouter__Routes="use strict";
+__as1(_.Websocket.Routes, 'RecentRouter__Routes', Websocket.Routes.RecentRouter__Routes);
+
+Websocket.Routes.RecentRouter="use strict";
+class RecentRouter extends AventusSharp.WebSocket.StorableWsRouter {
     defineEvents() {
         return {
             ...super.defineEvents(),
@@ -17988,7 +18801,8 @@ Websocket.Routes.RecentRouter=class RecentRouter extends AventusSharp.WebSocket.
 Websocket.Routes.RecentRouter.Namespace=`Core.Websocket.Routes`;
 __as1(_.Websocket.Routes, 'RecentRouter', Websocket.Routes.RecentRouter);
 
-RAM.RecentRAM=class RecentRAM extends AventusSharp.RAM.RamWebSocket {
+RAM.RecentRAM="use strict";
+class RecentRAM extends AventusSharp.RAM.RamWebSocket {
     /**
      * Create a singleton to store data
      */
@@ -18520,9 +19334,11 @@ Components.Textarea = class Textarea extends Components.FormElement {
     set 'icon'(val) { this.setStringAttr('icon', val) }get 'value'() { return this.getStringProp('value') }
     set 'value'(val) { this.setStringAttr('value', val) }get 'autogrow'() { return this.getBoolProp('autogrow') }
     set 'autogrow'(val) { this.setBoolAttr('autogrow', val) }    resizeObserver;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ("use strict";
+(target) => {
     target.inputEl.value = target.value ?? "";
-}));this.__addPropertyActions("autogrow", ((target) => {
+}));this.__addPropertyActions("autogrow", ("use strict";
+(target) => {
     target.enableResizeObserver();
 })); }
     static __style = `:host{--_textarea-height: var(--textarea-height, 30px);--_textarea-background-color: var(--textarea-background-color, var(--form-element-background, white));--_textarea-icon-height: var(--textarea-icon-height, calc(var(--_textarea-height) / 2));--_textarea-error-logo-size: var(--textarea-error-logo-size, calc(var(--_textarea-height) / 2));--_textarea-font-size: var(--textarea-font-size, var(--form-element-font-size, 16px));--_textarea-font-size-label: var(--textarea-font-size-label, var(--form-element-font-size-label, calc(var(--_textarea-font-size) * 0.95)));--_textarea-input-border: var(--textarea-input-border, var(--form-element-border, 1px solid var(--lighter-active)));--_textarea-border-radius: var(--textarea-border-radius, var(--form-element-border-radius, 0));--_textarea-autogrow-max-height: var(--textarea-autogrow-max-height, none)}:host{min-width:100px;width:100%}:host label{cursor:pointer;display:none;font-size:var(--_textarea-font-size-label);margin-bottom:5px;margin-left:3px}:host .input{align-items:center;background-color:var(--_textarea-background-color);border:var(--_textarea-input-border);border-radius:var(--_textarea-border-radius);display:flex;height:var(--_textarea-height);min-height:var(--_textarea-height);padding:0 10px;position:relative;width:100%}:host .input .icon{display:none;flex-shrink:0;height:var(--_textarea-icon-height);margin-right:10px}:host .input textarea{background-color:rgba(0,0,0,0);border:none;color:var(--text-color);display:block;flex-grow:1;font-family:"Roboto",sans-serif;font-size:var(--_textarea-font-size);height:100%;margin:0;min-width:0;outline:none;padding:5px 0;padding-right:10px;resize:none}:host .input .error-logo{align-items:center;background-color:var(--red);border-radius:var(--border-radius-round);color:#fff;display:none;flex-shrink:0;font-size:calc(var(--_textarea-error-logo-size) - 5px);height:var(--_textarea-error-logo-size);justify-content:center;width:var(--_textarea-error-logo-size)}:host .input rk-resize{display:none}:host .errors{color:var(--red);display:none;font-size:var(--font-size-sm);line-height:1.1;margin:10px;margin-bottom:0px}:host .errors div{margin:5px 0}:host([has_errors]) .input{border:1px solid var(--red)}:host([has_errors]) .input .error-logo{display:flex}:host([has_errors]) .errors{display:block}:host([icon]:not([icon=""])) .input .icon{display:block}:host([label]:not([label=""])) label{display:flex}:host([resize]) .input rk-resize{display:block}:host([autogrow]) .input{max-height:var(--_textarea-autogrow-max-height)}:host([autogrow]) .input textarea{overflow:auto;max-height:var(--_textarea-autogrow-max-height)}`;
@@ -18663,6 +19479,9 @@ Components.Textarea.Namespace=`Core.Components`;
 Components.Textarea.Tag=`rk-textarea`;
 __as1(_.Components, 'Textarea', Components.Textarea);
 if(!window.customElements.get('rk-textarea')){window.customElements.define('rk-textarea', Components.Textarea);Aventus.WebComponentInstance.registerDefinition(Components.Textarea);}
+
+Components.NotificationOptions="use strict";
+__as1(_.Components, 'NotificationOptions', Components.NotificationOptions);
 
 Components.Notification = class Notification extends Aventus.WebComponent {
     static get observedAttributes() {return ["icon", "subject"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
@@ -19236,7 +20055,11 @@ Components.NotificationManager.Tag=`rk-notification-manager`;
 __as1(_.Components, 'NotificationManager', Components.NotificationManager);
 if(!window.customElements.get('rk-notification-manager')){window.customElements.define('rk-notification-manager', Components.NotificationManager);Aventus.WebComponentInstance.registerDefinition(Components.NotificationManager);}
 
-Permissions.PermissionWatcher=class PermissionWatcher {
+Permissions.IPermission="use strict";
+__as1(_.Permissions, 'IPermission', Permissions.IPermission);
+
+Permissions.PermissionWatcher="use strict";
+class PermissionWatcher {
     __permissions;
     component;
     onPermissionSet = new Aventus.Callback();
@@ -19283,7 +20106,8 @@ Permissions.PermissionWatcher=class PermissionWatcher {
 Permissions.PermissionWatcher.Namespace=`Core.Permissions`;
 __as1(_.Permissions, 'PermissionWatcher', Permissions.PermissionWatcher);
 
-State.ApplicationState=class ApplicationState extends Aventus.State {
+State.ApplicationState="use strict";
+class ApplicationState extends Aventus.State {
     /**
      * The current namespace
      */
@@ -19372,7 +20196,8 @@ State.ApplicationState.$schema={...(Aventus.State?.$schema ?? {}), "$type":"stri
 Aventus.Converter.register(State.ApplicationState.Fullname, State.ApplicationState);
 __as1(_.State, 'ApplicationState', State.ApplicationState);
 
-System.ApplicationHistoryConvert=class ApplicationHistoryConvert extends Aventus.ConverterTransform {
+System.ApplicationHistoryConvert="use strict";
+class ApplicationHistoryConvert extends Aventus.ConverterTransform {
     manager;
     constructor(manager) {
         super();
@@ -19509,7 +20334,8 @@ System.FrameGeneric = class FrameGeneric extends Aventus.WebComponent {
 System.FrameGeneric.Namespace=`Core.System`;
 __as1(_.System, 'FrameGeneric', System.FrameGeneric);
 
-State.ApplicationWatchState=class ApplicationWatchState extends State.ApplicationState {
+State.ApplicationWatchState="use strict";
+class ApplicationWatchState extends State.ApplicationState {
     __watcher;
     get watcher() {
         return this.__watcher;
@@ -19527,7 +20353,8 @@ State.ApplicationWatchState.$schema={...(State.ApplicationState?.$schema ?? {}),
 Aventus.Converter.register(State.ApplicationWatchState.Fullname, State.ApplicationWatchState);
 __as1(_.State, 'ApplicationWatchState', State.ApplicationWatchState);
 
-State.ApplicationEmptyState=class ApplicationEmptyState extends State.ApplicationState {
+State.ApplicationEmptyState="use strict";
+class ApplicationEmptyState extends State.ApplicationState {
     localName;
     constructor(stateName) {
         super();
@@ -19726,7 +20553,11 @@ System.FrameNotAllowed.Tag=`rk-frame-not-allowed`;
 __as1(_.System, 'FrameNotAllowed', System.FrameNotAllowed);
 if(!window.customElements.get('rk-frame-not-allowed')){window.customElements.define('rk-frame-not-allowed', System.FrameNotAllowed);Aventus.WebComponentInstance.registerDefinition(System.FrameNotAllowed);}
 
-System.ApplicationHistory=class ApplicationHistory {
+System.ApplicationRoute="use strict";
+__as1(_.System, 'ApplicationRoute', System.ApplicationRoute);
+
+System.ApplicationHistory="use strict";
+class ApplicationHistory {
     static Fullname = "Core.System.ApplicationHistory";
     $type = System.ApplicationHistory.Fullname;
     memory = [];
@@ -19814,7 +20645,8 @@ System.ApplicationHistory.$schema={"$type":"string","memory":"History[]","curren
 Aventus.Converter.register(System.ApplicationHistory.Fullname, System.ApplicationHistory);
 __as1(_.System, 'ApplicationHistory', System.ApplicationHistory);
 
-System.ApplicationSizeStorage=class ApplicationSizeStorage {
+System.ApplicationSizeStorage="use strict";
+class ApplicationSizeStorage {
     memoryPrefered = {};
     memory = {};
     keyPrefered = "ApplicationSizeStoragePrefered";
@@ -19856,7 +20688,8 @@ System.ApplicationSizeStorage=class ApplicationSizeStorage {
 }
 System.ApplicationSizeStorage.Namespace=`Core.System`;
 
-System.ApplicationSize=class ApplicationSize {
+System.ApplicationSize="use strict";
+class ApplicationSize {
     application;
     storage;
     constructor(application) {
@@ -19961,7 +20794,8 @@ Components.GenericPopup = class GenericPopup extends Aventus.WebComponent {
     pressManagerPopup;
     application;
     __registerWatchesActions() {
-    this.__addWatchesActions("info", ((target, action, path, value) => {
+    this.__addWatchesActions("info", ("use strict";
+(target, action, path, value) => {
     target.onOptionsChanged();
 }));    super.__registerWatchesActions();
 }
@@ -20256,6 +21090,9 @@ Components.Alert.Tag=`rk-alert`;
 __as1(_.Components, 'Alert', Components.Alert);
 if(!window.customElements.get('rk-alert')){window.customElements.define('rk-alert', Components.Alert);Aventus.WebComponentInstance.registerDefinition(Components.Alert);}
 
+System.ExtractTypePopup="use strict";
+__as1(_.System, 'ExtractTypePopup', System.ExtractTypePopup);
+
 Components.Popup = class Popup extends Components.GenericPopup {
     static __style = `:host .popup .content{--scrollbar-max-height: calc(var(--app-height) - 50px - 30px - var(--_popup-content-padding) - var(--_popup-content-padding));width:100%}`;
     constructor() {
@@ -20377,7 +21214,8 @@ System.PopupShortcutHelper.Tag=`rk-popup-shortcut-helper`;
 __as1(_.System, 'PopupShortcutHelper', System.PopupShortcutHelper);
 if(!window.customElements.get('rk-popup-shortcut-helper')){window.customElements.define('rk-popup-shortcut-helper', System.PopupShortcutHelper);Aventus.WebComponentInstance.registerDefinition(System.PopupShortcutHelper);}
 
-System.ApplicationShortcut=class ApplicationShortcut {
+System.ApplicationShortcut="use strict";
+class ApplicationShortcut {
     application;
     cmds = [];
     shortcuts = [];
@@ -20524,7 +21362,11 @@ System.Frame404.Tag=`rk-frame-404`;
 __as1(_.System, 'Frame404', System.Frame404);
 if(!window.customElements.get('rk-frame-404')){window.customElements.define('rk-frame-404', System.Frame404);Aventus.WebComponentInstance.registerDefinition(System.Frame404);}
 
-Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocket.Router {
+Websocket.Routes.DesktopRouter__Routes="use strict";
+__as1(_.Websocket.Routes, 'DesktopRouter__Routes', Websocket.Routes.DesktopRouter__Routes);
+
+Websocket.Routes.DesktopRouter="use strict";
+class DesktopRouter extends AventusSharp.WebSocket.Router {
     defineEvents() {
         return {
             ...super.defineEvents(),
@@ -20573,7 +21415,8 @@ Websocket.Routes.DesktopRouter=class DesktopRouter extends AventusSharp.WebSocke
 Websocket.Routes.DesktopRouter.Namespace=`Core.Websocket.Routes`;
 __as1(_.Websocket.Routes, 'DesktopRouter', Websocket.Routes.DesktopRouter);
 
-Lib.ApplicationManager=class ApplicationManager {
+Lib.ApplicationManager="use strict";
+class ApplicationManager {
     static waitingDelay = 1000;
     static waitings = {};
     static processing = {};
@@ -20788,13 +21631,16 @@ System.Application = class Application extends Aventus.WebComponent {
     }
     __onRouteRegisteredCb = [];
     __registerWatchesActions() {
-    this.__addWatchesActions("is_desktop_active", ((target) => {
+    this.__addWatchesActions("is_desktop_active", ("use strict";
+(target) => {
     target.shortcutManager.manageShortcut();
 }));    super.__registerWatchesActions();
 }
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("full", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("full", ("use strict";
+(target) => {
     target.saveSize();
-}));this.__addPropertyActions("is_hidden", ((target) => {
+}));this.__addPropertyActions("is_hidden", ("use strict";
+(target) => {
     target.onIsHiddenChange();
 })); }
     static __style = `:host{--_application-box-shadow: var(--application-box-shadow);--_application-header-background-color: var(--application-header-background-color, var(--darker-active));--_application-background-color: var(--application-background-color, var(--primary-color-opacity));--_application-border-radius: var(--application-border-radius, 10px)}:host{backdrop-filter:blur(2px);background-color:var(--_application-background-color);border-radius:var(--_application-border-radius);box-shadow:var(--_application-box-shadow);container-name:application;container-type:inline-size;height:var(--app-height);outline:none;position:absolute;width:var(--app-width);z-index:50}:host .header{align-items:center;border-top-left-radius:var(--_application-border-radius);border-top-right-radius:var(--_application-border-radius);cursor:grab;display:flex;flex-shrink:0;height:30px;overflow:hidden;position:relative;width:100%;z-index:3}:host .header .background{background-color:var(--_application-header-background-color);inset:0;position:absolute;z-index:1}:host .header .navigation-actions{align-items:center;display:flex;flex-grow:0;height:100%;margin-left:15px;margin-right:15px;z-index:2}:host .header .navigation-actions .action{align-items:center;border-radius:2px;display:flex;height:calc(100% - 6px);justify-content:center;padding:0px;padding:1px 5px;transition:background-color var(--bezier-curve) .2s;width:22px}:host .header .navigation-actions .action rk-img{height:100%;pointer-events:none;width:100%}:host .header .navigation-actions .action.disable rk-img{--img-fill-color: var(--text-disable)}:host .header .title{flex-grow:1;margin-right:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2}:host .header .application-actions{align-items:center;display:flex;gap:5px;justify-content:end;margin-right:15px;z-index:2}:host .header .application-actions .btn{border-radius:var(--border-radius-round);height:15px;width:15px}:host .content{border-bottom-left-radius:var(--_application-border-radius);border-bottom-right-radius:var(--_application-border-radius);height:calc(100% - 30px);overflow:hidden;width:100%;z-index:1}:host .loading{border-radius:var(--_application-border-radius);display:none;z-index:600}:host rk-resize{--resize-z-index: 4}:host rk-notification-manager{top:35px}:host(:not([moving])){transition:height .5s var(--bezier-curve),width .5s var(--bezier-curve),top .5s var(--bezier-curve),left .5s var(--bezier-curve),border-radius .5s var(--bezier-curve),opacity var(--bezier-curve) .5s,visibility var(--bezier-curve) .5s}:host(:not([moving])) .header{transition:border-radius .5s var(--bezier-curve)}:host([moving]) .header{cursor:grabbing}:host([full]){--application-border-radius: 0;--app-height: var(--os-height) !important;left:0 !important;top:0 !important;--app-width: var(--os-width) !important;z-index:500}:host([full]) .header{border-top-left-radius:0;border-top-right-radius:0;cursor:default}:host([full]) .content{border-bottom-left-radius:0;border-bottom-right-radius:0}:host([is_hidden]){height:0 !important;left:calc(50% - 100px) !important;overflow:hidden;top:calc(100% - 50px) !important;width:200px !important}:host([loading]) .loading{display:flex}@media screen and (min-width: 1225px){:host .header .navigation-actions .action:not(.disable):hover{background-color:var(--lighter)}:host .header .application-actions .btn:hover{box-shadow:0 0 4px var(--darker-active) inset}}@media screen and (max-width: 1224px){:host .header{height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .content{height:calc(100% - 40px)}:host rk-notification-manager{top:45px}}@media screen and (max-width: 768px){:host{border-radius:0;height:100% !important;left:0 !important;top:0 !important;width:100% !important;z-index:502}:host .header{border-top-left-radius:0;border-top-right-radius:0;height:40px}:host .header .application-actions{gap:10px}:host .header .application-actions .btn{height:20px;width:20px}:host .header .application-actions .orange{display:none}:host .content{border-bottom-left-radius:0;border-bottom-right-radius:0;height:calc(100% - 40px)}:host rk-resize{display:none}:host rk-notification-manager{top:45px}:host([is_hidden]){left:0 !important;width:100% !important}}`;
@@ -21586,7 +22432,7 @@ System.Application = class Application extends Aventus.WebComponent {
             this.loading = false;
             this.alert({
                 title: "Erreur",
-                description: e
+                description: (e instanceof Error ? e.message : String(e))
             });
         }
         return null;
@@ -21633,7 +22479,7 @@ System.Application = class Application extends Aventus.WebComponent {
         catch (e) {
             this.alert({
                 title: "Erreur",
-                description: e
+                description: (e instanceof Error ? e.message : String(e))
             });
         }
         return undefined;
@@ -21698,11 +22544,14 @@ Components.Link = class Link extends Aventus.WebComponent {
     set 'active'(val) { this.setBoolAttr('active', val) }    pressManager;
     oldTo;
     retriggerIfActive = false;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("to", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("to", ("use strict";
+(target) => {
     target.changeActiveSub();
-}));this.__addPropertyActions("active_pattern", ((target) => {
+}));this.__addPropertyActions("active_pattern", ("use strict";
+(target) => {
     target.changeActiveSub();
-}));this.__addPropertyActions("active", ((target) => {
+}));this.__addPropertyActions("active", ("use strict";
+(target) => {
     target.onActiveChange();
 })); }
     static __style = ``;
@@ -21785,7 +22634,8 @@ Components.Link.Tag=`rk-link`;
 __as1(_.Components, 'Link', Components.Link);
 if(!window.customElements.get('rk-link')){window.customElements.define('rk-link', Components.Link);Aventus.WebComponentInstance.registerDefinition(Components.Link);}
 
-Lib.Process=class Process {
+Lib.Process="use strict";
+class Process {
     static async execute(component, prom) {
         const app = component.findParentByType(System.Application);
         if (app) {
@@ -21822,7 +22672,8 @@ Lib.Process=class Process {
 Lib.Process.Namespace=`Core.Lib`;
 __as1(_.Lib, 'Process', Lib.Process);
 
-Lib.AppIconManager=class AppIconManager {
+Lib.AppIconManager="use strict";
+class AppIconManager {
     static loaded = [];
     static dico = {};
     static tags = {};
@@ -21903,7 +22754,8 @@ System.RecentLine = class RecentLine extends Aventus.WebComponent {
 					set 'recent'(val) {
 						this.__watch["recent"] = val;
 					}    __registerWatchesActions() {
-    this.__addWatchesActions("recent", ((target) => {
+    this.__addWatchesActions("recent", ("use strict";
+(target) => {
     target.onSet();
 }));    super.__registerWatchesActions();
 }
@@ -22016,7 +22868,8 @@ System.FavoriteLine = class FavoriteLine extends Aventus.WebComponent {
 					set 'favorite'(val) {
 						this.__watch["favorite"] = val;
 					}    __registerWatchesActions() {
-    this.__addWatchesActions("favorite", ((target) => {
+    this.__addWatchesActions("favorite", ("use strict";
+(target) => {
     target.onSet();
 }));    super.__registerWatchesActions();
 }
@@ -22228,7 +23081,8 @@ System.FavoriteLine.Tag=`rk-favorite-line`;
 __as1(_.System, 'FavoriteLine', System.FavoriteLine);
 if(!window.customElements.get('rk-favorite-line')){window.customElements.define('rk-favorite-line', System.FavoriteLine);Aventus.WebComponentInstance.registerDefinition(System.FavoriteLine);}
 
-Lib.NotificationManager=class NotificationManager {
+Lib.NotificationManager="use strict";
+class NotificationManager {
     static getInstance() {
         return Aventus.Instance.get(Lib.NotificationManager);
     }
@@ -22361,7 +23215,8 @@ Lib.NotificationManager=class NotificationManager {
 Lib.NotificationManager.Namespace=`Core.Lib`;
 __as1(_.Lib, 'NotificationManager', Lib.NotificationManager);
 
-Lib.ServiceWorker=class ServiceWorker {
+Lib.ServiceWorker="use strict";
+class ServiceWorker {
     static getInstance() {
         return AvInstance.get(Lib.ServiceWorker);
     }
@@ -22463,7 +23318,8 @@ System.NotificationBtn.Tag=`rk-notification-btn`;
 __as1(_.System, 'NotificationBtn', System.NotificationBtn);
 if(!window.customElements.get('rk-notification-btn')){window.customElements.define('rk-notification-btn', System.NotificationBtn);Aventus.WebComponentInstance.registerDefinition(System.NotificationBtn);}
 
-Lib.PWA=class PWA {
+Lib.PWA="use strict";
+class PWA {
     static get isAvailable() {
         if (window['deferredPrompt']) {
             return true;
@@ -22989,7 +23845,8 @@ Components.CalendarDayDefault.Tag=`rk-calendar-day-default`;
 __as1(_.Components, 'CalendarDayDefault', Components.CalendarDayDefault);
 if(!window.customElements.get('rk-calendar-day-default')){window.customElements.define('rk-calendar-day-default', Components.CalendarDayDefault);Aventus.WebComponentInstance.registerDefinition(Components.CalendarDayDefault);}
 
-Lib.DomTools=class DomTools {
+Lib.DomTools="use strict";
+class DomTools {
     static clearElement(element) {
         const children = Array.from(element.children);
         for (let child of children) {
@@ -23172,16 +24029,20 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
     onDateClicked = new Aventus.Callback();
     onDateChanged = new Aventus.Callback();
     __registerWatchesActions() {
-    this.__addWatchesActions("dateTemp", ((target) => {
+    this.__addWatchesActions("dateTemp", ("use strict";
+(target) => {
     target.renderDatesTemp();
     target.printYearRange();
-}));this.__addWatchesActions("yearGroupPage", ((target) => {
+}));this.__addWatchesActions("yearGroupPage", ("use strict";
+(target) => {
     target.printYearRange();
 }));this.__addWatchesActions("yearGroupTxt");    super.__registerWatchesActions();
 }
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("date", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("date", ("use strict";
+(target) => {
     target.renderDates();
-}));this.__addPropertyActions("show_selector", ((target) => {
+}));this.__addPropertyActions("show_selector", ("use strict";
+(target) => {
     if (target.show_selector) {
         target.dateTemp = target.date;
     }
@@ -23550,7 +24411,7 @@ Components.Calendar = class Calendar extends Aventus.WebComponent {
         });
         this.bodyYearEl.appendChild(div);
     }
-    postDisonnect() {
+    postDisconnect() {
         this.show_selector = false;
     }
     postCreation() {
@@ -24114,7 +24975,8 @@ System.BottomBar.Tag=`rk-bottom-bar`;
 __as1(_.System, 'BottomBar', System.BottomBar);
 if(!window.customElements.get('rk-bottom-bar')){window.customElements.define('rk-bottom-bar', System.BottomBar);Aventus.WebComponentInstance.registerDefinition(System.BottomBar);}
 
-let Addon=class Addon {
+let Addon="use strict";
+class Addon {
     static dependances = {};
     static need(application, addons) {
         if (addons.length == 0)
@@ -24144,7 +25006,8 @@ let Addon=class Addon {
 Addon.Namespace=`Core`;
 __as1(_, 'Addon', Addon);
 
-RAM.DesktopRAM=class DesktopRAM extends _.RAM.RamHttp {
+RAM.DesktopRAM="use strict";
+class DesktopRAM extends _.RAM.RamHttp {
     /**
      * @inheritdoc
      */
@@ -24848,17 +25711,21 @@ System.Os = class Os extends Aventus.WebComponent {
     __registerWatchesActions() {
     this.__addWatchesActions("desktops");this.__addWatchesActions("currentUser");    super.__registerWatchesActions();
 }
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("desktop_list", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("desktop_list", ("use strict";
+(target) => {
     target.onShowDesktopList();
-}));this.__addPropertyActions("show_application_list", ((target) => {
+}));this.__addPropertyActions("show_application_list", ("use strict";
+(target) => {
     if (target.appList)
         target.appList.show = target.show_application_list;
     for (let desktop of target.desktopsEl) {
         desktop.show_application_list = target.show_application_list;
     }
-}));this.__addPropertyActions("active_desktop", ((target) => {
+}));this.__addPropertyActions("active_desktop", ("use strict";
+(target) => {
     target.onActiveDesktop();
-}));this.__addPropertyActions("lang", ((target) => {
+}));this.__addPropertyActions("lang", ("use strict";
+(target) => {
     target.setLocale(target.lang);
 })); }
     static __style = `:host{--_active-desktop: var(_active-desktop, 0)}:host{height:100%;position:relative;width:100%;z-index:1}:host .desktop-container{display:flex;height:100%;position:relative;width:100%;z-index:1}:host .desktop-container .desktop-case{flex-shrink:0;height:100%;position:relative;transition:margin .7s var(--bezier-curve);width:100%}:host .desktop-container .desktop-case .delete-desktop{--img-stroke-color: var(--red);background-color:var(--lighter-active);border-radius:var(--border-radius-round);cursor:pointer;display:none;height:40px;position:absolute;right:5px;top:5px;width:40px;z-index:5556}:host .desktop-container .desktop-case .desktop-hider{display:none;inset:0;position:absolute;z-index:5555}:host .desktop-container .desktop-case:first-child{margin-left:calc(var(--_active-desktop)*-100%)}:host .add-desktop{--img-stroke-color: white;bottom:30px;display:none;height:50px;min-width:auto;position:absolute;right:10px;z-index:6}:host rk-loading{opacity:0;visibility:hidden}:host .background{background-color:#08162e;background-image:url('data:image/svg+xml;utf8,<svg version="1.1" viewBox="0 0 65.98 57.373" xmlns="http://www.w3.org/2000/svg"><g fill="%23acf4d6"><path d="M 33.949 5.731 L 22.7 5.731 L 22.7 0.001 L 33.788 0.001 C 45.619 0.001 46.363 17.934 36.124 20.216 C 35.379 20.428 34.637 20.48 33.788 20.48 L 28.483 20.48 L 28.483 20.534 L 28.483 34.433 L 22.7 34.433 L 22.7 14.697 L 28.483 20.534 L 42.491 34.433 L 50.342 34.433 L 30.605 14.697 L 33.949 14.697 C 38.883 14.697 38.883 5.731 33.949 5.731 Z" style="" /></g><g fill="%23FFF"><path d="M 7.8 53.573 L 4.94 48.993 L 3.22 48.993 L 3.22 53.573 L 0 53.573 L 0 39.573 L 4.98 39.573 C 8.12 39.573 10.2 41.473 10.2 44.393 C 10.2 46.253 9.32 47.653 7.84 48.373 L 11.2 53.573 L 7.8 53.573 Z M 3.22 42.533 L 3.22 46.253 L 4.78 46.253 C 6.08 46.253 6.98 45.793 6.98 44.393 C 6.98 43.013 6.08 42.533 4.78 42.533 L 3.22 42.533 Z M 20.3 43.173 L 23.46 43.173 L 23.46 53.573 L 20.3 53.573 L 20.3 52.533 C 20.16 52.893 19.22 53.773 17.62 53.773 C 15.24 53.773 12.5 52.073 12.5 48.353 C 12.5 44.773 15.24 42.993 17.62 42.993 C 19.22 42.993 20.16 43.913 20.3 44.133 L 20.3 43.173 Z M 18.08 50.993 C 19.38 50.993 20.44 50.093 20.44 48.353 C 20.44 46.673 19.38 45.773 18.08 45.773 C 16.72 45.773 15.56 46.693 15.56 48.353 C 15.56 50.073 16.72 50.993 18.08 50.993 Z M 33.94 43.133 L 37.08 43.133 L 30.72 57.373 L 27.56 57.373 L 29.48 53.213 L 24.98 43.133 L 28.12 43.133 L 31.04 49.813 L 33.94 43.133 Z M 42.58 53.733 C 40.64 53.733 38.66 52.433 38.66 49.133 L 38.66 43.173 L 41.82 43.173 L 41.82 48.913 C 41.82 50.493 42.36 50.993 43.36 50.993 C 44.78 50.993 45.6 49.613 45.8 49.013 L 45.8 43.173 L 48.96 43.173 L 48.96 53.573 L 45.8 53.573 L 45.8 51.773 C 45.6 52.273 44.54 53.733 42.58 53.733 Z M 58.2 53.573 L 54.82 49.533 L 54.16 50.233 L 54.16 53.573 L 51 53.573 L 51 49.793 L 51 39.433 L 54.16 39.433 L 54.16 46.373 L 57.1 43.173 L 60.88 43.173 L 56.76 47.513 L 61.8 53.573 L 58.2 53.573 Z M 65.98 39.433 L 65.98 42.093 L 62.82 42.093 L 62.82 39.433 L 65.98 39.433 Z M 65.98 43.173 L 65.98 53.573 L 62.82 53.573 L 62.82 43.173 L 65.98 43.173 Z" /></g></svg>');background-position:center center;background-repeat:no-repeat;background-size:25% 25%;filter:brightness(0.8);inset:-20px;position:absolute;z-index:0}:host rk-notification-manager{bottom:60px}:host .no-connection{align-items:center;animation-duration:2s;animation-iteration-count:infinite;animation-name:blink;background-color:var(--warning);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);color:var(--text-color-warning);display:none;font-size:var(--font-size-md);gap:10px;padding:5px 15px;pointer-events:none;position:absolute;right:15px;top:15px;z-index:9999999}:host .temp-connect{align-items:center;background-color:var(--information);border-radius:var(--border-radius-sm);box-shadow:var(--elevation-3);color:var(--text-color-information);display:none;font-size:var(--font-size-sm);gap:20px;justify-content:center;left:50%;padding:5px 15px;position:absolute;top:10px;transform:translateX(-50%);z-index:9999999}:host .temp-connect .quit{cursor:pointer;text-decoration:underline}:host(:not([ready])) *{opacity:0;visibility:hidden}:host(:not([loading])) rk-loading{transition:opacity 1s var(--bezier-curve),visibility 1s var(--bezier-curve)}:host([loading]) rk-loading{opacity:1;visibility:visible}:host([desktop_list]) .desktop-container{flex-wrap:wrap;height:auto;justify-content:center}:host([desktop_list]) .desktop-container .desktop-case{--nb: 3;aspect-ratio:var(--ration);box-shadow:var(--elevation-10);height:max-content;margin:15px !important;overflow:hidden;width:calc(100%/var(--nb) - 30px)}:host([desktop_list]) .desktop-container .desktop-case .desktop-hider,:host([desktop_list]) .desktop-container .desktop-case .delete-desktop{display:block}:host([desktop_list]) .desktop-container .desktop-case rk-desktop{height:calc(100%*var(--nb));margin-left:calc(-50%*(var(--nb) - 1));top:calc(-50%*(var(--nb) - 1));transform:scale(calc(1 / var(--nb)));width:calc(100%*var(--nb))}:host([desktop_list]) .desktop-container .desktop-case.active{border:solid 5px var(--blue);border-radius:var(--border-radius-sm)}:host([desktop_list]) .add-desktop{display:block}:host([no_desktop_transition]) .desktop-container .desktop-case{transition:none}:host([no_connection]) .no-connection{display:flex}:host([temp_connect]) .temp-connect{display:flex}@keyframes blink{0%{background-color:var(--warning);color:var(--text-color-warning)}1%{background-color:var(--text-color-warning);color:var(--warning)}50%{background-color:var(--text-color-warning);color:var(--warning)}51%{background-color:var(--warning);color:var(--text-color-warning)}100%{background-color:var(--warning);color:var(--text-color-warning)}}`;
@@ -25397,7 +26264,7 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
         blocks: { 'default':`<div class="remove" _id="appicon_0"><rk-img src="/img/icons/close.svg"></rk-img></div><slot></slot>` }
     });
 }
-    __createStates() { super.__createStates(); let that = this;  this.__createStatesList(State.MoveApplication.state, State.DesktopStateManager);this.__addActiveState(State.MoveApplication.state, State.DesktopStateManager, (state, slugs) => { that.__inactiveDefaultState(State.DesktopStateManager); that.onMoveApplication(state, slugs);})this.__addInactiveState(State.MoveApplication.state, State.DesktopStateManager, (state, nextState, slugs) => { that.onStopMovingApplication(state, nextState, slugs);that.__activeDefaultState(nextState, State.DesktopStateManager);}) }
+    __createStates() { super.__createStates(); let that = this;  this.__createStatesList(State.MoveApplication.state, State.DesktopStateManager);this.__addActiveState(State.MoveApplication.state, State.DesktopStateManager, (state, slugs) => { that.__inactiveDefaultState(State.DesktopStateManager); that.onMoveApplication(state, slugs);}) }
     __registerTemplateAction() { super.__registerTemplateAction();this.__getStatic().__template.setActions({
   "pressEvents": [
     {
@@ -25512,7 +26379,7 @@ System.AppIcon = class AppIcon extends Aventus.WebComponent {
             this.createDragAndDrop();
         }
     }
-    onStopMovingApplication() {
+    onStopMovingApplication(state, nextState, slugs) {
         this.moveApplicationState = undefined;
         this.shaking = false;
         this.destroyDragAndDrop();
@@ -25708,6 +26575,8 @@ System.AppIconInline.Namespace=`Core.System`;
 System.AppIconInline.Tag=`rk-app-icon-inline`;
 __as1(_.System, 'AppIconInline', System.AppIconInline);
 if(!window.customElements.get('rk-app-icon-inline')){window.customElements.define('rk-app-icon-inline', System.AppIconInline);Aventus.WebComponentInstance.registerDefinition(System.AppIconInline);}
+
+System.ApplicationSidenavRouteOptions="use strict";
 
 System.ApplicationSidenav = class ApplicationSidenav extends System.Application {
     get 'hide_menu_size'() { return this.getStringAttr('hide_menu_size') }
@@ -25952,7 +26821,8 @@ System.ApplicationSidenav = class ApplicationSidenav extends System.Application 
 System.ApplicationSidenav.Namespace=`Core.System`;
 __as1(_.System, 'ApplicationSidenav', System.ApplicationSidenav);
 
-Lib.FileSaver=class FileSaver {
+Lib.FileSaver="use strict";
+class FileSaver {
     static bom(blob, opts) {
         if (typeof opts === 'undefined')
             opts = { autoBom: false };
@@ -26013,7 +26883,7 @@ Lib.FileSaver=class FileSaver {
         result = ('download' in HTMLAnchorElement.prototype && !this.isMacOSWebView)
             ? (blob, name, opts) => {
                 return new Promise((resolve) => {
-                    var URL = URL || webkitURL;
+                    const _URL = URL || webkitURL;
                     // Namespace is used to prevent conflict w/ Chrome Poper Blocker extension (Issue #561)
                     var a = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
                     name = name || 'download';
@@ -26032,8 +26902,8 @@ Lib.FileSaver=class FileSaver {
                         resolve();
                     }
                     else {
-                        a.href = URL.createObjectURL(blob);
-                        setTimeout(() => { URL.revokeObjectURL(a.href); resolve(); }, 4E4);
+                        a.href = _URL.createObjectURL(blob);
+                        setTimeout(() => { _URL.revokeObjectURL(a.href); resolve(); }, 4E4);
                         setTimeout(() => { this.click(a); }, 0);
                     }
                 });
@@ -26090,14 +26960,14 @@ Lib.FileSaver=class FileSaver {
                             reader.readAsDataURL(blob);
                         }
                         else {
-                            var URL = URL || webkitURL;
-                            var url = URL.createObjectURL(blob);
+                            const _URL = URL || webkitURL;
+                            var url = _URL.createObjectURL(blob);
                             if (popup)
                                 popup.location = url;
                             else
                                 location.href = url;
                             popup = null;
-                            setTimeout(() => { URL.revokeObjectURL(url); resolve(); }, 4E4);
+                            setTimeout(() => { _URL.revokeObjectURL(url); resolve(); }, 4E4);
                         }
                     });
                 };
@@ -26552,11 +27422,14 @@ Components.Slider = class Slider extends Components.FormElement {
     onDragStart = new Aventus.Callback();
     onDragStop = new Aventus.Callback();
     onValidateValue = new Aventus.Callback();
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("min", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("min", ("use strict";
+(target) => {
     target.calculatePercent();
-}));this.__addPropertyActions("max", ((target) => {
+}));this.__addPropertyActions("max", ("use strict";
+(target) => {
     target.calculatePercent();
-}));this.__addPropertyActions("value", ((target) => {
+}));this.__addPropertyActions("value", ("use strict";
+(target) => {
     target.calculatePercent();
 })); }
     static __style = `:host{--_slider-background-color: var(--slider-background-color, var(--form-element-background, white));--_slider-background-image: var(--slider-background-image, none);--_slider-background-position: var(--slider-background-position, 0 0);--_slider-background-size: var(--slider-background-size, auto);--_slider-active-background-color: var(--slider-active-background-color, var(--secondary-color-active));--_slider-dot-color: var(--slider-dot-color, var(--secondary-color));--_slider-dot-size: var(--slider-dot-size, var(--form-element-font-size, 16px));--_slider-popup-font-size: var(--slider-popup-font-size, var(--font-size-sm));--_slider-font-size-label: var(--slider-font-size-label, var(--form-element-font-size-label));--_slider-border-radius: var(--slider-border-radius, var(--form-element-border-radius));--_slider-bar-height: var(--slider-bar-height, 5px);--_slider-height: var(--slider-height, var(--input-height, 30px));--local-slider-dot-percent: 0%}:host{align-items:center;display:flex;flex-direction:column;justify-content:center;min-width:100px;width:100%}:host label{cursor:pointer;display:none;flex-shrink:0;font-size:var(--_slider-font-size-label);margin-bottom:5px;margin-left:3px;width:100%}:host .input{align-items:center;display:flex;height:var(--_slider-height);width:100%}:host .input .bar{align-items:center;background-color:var(--_slider-background-color);background-image:var(--_slider-background-image);background-position:var(--_slider-background-position);background-size:var(--_slider-background-size);border-radius:var(--_slider-border-radius);cursor:pointer;display:flex;flex-direction:row;flex-shrink:0;height:var(--_slider-bar-height);position:relative;width:100%}:host .input .bar .bar-fill{background-color:var(--_slider-active-background-color);border-radius:var(--border-radius-round);height:100%;left:0;pointer-events:all;position:absolute;top:0;transition:width var(--bezier-curve) .3s;width:var(--local-slider-dot-percent)}:host .input .bar .dot{background-color:var(--_slider-dot-color);border-radius:var(--border-radius-round);box-shadow:var(--elevation-2);cursor:pointer;height:var(--_slider-dot-size);left:var(--local-slider-dot-percent);pointer-events:all;position:absolute;transform:translateX(-50%);transition:left var(--bezier-curve) .3s,box-shadow var(--bezier-curve) .3s,background-color var(--bezier-curve) .3s;width:var(--_slider-dot-size);z-index:10}:host .input .bar .value{background-color:var(--_slider-dot-color);border-radius:var(--_slider-border-radius);box-shadow:var(--elevation-2);font-size:var(--_slider-popup-font-size);left:var(--local-slider-dot-percent);opacity:1;padding:5px 10px;padding-bottom:2px;position:absolute;top:0;transform:translateY(calc(-100% - 12px)) translateX(-50%);transform-origin:center center;transition:left var(--bezier-curve) .3s,opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s;visibility:visible}:host .input .bar .value::after{border-left:6px solid rgba(0,0,0,0);border-right:6px solid rgba(0,0,0,0);border-top:8px solid var(--_slider-dot-color);bottom:-7px;content:"";left:50%;position:absolute;transform:translateX(-50%)}:host([no_transition]) .input .bar .bar-fill{transition:none}:host([no_transition]) .input .bar .dot{transition:none}:host([no_transition]) .input .bar .value{transition:opacity var(--bezier-curve) .3s,visibility var(--bezier-curve) .3s}:host(:not([popup_visible])) .input .bar .value{opacity:0;visibility:hidden}:host([label]:not([label=""])) label{display:flex}`;
@@ -26759,7 +27632,8 @@ Components.SheetPreview = class SheetPreview extends Aventus.WebComponent {
 					set 'zoom'(val) {
 						this.__watch["zoom"] = val;
 					}    __registerWatchesActions() {
-    this.__addWatchesActions("zoom", ((target) => {
+    this.__addWatchesActions("zoom", ("use strict";
+(target) => {
     target.contentEl.zoom = target.zoom / 100;
 }));    super.__registerWatchesActions();
 }
@@ -26935,7 +27809,8 @@ Components.CheckboxGroup = class CheckboxGroup extends Components.FormElement {
     selectedOption;
     isLoading = false;
     __registerWatchesActions() {
-    this.__addWatchesActions("value", ((target) => {
+    this.__addWatchesActions("value", ("use strict";
+(target) => {
     target.onValueSet();
 }));    super.__registerWatchesActions();
 }
@@ -27031,7 +27906,8 @@ Components.CheckboxGroup.Tag=`rk-checkbox-group`;
 __as1(_.Components, 'CheckboxGroup', Components.CheckboxGroup);
 if(!window.customElements.get('rk-checkbox-group')){window.customElements.define('rk-checkbox-group', Components.CheckboxGroup);Aventus.WebComponentInstance.registerDefinition(Components.CheckboxGroup);}
 
-Lib.Color=class Color {
+Lib.Color="use strict";
+class Color {
     static isValid(txt) {
         return this.getColorType(txt) != -1;
     }
@@ -27641,17 +28517,22 @@ Components.ColorPickerSelector = class ColorPickerSelector extends Aventus.WebCo
     resizeObserver;
     onChange = new Aventus.Callback();
     __registerWatchesActions() {
-    this.__addWatchesActions("colorTxt", ((target, action, path, value) => {
+    this.__addWatchesActions("colorTxt", ("use strict";
+(target, action, path, value) => {
     target.onColorTxtChange();
-}));this.__addWatchesActions("hue", ((target, action, path, value) => {
+}));this.__addWatchesActions("hue", ("use strict";
+(target, action, path, value) => {
     target.changeHue();
-}));this.__addWatchesActions("alpha", ((target, action, path, value) => {
+}));this.__addWatchesActions("alpha", ("use strict";
+(target, action, path, value) => {
     target.changeAlpha();
-}));this.__addWatchesActions("presets", ((target, action, path, value) => {
+}));this.__addWatchesActions("presets", ("use strict";
+(target, action, path, value) => {
     target.renderPresets();
 }));    super.__registerWatchesActions();
 }
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("color", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("color", ("use strict";
+(target) => {
     if (!target.internalSet) {
         target.canEmit = false;
         target._color.setColorTxt(target.color);
@@ -27924,7 +28805,8 @@ Components.ColorPicker = class ColorPicker extends Components.FormElement {
     __registerWatchesActions() {
     this.__addWatchesActions("presets");    super.__registerWatchesActions();
 }
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ("use strict";
+(target) => {
     if (document.activeElement != target.inputEl && document.activeElement != target) {
         target.inputEl.value = target.value + '';
     }
@@ -28197,7 +29079,8 @@ Components.DatePicker = class DatePicker extends Components.FormElement {
 						this.__watch["value"] = val;
 					}    calendar;
     __registerWatchesActions() {
-    this.__addWatchesActions("value", ((target) => {
+    this.__addWatchesActions("value", ("use strict";
+(target) => {
     target.renderDate();
 }));    super.__registerWatchesActions();
 }
@@ -28443,7 +29326,17 @@ Components.CalendarContainer.Tag=`rk-calendar-container`;
 __as1(_.Components, 'CalendarContainer', Components.CalendarContainer);
 if(!window.customElements.get('rk-calendar-container')){window.customElements.define('rk-calendar-container', Components.CalendarContainer);Aventus.WebComponentInstance.registerDefinition(Components.CalendarContainer);}
 
-Components.VirtualForm=class VirtualForm {
+Components.FormPartValidateList="use strict";
+__as1(_.Components, 'FormPartValidateList', Components.FormPartValidateList);
+
+Components.FormPart="use strict";
+__as1(_.Components, 'FormPart', Components.FormPart);
+
+Components.FormSchema="use strict";
+__as1(_.Components, 'FormSchema', Components.FormSchema);
+
+Components.VirtualForm="use strict";
+class VirtualForm {
     __watcher;
     get item() {
         return this.__watcher.item;
@@ -28711,9 +29604,10 @@ Components.VirtualForm=class VirtualForm {
         const unhandle = {};
         let triggerUnhandle = false;
         for (let key in result) {
-            if (!this._elements[key] || this._elements[key].length == 0) {
+            const k = key;
+            if (!this._elements[k] || this._elements[k].length == 0) {
                 triggerUnhandle = true;
-                unhandle[key] = result[key];
+                unhandle[k] = result[key];
             }
         }
         if (triggerUnhandle && this._handleValidateNoInputError) {
@@ -28731,8 +29625,9 @@ Components.VirtualForm=class VirtualForm {
                     let found = false;
                     for (let detail of error.details) {
                         if (detail instanceof AventusSharp.Data.FieldErrorInfo) {
-                            if (elements[detail.Name]) {
-                                for (const element of elements[detail.Name]) {
+                            const els = elements[detail.Name];
+                            if (els) {
+                                for (const element of els) {
                                     element.errors.push(error.message);
                                 }
                                 found = true;
@@ -28757,7 +29652,8 @@ Components.VirtualForm=class VirtualForm {
 Components.VirtualForm.Namespace=`Core.Components`;
 __as1(_.Components, 'VirtualForm', Components.VirtualForm);
 
-State.ApplicationFormState=class ApplicationFormState extends State.ApplicationWatchState {
+State.ApplicationFormState="use strict";
+class ApplicationFormState extends State.ApplicationWatchState {
     _form;
     get form() {
         return this._form.parts;
@@ -28820,7 +29716,8 @@ State.ApplicationFormState.$schema={...(State.ApplicationWatchState?.$schema ?? 
 Aventus.Converter.register(State.ApplicationFormState.Fullname, State.ApplicationFormState);
 __as1(_.State, 'ApplicationFormState', State.ApplicationFormState);
 
-State.CreateOrUpdate=class CreateOrUpdate extends _.State.ApplicationFormState {
+State.CreateOrUpdate="use strict";
+class CreateOrUpdate extends _.State.ApplicationFormState {
     static _state = "";
     static get state() {
         if (this._state == "") {
@@ -28878,8 +29775,9 @@ State.CreateOrUpdate=class CreateOrUpdate extends _.State.ApplicationFormState {
                         let found = false;
                         for (let detail of error.details) {
                             if (detail instanceof AventusSharp.Data.FieldErrorInfo) {
-                                if (elements[detail.Name]) {
-                                    for (const element of elements[detail.Name]) {
+                                const els = elements[detail.Name];
+                                if (els) {
+                                    for (const element of els) {
                                         element.errors.push(error.message);
                                     }
                                     found = true;
@@ -29014,7 +29912,8 @@ Components.PopupForm = class PopupForm extends Components.GenericPopup {
 Components.PopupForm.Namespace=`Core.Components`;
 __as1(_.Components, 'PopupForm', Components.PopupForm);
 
-Components.Email=class Email extends _.Components.FormValidator {
+Components.Email="use strict";
+class Email extends _.Components.FormValidator {
     msg;
     constructor(msg) {
         super();
@@ -29133,13 +30032,16 @@ Components.GenericSelect = class GenericSelect extends Components.FormElement {
     options = [];
     optionsInited = false;
     __registerWatchesActions() {
-    this.__addWatchesActions("displayValue", ((target, action, path, value) => {
+    this.__addWatchesActions("displayValue", ("use strict";
+(target, action, path, value) => {
     target.inputEl.value = target.displayValue;
-}));this.__addWatchesActions("value", ((target) => {
+}));this.__addWatchesActions("value", ("use strict";
+(target) => {
     target.onInternalValueChanged();
 }));    super.__registerWatchesActions();
 }
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("searchable", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("searchable", ("use strict";
+(target) => {
     if (target.searchable) {
         target.inputEl.removeAttribute("disabled");
     }
@@ -29683,7 +30585,8 @@ if(!window.customElements.get('rk-option')){window.customElements.define('rk-opt
 Components.Select = class Select extends Components.GenericSelect {
     static get observedAttributes() {return ["value"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'value'() { return this.getStringProp('value') }
-    set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ((target) => {
+    set 'value'(val) { this.setStringAttr('value', val) }    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("value", ("use strict";
+(target) => {
     target.onInternalValueChanged();
 })); }
     static __style = ``;
@@ -29725,9 +30628,11 @@ Components.ItemBoxSelect = class ItemBoxSelect extends Components.FormElement {
     set 'value'(val) { this.setStringAttr('value', val) }    options = [];
     optionSelected;
     form;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("space", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("space", ("use strict";
+(target) => {
     target.style.setProperty("--item-box-margin", target.space + 'px');
-}));this.__addPropertyActions("value", ((target) => {
+}));this.__addPropertyActions("value", ("use strict";
+(target) => {
     target.selectInternalOption();
 })); }
     static __style = `:host{--_item-box-box-width: var(--item-box-box-width, auto);--_item-box-box-height: var(--item-box-box-height, 100%);--_item-box-box-padding: var(--item-box-box-padding, 0 10px);--_item-box-border-radius: var(--item-box-border-radius, 4px);--_item-box-border-color: var(--item-box-border-color, var(--secondary-color, #afafaf));--_item-box-option-background-color-selected: var(--item-box-option-background-color-selected, var(--form-element-background-active, #afafaf));--_item-box-option-color-selected: var(--item-box-option-color-selected, var(--form-element-color-active, #fff))}:host{position:relative}:host .container-option{align-items:center;box-sizing:border-box;display:flex;flex-direction:row;height:100%;justify-content:center;z-index:2}:host ::slotted(*){border:1px solid var(--_item-box-border-color);border-radius:var(--border-radius-sm);max-height:var(--_item-box-box-height);max-width:var(--_item-box-box-width);padding:var(--_item-box-box-padding);width:var(--_item-box-box-width)}:host ::slotted(*:first-child){margin-left:0}:host ::slotted(*:last-child){margin-right:0}:host([space="0"]){border:1px solid var(--_item-box-border-color);border-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*){border:none;border-radius:0px;border-right:1px solid var(--_item-box-border-color)}:host([space="0"]) ::slotted(*:first-child){border-bottom-left-radius:var(--_item-box-border-radius);border-top-left-radius:var(--_item-box-border-radius)}:host([space="0"]) ::slotted(*:last-child){border-bottom-right-radius:var(--_item-box-border-radius);border-right:none;border-top-right-radius:var(--_item-box-border-radius)}`;
@@ -29918,7 +30823,8 @@ Components.TwoColumnsSelect = class TwoColumnsSelect extends Components.FormElem
     optionsUnselected = [];
     canGenerateValues = false;
     __registerWatchesActions() {
-    this.__addWatchesActions("value", ((target) => {
+    this.__addWatchesActions("value", ("use strict";
+(target) => {
     target.onInternalValueChanged();
 }));    super.__registerWatchesActions();
 }
@@ -30756,7 +31662,8 @@ Components.ButtonIconMenu = class ButtonIconMenu extends Components.ButtonIcon {
     static get observedAttributes() {return ["open"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'open'() { return this.getBoolProp('open') }
     set 'open'(val) { this.setBoolAttr('open', val) }    menu;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("open", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("open", ("use strict";
+(target) => {
     target.syncMenu();
 })); }
     static __style = ``;
@@ -30858,6 +31765,15 @@ Components.ButtonIconMenu.Tag=`rk-button-icon-menu`;
 __as1(_.Components, 'ButtonIconMenu', Components.ButtonIconMenu);
 if(!window.customElements.get('rk-button-icon-menu')){window.customElements.define('rk-button-icon-menu', Components.ButtonIconMenu);Aventus.WebComponentInstance.registerDefinition(Components.ButtonIconMenu);}
 
+Components.TableSchema="use strict";
+__as1(_.Components, 'TableSchema', Components.TableSchema);
+
+Components.TableOptions="use strict";
+__as1(_.Components, 'TableOptions', Components.TableOptions);
+
+Components.TableDataOptions="use strict";
+__as1(_.Components, 'TableDataOptions', Components.TableDataOptions);
+
 Components.Table = class Table extends Aventus.WebComponent {
     static get observedAttributes() {return ["auto_hide_scroll", "grid", "items_per_page"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'col_resize'() { return this.getBoolAttr('col_resize') }
@@ -30934,17 +31850,22 @@ Components.Table = class Table extends Aventus.WebComponent {
     minTimeoutLoading = 1000;
     select = new Aventus.Callback();
     __registerWatchesActions() {
-    this.__addWatchesActions("tableTitle");this.__addWatchesActions("showSearch");this.__addWatchesActions("showHeader");this.__addWatchesActions("showFooter");this.__addWatchesActions("displayedData", ((target, action, path, value) => {
+    this.__addWatchesActions("tableTitle");this.__addWatchesActions("showSearch");this.__addWatchesActions("showHeader");this.__addWatchesActions("showFooter");this.__addWatchesActions("displayedData", ("use strict";
+(target, action, path, value) => {
     target.render();
-}));this.__addWatchesActions("data", ((target, action, path, value) => {
+}));this.__addWatchesActions("data", ("use strict";
+(target, action, path, value) => {
     target.filterData();
-}));this.__addWatchesActions("currentPage", ((target) => {
+}));this.__addWatchesActions("currentPage", ("use strict";
+(target) => {
     target.correctPage();
 }));this.__addWatchesActions("nbItems");    super.__registerWatchesActions();
 }
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("grid", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("grid", ("use strict";
+(target) => {
     target.updateGrid();
-}));this.__addPropertyActions("items_per_page", ((target) => {
+}));this.__addPropertyActions("items_per_page", ("use strict";
+(target) => {
     target.renderPage();
     if (target.items_per_page > 0 && target.options.showFooter === undefined) {
         target.showFooter = true;
@@ -31518,6 +32439,9 @@ Components.Table = class Table extends Aventus.WebComponent {
 Components.Table.Namespace=`Core.Components`;
 __as1(_.Components, 'Table', Components.Table);
 
+Components.FilterAction="use strict";
+__as1(_.Components, 'FilterAction', Components.FilterAction);
+
 Components.TableRow = class TableRow extends Aventus.WebComponent {
     static get observedAttributes() {return ["grid"].concat(super.observedAttributes).filter((v, i, a) => a.indexOf(v) === i);}
     get 'custom_grid'() { return this.getBoolAttr('custom_grid') }
@@ -31529,7 +32453,8 @@ Components.TableRow = class TableRow extends Aventus.WebComponent {
     }
     cells = [];
     options;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("grid", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("grid", ("use strict";
+(target) => {
     target.updateGrid();
 })); }
     static __style = `:host{width:100%}:host .row-content{align-items:stretch;border-bottom:var(--_table-cell-horizontal-border);display:flex;flex-direction:row;width:100%}:host .row-content>*:last-child{border-right:none !important}:host .grid-content{display:none}:host(:last-child) .row-content{border-bottom:var(--_table-last-row-border-bottom)}:host([grid]){width:fit-content}:host([grid]) .row-content,:host([grid]) .grid-content{border:var(--_table-cell-vertical-border);border-radius:var(--border-radius-sm);flex-direction:column;padding:10px;width:fit-content}:host([grid][custom_grid]) .row-content{display:none}:host([grid][custom_grid]) .grid-content{display:flex}`;
@@ -32599,10 +33524,12 @@ Components.Tab = class Tab extends Aventus.WebComponent {
         return elements;
     }
     tabHeader;
-    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("disabled", ((target) => {
+    __registerPropertiesActions() { super.__registerPropertiesActions(); this.__addPropertyActions("disabled", ("use strict";
+(target) => {
     if (target.tabHeader)
         target.tabHeader.disabled = target.disabled;
-}));this.__addPropertyActions("hidded", ((target) => {
+}));this.__addPropertyActions("hidded", ("use strict";
+(target) => {
     if (target.tabHeader)
         target.tabHeader.hidded = target.hidded;
 })); }
@@ -32633,7 +33560,8 @@ Components.Tab.Tag=`rk-tab`;
 __as1(_.Components, 'Tab', Components.Tab);
 if(!window.customElements.get('rk-tab')){window.customElements.define('rk-tab', Components.Tab);Aventus.WebComponentInstance.registerDefinition(Components.Tab);}
 
-App.AppError=class AppError extends Aventus.GenericError {
+App.AppError="use strict";
+class AppError extends Aventus.GenericError {
     static get Fullname() { return "Core.App.AppError, Core"; }
 }
 App.AppError.Namespace=`Core.App`;
@@ -32641,7 +33569,8 @@ App.AppError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(App.AppError.Fullname, App.AppError);
 __as1(_.App, 'AppError', App.AppError);
 
-Data.Company=class Company extends AventusSharp.Data.Storable {
+Data.Company="use strict";
+class Company extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.Company, Core"; }
     Name = "";
     Logo = new Data.CompanyImage();
@@ -32653,7 +33582,8 @@ Data.Company.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name":"st
 Aventus.Converter.register(Data.Company.Fullname, Data.Company);
 __as1(_.Data, 'Company', Data.Company);
 
-Data.DataTypes.FileError=class FileError extends Aventus.GenericError {
+Data.DataTypes.FileError="use strict";
+class FileError extends Aventus.GenericError {
     static get Fullname() { return "Core.Data.DataTypes.FileError, Core"; }
 }
 Data.DataTypes.FileError.Namespace=`Core.Data.DataTypes`;
@@ -32661,7 +33591,8 @@ Data.DataTypes.FileError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Data.DataTypes.FileError.Fullname, Data.DataTypes.FileError);
 __as1(_.Data.DataTypes, 'FileError', Data.DataTypes.FileError);
 
-Data.Manifest=class Manifest extends AventusSharp.Data.SharpClass {
+Data.Manifest="use strict";
+class Manifest extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Data.Manifest, Core"; }
     name;
     short_name;
@@ -32679,7 +33610,8 @@ Data.Manifest.$schema={...(AventusSharp.Data.SharpClass?.$schema ?? {}), "name":
 Aventus.Converter.register(Data.Manifest.Fullname, Data.Manifest);
 __as1(_.Data, 'Manifest', Data.Manifest);
 
-Routes.CompanyRouter=class CompanyRouter extends Aventus.HttpRoute {
+Routes.CompanyRouter="use strict";
+class CompanyRouter extends Aventus.HttpRoute {
     getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
@@ -32710,7 +33642,8 @@ Routes.CompanyRouter=class CompanyRouter extends Aventus.HttpRoute {
 Routes.CompanyRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'CompanyRouter', Routes.CompanyRouter);
 
-Data.SsoProvider=class SsoProvider extends AventusSharp.Data.Storable {
+Data.SsoProvider="use strict";
+class SsoProvider extends AventusSharp.Data.Storable {
     static get Fullname() { return "Core.Data.SsoProvider, Core"; }
     Name;
     Logo;
@@ -32729,7 +33662,8 @@ Data.SsoProvider.$schema={...(AventusSharp.Data.Storable?.$schema ?? {}), "Name"
 Aventus.Converter.register(Data.SsoProvider.Fullname, Data.SsoProvider);
 __as1(_.Data, 'SsoProvider', Data.SsoProvider);
 
-Routes.SsoProviderRouter=class SsoProviderRouter extends AventusSharp.Routes.StorableRouter {
+Routes.SsoProviderRouter="use strict";
+class SsoProviderRouter extends AventusSharp.Routes.StorableRouter {
     getPrefix() { return "/Core"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
@@ -32741,7 +33675,8 @@ Routes.SsoProviderRouter=class SsoProviderRouter extends AventusSharp.Routes.Sto
 Routes.SsoProviderRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'SsoProviderRouter', Routes.SsoProviderRouter);
 
-RAM.SsoProviderRAM=class SsoProviderRAM extends AventusSharp.RAM.RamHttp {
+RAM.SsoProviderRAM="use strict";
+class SsoProviderRAM extends AventusSharp.RAM.RamHttp {
     /**
      * Create a singleton to store data
      */
@@ -32770,7 +33705,8 @@ RAM.SsoProviderRAM=class SsoProviderRAM extends AventusSharp.RAM.RamHttp {
 RAM.SsoProviderRAM.Namespace=`Core.RAM`;
 __as1(_.RAM, 'SsoProviderRAM', RAM.SsoProviderRAM);
 
-Errors.DesktopError=class DesktopError extends Aventus.GenericError {
+Errors.DesktopError="use strict";
+class DesktopError extends Aventus.GenericError {
     static get Fullname() { return "Core.Logic.DesktopError, Core"; }
 }
 Errors.DesktopError.Namespace=`Core.Errors`;
@@ -32778,7 +33714,8 @@ Errors.DesktopError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.DesktopError.Fullname, Errors.DesktopError);
 __as1(_.Errors, 'DesktopError', Errors.DesktopError);
 
-Errors.StorageError=class StorageError extends Aventus.GenericError {
+Errors.StorageError="use strict";
+class StorageError extends Aventus.GenericError {
     static get Fullname() { return "Core.Logic.FileSystem.StorageError, Core"; }
 }
 Errors.StorageError.Namespace=`Core.Errors`;
@@ -32786,7 +33723,8 @@ Errors.StorageError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.StorageError.Fullname, Errors.StorageError);
 __as1(_.Errors, 'StorageError', Errors.StorageError);
 
-Errors.SsoError=class SsoError extends Aventus.GenericError {
+Errors.SsoError="use strict";
+class SsoError extends Aventus.GenericError {
     static get Fullname() { return "Core.Logic.SsoError, Core"; }
 }
 Errors.SsoError.Namespace=`Core.Errors`;
@@ -32794,7 +33732,8 @@ Errors.SsoError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.SsoError.Fullname, Errors.SsoError);
 __as1(_.Errors, 'SsoError', Errors.SsoError);
 
-Permissions.OsGlobalPermissionQuery=class OsGlobalPermissionQuery extends _.Permissions.PermissionQuery {
+Permissions.OsGlobalPermissionQuery="use strict";
+class OsGlobalPermissionQuery extends _.Permissions.PermissionQuery {
     static get Fullname() { return "Core.Permissions.OsGlobalPermissionQuery, Core"; }
 }
 Permissions.OsGlobalPermissionQuery.Namespace=`Core.Permissions`;
@@ -32802,7 +33741,8 @@ Permissions.OsGlobalPermissionQuery.$schema={...(Permissions.PermissionQuery?.$s
 Aventus.Converter.register(Permissions.OsGlobalPermissionQuery.Fullname, Permissions.OsGlobalPermissionQuery);
 __as1(_.Permissions, 'OsGlobalPermissionQuery', Permissions.OsGlobalPermissionQuery);
 
-Routes.WebAuthnRouter=class WebAuthnRouter extends Aventus.HttpRoute {
+Routes.WebAuthnRouter="use strict";
+class WebAuthnRouter extends Aventus.HttpRoute {
     getPrefix() { return "/Core/WebAuthn"; }
     constructor(router) {
         super(router ?? new _.Routes.CoreRouter());
@@ -32844,7 +33784,8 @@ Routes.WebAuthnRouter=class WebAuthnRouter extends Aventus.HttpRoute {
 Routes.WebAuthnRouter.Namespace=`Core.Routes`;
 __as1(_.Routes, 'WebAuthnRouter', Routes.WebAuthnRouter);
 
-Errors.ImageFileError=class ImageFileError extends Aventus.GenericError {
+Errors.ImageFileError="use strict";
+class ImageFileError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.ImageFileError, Core"; }
 }
 Errors.ImageFileError.Namespace=`Core.Errors`;
@@ -32852,7 +33793,8 @@ Errors.ImageFileError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.ImageFileError.Fullname, Errors.ImageFileError);
 __as1(_.Errors, 'ImageFileError', Errors.ImageFileError);
 
-Tools.ResultWithImageFileError=class ResultWithImageFileError extends AventusSharp.Tools.ResultWithError {
+Tools.ResultWithImageFileError="use strict";
+class ResultWithImageFileError extends AventusSharp.Tools.ResultWithError {
     static get Fullname() { return "Core.Tools.ResultWithImageFileError, Core"; }
 }
 Tools.ResultWithImageFileError.Namespace=`Core.Tools`;
@@ -32860,7 +33802,8 @@ Tools.ResultWithImageFileError.$schema={...(AventusSharp.Tools.ResultWithError?.
 Aventus.Converter.register(Tools.ResultWithImageFileError.Fullname, Tools.ResultWithImageFileError);
 __as1(_.Tools, 'ResultWithImageFileError', Tools.ResultWithImageFileError);
 
-Tools.VoidWithImageFileError=class VoidWithImageFileError extends AventusSharp.Tools.VoidWithError {
+Tools.VoidWithImageFileError="use strict";
+class VoidWithImageFileError extends AventusSharp.Tools.VoidWithError {
     static get Fullname() { return "Core.Tools.VoidWithImageFileError, Core"; }
 }
 Tools.VoidWithImageFileError.Namespace=`Core.Tools`;
@@ -32868,7 +33811,8 @@ Tools.VoidWithImageFileError.$schema={...(AventusSharp.Tools.VoidWithError?.$sch
 Aventus.Converter.register(Tools.VoidWithImageFileError.Fullname, Tools.VoidWithImageFileError);
 __as1(_.Tools, 'VoidWithImageFileError', Tools.VoidWithImageFileError);
 
-Errors.PdfError=class PdfError extends Aventus.GenericError {
+Errors.PdfError="use strict";
+class PdfError extends Aventus.GenericError {
     static get Fullname() { return "Core.Tools.PdfError, Core"; }
 }
 Errors.PdfError.Namespace=`Core.Errors`;
@@ -32876,7 +33820,8 @@ Errors.PdfError.$schema={...(Aventus.GenericError?.$schema ?? {}), };
 Aventus.Converter.register(Errors.PdfError.Fullname, Errors.PdfError);
 __as1(_.Errors, 'PdfError', Errors.PdfError);
 
-Tools.ResultWithPdfError=class ResultWithPdfError extends AventusSharp.Tools.ResultWithError {
+Tools.ResultWithPdfError="use strict";
+class ResultWithPdfError extends AventusSharp.Tools.ResultWithError {
     static get Fullname() { return "Core.Tools.ResultWithPdfError, Core"; }
 }
 Tools.ResultWithPdfError.Namespace=`Core.Tools`;
@@ -32884,7 +33829,8 @@ Tools.ResultWithPdfError.$schema={...(AventusSharp.Tools.ResultWithError?.$schem
 Aventus.Converter.register(Tools.ResultWithPdfError.Fullname, Tools.ResultWithPdfError);
 __as1(_.Tools, 'ResultWithPdfError', Tools.ResultWithPdfError);
 
-Tools.VoidWithPdfError=class VoidWithPdfError extends AventusSharp.Tools.VoidWithError {
+Tools.VoidWithPdfError="use strict";
+class VoidWithPdfError extends AventusSharp.Tools.VoidWithError {
     static get Fullname() { return "Core.Tools.VoidWithPdfError, Core"; }
 }
 Tools.VoidWithPdfError.Namespace=`Core.Tools`;
@@ -32892,7 +33838,8 @@ Tools.VoidWithPdfError.$schema={...(AventusSharp.Tools.VoidWithError?.$schema ??
 Aventus.Converter.register(Tools.VoidWithPdfError.Fullname, Tools.VoidWithPdfError);
 __as1(_.Tools, 'VoidWithPdfError', Tools.VoidWithPdfError);
 
-Websocket.Events.ApplicationTestEvent.Body=class Body extends AventusSharp.Data.SharpClass {
+Websocket.Events.ApplicationTestEvent.Body="use strict";
+class Body extends AventusSharp.Data.SharpClass {
     static get Fullname() { return "Core.Websocket.Events.ApplicationTestEvent+Body, Core"; }
     id;
     name;
@@ -32902,7 +33849,8 @@ Websocket.Events.ApplicationTestEvent.Body.$schema={...(AventusSharp.Data.SharpC
 Aventus.Converter.register(Websocket.Events.ApplicationTestEvent.Body.Fullname, Websocket.Events.ApplicationTestEvent.Body);
 __as1(_.Websocket.Events.ApplicationTestEvent, 'Body', Websocket.Events.ApplicationTestEvent.Body);
 
-Lib.NumberTools=class NumberTools {
+Lib.NumberTools="use strict";
+class NumberTools {
     static pretty(nb) {
         if (nb < 10) {
             return '0' + nb;
@@ -32966,7 +33914,8 @@ Lib.NumberTools=class NumberTools {
 Lib.NumberTools.Namespace=`Core.Lib`;
 __as1(_.Lib, 'NumberTools', Lib.NumberTools);
 
-RAM.GroupRAM=class GroupRAM extends _.RAM.RamHttp {
+RAM.GroupRAM="use strict";
+class GroupRAM extends _.RAM.RamHttp {
     /**
      * Create a singleton to store data
      */
@@ -33008,7 +33957,10 @@ RAM.GroupRAM=class GroupRAM extends _.RAM.RamHttp {
 RAM.GroupRAM.Namespace=`Core.RAM`;
 __as1(_.RAM, 'GroupRAM', RAM.GroupRAM);
 
-RAM.RamCompletor=class RamCompletor {
+RAM.ItemField="use strict";
+
+RAM.RamCompletor="use strict";
+class RamCompletor {
     objects = [];
     fields = [];
     error;
@@ -33036,13 +33988,15 @@ RAM.RamCompletor=class RamCompletor {
         const mapRecords = {};
         for (let field of fields) {
             let objKey = field.obj;
+            let objKeyTxt = field.obj;
             let idKey = field.id;
-            listIds[objKey] = [];
-            mapRecords[objKey] = {};
+            let idKeyTxt = field.id;
+            listIds[objKeyTxt] = [];
+            mapRecords[idKeyTxt] = {};
             for (let value of objects) {
                 if (value[idKey]) {
-                    const listId = listIds[objKey];
-                    const mapRecord = mapRecords[objKey];
+                    const listId = listIds[objKeyTxt];
+                    const mapRecord = mapRecords[objKeyTxt];
                     if (value[objKey])
                         continue;
                     if (!listId.includes(value[idKey]))

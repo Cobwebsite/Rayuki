@@ -1071,7 +1071,7 @@ namespace System {
                 this.loading = false;
                 this.alert({
                     title: "Erreur",
-                    description: e
+                    description: (e instanceof Error ? e.message : String(e))
                 });
             }
             return null;
@@ -1133,7 +1133,7 @@ namespace System {
             catch(e) {
                 this.alert({
                     title: "Erreur",
-                    description: e
+                    description: (e instanceof Error ? e.message : String(e))
                 });
             }
             return undefined;

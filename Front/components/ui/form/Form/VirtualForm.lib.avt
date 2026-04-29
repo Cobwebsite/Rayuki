@@ -223,8 +223,8 @@ namespace Components {
             }
             else if(path.startsWith("item.")) {
                 let key = path.substring("item.".length);
-                if(this.parts[key]) {
-                    let formPart = this.parts[key] as InternalFormPart;
+                if(this.parts[key as keyof T]) {
+                    let formPart = this.parts[key as keyof T] as InternalFormPart;
                     formPart.onValueChange.trigger();
                     const validateOnChange = formPart.validateOnChange === undefined ? this._validateOnChange : formPart.validateOnChange;
                     if(validateOnChange) {
@@ -306,9 +306,10 @@ namespace Components {
             let triggerUnhandle = false;
             for(let key in result) {
                 // si on ne trouve pas de formElement, on affiche un message
-                if(!this._elements[key] || this._elements[key].length == 0) {
+                const k = key as keyof T;
+                if(!this._elements[k] || this._elements[k].length == 0) {
                     triggerUnhandle = true;
-                    unhandle[key] = result[key];
+                    unhandle[k] = result[key];
                 }
             }
 
@@ -330,8 +331,9 @@ namespace Components {
                         let found = false;
                         for(let detail of error.details) {
                             if(detail instanceof AventusSharp.Data.FieldErrorInfo) {
-                                if(elements[detail.Name]) {
-                                    for(const element of elements[detail.Name]) {
+                                const els = elements[detail.Name as keyof T]
+                                if(els) {
+                                    for(const element of els) {
                                         element.errors.push(error.message);
                                     }
                                     found = true;

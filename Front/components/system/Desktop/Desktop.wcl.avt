@@ -179,14 +179,14 @@ namespace System {
 
                 await new Promise((resolve) => {
                     comp.onRouteRegistered(resolve);
-                })
-                
+                });
+
                 await comp.navigate(url);
 
                 this.applications[comp.$type][i] = comp;
 
                 this.manageAppBottomBar(comp.$type);
-                
+
                 return comp;
             }
             else {
@@ -669,7 +669,7 @@ namespace System {
             const debugConsole = this.debugEl;
 
             // Function to append messages to the console
-            function appendToConsole(message, type = 'log') {
+            function appendToConsole(message: any, type = 'log') {
                 const logEntry = document.createElement('div');
                 logEntry.textContent = `[${(new Date()).getSeconds()} ${type.toUpperCase()}] ${message}`;
                 debugConsole.appendChild(logEntry);

@@ -7,6 +7,7 @@ using Core.Routes;
 using Core.Tools;
 using Microsoft.AspNetCore.Authentication;
 using PeterO.Cbor;
+using Convert = System.Convert;
 
 namespace Core.Logic;
 

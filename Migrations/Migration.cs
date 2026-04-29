@@ -18,7 +18,7 @@ namespace Core.Migrations
 
         protected MySQLStorage Storage { get => AppManager.Storage; }
 
-        public abstract VoidWithError Run();
+        public abstract Task<VoidWithError> Run();
        
     }
 }

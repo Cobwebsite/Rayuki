@@ -8,13 +8,13 @@ namespace Components {
         group: 'Components/Document'
     })
     export type SheetFormat = "A3" | "A4" | "A5" | "letter" | "legal";
-    
+
     @Storybook({
         export: 'public',
         group: 'Components/Document'
     })
     export type SheetOrientation = "portrait" | "landscape";
-    
+
     @Storybook({
         export: 'public',
         group: 'Components/Document'
@@ -25,7 +25,7 @@ namespace Components {
         padding: string,
         calculateOnDisplay: boolean,
     };
-    
+
     @Storybook({
         export: 'public',
         group: 'Components/Document'
@@ -71,7 +71,7 @@ namespace Components {
             return this.sizes.get(format)!.get(orientation)!;
         }
         public static mmToPx(mm: number) { return mm * 3.7795275591; }
-        public static pxToMm(px:number) { return px / 3.7795275591;}
+        public static pxToMm(px: number) { return px / 3.7795275591; }
         //#endregion
 
 
@@ -312,7 +312,7 @@ namespace Components {
             }
         }
 
-        protected urlToBase64(url): Promise<string> {
+        protected urlToBase64(url: string): Promise<string> {
             return new Promise<string>(async (resolve, reject) => {
                 try {
                     const response = await fetch(url);
@@ -330,7 +330,7 @@ namespace Components {
         //#region save
 
         public async export(): Promise<string> {
-            let stylesheets: { [name: string]: CSSStyleSheet; } = this.constructor['__styleSheets'];
+            let stylesheets: { [name: string]: CSSStyleSheet; } = (this.constructor as any)['__styleSheets'];
 
             let cssTxt = "";
             for(let name in stylesheets) {

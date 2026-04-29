@@ -14,7 +14,7 @@ namespace Lib {
         export: 'protected'
     })
     export class FileSaver {
-        private static bom(blob, opts) {
+        private static bom(blob: Blob, opts: FileSaverOption | undefined) {
             if(typeof opts === 'undefined') opts = { autoBom: false };
             else if(typeof opts !== 'object') {
                 console.warn('Deprecated: Expected third argument to be a object');
@@ -28,7 +28,7 @@ namespace Lib {
             }
             return blob;
         }
-        private static download(url, name, opts) {
+        private static download(url: string, name: string, opts: FileSaverOption | undefined) {
             var xhr = new XMLHttpRequest();
             xhr.open('GET', url);
             xhr.responseType = 'blob';
@@ -41,7 +41,7 @@ namespace Lib {
             xhr.send();
         }
 
-        private static corsEnabled(url) {
+        private static corsEnabled(url: string) {
             var xhr = new XMLHttpRequest();
             // use sync to avoid popup blocker
             xhr.open('HEAD', url, false);
@@ -50,7 +50,7 @@ namespace Lib {
             } catch(e) { }
             return xhr.status >= 200 && xhr.status <= 299;
         }
-        private static click(node) {
+        private static click(node: Node) {
             try {
                 node.dispatchEvent(new MouseEvent('click'));
             } catch(e) {
@@ -64,7 +64,7 @@ namespace Lib {
             return navigator && /Macintosh/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !/Safari/.test(navigator.userAgent);
         }
 
-        private static _saveAs?: (blob: Blob | string, name: string, opts?: FileSaverOption, popup?) => Promise<void>;
+        private static _saveAs?: (blob: Blob | string, name: string, opts?: FileSaverOption, popup?: any) => Promise<void>;
         public static get saveAs(): (blob: Blob | string, name: string, opts?: FileSaverOption) => Promise<void> {
             if(!this._saveAs) {
                 this._saveAs = this.initSaveAs();
@@ -73,13 +73,13 @@ namespace Lib {
         }
 
         private static initSaveAs() {
-            let result: (blob: Blob | string, name: string, opts?: FileSaverOption, popup?) => Promise<void>;
+            let result: (blob: Blob | string, name: string, opts?: FileSaverOption, popup?: any) => Promise<void>;
             // probably in some web worker
             // Use download attribute first if possible (#193 Lumia mobile) unless this is a macOS WebView
             result = ('download' in HTMLAnchorElement.prototype && !this.isMacOSWebView)
                 ? (blob, name, opts) => {
                     return new Promise<void>((resolve) => {
-                        var URL = URL || webkitURL;
+                        const _URL = URL || webkitURL;
                         // Namespace is used to prevent conflict w/ Chrome Poper Blocker extension (Issue #561)
                         var a = document.createElementNS('http://www.w3.org/1999/xhtml', 'a') as HTMLAnchorElement;
                         name = name || 'download';
@@ -103,8 +103,8 @@ namespace Lib {
                             resolve();
                         } else {
                             // Support blobs
-                            a.href = URL.createObjectURL(blob);
-                            setTimeout(() => { URL.revokeObjectURL(a.href); resolve(); }, 4E4); // 40s
+                            a.href = _URL.createObjectURL(blob);
+                            setTimeout(() => { _URL.revokeObjectURL(a.href); resolve(); }, 4E4); // 40s
                             setTimeout(() => { this.click(a); }, 0);
                         }
                     });
@@ -127,7 +127,7 @@ namespace Lib {
                                     setTimeout(() => { this.click(a); resolve(); });
                                 }
                             } else {
-                                navigator['msSaveOrOpenBlob'](this.bom(blob, opts), name);
+                                (navigator as any)['msSaveOrOpenBlob'](this.bom(blob, opts), name);
                                 resolve();
                             }
                         });
@@ -151,7 +151,7 @@ namespace Lib {
                             }
 
                             var force = blob.type === 'application/octet-stream';
-                            var isSafari = /constructor/i.test(HTMLElement.toString()) || window['safari'];
+                            var isSafari = /constructor/i.test(HTMLElement.toString()) || (window as any)['safari'];
                             var isChromeIOS = /CriOS\/[\d]+/.test(navigator.userAgent);
 
                             if((isChromeIOS || (force && isSafari) || this.isMacOSWebView) && typeof FileReader !== 'undefined') {
@@ -167,12 +167,12 @@ namespace Lib {
                                 };
                                 reader.readAsDataURL(blob);
                             } else {
-                                var URL = URL || webkitURL;
-                                var url = URL.createObjectURL(blob);
+                                const _URL = URL || webkitURL;
+                                var url = _URL.createObjectURL(blob);
                                 if(popup) popup.location = url;
                                 else location.href = url;
                                 popup = null; // reverse-tabnabbing #460
-                                setTimeout(() => { URL.revokeObjectURL(url); resolve(); }, 4E4); // 40s
+                                setTimeout(() => { _URL.revokeObjectURL(url); resolve(); }, 4E4); // 40s
                             }
                         });
                     };

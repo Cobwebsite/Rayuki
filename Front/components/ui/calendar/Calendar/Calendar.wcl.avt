@@ -248,7 +248,7 @@ namespace Components {
         }
         //#endregion
 
-        protected override postDisonnect(): void {
+        protected override postDisconnect(): void {
             this.show_selector = false;
         }
 

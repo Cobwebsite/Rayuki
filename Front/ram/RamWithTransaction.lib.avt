@@ -128,23 +128,25 @@ namespace RAM {
             const mapRecords: { [obj: string]: { [id: string]: T[]; }; } = {};
 
             for(let field of fields) {
-                let objKey = field.obj as string;
-                let idKey = field.id as string;
-                listIds[objKey] = [];
-                mapRecords[objKey] = {};
+                let objKey = field.obj as keyof T;
+                let objKeyTxt = field.obj as string;
+                let idKey = field.id as keyof T;
+                let idKeyTxt = field.id as string;
+                listIds[objKeyTxt] = [];
+                mapRecords[idKeyTxt] = {};
 
                 for(let value of objects) {
                     if(value[idKey]) {
-                        const listId = listIds[objKey];
-                        const mapRecord = mapRecords[objKey];
+                        const listId = listIds[objKeyTxt];
+                        const mapRecord = mapRecords[objKeyTxt];
                         if(value[objKey]) continue;
 
-                        if(!listId.includes(value[idKey]))
-                            listId.push(value[idKey]);
-                        if(!mapRecord[value[idKey]]) {
-                            mapRecord[value[idKey]] = [];
+                        if(!listId.includes(value[idKey] as number))
+                            listId.push(value[idKey] as number);
+                        if(!mapRecord[value[idKey] as string]) {
+                            mapRecord[value[idKey] as string] = [];
                         }
-                        mapRecord[value[idKey]].push(value);
+                        mapRecord[value[idKey] as string].push(value);
                     }
                 }
             }
@@ -162,7 +164,7 @@ namespace RAM {
                         for(let item of query.result) {
                             if(mapRecord[item.Id]) {
                                 for(let record of mapRecord[item.Id]) {
-                                    record[objKey] = item;
+                                    record[objKey as keyof T] = item;
                                 }
                             }
                         }

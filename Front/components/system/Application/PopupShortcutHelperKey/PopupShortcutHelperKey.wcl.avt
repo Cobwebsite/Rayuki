@@ -26,31 +26,31 @@ namespace System {
 
         //#region methods
         protected getKeyTxt(key: string | SpecialTouch): string {
-			const specialTouchTxt = {
-				[SpecialTouch.Alt]: "Alt",
-				[SpecialTouch.AltGraph]: "Alt Gr",
-				[SpecialTouch.ArrowDown]: "↓",
-				[SpecialTouch.ArrowLeft]: "←",
-				[SpecialTouch.ArrowRight]: "→",
-				[SpecialTouch.ArrowUp]: "↑",
-				[SpecialTouch.Backspace]: "Back",
-				[SpecialTouch.CapsLock]: "Caps",
-				[SpecialTouch.Control]: "Ctrl",
-				[SpecialTouch.Delete]: "Del",
-				[SpecialTouch.End]: "End",
-				[SpecialTouch.Enter]: "↵",
-				[SpecialTouch.Escape]: "Esc",
-				[SpecialTouch.Insert]: "Ins",
-				[SpecialTouch.PageDown]: "Pg dn",
-				[SpecialTouch.PageUp]: "Pg up",
-				[SpecialTouch.Shift]: "Shift",
-				[SpecialTouch.Tab]: "↹",
-			}
+            const specialTouchTxt: Record<string | SpecialTouch, string> = {
+                [SpecialTouch.Alt]: "Alt",
+                [SpecialTouch.AltGraph]: "Alt Gr",
+                [SpecialTouch.ArrowDown]: "↓",
+                [SpecialTouch.ArrowLeft]: "←",
+                [SpecialTouch.ArrowRight]: "→",
+                [SpecialTouch.ArrowUp]: "↑",
+                [SpecialTouch.Backspace]: "Back",
+                [SpecialTouch.CapsLock]: "Caps",
+                [SpecialTouch.Control]: "Ctrl",
+                [SpecialTouch.Delete]: "Del",
+                [SpecialTouch.End]: "End",
+                [SpecialTouch.Enter]: "↵",
+                [SpecialTouch.Escape]: "Esc",
+                [SpecialTouch.Insert]: "Ins",
+                [SpecialTouch.PageDown]: "Pg dn",
+                [SpecialTouch.PageUp]: "Pg up",
+                [SpecialTouch.Shift]: "Shift",
+                [SpecialTouch.Tab]: "↹",
+            };
 
-			if(specialTouchTxt[key]) {
-				return specialTouchTxt[key];
-			}
-			return (key+'').toUpperCase();
+            if(specialTouchTxt[key]) {
+                return specialTouchTxt[key];
+            }
+            return (key + '').toUpperCase();
         }
         //#endregion
 

@@ -8,6 +8,7 @@ import { AppList } from "../AppList/AppList.wcl.avt";
 import { Addon, type AddonsName } from "../../../libs/Addon.lib.avt";
 import { DesktopAppIcon, DesktopLocation } from "../../../generated/Data/Desktop.lib.avt";
 import { DesktopRouter } from "../../../generated/Websocket/Routes/DesktopRouter.lib.avt";
+import type { State, StateSlug } from "Aventus@Main:Aventus.package.avt";
 
 namespace System {
 
@@ -208,7 +209,9 @@ namespace System {
          */
         @StateInactive(MoveApplication.state, DesktopStateManager)
         @InternalProtected()
-        public onStopMovingApplication() {
+        public onStopMovingApplication(state: State, nextState: State, slugs: StateSlug): void;
+        public onStopMovingApplication(): void;
+        public onStopMovingApplication(state?: State, nextState?: State, slugs?: StateSlug): void {
             this.moveApplicationState = undefined;
             this.shaking = false;
             this.destroyDragAndDrop();

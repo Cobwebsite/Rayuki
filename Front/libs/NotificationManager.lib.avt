@@ -14,7 +14,7 @@ namespace Lib {
         private sw?: ServiceWorkerRegistration;
         private record?: PushRecord;
         private subscription?: PushSubscription;
-        private watcher: Watcher;
+        private watcher: Record<string, any>;
 
         private constructor() {
             this.watcher = Watcher.get({});

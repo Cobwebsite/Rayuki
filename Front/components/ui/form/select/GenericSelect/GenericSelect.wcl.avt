@@ -199,7 +199,7 @@ namespace Components {
 
         protected override postCreation(): void {
             this.manageFocus();
-            this.optionsContainer.init(this);
+            this.optionsContainer.init(this as any);
             this.loadElementsFromSlot();
             this.optionsInited = true;
             this.onInternalValueChanged();

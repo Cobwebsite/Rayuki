@@ -390,7 +390,7 @@ namespace Components {
                     }
                     // apply filters
                     for(let name in this.filters) {
-                        let value = item[name];
+                        let value = (item as any)[name];
                         let filters = this.filters[name];
                         for(let filter of filters) {
                             if(!filter(value)) {
@@ -581,10 +581,10 @@ namespace Components {
             if(!this.filters[nameTxt]) {
                 this.filters[nameTxt] = [];
             }
-            else if(this.filters[nameTxt].includes(action)) {
+            else if(this.filters[nameTxt].includes(action as FilterAction<T>)) {
                 return;
             }
-            this.filters[nameTxt].push(action);
+            this.filters[nameTxt].push(action as FilterAction<T>);
             if(reload && this.isReady)
                 await this.filterData();
         }
@@ -592,7 +592,7 @@ namespace Components {
             let nameTxt = name as string;
             if(this.filters[nameTxt]) {
                 if(action) {
-                    let index = this.filters[nameTxt].indexOf(action);
+                    let index = this.filters[nameTxt].indexOf(action as FilterAction<T>);
                     if(index != -1) {
                         this.filters[nameTxt].splice(index, 1);
                     }

@@ -160,27 +160,27 @@ export class Md5 {
 
 
 
-    private static md5_cmn(q, a, b, x, s, t) {
+    private static md5_cmn(q: number, a: number, b: number, x: number, s: number, t: number) {
         return this.safe_add(this.bit_rol(this.safe_add(this.safe_add(a, q), this.safe_add(x, t)), s), b);
     }
-    private static md5_ff(a, b, c, d, x, s, t) {
+    private static md5_ff(a: number, b: number, c: number, d: number, x: number, s: number, t: number) {
         return this.md5_cmn((b & c) | ((~b) & d), a, b, x, s, t);
     }
-    private static md5_gg(a, b, c, d, x, s, t) {
+    private static md5_gg(a: number, b: number, c: number, d: number, x: number, s: number, t: number) {
         return this.md5_cmn((b & d) | (c & (~d)), a, b, x, s, t);
     }
-    private static md5_hh(a, b, c, d, x, s, t) {
+    private static md5_hh(a: number, b: number, c: number, d: number, x: number, s: number, t: number) {
         return this.md5_cmn(b ^ c ^ d, a, b, x, s, t);
     }
-    private static md5_ii(a, b, c, d, x, s, t) {
+    private static md5_ii(a: number, b: number, c: number, d: number, x: number, s: number, t: number) {
         return this.md5_cmn(c ^ (b | (~d)), a, b, x, s, t);
     }
-    private static safe_add(x, y) {
+    private static safe_add(x: number, y: number) {
         var lsw = (x & 0xFFFF) + (y & 0xFFFF);
         var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
         return (msw << 16) | (lsw & 0xFFFF);
     }
-    private static bit_rol(num, cnt) {
+    private static bit_rol(num: number, cnt: number) {
         return (num << cnt) | (num >>> (32 - cnt));
     }
 }
