@@ -21,9 +21,25 @@
             "compile": [
                 {
                     "output": "../wwwroot/autoload/core.js",
-                    "package": "../../../Libs/RayukiCore/Core.package.avt"
+                    "package": "../../../Libs/RayukiCore/Core.package.avt",
+                    "i18n": [
+                        {
+                            "output": "../wwwroot/autoload/locales/core",
+                            "mode": "singleFile",
+                            "mount": "/autoload/locales/core"
+                        }
+                    ]
                 }
             ],
+            "i18n": {
+                "autoRegister": true,
+                "locales": [
+                    "fr-FR",
+                    "de-DE",
+                    "en-GB"
+                ],
+                "fallback": "fr-FR"
+            },
             "namespaceStrategy": "rules",
             "namespaceRules": {
                 "System": [
@@ -71,15 +87,6 @@
                 "live": false,
                 "prefix": "Front",
                 "srcBaseUrl": "https://github.com/Cobwebsite/Rayuki/tree/develop/Front"
-            },
-            "i18n": {
-                "autoRegister": false,
-                "locales": [
-                    "fr-FR",
-                    "de-DE",
-                    "en-GB"
-                ],
-                "fallback": "fr-FR"
             }
         },
         {
@@ -126,9 +133,25 @@
             ],
             "compile": [
                 {
-                    "output": "../wwwroot/login.js"
+                    "output": "../wwwroot/login.js",
+                    "i18n": [
+                        {
+                            "output": "../wwwroot/autoload/locales/login",
+                            "mode": "singleFile",
+                            "mount": "/autoload/locales/login"
+                        }
+                    ]
                 }
             ],
+            "i18n": {
+                "autoRegister": true,
+                "locales": [
+                    "fr-FR",
+                    "de-DE",
+                    "en-GB"
+                ],
+                "fallback": "fr-FR"
+            },
             "dependances": {
                 "Aventus@Main": {},
                 "Aventus@Sharp": {},

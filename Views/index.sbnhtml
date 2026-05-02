@@ -34,9 +34,6 @@
         {{end}}
     {{ end }}
     <script src="/pwa/pwa.js?v={{ version }}"></script>
-    <script>
-        Aventus.I18n.registerFile("/autoload/locales/$locale.json");
-    </script>
 </head>
 <body>
     <rk-os lang="{{ lang }}" temp_connect="{{ is_temp_conn }}"></rk-os>
